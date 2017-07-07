@@ -1,45 +1,45 @@
 Return-Path: <tobias.hagelborn@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 699E177D2A
+	by mail.openembedded.org (Postfix) with ESMTP id 6E0C377D2A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 05:33:03 +0000 (UTC)
+	Fri,  7 Jul 2017 05:33:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 9DE342E224
+	by bes.se.axis.com (Postfix) with ESMTP id A3E762E224
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:04 +0200 (CEST)
+	Fri,  7 Jul 2017 07:33:09 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id ps8ohKy9qrIp
+	port 10024) with LMTP id mgugsCuflYBT
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id AFCCD2E19C
+	Fri,  7 Jul 2017 07:33:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bes.se.axis.com (Postfix) with ESMTPS id 9C9B82E19C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9DBA11A09F
+	Fri,  7 Jul 2017 07:33:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 87BC01E083
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:03 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 927261A09E
+	Fri,  7 Jul 2017 07:33:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7CB6C1E080
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:03 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
+	Fri,  7 Jul 2017 07:33:08 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:03 +0200 (CEST)
+	Fri,  7 Jul 2017 07:33:08 +0200 (CEST)
 Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 869062868
+	by thoth.se.axis.com (Postfix) with ESMTP id 7057A2892
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 07:33:03 +0200 (CEST)
+	Fri,  7 Jul 2017 07:33:08 +0200 (CEST)
 Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
 	(10.0.5.16) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Fri, 7 Jul 2017 07:33:03 +0200
+	Fri, 7 Jul 2017 07:33:08 +0200
 From: Tobias Hagelborn <tobias.hagelborn@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Jul 2017 07:32:22 +0200
-Message-ID: <1499405543-3127-2-git-send-email-tobiasha@axis.com>
+Date: Fri, 7 Jul 2017 07:32:23 +0200
+Message-ID: <1499405543-3127-3-git-send-email-tobiasha@axis.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1499405543-3127-1-git-send-email-tobiasha@axis.com>
 References: <1499405543-3127-1-git-send-email-tobiasha@axis.com>
@@ -48,7 +48,7 @@ X-Originating-IP: [10.0.5.60]
 X-ClientProxiedBy: XBOX04.axis.com (10.0.5.18) To XBOX02.axis.com (10.0.5.16)
 X-TM-AS-GCONF: 00
 Cc: Tobias Hagelborn <tobiasha@axis.com>
-Subject: [PATCH v2 1/2] srctree.bbclass: Download sourcecode and make it searchable
+Subject: [PATCH v2 2/2] devtool: srctree: New command for setting up browsable source-code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,126 +61,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 05:33:04 -0000
+X-List-Received-Date: Fri, 07 Jul 2017 05:33:08 -0000
 Content-Type: text/plain
 
-This class is used to create a symlink to the source in ${S} in a
-separate directory structure. ${SECTION} is used, if available, for
-naming the path.
+Setup a directory tree for source code according to section name.
+(if known).
 
-Intended for 'devtool srctree <recipe>' to set up a tree with the
-source for all specified recipes and their dependencies to be able
-to do a more convenient local search in source code.
-
-Example:
-
-nfs-utils (console/network) maps to ->
-   console/
-     network/
-       nfs-utils
+This tree is intended for code browsing ONLY.
+If source is moved, for instance with devtool modify,
+this command should be rerun to be up-to-date with that move.
 
 Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
 ---
- meta/classes/srctree.bbclass | 90 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
- create mode 100644 meta/classes/srctree.bbclass
+ scripts/lib/devtool/srctree.py | 87 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
+ create mode 100644 scripts/lib/devtool/srctree.py
 
-diff --git a/meta/classes/srctree.bbclass b/meta/classes/srctree.bbclass
+diff --git a/scripts/lib/devtool/srctree.py b/scripts/lib/devtool/srctree.py
 new file mode 100644
-index 0000000..40351d8
+index 0000000..dbf1608
 --- /dev/null
-+++ b/meta/classes/srctree.bbclass
-@@ -0,0 +1,90 @@
-+# Create symlinks to source (${S}) in a separate directory structure.
++++ b/scripts/lib/devtool/srctree.py
+@@ -0,0 +1,87 @@
++# Development tool - srctree command plugin
 +#
 +# Copyright (C) 2016-2017 Axis Communications AB
 +# Author: Tobias Hagelborn <tobias.hagelborn@axis.com>
 +#
-+# Released under the MIT license (see COPYING.MIT for the terms)
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
 +#
-+# This class is used to create a symlink to the source in ${S} in a
-+# separate directory structure. ${SECTION} is used, if available, for
-+# naming the path.
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
 +#
-+# Intended for 'devtool srctree <recipe>' to set up a tree with the
-+# source for all specified recipes and their dependencies to be able
-+# to do a more convenient local search in source code.
-+#
-+# Example:
-+#
-+# nfs-utils (console/network) maps to ->
-+#   console/
-+#     network/
-+#       nfs-utils
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +
-+# Use the following to extend the srctree class with custom functions
-+SRCTREE_EXTENSION ?= ""
 +
-+inherit ${SRCTREE_EXTENSION}
++"""Devtool srctree plugin"""
 +
-+# Default PN sub-path function
-+def srctree_get_path(d):
-+    section = d.getVar("SECTION", True)
-+    pn = d.getVar("PN", True)
-+    return os.path.join(section.split()[0], pn) if section else pn
++import os
++import logging
++import tempfile
++import bb
 +
-+# Configurable browsable source tree root
-+SRCTREE_DIR ?= "${TOPDIR}/src"
++from devtool import exec_build_env_command
 +
-+# Path within ${SRCTREE_DIR} for the current PN. Can be overridden in
-+# a custom class via ${SRCTREE_EXTENSION} or set to a fixed value.
-+# Example: SRCTREE_PN_PATH = "${PN}"
-+SRCTREE_PN_PATH ?= "${@srctree_get_path(d)}"
-+SYM_S = "${SRCTREE_DIR}/${SRCTREE_PN_PATH}"
++logger = logging.getLogger('devtool')
 +
-+create_srctree_readme() {
-+	readme="${SRCTREE_DIR}/README"
 +
-+	[ -e "$readme" ] || cat >"$readme" <<EOF
-+This directory contains a directory tree for source code browsing.
++def _create_conf_file(values, conf_file=None):
++    """ Create bitbake config for use with srctree devtool command """
++    if not conf_file:
++        _, conf_file = tempfile.mkstemp(suffix='.conf')
++    elif not os.path.exists(os.path.dirname(conf_file)):
++        logger.debug("Creating folder %s", os.path.dirname(conf_file))
++        bb.utils.mkdirhier(os.path.dirname(conf_file))
++    if values:
++        with open(conf_file, 'w') as f:
++            for key, value in values.items():
++                f.write('%s = "%s"\n' % (key, value))
++    return conf_file
 +
-+IMPORTANT:
 +
-+ * The source tree is intended for CODE BROWSING ONLY.
-+ * The tree contains symbolic links directly to the source as used by BitBake.
-+ * Any CHANGES made to the source code MAY BE REMOVED by BitBake AT ANY TIME.
-+ * BitBake will NOT automatically rebuild packages due to code changes made
-+   directly in the source tree (which you should not do in the first place).
-+ * The source tree will NOT reflect changes made to recipes or, e.g., by
-+   running "devtool modify -x <recipe>" until "devtool srctree" is re-executed.
-+EOF
-+}
++#pylint: disable=unused-argument
++def srctree(args, config, basepath, workspace):
++    """Entry point for the devtool 'srctree' subcommand"""
 +
-+do_srctree[nostamp] = "1"
-+do_srctree[dirs] = "${SRCTREE_DIR}"
-+addtask srctree after do_patch
-+do_srctree() {
-+	if [ "${S}" = "${WORKDIR}" ]; then
-+		[ "${SRCTREE_VERBOSE}" != 1 ] ||
-+			bbwarn "Not setting up a link for '${SRCTREE_PN_PATH}' (since $""{S} = $""{WORKDIR})"
-+		return
-+	fi
++    values = {}
++    if args.destination:
++        values['SRCTREE_DIR'] = os.path.abspath(args.destination)
++        logger.info('Setting up srctree in: %s', values['SRCTREE_DIR'])
++    if args.verbose:
++        values['SRCTREE_VERBOSE'] = "1"
++    conf_file = _create_conf_file(values)
 +
-+	# Ignore all cases where S is not properly set up for any reason
-+	if [ ! -d "${S}" ]; then
-+		[ "${SRCTREE_VERBOSE}" != 1 ] ||
-+			bbwarn "No source available for ${PN}";
-+		return
-+	fi
++    with open(conf_file, 'a') as f:
++        f.write('INHERIT += "srctree"\n')
 +
-+	mkdir -p $(dirname "${SYM_S}")
-+	ln -sfn ${S} ${SYM_S}
++    workdir = basepath
++    exec_build_env_command(
++        config.init_path, workdir,
++        'bitbake -k -R %s -c srctree_all %s' % (conf_file, ' '.join(args.recipename)),
++        watch=True)
++    os.unlink(conf_file)
 +
-+	create_srctree_readme
-+}
 +
-+addtask srctree_all after do_srctree
-+do_srctree_all[recrdeptask] = "do_srctree_all do_srctree"
-+do_srctree_all[recideptask] = "do_${BB_DEFAULT_TASK}"
-+do_srctree_all[doc] = "Setup source tree recursivly"
-+do_srctree_all() {
-+	:
-+}
++def register_commands(subparsers, context):
++    """Register devtool subcommands from this plugin"""
++    parser_search = subparsers.add_parser(
++        'srctree',
++        help='Setup a directory tree for source code browsing',
++        description='Setup a directory tree for source code according to section name (if known). '
++                    'This tree is intended for code browsing ONLY. '
++                    'If source is moved, for instance with devtool modify, '
++                    'this command should be rerun to be up-to-date with that move. '
++                    'Please read the README file that is created together with '
++                    'the source tree for more information.')
++    parser_search.add_argument('recipename', nargs='+',
++                               help='Recipe to use. Multiple recipes are accepted. '
++                               'Example: core-image-minimal')
++    parser_search.add_argument('-D', '--destination',
++                               help='Destination root folder. Default: ${TOPDIR}/src.')
++    parser_search.add_argument('-v', '--verbose', action="store_true",
++                               help='Be more verbose.')
++    parser_search.set_defaults(func=srctree)
 -- 
 2.1.4
 
