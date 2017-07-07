@@ -1,23 +1,23 @@
 Return-Path: <swee.aun.khor@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 614C477D81
+	by mail.openembedded.org (Postfix) with ESMTP id 7C45E77DB8
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Jul 2017 10:54:27 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	07 Jul 2017 03:54:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,322,1496127600"; d="scan'208";a="876375123"
+X-IronPort-AV: E=Sophos;i="5.40,322,1496127600"; d="scan'208";a="876375129"
 Received: from platypus.jf.intel.com ([10.54.77.139])
 	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2017 03:54:27 -0700
 From: swee.aun.khor@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 20:43:50 -0700
-Message-Id: <94aa584a083c05eb9600324cb1ad334794b35b4d.1499394173.git.swee.aun.khor@intel.com>
+Date: Thu,  6 Jul 2017 20:43:52 -0700
+Message-Id: <2eb4a8ae6ae0d545a262423513fcb8bdcf22a376.1499394173.git.swee.aun.khor@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1499394173.git.swee.aun.khor@intel.com>
 References: <cover.1499394173.git.swee.aun.khor@intel.com>
-Subject: [PATCH 4/7] grub-efi: Support musl-x32
+Subject: [PATCH 6/7] perl: Support musl-x32 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +34,27 @@ X-List-Received-Date: Fri, 07 Jul 2017 10:54:28 -0000
 
 From: sweeaun <swee.aun.khor@intel.com>
 
-To build 64-bit binaries for musl-x32.
+Existing musl fixups in perl recipe doesn't cover linux-muslx32.
+This is fixed to support musl-x32 build.
 
 Signed-off-by: sweeaun <swee.aun.khor@intel.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.02.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/perl/perl_5.24.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index 9d494d5..b949beb 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -65,5 +65,7 @@ FILES_${PN} += "${libdir}/grub/${GRUB_TARGET}-efi \
- # 64-bit binaries are expected for the bootloader with an x32 userland
- INSANE_SKIP_${PN}_append_linux-gnux32 = " arch"
- INSANE_SKIP_${PN}-dbg_append_linux-gnux32 = " arch"
-+INSANE_SKIP_${PN}_append_linux-muslx32 = " arch"
-+INSANE_SKIP_${PN}-dbg_append_linux-muslx32 = " arch"
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index b0ceb84..95d9694 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -125,7 +125,7 @@ do_configure() {
+         done
  
- BBCLASSEXTEND = "native"
+         # Fixups for musl
+-        if [ "${TARGET_OS}" = "linux-musl" -o "${TARGET_OS}" = "linux-musleabi" ]; then
++        if [ "${TARGET_OS}" = "linux-musl" -o "${TARGET_OS}" = "linux-musleabi" -o "${TARGET_OS}" = "linux-muslx32" ]; then
+                 sed -i -e "s,\(d_libm_lib_version=\)'define',\1'undef',g" \
+                        -e "s,\(d_stdio_ptr_lval=\)'define',\1'undef',g" \
+                        -e "s,\(d_stdio_ptr_lval_sets_cnt=\)'define',\1'undef',g" \
 -- 
 2.7.4
 
