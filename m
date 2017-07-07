@@ -1,47 +1,49 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id D602371C75
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 0250671C75
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 19:36:27 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
-	v67JaCbA000928; Fri, 7 Jul 2017 14:36:28 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2be7rvn9ws-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Fri, 07 Jul 2017 14:36:28 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com
-	(us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v67JaRoK030959
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Fri, 7 Jul 2017 14:36:27 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Fri, 7 Jul 2017 14:36:27 -0500
-Received: from harisdt.amer.corp.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Fri, 7 Jul 2017 14:36:27 -0500
-From: Haris Okanovic <haris.okanovic@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Jul 2017 14:36:23 -0500
-Message-ID: <20170707193623.7679-1-haris.okanovic@ni.com>
-X-Mailer: git-send-email 2.13.2
+	Fri,  7 Jul 2017 19:39:53 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id d78so35693999qkb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Jul 2017 12:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Avh24GpcstQd4ODilJtb/G6F/POFTmphkhvlgAO2pBA=;
+	b=ixUv2+s+vqVYYCoRLBQDwqe5tGWjKU4HhO0+wCi0gbuguM0q34y0RhL0htSqUVBUix
+	w4lIxl3Vu6eYuwDIDIoxFYDCCHJUxd53JstkPLXS57YXm3W4gOf3aBYvVlZcqg9E5pWx
+	Oab6dFLDIH1lEkSCPzrKJ/0yZGdn25snXXo/ejHo/6LXyxZymaxjQKyP5zL/FQ/1BaZ3
+	6uoqIKvnyJymkK9rAl0uzRSWQTRGbQ56HyxncUOjf9heJY5h7oGSl6DZkhh8YZCkJzGM
+	oI+15jx4DXhR7QDXCvJNmK0ubxaYCM4Sbp50vmKTrU5GZWXrWZkHhjsU8XGGnlox4ZtX
+	AjJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Avh24GpcstQd4ODilJtb/G6F/POFTmphkhvlgAO2pBA=;
+	b=F3esmScZezQK6O8f6rxB3OyxGHNoSJzURw9C+mzvO0xq3G1yw2K6IfywLi29eklJWb
+	jAGzQ6iaPa/l8GEUc5BuZRIx6pBgtWqieOzjqKM2sLF9d2yYxhefh0it1jUKR48QC6Up
+	f927mFRPA+3LyWDoAjwdfEmG8FT5IkbIUT0bkc+Mj5GnOwyYKmihQMug3XKZZjpYSCD0
+	noYe4iuwDRDk/E4SQuUzm5XbzfVStvKyTpsDI2nkpGvsq3mYPaP5bG3rwjNJB2gnCZQV
+	j7W9fg4F9Of340zCrjc7fGwFFGPtoCPKGdNG4e/JSRc11VIxVVQ61qppcidKLLLoeqxs
+	e9OA==
+X-Gm-Message-State: AKS2vOwQ5dlmW5lM3cpIF9wn2IW8K/Abn2e2SAUv5i32VVzODtgWAIuG
+	5f7j+6+Lsk09DiOatWmueu6WSX5QU2nm
+X-Received: by 10.55.102.84 with SMTP id a81mr65981548qkc.154.1499456394809;
+	Fri, 07 Jul 2017 12:39:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-07-07_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1707070326
-Cc: haris.okanovic@ni.com, ken.sharp@ni.com
-Subject: [PATCH] [RFC] image.bbclass & image.py: Add check_image_file_ownership()
+Received: by 10.140.31.118 with HTTP; Fri, 7 Jul 2017 12:39:34 -0700 (PDT)
+In-Reply-To: <CAJTo0LaYn6HQnasedd=btX0niZwWvewhvt-WCwdwMg++uyeD2A@mail.gmail.com>
+References: <cover.1499327365.git.jussi.kukkonen@intel.com>
+	<ff1fb73f38635b968a5fd5291d3ffa1f3998a4a1.1499327365.git.jussi.kukkonen@intel.com>
+	<CAJTo0LaYn6HQnasedd=btX0niZwWvewhvt-WCwdwMg++uyeD2A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 7 Jul 2017 20:39:34 +0100
+Message-ID: <CAJTo0LZ0DAHPKUXeURQSC4-WiAPiM830jW002NA9qoe1zCQ6Zg@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 3/6] vulkan-demos: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,188 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 19:36:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Jul 2017 19:39:54 -0000
+Content-Type: multipart/alternative; boundary="94eb2c05760ec4e9bb0553bf65cb"
 
-An IMAGE_POSTPROCESS_COMMAND verifying image tarballs have symbolic and
-numeric ownership attributes which match the enclosed shadow database:
- * uid and uname of each file is present in /etc/passwd
- * gid and gname of each file is present in /etc/group
- * ids and names are consistent between tar metadata and shadow database
+--94eb2c05760ec4e9bb0553bf65cb
+Content-Type: text/plain; charset="UTF-8"
 
-In other words, this test ensure there aren't any ownership surprises
-when a filesystem created from tarball is booted. It's particularly
-useful in cases where artifacts built outside of OE are included in
-images -- E.g. packages from an external feed.
+On 7 July 2017 at 15:37, Burton, Ross <ross.burton@intel.com> wrote:
 
-Testing: Verified core-image-base still builds
+> vulkan-demos doesn't seem to like musl:
+>
 
-Patch: https://github.com/harisokanovic/openembedded-core/commits/dev/hokanovi/image-ownership-sanity-check
+No, it's not just musl.
 
-Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
----
- meta/classes/image.bbclass |  25 +++++++++-
- meta/lib/oe/image.py       | 114 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 138 insertions(+), 1 deletion(-)
- create mode 100644 meta/lib/oe/image.py
+http://errors.yoctoproject.org/Errors/Latest/?filter=567c4c106e39202990a822c053a0265ebc8f459b&type=commit
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 6e30b96745..7b11291a82 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -192,7 +192,30 @@ python () {
- IMAGE_CLASSES += "image_types"
- inherit ${IMAGE_CLASSES}
- 
--IMAGE_POSTPROCESS_COMMAND ?= ""
-+python check_image_file_ownership () {
-+    import sys, os, oe.image
-+
-+    imgTypes = d.getVar("IMAGE_FSTYPES", True).split()
-+    tarImgTypes = [ x for x in imgTypes if "tar" in x ]
-+
-+    # bail if there isn't a tar image in this build
-+    # TODO: Maybe add other image types
-+    if len(tarImgTypes) == 0:
-+        bb.debug(1, "Skipping check, no 'tar' image specified")
-+        return
-+
-+    imgDeployDir = d.getVar("IMGDEPLOYDIR", True)
-+    imgName = d.getVar("IMAGE_NAME", True)
-+    imgNameSuffix = d.getVar("IMAGE_NAME_SUFFIX", True)
-+
-+    for tarFileExt in tarImgTypes:
-+        archiveFilename = (imgName + imgNameSuffix + "." + tarFileExt)
-+        archiveFilePath = os.path.join(imgDeployDir, archiveFilename)
-+
-+        oe.image.check_file_ownership_tar(d, archiveFilePath)
-+}
-+
-+IMAGE_POSTPROCESS_COMMAND ?= " check_image_file_ownership "
- 
- # some default locales
- IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-new file mode 100644
-index 0000000000..f1ba6f2613
---- /dev/null
-+++ b/meta/lib/oe/image.py
-@@ -0,0 +1,114 @@
-+# Helper function for image building
-+
-+def check_file_ownership_tar(d, archiveFilePath):
-+    """
-+    Verifies file ownership meta-data in image tarball matches users
-+    and groups in shadow database (/etc/passwd and /etc/group files).
-+    """
-+    import sys, os, tarfile
-+    bb.debug(1, "Running check_file_ownership() on image '{0!s}'".format(archiveFilePath))
-+
-+    try:
-+        archiveName = os.path.basename(archiveFilePath)
-+        if not archiveName:
-+            archiveName = archiveFilePath
-+
-+        # maps
-+        unameMap = {}  # username -> passwd file entry array
-+        gnameMap = {}  # groupname -> group file entry array
-+        uidMap = {}  # uid -> passwd file entry array
-+        gidMap   = {}  # gid -> group file entry array
-+        fileMap = {}  # filepath -> TarInfo object
-+
-+        def read_shadow_file(fdName, fd, colCount, mapsList):
-+            """ Reads a colon (:) delimited shadow database file into mapsList """
-+            for mapObj,_ in mapsList:
-+                if len(mapObj) != 0:
-+                    raise Exception("Already read '{0!s}' file.".format(fdName))
-+
-+            for line in fd:
-+                line = line.decode("utf-8").strip()
-+                words = line.split(":")
-+
-+                if len(words) != colCount:
-+                    raise Exception("Malformed '{0!s}' file. Expected {1!s} cols.".format(fdName, colCount))
-+
-+                for mapObj,mapKeyCol in mapsList:
-+                    mapKey = words[mapKeyCol]
-+                    if len(mapKey) < 1:
-+                        raise Exception("Map key in '{0!s}' must be at least one char long.".format(fdName))
-+
-+                    if mapKey in mapObj:
-+                        raise Exception("Malformed '{0!s}' file. Did not expect to find '{0!s}' in map.".format(fdName, mapKey))
-+
-+                    mapObj[mapKey] = words
-+
-+            for mapObj,_ in mapsList:
-+                if len(mapObj) == 0:
-+                    raise Exception("'{0!s}' is empty.".format(fdName))
-+
-+        bb.debug(1, "Read the archive and populate maps")
-+        with tarfile.open(name=archiveFilePath, mode='r:*') as tar:
-+            for info in tar:
-+                if info.name in fileMap:
-+                    raise Exception("Duplicate entry for '{0!s}' found.".format(info.name))
-+
-+                fileMap[info.name] = info
-+
-+                # populate shadow db maps
-+                if    info.name == './etc/passwd':  read_shadow_file(fdName=info.name, fd=tar.extractfile(info), colCount=7, mapsList=[(unameMap, 0), (uidMap, 2), ])
-+                elif  info.name == './etc/group':   read_shadow_file(fdName=info.name, fd=tar.extractfile(info), colCount=4, mapsList=[(gnameMap, 0), (gidMap, 2), ])
-+
-+        bb.debug(1, "Check for no shadow db")
-+        shadowItemCount = 0
-+        for mapObj in [unameMap, gnameMap, uidMap, gidMap]:
-+            shadowItemCount = shadowItemCount + len(mapObj)
-+        if shadowItemCount == 0:
-+            bb.warn(1, "check_file_ownership(): Skip; no shadow database in image '{0!s}'".format(archiveName))
-+            return
-+
-+        bb.debug(1, "Map sanity check")
-+        for mapObj in [unameMap, gnameMap, uidMap, gidMap, fileMap]:
-+            if len(mapObj) < 1:
-+                raise Exception("Uh oh. Empty map found.")
-+
-+        def badFileError(errorMessage, info, shadowEntry=None):
-+            linkname = ""
-+            if info.linkname:
-+                linkname = " -> {0!s}".format(info.linkname)
-+
-+            bb.error("BAD FILE '{0!s}': {1!s}".format(info.name, errorMessage))
-+            bb.error("## {info.uid!s}:{info.gid!s} ({info.uname!s}:{info.gname!s}) 0{info.mode:o} {info.name!s}{linkname!s}".format(info=info, linkname=linkname))
-+            if shadowEntry:
-+                bb.error("## {0!s}".format(shadowEntry))
-+
-+        bb.debug(1, "Check for bad files")
-+        for filepath,info in fileMap.items():
-+            if not info.uname in unameMap:
-+                badFileError("uname not in unameMap", info)
-+                continue
-+
-+            if not info.gname in gnameMap:
-+                badFileError("gname not in gnameMap", info)
-+                continue
-+
-+            if not str(info.uid) in uidMap:
-+                badFileError("Uid '{0!s}' not found".format(info.uid), info)
-+
-+            if not str(info.gid) in gidMap:
-+                badFileError("Gid '{0!s}' not found".format(info.gid), info)
-+
-+            unameEntry = unameMap[info.uname]
-+            gnameEntry = gnameMap[info.gname]
-+
-+            if str(info.uid) != unameEntry[2]:
-+                badFileError("uid mismatch, expecting '{0!s}' for uname '{1!s}'".format(unameEntry[2], info.uname), info, unameEntry)
-+
-+            if str(info.gid) != gnameEntry[2]:
-+                badFileError("gid mismatch, expecting '{0!s}' for gname '{1!s}'".format(gnameEntry[2], info.gname), info, gnameEntry)
-+
-+        bb.debug(1, "Successfully verified image '{0!s}'".format(archiveName))
-+
-+    # Error on any exceptions
-+    except Exception as e:
-+        bb.error("check_file_ownership() exception: {0!s}".format(e))
--- 
-2.13.2
+They're all qemux86?
 
+Ross
 
+--94eb2c05760ec4e9bb0553bf65cb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 July 2017 at 15:37, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rg=
+b(204,204,204);padding-left:1ex"><span class=3D"gmail-il">vulkan</span>-dem=
+os doesn&#39;t seem to like musl:<br></blockquote></div><br>No, it&#39;s no=
+t just musl.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra"><a href=3D"http://errors.yoctoproject.org/Errors/Latest/?filter=3D56=
+7c4c106e39202990a822c053a0265ebc8f459b&amp;type=3Dcommit">http://errors.yoc=
+toproject.org/Errors/Latest/?filter=3D567c4c106e39202990a822c053a0265ebc8f4=
+59b&amp;type=3Dcommit</a><br></div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">They&#39;re all qemux86?</div><div class=3D"gmail_e=
+xtra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--94eb2c05760ec4e9bb0553bf65cb--
