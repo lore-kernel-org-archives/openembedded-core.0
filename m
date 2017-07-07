@@ -1,27 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 63FED77D48
+Return-Path: <swee.aun.khor@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 327AA77D48
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 10:47:40 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v67AlCPT020138
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Jul 2017 11:47:13 +0100
-Message-ID: <1499424432.30311.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Matthew McClintock <msm-oss@mcclintock.net>
-Date: Fri, 07 Jul 2017 11:47:12 +0100
-In-Reply-To: <20170706182313.18992-1-msm-oss@mcclintock.net>
-References: <20170706182313.18992-1-msm-oss@mcclintock.net>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 07 Jul 2017 11:47:13 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v2] u-boot: add workaround patch for missing python dev
+	Fri,  7 Jul 2017 10:54:27 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Jul 2017 03:54:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,322,1496127600"; d="scan'208";a="876375113"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2017 03:54:27 -0700
+From: swee.aun.khor@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jul 2017 20:43:47 -0700
+Message-Id: <e40f60b3e42b5adac6612c2ee484371c3ae9d939.1499394173.git.swee.aun.khor@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1499394173.git.swee.aun.khor@intel.com>
+References: <cover.1499394173.git.swee.aun.khor@intel.com>
+Subject: [PATCH 1/7] insane.bbclass: Support musl-x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 10:47:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 07 Jul 2017 10:54:27 -0000
 
-On Thu, 2017-07-06 at 13:23 -0500, Matthew McClintock wrote:
-> Per the comments in the included patch:
-> 
-> tools: disable _libfdt.so (swig present, python-dev missing breakage)
-> 
->  This is probing for tools and enabling if swig is found, however Python
->  libraries might be absent per the comment. This is just a host tool so
->  let's just disable it entirely for the now.
+From: sweeaun <swee.aun.khor@intel.com>
 
-Can we ever find this given swig isn't in HOSTTOOLS with RSS? Do we
-just need this on pre-pyro?
+Added musl-x32 elf header into dictionary.
 
-I don't really want to carry an non-upstreamable patch if we don't need
-it.
+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
+---
+ meta/classes/insane.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 7680a59..479d39c 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -150,6 +150,9 @@ def package_qa_get_machine_dict(d):
+             "linux-gnux32" :       {
+                         "x86_64":     (62,     0,    0,          True,          32),
+                       },
++            "linux-muslx32" :       {
++                        "x86_64":     (62,     0,    0,          True,          32),
++                      },
+             "linux-gnun32" :       {
+                         "mips64":       ( 8,     0,    0,          False,         32),
+                         "mips64el":     ( 8,     0,    0,          True,          32),
+@@ -488,7 +491,7 @@ def package_qa_check_arch(path,name,d, elf, messages):
+ 
+     # Check the architecture and endiannes of the binary
+     is_32 = (("virtual/kernel" in provides) or bb.data.inherits_class("module", d)) and \
+-            (target_os == "linux-gnux32" or re.match('mips64.*32', d.getVar('DEFAULTTUNE')))
++            (target_os == "linux-gnux32" or target_os == "linux-muslx32"  or re.match('mips64.*32', d.getVar('DEFAULTTUNE')))
+     if not ((machine == elf.machine()) or is_32):
+         package_qa_add_message(messages, "arch", "Architecture did not match (%s, expected %s) on %s" % \
+                  (oe.qa.elf_machine_to_string(elf.machine()), oe.qa.elf_machine_to_string(machine), package_qa_clean_path(path,d)))
+-- 
+2.7.4
 
-Richard
 
