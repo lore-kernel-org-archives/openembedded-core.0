@@ -1,27 +1,48 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A3EA177E96
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A24277DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 13:59:16 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v67DxErS002877
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 7 Jul 2017 14:59:16 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dTTms-0007SS-V2; Fri, 07 Jul 2017 14:59:14 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Jul 2017 14:59:13 +0100
-Message-Id: <1499435953-28630-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 07 Jul 2017 14:59:16 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] oeqa/tinfoil: Improve test_wait_event for race issues
+	Fri,  7 Jul 2017 14:37:20 +0000 (UTC)
+Received: by mail-qt0-f178.google.com with SMTP id 32so28550187qtv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Jul 2017 07:37:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=EktlQoeonxgz/h+ly1c/wISwvAKc4wFekVbIqLiILVs=;
+	b=HUvnXB5BoDWjefTIAHKhsZVQM0olIcEXgLEFWJpJMSfr+qubG7OV3g5KHKwUEPuC7y
+	gftkCaJ2O6EUBLjZm/XCo28LLvG0b7GZnOS9meodLjf61SFBUlvF75OP0pdn3UAIuPDd
+	X0PFYSXKYBefM8uojoGf+AtK2f0FXMx700LF67EzZqZ3I7K508id/2oVe5B0Ti3zodhG
+	HgxgntX5NtVP6UtyNo8E18g1kzctJHB+ZOEkJeSQjOaGYRrCzUqwUsM6nnPNCuDgVDSA
+	rtjVyEH43gB17vNfyf5ea97zCeIRvLcGznV9pJG8Sr8HYmQhYf8Y7GB7i4NONKPkfFfo
+	6tew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=EktlQoeonxgz/h+ly1c/wISwvAKc4wFekVbIqLiILVs=;
+	b=efaWEFv1TWeriwExfHS4WXhGkCVC5xDZw69M91tj6x3Hu++ZPythPedjzbA7+IwNDQ
+	MoVdakhVmhyBh6uV2IKGvUsQ9Lm3VcoWLGF18YX3Jhc7HJ02grtqos6mPNaGyIiUNNUU
+	odde01rsCza3OuWbf3/DeHuIcV4MfISQhSSgvw5SP67gtZsyLvD5XpOpM7R7IC5iqhOA
+	q4C6xjQLs7FH9wa6PeMaG3qoRwlvkgvXLxf4m6iGKeusDbZurbrqI4UpuNQxbG7gatfr
+	SNZhiC1G6qmCgpnqvBRrxReaonKF1PIiUMrfo9jjVjbRqk5m63losJJZY/NdA1zU8xt8
+	Hwqg==
+X-Gm-Message-State: AIVw111367L/UCSpeDD0ECMKe6hPQEJ1pWOCf921Sv86GmPSAftZ181u
+	mHs/e7OCvnFFmGSLt1BwrirovmShjnTJPFw=
+X-Received: by 10.200.43.123 with SMTP id 56mr30194828qtv.6.1499438241980;
+	Fri, 07 Jul 2017 07:37:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.31.118 with HTTP; Fri, 7 Jul 2017 07:37:01 -0700 (PDT)
+In-Reply-To: <ff1fb73f38635b968a5fd5291d3ffa1f3998a4a1.1499327365.git.jussi.kukkonen@intel.com>
+References: <cover.1499327365.git.jussi.kukkonen@intel.com>
+	<ff1fb73f38635b968a5fd5291d3ffa1f3998a4a1.1499327365.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 7 Jul 2017 15:37:01 +0100
+Message-ID: <CAJTo0LaYn6HQnasedd=btX0niZwWvewhvt-WCwdwMg++uyeD2A@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 3/6] vulkan-demos: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,87 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 13:59:17 -0000
+X-List-Received-Date: Fri, 07 Jul 2017 14:37:22 -0000
+Content-Type: multipart/alternative; boundary="001a113f4458c6c4d30553bb2b2b"
 
-The test could break in a variety of ways:
+--001a113f4458c6c4d30553bb2b2b
+Content-Type: text/plain; charset="UTF-8"
 
-a) If BB_HEARTBEAT_EVENT was less than ~0.25 it would hang indefinitely
-b) The mask is set after draining the event queue meaning a heartbeat event
-   could have happened
-c) The test exits once it sees the events it wants, it doesn't check for
-   spurious events such as heartbeats which shouldn't have occured.
-d) The hardcoded delay of 0.25 is nasty and shouldn't be needed.
+vulkan-demos doesn't seem to like musl:
 
-I found a bitbake bug and fixed that meaning we don't need the delay any
-more which fixes d). That means a) is no longer an issue either.
+git/external/glm/glm/detail/../detail/func_common.inl:193:51: error: wrong
+number of template arguments (5, should be 6)
+  struct compute_sign<T, P, vecType, false, Aligned>
+                                                   ^
+http://errors.yoctoproject.org/Errors/Details/146971/
 
-We now set the mask, then drain the queue meaning no spurious events should
-be able to sneak in. The test is also tweaked to wait for 5s in total to
-ensure spurious events don't occur such as heartbeat events we shouldn't see.
+Ross
 
-[YOCTO #11045]
+--001a113f4458c6c4d30553bb2b2b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/selftest/cases/tinfoil.py | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+<div dir=3D"ltr">vulkan-demos doesn&#39;t seem to like musl:<br><br>git/ext=
+ernal/glm/glm/detail/../detail/func_common.inl:193:51: error: wrong number =
+of template arguments (5, should be 6)<br>=C2=A0 struct compute_sign&lt;T, =
+P, vecType, false, Aligned&gt;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^<br><a h=
+ref=3D"http://errors.yoctoproject.org/Errors/Details/146971/">http://errors=
+.yoctoproject.org/Errors/Details/146971/</a><br><br><div>Ross</div></div>
 
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index 3a58761..aa1af7e 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -1,5 +1,6 @@
- import os
- import re
-+import time
- import bb.tinfoil
- 
- from oeqa.selftest.case import OESelftestTestCase
-@@ -102,21 +103,26 @@ class TinfoilTests(OESelftestTestCase):
-     def test_wait_event(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
-             tinfoil.prepare(config_only=True)
--            # Need to drain events otherwise events that will be masked will still be in the queue
--            while tinfoil.wait_event(0.25):
--                pass
-+
-             tinfoil.set_event_mask(['bb.event.FilesMatchingFound', 'bb.command.CommandCompleted'])
-+
-+            # Need to drain events otherwise events that were masked may still be in the queue
-+            while tinfoil.wait_event():
-+                pass
-+
-             pattern = 'conf'
-             res = tinfoil.run_command('findFilesMatchingInDir', pattern, 'conf/machine')
-             self.assertTrue(res)
- 
-             eventreceived = False
--            waitcount = 5
--            while waitcount > 0:
-+            commandcomplete = False
-+            start = time.time()
-+            # Wait for 5s in total so we'd detect spurious heartbeat events for example
-+            while time.time() - start < 5:
-                 event = tinfoil.wait_event(1)
-                 if event:
-                     if isinstance(event, bb.command.CommandCompleted):
--                        break
-+                        commandcomplete = True
-                     elif isinstance(event, bb.event.FilesMatchingFound):
-                         self.assertEqual(pattern, event._pattern)
-                         self.assertIn('qemuarm.conf', event._matches)
-@@ -124,9 +130,7 @@ class TinfoilTests(OESelftestTestCase):
-                     else:
-                         self.fail('Unexpected event: %s' % event)
- 
--                waitcount = waitcount - 1
--
--            self.assertNotEqual(waitcount, 0, 'Timed out waiting for CommandCompleted event from bitbake server')
-+            self.assertTrue(commandcomplete, 'Timed out waiting for CommandCompleted event from bitbake server')
-             self.assertTrue(eventreceived, 'Did not receive FilesMatchingFound event from bitbake server')
- 
-     @OETestID(1576)
--- 
-2.7.4
-
-
+--001a113f4458c6c4d30553bb2b2b--
