@@ -1,23 +1,53 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 71FDA77DCA
+Return-Path: <alexandru.vasiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 9694577DE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 15:24:30 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 07 Jul 2017 08:24:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,323,1496127600"; d="scan'208";a="1149254091"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2017 08:24:32 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 302665803BE;
-	Fri,  7 Jul 2017 08:24:30 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Jul 2017 18:12:23 +0300
-Message-Id: <1499440343-8389-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] imagefutures: add test_image_fstypes test case
+	Fri,  7 Jul 2017 15:31:30 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.20/8.16.0.20) with SMTP id
+	v67FUTDM005143 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Jul 2017 10:31:31 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2be7rvmmkg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Jul 2017 10:31:31 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com
+	(us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
+	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v67FVUth018116
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Jul 2017 10:31:30 -0500
+Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 7 Jul 2017 10:31:30 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Fri, 7 Jul 2017 10:31:29 -0500
+Received: from avasiuPC.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Fri, 7 Jul 2017 10:31:28 -0500
+From: Alexandru Vasiu <alexandru.vasiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 7 Jul 2017 18:31:19 +0300
+Message-ID: <20170707153119.26162-1-alexandru.vasiu@ni.com>
+X-Mailer: git-send-email 2.13.2
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-07-07_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1703280000 definitions=main-1707070258
+Cc: will.page@ni.com
+Subject: [PATCH] dkms: Add new recipe for supporting dkms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,54 +60,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 15:24:32 -0000
+X-List-Received-Date: Fri, 07 Jul 2017 15:31:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Tested if core-image-minimal can be built for existing fstypes by
-building an image and checking if result file <image>.<fstype> exists
-in the image deploy directory.
+Dkms is a tool used to compile out of tree modules directly on
+target devices (sometimes you have sources or binaries which
+need to be compiled directly on target, outside OE).
+I used a simple module and a dkms config to test it, and dkms
+compiled and installed the module on target.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+For example:
+.
+├── dkms.conf
+└── src
+    ├── hello.c
+    └── Makefile
+
+hello.c:
+	#include <linux/module.h>
+
+	int init_module(void)
+	{
+		printk("Hello World!\n");
+		return 0;
+	}
+
+	void cleanup_module(void)
+	{
+		printk("Goodbye Cruel World!\n");
+	}
+
+	MODULE_LICENSE("GPL");
+
+Makefile:
+	obj-m += hello.o
+
+	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+
+	PWD := $(shell pwd)
+
+	install:
+		$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+
+	clean:
+		rm -rf *.o *.ko *~ core .depend .*.cmd *.mod.c modules.order Module.symvers
+
+dkms.conf:
+	MAKE="make -C src/ KERNELDIR=/lib/modules/${kernelver}/build"
+	CLEAN="make -C src/ clean"
+	BUILT_MODULE_NAME=hello
+	DEST_MODULE_LOCATION=/kernel/drivers/scsi
+	BUILT_MODULE_LOCATION=src/
+	PACKAGE_NAME=hello
+	PACKAGE_VERSION=0.1
+	AUTOINSTALL=yes
+	REMAKE_INITRD=yes
+
+All files should be in /usr/src/<package-name>-<package-version>,
+in our case in /urs/src/hello-0.1.
+
+Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 28 +++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ meta/recipes-kernel/dkms/dkms_2.4.0.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 meta/recipes-kernel/dkms/dkms_2.4.0.bb
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index e6652ec..91d8e9b 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -124,3 +124,31 @@ class ImageFeatures(OESelftestTestCase):
-         # check if result image is sparse
-         image_stat = os.stat(image_path)
-         self.assertTrue(image_stat.st_size > image_stat.st_blocks * 512)
+diff --git a/meta/recipes-kernel/dkms/dkms_2.4.0.bb b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
+new file mode 100644
+index 0000000000..4516546ab5
+--- /dev/null
++++ b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
+@@ -0,0 +1,12 @@
++SUMMARY = "DKMS Recipe - Adds DKMS tool for target"
++HOMEPAGE = "https://github.com/dell/dkms/"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
 +
-+    def test_image_fstypes(self):
-+        """
-+        Summary:     Check if image of supported image fstypes can be built
-+        Expected:    core-image-minimal can be built for various image types
-+        Product:     oe-core
-+        Author:      Ed Bartosh <ed.bartosh@linux.intel.com>
-+        """
-+        image_name = 'core-image-minimal'
++SRC_URI = "https://github.com/dell/${PN}/archive/v${PV}.tar.gz"
 +
-+        img_types = [itype for itype in get_bb_var("IMAGE_TYPES", image_name).split() \
-+                         if itype not in ('container', 'elf', 'multiubi')]
++SRC_URI[md5sum] = "d2e74dd79086c564a924b5763794091b"
 +
-+        config = 'IMAGE_FSTYPES += "%s"\n'\
-+                 'MKUBIFS_ARGS ?= "-m 2048 -e 129024 -c 2047"\n'\
-+                 'UBINIZE_ARGS ?= "-m 2048 -p 128KiB -s 512"' % ' '.join(img_types)
++RDEPENDS_${PN} += "bash"
 +
-+        self.write_config(config)
-+
-+        bitbake(image_name)
-+
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        link_name = get_bb_var('IMAGE_LINK_NAME', image_name)
-+        for itype in img_types:
-+            image_path = os.path.join(deploy_dir_image, "%s.%s" % (link_name, itype))
-+            # check if result image is in deploy directory
-+            self.assertTrue(os.path.exists(image_path),
-+                            "%s image %s doesn't exist" % (itype, image_path))
++inherit autotools-brokensep
 -- 
-2.1.4
+2.13.2
 
 
