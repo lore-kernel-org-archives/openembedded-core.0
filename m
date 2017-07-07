@@ -1,49 +1,47 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-vk0-f46.google.com (mail-vk0-f46.google.com
-	[209.85.213.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E05A577D01
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5109E77B99
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 03:37:56 +0000 (UTC)
-Received: by mail-vk0-f46.google.com with SMTP id r126so11128734vkg.0
+	Fri,  7 Jul 2017 03:39:00 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id 77so4667999wrb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jul 2017 20:37:58 -0700 (PDT)
+	Thu, 06 Jul 2017 20:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mcApUlM+bCs27ebp9CCwXLbGVaa1VwH4tlQRgACYbhk=;
-	b=ovqYOypXhzz36Bp7PkWs8b0kgtGABk2OUjZIdWNDwMMU4Nu2B4xn4Fkh4flPiwC+2m
-	CiKHU4mpQl+GGgQdOgHBcTBgd4hXiTAbKbj/KZuZonOQbLbRViPqNIoEM2q9NlpXtx+v
-	eOma71hDxAv67TqCrfis6Sjnrnss2SwKMdoBLk6rRkzogzkPeXdEfy+dAC40yaoNK4D5
-	5gBK2YqOlwY8E1+EBpHw0Q5vYyBuJijjb/x6ONyqfyiukX4FO94AyHwArfi3xTdcFGB4
-	oaLw28ORIc+biptwTqPKTvSsbXxOhfjEDF0AYtklIZfU7cAbj5eK9DYuRRBB/vDstL1n
-	YZ6Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=ZeoJ/3O7iXbdg3eUr+SPXFX6gtvl6EGb7vmYseYMf5E=;
+	b=U/nEHPjrsFfdx+hiPM2nH5uUbGH1ixyCx2AwonCP3wj9f752wi7rfM+CtOp3nzICZL
+	aPT5fsVZu8lbUq+9bM8IK11rQJwfhSCOgGc+fGDGvv07gRV/llh9+40MYKzKDUi3f1hb
+	SQesj5F3Zt2ANhyZZgpOZBMOFP49X6yiuenLaJCaRKVIfeFFpfVZqxRLqDGPVTutfTLl
+	AU/miPy6/z/F6+ORCZ+BkePUUvqhnr5hJs94Qhlombssfva3TkK+9VacgleclWLELZWb
+	t6HnWR21OdcdNyKZuYAB2kxWKrzd1TFD+7E4ieavXBxgqOWxNgJdMc1l8TwNdyhT7v9u
+	HAFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=mcApUlM+bCs27ebp9CCwXLbGVaa1VwH4tlQRgACYbhk=;
-	b=rdTCgFIVqlYiATwCBM7xMdOSzthhD6kvjWNXpdB5Pm9GRaP/cFJysZ15NVcwfJdBXP
-	WcY332gFIFFGqrHaSx1n2k+aOfQFBCygVJBZdI7EXvO3dmA4glRdSm4SBFwQ0MiyPyPc
-	W6ztlswNUpax9PfkK0+NZrhY133RFnLIugOVwtCzi6FGoGF27rmgZPhNCU7oRqoc+JAA
-	3a8nvEGR9EaxyvZPPwduWM97E31juMoIOR/3RsC1HDa41SiOpZZMaKcBGvANyRp3lBl3
-	v3z0QXzepDsT11By4nxJ+eBjBX11oA+cGXtWdgF+dlb4mb/TuG15EdYGHvRCz6XSr9wH
-	Q6Jg==
-X-Gm-Message-State: AIVw1102CT/Uw8FZC/a6OyVdSygSaBIBFEY370k+V9Ne6fwjgnDItAXe
-	O8o8ad4lafcfUDLbhAYm0ux7imLB6g==
-X-Received: by 10.31.142.74 with SMTP id q71mr6097922vkd.67.1499398677753;
-	Thu, 06 Jul 2017 20:37:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.78.91 with HTTP; Thu, 6 Jul 2017 20:37:57 -0700 (PDT)
-In-Reply-To: <CABcZANkx3ytxjXnCG_smtzeqYD4sCZUE3JLhbhCaKHuMaUHV0w@mail.gmail.com>
-References: <1499352019-27001-1-git-send-email-liu.ming50@gmail.com>
-	<CABcZANkx3ytxjXnCG_smtzeqYD4sCZUE3JLhbhCaKHuMaUHV0w@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Fri, 7 Jul 2017 05:37:57 +0200
-Message-ID: <CALatG=6fVH=H2krF2CPk7Y2-nkM6+_UmF3LKyY85bH56cgLSHw@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: move image-mklibs image-prelink to IMAGE_CLASSES
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ZeoJ/3O7iXbdg3eUr+SPXFX6gtvl6EGb7vmYseYMf5E=;
+	b=unMCRY6jKAxPLQhTrL/LqHEzfztXLJFoI1I0+IzNGJLiT7RR5vJSnN8BbQw929rs5Q
+	hesLv6rH8cADmGBunK0x+f2U4m+85RctuG5Zz4JNuQzzfLWjjXdjBaf6s4ASl/pwppG5
+	4R/4L7pgvRJqwBslbov+tpOj+BFDC2AjY7RSHI7a38xCvnQ4NM7Gkdw3VegDM1kwVAsW
+	ZbF+yIcRZLyXyVcVwKSfbOa6VHnqRCLcyuhY+EOgRNmUwN9jMXxz6WQ2Tg+FfQExln4V
+	20e6vpNEw72XxeS4DZvwZyeFUBJCafPd3I/acr1E0mzEpAsm4iS1Hgm2yiOAvD0v6Bjo
+	uqLQ==
+X-Gm-Message-State: AIVw110meE2OzQnputUriw6TwPDy4i0u4LG0UFYM1nzjqf1uLeUNiSUD
+	aAOO5dVh77BEgEqw
+X-Received: by 10.80.167.163 with SMTP id i32mr713261edc.101.1499398741717;
+	Thu, 06 Jul 2017 20:39:01 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([27.191.201.242])
+	by smtp.gmail.com with ESMTPSA id c8sm1190775edc.13.2017.07.06.20.38.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 06 Jul 2017 20:39:01 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jul 2017 05:38:46 +0200
+Message-Id: <1499398726-1534-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH V2] meta: move image-mklibs image-prelink to IMAGE_CLASSES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,103 +54,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 03:37:57 -0000
-Content-Type: multipart/alternative; boundary="001a1143aff89076030553b1f5aa"
+X-List-Received-Date: Fri, 07 Jul 2017 03:39:01 -0000
 
---001a1143aff89076030553b1f5aa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Hi, Christopher:
+The code logic in image-mklibs.bbclass and image-prelink.bbclass is all
+about optimizing the rootfs image, so it makes more sense to put them
+into IMAGE_CLASSES rather than USER_CLASSES.
 
-I am on board, using '+=3D' in local.conf.sample.extended is a good idea, I
-will send a V2 soon.
+What's more, this fixes a potential issue by moving out image-mklibs
+from INHERIT, considering that, I found a following dependency is
+missing in image-mklibs.bblcass:
+...
+do_rootfs[depends] += "virtual/${MLPREFIX}${TARGET_PREFIX}binutils:do_populate_sysroot"
+...
 
-the best,
-thank you
+but if I add it in, I got a following error:
+...
+NOTE: Resolving any missing task queue dependencies
+ERROR: Nothing PROVIDES 'virtual/none-oe-none-binutils'. Close matches:
+virtual/i586-oe-linux-binutils
+ERROR: Nothing PROVIDES 'virtual/none-oe-none-binutils'. Close matches:
+virtual/i586-oe-linux-binutils
+ERROR: Nothing PROVIDES 'virtual/none-oe-none-binutils'. Close matches:
+virtual/i586-oe-linux-binutils
+ERROR: Nothing PROVIDES 'virtual/none-oe-none-binutils'. Close matches:
+virtual/i586-oe-linux-binutils
+ERROR: Nothing PROVIDES 'virtual/none-oe-none-binutils'. Close matches:
+virtual/i586-oe-linux-binutils
+ERROR: Nothing PROVIDES 'virtual/none-oe-none-binutils'. Close matches:
+virtual/i586-oe-linux-binutils
+...
 
-2017-07-06 17:20 GMT+02:00 Christopher Larson <kergoth@gmail.com>:
+this can be fixed by moving image-mklibs to IMAGE_CLASSES per test.
 
->
->
-> On Thu, Jul 6, 2017 at 7:40 AM, <liu.ming50@gmail.com> wrote:
->
->> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->>
->> The code logic in image-mklibs.bbclass and image-prelink.bbclass is all
->> about optimizing the rootfs image, so it makes more sense to put them
->> into IMAGE_CLASSES rather than USER_CLASSES.
->>
->> What's more, this fixes a potential issue by moving out image-mklibs
->> from INHERIT, considering that, a following dependency is missing in
->> image-mklibs.bblcass:
->> ...
->> do_rootfs[depends] +=3D "virtual/${MLPREFIX}${TARGET_P
->> REFIX}binutils:do_populate_sysroot"
->>
->
-> This removes the example usage of IMAGE_CLASSES to alter the default imag=
-e
-> types inclusion in local.conf.sample.extended, but doesn=E2=80=99t replac=
-e it with
-> anything, and the commit message doesn=E2=80=99t mention it. Either find =
-a way to
-> fix that example (i.e. use +=3D or something) or at least mention that yo=
-u=E2=80=99re
-> removing it, particularly since adding image types is currently the most
-> common reason to alter that variable.
-> --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
->
+Also change the image_types_uboot example in local.conf.sample.extended
+to be appended to IMAGE_CLASSES, since now IMAGE_CLASSES has a default
+value in local.conf.sample.
 
---001a1143aff89076030553b1f5aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/conf/local.conf.sample                  | 14 ++++++++++----
+ meta/conf/local.conf.sample.extended         |  9 ++++++---
+ meta/recipes-devtools/prelink/prelink_git.bb |  2 +-
+ 3 files changed, 17 insertions(+), 8 deletions(-)
 
-<div dir=3D"ltr"><span style=3D"font-size:14px">Hi, Christopher:</span><div=
- style=3D"font-size:14px"><br></div><div style=3D"font-size:14px">I am on b=
-oard, using &#39;+=3D&#39; in local.conf.sample.extended is a good idea, I =
-will send a V2 soon.</div><div style=3D"font-size:14px"><br></div><div styl=
-e=3D"font-size:14px">the best,</div><div style=3D"font-size:14px">thank you=
-=C2=A0</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
->2017-07-06 17:20 GMT+02:00 Christopher Larson <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>&gt;<=
-/span>:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><br><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote"><span class=3D"">On Thu, Ju=
-l 6, 2017 at 7:40 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:liu.ming50@g=
-mail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">From: Ming Liu &lt;<a href=3D"mailto:peter.x.=
-liu@external.atlascopco.com" target=3D"_blank">peter.x.liu@external.atlasco=
-p<wbr>co.com</a>&gt;<br>
-<br>
-The code logic in image-mklibs.bbclass and image-prelink.bbclass is all<br>
-about optimizing the rootfs image, so it makes more sense to put them<br>
-into IMAGE_CLASSES rather than USER_CLASSES.<br>
-<br>
-What&#39;s more, this fixes a potential issue by moving out image-mklibs<br=
->
-from INHERIT, considering that, a following dependency is missing in<br>
-image-mklibs.bblcass:<br>
-...<br>
-do_rootfs[depends] +=3D &quot;virtual/${MLPREFIX}${TARGET_P<wbr>REFIX}binut=
-ils:do_populate_sys<wbr>root&quot;<br></blockquote><div><br></div></span><d=
-iv>This removes the example usage of IMAGE_CLASSES to alter the default ima=
-ge types inclusion in local.conf.sample.extended, but doesn=E2=80=99t repla=
-ce it with anything, and the commit message doesn=E2=80=99t mention it. Eit=
-her find a way to fix that example (i.e. use +=3D or something) or at least=
- mention that you=E2=80=99re removing it, particularly since adding image t=
-ypes is currently the most common reason to alter that variable.</div></div=
-><span class=3D"HOEnZb"><font color=3D"#888888">-- <br><div class=3D"m_-270=
-3570553273090860gmail_signature" data-smartmail=3D"gmail_signature"><div di=
-r=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot =
-com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engin=
-eer, Mentor Graphics</div></div></div></div>
-</font></span></div></div>
-</blockquote></div><br></div>
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index b754853..e9faa97 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -118,18 +118,24 @@ PACKAGE_CLASSES ?= "package_ipk"
+ EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
+ 
+ #
+-# Additional image features
++# Additional user features
+ #
+-# The following is a list of additional classes to use when building images which
++# The following is a list of additional classes to use when bitbaking recipes which
+ # enable extra features. Some available options which can be included in this variable
+ # are:
+ #   - 'buildstats' collect build statistics
++USER_CLASSES ?= "buildstats"
++
++#
++# Additional image generation features
++#
++# The following is a list of classes to import to use in the generation of images.
++# Some available options which can be included in this variable are:
+ #   - 'image-mklibs' to reduce shared library files size for an image
+ #   - 'image-prelink' in order to prelink the filesystem image
+ # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
+ # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
+-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+-
++IMAGE_CLASSES ?= "image-mklibs image-prelink"
+ 
+ #
+ # Runtime testing of images
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 5d6c37d..cb39240 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -165,9 +165,12 @@
+ 
+ # Additional image generation features
+ #
+-# The following is a list of classes to import to use in the generation of images
+-# currently an example class is image_types_uboot
+-# IMAGE_CLASSES = " image_types_uboot"
++# The following is a list of extra classes to import to use in the generation
++# of images, currently an example class is image_types_uboot.
++# Note: IMAGE_CLASSES defaults to "image-mklibs image-prelink" in local.conf,
++# copy this appended variable definition to local.conf if you want use this
++# option.
++# IMAGE_CLASSES += "image_types_uboot"
+ 
+ # The following options will build a companion 'debug filesystem' in addition
+ # to the normal deployable filesystem.  This companion system allows a
+diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+index 4529dbf..573157d 100644
+--- a/meta/recipes-devtools/prelink/prelink_git.bb
++++ b/meta/recipes-devtools/prelink/prelink_git.bb
+@@ -156,7 +156,7 @@ pkg_postinst_prelink() {
+ #!/bin/sh
+ 
+ if [ "x$D" != "x" ]; then
+-  ${@bb.utils.contains('USER_CLASSES', 'image-prelink', 'exit 0', 'exit 1', d)}
++  ${@bb.utils.contains('IMAGE_CLASSES', 'image-prelink', 'exit 0', 'exit 1', d)}
+ fi
+ 
+ prelink -a
+-- 
+2.7.4
 
---001a1143aff89076030553b1f5aa--
+
