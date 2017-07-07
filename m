@@ -1,24 +1,23 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BFD4977CEC
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B0F5D71DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jul 2017 01:39:06 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jul 2017 18:39:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,320,1496127600"; d="scan'208";a="989880852"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by orsmga003.jf.intel.com with ESMTP; 06 Jul 2017 18:39:08 -0700
-From: wei.tee.ng@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jul 2017 11:28:35 -0700
-Message-Id: <ee38977370db92520a2e0d81e76189be3661f787.1499294682.git.wei.tee.ng@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1499294682.git.wei.tee.ng@intel.com>
-References: <cover.1499294682.git.wei.tee.ng@intel.com>
-Cc: wei.tee.ng@intel.com, saul.wold@intel.com
-Subject: [PATCH v3 2/2] initramfs-framwork: module to support boot live image
+	Fri,  7 Jul 2017 02:56:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v672uZ6N027554
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Jul 2017 19:56:35 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 6 Jul 2017 19:56:34 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Thu, 6 Jul 2017 22:56:33 -0400
+Message-ID: <1499396193-163159-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] shadow: fix pam configs for chpasswd, newusers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jul 2017 01:39:06 -0000
+X-List-Received-Date: Fri, 07 Jul 2017 02:56:40 -0000
+Content-Type: text/plain
 
-From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+From: "yadi.hu@windriver.com" <yadi.hu@windriver.com>
 
-setup-live module is a new module being introduced to integrate the
-functionality of init-live.sh into new scriptlet in order to
-support the live boot image. The udev-extraconf rdepends is being
-added to perform automounting. It gets to run before the rootfs
-and finish module.
+While pam is enabled:
+...
+DISTRO_FEATURES_append = " pam"
+...
 
-[YOCTO #11701]
+Fix below errors on target:
+...
+  root@qemux86:~# newusers
+  newusers: PAM: Authentication failure
+  root@qemux86:~# chpasswd
+  chpasswd: PAM: Authentication failure
+...
 
-Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
+The configs copied from "chgpasswd" which command works with pam.
+
+Signed-off-by: Hu <yadi.hu@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-This v3 changes included the creation of new initramfs-module-setup-live
-and added the udev-extraconf rdepends on this module as live-boot
-require it to work.
+ meta/recipes-extended/shadow/files/pam.d/chpasswd | 2 ++
+ meta/recipes-extended/shadow/files/pam.d/newusers | 2 ++
+ 2 files changed, 4 insertions(+)
 
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 67a1b04..aa1d847 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -13,7 +13,8 @@ SRC_URI = "file://init \
-            file://mdev \
-            file://udev \
-            file://e2fs \
--           file://debug"
-+           file://debug \
-+	   file://setup-live"
+diff --git a/meta/recipes-extended/shadow/files/pam.d/chpasswd b/meta/recipes-extended/shadow/files/pam.d/chpasswd
+index 9e3efa6..b769d92 100644
+--- a/meta/recipes-extended/shadow/files/pam.d/chpasswd
++++ b/meta/recipes-extended/shadow/files/pam.d/chpasswd
+@@ -1,4 +1,6 @@
+ # The PAM configuration file for the Shadow 'chpasswd' service
+ #
  
- S = "${WORKDIR}"
++auth       sufficient   pam_rootok.so
++account    required     pam_permit.so
+ password   include      common-password
+diff --git a/meta/recipes-extended/shadow/files/pam.d/newusers b/meta/recipes-extended/shadow/files/pam.d/newusers
+index 4aa3dde..4c59dfa 100644
+--- a/meta/recipes-extended/shadow/files/pam.d/newusers
++++ b/meta/recipes-extended/shadow/files/pam.d/newusers
+@@ -1,4 +1,6 @@
+ # The PAM configuration file for the Shadow 'newusers' service
+ #
  
-@@ -25,6 +26,9 @@ do_install() {
-     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
-     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
- 
-+    # setup-live
-+    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
-+
-     # mdev
-     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
- 
-@@ -48,7 +52,8 @@ PACKAGES = "${PN}-base \
-             initramfs-module-udev \
-             initramfs-module-e2fs \
-             initramfs-module-rootfs \
--            initramfs-module-debug"
-+            initramfs-module-debug \
-+	    initramfs-module-setup-live"
- 
- FILES_${PN}-base = "/init /init.d/99-finish /dev"
- 
-@@ -68,6 +73,10 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
- RDEPENDS_initramfs-module-udev = "${PN}-base udev"
- FILES_initramfs-module-udev = "/init.d/01-udev"
- 
-+SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
-+RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
-+FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
-+
- SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
- RDEPENDS_initramfs-module-e2fs = "${PN}-base"
- FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
++auth       sufficient   pam_rootok.so
++account    required     pam_permit.so
+ password   include      common-password
 -- 
-2.7.4
+2.8.1
 
 
