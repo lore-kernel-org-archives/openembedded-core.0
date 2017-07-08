@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1645577FA6
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D495877FA6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jul 2017 13:34:41 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id q85so8249617pfq.2
+	Sat,  8 Jul 2017 13:34:43 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id e199so8251472pfh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Jul 2017 06:34:43 -0700 (PDT)
+	Sat, 08 Jul 2017 06:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NyegmRLN9a4uw+XjZttgxXA+IzD8xJG2tnWbpiFW3Dw=;
-	b=RMm6F2Ije7JYOkIe4GgODIA8pNaD/y/rqzjRT6qhAWkcI3ED7vA+t/7R+aE6H5hhVr
-	runx5Smm0YoKqsHIMpVpWLahAsjugLjVOSC6DoJSQQ7dlft9IoRnifqsB2rNs17Ub4D2
-	xP0ZqmgMYCgNXZsgTufJv+/w2jE4SVUDRTdcm5y7056EeiU6kbfeqdB7jH10Yyak9NdY
-	SqGAch7dSfJvNEUOxV2j4UGStTKG4reqHzyIP4uKAYBKdZjg065+wlLgPEKbbvfdidBR
-	a/DmCZiHBmHHmcohGraaMOP/fF1oHPQ0ppuExkBcifJd0FuDI5uQKwyjhnnAfU+pLrX/
-	hYeg==
+	bh=nDXKlBzUM9N5q7tkmKnipDHDJtzLiDy5dO0f+T15jHI=;
+	b=CKVhONS6t4ep7f4FwIGub2pj2gIWsXnoQgG6Mv2Fdi2Boxw82WzKTM3LDx0duATJ2X
+	SsNXZLIwtuSVPK2B0tMl+BdGfZ4mTvpR7q8HWzIB4732d+oD4RIQK4hkv/Gl8qufsTos
+	aDQCvJuBenRQEU6xoIaHM+tjSOcDuhr9B02tYgJ59wGpqODR2kNOzbEc1lKQgGKZ+gHV
+	prnoO+t3lbzuZJ7ktb7HEhk5x3XClcDQSdalFc7+JKKqqUZbb8613h+dtcFlEnU0GD/u
+	iAqa0JJh49wM1UHFEx6Z/YF34s7k7CrZCNt3Jwuz8m01iCGFNj1dAxhY44880mOpqp6U
+	19Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=NyegmRLN9a4uw+XjZttgxXA+IzD8xJG2tnWbpiFW3Dw=;
-	b=aSmYWWl4ilQ66p+ZDek3uXUlDCHl4yHRdJJcPa5Oh8syoDcxKaLl/bsH07lYfu9WnB
-	zJA3JCtRlk+6Nzrz8BngEpRlL8hQVC54BNHRIVqGCyGoxCkWsYfHtmp3Qc/zuO4dA51M
-	2AM69PtWUKXBjzJ/FIRNF4E4J60LfMxDIXn8OsReX5VPoLBSLmqnTFwUwlqePgO6T9K2
-	JW0LmJK42XUsBVfqM0XrGeHBx/UFlaH3AXi9uxazT6qnNn+CrL0eN9OZ2kYORSPQeGrH
-	pNlKZtpKBoF44fuXH5GlnqxcYyKdgbcf2yZKf7vKJM7aRRHRF6gMXtQNb9X5gr0F+rlT
-	Aivg==
-X-Gm-Message-State: AIVw110LD735GQMGbT4P4Cb/U+UvanfAJuMrxYKA1GuFm6ZvFdqz3akJ
-	452F74gjk9pnb91c
-X-Received: by 10.99.62.65 with SMTP id l62mr6230196pga.106.1499520883074;
-	Sat, 08 Jul 2017 06:34:43 -0700 (PDT)
+	bh=nDXKlBzUM9N5q7tkmKnipDHDJtzLiDy5dO0f+T15jHI=;
+	b=XUyhInhzg5uiOGqD5bdK1iP57tN3gzb+hXrgDyGzDiHq/Va2+aOXIpiK4Ut/I45AUr
+	jM8MormEcIc0gX/gHRMYh6vrzQo6dwJsgTqK7oK3rbTIPxm4Pr9IYO61v9gDY+xid9Rj
+	EgPYfxP7myHj4Y5FEB4PDshwGCbafE6YKReVcW62edREAp4rX930FgJTaEmBiuOHQ40M
+	AAhEnrE7tZsbwtTHLUqnA6OVZjGxiClh1W+Ll8P9FAKrQMr0JOKGP7zGMZnRbFChvTxz
+	snb4bcjiQMfcDSaUGJdn8/2ZcCCWmRIa7Y3pjENB3yZeg1FP/D91pmlRamLDxLTrnUoo
+	B1jg==
+X-Gm-Message-State: AIVw1124lrZc6ZwYvjPvErLsKfEAg8WcmZx1MKlYDJnThUyVf4sCvHbf
+	pAr8xGZ/3KdQFoxI
+X-Received: by 10.99.56.21 with SMTP id f21mr6156206pga.235.1499520884520;
+	Sat, 08 Jul 2017 06:34:44 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::7028])
 	by smtp.gmail.com with ESMTPSA id
-	i27sm15575561pfi.82.2017.07.08.06.34.41
+	i27sm15575561pfi.82.2017.07.08.06.34.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 08 Jul 2017 06:34:42 -0700 (PDT)
+	Sat, 08 Jul 2017 06:34:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Jul 2017 06:34:23 -0700
-Message-Id: <9ce77bee1a0d8c66023a27c66beea99c93ede3a4.1499520469.git.raj.khem@gmail.com>
+Date: Sat,  8 Jul 2017 06:34:24 -0700
+Message-Id: <397ddefdc5c7bd18945e77a02ce6316bba61fca7.1499520469.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1499520469.git.raj.khem@gmail.com>
 References: <cover.1499520469.git.raj.khem@gmail.com>
-Subject: [PATCH 04/10] gcc-sanitizer: Fix build with glibc 2.26
+Subject: [PATCH 05/10] gcc: Use ucontext_t instead of ucontext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,198 +56,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jul 2017 13:34:42 -0000
+X-List-Received-Date: Sat, 08 Jul 2017 13:34:44 -0000
 
-sigaltstack is no more exposed by glibc see (bug 21517)
-therefore adjust to use stack_t instead
-
-Use res_state typedef instead of referring to __res_state struct
+glibc 2.26 does not expose struct ucontext anymore
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
  meta/recipes-devtools/gcc/gcc-7.1.inc              |   1 +
- ...r-Use-stack_t-instead-of-struct-sigaltsta.patch | 160 +++++++++++++++++++++
- 2 files changed, 161 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch
+ ...0-replace-struct-ucontext-with-ucontext_t.patch | 149 +++++++++++++++++++++
+ 2 files changed, 150 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-7.1.inc b/meta/recipes-devtools/gcc/gcc-7.1.inc
-index 96fc11c943..f30a73c31c 100644
+index f30a73c31c..3f1c06dafd 100644
 --- a/meta/recipes-devtools/gcc/gcc-7.1.inc
 +++ b/meta/recipes-devtools/gcc/gcc-7.1.inc
-@@ -73,6 +73,7 @@ SRC_URI = "\
-            file://0046-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
+@@ -74,6 +74,7 @@ SRC_URI = "\
             file://0047-sync-gcc-stddef.h-with-musl.patch \
             file://0048-gcc-Enable-static-PIE.patch \
-+           file://0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch \
+            file://0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch \
++           file://0050-replace-struct-ucontext-with-ucontext_t.patch \
             ${BACKPORTS} \
  "
  BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.1/0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch b/meta/recipes-devtools/gcc/gcc-7.1/0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch b/meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch
 new file mode 100644
-index 0000000000..ee15c6cac8
+index 0000000000..e814992e44
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.1/0049-libsanitizer-Use-stack_t-instead-of-struct-sigaltsta.patch
-@@ -0,0 +1,160 @@
-+From 4c07606bb77bbd30f02adb947d480516da3fa3f7 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/gcc/gcc-7.1/0050-replace-struct-ucontext-with-ucontext_t.patch
+@@ -0,0 +1,149 @@
++From 7b3cb36ab07d0c36b500bb5d0548b190d4b5a9f6 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 11 Jun 2017 10:09:13 -0700
-+Subject: [PATCH] libsanitizer: Use stack_t instead of struct sigaltstack
++Date: Wed, 28 Jun 2017 00:25:57 -0700
++Subject: [PATCH 50/50] replace struct ucontext with ucontext_t
 +
-+Upstream-Status: Submitted
++Upstream-Status: Pending
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ libsanitizer/sanitizer_common/sanitizer_linux.cc                    | 4 ++--
-+ libsanitizer/sanitizer_common/sanitizer_linux.h                     | 6 +++---
-+ .../sanitizer_common/sanitizer_stoptheworld_linux_libcdep.cc        | 3 ++-
-+ 3 files changed, 7 insertions(+), 6 deletions(-)
++ libgcc/config/aarch64/linux-unwind.h | 2 +-
++ libgcc/config/alpha/linux-unwind.h   | 2 +-
++ libgcc/config/bfin/linux-unwind.h    | 2 +-
++ libgcc/config/i386/linux-unwind.h    | 4 ++--
++ libgcc/config/pa/linux-unwind.h      | 2 +-
++ libgcc/config/riscv/linux-unwind.h   | 2 +-
++ libgcc/config/sh/linux-unwind.h      | 2 +-
++ libgcc/config/tilepro/linux-unwind.h | 2 +-
++ libgcc/config/xtensa/linux-unwind.h  | 2 +-
++ 9 files changed, 10 insertions(+), 10 deletions(-)
 +
-+Index: gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_linux.cc
-+===================================================================
-+--- gcc-7.1.0.orig/libsanitizer/sanitizer_common/sanitizer_linux.cc
-++++ gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_linux.cc
-+@@ -14,6 +14,10 @@
++diff --git a/libgcc/config/aarch64/linux-unwind.h b/libgcc/config/aarch64/linux-unwind.h
++index d5d6980442f..d46d5f53be3 100644
++--- a/libgcc/config/aarch64/linux-unwind.h
+++++ b/libgcc/config/aarch64/linux-unwind.h
++@@ -55,7 +55,7 @@ aarch64_fallback_frame_state (struct _Unwind_Context *context,
++   struct rt_sigframe
++   {
++     siginfo_t info;
++-    struct ucontext uc;
+++    ucontext_t uc;
++   };
 + 
-+ #if SANITIZER_FREEBSD || SANITIZER_LINUX
++   struct rt_sigframe *rt_;
++diff --git a/libgcc/config/alpha/linux-unwind.h b/libgcc/config/alpha/linux-unwind.h
++index a91a5f4fe26..7202516581d 100644
++--- a/libgcc/config/alpha/linux-unwind.h
+++++ b/libgcc/config/alpha/linux-unwind.h
++@@ -51,7 +51,7 @@ alpha_fallback_frame_state (struct _Unwind_Context *context,
++     {
++       struct rt_sigframe {
++ 	siginfo_t info;
++-	struct ucontext uc;
+++	ucontext_t uc;
++       } *rt_ = context->cfa;
++       sc = &rt_->uc.uc_mcontext;
++     }
++diff --git a/libgcc/config/bfin/linux-unwind.h b/libgcc/config/bfin/linux-unwind.h
++index 9412c7652b8..37e9feb6965 100644
++--- a/libgcc/config/bfin/linux-unwind.h
+++++ b/libgcc/config/bfin/linux-unwind.h
++@@ -52,7 +52,7 @@ bfin_fallback_frame_state (struct _Unwind_Context *context,
++ 	void *puc;
++ 	char retcode[8];
++ 	siginfo_t info;
++-	struct ucontext uc;
+++	ucontext_t uc;
++       } *rt_ = context->cfa;
 + 
-++#if !SANITIZER_ANDROID
-++#include <sys/signal.h>
-++#endif
-++
-+ #include "sanitizer_common.h"
-+ #include "sanitizer_flags.h"
-+ #include "sanitizer_internal_defs.h"
-+@@ -71,10 +75,6 @@ extern "C" {
-+ extern char **environ;  // provided by crt1
-+ #endif  // SANITIZER_FREEBSD
++       /* The void * cast is necessary to avoid an aliasing warning.
++diff --git a/libgcc/config/i386/linux-unwind.h b/libgcc/config/i386/linux-unwind.h
++index b1d5040a687..2009ad72260 100644
++--- a/libgcc/config/i386/linux-unwind.h
+++++ b/libgcc/config/i386/linux-unwind.h
++@@ -58,7 +58,7 @@ x86_64_fallback_frame_state (struct _Unwind_Context *context,
++   if (*(unsigned char *)(pc+0) == 0x48
++       && *(unsigned long long *)(pc+1) == RT_SIGRETURN_SYSCALL)
++     {
++-      struct ucontext *uc_ = context->cfa;
+++      ucontext_t *uc_ = context->cfa;
++       /* The void * cast is necessary to avoid an aliasing warning.
++          The aliasing warning is correct, but should not be a problem
++          because it does not alias anything.  */
++@@ -138,7 +138,7 @@ x86_fallback_frame_state (struct _Unwind_Context *context,
++ 	siginfo_t *pinfo;
++ 	void *puc;
++ 	siginfo_t info;
++-	struct ucontext uc;
+++	ucontext_t uc;
++       } *rt_ = context->cfa;
++       /* The void * cast is necessary to avoid an aliasing warning.
++          The aliasing warning is correct, but should not be a problem
++diff --git a/libgcc/config/pa/linux-unwind.h b/libgcc/config/pa/linux-unwind.h
++index 580c18dad69..c2c3409bcc1 100644
++--- a/libgcc/config/pa/linux-unwind.h
+++++ b/libgcc/config/pa/linux-unwind.h
++@@ -80,7 +80,7 @@ pa32_fallback_frame_state (struct _Unwind_Context *context,
++   struct sigcontext *sc;
++   struct rt_sigframe {
++     siginfo_t info;
++-    struct ucontext uc;
+++    ucontext_t uc;
++   } *frame;
 + 
-+-#if !SANITIZER_ANDROID
-+-#include <sys/signal.h>
-+-#endif
-+-
-+ #if SANITIZER_LINUX
-+ // <linux/time.h>
-+ struct kernel_timeval {
-+@@ -605,8 +605,8 @@ uptr internal_prctl(int option, uptr arg
-+ }
-+ #endif
++   /* rt_sigreturn trampoline:
++diff --git a/libgcc/config/riscv/linux-unwind.h b/libgcc/config/riscv/linux-unwind.h
++index a051a2869d4..1c8aeff7ef0 100644
++--- a/libgcc/config/riscv/linux-unwind.h
+++++ b/libgcc/config/riscv/linux-unwind.h
++@@ -42,7 +42,7 @@ riscv_fallback_frame_state (struct _Unwind_Context *context,
++   struct rt_sigframe
++   {
++     siginfo_t info;
++-    struct ucontext uc;
+++    ucontext_t uc;
++   };
 + 
-+-uptr internal_sigaltstack(const struct sigaltstack *ss,
-+-                         struct sigaltstack *oss) {
-++uptr internal_sigaltstack(const stack_t *ss,
-++                         stack_t *oss) {
-+   return internal_syscall(SYSCALL(sigaltstack), (uptr)ss, (uptr)oss);
-+ }
++   struct rt_sigframe *rt_;
++diff --git a/libgcc/config/sh/linux-unwind.h b/libgcc/config/sh/linux-unwind.h
++index 1038caeb5c3..a8c98220282 100644
++--- a/libgcc/config/sh/linux-unwind.h
+++++ b/libgcc/config/sh/linux-unwind.h
++@@ -82,7 +82,7 @@ sh_fallback_frame_state (struct _Unwind_Context *context,
++     {
++       struct rt_sigframe {
++ 	siginfo_t info;
++-	struct ucontext uc;
+++	ucontext_t uc;
++       } *rt_ = context->cfa;
++       /* The void * cast is necessary to avoid an aliasing warning.
++          The aliasing warning is correct, but should not be a problem
++diff --git a/libgcc/config/tilepro/linux-unwind.h b/libgcc/config/tilepro/linux-unwind.h
++index a8dc4405715..dba3b410279 100644
++--- a/libgcc/config/tilepro/linux-unwind.h
+++++ b/libgcc/config/tilepro/linux-unwind.h
++@@ -61,7 +61,7 @@ tile_fallback_frame_state (struct _Unwind_Context *context,
++   struct rt_sigframe {
++     unsigned char save_area[C_ABI_SAVE_AREA_SIZE];
++     siginfo_t info;
++-    struct ucontext uc;
+++    ucontext_t uc;
++   } *rt_;
 + 
-+Index: gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_linux.h
-+===================================================================
-+--- gcc-7.1.0.orig/libsanitizer/sanitizer_common/sanitizer_linux.h
-++++ gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_linux.h
-+@@ -19,7 +19,10 @@
-+ #include "sanitizer_platform_limits_posix.h"
++   /* Return if this is not a signal handler.  */
++diff --git a/libgcc/config/xtensa/linux-unwind.h b/libgcc/config/xtensa/linux-unwind.h
++index 67c272820d0..b37b8b31bbf 100644
++--- a/libgcc/config/xtensa/linux-unwind.h
+++++ b/libgcc/config/xtensa/linux-unwind.h
++@@ -67,7 +67,7 @@ xtensa_fallback_frame_state (struct _Unwind_Context *context,
 + 
-+ struct link_map;  // Opaque type returned by dlopen().
-+-struct sigaltstack;
-++
-++#ifndef __stack_t_defined
-++struct stack_t;
-++#endif
++   struct rt_sigframe {
++     siginfo_t info;
++-    struct ucontext uc;
+++    struct ucontext_t uc;
++   } *rt_;
 + 
-+ namespace __sanitizer {
-+ // Dirent structure for getdents(). Note that this structure is different from
-+@@ -28,8 +31,8 @@ struct linux_dirent;
-+ 
-+ // Syscall wrappers.
-+ uptr internal_getdents(fd_t fd, struct linux_dirent *dirp, unsigned int count);
-+-uptr internal_sigaltstack(const struct sigaltstack* ss,
-+-                          struct sigaltstack* oss);
-++uptr internal_sigaltstack(const stack_t* ss,
-++                          stack_t* oss);
-+ uptr internal_sigprocmask(int how, __sanitizer_sigset_t *set,
-+     __sanitizer_sigset_t *oldset);
-+ 
-+Index: gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_stoptheworld_linux_libcdep.cc
-+===================================================================
-+--- gcc-7.1.0.orig/libsanitizer/sanitizer_common/sanitizer_stoptheworld_linux_libcdep.cc
-++++ gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_stoptheworld_linux_libcdep.cc
-+@@ -16,6 +16,7 @@
-+                         defined(__aarch64__) || defined(__powerpc64__) || \
-+                         defined(__s390__))
-+ 
-++#include <signal.h>
-+ #include "sanitizer_stoptheworld.h"
-+ 
-+ #include "sanitizer_platform_limits_posix.h"
-+@@ -273,7 +274,7 @@ static int TracerThread(void* argument)
-+ 
-+   // Alternate stack for signal handling.
-+   InternalScopedBuffer<char> handler_stack_memory(kHandlerStackSize);
-+-  struct sigaltstack handler_stack;
-++  stack_t handler_stack;
-+   internal_memset(&handler_stack, 0, sizeof(handler_stack));
-+   handler_stack.ss_sp = handler_stack_memory.data();
-+   handler_stack.ss_size = kHandlerStackSize;
-+Index: gcc-7.1.0/libsanitizer/tsan/tsan_platform_linux.cc
-+===================================================================
-+--- gcc-7.1.0.orig/libsanitizer/tsan/tsan_platform_linux.cc
-++++ gcc-7.1.0/libsanitizer/tsan/tsan_platform_linux.cc
-+@@ -14,6 +14,7 @@
-+ #include "sanitizer_common/sanitizer_platform.h"
-+ #if SANITIZER_LINUX || SANITIZER_FREEBSD
-+ 
-++#include <signal.h>
-+ #include "sanitizer_common/sanitizer_common.h"
-+ #include "sanitizer_common/sanitizer_libc.h"
-+ #include "sanitizer_common/sanitizer_linux.h"
-+@@ -28,7 +29,6 @@
-+ 
-+ #include <fcntl.h>
-+ #include <pthread.h>
-+-#include <signal.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+@@ -287,7 +287,7 @@ void InitializePlatform() {
-+ int ExtractResolvFDs(void *state, int *fds, int nfd) {
-+ #if SANITIZER_LINUX && !SANITIZER_ANDROID
-+   int cnt = 0;
-+-  __res_state *statp = (__res_state*)state;
-++  res_state statp = (res_state)state;
-+   for (int i = 0; i < MAXNS && cnt < nfd; i++) {
-+     if (statp->_u._ext.nsaddrs[i] && statp->_u._ext.nssocks[i] != -1)
-+       fds[cnt++] = statp->_u._ext.nssocks[i];
-+Index: gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_linux_libcdep.cc
-+===================================================================
-+--- gcc-7.1.0.orig/libsanitizer/sanitizer_common/sanitizer_linux_libcdep.cc
-++++ gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_linux_libcdep.cc
-+@@ -14,6 +14,7 @@
-+ 
-+ #if SANITIZER_FREEBSD || SANITIZER_LINUX
-+ 
-++#include <signal.h>
-+ #include "sanitizer_allocator_internal.h"
-+ #include "sanitizer_atomic.h"
-+ #include "sanitizer_common.h"
-+@@ -30,7 +31,6 @@
-+ 
-+ #include <link.h>
-+ #include <pthread.h>
-+-#include <signal.h>
-+ #include <sys/resource.h>
-+ #include <syslog.h>
-+ 
-+Index: gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_symbolizer_posix_libcdep.cc
-+===================================================================
-+--- gcc-7.1.0.orig/libsanitizer/sanitizer_common/sanitizer_symbolizer_posix_libcdep.cc
-++++ gcc-7.1.0/libsanitizer/sanitizer_common/sanitizer_symbolizer_posix_libcdep.cc
-+@@ -12,6 +12,7 @@
-+ 
-+ #include "sanitizer_platform.h"
-+ #if SANITIZER_POSIX
-++#include <signal.h>
-+ #include "sanitizer_allocator_internal.h"
-+ #include "sanitizer_common.h"
-+ #include "sanitizer_flags.h"
++   /* movi a2, __NR_rt_sigreturn; syscall */
++-- 
++2.13.2
++
 -- 
 2.13.2
 
