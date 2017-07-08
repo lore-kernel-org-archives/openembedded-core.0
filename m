@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CC6E77FA6
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CCC8577FA6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jul 2017 13:34:46 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id u36so7280190pgn.3
+	Sat,  8 Jul 2017 13:34:47 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id q85so8249864pfq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Jul 2017 06:34:48 -0700 (PDT)
+	Sat, 08 Jul 2017 06:34:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=N7zsB47nghQ4O3jAnqRHL0p/EDTr628nlgcqynXgeyM=;
-	b=lnmqlqUYRKhVVJGU+DCuz524H/R5SQth3Rd1NhEixQDfpVIp67o//O9L41gqXo5P68
-	/mnKzDGil6vRHj+pX56pjGOr/VKmySVQQSXELo+dfqPM+SiL9CIDU4MZKApnMiAWOtO4
-	rJH257MzQmPaiGhbF5CCezv/BK/Z6GUKK8QMjLCDO+1TK4nYOWbgDpw+W9agWuxsYOGS
-	pabdBCnPn5lKaVHn3fSorCk1eKgF9qFEqq71MDWUXQlVm6uWC7zb1MAHPsxJfiIZRFcU
-	bUvaH5tvV9cs195Q3bavWU8082mf4qeoCzMM3qZtxaYNy8XRrCNwntVkqoiGWq6nXu2f
-	UEHQ==
+	bh=leVaudeD9Jqcjo2efPXofvQeqHjuwhreJH3HDnkpfxg=;
+	b=nubTUVI7oTZ9WVGp4OHQYieTT6H9G/mW0Oc/abPN2iWMd3e5CVfbAEONlLN2e8a1lu
+	/sXXuM6ZWpJ27ejGiKicgfMA3kWB5msidEUmOkmxaGVPlWE9TlSvb55IKq5p+t8/sbLI
+	COXYURk5Qts4aPbp7FX9sxlaqrcl9R0oC+mIAC6ufvdi5ZeCNnO/RNziIkhM7jxjK74G
+	Tp+A7qZEWRZTfhY2QGItXn9eu2Pl2+ORi2AG7M7H1H4DCCjVCpeJsteZUHQqbb5AiLki
+	1R1zTsrNmPiiQgsJLvPkSWO0St6bpqn2u4+Pjn6K769MM+j8LVyknHHapek6Pk7sdu/1
+	3YNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=N7zsB47nghQ4O3jAnqRHL0p/EDTr628nlgcqynXgeyM=;
-	b=SfaD9mE5fPIWLM7PdCObtotGqPEWXQvbVQmlRsgtllYV/lrOb8h4JhvcpKGGC+T66s
-	32YH1/oWzDOhW5NYk33OK8dxN9GagOPN22MjerdXz7BGBoBo1yTC6u0anl5iE9bfEefC
-	AajmXROxpYyFne5qfF0NZ/mjE4GGO57lg2RxjxKJgV1HIJxm/EN8q6zD15A0VpxPtn/m
-	/5Av3z8azGXqbaSGz8XcPBKjWpIKCKRfyznaNavcNc40R6M/RsqOa9yUnOBWSNmuvTRz
-	sMHfG2IGPHrenBJqJrzQqMkgakts3ZPr63kGcoN/pcYSx0DK68hN9Xrnyu7vc7ZRvHXW
-	/D+g==
-X-Gm-Message-State: AIVw113a1XNA9hjpWO0l2nk//cgEl6GYWS/R2dH1jJ0GQf+5xzICKEb8
-	BKufIm0KkscUHuje
-X-Received: by 10.101.90.69 with SMTP id z5mr67413pgs.277.1499520887478;
-	Sat, 08 Jul 2017 06:34:47 -0700 (PDT)
+	bh=leVaudeD9Jqcjo2efPXofvQeqHjuwhreJH3HDnkpfxg=;
+	b=coki74IKHtUMkDS3D2dqB1nFT3wvKjVjcMJ2RRfs+wfq/bX+EG3pZ6O4nWRneYVLcN
+	0ptTNa8GCSDiwUyzdG1LZ/OxC7m3DcbcdSsxqJlPqWKRIiK4sOpQDbSKZ+xz3EwGjwAm
+	ydHHagP9o07o0sqq5AeAf2pCjwDUaneRTItAQUDpEcMMax58OnG6EKe6DhZSuXe/rlic
+	I2eQRDIX9LRrE+giHEx66Juqb3bYNVkMOu2+6w9cqUOJ6dxY1rHj+CD7YHJkMPyLH2Ri
+	SjYboXM3rfMRK3zgL4LyOg+mA4MHT9afLor1stX1aHQrFYTCdQKwXLTPqC4A/FOmXbE0
+	AarQ==
+X-Gm-Message-State: AIVw1114uHj4hFOMmxJOa2FGRmoyrFcjlkyq8IA6HlO7huOJc/hmEuyH
+	e7pFsnSUEU/uJR+b
+X-Received: by 10.98.158.29 with SMTP id s29mr37128597pfd.126.1499520889140;
+	Sat, 08 Jul 2017 06:34:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::7028])
 	by smtp.gmail.com with ESMTPSA id
-	i27sm15575561pfi.82.2017.07.08.06.34.46
+	i27sm15575561pfi.82.2017.07.08.06.34.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 08 Jul 2017 06:34:46 -0700 (PDT)
+	Sat, 08 Jul 2017 06:34:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Jul 2017 06:34:26 -0700
-Message-Id: <9022f8b6aebf235ad76235d25d9a87e26820ef2f.1499520469.git.raj.khem@gmail.com>
+Date: Sat,  8 Jul 2017 06:34:27 -0700
+Message-Id: <b594dfe5f67cf82c42c8625cbee5abc455657c61.1499520469.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1499520469.git.raj.khem@gmail.com>
 References: <cover.1499520469.git.raj.khem@gmail.com>
-Subject: [PATCH 07/10] gcc: Fix libssh_nonshared linker specs for ppc/musl
+Subject: [PATCH 08/10] world-broken.inc: Remove packages which are now buildable on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,104 +56,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jul 2017 13:34:46 -0000
+X-List-Received-Date: Sat, 08 Jul 2017 13:34:47 -0000
 
-The change to link libssp_nonshared.a only for musl was to move
-spec file changes to config/linux.h under a conditional when
-DEFAULT_LIBC == LIBC_MUSL which worked fine for all but ppc
-since gcc for ppc provided its own linux.h overrides which are
-used. This patch duplicates the change in those headers too
+Delete the pinnings which are no longer required during world builds
+becasue they have been fixed to build on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...shared-to-link-commandline-for-musl-targe.patch | 55 ++++++++++++++++++++--
- 1 file changed, 50 insertions(+), 5 deletions(-)
+ meta/conf/distro/include/world-broken.inc | 25 -------------------------
+ 1 file changed, 25 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.1/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch b/meta/recipes-devtools/gcc/gcc-7.1/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-index 310f7aacba..29b7ce72d2 100644
---- a/meta/recipes-devtools/gcc/gcc-7.1/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-+++ b/meta/recipes-devtools/gcc/gcc-7.1/0040-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch
-@@ -1,4 +1,4 @@
--From 75a42d6d0f1f9784327f74882195a5c24843d5a8 Mon Sep 17 00:00:00 2001
-+From 210f6b3b82084cc756e02b8bc12f909a43b14ee8 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 27 Jun 2017 18:10:54 -0700
- Subject: [PATCH 40/49] Add ssp_nonshared to link commandline for musl targets
-@@ -17,18 +17,21 @@ Upstream-Status: Pending
+diff --git a/meta/conf/distro/include/world-broken.inc b/meta/conf/distro/include/world-broken.inc
+index d4bdddfcfe..49e9516d53 100644
+--- a/meta/conf/distro/include/world-broken.inc
++++ b/meta/conf/distro/include/world-broken.inc
+@@ -7,28 +7,14 @@ EXCLUDE_FROM_WORLD_pn-rt-tests_libc-musl = "1"
  
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- gcc/config/linux.h | 6 ++++++
-- 1 file changed, 6 insertions(+)
-+ gcc/config/linux.h          |  7 +++++++
-+ gcc/config/rs6000/linux.h   | 10 ++++++++++
-+ gcc/config/rs6000/linux64.h | 10 ++++++++++
-+ 3 files changed, 27 insertions(+)
+ # error: no member named 'sin_port' in 'struct sockaddr_in6'
+ # this is due to libtirpc using ipv6 but portmap rpc expecting ipv4
+-EXCLUDE_FROM_WORLD_pn-portmap_libc-musl = "1"
+ EXCLUDE_FROM_WORLD_pn-unfs3_libc-musl = "1"
  
- diff --git a/gcc/config/linux.h b/gcc/config/linux.h
--index 2e683d0c430..5ff0a2cb2ff 100644
-+index 2e683d0c430..1b4df798671 100644
- --- a/gcc/config/linux.h
- +++ b/gcc/config/linux.h
--@@ -182,6 +182,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-+@@ -182,6 +182,13 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-      { GCC_INCLUDE_DIR, "GCC", 0, 1, 0, 0 },		\
-      { 0, 0, 0, 0, 0, 0 }				\
-    }
- +#ifdef TARGET_LIBC_PROVIDES_SSP
-++#undef LINK_SSP_SPEC
- +#define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
- +		       "|fstack-protector-strong|fstack-protector-explicit" \
- +		       ":-lssp_nonshared}"
-@@ -37,6 +40,48 @@ index 2e683d0c430..5ff0a2cb2ff 100644
-  #endif
-  
-  #if (DEFAULT_LIBC == LIBC_UCLIBC) && defined (SINGLE_LIBC) /* uClinux */
-+diff --git a/gcc/config/rs6000/linux.h b/gcc/config/rs6000/linux.h
-+index 684afd6c190..22cfa391b89 100644
-+--- a/gcc/config/rs6000/linux.h
-++++ b/gcc/config/rs6000/linux.h
-+@@ -91,6 +91,16 @@
-+ 					 " -m elf32ppclinux")
-+ #endif
-+ 
-++/* link libssp_nonshared.a with musl */
-++#if DEFAULT_LIBC == LIBC_MUSL
-++#ifdef TARGET_LIBC_PROVIDES_SSP
-++#undef LINK_SSP_SPEC
-++#define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-++		       "|fstack-protector-strong|fstack-protector-explicit" \
-++		       ":-lssp_nonshared}"
-++#endif
-++#endif
-++
-+ #undef LINK_OS_LINUX_SPEC
-+ #define LINK_OS_LINUX_SPEC LINK_OS_LINUX_EMUL " %{!shared: %{!static: \
-+   %{rdynamic:-export-dynamic} \
-+diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h
-+index 3b00ec0fcf0..8371f8d7b6b 100644
-+--- a/gcc/config/rs6000/linux64.h
-++++ b/gcc/config/rs6000/linux64.h
-+@@ -465,6 +465,16 @@ extern int dot_symbols;
-+ 					   " -m elf64ppc")
-+ #endif
-+ 
-++/* link libssp_nonshared.a with musl */
-++#if DEFAULT_LIBC == LIBC_MUSL
-++#ifdef TARGET_LIBC_PROVIDES_SSP
-++#undef LINK_SSP_SPEC
-++#define LINK_SSP_SPEC "%{fstack-protector|fstack-protector-all" \
-++		       "|fstack-protector-strong|fstack-protector-explicit" \
-++		       ":-lssp_nonshared}"
-++#endif
-++#endif
-++
-+ #define LINK_OS_LINUX_SPEC32 LINK_OS_LINUX_EMUL32 " %{!shared: %{!static: \
-+   %{rdynamic:-export-dynamic} \
-+   -dynamic-linker " GNU_USER_DYNAMIC_LINKER32 "}} \
- -- 
- 2.13.2
+ # error: use of undeclared identifier '_STAT_VER'
+ EXCLUDE_FROM_WORLD_pn-pseudo_libc-musl = "1"
  
+-# error: Need to implement custom I/O
+-EXCLUDE_FROM_WORLD_pn-libsolv_libc-musl = "1"
+-
+-# undefined reference to `pthread_tryjoin_np'
+-EXCLUDE_FROM_WORLD_pn-btrfs-tools_libc-musl = "1"
+-
+ # error: error.h: No such file or directory
+ EXCLUDE_FROM_WORLD_pn-prelink_libc-musl = "1"
+ 
+-# error: use of undeclared identifier 'O_CREAT'
+-EXCLUDE_FROM_WORLD_pn-libbsd_libc-musl = "1"
+-
+-# error: expected declaration specifiers before '__nonnull'
+-EXCLUDE_FROM_WORLD_pn-lttng-ust_libc-musl = "1"
+-EXCLUDE_FROM_WORLD_pn-lttng-tools_libc-musl = "1"
+-
+ # error: obstack.h: No such file or directory
+ EXCLUDE_FROM_WORLD_pn-systemtap_libc-musl = "1"
+ EXCLUDE_FROM_WORLD_pn-systemtap-uprobes_libc-musl = "1"
+@@ -37,20 +23,9 @@ EXCLUDE_FROM_WORLD_pn-systemtap-uprobes_libc-musl = "1"
+ #            void (*_function)(sigval_t);
+ EXCLUDE_FROM_WORLD_pn-qemu_libc-musl = "1"
+ 
+-# glibc specific funcrions
+-# error: storage size of 'mi' isn't known struct mallinfo mi
+-EXCLUDE_FROM_WORLD_pn-valgrind_libc-musl = "1"
+-
+ # error: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Werror=format=]
+ #   snprintf(buf, size, "%s", strerror_r(err, sbuf, sizeof(sbuf)));
+ EXCLUDE_FROM_WORLD_pn-perf_libc-musl = "1"
+ 
+ # error: 'RTLD_NEXT' was not declared in this scope
+ EXCLUDE_FROM_WORLD_pn-gcc-sanitizers_libc-musl = "1"
+-
+-# gcc fails to build when libuwind is staged before building gcc since
+-# it then finds the unwind.h header from libunwind and not from libgcc
+-# and on arm specially they are different since libgcc defines some functions
+-# as macros which are functions in libunwind and it fails during linking
+-# libbacktrace/backtrace.c:76: undefined reference to `_Unwind_GetIP'
+-EXCLUDE_FROM_WORLD_pn-libunwind_libc-musl_arm = "1"
 -- 
 2.13.2
 
