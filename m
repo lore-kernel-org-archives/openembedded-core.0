@@ -1,26 +1,53 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id C42A577D24
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D5A8A77D16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 19:11:47 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3x5vw44QnMz1qqkp;
-	Mon, 10 Jul 2017 21:11:48 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3x5vw43LGWz3jgXt;
-	Mon, 10 Jul 2017 21:11:48 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id FM1TfqaB0fIC; Mon, 10 Jul 2017 21:11:47 +0200 (CEST)
-X-Auth-Info: 9LjDV2dTTxU9aQ6fNfIYDeKym3PDWaYtpukVRDDjUb4=
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Mon, 10 Jul 2017 21:11:47 +0200 (CEST)
-To: Khem Raj <raj.khem@gmail.com>, Tom Rini <trini@konsulko.com>
+	Mon, 10 Jul 2017 19:14:22 +0000 (UTC)
+Received: by mail-wr0-f173.google.com with SMTP id r103so151708498wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jul 2017 12:14:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=hnNcHnVTTZncEbuBVd3ZYod0961m32ZObtsUJQZ3SoI=;
+	b=re/OOdAbrRplIkoN/ZW9q0MFCnjA7f3d3gCcztNSL+2Y6EhK5kDMOwHvGAUkaU223w
+	88FU4yruJwZ5Ltg2/7TETaZe0CTSvmBlHwX0vBGQL70lEeUCezwN6paT48EOGaT4f+io
+	zUuO87uXpMsqzdd+QqZ+KTqEMQwARUB7i+qQN7aGMZRmmW7mztFL8RsqQ4rOMl/7TZsf
+	jQL7h1QIUgvvBGYHX425jOeJSbdkMthdoxPKQR/8LBbkPsyZaNWv7JA8rxuNL/2U4tnB
+	CGH5qn5H7MRVeUwpeFxJWZvGxCvrQbYPR5EMIWQ5OC0oG3PT6sWHihxykqd8v6VQgo/y
+	G/rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=hnNcHnVTTZncEbuBVd3ZYod0961m32ZObtsUJQZ3SoI=;
+	b=sB3CIOyozJPE3SUhMRvyFlUc0PW+k5JUUIpmZ/B9v6ZAfMfP3PJ/iI8979hNtHqJrS
+	9fS5Zo8izNTy3EP3aI5kQux4AfM57biAynu28AfuEuh6MEFItS/TR/hGJiq3vVlaaJKg
+	lQWgRcLH1w7OzGhMmZQ8QvavMiKF4waqnSI1vY5eP6slyaHLgbY/0IQqXzFr3paEv2PB
+	bUNmoVqZjH1nYcO3hwb0IIp24ooOVzZXkQf9NNGAJbteVFR/yNIDOTiu6en00RUr2Txg
+	hfR0Ne9ffVIxXw16cB/EKP0KzP+O9rcYZ7mMOKEpOLzKtgJ1cBnERqnG+zl0zwk8pkWD
+	dUSA==
+X-Gm-Message-State: AIVw113a4KyVZOiefvRDd6NDeIsuFbKiygQpKiOiA6YI9f3ifO2T5yKc
+	Wl8D1MrNjdAR9PmmqLc=
+X-Received: by 10.28.32.5 with SMTP id g5mr8949710wmg.70.1499714063323;
+	Mon, 10 Jul 2017 12:14:23 -0700 (PDT)
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com.
+	[209.85.128.177]) by smtp.gmail.com with ESMTPSA id
+	m196sm6746842wma.17.2017.07.10.12.14.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Jul 2017 12:14:22 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f177.google.com with SMTP id k67so151021878wrc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jul 2017 12:14:22 -0700 (PDT)
+X-Received: by 10.28.195.67 with SMTP id t64mr8784734wmf.41.1499714062017;
+	Mon, 10 Jul 2017 12:14:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.73.84 with HTTP; Mon, 10 Jul 2017 12:14:21 -0700 (PDT)
+In-Reply-To: <4615032e-7bc7-5309-43f7-a917b3007b03@denx.de>
 References: <20170710183657.12885-1-otavio@ossystems.com.br>
 	<1d8dd351-0d96-0766-1beb-6ac621a6bfe4@denx.de>
 	<CAP9ODKpJTG3siy9Qo+EFm3QTnQYhn0Q2dc-pq6gq3Wq=hpscXA@mail.gmail.com>
@@ -29,16 +56,13 @@ References: <20170710183657.12885-1-otavio@ossystems.com.br>
 	<ce1cd8f5-1c41-87c0-57b4-d92abb3c177e@denx.de>
 	<20170710190621.GF22707@bill-the-cat>
 	<02ee9f46-27db-0bb9-7506-009d46351437@gmail.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <4615032e-7bc7-5309-43f7-a917b3007b03@denx.de>
-Date: Mon, 10 Jul 2017 21:11:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <02ee9f46-27db-0bb9-7506-009d46351437@gmail.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
+	<4615032e-7bc7-5309-43f7-a917b3007b03@denx.de>
+Date: Mon, 10 Jul 2017 16:14:21 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrTTdawLdeqE9v5k=NEivm_92UqPGSH==BKfKagkvUBhg@mail.gmail.com>
+Message-ID: <CAP9ODKrTTdawLdeqE9v5k=NEivm_92UqPGSH==BKfKagkvUBhg@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Tom Rini <trini@konsulko.com>, Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] u-boot: Upgrade to 2017.07 release (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -52,72 +76,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 19:11:48 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Jul 2017 19:14:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 07/10/2017 09:08 PM, Khem Raj wrote:
-> On 7/10/17 12:06 PM, Tom Rini wrote:
->> On Mon, Jul 10, 2017 at 09:02:39PM +0200, Marek Vasut wrote:
->>> On 07/10/2017 09:01 PM, Tom Rini wrote:
->>>> On Mon, Jul 10, 2017 at 08:57:19PM +0200, Marek Vasut wrote:
->>>>> On 07/10/2017 08:51 PM, Otavio Salvador wrote:
->>>>>> On Mon, Jul 10, 2017 at 3:47 PM, Marek Vasut <marex@denx.de> wrote:
->>>>>>> On 07/10/2017 08:36 PM, Otavio Salvador wrote:
->>>>>>>> This patch upgrades the U-Boot to the 2017.07 release.
->>>>>>>>
->>>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->>>>>>>> ---
->>>>>>>>
->>>>>>>>  .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
->>>>>>>>  .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
->>>>>>>>  .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
->>>>>>>>  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
->>>>>>>>  4 files changed, 1 insertion(+), 1 deletion(-)
->>>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc} (88%)
->>>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb} (100%)
->>>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb} (100%)
->>>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb} (100%)
->>>>>>>>
->>>>>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
->>>>>>>> similarity index 88%
->>>>>>>> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
->>>>>>>> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
->>>>>>>> index 0e52f27df8..f27989daa1 100644
->>>>>>>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
->>>>>>>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
->>>>>>>> @@ -7,7 +7,7 @@ PE = "1"
->>>>>>>>
->>>>>>>>  # We use the revision in order to avoid having to fetch it from the
->>>>>>>>  # repo during parse
->>>>>>>> -SRCREV = "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
->>>>>>>> +SRCREV = "d85ca029f257b53a96da6c2fb421e78a003a9943"
->>>>>>>
->>>>>>> Where did you get this hash from, it's not in the U-Boot repo ...
->>>>>>
->>>>>> From the tag used by Tom. You can check it on his github repository.
->>>>>
->>>>> I cannot, that is NOT where the U-Boot recipe points to nor is it in any
->>>>> way an official U-Boot source git tree .
->>>>
->>>> It's also on the official github mirror.  I'll go see why the DENX git
->>>> is lagging behind.
->>>
->>> Hm that's weird. How can it be a mirror if it contains objects not in
->>> the mirrored repo ? ;-)
->>
->> git supports multiple push URIs.  So I update all 3 locations with a
->> single push.  However, git.denx.de works differently than github.com
->> does.
-> 
-> may be pushing to upstream and then pulling before populating the
-> mirrors could solve such issues. but I think we should use github.com
-> in OE src_uri's for speed reasons.
+On Mon, Jul 10, 2017 at 4:11 PM, Marek Vasut <marex@denx.de> wrote:
+> On 07/10/2017 09:08 PM, Khem Raj wrote:
+>> may be pushing to upstream and then pulling before populating the
+>> mirrors could solve such issues. but I think we should use github.com
+>> in OE src_uri's for speed reasons.
+>
+> Not everyone is a big fan of github and their ToS, so I wouldn't be a
+> big fan of such move.
 
-Not everyone is a big fan of github and their ToS, so I wouldn't be a
-big fan of such move.
+Without a more specific reasoning I see no problem in changing it for
+the official mirror.
 
 -- 
-Best regards,
-Marek Vasut
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
