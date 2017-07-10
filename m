@@ -1,63 +1,63 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2009B6E5CB
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 48F3B77CEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 17:42:17 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id k67so26382433wrc.1
+	Mon, 10 Jul 2017 17:43:08 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id x23so26500837wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 10:42:19 -0700 (PDT)
+	Mon, 10 Jul 2017 10:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=m9OOIzYY1qFiUM3nEHGJ1HnXjbD27QBM0MNa16isldc=;
-	b=1FDmuGgHfzTLTuGVEJLVtgBQMwgf3ICoU4Bz1tEANT5PNL5AEXok8kVASPpQMIb3Nj
-	AXdtx+xuSo03+hC3vwwu5srhva8I5vZ+Cl3gxs5Map/kvKfY853MClwATg8C0x+qMLsP
-	G5D13aLtFYxtApdMxAy6tH0avubWruW7uRrwNve3uigdu0F/rGxizy6ENXkr5ZJBokRf
-	KeI5ujf59iBoRCnzbS5VdQgB4N8xLvgD46mGOG9tahTCGnnupxnNdCag3pqsadTZ3OfF
-	9idi9ewuZD4YfBVn2754SP+/0nvhpWQq6pSoUptOY+D0Af2Vu24NXHTm6sTjKZmYHvUz
-	PhPg==
+	:cc; bh=XsyUxX5q/+UOKXdSQqXUo4dZtdPmmY8zbnYNvioMqlU=;
+	b=UGQB9W1YE4KbogB3wR3m7D2i5fH9HWyEAHjmrUnvKfat94S3QUzrija+vQi517o7Wl
+	7LPAbs4xy0ko2dARkHNMRvj4T/NHcgEREOUn9i4pk4IIX+3ub/mkozJ2DqdU39lZdtsf
+	k0gOh1e2PFkk769Rw5FPQ0g7F5y5il8CGkj6UdUssPyFAZ9dWt0m0emcSEbd50EfLxAK
+	IVCsYay9kTrIsQF4jeAqeiMIAvjVltW8E44EFVWNWbz9tQVkkXKy4KWKA+M7IReipqFu
+	KOK2zj4uNVlIsAIiQRGxd61AjPQP48dZ8ZSaMKNBUHnidvjA1mFchREEqE5mYiuviyv2
+	vbdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=m9OOIzYY1qFiUM3nEHGJ1HnXjbD27QBM0MNa16isldc=;
-	b=WRh4eAZij/onjxdbJA2B8dbLO1iGn520vlAaNhlMiM1QrRl+ZxlImsAchm5HWoOrbz
-	nRH0q+m8qkwWuEIyDs6ZNMaPSZQG4Vpt5Xx2Vo1BrYzXj9cpC2qoylQ5DPB+O5jxHDpx
-	rMP9y5cRw9IBQ9K3esLyoSVBAdtD+pLmYaxZ1qcOEafvTbcy415nG+7bIapdWHIhcRXP
-	BLOXEN3Y/f6QQ1dZb4GsHST9IcMy5m+Aeq+SjXEl9+AYUJA6TwlfZqBPplu4ozbi8ONj
-	31B1csgLfTSBMW8B+pyzNES890246VYJToIxSCC4i68l1UNS+W9QPmV+b5mCIX57KrH7
-	1kIw==
-X-Gm-Message-State: AIVw11072cgZHtfYFZjxKFzFU7zjbzDWdGmZL7d6X72tFURSuRPqmYNL
-	CFx++o4jrIfulJ5SzRw=
-X-Received: by 10.28.148.67 with SMTP id w64mr8476254wmd.55.1499708538529;
-	Mon, 10 Jul 2017 10:42:18 -0700 (PDT)
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com.
-	[209.85.128.182]) by smtp.gmail.com with ESMTPSA id
-	x131sm7018471wmg.13.2017.07.10.10.42.17
+	bh=XsyUxX5q/+UOKXdSQqXUo4dZtdPmmY8zbnYNvioMqlU=;
+	b=jE5cjSzDrjDyWioxXPnT1eOiqzQIm06ssxLj0fLRHQWoy8nlLDFnhiZMVL5fkEanYr
+	VOAeQD0gRqo0Kz5Quvvj/SWe06jafvSqoTprs2/bTPYtrkrYt+h0QQx4SZJk9t/5qGD3
+	WU8/kSC2L6QHmB6j9jhyrc/cgKVCCpiUbPk5SF6GbhRHt7QKlNTuYEXNRWXB62pgepuJ
+	GUmtyEV1TCG5e/4++Y3gx1TQCwAP/9AXslfv8+qEF594moCSkieTJAc6Pb6/C9qhh+27
+	4Du/CK7UcdkQrphu29QZfdEwXLYhTz3dXscpUWsjayCDCfX6xTVPznBVL6G15qWGcE/K
+	CIqg==
+X-Gm-Message-State: AIVw110JVOdDSheb1StOa1XQpqynFqF+nTVBBw1Sn2QBN41GEntmjD24
+	FqgmOGXCNtu5SxKNWZ4=
+X-Received: by 10.28.54.217 with SMTP id y86mr8756412wmh.81.1499708589962;
+	Mon, 10 Jul 2017 10:43:09 -0700 (PDT)
+Received: from mail-wr0-f169.google.com (mail-wr0-f169.google.com.
+	[209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+	w198sm12856903wme.21.2017.07.10.10.43.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Jul 2017 10:42:17 -0700 (PDT)
+	Mon, 10 Jul 2017 10:43:09 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f182.google.com with SMTP id r103so148415428wrb.0
+Received: by mail-wr0-f169.google.com with SMTP id r103so148445624wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 10:42:17 -0700 (PDT)
-X-Received: by 10.28.195.67 with SMTP id t64mr8563157wmf.41.1499708537261;
-	Mon, 10 Jul 2017 10:42:17 -0700 (PDT)
+	Mon, 10 Jul 2017 10:43:08 -0700 (PDT)
+X-Received: by 10.223.139.218 with SMTP id w26mr7561576wra.206.1499708588812; 
+	Mon, 10 Jul 2017 10:43:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.73.84 with HTTP; Mon, 10 Jul 2017 10:42:16 -0700 (PDT)
-In-Reply-To: <ccbf5f4746d009a5424034e6fce978e9f3dea49c.1499294682.git.wei.tee.ng@intel.com>
+Received: by 10.28.73.84 with HTTP; Mon, 10 Jul 2017 10:43:07 -0700 (PDT)
+In-Reply-To: <ee38977370db92520a2e0d81e76189be3661f787.1499294682.git.wei.tee.ng@intel.com>
 References: <cover.1499294682.git.wei.tee.ng@intel.com>
-	<ccbf5f4746d009a5424034e6fce978e9f3dea49c.1499294682.git.wei.tee.ng@intel.com>
-Date: Mon, 10 Jul 2017 14:42:16 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoPHMnbiu8cz+jPUquJEVs4_sbCO7c8W_Xt-LekMwYQDA@mail.gmail.com>
-Message-ID: <CAP9ODKoPHMnbiu8cz+jPUquJEVs4_sbCO7c8W_Xt-LekMwYQDA@mail.gmail.com>
+	<ee38977370db92520a2e0d81e76189be3661f787.1499294682.git.wei.tee.ng@intel.com>
+Date: Mon, 10 Jul 2017 14:43:07 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrfpfKumQpxZgyr46yZtNk08q12WfNYM73E+sn96CTx=w@mail.gmail.com>
+Message-ID: <CAP9ODKrfpfKumQpxZgyr46yZtNk08q12WfNYM73E+sn96CTx=w@mail.gmail.com>
 To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 Cc: Saul Wold <saul.wold@intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/2] initramfs-framework: setup-live: detect media and assign rootfs image
+Subject: Re: [PATCH v3 2/2] initramfs-framwork: module to support boot live image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,128 +70,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 17:42:19 -0000
+X-List-Received-Date: Mon, 10 Jul 2017 17:43:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, Jul 6, 2017 at 3:28 PM,  <wei.tee.ng@intel.com> wrote:
 > From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 >
-> Integrate the featuers in init-live.sh into new scriptlet to handle
-
-typo!
-
-> boot up live image process using framework method.
+> setup-live module is a new module being introduced to integrate the
+> functionality of init-live.sh into new scriptlet in order to
+> support the live boot image. The udev-extraconf rdepends is being
+> added to perform automounting. It gets to run before the rootfs
+> and finish module.
 >
-> This commit include the changes for:
-> - Create a conditional loop for the bootparam_root variable. If it is
-> not set, then it will boot from ROOT_IMAGE. Else, it will boot normally
-> which is not from removable media.
->
-> - Gives a standard path to the original boot disk mount which can be
-> used to. While /media/sda is a good guess, it isn't always right, nor
-> is it a good assumption that only one boot disk is in the system.
->
-> - The current rootfs module has no support for rootfs images, currently
-> it only support for rootfs partitions for wic image. Therefore, there
-> is a need to assign the rootfs image for live image.
+> [YOCTO #11701]
 >
 > Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
-> ---
->  .../initrdscripts/initramfs-framework/setup-live   | 67 ++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
->  create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/setup-live
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-> new file mode 100644
-> index 0000000..16da34a
-> --- /dev/null
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-> @@ -0,0 +1,67 @@
-> +#/bin/sh
-> +# Copyright (C) 2011 O.S. Systems Software LTDA.
-> +# Licensed on MIT
-> +
-> +setup_enabled() {
-> +       return 0
-> +}
-> +
-> +setup_run() {
-> +ROOT_IMAGE="rootfs.img"
-> +ISOLINUX=""
-> +ROOT_DISK=""
-> +shelltimeout=30
 
-Wrong indent
-
-> +       if [ -z $bootparam_root ]; then
-> +               echo "Waiting for removable media..."
-> +               C=0
-> +               while true
-> +               do
-> +                 for i in `ls /run/media 2>/dev/null`; do
-> +                     if [ -f /run/media/$i/$ROOT_IMAGE ] ; then
-> +                               found="yes"
-> +                               ROOT_DISK="$i"
-> +                               break
-> +                         elif [ -f /run/media/$i/isolinux/$ROOT_IMAGE ]; then
-
-Wrong indent
-
-> +                               found="yes"
-> +                               ISOLINUX="isolinux"
-> +                               ROOT_DISK="$i"
-> +                               break
-> +                     fi
-> +                 done
-> +                 if [ "$found" = "yes" ]; then
-> +                     break;
-> +                 fi
-> +                 # don't wait for more than $shelltimeout seconds, if it's set
-> +                 if [ -n "$shelltimeout" ]; then
-> +                     echo -n " " $(( $shelltimeout - $C ))
-> +                     if [ $C -ge $shelltimeout ]; then
-> +                          echo "..."
-> +                          echo "Mounted filesystems"
-> +                          mount | grep media
-> +                          echo "Available block devices"
-> +                          cat /proc/partitions
-> +                          fatal "Cannot find $ROOT_IMAGE file in /run/media/* , dropping to a shell "
-
-IIRC fatal does not drop to a shell, it keeps a loop.
-
-> +                     fi
-> +                     C=$(( C + 1 ))
-> +                 fi
-> +                 sleep 1
-> +               done
-> +
-> +               # The existing rootfs module has no support for rootfs images. Assign the rootfs image.
-> +               bootparam_root="/run/media/$ROOT_DISK/$ISOLINUX/$ROOT_IMAGE"
-> +       else
-> +               break
-> +       fi
-> +
-> +       if [ "$bootparam_LABEL" != "boot" -a -f /init.d/$bootparam_LABEL.sh ] ; then
-> +               if [ -f /run/media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
-> +                   ./init.d/$bootparam_LABEL.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode $console_params
-> +               else
-> +                   fatal "Could not find $bootparam_LABEL script"
-> +               fi
-> +
-> +               # If we're getting here, we failed...
-> +               fatal "Target $bootparam_LABEL failed"
-> +       fi
-> +}
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+I think this patch could be squashed onto the first as it is required
+for it to work.
 
 -- 
 Otavio Salvador                             O.S. Systems
