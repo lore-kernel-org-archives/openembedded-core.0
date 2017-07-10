@@ -1,21 +1,24 @@
-Return-Path: <libertad.cruz@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 43FEF77D3C
+Return-Path: <Lev.Iserovich@deshawresearch.com>
+X-Greylist: delayed 1712 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 10 Jul 2017 21:05:47 UTC
+Received: from drdwsfe1.nyc.desres.deshaw.com (nyvpn.deshawresearch.com
+	[38.109.87.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EFB077D6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 20:37:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga105.fm.intel.com with ESMTP; 10 Jul 2017 13:37:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,342,1496127600"; d="scan'208";a="877347414"
-Received: from liberta1-mobl1.zpn.intel.com ([10.219.128.130])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2017 13:37:01 -0700
-From: libertad.cruz@intel.com
+	Mon, 10 Jul 2017 21:05:47 +0000 (UTC)
+Received: from drdws0019.nyc.desres.deshaw.com
+	(drdws0019.nyc.desres.deshaw.com [149.77.52.116])
+	by drdwsfe1.nyc.desres.deshaw.com (Postfix) with ESMTP id CEBFFEA9FE
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jul 2017 16:37:16 -0400 (EDT)
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jul 2017 15:44:28 -0500
-Message-Id: <1499719468-29553-1-git-send-email-libertad.cruz@intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Libertad Cruz <libertad.cruz@intel.com>
-Subject: [PATCH v3] opkg.py: Adds tests for ipk/opkg
+From: Lev Iserovich <Lev.Iserovich@deshawresearch.com>
+Message-ID: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
+Date: Mon, 10 Jul 2017 16:37:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+Subject: [PATCH] gettext: Enable generation of libasprintf in gettext 0.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,78 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 20:37:01 -0000
+X-List-Received-Date: Mon, 10 Jul 2017 21:05:52 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Libertad Cruz <libertad.cruz@intel.com>
+Libasprintf was included in gettext 0.16 recipe, but omitted for some reason
+in 0.19. This turns it back on.
 
-Adds opkg selftest tests cases which exercises basic functional operation of the opkg package manager.
-
-[YOCTO #11488]
-
-Signed-off-by: Libertad Cruz <libertad.cruz@intel.com>
+Signed-off-by: Lev Iserovich <lev.iserovich@deshawresearch.com>
 ---
- meta/lib/oeqa/runtime/cases/opkg.py | 51 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/opkg.py
+  meta/recipes-core/gettext/gettext_0.19.8.1.bb | 3 +--
+  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
-new file mode 100644
-index 0000000..3e76176
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/opkg.py
-@@ -0,0 +1,51 @@
-+import os
-+import re
-+import subprocess
-+
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
-+from oeqa.runtime.decorator.package import OEHasPackage
-+
-+class opkgTest(OERuntimeTestCase):
-+    def opkg(self, command, expected = 0):
-+        command = 'opkg %s' % command
-+        status, output = self.target.run(command, 1500)
-+        message = os.linesep.join([command, output])
-+        self.assertEqual(status, expected, message)
-+        return output
-+
-+class opkgBasicTest(opkgTest):
-+    @skipIfNotFeature('package-management', 'Test requires package-management to be in IMAGE_FEATURES')
-+    @skipIfNotDataVar('IMAGE_PKGTYPE','ipk', 'IPK is not the primary package manager')
-+    @OEHasPackage(['opkg'])
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OETestID(1841)
-+    def test_opkg_list(self):
-+       self.opkg('list')
-+
-+    @OETestID(1842)
-+    def test_opkg_list_installed(self):
-+       self.opkg('list-installed')
-+
-+    @OETestID(1843)
-+    def test_opkg_depends(self):
-+       self.opkg('depends opkg')
-+
-+    @OETestID(1837)
-+    def test_opkg_whatdepends(self):
-+      self.opkg('whatdepends opkg')
-+
-+    @OETestID(1838)
-+    def test_opkg_status(self):
-+      self.opkg('status')
-+
-+    @OETestID(1839)
-+    def test_opkg_info(self):
-+        self.opkg('info opkg')
-+
-+    @OETestID(1840)
-+    def test_opkg_print_architecture(self):
-+        self.opkg('print-architecture')
+diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb 
+b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+index c2059e6..c7c81ee 100644
+--- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+@@ -28,7 +28,6 @@ inherit autotools texinfo
+
+  EXTRA_OECONF += "--without-lispdir \
+                   --disable-csharp \
+-                 --disable-libasprintf \
+                   --disable-java \
+                   --disable-native-java \
+                   --disable-openmp \
+@@ -81,7 +80,7 @@ FILES_gettext-runtime = "${bindir}/gettext \
+                           ${bindir}/ngettext \
+                           ${bindir}/envsubst \
+                           ${bindir}/gettext.sh \
+-                         ${libdir}/libasprintf.so* \
++                         ${libdir}/libasprintf${SODEV} \
+                           ${libdir}/GNU.Gettext.dll \
+                          "
+  FILES_gettext-runtime-dev += "${libdir}/libasprintf.a \
 -- 
-2.1.4
+2.7.1
 
 
