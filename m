@@ -1,24 +1,18 @@
-Return-Path: <Lev.Iserovich@deshawresearch.com>
-X-Greylist: delayed 1712 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 10 Jul 2017 21:05:47 UTC
-Received: from drdwsfe1.nyc.desres.deshaw.com (nyvpn.deshawresearch.com
-	[38.109.87.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EFB077D6B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 21:05:47 +0000 (UTC)
-Received: from drdws0019.nyc.desres.deshaw.com
-	(drdws0019.nyc.desres.deshaw.com [149.77.52.116])
-	by drdwsfe1.nyc.desres.deshaw.com (Postfix) with ESMTP id CEBFFEA9FE
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 16:37:16 -0400 (EDT)
-To: openembedded-core@lists.openembedded.org
-From: Lev Iserovich <Lev.Iserovich@deshawresearch.com>
-Message-ID: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
-Date: Mon, 10 Jul 2017 16:37:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B16C77629;
+	Mon, 10 Jul 2017 21:31:18 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] gettext: Enable generation of libasprintf in gettext 0.19
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Lev Iserovich <Lev.Iserovich@deshawresearch.com>
+Date: Mon, 10 Jul 2017 21:31:19 -0000
+Message-ID: <20170710213119.2381.49390@do.openembedded.org>
+References: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2V0dGV4dDogRW5hYmxlIGdlbmVyYXRpb24gb2YgbGliYXNwcmludGYgaW4gZ2V0dGV4dCAwLjE5?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 21:05:52 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 10 Jul 2017 21:31:18 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Libasprintf was included in gettext 0.16 recipe, but omitted for some reason
-in 0.19. This turns it back on.
+== Series Details ==
 
-Signed-off-by: Lev Iserovich <lev.iserovich@deshawresearch.com>
+Series: gettext: Enable generation of libasprintf in gettext 0.19
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7657/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 7dd5dfc4d5)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-  meta/recipes-core/gettext/gettext_0.19.8.1.bb | 3 +--
-  1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb 
-b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-index c2059e6..c7c81ee 100644
---- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
-@@ -28,7 +28,6 @@ inherit autotools texinfo
-
-  EXTRA_OECONF += "--without-lispdir \
-                   --disable-csharp \
--                 --disable-libasprintf \
-                   --disable-java \
-                   --disable-native-java \
-                   --disable-openmp \
-@@ -81,7 +80,7 @@ FILES_gettext-runtime = "${bindir}/gettext \
-                           ${bindir}/ngettext \
-                           ${bindir}/envsubst \
-                           ${bindir}/gettext.sh \
--                         ${libdir}/libasprintf.so* \
-+                         ${libdir}/libasprintf${SODEV} \
-                           ${libdir}/GNU.Gettext.dll \
-                          "
-  FILES_gettext-runtime-dev += "${libdir}/libasprintf.a \
--- 
-2.7.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
