@@ -1,18 +1,21 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DA35177D67;
-	Mon, 10 Jul 2017 20:31:17 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: libertad.cruz@intel.com
-Date: Mon, 10 Jul 2017 20:31:19 -0000
-Message-ID: <20170710203119.2380.15895@do.openembedded.org>
-References: <1499718149-29243-1-git-send-email-libertad.cruz@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1499718149-29243-1-git-send-email-libertad.cruz@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZy5weSBBZGRzIHRlc3RzIGZvciBpcGsvb3BrZyAocmV2Mik=?=
+Return-Path: <libertad.cruz@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 43FEF77D3C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jul 2017 20:37:00 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 10 Jul 2017 13:37:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,342,1496127600"; d="scan'208";a="877347414"
+Received: from liberta1-mobl1.zpn.intel.com ([10.219.128.130])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2017 13:37:01 -0700
+From: libertad.cruz@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Jul 2017 15:44:28 -0500
+Message-Id: <1499719468-29553-1-git-send-email-libertad.cruz@intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Libertad Cruz <libertad.cruz@intel.com>
+Subject: [PATCH v3] opkg.py: Adds tests for ipk/opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +28,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 20:31:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Jul 2017 20:37:01 -0000
 
-== Series Details ==
+From: Libertad Cruz <libertad.cruz@intel.com>
 
-Series: opkg.py Adds tests for ipk/opkg (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/7654/
-State : failure
+Adds opkg selftest tests cases which exercises basic functional operation of the opkg package manager.
 
-== Summary ==
+[YOCTO #11488]
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [v2] opkg.py Adds tests for ipk/opkg
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Libertad Cruz <libertad.cruz@intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oeqa/runtime/cases/opkg.py | 51 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/opkg.py
+
+diff --git a/meta/lib/oeqa/runtime/cases/opkg.py b/meta/lib/oeqa/runtime/cases/opkg.py
+new file mode 100644
+index 0000000..3e76176
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/opkg.py
+@@ -0,0 +1,51 @@
++import os
++import re
++import subprocess
++
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.oeid import OETestID
++from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class opkgTest(OERuntimeTestCase):
++    def opkg(self, command, expected = 0):
++        command = 'opkg %s' % command
++        status, output = self.target.run(command, 1500)
++        message = os.linesep.join([command, output])
++        self.assertEqual(status, expected, message)
++        return output
++
++class opkgBasicTest(opkgTest):
++    @skipIfNotFeature('package-management', 'Test requires package-management to be in IMAGE_FEATURES')
++    @skipIfNotDataVar('IMAGE_PKGTYPE','ipk', 'IPK is not the primary package manager')
++    @OEHasPackage(['opkg'])
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OETestID(1841)
++    def test_opkg_list(self):
++       self.opkg('list')
++
++    @OETestID(1842)
++    def test_opkg_list_installed(self):
++       self.opkg('list-installed')
++
++    @OETestID(1843)
++    def test_opkg_depends(self):
++       self.opkg('depends opkg')
++
++    @OETestID(1837)
++    def test_opkg_whatdepends(self):
++      self.opkg('whatdepends opkg')
++
++    @OETestID(1838)
++    def test_opkg_status(self):
++      self.opkg('status')
++
++    @OETestID(1839)
++    def test_opkg_info(self):
++        self.opkg('info opkg')
++
++    @OETestID(1840)
++    def test_opkg_print_architecture(self):
++        self.opkg('print-architecture')
+-- 
+2.1.4
 
 
