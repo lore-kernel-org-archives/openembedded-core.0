@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D7EAF77D24;
-	Mon, 10 Jul 2017 20:31:16 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id DA35177D67;
+	Mon, 10 Jul 2017 20:31:17 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: libertad.cruz@intel.com
-Date: Mon, 10 Jul 2017 20:31:18 -0000
-Message-ID: <20170710203118.2383.52636@do.openembedded.org>
-References: <1499717334-28936-1-git-send-email-libertad.cruz@intel.com>
+Date: Mon, 10 Jul 2017 20:31:19 -0000
+Message-ID: <20170710203119.2380.15895@do.openembedded.org>
+References: <1499718149-29243-1-git-send-email-libertad.cruz@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1499717334-28936-1-git-send-email-libertad.cruz@intel.com>
+In-Reply-To: <1499718149-29243-1-git-send-email-libertad.cruz@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZy5weSBBZGRzIHRlc3RzIGZvciBpcGsvb3BrZw==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZy5weSBBZGRzIHRlc3RzIGZvciBpcGsvb3BrZyAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 20:31:17 -0000
+X-List-Received-Date: Mon, 10 Jul 2017 20:31:18 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: opkg.py Adds tests for ipk/opkg
-Revision: 1
+Series: opkg.py Adds tests for ipk/opkg (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/7654/
 State : failure
 
@@ -45,13 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            opkg.py Adds tests for ipk/opkg
+* Patch            [v2] opkg.py Adds tests for ipk/opkg
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-* Patch            opkg.py Adds tests for ipk/opkg
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
 
 
