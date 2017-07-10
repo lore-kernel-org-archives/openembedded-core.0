@@ -1,48 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C69F77A56
+Return-Path: <gizero@gmail.com>
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 51B9971993
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 14:03:45 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id g21so10672276lfk.1
+	Mon, 10 Jul 2017 14:43:30 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id l21so5449226ywb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 07:03:46 -0700 (PDT)
+	Mon, 10 Jul 2017 07:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=o1quvw1dLywNjnwxsB2K48+FfTGBMTnnHsX2uZZNJa0=;
-	b=REsr8+tAvv1nfo7QSr7E8iQANTtxoiWQWD/81fo8x+h1OxjPP0SOcbK6XqVI0yi5H3
-	j2gA2lhmFoOsOtp3KLelJXW0UoKxDfALZJ+x/fzNReyI3fnT8dU7uc5A1vLM4TXs8oj0
-	HSYIFvNAfDsRi+jtw22b0UDJYCEwlZoMWoSQKNVzNtVx4Re527757NCi1taii0c/tTuQ
-	+zTWUbK/EpeHTtLve3XN/KRfqFwoPRnhTHG2ffHUH7aC48anDqoMZMdSQ6iRC2gRUpcK
-	zSOPzqyq2+P2nnGMv7MEgKBtu47uLYjV7vLqy6IkySHRGE0jSF8c/e+DdujAL1PRenD4
-	XGoA==
+	:cc; bh=OGIuuxaB2cmGRubW2I4dbEFiFhxOEntyk0RiQQcHTuU=;
+	b=gyBPFWtkkGTS4AHaJ35YyR6o+61QClGaP56dNR9+BB2JbuOl2RrItMn2vCBnXooa9E
+	xcFAP/lgUdBhTiJDyC6LFCwpV/B7STpc+Stsp1cWXvmvPJUdqaCyUjGhT7fqmQVCpu4U
+	cRHUwjp5ccsC3mHiHxZ/JIS6pe6VNT9XV+i/jjlSZaLauYGd1SAGSD+AdbESe4Pf6Xz8
+	W/fb9+/cRLaTPq42nSKgIiX6ipgSjXgx2emVOnfq3rrckasLUfYbtj6Dpii2eHJZWSqb
+	Dq5wH+MmvPesGH2AjoGipIfUfyhHR98ptGgDJaRRkyYz+im89vwSli94gaR/Az/kp4th
+	/BXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=o1quvw1dLywNjnwxsB2K48+FfTGBMTnnHsX2uZZNJa0=;
-	b=mM792aZIw4qeNOKJvx9OmLihpLz0F9UCsh9kL9FvnyYmZ3fXGjhdJLKiFduZfzeKow
-	dUGoW6xgao4z0r1H7toViM0he2ezctJ+tZYa5t3OK6kQgJO+xN8/q0CLvGxmaBUHv/Ws
-	3/NeZDKR7Osg2dcHfA9+Xa98+SryW5otOySK2vLzDi67SL9MQXczeBJbACTCAtbqHK2A
-	wlxx9Qyp3cbQd3YkLFnVv6AZrbIHnMhXmffWU+LWVphLRbTgrbV0c3mNNj1QCvGZBLYJ
-	mbl9tsGMsdcTFRz5UfEVoR3cTrXPghvf8IRGsmwPyt1XPjxebybDqz4orcZaXVXXn6JS
-	5ZPw==
-X-Gm-Message-State: AIVw112orLK5qTu13bJZk5fpwDqmZrTaM716T9JHTJHZaSSm9O/MOg0m
-	WgIDbt/1+YO/dD6E/Y+0npI8hpjOMA==
-X-Received: by 10.80.140.204 with SMTP id r12mr11791351edr.123.1499695425774; 
-	Mon, 10 Jul 2017 07:03:45 -0700 (PDT)
+	bh=OGIuuxaB2cmGRubW2I4dbEFiFhxOEntyk0RiQQcHTuU=;
+	b=NXJluV41obFVr8zOEhxukz/iF8waburuKzv67DLJfnlba/StXyAiJ1IS4+DATGbHdb
+	V1SbCnDfayRW7DnwPDZak6rCOdemgrYi0cNQwZTu8SjsLsJAfNPPoD83Q8PA0yGm+r4v
+	IqViJF8g2nBHJN11C5ksja6YX0x2JjDZhJv7yYGkR7OmmDRF59bjRHkeKcQApEohkW5N
+	XKHqoVxvzuRk2LoNQbUYiOLl9bCSeS4AZYneV7sDaLAoURBoIO6XJvUIE8otQfcyxolU
+	FtR8EOo64Kn10ZWC7deGTNSmrFc7tGhYI5Agyf9OU62WFqf1QDk/X1bUXJAt0i6mzJQ1
+	6T6A==
+X-Gm-Message-State: AIVw111eYkAfdCkuj5vrIzVuhJkF9au7hmym3gmCgltxSGs0flsmQx21
+	ZL6IU+A7dad5eOZ+VVC87SmZ1Kt96A==
+X-Received: by 10.129.125.139 with SMTP id y133mr937500ywc.37.1499697811792;
+	Mon, 10 Jul 2017 07:43:31 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.145.210 with HTTP; Mon, 10 Jul 2017 07:03:15 -0700 (PDT)
-In-Reply-To: <CAJTo0LbOPpCmOLoVnS5iWT-4=SjCyCSBQntfFFR1ZWwCxeZt7w@mail.gmail.com>
-References: <cover.1499520469.git.raj.khem@gmail.com>
-	<c5c0b5ea6f1706acd5966c32ef03d8d88a54171a.1499520469.git.raj.khem@gmail.com>
-	<CAJTo0LbOPpCmOLoVnS5iWT-4=SjCyCSBQntfFFR1ZWwCxeZt7w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Jul 2017 07:03:15 -0700
-Message-ID: <CAMKF1sp=XFSfntg_3TMUNdU47-tUT1v3n0q8BSVK9VDpJseQfQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/10] glibc: Upgrade to 2.25.90
+Received: by 10.13.200.129 with HTTP; Mon, 10 Jul 2017 07:43:31 -0700 (PDT)
+In-Reply-To: <CAP9ODKqs=wFxh=ejUbChSqVqB+HVa08bZ8c517tZ_3HBj5oovQ@mail.gmail.com>
+References: <1499687648-44734-1-git-send-email-jussi.kukkonen@intel.com>
+	<CAP9ODKqs=wFxh=ejUbChSqVqB+HVa08bZ8c517tZ_3HBj5oovQ@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Mon, 10 Jul 2017 16:43:31 +0200
+Message-ID: <CAC+thW04UphJUQ2Fvj2KeryRmaQi1GY6vjve013S-BqxHKtKcg@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Split --with-platforms from egl PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,25 +56,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 14:03:46 -0000
+X-List-Received-Date: Mon, 10 Jul 2017 14:43:32 -0000
+Content-Type: multipart/alternative; boundary="001a1149d96e57c23c0553f79b27"
+
+--001a1149d96e57c23c0553f79b27
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 10, 2017 at 5:12 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 8 July 2017 at 14:34, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> +SRCREV_localedef ?= "51e945a8f950a6695754b11c1e6fba8bb750e100"
->
->
-> ERROR: cross-localedef-native-2.25.90-r0 do_fetch: Fetcher failure: Unable
-> to find revision 51e945a8f950a6695754b11c1e6fba8bb750e100 in branch master
-> even from upstream
->
-> Did you push?
+On Mon, Jul 10, 2017 at 3:32 PM, Otavio Salvador <otavio.salvador@ossystems.
+com.br> wrote:
 
-A botched up squash and merge instead of a simple rebase caused this.
-updates the pull with right SRCREVs now. Can you retry ?
-
+> On Mon, Jul 10, 2017 at 8:54 AM, Jussi Kukkonen
+> <jussi.kukkonen@intel.com> wrote:
+> > Mesa platforms no longer depend directly on egl. Current
+> > implementation breaks without egl with x11 (which can happen with
+> > mesa-gl).
+> >
+> > Separate the platform selection. Make drm platform depend on gbm
+> > PACKAGECONFIG by default.
+> >
+> > Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> > ---
 >
-> Ross
+> I tested it here and seems good. Ross please put this on MUT so we can
+> merge it soon.
+>
 
+I also tested it and solves the issue seen with meta-raspberrypi builds.
+
+--001a1149d96e57c23c0553f79b27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
+on, Jul 10, 2017 at 3:32 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salva=
+dor@ossystems.<wbr>com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><span>On Mon, Jul 10, 2017 at 8:54 AM, Jussi Kukkonen<br>
+&lt;<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kuk=
+konen@intel.com</a>&gt; wrote:<br>
+&gt; Mesa platforms no longer depend directly on egl. Current<br>
+&gt; implementation breaks without egl with x11 (which can happen with<br>
+&gt; mesa-gl).<br>
+&gt;<br>
+&gt; Separate the platform selection. Make drm platform depend on gbm<br>
+&gt; PACKAGECONFIG by default.<br>
+&gt;<br>
+&gt; Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@int=
+el.com" target=3D"_blank">jussi.kukkonen@intel.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+</span>I tested it here and seems good. Ross please put this on MUT so we c=
+an<br>
+merge it soon.<br></blockquote></div><br></div><div class=3D"gmail_extra">I=
+ also tested it and solves the issue seen with meta-raspberrypi builds.<br>=
+</div></div>
+
+--001a1149d96e57c23c0553f79b27--
