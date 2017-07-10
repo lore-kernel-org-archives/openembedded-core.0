@@ -1,50 +1,24 @@
-Return-Path: <alexandru.vasiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 065ED719AF
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E80777AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 08:37:53 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	v6A8a788025357 for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 03:37:54 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2bm2x0rd7x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 03:37:54 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v6A8brFr018714
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Mon, 10 Jul 2017 10:31:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6AAVi9X018860
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 03:37:53 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 10 Jul 2017 03:37:52 -0500
-Received: from avasiuPC.natinst.com (130.164.49.7) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Mon, 10 Jul 2017 03:37:51 -0500
-From: Alexandru Vasiu <alexandru.vasiu@ni.com>
+	Mon, 10 Jul 2017 03:31:44 -0700
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 10 Jul 2017 03:31:43 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Jul 2017 11:37:40 +0300
-Message-ID: <20170710083740.6629-1-alexandru.vasiu@ni.com>
-X-Mailer: git-send-email 2.13.2
+Date: Mon, 10 Jul 2017 03:31:42 -0700
+Message-ID: <cover.1499682633.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-07-10_03:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1703280000 definitions=main-1707100155
-Cc: will.page@ni.com
-Subject: [PATCHv2] dkms: Add new recipe for supporting dkms
+Subject: [PATCH 0/1] libiconv: remove 0001-Fix-link-error-when-compiling-with-gcc-O0.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,91 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 08:37:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Jul 2017 10:31:43 -0000
+Content-Type: text/plain
 
-Dkms is a tool used to compile out of tree modules directly on
-target devices (sometimes you have sources or binaries which
-need to be compiled directly on target, outside OE).
-I used a simple module and a dkms config to test it, and dkms
-compiled and installed the module on target.
+The following changes since commit 7dd5dfc4d56f1201110d947ce1ca3c6d64fbc7da:
 
-For example:
-.
-├── dkms.conf
-└── src
-    ├── hello.c
-    └── Makefile
+  oeqa/tinfoil: Improve test_wait_event for race issues (2017-07-08 13:34:00 +0100)
 
-hello.c:
-	#include <linux/module.h>
+are available in the git repository at:
 
-	int init_module(void)
-	{
-		printk("Hello World!\n");
-		return 0;
-	}
+  git://git.openembedded.org/openembedded-core-contrib rbt/libiconv
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/libiconv
 
-	void cleanup_module(void)
-	{
-		printk("Goodbye Cruel World!\n");
-	}
+Robert Yang (1):
+  libiconv: remove 0001-Fix-link-error-when-compiling-with-gcc-O0.patch
 
-	MODULE_LICENSE("GPL");
+ ...Fix-link-error-when-compiling-with-gcc-O0.patch | 36 ----------------------
+ 1 file changed, 36 deletions(-)
+ delete mode 100644 meta/recipes-support/libiconv/libiconv-1.14/0001-Fix-link-error-when-compiling-with-gcc-O0.patch
 
-Makefile:
-	obj-m += hello.o
-
-	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-
-	PWD := $(shell pwd)
-
-	install:
-		$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
-
-	clean:
-		rm -rf *.o *.ko *~ core .depend .*.cmd *.mod.c modules.order Module.symvers
-
-dkms.conf:
-	MAKE="make -C src/ KERNELDIR=/lib/modules/${kernelver}/build"
-	CLEAN="make -C src/ clean"
-	BUILT_MODULE_NAME=hello
-	DEST_MODULE_LOCATION=/kernel/drivers/scsi
-	BUILT_MODULE_LOCATION=src/
-	PACKAGE_NAME=hello
-	PACKAGE_VERSION=0.1
-	AUTOINSTALL=yes
-	REMAKE_INITRD=yes
-
-All files should be in /usr/src/<package-name>-<package-version>,
-in our case in /urs/src/hello-0.1.
-
-Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
----
- meta/recipes-kernel/dkms/dkms_2.4.0.bb | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
- create mode 100644 meta/recipes-kernel/dkms/dkms_2.4.0.bb
-
-diff --git a/meta/recipes-kernel/dkms/dkms_2.4.0.bb b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
-new file mode 100644
-index 0000000000..78b23c43e9
---- /dev/null
-+++ b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "DKMS Recipe - Adds DKMS tool for target"
-+HOMEPAGE = "https://github.com/dell/dkms/"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
-+
-+SRC_URI = "https://github.com/dell/${PN}/archive/v${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "d2e74dd79086c564a924b5763794091b"
-+
-+RDEPENDS_${PN} += "bash kmod gcc make patch"
-+
-+inherit autotools-brokensep
 -- 
-2.13.2
+2.10.2
 
 
