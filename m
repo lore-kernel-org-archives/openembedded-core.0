@@ -1,46 +1,25 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 621E577D6B
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 87D5D7198A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 10:47:00 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id k67so132688789wrc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 03:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=MasIiATivWIqG3kKbkpLM41tp2UIAUp3uz4dQk1ekqw=;
-	b=ijtPaH1zBpawXvQedl+Z6ZIHUUvOPaoBEUta9gz8un8Gqq7pxir+fblTm3ypP3WmpG
-	TXV6liWFo9TN6HFE5slHJJrBt93e0zwkSRGHEse48nRKzdBCtN+ynxWr4BBrY5KNU961
-	Uba5C16SHs3gc/rdGcJo3fvGaukvkmS/sC/xnU6L9xoJK9wemIRTNITvCnRT2TzT8w2u
-	miObi+2C1aCB0IVOnQ00LP4534+eMwovu1EysxP1itDujoQdD94INb9Z+nm5lUdNGNgB
-	YWElzdpnVXDbYChYaBvjbSxZ38l5LKGQEdRgNnF/sW1xkCvfod2MsicnTzxH0dPEGpxq
-	qvlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=MasIiATivWIqG3kKbkpLM41tp2UIAUp3uz4dQk1ekqw=;
-	b=nBR0VYSOjaIK4vZ5avfxCnoCkLZqBsAHkQPxyQOjDgUA7kH9//8cS9f8ZbqNsGaPWQ
-	Rfafc9pFFex464Mwyg2/bXJVw+4XuHI8rNDKTpKjzoLw512EV1Xww12ZxkA5/LunhLSI
-	aRTaIm0euYSvUpssZnuOUrej3RQnYI0+Nb1ccWpNiMgY/qhfca0eBg6EcWvzI10vAkdd
-	V5exO38xtyeHXqs8uc5reWHZ4dfdCNbXtyon3SuEuwqgF/EymwF97p6yLqVUqKNIPIaf
-	88UUE99td+YriZS34UdbKBIkjd5oX3yF6JeOUVbqGBdmGSu4kYEvfaTPpDL2j87vVlFf
-	dv2w==
-X-Gm-Message-State: AIVw110hYd8CkoHKfaiamNtqMYeFbcWVA9GLUz6AxZ4wbATkFNDQe5ww
-	4LlRm1hUFCwj2I4CiqI=
-X-Received: by 10.28.7.211 with SMTP id 202mr7312463wmh.113.1499683621790;
-	Mon, 10 Jul 2017 03:47:01 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	55sm17242568wrt.36.2017.07.10.03.47.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 10 Jul 2017 03:47:01 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jul 2017 12:45:33 +0200
-Message-Id: <20170710104533.15467-1-freesilicon@gmail.com>
-X-Mailer: git-send-email 2.13.2
-Subject: [PATCH] initscripts: start bootmisc.sh at 36 instead of 55
+	Mon, 10 Jul 2017 11:54:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jul 2017 04:54:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,340,1496127600"; d="scan'208";a="1170678267"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2017 04:54:13 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 4754C5804D2;
+	Mon, 10 Jul 2017 04:54:11 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org, gizero@gmail.com,
+	otavio@ossystems.com.br
+Date: Mon, 10 Jul 2017 14:54:08 +0300
+Message-Id: <1499687648-44734-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] mesa: Split --with-platforms from egl PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,40 +32,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 10:47:02 -0000
+X-List-Received-Date: Mon, 10 Jul 2017 11:54:13 -0000
 
-bootmisc.sh is responsible for setting the system date to a sane
-default. Currently, it is the last script to be run from the rcS
-runlevel.
+Mesa platforms no longer depend directly on egl. Current
+implementation breaks without egl with x11 (which can happen with
+mesa-gl).
 
-Problem is that the files created before appear to have been created
-on 1/1/1970. Most notably, /var/log/dmesg created in dmesg.sh cannot be
-properly rotated with logrotate which does not consider it a valid date
-and stops processing.
+Separate the platform selection. Make drm platform depend on gbm
+PACKAGECONFIG by default.
 
-There is no blocker on moving this script right before populating
-volatiles because it just requires the local and virtual filesystems to
-be mounted to work.
-
-Signed-off-by: David Vincent <freesilicon@gmail.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 2e4f7e4669..a65f1b24a5 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -134,7 +134,7 @@ do_install () {
- 	update-rc.d -r ${D} mountall.sh start 03 S .
- 	update-rc.d -r ${D} hostname.sh start 39 S .
- 	update-rc.d -r ${D} mountnfs.sh start 15 2 3 4 5 .
--	update-rc.d -r ${D} bootmisc.sh start 55 S .
-+	update-rc.d -r ${D} bootmisc.sh start 36 S .
- 	update-rc.d -r ${D} sysfs.sh start 02 S .
- 	update-rc.d -r ${D} populate-volatile.sh start 37 S .
- 	update-rc.d -r ${D} read-only-rootfs-hook.sh start 29 S .
+This keeps the defaults as they were (compared to upstreams probing
+approach we skip 'surfaceless' platform), and mesa-gl should now
+be fine as well.
+
+Cheers,
+  Jussi
+
+
+ meta/recipes-graphics/mesa/mesa.inc | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 59e8923..1b712a2 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,12 @@ inherit autotools pkgconfig gettext distro_features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+-EXTRA_OECONF = "--enable-shared-glapi --with-llvm-prefix=${STAGING_BINDIR_NATIVE}"
++PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
++               ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)}"
++
++EXTRA_OECONF = "--enable-shared-glapi \
++                --with-llvm-prefix=${STAGING_BINDIR_NATIVE} \
++                --with-platforms='${PLATFORMS}'"
+ 
+ PACKAGECONFIG ??= "gbm egl gles dri \
+ 		${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11 vulkan', d)} \
+@@ -47,10 +52,7 @@ PACKAGECONFIG[vulkan] = "--with-vulkan-drivers=intel, --without-vulkan-drivers"
+ 
+ PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
+ 
+-EGL_PLATFORMS  = "drm"
+-EGL_PLATFORMS .="${@bb.utils.contains('PACKAGECONFIG', 'x11', ',x11', '', d)}"
+-EGL_PLATFORMS .="${@bb.utils.contains('PACKAGECONFIG', 'wayland', ',wayland', '', d)}"
+-PACKAGECONFIG[egl] = "--enable-egl --with-platforms=${EGL_PLATFORMS}, --disable-egl --with-platforms=''"
++PACKAGECONFIG[egl] = "--enable-egl, --disable-egl"
+ 
+ PACKAGECONFIG[etnaviv] = ""
+ PACKAGECONFIG[imx] = ""
 -- 
-2.13.2
+2.1.4
 
 
