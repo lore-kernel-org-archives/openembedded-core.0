@@ -1,22 +1,22 @@
 Return-Path: <libertad.cruz@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 77C7577D30
+	by mail.openembedded.org (Postfix) with ESMTP id 8DD4777D2F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 20:01:18 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	Mon, 10 Jul 2017 20:14:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jul 2017 13:01:20 -0700
+	10 Jul 2017 13:15:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,342,1496127600"; d="scan'208";a="125478944"
+X-IronPort-AV: E=Sophos;i="5.40,342,1496127600"; d="scan'208";a="1150111202"
 Received: from liberta1-mobl1.zpn.intel.com ([10.219.128.130])
-	by fmsmga006.fm.intel.com with ESMTP; 10 Jul 2017 13:01:19 -0700
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2017 13:15:00 -0700
 From: libertad.cruz@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jul 2017 15:08:54 -0500
-Message-Id: <1499717334-28936-1-git-send-email-libertad.cruz@intel.com>
+Date: Mon, 10 Jul 2017 15:22:29 -0500
+Message-Id: <1499718149-29243-1-git-send-email-libertad.cruz@intel.com>
 X-Mailer: git-send-email 2.1.4
 Cc: Libertad Cruz <libertad.cruz@intel.com>
-Subject: [PATCH] opkg.py Adds tests for ipk/opkg
+Subject: [PATCH v2] opkg.py Adds tests for ipk/opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,12 +29,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 20:01:20 -0000
+X-List-Received-Date: Mon, 10 Jul 2017 20:15:00 -0000
 
 From: Libertad Cruz <libertad.cruz@intel.com>
 
-Adds opkg selftest tests cases which exercises basic functional operation of the opkg package manager
+Adds opkg selftest tests cases which exercises basic functional operation of the opkg package manager.
+
 [YOCTO #11488]
+
+Signed-off-by: Libertad Cruz <libertad.cruz@intel.com>
 ---
  meta/lib/oeqa/runtime/cases/opkg.py | 51 +++++++++++++++++++++++++++++++++++++
  1 file changed, 51 insertions(+)
