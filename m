@@ -1,35 +1,38 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E938277D21
+Return-Path: <jan.kiszka@web.de>
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6786277D11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 19:14:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 71CCD20BCC;
-	Mon, 10 Jul 2017 19:14:34 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id fAVl3poTyDer; Mon, 10 Jul 2017 19:14:34 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3F52520645;
-	Mon, 10 Jul 2017 19:14:31 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id C06AB162525; Mon, 10 Jul 2017 15:14:30 -0400 (EDT)
-Date: Mon, 10 Jul 2017 15:14:30 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Marek Vasut <marex@denx.de>
-Message-ID: <20170710191430.GI28053@denix.org>
-References: <20170710183657.12885-1-otavio@ossystems.com.br>
-	<1d8dd351-0d96-0766-1beb-6ac621a6bfe4@denx.de>
-MIME-Version: 1.0
-In-Reply-To: <1d8dd351-0d96-0766-1beb-6ac621a6bfe4@denx.de>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Upgrade to 2017.07 release (WIP)
+	Mon, 10 Jul 2017 19:42:40 +0000 (UTC)
+Received: from md1f2u6c.home ([95.157.57.47]) by smtp.web.de (mrweb103
+	[213.165.67.124]) with ESMTPSA (Nemesis) id 0LvSLn-1dcS3N1k4x-010gUw
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jul 2017 21:37:38 +0200
+From: Jan Kiszka <jan.kiszka@web.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Jul 2017 21:37:29 +0200
+Message-Id: <952454ab377f01903de390afda19fa9b5b004af5.1499715449.git.jan.kiszka@web.de>
+X-Mailer: git-send-email 2.12.3
+In-Reply-To: <cover.1499715449.git.jan.kiszka@web.de>
+References: <cover.1499715449.git.jan.kiszka@web.de>
+In-Reply-To: <cover.1499715449.git.jan.kiszka@web.de>
+References: <cover.1499715449.git.jan.kiszka@web.de>
+X-Provags-ID: V03:K0:w/sj0HxG6XKyYzR0zn/Tvz9+5g87TEyYz4KfogqiRkvi63arWVf
+	pMUnLq3mBmj5c+e5BH92bXAv8WXJk7cH9idfSDD13DuDbQN5LZw3DQN7AHjMbLhK46BiGkW
+	Rlqmnwy5nkbpc6oSCSjCnmM24L041xTC/AiNUF47TsxZRNzCT1HKpETxDEMDSBXmMZC0x77
+	+XXKu+u9Hm0w3WHryGVag==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:aaTpeu7rf+s=:1GtRfhELtiN+ef3SNDjeEa
+	6TutsZNFiufqSUv8i2txGTYo+8CvU8ey7oO7IzZxckTJ0+1D3bX4z4JZ9Gm4lElrEuWHqblQK
+	VuErqafs09ocjkMKSYoCzwtEd/jQETGgYlG7fi4PbfNCDmiM89xWlspg44KGHJNuGtEgXjGTY
+	RfVtfCWVtcF5pQREFgJ9Wh9eFFqBmxB45HTEYzWzu9CXZEDFpQXCYIzzwPu5/Y90QsnnZsHh/
+	1MM02Ml4ACn8nQrLokY8cl6MfbbVfcp2H97fQWKUqxuZ9nhFXhvemVr2OjyO0Bdd2xFQZztTd
+	S7gv/OEOvNvHtSxJTOYTlGgd569OI4yioBVqMshYdQ8fa2+x+i2PrrLse+/zdzqpLoXD2+Ykk
+	8qBqu1JyJQoaRBg+yHofhIhbU95x2blhf23P0T4zq2O1z06Fi/ba6HNfll4VOskVN4lHNIjIB
+	U5E+aWIg8UO37WITUn3iTEGX0jxifKUPEcgB7VnTBTp23kuZOqQQR0NgAnYKAaX+VSMCm4iqa
+	vcBkueShnBH4doyf/ARwDloYN7kd0X2m5JTmYTWvv3qW4WTedvPOCh5SYF0Mo3x3u+vKdyWJ1
+	Y3g8YLq5Y+JOjuCnLe18M17KssZx9OJN7KOZoHQ/yFuvGVrKweU3vkSdPEk9kzOijAioWq4wg
+	uvKqrWtRsAOneIyCrLRaYVg5SFudA64Ub9KaMBhhAFNhmtyvfw+uYaiHNeiCq2cklhsDov4eh
+	RdwFC7ThpKtZOPZdHvYEvvgmM/lYYJTD063NmPRfbgf+YgFfqQc4Y5odr6k=
+Subject: [PATCH 3/3] rng-tools: Add support for Atheros 9170 hwrng
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 19:14:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 10 Jul 2017 19:42:42 -0000
 
-On Mon, Jul 10, 2017 at 08:47:23PM +0200, Marek Vasut wrote:
-> On 07/10/2017 08:36 PM, Otavio Salvador wrote:
-> > This patch upgrades the U-Boot to the 2017.07 release.
-> > 
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > ---
-> > 
-> >  .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
-> >  .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
-> >  .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
-> >  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
-> >  4 files changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc} (88%)
-> >  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb} (100%)
-> >  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb} (100%)
-> >  rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb} (100%)
-> > 
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > similarity index 88%
-> > rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
-> > rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > index 0e52f27df8..f27989daa1 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > @@ -7,7 +7,7 @@ PE = "1"
-> >  
-> >  # We use the revision in order to avoid having to fetch it from the
-> >  # repo during parse
-> > -SRCREV = "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
-> > +SRCREV = "d85ca029f257b53a96da6c2fb421e78a003a9943"
-> 
-> Where did you get this hash from, it's not in the U-Boot repo ...
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
-As it happens, git://git.denx.de/u-boot.git hasn't been updated yet, so this 
-patch will fail!
+Useful only on devices with no other sources: USB WLAN sticks based on
+the Atheros 9170 (carl9170 kernel driver) provide a hardware random
+generator. However, the interface needs to be up in order to is the
+generator. That's not the case until ifup ran, but wpa_supplicant will
+block this until the random pool is initialized.
 
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+---
+ meta/recipes-support/rng-tools/rng-tools/default | 4 ++++
+ meta/recipes-support/rng-tools/rng-tools/init    | 3 +++
+ 2 files changed, 7 insertions(+)
 
-> >  SRC_URI = "git://git.denx.de/u-boot.git \
-> >      file://MPC8315ERDB-enable-DHCP.patch \
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
-> > similarity index 100%
-> > rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
-> > rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
-> > similarity index 100%
-> > rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.05.bb
-> > rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot_2017.07.bb
-> > similarity index 100%
-> > rename from meta/recipes-bsp/u-boot/u-boot_2017.05.bb
-> > rename to meta/recipes-bsp/u-boot/u-boot_2017.07.bb
-> > 
-> 
-> 
-> -- 
-> Best regards,
-> Marek Vasut
-> 
+diff --git a/meta/recipes-support/rng-tools/rng-tools/default b/meta/recipes-support/rng-tools/rng-tools/default
+index b968f2b789..85c5833a32 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/default
++++ b/meta/recipes-support/rng-tools/rng-tools/default
+@@ -4,3 +4,7 @@ RNG_DEVICE=/dev/hwrng
+ # Don't use urandom as source unless you fully understood what that does to
+ # your system security!
+ #RNG_DEVICE=/dev/urandom
++
++# Specify wlan interface to enable if rngd should use Atheros 9170 as source.
++# See kernel config help for the security limitations of this.
++#CARL9170_HWRNG_INTERFACE="wlan0"
+diff --git a/meta/recipes-support/rng-tools/rng-tools/init b/meta/recipes-support/rng-tools/rng-tools/init
+index 7cf78393a4..30cfc0f3d5 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/init
++++ b/meta/recipes-support/rng-tools/rng-tools/init
+@@ -20,6 +20,9 @@ fi
+ case "$1" in
+   start)
+     echo -n "Starting random number generator daemon"
++    if [ -n "$CARL9170_HWRNG_INTERFACE" ]; then
++        ip link set $CARL9170_HWRNG_INTERFACE up
++    fi
+     start-stop-daemon -S -q -x $rngd $EXTRA_ARGS
+     echo "."
+     ;;
+-- 
+2.12.3
+
 
