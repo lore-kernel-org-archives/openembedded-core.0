@@ -1,28 +1,65 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 40BDA7808D
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B852477E33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 12:57:56 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jul 2017 05:57:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,346,1496127600"; d="scan'208";a="1171113860"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 05:57:57 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 971ED5804B8;
-	Tue, 11 Jul 2017 05:57:56 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 15:58:13 +0300
-Message-Id: <1499777893-16292-4-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1499777893-16292-1-git-send-email-maxin.john@intel.com>
-References: <1499777893-16292-1-git-send-email-maxin.john@intel.com>
-Cc: joshua.g.lock@intel.com, stanley.cheong.kwan.phoong@intel.com
-Subject: [PATCH 3/3] libxt: fix build failure
+	Tue, 11 Jul 2017 13:57:52 +0000 (UTC)
+Received: by mail-wr0-f173.google.com with SMTP id 77so461545wrb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 06:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=NrIS0+UC03hyimhy+k67+KNIiMfF12ZH4e8ua4q7z2Y=;
+	b=DawnzJQKsljg5OtvmxFySdob/rVFNpKLegJzi8cpMrz89ows+EBzDO5YRj1AVLo3vJ
+	wm+yY+E6dlgUyCsCD2HV1iwJMk6/ZJFwOr+ThB5d/33gmJajWF/HH1GIOErxkRjZftQ8
+	pOSc/VC462ls/nObM/b+2An92CBYNuxARELvUjfiBfv+2a6zmJ0IG9ABykhR6NcjuXpC
+	3ZDMXMgTCay5zKOhKg6V/c32B6aTrEXJYRUdXYzzoluv+9a5TdvuOJnJZOzVTfKdjCDJ
+	S5Po5CNc3Fihl222ASlMKuJ2FMKJMzdvTs7u8vXWR/YZHmNBcbSYdIiNBYYI5qzOraXA
+	Z+qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=NrIS0+UC03hyimhy+k67+KNIiMfF12ZH4e8ua4q7z2Y=;
+	b=LdIhvIK0pB3xpyh3FagM0qZ225DnDwg5H+RTFsW53Z/XG9/xXQcfzZ5sqbeIpBXELg
+	zSn6gYl8AKPqfOU9ifEB/azD7L/r2gxSJx1AGJoHeqwRGGlO9y9iQWboveVHR2/d0S8R
+	YP1wClWzd420ei41DXxnZ5ZaCN8s4CGwfOwsqkss5bLKVYJaHP4I4Dz+8ghe3bEozAhs
+	QijF70Q8sfNNscicM9AbJNeKkgTWgEybqknNiHI7sb48YBIIIAQxStz0tW056d/fxNBK
+	ngrWteGOIgxWss+7sATSRZ7eI7/R7B9kptmLMDVMceSy36HA7BvjSRFe95fij71BSTuN
+	izZQ==
+X-Gm-Message-State: AIVw111R5+psZqDsL0f4fkcEe3v0LZ/W5m9CteyPVJAHlLtHoy/xvdSJ
+	WJ7A+RnLpQWAe9Xn4ac=
+X-Received: by 10.28.113.214 with SMTP id d83mr11738658wmi.62.1499781473110;
+	Tue, 11 Jul 2017 06:57:53 -0700 (PDT)
+Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com.
+	[209.85.128.177])
+	by smtp.gmail.com with ESMTPSA id m26sm36296wrm.4.2017.07.11.06.57.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Jul 2017 06:57:51 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f177.google.com with SMTP id 77so459990wrb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 06:57:51 -0700 (PDT)
+X-Received: by 10.28.195.67 with SMTP id t64mr11670080wmf.41.1499781470922;
+	Tue, 11 Jul 2017 06:57:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.73.84 with HTTP; Tue, 11 Jul 2017 06:57:50 -0700 (PDT)
+In-Reply-To: <CBAEED2EB06BF94889E80B47A33FE329ED9C42@PGSMSX105.gar.corp.intel.com>
+References: <cover.1499294682.git.wei.tee.ng@intel.com>
+	<ee38977370db92520a2e0d81e76189be3661f787.1499294682.git.wei.tee.ng@intel.com>
+	<CAP9ODKrfpfKumQpxZgyr46yZtNk08q12WfNYM73E+sn96CTx=w@mail.gmail.com>
+	<CBAEED2EB06BF94889E80B47A33FE329ED9C42@PGSMSX105.gar.corp.intel.com>
+Date: Tue, 11 Jul 2017 10:57:50 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo0mk-jtwPngRHyXWQHHbsbmWa_ktfAgzv-p7k9_eN3Hw@mail.gmail.com>
+Message-ID: <CAP9ODKo0mk-jtwPngRHyXWQHHbsbmWa_ktfAgzv-p7k9_eN3Hw@mail.gmail.com>
+To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "Wold,
+	Saul" <saul.wold@intel.com>
+Subject: Re: [PATCH v3 2/2] initramfs-framwork: module to support boot live image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +72,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 12:57:56 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 13:57:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-libxt build fails with this error:
+On Tue, Jul 11, 2017 at 2:36 AM, Ng, Wei Tee <wei.tee.ng@intel.com> wrote:
+> Yes, I had squash the changes into a single commit and corrected the typo also. The changes is being submitted to the mailing list.
+> Thanks a lot!
 
-/home/maxin/poky/build/tmp/work/i586-poky-linux/libxt/1_1.1.5-r0/recipe-sysroot/usr/include/bits/long-double.h:57:33:
-fatal error: bits/long-double-64.h: No such file or directory
-| compilation terminated.
-| Makefile:408: recipe for target 'makestrs.o' failed
+There are bad indents yet; please double check it all.
 
-Fix the makestrs build.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- ...il-don-t-link-makestrs-with-target-cflags.patch | 33 ++++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb      |  4 ++-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxt/0001-libXt-util-don-t-link-makestrs-with-target-cflags.patch
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxt/0001-libXt-util-don-t-link-makestrs-with-target-cflags.patch b/meta/recipes-graphics/xorg-lib/libxt/0001-libXt-util-don-t-link-makestrs-with-target-cflags.patch
-new file mode 100644
-index 0000000..1a691a3
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxt/0001-libXt-util-don-t-link-makestrs-with-target-cflags.patch
-@@ -0,0 +1,33 @@
-+From b0c0e6d90bd99a699701c9542640adb218f5d536 Mon Sep 17 00:00:00 2001
-+From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+Date: Mon, 10 Jul 2017 16:51:13 +0300
-+Subject: [PATCH] libXt: util: don't link makestrs with target cflags
-+
-+The line: AM_CFLAGS = $(XT_CFLAGS)
-+in util/Makefile.am is wrong because it adds target cflags to the
-+compilation of makestrs, which is built for the build machine, which
-+leads to build failures when cross-compiling.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-+Signed-off-by: Maxin B. John <maxin.john@intel.com>
-+---
-+ util/Makefile.am | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/util/Makefile.am b/util/Makefile.am
-+index 800b35b..f2dd1f9 100644
-+--- a/util/Makefile.am
-++++ b/util/Makefile.am
-+@@ -11,7 +11,6 @@ EXTRA_DIST = \
-+ 	StrDefs.ht \
-+ 	string.list
-+ 
-+-AM_CFLAGS = $(XT_CFLAGS)
-+ makestrs_SOURCES = makestrs.c
-+ 
-+ 
-+-- 
-+2.4.0
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb b/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
-index c1ed0bb..180d00d 100644
---- a/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb
-@@ -23,7 +23,9 @@ PE = "1"
- 
- XORG_PN = "libXt"
- 
--SRC_URI +=  "file://libxt_fix_for_x32.patch"
-+SRC_URI +=  "file://libxt_fix_for_x32.patch \
-+             file://0001-libXt-util-don-t-link-makestrs-with-target-cflags.patch \
-+            "
- 
- BBCLASSEXTEND = "native"
- 
 -- 
-2.4.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
