@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C084B77EF7
+	by mail.openembedded.org (Postfix) with ESMTP id 0088D77F69
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Jul 2017 20:23:37 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:36 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279714"
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279720"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.139])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:33 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:36 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 15:23:26 -0500
-Message-Id: <8761b6a1e6e0a2cf4c4354b8fe03925ea16b3591.1499803885.git.anibal.limon@linux.intel.com>
+Date: Tue, 11 Jul 2017 15:23:27 -0500
+Message-Id: <67b17ef486c6922aa7124bd23dc665742fde41cc.1499803885.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: joshua.g.lock@intel.com
-Subject: [PATCH 11/30] oeqa/selftest/case: Add wrappers to utils.commands modules
+Subject: [PATCH 12/30] oeqa/selftest/case: Creates meta-selftest layer per class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,134 +37,101 @@ X-List-Received-Date: Tue, 11 Jul 2017 20:23:38 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This methods are wrappers to use builddir by Test class.
+The meta-selftest layer is used by test cases to modify
+meta data but in a threaded environment two test cases can
+modify the meta data causing errors because the signatures
+will change.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/case.py | 96 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 94 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/case.py | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
-index dd24e366abd..3998aeac5c4 100644
+index 3998aeac5c4..bbdce4cf9e8 100644
 --- a/meta/lib/oeqa/selftest/case.py
 +++ b/meta/lib/oeqa/selftest/case.py
-@@ -6,10 +6,11 @@ import os
- import shutil
+@@ -7,6 +7,7 @@ import shutil
  import glob
  import errno
-+import re
+ import re
++import subprocess
  from unittest.util import safe_repr
  
  import oeqa.utils.ftools as ftools
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_env, get_bb_var, get_bb_vars
- from oeqa.core.case import OETestCase
+@@ -24,6 +25,8 @@ class OESelftestTestCase(OETestCase):
  
- class OESelftestTestCase(OETestCase):
-@@ -197,7 +198,7 @@ to ensure accurate results.")
-         if self._extra_tear_down_commands:
-             failed_extra_commands = []
-             for command in self._extra_tear_down_commands:
--                result = runCmd(command, ignore_status=True)
-+                result = self.runCmd(command, ignore_status=True)
-                 if not result.status ==  0:
-                     failed_extra_commands.append(command)
-             if failed_extra_commands:
-@@ -313,3 +314,94 @@ to ensure accurate results.")
-             msg = self._formatMessage(msg, "%s exists when it should not" % safe_repr(expr))
+     @classmethod
+     def _setUpBuildDir(cls):
++        cls.orig_testlayer_path = cls.tc.config_paths['testlayer_path']
++
+         if cls._use_own_builddir:
+             cls.builddir = os.path.join(cls.tc.config_paths['base_builddir'],
+                     cls.__module__, cls.__name__)
+@@ -35,14 +38,23 @@ class OESelftestTestCase(OETestCase):
+                     "conf/bblayers.conf")
+             cls.local_bblayers_backup = os.path.join(cls.builddir,
+                     "conf/bblayers.conf.bk")
++
++            cls.base_testlayer_path = os.path.join(cls.builddir,
++                    'layers')
++            cls.testlayer_path = os.path.join(cls.base_testlayer_path,
++                    os.path.basename(cls.orig_testlayer_path))
+         else:
+             cls.builddir = cls.tc.config_paths['builddir']
++
+             cls.localconf_path = cls.tc.config_paths['localconf']
+             cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
+             cls.local_bblayers_path = cls.tc.config_paths['bblayers']
+             cls.local_bblayers_backup = \
+                     cls.tc.config_paths['bblayers_class_backup']
  
-             raise self.failureException(msg)
++            cls.base_testlayer_path = os.path.dirname(cls.orig_testlayer_path)
++            cls.testlayer_path = cls.orig_testlayer_path
 +
-+    # utils commands to run on it's on builddir
-+    @classmethod 
-+    def _env_own_builddir(cls, **kwargs):
-+        env = None
+         cls.testinc_path = os.path.join(cls.builddir, "conf/selftest.inc")
+         cls.testinc_bblayers_path = os.path.join(cls.builddir,
+                 "conf/bblayers.inc")
+@@ -53,8 +65,11 @@ class OESelftestTestCase(OETestCase):
+             os.makedirs(cls.builddir)
+ 
+             builddir_conf = os.path.join(cls.builddir, 'conf')
+-            origdir_conf = os.path.join(cls.tc.config_paths['builddir'], 'conf')
+-            shutil.copytree(origdir_conf, builddir_conf)
++            os.makedirs(builddir_conf)
++            shutil.copyfile(cls.tc.config_paths['localconf_backup'],
++                    os.path.join(builddir_conf, 'local.conf'))
++            shutil.copyfile(cls.tc.config_paths['bblayers_backup'],
++                    os.path.join(builddir_conf, 'bblayers.conf'))
+ 
+             ftools.append_file(cls.localconf_path, "# added by oe-selftest base class")
+ 
+@@ -75,11 +90,24 @@ class OESelftestTestCase(OETestCase):
+                 ftools.append_file(cls.localconf_path, "PARALLEL_MAKE?=\"-j %d\"" %
+                         cls.tc.loader.process_num)
+ 
++            # copy meta-selftest per class to avoid races when changing meta-data
++            # and init git repository because some tests review the repo status
++            os.makedirs(cls.base_testlayer_path)
++            shutil.copytree(cls.orig_testlayer_path, cls.testlayer_path)
++            cls.runCmd("git init; git add *; git commit -a -m 'initial'",
++                            cwd=cls.testlayer_path)
 +
-+        if 'env' in kwargs:
-+            env = kwargs['env']
++            # XXX: sometimes meta-selftest isn't on bblayers at first backup
++            try:
++                cls.runCmd("bitbake-layers remove-layer %s" % cls.orig_testlayer_path)
++            except:
++                pass
++            cls.runCmd("bitbake-layers add-layer %s" % cls.testlayer_path)
 +
-+            if not 'BUILDDIR' in env:
-+                env['BUILDDIR'] = cls.builddir
-+            if not 'BBPATH' in env:
-+                env['BBPATH'] = cls.builddir
-+
-+        else:
-+            env = os.environ.copy()
-+            env['BUILDDIR'] = cls.builddir
-+            env['BBPATH'] = cls.builddir
-+
-+        kwargs['env'] = env
-+
-+        # XXX: tinfoil doesn't honor BBPATH bblayers and tinfoil test
-+        # modules uses it
-+        if not 'cwd' in kwargs:
-+            kwargs['cwd'] = cls.builddir
-+
-+        # XXX: uncomment for debugging purposes
-+        #kwargs['output_log'] = cls.logger
-+
-+        return kwargs
-+
-+    @classmethod
-+    def runCmd(cls, *args, **kwargs):
-+        kwargs = cls._env_own_builddir(**kwargs)
-+        return runCmd(*args, **kwargs)
-+
-+    @classmethod
-+    def bitbake(cls, *args, **kwargs):
-+        kwargs = cls._env_own_builddir(**kwargs)
-+        return bitbake(*args, **kwargs)
-+
-+    @classmethod
-+    def get_bb_env(cls, target=None, postconfig=None):
-+        if target:
-+            return cls.bitbake("-e %s" % target, postconfig=postconfig).output
-+        else:
-+            return cls.bitbake("-e", postconfig=postconfig).output
-+
-+    @classmethod
-+    def get_bb_vars(cls, variables=None, target=None, postconfig=None):
-+        """Get values of multiple bitbake variables"""
-+        bbenv = cls.get_bb_env(target, postconfig=postconfig)
-+
-+        if variables is not None:
-+            variables = variables.copy()
-+        var_re = re.compile(r'^(export )?(?P<var>\w+(_.*)?)="(?P<value>.*)"$')
-+        unset_re = re.compile(r'^unset (?P<var>\w+)$')
-+        lastline = None
-+        values = {}
-+        for line in bbenv.splitlines():
-+            match = var_re.match(line)
-+            val = None
-+            if match:
-+                val = match.group('value')
-+            else:
-+                match = unset_re.match(line)
-+                if match:
-+                    # Handle [unexport] variables
-+                    if lastline.startswith('#   "'):
-+                        val = lastline.split('"')[1]
-+            if val:
-+                var = match.group('var')
-+                if variables is None:
-+                    values[var] = val
-+                else:
-+                    if var in variables:
-+                        values[var] = val
-+                        variables.remove(var)
-+                    # Stop after all required variables have been found
-+                    if not variables:
-+                        break
-+            lastline = line
-+        if variables:
-+            # Fill in missing values
-+            for var in variables:
-+                values[var] = None
-+        return values
-+    
-+    @classmethod 
-+    def get_bb_var(cls, var, target=None, postconfig=None):
-+        return cls.get_bb_vars([var], target, postconfig)[var]
+     @classmethod
+     def setUpClass(cls):
+         super(OESelftestTestCase, cls).setUpClass()
+ 
+-        cls.testlayer_path = cls.tc.config_paths['testlayer_path']
+         cls._setUpBuildDir()
+ 
+         cls._track_for_cleanup = [
 -- 
 2.11.0
 
