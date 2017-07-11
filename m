@@ -1,62 +1,22 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id F225F77E9C
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5872377E9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 20:06:07 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id x23so713405wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 13:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=C7yKBxzmKYGBuSTXDertx/jooGB3E/PYugJG/1wlDpw=;
-	b=jsYeJqwTUe9xMrWW+HeDJLEsoiYgYkVHRlcXP36baAwRQqMeeH1TapDIj3gnTNH2sI
-	W0Cy+hPEkgpZw87LFd0Y+Wnvx2aIUysJsg9ulhS7a5WxwygTuDAK9usGMPBRKn2day1L
-	uh19oy1nVcz2n98WA33uXRxHljkGWnHI74Z4F/Y6B97kcqDq1Oue7uk86KHtrwJdralm
-	zCGsnfis7A1qIRsI+QPyEi/68CHSbyGseZxonVVmg4PqZnxrkBz6Tz/6/IsWw9qKcN0p
-	aeKjKfmxJdJI8RMKuoQq476f0QKA4lFbYtiq81RhvYEciZ91CM/E0ypR0cwFhxgCGAB2
-	QdMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=C7yKBxzmKYGBuSTXDertx/jooGB3E/PYugJG/1wlDpw=;
-	b=R2ZbZ+AOWpbxKRvpfDahjhK9+AamcZoIBC+osnGMCmQvqNoaqJraB8HRwkPpQaPP3y
-	w6jjdAqFsK1jy4882A4LotWutg7279sboAxhjNLFNrH7OhmMEEljHv2oj7ITai/TmSB1
-	XlpGd3PBMLwJoiP+01gzxtqSjoLCJScb42UaLzy1woJhUyqg1UJRsuJuJF0m0uuYYg8e
-	lrmYrjwmp3FZY/OLE1Ufn9v/fhmywxMfUE5kRXOoVxmM68zd9oIJ1jtf63Kp/7azuKc5
-	kUJTYEdapUTWaA9RbO4DAtxTGEchEhH17ED1eIOIcLmO4oSJhZZTU5MCLOvOx0dmCwoR
-	oDBQ==
-X-Gm-Message-State: AIVw113xC4vmR8J57Bbsjkf9uFGWQ16g25G6dNPjA8rV5fYmryHfLWTJ
-	ujdLkPBtmN5OwD6SjT0=
-X-Received: by 10.28.181.6 with SMTP id e6mr27433wmf.25.1499803568383;
-	Tue, 11 Jul 2017 13:06:08 -0700 (PDT)
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com.
-	[209.85.128.179]) by smtp.gmail.com with ESMTPSA id
-	i185sm180457wmf.34.2017.07.11.13.06.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Jul 2017 13:06:07 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f179.google.com with SMTP id r103so4028880wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 13:06:07 -0700 (PDT)
-X-Received: by 10.28.195.67 with SMTP id t64mr56976wmf.41.1499803567104; Tue,
-	11 Jul 2017 13:06:07 -0700 (PDT)
+	Tue, 11 Jul 2017 20:23:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279634"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.139])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:20 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jul 2017 15:23:15 -0500
+Message-Id: <cover.1499803885.git.anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.28.73.84 with HTTP; Tue, 11 Jul 2017 13:06:06 -0700 (PDT)
-In-Reply-To: <cover.1499705409.git.wei.tee.ng@intel.com>
-References: <cover.1499705409.git.wei.tee.ng@intel.com>
-Date: Tue, 11 Jul 2017 17:06:06 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrY3+kakT7DcX61TXM0L4oKK5fu6qupFxvLznRLrJk=jw@mail.gmail.com>
-Message-ID: <CAP9ODKrY3+kakT7DcX61TXM0L4oKK5fu6qupFxvLznRLrJk=jw@mail.gmail.com>
-To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][master] [PATCH v4 0/1] initramfs-framework: configuration to boot up live image
+Cc: joshua.g.lock@intel.com
+Subject: [PATCH 00/30] oeqa core and oe-selftest threaded enablement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,30 +29,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 20:06:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 11 Jul 2017 20:23:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 10, 2017 at 2:09 PM,  <wei.tee.ng@intel.com> wrote:
-> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
->
-> Hi,
->
-> This patch is to get initramfs-framework able to boot up live image.
-> A new scriplet named setup-live module has been created to handle
-> the removeable media detection and assign the rootfs.img. This is
-> because the current rootfs module has no support for rootfs images,
-> only rootfs partitions.
->
-> This version 4 included the changes for squashing 2 commits into
-> single commit. It involve the creation of initramfs-module-setup-live
-> in the recipe and added udev-extraconf rdepends on this module because
-> it is needed for automounting process.
+This series is to enable oe-selftest threaded runs along some fixes,
 
-As I said on the other patch, it still has indenting issues; please check.
+* Implementation of main/end thread usage in oeqa threaded
+* Adaptation of oe-selftest cases to be able to run in threaded env,
+  ** Usage of own build directory by Test class.
+  ** Mark the test modules that are enabled to run into a thread.
+  ** Split some test modules because aren't support run into a thread
+     due to bitbake/tinfoil constraints.
 
+The oe-selftest script now has an cmdline option (-t) to enable threaded
+runs, by default is set to 1, this needs to be set manually because 
+depending on HW resources available can cause ran out of cpu/memory.
+
+By default the oe-selftest cases runs on the main thread and uses
+the main build directory for compatibility purposes.
+ 
+The following changes since commit 854c8c2e4c24ea3ddfec6e5b5f6477f0620510e4:
+
+  oeqa/tinfoil: Improve test_wait_event for race issues (2017-07-08 13:34:46 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib alimon/oe_selftest_threaded
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=alimon/oe_selftest_threaded
+
+Aníbal Limón (30):
+  oeqa/core/loader: Switch method definition for _make_failed_test
+  oeqa/selftest/{context,case}: Handle KeyboardInterrupt/SIGINT and
+    SIGTERM
+  selftest/cases/package: Call parent setUpClass method
+  bb/tinfoil: run_command handle busy status in bitbake server
+  oe/copy_buildsystem: check_sstate_task_list also pop BBPATH from env
+  oeqa/core/threaded: Enable support to use the main thread
+  oeqa/core/threaded: Add support to run into a thread at end of
+    execution
+  oeqa/core/threaded: logSummary add skipped tests info
+  oeqa/core/tests: Update test_loader threaded to cover main thread
+    usage
+  oeqa/selftest/{case,context}: Add builddir by test class and context
+  oeqa/selftest/case: Add wrappers to utils.commands modules
+  oeqa/selftest/case: Creates meta-selftest layer per class
+  oeqa/selftest/case: tearDown extra commands print what actually fails
+  oeqa/selftest/case: Support bitbake memres mode in per build directory
+  oeqa/selftest/cases: Use testlayer_path instead of call
+    get_test_layer()
+  oeqa/selftest/cases: Use builddir from class instead of get from
+    environment
+  oeqa/selftest/cases: Use wrapper methods from OESelfTestCase class
+  oeqa/selftest/cases: tinfoil to run in the main thread
+  oeqa/selftest/cases: imagefeatures enable threaded runs
+  oeqa/selftest/cases: runqemu enable thraded runs
+  oeqa/selftest/cases: runtime enable threaded runs
+  oeqa/selftest/cases: eSDK enable threaded runs
+  oeqa/selftest/cases: devtool enable threaded runs
+  oeqa/selftest/cases: recipetool enable for threaded runs
+  oeqa/selftest/cases: Move devtool deploy test case to own module
+  selftest/cases/devtool{,end}: Move update/finish_modify tests to its
+    own module
+  seltest/cases/devtool: Build dbus on test_devtool_add_git_local
+  argparse_oe: Add int_positive type
+  oeqa/selftest/context: Enable support for threaded runs
+  oeqa/selftest/cases: systemd_boot enable threaded runs
+
+ bitbake/lib/bb/tinfoil.py                          |   23 +-
+ .../lib/oeqa/selftest/cases/systemd_boot.py        |   26 +-
+ meta/lib/oe/copy_buildsystem.py                    |    1 +
+ meta/lib/oeqa/core/loader.py                       |    4 +-
+ meta/lib/oeqa/core/tests/test_loader.py            |   17 +-
+ meta/lib/oeqa/core/threaded.py                     |  169 +++-
+ meta/lib/oeqa/selftest/case.py                     |  251 ++++-
+ .../lib/oeqa/selftest/cases/_sstatetests_noauto.py |   23 +-
+ meta/lib/oeqa/selftest/cases/archiver.py           |   21 +-
+ meta/lib/oeqa/selftest/cases/bblayers.py           |   45 +-
+ meta/lib/oeqa/selftest/cases/bbtests.py            |  103 +-
+ meta/lib/oeqa/selftest/cases/buildhistory.py       |    9 +-
+ meta/lib/oeqa/selftest/cases/buildoptions.py       |   51 +-
+ meta/lib/oeqa/selftest/cases/containerimage.py     |    9 +-
+ meta/lib/oeqa/selftest/cases/devtool.py            | 1014 +++++---------------
+ meta/lib/oeqa/selftest/cases/devtool_deploy.py     |   93 ++
+ meta/lib/oeqa/selftest/cases/devtool_end.py        |  506 ++++++++++
+ meta/lib/oeqa/selftest/cases/distrodata.py         |    7 +-
+ meta/lib/oeqa/selftest/cases/eSDK.py               |   61 +-
+ meta/lib/oeqa/selftest/cases/image_typedep.py      |    8 +-
+ meta/lib/oeqa/selftest/cases/imagefeatures.py      |   78 +-
+ meta/lib/oeqa/selftest/cases/imagefeatures_boot.py |   63 ++
+ meta/lib/oeqa/selftest/cases/layerappend.py        |   22 +-
+ meta/lib/oeqa/selftest/cases/liboe.py              |   13 +-
+ meta/lib/oeqa/selftest/cases/lic_checksum.py       |    8 +-
+ meta/lib/oeqa/selftest/cases/manifest.py           |   13 +-
+ meta/lib/oeqa/selftest/cases/oelib/buildhistory.py |    7 +-
+ meta/lib/oeqa/selftest/cases/oescripts.py          |    5 +-
+ meta/lib/oeqa/selftest/cases/package.py            |   12 +-
+ meta/lib/oeqa/selftest/cases/pkgdata.py            |   73 +-
+ meta/lib/oeqa/selftest/cases/prservice.py          |   19 +-
+ meta/lib/oeqa/selftest/cases/recipetool.py         |  105 +-
+ meta/lib/oeqa/selftest/cases/runqemu.py            |    7 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py       |  225 +----
+ .../lib/oeqa/selftest/cases/runtime_test_export.py |  104 ++
+ .../oeqa/selftest/cases/runtime_test_postinsts.py  |  114 +++
+ meta/lib/oeqa/selftest/cases/signing.py            |   40 +-
+ meta/lib/oeqa/selftest/cases/sstate.py             |    5 +-
+ meta/lib/oeqa/selftest/cases/sstatetests.py        |   51 +-
+ meta/lib/oeqa/selftest/cases/tinfoil.py            |    1 -
+ meta/lib/oeqa/selftest/context.py                  |  137 ++-
+ scripts/lib/argparse_oe.py                         |    7 +
+ 42 files changed, 1997 insertions(+), 1553 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/devtool_deploy.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/devtool_end.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/imagefeatures_boot.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/runtime_test_export.py
+ create mode 100644 meta/lib/oeqa/selftest/cases/runtime_test_postinsts.py
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.11.0
+
 
