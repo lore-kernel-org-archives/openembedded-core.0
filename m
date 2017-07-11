@@ -1,27 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 16A5E77DCC
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F87677D9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 14:47:05 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jul 2017 07:47:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1194027138"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2017 07:47:07 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 677E95804B8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 07:47:06 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 17:34:24 +0300
-Message-Id: <49f356ebd44f5c4133299cb83613ff70d204fd6e.1499783283.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1499783283.git.ed.bartosh@linux.intel.com>
-References: <cover.1499783283.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 2/2] runqemu: check exit code of 'ls -t'
+	Tue, 11 Jul 2017 15:04:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6BF4Mcu011276
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Jul 2017 08:04:23 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 11 Jul 2017 08:04:22 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 11 Jul 2017 11:04:15 -0400
+Message-ID: <cover.1499784588.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/6] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 14:47:06 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 15:04:24 -0000
+Content-Type: text/plain
 
-Used check_output instead of Popen as it raises CalledProcessError
-exception when command exits with non-zero exit code.
+Hi all,
 
-Catched the exception to produce user-friendly output.
+There are a couple of repeated patches in this series, but I'm
+sending them along just to make sure that all my pending patches
+are grouped together.
 
-[YOCTO #11719]
+In this series, we have a configuratiion tweak (that fixes a build
+warning), -stable updates for all the active kernels, a bug fix for
+error propagation .. and finally a bump of linux-yocto-dev to
+4.12+.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/runqemu | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The next LTS kernel was picked to be 4.14, so once again, we are
+going to be in an awkward timing window for the release. To make
+sure that we are ready for whatever the timing is, I've bumped
+this to 4.12 and integrated the pre-rc1 changes into the tree ..
+so this puts -dev at somewhere between 4.12 and 4.13 with this
+update.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index c33741d..d44afc7 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -676,7 +676,10 @@ class BaseConfig(object):
-             else:
-                 cmd = 'ls -t %s/*.qemuboot.conf' %  deploy_dir_image
-                 logger.info('Running %s...' % cmd)
--                qbs = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE).stdout.read().decode('utf-8')
-+                try:
-+                    qbs = subprocess.check_output(cmd, shell=True).decode('utf-8')
-+                except subprocess.CalledProcessError as err:
-+                    raise RunQemuError(err)
-                 if qbs:
-                     for qb in qbs.split():
-                         # Don't use initramfs when other choices unless fstype is ramfs
+cheers,
+
+Bruce
+
+The following changes since commit 854c8c2e4c24ea3ddfec6e5b5f6477f0620510e4:
+
+  oeqa/tinfoil: Improve test_wait_event for race issues (2017-07-08 13:34:46 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (6):
+  kernel-yocto: propagate configuration errors to bbclass
+  kernel-yocto/meta: smp configuration changes
+  linux-yocto/4.1: update to v4.1.41
+  linux-yocto/4.4: update to v4.4.76
+  linux-yocto/4.9: update to v4.9.36
+  linux-yocto-dev: bump to 4.12+
+
+ meta/classes/kernel-yocto.bbclass                  |  3 ++-
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 20 ++++++++++----------
+ 14 files changed, 54 insertions(+), 53 deletions(-)
+
 -- 
-2.1.4
+2.5.0
 
 
