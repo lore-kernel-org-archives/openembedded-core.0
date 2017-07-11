@@ -1,27 +1,24 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 91AB977DBE
+Return-Path: <iserovil@deshawresearch.com>
+X-Greylist: delayed 1078 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 11 Jul 2017 16:15:47 UTC
+Received: from drdwsfe1.nyc.desres.deshaw.com (nyvpn.deshawresearch.com
+	[38.109.87.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 4724D77DCA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 16:05:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 11 Jul 2017 09:05:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1194059299"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2017 09:05:23 -0700
-Message-ID: <1499789703.5349.20.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Date: Tue, 11 Jul 2017 11:15:03 -0500
-In-Reply-To: <20170711153521.GG26405@denix.org>
-References: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
-	<20170710213119.2381.49390@do.openembedded.org>
-	<2753237e-e5ce-54e8-5a45-2dea9fed8899@deshawresearch.com>
-	<20170711153521.GG26405@denix.org>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdldHRleHQ6IEVuYWJsZSBnZW5lcmF0aW9uIG9mIGxpYmFzcHJpbnRmIGluIGdldHRleHQgMC4xOQ==?=
+	Tue, 11 Jul 2017 16:15:47 +0000 (UTC)
+Received: from drdws0019.nyc.desres.deshaw.com
+	(drdws0019.nyc.desres.deshaw.com [149.77.52.116])
+	by drdwsfe1.nyc.desres.deshaw.com (Postfix) with ESMTP id 1CECFEA9FE;
+	Tue, 11 Jul 2017 11:57:51 -0400 (EDT)
+Received: by drdws0019.nyc.desres.deshaw.com (Postfix, from userid 11825)
+	id 10D00E0042; Tue, 11 Jul 2017 11:57:51 -0400 (EDT)
+From: Lev Iserovich <lev.iserovich@deshawresearch.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jul 2017 11:57:51 -0400
+Message-Id: <1499788671-20890-1-git-send-email-lev.iserovich@deshawresearch.com>
+X-Mailer: git-send-email 2.7.1
+Cc: Lev Iserovich <iserovil@deshawresearch.com>
+Subject: [PATCH] gettext: Enable generation of libasprintf in gettext 0.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,88 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 16:05:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jul 2017 16:15:48 -0000
 
-On Tue, 2017-07-11 at 11:35 -0400, Denys Dmytriyenko wrote:
-> Your patch is simply corrupted - please use git to send it, not a regular MUA.
+From: Lev Iserovich <iserovil@deshawresearch.com>
 
-Lev,
+Libasprintf was included in gettext 0.16 recipe, but omitted for some reason
+in 0.19. This turns it back on.
 
-I just tried locally and patch can not be merged on top of master's
-HEAD.
+Signed-off-by: Lev Iserovich <lev.iserovich@deshawresearch.com>
+---
+ meta/recipes-core/gettext/gettext_0.19.8.1.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-One easy way to try is using patchwork's git plugin and from the command
-line:
-
-
-> git pw mbox 7657 | git apply --check --verbose
-Checking patch meta/recipes-core/gettext/gettext_0.19.8.1.bb...
-error: while searching for:
-
+diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+index c2059e6..c7c81ee 100644
+--- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+@@ -28,7 +28,6 @@ inherit autotools texinfo
+ 
  EXTRA_OECONF += "--without-lispdir \
                   --disable-csharp \
-                 --disable-libasprintf \
+-                 --disable-libasprintf \
                   --disable-java \
                   --disable-native-java \
                   --disable-openmp \
-
-So, as the message suggests, update your master and rebase your branch
-against the latter.
-
-
-> 
-> On Tue, Jul 11, 2017 at 11:10:11AM -0400, Lev Iserovich wrote:
-> > Can anyone help me with undestanding this - I'm confused by this
-> > patchwork failure.
-> > The patch applies just fine on top of master - my patch was based on
-> > top of the commit with the hash referenced by patchwork below.
-> > 
-> > Thanks,
-> > 
-> > Lev Iserovich
-> > 
-> > On 07/10/2017 05:31 PM, Patchwork wrote:
-> > >== Series Details ==
-> > >
-> > >Series: gettext: Enable generation of libasprintf in gettext 0.19
-> > >Revision: 1
-> > >URL   : https://patchwork.openembedded.org/series/7657/
-> > >State : failure
-> > >
-> > >== Summary ==
-> > >
-> > >
-> > >Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > >an automated response. Several tests have been executed on the proposed
-> > >series by patchtest resulting in the following failures:
-> > >
-> > >
-> > >
-> > >* Issue             Series does not apply on top of target branch [test_series_merge_on_head]
-> > >   Suggested fix    Rebase your series on top of targeted branch
-> > >   Targeted branch  master (currently at 7dd5dfc4d5)
-> > >
-> > >
-> > >
-> > >If you believe any of these test results are incorrect, please reply to the
-> > >mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> > >Otherwise we would appreciate you correcting the issues and submitting a new
-> > >version of the patchset if applicable. Please ensure you add/increment the
-> > >version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> > >[PATCH v3] -> ...).
-> > >
-> > >---
-> > >Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > >Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> > >
-> > 
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+@@ -81,7 +80,7 @@ FILES_gettext-runtime = "${bindir}/gettext \
+                          ${bindir}/ngettext \
+                          ${bindir}/envsubst \
+                          ${bindir}/gettext.sh \
+-                         ${libdir}/libasprintf.so* \
++                         ${libdir}/libasprintf${SODEV} \
+                          ${libdir}/GNU.Gettext.dll \
+                         "
+ FILES_gettext-runtime-dev += "${libdir}/libasprintf.a \
+-- 
+2.7.1
 
 
