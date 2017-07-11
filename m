@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id ECF42780B8
+	by mail.openembedded.org (Postfix) with ESMTP id 27C96780C3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 20:23:50 +0000 (UTC)
+	Tue, 11 Jul 2017 20:23:52 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:52 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279825"
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279833"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.139])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:52 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 15:23:39 -0500
-Message-Id: <bf6fe29d5460b96dd95c98011a2d82bce71ff883.1499803885.git.anibal.limon@linux.intel.com>
+Date: Tue, 11 Jul 2017 15:23:40 -0500
+Message-Id: <11a1ffd59dd296cd1ae648c68e8df25d3b642fd1.1499803885.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: joshua.g.lock@intel.com
-Subject: [PATCH 24/30] oeqa/selftest/cases: recipetool enable for threaded runs
+Subject: [PATCH 25/30] oeqa/selftest/cases: Move devtool deploy test case to own module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,340 +33,235 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 20:23:51 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 20:23:52 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-- Change to use wrappers from OESelfTestCase.
-- Move templayer dir creation to RecipetoolBase class because
-  now every class has its own build folder.
+The devtool deploy test case uses runqemu that uses tinfoil so
+tinfoil requires to run on the main thread.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 105 +++++++++++++++--------------
- 1 file changed, 54 insertions(+), 51 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py        | 91 ++-----------------------
+ meta/lib/oeqa/selftest/cases/devtool_deploy.py | 93 ++++++++++++++++++++++++++
+ 2 files changed, 97 insertions(+), 87 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/devtool_deploy.py
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index bdd405f1cc0..59544336578 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -3,30 +3,30 @@ import shutil
- import tempfile
- import urllib.parse
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index c66e77a9ace..3d8d246bb7c 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -6,7 +6,7 @@ import glob
+ import fnmatch
  
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var
--from oeqa.utils.commands import get_bb_vars, create_temp_layer
--from oeqa.core.decorator.oeid import OETestID
- from oeqa.selftest.cases import devtool
+ import oeqa.utils.ftools as ftools
+-from oeqa.utils.commands import create_temp_layer, runqemu
 +from oeqa.utils.commands import create_temp_layer
-+from oeqa.core.decorator.oeid import OETestID
  
--templayerdir = None
--
--def setUpModule():
--    global templayerdir
--    templayerdir = tempfile.mkdtemp(prefix='recipetoolqa')
--    create_temp_layer(templayerdir, 'selftestrecipetool')
--    runCmd('bitbake-layers add-layer %s' % templayerdir)
--
-+class RecipetoolBase(devtool.DevtoolBase):
-+    @classmethod
-+    def setUpClass(cls):
-+        super(RecipetoolBase, cls).setUpClass()
- 
--def tearDownModule():
--    runCmd('bitbake-layers remove-layer %s' % templayerdir, ignore_status=True)
--    runCmd('rm -rf %s' % templayerdir)
-+        cls.templayerdir = tempfile.mkdtemp(prefix='recipetoolqa')
-+        create_temp_layer(cls.templayerdir, 'selftestrecipetool')
-+        cls.runCmd('bitbake-layers add-layer %s' % cls.templayerdir)
- 
-+    @classmethod
-+    def tearDownClass(cls):
-+        super(RecipetoolBase, cls).tearDownClass()
- 
--class RecipetoolBase(devtool.DevtoolBase):
-+        cls.runCmd('bitbake-layers remove-layer %s' % cls.templayerdir,
-+                ignore_status=True)
-+        cls.runCmd('rm -rf %s' % cls.templayerdir)
- 
-     def setUpLocal(self):
-         super(RecipetoolBase, self).setUpLocal()
--        self.templayerdir = templayerdir
-+
-         self.tempdir = tempfile.mkdtemp(prefix='recipetoolqa')
-         self.track_for_cleanup(self.tempdir)
-         self.testfile = os.path.join(self.tempdir, 'testfile')
-@@ -34,15 +34,15 @@ class RecipetoolBase(devtool.DevtoolBase):
-             f.write('Test file\n')
- 
-     def tearDownLocal(self):
--        runCmd('rm -rf %s/recipes-*' % self.templayerdir)
-+        self.runCmd('rm -rf %s/recipes-*' % self.templayerdir)
-         super(RecipetoolBase, self).tearDownLocal()
- 
-     def _try_recipetool_appendcmd(self, cmd, testrecipe, expectedfiles, expectedlines=None):
--        result = runCmd(cmd)
-+        result = self.runCmd(cmd)
-         self.assertNotIn('Traceback', result.output)
- 
-         # Check the bbappend was created and applies properly
--        recipefile = get_bb_var('FILE', testrecipe)
-+        recipefile = self.get_bb_var('FILE', testrecipe)
-         bbappendfile = self._check_bbappend(testrecipe, recipefile, self.templayerdir)
- 
-         # Check the bbappend contents
-@@ -66,14 +66,16 @@ class RecipetoolBase(devtool.DevtoolBase):
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.core.decorator.oeid import OETestID
+@@ -114,6 +114,9 @@ class DevtoolBase(OESelftestTestCase):
  
  
- class RecipetoolTests(RecipetoolBase):
+ class DevtoolCommon(DevtoolBase):
 +    _use_own_builddir = True
 +    _main_thread = False
- 
++
      @classmethod
      def setUpClass(cls):
-         super(RecipetoolTests, cls).setUpClass()
-         # Ensure we have the right data in shlibs/pkgdata
-         cls.logger.info('Running bitbake to generate pkgdata')
--        bitbake('-c packagedata base-files coreutils busybox selftest-recipetool-appendfile')
--        bb_vars = get_bb_vars(['COREBASE', 'BBPATH'])
-+        cls.bitbake('-c packagedata base-files coreutils busybox selftest-recipetool-appendfile')
-+        bb_vars = cls.get_bb_vars(['COREBASE', 'BBPATH'])
-         cls.corebase = bb_vars['COREBASE']
-         cls.bbpath = bb_vars['BBPATH']
+         super(DevtoolCommon, cls).setUpClass()
+@@ -1144,92 +1147,6 @@ class DevtoolTests(DevtoolCommon):
+         matches2 = glob.glob(stampprefix2 + '*')
+         self.assertFalse(matches2, 'Stamp files exist for recipe %s that should have been cleaned' % testrecipe2)
  
-@@ -83,7 +85,7 @@ class RecipetoolTests(RecipetoolBase):
- 
-     def _try_recipetool_appendfile_fail(self, destfile, newfile, checkerror):
-         cmd = 'recipetool appendfile %s %s %s' % (self.templayerdir, destfile, newfile)
--        result = runCmd(cmd, ignore_status=True)
-+        result = self.runCmd(cmd, ignore_status=True)
-         self.assertNotEqual(result.status, 0, 'Command "%s" should have failed but didn\'t' % cmd)
-         self.assertNotIn('Traceback', result.output)
-         for errorstr in checkerror:
-@@ -125,7 +127,7 @@ class RecipetoolTests(RecipetoolBase):
-         bbappendfile, _ = self._try_recipetool_appendfile('coreutils', '/bin/ls', self.testfile, '-r coreutils', expectedlines, [testfile2name])
-         # But file should have
-         copiedfile = os.path.join(os.path.dirname(bbappendfile), 'coreutils', testfile2name)
--        result = runCmd('diff -q %s %s' % (testfile2, copiedfile), ignore_status=True)
-+        result = self.runCmd('diff -q %s %s' % (testfile2, copiedfile), ignore_status=True)
-         self.assertNotEqual(result.status, 0, 'New file should have been copied but was not %s' % result.output)
- 
-     @OETestID(1178)
-@@ -133,7 +135,7 @@ class RecipetoolTests(RecipetoolBase):
-         # Try appending a binary file
-         # /bin/ls can be a symlink to /usr/bin/ls
-         ls = os.path.realpath("/bin/ls")
--        result = runCmd('recipetool appendfile %s /bin/ls %s -r coreutils' % (self.templayerdir, ls))
-+        result = self.runCmd('recipetool appendfile %s /bin/ls %s -r coreutils' % (self.templayerdir, ls))
-         self.assertIn('WARNING: ', result.output)
-         self.assertIn('is a binary', result.output)
- 
-@@ -326,7 +328,7 @@ class RecipetoolTests(RecipetoolBase):
-         # Try creating a bbappend in a layer that's not in bblayers.conf and has a different structure
-         exttemplayerdir = os.path.join(self.tempdir, 'extlayer')
-         self._create_temp_layer(exttemplayerdir, False, 'oeselftestextlayer', recipepathspec='metadata/recipes/recipes-*/*')
--        result = runCmd('recipetool appendfile %s /usr/share/selftest-replaceme-orig %s' % (exttemplayerdir, self.testfile))
-+        result = self.runCmd('recipetool appendfile %s /usr/share/selftest-replaceme-orig %s' % (exttemplayerdir, self.testfile))
-         self.assertNotIn('Traceback', result.output)
-         createdfiles = []
-         for root, _, files in os.walk(exttemplayerdir):
-@@ -341,7 +343,7 @@ class RecipetoolTests(RecipetoolBase):
-     def test_recipetool_appendfile_wildcard(self):
- 
-         def try_appendfile_wc(options):
--            result = runCmd('recipetool appendfile %s /etc/profile %s %s' % (self.templayerdir, self.testfile, options))
-+            result = self.runCmd('recipetool appendfile %s /etc/profile %s %s' % (self.templayerdir, self.testfile, options))
-             self.assertNotIn('Traceback', result.output)
-             bbappendfile = None
-             for root, _, files in os.walk(self.templayerdir):
-@@ -351,11 +353,11 @@ class RecipetoolTests(RecipetoolBase):
-                         break
-             if not bbappendfile:
-                 self.fail('No bbappend file created')
--            runCmd('rm -rf %s/recipes-*' % self.templayerdir)
-+            self.runCmd('rm -rf %s/recipes-*' % self.templayerdir)
-             return bbappendfile
- 
-         # Check without wildcard option
--        recipefn = os.path.basename(get_bb_var('FILE', 'base-files'))
-+        recipefn = os.path.basename(self.get_bb_var('FILE', 'base-files'))
-         filename = try_appendfile_wc('')
-         self.assertEqual(filename, recipefn.replace('.bb', '.bbappend'))
-         # Now check with wildcard option
-@@ -369,7 +371,7 @@ class RecipetoolTests(RecipetoolBase):
-         os.makedirs(tempsrc)
-         recipefile = os.path.join(self.tempdir, 'logrotate_3.8.7.bb')
-         srcuri = 'https://github.com/logrotate/logrotate/archive/r3-8-7.tar.gz'
--        result = runCmd('recipetool create -o %s %s -x %s' % (recipefile, srcuri, tempsrc))
-+        result = self.runCmd('recipetool create -o %s %s -x %s' % (recipefile, srcuri, tempsrc))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
-         checkvars['LICENSE'] = 'GPLv2'
-@@ -381,16 +383,16 @@ class RecipetoolTests(RecipetoolBase):
- 
-     @OETestID(1194)
-     def test_recipetool_create_git(self):
--        if 'x11' not in get_bb_var('DISTRO_FEATURES'):
-+        if 'x11' not in self.get_bb_var('DISTRO_FEATURES'):
-             self.skipTest('Test requires x11 as distro feature')
-         # Ensure we have the right data in shlibs/pkgdata
--        bitbake('libpng pango libx11 libxext jpeg libcheck')
-+        self.bitbake('libpng pango libx11 libxext jpeg libcheck')
-         # Try adding a recipe
-         tempsrc = os.path.join(self.tempdir, 'srctree')
-         os.makedirs(tempsrc)
-         recipefile = os.path.join(self.tempdir, 'libmatchbox.bb')
-         srcuri = 'git://git.yoctoproject.org/libmatchbox'
--        result = runCmd(['recipetool', 'create', '-o', recipefile, srcuri + ";rev=9f7cf8895ae2d39c465c04cc78e918c157420269", '-x', tempsrc])
-+        result = self.runCmd(['recipetool', 'create', '-o', recipefile, srcuri + ";rev=9f7cf8895ae2d39c465c04cc78e918c157420269", '-x', tempsrc])
-         self.assertTrue(os.path.isfile(recipefile), 'recipetool did not create recipe file; output:\n%s' % result.output)
-         checkvars = {}
-         checkvars['LICENSE'] = 'LGPLv2.1'
-@@ -409,7 +411,7 @@ class RecipetoolTests(RecipetoolBase):
-         os.makedirs(temprecipe)
-         pv = '1.7.3.0'
-         srcuri = 'http://www.dest-unreach.org/socat/download/socat-%s.tar.bz2' % pv
--        result = runCmd('recipetool create %s -o %s' % (srcuri, temprecipe))
-+        result = self.runCmd('recipetool create %s -o %s' % (srcuri, temprecipe))
-         dirlist = os.listdir(temprecipe)
-         if len(dirlist) > 1:
-             self.fail('recipetool created more than just one file; output:\n%s\ndirlist:\n%s' % (result.output, str(dirlist)))
-@@ -432,7 +434,7 @@ class RecipetoolTests(RecipetoolBase):
-         os.makedirs(temprecipe)
-         recipefile = os.path.join(temprecipe, 'navit_0.5.0.bb')
-         srcuri = 'http://downloads.sourceforge.net/project/navit/v0.5.0/navit-0.5.0.tar.gz'
--        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        result = self.runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
-         checkvars['LICENSE'] = set(['Unknown', 'GPLv2', 'LGPLv2'])
-@@ -450,7 +452,7 @@ class RecipetoolTests(RecipetoolBase):
-         os.makedirs(temprecipe)
-         recipefile = os.path.join(temprecipe, 'meson_git.bb')
-         srcuri = 'https://github.com/mesonbuild/meson;rev=0.32.0'
--        result = runCmd(['recipetool', 'create', '-o', temprecipe, srcuri])
-+        result = self.runCmd(['recipetool', 'create', '-o', temprecipe, srcuri])
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
-         checkvars['LICENSE'] = set(['Apache-2.0'])
-@@ -466,7 +468,7 @@ class RecipetoolTests(RecipetoolBase):
-         pv = '0.32.0'
-         recipefile = os.path.join(temprecipe, 'meson_%s.bb' % pv)
-         srcuri = 'https://github.com/mesonbuild/meson/releases/download/%s/meson-%s.tar.gz' % (pv, pv)
--        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        result = self.runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
-         checkvars['LICENSE'] = set(['Apache-2.0'])
-@@ -481,7 +483,7 @@ class RecipetoolTests(RecipetoolBase):
-         os.makedirs(temprecipe)
-         recipefile = os.path.join(temprecipe, 'matchbox-terminal_git.bb')
-         srcuri = 'http://git.yoctoproject.org/git/matchbox-terminal'
--        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        result = self.runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
-         checkvars['LICENSE'] = set(['GPLv2'])
-@@ -506,8 +508,8 @@ class RecipetoolTests(RecipetoolBase):
-     def test_recipetool_load_plugin(self):
-         """Test that recipetool loads only the first found plugin in BBPATH."""
- 
--        recipetool = runCmd("which recipetool")
--        fromname = runCmd("recipetool --quiet pluginfile")
-+        recipetool = self.runCmd("which recipetool")
-+        fromname = self.runCmd("recipetool --quiet pluginfile")
-         srcfile = fromname.output
-         searchpath = self.bbpath.split(':') + [os.path.dirname(recipetool.output)]
-         plugincontent = []
-@@ -517,12 +519,12 @@ class RecipetoolTests(RecipetoolBase):
-             self.assertIn('meta-selftest', srcfile, 'wrong bbpath plugin found')
-             for path in searchpath:
-                 self._copy_file_with_cleanup(srcfile, path, 'lib', 'recipetool')
--            result = runCmd("recipetool --quiet count")
-+            result = self.runCmd("recipetool --quiet count")
-             self.assertEqual(result.output, '1')
--            result = runCmd("recipetool --quiet multiloaded")
-+            result = self.runCmd("recipetool --quiet multiloaded")
-             self.assertEqual(result.output, "no")
-             for path in searchpath:
--                result = runCmd("recipetool --quiet bbdir")
-+                result = self.runCmd("recipetool --quiet bbdir")
-                 self.assertEqual(result.output, path)
-                 os.unlink(os.path.join(result.output, 'lib', 'recipetool', 'bbpath.py'))
-         finally:
-@@ -548,16 +550,15 @@ class RecipetoolAppendsrcBase(RecipetoolBase):
- 
-     def _try_recipetool_appendsrcfile_fail(self, testrecipe, newfile, destfile, checkerror):
-         cmd = 'recipetool appendsrcfile %s %s %s %s' % (self.templayerdir, testrecipe, newfile, destfile or '')
--        result = runCmd(cmd, ignore_status=True)
-+        result = self.runCmd(cmd, ignore_status=True)
-         self.assertNotEqual(result.status, 0, 'Command "%s" should have failed but didn\'t' % cmd)
-         self.assertNotIn('Traceback', result.output)
-         for errorstr in checkerror:
-             self.assertIn(errorstr, result.output)
- 
--    @staticmethod
--    def _get_first_file_uri(recipe):
-+    def _get_first_file_uri(self, recipe):
-         '''Return the first file:// in SRC_URI for the specified recipe.'''
--        src_uri = get_bb_var('SRC_URI', recipe).split()
-+        src_uri = self.get_bb_var('SRC_URI', recipe).split()
-         for uri in src_uri:
-             p = urllib.parse.urlparse(uri)
-             if p.scheme == 'file':
-@@ -605,7 +606,7 @@ class RecipetoolAppendsrcBase(RecipetoolBase):
- 
-         self._try_recipetool_appendsrcfiles(testrecipe, newfiles, expectedfiles=expectedfiles, destdir=destdir, options=options)
- 
--        bb_vars = get_bb_vars(['SRC_URI', 'FILE', 'FILESEXTRAPATHS'], testrecipe)
-+        bb_vars = self.get_bb_vars(['SRC_URI', 'FILE', 'FILESEXTRAPATHS'], testrecipe)
-         src_uri = bb_vars['SRC_URI'].split()
-         for f in expectedfiles:
-             if destdir:
-@@ -623,6 +624,8 @@ class RecipetoolAppendsrcBase(RecipetoolBase):
- 
- 
- class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
-+    _use_own_builddir = True
-+    _main_thread = False
- 
-     @OETestID(1273)
-     def test_recipetool_appendsrcfile_basic(self):
-@@ -632,7 +635,7 @@ class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
-     def test_recipetool_appendsrcfile_basic_wildcard(self):
-         testrecipe = 'base-files'
-         self._test_appendsrcfile(testrecipe, 'a-file', options='-w')
--        recipefile = get_bb_var('FILE', testrecipe)
-+        recipefile = self.get_bb_var('FILE', testrecipe)
-         bbappendfile = self._check_bbappend(testrecipe, recipefile, self.templayerdir)
-         self.assertEqual(os.path.basename(bbappendfile), '%s_%%.bbappend' % testrecipe)
- 
-@@ -647,7 +650,7 @@ class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
-     @OETestID(1280)
-     def test_recipetool_appendsrcfile_srcdir_basic(self):
-         testrecipe = 'bash'
--        bb_vars = get_bb_vars(['S', 'WORKDIR'], testrecipe)
-+        bb_vars = self.get_bb_vars(['S', 'WORKDIR'], testrecipe)
-         srcdir = bb_vars['S']
-         workdir = bb_vars['WORKDIR']
-         subdir = os.path.relpath(srcdir, workdir)
-@@ -674,13 +677,13 @@ class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
-     def test_recipetool_appendsrcfile_replace_file_srcdir(self):
-         testrecipe = 'bash'
-         filepath = 'Makefile.in'
--        bb_vars = get_bb_vars(['S', 'WORKDIR'], testrecipe)
-+        bb_vars = self.get_bb_vars(['S', 'WORKDIR'], testrecipe)
-         srcdir = bb_vars['S']
-         workdir = bb_vars['WORKDIR']
-         subdir = os.path.relpath(srcdir, workdir)
- 
-         self._test_appendsrcfile(testrecipe, filepath, srcdir=subdir)
--        bitbake('%s:do_unpack' % testrecipe)
-+        self.bitbake('%s:do_unpack' % testrecipe)
-         self.assertEqual(open(self.testfile, 'r').read(), open(os.path.join(srcdir, filepath), 'r').read())
- 
-     @OETestID(1278)
+-    @OETestID(1272)
+-    def test_devtool_deploy_target(self):
+-        # NOTE: Whilst this test would seemingly be better placed as a runtime test,
+-        # unfortunately the runtime tests run under bitbake and you can't run
+-        # devtool within bitbake (since devtool needs to run bitbake itself).
+-        # Additionally we are testing build-time functionality as well, so
+-        # really this has to be done as an oe-selftest test.
+-        #
+-        # Check preconditions
+-        machine = self.get_bb_var('MACHINE')
+-        if not machine.startswith('qemu'):
+-            self.skipTest('This test only works with qemu machines')
+-        if not os.path.exists('/etc/runqemu-nosudo'):
+-            self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
+-        result = self.runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
+-        if result.status != 0:
+-            result = self.runCmd('PATH="$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=True)
+-            if result.status != 0:
+-                self.skipTest('Failed to determine if tap devices exist with ifconfig or ip: %s' % result.output)
+-        for line in result.output.splitlines():
+-            if line.startswith('tap'):
+-                break
+-        else:
+-            self.skipTest('No tap devices found - you must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
+-        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
+-        # Definitions
+-        testrecipe = 'mdadm'
+-        testfile = '/sbin/mdadm'
+-        testimage = 'oe-selftest-image'
+-        testcommand = '/sbin/mdadm --help'
+-        # Build an image to run
+-        self.bitbake("%s qemu-native qemu-helper-native" % testimage)
+-        deploy_dir_image = self.get_bb_var('DEPLOY_DIR_IMAGE')
+-        self.add_command_to_tearDown('bitbake -c clean %s' % testimage)
+-        self.add_command_to_tearDown('rm -f %s/%s*' % (deploy_dir_image, testimage))
+-        # Clean recipe so the first deploy will fail
+-        self.bitbake("%s -c clean" % testrecipe)
+-        # Try devtool modify
+-        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+-        self.track_for_cleanup(tempdir)
+-        self.track_for_cleanup(self.workspacedir)
+-        self.add_command_to_tearDown('bitbake-layers remove-layer %s' % self.workspacedir)
+-        self.add_command_to_tearDown('bitbake -c clean %s' % testrecipe)
+-        result = self.runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
+-        # Test that deploy-target at this point fails (properly)
+-        result = self.runCmd('devtool deploy-target -n %s root@localhost' % testrecipe, ignore_status=True)
+-        self.assertNotEqual(result.output, 0, 'devtool deploy-target should have failed, output: %s' % result.output)
+-        self.assertNotIn(result.output, 'Traceback', 'devtool deploy-target should have failed with a proper error not a traceback, output: %s' % result.output)
+-        result = self.runCmd('devtool build %s' % testrecipe)
+-        # First try a dry-run of deploy-target
+-        result = self.runCmd('devtool deploy-target -n %s root@localhost' % testrecipe)
+-        self.assertIn('  %s' % testfile, result.output)
+-        # Boot the image
+-        with runqemu(testimage) as qemu:
+-            # Now really test deploy-target
+-            result = self.runCmd('devtool deploy-target -c %s root@%s' % (testrecipe, qemu.ip))
+-            # Run a test command to see if it was installed properly
+-            sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+-            result = self.runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
+-            # Check if it deployed all of the files with the right ownership/perms
+-            # First look on the host - need to do this under pseudo to get the correct ownership/perms
+-            bb_vars = self.get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD'], testrecipe)
+-            installdir = bb_vars['D']
+-            fakerootenv = bb_vars['FAKEROOTENV']
+-            fakerootcmd = bb_vars['FAKEROOTCMD']
+-            result = self.runCmd('%s %s find . -type f -exec ls -l {} \;' % (fakerootenv, fakerootcmd), cwd=installdir)
+-            filelist1 = self._process_ls_output(result.output)
+-
+-            # Now look on the target
+-            tempdir2 = tempfile.mkdtemp(prefix='devtoolqa')
+-            self.track_for_cleanup(tempdir2)
+-            tmpfilelist = os.path.join(tempdir2, 'files.txt')
+-            with open(tmpfilelist, 'w') as f:
+-                for line in filelist1:
+-                    splitline = line.split()
+-                    f.write(splitline[-1] + '\n')
+-            result = self.runCmd('cat %s | ssh -q %s root@%s \'xargs ls -l\'' % (tmpfilelist, sshargs, qemu.ip))
+-            filelist2 = self._process_ls_output(result.output)
+-            filelist1.sort(key=lambda item: item.split()[-1])
+-            filelist2.sort(key=lambda item: item.split()[-1])
+-            self.assertEqual(filelist1, filelist2)
+-            # Test undeploy-target
+-            result = self.runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
+-            result = self.runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand), ignore_status=True)
+-            self.assertNotEqual(result, 0, 'undeploy-target did not remove command as it should have')
+-
+     @OETestID(1366)
+     def test_devtool_build_image(self):
+         """Test devtool build-image plugin"""
+diff --git a/meta/lib/oeqa/selftest/cases/devtool_deploy.py b/meta/lib/oeqa/selftest/cases/devtool_deploy.py
+new file mode 100644
+index 00000000000..3ad9f8ba565
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/devtool_deploy.py
+@@ -0,0 +1,93 @@
++import os
++import tempfile
++
++from oeqa.selftest.cases import devtool
++from oeqa.core.decorator.oeid import OETestID
++from oeqa.utils.commands import runqemu
++
++class DevtoolDeployTests(devtool.DevtoolCommon):
++    @OETestID(1272)
++    def test_devtool_deploy_target(self):
++        # NOTE: Whilst this test would seemingly be better placed as a runtime test,
++        # unfortunately the runtime tests run under bitbake and you can't run
++        # devtool within bitbake (since devtool needs to run bitbake itself).
++        # Additionally we are testing build-time functionality as well, so
++        # really this has to be done as an oe-selftest test.
++        #
++        # Check preconditions
++        machine = self.get_bb_var('MACHINE')
++        if not machine.startswith('qemu'):
++            self.skipTest('This test only works with qemu machines')
++        if not os.path.exists('/etc/runqemu-nosudo'):
++            self.skipTest('You must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
++        result = self.runCmd('PATH="$PATH:/sbin:/usr/sbin" ip tuntap show', ignore_status=True)
++        if result.status != 0:
++            result = self.runCmd('PATH="$PATH:/sbin:/usr/sbin" ifconfig -a', ignore_status=True)
++            if result.status != 0:
++                self.skipTest('Failed to determine if tap devices exist with ifconfig or ip: %s' % result.output)
++        for line in result.output.splitlines():
++            if line.startswith('tap'):
++                break
++        else:
++            self.skipTest('No tap devices found - you must set up tap devices with scripts/runqemu-gen-tapdevs before running this test')
++        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
++        # Definitions
++        testrecipe = 'mdadm'
++        testfile = '/sbin/mdadm'
++        testimage = 'oe-selftest-image'
++        testcommand = '/sbin/mdadm --help'
++        # Build an image to run
++        self.bitbake("%s qemu-native qemu-helper-native" % testimage)
++        deploy_dir_image = self.get_bb_var('DEPLOY_DIR_IMAGE')
++        self.add_command_to_tearDown('bitbake -c clean %s' % testimage)
++        self.add_command_to_tearDown('rm -f %s/%s*' % (deploy_dir_image, testimage))
++        # Clean recipe so the first deploy will fail
++        self.bitbake("%s -c clean" % testrecipe)
++        # Try devtool modify
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake-layers remove-layer %s' % self.workspacedir)
++        self.add_command_to_tearDown('bitbake -c clean %s' % testrecipe)
++        result = self.runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
++        # Test that deploy-target at this point fails (properly)
++        result = self.runCmd('devtool deploy-target -n %s root@localhost' % testrecipe, ignore_status=True)
++        self.assertNotEqual(result.output, 0, 'devtool deploy-target should have failed, output: %s' % result.output)
++        self.assertNotIn(result.output, 'Traceback', 'devtool deploy-target should have failed with a proper error not a traceback, output: %s' % result.output)
++        result = self.runCmd('devtool build %s' % testrecipe)
++        # First try a dry-run of deploy-target
++        result = self.runCmd('devtool deploy-target -n %s root@localhost' % testrecipe)
++        self.assertIn('  %s' % testfile, result.output)
++        # Boot the image
++        with runqemu(testimage) as qemu:
++            # Now really test deploy-target
++            result = self.runCmd('devtool deploy-target -c %s root@%s' % (testrecipe, qemu.ip))
++            # Run a test command to see if it was installed properly
++            sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++            result = self.runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand))
++            # Check if it deployed all of the files with the right ownership/perms
++            # First look on the host - need to do this under pseudo to get the correct ownership/perms
++            bb_vars = self.get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD'], testrecipe)
++            installdir = bb_vars['D']
++            fakerootenv = bb_vars['FAKEROOTENV']
++            fakerootcmd = bb_vars['FAKEROOTCMD']
++            result = self.runCmd('%s %s find . -type f -exec ls -l {} \;' % (fakerootenv, fakerootcmd), cwd=installdir)
++            filelist1 = self._process_ls_output(result.output)
++
++            # Now look on the target
++            tempdir2 = tempfile.mkdtemp(prefix='devtoolqa')
++            self.track_for_cleanup(tempdir2)
++            tmpfilelist = os.path.join(tempdir2, 'files.txt')
++            with open(tmpfilelist, 'w') as f:
++                for line in filelist1:
++                    splitline = line.split()
++                    f.write(splitline[-1] + '\n')
++            result = self.runCmd('cat %s | ssh -q %s root@%s \'xargs ls -l\'' % (tmpfilelist, sshargs, qemu.ip))
++            filelist2 = self._process_ls_output(result.output)
++            filelist1.sort(key=lambda item: item.split()[-1])
++            filelist2.sort(key=lambda item: item.split()[-1])
++            self.assertEqual(filelist1, filelist2)
++            # Test undeploy-target
++            result = self.runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
++            result = self.runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand), ignore_status=True)
++            self.assertNotEqual(result, 0, 'undeploy-target did not remove command as it should have')
 -- 
 2.11.0
 
