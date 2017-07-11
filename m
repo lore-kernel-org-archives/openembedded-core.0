@@ -1,51 +1,48 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
-	[209.85.161.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C03877E93
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A50BE77E9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 08:36:24 +0000 (UTC)
-Received: by mail-yw0-f180.google.com with SMTP id a12so45859831ywh.3
+	Tue, 11 Jul 2017 08:36:55 +0000 (UTC)
+Received: by mail-qk0-f173.google.com with SMTP id 16so94470904qkg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 01:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 11 Jul 2017 01:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XI/ZCexzmyhMm/Q0l9Ku/PRSjpio12+GpPqg/we+9xE=;
-	b=vSBRpDXAEK5B5qh4DbCoY5nQGXib5uM81BgG//gicfQkVlgly4pnkUmGOHUchQmBiR
-	Kq02d07rP/ElGGUWFkTs9A+Dtuini0LU5qCXi/jIvnM+LZHl6VnTUfmG7zp0zWiT1oJx
-	62u1Vl5xWyezeJnh7UlI8bixOPpJQsLqNz+ijlVjWMUmTocYB5JNcYqFukx7dL+5pi30
-	oC6c8Dlp3cRbbQ+7SBBhHRoRq1sNh5Tm/p4Hn+dbKTbO5rfigRovaUA7hx7wJWfValz8
-	rm+Q8tZ3hbz6Gfo0TJk+8Y3mNj4LqGkEoacFeeZmohc0RR7Trld70e2wqeRZDHUAllaI
-	HLvg==
+	:cc; bh=B4whm+C293rVzkunODEeLxwk73TdkKmVFdzg6C+13ow=;
+	b=n/OMYog5De/E8raNmIDQFuL+iRJ9U/T3Gzhjq3TidO6EVCUq2Ia4fGShQ27jk2s9D8
+	wyBDQEEadOOBgjGEo0zdbPTdXQ1TeYGf60RbCMklispAnnUVk9QJ8UMD/wGvZROb/OJG
+	byv2hjPigmASO7hxkDNF1s7lYEhUTOOuzC1o6wi1qIFpuU7XNHDQ2z43mGljVr61bwJK
+	GjpeBqvVSIZ4xtRKGT37IFvzw2augxE0F8mVAtG++BihXFGvZYyJnBmxhoUHbqS1d31V
+	uqSiRnNoKBDKXwFryj5vYN6zo6mx68urTQiegR5C5BElBLq7Hp17UxMKmeAMZ92zGr91
+	nIrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=XI/ZCexzmyhMm/Q0l9Ku/PRSjpio12+GpPqg/we+9xE=;
-	b=nWgRCcKh8NnSEaa0jtN6HzQ83Ik8zg1jFb/4XHhA3//AKRbQT4E96ce/vd3repziyT
-	Ii3Q7d/fgvK3r3sMEMzW/ZVKO9FuPGZ6gQHqf9A54d34LEwVa7IbpqiiVIL4CymIQfuC
-	5firiMpPNZpSK0d3yC7LRU5T6+05KqvBnasvlQZRie1nvVDmiXXaBl4ko7RCqOq6wRn0
-	Pbkh7wanYcx15oTcr3+3+Y+s/N80ZaSc0/EwEBR0Or8EKOI4KFmiPQVxgWFKlopd4j16
-	rULOuBeSXz1q9Sht5Pvlg5v0Bz1sd+8e0zUh4Xzhj6Wsdq1mDOc1J15DT+0cdA6L9on5
-	s+jg==
-X-Gm-Message-State: AIVw110XWEF1nPQ4dfh4iloBBTPvEopHG5cSp7d+hcQFucMAb8PLAP7h
-	kaeeRC/v2KZGOshDPS0LaiFYw1Zuxw==
-X-Received: by 10.13.229.196 with SMTP id o187mr4305042ywe.138.1499762185517; 
-	Tue, 11 Jul 2017 01:36:25 -0700 (PDT)
+	bh=B4whm+C293rVzkunODEeLxwk73TdkKmVFdzg6C+13ow=;
+	b=mAvRvpFxvufW+hsmL/YBJ1gwKOGDV9aGyL/nfADbSXkKjOz0UF09nysXXjspyu5XwK
+	/DGrugNqHBou7Wh4IffHuJpDB89d6Bp1iLrV3aOfONMH1wZoFVTt3v5g0+eYZ0twr/Vi
+	e7DY+UX1tWfFvAEihApe7qnG6GlW86yTXR2/EMWK7rMNzBh2NaB27hbjMhgfZphupbsu
+	W3e0+ZxeWMihAa0ShVlKhg+y5DA95Lg2fkX8nlJgE+cc3YxzicVKWTkqwWn9qeqOEgH3
+	uQAjtSRWik/e5PJCIRXrIh4C1D67wlur83x16C7SwmjFJqWfqcqkVzA8aJYdwUxixzkC
+	BrWQ==
+X-Gm-Message-State: AIVw113RBDvnFT6/f+VSzyK2XwpCiqXBdt5SeLioyrT9OUIchMKNsKiJ
+	pnglii3bECQjcQIarNEOIhvBmlaFDS99
+X-Received: by 10.55.79.145 with SMTP id d139mr8970769qkb.32.1499762217393;
+	Tue, 11 Jul 2017 01:36:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.13.200.129 with HTTP; Tue, 11 Jul 2017 01:36:25 -0700 (PDT)
-In-Reply-To: <CAHiDW_GVArsb8O_kgsBLyqC=6sLz8c3+ABsCPD_QSkpU6G5aHQ@mail.gmail.com>
-References: <cover.1498569089.git.jussi.kukkonen@intel.com>
-	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
-	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
-	<CAHiDW_FuM-jB6f+xN1QOcqAvTUvfehfpWjoSL8N+XiFS9kLX-Q@mail.gmail.com>
-	<CAHiDW_GVArsb8O_kgsBLyqC=6sLz8c3+ABsCPD_QSkpU6G5aHQ@mail.gmail.com>
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Tue, 11 Jul 2017 10:36:25 +0200
-Message-ID: <CAC+thW3XNt5HGAOZvZO2bVOpt2RKn_v4E0fRPXWVLKNFNs+zsQ@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
+Received: by 10.140.31.118 with HTTP; Tue, 11 Jul 2017 01:36:36 -0700 (PDT)
+In-Reply-To: <1499352038-27144-1-git-send-email-liu.ming50@gmail.com>
+References: <1499352038-27144-1-git-send-email-liu.ming50@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Jul 2017 09:36:36 +0100
+Message-ID: <CAJTo0LZaTP--5JmZN6=0Of5W3Cepx3HDT=+3WrjyuUBUvhmC8w@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image-mklibs.bbclass: add a missing dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,90 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 08:36:25 -0000
-Content-Type: multipart/alternative; boundary="94eb2c08155450d9c805540698d5"
+X-List-Received-Date: Tue, 11 Jul 2017 08:36:56 -0000
+Content-Type: multipart/alternative; boundary="001a114a7efe37323b0554069a47"
 
---94eb2c08155450d9c805540698d5
+--001a114a7efe37323b0554069a47
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 11, 2017 at 10:27 AM, Jussi Kukkonen <jussi.kukkonen@intel.com>
-wrote:
+On 6 July 2017 at 15:40, <liu.ming50@gmail.com> wrote:
 
-> On 11 July 2017 at 10:42, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
->>
->> Exception: FileExistsError: [Errno 17] File exists:
->>> '/home/gizero/work/smartliving/distro/repo-master/build-poky
->>> /tmp/sysroots-components/raspberrypi3/userland/usr/include/KHR/khrplatform.h'
->>> -> '/home/gizero/work/smartliving/distro/repo-master/build-poky
->>> /tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/gtk+3/3.2
->>> 2.16-r0/recipe-sysroot/usr/include/KHR/khrplatform.h'
->>>
->>
->> /usr/include/KHR/khrplatform.h is the egl platform header file, provided
->> by both mesa and RPI userland. Does mesa end up in your gtk+3
->> recipe-sysroot somehow?
->>
->> For clarity: this could be a bug but it is unlikely to be related to the
->> libepoxy change (it does not use or ship the actual header file).
->>
->>
->
-> Actually this was maybe fixed by Otavios upgrade to mesa 17.1.4 -- mesa
-> accidentally shipped khrplatform.h even when egl was disabled (which is
-> what mesa-gl in oe-core does).
->
-> Make sure you have oe-core commit f0762f5bad3 (poky: 773d10873).
+> ${HOST_PREFIX}readelf is being called in mklibs_optimize_image_doit, so
+> do_rootfs should depend on
+> virtual/${MLPREFIX}${TARGET_PREFIX}binutils:do_populate_sysroot.
 >
 
-Yes I have it, and the cleansstate mentioned above makes me think it got
-used as expected. Indeed the commit you mention is part of the bunch of
-commits after pulling which I got my builds broken... I'm confused! Any
-idea how to figure out which recipe get considered first in gtk+3's
-do_prepare_recipe_sysroot and effectively deliver khrplatform.h to the
-recipe-sysroot?
+I think this was responsible for my latest autobuilder run failing:
 
---94eb2c08155450d9c805540698d5
+ERROR: Nothing PROVIDES 'virtual/none-poky-none-binutils'. Close matches:
+  virtual/aarch64-poky-linux-binutils
+Missing or unbuildable dependency chain was: ['core-image-minimal',
+'uninative-tarball', 'virtual/none-poky-none-binutils']
+
+Ross
+
+--001a114a7efe37323b0554069a47
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-ue, Jul 11, 2017 at 10:27 AM, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"=
-><span class=3D"gmail-">On 11 July 2017 at 10:42, Jussi Kukkonen <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">=
-jussi.kukkonen@intel.com</a>&gt;</span> wrote:<blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><div><div class=3D"gmail-m_-8185593225310596229gmail-m_771=
-5571185077541754gmail-h5"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
-><div dir=3D"ltr"><div class=3D"gmail_extra">Exception: FileExistsError: [E=
-rrno 17] File exists: &#39;/home/gizero/work/smartliving<wbr>/distro/repo-m=
-aster/build-poky<wbr>/tmp/sysroots-components/raspb<wbr>errypi3/userland/us=
-r/include/K<wbr>HR/khrplatform.h&#39; -&gt; &#39;/home/gizero/work/smartliv=
-ing<wbr>/distro/repo-master/build-poky<wbr>/tmp/work/cortexa7hf-neon-vfpv<w=
-br>4-poky-linux-gnueabi/gtk+3/3.2<wbr>2.16-r0/recipe-sysroot/usr/inc<wbr>lu=
-de/KHR/khrplatform.h&#39;<br></div></div></blockquote><div><br></div></div>=
-</div><div>/usr/include/KHR/khrplatform.h is the egl platform header file, =
-provided by both mesa and RPI userland. Does mesa end up in your gtk+3 reci=
-pe-sysroot somehow?<br></div><div><br></div><div>For clarity: this could be=
- a bug but it is unlikely to be related to the libepoxy change (it does not=
- use or ship the actual header file).</div><span class=3D"gmail-m_-81855932=
-25310596229gmail-m_7715571185077541754gmail-HOEnZb"><font color=3D"#888888"=
-><div>=C2=A0</div></font></span></div></div></div></blockquote><div><br></d=
-iv></span><div>Actually this was maybe fixed by Otavios upgrade to mesa 17.=
-1.4 -- mesa accidentally shipped khrplatform.h even when egl was disabled (=
-which is what mesa-gl in oe-core does).</div><div><br></div><div>Make sure =
-you have oe-core commit f0762f5bad3 (poky: 773d10873).<br></div></div></div=
-></div></blockquote></div><br></div><div class=3D"gmail_extra">Yes I have i=
-t, and the cleansstate mentioned above makes me think it got used as expect=
-ed. Indeed the commit you mention is part of the bunch of commits after pul=
-ling which I got my builds broken... I&#39;m confused! Any idea how to figu=
-re out which recipe get considered first in gtk+3&#39;s do_prepare_recipe_s=
-ysroot and effectively deliver khrplatform.h to the recipe-sysroot?<br></di=
-v></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 July 2017 at 15:40,  <span dir=3D"ltr">&lt;<a href=3D"mailto:liu.ming5=
+0@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</span> wrote:<b=
+r><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204)=
+;padding-left:1ex"><div id=3D"gmail-:2wv" class=3D"gmail-a3s gmail-aXjCH gm=
+ail-m15d1858eafd27439">${HOST_PREFIX}readelf is being called in mklibs_opti=
+mize_image_doit, so<br>
+do_rootfs should depend on<br>
+virtual/${MLPREFIX}${TARGET_<wbr>PREFIX}binutils:do_populate_<wbr>sysroot.<=
+br></div></blockquote></div><br>I think=C2=A0this was responsible for my la=
+test autobuilder run failing:<br><br>ERROR: Nothing PROVIDES &#39;virtual/n=
+one-poky-none-binutils&#39;. Close matches:<br>=C2=A0 virtual/aarch64-poky-=
+linux-binutils<br>Missing or unbuildable dependency chain was: [&#39;core-i=
+mage-minimal&#39;, &#39;uninative-tarball&#39;, &#39;virtual/none-poky-none=
+-binutils&#39;]</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div>
 
---94eb2c08155450d9c805540698d5--
+--001a114a7efe37323b0554069a47--
