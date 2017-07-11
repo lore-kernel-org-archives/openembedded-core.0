@@ -1,50 +1,23 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 3976977E7F
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BDFD077E94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 08:06:31 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id v202so56110521itb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 01:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sKsjnhye7JbnooACr+WuIPC6XJrSTy90ZSWY4bvBSzs=;
-	b=XfL6YO3MFzpl8Cy7tTYUDuICLDoDgpGnIUHvhS0j7LB69BM1P/SDxwzYtDI+kkvxDm
-	Lt90F+wtGYSzu8GLqFa2mMp6sSycEFMg29EKnd9kGrHnn/dI7fiOFvmZj+be3ZoQ8Lut
-	Dw6nGcm3yH9i2474Er6ib1Q0DEGaLzVaWQURE6MFd73SpxO7eCEfMmORNi0nd+KNCzNq
-	mGRgoV9VhzsQlBFUfMQRLsSg1bDpSZUDldDv+oyp6D6ovDyeR0Fm7usKxsfjIBCcKOBP
-	ex9ZgcJPCjCNFjN5TDZi1qcbabus1QzFh/IdO4c7BpugTnxKQkNiAJzARvbuwla7z8v3
-	u0kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sKsjnhye7JbnooACr+WuIPC6XJrSTy90ZSWY4bvBSzs=;
-	b=mtVGMaPjvzUuXh5dYGjW1gxT2WPOUjR+VeaAnxdjh3n9c6a5OgnWDIr4drvpbLOoem
-	fa0z5oiEDb4imY/SePIOEF5qyqZOOms/5QpufD4l2Zgfv7MiSecAdn9Uc/ZkZR84dfg3
-	r8qp2l/jFgtV3/eaZ4UsXwOa56yW/P7j+GyRWyk2rA3wOmPqnh+kehfpC+7PaVE9K62s
-	l7G3Ke6lUUtjr2f+vaHA6xOd+aJ1tGsQWQVubQZq2JKI61/y0Xd/gn1HuKy/4gzI/46a
-	YLubIjG67G8txzUS88HAy3znG5hyxZxj7ajotOHMTfFn2l/9LFBs7tPpcHn8/9AodmQb
-	WyHQ==
-X-Gm-Message-State: AIVw110IwtJ70tY41uLFlcMHS2mIvTUUtpfZqI6sOrP+fWLMbyLe+OAv
-	ogW3A8tDmhHooiHz1w9vWyOPJIoFXmbG
-X-Received: by 10.107.37.141 with SMTP id l135mr7045787iol.146.1499760392956; 
-	Tue, 11 Jul 2017 01:06:32 -0700 (PDT)
+	Tue, 11 Jul 2017 08:13:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6B8DdYV017656
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 11 Jul 2017 01:13:39 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 11 Jul 2017 01:13:38 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Tue, 11 Jul 2017 04:13:37 -0400
+Message-ID: <1499760817-127823-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Received: by 10.107.44.87 with HTTP; Tue, 11 Jul 2017 01:06:02 -0700 (PDT)
-In-Reply-To: <CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
-References: <cover.1498569089.git.jussi.kukkonen@intel.com>
-	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
-	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Tue, 11 Jul 2017 11:06:02 +0300
-Message-ID: <CAHiDW_FWXf4XJi9-KNMnb34DQ3rO-KuEKfPcveadrHzGdr0szA@mail.gmail.com>
-To: Andrea Galbusera <gizero@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
+Subject: [PATCH] dhcp: fix genetle shutdown not work while bind9 compile with --enable-threads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,87 +30,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 08:06:34 -0000
-Content-Type: multipart/alternative; boundary="001a114031ea78c3ee0554062d02"
+X-List-Received-Date: Tue, 11 Jul 2017 08:13:40 -0000
+Content-Type: text/plain
 
---001a114031ea78c3ee0554062d02
-Content-Type: text/plain; charset="UTF-8"
+Previously, OE enabled threads in bind9:
+...
+commit 598e5da5a2af2bd93ad890687dd32009e348fc85
+Author: Kai Kang <kai.kang@windriver.com>
+Date:   Fri May 19 16:52:46 2017 +0800
 
-On 10 July 2017 at 17:47, Andrea Galbusera <gizero@gmail.com> wrote:
+    bind: build with threads and update configure options
+...
 
-> During bisection the failing task changed from do_prepare_recipe_sysroot
-> to do_compile with the log below. I have no idea if these things do relate
-> themselves, but if not, I was not able to figure it out while bisecting.
->
-> | In file included from /home/gizero/work/smartliving/
-> distro/repo-master/build-poky/tmp/work/cortexa7hf-neon-vfpv4
-> -poky-linux-gnueabi/gtk+3/3.22.16-r0/recipe-sysroot/usr/
-> include/epoxy/egl.h:46:0,
-> |                  from ../../../gtk+-3.22.16/gdk/wayl
-> and/gdkglcontext-wayland.h:32,
-> |                  from ../../../gtk+-3.22.16/gdk/wayl
-> and/gdkglcontext-wayland.c:24:
-> | ../../../gtk+-3.22.16/gdk/wayland/gdkglcontext-wayland.c: In function
-> 'gdk_wayland_gl_context_realize':
-> | ../../../gtk+-3.22.16/gdk/wayland/gdkglcontext-wayland.c:179:43: error:
-> expected expression before 'EGLContext'
-> |                                          : EGL_NO_CONTEXT,
-> |                                            ^
->
+And enabled gentle shutdown in dhcp:
+...
+commit 2c789bac353e17637549a7b31706761ba848728e
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Tue Mar 15 14:39:40 2016 +0800
 
-Your bisect seems valid: gtk+3 uses a define that comes from epoxy and was
-changed in the update. The new define uses a EGL_CAST() macro that was
-added to eglplatform.h at the same time. mesa has updated their
-eglplatform.h so it all seems to work, but userland does not seem to have
-this macro?
+    dhcp: enable gentle shutdown
+...
 
-There's probably more to the story (since the error is not about implicit
-EGL_CAST() as one would expect). My first suggestion would be that userland
-eglplatform.h is updated to match current Khronos registry or at least to
-include the EGL_CAST definition.
+Both of them caused systemd's reboot hung. The reason is
+bind9 blocked SIGHUP, SIGINT and SIGTERM while compiled with
+--enable-threads, and dhcp use SIGINT and SIGTERM for
+gentle shutdown.
 
---001a114031ea78c3ee0554062d02
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+While systemd's reboot, it sends SIGTERM to dhclient by default,
+and dhclient block the singnal that caused reboot hung.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-0 July 2017 at 17:47, Andrea Galbusera <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:gizero@gmail.com" target=3D"_blank">gizero@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><=
-div><div class=3D"gmail-h5"><div class=3D"gmail_extra"><div class=3D"gmail_=
-quote"><span style=3D"color:rgb(34,34,34)">During bisection the failing tas=
-k changed from do_prepare_recipe_sysroot to do_compile with the log below. =
-I have no idea if these things do relate themselves, but if not, I was not =
-able to figure it out while bisecting.</span><br></div></div></div></div><d=
-iv class=3D"gmail_extra"><br>| In file included from /home/gizero/work/smar=
-tliving/<wbr>distro/repo-master/build-poky/<wbr>tmp/work/cortexa7hf-neon-vf=
-pv4<wbr>-poky-linux-gnueabi/gtk+3/3.<wbr>22.16-r0/recipe-sysroot/usr/<wbr>i=
-nclude/epoxy/egl.h:46:0,<br>|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from ../../../gtk=
-+-3.22.16/gdk/wayl<wbr>and/gdkglcontext-wayland.h:32,<br>|=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 from ../../../gtk+-3.22.16/gdk/wayl<wbr>and/gdkglcontext-wayla=
-nd.c:24:<br>| ../../../gtk+-3.22.16/gdk/wayl<wbr>and/gdkglcontext-wayland.c=
-: In function &#39;gdk_wayland_gl_context_realiz<wbr>e&#39;:<br>| ../../../=
-gtk+-3.22.16/gdk/wayl<wbr>and/gdkglcontext-wayland.c:<wbr>179:43: error: ex=
-pected expression before &#39;EGLContext&#39;<br>|=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-<wbr>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 : EGL_NO_CONTEXT,<br>|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<wbr>=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^<br></d=
-iv></div></blockquote><div><br></div><div>Your bisect seems valid: gtk+3 us=
-es a define that comes from epoxy and was changed in the update. The new de=
-fine uses a EGL_CAST() macro that was added to eglplatform.h at the same ti=
-me. mesa has updated their eglplatform.h so it all seems to work, but userl=
-and does not seem to have this macro?</div><div><br></div><div>There&#39;s =
-probably more to the story (since the error is not about implicit EGL_CAST(=
-) as one would expect). My first suggestion would be that userland eglplatf=
-orm.h is updated to match current Khronos registry or at least to include t=
-he EGL_CAST definition.</div><div><br></div><div><br></div></div></div></di=
-v>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...-shutdown-not-work-while-bind9-compile-wi.patch | 74 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb       |  1 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/fix-genetle-shutdown-not-work-while-bind9-compile-wi.patch
 
---001a114031ea78c3ee0554062d02--
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/fix-genetle-shutdown-not-work-while-bind9-compile-wi.patch b/meta/recipes-connectivity/dhcp/dhcp/fix-genetle-shutdown-not-work-while-bind9-compile-wi.patch
+new file mode 100644
+index 0000000..6340420
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/fix-genetle-shutdown-not-work-while-bind9-compile-wi.patch
+@@ -0,0 +1,74 @@
++From 91c50f7feb36ef13dba5fa0cefb918ae044da94f Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 10 Jul 2017 05:20:55 -0400
++Subject: [PATCH] fix genetle shutdown not work while bind9 compile with --enable-threads
++
++While bind9 compile with --enable-threads, it blocked SIGHUP, SIGINT,
++SIGTERM which caused genetle shutdown not work.
++
++Unblock SIGTERM and SIGINT for genetle shutdown.
++
++The upstream (https://source.isc.org/git/dhcp.git) could work without
++the fix, because it disable gentle shutdown by default:
++...
++commit e9326fd0f4561db5496f18523da15612213bd1b4
++Author: Shawn Routhier <sar@isc.org>
++Date:   Wed Jul 2 08:49:19 2014 -0700
++
++    [master] Add define to disable gentle shutodwn by default
++...
++And built bind9 without --enable-threads does not require the fix neither.
++
++Upstream-Status: Inappropriate [OE specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ omapip/isclib.c | 25 +++++++++++++++++++++++++
++ 1 file changed, 25 insertions(+)
++
++diff --git a/omapip/isclib.c b/omapip/isclib.c
++index 13f0d3e..4fe3328 100644
++--- a/omapip/isclib.c
+++++ b/omapip/isclib.c
++@@ -29,6 +29,25 @@
++ 
++ #include <sys/time.h>
++ #include <signal.h>
+++#include <pthread.h>
+++
+++#if defined(ENABLE_GENTLE_SHUTDOWN)
+++void unblock_signal(void)
+++{
+++	sigset_t sset;
+++
+++	if (sigemptyset(&sset) != 0 ||
+++	    sigaddset(&sset, SIGTERM) != 0 ||
+++	    sigaddset(&sset, SIGINT) != 0) {
+++		log_error("sigsetops: %d\n", errno);
+++		return;
+++	}
+++	if (sigprocmask(SIG_UNBLOCK, &sset, NULL) != 0) {
+++		log_error("sigprocmask: %d\n", errno);
+++		return;
+++	}
+++}
+++#endif
++ 
++ dhcp_context_t dhcp_gbl_ctx;
++ int shutdown_signal = 0;
++@@ -188,6 +207,12 @@ dhcp_context_create(int flags,
++ 		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
++ 		if (result != ISC_R_SUCCESS)
++ 			return (result);
+++
+++
+++#if defined(ENABLE_GENTLE_SHUTDOWN)
+++		unblock_signal();
+++#endif
+++
++ 		dhcp_gbl_ctx.actx_started = ISC_TRUE;
++ 
++ 		/* Not all OSs support suppressing SIGPIPE through socket
++-- 
++2.8.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+index 0a73ecc..b20147a 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://tweak-to-support-external-bind.patch \
+             file://remove-dhclient-script-bash-dependency.patch \
+             file://build-shared-libs.patch \
++            file://fix-genetle-shutdown-not-work-while-bind9-compile-wi.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
+-- 
+2.8.1
+
+
