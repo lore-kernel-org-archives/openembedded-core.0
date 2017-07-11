@@ -1,51 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4846378044
+Return-Path: <maxin.john@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 61BC378038
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 12:45:29 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id 16so102606717qkg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 05:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4d9oWk4WXvWWekuVW8v44L4dQNcyqkaV9F/HB3UiLos=;
-	b=iWLEgfiD4X8Z7kiw9csy7CsBfrLSowNNtSDvbpLonTFxIqKcCBGBrdU6KRDbLjmVpE
-	fMJDclVX2Wsvk9CAx8rJqDBS5DPGYnYf8c9HvTp0VeCrOV6+GwybU+wiqaEYrfUvHdNh
-	ZwstsBZ5t8wkrT8cR1cTgLd6iuAOcSqbYD1rbJo+Ud//LChlAeZgzAZTD0R/ieME9izy
-	DrDzGzhQuGauN2b6TOS0S4Odj4dd8wpSvH0M0BDlQqo1VS3y8pxRTlIboZJob76lrXNt
-	IpyaNo5uUahHrj2tpp7THFxx+kHazx4hHgvHjwuSr4UxcZ4WIgJFIE5cHzkA5Nl4VR/I
-	coEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4d9oWk4WXvWWekuVW8v44L4dQNcyqkaV9F/HB3UiLos=;
-	b=lSms3SVw95zlsgtF5S1/ZFZ9/qMTG6ZXww4zsgGwF5MrquO2sRaAoahxX46OkCp+iH
-	lQtPwxfAZKymwgCvrEQ9v2B5v/Uw8hN385Y+3WaCRx8tVD0NzOTk/1ojktsf2FI1vJBi
-	ZQs0wp3G95HM+q1KKE6Zt1kbp9n0lNy/bDQAR2uOcamBZZpaUIBQaOX/xFpbmNsA2sHt
-	JInBlaPmcs692Aw/v/ENpPs2tLmAx4vpA8o9ReGBOWry4OhJAVqOvuWunL8IwtScwAoC
-	10rn4JhHvPREoqrXffy2Oo0xszttZLqqizcVhYQfXcwM1LW8GqtmdViqZKQGENsNE84Z
-	0+KA==
-X-Gm-Message-State: AIVw111RUetbm1ZP475mK8A8BVmx7eBFF3RmCM5NgreeZCBEWvqq2XfT
-	Op4GtCiT54H6MKokJU0GbUeFZuoaFrXR
-X-Received: by 10.200.56.40 with SMTP id q37mr10154260qtb.36.1499777131095;
-	Tue, 11 Jul 2017 05:45:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Tue, 11 Jul 2017 05:45:10 -0700 (PDT)
-In-Reply-To: <CA+chaQfym0xhN6NVHMEob_K94XbzY2PGEeoUzuCLsxoxKaijCw@mail.gmail.com>
-References: <20170709073537.16106-1-soren.brinkmann@xilinx.com>
-	<CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com>
-	<20170711101241.GB3263@jama>
-	<CAJTo0LYqWR3BVaT3bhKxv--rdocGW0MN9Pk6zQw-2sKEAQiVXQ@mail.gmail.com>
-	<CA+chaQfym0xhN6NVHMEob_K94XbzY2PGEeoUzuCLsxoxKaijCw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Jul 2017 13:45:10 +0100
-Message-ID: <CAJTo0LYdpnpQ7PrcjSRT2-KgmHiF5SXGEzxJUd0y3etb+MO3Yw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] valgrind: Update 3.12.0 -> 3.13.0
+	Tue, 11 Jul 2017 12:57:51 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jul 2017 05:57:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,346,1496127600"; d="scan'208";a="991630995"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 11 Jul 2017 05:57:52 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 517DA5808DD;
+	Tue, 11 Jul 2017 05:57:51 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jul 2017 15:58:10 +0300
+Message-Id: <1499777893-16292-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Cc: joshua.g.lock@intel.com, stanley.cheong.kwan.phoong@intel.com
+Subject: [PATCH 0/3] pkgconf: consider pkgconf as a replacement for pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 12:45:30 -0000
-Content-Type: multipart/alternative; boundary="001a113f4e142510c105540a132d"
+X-List-Received-Date: Tue, 11 Jul 2017 12:57:52 -0000
 
---001a113f4e142510c105540a132d
-Content-Type: text/plain; charset="UTF-8"
+pkgconf is a better replacement for pkg-config. Fedora 26 replaces the
+system pkg-config implementation with pkgconf because it "provides better
+support for handling .pc files and a stable library ABI/API for integrating
+into applications." and is actively maintained, unlike pkg-config.
 
-On 11 July 2017 at 12:42, Martin Jansa <martin.jansa@gmail.com> wrote:
+pkgconf aims to offer many improvements over pkg-config such as faster/more
+efficient dependency resolver which "allows for the user to more conservatively
+link their binaries -- which may be helpful in some environments, such as when
+prelink(1) is being used.
 
-> I guess it's gold again, https://gcc.gnu.org/ml/
-> gcc-patches/2014-05/msg01860.html
->
+pkgconf also aims to provide a more complete implementation of pkg-config.
+The features most likely to benefit the Yocto Project build system are the
+faster/more efficient dependency resolution and linker flag optimisation.
 
-I just replicated this and yes your failure is gold specific.
+To test this, after applying these patches, update "local.conf" as below:
 
-The upgrade failure is unrelated.
+PREFERRED_PROVIDER_pkgconfig = "pkgconf"
+PREFERRED_PROVIDER_pkgconfig-native = "pkgconf-native"
+PREFERRED_PROVIDER_nativesdk-pkgconfig = "nativesdk-pkgconf"
 
-Ross
+Links:
+1. http://pkgconf.org
+2. https://fedoraproject.org/wiki/Changes/pkgconf_as_system_pkg-config_implementation
+3. https://bugzilla.yoctoproject.org/show_bug.cgi?id=11308
 
---001a113f4e142510c105540a132d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Maxin B. John (3):
+  pkgconf: add recipe
+  libx11: fix build error
+  libxt: fix build failure
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 July 2017 at 12:42, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I guess =
-it&#39;s gold again,=C2=A0<a href=3D"https://gcc.gnu.org/ml/gcc-patches/201=
-4-05/msg01860.html" target=3D"_blank">https://gcc.gnu.org/ml/<wbr>gcc-patch=
-es/2014-05/msg01860.<wbr>html</a></div><div class=3D"yj6qo ajU"><div id=3D"=
-:3ma" class=3D"ajR" tabindex=3D"0"></div></div></blockquote></div><br>I jus=
-t replicated this and yes your failure is gold specific.</div><div class=3D=
-"gmail_extra"><br></div><div class=3D"gmail_extra">The upgrade failure is u=
-nrelated.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
+ meta/files/common-licenses/pkgconf                 | 10 ++++
+ .../pkgconf/pkgconf/pkg-config-native.in           |  6 +++
+ .../pkgconf/pkgconf/pkg-config-wrapper             | 16 +++++++
+ meta/recipes-devtools/pkgconf/pkgconf_1.3.7.bb     | 55 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb     |  3 ++
+ ...il-don-t-link-makestrs-with-target-cflags.patch | 33 +++++++++++++
+ meta/recipes-graphics/xorg-lib/libxt_1.1.5.bb      |  4 +-
+ 7 files changed, 126 insertions(+), 1 deletion(-)
+ create mode 100644 meta/files/common-licenses/pkgconf
+ create mode 100644 meta/recipes-devtools/pkgconf/pkgconf/pkg-config-native.in
+ create mode 100755 meta/recipes-devtools/pkgconf/pkgconf/pkg-config-wrapper
+ create mode 100644 meta/recipes-devtools/pkgconf/pkgconf_1.3.7.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxt/0001-libXt-util-don-t-link-makestrs-with-target-cflags.patch
 
---001a113f4e142510c105540a132d--
+-- 
+2.4.0
+
+
