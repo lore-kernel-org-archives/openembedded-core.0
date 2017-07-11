@@ -1,50 +1,63 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 15A89601F1
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FE6577E33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 16:53:41 +0000 (UTC)
-Received: by mail-qk0-f180.google.com with SMTP id p21so8618578qke.3
+	Tue, 11 Jul 2017 17:04:36 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id z78so852385lff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 09:53:43 -0700 (PDT)
+	Tue, 11 Jul 2017 10:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rdj7yWwgYAoC0tVzhcfpvWHmGK5Kf69sQ/QSahUHhIs=;
-	b=Nhd5KgWICY6Wcfiug2j4KonaGC0KpPTV44Ae4VZkjeiK4HbGcdfn4QAKjVMDdsPd24
-	/7hoX/+V8c9smL/Cv5rzZT05OnkgoAZ3c9U4fvlpj7J85Plkvg5Qesf7uPLTXV8khE5/
-	f4ZBGO6yj9JX5gpGkPjlBDuwF0DXeDabAOYlSFdnFlljuDCt52I1qVhBpLQhouEtdkgL
-	kvJI//oXsSlMbrGgOqxAfOoqETmIRlMUMMd/EZpRA/6Q9pNR/AQv5T4SPFRfFa/5kRo7
-	ipoFT4w3cdebGw0/Fk2DARC8mzPpiB1fxfHGK2yiyDQvG7hXAGUBECopAPoNNk+WHnTv
-	Ylug==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=B6fNVsw+P7S+X9FhGTgt4vBSN+CL7t4t5USPHaL+uUE=;
+	b=dDjr8KI6qPxpwuqPHgB8VVsee0csGpdQ4zo5gWnz5PKXe7WRBhtN7ZExZeFtxVqhjg
+	5lW+8TSE7RteG3TnS9tFPJcFIg6jdVnfyk6TReog6ZaFU9swHwhgzH2Bf+aHv91HQLNJ
+	lOis0PaPBO1ox3jsmCORAWkea4yMeFxOqGDT39x1cYWGNbwCsF8XrvsXvUsPTh2Dd6Hw
+	jblggvhwobmKRdK9b/TVwGWGXfLRZPDrx4D9ztUZcA5aNgwiYXOnuzpPeh1+qEJutYFm
+	hmWO6H1gUDtnnBvmjc4ykC2uRcAwTaTnDjtYnzZLFKpfIUvFe6ndvBQI5PnEtZMX1thp
+	K21A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=rdj7yWwgYAoC0tVzhcfpvWHmGK5Kf69sQ/QSahUHhIs=;
-	b=rTjQMn0b/s+Qd7a34vd1ErBIzLCpcofTHLwpg3ydQ5LS/FcOTvyrD7R1ieZcFSMPrH
-	IlO77r/x4QP/3Id5IQnSP9wE8B8qpaRMyaFpkBKb1GfoVyKeavWod5kSkzdbqFS/xCBs
-	9hBXUZG+bzOxCAEPYF2Yh1GBfYoSn94zpRYgp9S3EaQ4+ytfq7DizpGsdPSfBrkJm5qE
-	FjA106b9Il69xGuDllUnxT9VfsjZSmRWOH5mQsnw86MlJVK6IgJDUAV2PUJjsUSZ3vZT
-	RyQLfqSuUjrSzAhMzzsHErPcneR5jC34KTTGTuPHBBOv/BoSVxToGbT5+LK90zD5VxbM
-	qrBQ==
-X-Gm-Message-State: AIVw110J4xD3jDqdaeAjRG4geiEUnJh69p7rp6nxtIpgm2hxWTwXTqwt
-	xUKjP5hKFQl1zTRY0WkVXdwkQzHA/n/e
-X-Received: by 10.200.44.186 with SMTP id 55mr1094377qtw.173.1499792022675;
-	Tue, 11 Jul 2017 09:53:42 -0700 (PDT)
+	bh=B6fNVsw+P7S+X9FhGTgt4vBSN+CL7t4t5USPHaL+uUE=;
+	b=giVvF9beMp1aWkze0MBHjPDX4+lR8gxE0yaZNyVQQ0iEWfE2m80Um3uomRFF2vib6f
+	+I7vSTN4IbCCQj+cXtyHKVmJKsMRoiELZ5v+CLZ7z7cSXWJAnRRamNGhHq8/eerqRQwY
+	ay4h+1nV/QFrXIM0+dYv3391brAz6i463vsNtQ2+boQ1C8/ZC2qWabG2jrKfiLXJ6ole
+	kt2r3DhI7zCkB4o3caE9dPeKM6PhsGipwU0p88ciekGLGebMlliv/h5v6Qcmsli5R9/p
+	2cjkIkz3qdFnLjclXAgNwOG6Jaq6s+41wX26q77H1bEo6hw6gbKJVBwiX7+qfiuxhrMb
+	gFng==
+X-Gm-Message-State: AIVw113qwkY2CO392pY/yb0Mkmz4ekauVVpNgTZmauv84oXyM/IEUo+J
+	TwZKkMB6kKjsVCisdrw=
+X-Received: by 10.28.23.1 with SMTP id 1mr12659679wmx.106.1499792676546;
+	Tue, 11 Jul 2017 10:04:36 -0700 (PDT)
+Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com.
+	[209.85.128.180])
+	by smtp.gmail.com with ESMTPSA id r40sm523434wrb.37.2017.07.11.10.04.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Jul 2017 10:04:34 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f180.google.com with SMTP id 77so7515876wrb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 10:04:34 -0700 (PDT)
+X-Received: by 10.28.132.13 with SMTP id g13mr3469046wmd.58.1499792673771;
+	Tue, 11 Jul 2017 10:04:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Tue, 11 Jul 2017 09:53:22 -0700 (PDT)
-In-Reply-To: <CAMKF1sozPp_jSyoXJgAnO88R1TeX1oGdVmeEnka56DVSJWbwvg@mail.gmail.com>
-References: <1499777893-16292-1-git-send-email-maxin.john@intel.com>
-	<CAMKF1sozPp_jSyoXJgAnO88R1TeX1oGdVmeEnka56DVSJWbwvg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Jul 2017 17:53:22 +0100
-Message-ID: <CAJTo0LYPhXmzHZxxFgMdKdj75woAGcZzLB2txwh0DjH2t-Awiw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "Lock, Joshua G" <joshua.g.lock@intel.com>, "Phoong,
-	Stanley Cheong Kwan" <stanley.cheong.kwan.phoong@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] pkgconf: consider pkgconf as a replacement for pkg-config
+Received: by 10.28.73.84 with HTTP; Tue, 11 Jul 2017 10:04:32 -0700 (PDT)
+In-Reply-To: <CAHiDW_GV0z+8u6YG0wujroEbnAHnXueWWizDXpjBOkQp+FHwHg@mail.gmail.com>
+References: <20170703200210.32229-1-otavio@ossystems.com.br>
+	<20170703200210.32229-2-otavio@ossystems.com.br>
+	<CAHiDW_GV0z+8u6YG0wujroEbnAHnXueWWizDXpjBOkQp+FHwHg@mail.gmail.com>
+Date: Tue, 11 Jul 2017 14:04:32 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpw-+ek32du_1NybtmEM2NsbUBVg-P4wd2c-1TfVnobCA@mail.gmail.com>
+Message-ID: <CAP9ODKpw-+ek32du_1NybtmEM2NsbUBVg-P4wd2c-1TfVnobCA@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] mesa: Upgrade to 17.1.4 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +70,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 16:53:42 -0000
-Content-Type: multipart/alternative; boundary="001a1135977cbfbb2d05540d8a32"
-
---001a1135977cbfbb2d05540d8a32
+X-List-Received-Date: Tue, 11 Jul 2017 17:04:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 11 July 2017 at 17:17, Khem Raj <raj.khem@gmail.com> wrote:
-
-> Is this going to be the case permanently?
-> I would suggest to make pkgconf default and dump pkgconfig recipes at same
-> time
-> Or do we plan to wait for one release
+On Tue, Jul 11, 2017 at 6:00 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> On 3 July 2017 at 23:02, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>
+>> This includes following upstream bug fixes:
+>>
+>> Bug 77240 - khrplatform.h not installed if EGL is disabled
 >
+>
+> Saying this here as well for visibility:
+>
+> This conflicts with userland from meta-raspberrypi  because both mesa-gl and
+> userland now have khrplatform.h
+>
+> Since mesa-gl provides no GLES or EGL, it shouldn't really need to ship
+> khrplatform.h.
 
-For testing this is good, if it merges I think we should dump pkgconfig and
-have appropriate provides.
+I am not sure I follow you, could you explain it more? or if possible,
+send a patch and add me on Cc so we can discuss it.
 
-Ross
 
---001a1135977cbfbb2d05540d8a32
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 July 2017 at 17:17, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">Is this going to be=
- the case permanently?</div><div dir=3D"auto">I would suggest to make pkgco=
-nf default and dump pkgconfig recipes at same time</div><div dir=3D"auto">O=
-r do we plan to wait for one release=C2=A0</div></blockquote></div><br>For =
-testing this is good, if it merges I think we should dump pkgconfig and hav=
-e appropriate provides.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Ross</div></div>
-
---001a1135977cbfbb2d05540d8a32--
