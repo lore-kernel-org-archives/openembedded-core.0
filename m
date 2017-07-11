@@ -1,26 +1,25 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C090F7807D
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 155997806E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 12:03:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 05:03:08 -0700
+	Tue, 11 Jul 2017 12:26:27 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jul 2017 05:26:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,346,1496127600"; d="scan'208";a="1150337212"
+X-IronPort-AV: E=Sophos;i="5.40,346,1496127600"; d="scan'208";a="1171104805"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2017 05:03:08 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 05:26:28 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 588ED5804B8;
-	Tue, 11 Jul 2017 05:03:07 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 999B95804B8;
+	Tue, 11 Jul 2017 05:26:27 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org, fan.xin@jp.fujitsu.com,
-	fathi.boudra@linaro.org
-Date: Tue, 11 Jul 2017 15:03:04 +0300
-Message-Id: <8102dbf1ab0420cf03fece48213af05aa5aefe4c.1499773663.git.jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jul 2017 15:26:21 +0300
+Message-Id: <1499775981-13801-1-git-send-email-jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1499773663.git.jussi.kukkonen@intel.com>
-References: <cover.1499773663.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/1] acpitests: Remove as unmaintained
+MIME-Version: 1.0
+Subject: [PATCHv3] vulkan-demos: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,446 +32,316 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 12:03:08 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 12:26:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This recipe was last upgraded about ~30 releases or three years ago,
-it seems to only be touched when something breaks. It also has an
-'interesting' license that maybe is open source...
+Sascha Willems collection of Vulkan demos is useful as a smoke testing
+tool.
+
+* Add patch to install binaries and data.
+* Add patch to fix build on X86
+* Use a combination of patch and do_install_append to avoid some 3D
+models with unclear licensing.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../acpica/acpitests/aapits-linux.patch            | 336 ---------------------
- .../acpica/acpitests/aapits-makefile.patch         |  34 ---
- meta/recipes-extended/acpica/acpitests_20140828.bb |  36 ---
- 3 files changed, 406 deletions(-)
- delete mode 100644 meta/recipes-extended/acpica/acpitests/aapits-linux.patch
- delete mode 100644 meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
- delete mode 100644 meta/recipes-extended/acpica/acpitests_20140828.bb
 
-diff --git a/meta/recipes-extended/acpica/acpitests/aapits-linux.patch b/meta/recipes-extended/acpica/acpitests/aapits-linux.patch
-deleted file mode 100644
-index 5601046..0000000
---- a/meta/recipes-extended/acpica/acpitests/aapits-linux.patch
-+++ /dev/null
-@@ -1,336 +0,0 @@
--From: Al Stone <ahs3@ahs3.net>
--Date: Mon, 7 Apr 2014 19:09:37 +0000
--Subject: [PATCH 1/2] Fixup aapits build
--
--From http://git.linaro.org/people/al.stone/acpica-tools.git
--Upstream-Status: Pending
--
--diff -urN acpica-unix2-20130626/tests/aapits/atexec.c acpica-unix2-20130626-aapits/tests/aapits/atexec.c
----- acpica-unix2-20130626/tests/aapits/atexec.c	2013-01-17 12:48:28.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/atexec.c	2013-07-25 13:44:23.023894441 -0600
--@@ -639,6 +639,7 @@
-- }
-- 
-- 
--+#if ACPI_MACHINE_WIDTH == 32
-- /*******************************************************************************
--  *
--  * FUNCTION:    AtBuildLocalRSDT
--@@ -757,8 +758,9 @@
--         LocalRSDT->Header.Checksum = (UINT8)~LocalRSDT->Header.Checksum;
--     }
-- }
--+#endif
-- 
-- 
-- /*******************************************************************************
--  *
--  * FUNCTION:    AtBuildLocalXSDT
--@@ -1424,7 +1426,7 @@
--         ACPI_WARNING ((AE_INFO,
--             "Request on [%4.4s] is beyond region limit Req-%X+%X, Base=%X, Len-%X\n",
--             (RegionObject->Region.Node)->Name.Ascii, (UINT32) Address,
---            ByteWidth, (UINT32) BufferAddress, Length));
--+            ByteWidth, (UINT32) BufferAddress, (UINT32) Length));
-- 
--         return (AE_AML_REGION_LIMIT);
--     }
--@@ -1792,7 +1796,9 @@
--             Path, Obj.Integer.Value, Value);
-- #else
--         printf ("API Error: Value of %s is 0x%llx instead of expected 0x%llx\n",
---            Path, Obj.Integer.Value, Value);
--+            Path,
--+	    (long long unsigned int) Obj.Integer.Value,
--+	    (long long unsigned int) Value);
-- #endif
--         Status = AE_ERROR;
--     }
--@@ -1871,7 +1877,7 @@
--     {
--         TestErrors++;
--         printf ("Test Error: cannot allocate buffer of %d bytes\n",
---            Results.Length);
--+                (int) Results.Length);
--         return (AE_NO_MEMORY);
--     }
--     Results.Pointer = Object;
--@@ -1952,7 +1956,8 @@
--     {
--         printf ("AtCheckBuffer: unexpected length %d of Buffer vs"
--             " calculated %d bytes\n",
---            Results.Length, ACPI_ROUND_UP_TO_NATIVE_WORD(sizeof (ACPI_OBJECT) + Length));
--+            (int)Results.Length,
--+	    (int)(ACPI_ROUND_UP_TO_NATIVE_WORD(sizeof (ACPI_OBJECT) + Length)));
--     }
-- 
--     /* Initialize the return buffer structure */
--@@ -1961,7 +1968,7 @@
--     {
--         TestErrors++;
--         printf ("Test Error: cannot allocate buffer of %d bytes\n",
---            Results.Length);
--+            (int) Results.Length);
--         return (AE_NO_MEMORY);
--     }
--     Results.Pointer = Object;
--diff -urN acpica-unix2-20130626/tests/aapits/atinit.c acpica-unix2-20130626-aapits/tests/aapits/atinit.c
----- acpica-unix2-20130626/tests/aapits/atinit.c	2013-01-17 12:48:28.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/atinit.c	2013-07-25 13:20:19.706705960 -0600
--@@ -3024,7 +3024,7 @@
--             AapiErrors++;
--             printf ("API Error: AcpiGetSystemInfo() returned"
--                 " Length %d, expected %d\n",
---                OutBuffer.Length, sizeof (Info));
--+                (int) OutBuffer.Length, (int) sizeof (Info));
--             return (AE_ERROR);
--         }
-- 
--@@ -3046,7 +3046,7 @@
--             AapiErrors++;
--             printf ("API Error: AcpiGetSystemInfo() returned"
--                 " Length %d, expected %d\n",
---                OutBuffer.Length, sizeof (Info));
--+                (int) OutBuffer.Length, (int) sizeof (Info));
--             return (AE_ERROR);
--         }
-- 
--@@ -3066,7 +3066,7 @@
--             AapiErrors++;
--             printf ("API Error: AcpiGetSystemInfo() returned"
--                 " Length %d, expected %d\n",
---                OutBuffer.Length, sizeof (Info));
--+                (int) OutBuffer.Length, (int) sizeof (Info));
--             return (AE_ERROR);
--         }
--         else if (OutBuffer.Pointer != &Info)
--@@ -3149,7 +3149,7 @@
--             AapiErrors++;
--             printf ("API Error: AcpiGetSystemInfo() returned"
--                 " Length %d, expected %d\n",
---                OutBuffer.Length, sizeof (Info));
--+                (int) OutBuffer.Length, (int) sizeof (Info));
--             return (AE_ERROR);
--         }
--         else if (OutBuffer.Pointer != &Info)
--@@ -3214,7 +3214,7 @@
--             AapiErrors++;
--             printf ("API Error: AcpiGetSystemInfo() returned"
--                 " Length %d, expected %d\n",
---                OutBuffer.Length, sizeof (ACPI_SYSTEM_INFO));
--+                (int) OutBuffer.Length, (int) sizeof (ACPI_SYSTEM_INFO));
--             return (AE_ERROR);
--         }
--         else
--diff -urN acpica-unix2-20130626/tests/aapits/atmain.c acpica-unix2-20130626-aapits/tests/aapits/atmain.c
----- acpica-unix2-20130626/tests/aapits/atmain.c	2013-01-17 12:48:28.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/atmain.c	2013-07-25 13:18:22.083323948 -0600
--@@ -315,7 +315,7 @@
--     {
--         printf ("ACPICA API TS err: test num %ld of test case %ld"
--             " is not implemented\n",
---            test_num, test_case);
--+            (long int) test_num, (long int) test_case);
--         return (AtRetNotImpl);
--     }
-- 
--@@ -430,7 +432,7 @@
--     if (test_case < 1 || test_case > AT_TEST_CASE_NUM)
--     {
--         printf ("ACPICA API TS err: test case %ld is out of range 1 - %d\n",
---            test_case, AT_TEST_CASE_NUM);
--+            (long int) test_case, (int) AT_TEST_CASE_NUM);
--         return (AtRetBadParam);
--     }
-- 
--@@ -438,7 +440,7 @@
--     if (test_num < 0 || test_num > AtTestCase[test_case].TestsNum)
--     {
--         printf ("ACPICA API TS err: test num %ld is out of range 0 - %d\n",
---            test_num, AtTestCase[test_case].TestsNum);
--+            (long int) test_num, AtTestCase[test_case].TestsNum);
--         return (AtRetBadParam);
--     }
--
--diff -urN acpica-unix2-20130626/tests/aapits/atnamespace.c acpica-unix2-20130626-aapits/tests/aapits/atnamespace.c
----- acpica-unix2-20130626/tests/aapits/atnamespace.c	2013-01-17 12:48:28.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/atnamespace.c	2013-07-25 13:24:15.366466707 -0600
--@@ -2535,7 +2535,8 @@
-- #else
--                 printf ("API Error: Address of %s (0x%llX) != (0x%llX)\n",
--                     PathNames[2 * i + 1],
---                    Info->Address, ExpectedInfo[i].Address);
--+                    (long long unsigned int) Info->Address,
--+		    (long long unsigned int) ExpectedInfo[i].Address);
-- #endif
-- #else
--                 printf ("API Error: Address of %s (0x%X) != (0x%X)\n",
--@@ -2908,7 +2909,8 @@
--         TestErrors++;
--         printf ("AtGetNextObjectTypeCommon: different numbers of entities"
--             "in TypesNames (%d) and LevelTypes0000 (%d)\n",
---            TypesCount, sizeof (LevelTypes0000) / sizeof (ACPI_OBJECT_TYPE));
--+            TypesCount,
--+	    (int) (sizeof (LevelTypes0000) / sizeof (ACPI_OBJECT_TYPE)));
--         return (AE_ERROR);
--     }
-- 
--@@ -4192,7 +4194,9 @@
--             Pathname, Obj.Integer.Value, Value);
-- #else
--         printf ("API Error: Value of %s is 0x%llx instead of expected 0x%llx\n",
---            Pathname, Obj.Integer.Value, Value);
--+            Pathname,
--+	    (long long unsigned int) Obj.Integer.Value,
--+	    (long long unsigned int) Value);
-- #endif
--         Status = AE_ERROR;
--     }
--@@ -5199,7 +5203,7 @@
--             {
--                 AapiErrors++;
--                 printf ("API Error: AcpiOsAllocate(%d) returned NULL\n",
---                    OutName.Length);
--+                    (int) OutName.Length);
--                 return (AE_ERROR);
--             }
--         }
--diff -urN acpica-unix2-20130626/tests/aapits/atosxfctrl.c acpica-unix2-20130626-aapits/tests/aapits/atosxfctrl.c
----- acpica-unix2-20130626/tests/aapits/atosxfctrl.c	2013-01-17 12:48:28.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/atosxfctrl.c	2013-07-25 13:30:00.375492751 -0600
--@@ -737,13 +737,15 @@
-- #if ACPI_MACHINE_WIDTH == 64
-- #ifdef    _MSC_VER
--         printf("OsxfCtrlFingReg: unexpected Width %d of Reg 0x%I64x\n",
--+            Width, Address);
-- #else
--         printf("OsxfCtrlFingReg: unexpected Width %d of Reg 0x%llx\n",
--+            Width, (long long unsigned int) Address);
-- #endif
-- #else
--         printf("OsxfCtrlFingReg: unexpected Width %d of Reg 0x%x\n",
---#endif
--             Width, Address);
--+#endif
--         return (NULL);
--     }
-- 
--@@ -764,15 +766,19 @@
-- #ifdef    _MSC_VER
--                 printf("OsxfCtrlFingReg: intersection Regs (0x%I64x: 0x%x)"
--                     " and (0x%I64x: 0x%x)\n",
--+                    Reg->Address, Reg->Width, Address, Width);
-- #else
--                 printf("OsxfCtrlFingReg: intersection Regs (0x%llx: 0x%x)"
--                     " and (0x%llx: 0x%x)\n",
--+                    (long long unsigned int) Reg->Address,
--+		    Reg->Width,
--+		    (long long unsigned int) Address, Width);
-- #endif
-- #else
--                 printf("OsxfCtrlFingReg: intersection Regs (0x%x: 0x%x)"
--                     " and (0x%x: 0x%x)\n",
---#endif
--                     Reg->Address, Reg->Width, Address, Width);
--+#endif
--                 return (NULL);
--             }
--         }
--@@ -786,13 +792,15 @@
-- #if ACPI_MACHINE_WIDTH == 64
-- #ifdef    _MSC_VER
--             printf("OsxfCtrlFingReg: no memory for Reg (0x%I64x: 0x%x)\n",
--+                Reg->Address, Reg->Width);
-- #else
--             printf("OsxfCtrlFingReg: no memory for Reg (0x%llx: 0x%x)\n",
--+                (long long unsigned int) Reg->Address, Reg->Width);
-- #endif
-- #else
--             printf("OsxfCtrlFingReg: no memory for Reg (0x%x: 0x%x)\n",
---#endif
--                 Reg->Address, Reg->Width);
--+#endif
--             return (NULL);
--         }
--         Reg->Type = Type;
--@@ -932,14 +940,19 @@
-- #if ACPI_MACHINE_WIDTH == 64
-- #ifdef    _MSC_VER
--             printf("%.2u (%s Address 0x%I64x: Width %.2u) r/w counts: %u/%u\n",
--+                i, (Reg->Type == EMUL_REG_SYS)? "SYS": "IO",
--+                Reg->Address, Reg->Width, Reg->ReadCount, Reg->WriteCount);
-- #else
--             printf("%.2u (%s Address 0x%llx: Width %.2u) r/w counts: %u/%u\n",
--+                i, (Reg->Type == EMUL_REG_SYS)? "SYS": "IO",
--+                (long long unsigned int) Reg->Address,
--+		Reg->Width, Reg->ReadCount, Reg->WriteCount);
-- #endif
-- #else
--             printf("%.2u (%s Address 0x%.4x: Width %.2u) r/w counts: %u/%u\n",
---#endif
--                 i, (Reg->Type == EMUL_REG_SYS)? "SYS": "IO",
--                 Reg->Address, Reg->Width, Reg->ReadCount, Reg->WriteCount);
--+#endif
--             Reg = Reg->Next;
--             i++;
--         }
--diff -urN acpica-unix2-20130626/tests/aapits/atresource.c acpica-unix2-20130626-aapits/tests/aapits/atresource.c
----- acpica-unix2-20130626/tests/aapits/atresource.c	2013-01-17 12:48:29.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/atresource.c	2013-07-25 13:25:49.423565947 -0600
--@@ -174,7 +174,7 @@
--         AapiErrors++;
--         printf ("API Error: AcpiGetCurrentResources(%s) returned Length %d,"
--             " expected %d\n",
---            Pathname, OutBuffer.Length, RT0000_DEV0_CRS_LEN);
--+            Pathname, (int) OutBuffer.Length, RT0000_DEV0_CRS_LEN);
--         return (AE_ERROR);
--     }
-- 
--@@ -490,7 +490,7 @@
--         AapiErrors++;
--         printf ("API Error: AcpiGetCurrentResources(%s) returned Length %d,"
--             " expected %d\n",
---            Pathname, OutBuffer.Length, RT0000_DEV0_CRS_LEN);
--+            Pathname, (int) OutBuffer.Length, RT0000_DEV0_CRS_LEN);
--         return (AE_ERROR);
--     }
-- 
--@@ -689,7 +689,7 @@
--         AapiErrors++;
--         printf ("Api Error: Resource->Length (%d) != %d\n",
--             CurrentResource->Length,
---            ACPI_ROUND_UP_TO_NATIVE_WORD (ACPI_RS_SIZE (ACPI_RESOURCE_IRQ)));
--+            (int) (ACPI_ROUND_UP_TO_NATIVE_WORD (ACPI_RS_SIZE (ACPI_RESOURCE_IRQ))));
--     }
-- 
--     if (CurrentResource->Data.Irq.Triggering != 0) /* Level-Triggered */
--@@ -981,7 +981,7 @@
--         AapiErrors++;
--         printf ("API Error: AcpiGetPossibleResources(%s) returned Length %d,"
--             " expected %d\n",
---            Pathname, OutBuffer.Length, RT0000_DEV0_CRS_LEN);
--+            Pathname, (int) OutBuffer.Length, RT0000_DEV0_CRS_LEN);
--         return (AE_ERROR);
--     }
-- 
--@@ -1923,7 +1923,7 @@
--         AapiErrors++;
--         printf ("API Error: AcpiGetIrqRoutingTable(%s) returned Length %d,"
--             " expected %d\n",
---            Pathname, OutBuffer.Length, 0xA48);
--+            Pathname, (int) OutBuffer.Length, 0xA48);
--         return (AE_ERROR);
--     }
--
--diff -urN acpica-unix2-20130626/tests/aapits/Makefile acpica-unix2-20130626-aapits/tests/aapits/Makefile
----- acpica-unix2-20130626/tests/aapits/Makefile	2013-01-17 12:48:29.000000000 -0700
--+++ acpica-unix2-20130626-aapits/tests/aapits/Makefile	2013-07-25 15:17:09.309236422 -0600
--@@ -194,7 +194,7 @@
-- CFLAGS+= -Wall -g -D_LINUX -DNDEBUG -D_CONSOLE -DACPI_APITS -DACPI_EXEC_APP -D_MULTI_THREADED -Wstrict-prototypes -I../../source/include
--
-- 
---acpiexec : $(patsubst %.c,%.o, $(SRCS))
--+$(PROG) : $(patsubst %.c,%.o, $(SRCS))
-- 	$(CC) $(LDFLAGS) $(patsubst %.c,%.o, $(SRCS)) -o $(PROG)
-- 
-- CLEANFILES= $(PROG)
-diff --git a/meta/recipes-extended/acpica/acpitests/aapits-makefile.patch b/meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
-deleted file mode 100644
-index f9d9dea..0000000
---- a/meta/recipes-extended/acpica/acpitests/aapits-makefile.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From: Al Stone <ahs3@ahs3.net>
--Date: Mon, 7 Apr 2014 19:09:37 +0000
--Subject: [PATCH 1/2] Fixup aapits build
--
--From http://git.linaro.org/people/al.stone/acpica-tools.git
--Upstream-Status: Pending
--
--diff -urN acpica-unix2-20140325/tests/aapits/Makefile acpica-unix2-20140325/tests/aapits/Makefile
----- acpica-unix2-20140325/tests/aapits/Makefile	2014-04-05 14:23:14.683636794 -0600
--+++ acpica-unix2-20140325-aapits/tests/aapits/Makefile	2014-04-05 15:10:57.879184598 -0600
--@@ -16,6 +16,7 @@
-- 	atosxfwrap.c \
-- 	osunixxf.c \
-- 	../../source/common/ahids.c \
--+	../../source/common/ahuuids.c \
-- 	../../source/common/cmfsize.c \
-- 	../../source/common/getopt.c \
-- 	../../source/components/hardware/hwtimer.c \
--@@ -174,6 +175,7 @@
-- 	../../source/components/utilities/utexcep.c \
-- 	../../source/components/utilities/utfileio.c \
-- 	../../source/components/utilities/utglobal.c \
--+	../../source/components/utilities/uthex.c \
-- 	../../source/components/utilities/utids.c \
-- 	../../source/components/utilities/utinit.c \
-- 	../../source/components/utilities/utlock.c \
--@@ -189,6 +191,7 @@
-- 	../../source/components/utilities/utstate.c \
-- 	../../source/components/utilities/utstring.c \
-- 	../../source/components/utilities/uttrack.c \
--+	../../source/components/utilities/utuuid.c \
-- 	../../source/components/utilities/utxface.c \
-- 	../../source/components/utilities/utxferror.c \
-- 	../../source/components/utilities/utxfinit.c \
-diff --git a/meta/recipes-extended/acpica/acpitests_20140828.bb b/meta/recipes-extended/acpica/acpitests_20140828.bb
-deleted file mode 100644
-index 45ac157..0000000
---- a/meta/recipes-extended/acpica/acpitests_20140828.bb
-+++ /dev/null
-@@ -1,36 +0,0 @@
--SUMMARY = "Test suite used to validate ACPICA"
--HOMEPAGE = "http://www.acpica.org/"
--
--LICENSE = "Intel"
--LIC_FILES_CHKSUM = "file://tests/aapits/atexec.c;beginline=1;endline=115;md5=e92bcdfcd01d117d1bda3e814bb2030a"
--
--DEPENDS = "bison flex"
--
--SRC_URI = "https://acpica.org/sites/acpica/files/acpitests-unix-${PV}.tar.gz;name=acpitests \
--           https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz;name=acpica \
--           file://aapits-linux.patch \
--           file://aapits-makefile.patch \
--"
--SRC_URI[acpitests.md5sum] = "db9d6fdaa8e3eb101d700ee5ba4938ed"
--SRC_URI[acpitests.sha256sum] = "e576c74bf1bf1c9f7348bf9419e05c8acfece7105abcdc052e66670c7af2cf00"
--SRC_URI[acpica.md5sum] = "6f05f0d10166a1b1ff6107f3d1cdf1e5"
--SRC_URI[acpica.sha256sum] = "01d8867656c5ba41dec307c4383ce676196ad4281ac2c9dec9f5be5fac6d888e"
--UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
--
--S = "${WORKDIR}/acpitests-unix-${PV}"
--
--EXTRA_OEMAKE = "'CC=${CC}' 'OPT_CFLAGS=-Wall'"
--
--# The Makefiles expect a specific layout
--do_compile() {
--    cp -af ${WORKDIR}/acpica-unix2-${PV}/source ${S}
--    cd tests/aapits
--    oe_runmake
--}
--
--do_install() {
--    install -d ${D}${bindir}
--    install -m0755 tests/aapits/bin/aapits ${D}${bindir}
--}
--
--COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+Changes since v2:
+* Add a fake UPSTREAM_CHECK_GITTAGREGEX to silence the relevant
+  oe-selftest: The tags in upstream git are not releases.
+
+Changes since v1:
+* Add patch to fix build on x86
+
+
+ ...ild-demos-with-questionably-licensed-data.patch | 91 ++++++++++++++++++++++
+ .../vulkan-demos/0001-Fix-build-on-x86.patch       | 41 ++++++++++
+ ...stalling-demos-support-out-of-tree-builds.patch | 85 ++++++++++++++++++++
+ meta/recipes-graphics/vulkan/vulkan-demos_git.bb   | 36 +++++++++
+ 4 files changed, 253 insertions(+)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+
+diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
+new file mode 100644
+index 0000000..d32c8f2
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
+@@ -0,0 +1,91 @@
++From 55770fb07c42fe410cf8d09f8f5976babc89b9ef Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Tue, 4 Jul 2017 17:13:45 +0300
++Subject: [PATCH] Don't build demos with questionably licensed data
++
++Some of the models don't have open source compatible licenses:
++don't build demos using those. Also don't build demos that need
++resources that are not included.
++
++ssao:
++scenerendering:
++	Sibenik model, no license found
++
++deferred:
++deferredmultisampling:
++deferredshadows:
++	armor model, CC-BY-3.0
++
++vulkanscene:
++imgui:
++shadowmapping:
++	vulkanscene model, no license found
++
++indirectdraw:
++	plant model, no license found
++
++hdr:
++pbribl:
++pbrtexture:
++	Require external Vulkan Asset Pack
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ CMakeLists.txt | 13 -------------
++ 1 file changed, 13 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 4958fff..0f9d3e4 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -150,17 +150,11 @@ set(EXAMPLES
++ 	computeparticles
++ 	computeshader
++ 	debugmarker
++-	deferred
++-	deferredmultisampling
++-	deferredshadows
++ 	displacement
++ 	distancefieldfonts
++ 	dynamicuniformbuffer
++ 	gears
++ 	geometryshader
++-	hdr
++-	imgui
++-	indirectdraw	
++ 	instancing
++ 	mesh
++ 	multisampling
++@@ -170,20 +164,14 @@ set(EXAMPLES
++ 	parallaxmapping
++ 	particlefire
++ 	pbrbasic
++-	pbribl
++-	pbrtexture
++ 	pipelines
++ 	pushconstants
++ 	radialblur
++ 	raytracing
++-	scenerendering
++ 	screenshot
++-	shadowmapping
++-	shadowmappingomni
++ 	skeletalanimation
++ 	specializationconstants
++ 	sphericalenvmapping
++-	ssao
++ 	subpasses
++ 	terraintessellation
++ 	tessellation
++@@ -196,7 +184,6 @@ set(EXAMPLES
++ 	texturesparseresidency
++ 	triangle
++ 	viewportarray
++-	vulkanscene
++ )
++ 
++ buildExamples()
++-- 
++2.13.2
++
+diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch
+new file mode 100644
+index 0000000..681b342
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch
+@@ -0,0 +1,41 @@
++From b0495efb6c3ea3a530fcbaddac86da57ecce5a66 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Mon, 10 Jul 2017 13:11:12 +0300
++Subject: [PATCH] Fix build on x86
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++| func_common.inl:193:51: error: wrong number of template arguments
++| (5, should be 6) struct compute_sign<T, P, vecType, false, Aligned>
++
++The fix is backported from the upstream glm project.
++
++Upstream-Status: Pending [https://github.com/SaschaWillems/Vulkan/issues/356]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ external/glm/glm/detail/func_common.inl | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/external/glm/glm/detail/func_common.inl b/external/glm/glm/detail/func_common.inl
++index cafaed5..2dd94e1 100644
++--- a/external/glm/glm/detail/func_common.inl
+++++ b/external/glm/glm/detail/func_common.inl
++@@ -190,12 +190,12 @@ namespace detail
++ 
++ #	if GLM_ARCH == GLM_ARCH_X86
++ 	template<length_t L, typename T, precision P, template<length_t, typename, precision> class vecType, bool Aligned>
++-	struct compute_sign<T, P, vecType, false, Aligned>
+++	struct compute_sign<L, T, P, vecType, false, Aligned>
++ 	{
++ 		GLM_FUNC_QUALIFIER static vecType<L, T, P> call(vecType<L, T, P> const & x)
++ 		{
++ 			T const Shift(static_cast<T>(sizeof(T) * 8 - 1));
++-			vecType<L, T, P> const y(vecType<typename make_unsigned<T>::type, P>(-x) >> typename make_unsigned<T>::type(Shift));
+++			vecType<L, T, P> const y(vecType<L, typename make_unsigned<T>::type, P>(-x) >> typename make_unsigned<T>::type(Shift));
++ 
++ 			return (x >> Shift) | y;
++ 		}
++-- 
++2.1.4
++
+diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
+new file mode 100644
+index 0000000..4addea3
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
+@@ -0,0 +1,85 @@
++From edca667684764cfcc0460e448e834fadf623a887 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Mon, 3 Jul 2017 14:49:18 +0300
++Subject: [PATCH] Support installing demos, support out-of-tree builds
++
++This is especially useful for cross-compile situation where testing
++happens on target.
++
++-DRESOURCE_INSTALL_DIR=<path> decides where data is installed (and
++where the binaries will load the data from): if it's left empty,
++then nothing will be installed and binaries will load the data from
++CMAKE_SOURCE_DIR.
++
++Binaries are now correctly built in CMAKE_BINARY_DIR.
++
++Upstream-Status: Submitted [https://github.com/SaschaWillems/Vulkan/pull/352]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ CMakeLists.txt             | 15 ++++++++++++++-
++ base/vulkanexamplebase.cpp |  2 +-
++ 2 files changed, 15 insertions(+), 2 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index b9886bc..4958fff 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -16,6 +16,8 @@ include_directories(base)
++ OPTION(USE_D2D_WSI "Build the project using Direct to Display swapchain" OFF)
++ OPTION(USE_WAYLAND_WSI "Build the project using Wayland swapchain" OFF)
++ 
+++set(RESOURCE_INSTALL_DIR "" CACHE PATH "Path to install resources to (leave empty for running uninstalled)")
+++
++ # Use FindVulkan module added with CMAKE 3.7
++ if (NOT CMAKE_VERSION VERSION_LESS 3.7.0)
++ 	message(STATUS "Using module to find Vulkan")
++@@ -108,6 +110,10 @@ function(buildExample EXAMPLE_NAME)
++ 		add_executable(${EXAMPLE_NAME} ${MAIN_CPP} ${SOURCE} ${SHADERS})
++ 		target_link_libraries(${EXAMPLE_NAME} ${Vulkan_LIBRARY} ${ASSIMP_LIBRARIES} ${WAYLAND_CLIENT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
++ 	endif(WIN32)
+++
+++	if(RESOURCE_INSTALL_DIR)
+++		install(TARGETS ${EXAMPLE_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
+++	endif()
++ endfunction(buildExample)
++ 
++ # Build all examples
++@@ -117,6 +123,13 @@ function(buildExamples)
++ 	endforeach(EXAMPLE)
++ endfunction(buildExamples)
++ 
+++if(RESOURCE_INSTALL_DIR)
+++	add_definitions(-DVK_EXAMPLE_DATA_DIR=\"${RESOURCE_INSTALL_DIR}/\")
+++	install(DIRECTORY data/ DESTINATION ${RESOURCE_INSTALL_DIR}/)
+++else()
+++	add_definitions(-DVK_EXAMPLE_DATA_DIR=\"${CMAKE_SOURCE_DIR}/data/\")
+++endif()
+++
++ # Compiler specific stuff
++ IF(MSVC)
++ 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
++@@ -128,7 +141,7 @@ ELSE(WIN32)
++ 	link_libraries(${XCB_LIBRARIES} ${Vulkan_LIBRARY})
++ ENDIF(WIN32)
++ 
++-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/")
+++set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
++ 
++ set(EXAMPLES 
++ 	bloom
++diff --git a/base/vulkanexamplebase.cpp b/base/vulkanexamplebase.cpp
++index 647368a..a0f28a5 100644
++--- a/base/vulkanexamplebase.cpp
+++++ b/base/vulkanexamplebase.cpp
++@@ -84,7 +84,7 @@ const std::string VulkanExampleBase::getAssetPath()
++ #if defined(__ANDROID__)
++ 	return "";
++ #else
++-	return "./../data/";
+++	return VK_EXAMPLE_DATA_DIR;
++ #endif
++ }
++ #endif
++-- 
++2.13.2
++
+diff --git a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+new file mode 100644
+index 0000000..fcd9e7b
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+@@ -0,0 +1,36 @@
++DESCRIPTION = "Collection of Vulkan examples"
++LICENSE = "MIT"
++DEPENDS = "zlib"
++
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=dcf473723faabf17baa9b5f2207599d0 \
++                    file://triangle/triangle.cpp;endline=12;md5=bccd1bf9cadd9e10086cf7872157e4fa"
++
++SRC_URI = "git://github.com/SaschaWillems/Vulkan.git \
++           file://0001-Support-installing-demos-support-out-of-tree-builds.patch \
++           file://0001-Don-t-build-demos-with-questionably-licensed-data.patch \
++           file://0001-Fix-build-on-x86.patch \
++"
++SRCREV = "18df00c7b4677b0889486e16977857aa987947e2"
++UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
++S = "${WORKDIR}/git"
++
++inherit cmake distro_features_check
++DEPENDS = "vulkan assimp"
++
++do_install_append () {
++    # Remove assets that have uncertain licenses
++    rm ${D}${datadir}/vulkan-demos/models/armor/* \
++       ${D}${datadir}/vulkan-demos/models/sibenik/* \
++       ${D}${datadir}/vulkan-demos/models/vulkanscene* \
++       ${D}${datadir}/vulkan-demos/models/plants.dae \
++       ${D}${datadir}/vulkan-demos/textures/texturearray_plants*
++}
++
++EXTRA_OECMAKE = "-DRESOURCE_INSTALL_DIR=${datadir}/vulkan-demos"
++
++ANY_OF_DISTRO_FEATURES = "x11 wayland"
++
++# Can only pick one of [wayland,xcb]
++PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'xcb' ,d)}"
++PACKAGECONFIG[wayland] = "-DUSE_WAYLAND_WSI=ON, -DUSE_WAYLAND_WSI=OFF, wayland"
++PACKAGECONFIG[xcb] = ",,libxcb"
 -- 
 2.1.4
 
