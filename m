@@ -1,25 +1,51 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 155997806E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4846378044
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 12:26:27 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jul 2017 05:26:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,346,1496127600"; d="scan'208";a="1171104805"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 05:26:28 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 999B95804B8;
-	Tue, 11 Jul 2017 05:26:27 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 15:26:21 +0300
-Message-Id: <1499775981-13801-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
+	Tue, 11 Jul 2017 12:45:29 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id 16so102606717qkg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 05:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4d9oWk4WXvWWekuVW8v44L4dQNcyqkaV9F/HB3UiLos=;
+	b=iWLEgfiD4X8Z7kiw9csy7CsBfrLSowNNtSDvbpLonTFxIqKcCBGBrdU6KRDbLjmVpE
+	fMJDclVX2Wsvk9CAx8rJqDBS5DPGYnYf8c9HvTp0VeCrOV6+GwybU+wiqaEYrfUvHdNh
+	ZwstsBZ5t8wkrT8cR1cTgLd6iuAOcSqbYD1rbJo+Ud//LChlAeZgzAZTD0R/ieME9izy
+	DrDzGzhQuGauN2b6TOS0S4Odj4dd8wpSvH0M0BDlQqo1VS3y8pxRTlIboZJob76lrXNt
+	IpyaNo5uUahHrj2tpp7THFxx+kHazx4hHgvHjwuSr4UxcZ4WIgJFIE5cHzkA5Nl4VR/I
+	coEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4d9oWk4WXvWWekuVW8v44L4dQNcyqkaV9F/HB3UiLos=;
+	b=lSms3SVw95zlsgtF5S1/ZFZ9/qMTG6ZXww4zsgGwF5MrquO2sRaAoahxX46OkCp+iH
+	lQtPwxfAZKymwgCvrEQ9v2B5v/Uw8hN385Y+3WaCRx8tVD0NzOTk/1ojktsf2FI1vJBi
+	ZQs0wp3G95HM+q1KKE6Zt1kbp9n0lNy/bDQAR2uOcamBZZpaUIBQaOX/xFpbmNsA2sHt
+	JInBlaPmcs692Aw/v/ENpPs2tLmAx4vpA8o9ReGBOWry4OhJAVqOvuWunL8IwtScwAoC
+	10rn4JhHvPREoqrXffy2Oo0xszttZLqqizcVhYQfXcwM1LW8GqtmdViqZKQGENsNE84Z
+	0+KA==
+X-Gm-Message-State: AIVw111RUetbm1ZP475mK8A8BVmx7eBFF3RmCM5NgreeZCBEWvqq2XfT
+	Op4GtCiT54H6MKokJU0GbUeFZuoaFrXR
+X-Received: by 10.200.56.40 with SMTP id q37mr10154260qtb.36.1499777131095;
+	Tue, 11 Jul 2017 05:45:31 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCHv3] vulkan-demos: Add recipe
+Received: by 10.140.31.118 with HTTP; Tue, 11 Jul 2017 05:45:10 -0700 (PDT)
+In-Reply-To: <CA+chaQfym0xhN6NVHMEob_K94XbzY2PGEeoUzuCLsxoxKaijCw@mail.gmail.com>
+References: <20170709073537.16106-1-soren.brinkmann@xilinx.com>
+	<CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com>
+	<20170711101241.GB3263@jama>
+	<CAJTo0LYqWR3BVaT3bhKxv--rdocGW0MN9Pk6zQw-2sKEAQiVXQ@mail.gmail.com>
+	<CA+chaQfym0xhN6NVHMEob_K94XbzY2PGEeoUzuCLsxoxKaijCw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Jul 2017 13:45:10 +0100
+Message-ID: <CAJTo0LYdpnpQ7PrcjSRT2-KgmHiF5SXGEzxJUd0y3etb+MO3Yw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] valgrind: Update 3.12.0 -> 3.13.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,317 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 12:26:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Jul 2017 12:45:30 -0000
+Content-Type: multipart/alternative; boundary="001a113f4e142510c105540a132d"
 
-Sascha Willems collection of Vulkan demos is useful as a smoke testing
-tool.
+--001a113f4e142510c105540a132d
+Content-Type: text/plain; charset="UTF-8"
 
-* Add patch to install binaries and data.
-* Add patch to fix build on X86
-* Use a combination of patch and do_install_append to avoid some 3D
-models with unclear licensing.
+On 11 July 2017 at 12:42, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+> I guess it's gold again, https://gcc.gnu.org/ml/
+> gcc-patches/2014-05/msg01860.html
+>
 
-Changes since v2:
-* Add a fake UPSTREAM_CHECK_GITTAGREGEX to silence the relevant
-  oe-selftest: The tags in upstream git are not releases.
+I just replicated this and yes your failure is gold specific.
 
-Changes since v1:
-* Add patch to fix build on x86
+The upgrade failure is unrelated.
 
+Ross
 
- ...ild-demos-with-questionably-licensed-data.patch | 91 ++++++++++++++++++++++
- .../vulkan-demos/0001-Fix-build-on-x86.patch       | 41 ++++++++++
- ...stalling-demos-support-out-of-tree-builds.patch | 85 ++++++++++++++++++++
- meta/recipes-graphics/vulkan/vulkan-demos_git.bb   | 36 +++++++++
- 4 files changed, 253 insertions(+)
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-demos_git.bb
+--001a113f4e142510c105540a132d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
-new file mode 100644
-index 0000000..d32c8f2
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Don-t-build-demos-with-questionably-licensed-data.patch
-@@ -0,0 +1,91 @@
-+From 55770fb07c42fe410cf8d09f8f5976babc89b9ef Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 4 Jul 2017 17:13:45 +0300
-+Subject: [PATCH] Don't build demos with questionably licensed data
-+
-+Some of the models don't have open source compatible licenses:
-+don't build demos using those. Also don't build demos that need
-+resources that are not included.
-+
-+ssao:
-+scenerendering:
-+	Sibenik model, no license found
-+
-+deferred:
-+deferredmultisampling:
-+deferredshadows:
-+	armor model, CC-BY-3.0
-+
-+vulkanscene:
-+imgui:
-+shadowmapping:
-+	vulkanscene model, no license found
-+
-+indirectdraw:
-+	plant model, no license found
-+
-+hdr:
-+pbribl:
-+pbrtexture:
-+	Require external Vulkan Asset Pack
-+
-+Upstream-Status: Inappropriate [configuration]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ CMakeLists.txt | 13 -------------
-+ 1 file changed, 13 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 4958fff..0f9d3e4 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -150,17 +150,11 @@ set(EXAMPLES
-+ 	computeparticles
-+ 	computeshader
-+ 	debugmarker
-+-	deferred
-+-	deferredmultisampling
-+-	deferredshadows
-+ 	displacement
-+ 	distancefieldfonts
-+ 	dynamicuniformbuffer
-+ 	gears
-+ 	geometryshader
-+-	hdr
-+-	imgui
-+-	indirectdraw	
-+ 	instancing
-+ 	mesh
-+ 	multisampling
-+@@ -170,20 +164,14 @@ set(EXAMPLES
-+ 	parallaxmapping
-+ 	particlefire
-+ 	pbrbasic
-+-	pbribl
-+-	pbrtexture
-+ 	pipelines
-+ 	pushconstants
-+ 	radialblur
-+ 	raytracing
-+-	scenerendering
-+ 	screenshot
-+-	shadowmapping
-+-	shadowmappingomni
-+ 	skeletalanimation
-+ 	specializationconstants
-+ 	sphericalenvmapping
-+-	ssao
-+ 	subpasses
-+ 	terraintessellation
-+ 	tessellation
-+@@ -196,7 +184,6 @@ set(EXAMPLES
-+ 	texturesparseresidency
-+ 	triangle
-+ 	viewportarray
-+-	vulkanscene
-+ )
-+ 
-+ buildExamples()
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch
-new file mode 100644
-index 0000000..681b342
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Fix-build-on-x86.patch
-@@ -0,0 +1,41 @@
-+From b0495efb6c3ea3a530fcbaddac86da57ecce5a66 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Mon, 10 Jul 2017 13:11:12 +0300
-+Subject: [PATCH] Fix build on x86
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+| func_common.inl:193:51: error: wrong number of template arguments
-+| (5, should be 6) struct compute_sign<T, P, vecType, false, Aligned>
-+
-+The fix is backported from the upstream glm project.
-+
-+Upstream-Status: Pending [https://github.com/SaschaWillems/Vulkan/issues/356]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ external/glm/glm/detail/func_common.inl | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/external/glm/glm/detail/func_common.inl b/external/glm/glm/detail/func_common.inl
-+index cafaed5..2dd94e1 100644
-+--- a/external/glm/glm/detail/func_common.inl
-++++ b/external/glm/glm/detail/func_common.inl
-+@@ -190,12 +190,12 @@ namespace detail
-+ 
-+ #	if GLM_ARCH == GLM_ARCH_X86
-+ 	template<length_t L, typename T, precision P, template<length_t, typename, precision> class vecType, bool Aligned>
-+-	struct compute_sign<T, P, vecType, false, Aligned>
-++	struct compute_sign<L, T, P, vecType, false, Aligned>
-+ 	{
-+ 		GLM_FUNC_QUALIFIER static vecType<L, T, P> call(vecType<L, T, P> const & x)
-+ 		{
-+ 			T const Shift(static_cast<T>(sizeof(T) * 8 - 1));
-+-			vecType<L, T, P> const y(vecType<typename make_unsigned<T>::type, P>(-x) >> typename make_unsigned<T>::type(Shift));
-++			vecType<L, T, P> const y(vecType<L, typename make_unsigned<T>::type, P>(-x) >> typename make_unsigned<T>::type(Shift));
-+ 
-+ 			return (x >> Shift) | y;
-+ 		}
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
-new file mode 100644
-index 0000000..4addea3
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos/0001-Support-installing-demos-support-out-of-tree-builds.patch
-@@ -0,0 +1,85 @@
-+From edca667684764cfcc0460e448e834fadf623a887 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Mon, 3 Jul 2017 14:49:18 +0300
-+Subject: [PATCH] Support installing demos, support out-of-tree builds
-+
-+This is especially useful for cross-compile situation where testing
-+happens on target.
-+
-+-DRESOURCE_INSTALL_DIR=<path> decides where data is installed (and
-+where the binaries will load the data from): if it's left empty,
-+then nothing will be installed and binaries will load the data from
-+CMAKE_SOURCE_DIR.
-+
-+Binaries are now correctly built in CMAKE_BINARY_DIR.
-+
-+Upstream-Status: Submitted [https://github.com/SaschaWillems/Vulkan/pull/352]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ CMakeLists.txt             | 15 ++++++++++++++-
-+ base/vulkanexamplebase.cpp |  2 +-
-+ 2 files changed, 15 insertions(+), 2 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index b9886bc..4958fff 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -16,6 +16,8 @@ include_directories(base)
-+ OPTION(USE_D2D_WSI "Build the project using Direct to Display swapchain" OFF)
-+ OPTION(USE_WAYLAND_WSI "Build the project using Wayland swapchain" OFF)
-+ 
-++set(RESOURCE_INSTALL_DIR "" CACHE PATH "Path to install resources to (leave empty for running uninstalled)")
-++
-+ # Use FindVulkan module added with CMAKE 3.7
-+ if (NOT CMAKE_VERSION VERSION_LESS 3.7.0)
-+ 	message(STATUS "Using module to find Vulkan")
-+@@ -108,6 +110,10 @@ function(buildExample EXAMPLE_NAME)
-+ 		add_executable(${EXAMPLE_NAME} ${MAIN_CPP} ${SOURCE} ${SHADERS})
-+ 		target_link_libraries(${EXAMPLE_NAME} ${Vulkan_LIBRARY} ${ASSIMP_LIBRARIES} ${WAYLAND_CLIENT_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-+ 	endif(WIN32)
-++
-++	if(RESOURCE_INSTALL_DIR)
-++		install(TARGETS ${EXAMPLE_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
-++	endif()
-+ endfunction(buildExample)
-+ 
-+ # Build all examples
-+@@ -117,6 +123,13 @@ function(buildExamples)
-+ 	endforeach(EXAMPLE)
-+ endfunction(buildExamples)
-+ 
-++if(RESOURCE_INSTALL_DIR)
-++	add_definitions(-DVK_EXAMPLE_DATA_DIR=\"${RESOURCE_INSTALL_DIR}/\")
-++	install(DIRECTORY data/ DESTINATION ${RESOURCE_INSTALL_DIR}/)
-++else()
-++	add_definitions(-DVK_EXAMPLE_DATA_DIR=\"${CMAKE_SOURCE_DIR}/data/\")
-++endif()
-++
-+ # Compiler specific stuff
-+ IF(MSVC)
-+ 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-+@@ -128,7 +141,7 @@ ELSE(WIN32)
-+ 	link_libraries(${XCB_LIBRARIES} ${Vulkan_LIBRARY})
-+ ENDIF(WIN32)
-+ 
-+-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/")
-++set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
-+ 
-+ set(EXAMPLES 
-+ 	bloom
-+diff --git a/base/vulkanexamplebase.cpp b/base/vulkanexamplebase.cpp
-+index 647368a..a0f28a5 100644
-+--- a/base/vulkanexamplebase.cpp
-++++ b/base/vulkanexamplebase.cpp
-+@@ -84,7 +84,7 @@ const std::string VulkanExampleBase::getAssetPath()
-+ #if defined(__ANDROID__)
-+ 	return "";
-+ #else
-+-	return "./../data/";
-++	return VK_EXAMPLE_DATA_DIR;
-+ #endif
-+ }
-+ #endif
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-new file mode 100644
-index 0000000..fcd9e7b
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-@@ -0,0 +1,36 @@
-+DESCRIPTION = "Collection of Vulkan examples"
-+LICENSE = "MIT"
-+DEPENDS = "zlib"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=dcf473723faabf17baa9b5f2207599d0 \
-+                    file://triangle/triangle.cpp;endline=12;md5=bccd1bf9cadd9e10086cf7872157e4fa"
-+
-+SRC_URI = "git://github.com/SaschaWillems/Vulkan.git \
-+           file://0001-Support-installing-demos-support-out-of-tree-builds.patch \
-+           file://0001-Don-t-build-demos-with-questionably-licensed-data.patch \
-+           file://0001-Fix-build-on-x86.patch \
-+"
-+SRCREV = "18df00c7b4677b0889486e16977857aa987947e2"
-+UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
-+S = "${WORKDIR}/git"
-+
-+inherit cmake distro_features_check
-+DEPENDS = "vulkan assimp"
-+
-+do_install_append () {
-+    # Remove assets that have uncertain licenses
-+    rm ${D}${datadir}/vulkan-demos/models/armor/* \
-+       ${D}${datadir}/vulkan-demos/models/sibenik/* \
-+       ${D}${datadir}/vulkan-demos/models/vulkanscene* \
-+       ${D}${datadir}/vulkan-demos/models/plants.dae \
-+       ${D}${datadir}/vulkan-demos/textures/texturearray_plants*
-+}
-+
-+EXTRA_OECMAKE = "-DRESOURCE_INSTALL_DIR=${datadir}/vulkan-demos"
-+
-+ANY_OF_DISTRO_FEATURES = "x11 wayland"
-+
-+# Can only pick one of [wayland,xcb]
-+PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', 'xcb' ,d)}"
-+PACKAGECONFIG[wayland] = "-DUSE_WAYLAND_WSI=ON, -DUSE_WAYLAND_WSI=OFF, wayland"
-+PACKAGECONFIG[xcb] = ",,libxcb"
--- 
-2.1.4
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 11 July 2017 at 12:42, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I guess =
+it&#39;s gold again,=C2=A0<a href=3D"https://gcc.gnu.org/ml/gcc-patches/201=
+4-05/msg01860.html" target=3D"_blank">https://gcc.gnu.org/ml/<wbr>gcc-patch=
+es/2014-05/msg01860.<wbr>html</a></div><div class=3D"yj6qo ajU"><div id=3D"=
+:3ma" class=3D"ajR" tabindex=3D"0"></div></div></blockquote></div><br>I jus=
+t replicated this and yes your failure is gold specific.</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">The upgrade failure is u=
+nrelated.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
 
-
+--001a113f4e142510c105540a132d--
