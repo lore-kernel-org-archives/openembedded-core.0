@@ -1,42 +1,52 @@
-Return-Path: <sstrogin@cisco.com>
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4137377E51
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 04CE377E24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 17:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=6140; q=dns/txt; s=iport;
-	t=1499794319; x=1501003919;
-	h=from:subject:to:references:cc:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=gllQeLtd342GjS5RLMy36/P7e3uqxUOgu3OA1T2Hgkg=;
-	b=UOGSr8VF/Y6SOEFP8zG/uT1Y5kALSvlqz0xpS7P3O8d1e9klQgi+u/Vx
-	OmbbTj220nPHNWjS8TRqeO+50RHr7SXGs8AGVEZ2+7MvKmSWcDg5CcOKu
-	YPsKQElWBZ/s8NXbOgNtEo4ncm1cTg6F3nvztGTXqH4PNV8eLY6lIcxBJ A=;
-X-IronPort-AV: E=Sophos;i="5.40,347,1496102400"; d="scan'208";a="653178867"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
-	([173.38.203.22])
-	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jul 2017 17:31:53 +0000
-Received: from [10.61.102.111] (dhcp-10-61-102-111.cisco.com [10.61.102.111])
-	(authenticated bits=0)
-	by aer-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id v6BHVYmp000427
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Tue, 11 Jul 2017 17:31:53 GMT
-From: Stefan Strogin <sstrogin@cisco.com>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170620162102.27948-1-sstrogin@cisco.com>
-	<c2a53be7-9d79-04e5-e6d3-5e1918443a9d@windriver.com>
-Message-ID: <f2e42f21-8059-c195-c2b6-b21f5af4d51e@cisco.com>
-Date: Tue, 11 Jul 2017 20:31:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
+	Tue, 11 Jul 2017 18:00:09 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id g21so1005365lfk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 11:00:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=YQHz6Psm2QipqMW4A0vbsxqaCsRFNbNG4965hQonl+0=;
+	b=epyN7UFXckAyI/w8RNsftNzFE+zLyITm/iVoh6tZ5HAp6uao4zQKP8xJ9hLnU/aajv
+	fHmG9ui0gHjZa8EEu/4myq/Hdos7/MY0Mdsjq2dC1VSw09NaPpQ7/1/a6jq94BQXYLmp
+	D4pQxdhZbeN0VXyjvC4hfY835sqqp4k2eUvbX9J/noM5aM3v468oVN5fOuF7zChCehwJ
+	KzTDPtCD6m5FR0gHwvsfv72meDjy4v7Wdo7CX2DgTerd3C6EM1x540kzv4rBUJiRHR+l
+	7X9UU2/1UFjbGA4/PkJWSQERUJX1nu/CI+zH2nZp4igUG066Nj5oqqCzOn1f70hMruh7
+	gC7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=YQHz6Psm2QipqMW4A0vbsxqaCsRFNbNG4965hQonl+0=;
+	b=CEXCtOVJTsdlCZIHNV3RCkoGiMRQ7OwT259j9/qoe2jSGY9XIesqr1a1O36gZqPrZR
+	47wyhU2t/zG6AW9x76lkOjltRb3HggBwVwSd77AU+2aQKLWCRnHNqnP7gR0OGErn0UCY
+	ImQJEaROi87p9NL1rcoSDoENWfhDM6L3bqMsy1m6dsWuKYW5WD0OBGOGSfPz5S4n3tiK
+	ddHj4wB0UFHx5ZJdTb8RApTsjvX30G7+KUZtrb4m3BBEe4RZtc3iWLI+NInxT6EPOvZt
+	p9fEQWcUf7XV9QEIvbnnj4HjE+EHvfUVR/OnmMI0G/UXREFOJEI1ODkTsztYXzP9vrZ5
+	x1dQ==
+X-Gm-Message-State: AIVw1119lIomM4EdaBxCOETMfB+5DcLkQmS5oSO0M99mKqPU1M0uDObi
+	V0B2CksZKXJdXlg3J20QZ72Q6TFdxQ==
+X-Received: by 10.80.145.198 with SMTP id h6mr3369140eda.108.1499796010490;
+	Tue, 11 Jul 2017 11:00:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c2a53be7-9d79-04e5-e6d3-5e1918443a9d@windriver.com>
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Authenticated-User: sstrogin
-Cc: xe-linux-external@cisco.com
-Subject: Re: [PATCH v3] slang: add ptest
+Received: by 10.80.145.210 with HTTP; Tue, 11 Jul 2017 10:59:39 -0700 (PDT)
+In-Reply-To: <CAHiDW_EK4f9PoCnoCzDbNjmKrQeyT-UmJ2jDVqxsmq=CQHLfWg@mail.gmail.com>
+References: <cover.1498569089.git.jussi.kukkonen@intel.com>
+	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
+	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
+	<CAHiDW_FuM-jB6f+xN1QOcqAvTUvfehfpWjoSL8N+XiFS9kLX-Q@mail.gmail.com>
+	<CAHiDW_GVArsb8O_kgsBLyqC=6sLz8c3+ABsCPD_QSkpU6G5aHQ@mail.gmail.com>
+	<CAHiDW_EK4f9PoCnoCzDbNjmKrQeyT-UmJ2jDVqxsmq=CQHLfWg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Jul 2017 10:59:39 -0700
+Message-ID: <CAMKF1srwg43QrxOGz7UrqmuQ5ptRNJzYC5p9GAcLN7Ldw0ynuA@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,164 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 17:31:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jul 2017 18:00:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Robert,
+On Tue, Jul 11, 2017 at 1:34 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> On 11 July 2017 at 11:27, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>
+>> On 11 July 2017 at 10:42, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>>>
+>>>> Exception: FileExistsError: [Errno 17] File exists:
+>>>> '/home/gizero/work/smartliving/distro/repo-master/build-poky/tmp/sysroots-components/raspberrypi3/userland/usr/include/KHR/khrplatform.h'
+>>>> ->
+>>>> '/home/gizero/work/smartliving/distro/repo-master/build-poky/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/gtk+3/3.22.16-r0/recipe-sysroot/usr/include/KHR/khrplatform.h'
+>>>
+>>>
+>>> /usr/include/KHR/khrplatform.h is the egl platform header file, provided
+>>> by both mesa and RPI userland. Does mesa end up in your gtk+3 recipe-sysroot
+>>> somehow?
+>>>
+>>> For clarity: this could be a bug but it is unlikely to be related to the
+>>> libepoxy change (it does not use or ship the actual header file).
+>>>
+>>
+>>
+>> Actually this was maybe fixed by Otavios upgrade to mesa 17.1.4 -- mesa
+>> accidentally shipped khrplatform.h even when egl was disabled (which is what
+>> mesa-gl in oe-core does).
+>>
+>
+> Sorry, I've not had enough  coffee. It was the other way round:
+> khrplatform.h is the platform header that mesa now thinks is needed whether
+> egl is enabled or not -- so they've started installing it in any case from
+> 17.1.4 which means mesa-gl now provides khrplatform.h and thus conflicts
+> with userland.
+>
+> I don't know what the correct fix is yet, just wanted to correct my original
+> wrong info.
+>
 
-Thanks for the report. Could you say how to reproduce the error? What target architecture, config options, oe-core version, etc do you use?
-I have tried with openembedded-core 643c81af (master), with
-MACHINE = "qemux86-64",
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks ptest-pkgs"
-DISTRO_FEATURES += "ptest"
-and CORE_IMAGE_EXTRA_INSTALL += "slang"
-set in local.conf, everything builds fine.
+Post an update to sync this header for userland package.
 
---
-Stefan
-
-On 11/07/17 04:36, Robert Yang wrote:
-> Hello Stefan,
-> 
-> There is an error when do_compile_ptest_base:
-> 
-> | ../objs/libslang.a(sldisply.o): In function `tt_tgetstr':
-> | /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2576: undefined 
-> reference to `tgetstr'
-> | ../objs/libslang.a(sldisply.o): In function `SLtt_initialize':
-> | /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2770: undefined 
-> reference to `tgetent'
-> | ../objs/libslang.a(sldisply.o): In function `tt_tgetflag':
-> | /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2635: undefined 
-> reference to `tgetflag'
-> 
-> 
-> It is because it uses ncurses5-config which is wrong in oe-core, the 
-> log.do_configure shows:
-> 
-> checking for ncurses5-config... 
-> /buildarea/lyang1/test_m/tmp/work/i586-poky-linux/slang/2.3.1a-r0/recipe-sysroot/usr/bin/crossscripts/ncurses5-config
-> checking for terminfo... ERROR: /usr/bin/ncurses5-config should not be used, use 
-> an alternative such as pkg-config
-> 
-> Would you please fix it?
-> 
-> // Robert
-> 
-> On 06/21/2017 12:21 AM, Stefan Strogin wrote:
->> This patch adds ptest for slang, it uses `make runtests` to run tests.
->> The Makefile runs runtests.sh for each *.sl and *.slc tests.
->> runtests.sh is patched for printing test results in a common format,
->> Makefile is patched in order not to compile any dependencies.
->>
->> Changes v2->v3: rebased on the latest master (1d9a88f6).
->>
->> Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
->> Cc: xe-linux-external@cisco.com
->> ---
->>  meta/recipes-extended/slang/slang/run-ptest        |  3 +++
->>  ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
->>  meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
->>  3 files changed, 57 insertions(+), 1 deletion(-)
->>  create mode 100644 meta/recipes-extended/slang/slang/run-ptest
->>  create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
->>
->> diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
->> new file mode 100644
->> index 0000000000..39f474af31
->> --- /dev/null
->> +++ b/meta/recipes-extended/slang/slang/run-ptest
->> @@ -0,0 +1,3 @@
->> +#!/bin/sh
->> +
->> +make -C test runtests
->> diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
->> new file mode 100644
->> index 0000000000..27a9bb87ea
->> --- /dev/null
->> +++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
->> @@ -0,0 +1,30 @@
->> +From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
->> +From: Stefan Strogin <sstrogin@cisco.com>
->> +Date: Thu, 2 Mar 2017 00:26:31 +0200
->> +Subject: [PATCH] test: add output in the format "result: testname"
->> +
->> +Upstream-Status: Inappropriate [oe specific]
->> +
->> +Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
->> +---
->> + src/test/runtests.sh | 2 ++
->> + 1 file changed, 2 insertions(+)
->> +
->> +diff --git a/src/test/runtests.sh b/src/test/runtests.sh
->> +index a3eaad0..64f0705 100755
->> +--- a/src/test/runtests.sh
->> ++++ b/src/test/runtests.sh
->> +@@ -34,8 +34,10 @@ do
->> +     then
->> + 	n_failed=`expr ${n_failed} + 1`
->> + 	tests_failed="$tests_failed $testfile"
->> ++	echo "FAIL: $testfile"
->> +     else
->> +         touch lastrun/$testfile
->> ++	echo "PASS: $testfile"
->> +     fi
->> + done
->> +
->> +--
->> +2.11.0
->> +
->> diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
->> index c71d80481f..b302104ee1 100644
->> --- a/meta/recipes-extended/slang/slang_2.3.1a.bb
->> +++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
->> @@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
->>  SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
->>             file://no-x.patch \
->>             file://dont-link-to-host.patch \
->> +           file://test-add-output-in-the-format-result-testname.patch \
->> +           file://run-ptest \
->>            "
->>
->>  SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
->> @@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
->>  UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
->>  PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
->>
->> -inherit autotools-brokensep
->> +inherit autotools-brokensep ptest
->>  CLEANBROKEN = "1"
->>
->>  EXTRA_OECONF = "--without-onig"
->> @@ -49,6 +51,27 @@ do_configure_prepend() {
->>      cd ${B}
->>  }
->>
->> +do_compile_ptest() {
->> +	oe_runmake -C src static
->> +	oe_runmake -C src/test sltest
->> +}
->> +
->> +do_install_ptest() {
->> +	mkdir ${D}${PTEST_PATH}/test
->> +	for f in Makefile sltest runtests.sh *.sl *.inc; do
->> +		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
->> +	done
->> +	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
->> +	    -e '/\$(CC).*(TEST_PGM)/d' \
->> +	    -i ${D}${PTEST_PATH}/test/Makefile
->> +
->> +	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
->> +	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
->> +
->> +	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
->> +	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
->> +}
->> +
->>  FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
->>
->>  PARALLEL_MAKE = ""
->>
-
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
