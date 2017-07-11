@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 72D8177F69
+	by mail.openembedded.org (Postfix) with ESMTP id C084B77EF7
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Jul 2017 20:23:37 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:30 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279691"
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279714"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.139])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:29 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:33 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 15:23:23 -0500
-Message-Id: <29e884f7ace8f31c716e39d0102ac3e5d1674ed3.1499803885.git.anibal.limon@linux.intel.com>
+Date: Tue, 11 Jul 2017 15:23:26 -0500
+Message-Id: <8761b6a1e6e0a2cf4c4354b8fe03925ea16b3591.1499803885.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: joshua.g.lock@intel.com
-Subject: [PATCH 08/30] oeqa/core/threaded: logSummary add skipped tests info
+Subject: [PATCH 11/30] oeqa/selftest/case: Add wrappers to utils.commands modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +33,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 20:23:37 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 20:23:38 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+This methods are wrappers to use builddir by Test class.
+
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/core/threaded.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/lib/oeqa/selftest/case.py | 96 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 94 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/threaded.py b/meta/lib/oeqa/core/threaded.py
-index a7dc0aed401..022c9ac59a2 100644
---- a/meta/lib/oeqa/core/threaded.py
-+++ b/meta/lib/oeqa/core/threaded.py
-@@ -234,6 +234,14 @@ class OETestResultThreaded(object):
-                     self._results[tid]['result'].wasSuccessful()
-         return wasSuccessful
+diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+index dd24e366abd..3998aeac5c4 100644
+--- a/meta/lib/oeqa/selftest/case.py
++++ b/meta/lib/oeqa/selftest/case.py
+@@ -6,10 +6,11 @@ import os
+ import shutil
+ import glob
+ import errno
++import re
+ from unittest.util import safe_repr
  
-+    def getSkippedTests(self):
-+        skipped = 0
-+
-+        for tid in self._results.keys():
-+            skipped = skipped + len(self.tc._results[tid]['skipped'])
-+
-+        return skipped
-+
-     def stop(self):
-         for tid in self._results.keys():
-             self._results[tid]['result'].stop()
-@@ -248,6 +256,9 @@ class OETestResultThreaded(object):
-             msg = "%s - OK - All required tests passed" % component
-         else:
-             msg = "%s - FAIL - Required tests failed" % component
-+        skipped = self.getSkippedTests()
-+        if skipped:
-+            msg += " (skipped=%d)" % skipped
-         self.tc.logger.info(msg)
+ import oeqa.utils.ftools as ftools
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.commands import runCmd, bitbake, get_bb_env, get_bb_var, get_bb_vars
+ from oeqa.core.case import OETestCase
  
-     def logDetails(self):
+ class OESelftestTestCase(OETestCase):
+@@ -197,7 +198,7 @@ to ensure accurate results.")
+         if self._extra_tear_down_commands:
+             failed_extra_commands = []
+             for command in self._extra_tear_down_commands:
+-                result = runCmd(command, ignore_status=True)
++                result = self.runCmd(command, ignore_status=True)
+                 if not result.status ==  0:
+                     failed_extra_commands.append(command)
+             if failed_extra_commands:
+@@ -313,3 +314,94 @@ to ensure accurate results.")
+             msg = self._formatMessage(msg, "%s exists when it should not" % safe_repr(expr))
+ 
+             raise self.failureException(msg)
++
++    # utils commands to run on it's on builddir
++    @classmethod 
++    def _env_own_builddir(cls, **kwargs):
++        env = None
++
++        if 'env' in kwargs:
++            env = kwargs['env']
++
++            if not 'BUILDDIR' in env:
++                env['BUILDDIR'] = cls.builddir
++            if not 'BBPATH' in env:
++                env['BBPATH'] = cls.builddir
++
++        else:
++            env = os.environ.copy()
++            env['BUILDDIR'] = cls.builddir
++            env['BBPATH'] = cls.builddir
++
++        kwargs['env'] = env
++
++        # XXX: tinfoil doesn't honor BBPATH bblayers and tinfoil test
++        # modules uses it
++        if not 'cwd' in kwargs:
++            kwargs['cwd'] = cls.builddir
++
++        # XXX: uncomment for debugging purposes
++        #kwargs['output_log'] = cls.logger
++
++        return kwargs
++
++    @classmethod
++    def runCmd(cls, *args, **kwargs):
++        kwargs = cls._env_own_builddir(**kwargs)
++        return runCmd(*args, **kwargs)
++
++    @classmethod
++    def bitbake(cls, *args, **kwargs):
++        kwargs = cls._env_own_builddir(**kwargs)
++        return bitbake(*args, **kwargs)
++
++    @classmethod
++    def get_bb_env(cls, target=None, postconfig=None):
++        if target:
++            return cls.bitbake("-e %s" % target, postconfig=postconfig).output
++        else:
++            return cls.bitbake("-e", postconfig=postconfig).output
++
++    @classmethod
++    def get_bb_vars(cls, variables=None, target=None, postconfig=None):
++        """Get values of multiple bitbake variables"""
++        bbenv = cls.get_bb_env(target, postconfig=postconfig)
++
++        if variables is not None:
++            variables = variables.copy()
++        var_re = re.compile(r'^(export )?(?P<var>\w+(_.*)?)="(?P<value>.*)"$')
++        unset_re = re.compile(r'^unset (?P<var>\w+)$')
++        lastline = None
++        values = {}
++        for line in bbenv.splitlines():
++            match = var_re.match(line)
++            val = None
++            if match:
++                val = match.group('value')
++            else:
++                match = unset_re.match(line)
++                if match:
++                    # Handle [unexport] variables
++                    if lastline.startswith('#   "'):
++                        val = lastline.split('"')[1]
++            if val:
++                var = match.group('var')
++                if variables is None:
++                    values[var] = val
++                else:
++                    if var in variables:
++                        values[var] = val
++                        variables.remove(var)
++                    # Stop after all required variables have been found
++                    if not variables:
++                        break
++            lastline = line
++        if variables:
++            # Fill in missing values
++            for var in variables:
++                values[var] = None
++        return values
++    
++    @classmethod 
++    def get_bb_var(cls, var, target=None, postconfig=None):
++        return cls.get_bb_vars([var], target, postconfig)[var]
 -- 
 2.11.0
 
