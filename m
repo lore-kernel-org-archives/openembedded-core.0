@@ -1,40 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FA2777D9F
+Return-Path: <Lev.Iserovich@deshawresearch.com>
+Received: from drdwsfe1.nyc.desres.deshaw.com (nyvpn.deshawresearch.com
+	[38.109.87.242])
+	by mail.openembedded.org (Postfix) with ESMTP id A883577D9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 15:06:25 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id v143so629871qkb.3
+	Tue, 11 Jul 2017 15:10:10 +0000 (UTC)
+Received: from drdws0019.nyc.desres.deshaw.com
+	(drdws0019.nyc.desres.deshaw.com [149.77.52.116])
+	by drdwsfe1.nyc.desres.deshaw.com (Postfix) with ESMTP id AA650EA9FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 08:06:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=kwkK2MCOPKXu+WT+2/DO05fygtRJEYOOKRGA6aoCt+U=;
-	b=o5jxz68C/yEmi1svmRcouOBuii3VAz7ZcMLVviwRtZepMuOvvdaOcCTudXIl+Fab0g
-	eeNQFmUZ0ryL9SGh0wQilb26CV54BkPHv6OIWSHCK0RCKbRcfO+6fRMUmbMNjtBjarMc
-	AwICiXVEpUJ4/SaabIl40eskKh4n0WHoZtffq9yA2yTBR0zmOJQJqNM7M6IZTgXFCvBf
-	czy/+bWxKIrQAFRZDyIyHXX/PwwB1RJmAYUV85vIj5OvkRBgJUFiqwDzCXA+AgJeBpoz
-	es7BnvhEnr8p4vl2i4FStFZn8Y9+20as5QrMfBIIPHGDXyVdVzPDSnq8ZEVMbXnvp+e4
-	h2BA==
-X-Gm-Message-State: AIVw1130gM24FlzB8bLvZgSCsVXMGZvK2DZFH6pUpy7xexuSPaXtnMs3
-	P9dDXNnMe1hBPwa9
-X-Received: by 10.55.97.13 with SMTP id v13mr421521qkb.107.1499785586643;
-	Tue, 11 Jul 2017 08:06:26 -0700 (PDT)
-Received: from localhost.localdomain ([179.105.243.125])
-	by smtp.gmail.com with ESMTPSA id j7sm128460qtb.60.2017.07.11.08.06.23
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 11 Jul 2017 08:06:25 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 11 Jul 2017 12:06:16 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Jul 2017 12:06:14 -0300
-Message-Id: <20170711150614.22675-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.13.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] libarchive: Upgrade to 3.3.2 release
+	Tue, 11 Jul 2017 11:10:11 -0400 (EDT)
+To: openembedded-core@lists.openembedded.org
+References: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
+	<20170710213119.2381.49390@do.openembedded.org>
+From: Lev Iserovich <Lev.Iserovich@deshawresearch.com>
+Message-ID: <2753237e-e5ce-54e8-5a45-2dea9fed8899@deshawresearch.com>
+Date: Tue, 11 Jul 2017 11:10:11 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <20170710213119.2381.49390@do.openembedded.org>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdldHRleHQ6IEVuYWJsZSBnZW5lcmF0aW9uIG9mIGxpYmFzcHJpbnRmIGluIGdldHRleHQgMC4xOQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 15:06:34 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 15:10:12 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+Can anyone help me with undestanding this - I'm confused by this 
+patchwork failure.
+The patch applies just fine on top of master - my patch was based on top 
+of the commit with the hash referenced by patchwork below.
 
- .../libarchive/{libarchive_3.3.1.bb => libarchive_3.3.2.bb}           | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/libarchive/{libarchive_3.3.1.bb => libarchive_3.3.2.bb} (93%)
+Thanks,
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.3.1.bb b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-similarity index 93%
-rename from meta/recipes-extended/libarchive/libarchive_3.3.1.bb
-rename to meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-index 7a7da58b1f..9bf40f2609 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.3.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
-@@ -34,8 +34,8 @@ EXTRA_OECONF += "--enable-largefile"
- SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-           "
- 
--SRC_URI[md5sum] = "d2af45480aa5b0db5b5f3919cd0ea65e"
--SRC_URI[sha256sum] = "29ca5bd1624ca5a007aa57e16080262ab4379dbf8797f5c52f7ea74a3b0424e7"
-+SRC_URI[md5sum] = "4583bd6b2ebf7e0e8963d90879eb1b27"
-+SRC_URI[sha256sum] = "ed2dbd6954792b2c054ccf8ec4b330a54b85904a80cef477a1c74643ddafa0ce"
- 
- inherit autotools update-alternatives pkgconfig
- 
--- 
-2.13.2
+Lev Iserovich
+
+On 07/10/2017 05:31 PM, Patchwork wrote:
+> == Series Details ==
+>
+> Series: gettext: Enable generation of libasprintf in gettext 0.19
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/7657/
+> State : failure
+>
+> == Summary ==
+>
+>
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+>
+>
+>
+> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
+>    Suggested fix    Rebase your series on top of targeted branch
+>    Targeted branch  master (currently at 7dd5dfc4d5)
+>
+>
+>
+> If you believe any of these test results are incorrect, please reply to the
+> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> Otherwise we would appreciate you correcting the issues and submitting a new
+> version of the patchset if applicable. Please ensure you add/increment the
+> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> [PATCH v3] -> ...).
+>
+> ---
+> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>
 
 
