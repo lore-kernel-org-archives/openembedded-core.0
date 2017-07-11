@@ -1,48 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A02E77BF0
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0188277D03
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 14:28:01 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id 77so256707wrb.3
+	Tue, 11 Jul 2017 14:46:55 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jul 2017 07:46:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171152215"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 07:46:56 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id A67D05804B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 07:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JB3oZncq53g+4flqc3MmaSqaMtf7ATbuhhD8XWy9EJ4=;
-	b=SC0ei8ZU9+25SLGIxMnhNhrTx6ukFNnSHnx+jTMLq8XjatkPUJbY69iXeLA5PtxakC
-	5HmOkwsFlG00MoRpEA5e7peHMRx4NiZRe8qt1FCpeGHVViwSr0Qcm2+yjRmBjVWljJDq
-	GX3G9vYMc6/N6XSYLEaazoHni4z346Koh4vMKYsPHfJ1lQsJp+nyE4prMpYw7P2p2r+q
-	Lmi1KkrnN/DRSUWnVhu6cUi926s2B1wM+TKDCk0geIQfjTLSmXicCW9QCRnzcsDPjYRc
-	PZkug9HpADJfguq9+JWJCUevOvVHFFz48RrW9yMT+Iuq9rese82x4Nkk5S7wo22w/IJv
-	Ub4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JB3oZncq53g+4flqc3MmaSqaMtf7ATbuhhD8XWy9EJ4=;
-	b=oXjgPi0I8nT9tOCmAoqatHkCr9mkhRcs9HAp/M5/Ay79UN7B02LYZd6drkHP6/ejNY
-	mGrAOP7i2mN62DmPIsdp2WfLvPBu1eAsRTrc2pQCnqnNO5RQDRL4wQivC2BKSllg5E5a
-	w4fdMWo0MhQ/UTaCuHcCAP8LWN4xFmlLjwhwDEKFUYIadMLQxAyBmDzMoiZ6f3BmjZNn
-	NX26yGpaxVmhGLZegQaSiVqJu3CFeyb4a76KbqX1L2Rz9FbqJuKRinqL3MdwRCrvW1jj
-	braTJWQ/vx3tNHiEzDColWV/Rhh2HWLtqgmCr18yYXV6vNHod1YyDY6rdg/Vc/97cpWU
-	iGCQ==
-X-Gm-Message-State: AIVw112SBpKgAGyTqoJFLbXU882YHQEOJU8te9L7fdCxGj2UGNo1dyHB
-	te5m3nic3mSjKa5CflJFOfpvAG8GmQ==
-X-Received: by 10.80.145.198 with SMTP id h6mr2741996eda.108.1499783282965;
-	Tue, 11 Jul 2017 07:28:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.145.210 with HTTP; Tue, 11 Jul 2017 07:27:32 -0700 (PDT)
-In-Reply-To: <CA+chaQcZbeocSbAhDUyzP4FLKbBe5Wsw6RL-Xp0paNt-JYGb1w@mail.gmail.com>
-References: <20170711140546.23414-1-raj.khem@gmail.com>
-	<CA+chaQcZbeocSbAhDUyzP4FLKbBe5Wsw6RL-Xp0paNt-JYGb1w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Jul 2017 07:27:32 -0700
-Message-ID: <CAMKF1sp0XwJx09aiDwLLTcOfK26=NzAWqjeggvkGzsk8c=xnRg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-cross: Fix linker and fortran symlinks
+	Tue, 11 Jul 2017 07:46:55 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jul 2017 17:34:22 +0300
+Message-Id: <cover.1499783283.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] runqemu: rework of exception handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,87 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 14:28:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 11 Jul 2017 14:46:58 -0000
 
-On Tue, Jul 11, 2017 at 7:16 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Shouldn't the symlink be created in ${D}${STAGING_DIR_NATIVE} as suggested
-> in:
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-April/091480.html
+Hi,
 
-unrelated to this change but I agree, probably we can get by creating relative
-symlink in ${D}${STAGING_DIR_NATIVE}${prefix_native}/bin
+Reorganized exception handling code in a way that script raises RunQemuError
+for all known errors. runqemu will not produce tracebacks for known errors.
+It will only print error messages, which is hopefully more user friendly than
+current approach.
 
->
-> On Tue, Jul 11, 2017 at 3:05 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> If we used -fuse-ld gcc option, then it does not work
->> ending in
->>
->> collect2: fatal error: cannot find 'ld'
->> compilation terminated.
->>
->> This is because we are not creating proper symlinks for BFD
->> and Gold linker in gcc installation
->>
->> Secondly, we end up with dangling fortran compiler symlinks
->> if fortran is not enabled when confguring gcc, therefore
->> create these symlinks only when fortran support is enabled
->> in gcc
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  meta/recipes-devtools/gcc/gcc-cross.inc | 10 ++++++----
->>  1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc
->> b/meta/recipes-devtools/gcc/gcc-cross.inc
->> index b08bc197ba..1e184a60db 100644
->> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
->> @@ -161,17 +161,19 @@ do_install () {
->>
->>         install -d ${D}${target_base_libdir}
->>         install -d ${D}${target_libdir}
->> -
->> +
->>         # Link gfortran to g77 to satisfy not-so-smart configure or hard
->> coded g77
->>         # gfortran is fully backwards compatible. This is a safe and
->> practical solution.
->> -       ln -sf
->> ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gfortran
->> ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}g77 || true
->> +       if [ -n "${@d.getVar('FORTRAN')}" ]; then
->> +               ln -sf
->> ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gfortran
->> ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}g77 || true
->> +               fortsymlinks="g77 gfortran"
->> +       fi
->>
->> -
->>         # Insert symlinks into libexec so when tools without a prefix are
->> searched for, the correct ones are
->>         # found. These need to be relative paths so they work in different
->> locations.
->>         dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
->>         install -d $dest
->> -       for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp
->> gfortran; do
->> +       for t in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip
->> gcc cpp $fortsymlinks; do
->>                 ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
->>                 ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t
->> ${dest}${TARGET_PREFIX}$t
->>         done
->> --
->> 2.13.2
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+Fixed 11719 - Unneeded stack trace is printed when ruunqemu fails
+
+The following changes since commit 05e28a9c3462c8987a44e534bc6d08d26b4c41fb:
+
+  imagefutures: add test_image_fstypes test case (2017-07-10 14:14:37 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
+
+Ed Bartosh (2):
+  runqemu: reworked exception handling
+  runqemu: check exit code of 'ls -t'
+
+ scripts/runqemu | 118 ++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 60 insertions(+), 58 deletions(-)
+
+--
+Regards,
+Ed
 
