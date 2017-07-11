@@ -1,65 +1,45 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B852477E33
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D49A77E3F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 13:57:52 +0000 (UTC)
-Received: by mail-wr0-f173.google.com with SMTP id 77so461545wrb.1
+	Tue, 11 Jul 2017 14:05:54 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id e199so77794pfh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 06:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=NrIS0+UC03hyimhy+k67+KNIiMfF12ZH4e8ua4q7z2Y=;
-	b=DawnzJQKsljg5OtvmxFySdob/rVFNpKLegJzi8cpMrz89ows+EBzDO5YRj1AVLo3vJ
-	wm+yY+E6dlgUyCsCD2HV1iwJMk6/ZJFwOr+ThB5d/33gmJajWF/HH1GIOErxkRjZftQ8
-	pOSc/VC462ls/nObM/b+2An92CBYNuxARELvUjfiBfv+2a6zmJ0IG9ABykhR6NcjuXpC
-	3ZDMXMgTCay5zKOhKg6V/c32B6aTrEXJYRUdXYzzoluv+9a5TdvuOJnJZOzVTfKdjCDJ
-	S5Po5CNc3Fihl222ASlMKuJ2FMKJMzdvTs7u8vXWR/YZHmNBcbSYdIiNBYYI5qzOraXA
-	Z+qg==
+	Tue, 11 Jul 2017 07:05:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=gr3wnJdwWk1MVeyqzvJ8kScYNWpfU69SVTGgsm68Lhc=;
+	b=be0sEu5XKMF13Yb1y/tvPYmUYEt3McH17lZDOXqXzUSulIgO2YNkCnv5EIhH9qRw16
+	/okAoqClc/keZK1PRqhLdCcKkrDt1dnlgrukVUjENxYak4C0NRxavEAeOkXnQ7OFZCKd
+	GS80qgTjb0fEteRt08XmVI/wul+g/m4zAVrzAZFUEnnRv5Fw2SMmA7iwbkiQYVjHp0Co
+	Kc+jlvfF4amC1ZjRoGS3ExGF5va7tX/T+COFZ4Vk8CGFhAKhRC1uPeKES5Yt/sj4R7U7
+	MNriDFkDeEUC+xtUHIbgJ1lqXK0/7Q/g1taimkmcAsHL2+pZYYr/aCKjWGRNPxAy1f4a
+	EdEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=NrIS0+UC03hyimhy+k67+KNIiMfF12ZH4e8ua4q7z2Y=;
-	b=LdIhvIK0pB3xpyh3FagM0qZ225DnDwg5H+RTFsW53Z/XG9/xXQcfzZ5sqbeIpBXELg
-	zSn6gYl8AKPqfOU9ifEB/azD7L/r2gxSJx1AGJoHeqwRGGlO9y9iQWboveVHR2/d0S8R
-	YP1wClWzd420ei41DXxnZ5ZaCN8s4CGwfOwsqkss5bLKVYJaHP4I4Dz+8ghe3bEozAhs
-	QijF70Q8sfNNscicM9AbJNeKkgTWgEybqknNiHI7sb48YBIIIAQxStz0tW056d/fxNBK
-	ngrWteGOIgxWss+7sATSRZ7eI7/R7B9kptmLMDVMceSy36HA7BvjSRFe95fij71BSTuN
-	izZQ==
-X-Gm-Message-State: AIVw111R5+psZqDsL0f4fkcEe3v0LZ/W5m9CteyPVJAHlLtHoy/xvdSJ
-	WJ7A+RnLpQWAe9Xn4ac=
-X-Received: by 10.28.113.214 with SMTP id d83mr11738658wmi.62.1499781473110;
-	Tue, 11 Jul 2017 06:57:53 -0700 (PDT)
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com.
-	[209.85.128.177])
-	by smtp.gmail.com with ESMTPSA id m26sm36296wrm.4.2017.07.11.06.57.51
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gr3wnJdwWk1MVeyqzvJ8kScYNWpfU69SVTGgsm68Lhc=;
+	b=ixC++drSbXoNLSHMkrkuQRVhecEbXtyzJIpDF1pb1fpSIhpqTavqxGZGOBei2sq5d2
+	fakNqtx4Nn48IUttlU8bo6z47+dEvvaTI/hfZnmirAQ6ZxvjH34Kele3iVUwK/lVJdoY
+	YaznPgZeeCCLF1esPHrawcFSxjBusSwp2oxapI48UEJfVBneS4+TLcxg4mm/7avGVbCU
+	u0EgbeSS9RqFPxd054+MhiQ6vxMPgRYssumopiQLXy9Hd3k/vGkS9p81v+dGye1q19sO
+	QifR3zIsdSeQD8HkUbc70Eu+ehwupSYfKniNP05lZg2tgWAdPJkRDceUlF0l9p8YbVbL
+	9gAQ==
+X-Gm-Message-State: AIVw110/oMJ5bGATnfrt2cSHaZl8gri/I4PHpYU60mqCz7rKen6rKRLd
+	KKqsLvQr1AvhEuVx
+X-Received: by 10.84.216.13 with SMTP id m13mr59814pli.201.1499781955777;
+	Tue, 11 Jul 2017 07:05:55 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::7028])
+	by smtp.gmail.com with ESMTPSA id t70sm37374pfk.111.2017.07.11.07.05.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Jul 2017 06:57:51 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f177.google.com with SMTP id 77so459990wrb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 06:57:51 -0700 (PDT)
-X-Received: by 10.28.195.67 with SMTP id t64mr11670080wmf.41.1499781470922;
-	Tue, 11 Jul 2017 06:57:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.73.84 with HTTP; Tue, 11 Jul 2017 06:57:50 -0700 (PDT)
-In-Reply-To: <CBAEED2EB06BF94889E80B47A33FE329ED9C42@PGSMSX105.gar.corp.intel.com>
-References: <cover.1499294682.git.wei.tee.ng@intel.com>
-	<ee38977370db92520a2e0d81e76189be3661f787.1499294682.git.wei.tee.ng@intel.com>
-	<CAP9ODKrfpfKumQpxZgyr46yZtNk08q12WfNYM73E+sn96CTx=w@mail.gmail.com>
-	<CBAEED2EB06BF94889E80B47A33FE329ED9C42@PGSMSX105.gar.corp.intel.com>
-Date: Tue, 11 Jul 2017 10:57:50 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo0mk-jtwPngRHyXWQHHbsbmWa_ktfAgzv-p7k9_eN3Hw@mail.gmail.com>
-Message-ID: <CAP9ODKo0mk-jtwPngRHyXWQHHbsbmWa_ktfAgzv-p7k9_eN3Hw@mail.gmail.com>
-To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Wold,
-	Saul" <saul.wold@intel.com>
-Subject: Re: [PATCH v3 2/2] initramfs-framwork: module to support boot live image
+	Tue, 11 Jul 2017 07:05:54 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jul 2017 07:05:46 -0700
+Message-Id: <20170711140546.23414-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH] gcc-cross: Fix linker and fortran symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,18 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 13:57:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 11 Jul 2017 14:05:55 -0000
 
-On Tue, Jul 11, 2017 at 2:36 AM, Ng, Wei Tee <wei.tee.ng@intel.com> wrote:
-> Yes, I had squash the changes into a single commit and corrected the typo also. The changes is being submitted to the mailing list.
-> Thanks a lot!
+If we used -fuse-ld gcc option, then it does not work
+ending in
 
-There are bad indents yet; please double check it all.
+collect2: fatal error: cannot find 'ld'                                                                                                                                                                                                       compilation terminated.
 
+This is because we are not creating proper symlinks for BFD
+and Gold linker in gcc installation
 
+Secondly, we end up with dangling fortran compiler symlinks
+if fortran is not enabled when confguring gcc, therefore
+create these symlinks only when fortran support is enabled
+in gcc
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-cross.inc | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index b08bc197ba..1e184a60db 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -161,17 +161,19 @@ do_install () {
+ 
+ 	install -d ${D}${target_base_libdir}
+ 	install -d ${D}${target_libdir}
+-    
++
+ 	# Link gfortran to g77 to satisfy not-so-smart configure or hard coded g77
+ 	# gfortran is fully backwards compatible. This is a safe and practical solution. 
+-	ln -sf ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gfortran ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}g77 || true
++	if [ -n "${@d.getVar('FORTRAN')}" ]; then
++		ln -sf ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}gfortran ${STAGING_DIR_NATIVE}${prefix_native}/bin/${TARGET_PREFIX}g77 || true
++		fortsymlinks="g77 gfortran"
++	fi
+ 
+-	
+ 	# Insert symlinks into libexec so when tools without a prefix are searched for, the correct ones are
+ 	# found. These need to be relative paths so they work in different locations.
+ 	dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
+ 	install -d $dest
+-	for t in ar as ld nm objcopy objdump ranlib strip g77 gcc cpp gfortran; do
++	for t in ar as ld ld.bfd ld.gold nm objcopy objdump ranlib strip gcc cpp $fortsymlinks; do
+ 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+ 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
+ 	done
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.13.2
+
 
