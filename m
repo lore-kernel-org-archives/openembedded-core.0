@@ -1,25 +1,22 @@
-Return-Path: <Lev.Iserovich@deshawresearch.com>
-Received: from drdwsfe1.nyc.desres.deshaw.com (nyvpn.deshawresearch.com
-	[38.109.87.242])
-	by mail.openembedded.org (Postfix) with ESMTP id A883577D9F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 713BB77DCA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 15:10:10 +0000 (UTC)
-Received: from drdws0019.nyc.desres.deshaw.com
-	(drdws0019.nyc.desres.deshaw.com [149.77.52.116])
-	by drdwsfe1.nyc.desres.deshaw.com (Postfix) with ESMTP id AA650EA9FE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 11:10:11 -0400 (EDT)
-To: openembedded-core@lists.openembedded.org
-References: <3656d37e-dbf1-5664-a175-d4863c80ebd6@deshawresearch.com>
-	<20170710213119.2381.49390@do.openembedded.org>
-From: Lev Iserovich <Lev.Iserovich@deshawresearch.com>
-Message-ID: <2753237e-e5ce-54e8-5a45-2dea9fed8899@deshawresearch.com>
-Date: Tue, 11 Jul 2017 11:10:11 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170710213119.2381.49390@do.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdldHRleHQ6IEVuYWJsZSBnZW5lcmF0aW9uIG9mIGxpYmFzcHJpbnRmIGluIGdldHRleHQgMC4xOQ==?=
+	Tue, 11 Jul 2017 15:14:21 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jul 2017 08:14:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="123825948"
+Received: from swold-mobl2.amr.corp.intel.com ([10.255.80.236])
+	by orsmga005.jf.intel.com with ESMTP; 11 Jul 2017 08:14:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 11 Jul 2017 08:14:16 -0700
+Message-Id: <1499786056-32624-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.5
+Subject: [PATCH][pyro] mkefidsk: fix bash/dash shell quoting problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 15:10:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jul 2017 15:14:22 -0000
 
-Can anyone help me with undestanding this - I'm confused by this 
-patchwork failure.
-The patch applies just fine on top of master - my patch was based on top 
-of the commit with the hash referenced by patchwork below.
+mkefidsk currently writes a startup.nsh with embedded control characters.
+This happens because \b etc are control sequences to the shell echo
+command when using dash. The resulting startup.nsh causes the bootup
+to fail, and the user is dropped into the EFI shell to manually run
+startup.nsh.
 
-Thanks,
+Patch originally provided by Troy D. Hanson <troy.hanson@jhuapl.edu>
 
-Lev Iserovich
+[YOCTO #9665]
 
-On 07/10/2017 05:31 PM, Patchwork wrote:
-> == Series Details ==
->
-> Series: gettext: Enable generation of libasprintf in gettext 0.19
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/7657/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at 7dd5dfc4d5)
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 008d6cb5bb4969f53a228893c502be8c9420ecb0)
+---
+Backport REQUEST
+
+ scripts/contrib/mkefidisk.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 800733f..ac4ec9c 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -444,7 +444,7 @@ if [ -d $ROOTFS_MNT/etc/udev/ ] ; then
+ fi
+ 
+ # Add startup.nsh script for automated boot
+-echo "fs0:\EFI\BOOT\bootx64.efi" > $BOOTFS_MNT/startup.nsh
++printf "fs0:\%s\BOOT\%s\n" "EFI" "bootx64.efi" > $BOOTFS_MNT/startup.nsh
+ 
+ 
+ # Call cleanup to unmount devices and images and remove the TMPDIR
+-- 
+2.7.5
 
 
