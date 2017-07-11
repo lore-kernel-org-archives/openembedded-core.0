@@ -1,54 +1,50 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E02FA77EA1
+Return-Path: <gizero@gmail.com>
+Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
+	[209.85.161.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 958B977E9A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 08:29:22 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id v202so56537883itb.0
+	Tue, 11 Jul 2017 08:31:38 +0000 (UTC)
+Received: by mail-yw0-f196.google.com with SMTP id f200so6707919ywb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 01:29:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=NUhVIWvPTcuuL1le0Vn1wkCBBlDXdTiBlUppdPc+kbQ=;
-	b=ykl8Hu4d47DkGt7omd8bJ4H9UxsMPNJqcn9wYLLy9y8R02J73rH2vo5huoSiWTJB3W
-	tZ+eZgwAO5wocHVrTpRjyt8PRJNXvthAkobfkeuCP1LyCRZilTuaH3oBEESfOKi2AuCj
-	pxNlUNfra7NZKvX8968ri0lFHlKFyGblOFIK0LwhFtEN7jt5TcYO6OgCUZMn+XnjHjOi
-	AUJJmZELpLx4/1uQbqXcHOPYsa2dIegR6y3i7S3Zt20WR9rXsWxpNytu172Naqwi+xkU
-	8VOs5kbaABqZ1WOBgc8LSE/ll99XODZlWXt9sK6kmPlWVfcPY2ZrHowxJgCFBlQiTkr4
-	oEqQ==
+	Tue, 11 Jul 2017 01:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Rai2CMrQ4VMrtUvb0FLpx/rO6I+wWJEbCsrFOJdyn8k=;
+	b=DwoKKfclV3GVzxLrTNsvR+C6NdgSkc3GHY2DRbNGJqUjsG0AmNXSrL6baytokI9J1I
+	CljZiFv+yctSLb1e5NBTEDhI2WmfzDUkJjkyZWxd+qBUT0/7O7Wz8HHKIzdFfBjhdEiT
+	nA6Twmjq1RkxRyGmX2sD98TW+JzC3MksWQY2NXUc/TbwTrBukuzVqgbwin9s4pp/hS98
+	WZvqIvqgOn71D6350ygI7ACupKc2s0q6D6gERMXoQZfo7h7hi3rUxGnT0XVKjFsk+UiG
+	fdiY7zFoqjJ+AdX8od3vAV8vPJBMHSmKulcSnJXnznYZnkEv8805zSl5zSvdgEi+4OLk
+	R5kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=NUhVIWvPTcuuL1le0Vn1wkCBBlDXdTiBlUppdPc+kbQ=;
-	b=FcKRrB9PtKM51OSU+o5Dyqfyf0eeTAKvy0PYm/jkKnFKKXqbbm6lWalfmjCkmouemv
-	JQbw115KPX5hIcLfM1Ww9d5G9Dfu2DxeYsHxlP3Ih2liTZtV8S0QKo+5kZaVFioYNGXe
-	m5PAYJYsSHjjEB+L+OeHoHVLdS+cAtusFphe5e0YxRE4ytNKgWThrboKC4YgiGlQeHhm
-	kXq2UdZaxnWNj4ayD3fxyQwTw7YXcHpBGZyZBB7HOWA6rFO0ZJ/qy3qn6uVmwcXLApH+
-	ZNKo+8qDBjriCkcmEE5YjqcEJVKwnwReZFMAf23KHI7TCfXgi9BDFwppB5OYIXzeAnlD
-	7BrQ==
-X-Gm-Message-State: AIVw110fXSZAEaEfJHiFzRhVoPHl1wCcTYzT8AMQ/HjO9NImZz9Gn2fn
-	og8nDNKBFe4bo9qf
-X-Received: by 10.36.248.132 with SMTP id a126mr2459833ith.0.1499761763722;
-	Tue, 11 Jul 2017 01:29:23 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8ECE7.dip0.t-ipconnect.de. [93.232.236.231])
-	by smtp.gmail.com with ESMTPSA id m77sm514558itg.31.2017.07.11.01.29.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Jul 2017 01:29:22 -0700 (PDT)
-Message-ID: <1499761760.20211.97.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Tue, 11 Jul 2017 10:29:20 +0200
-In-Reply-To: <c1ab5f6f84e705b6d17e1aa7b03a2cc0aa0cdcf4.1499326977.git.ed.bartosh@linux.intel.com>
-References: <cover.1499326977.git.ed.bartosh@linux.intel.com>
-	<c1ab5f6f84e705b6d17e1aa7b03a2cc0aa0cdcf4.1499326977.git.ed.bartosh@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/8] image_types_wic: set default WKS_FILE_DEPENDS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Rai2CMrQ4VMrtUvb0FLpx/rO6I+wWJEbCsrFOJdyn8k=;
+	b=WSgyZlh02557Kh6hPSj+U4sndWqqUTw8RoZYA/ARLCj+Y+GaWMIDu3qPHMjv/8xXhY
+	dUp8i0/YBOXEZabZGrkSS5UpesvZXZ6l7Wqn4fnV7n2zC7kfCgwkl+cW/+U6R15/AHGA
+	aVjmLBbGffaRh33n5qXVsn2ki+6eE6GnliwNNY3sgm0aQxkfKZkaKv/0/snOTEt00eIk
+	O0RNuRKFRXn/V70poKbH20EzFx9m0oc9IjIsJk75FxaJPyaxeekw+21JPaCIAbzM2M90
+	pThpNYUzfRLGIVjwKY9PYer+I1BL21hUQ9WavpnzmADWxg3ylOqtzwULUs80gQaPSUnb
+	tPPw==
+X-Gm-Message-State: AIVw110IUhuocJxRKDSFKM54f7aof6FTC4c19aSpMpkwAuWcEnanxBZE
+	dqJHA9d2kSEYIvFvN2GWm0qjID6dRQ==
+X-Received: by 10.13.236.75 with SMTP id v72mr4021195ywe.25.1499761899458;
+	Tue, 11 Jul 2017 01:31:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.13.200.129 with HTTP; Tue, 11 Jul 2017 01:31:39 -0700 (PDT)
+In-Reply-To: <CAHiDW_FWXf4XJi9-KNMnb34DQ3rO-KuEKfPcveadrHzGdr0szA@mail.gmail.com>
+References: <cover.1498569089.git.jussi.kukkonen@intel.com>
+	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
+	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
+	<CAHiDW_FWXf4XJi9-KNMnb34DQ3rO-KuEKfPcveadrHzGdr0szA@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Tue, 11 Jul 2017 10:31:39 +0200
+Message-ID: <CAC+thW2OAM3cG8UhNt-wAFrfPfMEY67k5MSHBBPPV5yrxRM-Hg@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +57,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 08:29:23 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 08:31:38 -0000
+Content-Type: multipart/alternative; boundary="94eb2c08414c43d4d305540687fc"
+
+--94eb2c08414c43d4d305540687fc
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-07-06 at 10:56 +0300, Ed Bartosh wrote:
-> diff --git a/meta/classes/image_types_wic.bbclass
-> b/meta/classes/image_types_wic.bbclass
-> index 05ee68d..e9750b5 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -40,7 +40,10 @@ USING_WIC =
-> "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s
->  WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
-> os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
->  do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
->  do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot'
-> % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
-> -WKS_FILE_DEPENDS ??= ''
-> +WKS_FILE_DEPENDS ??= 'syslinux-native bmap-tools-native
-> cdrtools-native btrfs-tools-native squashfs-tools-native'
-> +WKS_FILE_DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
-> +WKS_FILE_DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
-> +
+On Tue, Jul 11, 2017 at 10:06 AM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
 
-Using _append here adds these additional dependencies even when
-WKS_FILE_DEPENDS has been set explicitly. How about this:
+> On 10 July 2017 at 17:47, Andrea Galbusera <gizero@gmail.com> wrote:
+>
+>> During bisection the failing task changed from do_prepare_recipe_sysroot
+>> to do_compile with the log below. I have no idea if these things do relate
+>> themselves, but if not, I was not able to figure it out while bisecting.
+>>
+>> | In file included from /home/gizero/work/smartliving/
+>> distro/repo-master/build-poky/tmp/work/cortexa7hf-neon-vfpv4
+>> -poky-linux-gnueabi/gtk+3/3.22.16-r0/recipe-sysroot/usr/incl
+>> ude/epoxy/egl.h:46:0,
+>> |                  from ../../../gtk+-3.22.16/gdk/wayl
+>> and/gdkglcontext-wayland.h:32,
+>> |                  from ../../../gtk+-3.22.16/gdk/wayl
+>> and/gdkglcontext-wayland.c:24:
+>> | ../../../gtk+-3.22.16/gdk/wayland/gdkglcontext-wayland.c: In function
+>> 'gdk_wayland_gl_context_realize':
+>> | ../../../gtk+-3.22.16/gdk/wayland/gdkglcontext-wayland.c:179:43:
+>> error: expected expression before 'EGLContext'
+>> |                                          : EGL_NO_CONTEXT,
+>> |                                            ^
+>>
+>
+> Your bisect seems valid: gtk+3 uses a define that comes from epoxy and was
+> changed in the update. The new define uses a EGL_CAST() macro that was
+> added to eglplatform.h at the same time. mesa has updated their
+> eglplatform.h so it all seems to work, but userland does not seem to have
+> this macro?
+>
+> There's probably more to the story (since the error is not about implicit
+> EGL_CAST() as one would expect). My first suggestion would be that userland
+> eglplatform.h is updated to match current Khronos registry or at least to
+> include the EGL_CAST definition.
+>
 
-WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native
-cdrtools-native btrfs-tools-native squashfs-tools-native"
-WKS_FILE_DEPENDS_BOOTLOADERS = ""
-WKS_FILE_DEPENDS_BOOTLOADERS_x86 = "syslinux grub-efi systemd-boot"
-WKS_FILE_DEPENDS_BOOTLOADERS_x86-64 = "syslinux grub-efi systemd-boot"
+I looked at the userland upstream repo and they don't seem to have updates
+on their eglplatform.h since 2015...
 
-WKS_FILE_DEPENDS ??= "${WKS_FILE_DEPENDS_DEFAULT} ${WKS_FILE_DEPENDS_BOOTLOADERS}"
+--94eb2c08414c43d4d305540687fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best Regards, Patrick Ohly
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Tue, Jul 11, 2017 at 10:06 AM, Jussi Kukkonen <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkone=
+n@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail=
+_quote"><span class=3D"gmail-">On 10 July 2017 at 17:47, Andrea Galbusera <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:gizero@gmail.com" target=3D"_blank">=
+gizero@gmail.com</a>&gt;</span> wrote:<br></span><span class=3D"gmail-"><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div><div c=
+lass=3D"gmail-m_3403342050928533504gmail-h5"><div class=3D"gmail_extra"><di=
+v class=3D"gmail_quote"><span style=3D"color:rgb(34,34,34)">During bisectio=
+n the failing task changed from do_prepare_recipe_sysroot to do_compile wit=
+h the log below. I have no idea if these things do relate themselves, but i=
+f not, I was not able to figure it out while bisecting.</span><br></div></d=
+iv></div></div><div class=3D"gmail_extra"><br>| In file included from /home=
+/gizero/work/smartliving/<wbr>distro/repo-master/build-poky/<wbr>tmp/work/c=
+ortexa7hf-neon-vfpv4<wbr>-poky-linux-gnueabi/gtk+3/3.22<wbr>.16-r0/recipe-s=
+ysroot/usr/incl<wbr>ude/epoxy/egl.h:46:0,<br>|=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ from ../../../gtk+-3.22.16/gdk/wayl<wbr>and/gdkglcontext-wayland.h:32,<br>=
+|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from ../../../gtk+-3.22.16/gdk/wayl<wbr>and/=
+gdkglcontext-wayland.c:24:<br>| ../../../gtk+-3.22.16/gdk/wayl<wbr>and/gdkg=
+lcontext-wayland.c: In function &#39;gdk_wayland_gl_context_realiz<wbr>e&#3=
+9;:<br>| ../../../gtk+-3.22.16/gdk/wayl<wbr>and/gdkglcontext-wayland.c:179<=
+wbr>:43: error: expected expression before &#39;EGLContext&#39;<br>|=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<wbr>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 : EGL_NO_CONTEXT,<br>|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0<wbr>=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ^<br></div></div></blockquote><div><br></div></span><div>Your bis=
+ect seems valid: gtk+3 uses a define that comes from epoxy and was changed =
+in the update. The new define uses a EGL_CAST() macro that was added to egl=
+platform.h at the same time. mesa has updated their eglplatform.h so it all=
+ seems to work, but userland does not seem to have this macro?</div><div><b=
+r></div><div>There&#39;s probably more to the story (since the error is not=
+ about implicit EGL_CAST() as one would expect). My first suggestion would =
+be that userland eglplatform.h is updated to match current Khronos registry=
+ or at least to include the EGL_CAST definition.</div></div></div></div></b=
+lockquote><div><br></div></div>I looked at the userland upstream repo and t=
+hey don&#39;t seem to have updates on their eglplatform.h since 2015...<br>=
+</div></div>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
-
+--94eb2c08414c43d4d305540687fc--
