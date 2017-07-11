@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FE0D78038
+	by mail.openembedded.org (Postfix) with ESMTP id E1A3977FC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 20:23:43 +0000 (UTC)
+	Tue, 11 Jul 2017 20:23:44 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:45 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 11 Jul 2017 13:23:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279781"
+X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="1171279785"
 Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.139])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:44 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2017 13:23:45 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 15:23:33 -0500
-Message-Id: <3e458a34a75f4a0b1e351b780034cce5f26cae89.1499803885.git.anibal.limon@linux.intel.com>
+Date: Tue, 11 Jul 2017 15:23:34 -0500
+Message-Id: <38ce52b3970972cc0a0c3cabc93ae6771cda18a2.1499803885.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: joshua.g.lock@intel.com
-Subject: [PATCH 18/30] oeqa/selftest/cases: tinfoil to run in the main thread
+Subject: [PATCH 19/30] oeqa/selftest/cases: imagefeatures enable threaded runs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,206 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 20:23:44 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 20:23:45 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The tinfoil tests needs to initialize bitbake internals and wasn't
-designed to be in a thread environment causing problems when try
-for example set signal handlers in a thread different than the
-main one.
-
-To workaround this execute tinfoil tests in the main thread and
-don't use custom builddir because isn't make sense too.
+- Change to use wrapper methos from OESelfTestCase.
+- Move tests that use runqemu to its own module because
+  it needs tinfoil and run in the main thread.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/tinfoil.py | 1 -
- 1 file changed, 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/imagefeatures.py      | 78 +++-------------------
+ meta/lib/oeqa/selftest/cases/imagefeatures_boot.py | 63 +++++++++++++++++
+ 2 files changed, 73 insertions(+), 68 deletions(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/imagefeatures_boot.py
 
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index aa1af7e0423..7248b755812 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -9,7 +9,6 @@ from oeqa.core.decorator.oeid import OETestID
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+index e6652ec7aba..325be934419 100644
+--- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+@@ -1,69 +1,11 @@
++import os
++
+ from oeqa.selftest.case import OESelftestTestCase
+-from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
+ from oeqa.core.decorator.oeid import OETestID
+-from oeqa.utils.sshcontrol import SSHControl
+-import os
  
- class TinfoilTests(OESelftestTestCase):
-     """ Basic tests for the tinfoil API """
+ class ImageFeatures(OESelftestTestCase):
 -
-     @OETestID(1568)
-     def test_getvar(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
+-    test_user = 'tester'
+-    root_user = 'root'
+-
+-    @OETestID(1107)
+-    def test_non_root_user_can_connect_via_ssh_without_password(self):
+-        """
+-        Summary: Check if non root user can connect via ssh without password
+-        Expected: 1. Connection to the image via ssh using root user without providing a password should be allowed.
+-                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
+-        Product: oe-core
+-        Author: Ionut Chisanovici <ionutx.chisanovici@intel.com>
+-        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+-        """
+-
+-        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh empty-root-password allow-empty-password"\n'
+-        features += 'INHERIT += "extrausers"\n'
+-        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
+-        self.write_config(features)
+-
+-        # Build a core-image-minimal
+-        bitbake('core-image-minimal')
+-
+-        with runqemu("core-image-minimal") as qemu:
+-            # Attempt to ssh with each user into qemu with empty password
+-            for user in [self.root_user, self.test_user]:
+-                ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user=user)
+-                status, output = ssh.run("true")
+-                self.assertEqual(status, 0, 'ssh to user %s failed with %s' % (user, output))
+-
+-    @OETestID(1115)
+-    def test_all_users_can_connect_via_ssh_without_password(self):
+-        """
+-        Summary:     Check if all users can connect via ssh without password
+-        Expected: 1. Connection to the image via ssh using root user without providing a password should NOT be allowed.
+-                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
+-        Product:     oe-core
+-        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
+-        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+-        """
+-
+-        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh allow-empty-password"\n'
+-        features += 'INHERIT += "extrausers"\n'
+-        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
+-        self.write_config(features)
+-
+-        # Build a core-image-minimal
+-        bitbake('core-image-minimal')
+-
+-        with runqemu("core-image-minimal") as qemu:
+-            # Attempt to ssh with each user into qemu with empty password
+-            for user in [self.root_user, self.test_user]:
+-                ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user=user)
+-                status, output = ssh.run("true")
+-                if user == 'root':
+-                    self.assertNotEqual(status, 0, 'ssh to user root was allowed when it should not have been')
+-                else:
+-                    self.assertEqual(status, 0, 'ssh to user tester failed with %s' % output)
+-
++    _use_own_builddir = True
++    _main_thread = False
+ 
+     @OETestID(1116)
+     def test_clutter_image_can_be_built(self):
+@@ -76,7 +18,7 @@ class ImageFeatures(OESelftestTestCase):
+         """
+ 
+         # Build a core-image-clutter
+-        bitbake('core-image-clutter')
++        self.bitbake('core-image-clutter')
+ 
+     @OETestID(1117)
+     def test_wayland_support_in_image(self):
+@@ -89,12 +31,12 @@ class ImageFeatures(OESelftestTestCase):
+         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+         """
+ 
+-        distro_features = get_bb_var('DISTRO_FEATURES')
++        distro_features = self.get_bb_var('DISTRO_FEATURES')
+         if not ('opengl' in distro_features and 'wayland' in distro_features):
+             self.skipTest('neither opengl nor wayland present on DISTRO_FEATURES so core-image-weston cannot be built')
+ 
+         # Build a core-image-weston
+-        bitbake('core-image-weston')
++        self.bitbake('core-image-weston')
+ 
+     @OETestID(1497)
+     def test_bmap(self):
+@@ -110,10 +52,10 @@ class ImageFeatures(OESelftestTestCase):
+         self.write_config(features)
+ 
+         image_name = 'core-image-minimal'
+-        bitbake(image_name)
++        self.bitbake(image_name)
+ 
+-        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
+-        link_name = get_bb_var('IMAGE_LINK_NAME', image_name)
++        deploy_dir_image = self.get_bb_var('DEPLOY_DIR_IMAGE')
++        link_name = self.get_bb_var('IMAGE_LINK_NAME', image_name)
+         image_path = os.path.join(deploy_dir_image, "%s.ext4" % link_name)
+         bmap_path = "%s.bmap" % image_path
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures_boot.py b/meta/lib/oeqa/selftest/cases/imagefeatures_boot.py
+new file mode 100644
+index 00000000000..2cdf4adee4f
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures_boot.py
+@@ -0,0 +1,63 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.core.decorator.oeid import OETestID
++from oeqa.utils.commands import runqemu
++from oeqa.utils.sshcontrol import SSHControl
++
++class ImageFeaturesBoot(OESelftestTestCase):
++    test_user = 'tester'
++    root_user = 'root'
++
++    @OETestID(1107)
++    def test_non_root_user_can_connect_via_ssh_without_password(self):
++        """
++        Summary: Check if non root user can connect via ssh without password
++        Expected: 1. Connection to the image via ssh using root user without providing a password should be allowed.
++                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
++        Product: oe-core
++        Author: Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh empty-root-password allow-empty-password"\n'
++        features += 'INHERIT += "extrausers"\n'
++        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
++        self.write_config(features)
++
++        # Build a core-image-minimal
++        self.bitbake('core-image-minimal')
++
++        with runqemu("core-image-minimal") as qemu:
++            # Attempt to ssh with each user into qemu with empty password
++            for user in [self.root_user, self.test_user]:
++                ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user=user)
++                status, output = ssh.run("true")
++                self.assertEqual(status, 0, 'ssh to user %s failed with %s' % (user, output))
++
++    @OETestID(1115)
++    def test_all_users_can_connect_via_ssh_without_password(self):
++        """
++        Summary:     Check if all users can connect via ssh without password
++        Expected: 1. Connection to the image via ssh using root user without providing a password should NOT be allowed.
++                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        features = 'EXTRA_IMAGE_FEATURES = "ssh-server-openssh allow-empty-password"\n'
++        features += 'INHERIT += "extrausers"\n'
++        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(self.test_user, self.test_user)
++        self.write_config(features)
++
++        # Build a core-image-minimal
++        self.bitbake('core-image-minimal')
++
++        with runqemu("core-image-minimal") as qemu:
++            # Attempt to ssh with each user into qemu with empty password
++            for user in [self.root_user, self.test_user]:
++                ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog, user=user)
++                status, output = ssh.run("true")
++                if user == 'root':
++                    self.assertNotEqual(status, 0, 'ssh to user root was allowed when it should not have been')
++                else:
++                    self.assertEqual(status, 0, 'ssh to user tester failed with %s' % output)
 -- 
 2.11.0
 
