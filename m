@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B521677E91;
-	Tue, 11 Jul 2017 01:31:16 +0000 (UTC)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5725477E8C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 01:36:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6B1aRkB003282
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Jul 2017 18:36:27 -0700 (PDT)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 10 Jul 2017 18:36:27 -0700
+To: Stefan Strogin <sstrogin@cisco.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20170620162102.27948-1-sstrogin@cisco.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <c2a53be7-9d79-04e5-e6d3-5e1918443a9d@windriver.com>
+Date: Tue, 11 Jul 2017 09:36:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Tan Shen Joon <shen.joon.tan@intel.com>
-Date: Tue, 11 Jul 2017 01:31:18 -0000
-Message-ID: <20170711013118.2383.64679@do.openembedded.org>
-References: <1499736642-142343-1-git-send-email-shen.joon.tan@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1499736642-142343-1-git-send-email-shen.joon.tan@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXBkYXRlIGRpc3Ryb19hbGlhcyB0byBpbmNsdWRlIHVubWFwIHBhY2thZ2VzIG9uIG90aGVyIGRpc3Rybw==?=
+In-Reply-To: <20170620162102.27948-1-sstrogin@cisco.com>
+Cc: xe-linux-external@cisco.com
+Subject: Re: [PATCH v3] slang: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +35,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 01:31:16 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 11 Jul 2017 01:36:29 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+Hello Stefan,
 
-Series: update distro_alias to include unmap packages on other distro
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7663/
-State : failure
+There is an error when do_compile_ptest_base:
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            update distro_alias to include unmap packages on other distro
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+| ../objs/libslang.a(sldisply.o): In function `tt_tgetstr':
+| /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2576: undefined 
+reference to `tgetstr'
+| ../objs/libslang.a(sldisply.o): In function `SLtt_initialize':
+| /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2770: undefined 
+reference to `tgetent'
+| ../objs/libslang.a(sldisply.o): In function `tt_tgetflag':
+| /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2635: undefined 
+reference to `tgetflag'
 
 
+It is because it uses ncurses5-config which is wrong in oe-core, the 
+log.do_configure shows:
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+checking for ncurses5-config... 
+/buildarea/lyang1/test_m/tmp/work/i586-poky-linux/slang/2.3.1a-r0/recipe-sysroot/usr/bin/crossscripts/ncurses5-config
+checking for terminfo... ERROR: /usr/bin/ncurses5-config should not be used, use 
+an alternative such as pkg-config
 
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+Would you please fix it?
 
+// Robert
+
+On 06/21/2017 12:21 AM, Stefan Strogin wrote:
+> This patch adds ptest for slang, it uses `make runtests` to run tests.
+> The Makefile runs runtests.sh for each *.sl and *.slc tests.
+> runtests.sh is patched for printing test results in a common format,
+> Makefile is patched in order not to compile any dependencies.
+>
+> Changes v2->v3: rebased on the latest master (1d9a88f6).
+>
+> Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
+> Cc: xe-linux-external@cisco.com
+> ---
+>  meta/recipes-extended/slang/slang/run-ptest        |  3 +++
+>  ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
+>  meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
+>  3 files changed, 57 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-extended/slang/slang/run-ptest
+>  create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+>
+> diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
+> new file mode 100644
+> index 0000000000..39f474af31
+> --- /dev/null
+> +++ b/meta/recipes-extended/slang/slang/run-ptest
+> @@ -0,0 +1,3 @@
+> +#!/bin/sh
+> +
+> +make -C test runtests
+> diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+> new file mode 100644
+> index 0000000000..27a9bb87ea
+> --- /dev/null
+> +++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+> @@ -0,0 +1,30 @@
+> +From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
+> +From: Stefan Strogin <sstrogin@cisco.com>
+> +Date: Thu, 2 Mar 2017 00:26:31 +0200
+> +Subject: [PATCH] test: add output in the format "result: testname"
+> +
+> +Upstream-Status: Inappropriate [oe specific]
+> +
+> +Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
+> +---
+> + src/test/runtests.sh | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/src/test/runtests.sh b/src/test/runtests.sh
+> +index a3eaad0..64f0705 100755
+> +--- a/src/test/runtests.sh
+> ++++ b/src/test/runtests.sh
+> +@@ -34,8 +34,10 @@ do
+> +     then
+> + 	n_failed=`expr ${n_failed} + 1`
+> + 	tests_failed="$tests_failed $testfile"
+> ++	echo "FAIL: $testfile"
+> +     else
+> +         touch lastrun/$testfile
+> ++	echo "PASS: $testfile"
+> +     fi
+> + done
+> +
+> +--
+> +2.11.0
+> +
+> diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
+> index c71d80481f..b302104ee1 100644
+> --- a/meta/recipes-extended/slang/slang_2.3.1a.bb
+> +++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
+> @@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
+>  SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
+>             file://no-x.patch \
+>             file://dont-link-to-host.patch \
+> +           file://test-add-output-in-the-format-result-testname.patch \
+> +           file://run-ptest \
+>            "
+>
+>  SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
+> @@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
+>  UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
+>  PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
+>
+> -inherit autotools-brokensep
+> +inherit autotools-brokensep ptest
+>  CLEANBROKEN = "1"
+>
+>  EXTRA_OECONF = "--without-onig"
+> @@ -49,6 +51,27 @@ do_configure_prepend() {
+>      cd ${B}
+>  }
+>
+> +do_compile_ptest() {
+> +	oe_runmake -C src static
+> +	oe_runmake -C src/test sltest
+> +}
+> +
+> +do_install_ptest() {
+> +	mkdir ${D}${PTEST_PATH}/test
+> +	for f in Makefile sltest runtests.sh *.sl *.inc; do
+> +		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
+> +	done
+> +	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
+> +	    -e '/\$(CC).*(TEST_PGM)/d' \
+> +	    -i ${D}${PTEST_PATH}/test/Makefile
+> +
+> +	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
+> +	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
+> +
+> +	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
+> +	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
+> +}
+> +
+>  FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
+>
+>  PARALLEL_MAKE = ""
+>
 
