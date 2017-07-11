@@ -1,27 +1,41 @@
-Return-Path: <lans.zhang2008@gmail.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5603E77E88
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EE3D7772F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 04:43:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6B4hC83004462
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jul 2017 21:43:13 -0700 (PDT)
-Received: from pek-jzhang0-d2.wrs.com (128.224.162.208) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 10 Jul 2017 21:43:12 -0700
-From: Jia Zhang <lans.zhang2008@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Jul 2017 12:43:03 +0800
-Message-ID: <1499748183-17886-2-git-send-email-lans.zhang2008@gmail.com>
-X-Mailer: git-send-email 2.7.5
-In-Reply-To: <1499748183-17886-1-git-send-email-lans.zhang2008@gmail.com>
-References: <1499748183-17886-1-git-send-email-lans.zhang2008@gmail.com>
+	Tue, 11 Jul 2017 05:36:01 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jul 2017 22:36:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,344,1496127600"; d="scan'208";a="123640062"
+Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
+	by orsmga005.jf.intel.com with ESMTP; 10 Jul 2017 22:36:01 -0700
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.183]) by
+	PGSMSX106.gar.corp.intel.com ([10.221.44.98]) with mapi id
+	14.03.0319.002; Tue, 11 Jul 2017 13:35:59 +0800
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH v3 2/2] initramfs-framwork: module to support
+	boot live image
+Thread-Index: AQHS+aQG73ibKdmvNkG0I/VrqzSsk6JOG1ag
+Date: Tue, 11 Jul 2017 05:36:00 +0000
+Message-ID: <CBAEED2EB06BF94889E80B47A33FE329ED9C42@PGSMSX105.gar.corp.intel.com>
+References: <cover.1499294682.git.wei.tee.ng@intel.com>
+	<ee38977370db92520a2e0d81e76189be3661f787.1499294682.git.wei.tee.ng@intel.com>
+	<CAP9ODKrfpfKumQpxZgyr46yZtNk08q12WfNYM73E+sn96CTx=w@mail.gmail.com>
+In-Reply-To: <CAP9ODKrfpfKumQpxZgyr46yZtNk08q12WfNYM73E+sn96CTx=w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Cc: Lans Zhang <jia.zhang@windriver.com>
-Subject: [PATCH 2/2] sign_rpm: support signing files in RPM payload
+Cc: "Wold, Saul" <saul.wold@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/2] initramfs-framwork: module to support boot live image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,113 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 04:43:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Jul 2017 05:36:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Lans Zhang <jia.zhang@windriver.com>
-
-Currently, RPM4 supports to sign the files in RPM payload with plugin
-mechanism. We introduce more definitions to make the file signing
-available for the users:
-
-- RPM_FILE_CHECKSUM_DIGEST
-  Global switch to enable file signing.
-- RPM_FSK_PATH
-  The file signing key.
-- RPM_FSK_PASSWORD
-  The password of file signing key.
-- RPM_FILE_CHECKSUM_DIGEST
-  The file checksum digest.
-
-Signed-off-by: Lans Zhang <jia.zhang@windriver.com>
----
- meta/classes/sign_rpm.bbclass | 20 +++++++++++++++++++-
- meta/lib/oe/gpg_sign.py       |  7 ++++++-
- 2 files changed, 25 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
-index bc2e947..c49406c 100644
---- a/meta/classes/sign_rpm.bbclass
-+++ b/meta/classes/sign_rpm.bbclass
-@@ -9,6 +9,13 @@
- #           Optional variable for specifying the backend to use for signing.
- #           Currently the only available option is 'local', i.e. local signing
- #           on the build host.
-+# RPM_FILE_CHECKSUM_DIGEST
-+#           Optional variable for specifying the algorithm for generating file
-+#           checksum digest.
-+# RPM_FSK_PATH
-+#           Optional variable for the file signing key.
-+# RPM_FSK_PASSWORD
-+#           Optional variable for the file signing key password.
- # GPG_BIN
- #           Optional variable for specifying the gpg binary/wrapper to use for
- #           signing.
-@@ -18,7 +25,10 @@
- inherit sanity
- 
- RPM_SIGN_PACKAGES='1'
-+RPM_SIGN_FILES ?= '0'
- RPM_GPG_BACKEND ?= 'local'
-+# SHA-256 is used by default
-+RPM_FILE_CHECKSUM_DIGEST ?= '8'
- 
- 
- python () {
-@@ -28,6 +38,11 @@ python () {
-     for var in ('RPM_GPG_NAME', 'RPM_GPG_PASSPHRASE'):
-         if not d.getVar(var):
-             raise_sanity_error("You need to define %s in the config" % var, d)
-+
-+    if d.getVar('RPM_SIGN_FILES') == '1':
-+        for var in ('RPM_FSK_PATH', 'RPM_FSK_PASSWORD'):
-+            if not d.getVar(var):
-+                raise_sanity_error("You need to define %s in the config" % var, d)
- }
- 
- python sign_rpm () {
-@@ -39,7 +54,10 @@ python sign_rpm () {
- 
-     signer.sign_rpms(rpms,
-                      d.getVar('RPM_GPG_NAME'),
--                     d.getVar('RPM_GPG_PASSPHRASE'))
-+                     d.getVar('RPM_GPG_PASSPHRASE'),
-+                     d.getVar('RPM_FILE_CHECKSUM_DIGEST'),
-+                     d.getVar('RPM_FSK_PATH'),
-+                     d.getVar('RPM_FSK_PASSWORD'))
- }
- 
- do_package_index[depends] += "signing-keys:do_deploy"
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index c53df54..f4d8b10 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -27,7 +27,7 @@ class LocalSigner(object):
-             raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
-                                       (keyid, output))
- 
--    def sign_rpms(self, files, keyid, passphrase):
-+    def sign_rpms(self, files, keyid, passphrase, digest, fsk=None, fsk_password=None):
-         """Sign RPM files"""
- 
-         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
-@@ -35,10 +35,15 @@ class LocalSigner(object):
-         if self.gpg_version > (2,1,):
-             gpg_args += ' --pinentry-mode=loopback'
-         cmd += "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
-+        cmd += "--define '_binary_filedigest_algorithm %s' " % digest
-         if self.gpg_bin:
-             cmd += "--define '__gpg %s' " % self.gpg_bin
-         if self.gpg_path:
-             cmd += "--define '_gpg_path %s' " % self.gpg_path
-+        if fsk:
-+            cmd += "--signfiles --fskpath %s " % fsk
-+            if fsk_password:
-+                cmd += "--define '_file_signing_key_password %s' " % fsk_password
- 
-         # Sign in chunks of 100 packages
-         for i in range(0, len(files), 100):
--- 
-2.7.5
-
+WWVzLCBJIGhhZCBzcXVhc2ggdGhlIGNoYW5nZXMgaW50byBhIHNpbmdsZSBjb21taXQgYW5kIGNv
+cnJlY3RlZCB0aGUgdHlwbyBhbHNvLiBUaGUgY2hhbmdlcyBpcyBiZWluZyBzdWJtaXR0ZWQgdG8g
+dGhlIG1haWxpbmcgbGlzdC4NClRoYW5rcyBhIGxvdCENCg0KUmVnYXJkcywNCldlaSBUZWUgDQoN
+Ci0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBPdGF2aW8gU2FsdmFkb3IgW21haWx0
+bzpvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icl0gDQpTZW50OiBUdWVzZGF5LCBKdWx5
+IDExLCAyMDE3IDE6NDMgQU0NClRvOiBOZywgV2VpIFRlZSA8d2VpLnRlZS5uZ0BpbnRlbC5jb20+
+DQpDYzogUGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9w
+ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBXb2xkLCBTYXVsIDxzYXVs
+LndvbGRAaW50ZWwuY29tPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjMgMi8yXSBp
+bml0cmFtZnMtZnJhbXdvcms6IG1vZHVsZSB0byBzdXBwb3J0IGJvb3QgbGl2ZSBpbWFnZQ0KDQpP
+biBUaHUsIEp1bCA2LCAyMDE3IGF0IDM6MjggUE0sICA8d2VpLnRlZS5uZ0BpbnRlbC5jb20+IHdy
+b3RlOg0KPiBGcm9tOiAiTmcsIFdlaSBUZWUiIDx3ZWkudGVlLm5nQGludGVsLmNvbT4NCj4NCj4g
+c2V0dXAtbGl2ZSBtb2R1bGUgaXMgYSBuZXcgbW9kdWxlIGJlaW5nIGludHJvZHVjZWQgdG8gaW50
+ZWdyYXRlIHRoZSANCj4gZnVuY3Rpb25hbGl0eSBvZiBpbml0LWxpdmUuc2ggaW50byBuZXcgc2Ny
+aXB0bGV0IGluIG9yZGVyIHRvIHN1cHBvcnQgDQo+IHRoZSBsaXZlIGJvb3QgaW1hZ2UuIFRoZSB1
+ZGV2LWV4dHJhY29uZiByZGVwZW5kcyBpcyBiZWluZyBhZGRlZCB0byANCj4gcGVyZm9ybSBhdXRv
+bW91bnRpbmcuIEl0IGdldHMgdG8gcnVuIGJlZm9yZSB0aGUgcm9vdGZzIGFuZCBmaW5pc2ggDQo+
+IG1vZHVsZS4NCj4NCj4gW1lPQ1RPICMxMTcwMV0NCj4NCj4gU2lnbmVkLW9mZi1ieTogTmcsIFdl
+aSBUZWUgPHdlaS50ZWUubmdAaW50ZWwuY29tPg0KDQpJIHRoaW5rIHRoaXMgcGF0Y2ggY291bGQg
+YmUgc3F1YXNoZWQgb250byB0aGUgZmlyc3QgYXMgaXQgaXMgcmVxdWlyZWQgZm9yIGl0IHRvIHdv
+cmsuDQoNCi0tIA0KT3RhdmlvIFNhbHZhZG9yICAgICAgICAgICAgICAgICAgICAgICAgICAgICBP
+LlMuIFN5c3RlbXMNCmh0dHA6Ly93d3cub3NzeXN0ZW1zLmNvbS5iciAgICAgICAgaHR0cDovL2Nv
+ZGUub3NzeXN0ZW1zLmNvbS5icg0KTW9iaWxlOiArNTUgKDUzKSA5OTgxLTc4NTQgICAgICAgICAg
+ICBNb2JpbGU6ICsxICgzNDcpIDkwMy05NzUwDQo=
 
