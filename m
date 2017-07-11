@@ -1,28 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5725477E8C
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB4077E9A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 01:36:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6B1aRkB003282
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Jul 2017 18:36:27 -0700 (PDT)
-Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 10 Jul 2017 18:36:27 -0700
-To: Stefan Strogin <sstrogin@cisco.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20170620162102.27948-1-sstrogin@cisco.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <c2a53be7-9d79-04e5-e6d3-5e1918443a9d@windriver.com>
-Date: Tue, 11 Jul 2017 09:36:24 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Tue, 11 Jul 2017 01:51:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 10 Jul 2017 18:51:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,343,1496127600"; d="scan'208";a="1193804790"
+Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2017 18:51:05 -0700
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.148]) by
+	PGSMSX106.gar.corp.intel.com ([10.221.44.98]) with mapi id
+	14.03.0319.002; Tue, 11 Jul 2017 09:50:45 +0800
+From: "Chang, Rebecca Swee Fun" <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 0/3] Enhancement on devtool edit-recipe
+Thread-Index: AQHS77IvepBx4DGemUOwM2DlSJghZqJN8GyA
+Date: Tue, 11 Jul 2017 01:50:44 +0000
+Message-ID: <50B33AC5ED75F74F991980326F1C438D1F11FF60@PGSMSX103.gar.corp.intel.com>
+References: <1498615159-6719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+In-Reply-To: <1498615159-6719-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-In-Reply-To: <20170620162102.27948-1-sstrogin@cisco.com>
-Cc: xe-linux-external@cisco.com
-Subject: Re: [PATCH v3] slang: add ptest
+Subject: Re: [PATCH 0/3] Enhancement on devtool edit-recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,149 +41,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 01:36:29 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jul 2017 01:51:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Stefan,
+Ping in case maintainer has missed this series.
+Please let me know if there are any concern to merge this enhancement on de=
+vtool edit-recipe and I would rework it asap for 2.4M2.
+Thank you very much.
 
-There is an error when do_compile_ptest_base:
+Rebecca
 
-| ../objs/libslang.a(sldisply.o): In function `tt_tgetstr':
-| /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2576: undefined 
-reference to `tgetstr'
-| ../objs/libslang.a(sldisply.o): In function `SLtt_initialize':
-| /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2770: undefined 
-reference to `tgetent'
-| ../objs/libslang.a(sldisply.o): In function `tt_tgetflag':
-| /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2635: undefined 
-reference to `tgetflag'
+> -----Original Message-----
+> From: Chang, Rebecca Swee Fun
+> Sent: Wednesday, June 28, 2017 9:59 AM
+> To: OpenEmbedded Core Mailing List <openembedded-
+> core@lists.openembedded.org>
+> Cc: Chang, Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+> Subject: [PATCH 0/3] Enhancement on devtool edit-recipe
+>=20
+> Hi,
+>=20
+> The patches in this series are to enhance devtool edit-recipe as a reques=
+t from
+> Bugzilla #11434.
+>=20
+> This first enhancement I did was to ensure devtool edit-recipe not to pri=
+nt out
+> ugly tracebacks that is not informative by catching the exception.
+>=20
+> However, this has introduced new tracebacks where python complaints about
+> NameError: name 'logger' is not defined in run_editor definition. We coul=
+d pass
+> in logger as a parameter from run_editor function call. This was fixed in=
+ the
+> second patch in this series.
+>=20
+> Lastly, I have enable additional subcommand 'find-recipe' for devtool. Th=
+is will
+> help users to find the path to the recipes in workspace and it can be ext=
+ended
+> to find recipe outside of workspace using '-a/--any-recipe' option.
+>=20
+> Regards,
+> Rebecca
+>=20
+> Chang Rebecca Swee Fun (3):
+>   scriptutils: exit politely when no text editor available
+>   scriptutils: pass in logger as parameter
+>   devtool: find-recipe: enable new subcommand for devtool
+>=20
+>  scripts/lib/devtool/utilcmds.py     | 18 ++++++++++++++----
+>  scripts/lib/recipetool/newappend.py |  2 +-
+>  scripts/lib/scriptutils.py          |  6 +++---
+>  3 files changed, 18 insertions(+), 8 deletions(-)
+>=20
+> --
+> 2.7.4
 
-
-It is because it uses ncurses5-config which is wrong in oe-core, the 
-log.do_configure shows:
-
-checking for ncurses5-config... 
-/buildarea/lyang1/test_m/tmp/work/i586-poky-linux/slang/2.3.1a-r0/recipe-sysroot/usr/bin/crossscripts/ncurses5-config
-checking for terminfo... ERROR: /usr/bin/ncurses5-config should not be used, use 
-an alternative such as pkg-config
-
-Would you please fix it?
-
-// Robert
-
-On 06/21/2017 12:21 AM, Stefan Strogin wrote:
-> This patch adds ptest for slang, it uses `make runtests` to run tests.
-> The Makefile runs runtests.sh for each *.sl and *.slc tests.
-> runtests.sh is patched for printing test results in a common format,
-> Makefile is patched in order not to compile any dependencies.
->
-> Changes v2->v3: rebased on the latest master (1d9a88f6).
->
-> Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
-> Cc: xe-linux-external@cisco.com
-> ---
->  meta/recipes-extended/slang/slang/run-ptest        |  3 +++
->  ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
->  meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
->  3 files changed, 57 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-extended/slang/slang/run-ptest
->  create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
->
-> diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
-> new file mode 100644
-> index 0000000000..39f474af31
-> --- /dev/null
-> +++ b/meta/recipes-extended/slang/slang/run-ptest
-> @@ -0,0 +1,3 @@
-> +#!/bin/sh
-> +
-> +make -C test runtests
-> diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
-> new file mode 100644
-> index 0000000000..27a9bb87ea
-> --- /dev/null
-> +++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
-> @@ -0,0 +1,30 @@
-> +From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
-> +From: Stefan Strogin <sstrogin@cisco.com>
-> +Date: Thu, 2 Mar 2017 00:26:31 +0200
-> +Subject: [PATCH] test: add output in the format "result: testname"
-> +
-> +Upstream-Status: Inappropriate [oe specific]
-> +
-> +Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
-> +---
-> + src/test/runtests.sh | 2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/src/test/runtests.sh b/src/test/runtests.sh
-> +index a3eaad0..64f0705 100755
-> +--- a/src/test/runtests.sh
-> ++++ b/src/test/runtests.sh
-> +@@ -34,8 +34,10 @@ do
-> +     then
-> + 	n_failed=`expr ${n_failed} + 1`
-> + 	tests_failed="$tests_failed $testfile"
-> ++	echo "FAIL: $testfile"
-> +     else
-> +         touch lastrun/$testfile
-> ++	echo "PASS: $testfile"
-> +     fi
-> + done
-> +
-> +--
-> +2.11.0
-> +
-> diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
-> index c71d80481f..b302104ee1 100644
-> --- a/meta/recipes-extended/slang/slang_2.3.1a.bb
-> +++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
-> @@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
->  SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
->             file://no-x.patch \
->             file://dont-link-to-host.patch \
-> +           file://test-add-output-in-the-format-result-testname.patch \
-> +           file://run-ptest \
->            "
->
->  SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
-> @@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
->  UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
->  PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
->
-> -inherit autotools-brokensep
-> +inherit autotools-brokensep ptest
->  CLEANBROKEN = "1"
->
->  EXTRA_OECONF = "--without-onig"
-> @@ -49,6 +51,27 @@ do_configure_prepend() {
->      cd ${B}
->  }
->
-> +do_compile_ptest() {
-> +	oe_runmake -C src static
-> +	oe_runmake -C src/test sltest
-> +}
-> +
-> +do_install_ptest() {
-> +	mkdir ${D}${PTEST_PATH}/test
-> +	for f in Makefile sltest runtests.sh *.sl *.inc; do
-> +		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
-> +	done
-> +	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
-> +	    -e '/\$(CC).*(TEST_PGM)/d' \
-> +	    -i ${D}${PTEST_PATH}/test/Makefile
-> +
-> +	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
-> +	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
-> +
-> +	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
-> +	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
-> +}
-> +
->  FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
->
->  PARALLEL_MAKE = ""
->
 
