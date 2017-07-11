@@ -1,19 +1,50 @@
-Return-Path: <romain.perier@collabora.com>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 795E277EA7
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BD8877E88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 06:55:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: rperier) with ESMTPSA id 5517B26BDCB
-From: Romain Perier <romain.perier@collabora.com>
-To: liezhi.yang@windriver.com
-Date: Tue, 11 Jul 2017 08:46:05 +0200
-Message-Id: <20170711064606.8941-2-romain.perier@collabora.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170711064606.8941-1-romain.perier@collabora.com>
-References: <20170711064606.8941-1-romain.perier@collabora.com>
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] logrotate: Bump to 3.12.3
+	Tue, 11 Jul 2017 07:42:51 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id k192so11429809ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 00:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bE5b//TkXgvoiyv5MWcjN4J+5eOgBDZcnuM6HUvTl2s=;
+	b=CzCZqPzmKtJbPuUcX6j7q53TOHeKkEVuzTo3Xd0keYM3QXterQax8EC2ITP6sZIymj
+	ZNJ+HQd0FnsOpGkZnnvpgJVEsabp8bX/+tqrBv3jURIhm1QQ8pXJ8dLoiOiySvT4j3tL
+	3nb+zGf7nP8JJb+F+M0Fx7eHmQdyGXYtWYHxxJxaenfKe+iwUhI9l1RFw6/+a96Db5PQ
+	Y22EiyV9u4Ld8gIPj0anwC6tTyofMvrx1lmeRu72mFk2tJa/rzGUZdmchaSyFgA0VXDh
+	h8hsZR5WdAffBOkGJvIKrOjMXF/+lXVvSbqDVgX3XfTOb/PEfr8z+OE6hz8ENutnQn7F
+	ORTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bE5b//TkXgvoiyv5MWcjN4J+5eOgBDZcnuM6HUvTl2s=;
+	b=pgU2iOFIehlF5URnZSZdgvfcMBoTaxl2dcqYXwazV2KIFTQN4qQTm9T6uUNRg0aTub
+	Xmv2khQDUyKXHgIAUOLKggq0Jb6ZCGYDqZoE1f2bcVGVK8Rnc+7D5nBuDmBuMVJ6am/r
+	syPunO6l0AxKHK8f/EqJBDLxSIKdaJBVA+F32WA74uWUqajQKMLEotOJDLscdOwA0aPQ
+	gc5IRAR5hmivfk0s3NlS66p1K1hd2XK2W8kS/z0ODQoSkJnOS5JfHthDY2I2OsVrgpq/
+	GTkVXDZt3agCdZ/7EAfzNkJwCSORt9EULJ5N4JKyXOGXn88Z+w30814k1sXLqUOdFpcf
+	Y/aw==
+X-Gm-Message-State: AIVw112ZwsW71VKirwmZN1oLvzvXjHguKoVUwwaPsMRe2JeGs9y6a+Hc
+	vuMYlon2y6NPpUIoHjQCc9p9L9cPVarm
+X-Received: by 10.36.204.9 with SMTP id x9mr2118377itf.5.1499758973049; Tue,
+	11 Jul 2017 00:42:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.44.87 with HTTP; Tue, 11 Jul 2017 00:42:22 -0700 (PDT)
+In-Reply-To: <CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
+References: <cover.1498569089.git.jussi.kukkonen@intel.com>
+	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
+	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Tue, 11 Jul 2017 10:42:22 +0300
+Message-ID: <CAHiDW_FuM-jB6f+xN1QOcqAvTUvfehfpWjoSL8N+XiFS9kLX-Q@mail.gmail.com>
+To: Andrea Galbusera <gizero@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,338 +57,260 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 06:55:44 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 07:42:54 -0000
+Content-Type: multipart/alternative; boundary="94eb2c05a632d6a54a055405d8b1"
 
-This commit updates the recipe to the last upstream tag. Then, as the
-tarball no longer contains the pre-generated Makefile, inherit from
-autotools
+--94eb2c05a632d6a54a055405d8b1
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Romain Perier <romain.perier@collabora.com>
----
- ...upport-system-dates-back-to-the-year-1970.patch | 27 --------
- .../logrotate/act-as-mv-when-rotate.patch          | 32 +++++-----
- .../logrotate/logrotate/update-the-manual.patch    | 16 ++---
- .../recipes-extended/logrotate/logrotate_3.12.3.bb | 66 ++++++++++++++++++++
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 71 ----------------------
- 5 files changed, 92 insertions(+), 120 deletions(-)
- delete mode 100644 meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch
- create mode 100644 meta/recipes-extended/logrotate/logrotate_3.12.3.bb
- delete mode 100644 meta/recipes-extended/logrotate/logrotate_3.9.1.bb
+On 10 July 2017 at 17:47, Andrea Galbusera <gizero@gmail.com> wrote:
 
-diff --git a/meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch b/meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch
-deleted file mode 100644
-index b544ec6..0000000
---- a/meta/recipes-extended/logrotate/logrotate/0001-Support-system-dates-back-to-the-year-1970.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Support system dates back to the year 1970
--
--The system time on Linux can be set back as far as 1970 (the epoch time).
--Currently logrotate stops working correctly if the time goes before 1996.
--This value (1996) appears to have been hard coded since the code was written
--back in 1996. Testing and code analysis shows this can simply be modified
--to 1970.
--
--The patch is provided by Matt Bennett <matt.bennett@alliedtelesis.co.nz>
--
--Upstream-Status: Backport +
--Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
--
--diff --git a/logrotate.c.orig b/logrotate.c
--index cf8bf2c..a7dadfb 100644
----- a/logrotate.c.orig
--+++ b/logrotate.c
--@@ -2381,7 +2381,7 @@ static int readState(char *stateFilename)
-- 	}
-- 
-- 	/* Hack to hide earlier bug */
---	if ((year != 1900) && (year < 1996 || year > 2100)) {
--+	if ((year != 1900) && (year < 1970 || year > 2100)) {
-- 	    message(MESS_ERROR,
-- 		    "bad year %d for file %s in state file %s\n", year,
-- 		    argv[0], stateFilename);
--
-diff --git a/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch b/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
-index 2e931a2..04cb588 100644
---- a/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
-+++ b/meta/recipes-extended/logrotate/logrotate/act-as-mv-when-rotate.patch
-@@ -1,4 +1,4 @@
--From 68f29ab490cf987aa34b5f4caf1784b58a021308 Mon Sep 17 00:00:00 2001
-+From 517cbff66c8bdbf455bc3b7c1a85a4f990d0f9a6 Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Tue, 17 Feb 2015 21:08:07 -0800
- Subject: [PATCH] Act as the "mv" command when rotate log
-@@ -10,14 +10,14 @@ Upstream-Status: Pending
- 
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-- logrotate.c |   71 +++++++++++++++++++++++++++++++++++++++++++++++++----------
-- 1 file changed, 59 insertions(+), 12 deletions(-)
-+ logrotate.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++-----------
-+ 1 file changed, 60 insertions(+), 12 deletions(-)
- 
- diff --git a/logrotate.c b/logrotate.c
--index d3deb6a..cf8bf2c 100644
-+index 4ad58d4..ba05884 100644
- --- a/logrotate.c
- +++ b/logrotate.c
--@@ -1157,6 +1157,53 @@ int findNeedRotating(struct logInfo *log, int logNum, int force)
-+@@ -1315,6 +1315,54 @@ static int findNeedRotating(struct logInfo *log, int logNum, int force)
-      return 0;
-  }
-  
-@@ -68,10 +68,11 @@ index d3deb6a..cf8bf2c 100644
- +    return 1;
- +}
- +
-- int prerotateSingleLog(struct logInfo *log, int logNum, struct logState *state,
-- 		       struct logNames *rotNames)
-++
-+ static int prerotateSingleLog(struct logInfo *log, int logNum,
-+ 			      struct logState *state, struct logNames *rotNames)
-  {
--@@ -1523,15 +1570,15 @@ int prerotateSingleLog(struct logInfo *log, int logNum, struct logState *state,
-+@@ -1674,15 +1722,15 @@ static int prerotateSingleLog(struct logInfo *log, int logNum,
-  		}
-  
-  	    message(MESS_DEBUG,
-@@ -90,7 +91,7 @@ index d3deb6a..cf8bf2c 100644
-  			    oldName, newName, strerror(errno));
-  		    hasErrors = 1;
-  		}
--@@ -1669,21 +1716,21 @@ int rotateSingleLog(struct logInfo *log, int logNum, struct logState *state,
-+@@ -1767,21 +1815,21 @@ static int rotateSingleLog(struct logInfo *log, int logNum,
-  				return 1;
-  			}
-  
-@@ -115,19 +116,19 @@ index d3deb6a..cf8bf2c 100644
- -				message(MESS_ERROR, "failed to rename %s to %s: %s\n",
- +			mvFile(log->files[logNum], rotNames->finalName, log, prev_acl)) {
- +				message(MESS_ERROR, "failed to move %s to %s: %s\n",
-- 					log->files[logNum], tmpFilename,
-+ 					log->files[logNum], rotNames->finalName,
-  					strerror(errno));
-  					hasErrors = 1;
--@@ -2063,7 +2110,7 @@ int rotateLogSet(struct logInfo *log, int force)
-+@@ -2170,7 +2218,7 @@ static int rotateLogSet(struct logInfo *log, int force)
-      return hasErrors;
-  }
-  
---static int writeState(char *stateFilename)
-+-static int writeState(const char *stateFilename)
- +static int writeState(struct logInfo *log, char *stateFilename)
-  {
-  	struct logState *p;
-  	FILE *f;
--@@ -2227,7 +2274,7 @@ static int writeState(char *stateFilename)
-+@@ -2322,7 +2370,7 @@ static int writeState(const char *stateFilename)
-  		fclose(f);
-  
-  	if (error == 0) {
-@@ -136,7 +137,7 @@ index d3deb6a..cf8bf2c 100644
-  			unlink(tmpFilename);
-  			error = 1;
-  			message(MESS_ERROR, "error renaming temp state file %s\n",
--@@ -2525,7 +2572,7 @@ int main(int argc, const char **argv)
-+@@ -2648,7 +2696,7 @@ int main(int argc, const char **argv)
-  		rc |= rotateLogSet(log, force);
-  
-  	if (!debug)
-@@ -145,3 +146,6 @@ index d3deb6a..cf8bf2c 100644
-  
-  	return (rc != 0);
-  }
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-extended/logrotate/logrotate/update-the-manual.patch b/meta/recipes-extended/logrotate/logrotate/update-the-manual.patch
-index 50d037d..725567e 100644
---- a/meta/recipes-extended/logrotate/logrotate/update-the-manual.patch
-+++ b/meta/recipes-extended/logrotate/logrotate/update-the-manual.patch
-@@ -1,4 +1,4 @@
--From e0b0fe30e9c49234994a20a86aacfaf80e690087 Mon Sep 17 00:00:00 2001
-+From bf22e8805df69344f6f20cea390e829a22fa741b Mon Sep 17 00:00:00 2001
- From: Robert Yang <liezhi.yang@windriver.com>
- Date: Tue, 17 Feb 2015 21:14:37 -0800
- Subject: [PATCH] Update the manual
-@@ -9,14 +9,14 @@ Upstream-Status: Pending
- 
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- ---
-- logrotate.8 |   10 ++++------
-+ logrotate.8.in | 10 ++++------
-  1 file changed, 4 insertions(+), 6 deletions(-)
- 
--diff --git a/logrotate.8 b/logrotate.8
--index e4e5f48..84407d0 100644
----- a/logrotate.8
--+++ b/logrotate.8
--@@ -405,12 +405,10 @@ Do not rotate the log if it is empty (this overrides the \fBifempty\fR option).
-+diff --git a/logrotate.8.in b/logrotate.8.in
-+index 951e406..581bf48 100644
-+--- a/logrotate.8.in
-++++ b/logrotate.8.in
-+@@ -445,12 +445,10 @@ Do not rotate the log if it is empty (this overrides the \fBifempty\fR option).
-  
-  .TP
-  \fBolddir \fIdirectory\fR
-@@ -34,5 +34,5 @@ index e4e5f48..84407d0 100644
-  
-  .TP
- -- 
--1.7.9.5
-+1.8.3.1
- 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.12.3.bb b/meta/recipes-extended/logrotate/logrotate_3.12.3.bb
-new file mode 100644
-index 0000000..2033be1
---- /dev/null
-+++ b/meta/recipes-extended/logrotate/logrotate_3.12.3.bb
-@@ -0,0 +1,66 @@
-+SUMMARY = "Rotates, compresses, removes and mails system log files"
-+SECTION = "console/utils"
-+HOMEPAGE = "https://github.com/logrotate/logrotate/issues"
-+LICENSE = "GPLv2"
-+
-+# TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
-+
-+DEPENDS="coreutils popt"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+# When updating logrotate to latest upstream, SRC_URI should point to
-+# a proper release tarball from https://github.com/logrotate/logrotate/releases
-+# and we have to take the snapshot for now because there is no such
-+# tarball available for 3.9.1.
-+
-+S = "${WORKDIR}/${BPN}-${PV}"
-+
-+UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
-+UPSTREAM_CHECK_REGEX = "logrotate-(?P<pver>\d+(\.\d+)+).tar"
-+
-+SRC_URI = "https://github.com/${BPN}/${BPN}/archive/${PV}.tar.gz \
-+            file://act-as-mv-when-rotate.patch \
-+            file://update-the-manual.patch \
-+            file://disable-check-different-filesystems.patch \
-+            "
-+
-+SRC_URI[md5sum] = "d1c41bdf63b9993c8e4e8b48a7bd5b8b"
-+SRC_URI[sha256sum] = "683ccb7fff74082471aa6bd9e962ae7a3f4d55eea7df41fd97aa12ec6f55e657"
-+
-+PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
-+
-+PACKAGECONFIG[acl] = ",,acl"
-+PACKAGECONFIG[selinux] = ",,libselinux"
-+
-+CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
-+		    ${sysconfdir}/logrotate.conf"
-+
-+# If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
-+# optimization variables, so use it rather than EXTRA_CFLAGS.
-+EXTRA_OEMAKE = "\
-+    LFS= \
-+    OS_NAME='${OS_NAME}' \
-+    'CC=${CC}' \
-+    'RPM_OPT_FLAGS=${CFLAGS}' \
-+    'EXTRA_LDFLAGS=${LDFLAGS}' \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'acl', 'WITH_ACL=yes', '', d)} \
-+    ${@bb.utils.contains('PACKAGECONFIG', 'selinux', 'WITH_SELINUX=yes', '', d)} \
-+"
-+
-+# OS_NAME in the makefile defaults to `uname -s`. The behavior for
-+# freebsd/netbsd is questionable, so leave it as Linux, which only sets
-+# INSTALL=install and BASEDIR=/usr.
-+OS_NAME = "Linux"
-+
-+inherit autotools
-+
-+do_install(){
-+    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
-+    mkdir -p ${D}${sysconfdir}/logrotate.d
-+    mkdir -p ${D}${sysconfdir}/cron.daily
-+    mkdir -p ${D}${localstatedir}/lib
-+    install -p -m 644 ${S}/examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
-+    install -p -m 755 ${S}/examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
-+    touch ${D}${localstatedir}/lib/logrotate.status
-+}
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-deleted file mode 100644
-index 7c73212..0000000
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ /dev/null
-@@ -1,71 +0,0 @@
--SUMMARY = "Rotates, compresses, removes and mails system log files"
--SECTION = "console/utils"
--HOMEPAGE = "https://github.com/logrotate/logrotate/issues"
--LICENSE = "GPLv2"
--
--# TODO: logrotate 3.8.8 adds autotools/automake support, update recipe to use it.
--# TODO: Document coreutils dependency. Why not RDEPENDS? Why not busybox?
--
--DEPENDS="coreutils popt"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
--
--# When updating logrotate to latest upstream, SRC_URI should point to
--# a proper release tarball from https://github.com/logrotate/logrotate/releases
--# and we have to take the snapshot for now because there is no such
--# tarball available for 3.9.1.
--
--S = "${WORKDIR}/${BPN}-r3-9-1"
--
--UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
--UPSTREAM_CHECK_REGEX = "logrotate-(?P<pver>\d+(\.\d+)+).tar"
--
--SRC_URI = "https://github.com/${BPN}/${BPN}/archive/r3-9-1.tar.gz \
--           file://act-as-mv-when-rotate.patch \
--           file://update-the-manual.patch \
--           file://disable-check-different-filesystems.patch \
--           file://0001-Support-system-dates-back-to-the-year-1970.patch \
--            "
--
--SRC_URI[md5sum] = "8572b7c2cf9ade09a8a8e10098500fb3"
--SRC_URI[sha256sum] = "5bf8e478c428e7744fefa465118f8296e7e771c981fb6dffb7527856a0ea3617"
--
--PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)}"
--
--PACKAGECONFIG[acl] = ",,acl"
--PACKAGECONFIG[selinux] = ",,libselinux"
--
--CONFFILES_${PN} += "${localstatedir}/lib/logrotate.status \
--		    ${sysconfdir}/logrotate.conf"
--
--# If RPM_OPT_FLAGS is unset, it adds -g itself rather than obeying our
--# optimization variables, so use it rather than EXTRA_CFLAGS.
--EXTRA_OEMAKE = "\
--    LFS= \
--    OS_NAME='${OS_NAME}' \
--    'CC=${CC}' \
--    'RPM_OPT_FLAGS=${CFLAGS}' \
--    'EXTRA_LDFLAGS=${LDFLAGS}' \
--    ${@bb.utils.contains('PACKAGECONFIG', 'acl', 'WITH_ACL=yes', '', d)} \
--    ${@bb.utils.contains('PACKAGECONFIG', 'selinux', 'WITH_SELINUX=yes', '', d)} \
--"
--
--# OS_NAME in the makefile defaults to `uname -s`. The behavior for
--# freebsd/netbsd is questionable, so leave it as Linux, which only sets
--# INSTALL=install and BASEDIR=/usr.
--OS_NAME = "Linux"
--
--do_compile_prepend() {
--    # Make sure the recompile is OK
--    rm -f ${B}/.depend
--}
--
--do_install(){
--    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
--    mkdir -p ${D}${sysconfdir}/logrotate.d
--    mkdir -p ${D}${sysconfdir}/cron.daily
--    mkdir -p ${D}${localstatedir}/lib
--    install -p -m 644 examples/logrotate-default ${D}${sysconfdir}/logrotate.conf
--    install -p -m 755 examples/logrotate.cron ${D}${sysconfdir}/cron.daily/logrotate
--    touch ${D}${localstatedir}/lib/logrotate.status
--}
--- 
-1.8.3.1
+> On Tue, Jun 27, 2017 at 3:16 PM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+> wrote:
+>
+>> Imports the current EGL API registry from Khronos.
+>>
+>> Makes EGL support optional: this is reflected in the recipe but
+>> egl is enabled by default as before.
+>>
+>> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+>> ---
+>>  .../libepoxy/{libepoxy_1.4.2.bb => libepoxy_1.4.3.bb}            | 9
+>> +++++----
+>>  1 file changed, 5 insertions(+), 4 deletions(-)
+>>  rename meta/recipes-graphics/libepoxy/{libepoxy_1.4.2.bb =>
+>> libepoxy_1.4.3.bb} (70%)
+>>
+>> diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.4.2.bb
+>> b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+>> similarity index 70%
+>> rename from meta/recipes-graphics/libepoxy/libepoxy_1.4.2.bb
+>> rename to meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+>> index e69e828..c8b398f 100644
+>> --- a/meta/recipes-graphics/libepoxy/libepoxy_1.4.2.bb
+>> +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.4.3.bb
+>> @@ -6,15 +6,16 @@ LICENSE = "MIT"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
+>>
+>>  SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${
+>> BP}.tar.xz"
+>> -SRC_URI[md5sum] = "632fcfd7ae9d21f5a634326d753a89c4"
+>> -SRC_URI[sha256sum] = "bea6fdec3d10939954495da898d87
+>> 2ee836b75c35699074cbf02a64fcb80d5b3"
+>> +SRC_URI[md5sum] = "af4c3ce0fb1143bdc4e43f85695a9bed"
+>> +SRC_URI[sha256sum] = "0b808a06c9685a62fca34b680abb8
+>> bc7fb2fda074478e329b063c1f872b826f6"
+>>  UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+>>
+>>  inherit autotools pkgconfig distro_features_check
+>>
+>>  REQUIRED_DISTRO_FEATURES = "opengl"
+>>
+>> -DEPENDS = "util-macros virtual/egl"
+>> +DEPENDS = "util-macros"
+>>
+>> +PACKAGECONFIG[egl] = "--enable-egl, --disable-egl, virtual/egl"
+>>  PACKAGECONFIG[x11] = "--enable-glx, --disable-glx, virtual/libx11"
+>> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
+>> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} egl"
+>> --
+>> 2.1.4
+>>
+>
+> Beside the issue with recent patch to mesa, also this one seems to have
+> caused nasty effects on raspberrypi builds... I got to it after bisecting
+> poky from 854c8c2 that failed with:
+>
+> ERROR: gtk+3-3.22.16-r0 do_prepare_recipe_sysroot: Error executing a
+> python function in exec_python_func() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure
+> was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:extend_recipe_sysroot(d)
+>      0003:
+> File: '/home/gizero/work/smartliving/distro/repo-master/build-
+> poky/conf/../../layers/poky/meta/classes/staging.bbclass', lineno: 510,
+> function: extend_recipe_sysroot
+>      0506:                    dest = newmanifest[l]
+>      0507:                    if l.endswith("/"):
+>      0508:                        staging_copydir(l, targetdir, dest,
+> seendirs)
+>      0509:                        continue
+>  *** 0510:                    staging_copyfile(l, targetdir, dest,
+> postinsts, seendirs)
+>      0511:
+>      0512:    for f in fixme:
+>      0513:        if f == '':
+>      0514:            staging_processfixme(fixme[f], recipesysroot,
+> recipesysroot, recipesysrootnative, d)
+> File: '/home/gizero/work/smartliving/distro/repo-master/build-
+> poky/conf/../../layers/poky/meta/classes/staging.bbclass', lineno: 151,
+> function: staging_copyfile
+>      0147:        os.symlink(linkto, dest)
+>      0148:        #bb.warn(c)
+>      0149:    else:
+>      0150:        try:
+>  *** 0151:            os.link(c, dest)
+>      0152:        except OSError as err:
+>      0153:            if err.errno == errno.EXDEV:
+>      0154:                bb.utils.copyfile(c, dest)
+>      0155:            else:
+> Exception: FileExistsError: [Errno 17] File exists:
+> '/home/gizero/work/smartliving/distro/repo-master/build-
+> poky/tmp/sysroots-components/raspberrypi3/userland/usr/include/KHR/khrplatform.h'
+> -> '/home/gizero/work/smartliving/distro/repo-master/build-
+> poky/tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/gtk+
+> 3/3.22.16-r0/recipe-sysroot/usr/include/KHR/khrplatform.h'
+>
 
+/usr/include/KHR/khrplatform.h is the egl platform header file, provided by
+both mesa and RPI userland. Does mesa end up in your gtk+3 recipe-sysroot
+somehow?
 
+For clarity: this could be a bug but it is unlikely to be related to the
+libepoxy change (it does not use or ship the actual header file).
+
+ - Jussi
+
+--94eb2c05a632d6a54a055405d8b1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+0 July 2017 at 17:47, Andrea Galbusera <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:gizero@gmail.com" target=3D"_blank">gizero@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><=
+div><div class=3D"gmail-h5"><div class=3D"gmail_extra"><div class=3D"gmail_=
+quote">On Tue, Jun 27, 2017 at 3:16 PM, Jussi Kukkonen <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukko=
+nen@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">Imports the current EGL API registry from Khronos.<br>
+<br>
+Makes EGL support optional: this is reflected in the recipe but<br>
+egl is enabled by default as before.<br>
+<br>
+Signed-off-by: Jussi Kukkonen &lt;<a href=3D"mailto:jussi.kukkonen@intel.co=
+m" target=3D"_blank">jussi.kukkonen@intel.com</a>&gt;<br>
+---<br>
+=C2=A0.../libepoxy/{<a href=3D"http://libepoxy_1.4.2.bb" rel=3D"noreferrer"=
+ target=3D"_blank">libepoxy_1.4.2.<wbr>bb</a> =3D&gt; <a href=3D"http://lib=
+epoxy_1.4.3.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.3.bb</a>}=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 9 +++++----<br>
+=C2=A01 file changed, 5 insertions(+), 4 deletions(-)<br>
+=C2=A0rename meta/recipes-graphics/libepoxy<wbr>/{<a href=3D"http://libepox=
+y_1.4.2.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.2.bb</a> =3D&=
+gt; <a href=3D"http://libepoxy_1.4.3.bb" rel=3D"noreferrer" target=3D"_blan=
+k">libepoxy_1.4.3.bb</a>} (70%)<br>
+<br>
+diff --git a/meta/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy=
+_1.4.2.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.2.bb</a> b/met=
+a/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy_1.4.3.bb" rel=
+=3D"noreferrer" target=3D"_blank">libepoxy_1.4.3.bb</a><br>
+similarity index 70%<br>
+rename from meta/recipes-graphics/libepoxy<wbr>/<a href=3D"http://libepoxy_=
+1.4.2.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.2.bb</a><br>
+rename to meta/recipes-graphics/libepoxy<wbr>/<a href=3D"http://libepoxy_1.=
+4.3.bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.3.bb</a><br>
+index e69e828..c8b398f 100644<br>
+--- a/meta/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy_1.4.2.=
+bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.2.bb</a><br>
++++ b/meta/recipes-graphics/libepo<wbr>xy/<a href=3D"http://libepoxy_1.4.3.=
+bb" rel=3D"noreferrer" target=3D"_blank">libepoxy_1.4.3.bb</a><br>
+@@ -6,15 +6,16 @@ LICENSE =3D &quot;MIT&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D58ef4c80d4<wbr>01e07b=
+d9ee8b6b58cf464b&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"https://github.com/anholt/$%7BBPN%7D/rel=
+eases/download/$%7BPV%7D/$%7BBP%7D.tar.xz" rel=3D"noreferrer" target=3D"_bl=
+ank">https://github.com/anholt/${B<wbr>PN}/releases/download/${PV}/${<wbr>B=
+P}.tar.xz</a>&quot;<br>
+-SRC_URI[md5sum] =3D &quot;632fcfd7ae9d21f5a634326d753a8<wbr>9c4&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;bea6fdec3d10939954495da898d87<wbr>2ee836b75c3=
+5699074cbf02a64fcb8<wbr>0d5b3&quot;<br>
++SRC_URI[md5sum] =3D &quot;af4c3ce0fb1143bdc4e43f85695a9<wbr>bed&quot;<br>
++SRC_URI[sha256sum] =3D &quot;0b808a06c9685a62fca34b680abb8<wbr>bc7fb2fda07=
+4478e329b063c1f872b<wbr>826f6&quot;<br>
+=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/anholt/lib=
+epoxy/releases" rel=3D"noreferrer" target=3D"_blank">https://github.com/anh=
+olt/lib<wbr>epoxy/releases</a>&quot;<br>
+<br>
+=C2=A0inherit autotools pkgconfig distro_features_check<br>
+<br>
+=C2=A0REQUIRED_DISTRO_FEATURES =3D &quot;opengl&quot;<br>
+<br>
+-DEPENDS =3D &quot;util-macros virtual/egl&quot;<br>
++DEPENDS =3D &quot;util-macros&quot;<br>
+<br>
++PACKAGECONFIG[egl] =3D &quot;--enable-egl, --disable-egl, virtual/egl&quot=
+;<br>
+=C2=A0PACKAGECONFIG[x11] =3D &quot;--enable-glx, --disable-glx, virtual/lib=
+x11&quot;<br>
+-PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_FE<wbr>ATURES&#39=
+;, &#39;x11&#39;, d)}&quot;<br>
++PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_FE<wbr>ATURES&#39=
+;, &#39;x11&#39;, d)} egl&quot;<br>
+<span class=3D"gmail-m_702832814543370566m_827202577286063731gmail-HOEnZb">=
+<font color=3D"#888888">--<br>
+2.1.4</font></span><br></blockquote></div><br></div></div></div><div class=
+=3D"gmail_extra">Beside the issue with recent patch to mesa, also this one =
+seems to have caused nasty effects on raspberrypi builds... I got to it aft=
+er bisecting poky from 854c8c2 that failed with:<br><br>ERROR: gtk+3-3.22.1=
+6-r0 do_prepare_recipe_sysroot: Error executing a python function in exec_p=
+ython_func() autogenerated:<br><br>The stack trace of python calls that res=
+ulted in this exception/failure was:<br>File: &#39;exec_python_func() autog=
+enerated&#39;, lineno: 2, function: &lt;module&gt;<br>=C2=A0=C2=A0=C2=A0=C2=
+=A0 0001:<br>=C2=A0*** 0002:extend_recipe_sysroot(d)<br>=C2=A0=C2=A0=C2=A0=
+=C2=A0 0003:<br>File: &#39;/home/gizero/work/smartliving<wbr>/distro/repo-m=
+aster/build-<wbr>poky/conf/../../layers/poky/<wbr>meta/classes/staging.bbcl=
+ass&#39;, lineno: 510, function: extend_recipe_sysroot<br>=C2=A0=C2=A0=C2=
+=A0=C2=A0 0506:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dest =3D newmanifest=
+[l]<br>=C2=A0=C2=A0=C2=A0=C2=A0 0507:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 if l.endswith(&quot;/&quot;):<br>=C2=A0=C2=A0=C2=A0=C2=A0 0508:=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 staging_copydir(l=
+, targetdir, dest, seendirs)<br>=C2=A0=C2=A0=C2=A0=C2=A0 0509:=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 continue<br>=C2=A0*** 0=
+510:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 staging_copyfile(l, targetdir=
+, dest, postinsts, seendirs)<br>=C2=A0=C2=A0=C2=A0=C2=A0 0511:<br>=C2=A0=C2=
+=A0=C2=A0=C2=A0 0512:=C2=A0=C2=A0=C2=A0 for f in fixme:<br>=C2=A0=C2=A0=C2=
+=A0=C2=A0 0513:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if f =3D=3D &#39;=
+&#39;:<br>=C2=A0=C2=A0=C2=A0=C2=A0 0514:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 staging_processfixme(fixme[f], recipesysr=
+oot, recipesysroot, recipesysrootnative, d)<br>File: &#39;/home/gizero/work=
+/smartliving<wbr>/distro/repo-master/build-<wbr>poky/conf/../../layers/poky=
+/<wbr>meta/classes/staging.bbclass&#39;, lineno: 151, function: staging_cop=
+yfile<br>=C2=A0=C2=A0=C2=A0=C2=A0 0147:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 os.symlink(linkto, dest)<br>=C2=A0=C2=A0=C2=A0=C2=A0 0148:=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #bb.warn(c)<br>=C2=A0=C2=A0=C2=A0=C2=A0 0=
+149:=C2=A0=C2=A0=C2=A0 else:<br>=C2=A0=C2=A0=C2=A0=C2=A0 0150:=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:<br>=C2=A0*** 0151:=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.link(c, dest)<br>=C2=A0=C2=
+=A0=C2=A0=C2=A0 0152:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except OSEr=
+ror as err:<br>=C2=A0=C2=A0=C2=A0=C2=A0 0153:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if err.errno =3D=3D errno.EXDEV:<br>=
+=C2=A0=C2=A0=C2=A0=C2=A0 0154:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.utils.copyfile(c, dest)<br=
+>=C2=A0=C2=A0=C2=A0=C2=A0 0155:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 else:<br>Exception: FileExistsError: [Errno 17] Fi=
+le exists: &#39;/home/gizero/work/smartliving<wbr>/distro/repo-master/build=
+-<wbr>poky/tmp/sysroots-components/r<wbr>aspberrypi3/userland/usr/inclu<wbr=
+>de/KHR/khrplatform.h&#39; -&gt; &#39;/home/gizero/work/smartliving<wbr>/di=
+stro/repo-master/build-<wbr>poky/tmp/work/cortexa7hf-neon-<wbr>vfpv4-poky-l=
+inux-gnueabi/gtk+<wbr>3/3.22.16-r0/recipe-sysroot/<wbr>usr/include/KHR/khrp=
+latform.h&#39;<br></div></div></blockquote><div><br></div><div>/usr/include=
+/KHR/khrplatform.h is the egl platform header file, provided by both mesa a=
+nd RPI userland. Does mesa end up in your gtk+3 recipe-sysroot somehow?<br>=
+</div><div><br></div><div>For clarity: this could be a bug but it is unlike=
+ly to be related to the libepoxy change (it does not use or ship the actual=
+ header file).</div><div>=C2=A0</div><div>=C2=A0- Jussi</div><div><br></div=
+></div></div></div>
+
+--94eb2c05a632d6a54a055405d8b1--
