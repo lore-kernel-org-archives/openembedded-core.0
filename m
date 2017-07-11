@@ -1,27 +1,42 @@
-Return-Path: <openembedded@mindchasers.com>
-X-Greylist: delayed 557 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 11 Jul 2017 17:25:34 UTC
-Received: from smtp.webfaction.com (mail6.webfaction.com [31.170.123.134])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F8C977E44
+Return-Path: <sstrogin@cisco.com>
+Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4137377E51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 17:25:34 +0000 (UTC)
-Received: from [192.168.1.14] (c-73-197-231-125.hsd1.nj.comcast.net
-	[73.197.231.125])
-	by smtp.webfaction.com (Postfix) with ESMTPSA id A2836600C158C;
-	Tue, 11 Jul 2017 17:16:17 +0000 (UTC)
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Soren Brinkmann <soren.brinkmann@xilinx.com>
-References: <20170709073537.16106-1-soren.brinkmann@xilinx.com>
-	<CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com>
-From: Bob Cochran <openembedded@mindchasers.com>
-Message-ID: <2027cffe-93a8-3641-4c91-541ffde23d76@mindchasers.com>
-Date: Tue, 11 Jul 2017 13:16:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 11 Jul 2017 17:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=6140; q=dns/txt; s=iport;
+	t=1499794319; x=1501003919;
+	h=from:subject:to:references:cc:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=gllQeLtd342GjS5RLMy36/P7e3uqxUOgu3OA1T2Hgkg=;
+	b=UOGSr8VF/Y6SOEFP8zG/uT1Y5kALSvlqz0xpS7P3O8d1e9klQgi+u/Vx
+	OmbbTj220nPHNWjS8TRqeO+50RHr7SXGs8AGVEZ2+7MvKmSWcDg5CcOKu
+	YPsKQElWBZ/s8NXbOgNtEo4ncm1cTg6F3nvztGTXqH4PNV8eLY6lIcxBJ A=;
+X-IronPort-AV: E=Sophos;i="5.40,347,1496102400"; d="scan'208";a="653178867"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-4.cisco.com)
+	([173.38.203.22])
+	by aer-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Jul 2017 17:31:53 +0000
+Received: from [10.61.102.111] (dhcp-10-61-102-111.cisco.com [10.61.102.111])
+	(authenticated bits=0)
+	by aer-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id v6BHVYmp000427
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
+	Tue, 11 Jul 2017 17:31:53 GMT
+From: Stefan Strogin <sstrogin@cisco.com>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170620162102.27948-1-sstrogin@cisco.com>
+	<c2a53be7-9d79-04e5-e6d3-5e1918443a9d@windriver.com>
+Message-ID: <f2e42f21-8059-c195-c2b6-b21f5af4d51e@cisco.com>
+Date: Tue, 11 Jul 2017 20:31:33 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] valgrind: Update 3.12.0 -> 3.13.0
+In-Reply-To: <c2a53be7-9d79-04e5-e6d3-5e1918443a9d@windriver.com>
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: sstrogin
+Cc: xe-linux-external@cisco.com
+Subject: Re: [PATCH v3] slang: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,307 +49,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 17:25:40 -0000
-Content-Type: multipart/alternative;
-	boundary="------------5C39CD4721087A8273A6150D"
-Content-Language: en-US
-
---------------5C39CD4721087A8273A6150D
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 11 Jul 2017 17:31:58 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 07/11/2017 04:43 AM, Burton, Ross wrote:
->
-> On 9 July 2017 at 08:35, Soren Brinkmann <soren.brinkmann@xilinx.com 
-> <mailto:soren.brinkmann@xilinx.com>> wrote:
->
->     Signed-off-by: Soren Brinkmann <soren.brinkmann@xilinx.com
->     <mailto:soren.brinkmann@xilinx.com>>
->     ---
->     v3:
->      - rebased onto latest master branch
->     v2:
->      - no change
->
->
-> Fails to build on PPC if ptest is enabled: 
-> http://errors.yoctoproject.org/Errors/Details/147237/
+Hi Robert,
+
+Thanks for the report. Could you say how to reproduce the error? What target architecture, config options, oe-core version, etc do you use?
+I have tried with openembedded-core 643c81af (master), with
+MACHINE = "qemux86-64",
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks ptest-pkgs"
+DISTRO_FEATURES += "ptest"
+and CORE_IMAGE_EXTRA_INSTALL += "slang"
+set in local.conf, everything builds fine.
+
+--
+Stefan
+
+On 11/07/17 04:36, Robert Yang wrote:
+> Hello Stefan,
+> 
+> There is an error when do_compile_ptest_base:
+> 
+> | ../objs/libslang.a(sldisply.o): In function `tt_tgetstr':
+> | /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2576: undefined 
+> reference to `tgetstr'
+> | ../objs/libslang.a(sldisply.o): In function `SLtt_initialize':
+> | /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2770: undefined 
+> reference to `tgetent'
+> | ../objs/libslang.a(sldisply.o): In function `tt_tgetflag':
+> | /usr/src/debug/slang/2.3.1a-r0/slang-2.3.1a/src/sldisply.c:2635: undefined 
+> reference to `tgetflag'
+> 
+> 
+> It is because it uses ncurses5-config which is wrong in oe-core, the 
+> log.do_configure shows:
+> 
+> checking for ncurses5-config... 
+> /buildarea/lyang1/test_m/tmp/work/i586-poky-linux/slang/2.3.1a-r0/recipe-sysroot/usr/bin/crossscripts/ncurses5-config
+> checking for terminfo... ERROR: /usr/bin/ncurses5-config should not be used, use 
+> an alternative such as pkg-config
+> 
+> Would you please fix it?
+> 
+> // Robert
+> 
+> On 06/21/2017 12:21 AM, Stefan Strogin wrote:
+>> This patch adds ptest for slang, it uses `make runtests` to run tests.
+>> The Makefile runs runtests.sh for each *.sl and *.slc tests.
+>> runtests.sh is patched for printing test results in a common format,
+>> Makefile is patched in order not to compile any dependencies.
+>>
+>> Changes v2->v3: rebased on the latest master (1d9a88f6).
+>>
+>> Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
+>> Cc: xe-linux-external@cisco.com
+>> ---
+>>  meta/recipes-extended/slang/slang/run-ptest        |  3 +++
+>>  ...-add-output-in-the-format-result-testname.patch | 30 ++++++++++++++++++++++
+>>  meta/recipes-extended/slang/slang_2.3.1a.bb        | 25 +++++++++++++++++-
+>>  3 files changed, 57 insertions(+), 1 deletion(-)
+>>  create mode 100644 meta/recipes-extended/slang/slang/run-ptest
+>>  create mode 100644 meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+>>
+>> diff --git a/meta/recipes-extended/slang/slang/run-ptest b/meta/recipes-extended/slang/slang/run-ptest
+>> new file mode 100644
+>> index 0000000000..39f474af31
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/slang/slang/run-ptest
+>> @@ -0,0 +1,3 @@
+>> +#!/bin/sh
+>> +
+>> +make -C test runtests
+>> diff --git a/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+>> new file mode 100644
+>> index 0000000000..27a9bb87ea
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/slang/slang/test-add-output-in-the-format-result-testname.patch
+>> @@ -0,0 +1,30 @@
+>> +From 38688ee2754415cf2a1935dafb8278861b7315e7 Mon Sep 17 00:00:00 2001
+>> +From: Stefan Strogin <sstrogin@cisco.com>
+>> +Date: Thu, 2 Mar 2017 00:26:31 +0200
+>> +Subject: [PATCH] test: add output in the format "result: testname"
+>> +
+>> +Upstream-Status: Inappropriate [oe specific]
+>> +
+>> +Signed-off-by: Stefan Strogin <sstrogin@cisco.com>
+>> +---
+>> + src/test/runtests.sh | 2 ++
+>> + 1 file changed, 2 insertions(+)
+>> +
+>> +diff --git a/src/test/runtests.sh b/src/test/runtests.sh
+>> +index a3eaad0..64f0705 100755
+>> +--- a/src/test/runtests.sh
+>> ++++ b/src/test/runtests.sh
+>> +@@ -34,8 +34,10 @@ do
+>> +     then
+>> + 	n_failed=`expr ${n_failed} + 1`
+>> + 	tests_failed="$tests_failed $testfile"
+>> ++	echo "FAIL: $testfile"
+>> +     else
+>> +         touch lastrun/$testfile
+>> ++	echo "PASS: $testfile"
+>> +     fi
+>> + done
+>> +
+>> +--
+>> +2.11.0
+>> +
+>> diff --git a/meta/recipes-extended/slang/slang_2.3.1a.bb b/meta/recipes-extended/slang/slang_2.3.1a.bb
+>> index c71d80481f..b302104ee1 100644
+>> --- a/meta/recipes-extended/slang/slang_2.3.1a.bb
+>> +++ b/meta/recipes-extended/slang/slang_2.3.1a.bb
+>> @@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
+>>  SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
+>>             file://no-x.patch \
+>>             file://dont-link-to-host.patch \
+>> +           file://test-add-output-in-the-format-result-testname.patch \
+>> +           file://run-ptest \
+>>            "
+>>
+>>  SRC_URI[md5sum] = "c5235313042ed0e71ec708f7b85ec241"
+>> @@ -25,7 +27,7 @@ SRC_URI[sha256sum] = "54f0c3007fde918039c058965dffdfd6c5aec0bad0f4227192cc486021
+>>  UPSTREAM_CHECK_URI = "http://www.jedsoft.org/releases/slang/"
+>>  PREMIRRORS_append = "\n http://www.jedsoft.org/releases/slang/.* http://www.jedsoft.org/releases/slang/old/ \n"
+>>
+>> -inherit autotools-brokensep
+>> +inherit autotools-brokensep ptest
+>>  CLEANBROKEN = "1"
+>>
+>>  EXTRA_OECONF = "--without-onig"
+>> @@ -49,6 +51,27 @@ do_configure_prepend() {
+>>      cd ${B}
+>>  }
+>>
+>> +do_compile_ptest() {
+>> +	oe_runmake -C src static
+>> +	oe_runmake -C src/test sltest
+>> +}
+>> +
+>> +do_install_ptest() {
+>> +	mkdir ${D}${PTEST_PATH}/test
+>> +	for f in Makefile sltest runtests.sh *.sl *.inc; do
+>> +		cp ${S}/src/test/$f ${D}${PTEST_PATH}/test/
+>> +	done
+>> +	sed -e 's/\ \$(TEST_PGM)\.c\ assoc\.c\ list\.c\ \$(SLANGLIB)\/libslang\.a//' \
+>> +	    -e '/\$(CC).*(TEST_PGM)/d' \
+>> +	    -i ${D}${PTEST_PATH}/test/Makefile
+>> +
+>> +	cp ${S}/slsh/lib/require.sl ${D}${PTEST_PATH}/test/
+>> +	sed -i 's/\.\.\/\.\.\/slsh\/lib\/require\.sl/require\.sl/' ${D}${PTEST_PATH}/test/req.sl
+>> +
+>> +	cp ${S}/doc/text/slangfun.txt ${D}${PTEST_PATH}/test/
+>> +	sed -i 's/\.\.\/\.\.\/doc\/text\/slangfun\.txt/slangfun\.txt/' ${D}${PTEST_PATH}/test/docfun.sl
+>> +}
+>> +
+>>  FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
+>>
+>>  PARALLEL_MAKE = ""
+>>
 
 
-I find that both valgrind 3.12 and the proposed patch fail to build with 
-ppc64.  Valgrind 3.12 builds with ppc64 if I switch GCCVERSION back to 6.3
-
-I suppose the 7.1 compiler is uncovering some issues with some of the 
-assembly language that has gone undetected before.
-
-
-Using 3.12 with master branch / GCCVERSION 7.1 fails in coregrind:
-
-
-powerpc64-poky-linux-gcc  -mhard-float -m64 -mcpu=e5500 
---sysroot=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0/recipe-sysroot 
--DHAVE_CONFIG_H -I. -I../../valgrind-3.12.0/coregrind -I.. 
--I../../valgrind-3.12.0 -I../../valgrind-3.12.0/include 
--I../../valgrind-3.12.0/VEX/pub -I../VEX/pub -DVGA_ppc64be=1 
--DVGO_linux=1 -DVGP_ppc64be_linux=1 -DVGPV_ppc64be_linux_vanilla=1 
--I../../valgrind-3.12.0/coregrind -DVG_LIBDIR="\"/usr/lib64/valgrind"\" 
--DVG_PLATFORM="\"ppc64be-linux\""  -m64 -O2 -g -std=gnu99 -Wall 
--Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes 
--Wmissing-declarations -Wcast-align -Wcast-qual -Wwrite-strings 
--Wempty-body -Wformat -Wformat-security -Wignored-qualifiers 
--Wmissing-parameter-type -Wold-style-declaration -fno-stack-protector 
--fno-strict-aliasing -fno-builtin -DENABLE_LINUX_TICKET_LOCK -g 
--feliminate-unused-debug-types 
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0=/usr/src/debug/valgrind/3.12.0-r0 
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0/recipe-sysroot-native= 
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0/recipe-sysroot= 
--c -o libcoregrind_ppc64be_linux_a-m_debuglog.o `test -f 'm_debuglog.c' 
-|| echo '../../valgrind-3.12.0/coregrind/'`m_debuglog.c
-
-| ../../valgrind-3.12.0/coregrind/m_debuglog.c: In function 
-'local_sys_write_stderr':
-| ../../valgrind-3.12.0/coregrind/m_debuglog.c:203:4: error: PIC 
-register clobbered by 'r2' in 'asm'
-|     __asm__ volatile (
-|     ^~~~~~~
-| ../../valgrind-3.12.0/coregrind/m_debuglog.c: In function 
-'vgPlain_debugLog':
-| ../../valgrind-3.12.0/coregrind/m_debuglog.c:228:4: error: PIC 
-register clobbered by 'r2' in 'asm'
-|     __asm__ volatile (
-|     ^~~~~~~
-
-
-*************
-
-
-Using 3.13 patch  with master branch / GCCVERSION 7.1 fails in tests/ppc64
-
-
-powerpc64-poky-linux-gcc  -mhard-float -m64 -mcpu=e5500 
---sysroot=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0/recipe-sysroot 
--DHAVE_CONFIG_H -I. -I../../../../valgrind-3.13.0/none/tests/ppc64 
--I../../..  -I../../../../valgrind-3.13.0 
--I../../../../valgrind-3.13.0/include 
--I../../../../valgrind-3.13.0/coregrind -I../../../include 
--I../../../../valgrind-3.13.0/VEX/pub -I../../../VEX/pub -DVGA_ppc64be=1 
--DVGO_linux=1 -DVGP_ppc64be_linux=1 -DVGPV_ppc64be_linux_vanilla=1   
--Winline -Wall -Wshadow -Wno-long-long -g -fno-stack-protector   -m64  
--Winline -Wall -O -g -mregnames  -m64   -g 
--feliminate-unused-debug-types 
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0=/usr/src/debug/valgrind/3.13.0-r0 
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0/recipe-sysroot-native= 
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0/recipe-sysroot= 
--c -o test_isa_2_06_part2-test_isa_2_06_part2.o `test -f 
-'test_isa_2_06_part2.c' || echo 
-'../../../../valgrind-3.13.0/none/tests/ppc64/'`test_isa_2_06_part2.c
-| ../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c: In 
-function 'usage':
-| 
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:3: 
-warning: implicit declaration of function 'fprintf' 
-[-Wimplicit-function-declaration]
-|    fprintf(stderr,
-|    ^~~~~~~
-| 
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:3: 
-warning: incompatible implicit declaration of built-in function 'fprintf'
-| 
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:3: 
-note: include '<stdio.h>' or provide a declaration of 'fprintf'
-| 
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:11: 
-error: 'stderr' undeclared (first use in this function)
-|    fprintf(stderr,
-|            ^~~~~~
-| 
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:11: 
-note: each undeclared identifier is reported only once for each function 
-it appears in
-| At top level:
-| 
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1776:13: 
-warning: 'usage' defined but not used [-Wunused-function]
-|  static void usage (void)
-|              ^~~~~
-
-
-Bob
-
-
-
->
-> Ross
->
->
-
-
---------------5C39CD4721087A8273A6150D
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 07/11/2017 04:43 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 9 July 2017 at 08:35, Soren
-            Brinkmann <span dir="ltr">&lt;<a
-                href="mailto:soren.brinkmann@xilinx.com" target="_blank"
-                moz-do-not-send="true">soren.brinkmann@xilinx.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-              <div id="gmail-:3hs" class="gmail-a3s gmail-aXjCH
-                gmail-m15d26481ae6626fa">Signed-off-by: Soren Brinkmann
-                &lt;<a href="mailto:soren.brinkmann@xilinx.com"
-                  moz-do-not-send="true">soren.brinkmann@xilinx.com</a>&gt;<br>
-                ---<br>
-                v3:<br>
-                 - rebased onto latest master branch<br>
-                v2:<br>
-                 - no change<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          Fails to build on PPC if ptest is enabled:  <a
-            href="http://errors.yoctoproject.org/Errors/Details/147237/"
-            moz-do-not-send="true">http://errors.yoctoproject.org/Errors/Details/147237/</a></div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    I find that both valgrind 3.12 and the proposed patch fail to build
-    with ppc64.  Valgrind 3.12 builds with ppc64 if I switch GCCVERSION
-    back to 6.3<br>
-    <br>
-    I suppose the 7.1 compiler is uncovering some issues with some of
-    the assembly language that has gone undetected before. <br>
-    <br>
-    <br>
-    Using 3.12 with master branch / GCCVERSION 7.1 fails in coregrind:<br>
-    <br>
-    <br>
-    powerpc64-poky-linux-gcc  -mhard-float -m64 -mcpu=e5500
---sysroot=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0/recipe-sysroot
-    -DHAVE_CONFIG_H -I. -I../../valgrind-3.12.0/coregrind -I.. 
-    -I../../valgrind-3.12.0 -I../../valgrind-3.12.0/include
-    -I../../valgrind-3.12.0/VEX/pub -I../VEX/pub -DVGA_ppc64be=1
-    -DVGO_linux=1 -DVGP_ppc64be_linux=1 -DVGPV_ppc64be_linux_vanilla=1
-    -I../../valgrind-3.12.0/coregrind
-    -DVG_LIBDIR="\"/usr/lib64/valgrind"\"
-    -DVG_PLATFORM="\"ppc64be-linux\""  -m64 -O2 -g -std=gnu99 -Wall
-    -Wmissing-prototypes -Wshadow -Wpointer-arith -Wstrict-prototypes
-    -Wmissing-declarations -Wcast-align -Wcast-qual -Wwrite-strings
-    -Wempty-body -Wformat -Wformat-security -Wignored-qualifiers
-    -Wmissing-parameter-type -Wold-style-declaration
-    -fno-stack-protector -fno-strict-aliasing -fno-builtin 
-    -DENABLE_LINUX_TICKET_LOCK -g -feliminate-unused-debug-types
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0=/usr/src/debug/valgrind/3.12.0-r0
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0/recipe-sysroot-native=
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.12.0-r0/recipe-sysroot= 
-    -c -o libcoregrind_ppc64be_linux_a-m_debuglog.o `test -f
-    'm_debuglog.c' || echo
-    '../../valgrind-3.12.0/coregrind/'`m_debuglog.c<br>
-    <br>
-    | ../../valgrind-3.12.0/coregrind/m_debuglog.c: In function
-    'local_sys_write_stderr':<br>
-    | ../../valgrind-3.12.0/coregrind/m_debuglog.c:203:4: error: PIC
-    register clobbered by 'r2' in 'asm'<br>
-    |     __asm__ volatile (<br>
-    |     ^~~~~~~<br>
-    | ../../valgrind-3.12.0/coregrind/m_debuglog.c: In function
-    'vgPlain_debugLog':<br>
-    | ../../valgrind-3.12.0/coregrind/m_debuglog.c:228:4: error: PIC
-    register clobbered by 'r2' in 'asm'<br>
-    |     __asm__ volatile (<br>
-    |     ^~~~~~~<br>
-    <br>
-    <br>
-    *************<br>
-    <br>
-    <br>
-    Using 3.13 patch  with master branch / GCCVERSION 7.1 fails in
-    tests/ppc64<br>
-    <br>
-    <br>
-    powerpc64-poky-linux-gcc  -mhard-float -m64 -mcpu=e5500
---sysroot=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0/recipe-sysroot
-    -DHAVE_CONFIG_H -I. -I../../../../valgrind-3.13.0/none/tests/ppc64
-    -I../../..  -I../../../../valgrind-3.13.0
-    -I../../../../valgrind-3.13.0/include
-    -I../../../../valgrind-3.13.0/coregrind -I../../../include
-    -I../../../../valgrind-3.13.0/VEX/pub -I../../../VEX/pub
-    -DVGA_ppc64be=1 -DVGO_linux=1 -DVGP_ppc64be_linux=1
-    -DVGPV_ppc64be_linux_vanilla=1   -Winline -Wall -Wshadow
-    -Wno-long-long -g -fno-stack-protector   -m64  -Winline -Wall -O -g
-    -mregnames  -m64   -g -feliminate-unused-debug-types
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0=/usr/src/debug/valgrind/3.13.0-r0
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0/recipe-sysroot-native=
--fdebug-prefix-map=/build/yocto/build_master/tmp/work/ppc64e5500-poky-linux/valgrind/3.13.0-r0/recipe-sysroot= 
-    -c -o test_isa_2_06_part2-test_isa_2_06_part2.o `test -f
-    'test_isa_2_06_part2.c' || echo
-    '../../../../valgrind-3.13.0/none/tests/ppc64/'`test_isa_2_06_part2.c<br>
-    |
-    ../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:
-    In function 'usage':<br>
-    |
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:3:
-    warning: implicit declaration of function 'fprintf'
-    [-Wimplicit-function-declaration]<br>
-    |    fprintf(stderr,<br>
-    |    ^~~~~~~<br>
-    |
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:3:
-    warning: incompatible implicit declaration of built-in function
-    'fprintf'<br>
-    |
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:3:
-    note: include '&lt;stdio.h&gt;' or provide a declaration of
-    'fprintf'<br>
-    |
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:11:
-    error: 'stderr' undeclared (first use in this function)<br>
-    |    fprintf(stderr,<br>
-    |            ^~~~~~<br>
-    |
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1778:11:
-    note: each undeclared identifier is reported only once for each
-    function it appears in<br>
-    | At top level:<br>
-    |
-../../../../valgrind-3.13.0/none/tests/ppc64/test_isa_2_06_part2.c:1776:13:
-    warning: 'usage' defined but not used [-Wunused-function]<br>
-    |  static void usage (void)<br>
-    |              ^~~~~<br>
-    <br>
-    <br>
-    Bob<br>
-    <br>
-    <br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------5C39CD4721087A8273A6150D--
