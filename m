@@ -1,52 +1,54 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AD6678164
+Return-Path: <gizero@gmail.com>
+Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
+	[209.85.161.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E06B7807C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 21:57:13 +0000 (UTC)
-Received: by mail-qk0-f172.google.com with SMTP id 16so4772013qkg.2
+	Tue, 11 Jul 2017 22:02:04 +0000 (UTC)
+Received: by mail-yw0-f181.google.com with SMTP id l21so2391093ywb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 14:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 11 Jul 2017 15:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fQ/v0GxaXbB3TPfOJMrOFtgBEtC7PySVLNQ1oYwU3+A=;
-	b=eIgWYnKJId/vD/JLnNqCnK4qwqzCIPNfp0JFq6LKrJYGvkvSrwKir8bf84Z34Z8HvJ
-	GZa/JYbwCXd+10Yh+dL7bw40KrcQFoqzRpZpMJphahAuNrt/bXf6DhLp5GoVeHMwxmN1
-	ol/Ny8JkU/Wm3d4E5q96bcpYKfR0vs/Ag9Y71ZyluAJJfVI2TxXawy8BzsOORBkw9v2C
-	d0+i9EhuAFNBxNT68ITg889l1uNktiv+Y6Pd+9qFpaQXHPhTGFOVJinqPkOJk/5O/EqP
-	UFLWtBRwFazAw11eVDn6GkmDrcSby8Q2GpO0FWv/MMsaZ93rfOsXBOGC7mnw030vG2pj
-	FglA==
+	:cc; bh=L/htIrl0jIfTNsVd2Jxd1ihxc6msiETW4UWJlX51ENc=;
+	b=EIQKBN5URZ9HCKSiFNC8PHbXB7cUZ6umiaLKnW12BClra9pXSxmpJ+pGbTKENVoqUl
+	w1OsaufwiI7X9dcWzLYqshctHM2+vAX9MSfOVEZAhhkJsHH8jTR7YOmkHctjVXVRQa68
+	/evEIbdhhBpstBqI6Vdki15pyzEUGgpeM5sQgPaB3oypW0CVF/gYIWHE+Dbqxvn0xbhC
+	kT2gknMhSbimlopMINIk/8CF7XbCV3w4NB4+0p+3cGhHJIgbaqSBoRrM7h4/eZXTAKXs
+	nCHLH3JnsP/zAcmghOK4Hu7wkWrWdFwqGZpF3nLT+Umqm0YeyAjteM0kVWu5lHQkxRBB
+	6SHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=fQ/v0GxaXbB3TPfOJMrOFtgBEtC7PySVLNQ1oYwU3+A=;
-	b=nofgHqKIgpTSMHTZtzUau60oLAjjTvgcnVGgDXuVQD+mqTy1b/sXfJWs0tdoi6Mxnz
-	p9ZVUlQVwT27dz7iM0R7m8IiS+ApLhcX10g5ji8uhdMbkU7ZJmVfqVGGb3wV+iqkic/T
-	t6ug2hAKOzRCO3ElfCdIYO9hc6Pn2MEzhdq4rtxQkpdLB8P4H9UYxiBj+POR07xu3gTS
-	wUtuwjifiqX5YNJ/1hWnCnt9ivKGCG38W5KP3wNV1isplw53UOglEEBfH+2GkU7nWHeR
-	KbTmWh57Y3pN5fHH+2NyU5q6IJNcFZAfjjJxVmBTxdJepM0HknQzIfW9U0/WrGokXe0M
-	ukww==
-X-Gm-Message-State: AIVw113UlcnGqN6mIhspUv8YBGnWwD2SHgz81ownJkOGpZQk2wicF85f
-	Ug900Hhw2VbXtCmXAYAFjo2UxU7cnm4w
-X-Received: by 10.55.79.145 with SMTP id d139mr2719837qkb.32.1499810234469;
-	Tue, 11 Jul 2017 14:57:14 -0700 (PDT)
+	bh=L/htIrl0jIfTNsVd2Jxd1ihxc6msiETW4UWJlX51ENc=;
+	b=SMrgfZwRpYE0XPneRUJMPJqJsQnuSxBKIwOHkAnDZEZY31ROro7hXH5tuNdXCmubs0
+	kSTUIjEsEMcLyt8CcgwLtPPa8LSGjReF+Ka9ZxGGXLV6F9mWTBj5RjPfTiV1NsNGBUdR
+	RpsErdnTW/OSmUihsT6wKvfdFUepApt3jckuI/MI3arRMujZkoAi+m6U6SfsZfQwSOUk
+	m+D9q4pUv1pQ+ThrVBtuXGj6Mp9UIlRdoAUjCHjd0sBc3aUr+KCYhZFtXKf27ZagQxN+
+	WvxQfktHAngoQC0NdbnFWHN+kU53H8PumK66mQpJRlBt7z7jAZqwrLenHbzsqydMWVXH
+	Cm/A==
+X-Gm-Message-State: AIVw112+jM7YtK6S19b/3p7/QmfqkaFTcHS41ka7SCL4urq8M0wwCBD7
+	Eb+xY4CqjfnzYM3dBrwEga3BR/mJCg==
+X-Received: by 10.13.253.7 with SMTP id n7mr243858ywf.188.1499810525361; Tue,
+	11 Jul 2017 15:02:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.31.118 with HTTP; Tue, 11 Jul 2017 14:56:53 -0700 (PDT)
-In-Reply-To: <CAJTo0LYdpnpQ7PrcjSRT2-KgmHiF5SXGEzxJUd0y3etb+MO3Yw@mail.gmail.com>
-References: <20170709073537.16106-1-soren.brinkmann@xilinx.com>
-	<CAJTo0Lb6wS0cYqDmg87_sXh3+SV4mR+kmMA26XUKtscZ4B36GQ@mail.gmail.com>
-	<20170711101241.GB3263@jama>
-	<CAJTo0LYqWR3BVaT3bhKxv--rdocGW0MN9Pk6zQw-2sKEAQiVXQ@mail.gmail.com>
-	<CA+chaQfym0xhN6NVHMEob_K94XbzY2PGEeoUzuCLsxoxKaijCw@mail.gmail.com>
-	<CAJTo0LYdpnpQ7PrcjSRT2-KgmHiF5SXGEzxJUd0y3etb+MO3Yw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Jul 2017 22:56:53 +0100
-Message-ID: <CAJTo0LbOJSwrV6kMYi34Ekf38FrgtUmYaEMwRU1OKt4WV5y2Mg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] valgrind: Update 3.12.0 -> 3.13.0
+Received: by 10.13.200.129 with HTTP; Tue, 11 Jul 2017 15:02:04 -0700 (PDT)
+Received: by 10.13.200.129 with HTTP; Tue, 11 Jul 2017 15:02:04 -0700 (PDT)
+In-Reply-To: <CAMKF1srwg43QrxOGz7UrqmuQ5ptRNJzYC5p9GAcLN7Ldw0ynuA@mail.gmail.com>
+References: <cover.1498569089.git.jussi.kukkonen@intel.com>
+	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
+	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
+	<CAHiDW_FuM-jB6f+xN1QOcqAvTUvfehfpWjoSL8N+XiFS9kLX-Q@mail.gmail.com>
+	<CAHiDW_GVArsb8O_kgsBLyqC=6sLz8c3+ABsCPD_QSkpU6G5aHQ@mail.gmail.com>
+	<CAHiDW_EK4f9PoCnoCzDbNjmKrQeyT-UmJ2jDVqxsmq=CQHLfWg@mail.gmail.com>
+	<CAMKF1srwg43QrxOGz7UrqmuQ5ptRNJzYC5p9GAcLN7Ldw0ynuA@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Wed, 12 Jul 2017 00:02:04 +0200
+Message-ID: <CAC+thW3DG03wQZ8WCyvyPYk8HcRP1C-Cq3F77HxC3b1_q4RKeA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +61,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 21:57:14 -0000
-Content-Type: multipart/alternative; boundary="001a114a7efe41a7f7055411c829"
+X-List-Received-Date: Tue, 11 Jul 2017 22:02:05 -0000
+Content-Type: multipart/alternative; boundary="94eb2c06c23a9857e3055411d9bc"
 
---001a114a7efe41a7f7055411c829
+--94eb2c06c23a9857e3055411d9bc
 Content-Type: text/plain; charset="UTF-8"
 
-On 11 July 2017 at 13:45, Burton, Ross <ross.burton@intel.com> wrote:
+Il 11 lug 2017 8:00 PM, "Khem Raj" <raj.khem@gmail.com> ha scritto:
 
-> I just replicated this and yes your failure is gold specific.
+On Tue, Jul 11, 2017 at 1:34 AM, Jussi Kukkonen
+<jussi.kukkonen@intel.com> wrote:
+> On 11 July 2017 at 11:27, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>
+>> On 11 July 2017 at 10:42, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
+>>>>
+>>>> Exception: FileExistsError: [Errno 17] File exists:
+>>>> '/home/gizero/work/smartliving/distro/repo-master/build-poky/tmp/
+sysroots-components/raspberrypi3/userland/usr/include/KHR/khrplatform.h'
+>>>> ->
+>>>> '/home/gizero/work/smartliving/distro/repo-master/build-poky/tmp/work/
+cortexa7hf-neon-vfpv4-poky-linux-gnueabi/gtk+3/3.22.16-
+r0/recipe-sysroot/usr/include/KHR/khrplatform.h'
+>>>
+>>>
+>>> /usr/include/KHR/khrplatform.h is the egl platform header file, provided
+>>> by both mesa and RPI userland. Does mesa end up in your gtk+3
+recipe-sysroot
+>>> somehow?
+>>>
+>>> For clarity: this could be a bug but it is unlikely to be related to the
+>>> libepoxy change (it does not use or ship the actual header file).
+>>>
+>>
+>>
+>> Actually this was maybe fixed by Otavios upgrade to mesa 17.1.4 -- mesa
+>> accidentally shipped khrplatform.h even when egl was disabled (which is
+what
+>> mesa-gl in oe-core does).
+>>
+>
+> Sorry, I've not had enough  coffee. It was the other way round:
+> khrplatform.h is the platform header that mesa now thinks is needed
+whether
+> egl is enabled or not -- so they've started installing it in any case from
+> 17.1.4 which means mesa-gl now provides khrplatform.h and thus conflicts
+> with userland.
+>
+> I don't know what the correct fix is yet, just wanted to correct my
+original
+> wrong info.
 >
 
-Fixed, patch on the list, and sent it upstream.
+Post an update to sync this header for userland package.
 
-Ross
 
---001a114a7efe41a7f7055411c829
+Will this help solving the gtk+3 issue of mesa-gl and userland now both
+providing the same header and causing recipe-sysroot construction to fail?
+
+
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--94eb2c06c23a9857e3055411d9bc
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 July 2017 at 13:45, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">=
-I just replicated this and yes your failure is gold specific.</div><div cla=
-ss=3D"gmail_extra"></div></blockquote></div><br>Fixed, patch on the list, a=
-nd sent it upstream.</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
+<div dir=3D"auto"><div><br><div class=3D"gmail_extra"><br><div class=3D"gma=
+il_quote">Il 11 lug 2017 8:00 PM, &quot;Khem Raj&quot; &lt;<a href=3D"mailt=
+o:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; ha scritto:<br type=3D"att=
+ribution"><blockquote class=3D"quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">On Tue, Jul 11, 2017 at 1:34 AM, Jussi K=
+ukkonen<br>
+<div class=3D"elided-text">&lt;<a href=3D"mailto:jussi.kukkonen@intel.com">=
+jussi.kukkonen@intel.com</a>&gt; wrote:<br>
+&gt; On 11 July 2017 at 11:27, Jussi Kukkonen &lt;<a href=3D"mailto:jussi.k=
+ukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On 11 July 2017 at 10:42, Jussi Kukkonen &lt;<a href=3D"mailto:jus=
+si.kukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Exception: FileExistsError: [Errno 17] File exists:<br>
+&gt;&gt;&gt;&gt; &#39;/home/gizero/work/<wbr>smartliving/distro/repo-<wbr>m=
+aster/build-poky/tmp/<wbr>sysroots-components/<wbr>raspberrypi3/userland/us=
+r/<wbr>include/KHR/khrplatform.h&#39;<br>
+&gt;&gt;&gt;&gt; -&gt;<br>
+&gt;&gt;&gt;&gt; &#39;/home/gizero/work/<wbr>smartliving/distro/repo-<wbr>m=
+aster/build-poky/tmp/work/<wbr>cortexa7hf-neon-vfpv4-poky-<wbr>linux-gnueab=
+i/gtk+3/3.22.16-<wbr>r0/recipe-sysroot/usr/include/<wbr>KHR/khrplatform.h&#=
+39;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; /usr/include/KHR/khrplatform.h is the egl platform header file=
+, provided<br>
+&gt;&gt;&gt; by both mesa and RPI userland. Does mesa end up in your gtk+3 =
+recipe-sysroot<br>
+&gt;&gt;&gt; somehow?<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; For clarity: this could be a bug but it is unlikely to be rela=
+ted to the<br>
+&gt;&gt;&gt; libepoxy change (it does not use or ship the actual header fil=
+e).<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Actually this was maybe fixed by Otavios upgrade to mesa 17.1.4 --=
+ mesa<br>
+&gt;&gt; accidentally shipped khrplatform.h even when egl was disabled (whi=
+ch is what<br>
+&gt;&gt; mesa-gl in oe-core does).<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Sorry, I&#39;ve not had enough=C2=A0 coffee. It was the other way roun=
+d:<br>
+&gt; khrplatform.h is the platform header that mesa now thinks is needed wh=
+ether<br>
+&gt; egl is enabled or not -- so they&#39;ve started installing it in any c=
+ase from<br>
+&gt; 17.1.4 which means mesa-gl now provides khrplatform.h and thus conflic=
+ts<br>
+&gt; with userland.<br>
+&gt;<br>
+&gt; I don&#39;t know what the correct fix is yet, just wanted to correct m=
+y original<br>
+&gt; wrong info.<br>
+&gt;<br>
+<br>
+</div>Post an update to sync this header for userland package.<br></blockqu=
+ote></div></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Will th=
+is help solving the gtk+3 issue of mesa-gl and userland now both providing =
+the same header and causing recipe-sysroot construction to fail?=C2=A0</div=
+><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_extra"><=
+div class=3D"gmail_quote"><blockquote class=3D"quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div class=3D"elided-text"><br>
+&gt;<br>
+&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
+ed-core@lists.<wbr>openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
+wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;<br>
+</div></blockquote></div><br></div></div></div>
 
---001a114a7efe41a7f7055411c829--
+--94eb2c06c23a9857e3055411d9bc--
