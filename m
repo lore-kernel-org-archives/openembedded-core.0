@@ -1,22 +1,47 @@
-Return-Path: <libertad.cruz@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BA3C2780A0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C32E780E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 20:57:36 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Jul 2017 13:57:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,347,1496127600"; d="scan'208";a="285660588"
-Received: from liberta1-mobl1.zpn.intel.com ([10.219.128.130])
-	by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2017 13:57:36 -0700
-From: libertad.cruz@intel.com
+	Tue, 11 Jul 2017 21:56:33 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id r103so7666308wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 14:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=veNUgYSynHV+TDVCvgQVv+RZvfPxXtO4GO+8rpUSPrc=;
+	b=V77LXPtwUybgtYAjf5G8dFPqATXyQZGLBgZRuzQiRoUlV1h8h7m/SJRgak29FFw2sb
+	l/1Gml8VQNXBd+/2wyo96KmiFS6t4fwDwdYERvTB/hjPv6m1eawrWjEJMjaW7uSVs8Ex
+	/IvD+mp9W0FLxxK1dHHg5tqiFhizEIvpzpeV0yWEyknSfTvhD8t2rtJ4+rMGYYYLWx51
+	yuUhv0NOoYe3WLys2LqCa1Q19OPNaZkhceZ0EKu/ByOqPt92PhhRJxgNgG6oJgMe0cWD
+	qZU+N6obJJS5xdWeyEC0vP/XMHqgSBLICIXnIaaP4bXj7/c7F/AOumSDe7WkKs/I4NF0
+	Agqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=veNUgYSynHV+TDVCvgQVv+RZvfPxXtO4GO+8rpUSPrc=;
+	b=PT+AQ0XED9jecZQ2elcBR4DmFcfbxzgOdagmchIyp2MqZunkCRpNafqUl5OlrckGhf
+	hQkjMurDXJVNMGL5udWvc5ghRTNbfBe9rhdsN2PY4/WBxBEK71a+HsRCeKVm9oO+4t6X
+	PLhdaPTbZPnAw+RprYw5/EYFeQXN8fI82QtO3jorGfF/Le+qJBrK/umaxbVmEEC+8BAj
+	S/Qsk79FhXBbSLWQmzWkTpjljcxjnkG/LR20MoYZs/VFABZVN8x+CMtOxfK1+xdTGzVi
+	gHAD1LkKNam7sdm2avw/ptHjkyMDr0ya4qYC+I4HUekwNRf/YFbGKv2PBnC2oh4P+dDm
+	JHJQ==
+X-Gm-Message-State: AIVw110P1owI6RMqqMyuQWZ/dom4sE3rhf5638+zBZYVFpuhTWNDC8Dr
+	SickqaZeQ4tt5clwucw=
+X-Received: by 10.223.143.77 with SMTP id p71mr1005027wrb.3.1499810194565;
+	Tue, 11 Jul 2017 14:56:34 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 82sm502454wmt.17.2017.07.11.14.56.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Jul 2017 14:56:33 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jul 2017 16:04:28 -0500
-Message-Id: <1499807068-15802-1-git-send-email-libertad.cruz@intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: Libertad Cruz <libertad.cruz@intel.com>
-Subject: [PATCH] dpky.py: Adds testcases for dpkg package manager
+Date: Tue, 11 Jul 2017 22:56:31 +0100
+Message-Id: <20170711215631.1527-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] valgrind: fix link failure with gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,79 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jul 2017 20:57:36 -0000
+X-List-Received-Date: Tue, 11 Jul 2017 21:56:34 -0000
 
-From: Libertad Cruz <libertad.cruz@intel.com>
-
-Adds dpkg testcases for testing basic operation functionality for the dpkg package manager.
-
-[YOCTO #10063]
-
-Signed-off-by: Libertad Cruz <libertad.cruz@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/runtime/cases/dpkg.py | 52 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/dpkg.py
+ .../valgrind/valgrind/link-gz-tests.patch          | 25 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/link-gz-tests.patch
 
-diff --git a/meta/lib/oeqa/runtime/cases/dpkg.py b/meta/lib/oeqa/runtime/cases/dpkg.py
+diff --git a/meta/recipes-devtools/valgrind/valgrind/link-gz-tests.patch b/meta/recipes-devtools/valgrind/valgrind/link-gz-tests.patch
 new file mode 100644
-index 0000000..cd1183c
+index 00000000000..b55c9043cd5
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/dpkg.py
-@@ -0,0 +1,52 @@
-+import os
-+import re
-+import subprocess
++++ b/meta/recipes-devtools/valgrind/valgrind/link-gz-tests.patch
+@@ -0,0 +1,25 @@
++When checking if the compiler supports compressed debug sections we need to actually link instead of just compile.  Otherwise the compiler thinks that they are supported, but gold does not support -gz=zlib.
 +
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.oeid import OETestID
-+from oeqa.core.decorator.data import skipIfNotDataVar, skipIfNotFeature
-+from oeqa.runtime.decorator.package import OEHasPackage
++Upstream-Status: Submitted (https://bugs.kde.org/show_bug.cgi?id=382256)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+
-+class dpkgTest(OERuntimeTestCase):
-+    def dpkg(self, command, expected=0):
-+        status, output = self.target.run(command, 1500)
-+        message = os.linesep.join([command, output])
-+        self.assertEqual(status, expected, message)
-+        return output
-+
-+class dpkgBasicTest(dpkgTest):
-+    @skipIfNotFeature('package-management','Test requires package-management to be in IMAGE_FEATURES')
-+    @skipIfNotDataVar('IMAGE_PKGTYPE','deb','DEB is not the primary package manager')
-+    @OEHasPackage(['dpkg'])
-+    
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OETestID(1801)
-+    def test_dpkg_help(self):
-+        self.dpkg('dpkg --help')
-+
-+    @OETestDepends(['dpkg.dpkgBasicTest.test_dpkg_help'])
-+    @OETestID(1802)
-+    def test_dpkg_version(self):
-+        self.dpkg('dpkg --version')
-+
-+    @OETestID(1803)
-+    def test_dpkg_Dhelp(self):
-+        self.dpkg('dpkg -Dhelp')
-+
-+    @OETestID(1805)
-+    def test_dpkg_force_help(self):
-+        self.dpkg('dpkg --force-help')
-+
-+    @OETestID(1806)
-+    def test_dpkg_deb_help(self):
-+        self.dpkg('dpkg-deb --help')
-+
-+    @OETestID(1812)
-+    def test_dpkg_status(self):
-+        self.dpkg('dpkg -s dpkg')
-+
-+    @OETestID(1814)
-+    def test_dpkg_list(self):
-+        self.dpkg('dpkg -l')
++--- a/configure.ac~	2017-07-11 11:53:16.000000000 +0100
+++++ b/configure.ac	2017-07-11 18:16:13.674130483 +0100
++@@ -2119,7 +2119,7 @@
++ safe_CFLAGS=$CFLAGS
++ CFLAGS="-g -gz=zlib"
++ 
++-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ ]], [[
+++AC_LINK_IFELSE([AC_LANG_PROGRAM([[ ]], [[
++   return 0;
++ ]])], [
++ ac_have_gz_zlib=yes
++@@ -2139,7 +2139,7 @@
++ safe_CFLAGS=$CFLAGS
++ CFLAGS="-g -gz=zlib-gnu"
++ 
++-AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[ ]], [[
+++AC_LINK_IFELSE([AC_LANG_PROGRAM([[ ]], [[
++   return 0;
++ ]])], [
++ ac_have_gz_zlib_gnu=yes
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+index b63d27861d5..0cc5eefc88e 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+@@ -35,6 +35,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch \
+            file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
+            file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
++           file://link-gz-tests.patch \
+            "
+ SRC_URI_append_libc-musl = "\
+            file://0001-fix-build-for-musl-targets.patch \
 -- 
-2.1.4
+2.11.0
 
 
