@@ -1,25 +1,28 @@
-Return-Path: <Lev.Iserovich@deshawresearch.com>
-Received: from drdwsfe1.nyc.desres.deshaw.com (nyvpn.deshawresearch.com
-	[38.109.87.242])
-	by mail.openembedded.org (Postfix) with ESMTP id B46567808C
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id BFA8D780B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 14:31:16 +0000 (UTC)
-Received: from drdws0019.nyc.desres.deshaw.com
-	(drdws0019.nyc.desres.deshaw.com [149.77.52.116])
-	by drdwsfe1.nyc.desres.deshaw.com (Postfix) with ESMTP id 1AF12EA9FE;
-	Wed, 12 Jul 2017 10:31:17 -0400 (EDT)
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1499788671-20890-1-git-send-email-lev.iserovich@deshawresearch.com>
-	<CAJTo0LYs38P1M3_YBNWfHq71s3RUMeJW4hGKUtQxBWMbT-HGBA@mail.gmail.com>
-From: Lev Iserovich <Lev.Iserovich@deshawresearch.com>
-Message-ID: <a41b7c3c-fd67-9cd2-a427-90fec4037af8@deshawresearch.com>
-Date: Wed, 12 Jul 2017 10:31:17 -0400
+	Wed, 12 Jul 2017 14:52:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 12 Jul 2017 07:52:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,350,1496127600"; d="scan'208";a="1171629270"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.128.139])
+	([10.219.128.139])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2017 07:52:49 -0700
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1499803885.git.anibal.limon@linux.intel.com>
+	<2e3872acacf41d159f477c2ca15e7eda0b85263b.1499803885.git.anibal.limon@linux.intel.com>
+	<1499869099.5349.38.camel@linux.intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <5f35fc5d-bc20-94d7-f517-034bca39b2d9@linux.intel.com>
+Date: Wed, 12 Jul 2017 09:53:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYs38P1M3_YBNWfHq71s3RUMeJW4hGKUtQxBWMbT-HGBA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gettext: Enable generation of libasprintf in gettext 0.19
+In-Reply-To: <1499869099.5349.38.camel@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/30] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,47 +35,246 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 14:31:16 -0000
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Jul 2017 14:52:51 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 07/12/2017 06:03 AM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYs38P1M3_YBNWfHq71s3RUMeJW4hGKUtQxBWMbT-HGBA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 11 July 2017 at 16:57, Lev
-            Iserovich <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:lev.iserovich@deshawresearch.com"
-                target="_blank">lev.iserovich@deshawresearch.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":35x" class="a3s aXjCH m15d326fc46fecac5">Libasprintf
-                was included in <span class="il">gettext</span> 0.16
-                recipe, but omitted for some reason<br>
-                in 0.19. This turns it back on.<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          As this pulls C++ libraries into the core package, can it be
-          split out like the other libraries?</div>
-      </div>
-    </blockquote>
-    Sure, I can do that - can you point to some prior art for how this
-    is generally done?<br>
-    <br>
-    Lev<br>
-  </body>
-</html>
+Yes is the same,
+
+Anibal
+
+On 07/12/2017 09:18 AM, Leonardo Sandoval wrote:
+> I saw a similar patch in the past. Is this a new revision?
+> 
+> Leo
+> 
+> 
+> On Tue, 2017-07-11 at 15:23 -0500, Aníbal Limón wrote:
+>> In order to avoid corrupt local.conf and bblayers.conf adds
+>> signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
+>> to restore previously backuped configuration.
+>>
+>> [YOCTO #11650]
+>>
+>> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+>> ---
+>>  meta/lib/oeqa/selftest/case.py    |  36 +++++++------
+>>  meta/lib/oeqa/selftest/context.py | 107 +++++++++++++++++++++++++++-----------
+>>  2 files changed, 97 insertions(+), 46 deletions(-)
+>>
+>> diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+>> index 31a11fddda9..871009c568b 100644
+>> --- a/meta/lib/oeqa/selftest/case.py
+>> +++ b/meta/lib/oeqa/selftest/case.py
+>> @@ -13,28 +13,34 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+>>  from oeqa.core.case import OETestCase
+>>  
+>>  class OESelftestTestCase(OETestCase):
+>> -    builddir = os.environ.get("BUILDDIR") or ""
+>> -    localconf_path = os.path.join(builddir, "conf/local.conf")
+>> -    localconf_backup = os.path.join(builddir, "conf/local.bk")
+>> -    testinc_path = os.path.join(builddir, "conf/selftest.inc")
+>> -    local_bblayers_path = os.path.join(builddir, "conf/bblayers.conf")
+>> -    local_bblayers_backup = os.path.join(builddir, "conf/bblayers.bk")
+>> -    testinc_bblayers_path = os.path.join(builddir, "conf/bblayers.inc")
+>> -    machineinc_path = os.path.join(builddir, "conf/machine.inc")
+>> -
+>>      def __init__(self, methodName="runTest"):
+>>          self._extra_tear_down_commands = []
+>> -        self._track_for_cleanup = [
+>> -            self.testinc_path, self.testinc_bblayers_path,
+>> -            self.machineinc_path, self.localconf_backup,
+>> -            self.local_bblayers_backup]
+>> -
+>>          super(OESelftestTestCase, self).__init__(methodName)
+>>  
+>>      @classmethod
+>>      def setUpClass(cls):
+>>          super(OESelftestTestCase, cls).setUpClass()
+>> -        cls.testlayer_path = cls.tc.testlayer_path
+>> +
+>> +        cls.testlayer_path = cls.tc.config_paths['testlayer_path']
+>> +        cls.builddir = cls.tc.config_paths['builddir']
+>> +
+>> +        cls.localconf_path = cls.tc.config_paths['localconf']
+>> +        cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
+>> +        cls.local_bblayers_path = cls.tc.config_paths['bblayers']
+>> +        cls.local_bblayers_backup = cls.tc.config_paths['bblayers_class_backup']
+>> +
+>> +        cls.testinc_path = os.path.join(cls.tc.config_paths['builddir'],
+>> +                "conf/selftest.inc")
+>> +        cls.testinc_bblayers_path = os.path.join(cls.tc.config_paths['builddir'],
+>> +                "conf/bblayers.inc")
+>> +        cls.machineinc_path = os.path.join(cls.tc.config_paths['builddir'],
+>> +                "conf/machine.inc")
+>> +
+>> +        cls._track_for_cleanup = [
+>> +            cls.testinc_path, cls.testinc_bblayers_path,
+>> +            cls.machineinc_path, cls.localconf_backup,
+>> +            cls.local_bblayers_backup]
+>> +
+>>          cls.add_include()
+>>  
+>>      @classmethod
+>> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+>> index ca87398224c..4575a0537fb 100644
+>> --- a/meta/lib/oeqa/selftest/context.py
+>> +++ b/meta/lib/oeqa/selftest/context.py
+>> @@ -6,6 +6,8 @@ import time
+>>  import glob
+>>  import sys
+>>  import imp
+>> +import signal
+>> +from shutil import copyfile
+>>  from random import choice
+>>  
+>>  import oeqa
+>> @@ -16,13 +18,12 @@ from oeqa.core.exception import OEQAPreRun
+>>  from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+>>  
+>>  class OESelftestTestContext(OETestContext):
+>> -    def __init__(self, td=None, logger=None, machines=None, testlayer_path=None):
+>> +    def __init__(self, td=None, logger=None, machines=None, config_paths=None):
+>>          super(OESelftestTestContext, self).__init__(td, logger)
+>>  
+>>          self.machines = machines
+>>          self.custommachine = None
+>> -
+>> -        self.testlayer_path = testlayer_path
+>> +        self.config_paths = config_paths
+>>  
+>>      def runTests(self, machine=None):
+>>          if machine:
+>> @@ -108,7 +109,29 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>>  
+>>          self.tc_kwargs['init']['td'] = get_bb_vars()
+>>          self.tc_kwargs['init']['machines'] = self._get_available_machines()
+>> -        self.tc_kwargs['init']['testlayer_path'] = get_test_layer()
+>> +
+>> +        builddir = os.environ.get("BUILDDIR")
+>> +        self.tc_kwargs['init']['config_paths'] = {}
+>> +        self.tc_kwargs['init']['config_paths']['testlayer_path'] = \
+>> +                get_test_layer()
+>> +        self.tc_kwargs['init']['config_paths']['builddir'] = builddir
+>> +        self.tc_kwargs['init']['config_paths']['localconf'] = \
+>> +                os.path.join(builddir, "conf/local.conf")
+>> +        self.tc_kwargs['init']['config_paths']['localconf_backup'] = \
+>> +                os.path.join(builddir, "conf/local.conf.orig")
+>> +        self.tc_kwargs['init']['config_paths']['localconf_class_backup'] = \
+>> +                os.path.join(builddir, "conf/local.conf.bk")
+>> +        self.tc_kwargs['init']['config_paths']['bblayers'] = \
+>> +                os.path.join(builddir, "conf/bblayers.conf")
+>> +        self.tc_kwargs['init']['config_paths']['bblayers_backup'] = \
+>> +                os.path.join(builddir, "conf/bblayers.conf.orig")
+>> +        self.tc_kwargs['init']['config_paths']['bblayers_class_backup'] = \
+>> +                os.path.join(builddir, "conf/bblayers.conf.bk")
+>> +
+>> +        copyfile(self.tc_kwargs['init']['config_paths']['localconf'],
+>> +                self.tc_kwargs['init']['config_paths']['localconf_backup'])
+>> +        copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
+>> +                self.tc_kwargs['init']['config_paths']['bblayers_backup'])
+>>  
+>>      def _pre_run(self):
+>>          def _check_required_env_variables(vars):
+>> @@ -131,7 +154,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>>                      runCmd("bitbake-layers add-layer %s" %meta_selftestdir)
+>>                      # reload data is needed because a meta-selftest layer was add
+>>                      self.tc.td = get_bb_vars()
+>> -                    self.tc.testlayer_path = get_test_layer()
+>> +                    self.tc.config_paths['testlayer_path'] = get_test_layer()
+>>                  else:
+>>                      self.tc.logger.error("could not locate meta-selftest in:\n%s" % meta_selftestdir)
+>>                      raise OEQAPreRun
+>> @@ -184,41 +207,63 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>>              rc.logSummary(self.name)
+>>  
+>>          return rc
+>> +
+>> +    def _signal_clean_handler(self, signum, frame):
+>> +        sys.exit(1)
+>>      
+>>      def run(self, logger, args):
+>>          self._process_args(logger, args)
+>> -        rc = None
+>>  
+>> -        if args.machine:
+>> -            logger.info('Custom machine mode enabled. MACHINE set to %s' %
+>> -                    args.machine)
+>> +        signal.signal(signal.SIGTERM, self._signal_clean_handler)
+>>  
+>> -            if args.machine == 'all':
+>> -                results = []
+>> -                for m in self.tc_kwargs['init']['machines']:
+>> -                    self.tc_kwargs['run']['machine'] = m
+>> -                    results.append(self._internal_run(logger, args))
+>> +        rc = None
+>> +        try:
+>> +            if args.machine:
+>> +                logger.info('Custom machine mode enabled. MACHINE set to %s' %
+>> +                        args.machine)
+>> +
+>> +                if args.machine == 'all':
+>> +                    results = []
+>> +                    for m in self.tc_kwargs['init']['machines']:
+>> +                        self.tc_kwargs['run']['machine'] = m
+>> +                        results.append(self._internal_run(logger, args))
+>> +
+>> +                        # XXX: the oe-selftest script only needs to know if one
+>> +                        # machine run fails
+>> +                        for r in results:
+>> +                            rc = r
+>> +                            if not r.wasSuccessful():
+>> +                                break
+>>  
+>> -                    # XXX: the oe-selftest script only needs to know if one
+>> -                    # machine run fails
+>> -                    for r in results:
+>> -                        rc = r
+>> -                        if not r.wasSuccessful():
+>> -                            break
+>> +                else:
+>> +                    self.tc_kwargs['run']['machine'] = args.machine
+>> +                    return self._internal_run(logger, args)
+>>  
+>>              else:
+>>                  self.tc_kwargs['run']['machine'] = args.machine
+>> -                return self._internal_run(logger, args)
+>> -
+>> -        else:
+>> -            self.tc_kwargs['run']['machine'] = args.machine
+>> -            rc = self._internal_run(logger, args)
+>> -
+>> -        output_link = os.path.join(os.path.dirname(args.output_log),
+>> -                "%s-results.log" % self.name)
+>> -        if os.path.exists(output_link):
+>> -            os.remove(output_link)
+>> -        os.symlink(args.output_log, output_link)
+>> +                rc = self._internal_run(logger, args)
+>> +        finally:
+>> +            config_paths = self.tc_kwargs['init']['config_paths']
+>> +            if os.path.exists(config_paths['localconf_backup']):
+>> +                copyfile(config_paths['localconf_backup'],
+>> +                        config_paths['localconf'])
+>> +                os.remove(config_paths['localconf_backup'])
+>> +
+>> +            if os.path.exists(config_paths['bblayers_backup']):
+>> +                copyfile(config_paths['bblayers_backup'], 
+>> +                        config_paths['bblayers'])
+>> +                os.remove(config_paths['bblayers_backup'])
+>> +
+>> +            if os.path.exists(config_paths['localconf_class_backup']):
+>> +                os.remove(config_paths['localconf_class_backup'])
+>> +            if os.path.exists(config_paths['bblayers_class_backup']):
+>> +                os.remove(config_paths['bblayers_class_backup'])
+>> +
+>> +            output_link = os.path.join(os.path.dirname(args.output_log),
+>> +                    "%s-results.log" % self.name)
+>> +            if os.path.exists(output_link):
+>> +                os.remove(output_link)
+>> +            os.symlink(args.output_log, output_link)
+>>  
+>>          return rc
+>>  
+> 
+> 
 
