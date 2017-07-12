@@ -1,23 +1,22 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id EF75A78164
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E81471A70
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 03:33:11 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jul 2017 20:33:12 -0700
+	Thu, 13 Jul 2017 06:11:41 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jul 2017 23:11:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,352,1496127600"; d="scan'208";a="125959609"
-Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by fmsmga005.fm.intel.com with ESMTP; 12 Jul 2017 20:33:12 -0700
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Jul 2017 11:33:56 +0800
-Message-Id: <1499916836-188258-4-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-IronPort-AV: E=Sophos;i="5.40,352,1496127600"; d="scan'208";a="878292743"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Jul 2017 23:11:41 -0700
+From: wei.tee.ng@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Jul 2017 16:01:11 -0700
+Message-Id: <cover.1499890236.git.wei.tee.ng@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1499916836-188258-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-References: <1499916836-188258-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCH 3/3] recipetool: create: being able to set branch when revision is provided
+Cc: wei.tee.ng@intel.com, saul.wold@intel.com
+Subject: [poky][master][PATCH 0/1] initramfs-framework: include install module in recipe for installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 03:33:12 -0000
+X-List-Received-Date: Thu, 13 Jul 2017 06:11:42 -0000
 
-When recipetool create is run on a git URL and a revision specified
-that is not on master, and "branch=" isn't already in the URL, then
-we should get the correct branch and append the branch to the URL.
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 
-If the revision was found on multiple branches, we will display error
-to inform user to provide a correct branch and exit.
+This patch is to enable the installation mechanism in initramfs-framework.
+It used the existing init-install-efi.sh script in the initrdscript and
+install a new module named initramfs-module-install in the recipe.
 
-[YOCTO #11389]
+I put all the changes as a single commit.
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
----
- scripts/lib/recipetool/create.py | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+This changes has been verified with build test, boot up test and installation
+test on Minnowboard Max platform.
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index ee1f678..a45b90d 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -423,6 +423,17 @@ def create_recipe(args):
-         if res:
-             srcrev = res.group(1)
-             srcuri = rev_re.sub('', srcuri)
-+        # Check whether branch info is provided
-+        branch_re = re.compile(';branch=([^;]+)')
-+        branch = branch_re.search(srcuri)
-+        nobranch_re = re.compile(';nobranch=1')
-+        nobranch = nobranch_re.search(srcuri)
-+        if not branch and not nobranch and srcrev != '${AUTOREV}':
-+            # Append nobranch=1 in the following conditions:
-+            # 1. User did not set 'branch=' in srcuri, and
-+            # 2. User did not set 'nobranch=1' in srcuri, and
-+            # 3. Source revision is not '${AUTOREV}'
-+            fetchuri = fetchuri + ';nobranch=1'
-         tempsrc = tempfile.mkdtemp(prefix='recipetool-')
-         srctree = tempsrc
-         d = bb.data.createCopy(tinfoil.config_data)
-@@ -457,6 +468,26 @@ def create_recipe(args):
-                     if '<html' in f.read(100).lower():
-                         logger.error('Fetching "%s" returned a single HTML page - check the URL is correct and functional' % fetchuri)
-                         sys.exit(1)
-+        # Check for branch info with SRCREV provided
-+        if not branch and not nobranch and srcrev and (srcrev != '${AUTOREV}'):
-+            cmd = 'git branch -r --contains'
-+            try:
-+                # Command to check branch using commit hash
-+                check_branch, check_branch_err = bb.process.run('%s %s' % (cmd, srcrev), cwd=srctree)
-+            except bb.process.ExecutionError as err:
-+                logger.error(str(err))
-+                sys.exit(1)
-+            get_branch = [x.strip() for x in check_branch.splitlines()]
-+            # Remove HEAD reference point and drop remote prefix
-+            get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
-+            if len(get_branch) == 1:
-+                # If get_branch contains only ONE object, then store result into 'branch'
-+                branch = get_branch[0]
-+            else:
-+                # If get_branch contains more than one objects, then display error and exit.
-+                mbrch = '\n  ' + '\n  '.join(get_branch)
-+                logger.error('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the source URL with ;branch=<branch> (and ensure you use quotes around the URL to avoid the shell interpreting the ";")' % (srcrev, mbrch))
-+                sys.exit(1)
-         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
-             srcuri = 'gitsm://' + srcuri[6:]
-             logger.info('Fetching submodules...')
-@@ -586,6 +617,11 @@ def create_recipe(args):
- 
-     if not srcuri:
-         lines_before.append('# No information for SRC_URI yet (only an external source tree was specified)')
-+    # Check if users has provide a branch
-+    append_branch = branch_re.search(srcuri)
-+    if branch and not append_branch:
-+        # Append the correct branch into SRC_URI
-+        srcuri += (';branch=%s' % str(branch))
-     lines_before.append('SRC_URI = "%s"' % srcuri)
-     (md5value, sha256value) = checksums
-     if md5value:
+Please review and provide feedback if you have any.
+The patches are targeted for merging into poky master branch.
+
+Thanks and regards,
+Wei Tee
+
+The following changes since commit 42ed3bedf773c1fee314a2e4194c9656c583cc9c:
+
+  initramfs-framework: module to support boot live image (2017-07-12 12:19:09 -0700)
+
+are available in the git repository at:
+
+  ssh://git.yoctoproject.org/poky-contrib weiteeng/initramfs-install
+  http://git.yoctoproject.org/cgit.cgi//log/?h=weiteeng/initramfs-install
+
+Ng, Wei Tee (1):
+  initramfs-framework: include install module in recipe for installation
+
+ .../initramfs-framework/init-install-efi.sh        | 276 +++++++++++++++++++++
+ .../initrdscripts/initramfs-framework_1.0.bb       |  13 +-
+ 2 files changed, 287 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/init-install-efi.sh
+
 -- 
 2.7.4
 
