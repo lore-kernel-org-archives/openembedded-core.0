@@ -1,47 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B8557807D
+Return-Path: <stanley.cheong.kwan.phoong@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DECA77DCD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 09:08:38 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id r36so9192030ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 02:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=n1DRAaEc8LbnQoXCzxxwJegsuC+mVluHGCL4B97jTRU=;
-	b=tcfDwdI48dd6lkFFwZ+T/MHNziqj9/CSGP669ifRU45MNMYUVKT3yyT7KlQAZO/zLh
-	BperWVlzHRzEe32l2mmlL1kaRgqYNhkU6uj2t8hkFRhNQu66C/soI2ke8vFUFk0D7NRT
-	MlPQ++Kxa8LqRjEi96hrRKHfE01PwpYh1/lEHVQBixbBiWArOodqQkK0nBhKzICucayI
-	NqAhlmsBgIBJwrZwbblJAtfz02G5kH2oibmRMoqfiyk96GYDuNZD5i15bvTxJpGUjLXF
-	cvWgN7W/au7J2HV1X6F5MCgimY9DUXNhdFFrKi4BnMPyxGo3MW+x86u6MRoKQf5JjOLQ
-	1xaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=n1DRAaEc8LbnQoXCzxxwJegsuC+mVluHGCL4B97jTRU=;
-	b=bqs8KSPbYO+3lL4ib1BByOFB6WgqKGSF81Zheh6RHFTEds8y4zVbtS7EGuluieiv/X
-	wswRtDa7G1UVeyakPhVI5RxZZHySlXerM3lqKO0ogyCPEp2ZslEA36e9tICh73HeA3gx
-	96MQuqmVYexkOCtuW7FbPpQqBK2BwGVzgPeEzV3QBsLzishseXBXum9mPTURgHZv8ElI
-	QVNIl9wpmfvFAp9L9ZPwd8dYaB+Za8stIiT9lnHnzG+o2glFxLlv79AMWUCrdEOewcxC
-	7ajZW2BGBIH5eAKoX3GTToVlMZqPY7awsNk7obIgppiUiXFmHKRJ4xNL7EGihyDS6icU
-	+bqA==
-X-Gm-Message-State: AIVw112LMUIIKC3cJt/ySWAuk7YMG9XFToJTCyjI8dtELTYSFRiHLhpO
-	N0pBBhh0hQ98O1ZToFA=
-X-Received: by 10.107.28.84 with SMTP id c81mr4578352ioc.186.1499850519824;
-	Wed, 12 Jul 2017 02:08:39 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8F424.dip0.t-ipconnect.de.
-	[93.232.244.36]) by smtp.gmail.com with ESMTPSA id
-	z62sm1242611ioz.37.2017.07.12.02.08.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Jul 2017 02:08:38 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jul 2017 11:08:34 +0200
-Message-Id: <fbb61d12b6b5970568b1de221fb2b2c1337e6f17.1499850496.git-series.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] distrooverrides.bbclass: fix default configuration
+	Wed, 12 Jul 2017 09:25:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jul 2017 02:25:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,349,1496127600"; d="scan'208";a="1150698702"
+Received: from phoongst-mobl2.png.intel.com ([10.221.20.163])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2017 02:25:47 -0700
+From: stanley.cheong.kwan.phoong@intel.com
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Jul 2017 17:25:45 +0800
+Message-Id: <1499851545-18265-1-git-send-email-stanley.cheong.kwan.phoong@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] recipetool: git reformat URI mangling & parameter stripped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +28,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 09:08:40 -0000
+X-List-Received-Date: Wed, 12 Jul 2017 09:25:48 -0000
 
-When using distrooverrides.bbclass without setting
-DISTRO_FEATURES_OVERRIDES, the code failed because of a spelling error
-in the default.
+From: "Stanley Cheong Kwan, Phoong" <stanley.cheong.kwan.phoong@intel.com>
 
-[YOCTO #11759]
+recipetool seems to be mangling and stripping out the parameters for git
+URI. This will fix this issue as well as resolve the conflict of
+protocol parameter added by user. If a user adds their own protocol as
+an argument, it'll be honored.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+[YOCTO #11390]
+[YOCTO #11391]
+
+Signed-off-by: Stanley Cheong Kwan, Phoong <stanley.cheong.kwan.phoong@intel.com>
 ---
- meta/classes/distrooverrides.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/lib/recipetool/create.py | 35 ++++++++++++++++++++++++++---------
+ 1 file changed, 26 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/distrooverrides.bbclass b/meta/classes/distrooverrides.bbclass
-index 9a42712..9f4db0d 100644
---- a/meta/classes/distrooverrides.bbclass
-+++ b/meta/classes/distrooverrides.bbclass
-@@ -18,8 +18,8 @@
- # of these overrides should be limited to .bb and .bbappend files,
- # because then DISTRO_FEATURES is final.
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 2a5a84c..8e63580 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -26,7 +26,7 @@ import logging
+ import scriptutils
+ from urllib.parse import urlparse, urldefrag, urlsplit
+ import hashlib
+-
++import bb.fetch2
+ logger = logging.getLogger('recipetool')
  
--DISTRO_FEATURE_OVERRIDES ?= ""
--DISTRO_FEATURE_OVERRIDES[doc] = "A space-separated list of <feature> entries. \
-+DISTRO_FEATURES_OVERRIDES ?= ""
-+DISTRO_FEATURES_OVERRIDES[doc] = "A space-separated list of <feature> entries. \
- Each entry is added to OVERRIDES as df-<feature> if <feature> is in DISTRO_FEATURES."
+ tinfoil = None
+@@ -373,14 +373,31 @@ def reformat_git_uri(uri):
+     '''Convert any http[s]://....git URI into git://...;protocol=http[s]'''
+     checkuri = uri.split(';', 1)[0]
+     if checkuri.endswith('.git') or '/git/' in checkuri or re.match('https?://github.com/[^/]+/[^/]+/?$', checkuri):
+-        res = re.match('(http|https|ssh)://([^;]+(\.git)?)(;.*)?$', uri)
+-        if res:
+-            # Need to switch the URI around so that the git fetcher is used
+-            return 'git://%s;protocol=%s%s' % (res.group(2), res.group(1), res.group(4) or '')
+-        elif '@' in checkuri:
+-            # Catch e.g. git@git.example.com:repo.git
+-            return 'git://%s;protocol=ssh' % checkuri.replace(':', '/', 1)
+-    return uri
++        # Appends scheme if the scheme is missing
++        if not '://' in uri:
++            uri = 'git://' + uri
++        scheme, host, path, user, pswd, parms = bb.fetch2.decodeurl(uri)
++        # Detection mechanism, this is required due to certain URL are formatter with ":" rather than "/"
++        # which causes decodeurl to fail getting the right host and path
++        if len(host.split(':')) > 1:
++            splitslash = host.split(':')
++            host = splitslash[0]
++            path = '/' + splitslash[1] + path
++        #Algorithm:
++        # if user is defined, append protocol=ssh or if a protocol is defined, then honor the user-defined protocol
++        # if no user & password is defined, check for scheme type and append the protocol with the scheme type
++        # finally if protocols or if the url is well-formed, do nothing and rejoin everything back to normal
++        # Need to repackage the arguments for encodeurl, the format is: (scheme, host, path, user, password, OrderedDict([('key', 'value')]))
++        if user:
++            if not 'protocol' in parms:
++                parms.update({('protocol', 'ssh')})
++        elif (scheme == "http" or scheme == 'https' or scheme == 'ssh') and not ('protocol' in parms):
++            parms.update({('protocol', scheme)})
++        # Always append 'git://'
++        fUrl = bb.fetch2.encodeurl(('git', host, path, user, pswd, parms))
++        return fUrl
++    else:
++        return uri
  
- DISTRO_FEATURES_FILTER_NATIVE_append = " ${DISTRO_FEATURES_OVERRIDES}"
-
-base-commit: f441186bafe2b8a80d3229f13aacf92138f63cd8
+ def is_package(url):
+     '''Check if a URL points to a package'''
 -- 
-git-series 0.9.1
+2.7.4
+
 
