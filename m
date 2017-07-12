@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E2FC781CD
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 08869781CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 16:19:10 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id r103so40034310wrb.0
+	Wed, 12 Jul 2017 16:22:09 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id m84so16240336ita.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 09:19:12 -0700 (PDT)
+	Wed, 12 Jul 2017 09:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=OTu3wkm9sn3o4AKaIY4nCYLoCEIYlphmUQ8Hszf4tkU=;
-	b=ogosdhNB564ght+eo+ZmUZW65ZlvcFZTjXLEeQc043fvTptHmoffESmK8lXP7RbXxg
-	bjXHOTNlBpuxqZ5zJjxl32Z9xjZfFxxj/FvoQ9np7mJkMS9eBMRKKYbnewkdpOsCT1uv
-	iDCxDS3HiGYQMBePDcmksMr39/hrIT5SqTDtbZeJ58nSWciniHli5ANCuJBQmXmnNFE7
-	8R6gW2ur9/BBM1FgFJ0kM/n2BCuw+oCQmFtXjig9FdmL9GmFkzMiEuAejrfxWAI2R0nt
-	6liiTRSUYCSclWo33YBagw5fTFm30x6f54dD4Qh20MzG95WLZIw3CtdtFgZKbZmG5UHf
-	4TFQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hZrLHkCwtgNBCGsyf1H7FzUMRt+2Pc5vDjj+Lh3mtvU=;
+	b=cOPsTu5ZEjs/Xnv+75RZxZFrJ3auldkF2khd3dHdjgabN/PIcnQii03ncs5ZeA5MNV
+	XTpnppOBUMlDXjY46Kk4si6FlNzt6VBiiqf6PZoyjOZrGr2b0lfrpayIzFHT45pi9aua
+	b6e8TEerBGqM8Tuu1SxvzlSkL/MKJYlv/bYXKhxktIVBYg5jGgapkz3IUfJTcV6bhu6v
+	0lZdPVkN4MxORuBMWcuWVemKdi4X+cOcwaB5wqZ5tyS3kYqqxFgqkRSqB4wTforrdPX0
+	CbDzea3ohOfJeJFE/zjiESKSzoL2RtOj5xqwyx0MKCp8lvqSt1eMEyS9Ag0RrGgTmJUT
+	pKyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=OTu3wkm9sn3o4AKaIY4nCYLoCEIYlphmUQ8Hszf4tkU=;
-	b=Mc6UnY+gN06HzQohdUb64DDUNKLZX2utQe8uV2JvzX3PtFwoUgKGkiKG42gLs98GNF
-	b0k3gBSr7qw2XuFvTbWqxpFBEFkpp68KfJHu/Dw83Rwb6TQhYg9caXwCMhe9JGM1th7B
-	nQ3zWVSNxIVrkW4ZrLdl3leDrc+m6NHKp0UPQnPhIBn6mr8J5kTDgUMx7OcX0KyuZ/vs
-	IuNwfcpfKhLZfcO4HuUXg97WnrRG20/JWrrJKoGPi5bhRHrDhpJ7JMIYk0PH11DMTWT3
-	pj9sSP7vSkgl+E1ZxjXEsxZZosT+xRTr7pgXHdsiYNAMB8J4woeMabd/TGpYz2nCyhWh
-	xc1Q==
-X-Gm-Message-State: AIVw113Ix/+3t0CAZ+3yuUkrLxlrIa/hfaO6vNjw5xYgM3Dg4Z5seKWa
-	V3ZrZXFw9gRolSc6VOg=
-X-Received: by 10.28.7.211 with SMTP id 202mr3324440wmh.113.1499876351742;
-	Wed, 12 Jul 2017 09:19:11 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	y76sm14733689wmh.2.2017.07.12.09.19.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Jul 2017 09:19:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jul 2017 17:19:07 +0100
-Message-Id: <20170712161907.13526-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] mesa: fix build race on src/intel/vulkan
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hZrLHkCwtgNBCGsyf1H7FzUMRt+2Pc5vDjj+Lh3mtvU=;
+	b=ASOH2RRYKYF5t0aTzSSUlasFTHd9ttRT8hjl+GM1RwuUf+5d/HUWIMKAj2n5y/fWqX
+	nTRAPHuJNQgKX/tpq6H8ubGwgHBojT6Y6HT/kOwPnK5Q5kST6ppJUzbqn+cXRhVograZ
+	/jBkUgg3Q2+TT2QDazYSU4M/xhsUjyJRL2czz+j8SFiESccA3RSPZTck4yUfc+4ipiIE
+	H82DBgGxdbhfKkw6D/QYPo9+cgfEWmMWp/tiHhVQH10Y7YYcVSuXzKDULLmPGBvT2y0O
+	kRPWpFdnhMLth/gnM2VglXKYj6t0EYDnVbU9+t8z4WEovqC/8SMOV831AdSKwu9hvXDT
+	mxDA==
+X-Gm-Message-State: AIVw113JiZS6Vdz62b//PQvJPX1F7Nd/ykjsNreoTdDRVakkeFNW/8PR
+	SWt7a6dRQpxSnA+IPeUSr+dCh/9fsRnT
+X-Received: by 10.107.178.13 with SMTP id b13mr5790007iof.148.1499876531072;
+	Wed, 12 Jul 2017 09:22:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.9.161 with HTTP; Wed, 12 Jul 2017 09:21:50 -0700 (PDT)
+In-Reply-To: <f854a4976bca8e4259cbe83e7d43365fa36d5da7.1499825744.git.dengke.du@windriver.com>
+References: <cover.1499825744.git.dengke.du@windriver.com>
+	<f854a4976bca8e4259cbe83e7d43365fa36d5da7.1499825744.git.dengke.du@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Jul 2017 17:21:50 +0100
+Message-ID: <CAJTo0LZ5m_GioPzYbyhA1bgPM8sGT-+HVVzVzjPjOaPN6_SkMw@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] dropbear: reduce local pending patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,74 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 16:19:12 -0000
+X-List-Received-Date: Wed, 12 Jul 2017 16:22:13 -0000
+Content-Type: multipart/alternative; boundary="001a114c9fc6d784dc055421377d"
 
-It's possible that src/intel/vulkcan can be written into by sed before it has
-been created, so add the required mkdir calls.
+--001a114c9fc6d784dc055421377d
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../recipes-graphics/mesa/files/vulkan-mkdir.patch | 37 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_17.1.4.bb          |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
+On 12 July 2017 at 03:21, Dengke Du <dengke.du@windriver.com> wrote:
 
-diff --git a/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch b/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-new file mode 100644
-index 00000000000..15ee5eeb14c
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Submitted
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From c78979fd95a1c4f732f7e6edf0f32c524e5955b8 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 12 Jul 2017 17:10:07 +0100
-+Subject: [PATCH] src/intel/Makefile.vulkan.am: create target directories when
-+ required
-+
-+In out-of-tree builds src/intel/vulkan won't exist, so always create it before
-+writing into it.
-+
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+---
-+ src/intel/Makefile.vulkan.am | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/intel/Makefile.vulkan.am b/src/intel/Makefile.vulkan.am
-+index 3857a5dc62..26e9cd410c 100644
-+--- a/src/intel/Makefile.vulkan.am
-++++ b/src/intel/Makefile.vulkan.am
-+@@ -44,11 +44,13 @@ EXTRA_DIST += \
-+ 	vulkan/TODO
-+ 
-+ vulkan/dev_icd.json : vulkan/dev_icd.json.in
-++	$(MKDIR_GEN)
-+ 	$(AM_V_GEN) $(SED) \
-+ 		-e "s#@build_libdir@#${abs_top_builddir}/${LIB_DIR}#" \
-+ 		< $(srcdir)/vulkan/dev_icd.json.in > $@
-+ 
-+ vulkan/intel_icd.@host_cpu@.json : vulkan/intel_icd.json.in
-++	$(MKDIR_GEN)
-+ 	$(AM_V_GEN) $(SED) \
-+ 		-e "s#@install_libdir@#${libdir}#" \
-+ 		< $(srcdir)/vulkan/intel_icd.json.in > $@
-+-- 
-+2.11.0
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.4.bb b/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-index 2257045c42c..f0b634a045b 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-@@ -7,6 +7,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Use-wayland-scanner-in-the-path.patch \
-            file://0002-hardware-gloat.patch \
-            file://0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch \
-+           file://vulkan-mkdir.patch \
- "
- 
- SRC_URI[md5sum] = "be2ef7c9edec23b07f74f6512a6a6fa5"
--- 
-2.11.0
+> -Upstream-Status: Pending
+> +Upstream-Status: Pending [ The dropbear upstream master branch already
+> +contains this, this patch will be droped when meet next release ]
+>
 
+If the same fix is upstream, then this can be Backport surely?
 
+Ross
+
+--001a114c9fc6d784dc055421377d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 July 2017 at 03:21, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:dengke.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":145" class=3D"=
+a3s aXjCH m15d349b8097d77d6">-Upstream-Status: Pending<br>
++Upstream-Status: Pending [ The <span class=3D"il">dropbear</span> upstream=
+ master branch already<br>
++contains this, this patch will be droped when meet next release ]<br></div=
+></blockquote></div><br>If the same fix is upstream, then this can be Backp=
+ort surely?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
+
+--001a114c9fc6d784dc055421377d--
