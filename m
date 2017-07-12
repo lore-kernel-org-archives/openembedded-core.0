@@ -1,26 +1,26 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AA4977FED
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 51D0877FED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 14:08:36 +0000 (UTC)
+	Wed, 12 Jul 2017 14:12:45 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jul 2017 07:08:38 -0700
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jul 2017 07:12:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,350,1496127600"; d="scan'208";a="107376575"
+X-IronPort-AV: E=Sophos;i="5.40,350,1496127600"; d="scan'208";a="107377700"
 Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
-	by orsmga004.jf.intel.com with ESMTP; 12 Jul 2017 07:08:37 -0700
-Message-ID: <1499869099.5349.38.camel@linux.intel.com>
+	by orsmga004.jf.intel.com with ESMTP; 12 Jul 2017 07:12:45 -0700
+Message-ID: <1499869346.5349.39.camel@linux.intel.com>
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-Date: Wed, 12 Jul 2017 09:18:19 -0500
-In-Reply-To: <2e3872acacf41d159f477c2ca15e7eda0b85263b.1499803885.git.anibal.limon@linux.intel.com>
+Date: Wed, 12 Jul 2017 09:22:26 -0500
+In-Reply-To: <c98e2413ca74b935b701d8e576089c78fc4f0df7.1499803885.git.anibal.limon@linux.intel.com>
 References: <cover.1499803885.git.anibal.limon@linux.intel.com>
-	<2e3872acacf41d159f477c2ca15e7eda0b85263b.1499803885.git.anibal.limon@linux.intel.com>
+	<c98e2413ca74b935b701d8e576089c78fc4f0df7.1499803885.git.anibal.limon@linux.intel.com>
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/30] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
+Subject: Re: [PATCH 07/30] oeqa/core/threaded: Add support to run into a thread at end of execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,241 +33,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 14:08:38 -0000
+X-List-Received-Date: Wed, 12 Jul 2017 14:12:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-I saw a similar patch in the past. Is this a new revision?
-
-Leo
-
-
 On Tue, 2017-07-11 at 15:23 -0500, Aníbal Limón wrote:
-> In order to avoid corrupt local.conf and bblayers.conf adds
-> signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
-> to restore previously backuped configuration.
+> Some test cases aren't allowed to run into a multi-thread environment so
+> add the posibility to run those tests at end of execution.
 > 
-> [YOCTO #11650]
-> 
+
+Hi Anibal,
+
+which is the reason these need to run at the end?
+
+
+
 > Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 > ---
->  meta/lib/oeqa/selftest/case.py    |  36 +++++++------
->  meta/lib/oeqa/selftest/context.py | 107 +++++++++++++++++++++++++++-----------
->  2 files changed, 97 insertions(+), 46 deletions(-)
+>  meta/lib/oeqa/core/threaded.py | 102 +++++++++++++++++++++++++++++++----------
+>  1 file changed, 78 insertions(+), 24 deletions(-)
 > 
-> diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
-> index 31a11fddda9..871009c568b 100644
-> --- a/meta/lib/oeqa/selftest/case.py
-> +++ b/meta/lib/oeqa/selftest/case.py
-> @@ -13,28 +13,34 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
->  from oeqa.core.case import OETestCase
+> diff --git a/meta/lib/oeqa/core/threaded.py b/meta/lib/oeqa/core/threaded.py
+> index 34217f1a8b8..a7dc0aed401 100644
+> --- a/meta/lib/oeqa/core/threaded.py
+> +++ b/meta/lib/oeqa/core/threaded.py
+> @@ -30,18 +30,35 @@ class OETestLoaderThreaded(OETestLoader):
+>          suites = {}
+>          suites['main'] = self.suiteClass()
+>          suites['pool'] = []
+> +        suites['end'] = self.suiteClass()
+>          for _ in range(self.process_num - 1):
+>              suites['pool'].append(self.suiteClass())
 >  
->  class OESelftestTestCase(OETestCase):
-> -    builddir = os.environ.get("BUILDDIR") or ""
-> -    localconf_path = os.path.join(builddir, "conf/local.conf")
-> -    localconf_backup = os.path.join(builddir, "conf/local.bk")
-> -    testinc_path = os.path.join(builddir, "conf/selftest.inc")
-> -    local_bblayers_path = os.path.join(builddir, "conf/bblayers.conf")
-> -    local_bblayers_backup = os.path.join(builddir, "conf/bblayers.bk")
-> -    testinc_bblayers_path = os.path.join(builddir, "conf/bblayers.inc")
-> -    machineinc_path = os.path.join(builddir, "conf/machine.inc")
+> +        def _add_by_module_or_dep(suite, case, depends):
+> +            """
+> +                A test case that needs to run into the same thread
+> +                because is on the same module or for dependency
+> +                reasons.
+> +            """
+> +
+> +            for c in suite._tests:
+> +                if case.__module__ == c.__module__:
+> +                    suite.addTest(case)
+> +                    return True
+> +
+> +            if case.id() in depends:
+> +                case_depends = depends[case.id()]
+> +                for c in suite._tests:
+> +                    if c.id() in case_depends:
+> +                        suite.addTest(case)
+> +                        return True
+> +
+> +            return False
+> +
+>          def _add_to_main_thread(main_suite, case, depends):
+>              """
+>                  Some test cases needs to be run into the main
+> -                thread for several resons.
 > -
->      def __init__(self, methodName="runTest"):
->          self._extra_tear_down_commands = []
-> -        self._track_for_cleanup = [
-> -            self.testinc_path, self.testinc_bblayers_path,
-> -            self.machineinc_path, self.localconf_backup,
-> -            self.local_bblayers_backup]
-> -
->          super(OESelftestTestCase, self).__init__(methodName)
+> -                A test case that needs to run in the main thread
+> -                can be for specific set via test class _main_thread
+> -                attr or because is on the same module or for a dependency
+> -                reason.
+> +                thread by request.
+>              """
 >  
->      @classmethod
->      def setUpClass(cls):
->          super(OESelftestTestCase, cls).setUpClass()
-> -        cls.testlayer_path = cls.tc.testlayer_path
+>              if hasattr(case.__class__, '_main_thread') and \
+> @@ -50,19 +67,20 @@ class OETestLoaderThreaded(OETestLoader):
+>                  main_suite.addTest(case)
+>                  return True
+>  
+> -            for c in main_suite._tests:
+> -                if case.__module__ == c.__module__:
+> -                    main_suite.addTest(case)
+> -                    return True
+> +            return _add_by_module_or_dep(main_suite, case, depends)
+>  
+> -            if case.id() in depends:
+> -                case_depends = depends[case.id()]
+> -                for c in main_suite._tests:
+> -                    if c.id() in case_depends:
+> -                        main_suite.addTest(case)
+> -                        return True
+> +        def _add_to_end_thread(end_suite, case, depends):
+> +            """
+> +                Some test cases needs to be run into at end of
+> +                execution into the main by request.
+> +            """
+> +            if hasattr(case.__class__, '_end_thread') and \
+> +                    case.__class__._end_thread or \
+> +                    self.process_num == 1:
+> +                end_suite.addTest(case)
+> +                return True
+>  
+> -            return False
+> +            return _add_by_module_or_dep(end_suite, case, depends)
+>  
+>          def _search_for_module_idx(suites, case):
+>              """
+> @@ -112,6 +130,9 @@ class OETestLoaderThreaded(OETestLoader):
+>                      if 'depends' in self.tc._registry:
+>                          depends = self.tc._registry['depends']
+>  
+> +                    if _add_to_end_thread(suites['end'], case, depends):
+> +                        continue
 > +
-> +        cls.testlayer_path = cls.tc.config_paths['testlayer_path']
-> +        cls.builddir = cls.tc.config_paths['builddir']
+>                      if _add_to_main_thread(suites['main'], case, depends):
+>                          continue
+>  
+> @@ -135,7 +156,7 @@ class OETestLoaderThreaded(OETestLoader):
+>  
+>          # if the main suite doesn't have test cases
+>          # use the first element of the suites pool
+> -        if not len(suites['main']._tests):
+> +        if not len(suites['main']._tests) and len(suites['pool']):
+>              suites['main'] = suites['pool'].pop(0)
+>  
+>          return suites
+> @@ -268,6 +289,12 @@ class _ThreadedPool:
+>          self.tasks = queue.Queue(num_tasks)
+>          self.workers = []
+>  
+> +        self.stream = stream
+> +        self.result = result
 > +
-> +        cls.localconf_path = cls.tc.config_paths['localconf']
-> +        cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
-> +        cls.local_bblayers_path = cls.tc.config_paths['bblayers']
-> +        cls.local_bblayers_backup = cls.tc.config_paths['bblayers_class_backup']
+> +        self.end_task = None
+> +        self.end_worker = None
 > +
-> +        cls.testinc_path = os.path.join(cls.tc.config_paths['builddir'],
-> +                "conf/selftest.inc")
-> +        cls.testinc_bblayers_path = os.path.join(cls.tc.config_paths['builddir'],
-> +                "conf/bblayers.inc")
-> +        cls.machineinc_path = os.path.join(cls.tc.config_paths['builddir'],
-> +                "conf/machine.inc")
+>          for _ in range(num_workers):
+>              worker = _Worker(self.tasks, result, stream)
+>              self.workers.append(worker)
+> @@ -280,12 +307,25 @@ class _ThreadedPool:
+>          """Add a task to the queue"""
+>          self.tasks.put((func, args, kargs))
+>  
+> +    def add_end_task(self, func, *args, **kwargs):
+> +        """Add a task to be executed at end"""
 > +
-> +        cls._track_for_cleanup = [
-> +            cls.testinc_path, cls.testinc_bblayers_path,
-> +            cls.machineinc_path, cls.localconf_backup,
-> +            cls.local_bblayers_backup]
+> +        self.end_task = queue.Queue(1)
+> +        self.end_task.put((func, args, kwargs))
+> +        self.end_worker = _Worker(self.end_task, self.result,
+> +                self.stream)
 > +
->          cls.add_include()
+>      def wait_completion(self):
+>          """Wait for completion of all the tasks in the queue"""
+>          self.tasks.join()
+>          for worker in self.workers:
+>              worker.join()
 >  
->      @classmethod
-> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-> index ca87398224c..4575a0537fb 100644
-> --- a/meta/lib/oeqa/selftest/context.py
-> +++ b/meta/lib/oeqa/selftest/context.py
-> @@ -6,6 +6,8 @@ import time
->  import glob
->  import sys
->  import imp
-> +import signal
-> +from shutil import copyfile
->  from random import choice
->  
->  import oeqa
-> @@ -16,13 +18,12 @@ from oeqa.core.exception import OEQAPreRun
->  from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
->  
->  class OESelftestTestContext(OETestContext):
-> -    def __init__(self, td=None, logger=None, machines=None, testlayer_path=None):
-> +    def __init__(self, td=None, logger=None, machines=None, config_paths=None):
->          super(OESelftestTestContext, self).__init__(td, logger)
->  
->          self.machines = machines
->          self.custommachine = None
-> -
-> -        self.testlayer_path = testlayer_path
-> +        self.config_paths = config_paths
->  
->      def runTests(self, machine=None):
->          if machine:
-> @@ -108,7 +109,29 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
->  
->          self.tc_kwargs['init']['td'] = get_bb_vars()
->          self.tc_kwargs['init']['machines'] = self._get_available_machines()
-> -        self.tc_kwargs['init']['testlayer_path'] = get_test_layer()
+> +        if self.end_task:
+> +            self.end_worker.start()
+> +            self.end_task.join()
+> +            self.end_worker.join()
 > +
-> +        builddir = os.environ.get("BUILDDIR")
-> +        self.tc_kwargs['init']['config_paths'] = {}
-> +        self.tc_kwargs['init']['config_paths']['testlayer_path'] = \
-> +                get_test_layer()
-> +        self.tc_kwargs['init']['config_paths']['builddir'] = builddir
-> +        self.tc_kwargs['init']['config_paths']['localconf'] = \
-> +                os.path.join(builddir, "conf/local.conf")
-> +        self.tc_kwargs['init']['config_paths']['localconf_backup'] = \
-> +                os.path.join(builddir, "conf/local.conf.orig")
-> +        self.tc_kwargs['init']['config_paths']['localconf_class_backup'] = \
-> +                os.path.join(builddir, "conf/local.conf.bk")
-> +        self.tc_kwargs['init']['config_paths']['bblayers'] = \
-> +                os.path.join(builddir, "conf/bblayers.conf")
-> +        self.tc_kwargs['init']['config_paths']['bblayers_backup'] = \
-> +                os.path.join(builddir, "conf/bblayers.conf.orig")
-> +        self.tc_kwargs['init']['config_paths']['bblayers_class_backup'] = \
-> +                os.path.join(builddir, "conf/bblayers.conf.bk")
+>  class OETestRunnerThreaded(OETestRunner):
+>      streamLoggerClass = OEStreamLoggerThreaded
+>  
+> @@ -293,32 +333,46 @@ class OETestRunnerThreaded(OETestRunner):
+>          super(OETestRunnerThreaded, self).__init__(tc, *args, **kwargs)
+>          self.resultclass = OETestResultThreadedInternal # XXX: XML reporting overrides at __init__
+>  
+> +    def _run_main_thread(self, suite, result):
+> +        if len(suite._tests):
+> +            run_start_time = time.time()
+> +            rc = super(OETestRunnerThreaded, self).run(suite)
+> +            run_end_time = time.time()
+> +            result.addResult(rc, run_start_time, run_end_time)
+> +            self.stream.finish()
 > +
-> +        copyfile(self.tc_kwargs['init']['config_paths']['localconf'],
-> +                self.tc_kwargs['init']['config_paths']['localconf_backup'])
-> +        copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
-> +                self.tc_kwargs['init']['config_paths']['bblayers_backup'])
+>      def run(self, suites):
+>          result = OETestResultThreaded(self.tc)
 >  
->      def _pre_run(self):
->          def _check_required_env_variables(vars):
-> @@ -131,7 +154,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
->                      runCmd("bitbake-layers add-layer %s" %meta_selftestdir)
->                      # reload data is needed because a meta-selftest layer was add
->                      self.tc.td = get_bb_vars()
-> -                    self.tc.testlayer_path = get_test_layer()
-> +                    self.tc.config_paths['testlayer_path'] = get_test_layer()
->                  else:
->                      self.tc.logger.error("could not locate meta-selftest in:\n%s" % meta_selftestdir)
->                      raise OEQAPreRun
-> @@ -184,41 +207,63 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
->              rc.logSummary(self.name)
->  
->          return rc
+>          pool = None
 > +
-> +    def _signal_clean_handler(self, signum, frame):
-> +        sys.exit(1)
->      
->      def run(self, logger, args):
->          self._process_args(logger, args)
-> -        rc = None
+>          if suites['pool']:
+>              thread_no = len(suites['pool'])
+>              pool = _ThreadedPool(thread_no, thread_no, stream=self.stream,
+>                      result=result)
+>              for s in suites['pool']:
+>                  pool.add_task(super(OETestRunnerThreaded, self).run, s)
+> -            pool.start()
 >  
-> -        if args.machine:
-> -            logger.info('Custom machine mode enabled. MACHINE set to %s' %
-> -                    args.machine)
-> +        signal.signal(signal.SIGTERM, self._signal_clean_handler)
+> -        run_start_time = time.time()
+> -        rc = super(OETestRunnerThreaded, self).run(suites['main'])
+> -        run_end_time = time.time()
+> -        result.addResult(rc, run_start_time, run_end_time)
+> -        self.stream.finish()
+> +        if len(suites['end']._tests):
+> +            if not pool:
+> +                pool = _ThreadedPool(0, 0, stream=self.stream,
+> +                            result=result)
+> +            pool.add_end_task(super(OETestRunnerThreaded, self).run,
+> +                    suites['end'])
 >  
-> -            if args.machine == 'all':
-> -                results = []
-> -                for m in self.tc_kwargs['init']['machines']:
-> -                    self.tc_kwargs['run']['machine'] = m
-> -                    results.append(self._internal_run(logger, args))
-> +        rc = None
-> +        try:
-> +            if args.machine:
-> +                logger.info('Custom machine mode enabled. MACHINE set to %s' %
-> +                        args.machine)
+>          if pool:
+> +            pool.start()
+> +        self._run_main_thread(suites['main'], result)
+> +        if pool:
+>              pool.wait_completion()
 > +
-> +                if args.machine == 'all':
-> +                    results = []
-> +                    for m in self.tc_kwargs['init']['machines']:
-> +                        self.tc_kwargs['run']['machine'] = m
-> +                        results.append(self._internal_run(logger, args))
-> +
-> +                        # XXX: the oe-selftest script only needs to know if one
-> +                        # machine run fails
-> +                        for r in results:
-> +                            rc = r
-> +                            if not r.wasSuccessful():
-> +                                break
+>          result._fill_tc_results()
 >  
-> -                    # XXX: the oe-selftest script only needs to know if one
-> -                    # machine run fails
-> -                    for r in results:
-> -                        rc = r
-> -                        if not r.wasSuccessful():
-> -                            break
-> +                else:
-> +                    self.tc_kwargs['run']['machine'] = args.machine
-> +                    return self._internal_run(logger, args)
+>          return result
 >  
->              else:
->                  self.tc_kwargs['run']['machine'] = args.machine
-> -                return self._internal_run(logger, args)
-> -
-> -        else:
-> -            self.tc_kwargs['run']['machine'] = args.machine
-> -            rc = self._internal_run(logger, args)
-> -
-> -        output_link = os.path.join(os.path.dirname(args.output_log),
-> -                "%s-results.log" % self.name)
-> -        if os.path.exists(output_link):
-> -            os.remove(output_link)
-> -        os.symlink(args.output_log, output_link)
-> +                rc = self._internal_run(logger, args)
-> +        finally:
-> +            config_paths = self.tc_kwargs['init']['config_paths']
-> +            if os.path.exists(config_paths['localconf_backup']):
-> +                copyfile(config_paths['localconf_backup'],
-> +                        config_paths['localconf'])
-> +                os.remove(config_paths['localconf_backup'])
-> +
-> +            if os.path.exists(config_paths['bblayers_backup']):
-> +                copyfile(config_paths['bblayers_backup'], 
-> +                        config_paths['bblayers'])
-> +                os.remove(config_paths['bblayers_backup'])
-> +
-> +            if os.path.exists(config_paths['localconf_class_backup']):
-> +                os.remove(config_paths['localconf_class_backup'])
-> +            if os.path.exists(config_paths['bblayers_class_backup']):
-> +                os.remove(config_paths['bblayers_class_backup'])
-> +
-> +            output_link = os.path.join(os.path.dirname(args.output_log),
-> +                    "%s-results.log" % self.name)
-> +            if os.path.exists(output_link):
-> +                os.remove(output_link)
-> +            os.symlink(args.output_log, output_link)
+>      def list_tests(self, suite, display_type):
+>          suite['pool'].insert(0, suite['main'])
+> +        suite['pool'].append(suite['end'])
 >  
->          return rc
->  
+>          return super(OETestRunnerThreaded, self).list_tests(
+>                  suite['pool'], display_type)
 
 
 
