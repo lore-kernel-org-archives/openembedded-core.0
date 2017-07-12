@@ -1,27 +1,48 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 50A14605C2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EF1E7807B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 12:11:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jul 2017 05:11:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,349,1496127600"; d="scan'208";a="1171568148"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2017 05:11:48 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 11208580566;
-	Wed, 12 Jul 2017 05:11:46 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org, gizero@gmail.com,
-	otavio@ossystems.com.br
-Date: Wed, 12 Jul 2017 15:11:43 +0300
-Message-Id: <4cddc1cd5182c742c1c6ceafcf122928b21a1a02.1499860838.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1499860838.git.jussi.kukkonen@intel.com>
-References: <cover.1499860838.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/2] mesa: Avoid installing khrplatfrom.h when not needed
+	Wed, 12 Jul 2017 12:32:38 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id k192so12047334ith.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jul 2017 05:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PXE5es/5XTyCJDnOSwmPKgB0NShyrUBGtwM22+HJgCQ=;
+	b=vkA2XO/Ou80y+5EVexCX6NOG+4EygF7YGdE+jAgXSUAXiQqQ92vMsdEKibDD01XiLr
+	gLxKUs4bCZpTMTQJDmGYNgyBdwjK1J+WGenQOMmxaAtTY7AOxEQwzslmAWkWO87NeEkZ
+	lLqRDT3irOTrW9L6CRn5ZIr+kJp1Ou1I84basIcs+CR7t53vfoPwdxwPQmsefKly5+iC
+	by0eQVG2+OMBRMq/CPksvFZ3JQWZ7c1HDrI+ZbR6QX0vciwpxB45LNxT4waryk1TLtky
+	3WouzJHlk8pltmgwDUXtAeRTtnJ1X9akVSkHU8b+jTo96rri1OZEOOyM3eZeBIMkplIH
+	BqSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PXE5es/5XTyCJDnOSwmPKgB0NShyrUBGtwM22+HJgCQ=;
+	b=sobusf6O/3d21kybdRzqF/NKUorpH3ugihJaFKc/LMhrKVsJsn4QhNSQdr1ZFwJfP9
+	bgtTiQFCyimJK+WMhjiZorVczBTG2bLmVsGx+vMgwLVrHqSQUsJOnSHjQ2oFiujsKW6K
+	Mca3XyTLe2axgKWPF+e+350MD3QVSd9neZxqtpG8OTwMgPubrh5osyTkxKYaRGdIV95D
+	CtnZd+saasLiy7iIl4/O55sIy7PVK944ms0DbNDtBmmIU9/h2M2OomdRrE6SwgdOb3SZ
+	BAb/OVFVIG5T7ryYc5C91bNs+2TlBU/6vP8trll07rlh5o8w4qcLq87D6A1PJzxudtgl
+	DojQ==
+X-Gm-Message-State: AIVw111VtGgZ8hhUI95LYjfQqVBHejCkfHjveEE3UibU19cO+vM9H+0r
+	Q6AAN3uPUu51qhDV/7zfixaRp9M5wYRe
+X-Received: by 10.36.120.67 with SMTP id p64mr7992686itc.23.1499862759766;
+	Wed, 12 Jul 2017 05:32:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.9.161 with HTTP; Wed, 12 Jul 2017 05:32:19 -0700 (PDT)
+In-Reply-To: <3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
+References: <cover.1499854502.git.liezhi.yang@windriver.com>
+	<3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Jul 2017 13:32:19 +0100
+Message-ID: <CAJTo0LYUwPxW_0aLGwmwANyNv5sCovXijF-XrMCzTjGSr_V=Nw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] cryptodev: 1.8 -> 1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,90 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 12:11:55 -0000
+X-List-Received-Date: Wed, 12 Jul 2017 12:32:39 -0000
+Content-Type: multipart/alternative; boundary="001a114a9ebe02125505541e03dd"
 
-Fix the conflict between mesa and userland (when former is used to
-provide GL and letter used to provide EGL+GLES) by not installing
-khrplatform.h header when its not needed.
+--001a114a9ebe02125505541e03dd
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- ...ly-install-khrplatform.h-with-EGL-or-GLES.patch | 52 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_17.1.4.bb          |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch
+ERROR: cryptodev-module-1.9-r0 do_patch: Command Error: 'quilt --quiltrc
+/data/poky-tmp/master/work/intel_corei7_64-poky-linux/cryptodev-module/1.9-r0/recipe-sysroot-native/etc/quiltrc
+push' exited with 0  Output:
+Applying patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch
+patching file zc.c
+Hunk #1 FAILED at 67.
+1 out of 1 hunk FAILED -- rejects in file zc.c
+Patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch does not apply
+(enforce with -f)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch b/meta/recipes-graphics/mesa/files/0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch
-new file mode 100644
-index 0000000..be61e2e
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch
-@@ -0,0 +1,52 @@
-+From 922cb47a5b950ee5545a7a3cb4cd9a88a8b15054 Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Wed, 12 Jul 2017 12:21:29 +0300
-+Subject: [PATCH] mapi: Only install khrplatform.h with EGL or GLES
-+
-+When mesa is built with "--disable-egl --disable-gles1
-+--disable-gles2" the KHR platform headers are not needed.
-+
-+Not installing the header when not needed allows using mesa for GL
-+and another implementation for GLES+EGL (as is done in practice with
-+userland on raspberrypi).
-+
-+Upstream-Status: Pending [waiting for test results before sending]
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+---
-+ src/mapi/Makefile.am | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/mapi/Makefile.am b/src/mapi/Makefile.am
-+index 9ff70a14fd..94c77fb82c 100644
-+--- a/src/mapi/Makefile.am
-++++ b/src/mapi/Makefile.am
-+@@ -188,6 +188,8 @@ es1api_libGLESv1_CM_la_LDFLAGS = \
-+ 	$(LD_NO_UNDEFINED)
-+ 
-+ es1api_libGLESv1_CM_la_LIBADD += shared-glapi/libglapi.la
-++
-++khr_HEADERS = $(top_srcdir)/include/KHR/khrplatform.h
-+ endif
-+ 
-+ es1api/glapi_mapi_tmp.h: glapi/gen/gl_and_es_API.xml $(glapi_gen_mapi_deps)
-+@@ -233,6 +235,12 @@ es2api_libGLESv2_la_LDFLAGS = \
-+ 	$(LD_NO_UNDEFINED)
-+ 
-+ es2api_libGLESv2_la_LIBADD += shared-glapi/libglapi.la
-++
-++khr_HEADERS = $(top_srcdir)/include/KHR/khrplatform.h
-++endif
-++
-++if HAVE_EGL
-++khr_HEADERS = $(top_srcdir)/include/KHR/khrplatform.h
-+ endif
-+ 
-+ es2api/glapi_mapi_tmp.h: glapi/gen/gl_and_es_API.xml $(glapi_gen_mapi_deps)
-+@@ -243,4 +251,3 @@ es2api/glapi_mapi_tmp.h: glapi/gen/gl_and_es_API.xml $(glapi_gen_mapi_deps)
-+ include $(top_srcdir)/install-lib-links.mk
-+ 
-+ khrdir = $(includedir)/KHR
-+-khr_HEADERS = $(top_srcdir)/include/KHR/khrplatform.h
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.4.bb b/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-index 3289cd6..2257045 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.1.4.bb
-@@ -6,6 +6,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://etnaviv_fix-shader-miscompilation.patch \
-            file://0001-Use-wayland-scanner-in-the-path.patch \
-            file://0002-hardware-gloat.patch \
-+           file://0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch \
- "
- 
- SRC_URI[md5sum] = "be2ef7c9edec23b07f74f6512a6a6fa5"
--- 
-2.1.4
+Ross
 
+--001a114a9ebe02125505541e03dd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>ERROR: cryptodev-module-1.9-r0 do_patch: Command Erro=
+r: &#39;quilt --quiltrc /data/poky-tmp/master/work/intel_corei7_64-poky-lin=
+ux/cryptodev-module/1.9-r0/recipe-sysroot-native/etc/quiltrc push&#39; exit=
+ed with 0 =C2=A0Output:</div><div>Applying patch 0001-zc-Force-4.10-get_use=
+r_pages_remote-API.patch</div><div>patching file zc.c</div><div>Hunk #1 FAI=
+LED at 67.</div><div>1 out of 1 hunk FAILED -- rejects in file zc.c</div><d=
+iv>Patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch does not apply =
+(enforce with -f)</div><div><br></div><div>Ross</div></div>
+
+--001a114a9ebe02125505541e03dd--
