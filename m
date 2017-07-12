@@ -1,23 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ED9A77D81
+	by mail.openembedded.org (Postfix) with ESMTP id 1437177DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 07:27:49 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6C7RowG018551
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 12 Jul 2017 00:27:50 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 12 Jul 2017 00:27:50 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 12 Jul 2017 03:27:48 -0400
-Message-ID: <1499844468-45814-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Wed, 12 Jul 2017 08:39:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6C8dPTe020358
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jul 2017 01:39:25 -0700
+Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 12 Jul 2017 01:39:24 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1499822461.git.kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <10b67207-e767-0458-c642-20ee38621bd3@windriver.com>
+Date: Wed, 12 Jul 2017 16:40:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.1.1
 MIME-Version: 1.0
-Subject: [V2 PATCH] dhcp: fix shutdown not work by SIGTERM while bind9 enable threads
+In-Reply-To: <cover.1499822461.git.kai.kang@windriver.com>
+Subject: Re: [PATCH 0/1] bind: 9.10..3-P3 -> 9.10.5-P3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,137 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 07:27:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Jul 2017 08:39:25 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-In https://source.isc.org/git/bind9.git, since the following
-commit applied:
-...
-commit b99bfa184bc9375421b5df915eea7dfac6a68a99
-Author: Evan Hunt <each@isc.org>
-Date:   Wed Apr 10 13:49:57 2013 -0700
+On 2017年07月12日 09:25, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> The following changes since commit 81498aac9560fbeaeb58eaada32ce80e0ea51628:
+>
+>    yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib kangkai/bind
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/bind
 
-    [master] unify internal and export libraries
+Oops. Duplicate dot in commit subject. Updated in poky-contrib.
 
-    3550.       [func]          Unified the internal and export versions of the
-                        BIND libraries, allowing external clients to use
-                        the same libraries as BIND. [RT #33131]
-...
-(git show b99bfa184bc9375421b5df915eea7dfac6a68a99 -- ./lib/isc/unix/app.c)
+--Kai
 
-In this commit, if bind9 enable threads(ISC_PLATFORM_USETHREADS),
-it blocks signal SIGHUP, SIGINT and SIGTERM in isc__app_ctxstart.
-Which caused dhclient/dhcpd could not be stopped by SIGTERM.
+>
+> Kai Kang (1):
+>    bind: 9.10..3-P3 -> 9.10.5-P3
+>
+>   ...0001-build-use-pkg-config-to-find-libxml2.patch |   10 +-
+>   .../bind/bind/CVE-2016-1285.patch                  |  154 ---
+>   .../bind/bind/CVE-2016-1286_1.patch                |   79 --
+>   .../bind/bind/CVE-2016-1286_2.patch                |  317 ------
+>   .../bind/bind/CVE-2016-2088.patch                  |  247 -----
+>   .../bind/bind/CVE-2016-2775.patch                  |   90 --
+>   .../bind/bind/CVE-2016-2776.patch                  |  123 ---
+>   .../bind/bind/CVE-2016-6170.patch                  | 1090 --------------------
+>   .../bind/bind/CVE-2016-8864.patch                  |  219 ----
+>   .../bind/bind/bind-confgen-build-unix.o-once.patch |   10 +-
+>   .../bind/bind/mips1-not-support-opcode.diff        |  104 --
+>   .../use-python3-and-fix-install-lib-path.patch     |   36 +
+>   .../bind/{bind_9.10.3-P3.bb => bind_9.10.5-P3.bb}  |   25 +-
+>   13 files changed, 61 insertions(+), 2443 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-6170.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-8864.patch
+>   delete mode 100644 meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+>   create mode 100644 meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch
+>   rename meta/recipes-connectivity/bind/{bind_9.10.3-P3.bb => bind_9.10.5-P3.bb} (85%)
+>
 
-It caused systemd's reboot hung which send SIGTERM by default.
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- ...all-to-isc_app_ctxstart-to-not-get-signal.patch | 81 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb       |  1 +
- 2 files changed, 82 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
-
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch b/meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
-new file mode 100644
-index 0000000..9b43f96
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
-@@ -0,0 +1,81 @@
-+From e8c30bac53f8baeb80f87b445f42259cc8984fb5 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 12 Jul 2017 03:05:13 -0400
-+Subject: [PATCH] Moved the call to isc_app_ctxstart() to not get signal block
-+ by all threads
-+
-+Signed-off-by: Francis Dupont <fdupont@isc.org>
-+
-+In https://source.isc.org/git/bind9.git, since the following
-+commit applied:
-+...
-+commit b99bfa184bc9375421b5df915eea7dfac6a68a99
-+Author: Evan Hunt <each@isc.org>
-+Date:   Wed Apr 10 13:49:57 2013 -0700
-+
-+    [master] unify internal and export libraries
-+
-+    3550.       [func]          Unified the internal and export versions of the
-+                        BIND libraries, allowing external clients to use
-+                        the same libraries as BIND. [RT #33131]
-+...
-+(git show b99bfa184bc9375421b5df915eea7dfac6a68a99 -- ./lib/isc/unix/app.c)
-+
-+In this commit, if bind9 enable threads(ISC_PLATFORM_USETHREADS),
-+it blocks signal SIGHUP, SIGINT and SIGTERM in isc__app_ctxstart.
-+Which caused dhclient/dhcpd could not be stopped by SIGTERM.
-+
-+It caused systemd's reboot hung which send SIGTERM by default.
-+
-+Upstream-Status: Backport [https://source.isc.org/git/dhcp.git]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ omapip/isclib.c | 25 +++++++++++++++----------
-+ 1 file changed, 15 insertions(+), 10 deletions(-)
-+
-+diff --git a/omapip/isclib.c b/omapip/isclib.c
-+index 13f0d3e..4af04b6 100644
-+--- a/omapip/isclib.c
-++++ b/omapip/isclib.c
-+@@ -185,16 +185,6 @@ dhcp_context_create(int flags,
-+ 		if (result != ISC_R_SUCCESS)
-+ 			goto cleanup;
-+ 
-+-		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
-+-		if (result != ISC_R_SUCCESS)
-+-			return (result);
-+-		dhcp_gbl_ctx.actx_started = ISC_TRUE;
-+-
-+-		/* Not all OSs support suppressing SIGPIPE through socket
-+-		 * options, so set the sigal action to be ignore.  This allows
-+-		 * broken connections to fail gracefully with EPIPE on writes */
-+-		handle_signal(SIGPIPE, SIG_IGN);
-+-
-+ 		result = isc_taskmgr_createinctx(dhcp_gbl_ctx.mctx,
-+ 						 dhcp_gbl_ctx.actx,
-+ 						 1, 0,
-+@@ -217,6 +207,21 @@ dhcp_context_create(int flags,
-+ 		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0, &dhcp_gbl_ctx.task);
-+ 		if (result != ISC_R_SUCCESS)
-+ 			goto cleanup;
-++
-++		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
-++		if (result != ISC_R_SUCCESS)
-++			return (result);
-++		dhcp_gbl_ctx.actx_started = ISC_TRUE;
-++
-++		/* Not all OSs support suppressing SIGPIPE through socket
-++		 * options, so set the sigal action to be ignore.  This allows
-++		 * broken connections to fail gracefully with EPIPE on writes */
-++		handle_signal(SIGPIPE, SIG_IGN);
-++
-++		/* Reset handlers installed by isc_app_ctxstart()
-++		 * to default for control-c and kill */
-++		handle_signal(SIGINT, SIG_DFL);
-++		handle_signal(SIGTERM, SIG_DFL);
-+ 	}
-+ 
-+ #if defined (NSUPDATE)
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-index 0a73ecc..964d05dd 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://tweak-to-support-external-bind.patch \
-             file://remove-dhclient-script-bash-dependency.patch \
-             file://build-shared-libs.patch \
-+            file://Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
-            "
- 
- SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
 -- 
-2.8.1
+Regards,
+Neil | Kai Kang
 
 
