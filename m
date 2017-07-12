@@ -1,48 +1,57 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E74878067
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
+	[209.85.218.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ADBE77FC3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 16:37:55 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id k67so6983690wrc.1
+	Wed, 12 Jul 2017 17:14:31 +0000 (UTC)
+Received: by mail-oi0-f45.google.com with SMTP id 191so25284308oii.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 09:37:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=W9zUEQu3X+W3HUPCpgvF0G6+JFji28Lv1EKCinj49c4=;
-	b=FFHGLT+oiNpv+O9fK4cm5ujTtYx6QQED/F32El+oJXADdLeBW/Z+y0WRSRB0tJvANH
-	Reay9mCwHJHG6Hs54LNAMZ/0p58+kgcKqUbda3mRGEiqOv27XJdbxzFxMcSA9Y7NfEMz
-	3l/qh4FKdMGv5gpa8MaIWIdFc/2SZ/3VBYuHKnnbGdYLuReC3BJ+BStp1L5SKHAbWGEX
-	hE7+GhMBLFiL0hsaBG0ulySgJM7ZkE22QN0jljRp8OGWWADyGXBoDq8qmIoPIvXRag8O
-	LTNVpD1D3aGcG3upBSAX81K3ln05bPn2RTJvHlEewky+eQDntBWygrhtf+ORv1b/GWE4
-	sjow==
+	Wed, 12 Jul 2017 10:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=cFnzukVpMM/GBUgaRfRcum0aSlsG3w/+9beiVrTNrvU=;
+	b=Y/RGGWwmCuUrEswrz5IcDNfRmNBKUOtcbPi5FKIYmalLt7uNe9vbisligBRFpUb14h
+	h6HD3mArotjVduRZx68vyVJHbWh+2Q0LvWIV+wvhgMsguNApu1gAsiGG4xx7ikhBZMTE
+	oAcPD1B661o8taTRvRTXueHcffOnbCl3qjWrHSakw93rtw81IeLFqq08cbwqP1m2CQcy
+	7YEuNJQLj9lSyv4r7LoX4yEfGEfFeJMkv5aGMR2LT5/G9tQ+irFcVJXGAwz7DJ82OW8k
+	kH6zGoRFUdLlZWEjYQpYwC2Usne4gIMHAWk7UGFZu8APAJ2Oi4KMlfxsDCsFPssJ/qi9
+	1H7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=W9zUEQu3X+W3HUPCpgvF0G6+JFji28Lv1EKCinj49c4=;
-	b=H1sC49sT+39s9SB81l/IsuhHfZquCWxXk570r7BlPUED+3NMrkoyh8V447VJV4S44Z
-	g8rd2uIZx8x6HqmWOmWHo/oEUcPGznsdScOM/hIly1aBI18fKMhYY5yQhr/wnA/We4Fg
-	zhDighd23zAK2hXZfRBQ7utuaB6gsFXh2dJl4SeEXzo/yPa6j9ynkmRIDFTL1IiOvQyB
-	Zr+ptZD3BX4QHMCR2P66h79NiWgH/L0BBv5LuVxiYJlrmTTJo5in0OzWLmiXyqnevzEl
-	/Bx2OA3Elk+edgDpEC7z+3gb+vINJ2YL3qSo/upzqT6/me9b00C0BWyEPuIOrcHgbFtu
-	MVGg==
-X-Gm-Message-State: AIVw111ATMgNCAQa1KjWZEc19VTF1k3CJsDSniJf+ZsimgCjTy6waLGL
-	AKeHkOfq9LDTpZ3kyKN9nLyu5b+f5w==
-X-Received: by 10.80.162.38 with SMTP id 35mr6623786edl.99.1499877476745; Wed,
-	12 Jul 2017 09:37:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.145.210 with HTTP; Wed, 12 Jul 2017 09:37:26 -0700 (PDT)
-In-Reply-To: <cover.1499860838.git.jussi.kukkonen@intel.com>
-References: <cover.1499860838.git.jussi.kukkonen@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Jul 2017 09:37:26 -0700
-Message-ID: <CAMKF1sqa0HmRTs3Zfe3h3oo4OxByN-dnNHD8HUX625s7vQ5dxQ@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] mesa: Improve Khronos header handling
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=cFnzukVpMM/GBUgaRfRcum0aSlsG3w/+9beiVrTNrvU=;
+	b=QH1vGF83FQC7w5XrJ7TGKwitf3cofRoKlueJ+iYAZMtpv2FtEUaNJtZbIyU9bhB2Sc
+	QDiknatTMZBmdau+5R4KuA6+2JZmRoCYnci8fWvxbmYQdFW23rfkp334BjAue0ppFf23
+	WQIs0FrPwfVJIzrUmxkmkmDNqCm/F+Esza7A5IHYWJz5ytslO8zcnVj+yCVx6GDJjouW
+	snwuFiMdOy3pBUYIjdKpVUWm40/1o1WzKLttVyt3EvISn6eiLMeCH8OhkHN7yLXz+hvE
+	+FXQVOFdb9x+jomukClz+Z7Mq+ePzWhtUYtq5/p6JXZlNKdjKUrGRqOPwxcBIlEhWb4/
+	nB5g==
+X-Gm-Message-State: AIVw111EbvZOLjuEjEd8KuhGBZv0oHKGkT5clQH3C5ayT7nkBOW9K/91
+	ytDrEoawUoLfISVD
+X-Received: by 10.202.215.213 with SMTP id o204mr4653256oig.23.1499879673065; 
+	Wed, 12 Jul 2017 10:14:33 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F424.dip0.t-ipconnect.de. [93.232.244.36])
+	by smtp.gmail.com with ESMTPSA id
+	x74sm4181541oia.23.2017.07.12.10.14.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Jul 2017 10:14:32 -0700 (PDT)
+Message-ID: <1499879668.20211.140.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Wed, 12 Jul 2017 19:14:28 +0200
+In-Reply-To: <7127c3cb-ce85-e682-2aab-2f20615ca027@linux.intel.com>
+References: <cover.1499803885.git.anibal.limon@linux.intel.com>
+	<1e9c0f3ee67bdcb9a810c1a3e0bdb31a283a6c0c.1499803885.git.anibal.limon@linux.intel.com>
+	<1499842297.20211.103.camel@intel.com>
+	<7127c3cb-ce85-e682-2aab-2f20615ca027@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: joshua.g.lock@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 03/30] selftest/cases/package: Call parent setUpClass method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +64,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 16:37:57 -0000
+X-List-Received-Date: Wed, 12 Jul 2017 17:14:32 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 12, 2017 at 5:11 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> Andrea: can you please confirm if this fixes the issue with
-> meta-raspberrypi (the second patch is just cosmetic)?
->
-> This should fix mesa-gl and RPi userland conflict by not installing
-> khrplatform.h in mesa-gl. I decided to do an actual mesa patch instead
-> of a do_install_append() based on positive comments from upstream.
->
-> As a side note: the header is now installed in libegl-mesa-dev which
-> is not really correct. I'll see about fixing this in a later patch.
->
+On Wed, 2017-07-12 at 10:44 -0500, Aníbal Limón wrote:
+> 
+> On 07/12/2017 01:51 AM, Patrick Ohly wrote:
+> > On Tue, 2017-07-11 at 15:23 -0500, Aníbal Limón wrote:
+> >>      def setUpClass(cls):
+> >> +        super(VersionOrdering, cls).setUpClass()
+> >> +
+> > 
+> > In Python3 one can simply use super().setUpClass().
+> > 
+> > Not sure whether that's worth a V2 by itself. There's also plenty of
+> > other code outside of this patch which could be simplified like this.
+> 
+> Yes may be is better to send a patch changing all the cases to the new
+> py3 form.
 
-you might have to express dependencies on it explicitly, so it get included
-into rootfs. but it looks a good solution for now.
+Definitely not something for this patch series. However, I think
+new code should avoid the more complex form whenever possible. So if you
+do a V2, then I'd prefer to have super() in your patch.
 
-> Cheers,
->   Jussi
->
-> The following changes since commit 81498aac9560fbeaeb58eaada32ce80e0ea51628:
->
->   yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100)
->
-> are available in the git repository at:
->
->   git://git.yoctoproject.org/poky-contrib jku/khr-headers
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/khr-headers
->
-> Jussi Kukkonen (2):
->   mesa: Avoid installing khrplatfrom.h when not needed
->   mesa-gl: Clean recipe
->
->  ...ly-install-khrplatform.h-with-EGL-or-GLES.patch | 52 ++++++++++++++++++++++
->  meta/recipes-graphics/mesa/mesa-gl_17.1.4.bb       |  4 --
->  meta/recipes-graphics/mesa/mesa_17.1.4.bb          |  1 +
->  3 files changed, 53 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-graphics/mesa/files/0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch
->
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
