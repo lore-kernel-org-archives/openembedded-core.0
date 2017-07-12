@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 43FB4781E2
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B16B878170
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 10:15:35 +0000 (UTC)
+	Wed, 12 Jul 2017 10:15:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6CAFafH021558
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6CAFcsr022577
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 03:15:37 -0700 (PDT)
+	Wed, 12 Jul 2017 03:15:38 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 12 Jul 2017 03:15:36 -0700
+	Wed, 12 Jul 2017 03:15:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Jul 2017 03:15:30 -0700
-Message-ID: <7a4d76d26f422134f3d674dc47ea6bf134242094.1499854502.git.liezhi.yang@windriver.com>
+Date: Wed, 12 Jul 2017 03:15:31 -0700
+Message-ID: <96d138921edb8356aa7b683803e4facc4e0ade4e.1499854502.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1499854502.git.liezhi.yang@windriver.com>
 References: <cover.1499854502.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] gnu-efi: 3.0.5 -> 3.0.6
+Subject: [PATCH 6/6] libbsd: 0.8.3 -> 0.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,126 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 10:15:35 -0000
+X-List-Received-Date: Wed, 12 Jul 2017 10:15:36 -0000
 Content-Type: text/plain
 
-* Update parallel-make-archives.patch, the patch for lib/Makefile is
-  already in the source.
-* Remove 0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch, the
-  source uses a similar way to fix it.
+* The LIC_FILES_CHKSUM is changed becauses the files updated the date, and added
+  a BSD-3-clause-John-Birrell for man/timeradd.3bsd, this license is already
+  there for other files.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...plicit-fall-through-so-Wextra-will-work-i.patch | 34 ----------------------
- .../gnu-efi/gnu-efi/parallel-make-archives.patch   | 30 +++++--------------
- .../gnu-efi/{gnu-efi_3.0.5.bb => gnu-efi_3.0.6.bb} |  5 ++--
- 3 files changed, 9 insertions(+), 60 deletions(-)
- delete mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch
- rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.5.bb => gnu-efi_3.0.6.bb} (92%)
+ meta/recipes-support/libbsd/{libbsd_0.8.3.bb => libbsd_0.8.5.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libbsd/{libbsd_0.8.3.bb => libbsd_0.8.5.bb} (88%)
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch
-deleted file mode 100644
-index d0aeb2d..0000000
---- a/meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 676a8a9001f06808b4dbe0a545d76b5d9a8ebf48 Mon Sep 17 00:00:00 2001
--From: Peter Jones <pjones@redhat.com>
--Date: Thu, 2 Feb 2017 13:51:27 -0500
--Subject: [PATCH] Mark our explicit fall through so -Wextra will work in gcc 7
--
--gcc 7 introduces detection of fall-through behavior in switch/case
--statements, and will warn if -Wimplicit-fallthrough is present and there
--is no comment stating that the fall-through is intentional.  This is
--also triggered by -Wextra, as it enables -Wimplicit-fallthrough=1.
--
--This patch adds the comment in the one place we use fall-through.
--
--Signed-off-by: Peter Jones <pjones@redhat.com>
-----
--Upstream-Status: Pending
--
-- lib/print.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/lib/print.c b/lib/print.c
--index b8a9d38..cb732f0 100644
----- a/lib/print.c
--+++ b/lib/print.c
--@@ -1131,6 +1131,7 @@ Returns:
--             case 'X':
--                 Item.Width = Item.Long ? 16 : 8;
--                 Item.Pad = '0';
--+		/* falls through */
--             case 'x':
--                 ValueToHex (
--                     Item.Scratch,
---- 
--2.12.2
--
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
-index e5b47c1..5404051 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
-@@ -13,30 +13,14 @@ for details.
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
- Signed-off-by: Darren Hart <dvhart@linux.intel.com>
- ---
-----
-- gnuefi/Makefile |    3 ++-
-- lib/Makefile    |    3 ++-
-- 2 files changed, 4 insertions(+), 2 deletions(-)
-+ gnuefi/Makefile | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-support/libbsd/libbsd_0.8.3.bb b/meta/recipes-support/libbsd/libbsd_0.8.5.bb
+similarity index 88%
+rename from meta/recipes-support/libbsd/libbsd_0.8.3.bb
+rename to meta/recipes-support/libbsd/libbsd_0.8.5.bb
+index e85ee21..33190a7 100644
+--- a/meta/recipes-support/libbsd/libbsd_0.8.3.bb
++++ b/meta/recipes-support/libbsd/libbsd_0.8.5.bb
+@@ -30,7 +30,7 @@ HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
+ # License: public-domain
+ # License: public-domain-Colin-Plumb
+ LICENSE = "BSD-4-Clause & ISC & PD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0b9c89d861915b86655b96e5e32fa2aa"
++LIC_FILES_CHKSUM = "file://COPYING;md5=08fc4e66be4526715dab09c5fba5e9e8"
+ SECTION = "libs"
  
--Index: gnu-efi-3.0/lib/Makefile
--===================================================================
----- gnu-efi-3.0.orig/lib/Makefile
--+++ gnu-efi-3.0/lib/Makefile
--@@ -66,7 +66,8 @@ all: libsubdirs libefi.a
-- libsubdirs:
-- 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
-- 
---libefi.a: $(patsubst %,libefi.a(%),$(OBJS))
--+libefi.a: $(OBJS)
--+	$(AR) rv $@ $(OBJS)
-- 
-- clean:
-- 	rm -f libefi.a *~ $(OBJS) */*.o
--Index: gnu-efi-3.0/gnuefi/Makefile
--===================================================================
----- gnu-efi-3.0.orig/gnuefi/Makefile
--+++ gnu-efi-3.0/gnuefi/Makefile
--@@ -51,7 +51,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
-+diff --git a/gnuefi/Makefile b/gnuefi/Makefile
-+index 2a61699..148106e 100644
-+--- a/gnuefi/Makefile
-++++ b/gnuefi/Makefile
-+@@ -54,7 +54,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
-  
-  all:	$(TARGETS)
-  
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.6.bb
-similarity index 92%
-rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb
-rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.6.bb
-index 7346737..2a60717 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.6.bb
-@@ -16,11 +16,10 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-            file://parallel-make-archives.patch \
-            file://lib-Makefile-fix-parallel-issue.patch \
-            file://gcc46-compatibility.patch \
--           file://0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch \
-            "
+ SRC_URI = " \
+@@ -43,8 +43,8 @@ SRC_URI_append_libc-musl  = " \
+     file://0003-Fix-build-breaks-due-to-missing-a.out.h.patch \
+ "
  
--SRC_URI[md5sum] = "1f719c9c135778aa6b087b89a1cc2423"
--SRC_URI[sha256sum] = "bd8fcd5914f18fc0e4ba948ab03b00013e528504f529c60739b748f6ef130b22"
-+SRC_URI[md5sum] = "46f633758a8a37db9fd6909fe270c26b"
-+SRC_URI[sha256sum] = "21515902d80fbea23328a61d70d3d51a47204abd1507ebfa27550a7b9bf22c91"
+-SRC_URI[md5sum] = "e935c1bb6cc98a4a43cb1da22795493a"
+-SRC_URI[sha256sum] = "934b634f4dfd865b6482650b8f522c70ae65c463529de8be907b53c89c3a34a8"
++SRC_URI[md5sum] = "f1a0dc285f5d21ea40ef5bfc9b647346"
++SRC_URI[sha256sum] = "7647d024f41389305272c263da933a6f2a978213c1801592f47e68d83ac05b28"
  
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
- COMPATIBLE_HOST_armv4 = 'null'
+ inherit autotools pkgconfig
+ 
 -- 
 2.10.2
 
