@@ -1,28 +1,44 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C0CEB77F76
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A9FA77F76
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 01:05:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6C15PjJ009515
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 11 Jul 2017 18:05:25 -0700
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 11 Jul 2017 18:05:24 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1499760817-127823-1-git-send-email-hongxu.jia@windriver.com>
-	<CAJTo0LasUeR3oPuGjD1G4KFJN3wZLScKWmY1v0DiJy1ds2vdEg@mail.gmail.com>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <2193dcd4-c45f-8bfd-17a6-5f16a2d099f2@windriver.com>
-Date: Wed, 12 Jul 2017 09:05:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Wed, 12 Jul 2017 01:09:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id F1A5C20BA9;
+	Wed, 12 Jul 2017 01:09:52 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id H0VooPdgpNLv; Wed, 12 Jul 2017 01:09:52 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A7FFB203C2;
+	Wed, 12 Jul 2017 01:09:47 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 3A6AC162526; Tue, 11 Jul 2017 21:09:47 -0400 (EDT)
+Date: Tue, 11 Jul 2017 21:09:47 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20170712010947.GH26405@denix.org>
+References: <20170710183657.12885-1-otavio@ossystems.com.br>
+	<1d8dd351-0d96-0766-1beb-6ac621a6bfe4@denx.de>
+	<CAP9ODKpJTG3siy9Qo+EFm3QTnQYhn0Q2dc-pq6gq3Wq=hpscXA@mail.gmail.com>
+	<7e5cb452-d500-f57d-9830-f936db12418b@denx.de>
+	<20170710190128.GE22707@bill-the-cat>
+	<ce1cd8f5-1c41-87c0-57b4-d92abb3c177e@denx.de>
+	<20170710190621.GF22707@bill-the-cat>
+	<02ee9f46-27db-0bb9-7506-009d46351437@gmail.com>
+	<20170710191219.GG22707@bill-the-cat>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LasUeR3oPuGjD1G4KFJN3wZLScKWmY1v0DiJy1ds2vdEg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcp: fix genetle shutdown not work while bind9 compile with --enable-threads
+In-Reply-To: <20170710191219.GG22707@bill-the-cat>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Marek Vasut <marex@denx.de>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: Re: [PATCH] u-boot: Upgrade to 2017.07 release (WIP)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,116 +51,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 01:05:26 -0000
-Content-Type: multipart/alternative;
-	boundary="------------AFFF2CBB3BC3EF0737319A2D"
-Content-Language: en-US
+X-List-Received-Date: Wed, 12 Jul 2017 01:09:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---------------AFFF2CBB3BC3EF0737319A2D
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+On Mon, Jul 10, 2017 at 03:12:19PM -0400, Tom Rini wrote:
+> On Mon, Jul 10, 2017 at 12:08:41PM -0700, Khem Raj wrote:
+> > On 7/10/17 12:06 PM, Tom Rini wrote:
+> > > On Mon, Jul 10, 2017 at 09:02:39PM +0200, Marek Vasut wrote:
+> > >> On 07/10/2017 09:01 PM, Tom Rini wrote:
+> > >>> On Mon, Jul 10, 2017 at 08:57:19PM +0200, Marek Vasut wrote:
+> > >>>> On 07/10/2017 08:51 PM, Otavio Salvador wrote:
+> > >>>>> On Mon, Jul 10, 2017 at 3:47 PM, Marek Vasut <marex@denx.de> wrote:
+> > >>>>>> On 07/10/2017 08:36 PM, Otavio Salvador wrote:
+> > >>>>>>> This patch upgrades the U-Boot to the 2017.07 release.
+> > >>>>>>>
+> > >>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> > >>>>>>> ---
+> > >>>>>>>
+> > >>>>>>>  .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
+> > >>>>>>>  .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
+> > >>>>>>>  .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
+> > >>>>>>>  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
+> > >>>>>>>  4 files changed, 1 insertion(+), 1 deletion(-)
+> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc} (88%)
+> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb} (100%)
+> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb} (100%)
+> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb} (100%)
+> > >>>>>>>
+> > >>>>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+> > >>>>>>> similarity index 88%
+> > >>>>>>> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
+> > >>>>>>> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+> > >>>>>>> index 0e52f27df8..f27989daa1 100644
+> > >>>>>>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
+> > >>>>>>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+> > >>>>>>> @@ -7,7 +7,7 @@ PE = "1"
+> > >>>>>>>
+> > >>>>>>>  # We use the revision in order to avoid having to fetch it from the
+> > >>>>>>>  # repo during parse
+> > >>>>>>> -SRCREV = "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
+> > >>>>>>> +SRCREV = "d85ca029f257b53a96da6c2fb421e78a003a9943"
+> > >>>>>>
+> > >>>>>> Where did you get this hash from, it's not in the U-Boot repo ...
+> > >>>>>
+> > >>>>> From the tag used by Tom. You can check it on his github repository.
+> > >>>>
+> > >>>> I cannot, that is NOT where the U-Boot recipe points to nor is it in any
+> > >>>> way an official U-Boot source git tree .
+> > >>>
+> > >>> It's also on the official github mirror.  I'll go see why the DENX git
+> > >>> is lagging behind.
+> > >>
+> > >> Hm that's weird. How can it be a mirror if it contains objects not in
+> > >> the mirrored repo ? ;-)
+> > > 
+> > > git supports multiple push URIs.  So I update all 3 locations with a
+> > > single push.  However, git.denx.de works differently than github.com
+> > > does.
+> > 
+> > may be pushing to upstream and then pulling before populating the
+> > mirrors could solve such issues. but I think we should use github.com
+> > in OE src_uri's for speed reasons.
+> 
+> On the back end, things are a bit more complex than that, but I'm
+> working to resolve the current error now.  FWIW, changing the OE recipe
+> to fetch from https://github.com/u-boot/u-boot.git would be fine with
+> me, it's owned by myself, Wolfgang and the person that helped us out and
+> got that project created to start with, so it will only have official
+> changes in it.
 
-On 2017年07月11日 19:19, Burton, Ross wrote:
->
-> On 11 July 2017 at 09:13, Hongxu Jia <hongxu.jia@windriver.com 
-> <mailto:hongxu.jia@windriver.com>> wrote:
->
->     +Upstream-Status: Inappropriate [OE specific]
->
->
-> This is not OE specific.  We enable a specific build combination, and 
-> it breaks.
->
-> Have you reported this upstream? Should we disable gentle shutdown as 
-> it's clearly not being tested that much?
->
+FWIW, I'd be against such change, as long as denx.de remains the official 
+home of U-boot. We don't pull kernel from https://github.com/torvalds/linux
 
-The upstream disable gentle shutdown and disable threads
-by default. The difficult point is disable thread in bind6,
-and the fix is on dhcp.
+-- 
+Denys
 
-We enable threads and backport the patch from fedora.
-
-Disable gentle shutdown will introduce other issue (dhcpd
-could not stopped by SIGTERM)
-
-The root cause is enable threads, if we disable it, everything is ok.
-
-I will try to find a nice way to report upstream.
-
-//Hongxu
-
-> Ross
-
-
-
---------------AFFF2CBB3BC3EF0737319A2D
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2017年07月11日 19:19, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LasUeR3oPuGjD1G4KFJN3wZLScKWmY1v0DiJy1ds2vdEg@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 11 July 2017 at 09:13, Hongxu Jia
-            <span dir="ltr">&lt;<a
-                href="mailto:hongxu.jia@windriver.com" target="_blank"
-                moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":bp" class="a3s aXjCH m15d30b6314b88378">+Upstream-Status:
-                Inappropriate [OE specific]<br>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          This is not OE specific.  We enable a specific build
-          combination, and it breaks.</div>
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Have you reported this upstream? 
-          Should we disable gentle shutdown as it's clearly not being
-          tested that much?</div>
-        <div class="gmail_extra"><br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    The upstream disable gentle shutdown and disable threads<br>
-    by default. The difficult point is disable thread in bind6,<br>
-    and the fix is on dhcp.<br>
-    <br>
-    We enable threads and backport the patch from fedora.<br>
-    <br>
-    Disable gentle shutdown will introduce other issue (dhcpd<br>
-    could not stopped by SIGTERM)<br>
-    <br>
-    The root cause is enable threads, if we disable it, everything is
-    ok.<br>
-    <br>
-    I will try to find a nice way to report upstream.<br>
-    <br>
-    //Hongxu<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:CAJTo0LasUeR3oPuGjD1G4KFJN3wZLScKWmY1v0DiJy1ds2vdEg@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------AFFF2CBB3BC3EF0737319A2D--
