@@ -1,50 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C009780B4
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AA4977FED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 13:39:54 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id z62so12657470ioi.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 06:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+iqfaS/8xfwJe3pnfR8+p/RSV72wGXhNhnrbrNCNoMM=;
-	b=PK5Ver1Bk3h5nH5m/NbrZGNCsrW7UVIN8oqlTUW9pXGeinCrUvp56QWHkGmiO7LnyL
-	IWxVZUt30y6hh0PquSeB5jvAxAHHvAln498HcbXMbIVvSXhBa5EWuPCbq7I3yqXzQ3QM
-	NbJWkFwpRUT41Wds8UsW2HyF0EtNVd8B2kI0Mbcqcm6riwCD9cGZjrOZuTTSvo++cLKO
-	BwGs+WAKkn1DKp/igM5bOonRijTgy0MegtMD28J1cZ8e8Ytto/zi63uE1vRPwGremKtp
-	kSmB6NnN/F6XJXWzdJit0rgrSqk6lFRIZn+xmvHMNmFzvu/BvfXPLdD7EDCkpvQg1KLJ
-	+/Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=+iqfaS/8xfwJe3pnfR8+p/RSV72wGXhNhnrbrNCNoMM=;
-	b=I03VE02ToD1up+KfXpy4c3ESduuylqpC0axmu2BelBEIWW0QO/4jK8a4rrdGjPy2Sv
-	uImzLmOoGloF+S+BAqXq1y3Rg9UAXhJFctbRC3D/zxh58+7k/zRXkEjpyYQmNnmYLOXA
-	hCKMOguZpzf4tIjCerTX+aCUa4r3KeSJ+8SVM1MbXXJ1lRI+kXLtSHmf+eAy5EXujCsJ
-	uEPfGz4uY3ZCK0cKD608GowBkLcH+9xm9ASzR2Ljv7X/ZCY93dM9yvYG63Oz5YqY6NEJ
-	uQWO1sm9lqDNEDdvFPTx12Mqbr9XpQHmXSy2jZNc/tnpW8iQapV1WlZ8Coz1XEAFrivZ
-	vUHw==
-X-Gm-Message-State: AIVw112jveb0hCLtwF+Quv6aiy29gxlxyu/6mv1NIkBRlRF1sy1I0H40
-	9MzUt5GDgTHxNOCsu7i8ccdWDtmo5jth
-X-Received: by 10.107.6.23 with SMTP id 23mr4915386iog.122.1499866796274; Wed,
-	12 Jul 2017 06:39:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Wed, 12 Jul 2017 06:39:35 -0700 (PDT)
-In-Reply-To: <dcbc00ff-666c-ce9a-9884-42224e2701e8@windriver.com>
-References: <cover.1499854502.git.liezhi.yang@windriver.com>
-	<3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
-	<CAJTo0LYUwPxW_0aLGwmwANyNv5sCovXijF-XrMCzTjGSr_V=Nw@mail.gmail.com>
-	<dcbc00ff-666c-ce9a-9884-42224e2701e8@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Jul 2017 14:39:35 +0100
-Message-ID: <CAJTo0LanadueCFtjEZXDrk3-jkv2+Y3kBO6FsSBC-9t-Ey1GWg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>, Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] cryptodev: 1.8 -> 1.9
+	Wed, 12 Jul 2017 14:08:36 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jul 2017 07:08:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,350,1496127600"; d="scan'208";a="107376575"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by orsmga004.jf.intel.com with ESMTP; 12 Jul 2017 07:08:37 -0700
+Message-ID: <1499869099.5349.38.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Wed, 12 Jul 2017 09:18:19 -0500
+In-Reply-To: <2e3872acacf41d159f477c2ca15e7eda0b85263b.1499803885.git.anibal.limon@linux.intel.com>
+References: <cover.1499803885.git.anibal.limon@linux.intel.com>
+	<2e3872acacf41d159f477c2ca15e7eda0b85263b.1499803885.git.anibal.limon@linux.intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/30] oeqa/selftest/{context, case}: Handle KeyboardInterrupt/SIGINT and SIGTERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,89 +33,241 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 13:39:55 -0000
-Content-Type: multipart/alternative; boundary="001a113f8e7e9a4ccb05541ef38d"
-
---001a113f8e7e9a4ccb05541ef38d
+X-List-Received-Date: Wed, 12 Jul 2017 14:08:38 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Oh, didn't notice that.  Not sure I want to know why meta-intel has to
-patch cryptodev!
+I saw a similar patch in the past. Is this a new revision?
 
-CCing Saul for his input.
+Leo
 
-Ross
 
-On 12 July 2017 at 14:36, Robert Yang <liezhi.yang@windriver.com> wrote:
+On Tue, 2017-07-11 at 15:23 -0500, Aníbal Limón wrote:
+> In order to avoid corrupt local.conf and bblayers.conf adds
+> signal handler for SIGTERM and use try/finally (KeyboardIntrrupt) block
+> to restore previously backuped configuration.
+> 
+> [YOCTO #11650]
+> 
+> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> ---
+>  meta/lib/oeqa/selftest/case.py    |  36 +++++++------
+>  meta/lib/oeqa/selftest/context.py | 107 +++++++++++++++++++++++++++-----------
+>  2 files changed, 97 insertions(+), 46 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+> index 31a11fddda9..871009c568b 100644
+> --- a/meta/lib/oeqa/selftest/case.py
+> +++ b/meta/lib/oeqa/selftest/case.py
+> @@ -13,28 +13,34 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+>  from oeqa.core.case import OETestCase
+>  
+>  class OESelftestTestCase(OETestCase):
+> -    builddir = os.environ.get("BUILDDIR") or ""
+> -    localconf_path = os.path.join(builddir, "conf/local.conf")
+> -    localconf_backup = os.path.join(builddir, "conf/local.bk")
+> -    testinc_path = os.path.join(builddir, "conf/selftest.inc")
+> -    local_bblayers_path = os.path.join(builddir, "conf/bblayers.conf")
+> -    local_bblayers_backup = os.path.join(builddir, "conf/bblayers.bk")
+> -    testinc_bblayers_path = os.path.join(builddir, "conf/bblayers.inc")
+> -    machineinc_path = os.path.join(builddir, "conf/machine.inc")
+> -
+>      def __init__(self, methodName="runTest"):
+>          self._extra_tear_down_commands = []
+> -        self._track_for_cleanup = [
+> -            self.testinc_path, self.testinc_bblayers_path,
+> -            self.machineinc_path, self.localconf_backup,
+> -            self.local_bblayers_backup]
+> -
+>          super(OESelftestTestCase, self).__init__(methodName)
+>  
+>      @classmethod
+>      def setUpClass(cls):
+>          super(OESelftestTestCase, cls).setUpClass()
+> -        cls.testlayer_path = cls.tc.testlayer_path
+> +
+> +        cls.testlayer_path = cls.tc.config_paths['testlayer_path']
+> +        cls.builddir = cls.tc.config_paths['builddir']
+> +
+> +        cls.localconf_path = cls.tc.config_paths['localconf']
+> +        cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
+> +        cls.local_bblayers_path = cls.tc.config_paths['bblayers']
+> +        cls.local_bblayers_backup = cls.tc.config_paths['bblayers_class_backup']
+> +
+> +        cls.testinc_path = os.path.join(cls.tc.config_paths['builddir'],
+> +                "conf/selftest.inc")
+> +        cls.testinc_bblayers_path = os.path.join(cls.tc.config_paths['builddir'],
+> +                "conf/bblayers.inc")
+> +        cls.machineinc_path = os.path.join(cls.tc.config_paths['builddir'],
+> +                "conf/machine.inc")
+> +
+> +        cls._track_for_cleanup = [
+> +            cls.testinc_path, cls.testinc_bblayers_path,
+> +            cls.machineinc_path, cls.localconf_backup,
+> +            cls.local_bblayers_backup]
+> +
+>          cls.add_include()
+>  
+>      @classmethod
+> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+> index ca87398224c..4575a0537fb 100644
+> --- a/meta/lib/oeqa/selftest/context.py
+> +++ b/meta/lib/oeqa/selftest/context.py
+> @@ -6,6 +6,8 @@ import time
+>  import glob
+>  import sys
+>  import imp
+> +import signal
+> +from shutil import copyfile
+>  from random import choice
+>  
+>  import oeqa
+> @@ -16,13 +18,12 @@ from oeqa.core.exception import OEQAPreRun
+>  from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+>  
+>  class OESelftestTestContext(OETestContext):
+> -    def __init__(self, td=None, logger=None, machines=None, testlayer_path=None):
+> +    def __init__(self, td=None, logger=None, machines=None, config_paths=None):
+>          super(OESelftestTestContext, self).__init__(td, logger)
+>  
+>          self.machines = machines
+>          self.custommachine = None
+> -
+> -        self.testlayer_path = testlayer_path
+> +        self.config_paths = config_paths
+>  
+>      def runTests(self, machine=None):
+>          if machine:
+> @@ -108,7 +109,29 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>  
+>          self.tc_kwargs['init']['td'] = get_bb_vars()
+>          self.tc_kwargs['init']['machines'] = self._get_available_machines()
+> -        self.tc_kwargs['init']['testlayer_path'] = get_test_layer()
+> +
+> +        builddir = os.environ.get("BUILDDIR")
+> +        self.tc_kwargs['init']['config_paths'] = {}
+> +        self.tc_kwargs['init']['config_paths']['testlayer_path'] = \
+> +                get_test_layer()
+> +        self.tc_kwargs['init']['config_paths']['builddir'] = builddir
+> +        self.tc_kwargs['init']['config_paths']['localconf'] = \
+> +                os.path.join(builddir, "conf/local.conf")
+> +        self.tc_kwargs['init']['config_paths']['localconf_backup'] = \
+> +                os.path.join(builddir, "conf/local.conf.orig")
+> +        self.tc_kwargs['init']['config_paths']['localconf_class_backup'] = \
+> +                os.path.join(builddir, "conf/local.conf.bk")
+> +        self.tc_kwargs['init']['config_paths']['bblayers'] = \
+> +                os.path.join(builddir, "conf/bblayers.conf")
+> +        self.tc_kwargs['init']['config_paths']['bblayers_backup'] = \
+> +                os.path.join(builddir, "conf/bblayers.conf.orig")
+> +        self.tc_kwargs['init']['config_paths']['bblayers_class_backup'] = \
+> +                os.path.join(builddir, "conf/bblayers.conf.bk")
+> +
+> +        copyfile(self.tc_kwargs['init']['config_paths']['localconf'],
+> +                self.tc_kwargs['init']['config_paths']['localconf_backup'])
+> +        copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
+> +                self.tc_kwargs['init']['config_paths']['bblayers_backup'])
+>  
+>      def _pre_run(self):
+>          def _check_required_env_variables(vars):
+> @@ -131,7 +154,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>                      runCmd("bitbake-layers add-layer %s" %meta_selftestdir)
+>                      # reload data is needed because a meta-selftest layer was add
+>                      self.tc.td = get_bb_vars()
+> -                    self.tc.testlayer_path = get_test_layer()
+> +                    self.tc.config_paths['testlayer_path'] = get_test_layer()
+>                  else:
+>                      self.tc.logger.error("could not locate meta-selftest in:\n%s" % meta_selftestdir)
+>                      raise OEQAPreRun
+> @@ -184,41 +207,63 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+>              rc.logSummary(self.name)
+>  
+>          return rc
+> +
+> +    def _signal_clean_handler(self, signum, frame):
+> +        sys.exit(1)
+>      
+>      def run(self, logger, args):
+>          self._process_args(logger, args)
+> -        rc = None
+>  
+> -        if args.machine:
+> -            logger.info('Custom machine mode enabled. MACHINE set to %s' %
+> -                    args.machine)
+> +        signal.signal(signal.SIGTERM, self._signal_clean_handler)
+>  
+> -            if args.machine == 'all':
+> -                results = []
+> -                for m in self.tc_kwargs['init']['machines']:
+> -                    self.tc_kwargs['run']['machine'] = m
+> -                    results.append(self._internal_run(logger, args))
+> +        rc = None
+> +        try:
+> +            if args.machine:
+> +                logger.info('Custom machine mode enabled. MACHINE set to %s' %
+> +                        args.machine)
+> +
+> +                if args.machine == 'all':
+> +                    results = []
+> +                    for m in self.tc_kwargs['init']['machines']:
+> +                        self.tc_kwargs['run']['machine'] = m
+> +                        results.append(self._internal_run(logger, args))
+> +
+> +                        # XXX: the oe-selftest script only needs to know if one
+> +                        # machine run fails
+> +                        for r in results:
+> +                            rc = r
+> +                            if not r.wasSuccessful():
+> +                                break
+>  
+> -                    # XXX: the oe-selftest script only needs to know if one
+> -                    # machine run fails
+> -                    for r in results:
+> -                        rc = r
+> -                        if not r.wasSuccessful():
+> -                            break
+> +                else:
+> +                    self.tc_kwargs['run']['machine'] = args.machine
+> +                    return self._internal_run(logger, args)
+>  
+>              else:
+>                  self.tc_kwargs['run']['machine'] = args.machine
+> -                return self._internal_run(logger, args)
+> -
+> -        else:
+> -            self.tc_kwargs['run']['machine'] = args.machine
+> -            rc = self._internal_run(logger, args)
+> -
+> -        output_link = os.path.join(os.path.dirname(args.output_log),
+> -                "%s-results.log" % self.name)
+> -        if os.path.exists(output_link):
+> -            os.remove(output_link)
+> -        os.symlink(args.output_log, output_link)
+> +                rc = self._internal_run(logger, args)
+> +        finally:
+> +            config_paths = self.tc_kwargs['init']['config_paths']
+> +            if os.path.exists(config_paths['localconf_backup']):
+> +                copyfile(config_paths['localconf_backup'],
+> +                        config_paths['localconf'])
+> +                os.remove(config_paths['localconf_backup'])
+> +
+> +            if os.path.exists(config_paths['bblayers_backup']):
+> +                copyfile(config_paths['bblayers_backup'], 
+> +                        config_paths['bblayers'])
+> +                os.remove(config_paths['bblayers_backup'])
+> +
+> +            if os.path.exists(config_paths['localconf_class_backup']):
+> +                os.remove(config_paths['localconf_class_backup'])
+> +            if os.path.exists(config_paths['bblayers_class_backup']):
+> +                os.remove(config_paths['bblayers_class_backup'])
+> +
+> +            output_link = os.path.join(os.path.dirname(args.output_log),
+> +                    "%s-results.log" % self.name)
+> +            if os.path.exists(output_link):
+> +                os.remove(output_link)
+> +            os.symlink(args.output_log, output_link)
+>  
+>          return rc
+>  
 
->
->
-> On 07/12/2017 08:32 PM, Burton, Ross wrote:
->
->> ERROR: cryptodev-module-1.9-r0 do_patch: Command Error: 'quilt --quiltrc
->> /data/poky-tmp/master/work/intel_corei7_64-poky-linux/crypto
->> dev-module/1.9-r0/recipe-sysroot-native/etc/quiltrc
->> push' exited with 0  Output:
->> Applying patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch
->> patching file zc.c
->> Hunk #1 FAILED at 67.
->> 1 out of 1 hunk FAILED -- rejects in file zc.c
->> Patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch does not apply
->> (enforce
->> with -f)
->>
->
-> This patch is from meta-intel which I didn't build, sorry, I will fix it.
->
-> // Robert
->
->
->
->> Ross
->>
->
 
---001a113f8e7e9a4ccb05541ef38d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Oh, didn&#39;t notice that.=C2=A0 Not sure I want to know =
-why meta-intel has to patch cryptodev!<div><br></div><div>CCing Saul for hi=
-s input.</div><div><br></div><div>Ross</div></div><div class=3D"gmail_extra=
-"><br><div class=3D"gmail_quote">On 12 July 2017 at 14:36, Robert Yang <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_b=
-lank">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><span class=3D""><br>
-<br>
-On 07/12/2017 08:32 PM, Burton, Ross wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-ERROR: cryptodev-module-1.9-r0 do_patch: Command Error: &#39;quilt --quiltr=
-c<br>
-/data/poky-tmp/master/work/int<wbr>el_corei7_64-poky-linux/crypto<wbr>dev-m=
-odule/1.9-r0/recipe-<wbr>sysroot-native/etc/quiltrc<br>
-push&#39; exited with 0=C2=A0 Output:<br>
-Applying patch 0001-zc-Force-4.10-get_user_pa<wbr>ges_remote-API.patch<br>
-patching file zc.c<br>
-Hunk #1 FAILED at 67.<br>
-1 out of 1 hunk FAILED -- rejects in file zc.c<br>
-Patch 0001-zc-Force-4.10-get_user_pa<wbr>ges_remote-API.patch does not appl=
-y (enforce<br>
-with -f)<br>
-</blockquote>
-<br></span>
-This patch is from meta-intel which I didn&#39;t build, sorry, I will fix i=
-t.<br>
-<br>
-// Robert<br>
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-Ross<br>
-</blockquote>
-</blockquote></div><br></div>
-
---001a113f8e7e9a4ccb05541ef38d--
