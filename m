@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DEA978191
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 43FB4781E2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 10:15:34 +0000 (UTC)
+	Wed, 12 Jul 2017 10:15:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6CAFaKV012691
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6CAFafH021558
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 03:15:36 -0700 (PDT)
+	Wed, 12 Jul 2017 03:15:37 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 12 Jul 2017 03:15:35 -0700
+	Wed, 12 Jul 2017 03:15:36 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Jul 2017 03:15:29 -0700
-Message-ID: <47a058d68bb13f343f6399d4ec1de74897d2eb50.1499854502.git.liezhi.yang@windriver.com>
+Date: Wed, 12 Jul 2017 03:15:30 -0700
+Message-ID: <7a4d76d26f422134f3d674dc47ea6bf134242094.1499854502.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1499854502.git.liezhi.yang@windriver.com>
 References: <cover.1499854502.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] git: 2.11.1 -> 2.13.2
+Subject: [PATCH 5/6] gnu-efi: 3.0.5 -> 3.0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,65 +36,123 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 12 Jul 2017 10:15:35 -0000
 Content-Type: text/plain
 
-* Remove git-relink from PERLTOOLS:
-  git-2.13.2/Documentation/RelNotes/2.12.0.txt:
-  * An ancient script "git relink" has been removed.
+* Update parallel-make-archives.patch, the patch for lib/Makefile is
+  already in the source.
+* Remove 0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch, the
+  source uses a similar way to fix it.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/git/git.inc       |  1 -
- meta/recipes-devtools/git/git_2.11.1.bb | 11 -----------
- meta/recipes-devtools/git/git_2.13.2.bb | 11 +++++++++++
- 3 files changed, 11 insertions(+), 12 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.11.1.bb
- create mode 100644 meta/recipes-devtools/git/git_2.13.2.bb
+ ...plicit-fall-through-so-Wextra-will-work-i.patch | 34 ----------------------
+ .../gnu-efi/gnu-efi/parallel-make-archives.patch   | 30 +++++--------------
+ .../gnu-efi/{gnu-efi_3.0.5.bb => gnu-efi_3.0.6.bb} |  5 ++--
+ 3 files changed, 9 insertions(+), 60 deletions(-)
+ delete mode 100644 meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch
+ rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.5.bb => gnu-efi_3.0.6.bb} (92%)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 9b0d328..4390b8d 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -86,7 +86,6 @@ PERLTOOLS = " \
-     ${libexecdir}/git-core/git-cvsserver \
-     ${bindir}/git-cvsserver \
-     ${libexecdir}/git-core/git-difftool \
--    ${libexecdir}/git-core/git-relink \
-     ${libexecdir}/git-core/git-send-email \
-     ${libexecdir}/git-core/git-svn \
-     ${libexecdir}/git-core/git-instaweb \
-diff --git a/meta/recipes-devtools/git/git_2.11.1.bb b/meta/recipes-devtools/git/git_2.11.1.bb
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch
 deleted file mode 100644
-index f2f072c..0000000
---- a/meta/recipes-devtools/git/git_2.11.1.bb
+index d0aeb2d..0000000
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi/0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch
 +++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
+@@ -1,34 +0,0 @@
+-From 676a8a9001f06808b4dbe0a545d76b5d9a8ebf48 Mon Sep 17 00:00:00 2001
+-From: Peter Jones <pjones@redhat.com>
+-Date: Thu, 2 Feb 2017 13:51:27 -0500
+-Subject: [PATCH] Mark our explicit fall through so -Wextra will work in gcc 7
 -
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
+-gcc 7 introduces detection of fall-through behavior in switch/case
+-statements, and will warn if -Wimplicit-fallthrough is present and there
+-is no comment stating that the fall-through is intentional.  This is
+-also triggered by -Wextra, as it enables -Wimplicit-fallthrough=1.
 -
--SRC_URI[tarball.md5sum] = "6a7a73db076bb0514b602720669d685c"
--SRC_URI[tarball.sha256sum] = "a1cdd7c820f92c44abb5003b36dc8cb7201ba38e8744802399f59c97285ca043"
--SRC_URI[manpages.md5sum] = "e4268a6b514ccdb624b6450ff55881a3"
--SRC_URI[manpages.sha256sum] = "ee567e7b0f95333816793714bb31c54e288cf8041f77a0092b85e62c9c2974f9"
-diff --git a/meta/recipes-devtools/git/git_2.13.2.bb b/meta/recipes-devtools/git/git_2.13.2.bb
-new file mode 100644
-index 0000000..e7cae40
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.13.2.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "894583cddfb0ec3b0156484966f9db9c"
-+SRC_URI[tarball.sha256sum] = "e19d450648d6d100eb93abaa5d06ffbc778394fb502354b7026d73e9bcbc3160"
-+SRC_URI[manpages.md5sum] = "97384d23f2ee88d5ce51ffc75096bd3e"
-+SRC_URI[manpages.sha256sum] = "1c2bd0a2340b2ef118b7b167a8fec6cc05eb18cad9043e6e7a95fd8a70bb8c4c"
+-This patch adds the comment in the one place we use fall-through.
+-
+-Signed-off-by: Peter Jones <pjones@redhat.com>
+----
+-Upstream-Status: Pending
+-
+- lib/print.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/lib/print.c b/lib/print.c
+-index b8a9d38..cb732f0 100644
+---- a/lib/print.c
+-+++ b/lib/print.c
+-@@ -1131,6 +1131,7 @@ Returns:
+-             case 'X':
+-                 Item.Width = Item.Long ? 16 : 8;
+-                 Item.Pad = '0';
+-+		/* falls through */
+-             case 'x':
+-                 ValueToHex (
+-                     Item.Scratch,
+--- 
+-2.12.2
+-
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+index e5b47c1..5404051 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi/parallel-make-archives.patch
+@@ -13,30 +13,14 @@ for details.
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+ ---
+----
+- gnuefi/Makefile |    3 ++-
+- lib/Makefile    |    3 ++-
+- 2 files changed, 4 insertions(+), 2 deletions(-)
++ gnuefi/Makefile | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+-Index: gnu-efi-3.0/lib/Makefile
+-===================================================================
+---- gnu-efi-3.0.orig/lib/Makefile
+-+++ gnu-efi-3.0/lib/Makefile
+-@@ -66,7 +66,8 @@ all: libsubdirs libefi.a
+- libsubdirs:
+- 	for sdir in $(SUBDIRS); do mkdir -p $$sdir; done
+- 
+--libefi.a: $(patsubst %,libefi.a(%),$(OBJS))
+-+libefi.a: $(OBJS)
+-+	$(AR) rv $@ $(OBJS)
+- 
+- clean:
+- 	rm -f libefi.a *~ $(OBJS) */*.o
+-Index: gnu-efi-3.0/gnuefi/Makefile
+-===================================================================
+---- gnu-efi-3.0.orig/gnuefi/Makefile
+-+++ gnu-efi-3.0/gnuefi/Makefile
+-@@ -51,7 +51,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
++diff --git a/gnuefi/Makefile b/gnuefi/Makefile
++index 2a61699..148106e 100644
++--- a/gnuefi/Makefile
+++++ b/gnuefi/Makefile
++@@ -54,7 +54,8 @@ TARGETS	= crt0-efi-$(ARCH).o libgnuefi.a
+  
+  all:	$(TARGETS)
+  
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.6.bb
+similarity index 92%
+rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb
+rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.6.bb
+index 7346737..2a60717 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.5.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.6.bb
+@@ -16,11 +16,10 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
+            file://parallel-make-archives.patch \
+            file://lib-Makefile-fix-parallel-issue.patch \
+            file://gcc46-compatibility.patch \
+-           file://0001-Mark-our-explicit-fall-through-so-Wextra-will-work-i.patch \
+            "
+ 
+-SRC_URI[md5sum] = "1f719c9c135778aa6b087b89a1cc2423"
+-SRC_URI[sha256sum] = "bd8fcd5914f18fc0e4ba948ab03b00013e528504f529c60739b748f6ef130b22"
++SRC_URI[md5sum] = "46f633758a8a37db9fd6909fe270c26b"
++SRC_URI[sha256sum] = "21515902d80fbea23328a61d70d3d51a47204abd1507ebfa27550a7b9bf22c91"
+ 
+ COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
+ COMPATIBLE_HOST_armv4 = 'null'
 -- 
 2.10.2
 
