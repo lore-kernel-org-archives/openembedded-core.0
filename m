@@ -1,44 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A9FA77F76
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9751F77DB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 01:09:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id F1A5C20BA9;
-	Wed, 12 Jul 2017 01:09:52 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id H0VooPdgpNLv; Wed, 12 Jul 2017 01:09:52 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A7FFB203C2;
-	Wed, 12 Jul 2017 01:09:47 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 3A6AC162526; Tue, 11 Jul 2017 21:09:47 -0400 (EDT)
-Date: Tue, 11 Jul 2017 21:09:47 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20170712010947.GH26405@denix.org>
-References: <20170710183657.12885-1-otavio@ossystems.com.br>
-	<1d8dd351-0d96-0766-1beb-6ac621a6bfe4@denx.de>
-	<CAP9ODKpJTG3siy9Qo+EFm3QTnQYhn0Q2dc-pq6gq3Wq=hpscXA@mail.gmail.com>
-	<7e5cb452-d500-f57d-9830-f936db12418b@denx.de>
-	<20170710190128.GE22707@bill-the-cat>
-	<ce1cd8f5-1c41-87c0-57b4-d92abb3c177e@denx.de>
-	<20170710190621.GF22707@bill-the-cat>
-	<02ee9f46-27db-0bb9-7506-009d46351437@gmail.com>
-	<20170710191219.GG22707@bill-the-cat>
+	Wed, 12 Jul 2017 01:33:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6C1XIuB015785
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jul 2017 18:33:18 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Tue, 11 Jul 2017 18:33:17 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Jul 2017 09:25:04 +0800
+Message-ID: <cover.1499822461.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
 MIME-Version: 1.0
-In-Reply-To: <20170710191219.GG22707@bill-the-cat>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Marek Vasut <marex@denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>
-Subject: Re: [PATCH] u-boot: Upgrade to 2017.07 release (WIP)
+Subject: [PATCH 0/1] bind: 9.10..3-P3 -> 9.10.5-P3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,79 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 01:09:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Jul 2017 01:33:17 -0000
+Content-Type: text/plain
 
-On Mon, Jul 10, 2017 at 03:12:19PM -0400, Tom Rini wrote:
-> On Mon, Jul 10, 2017 at 12:08:41PM -0700, Khem Raj wrote:
-> > On 7/10/17 12:06 PM, Tom Rini wrote:
-> > > On Mon, Jul 10, 2017 at 09:02:39PM +0200, Marek Vasut wrote:
-> > >> On 07/10/2017 09:01 PM, Tom Rini wrote:
-> > >>> On Mon, Jul 10, 2017 at 08:57:19PM +0200, Marek Vasut wrote:
-> > >>>> On 07/10/2017 08:51 PM, Otavio Salvador wrote:
-> > >>>>> On Mon, Jul 10, 2017 at 3:47 PM, Marek Vasut <marex@denx.de> wrote:
-> > >>>>>> On 07/10/2017 08:36 PM, Otavio Salvador wrote:
-> > >>>>>>> This patch upgrades the U-Boot to the 2017.07 release.
-> > >>>>>>>
-> > >>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > >>>>>>> ---
-> > >>>>>>>
-> > >>>>>>>  .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
-> > >>>>>>>  .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
-> > >>>>>>>  .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
-> > >>>>>>>  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
-> > >>>>>>>  4 files changed, 1 insertion(+), 1 deletion(-)
-> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc} (88%)
-> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb} (100%)
-> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb} (100%)
-> > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb} (100%)
-> > >>>>>>>
-> > >>>>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > >>>>>>> similarity index 88%
-> > >>>>>>> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
-> > >>>>>>> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > >>>>>>> index 0e52f27df8..f27989daa1 100644
-> > >>>>>>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
-> > >>>>>>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > >>>>>>> @@ -7,7 +7,7 @@ PE = "1"
-> > >>>>>>>
-> > >>>>>>>  # We use the revision in order to avoid having to fetch it from the
-> > >>>>>>>  # repo during parse
-> > >>>>>>> -SRCREV = "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
-> > >>>>>>> +SRCREV = "d85ca029f257b53a96da6c2fb421e78a003a9943"
-> > >>>>>>
-> > >>>>>> Where did you get this hash from, it's not in the U-Boot repo ...
-> > >>>>>
-> > >>>>> From the tag used by Tom. You can check it on his github repository.
-> > >>>>
-> > >>>> I cannot, that is NOT where the U-Boot recipe points to nor is it in any
-> > >>>> way an official U-Boot source git tree .
-> > >>>
-> > >>> It's also on the official github mirror.  I'll go see why the DENX git
-> > >>> is lagging behind.
-> > >>
-> > >> Hm that's weird. How can it be a mirror if it contains objects not in
-> > >> the mirrored repo ? ;-)
-> > > 
-> > > git supports multiple push URIs.  So I update all 3 locations with a
-> > > single push.  However, git.denx.de works differently than github.com
-> > > does.
-> > 
-> > may be pushing to upstream and then pulling before populating the
-> > mirrors could solve such issues. but I think we should use github.com
-> > in OE src_uri's for speed reasons.
-> 
-> On the back end, things are a bit more complex than that, but I'm
-> working to resolve the current error now.  FWIW, changing the OE recipe
-> to fetch from https://github.com/u-boot/u-boot.git would be fine with
-> me, it's owned by myself, Wolfgang and the person that helped us out and
-> got that project created to start with, so it will only have official
-> changes in it.
+From: Kai Kang <kai.kang@windriver.com>
 
-FWIW, I'd be against such change, as long as denx.de remains the official 
-home of U-boot. We don't pull kernel from https://github.com/torvalds/linux
+The following changes since commit 81498aac9560fbeaeb58eaada32ce80e0ea51628:
+
+  yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/bind
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/bind
+
+Kai Kang (1):
+  bind: 9.10..3-P3 -> 9.10.5-P3
+
+ ...0001-build-use-pkg-config-to-find-libxml2.patch |   10 +-
+ .../bind/bind/CVE-2016-1285.patch                  |  154 ---
+ .../bind/bind/CVE-2016-1286_1.patch                |   79 --
+ .../bind/bind/CVE-2016-1286_2.patch                |  317 ------
+ .../bind/bind/CVE-2016-2088.patch                  |  247 -----
+ .../bind/bind/CVE-2016-2775.patch                  |   90 --
+ .../bind/bind/CVE-2016-2776.patch                  |  123 ---
+ .../bind/bind/CVE-2016-6170.patch                  | 1090 --------------------
+ .../bind/bind/CVE-2016-8864.patch                  |  219 ----
+ .../bind/bind/bind-confgen-build-unix.o-once.patch |   10 +-
+ .../bind/bind/mips1-not-support-opcode.diff        |  104 --
+ .../use-python3-and-fix-install-lib-path.patch     |   36 +
+ .../bind/{bind_9.10.3-P3.bb => bind_9.10.5-P3.bb}  |   25 +-
+ 13 files changed, 61 insertions(+), 2443 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1285.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_1.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-1286_2.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2088.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2775.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-2776.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-6170.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/CVE-2016-8864.patch
+ delete mode 100644 meta/recipes-connectivity/bind/bind/mips1-not-support-opcode.diff
+ create mode 100644 meta/recipes-connectivity/bind/bind/use-python3-and-fix-install-lib-path.patch
+ rename meta/recipes-connectivity/bind/{bind_9.10.3-P3.bb => bind_9.10.5-P3.bb} (85%)
 
 -- 
-Denys
+2.10.1
+
 
