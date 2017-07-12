@@ -1,61 +1,55 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f171.google.com (mail-yw0-f171.google.com
-	[209.85.161.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 463E377FF9
+Return-Path: <gizero@gmail.com>
+Received: from mail-yb0-f177.google.com (mail-yb0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D06E277D6F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 02:54:45 +0000 (UTC)
-Received: by mail-yw0-f171.google.com with SMTP id x125so4395982ywa.0
+	Wed, 12 Jul 2017 04:56:39 +0000 (UTC)
+Received: by mail-yb0-f177.google.com with SMTP id 84so3589477ybe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jul 2017 19:54:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=FgpmlXxTEn6zWI4AlBnbFVcfTXEkGRtE8Gdz6cUkfl0=;
-	b=Z7DViJHMsH+EjyeD+6JDxav16HcGBY994lbJZXtPJMFq2ILENxBDIWC0MS8b624Gqm
-	p5+6OUJ5jDA2F5g8k48LfN7A+bKhsICAe3hBg0ArOGKBxCqdSNnHSMDRf51R1b+uz10q
-	8Ddn0Fbrdx14MEGRtovr4K3znqAuBgNvU7FyQ=
+	Tue, 11 Jul 2017 21:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=O9nWFg5jjlhDvjWgVYBDOUdaxETg74op6xP+cPJiaVw=;
+	b=XgieZ6+Z0ZJ2jfEmAtMftkPuz+/ZWBT1uv71hPoKgb0ubA45/4TPISFj96SHDuaTli
+	OPYlBUmNgS70G8bno+2+ud6AAePAH/vsuIOGYTfcMb3Bp5oGfshurP+6OqE1yO5nCYn2
+	e6o4mYknP/nxsMEr5hAFkppUn8xisy4qlQpYy+MTcFLb2aQDiy/ODJWkJMF76GXl78S8
+	BawDA3xiqIYmdZIVYTCZaXpuOYAMKVDiUhkUjPlZsSENLtoQbjttMja66HqY89+flIu/
+	e/4jbmwAAalhcqkI1zStIbn2c9LcQQo5rH8Ig2v5vbQ5D59gwR38s7UKckpvnAcJfoVv
+	ME3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=FgpmlXxTEn6zWI4AlBnbFVcfTXEkGRtE8Gdz6cUkfl0=;
-	b=FEE4n6SVd7Pdq/PrdCs0tn4iW14mT36cKmc9kuUjJOv0Ev2Uc1ON1Vuwe4muBm9R7B
-	pHoovS3R3jw7ov91uRWdN3ratjlHVwCJoUK+dFS3CIqh5WD7yjEqUGs3OItwHwtRWz3A
-	YiySfuYlBaXVWMuXUwN3MXle+Yoeim2FqUcv7HAfh9F67EIUSBQqumoHq1VaFlYfI7hR
-	5/n5HzQ6JgsVxkAjm7nGRVY1Tr3kRVhAjzNsqe6CahxhGTsDuMN8c6X/12/OA3UiyRwS
-	XSxhs4R63a3G1HhgKwDBEFtsf99xzXNMRoH6VGTFytZTvTHS05sPrygb3HYZEkgh2zah
-	z/ig==
-X-Gm-Message-State: AIVw113hT4UIeMiakYwV8uOh0OqRTesp+27p85EdTexhicR6WJf6wB2a
-	i4nHCldzBr2apURr
-X-Received: by 10.129.97.10 with SMTP id v10mr943307ywb.80.1499828087099;
-	Tue, 11 Jul 2017 19:54:47 -0700 (PDT)
-Received: from bill-the-cat (cpe-75-180-228-133.ec.res.rr.com.
-	[75.180.228.133])
-	by smtp.gmail.com with ESMTPSA id g35sm456772ywk.41.2017.07.11.19.54.45
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Tue, 11 Jul 2017 19:54:46 -0700 (PDT)
-Date: Tue, 11 Jul 2017 22:55:45 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Message-ID: <20170712025545.GE14320@bill-the-cat>
-References: <20170710183657.12885-1-otavio@ossystems.com.br>
-	<1d8dd351-0d96-0766-1beb-6ac621a6bfe4@denx.de>
-	<CAP9ODKpJTG3siy9Qo+EFm3QTnQYhn0Q2dc-pq6gq3Wq=hpscXA@mail.gmail.com>
-	<7e5cb452-d500-f57d-9830-f936db12418b@denx.de>
-	<20170710190128.GE22707@bill-the-cat>
-	<ce1cd8f5-1c41-87c0-57b4-d92abb3c177e@denx.de>
-	<20170710190621.GF22707@bill-the-cat>
-	<02ee9f46-27db-0bb9-7506-009d46351437@gmail.com>
-	<20170710191219.GG22707@bill-the-cat>
-	<20170712010947.GH26405@denix.org>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=O9nWFg5jjlhDvjWgVYBDOUdaxETg74op6xP+cPJiaVw=;
+	b=JYDQ70VBGvEWbM8cyq9I6UKrQyVKvkPBL2s4GQ++vdn1cfwmB/NsgN1uR+oV7aSIw9
+	93a7bZDU9ForGWY3GFQpQuao9CoQbahzAZqANCpmSq4MpmV/k5fswmynEWu9w7IIaO9y
+	L0uzV8VYfvtqUmqywikjNoqHdVCB/U8h10Pel2PaVwDQ8xWqp650/7nA9NXbrtFdFMkP
+	0+AxHbodXeyVHAZAD5rFrWyqoKTZr4Fsf9E0LoS6FwuRx573f6pZMP/WXxdrNGqbV5di
+	3piTlvDQ/rLmUaZ7mAuHzinHZ3oRNCjqzTzGfN50h7fQ52q4sbv5q3yd32OY8yUAW61f
+	fzpg==
+X-Gm-Message-State: AIVw1138fOKGUWH4cVVGuLBw9Tx9kywt7Ud+S8iEk2bhyOiqMZ3UK/5P
+	NiOq1ky7i8FEvcCz4YarXXzNZtNJcg==
+X-Received: by 10.37.30.9 with SMTP id e9mr55027ybe.143.1499835400447; Tue, 11
+	Jul 2017 21:56:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170712010947.GH26405@denix.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Marek Vasut <marex@denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>
-Subject: Re: [PATCH] u-boot: Upgrade to 2017.07 release (WIP)
+Received: by 10.13.200.129 with HTTP; Tue, 11 Jul 2017 21:56:39 -0700 (PDT)
+In-Reply-To: <CAMKF1so8kJk-L_zyJZOWR866K_hciQ4g4ujyMkyrLUZUq1kV3g@mail.gmail.com>
+References: <cover.1498569089.git.jussi.kukkonen@intel.com>
+	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
+	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
+	<CAHiDW_FuM-jB6f+xN1QOcqAvTUvfehfpWjoSL8N+XiFS9kLX-Q@mail.gmail.com>
+	<CAHiDW_GVArsb8O_kgsBLyqC=6sLz8c3+ABsCPD_QSkpU6G5aHQ@mail.gmail.com>
+	<CAHiDW_EK4f9PoCnoCzDbNjmKrQeyT-UmJ2jDVqxsmq=CQHLfWg@mail.gmail.com>
+	<CAMKF1srwg43QrxOGz7UrqmuQ5ptRNJzYC5p9GAcLN7Ldw0ynuA@mail.gmail.com>
+	<CAC+thW3DG03wQZ8WCyvyPYk8HcRP1C-Cq3F77HxC3b1_q4RKeA@mail.gmail.com>
+	<CAMKF1so8kJk-L_zyJZOWR866K_hciQ4g4ujyMkyrLUZUq1kV3g@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Wed, 12 Jul 2017 06:56:39 +0200
+Message-ID: <CAC+thW0yRO-=x_Of7vF6n9RxiqSUcpzGdVhFndwKSmfg+4JSNQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,135 +62,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 02:54:46 -0000
-X-Groupsio-MsgNum: 100060
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZInfyf7laFu/Kiw7"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Jul 2017 04:56:40 -0000
+Content-Type: multipart/alternative; boundary="001a11436aea43ebe8055417a457"
 
---ZInfyf7laFu/Kiw7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11436aea43ebe8055417a457
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Jul 12, 2017 at 12:38 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Tue, Jul 11, 2017 at 3:02 PM, Andrea Galbusera <gizero@gmail.com>
+> wrote:
+> >
+> >
+> > Il 11 lug 2017 8:00 PM, "Khem Raj" <raj.khem@gmail.com> ha scritto:
+> >
+> > On Tue, Jul 11, 2017 at 1:34 AM, Jussi Kukkonen
+> > <jussi.kukkonen@intel.com> wrote:
+> >> On 11 July 2017 at 11:27, Jussi Kukkonen <jussi.kukkonen@intel.com>
+> wrote:
+> >>>
+> >>> On 11 July 2017 at 10:42, Jussi Kukkonen <jussi.kukkonen@intel.com>
+> >>> wrote:
+> >>>>>
+> >>>>> Exception: FileExistsError: [Errno 17] File exists:
+> >>>>>
+> >>>>> '/home/gizero/work/smartliving/distro/repo-master/build-poky/tmp/
+> sysroots-components/raspberrypi3/userland/usr/include/KHR/khrplatform.h'
+> >>>>> ->
+> >>>>>
+> >>>>> '/home/gizero/work/smartliving/distro/repo-
+> master/build-poky/tmp/work/cortexa7hf-neon-vfpv4-poky-
+> linux-gnueabi/gtk+3/3.22.16-r0/recipe-sysroot/usr/include/
+> KHR/khrplatform.h'
+> >>>>
+> >>>>
+> >>>> /usr/include/KHR/khrplatform.h is the egl platform header file,
+> provided
+> >>>> by both mesa and RPI userland. Does mesa end up in your gtk+3
+> >>>> recipe-sysroot
+> >>>> somehow?
+> >>>>
+> >>>> For clarity: this could be a bug but it is unlikely to be related to
+> the
+> >>>> libepoxy change (it does not use or ship the actual header file).
+> >>>>
+> >>>
+> >>>
+> >>> Actually this was maybe fixed by Otavios upgrade to mesa 17.1.4 -- mesa
+> >>> accidentally shipped khrplatform.h even when egl was disabled (which is
+> >>> what
+> >>> mesa-gl in oe-core does).
+> >>>
+> >>
+> >> Sorry, I've not had enough  coffee. It was the other way round:
+> >> khrplatform.h is the platform header that mesa now thinks is needed
+> >> whether
+> >> egl is enabled or not -- so they've started installing it in any case
+> from
+> >> 17.1.4 which means mesa-gl now provides khrplatform.h and thus conflicts
+> >> with userland.
+> >>
+> >> I don't know what the correct fix is yet, just wanted to correct my
+> >> original
+> >> wrong info.
+> >>
+> >
+> > Post an update to sync this header for userland package.
+> >
+> >
+> > Will this help solving the gtk+3 issue of mesa-gl and userland now both
+> > providing the same header and causing recipe-sysroot construction to
+> fail?
+>
+> No it certainly would not. But we can then decide who provides it, in
+> a easy way.
+>
+
+I may be in the need to craft something locally to unbreak building with
+current master... Could you please shed some light on how this should be
+done then? Is this a matter of completely removing either mesa-gl or
+userland from gtk+3 deps or a more selective change to avoid the clash in
+recipe-sysroot?
+
+--001a11436aea43ebe8055417a457
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 11, 2017 at 09:09:47PM -0400, Denys Dmytriyenko wrote:
-> On Mon, Jul 10, 2017 at 03:12:19PM -0400, Tom Rini wrote:
-> > On Mon, Jul 10, 2017 at 12:08:41PM -0700, Khem Raj wrote:
-> > > On 7/10/17 12:06 PM, Tom Rini wrote:
-> > > > On Mon, Jul 10, 2017 at 09:02:39PM +0200, Marek Vasut wrote:
-> > > >> On 07/10/2017 09:01 PM, Tom Rini wrote:
-> > > >>> On Mon, Jul 10, 2017 at 08:57:19PM +0200, Marek Vasut wrote:
-> > > >>>> On 07/10/2017 08:51 PM, Otavio Salvador wrote:
-> > > >>>>> On Mon, Jul 10, 2017 at 3:47 PM, Marek Vasut <marex@denx.de> wr=
-ote:
-> > > >>>>>> On 07/10/2017 08:36 PM, Otavio Salvador wrote:
-> > > >>>>>>> This patch upgrades the U-Boot to the 2017.07 release.
-> > > >>>>>>>
-> > > >>>>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > > >>>>>>> ---
-> > > >>>>>>>
-> > > >>>>>>>  .../u-boot/{u-boot-common_2017.05.inc =3D> u-boot-common_201=
-7.07.inc}     | 2 +-
-> > > >>>>>>>  .../u-boot/{u-boot-fw-utils_2017.05.bb =3D> u-boot-fw-utils_=
-2017.07.bb}   | 0
-> > > >>>>>>>  .../u-boot/{u-boot-mkimage_2017.05.bb =3D> u-boot-mkimage_20=
-17.07.bb}     | 0
-> > > >>>>>>>  meta/recipes-bsp/u-boot/{u-boot_2017.05.bb =3D> u-boot_2017.=
-07.bb}        | 0
-> > > >>>>>>>  4 files changed, 1 insertion(+), 1 deletion(-)
-> > > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc =
-=3D> u-boot-common_2017.07.inc} (88%)
-> > > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb =
-=3D> u-boot-fw-utils_2017.07.bb} (100%)
-> > > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb =
-=3D> u-boot-mkimage_2017.07.bb} (100%)
-> > > >>>>>>>  rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb =3D> u-boo=
-t_2017.07.bb} (100%)
-> > > >>>>>>>
-> > > >>>>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.in=
-c b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > > >>>>>>> similarity index 88%
-> > > >>>>>>> rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
-> > > >>>>>>> rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > > >>>>>>> index 0e52f27df8..f27989daa1 100644
-> > > >>>>>>> --- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
-> > > >>>>>>> +++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
-> > > >>>>>>> @@ -7,7 +7,7 @@ PE =3D "1"
-> > > >>>>>>>
-> > > >>>>>>>  # We use the revision in order to avoid having to fetch it f=
-rom the
-> > > >>>>>>>  # repo during parse
-> > > >>>>>>> -SRCREV =3D "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
-> > > >>>>>>> +SRCREV =3D "d85ca029f257b53a96da6c2fb421e78a003a9943"
-> > > >>>>>>
-> > > >>>>>> Where did you get this hash from, it's not in the U-Boot repo =
-=2E..
-> > > >>>>>
-> > > >>>>> From the tag used by Tom. You can check it on his github reposi=
-tory.
-> > > >>>>
-> > > >>>> I cannot, that is NOT where the U-Boot recipe points to nor is i=
-t in any
-> > > >>>> way an official U-Boot source git tree .
-> > > >>>
-> > > >>> It's also on the official github mirror.  I'll go see why the DEN=
-X git
-> > > >>> is lagging behind.
-> > > >>
-> > > >> Hm that's weird. How can it be a mirror if it contains objects not=
- in
-> > > >> the mirrored repo ? ;-)
-> > > >=20
-> > > > git supports multiple push URIs.  So I update all 3 locations with a
-> > > > single push.  However, git.denx.de works differently than github.com
-> > > > does.
-> > >=20
-> > > may be pushing to upstream and then pulling before populating the
-> > > mirrors could solve such issues. but I think we should use github.com
-> > > in OE src_uri's for speed reasons.
-> >=20
-> > On the back end, things are a bit more complex than that, but I'm
-> > working to resolve the current error now.  FWIW, changing the OE recipe
-> > to fetch from https://github.com/u-boot/u-boot.git would be fine with
-> > me, it's owned by myself, Wolfgang and the person that helped us out and
-> > got that project created to start with, so it will only have official
-> > changes in it.
->=20
-> FWIW, I'd be against such change, as long as denx.de remains the official=
-=20
-> home of U-boot. We don't pull kernel from https://github.com/torvalds/lin=
-ux
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
+ed, Jul 12, 2017 at 12:38 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=
+=3D"h5">On Tue, Jul 11, 2017 at 3:02 PM, Andrea Galbusera &lt;<a href=3D"ma=
+ilto:gizero@gmail.com">gizero@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; Il 11 lug 2017 8:00 PM, &quot;Khem Raj&quot; &lt;<a href=3D"mailto:raj=
+.khem@gmail.com">raj.khem@gmail.com</a>&gt; ha scritto:<br>
+&gt;<br>
+&gt; On Tue, Jul 11, 2017 at 1:34 AM, Jussi Kukkonen<br>
+&gt; &lt;<a href=3D"mailto:jussi.kukkonen@intel.com">jussi.kukkonen@intel.c=
+om</a>&gt; wrote:<br>
+&gt;&gt; On 11 July 2017 at 11:27, Jussi Kukkonen &lt;<a href=3D"mailto:jus=
+si.kukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On 11 July 2017 at 10:42, Jussi Kukkonen &lt;<a href=3D"mailto=
+:jussi.kukkonen@intel.com">jussi.kukkonen@intel.com</a>&gt;<br>
+&gt;&gt;&gt; wrote:<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Exception: FileExistsError: [Errno 17] File exists:<br=
+>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; &#39;/home/gizero/work/<wbr>smartliving/distro/repo-<w=
+br>master/build-poky/tmp/<wbr>sysroots-components/<wbr>raspberrypi3/userlan=
+d/usr/<wbr>include/KHR/khrplatform.h&#39;<br>
+&gt;&gt;&gt;&gt;&gt; -&gt;<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; &#39;/home/gizero/work/<wbr>smartliving/distro/repo-<w=
+br>master/build-poky/tmp/work/<wbr>cortexa7hf-neon-vfpv4-poky-<wbr>linux-gn=
+ueabi/gtk+3/3.22.16-<wbr>r0/recipe-sysroot/usr/include/<wbr>KHR/khrplatform=
+.h&#39;<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; /usr/include/KHR/khrplatform.h is the egl platform header =
+file, provided<br>
+&gt;&gt;&gt;&gt; by both mesa and RPI userland. Does mesa end up in your gt=
+k+3<br>
+&gt;&gt;&gt;&gt; recipe-sysroot<br>
+&gt;&gt;&gt;&gt; somehow?<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; For clarity: this could be a bug but it is unlikely to be =
+related to the<br>
+&gt;&gt;&gt;&gt; libepoxy change (it does not use or ship the actual header=
+ file).<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Actually this was maybe fixed by Otavios upgrade to mesa 17.1.=
+4 -- mesa<br>
+&gt;&gt;&gt; accidentally shipped khrplatform.h even when egl was disabled =
+(which is<br>
+&gt;&gt;&gt; what<br>
+&gt;&gt;&gt; mesa-gl in oe-core does).<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Sorry, I&#39;ve not had enough=C2=A0 coffee. It was the other way =
+round:<br>
+&gt;&gt; khrplatform.h is the platform header that mesa now thinks is neede=
+d<br>
+&gt;&gt; whether<br>
+&gt;&gt; egl is enabled or not -- so they&#39;ve started installing it in a=
+ny case from<br>
+&gt;&gt; 17.1.4 which means mesa-gl now provides khrplatform.h and thus con=
+flicts<br>
+&gt;&gt; with userland.<br>
+&gt;&gt;<br>
+&gt;&gt; I don&#39;t know what the correct fix is yet, just wanted to corre=
+ct my<br>
+&gt;&gt; original<br>
+&gt;&gt; wrong info.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Post an update to sync this header for userland package.<br>
+&gt;<br>
+&gt;<br>
+&gt; Will this help solving the gtk+3 issue of mesa-gl and userland now bot=
+h<br>
+&gt; providing the same header and causing recipe-sysroot construction to f=
+ail?<br>
+<br>
+</div></div>No it certainly would not. But we can then decide who provides =
+it, in<br>
+a easy way.<br>
+</blockquote></div><br></div><div class=3D"gmail_extra">I may be in the nee=
+d to craft something locally to unbreak building with current master... Cou=
+ld you please shed some light on how this should be done then? Is this a ma=
+tter of completely removing either mesa-gl or userland from gtk+3 deps or a=
+ more selective change to avoid the clash in recipe-sysroot?</div></div>
 
-No, but you do pull it from ${KERNELORG_MIRROR}.  At the end of the day,
-I don't have a preference either way.  git.denx.de is the official home,
-github has an official mirror.  We've actually put in some time making
-sure that git.denx.de is in-sync and up to date (this recent issue was
-that incrond has an inode leak).  It should be considered a reliable
-source.
-
---=20
-Tom
-
---ZInfyf7laFu/Kiw7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZZY+wAAoJEIf59jXTHXZS7eQQAL94ZSgDJ6Vx1Flw43Tsx6Sa
-SdyRaHy3UbtHHaJBWdp08eaX0ooDtJ4Vnsi9qKRSmdbLlPCDbbqK54X0dmJeAOsG
-kcv5rV+ZzBM4uxYg8VR8AQ/Q8y986rl/v3lERR6ihJWFj2fSgzk9xJUAsdUnX6AG
-NX/S7YQzjdeuKqo35yY85eTgwkZFOzkygHzlnb+bG4tRyrlhyIN3JTOOYgfd57nG
-1azQ9shw3irB80dH9t09uWiiAjv0dvOxHI3SsK5o9FkqeejcJPMoeK63DHcXZnvI
-aUx4av/EYiYqOtVSX65M1JT57fvxFJYhFIncdnF4/qwpEhLsJ4qXKHB1/j5G38y3
-iIRQYKVI9PT6OTsGEokUBdYnRpX7cMB2EdxOUi+TtxdB56jzFfRMSww9GUZr+9vI
-ankONpnUO0RkG3CQ0nB+1IOoTEwnixLAmxBTcAY0dUMqXBSRAzt/uOYojy5b5uEJ
-NtETNq8pdPdOy0brd9ohxHZVHaNc8mYmsfWcsoZu6EsT3GyGAT+RTRpjMIHSb2+G
-Y5vp9Cgz8Ogb9opaR6ogcEw1p8/30Jxrt/xICIIsN8Rb6/axCnNzV/Qf5Mc7dyTe
-JFd66dYOzBWFQ272jleg91bBL4ZKGgoP/WHl7mgNwIdGslyDaWXvvduNcZmYmsTi
-9XA/grXXhU6HzpEI1uM5
-=3eAG
------END PGP SIGNATURE-----
-
---ZInfyf7laFu/Kiw7--
+--001a11436aea43ebe8055417a457--
