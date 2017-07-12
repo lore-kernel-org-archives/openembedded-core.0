@@ -1,59 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7ECB8780F6
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 35E81780CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 09:32:05 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id k192so9825322ith.1
+	Wed, 12 Jul 2017 10:03:44 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id h64so9823248iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jul 2017 02:32:06 -0700 (PDT)
+	Wed, 12 Jul 2017 03:03:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=qiLkM/LUDbkeiC7kBkAog5VCmgYkK/XnELL8vuaecRY=;
-	b=WqlAEFdOfDESIYMLFHtIXDZ5964Sk6+fO+jBmTdG16N3gzabBpdfHZS8pY+TCAjL33
-	ogUQxxWxsiknRKS9zufhspC7WZF92PreSCXKBBnGKjs9LU7CTl8v1e4X3OGelqN83k8b
-	RL2g6z3OjsepgoO5AdE5V98UP5yufF285ZCSwvbHKV4fjzPZecJDavaOgUvYGR9Ngujy
-	c3++swr8fcDYf8u9uCdur18JsHoCTkifvT4z+fpz8cYFquoXwauGXlTPgJdS9NdEhOH6
-	6FZ0pjAhuZtllIx930rGX3RencCCReC37DssmMOKw6m6myJ1CbeNv3EC6zMgVkSX6mzJ
-	o/TQ==
+	:cc; bh=37UHfA0yVSKBBxm5tAp3s1shZibYfKNU6M1SZe24l0g=;
+	b=cGrK4mTsbLO+11oyjhlSwDx5rgqUGb7jNS1PTgeGfj6/THCBB29DqeXDFRI4Rmelds
+	adH+AkSUDWlgvZrLyGsR6qB21EcvsmBlyS8R/vx7uWQ2XBI8RzakamXCpfv4vb1lsoRH
+	53g+w3/C2DSzfzdHcz8SQYzg74gvDr8EHefuLtdCDYp76HuWDxSlEFj0bE/DTHXUSSW3
+	HCmmo/eVpvWa3COacUBJbIU3tS60XEEXFO4HDnatz6HKfh8BIoA2FaWK3uGlvyrgbiaL
+	FRiVepbQ785T6X2Rwq6/1J9wxVTQ6b5DfmBWYA0VY94TnsSxbOORmToxupazoLO8HKBw
+	Z+6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=qiLkM/LUDbkeiC7kBkAog5VCmgYkK/XnELL8vuaecRY=;
-	b=KaZVEYaFJ/gb6oJekyfKokLjBIryAn004+fwV4+a5kehqbLyl3ED1ukervivjNgx6i
-	w0MCzZRSf5RXuBM2UulksabZrrxXh6gy/U3Zg8cFXBPVYdo8X+KP4P89p0zrYbSCaF0M
-	bwdSWQxHH4/ayfl1a4Mwwu4LRPbS9AbdQ6NBboOiEV+QFUlhR2C0g+2/zp661uUSlzBf
-	RaJzlZoF6lAQWbMpPnXJW/YDPU6EJhRLHD3syFqhnBT70c3P6PtnqxVjUZ4NemK9EXDJ
-	icWuPFC/WRy2azX28Lv6PaJeTZFtTi0kKfZjmxBOJ1LzcOIbiZN68Fq+xdjL+omgvrdu
-	msnQ==
-X-Gm-Message-State: AIVw113+V1ZAIFUu2vvZ1/eiL1Had5MG/pikdPaymgKL/hqENgb7Gdjs
-	ID7UXETY0WphR/LRPw8Dhje0mzcPYXZZ
-X-Received: by 10.36.40.196 with SMTP id h187mr7567635ith.43.1499851926416;
-	Wed, 12 Jul 2017 02:32:06 -0700 (PDT)
+	bh=37UHfA0yVSKBBxm5tAp3s1shZibYfKNU6M1SZe24l0g=;
+	b=j1MA2+txXxn8dO3/2KTDK+jsDfrDKQ+Gjigmti8pHPCM3MFb4RdQJHYczF7lNZok2j
+	lgg0qmTAuPb4utOu99jJtFooDMThBZIPusBrJ6hORLm1HoFF/AF/DHpBupmAiAIfV+JE
+	y/bxPq4U5eOSm5md2g9N97XI6W5yfPDVVqh1jeVxqcRlMUS93sErJTZK0yqgPWz31Unh
+	hAXiFGKZXN9NvXaEEkn3aW9g8shO0cbFXl7W4vsC+dmyzOH68JJbFqv3wi0nbdnqmCu+
+	TeCaOrtv/UxKVAk2XdLeWblIa+BzQTf/eMiF0lP8F/6hqRCzT/59VJ2dfU/B2bfy7zxn
+	6nvg==
+X-Gm-Message-State: AIVw113uP3ADEu0CO+VSGuKgpNalN3w3CFOp/SSNDtTN11ste7KHJIfo
+	mDe3nhaW3WCp5t5Av0nOgQ39cJpzeseJ
+X-Received: by 10.107.178.13 with SMTP id b13mr4165600iof.148.1499853826127;
+	Wed, 12 Jul 2017 03:03:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Wed, 12 Jul 2017 02:31:45 -0700 (PDT)
-In-Reply-To: <CAHiDW_EiNh8toWOwZ6qkqxYsXatyVUygG0dkibYzxw0O+TEQ=Q@mail.gmail.com>
-References: <cover.1498569089.git.jussi.kukkonen@intel.com>
-	<7f8b7c06040b1a12d4a85f82a2ec7c44617538a6.1498569089.git.jussi.kukkonen@intel.com>
-	<CAC+thW2RzkC5YsXiHsgaB8Y8+b156YXwLi5TJnq2nzrPS=hBfA@mail.gmail.com>
-	<CAHiDW_FuM-jB6f+xN1QOcqAvTUvfehfpWjoSL8N+XiFS9kLX-Q@mail.gmail.com>
-	<CAHiDW_GVArsb8O_kgsBLyqC=6sLz8c3+ABsCPD_QSkpU6G5aHQ@mail.gmail.com>
-	<CAHiDW_EK4f9PoCnoCzDbNjmKrQeyT-UmJ2jDVqxsmq=CQHLfWg@mail.gmail.com>
-	<CAMKF1srwg43QrxOGz7UrqmuQ5ptRNJzYC5p9GAcLN7Ldw0ynuA@mail.gmail.com>
-	<CAC+thW3DG03wQZ8WCyvyPYk8HcRP1C-Cq3F77HxC3b1_q4RKeA@mail.gmail.com>
-	<CAMKF1so8kJk-L_zyJZOWR866K_hciQ4g4ujyMkyrLUZUq1kV3g@mail.gmail.com>
-	<CAC+thW0yRO-=x_Of7vF6n9RxiqSUcpzGdVhFndwKSmfg+4JSNQ@mail.gmail.com>
-	<CAMKF1sqe6wH+HfWLvzfYV=Ozg0YYDzfF9eRrUGGn98EB8f2bQA@mail.gmail.com>
-	<CAHiDW_EiNh8toWOwZ6qkqxYsXatyVUygG0dkibYzxw0O+TEQ=Q@mail.gmail.com>
+Received: by 10.107.9.161 with HTTP; Wed, 12 Jul 2017 03:03:25 -0700 (PDT)
+In-Reply-To: <1499788671-20890-1-git-send-email-lev.iserovich@deshawresearch.com>
+References: <1499788671-20890-1-git-send-email-lev.iserovich@deshawresearch.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Jul 2017 10:31:45 +0100
-Message-ID: <CAJTo0LbWpSrghRZZnTb6i2aVUE3Y6ZQEgHGSw+DSCuf4s5mWCw@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libepoxy: Upgrade 1.4.2 -> 1.4.3
+Date: Wed, 12 Jul 2017 11:03:25 +0100
+Message-ID: <CAJTo0LYs38P1M3_YBNWfHq71s3RUMeJW4hGKUtQxBWMbT-HGBA@mail.gmail.com>
+To: Lev Iserovich <lev.iserovich@deshawresearch.com>
+Cc: Lev Iserovich <iserovil@deshawresearch.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gettext: Enable generation of libasprintf in gettext 0.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,37 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jul 2017 09:32:05 -0000
-Content-Type: multipart/alternative; boundary="001a1143f65a4a4bd305541b7d06"
+X-List-Received-Date: Wed, 12 Jul 2017 10:03:45 -0000
+Content-Type: multipart/alternative; boundary="001a114c9fc685b63f05541beeba"
 
---001a1143f65a4a4bd305541b7d06
+--001a114c9fc685b63f05541beeba
 Content-Type: text/plain; charset="UTF-8"
 
-On 12 July 2017 at 08:24, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+On 11 July 2017 at 16:57, Lev Iserovich <lev.iserovich@deshawresearch.com>
+wrote:
 
-> I think I'll just send a patch to mesa-gl recipe to not install the
-> header. If someone wants to solve this properly with the upstreams, be my
-> guest.
+> Libasprintf was included in gettext 0.16 recipe, but omitted for some
+> reason
+> in 0.19. This turns it back on.
 >
 
-Sounds like the best fix considering the alternatives, to be honest.
+As this pulls C++ libraries into the core package, can it be split out like
+the other libraries?
 
 Ross
 
---001a1143f65a4a4bd305541b7d06
+--001a114c9fc685b63f05541beeba
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 July 2017 at 08:24, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail=
-_extra">I think I&#39;ll just send a patch to mesa-gl recipe to not install=
- the header. If someone wants to solve this properly with the upstreams, be=
- my guest.=C2=A0</div><span class=3D"HOEnZb"><font color=3D"#888888"><div c=
-lass=3D"gmail_extra"></div></font></span></blockquote></div><br>Sounds like=
- the best fix considering the alternatives, to be honest.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 11 July 2017 at 16:57, Lev Iserovich <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:lev.iserovich@deshawresearch.com" target=3D"_blank">lev.iserovich@desh=
+awresearch.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":35x" class=3D"a3s aXjCH m15d326fc46fecac5">Libasprintf was included=
+ in <span class=3D"il">gettext</span> 0.16 recipe, but omitted for some rea=
+son<br>
+in 0.19. This turns it back on.<br></div></blockquote></div><br>As this pul=
+ls C++ libraries into the core package, can it be split out like the other =
+libraries?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
 
---001a1143f65a4a4bd305541b7d06--
+--001a114c9fc685b63f05541beeba--
