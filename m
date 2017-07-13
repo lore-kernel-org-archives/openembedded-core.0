@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id E36AA7197A
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E162781DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 09:45:26 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id v202so33954764itb.0
+	Thu, 13 Jul 2017 09:50:35 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id v202so34058882itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 02:45:28 -0700 (PDT)
+	Thu, 13 Jul 2017 02:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vOnpBvJtp/jCkXI5tImIhaamylwVMhQ96BL08rrTdpw=;
-	b=SCff2XBFuTm1eyRXiNBusskMXkssjXg/xVhv8eoxz5u0LG7DePqU7Axc10HPEB8tkK
-	HVLIimwJy3T4LxO8b2WCYWUa26KN8oInW52M/Ah5cNhcklHn1a8uzkgUDEa22vrg0jIf
-	hkp9PdbeCjLEfn3NqqVbbBMJ7at463Xm5e/5XyAoa02D25Hgdy+qV5tu4TpGYdrXARXp
-	gmL/3j/rBpFb7F76llft1nJ/tuxL6UmvKqyS8i/Tb8xhswS22SIw+WJztfJ8HCvlsZYJ
-	iWqq0lC9xdDF2kN+/65QP1BOaoB2fhhlBQwYVf5//HS8ylJVy9//8m5KKilUsBCyx72k
-	qeiQ==
+	:cc; bh=3suV4Z9InboF2zgqOrqqqbxFafeDqRciz0fbU7MTpk4=;
+	b=1hg8TSFCFgYKFy71JR3Fe3w1NVYaWa0VDeOkl71Fd42OhnXcbVSF5zPZ92r9FDqINE
+	RyPcr/Sx5Hao6rz7hBp7EdUUPapMXm72rmkSSgZClkIfJFrKhHP6P/lvg+sEQg7+a2J8
+	XNpeeTq50/tbG9NlJw1TRptHU71QdDyS5oZXU0MQ1ye28g2SN610T7i1FdXxvqS2iva7
+	+5v+R4osolwOl2s3AJtw1b8PSzE6TyHNZcow/hfTtABwToOTFFbJtyV088uTmJB5IgRx
+	3WkEzeZrQw5SXua9oa3I9TmeT6cdiXzMO/vvm+p5d2CIahMMRWto5AttJawNLMxoH8C8
+	3Pmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=vOnpBvJtp/jCkXI5tImIhaamylwVMhQ96BL08rrTdpw=;
-	b=B1Po9d5a2ASzHVuj9ybWfkDH6ql8zJ+ZV6bep3URPynXw6ozSeyFgWeDOiXja1EqCt
-	mr0AdUUfdm7VpfwqhRbY/DKOBSrWoklfmN081OiMO+gcW3DbPC/+I3qp8vqe8q0QUEX0
-	jBLcPJKF9/58EuLKJKv+40Nlt+C2GOwTV1Z/vNWwB+L12AjO18ZHPUrVeSWlz0LgfLU3
-	npRr81QitENbxLoZXLM+4dyDlvqQ/kpx/xnd6ozkTPd7Z51qFgqakgVOTBJqlrcrx/3H
-	+AtdbIPYnzIa+nFZvMZc5HiNxVH/+qEh4M4GOYLucoxNhQIVo6gUhRmpkgqqwEqSmkeV
-	Y08Q==
-X-Gm-Message-State: AIVw1111ERA2XCrdjtB6Q++opJYUdsEQETS5JhSBYj4zJjl/N3m7Txek
-	ieNS+vt6BzWzxfgkhSFu9ZRD2LYJlbzg
-X-Received: by 10.36.25.8 with SMTP id b8mr25973707itb.29.1499939128041; Thu,
-	13 Jul 2017 02:45:28 -0700 (PDT)
+	bh=3suV4Z9InboF2zgqOrqqqbxFafeDqRciz0fbU7MTpk4=;
+	b=m4iQQXB5SKXssoc1gjJ3v4uDFzGdVa/uHJwGAJDEgLnOF5/YR5RjYuztOgGmsEQrbs
+	H2akHdbEHJV+3YfOu7fa2R1nSKDkJMZK2zluteydjrjgNCZJ+OmEv6Vx2v2KkYoGbr+d
+	giMWY8NaJb6OR+nYvpb7LRHZiwCapnFUm+nhi8g0r9uWgBlbOlKm/RJ1QdZ7+s1vWEts
+	g4rBWYeWLF2FGDbh4KkIR0OePKUMHxCl8KFh8rZ7O1WHNKlThXeH4hFLc+9ZhJ99w8ry
+	oklNf6ErT8nTQES+D2ya0Zxj5nXTJwJDdVDLkZMjtLVSNMaroI1CrHKrId2nCChGwTwD
+	FkDQ==
+X-Gm-Message-State: AIVw111KoE7o2EE7yC4UGs+3iqyJPikzGTNop7fna9I9/lE/DLJm5mZ3
+	ZSupYjLb5fo/61oHlB9UiCITgvhxSHML
+X-Received: by 10.36.246.2 with SMTP id u2mr25316703ith.23.1499939436640; Thu,
+	13 Jul 2017 02:50:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Thu, 13 Jul 2017 02:45:07 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ75z8kjoBKLGKhF6dOpSDQFmRx=pepc_uPZ87QCVSwoQ@mail.gmail.com>
+Received: by 10.107.9.161 with HTTP; Thu, 13 Jul 2017 02:50:16 -0700 (PDT)
+In-Reply-To: <a75792ff-4291-1f5c-dca3-0a97ce64639b@windriver.com>
 References: <cover.1499854502.git.liezhi.yang@windriver.com>
-	<96d138921edb8356aa7b683803e4facc4e0ade4e.1499854502.git.liezhi.yang@windriver.com>
-	<CAJTo0LZ75z8kjoBKLGKhF6dOpSDQFmRx=pepc_uPZ87QCVSwoQ@mail.gmail.com>
+	<3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
+	<CAJTo0LYUwPxW_0aLGwmwANyNv5sCovXijF-XrMCzTjGSr_V=Nw@mail.gmail.com>
+	<dcbc00ff-666c-ce9a-9884-42224e2701e8@windriver.com>
+	<CAJTo0LanadueCFtjEZXDrk3-jkv2+Y3kBO6FsSBC-9t-Ey1GWg@mail.gmail.com>
+	<a75792ff-4291-1f5c-dca3-0a97ce64639b@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Jul 2017 10:45:07 +0100
-Message-ID: <CAJTo0LZJ89-Zdp6=YkRXwtvFvNx25MbGxBHir-GcdTnWHx5EaQ@mail.gmail.com>
+Date: Thu, 13 Jul 2017 10:50:16 +0100
+Message-ID: <CAJTo0LYV+oyEwE15JQ7+wyRAAWFqorcrAcCRGZOqLdoyY40w_g@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] libbsd: 0.8.3 -> 0.8.5
+Subject: Re: [PATCH 2/6] cryptodev: 1.8 -> 1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 09:45:27 -0000
-Content-Type: multipart/alternative; boundary="001a1144a5e8e97f6705542fcabe"
+X-List-Received-Date: Thu, 13 Jul 2017 09:50:46 -0000
+Content-Type: multipart/alternative; boundary="94eb2c11ca244e54bc05542fdd3c"
 
---001a1144a5e8e97f6705542fcabe
+--94eb2c11ca244e54bc05542fdd3c
 Content-Type: text/plain; charset="UTF-8"
 
-On 13 July 2017 at 10:40, Burton, Ross <ross.burton@intel.com> wrote:
+On 13 July 2017 at 03:51, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> Determining if any of those can be applied always would be good.
+> BTW, I sent a meta-gplv2 patch to poky@yoctoproject.org two days ago, but
+> I didn't find it in poky@yoctoproject.org, Ross, did you see it, please ?
+> Maybe I should send it again.
 >
 
-FWIW it looks like the __BEGIN_DECLS patch still isn't upstream, but the
-other two may have been resolved.
+The list is yocto@yoctoproject.org.  Please resend to the list.
 
+Cheer,
 Ross
 
---001a1144a5e8e97f6705542fcabe
+--94eb2c11ca244e54bc05542fdd3c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 July 2017 at 10:40, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">=
-Determining if any of those can be applied always would be good.</div></blo=
-ckquote><div><br></div><div>FWIW it looks like the __BEGIN_DECLS patch stil=
-l isn&#39;t upstream, but the other two may have been resolved.</div><div><=
-br></div><div>Ross=C2=A0</div></div><br></div></div>
+On 13 July 2017 at 03:51, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"m_2756424=
+210676141993:15j" class=3D"m_2756424210676141993a3s m_2756424210676141993aX=
+jCH m_2756424210676141993m15d39dba164a8f60">BTW, I sent a meta-gplv2 patch =
+to <a href=3D"mailto:poky@yoctoproject.org" target=3D"_blank">poky@yoctopro=
+ject.org</a> two days ago, but<br>
+I didn&#39;t find it in <a href=3D"mailto:poky@yoctoproject.org" target=3D"=
+_blank">poky@yoctoproject.org</a>, Ross, did you see it, please ?<br>
+Maybe I should send it again.<div class=3D"m_2756424210676141993yj6qo m_275=
+6424210676141993ajU"><div id=3D"m_2756424210676141993:16d" class=3D"m_27564=
+24210676141993ajR"></div></div></div></blockquote></div><br>The list is <a =
+href=3D"mailto:yocto@yoctoproject.org">yocto@yoctoproject.org</a>.=C2=A0 Pl=
+ease resend to the list.</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Cheer,</div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1144a5e8e97f6705542fcabe--
+--94eb2c11ca244e54bc05542fdd3c--
