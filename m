@@ -1,24 +1,31 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F0CA7813F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B0FA780ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 02:40:10 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jul 2017 19:40:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,352,1496127600"; d="scan'208";a="1171865224"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2017 19:40:11 -0700
-From: wei.tee.ng@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jul 2017 12:29:35 -0700
-Message-Id: <42ed3bedf773c1fee314a2e4194c9656c583cc9c.1499887221.git.wei.tee.ng@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1499887221.git.wei.tee.ng@intel.com>
-References: <cover.1499887221.git.wei.tee.ng@intel.com>
-Cc: wei.tee.ng@intel.com
-Subject: [PATCH v6 1/1] initramfs-framework: module to support boot live image
+	Thu, 13 Jul 2017 02:51:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6D2pEMH009879
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Jul 2017 19:51:15 -0700 (PDT)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 12 Jul 2017 19:51:14 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Saul Wold <sgw@linux.intel.com>
+References: <cover.1499854502.git.liezhi.yang@windriver.com>
+	<3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
+	<CAJTo0LYUwPxW_0aLGwmwANyNv5sCovXijF-XrMCzTjGSr_V=Nw@mail.gmail.com>
+	<dcbc00ff-666c-ce9a-9884-42224e2701e8@windriver.com>
+	<CAJTo0LanadueCFtjEZXDrk3-jkv2+Y3kBO6FsSBC-9t-Ey1GWg@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <a75792ff-4291-1f5c-dca3-0a97ce64639b@windriver.com>
+Date: Thu, 13 Jul 2017 10:51:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LanadueCFtjEZXDrk3-jkv2+Y3kBO6FsSBC-9t-Ey1GWg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] cryptodev: 1.8 -> 1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,159 +38,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 02:40:10 -0000
+X-List-Received-Date: Thu, 13 Jul 2017 02:51:15 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 
-setup-live module is a new module being introduced to integrate the
-functionality of init-live.sh into new scriptlet named setup-live in
-order to support the live boot image. The udev-extraconf rdepends is
-being added to perform automounting. It gets to run before the rootfs
-and finish module.
 
-The setup-live scriplet include the changes for:
+On 07/12/2017 09:39 PM, Burton, Ross wrote:
+> Oh, didn't notice that.  Not sure I want to know why meta-intel has to patch
+> cryptodev!
+>
+> CCing Saul for his input.
 
-- Create a conditional loop for the bootparam_root variable. If it is
-not set, then it will boot from ROOT_IMAGE. Else, it will boot normally
-which is not from removable media.
+I've sent a patch to meta-intel@yoctoproject.org to update the patch.
+If a layer has a bbappend and it patches the source, I usually prefer
+not using wildcard as the version:
 
-- Gives a standard path to the original boot disk mount which can be
-used to. While /media/sda is a good guess, it isn't always right, nor
-is it a good assumption that only one boot disk is in the system.
+cryptodev-module_%.bbappend
 
-- The current rootfs module has no support for rootfs images, currently
-it only support for rootfs partitions for wic image. Therefore, there
-is a need to assign the rootfs image for live image.
+And also set BB_DANGLINGAPPENDS_WARNONLY in layer.conf during development,
+then we can have time to fix the errors.
 
-[YOCTO #11701]
+BTW, I sent a meta-gplv2 patch to poky@yoctoproject.org two days ago, but
+I didn't find it in poky@yoctoproject.org, Ross, did you see it, please ?
+Maybe I should send it again.
 
-Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
----
-This version is to re-correct the typo in the message.
 
- .../initrdscripts/initramfs-framework/setup-live   | 66 ++++++++++++++++++++++
- .../initrdscripts/initramfs-framework_1.0.bb       | 13 ++++-
- 2 files changed, 77 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+// Robert
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-new file mode 100644
-index 0000000..ec4a139
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-@@ -0,0 +1,66 @@
-+#/bin/sh
-+# Copyright (C) 2011 O.S. Systems Software LTDA.
-+# Licensed on MIT
-+
-+setup_enabled() {
-+	return 0
-+}
-+
-+setup_run() {
-+ROOT_IMAGE="rootfs.img"
-+ISOLINUX=""
-+ROOT_DISK=""
-+shelltimeout=30
-+
-+	if [ -z $bootparam_root ]; then
-+		echo "Waiting for removable media..."
-+		C=0
-+		while true
-+		do
-+		  for i in `ls /run/media 2>/dev/null`; do
-+		      if [ -f /run/media/$i/$ROOT_IMAGE ] ; then
-+				found="yes"
-+				ROOT_DISK="$i"
-+				break
-+			  elif [ -f /run/media/$i/isolinux/$ROOT_IMAGE ]; then
-+				found="yes"
-+				ISOLINUX="isolinux"
-+				ROOT_DISK="$i"
-+				break
-+		      fi
-+		  done
-+		  if [ "$found" = "yes" ]; then
-+		      break;
-+		  fi
-+		  # don't wait for more than $shelltimeout seconds, if it's set
-+		  if [ -n "$shelltimeout" ]; then
-+		      echo -n " " $(( $shelltimeout - $C ))
-+		      if [ $C -ge $shelltimeout ]; then
-+		           echo "..."
-+			   echo "Mounted filesystems"
-+		           mount | grep media
-+		           echo "Available block devices"
-+		           cat /proc/partitions
-+		           fatal "Cannot find $ROOT_IMAGE file in /run/media/* , dropping to a shell "
-+		      fi
-+		      C=$(( C + 1 ))
-+		  fi
-+		  sleep 1
-+		done
-+		# The existing rootfs module has no support for rootfs images. Assign the rootfs image.
-+		bootparam_root="/run/media/$ROOT_DISK/$ISOLINUX/$ROOT_IMAGE"
-+	else
-+		break
-+	fi
-+
-+	if [ "$bootparam_LABEL" != "boot" -a -f /init.d/$bootparam_LABEL.sh ] ; then
-+		if [ -f /run/media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
-+		    ./init.d/$bootparam_LABEL.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode $console_params
-+		else
-+		    fatal "Could not find $bootparam_LABEL script"
-+		fi
-+
-+		# If we're getting here, we failed...
-+		fatal "Target $bootparam_LABEL failed"
-+	fi
-+}
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 67a1b04..211e89d 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -13,7 +13,8 @@ SRC_URI = "file://init \
-            file://mdev \
-            file://udev \
-            file://e2fs \
--           file://debug"
-+           file://debug \
-+           file://setup-live"
- 
- S = "${WORKDIR}"
- 
-@@ -25,6 +26,9 @@ do_install() {
-     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
-     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
- 
-+    # setup-live
-+    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
-+
-     # mdev
-     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
- 
-@@ -48,7 +52,8 @@ PACKAGES = "${PN}-base \
-             initramfs-module-udev \
-             initramfs-module-e2fs \
-             initramfs-module-rootfs \
--            initramfs-module-debug"
-+            initramfs-module-debug \
-+            initramfs-module-setup-live"
- 
- FILES_${PN}-base = "/init /init.d/99-finish /dev"
- 
-@@ -68,6 +73,10 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
- RDEPENDS_initramfs-module-udev = "${PN}-base udev"
- FILES_initramfs-module-udev = "/init.d/01-udev"
- 
-+SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
-+RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
-+FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
-+
- SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
- RDEPENDS_initramfs-module-e2fs = "${PN}-base"
- FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
--- 
-2.7.4
-
+>
+> Ross
+>
+> On 12 July 2017 at 14:36, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>
+>
+>     On 07/12/2017 08:32 PM, Burton, Ross wrote:
+>
+>         ERROR: cryptodev-module-1.9-r0 do_patch: Command Error: 'quilt --quiltrc
+>         /data/poky-tmp/master/work/intel_corei7_64-poky-linux/cryptodev-module/1.9-r0/recipe-sysroot-native/etc/quiltrc
+>         push' exited with 0  Output:
+>         Applying patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch
+>         patching file zc.c
+>         Hunk #1 FAILED at 67.
+>         1 out of 1 hunk FAILED -- rejects in file zc.c
+>         Patch 0001-zc-Force-4.10-get_user_pages_remote-API.patch does not apply
+>         (enforce
+>         with -f)
+>
+>
+>     This patch is from meta-intel which I didn't build, sorry, I will fix it.
+>
+>     // Robert
+>
+>
+>
+>         Ross
+>
+>
 
