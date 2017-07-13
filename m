@@ -1,28 +1,43 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DA9871ABF
+Return-Path: <matt.hoosier@gmail.com>
+Received: from mail-vk0-f44.google.com (mail-vk0-f44.google.com
+	[209.85.213.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E4A606FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 12:50:50 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Jul 2017 05:50:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,354,1496127600"; d="scan'208";a="992561558"
-Received: from unknown (HELO [10.219.128.129]) ([10.219.128.129])
-	by orsmga003.jf.intel.com with ESMTP; 13 Jul 2017 05:50:50 -0700
-To: openembedded-core@lists.openembedded.org
-References: <cover.1499854502.git.liezhi.yang@windriver.com>
-	<47a058d68bb13f343f6399d4ec1de74897d2eb50.1499854502.git.liezhi.yang@windriver.com>
-	<1499873929.5349.44.camel@linux.intel.com>
-	<7bd81488-b366-5358-cbe0-3bafc07129a0@windriver.com>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <4a5ab333-9b3a-9c89-7f08-73d9d6af956c@linux.intel.com>
-Date: Thu, 13 Jul 2017 07:50:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Thu, 13 Jul 2017 13:05:18 +0000 (UTC)
+Received: by mail-vk0-f44.google.com with SMTP id y70so29170461vky.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Jul 2017 06:05:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=UX8ule2P2dXS+mfudmW07Ic6pE+PsCo0gPqQDnJ0kL4=;
+	b=kX/fpIyPCG65c6hMFei+4ZRg1JZCx99x/MhRb+pHIJ2aEXU+A8tnalPZwDe5mRkIny
+	dGk+O5Mbd+wFY9q1Pfn+dFPZUke1u32CsT3ZUrMb0msBG36Eilv6XJaLeRhqUTwLQAPO
+	Ed378jhmctcII2Janjv2s4bVWxTup3rjj83AikEVhJmpYPixWnp7PRRNLS9GXGCc82oY
+	PP5GVYYDyS4WgyPEzetCJN92OMTc6LVQyNMo8gKC0IrEXY4OwhPhX8IqaSrUEU4YXswq
+	CH1whj8hYeLA47Vjij0e3K1aCY45P2Umpsz1oitEXJavXik2J5rsSwp1/WGl+gumBMUa
+	xxjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=UX8ule2P2dXS+mfudmW07Ic6pE+PsCo0gPqQDnJ0kL4=;
+	b=F2s0q1O8LQCjnx5cf1KPgywEYftNB4TWGEPKjAbisDEeZAZqLAxl5aL3EwFhUjyNig
+	agWTe2ZEWdjUfDiFYRH7ze0BGSVp5DhEZ1+UYCj4wk4kYxP4/+0jA1rMJvFhm/26uz/H
+	qQ+9Ukkkv8DIgv/NJPHynZHMANIKvfjgtXEsbLKoIyKBweMdoDLnfaCtRBcB4S8ffgGX
+	2FjLP3TNfctVv5lZW/i0qtuu8JcM0eEYYM4mq+971uiwISyZukyrjCOSOM464YvE4h2h
+	EQG3kV25syP4jNwDZ4gdool3LEf9cxLU7yn6lTJMKKmNP/vmmVQrBi6bRQ9YuOWVz/7C
+	u1NA==
+X-Gm-Message-State: AIVw111HPXldXI8+xaKFf3RNFW6UBOTsZyXUHRzjJPSaJgxzQXAkcQEz
+	Bq+5p2s3G1GI54BNdGEm8mOAyHxTWN3sfEU=
+X-Received: by 10.31.153.66 with SMTP id b63mr2092079vke.44.1499951119571;
+	Thu, 13 Jul 2017 06:05:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7bd81488-b366-5358-cbe0-3bafc07129a0@windriver.com>
-Subject: Re: [PATCH 4/6] git: 2.11.1 -> 2.13.2
+Received: by 10.176.2.109 with HTTP; Thu, 13 Jul 2017 06:04:39 -0700 (PDT)
+From: Matt Hoosier <matt.hoosier@gmail.com>
+Date: Thu, 13 Jul 2017 08:04:39 -0500
+Message-ID: <CAJgxT38yLAW3eNk+5HMUid70WNMP_qCTfuKTW22Nthb73jgX1Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: akuster@mvista.com
+Subject: Reasons for reverting "openssl: prevent ABI break from earlier krogoth releases" ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,110 +50,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 12:50:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 13 Jul 2017 13:05:19 -0000
+Content-Type: multipart/alternative; boundary="001a1140f4eaa9a0610554329523"
 
+--001a1140f4eaa9a0610554329523
+Content-Type: text/plain; charset="UTF-8"
 
+Back on the Krogoth branch, there was a changed applied briefly last year
+to smooth over some symbol-versioning breakage that occurred when OpenSSL
+got upgraded past version 1.0.2g:
 
-On 07/12/2017 09:55 PM, Robert Yang wrote:
->
->
-> On 07/12/2017 11:38 PM, Leonardo Sandoval wrote:
->> for some reason git did not detect (as other patches in this series)
->> the renaming (delete/create), make it easier to review.
->>
->
-> By default, git format-patch handles similarity > 50% as rename,
-> the git_2.13.2.bb changes a lot, so no renames.
-FWIW, in cases like this I include option "-M30" to git format-patch to
-detect similarities from 30%.
+    openssl: prevent ABI break from earlier krogoth releases
 
-Jose
+    The backported upgrade to 1.0.2h included an updated GNU LD
+    version-script which results in an ABI change. In order to try and
+    respect ABI for existing binaries built against fido this commit
+    partially reverts the version-script to maintain the existing ABI
+    and instead only add the new symbols required by 1.0.2h.
 
->
-> // Robert
->
->>
->>
->> On Wed, 2017-07-12 at 03:15 -0700, Robert Yang wrote:
->>> * Remove git-relink from PERLTOOLS:
->>>   git-2.13.2/Documentation/RelNotes/2.12.0.txt:
->>>   * An ancient script "git relink" has been removed.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>  meta/recipes-devtools/git/git.inc       |  1 -
->>>  meta/recipes-devtools/git/git_2.11.1.bb | 11 -----------
->>>  meta/recipes-devtools/git/git_2.13.2.bb | 11 +++++++++++
->>>  3 files changed, 11 insertions(+), 12 deletions(-)
->>>  delete mode 100644 meta/recipes-devtools/git/git_2.11.1.bb
->>>  create mode 100644 meta/recipes-devtools/git/git_2.13.2.bb
->>>
->>> diff --git a/meta/recipes-devtools/git/git.inc
->>> b/meta/recipes-devtools/git/git.inc
->>> index 9b0d328..4390b8d 100644
->>> --- a/meta/recipes-devtools/git/git.inc
->>> +++ b/meta/recipes-devtools/git/git.inc
->>> @@ -86,7 +86,6 @@ PERLTOOLS = " \
->>>      ${libexecdir}/git-core/git-cvsserver \
->>>      ${bindir}/git-cvsserver \
->>>      ${libexecdir}/git-core/git-difftool \
->>> -    ${libexecdir}/git-core/git-relink \
->>>      ${libexecdir}/git-core/git-send-email \
->>>      ${libexecdir}/git-core/git-svn \
->>>      ${libexecdir}/git-core/git-instaweb \
->>> diff --git a/meta/recipes-devtools/git/git_2.11.1.bb
->>> b/meta/recipes-devtools/git/git_2.11.1.bb
->>> deleted file mode 100644
->>> index f2f072c..0000000
->>> --- a/meta/recipes-devtools/git/git_2.11.1.bb
->>> +++ /dev/null
->>> @@ -1,11 +0,0 @@
->>> -require git.inc
->>> -
->>> -EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
->>> -                
->>> ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
->>> -                 "
->>> -EXTRA_OEMAKE += "NO_GETTEXT=1"
->>> -
->>> -SRC_URI[tarball.md5sum] = "6a7a73db076bb0514b602720669d685c"
->>> -SRC_URI[tarball.sha256sum] =
->>> "a1cdd7c820f92c44abb5003b36dc8cb7201ba38e8744802399f59c97285ca043"
->>> -SRC_URI[manpages.md5sum] = "e4268a6b514ccdb624b6450ff55881a3"
->>> -SRC_URI[manpages.sha256sum] =
->>> "ee567e7b0f95333816793714bb31c54e288cf8041f77a0092b85e62c9c2974f9"
->>> diff --git a/meta/recipes-devtools/git/git_2.13.2.bb
->>> b/meta/recipes-devtools/git/git_2.13.2.bb
->>> new file mode 100644
->>> index 0000000..e7cae40
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/git/git_2.13.2.bb
->>> @@ -0,0 +1,11 @@
->>> +require git.inc
->>> +
->>> +EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
->>> +                
->>> ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
->>> +                 "
->>> +EXTRA_OEMAKE += "NO_GETTEXT=1"
->>> +
->>> +SRC_URI[tarball.md5sum] = "894583cddfb0ec3b0156484966f9db9c"
->>> +SRC_URI[tarball.sha256sum] =
->>> "e19d450648d6d100eb93abaa5d06ffbc778394fb502354b7026d73e9bcbc3160"
->>> +SRC_URI[manpages.md5sum] = "97384d23f2ee88d5ce51ffc75096bd3e"
->>> +SRC_URI[manpages.sha256sum] =
->>> "1c2bd0a2340b2ef118b7b167a8fec6cc05eb18cad9043e6e7a95fd8a70bb8c4c"
->>> -- 
->>> 2.10.2
->>>
->>
->>
->>
+    Suggested-by: Martin Jansa <martin.jansa@gmail.com>
+    (From OE-Core rev: 480db6b)
 
--- 
-Jose Lamego | OTC Embedded Platform & Tools | GDC
+    Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+    Signed-off-by: Armin Kuster <akuster@mvista.com>
+    Signed-off-by: Armin Kuster <akuster808@gmail.com>
 
+However, it got reverted nearly immediately (in
+08f85da10b3a7fc6165f163fd0f23784a2c9c8e4), but there wasn't much discussion
+in the commit message about why the reversion happened.
 
+I'm running into the same kinds of troubles that the original commit
+message cited as justification for implementing backwards-compatibility
+with the SSL symbols. Is there any memory about why the old
+foo@OPENSSL_1.0.0 versioned symbols ultimately got dropped?
+
+-Matt
+
+--001a1140f4eaa9a0610554329523
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Back on the Krogoth branch, there was a changed applied br=
+iefly last year to smooth over some symbol-versioning breakage that occurre=
+d when OpenSSL got upgraded past version 1.0.2g:<div><br></div><div><div>=
+=C2=A0 =C2=A0 openssl: prevent ABI break from earlier krogoth releases</div=
+><div><br></div><div>=C2=A0 =C2=A0 The backported upgrade to 1.0.2h include=
+d an updated GNU LD</div><div>=C2=A0 =C2=A0 version-script which results in=
+ an ABI change. In order to try and</div><div>=C2=A0 =C2=A0 respect ABI for=
+ existing binaries built against fido this commit</div><div>=C2=A0 =C2=A0 p=
+artially reverts the version-script to maintain the existing ABI</div><div>=
+=C2=A0 =C2=A0 and instead only add the new symbols required by 1.0.2h.</div=
+><div><br></div><div>=C2=A0 =C2=A0 Suggested-by: Martin Jansa &lt;<a href=
+=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt;</div><div=
+>=C2=A0 =C2=A0 (From OE-Core rev: 480db6b)</div><div><br></div><div>=C2=A0 =
+=C2=A0 Signed-off-by: Joshua Lock &lt;<a href=3D"mailto:joshua.g.lock@intel=
+.com">joshua.g.lock@intel.com</a>&gt;</div><div>=C2=A0 =C2=A0 Signed-off-by=
+: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">=
+richard.purdie@linuxfoundation.org</a>&gt;</div><div>=C2=A0 =C2=A0 Signed-o=
+ff-by: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.com">akuster@mvist=
+a.com</a>&gt;</div><div>=C2=A0 =C2=A0 Signed-off-by: Armin Kuster &lt;<a hr=
+ef=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt;</div><div><=
+br></div><div>However, it got reverted nearly immediately (in 08f85da10b3a7=
+fc6165f163fd0f23784a2c9c8e4), but there wasn&#39;t much discussion in the c=
+ommit message about why the reversion happened.</div><div><br></div><div>I&=
+#39;m running into the same kinds of troubles that the original commit mess=
+age cited as justification for implementing backwards-compatibility with th=
+e SSL symbols. Is there any memory about why the old foo@OPENSSL_1.0.0 vers=
+ioned symbols ultimately got dropped?</div></div><div><br></div><div>-Matt<=
+/div></div>
+
+--001a1140f4eaa9a0610554329523--
