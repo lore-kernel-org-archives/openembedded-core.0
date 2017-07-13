@@ -1,25 +1,49 @@
-Return-Path: <clopez@igalia.com>
-X-Greylist: delayed 2339 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 13 Jul 2017 13:28:56 UTC
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 9567471A0F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B68A171ABF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 13:28:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Message-Id:Date:Subject:To:From;
-	bh=8gS44CP+Jhz7AgNo/Z+lamarnHuN6fSLIw6PG4WDlE8=; 
-	b=NftVAi5ynUIF+/mV7kZ65YXlwvOwMPLUWrFIiG3emziwi+YO3Iix2n6BSvzREXamVSoLOLaYsXbf7AooZhZpHSSAR3xMQdo7NKT+mdyOCVlL9rrKeQcJPw3ETMw3E5RMEe76fl8R9uHjX6sa9nBpkFAg+jtzMOcOnjeBYEFknkAKyIBL+KEakitm0eUVMOvZBc8fmmlQf3ZTIVj8rdUhbKSi+lKu9Zee+IhSWRGUEwoUx2EkzTLBEqADWWp+xXguWaAg6Q/gkU4nG2tLi2Obj9mzoY0GIxWnJquuFU2VRFVgmUFGcZ4SF42I2L4wKl+DBjS92G2MD5LLT8nHNDYL/w==;
-Received: from [192.168.10.149] (helo=trinity.local.igalia.com)
-	by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1dVdZ8-00044z-60 for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 14:49:58 +0200
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jul 2017 14:49:54 +0200
-Message-Id: <20170713124954.9373-1-clopez@igalia.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] webkitgtk: Upgrade to 2.16.5
+	Thu, 13 Jul 2017 13:32:54 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id u23so5151888wma.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Jul 2017 06:32:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=w9cBP6StjN/3WTralwktD4IEXWhhCu61EPjNhFYeT9E=;
+	b=YMbhf1LuHyaoHmD8lQm2ijJ6fqfe3sQhap25FY4NkXCELrNS9dJDoZzFM6lxpjaV8z
+	gotMnuDsHAdETndd1JGQm4wvNa00RgHMOn0pBY4n1vzDpJukhxWr2vfpQKibuOjx+yFI
+	EWDUi68PvZ6gAH71HD4YpMeW9nkISCp72TNdvtC3U2Uw8QvfE13j6M+PRxGC2azCI+CJ
+	J7e3wVZEp3LYEQ/Ykhk+WdeviACX3wpjmpuUQZ6xUTFEdzFvLrSZw9jawegGXOnGYwua
+	efbFf9fnliEMvfpp20Oo172Zr3SSIZNJFUWdtHyAA2ymF+xs5sGQ7EfSe3yLOzZjdsue
+	HP+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=w9cBP6StjN/3WTralwktD4IEXWhhCu61EPjNhFYeT9E=;
+	b=bd4DWc0XuGFxR3jrPzyb40IVmjNYsmCknzaL9lA4YYBbaUR1ghhmtLfY3571IVY856
+	QL6CdQKbeAHrHTgTpXkzBO17AVPK5+yevyFTQDvXMcOoFG8ZjsWZ7u/o/mzOppR6YG7J
+	bsvaj9CNYXvwdfn2kHqVlRRlMvqCQtPzcOKiQIKy0plLB/MxYSJ4uEed0stsvJcngSAV
+	AEFqfCYUlQaFkGt05dqUzBEDETIjaxUI1W047tsRDEloM42qW9z0kgkdmqCM68ionM5E
+	s83d5dB3hi60oXAUHDEZ1RR+/DqfsDOhRv5V11mmH8MnCA+7Te1Kl9eL4F7gqU/8qIpI
+	TEfg==
+X-Gm-Message-State: AIVw110/h+HTXjFa1olOw0L+qp3woolPTwr0arI8HEZhGI96SvvQDJab
+	zeFYqIEo3FQk7tnG7b/3CVHtQ7MKqw==
+X-Received: by 10.80.164.185 with SMTP id w54mr3038769edb.76.1499952775186;
+	Thu, 13 Jul 2017 06:32:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.80.145.210 with HTTP; Thu, 13 Jul 2017 06:32:24 -0700 (PDT)
+In-Reply-To: <d0951f29-90f0-e982-0c94-2045af7211c3@windriver.com>
+References: <cover.1499854502.git.liezhi.yang@windriver.com>
+	<96d138921edb8356aa7b683803e4facc4e0ade4e.1499854502.git.liezhi.yang@windriver.com>
+	<CAJTo0LZ75z8kjoBKLGKhF6dOpSDQFmRx=pepc_uPZ87QCVSwoQ@mail.gmail.com>
+	<CAJTo0LZJ89-Zdp6=YkRXwtvFvNx25MbGxBHir-GcdTnWHx5EaQ@mail.gmail.com>
+	<d0951f29-90f0-e982-0c94-2045af7211c3@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Jul 2017 06:32:24 -0700
+Message-ID: <CAMKF1srL1qxLZZn3XJxfmT6FkhJZHBSE=Tf0qmrDTfN3Cf_2AA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] libbsd: 0.8.3 -> 0.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 13:28:58 -0000
+X-List-Received-Date: Thu, 13 Jul 2017 13:32:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Adjust some dependencies: libgcrypt is now required (instead of gnutls)
-and the following build deps where missing: gettext-native, glib-2.0
-and glib-2.0-native.
+On Thu, Jul 13, 2017 at 4:10 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>
+>
+> On 07/13/2017 05:45 PM, Burton, Ross wrote:
+>>
+>>
+>> On 13 July 2017 at 10:40, Burton, Ross <ross.burton@intel.com
+>> <mailto:ross.burton@intel.com>> wrote:
+>>
+>>     Determining if any of those can be applied always would be good.
+>>
+>>
+>> FWIW it looks like the __BEGIN_DECLS patch still isn't upstream, but the
+>> other
+>> two may have been resolved.
+>
+>
+> Sorry, fixed it in the repo, I update 0002-Remove-funopen.patch, and drop
+> 0003-Fix-build-breaks-due-to-missing-a.out.h.patch since the a.out code is
+> gone in the source, so I think that the patch is not needed any more. Add
+> Khem who is the author in the CC list.
+>
 
-Also the CMake argument ENABLE_CREDENTIAL_STORAGE has been renamed to
-USE_LIBSECRET.
+if a.out.h is removed then we should be ok
 
-This new upstream release (2.16.4 actually) includes security fixes for
-CVE: CVE-2017-2538
-
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
----
- .../webkit/{webkitgtk_2.16.3.bb => webkitgtk_2.16.5.bb}        | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.16.3.bb => webkitgtk_2.16.5.bb} (94%)
-
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.5.bb
-similarity index 94%
-rename from meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.16.5.bb
-index 5feca17be3..dcaf8a6ed7 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.16.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.16.5.bb
-@@ -22,19 +22,21 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://gcc7.patch \
-            file://detect-atomics-during-configure.patch \
-            "
--SRC_URI[md5sum] = "34dbbcad8a87a929519d93c67edd6d87"
--SRC_URI[sha256sum] = "204e9131da0101b9bc8765716e70a897121af04b964d9827cd9f20816a77b512"
-+
-+SRC_URI[md5sum] = "fce72dc89cd310a663d9eb97133861fe"
-+SRC_URI[sha256sum] = "8e0396f3428e757898c5856e642eed4fcd5a20ae03d96d3eaa03b76634be7dd4"
- 
- inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
- 
- # depends on libxt
- REQUIRED_DISTRO_FEATURES = "x11"
- 
--DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
-+DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
- 	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
- 	   ruby-native libnotify gstreamer1.0-plugins-bad \
-+	   gettext-native glib-2.0 glib-2.0-native \
-           "
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
-@@ -51,7 +53,7 @@ PACKAGECONFIG[gtk2] = "-DENABLE_PLUGIN_PROCESS_GTK2=ON,-DENABLE_PLUGIN_PROCESS_G
- PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
- PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
- PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
--PACKAGECONFIG[libsecret] = "-DENABLE_CREDENTIAL_STORAGE=ON,-DENABLE_CREDENTIAL_STORAGE=OFF,libsecret"
-+PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
- PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
- 
- EXTRA_OECMAKE = " \
--- 
-2.11.0
-
+> Tested build on qemux86-64 and qemuarm.
+>
+>
+> Repo:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/PU
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/PU
+>
+> Robert Yang (6):
+>   automake: 1.15 -> 1.15.1
+>   cryptodev: 1.8 -> 1.9
+>   debianutils: 4.8.1 -> 4.8.1.1
+>   git: 2.11.1 -> 2.13.2
+>   gnu-efi: 3.0.5 -> 3.0.6
+>   libbsd: 0.8.3 -> 0.8.5
+>
+> // Robert
+>
+>>
+>> Ross
+>>
+>
 
