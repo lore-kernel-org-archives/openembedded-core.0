@@ -1,45 +1,46 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 22F576069C
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E36AA7197A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 09:40:48 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id k192so38900060ith.1
+	Thu, 13 Jul 2017 09:45:26 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id v202so33954764itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 02:40:50 -0700 (PDT)
+	Thu, 13 Jul 2017 02:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kfmvW9Go5ZthLoSuWcXn6c1r/F8ialBnw80jiSPVNMs=;
-	b=1vRJueb/WW6yu/ciO60fC8Nj8XphmG+JQ4Dn7hLTAYdlRSUwA1YU0dv3tA7kBnv46V
-	7y+Z4WPPpIiL/cJ5vdpy/aUVFMQOCXaMl+6MdfUeCW0LSxRooNdOe39Zbj5RMXSdv/e7
-	mEJ9zxmj3R64t8msnVLSatCe4gP5UyB2K1QoOEt9jx21WIgCdaM6c4kgyuIoqlF/k3sz
-	3Y9aMdpIiw+NDvu4QYjPEbHmFHEtHmu/QyJRV1NOhjaCttZbnzPzlWNCxMYAh3RHMpDX
-	X1KHnVbgWF60BErlSqAJYQX7HKx/pYrCg320eywElMA0zKS3Kxo03QmGnJM8yyeHvHrs
-	Hisg==
+	:cc; bh=vOnpBvJtp/jCkXI5tImIhaamylwVMhQ96BL08rrTdpw=;
+	b=SCff2XBFuTm1eyRXiNBusskMXkssjXg/xVhv8eoxz5u0LG7DePqU7Axc10HPEB8tkK
+	HVLIimwJy3T4LxO8b2WCYWUa26KN8oInW52M/Ah5cNhcklHn1a8uzkgUDEa22vrg0jIf
+	hkp9PdbeCjLEfn3NqqVbbBMJ7at463Xm5e/5XyAoa02D25Hgdy+qV5tu4TpGYdrXARXp
+	gmL/3j/rBpFb7F76llft1nJ/tuxL6UmvKqyS8i/Tb8xhswS22SIw+WJztfJ8HCvlsZYJ
+	iWqq0lC9xdDF2kN+/65QP1BOaoB2fhhlBQwYVf5//HS8ylJVy9//8m5KKilUsBCyx72k
+	qeiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=kfmvW9Go5ZthLoSuWcXn6c1r/F8ialBnw80jiSPVNMs=;
-	b=qiEPBAZcagI5oTjhumhoIHVWw+CHaR/00sQNl/cwTtP41NBHyImuTqIGDSWS1SVHgO
-	u5zAFJwm56cm3aBQGGQKWT8aBv1nV9t3TFro/OG5n+cr4NuE6A8CvFWciEi3VnKvU+LW
-	Qwm1yaeoTSjemJdnQZeH+cNqd3o9mB3KGh+a5BVZHYCTV52Qi3WMkh0w1INVGyJF3FIB
-	b6ru4FKm/4lz0DeUhomwkvofV+HdrOuDCHGdNIt0FUpNl3tTHvqBsrBjJhACgkPJmtlm
-	jCAXs6YqsmiLbbCcao43MlRDb2m5YE4Y/23YqobLG7xTkVCTAjVEc/H1o9arJAypDSaa
-	g46A==
-X-Gm-Message-State: AIVw112fcJhFzlPGNq6oMZWIrG7CI7rS95UyMzb3EYafxpjf7WNF4Gbx
-	WjVZgzEoQ5xvCYYpTSK9hEmCPcgOAnOg
-X-Received: by 10.36.58.6 with SMTP id m6mr25795113itm.43.1499938850019; Thu,
-	13 Jul 2017 02:40:50 -0700 (PDT)
+	bh=vOnpBvJtp/jCkXI5tImIhaamylwVMhQ96BL08rrTdpw=;
+	b=B1Po9d5a2ASzHVuj9ybWfkDH6ql8zJ+ZV6bep3URPynXw6ozSeyFgWeDOiXja1EqCt
+	mr0AdUUfdm7VpfwqhRbY/DKOBSrWoklfmN081OiMO+gcW3DbPC/+I3qp8vqe8q0QUEX0
+	jBLcPJKF9/58EuLKJKv+40Nlt+C2GOwTV1Z/vNWwB+L12AjO18ZHPUrVeSWlz0LgfLU3
+	npRr81QitENbxLoZXLM+4dyDlvqQ/kpx/xnd6ozkTPd7Z51qFgqakgVOTBJqlrcrx/3H
+	+AtdbIPYnzIa+nFZvMZc5HiNxVH/+qEh4M4GOYLucoxNhQIVo6gUhRmpkgqqwEqSmkeV
+	Y08Q==
+X-Gm-Message-State: AIVw1111ERA2XCrdjtB6Q++opJYUdsEQETS5JhSBYj4zJjl/N3m7Txek
+	ieNS+vt6BzWzxfgkhSFu9ZRD2LYJlbzg
+X-Received: by 10.36.25.8 with SMTP id b8mr25973707itb.29.1499939128041; Thu,
+	13 Jul 2017 02:45:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Thu, 13 Jul 2017 02:40:29 -0700 (PDT)
-In-Reply-To: <96d138921edb8356aa7b683803e4facc4e0ade4e.1499854502.git.liezhi.yang@windriver.com>
+Received: by 10.107.9.161 with HTTP; Thu, 13 Jul 2017 02:45:07 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ75z8kjoBKLGKhF6dOpSDQFmRx=pepc_uPZ87QCVSwoQ@mail.gmail.com>
 References: <cover.1499854502.git.liezhi.yang@windriver.com>
 	<96d138921edb8356aa7b683803e4facc4e0ade4e.1499854502.git.liezhi.yang@windriver.com>
+	<CAJTo0LZ75z8kjoBKLGKhF6dOpSDQFmRx=pepc_uPZ87QCVSwoQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Jul 2017 10:40:29 +0100
-Message-ID: <CAJTo0LZ75z8kjoBKLGKhF6dOpSDQFmRx=pepc_uPZ87QCVSwoQ@mail.gmail.com>
+Date: Thu, 13 Jul 2017 10:45:07 +0100
+Message-ID: <CAJTo0LZJ89-Zdp6=YkRXwtvFvNx25MbGxBHir-GcdTnWHx5EaQ@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 6/6] libbsd: 0.8.3 -> 0.8.5
@@ -55,57 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 09:40:49 -0000
-Content-Type: multipart/alternative; boundary="001a114419ca57329c05542fba8d"
+X-List-Received-Date: Thu, 13 Jul 2017 09:45:27 -0000
+Content-Type: multipart/alternative; boundary="001a1144a5e8e97f6705542fcabe"
 
---001a114419ca57329c05542fba8d
+--001a1144a5e8e97f6705542fcabe
 Content-Type: text/plain; charset="UTF-8"
 
-On 12 July 2017 at 11:15, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 13 July 2017 at 10:40, Burton, Ross <ross.burton@intel.com> wrote:
 
-> * The LIC_FILES_CHKSUM is changed becauses the files updated the date, and
-> added
->   a BSD-3-clause-John-Birrell for man/timeradd.3bsd, this license is
-> already
->   there for other files.
+> Determining if any of those can be applied always would be good.
 >
 
-The musl-specific patches don't apply:
-
-Applying patch 0002-Remove-funopen.patch
-patching file man/Makefile.am
-Hunk #1 FAILED at 29.
-1 out of 1 hunk FAILED -- rejects in file man/Makefile.am
-patching file src/Makefile.am
-patching file test/Makefile.am
-Patch 0002-Remove-funopen.patch does not apply (enforce with -f)
-
-Determining if any of those can be applied always would be good.
+FWIW it looks like the __BEGIN_DECLS patch still isn't upstream, but the
+other two may have been resolved.
 
 Ross
 
---001a114419ca57329c05542fba8d
+--001a1144a5e8e97f6705542fcabe
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 July 2017 at 11:15, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:116" class=3D"gm=
-ail-a3s gmail-aXjCH gmail-m15d364ce33a36af0">* The LIC_FILES_CHKSUM is chan=
-ged becauses the files updated the date, and added<br>
-=C2=A0 a BSD-3-clause-John-Birrell for man/timeradd.3bsd, this license is a=
-lready<br>
-=C2=A0 there for other files.<br></div></blockquote></div><br>The musl-spec=
-ific patches don&#39;t apply:</div><div class=3D"gmail_extra"><br>Applying =
-patch 0002-Remove-funopen.patch<br>patching file man/Makefile.am<br>Hunk #1=
- FAILED at 29.<br>1 out of 1 hunk FAILED -- rejects in file man/Makefile.am=
-<br>patching file src/Makefile.am<br>patching file test/Makefile.am<br>Patc=
-h 0002-Remove-funopen.patch does not apply (enforce with -f)</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Determining if any o=
-f those can be applied always would be good.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 13 July 2017 at 10:40, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">=
+Determining if any of those can be applied always would be good.</div></blo=
+ckquote><div><br></div><div>FWIW it looks like the __BEGIN_DECLS patch stil=
+l isn&#39;t upstream, but the other two may have been resolved.</div><div><=
+br></div><div>Ross=C2=A0</div></div><br></div></div>
 
---001a114419ca57329c05542fba8d--
+--001a1144a5e8e97f6705542fcabe--
