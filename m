@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD797197A
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id EF8117197A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 17:48:06 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id y28so4944573wrd.3
+	Thu, 13 Jul 2017 17:48:25 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id r103so56739188wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 10:48:07 -0700 (PDT)
+	Thu, 13 Jul 2017 10:48:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=T9C7+IZXyo+NxKSrHe0J03E7J6Hzq8mzqUeu1tOy4MA=;
-	b=C4cPfPm7aRwP5bfSW/spLpLTzyGB1yHnDEp/PU5hz1aoeGly+Cf9DN/15RZBOEl78W
-	lFbeWM5pg7hD9GLYyRjsyYq9HqY8wDYws0fO62+hAZOkBQ+RhbxBeFar4qNF03LZw+6+
-	679dwQkOOu2odaKy600zO9g5SQCuZBXtWRitAwnhmsfFk2tl0amcRFSwP7VelLZRUjfx
-	PEA0ZkJAPwzPAWp/fx/9AvlCAMWjBXzvzok7vIyQdihhUz5Brc8uEotVfzqoXLSJs0M8
-	2iFaowlIlpFLXFiRRMo4+KS+YCSCZzRK4vyjSvThqTFiAejtTYt4C63ULCGAYmJtdjln
-	ICow==
+	bh=hZILFyQRl9Qgy/KBwP+pATSqWPvrC+UPE6MLO3ckwg0=;
+	b=hQxGAqAaoU16taI2ets6mY2f6SF4w48AY8Jaian4AMu4Qye0qXR37HUpF5gRkz1eSQ
+	tC2CBcAPNhNAZ3syOr3RWeNspzXlv1Lw1Xn1V3CB/qNP7uBcIzkYAPUzgYFlKlxOF9OM
+	XQ02y/nIRbh6/eI0aMXtg+8KNyo5ccU/UQgnXKwAC3DxRuI3rogneQNE2xSfBAcLfy3K
+	33FIybjOiXVD5cED6S8ZIV5W3AOraFAn8PlfHcqPpwUPORDC03H2AtyOTvkFQIkzd5Bx
+	v4kgu6t1HwpOgTSmCyDoBgT+jbQhVTKMUZkDgqGtQNRNhLC+hBRUl2P+UHp5c3emTNxb
+	qqvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=T9C7+IZXyo+NxKSrHe0J03E7J6Hzq8mzqUeu1tOy4MA=;
-	b=IHYkzu2UYuz0QBVxMRDNxnhYyh8zAVHI/wlsrHl83zSOpQz4kgR5qJMNVOvzmWighi
-	J17dWu1hVXObByrOJ9i2UAA1mG1yph5PWTxZ+Yscffl/ssdmnbUteFX7NDpk8gpsDTkE
-	MbntvKVmf57kdf0bsStrY44aN+SvjGy1fD4N49xlkTrDyTuZxcnsIgs9WrJafaihL3U+
-	4uHFVo4PD6xJHTpBNcSMISqm6L7ZPut6tJmDSWDElK3O8RtrpmCwi/O4pGkQrf2nGEVI
-	V8pb0CNnDVCkH9AolIDRgry4rLoX5deGX0ynUeh6NXoO8hHa7M5vm1F48yCr1eKKt7UG
-	xGAw==
-X-Gm-Message-State: AIVw112m8zRWelkGq1ff6HJFPILwMs3Z4bezYBfwPoR7koNCLyM6H3n4
-	kkRgCeKVUF0UF/hvxjc=
-X-Received: by 10.223.136.135 with SMTP id f7mr2277267wrf.148.1499968086590;
-	Thu, 13 Jul 2017 10:48:06 -0700 (PDT)
+	bh=hZILFyQRl9Qgy/KBwP+pATSqWPvrC+UPE6MLO3ckwg0=;
+	b=n3+0gDCotET2MPxhXrVL2Jy5muyma+fWSJM+jqw7DmYcYHyPB6g5kNiM0OZA9UC+W8
+	gcK9Ivf4Wop3oU1/1qX+uafeqfP6OnPnJ0otWlH4fkn+jVlaVL81iWK6wFQBeVgBzDhc
+	JPZqXd20g2tWWUF+uLF2zySJ6m1eTl2Dlk6asNgUmD1bxguRrqNpABgyWC+l9s56I014
+	RyXfrNtpoWCqyLeWI6jXvgRBINu6yD1s6Aw0QkH6SmSoajKnqv2hb/XvLlI2LPmutN6G
+	Dehv7jfNz6VZttaRVCMsIEVztUOuJnt67iJBTu65LW5JwZ7+ndMNc0ptTA4I6VtMSmrU
+	3LTg==
+X-Gm-Message-State: AIVw113/RFWPDUvH3jK76N97bX/QrXc/+y847WjWrHX39uIkZMqIHhsy
+	O/wznAvHGABSCoMHZAU=
+X-Received: by 10.223.169.51 with SMTP id u48mr2233759wrc.176.1499968106249;
+	Thu, 13 Jul 2017 10:48:26 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	l12sm7159061wrc.46.2017.07.13.10.48.05
+	185sm7228710wmn.33.2017.07.13.10.48.24
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Jul 2017 10:48:05 -0700 (PDT)
+	Thu, 13 Jul 2017 10:48:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jul 2017 18:47:43 +0100
-Message-Id: <20170713174743.19954-1-ross.burton@intel.com>
+Date: Thu, 13 Jul 2017 18:48:21 +0100
+Message-Id: <20170713174821.20071-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH][morty] libgcrypt: fix CVE-2017-9526
+Subject: [PATCH][pyro] libgcrypt: fix CVE-2017-9526
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +54,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jul 2017 17:48:06 -0000
+X-List-Received-Date: Thu, 13 Jul 2017 17:48:26 -0000
 
 In libgcrypt before 1.7.7, an attacker who learns the EdDSA session key (from
 side-channel observation during the signing process) can easily recover the
@@ -71,7 +71,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
 
 diff --git a/meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch b/meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch
 new file mode 100644
-index 00000000000..f6c4ca76f33
+index 00000000000..0a4dfe67737
 --- /dev/null
 +++ b/meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch
 @@ -0,0 +1,39 @@
@@ -79,7 +79,7 @@ index 00000000000..f6c4ca76f33
 +Upstream-Status: Backport
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+From b3cab278eb9c2ceda79f980bc26460d97f260041 Mon Sep 17 00:00:00 2001
++From 4a1768d683f6572ad86d833508c70e6b3dc1efdc Mon Sep 17 00:00:00 2001
 +From: Jo Van Bulck <jo.vanbulck@cs.kuleuven.be>
 +Date: Thu, 19 Jan 2017 17:00:15 +0100
 +Subject: [PATCH] ecc: Store EdDSA session key in secure memory.
@@ -115,7 +115,7 @@ index 00000000000..f6c4ca76f33
 +2.11.0
 +
 diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
-index 15805cd4365..7c4c0e83b53 100644
+index 84c1cc018b3..e95c059c875 100644
 --- a/meta/recipes-support/libgcrypt/libgcrypt.inc
 +++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
 @@ -20,6 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
