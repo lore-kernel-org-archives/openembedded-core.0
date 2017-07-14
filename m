@@ -1,27 +1,28 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 548A578218
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 32C67780A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 12:46:04 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Jul 2017 05:46:06 -0700
+	Fri, 14 Jul 2017 13:12:02 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 14 Jul 2017 06:12:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="286891784"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 14 Jul 2017 05:46:06 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id B898C5803B9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 05:46:05 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jul 2017 15:33:07 +0300
-Message-Id: <9c1523cd5966bcb42016498be1f5aba5d71c362d.1500035131.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1500035131.git.ed.bartosh@linux.intel.com>
-References: <cover.1500035131.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 8/8] selftest: fixed 5 wic test cases
+X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="878898120"
+Received: from unknown (HELO [10.219.128.129]) ([10.219.128.129])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2017 06:12:00 -0700
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <20170713174821.20071-1-ross.burton@intel.com>
+	<20170713183822.2381.55793@do.openembedded.org>
+	<CAHiDW_FjapMrVu=URNJNo4T0K+99XByZSeVGK743WdMFpLSOuA@mail.gmail.com>
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+Message-ID: <01e393aa-f547-c6a2-7e9c-a93ee8ce24bb@linux.intel.com>
+Date: Fri, 14 Jul 2017 08:12:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAHiDW_FjapMrVu=URNJNo4T0K+99XByZSeVGK743WdMFpLSOuA@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGxpYmdjcnlwdDogZml4IENWRS0yMDE3LTk1MjYgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,91 +35,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 12:46:05 -0000
+X-List-Received-Date: Fri, 14 Jul 2017 13:12:03 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Added core-image-minimal -> syslinux dependency to ensure
-syslinux artifacts are available from core-image-minimal
-build. This should fix test_iso_image, test_bootloader_config and
-test_default_output_dir test cases.
 
-Used --native-sysroot in test_image_vars_dir_long and
-test_image_vars_dir_short test cases to point out to wic-tools
-native sysrtoot.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/lib/oeqa/selftest/cases/wic.py | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+On 07/14/2017 02:57 AM, Jussi Kukkonen wrote:
+> On 13 July 2017 at 21:38, Patchwork
+> <patchwork@patchwork.openembedded.org
+> <mailto:patchwork@patchwork.openembedded.org>> wrote:
+>
+>     == Series Details ==
+>
+>     Series: libgcrypt: fix CVE-2017-9526 (rev2)
+>     Revision: 2
+>
+>
+> Not sure if this should be a patchwork bug or not? This patch is
+> showing up as a revision 2 of the other patch when in reality they are
+> patches for two separate branches.
+>
+>  - Jussi
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 46d626d..f73d810 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -188,7 +188,8 @@ class Wic(OESelftestTestCase):
-     def test_iso_image(self):
-         """Test creation of hybrid iso image with legacy and EFI boot"""
-         config = 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
--                 'MACHINE_FEATURES_append = " efi"\n'
-+                 'MACHINE_FEATURES_append = " efi"\n'\
-+                 'DEPENDS_pn-core-image-minimal += "syslinux"\n'
-         self.append_config(config)
-         bitbake('core-image-minimal')
-         self.remove_config(config)
-@@ -217,6 +218,10 @@ class Wic(OESelftestTestCase):
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_bootloader_config(self):
-         """Test creation of directdisk-bootloader-config image"""
-+        config = 'DEPENDS_pn-core-image-minimal += "syslinux"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-         cmd = "wic create directdisk-bootloader-config -e core-image-minimal -o %s" % self.resultdir
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob(self.resultdir + "directdisk-bootloader-config-*direct")))
-@@ -248,6 +253,10 @@ class Wic(OESelftestTestCase):
-         """Test default output location"""
-         for fname in glob("directdisk-*.direct"):
-             os.remove(fname)
-+        config = 'DEPENDS_pn-core-image-minimal += "syslinux"\n'
-+        self.append_config(config)
-+        bitbake('core-image-minimal')
-+        self.remove_config(config)
-         cmd = "wic create directdisk -e core-image-minimal"
-         self.assertEqual(0, runCmd(cmd).status)
-         self.assertEqual(1, len(glob("directdisk-*.direct")))
-@@ -569,10 +578,12 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         """Test image vars directory selection -v option"""
-         image = 'core-image-minimal'
-         imgenvdir = self._get_image_env_path(image)
-+        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
- 
-         self.assertEqual(0, runCmd("wic create wictestdisk "
--                                   "--image-name=%s -v %s -o %s"
--                                   % (image, imgenvdir, self.resultdir)).status)
-+                                   "--image-name=%s -v %s -n %s -o %s"
-+                                   % (image, imgenvdir, native_sysroot,
-+                                      self.resultdir)).status)
-         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*direct")))
- 
-     @OETestID(1665)
-@@ -580,11 +591,15 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         """Test image vars directory selection --vars option"""
-         image = 'core-image-minimal'
-         imgenvdir = self._get_image_env_path(image)
-+        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-+
-         self.assertEqual(0, runCmd("wic create wictestdisk "
-                                    "--image-name=%s "
-                                    "--vars %s "
-+                                   "--native-sysroot %s "
-                                    "--outdir %s"
--                                   % (image, imgenvdir, self.resultdir)).status)
-+                                   % (image, imgenvdir, native_sysroot,
-+                                      self.resultdir)).status)
-         self.assertEqual(1, len(glob(self.resultdir + "wictestdisk-*direct")))
- 
-     @OETestID(1351)
+There is a request to handle older release patch submissions in
+Patchwork (bug 10716) planned to be completed in 2.5, however, I may be
+able to implement the change in the following days.
+
+Jose
+
+>
+>  
+>
+>     URL   : https://patchwork.openembedded.org/series/7732/
+>     <https://patchwork.openembedded.org/series/7732/>
+>     State : failure
+>
+>     == Summary ==
+>
+>
+>     Thank you for submitting this patch series to OpenEmbedded Core.
+>     This is
+>     an automated response. Several tests have been executed on the
+>     proposed
+>     series by patchtest resulting in the following failures:
+>
+>
+>
+>     * Patch            [pyro] libgcrypt: fix CVE-2017-9526
+>      Issue             Missing or incorrectly formatted CVE tag in
+>     commit message [test_cve_presence_in_commit_message]
+>       Suggested fix    Include a "CVE-xxxx-xxxx" tag in the commit message
+>
+>
+>
+>     If you believe any of these test results are incorrect, please
+>     reply to the
+>     mailing list (openembedded-core@lists.openembedded.org
+>     <mailto:openembedded-core@lists.openembedded.org>) raising your
+>     concerns.
+>     Otherwise we would appreciate you correcting the issues and
+>     submitting a new
+>     version of the patchset if applicable. Please ensure you
+>     add/increment the
+>     version number when sending the new version (i.e. [PATCH] ->
+>     [PATCH v2] ->
+>     [PATCH v3] -> ...).
+>
+>     ---
+>     Test framework:
+>     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+>     <http://git.yoctoproject.org/cgit/cgit.cgi/patchtest>
+>     Test suite:   
+>      http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+>     <http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe>
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+>
+>
+
 -- 
-2.1.4
+Jose Lamego | OTC Embedded Platform & Tools | GDC
 
 
