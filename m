@@ -1,46 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 42B85781F3
+Return-Path: <markusv@linux4biz.eu>
+X-Greylist: delayed 466 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 14 Jul 2017 14:29:16 UTC
+Received: from mail.linux4biz.eu (mx.linux4biz.eu [62.219.174.245])
+	by mail.openembedded.org (Postfix) with ESMTP id B374C781F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 14:25:06 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id v17so70651914qka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 07:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4w0bEPt/d7pHtC23KRUP/5PHLnJw2ziL2zOlGXc9+Hk=;
-	b=hqrkX65sB814wgGAGPhJA24QMBxJ0XWvsK3LqVc30dwfSElFTJMbvuUcXNKJ131CTj
-	8xmi5JKwCHyRXPkPgjTUmBSf5r0lt0PwOxx1QSu2NlGzVFC1HoR6kwxhHVvQ1umAUvJG
-	SxzCzrR8ls6K87FeGYRgDCFIxjoZau7H+F/oRlyCo6W7/NlR+U5c89p/f5hHKccQzfB3
-	LFXNqVJpxiuDxaLQgOCeucSij9Ms1nwZ75tf6t4rroGRmwd+TIuSeFmiW1TCIhGVe6Bw
-	Sd8uiF6WAG+aNJLp7T/8C1UQYMpsGd7NnyercQ8fz7am7+Ws39jTjpnA8bY2k2geN1GG
-	PT7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4w0bEPt/d7pHtC23KRUP/5PHLnJw2ziL2zOlGXc9+Hk=;
-	b=qSdvAfQVK1SMBiKAPQvLVedJLOCIgY+A1xG6fsBWh3WFTLFUPonSjrOgy0Cvbrvwoe
-	y+54eE4SmTM6ae+O7jQqSO/l2iUuBkFchOCdtUXgZcv1GoNZIKwHMMO3sC44fR2z5Ird
-	6xBUDaq0wvx2qCtNHCqP7kVL26ipoS/1W3nwB4FBRHCA100sHDvLeM7ZI0yiI2So2+dR
-	lweDTNw8zf/O5FRi+0i+iulzv7YawBPAEjt7QHVdsJh5uIpRAcWJHQ9fwvxE4grHaEpS
-	FBNYtwrceCmHzqZz59rQ8FtBIl0BtgijiPlk13YvJ3azy/DQ2u95+9m3f1ubUTgq5PFm
-	wwLg==
-X-Gm-Message-State: AIVw1123EwuaDaMQ69laTfxCNHO+o9kY6StyWQVHxcSj27nwO0YnA8Il
-	oSaYrnKe3dc2hW4sjptawalVfB+bLg==
-X-Received: by 10.55.31.76 with SMTP id f73mr12404522qkf.85.1500042307831;
-	Fri, 14 Jul 2017 07:25:07 -0700 (PDT)
+	Fri, 14 Jul 2017 14:29:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.linux4biz.eu (Postfix) with ESMTP id C73C7BE5F3B;
+	Fri, 14 Jul 2017 17:21:30 +0300 (IDT)
+X-Virus-Scanned: by amavisd-new-2.10.1 (20141025) (Debian) at linux4biz.eu
+Received: from mail.linux4biz.eu ([127.0.0.1])
+	by localhost (mail.linux4biz.eu [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id vBsEsT6qhAuB; Fri, 14 Jul 2017 17:21:23 +0300 (IDT)
+Received: from lenovo_markus.muc.linux4biz.de (unknown [217.111.52.143])
+	by mail.linux4biz.eu (Postfix) with ESMTPSA id 23041BE5EE3;
+	Fri, 14 Jul 2017 17:21:22 +0300 (IDT)
+From: Markus Valentin <markusv@linux4biz.eu>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Jul 2017 16:20:18 +0200
+Message-Id: <20170714142018.25469-1-markusv@linux4biz.eu>
+X-Mailer: git-send-email 2.13.2
 MIME-Version: 1.0
-Received: by 10.140.97.6 with HTTP; Fri, 14 Jul 2017 07:24:47 -0700 (PDT)
-In-Reply-To: <alpine.LFD.2.20.1707140547090.12072@localhost.localdomain>
-References: <alpine.LFD.2.20.1707140547090.12072@localhost.localdomain>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Fri, 14 Jul 2017 07:24:47 -0700
-Message-ID: <CABcZAN=DimUEqjJTNzrh69aCWXx+SrVy2=2pKypPiN+9vOqRLg@mail.gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: two identically-named machine .conf files in two different layers?
+Subject: [krogoth][PATCH] qemu: make UNDEF registers RAZ for ID_AA64*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,73 +34,296 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 14:25:07 -0000
-Content-Type: multipart/alternative; boundary="001a1147d536e80dab055447d0fb"
+X-List-Received-Date: Fri, 14 Jul 2017 14:29:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---001a1147d536e80dab055447d0fb
-Content-Type: text/plain; charset="UTF-8"
+when running qemu-system for aarch64 which does get built within the
+sdk from the krogoth branch it does give the following error (when
+run with -d unimp)
 
-On Fri, Jul 14, 2017 at 2:50 AM, Robert P. J. Day <rpjday@crashcourse.ca>
-wrote:
+"read access to unsupported AArch64 system register op0:3 op1:0 crn:0
+crm:7 op2:2"
 
->
->   just ran across someone else's OE work, where he pulled in a
-> standard layer that defined a machine, call it "machine.conf", then
-> added an internal layer with some tweaks but *also* contained a
-> machine definition file named precisely "machine.conf", which was just
-> the original file with some edits. so it wasn't extending or modifying
-> the original machine.conf, it was meant to completely override it.
->
->   i was a bit confused as i'm not sure what even happens in a
-> situation like that. does one take precedence over the other based on
-> layer priority? or what?
->
+This error results in an not bootable kernel on qemu
 
-Config files and classes are pulled in via relative paths, which are always
-found via BBPATH, which in turn is defined based on layer.conf files. Since
-any sane layer.conf file will append to BBPATH, BBPATH ends up obeying the
-same order as BBLAYERS.
+	https://lkml.org/lkml/2016/3/30/35
 
-If you want layer A to override a config file or class in layer B, put
-layer A before layer B in BBLAYERS in conf/bblayers.conf.
+to fix this issue this patch applies the patch "Make reserved ranges
+ in ID_AA64* spaces RAZ, not UNDEF"  by Ard Biesheuvel from the qemu-devel
+mailinglist.
+
+https://lists.gnu.org/archive/html/qemu-devel/2016-02/msg04574.html
+
+Signed-off-by: Markus Valentin <markusv@linux4biz.eu>
+---
+ ...Make-reserved-ranges-in-ID_AA64-spaces-RA.patch | 243 +++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.5.0.bb           |   1 +
+ 2 files changed, 244 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/target-arm-Make-reserved-ranges-in-ID_AA64-spaces-RA.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu/target-arm-Make-reserved-ranges-in-ID_AA64-spaces-RA.patch b/meta/recipes-devtools/qemu/qemu/target-arm-Make-reserved-ranges-in-ID_AA64-spaces-RA.patch
+new file mode 100644
+index 0000000000..22363b2665
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/target-arm-Make-reserved-ranges-in-ID_AA64-spaces-RA.patch
+@@ -0,0 +1,243 @@
++From cab1cc724572a1e418249f827b5f958bd23b1004 Mon Sep 17 00:00:00 2001
++From: Peter Maydell <peter.maydell@linaro.org>
++Date: Fri, 19 Feb 2016 14:07:43 +0000
++Subject: [PATCH] target-arm: Make reserved ranges in ID_AA64* spaces RAZ, not
++ UNDEF
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The v8 ARM ARM defines that unused spaces in the ID_AA64* system
++register ranges are Reserved and must RAZ, rather than being UNDEF.
++Implement this.
++
++In particular, ARM v8.2 adds a new feature register ID_AA64MMFR2,
++and newer versions of the Linux kernel will attempt to read this,
++which causes them not to boot up on versions of QEMU missing this fix.
++
++Since the encoding .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 6
++is actually defined in ARMv8 (as ID_MMFR4), we give it an entry in
++the ARMCPU struct so CPUs can override it, though since none do
++this too will just RAZ.
++
++Cc: qemu-stable@nongnu.org
++Reported-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Message-id: 1455890863-11203-1-git-send-email-peter.maydell@linaro.org
++Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
++Tested-by: Alex Bennée <alex.bennee@linaro.org>
++(cherry picked from commit e20d84c1407d43d5a2e2ac95dbb46db3b0af8f9f)
++
++Conflicts:
++	target-arm/helper.c
++
++* remove context dep on 4054bfa9
++
++Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
++---
++ target-arm/cpu-qom.h |   1 +
++ target-arm/helper.c  | 128 ++++++++++++++++++++++++++++++++++++++++++++++++---
++ 2 files changed, 122 insertions(+), 7 deletions(-)
++
++diff --git a/target-arm/cpu-qom.h b/target-arm/cpu-qom.h
++index 25fb1ce0f3..9376eafcbe 100644
++--- a/target-arm/cpu-qom.h
+++++ b/target-arm/cpu-qom.h
++@@ -150,6 +150,7 @@ typedef struct ARMCPU {
++     uint32_t id_mmfr1;
++     uint32_t id_mmfr2;
++     uint32_t id_mmfr3;
+++    uint32_t id_mmfr4;
++     uint32_t id_isar0;
++     uint32_t id_isar1;
++     uint32_t id_isar2;
++diff --git a/target-arm/helper.c b/target-arm/helper.c
++index afc4163342..1743e37ab4 100644
++--- a/target-arm/helper.c
+++++ b/target-arm/helper.c
++@@ -4092,12 +4092,14 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 5,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->id_isar5 },
++-            /* 6..7 are as yet unallocated and must RAZ */
++-            { .name = "ID_ISAR6", .cp = 15, .crn = 0, .crm = 2,
++-              .opc1 = 0, .opc2 = 6, .access = PL1_R, .type = ARM_CP_CONST,
++-              .resetvalue = 0 },
++-            { .name = "ID_ISAR7", .cp = 15, .crn = 0, .crm = 2,
++-              .opc1 = 0, .opc2 = 7, .access = PL1_R, .type = ARM_CP_CONST,
+++            { .name = "ID_MMFR4", .state = ARM_CP_STATE_BOTH,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 6,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = cpu->id_mmfr4 },
+++            /* 7 is as yet unallocated and must RAZ */
+++            { .name = "ID_ISAR7_RESERVED", .state = ARM_CP_STATE_BOTH,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 7,
+++              .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = 0 },
++             REGINFO_SENTINEL
++         };
++@@ -4151,7 +4153,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++         define_arm_cp_regs(cpu, not_v7_cp_reginfo);
++     }
++     if (arm_feature(env, ARM_FEATURE_V8)) {
++-        /* AArch64 ID registers, which all have impdef reset values */
+++        /* AArch64 ID registers, which all have impdef reset values.
+++         * Note that within the ID register ranges the unused slots
+++         * must all RAZ, not UNDEF; future architecture versions may
+++         * define new registers here.
+++         */
++         ARMCPRegInfo v8_idregs[] = {
++             { .name = "ID_AA64PFR0_EL1", .state = ARM_CP_STATE_AA64,
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 0,
++@@ -4161,6 +4167,30 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 1,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->id_aa64pfr1},
+++            { .name = "ID_AA64PFR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 2,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64PFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 3,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64PFR4_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 4,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64PFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 5,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64PFR6_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 6,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64PFR7_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 4, .opc2 = 7,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
++             { .name = "ID_AA64DFR0_EL1", .state = ARM_CP_STATE_AA64,
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 0,
++               .access = PL1_R, .type = ARM_CP_CONST,
++@@ -4174,6 +4204,14 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 1,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->id_aa64dfr1 },
+++            { .name = "ID_AA64DFR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 2,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64DFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 3,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
++             { .name = "ID_AA64AFR0_EL1", .state = ARM_CP_STATE_AA64,
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 4,
++               .access = PL1_R, .type = ARM_CP_CONST,
++@@ -4182,6 +4220,14 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 5,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->id_aa64afr1 },
+++            { .name = "ID_AA64AFR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 6,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64AFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 5, .opc2 = 7,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
++             { .name = "ID_AA64ISAR0_EL1", .state = ARM_CP_STATE_AA64,
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 0,
++               .access = PL1_R, .type = ARM_CP_CONST,
++@@ -4190,6 +4236,30 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 1,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->id_aa64isar1 },
+++            { .name = "ID_AA64ISAR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 2,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64ISAR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 3,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64ISAR4_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 4,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64ISAR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 5,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64ISAR6_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 6,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64ISAR7_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 7,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
++             { .name = "ID_AA64MMFR0_EL1", .state = ARM_CP_STATE_AA64,
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 0,
++               .access = PL1_R, .type = ARM_CP_CONST,
++@@ -4198,6 +4268,30 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 1,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->id_aa64mmfr1 },
+++            { .name = "ID_AA64MMFR2_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 2,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64MMFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 3,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64MMFR4_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 4,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64MMFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 5,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64MMFR6_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 6,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "ID_AA64MMFR7_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 7, .opc2 = 7,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
++             { .name = "MVFR0_EL1", .state = ARM_CP_STATE_AA64,
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 0,
++               .access = PL1_R, .type = ARM_CP_CONST,
++@@ -4210,6 +4304,26 @@ void register_cp_regs_for_features(ARMCPU *cpu)
++               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 2,
++               .access = PL1_R, .type = ARM_CP_CONST,
++               .resetvalue = cpu->mvfr2 },
+++            { .name = "MVFR3_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 3,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "MVFR4_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 4,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "MVFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 5,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "MVFR6_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 6,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
+++            { .name = "MVFR7_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+++              .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 7,
+++              .access = PL1_R, .type = ARM_CP_CONST,
+++              .resetvalue = 0 },
++             REGINFO_SENTINEL
++         };
++         /* RVBAR_EL1 is only implemented if EL1 is the highest EL */
++--
++2.13.2
+diff --git a/meta/recipes-devtools/qemu/qemu_2.5.0.bb b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+index b965f6916c..173a9add6e 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.5.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.5.0.bb
+@@ -28,6 +28,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://CVE-2016-5403.patch \
+             file://CVE-2016-4441.patch \
+             file://CVE-2016-4952.patch \
++            file://target-arm-Make-reserved-ranges-in-ID_AA64-spaces-RA.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "f469f2330bbe76e3e39db10e9ac4f8db"
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
+2.13.2
 
---001a1147d536e80dab055447d0fb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Jul 14, 2017 at 2:50 AM, Robert P. J. Day <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcou=
-rse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-=C2=A0 just ran across someone else&#39;s OE work, where he pulled in a<br>
-standard layer that defined a machine, call it &quot;machine.conf&quot;, th=
-en<br>
-added an internal layer with some tweaks but *also* contained a<br>
-machine definition file named precisely &quot;machine.conf&quot;, which was=
- just<br>
-the original file with some edits. so it wasn&#39;t extending or modifying<=
-br>
-the original machine.conf, it was meant to completely override it.<br>
-<br>
-=C2=A0 i was a bit confused as i&#39;m not sure what even happens in a<br>
-situation like that. does one take precedence over the other based on<br>
-layer priority? or what?<br></blockquote><div>=C2=A0</div><div>Config files=
- and classes are pulled in via relative paths, which are always found via B=
-BPATH, which in turn is defined based on layer.conf files. Since any sane l=
-ayer.conf file will append to BBPATH, BBPATH ends up obeying the same order=
- as BBLAYERS.</div><div><br></div><div>If you want layer A to override a co=
-nfig file or class in layer B, put layer A before layer B in BBLAYERS in co=
-nf/bblayers.conf.</div></div>-- <br><div class=3D"gmail_signature" data-sma=
-rtmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christoph=
-er Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, O=
-penZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></d=
-iv>
-</div></div>
-
---001a1147d536e80dab055447d0fb--
