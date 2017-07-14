@@ -1,23 +1,57 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BFF271A30
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
+	[209.85.218.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5035A781F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 09:35:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6E9Z2BG020092
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 14 Jul 2017 02:35:02 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 14 Jul 2017 02:35:00 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Fri, 14 Jul 2017 05:34:59 -0400
-Message-ID: <1500024899-6398-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [V2 PATCH] shadow.inc: remove pam.d/chpasswd and pam.d/newusers
+	Fri, 14 Jul 2017 09:35:06 +0000 (UTC)
+Received: by mail-oi0-f49.google.com with SMTP id x187so67001350oig.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Jul 2017 02:35:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=SPN/XgR315T2eXgZIa5s8ujQl/655nzG2T+osEcSWL8=;
+	b=pBjojMNG89bAzCgYgHukM685hrQ0ypwr8OvKHdKkzTKmAryoVUx/NVIcQzDsbp/sF4
+	+WpsD6JXGz5R+ewjcO0pjaNWCH7rJAIDkMmRwYnQ0UNVpm6KFA18eNMaTd945Ri9Cder
+	yDFCERYRNRuW25ya2CQWsyPzefaz7knTOpwl6Xfwlm+kzFBmNHmCppQMyYHN5H6MDO1E
+	kG0WCAmlhARy+J3k3WTgWdkN+9B8Y0ookgvJ3PgyLyG1q6JizU5N89sro/MtSPewbdAS
+	66GDJJKTglv0jZGPj8yoQ2BUNP5hj5Vu2NjXBqbhaxOVxcQMDz005IDnWZW76lYNZU9Z
+	oI6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=SPN/XgR315T2eXgZIa5s8ujQl/655nzG2T+osEcSWL8=;
+	b=bSIW1pXyQbaHu6uwVKg2j0ryPvr2S5LFEBgfSZLA6lH2JDR95kFyIO1RS/LvkCc+mA
+	Kokb5BsSwfP1K4wKnLUvSY3PgQ1zjxse2PNqeRhqO7HJUzAwGqVIgux5Os/POUp8nxNQ
+	T2vfMWwP8uCPXou/pMo10O/k296GnDV3GNmAOnXHXKh5DCZGqUfdjEePYtESxN+FNAre
+	CHsnrH0Z+0MZxj2PCqcaF3Rj6YzDK2G8d1kF/i94TSaAbbNMUajgYfK7bXfvw82pkS/e
+	piiEO5/FSOdZysxJ3CTG6tFXJDTgUYIMHs5jqI+wnLmcQNnoV2ZccDVJC/RZ+byHZ1cJ
+	2Dcg==
+X-Gm-Message-State: AIVw112kdIiRDo6r000ffPRxUbNfqAeKX+iDYkNAPC6woDzXDZuGC0H7
+	DQWcYH3O5JrlbJup
+X-Received: by 10.202.204.196 with SMTP id c187mr5577805oig.11.1500024908194; 
+	Fri, 14 Jul 2017 02:35:08 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F454.dip0.t-ipconnect.de. [93.232.244.84])
+	by smtp.gmail.com with ESMTPSA id
+	f137sm11327008oig.26.2017.07.14.02.35.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Jul 2017 02:35:06 -0700 (PDT)
+Message-ID: <1500024902.21921.35.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+Date: Fri, 14 Jul 2017 11:35:02 +0200
+In-Reply-To: <ec785117-31c8-db37-cfbe-b7bd34ce007f@linux.intel.com>
+References: <cover.1499803885.git.anibal.limon@linux.intel.com>
+	<0ba0ca75258dc5f62b1c79a7b87f85c136ca8ab7.1499803885.git.anibal.limon@linux.intel.com>
+	<1499843714.20211.117.camel@intel.com>
+	<ec785117-31c8-db37-cfbe-b7bd34ce007f@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: joshua.g.lock@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 20/30] oeqa/selftest/cases: runqemu enable thraded runs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,110 +64,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 09:35:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Jul 2017 09:35:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-* Problem:
-While pam is enabled:
-...
-DISTRO_FEATURES_append = " pam"
-...
+On Wed, 2017-07-12 at 10:01 -0500, Aníbal Limón wrote:
+> > Add also a wrapper for runqemu and we can get rid of "from
+> > oeqa.utils.commands import" completely.
+> 
+> Yes we can after the refkit and other selftest are adapted.
 
-Fix below errors on target:
-...
-  root@qemux86:~# newusers
-  newusers: PAM: Authentication failure
-  root@qemux86:~# chpasswd
-  chpasswd: PAM: Authentication failure
-...
+My proposal wasn't to remove oeqa.utils.commands, only the "import"
+statements for it in selftest test cases. There might be legitimate uses
+for oeqa.utils.commands outside of selftests.
 
-* Analysis:
-The pam.d/chpasswd and pam.d/newusers were added since OE-Classic:
-...
-https://github.com/openembedded/openembedded.git
-commit 4677a67913c5ec376eb016e6aac21f9a7ad5e9c4
-Author: David-John Willis <John.Willis@Distant-earth.com>
-Date:   Mon Nov 9 07:54:07 2009 +0000
-
-    shadow: Add version 4.1.4.2 and checksum.
-...
-
-And they were debian similar, but debian works well.
-Becuase debian built shadow with option `--disable-account-tools-setuid'
-...
-   * debian/patches/504_undef_USE_PAM.nolibpam,
-     debian/patches/504_undef_USE_PAM.dpatch, debian/rules: Patches removed.
-     Replaced by the --disable-account-tools-setuid configure option.
-...
-https://tracker.debian.org/media/packages/s/shadow/rules-1%3A4.2-3%2Bdeb8u1
-(In debian, if built shadow without --disable-account-tools-setuid,
-it has the same issue)
-
-And OE removed --disable-account-tools-setuid later:
-...
-commit f6535ea12ab7f4d99adbe78919a7ed252175565f
-Author: Kevin Tian <kevin.tian@intel.com>
-Date:   Fri Aug 6 10:34:29 2010 +0800
-
-    shadow: add new recipe 4.1.4.2
-
-    (borrow from OpenEmbedded with below tweaks)
-
-    Enhance login_defs_pam.sed according to shadow source, to ensuer we don't
-    leave any unknown definitions in /etc/login.defs when pam is enabled
-
-    no need for --disable-account-tools-setuid which is detected upon pam
-    automatically, and no specific CFLAGS append
-...
-
-* Solution
-Remove the pam config files and use the one provided by shadow.
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/shadow/files/pam.d/chpasswd | 4 ----
- meta/recipes-extended/shadow/files/pam.d/newusers | 4 ----
- meta/recipes-extended/shadow/shadow.inc           | 2 --
- 3 files changed, 10 deletions(-)
- delete mode 100644 meta/recipes-extended/shadow/files/pam.d/chpasswd
- delete mode 100644 meta/recipes-extended/shadow/files/pam.d/newusers
-
-diff --git a/meta/recipes-extended/shadow/files/pam.d/chpasswd b/meta/recipes-extended/shadow/files/pam.d/chpasswd
-deleted file mode 100644
-index 9e3efa6..0000000
---- a/meta/recipes-extended/shadow/files/pam.d/chpasswd
-+++ /dev/null
-@@ -1,4 +0,0 @@
--# The PAM configuration file for the Shadow 'chpasswd' service
--#
--
--password   include      common-password
-diff --git a/meta/recipes-extended/shadow/files/pam.d/newusers b/meta/recipes-extended/shadow/files/pam.d/newusers
-deleted file mode 100644
-index 4aa3dde..0000000
---- a/meta/recipes-extended/shadow/files/pam.d/newusers
-+++ /dev/null
-@@ -1,4 +0,0 @@
--# The PAM configuration file for the Shadow 'newusers' service
--#
--
--password   include      common-password
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 5e6b0bd..1770216 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -40,10 +40,8 @@ SRC_URI[sha256sum] = "3b0893d1476766868cd88920f4f1231c4795652aa407569faff802bcda
- 
- # Additional Policy files for PAM
- PAM_SRC_URI = "file://pam.d/chfn \
--               file://pam.d/chpasswd \
-                file://pam.d/chsh \
-                file://pam.d/login \
--               file://pam.d/newusers \
-                file://pam.d/passwd \
-                file://pam.d/su"
- 
 -- 
-2.8.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
