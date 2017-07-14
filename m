@@ -1,33 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1317B6612D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BFF271A30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 09:13:44 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 14 Jul 2017 02:13:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,358,1496127600"; d="scan'208";a="126617963"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2017 02:13:46 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 940075804B6;
-	Fri, 14 Jul 2017 02:13:45 -0700 (PDT)
-Date: Fri, 14 Jul 2017 12:01:20 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Message-ID: <20170714090120.GA15794@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <cover.1499326977.git.ed.bartosh@linux.intel.com>
-	<c1ab5f6f84e705b6d17e1aa7b03a2cc0aa0cdcf4.1499326977.git.ed.bartosh@linux.intel.com>
-	<1499761760.20211.97.camel@intel.com>
+	Fri, 14 Jul 2017 09:35:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6E9Z2BG020092
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 14 Jul 2017 02:35:02 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 14 Jul 2017 02:35:00 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Fri, 14 Jul 2017 05:34:59 -0400
+Message-ID: <1500024899-6398-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <1499761760.20211.97.camel@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/8] image_types_wic: set default WKS_FILE_DEPENDS
+Subject: [V2 PATCH] shadow.inc: remove pam.d/chpasswd and pam.d/newusers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +30,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 09:13:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 14 Jul 2017 09:35:02 -0000
+Content-Type: text/plain
 
-On Tue, Jul 11, 2017 at 10:29:20AM +0200, Patrick Ohly wrote:
-> On Thu, 2017-07-06 at 10:56 +0300, Ed Bartosh wrote:
-> > diff --git a/meta/classes/image_types_wic.bbclass
-> > b/meta/classes/image_types_wic.bbclass
-> > index 05ee68d..e9750b5 100644
-> > --- a/meta/classes/image_types_wic.bbclass
-> > +++ b/meta/classes/image_types_wic.bbclass
-> > @@ -40,7 +40,10 @@ USING_WIC =
-> > "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s
-> >  WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' %
-> > os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
-> >  do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
-> >  do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot'
-> > % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
-> > -WKS_FILE_DEPENDS ??= ''
-> > +WKS_FILE_DEPENDS ??= 'syslinux-native bmap-tools-native
-> > cdrtools-native btrfs-tools-native squashfs-tools-native'
-> > +WKS_FILE_DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
-> > +WKS_FILE_DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
-> > +
-> 
-> Using _append here adds these additional dependencies even when
-> WKS_FILE_DEPENDS has been set explicitly. How about this:
+* Problem:
+While pam is enabled:
+...
+DISTRO_FEATURES_append = " pam"
+...
 
-True. Sorry, overlooked this.
+Fix below errors on target:
+...
+  root@qemux86:~# newusers
+  newusers: PAM: Authentication failure
+  root@qemux86:~# chpasswd
+  chpasswd: PAM: Authentication failure
+...
 
-> WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native
-> cdrtools-native btrfs-tools-native squashfs-tools-native"
-> WKS_FILE_DEPENDS_BOOTLOADERS = ""
-> WKS_FILE_DEPENDS_BOOTLOADERS_x86 = "syslinux grub-efi systemd-boot"
-> WKS_FILE_DEPENDS_BOOTLOADERS_x86-64 = "syslinux grub-efi systemd-boot"
-> 
-> WKS_FILE_DEPENDS ??= "${WKS_FILE_DEPENDS_DEFAULT} ${WKS_FILE_DEPENDS_BOOTLOADERS}"
->
+* Analysis:
+The pam.d/chpasswd and pam.d/newusers were added since OE-Classic:
+...
+https://github.com/openembedded/openembedded.git
+commit 4677a67913c5ec376eb016e6aac21f9a7ad5e9c4
+Author: David-John Willis <John.Willis@Distant-earth.com>
+Date:   Mon Nov 9 07:54:07 2009 +0000
 
-Thanks, will do it in v2.
+    shadow: Add version 4.1.4.2 and checksum.
+...
 
---
-Regards,
-Ed
+And they were debian similar, but debian works well.
+Becuase debian built shadow with option `--disable-account-tools-setuid'
+...
+   * debian/patches/504_undef_USE_PAM.nolibpam,
+     debian/patches/504_undef_USE_PAM.dpatch, debian/rules: Patches removed.
+     Replaced by the --disable-account-tools-setuid configure option.
+...
+https://tracker.debian.org/media/packages/s/shadow/rules-1%3A4.2-3%2Bdeb8u1
+(In debian, if built shadow without --disable-account-tools-setuid,
+it has the same issue)
+
+And OE removed --disable-account-tools-setuid later:
+...
+commit f6535ea12ab7f4d99adbe78919a7ed252175565f
+Author: Kevin Tian <kevin.tian@intel.com>
+Date:   Fri Aug 6 10:34:29 2010 +0800
+
+    shadow: add new recipe 4.1.4.2
+
+    (borrow from OpenEmbedded with below tweaks)
+
+    Enhance login_defs_pam.sed according to shadow source, to ensuer we don't
+    leave any unknown definitions in /etc/login.defs when pam is enabled
+
+    no need for --disable-account-tools-setuid which is detected upon pam
+    automatically, and no specific CFLAGS append
+...
+
+* Solution
+Remove the pam config files and use the one provided by shadow.
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-extended/shadow/files/pam.d/chpasswd | 4 ----
+ meta/recipes-extended/shadow/files/pam.d/newusers | 4 ----
+ meta/recipes-extended/shadow/shadow.inc           | 2 --
+ 3 files changed, 10 deletions(-)
+ delete mode 100644 meta/recipes-extended/shadow/files/pam.d/chpasswd
+ delete mode 100644 meta/recipes-extended/shadow/files/pam.d/newusers
+
+diff --git a/meta/recipes-extended/shadow/files/pam.d/chpasswd b/meta/recipes-extended/shadow/files/pam.d/chpasswd
+deleted file mode 100644
+index 9e3efa6..0000000
+--- a/meta/recipes-extended/shadow/files/pam.d/chpasswd
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# The PAM configuration file for the Shadow 'chpasswd' service
+-#
+-
+-password   include      common-password
+diff --git a/meta/recipes-extended/shadow/files/pam.d/newusers b/meta/recipes-extended/shadow/files/pam.d/newusers
+deleted file mode 100644
+index 4aa3dde..0000000
+--- a/meta/recipes-extended/shadow/files/pam.d/newusers
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# The PAM configuration file for the Shadow 'newusers' service
+-#
+-
+-password   include      common-password
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 5e6b0bd..1770216 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -40,10 +40,8 @@ SRC_URI[sha256sum] = "3b0893d1476766868cd88920f4f1231c4795652aa407569faff802bcda
+ 
+ # Additional Policy files for PAM
+ PAM_SRC_URI = "file://pam.d/chfn \
+-               file://pam.d/chpasswd \
+                file://pam.d/chsh \
+                file://pam.d/login \
+-               file://pam.d/newusers \
+                file://pam.d/passwd \
+                file://pam.d/su"
+ 
+-- 
+2.8.1
+
 
