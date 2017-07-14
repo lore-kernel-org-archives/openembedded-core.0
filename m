@@ -1,38 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 2799 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 14 Jul 2017 10:36:47 UTC
-Received: from cpanel2.indieserve.net (cpanel2.indieserve.net [199.212.143.6])
-	by mail.openembedded.org (Postfix) with ESMTP id 37E3865CBB
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1991271A88
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 10:36:47 +0000 (UTC)
-Received: from cpec03f0ed08c7f-cm68b6fcf980b0.cpe.net.cable.rogers.com
-	([174.118.92.171]:54488 helo=localhost.localdomain)
-	by cpanel2.indieserve.net with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89)
-	(envelope-from <rpjday@crashcourse.ca>) id 1dVxEf-000501-GN
-	for openembedded-core@lists.openembedded.org;
-	Fri, 14 Jul 2017 05:50:09 -0400
-Date: Fri, 14 Jul 2017 05:50:07 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.20.1707140547090.12072@localhost.localdomain>
-User-Agent: Alpine 2.20 (LFD 67 2015-01-07)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel2.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel2.indieserve.net: authenticated_id:
-	rpjday+crashcourse.ca/only user confirmed/virtual account not
-	confirmed
-X-Authenticated-Sender: cpanel2.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: two identically-named machine .conf files in two different layers?
+	Fri, 14 Jul 2017 12:06:38 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Jul 2017 05:06:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,358,1496127600"; d="scan'208";a="126665345"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2017 05:06:38 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id A6B735803B9;
+	Fri, 14 Jul 2017 05:06:37 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Jul 2017 15:06:31 +0300
+Message-Id: <1500033991-27338-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] selftest: Add vulkan-demos to checkpkg exceptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 10:36:48 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Fri, 14 Jul 2017 12:06:40 -0000
+
+vulkan-demos has not had any releases.
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
 
 
-  just ran across someone else's OE work, where he pulled in a
-standard layer that defined a machine, call it "machine.conf", then
-added an internal layer with some tweaks but *also* contained a
-machine definition file named precisely "machine.conf", which was just
-the original file with some edits. so it wasn't extending or modifying
-the original machine.conf, it was meant to completely override it.
+This is only useful with the vulkan-demos patch. I've pushed this
+on top of the jku/vulkan branch in poky-contrib.
 
-  i was a bit confused as i'm not sure what even happens in a
-situation like that. does one take precedence over the other based on
-layer priority? or what?
+The commit silences the selftest failure from the checkpkg test.
+The whole checkpkg exceptions system should probably be changed so
+it uses a recipe variable (say UPSTREAM_CHECK_NO_MATCH = "1") instead of
+a whitelist file but the whole setup is "clever" enough that I'd
+rather leave the improvement to Alexander...
 
-rday
+Cheers,
+  Jussi
 
+
+
+ meta-selftest/files/distrodata/checkpkg_exceptions | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta-selftest/files/distrodata/checkpkg_exceptions b/meta-selftest/files/distrodata/checkpkg_exceptions
+index f0d1f67..ff54cf0 100644
+--- a/meta-selftest/files/distrodata/checkpkg_exceptions
++++ b/meta-selftest/files/distrodata/checkpkg_exceptions
+@@ -19,6 +19,7 @@ squashfs-tools
+ tcf-agent
+ unzip
+ update-rc.d
++vulkan-demos
+ x264
+ xcursor-transparent-theme
+ xinetd
 -- 
+2.1.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
