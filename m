@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1991271A88
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 98E8D60762
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 12:06:38 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Jul 2017 05:06:38 -0700
+	Fri, 14 Jul 2017 12:25:23 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Jul 2017 05:25:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,358,1496127600"; d="scan'208";a="126665345"
+X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="108115696"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2017 05:06:38 -0700
+	by orsmga004.jf.intel.com with ESMTP; 14 Jul 2017 05:25:24 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id A6B735803B9;
-	Fri, 14 Jul 2017 05:06:37 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id D04555807D9;
+	Fri, 14 Jul 2017 05:25:23 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jul 2017 15:06:31 +0300
-Message-Id: <1500033991-27338-1-git-send-email-jussi.kukkonen@intel.com>
+Date: Fri, 14 Jul 2017 15:25:17 +0300
+Message-Id: <cover.1500034432.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] selftest: Add vulkan-demos to checkpkg exceptions
+Subject: [PATCH 0/4] Remove gnome-common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 12:06:40 -0000
+X-List-Received-Date: Fri, 14 Jul 2017 12:25:23 -0000
 
-vulkan-demos has not had any releases.
+Patchset should preferably only be merged once "gnome-common: Add
+recipe (from oe-core)" (2017-07-06) patch has been merged in meta-oe.
+I can ping the thread once it happens.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
+This set removes gnome-common, an obsolete collection of m4-macros
+that partially conflicts with autoconf-archive. The plan is to fix the
+hacks between autoconf-archive and gnome-common once they're in the
+same repo.
 
+Thanks, 
+ Jussi
 
-This is only useful with the vulkan-demos patch. I've pushed this
-on top of the jku/vulkan branch in poky-contrib.
+The following changes since commit 81498aac9560fbeaeb58eaada32ce80e0ea51628:
 
-The commit silences the selftest failure from the checkpkg test.
-The whole checkpkg exceptions system should probably be changed so
-it uses a recipe variable (say UPSTREAM_CHECK_NO_MATCH = "1") instead of
-a whitelist file but the whole setup is "clever" enough that I'd
-rather leave the improvement to Alexander...
+  yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100)
 
-Cheers,
-  Jussi
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib jku/gnome-common
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/gnome-common
 
+Jussi Kukkonen (4):
+  matchbox-desktop: Upgrade to 2.2
+  python3-pygobject: Don't use gnome-common
+  gnome-desktop: Don't use gnome-common
+  gnome-common: Remove as deprecated
 
- meta-selftest/files/distrodata/checkpkg_exceptions | 1 +
- 1 file changed, 1 insertion(+)
+ ...onfigure.ac-Don-t-use-gnome-common-macros.patch | 33 ++++++++++++++++++++++
+ .../python/python3-pygobject_3.24.1.bb             |  3 +-
+ ...figure.ac-Remove-gnome-common-macro-calls.patch | 33 ++++++++++++++++++++++
+ .../gnome-desktop/gnome-desktop3_3.24.2.bb         |  6 ++--
+ meta/recipes-gnome/gnome/gnome-common_3.18.0.bb    | 20 -------------
+ ...hbox-desktop_2.1.bb => matchbox-desktop_2.2.bb} |  6 ++--
+ 6 files changed, 75 insertions(+), 26 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
+ create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop/0001-configure.ac-Remove-gnome-common-macro-calls.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-common_3.18.0.bb
+ rename meta/recipes-sato/matchbox-desktop/{matchbox-desktop_2.1.bb => matchbox-desktop_2.2.bb} (87%)
 
-diff --git a/meta-selftest/files/distrodata/checkpkg_exceptions b/meta-selftest/files/distrodata/checkpkg_exceptions
-index f0d1f67..ff54cf0 100644
---- a/meta-selftest/files/distrodata/checkpkg_exceptions
-+++ b/meta-selftest/files/distrodata/checkpkg_exceptions
-@@ -19,6 +19,7 @@ squashfs-tools
- tcf-agent
- unzip
- update-rc.d
-+vulkan-demos
- x264
- xcursor-transparent-theme
- xinetd
 -- 
 2.1.4
 
