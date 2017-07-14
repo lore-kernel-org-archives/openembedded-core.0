@@ -1,57 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E8DC78227
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A56E72F60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 17:19:32 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id 62so26118718wmw.1
+	Fri, 14 Jul 2017 18:46:59 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id h134so18992585iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 10:19:34 -0700 (PDT)
+	Fri, 14 Jul 2017 11:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=qORQYFkb54cz7zhKNaaifTixuLIQk/NFHI4ukWBt7kI=;
-	b=m0fc/Jkl7h3cGlNKRohElgFc5Ar0qoGDZYQy0SrzAG4yXrpDqZXpk8eYp2VqpL2k3q
-	5GuKo4bK132D7H4G5XX10xwvcQsuFtSYiPU1eFJAQ0LpIr38Vq1JB4+c58scU/VC+mY7
-	bKatlhB0lZuwxUjTf2iTwxL9CbWSCi4z0S+6eNNnEj92/Of61Y8GBaDqb59ybFQVlmqv
-	sRlvlLdpyjbjtBo8ugSc5/RNokdGfB1jW0TK8yF48TB/aXzDCgF9NneX7p01WBnVg33s
-	8Qgz1bL31GAfg5usHrePP5G7h4yu/F5s2xdR+DtSLOGpgOrV3Ed7ybR8hC0b2BLIbtUy
-	5d/g==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Cw0/k4Yk5fD8tyKkz94w5wB9pAJdZ9NjuSHF7m6HCK8=;
+	b=e6LNkR9faB3mHFoGCv233mfCrYR4mxHmI+Yf57MFNyVttPzzr/IFRjXagWqX7xOonR
+	7d2URih3tuqFov0rVQEBAbrq+YKsoFRxVnmU0vE/CCHItXGvF1F+SyIaEY0M4eXHA0jc
+	LLZiIY2RKRsvCLo/2CNbhOOY+kV5eE6m1LEiZZJS1BwVySbcz3fDTJpzHlpLSvVp7NHB
+	V0vME71q0lcIwCz6brCJCIF1E9VC9lN+Flo7Qo8mEnJUUEWJz2k7+VySBZw9iBeK4miB
+	cD2M3qa5aGoFkJpldFM3zeRMXxrjLm3KTuW2lsFZCCviYEBf0OdhdJvHov1mhqYlS+Fy
+	n5Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=qORQYFkb54cz7zhKNaaifTixuLIQk/NFHI4ukWBt7kI=;
-	b=ojvZelGejoXlqJdC+ZS44h4YIvDivJ8KCoOyLon3acjEtoEw2T5NfYmKJlPzlHP1rK
-	mElNXshNrchGr95+ODqIGlTUL2zbrOmqyyeb/W5KQGS5qw2YVbD+4yk4MxUKz280FrvA
-	rmdtX00MOwWDNNn4xHYSy8ByKtBXJoqd5UerCGfLcLQVKp9nSrGp5ZtKE9CPxHupDfza
-	iZw3dEXvCEeW1OpAD9SRd2qL+DQANdbS0ht4bhdkkYT+6UTNOSl2L+FYs/BUp0NcOzYH
-	e42EJLzynkNYG0dBaOXra6df95SahJFZgOfF33EpyXAx0Ru8dWkeWDDyqffIg0odi9G/
-	xv9g==
-X-Gm-Message-State: AIVw112df0rtmoaEBfj/aXGAAI7r2bUdrx2KHxNbmdb0YCH//5ccPNnN
-	BOEGjdJvHN4m9k5N2Lc=
-X-Received: by 10.28.150.139 with SMTP id y133mr3365099wmd.61.1500052773541;
-	Fri, 14 Jul 2017 10:19:33 -0700 (PDT)
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com.
-	[209.85.128.176])
-	by smtp.gmail.com with ESMTPSA id v8sm7111146wrd.28.2017.07.14.10.19.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 14 Jul 2017 10:19:32 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f176.google.com with SMTP id 77so70378020wrb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 10:19:32 -0700 (PDT)
-X-Received: by 10.223.139.218 with SMTP id w26mr4879296wra.206.1500052772236; 
-	Fri, 14 Jul 2017 10:19:32 -0700 (PDT)
+	bh=Cw0/k4Yk5fD8tyKkz94w5wB9pAJdZ9NjuSHF7m6HCK8=;
+	b=NLE+I6ho60Ixz/a4TRLPMxBwX+91i+auo4vOOd46KfNbcRGlXh25ISPB8LyRFx5ArT
+	PRe400NrDUSJ78GeVOwIiTCJFS/5lZGwnSSp+VsALefUBvDJum0n3vZA0W6whU4DmTPv
+	sacCxB7cxyvOXfJKIvmA4Arei44QTcgNIaceCBrjrJiIryzju7syhfMC11mggsAuly0C
+	lSzqdKaqw5COOpuTD2MmJzE0wIPH3IbDdVnoFBw6SjwugvEb2fHXWfbbnnmDpAlB6lFf
+	RAaBGxCY9/Imke+QxdkBMiL9C/TUC1RVfm9DXppGqfyMVdmWTRVj+oYJzQK4r2cCwQWb
+	PzIw==
+X-Gm-Message-State: AIVw110QjdbvdqkToLLf5A9cTmcjE/PAMHU/YerNlManQ5Ljus4kNzbS
+	uezn1W8SkP55JWwHj+uFHobgCnR8GlgGn4M=
+X-Received: by 10.107.169.80 with SMTP id s77mr9543731ioe.219.1500058020754;
+	Fri, 14 Jul 2017 11:47:00 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.73.84 with HTTP; Fri, 14 Jul 2017 10:19:31 -0700 (PDT)
-In-Reply-To: <20170712161907.13526-1-ross.burton@intel.com>
+Received: by 10.107.9.161 with HTTP; Fri, 14 Jul 2017 11:46:40 -0700 (PDT)
+In-Reply-To: <CAP9ODKrKoTvH5ddakeOkWSa9Wh2jb75yM8mP97sr0OUYEgC+XQ@mail.gmail.com>
 References: <20170712161907.13526-1-ross.burton@intel.com>
-Date: Fri, 14 Jul 2017 14:19:31 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrKoTvH5ddakeOkWSa9Wh2jb75yM8mP97sr0OUYEgC+XQ@mail.gmail.com>
-Message-ID: <CAP9ODKrKoTvH5ddakeOkWSa9Wh2jb75yM8mP97sr0OUYEgC+XQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+	<CAP9ODKrKoTvH5ddakeOkWSa9Wh2jb75yM8mP97sr0OUYEgC+XQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Jul 2017 19:46:40 +0100
+Message-ID: <CAJTo0LZED099gSrkAO59bQx0CPas0xEDakD5uB0r-tPBCqvX9w@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mesa: fix build race on src/intel/vulkan
@@ -67,20 +56,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 17:19:33 -0000
+X-List-Received-Date: Fri, 14 Jul 2017 18:47:00 -0000
+Content-Type: multipart/alternative; boundary="001a1141006c78520e05544b79b4"
+
+--001a1141006c78520e05544b79b4
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jul 12, 2017 at 1:19 PM, Ross Burton <ross.burton@intel.com> wrote:
-> It's possible that src/intel/vulkcan can be written into by sed before it has
-> been created, so add the required mkdir calls.
+The second sob is from the patch I sent upstream.  The first two lines of
+the patch header are the OE ones:
+
++++ b/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
+@@ -0,0 +1,37 @@
++Upstream-Status: Submitted
++Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+Ross
+
+On 14 July 2017 at 18:19, Otavio Salvador <otavio.salvador@ossystems.com.br>
+wrote:
+
+> On Wed, Jul 12, 2017 at 1:19 PM, Ross Burton <ross.burton@intel.com>
+> wrote:
+> > It's possible that src/intel/vulkcan can be written into by sed before
+> it has
+> > been created, so add the required mkdir calls.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Has this been send to upstream? Upstream-Status?
+>
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
 
-Has this been send to upstream? Upstream-Status?
+--001a1141006c78520e05544b79b4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">The second sob is from the patch I sent upstream.=C2=A0 Th=
+e first two lines of the patch header are the OE ones:<div><br></div><div><=
+span style=3D"font-size:12.800000190734863px">+++ b/meta/recipes-graphics/m=
+esa/</span><wbr style=3D"font-size:12.800000190734863px"><span style=3D"fon=
+t-size:12.800000190734863px">files/vulkan-mkdir.patch</span><br style=3D"fo=
+nt-size:12.800000190734863px"><span style=3D"font-size:12.800000190734863px=
+">@@ -0,0 +1,37 @@</span><br style=3D"font-size:12.800000190734863px"><span=
+ style=3D"font-size:12.800000190734863px">+Upstream-Status: Submitted</span=
+><br style=3D"font-size:12.800000190734863px"><span style=3D"font-size:12.8=
+00000190734863px">+Signed-off-by: Ross Burton &lt;</span><a href=3D"mailto:=
+ross.burton@intel.com" style=3D"font-size:12.800000190734863px">ross.burton=
+@intel.com</a><span style=3D"font-size:12.800000190734863px">&gt;</span><br=
+></div><div><span style=3D"font-size:12.800000190734863px"><br></span></div=
+><div><span style=3D"font-size:12.800000190734863px">Ross</span></div></div=
+><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 14 July 2017 =
+at 18:19, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"mailto:otavio.sa=
+lvador@ossystems.com.br" target=3D"_blank">otavio.salvador@ossystems.com.br=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">O=
+n Wed, Jul 12, 2017 at 1:19 PM, Ross Burton &lt;<a href=3D"mailto:ross.burt=
+on@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt; It&#39;s possible that src/intel/vulkcan can be written into by sed be=
+fore it has<br>
+&gt; been created, so add the required mkdir calls.<br>
+&gt;<br>
+&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
+">ross.burton@intel.com</a>&gt;<br>
+<br>
+</span>Has this been send to upstream? Upstream-Status?<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
+--<br>
+Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
+">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
+p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
+.ossystems.com.br</a><br>
+Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
+">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
+a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
+903-9750</a><br>
+</font></span></blockquote></div><br></div>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--001a1141006c78520e05544b79b4--
