@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CD9EC78207
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id E3CF778224
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 12:46:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Jul 2017 05:46:02 -0700
+	Fri, 14 Jul 2017 12:46:01 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Jul 2017 05:46:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="878891690"
+X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="1151510556"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2017 05:46:02 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2017 05:46:03 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 9BA185803B9
+	by linux.intel.com (Postfix) with ESMTP id A01575803B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 05:46:01 -0700 (PDT)
+	Fri, 14 Jul 2017 05:46:02 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jul 2017 15:33:03 +0300
-Message-Id: <a44d31b81ec998481e11c175196bbb117fe25764.1500035131.git.ed.bartosh@linux.intel.com>
+Date: Fri, 14 Jul 2017 15:33:04 +0300
+Message-Id: <2067ac83241a7ccd14a772b5dce879e214d2a64b.1500035131.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1500035131.git.ed.bartosh@linux.intel.com>
 References: <cover.1500035131.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 4/8] wic: isoimage-isohybrid: check result of glob()
+Subject: [PATCH v2 5/8] wic-tools: don't create wic-tools.env
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 12:46:01 -0000
+X-List-Received-Date: Fri, 14 Jul 2017 12:46:02 -0000
 
-isoimage-isohybrid plugin uses result of glob call to
-get path to initrd image. When glob returns empty list
-the plugin crashes with IndexError.
-
-Checking if result of glob call is not empty should fix
-the breakage.
+wic-tools.env was uses only when wic is run from bitbake.
+As wic doesn't use wic-tools anymore in this mode there is
+no need for this file.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/isoimage-isohybrid.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/wic-tools.bb | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index ffa5429..ece4b0c 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -164,9 +164,12 @@ class IsoImagePlugin(SourcePlugin):
+diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
+index cd494ec..c416a2e 100644
+--- a/meta/recipes-core/meta/wic-tools.bb
++++ b/meta/recipes-core/meta/wic-tools.bb
+@@ -11,6 +11,7 @@ DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
+ DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
  
-             machine = os.path.basename(initrd_dir)
+ INHIBIT_DEFAULT_DEPS = "1"
++
+ inherit nopackages
  
--            initrd = glob.glob('%s/%s*%s.%s' % (initrd_dir, image_name, machine, image_type))[0]
-+            pattern = '%s/%s*%s.%s' % (initrd_dir, image_name, machine, image_type)
-+            files = glob.glob(pattern)
-+            if files:
-+                initrd = files[0]
+ # The sysroot of wic-tools is needed for wic, but if rm_work is enabled, it will
+@@ -19,14 +20,5 @@ RM_WORK_EXCLUDE += "${PN}"
  
--        if not os.path.exists(initrd):
-+        if not initrd or not os.path.exists(initrd):
-             # Create initrd from rootfs directory
-             initrd = "%s/initrd.cpio.gz" % cr_workdir
-             initrd_dir = "%s/INITRD" % cr_workdir
+ python do_build_sysroot () {
+     bb.build.exec_func("extend_recipe_sysroot", d)
+-
+-    # Write environment variables used by wic
+-    # to tmp/sysroots/<machine>/imgdata/wictools.env
+-    outdir = os.path.join(d.getVar('STAGING_DIR'), d.getVar('MACHINE'), 'imgdata')
+-    bb.utils.mkdirhier(outdir)
+-    with open(os.path.join(outdir, "wic-tools.env"), 'w') as envf:
+-        for var in ('RECIPE_SYSROOT_NATIVE', 'STAGING_DATADIR', 'STAGING_LIBDIR'):
+-            envf.write('%s="%s"\n' % (var, d.getVar(var).strip()))
+-
+ }
+ addtask do_build_sysroot after do_prepare_recipe_sysroot before do_build
 -- 
 2.1.4
 
