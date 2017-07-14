@@ -1,47 +1,63 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B21DB7821C;
-	Fri, 14 Jul 2017 17:12:54 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id 62so25981440wmw.1;
-	Fri, 14 Jul 2017 10:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=R7bbtzciK+P/A9JvM2rUhuKISFrgcybvVS/OJzg1sDE=;
-	b=VUz+BwxRMW31XMCNSVOFB17UhDYJj+5+ojkGo1GETFw7QdkbhjAt1zL78ZT4QkrsNa
-	OLJKMpuaWBNi+JJKi4Vh+4Xgr1VYe6PoTckNM21FzZiCo7cKB2dCQCxy5iZ2wjko9qCM
-	v68RSCAiLDyWow1MqNyhFip/PQOd7fDoeZHswQcqOZxhfXhbwieYyeHoa7d3ClEMghmB
-	9wFcb3AC6W+ZV1xR3tA+U7o1l4j3Iji/U2PHazD6Upy/cbwZTrU/IaE9tNBImMUBUbm5
-	pHAPs95dEO7gHTm1Q5F7gDMTMJBDLRoyOQQato7GL9cKPfkA5RXLwQyOkDTL5/js8YZM
-	UbAg==
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C9487821C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Jul 2017 17:13:54 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id u110so5830281wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Jul 2017 10:13:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=zrI4HzG6GkJbttfVPyW2U07CtzD2pPC47m9f08VE7cg=;
+	b=l5av9Nmwuar4tDmF5VdQYxkGAeXX7k518F+4LQd6oQact9C8BAh7w0KbgXVhOxKK14
+	rWa4lp2KDCBsmAovaIOHWBgSaduw6ZZO7/N2325asDgac8372iCh6nMOGDsVWJtBtEuX
+	rZw2FhXxE8M99JEkby6bj6eLBTdkEj73VDN5VbYjik37azp/38atUQjzGyYCZ1X6nnKI
+	flGRMZOwB+pGLwqUudFNcFBpdgyTCH4ovWDFQra07RgD/Y0J6r3niPSCw1nltLJr5j5M
+	ij2oVZL/tsSp8BKuZ8ZIdjhNDRh58bzeMp4D55KBZNezZhdDCnzIFMtMAaoO5ZLmY3MO
+	hR+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=R7bbtzciK+P/A9JvM2rUhuKISFrgcybvVS/OJzg1sDE=;
-	b=mk131kU3oPaZJVswzpTj7RE8kurJwTxWtO9IjVznGa2mMg3PFcmJVv+LktdI9teb53
-	uJsjoerMB8Zt2qDw9TAhhQZ9fwyBc+xee73gCtBHgRl6cS3UPpQq3qzXr2WEL+EdYLe8
-	i/vOTmR+vdEUmAkUhwnrr9i1y2xYC6NGQErJnNifvvnHptU8EaszO/EcFVEO5//3BDpE
-	l0nRBzF/bny3qAoOFE7HH79nWq/kLpXJjOpLwyKUQxl53FvHupNw9RwZJJocwXZQ3L1e
-	EpzB+nxqSusKn2zZxX6Esq/12hsOXG/N8Zg8nG45wf9xWsUOi/Y0uhC5cXd4gY5WsI8V
-	J/5w==
-X-Gm-Message-State: AIVw113aBeBkvrEvL8bTmdyYDhOywht2RIy6cNVo1NmG9D9uNnbdG9l8
-	cbp7LxW2XCsSX0InI2EFzux8r8Ptrg==
-X-Received: by 10.80.170.218 with SMTP id r26mr7608553edc.113.1500052374982;
-	Fri, 14 Jul 2017 10:12:54 -0700 (PDT)
+	bh=zrI4HzG6GkJbttfVPyW2U07CtzD2pPC47m9f08VE7cg=;
+	b=pOsip28A0SuBUREDiwLJ2J7c3FSQga5VtqycpgoqKJV7leSAHIoUEyHF03YtWY9i6e
+	80rOZHJ2PfK7efHOgoXYjBBQX4YLkhEqGbdfgUkfi8txk7C8M3gz2cWGE7Ax439YwNEa
+	HZnM8rjJYU1QluxiBnUZp0hagk6sjTBxRp1ptPwvt0cX76hq7uDwIGrThAIYuS1ZyEqO
+	CkQR+NIZA97As8iayYvnS2vWDztqbqShdH0zJVnZNH2ouKx9NmsRgNEGtzNlXyoBEHBJ
+	NHiVJuwqgFDcxtDuOG9ErtG9S1CvxOhuCbkbTJWaqGZNVwV7wdG0IgoXBULwM7vK4vHg
+	gCPQ==
+X-Gm-Message-State: AIVw110ON2cHa92CjfqLv2IpJ47TVIdP+Yt8KaxXcJiYN2Ybio1glIlJ
+	gSlvrbcP+I0YrVrmSyA=
+X-Received: by 10.223.139.211 with SMTP id w19mr5643596wra.146.1500052435543; 
+	Fri, 14 Jul 2017 10:13:55 -0700 (PDT)
+Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com.
+	[209.85.128.172])
+	by smtp.gmail.com with ESMTPSA id u90sm2299392wrb.1.2017.07.14.10.13.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Jul 2017 10:13:54 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f172.google.com with SMTP id v60so4039340wrc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Jul 2017 10:13:54 -0700 (PDT)
+X-Received: by 10.223.141.138 with SMTP id o10mr5766892wrb.69.1500052434116;
+	Fri, 14 Jul 2017 10:13:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.145.210 with HTTP; Fri, 14 Jul 2017 10:12:24 -0700 (PDT)
-In-Reply-To: <CA+chaQeieChzEyyvomMVEa7-14f-J9kASZmNUNd6ZL3jUmdd7w@mail.gmail.com>
-References: <CA+chaQfEGO1Gra1BBCR9jeA+Lu5K6ekUY4etENcwoFQgftqzTA@mail.gmail.com>
-	<CAMKF1srxLHCA5YoRr20m+gYWooita6+3shpOLfbXHCVcAwb_dg@mail.gmail.com>
-	<CA+chaQeieChzEyyvomMVEa7-14f-J9kASZmNUNd6ZL3jUmdd7w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 14 Jul 2017 10:12:24 -0700
-Message-ID: <CAMKF1srGq7YzJnPcgPHp02HeKUxYT5Ax2gUAkKTjPgN+GFQN=Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+Received: by 10.28.73.84 with HTTP; Fri, 14 Jul 2017 10:13:53 -0700 (PDT)
+In-Reply-To: <c1499813f0e0a9aaaddabfe33cd3188c18ea6094.1499890236.git.wei.tee.ng@intel.com>
+References: <cover.1499890236.git.wei.tee.ng@intel.com>
+	<c1499813f0e0a9aaaddabfe33cd3188c18ea6094.1499890236.git.wei.tee.ng@intel.com>
+Date: Fri, 14 Jul 2017 14:13:53 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp_mHGtaG+KLJ2Tm3f+g5ymD_==2a=wgMb9XcwAqFk98w@mail.gmail.com>
+Message-ID: <CAP9ODKp_mHGtaG+KLJ2Tm3f+g5ymD_==2a=wgMb9XcwAqFk98w@mail.gmail.com>
+To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+Cc: Saul Wold <saul.wold@intel.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, Failed tasks 2017-07-13
+Subject: Re: [PATCH 1/1] initramfs-framework: include install module in recipe for installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,512 +70,370 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 17:12:55 -0000
+X-List-Received-Date: Fri, 14 Jul 2017 17:13:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 14, 2017 at 10:03 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> OK, I'll merge current batch of pending changes and before next build I'll
-> include
-> conf/distro/include/security_flags.inc
+On Wed, Jul 12, 2017 at 8:01 PM,  <wei.tee.ng@intel.com> wrote:
+> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
 >
-> Is that all I need to do?
->
+> Utilized the existing init-install-efi.sh script to manage the
 
-yep
+init-install-efi.sh could be renamed to install-efi.sh; also the
+package name should be install-efi as it does not support other types
+of installation.
 
-> On Fri, Jul 14, 2017 at 6:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> Hi Martin
->>
->> On Fri, Jul 14, 2017 at 9:43 AM, Martin Jansa <martin.jansa@gmail.com>
->> wrote:
->> > http://www.openembedded.org/wiki/Bitbake_World_Status
->> >
->>
->> The results looks good. I wanted to suggest to start building with
->> hardening flags on if possible. I have ensured that there are no
->> regressions with hardening flags. It would be good to keep that up
->>
->> > == Number of issues - stats ==
->> > {| class='wikitable'
->> > !|Date     !!colspan='3'|Failed tasks    !!|Signatures
->> > !!colspan='14'|QA !!Comment
->> > |-
->> > || ||qemuarm ||qemux86 ||qemux86_64 ||all
->> > ||already-stripped ||libdir ||textrel ||build-deps ||file-rdeps
->> > ||version-going-backwards ||host-user-contaminated ||installed-vs-shipped
->> > ||unknown-configure-option ||symlink-to-sysroot ||invalid-pkgconfig
->> > ||pkgname ||ldflags ||compile-host-path ||
->> > |-
->> >
->> > ||2017-07-13 ||1 ||1 ||1 ||0 ||0 ||1 ||4 ||0 ||0 ||21 ||0 ||0 ||0 ||0
->> > ||0 ||0 ||0 ||0 ||
->> > |}
->> >
->> > == Failed tasks 2017-07-13 ==
->> >
->> > INFO: jenkins-job.sh-1.8.24 Complete log available at
->> >
->> > http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170714_064216.log
->> >
->> > === common (1) ===
->> >     *
->> >
->> > openembedded-core/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_231.bb:do_compile
->> >
->> > === common-x86 (0) ===
->> >
->> > === qemuarm (0) ===
->> >
->> > === qemux86 (0) ===
->> >
->> > === qemux86_64 (0) ===
->> >
->> > === Number of failed tasks (3) ===
->> > {| class=wikitable
->> >
->> > |-
->> > || qemuarm || 1 ||
->> >
->> > http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemuarm.20170711_225251.log/
->> > || http://errors.yoctoproject.org/Errors/Build/41116/
->> > |-
->> > || qemux86 || 1 ||
->> >
->> > http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86.20170711_225251.log/
->> > || http://errors.yoctoproject.org/Errors/Build/41118/
->> > |-
->> > || qemux86_64 || 1 ||
->> >
->> > http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170713_081929.log/
->> > || http://errors.yoctoproject.org/Errors/Build/41231/
->> > |}
->> >
->> > === PNBLACKLISTs (14) ===
->> >
->> > === QA issues (26) ===
->> > {| class=wikitable
->> > !| Count ||Issue
->> > |-
->> > ||0 ||already-stripped
->> > |-
->> > ||0 ||build-deps
->> > |-
->> > ||0 ||compile-host-path
->> > |-
->> > ||0 ||file-rdeps
->> > |-
->> > ||0 ||host-user-contaminated
->> > |-
->> > ||0 ||installed-vs-shipped
->> > |-
->> > ||0 ||invalid-pkgconfig
->> > |-
->> > ||0 ||ldflags
->> > |-
->> > ||0 ||pkgname
->> > |-
->> > ||0 ||symlink-to-sysroot
->> > |-
->> > ||0 ||unknown-configure-option
->> > |-
->> > ||1 ||libdir
->> > |-
->> > ||21 ||version-going-backwards
->> > |-
->> > ||4 ||textrel
->> > |}
->> >
->> >
->> >
->> > === Incorrect PACKAGE_ARCH or sstate signatures (0) ===
->> >
->> > Complete log:
->> >
->> > http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.signatures.20170712_200847.log/
->> >
->> > No issues detected
->> >
->> >
->> > PNBLACKLISTs:
->> >
->> > openembedded-core/:
->> > meta-browser:
->> > meta-openembedded:
->> >
->> > meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.17.bb:PNBLACKLIST[lksctp-tools]
->> > ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', "BROKEN: fails
->> > to
->> > link against sctp_connectx symbol", '', d)}"
->> >
->> > meta-oe/recipes-connectivity/bluez/bluez-hcidump_2.5.bb:PNBLACKLIST[bluez-hcidump]
->> > ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> > meta-oe/recipes-connectivity/bluez/bluez4_4.101.bb:PNBLACKLIST[bluez4]
->> > ?=
->> > "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> >
->> > meta-oe/recipes-connectivity/bluez/gst-plugin-bluetooth_4.101.bb:PNBLACKLIST[gst-plugin-bluetooth]
->> > ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> > meta-oe/recipes-graphics/libsexy/libsexy_0.1.11.bb:PNBLACKLIST[libsexy]
->> > ?=
->> > "Fails to build with RSS
->> > http://errors.yoctoproject.org/Errors/Details/130607/ - the recipe will
->> > be
->> > removed on 2017-09-01 unless the issue is fixed"
->> >
->> > meta-oe/recipes-graphics/xorg-driver/xf86-video-geode_2.11.16.bb:PNBLACKLIST[xf86-video-geode]
->> > ?= "BROKEN, fails to build - the recipe will be removed on 2017-09-01
->> > unless
->> > the issue is fixed"
->> >
->> > meta-oe/recipes-navigation/foxtrotgps/foxtrotgps_1.1.1.bb:PNBLACKLIST[foxtrotgps]
->> > ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> > meta-oe/recipes-navigation/gypsy/gypsy.inc:PNBLACKLIST[gypsy] ?=
->> > "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> > meta-oe/recipes-navigation/navit/navit.inc:PNBLACKLIST[navit] ?=
->> > "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> >
->> > meta-oe/recipes-support/opensync/libsyncml_0.5.4.bb:PNBLACKLIST[libsyncml]
->> > ?= "${@bb.utils.contains('DISTRO_FEATURES', 'bluez5', 'bluez5 conflicts
->> > with
->> > bluez4 and bluez5 is selected in DISTRO_FEATURES', '', d)}"
->> > meta-qt5:
->> > meta-smartphone:
->> > meta-shr/recipes-shr/3rdparty/libsensmon_git.bb:PNBLACKLIST[libsensmon]
->> > ?=
->> > "BROKEN: not compatible with newer vala,
->> > http://errors.yoctoproject.org/Errors/Details/143058/"
->> > meta-shr/recipes-shr/3rdparty/omhacks_git.bb:PNBLACKLIST[omhacks] ?=
->> > "Not
->> > compatible with gcc7 - the recipe will be removed on 2017-09-01 unless
->> > the
->> > issue is fixed"
->> > meta-webos-ports:
->> >
->> > meta-luneos/recipes-luneos/luna-webappmanager/luna-webappmanager.bb:PNBLACKLIST[luna-webappmanager]
->> > ?= "BROKEN: needs to be adapted to new qt-5.7"
->> > meta-luneui/recipes-luneui/luna-next/luna-next.bb:PNBLACKLIST[luna-next]
->> > ?=
->> > "BROKEN: needs to be adapted to new qtwayland-5.7"
->> > PNBLACKLIST[android-system] = "depends on lxc from meta-virtualiazation
->> > which isn't included in my world builds"
->> > PNBLACKLIST[bigbuckbunny-1080p] = "big and doesn't really need to be
->> > tested
->> > so much"
->> > PNBLACKLIST[bigbuckbunny-480p] = "big and doesn't really need to be
->> > tested
->> > so much"
->> > PNBLACKLIST[bigbuckbunny-720p] = "big and doesn't really need to be
->> > tested
->> > so much"
->> > PNBLACKLIST[bigbuckbunny-720p] = "big and doesn't really need to be
->> > tested
->> > so much"
->> > PNBLACKLIST[tearsofsteel-1080p] = "big and doesn't really need to be
->> > tested
->> > so much"
->> > PNBLACKLIST[build-appliance-image] = "tries to include whole downloads
->> > directory in /home/builder/poky :/"
->> > PNBLACKLIST[linux-yocto-tiny-kexecboot] = "does weird sh!t breaking
->> > other
->> > kernels and modules - broken for years"
->> > PNBLACKLIST[linux-yocto-tiny] = "does weird sh!t breaking other kernels
->> > and
->> > modules - broken for years"
->> >
->> >
->> > QA issues by type:
->> > count: 0 issue: already-stripped
->> >
->> >
->> > count: 1 issue: libdir
->> > qwt-qt5-6.1.3: qwt-qt5-dbg: found library in wrong location:
->> > /usr/plugins/designer/.debug/libqwt_designer_plugin.so [libdir]
->> >
->> >
->> > count: 4 issue: textrel
->> > chromium-54.0.2810.2: ELF binary
->> >
->> > '/tmp/work/i586-oe-linux/chromium/54.0.2810.2-r0/packages-split/chromium/usr/bin/chromium/chrome'
->> > has relocations in .text [textrel]
->> > chromium-wayland-53.0.2785.143: ELF binary
->> >
->> > '/tmp/work/i586-oe-linux/chromium-wayland/53.0.2785.143-r0/packages-split/chromium-wayland/usr/bin/chromium/chrome'
->> > has relocations in .text [textrel]
->> > corosync-2.4.2: ELF binary
->> >
->> > '/tmp/work/core2-64-oe-linux/corosync/2.4.2-r0/packages-split/corosync/usr/sbin/corosync'
->> > has relocations in .text [textrel]
->> > x264-r2731+gitAUTOINC+2b741f81e5: ELF binary
->> >
->> > '/tmp/work/i586-oe-linux/x264/r2731+gitAUTOINC+2b741f81e5-r0/packages-split/x264/usr/lib/libx264.so.148'
->> > has relocations in .text [textrel]
->> >
->> >
->> > count: 0 issue: build-deps
->> >
->> >
->> > count: 0 issue: file-rdeps
->> >
->> >
->> > count: 21 issue: version-going-backwards
->> > rsyslog-8.22.0: Package version for package rsyslog-dbg went backwards
->> > which
->> > would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-dbg went backwards
->> > which
->> > would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-dev went backwards
->> > which
->> > would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-dev went backwards
->> > which
->> > would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-doc went backwards
->> > which
->> > would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-doc went backwards
->> > which
->> > would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-locale went
->> > backwards
->> > which would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-locale went
->> > backwards
->> > which would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-ptest went backwards
->> > which would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-ptest went backwards
->> > which would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-staticdev went
->> > backwards
->> > which would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog-staticdev went
->> > backwards
->> > which would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog went backwards which
->> > would break package feeds from (0:8.22.0-r0.30 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > rsyslog-8.22.0: Package version for package rsyslog went backwards which
->> > would break package feeds from (0:8.22.0-r0.37 to 0:8.22.0-r0.0)
->> > [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind-dbg went backwards
->> > which would break package feeds from (0:3.12.0-r0.34 to 0:3.12.0-r0.0)
->> > [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind-dev went backwards
->> > which would break package feeds from (0:3.12.0-r0.34 to 0:3.12.0-r0.0)
->> > [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind-doc went backwards
->> > which would break package feeds from (0:3.12.0-r0.34 to 0:3.12.0-r0.0)
->> > [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind-locale went
->> > backwards
->> > which would break package feeds from (0:3.12.0-r0.34 to 0:3.12.0-r0.0)
->> > [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind-ptest went
->> > backwards
->> > which would break package feeds from (0:3.12.0-r0.34 to 0:3.12.0-r0.0)
->> > [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind-staticdev went
->> > backwards which would break package feeds from (0:3.12.0-r0.34 to
->> > 0:3.12.0-r0.0) [version-going-backwards]
->> > valgrind-3.12.0: Package version for package valgrind went backwards
->> > which
->> > would break package feeds from (0:3.12.0-r0.34 to 0:3.12.0-r0.0)
->> > [version-going-backwards]
->> >
->> >
->> > count: 0 issue: host-user-contaminated
->> >
->> >
->> > count: 0 issue: installed-vs-shipped
->> >
->> >
->> > count: 0 issue: unknown-configure-option
->> >
->> >
->> > count: 0 issue: symlink-to-sysroot
->> >
->> >
->> > count: 0 issue: invalid-pkgconfig
->> >
->> >
->> > count: 0 issue: pkgname
->> >
->> >
->> > count: 0 issue: ldflags
->> >
->> >
->> > count: 0 issue: compile-host-path
->> >
->> >
->> >
->> > == Tested changes (not included in master yet) - bitbake ==
->> >
->> > latest upstream commit:
->> > 4a14b44 knotty: Drop task prefix of PLAIN log messages
->> > not included in master yet:
->> > dda3a10 world-image: add extra target
->> >
->> > == Tested changes (not included in master yet) - openembedded-core ==
->> > latest upstream commit:
->> > b1c4661 libiconv: remove
->> > 0001-Fix-link-error-when-compiling-with-gcc-O0.patch
->> > not included in master yet:
->> > dd1b5e7 report-error: Allow to upload reports automatically
->> > 7fdb805 buildhistory.bbclass: metadata-revs show repo parent
->> > 9b6fe73 metadata-revs: provide more information
->> > 2cd822c qemux86: Add identical qemux86copy variant for tests
->> > db1b8cf valgrind: fix link failure with gold
->> >
->> > == Tested changes (not included in master yet) - meta-openembedded ==
->> >
->> > latest upstream commit:
->> > 66b88f7 hwloc: Inherit pkgconfig
->> > not included in master yet:
->> > 9340320 dnsmasq: disable the service by default
->> > d1fca80 rdate: Fix build with hardening
->> > 96fd8e1 strongswan: Include stdint.h for uintptr_t
->> > 961797e netkit-rpc: Fix build with hardening flags
->> > b1fb0ad netkit-telnet: Fix build with hardening
->> > ed9432c ncftp: Upgrade to 3.2.6
->> > 2531f3e ippool: Fix build errors found with hardening flags
->> > 5963598 gflags: update SRC_URI with git fetcher
->> > 1a3966a unionfs-fuse: 0.26 -> 2.0
->> > 39502f2 autofs: Add build dependency on libnsl2
->> > b73b2f4 gst-plugins-gl_0.10.3.bb: Fix build on rpi/userland
->> > 5ed1dba librcf: fix mips/mips64 build
->> > b02be7a freerdp: Fix build on mips
->> > 6869684 gegl: Upgrade to 0.3.18
->> > 6cbe8e8 babl: Upgrade to 0.1.28
->> > a57a2ed gimp: Upgrade to 2.8.22
->> > 8ddbec6 fluentbit: Fix parallel build race
->> > 73ccbee dietsplash: Fix build on mips
->> > 17afe08 libsrtp: Fix build on mips
->> > e6ffb3c assimp: Upgrade to 3.3.1 release
->> > 14c5780 synergy: Update to 1.8.8 release
->> > bf198f6 kodi: Update to 17.3
->> > 220ffd8 libtorrent: Implement 64bit atomics for mips32
->> > d1c5c69 rtorrent: Add and enable ipv6 packageconfig based on
->> > DISTRO_FEATURES
->> > b7dac59 uim: Add support for aarch64
->> > d855e3d openhpi: Fix build on 64bit platforms e.g. aarch64
->> > 553ca7d meson: Port pkgconfig-native patch to 0.40.1
->> > 160c92f tinymembench: Disable on mips64
->> > b952200 ltrace: Add mips64 support
->> > 78c68a2 libtorrent: Link in 64bit atomics for ppc
->> > 339f975 librcf: Define byteorder for powerpc machines
->> > d6871e9 gperftools: Fix build on ppc
->> > 116273f crossguid: Add recipe
->> > 5b24757 kodi: User external crossguid
->> > 7798745 ser2net: upgrade to version 3.4
->> > fba5745 multipath-tools: 0.6.4 -> 0.7.1
->> > 576007b python-pytest: update to version 3.1.3
->> > ab2195a python-pytest: remove fetch during do_compile phase
->> > 8253d8c libtinyxml2: upgrade to 5.0.1
->> > e5d13e0 gnome-common: Add recipe (from oe-core)
->> > 2c09550 webrtc-audio-processing: initial recipe
->> > 3e83a12 libdbus-c++: Fix build with gcc7 and unblacklist
->> > a9b421b security_flags.inc: Delete
->> > 21ac7ab ltrace: Fix build on musl
->> > 9f59778 pptp-linux: Upgrade to 1.9.0
->> > 011d175 kodi: Fix build on powerpc
->> > 96ddef1 meta-python: Add Protobuf and gRPC Python recipes
->> > 6978c6c meta-python: Add pybluez recipe
->> > 5fc3a7b meta-python: Add python-daemon recipe and its dependencies
->> > b234cb7 udisks2: update 2.1.7 -> 2.1.8
->> > 6351d5d gvfs: update 1.28.3 -> 1.32.1
->> > 072a282 garcon: update 0.4.0 -> 0.6.1
->> > 4ae21b2 gparted: update 0.27.0 -> 0.28.1
->> > 85f9438 abiword: update 3.0.1 -> 3.0.2
->> > f180ebe faac: update 1.28 -> 1.29
->> > d4373e3 libdbus-c++: Add -pthread to linker flags
->> > 216bf8b klibc: Fix build with musl
->> > ac04fc6 ubi-utils-klibc: Pass TUNE_CCARGS into CFLAGS
->> > 225e21d kodi: Fix build on arm
->> > 5cce369 fluentbit: fix SYSTEMD_SERVICE name
->> > 626a865 Intel: remove license file
->> > 7fdf736 proj: update to 4.9.3
->> > ef59094 klibc: Fix linking by using bfd linker when default linker is
->> > gold
->> > 9b2852b libsombok3: add recipe
->> > 20b186c libmime-charset-perl: add recipe
->> > 3ccb597 libterm-readkey-perl: add recipe
->> > 91736f5 liblocale-gettext-perl: add recipe
->> > 9dfe3e1 libtext-charwidth-perl: add recipe
->> > f5158f7 libtext-wrapi18n-perl: add recipe
->> > 247aec7 libunicode-linebreak-perl: add recipe
->> > 131de8c po4a: add full functionalities
->> > 1815d4e ebtables: replace ebtables-save perl script with bash rewrite
->> > 8fc200c recipes: remove blacklisted recipes
->> >
->> > == Tested changes (not included in master yet) - meta-qt5 ==
->> > latest upstream commit:
->> > 2940d84 Revert "qttools: DEPENDS on icu"
->> > not included in master yet:
->> > 800d4c1 libconnman-qt5: update to 1.1.10
->> > 428be3c qtwebengine: add PACKAGECONFIG for webrtc
->> > 05455e6 qt5: add qt5-ptest.inc
->> > ec8c62e qtxmlpatterns: add ptest
->> > 1eac990 qtdeclarative: add ptest
->> > 2c1d6b1 qtquick1: add ptest
->> > aa0605d qtquickcontrols2: fix compilation of examples/texteditor
->> > 00d72cd qwt-qt5: Fix rpath issues
->> > c2768bd qtwebengine: fix build with gcc7
->> > 932515a qt5-ptest.inc: append do_populate_sysroot only for target
->> > bf7cdd9 qtbase-native: Fix qdbuscpp2xml segfault
->> >
->> > == Tested changes (not included in master yet) - meta-browser ==
->> >
->> > latest upstream commit:
->> > d822031 Merge pull request #49 from kraj/kraj/master
->> > not included in master yet:
->> > 6f790a0 gnome-settings-daemon: remove the bbappend for removed recipe
->> >
->> > == Tested changes (not included in master yet) - meta-webos-ports ==
->> >
->> > latest upstream commit:
->> > 9545fb6 packagegroup-luneos-extended: drop qtscenegraph-adaptation
->> > not included in master yet:
->> >
->> > == Tested changes (not included in master yet) - meta-smartphone ==
->> > latest upstream commit:
->> > 80b8107 android-system-image-tenderloin: Fix checksums
->> > not included in master yet:
->> > e523b07 meta-shr, meta-fso: remove blacklisted recipes
->> >
->> >
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
+> installation process of images in initramfs-framework model. This
+> script will be executed when "install" option is being chosen in
+> the grub menu and install the image on the target platform. A
+> new install module is being added in the recipe to handle the
+> installation process using initramfs-framework.
 >
+> [YOCTO #10989]
 >
+> Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
+> ---
+>  .../initramfs-framework/init-install-efi.sh        | 276 +++++++++++++++++++++
+>  .../initrdscripts/initramfs-framework_1.0.bb       |  13 +-
+>  2 files changed, 287 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/init-install-efi.sh
+>
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init-install-efi.sh b/meta/recipes-core/initrdscripts/initramfs-framework/init-install-efi.sh
+> new file mode 100644
+> index 0000000..5ad3a60
+> --- /dev/null
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init-install-efi.sh
+> @@ -0,0 +1,276 @@
+> +#!/bin/sh -e
+> +#
+> +# Copyright (c) 2012, Intel Corporation.
+> +# All rights reserved.
+> +#
+> +# install.sh [device_name] [rootfs_name]
+> +#
+> +
+> +PATH=/sbin:/bin:/usr/sbin:/usr/bin
+> +
+> +# We need 20 Mb for the boot partition
+> +boot_size=20
+> +
+> +# 5% for swap
+> +swap_ratio=5
+> +
+> +# Get a list of hard drives
+> +hdnamelist=""
+> +live_dev_name=`cat /proc/mounts | grep ${1%/} | awk '{print $1}'`
+> +live_dev_name=${live_dev_name#\/dev/}
+> +# Only strip the digit identifier if the device is not an mmc
+> +case $live_dev_name in
+> +    mmcblk*)
+> +    ;;
+> +    nvme*)
+> +    ;;
+> +    *)
+> +        live_dev_name=${live_dev_name%%[0-9]*}
+> +    ;;
+> +esac
+> +
+> +echo "Searching for hard drives ..."
+> +
+> +# Some eMMC devices have special sub devices such as mmcblk0boot0 etc
+> +# we're currently only interested in the root device so pick them wisely
+> +devices=`ls /sys/block/ | grep -v mmcblk` || true
+> +mmc_devices=`ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"` || true
+> +devices="$devices $mmc_devices"
+> +
+> +for device in $devices; do
+> +    case $device in
+> +        loop*)
+> +            # skip loop device
+> +            ;;
+> +        sr*)
+> +            # skip CDROM device
+> +            ;;
+> +        ram*)
+> +            # skip ram device
+> +            ;;
+> +        *)
+> +            # skip the device LiveOS is on
+> +            # Add valid hard drive name to the list
+> +            case $device in
+> +                $live_dev_name*)
+> +                # skip the device we are running from
+> +                ;;
+> +                *)
+> +                    hdnamelist="$hdnamelist $device"
+> +                ;;
+> +            esac
+> +            ;;
+> +    esac
+> +done
+> +
+> +if [ -z "${hdnamelist}" ]; then
+> +    echo "You need another device (besides the live device /dev/${live_dev_name}) to install the image. Installation aborted."
+> +    exit 1
+> +fi
+> +
+> +TARGET_DEVICE_NAME=""
+> +for hdname in $hdnamelist; do
+> +    # Display found hard drives and their basic info
+> +    echo "-------------------------------"
+> +    echo /dev/$hdname
+> +    if [ -r /sys/block/$hdname/device/vendor ]; then
+> +        echo -n "VENDOR="
+> +        cat /sys/block/$hdname/device/vendor
+> +    fi
+> +    if [ -r /sys/block/$hdname/device/model ]; then
+> +        echo -n "MODEL="
+> +        cat /sys/block/$hdname/device/model
+> +    fi
+> +    if [ -r /sys/block/$hdname/device/uevent ]; then
+> +        echo -n "UEVENT="
+> +        cat /sys/block/$hdname/device/uevent
+> +    fi
+> +    echo
+> +done
+> +
+> +# Get user choice
+> +while true; do
+> +    echo "Please select an install target or press n to exit ($hdnamelist ): "
+> +    read answer
+> +    if [ "$answer" = "n" ]; then
+> +        echo "Installation manually aborted."
+> +        exit 1
+> +    fi
+> +    for hdname in $hdnamelist; do
+> +        if [ "$answer" = "$hdname" ]; then
+> +            TARGET_DEVICE_NAME=$answer
+> +            break
+> +        fi
+> +    done
+> +    if [ -n "$TARGET_DEVICE_NAME" ]; then
+> +        break
+> +    fi
+> +done
+> +
+> +if [ -n "$TARGET_DEVICE_NAME" ]; then
+> +    echo "Installing image on /dev/$TARGET_DEVICE_NAME ..."
+> +else
+> +    echo "No hard drive selected. Installation aborted."
+> +    exit 1
+> +fi
+> +
+> +device=/dev/$TARGET_DEVICE_NAME
+> +
+> +#
+> +# The udev automounter can cause pain here, kill it
+> +#
+> +rm -f /etc/udev/rules.d/automount.rules
+> +rm -f /etc/udev/scripts/mount*
+> +
+> +#
+> +# Unmount anything the automounter had mounted
+> +#
+> +umount ${device}* 2> /dev/null || /bin/true
+> +
+> +mkdir -p /tmp
+> +
+> +# Create /etc/mtab if not present
+> +if [ ! -e /etc/mtab ] && [ -e /proc/mounts ]; then
+> +    ln -sf /proc/mounts /etc/mtab
+> +fi
+> +
+> +disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
+> +
+> +swap_size=$((disk_size*swap_ratio/100))
+> +rootfs_size=$((disk_size-boot_size-swap_size))
+> +
+> +rootfs_start=$((boot_size))
+> +rootfs_end=$((rootfs_start+rootfs_size))
+> +swap_start=$((rootfs_end))
+> +
+> +# MMC devices are special in a couple of ways
+> +# 1) they use a partition prefix character 'p'
+> +# 2) they are detected asynchronously (need rootwait)
+> +rootwait=""
+> +part_prefix=""
+> +if [ ! "${device#/dev/mmcblk}" = "${device}" ] || \
+> +   [ ! "${device#/dev/nvme}" = "${device}" ]; then
+> +    part_prefix="p"
+> +    rootwait="rootwait"
+> +fi
+> +
+> +# USB devices also require rootwait
+> +if [ -n `readlink /dev/disk/by-id/usb* | grep $TARGET_DEVICE_NAME` ]; then
+> +    rootwait="rootwait"
+> +fi
+> +
+> +bootfs=${device}${part_prefix}1
+> +rootfs=${device}${part_prefix}2
+> +swap=${device}${part_prefix}3
+> +
+> +echo "*****************"
+> +echo "Boot partition size:   $boot_size MB ($bootfs)"
+> +echo "Rootfs partition size: $rootfs_size MB ($rootfs)"
+> +echo "Swap partition size:   $swap_size MB ($swap)"
+> +echo "*****************"
+> +echo "Deleting partition table on ${device} ..."
+> +dd if=/dev/zero of=${device} bs=512 count=35
+> +
+> +echo "Creating new partition table on ${device} ..."
+> +parted ${device} mklabel gpt
+> +
+> +echo "Creating boot partition on $bootfs"
+> +parted ${device} mkpart boot fat32 0% $boot_size
+> +parted ${device} set 1 boot on
+> +
+> +echo "Creating rootfs partition on $rootfs"
+> +parted ${device} mkpart root ext3 $rootfs_start $rootfs_end
+> +
+> +echo "Creating swap partition on $swap"
+> +parted ${device} mkpart swap linux-swap $swap_start 100%
+> +
+> +parted ${device} print
+> +
+> +echo "Formatting $bootfs to vfat..."
+> +mkfs.vfat $bootfs
+> +
+> +echo "Formatting $rootfs to ext3..."
+> +mkfs.ext3 $rootfs
+> +
+> +echo "Formatting swap partition...($swap)"
+> +mkswap $swap
+> +
+> +mkdir /tgt_root
+> +mkdir /src_root
+> +mkdir -p /boot
+> +
+> +# Handling of the target root partition
+> +mount $rootfs /tgt_root
+> +mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
+> +echo "Copying rootfs files..."
+> +cp -a /src_root/* /tgt_root
+> +if [ -d /tgt_root/etc/ ] ; then
+> +    boot_uuid=$(blkid -o value -s UUID ${bootfs})
+> +    swap_part_uuid=$(blkid -o value -s PARTUUID ${swap})
+> +    echo "/dev/disk/by-partuuid/$swap_part_uuid                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
+> +    echo "UUID=$boot_uuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
+> +    # We dont want udev to mount our root device while we're booting...
+> +    if [ -d /tgt_root/etc/udev/ ] ; then
+> +        echo "${device}" >> /tgt_root/etc/udev/mount.blacklist
+> +    fi
+> +fi
+> +
+> +umount /src_root
+> +
+> +# Handling of the target boot partition
+> +mount $bootfs /boot
+> +echo "Preparing boot partition..."
+> +
+> +EFIDIR="/boot/EFI/BOOT"
+> +mkdir -p $EFIDIR
+> +# Copy the efi loader
+> +cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
+> +
+> +if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
+> +    root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
+> +    GRUBCFG="$EFIDIR/grub.cfg"
+> +    cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
+> +    # Update grub config for the installed image
+> +    # Delete the install entry
+> +    sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
+> +    # Delete the initrd lines
+> +    sed -i "/initrd /d" $GRUBCFG
+> +    # Delete any LABEL= strings
+> +    sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
+> +    # Delete any root= strings
+> +    sed -i "s/ root=[^ ]*/ /g" $GRUBCFG
+> +    # Add the root= and other standard boot options
+> +    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$root_part_uuid rw $rootwait quiet @" $GRUBCFG
+> +fi
+> +
+> +if [ -d /run/media/$1/loader ]; then
+> +    rootuuid=$(blkid -o value -s PARTUUID ${rootfs})
+> +    SYSTEMDBOOT_CFGS="/boot/loader/entries/*.conf"
+> +    # copy config files for systemd-boot
+> +    cp -dr /run/media/$1/loader /boot
+> +    # delete the install entry
+> +    rm -f /boot/loader/entries/install.conf
+> +    # delete the initrd lines
+> +    sed -i "/initrd /d" $SYSTEMDBOOT_CFGS
+> +    # delete any LABEL= strings
+> +    sed -i "s/ LABEL=[^ ]*/ /" $SYSTEMDBOOT_CFGS
+> +    # delete any root= strings
+> +    sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
+> +    # add the root= and other standard boot options
+> +    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
+> +fi
+> +
+> +umount /tgt_root
+> +
+> +cp /run/media/$1/vmlinuz /boot
+> +
+> +umount /boot
+> +
+> +sync
+> +
+> +echo "Remove your installation media, and press ENTER"
+> +
+> +read enter
+> +
+> +echo "Rebooting..."
+> +reboot -f
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> index 211e89d..15c376e 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> @@ -14,7 +14,8 @@ SRC_URI = "file://init \
+>             file://udev \
+>             file://e2fs \
+>             file://debug \
+> -           file://setup-live"
+> +           file://setup-live \
+> +           file://init-install-efi.sh"
+>
+>  S = "${WORKDIR}"
+>
+> @@ -41,6 +42,9 @@ do_install() {
+>      # debug
+>      install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
+>
+> +    # install
+> +    install -m 0755 ${WORKDIR}/init-install-efi.sh ${D}/init.d/install-efi.sh
+> +
+>      # Create device nodes expected by some kernels in initramfs
+>      # before even executing /init.
+>      install -d ${D}/dev
+> @@ -53,7 +57,8 @@ PACKAGES = "${PN}-base \
+>              initramfs-module-e2fs \
+>              initramfs-module-rootfs \
+>              initramfs-module-debug \
+> -            initramfs-module-setup-live"
+> +            initramfs-module-setup-live \
+> +            initramfs-module-install"
+>
+>  FILES_${PN}-base = "/init /init.d/99-finish /dev"
+>
+> @@ -88,3 +93,7 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
+>  SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
+>  RDEPENDS_initramfs-module-debug = "${PN}-base"
+>  FILES_initramfs-module-debug = "/init.d/00-debug"
+> +
+> +SUMMARY_initramfs-module-install = "initramfs support for installation option"
+> +RDEPENDS_initramfs-module-install = "${PN}-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
+> +FILES_initramfs-module-install = "/init.d/install-efi.sh"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
