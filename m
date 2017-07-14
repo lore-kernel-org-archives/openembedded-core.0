@@ -1,24 +1,18 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EEEA780C0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 00:24:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6E0OMdV015236
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 17:24:22 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 13 Jul 2017 17:24:21 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Jul 2017 17:24:20 -0700
-Message-ID: <1499991861-19044-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 40664780B4;
+	Fri, 14 Jul 2017 00:31:15 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 0/1] valgrind - gcc7 and powerpc64
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Joe Slater <jslater@windriver.com>
+Date: Fri, 14 Jul 2017 00:31:17 -0000
+Message-ID: <20170714003117.2381.11632@do.openembedded.org>
+References: <1499991861-19044-1-git-send-email-jslater@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1499991861-19044-1-git-send-email-jslater@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdmFsZ3JpbmQgLSBnY2M3IGFuZCBwb3dlcnBjNjQ=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 00:24:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Jul 2017 00:31:15 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-This probably could do no harm since the actual code generated does not
-seem to have changed between gcc6 and gcc7, and is not affected by this patch
-except that without it, valgrind ppc64 won't compile.
+== Series Details ==
 
-There must also be a gcc7 bug, since if it is ok to clobber r2 for ppc32 it
-is unlikely it is not ok for ppc64.
+Series: valgrind - gcc7 and powerpc64
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7738/
+State : failure
 
-Joe Slater (1):
-  valgrind: allow version 3.12 to build under gcc7
+== Summary ==
 
- .../valgrind/valgrind/wait-for-3.13.patch          | 40 ++++++++++++++++++++++
- meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  3 ++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
 
--- 
-2.7.4
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_format] 
+  Suggested fix    Fix Upstream-Status format in meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch so it is one of: Pending, Submitted, Accepted, Backport, Denied, Inappropriate
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at b1c4661742)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
