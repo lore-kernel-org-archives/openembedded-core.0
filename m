@@ -1,25 +1,26 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3590278200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA8D781FF
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Jul 2017 12:25:38 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 14 Jul 2017 05:25:36 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Jul 2017 05:25:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="1172539123"
+X-IronPort-AV: E=Sophos;i="5.40,359,1496127600"; d="scan'208";a="878888013"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2017 05:25:36 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2017 05:25:37 -0700
 Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 858035807D9;
-	Fri, 14 Jul 2017 05:25:35 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id CAC025807D9;
+	Fri, 14 Jul 2017 05:25:36 -0700 (PDT)
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jul 2017 15:25:23 +0300
-Message-Id: <d7d5119521edcd1e3ae88eaead817bd6a7a84dd0.1500034432.git.jussi.kukkonen@intel.com>
+Date: Fri, 14 Jul 2017 15:25:24 +0300
+Message-Id: <18410237c5d66f4433b8d57baf56d4a7c80ff4b7.1500034432.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1500034432.git.jussi.kukkonen@intel.com>
 References: <cover.1500034432.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/4] matchbox-desktop: Upgrade to 2.2
+Subject: [PATCH 2/4] python3-pygobject: Don't use gnome-common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +35,74 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 14 Jul 2017 12:25:42 -0000
 
-Only change is dropping dependency on gnome-common
-(which is deprecated upstream).
+Patch out the one use of gnome-common macros: pygobject is moving to
+autoconf-archive in next release so this patch is temporary.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../{matchbox-desktop_2.1.bb => matchbox-desktop_2.2.bb}            | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-sato/matchbox-desktop/{matchbox-desktop_2.1.bb => matchbox-desktop_2.2.bb} (87%)
+ ...onfigure.ac-Don-t-use-gnome-common-macros.patch | 33 ++++++++++++++++++++++
+ .../python/python3-pygobject_3.24.1.bb             |  3 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
 
-diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-similarity index 87%
-rename from meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
-rename to meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-index c9a7b4b..b0cdfa2 100644
---- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.1.bb
-+++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/desktop.c;endline=20;md5=36c9bf295e6007f3423095f405af5a2d \
-                     file://src/main.c;endline=19;md5=2044244f97a195c25b7dc602ac7e9a00"
+diff --git a/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch b/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
+new file mode 100644
+index 0000000..aaedb58
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pygobject/0001-configure.ac-Don-t-use-gnome-common-macros.patch
+@@ -0,0 +1,33 @@
++From 206360744cedff20eae3c8fcfde9938fdae99592 Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Thu, 6 Jul 2017 11:47:21 +0300
++Subject: [PATCH] configure.ac: Don't use gnome-common macros
++
++remove GNOME_COMPILE_WARNINGS() call: it's from gnome-common which
++is deprecated.
++
++This patch can be removed when upgrading to 3.25.1: at that point
++pygobject needs autoconf-archive instead.
++
++Upstream-Status: Inappropriate [Already handled upstream]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ configure.ac | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 1f15b3c..5cb170f 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -221,8 +221,6 @@ AC_ARG_WITH(common,
++     with_common=yes)
++ AM_CONDITIONAL(WITH_COMMON, test "$with_common" = "yes")
++ 
++-# compiler warnings, errors, required cflags, and code coverage support
++-GNOME_COMPILE_WARNINGS([maximum], [-Wno-error=missing-prototypes])
++ AC_MSG_CHECKING(for Gnome code coverage support)
++ m4_ifdef([GNOME_CODE_COVERAGE],
++          [AC_MSG_RESULT(yes)
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.24.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.24.1.bb
+index 5795ae3..9d10af2 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.24.1.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.24.1.bb
+@@ -5,12 +5,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
  
--DEPENDS = "gnome-common-native gtk+3 startup-notification dbus"
-+DEPENDS = "gtk+3 startup-notification dbus"
- SECTION = "x11/wm"
+ inherit autotools pkgconfig gnomebase distutils3-base gobject-introspection upstream-version-is-even
  
--# SRCREV tagged 2.1
--SRCREV = "c8473519a0f37488b8b3e839e275b000cdde0b80"
-+# SRCREV tagged 2.2
-+SRCREV = "6bc67d09da4147e5552fe30011a05a2c59d2f777"
- SRC_URI = "git://git.yoctoproject.org/${BPN}-2 \
-            file://vfolders/* \
-            "
+-DEPENDS += "gnome-common-native python3 glib-2.0"
++DEPENDS += "python3 glib-2.0"
+ 
+ SRCNAME="pygobject"
+ SRC_URI = " \
+     http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
+     file://0001-configure.ac-add-sysroot-path-to-GI_DATADIR-don-t-se.patch \
++    file://0001-configure.ac-Don-t-use-gnome-common-macros.patch \
+ "
+ 
+ SRC_URI[md5sum] = "69a843311d0f0385dff376e11a2d83d2"
 -- 
 2.1.4
 
