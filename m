@@ -1,49 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A56E72F60
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A787E78225
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 18:46:59 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id h134so18992585iof.2
+	Fri, 14 Jul 2017 18:53:52 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id f67so30907476wmh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 11:47:01 -0700 (PDT)
+	Fri, 14 Jul 2017 11:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Cw0/k4Yk5fD8tyKkz94w5wB9pAJdZ9NjuSHF7m6HCK8=;
-	b=e6LNkR9faB3mHFoGCv233mfCrYR4mxHmI+Yf57MFNyVttPzzr/IFRjXagWqX7xOonR
-	7d2URih3tuqFov0rVQEBAbrq+YKsoFRxVnmU0vE/CCHItXGvF1F+SyIaEY0M4eXHA0jc
-	LLZiIY2RKRsvCLo/2CNbhOOY+kV5eE6m1LEiZZJS1BwVySbcz3fDTJpzHlpLSvVp7NHB
-	V0vME71q0lcIwCz6brCJCIF1E9VC9lN+Flo7Qo8mEnJUUEWJz2k7+VySBZw9iBeK4miB
-	cD2M3qa5aGoFkJpldFM3zeRMXxrjLm3KTuW2lsFZCCviYEBf0OdhdJvHov1mhqYlS+Fy
-	n5Ww==
+	h=from:to:subject:date:message-id;
+	bh=Lp0b1xii9CRNKaL2vftv242vY4JBxNcrk2Vlz0q+Oo8=;
+	b=PQ3ExCUYKy156MY/UgheN2loPrQ8Ki8iIQDq2fVOvv3T/cJUbl4C+zPsnSJaE8fV9m
+	aS3EIxdFBN3WMQaW55zSdEzzFydW8+DCocdbrNn5lXM6w1Wyasjhs18BBQXU/7YQcQp4
+	Dw29MdflJeTRVhkVmvrT28dVkh68ETy+9e9yrZx37kXE0q9osD9EGqrGSo+QlY0xjfcl
+	l10CFTkaOB0Nd4YV8i34z6eeu6s+w9cln5ynG2/d7jFa/mxSqKyV5383mF5biLILeaIB
+	rDj6aqCAS0xzj25u79UWmuCVMZS6WdKgHblK6lFa/WlfoeT+nBIu396jGbGbiAV40icQ
+	NplA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Cw0/k4Yk5fD8tyKkz94w5wB9pAJdZ9NjuSHF7m6HCK8=;
-	b=NLE+I6ho60Ixz/a4TRLPMxBwX+91i+auo4vOOd46KfNbcRGlXh25ISPB8LyRFx5ArT
-	PRe400NrDUSJ78GeVOwIiTCJFS/5lZGwnSSp+VsALefUBvDJum0n3vZA0W6whU4DmTPv
-	sacCxB7cxyvOXfJKIvmA4Arei44QTcgNIaceCBrjrJiIryzju7syhfMC11mggsAuly0C
-	lSzqdKaqw5COOpuTD2MmJzE0wIPH3IbDdVnoFBw6SjwugvEb2fHXWfbbnnmDpAlB6lFf
-	RAaBGxCY9/Imke+QxdkBMiL9C/TUC1RVfm9DXppGqfyMVdmWTRVj+oYJzQK4r2cCwQWb
-	PzIw==
-X-Gm-Message-State: AIVw110QjdbvdqkToLLf5A9cTmcjE/PAMHU/YerNlManQ5Ljus4kNzbS
-	uezn1W8SkP55JWwHj+uFHobgCnR8GlgGn4M=
-X-Received: by 10.107.169.80 with SMTP id s77mr9543731ioe.219.1500058020754;
-	Fri, 14 Jul 2017 11:47:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Fri, 14 Jul 2017 11:46:40 -0700 (PDT)
-In-Reply-To: <CAP9ODKrKoTvH5ddakeOkWSa9Wh2jb75yM8mP97sr0OUYEgC+XQ@mail.gmail.com>
-References: <20170712161907.13526-1-ross.burton@intel.com>
-	<CAP9ODKrKoTvH5ddakeOkWSa9Wh2jb75yM8mP97sr0OUYEgC+XQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Jul 2017 19:46:40 +0100
-Message-ID: <CAJTo0LZED099gSrkAO59bQx0CPas0xEDakD5uB0r-tPBCqvX9w@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: fix build race on src/intel/vulkan
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Lp0b1xii9CRNKaL2vftv242vY4JBxNcrk2Vlz0q+Oo8=;
+	b=UImHxI5R1Is/LxBsLkjJ+xgR6DyBlzRE0+7JqBgUIVsLt8KK1vQYw9UV0nQ3Cdljgr
+	Au88xLDMpSzTDjVRsT1iwIbOQEw3xV2LsqGIz1YZGYXMlkIgnQ3XYmDoAjtGa3gnTP7p
+	Wkt8FTE/ISVjObRapxLAkNfISqovCsv/fqsPPcI3vRPfAPV9iuh7n4shNx3MSpYzYY/8
+	V6oNuSKZT4aO41di+aak90ICLE+Hboq4Z2MoHQMVlFdu3Cv5LVshzkIV3vRbU2IViS/3
+	1TN+N8VSdX9wyab5gP/gsFob2ZckHuTRs1Upu1Bxsb5I3Kv/LLw0gDiR+eQBH2Y8KUKy
+	OUdA==
+X-Gm-Message-State: AIVw113TywSdYxUd+NsiyQpS+q+RP8lE/uMoSx9ZpkLhLQCJtP0EGMmQ
+	eJudIm9CMPbvBtazeiQ=
+X-Received: by 10.28.103.198 with SMTP id b189mr3693386wmc.59.1500058432733;
+	Fri, 14 Jul 2017 11:53:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	m123sm4032297wmb.3.2017.07.14.11.53.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Jul 2017 11:53:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Jul 2017 19:53:47 +0100
+Message-Id: <20170714185347.32104-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] valgrind: fix ptest compilation for PowerPC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,88 +54,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 18:47:00 -0000
-Content-Type: multipart/alternative; boundary="001a1141006c78520e05544b79b4"
+X-List-Received-Date: Fri, 14 Jul 2017 18:53:53 -0000
 
---001a1141006c78520e05544b79b4
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../valgrind/valgrind/ppc-headers.patch            | 87 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.13.0.bb  |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/ppc-headers.patch
 
-The second sob is from the patch I sent upstream.  The first two lines of
-the patch header are the OE ones:
-
-+++ b/meta/recipes-graphics/mesa/files/vulkan-mkdir.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Submitted
+diff --git a/meta/recipes-devtools/valgrind/valgrind/ppc-headers.patch b/meta/recipes-devtools/valgrind/valgrind/ppc-headers.patch
+new file mode 100644
+index 00000000000..51259db001a
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/ppc-headers.patch
+@@ -0,0 +1,87 @@
++Backport a patch from upstream to fix test compilation for PPC where
++system headers don't get included.
++
++Upstream-Status: Backport
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++r16450 | mjw | 2017-06-16 10:33:35 +0100 (Fri, 16 Jun 2017) | 7 lines
++
++ppc64 doesn't compile test_isa_2_06_partx.c without VSX support
++
++The #ifdef HAS_VSX guard is wrongly placed. It makes the standard
++include headers not be used. Causing a build failure. Fix by moving
++the #ifdef HAS_VSX after the standard includes.
++
++Index: none/tests/ppc32/test_isa_2_06_part3.c
++===================================================================
++--- a/none/tests/ppc32/test_isa_2_06_part3.c	(revision 16449)
+++++ b/none/tests/ppc32/test_isa_2_06_part3.c	(revision 16450)
++@@ -20,17 +20,18 @@
++  The GNU General Public License is contained in the file COPYING.
++  */
++ 
++-#ifdef HAS_VSX
++-
++ #include <stdio.h>
++ #include <stdint.h>
++ #include <stdlib.h>
++ #include <string.h>
++ #include <malloc.h>
++-#include <altivec.h>
++ #include <math.h>
++ #include <unistd.h>    // getopt
++ 
+++#ifdef HAS_VSX
+++
+++#include <altivec.h>
+++
++ #ifndef __powerpc64__
++ typedef uint32_t HWord_t;
++ #else
++Index: none/tests/ppc32/test_isa_2_06_part1.c
++===================================================================
++--- a/none/tests/ppc32/test_isa_2_06_part1.c	(revision 16449)
+++++ b/none/tests/ppc32/test_isa_2_06_part1.c	(revision 16450)
++@@ -20,13 +20,14 @@
++  The GNU General Public License is contained in the file COPYING.
++  */
++ 
++-#ifdef HAS_VSX
++-
++ #include <stdio.h>
++ #include <stdint.h>
++ #include <stdlib.h>
++ #include <string.h>
++ #include <malloc.h>
+++
+++#ifdef HAS_VSX
+++
++ #include <altivec.h>
++ 
++ #ifndef __powerpc64__
++Index: none/tests/ppc32/test_isa_2_06_part2.c
++===================================================================
++--- a/none/tests/ppc32/test_isa_2_06_part2.c	(revision 16449)
+++++ b/none/tests/ppc32/test_isa_2_06_part2.c	(revision 16450)
++@@ -20,17 +20,18 @@
++  The GNU General Public License is contained in the file COPYING.
++  */
++ 
++-#ifdef HAS_VSX
++-
++ #include <stdio.h>
++ #include <stdint.h>
++ #include <stdlib.h>
++ #include <string.h>
++ #include <malloc.h>
++-#include <altivec.h>
++ #include <math.h>
++ #include <unistd.h>    // getopt
++ 
+++#ifdef HAS_VSX
+++
+++#include <altivec.h>
+++
++ #ifndef __powerpc64__
++ typedef uint32_t HWord_t;
++ #else
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
+index 2ec9b9b6fc8..feab5fc1a19 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
+@@ -36,6 +36,7 @@ SRC_URI = "ftp://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
+            file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
+            file://link-gz-tests.patch \
++           file://ppc-headers.patch \
+            "
+ SRC_URI[md5sum] = "817dd08f1e8a66336b9ff206400a5369"
+ SRC_URI[sha256sum] = "d76680ef03f00cd5e970bbdcd4e57fb1f6df7d2e2c071635ef2be74790190c3b"
+-- 
+2.11.0
 
-Ross
 
-On 14 July 2017 at 18:19, Otavio Salvador <otavio.salvador@ossystems.com.br>
-wrote:
-
-> On Wed, Jul 12, 2017 at 1:19 PM, Ross Burton <ross.burton@intel.com>
-> wrote:
-> > It's possible that src/intel/vulkcan can be written into by sed before
-> it has
-> > been created, so add the required mkdir calls.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> Has this been send to upstream? Upstream-Status?
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
-
---001a1141006c78520e05544b79b4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The second sob is from the patch I sent upstream.=C2=A0 Th=
-e first two lines of the patch header are the OE ones:<div><br></div><div><=
-span style=3D"font-size:12.800000190734863px">+++ b/meta/recipes-graphics/m=
-esa/</span><wbr style=3D"font-size:12.800000190734863px"><span style=3D"fon=
-t-size:12.800000190734863px">files/vulkan-mkdir.patch</span><br style=3D"fo=
-nt-size:12.800000190734863px"><span style=3D"font-size:12.800000190734863px=
-">@@ -0,0 +1,37 @@</span><br style=3D"font-size:12.800000190734863px"><span=
- style=3D"font-size:12.800000190734863px">+Upstream-Status: Submitted</span=
-><br style=3D"font-size:12.800000190734863px"><span style=3D"font-size:12.8=
-00000190734863px">+Signed-off-by: Ross Burton &lt;</span><a href=3D"mailto:=
-ross.burton@intel.com" style=3D"font-size:12.800000190734863px">ross.burton=
-@intel.com</a><span style=3D"font-size:12.800000190734863px">&gt;</span><br=
-></div><div><span style=3D"font-size:12.800000190734863px"><br></span></div=
-><div><span style=3D"font-size:12.800000190734863px">Ross</span></div></div=
-><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 14 July 2017 =
-at 18:19, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"mailto:otavio.sa=
-lvador@ossystems.com.br" target=3D"_blank">otavio.salvador@ossystems.com.br=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">O=
-n Wed, Jul 12, 2017 at 1:19 PM, Ross Burton &lt;<a href=3D"mailto:ross.burt=
-on@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt; It&#39;s possible that src/intel/vulkcan can be written into by sed be=
-fore it has<br>
-&gt; been created, so add the required mkdir calls.<br>
-&gt;<br>
-&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
-">ross.burton@intel.com</a>&gt;<br>
-<br>
-</span>Has this been send to upstream? Upstream-Status?<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-<br>
---<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
-a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
-903-9750</a><br>
-</font></span></blockquote></div><br></div>
-
---001a1141006c78520e05544b79b4--
