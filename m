@@ -1,26 +1,24 @@
 Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E622170016
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EEEA780C0
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Jul 2017 00:24:21 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6E0OMdO010487
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6E0OMdV015236
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jul 2017 17:24:23 -0700 (PDT)
+	Thu, 13 Jul 2017 17:24:22 -0700 (PDT)
 Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 13 Jul 2017 17:24:22 -0700
+	14.3.294.0; Thu, 13 Jul 2017 17:24:21 -0700
 From: Joe Slater <jslater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Jul 2017 17:24:21 -0700
-Message-ID: <1499991861-19044-2-git-send-email-jslater@windriver.com>
+Date: Thu, 13 Jul 2017 17:24:20 -0700
+Message-ID: <1499991861-19044-1-git-send-email-jslater@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1499991861-19044-1-git-send-email-jslater@windriver.com>
-References: <1499991861-19044-1-git-send-email-jslater@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] valgrind: allow version 3.12 to build under gcc7
+Subject: [PATCH 0/1] valgrind - gcc7 and powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,84 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 14 Jul 2017 00:24:22 -0000
 Content-Type: text/plain
 
-Building for powerpc64 fails because of erroneous assertions
-that register r2 is clobbered.  This has probably been fixed
-in version 3.13.
+This probably could do no harm since the actual code generated does not
+seem to have changed between gcc6 and gcc7, and is not affected by this patch
+except that without it, valgrind ppc64 won't compile.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
+There must also be a gcc7 bug, since if it is ok to clobber r2 for ppc32 it
+is unlikely it is not ok for ppc64.
+
+Joe Slater (1):
+  valgrind: allow version 3.12 to build under gcc7
+
  .../valgrind/valgrind/wait-for-3.13.patch          | 40 ++++++++++++++++++++++
  meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  3 ++
  2 files changed, 43 insertions(+)
  create mode 100644 meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch b/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
-new file mode 100644
-index 0000000..efab1d3
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
-@@ -0,0 +1,40 @@
-+valgrind: allow compilation under gcc7 for powerpc64
-+
-+Remove a few admonitions that r2 is not preserved by function or system calls
-+since they are not true.  -m32 ppc code does not care, but -m64 code does.
-+
-+Upstream-Status: not-applicable [ version 3.13 has similar changes, but this is NOT a backport ]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+--- a/coregrind/m_debuglog.c
-++++ b/coregrind/m_debuglog.c
-+@@ -215,7 +215,7 @@ static UInt local_sys_write_stderr ( con
-+       :
-+       : "b" (block)
-+       : "cc","memory","cr0","ctr",
-+-        "r0","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-++        "r0","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-+    );
-+    if (block[0] < 0)
-+       block[0] = -1;
-+@@ -231,7 +231,7 @@ static UInt local_sys_getpid ( void )
-+       : "=&r" (__res)
-+       : "i" (__NR_getpid)
-+       : "cc","memory","cr0","ctr",
-+-        "r0","r2","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-++        "r0","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-+    );
-+    return (UInt)__res;
-+ }
-+--- a/include/valgrind.h
-++++ b/include/valgrind.h
-+@@ -2708,7 +2708,7 @@ typedef
-+ #define __CALLER_SAVED_REGS                                       \
-+    "lr", "ctr", "xer",                                            \
-+    "cr0", "cr1", "cr2", "cr3", "cr4", "cr5", "cr6", "cr7",        \
-+-   "r0", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",   \
-++   "r0", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",   \
-+    "r11", "r12", "r13"
-+ 
-+ /* Macros to save and align the stack before making a function
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-index 00135d8..8b0bc35 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-@@ -31,6 +31,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-            file://0004-pth_atfork1.c-Define-error-API-for-musl.patch \
-            file://0005-tc20_verifywrap.c-Fake-__GLIBC_PREREQ-with-musl.patch \
-            file://0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch \
-+           file://wait-for-3.13.patch \
-            "
- SRC_URI_append_libc-musl = "\
-            file://0001-fix-build-for-musl-targets.patch \
-@@ -40,6 +41,8 @@ SRC_URI[sha256sum] = "67ca4395b2527247780f36148b084f5743a68ab0c850cb43e4a5b4b012
- 
- COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
- 
-+#COMPATIBLE_HOST_powerpc64 = 'null'
-+
- # valgrind supports armv7 and above
- COMPATIBLE_HOST_armv4 = 'null'
- COMPATIBLE_HOST_armv5 = 'null'
 -- 
 2.7.4
 
