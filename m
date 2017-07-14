@@ -1,49 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5597C781F8
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 42B85781F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 14:16:42 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id m68so22295333ith.1
+	Fri, 14 Jul 2017 14:25:06 +0000 (UTC)
+Received: by mail-qk0-f171.google.com with SMTP id v17so70651914qka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 07:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 14 Jul 2017 07:25:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=w4tCvpgX4hkPkeQqbh+7cQ/FSqKoRMtlz+StB7YzfDM=;
-	b=dlgwV4OKSD/tmImagEzkD1H3I9SsrqSpyMCzAKftJmVmETAFYAHEyS2fxMmEOXPFeH
-	RsOZCDkPGdaTPuuKKdD7N9jdO4AuOX3HP1gFrcxViqhPJ2lEPjCWXCgdNz5umDF8IDgn
-	QqPsiV+ck6u9yu9aydPTKVD6PrqetWyAPU77I3cKZaRVD9aGqno5WdS+Pw0t3LyZs9uG
-	4iLXpadzlAh2yixtx5ko93AZF0KzuK3XAAWPie8WcdLTnYWAsR7KSA3Gis+HyuyjqIG3
-	KbJPgJhOlgmVqBlzS3i57b3HoAnpXbvoPtBwO/PE2g4q6zt0m24EotvMTf6vaFhC1VG6
-	6gMg==
+	:cc; bh=4w0bEPt/d7pHtC23KRUP/5PHLnJw2ziL2zOlGXc9+Hk=;
+	b=hqrkX65sB814wgGAGPhJA24QMBxJ0XWvsK3LqVc30dwfSElFTJMbvuUcXNKJ131CTj
+	8xmi5JKwCHyRXPkPgjTUmBSf5r0lt0PwOxx1QSu2NlGzVFC1HoR6kwxhHVvQ1umAUvJG
+	SxzCzrR8ls6K87FeGYRgDCFIxjoZau7H+F/oRlyCo6W7/NlR+U5c89p/f5hHKccQzfB3
+	LFXNqVJpxiuDxaLQgOCeucSij9Ms1nwZ75tf6t4rroGRmwd+TIuSeFmiW1TCIhGVe6Bw
+	Sd8uiF6WAG+aNJLp7T/8C1UQYMpsGd7NnyercQ8fz7am7+Ws39jTjpnA8bY2k2geN1GG
+	PT7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=w4tCvpgX4hkPkeQqbh+7cQ/FSqKoRMtlz+StB7YzfDM=;
-	b=DYIevOkOLbimAi/MMEKSCWnQJkQmlT5tRUlvPIh53xZ5Zx3ptqHRlvqTI6/34VHOC3
-	nuDQE2r3tucuoMj8P8qZH7yUAtx3q5BQZ1FG2Xs+9wLwkgD/Zf5uV458KF2THOFbdxnH
-	e983DfWjCptWQDlhXFsp+DAYamhPFxW6pLneKLDK0AwYEGTeQ1aFHtT0/FYlKIcRJeW2
-	63w2EMvTCkp2xckBfXcEg7Rp0hR2+KwpgoA8vW/nm3bxUmBOuEBeh7yAzYi4tWaigT0s
-	4dW4sP8q3uPAyUdLbc4MN36MrJsELqchmAFHngDtu9htvNft9S+emmSr+6BCHM4A+bYM
-	h5nw==
-X-Gm-Message-State: AIVw111uZ9mDNpImi2woRM50PkGsKb/BOe9huhXQ1f6bHzUP6R0E+AlM
-	/NRypSmPLRAJvrFlnsEoijCOQMDIqlNX
-X-Received: by 10.36.58.6 with SMTP id m6mr3701806itm.43.1500041803542; Fri,
-	14 Jul 2017 07:16:43 -0700 (PDT)
+	bh=4w0bEPt/d7pHtC23KRUP/5PHLnJw2ziL2zOlGXc9+Hk=;
+	b=qSdvAfQVK1SMBiKAPQvLVedJLOCIgY+A1xG6fsBWh3WFTLFUPonSjrOgy0Cvbrvwoe
+	y+54eE4SmTM6ae+O7jQqSO/l2iUuBkFchOCdtUXgZcv1GoNZIKwHMMO3sC44fR2z5Ird
+	6xBUDaq0wvx2qCtNHCqP7kVL26ipoS/1W3nwB4FBRHCA100sHDvLeM7ZI0yiI2So2+dR
+	lweDTNw8zf/O5FRi+0i+iulzv7YawBPAEjt7QHVdsJh5uIpRAcWJHQ9fwvxE4grHaEpS
+	FBNYtwrceCmHzqZz59rQ8FtBIl0BtgijiPlk13YvJ3azy/DQ2u95+9m3f1ubUTgq5PFm
+	wwLg==
+X-Gm-Message-State: AIVw1123EwuaDaMQ69laTfxCNHO+o9kY6StyWQVHxcSj27nwO0YnA8Il
+	oSaYrnKe3dc2hW4sjptawalVfB+bLg==
+X-Received: by 10.55.31.76 with SMTP id f73mr12404522qkf.85.1500042307831;
+	Fri, 14 Jul 2017 07:25:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Fri, 14 Jul 2017 07:16:22 -0700 (PDT)
-In-Reply-To: <CAMKF1soBnvJf=aB3TN28_Mrh1+jeBF9BO0+xUfv2UAjgeuXVpQ@mail.gmail.com>
-References: <1500008435-6588-1-git-send-email-changhyeok.bae@gmail.com>
-	<CAMKF1soBnvJf=aB3TN28_Mrh1+jeBF9BO0+xUfv2UAjgeuXVpQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Jul 2017 15:16:22 +0100
-Message-ID: <CAJTo0LaCKdRVNvM05SfTimEYLspPsTdVam2-P9jPRc98M22+tA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: namhyung@gmail.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] uftrace: Add recipe
+Received: by 10.140.97.6 with HTTP; Fri, 14 Jul 2017 07:24:47 -0700 (PDT)
+In-Reply-To: <alpine.LFD.2.20.1707140547090.12072@localhost.localdomain>
+References: <alpine.LFD.2.20.1707140547090.12072@localhost.localdomain>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Fri, 14 Jul 2017 07:24:47 -0700
+Message-ID: <CABcZAN=DimUEqjJTNzrh69aCWXx+SrVy2=2pKypPiN+9vOqRLg@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: two identically-named machine .conf files in two different layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 14:16:42 -0000
-Content-Type: multipart/alternative; boundary="001a114419cad9548c055447b22e"
+X-List-Received-Date: Fri, 14 Jul 2017 14:25:07 -0000
+Content-Type: multipart/alternative; boundary="001a1147d536e80dab055447d0fb"
 
---001a114419cad9548c055447b22e
+--001a1147d536e80dab055447d0fb
 Content-Type: text/plain; charset="UTF-8"
 
-On 14 July 2017 at 14:35, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Jul 14, 2017 at 2:50 AM, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
 
-> perhaps meta-oe is better place fot now. Will it support mips/ppc in future
+>
+>   just ran across someone else's OE work, where he pulled in a
+> standard layer that defined a machine, call it "machine.conf", then
+> added an internal layer with some tweaks but *also* contained a
+> machine definition file named precisely "machine.conf", which was just
+> the original file with some edits. so it wasn't extending or modifying
+> the original machine.conf, it was meant to completely override it.
+>
+>   i was a bit confused as i'm not sure what even happens in a
+> situation like that. does one take precedence over the other based on
+> layer priority? or what?
 >
 
-Agreed.
+Config files and classes are pulled in via relative paths, which are always
+found via BBPATH, which in turn is defined based on layer.conf files. Since
+any sane layer.conf file will append to BBPATH, BBPATH ends up obeying the
+same order as BBLAYERS.
 
-Ross
+If you want layer A to override a config file or class in layer B, put
+layer A before layer B in BBLAYERS in conf/bblayers.conf.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
---001a114419cad9548c055447b22e
+--001a1147d536e80dab055447d0fb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 July 2017 at 14:35, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":1f1" class=3D"a3s aXjCH m=
-15d4150a38d6470e">perhaps meta-oe is better place fot now. Will it support =
-mips/ppc in future<br></div></blockquote><div><br></div><div>Agreed.</div><=
-div><br></div><div>Ross=C2=A0</div></div><br></div></div>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Jul 14, 2017 at 2:50 AM, Robert P. J. Day <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@crashcou=
+rse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+=C2=A0 just ran across someone else&#39;s OE work, where he pulled in a<br>
+standard layer that defined a machine, call it &quot;machine.conf&quot;, th=
+en<br>
+added an internal layer with some tweaks but *also* contained a<br>
+machine definition file named precisely &quot;machine.conf&quot;, which was=
+ just<br>
+the original file with some edits. so it wasn&#39;t extending or modifying<=
+br>
+the original machine.conf, it was meant to completely override it.<br>
+<br>
+=C2=A0 i was a bit confused as i&#39;m not sure what even happens in a<br>
+situation like that. does one take precedence over the other based on<br>
+layer priority? or what?<br></blockquote><div>=C2=A0</div><div>Config files=
+ and classes are pulled in via relative paths, which are always found via B=
+BPATH, which in turn is defined based on layer.conf files. Since any sane l=
+ayer.conf file will append to BBPATH, BBPATH ends up obeying the same order=
+ as BBLAYERS.</div><div><br></div><div>If you want layer A to override a co=
+nfig file or class in layer B, put layer A before layer B in BBLAYERS in co=
+nf/bblayers.conf.</div></div>-- <br><div class=3D"gmail_signature" data-sma=
+rtmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christoph=
+er Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, O=
+penZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></d=
+iv>
+</div></div>
 
---001a114419cad9548c055447b22e--
+--001a1147d536e80dab055447d0fb--
