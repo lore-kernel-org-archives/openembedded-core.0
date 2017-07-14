@@ -1,46 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 18CA07820C
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5139778200
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 13:35:51 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id y5so10881332wmh.3
+	Fri, 14 Jul 2017 14:01:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6EE1Fkw018085
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 06:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BftIc3URkHB0bjff9nDkOFsaL/Th4M99UiyL2pfhbk8=;
-	b=NzP7m/XWLi1Xrct7iqx4B9RgS5+HmqTIIVBN5UoEsvxAutadrfNAIVaqSUFJPnZThW
-	NbaHHNHWiXTt2x3b0SDwjPgKLbU+aqXbM0PqYXqthUg3EcEbSp/GNL9h/8MJM6Jhq6SL
-	UboToQoQ/2FHEvE9FCEDBG9LXVAP3SH3+f+nF8xbccC5vEADkkpPUQlPMhks6W1ccqsX
-	JQZgwes11lMOvL/VvuLYP2JISzPKODg167dhpHdk5gfEbhLm8y+0HTbZpXWtFAi00BFy
-	ZpT/Z5Cxz7ki2N5Mt+GRxkO5DfgyN5P79mBL4idwOeUTBlB3zFZ/a9xjg9OBPosiTZ7F
-	R+pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BftIc3URkHB0bjff9nDkOFsaL/Th4M99UiyL2pfhbk8=;
-	b=nwL4EpEqstccLwvTVDtiIeH6nW6QoLkkSOU4AFR6Lfzo9A8hhQ2ZHYjnIEoXpbA2AN
-	L1YKGcvD9+JUvuk0b4tK64FcV7VVEgmncCqibp0cgN0d9RvZKvz/8Adv7VuSovWfTDa3
-	if3N978Bp/eFer2LDhvCr1FSRYYNo0qcO46C570OCce+jaMYnQlRlrB06ICdQWdVFNjz
-	0oYeSF4E1umJQuQGCBFvx0qbNmwA9fHJnq3LQHv9qfvL7qJqmjptWEDQs9vyIo7mZeYY
-	ELhLFjq/hmGP22M8grJMRNsCoHM87N8/0WkrfX1CUnwlXroI4WmenvSrpPBDooRUjVEn
-	k2dg==
-X-Gm-Message-State: AIVw112Z9MT6AlbwQtYWDW357PSNtu9m5AHyc4m5+D4RvuBA2x9MSpV4
-	pmMwMqg0B6pZoG60cNwAdqHjdqNOfw==
-X-Received: by 10.80.144.5 with SMTP id b5mr6889654eda.24.1500039352129; Fri,
-	14 Jul 2017 06:35:52 -0700 (PDT)
+	Fri, 14 Jul 2017 07:01:15 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Fri, 14 Jul 2017 07:01:14 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Jul 2017 10:01:09 -0400
+Message-ID: <1500040869-23765-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.80.145.210 with HTTP; Fri, 14 Jul 2017 06:35:21 -0700 (PDT)
-In-Reply-To: <1500008435-6588-1-git-send-email-changhyeok.bae@gmail.com>
-References: <1500008435-6588-1-git-send-email-changhyeok.bae@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 14 Jul 2017 06:35:21 -0700
-Message-ID: <CAMKF1soBnvJf=aB3TN28_Mrh1+jeBF9BO0+xUfv2UAjgeuXVpQ@mail.gmail.com>
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
-Cc: namhyung@gmail.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] uftrace: Add recipe
+Subject: [PATCH v2] python3: fix weakref spewing exceptions during interp finalization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,151 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 13:36:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Jul 2017 14:01:16 -0000
+Content-Type: text/plain
 
-On Thu, Jul 13, 2017 at 10:00 PM, Changhyeok Bae
-<changhyeok.bae@gmail.com> wrote:
-> - Add recipe for uftrace v0.7.
-> - Support x86_64, arm (v6 or later), and aarch64.
-> - Disable for armv4 and armv5 in arm architecture which is only
->   supported armv6 or later.
-> - Attached 2 patches is merged to upstream.
->
+When py3 applications are exiting we often see errors similar to the
+following:
 
-perhaps meta-oe is better place fot now. Will it support mips/ppc in future
+Exception ignored in: <function WeakValueDictionary.__init__.<locals>.remove at 0x7fcb56b09400>
+Traceback (most recent call last):
+  File "/usr/lib64/python3.5/weakref.py", line 117, in remove
+  TypeError: 'NoneType' object is not callable
 
-> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
-> ---
->  .../0001-Makefile-Add-LDFLAGS-in-export.patch      | 31 +++++++++++++++++++
->  ...tils-Add-limits-header-to-fix-build-error.patch | 31 +++++++++++++++++++
->  meta/recipes-devtools/uftrace/uftrace_0.7.bb       | 35 ++++++++++++++++++++++
->  3 files changed, 97 insertions(+)
->  create mode 100644 meta/recipes-devtools/uftrace/uftrace/0001-Makefile-Add-LDFLAGS-in-export.patch
->  create mode 100644 meta/recipes-devtools/uftrace/uftrace/0002-utils-Add-limits-header-to-fix-build-error.patch
->  create mode 100644 meta/recipes-devtools/uftrace/uftrace_0.7.bb
->
-> diff --git a/meta/recipes-devtools/uftrace/uftrace/0001-Makefile-Add-LDFLAGS-in-export.patch b/meta/recipes-devtools/uftrace/uftrace/0001-Makefile-Add-LDFLAGS-in-export.patch
-> new file mode 100644
-> index 0000000..f665051
-> --- /dev/null
-> +++ b/meta/recipes-devtools/uftrace/uftrace/0001-Makefile-Add-LDFLAGS-in-export.patch
-> @@ -0,0 +1,31 @@
-> +From ec794945475d5792f2ae85afe461e64266613640 Mon Sep 17 00:00:00 2001
-> +From: Changhyeok Bae <changhyeok.bae@gmail.com>
-> +Date: Thu, 13 Jul 2017 16:44:52 +0900
-> +Subject: [PATCH 1/2] Makefile: Add LDFLAGS in export
-> +
-> +To use build with musl, need to argp library.
-> +So need to add LDFLAGS from outside.
-> +
-> +Upstream-Status: Accepted
-> +
-> +Signed-off-by: <Changhyeok Bae changhyeok.bae@gmail.com>
-> +---
-> + Makefile | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 67be2da..0ca649a 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -48,7 +48,7 @@ endif
-> + RM = rm -f
-> + INSTALL = install
-> +
-> +-export ARCH CC AR LD RM srcdir objdir
-> ++export ARCH CC AR LD RM srcdir objdir LDFLAGS
-> +
-> + COMMON_CFLAGS := -O2 -g -D_GNU_SOURCE $(CFLAGS) $(CPPFLAGS)
-> + COMMON_CFLAGS +=  -iquote $(srcdir) -iquote $(objdir) -iquote $(srcdir)/arch/$(ARCH)
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/uftrace/uftrace/0002-utils-Add-limits-header-to-fix-build-error.patch b/meta/recipes-devtools/uftrace/uftrace/0002-utils-Add-limits-header-to-fix-build-error.patch
-> new file mode 100644
-> index 0000000..2690011
-> --- /dev/null
-> +++ b/meta/recipes-devtools/uftrace/uftrace/0002-utils-Add-limits-header-to-fix-build-error.patch
-> @@ -0,0 +1,31 @@
-> +From 3bda554766150705160fe2191d8761c7881e2433 Mon Sep 17 00:00:00 2001
-> +From: Changhyeok Bae <changhyeok.bae@gmail.com>
-> +Date: Thu, 13 Jul 2017 16:46:20 +0900
-> +Subject: [PATCH 2/2] utils: Add limits header to fix build error
-> +
-> +[Error]
-> +error: 'PATH_MAX' undeclared (first use in this function); did you mean
-> +'INT8_MAX'?
-> +
-> +Upstream-Status: Accepted
-> +
-> +Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
-> +---
-> + utils/utils.c | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/utils/utils.c b/utils/utils.c
-> +index 03522c9..30f9e81 100644
-> +--- a/utils/utils.c
-> ++++ b/utils/utils.c
-> +@@ -6,6 +6,7 @@
-> + #include <errno.h>
-> + #include <sys/uio.h>
-> + #include <sys/stat.h>
-> ++#include <limits.h>
-> +
-> + #include "utils/utils.h"
-> +
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/uftrace/uftrace_0.7.bb b/meta/recipes-devtools/uftrace/uftrace_0.7.bb
-> new file mode 100644
-> index 0000000..821d0bb
-> --- /dev/null
-> +++ b/meta/recipes-devtools/uftrace/uftrace_0.7.bb
-> @@ -0,0 +1,35 @@
-> +SUMMARY = "Trace and analyze execution of a program written in C/C++"
-> +HOMEPAGE = "https://github.com/namhyung/uftrace"
-> +BUGTRACKER = "https://github.com/namhyung/uftrace/issues"
-> +SECTION = "devel"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +
-> +DEPENDS = "elfutils"
-> +DEPENDS_append_libc-musl = " argp-standalone"
-> +
-> +inherit autotools
-> +
-> +SRCREV = "712ad01fdde57893936d7e254451eec67ab41ca6"
-> +SRC_URI = "\
-> +    git://github.com/namhyung/${BPN} \
-> +    file://0001-Makefile-Add-LDFLAGS-in-export.patch \
-> +    file://0002-utils-Add-limits-header-to-fix-build-error.patch \
-> +"
-> +S = "${WORKDIR}/git"
-> +
-> +LDFLAGS_append_libc-musl = " -largp"
-> +EXTRA_OECONF = "ARCH=${TARGET_ARCH}"
-> +
-> +do_configure() {
-> +    ${S}/configure ${EXTRA_OECONF}
-> +}
-> +
-> +FILES_SOLIBSDEV = ""
-> +FILES_${PN} += "${libdir}/*.so"
-> +
-> +COMPATIBLE_HOST = "(x86_64|aarch64|arm)"
-> +
-> +# uftrace supports armv6 and above
-> +COMPATIBLE_HOST_armv4 = 'null'
-> +COMPATIBLE_HOST_armv5 = 'null'
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+After a quick search this was found to be a well reported issue
+upstream and had an appropriate fix which is backported here.
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+v2: Add patch author SOB to embedded patch after
+    failing Patchwork's patchtest.
+
+ ...eakref-spewing-exceptions-during-interp-f.patch | 56 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.3.bb      |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/Fix-29519-weakref-spewing-exceptions-during-interp-f.patch
+
+diff --git a/meta/recipes-devtools/python/python3/Fix-29519-weakref-spewing-exceptions-during-interp-f.patch b/meta/recipes-devtools/python/python3/Fix-29519-weakref-spewing-exceptions-during-interp-f.patch
+new file mode 100644
+index 0000000..7217c6e
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/Fix-29519-weakref-spewing-exceptions-during-interp-f.patch
+@@ -0,0 +1,56 @@
++From 62dcf34987b680e95873eb947b3f4d802199c667 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?=C5=81ukasz=20Langa?= <lukasz@langa.pl>
++Date: Fri, 10 Feb 2017 00:14:55 -0800
++Subject: [PATCH] Fix #29519: weakref spewing exceptions during interp
++ finalization
++
++commit 9cd7e17640a49635d1c1f8c2989578a8fc2c1de6
++from https://github.com/python/cpython
++
++Upstream-Status: Backport
++
++Signed-off-by: Lukasz Langa <lukasz@langa.pl>
++---
++ Lib/weakref.py | 4 ++--
++ Misc/NEWS      | 3 +++
++ 2 files changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/Lib/weakref.py b/Lib/weakref.py
++index aaebd0c..787e33a 100644
++--- a/Lib/weakref.py
+++++ b/Lib/weakref.py
++@@ -106,7 +106,7 @@ class WeakValueDictionary(collections.MutableMapping):
++         self, *args = args
++         if len(args) > 1:
++             raise TypeError('expected at most 1 arguments, got %d' % len(args))
++-        def remove(wr, selfref=ref(self)):
+++        def remove(wr, selfref=ref(self), _atomic_removal=_remove_dead_weakref):
++             self = selfref()
++             if self is not None:
++                 if self._iterating:
++@@ -114,7 +114,7 @@ class WeakValueDictionary(collections.MutableMapping):
++                 else:
++                     # Atomic removal is necessary since this function
++                     # can be called asynchronously by the GC
++-                    _remove_dead_weakref(d, wr.key)
+++                    _atomic_removal(d, wr.key)
++         self._remove = remove
++         # A list of keys to be removed
++         self._pending_removals = []
++diff --git a/Misc/NEWS b/Misc/NEWS
++index 41cfdba..6d89f52 100644
++--- a/Misc/NEWS
+++++ b/Misc/NEWS
++@@ -5719,6 +5719,9 @@ Core and Builtins
++ Library
++ -------
++ 
+++- Issue #29519: Fix weakref spewing exceptions during interpreter shutdown
+++  when used with a rare combination of multiprocessing and custom codecs.
+++
++ - Issue #20154: Deadlock in asyncio.StreamReader.readexactly().
++ 
++ - Issue #16113: Remove sha3 module again.
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
+index d7c29f2..7419c71 100644
+--- a/meta/recipes-devtools/python/python3_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3_3.5.3.bb
+@@ -37,6 +37,7 @@ SRC_URI += "\
+             file://configure.ac-fix-LIBPL.patch \
+             file://upstream-random-fixes.patch \
+             file://0001-Issue-21272-Use-_sysconfigdata.py-to-initialize-dist.patch \
++            file://Fix-29519-weakref-spewing-exceptions-during-interp-f.patch \
+            "
+ SRC_URI[md5sum] = "57d1f8bfbabf4f2500273fb0706e6f21"
+ SRC_URI[sha256sum] = "eefe2ad6575855423ab630f5b51a8ef6e5556f774584c06beab4926f930ddbb0"
+-- 
+2.7.4
+
 
