@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 10AAC78223;
-	Fri, 14 Jul 2017 19:01:15 +0000 (UTC)
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 162527821A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Jul 2017 20:02:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6EK2Dvq029466
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Jul 2017 13:02:14 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Fri, 14 Jul 2017 13:02:13 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 14 Jul 2017 13:02:13 -0700
+Message-ID: <1500062533-24722-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 14 Jul 2017 19:01:16 -0000
-Message-ID: <20170714190116.2380.82254@do.openembedded.org>
-References: <20170714185347.32104-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170714185347.32104-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdmFsZ3JpbmQ6IGZpeCBwdGVzdCBjb21waWxhdGlvbiBmb3IgUG93ZXJQQw==?=
+Subject: [PATCH 1/1][V2] valgrind: allow version 3.12 to build under gcc7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 19:01:15 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Jul 2017 20:02:14 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Building for powerpc64 fails because of erroneous assertions
+that register r2 is clobbered.  This has been fixed in
+version 3.13.
 
-Series: valgrind: fix ptest compilation for PowerPC
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7752/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at b1c4661742)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../valgrind/valgrind/wait-for-3.13.patch          | 40 ++++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
+
+diff --git a/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch b/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
+new file mode 100644
+index 0000000..355c336
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
+@@ -0,0 +1,40 @@
++valgrind: allow compilation under gcc7 for powerpc64
++
++Remove a few admonitions that r2 is not preserved by function or system calls
++since they are not true.  -m32 ppc code does not care, but -m64 code does.
++
++Upstream-Status: Accepted [ version 3.13 has similar changes, but NOT this patch ]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++--- a/coregrind/m_debuglog.c
+++++ b/coregrind/m_debuglog.c
++@@ -215,7 +215,7 @@ static UInt local_sys_write_stderr ( con
++       :
++       : "b" (block)
++       : "cc","memory","cr0","ctr",
++-        "r0","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12"
+++        "r0","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12"
++    );
++    if (block[0] < 0)
++       block[0] = -1;
++@@ -231,7 +231,7 @@ static UInt local_sys_getpid ( void )
++       : "=&r" (__res)
++       : "i" (__NR_getpid)
++       : "cc","memory","cr0","ctr",
++-        "r0","r2","r4","r5","r6","r7","r8","r9","r10","r11","r12"
+++        "r0","r4","r5","r6","r7","r8","r9","r10","r11","r12"
++    );
++    return (UInt)__res;
++ }
++--- a/include/valgrind.h
+++++ b/include/valgrind.h
++@@ -2708,7 +2708,7 @@ typedef
++ #define __CALLER_SAVED_REGS                                       \
++    "lr", "ctr", "xer",                                            \
++    "cr0", "cr1", "cr2", "cr3", "cr4", "cr5", "cr6", "cr7",        \
++-   "r0", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",   \
+++   "r0", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",   \
++    "r11", "r12", "r13"
++ 
++ /* Macros to save and align the stack before making a function
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+index b63d278..80b1781 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+@@ -35,6 +35,7 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch \
+            file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
+            file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
++           file://wait-for-3.13.patch \
+            "
+ SRC_URI_append_libc-musl = "\
+            file://0001-fix-build-for-musl-targets.patch \
+-- 
+2.7.4
 
 
