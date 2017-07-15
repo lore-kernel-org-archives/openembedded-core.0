@@ -1,47 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3412C77D6F
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EDBD7828E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 22:59:07 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id m68so28455923ith.1
+	Sat, 15 Jul 2017 09:48:35 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id m68so31844381ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jul 2017 15:59:09 -0700 (PDT)
+	Sat, 15 Jul 2017 02:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zMJVdLiuJ9ox4l4ELJwwg2CzbPVuV4phaCSy63yEjE0=;
-	b=Eedqf1Iv/mlgh4+ZglVT7n8HZ1BdeerA1h+JEZTnQUsWsOUipLMrpp6GXDnDQvPrWs
-	olkM5LHLHU6imnELnqac+OzMikYnBt2phO03oXFivGptwQZ3QLw14rmZ+z0n32gqXCj8
-	Tnyk/6A8Gkfl3OuOZJB1QvnJqe9Pn4mrD8xwpDGLDGmllXJ3kYMx0ET1lez5r2ljLDFF
-	jKGcAMYd69r/vCO0pgmTHncNYwUh6We1aGWL2lAI10SHSO14xXcyf+bsjCBVEqJHltOX
-	FiYCECsHZ9e7EI/Sb6hNzKd2erZ0U2/7vImlFAt89nktZleq1tELCPVLhVExFuDeXW9l
-	Q1Vg==
+	:cc; bh=H7IYTGTu09xfT7j79IutIyvgFw2WuLRrYuDeDt4mUAU=;
+	b=0mLtMH8sUIYX/odjxN/HwfGGINkiyy8bYVWXav6vSGZtu0YWqv71fmKuE220ddSgR2
+	ZjeO63oUthTHQxWdgzTrqxQe4YpzaEiRKyEl8CX+iaHEsxIaQ4fXCClKTnloS5NIprGv
+	HRcON1cit7vuKFtxiNNmU7E68GbjLjtnAKOrh/fQFOiwqnCUjwsd+qnQ+vFV5VPFmDdT
+	3OmDeoT+jVwKBl6j/0YNJt67byne8tTCq9xKjDqrGCW+S3142QhGYRxOEPtEWFw4GSXx
+	lq9E5Q5iQPLZkapcJTZl3RYoN7gFAU5fxxsifz6liJQz2iGV61xPhJvKJgSxxBC2yDT5
+	469g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=zMJVdLiuJ9ox4l4ELJwwg2CzbPVuV4phaCSy63yEjE0=;
-	b=unAjPOtzzR+yxH75rZQfz6s7ty7paH2eRPoK+7yADxe7lZUEufeAhQOe8nANW6fFnK
-	fOxAvchYRJSNvi7LJEMfhjb/ZWJpLYn0p7rlBeJYPgPrJc89zb5ajFr/ulCQQJt3HkcL
-	pBSH72V/ZMhOAXdMtPjFd4ogdtjKe8nnEwImV7/WIXZ6Rwe4ra/G/q223SJoSjZLFiSd
-	xS7/qqWdurM0gr/OlXeYCkhP8CeQLk2bMFNdgRI8i65M19YHj4A5Yb1mofgx+mcwj4xS
-	oAFBxoS7vsfkhUnEzrkWhyCzEM3JGIEn9tVHfnYUk5i+LDk39NNlenJfa24v+YVlg8il
-	2dwA==
-X-Gm-Message-State: AIVw110boEIMsCyyIrgFva+Jd4LTnIg5POh4ZjWF2pP8ns58XXdTQkHx
-	MEWLyyMGtcWXXCGq9Gp/Q/Q+KN6KAaou
-X-Received: by 10.36.216.215 with SMTP id b206mr799918itg.23.1500073148511;
-	Fri, 14 Jul 2017 15:59:08 -0700 (PDT)
+	bh=H7IYTGTu09xfT7j79IutIyvgFw2WuLRrYuDeDt4mUAU=;
+	b=C+OQ25WX1LH04UjH31qOpjVl61lAPOjO42doG72CoTLtVyA+O9kL282YXpNUN9RAjl
+	kynicUHJ38Wr15bOZ/yyT7N8TfDs1ZTsZBkAI578wrU/lfWY4kPRgmpBRhM98E6F05Fl
+	3pb27GYm7ZS46IKZxOMlEzM/88kskQGqRxGvdMcj0nfyh/xRoWrVmblCQt6Jy1dJ/JQ/
+	wSruObEGcTRQniOB471RljxFNZ0DSSBwrgcR7FEdcK8ye2oTFdLYbNYLTLjSUAwyQAZa
+	JFbWdVSCtkXLTHhcNcf2X9vQXo/eXi7OdjMEpRpoDS5Xalbnii01nPUqZcJtG613uQLW
+	mG9g==
+X-Gm-Message-State: AIVw113uK2s2U1zh0cHpQWSh4Pz2xQqNs7zPbYn7wTQYZGufrX8TftLg
+	MSC7nVQ0AvMVls0Lyl43ypxjGGmZGdI1
+X-Received: by 10.36.204.9 with SMTP id x9mr202208itf.5.1500112116531; Sat, 15
+	Jul 2017 02:48:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Fri, 14 Jul 2017 15:58:48 -0700 (PDT)
-In-Reply-To: <1500062533-24722-1-git-send-email-jslater@windriver.com>
-References: <1500062533-24722-1-git-send-email-jslater@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Jul 2017 23:58:48 +0100
-Message-ID: <CAJTo0La53sDWHb=15f9-vQNEVe7Uiyah3756T_ZNGxN1xPaEEQ@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1][V2] valgrind: allow version 3.12 to build under gcc7
+Received: by 10.107.44.87 with HTTP; Sat, 15 Jul 2017 02:48:06 -0700 (PDT)
+In-Reply-To: <cover.1500034432.git.jussi.kukkonen@intel.com>
+References: <cover.1500034432.git.jussi.kukkonen@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Sat, 15 Jul 2017 12:48:06 +0300
+Message-ID: <CAHiDW_FhxAM5xPHD2P09ZAud4uANeKUzAHaqFcgN=7zU6rGinw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Remove gnome-common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,244 +54,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jul 2017 22:59:10 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05ba5a27954f05544eff5c"
+X-List-Received-Date: Sat, 15 Jul 2017 09:48:36 -0000
+Content-Type: multipart/alternative; boundary="94eb2c05a632d47c460554581109"
 
---94eb2c05ba5a27954f05544eff5c
+--94eb2c05a632d47c460554581109
 Content-Type: text/plain; charset="UTF-8"
 
-There's an outstanding patch for 3.13 upgrade which was failing to ptest
-build. I gave up waiting for the submitter to fix it and backported the fix
-myself earlier, it's currently queued for master.
+On 14 July 2017 at 15:25, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-Ross
-
-On 14 July 2017 at 21:02, Joe Slater <jslater@windriver.com> wrote:
-
-> Building for powerpc64 fails because of erroneous assertions
-> that register r2 is clobbered.  This has been fixed in
-> version 3.13.
+> Patchset should preferably only be merged once "gnome-common: Add
+> recipe (from oe-core)" (2017-07-06) patch has been merged in meta-oe.
+> I can ping the thread once it happens.
 >
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  .../valgrind/valgrind/wait-for-3.13.patch          | 40
+
+meta-openembedded master was updated so this set is good to go.
+
+
+>
+> This set removes gnome-common, an obsolete collection of m4-macros
+> that partially conflicts with autoconf-archive. The plan is to fix the
+> hacks between autoconf-archive and gnome-common once they're in the
+> same repo.
+>
+> Thanks,
+>  Jussi
+>
+> The following changes since commit 81498aac9560fbeaeb58eaada32ce8
+> 0e0ea51628:
+>
+>   yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib jku/gnome-common
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
+> jku/gnome-common
+>
+> Jussi Kukkonen (4):
+>   matchbox-desktop: Upgrade to 2.2
+>   python3-pygobject: Don't use gnome-common
+>   gnome-desktop: Don't use gnome-common
+>   gnome-common: Remove as deprecated
+>
+>  ...onfigure.ac-Don-t-use-gnome-common-macros.patch | 33
 > ++++++++++++++++++++++
->  meta/recipes-devtools/valgrind/valgrind_3.12.0.bb  |  1 +
->  2 files changed, 41 insertions(+)
->  create mode 100644 meta/recipes-devtools/valgrind/valgrind/wait-for-3.
-> 13.patch
->
-> diff --git a/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
-> b/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
-> new file mode 100644
-> index 0000000..355c336
-> --- /dev/null
-> +++ b/meta/recipes-devtools/valgrind/valgrind/wait-for-3.13.patch
-> @@ -0,0 +1,40 @@
-> +valgrind: allow compilation under gcc7 for powerpc64
-> +
-> +Remove a few admonitions that r2 is not preserved by function or system
-> calls
-> +since they are not true.  -m32 ppc code does not care, but -m64 code does.
-> +
-> +Upstream-Status: Accepted [ version 3.13 has similar changes, but NOT
-> this patch ]
-> +
-> +Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> +
-> +--- a/coregrind/m_debuglog.c
-> ++++ b/coregrind/m_debuglog.c
-> +@@ -215,7 +215,7 @@ static UInt local_sys_write_stderr ( con
-> +       :
-> +       : "b" (block)
-> +       : "cc","memory","cr0","ctr",
-> +-        "r0","r2","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-> ++        "r0","r3","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-> +    );
-> +    if (block[0] < 0)
-> +       block[0] = -1;
-> +@@ -231,7 +231,7 @@ static UInt local_sys_getpid ( void )
-> +       : "=&r" (__res)
-> +       : "i" (__NR_getpid)
-> +       : "cc","memory","cr0","ctr",
-> +-        "r0","r2","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-> ++        "r0","r4","r5","r6","r7","r8","r9","r10","r11","r12"
-> +    );
-> +    return (UInt)__res;
-> + }
-> +--- a/include/valgrind.h
-> ++++ b/include/valgrind.h
-> +@@ -2708,7 +2708,7 @@ typedef
-> + #define __CALLER_SAVED_REGS                                       \
-> +    "lr", "ctr", "xer",                                            \
-> +    "cr0", "cr1", "cr2", "cr3", "cr4", "cr5", "cr6", "cr7",        \
-> +-   "r0", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",   \
-> ++   "r0", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10",   \
-> +    "r11", "r12", "r13"
-> +
-> + /* Macros to save and align the stack before making a function
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-> b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-> index b63d278..80b1781 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
-> @@ -35,6 +35,7 @@ SRC_URI = "http://www.valgrind.org/
-> downloads/valgrind-${PV}.tar.bz2 \
->             file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch
-> \
->             file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
->             file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch
-> \
-> +           file://wait-for-3.13.patch \
->             "
->  SRC_URI_append_libc-musl = "\
->             file://0001-fix-build-for-musl-targets.patch \
-> --
-> 2.7.4
+>  .../python/python3-pygobject_3.24.1.bb             |  3 +-
+>  ...figure.ac-Remove-gnome-common-macro-calls.patch | 33
+> ++++++++++++++++++++++
+>  .../gnome-desktop/gnome-desktop3_3.24.2.bb         |  6 ++--
+>  meta/recipes-gnome/gnome/gnome-common_3.18.0.bb    | 20 -------------
+>  ...hbox-desktop_2.1.bb => matchbox-desktop_2.2.bb} |  6 ++--
+>  6 files changed, 75 insertions(+), 26 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python/python3-pygobject/0001-
+> configure.ac-Don-t-use-gnome-common-macros.patch
+>  create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop/0001-
+> configure.ac-Remove-gnome-common-macro-calls.patch
+>  delete mode 100644 meta/recipes-gnome/gnome/gnome-common_3.18.0.bb
+>  rename meta/recipes-sato/matchbox-desktop/{matchbox-desktop_2.1.bb =>
+> matchbox-desktop_2.2.bb} (87%)
 >
 > --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 2.1.4
+>
 >
 
---94eb2c05ba5a27954f05544eff5c
+--94eb2c05a632d47c460554581109
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">There&#39;s an outstanding patch for 3.13 upgrade which wa=
-s failing to ptest build. I gave up waiting for the submitter to fix it and=
- backported the fix myself earlier, it&#39;s currently queued for master.<d=
-iv><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On 14 July 2017 at 21:02, Joe Slater <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:jslater@windriver.com" target=3D"_blank">jslater@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Building for=
- powerpc64 fails because of erroneous assertions<br>
-that register r2 is clobbered.=C2=A0 This has been fixed in<br>
-version 3.13.<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
+4 July 2017 at 15:25, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Patchset should prefera=
+bly only be merged once &quot;gnome-common: Add<br>
+recipe (from oe-core)&quot; (2017-07-06) patch has been merged in meta-oe.<=
+br>
+I can ping the thread once it happens.<br></blockquote><div><br></div><div>=
+meta-openembedded master was updated so this set is good to go.</div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">
 <br>
-Signed-off-by: Joe Slater &lt;<a href=3D"mailto:jslater@windriver.com">jsla=
-ter@windriver.com</a>&gt;<br>
----<br>
-=C2=A0.../valgrind/valgrind/wait-<wbr>for-3.13.patch=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 40 ++++++++++++++++++++++<br>
-=C2=A0meta/recipes-devtools/<wbr>valgrind/<a href=3D"http://valgrind_3.12.0=
-.bb" rel=3D"noreferrer" target=3D"_blank">valgrind_3.12.0.bb</a>=C2=A0 |=C2=
-=A0 1 +<br>
-=C2=A02 files changed, 41 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/<wbr>valgrind/valgrind/wait-=
-for-3.<wbr>13.patch<br>
+This set removes gnome-common, an obsolete collection of m4-macros<br>
+that partially conflicts with autoconf-archive. The plan is to fix the<br>
+hacks between autoconf-archive and gnome-common once they&#39;re in the<br>
+same repo.<br>
 <br>
-diff --git a/meta/recipes-devtools/<wbr>valgrind/valgrind/wait-for-3.<wbr>1=
-3.patch b/meta/recipes-devtools/<wbr>valgrind/valgrind/wait-for-3.<wbr>13.p=
-atch<br>
-new file mode 100644<br>
-index 0000000..355c336<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/<wbr>valgrind/valgrind/wait-for-3.<wbr>13.patch=
+Thanks,<br>
+=C2=A0Jussi<br>
 <br>
-@@ -0,0 +1,40 @@<br>
-+valgrind: allow compilation under gcc7 for powerpc64<br>
-+<br>
-+Remove a few admonitions that r2 is not preserved by function or system ca=
-lls<br>
-+since they are not true.=C2=A0 -m32 ppc code does not care, but -m64 code =
-does.<br>
-+<br>
-+Upstream-Status: Accepted [ version 3.13 has similar changes, but NOT this=
- patch ]<br>
-+<br>
-+Signed-off-by: Joe Slater &lt;<a href=3D"mailto:joe.slater@windriver.com">=
-joe.slater@windriver.com</a>&gt;<br>
-+<br>
-+--- a/coregrind/m_debuglog.c<br>
-++++ b/coregrind/m_debuglog.c<br>
-+@@ -215,7 +215,7 @@ static UInt local_sys_write_stderr ( con<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;b&quot; (block)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;cc&quot;,&quot;memory&quot;,&quot;cr0&q=
-uot;,&quot;ctr&quot;,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;r0&quot;,&quot;r2&quot;,&quot;r3&quot;,=
-&quot;r4&quot;,&quot;r5&quot;,&quot;r6&quot;,<wbr>&quot;r7&quot;,&quot;r8&q=
-uot;,&quot;r9&quot;,&quot;r10&quot;,&quot;r11&quot;,&quot;<wbr>r12&quot;<br=
+The following changes since commit 81498aac9560fbeaeb58eaada32ce8<wbr>0e0ea=
+51628:<br>
+<br>
+=C2=A0 yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100=
+)<br>
+<br>
+are available in the git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.yoctoproject.org/poky-contrib" rel=3D"no=
+referrer" target=3D"_blank">git.yoctoproject.org/<wbr>poky-contrib</a> jku/=
+gnome-common<br>
+=C2=A0 <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
+=3Djku/gnome-common" rel=3D"noreferrer" target=3D"_blank">http://git.yoctop=
+roject.org/<wbr>cgit.cgi/poky-contrib/log/?h=3D<wbr>jku/gnome-common</a><br=
 >
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;r0&quot;,&quot;r3&quot;,&quot;r4&quot;,=
-&quot;r5&quot;,&quot;r6&quot;,&quot;r7&quot;,<wbr>&quot;r8&quot;,&quot;r9&q=
-uot;,&quot;r10&quot;,&quot;r11&quot;,&quot;r12&quot;<br>
-+=C2=A0 =C2=A0 );<br>
-+=C2=A0 =C2=A0 if (block[0] &lt; 0)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0block[0] =3D -1;<br>
-+@@ -231,7 +231,7 @@ static UInt local_sys_getpid ( void )<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;=3D&amp;r&quot; (__res)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;i&quot; (__NR_getpid)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0: &quot;cc&quot;,&quot;memory&quot;,&quot;cr0&q=
-uot;,&quot;ctr&quot;,<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;r0&quot;,&quot;r2&quot;,&quot;r4&quot;,=
-&quot;r5&quot;,&quot;r6&quot;,&quot;r7&quot;,<wbr>&quot;r8&quot;,&quot;r9&q=
-uot;,&quot;r10&quot;,&quot;r11&quot;,&quot;r12&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;r0&quot;,&quot;r4&quot;,&quot;r5&quot;,=
-&quot;r6&quot;,&quot;r7&quot;,&quot;r8&quot;,<wbr>&quot;r9&quot;,&quot;r10&=
-quot;,&quot;r11&quot;,&quot;r12&quot;<br>
-+=C2=A0 =C2=A0 );<br>
-+=C2=A0 =C2=A0 return (UInt)__res;<br>
-+ }<br>
-+--- a/include/valgrind.h<br>
-++++ b/include/valgrind.h<br>
-+@@ -2708,7 +2708,7 @@ typedef<br>
-+ #define __CALLER_SAVED_REGS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;lr&quot;, &quot;ctr&quot;, &quot;xer&quot;,=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+=C2=A0 =C2=A0 &quot;cr0&quot;, &quot;cr1&quot;, &quot;cr2&quot;, &quot;cr3=
-&quot;, &quot;cr4&quot;, &quot;cr5&quot;, &quot;cr6&quot;, &quot;cr7&quot;,=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 \<br>
-+-=C2=A0 =C2=A0&quot;r0&quot;, &quot;r2&quot;, &quot;r3&quot;, &quot;r4&quo=
-t;, &quot;r5&quot;, &quot;r6&quot;, &quot;r7&quot;, &quot;r8&quot;, &quot;r=
-9&quot;, &quot;r10&quot;,=C2=A0 =C2=A0\<br>
-++=C2=A0 =C2=A0&quot;r0&quot;, &quot;r3&quot;, &quot;r4&quot;, &quot;r5&quo=
-t;, &quot;r6&quot;, &quot;r7&quot;, &quot;r8&quot;, &quot;r9&quot;, &quot;r=
-10&quot;,=C2=A0 =C2=A0\<br>
-+=C2=A0 =C2=A0 &quot;r11&quot;, &quot;r12&quot;, &quot;r13&quot;<br>
-+<br>
-+ /* Macros to save and align the stack before making a function<br>
-diff --git a/meta/recipes-devtools/<wbr>valgrind/<a href=3D"http://valgrind=
-_3.12.0.bb" rel=3D"noreferrer" target=3D"_blank">valgrind_3.12.0.bb</a> b/m=
-eta/recipes-devtools/<wbr>valgrind/<a href=3D"http://valgrind_3.12.0.bb" re=
-l=3D"noreferrer" target=3D"_blank">valgrind_3.12.0.bb</a><br>
-index b63d278..80b1781 100644<br>
---- a/meta/recipes-devtools/<wbr>valgrind/<a href=3D"http://valgrind_3.12.0=
-.bb" rel=3D"noreferrer" target=3D"_blank">valgrind_3.12.0.bb</a><br>
-+++ b/meta/recipes-devtools/<wbr>valgrind/<a href=3D"http://valgrind_3.12.0=
-.bb" rel=3D"noreferrer" target=3D"_blank">valgrind_3.12.0.bb</a><br>
-@@ -35,6 +35,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.valgrind.org/down=
-loads/valgrind-${PV}.tar.bz2" rel=3D"noreferrer" target=3D"_blank">http://w=
-ww.valgrind.org/<wbr>downloads/valgrind-${PV}.tar.<wbr>bz2</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-memcheck-arm64-<wbr>D=
-efine-__THROW-if-not-already-<wbr>defined.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-memcheck-x86-<wbr>Def=
-ine-__THROW-if-not-defined.<wbr>patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0003-tests-seg_<wbr>overri=
-de-Replace-__modify_ldt-<wbr>with-syscall.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://wait-for-3.13.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0SRC_URI_append_libc-musl =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-fix-build-for-<wbr>mu=
-sl-targets.patch \<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
 <br>
+Jussi Kukkonen (4):<br>
+=C2=A0 matchbox-desktop: Upgrade to 2.2<br>
+=C2=A0 python3-pygobject: Don&#39;t use gnome-common<br>
+=C2=A0 gnome-desktop: Don&#39;t use gnome-common<br>
+=C2=A0 gnome-common: Remove as deprecated<br>
+<br>
+=C2=A0...onfigure.ac-Don-t-use-<wbr>gnome-common-macros.patch | 33 ++++++++=
+++++++++++++++<br>
+=C2=A0.../python/<a href=3D"http://python3-pygobject_3.24.1.bb" rel=3D"nore=
+ferrer" target=3D"_blank">python3-pygobject_<wbr>3.24.1.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +-<br>
+=C2=A0...figure.ac-Remove-gnome-<wbr>common-macro-calls.patch | 33 ++++++++=
+++++++++++++++<br>
+=C2=A0.../gnome-desktop/<a href=3D"http://gnome-desktop3_3.24.2.bb" rel=3D"=
+noreferrer" target=3D"_blank">gnome-<wbr>desktop3_3.24.2.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 6 ++--<br>
+=C2=A0meta/recipes-gnome/gnome/<a href=3D"http://gnome-common_3.18.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">gnome<wbr>-common_3.18.0.bb</a>=C2=A0 =
+=C2=A0 | 20 -------------<br>
+=C2=A0...<a href=3D"http://hbox-desktop_2.1.bb" rel=3D"noreferrer" target=
+=3D"_blank">hbox-desktop_2.1.bb</a> =3D&gt; <a href=3D"http://matchbox-desk=
+top_2.2.bb" rel=3D"noreferrer" target=3D"_blank">matchbox-desktop_2.2.bb</a=
+>} |=C2=A0 6 ++--<br>
+=C2=A06 files changed, 75 insertions(+), 26 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<wbr>python3-pygobjec=
+t/0001-<wbr>configure.ac-Don-t-use-gnome-<wbr>common-macros.patch<br>
+=C2=A0create mode 100644 meta/recipes-gnome/gnome-<wbr>desktop/gnome-deskto=
+p/0001-<wbr>configure.ac-Remove-gnome-<wbr>common-macro-calls.patch<br>
+=C2=A0delete mode 100644 meta/recipes-gnome/gnome/<a href=3D"http://gnome-c=
+ommon_3.18.0.bb" rel=3D"noreferrer" target=3D"_blank">gnome<wbr>-common_3.1=
+8.0.bb</a><br>
+=C2=A0rename meta/recipes-sato/matchbox-<wbr>desktop/{<a href=3D"http://mat=
+chbox-desktop_2.1.bb" rel=3D"noreferrer" target=3D"_blank">matchbox-desktop=
+_2.1.<wbr>bb</a> =3D&gt; <a href=3D"http://matchbox-desktop_2.2.bb" rel=3D"=
+noreferrer" target=3D"_blank">matchbox-desktop_2.2.bb</a>} (87%)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
 --<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+2.1.4<br>
+<br>
+</font></span></blockquote></div><br></div></div>
 
---94eb2c05ba5a27954f05544eff5c--
+--94eb2c05a632d47c460554581109--
