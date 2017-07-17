@@ -1,142 +1,41 @@
-Return-Path: <mkelly@xevo.com>
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com
-	(mail-by2nam03on0049.outbound.protection.outlook.com [104.47.42.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 311C077DE7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9216460670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 17:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=xEmcBWDokmG1ZF4gNFU20Y+z5SDPrPB6zzjWOpnrJ7w=;
-	b=c1tVs5CIZKPkbJAkkc+94cr4WPesiniw7oWl4AhU6CwFVnA7pPoNOEJkIz6cD+ZHt/TEA+aPCLcpPTcf7nw18X561POAW+7NaVZW4bJU2kGrgyZoEvVR3BkmzKJN1sbWbpXSpgouMLeLEbOwXlxMhVUBIG+YTJks9WBSkKKe6nA=
-Authentication-Results: intel.com; dkim=none (message not signed)
-	header.d=none;intel.com; dmarc=none action=none header.from=xevo.com;
-Received: from [10.0.1.79] (65.122.179.226) by
-	CY4PR0101MB2934.prod.exchangelabs.com (10.171.223.139) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1261.13; Mon, 17 Jul 2017 17:11:05 +0000
-To: openembedded-core@lists.openembedded.org
-References: <20170710221833.11413-1-mkelly@xevo.com>
-From: Martin Kelly <mkelly@xevo.com>
-Message-ID: <144ced22-b4b7-2923-97d0-b1046e117f3d@xevo.com>
-Date: Mon, 17 Jul 2017 10:10:57 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <20170710221833.11413-1-mkelly@xevo.com>
-X-Originating-IP: [65.122.179.226]
-X-ClientProxiedBy: DM5PR1601CA0032.namprd16.prod.outlook.com (10.174.111.45)
-	To CY4PR0101MB2934.prod.exchangelabs.com (10.171.223.139)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 767f9016-69f7-4988-6b0e-08d4cd36cf3e
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(300000500095)(300135000095)(300000501095)(300135300095)(22001)(300000502095)(300135100095)(300000503095)(300135400095)(201703131423075)(201703031133081)(300000504095)(300135200095)(300000505095)(300135600095)(300000506095)(300135500095);
-	SRVR:CY4PR0101MB2934; 
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
-	3:ZXo5LLdS+NXCW28hDwxQk4CgCacLLjJtBkJTcXsld7naQQtiI0YAlBn5/2JPQsjANhIn4qZhk3UbqIXjn03AMrcag0MD1CXo/7FVWZhVBuyjlAWgqAsaISJFxJtt+DqFfv7sCB40Iwb67Ro31vqjROtUmfhhpQTqkJQHFz/ePVbuOPSqhTj0jS4e4D3T+yaehp/ZJWdpkI766rzJfesXcaXrCymBPEwIQzBZv3U0HFq2fScSXTIfWAVlFTDN19uRrgq51fcBPI5980a9gmtTcy/THg5/9o0xB06kyBZm78JB85QcMX5ZHNEY2zivKUvuNEkCGYn/EOdq8mVMx2noLA3Uy04R9mnyI35lTaNjxJEqgnlKwlrq7V9B4VjJ7m/5WU98HR9UHwKzeSz7cT49CAlDaE2yiCNXb20+0jQGdxkJamSfXGXopnGuUqZ9YZHgWdzT9lnZ9jWPjvfKwYtu6JSEoe3Jj5Ml1dZ9EZG4dJhxQ7641n0z73NctGngbVhW3iFSC82U28aGWOgHsnUnJ1HeEld+dr4alex+QV39yuLlIEdFAc2pfBKMCaL0BMSAEuz/JrdQNAXZ+5AOccCz6n3BtA3rcHqWfG6cKSRS5NClx0JyF8OYS7A06iRWXpCe4Yb/PhkH/uBQfvjjdEH3uQcmOD/rQg9SgMB/wNB7J8ZLqJ33BSqLPMr/XKv8WuMKRWpSGjFFjB8JiemxBBBG94aKXUvhxt6C5Hx40bu5N40=
-X-MS-TrafficTypeDiagnostic: CY4PR0101MB2934:
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
-	25:vCnuyPiTRnQmdQm5X7PY8vMNd7lDxShLsTkDmz7hMU+Vmtp+MVX/mc6518yQRCncJfGaTCVTMP3OnuIztu2it4skgfmGEhrgMANqVZZ1eG4uVuEW5Na1FWXG6D7P+aiQHxVHBACUlkL3xF0A36/LX4fC4TFHIH9AKTfAmMsJDcBliC8D57HpgnJKNIGM1Oaq5E5gasC/u3DvyvzEv8FkSrKvKs5tFV98MpK7AYjwhIocDTFDSXumiaTtN4FIylsmkhu5NbzfrqEqCKQ/+Xqt15NExMcokWbvPtzxvVV4UPR6wtXWVMrjv9Ym/55jdBTpyobRXJsTC7mzLrxRf1LZokBxursBSJFISWNTnBgvepW2RHpmtIs049T+vY90pVeM9nrY9vl2nWlj3x3UwQMQDyj94XnoIt7/thgUFASrSNaBqnYmEtOPqsdft5XkL3yZYiM/VpSlVguukhwoHQk+9PQXm4yXKhVrZ4qWt+djskFKJXMaYiHGENziyMHlh9oNqBupeZKqBRcbQqRdRQA/3ad/bnQiu2YF9CF6kar1bwa1+k+cUOieEJLRAwquz/K1G19wMad9zFsTBgMadFyJQ0wTzxzA6ezioSurLMX+xXXHFjFAB0JPsFRg0kCaXDK/DxJUWTi0S9ZqX02+Q7BepzqII5fO0yIJY7POwV8chXl2emLsp53lZKfIkAQ4M4iT0/dwQ6j+UOUz2Mo9OKm//4wREgW2TtuP0q/Wvorfpl+RkJvNl5YbGR1K9Qx7PQY6/1tJ0q4x4sxmCf8K24bt3AQhdZsxcdcbzrSHuFK8uvlYb2FBOnNs5Y88tyRxKCmfwWOegYZ6spbNRsTBRUr+yr1fuP4RS94QobZVNRTUTHq9fQ2OKCCguOCzmC+4DlQUvxt6dLmsfwYs6vUGxlU/BrYJ8yPrkYmsOxXRzTsuqgU=
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
-	31:Z4/h5myjWM40u3QpFM5RpJsm9CcgR3kQPk8fpyKTxRFYTRcZQetG4U9+Yyo7/Kvx4+NPDjP0hyMP8PkWa/tatKtx2Xg98TmISFY2oaER2ak2+1+yfTxNs0+Z8eijdnHflOMsjmR+klTGDPOhoyGL5b4reT2EarHv6H9zN+U746uiryR/C/vY33zVYekMs8DqQRGTOZE/9FllRjD3FhW3jbLwWVmESSyU2WeSpzGCAG/qYMdDr19qc//8G03OhRoHx4mAa2SKV6uBXZ3eam/vy1ixHLa5wnirkLJ151B8pQXhHemNtRPXcVeoTked713Hfryf6l3qflTLUKIkY9w/TvCOVT7nET5rY+fAMK1jHm6r4MleicdqwM1p95146v0nQKx4wk4aaKnn2AZyAbcNfYKvlGWfM5eVvD1cb59hR/Whu18sUuCwqatlqZYmSsu0Gm/JRk0IIsIFRKh4smnGowtmyL+8W468cgKh5ytk1x5wX8DuS3LuMfDkYP0MIm6lN3912UzkPli7Pdla27scC+czf3CDsGH6lvdNdFBNpb8qAGeoFHoH1yrXTwjAjoaxWhs/mhtNj4+Ib03Eokyf5alPF7gRzBZoOE6CNSYYIzmgAQzbOJk4hl3pkYzQrOaLX719VV6I5vi6mEsaBEJPwqRDtWCZujtn+BxvJF5Z7ETeVGgLBdXtRlXmmZJT45RTZRXsw46qwHnTbASPzxIx0A==
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
-	20:xEw3z8mQ2mu1RowcdFaEkcSnV4JDHgtZcTY98VqGrd9ddtdAP+fDmYFIaoaGQ0fkGuRSSNF7Zzj+2Yz/6G6Hf+M9k05J+5WnNWd/0msGohP441uMNcOtbmOuTizRV1kOgavdEUKiV44o+QPjvDxLaWTNgLBv1v/BFbCQA6Dg7fi6KnGXUdzGN9e7lq0I/c6WTsBLech8wErIe0vGyoFpbKrV+VznuffFy1ayICLbgPM4Q6yfjKlUzznIOmccs9B813DfrkrAQ2u57hUzUoK71PM5NfhV6fYdOKqRca0R7Qhf96P6h3wbl9nVFrzNKK012wBfS8+s63aIkaCPRo0FkJG7s9eLOw6H8UBUd4Eqa89rD960mXyz3Pyg0fmfpl/LUlaxdF3/48uIkuQAHUxkn6njH8hYaeheXiVV2bleIBs=
-X-Exchange-Antispam-Report-Test: UriScan:(236129657087228);
-X-Microsoft-Antispam-PRVS: <CY4PR0101MB293493B00D79F88B6E8E1EAAABA00@CY4PR0101MB2934.prod.exchangelabs.com>
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(2401047)(2017060910075)(8121501046)(5005006)(93006095)(93001095)(3002001)(100000703101)(100105400095)(10201501046)(6041248)(20161123555025)(20161123560025)(20161123564025)(20161123562025)(20161123558100)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(6072148)(100000704101)(100105200095)(100000705101)(100105500095);
-	SRVR:CY4PR0101MB2934; BCL:0; PCL:0;
-	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
-	SRVR:CY4PR0101MB2934; 
-X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; CY4PR0101MB2934;
-	4:JFnyWI8wNM/yex8409mw9NcNowasJRAipaLd?=
-	=?Windows-1252?Q?m9dqRaAg0rC2T+PBXAVrYNkjsf1PxIZW5OepunKusDEe+RUPOtH5t0av?=
-	=?Windows-1252?Q?AGSHaZNS+JWELi0/5fY6ZJm5jXXCW7WKhvWBrgY4gFayqOTMNvBNBoOv?=
-	=?Windows-1252?Q?kr2yZWsA5Dyom/ktFiYeJWySeUsQCNwtW+R5aKoNjPtHD5qoq8J/7fjG?=
-	=?Windows-1252?Q?yUgAHzbjiojZ6M6fBj7nJ/rMeP00g3TAfhKCv6WCy73R68DmaBWqXKci?=
-	=?Windows-1252?Q?23US79gYfE05uao5xvrRqhd2nZY6EVdWo/c0Zy5jch9fKX9Qlx9jRi/9?=
-	=?Windows-1252?Q?cKrAdvdxXFWyrjRagTqeReNxTK0Up9iXReHea5+w91kahtwu6Wg45zgW?=
-	=?Windows-1252?Q?+whncyoBJdzTF+zDjIyJR7jbUjW290yutru/EoMDToZX/y6JJ+zKYHQb?=
-	=?Windows-1252?Q?O+RgfRwzjc1WQKVz7g+NTba/w///m23Ia7+2nF9+FBMdEb7g6vVy4+RH?=
-	=?Windows-1252?Q?Ow8vgObnN67ERSbuweIz7O6RX9gRfXSFbzxMy3HOk7+4CgQFcIzM9UZP?=
-	=?Windows-1252?Q?UMuCAvlIwWSTEF6kNC8CRyqdgNRTJ6SpTsGIeIaxiG9IvRdr2lh3i3xm?=
-	=?Windows-1252?Q?6qgXOpQI8uzsUP+k45i7dN7QMosC68M9KYfoO5obiFlR+5r7d0QtHlTq?=
-	=?Windows-1252?Q?+soSOEm8SHQ2vkn4qvphNzlPSFQtIf/zXKfG5x7BB4x7G+Wu4fwfESB7?=
-	=?Windows-1252?Q?ebjiqYOsdVmqVArLmulPKuFKsA5aLWIN1Tut3bWC1uI4Z5jNEs8i0utg?=
-	=?Windows-1252?Q?AOPox9IN18Q0a9Oy/L35M1q6nc6mqRyMvjVXHtqgKrB9TCYcq0+RUbsx?=
-	=?Windows-1252?Q?CIxlt4yNYyaf4iERWHs6HppweRqxZAYfIdXIxt4CG6tW7En3OMFHuzKM?=
-	=?Windows-1252?Q?p/IF+GYkZf8dffKVZhHDAsB/wLIzsYePKak6C92l8xgN+iHQfSDuouV9?=
-	=?Windows-1252?Q?7z+52z/NRURbRI3Y/wyyUnAHE8a0kIarWUV+vNcnvGNX+HZbjxsA74tH?=
-	=?Windows-1252?Q?OrMWT8A96YouRHgCvSGtkPfMFvxnrEKFNya+FAM9Rv/W3+vpIifffbJb?=
-	=?Windows-1252?Q?65GvlFcyFC0T2GnuxC+/AOZWGV8NmSLapEv0wyglhgAbFIZQGb82bUuj?=
-	=?Windows-1252?Q?fenh58isQElQ6Keo/p7m5XtxnTDSKJAvq5JDaroyp54P6NSyHZyAf2zD?=
-	=?Windows-1252?Q?qLMEEkedQU/3WKFexKBFAXxTxn8qNDOpPAaM9Xm8ukrtoUL9nTzPQ4O1?=
-	=?Windows-1252?Q?psT8?=
-X-Forefront-PRVS: 0371762FE7
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(7370300001)(4630300001)(6049001)(6009001)(39400400002)(39410400002)(39450400003)(39830400002)(377454003)(24454002)(7736002)(4001350100001)(230700001)(66066001)(53546010)(2361001)(77096006)(2351001)(54356999)(76176999)(189998001)(53936002)(36756003)(81166006)(8676002)(4326008)(575784001)(50986999)(2906002)(31696002)(90366009)(6486002)(33646002)(65806001)(86362001)(42186005)(65826007)(305945005)(478600001)(64126003)(23746002)(47776003)(3846002)(50466002)(25786009)(6116002)(6246003)(31686004)(110136004)(5660300001)(229853002)(2950100002)(6666003)(6916009)(38730400002)(83506001)(7350300001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR0101MB2934; H:[10.0.1.79];
-	FPR:; SPF:None; MLV:sfv; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; CY4PR0101MB2934;
-	23:Cn9qLG457Ma5Szu0sQYCpbE6sEZeA7EOuEf?=
-	=?Windows-1252?Q?1dhKhPWAizYmQEjYeA/wELmXhgX+Klbi5hgfPsPt6K0eZSkmRXxUCPC1?=
-	=?Windows-1252?Q?TmZF1d6m45zzJYKd9UJty2HTPykZFjEC97CqmLPrcTkrXnRpLoIdRgii?=
-	=?Windows-1252?Q?mydc0BT8E9aGv4cQAJtHTFup7oZtA9/dXoKI7qRoBvr3ccrNXlFQUTb+?=
-	=?Windows-1252?Q?ej/5IuSa+uGHvm4ogL0tt80gtoC9EUodz1GtWA1ZqHgAfRGCjSSSTDOG?=
-	=?Windows-1252?Q?lfMSn7N8Q9QCPeUNXg63YERMw+nuzkHCM4ya7jE6iUdRgQQP7Y8c8/FB?=
-	=?Windows-1252?Q?GboY9SZHOlTVgSxVVv+x9WWNDlRNiJWmkEbIeFwflI6ZrQSob5SWMVMx?=
-	=?Windows-1252?Q?HsvrDBGnq7atdMTp5RguZmk1f0AdeEhEHtshWz8tytWW2iSW0zwGNm1s?=
-	=?Windows-1252?Q?BrTJcSRiILjRkzaYSVQhk7T2JQPL7iRHKem2aHS+V8ofXRzkbO4Y0W0i?=
-	=?Windows-1252?Q?NV+611+Ri2IHn6xy0OTPvXAJX4Cte1YfaRRJlH06z+ynXLY4ON9PWnJm?=
-	=?Windows-1252?Q?kLz/UhKqXCP5+2xJGgmC0KDAp5N/ChYU1Ab3ipixu7V9Qg2P1WRdtlGN?=
-	=?Windows-1252?Q?JMnZBwQO9BC1UQHDwnJyrNcaod/hknof7sJs0LM3wb72L88U9w6upM33?=
-	=?Windows-1252?Q?vGeCwoe7Hu5ZT9/pXKGiD17xTNZJAgcrBkdmn8x4vzx5izwL+GnMkbzW?=
-	=?Windows-1252?Q?ueBlnZQTaA3i+Tae8EEsiKgxVRRUK0SqcP+c8Lc8RuEUcGmrrLpTnQXM?=
-	=?Windows-1252?Q?xKm2R4SSfsQf6H259wmw9wyPf2otW5UOBexwSWOemcEV0Siq15Fxr4jh?=
-	=?Windows-1252?Q?1EL1lsAuR4MqshHUfe+vvGG9uqmqMxv8QhzFwxoH4vbw52bJhC7cto5p?=
-	=?Windows-1252?Q?z67TP2cVme5n0V2kZP565DVLtDhoqlRWiTa/2XoheGNr1tXcx/i4uaYt?=
-	=?Windows-1252?Q?iHfqEI0ZoSbYf76rke8f/DWECKtbl4x19q3v50z2pVy4Zp9OALqfwq/D?=
-	=?Windows-1252?Q?P2J9YL4Hm+TbKuz4JgojWQwcE/MIY/yG4t5BSGuzLNGmoa4r4WIAkyU4?=
-	=?Windows-1252?Q?ifwHjL0AVwSgzQiaLALG8tfWvDb9maW5e5U+rjBDK8C2/qpEDLZBJ2El?=
-	=?Windows-1252?Q?KsLlQf4g4dbuy/xy8+ndvOjmFdonUvzRiefcdW3eM6pDzP/tt3bKhAOg?=
-	=?Windows-1252?Q?IoxP/uI1E0Xscnf7+Tvj6NA/XuFJBj/+xsRxVgSzeAqpKjPKwplVJUUc?=
-	=?Windows-1252?Q?dV93c5iMLNtUCBy/QR2e5ejhOjPp2AFFwCv1GSI5Kzliz/fLgOmCsVN/?=
-	=?Windows-1252?Q?DR/ai5j2MVH5lXT0TNTA/VzO0Vp5xKHJTGTtESYKsE1FCJvJ7eFeYtm2?=
-	=?Windows-1252?Q?8+zBU+P5irGIUiIhC2CYKKVFmky0PlTN2Tk3x6HX90q5bExRUBjkYA8I?=
-	=?Windows-1252?Q?ynFfmSbWc3Ful6XyoN2IVFz7GIUvU?=
-X-Microsoft-Exchange-Diagnostics: =?Windows-1252?Q?1; CY4PR0101MB2934;
-	6:utn/JpxRli6UlTCNuwKcMrHCNjm2kWI4Umc/?=
-	=?Windows-1252?Q?+hhmuYtORNuDJZcXwhbMx8G8dP5gMvL1+/Ylyu3z5/cTCe3buncopg+K?=
-	=?Windows-1252?Q?vFBk03vBIOD7a/lKctUY8vfBpozu1wRoijPE0wteD1r13mzJ96qqcL/5?=
-	=?Windows-1252?Q?Swah+iIKYwUO9yCEwtW6U0/2nw0kgh6GtxNXMq95hxA8+jYvw/hC11Tf?=
-	=?Windows-1252?Q?7y9GQOLYq0X7qdzHe2msJ2sxHlvHz360PPTEiPlJyT4drgixCFdv5Qmr?=
-	=?Windows-1252?Q?cfwqR/Y6NPbQeZneVOw7iToTW9VJxZM6/JKMOIQMRz/fhYAaoExyoZBD?=
-	=?Windows-1252?Q?eTj4OAExo5Qp8nu8hvdRfnhmG5YPq1dI+DvdrVhz4OxrYNOV3AxfgA8w?=
-	=?Windows-1252?Q?DYOJBRH16szVk2p730Q2kTM/Nx03+U0Ng+Fpe8QBNSACor7C43EKyjeo?=
-	=?Windows-1252?Q?lyHiC3gOOFoEuay4HzZqx5iT6IGZCCF5WP/2Xnvf38Oyk21U3OIt9vJt?=
-	=?Windows-1252?Q?SwzfQZqE3+qQNslUYiz7DywBXZCbqpg45NIBC6csQ+wqeXEc7zRgohGP?=
-	=?Windows-1252?Q?Itfb7Au4cqQh98Kt5QtpTT0/pkOqdv9veFYvVEHA05hv4DK2yiJlMuGo?=
-	=?Windows-1252?Q?1qmj2n/RFkuXbccLAwFbD/k5PnuQDKRRVm76myAfsHuz51tL0EyxII5w?=
-	=?Windows-1252?Q?3/ERqeDd8R4Rh/MsuP3T7MsODG+LU52QXK2v5unKrP3la+NZWm0331Y7?=
-	=?Windows-1252?Q?oJzWSl3buswwMzgdLUmWoeXYv1J0UCsmCZ9/K4Blb0qny4FcYN5bs5+2?=
-	=?Windows-1252?Q?iBxc8ImVhrq+H+pxWaNtiMGOkaulYU3nZojALJxh+5dSzRvibBg90RiZ?=
-	=?Windows-1252?Q?MC5lLpX3kqgQN1gTM+z1JbB8r0ukAxCS6fu4Ni92VZqyJlrAkL3gz3g+?=
-	=?Windows-1252?Q?np87lWG+paIgYH6MQAeV4F60p6ZfNPB2r6p6DdGdlGS4ogSuiKwOISAt?=
-	=?Windows-1252?Q?q2VuJ3YyhiB1qzYUwzvhnfeAPPx8Xf5dm8XkE7JKuJw7vBttz/qUILoP?=
-	=?Windows-1252?Q?PMEO0CwEi9MwGRU=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
-	5:zkq37eqTprfy4dD2TH81Q9cBfc8n5NctmRN6iGirkLAywmSC4RdyZu6RodG5UIWaaEZl0OZkAO8YNsOX/q13jO4bJtd+lSDevun5yKyI0oGbrpJ1nDsjHOwswcSm96f/jvo0q9D+JRZ+pGnvKZEZavAXlS2JOpiHF3u0PHMeA9sZAVqsAyusewtc+iHZ+E4k1tFih/jWG6bjOXOdJ40Xl8PVpEUvZ9CA+fdyHtCmplOPhrljhXeONv7qGusyaY7I3Od98HmXKPpJ8D7uIrcZ0/d5aqurso0f9IqiZItKU+XaZGlXgADx0gSYxnEZ2AigIs62uJEG6AuZhgWS1dzVEaHjsNaerWtKxrz0ABjYs0Jnvp7gk+NYA1Jl4PGyRdEGUwQKkbmsNiO7XVohp38ob4WT8ZPsPUuFJbY5gKnJK0R2dG9Hz+kA0ub+2sWkkfooDN0ORO+h8AoSxtABbi5X8JWUcfzVoGa8Vwam6QuZstvhZTtuv/TZOHJ+zQq7qir9;
-	24:j6ldXlLVcUU8Vtx/eC8eIYY2gT4EE4c1DfzPRL2rnEXegEExy7okN53lHLPFMc2PqZjbkrOHR6ihCVgydp1keELuGyDFC9W2SwM2lvijxXY=
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2934;
-	7:NCv9kZRoUD1nmzOz7OqaelJGNzWVsGK9NsqQZ1r/2xSzAomLdX/ftTePdB6nHcWBXI9saadMNKEFYTcmlt7zdj78HwgDNZzvdk5PYIKxSKZPmSF6ufmDuHVWFoZY8OF48IB+UnSlSV0Vd8gooYd9cR8IgS9bAMhlqLZ7Nubq47/bA81HQngG6yaiTAzus+iCfsW+thHvPD+VbC5DS8tDAHqp0e80DDhw+Ll9wexSM1GFMqc32DQ7IAMU00ldSn8Zir4zQ3gAFd1GhIOLKzT36a0oDAIUQELBUZyFekBS5zs4HgkRPNB6xiqW+73AflRVybIUmRy3uX/ZYBmPckSk8ZXrmUjeC78+RIO7Ude07sr09hgXt5BV5rNVj8uAhuAll+n/Vf6qjmxXwCnskH7f6D/Zk2utp2ecf3ovg23Y2N+nyyNadMZPo4yBgOTqVs1k16k7BqPdAm9meDogEsUfLh9z1Dw+R5zHFk7SdhWqCcky2gpyIksJirggcAzMAisYVK6OF44yZjgj4FLV3cMpB7WmUeEtLApj92YLT+VrY2AbLqvOv8TZDbvYL5PnCJLaUJqtwq5JW4Bg5BQr17/XT8KhRt9AT2mPxNfFbBlarqqY6v1QmVz/gJhhAKkFPmoCd4ohBwl9bIeSCCVrbl5ioQ8f3Bn1c2CwDXIlCh8RkB+RlQnuBhg3cAjH6kzgjdN8ZMTJZt8jH/mGDE1d3/M0l7jtavkGj1rZ5m75bto1B4cX6YgpMYmTNKQGe7dP0pY8/zlKirXEIUvurKT6gHtsVn1J37S21EjQwmrebk9nSEg=
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2017 17:11:05.1992 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0101MB2934
-Subject: Re: [PATCH] licenses.conf: enable CDDLv1 license
+	Mon, 17 Jul 2017 18:41:00 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id h15so284668qte.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jul 2017 11:41:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=YpmrNfbej7nI1ao7FC2n6CfJap3wusfffgO0LTms8lg=;
+	b=NFeD26HEQzGCbA4NGLa0RCsQ+X5PH4IlmA8WF2YIeo1QQ2kA2c25rIfG0wCEsdOW28
+	nIkB66KKS3QEcw5wGVPjiCG4HWM8mFfBBnaqSjWgvbgxaaLlCJRFf2O+zI1APKiuXylk
+	NQddYSeIxItBtaU4Ftg7nVawj4ETXC9RhG+4ittwS0i7ReNDKeHTJC8rGv9nGx2oXUI+
+	vGPT3ZA10+MhM772ChmOY8Ffgf3uwgP5OQ4nj1PjtTKm3TjI9Dz9K1AhBSMwirZuABDU
+	FOWGzKfkeR07qu/atXugalweuNBo+YtjfOr+FeyHMTmNNmN8bg4gvR3eRuVJFsWRiN7m
+	k0Vw==
+X-Gm-Message-State: AIVw1100ZM0w5bU7sIVxKs7EovAaTMIvBH64yNQrrKMNBchE/wgb/Oio
+	Dh81w/zixNztpVA8
+X-Received: by 10.200.48.179 with SMTP id v48mr13439730qta.84.1500316860937;
+	Mon, 17 Jul 2017 11:41:00 -0700 (PDT)
+Received: from localhost.localdomain ([179.105.243.125])
+	by smtp.gmail.com with ESMTPSA id
+	c18sm14848595qtd.62.2017.07.17.11.40.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 17 Jul 2017 11:40:59 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 17 Jul 2017 15:40:50 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jul 2017 15:40:49 -0300
+Message-Id: <20170717184050.5474-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.13.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade to 17.1.5 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -149,35 +48,287 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 17:11:06 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Jul 2017 18:41:00 -0000
 
-(ping)
+This is a stable bugfix release. Following upstream bugs were fixed:
 
-On 07/10/2017 03:18 PM, Martin Kelly wrote:
-> The CDDL license is now used by open-vm-tools in meta-openembedded, so
-> we need to add it in order to prevent warnings.
->
-> Signed-off-by: Martin Kelly <mkelly@xevo.com>
-> ---
->  meta/conf/licenses.conf | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-> index d210a0e940..3e2d2589ab 100644
-> --- a/meta/conf/licenses.conf
-> +++ b/meta/conf/licenses.conf
-> @@ -105,6 +105,10 @@ SPDXLICENSEMAP[AFL-1] = "AFL-1.2"
->  SPDXLICENSEMAP[AFLv2] = "AFL-2.0"
->  SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
->
-> +#CDDL variations
-> +SPDXLICENSEMAP[CDDLv1] = "CDDL-1.0"
-> +SPDXLICENSEMAP[CDDL-1] = "CDDL-1.0"
-> +
->  #Other variations
->  SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
->
->
+Bug 100242 - radeon buffer allocation failure during startup of Factorio
+Bug 101657 - strtod.c:32:10: fatal error: xlocale.h: No such file or directory
+Bug 101666 - bitfieldExtract is marked as a built-in function on OpenGL ES 3.0, but was added in OpenGL ES 3.1
+Bug 101703 - No stencil buffer allocated when requested by GLUT
+
+Also, the following patches were included in this release and as such
+deleted:
+
+- etnaviv_fix-shader-miscompilation.patch
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+ .../files/etnaviv_fix-shader-miscompilation.patch  | 220 ---------------------
+ .../mesa/{mesa-gl_17.1.4.bb => mesa-gl_17.1.5.bb}  |   0
+ .../mesa/{mesa_17.1.4.bb => mesa_17.1.5.bb}        |   6 +-
+ 3 files changed, 2 insertions(+), 224 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/etnaviv_fix-shader-miscompilation.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.1.4.bb => mesa-gl_17.1.5.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.1.4.bb => mesa_17.1.5.bb} (80%)
+
+diff --git a/meta/recipes-graphics/mesa/files/etnaviv_fix-shader-miscompilation.patch b/meta/recipes-graphics/mesa/files/etnaviv_fix-shader-miscompilation.patch
+deleted file mode 100644
+index 0354e2a57f..0000000000
+--- a/meta/recipes-graphics/mesa/files/etnaviv_fix-shader-miscompilation.patch
++++ /dev/null
+@@ -1,220 +0,0 @@
+-From ec43605189907fa327a4a7f457aa3c822cfdea5d Mon Sep 17 00:00:00 2001
+-From: Lucas Stach <l.stach@pengutronix.de>
+-Date: Mon, 26 Jun 2017 18:24:31 +0200
+-Subject: etnaviv: fix shader miscompilation with more than 16 labels
+-
+-The labels array may change its virtual address on a reallocation, so
+-it is invalid to cache pointers into the array. Rather than using the
+-pointer directly, remember the array index.
+-
+-Fixes miscompilation of shaders in glmark2 ideas, leading to GPU hangs.
+-
+-Fixes: c9e8b49b (etnaviv: gallium driver for Vivante GPUs)
+-Cc: mesa-stable@lists.freedesktop.org
+-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+-
+-Upstream-Status: Backport [17.1.5]
+-
+-diff --git a/src/gallium/drivers/etnaviv/etnaviv_compiler.c b/src/gallium/drivers/etnaviv/etnaviv_compiler.c
+-index eafb511..af0f76b 100644
+---- a/src/gallium/drivers/etnaviv/etnaviv_compiler.c
+-+++ b/src/gallium/drivers/etnaviv/etnaviv_compiler.c
+-@@ -119,10 +119,10 @@ enum etna_compile_frame_type {
+-  */
+- struct etna_compile_frame {
+-    enum etna_compile_frame_type type;
+--   struct etna_compile_label *lbl_else;
+--   struct etna_compile_label *lbl_endif;
+--   struct etna_compile_label *lbl_loop_bgn;
+--   struct etna_compile_label *lbl_loop_end;
+-+   int lbl_else_idx;
+-+   int lbl_endif_idx;
+-+   int lbl_loop_bgn_idx;
+-+   int lbl_loop_end_idx;
+- };
+- 
+- struct etna_compile_file {
+-@@ -178,7 +178,7 @@ struct etna_compile {
+-    /* Fields for handling nested conditionals */
+-    struct etna_compile_frame frame_stack[ETNA_MAX_DEPTH];
+-    int frame_sp;
+--   struct etna_compile_label *lbl_usage[ETNA_MAX_INSTRUCTIONS];
+-+   int lbl_usage[ETNA_MAX_INSTRUCTIONS];
+- 
+-    unsigned labels_count, labels_sz;
+-    struct etna_compile_label *labels;
+-@@ -990,7 +990,7 @@ etna_src_uniforms_conflict(struct etna_inst_src a, struct etna_inst_src b)
+- }
+- 
+- /* create a new label */
+--static struct etna_compile_label *
+-+static unsigned int
+- alloc_new_label(struct etna_compile *c)
+- {
+-    struct etna_compile_label label = {
+-@@ -999,7 +999,7 @@ alloc_new_label(struct etna_compile *c)
+- 
+-    array_insert(c->labels, label);
+- 
+--   return &c->labels[c->labels_count - 1];
+-+   return c->labels_count - 1;
+- }
+- 
+- /* place label at current instruction pointer */
+-@@ -1015,10 +1015,10 @@ label_place(struct etna_compile *c, struct etna_compile_label *label)
+-  * as the value becomes known.
+-  */
+- static void
+--label_mark_use(struct etna_compile *c, struct etna_compile_label *label)
+-+label_mark_use(struct etna_compile *c, int lbl_idx)
+- {
+-    assert(c->inst_ptr < ETNA_MAX_INSTRUCTIONS);
+--   c->lbl_usage[c->inst_ptr] = label;
+-+   c->lbl_usage[c->inst_ptr] = lbl_idx;
+- }
+- 
+- /* walk the frame stack and return first frame with matching type */
+-@@ -1099,8 +1099,8 @@ trans_if(const struct instr_translater *t, struct etna_compile *c,
+-    /* push IF to stack */
+-    f->type = ETNA_COMPILE_FRAME_IF;
+-    /* create "else" label */
+--   f->lbl_else = alloc_new_label(c);
+--   f->lbl_endif = NULL;
+-+   f->lbl_else_idx = alloc_new_label(c);
+-+   f->lbl_endif_idx = -1;
+- 
+-    /* We need to avoid the emit_inst() below becoming two instructions */
+-    if (etna_src_uniforms_conflict(src[0], imm_0))
+-@@ -1108,7 +1108,7 @@ trans_if(const struct instr_translater *t, struct etna_compile *c,
+- 
+-    /* mark position in instruction stream of label reference so that it can be
+-     * filled in in next pass */
+--   label_mark_use(c, f->lbl_else);
+-+   label_mark_use(c, f->lbl_else_idx);
+- 
+-    /* create conditional branch to label if src0 EQ 0 */
+-    emit_inst(c, &(struct etna_inst){
+-@@ -1129,8 +1129,8 @@ trans_else(const struct instr_translater *t, struct etna_compile *c,
+-    assert(f->type == ETNA_COMPILE_FRAME_IF);
+- 
+-    /* create "endif" label, and branch to endif label */
+--   f->lbl_endif = alloc_new_label(c);
+--   label_mark_use(c, f->lbl_endif);
+-+   f->lbl_endif_idx = alloc_new_label(c);
+-+   label_mark_use(c, f->lbl_endif_idx);
+-    emit_inst(c, &(struct etna_inst) {
+-       .opcode = INST_OPCODE_BRANCH,
+-       .cond = INST_CONDITION_TRUE,
+-@@ -1138,7 +1138,7 @@ trans_else(const struct instr_translater *t, struct etna_compile *c,
+-    });
+- 
+-    /* mark "else" label at this position in instruction stream */
+--   label_place(c, f->lbl_else);
+-+   label_place(c, &c->labels[f->lbl_else_idx]);
+- }
+- 
+- static void
+-@@ -1151,10 +1151,10 @@ trans_endif(const struct instr_translater *t, struct etna_compile *c,
+- 
+-    /* assign "endif" or "else" (if no ELSE) label to current position in
+-     * instruction stream, pop IF */
+--   if (f->lbl_endif != NULL)
+--      label_place(c, f->lbl_endif);
+-+   if (f->lbl_endif_idx != -1)
+-+      label_place(c, &c->labels[f->lbl_endif_idx]);
+-    else
+--      label_place(c, f->lbl_else);
+-+      label_place(c, &c->labels[f->lbl_else_idx]);
+- }
+- 
+- static void
+-@@ -1166,10 +1166,10 @@ trans_loop_bgn(const struct instr_translater *t, struct etna_compile *c,
+- 
+-    /* push LOOP to stack */
+-    f->type = ETNA_COMPILE_FRAME_LOOP;
+--   f->lbl_loop_bgn = alloc_new_label(c);
+--   f->lbl_loop_end = alloc_new_label(c);
+-+   f->lbl_loop_bgn_idx = alloc_new_label(c);
+-+   f->lbl_loop_end_idx = alloc_new_label(c);
+- 
+--   label_place(c, f->lbl_loop_bgn);
+-+   label_place(c, &c->labels[f->lbl_loop_bgn_idx]);
+- 
+-    c->num_loops++;
+- }
+-@@ -1185,7 +1185,7 @@ trans_loop_end(const struct instr_translater *t, struct etna_compile *c,
+- 
+-    /* mark position in instruction stream of label reference so that it can be
+-     * filled in in next pass */
+--   label_mark_use(c, f->lbl_loop_bgn);
+-+   label_mark_use(c, f->lbl_loop_bgn_idx);
+- 
+-    /* create branch to loop_bgn label */
+-    emit_inst(c, &(struct etna_inst) {
+-@@ -1195,7 +1195,7 @@ trans_loop_end(const struct instr_translater *t, struct etna_compile *c,
+-       /* imm is filled in later */
+-    });
+- 
+--   label_place(c, f->lbl_loop_end);
+-+   label_place(c, &c->labels[f->lbl_loop_end_idx]);
+- }
+- 
+- static void
+-@@ -1207,7 +1207,7 @@ trans_brk(const struct instr_translater *t, struct etna_compile *c,
+- 
+-    /* mark position in instruction stream of label reference so that it can be
+-     * filled in in next pass */
+--   label_mark_use(c, f->lbl_loop_end);
+-+   label_mark_use(c, f->lbl_loop_end_idx);
+- 
+-    /* create branch to loop_end label */
+-    emit_inst(c, &(struct etna_inst) {
+-@@ -1227,7 +1227,7 @@ trans_cont(const struct instr_translater *t, struct etna_compile *c,
+- 
+-    /* mark position in instruction stream of label reference so that it can be
+-     * filled in in next pass */
+--   label_mark_use(c, f->lbl_loop_bgn);
+-+   label_mark_use(c, f->lbl_loop_bgn_idx);
+- 
+-    /* create branch to loop_end label */
+-    emit_inst(c, &(struct etna_inst) {
+-@@ -1998,8 +1998,9 @@ static void
+- etna_compile_fill_in_labels(struct etna_compile *c)
+- {
+-    for (int idx = 0; idx < c->inst_ptr; ++idx) {
+--      if (c->lbl_usage[idx])
+--         etna_assemble_set_imm(&c->code[idx * 4], c->lbl_usage[idx]->inst_idx);
+-+      if (c->lbl_usage[idx] != -1)
+-+         etna_assemble_set_imm(&c->code[idx * 4],
+-+                               c->labels[c->lbl_usage[idx]].inst_idx);
+-    }
+- }
+- 
+-@@ -2301,6 +2302,8 @@ etna_compile_shader(struct etna_shader_variant *v)
+-    if (!c)
+-       return false;
+- 
+-+   memset(&c->lbl_usage, -1, ARRAY_SIZE(c->lbl_usage));
+-+
+-    const struct tgsi_token *tokens = v->shader->tokens;
+- 
+-    c->specs = specs;
+-@@ -2430,12 +2433,13 @@ etna_compile_shader(struct etna_shader_variant *v)
+-    etna_compile_add_z_div_if_needed(c);
+-    etna_compile_frag_rb_swap(c);
+-    etna_compile_add_nop_if_needed(c);
+--   etna_compile_fill_in_labels(c);
+- 
+-    ret = etna_compile_check_limits(c);
+-    if (!ret)
+-       goto out;
+- 
+-+   etna_compile_fill_in_labels(c);
+-+
+-    /* fill in output structure */
+-    v->processor = c->info.processor;
+-    v->code_size = c->inst_ptr * 4;
+--- 
+-cgit v0.10.2
+-
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.4.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.1.4.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.1.5.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.1.4.bb b/meta/recipes-graphics/mesa/mesa_17.1.5.bb
+similarity index 80%
+rename from meta/recipes-graphics/mesa/mesa_17.1.4.bb
+rename to meta/recipes-graphics/mesa/mesa_17.1.5.bb
+index f0b634a045..ddfcb371ec 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.1.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.1.5.bb
+@@ -3,15 +3,13 @@ require ${BPN}.inc
+ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://replace_glibc_check_with_linux.patch \
+            file://disable-asm-on-non-gcc.patch \
+-           file://etnaviv_fix-shader-miscompilation.patch \
+            file://0001-Use-wayland-scanner-in-the-path.patch \
+            file://0002-hardware-gloat.patch \
+            file://0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch \
+            file://vulkan-mkdir.patch \
+ "
+-
+-SRC_URI[md5sum] = "be2ef7c9edec23b07f74f6512a6a6fa5"
+-SRC_URI[sha256sum] = "06f3b0e6a28f0d20b7f3391cf67fe89ae98ecd0a686cd545da76557b6cec9cad"
++SRC_URI[md5sum] = "6cf936fbcaadd98924298a7009e8265d"
++SRC_URI[sha256sum] = "378516b171712687aace4c7ea8b37c85895231d7a6d61e1e27362cf6034fded9"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.13.3
+
 
