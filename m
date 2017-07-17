@@ -1,24 +1,23 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 53B1071A76
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C7E9660589
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 07:26:12 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Jul 2017 00:26:13 -0700
+	Mon, 17 Jul 2017 07:40:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 17 Jul 2017 00:40:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,374,1496127600"; d="scan'208";a="1196208195"
+X-IronPort-AV: E=Sophos;i="5.40,374,1496127600"; d="scan'208";a="1173382288"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2017 00:26:13 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2017 00:40:09 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 8B23E58038F;
-	Mon, 17 Jul 2017 00:26:12 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 857B858038F;
+	Mon, 17 Jul 2017 00:40:08 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jul 2017 10:04:04 +0300
-Message-Id: <1500275044-22713-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Mon, 17 Jul 2017 10:16:21 +0300
+Message-Id: <1500275781-22939-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] wic: fix calculation of partition number
+Subject: [pyro][PATCH] wic: fix calculation of partition number
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 07:26:13 -0000
+X-List-Received-Date: Mon, 17 Jul 2017 07:40:09 -0000
 
 Total number of partitions should be taken into account when calculating
 real partition number for msdos partition table. The number can be
@@ -47,10 +46,10 @@ Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 9254388..e4f39d6 100644
+index f2e6127..31d07ba 100644
 --- a/scripts/lib/wic/plugins/imager/direct.py
 +++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -317,7 +317,7 @@ class PartitionedImage():
+@@ -312,7 +312,7 @@ class PartitionedImage():
                  part.realnum = 0
              else:
                  realnum += 1
