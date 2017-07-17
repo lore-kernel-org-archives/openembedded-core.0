@@ -1,48 +1,57 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DC8B677D6B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 190CE77D6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 19:10:33 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id v202so55028565itb.0
+	Mon, 17 Jul 2017 19:14:35 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id q4so41474508oif.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 12:10:34 -0700 (PDT)
+	Mon, 17 Jul 2017 12:14:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gtHRCw+h9y51X1ODhTCehq/McrHqSAP7t8rn/BwAFCM=;
-	b=ZniwLCSBLv1Jt++9eN0zSLS9ashbvCjs177MhF5O3ecSMFSwdUh2Es2JuBQwwNQwOY
-	+tl71d5/8TgYN0Mkfb/b1FTjfSp3Iwu2UFuqCmfVtO6wApzubtma3qMyK0n/+ffdlvAp
-	VYq4vvdvUsBYh0us7CcTTdWt1PNZcWu4XsG3lcsjZ82yNQtMDrl7aDTO76AjjnmHblKh
-	ozZd70uFnIzFOCLdjdZnk3t4d/Db2jbCBpNF/YQUctwtIjmFUeB4sjS8pccr3V4LhM2h
-	ccPrkv/cqQzr8ExG1lc+jEmpS+TMaQ4Pohc3PlHyKbbiJ0388c8DStQY6691WgHqCt/U
-	ib9g==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=Tlr2F1xTigqHYonYi/SOFYFAJXn8mJUYM8LtEd3DdZw=;
+	b=rwJePt7OIXdk+IPTYWIulD/eNlUFci7EvKSBYs8PmLEBEMI20ahvQJWoxMUa02tzmb
+	xd8JnzhEXR5AAboKy/maWtvpzfV8FKd+0wX6sqwvTS20zxjMMrg8wJMeGSLvmbiRUqsA
+	aP6+qtLm+kvnAN2GwbQrhwe3ZZvJLh6mwQFE9RIqdMa+18KVBmV8UijBzj752sZTYvr1
+	eaaL/FnBm2q2SCNyWMDg3x784fxDn4Ma5Bvpn4rhQGXnRc+iEYTPqQSPItCw6jKCw3Qn
+	ukFPszFD/G47s2jdt2qX+OdfdU3gsptf/45HHYi/ot2MrR7u7Kq1CMljpaqPuWoes+og
+	5Uvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gtHRCw+h9y51X1ODhTCehq/McrHqSAP7t8rn/BwAFCM=;
-	b=A6AjkAKyZSLM9JQyN01MRxqmMAYWhSf0B2CD4uPFU1cLg/Kj6IDbXl7Bk4LoP0batP
-	8EYb84LoaFYfdFgRtsBMsE8wnKBxBq3iibKuoUFL9uVYjQcLjWWDCjlrtBb9AXIEW/0e
-	RJbDRtTW/mK48bFWTltOOg86/gJciqJxtkF4rnwGZ2RhI+nYv7OfsQ+QLs3qwxUqcuvJ
-	oqYFKkIvnypyVZKLQ5f8QVZZokCCUsEORO3YEcoCgGu35hgNYo6xDvahyjveeoUQ+vom
-	nwxy2KHhCpo2w2OlMsqyFigbmrf9MWDf889MLB20ZsVygw5R1oRx6TDRqFBaYRZ2r1LI
-	OxAA==
-X-Gm-Message-State: AIVw1121ztZ8cuLIt63+M9g+6my1dqhlHbGklpIhTs8QfdOr4w1iImkX
-	vB5sh7aUyzCnN+Bq7CHf5fIN9nJjIx90
-X-Received: by 10.36.120.67 with SMTP id p64mr6920909itc.23.1500318634472;
-	Mon, 17 Jul 2017 12:10:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.9.161 with HTTP; Mon, 17 Jul 2017 12:10:13 -0700 (PDT)
-In-Reply-To: <144ced22-b4b7-2923-97d0-b1046e117f3d@xevo.com>
-References: <20170710221833.11413-1-mkelly@xevo.com>
-	<144ced22-b4b7-2923-97d0-b1046e117f3d@xevo.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Jul 2017 20:10:13 +0100
-Message-ID: <CAJTo0LaeKR_h3=Cx9DBDvDidp+CS1gdegq+UqDUS9aB1b6kerQ@mail.gmail.com>
-To: Martin Kelly <mkelly@xevo.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] licenses.conf: enable CDDLv1 license
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=Tlr2F1xTigqHYonYi/SOFYFAJXn8mJUYM8LtEd3DdZw=;
+	b=STWOBOXTfvvWe3DBlgetonbSykLpWZCVo76dy4cS3aegJoQZfU1M4yxP48VITFEhjv
+	ZPC4i51dMcE35K+eyhjDnUTSE3KN00514OVzWlsL3z3Kwlhv/Xq78bCnbzFfrvfFA1Nq
+	xpwoZNhYZDTBkkJNuaWIVvzU/xLyIy68t6bbqlmITGh2soJCi6u74J1fEsfeLRYLZka2
+	WunLczZ4oES0fX6Iq9iJ4Uj63ouOflz03ZjuJL3llQSsLXU6/8xNknrinhGcsYGQqUON
+	PuTh9/xHuSteLBQrjnw3rZ++fcF9NauJbPvXuYfAS/QLW9Sp46Hn2ghL5b92AQFIwfWi
+	PGTg==
+X-Gm-Message-State: AIVw113O2d/FECwSJEOZrAwsrdPiskG871E/HxxlCYRBYwAjWnQynr8M
+	Mxc7c7WMmjz8Tavl
+X-Received: by 10.202.214.145 with SMTP id n139mr4859850oig.48.1500318874869; 
+	Mon, 17 Jul 2017 12:14:34 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FBAD.dip0.t-ipconnect.de. [93.232.251.173])
+	by smtp.gmail.com with ESMTPSA id s75sm20380oie.16.2017.07.17.12.14.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Jul 2017 12:14:33 -0700 (PDT)
+Message-ID: <1500318869.5689.7.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, Ross
+	Burton <ross.burton@intel.com>
+Date: Mon, 17 Jul 2017 21:14:29 +0200
+In-Reply-To: <4317db53-7822-9b8a-c614-b925ee05bfce@linux.intel.com>
+References: <cover.1499803885.git.anibal.limon@linux.intel.com>
+	<27730e7982a21e192eaba5ab975ca8afd4105e0f.1499803885.git.anibal.limon@linux.intel.com>
+	<1500025974.21921.38.camel@intel.com>
+	<4317db53-7822-9b8a-c614-b925ee05bfce@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: joshua.g.lock@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/30] oeqa/core/loader: Switch method definition for _make_failed_test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,90 +64,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 19:10:34 -0000
-Content-Type: multipart/alternative; boundary="001a114a9ebe4241ff05548827d6"
-
---001a114a9ebe4241ff05548827d6
+X-List-Received-Date: Mon, 17 Jul 2017 19:14:36 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Merged into my staging branch this morning, thanks.
+On Fri, 2017-07-14 at 10:27 -0500, Aníbal Limón wrote:
+> 
+> On 07/14/2017 04:52 AM, Patrick Ohly wrote:
+> > On Tue, 2017-07-11 at 15:23 -0500, Aníbal Limón wrote:
+> >> This was a mistake of me to define wrong what methods needs
+> >> to be defined by certain python version.
+> >>
+> >> See rev d8380d098a290510b442a7abd2dd5a50cabf5844.
+> > 
+> > This will fix this error that we see in Refkit with current OE-core
+> > master, right?
+> > 
+> > 00:07:10.313 Traceback (most recent call last):
+> > 00:07:10.313   File "/srv/jenkins/workspace/ci-2017-07-14_01-48-19-build-2315/openembedded-core/scripts/oe-selftest", line 70, in <module>
+> > 00:07:10.313     ret = main()
+> > 00:07:10.313   File "/srv/jenkins/workspace/ci-2017-07-14_01-48-19-build-2315/openembedded-core/scripts/oe-selftest", line 57, in main
+> > 00:07:10.313     results = args.func(logger, args)
+> > 00:07:10.313   File "/srv/jenkins/workspace/ci-2017-07-14_01-48-19-build-2315/openembedded-core/meta/lib/oeqa/selftest/context.py", line 215, in run
+> > 00:07:10.313     rc = self._internal_run(logger, args)
+> > 00:07:10.313   File "/srv/jenkins/workspace/ci-2017-07-14_01-48-19-build-2315/openembedded-core/meta/lib/oeqa/selftest/context.py", line 176, in _internal_run
+> > 00:07:10.313     self.tc.loadTests(self.module_paths, **self.tc_kwargs['load'])
+> > 00:07:10.313   File "/srv/jenkins/workspace/ci-2017-07-14_01-48-19-build-2315/openembedded-core/meta/lib/oeqa/core/context.py", line 51, in loadTests
+> > 00:07:10.313     self.suites = self.loader.discover()
+> > 00:07:10.313   File "/srv/jenkins/workspace/ci-2017-07-14_01-48-19-build-2315/openembedded-core/meta/lib/oeqa/core/loader.py", line 286, in discover
+> > 00:07:10.313     pattern='*.py', top_level_dir=path)
+> > 00:07:10.313   File "/usr/lib64/python3.4/unittest/loader.py", line 275, in discover
+> > 00:07:10.313     tests = list(self._find_tests(start_dir, pattern))
+> > 00:07:10.313   File "/usr/lib64/python3.4/unittest/loader.py", line 327, in _find_tests
+> > 00:07:10.313     yield _make_failed_import_test(name, self.suiteClass)
+> > 00:07:10.313   File "/usr/lib64/python3.4/unittest/loader.py", line 39, in _make_failed_import_test
+> > 00:07:10.313     return _make_failed_test(name, ImportError(message), suiteClass)
+> > 00:07:10.313 TypeError: _make_failed_test() missing 1 required positional argument: 'suiteClass'
+> > 
+> > Can this particular patch please be merged into OE-core master
+> > independently from the patch series? It's not really related to it
+> > anyway.
+> 
+> Yes this will fix that error, showing the error into the case.
 
-Ross
+The fix doesn't work for me:
 
-On 17 July 2017 at 18:10, Martin Kelly <mkelly@xevo.com> wrote:
+  File "/usr/lib/python3.5/unittest/loader.py", line 41, in _make_failed_import_test
+    return _make_failed_test(name, ImportError(message), suiteClass, message)
+TypeError: _make_failed_test() takes 3 positional arguments but 4 were given
 
-> (ping)
->
->
-> On 07/10/2017 03:18 PM, Martin Kelly wrote:
->
->> The CDDL license is now used by open-vm-tools in meta-openembedded, so
->> we need to add it in order to prevent warnings.
->>
->> Signed-off-by: Martin Kelly <mkelly@xevo.com>
->> ---
->>  meta/conf/licenses.conf | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
->> index d210a0e940..3e2d2589ab 100644
->> --- a/meta/conf/licenses.conf
->> +++ b/meta/conf/licenses.conf
->> @@ -105,6 +105,10 @@ SPDXLICENSEMAP[AFL-1] = "AFL-1.2"
->>  SPDXLICENSEMAP[AFLv2] = "AFL-2.0"
->>  SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
->>
->> +#CDDL variations
->> +SPDXLICENSEMAP[CDDLv1] = "CDDL-1.0"
->> +SPDXLICENSEMAP[CDDL-1] = "CDDL-1.0"
->> +
->>  #Other variations
->>  SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
->>
->>
->>
+You need to mimic the exact same signature as in Python itself, and
+Python 3.5 seems to be different again:
 
---001a114a9ebe4241ff05548827d6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+/usr/lib/python3.5/unittest/loader.py:def _make_failed_test(methodname, exception, suiteClass, message):
 
-<div dir=3D"ltr">Merged into my staging branch this morning, thanks.<div><b=
-r></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"g=
-mail_quote">On 17 July 2017 at 18:10, Martin Kelly <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">(ping)<div class=3D"HOEnZb"=
-><div class=3D"h5"><br>
-<br>
-On 07/10/2017 03:18 PM, Martin Kelly wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-The CDDL license is now used by open-vm-tools in meta-openembedded, so<br>
-we need to add it in order to prevent warnings.<br>
-<br>
-Signed-off-by: Martin Kelly &lt;<a href=3D"mailto:mkelly@xevo.com" target=
-=3D"_blank">mkelly@xevo.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/licenses.conf | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf<br>
-index d210a0e940..3e2d2589ab 100644<br>
---- a/meta/conf/licenses.conf<br>
-+++ b/meta/conf/licenses.conf<br>
-@@ -105,6 +105,10 @@ SPDXLICENSEMAP[AFL-1] =3D &quot;AFL-1.2&quot;<br>
-=C2=A0SPDXLICENSEMAP[AFLv2] =3D &quot;AFL-2.0&quot;<br>
-=C2=A0SPDXLICENSEMAP[AFLv1] =3D &quot;AFL-1.2&quot;<br>
-<br>
-+#CDDL variations<br>
-+SPDXLICENSEMAP[CDDLv1] =3D &quot;CDDL-1.0&quot;<br>
-+SPDXLICENSEMAP[CDDL-1] =3D &quot;CDDL-1.0&quot;<br>
-+<br>
-=C2=A0#Other variations<br>
-=C2=A0SPDXLICENSEMAP[EPLv1.0] =3D &quot;EPL-1.0&quot;<br>
-<br>
-<br>
-</blockquote>
-</div></div></blockquote></div><br></div>
+You can probably get away with
 
---001a114a9ebe4241ff05548827d6--
+if sys.version_info >= (3,4,4):
+    def _make_failed_test(classname, exception, suiteClass, message=None):
+
+The actual problem in refkit is that we are hitting this
+_make_failed_test() at all. After fixing meta/lib/oeqa/core/loader.py, I
+am getting a more useful exception and know what to do about the actual
+problem.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
+
