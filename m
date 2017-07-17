@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 33CA171994
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 53B1071A76
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 06:26:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6H6QVdK010797
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jul 2017 23:26:32 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.294.0; Sun, 16 Jul 2017 23:26:31 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Jul 2017 14:30:26 +0800
-Message-ID: <a652eaf85b7a5d05242993842056336ece533102.1500272958.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1500272958.git.Qi.Chen@windriver.com>
-References: <cover.1500272958.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd: workaround login failure on qemumips64 when 'pam' is enabled
+	Mon, 17 Jul 2017 07:26:12 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Jul 2017 00:26:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,374,1496127600"; d="scan'208";a="1196208195"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2017 00:26:13 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 8B23E58038F;
+	Mon, 17 Jul 2017 00:26:12 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Jul 2017 10:04:04 +0300
+Message-Id: <1500275044-22713-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] wic: fix calculation of partition number
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 06:26:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Jul 2017 07:26:13 -0000
 
-Append " -fno-tree-switch-conversion -fno-tree-tail-merge" to
-FULL_OPTIMIZATION to workaround login problem on qemumips64. Otherwise,
-user cannot login onto the target even username and password are
-provided.
+Total number of partitions should be taken into account when calculating
+real partition number for msdos partition table. The number can be
+different for the 4th partition: it can be 4 if there are 4 partitions in
+the table and 5 if there are more than 4 partitions in the table. In the
+latter case number 4 is occupied by extended partition.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+[YOCTO #11790]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-core/systemd/systemd_232.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
-index e8292ab..1cb8ff7 100644
---- a/meta/recipes-core/systemd/systemd_232.bb
-+++ b/meta/recipes-core/systemd/systemd_232.bb
-@@ -158,6 +158,9 @@ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', ''
- # disable problematic GCC 5.2 optimizations [YOCTO #8291]
- FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns -fno-schedule-insns2"
- 
-+# Avoid login failure on qemumips64 when pam is enabled
-+FULL_OPTIMIZATION_append_mips64 = " -fno-tree-switch-conversion -fno-tree-tail-merge"
-+
- COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
- COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
- COMPILER_RANLIB ?= "${HOST_PREFIX}gcc-ranlib"
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 9254388..e4f39d6 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -317,7 +317,7 @@ class PartitionedImage():
+                 part.realnum = 0
+             else:
+                 realnum += 1
+-                if self.ptable_format == 'msdos' and realnum > 3:
++                if self.ptable_format == 'msdos' and realnum > 3 and len(partitions) > 4:
+                     part.realnum = realnum + 1
+                     continue
+                 part.realnum = realnum
 -- 
-1.9.1
+2.1.4
 
 
