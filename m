@@ -1,63 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8420360670
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by mail.openembedded.org (Postfix) with ESMTP id DC8B677D6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 18:45:38 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id w4so1804048wrb.1
+	Mon, 17 Jul 2017 19:10:33 +0000 (UTC)
+Received: by mail-it0-f45.google.com with SMTP id v202so55028565itb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 11:45:39 -0700 (PDT)
+	Mon, 17 Jul 2017 12:10:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=NRRqLGccRwFDj1BEzTbIIXLCJpTn8ILf+J/aqyE9sp8=;
-	b=IX/vUMzNUY63vVo5dyD2ND3AeZqXa5Gb/cGkICmxzL3NSsCTu+PR0nS7t806dVeh+9
-	u5sgyOcaeXcaejz0lM5ns8GreS1Tfsc2nIQj+HoNCouL3ilMSHdLgtvfjMdStXb6l9LU
-	P+e9TeNSJrHyGRBOdZVhUH7e3SLvdEqT2dJGbBHIJrY7wfVQ/D2dP5ItCFxTtZoe11Ie
-	zqcDFWm7UzDmuHsvWF215bnbaOljPG1yFvanjD+3hcA+KPlV8luGxOgqKnPziRPyv3Ik
-	7rLAC8ux+/KddQHEt8hAhJnaMJOaq4UIdAqwjBvK7Azsn/VYBn6FFABulQEnC71PiXPP
-	UvEw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=gtHRCw+h9y51X1ODhTCehq/McrHqSAP7t8rn/BwAFCM=;
+	b=ZniwLCSBLv1Jt++9eN0zSLS9ashbvCjs177MhF5O3ecSMFSwdUh2Es2JuBQwwNQwOY
+	+tl71d5/8TgYN0Mkfb/b1FTjfSp3Iwu2UFuqCmfVtO6wApzubtma3qMyK0n/+ffdlvAp
+	VYq4vvdvUsBYh0us7CcTTdWt1PNZcWu4XsG3lcsjZ82yNQtMDrl7aDTO76AjjnmHblKh
+	ozZd70uFnIzFOCLdjdZnk3t4d/Db2jbCBpNF/YQUctwtIjmFUeB4sjS8pccr3V4LhM2h
+	ccPrkv/cqQzr8ExG1lc+jEmpS+TMaQ4Pohc3PlHyKbbiJ0388c8DStQY6691WgHqCt/U
+	ib9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=NRRqLGccRwFDj1BEzTbIIXLCJpTn8ILf+J/aqyE9sp8=;
-	b=RSaPRbHINOm6uPnoGouE3J/SeRELYadopZD+CYzV7LrXDMZgaMys5KVsxnjG0rtDH8
-	bqhsFJys6dJOH4jWVRO9tD4xlpxnrurak/P88vouyY4/LXQP95DG7vuc1Pfx7/yyQUYZ
-	xw0dvKdgPctdPxyMjWWFJw22r6Y8nT3UyIzzmvCnAYjkXddgj6+5+a8glwM2gbrjf/ti
-	zFFuA9TQFtorAmVICu8aJ5X/MAPc/19q/CSM76R4bIjHVYAaaDlxOBY7xpuVm2+2SaxY
-	i4sRmNEkM5XAQwZlAVdg+VI293Wt4s0eIiLQZIPItvfJFyRbcbIhYAk6X04b8kE2hnZV
-	wltQ==
-X-Gm-Message-State: AIVw1123R1deeZoUunhcAsD/WvmLlFduDCHfPb8x0ygDQYhb1VYvrGfm
-	6l/qGrJ0qqX8HFvc8xY=
-X-Received: by 10.223.183.40 with SMTP id l40mr14498939wre.154.1500317139008; 
-	Mon, 17 Jul 2017 11:45:39 -0700 (PDT)
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com.
-	[209.85.128.176]) by smtp.gmail.com with ESMTPSA id
-	g18sm24035344wrg.69.2017.07.17.11.45.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Jul 2017 11:45:37 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f176.google.com with SMTP id y43so5289161wrd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 11:45:37 -0700 (PDT)
-X-Received: by 10.223.139.218 with SMTP id w26mr11411015wra.206.1500317137646; 
-	Mon, 17 Jul 2017 11:45:37 -0700 (PDT)
+	bh=gtHRCw+h9y51X1ODhTCehq/McrHqSAP7t8rn/BwAFCM=;
+	b=A6AjkAKyZSLM9JQyN01MRxqmMAYWhSf0B2CD4uPFU1cLg/Kj6IDbXl7Bk4LoP0batP
+	8EYb84LoaFYfdFgRtsBMsE8wnKBxBq3iibKuoUFL9uVYjQcLjWWDCjlrtBb9AXIEW/0e
+	RJbDRtTW/mK48bFWTltOOg86/gJciqJxtkF4rnwGZ2RhI+nYv7OfsQ+QLs3qwxUqcuvJ
+	oqYFKkIvnypyVZKLQ5f8QVZZokCCUsEORO3YEcoCgGu35hgNYo6xDvahyjveeoUQ+vom
+	nwxy2KHhCpo2w2OlMsqyFigbmrf9MWDf889MLB20ZsVygw5R1oRx6TDRqFBaYRZ2r1LI
+	OxAA==
+X-Gm-Message-State: AIVw1121ztZ8cuLIt63+M9g+6my1dqhlHbGklpIhTs8QfdOr4w1iImkX
+	vB5sh7aUyzCnN+Bq7CHf5fIN9nJjIx90
+X-Received: by 10.36.120.67 with SMTP id p64mr6920909itc.23.1500318634472;
+	Mon, 17 Jul 2017 12:10:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.198.141 with HTTP; Mon, 17 Jul 2017 11:45:36 -0700 (PDT)
-In-Reply-To: <5f6ad89554e31ff40b720599eb60f0237f1b4dfa.1500229225.git.wei.tee.ng@intel.com>
-References: <cover.1500229225.git.wei.tee.ng@intel.com>
-	<5f6ad89554e31ff40b720599eb60f0237f1b4dfa.1500229225.git.wei.tee.ng@intel.com>
-Date: Mon, 17 Jul 2017 15:45:36 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoCK=4gG_wzvw1hRy=yRPDdWzxRtw0Bv68hEvtxawvCSQ@mail.gmail.com>
-Message-ID: <CAP9ODKoCK=4gG_wzvw1hRy=yRPDdWzxRtw0Bv68hEvtxawvCSQ@mail.gmail.com>
-To: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-Cc: Saul Wold <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] initramfs-framework: include install-efi module in recipe for installation
+Received: by 10.107.9.161 with HTTP; Mon, 17 Jul 2017 12:10:13 -0700 (PDT)
+In-Reply-To: <144ced22-b4b7-2923-97d0-b1046e117f3d@xevo.com>
+References: <20170710221833.11413-1-mkelly@xevo.com>
+	<144ced22-b4b7-2923-97d0-b1046e117f3d@xevo.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 17 Jul 2017 20:10:13 +0100
+Message-ID: <CAJTo0LaeKR_h3=Cx9DBDvDidp+CS1gdegq+UqDUS9aB1b6kerQ@mail.gmail.com>
+To: Martin Kelly <mkelly@xevo.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] licenses.conf: enable CDDLv1 license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,29 +55,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 18:45:38 -0000
+X-List-Received-Date: Mon, 17 Jul 2017 19:10:34 -0000
+Content-Type: multipart/alternative; boundary="001a114a9ebe4241ff05548827d6"
+
+--001a114a9ebe4241ff05548827d6
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Jul 16, 2017 at 4:29 PM,  <wei.tee.ng@intel.com> wrote:
-> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+Merged into my staging branch this morning, thanks.
+
+Ross
+
+On 17 July 2017 at 18:10, Martin Kelly <mkelly@xevo.com> wrote:
+
+> (ping)
 >
-> Utilized the existing init-install-efi.sh script and renamed it to
-> install-efi.sh to manage the installation process of images in
-> initramfs-framework model. This script will be executed when
-> "install" option is being chosen in the grub menu and install
-> the image on the target platform. A new install-efi module is
-> being added in the recipe to handle the installation process
-> using initramfs-framework.
 >
-> [YOCTO #10989]
+> On 07/10/2017 03:18 PM, Martin Kelly wrote:
 >
-> Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
+>> The CDDL license is now used by open-vm-tools in meta-openembedded, so
+>> we need to add it in order to prevent warnings.
+>>
+>> Signed-off-by: Martin Kelly <mkelly@xevo.com>
+>> ---
+>>  meta/conf/licenses.conf | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>
+>> diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+>> index d210a0e940..3e2d2589ab 100644
+>> --- a/meta/conf/licenses.conf
+>> +++ b/meta/conf/licenses.conf
+>> @@ -105,6 +105,10 @@ SPDXLICENSEMAP[AFL-1] = "AFL-1.2"
+>>  SPDXLICENSEMAP[AFLv2] = "AFL-2.0"
+>>  SPDXLICENSEMAP[AFLv1] = "AFL-1.2"
+>>
+>> +#CDDL variations
+>> +SPDXLICENSEMAP[CDDLv1] = "CDDL-1.0"
+>> +SPDXLICENSEMAP[CDDL-1] = "CDDL-1.0"
+>> +
+>>  #Other variations
+>>  SPDXLICENSEMAP[EPLv1.0] = "EPL-1.0"
+>>
+>>
+>>
 
-Fine now ;-)
+--001a114a9ebe4241ff05548827d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Merged into my staging branch this morning, thanks.<div><b=
+r></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"g=
+mail_quote">On 17 July 2017 at 18:10, Martin Kelly <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:mkelly@xevo.com" target=3D"_blank">mkelly@xevo.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">(ping)<div class=3D"HOEnZb"=
+><div class=3D"h5"><br>
+<br>
+On 07/10/2017 03:18 PM, Martin Kelly wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+The CDDL license is now used by open-vm-tools in meta-openembedded, so<br>
+we need to add it in order to prevent warnings.<br>
+<br>
+Signed-off-by: Martin Kelly &lt;<a href=3D"mailto:mkelly@xevo.com" target=
+=3D"_blank">mkelly@xevo.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/licenses.conf | 4 ++++<br>
+=C2=A01 file changed, 4 insertions(+)<br>
+<br>
+diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf<br>
+index d210a0e940..3e2d2589ab 100644<br>
+--- a/meta/conf/licenses.conf<br>
++++ b/meta/conf/licenses.conf<br>
+@@ -105,6 +105,10 @@ SPDXLICENSEMAP[AFL-1] =3D &quot;AFL-1.2&quot;<br>
+=C2=A0SPDXLICENSEMAP[AFLv2] =3D &quot;AFL-2.0&quot;<br>
+=C2=A0SPDXLICENSEMAP[AFLv1] =3D &quot;AFL-1.2&quot;<br>
+<br>
++#CDDL variations<br>
++SPDXLICENSEMAP[CDDLv1] =3D &quot;CDDL-1.0&quot;<br>
++SPDXLICENSEMAP[CDDL-1] =3D &quot;CDDL-1.0&quot;<br>
++<br>
+=C2=A0#Other variations<br>
+=C2=A0SPDXLICENSEMAP[EPLv1.0] =3D &quot;EPL-1.0&quot;<br>
+<br>
+<br>
+</blockquote>
+</div></div></blockquote></div><br></div>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--001a114a9ebe4241ff05548827d6--
