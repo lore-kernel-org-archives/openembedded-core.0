@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C792877E4A
+	by mail.openembedded.org (Postfix) with ESMTP id 2E49277F38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 21:45:26 +0000 (UTC)
+	Mon, 17 Jul 2017 21:45:28 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 17 Jul 2017 14:45:28 -0700
+	by orsmga104.jf.intel.com with ESMTP; 17 Jul 2017 14:45:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,375,1496127600"; d="scan'208";a="1152467619"
+X-IronPort-AV: E=Sophos;i="5.40,375,1496127600"; d="scan'208";a="1152467634"
 Received: from unknown (HELO alimonb-mobl1.zpn.intel.com) ([10.219.128.142])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2017 14:45:27 -0700
+	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2017 14:45:28 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jul 2017 16:45:24 -0500
-Message-Id: <a605d55131209dd507e35340e295f05187bc3d61.1500327589.git.anibal.limon@linux.intel.com>
+Date: Mon, 17 Jul 2017 16:45:25 -0500
+Message-Id: <abda4b7be7e0ed25630d6ab8ece7f91895d851b6.1500327589.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1500327589.git.anibal.limon@linux.intel.com>
 References: <cover.1500327589.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1500327589.git.anibal.limon@linux.intel.com>
 References: <cover.1500327589.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: joshua.g.lock@intel.com
-Subject: [PATCHv3 16/30] oeqa/selftest/cases: Use testlayer_path instead of call get_test_layer()
+Subject: [PATCHv3 17/30] oeqa/selftest/cases: Use builddir from class instead of get from environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 21:45:27 -0000
+X-List-Received-Date: Mon, 17 Jul 2017 21:45:28 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The testlayer_path is set at init of selftest so isn't need to call
-every time get_test_layer to get it.
+Now the build directory is setup by Test class, so the builddir attr
+points to the actual BUILDDIR instead of get from environment.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/_sstatetests_noauto.py | 2 +-
- meta/lib/oeqa/selftest/cases/devtool.py             | 4 ++--
- meta/lib/oeqa/selftest/cases/oescripts.py           | 2 +-
- meta/lib/oeqa/selftest/cases/sstate.py              | 2 +-
- meta/lib/oeqa/selftest/cases/sstatetests.py         | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/selftest/cases/_sstatetests_noauto.py | 7 +++----
+ meta/lib/oeqa/selftest/cases/bbtests.py             | 4 ++--
+ meta/lib/oeqa/selftest/cases/eSDK.py                | 2 +-
+ meta/lib/oeqa/selftest/cases/signing.py             | 2 +-
+ 4 files changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/_sstatetests_noauto.py b/meta/lib/oeqa/selftest/cases/_sstatetests_noauto.py
-index 0e5896234c3..b42aa3638d5 100644
+index b42aa3638d5..98b8b60f51a 100644
 --- a/meta/lib/oeqa/selftest/cases/_sstatetests_noauto.py
 +++ b/meta/lib/oeqa/selftest/cases/_sstatetests_noauto.py
-@@ -2,7 +2,7 @@ import os
- import shutil
+@@ -11,7 +11,6 @@ class RebuildFromSState(SStateBase):
+     @classmethod
+     def setUpClass(self):
+         super(RebuildFromSState, self).setUpClass()
+-        self.builddir = os.path.join(os.environ.get('BUILDDIR'))
  
- import oeqa.utils.ftools as ftools
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var
- from oeqa.selftest.cases.sstate import SStateBase
+     def get_dep_targets(self, primary_targets):
+         found_targets = []
+@@ -24,16 +23,16 @@ class RebuildFromSState(SStateBase):
+         os.mkdir(builddir)
+         self.track_for_cleanup(builddir)
+         os.mkdir(os.path.join(builddir, 'conf'))
+-        shutil.copyfile(os.path.join(os.environ.get('BUILDDIR'), 'conf/local.conf'), os.path.join(builddir, 'conf/local.conf'))
++        shutil.copyfile(self.localconf_path, os.path.join(builddir, 'conf/local.conf'))
+         config = {}
+         config['default_sstate_dir'] = "SSTATE_DIR ?= \"${TOPDIR}/sstate-cache\""
+         config['null_sstate_mirrors'] = "SSTATE_MIRRORS = \"\""
+         config['default_tmp_dir'] = "TMPDIR = \"${TOPDIR}/tmp\""
+         for key in config:
+             ftools.append_file(os.path.join(builddir, 'conf/selftest.inc'), config[key])
+-        shutil.copyfile(os.path.join(os.environ.get('BUILDDIR'), 'conf/bblayers.conf'), os.path.join(builddir, 'conf/bblayers.conf'))
++        shutil.copyfile(self.local_bblayers_path, os.path.join(builddir, 'conf/bblayers.conf'))
+         try:
+-            shutil.copyfile(os.path.join(os.environ.get('BUILDDIR'), 'conf/auto.conf'), os.path.join(builddir, 'conf/auto.conf'))
++            shutil.copyfile(self.autoconf_path, os.path.join(builddir, 'conf/auto.conf'))
+         except:
+             pass
  
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index 4c82049032b..df11a6bc6d0 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -22,8 +22,8 @@ class BitbakeTests(OESelftestTestCase):
+     @OETestID(790)
+     def test_run_bitbake_from_dir_2(self):
+         my_env = os.environ.copy()
+-        my_env['BBPATH'] = my_env['BUILDDIR']
+-        os.chdir(os.path.dirname(os.environ['BUILDDIR']))
++        my_env['BBPATH'] = self.builddir
++        os.chdir(os.path.dirname(self.builddir))
+         self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from builddir")
  
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 88d69724f93..28c84679a17 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -8,7 +8,7 @@ import fnmatch
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
--from oeqa.utils.commands import get_bb_vars, runqemu, get_test_layer
-+from oeqa.utils.commands import get_bb_vars, runqemu
- from oeqa.core.decorator.oeid import OETestID
+     @OETestID(806)
+diff --git a/meta/lib/oeqa/selftest/cases/eSDK.py b/meta/lib/oeqa/selftest/cases/eSDK.py
+index f36c3ccd3b4..60f4e239ab0 100644
+--- a/meta/lib/oeqa/selftest/cases/eSDK.py
++++ b/meta/lib/oeqa/selftest/cases/eSDK.py
+@@ -49,7 +49,7 @@ class oeSDKExtSelfTest(OESelftestTestCase):
  
- class DevtoolBase(OESelftestTestCase):
-@@ -1530,7 +1530,7 @@ class DevtoolTests(DevtoolBase):
-         # Ensure the recipe is where we think it should be (so that cleanup doesn't trash things)
-         self.assertIn('/meta/', recipedir)
-         relpth = os.path.relpath(recipedir, os.path.join(get_bb_var('COREBASE'), 'meta'))
--        appenddir = os.path.join(get_test_layer(), relpth)
-+        appenddir = os.path.join(self.testlayer_path, relpth)
-         self.track_for_cleanup(appenddir)
-         # Try finish to the original layer
-         self.add_command_to_tearDown('rm -rf %s ; cd %s ; git checkout %s' % (recipedir, os.path.dirname(recipedir), recipedir))
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index 1ee753763ec..f7fe200cfac 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -1,6 +1,6 @@
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.selftest.cases.buildhistory import BuildhistoryBase
--from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var, get_test_layer
-+from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var
- from oeqa.core.decorator.oeid import OETestID
+     @staticmethod
+     def update_configuration(cls, image, tmpdir_eSDKQA, env_eSDK, ext_sdk_path):
+-        sstate_dir = os.path.join(os.environ['BUILDDIR'], 'sstate-cache')
++        sstate_dir = os.path.join(cls.builddir, 'sstate-cache')
  
- class BuildhistoryDiffTests(BuildhistoryBase):
-diff --git a/meta/lib/oeqa/selftest/cases/sstate.py b/meta/lib/oeqa/selftest/cases/sstate.py
-index bc2fdbd8ccb..b8c2880ad06 100644
---- a/meta/lib/oeqa/selftest/cases/sstate.py
-+++ b/meta/lib/oeqa/selftest/cases/sstate.py
-@@ -6,7 +6,7 @@ import shutil
+         oeSDKExtSelfTest.generate_eSDK(cls.image)
  
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import runCmd, bitbake, get_bb_vars, get_test_layer
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_vars
+diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
+index edb5f653f20..6ef8d8eb5d0 100644
+--- a/meta/lib/oeqa/selftest/cases/signing.py
++++ b/meta/lib/oeqa/selftest/cases/signing.py
+@@ -105,7 +105,7 @@ class Signing(OESelftestTestCase):
  
+         test_recipe = 'ed'
  
- class SStateBase(OESelftestTestCase):
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 07a206824aa..4617d16d212 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -4,7 +4,7 @@ import glob
- import subprocess
+-        builddir = os.environ.get('BUILDDIR')
++        builddir = self.builddir
+         sstatedir = os.path.join(builddir, 'test-sstate')
  
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var
- from oeqa.selftest.cases.sstate import SStateBase
- from oeqa.core.decorator.oeid import OETestID
- 
+         self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
 -- 
 2.11.0
 
