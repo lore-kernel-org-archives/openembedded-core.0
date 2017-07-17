@@ -1,24 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E2CEA60939
+Return-Path: <Zhenbo.Gao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D5D7477BEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 08:57:11 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Jul 2017 01:57:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,374,1496127600"; d="scan'208";a="993796398"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 17 Jul 2017 01:57:12 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 7E19F5803B9;
-	Mon, 17 Jul 2017 01:57:11 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jul 2017 11:35:00 +0300
-Message-Id: <1500280500-26146-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image_types: use initrd from pre-sstate directory
+	Mon, 17 Jul 2017 09:13:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6H9DnN8012058
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Jul 2017 02:13:49 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 17 Jul 2017 02:13:48 -0700
+From: Zhenbo Gao <zhenbo.gao@windriver.com>
+To: <ross.burton@intel.com>, <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jul 2017 17:13:08 +0800
+Message-ID: <1500282788-218393-1-git-send-email-zhenbo.gao@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] lsb: add checking for chkconfig existence when creating the symbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 08:57:15 -0000
+X-List-Received-Date: Mon, 17 Jul 2017 09:13:49 -0000
+Content-Type: text/plain
 
-mkelfImage was failing trying to use initrd from ${DEPLOY_DIR_IMAGE}:
-DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_image_elf
-| Cannot open `tmp/deploy/images/qemux86/core-image-minimal-qemux86.cpio.gz':
-No such file or directory
+remove_initd and remove_initd will be created as the symbolic file
+of chkconfig, which will be not existed when systemd is configured,
+so adding the check for the existence of chkconfig before creating
+the symbolic.
 
-As the images have only one deploy point it's not possible to reference
-something the images themselves are deploying. They need to reference it
-in the "pre-sstate" directory ${IMGDEPLOYDIR}, not the post sstate one
-${DEPLOY_DIR_IMAGE}.
-
-Fixed by using ${IMGDEPLOYDIR} instead of ${DEPLOY_DIR_IMAGE} in
-mkelfImage command line.
-
-[YOCTO #11767]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
 ---
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/lsb/lsb_4.1.bb | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index df34c7c..f97870b 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -146,7 +146,7 @@ ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
+diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+index cedf39e..c8db1a8 100644
+--- a/meta/recipes-extended/lsb/lsb_4.1.bb
++++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+@@ -90,11 +90,13 @@ do_install_append() {
+        install -m 0755 ${WORKDIR}/init-functions ${D}${nonarch_base_libdir}/lsb
  
- IMAGE_CMD_elf () {
- 	test -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf && rm -f ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf
--	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.cpio.gz --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
-+	mkelfImage --kernel=${ELF_KERNEL} --initrd=${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.cpio.gz --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
- }
+        # create links for LSB test
+-       if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
+-               install -d ${D}${nonarch_libdir}/lsb
++       if [ -e ${sbindir}/chkconfig ]; then
++               if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
++                       install -d ${D}${nonarch_libdir}/lsb
++               fi
++               ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/install_initd
++               ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
+        fi
+-       ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/install_initd
+-       ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
  
- IMAGE_TYPEDEP_elf = "cpio.gz"
+        if [ "${TARGET_ARCH}" = "x86_64" ]; then
+                if [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
 -- 
-2.1.4
+1.9.1
 
 
