@@ -1,18 +1,18 @@
 Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 46F2377BE4
+	by mail.openembedded.org (Postfix) with ESMTP id A378077DCA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 21:45:14 +0000 (UTC)
+	Mon, 17 Jul 2017 21:45:15 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga104.jf.intel.com with ESMTP; 17 Jul 2017 14:45:16 -0700
+	by orsmga104.jf.intel.com with ESMTP; 17 Jul 2017 14:45:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,375,1496127600"; d="scan'208";a="1152467519"
+X-IronPort-AV: E=Sophos;i="5.40,375,1496127600"; d="scan'208";a="1152467535"
 Received: from unknown (HELO alimonb-mobl1.zpn.intel.com) ([10.219.128.142])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2017 14:45:14 -0700
+	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2017 14:45:16 -0700
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jul 2017 16:45:15 -0500
-Message-Id: <e3688e68443a14a14a21ed2109fdd70e70b304f2.1500327589.git.anibal.limon@linux.intel.com>
+Date: Mon, 17 Jul 2017 16:45:16 -0500
+Message-Id: <aea40672ce75037620342e96e735221b6027c85a.1500327589.git.anibal.limon@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1500327589.git.anibal.limon@linux.intel.com>
 References: <cover.1500327589.git.anibal.limon@linux.intel.com>
@@ -20,7 +20,7 @@ In-Reply-To: <cover.1500327589.git.anibal.limon@linux.intel.com>
 References: <cover.1500327589.git.anibal.limon@linux.intel.com>
 MIME-Version: 1.0
 Cc: joshua.g.lock@intel.com
-Subject: [PATCHv3 07/30] oeqa/core/threaded: Enable support to use the main thread
+Subject: [PATCHv3 08/30] oeqa/core/threaded: Add support to run into a thread at end of execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,191 +33,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 21:45:14 -0000
+X-List-Received-Date: Mon, 17 Jul 2017 21:45:15 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some test cases needs to be executed by the main thread for
-several resons, this implmentation enables usage of the main
-thread to execute suites.
-
-The rules are if some test case request by test class attr
-_main_thread it will be executed, if no tests are scheduled
-to be executed into the main thread the algorithm with take
-the first suite in the pool, finallay this will avoid
-thread usage if only one suite needs to be executed.
+Some test cases aren't allowed to run into a multi-thread environment so
+add the posibility to run those tests at end of execution.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 ---
- meta/lib/oeqa/core/threaded.py | 104 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 83 insertions(+), 21 deletions(-)
+ meta/lib/oeqa/core/threaded.py | 102 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 78 insertions(+), 24 deletions(-)
 
 diff --git a/meta/lib/oeqa/core/threaded.py b/meta/lib/oeqa/core/threaded.py
-index 2cafe03a212..34217f1a8b8 100644
+index 34217f1a8b8..a7dc0aed401 100644
 --- a/meta/lib/oeqa/core/threaded.py
 +++ b/meta/lib/oeqa/core/threaded.py
-@@ -27,9 +27,42 @@ class OETestLoaderThreaded(OETestLoader):
-             self.process_num = min(multiprocessing.cpu_count(),
-                     len(suite._tests))
+@@ -30,18 +30,35 @@ class OETestLoaderThreaded(OETestLoader):
+         suites = {}
+         suites['main'] = self.suiteClass()
+         suites['pool'] = []
++        suites['end'] = self.suiteClass()
+         for _ in range(self.process_num - 1):
+             suites['pool'].append(self.suiteClass())
  
--        suites = []
--        for _ in range(self.process_num):
--            suites.append(self.suiteClass())
-+        suites = {}
-+        suites['main'] = self.suiteClass()
-+        suites['pool'] = []
-+        for _ in range(self.process_num - 1):
-+            suites['pool'].append(self.suiteClass())
-+
-+        def _add_to_main_thread(main_suite, case, depends):
++        def _add_by_module_or_dep(suite, case, depends):
 +            """
-+                Some test cases needs to be run into the main
-+                thread for several resons.
-+
-+                A test case that needs to run in the main thread
-+                can be for specific set via test class _main_thread
-+                attr or because is on the same module or for a dependency
-+                reason.
++                A test case that needs to run into the same thread
++                because is on the same module or for dependency
++                reasons.
 +            """
 +
-+            if hasattr(case.__class__, '_main_thread') and \
-+                    case.__class__._main_thread or \
-+                    self.process_num == 1:
-+                main_suite.addTest(case)
-+                return True
-+
-+            for c in main_suite._tests:
++            for c in suite._tests:
 +                if case.__module__ == c.__module__:
-+                    main_suite.addTest(case)
++                    suite.addTest(case)
 +                    return True
 +
 +            if case.id() in depends:
 +                case_depends = depends[case.id()]
-+                for c in main_suite._tests:
++                for c in suite._tests:
 +                    if c.id() in case_depends:
-+                        main_suite.addTest(case)
++                        suite.addTest(case)
 +                        return True
 +
 +            return False
++
+         def _add_to_main_thread(main_suite, case, depends):
+             """
+                 Some test cases needs to be run into the main
+-                thread for several resons.
+-
+-                A test case that needs to run in the main thread
+-                can be for specific set via test class _main_thread
+-                attr or because is on the same module or for a dependency
+-                reason.
++                thread by request.
+             """
+ 
+             if hasattr(case.__class__, '_main_thread') and \
+@@ -50,19 +67,20 @@ class OETestLoaderThreaded(OETestLoader):
+                 main_suite.addTest(case)
+                 return True
+ 
+-            for c in main_suite._tests:
+-                if case.__module__ == c.__module__:
+-                    main_suite.addTest(case)
+-                    return True
++            return _add_by_module_or_dep(main_suite, case, depends)
+ 
+-            if case.id() in depends:
+-                case_depends = depends[case.id()]
+-                for c in main_suite._tests:
+-                    if c.id() in case_depends:
+-                        main_suite.addTest(case)
+-                        return True
++        def _add_to_end_thread(end_suite, case, depends):
++            """
++                Some test cases needs to be run into at end of
++                execution into the main by request.
++            """
++            if hasattr(case.__class__, '_end_thread') and \
++                    case.__class__._end_thread or \
++                    self.process_num == 1:
++                end_suite.addTest(case)
++                return True
+ 
+-            return False
++            return _add_by_module_or_dep(end_suite, case, depends)
  
          def _search_for_module_idx(suites, case):
              """
-@@ -37,8 +70,7 @@ class OETestLoaderThreaded(OETestLoader):
-                 in the same thread because PyUnit keeps track
-                 of setUp{Module, Class,} and tearDown{Module, Class,}.
-             """
--
--            for idx in range(self.process_num):
-+            for idx in range(self.process_num - 1):
-                 suite = suites[idx]
-                 for c in suite._tests:
-                     if case.__module__ == c.__module__:
-@@ -53,7 +85,7 @@ class OETestLoaderThreaded(OETestLoader):
-                 of dependant test to figure out if skip or not.
-             """
- 
--            for idx in range(self.process_num):
-+            for idx in range(self.process_num - 1):
-                 suite = suites[idx]
- 
-                 for case in suite._tests:
-@@ -62,6 +94,11 @@ class OETestLoaderThreaded(OETestLoader):
-             return -1
- 
-         def _get_best_idx(suites):
-+            """
-+                The best index is selected to the suite that has
-+                minor test cases to run.
-+            """
-+
-             sizes = [len(suite._tests) for suite in suites]
-             return sizes.index(min(sizes))
- 
-@@ -71,27 +108,35 @@ class OETestLoaderThreaded(OETestLoader):
-                 if isinstance(case, TestSuite):
-                     _fill_suites(case)
-                 else:
--                    idx = _search_for_module_idx(suites, case)
--
-                     depends = {}
+@@ -112,6 +130,9 @@ class OETestLoaderThreaded(OETestLoader):
                      if 'depends' in self.tc._registry:
                          depends = self.tc._registry['depends']
  
-+                    if _add_to_main_thread(suites['main'], case, depends):
++                    if _add_to_end_thread(suites['end'], case, depends):
 +                        continue
 +
-+                    # Get the best index in the suite pool to add the case
-+                    idx = _search_for_module_idx(suites['pool'], case)
-                     if idx == -1 and case.id() in depends:
-                         case_depends = depends[case.id()] 
--                        idx = _search_for_depend_idx(suites, case_depends)
--
-+                        idx = _search_for_depend_idx(suites['pool'], case_depends)
-                     if idx == -1:
--                        idx = _get_best_idx(suites)
-+                        idx = _get_best_idx(suites['pool'])
-+                    suites['pool'][idx].addTest(case)
+                     if _add_to_main_thread(suites['main'], case, depends):
+                         continue
  
--                    suites[idx].addTest(case)
-         _fill_suites(suite)
+@@ -135,7 +156,7 @@ class OETestLoaderThreaded(OETestLoader):
  
--        suites_tmp = suites
--        suites = []
-+        # clean suites in pool without test cases
-+        suites_tmp = suites['pool']
-+        suites['pool'] = []
-         for suite in suites_tmp:
-             if len(suite._tests) > 0:
--                suites.append(suite)
-+                suites['pool'].append(suite)
-+
-+        # if the main suite doesn't have test cases
-+        # use the first element of the suites pool
-+        if not len(suites['main']._tests):
-+            suites['main'] = suites['pool'].pop(0)
+         # if the main suite doesn't have test cases
+         # use the first element of the suites pool
+-        if not len(suites['main']._tests):
++        if not len(suites['main']._tests) and len(suites['pool']):
+             suites['main'] = suites['pool'].pop(0)
  
          return suites
+@@ -268,6 +289,12 @@ class _ThreadedPool:
+         self.tasks = queue.Queue(num_tasks)
+         self.workers = []
  
-@@ -251,16 +296,33 @@ class OETestRunnerThreaded(OETestRunner):
++        self.stream = stream
++        self.result = result
++
++        self.end_task = None
++        self.end_worker = None
++
+         for _ in range(num_workers):
+             worker = _Worker(self.tasks, result, stream)
+             self.workers.append(worker)
+@@ -280,12 +307,25 @@ class _ThreadedPool:
+         """Add a task to the queue"""
+         self.tasks.put((func, args, kargs))
+ 
++    def add_end_task(self, func, *args, **kwargs):
++        """Add a task to be executed at end"""
++
++        self.end_task = queue.Queue(1)
++        self.end_task.put((func, args, kwargs))
++        self.end_worker = _Worker(self.end_task, self.result,
++                self.stream)
++
+     def wait_completion(self):
+         """Wait for completion of all the tasks in the queue"""
+         self.tasks.join()
+         for worker in self.workers:
+             worker.join()
+ 
++        if self.end_task:
++            self.end_worker.start()
++            self.end_task.join()
++            self.end_worker.join()
++
+ class OETestRunnerThreaded(OETestRunner):
+     streamLoggerClass = OEStreamLoggerThreaded
+ 
+@@ -293,32 +333,46 @@ class OETestRunnerThreaded(OETestRunner):
+         super(OETestRunnerThreaded, self).__init__(tc, *args, **kwargs)
+         self.resultclass = OETestResultThreadedInternal # XXX: XML reporting overrides at __init__
+ 
++    def _run_main_thread(self, suite, result):
++        if len(suite._tests):
++            run_start_time = time.time()
++            rc = super(OETestRunnerThreaded, self).run(suite)
++            run_end_time = time.time()
++            result.addResult(rc, run_start_time, run_end_time)
++            self.stream.finish()
++
      def run(self, suites):
          result = OETestResultThreaded(self.tc)
  
--        pool = _ThreadedPool(len(suites), len(suites), stream=self.stream,
--                result=result)
--        for s in suites:
--            pool.add_task(super(OETestRunnerThreaded, self).run, s)
--        pool.start()
--        pool.wait_completion()
-+        pool = None
-+        if suites['pool']:
-+            thread_no = len(suites['pool'])
-+            pool = _ThreadedPool(thread_no, thread_no, stream=self.stream,
-+                    result=result)
-+            for s in suites['pool']:
-+                pool.add_task(super(OETestRunnerThreaded, self).run, s)
+         pool = None
++
+         if suites['pool']:
+             thread_no = len(suites['pool'])
+             pool = _ThreadedPool(thread_no, thread_no, stream=self.stream,
+                     result=result)
+             for s in suites['pool']:
+                 pool.add_task(super(OETestRunnerThreaded, self).run, s)
+-            pool.start()
+ 
+-        run_start_time = time.time()
+-        rc = super(OETestRunnerThreaded, self).run(suites['main'])
+-        run_end_time = time.time()
+-        result.addResult(rc, run_start_time, run_end_time)
+-        self.stream.finish()
++        if len(suites['end']._tests):
++            if not pool:
++                pool = _ThreadedPool(0, 0, stream=self.stream,
++                            result=result)
++            pool.add_end_task(super(OETestRunnerThreaded, self).run,
++                    suites['end'])
+ 
+         if pool:
 +            pool.start()
-+
-+        run_start_time = time.time()
-+        rc = super(OETestRunnerThreaded, self).run(suites['main'])
-+        run_end_time = time.time()
-+        result.addResult(rc, run_start_time, run_end_time)
-+        self.stream.finish()
-+
++        self._run_main_thread(suites['main'], result)
 +        if pool:
-+            pool.wait_completion()
+             pool.wait_completion()
++
          result._fill_tc_results()
  
          return result
  
-+    def list_tests(self, suite, display_type):
-+        suite['pool'].insert(0, suite['main'])
-+
-+        return super(OETestRunnerThreaded, self).list_tests(
-+                suite['pool'], display_type)
-+
- class OETestContextThreaded(OETestContext):
-     loaderClass = OETestLoaderThreaded
-     runnerClass = OETestRunnerThreaded
+     def list_tests(self, suite, display_type):
+         suite['pool'].insert(0, suite['main'])
++        suite['pool'].append(suite['end'])
+ 
+         return super(OETestRunnerThreaded, self).list_tests(
+                 suite['pool'], display_type)
 -- 
 2.11.0
 
