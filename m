@@ -1,27 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B532F77E91
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 704B577E93
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 13:40:59 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Jul 2017 06:41:00 -0700
+	Mon, 17 Jul 2017 13:47:10 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 17 Jul 2017 06:47:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,374,1496127600"; d="scan'208";a="126033431"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 17 Jul 2017 06:41:00 -0700
-To: Kang Kai <Kai.Kang@windriver.com>, openembedded-core@lists.openembedded.org
-References: <cover.1499822461.git.kai.kang@windriver.com>
-	<10b67207-e767-0458-c642-20ee38621bd3@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <e25b7dde-3a9f-5964-8d63-c3cd60785072@linux.intel.com>
-Date: Mon, 17 Jul 2017 16:38:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <10b67207-e767-0458-c642-20ee38621bd3@windriver.com>
-Subject: Re: [PATCH 0/1] bind: 9.10..3-P3 -> 9.10.5-P3
+X-IronPort-AV: E=Sophos;i="5.40,374,1496127600"; d="scan'208";a="879704543"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.119])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2017 06:47:10 -0700
+Message-ID: <1500299820.5349.102.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Zhenbo Gao <zhenbo.gao@windriver.com>
+Date: Mon, 17 Jul 2017 08:57:00 -0500
+In-Reply-To: <1500282788-218393-1-git-send-email-zhenbo.gao@windriver.com>
+References: <1500282788-218393-1-git-send-email-zhenbo.gao@windriver.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lsb: add checking for chkconfig existence when creating the symbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,16 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 13:41:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Mon, 17 Jul 2017 13:47:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/12/2017 11:40 AM, Kang Kai wrote:
->> Kai Kang (1):
->>    bind: 9.10..3-P3 -> 9.10.5-P3
+On Mon, 2017-07-17 at 17:13 +0800, Zhenbo Gao wrote:
+> remove_initd and remove_initd will be created as the symbolic file
 
-Why not 9.11.1?
+I believe you mean 'install_initd and remove_initd'...
 
-Alex
+> of chkconfig, which will be not existed when systemd is configured,
+> so adding the check for the existence of chkconfig before creating
+> the symbolic.
+> 
+> Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
+> ---
+>  meta/recipes-extended/lsb/lsb_4.1.bb | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+> index cedf39e..c8db1a8 100644
+> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
+> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+> @@ -90,11 +90,13 @@ do_install_append() {
+>         install -m 0755 ${WORKDIR}/init-functions ${D}${nonarch_base_libdir}/lsb
+>  
+>         # create links for LSB test
+> -       if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
+> -               install -d ${D}${nonarch_libdir}/lsb
+> +       if [ -e ${sbindir}/chkconfig ]; then
+> +               if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
+> +                       install -d ${D}${nonarch_libdir}/lsb
+> +               fi
+> +               ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/install_initd
+> +               ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
+>         fi
+> -       ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/install_initd
+> -       ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
+>  
+>         if [ "${TARGET_ARCH}" = "x86_64" ]; then
+>                 if [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
+> -- 
+> 1.9.1
+> 
+
+
 
