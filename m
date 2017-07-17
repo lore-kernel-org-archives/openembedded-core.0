@@ -1,21 +1,25 @@
-Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 89DC477E0D
+Return-Path: <tomas@novotny.cz>
+Received: from hosting.pavoucek.net (hosting.pavoucek.net [46.28.107.168])
+	by mail.openembedded.org (Postfix) with ESMTP id E7A58601D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 16:24:59 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Jul 2017 09:25:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,375,1496127600"; d="scan'208";a="1196385101"
-Received: from yctb04.ostc.intel.com ([10.54.69.58])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2017 09:24:59 -0700
-From: juan.m.cruz.alcaraz@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jul 2017 09:24:58 -0700
-Message-Id: <20170717162458.17623-1-juan.m.cruz.alcaraz@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] do_package: sources are packaged separately from debug.
+	Mon, 17 Jul 2017 17:00:18 +0000 (UTC)
+Received: from tomas.local.tbs-biometrics.cz (unknown [176.74.132.138])
+	(Authenticated sender: tomas@novotny.cz)
+	by hosting.pavoucek.net (Postfix) with ESMTPSA id 05521101F3B;
+	Mon, 17 Jul 2017 19:00:18 +0200 (CEST)
+Date: Mon, 17 Jul 2017 19:00:17 +0200
+From: Tomas Novotny <tomas@novotny.cz>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20170717190017.7ab2010a@tomas.local.tbs-biometrics.cz>
+In-Reply-To: <CA+chaQf4LMbMS8Er23G9bpxnR620mqBReU=ZK1nqcKmuumUX4g@mail.gmail.com>
+References: <20170717140450.5764-1-Martin.Jansa@gmail.com>
+	<20170717171848.4a8bdc07@tomas.local.tbs-biometrics.cz>
+	<CA+chaQf4LMbMS8Er23G9bpxnR620mqBReU=ZK1nqcKmuumUX4g@mail.gmail.com>
+X-Mailer: Claws Mail 3.13.2 (GTK+ 2.24.31; x86_64-suse-linux-gnu)
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: icecc in OE (Was: [PATCH] icecc.bbclass: prevent nativesdk builds depending on target specific KERNEL_CC)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,85 +32,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 16:24:59 -0000
+X-List-Received-Date: Mon, 17 Jul 2017 17:00:19 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+Hi Martin,
 
-The configuration variable PACKAGE_DBG_SPLIT_SRC instructs the system
-to remove the source files from the debug package but include them in
-a separate package with a "-src" suffix in the name.
+On Mon, 17 Jul 2017 17:35:46 +0200
+Martin Jansa <martin.jansa@gmail.com> wrote:
 
-[YOCTO #9998]
+> Hi Tomas,
+> 
+> last time we were more actively using 1.0.1-1 (with Ubuntu 12.04), but
+> nowadays icecc.bbclass is mostly just historic relic for us, we still
+> inherit it in our DISTROs (with 99.9999% builds running with ICECC_DISABLED
+> = "1"), so that if someone enables icecc again he will get the same sstate
+> signatures as our jenkins builds - to reuse already prepopulated
+> sstate-cache.
 
-Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
----
- meta/classes/package.bbclass | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+so it looks like that there is only a few active users of icecc in oe...
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index cc466bd1b2..7ce739bf30 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -886,6 +886,10 @@ python split_and_strip_files () {
-         debuglibdir = ""
-         debugsrcdir = "/usr/src/debug"
- 
-+    if d.getVar('PACKAGE_DBG_SPLIT_SRC') == '1':
-+       # Set sources into an specific package
-+        debugsrcdir  = "/usr/src/debug"
-+
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
-     bb.utils.remove(sourcefile)
- 
-@@ -1092,6 +1096,15 @@ python populate_packages () {
-     
-     autodebug = not (d.getVar("NOAUTOPACKAGEDEBUG") or False)
- 
-+    split_source_package =  d.getVar('PACKAGE_DBG_SPLIT_SRC') or False
-+
-+    # If PACKAGE_DBG_SPLIT_SRC is enabled then the src package is added
-+    # into the package list and the source directory as its main content
-+    if split_source_package:
-+        src_package_name = ('%s-src' % d.getVar('PN'))
-+        packages += (' ' + src_package_name)
-+        d.setVar('FILES_%s' % src_package_name, '/usr/src/debug')
-+
-     # Sanity check PACKAGES for duplicates
-     # Sanity should be moved to sanity.bbclass once we have the infrastucture
-     package_list = []
-@@ -1100,7 +1113,12 @@ python populate_packages () {
-         if pkg in package_list:
-             msg = "%s is listed in PACKAGES multiple times, this leads to packaging errors." % pkg
-             package_qa_handle_error("packages-list", msg, d)
--        elif autodebug and pkg.endswith("-dbg"):
-+        # If PACKAGE_DBG_SPLIT_SRC is enabled then the src package will have
-+        # priority over dbg package when assigning the files.
-+        # This allows src package to include source files and remove them from dbg.
-+        elif split_source_package and pkg.endswith("-src"):
-+            package_list.insert(0, pkg)
-+        elif autodebug and pkg.endswith("-dbg") and not split_source_package:
-             package_list.insert(0, pkg)
-         else:
-             package_list.append(pkg)
-@@ -1460,7 +1478,7 @@ python package_do_filedeps() {
-     for pkg in packages.split():
-         if d.getVar('SKIP_FILEDEPS_' + pkg) == '1':
-             continue
--        if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1 or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-'):
-+        if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1 or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-') or pkg.endswith('-src'):
-             continue
-         for files in chunks(pkgfiles[pkg], 100):
-             pkglist.append((pkg, files, rpmdeps, pkgdest, magic))
-@@ -1578,7 +1596,7 @@ python package_do_shlibs() {
-                 combos.append("-".join(options[0:i]))
-             return combos
- 
--        if (file.endswith('.dylib') or file.endswith('.so')) and not pkg.endswith('-dev') and not pkg.endswith('-dbg'):
-+        if (file.endswith('.dylib') or file.endswith('.so')) and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.endswith('-src'):
-             # Drop suffix
-             name = os.path.basename(file).rsplit(".",1)[0]
-             # Find all combinations
--- 
-2.12.3
+> We also use own version of icecc-create-env, still the same as long time
+> ago in:
+> https://github.com/openwebos/meta-webos/tree/master/recipes-upstreamable/icecc-create-env
 
+yes, I found it during my initial tests, but I was not sure if it used
+(because of age).
+
+Thanks for the information,
+
+Tomas
+
+> Regards,
+> 
+> On Mon, Jul 17, 2017 at 5:18 PM, Tomas Novotny <tomas@novotny.cz> wrote:
+> 
+> > Hi Martin,
+> >
+> > which version of icecc are you using?
+> >
+> > We were trying 1.1rc2, but we had to patch icecc-create-env script in oe.
+> >
+> > Tomas
+> >
+> > On Mon, 17 Jul 2017 16:04:50 +0200
+> > Martin Jansa <martin.jansa@gmail.com> wrote:
+> >  
+> > > * without this we cause nativesdk-linux-libc-headers to depend
+> > >   on target specific KERNEL_CC (through icecc_get_tool ->
+> > >   icecc_is_kernel -> KERNEL_CC -> HOST_CC_KERNEL_ARCH ->
+> > >   TARGET_CC_KERNEL_ARCH -> TUNE_FEATURES(thumb) as shown by
+> > >   bitbake-diffsigs:
+> > >
+> > >   OE qemux86@ ~/build/oe-core $ ls /OE/build/oe-core/tmp-glibc/  
+> > sstate-diff/1499859497/qemu*/*sdk*/*/*do_configure.sigdata*  
+> > >   /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/  
+> > qemuarm/x86_64-nativesdk-oesdk-linux/nativesdk-linux-
+> > libc-headers/4.10-r0.do_configure.sigdata.3a9a423878d56524e0ee8e42eba1804f  
+> > >   /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/  
+> > qemux86/x86_64-nativesdk-oesdk-linux/nativesdk-linux-
+> > libc-headers/4.10-r0.do_configure.sigdata.401071dbaa88903ece37d35a47965ff2  
+> > >
+> > >   OE qemux86@ ~/build/oe-core $ bitbake-diffsigs  
+> > /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/qemu*/*
+> > sdk*/*/*do_configure.sigdata*  
+> > >   basehash changed from 39774238b66763c598153132e87a2c1a to  
+> > aa2d66e770bf533e312536eb0a401c4c  
+> > >   Variable TARGET_CC_KERNEL_ARCH value changed from  
+> > '${@bb.utils.contains('TUNE_FEATURES', 'thumb',
+> > '-mno-thumb-interwork-marm', '', d)} TUNE_FEATURES{thumb} = Set' to ''  
+> > >
+> > > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > > ---
+> > >  meta/classes/icecc.bbclass | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+> > > index 8a3308bdda..1cc1c4ddb0 100644
+> > > --- a/meta/classes/icecc.bbclass
+> > > +++ b/meta/classes/icecc.bbclass
+> > > @@ -42,6 +42,7 @@ def icecc_dep_prepend(d):
+> > >
+> > >  DEPENDS_prepend += "${@icecc_dep_prepend(d)} "
+> > >
+> > > +get_cross_kernel_cc[vardepsexclude] += "KERNEL_CC"
+> > >  def get_cross_kernel_cc(bb,d):
+> > >      kernel_cc = d.getVar('KERNEL_CC', False)
+> > >  
+> >  
 
