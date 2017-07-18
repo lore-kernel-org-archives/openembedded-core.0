@@ -1,30 +1,18 @@
-Return-Path: <bianyq@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EDA477E9D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 02:06:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21422028"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Jul 2017 10:06:55 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 68A6846B5252
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 10:06:51 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.29) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 18 Jul 2017 10:06:51 +0800
-From: Bian Yaqin <bianyq@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Jul 2017 04:06:18 -0700
-Message-ID: <1500375978-9980-1-git-send-email-bianyq@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E4D671B1D;
+	Tue, 18 Jul 2017 02:31:14 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.29]
-X-yoursite-MailScanner-ID: 68A6846B5252.A3A2D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: bianyq@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] screen 4.5.1 -> 4.6.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Bian Yaqin <bianyq@cn.fujitsu.com>
+Date: Tue, 18 Jul 2017 02:31:16 -0000
+Message-ID: <20170718023116.2380.60450@do.openembedded.org>
+References: <1500375978-9980-1-git-send-email-bianyq@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1500375978-9980-1-git-send-email-bianyq@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2NyZWVuIDQuNS4xIC0+IDQuNi4w?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 02:06:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Jul 2017 02:31:14 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Update screen from 4.5.1 to 4.6.0
+== Series Details ==
 
-Signed-off-by: Bian Yaqin <bianyq@cn.fujitsu.com>
+Series: screen 4.5.1 -> 4.6.0
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7780/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            screen 4.5.1 -> 4.6.0
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/screen/{screen_4.5.1.bb => screen_4.6.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/screen/{screen_4.5.1.bb => screen_4.6.0.bb} (93%)
-
-diff --git a/meta/recipes-extended/screen/screen_4.5.1.bb b/meta/recipes-extended/screen/screen_4.6.0.bb
-similarity index 93%
-rename from meta/recipes-extended/screen/screen_4.5.1.bb
-rename to meta/recipes-extended/screen/screen_4.6.0.bb
-index 32c1a5a..a41efe9 100644
---- a/meta/recipes-extended/screen/screen_4.5.1.bb
-+++ b/meta/recipes-extended/screen/screen_4.6.0.bb
-@@ -26,8 +26,8 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0001-fix-for-multijob-build.patch \
-           "
- 
--SRC_URI[md5sum] = "a8c5da2f42f8a18fa4dada2419d1549b"
--SRC_URI[sha256sum] = "97db2114dd963b016cd4ded34831955dcbe3251e5eee45ac2606e67e9f097b2d"
-+SRC_URI[md5sum] = "af60f716c4ec134712b923ef6cd93848"
-+SRC_URI[sha256sum] = "9433706b653e941cc4c745f28e252e57be2a141eded923e61cc2c4a09768fed4"
- 
- inherit autotools texinfo
- 
--- 
-2.7.4
-
-
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
