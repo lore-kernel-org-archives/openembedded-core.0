@@ -1,29 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 82F0777F6D
+Return-Path: <bianyq@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5682A77EF7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 06:38:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6I6c6UV019357
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 17 Jul 2017 23:38:07 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Mon, 17 Jul 2017 23:38:05 -0700
-To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <cover.1500357604.git.dengke.du@windriver.com>
-	<dd968ff528a0928627a3bb12b4b1e8d77a1ff829.1500357604.git.dengke.du@windriver.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <891e7c32-e886-47f4-89ed-ae6f3a3a88bf@windriver.com>
-Date: Tue, 18 Jul 2017 14:37:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.1.1
+	Tue, 18 Jul 2017 06:49:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21435635"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Jul 2017 14:48:56 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 31EF24D14A77
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jul 2017 14:48:53 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.29) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Tue, 18 Jul 2017 14:48:52 +0800
+From: Bian Yaqin <bianyq@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Jul 2017 08:48:28 -0700
+Message-ID: <1500392908-2775-1-git-send-email-bianyq@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <dd968ff528a0928627a3bb12b4b1e8d77a1ff829.1500357604.git.dengke.du@windriver.com>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH 1/1] expat: upgrade to 2.2.2
+X-Originating-IP: [10.167.226.29]
+X-yoursite-MailScanner-ID: 31EF24D14A77.A3F74
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: bianyq@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] screen: 4.5.1 -> 4.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 06:38:06 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 18 Jul 2017 06:49:03 -0000
+Content-Type: text/plain
 
-Hi Ross
+Update screen from 4.5.1 to 4.6.0
 
-Do we need to add a patch to glibc to support the ubuntu 14.04 (or 
-kernel version older than 3.17)?
+Signed-off-by: Bian Yaqin <bianyq@cn.fujitsu.com>
+---
+ meta/recipes-extended/screen/{screen_4.5.1.bb => screen_4.6.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/screen/{screen_4.5.1.bb => screen_4.6.0.bb} (93%)
+
+diff --git a/meta/recipes-extended/screen/screen_4.5.1.bb b/meta/recipes-extended/screen/screen_4.6.0.bb
+similarity index 93%
+rename from meta/recipes-extended/screen/screen_4.5.1.bb
+rename to meta/recipes-extended/screen/screen_4.6.0.bb
+index 32c1a5a..a41efe9 100644
+--- a/meta/recipes-extended/screen/screen_4.5.1.bb
++++ b/meta/recipes-extended/screen/screen_4.6.0.bb
+@@ -26,8 +26,8 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0001-fix-for-multijob-build.patch \
+           "
+ 
+-SRC_URI[md5sum] = "a8c5da2f42f8a18fa4dada2419d1549b"
+-SRC_URI[sha256sum] = "97db2114dd963b016cd4ded34831955dcbe3251e5eee45ac2606e67e9f097b2d"
++SRC_URI[md5sum] = "af60f716c4ec134712b923ef6cd93848"
++SRC_URI[sha256sum] = "9433706b653e941cc4c745f28e252e57be2a141eded923e61cc2c4a09768fed4"
+ 
+ inherit autotools texinfo
+ 
+-- 
+2.7.4
 
 
-On 2017年07月18日 14:01, Dengke Du wrote:
-> The expat 2.2.2:
->
->      using getrandom syscall on linux 3.17+, so when we compiling expat-native
->      on the kernel older than 3.17, that would be failed.
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ---
->   meta/recipes-core/expat/expat_2.2.1.bb | 5 -----
->   meta/recipes-core/expat/expat_2.2.2.bb | 5 +++++
->   2 files changed, 5 insertions(+), 5 deletions(-)
->   delete mode 100644 meta/recipes-core/expat/expat_2.2.1.bb
->   create mode 100644 meta/recipes-core/expat/expat_2.2.2.bb
->
-> diff --git a/meta/recipes-core/expat/expat_2.2.1.bb b/meta/recipes-core/expat/expat_2.2.1.bb
-> deleted file mode 100644
-> index 47827c5..0000000
-> --- a/meta/recipes-core/expat/expat_2.2.1.bb
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -require expat.inc
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
-> -
-> -SRC_URI[md5sum] = "d9c3baeab58774cefc2f04faf29f2cf8"
-> -SRC_URI[sha256sum] = "1868cadae4c82a018e361e2b2091de103cd820aaacb0d6cfa49bd2cd83978885"
-> diff --git a/meta/recipes-core/expat/expat_2.2.2.bb b/meta/recipes-core/expat/expat_2.2.2.bb
-> new file mode 100644
-> index 0000000..dfa014b
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat_2.2.2.bb
-> @@ -0,0 +1,5 @@
-> +require expat.inc
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
-> +
-> +SRC_URI[md5sum] = "1ede9a41223c78528b8c5d23e69a2667"
-> +SRC_URI[sha256sum] = "4376911fcf81a23ebd821bbabc26fd933f3ac74833f74924342c29aad2c86046"
 
 
