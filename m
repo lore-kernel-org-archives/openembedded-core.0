@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E547807D;
-	Tue, 18 Jul 2017 22:31:48 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 302E17807D;
+	Tue, 18 Jul 2017 22:31:49 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Ross Burton <ross.burton@intel.com>
-Date: Tue, 18 Jul 2017 22:31:50 -0000
-Message-ID: <20170718223150.2381.92309@do.openembedded.org>
-References: <20170718220710.6362-1-ross.burton@intel.com>
+Date: Tue, 18 Jul 2017 22:31:51 -0000
+Message-ID: <20170718223151.2383.3115@do.openembedded.org>
+References: <20170718220735.6547-1-ross.burton@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20170718220710.6362-1-ross.burton@intel.com>
+In-Reply-To: <20170718220735.6547-1-ross.burton@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltweXJvXSBsaWJnY3J5cHQ6IGZpeCBDVkUtMjAxNy4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttb3J0eV0gbGliZ2NyeXB0OiBmaXggQ1ZFLTIwMS4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 22:31:48 -0000
+X-List-Received-Date: Tue, 18 Jul 2017 22:31:49 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[pyro] libgcrypt: fix CVE-2017..." and 1 more
+Series: "[morty] libgcrypt: fix CVE-201..." and 1 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/7800/
+URL   : https://patchwork.openembedded.org/series/7801/
 State : failure
 
 == Summary ==
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [pyro,1/2] libgcrypt: fix CVE-2017-9526
+* Patch            [morty,1/2] libgcrypt: fix CVE-2017-9526
  Issue             Missing or incorrectly formatted CVE tag in commit message [test_cve_presence_in_commit_message] 
   Suggested fix    Include a "CVE-xxxx-xxxx" tag in the commit message
 
