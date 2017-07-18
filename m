@@ -1,28 +1,48 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 52610774DC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C917719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 15:15:42 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jul 2017 08:15:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,378,1496127600"; d="scan'208";a="126501351"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.128.142])
-	([10.219.128.142])
-	by orsmga005.jf.intel.com with ESMTP; 18 Jul 2017 08:15:42 -0700
+	Tue, 18 Jul 2017 16:04:12 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id v105so5498583wrb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jul 2017 09:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=s90k+AmATOI03OXVgjzoHWnpxYXicm8EmcHNFUvTNEk=;
+	b=MYhwZVSvHhQ7yeeeuygV6yBci+wl5uKVyduUQEsb/15bS9lnTlhllL9R+UMHc8jWHz
+	NEH9RQCCd8PCOkc2m+JNpVTovCDAFW1EgrXBWJgjUJb4vXqwpSlMsFFBo8yn0/Ng72Pr
+	1k+GDCUvVOPufYMwPyyc63sCWDOOwKzLsVQHlYrdzcolUYlUbvQtnoGnWdqvAvzr1AeU
+	gGH3buEbCZdQyTOCRZQ6+FgkV2VPwhiChHKJXV2lYxVDh2e/C/buoLQs4LgwWPs8FfIr
+	JBALCWV5+NdwP0HTsU9J+eMcA6/qritZnW5YXkyfYzqp40m7dqzp5qQiW4WaMNf9NQm8
+	+bvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=s90k+AmATOI03OXVgjzoHWnpxYXicm8EmcHNFUvTNEk=;
+	b=SB+PBzGAS3R3L22mMVFvP496ZdGNWijhvc8p7HOlyO2i6TeeWwX9k+hltJcyunS2kJ
+	H2T8gjKqPG1wuQzV4M0+ueN4DWZjX07qG7cvoCvTfqbzxEYfhgAcyc6eqxM3Y+IbYA1R
+	tpv9fU8JiFUMlhUBgUt9Y/WtFaCNh6qnNU7ENAUAhb6GXnCpdFguIsuvsM8cqXdZcH3t
+	k0K+1uyOF0DZEBYKgt6Wwh+UHmSsT5MIu/OLa+XUYt4f0P5ffeDYsa7eF6rIkaJtD2YJ
+	yK5GB3EQ4jevIsgD3y4T/LdYGfYk+4Lrpf6B77DS32qlVz7jawH9PZTqnNHs0LpcNplW
+	Dh5A==
+X-Gm-Message-State: AIVw112Z4ttABhJlU3Hudie1am9jvXN0pQCkTjTyNKSNHwKhyCxE5746
+	o6enwdrlTjic8/UItSQ=
+X-Received: by 10.223.161.134 with SMTP id u6mr1729494wru.64.1500393852193;
+	Tue, 18 Jul 2017 09:04:12 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	z108sm4331997wrb.41.2017.07.18.09.04.10
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Jul 2017 09:04:11 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1500327589.git.anibal.limon@linux.intel.com>
-	<bbbcf15fe2ed5348c7548b4fcf7a5dbfa2325b0d.1500327589.git.anibal.limon@linux.intel.com>
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Message-ID: <0847843a-cce6-3543-68a4-b7513fde0ace@linux.intel.com>
-Date: Tue, 18 Jul 2017 10:16:17 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.8.0
-MIME-Version: 1.0
-In-Reply-To: <bbbcf15fe2ed5348c7548b4fcf7a5dbfa2325b0d.1500327589.git.anibal.limon@linux.intel.com>
-Cc: joshua.g.lock@intel.com
-Subject: Re: [PATCHv3 11/30] oeqa/selftest/{case, context}: Add builddir by test class and context
+Date: Tue, 18 Jul 2017 17:04:08 +0100
+Message-Id: <20170718160408.32237-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] systemd: refuse to load units with errors (CVE-2017-1000082)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,216 +55,369 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 15:15:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Jul 2017 16:04:12 -0000
 
+If a unit has a statement such as User=0day where the username exists but is
+strictly speaking invalid, the unit will be started as the root user instead.
 
+Backport a patch from upstream to mitigate this by refusing to start units such
+as this.
 
-On 07/17/2017 04:45 PM, Aníbal Limón wrote:
-> The build directory by Test class will enable to use several instances
-> of bitbake in parallel to enable oe-selftest threaded runs.
-> 
-> [YOCTO #11429]
-> 
-> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-> ---
->  meta/lib/oeqa/selftest/case.py    | 97 ++++++++++++++++++++++++++++-----------
->  meta/lib/oeqa/selftest/context.py |  4 ++
->  2 files changed, 74 insertions(+), 27 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
-> index 871009c568b..dd24e366abd 100644
-> --- a/meta/lib/oeqa/selftest/case.py
-> +++ b/meta/lib/oeqa/selftest/case.py
-> @@ -13,28 +13,73 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
->  from oeqa.core.case import OETestCase
->  
->  class OESelftestTestCase(OETestCase):
-> +    _use_own_builddir = False
-> +    _main_thread = True
-> +    _end_thread = False
-> +
->      def __init__(self, methodName="runTest"):
->          self._extra_tear_down_commands = []
->          super(OESelftestTestCase, self).__init__(methodName)
->  
->      @classmethod
-> +    def _setUpBuildDir(cls):
-> +        if cls._use_own_builddir:
-> +            cls.builddir = os.path.join(cls.tc.config_paths['base_builddir'],
-> +                    cls.__module__, cls.__name__)
-> +
-> +            cls.localconf_path = os.path.join(cls.builddir, "conf/local.conf")
-> +            cls.localconf_backup = os.path.join(cls.builddir,
-> +                    "conf/local.conf.bk")
-> +            cls.local_bblayers_path = os.path.join(cls.builddir,
-> +                    "conf/bblayers.conf")
-> +            cls.local_bblayers_backup = os.path.join(cls.builddir,
-> +                    "conf/bblayers.conf.bk")
-> +        else:
-> +            cls.builddir = cls.tc.config_paths['builddir']
-> +            cls.localconf_path = cls.tc.config_paths['localconf']
-> +            cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
-> +            cls.local_bblayers_path = cls.tc.config_paths['bblayers']
-> +            cls.local_bblayers_backup = \
-> +                    cls.tc.config_paths['bblayers_class_backup']
-> +
-> +        cls.testinc_path = os.path.join(cls.builddir, "conf/selftest.inc")
-> +        cls.testinc_bblayers_path = os.path.join(cls.builddir,
-> +                "conf/bblayers.inc")
-> +        cls.machineinc_path = os.path.join(cls.builddir, "conf/machine.inc")
-> +
-> +        # creates a custom build directory for every test class
-> +        if not os.path.exists(cls.builddir):
-> +            os.makedirs(cls.builddir)
-> +
-> +            builddir_conf = os.path.join(cls.builddir, 'conf')
-> +            origdir_conf = os.path.join(cls.tc.config_paths['builddir'], 'conf')
-> +            shutil.copytree(origdir_conf, builddir_conf)
-> +
-> +            ftools.append_file(cls.localconf_path, "# added by oe-selftest base class")
-> +
-> +            # shares original sstate_dir across build directories to speed up
-> +            sstate_line = "SSTATE_DIR=\"%s\"" % cls.td['SSTATE_DIR']
-> +            ftools.append_file(cls.localconf_path, sstate_line)
-> +
-> +            # shares original dl_dir across build directories to avoid additional
-> +            # network usage
-> +            dldir_line = "DL_DIR=\"%s\"" % cls.td['DL_DIR']
-> +            ftools.append_file(cls.localconf_path, dldir_line)
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...ragment-refuse-units-with-errors-in-certa.patch | 329 +++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_232.bb           |   1 +
+ 2 files changed, 330 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-core-load-fragment-refuse-units-with-errors-in-certa.patch
 
-I sent a bad version of this patch, the DL_DIR and SSTATE_DIR needs to
-be set as ?= to don't interfere with certain tests that set the same
-variables.
+diff --git a/meta/recipes-core/systemd/systemd/0001-core-load-fragment-refuse-units-with-errors-in-certa.patch b/meta/recipes-core/systemd/systemd/0001-core-load-fragment-refuse-units-with-errors-in-certa.patch
+new file mode 100644
+index 00000000000..80948b2ceea
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-core-load-fragment-refuse-units-with-errors-in-certa.patch
+@@ -0,0 +1,329 @@
++If a user is created with a strictly-speaking invalid name such as '0day' and a
++unit created to run as that user, systemd rejects the username and runs the unit
++as root.
++
++CVE: CVE-2017-1000082
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From d8e1310e1ed7b6f122bc7eb8ba061fbd088783c0 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Thu, 6 Jul 2017 13:28:19 -0400
++Subject: [PATCH] core/load-fragment: refuse units with errors in certain
++ directives
++
++If an error is encountered in any of the Exec* lines, WorkingDirectory,
++SELinuxContext, ApparmorProfile, SmackProcessLabel, Service (in .socket
++units), User, or Group, refuse to load the unit. If the config stanza
++has support, ignore the failure if '-' is present.
++
++For those configuration directives, even if we started the unit, it's
++pretty likely that it'll do something unexpected (like write files
++in a wrong place, or with a wrong context, or run with wrong permissions,
++etc). It seems better to refuse to start the unit and have the admin
++clean up the configuration without giving the service a chance to mess
++up stuff.
++
++Note that all "security" options that restrict what the unit can do
++(Capabilities, AmbientCapabilities, Restrict*, SystemCallFilter, Limit*,
++PrivateDevices, Protect*, etc) are _not_ treated like this. Such options are
++only supplementary, and are not always available depending on the architecture
++and compilation options, so unit authors have to make sure that the service
++runs correctly without them anyway.
++
++Fixes #6237, #6277.
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ src/core/load-fragment.c  | 104 ++++++++++++++++++++++++++++------------------
++ src/test/test-unit-file.c |  14 +++----
++ 2 files changed, 70 insertions(+), 48 deletions(-)
++
++diff --git a/src/core/load-fragment.c b/src/core/load-fragment.c
++index cbc826809..2047974f4 100644
++--- a/src/core/load-fragment.c
+++++ b/src/core/load-fragment.c
++@@ -630,20 +630,28 @@ int config_parse_exec(
++ 
++                 if (isempty(f)) {
++                         /* First word is either "-" or "@" with no command. */
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Empty path in command line, ignoring: \"%s\"", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0,
+++                                   "Empty path in command line%s: \"%s\"",
+++                                   ignore ? ", ignoring" : "", rvalue);
+++                        return ignore ? 0 : -ENOEXEC;
++                 }
++                 if (!string_is_safe(f)) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Executable path contains special characters, ignoring: %s", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0,
+++                                   "Executable path contains special characters%s: %s",
+++                                   ignore ? ", ignoring" : "", rvalue);
+++                        return ignore ? 0 : -ENOEXEC;
++                 }
++                 if (!path_is_absolute(f)) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Executable path is not absolute, ignoring: %s", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0,
+++                                   "Executable path is not absolute%s: %s",
+++                                   ignore ? ", ignoring" : "", rvalue);
+++                        return ignore ? 0 : -ENOEXEC;
++                 }
++                 if (endswith(f, "/")) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Executable path specifies a directory, ignoring: %s", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0,
+++                                   "Executable path specifies a directory%s: %s",
+++                                   ignore ? ", ignoring" : "", rvalue);
+++                        return ignore ? 0 : -ENOEXEC;
++                 }
++ 
++                 if (f == firstword) {
++@@ -699,7 +707,7 @@ int config_parse_exec(
++                         if (r == 0)
++                                 break;
++                         else if (r < 0)
++-                                return 0;
+++                                return ignore ? 0 : -ENOEXEC;
++ 
++                         if (!GREEDY_REALLOC(n, nbufsize, nlen + 2))
++                                 return log_oom();
++@@ -709,8 +717,10 @@ int config_parse_exec(
++                 }
++ 
++                 if (!n || !n[0]) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Empty executable name or zeroeth argument, ignoring: %s", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0,
+++                                   "Empty executable name or zeroeth argument%s: %s",
+++                                   ignore ? ", ignoring" : "", rvalue);
+++                        return ignore ? 0 : -ENOEXEC;
++                 }
++ 
++                 nce = new0(ExecCommand, 1);
++@@ -1315,8 +1325,10 @@ int config_parse_exec_selinux_context(
++ 
++         r = unit_name_printf(u, rvalue, &k);
++         if (r < 0) {
++-                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve specifiers, ignoring: %m");
++-                return 0;
+++                log_syntax(unit, LOG_ERR, filename, line, r,
+++                           "Failed to resolve specifiers%s: %m",
+++                           ignore ? ", ignoring" : "");
+++                return ignore ? 0 : -ENOEXEC;
++         }
++ 
++         free(c->selinux_context);
++@@ -1363,8 +1375,10 @@ int config_parse_exec_apparmor_profile(
++ 
++         r = unit_name_printf(u, rvalue, &k);
++         if (r < 0) {
++-                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve specifiers, ignoring: %m");
++-                return 0;
+++                log_syntax(unit, LOG_ERR, filename, line, r,
+++                           "Failed to resolve specifiers%s: %m",
+++                           ignore ? ", ignoring" : "");
+++                return ignore ? 0 : -ENOEXEC;
++         }
++ 
++         free(c->apparmor_profile);
++@@ -1411,8 +1425,10 @@ int config_parse_exec_smack_process_label(
++ 
++         r = unit_name_printf(u, rvalue, &k);
++         if (r < 0) {
++-                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve specifiers, ignoring: %m");
++-                return 0;
+++                log_syntax(unit, LOG_ERR, filename, line, r,
+++                           "Failed to resolve specifiers%s: %m",
+++                           ignore ? ", ignoring" : "");
+++                return ignore ? 0 : -ENOEXEC;
++         }
++ 
++         free(c->smack_process_label);
++@@ -1630,19 +1646,19 @@ int config_parse_socket_service(
++ 
++         r = unit_name_printf(UNIT(s), rvalue, &p);
++         if (r < 0) {
++-                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve specifiers, ignoring: %s", rvalue);
++-                return 0;
+++                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve specifiers: %s", rvalue);
+++                return -ENOEXEC;
++         }
++ 
++         if (!endswith(p, ".service")) {
++-                log_syntax(unit, LOG_ERR, filename, line, 0, "Unit must be of type service, ignoring: %s", rvalue);
++-                return 0;
+++                log_syntax(unit, LOG_ERR, filename, line, 0, "Unit must be of type service: %s", rvalue);
+++                return -ENOEXEC;
++         }
++ 
++         r = manager_load_unit(UNIT(s)->manager, p, NULL, &error, &x);
++         if (r < 0) {
++-                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to load unit %s, ignoring: %s", rvalue, bus_error_message(&error, r));
++-                return 0;
+++                log_syntax(unit, LOG_ERR, filename, line, r, "Failed to load unit %s: %s", rvalue, bus_error_message(&error, r));
+++                return -ENOEXEC;
++         }
++ 
++         unit_ref_set(&s->service, x);
++@@ -1893,13 +1909,13 @@ int config_parse_user_group(
++ 
++                 r = unit_full_printf(u, rvalue, &k);
++                 if (r < 0) {
++-                        log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve unit specifiers in %s, ignoring: %m", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve unit specifiers in %s: %m", rvalue);
+++                        return -ENOEXEC;
++                 }
++ 
++                 if (!valid_user_group_name_or_id(k)) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Invalid user/group name or numeric ID, ignoring: %s", k);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0, "Invalid user/group name or numeric ID: %s", k);
+++                        return -ENOEXEC;
++                 }
++ 
++                 n = k;
++@@ -1957,19 +1973,19 @@ int config_parse_user_group_strv(
++                 if (r == -ENOMEM)
++                         return log_oom();
++                 if (r < 0) {
++-                        log_syntax(unit, LOG_ERR, filename, line, r, "Invalid syntax, ignoring: %s", rvalue);
++-                        break;
+++                        log_syntax(unit, LOG_ERR, filename, line, r, "Invalid syntax: %s", rvalue);
+++                        return -ENOEXEC;
++                 }
++ 
++                 r = unit_full_printf(u, word, &k);
++                 if (r < 0) {
++-                        log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve unit specifiers in %s, ignoring: %m", word);
++-                        continue;
+++                        log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve unit specifiers in %s: %m", word);
+++                        return -ENOEXEC;
++                 }
++ 
++                 if (!valid_user_group_name_or_id(k)) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Invalid user/group name or numeric ID, ignoring: %s", k);
++-                        continue;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0, "Invalid user/group name or numeric ID: %s", k);
+++                        return -ENOEXEC;
++                 }
++ 
++                 r = strv_push(users, k);
++@@ -2128,25 +2144,28 @@ int config_parse_working_directory(
++ 
++                 r = unit_full_printf(u, rvalue, &k);
++                 if (r < 0) {
++-                        log_syntax(unit, LOG_ERR, filename, line, r, "Failed to resolve unit specifiers in working directory path '%s', ignoring: %m", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, r,
+++                                   "Failed to resolve unit specifiers in working directory path '%s'%s: %m",
+++                                   rvalue, missing_ok ? ", ignoring" : "");
+++                        return missing_ok ? 0 : -ENOEXEC;
++                 }
++ 
++                 path_kill_slashes(k);
++ 
++                 if (!utf8_is_valid(k)) {
++                         log_syntax_invalid_utf8(unit, LOG_ERR, filename, line, rvalue);
++-                        return 0;
+++                        return missing_ok ? 0 : -ENOEXEC;
++                 }
++ 
++                 if (!path_is_absolute(k)) {
++-                        log_syntax(unit, LOG_ERR, filename, line, 0, "Working directory path '%s' is not absolute, ignoring.", rvalue);
++-                        return 0;
+++                        log_syntax(unit, LOG_ERR, filename, line, 0,
+++                                   "Working directory path '%s' is not absolute%s.",
+++                                   rvalue, missing_ok ? ", ignoring" : "");
+++                        return missing_ok ? 0 : -ENOEXEC;
++                 }
++ 
++-                free_and_replace(c->working_directory, k);
++-
++                 c->working_directory_home = false;
+++                free_and_replace(c->working_directory, k);
++         }
++ 
++         c->working_directory_missing_ok = missing_ok;
++@@ -4228,8 +4247,11 @@ int unit_load_fragment(Unit *u) {
++                         return r;
++ 
++                 r = load_from_path(u, k);
++-                if (r < 0)
+++                if (r < 0) {
+++                        if (r == -ENOEXEC)
+++                                log_unit_notice(u, "Unit configuration has fatal error, unit will not be started.");
++                         return r;
+++                }
++ 
++                 if (u->load_state == UNIT_STUB) {
++                         SET_FOREACH(t, u->names, i) {
++diff --git a/src/test/test-unit-file.c b/src/test/test-unit-file.c
++index 12f48bf43..fd797b587 100644
++--- a/src/test/test-unit-file.c
+++++ b/src/test/test-unit-file.c
++@@ -146,7 +146,7 @@ static void test_config_parse_exec(void) {
++         r = config_parse_exec(NULL, "fake", 4, "section", 1,
++                               "LValue", 0, "/RValue/ argv0 r1",
++                               &c, u);
++-        assert_se(r == 0);
+++        assert_se(r == -ENOEXEC);
++         assert_se(c1->command_next == NULL);
++ 
++         log_info("/* honour_argv0 */");
++@@ -161,7 +161,7 @@ static void test_config_parse_exec(void) {
++         r = config_parse_exec(NULL, "fake", 3, "section", 1,
++                               "LValue", 0, "@/RValue",
++                               &c, u);
++-        assert_se(r == 0);
+++        assert_se(r == -ENOEXEC);
++         assert_se(c1->command_next == NULL);
++ 
++         log_info("/* no command, whitespace only, reset */");
++@@ -220,7 +220,7 @@ static void test_config_parse_exec(void) {
++                               "-@/RValue argv0 r1 ; ; "
++                               "/goo/goo boo",
++                               &c, u);
++-        assert_se(r >= 0);
+++        assert_se(r == -ENOEXEC);
++         c1 = c1->command_next;
++         check_execcommand(c1, "/RValue", "argv0", "r1", NULL, true);
++ 
++@@ -374,7 +374,7 @@ static void test_config_parse_exec(void) {
++                 r = config_parse_exec(NULL, "fake", 4, "section", 1,
++                                       "LValue", 0, path,
++                                       &c, u);
++-                assert_se(r == 0);
+++                assert_se(r == -ENOEXEC);
++                 assert_se(c1->command_next == NULL);
++         }
++ 
++@@ -401,21 +401,21 @@ static void test_config_parse_exec(void) {
++         r = config_parse_exec(NULL, "fake", 4, "section", 1,
++                               "LValue", 0, "/path\\",
++                               &c, u);
++-        assert_se(r == 0);
+++        assert_se(r == -ENOEXEC);
++         assert_se(c1->command_next == NULL);
++ 
++         log_info("/* missing ending ' */");
++         r = config_parse_exec(NULL, "fake", 4, "section", 1,
++                               "LValue", 0, "/path 'foo",
++                               &c, u);
++-        assert_se(r == 0);
+++        assert_se(r == -ENOEXEC);
++         assert_se(c1->command_next == NULL);
++ 
++         log_info("/* missing ending ' with trailing backslash */");
++         r = config_parse_exec(NULL, "fake", 4, "section", 1,
++                               "LValue", 0, "/path 'foo\\",
++                               &c, u);
++-        assert_se(r == 0);
+++        assert_se(r == -ENOEXEC);
++         assert_se(c1->command_next == NULL);
++ 
++         log_info("/* invalid space between modifiers */");
++-- 
++2.11.0
+diff --git a/meta/recipes-core/systemd/systemd_232.bb b/meta/recipes-core/systemd/systemd_232.bb
+index 1cb8ff70d0e..a59ee74092d 100644
+--- a/meta/recipes-core/systemd/systemd_232.bb
++++ b/meta/recipes-core/systemd/systemd_232.bb
+@@ -32,6 +32,7 @@ SRC_URI += " \
+            file://0020-back-port-233-don-t-use-the-unified-hierarchy-for-the-systemd.patch \
+            file://0021-build-sys-check-for-lz4-in-the-old-and-new-numbering.patch \
+            file://0022-parse-util-Do-not-include-unneeded-xlocale.h.patch \
++           file://0001-core-load-fragment-refuse-units-with-errors-in-certa.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
+-- 
+2.11.0
 
-The integration branch has the good one,
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/oe_selftest_threaded
-
-Cheers,
-Anibal
-
-> +
-> +            # use the same value of threads for BB_NUMBER_THREADS/PARALLEL_MAKE
-> +            # to avoid ran out resources (cpu/memory)
-> +            if hasattr(cls.tc.loader, 'process_num'):
-> +                ftools.append_file(cls.localconf_path, "BB_NUMBER_THREADS?=\"%d\"" %
-> +                        cls.tc.loader.process_num)
-> +                ftools.append_file(cls.localconf_path, "PARALLEL_MAKE?=\"-j %d\"" %
-> +                        cls.tc.loader.process_num)
-> +
-> +    @classmethod
->      def setUpClass(cls):
->          super(OESelftestTestCase, cls).setUpClass()
->  
->          cls.testlayer_path = cls.tc.config_paths['testlayer_path']
-> -        cls.builddir = cls.tc.config_paths['builddir']
-> -
-> -        cls.localconf_path = cls.tc.config_paths['localconf']
-> -        cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
-> -        cls.local_bblayers_path = cls.tc.config_paths['bblayers']
-> -        cls.local_bblayers_backup = cls.tc.config_paths['bblayers_class_backup']
-> -
-> -        cls.testinc_path = os.path.join(cls.tc.config_paths['builddir'],
-> -                "conf/selftest.inc")
-> -        cls.testinc_bblayers_path = os.path.join(cls.tc.config_paths['builddir'],
-> -                "conf/bblayers.inc")
-> -        cls.machineinc_path = os.path.join(cls.tc.config_paths['builddir'],
-> -                "conf/machine.inc")
-> +        cls._setUpBuildDir()
->  
->          cls._track_for_cleanup = [
->              cls.testinc_path, cls.testinc_bblayers_path,
-> @@ -52,35 +97,31 @@ class OESelftestTestCase(OETestCase):
->      @classmethod
->      def add_include(cls):
->          if "#include added by oe-selftest" \
-> -            not in ftools.read_file(os.path.join(cls.builddir, "conf/local.conf")):
-> -                cls.logger.info("Adding: \"include selftest.inc\" in %s" % os.path.join(cls.builddir, "conf/local.conf"))
-> -                ftools.append_file(os.path.join(cls.builddir, "conf/local.conf"), \
-> +            not in ftools.read_file(cls.localconf_path):
-> +                ftools.append_file(cls.localconf_path, \
->                          "\n#include added by oe-selftest\ninclude machine.inc\ninclude selftest.inc")
->  
->          if "#include added by oe-selftest" \
-> -            not in ftools.read_file(os.path.join(cls.builddir, "conf/bblayers.conf")):
-> -                cls.logger.info("Adding: \"include bblayers.inc\" in bblayers.conf")
-> -                ftools.append_file(os.path.join(cls.builddir, "conf/bblayers.conf"), \
-> +            not in ftools.read_file(cls.local_bblayers_path):
-> +                ftools.append_file(cls.local_bblayers_path, \
->                          "\n#include added by oe-selftest\ninclude bblayers.inc")
->  
->      @classmethod
->      def remove_include(cls):
->          if "#include added by oe-selftest.py" \
-> -            in ftools.read_file(os.path.join(cls.builddir, "conf/local.conf")):
-> -                cls.logger.info("Removing the include from local.conf")
-> -                ftools.remove_from_file(os.path.join(cls.builddir, "conf/local.conf"), \
-> +            in ftools.read_file(cls.localconf_path):
-> +                ftools.remove_from_file(cls.localconf_path, \
->                          "\n#include added by oe-selftest.py\ninclude machine.inc\ninclude selftest.inc")
->  
->          if "#include added by oe-selftest.py" \
-> -            in ftools.read_file(os.path.join(cls.builddir, "conf/bblayers.conf")):
-> -                cls.logger.info("Removing the include from bblayers.conf")
-> -                ftools.remove_from_file(os.path.join(cls.builddir, "conf/bblayers.conf"), \
-> +            in ftools.read_file(cls.local_bblayers_path):
-> +                ftools.remove_from_file(cls.local_bblayers_path, \
->                          "\n#include added by oe-selftest.py\ninclude bblayers.inc")
->  
->      @classmethod
->      def remove_inc_files(cls):
->          try:
-> -            os.remove(os.path.join(cls.builddir, "conf/selftest.inc"))
-> +            os.remove(cls.testinc_path)
->              for root, _, files in os.walk(cls.testlayer_path):
->                  for f in files:
->                      if f == 'test_recipe.inc':
-> @@ -96,7 +137,7 @@ class OESelftestTestCase(OETestCase):
->  
->      def setUp(self):
->          super(OESelftestTestCase, self).setUp()
-> -        os.chdir(self.builddir)
-> +
->          # Check if local.conf or bblayers.conf files backup exists
->          # from a previous failed test and restore them
->          if os.path.isfile(self.localconf_backup) or os.path.isfile(
-> @@ -239,6 +280,7 @@ to ensure accurate results.")
->          except OSError as e:
->              if e.errno != errno.ENOENT:
->                  raise
-> +
->      def write_bblayers_config(self, data):
->          """Write to <builddir>/conf/bblayers.inc"""
->          self.logger.debug("Writing to: %s\n%s\n" % (self.testinc_bblayers_path, data))
-> @@ -269,4 +311,5 @@ to ensure accurate results.")
->      def assertNotExists(self, expr, msg=None):
->          if os.path.exists(expr):
->              msg = self._formatMessage(msg, "%s exists when it should not" % safe_repr(expr))
-> +
->              raise self.failureException(msg)
-> diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-> index 4575a0537fb..697ea0b4933 100644
-> --- a/meta/lib/oeqa/selftest/context.py
-> +++ b/meta/lib/oeqa/selftest/context.py
-> @@ -8,6 +8,7 @@ import sys
->  import imp
->  import signal
->  from shutil import copyfile
-> +import tempfile
->  from random import choice
->  
->  import oeqa
-> @@ -133,6 +134,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
->          copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
->                  self.tc_kwargs['init']['config_paths']['bblayers_backup'])
->  
-> +        self.tc_kwargs['init']['config_paths']['base_builddir'] = \
-> +                tempfile.mkdtemp(prefix='build-selftest-', dir=builddir)
-> +
->      def _pre_run(self):
->          def _check_required_env_variables(vars):
->              for var in vars:
-> 
 
