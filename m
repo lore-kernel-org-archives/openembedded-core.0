@@ -1,38 +1,28 @@
-Return-Path: <gael.portay@savoirfairelinux.com>
-X-Greylist: delayed 418 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 18 Jul 2017 01:01:59 UTC
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 98B3A77CEC
+Return-Path: <Zhenbo.Gao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C2CC77BF0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 01:01:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id B957C9C1672
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 20:55:02 -0400 (EDT)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id tNQ8IIVW_7FM; Mon, 17 Jul 2017 20:55:02 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 586D79C1B49;
-	Mon, 17 Jul 2017 20:55:02 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id yNHCXGK4NZVb; Mon, 17 Jul 2017 20:55:02 -0400 (EDT)
-Received: from localhost.localdomain (modemcable013.17-177-173.mc.videotron.ca
-	[173.177.17.13])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 2DDF49C1672;
-	Mon, 17 Jul 2017 20:55:02 -0400 (EDT)
-From: =?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay@savoirfairelinux.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jul 2017 20:54:57 -0400
-Message-Id: <20170718005457.1179-1-gael.portay@savoirfairelinux.com>
-X-Mailer: git-send-email 2.13.2
+	Tue, 18 Jul 2017 01:49:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6I1nR9c012256
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 17 Jul 2017 18:49:27 -0700
+Received: from [128.224.162.203] (128.224.162.203) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 17 Jul 2017 18:49:26 -0700
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+References: <1500282788-218393-1-git-send-email-zhenbo.gao@windriver.com>
+	<1500299820.5349.102.camel@linux.intel.com>
+From: zhenbo <zhenbo.gao@windriver.com>
+Message-ID: <596D68E8.60003@windriver.com>
+Date: Tue, 18 Jul 2017 09:48:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-Subject: [PATCH] kernel: fitimage: deploy real fit-image
+In-Reply-To: <1500299820.5349.102.camel@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lsb: add checking for chkconfig existence when creating the symbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,77 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 01:02:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Jul 2017 01:49:27 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Currently, do_deploy installs a standard kernel image as an ITB. This
-image is linux.bin and it is prepared by uboot_prep_kimage.
 
-The real kernel fit-image is build under arch/${ARCH}/boot/fitImage.
 
-This patch deploys the real fit-image instead of the one prepared by
-u-boot and which is included in the ITB.
+On 2017年07月17日 21:57, Leonardo Sandoval wrote:
+> On Mon, 2017-07-17 at 17:13 +0800, Zhenbo Gao wrote:
+>> remove_initd and remove_initd will be created as the symbolic file
+> I believe you mean 'install_initd and remove_initd'...
+Hi Leonardo,
 
-Note: this patch only concerns fit-images which are not signed by u-boot
-or which do not contains initramfs. Only a kernel image with a
-device-tree.
+Thanks for pointing this mistake, sorry about that.
+I will send a V2 patch later to correct this.
 
-Signed-off-by: Ga=C3=ABl PORTAY <gael.portay@savoirfairelinux.com>
----
-Hi all,
+Thanks,
+Zhenbo
 
-This patch is a modified version of the one I wrote on a meta-arago/morty
-build. Thus it is not tested, but it should work.
-
-In the deploy image directory, I had
-
-	$ file -L fitImage=20
-	fitImage: Linux kernel ARM boot executable zImage (little-endian)
-
-With the patch, I have
-
-	$ file -L fitImage=20
-	fitImage: data
-
-Regards,
-Gael
-
- meta/classes/kernel-fitimage.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-f=
-itimage.bbclass
-index 2630b47316..a745e873c1 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -453,9 +453,9 @@ kernel_do_deploy_append() {
- 		its_base_name=3D"fitImage-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
- 		its_symlink_name=3DfitImage-its-${MACHINE}
- 		install -m 0644 fit-image.its ${DEPLOYDIR}/${its_base_name}.its
--		linux_bin_base_name=3D"fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DAT=
-ETIME}"
--		linux_bin_symlink_name=3DfitImage-linux.bin-${MACHINE}
--		install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
-+		itb_base_name=3D"fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}=
-"
-+		itb_symlink_name=3DfitImage-linux.bin-${MACHINE}
-+		install -m 0644 arch/${ARCH}/boot/fitImage ${DEPLOYDIR}/${itb_base_nam=
-e}.bin
-=20
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
- 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
-@@ -469,7 +469,7 @@ kernel_do_deploy_append() {
-=20
- 		cd ${DEPLOYDIR}
- 		ln -sf ${its_base_name}.its ${its_symlink_name}.its
--		ln -sf ${linux_bin_base_name}.bin ${linux_bin_symlink_name}.bin
-+		ln -sf ${itb_base_name}.bin ${itb_symlink_name}.bin
-=20
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
- 			ln -sf ${its_initramfs_base_name}.its ${its_initramfs_symlink_name}.i=
-ts
---=20
-2.13.2
+>> of chkconfig, which will be not existed when systemd is configured,
+>> so adding the check for the existence of chkconfig before creating
+>> the symbolic.
+>>
+>> Signed-off-by: Zhenbo Gao <zhenbo.gao@windriver.com>
+>> ---
+>>   meta/recipes-extended/lsb/lsb_4.1.bb | 10 ++++++----
+>>   1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+>> index cedf39e..c8db1a8 100644
+>> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
+>> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+>> @@ -90,11 +90,13 @@ do_install_append() {
+>>          install -m 0755 ${WORKDIR}/init-functions ${D}${nonarch_base_libdir}/lsb
+>>   
+>>          # create links for LSB test
+>> -       if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
+>> -               install -d ${D}${nonarch_libdir}/lsb
+>> +       if [ -e ${sbindir}/chkconfig ]; then
+>> +               if [ "${nonarch_base_libdir}" != "${nonarch_libdir}" ] ; then
+>> +                       install -d ${D}${nonarch_libdir}/lsb
+>> +               fi
+>> +               ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/install_initd
+>> +               ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
+>>          fi
+>> -       ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/install_initd
+>> -       ln -sf ${sbindir}/chkconfig ${D}${nonarch_libdir}/lsb/remove_initd
+>>   
+>>          if [ "${TARGET_ARCH}" = "x86_64" ]; then
+>>                  if [ "${base_libdir}" != "${base_prefix}/lib64" ]; then
+>> -- 
+>> 1.9.1
+>>
+>
 
 
