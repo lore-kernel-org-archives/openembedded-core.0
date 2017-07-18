@@ -1,24 +1,46 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 01D2D77F38
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 628FD77F38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 10:52:40 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jul 2017 03:52:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,377,1496127600"; d="scan'208";a="112591749"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 18 Jul 2017 03:52:35 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id E69B158038F;
-	Tue, 18 Jul 2017 03:52:34 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Tue, 18 Jul 2017 11:01:56 +0000 (UTC)
+Received: by mail-lf0-f41.google.com with SMTP id z78so10737344lff.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jul 2017 04:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=U7nAkyA9DS4wYKib64YsWq0dC7h+Iahpc2bx7Xw3LyQ=;
+	b=VlzTALQU5YWgF8XSqeWW0kcxVbHHpMQagcAvRFIbvQAZGZbUzAc/GRlpBcId1YOd7I
+	Ys1+x0+w6aTVJ/67/GrNfcsvm4gbit0YqNA0H5d7PtAdkJhvHSEo/D5dwsiJh8p71rKv
+	VYxuPZOSnVzf0gFTpi1+iuQKTvliNL2cskDPyXBMI0KLQqJwcfUGYhpkAh8ScwgA82eQ
+	3rn6dyzPFRsdnQ5VN3dDaO85mzJBre3ABtmWE0tpRaGCJeox3iQ913c2cICg7WpfyW85
+	n7JLLYwrhul04WBVlKWAtXw2ZQK0A7nXG3uJF5dUzElssyY6BuI/fZO/8TkdUnlpjXcw
+	pHVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=U7nAkyA9DS4wYKib64YsWq0dC7h+Iahpc2bx7Xw3LyQ=;
+	b=LZs+iLgaOyT7tG5kpq/0lWBdNAjjVpgxytR5kclm82vZ231azqHw7SVfUxz9MA9RSO
+	Ygf/7XAiX9AmzV/8Xjz+OlHObG8xStSeNQjDycIB/Z7raHczJuyFgvxRWOUbgm3bkP8h
+	ZFHGwXnT/9abzNlVgTN6fgz3gAwYYTZ3yFC0IvbbG/PwvnwxlRr6UnsFTTGuWom31d1y
+	5sPbHBW+Qkob/6nuEbGQ1o6KsMwo3PAwhmUhXKXVspN6ZWQu0JGXShhj+tXoLACy7aaf
+	39Aag2a2mLItu3b0NuZnacj0nQ2x9uEgiylXyJXUaNBqzpQR/BEyWZUOAIFpy9h87/UX
+	Fa7w==
+X-Gm-Message-State: AIVw112ZsMzRrpM81Mb5mT6adTtbJp2HJUPMiZcYhaZCDEgZJz7fSvCA
+	4J1oFFGkfGh0u0vdixU=
+X-Received: by 10.25.115.85 with SMTP id o82mr509252lfc.96.1500375717477;
+	Tue, 18 Jul 2017 04:01:57 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id l81sm491452lfk.60.2017.07.18.04.01.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Jul 2017 04:01:56 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jul 2017 13:52:29 +0300
-Message-Id: <1500375149-7407-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] systemd-bootchart: Fix build with glibc 2.26
+Date: Tue, 18 Jul 2017 13:01:53 +0200
+Message-Id: <20170718110153.6178-1-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH] base.bbclass: Make .jar file depend on unzip-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 10:52:41 -0000
+X-List-Received-Date: Tue, 18 Jul 2017 11:01:57 -0000
 
-xlocale.h is no more, don't include it.
+Unzip is required for jar files. Without this patch:
+ERROR: junit4-4.3.1-r0 do_unpack: Unpack failure for URL:
+'http://downloads.sourceforge.net/junit/junit-4.3.1-src.jar'. Unpack
+command
+PATH="/var/lib/jenkins/workspace/qt5122-dyspro/build/tmp/sysroots-uninative/x86_64-linux/usr/bin ......."
+unzip -q -o '/var/lib/yocto/downloads/junit-4.3.1-src.jar' failed with
+return value 127
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Suggested-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
- .../0001-parse-util-Don-t-use-xlocale.h.patch      | 32 ++++++++++++++++++++++
- .../systemd-bootchart/systemd-bootchart_231.bb     |  4 ++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/systemd-bootchart/files/0001-parse-util-Don-t-use-xlocale.h.patch
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/systemd-bootchart/files/0001-parse-util-Don-t-use-xlocale.h.patch b/meta/recipes-devtools/systemd-bootchart/files/0001-parse-util-Don-t-use-xlocale.h.patch
-new file mode 100644
-index 0000000..5aa0463
---- /dev/null
-+++ b/meta/recipes-devtools/systemd-bootchart/files/0001-parse-util-Don-t-use-xlocale.h.patch
-@@ -0,0 +1,32 @@
-+From d379126d56d0b6e935b2d97ca71579e6cc54d1bb Mon Sep 17 00:00:00 2001
-+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Date: Tue, 18 Jul 2017 13:37:27 +0300
-+Subject: [PATCH] parse-util: Don't use xlocale.h
-+
-+glibc 2.26 no longer contains the non-standard xlocale.h
-+(http://sourceware.org/glibc/wiki/Release/2.26#Removal_of_.27xlocale.h.27)
-+
-+This change shouldn't break anything as xlocale.h was a subset of
-+locale.h.
-+
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+Upstream-Status: Submitted [https://github.com/systemd/systemd-bootchart/pull/35]
-+---
-+ src/parse-util.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/src/parse-util.c b/src/parse-util.c
-+index 5635a68..1b2169c 100644
-+--- a/src/parse-util.c
-++++ b/src/parse-util.c
-+@@ -21,7 +21,6 @@
-+ #include <locale.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+-#include <xlocale.h>
-+ 
-+ #include "macro.h"
-+ #include "parse-util.h"
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_231.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_231.bb
-index 1d88036..4da000e 100644
---- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_231.bb
-+++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_231.bb
-@@ -2,7 +2,9 @@ LICENSE = "LGPLv2.1 & GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c \
-                     file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 27a28b8b8c47..4ffffb05d5d4 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -628,7 +628,7 @@ python () {
+             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_populate_sysroot')
  
--SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https"
-+SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https \
-+           file://0001-parse-util-Don-t-use-xlocale.h.patch \
-+"
+         # .zip should DEPEND on unzip-native for unpacking
+-        elif path.endswith('.zip'):
++        elif path.endswith('.zip') or path.endswith('.jar'):
+             d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_populate_sysroot')
  
- # Modify these as desired
- PV = "231+git${SRCPV}"
+         # file is needed by rpm2cpio.sh
 -- 
-2.1.4
+2.13.2
 
 
