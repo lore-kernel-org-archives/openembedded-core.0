@@ -1,26 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E95C77FC9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D3FA660767
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 03:21:38 +0000 (UTC)
+	Tue, 18 Jul 2017 03:33:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6I3LejU014404
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6I3XFgQ000736
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jul 2017 20:21:40 -0700
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 17 Jul 2017 20:21:39 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Mon, 17 Jul 2017 20:33:15 -0700 (PDT)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 17 Jul 2017 20:33:14 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Jul 2017 20:21:35 -0700
-Message-ID: <a3105cfa18311bf192b5037e3bdfef6ccebe59e1.1500348040.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1500348040.git.liezhi.yang@windriver.com>
 References: <cover.1500348040.git.liezhi.yang@windriver.com>
+	<ca9c07df013e7bad906842f21ea4372cd534f19d.1500348040.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <a1e399d3-57fa-94f8-7488-dddef99777e7@windriver.com>
+Date: Tue, 18 Jul 2017 11:33:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Subject: [PATCH 5/5] runqemu: chmod 0o777 for lockdir
+In-Reply-To: <ca9c07df013e7bad906842f21ea4372cd534f19d.1500348040.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 4/5] runqemu: validate combos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 03:21:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Jul 2017 03:33:14 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Multi-users may run qemu on the same host, all of them should be able to
-create or remove lock in lockdir, so set lockdir's mode to 0o777.
 
-Note, os.mkdir()'s mode is default to 0o777, but the current umask value is
-first masked out, so use os.chmod() to set it.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/runqemu | 1 +
- 1 file changed, 1 insertion(+)
+On 07/18/2017 11:21 AM, Robert Yang wrote:
+> Error out ealier if the combos is invalid, e.g.:
+> $ runqemu tmp/deploy/images/qemux86/bzImage-qemux86.bin tmp/deploy/images/qemux86/core-image-minimal-qemux86.wic
+>
+> This will fail at kernel panic, no we check and error out early. We can
+> add other checkings in the future.
+>
+> [YOCTO #11286]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  scripts/runqemu | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index bdb559f82ff..e9ed890bb27 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1209,6 +1209,10 @@ class BaseConfig(object):
+>              self.bitbake_e = ''
+>              logger.warn("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
+>
+> +    def validate_combos(self):
+> +        if (self.fstype in self.vmtypes) and self.kernel:
+> +            raise Exception("%s doesn't need kernel %s!" % (self.fstype, self.kernel))
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index e9ed890bb27..2be27804841 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -910,6 +910,7 @@ class BaseConfig(object):
-             # running at the same time.
-             try:
-                 os.mkdir(lockdir)
-+                os.chmod(lockdir, 0o777)
-             except FileExistsError:
-                 pass
- 
--- 
-2.11.0
+I just found that here should be raise RunQemuError(), updated it in the repo.
 
+// Robert
+
+> +
+>      @property
+>      def bindir_native(self):
+>          result = self.get('STAGING_BINDIR_NATIVE')
+> @@ -1240,6 +1244,8 @@ def main():
+>          config.check_args()
+>          config.read_qemuboot()
+>          config.check_and_set()
+> +        # Check whether the combos is valid or not
+> +        config.validate_combos()
+>          config.print_config()
+>          config.setup_network()
+>          config.setup_rootfs()
+>
 
