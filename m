@@ -1,134 +1,164 @@
 Return-Path: <mkelly@xevo.com>
-Received: from NAM02-CY1-obe.outbound.protection.outlook.com
-	(mail-cys01nam02on0041.outbound.protection.outlook.com
-	[104.47.37.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 94AF077FC7
+X-Greylist: delayed 8821 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 18 Jul 2017 18:48:17 UTC
+Received: from NAM01-BN3-obe.outbound.protection.outlook.com
+	(mail-bn3nam01on0073.outbound.protection.outlook.com [104.47.33.73])
+	by mail.openembedded.org (Postfix) with ESMTP id 897977808C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 18:47:34 +0000 (UTC)
+	Tue, 18 Jul 2017 18:48:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=uievolution.onmicrosoft.com; s=selector1-xevo-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=ox7/U9QWW6Co/8j9x/eRiSwb8Z7QooId7dB13RpOQMk=;
-	b=q/o9NMTKcmxFtIpbHNsh/nAghNhi/GLMvisYpZ093/M3drIQdDseCIWhc/J3tOI3/ljJAMTA9HnIlTC0nLNSPtUk8uMd5KIGQrWa/j6whDvd/M5QwZcu7lsvKRSqa1+iC9KBt53XZdhunzMBDfxqy0Zq4+3p6YO3BGnnngpTNPo=
+	bh=dRgr0xDFUmH3tUSQyVHFd3w5che+BsAijA7nU5dWJ20=;
+	b=fEF+m9u+dtEj7xBNmd2etvaeMyks7LgJBytMLip8aASS1T4TLBaKSecyXT2ofK58Rpfuz0B+3BJv2+/rhAt2VeUwyyiMJ9OO5pmN31D5r/xRHRdzTQRE7xIr0dpiIvKJNTyjV6pEpY/Y13D6M9P/lEYOeXnZ8rvVJTMeDmBjn9A=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
 	header.d=none; lists.openembedded.org;
 	dmarc=none action=none header.from=xevo.com;
-Received: from columbia.surround.io (65.122.179.226) by
-	BN6PR0101MB2930.prod.exchangelabs.com (10.174.87.139) with Microsoft
+Received: from [10.0.1.79] (65.122.179.226) by
+	CY4PR0101MB2935.prod.exchangelabs.com (10.171.223.140) with Microsoft
 	SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1261.13; Tue, 18 Jul 2017 18:47:34 +0000
+	15.1.1261.13; Tue, 18 Jul 2017 18:48:17 +0000
+To: Khem Raj <raj.khem@gmail.com>
+References: <20170718002129.8704-1-mkelly@xevo.com>
+	<CAMKF1spT18TdH6FbS+L0xLrRRxofpUwhLtNQtA3PKxFTRoNCUg@mail.gmail.com>
+	<1e22fdac-d41a-ff88-a208-e321b9820e9b@xevo.com>
+	<CAMKF1spqOVtRF=LYmnL=NAf6BLB0+HVXO_vdLAZiTNjnDyekDw@mail.gmail.com>
 From: Martin Kelly <mkelly@xevo.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jul 2017 11:46:54 -0700
-Message-Id: <20170718184654.3911-1-mkelly@xevo.com>
-X-Mailer: git-send-email 2.11.0
+Message-ID: <8b5155a1-5b89-e1c8-6f3c-dc43181b093c@xevo.com>
+Date: Tue, 18 Jul 2017 11:48:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
+In-Reply-To: <CAMKF1spqOVtRF=LYmnL=NAf6BLB0+HVXO_vdLAZiTNjnDyekDw@mail.gmail.com>
 X-Originating-IP: [65.122.179.226]
-X-ClientProxiedBy: DM5PR2201CA0042.namprd22.prod.outlook.com (10.174.180.159)
-	To BN6PR0101MB2930.prod.exchangelabs.com (10.174.87.139)
+X-ClientProxiedBy: BN6PR21CA0023.namprd21.prod.outlook.com (10.173.197.33) To
+	CY4PR0101MB2935.prod.exchangelabs.com (10.171.223.140)
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2d63615f-b3cc-466b-8d28-08d4ce0d743a
+X-MS-Office365-Filtering-Correlation-Id: 01c5cc62-02ed-45b6-cc45-08d4ce0d8e00
 X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
 	RULEID:(300000500095)(300135000095)(300000501095)(300135300095)(22001)(300000502095)(300135100095)(300000503095)(300135400095)(201703131423075)(201703031133081)(300000504095)(300135200095)(300000505095)(300135600095)(300000506095)(300135500095);
-	SRVR:BN6PR0101MB2930; 
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2930;
-	3:JmithS2e6wxwn8SMty5IwRVuYXF8iIO93Rnj/Jh+Y8MflrFqDstzVLuzrObYYxDtshsVSdQY0xauS8TO1kvVjKU3Sa2pxRGfiKpPlS8r5pX58phOrEz1ZQfgXQpXZJ5KNAXrcjWjmD53AFkJO/pLnuJnVIgfRccUJir7uqLQTabRAW253U77fTKSzxr1XTeoCGGIZI5bCKylvurq6gWENOaofp8wU7TEauDBhagE4zweVcVGmRlaWefnJcu9XkMOPiwUaQWQHt6h5qmuiyOrvCoi9n2bnmnY6L41be9OCeXoJDLAhrMej4q8hYFWbwD+U82HE4WOTknINECsnz+FV79T7FCv5m9hiLbYQ37d+Zepgwj5BNt/iE/6KVHo2oznpMpdla2GuAgYKDaumT/vlTzrR5U06kMR6ab6kUQPBrXmAzWs0XTxy1X6t/HLcszDm65ZFRM9XHDKEgfqvwkBOc91VRdgB8bogPtaEf+Er0kmMoZ+WX5sXCjkXA2ZZE1TatrMOfTWv+OTafKNaIJmSdjOZ+kMaTb078R3T08OZSLT3A16nxYDZGZr8uwFZAU5dBGxsF4WLRWkfqs49wwMvjoX7z9AqblZy/HCM/+XBu0713zImh9E3dFdWcMRpNhUlBBywGwZ+ppzrFvXhjQv7FoTBtzUg+Vh8AkiXdF4RuSV2f7BL/C49+i5haTODCP0zS/JEV0D/HieffSOkV/RCHe9XeofDMvLIxYoLHMOyEA=
-X-MS-TrafficTypeDiagnostic: BN6PR0101MB2930:
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2930;
-	25:hmUgSo8dFIf+qdty5Tuza3kcHjMZOqrVapD2soUryWGMdl1tD8bm+7jLrN965DgHQy/zFNE0NqsyOHf0jMawZ4tXfdfH41QYOhtPib/O1R2rAKbOddx28Fn0i8fejknM8/4vgcuu0kIYn1M3UmskHKzy0UxAz3loXy25ZxriX9O7TSYdN19rQu1FOsbm61FmERsfs+22n772/Oqoprj0AnMR4y7whkoxESJkpbKbv+ELs+kOPdqaqYqiKnXPgmVfiG4g1vYBdIsRoHyCapqMYl1l0tmMvGY3iTkgxyhkcILjJoqoWDsmxJGwBVTL/pbrK1eJgYtW/NzlFk6JVHT2qYMg6dIPHfShkvqIJkDg7yoOAGYy+Kt5yK84t9iiIVG3JfGQGPu0E0K79ZY1OfXPussxARo041UwPXDNfzIJNAqz02slO5lEwnHHTlrQLPWcrG0Y1fcNLQp7m8iUgBILtaUNz1klRKr2ox2zjNB4/sgGgjtISJ4VaM7wXfzcgsVHx5nenTLStcQ4FrjR0uplgU8fs4xa4reKZOUN1xpvZKE5IEtuPfglEhG5TRFSylMe+JHaUlpYKaX0SLB79oFt04GmueGiEBIFHM9wzCn6/NSrg4FR/wBgkuWkyIoDkWI1mjfGiW7ooAE4uUfzVMtm0/hfv+y915AkTC203NnyjcnzjEqYd4NC57lB0LqOkaAC+LIKp66vgU+6ynaaMNHoGbEDIFpwTqBWpbg06IUCtRSgzpEx755OhVNIzcVJle1KUPXjBco9ztymDspEIOQTXp8qaXCk6AN5gmRUBbv5FvSIaSj0EbFRuNe0vNffEeIzF86QLqKRytA8zGLdm7hpOceIbFItrrPczU+VeCDnh+4E+7fcL0/soz9ysvfVoaKXmwxogepiZBVTWK412Ziapi/mEkk42/6RmskyFOCmSOI=
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2930;
-	31:WQqZPNmp3WZODKZDaTR/5o47rC0JKbrdX6M7XO3XpnKQr+Jq6zc6rQNWQF+ql2bqFC8eKbxHeKO9Zj/YghM+rl6T23EYI9w+2WGFE9bKDj2acyCKy5AzC1rkapZZy628F0Bjl/9E0Ty/GnIxl/gF0FjtyXWtfZjVs8BSefxJ721+COBBEmx0HFptwEizSImZBWI/gs9+du9g89PpwIDc3+2uAW6c5pcwTxg0DfaTgLorqKDHcluVqU5lEi6HxKM5YxgXtWKN9eKr28R8liaI5VeSUjzhEa3bnSONEvn3tLfae20+b2ku/J4C+Y/pRNiw23NHq6tlVICJqXdoCwxv17muElcsCi1kSEVMlsOFBkhvi9V4Qp1nNrUx4qgJYPbi9p+2pxstmUtQfh5vd7mCckMGbVe9WNEo0VXK+oTvqTo8ouG6WY2BWcXjWPsE0flhsug/Ux92K4qaJ4XSLjkgXgYJZVGckwKAkByhPumBarE+yAvYR4SJvxRb62NUG6P2rKhZN+yMDS56XoVpN1zfVzKyNpBaBy9Eb6PAZbMaC3fdy6FR/bZGKRFcWN/uVdS/re6L+PIiqz7ssN7koh1LBI9UnUyj3IzFaww63nGNGlXwodrDv7YTy6fDmP46bxo+GYbh+gEgREO8K8usv3Pt1eWEXqqvGR7UdU6i5yzUXls=
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2930;
-	20:675OJvbiXZIZjFeE+8aM/x1J0GBW/VV4mVMwJL/iVEzbUHV1E95y4SzgEGPKS443pMFBedRpETt4fpddqvmNOgkIY9YtzLGkK2eW2YlLJZKIfWhaU/mZ43qs8IWual82esDNw6HLB+78SvCDcuDjCvRSWXpcfVJuZ3E+XGOLKPF+ZDCwi5kzr84yTw4sQTAaXq9+P9RnhIPGmpmvImzaFFeklS4e4d7hhp0myDHvvqP0zSlpXMuvrefgvvGgRVSeFZ0nzZHKIM0sVSKBZ4iIByykod8oLjDfrOV9ZrS+YUEhvuClg1OHimorpc0BGlulkKJLXr2W2Aik7wooP98sXKqLoHRPKz27xj6NPTtG0J2P5LhLxkkKdzCL312GxPXOS6oztuAhMY4lENHo0DboQceXde7ijsSoYxyQ31VBUic=
-X-Exchange-Antispam-Report-Test: UriScan:(236129657087228)(148574349560750);
-X-Microsoft-Antispam-PRVS: <BN6PR0101MB2930F9D52AE65E48BEB53760ABA10@BN6PR0101MB2930.prod.exchangelabs.com>
+	SRVR:CY4PR0101MB2935; 
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2935;
+	3:N6pjeCXHBd2gmQzYsOkiQkSrRbNjAfirW+6C/omga+0bf3NcKO41X1Arqe0nGM1fljkwQCUBxQ7a7yGun3Aqp+vRZkXdpEcHhapNoebyCku9LfArSSBpx6uPuKx6XWs2OIWQwCUbpmumN6jgWyCd70RKhZTAiLMzCmCZ+5p1gLBjptSdK42EN8nr7tsduZWn7Mxra2bqLjBsXXqmcisEAXx8P9SlArzOT1N8ts7BHOnbrnWHCCiQgvc7Viyb/TZLLBEZbOSQOeCqgEQh08ysD3JvyJloN0ENd20B0PEWw5PMpdZcq/Kz24kglk9pqjykJs0y1vy8dMy1oW+HOBgLtLvtbFQwGA+b5T9JwfpRDlPccNnrzEfozL0Edw4IdZ02Em3rLGniU9qIZkXpLEqUEWCtMGz/J5LOKdn5IYQ1ck1aCB/nQcxBMUCTfk/zrjl2nldMugoU8CFPilwfjsyn8VyTnNozqPooB/VT8/7bJtsVxTOqc2J/yJQMNijascWTwfvcfVjGEw4NbzXMC67VO9OpdGK4OdlxwedizjbCkD0BBGDsoy4H4/F8zmqlbzDy2MtpEl/EByBugm0zgFs/tRo0+gVIQXHUt0w7l/VoqDT0v0UwvZWWd/7vcSfDhsq3R1n3RU2Zi2YBBIA5bTchyxdzemRIBSAJ9i/OkSgOoNpIlck90tPqGhrwF2yv3S4oyTdH/33MtUyExmSs7oXSue7V/gD0jQYawz331EbDTRg=
+X-MS-TrafficTypeDiagnostic: CY4PR0101MB2935:
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2935;
+	25:WXpqkMEssPkJp74HrkiXdWNa8Crs9DSoQ/h0wx4EpZ5uoPG4RYgOshWbmMboHxHlHMXES9fG5oaRdPLDyuxoLc31+WQNMAPbxQfeSuchXX/5rR+eHJ9qghnXluiaGcWTcKDlBakrOBp6NTkCQ2F2eTdnyfLaLUCEK2yMJDekpgz8rYsTQzCIqwAXqqrbW/avUYbRNfL6bISwYhtpF3wUpxu2jwavfh5yXgOBkJ1CHOdlGWkl5rr5IJnEh/0mu7NRQHcAJ/D4Kt8jBt7vtj+BLOiPDg9W/4e7adjNYCr655mLuswlOsVviJ8CxjRIY/nLKCQsa1a46NW566Mpu5l2HLrOmO2P9YG1IHKlsVgMCF0qP9hWHA1OwxEJEwypZGztznZVnEhLHyBU5J6BXmGdf37W2VQW7BjFcp8JTcJpgsysWRnbWmIuc/kbIr5hkkoWY4Qrcp95AIfthrj8wtypCrGxJlWrJb+6Ihb7JDbxqpizUkRrSmAfNHGOFJrSelWfGdff9/OtrqZZenOYLWwbSSTvS2ycBy+cdRapktMEwv/Ulq/1PBlJpHqvZlPBUsq2XTsaX+GAIMQKTvl24sVdURmSIolz6Pr3SaJYX5g1PmsM2rLLdRMxEVdeq/qJhhK13NyX9rQJC46gYDSSxWP6TJGkoNW+3yhB4+eb771bvQi9ofo933wcxcX97tJvd9R+oQfoMwWX9W1mbnmridcHg8RxkDNPq76JEFFTcCT3znocAFAKcAGBBD454ZurIbGnGS3vtjWMOU/Q6SXKT20KlRHB5W7LfNOGWMxgL3VS+aA9W/hbz07pb7tyG9DLjDBqRosOoz9DkmmNyoOOPW+KoMWBS4h+02mTilVh2tBLYPbnmQQg7ZeHf58lNpRfyHDC3kYKsalI/Y2PhERHIcGGGv7HIfe+EVwClA6Hv20qrOk=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2935;
+	31:MHuvEtpBDrWJ5Y/llWFOfBcG4gquFFPS3q7jP0Uw1q4ywlHF7ReImKqvIskox1WpdqhYRVMDAoqLwGtCyzhuIssdWgZydsARDyD1Lcubg9JRGG8f8HWzB7b+nViGg+owOW8lWPA5AIEGe5+4Hwh1UtWTOOHJRs4blgJHAsQIvB+JramE2euv1HjfTlqQLjD11b4mxTylsJB7/4org9Uh273fQCgvOLxlB+Qr2Cgp4HqYWqZAFqEGQLkAf2wqzESwsHBRq//4seZOhyuU0rpN4Su0I0vD8etlzLp3ZgLzMp/AnvW8OPWJqwFeaD+rlFYNBfYqJABTfjj2ZZ16cTcoZtawfkmstSxA/FzH4sqAG3vO9AcusvJ0BXVFaI6ejjY+1jJzbrl2EnPME5R520pZCGAyAeb/RwvFmw+OfGU/X1R9QGEgQiPD9fgFO79U9faetZGohlTa589gTONQpFUMqjlA/X5AnLjZzIAV8rjTyPzXdpTgug0SqdJu2mb5iX28jn6zME2G151PGKOOK9OdtWBmNfY6pdFlHvMQxHcj7st9Sam5KWt6KrBNXrXPYhjpEPkjVh9FAKtc1wa/lHeElfLAP3qh3IALa3BjftxttvkhxvPACf3c0aK0F7yVtCQ470LogO2Ln8GJ3xDn1hggxc/aG1nxKA496oQISRn3dkdhzUgdrzamb5tsi42lbz9K
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2935;
+	20:jXpPqOnwcIscrFzhn4hFJoc19VVwQdRTGct6J4G/zu5OGW9/WexE8g10GF1IyVqs4XXvVILCZaM/uqvo/25FuZLdcDB4vS7zYTKWZR6HNyIo4+Ip3Y94fQ03qoJ3Xmn9H/R/AAFnQg3jmBwiEgB1LaOdA4nXZ05pL5PTabpi1Sf6DQJxgOdVc2BOmw3EXnCQw1MvB7myVfUN+ONZGzkxicaUqnV7mp1isqq9O3rFUncVaE26/1W28A4HoYn8mpDRVVs2b9zKJvKeOJIl68Nn5KAgjEzdnS50sIrejZq71wxuE2toX7nGE11tbvFarKwK6O8mY6OOUX7XL++T8fUn1ZQOYhlguSum1W+efpp1O8TViyJAYfJXrCq75w/7uiBHoByLB7A6G0DMJyTi0H9HSp0zhGLNpBroxaBWw/CAzzM=
+X-Exchange-Antispam-Report-Test: UriScan:(236129657087228)(264703809997249)(148574349560750); 
+X-Microsoft-Antispam-PRVS: <CY4PR0101MB2935EA5C3298A6E8911E1474ABA10@CY4PR0101MB2935.prod.exchangelabs.com>
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(2401047)(8121501046)(2017060910075)(5005006)(10201501046)(100000703101)(100105400095)(3002001)(93006095)(93001095)(6041248)(20161123555025)(20161123560025)(20161123558100)(20161123562025)(20161123564025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(6072148)(100000704101)(100105200095)(100000705101)(100105500095);
-	SRVR:BN6PR0101MB2930; BCL:0; PCL:0;
+	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(2401047)(5005006)(8121501046)(2017060910075)(10201501046)(93006095)(93001095)(3002001)(100000703101)(100105400095)(6041248)(20161123560025)(20161123555025)(20161123562025)(20161123564025)(20161123558100)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(6072148)(100000704101)(100105200095)(100000705101)(100105500095);
+	SRVR:CY4PR0101MB2935; BCL:0; PCL:0;
 	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
-	SRVR:BN6PR0101MB2930; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN6PR0101MB2930;
-	4:bEpgao3FKkx8ou7IE768PcVJNY2suP8JG/FuB+WT?=
-	=?us-ascii?Q?LgAz6Jl+7GlcenShedN7ZOlOS8FMThqp4wLuNcROc7FKI4VJx3/h5Kw9EkOZ?=
-	=?us-ascii?Q?5BCuIWLK5BShVPh6KfNd1R8E/8k90zU4L+yVNUS2fIEsvH4efk54bEmDUPF2?=
-	=?us-ascii?Q?xIScq6V58GmY4D7ooTTTzytCtsl07tZ2gBexW6GFFD7ixjZE8e/V9NZJrjCT?=
-	=?us-ascii?Q?ym9/rJUBbn8dflYX7MuhzdagENoSOkRVnxNXOJY3YDWo6MGVf1LnEQHCHFVK?=
-	=?us-ascii?Q?t7Pzkhzvr4Xo3Qjz2DoalHd2vR9WGubT7QPcCmQrCgA8Xd0/MPtuD4YKRyaK?=
-	=?us-ascii?Q?cxVDRzMS7WKU2hHTPsaA2oTKYxaPCw3IFGIl9Xsm5EwG5cyv5mFV8xnAufmh?=
-	=?us-ascii?Q?VY2/EMjRUre1sj6RunG0gCd+ClFViYUuZlkJczDsjY7qCUg6HlIK+IVUf4aq?=
-	=?us-ascii?Q?epHHl2IVNLZQL3ustqLTD1DY+6h3WEL8UZaz5XPMo0FJyHniHZTzvhplnX/+?=
-	=?us-ascii?Q?ErdUV1p5Cltu/44bMY+oX+6IxJlt/c7rkIDFIVLFNwFFCnAN60f+VgXWkJbO?=
-	=?us-ascii?Q?vujxX68/+qmtat0Ze973vxw33dpjkbY2AJ5ItgZYtDeSFfNK8pLErbyjzZ9n?=
-	=?us-ascii?Q?YTq+Y4cMCWkSslyFrAkBicdc/GxIl1KuRWDb+PnwhLXta8M/G70hXPPY49Hq?=
-	=?us-ascii?Q?gup44WHR2oY9eUp/mRxiHyBT4XClrjXqLpZMy+OPHuqxumw/4hhSuIIvjQoF?=
-	=?us-ascii?Q?gvwTkR2uLfYwC9htMGeztp6xjVbNB+2DeSu+OHU0MP+FB+jIF3IlKV3nwjsd?=
-	=?us-ascii?Q?CScvdq8scjXW9yDQ7Ll98vFFt4QRjoQINdOKweFJAFOZwtbmfEUPMMD9l7ix?=
-	=?us-ascii?Q?sOwWDOf7fPFjR6oQfFGwcDdQw//K6JDdAoN86EHR2YfA9BiZxWiUNUfIgMXt?=
-	=?us-ascii?Q?cInjMho5GknrQbTwxeAH2+zfxmDS6fmGaJU/bPr0Tgz+JpaVs0RhFFYdl3vJ?=
-	=?us-ascii?Q?s6COTwYv4IOi6wDZmxfyP98lrAy3H2pVFMF/24r762qD/OaKQeZ4DpBLwBbT?=
-	=?us-ascii?Q?mLEECKjZufhED37+2YIbLYC1OAwfqxDdudlKN8ad7/IAqJ/zcIsKwdE15rEP?=
-	=?us-ascii?Q?jPbCqA9niYSFK+YG1FXsdJ14wqPnkBz4KKfBFOzEHMlhfHeaboy7BO5G0pCh?=
-	=?us-ascii?Q?+RI/obssCAuQgWzOuTbGdTcuw/6xDcYDwe9Ko4dQ+LXdw7l04DvSuPLMBZo+?=
-	=?us-ascii?Q?mCDTFQHhVlmYvU5Tt3A=3D?=
+	SRVR:CY4PR0101MB2935; 
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTRQUjAxMDFNQjI5MzU7NDpxcUl5VGNwUnRrNllaVHRYM0JhK3hSb1gx?=
+	=?utf-8?B?Z2xPSkRJRmJrbzhRcDBoTXc0R2pIUGVFNDZLOWFXbkZrV0o0QS9pdFlLZEdv?=
+	=?utf-8?B?Y2dRbkUraGVCbG95bTlyMHBFTXMzSndRRzdncXkxVDdMTytHc3EyWnpYY2hK?=
+	=?utf-8?B?aUZtZ09ZWGhRY2VsNjY4Y0wzU3Y2VEJlMEFqZFRRdTUxVUFVM0tFa3E3UlRi?=
+	=?utf-8?B?bXUybjVtRWt2clBXSjV2NUZXSEVMUS9GTkdzMU9CVVNIQlZRaDU3WHMzSTZH?=
+	=?utf-8?B?Q0RudEg3ZHk2dmMzbEtqczBVVXFJSVR6M2YxajhEQnlJN2lNeWMyMjRjVmx3?=
+	=?utf-8?B?NUY5QWdwdWhFOEJwYVJHeUlEdi9VQ3N1SEp5YnN4b3ZmUEJYWHlQZWYzcW5k?=
+	=?utf-8?B?RkhuTlpDRXYzK2VyUEZFbFY2TkNlSVpXWlNCN2hiUlhjYnJrRTZDUk44QjJi?=
+	=?utf-8?B?UXNTK090dzNlUkVHNkZIV0hHQ0gzTVF5UEVJN1AyZW4rbHRxTVoxR0dacUJD?=
+	=?utf-8?B?Sm1sUFl4eWt3bGkyb2VablFqZVkrUHc2LzRsWm5EVk5ibzZGRmRKcnBQcFVH?=
+	=?utf-8?B?aWhqVjFEdW0rVStRY09EbW4vRmdsMXRGV3hxak9BTWxXVTdNZkpsYXcvZW5I?=
+	=?utf-8?B?ZDBhYnc2eGJPemhyaU5WNUg3WjVBVDczUFc3MDBzRmpPcWtTbXRFK0M3bDF3?=
+	=?utf-8?B?Wk9DK3VnWmNMbVlFWG5SRjA1Qm8vYnZxeXVTb2puZG9oRjVLallyYUl3VFkv?=
+	=?utf-8?B?ZWNLcFp6TExTUGY5eXBjSkh3V3J0UHNLSkVLSnhsQUpTQ0dvWjhwTlFjVEg0?=
+	=?utf-8?B?VXJkMGp5U3ZuRENhYkFVdUQ3cnFNcmt4UlBiV3lhNkpzNmtXV3B0TjFYS2hC?=
+	=?utf-8?B?U2VFNGoxQ283Mll5eUpBcUNGZW03UXRwd3kyd05RbnNxY1Z5VTMvWEtZY3By?=
+	=?utf-8?B?clA3bTQyUExKdUpHd0V2VG9OSVdsR1VYRCtaajljaTJseldKb1F0cTh3Tm5P?=
+	=?utf-8?B?SmZZQmhkeUQ2ZzQ0TnRZY0tuRG5ZVXJuaUhwQ1dMM0hCRnZJN3V0dlFxc05J?=
+	=?utf-8?B?ZEtKZVZoR0FZNXZaRkFhK2N1ZzBhUXhuWDNQUzg3YUh2bGhLNWFwVWFlQ3NM?=
+	=?utf-8?B?WWJKcVRmOHRYQ3NnZ2dqME1yMlF0VnVDTXBIdzlFSTRkVFRNWWxxZUNDaERU?=
+	=?utf-8?B?cGVWbDdKbVBoUUlPTXlhemEwSjkyZFVibjhKZk5WY0NOeUVGR0FZbzQxMGZl?=
+	=?utf-8?B?b3UxMzZybi9lemRNQUJURWowQ0pDNTNoNENrVEVsZUVLOEdYWm5lb0tHc2pt?=
+	=?utf-8?B?Wmo5dXgwcFhxYzZBZXRUU1ZMMjlCdHZBVXg2Q2pRSUR0dTF1c2pXYUJTaHhP?=
+	=?utf-8?B?MU5WY2ZqUWdXSUFmTy9ETGZqOEFBb2JaUFRGbGVxMW9SbXNEdTRXQkhvbkJC?=
+	=?utf-8?B?bzl0N1pIYmlOendNZnQ3ZnhjOTVyRy9aZW4rSnJ1dUUzVEEwTGRlZ0JmZjd4?=
+	=?utf-8?B?NWh0czNYMzRJVEVNYkd5ZHptMTk4VUVWeSsxZUZES1hqeHkxMlVDUWlIQ1Z0?=
+	=?utf-8?B?NjNub2ExZkFGVm9CaDhxODk4S3pyVnpIb242UW1IbDZTcDluaFNCZGVneEwz?=
+	=?utf-8?B?T01LckxaQnllNm0yZXZNSVhIMlpjQTNEczJiZjJMUU12eFV3OXFob3NFLzkw?=
+	=?utf-8?Q?y5duUAteJFSB/KNxsZAYGMTngP6PZdLA3d+MvqIp?=
 X-Forefront-PRVS: 037291602B
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4630300001)(7370300001)(6009001)(39410400002)(39830400002)(39400400002)(39450400003)(575784001)(2361001)(36756003)(1076002)(6506006)(6486002)(6666003)(3846002)(6116002)(33646002)(86362001)(189998001)(2906002)(53416004)(42186005)(47776003)(50986999)(2351001)(5660300001)(50466002)(478600001)(7736002)(50226002)(48376002)(53936002)(107886003)(66066001)(966005)(305945005)(110136004)(5003940100001)(25786009)(6512007)(38730400002)(6306002)(54906002)(4326008)(7350300001)(6916009)(8676002)(81166006);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR0101MB2930;
-	H:columbia.surround.io; FPR:; SPF:None; MLV:sfv; LANG:en; 
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN6PR0101MB2930;
-	23:TWAjfLAvnlWjBJuPN87oiHeMeLdsOEDy5qdVk0E?=
-	=?us-ascii?Q?nbu5W7vxw49+lM7ME2bOkn4l8zRd3xUmmMjfA8vxzElFzdMVrUMQcl3qKSNg?=
-	=?us-ascii?Q?M7BHcdc2qY54WjRyov5Vy7I875qr5oDlGZbe1aJXY7a2x+cL1nLdF0grx1wk?=
-	=?us-ascii?Q?TzrZJ3JDr0p15j7lzC2i8xvgLNULHukWhZfzjifpmuKooV534S42hCx8MAXs?=
-	=?us-ascii?Q?PmuTL560Al/hGNrMfu9f0CFpJO3UJE+I2PvjeLtkr8xy9HoG6kf/NvdoxQWN?=
-	=?us-ascii?Q?TAkI/wMksmDQDivrFS1wpcAQU6abAmgaZwBV5KXDHXVp30/WP/AhwVdxREPf?=
-	=?us-ascii?Q?xST+aH1LeHM5St5jm8TNCYRLI5rL7Dh9tfTFK0FiKaL68QDKL6weOxEulJDz?=
-	=?us-ascii?Q?2ZXbDGBgQ6oJtWegj5xtZFASnPJp+VfakNB8n7vSm2tbVKdILluL3eZzzeqt?=
-	=?us-ascii?Q?mSDwjYl500LlF4SGVcIfuHSCV6sVjF+1+rXw0KHiHuJIueav9R9uFwDq9ef7?=
-	=?us-ascii?Q?BMtrveF9JpuQpX8wAFR2g0IKQ7CerfPVKzCzTu8pdmW+QIBvhu4btoMMkkRq?=
-	=?us-ascii?Q?aAcelD8gqbslZWaKnyIrtrly1ZJuXYot1fG9z8wKYxhGWXDE6sNwLjl7Ev81?=
-	=?us-ascii?Q?dzHKhCWoMpOKVUnvY8jNdyovynZ93m8d9/bWXkd3CJ0iFSPqCHY/tmKDdmio?=
-	=?us-ascii?Q?bvxcA6SDSh5L+hrUe9yyUCFnn1ihS3QLrSIGNBj8hJ/OouXxWneFg9aBKBY4?=
-	=?us-ascii?Q?CaxqIZBnzuUmC54/RnV0zW88vC9HwZfwi/7AecqnI4duS1I4hBISKxiUI6Ym?=
-	=?us-ascii?Q?ljTeB831yW/kWZ8RdoDVcsnGoaFdT/OVUGxbfA5HW511ciWndAuoQYzPo3hT?=
-	=?us-ascii?Q?oIgofFAosLrtbtX957SWBMLzn4vfgLWvQoRPnJ0LNTAXSN728DlL63lKlhbO?=
-	=?us-ascii?Q?XpR9pKLsJA3T+NQ+5g3ryVlaEvPRiEgSDYeHc806Vyi2mGK+nqz+4lnhdU6c?=
-	=?us-ascii?Q?tQW1PhQ+ZpfKCrs5eY3M1B5mTbGDecIsVxjQKd+49hnFDt3R0xyoRkqhIQtW?=
-	=?us-ascii?Q?+kBG+lYPzvlbfr/L9Oo+ifg9Z+MkhcRVPcGHu9cHwCymiloCHJI90xo2mjb3?=
-	=?us-ascii?Q?Rft99swyyeTY6uD71qYukcxvcMmqF5F0LLXLytMfyIzvtNOQ6aCVNTTEYSe0?=
-	=?us-ascii?Q?b8Z9m+OlX0gIMtdU=3D?=
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN6PR0101MB2930;
-	6:1bbF/Xj2tPWbEAo+ScnaFOA0MhwzKFodbVsodvb+?=
-	=?us-ascii?Q?EAOLQ8oBIfU6dt4DwOaYPH+rqHs9sNJCHDsFbvKpdiMpZM/GPATUANGIvhB9?=
-	=?us-ascii?Q?dWyPO3fbmiHZ2v4pEJycN1FAp+pw2dbG4TglCnggt8A015uFdqrqYYepQHtC?=
-	=?us-ascii?Q?ykKt4Rzk22/ICIBUD6SF91XbYSTR94mtkcFxqCedMblIpv7IFiRoG17lJceZ?=
-	=?us-ascii?Q?+xJ/y+miSr/QEFNWJWXN3CwbVd0ItTBJp5eWxLkv1ShuoiX8eIP69yidwdBD?=
-	=?us-ascii?Q?JU4wd+sa346Z89vt/ZoK32m2kDaM4M/BTAiGXIENI9h7nDKXqZWcK1mVdQh5?=
-	=?us-ascii?Q?uFHxdbQiT7H+m1qVdPHjMOt3JG2O5GflTpPfVjWUyEbkXRe37oaaYxk7JQi8?=
-	=?us-ascii?Q?FpMdcHIy8pDQLkR85SXBIec3klKBGtcfeMvcUU5jqxY7g29MJ7LS49enbice?=
-	=?us-ascii?Q?lNzu72HZ0Wi/H5ONkAiE4ilxMFFa0VNAvR/8YUx5nAAxpCyKsbLKEXUHwkoA?=
-	=?us-ascii?Q?JdXNwE25pf+EG5wbJfE4FpFNYJcwlb0dmiXWk73PPrHMSM1TAqmebHSaxm6v?=
-	=?us-ascii?Q?rr/Ygvo37C6hJ6buXPN3+w36mQFn9RkVYhpQsAMn9U0V/bgDGvGWVXnOsja6?=
-	=?us-ascii?Q?v/m1FU1rLCzpZnp5MU6sGMDKQG2HQ+EvhMmyu2Dvl8ysYDb3+VyEXeuvSdZz?=
-	=?us-ascii?Q?XX1/STcKZ3dTwJAMCcSJ1yc68pLgvGm6BCCHlv3eJiBaZF6Whom816Ug230z?=
-	=?us-ascii?Q?qjNwIJUDna7dpvdHP9WpVkIlMqUt8//boU1pfaz0K27em/byQJLGEAWw+sp2?=
-	=?us-ascii?Q?Om2KMX01czHbjZSIItqBJbDMqD36vfSTeVeG9zzVsua21ghozNhAgZHq+PYO?=
-	=?us-ascii?Q?Pg/g0iXY2syTe6cR39ecnwyHmT3+mlLhnWC7ewrs8vqGyyB94JBf4gU+mp8h?=
-	=?us-ascii?Q?P3dly7SXu70si9SiVijgMWq3LSzb+Br4FCr5GvDiQbweUCnjfrCFUuETNdTS?=
-	=?us-ascii?Q?UKQ=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2930;
-	5:t0X7VxxXvwLVM+PSK69odtgc/ADItbvnJ6clrdP7SDCuPb7SSml8Y7g5c/ubSswoU+fPjPLzXVzx1OBnhxiY1oZWcs2vDwgWbBvrr6F3gBi5UBBWhThDGqaKp+biEJrN4CtUKPTuFb7w/3fm5mYbU9Yp30+TXXA161B/V+5RZe5yBj156jPg/nnvVue8mzf+eWJx8zDcS1EbnLDtmpHjtY+3J2AgXpSm+WWqME+izwPUsnmkLxBjOF7+/cmVVvutQJWHWWHrO3SYMMw9NuiXt7OvTUXqn/xymjs226xaEw4DIkcQg/k24HXVZqqxF2jnEk6yf7kmX9Wwf51/QJ7TqBXILvNKi5q8l8NyV9lWM1yEEjka43xa7Ad6DSW/E+RronhrEKw2ARJiFdD7n1T8hxeUVyVp/gprmUx5VSlxjfBfHKfGtZqsH2+mypMKwusgPHQBvQOoZ0pPDfKt+L20J/ZnxQKsKWBFQaG8aqsA+0XnC7+SRED6ohqLbmfLUjs0;
-	24:rhxjlFV0XCnN3qAexE6ZoBZVbLld5vRih556NZEFwObYeU9byNdjSeAHvZPvDdWa216IEpe2iK3OMR/WJPhVG8pzDhNol4VL+Dr2wZ/tc6A=
+	SFS:(10009020)(4630300001)(7370300001)(6049001)(6009001)(39830400002)(39410400002)(39400400002)(39450400003)(24454002)(377454003)(2906002)(2950100002)(6916009)(6666003)(31686004)(6116002)(3846002)(5660300001)(23676002)(65826007)(575784001)(4001350100001)(86362001)(31696002)(76176999)(966005)(54356999)(50986999)(93886004)(229853002)(77096006)(6486002)(42186005)(90366009)(53546010)(6306002)(4326008)(1720100001)(189998001)(25786009)(478600001)(33646002)(36756003)(305945005)(7736002)(7350300001)(230700001)(6246003)(110136004)(53936002)(8676002)(81166006)(64126003)(66066001)(47776003)(38730400002)(50466002)(83506001)(65806001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR0101MB2935; H:[10.0.1.79];
+	FPR:; SPF:None; MLV:sfv; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTRQUjAxMDFNQjI5MzU7MjM6SUNMbzdGTEoyR3c1ZFNINHVVQStSUXFD?=
+	=?utf-8?B?ZHo3TmNCaFBvUmxQdVUwL0FzRlRPcWZwZkNyUFRId0dpaUdrVVk1djhZZnVo?=
+	=?utf-8?B?SlRPTjVKMFNEVytHZDljcGNVR2svQVp5Q1BMSGZVcW1BLzBhemRyZlM0QXVZ?=
+	=?utf-8?B?Z01BcVpWWlk2MkVhanRUODNtNEEvM25vdVZDTnp1NzJ4b0V1cm5WUnJOZ042?=
+	=?utf-8?B?emJtSjQzcU1hSHU4UjFLbWtFWksvTy9UVStZa1ppMlJjbnhWcXhvZlVlVkta?=
+	=?utf-8?B?UlUrOEp2aU8xQzFmNlY4L0dCbVkvSDVickdJUkIzZm12ZlVkWHV1c3VGb2JL?=
+	=?utf-8?B?Q3Z6RXErME1rWkZpNzk5UW1WR0EyY1dEbU9ySy9GeWhCc2hzZkZiREx5MHIw?=
+	=?utf-8?B?S09kdHJXUWdPSzB4TjRjaWpKbjNVNHpFMzJMN0p6MytEN0xEY3FGY2djbXVQ?=
+	=?utf-8?B?WXF1b2M2SzlDcmFHQ1U2cHVhODV3NVVHa1pSSGp1WElsQlZFT05jajkvcEQx?=
+	=?utf-8?B?Y2lSY29uUmFuRUtwemFsWFJKUXNlQ2QwdXJwcVkzY1VaSGlQSXlPOUJucW5n?=
+	=?utf-8?B?bmJTQnRsUHBrZVhPdnVzaG1xNTM5YXR2UmQ3b3B1NEdKSEZCSUM0ZFlJVTRZ?=
+	=?utf-8?B?WUxIS1VRNGpocFEyVUVJa20yN0s3Z2tjb2JKWXRtR3JPSnRidzNVRThlMlZk?=
+	=?utf-8?B?di82bHdEVWUxTFI3T242KzhkeWkyUVA2VmZoTXNteHJ1U2JldjU4NEE4NGFx?=
+	=?utf-8?B?Rzl0SDRrbTVCQVdYQ2VQRGYwUGFMRnhXSFlhdW8yR1VuS3ZHVW5GOTBROUdZ?=
+	=?utf-8?B?VStuYytWai9vU0NvU2xtUWZXQ1RUbndYUk1PaU1BbDVTQndxelp0SFl1aTRu?=
+	=?utf-8?B?VzZaVUZJQXFjOTN1RFBSMzFieS9SK21lemlXUmQvSmhGeGdNUXZtRktNOEJN?=
+	=?utf-8?B?SWduak56Y0I1V29vaXA1NUxSTk5JNlU5Q1RFWEdyZmY0cmFLeXdYZUxHQnBm?=
+	=?utf-8?B?SndLUC9keUkyaFloaVJBUHFCUkdnblU3YmxBQmEyVUVYR0ZLUGR6eG9KK2I1?=
+	=?utf-8?B?QnpqTlRxZW5VdE83RE1QdWszc1Btcko2UEJ4R3FhU2NNRlhIMXlVZ3dvWE5R?=
+	=?utf-8?B?NEtzYTJEM0h6aFVPOXBNQXNLSkxaRXJsaU5JVjRtdkxaeEhBcWNBUnRaMDRB?=
+	=?utf-8?B?TDlFYmdFanlsWDBTNVRocldIM3ZOR1I0RllRNERVNWxBVXVVamtHNzlyY0ZS?=
+	=?utf-8?B?M05CbUc2Z0RrY3ZXN25sZnA3ZXM0c2NQU0F1SkFpK0U5bWdTNDVmZmhSZnpk?=
+	=?utf-8?B?ZFRjZkxtRUdDcGJvNEF1aWJGQzZ6azBqUWRWalJDSUNrTVlQTHJuL1o5bTlk?=
+	=?utf-8?B?azdTVmpVdnUxRytDNGk2NlVJNFlWWWNmaCtlekpzNVdIdDkyTW9ydVlCay9w?=
+	=?utf-8?B?SlFxSldPR3VKOVc4N2V6VHBmTi91YUE0ekxYUm5tRjZBOXl5RFowaHMxaWlv?=
+	=?utf-8?B?akZSWkpYZGw3ZHFkcW9KZ25yejA5NGxwVFRkQTZlYmY4Mjh1UWFvczJkTHMx?=
+	=?utf-8?B?SENhRGtjSXBzQnVVNjI2YUN3RU1hNHc1RG82Mk95MklWUnNNL2RuUXlKbVVR?=
+	=?utf-8?B?YVdjd0txT3pPbk5RT29WN1BEVStjSXQyWjg1bGcvd3BpNFdqM0w2Nm1GVDg3?=
+	=?utf-8?B?YStBbDlCWGtqYThrWmVYcDkrWW9zaWYxUHFRZWJ0YTlKUTgvaTdqYmtoU1JW?=
+	=?utf-8?B?MnZHNFpJRDA4OEQwb2t5MTN5U1h1VWdwQ3MwMXlPUlB4MEk0dnB1VnpHRllm?=
+	=?utf-8?B?UEM5ZGUyNjh5L1RBQnBrS3ZtWFVGTTVrSVV2Ukl6R0hCK3A4bHlxUkIyN0RQ?=
+	=?utf-8?B?NkVqeklBWk9VNWcrclBhYzRNbThpK1lYQ2p5dktHVSt2Z0wyOWw5bnByem42?=
+	=?utf-8?Q?tKyKMMR5IArGeVcvaYMGJM8v6nkxx5kQ=3D?=
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtDWTRQUjAxMDFNQjI5MzU7NjpWNmdhTUVTSmVWUzdGa01RQ2NFaTlKT3VO?=
+	=?utf-8?B?KzRTeEs0dHZrWUVuS1ZlQnErUTJzbEZGWXZoMUtXVmZnakxPamI5Y0tLNkda?=
+	=?utf-8?B?ZGY5amNMUlZKTFlISTFGdzM4Z3Y1ZE9rNGN1dDdDeld6Q00xTGMwZE5FNnc1?=
+	=?utf-8?B?QkswZ0dXeFJmN1AwZEdlRnFxVVAyaFRzNlZmeFo5aUVxRDNvVS9sTGZEWDVw?=
+	=?utf-8?B?dlowemc5eFJnMEFpRjVZYUdOUnBEZ00xeWhtL1pmZFQwSEl2SHBhVC9UQS81?=
+	=?utf-8?B?TlY1aXl2RDhraEZyMk5yTWpYbzZxUnVMdDQwWWg3UTFOWG1va1F5eDMzcEZ3?=
+	=?utf-8?B?K1JLQWs1TmgvM2xZUTBVb2NUaEh1RkltY25lTVZmNkpYLzhTbG1CU2tRektY?=
+	=?utf-8?B?YWtyTUtrRzJJZk84VmcvanBibWZ5NjduZDY1M0dJV1RVVzYxNDRMaXpBcy9Y?=
+	=?utf-8?B?MU5uMkFtSTFxZVMzQ3dIRk5IMHdFUDhSaHE4b0I5YngrLzJRNWxiczlrdCtL?=
+	=?utf-8?B?dVFjSTEzUkhJSXBoU2JHb09rMU94emg0NWxPY293cERuQnpEUVZySTJUcmtu?=
+	=?utf-8?B?bmRLdjNIanZWN09sMm9BZWZHbGF3UTVaTENtMkZiUStGclNYTDZOcDdRa2Y1?=
+	=?utf-8?B?aDI4ODBWU25SaDBqcWZrMm1YaUtpaXhubExqM2Y0MC95d0dwdFNnRTZRZjJ5?=
+	=?utf-8?B?OVJzQXplUWt4Y3RNNWtZRTNjUE9ralFKdnNaSGJudTBydTVwNHNuOFQxY216?=
+	=?utf-8?B?L1lWdWhXOVJWQ3p5RFBoeCtZd0U4VU1rSlQ1enczQXdjbDB1S0wyWG5CZWNF?=
+	=?utf-8?B?QUYySUU2MmhlM3NrUHBjazJnOGNvdm1tRW00M25VL21jc1BXQWZuaXRoOTYz?=
+	=?utf-8?B?MXkrRG9ocG9reS93VXkwREpvQU9TK0xLdCtoNzVPN1pNaW9VYXJUWFREOGNP?=
+	=?utf-8?B?UWp0TGd1TzJXR2RpWGtIQ0NjR2FHUjByWUlhcjdpdUZsUy9BTlVsN0U3ZGw0?=
+	=?utf-8?B?aFZudUNFaUtycjlhMzh2L0cxNSsvSWJzYVRmSTR4dHdVVDU1RkN1Wll0cFRO?=
+	=?utf-8?B?WHV1QmNrTTFwaEdxUVZOcmQrRkYwUVIxcXNxd1FmYjFRUnQrOVFrdzRTWWEx?=
+	=?utf-8?B?T0tRb1FQQ2xwK1N0cXNFVEw4L0FuSU4ySnJHK0REUFlBeDhlUEtzTDJiNXBm?=
+	=?utf-8?B?ZnRaYlo0eEF3b1JOTmgxWlQ1M1haTVpLd3F3b3RzazlKK214OEoxeXFXdkRV?=
+	=?utf-8?B?SDZuTWpsYkRFazNDanAreDluMTdQSHFvYWNKWGhmajJXeTJNL08vdTVnVFVT?=
+	=?utf-8?Q?gH/xjZ++2aTFE8SsB9QOwbe7I4AJuudO4=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2935;
+	5:6EvDhRkRyd+VZVQkeeSP+R3k6f5ty8JQaf7q0DTGVDW/AtrEuit2k/yhmPn9no0+fuA2E15WGZ6BKAeY9KdT29ZmZ2QuDvr4WcuPlnA2rQlvf2rDNYPKqiD1Jug3DRyWeDAklKAli8qK0Lj0sQLlfYhOTAlkMBmEklIq6Spm77nXqpAQ4Gac9Nk9TfcFwgzT6eJAfBq/g6kYF4GwIDmFDlKF9pCjeqq8RYXg/SCJ9oUSF00Cw4ggiNJ6Uvhmn9JcSi+jjHQfvhHLVHESR+yNaaGf3m2mw0Md1bJTvAY9xJtOiHpAv+Hxbn7USYZ5s2iLqPvhemHrafVzhEj+rSJjhy8CaZO+1CIpcZPPR4LJYqxZaV9JraWaW4LpRGsFQqYDWL76L+ApMR5BfPp103FLZ+SrwY0DUpUF6WykycUdf0h88OvxUQ6hm7o2Ckl1tS7vkh5i5UFA+zd3jJ/aHhZNyz3WJWF+oP4WxvHBPA6dOHiWyDD4KH/OsVtIi2Or/uaQ;
+	24:pMtKab3V5RhTTZvyaG4rRMFfTRmoCpYY8KHM2AxUUJRcBKdZkHVm+Cis92pC9HY4hAoQ3OyWu+0M+T7WlelYbsISxer5wo5wfenRMc/VRd8=
 SpamDiagnosticOutput: 1:99
 SpamDiagnosticMetadata: NSPM
-X-Microsoft-Exchange-Diagnostics: 1; BN6PR0101MB2930;
-	7:ZOLRAouc6VtLNRknLd9YrmGD6cNh7Th9W9F4OryEjRiIFXf+M6tvykKD164lW21D3WA64flxd0IQ6wrTRjkT3VFU8n6B1kCzCrB3HmvsYkRjtGwB0zaT50xoQFlnyutS0K8nLVwjBCZ699KFvZgO3JPp1qrS3KfQy1iN+5tM8SXed/Iw3ebSRhl5vXvYNWaXRUtoD7fgyEMkrqmH60ErvSj4VxDkNU1bN9LtPYSWwOC9LwHgCGZzWBd7X3HWAlNssPjd1DbbotgzsoAWzu1VvYSLj8KyS5zBlJN3WHPj9fbZ9YBDbnSOwEK5wfkjhw/oLo04cIqAWARWvVksAPTI8778wLjTxm9pnBVG55F5zM0Ic7zmWhgiTaT8leyE//4AFrJuBJYgNNc8Yvmh0uwozAiAVAnbL2J+ifViip7kzlNwq+Rxwk35cvGbz0Y64Lvdn6oDzzilkVGNAQ2ZXCLFwV2PEMCwj0XsHaMiu73KxjZ0yVpuCfAQ9xIF9ULVvwvUSgSwg7B3JxGsTy79kHsoHTQzHe0a8cKpXeLRkMVhpxi/Id4XFsmVzofEhJQ5DVL84dC2TbvM3D8UPRqCxiyRK8NVZmHSSkuBCSOXaIWBRx0jgBgCT+cooaVBgBgXCDBNWbaUYukMRTB8lAHD0S0DmyvYST2dS3X9vcgmoi9AnF76yz4Nyu9G8ETfTGbl9iN+xNBNh54374/bVHYHPSbpVm2Cgyg+4NSr93JytQT7IUv4safkTKJPcMet+yj7uPYeGexoSq8oDsfYj4mEY9j5hQ8n4L8p6pTDnaPPkcx9FC4=
+X-Microsoft-Exchange-Diagnostics: 1; CY4PR0101MB2935;
+	7:DyZcllmbFhxX/ltJQ++Cn7Tg1mQO+g9vBilBF7mSnB4QbVDXQEYkJvTnLRbkuzKXrGt5L/5N1lIA9J3MRo7TEROknD+JYNGUoiXIBhu8qu4/6sDYsAzMD6329NG2my35ZjEVaOFjQ9ZaqbGz9q0By4LgIfin6kBr02nnuly3lA8rRSUC4A3045vI6jOcqF1VE8iVXeApvqVeknfBLCTkh6RVTUFr5yHFquFxZqs9Zg4rN4o8rECVTbe81b5q1l1M9+9Uquzjx2nQOhUOYp7y6HTdV58BDMcsxo/1PXGQFZFC+Gloe2ZdFqroooyAk0gUZexMNQVRMONj9hdMOs3NcQZlU3IOopb+mnI35cfxXtIRyeoUfVZzvkphgruh61feC7KipnMNr+vGWbfEolKEUzPM6or2PAOR2YlKUGSsJ5aV8DC5uIq7cwXpcnYQmSTdBP3nyo5aiPnDEseZ/hwObjB4MfbdkehuSocQoRFzjz+599J0Wmurq8V/EGObz9Y3oNAcI9aofS+N7saEwNKGjSUIZUofyvoHND0kk/kYvrKXe7NoUXsiZMahr9uaEkmxDoH3LRoB18rTnSK3Q8INxHYBp16wkqma41aU92Ms61L7s3Wy2Fo139Udh9ZHrhIr6qyzr88vPhXDUoELWBzb6sU9DgZOiJiWKYDTGbnoVqRoB+0T8ggVCoQ80yJGnuRwuigDEtdYVjJH3ZQf7JAqQQmGEmg3t5sVJ6g1GXX7WMahm6Fqn633J7xeLIF8gOslNiA/cOMBWooQjmzg7caV18xxgbw15tB/ptQlLUM17WE=
 X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2017 18:47:34.0661 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2017 18:48:17.3552 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR0101MB2930
-Subject: [PATCH v2] gstreamer1.0-python: add new recipe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR0101MB2935
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-python: add new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -141,82 +171,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 18:47:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Jul 2017 18:48:18 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Previously, we had a gst-python recipe, but it supported only GStreamer
-0.1. After GStreamer switched the Python bindings to use GObject
-introspection, we were no longer able to build the bindings, and they
-were dropped in this patch:
+On 07/18/2017 11:37 AM, Khem Raj wrote:
+> On Tue, Jul 18, 2017 at 12:21 PM, Martin Kelly <mkelly@xevo.com> wrote:
+>> On 07/17/2017 07:47 PM, Khem Raj wrote:
+>>>
+>>> On Mon, Jul 17, 2017 at 8:21 PM, Martin Kelly <mkelly@xevo.com> wrote:
+>>>>
+>>>> Previously, we had a gst-python recipe, but it supported only GStreamer
+>>>> 0.1. After GStreamer switched the Python bindings to use GObject
+>>>> introspection, we were no longer able to build the bindings, and they
+>>>> were dropped in this patch:
+>>>>
+>>>> https://patchwork.openembedded.org/patch/93793/
+>>>>
+>>>> However, at this point, we have a gobject-introspection class, so we can
+>>>> use the bindings again, this time with GStreamer 1.0.
+>>>>
+>>>> Signed-off-by: Martin Kelly <mkelly@xevo.com>
+>>>> ---
+>>>>  .../gstreamer/gstreamer1.0-python.inc              | 35
+>>>> ++++++++++++++++++++++
+>>>>  .../gstreamer/gstreamer1.0-python_1.10.4.bb        |  7 +++++
+>>>>  2 files changed, 42 insertions(+)
+>>>>  create mode 100644
+>>>> meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
+>>>>  create mode 100644
+>>>> meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
+>>>
+>>>
+>>> I think everything in single file would be better
+>>>
+>>
+>> I'm fine with that, but I was just following the convention that the rest of
+>> the gstreamer packaging uses; all the recipes in
+>> meta/recipes-multimedia/gstreamer use the same convention. I figured it's
+>> cleaner to keep all of it consistent. Would you prefer I diverge anyway?
+>>
+>
+> I dont have strong preference here.
+>
 
-https://patchwork.openembedded.org/patch/93793/
+OK, I sent a new version with just the license change.
 
-However, at this point, we have a gobject-introspection class, so we can
-use the bindings again, this time with GStreamer 1.0.
-
-Signed-off-by: Martin Kelly <mkelly@xevo.com>
----
- .../gstreamer/gstreamer1.0-python.inc              | 35 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-python_1.10.4.bb        |  7 +++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
-new file mode 100644
-index 0000000000..961b93017e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
-@@ -0,0 +1,35 @@
-+SUMMARY = "Python bindings for GStreamer 1.0"
-+HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-python/"
-+SECTION = "multimedia"
-+LICENSE = "LGPLv2.1"
-+
-+DEPENDS = "gstreamer1.0 python3-pygobject"
-+RDEPENDS_${PN} += "gstreamer1.0 python3-pygobject"
-+
-+PNREAL = "gst-python"
-+
-+SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-+
-+S = "${WORKDIR}/${PNREAL}-${PV}"
-+
-+inherit autotools pkgconfig distutils3-base upstream-version-is-even gobject-introspection
-+
-+do_install_append() {
-+    # gstpythonplugin hardcodes the location of the libpython from the build
-+    # workspace and then fails at runtime. We can override it using
-+    # --with-libpython-dir=${libdir}, but it still fails because it looks for a
-+    # symlinked library ending in .so instead of the actually library with
-+    # LIBNAME.so.MAJOR.MINOR. Although we could patch the code to use the path
-+    # we want, it will break again if the library version ever changes. We need
-+    # to think about the best way of handling this and possibly consult
-+    # upstream.
-+    #
-+    # Note that this particular find line is taken from the Debian packaging for
-+    # gst-python1.0.
-+    find "${D}" \
-+        -name '*.pyc' -o \
-+        -name '*.pyo' -o \
-+        -name '*.la' -o \
-+        -name 'libgstpythonplugin*' \
-+        -delete
-+}
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
-new file mode 100644
-index 0000000000..1365f7c6dd
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
-@@ -0,0 +1,7 @@
-+require gstreamer1.0-python.inc
-+
-+SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "adcdb74f713e28d0b22a0a1e4f831573"
-+SRC_URI[sha256sum] = "59508174b8bc86c05290aa9a7c5d480ac556a6f36306ddbc1d0eacf4f7868212"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
--- 
-2.11.0
-
+>>>>
+>>>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
+>>>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
+>>>> new file mode 100644
+>>>> index 0000000000..3299b89daa
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python.inc
+>>>> @@ -0,0 +1,35 @@
+>>>> +SUMMARY = "Python bindings for GStreamer 1.0"
+>>>> +HOMEPAGE = "http://cgit.freedesktop.org/gstreamer/gst-python/"
+>>>> +SECTION = "multimedia"
+>>>> +LICENSE = "LGPLv2"
+>>>> +
+>>>
+>>>
+>>> this should be 2.1 most probably
+>>>
+>>
+>> Yes you're right, I'll change it.
+>>
+>>
+>>>> +DEPENDS = "gstreamer1.0 python3-pygobject"
+>>>> +RDEPENDS_${PN} += "gstreamer1.0 python3-pygobject"
+>>>> +
+>>>> +PNREAL = "gst-python"
+>>>> +
+>>>> +SRC_URI =
+>>>> "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+>>>> +
+>>>> +S = "${WORKDIR}/${PNREAL}-${PV}"
+>>>> +
+>>>> +inherit autotools pkgconfig distutils3-base upstream-version-is-even
+>>>> gobject-introspection
+>>>> +
+>>>> +do_install_append() {
+>>>> +    # gstpythonplugin hardcodes the location of the libpython from the
+>>>> build
+>>>> +    # workspace and then fails at runtime. We can override it using
+>>>> +    # --with-libpython-dir=${libdir}, but it still fails because it
+>>>> looks for a
+>>>> +    # symlinked library ending in .so instead of the actually library
+>>>> with
+>>>> +    # LIBNAME.so.MAJOR.MINOR. Although we could patch the code to use
+>>>> the path
+>>>> +    # we want, it will break again if the library version ever changes.
+>>>> We need
+>>>> +    # to think about the best way of handling this and possibly consult
+>>>> +    # upstream.
+>>>> +    #
+>>>> +    # Note that this particular find line is taken from the Debian
+>>>> packaging for
+>>>> +    # gst-python1.0.
+>>>> +    find "${D}" \
+>>>> +        -name '*.pyc' -o \
+>>>> +        -name '*.pyo' -o \
+>>>> +        -name '*.la' -o \
+>>>> +        -name 'libgstpythonplugin*' \
+>>>> +        -delete
+>>>> +}
+>>>> diff --git
+>>>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
+>>>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
+>>>> new file mode 100644
+>>>> index 0000000000..1365f7c6dd
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.10.4.bb
+>>>> @@ -0,0 +1,7 @@
+>>>> +require gstreamer1.0-python.inc
+>>>> +
+>>>> +SRC_URI =
+>>>> "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+>>>> +SRC_URI[md5sum] = "adcdb74f713e28d0b22a0a1e4f831573"
+>>>> +SRC_URI[sha256sum] =
+>>>> "59508174b8bc86c05290aa9a7c5d480ac556a6f36306ddbc1d0eacf4f7868212"
+>>>> +
+>>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+>>>> --
+>>>> 2.11.0
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
