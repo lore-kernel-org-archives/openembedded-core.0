@@ -1,24 +1,24 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C111D6003C
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 02D8177C29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 07:32:13 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jul 2017 00:32:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,377,1496127600"; d="scan'208";a="126348469"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 18 Jul 2017 00:32:14 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id 75039580386;
-	Tue, 18 Jul 2017 00:32:13 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jul 2017 10:32:10 +0300
-Message-Id: <1500363130-19509-1-git-send-email-jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] vulkan-demos: Rename ${bindir}/screenshot
+	Tue, 18 Jul 2017 07:56:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6I7uxso021296
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jul 2017 00:57:00 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 18 Jul 2017 00:56:58 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Jul 2017 03:56:55 -0400
+Message-ID: <cover.1500364523.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH 0/2] acl,at: reduce local pending patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 07:32:13 -0000
+X-List-Received-Date: Tue, 18 Jul 2017 07:56:59 -0000
+Content-Type: text/plain
 
-This conflicts with sato-screenshot.
+The following changes since commit 81498aac9560fbeaeb58eaada32ce80e0ea51628:
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-graphics/vulkan/vulkan-demos_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+  yocto-project-qs: Updated Next Steps list (2017-07-12 00:28:16 +0100)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-index fcd9e7b..e088277 100644
---- a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-@@ -24,6 +24,8 @@ do_install_append () {
-        ${D}${datadir}/vulkan-demos/models/vulkanscene* \
-        ${D}${datadir}/vulkan-demos/models/plants.dae \
-        ${D}${datadir}/vulkan-demos/textures/texturearray_plants*
-+
-+    mv ${D}${bindir}/screenshot ${D}${bindir}/vulkan-screenshot
- }
- 
- EXTRA_OECMAKE = "-DRESOURCE_INSTALL_DIR=${datadir}/vulkan-demos"
+are available in the git repository at:
+
+  https://github.com/DengkeDu/openembedded-core.git dengke/acl-at-reduce-local-pending-patches
+  https://github.com//tree/dengke/acl-at-reduce-local-pending-patches
+
+Dengke Du (2):
+  at: reduce local pending patches
+  acl: reduce local pending patches
+
+ .../at/at/0001-remove-glibc-assumption.patch            | 12 +++++++-----
+ .../attr/acl/test-fix-directory-permissions.patch       | 17 ++++++++++++++---
+ 2 files changed, 21 insertions(+), 8 deletions(-)
+
 -- 
-2.1.4
+2.8.1
 
 
