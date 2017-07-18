@@ -1,41 +1,28 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 51AB477F85;
-	Tue, 18 Jul 2017 18:54:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id EC41820AB4;
-	Tue, 18 Jul 2017 18:54:45 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id EMnfYLOPUjD5; Tue, 18 Jul 2017 18:54:45 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B0D8D20064;
-	Tue, 18 Jul 2017 18:54:41 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 498DF162534; Tue, 18 Jul 2017 14:54:41 -0400 (EDT)
-Date: Tue, 18 Jul 2017 14:54:41 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20170718185441.GR26405@denix.org>
-References: <cover.1499854502.git.liezhi.yang@windriver.com>
-	<3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
-	<CAJTo0LYUwPxW_0aLGwmwANyNv5sCovXijF-XrMCzTjGSr_V=Nw@mail.gmail.com>
-	<dcbc00ff-666c-ce9a-9884-42224e2701e8@windriver.com>
-	<CAJTo0LanadueCFtjEZXDrk3-jkv2+Y3kBO6FsSBC-9t-Ey1GWg@mail.gmail.com>
-	<a75792ff-4291-1f5c-dca3-0a97ce64639b@windriver.com>
-	<CAJTo0LYV+oyEwE15JQ7+wyRAAWFqorcrAcCRGZOqLdoyY40w_g@mail.gmail.com>
-	<dc06c161-4226-aae8-963b-87090202913e@windriver.com>
-	<CAMKF1spYtmTfAw8aaayFkKbU1eJA2cdgqQX7qAH_VBuMu0FX5g@mail.gmail.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 26D8978071
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jul 2017 19:17:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 18 Jul 2017 12:17:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,378,1496127600"; d="scan'208";a="1196928342"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2017 12:17:05 -0700
+To: Kang Kai <Kai.Kang@windriver.com>, openembedded-core@lists.openembedded.org
+References: <cover.1499822461.git.kai.kang@windriver.com>
+	<10b67207-e767-0458-c642-20ee38621bd3@windriver.com>
+	<e25b7dde-3a9f-5964-8d63-c3cd60785072@linux.intel.com>
+	<f136d49e-6409-fb63-0c07-a371392761f2@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <33942952-1dcf-d334-5953-63020d14ef83@linux.intel.com>
+Date: Tue, 18 Jul 2017 22:14:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spYtmTfAw8aaayFkKbU1eJA2cdgqQX7qAH_VBuMu0FX5g@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-architecture@lists.openembedded.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] cryptodev: 1.8 -> 1.9
+In-Reply-To: <f136d49e-6409-fb63-0c07-a371392761f2@windriver.com>
+Subject: Re: [PATCH 0/1] bind: 9.10..3-P3 -> 9.10.5-P3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,49 +35,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 18:54:45 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 18 Jul 2017 19:17:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 15, 2017 at 06:13:55AM -0700, Khem Raj wrote:
-> On Thu, Jul 13, 2017 at 3:03 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> >
-> >
-> > On 07/13/2017 05:50 PM, Burton, Ross wrote:
-> >>
-> >>
-> >> On 13 July 2017 at 03:51, Robert Yang <liezhi.yang@windriver.com
-> >> <mailto:liezhi.yang@windriver.com>> wrote:
-> >>
-> >>     BTW, I sent a meta-gplv2 patch to poky@yoctoproject.org
-> >>     <mailto:poky@yoctoproject.org> two days ago, but
-> >>     I didn't find it in poky@yoctoproject.org
-> >> <mailto:poky@yoctoproject.org>,
-> >>     Ross, did you see it, please ?
-> >>     Maybe I should send it again.
-> >>
-> >>
-> >> The list is yocto@yoctoproject.org <mailto:yocto@yoctoproject.org>.
-> >> Please
-> >> resend to the list.
-> >
-> >
-> > Sorry, I had sent it to yocto@lists.yoctoproject.org which is from README,
-> > but
-> > I didn't get it in my mailing list, and I resent it to
-> > yocto@yoctoproject.org
-> > just now, I got it, should we update README, please ?
+On 07/18/2017 05:04 AM, Kang Kai wrote:
+>>>>    bind: 9.10..3-P3 -> 9.10.5-P3
+>>
+>> Why not 9.11.1?
 > 
-> now meta-intel stepped ahead by applying the patch where as OE-Core
-> does not (yet)
-> have this patch applied. meta-intel should have waited for this patch
-> to land in master.
+> If bind 9.11.x is needed, we could add its recipe. But I think the 
+> 9.10.x version should be kept for compatibility.
 
-Should this kind of behavior be addressed by BSP Guidelines and the Yocto 
-Project Compatible 2.0 requirements?
+The policy in oe-core master is to update to latest stable upstream 
+releases, so please provide an update to 9.11.x. If you want to keep 
+9.10.x, you can do that, but please provide a more specific reason.
 
-Also, which BSPs are enabled on the OE-Core autobuilder by default?
-
--- 
-Denys
+Alex
 
