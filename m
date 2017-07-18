@@ -1,28 +1,30 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A104277BF0
+Return-Path: <bianyq@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EDA477E9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jul 2017 02:06:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6I26PiW021812
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Jul 2017 19:06:25 -0700 (PDT)
-Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 17 Jul 2017 19:06:24 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1499241206.git.kai.kang@windriver.com>
-	<b11709a0-3c5e-9bbf-9b09-b94768ae5f09@linux.intel.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <21473033-fecc-2951-e251-49815a822e1f@windriver.com>
-Date: Tue, 18 Jul 2017 10:09:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 18 Jul 2017 02:06:56 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21422028"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Jul 2017 10:06:55 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 68A6846B5252
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jul 2017 10:06:51 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.29) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Tue, 18 Jul 2017 10:06:51 +0800
+From: Bian Yaqin <bianyq@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Jul 2017 04:06:18 -0700
+Message-ID: <1500375978-9980-1-git-send-email-bianyq@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <b11709a0-3c5e-9bbf-9b09-b94768ae5f09@linux.intel.com>
-Subject: Re: [PATCH 0/2] Introduce a distro feature openssl-no-weak-ciphers
+X-Originating-IP: [10.167.226.29]
+X-yoursite-MailScanner-ID: 68A6846B5252.A3A2D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: bianyq@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] screen 4.5.1 -> 4.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jul 2017 02:06:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 18 Jul 2017 02:06:57 -0000
+Content-Type: text/plain
 
-On 2017年07月17日 21:20, Alexander Kanavin wrote:
-> On 07/05/2017 10:58 AM, kai.kang@windriver.com wrote:
->
->> Introduce a distro feature openssl-no-weak-ciphers to make openssl 
->> disable weak
->> ciphers support, including:
->>
->> * des
->> * ec
->> * ecdh
->> * ecdsa
->> * md2
->> * mdc2
->
-> How are those handled in openssl 1.1? If they are disabled by default, 
-> then maybe the whole distro feature is not needed when 1.1 is in oe-core.
+Update screen from 4.5.1 to 4.6.0
 
-It depends on whether all the packages which depends on openssl in Yocto 
-have options to disable such weak ciphers. I am afraid it could not build
-some packages if disable these weak ciphers by default.
+Signed-off-by: Bian Yaqin <bianyq@cn.fujitsu.com>
+---
+ meta/recipes-extended/screen/{screen_4.5.1.bb => screen_4.6.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/screen/{screen_4.5.1.bb => screen_4.6.0.bb} (93%)
 
-Thanks,
-Kai
-
->
-> Alex
->
->
-> Alex
->
-
+diff --git a/meta/recipes-extended/screen/screen_4.5.1.bb b/meta/recipes-extended/screen/screen_4.6.0.bb
+similarity index 93%
+rename from meta/recipes-extended/screen/screen_4.5.1.bb
+rename to meta/recipes-extended/screen/screen_4.6.0.bb
+index 32c1a5a..a41efe9 100644
+--- a/meta/recipes-extended/screen/screen_4.5.1.bb
++++ b/meta/recipes-extended/screen/screen_4.6.0.bb
+@@ -26,8 +26,8 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0001-fix-for-multijob-build.patch \
+           "
+ 
+-SRC_URI[md5sum] = "a8c5da2f42f8a18fa4dada2419d1549b"
+-SRC_URI[sha256sum] = "97db2114dd963b016cd4ded34831955dcbe3251e5eee45ac2606e67e9f097b2d"
++SRC_URI[md5sum] = "af60f716c4ec134712b923ef6cd93848"
++SRC_URI[sha256sum] = "9433706b653e941cc4c745f28e252e57be2a141eded923e61cc2c4a09768fed4"
+ 
+ inherit autotools texinfo
+ 
 -- 
-Regards,
-Neil | Kai Kang
+2.7.4
+
+
 
 
