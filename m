@@ -1,47 +1,22 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 96F2478250
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C6C978250
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 16:46:56 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id c24so5104983wra.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 09:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wmvoDhO6cpnnA6BicrpmIYL1efQu0zC/MsZMI2bz9bw=;
-	b=n58Q9NM0aQWzG6thbw9cdDoBA3aZ9F0b+v2vv9PUiDNIBzV6xJfmaHy896aqCE2Ypn
-	n6mBOVGdK2S/vW+qe2c3gcz/eI9tUR5W3TPCHPYb1sqJ7YiR5j8+CE72HJ4ZFwVsaLQ3
-	5tjw0G4sz0IUSydd9P0FBt2XIr11bN2FC6J9+51zkr+4FKGNKxmC+gtgM0gVT/N2V1XF
-	03T1LURQLB7UUhGx4Zf/UAlvaLfzJf7GCYqXsf8zmG3du7fbZGJVe1T+f8cb9LcgsuWh
-	CrMvclogSZvR1tEpbooF0Vt3h/Rq0OhG1r5NOLJ+fSHU4IzGUEqAMXulY2Sy2Uc1TCuq
-	0EXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wmvoDhO6cpnnA6BicrpmIYL1efQu0zC/MsZMI2bz9bw=;
-	b=g/VXTZP8BUV+F8GsbGncs4xVCM3Dqvi8kz6i2BEnXV4i0+fnUpHekKWdXCO0JLRbS2
-	zvlVUfpHcgvMC2mUgCLqR1Nie4dFWdU/COZQyVlL4+gsGm7I8uq1KYBDZOdDM14xhLZ5
-	bkQMRJBozVcokFy2vM5ijCOXjJftzaZ5DZX/4GnkmCR8JBLQlCsmUEnURMnHIyMJr8yT
-	u5HFWYz8Wg88VQBCIbbtjXRFCrDSEq/c/miq1gIt/rqBAeNUs2ZnAeKG3tkDRzBKqnrU
-	/QBD66evkkK0n+U5GwWlipKfrCDyX3fEdjuyXdEmMKq435F8qQeiG1Eiazz1Qcpfp0V+
-	OGTA==
-X-Gm-Message-State: AIVw110xvZkXxde4c+axMMsFqsdcRUD2O28Asfp+wY9AAGLZfsei26lb
-	QgroO7SBptsBYo96y/yqzrCR8LZUZQ==
-X-Received: by 10.223.151.82 with SMTP id r76mr4631460wrb.6.1500482817342;
-	Wed, 19 Jul 2017 09:46:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.175.16 with HTTP; Wed, 19 Jul 2017 09:46:56 -0700 (PDT)
-In-Reply-To: <80eaf75bf2474828501d52875bf724f28cdecb64.1500470150.git.alexander.kanavin@linux.intel.com>
-References: <cover.1500470150.git.alexander.kanavin@linux.intel.com>
-	<80eaf75bf2474828501d52875bf724f28cdecb64.1500470150.git.alexander.kanavin@linux.intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 19 Jul 2017 09:46:56 -0700
-Message-ID: <CAJ86T=VpVNn+K21qdJ+zAYtMCaH+0R8EOSEwNz1ZaTzMYSa+4g@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] openssh: depend on openssl 1.0
+	Wed, 19 Jul 2017 16:50:07 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 19 Jul 2017 09:50:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,381,1496127600"; d="scan'208";a="288875959"
+Received: from jalamego-mobl3.zpn.intel.com ([10.219.128.135])
+	by fmsmga004.fm.intel.com with ESMTP; 19 Jul 2017 09:50:03 -0700
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jul 2017 11:50:02 -0500
+Message-Id: <1500483002-4513-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1498585826-15752-1-git-send-email-jose.a.lamego@linux.intel.com>
+References: <1498585826-15752-1-git-send-email-jose.a.lamego@linux.intel.com>
+Subject: [PATCH] python3-git: upgrade to 2.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +29,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 16:46:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Jul 2017 16:50:08 -0000
 
-On Wed, Jul 19, 2017 at 6:19 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> The proposed openssl 1.1 patches are here:
-> https://github.com/openssh/openssh-portable/pull/48
->
-> Openssl maintainers are not in a hurry to get 1.1 support in;
+python3-git needs to be upgraded to latest upstream version.
 
-Openssh maintainers?
+"git" is added as RDEPENDS.
 
-> if it doesn't show up within reasonable time, we can take a patch
-> from Fedora:
-> http://lists.mindrot.org/pipermail/openssh-unix-dev/2016-November/035454.html
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-connectivity/openssh/openssh_7.5p1.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> index 7bd313bb4e8..3b8fd7d1cc5 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-> @@ -8,7 +8,8 @@ SECTION = "console/network"
->  LICENSE = "BSD"
->  LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
->
-> -DEPENDS = "zlib openssl"
-> +# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
-> +DEPENDS = "zlib openssl10"
->  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->
->  SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
-> --
-> 2.13.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+These changes were tested using qemux86 with core-image-minimal.
+
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+---
+
+Notes:
+    This patch replaces previous submission for updating both
+    python-git and python3-git recipes, due to python-git being
+    removed in commit 1fc2c9315faf65ea05fecf81450dd40b9a330435
+
+ meta/recipes-devtools/python/python-git.inc                           | 4 ++--
+ .../python/{python3-git_2.1.3.bb => python3-git_2.1.5.bb}             | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_2.1.3.bb => python3-git_2.1.5.bb} (81%)
+
+diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
+index 825e795d9..777608c 100644
+--- a/meta/recipes-devtools/python/python-git.inc
++++ b/meta/recipes-devtools/python/python-git.inc
+@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "6cd18008c03a767740f3bf6d89ef79bc"
+-SRC_URI[sha256sum] = "3826185b11e1fc372e7d31251e9b65e11ccb7c27f82c771d619048bdb5b66c81"
++SRC_URI[md5sum] = "df94212b19d270a625b67b4c84ac9a41"
++SRC_URI[sha256sum] = "5c00cbd256e2b1d039381d4f7d71fcb7ee5cc196ca10c101ff7191bd82ab5d9c"
+ 
+ UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
+ UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
+diff --git a/meta/recipes-devtools/python/python3-git_2.1.3.bb b/meta/recipes-devtools/python/python3-git_2.1.5.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-git_2.1.3.bb
+rename to meta/recipes-devtools/python/python3-git_2.1.5.bb
+index 7a2d452..4ac2a0e 100644
+--- a/meta/recipes-devtools/python/python3-git_2.1.3.bb
++++ b/meta/recipes-devtools/python/python3-git_2.1.5.bb
+@@ -4,4 +4,4 @@ DEPENDS = "python3-gitdb"
+ 
+ inherit setuptools3
+ 
+-RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse"
++RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse git"
+-- 
+2.7.4
+
 
