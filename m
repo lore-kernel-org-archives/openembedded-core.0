@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D95578275;
-	Thu, 20 Jul 2017 03:31:18 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Phoong Stanley Cheong Kwan <stanley.cheong.kwan.phoong@intel.com>
-Date: Thu, 20 Jul 2017 03:31:20 -0000
-Message-ID: <20170720033120.2383.36174@do.openembedded.org>
-References: <1500521197-6119-1-git-send-email-stanley.cheong.kwan.phoong@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1500521197-6119-1-git-send-email-stanley.cheong.kwan.phoong@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcmVjaXBldG9vbDogY3JlYXRlOiBoYW5kbGUgZ2l0IFVSTHMgc3BlY2lmeWluZyBvbmx5IGEgdGFn?=
+Return-Path: <swee.aun.khor@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id AD0B678265
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 03:40:07 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jul 2017 20:40:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,382,1496127600"; d="scan'208";a="113344706"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by orsmga002.jf.intel.com with ESMTP; 19 Jul 2017 20:40:08 -0700
+From: swee.aun.khor@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jul 2017 13:29:41 -0700
+Message-Id: <82e8a77a71e50e2cc00318226a42ced7d6a0909c.1500495522.git.swee.aun.khor@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1500495522.git.swee.aun.khor@intel.com>
+References: <cover.1500495522.git.swee.aun.khor@intel.com>
+Subject: [PATCH 1/2] openssl: Support musl-x32 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +30,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 03:31:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Jul 2017 03:40:07 -0000
 
-== Series Details ==
+From: sweeaun <swee.aun.khor@intel.com>
 
-Series: recipetool: create: handle git URLs specifying only a tag
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7824/
-State : failure
+Support musl-x32 build which to build openssl with 32 bits.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at c4c2fb3732)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-connectivity/openssl/openssl.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index ce295e8..a56bd6e 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -66,7 +66,8 @@ do_configure () {
+ 	case $os in
+ 	linux-gnueabi |\
+ 	linux-gnuspe |\
+-	linux-musl*)
++	linux-musleabi |\
++	linux-muslspe)
+ 		os=linux
+ 		;;
+ 		*)
+@@ -98,7 +99,7 @@ do_configure () {
+ 	linux-i686)
+ 		target=debian-i386-i686/cmov
+ 		;;
+-	linux-gnux32-x86_64)
++	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
+ 		target=linux-x32
+ 		;;
+ 	linux-gnu64-x86_64)
+-- 
+2.7.4
 
 
