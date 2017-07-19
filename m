@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B2DDA782B8
+	by mail.openembedded.org (Postfix) with ESMTP id 0B88F78242
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 13:21:42 +0000 (UTC)
+	Wed, 19 Jul 2017 13:21:47 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jul 2017 06:21:44 -0700
+	19 Jul 2017 06:21:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,381,1496127600"; d="scan'208";a="994712724"
+X-IronPort-AV: E=Sophos;i="5.40,381,1496127600"; d="scan'208";a="994712728"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 19 Jul 2017 06:21:43 -0700
+	by orsmga003.jf.intel.com with ESMTP; 19 Jul 2017 06:21:44 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jul 2017 16:19:12 +0300
-Message-Id: <571916e680e89f87b57825ef823104e525fed7db.1500470150.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 19 Jul 2017 16:19:13 +0300
+Message-Id: <d92def44edfc648ab9b186dc919453a9e6ed6432.1500470150.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1500470150.git.alexander.kanavin@linux.intel.com>
 References: <cover.1500470150.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 4/5] gstreamer-plugins-bad: replace openssl dependency with nettle for hls plugin
+Subject: [PATCH 5/5] u-boot: Upgrade to 2017.07 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,31 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 13:21:42 -0000
+X-List-Received-Date: Wed, 19 Jul 2017 13:21:47 -0000
 
-It has not been ported to openssl 1.1 (and there's nothing in upstream git),
-but it's possible to use nettle or gcrypt intead.
+From: Otavio Salvador <otavio@ossystems.com.br>
 
+This patch upgrades the U-Boot to the 2017.07 release.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ .../u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc}     | 2 +-
+ .../u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb}   | 0
+ .../u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb}     | 0
+ meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb}        | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-common_2017.05.inc => u-boot-common_2017.07.inc} (88%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.05.bb => u-boot-fw-utils_2017.07.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.05.bb => u-boot-mkimage_2017.07.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2017.05.bb => u-boot_2017.07.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index e964fef3f20..7427772a45f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -40,9 +40,7 @@ PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
- PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
- PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
- PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
--# ensure OpenSSL is used for HLS AES description instead of nettle
--# (OpenSSL is a shared dependency with dtls)
--PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl"
-+PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
- PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
- PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
- PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+similarity index 88%
+rename from meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
+rename to meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+index 0e52f27df8c..f27989daa17 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2017.05.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+@@ -7,7 +7,7 @@ PE = "1"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "64c4ffa9fa223f7ae8640f9c8f3044bfa0e3bfda"
++SRCREV = "d85ca029f257b53a96da6c2fb421e78a003a9943"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git \
+     file://MPC8315ERDB-enable-DHCP.patch \
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.05.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.05.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.05.bb b/meta/recipes-bsp/u-boot/u-boot_2017.07.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2017.05.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2017.07.bb
 -- 
 2.13.2
 
