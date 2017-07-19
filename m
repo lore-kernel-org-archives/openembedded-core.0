@@ -1,21 +1,29 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id EA8AD782F3
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E302978301
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 16:12:15 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jul 2017 09:12:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,381,1496127600"; d="scan'208";a="129340966"
-Received: from jalamego-mobl3.zpn.intel.com ([10.219.128.135])
-	by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2017 09:12:16 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
+	Wed, 19 Jul 2017 16:33:07 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v6JGX5EZ007362
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 19 Jul 2017 17:33:06 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dXruL-0005YE-6C; Wed, 19 Jul 2017 17:33:05 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jul 2017 11:12:17 -0500
-Message-Id: <1500480737-15100-1-git-send-email-jose.a.lamego@linux.intel.com>
+Date: Wed, 19 Jul 2017 17:33:01 +0100
+Message-Id: <1500481982-21294-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] python3-mako: update to 1.0.7
+In-Reply-To: <1500481982-21294-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1500481982-21294-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 19 Jul 2017 17:33:06 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 2/3] devtool: Setup logging before calling prepare
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,37 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 16:12:16 -0000
+X-List-Received-Date: Wed, 19 Jul 2017 16:33:08 -0000
 
-python3-mako need to be upgraded to latest upstream version.
-This change was tested using qemux86 with core-image-minimal
+This avoids test failures like:
 
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+INFO - ======================================================================
+INFO - FAIL [1.755s]: test_devtool_layer_plugins (devtool.DevtoolTests)
+INFO - ----------------------------------------------------------------------
+INFO - Traceback (most recent call last):
+  File "/media/build1/poky/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
+    return func(*args, **kwargs)
+  File "/media/build1/poky/meta/lib/oeqa/selftest/cases/devtool.py", line 1354, in test_devtool_layer_plugins
+    self.assertEqual(result.output, s[::-1])
+AssertionError: "NOTE: Starting bitbake server...\noY senu[36 chars]rciM" != "oY senuZ s'enoynA morF tiforP oN edaM tfosorciM"
+- NOTE: Starting bitbake server...
+  oY senuZ s'enoynA morF tiforP oN edaM tfosorciM
+INFO - ----------------------------------------------------------------------
+
+since there is corruption in the output. Setting the logging up before
+calling tinfoil.prepare() resolves this.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python-mako.inc                          | 4 ++--
- .../python/{python3-mako_1.0.6.bb => python3-mako_1.0.7.bb}           | 0
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-mako_1.0.6.bb => python3-mako_1.0.7.bb} (100%)
+ scripts/lib/devtool/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
-index 10364db..ba50675 100644
---- a/meta/recipes-devtools/python/python-mako.inc
-+++ b/meta/recipes-devtools/python/python-mako.inc
-@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1bb21fa2d2f7a534c884b990430a6863"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/M/Mako/Mako-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "a28e22a339080316b2acc352b9ee631c"
--SRC_URI[sha256sum] = "48559ebd872a8e77f92005884b3d88ffae552812cdf17db6768e5c3be5ebbe0d"
-+SRC_URI[md5sum] = "5836cc997b1b773ef389bf6629c30e65"
-+SRC_URI[sha256sum] = "4e02fde57bd4abb5ec400181e4c314f56ac3e49ba4fb8b0d50bba18cb27d25ae"
- 
- UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/mako/"
- UPSTREAM_CHECK_REGEX = "/Mako/(?P<pver>(\d+[\.\-_]*)+)"
-diff --git a/meta/recipes-devtools/python/python3-mako_1.0.6.bb b/meta/recipes-devtools/python/python3-mako_1.0.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-mako_1.0.6.bb
-rename to meta/recipes-devtools/python/python3-mako_1.0.7.bb
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index bba0721..b231e46 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -115,8 +115,8 @@ def setup_tinfoil(config_only=False, basepath=None, tracking=False):
+         import bb.tinfoil
+         tinfoil = bb.tinfoil.Tinfoil(tracking=tracking)
+         try:
+-            tinfoil.prepare(config_only)
+             tinfoil.logger.setLevel(logger.getEffectiveLevel())
++            tinfoil.prepare(config_only)
+         except bb.tinfoil.TinfoilUIException:
+             tinfoil.shutdown()
+             raise DevtoolError('Failed to start bitbake environment')
 -- 
 2.7.4
 
