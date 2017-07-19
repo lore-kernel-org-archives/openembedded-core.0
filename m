@@ -1,27 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 73DD3781AD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 90A0F781F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 08:16:23 +0000 (UTC)
+	Wed, 19 Jul 2017 08:16:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6J8GL52023370
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 19 Jul 2017 01:16:23 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6J8GOrX014954
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Jul 2017 01:16:24 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 19 Jul 2017 01:16:19 -0700
+	Wed, 19 Jul 2017 01:16:23 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>, <paul.eggleton@linux.intel.com>, 
 	<ross.burton@intel.com>
-Date: Wed, 19 Jul 2017 01:16:08 -0700
-Message-ID: <185c24a8f5d7035445b36cf66b53a8dce54f5591.1500450690.git.liezhi.yang@windriver.com>
+Date: Wed, 19 Jul 2017 01:16:09 -0700
+Message-ID: <bbe1cd6a9b31af464f39783b3fd4cc327990d6e4.1500450690.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1500450690.git.liezhi.yang@windriver.com>
 References: <cover.1500450690.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [RFC PATCH 4/5] runtime/cases/_ptest.py: add skip status
+Subject: [RFC PATCH 5/5] runtime/cases/_ptest.py: rename it to ptest.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,50 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 08:16:23 -0000
+X-List-Received-Date: Wed, 19 Jul 2017 08:16:24 -0000
 Content-Type: text/plain
 
-The packages' test cases maybe skipped, check and save them.
+It works now.
 
 [YOCTO #11547]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/runtime/cases/_ptest.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/{_ptest.py => ptest.py} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/lib/oeqa/runtime/cases/{_ptest.py => ptest.py} (100%)
 
-diff --git a/meta/lib/oeqa/runtime/cases/_ptest.py b/meta/lib/oeqa/runtime/cases/_ptest.py
-index 034bfe98959..9810bd15178 100644
---- a/meta/lib/oeqa/runtime/cases/_ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/_ptest.py
-@@ -10,6 +10,7 @@ class PtestRunnerTest(OERuntimeTestCase):
-     def parse_ptest(self, logfile):
-         parser = Lparser(test_0_pass_regex="^PASS:(.+)",
-                          test_0_fail_regex="^FAIL:(.+)",
-+                         test_0_skip_regex="^SKIP:(.+)",
-                          section_0_begin_regex="^BEGIN: .*/(.+)/ptest",
-                          section_0_end_regex="^END: .*/(.+)/ptest")
-         parser.init()
-@@ -38,6 +39,10 @@ class PtestRunnerTest(OERuntimeTestCase):
-                     result.store(current_section, name, status)
-                     continue
- 
-+                if line_type == 'test' and status == 'skip':
-+                    result.store(current_section, name, status)
-+                    continue
-+
-         result.sort_tests()
-         return result
- 
-@@ -66,7 +71,7 @@ class PtestRunnerTest(OERuntimeTestCase):
- 
-         # Parse and save results
-         parse_result = self.parse_ptest(ptest_runner_log)
--        parse_result.log_as_files(ptest_log_dir, test_status = ['pass','fail'])
-+        parse_result.log_as_files(ptest_log_dir, test_status = ['pass','fail', 'skip'])
-         if os.path.exists(ptest_log_dir_link):
-             os.remove(ptest_log_dir_link)
-         os.symlink(os.path.basename(ptest_log_dir), ptest_log_dir_link)
+diff --git a/meta/lib/oeqa/runtime/cases/_ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+similarity index 100%
+rename from meta/lib/oeqa/runtime/cases/_ptest.py
+rename to meta/lib/oeqa/runtime/cases/ptest.py
 -- 
 2.11.0
 
