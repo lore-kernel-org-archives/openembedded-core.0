@@ -1,26 +1,25 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 493F678245
+Return-Path: <maxin.john@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id E08DE782E8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 14:20:03 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jul 2017 07:20:05 -0700
+	Wed, 19 Jul 2017 15:00:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga104.jf.intel.com with ESMTP; 19 Jul 2017 08:00:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,381,1496127600"; d="scan'208";a="880493182"
-Received: from jalamego-mobl3.zpn.intel.com (HELO [10.219.128.135])
-	([10.219.128.135])
-	by FMSMGA003.fm.intel.com with ESMTP; 19 Jul 2017 07:20:04 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.40,381,1496127600"; d="scan'208";a="1174411206"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2017 08:00:45 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id ED56A58037A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jul 2017 08:00:42 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1498585826-15752-1-git-send-email-jose.a.lamego@linux.intel.com>
-Message-ID: <def4db6d-c7d7-1765-4c5f-a1d4634bcaa9@linux.intel.com>
-Date: Wed, 19 Jul 2017 09:20:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1498585826-15752-1-git-send-email-jose.a.lamego@linux.intel.com>
-Subject: Re: [PATCH] python*-git: Upgrade to version 2.1.5
+Date: Wed, 19 Jul 2017 18:01:20 +0300
+Message-Id: <1500476485-20310-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 1/6] libjpeg-turbo: upgrade to 1.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +32,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 14:20:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 19 Jul 2017 15:00:46 -0000
 
-ping. This may get in before the freeze.
+1.5.1 -> 1.5.2
 
+Remove this backported patch:
+        1. fix-mips.patch
 
-On 06/27/2017 12:50 PM, Jose Lamego wrote:
-> Both python-git and python3-git need to be upgraded to latest
-> upstream version.
->
-> Two RDEPENDS are added: "git" and "python-unittest" to python-git recipe
-> and "git" to python3-git recipe.
->
-> These changes were tested using qemux86 with core-image-minimal.
->
-> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
-> ---
->  meta/recipes-devtools/python/python-git.inc                           | 4 ++--
->  .../python/{python-git_2.1.3.bb => python-git_2.1.5.bb}               | 2 +-
->  .../python/{python3-git_2.1.3.bb => python3-git_2.1.5.bb}             | 2 +-
->  3 files changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-devtools/python/{python-git_2.1.3.bb => python-git_2.1.5.bb} (85%)
->  rename meta/recipes-devtools/python/{python3-git_2.1.3.bb => python3-git_2.1.5.bb} (81%)
->
-> diff --git a/meta/recipes-devtools/python/python-git.inc b/meta/recipes-devtools/python/python-git.inc
-> index 825e795d9..777608c 100644
-> --- a/meta/recipes-devtools/python/python-git.inc
-> +++ b/meta/recipes-devtools/python/python-git.inc
-> @@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8b8d26c37c1d5a04f9b0186edbebc183"
->  
->  SRC_URI = "https://files.pythonhosted.org/packages/source/G/GitPython/GitPython-${PV}.tar.gz"
->  
-> -SRC_URI[md5sum] = "6cd18008c03a767740f3bf6d89ef79bc"
-> -SRC_URI[sha256sum] = "3826185b11e1fc372e7d31251e9b65e11ccb7c27f82c771d619048bdb5b66c81"
-> +SRC_URI[md5sum] = "df94212b19d270a625b67b4c84ac9a41"
-> +SRC_URI[sha256sum] = "5c00cbd256e2b1d039381d4f7d71fcb7ee5cc196ca10c101ff7191bd82ab5d9c"
->  
->  UPSTREAM_CHECK_URI = "https://pypi.python.org/pypi/GitPython/"
->  UPSTREAM_CHECK_REGEX = "/GitPython/(?P<pver>(\d+[\.\-_]*)+)"
-> diff --git a/meta/recipes-devtools/python/python-git_2.1.3.bb b/meta/recipes-devtools/python/python-git_2.1.5.bb
-> similarity index 85%
-> rename from meta/recipes-devtools/python/python-git_2.1.3.bb
-> rename to meta/recipes-devtools/python/python-git_2.1.5.bb
-> index e49dbea..779e606 100644
-> --- a/meta/recipes-devtools/python/python-git_2.1.3.bb
-> +++ b/meta/recipes-devtools/python/python-git_2.1.5.bb
-> @@ -4,4 +4,4 @@ DEPENDS = "python-gitdb"
->  
->  inherit setuptools
->  
-> -RDEPENDS_${PN} += "python-gitdb python-lang python-io python-shell python-math python-re python-subprocess python-stringold python-unixadmin"
-> +RDEPENDS_${PN} += "python-gitdb python-lang python-io python-shell python-math python-re python-subprocess python-stringold python-unixadmin python-unittest git"
-> diff --git a/meta/recipes-devtools/python/python3-git_2.1.3.bb b/meta/recipes-devtools/python/python3-git_2.1.5.bb
-> similarity index 81%
-> rename from meta/recipes-devtools/python/python3-git_2.1.3.bb
-> rename to meta/recipes-devtools/python/python3-git_2.1.5.bb
-> index 7a2d452..4ac2a0e 100644
-> --- a/meta/recipes-devtools/python/python3-git_2.1.3.bb
-> +++ b/meta/recipes-devtools/python/python3-git_2.1.5.bb
-> @@ -4,4 +4,4 @@ DEPENDS = "python3-gitdb"
->  
->  inherit setuptools3
->  
-> -RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse"
-> +RDEPENDS_${PN} += "python3-gitdb python3-lang python3-io python3-shell python3-math python3-re python3-subprocess python3-stringold python3-unixadmin python3-enum python3-logging python3-datetime python3-netclient python3-unittest python3-argparse git"
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../jpeg/libjpeg-turbo/fix-mips.patch              | 45 ----------------------
+ ...bjpeg-turbo_1.5.1.bb => libjpeg-turbo_1.5.2.bb} |  8 ++--
+ 2 files changed, 4 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-graphics/jpeg/libjpeg-turbo/fix-mips.patch
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_1.5.1.bb => libjpeg-turbo_1.5.2.bb} (90%)
 
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo/fix-mips.patch b/meta/recipes-graphics/jpeg/libjpeg-turbo/fix-mips.patch
+deleted file mode 100644
+index 4d41237..0000000
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo/fix-mips.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-Fix a regression that causes the MIPS code from building.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 7bfb22af123ac10798a9a4c9ec7b23e5065db35e Mon Sep 17 00:00:00 2001
+-From: DRC <information@libjpeg-turbo.org>
+-Date: Mon, 26 Sep 2016 17:59:14 -0500
+-Subject: [PATCH] Fix broken MIPS build
+-
+-Regression introduced by 9055fb408dcb585ce9392d395e16630d51002152
+-
+-Fixes #104
+----
+- ChangeLog.md      | 3 +++
+- simd/jsimd_mips.c | 2 ++
+- 2 files changed, 5 insertions(+)
+-
+-diff --git a/ChangeLog.md b/ChangeLog.md
+-index e2b9df3..71ddcaa 100644
+---- a/ChangeLog.md
+-+++ b/ChangeLog.md
+-@@ -6,6 +6,9 @@
+- 1. Fixed a regression introduced by 1.5.1[7] that prevented libjpeg-turbo from
+- building with Android NDK platforms prior to android-21 (5.0).
+- 
+-+2. Fixed a regression introduced by 1.5.1[1] that prevented the MIPS DSPR2 SIMD
+-+code in libjpeg-turbo from building.
+-+
+- 
+- 1.5.1
+- =====
+-diff --git a/simd/jsimd_mips.c b/simd/jsimd_mips.c
+-index 63b8115..02e90cd 100644
+---- a/simd/jsimd_mips.c
+-+++ b/simd/jsimd_mips.c
+-@@ -63,6 +63,8 @@ parse_proc_cpuinfo(const char* search_string)
+- LOCAL(void)
+- init_simd (void)
+- {
+-+  char *env = NULL;
+-+
+-   if (simd_support != ~0U)
+-     return;
+- 
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.2.bb
+similarity index 90%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.2.bb
+index de2eeaf..58646d3 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.1.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.2.bb
+@@ -10,10 +10,10 @@ LIC_FILES_CHKSUM = "file://cdjpeg.h;endline=13;md5=05bab7c7ad899d85bfba60da1a127
+ DEPENDS_append_x86-64_class-target = " nasm-native"
+ DEPENDS_append_x86_class-target    = " nasm-native"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+-           file://fix-mips.patch"
+-SRC_URI[md5sum] = "55deb139b0cac3c8200b75d485fc13f3"
+-SRC_URI[sha256sum] = "41429d3d253017433f66e3d472b8c7d998491d2f41caa7306b8d9a6f2a2c666c"
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "6b4923e297a7eaa255f08511017a8818"
++SRC_URI[sha256sum] = "9098943b270388727ae61de82adec73cf9f0dbb240b3bc8b172595ebf405b528"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
 -- 
-Jose Lamego | OTC Embedded Platform & Tools | GDC
+2.4.0
 
 
