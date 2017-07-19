@@ -1,27 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 37913781F2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 961A2781F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 08:16:18 +0000 (UTC)
+	Wed, 19 Jul 2017 08:16:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6J8GFu4023367
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 19 Jul 2017 01:16:17 -0700
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6J8GJm1006544
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Jul 2017 01:16:19 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 19 Jul 2017 01:16:11 -0700
+	Wed, 19 Jul 2017 01:16:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>, <paul.eggleton@linux.intel.com>, 
 	<ross.burton@intel.com>
-Date: Wed, 19 Jul 2017 01:16:05 -0700
-Message-ID: <0b66c3ab46530306b4a353372695fa19e972c521.1500450690.git.liezhi.yang@windriver.com>
+Date: Wed, 19 Jul 2017 01:16:07 -0700
+Message-ID: <17d574da98da1378304b29524e365be6121048c1.1500450690.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1500450690.git.liezhi.yang@windriver.com>
 References: <cover.1500450690.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [RFC PATCH 1/5] oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
+Subject: [RFC PATCH 3/5] oeqa/utils/logparser.py: add skip status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +37,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 19 Jul 2017 08:16:19 -0000
 Content-Type: text/plain
 
-The "if qemu_use_kvm" is not needed.
+Some test cases maybe skipped, let's parse it.
+
+[YOCTO #11547]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/lib/oeqa/targetcontrol.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/utils/logparser.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 3255e3a5c63..11e6c820e85 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -132,9 +132,8 @@ class QemuTarget(BaseTarget):
-         dump_host_cmds = d.getVar("testimage_dump_host")
-         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
-         qemu_use_kvm = d.getVar("QEMU_USE_KVM")
--        if qemu_use_kvm and \
--           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
--            d.getVar("MACHINE") in qemu_use_kvm.split()):
-+        if qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
-+            d.getVar("MACHINE") in qemu_use_kvm.split():
-             use_kvm = True
-         else:
-             use_kvm = False
+diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
+index b377dcd2716..4355ce0b767 100644
+--- a/meta/lib/oeqa/utils/logparser.py
++++ b/meta/lib/oeqa/utils/logparser.py
+@@ -9,7 +9,7 @@ from . import ftools
+ # A parser that can be used to identify weather a line is a test result or a section statement.
+ class Lparser(object):
+ 
+-    def __init__(self, test_0_pass_regex, test_0_fail_regex, section_0_begin_regex=None, section_0_end_regex=None, **kwargs):
++    def __init__(self, test_0_pass_regex, test_0_fail_regex, test_0_skip_regex, section_0_begin_regex=None, section_0_end_regex=None, **kwargs):
+         # Initialize the arguments dictionary
+         if kwargs:
+             self.args = kwargs
+@@ -19,12 +19,13 @@ class Lparser(object):
+         # Add the default args to the dictionary
+         self.args['test_0_pass_regex'] = test_0_pass_regex
+         self.args['test_0_fail_regex'] = test_0_fail_regex
++        self.args['test_0_skip_regex'] = test_0_skip_regex
+         if section_0_begin_regex:
+             self.args['section_0_begin_regex'] = section_0_begin_regex
+         if section_0_end_regex:
+             self.args['section_0_end_regex'] = section_0_end_regex
+ 
+-        self.test_possible_status = ['pass', 'fail', 'error']
++        self.test_possible_status = ['pass', 'fail', 'error', 'skip']
+         self.section_possible_status = ['begin', 'end']
+ 
+         self.initialized = False
 -- 
 2.11.0
 
