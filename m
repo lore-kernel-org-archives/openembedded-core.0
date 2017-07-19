@@ -1,25 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CFED6060F
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 37913781F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 08:16:11 +0000 (UTC)
+	Wed, 19 Jul 2017 08:16:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6J8GAqN006541
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Jul 2017 01:16:10 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6J8GFu4023367
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 19 Jul 2017 01:16:17 -0700
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 19 Jul 2017 01:16:10 -0700
+	Wed, 19 Jul 2017 01:16:11 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>, <paul.eggleton@linux.intel.com>, 
 	<ross.burton@intel.com>
-Date: Wed, 19 Jul 2017 01:16:04 -0700
-Message-ID: <cover.1500450690.git.liezhi.yang@windriver.com>
+Date: Wed, 19 Jul 2017 01:16:05 -0700
+Message-ID: <0b66c3ab46530306b4a353372695fa19e972c521.1500450690.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.1500450690.git.liezhi.yang@windriver.com>
+References: <cover.1500450690.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [RFC PATCH 0/5] revive runtime/cases/_ptest.py
+Subject: [RFC PATCH 1/5] oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 08:16:11 -0000
+X-List-Received-Date: Wed, 19 Jul 2017 08:16:19 -0000
 Content-Type: text/plain
 
-Hello,
+The "if qemu_use_kvm" is not needed.
 
-These patches can make ptest test case work, RP has suggested we write a tool to
-do the regression check on ptest result, I think that the use case is like:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oeqa/targetcontrol.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-$ bitbake <image> -ctestiamge # Suppose we add ptest to default test cases in the future
-# Upgrade a recipe form V1.0 to V1.1
-$ bitbake <image> -ctestiamge # Run the test again
-
-Then the regression check tool can report what's different (passed, failed,
-skipped) between V1.0 and V1.1.
-
-Currently, I'm not sure about where to save the ptest results, I saved it to
-${WORKDIR}/testimage/ptest_log atm, e.g.:
-tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/testimage/ptest_log
-
-But it will be removed after -cclean, then no regression check can be made, so
-I'd like to save the ptest results to DEPLOY_DIR_IMAGE if no objections, and
-make -cclean not remove them. (Or only keep the latest 2 results).
-
-And I'm not sure where to add the regression check/tool, maybe one of:
-1) Add a separate tool in oe-core/scripts, this can make it easy to do regression
-   check among different build directories, and runtime/cases/_ptest.py can invoke it.
-2) Add it to runtime/cases/_ptest.py directly
-3) Add it to buildhistory
-
-I prefer the first one, please feel free to give your comments.
-
-// Robert
-
-The following changes since commit ef68005a8c527e9b1d05b7769f0ec8ebe9ec3f91:
-
-  webkitgtk: Upgrade to 2.16.5 (2017-07-17 13:49:04 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/ptest
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ptest
-
-Robert Yang (5):
-  oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
-  runtime/cases/_ptest.py: revive it
-  oeqa/utils/logparser.py: add skip status
-  runtime/cases/_ptest.py: add skip status
-  runtime/cases/_ptest.py: rename it to ptest.py
-
- meta/lib/oeqa/runtime/cases/_ptest.py | 103 ----------------------------------
- meta/lib/oeqa/runtime/cases/ptest.py  |  77 +++++++++++++++++++++++++
- meta/lib/oeqa/targetcontrol.py        |   5 +-
- meta/lib/oeqa/utils/logparser.py      |   5 +-
- 4 files changed, 82 insertions(+), 108 deletions(-)
- delete mode 100644 meta/lib/oeqa/runtime/cases/_ptest.py
- create mode 100644 meta/lib/oeqa/runtime/cases/ptest.py
-
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 3255e3a5c63..11e6c820e85 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -132,9 +132,8 @@ class QemuTarget(BaseTarget):
+         dump_host_cmds = d.getVar("testimage_dump_host")
+         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+         qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+-        if qemu_use_kvm and \
+-           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
+-            d.getVar("MACHINE") in qemu_use_kvm.split()):
++        if qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
++            d.getVar("MACHINE") in qemu_use_kvm.split():
+             use_kvm = True
+         else:
+             use_kvm = False
 -- 
 2.11.0
 
