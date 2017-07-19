@@ -1,51 +1,51 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1A7782B5
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id EB062782B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 13:26:00 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id k71so5101346wrc.2
+	Wed, 19 Jul 2017 13:27:35 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id v105so28447656wrb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 06:26:02 -0700 (PDT)
+	Wed, 19 Jul 2017 06:27:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=OGk16lRMWjLNsj3Ss913LXyeoBsxuI1TsFbL1ffZyBk=;
-	b=DKYyuRCEUjXQxM5fQv5h3PqyOCEmwEjbKB5KZnXgjHLtzZRTGFrXi27Y8+mAWabcY/
-	UAfbu6ZgUwhA9f2u9g/NaWGmpO3ikoFtg54jmtWP5cUxodtDfwcJtIfA/X2UPyT3Rrkm
-	rZiowmW40jnwTxFZr8+APsPya4my19AqcG8JBi4KLfb7qSHsuF0V9hHqcjxfTbGUVGED
-	ZE+6+f0Vgv8ZwGpqqg0vmw/8+xfEfhHNiAT/9gliEvlIMTgJsc709lwVC/Igj8gPdGqp
-	sM7XMXRW9EBi2SHPYCX/8Z+6HE+9aStRKWYp7C4f9d4XxTCKHQoPtUFP+Ls1BfXGfegu
-	wWeA==
+	bh=kGmFCaLiC4RoMOJvOaQ9+Hm6vznW5Tyv6BxJD8IH3C8=;
+	b=vGMASMfh+Nq5yefYd9WSSI9t5HT+Bfg5FpZ36LLM4Il2cE5nukPuelkcbdLv1USk/B
+	pPa8vQxAAwQkB6/WC9ltrVaV5Bs/ZXAs6K1S+OqEWwvlNXJvt4H5X1oMhAA0c/OcYNNd
+	wtlDMUk0eTRXukAZNMlQ3srG/OFntKCHT2BlyenkTozrVmv6w0+IijU0LMc/HkrPxBaB
+	Hvq2yK8pM4BdC9DEAa8IHxrbJykk2IDJ7bw9mJ+S9ReeX/fAm5CPR45vcFF4CDhb79RT
+	ZvnW/WbF0Nu8gYNs5M13NqtwKFp9SQqnhaAzjN5E64yGqbSvbGL3Ap+o0D8vNETFtKe7
+	XXfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=OGk16lRMWjLNsj3Ss913LXyeoBsxuI1TsFbL1ffZyBk=;
-	b=RvbsWMJlcB6nh1UggV8cr3fuxcgPurc22ygf+vkv1BczMunTAlqZy1xDggjCKSdull
-	1L7sjLmxfaJdGoMbKyqCt+bXrNhP5UiLTEhNwvgWqU+CHu2F6WIzdWy6z0UZ3kz+EX2G
-	pnz3xTm5//+3QRQjUXoNcqDsJWwxHpV/USLdh+U6ayhBt9pPp4lRaK7AsTQ48sFYsJ84
-	4tf6IhFSguyMGP95Yner/udtVEP4yc3diGtZ2BGRHwccTQKWvsLFGuP52/286/6TmjYA
-	lED7i6ln2JkZg5g84IC4oxegLme8sRJH+x466N0sSb3uSDIBodF8ndTYfCgZewJg1hGu
-	FW/A==
-X-Gm-Message-State: AIVw11242fEy+cDESvah8Rtn4IQdgILGBSCCX9w1pJAWCWXZb6EAB771
-	/4XibiGsvY9HytZzYWE=
-X-Received: by 10.223.154.183 with SMTP id a52mr4425550wrc.47.1500470761468;
-	Wed, 19 Jul 2017 06:26:01 -0700 (PDT)
+	bh=kGmFCaLiC4RoMOJvOaQ9+Hm6vznW5Tyv6BxJD8IH3C8=;
+	b=Ji5YgU/d8BAskXI/jAt8xt5URSTlsvKJ5QG60G3m+fnPEi0yV6I09Ohkfk5FGx3b/R
+	ErL81xNTvv5kYNe8/IkgKSP+zgfn0jfqTTGTECjtephN/vOE+6hh4hNVHfP6e2PstuOg
+	x2Toqu97qGq4utHjGHCdFWwKT9uWAS3jC58EDz5l0YGQsBADYWLIj9oPY8rz4x4V23Yn
+	VYYJkW2G8TGJcvstwcAQVK07rkGj1R6/pDnaX6NnR88RtlThTOkRMaa70clOZTfVK0Ml
+	15Nz9C7R+gARzfGahEznF3v2smtP70gmWOtBPaZKHJ659aPLCKIYvJQSZQ+JTlh3KjYs
+	pu+Q==
+X-Gm-Message-State: AIVw111BAsY8MDXDPcOGxiTQILJgKgJjNLIfYsPMJaourTNE8cnHIX1C
+	qMg2SVi4vuIKzzYO940=
+X-Received: by 10.223.149.65 with SMTP id 59mr382341wrs.292.1500470856782;
+	Wed, 19 Jul 2017 06:27:36 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	p23sm4740453wrc.35.2017.07.19.06.26.00
+	l31sm5911891wrc.12.2017.07.19.06.27.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Jul 2017 06:26:00 -0700 (PDT)
+	Wed, 19 Jul 2017 06:27:36 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jul 2017 14:25:53 +0100
-Message-Id: <20170719132553.5979-2-ross.burton@intel.com>
+Date: Wed, 19 Jul 2017 14:27:32 +0100
+Message-Id: <20170719132732.6933-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170719132553.5979-1-ross.burton@intel.com>
-References: <20170719132553.5979-1-ross.burton@intel.com>
-Subject: [PATCH 2/2] libgcrypt: upgrade to 1.7.8
+In-Reply-To: <20170719132732.6933-1-ross.burton@intel.com>
+References: <20170719132732.6933-1-ross.burton@intel.com>
+Subject: [PATCH][krogoth 2/2] libgcrypt: fix CVE-2017-9526
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +58,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 13:26:01 -0000
+X-List-Received-Date: Wed, 19 Jul 2017 13:27:36 -0000
 
-Fixes CVE-2017-7526, 'flush+reload side-channel attack on RSA secret keys dubbed
-"Sliding right into disaster"'.
+In libgcrypt before 1.7.7, an attacker who learns the EdDSA session key (from
+side-channel observation during the signing process) can easily recover the
+long-term secret key. 1.7.7 makes a cipher/ecc-eddsa.c change to store this
+session key in secure memory, to ensure that constant-time point operations are
+used in the MPI library.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libgcrypt/{libgcrypt_1.7.7.bb => libgcrypt_1.7.8.bb}              | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.7.7.bb => libgcrypt_1.7.8.bb} (92%)
+ ...-Store-EdDSA-session-key-in-secure-memory.patch | 39 ++++++++++++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.7.7.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.7.8.bb
-similarity index 92%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.7.7.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.7.8.bb
-index 7f7d852fb3b..83351594ea1 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.7.7.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.7.8.bb
-@@ -21,8 +21,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
+diff --git a/meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch b/meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch
+new file mode 100644
+index 00000000000..f6c4ca76f33
+--- /dev/null
++++ b/meta/recipes-support/libgcrypt/files/0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch
+@@ -0,0 +1,39 @@
++CVE: CVE-2017-9526
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From b3cab278eb9c2ceda79f980bc26460d97f260041 Mon Sep 17 00:00:00 2001
++From: Jo Van Bulck <jo.vanbulck@cs.kuleuven.be>
++Date: Thu, 19 Jan 2017 17:00:15 +0100
++Subject: [PATCH] ecc: Store EdDSA session key in secure memory.
++
++* cipher/ecc-eddsa.c (_gcry_ecc_eddsa_sign): use mpi_snew to allocate
++session key.
++--
++
++An attacker who learns the EdDSA session key from side-channel
++observation during the signing process, can easily revover the long-
++term secret key. Storing the session key in secure memory ensures that
++constant time point operations are used in the MPI library.
++
++Signed-off-by: Jo Van Bulck <jo.vanbulck@cs.kuleuven.be>
++---
++ cipher/ecc-eddsa.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/cipher/ecc-eddsa.c b/cipher/ecc-eddsa.c
++index f91f8489..813e030d 100644
++--- a/cipher/ecc-eddsa.c
+++++ b/cipher/ecc-eddsa.c
++@@ -603,7 +603,7 @@ _gcry_ecc_eddsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
++   a = mpi_snew (0);
++   x = mpi_new (0);
++   y = mpi_new (0);
++-  r = mpi_new (0);
+++  r = mpi_snew (0);
++   ctx = _gcry_mpi_ec_p_internal_new (skey->E.model, skey->E.dialect, 0,
++                                      skey->E.p, skey->E.a, skey->E.b);
++   b = (ctx->nbits+7)/8;
++-- 
++2.11.0
++
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
+index 404f870db03..8e7a38f8940 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt.inc
++++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+@@ -18,6 +18,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
+            file://add-pkgconfig-support.patch \
+            file://libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
             file://fix-ICE-failure-on-mips-with-option-O-and-g.patch \
-            file://fix-undefined-reference-to-pthread.patch \
++           file://0001-ecc-Store-EdDSA-session-key-in-secure-memory.patch \
+            file://CVE-2017-7526.patch \
  "
--SRC_URI[md5sum] = "36ace8f8dc4b1a82793ae759bbfc806f"
--SRC_URI[sha256sum] = "0e72e91290d553c303095a50ea660279d8f11b76c6c86e826f470442fcdf1edd"
-+SRC_URI[md5sum] = "5588b89b75b1353e2454b04c7b8368f3"
-+SRC_URI[sha256sum] = "cb076b2efc7ba752f3d4c663c9ee0589a98b1d614fe90878b1facd607a45fd43"
- 
- BINCONFIG = "${bindir}/libgcrypt-config"
  
 -- 
 2.11.0
