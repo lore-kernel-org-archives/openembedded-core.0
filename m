@@ -1,48 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 41E9372F87
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C528972F87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 22:32:39 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id 65so1629381wmf.0
+	Wed, 19 Jul 2017 22:35:25 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id v127so7938225itd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 15:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 19 Jul 2017 15:35:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=N6uWQpmrWPgvuEIfo0U0dkN5WTPASi5z0ZHc+xLpMaE=;
-	b=hKNW8oKDkyxSnmIjRDvELlFRb03zRoLPI9sE6ymMNmiChwmx46zJZA8iZgYPkLHQJs
-	xkqujj73fQib8f/jDeCY50uS2VZ5wPBsJuI0bxSVWjt5SsNrZnOonyzHC4oCW0WqVFrR
-	qSJypLOEyb7AezNHvzTBhsG9swLsHD2N29QpEW4e6RTAvKMx7XscUn/HNWuJtZ1x/PEt
-	HTw2y+8y+jxldAt1fi26h59ulQ0EOa/Bj1BF04o0ldGQdsBzDm82n9ziBD+J3AGEHq37
-	N7p+qjArfhVz+5vhkMDaAFLpFwWcb/fsEm8FCy+GWdOnT4JmCbXVn3Gtr1rw3jynOhx6
-	zwQA==
+	:cc; bh=NQUI8gUbTk9apBolPtKdWHROfLxst/0tkawsJLYUDoA=;
+	b=RS8HwkF03pG8KvEDNnpIXtD6vseFXY9fvz/FHoBwe3Y9dKaan/NtsUQCY5Ef1k2ywQ
+	EOa179mw2bsNBpESi+PhOYgECX+Zu2T44jEWpkbiowTzBfmUplXdFm4KzfqWFll2b7qU
+	uTnKNE2fLWNc9vOakHDcfX2zB8irTKBArMITOd7Xo0XMgGab3sG2VSiQJN/byu0YcGFZ
+	b/lx6IA5bGujmMxdV6svHDo6bX3cV7Vqq+9lp4H1X5ERtJFD6YEgHJyBTtKPv8U3hI2X
+	fmUcCGtzTf/OmkrHs+patD9noWPOA38yI6e3TYO5BYaDqKIEeI+YMTJ4AfT4uWaOffCD
+	0Fhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=N6uWQpmrWPgvuEIfo0U0dkN5WTPASi5z0ZHc+xLpMaE=;
-	b=s4vewo7Vd7E/k0exTc/9UCfYSY52dpT2khZ3vkseEWpYX1BXfnmpuVFDAPqMKmWMNB
-	bFq9vHKwftkNHl7bpo7fqKn6MhwtbwRhoVQjbuVQFam5VKF1BnI2z8MKXoG/4mG5JF11
-	u0wVbAFe2OHMz2t9E0pt5sZ/CaPfrsjMW8K4hR7zXkt6hdaSnvkgJw3Zg3+UIqaXkWxm
-	uw6Mv8FhfcabfISfRRV6ag6YWirNqLoGRJ3AzphWubAWJ0nifdw1yZR1JQ7xo5tVY4dQ
-	c/hlfNnQ/CtfTS3ckAX8gOsoa10jWTPyFgODfnVrGDIQB3PMMz/ZYrQ5mtsc4vtEjsyZ
-	H+Tg==
-X-Gm-Message-State: AIVw113SzIn70dB29klHQOZYXeUiU2Fk254vPUds4XZrapQTWaUkujeI
-	aHnUn7tDqzI/uQxWXYZ9QxCNTBFg7g==
-X-Received: by 10.80.176.162 with SMTP id j31mr1137249edd.186.1500503560875;
-	Wed, 19 Jul 2017 15:32:40 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=NQUI8gUbTk9apBolPtKdWHROfLxst/0tkawsJLYUDoA=;
+	b=qcuRSvSkxMU7hxMAr8OGbaXHsLEF+re+pZlsRd9M+KwX3bHXqEreACuLBn+Xt00h83
+	GTjE8uuI7ThLFSyZSAKUm+JRIDU/23a3ghTeFcQMgVHjtKEXBzG8ATGite9qD6tVcrq6
+	LHL4geql0sorOcv+iLKNzk93+Szh1tHCKtiDomdN2euvn2xCNlMmshGG8BaKFfr2XtBy
+	cuM2mEWR3cf2JlesxC9WVdte8ENKfP4atest+ZTUP9KXC/YEJ34EngQWo25LC+hME8Us
+	9TpVAN2fltQi43a8+vGGuKLoKesGH07m34Wc1z7MwSZvq6aAclUjDGmJQZccR4nq/H/g
+	sjxA==
+X-Gm-Message-State: AIVw111jSfvqUztfiIMoq71K6LRiFR0GW9qlMWKpd7f+orXXsporHAoe
+	UduQ3BJhwbt6+ARtTVTwUlwRGC9xQd01
+X-Received: by 10.36.218.3 with SMTP id z3mr1400241itg.116.1500503726929; Wed,
+	19 Jul 2017 15:35:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.149.173 with HTTP; Wed, 19 Jul 2017 15:32:10 -0700 (PDT)
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6119BDF6B@ORSMSX112.amr.corp.intel.com>
+Received: by 10.107.178.143 with HTTP; Wed, 19 Jul 2017 15:35:06 -0700 (PDT)
+In-Reply-To: <CAMKF1sop5dtZZ101eCSS=a7Sb1e9nz6sKXsPYNLDqa19MCj=ag@mail.gmail.com>
 References: <1500417901-4667-1-git-send-email-juro.bystricky@intel.com>
 	<CAMKF1spivq5cRcMDz-uehbqWRUzXyJf6TQ53sOtmFJu+_i1iqw@mail.gmail.com>
 	<CAJ86T=XT9yufogwxMbV-0dW1ooYdvy5DOequ_X4fRQ7=nFWdOQ@mail.gmail.com>
 	<CAMKF1soRVeHPLh_LFSxpcGG=1u1OcKvMv3yEifihP_Y7Y-eXUw@mail.gmail.com>
 	<6E51916E4A1F32428260031F4C7CD2B6119BDF6B@ORSMSX112.amr.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Jul 2017 18:32:10 -0400
-Message-ID: <CAMKF1sop5dtZZ101eCSS=a7Sb1e9nz6sKXsPYNLDqa19MCj=ag@mail.gmail.com>
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
+	<CAMKF1sop5dtZZ101eCSS=a7Sb1e9nz6sKXsPYNLDqa19MCj=ag@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Jul 2017 23:35:06 +0100
+Message-ID: <CAJTo0LZRBNbU9-QmJ_ufVK3QFeHjXOMoj2G0hgnp+2eQk_82Jg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-7.inc: add new warning "Wnot-cross-compiler"
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,40 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jul 2017 22:32:40 -0000
+X-List-Received-Date: Wed, 19 Jul 2017 22:35:26 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0b0ad6a0d2400554b33f0a"
+
+--94eb2c0b0ad6a0d2400554b33f0a
 Content-Type: text/plain; charset="UTF-8"
+
+On 19 July 2017 at 23:32, Khem Raj <raj.khem@gmail.com> wrote:
+
+> it solves x86 specific issues alone
+>
+
+It solves host = target issues, so if you're building for ARM on an aarch64
+server you can have the same issues.
+
+Ross
+
+--94eb2c0b0ad6a0d2400554b33f0a
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 19, 2017 at 5:57 PM, Bystricky, Juro
-<juro.bystricky@intel.com> wrote:
->> precisely, the problem is that some host compiler may silently ignore
->> unknown warnings and some host may not be using gcc as default system
->> compiler at all e.g. mageia distro and may be more in future.
->>
->
-> Yes, it does not nor it attempts to solve all toolchain issues.
-> The expectation is that a compiler will choke on an unrecognized option.
-> For example, gcc will do the following:
->
-> $ gcc -Wnot-cross-compiler hello_world.c
-> gcc: error: unrecognized command line option =E2=80=98-Wnot-cross-compile=
-r=E2=80=99
->
-> As for non-gcc compilers: yes, they may silently ignore unrecognized opti=
-ons
-> (which IMHO is just wrong). In that case the new options does not work as=
- intended,
-> but it does no harm either.
-> Anyway, the intended use was to add something like this a .conf file:
->
-> TARGET_CC_ARCH_append_class-target =3D " -Wnot-cross-compiler -Werror=3Dn=
-ot-cross-compiler"
->
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 July 2017 at 23:32, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":1n6" class=3D"a3s aXjCH m=
+15d5cfc982cc3496">it solves x86 specific issues alone<br></div></blockquote=
+></div><br>It solves host =3D target issues, so if you&#39;re building for =
+ARM on an aarch64 server you can have the same issues.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-it solves x86 specific issues alone
-and we have to carry this patch since
-I have less hopes for gcc to accept it.
-
-
->
-
+--94eb2c0b0ad6a0d2400554b33f0a--
