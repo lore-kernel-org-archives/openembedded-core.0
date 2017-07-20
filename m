@@ -1,21 +1,23 @@
 Return-Path: <rebecca.swee.fun.chang@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E1F5778291
+	by mail.openembedded.org (Postfix) with ESMTP id 703C278291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 10:31:17 +0000 (UTC)
+	Thu, 20 Jul 2017 10:31:18 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 03:31:19 -0700
+	20 Jul 2017 03:31:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,383,1496127600"; d="scan'208";a="128964707"
+X-IronPort-AV: E=Sophos;i="5.40,383,1496127600"; d="scan'208";a="128964714"
 Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2017 03:31:17 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2017 03:31:19 -0700
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jul 2017 18:31:56 +0800
-Message-Id: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Date: Thu, 20 Jul 2017 18:31:57 +0800
+Message-Id: <1500546720-145364-2-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCHv2 0/4] devtool: add: automatically set branch for git URLs if not master
+In-Reply-To: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+References: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+Subject: [PATCHv2 1/4] recipetool: create: disable PREMIRRORS and MIRRORS by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,52 +32,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Jul 2017 10:31:18 -0000
 
-Hi Ross,
+When creating new recipes, we are almost certainly fetching a new
+source rather that something that has already been fetched. I have
+disable PREMIRRORS and MIRRORS settings from datastore while leaving
+an option for users to enable them manually if needed.
 
-Change log on v2:
-Fixed the tracebacks on local variable being referenced before assignment.
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+---
+ scripts/lib/recipetool/create.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Along with this series, I have take in Stanley's patch on YOCTO #11393
-which has a dependency on my series.
-
-Thank you.
-
-Rebecca
-
-... ...
-
-Cover letter on first submission:
-
-Quoted from Bugzilla #11389, if devtool add is run on a git URL and
-a revision is specified that is not on master, and branch= isn't
-already in the URL, then devtool should get the correct branch and
-add it to the URL while creating recipe.
-
-Another side track on this bug fix, I have disable PREMIRRORS and
-MIRRORS by default. When creating new recipes, we are almost
-certainly fetching a new source rather that something that has
-already been fetched. I have disable PREMIRRORS and MIRRORS
-settings from datastore for both devtool and recipetool while
-leaving an option for users to enable them manually on needed basis.
-
-Thanks.
-
-Regards,
-Rebecca
-
-
-Chang Rebecca Swee Fun (3):
-  recipetool: create: disable PREMIRRORS and MIRRORS by default
-  devtool: standard: enable options for PREMIRRORS and MIRRORS
-  recipetool: create: being able to set branch when revision is provided
-
-Stanley Phoong (1):
-  recipetool: create: handle git URLs specifying only a tag
-
- scripts/lib/devtool/standard.py  |  3 ++
- scripts/lib/recipetool/create.py | 73 +++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 75 insertions(+), 1 deletion(-)
-
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 8e63580..1015d02 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -422,6 +422,7 @@ def create_recipe(args):
+     source = args.source
+     srcsubdir = ''
+     srcrev = '${AUTOREV}'
++    mirrors = args.mirrors
+ 
+     if os.path.isfile(source):
+         source = 'file://%s' % os.path.abspath(source)
+@@ -442,6 +443,13 @@ def create_recipe(args):
+         tempsrc = tempfile.mkdtemp(prefix='recipetool-')
+         srctree = tempsrc
+         d = bb.data.createCopy(tinfoil.config_data)
++        if not mirrors:
++            # We do not need PREMIRRORS since we are almost certainly
++            # fetching new source rather than something that has already
++            # been fetched. Hence, we disable them by default.
++            # However, we provide an option for users to enable it.
++            d.setVar('PREMIRRORS', '')
++            d.setVar('MIRRORS', '')
+         if fetchuri.startswith('npm://'):
+             # Check if npm is available
+             npm_bindir = check_npm(tinfoil, args.devtool)
+@@ -1180,6 +1188,7 @@ def register_commands(subparsers):
+     parser_create.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
+     parser_create.add_argument('--fetch-dev', action="store_true", help='For npm, also fetch devDependencies')
+     parser_create.add_argument('--devtool', action="store_true", help=argparse.SUPPRESS)
++    parser_create.add_argument('--mirrors', action="store_true", help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).')
+     # FIXME I really hate having to set parserecipes for this, but given we may need
+     # to call into npm (and we don't know in advance if we will or not) and in order
+     # to do so we need to know npm's recipe sysroot path, there's not much alternative
 -- 
 2.7.4
 
