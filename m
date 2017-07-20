@@ -1,23 +1,23 @@
 Return-Path: <rebecca.swee.fun.chang@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 04BA178291
+	by mail.openembedded.org (Postfix) with ESMTP id 4D1597829C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 10:31:20 +0000 (UTC)
+	Thu, 20 Jul 2017 10:31:22 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 03:31:22 -0700
+	20 Jul 2017 03:31:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,383,1496127600"; d="scan'208";a="128964725"
+X-IronPort-AV: E=Sophos;i="5.40,383,1496127600"; d="scan'208";a="128964728"
 Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2017 03:31:21 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2017 03:31:22 -0700
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jul 2017 18:31:59 +0800
-Message-Id: <1500546720-145364-4-git-send-email-rebecca.swee.fun.chang@intel.com>
+Date: Thu, 20 Jul 2017 18:32:00 +0800
+Message-Id: <1500546720-145364-5-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 References: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCHv2 3/4] recipetool: create: being able to set branch when revision is provided
+Subject: [PATCHv2 4/4] recipetool: create: handle git URLs specifying only a tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,91 +30,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 10:31:21 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 10:31:22 -0000
 
-When recipetool create is run on a git URL and a revision specified
-that is not on master, and "branch=" isn't already in the URL, then
-we should get the correct branch and append the branch to the URL.
+From: Stanley Phoong <stanley.cheong.kwan.phoong@intel.com>
 
-If the revision was found on multiple branches, we will display error
-to inform user to provide a correct branch and exit.
+If a git URL is passed to recipetool create with a tag=, recipetool
+should handle it assuming that the tag is valid. Also, during the
+creation of recipe, it seems that the automation for replacing
+${PV} at the SRCURI for tag, (e.g mbed-tls-${PV}) is causing some
+issue due to PV assuming it's a git source. A fix is implemented in
+this patch as a workaround for this issue. This fix will be submitted
+in a separate patch as a separate issue.
 
-[YOCTO #11389]
+[YOCTO #11393]
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Signed-off-by: Stanley Phoong <stanley.cheong.kwan.phoong@intel.com>
 ---
- scripts/lib/recipetool/create.py | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ scripts/lib/recipetool/create.py | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 1015d02..cc755a1 100644
+index cc755a1..5a34c75 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -423,6 +423,8 @@ def create_recipe(args):
-     srcsubdir = ''
-     srcrev = '${AUTOREV}'
-     mirrors = args.mirrors
-+    branch_re = re.compile(';branch=([^;]+)')
-+    branch = ''
- 
-     if os.path.isfile(source):
-         source = 'file://%s' % os.path.abspath(source)
-@@ -440,6 +442,16 @@ def create_recipe(args):
-         if res:
-             srcrev = res.group(1)
-             srcuri = rev_re.sub('', srcuri)
-+        # Check whether branch info is provided
-+        branch = branch_re.search(srcuri)
-+        nobranch_re = re.compile(';nobranch=1')
-+        nobranch = nobranch_re.search(srcuri)
-+        if not branch and not nobranch and srcrev != '${AUTOREV}':
-+            # Append nobranch=1 in the following conditions:
-+            # 1. User did not set 'branch=' in srcuri, and
-+            # 2. User did not set 'nobranch=1' in srcuri, and
-+            # 3. Source revision is not '${AUTOREV}'
-+            fetchuri = fetchuri + ';nobranch=1'
+@@ -452,6 +452,18 @@ def create_recipe(args):
+             # 2. User did not set 'nobranch=1' in srcuri, and
+             # 3. Source revision is not '${AUTOREV}'
+             fetchuri = fetchuri + ';nobranch=1'
++        # Create an empty storeTagName to ensure the checkers do not point to a null variable
++        storeTagName = ''
++        tag_re = re.compile(';tag=([^;]+)')
++        tag = tag_re.search(fetchuri)
++        if tag:
++            scheme, host, path, user, pswd, parms = bb.fetch2.decodeurl(fetchuri)
++            # Keep a copy of tag and append nobranch=1 then remove tag from URL,
++            # Will re-introduce tag argument after bitbake fetcher process is complete.
++            storeTagName = parms['tag']
++            parms.update({('nobranch', '1')})
++            del parms['tag']
++            fetchuri = bb.fetch2.encodeurl((scheme, host, path, user, pswd, parms))
          tempsrc = tempfile.mkdtemp(prefix='recipetool-')
          srctree = tempsrc
          d = bb.data.createCopy(tinfoil.config_data)
-@@ -474,6 +486,26 @@ def create_recipe(args):
-                     if '<html' in f.read(100).lower():
-                         logger.error('Fetching "%s" returned a single HTML page - check the URL is correct and functional' % fetchuri)
-                         sys.exit(1)
-+        # Check for branch info with SRCREV provided
-+        if not branch and not nobranch and srcrev and (srcrev != '${AUTOREV}'):
-+            cmd = 'git branch -r --contains'
+@@ -506,6 +518,17 @@ def create_recipe(args):
+                 mbrch = '\n  ' + '\n  '.join(get_branch)
+                 logger.error('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the source URL with ;branch=<branch> (and ensure you use quotes around the URL to avoid the shell interpreting the ";")' % (srcrev, mbrch))
+                 sys.exit(1)
++        if storeTagName:
++            # Re-introduced tag variable from storeTagName
++            # Check srcrev using tag and check validity of the tag
 +            try:
-+                # Command to check branch using commit hash
-+                check_branch, check_branch_err = bb.process.run('%s %s' % (cmd, srcrev), cwd=srctree)
++                cmd = ('git rev-list -n 1 %s' % (storeTagName))
++                check_tag, check_tag_err = bb.process.run('%s' % cmd, cwd=srctree)
++                srcrev = check_tag.split()[0]
 +            except bb.process.ExecutionError as err:
 +                logger.error(str(err))
-+                sys.exit(1)
-+            get_branch = [x.strip() for x in check_branch.splitlines()]
-+            # Remove HEAD reference point and drop remote prefix
-+            get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
-+            if len(get_branch) == 1:
-+                # If get_branch contains only ONE object, then store result into 'branch'
-+                branch = get_branch[0]
-+            else:
-+                # If get_branch contains more than one objects, then display error and exit.
-+                mbrch = '\n  ' + '\n  '.join(get_branch)
-+                logger.error('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the source URL with ;branch=<branch> (and ensure you use quotes around the URL to avoid the shell interpreting the ";")' % (srcrev, mbrch))
++                logger.error("Possibly wrong tag name is provided")
 +                sys.exit(1)
          if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
              srcuri = 'gitsm://' + srcuri[6:]
              logger.info('Fetching submodules...')
-@@ -603,6 +635,11 @@ def create_recipe(args):
- 
-     if not srcuri:
-         lines_before.append('# No information for SRC_URI yet (only an external source tree was specified)')
-+    # Check if users has provide a branch
-+    append_branch = branch_re.search(srcuri)
-+    if branch and not append_branch:
-+        # Append the correct branch into SRC_URI
-+        srcuri += (';branch=%s' % str(branch))
-     lines_before.append('SRC_URI = "%s"' % srcuri)
-     (md5value, sha256value) = checksums
-     if md5value:
+@@ -646,10 +669,12 @@ def create_recipe(args):
+         lines_before.append('SRC_URI[md5sum] = "%s"' % md5value)
+     if sha256value:
+         lines_before.append('SRC_URI[sha256sum] = "%s"' % sha256value)
++    pv_srcpv = False
+     if srcuri and supports_srcrev(srcuri):
+         lines_before.append('')
+         lines_before.append('# Modify these as desired')
+         lines_before.append('PV = "%s+git${SRCPV}"' % (realpv or '1.0'))
++        pv_srcpv = True
+         if not args.autorev and srcrev == '${AUTOREV}':
+             if os.path.exists(os.path.join(srctree, '.git')):
+                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
+@@ -776,7 +801,7 @@ def create_recipe(args):
+                 skipblank = True
+                 continue
+         elif line.startswith('SRC_URI = '):
+-            if realpv:
++            if realpv and not pv_srcpv:
+                 line = line.replace(realpv, '${PV}')
+         elif line.startswith('PV = '):
+             if realpv:
 -- 
 2.7.4
 
