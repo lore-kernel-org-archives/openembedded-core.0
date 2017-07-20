@@ -1,31 +1,46 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [217.30.184.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 616776FF7F
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C0036003C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 13:23:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; 
-	h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=dWpdA1cULdQAGbJZHTdiYO0KRE2PlK/IZ1XUSjcHFzE=; 
-	b=sYe0aDvIE+PlgExgzaUv4vhN2D7062TP/FcL71U8nXi5mU3Y9M5kti2nBTANJkbEUksIdYcQzqwBO5IuyBKsW1hTyoqYBlDBX8/1L/DhaxWfrWi8DHKWanpyzj7u9K75uvZgapJSADP4BmXX/jTtkXh851dybwseTyp8LklXUEkHUUJt7rpPDeU3Uxxd4nWTpB3TXPzatFzAeI3hlIwBfiZiMVz/QEVxd2WRhgWu9uT0gVxdp7SrSCTL/iqgqiOHWx5BPE9TCvSajgObd4tKPWDV8t5GOok5UiLTR5nhcTgkKOm90WiN1lN29QYbgp6H3V8hH8K5PttE0ZCd0Aw5nw==;
-Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1dYBQN-0005Nu-Bj; Thu, 20 Jul 2017 16:23:27 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1dYBQN-0003UV-9g; Thu, 20 Jul 2017 16:23:27 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 16:23:11 +0300
-Message-Id: <1500556991-11471-24-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1500556991-11471-1-git-send-email-mikko.rapeli@bmw.de>
-References: <1500556991-11471-1-git-send-email-mikko.rapeli@bmw.de>
-X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH 23/23] cve-check.bbclass: use "+git" as separator in PV instead of "git+"
+	Thu, 20 Jul 2017 13:38:04 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id o8so22803283qtc.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 06:38:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/4QlPEAlTg8BX7mBLx3J7R0Ic6M76OqmjYgrr4/+edA=;
+	b=PjseW0CumT0dx9YnyqCMdb9kUH2XrUMR/qe4Im4aAu/b5gN+37tcg/pc5nT+MZP/+5
+	f5B+5iWLqKOwpZZRQDXfy7lGNW592F6+0kBMBNZ8Cg8fq0yPrV2TzeZ7fRtAygogeUk/
+	MGrdDJCMVCx9MlM3k+7HQzjfixNHwLjh/0Oqs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/4QlPEAlTg8BX7mBLx3J7R0Ic6M76OqmjYgrr4/+edA=;
+	b=W3b5AjhsXLxjyXuKNxqVCPlJnQYD/mG4CpH0cp071F2QSHZPHMpE+r42s/fw+cVIZk
+	kc/Y6xOI1mxQAK/p129IKsEHOarZAYhgS8z5d4G7iKc6yV5fnRqIvuMIh/Z9WvksqDm9
+	6tKgxVIHAlfjvf0O+oGCeXnD5iXs2LJLlPefRI93/DpFwK0gr93aRSfyzvacjaegv8oZ
+	vJfDflYkEAiH+XPlmjVV3XJTlkLewWFaB2xjfO+SnG8ZE9GMjJ6/X5M0wD1G05cb/4WW
+	FOnF639J4GYRP+WGDM4FH7dIQZZrn3jaMrScDxC5XGrIHQZzYxLsemp1DA2wPGjcFuw1
+	4zsA==
+X-Gm-Message-State: AIVw111Mmhb/EmVzSwf9JqB1DV7mge2ZZ7P9yaEEQc+eXTOFXLf3vvJv
+	Mv9MunLXWUcxXx0f7Gd+pZNW5SIx0AwfXCg=
+X-Received: by 10.237.39.135 with SMTP id a7mr5205940qtd.164.1500557886109;
+	Thu, 20 Jul 2017 06:38:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.97.194 with HTTP; Thu, 20 Jul 2017 06:37:45 -0700 (PDT)
+In-Reply-To: <CAJTo0LaKDgomugkgS0uirpirJPOLSu=-OXyEDQcGSuF6PTP8HQ@mail.gmail.com>
+References: <20170720115657.11406-1-nicolas.dechesne@linaro.org>
+	<CAP71Wjz2gS1PYWZzZ2FYb72F_T2dP30266Xcy70eRJvftjsKUA@mail.gmail.com>
+	<CAJTo0LaKDgomugkgS0uirpirJPOLSu=-OXyEDQcGSuF6PTP8HQ@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 20 Jul 2017 15:37:45 +0200
+Message-ID: <CAP71WjzwRpC92KED-8k=xmdouRi8TfaNYbWGJyMkc7PBf1KFHQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ffmpeg: fix pkg-config utilization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,44 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 13:23:29 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 13:38:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-PV is the recipe major version number. cve-check tries to map that to
-NVD database release versions of the component. If the recipe sources
-are taken from git, the PV can be automatically modified to include
-git details, but the syntax is like 233+gitAUTOINC+a1e2ef7ec9.
-In CVE checks we want to remove the git details and just use the major
-version information, in this example 233.
+On Thu, Jul 20, 2017 at 3:03 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 20 July 2017 at 13:58, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> wrote:
+>>
+>> and it would make this patch a no-op instead. the patch would only
+>> 'fix' the pkg-config mistmatch. and we can fixup the xcb dependencies
+>> as a follow up patch instead. i am opened to suggestions..
+>
+>
+> Enabling those is good, although there should be a packageconfig so ffmpeg
+> still builds without x11.
 
-Thus use "+git" as the separator and use the first part before the separator
-as SW product version number in CVE check.
+but do we want to make these changes as 1 patch with the pkg-config
+fix, or as a follow up patch? I have other patches to fix sdl -> sdl2
+and add ffplay support.
 
-Fixes version number for e.g. systemd recipe. If systemd PV is
-233+gitAUTOINC+a1e2ef7ec9 there will be no matches from CVE database where
-latest release mentioned is plain 233. If the filter is set to +git, then
-CVE PV is 233 and issues like this are detected by do_cve_check:
-
-https://nvd.nist.gov/vuln/detail/CVE-2017-1000082
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/classes/cve-check.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 8dde4a2..f44bbed 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -155,7 +155,7 @@ def check_cves(d, patched_cves):
-     cves_patched = []
-     cves_unpatched = []
-     bpn = d.getVar("CVE_PRODUCT")
--    pv = d.getVar("PV").split("git+")[0]
-+    pv = d.getVar("PV").split("+git")[0]
-     cves = " ".join(patched_cves)
-     cve_db_dir = d.getVar("CVE_CHECK_DB_DIR")
-     cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
--- 
-1.9.1
-
+>
+> Ross
 
