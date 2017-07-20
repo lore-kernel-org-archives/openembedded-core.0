@@ -1,45 +1,31 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D31D471984
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F677781C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 14:06:33 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id m7so23769733qtm.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 07:06:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vDdh6X3e5NJw+IMxk3/mhCDV22UwUNnhr0OpqktvtAM=;
-	b=QhZwVEILJ0lqqREJ97eA0hK/TKhq9/iq23pFYanJiRZLjisfmRgfExUUP9ebL/2t0S
-	WMnpweP08U2eh92L2GIX8983sCC8z00ldRqbTXaFCZkQ7WxznCDQDN6ZathM/HtNZhA3
-	kOr0/2tMY250PRx/aJQlClgQNHn4x2XGCYKDM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vDdh6X3e5NJw+IMxk3/mhCDV22UwUNnhr0OpqktvtAM=;
-	b=gN0LHjUHY+YBWf3DUkDR7ZipWCHrvrmEi0vLSsAvn4/Pf7d9MiaazW32zjX18uU9bL
-	RQS9yyruLu+ySukPgYLd/im87vAEbNYT3tB3sfyi7PMJjvI/vUVQQDCAyrBHbgVfhff6
-	jJELI6rp04ivZyMB2GRV2jZu2Rj1LUbu6aCUbArtiuPuWz3ROWKrtVzMOm3BJnpc3Mgv
-	mjLJPkAzsDiQ2bpDkwB+Tw3p5NCpUflBZx+4HX6bp4nE/mzUA7r4y/tMHHLlbjve8kzB
-	2X6eid9RkJzEYiE9lbcFHclAU4v2YtqvOz18gckTndG2Ee6YcAvEBedElx6QG/BLBYby
-	yqcQ==
-X-Gm-Message-State: AIVw111Ksgd3HGK/yID8bOZzXheQ8yElxbgVIGtz/aVto1t6+UMgW6Ld
-	ZLhxfEyJ8zzFHph+grCWkebKmhfQljCX
-X-Received: by 10.200.3.45 with SMTP id q45mr4775109qtg.3.1500559594700; Thu,
-	20 Jul 2017 07:06:34 -0700 (PDT)
+	Thu, 20 Jul 2017 14:07:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6KE7I3G023980
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 20 Jul 2017 07:07:18 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Thu, 20 Jul 2017 07:07:17 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Andre McCurdy
+	<armccurdy@gmail.com>
+References: <cover.1500470150.git.alexander.kanavin@linux.intel.com>
+	<CAJ86T=UaW2W6h47H-yVw=8q1rk23ZTj1an220VKrGitOx5Y1dA@mail.gmail.com>
+	<3e05e420-d979-3f24-8b72-b032d8ec1870@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <f6405d6b-e55d-78f8-cfab-bb39f89b408d@windriver.com>
+Date: Thu, 20 Jul 2017 09:07:16 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.140.97.194 with HTTP; Thu, 20 Jul 2017 07:06:14 -0700 (PDT)
-In-Reply-To: <CAMKF1sqOWkSJqqcj4ZW+NB40pJvpuC2NtKJH2Ea3iCwzxwE-8g@mail.gmail.com>
-References: <20170720115657.11406-1-nicolas.dechesne@linaro.org>
-	<CAMKF1sqOWkSJqqcj4ZW+NB40pJvpuC2NtKJH2Ea3iCwzxwE-8g@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 20 Jul 2017 16:06:14 +0200
-Message-ID: <CAP71WjyWBkAKzf0MJXL_XVKEuU_1zZSPxDyEziWz9D-O6Mz62A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ffmpeg: fix pkg-config utilization
+In-Reply-To: <3e05e420-d979-3f24-8b72-b032d8ec1870@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] Add openssl 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,65 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 14:06:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 20 Jul 2017 14:07:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 20, 2017 at 2:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Jul 20, 2017 at 7:56 AM, Nicolas Dechesne
-> <nicolas.dechesne@linaro.org> wrote:
->> in config.log we can see:
->> WARNING: aarch64-linaro-linux-pkg-config not found, library detection may fail.
+On 7/19/17 12:37 PM, Alexander Kanavin wrote:
+> On 07/19/2017 07:55 PM, Andre McCurdy wrote:
+>>> Openssl 1.1 is an opt-out; it has the same recipe name as openssl 1.0 had, and so
+>>> all dependencies are compiled with it by default. If there's an API issue, please
+>>> fix it, or adjust the recipe to depend on 'openssl10' (which is a lesser solution,
+>>> and subject to openssl 1.0 eventually being removed from oe-core).
 >>
->> ffmpeg configure script is not looking for pkg-config at the rigt place since it
->> is assuming cross compilation. let's force its value in the recipe.
->>
->> This patches 'fixes' library detection and brings the following diff:
->>
->> * RDEPENDS: ++libxcb (>= 1.12) libxcb-shape (>= 1.12) libxcb-shm (>= 1.12) libxcb-xfixes (>= 1.12)
->> * PKGSIZE : 79167 -> 87823
->>
->> Which basically means that the following conf options were left dangling in EXTRA_OECONF:
->>
->> --enable-libxcb
->> --enable-libxcb-shm
->> --enable-libxcb-xfixes
->> --enable-libxcb-shape
->>
->> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
->> ---
->>  meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
->> index f4bb2ba1f5..442d4f4532 100644
->> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
->> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
->> @@ -107,6 +107,7 @@ EXTRA_OECONF = " \
->>      --datadir=${datadir}/ffmpeg \
->>      ${@bb.utils.contains('AVAILTUNES', 'mips32r2', '', '--disable-mipsdsp --disable-mipsdspr2', d)} \
->>      --cpu=${@cpu(d)} \
->> +    --pkg-config=pkg-config \
->
-> There is a proposal to repace pkgconfig with pkgconf, and I hope it
+>> Are there any -native recipes which still need 1.0? Or could support
+>> for openssl10-native be dropped as part of this patch set?
+> 
+> There are also other layers out there which may need 1.0-native, and so 
+> this would cause unnecessary breakage. Let's just leave 1.0 alone and 
+> drop it altogether when time comes.
 
-do you have a link?
+I would agree with this as well.  I've seen various SDK signing apps and such
+that need to be linked to OpenSSL 1.0, so if it was removed it would like need
+to be re-added by people to support their custom infrastructures.
 
-> will create a symlink to provide pkg-config
-> but it would be interesting to check, otherwise this fix will be
-> voided with that change
+--Mark
 
-what do you mean?
+> Alex
+> 
 
->
->>  "
->>
->>  EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
->> --
->> 2.11.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
