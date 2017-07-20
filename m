@@ -1,40 +1,24 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2134078368
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AA9B7836F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 22:42:43 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id y8so379755ywi.2
+	Thu, 20 Jul 2017 23:19:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6KNJqn9028105
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 15:42:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=nJOaWpBODjwDhCsrrKWj1WQg9ScMQilBR6Lsh+0itXI=;
-	b=jzZ5ZDUrRoNtpdlmZS0cBSbWUkUBKnkZ4URMCG3rs29VwU/WytVnMWClCFEEFVx31a
-	fOWi83QMmBgNzDC8F2k4CgxlsCoe3mHmgDMZL15jfgeCFiMmXJcG2qN6ikyeCZMhnx36
-	yiRW6GupOTCK2kQK8oU92xgpvkQzJTOkRKG9+G25Wi9ha6GOF1Sjq2NXp7Js8R1Qk7r5
-	gE2/ISN8EA3r86h/xu3biXp872a/Wnsn9wxEwOfyWaOjNbgtgYu6PVEspNqXMpmHwgED
-	Hiz3hlwh3R2XqSX2pC2q5yhD8aDL4V265cSFfPOA2WmgM2kpPD+r8C9a5pc4cQ2DPuoZ
-	dNmQ==
-X-Gm-Message-State: AIVw112A0DkcGUjHtRUigltxt6XpnE6YhOy5V94uaO4hDAjLeB2xChVX
-	eYRmg6OxpDYX36M1
-X-Received: by 10.129.153.144 with SMTP id q138mr4452690ywg.236.1500590564968; 
-	Thu, 20 Jul 2017 15:42:44 -0700 (PDT)
-Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
-	[174.106.0.58])
-	by smtp.gmail.com with ESMTPSA id w7sm1229574yww.33.2017.07.20.15.42.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 20 Jul 2017 15:42:43 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 18:43:51 -0400
-Message-Id: <1500590631-2028-2-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1500590631-2028-1-git-send-email-trini@konsulko.com>
-References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH 2/2] image-vm: Change default ROOT_VM to use PARTUUID
+	Thu, 20 Jul 2017 16:19:52 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 20 Jul 2017 16:19:51 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jul 2017 16:19:51 -0700
+Message-ID: <1500592791-5479-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+Subject: [PATCH 1/1] linux-yocto: only suggest default kernel type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,35 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 22:42:44 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 23:19:51 -0000
+Content-Type: text/plain
 
-From: Matt Porter <mporter@konsulko.com>
+The distro should set a default kernel type (?=) which could be
+overriden by local.conf (=) or extensions (templates).  The kernel itself
+should only use "??=" to provide a value which allows builds to succeed.
 
-Support for finding the root partition via PARTUUID is a portable method to
-determine the system root device as it does not depend on device ordering and
-also abstracts the diference between IDE devices and SCSI/SATA/etc type
-devices.
-
-Signed-off-by: Matt Porter <mporter@konsulko.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/classes/image-vm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
-index a888f0232caa..a7cabae590c0 100644
---- a/meta/classes/image-vm.bbclass
-+++ b/meta/classes/image-vm.bbclass
-@@ -42,7 +42,7 @@ ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${VM_ROOTFS_TYPE}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 637506a..aec06c2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -33,7 +33,8 @@ KERNEL_FEATURES_append_qemuall=" features/debug/printk.scc"
+ # and it can be specific to the machine or shared
+ # KMACHINE = "UNDEFINED"
  
- # Used by bootloader
- LABELS_VM ?= "boot"
--ROOT_VM ?= "root=/dev/sda2"
-+ROOT_VM ?= "root=PARTUUID=${DISK_SIGNATURE}-02"
- # Using an initramfs is optional. Enable it by setting INITRD_IMAGE_VM.
- INITRD_IMAGE_VM ?= ""
- INITRD_VM ?= "${@'${IMGDEPLOYDIR}/${INITRD_IMAGE_VM}-${MACHINE}.cpio.gz' if '${INITRD_IMAGE_VM}' else ''}"
+-LINUX_KERNEL_TYPE ?= "standard"
++# The distro or local.conf should set this, but if nobody cares...
++LINUX_KERNEL_TYPE ??= "standard"
+ 
+ # KMETA ?= ""
+ KBRANCH ?= "master"
 -- 
-1.9.1
+2.7.4
 
 
