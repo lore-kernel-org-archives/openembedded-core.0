@@ -1,30 +1,24 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D9FA972F63
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F7457814B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 06:04:09 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21553959"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Jul 2017 14:04:03 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A5BDD46B53E0
+	Thu, 20 Jul 2017 07:29:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6K7Tv7f028899
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 14:04:00 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.100) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 20 Jul 2017 14:04:01 +0800
-From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+	Thu, 20 Jul 2017 00:29:58 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 20 Jul 2017 00:29:57 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jul 2017 23:03:47 +0800
-Message-ID: <1500563027-43026-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Date: Thu, 20 Jul 2017 15:33:57 +0800
+Message-ID: <cover.1500535946.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.100]
-X-yoursite-MailScanner-ID: A5BDD46B53E0.A5A7E
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v3] glibc-package.inc: add support for armeb of multilib
+Subject: [PATCH 0/1] dhcp: add dhclient.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 06:04:11 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 07:29:57 -0000
 Content-Type: text/plain
 
-Add support for armeb of multilib.
+The following changes since commit 57f606b12b339c82e6981d7ac32450c00d787085:
 
-Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+  libgcrypt: upgrade to 1.7.8 (2017-07-19 15:13:40 +0100)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 0281251..1a19d4f 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -131,6 +131,10 @@ do_install_append_arm () {
- 	do_install_armmultilib
- }
- 
-+do_install_append_armeb () {
-+	do_install_armmultilib
-+}
-+
- do_install_armmultilib () {
- 
- 	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/dhclient_service
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/dhclient_service
+
+Chen Qi (1):
+  dhcp: add dhclient.service
+
+ meta/recipes-connectivity/dhcp/dhcp.inc            | 21 ++++++++++--
+ .../dhcp/files/dhclient-systemd-wrapper            | 39 ++++++++++++++++++++++
+ .../dhcp/files/dhclient.service                    | 13 ++++++++
+ 3 files changed, 70 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhclient-systemd-wrapper
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhclient.service
+
 -- 
-2.7.4
-
-
+1.9.1
 
 
