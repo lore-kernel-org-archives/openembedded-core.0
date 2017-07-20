@@ -1,23 +1,25 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D1597829C
+Return-Path: <maxin.john@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 82E1478270
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 10:31:22 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 03:31:23 -0700
+	Thu, 20 Jul 2017 11:50:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP; 20 Jul 2017 04:50:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,383,1496127600"; d="scan'208";a="128964728"
-Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by fmsmga005.fm.intel.com with ESMTP; 20 Jul 2017 03:31:22 -0700
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jul 2017 18:32:00 +0800
-Message-Id: <1500546720-145364-5-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-References: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCHv2 4/4] recipetool: create: handle git URLs specifying only a tag
+X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="1153440116"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2017 04:50:16 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 14A9C5808DF
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 04:50:15 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Jul 2017 14:51:01 +0300
+Message-Id: <1500551462-19196-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [morty][PATCH 1/2] libpng: move SRC_URI back to SOURCEFORGE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,89 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 10:31:22 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 11:50:16 -0000
 
-From: Stanley Phoong <stanley.cheong.kwan.phoong@intel.com>
+Since GENTOO_MIRROR removes older binaries, move back to
+SOURCEFORGE_MIRROR
 
-If a git URL is passed to recipetool create with a tag=, recipetool
-should handle it assuming that the tag is valid. Also, during the
-creation of recipe, it seems that the automation for replacing
-${PV} at the SRCURI for tag, (e.g mbed-tls-${PV}) is causing some
-issue due to PV assuming it's a git source. A fix is implemented in
-this patch as a workaround for this issue. This fix will be submitted
-in a separate patch as a separate issue.
+[YOCTO #11554]
 
-[YOCTO #11393]
-
-Signed-off-by: Stanley Phoong <stanley.cheong.kwan.phoong@intel.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- scripts/lib/recipetool/create.py | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/libpng/libpng_1.6.24.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index cc755a1..5a34c75 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -452,6 +452,18 @@ def create_recipe(args):
-             # 2. User did not set 'nobranch=1' in srcuri, and
-             # 3. Source revision is not '${AUTOREV}'
-             fetchuri = fetchuri + ';nobranch=1'
-+        # Create an empty storeTagName to ensure the checkers do not point to a null variable
-+        storeTagName = ''
-+        tag_re = re.compile(';tag=([^;]+)')
-+        tag = tag_re.search(fetchuri)
-+        if tag:
-+            scheme, host, path, user, pswd, parms = bb.fetch2.decodeurl(fetchuri)
-+            # Keep a copy of tag and append nobranch=1 then remove tag from URL,
-+            # Will re-introduce tag argument after bitbake fetcher process is complete.
-+            storeTagName = parms['tag']
-+            parms.update({('nobranch', '1')})
-+            del parms['tag']
-+            fetchuri = bb.fetch2.encodeurl((scheme, host, path, user, pswd, parms))
-         tempsrc = tempfile.mkdtemp(prefix='recipetool-')
-         srctree = tempsrc
-         d = bb.data.createCopy(tinfoil.config_data)
-@@ -506,6 +518,17 @@ def create_recipe(args):
-                 mbrch = '\n  ' + '\n  '.join(get_branch)
-                 logger.error('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the source URL with ;branch=<branch> (and ensure you use quotes around the URL to avoid the shell interpreting the ";")' % (srcrev, mbrch))
-                 sys.exit(1)
-+        if storeTagName:
-+            # Re-introduced tag variable from storeTagName
-+            # Check srcrev using tag and check validity of the tag
-+            try:
-+                cmd = ('git rev-list -n 1 %s' % (storeTagName))
-+                check_tag, check_tag_err = bb.process.run('%s' % cmd, cwd=srctree)
-+                srcrev = check_tag.split()[0]
-+            except bb.process.ExecutionError as err:
-+                logger.error(str(err))
-+                logger.error("Possibly wrong tag name is provided")
-+                sys.exit(1)
-         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
-             srcuri = 'gitsm://' + srcuri[6:]
-             logger.info('Fetching submodules...')
-@@ -646,10 +669,12 @@ def create_recipe(args):
-         lines_before.append('SRC_URI[md5sum] = "%s"' % md5value)
-     if sha256value:
-         lines_before.append('SRC_URI[sha256sum] = "%s"' % sha256value)
-+    pv_srcpv = False
-     if srcuri and supports_srcrev(srcuri):
-         lines_before.append('')
-         lines_before.append('# Modify these as desired')
-         lines_before.append('PV = "%s+git${SRCPV}"' % (realpv or '1.0'))
-+        pv_srcpv = True
-         if not args.autorev and srcrev == '${AUTOREV}':
-             if os.path.exists(os.path.join(srctree, '.git')):
-                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
-@@ -776,7 +801,7 @@ def create_recipe(args):
-                 skipblank = True
-                 continue
-         elif line.startswith('SRC_URI = '):
--            if realpv:
-+            if realpv and not pv_srcpv:
-                 line = line.replace(realpv, '${PV}')
-         elif line.startswith('PV = '):
-             if realpv:
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb b/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
+index f91ab7f..4ee5983 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
+@@ -6,8 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5089214833586ba444048fd1dbbc76a4 \
+                     file://png.h;endline=149;md5=376d8ff7f69b7c4ad3a09f4672cec696"
+ DEPENDS = "zlib"
+ 
+-SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
+-          "
++LIBV = "16"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/older-releases/${PV}/libpng-${PV}.tar.xz"
++
+ SRC_URI[md5sum] = "ffcdbd549814787fa8010c372e35ff25"
+ SRC_URI[sha256sum] = "7932dc9e5e45d55ece9d204e90196bbb5f2c82741ccb0f7e10d07d364a6fd6dd"
+ 
 -- 
-2.7.4
+2.4.0
 
 
