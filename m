@@ -1,58 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 573D578310
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 69322782F7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 15:15:01 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id a62so17827663itd.1
+	Thu, 20 Jul 2017 15:37:36 +0000 (UTC)
+Received: by mail-io0-f181.google.com with SMTP id q2so12961072ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 08:15:03 -0700 (PDT)
+	Thu, 20 Jul 2017 08:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OyGPySxGoYR8gF/00tz9WAzTnRfzm9K+0VSDVW9TdzA=;
-	b=EdU8+ssyeX2ZThu9ZF3i+lcbqf0NckZjGfvTe7xhewNcF5WhNf/lG1y8CUNhyAJnVK
-	/Ms4K8PIr0ZPwrHPAsiazEkQbEUKySewGz672gZIRtnvdN8Gw+R8W322Fupv1egDpypR
-	lnct9AmJSyUbo/XV+JgNVdfpXDJEAY3O+7S8b/9Hl0rIAlLRKVK+j8EZRTXZFmNPoBhD
-	tILPwHVsUaGLlrM5b/x4u9QEBFTnFzK6XT1Q7g9qPRgqkIRtJ24Y1pm+d0sYnbdT43Pu
-	7NkJL9hJpOg3AyMUrGYJpFqQJWPhD7VRmy/bM9Ov0TFIYqZcT9m6D7ScqaAIK/TjmMva
-	WfIw==
+	:cc; bh=zyitvVrQkVYzD/v8XmMES5VHMrL2EdEixoV0/iqCbrk=;
+	b=oEERQwWc3WyNtsbudz2LXlsC3Mikym17LPbH2gXoBIlnGxT3QjjJBNLCUMJS9SPyj7
+	wN19MUz5D71877zsBdY83n3/MWT01uC0eVkuqYM/ZKZwig2OOfotIIyIEzvjgmzw7ku9
+	mSBELwQFKdKeAZi2Xywy+K60105nzwQcFEX6b1OVgR4p9IQbgEnRogZGlTKP5spfAmfi
+	TxqU4MuJl7SH7AUMRoDp9sF1oeFZyQ4kyQdCyOUR/UlWGZ5uW2ztldBrG4vAE5cW23eO
+	7Xv7OC/i3vD7ltxlCE52HMzcFhvdFB3aqbFTmTvojYi/vy7s2A/HgACNUSe30iW11+0H
+	5eJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=OyGPySxGoYR8gF/00tz9WAzTnRfzm9K+0VSDVW9TdzA=;
-	b=OzP9EBXptRvok46CjMT/FfrRRfYrlbgcPiwbzy0cGlQt0TH2f5tBsxsWE9PMT4Vi9x
-	dTsXSDAKmqDMoRNhS3Y96cw2m+RmqCEYZ1Gtc+dIhN3cC+GSOfA/i+oZpyy6eAPgmU5v
-	dQ6Stzo/ZCup81YBJ5h37RY8Y/z/Z3KUYq+bC/Gd9fDL/YmIrBJeYagAJhhTxwBZlVL7
-	fcFsFliNF6N8yX69bqQWpnE6TIt4ECPnMk0IKqtATiF8hiHFURnV+TKS1Wd07feozGCc
-	4k4ZBGNElsHO/GGngPyQz/An7737Rn40Qf1R+94/1xp678WF0a9RSgVo1MHCjJdFpaio
-	TUCw==
-X-Gm-Message-State: AIVw110cxWub1l3IxfYJIcE6jGaGGlaqGbOycS3FopsbC4QDlqJ6CEHa
-	3JjIbtB4wHkC3hCiCaAoQ04aHt4XjuZI
-X-Received: by 10.36.154.67 with SMTP id l64mr3429098ite.87.1500563703200;
-	Thu, 20 Jul 2017 08:15:03 -0700 (PDT)
+	bh=zyitvVrQkVYzD/v8XmMES5VHMrL2EdEixoV0/iqCbrk=;
+	b=deCNWPGzdD143xKwuzaC7zwAh71LR1pD45B3Md6876xCvUN7vzXXfy+2Z4s7fK31TX
+	ZPbfw9lGDnOYj87nJ1xRIGtxzv1HKbn2THIIRiilwBF0s/iUscdt0NYZXyzgI3FAsjqn
+	mad3PdIq9spVsV6ci0+G6JhshqVoncpSfc0+yQVVN+EkWGCM/kKrH+liF5zJWcYTSEKZ
+	/8dhnrWj/146VKPssMjuYD12HcFZTdtDDpoia/BvE639LKpItf9vsWgSmEleba+AOVI5
+	oUQUj8IW8fm1gvU4QgEV1+SLBFPmWWMpVIlv0lWH27kYnPHTq0XpKSE9u9nGYtDzPEkx
+	0KoQ==
+X-Gm-Message-State: AIVw112L88SffrfHW3Oc1bBCSI1cm9rD/BzyvKLpL8FWIkbCkFigbhE+
+	Xm7a7xUJjHJ6Z6DDsWQCGwY5W9wCvjohV6M=
+X-Received: by 10.107.132.33 with SMTP id g33mr3830297iod.300.1500565058406;
+	Thu, 20 Jul 2017 08:37:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Thu, 20 Jul 2017 08:14:42 -0700 (PDT)
-In-Reply-To: <20170718185441.GR26405@denix.org>
-References: <cover.1499854502.git.liezhi.yang@windriver.com>
-	<3afb134341c5cfde7c0f72fda35d6d94bad24704.1499854502.git.liezhi.yang@windriver.com>
-	<CAJTo0LYUwPxW_0aLGwmwANyNv5sCovXijF-XrMCzTjGSr_V=Nw@mail.gmail.com>
-	<dcbc00ff-666c-ce9a-9884-42224e2701e8@windriver.com>
-	<CAJTo0LanadueCFtjEZXDrk3-jkv2+Y3kBO6FsSBC-9t-Ey1GWg@mail.gmail.com>
-	<a75792ff-4291-1f5c-dca3-0a97ce64639b@windriver.com>
-	<CAJTo0LYV+oyEwE15JQ7+wyRAAWFqorcrAcCRGZOqLdoyY40w_g@mail.gmail.com>
-	<dc06c161-4226-aae8-963b-87090202913e@windriver.com>
-	<CAMKF1spYtmTfAw8aaayFkKbU1eJA2cdgqQX7qAH_VBuMu0FX5g@mail.gmail.com>
-	<20170718185441.GR26405@denix.org>
+Received: by 10.107.135.234 with HTTP; Thu, 20 Jul 2017 08:37:17 -0700 (PDT)
+In-Reply-To: <20170717184050.5474-1-otavio@ossystems.com.br>
+References: <20170717184050.5474-1-otavio@ossystems.com.br>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Jul 2017 16:14:42 +0100
-Message-ID: <CAJTo0Lb13utF3cwjXS70Q2ZwC4mRBsAGZWj+Z5HeZJTycpmVew@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] cryptodev: 1.8 -> 1.9
+Date: Thu, 20 Jul 2017 16:37:17 +0100
+Message-ID: <CAJTo0La-FM3ThuMWJPB4riFf1QLeq0Vd=cRJ_DBjrCCbOCV4Vw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade to 17.1.5 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,36 +54,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 15:15:02 -0000
-Content-Type: multipart/alternative; boundary="94eb2c11489e7e19dd0554c136a9"
+X-List-Received-Date: Thu, 20 Jul 2017 15:37:37 -0000
+Content-Type: multipart/alternative; boundary="001a113ed2e844e7370554c18744"
 
---94eb2c11489e7e19dd0554c136a9
+--001a113ed2e844e7370554c18744
 Content-Type: text/plain; charset="UTF-8"
 
-On 18 July 2017 at 19:54, Denys Dmytriyenko <denis@denix.org> wrote:
+On 17 July 2017 at 19:40, Otavio Salvador <otavio@ossystems.com.br> wrote:
 
-> Should this kind of behavior be addressed by BSP Guidelines and the Yocto
-> Project Compatible 2.0 requirements?
+> This is a stable bugfix release. Following upstream bugs were fixed:
+>
+> Bug 100242 - radeon buffer allocation failure during startup of Factorio
+> Bug 101657 - strtod.c:32:10: fatal error: xlocale.h: No such file or
+> directory
+> Bug 101666 - bitfieldExtract is marked as a built-in function on OpenGL ES
+> 3.0, but was added in OpenGL ES 3.1
+> Bug 101703 - No stencil buffer allocated when requested by GLUT
+>
+> Also, the following patches were included in this release and as such
+> deleted:
+>
+> - etnaviv_fix-shader-miscompilation.patch
 >
 
-Not sure what it would say other than "don't jump the gun"...
+This fails to build on ppc:
+
+| checking for libdrm >= 2.4.75 libdrm_intel >= 2.4.75... no
+| configure: error: Package requirements (libdrm >= 2.4.75 libdrm_intel >=
+2.4.75) were not met:
+|
+| No package 'libdrm_intel' found
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/1191/steps/BuildImages/logs/stdio
 
 Ross
 
---94eb2c11489e7e19dd0554c136a9
+--001a113ed2e844e7370554c18744
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 July 2017 at 19:54, Denys Dmytriyenko <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":42f" class=3D"a3s aX=
-jCH m15d570dac34f9bf5">Should this kind of behavior be addressed by BSP Gui=
-delines and the Yocto<br>
-Project Compatible 2.0 requirements?<br></div></blockquote></div><br>Not su=
-re what it would say other than &quot;don&#39;t jump the gun&quot;...</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
+On 17 July 2017 at 19:40, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
+color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:2gn" class=3D"gm=
+ail-a3s gmail-aXjCH gmail-m15d51daf82d09c29">This is a stable bugfix releas=
+e. Following upstream bugs were fixed:<br>
+<br>
+Bug 100242 - radeon buffer allocation failure during startup of Factorio<br=
+>
+Bug 101657 - strtod.c:32:10: fatal error: xlocale.h: No such file or direct=
+ory<br>
+Bug 101666 - bitfieldExtract is marked as a built-in function on OpenGL ES =
+3.0, but was added in OpenGL ES 3.1<br>
+Bug 101703 - No stencil buffer allocated when requested by GLUT<br>
+<br>
+Also, the following patches were included in this release and as such<br>
+deleted:<br>
+<br>
+- etnaviv_fix-shader-<wbr>miscompilation.patch<br></div></blockquote><div>=
+=C2=A0<br></div></div>This fails to build on ppc:<br><br>| checking for lib=
+drm &gt;=3D 2.4.75 libdrm_intel &gt;=3D 2.4.75... no<br>| configure: error:=
+ Package requirements (libdrm &gt;=3D 2.4.75 libdrm_intel &gt;=3D 2.4.75) w=
+ere not met:<br>| <br>| No package &#39;libdrm_intel&#39; found<br></div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"ht=
+tps://autobuilder.yoctoproject.org/main/builders/nightly-ppc/builds/1191/st=
+eps/BuildImages/logs/stdio">https://autobuilder.yoctoproject.org/main/build=
+ers/nightly-ppc/builds/1191/steps/BuildImages/logs/stdio</a><br></div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---94eb2c11489e7e19dd0554c136a9--
+--001a113ed2e844e7370554c18744--
