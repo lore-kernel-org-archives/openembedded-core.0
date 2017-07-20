@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3728678313
+	by mail.openembedded.org (Postfix) with ESMTP id 5E4CC78312
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 14:48:52 +0000 (UTC)
+	Thu, 20 Jul 2017 14:49:06 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 07:48:54 -0700
+	20 Jul 2017 07:48:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748645"
+X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748646"
 Received: from rpieper-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.39.83])
-	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:53 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:54 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 16:48:09 +0200
-Message-Id: <b9b65e8c79ac27cf8bd7cf1ae155f632e6d72ec8.1500561823.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Jul 2017 16:48:10 +0200
+Message-Id: <a7f4c6089dda6d837cf92946b02c8a3f7d5abd42.1500561823.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.4
 In-Reply-To: <cover.1500561823.git.paul.eggleton@linux.intel.com>
 References: <cover.1500561823.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 3/7] recipetool: create: ensure meaningful error for malformed tarballs
+Subject: [PATCH v2 4/7] recipetool: create: eliminate second fetch for packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 14:48:52 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 14:49:06 -0000
 
-If you pointed recipetool at a URL that should be a tarball e.g.
-https://tls.mbed.org/download/start/mbedtls-2.4.2-apache.tgz but instead
-it returns an HTML page, we try to unpack it, gzip complains but the
-operation doesn't seem to fail - instead we just get back an empty
-source tree. Change the checks to account for this - if the source tree
-is empty, check if the downloaded file in DL_DIR looks like an HTML file
-and error accordingly if it is. If it's not, error out anyway because
-no source was unpacked and it should have been (otherwise we just
-blindly set up EXTERNALSRC for this which is pointless).
-
-Fixes an aspect of [YOCTO #11407].
+When dealing with package files (.rpm, .ipk etc.) we need to unpack them
+ourselves to get the metadata, which is thrown away when the fetcher
+unpacks them. However, since we've already fetched the file once, I'm
+not sure as to why I thought I needed to fetch it again - we can just
+get the local path and then unpack it directly.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ scripts/lib/recipetool/create.py | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 8e63580..923c336 100644
+index 923c336..2b7cc76 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -462,10 +462,16 @@ def create_recipe(args):
-                 srcsubdir = dirlist[0]
-                 srctree = os.path.join(srctree, srcsubdir)
-             else:
--                with open(singleitem, 'r', errors='surrogateescape') as f:
--                    if '<html' in f.read(100).lower():
--                        logger.error('Fetching "%s" returned a single HTML page - check the URL is correct and functional' % fetchuri)
--                        sys.exit(1)
-+                check_single_file(dirlist[0], fetchuri)
-+        elif len(dirlist) == 0:
-+            if '/' in fetchuri:
-+                fn = os.path.join(d.getVar('DL_DIR'), fetchuri.split('/')[-1])
-+                if os.path.isfile(fn):
-+                    check_single_file(fn, fetchuri)
-+            # If we've got to here then there's no source so we might as well give up
-+            logger.error('URL %s resulted in an empty source tree' % fetchuri)
-+            sys.exit(1)
-+
-         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
-             srcuri = 'gitsm://' + srcuri[6:]
-             logger.info('Fetching submodules...')
-@@ -812,6 +818,14 @@ def create_recipe(args):
+@@ -478,20 +478,11 @@ def create_recipe(args):
+             bb.process.run('git submodule update --init --recursive', cwd=srctree)
  
-     return 0
- 
-+def check_single_file(fn, fetchuri):
-+    """Determine if a single downloaded file is something we can't handle"""
-+    with open(fn, 'r', errors='surrogateescape') as f:
-+        if '<html' in f.read(100).lower():
-+            logger.error('Fetching "%s" returned a single HTML page - check the URL is correct and functional' % fetchuri)
-+            sys.exit(1)
-+
-+
- def handle_license_vars(srctree, lines_before, handled, extravalues, d):
-     licvalues = guess_license(srctree, d)
-     lic_files_chksum = []
+         if is_package(fetchuri):
+-            tmpfdir = tempfile.mkdtemp(prefix='recipetool-')
+-            try:
+-                pkgfile = None
++            localdata = bb.data.createCopy(tinfoil.config_data)
++            pkgfile = bb.fetch2.localpath(fetchuri, localdata)
++            if pkgfile:
++                tmpfdir = tempfile.mkdtemp(prefix='recipetool-')
+                 try:
+-                    fileuri = fetchuri + ';unpack=0'
+-                    scriptutils.fetch_uri(tinfoil.config_data, fileuri, tmpfdir, srcrev)
+-                    for root, _, files in os.walk(tmpfdir):
+-                        for f in files:
+-                            pkgfile = os.path.join(root, f)
+-                            break
+-                except bb.fetch2.BBFetchException as e:
+-                    logger.warn('Second fetch to get metadata failed: %s' % str(e).rstrip())
+-
+-                if pkgfile:
+                     if pkgfile.endswith(('.deb', '.ipk')):
+                         stdout, _ = bb.process.run('ar x %s' % pkgfile, cwd=tmpfdir)
+                         stdout, _ = bb.process.run('tar xf control.tar.gz', cwd=tmpfdir)
+@@ -501,8 +492,8 @@ def create_recipe(args):
+                         stdout, _ = bb.process.run('rpm -qp --xml %s > pkginfo.xml' % pkgfile, cwd=tmpfdir)
+                         values = convert_rpm_xml(os.path.join(tmpfdir, 'pkginfo.xml'))
+                         extravalues.update(values)
+-            finally:
+-                shutil.rmtree(tmpfdir)
++                finally:
++                    shutil.rmtree(tmpfdir)
+     else:
+         # Assume we're pointing to an existing source tree
+         if args.extract_to:
 -- 
 2.9.4
 
