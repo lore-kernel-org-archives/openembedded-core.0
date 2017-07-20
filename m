@@ -1,21 +1,48 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 17E5877CFB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BDB778291
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 12:29:29 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 05:29:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="880850264"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Jul 2017 05:29:30 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+	Thu, 20 Jul 2017 12:52:08 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id f21so13939458wrf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 05:52:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=HPeuKqZqFuMYx38A8sNJvr8dH2TU8MkruyUrGi1sP7o=;
+	b=PAPN3w3OSu+cY1ugA0UDewPLvKQCr5+B+/PuBQgfBRCsSr9AOyzhVmkmwLSsAE6zA4
+	Fwwyn4vaytkiMsr9iEhvFzHJnufdOVAl+r+R9sZwL927uOKYasXu3jeBLlnsCjtWkUzj
+	nwL5rYhjoX2J5AVxYYVwkl1e3dKdeN09ZSH91ZG5LoB4NOQ86qgpaHgEkCvqtCL7UyfM
+	bFsAODIvkFOjmtmZxNrUYOdjtu4hWQkottsyQScpHNJ8QtYP8lW9CeLYeIktW1i3yPDa
+	cZgnw7lPT+XaUsLRyEuQz5d851R0X36EUapJcE4mhd7DSHOB6oP0Y4fRMwVJIYGeKPO3
+	uyyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HPeuKqZqFuMYx38A8sNJvr8dH2TU8MkruyUrGi1sP7o=;
+	b=iyqqzMZXX+XIop8MCBW7QsCRvfdtOcRplB4gHt/C4XYQZd+UaRa2uvczDrnekkmFxS
+	JbBecKLgS0EAQHTvdBcmyqLD87homomgzwTOCoYOjXUU5ORKzXz+QukYtChdLI3w5U+t
+	T7yx6PTvR9gHS+w4cp/ezuB07FpPEMZifp0seNI7hsc+EM61+36450gJxKCUaai79byW
+	plC01z3/AHXG5IxGgpNyGV37n5gxeZwd/StOL5jgVZHQnImihQWfrxAXc4ZMNBwH/PVP
+	giwig/zqwC/IkWiBNy/HmfXaFndkr3NKm1H/8q4H2u6bk5YQ7wjRsUC0lTz1flHtyaaR
+	yPtg==
+X-Gm-Message-State: AIVw1129nwxZlexsJsjLUPzfK7Tym36ybPS2J7x+2+CSzYETCaGoJ9xG
+	DRFdzZGO9Maka+2f3ZU=
+X-Received: by 10.223.168.110 with SMTP id l101mr2864749wrc.251.1500555128947; 
+	Thu, 20 Jul 2017 05:52:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	p23sm6827045wrc.35.2017.07.20.05.52.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Jul 2017 05:52:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 15:27:08 +0300
-Message-Id: <20170720122708.39308-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.13.2
-Subject: [PATCH] rpm/dnf: fix Upstream-Status to reflect upstream submission status
+Date: Thu, 20 Jul 2017 13:52:05 +0100
+Message-Id: <20170720125205.25608-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] glibc: fix upstream-status tag in a patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,195 +55,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 12:29:30 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 12:52:09 -0000
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../createrepo-c/0001-Correctly-install-the-shared-library.patch        | 2 +-
- .../dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch | 2 +-
- .../libcomps/0002-Set-library-installation-path-correctly.patch         | 2 +-
- .../0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch     | 2 +-
- .../0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch     | 2 +-
- .../libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch   | 2 +-
- .../libdnf/0003-Set-the-library-installation-directory-correctly.patch  | 2 +-
- .../0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch     | 2 +-
- .../librepo/0001-Correctly-set-the-library-installation-directory.patch | 2 +-
- .../0003-tests-fix-a-race-when-deleting-temporary-directories.patch     | 2 +-
- .../0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch     | 2 +-
- .../0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch     | 2 +-
- .../recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch | 2 +-
- 13 files changed, 13 insertions(+), 13 deletions(-)
+ .../glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Correctly-install-the-shared-library.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Correctly-install-the-shared-library.patch
-index 01271246a22..cd72084ee2f 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Correctly-install-the-shared-library.patch
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c/0001-Correctly-install-the-shared-library.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 2 Jan 2017 17:23:59 +0200
- Subject: [PATCH] Correctly install the shared library
+diff --git a/meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch b/meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch
+index f6530774057..09ad04a4d4d 100644
+--- a/meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch
++++ b/meta/recipes-core/glibc/glibc/0025-locale-fix-hard-coded-reference-to-gcc-E.patch
+@@ -17,7 +17,7 @@ environment.
+ This patch replaces the hard-coded reference to the gcc binary with the proper
+ environment variable, thus allowing a user to override it.
  
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/78]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Upstream-Status : Submitted [https://sourceware.org/ml/libc-alpha/2016-08/msg00746.html]
++Upstream-Status: Submitted [https://sourceware.org/ml/libc-alpha/2016-08/msg00746.html]
  ---
-  src/CMakeLists.txt | 3 ++-
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch b/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch
-index 0226d4fdec8..daf058bbae7 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Move releasever check after the etc/dnf/vars substitutions.
- The substitutions may actually set the releasever correctly,
- and so the check is premature.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf/pull/868]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  dnf/cli/cli.py | 6 +++---
-diff --git a/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch b/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch
-index ec1fdc409bf..dc3d9763523 100644
---- a/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch
-+++ b/meta/recipes-devtools/libcomps/libcomps/0002-Set-library-installation-path-correctly.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:26:00 +0200
- Subject: [PATCH 2/2] Set library installation path correctly
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libcomps/pull/32]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  libcomps/src/CMakeLists.txt | 2 +-
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
-index 73acda6af8a..791a32e7486 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-FindGtkDoc.cmake-drop-the-requirement-for-GTKDOC_SCA.patch
-@@ -7,7 +7,7 @@ Subject: [PATCH 1/4] FindGtkDoc.cmake: drop the requirement for
- For some reason cmake is not able to find it when building in openembedded,
- and it's bundled with the source code anyway.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  cmake/modules/FindGtkDoc.cmake | 2 +-
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-index 77b20c2734d..280edb7a651 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
-@@ -4,7 +4,7 @@ Date: Tue, 7 Feb 2017 12:16:03 +0200
- Subject: [PATCH 5/5] Get parameters for both libsolv and libsolvext (libdnf is
-  using both)
- 
--Upstream-Status: Pending [depends on whether https://github.com/openSUSE/libsolv/pull/177 is accepted]
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch b/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
-index 3d772a5f8a3..7eecc3d0516 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0002-Prefix-sysroot-path-to-introspection-tools-path.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:17:19 +0200
- Subject: [PATCH 2/4] Prefix sysroot path to introspection tools path.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  libdnf/CMakeLists.txt | 4 ++--
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch b/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
-index d7e59d8333a..81264094eb4 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0003-Set-the-library-installation-directory-correctly.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:20:01 +0200
- Subject: [PATCH 3/4] Set the library installation directory correctly.
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  CMakeLists.txt | 4 +++-
-diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-index fc3b048b7d9..1ea93108933 100644
---- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-+++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
-@@ -4,7 +4,7 @@ Date: Fri, 30 Dec 2016 18:24:50 +0200
- Subject: [PATCH 4/5] Set libsolv variables with pkg-config (cmake's own module
-  doesn't work properly).
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/312]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-diff --git a/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch b/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
-index 01fea40467e..08a58f17554 100644
---- a/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:04:35 +0200
- Subject: [PATCH 1/4] Correctly set the library installation directory
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/librepo/pull/110]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  librepo/CMakeLists.txt | 3 ++-
-diff --git a/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch b/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
-index 0d2fae434ad..89ca60e8186 100644
---- a/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:06:24 +0200
- Subject: [PATCH 3/4] tests: fix a race when deleting temporary directories
- 
--Upstream-Status: Pending
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/librepo/pull/110]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  tests/python/tests/test_yum_repo_downloading.py | 2 +-
-diff --git a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-index 6665b316cbb..f7d7ab3a2a1 100644
---- a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-@@ -4,7 +4,7 @@ Date: Fri, 30 Dec 2016 18:23:27 +0200
- Subject: [PATCH 4/4] Set gpgme variables with pkg-config, not with cmake
-  module (which doesn't work properly)
- 
--Upstream-Status: Pending
-+Upstream-Status: Inappropriate [gpgme upstream does not have pkg-config support and is not interested in it]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  CMakeLists.txt | 3 ++-
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index d99ddeb9ea9..1f61acaf431 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-@@ -4,7 +4,7 @@ Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-  default configuration and macros.
- 
--Upstream-Status: Inappropriate [oe-core specific]
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/263]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-index 95c70136bd6..edf9ec08940 100644
---- a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-@@ -3,7 +3,7 @@ From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 14:43:21 +0200
- Subject: [PATCH] Fix build with musl C library.
- 
--Upstream-Status: Pending
-+Upstream-Status: Inappropriate [problem already solved in master branch]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- 
+  locale/gen-translit.pl | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 -- 
-2.13.2
+2.11.0
 
 
