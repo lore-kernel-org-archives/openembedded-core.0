@@ -1,22 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 48C04782F3
+	by mail.openembedded.org (Postfix) with ESMTP id 612A778303
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 14:48:49 +0000 (UTC)
+	Thu, 20 Jul 2017 14:48:50 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 07:48:50 -0700
+	20 Jul 2017 07:48:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748632"
+X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748634"
 Received: from rpieper-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.39.83])
-	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:50 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:51 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 16:48:06 +0200
-Message-Id: <cover.1500561823.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Jul 2017 16:48:07 +0200
+Message-Id: <0efe132c9641f854622e61607f71555adbad4d60.1500561823.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.4
-Subject: [PATCH v2 0/7] recipetool fetching fixes
+In-Reply-To: <cover.1500561823.git.paul.eggleton@linux.intel.com>
+References: <cover.1500561823.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 1/7] classes/staging: change fixme debug message from note to debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +33,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Jul 2017 14:48:50 -0000
 
-Some improvements to recipetool create (and hence devtool add) around
-handling dependencies during fetching, which required extensive
-reworking of the code in order to use normal task execution instead of
-calling the fetcher directly. This also fixes bug 11710 which blocked
-devtool add / recipetool create from working in memres mode. Also
-includes a couple of general fetching improvements.
+These messages were added for debugging during the recipe specific
+sysroot work. They may still be useful but they don't need to be notes -
+if they are they show up in recipetool / devtool output when fetching
+source.
 
-NOTE: this patchset depends upon the tinfoil changes just sent to
-bitbake-devel.
+(From OE-Core rev: a0e93d5c5dcf59d1898a3db727a5ab2d75e3d20e)
 
-Changes since v1:
-- Removed remaining references to scriptutils.fetch_uri() function
-  which didn't work in conjunction with memres or Richard's pending
-  persistent server changes
-- Added a fix for unpacking rpms
-- Tweaked description for 2/7
-- Reordered and fixed "ensure npm available" patch
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/staging.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-The following changes since commit c4c2fb3732dbb290b7f0ca43af2e8662f99e4582:
-
-  libgcrypt: upgrade to 1.7.8 (2017-07-19 15:13:20 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool27
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool27
-
-Paul Eggleton (7):
-  classes/staging: change fixme debug message from note to debug
-  devtool: extract: refactor kern-tools-native handling
-  recipetool: create: ensure meaningful error for malformed tarballs
-  recipetool: create: eliminate second fetch for packages
-  recipetool: create: reimplement fetching with normal fetch/unpack tasks
-  classes/base: set do_unpack dependencies for rpm files
-  recipetool: create: refactor code for ensuring npm is available
-
- meta/classes/base.bbclass            |   4 +-
- meta/classes/staging.bbclass         |   2 +-
- scripts/lib/devtool/__init__.py      |  31 -------
- scripts/lib/devtool/standard.py      |  71 +++-------------
- scripts/lib/devtool/upgrade.py       |  10 ++-
- scripts/lib/recipetool/create.py     | 102 ++++++++++------------
- scripts/lib/recipetool/create_npm.py |  37 ++++++--
- scripts/lib/scriptutils.py           | 158 ++++++++++++++++++++++++++---------
- 8 files changed, 218 insertions(+), 197 deletions(-)
-
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 8f470d5..162c8e9 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -170,7 +170,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
+     for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR']:
+         fixme_path = d.getVar(fixmevar)
+         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+-    bb.note(cmd)
++    bb.debug(2, cmd)
+     subprocess.check_output(cmd, shell=True)
+ 
+ 
 -- 
 2.9.4
 
