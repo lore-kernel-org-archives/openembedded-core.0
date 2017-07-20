@@ -1,28 +1,55 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4010478317
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E4E1A78317
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 21:24:00 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 20 Jul 2017 14:24:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,386,1496127600"; d="scan'208";a="110226993"
-Received: from jalamego-mobl3.zpn.intel.com (HELO [10.219.128.123])
-	([10.219.128.123])
-	by orsmga004.jf.intel.com with ESMTP; 20 Jul 2017 14:24:02 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
-	<1495146527-32073-3-git-send-email-jose.a.lamego@linux.intel.com>
-	<CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
-	<a2fd37e9-cc6d-b323-09d4-267dbdd0e5f5@linux.intel.com>
-Message-ID: <366a1622-dbf0-2d1d-40c9-45c25087d9df@linux.intel.com>
-Date: Thu, 20 Jul 2017 16:24:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Thu, 20 Jul 2017 21:34:52 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id j81so360870ita.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 14:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jQpFAZDnfg06SZEw5Rt9MzNYzv2M0FwAePme5J/XL8s=;
+	b=kpG2spqxyADtu7D0tTDT3AK7ppMuGwUHUxDyQuI+35FOK6TK1BPoIDF/eBhKYEDzJu
+	3B3O2cBX+MIyHsHYEv4frwoRRrMSOMykwHeGetfQm1oCuwHCyQ4ChB72gWf7uoz+KL65
+	VZqQmKBqtLWIq6zcf8UiUci/8cf26/TDtfSJQHN+MkzPH5DIFXIaag+9c11Ah7q5AbqY
+	N7EL0NXwp0ExQxWMp1L2ojxM2+0jQVRmiU7ABqJ2BoGglEMDTZEHVVg75z5sm71Eej1u
+	5COnKO6VekT3IGz04S+eqctB0prbVO/htF9r06G0ljrYeoqxBUuULqr0lajMKrZeOqZo
+	Hujw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jQpFAZDnfg06SZEw5Rt9MzNYzv2M0FwAePme5J/XL8s=;
+	b=PWurHSFtmB4YfYI+vZgs6Sb2iu9ixi64Go4Ua1sQRydrF99ri/xKz9QzczFUBwizIK
+	QZD+ef5dlDjMpsi4980hFxnO6YoSDmqaIMfhnn54UQyWQRxa+8imbYQVir/QxaOI7ocl
+	GIEBr6+72phWDr4Ae/3pHotbYRPEfCKjU8YnvruNNZePLuMweHCSypmhOoFyDbWJ1xya
+	LT3PrkYpk08020gP5JfOkEZE4MKdQicONTpLUcMea/etEJ62WxpOIxDOFAuZo/jixGqw
+	FlfaZBCl2/1qy1q6zl/rVDqCyH2jLyOepFRhF6tjkDcOs3LRPD4Hr0GX1kZCIWAT0iok
+	qz9Q==
+X-Gm-Message-State: AIVw111vGHEcI9/Eixntu31qivwHanUo35bSR0BuWFbRRck2PMongcJC
+	1j0Nsgk2777bxb8aZ9r8CPL44OFlMMBR
+X-Received: by 10.36.26.13 with SMTP id 13mr4569481iti.87.1500586493969; Thu,
+	20 Jul 2017 14:34:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a2fd37e9-cc6d-b323-09d4-267dbdd0e5f5@linux.intel.com>
-Subject: Re: [PATCH 2/2] bc: upgrade 1.06 to 1.07.1
+Received: by 10.107.135.234 with HTTP; Thu, 20 Jul 2017 14:34:33 -0700 (PDT)
+In-Reply-To: <CAP9ODKreV8ydJ30cWn3C-FeQ-O5uNt-6qp9vB28F1DSFfMW5eQ@mail.gmail.com>
+References: <20170717184050.5474-1-otavio@ossystems.com.br>
+	<CAJTo0La-FM3ThuMWJPB4riFf1QLeq0Vd=cRJ_DBjrCCbOCV4Vw@mail.gmail.com>
+	<CAJTo0LapT9NrznbPkFYoVmLcQwVMArSjGT0vFjJ0Z-7x-TvWBw@mail.gmail.com>
+	<CAMKF1spheC7ODGgJ3FeBUiUfDDLH=K1SFJ1=Vr8odT55Q4WTuQ@mail.gmail.com>
+	<CAP9ODKo3H0WUp1T3jQK6qANHMhHLgX5T7cR9HLmmXPJnwpj7FQ@mail.gmail.com>
+	<CAP71WjyVmM=a3rpoGm+CoyERx2=q60sHhT-TanoXHxEef_o6PQ@mail.gmail.com>
+	<CAJTo0Lb8YFtgzfX5m+0mBo52Opc7ayzThQFuxcHDqbVKV1qmCA@mail.gmail.com>
+	<CAP9ODKreV8ydJ30cWn3C-FeQ-O5uNt-6qp9vB28F1DSFfMW5eQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Jul 2017 22:34:33 +0100
+Message-ID: <CAJTo0LZK1_ge8Q-Ernm9JYpZGX9sX5GQVR=DBHgoNf5KXYEjMQ@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: Upgrade to 17.1.5 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,59 +62,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 21:24:01 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 20 Jul 2017 21:34:53 -0000
+Content-Type: multipart/alternative; boundary="001a11441b5ceda0330554c684d1"
 
+--001a11441b5ceda0330554c684d1
+Content-Type: text/plain; charset="UTF-8"
 
+On 20 July 2017 at 21:36, Otavio Salvador <otavio.salvador@ossystems.com.br>
+wrote:
 
-On 05/19/2017 02:17 PM, Jose Lamego wrote:
+> My understanding was that mesa was going to include those headers and
+> stop requiring libdrm-intel. I don't recall if it made into 17.1 or it
+> is master development.
 >
-> On 05/19/2017 10:25 AM, Burton, Ross wrote:
->> On 18 May 2017 at 23:28, Jose Lamego <jose.a.lamego@linux.intel.com
->> <mailto:jose.a.lamego@linux.intel.com>> wrote:
->>
->>     bc recipe must be upgraded to latest version in upstream.
->>
->>     bc license changed from "GPLv2+ & LGPLv2.1" to "GPLv3+ & LGPLv3"
->>     The new version exhibits a Parallel Make Race that required
->>     unsetting PARALLEL_MAKE variable.
->>     This change was tested with core-image-minimal in qemux86.
->>
->>
->> It would be appreciated if you could spend a few minutes looking at what
->> the build race is and pushing a fix upstream.  Or at least include a
->> comment showing the failure.
->>
->> I chased the sed thing as previous releases didn't need it: my build
->> machine doesn't even have ed installed so HOSTTOOLS won't help.  This
->> appears to be a regression as 1.06 shipped the file that needs ed to
->> build.  The makefile now always builds a binary to generate a file that
->> it then runs through ed, and it doesn't build this tool correctly in a
->> cross environment either:
->>
->> | /bin/bash: ./fbc: cannot execute binary file: Exec format error
->>
->> (it's trying to run an arm binary on x86)
->>
->> I'd suggest that we approach the upstream maintainer and discuss:
->> 1) should the tarballs ship libmath.h instead of requiring it to be
->> generated
->> 2) using CC_FOR_BUILD etc from autoconf-archive to build fbc with the
->> host compiler in cross-compile environments
->> 3) can sed be used instead of ed to reduce the host requirements
->>
->> Ross
-> Agree. I will contact the bc maintainer and work on the build race. I'll
-> get back to you with the findings. Thanks for the suggestions!
->
-Update: bc maintainer is working on version 1.07.2, which includes fixes
-for the ed and fbc errors and the Parallel Make race. This upgrade will
-be released soon, so we may skip 1.07.1 upgrade and wait for the new
-stable release.
 
--- 
-Jose Lamego | OTC Embedded Platform & Tools | GDC
+Ok, this isn't related to the upgrade, I reverted it and 17.1.4 does the
+same:
 
+| configure: error: Package requirements (libdrm >= 2.4.75 libdrm_intel >=
+2.4.75) were not met:
 
+I'll bisect that tomorrow...
+
+Ross
+
+--001a11441b5ceda0330554c684d1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 July 2017 at 21:36, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador@=
+ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:=
+solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div id=3D"gmail=
+-:4b9" class=3D"gmail-a3s gmail-aXjCH gmail-m15d61b7e1b06c380">My understan=
+ding was that mesa was going to include those headers and<br>
+stop requiring libdrm-intel. I don&#39;t recall if it made into 17.1 or it<=
+br>
+is master development.<br></div></blockquote><div><br></div><div>Ok, this i=
+sn&#39;t related to the upgrade, I reverted it and 17.1.4 does the same:</d=
+iv><div><br>| configure: error: Package requirements (libdrm &gt;=3D 2.4.75=
+ libdrm_intel &gt;=3D 2.4.75) were not met:=C2=A0<br></div></div><br></div>=
+<div class=3D"gmail_extra">I&#39;ll bisect that tomorrow...</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11441b5ceda0330554c684d1--
