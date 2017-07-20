@@ -1,39 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D1F778302
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 75F077822C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 18:51:56 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id p204so4579651wmg.1
+	Thu, 20 Jul 2017 19:19:00 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id c74so15179786iod.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 11:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 20 Jul 2017 12:19:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=NNa8XFtDnb30YHO37DDOAQoF5Zbk+oAfYiFjVUF+Nu4=;
-	b=XYTdL3x6CKMbH1Bx6r+DP+mM9Q8pOiHOV6tdKTjE7ELPfCyNg15sB4JBLvz8YaLgxF
-	HgUPtKwqA3In+p9Y117cG6c5aS9zkIPcxN/696NGrGrXz1XdlH8VPuiGnWX7Lh3m2tG9
-	ZOq+lmOc+9yF225QBkuIy/UK7wKisGAP4Bs4Vo2mZcnRroS6CQQIjXW0+1ptF0ZuhVPd
-	j255O8IiK1+wJYXygx1pnWXRHqGJ7NNXFFyPEf8qJ76wDgjQYcaYZY4K7xuZj/BhThCx
-	D2jzXKbojNm/3N0m1o4EI5UdtxDyrzUkXAxNVNrJ9gPD3oEfTvuXR/6eBAXZG0MFVnpQ
-	bqxQ==
+	:cc; bh=n/5CCQZN78J8jInkWgvWmxvtej1vp2MHvNBSmbmvzCA=;
+	b=CtXfSFfLazdv6ZJJ0MK8vugdheTNqebIP3+63RYbz78V7T+L+jJlwGh6n61PtC6onU
+	rap9aDsiRd17kxC2T3oIaFIv9wTnEv+7pxJyFX9bHF4zkeApf67ZKWlGnrKxmKenr5Sg
+	M42BplHFaphGaSFr0QSdBXKoBHcHj0PaO3wVLCGemOKd9R/buNXjtF2lYLW+2e21ur2j
+	L6CrjosR9z+W5eWoI7ojrR17drvlzhzQjdCu5cWuyGnc4NWRh3WEfjb/37cDp246ySGO
+	JRINvxoWfC1FI5SOhmku/G4ojbkaV8tC3jiM8ueocVCl0KIYAQK9zb3pE0gcW2BxzcwV
+	Iu9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=NNa8XFtDnb30YHO37DDOAQoF5Zbk+oAfYiFjVUF+Nu4=;
-	b=BZ8YIG2d2QlZQdpz2XGqtzY8T0oiZg0ZA4l5h8rQifb+QKlzjiC1xKXCTUj/ESr3LE
-	IUGr3tPVUu1EiMRKi8fcOvF+pL1s2cK1m5firi/GSk7qYQGi7C1PRN4R5RayBfT9porx
-	YtxWqnv+U0DNIE1h55EAQ9mVMg0Nfw9X0PCjOPgBz1fED5yjrvPgXOjmbK5qoRv/4fae
-	M+z8AK7IsGnryxPZ6iEPofLqlS8+W6OMPKICm0GH0gA5BGEbQSpz9VI/BYvJwgnXQzE+
-	+DJwha7zoLUxlUHTVGQZruSTTnh6U90K70Hqo9E1xv6EAjDq+eUjHniH2uHbeviYLTpO
-	pcxw==
-X-Gm-Message-State: AIVw113xu+mJO4RYTC4RfB0RKU4zMGIr4bg9CXBZY3OAAJmGXNebQn5c
-	y/p9ADQEnh09u0sSB4r7H2pa7ocpmA==
-X-Received: by 10.80.176.162 with SMTP id j31mr3838503edd.186.1500576717890;
-	Thu, 20 Jul 2017 11:51:57 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=n/5CCQZN78J8jInkWgvWmxvtej1vp2MHvNBSmbmvzCA=;
+	b=LUqPd4KgzJegkiX8CvCDI3Y+Ow+6f6i8LjlIoqtV9G92lO2seNHDLuYtHDYFGTU+Ea
+	DtDPWjq/S7WwrF87zcl0KgJ9PR29ltwf0Ny/slpAqCa4DZyRGUa3Fn9jP6pjzL+TFhxA
+	9KHcsV7ZtuEOePYt/8rWcQynUm7UBua2ktJMO+TebxxdoDockpVaG5gEGa8bYPaCMgMN
+	wDwzmc491aKFkIGi92Bzi3D7zsLaU6FLc+kj+qrM/8NRyW6F06XItYWfrvFA8LyxWSYR
+	SW+sh96Rl2BXA2fcyX1ojKd8F1k4CHOOnhc+39Lp1q+K5O8t96+wGNdtozxIO9pTB97R
+	AFlg==
+X-Gm-Message-State: AIVw113SRNQgTkNkzz/NoR/VMgMD/tGNb0SqfYvZ4+ICG9GRQA5oIRND
+	W1aqRVIxw5pytFQ1qncRV9ie97gMwT5D
+X-Received: by 10.107.170.212 with SMTP id g81mr4980638ioj.19.1500578342098;
+	Thu, 20 Jul 2017 12:19:02 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.149.173 with HTTP; Thu, 20 Jul 2017 11:51:27 -0700 (PDT)
-In-Reply-To: <CAKV_0egoE8wJPJGd3qZyePgOS6q0gVzDG-pvPvTpZ5UWQYasYA@mail.gmail.com>
+Received: by 10.107.135.234 with HTTP; Thu, 20 Jul 2017 12:18:41 -0700 (PDT)
+In-Reply-To: <CAMKF1srdmXi-uxH9eX2wK2VYXpmCpkTLTvfZxY+5_OZo65Q-Sg@mail.gmail.com>
 References: <1500417901-4667-1-git-send-email-juro.bystricky@intel.com>
 	<CAMKF1spivq5cRcMDz-uehbqWRUzXyJf6TQ53sOtmFJu+_i1iqw@mail.gmail.com>
 	<CAJ86T=XT9yufogwxMbV-0dW1ooYdvy5DOequ_X4fRQ7=nFWdOQ@mail.gmail.com>
@@ -42,10 +43,11 @@ References: <1500417901-4667-1-git-send-email-juro.bystricky@intel.com>
 	<CAJ86T=XYR9Z=aMO-BAAZYJ2Lh=ZXQy+J5J-LjSuT-n_Hx-1ayA@mail.gmail.com>
 	<CAMKF1soYE49jfc-pkYMLgdh5DJVuA0wyLFiA90Z_3OB7i6tUOw@mail.gmail.com>
 	<CAKV_0egoE8wJPJGd3qZyePgOS6q0gVzDG-pvPvTpZ5UWQYasYA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Jul 2017 14:51:27 -0400
-Message-ID: <CAMKF1srdmXi-uxH9eX2wK2VYXpmCpkTLTvfZxY+5_OZo65Q-Sg@mail.gmail.com>
-To: Brian Avery <avery.brian@gmail.com>
+	<CAMKF1srdmXi-uxH9eX2wK2VYXpmCpkTLTvfZxY+5_OZo65Q-Sg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Jul 2017 20:18:41 +0100
+Message-ID: <CAJTo0LZ-goETzCb25RXab_ewnSENbcFucUDoEPmo48epdAfAdw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-7.inc: add new warning "Wnot-cross-compiler"
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -60,90 +62,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 18:51:57 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 19:19:01 -0000
+Content-Type: multipart/alternative; boundary="001a11425b7009f2ba0554c49f5e"
+
+--001a11425b7009f2ba0554c49f5e
 Content-Type: text/plain; charset="UTF-8"
+
+On 20 July 2017 at 19:51, Khem Raj <raj.khem@gmail.com> wrote:
+
+> it does cause harm, by making the behaviour inconsistent and highly
+> dependent
+> upon build host.
+>
+
+It *stops* behaviour being dependent on the build host, surely.  The
+problem is that some recipes use the host compiler when they're not meant
+to be and this can cause subtle (or not so subtle) breakage.
+
+Ross
+
+--001a11425b7009f2ba0554c49f5e
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 20, 2017 at 12:38 PM, Brian Avery <avery.brian@gmail.com> wrote=
-:
->
->
-> On Wed, Jul 19, 2017 at 6:35 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Wed, Jul 19, 2017 at 7:26 PM, Andre McCurdy <armccurdy@gmail.com>
->> wrote:
->> > On Wed, Jul 19, 2017 at 2:57 PM, Bystricky, Juro
->> > <juro.bystricky@intel.com> wrote:
->> >>> precisely, the problem is that some host compiler may silently ignor=
-e
->> >>> unknown warnings and some host may not be using gcc as default syste=
-m
->> >>> compiler at all e.g. mageia distro and may be more in future.
->> >>
->> >> Yes, it does not nor it attempts to solve all toolchain issues.
->> >> The expectation is that a compiler will choke on an unrecognized
->> >> option.
->> >> For example, gcc will do the following:
->> >>
->> >> $ gcc -Wnot-cross-compiler hello_world.c
->> >> gcc: error: unrecognized command line option =E2=80=98-Wnot-cross-com=
-piler=E2=80=99
->> >>
->> >> As for non-gcc compilers: yes, they may silently ignore unrecognized
->> >> options
->> >> (which IMHO is just wrong). In that case the new options does not wor=
-k
->> >> as intended,
->> >> but it does no harm either.
->> >> Anyway, the intended use was to add something like this a .conf file:
->> >>
->> >> TARGET_CC_ARCH_append_class-target =3D " -Wnot-cross-compiler
->> >> -Werror=3Dnot-cross-compiler"
->> >
->> > Personally, I think we already try to pass too much via CC or the
->> > compiler command line (e.g. -fdebug-prefix-map=3DXXX). Has there ever
->> > been any thought of OE providing a toolchain wrapper, which could pass
->> > these kinds of housekeeping options to the underlying toolchain while
->> > keeping build logs clean and without the worry that CC, CFLAGS, etc
->> > get ignored or clobbered by a custom Makefile somewhere?
->>
->> we could do it by providing customized spec file
->> but this will not be good for external toolchains
->> --
->
->
-> I understand that it will only addresses the case where your target =3D h=
-ost,
-> though as Ross points out this can apply to more than x86.
->
-> I also get that it will not help if the host compiler just eats the warni=
-ng
-> rather than erroring.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 July 2017 at 19:51, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><div id=3D":4ct" class=3D"a3s aXjCH m=
+15d615818cca40f7">it does cause harm, by making the behaviour inconsistent =
+and highly dependent<br>
+upon build host.<br></div></blockquote><div><br></div><div>It *stops* behav=
+iour being dependent on the build host, surely.=C2=A0 The problem is that s=
+ome recipes use the host compiler when they&#39;re not meant to be and this=
+ can cause subtle (or not so subtle) breakage.</div><div><br></div><div>Ros=
+s</div></div><br></div></div>
 
-
->
-> However, there are actual cases where this is an issue and I only noticed=
- it
-> because I happened to be building on an old gcc version that choked on so=
-me
-> new flags.
->
-> I think a customized spec file could be an even better approach, but in t=
-he
-> meantime, it seems like this would help and could be added to distributio=
-ns
-> that want it (in an overridable way, so you can turn them off in config i=
-f
-> you are using an external toolchain).
-
-I would suggest to run it via gcc mailing lists.
-
->
-> Also, it doesn't cause harm unless the distro or recipe decides to turn i=
-t
-> on. Very Hippocratic compliant!
-
-it does cause harm, by making the behaviour inconsistent and highly depende=
-nt
-upon build host.
-
+--001a11425b7009f2ba0554c49f5e--
