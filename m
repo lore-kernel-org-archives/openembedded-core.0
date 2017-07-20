@@ -1,49 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id C664C78303
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 48C04782F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 14:31:05 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id l7so12407952iof.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 07:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wJvbXkZ2TvSvw/VWkR3IgQR00fo5v272ir0SuECahPc=;
-	b=fi7WRjbyvbMLWMPstLYBL6bl7DusuvN4Cu6Yz5bkQHlBhf4jsjbEW8Zw4dCdUfT2i1
-	yGIg9rAvPD/ebY59fA0HIC9rlGM1usEjPmp+J9QN/HrJ7vCOPnZ4FFnl9lMhv3goHpxo
-	XORvkgC94ESU7OR7NiX1CC7pN5j6yNvkFZ4yTvvTklc2pIKhZqOzjzvoQvqcg+RzLMwc
-	wH0e1iN0TINACyYiGSWWDQMRGTIH6veO1tkHDj/qOzhuM54/B3uAi99gMU8LoVskGFV5
-	I4Pdx3GWefre5w+4jiriHKEShn2+latzCZKknWZFQxQRsremNLQ7QOSXTkNew5X1Hohk
-	dLtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wJvbXkZ2TvSvw/VWkR3IgQR00fo5v272ir0SuECahPc=;
-	b=UWe3s5GvMTv9N3z8Rcd1J4/k2wJtNDy97uWDlHFKf9hvhHxemnNr9LxmvX2cnlrUGd
-	dOfLF0tiM6Vgp01jBiZ0f/iiWPuT9muCkq80D/suT7hi+pu6DHVB00eUbxOgxxkNaqvm
-	8S8O7XOwYk8Hpv2NPV6XxTjKztkMS3hqvJAb94aK+oFSm6dT0PxLa3c2C7BA8QBq0npx
-	frkuUUZE21WiMituSZt6o3kIX6F3/CGrlQlgSR49obGbFNGoSSTZsQbPdRE9ZHoMiqQ+
-	5/upfeE4unc3okR1A8m2jZlVuEwEgTfS/bWlBTMN3D4e2MjIrOnIBrGOzqZEbVSNXhPU
-	+K/g==
-X-Gm-Message-State: AIVw110Dm0o/IC9ABqIZt0mnLiBjhFRrzo5YSB7yxbFZbtWy9VEYllZz
-	gTAMItJd3CldkSJDVMFda1LSCIJdJaHj
-X-Received: by 10.107.160.132 with SMTP id j126mr3837716ioe.224.1500561066643; 
-	Thu, 20 Jul 2017 07:31:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Thu, 20 Jul 2017 07:30:46 -0700 (PDT)
-In-Reply-To: <CAMKF1sqOWkSJqqcj4ZW+NB40pJvpuC2NtKJH2Ea3iCwzxwE-8g@mail.gmail.com>
-References: <20170720115657.11406-1-nicolas.dechesne@linaro.org>
-	<CAMKF1sqOWkSJqqcj4ZW+NB40pJvpuC2NtKJH2Ea3iCwzxwE-8g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Jul 2017 15:30:46 +0100
-Message-ID: <CAJTo0LYGGAPLrw5599fhHzdHsrhrJoDPP_FDxDdHxZSESw3_jg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ffmpeg: fix pkg-config utilization
+	Thu, 20 Jul 2017 14:48:49 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jul 2017 07:48:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748632"
+Received: from rpieper-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.39.83])
+	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Jul 2017 16:48:06 +0200
+Message-Id: <cover.1500561823.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH v2 0/7] recipetool fetching fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +29,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 14:31:05 -0000
-Content-Type: multipart/alternative; boundary="001a1140da6657703c0554c09929"
+X-List-Received-Date: Thu, 20 Jul 2017 14:48:50 -0000
 
---001a1140da6657703c0554c09929
-Content-Type: text/plain; charset="UTF-8"
+Some improvements to recipetool create (and hence devtool add) around
+handling dependencies during fetching, which required extensive
+reworking of the code in order to use normal task execution instead of
+calling the fetcher directly. This also fixes bug 11710 which blocked
+devtool add / recipetool create from working in memres mode. Also
+includes a couple of general fetching improvements.
 
-On 20 July 2017 at 13:54, Khem Raj <raj.khem@gmail.com> wrote:
+NOTE: this patchset depends upon the tinfoil changes just sent to
+bitbake-devel.
 
-> There is a proposal to repace pkgconfig with pkgconf, and I hope it
-> will create a symlink to provide pkg-config
->
+Changes since v1:
+- Removed remaining references to scriptutils.fetch_uri() function
+  which didn't work in conjunction with memres or Richard's pending
+  persistent server changes
+- Added a fix for unpacking rpms
+- Tweaked description for 2/7
+- Reordered and fixed "ensure npm available" patch
 
-Yes, it does.
 
-Ross
+The following changes since commit c4c2fb3732dbb290b7f0ca43af2e8662f99e4582:
 
---001a1140da6657703c0554c09929
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  libgcrypt: upgrade to 1.7.8 (2017-07-19 15:13:20 +0100)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 July 2017 at 13:54, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><div id=3D":2hq" class=3D"a3s aXjCH m=
-15d6046cb994f193">There is a proposal to repace pkgconfig with pkgconf, and=
- I hope it<br>
-will create a symlink to provide pkg-config<br></div></blockquote></div><br=
->Yes, it does.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmai=
-l_extra">Ross</div></div>
+are available in the git repository at:
 
---001a1140da6657703c0554c09929--
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool27
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool27
+
+Paul Eggleton (7):
+  classes/staging: change fixme debug message from note to debug
+  devtool: extract: refactor kern-tools-native handling
+  recipetool: create: ensure meaningful error for malformed tarballs
+  recipetool: create: eliminate second fetch for packages
+  recipetool: create: reimplement fetching with normal fetch/unpack tasks
+  classes/base: set do_unpack dependencies for rpm files
+  recipetool: create: refactor code for ensuring npm is available
+
+ meta/classes/base.bbclass            |   4 +-
+ meta/classes/staging.bbclass         |   2 +-
+ scripts/lib/devtool/__init__.py      |  31 -------
+ scripts/lib/devtool/standard.py      |  71 +++-------------
+ scripts/lib/devtool/upgrade.py       |  10 ++-
+ scripts/lib/recipetool/create.py     | 102 ++++++++++------------
+ scripts/lib/recipetool/create_npm.py |  37 ++++++--
+ scripts/lib/scriptutils.py           | 158 ++++++++++++++++++++++++++---------
+ 8 files changed, 218 insertions(+), 197 deletions(-)
+
+-- 
+2.9.4
+
+
