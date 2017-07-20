@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E4CC78312
+	by mail.openembedded.org (Postfix) with ESMTP id A20DB78312
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 20 Jul 2017 14:49:06 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 07:48:55 -0700
+	20 Jul 2017 07:48:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748646"
+X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="129748648"
 Received: from rpieper-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.39.83])
-	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:54 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 20 Jul 2017 07:48:55 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 16:48:10 +0200
-Message-Id: <a7f4c6089dda6d837cf92946b02c8a3f7d5abd42.1500561823.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Jul 2017 16:48:11 +0200
+Message-Id: <27330c09ce0a5e4127c7aa469caf038ff925df4d.1500561823.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.4
 In-Reply-To: <cover.1500561823.git.paul.eggleton@linux.intel.com>
 References: <cover.1500561823.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 4/7] recipetool: create: eliminate second fetch for packages
+Subject: [PATCH v2 5/7] recipetool: create: reimplement fetching with normal fetch/unpack tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +33,339 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Jul 2017 14:49:06 -0000
 
-When dealing with package files (.rpm, .ipk etc.) we need to unpack them
-ourselves to get the metadata, which is thrown away when the fetcher
-unpacks them. However, since we've already fetched the file once, I'm
-not sure as to why I thought I needed to fetch it again - we can just
-get the local path and then unpack it directly.
+Now that we have the ability to run the tasks in a more standard context
+through tinfoil, change recipetool's fetching code to use that to fetch
+files using it. This has the major advantage that any dependencies of
+do_fetch and do_unpack (e.g. for subversion or npm) will be handled
+automatically. This also has the beneficial side-effect of fixing a
+recent regression that prevented this fetch operation from working with
+memory resident bitbake.
+
+Also fix devtool's usage of fetch_uri() at the same time so that we can
+completely replace it.
+
+Fixes [YOCTO #11710].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/recipetool/create.py | 21 ++++++---------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+ scripts/lib/devtool/upgrade.py       |  10 ++-
+ scripts/lib/recipetool/create.py     |  40 ++++-----
+ scripts/lib/recipetool/create_npm.py |  10 +--
+ scripts/lib/scriptutils.py           | 158 ++++++++++++++++++++++++++---------
+ 4 files changed, 153 insertions(+), 65 deletions(-)
 
+diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+index 05fb9e5..f077f37 100644
+--- a/scripts/lib/devtool/upgrade.py
++++ b/scripts/lib/devtool/upgrade.py
+@@ -207,10 +207,16 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
+ 
+         tmpdir = tempfile.mkdtemp(prefix='devtool')
+         try:
+-            md5, sha256 = scriptutils.fetch_uri(tinfoil.config_data, uri, tmpdir, rev)
+-        except bb.fetch2.FetchError as e:
++            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, uri, rev, tmpdir, logger, preserve_tmp=keep_temp)
++        except scriptutils.FetchUrlFailure as e:
+             raise DevtoolError(e)
+ 
++        if ftmpdir and keep_temp:
++            logger.info('Fetch temp directory is %s' % ftmpdir)
++
++        md5 = checksums['md5sum']
++        sha256 = checksums['sha256sum']
++
+         tmpsrctree = _get_srctree(tmpdir)
+         srctree = os.path.abspath(srctree)
+ 
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 923c336..2b7cc76 100644
+index 2b7cc76..2a6a28b 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -478,20 +478,11 @@ def create_recipe(args):
-             bb.process.run('git submodule update --init --recursive', cwd=srctree)
+@@ -417,7 +417,7 @@ def create_recipe(args):
+         pkgarch = "${MACHINE_ARCH}"
  
-         if is_package(fetchuri):
--            tmpfdir = tempfile.mkdtemp(prefix='recipetool-')
--            try:
--                pkgfile = None
-+            localdata = bb.data.createCopy(tinfoil.config_data)
-+            pkgfile = bb.fetch2.localpath(fetchuri, localdata)
-+            if pkgfile:
-+                tmpfdir = tempfile.mkdtemp(prefix='recipetool-')
-                 try:
--                    fileuri = fetchuri + ';unpack=0'
--                    scriptutils.fetch_uri(tinfoil.config_data, fileuri, tmpfdir, srcrev)
--                    for root, _, files in os.walk(tmpfdir):
--                        for f in files:
--                            pkgfile = os.path.join(root, f)
--                            break
--                except bb.fetch2.BBFetchException as e:
--                    logger.warn('Second fetch to get metadata failed: %s' % str(e).rstrip())
+     extravalues = {}
+-    checksums = (None, None)
++    checksums = {}
+     tempsrc = ''
+     source = args.source
+     srcsubdir = ''
+@@ -439,22 +439,25 @@ def create_recipe(args):
+         if res:
+             srcrev = res.group(1)
+             srcuri = rev_re.sub('', srcuri)
+-        tempsrc = tempfile.mkdtemp(prefix='recipetool-')
+-        srctree = tempsrc
+-        d = bb.data.createCopy(tinfoil.config_data)
+-        if fetchuri.startswith('npm://'):
+-            # Check if npm is available
+-            npm_bindir = check_npm(tinfoil, args.devtool)
+-            d.prependVar('PATH', '%s:' % npm_bindir)
+-        logger.info('Fetching %s...' % srcuri)
++
++        tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
++        bb.utils.mkdirhier(tmpparent)
++        tempsrc = tempfile.mkdtemp(prefix='recipetool-', dir=tmpparent)
++        srctree = os.path.join(tempsrc, 'source')
++
+         try:
+-            checksums = scriptutils.fetch_uri(d, fetchuri, srctree, srcrev)
+-        except bb.fetch2.BBFetchException as e:
+-            logger.error(str(e).rstrip())
++            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp)
++        except scriptutils.FetchUrlFailure as e:
++            logger.error(str(e))
+             sys.exit(1)
++
++        if ftmpdir and args.keep_temp:
++            logger.info('Fetch temp directory is %s' % ftmpdir)
++
+         dirlist = os.listdir(srctree)
+-        if 'git.indirectionsymlink' in dirlist:
+-            dirlist.remove('git.indirectionsymlink')
++        filterout = ['git.indirectionsymlink']
++        dirlist = [x for x in dirlist if x not in filterout]
++        logger.debug('Directory listing (excluding filtered out):\n  %s' % '\n  '.join(dirlist))
+         if len(dirlist) == 1:
+             singleitem = os.path.join(srctree, dirlist[0])
+             if os.path.isdir(singleitem):
+@@ -465,7 +468,7 @@ def create_recipe(args):
+                 check_single_file(dirlist[0], fetchuri)
+         elif len(dirlist) == 0:
+             if '/' in fetchuri:
+-                fn = os.path.join(d.getVar('DL_DIR'), fetchuri.split('/')[-1])
++                fn = os.path.join(tinfoil.config_data.getVar('DL_DIR'), fetchuri.split('/')[-1])
+                 if os.path.isfile(fn):
+                     check_single_file(fn, fetchuri)
+             # If we've got to here then there's no source so we might as well give up
+@@ -593,11 +596,8 @@ def create_recipe(args):
+     if not srcuri:
+         lines_before.append('# No information for SRC_URI yet (only an external source tree was specified)')
+     lines_before.append('SRC_URI = "%s"' % srcuri)
+-    (md5value, sha256value) = checksums
+-    if md5value:
+-        lines_before.append('SRC_URI[md5sum] = "%s"' % md5value)
+-    if sha256value:
+-        lines_before.append('SRC_URI[sha256sum] = "%s"' % sha256value)
++    for key, value in sorted(checksums.items()):
++        lines_before.append('SRC_URI[%s] = "%s"' % (key, value))
+     if srcuri and supports_srcrev(srcuri):
+         lines_before.append('')
+         lines_before.append('# Modify these as desired')
+diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
+index cb8f338..ba7e39a 100644
+--- a/scripts/lib/recipetool/create_npm.py
++++ b/scripts/lib/recipetool/create_npm.py
+@@ -109,7 +109,6 @@ class NpmRecipeHandler(RecipeHandler):
+             if varname == 'SRC_URI':
+                 if not origvalue.startswith('npm://'):
+                     src_uri = origvalue.split()
+-                    changed = False
+                     deplist = {}
+                     for dep, depver in optdeps.items():
+                         depdata = self.get_npm_data(dep, depver, d)
+@@ -123,14 +122,15 @@ class NpmRecipeHandler(RecipeHandler):
+                         depdata = self.get_npm_data(dep, depver, d)
+                         deplist[dep] = depdata
+ 
++                    extra_urls = []
+                     for dep, depdata in deplist.items():
+                         version = depdata.get('version', None)
+                         if version:
+                             url = 'npm://registry.npmjs.org;name=%s;version=%s;subdir=node_modules/%s' % (dep, version, dep)
+-                            scriptutils.fetch_uri(d, url, srctree)
+-                            src_uri.append(url)
+-                            changed = True
+-                    if changed:
++                            extra_urls.append(url)
++                    if extra_urls:
++                        scriptutils.fetch_url(tinfoil, ' '.join(extra_urls), None, srctree, logger)
++                        src_uri.extend(extra_urls)
+                         return src_uri, None, -1, True
+             return origvalue, None, 0, True
+         updated, newlines = bb.utils.edit_metadata(lines_before, ['SRC_URI'], varfunc)
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index 92b601c..1005dd4 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -23,6 +23,8 @@ import argparse
+ import subprocess
+ import tempfile
+ import shutil
++import random
++import string
+ 
+ def logger_create(name, stream=None):
+     logger = logging.getLogger(name)
+@@ -78,50 +80,130 @@ def git_convert_standalone_clone(repodir):
+             bb.process.run('git repack -a', cwd=repodir)
+             os.remove(alternatesfile)
+ 
+-def fetch_uri(d, uri, destdir, srcrev=None):
+-    """Fetch a URI to a local directory"""
++def _get_temp_recipe_dir(d):
++    # This is a little bit hacky but we need to find a place where we can put
++    # the recipe so that bitbake can find it. We're going to delete it at the
++    # end so it doesn't really matter where we put it.
++    bbfiles = d.getVar('BBFILES').split()
++    fetchrecipedir = None
++    for pth in bbfiles:
++        if pth.endswith('.bb'):
++            pthdir = os.path.dirname(pth)
++            if os.access(os.path.dirname(os.path.dirname(pthdir)), os.W_OK):
++                fetchrecipedir = pthdir.replace('*', 'recipetool')
++                if pthdir.endswith('workspace/recipes/*'):
++                    # Prefer the workspace
++                    break
++    return fetchrecipedir
++
++class FetchUrlFailure(Exception):
++    def __init__(self, url):
++        self.url = url
++    def __str__(self):
++        return "Failed to fetch URL %s" % self.url
++
++def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
++    """
++    Fetch the specified URL using normal do_fetch and do_unpack tasks, i.e.
++    any dependencies that need to be satisfied in order to support the fetch
++    operation will be taken care of
++    """
++
+     import bb
+-    tmpparent = d.getVar('BASE_WORKDIR')
++
++    checksums = {}
++    fetchrecipepn = None
++
++    # We need to put our temp directory under ${BASE_WORKDIR} otherwise
++    # we may have problems with the recipe-specific sysroot population
++    tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
+     bb.utils.mkdirhier(tmpparent)
+-    tmpworkdir = tempfile.mkdtemp(dir=tmpparent)
++    tmpdir = tempfile.mkdtemp(prefix='recipetool-', dir=tmpparent)
+     try:
+-        bb.utils.mkdirhier(destdir)
+-        localdata = bb.data.createCopy(d)
 -
--                if pkgfile:
-                     if pkgfile.endswith(('.deb', '.ipk')):
-                         stdout, _ = bb.process.run('ar x %s' % pkgfile, cwd=tmpfdir)
-                         stdout, _ = bb.process.run('tar xf control.tar.gz', cwd=tmpfdir)
-@@ -501,8 +492,8 @@ def create_recipe(args):
-                         stdout, _ = bb.process.run('rpm -qp --xml %s > pkginfo.xml' % pkgfile, cwd=tmpfdir)
-                         values = convert_rpm_xml(os.path.join(tmpfdir, 'pkginfo.xml'))
-                         extravalues.update(values)
--            finally:
--                shutil.rmtree(tmpfdir)
-+                finally:
-+                    shutil.rmtree(tmpfdir)
-     else:
-         # Assume we're pointing to an existing source tree
-         if args.extract_to:
+-        # Set some values to allow extend_recipe_sysroot to work here we're we are not running from a task
+-        localdata.setVar('WORKDIR', tmpworkdir)
+-        localdata.setVar('BB_RUNTASK', 'do_fetch')
+-        localdata.setVar('PN', 'dummy')
+-        localdata.setVar('BB_LIMITEDDEPS', '1')
+-        bb.build.exec_func("extend_recipe_sysroot", localdata)
+-
+-        # Set some values for the benefit of the fetcher code
+-        localdata.setVar('BB_STRICT_CHECKSUM', '')
+-        localdata.setVar('SRCREV', srcrev)
+-        ret = (None, None)
+-        olddir = os.getcwd()
++        tmpworkdir = os.path.join(tmpdir, 'work')
++        logger.debug('fetch_url: temp dir is %s' % tmpdir)
++
++        fetchrecipedir = _get_temp_recipe_dir(tinfoil.config_data)
++        if not fetchrecipedir:
++            logger.error('Searched BBFILES but unable to find a writeable place to put temporary recipe')
++            sys.exit(1)
++        fetchrecipe = None
++        bb.utils.mkdirhier(fetchrecipedir)
+         try:
+-            fetcher = bb.fetch2.Fetch([uri], localdata)
+-            for u in fetcher.ud:
+-                ud = fetcher.ud[u]
+-                ud.ignore_checksums = True
+-            fetcher.download()
+-            for u in fetcher.ud:
+-                ud = fetcher.ud[u]
+-                if ud.localpath.rstrip(os.sep) == localdata.getVar('DL_DIR').rstrip(os.sep):
+-                    raise Exception('Local path is download directory - please check that the URI "%s" is correct' % uri)
+-            fetcher.unpack(destdir)
+-            for u in fetcher.ud:
+-                ud = fetcher.ud[u]
+-                if ud.method.recommends_checksum(ud):
+-                    md5value = bb.utils.md5_file(ud.localpath)
+-                    sha256value = bb.utils.sha256_file(ud.localpath)
+-                    ret = (md5value, sha256value)
++            # Generate a dummy recipe so we can follow more or less normal paths
++            # for do_fetch and do_unpack
++            # I'd use tempfile functions here but underscores can be produced by that and those
++            # aren't allowed in recipe file names except to separate the version
++            rndstring = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
++            fetchrecipe = os.path.join(fetchrecipedir, 'tmp-recipetool-%s.bb' % rndstring)
++            fetchrecipepn = os.path.splitext(os.path.basename(fetchrecipe))[0]
++            logger.debug('Generating initial recipe %s for fetching' % fetchrecipe)
++            with open(fetchrecipe, 'w') as f:
++                # We don't want to have to specify LIC_FILES_CHKSUM
++                f.write('LICENSE = "CLOSED"\n')
++                # We don't need the cross-compiler
++                f.write('INHIBIT_DEFAULT_DEPS = "1"\n')
++                # We don't have the checksums yet so we can't require them
++                f.write('BB_STRICT_CHECKSUM = "ignore"\n')
++                f.write('SRC_URI = "%s"\n' % srcuri)
++                f.write('SRCREV = "%s"\n' % srcrev)
++                f.write('WORKDIR = "%s"\n' % tmpworkdir)
++                # Set S out of the way so it doesn't get created under the workdir
++                f.write('S = "%s"\n' % os.path.join(tmpdir, 'emptysrc'))
++
++            logger.info('Fetching %s...' % srcuri)
++
++            # FIXME this is too noisy at the moment
++
++            # Parse recipes so our new recipe gets picked up
++            tinfoil.parse_recipes()
++
++            def eventhandler(event):
++                if isinstance(event, bb.fetch2.MissingChecksumEvent):
++                    checksums.update(event.checksums)
++                    return True
++                return False
++
++            # Run the fetch + unpack tasks
++            res = tinfoil.build_targets(fetchrecipepn,
++                                        'do_unpack',
++                                        handle_events=True,
++                                        extra_events=['bb.fetch2.MissingChecksumEvent'],
++                                        event_callback=eventhandler)
++            if not res:
++                raise FetchUrlFailure(srcuri)
++
++            # Remove unneeded directories
++            rd = tinfoil.parse_recipe(fetchrecipepn)
++            if rd:
++                pathvars = ['T', 'RECIPE_SYSROOT', 'RECIPE_SYSROOT_NATIVE']
++                for pathvar in pathvars:
++                    path = rd.getVar(pathvar)
++                    shutil.rmtree(path)
+         finally:
+-            os.chdir(olddir)
++            if fetchrecipe:
++                try:
++                    os.remove(fetchrecipe)
++                except FileNotFoundError:
++                    pass
++            try:
++                os.rmdir(fetchrecipedir)
++            except OSError as e:
++                import errno
++                if e.errno != errno.ENOTEMPTY:
++                    raise
++
++        bb.utils.mkdirhier(destdir)
++        for fn in os.listdir(tmpworkdir):
++            shutil.move(os.path.join(tmpworkdir, fn), destdir)
++
+     finally:
+-        shutil.rmtree(tmpworkdir)
+-    return ret
++        if not preserve_tmp:
++            shutil.rmtree(tmpdir)
++            tmpdir = None
++
++    return checksums, tmpdir
++
+ 
+ def run_editor(fn):
+     if isinstance(fn, str):
 -- 
 2.9.4
 
