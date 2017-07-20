@@ -1,38 +1,37 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 8332578325
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 977BD78288
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 19:40:25 +0000 (UTC)
-Received: by mail-wr0-f180.google.com with SMTP id 33so18158526wrz.4
+	Thu, 20 Jul 2017 19:41:18 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id g127so35672595wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 12:40:26 -0700 (PDT)
+	Thu, 20 Jul 2017 12:41:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=H0WNlN0KjBuHQ52aruQDCqgLpVdsSsgHoFMjmfc7KXA=;
-	b=ZJz4dZr9T/SGI8lbVBrN/ZKvHQP1JQUwWP7Y5QddpM5DGYK1Svu8J/g251qLpzKSNc
-	3HB6NBZT7b2y72JdB6cQ50zMkzxF86NK3fxsynj8nEmkp88YP13ALyumxPIzcBsy2ffp
-	QKKR3xz33RYhLInWrFqL05qXedSYhzzyuwnCHj/0nrr9jbGWCQY3QnSlISVjg6xUH9o1
-	2FFl6o7DvEhWHSC2MJgCXumBFuLdXSMbww++72y+ltYKKjGDrnqRBeyiOnm6LaWumvb0
-	PPc2cn3Zoxdkx7JtaRlS5RMkWvrm1AdkAABbVYd9sdOxF8T0OXIXaJPQfmSsnE9Ytob0
-	xL+Q==
+	:cc; bh=zfabXtJ77Fu5VvTT70+CbJ7/nvreiyNZiNl5hFwz/ak=;
+	b=WOohk0iWmsC2V1DrpiRJpBIo8MH7efiGsgNk2peWKMqu2mlBntuRtNlBiaY832ixWV
+	ih4UW+NlAqx+HdlIkptLb4e+DjVbDLG5pz1TpeToFsJgrbbyi8+m3wbJ32/5h68prAn0
+	tuWmF2tp6MDfyyJn9R0zFw/S3FxZaswxsIuhPbYlgkYEW44zqq9wQuWb9suMw0UN7SLa
+	CCq2yC3l9oLO7pf1y274Tsg6VXMcabY4+H4BC6MIXc5w2AKPkr+Mxr7uHq2IL+DcBYZe
+	vG8ae+5pKu1BaYKoaVspRJ23Bi4zlzJ9FrywXM0MTnVtiKHRw3+yz01GENVTvbTjdCPi
+	MuaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=H0WNlN0KjBuHQ52aruQDCqgLpVdsSsgHoFMjmfc7KXA=;
-	b=ImOUMUDQrRCLZYbBPGYg+Xps/yzMPNBwzrRDxsM9SQInzUWSjs7y/We28bzDw5Hj/6
-	rInzSjXUIRv4en0egsbpapSeEk1eoQGkzWDsqwc4fVUTVwky7GIUg4v0J2+knjzCl6n3
-	imCxE3HelOXkxbqDaBwQr/yZC+Jg23hHlBmjNyWSqNHIAdIeIM/KCDHAImnvwA5Gl2pu
-	kA1Yyfe09SnotnHpP31S4g6sfifDzMADsghOZU+iXui0ttCULAEbjQdGPrzGf/KeQFeb
-	xccmMddHUM4eiv5+FszJnIUfhyNauis+pfcCK/x4Y3ai1WDwu89SDnGmFWlM3pAKwnl6
-	WQjA==
-X-Gm-Message-State: AIVw112BWapJm9mogjLha2h3U+TLer4mp70+Qdb5iSjQgV1hYg+Ig0co
-	G+m4wUp1qybWfsIaMj8LFFQIpSGW3g==
-X-Received: by 10.223.160.6 with SMTP id k6mr4559737wrk.220.1500579625990;
-	Thu, 20 Jul 2017 12:40:25 -0700 (PDT)
+	bh=zfabXtJ77Fu5VvTT70+CbJ7/nvreiyNZiNl5hFwz/ak=;
+	b=WjBu8uMo2a1WkWNZtoe8OtcWOKpwr6zJQXPPCY30UiT/al+uc8GN3AYQDw14bUPlIx
+	k2hZXCwIEsVBpNEi6zcZzQQvBHk2vD6t5AKVnMCII3OKzBz5vcq2+mPoI+HNb+DzDc1Y
+	v7TLITJBkQ7FF4wTfdsUpwzAckio0e36lDkOB/o7ZUhoA9FkbxQsn5dmRFR1ROX/03tP
+	ha01C3iq802y385iMhrNbWAbePjdN7t/Cu78rz7Od8abjzb66/9Pi1gcUMyjYny4U1xf
+	DI99T3XEhluGv1g8OIpX8lmqfhIkQz+UZUeuiKNhJi4GqRk4ci7PnPGfNx76sxreoihi
+	u5pA==
+X-Gm-Message-State: AIVw111BFG+eW4OiaWdxx4CQtuz/QqNW4bnqXnlwfBc+L5qhUI2d7ic3
+	QyaLIkCk5v0VxSNiLxSQYIRw2dbcVg==
+X-Received: by 10.80.147.197 with SMTP id o63mr3947822eda.194.1500579679346;
+	Thu, 20 Jul 2017 12:41:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.175.16 with HTTP; Thu, 20 Jul 2017 12:40:25 -0700 (PDT)
+Received: by 10.80.149.173 with HTTP; Thu, 20 Jul 2017 12:40:48 -0700 (PDT)
 In-Reply-To: <CAJTo0LZ-goETzCb25RXab_ewnSENbcFucUDoEPmo48epdAfAdw@mail.gmail.com>
 References: <1500417901-4667-1-git-send-email-juro.bystricky@intel.com>
 	<CAMKF1spivq5cRcMDz-uehbqWRUzXyJf6TQ53sOtmFJu+_i1iqw@mail.gmail.com>
@@ -44,9 +43,9 @@ References: <1500417901-4667-1-git-send-email-juro.bystricky@intel.com>
 	<CAKV_0egoE8wJPJGd3qZyePgOS6q0gVzDG-pvPvTpZ5UWQYasYA@mail.gmail.com>
 	<CAMKF1srdmXi-uxH9eX2wK2VYXpmCpkTLTvfZxY+5_OZo65Q-Sg@mail.gmail.com>
 	<CAJTo0LZ-goETzCb25RXab_ewnSENbcFucUDoEPmo48epdAfAdw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 20 Jul 2017 12:40:25 -0700
-Message-ID: <CAJ86T=XEYdhxaEcAgBGx48T63jBb61uPnF3u5czHJY8UbLb5aQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 20 Jul 2017 15:40:48 -0400
+Message-ID: <CAMKF1sp8bYF__F+jqZugwav+dzNvv_YGw0j6Nvxv0KgKLdCnRw@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gcc-7.inc: add new warning "Wnot-cross-compiler"
@@ -62,10 +61,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 19:40:25 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 19:41:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 20, 2017 at 12:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
+On Thu, Jul 20, 2017 at 3:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
 > On 20 July 2017 at 19:51, Khem Raj <raj.khem@gmail.com> wrote:
 >>
@@ -73,12 +72,20 @@ On Thu, Jul 20, 2017 at 12:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >> dependent
 >> upon build host.
 >
+>
 > It *stops* behaviour being dependent on the build host, surely.  The problem
 > is that some recipes use the host compiler when they're not meant to be and
 > this can cause subtle (or not so subtle) breakage.
+>
 
-Is there an example of a recipe which doing that which went unnoticed?
-Doesn't the fact that most recipes do get cross compiled (ie x86
-target on an x86 host is the corner case) should mean that bugs like
-that get flushed out pretty quickly?
+I think I do understand what it does, all of you dont have to keep
+repeating that :), my concern is a bit different as explained. Because
+such
+patches are sticky forever, if they dont get accepted into gcc, look
+at the cross include poisoning patch. If you run it via gcc ml, its
+possible
+they have better suggestions to get the same thing done.
+
+> Ross
+>
 
