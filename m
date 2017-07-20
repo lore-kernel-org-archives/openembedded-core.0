@@ -1,21 +1,30 @@
-Return-Path: <swee.aun.khor@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E13D17827F
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D9FA972F63
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 03:40:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jul 2017 20:40:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,382,1496127600"; d="scan'208";a="113344705"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by orsmga002.jf.intel.com with ESMTP; 19 Jul 2017 20:40:08 -0700
-From: swee.aun.khor@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jul 2017 13:29:40 -0700
-Message-Id: <cover.1500495522.git.swee.aun.khor@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] Support MUSL-x32 build for openssl and libffi
+	Thu, 20 Jul 2017 06:04:09 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21553959"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Jul 2017 14:04:03 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id A5BDD46B53E0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 14:04:00 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.100) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 20 Jul 2017 14:04:01 +0800
+From: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jul 2017 23:03:47 +0800
+Message-ID: <1500563027-43026-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.100]
+X-yoursite-MailScanner-ID: A5BDD46B53E0.A5A7E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v3] glibc-package.inc: add support for armeb of multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,32 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 03:40:08 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 06:04:11 -0000
+Content-Type: text/plain
 
-From: sweeaun <swee.aun.khor@intel.com>
+Add support for armeb of multilib.
 
-Modification to enable MUSL-x32 build for openssl and libffi recipes.
+Signed-off-by: zhengrq <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The following changes since commit 57f606b12b339c82e6981d7ac32450c00d787085:
-
-  libgcrypt: upgrade to 1.7.8 (2017-07-19 15:13:40 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib sweeaun/musl_x32_patch3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sweeaun/musl_x32_patch3
-
-sweeaun (2):
-  openssl: Support musl-x32 build
-  libffi: Support musl-x32 build
-
- meta/recipes-connectivity/openssl/openssl.inc      |  5 ++--
- .../0001-libffi-Support-musl-x32-build.patch       | 30 ++++++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.2.1.bb        |  1 +
- 3 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-libffi-Support-musl-x32-build.patch
-
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 0281251..1a19d4f 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -131,6 +131,10 @@ do_install_append_arm () {
+ 	do_install_armmultilib
+ }
+ 
++do_install_append_armeb () {
++	do_install_armmultilib
++}
++
+ do_install_armmultilib () {
+ 
+ 	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
 -- 
 2.7.4
+
+
 
 
