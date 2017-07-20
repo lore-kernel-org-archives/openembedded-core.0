@@ -1,26 +1,44 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 06352782DA
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A0533782C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 11:50:43 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jul 2017 04:50:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,384,1496127600"; d="scan'208";a="880839338"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Jul 2017 04:50:45 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 6F866580130
+	Thu, 20 Jul 2017 11:57:09 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id a62so14928220itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 04:50:44 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Thu, 20 Jul 2017 04:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=AIWSadYCNUxlgBUucw7heeHmyVW78I82y/A00NdrZLw=;
+	b=PmShV0y7vrjdjlWZJ8Uq00eBeF5iLqitFcTCjpYN8aqBuabyrPbDNPw6WiUhM1bXTs
+	dGwWWC7eKZCaoNoZ1k2l7QcJeExNnJW5U151XwMyQvOdWHVv/8UMpWiHqX5DHSIq2gAY
+	hKouj6o5gAx6qXUAfzF/jJCdUA8D7H+QpVQHk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AIWSadYCNUxlgBUucw7heeHmyVW78I82y/A00NdrZLw=;
+	b=ddbmJDsibHwzfYbMGoEgNyNZKycAECgfoCoHR3/SkG/K1RnHl3ONeNUcW4AeHATOYp
+	9aY0ZzM9feL6BYj1ZltvA4QGKOJKD1d6efAfw8gdtMTy0ip4pSi+nxQK/hcv1L3Q8lte
+	AYOw+IHzqZRgd9j6Ha4ZLfSrl8GW8phsRS6A68/HniFjllKV890vzFflkYvaqCdGlIyS
+	o7syfjFM2gbOwLKfGMj1FdavErrLktpyULsDLJ4EOFtaiMSJo3f7VPW/rErMNwiXANXJ
+	FSNveviz4cAqFwFCg2ZXEfdW+G0sQ8XPLQnQkvAVjNAYNKGnGLk+2SJTnCp0n9WlBp5S
+	4GKw==
+X-Gm-Message-State: AIVw113tTPm+bPeZzUULMVKIpzEm2Yv2tgZ4CVTWZgY+mLsyTurp+Fu2
+	bcq2utTCf++8+8gyQdLUrQ==
+X-Received: by 10.36.112.12 with SMTP id f12mr1763851itc.8.1500551830386;
+	Thu, 20 Jul 2017 04:57:10 -0700 (PDT)
+Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
+	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
+	o11sm1120177iod.61.2017.07.20.04.57.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 20 Jul 2017 04:57:09 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 14:51:34 +0300
-Message-Id: <1500551494-19244-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] libpng: upgrade to 1.6.30
+Date: Thu, 20 Jul 2017 13:56:57 +0200
+Message-Id: <20170720115657.11406-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [PATCH] ffmpeg: fix pkg-config utilization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 11:50:44 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 11:57:09 -0000
 
-1.6.29 -> 1.6.30
+in config.log we can see:
+WARNING: aarch64-linaro-linux-pkg-config not found, library detection may fail.
 
-No changes in License.The license checksums changed because of
-update in Copyright dates in LICENSE and png.h files.
+ffmpeg configure script is not looking for pkg-config at the rigt place since it
+is assuming cross compilation. let's force its value in the recipe.
 
-Since GENTOO_MIRROR also removes the older releases of libpng,
-it makes sense to move back to the original SOURCEFORGE_MIRROR
-and provide an additional MIRROR to the standard path of the
-old binaries present in libpng project - "older-releases".
+This patches 'fixes' library detection and brings the following diff:
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+* RDEPENDS: ++libxcb (>= 1.12) libxcb-shape (>= 1.12) libxcb-shm (>= 1.12) libxcb-xfixes (>= 1.12)
+* PKGSIZE : 79167 -> 87823
+
+Which basically means that the following conf options were left dangling in EXTRA_OECONF:
+
+--enable-libxcb
+--enable-libxcb-shm
+--enable-libxcb-xfixes
+--enable-libxcb-shape
+
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 ---
- .../libpng/{libpng_1.6.29.bb => libpng_1.6.30.bb}         | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
- rename meta/recipes-multimedia/libpng/{libpng_1.6.29.bb => libpng_1.6.30.bb} (53%)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.29.bb b/meta/recipes-multimedia/libpng/libpng_1.6.30.bb
-similarity index 53%
-rename from meta/recipes-multimedia/libpng/libpng_1.6.29.bb
-rename to meta/recipes-multimedia/libpng/libpng_1.6.30.bb
-index 8a3056e..f9ff1a9 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.29.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.30.bb
-@@ -2,14 +2,17 @@ SUMMARY = "PNG image format decoding library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f9acafc1325f8f8da80aeee94dbc1bda \
--                    file://png.h;endline=144;md5=0b2aa20c7ff55d9411108317df8ff0c9"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e2caf3f5970737a6a7b746d8a0d12105 \
-+                    file://png.h;endline=144;md5=7c8feac6904795276e99304ac474f852"
- DEPENDS = "zlib"
-+LIBV = "16"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
+index f4bb2ba1f5..442d4f4532 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
+@@ -107,6 +107,7 @@ EXTRA_OECONF = " \
+     --datadir=${datadir}/ffmpeg \
+     ${@bb.utils.contains('AVAILTUNES', 'mips32r2', '', '--disable-mipsdsp --disable-mipsdspr2', d)} \
+     --cpu=${@cpu(d)} \
++    --pkg-config=pkg-config \
+ "
  
--SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
--          "
--SRC_URI[md5sum] = "3245dbd76ea91e1437507357b858ec97"
--SRC_URI[sha256sum] = "4245b684e8fe829ebb76186327bb37ce5a639938b219882b53d64bd3cfc5f239"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz"
-+
-+MIRRORS += "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/older-releases/${PV}"
-+
-+SRC_URI[md5sum] = "88a729d47eaf880d61a0ef90f4bd5e8f"
-+SRC_URI[sha256sum] = "267c332ffff70cc599d3929207869f698798f1df143aa5f9597b007c14353666"
- 
- BINCONFIG = "${bindir}/libpng-config ${bindir}/libpng16-config"
- 
+ EXTRA_OECONF_append_linux-gnux32 = " --disable-asm"
 -- 
-2.4.0
+2.11.0
 
 
