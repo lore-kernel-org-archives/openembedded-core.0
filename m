@@ -1,53 +1,66 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 59EFD7835E
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 627E978243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 20:25:26 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id v127so21679700itd.0
+	Thu, 20 Jul 2017 20:36:57 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id y43so11021338wrd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 13:25:28 -0700 (PDT)
+	Thu, 20 Jul 2017 13:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=h9JRsn0n0x6U2xu0NpjI1rkwlFsINQFKF2IIYXYjnrU=;
-	b=VClElDhLsy1Tp1NbYrLsnZuxsNJt2s3SkdDlhcA40mU64p3SFMk2F9sYbmJSleHt1U
-	GBId6xjZ0JULjdTxe3AFh2kzMsh81djy01Za11DzpHRc8S9LkbUkrfhXuINW5jFbXNyW
-	YxmKTw6SbW/aTz+MjJchTYOdyOMo5VkFu4m4GM7LJokap91poq5+skHCvx5l1bWlKEhl
-	dNjAoCaalfnJtvOZm5+i+OHTHAfF8JS2drdGyJnbFIA96Om9tqGlvE0KuL9aW3hQonE2
-	kQd9oB4cAZ6ghzimWnOH8YoFrt/v69UhQxq5yPfRK2gUSq+6r4cHP67wfOFG9OH/+DGI
-	DI0Q==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=jBB8s1tfkSoaFW9V7mjbfSu11GRu6Z4ryvv5ghXPTkE=;
+	b=pR/nIO2cVXHCPLcSiSihP2vqVuzUWjWn+C4phieDjeUz47rG12xeR2x4wI8YDy7lUg
+	pPEL14JuWcpp+hD88G/thtPgb8gcQ5eEbczCLt0jt3f1LuDsSdyTG3SQRWGmq1GOt3x9
+	ZdKEwduwaYtXsy2DS4Pp6sOoF3J3mYi3uLP8pCysUzQ5RgOK70O1MMaO2MBK/8uu4Inb
+	a5jXiMlSOc47wMY+MjPeZybPXerZf0mKyquJ5X24dfjA4J5vdtI0W9I2Vmu6DZ8azqTQ
+	HyGwzPiWrURzl6XfwdrF0fH9YrSH/5yurMsay2pnObMNbw/LYuajrEBe3Vxw7QpRjetm
+	Kxfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=h9JRsn0n0x6U2xu0NpjI1rkwlFsINQFKF2IIYXYjnrU=;
-	b=k4v4tXJeHh+k8inttOx7jUVMIPqLQ53s/CiMN1wKMS6E1JmDEnyahYslG3VBmJVG9m
-	lbk2oSg+hPOFmxH3QWy4WxgiM3KAumQ6zAtYoLOADBJgchVYvuqaC2ynR3U3pj9JmFCB
-	qRhoMd8ChD5ba2MQJwc5/qvzv8nfVAF6JhhelA0C+Ha1/A3LQGjs+n08TVB7CVlE6w3v
-	eFpNhRcqKLgkmrHSqYfwTQ3Gqfu3MVeQKjaSPPelpuWQFeyMZwfp9Zmv/VB86Hp0HrzZ
-	VrsVMatoG4suUgH6pHmRvAmjyiJEXFrRjwvuYWOsn7m+y8ElFmajNf8DtIpUdwdUsrH4
-	S20w==
-X-Gm-Message-State: AIVw110yQ5tApt+clod4BI6YinUfAz+o2dHG53WpE3SH+nZ+KOnDPE6W
-	9jdcF0Bl97O86Gk2aTxAJQxKH4nPoPzm
-X-Received: by 10.36.26.13 with SMTP id 13mr4384108iti.87.1500582327706; Thu,
-	20 Jul 2017 13:25:27 -0700 (PDT)
+	bh=jBB8s1tfkSoaFW9V7mjbfSu11GRu6Z4ryvv5ghXPTkE=;
+	b=H6x84nxq7o44PauCf/v9lRcXxJSzf/hDfM59y/1yTL9sTW/fku7CgcGU8dj8HJxHkI
+	s5FJwjkkAFkqWifsutQkAwJFxv7u8oTD/W0A0zT4Q9HcVgXhtEPQSidIr2jVXtIdePSU
+	6uqYVwo70HUw4H2bneg3fT6yEpAOp4m4hnt1YG0VIzRHQfmDDeRasiCkgJQEsmPsUl5S
+	yii+vra5vEM3Ffpopj/980+RDZXfAuesePceWxJwWoMXr8oU8f9Dyt3heGzjxtoOIACF
+	5Z0EQLVJrpPkCGmsCbVHTbFEXlsJI2yKcqsjJ/ENknpgQb2vYW/XNccwp5iHDRiyDpGm
+	5AMw==
+X-Gm-Message-State: AIVw111v89Ua4DQOBxFF6TYeMun5/79oD1liRf/PvDWOpC3vUXmrfcuH
+	T6dlyibUOlMNZI2Wgeg=
+X-Received: by 10.223.158.133 with SMTP id a5mr7847289wrf.188.1500583018058;
+	Thu, 20 Jul 2017 13:36:58 -0700 (PDT)
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com.
+	[74.125.82.49]) by smtp.gmail.com with ESMTPSA id
+	p63sm3410272wrb.75.2017.07.20.13.36.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Jul 2017 13:36:57 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wm0-f49.google.com with SMTP id v139so231593wmv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 13:36:56 -0700 (PDT)
+X-Received: by 10.28.126.8 with SMTP id z8mr3393743wmc.46.1500583016740; Thu,
+	20 Jul 2017 13:36:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Thu, 20 Jul 2017 13:25:07 -0700 (PDT)
-In-Reply-To: <CAP71WjyVmM=a3rpoGm+CoyERx2=q60sHhT-TanoXHxEef_o6PQ@mail.gmail.com>
+Received: by 10.28.198.141 with HTTP; Thu, 20 Jul 2017 13:36:55 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb8YFtgzfX5m+0mBo52Opc7ayzThQFuxcHDqbVKV1qmCA@mail.gmail.com>
 References: <20170717184050.5474-1-otavio@ossystems.com.br>
 	<CAJTo0La-FM3ThuMWJPB4riFf1QLeq0Vd=cRJ_DBjrCCbOCV4Vw@mail.gmail.com>
 	<CAJTo0LapT9NrznbPkFYoVmLcQwVMArSjGT0vFjJ0Z-7x-TvWBw@mail.gmail.com>
 	<CAMKF1spheC7ODGgJ3FeBUiUfDDLH=K1SFJ1=Vr8odT55Q4WTuQ@mail.gmail.com>
 	<CAP9ODKo3H0WUp1T3jQK6qANHMhHLgX5T7cR9HLmmXPJnwpj7FQ@mail.gmail.com>
 	<CAP71WjyVmM=a3rpoGm+CoyERx2=q60sHhT-TanoXHxEef_o6PQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Jul 2017 21:25:07 +0100
-Message-ID: <CAJTo0Lb8YFtgzfX5m+0mBo52Opc7ayzThQFuxcHDqbVKV1qmCA@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
+	<CAJTo0Lb8YFtgzfX5m+0mBo52Opc7ayzThQFuxcHDqbVKV1qmCA@mail.gmail.com>
+Date: Thu, 20 Jul 2017 17:36:55 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKreV8ydJ30cWn3C-FeQ-O5uNt-6qp9vB28F1DSFfMW5eQ@mail.gmail.com>
+Message-ID: <CAP9ODKreV8ydJ30cWn3C-FeQ-O5uNt-6qp9vB28F1DSFfMW5eQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mesa: Upgrade to 17.1.5 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -61,43 +74,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 20:25:26 -0000
-Content-Type: multipart/alternative; boundary="001a11441b5c9983810554c58ce5"
-
---001a11441b5c9983810554c58ce5
+X-List-Received-Date: Thu, 20 Jul 2017 20:36:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 20 July 2017 at 21:14, Nicolas Dechesne <nicolas.dechesne@linaro.org>
-wrote:
-
-> It built fine for me (OE-core/nodistro + meta-qcom) with and without
-> pkg-config installed on the host.
+On Thu, Jul 20, 2017 at 5:25 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >
+> On 20 July 2017 at 21:14, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> wrote:
+>>
+>> It built fine for me (OE-core/nodistro + meta-qcom) with and without
+>> pkg-config installed on the host.
+>
+>
+> Yeah it's not that, mesa builds fine for intel-corei7 on my machine, but
+> fails with qemuppc.
+>
+> libdrm isn't generating a libdrm_intel if I build for qemuppc.  Maybe it's
+> looking for kernel bits that are disabled in our latest kernels?
 
-Yeah it's not that, mesa builds fine for intel-corei7 on my machine, but
-fails with qemuppc.
+My understanding was that mesa was going to include those headers and
+stop requiring libdrm-intel. I don't recall if it made into 17.1 or it
+is master development.
 
-libdrm isn't generating a libdrm_intel if I build for qemuppc.  Maybe it's
-looking for kernel bits that are disabled in our latest kernels?
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Ross
-
---001a11441b5c9983810554c58ce5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 July 2017 at 21:14, Nicolas Dechesne <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.dechesne@lin=
-aro.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
-:47i" class=3D"a3s aXjCH m15d61a3e75e9f2e4">It built fine for me (OE-core/n=
-odistro + meta-qcom) with and without<br>
-pkg-config installed on the host.<br></div></blockquote><div><br></div><div=
->Yeah it&#39;s not that, mesa builds fine for intel-corei7 on my machine, b=
-ut fails with qemuppc.</div><div><br></div><div>libdrm isn&#39;t generating=
- a libdrm_intel if I build for qemuppc.=C2=A0 Maybe it&#39;s looking for ke=
-rnel bits that are disabled in our latest kernels?</div><div><br></div><div=
->Ross=C2=A0</div></div><br></div></div>
-
---001a11441b5c9983810554c58ce5--
