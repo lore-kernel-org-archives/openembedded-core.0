@@ -1,51 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D5F48781C2
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CE13977F85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 01:35:47 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id t3so884044wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jul 2017 18:35:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=aG2oSnJjNAXXkT+A/MVOFgedfsWgJSIy3V6gu2QZx7I=;
-	b=TDqPKy5zG+NxyM351GGB/AW11qb7gqbnobXxId4xHQzJSCKQhtp6hFsNNlR7IodJih
-	Jc6VLPn4lJ5iH+Up8yIS+zLJOON1GWpRwdixjuwKXywiyv3s8vfRMYg6xyrJ7wDRfc0j
-	J7bNKl2nes5rwvC1v2N3UeBw2qSR/JY0fmtCETHQnV4HHD5BQsh6I8TL+cmkAikMe1wr
-	EPFp6Bjjy+5qNoGCB7UM1VBzZbgMbErHkT5U602JGdiVsV2Y2D0ljHMMnwJ9z2pOKHuR
-	FKnVMez8lX9h/lUy/L8Mrv9hzwb4xHxHBXxgjr5hlp6JpQVohwtCKWEm7r+CDQH0M7MY
-	V6/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=aG2oSnJjNAXXkT+A/MVOFgedfsWgJSIy3V6gu2QZx7I=;
-	b=ncYtCMTfJETQ2+ex25MAslmEE0Z06e35ogyjRe/FIdsAxC5c+jZLwab9rolECPQpvE
-	LsxU+oPpU8l12j8s+bvF8awcJ+nJWkLrIyd+9GkO+zvgkZer6Agzu/qepsQOsV6jQx9/
-	FAgoYEwoNegSFLlvj+4W5LrtO0Gz8A7MvEXVF5/mkZ7sNhMBdyFaOpnrn2/7/Wnuq3t/
-	n3oP9msXzWKg4hPCMUoZDac9gk+X4Vw3nizSZKqZ+UNgIWb/crbnhZqRCCNSCsnjKDvn
-	0vt3KK43qh/Qu5nUinbDGJ6U8wNHv5G9mTQmAJWaD5xQ5FmvlvJuxdZPshHznEsR6+ZD
-	dGbg==
-X-Gm-Message-State: AIVw111ErSw+xsDQVylJuSeHKaSE4N5/1dPm+BLm9F3nVPUppku09ZWC
-	m5A6hjj6bQhzKlf08iWjDoerW7TQuA==
-X-Received: by 10.80.159.165 with SMTP id c34mr1353237edf.11.1500514548517;
-	Wed, 19 Jul 2017 18:35:48 -0700 (PDT)
+	Thu, 20 Jul 2017 02:09:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6K29SIM001383
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Jul 2017 19:09:28 -0700 (PDT)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 19 Jul 2017 19:09:27 -0700
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <paul.eggleton@linux.intel.com>, 
+	<ross.burton@intel.com>
+References: <cover.1500450690.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <0f028eac-d2d0-3ab8-232c-658db5b7cc6d@windriver.com>
+Date: Thu, 20 Jul 2017 10:09:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-Received: by 10.80.149.173 with HTTP; Wed, 19 Jul 2017 18:35:18 -0700 (PDT)
-In-Reply-To: <CAJ86T=XYR9Z=aMO-BAAZYJ2Lh=ZXQy+J5J-LjSuT-n_Hx-1ayA@mail.gmail.com>
-References: <1500417901-4667-1-git-send-email-juro.bystricky@intel.com>
-	<CAMKF1spivq5cRcMDz-uehbqWRUzXyJf6TQ53sOtmFJu+_i1iqw@mail.gmail.com>
-	<CAJ86T=XT9yufogwxMbV-0dW1ooYdvy5DOequ_X4fRQ7=nFWdOQ@mail.gmail.com>
-	<CAMKF1soRVeHPLh_LFSxpcGG=1u1OcKvMv3yEifihP_Y7Y-eXUw@mail.gmail.com>
-	<6E51916E4A1F32428260031F4C7CD2B6119BDF6B@ORSMSX112.amr.corp.intel.com>
-	<CAJ86T=XYR9Z=aMO-BAAZYJ2Lh=ZXQy+J5J-LjSuT-n_Hx-1ayA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 19 Jul 2017 21:35:18 -0400
-Message-ID: <CAMKF1soYE49jfc-pkYMLgdh5DJVuA0wyLFiA90Z_3OB7i6tUOw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-7.inc: add new warning "Wnot-cross-compiler"
+In-Reply-To: <cover.1500450690.git.liezhi.yang@windriver.com>
+Subject: Re: [RFC PATCH 0/5] revive runtime/cases/_ptest.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 01:35:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Jul 2017 02:09:30 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 19, 2017 at 7:26 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Wed, Jul 19, 2017 at 2:57 PM, Bystricky, Juro
-> <juro.bystricky@intel.com> wrote:
->>> precisely, the problem is that some host compiler may silently ignore
->>> unknown warnings and some host may not be using gcc as default system
->>> compiler at all e.g. mageia distro and may be more in future.
->>
->> Yes, it does not nor it attempts to solve all toolchain issues.
->> The expectation is that a compiler will choke on an unrecognized option.
->> For example, gcc will do the following:
->>
->> $ gcc -Wnot-cross-compiler hello_world.c
->> gcc: error: unrecognized command line option =E2=80=98-Wnot-cross-compil=
-er=E2=80=99
->>
->> As for non-gcc compilers: yes, they may silently ignore unrecognized opt=
-ions
->> (which IMHO is just wrong). In that case the new options does not work a=
-s intended,
->> but it does no harm either.
->> Anyway, the intended use was to add something like this a .conf file:
->>
->> TARGET_CC_ARCH_append_class-target =3D " -Wnot-cross-compiler -Werror=3D=
-not-cross-compiler"
+
+
+On 07/19/2017 04:16 PM, Robert Yang wrote:
+> Hello,
 >
-> Personally, I think we already try to pass too much via CC or the
-> compiler command line (e.g. -fdebug-prefix-map=3DXXX). Has there ever
-> been any thought of OE providing a toolchain wrapper, which could pass
-> these kinds of housekeeping options to the underlying toolchain while
-> keeping build logs clean and without the worry that CC, CFLAGS, etc
-> get ignored or clobbered by a custom Makefile somewhere?
+> These patches can make ptest test case work, RP has suggested we write a tool to
+> do the regression check on ptest result, I think that the use case is like:
+>
+> $ bitbake <image> -ctestiamge # Suppose we add ptest to default test cases in the future
+> # Upgrade a recipe form V1.0 to V1.1
+> $ bitbake <image> -ctestiamge # Run the test again
+>
+> Then the regression check tool can report what's different (passed, failed,
+> skipped) between V1.0 and V1.1.
+>
+> Currently, I'm not sure about where to save the ptest results, I saved it to
+> ${WORKDIR}/testimage/ptest_log atm, e.g.:
+> tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/testimage/ptest_log
 
-we could do it by providing customized spec file
-but this will not be good for external toolchains
+I still have to think about more about where to put the test result.
+
+>
+> But it will be removed after -cclean, then no regression check can be made, so
+> I'd like to save the ptest results to DEPLOY_DIR_IMAGE if no objections, and
+> make -cclean not remove them. (Or only keep the latest 2 results).
+>
+> And I'm not sure where to add the regression check/tool, maybe one of:
+> 1) Add a separate tool in oe-core/scripts, this can make it easy to do regression
+>    check among different build directories, and runtime/cases/_ptest.py can invoke it.
+
+I'm leaning to add a script called ptest-regression-check which is more
+flexible, the cases/ptest.py or buildhistory (also the user) can run it
+when needed.
+
+// Robert
+
+> 2) Add it to runtime/cases/_ptest.py directly
+> 3) Add it to buildhistory
+>
+> I prefer the first one, please feel free to give your comments.
+>
+> // Robert
+>
+> The following changes since commit ef68005a8c527e9b1d05b7769f0ec8ebe9ec3f91:
+>
+>   webkitgtk: Upgrade to 2.16.5 (2017-07-17 13:49:04 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/ptest
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ptest
+>
+> Robert Yang (5):
+>   oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
+>   runtime/cases/_ptest.py: revive it
+>   oeqa/utils/logparser.py: add skip status
+>   runtime/cases/_ptest.py: add skip status
+>   runtime/cases/_ptest.py: rename it to ptest.py
+>
+>  meta/lib/oeqa/runtime/cases/_ptest.py | 103 ----------------------------------
+>  meta/lib/oeqa/runtime/cases/ptest.py  |  77 +++++++++++++++++++++++++
+>  meta/lib/oeqa/targetcontrol.py        |   5 +-
+>  meta/lib/oeqa/utils/logparser.py      |   5 +-
+>  4 files changed, 82 insertions(+), 108 deletions(-)
+>  delete mode 100644 meta/lib/oeqa/runtime/cases/_ptest.py
+>  create mode 100644 meta/lib/oeqa/runtime/cases/ptest.py
+>
 
