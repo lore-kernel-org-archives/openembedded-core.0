@@ -1,31 +1,31 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [217.30.184.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 01DD678284
+	by mail.openembedded.org (Postfix) with ESMTP id 0C4EC6E688
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 13:23:25 +0000 (UTC)
+	Thu, 20 Jul 2017 13:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; 
 	h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=nNuC6+AyrhFKZ9EfoQYgj/bv6ZQTfzbO3FIO5496A3g=; 
-	b=pOLhDdrN6Q+HUH0TAKiNG6NghAjz1ePRSMGk0lIDvhz2w+x5XP0hyaWdaJwit1LMtg1gZAvi3JHwzyCshAb5pyG81ich6JZSbOpSJMnm1vTwIaFNMvseQ4zoT0+PdHEGY1qY9vBx+2C9u/wkpQrr4nBzJ535n6aD/PAHjctxU2tvNr7VpL9tSfzg6odTr4iclk7RQjrOMnesycvqdfdnynC+R3kaZPlv4AFrpaq4bMQgM7uHWYSGLZ45+1GTsOAAFnRt0mhK4XNDC/o/k9wKj5J7OgR11bg5GdI+7XnGq6GNmhrCrixQaArTEf0DvZoLQwygPGHEi4T+FSl6caUS1A==;
+	bh=W18tnf4XcBe7iMX+lXQNSo3BnP1aUoarCS+Srz4CxUw=; 
+	b=uugv9o7rRy69CwkATjhjZEcdSSnXGGe0KO8OUK6FRS6bNMNap2uFLMMexrqj7lkSv4SzamSJQNh1FG5TG4BAkSVSvoz2oIQb4dE18PcrWhiVnEDEFnZ/k/klOmO3eZjkfsZLXzobTZdxN3ExZGFnY6e1bArg1JXZ/ShSEwXR+VjmgIrG+38pp1IjA302zcqohnMF99gcj607za0CXDMqO3EzYVeow23Ff1Faxddx1DDiP/onIzSCkFSCR84I+vatpTNo/+PmItHQ6efha/Rw+XgUJ8lDToymsY8PcJWNWg1Kqw0bClWDookOBKoC3QQyKRO+UyuGVDhdxPvEpkplpQ==;
 Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1dYBQN-0005NA-5X; Thu, 20 Jul 2017 16:23:27 +0300
+	id 1dYBQN-0005NF-6T; Thu, 20 Jul 2017 16:23:27 +0300
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1dYBQN-0003T3-3J; Thu, 20 Jul 2017 16:23:27 +0300
+	id 1dYBQN-0003TE-4Z; Thu, 20 Jul 2017 16:23:27 +0300
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 16:23:03 +0300
-Message-Id: <1500556991-11471-16-git-send-email-mikko.rapeli@bmw.de>
+Date: Thu, 20 Jul 2017 16:23:04 +0300
+Message-Id: <1500556991-11471-17-git-send-email-mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1500556991-11471-1-git-send-email-mikko.rapeli@bmw.de>
 References: <1500556991-11471-1-git-send-email-mikko.rapeli@bmw.de>
 X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
 X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH 15/23] nspr_4.14.bb: set CVE_PRODUCT to netscape_portable_runtime
+Subject: [PATCH 16/23] python.inc: set CVE_PRODUCT to python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +40,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Jul 2017 13:23:28 -0000
 
-This is used in NVD database entries like CVE:
+All python versions are just python in NVD like this CVE
+for python 3.4.4:
 
-https://nvd.nist.gov/vuln/detail/CVE-2016-1951
+https://nvd.nist.gov/vuln/detail/CVE-2016-5699
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 ---
- meta/recipes-support/nspr/nspr_4.14.bb | 2 ++
+ meta/recipes-devtools/python/python.inc | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/nspr/nspr_4.14.bb b/meta/recipes-support/nspr/nspr_4.14.bb
-index 6b47820..b0892a1 100644
---- a/meta/recipes-support/nspr/nspr_4.14.bb
-+++ b/meta/recipes-support/nspr/nspr_4.14.bb
-@@ -25,6 +25,8 @@ UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
- SRC_URI[md5sum] = "743f6b7888a614da9927400874054d8c"
- SRC_URI[sha256sum] = "64fc18826257403a9132240aa3c45193d577a84b08e96f7e7770a97c074d17d5"
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index b4bce24..b40f551 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -16,6 +16,8 @@ SRC_URI[sha256sum] = "35d543986882f78261f97787fd3e06274bfa6df29fac9b4a94f73930ff
+ # also, exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>2(\.\d+)+).tar"
  
-+CVE_PRODUCT = "netscape_portable_runtime"
++CVE_PRODUCT = "python"
 +
- S = "${WORKDIR}/nspr-${PV}/nspr"
+ PYTHON_MAJMIN = "2.7"
  
- RDEPENDS_${PN}-dev += "perl"
+ inherit autotools pkgconfig
 -- 
 1.9.1
 
