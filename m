@@ -1,44 +1,28 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D901E73068
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4010478317
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 20:56:47 +0000 (UTC)
-Received: by mail-it0-f44.google.com with SMTP id v127so22036411itd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 13:56:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=l53CbyK7+TQcLEZVAqiRBDrKZ5V+dX5/dTISWlKqgmY=;
-	b=VuyL5xXBbnTbji7SkogVeNpM0Ljvkcrhc+Fi2XX06zfM34ZKF1smDbIC+n3GfLDGMe
-	7HGuVAzmdOTQJtj1Y5MIWUK6e+T7roohjrGi45o64VH9GjVL7WwN2wc6Bz7OM7Bw4K4C
-	yTmdazBnbeaWNWIOcuxL9rSpfgJmkh4L+uT/0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=l53CbyK7+TQcLEZVAqiRBDrKZ5V+dX5/dTISWlKqgmY=;
-	b=hB7LUYndUj2sPvnl0d8SOids9ojAVpGOQk7dd0pGY+tMLB6+pQH5Fbn4SHFcmijNbp
-	CFUS4rYU3kfLUkiMgqCJ5QnvghTrFWHZoxeLeF0C51E0JQ3CK9TsdBDi+mCG/Eh3lJx1
-	5P9hF+sQ6kCRJb1jXgkMhkx5p3NLGVNFxiI8rUjXxQmFk5RJ+JhCFUphWs2yI2eNEENi
-	tsABtJ6I94s/N6XVA7yUZXn9MQtggRAkiQUzimCAB+RG1sLAdSka6oMs9MEiuMMzWgkN
-	ZQGanc0g9FYE62Z3Soz5fVaiMLIrmhJle9i8ff0zwCUbh9Fxar6Pq7wvm3RozcpYK1dl
-	aOzA==
-X-Gm-Message-State: AIVw112gz+WThNCqe0rKAXtA7xduOQLWgZTE2rsI/F/dc+vpGlUGEJ9e
-	nJyVUOdShQFRv4DH3VhSIA==
-X-Received: by 10.36.73.146 with SMTP id e18mr4695809itd.28.1500584208524;
-	Thu, 20 Jul 2017 13:56:48 -0700 (PDT)
-Received: from localhost.localdomain (static.8.26.4.46.clients.your-server.de.
-	[46.4.26.8]) by smtp.gmail.com with ESMTPSA id
-	j132sm1503000ita.40.2017.07.20.13.56.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 20 Jul 2017 13:56:47 -0700 (PDT)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jul 2017 22:56:34 +0200
-Message-Id: <20170720205634.27572-1-nicolas.dechesne@linaro.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Subject: [PATCH] ffmpeg: add PACKAGECONFIG for sdl2
+	Thu, 20 Jul 2017 21:24:00 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 20 Jul 2017 14:24:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,386,1496127600"; d="scan'208";a="110226993"
+Received: from jalamego-mobl3.zpn.intel.com (HELO [10.219.128.123])
+	([10.219.128.123])
+	by orsmga004.jf.intel.com with ESMTP; 20 Jul 2017 14:24:02 -0700
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+References: <1495146527-32073-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<1495146527-32073-3-git-send-email-jose.a.lamego@linux.intel.com>
+	<CAJTo0LZEF_O3Evumo1+YQ8kpjt=FpTqszfg0704B45GXFHNYVA@mail.gmail.com>
+	<a2fd37e9-cc6d-b323-09d4-267dbdd0e5f5@linux.intel.com>
+Message-ID: <366a1622-dbf0-2d1d-40c9-45c25087d9df@linux.intel.com>
+Date: Thu, 20 Jul 2017 16:24:02 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <a2fd37e9-cc6d-b323-09d4-267dbdd0e5f5@linux.intel.com>
+Subject: Re: [PATCH 2/2] bc: upgrade 1.06 to 1.07.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,29 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 20:56:48 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 21:24:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Enabling sdl2 will bring ffplay applications, which can be handy when working
-with ffmpeg.
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
-index 30d918ea1a..3c18367411 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.2.bb
-@@ -65,6 +65,7 @@ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
- PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
- PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
- PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
-+PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
- PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
- PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
- PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
+On 05/19/2017 02:17 PM, Jose Lamego wrote:
+>
+> On 05/19/2017 10:25 AM, Burton, Ross wrote:
+>> On 18 May 2017 at 23:28, Jose Lamego <jose.a.lamego@linux.intel.com
+>> <mailto:jose.a.lamego@linux.intel.com>> wrote:
+>>
+>>     bc recipe must be upgraded to latest version in upstream.
+>>
+>>     bc license changed from "GPLv2+ & LGPLv2.1" to "GPLv3+ & LGPLv3"
+>>     The new version exhibits a Parallel Make Race that required
+>>     unsetting PARALLEL_MAKE variable.
+>>     This change was tested with core-image-minimal in qemux86.
+>>
+>>
+>> It would be appreciated if you could spend a few minutes looking at what
+>> the build race is and pushing a fix upstream.  Or at least include a
+>> comment showing the failure.
+>>
+>> I chased the sed thing as previous releases didn't need it: my build
+>> machine doesn't even have ed installed so HOSTTOOLS won't help.  This
+>> appears to be a regression as 1.06 shipped the file that needs ed to
+>> build.  The makefile now always builds a binary to generate a file that
+>> it then runs through ed, and it doesn't build this tool correctly in a
+>> cross environment either:
+>>
+>> | /bin/bash: ./fbc: cannot execute binary file: Exec format error
+>>
+>> (it's trying to run an arm binary on x86)
+>>
+>> I'd suggest that we approach the upstream maintainer and discuss:
+>> 1) should the tarballs ship libmath.h instead of requiring it to be
+>> generated
+>> 2) using CC_FOR_BUILD etc from autoconf-archive to build fbc with the
+>> host compiler in cross-compile environments
+>> 3) can sed be used instead of ed to reduce the host requirements
+>>
+>> Ross
+> Agree. I will contact the bc maintainer and work on the build race. I'll
+> get back to you with the findings. Thanks for the suggestions!
+>
+Update: bc maintainer is working on version 1.07.2, which includes fixes
+for the ed and fbc errors and the Parallel Make race. This upgrade will
+be released soon, so we may skip 1.07.1 upgrade and wait for the new
+stable release.
+
 -- 
-2.11.0
+Jose Lamego | OTC Embedded Platform & Tools | GDC
 
 
