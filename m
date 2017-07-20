@@ -1,45 +1,60 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 95FBC78294
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B6E606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 19:46:29 +0000 (UTC)
-Received: by mail-wm0-f43.google.com with SMTP id w126so32874432wme.0
+	Thu, 20 Jul 2017 19:56:05 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id w126so33044407wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jul 2017 12:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=M6KjTmDL2o7bQP9wPxPHTgr1BL6S0Emc0mG4KUvY30c=;
-	b=th5qwv8XZba/TC1qIyGxYIe4KbhksZ+gPbkLl8uXOsOKeEqSfjARdbO41rUvhdgx4f
-	EA2wlFdJ34p8Hn+pr3KwXhTrEofqCFpiG8DPvVFb7t+t66HdQoJNXhUymLLocnhmsWXE
-	MOPIH57ZJC26E5fwDIEvj4VhTUPE+hdsA4bn1YycOKUygCyTauvRv4vD1R9uGdV/iKy2
-	Hm/M6FEdzyThFMlltULMtsLpb2VGEQSekA05NA4qLn40rYx54OZQn4yxz6sUdghp3k4i
-	G6ua2s4wjrewETeVWhENrNhBTL2FXLhALhtA78NTreOUSd1mhqABXaUdT9ThX/o7whpx
-	loUA==
+	Thu, 20 Jul 2017 12:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=ka+rRIvw37RpWiRebqhvfj6x8ZbhdHuTJ/TZIEnqqRE=;
+	b=EtnCJTww48ucEMmFdw2PII1S7WFEgri5i78xS47im2vGzSOlNKlClmI2tOkZTF+oua
+	mbIBxhv4AumyZLEPXsETOHw66YC6RMpaCnVwSau5Manw68JKxW41SqRfLppcDgzOQiiW
+	FYgsTJLLyZexScN3F0vv6iD0MPtFR1flhIHdtecommMCR+2wjBCqGbGnr2miLAiueYCk
+	W+LzZmypsypANiVSobRdvGBmZmv5e1XpPmavFrhnaeQRVSQhiGxnfjQ6Nc4ojYRo52uf
+	5VQtE93n31KmcGSLvpRG9RlhPlN/9Xek71yBUXlxjbEnjFYl+lkyuDlPDx5sd5IrAh5d
+	zHtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=M6KjTmDL2o7bQP9wPxPHTgr1BL6S0Emc0mG4KUvY30c=;
-	b=mLI08Ro/dmz5dkr+i+OSkO9NMbPnwnsCev9044aPibnnTvYdL3NINejH0qP13ermpa
-	AjFJgvD5wh+oRDlUDBAwyGLe9GScEycCCDX0oiuU1yiV27DAAmC1XfGBLD+BWbcQorx5
-	m4D9+b7O7BUH/6Wf1Kor59lf1eQg9WRSBVpzBwAX5KRrNnQz27eBpu5jP3l7wC5DJMXU
-	L2Q6/4z2yif3NFRON46/JQWu4btmiYZ0VAE24a1RugSvbqZng150RlzAlELqRMX1vvP2
-	zxKefIak/mEJv8QxbgE67TLZjn4hucxWlyKsYdEyE30Hy+VEHHYUxJxChlmRbu2o0xIV
-	Iq8g==
-X-Gm-Message-State: AIVw112rvFRyeiSpQtIQti7WMucscKCSdeA0CLe2oH0mQ8XF70ZLX/S3
-	6qMzaX1IkoaiqoEe0ZbfXWW+uaQ++g==
-X-Received: by 10.80.147.197 with SMTP id o63mr3957153eda.194.1500579990367;
-	Thu, 20 Jul 2017 12:46:30 -0700 (PDT)
+	bh=ka+rRIvw37RpWiRebqhvfj6x8ZbhdHuTJ/TZIEnqqRE=;
+	b=Yjwp5vEn9A9FE5bjdJzyDlcg4f5K2aA17wpqATd5zQQgMYgNEvi6N9kunov6Ts4Dm7
+	D3w8hBYp3CbxieiR9eT/9RHX1im0PCYRt+HwpIPcCFTKIByp7I/PLe9ilxyxxqDGhMCU
+	WA2T4LbToHTxvxH+gWanKRQjIGC9eSqMeKHQolY98s+qvEX/p1ONBzRa/zi50rAeifik
+	iwls4uMeO7vr4BTY0zuKH/Xeu1peGfzw+qy/ouu9UiwgIRfG2CQBiCrDhzxCUXOsO9mM
+	zdH4tLvKPhjLUcMBrJSECaqLaI03i2+pg6RX2auFzThP0KHIRua0EphE0qZlrbW+ffXp
+	dvGQ==
+X-Gm-Message-State: AIVw112V+hIXYfZAyNFEI5WyfhJ8WWqj1MtD70cH8bUFpF4YgH6S8jfK
+	CRH21UeD6rX3X8Fe4LM=
+X-Received: by 10.28.144.211 with SMTP id s202mr2535573wmd.111.1500580565872; 
+	Thu, 20 Jul 2017 12:56:05 -0700 (PDT)
+Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com.
+	[209.85.128.182]) by smtp.gmail.com with ESMTPSA id
+	p23sm7597059wrc.35.2017.07.20.12.56.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Jul 2017 12:56:05 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-wr0-f182.google.com with SMTP id f21so18343464wrf.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jul 2017 12:56:04 -0700 (PDT)
+X-Received: by 10.223.148.36 with SMTP id 33mr8316077wrq.24.1500580564782;
+	Thu, 20 Jul 2017 12:56:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.149.173 with HTTP; Thu, 20 Jul 2017 12:46:00 -0700 (PDT)
-In-Reply-To: <CAJTo0LapT9NrznbPkFYoVmLcQwVMArSjGT0vFjJ0Z-7x-TvWBw@mail.gmail.com>
+Received: by 10.28.198.141 with HTTP; Thu, 20 Jul 2017 12:56:03 -0700 (PDT)
+In-Reply-To: <CAMKF1spheC7ODGgJ3FeBUiUfDDLH=K1SFJ1=Vr8odT55Q4WTuQ@mail.gmail.com>
 References: <20170717184050.5474-1-otavio@ossystems.com.br>
 	<CAJTo0La-FM3ThuMWJPB4riFf1QLeq0Vd=cRJ_DBjrCCbOCV4Vw@mail.gmail.com>
 	<CAJTo0LapT9NrznbPkFYoVmLcQwVMArSjGT0vFjJ0Z-7x-TvWBw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Jul 2017 15:46:00 -0400
-Message-ID: <CAMKF1spheC7ODGgJ3FeBUiUfDDLH=K1SFJ1=Vr8odT55Q4WTuQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAMKF1spheC7ODGgJ3FeBUiUfDDLH=K1SFJ1=Vr8odT55Q4WTuQ@mail.gmail.com>
+Date: Thu, 20 Jul 2017 16:56:03 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo3H0WUp1T3jQK6qANHMhHLgX5T7cR9HLmmXPJnwpj7FQ@mail.gmail.com>
+Message-ID: <CAP9ODKo3H0WUp1T3jQK6qANHMhHLgX5T7cR9HLmmXPJnwpj7FQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mesa: Upgrade to 17.1.5 release
@@ -55,31 +70,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jul 2017 19:46:29 -0000
+X-List-Received-Date: Thu, 20 Jul 2017 19:56:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 20, 2017 at 3:22 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 20 July 2017 at 16:37, Burton, Ross <ross.burton@intel.com> wrote:
+On Thu, Jul 20, 2017 at 4:46 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Jul 20, 2017 at 3:22 PM, Burton, Ross <ross.burton@intel.com> wrote:
 >>
->> This fails to build on ppc:
+>> On 20 July 2017 at 16:37, Burton, Ross <ross.burton@intel.com> wrote:
+>>>
+>>> This fails to build on ppc:
+>>>
+>>> | checking for libdrm >= 2.4.75 libdrm_intel >= 2.4.75... no
 >>
->> | checking for libdrm >= 2.4.75 libdrm_intel >= 2.4.75... no
+>>
+>> Same on arm and mips now.  Basically everything that isn't x86, so I'm
+>> wondering what the difference between your build environment and the
+>> autobuilder
 >
->
-> Same on arm and mips now.  Basically everything that isn't x86, so I'm
-> wondering what the difference between your build environment and the
-> autobuilder
+> may be pkgconfig is installed on working system.
 
-may be pkgconfig is installed on working system.
+I wonder why; I will try to reproduce it and also will inspect the
+changes on configure.ac to find possible causes.
 
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
