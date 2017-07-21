@@ -1,56 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D65378427
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C44A7840A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 13:00:02 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id v205so2127213itf.1
+	Fri, 21 Jul 2017 13:01:36 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id q4so51189680oif.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 06:00:04 -0700 (PDT)
+	Fri, 21 Jul 2017 06:01:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GkJqTTHtjWd5dYkaG7spMbEUXK0bEhzfjsi6FEcev6M=;
-	b=paAd0y4mEClA+zKcaRGqrZ883PN7eTF89rdivBrJET2FvnEijBtLrPtquDw2VG4D5K
-	hear+dsV+eYLI8R3E6F5zYtJFhJEiqPsynaijrW1tNFWhP8b0Fg5muB3cmUwkdH2wtIo
-	cdZkzLD7BcvPFa/TMFhYy67FtPbLlKOf5/SR1io0Yf4Lnqpp+KPnQmDtZl/CVe2mgaFJ
-	PeRPdzhT2B2utH/mGCJH6UMYXD8QxVha/ovJ5dSSui/kq0zmy/fbSDjMjQv0lDV2zihf
-	jMiaQrlu4TNU5J3F9xev8E5P65ALHKim67nFUHeDTkDahx7nE1hJbrWW5VoD290cFiDa
-	4/0A==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=RKKVaHnzmiVElyK6iOZr8Zol9oQ9NW8Uk/+WyeLeDkI=;
+	b=keMXtgLe6joKrv7fP+Qd2jzr9yy0RS3ZN/IL9mx3/lvYGfRYolRMOXespifoWR90Jz
+	ESQssg6cix/Tes3EqxLJ7lZv5JqtNXddf3UKlqm9ouTHPtRpQdtrR89gEfc5tFN8L4WD
+	QrE69uiXTQPQkiYwk0TWzIoYLQO/gIK7rVqJ0MMhXHHF9bt+qiUldSypfMKrLtpciqWs
+	Z4Rm+LrkzmmNvV19oo8MUDXmGyOrYyCMd8FnvAwvaKNCYgY+AwOSmxu0+B22beKNkqXb
+	R3fYHxVTnceM0CYDoDP0l2sCogMTVkbGp4fjkH34/Krr8ElHkJXcQjZ5xLuv+42jTaip
+	3g0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GkJqTTHtjWd5dYkaG7spMbEUXK0bEhzfjsi6FEcev6M=;
-	b=PSgCTIucr/WcyVzAN++iH6fbVfJVGklPGBU72nOP4VNcroOcye+m1KzYDa+RlZ4kq4
-	Rptrt4NLkRoIUPI9nxecnbZzn/KLURsWyrNLwGZJAaRMRBunwxrXlaHHNjnOJkbdCJJY
-	Fr/B107GVfq6mYh173EqOpHjzjMaRzXXIG67bEu1IQkq4UeybeEMQmB8RGxTVtnm/Msd
-	UNQFVePbW8BfFe1jQwkLu1t3RlEO7aMH60hzoYXP3xyVp1wk7RZn0+IXRzZizrykEdTT
-	kruPSBZXGPGLhpfY8gvAUcoMyHGLrs4yAP+6ZkunWhbdXI8pN1DHtguGCrpQYy1B/FY3
-	dynQ==
-X-Gm-Message-State: AIVw112WzGDq6xKYiVTcXSw/OXPn2OVnFa6/AQRPn4unF9Vh9JbECWyL
-	2nYx40NwyqpFvywH3jxxLHnGHiKmni6/
-X-Received: by 10.36.246.204 with SMTP id u195mr655779ith.116.1500642003827;
-	Fri, 21 Jul 2017 06:00:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Fri, 21 Jul 2017 05:59:43 -0700 (PDT)
-In-Reply-To: <CAJTo0LZK1_ge8Q-Ernm9JYpZGX9sX5GQVR=DBHgoNf5KXYEjMQ@mail.gmail.com>
-References: <20170717184050.5474-1-otavio@ossystems.com.br>
-	<CAJTo0La-FM3ThuMWJPB4riFf1QLeq0Vd=cRJ_DBjrCCbOCV4Vw@mail.gmail.com>
-	<CAJTo0LapT9NrznbPkFYoVmLcQwVMArSjGT0vFjJ0Z-7x-TvWBw@mail.gmail.com>
-	<CAMKF1spheC7ODGgJ3FeBUiUfDDLH=K1SFJ1=Vr8odT55Q4WTuQ@mail.gmail.com>
-	<CAP9ODKo3H0WUp1T3jQK6qANHMhHLgX5T7cR9HLmmXPJnwpj7FQ@mail.gmail.com>
-	<CAP71WjyVmM=a3rpoGm+CoyERx2=q60sHhT-TanoXHxEef_o6PQ@mail.gmail.com>
-	<CAJTo0Lb8YFtgzfX5m+0mBo52Opc7ayzThQFuxcHDqbVKV1qmCA@mail.gmail.com>
-	<CAP9ODKreV8ydJ30cWn3C-FeQ-O5uNt-6qp9vB28F1DSFfMW5eQ@mail.gmail.com>
-	<CAJTo0LZK1_ge8Q-Ernm9JYpZGX9sX5GQVR=DBHgoNf5KXYEjMQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Jul 2017 13:59:43 +0100
-Message-ID: <CAJTo0LaGekSSwecTCZ4VO5iZuru7dBqSYrUfmUBu=tk=h6jKew@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa: Upgrade to 17.1.5 release
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=RKKVaHnzmiVElyK6iOZr8Zol9oQ9NW8Uk/+WyeLeDkI=;
+	b=IcjSIe4WsOD5fmbfF94K4CeYFCSVNMUDWhfk+W0/rLIkZSG73LmK0riTB1cdP6Ekge
+	FcLYxJoyC04lljxvP9ObNxjMYAs2tHfGrG0Y8p2LTKxJaWrzXNZ3LL4KWS5szQe8Bg5J
+	bkwJ5TenhAB9dRHgfa/7eJIbvo2TGCH+gTW0y9RqbJ+dQF0BG3HLJI1wVRxgcdUuGY6D
+	ypAEpStfRMdL3By24SzafszSG3cjp2H8vvej7UxGm5mLV07bti2veTE6MaAf2a6JvxWC
+	nF6XW9neLH/VxloBMcCyNkHobUQiql+ZroLjPMqj3GLtdEs2R+QKibaRzy4M/m1z/2Cl
+	bgPQ==
+X-Gm-Message-State: AIVw110LG61zJuO+oe1OlaeyaKi01vIaM6+EMDG1aAi3dufEHfi69DlS
+	j4SzCkUZIERFjspk
+X-Received: by 10.202.108.130 with SMTP id h124mr2143638oic.289.1500642097691; 
+	Fri, 21 Jul 2017 06:01:37 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8C109.dip0.t-ipconnect.de. [93.232.193.9])
+	by smtp.gmail.com with ESMTPSA id
+	r10sm1885392oia.30.2017.07.21.06.01.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Jul 2017 06:01:36 -0700 (PDT)
+Message-ID: <1500642093.15277.15.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Tom Rini <trini@konsulko.com>
+Date: Fri, 21 Jul 2017 15:01:33 +0200
+In-Reply-To: <20170721112103.GJ14320@bill-the-cat>
+References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
+	<1500623241.15277.10.camel@intel.com>
+	<20170721112103.GJ14320@bill-the-cat>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image-vm: Convert vmdk/vdi/qcow2/hdddirect images to IMAGE_CMD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,34 +63,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 13:00:03 -0000
-Content-Type: multipart/alternative; boundary="94eb2c118b2692dc3a0554d3713f"
-
---94eb2c118b2692dc3a0554d3713f
+X-List-Received-Date: Fri, 21 Jul 2017 13:01:37 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 20 July 2017 at 22:34, Burton, Ross <ross.burton@intel.com> wrote:
+On Fri, 2017-07-21 at 07:21 -0400, Tom Rini wrote:
+> On Fri, Jul 21, 2017 at 09:47:21AM +0200, Patrick Ohly wrote:
+> > On Thu, 2017-07-20 at 18:43 -0400, Tom Rini wrote:
+> > > The support for writing vmdk/vdi/qcow2 images has not been converted to make
+> > > use of the IMAGE_CMD infrastructure and instead relies on custom logic for
+> > > adding tasks in the right place.  Convert these images to making use of
+> > > IMAGE_CMD.
+> > 
+> > Thanks for working on this. I still have
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10204 open for
+> > enhancing vmdk/vdi/qcow2.
+> > 
+> > However, your patch doesn't go as far as described in that bug, does it?
+> > Instead of allowing, for example, IMAGE_FSTYPES = "wic.vmdk", it merely
+> > changes how IMAGE_FSTYPES = "vmdk" is implemented.
+> > 
+> > The current patch has its merits as it simplifies the implementation,
+> > but I think it would be worthwhile to go all the way, even if it changes
+> > how images are going to be named.
+> 
+> Ah, interesting.  I guess the first thing I would argue against is
+> saying that hdddirect should be masked.  There are reasons to want to
+> have a raw image created.
 
-> I'll bisect that tomorrow...
->
+I'm not sure I understand what you mean with "hdddirect should be
+masked" - it's been a while that I looked at the code.
 
-Richard discovered that this is due to enabling Vulkan, so that change has
-been dropped from meta-poky.
+> I will take a look into using CONVERSIONCMD for vmdk/qcow2/vdi to allow
+> for wic.vmdk to work.  But we also must have vmdk.xz work (and fwiw with
+> my series you can get arbitrary compression that we support done, I did
+> vmdk.xz, qcow2.lzo and vdi.bz2 just for 'fun').
 
-Ross
+The same is true with CONVERSIONCMD. They can be chained multiple times.
 
---94eb2c118b2692dc3a0554d3713f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> But I'm not 100% sure that I like changing the normal case from "vmdk"
+> to "wic.vmdk" or "hdddirect.vmdk" just to get a disk image to throw at
+> ${VM_TECHNOLOGY}.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 July 2017 at 22:34, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">=
-I&#39;ll bisect that tomorrow...</div></blockquote><div><br></div><div>Rich=
-ard discovered that this is due to enabling Vulkan, so that change has been=
- dropped from meta-poky.</div><div><br></div><div>Ross</div></div></div></d=
-iv>
+Yes, that's the biggest user-visible change. Basically the internal
+implementation (multiple conversions chained together) becomes visible
+in the end-result.
 
---94eb2c118b2692dc3a0554d3713f--
+That is a good and a bad thing. The good thing is that it is visible how
+the .vmdk image was created. The bad thing is that some users might not
+care and get confused.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
+
