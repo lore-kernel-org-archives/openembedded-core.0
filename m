@@ -1,28 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
+Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EF7E783F7
+	by mail.openembedded.org (Postfix) with ESMTP id 5BC7C78093
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 11:55:54 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	Fri, 21 Jul 2017 12:10:53 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jul 2017 04:55:56 -0700
+	21 Jul 2017 05:10:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,389,1496127600"; d="scan'208";a="110442283"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 21 Jul 2017 04:55:55 -0700
-To: Carlos Alberto Lopez Perez <clopez@igalia.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170713124954.9373-1-clopez@igalia.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <497f01dc-9051-a824-5e66-cea9e2970ab2@linux.intel.com>
-Date: Fri, 21 Jul 2017 14:53:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <20170713124954.9373-1-clopez@igalia.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>
-Subject: Re: [PATCH] webkitgtk: Upgrade to 2.16.5
+X-IronPort-AV: E=Sophos;i="5.40,389,1496127600"; d="scan'208";a="289700880"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 21 Jul 2017 05:10:40 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 4E615580118;
+	Fri, 21 Jul 2017 05:10:39 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Jul 2017 14:48:13 +0300
+Message-Id: <1500637693-19366-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] patchelf: fix segfault for binaries linked by gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 11:55:55 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Jul 2017 12:10:54 -0000
 
-On 07/13/2017 03:49 PM, Carlos Alberto Lopez Perez wrote:
-> Adjust some dependencies: libgcrypt is now required (instead of gnutls)
-> and the following build deps where missing: gettext-native, glib-2.0
-> and glib-2.0-native.
-> 
-> Also the CMake argument ENABLE_CREDENTIAL_STORAGE has been renamed to
-> USE_LIBSECRET.
-> 
-> This new upstream release (2.16.4 actually) includes security fixes for
-> CVE: CVE-2017-2538
+Due to a bug in calculating adresses of modified program
+headers patchelf breaks executables linked by Gold linker
+causing them to segfault, e.g.
+$ tmp/sysroots-components/x86_64/m4-native/usr/bin/m4 --help
+Segmentation fault
 
-Carlos, may I ask that you submit the 'Pending' patches in webkit recipe 
-upstream? I have no experience working with them, so maybe it's faster 
-and easier that way.
+This is reproducible only in some cases and only for executables
+of ET_DYN type produced by Gold or by ld linked with pie.
 
-We're trying to reduce the amount of such patches in oe-core in general.
+This should be solved by fix-adjusting-startPage.patch that
+fixes calculation logic.
 
-Thanks,
-Alex
+[YOCTO #11785]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ .../patchelf/fix-adjusting-startPage.patch         | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/patchelf/patchelf_0.9.bb     |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
+
+diff --git a/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch b/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
+new file mode 100644
+index 0000000..f64cbed
+--- /dev/null
++++ b/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
+@@ -0,0 +1,38 @@
++commit 1cc234fea5600190d872329aca60e2365cefc39e
++Author: Ed Bartosh <ed.bartosh@linux.intel.com>
++Date:   Fri Jul 21 12:33:53 2017 +0300
++
++fix adjusting startPage
++
++startPage is adjusted unconditionally for all executables.
++This results in incorrect addresses assigned to INTERP and LOAD
++program headers, which breaks patched executable.
++
++Adjusting startPage variable only when startOffset > startPage
++should fix this.
++
++This change is related to the issue NixOS#10
++
++Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
++
++Github PR: https://github.com/NixOS/patchelf/pull/127
++
++Upstream-Status: Submitted
++
++diff --git a/src/patchelf.cc b/src/patchelf.cc
++index cbd36c0..e9d7ea5 100644
++--- a/src/patchelf.cc
+++++ b/src/patchelf.cc
++@@ -720,10 +720,8 @@ void ElfFile<ElfFileParamNames>::rewriteSectionsLibrary()
++        since DYN executables tend to start at virtual address 0, so
++        rewriteSectionsExecutable() won't work because it doesn't have
++        any virtual address space to grow downwards into. */
++-    if (isExecutable) {
++-        if (startOffset >= startPage) {
++-            debug("shifting new PT_LOAD segment by %d bytes to work around a Linux kernel bug\n", startOffset - startPage);
++-        }
+++    if (isExecutable && startOffset > startPage) {
+++        debug("shifting new PT_LOAD segment by %d bytes to work around a Linux kernel bug\n", startOffset - startPage);
++         startPage = startOffset;
++     }
++ 
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.9.bb b/meta/recipes-devtools/patchelf/patchelf_0.9.bb
+index 01f0e62..d703039 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.9.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.9.bb
+@@ -3,6 +3,7 @@ SRC_URI = "http://nixos.org/releases/${BPN}/${BPN}-${PV}/${BPN}-${PV}.tar.bz2 \
+            file://handle-read-only-files.patch \
+            file://Increase-maxSize-to-64MB.patch \
+            file://avoidholes.patch \
++           file://fix-adjusting-startPage.patch \
+ "
+ 
+ LICENSE = "GPLv3"
+-- 
+2.1.4
+
 
