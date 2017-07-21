@@ -1,48 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 673017841B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E0013783C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 13:50:25 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id h199so7708196ith.0
+	Fri, 21 Jul 2017 14:40:54 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id q85so4985956pfq.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 06:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5TQHIE7wsydSnLK9/Mk5QE+fQArkXVElP6ZpbRRgC7k=;
-	b=kP/OINjRVZJmHHRNSbelNVWF+63QPILvFQDjKu4ndQvljOdRiLUSi4vlmSWecCuT0D
-	Dg38AoQ4le1DNn0xXIz6GDif8kTFtNxsY9yPzovEp/cbdVli5TSWVHrVJrz4uz8Vl3Em
-	eNegqcA4A/6CKnvD2AyBZjiOsbVgTcHUjJM9JT5io5Z1geAd2ZWt1MleHDzohj1NGrHA
-	1R1K7FMQzOBEhXovg/d7tLarqEq3m/rGmgFFDbfhB1TavoPDQKPoQ+vxk76gL31nBM7R
-	hSSIA9pNSPjK5ZfkiWZrcFaLfyQssWbXhzrhlrvWOGOJCHu7l69mmDbGOH33lzWkl/NA
-	jqSg==
+	Fri, 21 Jul 2017 07:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=OMYpTlnLxWNgcs7z4sC4b8L5f+An8ogcQ4Bx/Sn/W/Q=;
+	b=A/iD6KWjmZExk6fGEc5lKxEF00GJKv6YixIBtoSU011G9AOXZFgRuSawXVSHV08zL0
+	VtVzt/o/9LSTH0Bw5L9ItdHnXFDXGJcgbCyz9GlkBjG3WS+hRJwHSHMHmlvj8aiU8+WA
+	ZgLuwonTpBsUQQskv3bp/oGNMRa5Q3n3QF183huV1AYiXTNRJh82c5cWOnERhYNQAPu3
+	WhWDI+FfYT/L6Ds7eSkDKeT2sQbRNL/ngu2bk7z3PKjwBYEO5Vr8sNGNKPssRl0ScKVW
+	VOcNLVJVz874MwZ5FDHciCSSE/n7MCLupryFnkQ1ug/5VgO6alatkjfJEyh+Wcz1Rpkd
+	nniQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5TQHIE7wsydSnLK9/Mk5QE+fQArkXVElP6ZpbRRgC7k=;
-	b=niKcI26GAU3UNZWuTe+o8pLHTbNX7Pi3PGX3nHxJU1z3E2xyp4Id/0uDTvdW6SRLCX
-	ixqE4ZnbC9zYBoBfpoS+LmoW7+zZMCflIHw+GrxbPnAQ1j5qOokv3lgN3hQaP/45ATPo
-	8oxkybVhoNBKtKd3gMipH8iSagHo4W7FrUqiamOfaBwa5rytg7nhBdjZh7lizy1OW6d0
-	9H4NpqcY/wgGZT02zVZ/fU+MYcq/X2ywQevuNbjD7zOSKCNGwORHDWzfo9dnxmwudLaA
-	WwO9HvMCO1AV0eJpsIfcPpZQ6vFBugQvo3jl8rBGeGGh60cd3uhsTslbo/xoPb4iEzf7
-	LcuA==
-X-Gm-Message-State: AIVw111TgLqaBm4e3s6hQZBnjfsECRF4PYDQCBKddYvUyWsqY5g/d8qx
-	hgVrGCDop4lUxb836r+sAHAcke2BXWeP
-X-Received: by 10.36.154.67 with SMTP id l64mr6573293ite.87.1500645026557;
-	Fri, 21 Jul 2017 06:50:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Fri, 21 Jul 2017 06:50:05 -0700 (PDT)
-In-Reply-To: <1500546720-145364-2-git-send-email-rebecca.swee.fun.chang@intel.com>
-References: <1500546720-145364-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-	<1500546720-145364-2-git-send-email-rebecca.swee.fun.chang@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Jul 2017 14:50:05 +0100
-Message-ID: <CAJTo0LaBBKsOcKZPzzix28moHELz30gG=qat2iiJ=DDeqdKo2Q@mail.gmail.com>
-To: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/4] recipetool: create: disable PREMIRRORS and MIRRORS by default
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=OMYpTlnLxWNgcs7z4sC4b8L5f+An8ogcQ4Bx/Sn/W/Q=;
+	b=lL6cryP+yAzXazrv6Ql4wTtnAJWpHN7rItpIcGsMpi3aTzfTjf+7dgqVNXL7txQP19
+	FFNN/IZVIN46T9FnJlgs4dabPCzWnZHBXO3GgxxLs9R1eEIUQICu4he3+gEox2bD01Sb
+	6AgAunOEyM11W2CGBv7Q0JO6SKahOQ/lDtBdMxcoXLv6+e9WVTAP5Z0/qeN//j065wgm
+	aJk+gupOn7BKZoVD8uYbtqD+MfmneKddmUiLotxUQ0ch3B9UazRLL8G0Xog0evRwAMh5
+	rQEyHcsK9YRUsGk5bncqDQVGghIyJYh2ueOKSch5/vrjT/NSX4tUU74h3QaLgSO4z4k3
+	kwBQ==
+X-Gm-Message-State: AIVw110TAysIX0f4Hj18w/t2Rg1BqWKcyldBljg28AlE/yAsyacHebVl
+	XApnt1U6Jnp5Yepk
+X-Received: by 10.99.42.216 with SMTP id q207mr7682671pgq.298.1500648055819;
+	Fri, 21 Jul 2017 07:40:55 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	z74sm11050373pfd.112.2017.07.21.07.40.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Jul 2017 07:40:54 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Jul 2017 07:40:42 -0700
+Message-Id: <20170721144042.19321-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH] expat: Upgrade to 2.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,174 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 13:50:25 -0000
-Content-Type: multipart/alternative; boundary="94eb2c11489ebe0e550554d4258e"
+X-List-Received-Date: Fri, 21 Jul 2017 14:40:55 -0000
 
---94eb2c11489ebe0e550554d4258e
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/expat/expat.inc               |  1 +
+ meta/recipes-core/expat/expat/libtool-tag.patch | 18 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.2.1.bb          |  5 -----
+ meta/recipes-core/expat/expat_2.2.2.bb          |  4 ++++
+ 4 files changed, 23 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/libtool-tag.patch
+ delete mode 100644 meta/recipes-core/expat/expat_2.2.1.bb
+ create mode 100644 meta/recipes-core/expat/expat_2.2.2.bb
 
-Sorry, we're conflicting again.  Too many people working on the same bit of
-code!  Can you rebase this onto origin/master-next?
+diff --git a/meta/recipes-core/expat/expat.inc b/meta/recipes-core/expat/expat.inc
+index 9fa0ca2eb3..067687e44a 100644
+--- a/meta/recipes-core/expat/expat.inc
++++ b/meta/recipes-core/expat/expat.inc
+@@ -6,6 +6,7 @@ LICENSE = "MIT"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://autotools.patch \
++           file://libtool-tag.patch \
+ 	  "
+ inherit autotools lib_package
+ 
+diff --git a/meta/recipes-core/expat/expat/libtool-tag.patch b/meta/recipes-core/expat/expat/libtool-tag.patch
+new file mode 100644
+index 0000000000..3ef4197ce5
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/libtool-tag.patch
+@@ -0,0 +1,18 @@
++Add CC tag to build
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: expat-2.2.2/Makefile.in
++===================================================================
++--- expat-2.2.2.orig/Makefile.in
+++++ expat-2.2.2/Makefile.in
++@@ -109,7 +109,7 @@ mkdir-init:
++ 
++ CC = @CC@
++ CXX = @CXX@
++-LIBTOOL = @LIBTOOL@
+++LIBTOOL = @LIBTOOL@ --tag CC
++ 
++ INCLUDES = -I$(srcdir)/lib -I.
++ LDFLAGS = @LDFLAGS@
+diff --git a/meta/recipes-core/expat/expat_2.2.1.bb b/meta/recipes-core/expat/expat_2.2.1.bb
+deleted file mode 100644
+index 47827c5576..0000000000
+--- a/meta/recipes-core/expat/expat_2.2.1.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require expat.inc
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+-
+-SRC_URI[md5sum] = "d9c3baeab58774cefc2f04faf29f2cf8"
+-SRC_URI[sha256sum] = "1868cadae4c82a018e361e2b2091de103cd820aaacb0d6cfa49bd2cd83978885"
+diff --git a/meta/recipes-core/expat/expat_2.2.2.bb b/meta/recipes-core/expat/expat_2.2.2.bb
+new file mode 100644
+index 0000000000..0e135d70df
+--- /dev/null
++++ b/meta/recipes-core/expat/expat_2.2.2.bb
+@@ -0,0 +1,4 @@
++require expat.inc
++LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
++SRC_URI[md5sum] = "1ede9a41223c78528b8c5d23e69a2667"
++SRC_URI[sha256sum] = "4376911fcf81a23ebd821bbabc26fd933f3ac74833f74924342c29aad2c86046"
+-- 
+2.13.3
 
-Ross
 
-On 20 July 2017 at 11:31, Chang Rebecca Swee Fun <
-rebecca.swee.fun.chang@intel.com> wrote:
-
-> When creating new recipes, we are almost certainly fetching a new
-> source rather that something that has already been fetched. I have
-> disable PREMIRRORS and MIRRORS settings from datastore while leaving
-> an option for users to enable them manually if needed.
->
-> Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-> ---
->  scripts/lib/recipetool/create.py | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/
-> create.py
-> index 8e63580..1015d02 100644
-> --- a/scripts/lib/recipetool/create.py
-> +++ b/scripts/lib/recipetool/create.py
-> @@ -422,6 +422,7 @@ def create_recipe(args):
->      source = args.source
->      srcsubdir = ''
->      srcrev = '${AUTOREV}'
-> +    mirrors = args.mirrors
->
->      if os.path.isfile(source):
->          source = 'file://%s' % os.path.abspath(source)
-> @@ -442,6 +443,13 @@ def create_recipe(args):
->          tempsrc = tempfile.mkdtemp(prefix='recipetool-')
->          srctree = tempsrc
->          d = bb.data.createCopy(tinfoil.config_data)
-> +        if not mirrors:
-> +            # We do not need PREMIRRORS since we are almost certainly
-> +            # fetching new source rather than something that has already
-> +            # been fetched. Hence, we disable them by default.
-> +            # However, we provide an option for users to enable it.
-> +            d.setVar('PREMIRRORS', '')
-> +            d.setVar('MIRRORS', '')
->          if fetchuri.startswith('npm://'):
->              # Check if npm is available
->              npm_bindir = check_npm(tinfoil, args.devtool)
-> @@ -1180,6 +1188,7 @@ def register_commands(subparsers):
->      parser_create.add_argument('--keep-temp', action="store_true",
-> help='Keep temporary directory (for debugging)')
->      parser_create.add_argument('--fetch-dev', action="store_true",
-> help='For npm, also fetch devDependencies')
->      parser_create.add_argument('--devtool', action="store_true",
-> help=argparse.SUPPRESS)
-> +    parser_create.add_argument('--mirrors', action="store_true",
-> help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by
-> default).')
->      # FIXME I really hate having to set parserecipes for this, but given
-> we may need
->      # to call into npm (and we don't know in advance if we will or not)
-> and in order
->      # to do so we need to know npm's recipe sysroot path, there's not
-> much alternative
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---94eb2c11489ebe0e550554d4258e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Sorry, we&#39;re conflicting again.=C2=A0 Too many people =
-working on the same bit of code!=C2=A0 Can you rebase this onto origin/mast=
-er-next?<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br>=
-<div class=3D"gmail_quote">On 20 July 2017 at 11:31, Chang Rebecca Swee Fun=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:rebecca.swee.fun.chang@intel.com" =
-target=3D"_blank">rebecca.swee.fun.chang@intel.com</a>&gt;</span> wrote:<br=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">When creating new recipes, we are almost ce=
-rtainly fetching a new<br>
-source rather that something that has already been fetched. I have<br>
-disable PREMIRRORS and MIRRORS settings from datastore while leaving<br>
-an option for users to enable them manually if needed.<br>
-<br>
-Signed-off-by: Chang Rebecca Swee Fun &lt;<a href=3D"mailto:rebecca.swee.fu=
-n.chang@intel.com">rebecca.swee.fun.chang@intel.<wbr>com</a>&gt;<br>
----<br>
-=C2=A0scripts/lib/recipetool/create.<wbr>py | 9 +++++++++<br>
-=C2=A01 file changed, 9 insertions(+)<br>
-<br>
-diff --git a/scripts/lib/recipetool/<wbr>create.py b/scripts/lib/recipetool=
-/<wbr>create.py<br>
-index 8e63580..1015d02 100644<br>
---- a/scripts/lib/recipetool/<wbr>create.py<br>
-+++ b/scripts/lib/recipetool/<wbr>create.py<br>
-@@ -422,6 +422,7 @@ def create_recipe(args):<br>
-=C2=A0 =C2=A0 =C2=A0source =3D args.source<br>
-=C2=A0 =C2=A0 =C2=A0srcsubdir =3D &#39;&#39;<br>
-=C2=A0 =C2=A0 =C2=A0srcrev =3D &#39;${AUTOREV}&#39;<br>
-+=C2=A0 =C2=A0 mirrors =3D args.mirrors<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if os.path.isfile(source):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0source =3D &#39;file://%s&#39; % os.path.=
-abspath(source)<br>
-@@ -442,6 +443,13 @@ def create_recipe(args):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tempsrc =3D tempfile.mkdtemp(prefix=3D&#3=
-9;<wbr>recipetool-&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0srctree =3D tempsrc<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d =3D bb.data.createCopy(tinfoil.<wbr>con=
-fig_data)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not mirrors:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # We do not need PREMIRRORS sinc=
-e we are almost certainly<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # fetching new source rather tha=
-n something that has already<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # been fetched. Hence, we disabl=
-e them by default.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # However, we provide an option =
-for users to enable it.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;PREMIRRORS&#39;, &=
-#39;&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;MIRRORS&#39;, &#39=
-;&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if fetchuri.startswith(&#39;npm://&#39;):=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Check if npm is available=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0npm_bindir =3D check_npm(ti=
-nfoil, args.devtool)<br>
-@@ -1180,6 +1188,7 @@ def register_commands(subparsers):<br>
-=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--<wbr>keep-temp&#39;, =
-action=3D&quot;store_true&quot;, help=3D&#39;Keep temporary directory (for =
-debugging)&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--<wbr>fetch-dev&#39;, =
-action=3D&quot;store_true&quot;, help=3D&#39;For npm, also fetch devDepende=
-ncies&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--<wbr>devtool&#39;, ac=
-tion=3D&quot;store_true&quot;, help=3Dargparse.SUPPRESS)<br>
-+=C2=A0 =C2=A0 parser_create.add_argument(&#39;--<wbr>mirrors&#39;, action=
-=3D&quot;store_true&quot;, help=3D&#39;Enable PREMIRRORS and MIRRORS for so=
-urce tree fetching (disable by default).&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0# FIXME I really hate having to set parserecipes for th=
-is, but given we may need<br>
-=C2=A0 =C2=A0 =C2=A0# to call into npm (and we don&#39;t know in advance if=
- we will or not) and in order<br>
-=C2=A0 =C2=A0 =C2=A0# to do so we need to know npm&#39;s recipe sysroot pat=
-h, there&#39;s not much alternative<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---94eb2c11489ebe0e550554d4258e--
