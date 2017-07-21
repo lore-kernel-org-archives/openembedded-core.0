@@ -1,26 +1,23 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 89EFD783E9
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A2808783FA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 09:09:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jul 2017 02:09:10 -0700
+	Fri, 21 Jul 2017 10:57:35 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 21 Jul 2017 03:57:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,389,1496127600"; d="scan'208";a="1175028416"
+X-IronPort-AV: E=Sophos;i="5.40,389,1496127600"; d="scan'208";a="289682309"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jul 2017 02:09:09 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 2ACDC580386
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 02:09:06 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	by fmsmga004.fm.intel.com with ESMTP; 21 Jul 2017 03:57:36 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 80E4D580118;
+	Fri, 21 Jul 2017 03:57:35 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Jul 2017 12:09:52 +0300
-Message-Id: <1500628192-35279-1-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-Subject: [PATCH] bluez5: update patch status
+Date: Fri, 21 Jul 2017 13:35:10 +0300
+Message-Id: <1500633310-18589-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] patchelf: fix segfault for binaries linked by gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +30,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 09:09:09 -0000
+X-List-Received-Date: Fri, 21 Jul 2017 10:57:35 -0000
 
-Update the status of following patch from Pending to Accepted:
-        a) 0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
+Due to a bug in calculating adresses of modified program
+headers patchelf breaks executables linked by Gold linker
+causing them to segfault, e.g.
+$ tmp/sysroots-components/x86_64/m4-native/usr/bin/m4 --help
+Segmentation fault
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+This is reproducible only in some cases and only for executables
+of ET_DYN type produced by Gold or by ld linked with pie.
+
+This should be solved by fix-adjusting-startPage.patch that
+fixes calculation logic.
+
+[YOCTO #11785]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- .../0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../patchelf/fix-adjusting-startPage.patch         | 38 ++++++++++++++++++++++
+ meta/recipes-devtools/patchelf/patchelf_0.9.bb     |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
-index 7bd5bbc..4679438 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
-@@ -9,7 +9,7 @@ From the log in .bcm43xx_load_firmware():
+diff --git a/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch b/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
+new file mode 100644
+index 0000000..0e4544f
+--- /dev/null
++++ b/meta/recipes-devtools/patchelf/patchelf/fix-adjusting-startPage.patch
+@@ -0,0 +1,38 @@
++commit 1cc234fea5600190d872329aca60e2365cefc39e
++Author: Ed Bartosh <ed.bartosh@linux.intel.com>
++Date:   Fri Jul 21 12:33:53 2017 +0300
++
++fix adjusting startPage
++
++startPage is adjusted unconditionally for all executables.
++This results in incorrect addresses assigned to INTERP and LOAD
++program headers, which breaks patched executable.
++
++Adjusting startPage variable only when startOffset > startPage
++should fix this.
++
++This change is related to the issue NixOS#10
++
++Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
++
++Github PR: https://github.com/NixOS/patchelf/pull/127
++
++Upstream-Status: Pending
++
++diff --git a/src/patchelf.cc b/src/patchelf.cc
++index cbd36c0..e9d7ea5 100644
++--- a/src/patchelf.cc
+++++ b/src/patchelf.cc
++@@ -720,10 +720,8 @@ void ElfFile<ElfFileParamNames>::rewriteSectionsLibrary()
++        since DYN executables tend to start at virtual address 0, so
++        rewriteSectionsExecutable() won't work because it doesn't have
++        any virtual address space to grow downwards into. */
++-    if (isExecutable) {
++-        if (startOffset >= startPage) {
++-            debug("shifting new PT_LOAD segment by %d bytes to work around a Linux kernel bug\n", startOffset - startPage);
++-        }
+++    if (isExecutable && startOffset > startPage) {
+++        debug("shifting new PT_LOAD segment by %d bytes to work around a Linux kernel bug\n", startOffset - startPage);
++         startPage = startOffset;
++     }
++ 
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.9.bb b/meta/recipes-devtools/patchelf/patchelf_0.9.bb
+index 01f0e62..d703039 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.9.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.9.bb
+@@ -3,6 +3,7 @@ SRC_URI = "http://nixos.org/releases/${BPN}/${BPN}-${PV}/${BPN}-${PV}.tar.bz2 \
+            file://handle-read-only-files.patch \
+            file://Increase-maxSize-to-64MB.patch \
+            file://avoidholes.patch \
++           file://fix-adjusting-startPage.patch \
+ "
  
- But timespec tm_mode is real is 50us. Correct the delayed timer count.
- 
--Upstream-Status: Pending
-+Upstream-Status: Accepted [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=76255f732d68aef2b90d36d9c7be51a9e1739ce7]
- 
- Signed-off-by: Fugang Duan <fugang.duan@nxp.com>
- ---
+ LICENSE = "GPLv3"
 -- 
-2.4.0
+2.1.4
 
 
