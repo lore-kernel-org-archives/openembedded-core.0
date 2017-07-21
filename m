@@ -1,43 +1,28 @@
-Return-Path: <libertad.cruz@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 264687838C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F399078448
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 21:16:01 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jul 2017 14:16:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,392,1496127600"; 
-	d="scan'208,217";a="130318677"
-Received: from fmsmsx104.amr.corp.intel.com ([10.18.124.202])
-	by fmsmga006.fm.intel.com with ESMTP; 21 Jul 2017 14:16:03 -0700
-Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Fri, 21 Jul 2017 14:16:03 -0700
-Received: from fmsmsx107.amr.corp.intel.com ([169.254.6.4]) by
-	fmsmsx124.amr.corp.intel.com ([169.254.8.252]) with mapi id
-	14.03.0319.002; Fri, 21 Jul 2017 14:16:03 -0700
-From: "Cruz, Libertad" <libertad.cruz@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] opkg.py Adds tests for ipk/opkg
-Thread-Index: AQHS+bk390qgltBvKEWHLJYIqVHcxqJYcg6AgAZbLLA=
-Date: Fri, 21 Jul 2017 21:16:01 +0000
-Message-ID: <58D9E2E50A021A45AD740492365FCDC531EC8B87@fmsmsx107.amr.corp.intel.com>
-References: <1499718149-29243-1-git-send-email-libertad.cruz@intel.com>
-	<CAJTo0LZA-NLiDzEO55_RZw+R_Hy4_RHdTje=4o5QWvXHZWQz6g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZA-NLiDzEO55_RZw+R_Hy4_RHdTje=4o5QWvXHZWQz6g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiODgyOWRkOTAtNGFkNi00ODY5LThjYmUtNjM3MGQ1MGE0ZjdiIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6ImFjaG50REV1YldXMnFxT1c5aHg4dFVHNnJyT012cDJQRDBINHR4bm5iT0E9In0=
-x-ctpclassification: CTP_IC
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.107]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] opkg.py Adds tests for ipk/opkg
+	Fri, 21 Jul 2017 21:43:28 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v6LLhLrU004451
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 21 Jul 2017 22:43:24 +0100
+Message-ID: <1500673401.22282.109.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: wei.tee.ng@intel.com, openembedded-core@lists.openembedded.org
+Date: Fri, 21 Jul 2017 22:43:21 +0100
+In-Reply-To: <cover.1500229225.git.wei.tee.ng@intel.com>
+References: <cover.1500229225.git.wei.tee.ng@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 21 Jul 2017 22:43:24 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: saul.wold@intel.com
+Subject: Re: [poky][master][PATCH v2 0/1] initramfs-framework: include install-efi module in recipe for installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,149 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 21:16:02 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_58D9E2E50A021A45AD740492365FCDC531EC8B87fmsmsx107amrcor_"
+X-List-Received-Date: Fri, 21 Jul 2017 21:43:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---_000_58D9E2E50A021A45AD740492365FCDC531EC8B87fmsmsx107amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi,
 
-VGhpcyB0ZXN0cyBhcmUgbWFkZSBmb3IgcnVudGltZS9jYXNlcywgSSBiZWxpZXZlIGl0IGlzIHRo
-ZSBmb3JtYXQgb3RoZXIgcnVudGltZSB0ZXN0IGFyZSBzY3JpcHQsIHRoZXkgb25seSBjaGVjayBm
-b3IgcmV0dXJuIGNvZGUgPT0gMCAuIFNob3VsZCB3ZSBjb25zaWRlciBvcGVuaW5nIGFub3RoZXIg
-YnVnIHRvIGFkZCBvcGtnIHRlc3RjYXNlcyB0byBzZWxmdGVzdD8NCg0KQmVzdCBSZWdhcmRzDQpM
-aWJlcnRhZCBHLg0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRl
-bC5jb21dDQpTZW50OiBNb25kYXksIEp1bHkgMTcsIDIwMTcgNzoyOCBBTQ0KVG86IENydXosIExp
-YmVydGFkIDxsaWJlcnRhZC5jcnV6QGludGVsLmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
-UEFUQ0ggdjJdIG9wa2cucHkgQWRkcyB0ZXN0cyBmb3IgaXBrL29wa2cNCg0KDQpPbiAxMCBKdWx5
-IDIwMTcgYXQgMjE6MjIsIDxsaWJlcnRhZC5jcnV6QGludGVsLmNvbTxtYWlsdG86bGliZXJ0YWQu
-Y3J1ekBpbnRlbC5jb20+PiB3cm90ZToNCitjbGFzcyBvcGtnQmFzaWNUZXN0KG9wa2dUZXN0KToN
-CisgICAgQHNraXBJZk5vdEZlYXR1cmUoJ3BhY2thZ2UtbWFuYWdlbWVudCcsICdUZXN0IHJlcXVp
-cmVzIHBhY2thZ2UtbWFuYWdlbWVudCB0byBiZSBpbiBJTUFHRV9GRUFUVVJFUycpDQorICAgIEBz
-a2lwSWZOb3REYXRhVmFyKCdJTUFHRV9QS0dUWVBFJywnaXBrJywgJ0lQSyBpcyBub3QgdGhlIHBy
-aW1hcnkgcGFja2FnZSBtYW5hZ2VyJykNCisgICAgQE9FSGFzUGFja2FnZShbJ29wa2cnXSkNCisN
-CisgICAgQE9FVGVzdERlcGVuZHMoWydzc2guU1NIVGVzdC50ZXN0X3NzaCddKQ0KKyAgICBAT0VU
-ZXN0SUQoMTg0MSkNCisgICAgZGVmIHRlc3Rfb3BrZ19saXN0KHNlbGYpOg0KKyAgICAgICBzZWxm
-Lm9wa2coJ2xpc3QnKQ0KKw0KKyAgICBAT0VUZXN0SUQoMTg0MikNCisgICAgZGVmIHRlc3Rfb3Br
-Z19saXN0X2luc3RhbGxlZChzZWxmKToNCisgICAgICAgc2VsZi5vcGtnKCdsaXN0LWluc3RhbGxl
-ZCcpDQorDQorICAgIEBPRVRlc3RJRCgxODQzKQ0KKyAgICBkZWYgdGVzdF9vcGtnX2RlcGVuZHMo
-c2VsZik6DQorICAgICAgIHNlbGYub3BrZygnZGVwZW5kcyBvcGtnJykNCisNCisgICAgQE9FVGVz
-dElEKDE4MzcpDQorICAgIGRlZiB0ZXN0X29wa2dfd2hhdGRlcGVuZHMoc2VsZik6DQorICAgICAg
-c2VsZi5vcGtnKCd3aGF0ZGVwZW5kcyBvcGtnJykNCisNCisgICAgQE9FVGVzdElEKDE4MzgpDQor
-ICAgIGRlZiB0ZXN0X29wa2dfc3RhdHVzKHNlbGYpOg0KKyAgICAgIHNlbGYub3BrZygnc3RhdHVz
-JykNCisNCisgICAgQE9FVGVzdElEKDE4MzkpDQorICAgIGRlZiB0ZXN0X29wa2dfaW5mbyhzZWxm
-KToNCisgICAgICAgIHNlbGYub3BrZygnaW5mbyBvcGtnJykNCisNCisgICAgQE9FVGVzdElEKDE4
-NDApDQorICAgIGRlZiB0ZXN0X29wa2dfcHJpbnRfYXJjaGl0ZWN0dXJlKHNlbGYpOg0KKyAgICAg
-ICAgc2VsZi5vcGtnKCdwcmludC1hcmNoaXRlY3R1cmUnKQ0KDQpJJ2QgZmVlbCBhIGxvdCBoYXBw
-aWVyIHRoYXQgdGhpcyB3YXMgYSBzZWxmdGVzdCBpZiBpdCB3YXMgZXhlcmNpc2luZyBtb3JlIHRo
-YW4gIm9wa2cgZG9lc24ndCBjcmFzaCIuICBJZiBvcGtnIGlzIHJlcGxhY2VkIGJ5IGEgc2NyaXB0
-IHRoYXQgZG9lcyAiZWNobyBoYWhhOyBleGl0IDAiIHRoaXMgdGVzdCBjYXNlIHdvdWxkIHBhc3Ms
-IHNvIGNhbiBpdCB2ZXJpZnkgdGhlIG91dHB1dCB0b28uDQoNClJvc3MNCg==
+On Sun, 2017-07-16 at 12:29 -0700, wei.tee.ng@intel.com wrote:
+> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+> 
+> This patch is to enable the installation mechanism in initramfs-
+> framework.
+> It used the existing init-install-efi.sh script in the initrdscript
+> and 
+> install a new module named initramfs-module-install-efi in the
+> recipe.
+> 
+> I put all the changes as a single commit. This version 2 had renamed
+> the
+> existing init-install-efi.sh to install-efi.sh and package name
+> changed
+> to install-efi.
+> 
+> This patch shall encounter a patchtest failure as it is depends on a
+> patch which have been sent to the mailing list and waiting for
+> acceptance. The dependency patch can be found in here:
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-July/1
+> 39570.html
+> 
+> This changes has been verified with build test, boot up test and
+> installation test on Minnowboard Max platform.
+> 
+> Please review and provide feedback if you have any.
+> The patches are targeted for merging into poky master branch.
 
---_000_58D9E2E50A021A45AD740492365FCDC531EC8B87fmsmsx107amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+I think the RDEPENDS in this patch cause problems when added to an
+allarch recipe. You can see this issue by running:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoaXMgdGVzdHMgYXJlIG1hZGUgZm9yIHJ1
-bnRpbWUvY2FzZXMsIEkgYmVsaWV2ZSBpdCBpcyB0aGUgZm9ybWF0IG90aGVyIHJ1bnRpbWUgdGVz
-dCBhcmUgc2NyaXB0LCB0aGV5IG9ubHkgY2hlY2sgZm9yIHJldHVybiBjb2RlID09IDAgLiBTaG91
-bGQgd2UgY29uc2lkZXIgb3BlbmluZw0KIGFub3RoZXIgYnVnIHRvIGFkZCBvcGtnIHRlc3RjYXNl
-cyB0byBzZWxmdGVzdD8gPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdE
-Ij5CZXN0IFJlZ2FyZHM8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+TGliZXJ0YWQgRy4NCjxvOnA+PC9vOnA+
-PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9z
-ZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvYT48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YSBuYW1lPSJfX19fX3JlcGx5c2VwYXJh
-dG9yIj48L2E+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0K
-PGI+U2VudDo8L2I+IE1vbmRheSwgSnVseSAxNywgMjAxNyA3OjI4IEFNPGJyPg0KPGI+VG86PC9i
-PiBDcnV6LCBMaWJlcnRhZCAmbHQ7bGliZXJ0YWQuY3J1ekBpbnRlbC5jb20mZ3Q7PGJyPg0KPGI+
-Q2M6PC9iPiBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0gb3Br
-Zy5weSBBZGRzIHRlc3RzIGZvciBpcGsvb3BrZzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj5PbiAxMCBKdWx5IDIwMTcgYXQgMjE6MjIsICZsdDs8YSBocmVmPSJtYWlsdG86
-bGliZXJ0YWQuY3J1ekBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5saWJlcnRhZC5jcnV6QGlu
-dGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9
-ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4g
-MGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mIzQzO2NsYXNzIG9wa2dCYXNpY1Rlc3Qob3BrZ1Rlc3Qp
-Ojxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyBAc2tpcElmTm90RmVhdHVyZSgncGFja2FnZS1tYW5h
-Z2VtZW50JywgJ1Rlc3QgcmVxdWlyZXMgcGFja2FnZS1tYW5hZ2VtZW50IHRvIGJlIGluIElNQUdF
-X0ZFQVRVUkVTJyk8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgQHNraXBJZk5vdERhdGFWYXIoJ0lN
-QUdFX1BLR1RZUEUnLCdpcGsnLCAnSVBLIGlzIG5vdCB0aGUgcHJpbWFyeSBwYWNrYWdlIG1hbmFn
-ZXInKTxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyBAT0VIYXNQYWNrYWdlKFsnb3BrZyddKTxicj4N
-CiYjNDM7PGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7IEBPRVRlc3REZXBlbmRzKFsnc3NoLlNTSFRl
-c3QudGVzdF9zc2gnXSk8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgQE9FVGVzdElEKDE4NDEpPGJy
-Pg0KJiM0MzsmbmJzcDsgJm5ic3A7IGRlZiB0ZXN0X29wa2dfbGlzdChzZWxmKTo8YnI+DQomIzQz
-OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3NlbGYub3BrZygnbGlzdCcpPGJyPg0KJiM0Mzs8
-YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgQE9FVGVzdElEKDE4NDIpPGJyPg0KJiM0MzsmbmJzcDsg
-Jm5ic3A7IGRlZiB0ZXN0X29wa2dfbGlzdF9pbnN0YWxsZWQoc2VsZik6PGJyPg0KJiM0MzsmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtzZWxmLm9wa2coJ2xpc3QtaW5zdGFsbGVkJyk8YnI+DQom
-IzQzOzxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyBAT0VUZXN0SUQoMTg0Myk8YnI+DQomIzQzOyZu
-YnNwOyAmbmJzcDsgZGVmIHRlc3Rfb3BrZ19kZXBlbmRzKHNlbGYpOjxicj4NCiYjNDM7Jm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7c2VsZi5vcGtnKCdkZXBlbmRzIG9wa2cnKTxicj4NCiYjNDM7
-PGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7IEBPRVRlc3RJRCgxODM3KTxicj4NCiYjNDM7Jm5ic3A7
-ICZuYnNwOyBkZWYgdGVzdF9vcGtnX3doYXRkZXBlbmRzKHNlbGYpOjxicj4NCiYjNDM7Jm5ic3A7
-ICZuYnNwOyAmbmJzcDsgc2VsZi5vcGtnKCd3aGF0ZGVwZW5kcyBvcGtnJyk8YnI+DQomIzQzOzxi
-cj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyBAT0VUZXN0SUQoMTgzOCk8YnI+DQomIzQzOyZuYnNwOyAm
-bmJzcDsgZGVmIHRlc3Rfb3BrZ19zdGF0dXMoc2VsZik6PGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7
-ICZuYnNwOyBzZWxmLm9wa2coJ3N0YXR1cycpPGJyPg0KJiM0Mzs8YnI+DQomIzQzOyZuYnNwOyAm
-bmJzcDsgQE9FVGVzdElEKDE4MzkpPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7IGRlZiB0ZXN0X29w
-a2dfaW5mbyhzZWxmKTo8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBzZWxm
-Lm9wa2coJ2luZm8gb3BrZycpPGJyPg0KJiM0Mzs8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgQE9F
-VGVzdElEKDE4NDApPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7IGRlZiB0ZXN0X29wa2dfcHJpbnRf
-YXJjaGl0ZWN0dXJlKHNlbGYpOjxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-IHNlbGYub3BrZygncHJpbnQtYXJjaGl0ZWN0dXJlJyk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpJJ2QgZmVl
-bCBhIGxvdCBoYXBwaWVyIHRoYXQgdGhpcyB3YXMgYSBzZWxmdGVzdCBpZiBpdCB3YXMgZXhlcmNp
-c2luZyBtb3JlIHRoYW4gJnF1b3Q7b3BrZyBkb2Vzbid0IGNyYXNoJnF1b3Q7LiZuYnNwOyBJZiBv
-cGtnIGlzIHJlcGxhY2VkIGJ5IGEgc2NyaXB0IHRoYXQgZG9lcyAmcXVvdDtlY2hvIGhhaGE7IGV4
-aXQgMCZxdW90OyB0aGlzIHRlc3QgY2FzZSB3b3VsZCBwYXNzLCBzbyBjYW4gaXQgdmVyaWZ5IHRo
-ZSBvdXRwdXQgdG9vLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8
-L2JvZHk+DQo8L2h0bWw+DQo=
+oe-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs
 
---_000_58D9E2E50A021A45AD740492365FCDC531EC8B87fmsmsx107amrcor_--
+(it failed on the autobuilder:
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/399/st
+eps/Running%20oe-selftest/logs/stdio)
+
+We need to resolve this before the two initramfs-framework patches can
+be merged.
+
+Cheers,
+
+Richard
+
+
+
