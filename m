@@ -1,56 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C44A7840A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 93C6C783E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 13:01:36 +0000 (UTC)
-Received: by mail-oi0-f53.google.com with SMTP id q4so51189680oif.1
+	Fri, 21 Jul 2017 13:48:34 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id h199so7517955ith.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 06:01:38 -0700 (PDT)
+	Fri, 21 Jul 2017 06:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=RKKVaHnzmiVElyK6iOZr8Zol9oQ9NW8Uk/+WyeLeDkI=;
-	b=keMXtgLe6joKrv7fP+Qd2jzr9yy0RS3ZN/IL9mx3/lvYGfRYolRMOXespifoWR90Jz
-	ESQssg6cix/Tes3EqxLJ7lZv5JqtNXddf3UKlqm9ouTHPtRpQdtrR89gEfc5tFN8L4WD
-	QrE69uiXTQPQkiYwk0TWzIoYLQO/gIK7rVqJ0MMhXHHF9bt+qiUldSypfMKrLtpciqWs
-	Z4Rm+LrkzmmNvV19oo8MUDXmGyOrYyCMd8FnvAwvaKNCYgY+AwOSmxu0+B22beKNkqXb
-	R3fYHxVTnceM0CYDoDP0l2sCogMTVkbGp4fjkH34/Krr8ElHkJXcQjZ5xLuv+42jTaip
-	3g0w==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=qQTza2GmoPNj29Innl6vSz2MKzys3G8982d0RydHB04=;
+	b=rI1qhOxtBeEDjiMMxqYK6OdqzFgiglXyfXEirj+0anFI/kw35uIvezpnV5bXaSjF0/
+	NixHCBvYUREQV8j+WvsTw50lLM9jz91rSroK9ajGnPd0jKE/o0LRDwviogrGhsVy1yAE
+	ENnAKCAF6VmasY+DQrWHhej6piPkCb4lUnMe9dzlezAEcGqO1g5huNwjisErSXAXnyts
+	zh1W4El0mQMABGxmQUfWnNVB70Nv8XALnlpOKusj3geg438XMdF56IL9+U91jfoWCH7b
+	eu8viW4G+DOQHNMWaTJY/vFI+uQX1fIUFuuWKzSjlABjWiWDBsvLQ70wVvC7GsFC95H5
+	u1rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=RKKVaHnzmiVElyK6iOZr8Zol9oQ9NW8Uk/+WyeLeDkI=;
-	b=IcjSIe4WsOD5fmbfF94K4CeYFCSVNMUDWhfk+W0/rLIkZSG73LmK0riTB1cdP6Ekge
-	FcLYxJoyC04lljxvP9ObNxjMYAs2tHfGrG0Y8p2LTKxJaWrzXNZ3LL4KWS5szQe8Bg5J
-	bkwJ5TenhAB9dRHgfa/7eJIbvo2TGCH+gTW0y9RqbJ+dQF0BG3HLJI1wVRxgcdUuGY6D
-	ypAEpStfRMdL3By24SzafszSG3cjp2H8vvej7UxGm5mLV07bti2veTE6MaAf2a6JvxWC
-	nF6XW9neLH/VxloBMcCyNkHobUQiql+ZroLjPMqj3GLtdEs2R+QKibaRzy4M/m1z/2Cl
-	bgPQ==
-X-Gm-Message-State: AIVw110LG61zJuO+oe1OlaeyaKi01vIaM6+EMDG1aAi3dufEHfi69DlS
-	j4SzCkUZIERFjspk
-X-Received: by 10.202.108.130 with SMTP id h124mr2143638oic.289.1500642097691; 
-	Fri, 21 Jul 2017 06:01:37 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8C109.dip0.t-ipconnect.de. [93.232.193.9])
-	by smtp.gmail.com with ESMTPSA id
-	r10sm1885392oia.30.2017.07.21.06.01.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Jul 2017 06:01:36 -0700 (PDT)
-Message-ID: <1500642093.15277.15.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Tom Rini <trini@konsulko.com>
-Date: Fri, 21 Jul 2017 15:01:33 +0200
-In-Reply-To: <20170721112103.GJ14320@bill-the-cat>
-References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
-	<1500623241.15277.10.camel@intel.com>
-	<20170721112103.GJ14320@bill-the-cat>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image-vm: Convert vmdk/vdi/qcow2/hdddirect images to IMAGE_CMD
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=qQTza2GmoPNj29Innl6vSz2MKzys3G8982d0RydHB04=;
+	b=aZT8uTgorqzecktVCGk2x9ub48u5XQ3/A7bJPi7RMrL49LzUGyy8GLvbGYxfaJwTsa
+	GvWNuxRe3fL6PTg2QcJEIlUXxph4QT5rlO9kAcvXIBopNpnWUBd7QLALjbv+DCp1LClx
+	EstmsjlTeS/z62NECFbT9wVuBL19s4FNesAgRbDpzRWQTwrkGSGE8dT+VggF3kMSzl67
+	iN6Lr7WkBLBACmbpJVveDnSitdjzKw02IaP0Yl4E0OY1HAI0a9VNDgWrsdD5gh1Vl2sS
+	5kldvG3YBE5ZfuXXNspWVoTQ8o2BOAcSuWTT7vhcjA+DQ57w+7A/mE+/Eypb1qkFyvbw
+	q1mA==
+X-Gm-Message-State: AIVw112ZwWZVSSMJ9xmK7S6Np1TFCJ1pRFV8/gm1IPztPm0P71IHgONx
+	2eWorEl/qp1u1WNwapucaZYHg3aFhUQz
+X-Received: by 10.36.201.198 with SMTP id h189mr6918876itg.113.1500644915805; 
+	Fri, 21 Jul 2017 06:48:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.234 with HTTP; Fri, 21 Jul 2017 06:48:15 -0700 (PDT)
+In-Reply-To: <1500544345-7341-1-git-send-email-liu.ming50@gmail.com>
+References: <1500544345-7341-1-git-send-email-liu.ming50@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 21 Jul 2017 14:48:15 +0100
+Message-ID: <CAJTo0LY2NXzZf0T8sHYiE1UFCidgRVvA22qW9YfiPBdK35KE9w@mail.gmail.com>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta: fix bfd "cannot make copy relocation for protected symbol" issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,64 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 13:01:37 -0000
+X-List-Received-Date: Fri, 21 Jul 2017 13:48:34 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0893602424b50554d41fe7"
+
+--94eb2c0893602424b50554d41fe7
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-07-21 at 07:21 -0400, Tom Rini wrote:
-> On Fri, Jul 21, 2017 at 09:47:21AM +0200, Patrick Ohly wrote:
-> > On Thu, 2017-07-20 at 18:43 -0400, Tom Rini wrote:
-> > > The support for writing vmdk/vdi/qcow2 images has not been converted to make
-> > > use of the IMAGE_CMD infrastructure and instead relies on custom logic for
-> > > adding tasks in the right place.  Convert these images to making use of
-> > > IMAGE_CMD.
-> > 
-> > Thanks for working on this. I still have
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10204 open for
-> > enhancing vmdk/vdi/qcow2.
-> > 
-> > However, your patch doesn't go as far as described in that bug, does it?
-> > Instead of allowing, for example, IMAGE_FSTYPES = "wic.vmdk", it merely
-> > changes how IMAGE_FSTYPES = "vmdk" is implemented.
-> > 
-> > The current patch has its merits as it simplifies the implementation,
-> > but I think it would be worthwhile to go all the way, even if it changes
-> > how images are going to be named.
-> 
-> Ah, interesting.  I guess the first thing I would argue against is
-> saying that hdddirect should be masked.  There are reasons to want to
-> have a raw image created.
+On 20 July 2017 at 10:52, <liu.ming50@gmail.com> wrote:
 
-I'm not sure I understand what you mean with "hdddirect should be
-masked" - it's been a while that I looked at the code.
+> +++ b/meta/classes/bfd-binding-now.bbclass
+> @@ -0,0 +1,4 @@
+> +# Workaround for some ARCHs do not support bfd lazy binding well
+> +# Refer to: https://bugzilla.yoctoproject.org/show_bug.cgi?id=11679
+> +
+> +TARGET_LDFLAGS_append = "${@bb.utils.contains('DISTRO_FEATURES',
+> 'ld-is-gold', ' -Wl,-z,relro,-z,now -fuse-ld=bfd ', '', d)}"
+>
 
-> I will take a look into using CONVERSIONCMD for vmdk/qcow2/vdi to allow
-> for wic.vmdk to work.  But we also must have vmdk.xz work (and fwiw with
-> my series you can get arbitrary compression that we support done, I did
-> vmdk.xz, qcow2.lzo and vdi.bz2 just for 'fun').
+This is pretty ugly.
 
-The same is true with CONVERSIONCMD. They can be chained multiple times.
+Does this tell us that maybe gold should be considered opt-in on a
+per-recipe basis instead of used by default?
 
-> But I'm not 100% sure that I like changing the normal case from "vmdk"
-> to "wic.vmdk" or "hdddirect.vmdk" just to get a disk image to throw at
-> ${VM_TECHNOLOGY}.
+Can you instead have a .inc file which fiddles the flag for all the recipes
+from outside the recipes? See eg security_flags.inc.
 
-Yes, that's the biggest user-visible change. Basically the internal
-implementation (multiple conversions chained together) becomes visible
-in the end-result.
+Ross
 
-That is a good and a bad thing. The good thing is that it is visible how
-the .vmdk image was created. The bad thing is that some users might not
-care and get confused.
+--94eb2c0893602424b50554d41fe7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best Regards, Patrick Ohly
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 July 2017 at 10:52,  <span dir=3D"ltr">&lt;<a href=3D"mailto:liu.ming=
+50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex"><div id=3D":8o" class=3D"a3s aXjCH m15d5f=
+6a8764308b2">+++ b/meta/classes/bfd-binding-<wbr>now.bbclass<br>
+@@ -0,0 +1,4 @@<br>
++# Workaround for some ARCHs do not support bfd lazy binding well<br>
++# Refer to: <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
+=3D11679" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoprojec=
+t.<wbr>org/show_bug.cgi?id=3D11679</a><br>
++<br>
++TARGET_LDFLAGS_append =3D &quot;${@bb.utils.contains(&#39;DISTRO_<wbr>FEAT=
+URES&#39;, &#39;ld-is-gold&#39;, &#39; -Wl,-z,relro,-z,now -fuse-ld=3Dbfd &=
+#39;, &#39;&#39;, d)}&quot;<br></div></blockquote></div><br>This is pretty =
+ugly.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Does this tell us that maybe gold should be considered opt-in on a per-reci=
+pe basis instead of used by default?</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">Can you instead have a .inc file which fiddl=
+es the flag for all the recipes from outside the recipes? See eg security_f=
+lags.inc.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
+ra">Ross</div></div>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
-
+--94eb2c0893602424b50554d41fe7--
