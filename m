@@ -1,54 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C6DD7838A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 51F9D783BE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 07:47:25 +0000 (UTC)
-Received: by mail-oi0-f42.google.com with SMTP id x187so45605932oig.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 00:47:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=ZWDqO+Ivcml8sY5UbFMEbSH9HbMdRIHSq1AE/lBDIrs=;
-	b=evSlUzQw7h2O7XoT3BExQHRdu9POpRhzapP8R7rnaZ/7wMO+sdqZsyJVXAFTQgOsl7
-	6la8C6EzrKotRSO3s7+vfahsOLa4AoTxeJuki6CQt4eBcbfQZ7pL5QeuV6vzC4SJKU23
-	TEk3UV0qEM5kcG/n7RaI2MEGaoN//qCamLd6YP0eZ2pgco7flzs5CwEOWCUDT2NgN2jc
-	CQlkrQmJxARMlfjjaciu+n0D6hnZ0BzatmDb4CHL+dA+3HuK5vuWp8vmTywBdWmplghp
-	CcHrYRpbOb7n5/MOln21dl2uprDVFIxf9Ic8lAKY4Oo8FIn6FRaaRbigvEz+/dVNUe6r
-	LPEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=ZWDqO+Ivcml8sY5UbFMEbSH9HbMdRIHSq1AE/lBDIrs=;
-	b=eY3trL6WxpReHfr4zBkQ9G7WkJjHPNj90P8YezLBmSAcvS3WiJ4ERUNrov8jY8Z3u+
-	3Qp4+2E2vNQIslt9oaKtEAHdmTZPduvO6to6fncJQQwkJUNOJ+7yWxJr0a1giDZSHNbg
-	bzV2Pj97wB+r8fLmMrOqTqLM2+Zvl2u5m1zc/nfujZMHcl+HtQx+jiET/gy/WAvK9ivi
-	Q889w4K8oBePvw4l3LurXt6u0QaGOc9nJ0/qgc64HqoZXCUu3xsy9Ff2dc8GAjBTDT/K
-	6x01a14TTaMvH6wg3pbN8zLThx9wXGo0NB4xuHhw6JBnnF1uTvkDyIjHiJXaBeU8xFDl
-	uKGA==
-X-Gm-Message-State: AIVw110038qCtQ+r610ADLbNj4cjFcfSUqsdPGYemUUg0ew3VAfSpHe0
-	KqTf6DU6rQH7azzURWE=
-X-Received: by 10.202.87.78 with SMTP id l75mr1437932oib.275.1500623246542;
-	Fri, 21 Jul 2017 00:47:26 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8C109.dip0.t-ipconnect.de. [93.232.193.9])
-	by smtp.gmail.com with ESMTPSA id
-	q10sm1341859oif.44.2017.07.21.00.47.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Jul 2017 00:47:25 -0700 (PDT)
-Message-ID: <1500623241.15277.10.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Tom Rini <trini@konsulko.com>
-Date: Fri, 21 Jul 2017 09:47:21 +0200
-In-Reply-To: <1500590631-2028-1-git-send-email-trini@konsulko.com>
-References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	Fri, 21 Jul 2017 08:13:16 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v6L8B49C009028
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 21 Jul 2017 09:11:05 +0100
+Message-ID: <1500624664.22282.97.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 21 Jul 2017 09:11:04 +0100
+In-Reply-To: <cover.1500327589.git.anibal.limon@linux.intel.com>
+References: <cover.1500327589.git.anibal.limon@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image-vm: Convert vmdk/vdi/qcow2/hdddirect images to IMAGE_CMD
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 21 Jul 2017 09:11:06 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: joshua.g.lock@intel.com
+Subject: Re: [PATCHv3 00/30] oeqa core and oe-selftest threaded enablement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,36 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 07:47:25 -0000
+X-List-Received-Date: Fri, 21 Jul 2017 08:13:17 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2017-07-20 at 18:43 -0400, Tom Rini wrote:
-> The support for writing vmdk/vdi/qcow2 images has not been converted to make
-> use of the IMAGE_CMD infrastructure and instead relies on custom logic for
-> adding tasks in the right place.  Convert these images to making use of
-> IMAGE_CMD.
+On Mon, 2017-07-17 at 16:45 -0500, Aníbal Limón wrote:
+> This v3 makes changes on tinfoil busy status patch and adds an
+> environment variable to oe-seltest script to specify number of
+> threads. 
+> There are patches for bitbake [3] and meta-yocto-bsp [4] that was
+> send
+> to their specific ML.
+> 
+> The first 6 patches previous enable support of threads in oeqa core
+> are independent and can be merged first.
+> 
+> The v2 address comments did by Patrick about add better explanation
+> on the commit messages and some typos.
+> 
+> Other interesting information to add is that with this series we will
+> able to execute oe-selftest in around half [1] of the original time
+> [2], (9406.782s vs 17303.014s).
 
-Thanks for working on this. I still have
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10204 open for
-enhancing vmdk/vdi/qcow2.
+I tested this, admittedly on top of the server rework changes and see
+some odd failures on the autobuilder. Things aren't looking very
+deterministic and I'm a little worried about merging them.
 
-However, your patch doesn't go as far as described in that bug, does it?
-Instead of allowing, for example, IMAGE_FSTYPES = "wic.vmdk", it merely
-changes how IMAGE_FSTYPES = "vmdk" is implemented.
+(e.g. https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/
+397)
 
-The current patch has its merits as it simplifies the implementation,
-but I think it would be worthwhile to go all the way, even if it changes
-how images are going to be named.
+The second issue I'd like to ask questions about is whether the tinfoil
+changes and server rework we've just done remove the need for some of
+this patchset?
 
--- 
-Best Regards, Patrick Ohly
+I ask since now I'm hoping the "main thread" issues might be resolved
+and we truly can have independent tinfoil connections. There were
+issues there but I believe Paul has resolved those.
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+For that reason I'm going to defer this patchset from M2 (I did take
+some of the initial patches) and ask that we review the patchset in
+light of the server rework and tinfoil changes that just merged.
 
+I do know that for example, "oeqa/selftest/case: Support bitbake memres
+mode in per build director" is no obsolete as we removed the memres
+init script and the -t option to bitbake.
 
+Cheers,
 
+Richard
 
