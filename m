@@ -1,35 +1,54 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C90771B04
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C6DD7838A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 06:32:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6L6Wt8G023848
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 20 Jul 2017 23:32:55 -0700
-Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 20 Jul 2017 23:32:54 -0700
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Khem Raj
-	<raj.khem@gmail.com>
-References: <cover.1499822461.git.kai.kang@windriver.com>
-	<10b67207-e767-0458-c642-20ee38621bd3@windriver.com>
-	<e25b7dde-3a9f-5964-8d63-c3cd60785072@linux.intel.com>
-	<f136d49e-6409-fb63-0c07-a371392761f2@windriver.com>
-	<33942952-1dcf-d334-5953-63020d14ef83@linux.intel.com>
-	<CAMKF1spKp6=VpO=mtGSLph2UF84mnQMra=Roup6cHwZxr+Ct8w@mail.gmail.com>
-	<1fdc5857-8f62-7ae7-52c1-bce71a23d37a@linux.intel.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <b68e4ea9-6d93-f9c5-7e2a-ca0664894c6e@windriver.com>
-Date: Fri, 21 Jul 2017 14:37:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1fdc5857-8f62-7ae7-52c1-bce71a23d37a@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] bind: 9.10..3-P3 -> 9.10.5-P3
+	Fri, 21 Jul 2017 07:47:25 +0000 (UTC)
+Received: by mail-oi0-f42.google.com with SMTP id x187so45605932oig.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Jul 2017 00:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=ZWDqO+Ivcml8sY5UbFMEbSH9HbMdRIHSq1AE/lBDIrs=;
+	b=evSlUzQw7h2O7XoT3BExQHRdu9POpRhzapP8R7rnaZ/7wMO+sdqZsyJVXAFTQgOsl7
+	6la8C6EzrKotRSO3s7+vfahsOLa4AoTxeJuki6CQt4eBcbfQZ7pL5QeuV6vzC4SJKU23
+	TEk3UV0qEM5kcG/n7RaI2MEGaoN//qCamLd6YP0eZ2pgco7flzs5CwEOWCUDT2NgN2jc
+	CQlkrQmJxARMlfjjaciu+n0D6hnZ0BzatmDb4CHL+dA+3HuK5vuWp8vmTywBdWmplghp
+	CcHrYRpbOb7n5/MOln21dl2uprDVFIxf9Ic8lAKY4Oo8FIn6FRaaRbigvEz+/dVNUe6r
+	LPEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=ZWDqO+Ivcml8sY5UbFMEbSH9HbMdRIHSq1AE/lBDIrs=;
+	b=eY3trL6WxpReHfr4zBkQ9G7WkJjHPNj90P8YezLBmSAcvS3WiJ4ERUNrov8jY8Z3u+
+	3Qp4+2E2vNQIslt9oaKtEAHdmTZPduvO6to6fncJQQwkJUNOJ+7yWxJr0a1giDZSHNbg
+	bzV2Pj97wB+r8fLmMrOqTqLM2+Zvl2u5m1zc/nfujZMHcl+HtQx+jiET/gy/WAvK9ivi
+	Q889w4K8oBePvw4l3LurXt6u0QaGOc9nJ0/qgc64HqoZXCUu3xsy9Ff2dc8GAjBTDT/K
+	6x01a14TTaMvH6wg3pbN8zLThx9wXGo0NB4xuHhw6JBnnF1uTvkDyIjHiJXaBeU8xFDl
+	uKGA==
+X-Gm-Message-State: AIVw110038qCtQ+r610ADLbNj4cjFcfSUqsdPGYemUUg0ew3VAfSpHe0
+	KqTf6DU6rQH7azzURWE=
+X-Received: by 10.202.87.78 with SMTP id l75mr1437932oib.275.1500623246542;
+	Fri, 21 Jul 2017 00:47:26 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8C109.dip0.t-ipconnect.de. [93.232.193.9])
+	by smtp.gmail.com with ESMTPSA id
+	q10sm1341859oif.44.2017.07.21.00.47.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Jul 2017 00:47:25 -0700 (PDT)
+Message-ID: <1500623241.15277.10.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Tom Rini <trini@konsulko.com>
+Date: Fri, 21 Jul 2017 09:47:21 +0200
+In-Reply-To: <1500590631-2028-1-git-send-email-trini@konsulko.com>
+References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image-vm: Convert vmdk/vdi/qcow2/hdddirect images to IMAGE_CMD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,55 +61,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 06:32:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 21 Jul 2017 07:47:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2017年07月19日 21:05, Alexander Kanavin wrote:
-> On 07/19/2017 12:08 AM, Khem Raj wrote:
->>> The policy in oe-core master is to update to latest stable upstream
->>> releases, so please provide an update to 9.11.x. If you want to keep 
->>> 9.10.x,
->>> you can do that, but please provide a more specific reason.
->>
->> if there are ABI incompatible changes then we have to scope the impact
->> and plan the upgrade accordingly, if its backward compatible then yes 
->> its
->> the norm.
+On Thu, 2017-07-20 at 18:43 -0400, Tom Rini wrote:
+> The support for writing vmdk/vdi/qcow2 images has not been converted to make
+> use of the IMAGE_CMD infrastructure and instead relies on custom logic for
+> adding tasks in the right place.  Convert these images to making use of
+> IMAGE_CMD.
 
-It doesn't  mention that api changes in 9.11 from release notes pages of 
-9.11.0rc1 and 9.11.0.
+Thanks for working on this. I still have
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10204 open for
+enhancing vmdk/vdi/qcow2.
 
-https://kb.isc.org/article/AA-01409
-https://kb.isc.org/article/AA-01432/81/BIND-9.11.0-Release-Notes.html
+However, your patch doesn't go as far as described in that bug, does it?
+Instead of allowing, for example, IMAGE_FSTYPES = "wic.vmdk", it merely
+changes how IMAGE_FSTYPES = "vmdk" is implemented.
 
-
-But it suggests not to use 9.11 until the second maintenance 
-release(9.11.2 if I understand correctly) for production systems:
-
-| We recommend that administrators run one of our older, stable 
-branches, such as a 9.9 or 9.10-based release on larger-scale critical 
-production systems, while testing the new 9.11 branch until the second 
-maintenance release.
-
-https://www.isc.org/downloads/bind/bind-9-11-new-features/
-
-
---Kai
-
->
-> What I'm saying is that it should not be a "9.10 now, 9.11 maybe 
-> later" when working with a master branch. The proper way is to 
-> "investigate and plan the upgrade to 9.11, update to 9.10 only if 
-> necessary, based on that investigation".
->
->
-> Alex
->
+The current patch has its merits as it simplifies the implementation,
+but I think it would be worthwhile to go all the way, even if it changes
+how images are going to be named.
 
 -- 
-Regards,
-Neil | Kai Kang
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
