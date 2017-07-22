@@ -1,48 +1,58 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DCB42783FC
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BD1278441
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jul 2017 09:24:54 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id g13so29492192ioj.5
+	Sat, 22 Jul 2017 12:51:18 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id x187so69932419oig.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jul 2017 02:24:56 -0700 (PDT)
+	Sat, 22 Jul 2017 05:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=j1eNfyTKsH/lt8p7evJyMIASMSj5neBkwy9P7+Qr6Jw=;
-	b=AFPvfY3KALOIOJ0i0PcWdrklolmdeCfquz8FIwD1kiFN3uaYzVhlJaLVELB7DTk/dd
-	hS8HtUe3Lb45Jk2aUSqdj6Sn/s0372G+dZ5dXoOFqBfDR0goBBdvfLtwf72Nku6yG1ZO
-	D2gkME3M10fMu2udZuaXm6IFUveJ9R2WvK8XbiJLKXD6gPjlVJ0LZ2SQDzxlLhOBUx2+
-	xfP7+h4lA1qWPAl6w1L9LkuSvat8owdx3x/u/mZF9ou2WmgppS/JuTYNUd6ODf2L5wjG
-	I/y+lpkzWtYWQDgCVU7VMdXTgDuHJLf6TWC97QcacQ4G1of8tk4fd3jYD//yNvuvD6+9
-	SA2A==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=5rpkv0tvYNnxRAzm52jIV5PnmiThi/hCgLC7Fo4ICX8=;
+	b=N6KfUMm1rGhtuyN+CbK+g8RpazY838Mp7CnzhPutPETh+4IWOpki5dB2WmqkyT8SkB
+	CJX0BHBwM5Op/0kfBQTaXcZreTa+KvTJZfJpakQlTGSOB2Tz6++Ul4GMO06hmjKDKW52
+	57WsgCSNuHyrhqv2m9E9u2hW7L9yx+jyw5yS9Y0Cgca5eleyk9iKqW7RhAW8QJg0auYg
+	Ppi3XKMgLz+dFN7WfzM4dmcWJHWrQdMmbGpv4aQ2uifL+/9CuUADX2npwfoPOkJBidcQ
+	lCzEDgyKD67Er6CUxYtr9VCLPwj4CRP0Su3d58ox8Vw65ku4h/vvMB10lZWcwrMCA1LC
+	/0Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=j1eNfyTKsH/lt8p7evJyMIASMSj5neBkwy9P7+Qr6Jw=;
-	b=i5BGusn3uWQurKN7FqtZqen1KLlAC8QyPR4BoPcq95kFa0+SHmZBGyTLRmoi/hIsbY
-	fU2NxqoTCs1s4FxQi5R9l5bL2H/40N/wsZcxY2LiyosSJtQEm5pCMATQQdpuUDQTMAyJ
-	wmVC9yqlrP9bhsWqdOfGp51aJt3UpaNChN+nHUTwWYC5d6QP+vpqGmXoodpHesyk8Hr/
-	Zmb5nw8UJPXeGrLm/11WDXvRD9oR7wLOEEtzl3pVELxgaaBNTNCjk8O4qCyOWtdimBb0
-	ETctzux+XGT7F4YSh4I2dWhpCPdNKJhzF+hZIpV1izAz5hY/lLswRz4KsIWmQVmCN1BY
-	T+7g==
-X-Gm-Message-State: AIVw112WZeJEFmsNXqCkzyWcoVhXHzEW//8ZKm/HmdKj+QiPke7XwcRO
-	afcsn8Q1tzc15PtiZjRGtpmAmFlGRE3f
-X-Received: by 10.107.170.212 with SMTP id g81mr10452647ioj.19.1500715495832; 
-	Sat, 22 Jul 2017 02:24:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Sat, 22 Jul 2017 02:24:35 -0700 (PDT)
-In-Reply-To: <dd968ff528a0928627a3bb12b4b1e8d77a1ff829.1500357604.git.dengke.du@windriver.com>
-References: <cover.1500357604.git.dengke.du@windriver.com>
-	<dd968ff528a0928627a3bb12b4b1e8d77a1ff829.1500357604.git.dengke.du@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 22 Jul 2017 10:24:35 +0100
-Message-ID: <CAJTo0Lac01Ny9N5D0p8Qv+GCFXRNv0qF_BjGdXx4Q3zvc+1How@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] expat: upgrade to 2.2.2
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=5rpkv0tvYNnxRAzm52jIV5PnmiThi/hCgLC7Fo4ICX8=;
+	b=OAZWV296/h1FsltOP6aao9LjsB9MVqv1MO4nMiBjjvpHLhFyS+ez3YwBn47ypYYa/J
+	Up8glIL49GxKIIbaAXbjypvXR8nn4HBqz8WIYtwJRlRM4PAnwTztCq7f2sz4CFE+Qg/e
+	e5NSdpky7vRqpLOF3WmT2kD026YdSbTJzTvnwBL5ir/yhp6mlXIlb+ZtY5N1DPQXV/9N
+	y3AAgYvsBHsfxFY1y9kAFzxN13mYoUzJAnkC6rWSH/8mOsIuC89XYJQzUm+jbcvSPniW
+	LsEIFnsOLY8/3VpkWvv9grHMBt4VagsadnLGOqPHYNerjCChOSFcCnIG32OV+RoZQMpW
+	jEqg==
+X-Gm-Message-State: AIVw1127tJvaFNDm/LVGe+Wm6b1oLhRQDQlmNiSTI6fspAsHp22NDMAU
+	wLOBwIKgdexojBDpCWM=
+X-Received: by 10.202.239.137 with SMTP id n131mr4345133oih.227.1500727879362; 
+	Sat, 22 Jul 2017 05:51:19 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F5F6.dip0.t-ipconnect.de. [93.232.245.246])
+	by smtp.gmail.com with ESMTPSA id
+	r185sm4047067oib.56.2017.07.22.05.51.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 22 Jul 2017 05:51:17 -0700 (PDT)
+Message-ID: <1500727874.15277.25.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Tom Rini <trini@konsulko.com>
+Date: Sat, 22 Jul 2017 14:51:14 +0200
+In-Reply-To: <20170721205245.GO14320@bill-the-cat>
+References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
+	<1500623241.15277.10.camel@intel.com>
+	<20170721112103.GJ14320@bill-the-cat>
+	<1500642093.15277.15.camel@intel.com>
+	<20170721205245.GO14320@bill-the-cat>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image-vm: Convert vmdk/vdi/qcow2/hdddirect images to IMAGE_CMD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,72 +65,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Jul 2017 09:24:55 -0000
-Content-Type: multipart/alternative; boundary="001a11425b7009d8f70554e48e11"
-
---001a11425b7009d8f70554e48e11
+X-List-Received-Date: Sat, 22 Jul 2017 12:51:18 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18 July 2017 at 07:01, Dengke Du <dengke.du@windriver.com> wrote:
-
->     using getrandom syscall on linux 3.17+, so when we compiling expat
-> -native
->     on the kernel older than 3.17, that would be failed.
+On Fri, 2017-07-21 at 16:52 -0400, Tom Rini wrote:
+> On Fri, Jul 21, 2017 at 03:01:33PM +0200, Patrick Ohly wrote:
+> > On Fri, 2017-07-21 at 07:21 -0400, Tom Rini wrote:
+> > > On Fri, Jul 21, 2017 at 09:47:21AM +0200, Patrick Ohly wrote:
+> > > > On Thu, 2017-07-20 at 18:43 -0400, Tom Rini wrote:
+> > > > > The support for writing vmdk/vdi/qcow2 images has not been converted to make
+> > > > > use of the IMAGE_CMD infrastructure and instead relies on custom logic for
+> > > > > adding tasks in the right place.  Convert these images to making use of
+> > > > > IMAGE_CMD.
+> > > > 
+> > > > Thanks for working on this. I still have
+> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10204 open for
+> > > > enhancing vmdk/vdi/qcow2.
+> > > > 
+> > > > However, your patch doesn't go as far as described in that bug, does it?
+> > > > Instead of allowing, for example, IMAGE_FSTYPES = "wic.vmdk", it merely
+> > > > changes how IMAGE_FSTYPES = "vmdk" is implemented.
+> > > > 
+> > > > The current patch has its merits as it simplifies the implementation,
+> > > > but I think it would be worthwhile to go all the way, even if it changes
+> > > > how images are going to be named.
+> > > 
+> > > Ah, interesting.  I guess the first thing I would argue against is
+> > > saying that hdddirect should be masked.  There are reasons to want to
+> > > have a raw image created.
+> > 
+> > I'm not sure I understand what you mean with "hdddirect should be
+> > masked" - it's been a while that I looked at the code.
+> > 
+> > > I will take a look into using CONVERSIONCMD for vmdk/qcow2/vdi to allow
+> > > for wic.vmdk to work.  But we also must have vmdk.xz work (and fwiw with
+> > > my series you can get arbitrary compression that we support done, I did
+> > > vmdk.xz, qcow2.lzo and vdi.bz2 just for 'fun').
+> > 
+> > The same is true with CONVERSIONCMD. They can be chained multiple times.
+> > 
+> > > But I'm not 100% sure that I like changing the normal case from "vmdk"
+> > > to "wic.vmdk" or "hdddirect.vmdk" just to get a disk image to throw at
+> > > ${VM_TECHNOLOGY}.
+> > 
+> > Yes, that's the biggest user-visible change. Basically the internal
+> > implementation (multiple conversions chained together) becomes visible
+> > in the end-result.
+> > 
+> > That is a good and a bad thing. The good thing is that it is visible how
+> > the .vmdk image was created. The bad thing is that some users might not
+> > care and get confused.
+> 
+> So, Patrick, Ed and I talked on IRC a bit about this, and I think
+> without putting too many words in their mouths, I think it can be
+> summarized like this.
 >
+> We all agree that vmdk/qcow2/vdi are a type of conversion.  It would be
+> quite handy to use these conversions on other things, such as wic.
+> 
+> And at least from my point of view, the contents of "hdddirect" doesn't
+> matter so much as the overall functionality.
+> 
+> So that here's where I'm at now.  I've found out when Patrick's chaining
+> compression code (so that you could do silly things like ext3.gz.bz2 or
+> _useful_ things like wic.vmdk.xz) was broken, and I see the best way to
+> fix that too.  So I'm going to v2 this series shortly which addresses
+> the problem of chaining compression types, and then brings the VM stuff
+> over to using that too.
 
-It's failing on Debian 8, which is kernel 4.9.0:
+Thanks for the good summary and working on this functionality.
 
-| ../expat-2.2.2/lib/xmlparse.c:56:3: error: #error You do not have support
-for any sources of high quality entropy enabled. For end user security,
-that is probably not what you want. Your options include: * Linux + glibc
->=2.25 (getrandom): HAVE_GETRANDOM, * Linux + glibc <2.25 (syscall
-SYS_getrandom): HAVE_SYSCALL_GETRANDOM, * BSD / macOS (arc4random_buf):
-HAVE_ARC4RANDOM_BUF, * libbsd (arc4random_buf): HAVE_ARC4RANDOM_BUF +
-HAVE_LIBBSD, * Windows (RtlGenRandom): _WIN32. If insist on not using any
-of these, bypass this error by defining XML_POOR_ENTROPY; you have been
-warned. For CMake, one way to pass the define is: cmake
--DCMAKE_C_FLAGS="-pipe -O2 -DHAVE_SYSCALL_GETRANDOM" . If you have reasons
-to patch this detection code away or need changes to the build system,
-please open a bug. Thank you!
+I'd like to add that you pointed out that a "generic" vmdk type is what
+some developers ask for when they don't care about the exact way how the
+resulting image is created (hdddirect vs. wic, for example). We agreed
+that this is useful.
 
-(
-https://autobuilder.yocto.io/builders/nightly-ppc/builds/379/steps/BuildImages/logs/stdio
-)
+I didn't get around to mentioning it on IRC, but what I would find it
+useful is if someone (BSP and/or distro?) can define which kind of raw
+image is used as input for the conversion to vmdk. Hard-coding that to
+just hdddirect always felt wrong to me.
 
-I suspect the detection code is well and truly broken.
+-- 
+Best Regards, Patrick Ohly
 
-Ross
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
---001a11425b7009d8f70554e48e11
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 July 2017 at 07:01, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:dengke.du@windriver.com" target=3D"_blank">dengke.du@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:=
-rgb(204,204,204);padding-left:1ex"><div id=3D"gmail-:4tt" class=3D"gmail-a3=
-s gmail-aXjCH gmail-m15d544a8ef991e51">=C2=A0 =C2=A0 using getrandom syscal=
-l on linux 3.17+, so when we compiling <span class=3D"gmail-il">expat</span=
->-native<br>
-=C2=A0 =C2=A0 on the kernel older than 3.17, that would be failed.<br></div=
-></blockquote></div><br>It&#39;s failing on Debian 8, which is kernel 4.9.0=
-:</div><br>| ../expat-2.2.2/lib/xmlparse.c:56:3: error: #error You do not h=
-ave support for any sources of high quality entropy enabled. For end user s=
-ecurity, that is probably not what you want. Your options include: * Linux =
-+ glibc &gt;=3D2.25 (getrandom): HAVE_GETRANDOM, * Linux + glibc &lt;2.25 (=
-syscall SYS_getrandom): HAVE_SYSCALL_GETRANDOM, * BSD / macOS (arc4random_b=
-uf): HAVE_ARC4RANDOM_BUF, * libbsd (arc4random_buf): HAVE_ARC4RANDOM_BUF + =
-HAVE_LIBBSD, * Windows (RtlGenRandom): _WIN32. If insist on not using any o=
-f these, bypass this error by defining XML_POOR_ENTROPY; you have been warn=
-ed. For CMake, one way to pass the define is: cmake -DCMAKE_C_FLAGS=3D&quot=
-;-pipe -O2 -DHAVE_SYSCALL_GETRANDOM&quot; . If you have reasons to patch th=
-is detection code away or need changes to the build system, please open a b=
-ug. Thank you!<div><br></div><div>(<a href=3D"https://autobuilder.yocto.io/=
-builders/nightly-ppc/builds/379/steps/BuildImages/logs/stdio">https://autob=
-uilder.yocto.io/builders/nightly-ppc/builds/379/steps/BuildImages/logs/stdi=
-o</a>)</div><div><br></div><div>I suspect the detection code is well and tr=
-uly broken.</div><div><br></div><div>Ross</div></div>
 
---001a11425b7009d8f70554e48e11--
+
