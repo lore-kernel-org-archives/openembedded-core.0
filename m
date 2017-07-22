@@ -1,41 +1,33 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F40F178441
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id DB8FA77D81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 22:05:23 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id y8so1415125ywi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jul 2017 15:05:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=iL58NY6TSWQaUoZEPWk1ta8um2qjrLtm2A3QjiBNNnE=;
-	b=Y191yInsuNLh1XQnFAbcKumfNpg7jJVZVv5oO5i2lId6WgXNCwSD1YhPMFq0hgTSR/
-	JRhyVrTuELiOXHD5zpyrdHEKMdWAx/5GZcuROkL5vuTHNFgzyXoMZGtNChqXGzLnZGXM
-	RHD4JMRRmgHTYnFBWYSlELvLZ+5Rg7Lkplo0l+FcgxLUEdZF/SkAyBigOcV5FIrL0J/j
-	qd5JMfeZPccie/hjqnkeilDCoBFIuRiJbZLjXW5zy92kqG/jbQCBksSNUzAkxP4DmGF/
-	VXOoqyCdQlQAQKJwc7kzO30sne3n97bZ3s6ExusZKzEHRtaHYRs+AJGP22BA+g6wlzBB
-	YUtA==
-X-Gm-Message-State: AIVw112mlzZc7V3Ifl8Z3BpUjtN1gq+3OpnGP6U/XkeBcJX60cKnhmiL
-	U1POSu8YODGMSoTv
-X-Received: by 10.13.228.193 with SMTP id n184mr7176474ywe.98.1500674724593;
-	Fri, 21 Jul 2017 15:05:24 -0700 (PDT)
-Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
-	[174.106.0.58])
-	by smtp.gmail.com with ESMTPSA id p5sm2061427ywl.48.2017.07.21.15.05.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 21 Jul 2017 15:05:24 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Jul 2017 18:06:34 -0400
-Message-Id: <1500674794-23258-2-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1500674794-23258-1-git-send-email-trini@konsulko.com>
-References: <1500674794-23258-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH 2/2] image_types.bbclass: Make u-boot signed images more versatile
+	Sat, 22 Jul 2017 01:02:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E6F6720AB6;
+	Sat, 22 Jul 2017 01:02:44 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id dNmPGHp-N6E0; Sat, 22 Jul 2017 01:02:44 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CBE47200BB;
+	Sat, 22 Jul 2017 01:02:43 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 940D116253D; Fri, 21 Jul 2017 21:02:43 -0400 (EDT)
+Date: Fri, 21 Jul 2017 21:02:43 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: =?iso-8859-1?Q?Ga=EBl?= PORTAY <gael.portay@savoirfairelinux.com>
+Message-ID: <20170722010243.GT26405@denix.org>
+References: <20170718005457.1179-1-gael.portay@savoirfairelinux.com>
+MIME-Version: 1.0
+In-Reply-To: <20170718005457.1179-1-gael.portay@savoirfairelinux.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: fitimage: deploy real fit-image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,120 +40,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jul 2017 22:05:24 -0000
+X-List-Received-Date: Sat, 22 Jul 2017 01:02:44 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-With the introduction of chaining compression/conversion support we can
-convert the old image_types_uboot.bbclass code that did a hand-chaining
-of a set of ${filesystem}.${compression} into generic and arbitrary
-support to sign whatever the user wants to sign for their image.
+On Mon, Jul 17, 2017 at 08:54:57PM -0400, Gaël PORTAY wrote:
+> Currently, do_deploy installs a standard kernel image as an ITB. This
+> image is linux.bin and it is prepared by uboot_prep_kimage.
+> 
+> The real kernel fit-image is build under arch/${ARCH}/boot/fitImage.
+> 
+> This patch deploys the real fit-image instead of the one prepared by
+> u-boot and which is included in the ITB.
+> 
+> Note: this patch only concerns fit-images which are not signed by u-boot
+> or which do not contains initramfs. Only a kernel image with a
+> device-tree.
+> 
+> Signed-off-by: Gaël PORTAY <gael.portay@savoirfairelinux.com>
 
-This, for the record, does remove setting a valid compression type in
-the record in favour of just saying none.  This is not a generally
-useful feature in U-Boot and I believe being versatile in terms of being
-able to pass in arbitrary compressions is more important.
+Reviewed-by: Denys Dmytriyenko <denys@ti.com>
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
- meta/classes/image.bbclass             |  9 ---------
- meta/classes/image_types.bbclass       |  6 ++++--
- meta/classes/image_types_uboot.bbclass | 29 -----------------------------
- 3 files changed, 4 insertions(+), 40 deletions(-)
- delete mode 100644 meta/classes/image_types_uboot.bbclass
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index bd6a5b7b810a..b095bca7c12a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -144,15 +144,6 @@ inherit ${IMAGE_TYPE_vm}
- IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
- inherit ${IMAGE_TYPE_container}
- 
--def build_uboot(d):
--    if 'u-boot' in (d.getVar('IMAGE_FSTYPES') or ''):
--        return "image_types_uboot"
--    else:
--        return ""
--
--IMAGE_TYPE_uboot = "${@build_uboot(d)}"
--inherit ${IMAGE_TYPE_uboot}
--
- IMAGE_TYPE_wic = "image_types_wic"
- inherit ${IMAGE_TYPE_wic}
- 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8f8d79cd3d70..4fdcde25b4f5 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -214,7 +214,7 @@ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${IMGDEPLOYDIR}/${IMAGE_NAME
- 
- EXTRA_IMAGECMD = ""
- 
--inherit siteinfo
-+inherit siteinfo kernel-arch
- JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-l', '-b', d)}"
- JFFS2_ERASEBLOCK ?= "0x40000"
- EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
-@@ -269,7 +269,7 @@ IMAGE_TYPES = " \
- # CONVERSION_CMD/DEPENDS.
- COMPRESSIONTYPES ?= ""
- 
--CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap ${COMPRESSIONTYPES}"
-+CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot ${COMPRESSIONTYPES}"
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -286,6 +286,7 @@ CONVERSION_CMD_sha256sum = "sha256sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
- CONVERSION_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha384sum"
- CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
- CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
-+CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
- CONVERSION_DEPENDS_lzma = "xz-native"
- CONVERSION_DEPENDS_gz = "pigz-native"
- CONVERSION_DEPENDS_bz2 = "pbzip2-native"
-@@ -295,6 +296,7 @@ CONVERSION_DEPENDS_lzo = "lzop-native"
- CONVERSION_DEPENDS_zip = "zip-native"
- CONVERSION_DEPENDS_sum = "mtd-utils-native"
- CONVERSION_DEPENDS_bmap = "bmap-tools-native"
-+CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
- 
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
-deleted file mode 100644
-index 8db436efb14b..000000000000
---- a/meta/classes/image_types_uboot.bbclass
-+++ /dev/null
-@@ -1,29 +0,0 @@
--inherit image_types kernel-arch
--
--oe_mkimage () {
--    mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C $2 -n ${IMAGE_NAME} \
--        -d ${IMGDEPLOYDIR}/$1 ${IMGDEPLOYDIR}/$1.u-boot
--}
--
--CONVERSIONTYPES += "gz.u-boot bz2.u-boot lz4.u-boot lzma.u-boot lzo.u-boot u-boot"
--
--CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
--CONVERSION_CMD_u-boot      = "oe_mkimage ${IMAGE_NAME}.rootfs.${type} none"
--
--CONVERSION_DEPENDS_gz.u-boot = "u-boot-mkimage-native"
--CONVERSION_CMD_gz.u-boot      = "${CONVERSION_CMD_gz}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.gz gzip"
--
--CONVERSION_DEPENDS_bz2.u-boot = "u-boot-mkimage-native"
--CONVERSION_CMD_bz2.u-boot      = "${CONVERSION_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.bz2 bzip2"
--
--CONVERSION_DEPENDS_lz4.u-boot = "u-boot-mkimage-native"
--CONVERSION_CMD_lz4.u-boot      = "${CONVERSION_CMD_lz4_legacy}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lz4 lz4"
--
--CONVERSION_DEPENDS_lzma.u-boot = "u-boot-mkimage-native"
--CONVERSION_CMD_lzma.u-boot      = "${CONVERSION_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma"
--
--CONVERSION_DEPENDS_lzo.u-boot = "u-boot-mkimage-native"
--CONVERSION_CMD_lzo.u-boot      = "${CONVERSION_CMD_lzo}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzo lzo"
--
--IMAGE_TYPES += "ext2.u-boot ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot cpio.gz.u-boot"
--
--- 
-1.9.1
-
+> ---
+> Hi all,
+> 
+> This patch is a modified version of the one I wrote on a meta-arago/morty
+> build. Thus it is not tested, but it should work.
+> 
+> In the deploy image directory, I had
+> 
+> 	$ file -L fitImage 
+> 	fitImage: Linux kernel ARM boot executable zImage (little-endian)
+> 
+> With the patch, I have
+> 
+> 	$ file -L fitImage 
+> 	fitImage: data
+> 
+> Regards,
+> Gael
+> 
+>  meta/classes/kernel-fitimage.bbclass | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 2630b47316..a745e873c1 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -453,9 +453,9 @@ kernel_do_deploy_append() {
+>  		its_base_name="fitImage-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
+>  		its_symlink_name=fitImage-its-${MACHINE}
+>  		install -m 0644 fit-image.its ${DEPLOYDIR}/${its_base_name}.its
+> -		linux_bin_base_name="fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
+> -		linux_bin_symlink_name=fitImage-linux.bin-${MACHINE}
+> -		install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
+> +		itb_base_name="fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}"
+> +		itb_symlink_name=fitImage-linux.bin-${MACHINE}
+> +		install -m 0644 arch/${ARCH}/boot/fitImage ${DEPLOYDIR}/${itb_base_name}.bin
+>  
+>  		if [ -n "${INITRAMFS_IMAGE}" ]; then
+>  			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
+> @@ -469,7 +469,7 @@ kernel_do_deploy_append() {
+>  
+>  		cd ${DEPLOYDIR}
+>  		ln -sf ${its_base_name}.its ${its_symlink_name}.its
+> -		ln -sf ${linux_bin_base_name}.bin ${linux_bin_symlink_name}.bin
+> +		ln -sf ${itb_base_name}.bin ${itb_symlink_name}.bin
+>  
+>  		if [ -n "${INITRAMFS_IMAGE}" ]; then
+>  			ln -sf ${its_initramfs_base_name}.its ${its_initramfs_symlink_name}.its
+> -- 
+> 2.13.2
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
