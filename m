@@ -1,58 +1,46 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BD1278441
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BBBE177BF4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jul 2017 12:51:18 +0000 (UTC)
-Received: by mail-oi0-f41.google.com with SMTP id x187so69932419oig.3
+	Sat, 22 Jul 2017 13:30:56 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id m4so9812164wmi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jul 2017 05:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=5rpkv0tvYNnxRAzm52jIV5PnmiThi/hCgLC7Fo4ICX8=;
-	b=N6KfUMm1rGhtuyN+CbK+g8RpazY838Mp7CnzhPutPETh+4IWOpki5dB2WmqkyT8SkB
-	CJX0BHBwM5Op/0kfBQTaXcZreTa+KvTJZfJpakQlTGSOB2Tz6++Ul4GMO06hmjKDKW52
-	57WsgCSNuHyrhqv2m9E9u2hW7L9yx+jyw5yS9Y0Cgca5eleyk9iKqW7RhAW8QJg0auYg
-	Ppi3XKMgLz+dFN7WfzM4dmcWJHWrQdMmbGpv4aQ2uifL+/9CuUADX2npwfoPOkJBidcQ
-	lCzEDgyKD67Er6CUxYtr9VCLPwj4CRP0Su3d58ox8Vw65ku4h/vvMB10lZWcwrMCA1LC
-	/0Xg==
+	Sat, 22 Jul 2017 06:30:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=2IOdejvqhqJkugg4uGMUIpvPe+9oS1tKl1GkenZ+CsM=;
+	b=Kck12OxC8qMMPSwS/py0Z8wGA3eandTdKDeu3utUbqVwlbYubNShlQp993VKxn+oiZ
+	GcXVIzQ5oKpC+njE0wf+CbcTacqNBz7zVQspNSsOqtZC4PE/gmjKVOzZU66scfI9PPbr
+	tD53HjDAfFEMTlLY67RgE3v23mmHm0hzJhg/s5ziOcUWPk4Jdj3sewHzEyD5jzGc7H/H
+	/WHE3LtPq3T+d8wQrg6o/mLUdn6kqivyFjFB2YFUfNPJtcHVYDVWbD9AKPMLQTe8Q2hg
+	d29rLlrRSwihNBkXEA58Uct3s43FOVNbCwiGnf+gDHlfI4dWfX9WNtY+LMcTnkK/yRG/
+	e2ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=5rpkv0tvYNnxRAzm52jIV5PnmiThi/hCgLC7Fo4ICX8=;
-	b=OAZWV296/h1FsltOP6aao9LjsB9MVqv1MO4nMiBjjvpHLhFyS+ez3YwBn47ypYYa/J
-	Up8glIL49GxKIIbaAXbjypvXR8nn4HBqz8WIYtwJRlRM4PAnwTztCq7f2sz4CFE+Qg/e
-	e5NSdpky7vRqpLOF3WmT2kD026YdSbTJzTvnwBL5ir/yhp6mlXIlb+ZtY5N1DPQXV/9N
-	y3AAgYvsBHsfxFY1y9kAFzxN13mYoUzJAnkC6rWSH/8mOsIuC89XYJQzUm+jbcvSPniW
-	LsEIFnsOLY8/3VpkWvv9grHMBt4VagsadnLGOqPHYNerjCChOSFcCnIG32OV+RoZQMpW
-	jEqg==
-X-Gm-Message-State: AIVw1127tJvaFNDm/LVGe+Wm6b1oLhRQDQlmNiSTI6fspAsHp22NDMAU
-	wLOBwIKgdexojBDpCWM=
-X-Received: by 10.202.239.137 with SMTP id n131mr4345133oih.227.1500727879362; 
-	Sat, 22 Jul 2017 05:51:19 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F5F6.dip0.t-ipconnect.de. [93.232.245.246])
-	by smtp.gmail.com with ESMTPSA id
-	r185sm4047067oib.56.2017.07.22.05.51.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 22 Jul 2017 05:51:17 -0700 (PDT)
-Message-ID: <1500727874.15277.25.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Tom Rini <trini@konsulko.com>
-Date: Sat, 22 Jul 2017 14:51:14 +0200
-In-Reply-To: <20170721205245.GO14320@bill-the-cat>
-References: <1500590631-2028-1-git-send-email-trini@konsulko.com>
-	<1500623241.15277.10.camel@intel.com>
-	<20170721112103.GJ14320@bill-the-cat>
-	<1500642093.15277.15.camel@intel.com>
-	<20170721205245.GO14320@bill-the-cat>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image-vm: Convert vmdk/vdi/qcow2/hdddirect images to IMAGE_CMD
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2IOdejvqhqJkugg4uGMUIpvPe+9oS1tKl1GkenZ+CsM=;
+	b=Hh6FIvuQm+JIKvkm/zYD9J+5CM71i5fNzQih1pk4fhyFz6T+rKiQGrYf6pYxOMnKy7
+	50qeQ/S6Tni4huT4TzOozaIOrCvwPdYrymtiIW8iTB7S0S8wpF626bIAure8yZzt4HCF
+	eTonGDHwB7nQQPheWVFQ4bNxVbfyaFfy3j4MANlpLOPmf0tfM3YX0JL4AJxRjFYkDO6G
+	WsvoXad/xJ8jV9prUbmTjRDTnK2T86oKO+e/qgxpa2tl1QUIDyR5qxM/J9iqOa1d1kJJ
+	WyuGFC7xtH/POkfmEgxU4UUtIxbyluLN8/DqIzOSCn4gWN1WAiJfcnxyFcmGUI8s9QiB
+	bEYQ==
+X-Gm-Message-State: AIVw113RMT52ClVmTrSQoDm+IpwrCFHNZw5bIZGIux7d8Xbro1u6MS+F
+	EvByOSG5wucLb9Ze
+X-Received: by 10.80.170.137 with SMTP id q9mr3809201edc.208.1500730257222;
+	Sat, 22 Jul 2017 06:30:57 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([106.119.192.124])
+	by smtp.gmail.com with ESMTPSA id v5sm3858535ede.75.2017.07.22.06.30.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 22 Jul 2017 06:30:56 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 22 Jul 2017 15:30:46 +0200
+Message-Id: <1500730246-25592-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH V2] tclibc-musl.inc: fix bfd "cannot make copy relocation for protected symbol" issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,95 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Jul 2017 12:51:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 22 Jul 2017 13:30:57 -0000
 
-On Fri, 2017-07-21 at 16:52 -0400, Tom Rini wrote:
-> On Fri, Jul 21, 2017 at 03:01:33PM +0200, Patrick Ohly wrote:
-> > On Fri, 2017-07-21 at 07:21 -0400, Tom Rini wrote:
-> > > On Fri, Jul 21, 2017 at 09:47:21AM +0200, Patrick Ohly wrote:
-> > > > On Thu, 2017-07-20 at 18:43 -0400, Tom Rini wrote:
-> > > > > The support for writing vmdk/vdi/qcow2 images has not been converted to make
-> > > > > use of the IMAGE_CMD infrastructure and instead relies on custom logic for
-> > > > > adding tasks in the right place.  Convert these images to making use of
-> > > > > IMAGE_CMD.
-> > > > 
-> > > > Thanks for working on this. I still have
-> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10204 open for
-> > > > enhancing vmdk/vdi/qcow2.
-> > > > 
-> > > > However, your patch doesn't go as far as described in that bug, does it?
-> > > > Instead of allowing, for example, IMAGE_FSTYPES = "wic.vmdk", it merely
-> > > > changes how IMAGE_FSTYPES = "vmdk" is implemented.
-> > > > 
-> > > > The current patch has its merits as it simplifies the implementation,
-> > > > but I think it would be worthwhile to go all the way, even if it changes
-> > > > how images are going to be named.
-> > > 
-> > > Ah, interesting.  I guess the first thing I would argue against is
-> > > saying that hdddirect should be masked.  There are reasons to want to
-> > > have a raw image created.
-> > 
-> > I'm not sure I understand what you mean with "hdddirect should be
-> > masked" - it's been a while that I looked at the code.
-> > 
-> > > I will take a look into using CONVERSIONCMD for vmdk/qcow2/vdi to allow
-> > > for wic.vmdk to work.  But we also must have vmdk.xz work (and fwiw with
-> > > my series you can get arbitrary compression that we support done, I did
-> > > vmdk.xz, qcow2.lzo and vdi.bz2 just for 'fun').
-> > 
-> > The same is true with CONVERSIONCMD. They can be chained multiple times.
-> > 
-> > > But I'm not 100% sure that I like changing the normal case from "vmdk"
-> > > to "wic.vmdk" or "hdddirect.vmdk" just to get a disk image to throw at
-> > > ${VM_TECHNOLOGY}.
-> > 
-> > Yes, that's the biggest user-visible change. Basically the internal
-> > implementation (multiple conversions chained together) becomes visible
-> > in the end-result.
-> > 
-> > That is a good and a bad thing. The good thing is that it is visible how
-> > the .vmdk image was created. The bad thing is that some users might not
-> > care and get confused.
-> 
-> So, Patrick, Ed and I talked on IRC a bit about this, and I think
-> without putting too many words in their mouths, I think it can be
-> summarized like this.
->
-> We all agree that vmdk/qcow2/vdi are a type of conversion.  It would be
-> quite handy to use these conversions on other things, such as wic.
-> 
-> And at least from my point of view, the contents of "hdddirect" doesn't
-> matter so much as the overall functionality.
-> 
-> So that here's where I'm at now.  I've found out when Patrick's chaining
-> compression code (so that you could do silly things like ext3.gz.bz2 or
-> _useful_ things like wic.vmdk.xz) was broken, and I see the best way to
-> fix that too.  So I'm going to v2 this series shortly which addresses
-> the problem of chaining compression types, and then brings the VM stuff
-> over to using that too.
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Thanks for the good summary and working on this functionality.
+Quite a few such compiling issues were found when I was building with
+following configs:
+...
+MACHINE = "beaglebone"
+TCLIBC = "musl"
+DISTRO_FEATURES_append = " ld-is-gold"
+...
 
-I'd like to add that you pointed out that a "generic" vmdk type is what
-some developers ask for when they don't care about the exact way how the
-resulting image is created (hdddirect vs. wic, for example). We agreed
-that this is useful.
+fixed by adding bfd binding now ldflags.
 
-I didn't get around to mentioning it on IRC, but what I would find it
-useful is if someone (BSP and/or distro?) can define which kind of raw
-image is used as input for the conversion to vmdk. Hard-coding that to
-just hdddirect always felt wrong to me.
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/conf/distro/include/tclibc-musl.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distro/include/tclibc-musl.inc
+index 3d3f6ac..99d52a1 100644
+--- a/meta/conf/distro/include/tclibc-musl.inc
++++ b/meta/conf/distro/include/tclibc-musl.inc
+@@ -18,6 +18,10 @@ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?= "nativesdk-glibc"
+ 
+ CXXFLAGS += "-fvisibility-inlines-hidden"
+ 
++# Workaround for musl libc does not support bfd lazy binding well
++# Refer to: https://bugzilla.yoctoproject.org/show_bug.cgi?id=11679
++LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '-Wl,-z,relro,-z,now -fuse-ld=bfd', '', d)}"
++
+ IMAGE_LINGUAS = ""
+ 
+ LIBC_DEPENDENCIES = "\
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.7.4
 
 
