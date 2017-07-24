@@ -1,48 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 74B1778361
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B877C71DD0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 00:48:03 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id v190so10242550pgv.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jul 2017 17:48:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+IA77MKvtUCU19PMGy1R1HNCLNgmm4NIgFSnbXP0+gc=;
-	b=AbOcedzglWolETBJtNWS/dJRwi2VCZfhzVhlUy6syWm5eMNJKVdeQjgXYdoi0+j9lz
-	2Uks14/C07V2WxJUHd5m/b34KSVEJv53mSeIgF+uJhxxJ2tQG73M8ciKAA7G/jferNJi
-	EGJ3x5rPHAs5PSXngPQ4G45hmSEyq7KBDnTxR8kQ5yr5NlDI1g5SZppWOi/Tqvd2i4eg
-	/LHlnm32lAqhg2QwJAKl1mm5FMap9I1FcLnIHjdkul1ySZ0D9LvT+c6qDMjcr2fzNGwu
-	G/XOIDOXt6PQItlKQpGSSKbUQiZdZgP+9bDajX1HUnjxfslh34YcuiLhOGm/Fybge0Uj
-	zMaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=+IA77MKvtUCU19PMGy1R1HNCLNgmm4NIgFSnbXP0+gc=;
-	b=qewjZv71O0J4tzOiuyCxYTrpNhvkDsR3uvZMcR5VqavYfRm9HLnMvNKNZCfKmKQ7DX
-	XsZ8w5axMdrRBXHwqUNHpZmjCfHy8c8qyiRtXUTFwvrcAm/pv8t+uTpMjiVhSLlMD3An
-	humn4rGZW9ojeb8umzS4GBBF4zm7y8KPTC9J4AQESOn7iJbftiIfzPdSErg7R5B40pR+
-	ueevKEl4bTCZH1vVhgrHKdQREtfmxzfZutm8a/wb6EQUT1Po9HaYYktegUxxL9Tp76l9
-	geowOfz7LUHJfC3f3bWPk+p8/p9jLvbUe5eZ4iauKisQhC3nNKWj6rSE7nKtmhCEIovk
-	Vp+w==
-X-Gm-Message-State: AIVw113V7xckn03i2KeiTUFkmPthD6IkUriV4C6VKvOfbXcIsAoL+dTZ
-	wP81YWrWeu1uhqHC
-X-Received: by 10.98.160.146 with SMTP id p18mr14588746pfl.322.1500857284799; 
-	Sun, 23 Jul 2017 17:48:04 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::9b53])
-	by smtp.gmail.com with ESMTPSA id
-	s3sm18228742pgn.70.2017.07.23.17.48.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 23 Jul 2017 17:48:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jul 2017 17:47:48 -0700
-Message-Id: <20170724004748.14778-6-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20170724004748.14778-1-raj.khem@gmail.com>
-References: <20170724004748.14778-1-raj.khem@gmail.com>
-Subject: [PATCH 6/6] go: Remove -fPIE -pie from SECURITY_PIE_CFLAGS
+	Mon, 24 Jul 2017 02:12:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6O2C16D015580
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 23 Jul 2017 19:12:01 -0700
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Sun, 23 Jul 2017 19:12:00 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>,
+	<paul.eggleton@linux.intel.com>, <ross.burton@intel.com>
+References: <cover.1500450690.git.liezhi.yang@windriver.com>
+	<0f028eac-d2d0-3ab8-232c-658db5b7cc6d@windriver.com>
+	<1500640365.22282.104.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <09c7ddc7-feff-a94e-2b6c-5d309aaf6bef@windriver.com>
+Date: Mon, 24 Jul 2017 10:11:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <1500640365.22282.104.camel@linuxfoundation.org>
+Subject: Re: [RFC PATCH 0/5] revive runtime/cases/_ptest.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +37,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 00:48:03 -0000
+X-List-Received-Date: Mon, 24 Jul 2017 02:12:03 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-External compilers will explicitly pass -fPIE -pie flags
-unlike internal toolchain which does not use them, so the build
-fails with external toolchains because, its passing these
-flags to linker when building with -r option and fails to link
 
-| /mnt/a/oe/build/tmp/work/corei7-64-bec-linux/go/1.8.3-r0/recipe-sysroot-native/usr/bin/x86_64-bec-linux/x86_64-bec-linux-ld: -r and -pie may not be used together
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/go/go_1.8.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 07/21/2017 08:32 PM, Richard Purdie wrote:
+> On Thu, 2017-07-20 at 10:09 +0800, Robert Yang wrote:
+>>
+>> On 07/19/2017 04:16 PM, Robert Yang wrote:
+>>>
+>>> Hello,
+>>>
+>>> These patches can make ptest test case work, RP has suggested we
+>>> write a tool to
+>>> do the regression check on ptest result, I think that the use case
+>>> is like:
+>>>
+>>> $ bitbake <image> -ctestiamge # Suppose we add ptest to default
+>>> test cases in the future
+>>> # Upgrade a recipe form V1.0 to V1.1
+>>> $ bitbake <image> -ctestiamge # Run the test again
+>>>
+>>> Then the regression check tool can report what's different (passed,
+>>> failed,
+>>> skipped) between V1.0 and V1.1.
+>>>
+>>> Currently, I'm not sure about where to save the ptest results, I
+>>> saved it to
+>>> ${WORKDIR}/testimage/ptest_log atm, e.g.:
+>>> tmp/work/qemux86-poky-linux/core-image-minimal/1.0-
+>>> r0/testimage/ptest_log
+>> I still have to think about more about where to put the test result.
+>
+> Would buildhistory make sense for these since we already have a
+> mechanism to store results there between builds?
 
-diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
-index 091b1318af..ef8bc14383 100644
---- a/meta/recipes-devtools/go/go_1.8.bb
-+++ b/meta/recipes-devtools/go/go_1.8.bb
-@@ -1,3 +1,4 @@
- require go-${PV}.inc
- require go.inc
- TUNE_CCARGS_remove = "-march=mips32r2"
-+SECURITY_PIE_CFLAGS_remove = "-fPIE -pie"
--- 
-2.13.3
+Thanks, I will add it to buildhistory.
 
+>
+>>> But it will be removed after -cclean, then no regression check can
+>>> be made, so
+>>> I'd like to save the ptest results to DEPLOY_DIR_IMAGE if no
+>>> objections, and
+>>> make -cclean not remove them. (Or only keep the latest 2 results).
+>>>
+>>> And I'm not sure where to add the regression check/tool, maybe one
+>>> of:
+>>> 1) Add a separate tool in oe-core/scripts, this can make it easy to
+>>> do regression
+>>>    check among different build directories, and
+>>> runtime/cases/_ptest.py can invoke it.
+>> I'm leaning to add a script called ptest-regression-check which is
+>> more flexible, the cases/ptest.py or buildhistory (also the user) can
+>> run it when needed.
+>
+> I'd either add a script, or perhaps an option to the buildhistory-diff?
+> Paul might have some adivce on that. I would like to understand if
+> there is a good reason we can't use buildhistory to at least help with
+> some of this?
+
+Thanks, the script (I named it prc -- Ptest Result Compare  or Ptest Regression
+Compile) already done, I will investigate buildhistory to see how to merge it
+into buildhistory.
+
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
 
