@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5199B783BF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E7BB783C2
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 24 Jul 2017 09:47:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6O9lBdg026996
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6O9l8Z0000086
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 02:47:11 -0700 (PDT)
+	Mon, 24 Jul 2017 02:47:08 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 24 Jul 2017 02:47:11 -0700
+	14.3.294.0; Mon, 24 Jul 2017 02:47:08 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Jul 2017 17:51:10 +0800
-Message-ID: <7b37fa125f76c4288733b0adc7f8cc957c458128.1500889785.git.Qi.Chen@windriver.com>
+Date: Mon, 24 Jul 2017 17:51:08 +0800
+Message-ID: <90cf0f324847e39e7c732ff128e848c8fde9260e.1500889785.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1500889785.git.Qi.Chen@windriver.com>
 References: <cover.1500889785.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] cups: upgrade to 2.2.4
+Subject: [PATCH 1/6] pciutils: upgrade to 3.5.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 09:47:10 -0000
+X-List-Received-Date: Mon, 24 Jul 2017 09:47:11 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/cups/{cups_2.2.3.bb => cups_2.2.4.bb} | 4 ++--
+ meta/recipes-bsp/pciutils/{pciutils_3.5.4.bb => pciutils_3.5.5.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cups/{cups_2.2.3.bb => cups_2.2.4.bb} (40%)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.5.4.bb => pciutils_3.5.5.bb} (92%)
 
-diff --git a/meta/recipes-extended/cups/cups_2.2.3.bb b/meta/recipes-extended/cups/cups_2.2.4.bb
-similarity index 40%
-rename from meta/recipes-extended/cups/cups_2.2.3.bb
-rename to meta/recipes-extended/cups/cups_2.2.4.bb
-index 204d14d..ed94b67 100644
---- a/meta/recipes-extended/cups/cups_2.2.3.bb
-+++ b/meta/recipes-extended/cups/cups_2.2.4.bb
-@@ -2,5 +2,5 @@ require cups.inc
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.5.4.bb b/meta/recipes-bsp/pciutils/pciutils_3.5.5.bb
+similarity index 92%
+rename from meta/recipes-bsp/pciutils/pciutils_3.5.4.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.5.5.bb
+index 418f712..8382c84 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.5.4.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.5.5.bb
+@@ -11,8 +11,8 @@ DEPENDS = "zlib kmod"
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+            file://configure.patch"
  
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
+-SRC_URI[md5sum] = "e82537cd2194111c45fa7e684b52252e"
+-SRC_URI[sha256sum] = "64293c6ab9318c40ef262b76d87bd9097531759752bac556e50979b1e63cfe66"
++SRC_URI[md5sum] = "238d9969cc0de8b9105d972007d9d546"
++SRC_URI[sha256sum] = "1d62f8fa192f90e61c35a6fc15ff3cb9a7a792f782407acc42ef67817c5939f5"
  
--SRC_URI[md5sum] = "006a8156680a516e43c59034e31df8bf"
--SRC_URI[sha256sum] = "66701fe15838f2c892052c913bde1ba106bbee2e0a953c955a62ecacce76885f"
-+SRC_URI[md5sum] = "d26e5a0a574a69fe1d01079b2931fc49"
-+SRC_URI[sha256sum] = "596d4db72651c335469ae5f37b0da72ac9f97d73e30838d787065f559dea98cc"
+ inherit multilib_header
+ 
 -- 
 1.9.1
 
