@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 110A1783BA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EF537783CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 09:47:13 +0000 (UTC)
+	Mon, 24 Jul 2017 09:47:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6O9lEI9025353
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6O9lGne027003
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 02:47:14 -0700
+	Mon, 24 Jul 2017 02:47:16 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 24 Jul 2017 02:47:13 -0700
+	14.3.294.0; Mon, 24 Jul 2017 02:47:15 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Jul 2017 17:51:12 +0800
-Message-ID: <f035c42514f23f827739e2f1f0850e8e80fb152a.1500889785.git.Qi.Chen@windriver.com>
+Date: Mon, 24 Jul 2017 17:51:13 +0800
+Message-ID: <e81c5831ece0dac46f48687d0bdfc2e7d0036388.1500889785.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1500889785.git.Qi.Chen@windriver.com>
 References: <cover.1500889785.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/6] sysstat: upgrade to 11.5.7
+Subject: [PATCH 6/6] dbus/dbus-test: upgrade to 1.10.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 09:47:13 -0000
+X-List-Received-Date: Mon, 24 Jul 2017 09:47:15 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../recipes-extended/sysstat/{sysstat_11.5.6.bb => sysstat_11.5.7.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_11.5.6.bb => sysstat_11.5.7.bb} (53%)
+ meta/recipes-core/dbus/{dbus-test_1.10.18.bb => dbus-test_1.10.20.bb} | 4 ++--
+ meta/recipes-core/dbus/{dbus_1.10.18.bb => dbus_1.10.20.bb}           | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.10.18.bb => dbus-test_1.10.20.bb} (93%)
+ rename meta/recipes-core/dbus/{dbus_1.10.18.bb => dbus_1.10.20.bb} (97%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_11.5.6.bb b/meta/recipes-extended/sysstat/sysstat_11.5.7.bb
-similarity index 53%
-rename from meta/recipes-extended/sysstat/sysstat_11.5.6.bb
-rename to meta/recipes-extended/sysstat/sysstat_11.5.7.bb
-index cdf9b12..72af931 100644
---- a/meta/recipes-extended/sysstat/sysstat_11.5.6.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_11.5.7.bb
-@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+diff --git a/meta/recipes-core/dbus/dbus-test_1.10.18.bb b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus-test_1.10.18.bb
+rename to meta/recipes-core/dbus/dbus-test_1.10.20.bb
+index 141baf2..eeadb7d 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.10.18.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
+@@ -17,8 +17,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
  
- SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
+-SRC_URI[md5sum] = "1209c455598165a0c5263d4201894179"
+-SRC_URI[sha256sum] = "6049ddd5f3f3e2618f615f1faeda0a115104423a7996b7aa73e2f36e38cc514a"
++SRC_URI[md5sum] = "94c991e763d4f9f13690416b2dcd9411"
++SRC_URI[sha256sum] = "e574b9780b5425fde4d973bb596e7ea0f09e00fe2edd662da9016e976c460b48"
  
--SRC_URI[md5sum] = "92735f1be44c676960b53ee28e3a4984"
--SRC_URI[sha256sum] = "83a81e0a6c1d39a0985310dc2944ac6214c963adb4dc8af24ae03a9ae8d0f3ac"
-+SRC_URI[md5sum] = "8f4a5d0de29f1056153e25e7a9c518d2"
-+SRC_URI[sha256sum] = "4a38efaa0ca85ee5484d046bd427012979264fef17f07fd7855860e592819482"
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+diff --git a/meta/recipes-core/dbus/dbus_1.10.18.bb b/meta/recipes-core/dbus/dbus_1.10.20.bb
+similarity index 97%
+rename from meta/recipes-core/dbus/dbus_1.10.18.bb
+rename to meta/recipes-core/dbus/dbus_1.10.20.bb
+index c0b63d1..9ddedc1 100644
+--- a/meta/recipes-core/dbus/dbus_1.10.18.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.20.bb
+@@ -20,8 +20,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://0001-configure.ac-explicitely-check-stdint.h.patch \
+ "
+ 
+-SRC_URI[md5sum] = "1209c455598165a0c5263d4201894179"
+-SRC_URI[sha256sum] = "6049ddd5f3f3e2618f615f1faeda0a115104423a7996b7aa73e2f36e38cc514a"
++SRC_URI[md5sum] = "94c991e763d4f9f13690416b2dcd9411"
++SRC_URI[sha256sum] = "e574b9780b5425fde4d973bb596e7ea0f09e00fe2edd662da9016e976c460b48"
+ 
+ inherit useradd autotools pkgconfig gettext update-rc.d upstream-version-is-even
+ 
 -- 
 1.9.1
 
