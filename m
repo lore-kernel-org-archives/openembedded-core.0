@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C514C7836B
+Received: from mail-pg0-f45.google.com (mail-pg0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D95187835B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 00:47:59 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id k72so5811174pfj.0
+	Mon, 24 Jul 2017 00:48:00 +0000 (UTC)
+Received: by mail-pg0-f45.google.com with SMTP id g14so1077173pgu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jul 2017 17:48:01 -0700 (PDT)
+	Sun, 23 Jul 2017 17:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=fmKa/cv5hgKDO2NxdDd8Drv0wQsYrP7DdTKLHzpt5B4=;
-	b=nzuv5MRIcWCt0KntoMqTRZv774jxMoKR5pIdWsbB/SFJMvhS73PqeBxMfAptSW89R7
-	81w5Eq3TobuXC+vxqlFdn/qVk5TNUwNupptBZbmdKBqas0y76jr/7vZKbB7Q7+uGhRyV
-	/udEju2duqgL75giEL0WLvelnfnPCIOAwW3PnNvXeCKodkyEtZfvx77ZShUx/OxBQxW/
-	j6eVEcihPUPlPp+8E5MxAoVL2hudj5M9F9c8x0DWn5hNZgClOS81OQBD+XbZj1DlBXZf
-	XbRP8HQSIs2exvTK3CQ7E7KwgQq2SbfOuor5H7AUH56XUvHx2x92S4LxXLSGFZuYlB0e
-	OWTA==
+	bh=83NhVOs+pgeXCHqChsSIWSNRS4CeMC8iqFrGRr66zcQ=;
+	b=ShXCaUB3vAfQZmGNpKStplGZ/jEqL51E9QDN2RGiCBh/YkTx3/uE/KoOEn74DL0IJR
+	pQvu42YolA45vNy+Vl+X3jJiFlZNCkHevoLqGyTw59SQa2+PZfMU5x9duVlWisR6y4f0
+	rfXFdrLDfCslUSIrvO8AvFUx4DAKQ1gSQyBAMuhqXOVniJ0xBFPgaUr0TzRARiYncCmq
+	Py2HDuA0T+9oKJuEz5DaqlB2YkhV54Rod00wG3AmXr+MdCBFfzq/xbbUu+sKTm1XoGXd
+	fBfsu2st/jFQoSXINxxj5CAnv0AFFkXQHXtMMbNhIbWTc1q1yBmkG/c6CkE75mOu/D+s
+	mygA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=fmKa/cv5hgKDO2NxdDd8Drv0wQsYrP7DdTKLHzpt5B4=;
-	b=D8gMOH5qOB5kwpDI4g4+hrX9BjhJTTRiDQfuXlujPYGKm/nOIeuIN0qPBmdotMd5IN
-	i7Nb0eGg58xi3SV2dLkfNgvDy+SkhVl8ST5tKlpon1F0aHZugNoZJ8I4HYlDQ+j27EMA
-	k55LxsFg1gg04thjwJU/4d7DaoyS3LhaiEfDMgH4p5KBfyni/dqwR/gC8Ohl2XFzKxEr
-	fV54KlN+PhDSuFWrxzJz8Q1jh03Des+oq0GuZaiif30chwcvA6wxaKACXrrKVIis0Fht
-	ffcXqT+pe7x2lfgCdLZIXjjELia+qtCNQweSi0spNDjlPMRT2N7XvPCHFGpRHkbrIjQ6
-	3bZg==
-X-Gm-Message-State: AIVw113YMU1/gfvUtPsxM+c5N3qjSDqIfewPa1s/xfc9bklINOJRXh+M
-	3Nj1XnfrokYf1M+d
-X-Received: by 10.99.96.67 with SMTP id u64mr9396922pgb.424.1500857280698;
-	Sun, 23 Jul 2017 17:48:00 -0700 (PDT)
+	bh=83NhVOs+pgeXCHqChsSIWSNRS4CeMC8iqFrGRr66zcQ=;
+	b=boBShtdDpsX+rC/MwtICEtkyIcbQ5BEx1vTAWINfd9+t5Yy/JUiPOvifVuILj+KEQO
+	Lr62grDWF9T+O+68B8jznnsIeoEudl3tBPTvQlo0zr5y81IGrh69JwEBKENjLoIyw+RF
+	YOES3/No0fq5u0gxa6uaOX3FsZSFW/TLPKx78b+7K04RDT9f0k5/Q+7uTK/u8K2SPaCy
+	Hdi8RQaLyp0MzNN3Jfpbw8SXfnnK9B55Sux5S0T5WwfE9YTIMtBdKP+7tVpcza1YlO+2
+	mQNR1oP7RXWVg5f3zjTqQCYKzwx+mHxibFiI4otZWoCP+osLbTgk8I345+56EcNjF3dp
+	Du2g==
+X-Gm-Message-State: AIVw112uoIuuIAHZjUF/E7gLlE9OiOJDRQspdFcm8xYXS3TOShXnpsiC
+	rO5r70LL3AA+8ai8
+X-Received: by 10.99.155.10 with SMTP id r10mr14616098pgd.123.1500857282114;
+	Sun, 23 Jul 2017 17:48:02 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::9b53])
 	by smtp.gmail.com with ESMTPSA id
-	s3sm18228742pgn.70.2017.07.23.17.47.59
+	s3sm18228742pgn.70.2017.07.23.17.48.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 23 Jul 2017 17:47:59 -0700 (PDT)
+	Sun, 23 Jul 2017 17:48:01 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jul 2017 17:47:45 -0700
-Message-Id: <20170724004748.14778-3-raj.khem@gmail.com>
+Date: Sun, 23 Jul 2017 17:47:46 -0700
+Message-Id: <20170724004748.14778-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20170724004748.14778-1-raj.khem@gmail.com>
 References: <20170724004748.14778-1-raj.khem@gmail.com>
-Subject: [PATCH 3/6] libproxy: Remove PIE flags from SECURITY_PIE_CFLAGS
+Subject: [PATCH 4/6] libsdl: Pass --tag option to libtool invocation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +55,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 00:48:00 -0000
+X-List-Received-Date: Mon, 24 Jul 2017 00:48:01 -0000
 
-External compilers will explicitly pass -fPIE -pie flags
-unlike internal toolchain which does not use them, so the build
-fails with external toolchains because, its passing these
-flags to linker when building shared library, which is not
-correct it should just use -fPIC
-
-Fixes errors e.g.
-| /mnt/a/oe/build/tmp/work/corei7-64-bec-linux/libproxy/0.4.14-r0/recipe-sysroot-native/usr/bin/x86_64-bec-linux/x86_64-bec-linux-ld: ../libmodman/libmodman.a(module_manager.cpp.o): relocation R_X86_64_PC32 against symbol `_ZNSt8_Rb_treeINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt4pairIKS5_St6vectorIPN9libmodman14base_extensionESaISB_EEESt10_Select1stISE_ESt4lessIS5_ESaISE_EE8_M_eraseEPSt13_Rb_tree_nodeISE_E' can not be used when making a shared object; recompile with -fPIC
+Helps in fixing errors when using external toolchain
+and hardening flags
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.14.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...-Pass-tag-CC-explictly-when-using-libtool.patch | 73 ++++++++++++++++++++++
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |  1 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/0001-build-Pass-tag-CC-explictly-when-using-libtool.patch
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.14.bb b/meta/recipes-support/libproxy/libproxy_0.4.14.bb
-index fcdb82f06c..f91bd67f7b 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.14.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.14.bb
-@@ -32,6 +32,7 @@ EXTRA_OECMAKE += " \
-     -DLIB_INSTALL_DIR=${libdir} \
-     -DLIBEXEC_INSTALL_DIR=${libexecdir} \
- "
-+SECURITY_PIE_CFLAGS_remove = "-fPIE -pie"
+diff --git a/meta/recipes-graphics/libsdl/libsdl-1.2.15/0001-build-Pass-tag-CC-explictly-when-using-libtool.patch b/meta/recipes-graphics/libsdl/libsdl-1.2.15/0001-build-Pass-tag-CC-explictly-when-using-libtool.patch
+new file mode 100644
+index 0000000000..ec8c0fd4fb
+--- /dev/null
++++ b/meta/recipes-graphics/libsdl/libsdl-1.2.15/0001-build-Pass-tag-CC-explictly-when-using-libtool.patch
+@@ -0,0 +1,73 @@
++From 44e4bb4cfb81024c8f5fd2e179e8a32c42756a2f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 23 Jul 2017 16:52:43 -0700
++Subject: [PATCH] build: Pass --tag=CC explictly when using libtool
++
++Do not depend solely on libtool heuristics which fail
++in OE case when building with external compiler and
++hardening flags
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Makefile.in              | 4 ++--
++ build-scripts/makedep.sh | 8 ++++----
++ 2 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index ab51035..743ce30 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -72,10 +72,10 @@ depend:
++ include $(depend)
++ 
++ $(objects)/$(TARGET): $(OBJECTS)
++-	$(LIBTOOL) --mode=link $(CC) -o $@ $^ $(LDFLAGS) $(EXTRA_LDFLAGS) $(LT_LDFLAGS)
+++	$(LIBTOOL) --tag=CC --mode=link $(CC) -o $@ $^ $(LDFLAGS) $(EXTRA_LDFLAGS) $(LT_LDFLAGS)
++ 
++ $(objects)/$(SDLMAIN_TARGET): $(SDLMAIN_OBJECTS)
++-	$(LIBTOOL) --mode=link $(CC) -o $@ $^ $(LDFLAGS) $(EXTRA_LDFLAGS) $(LT_LDFLAGS) $(SDLMAIN_LDFLAGS)
+++	$(LIBTOOL) --tag=CC --mode=link $(CC) -o $@ $^ $(LDFLAGS) $(EXTRA_LDFLAGS) $(LT_LDFLAGS) $(SDLMAIN_LDFLAGS)
++ 
++ 
++ install: all install-bin install-hdrs install-lib install-data install-man
++diff --git a/build-scripts/makedep.sh b/build-scripts/makedep.sh
++index 3b3863b..dba28f2 100755
++--- a/build-scripts/makedep.sh
+++++ b/build-scripts/makedep.sh
++@@ -51,19 +51,19 @@ do  echo "Generating dependencies for $src"
++     case $ext in
++         c) cat >>${output}.new <<__EOF__
++ 
++-	\$(LIBTOOL) --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
+++	\$(LIBTOOL) --tag=CC --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
++ 
++ __EOF__
++         ;;
++         cc) cat >>${output}.new <<__EOF__
++ 
++-	\$(LIBTOOL) --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
+++	\$(LIBTOOL) --tag=CC --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
++ 
++ __EOF__
++         ;;
++         m) cat >>${output}.new <<__EOF__
++ 
++-	\$(LIBTOOL) --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
+++	\$(LIBTOOL) --tag=CC --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
++ 
++ __EOF__
++         ;;
++@@ -75,7 +75,7 @@ __EOF__
++         ;;
++         S) cat >>${output}.new <<__EOF__
++ 
++-	\$(LIBTOOL)  --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
+++	\$(LIBTOOL) --tag=CC --mode=compile \$(CC) \$(CFLAGS) \$(EXTRA_CFLAGS) -c $src  -o \$@
++ 
++ __EOF__
++         ;;
++-- 
++2.13.3
++
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index c802a6f692..b0d70a656b 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -17,6 +17,7 @@ PR = "r3"
+ SRC_URI = "http://www.libsdl.org/release/SDL-${PV}.tar.gz \
+            file://libsdl-1.2.15-xdata32.patch \
+            file://pkgconfig.patch \
++           file://0001-build-Pass-tag-CC-explictly-when-using-libtool.patch \
+           "
  
- FILES_${PN} += "${libdir}/${BPN}/${PV}/modules"
- FILES_${PN}-dev += "${datadir}/cmake"
+ UPSTREAM_CHECK_REGEX = "SDL-(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.13.3
 
