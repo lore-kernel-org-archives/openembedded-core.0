@@ -1,56 +1,50 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id EF6C678352
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
+	[209.85.161.181])
+	by mail.openembedded.org (Postfix) with ESMTP id F1FAF78352
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 11:14:20 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v6OBEJF0017318
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 13:14:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1500894860;
-	bh=GhXpxWE0cCXyFj+eEssrGb1KVLkyTFKpd0tPdhMVYs4=;
-	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=A+6iXgFOKRldQt0vKyxhy7Xj3mTkNxRbnkRCkB+dm3mblUb5D/PJ1gqngxH2nhMbr
-	lnbVw/JCXQ6tOgLQkHGcjjAl6FotXpYO7FaJjGYtOnMWCmc/VL1iIlCoVS981YzCYP
-	h8vGTzLKNGjcCfMPVYzCf0zbxH125PrijbhjQhj0=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v6OBEC50024559 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Mon, 24 Jul 2017 13:14:13 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 1D4E411E9BB;
-	Mon, 24 Jul 2017 13:10:18 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v6OBE9OJ024555
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 24 Jul 2017 13:14:10 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1dZbJR-0007v4-Nc; Mon, 24 Jul 2017 13:14:09 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Jul 2017 13:14:02 +0200
-Message-Id: <20170724111402.30340-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.9.4
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.79
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] externalsrc: place copy of git index into /tmp and do not use copyfile2
+	Mon, 24 Jul 2017 11:18:19 +0000 (UTC)
+Received: by mail-yw0-f181.google.com with SMTP id h189so21106571ywf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jul 2017 04:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=0ViYJpUblAEd77lu2GVYE9DyDF3LhbAF2rKbYrL+SGA=;
+	b=ikvLUnn9dx9R/WFP0bF6wShpUWrDWakxKq3LjRSv+NI31PcfM+BQeXcS/UDIdMY4NI
+	NcMRH7QRZgkbTLN4gS3tMfAmQDS+fwhWFn6XThY+fPPiXVLcCvzWOXc/Px479sTUgVDI
+	3wwi4/UfdlRy4qi6iioVh9dNxieF+QiM6r5xI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=0ViYJpUblAEd77lu2GVYE9DyDF3LhbAF2rKbYrL+SGA=;
+	b=gHcofGa00GOM9x/0vmENBFBONDdWtuLzuC6YrMqJbEMBIu3v83/g2c/JxgIQzS21QU
+	c9CVSX6xV0uMEWEPBbdCHq+HYEXFwzZyIyzWRKrUfPwOAnbWBeOxtD5R2//cjkpAGGiH
+	Yv/q28Dc80v1ar1gUKCeawhx0uKyzDrJj7lqN791S/26hpBZltGS8002WKMBFnTRjEJJ
+	/ZdSNqHE7lhzhWV/4+CzAD0sahhiXAmoMfOnm++ck6Qjanz5YWKTsJLXlJNGc4/fiqk9
+	9jSdXSHi1aMEDqB5md4a8Cc4hvi9+Q1QH5EGIcbCf8718CldnZwNW24lfIweU3ejN9nS
+	1LZQ==
+X-Gm-Message-State: AIVw1135AA0DUjHPrl3G1Skg+ltnYUE+3P4ykXGEeIjSrUMJe3PnIXGA
+	trNOuLyepsf06I5i
+X-Received: by 10.37.162.104 with SMTP id b95mr12649412ybi.245.1500895100879; 
+	Mon, 24 Jul 2017 04:18:20 -0700 (PDT)
+Received: from bill-the-cat (cpe-174-106-0-58.ec.res.rr.com. [174.106.0.58])
+	by smtp.gmail.com with ESMTPSA id
+	q11sm4028857ywj.78.2017.07.24.04.18.19
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Mon, 24 Jul 2017 04:18:20 -0700 (PDT)
+Date: Mon, 24 Jul 2017 07:19:05 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-ID: <20170724111905.GE26163@bill-the-cat>
+References: <1500674794-23258-1-git-send-email-trini@konsulko.com>
+	<1500885337.25812.2.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1500885337.25812.2.camel@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image.bbclass: Correct chaining compression support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,63 +57,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 11:14:21 -0000
+X-List-Received-Date: Mon, 24 Jul 2017 11:18:20 -0000
+X-Groupsio-MsgNum: 100639
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Q0rSlbzrZN6k9QnT"
+Content-Disposition: inline
 
-Using shutil.copy2() to copy .git/index to a temporary file tries to
-copy SELinux attributes which might fail for confined users in SELinux
-environments.
+--Q0rSlbzrZN6k9QnT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-E.g. our builders are running in docker containers and modification of
-sources (inclusive updated of .git/index) is done outside.  Trying to
-copy .git/index fails with
+On Mon, Jul 24, 2017 at 10:35:37AM +0200, Patrick Ohly wrote:
+> On Fri, 2017-07-21 at 18:06 -0400, Tom Rini wrote:
+> > The fix for this inadvertently broke chaining
+> > compression/conversion.=A0 First, correct the u-boot conversion code.
+> >=20
+> > Fixes: 46bc438374de ("image.bbclass: do exact
+> > match for rootfs type")
+> > Cc: Zhenhua Luo <zhenhua.luo@nxp.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Cc: Patrick Ohly <patrick.ohly@intel.com>
+> > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > ---
+> > This change is fairly important and, imho, innocuous and should be
+> > populated to pyro/etc, once merged to master.=A0 The next part of the
+> > series is clean-up and while with my U-Boot hat on, I would say
+> > should
+> > be pushed more widely, I am biased.
+> > ---
+> > =A0meta/classes/image.bbclass=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 =
+2 +-
+> > =A0meta/classes/image_types_uboot.bbclass | 13 +++++--------
+> > =A02 files changed, 6 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> > index de535ce6fcff..bd6a5b7b810a 100644
+> > --- a/meta/classes/image.bbclass
+> > +++ b/meta/classes/image.bbclass
+> > @@ -453,7 +453,7 @@ python () {
+> > =A0=A0=A0=A0=A0=A0=A0=A0 rm_tmp_images =3D set()
+> > =A0=A0=A0=A0=A0=A0=A0=A0 def gen_conversion_cmds(bt):
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 for ctype in ctypes:
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if bt[bt.find('.') + 1:]=
+ =3D=3D ctype:
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if bt.endswith("." + cty=
+pe)
+>=20
+> This reverts 46bc438374de and thus restores the code as I had
+> originally written it.
+>=20
+> Looking at 46bc438374de, it's not clear to me how the commit message
+> matches the code, i.e. I don't understand the commit. So it was an
+> incorrect fix for the problem described in that commit message, and the
+> right one are your changes to the u-boot conversion command?
 
-| $ python3 -c 'import shutil; shutil.copy2("index", "a")'
-| ...
-| PermissionError: [Errno 13] Permission denied: 'a'
+Ah, so the important bit is the other half of this patch, which
+addresses the problem 46bc438374de was intended to deal with, correctly.
+Prior to the chaining compression/conversion support, the "u-boot"
+targets would clean up their intermediate files.  With your patch those
+files get cleaned up automatically and that the mkimage calling function
+was also doing it lead to build failures.  But since we no longer need
+to have a manual cleaning step, we can just drop it.
 
-and an AVC like
+--=20
+Tom
 
-| denied  { relabelto } for  pid=18043 comm="python3" name="a" dev="dm-29" ino=1067553 scontext=system_u:system_r:container_t:s0:c39,c558 tcontext=unconfined_u:object_r:build_file_t:s0 tclass=file permissive=0
+--Q0rSlbzrZN6k9QnT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-is created.  This can not be solved by adapting the SELinux policy because
-this is a very deep constraint violation:
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-| constrain file { create relabelfrom relabelto } ((u1 == u2 -Fail-)  or (t1 == can_change_object_identity -Fail-) ); Constraint DENIED
-|
-| Possible cause is the source user (system_u) and target user (unconfined_u) are different.
+iQIcBAEBAgAGBQJZddepAAoJEIf59jXTHXZSEmYP/iKkYENBoJS2EMc971G58rAx
+70y7uQPKc7EBeVrwGovL06ijUZOU9n/gqrsuobEVQUyiJU/fBD8ujs3xnR4BYobw
+3Fjo+g5sIqgJdigCQURcr4O8OdYIo9zIQCZ2ftDV8ywMQWL2Pe7RgRicrPK/eDL1
+I+YGBw1R2op/NYkuELKd+wvRVKd0RECQ9jZuavfRjccZwmB0qw5d2XHb7nb66AUJ
+ebjQq64YAHckkaXxduGTePpEnMJmVzJdUTBrlYYc3P2VZ0Q9/MQZ/kJ11R52wZT0
+tIcSkEvUBwBydiO+tYnlWRuWw7cWEg+7yBwgW23Z2RaExV9zr2DAqHXA1VUuMqSG
+qd6pJILiIKt0q8p7RJtOPpsiCCcWHw0bVY1vdL7uND9ZFMq6T5DTQtJVPuZw3CjL
+QbXH/4OA+BjLRbKDHs1plS8cDy5/LVF9SMU9aYsRT62xde371JZAHQPDTdW2Pd6d
+ICubtYGE02bfsZB3pl4y5mWXwsYtqA292iD9rOezlNHZQJ0ueICH8tkEipQYbksy
+0QQkYDRkv8pjcOaULth/GsThCOfg7lyLqAkiNCMq0K9BzuQvSGUxO32/bz2F95QM
+NphrVZgDuL8Z5N1g+xh2d1TPNX8XaDvLdxM8FyL/QVWKB9R3ZQb0wRJcSZNdMXTs
+QATe1OgZPPqkuIGDqm8P
+=gVWV
+-----END PGP SIGNATURE-----
 
-
-I do not see much sense in using 'shutil.copy2()' here; 'shutil.copyfile()'
-seems to be a better choice (target file is created in a secure way by
-tempfile.NamedTemporaryFile()).
-
-By placing the tempfile into /tmp we avoid potential problems related to
-git's 'core.sharedRepository'.  As a (positive) side effect, the source
-tree will not be modified anymore (at least by this part of code) which
-prevented to mount it read-only from somewhere else.
-
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/classes/externalsrc.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 529be49..9aabb42 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -189,9 +189,9 @@ def srctree_hash_files(d, srcdir=None):
- 
-     ret = " "
-     if os.path.exists(git_dir):
--        with tempfile.NamedTemporaryFile(dir=git_dir, prefix='oe-devtool-index') as tmp_index:
-+        with tempfile.NamedTemporaryFile(prefix='oe-devtool-index') as tmp_index:
-             # Clone index
--            shutil.copy2(os.path.join(git_dir, 'index'), tmp_index.name)
-+            shutil.copyfile(os.path.join(git_dir, 'index'), tmp_index.name)
-             # Update our custom index
-             env = os.environ.copy()
-             env['GIT_INDEX_FILE'] = tmp_index.name
--- 
-2.9.4
-
-
+--Q0rSlbzrZN6k9QnT--
