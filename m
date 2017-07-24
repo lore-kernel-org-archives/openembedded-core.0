@@ -1,22 +1,53 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id D62027837E
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
+	[209.85.218.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B4F678377
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 08:24:25 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP; 24 Jul 2017 01:24:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,406,1496127600"; d="scan'208";a="996343412"
-Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by orsmga003.jf.intel.com with ESMTP; 24 Jul 2017 01:24:26 -0700
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Jul 2017 16:25:03 +0800
-Message-Id: <1500884703-154582-4-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1500884703-154582-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-References: <1500884703-154582-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCHv3 3/3] recipetool: create: handle git URLs specifying only a tag
+	Mon, 24 Jul 2017 08:35:40 +0000 (UTC)
+Received: by mail-oi0-f41.google.com with SMTP id e124so58820184oig.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jul 2017 01:35:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=CPuTRei3+Rh8bXdQ8flqLnNMf2z0W1Sg21pRMfKO8Ek=;
+	b=0e9SmQtIIin54UhQc/DymUDyN6QdOtvQvc5sih6zCSbHOkkyMcz1gDGNBoguRNd6Xh
+	4XfRHuuer+KuNxi9hykFtQvrONVQFrV/n3FetKChvQ41QSms+8kMgCgwxL/FNqf5tpUc
+	YoQEasGfeBpMBldPj+yrlE8loKzNKH0wCtpKLfLIWzfaruAp1mWzwlW2KDZlXp906E8G
+	9cWELMxYDRwhFydpmJXQw1d1y2GMPrTytTcYBHF5+j/z+gvFdQaIO+B65V/E233iqxZy
+	J+KBIWhgrXYusjVsqd/oTuAkOxgxHfoSonApnJT0oRj+ocR3W4w+nZLrOeC8S6M8HmAa
+	M9/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=CPuTRei3+Rh8bXdQ8flqLnNMf2z0W1Sg21pRMfKO8Ek=;
+	b=jKfTaS9i3K+P8r+jUudAhw1G9I3WXDlRv4Ux7ymbuIOviV0AnWjtPro3LKjo+il9Z0
+	epPSaiN7vzexkBR4v7QX6BXW6msjqAnf0FBDqjm8Sog2zIYC9PGlbgZWeHHYIFjosDtn
+	IyckYxIfkuSrm1/kHn1VpXBhRM1LnHdjngIeSm3lfs00weO1rzIaT0hpDAx4r92tQXJA
+	ZyqOBYin+XasL0njsBMdFG2FFronD8eSEdvBLYpRdzXTyIe59Vze/vdjdwvJaHqIiJtB
+	MgyxIQ/ovg6L4xr2jv/h/Lmw9w7OgqWfYdrYA41T34e5dZOiJ3v9GviWvoK8h+Nio/+5
+	ktXQ==
+X-Gm-Message-State: AIVw112+2jm++SKM4r9N2uRONfT4snde/+8opI7oev8o4BDcN2xo9DNJ
+	U7DqD5/FP/juPztc
+X-Received: by 10.202.71.83 with SMTP id u80mr3511550oia.123.1500885341824;
+	Mon, 24 Jul 2017 01:35:41 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FC31.dip0.t-ipconnect.de. [93.232.252.49])
+	by smtp.gmail.com with ESMTPSA id
+	q65sm9654291oia.37.2017.07.24.01.35.39
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 24 Jul 2017 01:35:40 -0700 (PDT)
+Message-ID: <1500885337.25812.2.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 24 Jul 2017 10:35:37 +0200
+In-Reply-To: <1500674794-23258-1-git-send-email-trini@konsulko.com>
+References: <1500674794-23258-1-git-send-email-trini@konsulko.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/2] image.bbclass: Correct chaining compression support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,109 +60,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 08:24:26 -0000
+X-List-Received-Date: Mon, 24 Jul 2017 08:35:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Stanley Phoong <stanley.cheong.kwan.phoong@intel.com>
+On Fri, 2017-07-21 at 18:06 -0400, Tom Rini wrote:
+> The fix for this inadvertently broke chaining
+> compression/conversion.  First, correct the u-boot conversion code.
+> 
+> Fixes: 46bc438374de ("image.bbclass: do exact
+> match for rootfs type")
+> Cc: Zhenhua Luo <zhenhua.luo@nxp.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Patrick Ohly <patrick.ohly@intel.com>
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+> ---
+> This change is fairly important and, imho, innocuous and should be
+> populated to pyro/etc, once merged to master.  The next part of the
+> series is clean-up and while with my U-Boot hat on, I would say
+> should
+> be pushed more widely, I am biased.
+> ---
+>  meta/classes/image.bbclass             |  2 +-
+>  meta/classes/image_types_uboot.bbclass | 13 +++++--------
+>  2 files changed, 6 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index de535ce6fcff..bd6a5b7b810a 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -453,7 +453,7 @@ python () {
+>          rm_tmp_images = set()
+>          def gen_conversion_cmds(bt):
+>              for ctype in ctypes:
+> -                if bt[bt.find('.') + 1:] == ctype:
+> +                if bt.endswith("." + ctype)
 
-If a git URL is passed to recipetool create with a tag=, recipetool
-should handle it assuming that the tag is valid. Also, during the
-creation of recipe, it seems that the automation for replacing
-${PV} at the SRCURI for tag, (e.g mbed-tls-${PV}) is causing some
-issue due to PV assuming it's a git source. A fix is implemented in
-this patch as a workaround for this issue. This fix will be submitted
-in a separate patch as a separate issue.
+This reverts 46bc438374de and thus restores the code as I had
+originally written it.
 
-[YOCTO #11393]
+Looking at 46bc438374de, it's not clear to me how the commit message
+matches the code, i.e. I don't understand the commit. So it was an
+incorrect fix for the problem described in that commit message, and the
+right one are your changes to the u-boot conversion command?
 
-Signed-off-by: Stanley Phoong <stanley.cheong.kwan.phoong@intel.com>
----
- scripts/lib/recipetool/create.py | 37 +++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 5f60fc3..25ccee1 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -425,6 +425,7 @@ def create_recipe(args):
-     mirrors = args.mirrors
-     branch_re = re.compile(';branch=([^;]+)')
-     branch = ''
-+    pv_srcpv = False
- 
-     if os.path.isfile(source):
-         source = 'file://%s' % os.path.abspath(source)
-@@ -464,6 +465,19 @@ def create_recipe(args):
-             # 3. Source revision is not '${AUTOREV}'
-             srcuri = srcuri + ';nobranch=1'
- 
-+        # Create an empty storeTagName to ensure the checkers do not point to a null variable
-+        storeTagName = ''
-+        tag_re = re.compile(';tag=([^;]+)')
-+        tag = tag_re.search(srcuri)
-+        if tag:
-+            scheme, host, path, user, pswd, parms = bb.fetch2.decodeurl(srcuri)
-+            # Keep a copy of tag and append nobranch=1 then remove tag from URL,
-+            # Will re-introduce tag argument after bitbake fetcher process is complete.
-+            storeTagName = parms['tag']
-+            parms.update({('nobranch', '1')})
-+            del parms['tag']
-+            srcuri = bb.fetch2.encodeurl((scheme, host, path, user, pswd, parms))
-+
-         tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
-         bb.utils.mkdirhier(tmpparent)
-         tempsrc = tempfile.mkdtemp(prefix='recipetool-', dir=tmpparent)
-@@ -520,6 +534,18 @@ def create_recipe(args):
-                 logger.error('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the source URL with ;branch=<branch> (and ensure you use quotes around the URL to avoid the shell interpreting the ";")' % (srcrev, mbrch))
-                 sys.exit(1)
- 
-+        if storeTagName:
-+            # Re-introduced tag variable from storeTagName
-+            # Check srcrev using tag and check validity of the tag
-+            try:
-+                cmd = ('git rev-list -n 1 %s' % (storeTagName))
-+                check_tag, check_tag_err = bb.process.run('%s' % cmd, cwd=srctree)
-+                srcrev = check_tag.split()[0]
-+            except bb.process.ExecutionError as err:
-+                logger.error(str(err))
-+                logger.error("Possibly wrong tag name is provided")
-+                sys.exit(1)
-+
-         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
-             srcuri = 'gitsm://' + srcuri[6:]
-             logger.info('Fetching submodules...')
-@@ -642,9 +668,11 @@ def create_recipe(args):
-         lines_before.append('# No information for SRC_URI yet (only an external source tree was specified)')
-     # Check if users has provide a branch
-     append_branch = branch_re.search(srcuri)
--    if branch and not append_branch:
--        # Append the correct branch into SRC_URI
--        srcuri = srcuri_copy + (';branch=%s' % str(branch))
-+    if (branch and not append_branch) or storeTagName:
-+        srcuri = srcuri_copy
-+        if branch:
-+            # Append the correct branch into SRC_URI
-+            srcuri = srcuri + (';branch=%s' % str(branch))
-     lines_before.append('SRC_URI = "%s"' % srcuri)
-     for key, value in sorted(checksums.items()):
-         lines_before.append('SRC_URI[%s] = "%s"' % (key, value))
-@@ -652,6 +680,7 @@ def create_recipe(args):
-         lines_before.append('')
-         lines_before.append('# Modify these as desired')
-         lines_before.append('PV = "%s+git${SRCPV}"' % (realpv or '1.0'))
-+        pv_srcpv = True
-         if not args.autorev and srcrev == '${AUTOREV}':
-             if os.path.exists(os.path.join(srctree, '.git')):
-                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
-@@ -778,7 +807,7 @@ def create_recipe(args):
-                 skipblank = True
-                 continue
-         elif line.startswith('SRC_URI = '):
--            if realpv:
-+            if realpv and not pv_srcpv:
-                 line = line.replace(realpv, '${PV}')
-         elif line.startswith('PV = '):
-             if realpv:
 -- 
-2.7.4
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
