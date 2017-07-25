@@ -1,48 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AEB4F7834E
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D44AB78339
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 08:35:40 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id y129so13927024pgy.3
+	Tue, 25 Jul 2017 08:38:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6P8cK2v011893
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 01:35:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=i9/Gf3vmtE+zA4YZH1HrnQZZy0pw2+ounWJIs6bNzaw=;
-	b=srGsU/AR90U1BLSd8nSUoz1cWljjOSicNHhEXVoyYDLwdv4nvSiIeHNoDUytfVyRLp
-	jvP1YS/NnLzJE+/uOSbHkFWJkNTzOsNA2et+5IpbuJFjn56nlMk7O5cKBVHsKTMA2nps
-	+Y7gXVryCOShEBmlTXDKHR/WN5LgYqqLbGT7bgIS7Q02hp4dryMhhfroHZkH/OoD+qwq
-	1neQ1gQ/kgw3h0m9edKTIWVRSYYMjjzyzpNoyxrOX6hIZX6JgyMfX9j+T3kHl3DXiDWM
-	VDvJJLW+fqZ9qmFiB/0kM3LNBa6G1kTsK+7z8dyqH+O5wx3IHMtHbS3DfUkeXFLMy5uz
-	Y6hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=i9/Gf3vmtE+zA4YZH1HrnQZZy0pw2+ounWJIs6bNzaw=;
-	b=IKk/nxVylVJ6dy0gf6WEViL2N9o/ywG+QKzLQF+C7FqEQRoujc081J2Q4zl7+vibfC
-	N1RK9FAsqH/gKyQDVfkilRWUpIW5oe/t9gSdDivApO1uL1LjV0tjgFjwyGnFz4geV/8V
-	ybK5lITxR/8gOWs+yxhxINiYOHBieZHArEx0gPFTKHESCU7Th/iOd4Dp4Euf9LIW1oOX
-	iH3C7H676GCudoc2Rq94X/Hj/bgxdMg0lptdPyQEG+5jvtyrLpWEkF8/8P92oiT7vqIE
-	Z6BcOtIdEvpkMq33DGBDAgLig5F3LGTAgbSqEAMh1FJAvv/eosMF/lJoH+tiKJFR/xBv
-	NBnQ==
-X-Gm-Message-State: AIVw11028CweZjHwQLHUmo9+SlW+CP3ssvD0D4um+bp40+eNqliE6HPR
-	sIa/+w0tZfI9bdgv
-X-Received: by 10.99.174.67 with SMTP id e3mr18398930pgp.75.1500971741810;
-	Tue, 25 Jul 2017 01:35:41 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::9b53])
-	by smtp.gmail.com with ESMTPSA id
-	u5sm15245362pgc.92.2017.07.25.01.35.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 25 Jul 2017 01:35:40 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jul 2017 01:35:30 -0700
-Message-Id: <20170725083530.15432-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20170725083530.15432-1-raj.khem@gmail.com>
-References: <20170725083530.15432-1-raj.khem@gmail.com>
-Subject: [PATCH 2/2] webkitgtk: Do not use -isystem forcibly
+	Tue, 25 Jul 2017 01:38:21 -0700 (PDT)
+Received: from ALA-MBD.corp.ad.wrs.com ([fe80::d894:a649:cd4c:89b7]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
+	Tue, 25 Jul 2017 01:38:20 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] debianutils: set higher priority than
+	busybox for	run-parts
+Thread-Index: AQHTBRz+lomBcJvUrU6HvTCe8s9fJKJkOFAQ
+Date: Tue, 25 Jul 2017 08:38:19 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B83D406@ALA-MBD.corp.ad.wrs.com>
+References: <20170725080612.422-1-jackie.huang@windriver.com>
+In-Reply-To: <20170725080612.422-1-jackie.huang@windriver.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.95]
+MIME-Version: 1.0
+Subject: Re: [PATCH] debianutils: set higher priority than busybox for	run-parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,208 +41,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 08:35:40 -0000
+X-List-Received-Date: Tue, 25 Jul 2017 08:38:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-this causes include_next <stdlib.h> to not find
-this header since -isystem <sysroot> is added via
-cmake, we alrady are using --sysroot so rely on that
+I will rebase and send v2 since debianutils is already updated to 4.8.1.1
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 170 +++++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.16.5.bb       |   1 +
- 2 files changed, 171 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
+Thanks,
+Jackie
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-new file mode 100644
-index 0000000000..d6f0ce3cd6
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch
-@@ -0,0 +1,170 @@
-+From 53a00058184cd710c6f4375f4daab49d7e885a30 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 17 Apr 2016 12:35:41 -0700
-+Subject: [PATCH] WebKitMacros: Append to -I and not to -isystem
-+
-+gcc-6 has now introduced stdlib.h in libstdc++ for better
-+compliance and its including the C library stdlib.h using
-+include_next which is sensitive to order of system header
-+include paths. Its infact better to not tinker with the
-+system header include paths at all. Since adding /usr/include
-+to -system is redundant and compiler knows about it moreover
-+now with gcc6 it interferes with compiler's functioning
-+and ends up with compile errors e.g.
-+
-+/usr/include/c++/6.0.0/cstdlib:75:25: fatal error: stdlib.h: No such file or directory
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ Source/cmake/WebKitMacros.cmake | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: webkitgtk-2.16.5/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt
-++++ webkitgtk-2.16.5/Tools/DumpRenderTree/TestNetscapePlugIn/CMakeLists.txt
-+@@ -42,7 +42,7 @@ set(WebKitTestNetscapePlugIn_SYSTEM_INCL
-+ )
-+ 
-+ include_directories(${WebKitTestNetscapePlugIn_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${WebKitTestNetscapePlugIn_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${WebKitTestNetscapePlugIn_SYSTEM_INCLUDE_DIRECTORIES})
-+ 
-+ set(WebKitTestNetscapePlugIn_LIBRARIES
-+     ${X11_LIBRARIES}
-+Index: webkitgtk-2.16.5/Tools/ImageDiff/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Tools/ImageDiff/CMakeLists.txt
-++++ webkitgtk-2.16.5/Tools/ImageDiff/CMakeLists.txt
-+@@ -9,6 +9,6 @@ set(IMAGE_DIFF_LIBRARIES
-+ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-+ 
-+ include_directories(${IMAGE_DIFF_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${IMAGE_DIFF_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${IMAGE_DIFF_SYSTEM_INCLUDE_DIRECTORIES})
-+ add_executable(ImageDiff ${IMAGE_DIFF_SOURCES})
-+ target_link_libraries(ImageDiff ${IMAGE_DIFF_LIBRARIES})
-+Index: webkitgtk-2.16.5/Tools/MiniBrowser/gtk/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Tools/MiniBrowser/gtk/CMakeLists.txt
-++++ webkitgtk-2.16.5/Tools/MiniBrowser/gtk/CMakeLists.txt
-+@@ -57,7 +57,7 @@ endif ()
-+ add_definitions(-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_6)
-+ 
-+ include_directories(${MiniBrowser_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${MiniBrowser_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${MiniBrowser_SYSTEM_INCLUDE_DIRECTORIES})
-+ add_executable(MiniBrowser ${MiniBrowser_SOURCES})
-+ target_link_libraries(MiniBrowser ${MiniBrowser_LIBRARIES})
-+ 
-+Index: webkitgtk-2.16.5/Tools/WebKitTestRunner/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Tools/WebKitTestRunner/CMakeLists.txt
-++++ webkitgtk-2.16.5/Tools/WebKitTestRunner/CMakeLists.txt
-+@@ -106,7 +106,7 @@ GENERATE_BINDINGS(WebKitTestRunnerBindin
-+ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-+ 
-+ include_directories(${WebKitTestRunner_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${WebKitTestRunner_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${WebKitTestRunner_SYSTEM_INCLUDE_DIRECTORIES})
-+ 
-+ add_library(TestRunnerInjectedBundle SHARED ${WebKitTestRunnerInjectedBundle_SOURCES})
-+ target_link_libraries(TestRunnerInjectedBundle ${WebKitTestRunner_LIBRARIES})
-+Index: webkitgtk-2.16.5/Source/WebCore/PlatformGTK.cmake
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Source/WebCore/PlatformGTK.cmake
-++++ webkitgtk-2.16.5/Source/WebCore/PlatformGTK.cmake
-+@@ -321,7 +321,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-+         ${GTK2_INCLUDE_DIRS}
-+         ${GDK2_INCLUDE_DIRS}
-+     )
-+-    target_include_directories(WebCorePlatformGTK2 SYSTEM PRIVATE
-++    target_include_directories(WebCorePlatformGTK2 PRIVATE
-+         ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-+     )
-+     target_link_libraries(WebCorePlatformGTK2
-+@@ -346,7 +346,7 @@ WEBKIT_SET_EXTRA_COMPILER_FLAGS(WebCoreP
-+ target_include_directories(WebCorePlatformGTK PRIVATE
-+     ${WebCore_INCLUDE_DIRECTORIES}
-+ )
-+-target_include_directories(WebCorePlatformGTK SYSTEM PRIVATE
-++target_include_directories(WebCorePlatformGTK PRIVATE
-+     ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-+     ${GTK_INCLUDE_DIRS}
-+     ${GDK_INCLUDE_DIRS}
-+@@ -362,7 +362,7 @@ include_directories(
-+     "${WEBCORE_DIR}/bindings/gobject/"
-+ )
-+ 
-+-include_directories(SYSTEM
-++include_directories(
-+     ${WebCore_SYSTEM_INCLUDE_DIRECTORIES}
-+ )
-+ 
-+Index: webkitgtk-2.16.5/Tools/TestWebKitAPI/PlatformGTK.cmake
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Tools/TestWebKitAPI/PlatformGTK.cmake
-++++ webkitgtk-2.16.5/Tools/TestWebKitAPI/PlatformGTK.cmake
-+@@ -20,7 +20,7 @@ include_directories(
-+     ${WEBKIT2_DIR}/UIProcess/API/gtk
-+ )
-+ 
-+-include_directories(SYSTEM
-++include_directories(
-+     ${GDK3_INCLUDE_DIRS}
-+     ${GLIB_INCLUDE_DIRS}
-+     ${GTK3_INCLUDE_DIRS}
-+Index: webkitgtk-2.16.5/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt
-++++ webkitgtk-2.16.5/Tools/TestWebKitAPI/Tests/WebKit2Gtk/CMakeLists.txt
-+@@ -21,7 +21,7 @@ include_directories(
-+     ${TOOLS_DIR}/TestWebKitAPI/gtk/WebKit2Gtk
-+ )
-+ 
-+-include_directories(SYSTEM
-++include_directories(
-+     ${ATSPI_INCLUDE_DIRS}
-+     ${GLIB_INCLUDE_DIRS}
-+     ${GSTREAMER_INCLUDE_DIRS}
-+Index: webkitgtk-2.16.5/Source/WebKit2/PlatformGTK.cmake
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Source/WebKit2/PlatformGTK.cmake
-++++ webkitgtk-2.16.5/Source/WebKit2/PlatformGTK.cmake
-+@@ -1156,7 +1156,7 @@ if (ENABLE_PLUGIN_PROCESS_GTK2)
-+     target_include_directories(WebKitPluginProcess2 PRIVATE
-+         ${WebKit2CommonIncludeDirectories}
-+     )
-+-    target_include_directories(WebKitPluginProcess2 SYSTEM PRIVATE
-++    target_include_directories(WebKitPluginProcess2 PRIVATE
-+          ${WebKit2CommonSystemIncludeDirectories}
-+          ${GTK2_INCLUDE_DIRS}
-+          ${GDK2_INCLUDE_DIRS}
-+Index: webkitgtk-2.16.5/Source/JavaScriptCore/shell/CMakeLists.txt
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Source/JavaScriptCore/shell/CMakeLists.txt
-++++ webkitgtk-2.16.5/Source/JavaScriptCore/shell/CMakeLists.txt
-+@@ -20,7 +20,7 @@ WEBKIT_INCLUDE_CONFIG_FILES_IF_EXISTS()
-+ 
-+ WEBKIT_WRAP_SOURCELIST(${JSC_SOURCES})
-+ include_directories(./ ${JavaScriptCore_INCLUDE_DIRECTORIES})
-+-include_directories(SYSTEM ${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
-++include_directories(${JavaScriptCore_SYSTEM_INCLUDE_DIRECTORIES})
-+ add_executable(jsc ${JSC_SOURCES})
-+ target_link_libraries(jsc ${JSC_LIBRARIES})
-+ 
-+Index: webkitgtk-2.16.5/Source/cmake/WebKitMacros.cmake
-+===================================================================
-+--- webkitgtk-2.16.5.orig/Source/cmake/WebKitMacros.cmake
-++++ webkitgtk-2.16.5/Source/cmake/WebKitMacros.cmake
-+@@ -277,7 +277,7 @@ macro(WEBKIT_WRAP_SOURCELIST)
-+ endmacro()
-+ 
-+ macro(WEBKIT_FRAMEWORK _target)
-+-    include_directories(SYSTEM ${${_target}_SYSTEM_INCLUDE_DIRECTORIES})
-++    include_directories(${${_target}_SYSTEM_INCLUDE_DIRECTORIES})
-+     add_library(${_target} ${${_target}_LIBRARY_TYPE}
-+         ${${_target}_HEADERS}
-+         ${${_target}_SOURCES}
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.5.bb
-index dcaf8a6ed7..5ca525db38 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.16.5.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.16.5.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://cross-compile.patch \
-            file://gcc7.patch \
-            file://detect-atomics-during-configure.patch \
-+           file://0001-WebKitMacros-Append-to-I-and-not-to-isystem.patch \
-            "
- 
- SRC_URI[md5sum] = "fce72dc89cd310a663d9eb97133861fe"
--- 
-2.13.3
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> jackie.huang@windriver.com
+> Sent: Tuesday, July 25, 2017 16:06
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] debianutils: set higher priority than busybox =
+for run-
+> parts
+>=20
+> From: Jackie Huang <jackie.huang@windriver.com>
+>=20
+> debianutils-run-parts should have higher priority than
+> busybox (which is 50), so set the priority to 60 for
+> debianutils-run-parts.
+>=20
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  meta/recipes-support/debianutils/debianutils_4.8.1.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-support/debianutils/debianutils_4.8.1.bb
+> b/meta/recipes-support/debianutils/debianutils_4.8.1.bb
+> index 54c345ea25..0529a50983 100644
+> --- a/meta/recipes-support/debianutils/debianutils_4.8.1.bb
+> +++ b/meta/recipes-support/debianutils/debianutils_4.8.1.bb
+> @@ -38,6 +38,8 @@ RDEPENDS_${PN} +=3D "${PN}-run-parts"
+>=20
+>  ALTERNATIVE_PRIORITY=3D"30"
+>  ALTERNATIVE_${PN} =3D "add-shell installkernel remove-shell savelog temp=
+file
+> which"
+> +
+> +ALTERNATIVE_PRIORITY_${PN}-run-parts =3D "60"
+>  ALTERNATIVE_${PN}-run-parts =3D "run-parts"
+>=20
+>  ALTERNATIVE_${PN}-doc =3D "which.1"
+> --
+> 2.11.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
