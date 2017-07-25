@@ -1,21 +1,37 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5D378094
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by mail.openembedded.org (Postfix) with ESMTP id F23F271984
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 19:42:18 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2017 12:42:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,412,1496127600"; d="scan'208";a="131139673"
-Received: from yctb06.ostc.intel.com ([10.54.69.60])
-	by fmsmga005.fm.intel.com with ESMTP; 25 Jul 2017 12:42:18 -0700
-From: jose.perez.carranza@linux.intel.com
+	Tue, 25 Jul 2017 19:56:53 +0000 (UTC)
+Received: by mail-yw0-f193.google.com with SMTP id i6so4220077ywb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jul 2017 12:56:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7YHToIxBKwsmhf7WE2POXFBbLkgt7SPQnw97H1ExweM=;
+	b=EL5YJnmkhY73w0HExMQoZlDifyKZgJoYQmqzRlovRmv3p3ncjIvgJJD79OByEMy9An
+	ps+kptYvLBspCmx7ry8RC7G12IqrUzBVVDnq6hdn6s5IRTInImxP6iEZJ8MjeSvCDc/a
+	akiwJXUyLPdDNTHbyd9QbiS9UeVC9dFwpclRzDYaNYaDjsM4sO9I971XZQGqkyibsp/a
+	1WNrWayerMInT8bZTxDFktCRgIzNbGz+R5OBAATCNLUHFx+E1gg7JUMnG3IYQkfO4hLM
+	UdQwsWjh3fOfon81D69zce1cmtnwhAznrNkJP9RcrGgyDCLpBuZN3HEErWh/cGWV994L
+	AreA==
+X-Gm-Message-State: AIVw113OSpVUNBORC+PT8GQgxkG2Qd0OOWu2oEWGbXCsXBPxVMu6henN
+	X+0YOIBjnAr4kiTp
+X-Received: by 10.37.188.76 with SMTP id d12mr10052236ybk.193.1501012614774;
+	Tue, 25 Jul 2017 12:56:54 -0700 (PDT)
+Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
+	[174.106.0.58]) by smtp.gmail.com with ESMTPSA id
+	n187sm5287619ywf.76.2017.07.25.12.56.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 25 Jul 2017 12:56:53 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jul 2017 12:42:17 -0700
-Message-Id: <20170725194217.41657-1-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] oeqa/buildperf: Add 'bitbake -m' on sync function to ensure bitbake is unloaded
+Date: Tue, 25 Jul 2017 15:58:09 -0400
+Message-Id: <1501012689-2574-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] image: Fix "metadata is not deterministic" when chaining 2+ CONVERSION_CMDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,46 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 19:42:18 -0000
+X-List-Received-Date: Tue, 25 Jul 2017 19:56:54 -0000
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+When we have more than one CONVERSION_CMD being used, for example
+ext4.gz.sha256sum we will see errors about "metadata is not
+deterministic".  This is because we do not have a stable order of
+intermediate files that will be removed in the generated shell command.
+We fix this by calling sorted() on the set of rm_tmp_images so that we
+will have a stable hash again.
 
-Add 'bitbake -m' to the sync method and ensure all process related to
-bitbake are correctly unloaded before doing the different measurements.
-Also add a call to sync funtion on Test4 before final measurment of
-eSDK deploy dir disk usage.
-
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Cc: Patrick Ohly <patrick.ohly@intel.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
- meta/lib/oeqa/buildperf/base.py       | 1 +
- meta/lib/oeqa/buildperf/test_basic.py | 2 ++
- 2 files changed, 3 insertions(+)
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 6e62b279c1..7b2b4aa2a4 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -485,6 +485,7 @@ class BuildPerfTestCase(unittest.TestCase):
-     @staticmethod
-     def sync():
-         """Sync and drop kernel caches"""
-+        runCmd2('bitbake -m', ignore_status=True)
-         log.debug("Syncing and dropping kernel caches""")
-         KernelDropCaches.drop()
-         os.sync()
-diff --git a/meta/lib/oeqa/buildperf/test_basic.py b/meta/lib/oeqa/buildperf/test_basic.py
-index a9e4a5b731..0033ee4815 100644
---- a/meta/lib/oeqa/buildperf/test_basic.py
-+++ b/meta/lib/oeqa/buildperf/test_basic.py
-@@ -121,5 +121,7 @@ class Test4(BuildPerfTestCase):
-         self.sync()
-         self.measure_cmd_resources([installer, '-y', '-d', deploy_dir],
-                                    'deploy', 'eSDK deploy')
-+        #make sure bitbake is unloaded
-+        #self.sync()
-         self.measure_disk_usage(deploy_dir, 'deploy_dir', 'deploy dir',
-                                 apparent_size=True)
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index b095bca..dee17ae 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -474,7 +474,7 @@ python () {
+         # Clean up after applying all conversion commands. Some of them might
+         # use the same input, therefore we cannot delete sooner without applying
+         # some complex dependency analysis.
+-        for image in rm_tmp_images:
++        for image in sorted(rm_tmp_images):
+             cmds.append("\trm " + image)
+ 
+         after = 'do_image'
 -- 
-2.12.3
+2.1.4
 
 
