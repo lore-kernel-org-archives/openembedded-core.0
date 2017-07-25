@@ -1,21 +1,20 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D2107825A
+Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FFEE7825B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 22:37:21 +0000 (UTC)
+	Tue, 25 Jul 2017 23:07:53 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2017 15:37:23 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 25 Jul 2017 16:07:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,412,1496127600"; d="scan'208";a="882776162"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2017 15:37:22 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.40,412,1496127600"; d="scan'208";a="882783852"
+Received: from yctb04.ostc.intel.com ([10.54.69.58])
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Jul 2017 16:07:54 -0700
+From: juan.m.cruz.alcaraz@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jul 2017 15:37:17 -0700
-Message-Id: <20170725223717.7046-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue, 25 Jul 2017 16:07:52 -0700
+Message-Id: <20170725230753.27065-1-juan.m.cruz.alcaraz@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] action: new bitbake-layer plugin to create a simple layer
+Subject: [PATCH v2] package/bbclass: sources are packaged separately from debug.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,181 +27,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 22:37:22 -0000
+X-List-Received-Date: Tue, 25 Jul 2017 23:07:53 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
 
-Though the script bitbake-layers (from the bitbake project), this plugin
-creates a simple layer with a example recipe, the latter with a single task
-(do_build). Layer's license and priority is MIT and 6, respectively. Example
-recipe and layer's priority can be specified through the command line.
+The configuration variable PACKAGE_DEBUG_SPLIT_STYLE includes
+the new mode debug-with-srcpkg that instructs the system to
+remove the source files from the debug package but include them in
+a separate package with a "-src" suffix in the name.
 
-[YOCTO #11567]
+[YOCTO #9998]
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
 ---
- meta/lib/bblayers/create.py            | 66 ++++++++++++++++++++++++++++++++++
- meta/lib/bblayers/templates/README     | 41 +++++++++++++++++++++
- meta/lib/bblayers/templates/example.bb | 11 ++++++
- meta/lib/bblayers/templates/layer.conf | 10 ++++++
- 4 files changed, 128 insertions(+)
- create mode 100644 meta/lib/bblayers/create.py
- create mode 100644 meta/lib/bblayers/templates/README
- create mode 100644 meta/lib/bblayers/templates/example.bb
- create mode 100644 meta/lib/bblayers/templates/layer.conf
+ meta/classes/package.bbclass | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/bblayers/create.py b/meta/lib/bblayers/create.py
-new file mode 100644
-index 0000000000..6a41fe0504
---- /dev/null
-+++ b/meta/lib/bblayers/create.py
-@@ -0,0 +1,66 @@
-+import logging
-+import os
-+import sys
-+import shutil
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index cc466bd1b2..d2fa6175e6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -879,6 +879,11 @@ python split_and_strip_files () {
+         debugdir = "/.debug"
+         debuglibdir = ""
+         debugsrcdir = ""
++    elif d.getVar('PACKAGE_DEBUG_SPLIT_STYLE') == 'debug-with-srcpkg':
++        debugappend = ""
++        debugdir = "/.debug"
++        debuglibdir = ""
++        debugsrcdir = "/usr/src/debug"
+     else:
+         # Original OE-core, a.k.a. ".debug", style debug info
+         debugappend = ""
+@@ -1092,6 +1097,15 @@ python populate_packages () {
+     
+     autodebug = not (d.getVar("NOAUTOPACKAGEDEBUG") or False)
+ 
++    split_source_package = (d.getVar('PACKAGE_DEBUG_SPLIT_STYLE') == 'debug-with-srcpkg')
 +
-+import bb.utils
++    # If debug-with-srcpkg mode is enabled then the src package is added
++    # into the package list and the source directory as its main content
++    if split_source_package:
++        src_package_name = ('%s-src' % d.getVar('PN'))
++        packages += (' ' + src_package_name)
++        d.setVar('FILES_%s' % src_package_name, '/usr/src/debug')
 +
-+from bblayers.common import LayerPlugin
-+
-+logger = logging.getLogger('bitbake-layers')
-+
-+def plugin_init(plugins):
-+    return CreatePlugin()
-+
-+def read_template(template, template_dir='templates'):
-+    lines = str()
-+    with open(os.path.join(os.path.dirname(__file__), template_dir, template)) as fd:
-+        lines = ''.join(fd.readlines())
-+    return lines
-+
-+class CreatePlugin(LayerPlugin):
-+    def do_create_layer(self, args):
-+        """Create a basic layer"""
-+        layerdir = os.path.abspath(args.layerdir)
-+        if os.path.exists(layerdir):
-+            sys.stderr.write("Specified layer directory exists\n")
-+            return 1
-+
-+        # create dirs
-+        conf = os.path.join(layerdir, 'conf')
-+        bb.utils.mkdirhier(conf)
-+
-+        # Create the README from templates/README
-+        readme_template =  read_template('README') % (args.layerdir, args.layerdir, args.layerdir, args.layerdir, args.layerdir, args.layerdir)
-+        readme = os.path.join(layerdir, 'README')
-+        with open(readme, 'w') as fd:
-+            fd.write(readme_template)
-+
-+        # Copy the MIT license from meta
-+        copying = 'COPYING.MIT'
-+        dn = os.path.dirname
-+        license_src = os.path.join(dn(dn(dn(__file__))), copying)
-+        license_dst = os.path.join(layerdir, copying)
-+        shutil.copy(license_src, license_dst)
-+
-+        # Create the layer.conf from templates/layer.conf
-+        layerconf_template = read_template('layer.conf') % (args.layerdir, args.layerdir, args.layerdir, args.priority)
-+        layerconf = os.path.join(conf, 'layer.conf')
-+        with open(layerconf, 'w') as fd:
-+            fd.write(layerconf_template)
-+
-+        # Create the example from templates/example.bb
-+        example_template = read_template('example.bb')
-+        example = os.path.join(layerdir, 'recipes-' + args.examplerecipe, args.examplerecipe)
-+        bb.utils.mkdirhier(example)
-+        with open(os.path.join(example, args.examplerecipe + '.bb'), 'w') as fd:
-+            fd.write(example_template)
-+
-+        logger.plain('Add your new layer with \'bitbake-layers add-layer %s\'' % args.layerdir)
-+
-+    def register_commands(self, sp):
-+        parser_create_layer = self.add_command(sp, 'create-layer', self.do_create_layer, parserecipes=False)
-+        parser_create_layer.add_argument('layerdir', help='Layer directory to create')
-+        parser_create_layer.add_argument('--priority', '-p', default=6, help='Layer directory to create')
-+        parser_create_layer.add_argument('--example-recipe-name', '-e', dest='examplerecipe', default='example', help='Filename of the example recipe')
-+
-diff --git a/meta/lib/bblayers/templates/README b/meta/lib/bblayers/templates/README
-new file mode 100644
-index 0000000000..5a77f8d347
---- /dev/null
-+++ b/meta/lib/bblayers/templates/README
-@@ -0,0 +1,41 @@
-+This README file contains information on the contents of the %s layer.
-+
-+Please see the corresponding sections below for details.
-+
-+Dependencies
-+============
-+
-+  URI: <first dependency>
-+  branch: <branch name>
-+
-+  URI: <second dependency>
-+  branch: <branch name>
-+
-+  .
-+  .
-+  .
-+
-+Patches
-+=======
-+
-+Please submit any patches against the %s layer to the xxxx mailing list (xxxx@zzzz.org)
-+and cc: the maintainer:
-+
-+Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
-+
-+Table of Contents
-+=================
-+
-+  I. Adding the %s layer to your build
-+ II. Misc
-+
-+
-+I. Adding the %s layer to your build
-+=================================================
-+
-+Run 'bitbake-layers add-layer %s'
-+
-+II. Misc
-+========
-+
-+--- replace with specific information about the %s layer ---
-diff --git a/meta/lib/bblayers/templates/example.bb b/meta/lib/bblayers/templates/example.bb
-new file mode 100644
-index 0000000000..c4b873d593
---- /dev/null
-+++ b/meta/lib/bblayers/templates/example.bb
-@@ -0,0 +1,11 @@
-+SUMMARY = "bitbake-layers recipe"
-+DESCRIPTION = "Recipe created by bitbake-layers"
-+LICENSE = "MIT"
-+
-+python do_build() {
-+    bb.plain("***********************************************");
-+    bb.plain("*                                             *");
-+    bb.plain("*  Example recipe created by bitbake-layers   *");
-+    bb.plain("*                                             *");
-+    bb.plain("***********************************************");
-+}
-diff --git a/meta/lib/bblayers/templates/layer.conf b/meta/lib/bblayers/templates/layer.conf
-new file mode 100644
-index 0000000000..e0d9ba2fde
---- /dev/null
-+++ b/meta/lib/bblayers/templates/layer.conf
-@@ -0,0 +1,10 @@
-+# We have a conf and classes directory, add to BBPATH
-+BBPATH .= ":${LAYERDIR}"
-+
-+# We have recipes-* directories, add to BBFILES
-+BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \\
-+            ${LAYERDIR}/recipes-*/*/*.bbappend"
-+
-+BBFILE_COLLECTIONS += "%s"
-+BBFILE_PATTERN_%s = "^${LAYERDIR}/"
-+BBFILE_PRIORITY_%s = "%s"
+     # Sanity check PACKAGES for duplicates
+     # Sanity should be moved to sanity.bbclass once we have the infrastucture
+     package_list = []
+@@ -1100,7 +1114,12 @@ python populate_packages () {
+         if pkg in package_list:
+             msg = "%s is listed in PACKAGES multiple times, this leads to packaging errors." % pkg
+             package_qa_handle_error("packages-list", msg, d)
+-        elif autodebug and pkg.endswith("-dbg"):
++        # If debug-with-srcpkg mode is enabled then the src package will have
++        # priority over dbg package when assigning the files.
++        # This allows src package to include source files and remove them from dbg.
++        elif split_source_package and pkg.endswith("-src"):
++            package_list.insert(0, pkg)
++        elif autodebug and pkg.endswith("-dbg") and not split_source_package:
+             package_list.insert(0, pkg)
+         else:
+             package_list.append(pkg)
+@@ -1460,7 +1479,7 @@ python package_do_filedeps() {
+     for pkg in packages.split():
+         if d.getVar('SKIP_FILEDEPS_' + pkg) == '1':
+             continue
+-        if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1 or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-'):
++        if pkg.endswith('-dbg') or pkg.endswith('-doc') or pkg.find('-locale-') != -1 or pkg.find('-localedata-') != -1 or pkg.find('-gconv-') != -1 or pkg.find('-charmap-') != -1 or pkg.startswith('kernel-module-') or pkg.endswith('-src'):
+             continue
+         for files in chunks(pkgfiles[pkg], 100):
+             pkglist.append((pkg, files, rpmdeps, pkgdest, magic))
+@@ -1578,7 +1597,7 @@ python package_do_shlibs() {
+                 combos.append("-".join(options[0:i]))
+             return combos
+ 
+-        if (file.endswith('.dylib') or file.endswith('.so')) and not pkg.endswith('-dev') and not pkg.endswith('-dbg'):
++        if (file.endswith('.dylib') or file.endswith('.so')) and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.endswith('-src'):
+             # Drop suffix
+             name = os.path.basename(file).rsplit(".",1)[0]
+             # Find all combinations
 -- 
 2.12.3
 
