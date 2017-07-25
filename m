@@ -1,18 +1,46 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DD98B6E660;
-	Tue, 25 Jul 2017 08:31:10 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: jackie huang <jackie.huang@windriver.com>
-Date: Tue, 25 Jul 2017 08:31:12 -0000
-Message-ID: <20170725083112.2383.76660@do.openembedded.org>
-References: <20170725080612.422-1-jackie.huang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170725080612.422-1-jackie.huang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZGViaWFudXRpbHM6IHNldCBoaWdoZXIgcHJpb3JpdHkgdGhhbiBidXN5Ym94IGZvciBydW4tcGFydHM=?=
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 39B326E660
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jul 2017 08:35:39 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id g69so3449260pfe.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jul 2017 01:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=7H1anmI4oq80rsGLDP6Mamr7lfd/PQVqurTLeB2am7o=;
+	b=NvRqGDwRUo3zHGiKm3ppkVUwoet4mymFVLXT8UcQmvGuDTjrh+g79BgBZiMLk0B8mD
+	00+cifTnlsl/NUikqO8i3u9OurnJgtTRAOefi3M6Z0bwgGSXL/X0QoQwRvp9WW7aOtrq
+	hss6iv51j49iR5RoaFaEp1Fy0J64T0yone+Z/RRPUwcC6YCdMJOzTmS6qsNM5BzTxPRh
+	Qb2yWYJq0APLcCwqmJJmoTmIeyhfrckutk+YKozqF5EByoBLRMr7Ye8HAjVeUcJSbyPj
+	1HzKtg7PywtZfy/P6CGIbcLvNU7+G493fL3Rhiu+ffZy7jfPv93pQL1LkBCJlAtYNNeI
+	tyTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7H1anmI4oq80rsGLDP6Mamr7lfd/PQVqurTLeB2am7o=;
+	b=Y/kQTuzI4oJQ/SzHJlqsr+c56lcwFuSnFkl69Pwz+3sxFCzfGa8GfSsOnBb0QZ/Uo5
+	WirmC9i0WVqUMQss6t75V8tJ0xnlc3pAvpkNtqOLyx2jXKb018mrQHmdNEAfduxhqlgp
+	ppyIUo2sCQDsKUY+4FNCYo6HeUsncHE07NDpdka7EfCD9x5C5c9qbB4E3KNYglE4JrE8
+	o6l+pF8Qp2RWojwcwBgiUUaeavJItg1QDi7huhyAnEt5T0pfPxg/aEDgooD20u1JgVzb
+	ZLt1hYoKKqd7QJUdHS65gZZKT+VvKVEB64od945MShELMbbQnE6CqdxDKDQpzpVBxAnU
+	CfCQ==
+X-Gm-Message-State: AIVw113Bu/ZPQnWKiFAQ8e7FK3EZlMnYy+sQp+zdwjrjrWKQSZxjy4cX
+	8+hMMk1YC0b7npIY
+X-Received: by 10.101.87.205 with SMTP id q13mr19191207pgr.359.1500971740444; 
+	Tue, 25 Jul 2017 01:35:40 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::9b53])
+	by smtp.gmail.com with ESMTPSA id
+	u5sm15245362pgc.92.2017.07.25.01.35.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 25 Jul 2017 01:35:39 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jul 2017 01:35:29 -0700
+Message-Id: <20170725083530.15432-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH 1/2] python3-pycairo: Pass -fPIC via CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 08:31:11 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Jul 2017 08:35:39 -0000
 
-== Series Details ==
+Fixes
 
-Series: debianutils: set higher priority than busybox for run-parts
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7917/
-State : failure
+| /mnt/a/oe/build/tmp/work/corei7-64-bec-linux/python3-pycairo/1.10.0-r2/recipe-sysroot-native/usr/bin/x86_64-bec-linu
+x/x86_64-bec-linux-ld: src/cairomodule.c.1.o: relocation R_X86_64_PC32 against symbol `CairoError' can not be used whe
+n making a shared object; recompile with -fPIC
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at d3a41fbd94)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/python/python3-pycairo_1.10.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb b/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
+index f9031b3bca..9258ba11c7 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.10.0.bb
+@@ -19,6 +19,8 @@ S = "${WORKDIR}/pycairo-${PV}"
+ 
+ inherit distutils3 pkgconfig
+ 
++CFLAGS += "-fPIC"
++
+ BBCLASSEXTEND = "native"
+ 
+ do_configure() {
+-- 
+2.13.3
 
 
