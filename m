@@ -1,23 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EF0C37834E
+Return-Path: <alexandru.vasiu@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D7B71AD5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 09:12:55 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Jul 2017 02:12:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,411,1496127600"; d="scan'208";a="996876273"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.40.16])
-	by orsmga003.jf.intel.com with ESMTP; 25 Jul 2017 02:12:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jul 2017 11:12:10 +0200
-Message-Id: <3e176daccae81616c04fe2e69de80a2e3e302f9e.1500973912.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <cover.1500973912.git.paul.eggleton@linux.intel.com>
-References: <cover.1500973912.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] wic-tools: ensure pseudo is available
+	Tue, 25 Jul 2017 09:45:31 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
+	v6P81F6f030217; Tue, 25 Jul 2017 04:45:32 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2bwgt930yy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 25 Jul 2017 04:45:32 -0500
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
+	v6P9jV5m021330
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 25 Jul 2017 04:45:31 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Tue, 25 Jul 2017 04:45:31 -0500
+Received: from avasiuPC.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Tue, 25 Jul 2017 04:45:30 -0500
+From: Alexandru Vasiu <alexandru.vasiu@ni.com>
+To: <openembedded-core@lists.openembedded.org>, <raj.khem@gmail.com>
+Date: Tue, 25 Jul 2017 12:45:23 +0300
+Message-ID: <20170725094523.9547-1-alexandru.vasiu@ni.com>
+X-Mailer: git-send-email 2.13.3
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=nai engine=5600 definitions=5800
+	signatures=585085
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1706020000 definitions=main-1707190113
+Subject: [PATCH v3] dkms: Add new recipe for supporting dkms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +53,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 09:12:56 -0000
+X-List-Received-Date: Tue, 25 Jul 2017 09:45:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-wic will attempt to use pseudo from the wic-tools sysroot to run, but it
-was only sure to be in there if do_install had executed - which is not
-the case if it had been restored from sstate, in which case it failed
-horribly as seen when running the wic.Wic.test_fs_types and
-test_mkfs_extraopts tests on the Yocto Project autobuilder recently. Add
-an explicit dependency on pseudo-native to ensure it's always there.
+Dkms is a tool used to compile out of tree modules directly on
+target devices (sometimes you have sources or binaries which
+need to be compiled directly on target, outside OE).
+I used a simple module and a dkms config to test it, and dkms
+compiled and installed the module on target.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+For example:
+.
+├── dkms.conf
+└── src
+    ├── hello.c
+    └── Makefile
+
+hello.c:
+	#include <linux/module.h>
+
+	int init_module(void)
+	{
+		printk("Hello World!\n");
+		return 0;
+	}
+
+	void cleanup_module(void)
+	{
+		printk("Goodbye Cruel World!\n");
+	}
+
+	MODULE_LICENSE("GPL");
+
+Makefile:
+	obj-m += hello.o
+
+	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+
+	PWD := $(shell pwd)
+
+	install:
+		$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+
+	clean:
+		rm -rf *.o *.ko *~ core .depend .*.cmd *.mod.c modules.order Module.symvers
+
+dkms.conf:
+	MAKE="make -C src/ KERNELDIR=/lib/modules/${kernelver}/build"
+	CLEAN="make -C src/ clean"
+	BUILT_MODULE_NAME=hello
+	DEST_MODULE_LOCATION=/kernel/drivers/scsi
+	BUILT_MODULE_LOCATION=src/
+	PACKAGE_NAME=hello
+	PACKAGE_VERSION=0.1
+	AUTOINSTALL=yes
+	REMAKE_INITRD=yes
+
+All files should be in /usr/src/<package-name>-<package-version>,
+in our case in /urs/src/hello-0.1.
+
+Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
 ---
- meta/recipes-core/meta/wic-tools.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/dkms/dkms_2.4.0.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+ create mode 100644 meta/recipes-kernel/dkms/dkms_2.4.0.bb
 
-diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-index c416a2e..d908e48 100644
---- a/meta/recipes-core/meta/wic-tools.bb
-+++ b/meta/recipes-core/meta/wic-tools.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- DEPENDS = "\
-            parted-native syslinux-native gptfdisk-native dosfstools-native \
-            mtools-native bmap-tools-native grub-efi-native cdrtools-native \
--           btrfs-tools-native squashfs-tools-native \
-+           btrfs-tools-native squashfs-tools-native pseudo-native \
-            "
- DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
- DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
+diff --git a/meta/recipes-kernel/dkms/dkms_2.4.0.bb b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
+new file mode 100644
+index 0000000000..bb21a959d6
+--- /dev/null
++++ b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
+@@ -0,0 +1,12 @@
++SUMMARY = "DKMS Recipe - Adds DKMS tool for target"
++HOMEPAGE = "https://github.com/dell/dkms/"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
++
++SRC_URI = "https://github.com/dell/${PN}/archive/v${PV}.tar.gz"
++
++SRC_URI[md5sum] = "d2e74dd79086c564a924b5763794091b"
++
++RDEPENDS_${PN} += "bash kmod gcc make patch kernel-dev"
++
++inherit autotools-brokensep
 -- 
-2.9.4
+2.13.3
 
 
