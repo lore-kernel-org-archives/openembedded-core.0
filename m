@@ -1,34 +1,35 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 64C1D71B9C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E6EF7833C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 06:33:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6P6XbIf022045
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 25 Jul 2017 06:38:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6P6cxSx011068
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jul 2017 23:33:38 -0700
+	Mon, 24 Jul 2017 23:38:59 -0700 (PDT)
 Received: from ALA-MBD.corp.ad.wrs.com ([fe80::d894:a649:cd4c:89b7]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0294.000;
-	Mon, 24 Jul 2017 23:33:37 -0700
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0294.000;
+	Mon, 24 Jul 2017 23:38:58 -0700
 From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
+To: "BURTON, ROSS" <ross.burton@intel.com>, OE-core
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2] rootfs-postcommands: split
-	ssh_allow_empty_password
-Thread-Index: AQHS8WpxLhZBp5Cds0mCFDti/+XOsqJkPPYg
-Date: Tue, 25 Jul 2017 06:33:36 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B83D0B8@ALA-MBD.corp.ad.wrs.com>
-References: <cover.1498803976.git.jackie.huang@windriver.com>
-In-Reply-To: <cover.1498803976.git.jackie.huang@windriver.com>
+Thread-Topic: [OE-core] [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for
+	siteconfig_gencache
+Thread-Index: AQHS5dNNSEaLfOMVwkyg0JzsrmjvqKImr43ggBX8z6CAJ6kc4A==
+Date: Tue, 25 Jul 2017 06:38:58 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B83D0CC@ALA-MBD.corp.ad.wrs.com>
+References: <cover.1496218782.git.jackie.huang@windriver.com>
+	<22aa14ac1a926e97fb676743cb1e440ff2aaae1f.1496218782.git.jackie.huang@windriver.com>
+	<CAJTo0LbG_JMejjRPoK+g4Kq5+G8eszwPj4+oWcUjhpJ4-7esNg@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA014B7F1F6C@ALA-MBD.corp.ad.wrs.com> 
 Accept-Language: en-US, zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [128.224.176.95]
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] rootfs-postcommands: split	ssh_allow_empty_password
+Subject: Re: [PATCH 1/2] ncurses: add SYSROOT_DESTDIR for siteconfig_gencache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,56 +42,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 06:33:37 -0000
+X-List-Received-Date: Tue, 25 Jul 2017 06:38:58 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
+
+
+> > >
+> > >
+> > > On 31 May 2017 at 09:27, <jackie.huang@windriver.com> wrote:
+> > > +EXTRASITECONFIG =3D "CFLAGS=3D'${CFLAGS} -
+> > I${SYSROOT_DESTDIR}${includedir}'"
+> > >
+> > > Why is this ncurses specific, it sounds like something which will imp=
+act all
+> users
+> > of siteconfig?
+>=20
+> Ping.
+>=20
+> Is my explanation clear enough? What's the suggestion if it's not accepta=
+ble?
+
 Ping.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> jackie.huang@windriver.com
-> Sent: Friday, June 30, 2017 14:30
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 0/2] rootfs-postcommands: split
-> ssh_allow_empty_password
+Thanks,
+Jackie
+
 >=20
-> From: Jackie Huang <jackie.huang@windriver.com>
+> Thanks,
+> Jackie
 >=20
-> --
-> The following changes since commit
-> de7914954571ea8e717f56b6d6df13157b0973bc:
->=20
->   scripts/contrib/patchreview: add new script (2017-06-29 13:01:32 +0100)
->=20
-> are available in the git repository at:
->=20
->   git://git.pokylinux.org/poky-contrib.git jhuang0/d_ssh-allow-empty_1706=
-30_0
->   http://git.pokylinux.org/cgit.cgi//log/?h=3Djhuang0/d_ssh-allow-
-> empty_170630_0
->=20
-> Jackie Huang (2):
->   dropbear: add default config file to disable root login
->   rootfs-postcommands: split ssh_allow_empty_password
->=20
->  meta/classes/image.bbclass                         |  2 +-
->  meta/classes/rootfs-postcommands.bbclass           | 25 ++++++++++++++++=
-+++-
-> --
->  meta/recipes-core/dropbear/dropbear.inc            |  3 +++
->  .../dropbear/dropbear/dropbear.default             |  2 ++
->  4 files changed, 28 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.default
->=20
-> --
-> 2.11.0
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> > My original issue is not ncurses specific, that is:
+> > After switching to RSS, the siteconfig cache files in ACLOCALDIR setup =
+by
+> > autotools.bbclass was dropped, so searching
+> > the path ACLOCALDIR for siteconfig files ended up with nothing, which c=
+aused
+> > some package (like openhpi) fail to configure,
+> > so the "PATCH 2/2" change it back to search SITECONFIG_SYSROOTCACHE.
+> >
+> > But I met the second issue after the that:
+> > util-linux depends on ncurses but the siteinfo in ncurses_config which =
+is
+> > populated to SITECONFIG_SYSROOTCACHE  is not correct:
+> > ac_cv_header_curses_h=3D${ac_cv_header_curses_h=3Dno}
+> > ac_cv_header_ncurses_h=3D${ac_cv_header_ncurses_h=3Dno}
+> >
+> > then it fails to build (it should be the same issue for other package t=
+hat depend
+> > on ncurses), so this patch is needed.
+> > And the patch will only impact the packages that depend on ncurses, for=
+ those
+> > without dependency on ncurses, there
+> > is no ncurses_config at all in their own recipe-sysroot.
+> >
+> > Thanks,
+> > Jackie
+> >
+> > >
+> > > Ross
+> > >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
