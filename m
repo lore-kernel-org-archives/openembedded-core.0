@@ -1,46 +1,48 @@
-Return-Path: <alexandru.vasiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 21D7B71AD5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 96D127197B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 09:45:31 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	v6P81F6f030217; Tue, 25 Jul 2017 04:45:32 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2bwgt930yy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 25 Jul 2017 04:45:32 -0500
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod3.natinst.com (8.16.0.17/8.16.0.17) with ESMTPS id
-	v6P9jV5m021330
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 25 Jul 2017 04:45:31 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 25 Jul 2017 04:45:31 -0500
-Received: from avasiuPC.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Tue, 25 Jul 2017 04:45:30 -0500
-From: Alexandru Vasiu <alexandru.vasiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>, <raj.khem@gmail.com>
-Date: Tue, 25 Jul 2017 12:45:23 +0300
-Message-ID: <20170725094523.9547-1-alexandru.vasiu@ni.com>
-X-Mailer: git-send-email 2.13.3
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=nai engine=5600 definitions=5800
-	signatures=585085
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1706020000 definitions=main-1707190113
-Subject: [PATCH v3] dkms: Add new recipe for supporting dkms
+	Tue, 25 Jul 2017 10:17:27 +0000 (UTC)
+Received: by mail-wr0-f174.google.com with SMTP id 33so60387922wrz.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jul 2017 03:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Rf2In7KeQBuAYxFC1X8cs45L70a/GfsqbSZkgfBICcc=;
+	b=PYDaLeGZQ1y/Cvr41fyZEXLV0ZOWO1mP2kWL1DqW0ffhaBUR7X+q3UkimvAQvahnW6
+	WXQUnkrhD+god5O09RknDzdkCqp3ynqSNmr4mg087cXvqgNra30fTuuQ7PH3NbuTTSbG
+	YrqYsMXukxL/OYbMFv7ldJsNjP2Ha9+scxvk8f4jQWtHt3qSSWMSNKc1ZlPemMW22cY/
+	aDMeWqDxLRAZSI22+OSy8dkHdmL33ILuaRUSbJQgoLhKsTlmTyDtFUGFvaee2Tpv5wSk
+	5/bOPHBvRedQjI5kwcPo+wOZ0Vm0Is/zRunTAtFFHDHgdT1NxPoZtWx3UzKDOz5jMwIH
+	KlWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Rf2In7KeQBuAYxFC1X8cs45L70a/GfsqbSZkgfBICcc=;
+	b=pfI/E7kAtDJXgyXKLrDhKTkRLfIkW42y6zJKe1Su9wZgG2USGF0D9DqeBVxcJhl7ME
+	L3cZzR33s8z1gLQ8pGmHsQZN+pDv/dS7iG+gav11zHX8onl9ynKNf8Cufpm8j0M7dKhr
+	CwXfir5M/mw9zBikSKEIFrX8eN02icutSmHQlDDrS6K6BLsUaVMutZKCq+i5YBBxL1xN
+	vY6O0a1XieIGwnVcDJNnAJKM4hc6oSWABtwIRvIpYQv+72fnbCc5Xd33Xnk72RNSlkrP
+	Prq7T3kmUtRLqzPJ7tjYWRJQUx94Egx/ZqhP9exnMi3C9lYPhTLaMiF5akc5lCgXKTcs
+	XYLA==
+X-Gm-Message-State: AIVw1135pgGUquHEpY3lCNE0vpk9uRJJfT10gEgaz6bd30K+ec7G2Xeo
+	V9FWHDXJy5KWQUzglkk=
+X-Received: by 10.223.150.200 with SMTP id u66mr17329171wrb.216.1500977848009; 
+	Tue, 25 Jul 2017 03:17:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r199sm10645623wmd.11.2017.07.25.03.17.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 25 Jul 2017 03:17:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jul 2017 11:17:17 +0100
+Message-Id: <20170725101719.2172-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/3] elfutils: use HTTP instead of FTP to fetch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,91 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 09:45:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Jul 2017 10:17:28 -0000
 
-Dkms is a tool used to compile out of tree modules directly on
-target devices (sometimes you have sources or binaries which
-need to be compiled directly on target, outside OE).
-I used a simple module and a dkms config to test it, and dkms
-compiled and installed the module on target.
+FTP is inferiour to HTTP is all respects, so use the HTTP URL for the tarball.
 
-For example:
-.
-├── dkms.conf
-└── src
-    ├── hello.c
-    └── Makefile
-
-hello.c:
-	#include <linux/module.h>
-
-	int init_module(void)
-	{
-		printk("Hello World!\n");
-		return 0;
-	}
-
-	void cleanup_module(void)
-	{
-		printk("Goodbye Cruel World!\n");
-	}
-
-	MODULE_LICENSE("GPL");
-
-Makefile:
-	obj-m += hello.o
-
-	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
-
-	PWD := $(shell pwd)
-
-	install:
-		$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
-
-	clean:
-		rm -rf *.o *.ko *~ core .depend .*.cmd *.mod.c modules.order Module.symvers
-
-dkms.conf:
-	MAKE="make -C src/ KERNELDIR=/lib/modules/${kernelver}/build"
-	CLEAN="make -C src/ clean"
-	BUILT_MODULE_NAME=hello
-	DEST_MODULE_LOCATION=/kernel/drivers/scsi
-	BUILT_MODULE_LOCATION=src/
-	PACKAGE_NAME=hello
-	PACKAGE_VERSION=0.1
-	AUTOINSTALL=yes
-	REMAKE_INITRD=yes
-
-All files should be in /usr/src/<package-name>-<package-version>,
-in our case in /urs/src/hello-0.1.
-
-Signed-off-by: Alexandru Vasiu <alexandru.vasiu@ni.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/dkms/dkms_2.4.0.bb | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
- create mode 100644 meta/recipes-kernel/dkms/dkms_2.4.0.bb
+ meta/recipes-devtools/elfutils/elfutils_0.168.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/dkms/dkms_2.4.0.bb b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
-new file mode 100644
-index 0000000000..bb21a959d6
---- /dev/null
-+++ b/meta/recipes-kernel/dkms/dkms_2.4.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "DKMS Recipe - Adds DKMS tool for target"
-+HOMEPAGE = "https://github.com/dell/dkms/"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
-+
-+SRC_URI = "https://github.com/dell/${PN}/archive/v${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "d2e74dd79086c564a924b5763794091b"
-+
-+RDEPENDS_${PN} += "bash kmod gcc make patch kernel-dev"
-+
-+inherit autotools-brokensep
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.168.bb b/meta/recipes-devtools/elfutils/elfutils_0.168.bb
+index c0a4f234020..0717616ec0a 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.168.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.168.bb
+@@ -5,7 +5,7 @@ LICENSE = "(GPLv3 & Elfutils-Exception)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
+ DEPENDS_append_libc-musl = " argp-standalone fts "
+-SRC_URI = "ftp://sourceware.org/pub/elfutils/${PV}/${BP}.tar.bz2"
++SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "52adfa40758d0d39e5d5c57689bf38d6"
+ SRC_URI[sha256sum] = "b88d07893ba1373c7dd69a7855974706d05377766568a7d9002706d5de72c276"
+ 
 -- 
-2.13.3
+2.11.0
 
 
