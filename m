@@ -1,24 +1,21 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB6A7833B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AE1E77829B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 08:39:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6P8dGaO003921
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 01:39:16 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Tue, 25 Jul 2017 01:39:16 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Jul 2017 16:38:55 +0800
-Message-ID: <20170725083855.9106-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH v2] debianutils: set higher priority than busybox for run-parts
+	Tue, 25 Jul 2017 09:12:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Jul 2017 02:12:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,411,1496127600"; d="scan'208";a="996876223"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.40.16])
+	by orsmga003.jf.intel.com with ESMTP; 25 Jul 2017 02:12:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jul 2017 11:12:09 +0200
+Message-Id: <cover.1500973912.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH 0/1] wic-tools: ensure pseudo is available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jul 2017 08:39:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Jul 2017 09:12:44 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+The following changes since commit d3a41fbd94462efc8c6f1b55f6fb54001b447c45:
 
-debianutils-run-parts should have higher priority than
-busybox (which is 50), so set the priority to 60 for
-debianutils-run-parts.
+  linux-yocto: only suggest default kernel type (2017-07-24 09:12:28 +0100)
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-support/debianutils/debianutils_4.8.1.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb b/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
-index 23f842102b5..d41bf98f895 100644
---- a/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
-@@ -37,6 +37,8 @@ RDEPENDS_${PN} += "${PN}-run-parts"
- 
- ALTERNATIVE_PRIORITY="30"
- ALTERNATIVE_${PN} = "add-shell installkernel remove-shell savelog tempfile which"
-+
-+ALTERNATIVE_PRIORITY_${PN}-run-parts = "60"
- ALTERNATIVE_${PN}-run-parts = "run-parts"
- 
- ALTERNATIVE_${PN}-doc = "which.1"
+  git://git.openembedded.org/openembedded-core-contrib paule/wic-pseudo
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/wic-pseudo
+
+Paul Eggleton (1):
+  wic-tools: ensure pseudo is available
+
+ meta/recipes-core/meta/wic-tools.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.11.0
+2.9.4
 
 
