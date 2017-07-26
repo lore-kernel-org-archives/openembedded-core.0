@@ -1,23 +1,49 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 415DA7821A
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f179.google.com (mail-yw0-f179.google.com
+	[209.85.161.179])
+	by mail.openembedded.org (Postfix) with ESMTP id F07DE78221
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 10:43:20 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Jul 2017 03:43:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,414,1496127600"; d="scan'208";a="882975522"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Jul 2017 03:43:20 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 13:41:03 +0300
-Message-Id: <20170726104103.13050-3-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.13.2
-In-Reply-To: <20170726104103.13050-1-alexander.kanavin@linux.intel.com>
-References: <20170726104103.13050-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/3] libcap: fix build with gperf 3.1
+	Wed, 26 Jul 2017 11:09:39 +0000 (UTC)
+Received: by mail-yw0-f179.google.com with SMTP id u207so23809735ywc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Jul 2017 04:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=XMBSrLwplE4aR4v1ApX3tuZ/+KjH5HIQSGuzXDyXYoM=;
+	b=CwpH+RYWT6EstTNnZwsa6X4qbjKs4yrUY6PfxiHWFwYdyP/v3DCTSXtNhi7wk29EE2
+	qWrB0AbDwfwMZOhLcBEYZawcrmOoZnI8eyAYTFjnSzVQ4azWrV3S6D4gUOL5nRW9MK3i
+	WmfVhyBNtyOtdOsLuPv5fQo5Fkk6J+J/ctlx4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=XMBSrLwplE4aR4v1ApX3tuZ/+KjH5HIQSGuzXDyXYoM=;
+	b=fx6S1WPV2ry/yOcqi5yWkTBaOY6EpRwrQOsdiblkBxjlL06dEIUvfJoIP/kv/NL7yM
+	2MaQiJg29c1DjxkoeJEK6zvTVv8YAPd+SNA7fi6dFf+u679pHJMdb94QD8pC24viNXge
+	Ee4caIb2RV2HWePrVUP+F1klLD6TFGAgwhIjeo0ASgfZoX7SDPRSqDneX+kRACu+Ubwf
+	q77QONudqSSw3tj3jrfctL51KcxTbry0wR1j4LREvVhQetvTqg20jxwryZSwzez9i4vp
+	yeIvwPwFH9Ews8I3YBOlqaNw+hEOXOo8DdwpAoJSwWBHs2mSXD4UtmzmKRxtwc1TjDYc
+	MM5g==
+X-Gm-Message-State: AIVw113eVjSpi+rIzuKHG5sxiV+iQcVYrMZcvgxycN4/hVut9Owje4In
+	tXNZNQPxy3yfTctW0nwZAQ==
+X-Received: by 10.129.193.65 with SMTP id e1mr459156ywl.256.1501067380211;
+	Wed, 26 Jul 2017 04:09:40 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1408:4167:e405:ea54:38bf:4644])
+	by smtp.gmail.com with ESMTPSA id w11sm178022ywc.93.2017.07.26.04.09.39
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 26 Jul 2017 04:09:39 -0700 (PDT)
+Date: Wed, 26 Jul 2017 07:10:57 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Message-ID: <20170726111057.GC26163@bill-the-cat>
+References: <1500674794-23258-1-git-send-email-trini@konsulko.com>
+	<20170726071639.GA13291@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20170726071639.GA13291@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] image.bbclass: Correct chaining compression support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,66 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 10:43:20 -0000
+X-List-Received-Date: Wed, 26 Jul 2017 11:09:40 -0000
+X-Groupsio-MsgNum: 100731
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="beyCpKA84xV/nXfr"
+Content-Disposition: inline
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../files/0001-Fix-build-with-gperf-3.1.patch      | 30 ++++++++++++++++++++++
- meta/recipes-support/libcap/libcap_2.25.bb         |  3 ++-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libcap/files/0001-Fix-build-with-gperf-3.1.patch
+--beyCpKA84xV/nXfr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/libcap/files/0001-Fix-build-with-gperf-3.1.patch b/meta/recipes-support/libcap/files/0001-Fix-build-with-gperf-3.1.patch
-new file mode 100644
-index 00000000000..ae03cf74223
---- /dev/null
-+++ b/meta/recipes-support/libcap/files/0001-Fix-build-with-gperf-3.1.patch
-@@ -0,0 +1,30 @@
-+From 2b350b270bd6a5cf0c89414cd16e51d8dec5c874 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 26 Jul 2017 13:37:49 +0300
-+Subject: [PATCH] Fix build with gperf 3.1
-+
-+The generated gperf file refers to size_t which needs to be
-+provided by stddef.h include.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ libcap/Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libcap/Makefile b/libcap/Makefile
-+index d189777..32c5a69 100644
-+--- a/libcap/Makefile
-++++ b/libcap/Makefile
-+@@ -22,7 +22,7 @@ all: $(MINLIBNAME) $(STALIBNAME) libcap.pc
-+ 
-+ ifeq ($(BUILD_GPERF),yes)
-+ USE_GPERF_OUTPUT = $(GPERF_OUTPUT)
-+-INCLUDE_GPERF_OUTPUT = -include $(GPERF_OUTPUT)
-++INCLUDE_GPERF_OUTPUT = -include stddef.h -include $(GPERF_OUTPUT)
-+ endif
-+ 
-+ libcap.pc: libcap.pc.in
-+-- 
-+2.13.2
-+
-diff --git a/meta/recipes-support/libcap/libcap_2.25.bb b/meta/recipes-support/libcap/libcap_2.25.bb
-index 5c2765f343a..d619a2eb4cc 100644
---- a/meta/recipes-support/libcap/libcap_2.25.bb
-+++ b/meta/recipes-support/libcap/libcap_2.25.bb
-@@ -9,7 +9,8 @@ DEPENDS = "hostperl-runtime-native gperf-native"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
--"
-+           file://0001-Fix-build-with-gperf-3.1.patch \
-+           "
- SRC_URI[md5sum] = "6666b839e5d46c2ad33fc8aa2ceb5f77"
- SRC_URI[sha256sum] = "693c8ac51e983ee678205571ef272439d83afe62dd8e424ea14ad9790bc35162"
- 
--- 
-2.13.2
+On Wed, Jul 26, 2017 at 10:16:39AM +0300, Ed Bartosh wrote:
+> On Fri, Jul 21, 2017 at 06:06:33PM -0400, Tom Rini wrote:
+> > When chaining of compression/conversion types was added, we had a new
+> > way to handle doing things like "ext4.bz2.sha256sum" or
+> > "ext2.gz.u-boot".  However, because the U-Boot image class isn't
+> > included normally, it wasn't properly converted at the time.  After the
+> > support was added the "clean" argument that the .u-boot code uses no
+> > longer functions.  The fix for this inadvertently broke chaining
+> > compression/conversion.  First, correct the u-boot conversion code.
+> >=20
+> > Fixes: 46bc438374de ("image.bbclass: do exact match for rootfs type")
+> > Cc: Zhenhua Luo <zhenhua.luo@nxp.com>
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Cc: Patrick Ohly <patrick.ohly@intel.com>
+> > Signed-off-by: Tom Rini <trini@konsulko.com>
+>=20
+> Acked-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+>=20
+> Any chance to have this functionality covered by oe-selftest?
+> That would help to ensure it will not be broken again.
 
+Give me a pointer to adding stuff to oe-selftest and I'll take a look.
+Thanks!
 
+--=20
+Tom
+
+--beyCpKA84xV/nXfr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZeHjBAAoJEIf59jXTHXZSuooP/0LNb9Fl6UiLRBssa5LZ7xjt
+ei5tBrVIv65pu0wJwKovXW+Wa85lpXVqG8n7crzr6HgNFO7RzY5dqIoH4zQYkTDW
+yFMVw8H+xdfQu0RN9VKM3BWS3fUVgJ838wzDa9erSWz9HagKHhynz744RqA9xsJr
+SXbYeFJ7k0vulbLa6lUn3g9Bxzpb+tSkSbvaSWZ4Dmd796Ak0WnGrhMAADVE5T9p
+8YfiiKvHZ62VU/x1hTElN80SveeJ2GLQVhqVBsrCpM3bNX6qsgKa2HfZtyPqDO5m
+YlFXlZmAUsie6FE1IMUzx++DvzzL9EcGIxNQwHKIYw5njOR+z43t9KLwfcW8JjM7
+dzWHd5I3kQROu2gbxrvncjgOM2yD+Il2dGZBpC5/VUz764gLYzMfhF/D63kSiSMF
+x5wwd5xZALk61OwKF9WgGFZ25QD5eGmuTzIS4EQ7/XW4LvnPQ18Cl2VVe+eXm9Ci
+fiPlpq//cXwHsaDei3N1Jvw4cGJ0hmnkaHTAwwVxk+N8w1UT90+m/ZvfL9y6nfzk
+ntz4QcF28u4TxLEUBcNGxvl61WNFZM+zgN2XPi25WZRVF2/ClmBZ9FILqE0A9+q1
+kZNgpeJ16MACNKdsknnVHWuMlnCS6egpbDj637ofk/jHJxP2t/I+tzL4BmVh//Cs
+aZkXs1sYGl1rD8DPPTUG
+=Tlec
+-----END PGP SIGNATURE-----
+
+--beyCpKA84xV/nXfr--
