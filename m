@@ -1,24 +1,18 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DDE7B77D9F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 09:29:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Jul 2017 02:29:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,414,1496127600"; d="scan'208";a="1155514477"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 26 Jul 2017 02:29:05 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 46F4D58011C;
-	Wed, 26 Jul 2017 02:29:04 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 12:06:22 +0300
-Message-Id: <1501059982-14424-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oe-selftest: wic: change mkfs.btrfs options
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4420877D9F;
+	Wed, 26 Jul 2017 09:31:17 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Date: Wed, 26 Jul 2017 09:31:19 -0000
+Message-ID: <20170726093119.2381.84390@do.openembedded.org>
+References: <1501061170-3010-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1501061170-3010-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZzogMC4zLjQgLT4gMC4zLjUgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 09:29:04 -0000
+X-List-Received-Date: Wed, 26 Jul 2017 09:31:17 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-test_mkfs_extraopts test case fails on ab with error caused
-by using -K --mixed options:
- output: extent-tree.c:2696: btrfs_reserve_extent: BUG_ON `ret` triggered, value -28
+== Series Details ==
 
-For this test case it's not important to use particular options,
-so changing options to anything less influential is OK.
+Series: opkg: 0.3.4 -> 0.3.5 (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/7945/
+State : failure
 
-Changed extra options for mkfs.btrfs to '--quiet' to fix the failure.
+== Summary ==
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 51b3ee2986)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index ceb92ae..daa4067 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -926,7 +926,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         with NamedTemporaryFile("w", suffix=".wks") as wks:
-             wks.writelines(
-                 ['part ext2   --fstype ext2     --source rootfs --mkfs-extraopts "-D -F -i 8192"\n',
--                 'part btrfs  --fstype btrfs    --source rootfs --size 40M --mkfs-extraopts "--mixed -K"\n',
-+                 'part btrfs  --fstype btrfs    --source rootfs --size 40M --mkfs-extraopts "--quiet"\n',
-                  'part squash --fstype squashfs --source rootfs --mkfs-extraopts "-no-sparse -b 4096"\n',
-                  'part emptyvfat   --fstype vfat   --size 1M --mkfs-extraopts "-S 1024 -s 64"\n',
-                  'part emptymsdos  --fstype msdos  --size 1M --mkfs-extraopts "-S 1024 -s 64"\n',
--- 
-2.1.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
