@@ -1,24 +1,23 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 57A1371A35
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E2F3781DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 16:44:09 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Jul 2017 09:44:11 -0700
+	Wed, 26 Jul 2017 16:45:07 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 26 Jul 2017 09:45:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,416,1496127600"; d="scan'208";a="997480905"
+X-IronPort-AV: E=Sophos;i="5.40,416,1496127600"; d="scan'208";a="129775749"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 26 Jul 2017 09:44:11 -0700
+	by orsmga005.jf.intel.com with ESMTP; 26 Jul 2017 09:45:09 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 19DBC5808E4;
-	Wed, 26 Jul 2017 09:44:09 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 7B71E5808E4;
+	Wed, 26 Jul 2017 09:45:08 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 19:21:30 +0300
-Message-Id: <1501086090-11867-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Wed, 26 Jul 2017 19:22:29 +0300
+Message-Id: <1501086149-12384-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image_types_wic: add dependency to e2fsprogs-native
+Subject: [PATCH v2] oe-selftest: wic: change mkfs.btrfs options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 16:44:10 -0000
+X-List-Received-Date: Wed, 26 Jul 2017 16:45:08 -0000
 
-Added e2fsprogs-native to the list of default dependencies for
-wic (WKS_FILE_DEPENDS_DEFAULT) as all fs-related utilities
-have to be in this list.
+test_mkfs_extraopts test case fails on ab with error caused
+by using -K --mixed options:
+ output: extent-tree.c:2696: btrfs_reserve_extent: BUG_ON `ret` triggered, value -28
 
-Thanks to Patrick Ohly for noticing this.
+For this test case it's not important to use particular options,
+so changing options to anything less influential is OK.
 
-[YOCTO #11817]
+Changed extra options for mkfs.btrfs to '--quiet' to fix the failure.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types_wic.bbclass | 2 +-
+ meta/lib/oeqa/selftest/cases/wic.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 57ba646..b825b47 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -41,7 +41,7 @@ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}
- do_image_wic[file-checksums] += "${WKS_FILE_CHECKSUM}"
- do_image_wic[depends] += "${@' '.join('%s-native:do_populate_sysroot' % r for r in ('parted', 'gptfdisk', 'dosfstools', 'mtools'))}"
- 
--WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native"
-+WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native"
- WKS_FILE_DEPENDS_BOOTLOADERS = ""
- WKS_FILE_DEPENDS_BOOTLOADERS_x86 = "syslinux grub-efi systemd-boot"
- WKS_FILE_DEPENDS_BOOTLOADERS_x86-64 = "syslinux grub-efi systemd-boot"
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index ceb92ae..aaefd4f 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -926,7 +926,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
+         with NamedTemporaryFile("w", suffix=".wks") as wks:
+             wks.writelines(
+                 ['part ext2   --fstype ext2     --source rootfs --mkfs-extraopts "-D -F -i 8192"\n',
+-                 'part btrfs  --fstype btrfs    --source rootfs --size 40M --mkfs-extraopts "--mixed -K"\n',
++                 "part btrfs  --fstype btrfs    --source rootfs --size 40M --mkfs-extraopts='--quiet'\n",
+                  'part squash --fstype squashfs --source rootfs --mkfs-extraopts "-no-sparse -b 4096"\n',
+                  'part emptyvfat   --fstype vfat   --size 1M --mkfs-extraopts "-S 1024 -s 64"\n',
+                  'part emptymsdos  --fstype msdos  --size 1M --mkfs-extraopts "-S 1024 -s 64"\n',
 -- 
 2.1.4
 
