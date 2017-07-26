@@ -1,52 +1,21 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-pg0-f42.google.com (mail-pg0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3615378231
+Return-Path: <swee.aun.khor@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CFE370018
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 05:57:11 +0000 (UTC)
-Received: by mail-pg0-f42.google.com with SMTP id 123so79761976pgj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jul 2017 22:57:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=xm06xKy0U0mzVcjwUnpDNWCrXAZO/fbQF08QyoVYELA=;
-	b=FeR+/m8GK6mrohUsesYCnTQhFGsPRtHU50fpeX6JX8+oiS0yGQEgIceHDo7SkjlXPC
-	IWSrfpeBs3geJFD5WPP03Pq8hBBSNJaLI8Kss2bHTUevu9iEnjgHda5dLzpx1QpJsK7q
-	dJztI8Pf9BPfQyAsg5U7SyAIIET/5/uQY50EySy73TtWUemKBP1rPP9UQe+dGO4WywDj
-	NrWTXEE1Lg30MzZGWHyp3asVbeRJWhACkRsLQ1lA69+0mXOXfxzOnm+zl3O4Rw0TB+lZ
-	yTY3B5YoVy6da2Z8v2DKuxHeYM820iJYfpCw5H/0Ygv0EY3DJzFizsrTBiIflkpeU7fL
-	Gm5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=xm06xKy0U0mzVcjwUnpDNWCrXAZO/fbQF08QyoVYELA=;
-	b=WhuOOP4r4hdxqlqyFlB4TvFazUAvlCcsPcF29UksqsTDECigRwT6S8NsWA6GDDsl9S
-	29yjkLj16Tt/uX24WCGVHzjtTMEtJj3JaN+NTp86deFZ5E/hk5aUmZuQycWGy+QThKVY
-	6yuR3GWky5kmdVmVDTpEuODLXAQWhk2kW6lJY3h7Lrhn187cX/mwtvZKgEjqOdfUPGjR
-	PDMxP+M6lvQdp+9ufzYPoOxbpR9nUxprbrtRJeFbpQQzseoWMPX37b4E0h8SnPBgjo19
-	yE2vog+Qbhr85jAjaSc0o4w2GwLBFZCZt36EVYWjL5jhrcCLQIfliyiZuaCordCXlgo9
-	Ch9w==
-X-Gm-Message-State: AIVw111j2O1irZINEHr5pBqP22R+CpkJkeisATkJYDdpnS2StmFVFTla
-	2jB93oXyIraW7d1ZBQg=
-X-Received: by 10.98.217.210 with SMTP id b79mr21710850pfl.297.1501048633253; 
-	Tue, 25 Jul 2017 22:57:13 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8E0C9.dip0.t-ipconnect.de. [93.232.224.201])
-	by smtp.gmail.com with ESMTPSA id
-	s15sm29493034pfk.42.2017.07.25.22.57.10
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 25 Jul 2017 22:57:12 -0700 (PDT)
-Message-ID: <1501048626.26603.23.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Tom Rini <trini@konsulko.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 07:57:06 +0200
-In-Reply-To: <1501012689-2574-1-git-send-email-trini@konsulko.com>
-References: <1501012689-2574-1-git-send-email-trini@konsulko.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] image: Fix "metadata is not deterministic" when chaining 2+ CONVERSION_CMDs
+	Wed, 26 Jul 2017 07:35:21 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Jul 2017 00:35:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,414,1496127600"; d="scan'208";a="115768413"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2017 00:35:22 -0700
+From: swee.aun.khor@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jul 2017 17:25:00 -0700
+Message-Id: <1501028700-11808-1-git-send-email-swee.aun.khor@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] kernel-devsrc: Remove .kernel-meta from package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 05:57:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Jul 2017 07:35:21 -0000
 
-On Tue, 2017-07-25 at 15:58 -0400, Tom Rini wrote:
-> When we have more than one CONVERSION_CMD being used, for example
-> ext4.gz.sha256sum we will see errors about "metadata is not
-> deterministic".  This is because we do not have a stable order of
-> intermediate files that will be removed in the generated shell
-> command.
-> We fix this by calling sorted() on the set of rm_tmp_images so that
-> we
-> will have a stable hash again.
-> 
-> Cc: Patrick Ohly <patrick.ohly@intel.com>
-> Signed-off-by: Tom Rini <trini@konsulko.com>
+From: sweeaun <swee.aun.khor@intel.com>
 
-Acked-by: Patrick Ohly <patrick.ohly@intel.com>
+[YOCTO #11730]
 
+Include .kernel-meta directory in the prune list of the find to
+prevent .kernel-meta directory included into installable package.
+
+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 7004261..c1b5b77 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -46,7 +46,7 @@ do_install() {
+         cd ${B}
+         find . -type d -name '.git*' -prune -o -path '.debug' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
+         cd ${S}
+-        find . -type d -name '.git*' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
++	find . -type d -name '.git*' -prune -o -type d -name '.kernel-meta' -prune -o -type f -print0 | cpio --null -pdlu $kerneldir
+ 
+         # Explicitly set KBUILD_OUTPUT to ensure that the image directory is cleaned and not
+         # The main build artifacts. We clean the directory to avoid QA errors on mismatched
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+2.7.4
 
 
