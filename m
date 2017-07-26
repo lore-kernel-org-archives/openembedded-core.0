@@ -1,30 +1,29 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3955871A05
+Return-Path: <n.merinov@inango-systems.com>
+X-Greylist: delayed 511 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 26 Jul 2017 08:17:04 UTC
+Received: from main-2.inango-systems.com (main-2.inango-systems.com
+	[193.200.241.242])
+	by mail.openembedded.org (Postfix) with ESMTP id AC4D07823F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 08:06:25 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21832937"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Jul 2017 16:06:20 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id C01F1402BB71
+	Wed, 26 Jul 2017 08:17:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by main-2.inango-systems.com (Postfix) with ESMTP id 19FD232DE4E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 16:06:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Wed, 26 Jul 2017 16:06:15 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Jul 2017 16:05:57 +0800
-Message-ID: <1501056357-2761-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: C01F1402BB71.A4A57
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] opkg: 0.3.4 -> 0.3.5
+	Wed, 26 Jul 2017 11:10:19 +0300 (IDT)
+X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
+Received: from main-2.inango-systems.com ([127.0.0.1])
+	by localhost (main-2.inango-systems.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id LA1gUwqntA_4; Wed, 26 Jul 2017 11:10:17 +0300 (IDT)
+Received: from nmerinov.inango-sw (unknown [194.60.247.123])
+	by main-2.inango-systems.com (Postfix) with ESMTPSA id CF41B3256F8;
+	Wed, 26 Jul 2017 11:10:16 +0300 (IDT)
+From: Nikolay Merinov <n.merinov@inango-systems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Jul 2017 13:10:31 +0500
+Message-Id: <20170726081031.12637-1-n.merinov@inango-systems.com>
+X-Mailer: git-send-email 2.13.0
+Subject: [krogoth][morty][PATCH] systemd: Disable DefaultDependencies for sysv scripts on rcS runlevel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,119 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 08:06:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Jul 2017 08:17:05 -0000
 
-1) Update opkg from 0.3.4 to 0.3.5.
-2) Delete status-conffile.patch, since it is integrated upstream
+systemd-sysv-generator translate sysv services on rcS runlevel to
+services that starts before sysinit.target. This behavour conflict
+with default dependency on same tartget.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+String that define "DefaultDependency=no" was lost from patch for
+sysv generator during porting patches to systemd 229 in commit
+64ab17b707dc431aaed880d6d8615971243f46f8.
+
+Current commit returns changes required for services that work on
+rcS runlevel.
+
+Signed-off-by: Nikolay Merinov <n.merinov@inango-systems.com>
 ---
- .../opkg/opkg/status-conffile.patch                | 69 ----------------------
- .../opkg/{opkg_0.3.4.bb => opkg_0.3.5.bb}          |  5 +-
- 2 files changed, 2 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg/status-conffile.patch
- rename meta/recipes-devtools/opkg/{opkg_0.3.4.bb => opkg_0.3.5.bb} (93%)
+ ...nerator-add-support-for-executing-scripts-und.patch | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg/status-conffile.patch b/meta/recipes-devtools/opkg/opkg/status-conffile.patch
-deleted file mode 100644
-index 6fc405b..0000000
---- a/meta/recipes-devtools/opkg/opkg/status-conffile.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--Upstream-Status: Submitted
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 086d5083dfe0102368cb7c8ce89b0c06b64ca773 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Tue, 10 Jan 2017 15:24:59 +0000
--Subject: [PATCH 1/2] opkg_cmd: only look at conffile status if we're going to
-- output it
--
--The loop to compare the recorded conffile hash with their hash on disk is
--outputted at level INFO but the loop was executed at level NOTICE and higher.
--
--This means that if a conffile had been deleted the status operation would
--produce error messages for output it isn't displaying.
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- libopkg/opkg_cmd.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/libopkg/opkg_cmd.c b/libopkg/opkg_cmd.c
--index ba57c6a..37416fd 100644
----- a/libopkg/opkg_cmd.c
--+++ b/libopkg/opkg_cmd.c
--@@ -638,7 +638,7 @@ static int opkg_info_status_cmd(int argc, char **argv, int installed_only)
-- 
--         pkg_formatted_info(stdout, pkg);
-- 
---        if (opkg_config->verbosity >= NOTICE) {
--+        if (opkg_config->verbosity >= INFO) {
--             conffile_list_elt_t *iter;
--             for (iter = nv_pair_list_first(&pkg->conffiles); iter;
--                  iter = nv_pair_list_next(&pkg->conffiles, iter)) {
---- 
--2.8.1
--
--From 225e30e0f9fa7cfeaa3f89e2713e5147ab371def Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Tue, 10 Jan 2017 15:28:47 +0000
--Subject: [PATCH 2/2] conffile: gracefully handle deleted conffiles in
-- conffile_has_been_modified
--
--Handle conffiles that don't exist gracefully so that instead of showing an error
--message from file_md5sum_alloc() a notice that the file has been deleted is
--shown instead.
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- libopkg/conffile.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/libopkg/conffile.c b/libopkg/conffile.c
--index b2f2469..7b4b87b 100644
----- a/libopkg/conffile.c
--+++ b/libopkg/conffile.c
--@@ -51,6 +51,11 @@ int conffile_has_been_modified(conffile_t * conffile)
--     }
-- 
--     root_filename = root_filename_alloc(filename);
--+    if (!file_exists(root_filename)) {
--+        opkg_msg(INFO, "Conffile %s deleted\n", conffile->name);
--+        free(root_filename);
--+        return 1;
--+    }
-- 
--     md5sum = file_md5sum_alloc(root_filename);
-- 
---- 
--2.8.1
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.4.bb b/meta/recipes-devtools/opkg/opkg_0.3.5.bb
-similarity index 93%
-rename from meta/recipes-devtools/opkg/opkg_0.3.4.bb
-rename to meta/recipes-devtools/opkg/opkg_0.3.5.bb
-index a21fde1..3e511b6 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.4.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.5.bb
-@@ -15,11 +15,10 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://opkg-configure.service \
-            file://opkg.conf \
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
--           file://status-conffile.patch \
- "
- 
--SRC_URI[md5sum] = "6c52a065499056a196e0b45a27e392de"
--SRC_URI[sha256sum] = "750b900b53b62a9b280b601a196f02da81091eda2f3478c509512aa5a1ec93be"
-+SRC_URI[md5sum] = "d202d09ea0932943071b842626cab13c"
-+SRC_URI[sha256sum] = "734bc21dea11262113fa86b928d09812618b3966f352350cf916a6ae0d343f32"
- 
- inherit autotools pkgconfig systemd
- 
+diff --git a/meta/recipes-core/systemd/systemd/0013-sysv-generator-add-support-for-executing-scripts-und.patch b/meta/recipes-core/systemd/systemd/0013-sysv-generator-add-support-for-executing-scripts-und.patch
+index ac67f65685..5736f57814 100644
+--- a/meta/recipes-core/systemd/systemd/0013-sysv-generator-add-support-for-executing-scripts-und.patch
++++ b/meta/recipes-core/systemd/systemd/0013-sysv-generator-add-support-for-executing-scripts-und.patch
+@@ -57,7 +57,17 @@ index b5925a4..ea06d6a 100644
+  } SysvStub;
+  
+  static void free_sysvstub(SysvStub *s) {
+-@@ -711,17 +717,31 @@ static int fix_order(SysvStub *s, Hashmap *all_services) {
++@@ -194,6 +198,9 @@ static int generate_unit_file(SysvStub *s) {
++         if (s->description)
++                 fprintf(f, "Description=%s\n", s->description);
++ 
+++        if (!s->default_dependencies)
+++                fprintf(f, "DefaultDependencies=no\n");
+++
++         STRV_FOREACH(p, s->before)
++                 fprintf(f, "Before=%s\n", *p);
++         STRV_FOREACH(p, s->after)
++@@ -711,17 +720,31 @@ static int fix_order(SysvStub *s, Hashmap *all_services) {
+                  if (s->has_lsb && other->has_lsb)
+                          continue;
+  
+@@ -95,7 +105,7 @@ index b5925a4..ea06d6a 100644
+  
+                  /* FIXME: Maybe we should compare the name here lexicographically? */
+          }
+-@@ -788,6 +808,8 @@ static int enumerate_sysv(const LookupPaths *lp, Hashmap *all_services) {
++@@ -788,6 +811,8 @@ static int enumerate_sysv(const LookupPaths *lp, Hashmap *all_services) {
+                                  return log_oom();
+  
+                          service->sysv_start_priority = -1;
+@@ -104,7 +114,7 @@ index b5925a4..ea06d6a 100644
+                          service->name = name;
+                          service->path = fpath;
+                          name = fpath = NULL;
+-@@ -871,9 +893,11 @@ static int set_dependencies_from_rcnd(const LookupPaths *lp, Hashmap *all_servic
++@@ -871,9 +896,11 @@ static int set_dependencies_from_rcnd(const LookupPaths *lp, Hashmap *all_servic
+  
+                                  if (de->d_name[0] == 'S')  {
+  
+@@ -118,7 +128,7 @@ index b5925a4..ea06d6a 100644
+                                          r = set_ensure_allocated(&runlevel_services[i], NULL);
+                                          if (r < 0) {
+                                                  log_oom();
+-@@ -887,7 +911,8 @@ static int set_dependencies_from_rcnd(const LookupPaths *lp, Hashmap *all_servic
++@@ -887,7 +914,8 @@ static int set_dependencies_from_rcnd(const LookupPaths *lp, Hashmap *all_servic
+                                          }
+  
+                                  } else if (de->d_name[0] == 'K' &&
 -- 
-2.7.4
-
-
+2.13.0
 
 
