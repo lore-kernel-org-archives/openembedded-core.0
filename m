@@ -1,42 +1,23 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-ua0-f180.google.com (mail-ua0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AF5977BE8;
-	Wed, 26 Jul 2017 13:55:12 +0000 (UTC)
-Received: by mail-ua0-f180.google.com with SMTP id q25so99173116uah.1;
-	Wed, 26 Jul 2017 06:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=1FzFw3vqN2GP1jflsQYPDBksEKN1YW/rGTTVN/NTOgk=;
-	b=KfrYbvOr0b8vfkIDx/AcmAKBD2eBgPzC7S1lVc5WGgD/Nlbzh3oPXiPS7qRhD7Ii+5
-	bucxhsQqEgfZorNPwl57TTeqTq+8M9k7XZmLHNbB1sZWwlWJd9I3Vsej/ZvaRXhTjvnG
-	XNFGCcTianXeFHALuzGczuZF0ZtKUPKdc8srANQB9obNIGCdQgOrqFZ6PZCUboU5pp64
-	SySMaoxh3iXVgJSRF7Og6soK0X9ssjpiB+x9dTxh3PO6OxzMW+MSjLyUEsW53Lm2amDb
-	BVaJNJjQs1rjxg2ftmsDlYcl8YvRvbM44yrNcMWF5KEBD/nOZISakOyyaaMZ+YSiaq/q
-	tZaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=1FzFw3vqN2GP1jflsQYPDBksEKN1YW/rGTTVN/NTOgk=;
-	b=T7NiZtZaynfrJ6G53mSACt4+FVqHOsFmOzcQ1KpQ5eHDP8+2sa2Tq13QpQXK3JKTLg
-	SFwDP5Pjbm1GCivIoX8l3FHpMsezxfewO4w27j/2JTvZQTnpcTBE2KX/fxCIUc35PvXF
-	gDJpXP3hgd5Ak0+il9EmTvG35N94TA8d42xVPURZZ5mAIuq8PZGCtvM7lh4IgOFvIYli
-	pafN8g4kaYb8SgGjot8v4mWoM6SrUBSZssjw4UaQzbPh94Eadr1j0ce1IwVXMVD+cww+
-	hjcIzJ/V0hXRGH/hag3BYCc7nMqAIMEkfzDMI9dgNtimDCke2EuK2EtHIsx1LTSJ4BwQ
-	1tOw==
-X-Gm-Message-State: AIVw111/f9bCGKhkHfh8yxcTU2Edd/oDynHV8L6+9fAODEbjj7iIwM/m
-	CRfcBeMouFq3n+V+9W8+OeVavscn/am+
-X-Received: by 10.159.51.231 with SMTP id y39mr685170uab.130.1501077313789;
-	Wed, 26 Jul 2017 06:55:13 -0700 (PDT)
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BDCD160720
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Jul 2017 15:03:29 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Jul 2017 08:03:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,415,1496127600"; d="scan'208";a="129729216"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.142])
+	by orsmga005.jf.intel.com with ESMTP; 26 Jul 2017 08:03:29 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Jul 2017 10:04:09 -0500
+Message-Id: <20170726150410.5492-1-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.176.74.94 with HTTP; Wed, 26 Jul 2017 06:55:13 -0700 (PDT)
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Wed, 26 Jul 2017 15:55:13 +0200
-Message-ID: <CAC+thW1Yk9DbCAqJqxprsZ1kOZ6RQBjVuSAkQTQqCZ=cNerf8A@mail.gmail.com>
-To: openembeded-devel <openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: android-tools related warnings in (updated) eSDK
+Cc: patrick.ohly@gmx.de, paul.eggleton@linux.intel.com
+Subject: [PATCH 1/2] oeqa/{core, selftest}: Add support to validate if a specified test case isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,230 +30,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 13:55:13 -0000
-Content-Type: multipart/alternative; boundary="f403043ee2f011a4db055538cce0"
+X-List-Received-Date: Wed, 26 Jul 2017 15:03:29 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---f403043ee2f011a4db055538cce0
-Content-Type: text/plain; charset="UTF-8"
+If some test module/case is specified to run and isn't found the OEQA
+framework didn't notice it, so complete the implementation using
+modules_required and validate for the test case prescense.
 
-When upgrading an eSDK (via devtool sdk-update) from a project that
-includes meta-oe in the stack, some files listed in android-tools' SRC_URI,
-most notably patches and systemd service file got removed from the eSDK
-copy of metadata during the update, leading bitbake to start warning about
-not being able to verify the checksum for those files (those files are
-indeed missing as shown below).
+Raise an exception when the test module/case required isn't found.
 
-Here is the log from bitbake:
+[YOCTO #11645]
 
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry remove-selinux-android.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry use-capability.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry use-local-socket.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry preserve-ownership.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry mkbootimg-Add-dt-parameter-to-specify-DT-image.patch: file
-could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry remove-bionic-android.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry define-shell-command.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry implicit-declaration-function-strlcat-strlcopy.patch: file
-could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry fix-big-endian-build.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools-native
-SRC_URI entry android-tools-adbd.service: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry remove-selinux-android.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry use-capability.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry use-local-socket.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry preserve-ownership.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry mkbootimg-Add-dt-parameter-to-specify-DT-image.patch: file
-could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry remove-bionic-android.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry define-shell-command.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry implicit-declaration-function-strlcat-strlcopy.patch: file
-could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry fix-big-endian-build.patch: file could not be found
-WARNING:
-/home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/
-android-tools_5.1.1.r37.bb: Unable to get checksum for android-tools
-SRC_URI entry android-tools-adbd.service: file could not be found
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/lib/oeqa/core/context.py     |  9 +++++++--
+ meta/lib/oeqa/core/exception.py   |  3 +++
+ meta/lib/oeqa/core/loader.py      | 26 ++++++++++++++++++++++++++
+ meta/lib/oeqa/selftest/context.py |  8 ++++++--
+ 4 files changed, 42 insertions(+), 4 deletions(-)
 
-...and the metadata files:
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 2d543ffa31a..422e2899921 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -10,7 +10,7 @@ import collections
+ 
+ from oeqa.core.loader import OETestLoader
+ from oeqa.core.runner import OETestRunner
+-from oeqa.core.exception import OEQAMissingManifest
++from oeqa.core.exception import OEQAMissingManifest, OEQATestNotFound
+ 
+ class OETestContext(object):
+     loaderClass = OETestLoader
+@@ -139,6 +139,7 @@ class OETestContextExecutor(object):
+ 
+         if args.run_tests:
+             self.tc_kwargs['load']['modules'] = args.run_tests
++            self.tc_kwargs['load']['modules_required'] = args.run_tests
+         else:
+             self.tc_kwargs['load']['modules'] = []
+ 
+@@ -151,7 +152,11 @@ class OETestContextExecutor(object):
+         self._process_args(logger, args)
+ 
+         self.tc = self._context_class(**self.tc_kwargs['init'])
+-        self.tc.loadTests(self.module_paths, **self.tc_kwargs['load'])
++        try:
++            self.tc.loadTests(self.module_paths, **self.tc_kwargs['load'])
++        except OEQATestNotFound as ex:
++            logger.error(ex)
++            sys.exit(1)
+ 
+         if args.list_tests:
+             rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['run'])
+diff --git a/meta/lib/oeqa/core/exception.py b/meta/lib/oeqa/core/exception.py
+index a07961adc31..732f2efdeb6 100644
+--- a/meta/lib/oeqa/core/exception.py
++++ b/meta/lib/oeqa/core/exception.py
+@@ -18,3 +18,6 @@ class OEQAMissingManifest(OEQAException):
+ 
+ class OEQAPreRun(OEQAException):
+     pass
++
++class OEQATestNotFound(OEQAException):
++    pass
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index e4c218b57f0..332086a13d7 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -9,6 +9,7 @@ import inspect
+ from oeqa.core.utils.path import findFile
+ from oeqa.core.utils.test import getSuiteModules, getCaseID
+ 
++from oeqa.core.exception import OEQATestNotFound
+ from oeqa.core.case import OETestCase
+ from oeqa.core.decorator import decoratorClasses, OETestDecorator, \
+         OETestFilter, OETestDiscover
+@@ -277,6 +278,28 @@ class OETestLoader(unittest.TestLoader):
+ 
+         return self.suiteClass(suite)
+ 
++    def _required_modules_validation(self):
++        """
++            Search in Test context registry if a required
++            test is found, raise an exception when not found.
++        """
++
++        for module in self.modules_required:
++            found = False
++
++            # The module name is splitted to only compare the
++            # first part of a test case id.
++            comp_len = len(module.split('.'))
++            for case in self.tc._registry['cases']:
++                case_comp = '.'.join(case.split('.')[0:comp_len])
++                if module == case_comp:
++                    found = True
++                    break
++
++            if not found:
++                raise OEQATestNotFound("Not found %s in loaded test cases" % \
++                        module)
++
+     def discover(self):
+         big_suite = self.suiteClass()
+         for path in self.module_paths:
+@@ -291,6 +314,9 @@ class OETestLoader(unittest.TestLoader):
+         for clss in discover_classes:
+             cases = clss.discover(self.tc._registry)
+ 
++        if self.modules_required:
++            self._required_modules_validation()
++
+         return self.suiteClass(cases) if cases else big_suite
+ 
+     def _filterModule(self, module):
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 4575a0537fb..990c761f298 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -13,7 +13,7 @@ from random import choice
+ import oeqa
+ 
+ from oeqa.core.context import OETestContext, OETestContextExecutor
+-from oeqa.core.exception import OEQAPreRun
++from oeqa.core.exception import OEQAPreRun, OEQATestNotFound
+ 
+ from oeqa.utils.commands import runCmd, get_bb_vars, get_test_layer
+ 
+@@ -196,7 +196,11 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+                 self.tc_kwargs['init']['td']['BBPATH'].split(':'))
+ 
+         self.tc = self._context_class(**self.tc_kwargs['init'])
+-        self.tc.loadTests(self.module_paths, **self.tc_kwargs['load'])
++        try:
++            self.tc.loadTests(self.module_paths, **self.tc_kwargs['load'])
++        except OEQATestNotFound as ex:
++            logger.error(ex)
++            sys.exit(1)
+ 
+         if args.list_tests:
+             rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['run'])
+-- 
+2.11.0
 
-$ find poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/
-fastboot.mk
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/
-mkbootimg.mk
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/adbd.mk
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/
-ext4_utils.mk
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/adb.mk
-poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/.gitignore
 
-As you see, *.patch at al. are missing...
-
-The root cause to me seems the existence of a .gitignore file in the
-meta-oe metadata
-(meta-oe/recipes-devtools/android-tools/android-tools/.gitignore): the
-exact reason for this being there is not 100% clear to me but I suspects it
-then gets in the way when oe-publish-sdk runs...
-
-Any eSDK and friends guru with a clue here?
-
---f403043ee2f011a4db055538cce0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>When upgrading an eSDK (via devtool sdk-update) from =
-a project that includes meta-oe in the stack, some files listed in android-=
-tools&#39; SRC_URI, most notably patches and systemd service file got remov=
-ed from the eSDK copy of metadata during the update, leading bitbake to sta=
-rt warning about not being able to verify the checksum for those files (tho=
-se files are indeed missing as shown below).<br></div><div><br></div><div>H=
-ere is the log from bitbake:<br></div><div><br>WARNING: /home/vagrant/poky_=
-sdk/layers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://android=
--tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get checksum=
- for android-tools-native SRC_URI entry remove-selinux-android.patch: file =
-could not be found<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipe=
-s-devtools/android-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">andr=
-oid-tools_5.1.1.r37.bb</a>: Unable to get checksum for android-tools-native=
- SRC_URI entry use-capability.patch: file could not be found<br>WARNING: /h=
-ome/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/<a href=
-=3D"http://android-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unab=
-le to get checksum for android-tools-native SRC_URI entry use-local-socket.=
-patch: file could not be found<br>WARNING: /home/vagrant/poky_sdk/layers/me=
-ta-oe/recipes-devtools/android-tools/<a href=3D"http://android-tools_5.1.1.=
-r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get checksum for android-=
-tools-native SRC_URI entry preserve-ownership.patch: file could not be foun=
-d<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/androi=
-d-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tools_5.1.1.r=
-37.bb</a>: Unable to get checksum for android-tools-native SRC_URI entry mk=
-bootimg-Add-dt-parameter-to-specify-DT-image.patch: file could not be found=
-<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android=
--tools/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tools_5.1.1.r3=
-7.bb</a>: Unable to get checksum for android-tools-native SRC_URI entry rem=
-ove-bionic-android.patch: file could not be found<br>WARNING: /home/vagrant=
-/poky_sdk/layers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://a=
-ndroid-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get ch=
-ecksum for android-tools-native SRC_URI entry define-shell-command.patch: f=
-ile could not be found<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/re=
-cipes-devtools/android-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">=
-android-tools_5.1.1.r37.bb</a>: Unable to get checksum for android-tools-na=
-tive SRC_URI entry implicit-declaration-function-strlcat-strlcopy.patch: fi=
-le could not be found<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/rec=
-ipes-devtools/android-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">a=
-ndroid-tools_5.1.1.r37.bb</a>: Unable to get checksum for android-tools-nat=
-ive SRC_URI entry fix-big-endian-build.patch: file could not be found<br>WA=
-RNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/android-tools=
-/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</=
-a>: Unable to get checksum for android-tools-native SRC_URI entry android-t=
-ools-adbd.service: file could not be found<br>WARNING: /home/vagrant/poky_s=
-dk/layers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://android-=
-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get checksum =
-for android-tools SRC_URI entry remove-selinux-android.patch: file could no=
-t be found<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtoo=
-ls/android-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tool=
-s_5.1.1.r37.bb</a>: Unable to get checksum for android-tools SRC_URI entry =
-use-capability.patch: file could not be found<br>WARNING: /home/vagrant/pok=
-y_sdk/layers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://andro=
-id-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get checks=
-um for android-tools SRC_URI entry use-local-socket.patch: file could not b=
-e found<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/=
-android-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tools_5=
-.1.1.r37.bb</a>: Unable to get checksum for android-tools SRC_URI entry pre=
-serve-ownership.patch: file could not be found<br>WARNING: /home/vagrant/po=
-ky_sdk/layers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://andr=
-oid-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get check=
-sum for android-tools SRC_URI entry mkbootimg-Add-dt-parameter-to-specify-D=
-T-image.patch: file could not be found<br>WARNING: /home/vagrant/poky_sdk/l=
-ayers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://android-tool=
-s_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get checksum for =
-android-tools SRC_URI entry remove-bionic-android.patch: file could not be =
-found<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/an=
-droid-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tools_5.1=
-.1.r37.bb</a>: Unable to get checksum for android-tools SRC_URI entry defin=
-e-shell-command.patch: file could not be found<br>WARNING: /home/vagrant/po=
-ky_sdk/layers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://andr=
-oid-tools_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get check=
-sum for android-tools SRC_URI entry implicit-declaration-function-strlcat-s=
-trlcopy.patch: file could not be found<br>WARNING: /home/vagrant/poky_sdk/l=
-ayers/meta-oe/recipes-devtools/android-tools/<a href=3D"http://android-tool=
-s_5.1.1.r37.bb">android-tools_5.1.1.r37.bb</a>: Unable to get checksum for =
-android-tools SRC_URI entry fix-big-endian-build.patch: file could not be f=
-ound<br>WARNING: /home/vagrant/poky_sdk/layers/meta-oe/recipes-devtools/and=
-roid-tools/<a href=3D"http://android-tools_5.1.1.r37.bb">android-tools_5.1.=
-1.r37.bb</a>: Unable to get checksum for android-tools SRC_URI entry androi=
-d-tools-adbd.service: file could not be found<br><br></div><div>...and the =
-metadata files:<br></div><div><br>$ find poky_sdk/layers/meta-oe/recipes-de=
-vtools/android-tools/android-tools<br>poky_sdk/layers/meta-oe/recipes-devto=
-ols/android-tools/android-tools<br>poky_sdk/layers/meta-oe/recipes-devtools=
-/android-tools/android-tools/<a href=3D"http://fastboot.mk">fastboot.mk</a>=
-<br>poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-tools/<a=
- href=3D"http://mkbootimg.mk">mkbootimg.mk</a><br>poky_sdk/layers/meta-oe/r=
-ecipes-devtools/android-tools/android-tools/<a href=3D"http://adbd.mk">adbd=
-.mk</a><br>poky_sdk/layers/meta-oe/recipes-devtools/android-tools/android-t=
-ools/<a href=3D"http://ext4_utils.mk">ext4_utils.mk</a><br>poky_sdk/layers/=
-meta-oe/recipes-devtools/android-tools/android-tools/<a href=3D"http://adb.=
-mk">adb.mk</a><br>poky_sdk/layers/meta-oe/recipes-devtools/android-tools/an=
-droid-tools/.gitignore<br><br></div><div>As you see, *.patch at al. are mis=
-sing...<br></div><div><br>The root cause to me seems the existence of a .gi=
-tignore file in the meta-oe metadata (meta-oe/recipes-devtools/android-tool=
-s/android-tools/.gitignore): the exact reason for this being there is not 1=
-00% clear to me but I suspects it then gets in the way when oe-publish-sdk =
-runs...<br><br></div>Any eSDK and friends guru with a clue here?</div>
-
---f403043ee2f011a4db055538cce0--
