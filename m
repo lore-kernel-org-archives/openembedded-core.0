@@ -1,29 +1,27 @@
 Return-Path: <n.merinov@inango-systems.com>
-X-Greylist: delayed 511 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 26 Jul 2017 08:17:04 UTC
 Received: from main-2.inango-systems.com (main-2.inango-systems.com
 	[193.200.241.242])
-	by mail.openembedded.org (Postfix) with ESMTP id AC4D07823F
+	by mail.openembedded.org (Postfix) with ESMTP id AB4E17820E
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Jul 2017 08:17:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by main-2.inango-systems.com (Postfix) with ESMTP id 19FD232DE4E
+	by main-2.inango-systems.com (Postfix) with ESMTP id 5018332DF56
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 11:10:19 +0300 (IDT)
+	Wed, 26 Jul 2017 11:08:34 +0300 (IDT)
 X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
 Received: from main-2.inango-systems.com ([127.0.0.1])
 	by localhost (main-2.inango-systems.com [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id LA1gUwqntA_4; Wed, 26 Jul 2017 11:10:17 +0300 (IDT)
+	with ESMTP id xGeKAMxZXk-y; Wed, 26 Jul 2017 11:08:32 +0300 (IDT)
 Received: from nmerinov.inango-sw (unknown [194.60.247.123])
-	by main-2.inango-systems.com (Postfix) with ESMTPSA id CF41B3256F8;
-	Wed, 26 Jul 2017 11:10:16 +0300 (IDT)
+	by main-2.inango-systems.com (Postfix) with ESMTPSA id 1E97532DF4E;
+	Wed, 26 Jul 2017 11:08:32 +0300 (IDT)
 From: Nikolay Merinov <n.merinov@inango-systems.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 13:10:31 +0500
-Message-Id: <20170726081031.12637-1-n.merinov@inango-systems.com>
+Date: Wed, 26 Jul 2017 13:05:08 +0500
+Message-Id: <20170726080508.12586-1-n.merinov@inango-systems.com>
 X-Mailer: git-send-email 2.13.0
-Subject: [krogoth][morty][PATCH] systemd: Disable DefaultDependencies for sysv scripts on rcS runlevel
+Subject: [meta-oe][krogoth][morty][PATCH] systemd: Disable DefaultDependencies for sysv scripts on rcS runlevel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
