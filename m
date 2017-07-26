@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4420877D9F;
-	Wed, 26 Jul 2017 09:31:17 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 318047822D;
+	Wed, 26 Jul 2017 09:31:18 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Date: Wed, 26 Jul 2017 09:31:19 -0000
-Message-ID: <20170726093119.2381.84390@do.openembedded.org>
-References: <1501061170-3010-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 26 Jul 2017 09:31:20 -0000
+Message-ID: <20170726093120.2382.49905@do.openembedded.org>
+References: <1501060306-8348-1-git-send-email-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1501061170-3010-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+In-Reply-To: <1501060306-8348-1-git-send-email-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BrZzogMC4zLjQgLT4gMC4zLjUgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ25vbWUtdGhlbWVzLXN0YW5kYXJkOiBGaXggcGFja2FnZXMgc28gZGV2LXBrZ3MgaW1hZ2UgZ2VuZXJhdGlvbiB3b3Jrcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 09:31:17 -0000
+X-List-Received-Date: Wed, 26 Jul 2017 09:31:18 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: opkg: 0.3.4 -> 0.3.5 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/7945/
+Series: gnome-themes-standard: Fix packages so dev-pkgs image generation works
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7948/
 State : failure
 
 == Summary ==
