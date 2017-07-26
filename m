@@ -1,25 +1,32 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E52C378164
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 02A197813F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 15:03:29 +0000 (UTC)
+	Wed, 26 Jul 2017 16:26:02 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Jul 2017 08:03:31 -0700
+	by orsmga104.jf.intel.com with ESMTP; 26 Jul 2017 09:26:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,415,1496127600"; d="scan'208";a="129729220"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.142])
-	by orsmga005.jf.intel.com with ESMTP; 26 Jul 2017 08:03:30 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 10:04:10 -0500
-Message-Id: <20170726150410.5492-2-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170726150410.5492-1-anibal.limon@linux.intel.com>
-References: <20170726150410.5492-1-anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.40,416,1496127600"; d="scan'208";a="129766510"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga005.jf.intel.com with ESMTP; 26 Jul 2017 09:26:04 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 53E555808E4;
+	Wed, 26 Jul 2017 09:26:03 -0700 (PDT)
+Date: Wed, 26 Jul 2017 19:03:25 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20170726160325.GA17205@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1501012702-2723-1-git-send-email-trini@konsulko.com>
+	<20170726072909.GC13291@linux.intel.com>
 MIME-Version: 1.0
-Cc: patrick.ohly@gmx.de, paul.eggleton@linux.intel.com
-Subject: [PATCH 2/2] oeqa/core/runner: OEStreamLogger don't buffer test execution writes
+In-Reply-To: <20170726072909.GC13291@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: Switch to using --use-uuid by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +39,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 15:03:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Jul 2017 16:26:03 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Since OEQA framework uses Python logging functionality to report test
-results there is a class that wraps PyUnit writes into logging commands
-(OEStreamLogger), so don't buffer the actual test execution to have
-insight of what is currently executing.
+On Wed, Jul 26, 2017 at 10:29:09AM +0300, Ed Bartosh wrote:
+> On Tue, Jul 25, 2017 at 03:58:22PM -0400, Tom Rini wrote:
+> > The most portable way to specifiy a root device in a disk image that we
+> > create is to use PARTUUID rather than /dev/sda2.  As background, both
+> > GPT and MBR tables provide valid UUID values for each partition and the
+> > Linux Kernel contains the logic to parse this value.  With this change
+> > we can now boot the default disk images when used as any valid block
+> > device that the included kernel uses.  This for example means that
+> > VirtualBox can be used to run vmdk without changes as it uses IDE for
+> > the virtual disk controller.
+> >
+> I suspect oe-selftest needs to be adjusted for this change.
+> 
+> Please run "oe-selftest -r wic" to ensure all tests pass.
+>
+I've just run all wic tests in the branch with your changes - everything
+works, no breakages.
 
-This fix will change a little the test output format adding an '\n'
-previous the test result, for example:
+Acked-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-From:
+> > Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
+> > Cc: Matt Porter <mporter@konsulko.com>
+> > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > ---
+> >  scripts/lib/wic/canned-wks/common.wks.inc                   | 2 +-
+> >  scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg | 8 ++++----
+> >  scripts/lib/wic/canned-wks/qemux86-directdisk.wks           | 2 +-
+> >  3 files changed, 6 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
+> > index 5cf2fd1..89880b4 100644
+> > --- a/scripts/lib/wic/canned-wks/common.wks.inc
+> > +++ b/scripts/lib/wic/canned-wks/common.wks.inc
+> > @@ -1,3 +1,3 @@
+> >  # This file is included into 3 canned wks files from this directory
+> >  part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+> > -part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
+> > +part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
+> > diff --git a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+> > index d5a07d2..c58e74a 100644
+> > --- a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+> > +++ b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+> > @@ -12,16 +12,16 @@ DEFAULT Graphics console boot
+> >  
+> >  LABEL Graphics console boot
+> >  KERNEL /vmlinuz
+> > -APPEND label=boot root=/dev/sda2 rootwait
+> > +APPEND label=boot rootwait
+> >  
+> >  LABEL Serial console boot
+> >  KERNEL /vmlinuz
+> > -APPEND label=boot root=/dev/sda2 rootwait console=ttyS0,115200
+> > +APPEND label=boot rootwait console=ttyS0,115200
+> >  
+> >  LABEL Graphics console install
+> >  KERNEL /vmlinuz
+> > -APPEND label=install root=/dev/sda2 rootwait
+> > +APPEND label=install rootwait
+> >  
+> >  LABEL Serial console install
+> >  KERNEL /vmlinuz
+> > -APPEND label=install root=/dev/sda2 rootwait console=ttyS0,115200
+> > +APPEND label=install rootwait console=ttyS0,115200
+> > diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+> > index db30bbc..1f8466a 100644
+> > --- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+> > +++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+> > @@ -4,5 +4,5 @@
+> >  
+> >  include common.wks.inc
+> >  
+> > -bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/sda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
+> > +bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
+> >  
+> > -- 
+> > 2.1.4
+> > 
+> 
+> -- 
+> --
+> Regards,
+> Ed
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-test_nonmatching_checksum (lic_checksum.LicenseTests) ... ok
-
-To:
-
-test_nonmatching_checksum (lic_checksum.LicenseTests)
- ... ok
-
-This is because the new line added by the PyUnit StreamLogger because
-currently we don't have a manner to identify when a test execution
-starts at report level (write msg).
-
-[YOCTO #11827]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/lib/oeqa/core/runner.py | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index 8a55c24c788..f6539e60b6b 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -25,10 +25,14 @@ class OEStreamLogger(object):
- 
-     def write(self, msg):
-         if len(msg) > 1 and msg[0] != '\n':
--            self.buffer += msg
--        else:
--            self.logger.log(logging.INFO, self.buffer.rstrip("\n"))
--            self.buffer = ""
-+            if '...' in msg:
-+                self.buffer += msg
-+            elif self.buffer:
-+                self.buffer += msg
-+                self.logger.log(logging.INFO, self.buffer)
-+                self.buffer = ""
-+            else:
-+                self.logger.log(logging.INFO, msg)
- 
-     def flush(self):
-         for handler in self.logger.handlers:
 -- 
-2.11.0
-
+--
+Regards,
+Ed
 
