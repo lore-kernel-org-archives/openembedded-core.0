@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C0337760A;
-	Thu, 27 Jul 2017 05:31:12 +0000 (UTC)
+Return-Path: <lans.zhang2008@gmail.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 58BB777FED
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Jul 2017 06:03:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v6R63mYB017459
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Jul 2017 23:03:48 -0700 (PDT)
+Received: from pek-jzhang0-d2.wrs.com (128.224.162.208) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Wed, 26 Jul 2017 23:03:47 -0700
+From: Jia Zhang <lans.zhang2008@gmail.com>
+To: <liezhi.yang@windriver.com>
+Date: Thu, 27 Jul 2017 14:03:42 +0800
+Message-ID: <1501135422-19088-1-git-send-email-lans.zhang2008@gmail.com>
+X-Mailer: git-send-email 2.7.5
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Date: Thu, 27 Jul 2017 05:31:13 -0000
-Message-ID: <20170727053113.2382.64819@do.openembedded.org>
-References: <1501132627-4360-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1501132627-4360-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzbDogZGlzYWJsZSBkZWZhdWx0IGNyeXB0b2Rldg==?=
+Cc: Lans Zhang <jia.zhang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH] rpm: allow to enable RPM file signing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 05:31:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Jul 2017 06:03:48 -0000
+Content-Type: text/plain
 
-== Series Details ==
+From: Lans Zhang <jia.zhang@windriver.com>
 
-Series: openssl: disable default cryptodev
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/7965/
-State : failure
+RPM file signing is enabled with --with-imaevm during configuration.
+If enabled, the RPM signing tool rpmsign will call libimaevm.so provided
+by the recipe ima-evm-utils.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 51b3ee2986)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Lans Zhang <jia.zhang@windriver.com>
+Signed-off-by: Jia Zhang <lans.zhang2008@gmail.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/rpm/rpm_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
+index 2a0dcaf..d9ff2c7 100644
+--- a/meta/recipes-devtools/rpm/rpm_git.bb
++++ b/meta/recipes-devtools/rpm/rpm_git.bb
+@@ -71,6 +71,9 @@ EXTRA_OECONF_append_class-native = " --sysconfdir=/etc --localstatedir=/var --di
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[imaevm] = "--with-imaevm,,ima-evm-utils"
++
+ # Direct rpm-native to read configuration from our sysroot, not the one it was compiled in
+ # libmagic also has sysroot path contamination, so override it
+ do_install_append_class-native() {
+-- 
+2.7.5
 
 
