@@ -1,38 +1,40 @@
 Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 816A97306B
+Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
+	[209.85.161.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 109B97306B
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 27 Jul 2017 02:04:55 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id p68so5697810ywg.5
+Received: by mail-yw0-f196.google.com with SMTP id i6so6467292ywb.3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Jul 2017 19:04:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=3ygQBLidtBCihB3MIarXQUuXALloxVqdyx70ezE0p1E=;
-	b=o0OSd1In9V/XhY5fVwY/q8F8YzeUjemvdn9ZIsY6o6oF8IvRTIo8gXYOLBvks37WhH
-	q5104YpLb4qozWN+Rd+u9aQRPr2AMGs8nQTO/t+GiF1pKryUDO26BNedo51NTfGtpoUG
-	qYsuVe8xrRW2uSTyLr320a0NGcvW11r6Q0snXQh+qleeSnMTttUMkrmWdQXAQETqamFG
-	KbnMNkdHETdda1FdH692opk1lIXurUfOJka+5jr53oIntqxHZNXpVKOKF/mqokcA0zSf
-	Is4xmiHwqzymicgZ75dsKmvDajlRzPUMT6Y6eizZum+hGeBwqgphXZyPcAxdclABR6Xo
-	c23g==
-X-Gm-Message-State: AIVw112OnTebDNii/hlyLYWvRKUbM8tm5EpG4dHhW7+3cXuieRvaVgcx
-	dbHj8nIDJ4/2hT51
-X-Received: by 10.13.219.80 with SMTP id d77mr346276ywe.2.1501121096145;
-	Wed, 26 Jul 2017 19:04:56 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=wAJJrKB341TxNosayL0FIbilDL/phSZf5iAuZV6VIU4=;
+	b=gpUsfms5/8TgWM9yVzrrzGEnBcBF3TarstXfFhBmT98RAjbGcNYdZ1aFQmufqRGgm5
+	0gboZOwrYv186xu9IHsk2v479/DFcZfoBmH0j4juorj7yKO/8JnARFQjMBCrusXP38to
+	nAGAq1GhQiZQGlLSRsXfR5lgwX76o7icgzn8NNZiHvrCKZlcaIEpOCkSkUd1Oy1QymPO
+	zD0c2zpMZyYJZayPlu2Cj53f022uJSWo9cb+SJb+CiG6iXiCz0bejj7fWkBeLxMqABFA
+	6WHWOiODNvlPZYxkyJq2zoMSE5o9ODL/MwrSqxXk/qYgAhDRyij+6DDfwk2nRgw87LQp
+	MxDQ==
+X-Gm-Message-State: AIVw110idP6XfmQkFRtQIc+KYpiUNIQO2hNP6J4VbjriIvczCOFJ/qGD
+	QvvZFZivHhIVFTSz
+X-Received: by 10.129.173.96 with SMTP id l32mr2467454ywk.281.1501121097072;
+	Wed, 26 Jul 2017 19:04:57 -0700 (PDT)
 Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
 	[174.106.0.58]) by smtp.gmail.com with ESMTPSA id
-	p190sm6479575ywd.81.2017.07.26.19.04.55
-	for <openembedded-core@lists.openembedded.org>
+	p190sm6479575ywd.81.2017.07.26.19.04.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Jul 2017 19:04:55 -0700 (PDT)
+	Wed, 26 Jul 2017 19:04:56 -0700 (PDT)
 From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 22:06:09 -0400
-Message-Id: <1501121173-29658-1-git-send-email-trini@konsulko.com>
+Date: Wed, 26 Jul 2017 22:06:10 -0400
+Message-Id: <1501121173-29658-2-git-send-email-trini@konsulko.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCHv2 1/5] image: Convert vmdk/vdi/qcow2 to strict CONVERSION_CMD types
+In-Reply-To: <1501121173-29658-1-git-send-email-trini@konsulko.com>
+References: <1501121173-29658-1-git-send-email-trini@konsulko.com>
+Subject: [PATCHv2 2/5] wic: Switch to using --use-uuid by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,315 +47,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 02:04:55 -0000
+X-List-Received-Date: Thu, 27 Jul 2017 02:04:56 -0000
 
-The vmdk/vdi/qcow2 IMAGE_FSTYPEs predate wic.  As such, they provide
-some similar underlying functionality in order to produce a "disk" image
-that in turn can be converted into different formats that various
-hypervisor types work with.  They do not however provide the ability for
-other disk image types to be converted into these same output types.
-Furthermore, they are less flexible than what wic does provide.  This
-drops the old style vmdk/vdi/qcow2 types and re-introduces them under
-the CONVERSION_CMD framework.  The equivalent of vmdk is now wic.vmdk
-and so forth for the other types.
+The most portable way to specifiy a root device in a disk image that we
+create is to use PARTUUID rather than /dev/sda2.  As background, both
+GPT and MBR tables provide valid UUID values for each partition and the
+Linux Kernel contains the logic to parse this value.  With this change
+we can now boot the default disk images when used as any valid block
+device that the included kernel uses.  This for example means that
+VirtualBox can be used to run vmdk without changes as it uses IDE for
+the virtual disk controller.
 
+Cc: Matt Porter <mporter@konsulko.com>
 Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
-Changes in v2:
-- Update runqemu help (code matches .wic.vmdk as vmdk, does right thing,
-  tested).
-- Supply an update to yocto-docs separately, to be merged once these
-  changes are live.
+Changes in v2: None
 ---
- meta/classes/image-vm.bbclass                      | 171 ---------------------
- meta/classes/image.bbclass                         |   3 -
- meta/classes/image_types.bbclass                   |  12 +-
- .../images/build-appliance-image_15.0.0.bb         |   6 +-
- scripts/runqemu                                    |   4 +-
- 5 files changed, 12 insertions(+), 184 deletions(-)
- delete mode 100644 meta/classes/image-vm.bbclass
+ scripts/lib/wic/canned-wks/common.wks.inc                   | 2 +-
+ scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg | 8 ++++----
+ scripts/lib/wic/canned-wks/qemux86-directdisk.wks           | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
-deleted file mode 100644
-index b52df9fbf5a1..000000000000
---- a/meta/classes/image-vm.bbclass
-+++ /dev/null
-@@ -1,171 +0,0 @@
--# image-vm.bbclass
--# (loosly based off image-live.bbclass Copyright (C) 2004, Advanced Micro Devices, Inc.)
--#
--# Create an image which can be placed directly onto a harddisk using dd and then
--# booted.
--#
--# This uses syslinux. extlinux would have been nice but required the ext2/3
--# partition to be mounted. grub requires to run itself as part of the install
--# process.
--#
--# The end result is a 512 boot sector populated with an MBR and partition table
--# followed by an msdos fat16 partition containing syslinux and a linux kernel
--# completed by the ext2/3 rootfs.
--#
--# We have to push the msdos parition table size > 16MB so fat 16 is used as parted
--# won't touch fat12 partitions.
--
--inherit live-vm-common
--
--do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
--                               virtual/kernel:do_deploy \
--                               syslinux:do_populate_sysroot \
--                               syslinux-native:do_populate_sysroot \
--                               parted-native:do_populate_sysroot \
--                               mtools-native:do_populate_sysroot \
--                               ${PN}:do_image_${VM_ROOTFS_TYPE} \
--                               "
--
--IMAGE_TYPEDEP_vmdk = "${VM_ROOTFS_TYPE}"
--IMAGE_TYPEDEP_vdi = "${VM_ROOTFS_TYPE}"
--IMAGE_TYPEDEP_qcow2 = "${VM_ROOTFS_TYPE}"
--IMAGE_TYPEDEP_hdddirect = "${VM_ROOTFS_TYPE}"
--IMAGE_TYPES_MASKED += "vmdk vdi qcow2 hdddirect"
--
--VM_ROOTFS_TYPE ?= "ext4"
--ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${VM_ROOTFS_TYPE}"
--
--# Used by bootloader
--LABELS_VM ?= "boot"
--ROOT_VM ?= "root=/dev/sda2"
--# Using an initramfs is optional. Enable it by setting INITRD_IMAGE_VM.
--INITRD_IMAGE_VM ?= ""
--INITRD_VM ?= "${@'${IMGDEPLOYDIR}/${INITRD_IMAGE_VM}-${MACHINE}.cpio.gz' if '${INITRD_IMAGE_VM}' else ''}"
--do_bootdirectdisk[depends] += "${@'${INITRD_IMAGE_VM}:do_image_complete' if '${INITRD_IMAGE_VM}' else ''}"
--
--BOOTDD_VOLUME_ID   ?= "boot"
--BOOTDD_EXTRA_SPACE ?= "16384"
--
--DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
--DISK_SIGNATURE[vardepsexclude] = "DISK_SIGNATURE_GENERATED"
--
--build_boot_dd() {
--	HDDDIR="${S}/hdd/boot"
--	HDDIMG="${S}/hdd.image"
--	IMAGE=${IMGDEPLOYDIR}/${IMAGE_NAME}.hdddirect
--
--	populate_kernel $HDDDIR
--
--	if [ "${PCBIOS}" = "1" ]; then
--		syslinux_hddimg_populate $HDDDIR
--	fi
--	if [ "${EFI}" = "1" ]; then
--		efi_hddimg_populate $HDDDIR
--	fi
--
--	BLOCKS=`du -bks $HDDDIR | cut -f 1`
--	BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
--
--	# Remove it since mkdosfs would fail when it exists
--	rm -f $HDDIMG
--	mkdosfs -n ${BOOTDD_VOLUME_ID} ${MKDOSFS_EXTRAOPTS} -C $HDDIMG $BLOCKS
--	mcopy -i $HDDIMG -s $HDDDIR/* ::/
--
--	if [ "${PCBIOS}" = "1" ]; then
--		syslinux_hdddirect_install $HDDIMG
--	fi	
--	chmod 644 $HDDIMG
--
--	ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
--	TOTALSIZE=`expr $BLOCKS + $ROOTFSBLOCKS`
--	END1=`expr $BLOCKS \* 1024`
--	END2=`expr $END1 + 512`
--	END3=`expr \( $ROOTFSBLOCKS \* 1024 \) + $END1`
--
--	echo $ROOTFSBLOCKS $TOTALSIZE $END1 $END2 $END3
--	rm -rf $IMAGE
--	dd if=/dev/zero of=$IMAGE bs=1024 seek=$TOTALSIZE count=1
--
--	parted $IMAGE mklabel msdos
--	parted $IMAGE mkpart primary fat16 0 ${END1}B
--	parted $IMAGE unit B mkpart primary ext2 ${END2}B ${END3}B
--	parted $IMAGE set 1 boot on 
--
--	parted $IMAGE print
--
--	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | sed 's/\(..\)\(..\)\(..\)\(..\)/\\x\4\\x\3\\x\2\\x\1/')\" }" | \
--		dd of=$IMAGE bs=1 seek=440 conv=notrunc
--
--	OFFSET=`expr $END2 / 512`
--	if [ "${PCBIOS}" = "1" ]; then
--		dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
--	fi
--
--	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
--	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
--
--	cd ${IMGDEPLOYDIR}
--
--	ln -sf ${IMAGE_NAME}.hdddirect ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.hdddirect
--} 
--
--python do_bootdirectdisk() {
--    validate_disk_signature(d)
--    set_live_vm_vars(d, 'VM')
--    if d.getVar("PCBIOS") == "1":
--        bb.build.exec_func('build_syslinux_cfg', d)
--    if d.getVar("EFI") == "1":
--        bb.build.exec_func('build_efi_cfg', d)
--    bb.build.exec_func('build_boot_dd', d)
--}
--
--def generate_disk_signature():
--    import uuid
--
--    signature = str(uuid.uuid4())[:8]
--
--    if signature != '00000000':
--        return signature
--    else:
--        return 'ffffffff'
--
--def validate_disk_signature(d):
--    import re
--
--    disk_signature = d.getVar("DISK_SIGNATURE")
--
--    if not re.match(r'^[0-9a-fA-F]{8}$', disk_signature):
--        bb.fatal("DISK_SIGNATURE '%s' must be an 8 digit hex string" % disk_signature)
--
--DISK_SIGNATURE_GENERATED := "${@generate_disk_signature()}"
--
--run_qemu_img (){
--    type="$1"
--    qemu-img convert -O $type ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.hdddirect ${IMGDEPLOYDIR}/${IMAGE_NAME}.$type
--
--    ln -sf ${IMAGE_NAME}.$type ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.$type
--}
--create_vmdk_image () {
--    run_qemu_img vmdk
--}
--
--create_vdi_image () {
--    run_qemu_img vdi
--}
--
--create_qcow2_image () {
--    run_qemu_img qcow2
--}
--
--python do_vmimg() {
--    if 'vmdk' in d.getVar('IMAGE_FSTYPES'):
--        bb.build.exec_func('create_vmdk_image', d)
--    if 'vdi' in d.getVar('IMAGE_FSTYPES'):
--        bb.build.exec_func('create_vdi_image', d)
--    if 'qcow2' in d.getVar('IMAGE_FSTYPES'):
--        bb.build.exec_func('create_qcow2_image', d)
--}
--
--addtask bootdirectdisk before do_vmimg
--addtask vmimg after do_bootdirectdisk before do_image_complete
--do_vmimg[depends] += "qemu-native:do_populate_sysroot"
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index dee17ae9f966..40bd61480efd 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -138,9 +138,6 @@ def build_live(d):
- IMAGE_TYPE_live = "${@build_live(d)}"
- inherit ${IMAGE_TYPE_live}
+diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
+index 5cf2fd1f3e06..89880b417b6e 100644
+--- a/scripts/lib/wic/canned-wks/common.wks.inc
++++ b/scripts/lib/wic/canned-wks/common.wks.inc
+@@ -1,3 +1,3 @@
+ # This file is included into 3 canned wks files from this directory
+ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
++part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
+diff --git a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+index d5a07d20484d..c58e74a853cb 100644
+--- a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
++++ b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+@@ -12,16 +12,16 @@ DEFAULT Graphics console boot
  
--IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
--inherit ${IMAGE_TYPE_vm}
--
- IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
- inherit ${IMAGE_TYPE_container}
+ LABEL Graphics console boot
+ KERNEL /vmlinuz
+-APPEND label=boot root=/dev/sda2 rootwait
++APPEND label=boot rootwait
  
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index cf946a6874ad..89d68c626f7a 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -254,10 +254,6 @@ IMAGE_TYPES = " \
-     ubi ubifs multiubi \
-     tar tar.gz tar.bz2 tar.xz tar.lz4 \
-     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
--    vmdk \
--    vdi \
--    qcow2 \
--    hdddirect \
-     elf \
-     wic wic.gz wic.bz2 wic.lzma \
-     container \
-@@ -269,7 +265,7 @@ IMAGE_TYPES = " \
- # CONVERSION_CMD/DEPENDS.
- COMPRESSIONTYPES ?= ""
+ LABEL Serial console boot
+ KERNEL /vmlinuz
+-APPEND label=boot root=/dev/sda2 rootwait console=ttyS0,115200
++APPEND label=boot rootwait console=ttyS0,115200
  
--CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot ${COMPRESSIONTYPES}"
-+CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 ${COMPRESSIONTYPES}"
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -287,6 +283,9 @@ CONVERSION_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
- CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
- CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
- CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
-+CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
-+CONVERSION_CMD_vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
-+CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
- CONVERSION_DEPENDS_lzma = "xz-native"
- CONVERSION_DEPENDS_gz = "pigz-native"
- CONVERSION_DEPENDS_bz2 = "pbzip2-native"
-@@ -297,6 +296,9 @@ CONVERSION_DEPENDS_zip = "zip-native"
- CONVERSION_DEPENDS_sum = "mtd-utils-native"
- CONVERSION_DEPENDS_bmap = "bmap-tools-native"
- CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
-+CONVERSION_DEPENDS_vmdk = "qemu-native"
-+CONVERSION_DEPENDS_vdi = "qemu-native"
-+CONVERSION_DEPENDS_qcow2 = "qemu-native"
+ LABEL Graphics console install
+ KERNEL /vmlinuz
+-APPEND label=install root=/dev/sda2 rootwait
++APPEND label=install rootwait
  
- RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
- RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index f145b5e6568d..927a9310ac24 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -19,7 +19,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
- APPEND += "rootfstype=ext4 quiet"
+ LABEL Serial console install
+ KERNEL /vmlinuz
+-APPEND label=install root=/dev/sda2 rootwait console=ttyS0,115200
++APPEND label=install rootwait console=ttyS0,115200
+diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+index db30bbced034..1f8466af29bf 100644
+--- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
++++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+@@ -4,5 +4,5 @@
  
- DEPENDS = "zip-native python3-pip-native"
--IMAGE_FSTYPES = "vmdk"
-+IMAGE_FSTYPES = "wic.vmdk"
+ include common.wks.inc
  
- inherit core-image module-base setuptools3
+-bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/sda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
++bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
  
-@@ -120,7 +120,7 @@ create_bundle_files () {
- 	cd ${WORKDIR}
- 	mkdir -p Yocto_Build_Appliance
- 	cp *.vmx* Yocto_Build_Appliance
--	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
-+	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
- 	zip -r ${IMGDEPLOYDIR}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
- 	ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${IMGDEPLOYDIR}/Yocto_Build_Appliance.zip
- }
-@@ -130,4 +130,4 @@ python do_bundle_files() {
-     bb.build.exec_func('create_bundle_files', d)
- }
- 
--addtask bundle_files after do_vmimg before do_image_complete
-+addtask bundle_files after do_image_wic before do_image_complete
-diff --git a/scripts/runqemu b/scripts/runqemu
-index d44afc7e7a1a..e3f9a3f1976c 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -94,11 +94,11 @@ Examples:
-   runqemu qemux86-64 core-image-sato ext4
-   runqemu qemux86-64 wic-image-minimal wic
-   runqemu path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial
--  runqemu qemux86 iso/hddimg/vmdk/qcow2/vdi/ramfs/cpio.gz...
-+  runqemu qemux86 iso/hddimg/wic.vmdk/wic.qcow2/wic.vdi/ramfs/cpio.gz...
-   runqemu qemux86 qemuparams="-m 256"
-   runqemu qemux86 bootparams="psplash=false"
--  runqemu path/to/<image>-<machine>.vmdk
-   runqemu path/to/<image>-<machine>.wic
-+  runqemu path/to/<image>-<machine>.wic.vmdk
- """)
- 
- def check_tun():
 -- 
 1.9.1
 
