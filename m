@@ -1,23 +1,23 @@
 Return-Path: <rebecca.swee.fun.chang@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D195780B4
+	by mail.openembedded.org (Postfix) with ESMTP id DF6F4780CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 08:40:07 +0000 (UTC)
+	Thu, 27 Jul 2017 08:40:08 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Jul 2017 01:40:08 -0700
+	27 Jul 2017 01:40:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,419,1496127600"; d="scan'208";a="112512143"
+X-IronPort-AV: E=Sophos;i="5.40,419,1496127600"; d="scan'208";a="112512151"
 Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by orsmga004.jf.intel.com with ESMTP; 27 Jul 2017 01:40:08 -0700
+	by orsmga004.jf.intel.com with ESMTP; 27 Jul 2017 01:40:09 -0700
 From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Jul 2017 16:40:53 +0800
-Message-Id: <1501144856-17637-2-git-send-email-rebecca.swee.fun.chang@intel.com>
+Date: Thu, 27 Jul 2017 16:40:54 +0800
+Message-Id: <1501144856-17637-3-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1501144856-17637-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 References: <1501144856-17637-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-Subject: [PATCHv4 1/4] recipetool: create: disable PREMIRRORS and MIRRORS by default
+Subject: [PATCHv4 2/4] recipetool: create: being able to set branch when revision is provided
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,67 +30,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 08:40:07 -0000
+X-List-Received-Date: Thu, 27 Jul 2017 08:40:09 -0000
 
-When creating new recipes, we are almost certainly fetching a new
-source rather that something that has already been fetched. I have
-disable PREMIRRORS and MIRRORS settings in the recipe that created
-by devtool while leaving an option for users to enable them manually
-if needed.
+When recipetool create is run on a git URL and a revision specified
+that is not on master, and "branch=" isn't already in the URL, then
+we should get the correct branch and append the branch to the URL.
+
+If the revision was found on multiple branches, we will display error
+to inform user to provide a correct branch and exit.
+
+[YOCTO #11389]
 
 Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- scripts/lib/recipetool/create.py | 3 ++-
- scripts/lib/scriptutils.py       | 9 ++++++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ scripts/lib/recipetool/create.py | 41 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 359eb9a..f6ea422 100644
+index f6ea422..4016a54 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -446,7 +446,7 @@ def create_recipe(args):
-         srctree = os.path.join(tempsrc, 'source')
+@@ -422,6 +422,8 @@ def create_recipe(args):
+     source = args.source
+     srcsubdir = ''
+     srcrev = '${AUTOREV}'
++    branch_re = re.compile(';branch=([^;]+)')
++    branch = ''
  
-         try:
--            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp)
-+            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp, mirrors=args.mirrors)
-         except scriptutils.FetchUrlFailure as e:
-             logger.error(str(e))
+     if os.path.isfile(source):
+         source = 'file://%s' % os.path.abspath(source)
+@@ -440,6 +442,19 @@ def create_recipe(args):
+             srcrev = res.group(1)
+             srcuri = rev_re.sub('', srcuri)
+ 
++        # Check whether branch info is provided
++        branch = branch_re.search(srcuri)
++        nobranch_re = re.compile(';nobranch=1')
++        nobranch = nobranch_re.search(srcuri)
++        # Back up a copy of srcuri
++        srcuri_copy = srcuri
++        if not branch and not nobranch and srcrev != '${AUTOREV}':
++            # Append nobranch=1 in the following conditions:
++            # 1. User did not set 'branch=' in srcuri, and
++            # 2. User did not set 'nobranch=1' in srcuri, and
++            # 3. Source revision is not '${AUTOREV}'
++            srcuri = srcuri + ';nobranch=1'
++
+         tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
+         bb.utils.mkdirhier(tmpparent)
+         tempsrc = tempfile.mkdtemp(prefix='recipetool-', dir=tmpparent)
+@@ -475,6 +490,27 @@ def create_recipe(args):
+             logger.error('URL %s resulted in an empty source tree' % fetchuri)
              sys.exit(1)
-@@ -1169,5 +1169,6 @@ def register_commands(subparsers):
-     parser_create.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
-     parser_create.add_argument('--fetch-dev', action="store_true", help='For npm, also fetch devDependencies')
-     parser_create.add_argument('--devtool', action="store_true", help=argparse.SUPPRESS)
-+    parser_create.add_argument('--mirrors', action="store_true", help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).')
-     parser_create.set_defaults(func=create_recipe)
  
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index 9785438..11f1a78 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -102,7 +102,7 @@ class FetchUrlFailure(Exception):
-     def __str__(self):
-         return "Failed to fetch URL %s" % self.url
++        # Check for branch info with SRCREV provided
++        if not branch and not nobranch and srcrev and (srcrev != '${AUTOREV}'):
++            # Command to check branch using commit hash
++            cmd = 'git branch -r --contains'
++            try:
++                check_branch, check_branch_err = bb.process.run('%s %s' % (cmd, srcrev), cwd=srctree)
++            except bb.process.ExecutionError as err:
++                logger.error(str(err))
++                sys.exit(1)
++            get_branch = [x.strip() for x in check_branch.splitlines()]
++            # Remove HEAD reference point and drop remote prefix
++            get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
++            if len(get_branch) == 1:
++                # If get_branch contains only ONE object, then store result into 'branch'
++                branch = get_branch[0]
++            else:
++                # If get_branch contains more than one objects, then display error and exit.
++                mbrch = '\n  ' + '\n  '.join(get_branch)
++                logger.error('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the source URL with ;branch=<branch> (and ensure you use quotes around the URL to avoid the shell interpreting the ";")' % (srcrev, mbrch))
++                sys.exit(1)
++
+         if os.path.exists(os.path.join(srctree, '.gitmodules')) and srcuri.startswith('git://'):
+             srcuri = 'gitsm://' + srcuri[6:]
+             logger.info('Fetching submodules...')
+@@ -595,6 +631,11 @@ def create_recipe(args):
  
--def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
-+def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirrors=False):
-     """
-     Fetch the specified URL using normal do_fetch and do_unpack tasks, i.e.
-     any dependencies that need to be satisfied in order to support the fetch
-@@ -150,6 +150,13 @@ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
-                 f.write('WORKDIR = "%s"\n' % tmpworkdir)
-                 # Set S out of the way so it doesn't get created under the workdir
-                 f.write('S = "%s"\n' % os.path.join(tmpdir, 'emptysrc'))
-+                if not mirrors:
-+                    # We do not need PREMIRRORS since we are almost certainly
-+                    # fetching new source rather than something that has already
-+                    # been fetched. Hence, we disable them by default.
-+                    # However, we provide an option for users to enable it.
-+                    f.write('PREMIRRORS = ""\n')
-+                    f.write('MIRRORS = ""\n')
- 
-             logger.info('Fetching %s...' % srcuri)
- 
+     if not srcuri:
+         lines_before.append('# No information for SRC_URI yet (only an external source tree was specified)')
++    # Check if users has provide a branch
++    append_branch = branch_re.search(srcuri)
++    if branch and not append_branch:
++        # Append the correct branch into SRC_URI
++        srcuri = srcuri_copy + (';branch=%s' % str(branch))
+     lines_before.append('SRC_URI = "%s"' % srcuri)
+     for key, value in sorted(checksums.items()):
+         lines_before.append('SRC_URI[%s] = "%s"' % (key, value))
 -- 
 2.7.4
 
