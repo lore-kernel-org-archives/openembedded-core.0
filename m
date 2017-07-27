@@ -1,30 +1,18 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D13DB78209
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 05:17:34 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21879930"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 27 Jul 2017 13:17:27 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id A434546BAC00
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 13:17:24 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Thu, 27 Jul 2017 13:17:24 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Jul 2017 13:17:07 +0800
-Message-ID: <1501132627-4360-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C0337760A;
+	Thu, 27 Jul 2017 05:31:12 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: A434546BAC00.A3C81
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] openssl: disable default cryptodev
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Date: Thu, 27 Jul 2017 05:31:13 -0000
+Message-ID: <20170727053113.2382.64819@do.openembedded.org>
+References: <1501132627-4360-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1501132627-4360-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzbDogZGlzYWJsZSBkZWZhdWx0IGNyeXB0b2Rldg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 05:17:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Jul 2017 05:31:12 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Because according to the other Distros,cryptodev is not enabled.
-If users want enable cryptodev, just have to add "cryptodev-linux" into PACKAGECONFIG.
+== Series Details ==
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Series: openssl: disable default cryptodev
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/7965/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 51b3ee2986)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-connectivity/openssl/openssl_1.0.2l.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-index c00dd81..7c8f18b 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-@@ -2,10 +2,8 @@ require openssl.inc
- 
- # For target side versions of openssl enable support for OCF Linux driver
- # if they are available.
--PACKAGECONFIG[cryptodev-linux] = ",,cryptodev-linux"
--DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'cryptodev-linux', 'cryptodev-linux', '', d)}"
--
--CFLAG += "${@bb.utils.contains('PACKAGECONFIG', 'cryptodev-linux', '-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS', '', d)}"
-+PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryptodev-linux"
-+CFLAG += "${PACKAGECONFIG_CONFARGS}"
- 
- CFLAG_append_class-native = " -fPIC"
- 
--- 
-2.7.4
-
-
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
