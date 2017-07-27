@@ -1,45 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AA07565D00
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D13DB78209
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 04:19:02 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id y129so19262399pgy.3
+	Thu, 27 Jul 2017 05:17:34 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="21879930"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 27 Jul 2017 13:17:27 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id A434546BAC00
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 21:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=k1bbvo1NHS46U+IgFga6M7mX20ctNi2Aq8Hf+V4uXRQ=;
-	b=JGjjqSM8yUN3JPARCW4iVl/snlDST3q5dI6laQbqe2KNm7A+44GR+HCBgcsz7YufNO
-	qN1ZVb8kA9K67IUd8vMob3xxKsgXVUM74OczKWIlg3gxDEgWDGsz6F8pCHneR7P7dMkf
-	WdbthfaR1haOCf/cUjJw9fZGDBhOJYB1JtHTrPiX9t4vqw08/YMQ3/U7M3JwvaxQrMAD
-	2/rqlnCMgcXt5lJ+zvUZ52TauVuhdILeaz7It/3MU0NvfK6TaATcNrRtOML3TTbbepQq
-	Uc5ZLui0FdAHeQCMukaOPu2qEpiHWxnKWLCzVb702lUxNrxI89JDSSn0KVtt3kLWx90I
-	d/dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=k1bbvo1NHS46U+IgFga6M7mX20ctNi2Aq8Hf+V4uXRQ=;
-	b=Y716zRUZIAiP3v7TxDw8C1TUFXYp5UVcf3oHbJoAPb4ETom9iSCwtUuvvlifnuqvot
-	CwqcHqW+V3g9EUpdTzrOC1YWoVjwFJeQyPfwFafVSNFPRZlJWHrnGO66iRyHaInIkHQv
-	uepUud6RlZa8+0dWPiMo9Afcin8YLilDwVEXTBWvI/HXY8TA7R7eR0ILtS/ghkknAQoM
-	NvDksQ4c/3mEPRuVWvUlDlQEMwTbLoN4mcwFc2OIMxGUkUJOYr5tKJq7nVXJWmDwyG1Z
-	ymK7+/XKIdlVC1nQ4mo1zSsYGWNKkT1D+H/y3B7Z2MmRoJcyyt0cSezOwI9ExfNd4IN+
-	2gPA==
-X-Gm-Message-State: AIVw11032ISMXSs/oInOzJleo2HuTQ6kNgJ/cIV8eurux5F3Ilxiq7v5
-	WNm2nw8mePuVNzNF
-X-Received: by 10.98.64.92 with SMTP id n89mr2893589pfa.257.1501129143494;
-	Wed, 26 Jul 2017 21:19:03 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::3dd4])
-	by smtp.gmail.com with ESMTPSA id
-	f2sm30227024pgc.17.2017.07.26.21.19.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Jul 2017 21:19:02 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 21:18:51 -0700
-Message-Id: <20170727041851.14407-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.3
-Subject: [PATCH] automake: Add missing libtool tag for cppasm language
+	Thu, 27 Jul 2017 13:17:24 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 27 Jul 2017 13:17:24 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Jul 2017 13:17:07 +0800
+Message-ID: <1501132627-4360-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: A434546BAC00.A3C81
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] openssl: disable default cryptodev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,68 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 04:19:02 -0000
+X-List-Received-Date: Thu, 27 Jul 2017 05:17:35 -0000
+Content-Type: text/plain
 
-This is highlighted when CC is passing flags like -fPIE
-which are stripped by libtool when building shared libs
-and replaced with -fPIC, this actually results in CC
-not matching the CC computed from cmdline created for
-compiling and as a result libtool heuristic to compute
-tags auotmatically fails.
+Because according to the other Distros,cryptodev is not enabled.
+If users want enable cryptodev, just have to add "cryptodev-linux" into PACKAGECONFIG.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- ...utomake-Add-default-libtool_tag-to-cppasm.patch | 27 ++++++++++++++++++++++
- meta/recipes-devtools/automake/automake_1.15.1.bb  |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
+ meta/recipes-connectivity/openssl/openssl_1.0.2l.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch b/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
-new file mode 100644
-index 0000000000..1221f13067
---- /dev/null
-+++ b/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
-@@ -0,0 +1,27 @@
-+From 25a8ac30486798d23f516722d73eb622e6264f28 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 26 Jul 2017 11:19:56 -0700
-+Subject: [PATCH] automake: Add default libtool_tag to cppasm.
-+
-+    * bin/automake.in (register_language): Define default libtool tag to be CC
-+    since CPPASCOMPILE is using CC to call assembler
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ bin/automake.in | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+Index: automake-1.15.1/bin/automake.in
-+===================================================================
-+--- automake-1.15.1.orig/bin/automake.in
-++++ automake-1.15.1/bin/automake.in
-+@@ -831,6 +831,7 @@ register_language ('name' => 'cppasm',
-+ 		   'compiler' => 'CPPASCOMPILE',
-+ 		   'compile_flag' => '-c',
-+ 		   'output_flag' => '-o',
-++		   'libtool_tag' => 'CC',
-+ 		   'extensions' => ['.S', '.sx']);
-+ 
-+ # Fortran 77
-diff --git a/meta/recipes-devtools/automake/automake_1.15.1.bb b/meta/recipes-devtools/automake/automake_1.15.1.bb
-index 481234185e..4f9b616b66 100644
---- a/meta/recipes-devtools/automake/automake_1.15.1.bb
-+++ b/meta/recipes-devtools/automake/automake_1.15.1.bb
-@@ -24,6 +24,7 @@ SRC_URI += "file://python-libdir.patch \
-             file://performance.patch \
-             file://new_rt_path_for_test-driver.patch \
-             file://automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch \
-+            file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
-             "
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+index c00dd81..7c8f18b 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+@@ -2,10 +2,8 @@ require openssl.inc
  
- SRC_URI[md5sum] = "95df3f2d6eb8f81e70b8cb63a93c8853"
+ # For target side versions of openssl enable support for OCF Linux driver
+ # if they are available.
+-PACKAGECONFIG[cryptodev-linux] = ",,cryptodev-linux"
+-DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'cryptodev-linux', 'cryptodev-linux', '', d)}"
+-
+-CFLAG += "${@bb.utils.contains('PACKAGECONFIG', 'cryptodev-linux', '-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS', '', d)}"
++PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryptodev-linux"
++CFLAG += "${PACKAGECONFIG_CONFARGS}"
+ 
+ CFLAG_append_class-native = " -fPIC"
+ 
 -- 
-2.13.3
+2.7.4
+
+
 
 
