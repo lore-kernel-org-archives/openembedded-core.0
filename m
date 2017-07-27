@@ -1,26 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id F3BB1782F3
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 48427782FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 14:25:54 +0000 (UTC)
+	Thu, 27 Jul 2017 14:26:06 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga104.jf.intel.com with ESMTP; 27 Jul 2017 07:25:56 -0700
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jul 2017 07:26:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,419,1496127600"; d="scan'208";a="292218578"
+X-IronPort-AV: E=Sophos;i="5.40,419,1496127600"; d="scan'208";a="292218742"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 27 Jul 2017 07:25:55 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 27 Jul 2017 07:26:08 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 2DF0558039A
+	by linux.intel.com (Postfix) with ESMTP id ACC575809DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 07:25:54 -0700 (PDT)
+	Thu, 27 Jul 2017 07:26:07 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jul 2017 17:02:42 +0300
-Message-Id: <5c69fb2ba13caead5499296537b71b452330d0fd.1501162988.git.ed.bartosh@linux.intel.com>
+Date: Thu, 27 Jul 2017 17:02:44 +0300
+Message-Id: <8698a63e95e1f82a4e5cba928015e8a3bc5db950.1501162988.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1501162988.git.ed.bartosh@linux.intel.com>
 References: <cover.1501162988.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v4 1/6] wic: copy rootfs directory before changing fstab
+Subject: [PATCH v4 3/6] wic: rootfs: fix rootfs path reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 14:25:55 -0000
+X-List-Received-Date: Thu, 27 Jul 2017 14:26:07 -0000
 
-wic updates /etc/fstab on root partition if there are
-valid mount points in .wks
+wic gets rootfs paths from partition object property
+'rootfs_dir' and shows them in final report.
 
-When wic runs from bitbake this can cause incorrect results
-or even breakage of other tasks working with the same rootfs
-directory in parallel with do_image_wic.
+rootfs plugin sets this property to the temporary path,
+which causes temporary paths appearing in the report.
 
-Implemented copying rootfs directory to a temporary location
-before updating fstab to avoid conflicts with other tasks working
-with the same rootfs directory.
+Changed the code to prevent storing temporary rootfs path
+in part.rootfs_dir. This should fix the report.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/imager/direct.py | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ scripts/lib/wic/plugins/source/rootfs.py | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f20d843..07e3f3e 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -115,12 +115,18 @@ class DirectPlugin(ImagerPlugin):
-             fstab_lines = fstab.readlines()
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index c08f760..e438158 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -81,8 +81,9 @@ class RootfsPlugin(SourcePlugin):
+                 raise WicError("Couldn't find --rootfs-dir=%s connection or "
+                                "it is not a valid path, exiting" % part.rootfs_dir)
  
-         if self._update_fstab(fstab_lines, self.parts):
--            shutil.copyfile(fstab_path, fstab_path + ".orig")
-+            # copy rootfs dir to workdir to update fstab
-+            # as rootfs can be used by other tasks and can't be modified
-+            new_rootfs = os.path.realpath(os.path.join(self.workdir, "rootfs_copy"))
-+            exec_cmd("cp -a %s %s" % (image_rootfs, new_rootfs),
-+                                      self.native_sysroot)
-+
-+            fstab_path = os.path.join(new_rootfs, 'etc/fstab')
+-        real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
++        part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
  
-             with open(fstab_path, "w") as fstab:
-                 fstab.writelines(fstab_lines)
++        new_rootfs = None
+         # Handle excluded paths.
+         if part.exclude_path is not None:
+             # We need a new rootfs directory we can delete files from. Copy to
+@@ -92,9 +93,7 @@ class RootfsPlugin(SourcePlugin):
+             if os.path.lexists(new_rootfs):
+                 shutil.rmtree(os.path.join(new_rootfs))
  
--            return fstab_path
-+            return new_rootfs
- 
-     def _update_fstab(self, fstab_lines, parts):
-         """Assume partition order same as in wks"""
-@@ -156,7 +162,10 @@ class DirectPlugin(ImagerPlugin):
-         filesystems from the artifacts directly and combine them into
-         a partitioned image.
-         """
--        fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-+        new_rootfs = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-+        if new_rootfs:
-+            # rootfs was copied to update fstab
-+            self.rootfs_dir['ROOTFS_DIR'] = new_rootfs
- 
-         for part in self.parts:
-             # get rootfs size from bitbake variable if it's not set in .ks file
-@@ -172,12 +181,7 @@ class DirectPlugin(ImagerPlugin):
-                     if rsize_bb:
-                         part.size = int(round(float(rsize_bb)))
- 
--        try:
--            self._image.prepare(self)
--        finally:
--            if fstab_path:
--                shutil.move(fstab_path + ".orig", fstab_path)
+-            copyhardlinktree(real_rootfs_dir, new_rootfs)
 -
-+        self._image.prepare(self)
-         self._image.layout_partitions()
-         self._image.create()
+-            real_rootfs_dir = new_rootfs
++            copyhardlinktree(part.rootfs_dir, new_rootfs)
  
+             for orig_path in part.exclude_path:
+                 path = orig_path
+@@ -123,6 +122,5 @@ class RootfsPlugin(SourcePlugin):
+                     # Delete whole directory.
+                     shutil.rmtree(full_path)
+ 
+-        part.rootfs_dir = real_rootfs_dir
+         part.prepare_rootfs(cr_workdir, oe_builddir,
+-                            real_rootfs_dir, native_sysroot)
++                            new_rootfs or part.rootfs_dir, native_sysroot)
 -- 
 2.1.4
 
