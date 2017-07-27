@@ -1,40 +1,45 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BE60781F3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AA07565D00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 02:04:58 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id s143so3840604ywg.4
+	Thu, 27 Jul 2017 04:19:02 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id y129so19262399pgy.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jul 2017 19:05:00 -0700 (PDT)
+	Wed, 26 Jul 2017 21:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=k1bbvo1NHS46U+IgFga6M7mX20ctNi2Aq8Hf+V4uXRQ=;
+	b=JGjjqSM8yUN3JPARCW4iVl/snlDST3q5dI6laQbqe2KNm7A+44GR+HCBgcsz7YufNO
+	qN1ZVb8kA9K67IUd8vMob3xxKsgXVUM74OczKWIlg3gxDEgWDGsz6F8pCHneR7P7dMkf
+	WdbthfaR1haOCf/cUjJw9fZGDBhOJYB1JtHTrPiX9t4vqw08/YMQ3/U7M3JwvaxQrMAD
+	2/rqlnCMgcXt5lJ+zvUZ52TauVuhdILeaz7It/3MU0NvfK6TaATcNrRtOML3TTbbepQq
+	Uc5ZLui0FdAHeQCMukaOPu2qEpiHWxnKWLCzVb702lUxNrxI89JDSSn0KVtt3kLWx90I
+	d/dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=MLrECYhH7lakvEfQcMwcY/J1yG6NPL2SjNO22QBc3sI=;
-	b=Rx1mkBb4Fn+o+2gveRgxyInzrkjWYVZAOo00doJfP+j+BEwvdfr+ksyPhvPPJMuCt2
-	rnCHzFVDBcX2bNhIKDizV0SGb9heKJ8hiqty1NqeQELjO00b0rw4Ojx2R/7jJo6RyhFL
-	PMBpvO3lbXgRhl/Y3GwSEq4DngzYnF3gQJ5dqI02lCEMkkXJ835jwlqY5rcNsxq/s5SU
-	QcVCEe3P7zkybsQTkCT7nPwoTltZ/4iUBoszb2lwo0KiLBKy5CnZ0Eu0qUpiJKW+3eBR
-	uI8+B5JdoeVOomwAFY0m2+d99OMbQfSPk4KHoVA7+9H8y80fFwuYjGOT9HcCV7eK4MB/
-	wp8A==
-X-Gm-Message-State: AIVw112y1ak9RpZWF73kHN3S+2h2dQhhtmj7h9fp6M1YQzuoyUVuhvwL
-	ZsVHGxR/F1bnOa9D
-X-Received: by 10.129.120.69 with SMTP id t66mr2680583ywc.428.1501121100059;
-	Wed, 26 Jul 2017 19:05:00 -0700 (PDT)
-Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
-	[174.106.0.58]) by smtp.gmail.com with ESMTPSA id
-	p190sm6479575ywd.81.2017.07.26.19.04.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Jul 2017 19:04:59 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=k1bbvo1NHS46U+IgFga6M7mX20ctNi2Aq8Hf+V4uXRQ=;
+	b=Y716zRUZIAiP3v7TxDw8C1TUFXYp5UVcf3oHbJoAPb4ETom9iSCwtUuvvlifnuqvot
+	CwqcHqW+V3g9EUpdTzrOC1YWoVjwFJeQyPfwFafVSNFPRZlJWHrnGO66iRyHaInIkHQv
+	uepUud6RlZa8+0dWPiMo9Afcin8YLilDwVEXTBWvI/HXY8TA7R7eR0ILtS/ghkknAQoM
+	NvDksQ4c/3mEPRuVWvUlDlQEMwTbLoN4mcwFc2OIMxGUkUJOYr5tKJq7nVXJWmDwyG1Z
+	ymK7+/XKIdlVC1nQ4mo1zSsYGWNKkT1D+H/y3B7Z2MmRoJcyyt0cSezOwI9ExfNd4IN+
+	2gPA==
+X-Gm-Message-State: AIVw11032ISMXSs/oInOzJleo2HuTQ6kNgJ/cIV8eurux5F3Ilxiq7v5
+	WNm2nw8mePuVNzNF
+X-Received: by 10.98.64.92 with SMTP id n89mr2893589pfa.257.1501129143494;
+	Wed, 26 Jul 2017 21:19:03 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::3dd4])
+	by smtp.gmail.com with ESMTPSA id
+	f2sm30227024pgc.17.2017.07.26.21.19.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Jul 2017 21:19:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jul 2017 22:06:13 -0400
-Message-Id: <1501121173-29658-5-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1501121173-29658-1-git-send-email-trini@konsulko.com>
-References: <1501121173-29658-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv2 5/5] imagefeatures: Add a test for various hypervisor formats
+Date: Wed, 26 Jul 2017 21:18:51 -0700
+Message-Id: <20170727041851.14407-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH] automake: Add missing libtool tag for cppasm language
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,74 +52,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jul 2017 02:04:59 -0000
+X-List-Received-Date: Thu, 27 Jul 2017 04:19:02 -0000
 
-We add a new test that will create core-image-minimal for wic.vmdk,
-wic.vdi and wic.qcow2.  We then confirm via qemu-img that the resulting
-file is of the expected type.
+This is highlighted when CC is passing flags like -fPIE
+which are stripped by libtool when building shared libs
+and replaced with -fPIC, this actually results in CC
+not matching the CC computed from cmdline created for
+compiling and as a result libtool heuristic to compute
+tags auotmatically fails.
 
-Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Changes in v2: New patch
----
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 35 +++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ ...utomake-Add-default-libtool_tag-to-cppasm.patch | 27 ++++++++++++++++++++++
+ meta/recipes-devtools/automake/automake_1.15.1.bb  |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 2c59ef6490b3..bb2e0dba4c23 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -3,6 +3,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.core.decorator.oeid import OETestID
- from oeqa.utils.sshcontrol import SSHControl
- import os
-+import json
+diff --git a/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch b/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
+new file mode 100644
+index 0000000000..1221f13067
+--- /dev/null
++++ b/meta/recipes-devtools/automake/automake/0001-automake-Add-default-libtool_tag-to-cppasm.patch
+@@ -0,0 +1,27 @@
++From 25a8ac30486798d23f516722d73eb622e6264f28 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 26 Jul 2017 11:19:56 -0700
++Subject: [PATCH] automake: Add default libtool_tag to cppasm.
++
++    * bin/automake.in (register_language): Define default libtool tag to be CC
++    since CPPASCOMPILE is using CC to call assembler
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ bin/automake.in | 1 +
++ 1 file changed, 1 insertion(+)
++
++Index: automake-1.15.1/bin/automake.in
++===================================================================
++--- automake-1.15.1.orig/bin/automake.in
+++++ automake-1.15.1/bin/automake.in
++@@ -831,6 +831,7 @@ register_language ('name' => 'cppasm',
++ 		   'compiler' => 'CPPASCOMPILE',
++ 		   'compile_flag' => '-c',
++ 		   'output_flag' => '-o',
+++		   'libtool_tag' => 'CC',
++ 		   'extensions' => ['.S', '.sx']);
++ 
++ # Fortran 77
+diff --git a/meta/recipes-devtools/automake/automake_1.15.1.bb b/meta/recipes-devtools/automake/automake_1.15.1.bb
+index 481234185e..4f9b616b66 100644
+--- a/meta/recipes-devtools/automake/automake_1.15.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.15.1.bb
+@@ -24,6 +24,7 @@ SRC_URI += "file://python-libdir.patch \
+             file://performance.patch \
+             file://new_rt_path_for_test-driver.patch \
+             file://automake-replace-w-option-in-shebangs-with-modern-use-warnings.patch \
++            file://0001-automake-Add-default-libtool_tag-to-cppasm.patch \
+             "
  
- class ImageFeatures(OESelftestTestCase):
- 
-@@ -130,6 +131,40 @@ class ImageFeatures(OESelftestTestCase):
-         # check if the resulting gzip is valid
-         self.assertTrue(runCmd('gzip -t %s' % gzip_path))
- 
-+    def test_hypervisor_fmts(self):
-+        """
-+        Summary:     Check various hypervisor formats
-+        Expected:    1. core-image-minimal can be built with vmdk, vdi and
-+                        qcow2 support.
-+                     2. qemu-img says each image has the expected format
-+        Product:     oe-core
-+        Author:      Tom Rini <trini@konsulko.com>
-+        """
-+
-+        img_types = [ 'vmdk', 'vdi', 'qcow2' ]
-+        features = ""
-+        for itype in img_types:
-+            features += 'IMAGE_FSTYPES += "wic.%s"\n' % itype
-+        self.write_config(features)
-+
-+        image_name = 'core-image-minimal'
-+        bitbake(image_name)
-+
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        link_name = get_bb_var('IMAGE_LINK_NAME', image_name)
-+        for itype in img_types:
-+            image_path = os.path.join(deploy_dir_image, "%s.wic.%s" %
-+                                      (link_name, itype))
-+
-+            # check if result image file is in deploy directory
-+            self.assertTrue(os.path.exists(image_path))
-+
-+            # check if result image is vmdk
-+            sysroot = get_bb_var('STAGING_DIR_NATIVE', 'core-image-minimal')
-+            result = runCmd('qemu-img info --output json %s' % image_path,
-+                            native_sysroot=sysroot)
-+            self.assertTrue(json.loads(result.output).get('format') == itype)
-+
-     def test_long_chain_conversion(self):
-         """
-         Summary:     Check for chaining many CONVERSION_CMDs together
+ SRC_URI[md5sum] = "95df3f2d6eb8f81e70b8cb63a93c8853"
 -- 
-1.9.1
+2.13.3
 
 
