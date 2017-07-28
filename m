@@ -1,45 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 72D2978575
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DC9B78585
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 23:20:23 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id t201so7350794wmt.0
+	Fri, 28 Jul 2017 23:47:39 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id o33so20004618wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 16:20:24 -0700 (PDT)
+	Fri, 28 Jul 2017 16:47:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=fvXmS+z49YZjqc/cjBxQyQC9DhYsCIYM+64C2Ra/of4=;
-	b=g5iyzspEO2NmkkmlVDWRT/0QX97tpeQma4IhNQM7vwyhJajUbG8wSci3bgrqUHOdZf
-	Er0/1bzciLGXd3Nl4yMWgiGXP/nZbIbrb8DQGUGbsqm4qGjiMIXd+U0whkhdjltZkRPx
-	hKKVXoxXnVL+V8iTAKbz1F/8JMKWA/Ktb6ryfRLdYzu1W0ydqRt9oUwYBVXSt2p09ezI
-	qmz+ZXmz+bDxmXmiGjUTmSRqAfRQ8Jr0Dra9Hs86ds9jkiO6tDnJsvLTwyP8+x92UAbl
-	g386tE9MezsGQtL4evYRzaOBTNJJocgPGyUBweJw6fMUXCToVc/xF+2xRU87W7NoxD6P
-	04mw==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=WL24TM32BaZ3eo8GUhA1FShlRiYGD3n/TeO34NxZUqc=;
+	b=WtSEDaPEk9PM22HA5BSIWsYzvje2JdlhADIX4ToR4evBCw7L4hbEgzQrCX08ADxlhO
+	V+j8eU6eC0Lrc9E5BUuqrQs3UsxoCiddaDH0RTZYdAJAIPkequZYxJe5o+Q9Xjd704OQ
+	uTDIPZZPdhtdG4CdXT3m7ViTGJUCCch/SWV497aIsi3gI/dNmFKamJBoS3YGIIKY7fL8
+	ofFFJ1TVFVxoEvDcVF86YRYxHsWk+hhSpzfUEE7yYN2oP34k0I+MdJBzLmYSPFF+nwMf
+	/R0sLuKLKF5D+PQeG4DGXcMByB9ZUo2gEktt0yz6Wd2Tvaulsi00WXUxHP7SypfF5C4m
+	TzbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=fvXmS+z49YZjqc/cjBxQyQC9DhYsCIYM+64C2Ra/of4=;
-	b=PmJFB1bKWO51zAph9yAaRHndXDZFJOEIkTTmjgZ6XHu4YIz3NbA/fu5OqV49hlG2T1
-	22x+oslhvu5GETtfBwq3rSfep8sWBV7JS1H0Q8h3QlQbUhkyJptLV0VIGj5+fWEX4x6X
-	jyOFQGSCzZ1GyykxHg9NhO5+ynNMRyez0OJKaMEGrolHlNHVvsY5tA4jlFn4MyfRmZHV
-	CfMkm68/mflM7AZb25VcTIsKYf/WYVyFXp8a8Jmr4hGQ9ztyRY4JigyVQqmDTGfmNPYF
-	zFxyMnycA9mZ78o0lQaLqjQ7AmlUmUwRmgrZO3qN6j1XgNAzDBB1nKCkdGsKGqL1+s2U
-	G4MA==
-X-Gm-Message-State: AIVw111V5EJV8ORng2GhvgiSZ7nQUCyyFK+5UNv7qlQLPh/WhvDFIR/h
-	p5leS7+3ocUg2KH6ougyeLOmzmsS0g==
-X-Received: by 10.80.164.18 with SMTP id u18mr7734911edb.250.1501284024186;
-	Fri, 28 Jul 2017 16:20:24 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=WL24TM32BaZ3eo8GUhA1FShlRiYGD3n/TeO34NxZUqc=;
+	b=emjQic7Lm016akCWazWU4MEoqYk2xbf34ocNkQwcOufxVBd73gf4bHOv1qkmdCoTlo
+	2I9rFgNdYibSyvH5vDnN4F04KUKuhMnKD2UEI+J3/DD9QJ7V0cEVzMx/C0XyEJpKa5Pa
+	8lt25quGvnHzhJqZ/9R2o0yCnEGCKam4GHY1i03rQRclr46gXPFCYZ0JDv9t/HUnHrW5
+	QbGgBKAwGcnA6AugvfmpMut6QN0siTRwaDwBiIHUmjZK2lHBXsiaXhBFxsEdK2tIVq4o
+	7zKuJPqvBBcDPtb0cO6Uf5yCmSQ+YmU8+24wQiQeRjNgo4qNlK5vR34O3tKGNJnz4mtq
+	9JWQ==
+X-Gm-Message-State: AIVw112nNQqE+9csV5dMbqI1Uxi1nGFKK1UyzTg6n10EQKaVeeT0cXmz
+	LJPOUSdAhJGpGmHvV39jrFfOeDaP4w==
+X-Received: by 10.223.179.216 with SMTP id x24mr7252862wrd.7.1501285660938;
+	Fri, 28 Jul 2017 16:47:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20170728114716.41389-1-raj.khem@gmail.com>
-	<1501279292.22282.188.camel@linuxfoundation.org>
-In-Reply-To: <1501279292.22282.188.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Jul 2017 23:20:12 +0000
-Message-ID: <CAMKF1soNyjVy7pM4CxVM2LJnEONNx5Gks293kdaVE1Xk6q4TcQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] re2c: Transfer recipe from meta-oe and upgrade to 0.16
+Received: by 10.223.175.16 with HTTP; Fri, 28 Jul 2017 16:47:40 -0700 (PDT)
+In-Reply-To: <1501273600-109472-1-git-send-email-denis@denix.org>
+References: <1501273600-109472-1-git-send-email-denis@denix.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 28 Jul 2017 16:47:40 -0700
+Message-ID: <CAJ86T=WdvrPzvz6325onhpMWxgdOz5weZ=hUSSVXo94NzoA7Cw@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] autoconf: fix mistakes in SUMMARY and DESCRIPTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,78 +54,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 23:20:23 -0000
-Content-Type: multipart/alternative; boundary="94eb2c198834f7fcad055568ecd7"
-
---94eb2c198834f7fcad055568ecd7
+X-List-Received-Date: Fri, 28 Jul 2017 23:47:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 28, 2017 at 3:01 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Fri, Jul 28, 2017 at 1:26 PM, Denys Dmytriyenko <denis@denix.org> wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
+> v1 - procude -> produce
+> v2 - produce -> produces
+>
+>  meta/recipes-devtools/autoconf/autoconf.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+> index f1b2dfc..17ee50f 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf.inc
+> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
+> @@ -1,5 +1,5 @@
+> -SUMMARY = "A GNU tool that procude shell scripts to automatically configure software"
+> -DESCRIPTION = "Autoconf is an extensible package of M4 macros that produce shell scripts to automatically \
+> +SUMMARY = "A GNU tool that produces shell scripts to automatically configure software"
+> +DESCRIPTION = "Autoconf is an extensible package of M4 macros that produces shell scripts to automatically \
 
-> On Fri, 2017-07-28 at 04:47 -0700, Khem Raj wrote:
-> > ninja needs it.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-support/re2c/re2c_0.16.bb | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >  create mode 100644 meta/recipes-support/re2c/re2c_0.16.bb
->
-> Doesn't seem to build:
->
->
-> https://autobuilder.yocto.io/builders/nightly-no-x11/builds/376/steps/BuildImages/logs/stdio
->
-> [amongst several other similar failures in the build]
+The DESCRIPTION was correct originally (since it's the M4 macros which
+produce the shell scripts, not the extensible package).
 
+https://www.gnu.org/software/autoconf/autoconf.html
 
-I have fixed it in pull tree
-Thanks
-
+>  configure software source code packages. Autoconf creates a configuration script for a package from a template \
+>  file that lists the operating system features that the package can use, in the form of M4 macro calls."
+>  LICENSE = "GPLv3"
+> --
+> 2.7.4
 >
->
-> Cheers,
->
-> Richard
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---94eb2c198834f7fcad055568ecd7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Jul 28, 2017 =
-at 3:01 PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundat=
-ion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">On Fri, 2017-07-28 at 04:47 -0700, Khem Raj wrote:<=
-br>
-&gt; ninja needs it.<br>
-&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/recipes-support/re2c/<a href=3D"http://re2c_0.16.bb" rel=3D=
-"noreferrer" target=3D"_blank">re2c_0.16.bb</a> | 15 +++++++++++++++<br>
-&gt; =C2=A01 file changed, 15 insertions(+)<br>
-&gt; =C2=A0create mode 100644 meta/recipes-support/re2c/<a href=3D"http://r=
-e2c_0.16.bb" rel=3D"noreferrer" target=3D"_blank">re2c_0.16.bb</a><br>
-<br>
-Doesn&#39;t seem to build:<br>
-<br>
-<a href=3D"https://autobuilder.yocto.io/builders/nightly-no-x11/builds/376/=
-steps/BuildImages/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://=
-autobuilder.yocto.io/builders/nightly-no-x11/builds/376/steps/BuildImages/l=
-ogs/stdio</a><br>
-<br>
-[amongst several other similar failures in the build]</blockquote><div dir=
-=3D"auto"><br></div><div dir=3D"auto">I have fixed it in pull tree</div><di=
-v dir=3D"auto">Thanks=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
-
---94eb2c198834f7fcad055568ecd7--
