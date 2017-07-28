@@ -1,20 +1,23 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id C5BDA78442
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EC2DC781F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 01:54:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 27 Jul 2017 18:54:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,423,1496127600"; d="scan'208";a="1200099637"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2017 18:54:41 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jul 2017 18:54:31 -0700
-Message-Id: <20170728015431.25919-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] cml1.bbclass: wait until menuconfig terminal finishes
+	Fri, 28 Jul 2017 03:30:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6S3UUoY017443
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Jul 2017 20:30:30 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Thu, 27 Jul 2017 20:30:29 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Jul 2017 11:21:05 +0800
+Message-ID: <cover.1501211889.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] assimp: upgrade to 4.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,61 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 01:54:51 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 03:30:31 -0000
+Content-Type: text/plain
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-There are at least two terminals types (gnome and tmux) that when
-launched to show the kernel's menuconfig, we lost track of the corresponding
-process ID, thus there is no way to see when they finish, yielding identical
-timestamps before and after menuconfig thus compile's task
-is never tainted. This commit takes the solution from [1] but now in the menuconfig's
-context.
+The following changes since commit 8e15e9b6e478f6368034519b2a8fd3c7ea71d23b:
 
-[1] http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=c706bfbabbf9f7caf2cf509eb91381fb49aa44cb
+  gnome-themes-standard: Fix packages so dev-pkgs image generation works (2017-07-26 10:12:06 +0100)
 
-[YOCTO #11146]
+are available in the git repository at:
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/classes/cml1.bbclass | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+  git://git.pokylinux.org/poky-contrib kangkai/assimp
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/assimp
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index 38e6613c48..1e84795aa2 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -26,8 +26,28 @@ python do_menuconfig() {
-     except OSError:
-         mtime = 0
- 
--    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
-+    # We need to know when the command completes but some terminals (including gnome-terminal
-+    # and tmux) gives us no way to do this. We therefore write the pid to a temporal file
-+    # then monitor the pid until it exits.
-+    import tempfile
-+    pidfile = tempfile.NamedTemporaryFile(delete = False).name
-+    try:
-+        oe_terminal("${SHELL} -c \"echo $$ > %s; make %s; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % (pidfile, d.getVar('KCONFIG_CONFIG_COMMAND')),
-                 d.getVar('PN') + ' Configuration', d)
-+        while os.stat(pidfile).st_size <= 0:
-+            continue
-+        with open(pidfile, "r") as f:
-+            pid = int(f.readline())
-+    finally:
-+        os.unlink(pidfile)
-+
-+    import time
-+    while True:
-+        try:
-+            os.kill(pid, 0)
-+            time.sleep(0.1)
-+        except OSError:
-+            break
- 
-     # FIXME this check can be removed when the minimum bitbake version has been bumped
-     if hasattr(bb.build, 'write_taint'):
+Kai Kang (1):
+  assimp: upgrade to 4.0.0
+
+ .../vulkan/{assimp_git.bb => assimp_4.0.0.bb}       | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/vulkan/{assimp_git.bb => assimp_4.0.0.bb} (41%)
+
 -- 
-2.12.3
+2.10.1
 
 
