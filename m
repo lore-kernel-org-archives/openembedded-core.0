@@ -1,28 +1,40 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2539378430
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 843F378493
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 12:12:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6SCCvi4003910
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 28 Jul 2017 05:12:58 -0700
-Received: from yow-masselst-lx1.localnet (128.224.25.183) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Fri, 28 Jul 2017 05:12:57 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 28 Jul 2017 08:12:55 -0400
-Message-ID: <4938657.TQb7MeHKJK@yow-masselst-lx1>
-Organization: Wind River
-User-Agent: KMail/5.2.3 (Linux/4.10.0-26-generic; KDE/5.31.0; x86_64; ; )
-In-Reply-To: <1501191547.22282.176.camel@linuxfoundation.org>
-References: <1500912616-8012-1-git-send-email-mark.asselstine@windriver.com>
-	<1501191547.22282.176.camel@linuxfoundation.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python: don't include -tests with modules
+	Fri, 28 Jul 2017 13:54:40 +0000 (UTC)
+Received: by mail-yw0-f195.google.com with SMTP id p68so8335912ywg.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jul 2017 06:54:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=wAJJrKB341TxNosayL0FIbilDL/phSZf5iAuZV6VIU4=;
+	b=Dt1QoCs80n6RUYvAIZWmwxTHXfu9opj11v2gFIebn6vTt26pu7U8tizco2JDFT4fCB
+	qRITpoo/4juyBaj5Dp2xkv2+8uhHJzftbI8xQ8/sXFo7/pjXOgdCL3bAElXIn1Hy53sM
+	rHEnhW4G4RVxdXIUPkC0TzOqCT3eKC/BjtyRw98m1Oc3HKlxX32HgPha2BxAAwiq/A7R
+	DXBimcDSk6gay0pEDrp4F7viAzX+B2wyfGjwMl3z0DEBeSUkaLIsAqUGdHIMRRnG2PML
+	lDtwMbTxAOaEtSLPS+zosVUUCKaTPqNEnrLVu2OV5ErVxRS0Z/fYHvHTHP7eBXPaQeja
+	0cLA==
+X-Gm-Message-State: AIVw112hnuFY8HnhIiwMiyj0WnHqq01ZhcqBRRpPfTBRkrE8vojBP6rn
+	pnfm8UhtpN8s3+8a
+X-Received: by 10.129.109.78 with SMTP id i75mr6545326ywc.69.1501250081629;
+	Fri, 28 Jul 2017 06:54:41 -0700 (PDT)
+Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
+	[174.106.0.58]) by smtp.gmail.com with ESMTPSA id
+	p127sm7984263ywf.46.2017.07.28.06.54.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 28 Jul 2017 06:54:41 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jul 2017 09:55:55 -0400
+Message-Id: <1501250158-32429-2-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1501250158-32429-1-git-send-email-trini@konsulko.com>
+References: <1501250158-32429-1-git-send-email-trini@konsulko.com>
+Subject: [PATCHv3 2/5] wic: Switch to using --use-uuid by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +47,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 12:12:58 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 28 Jul 2017 13:54:40 -0000
 
-On Thursday, July 27, 2017 10:39:07 PM EDT Richard Purdie wrote:
-> On Mon, 2017-07-24 at 12:10 -0400, Mark Asselstine wrote:
-> > Although 'test' is listed in the python module list
-> > (https://docs.python.org/3/py-modindex.html) it is meant only to be
-> > used 'internally' by folks developing python itself. Per the
-> > documentation:
-> >=20
-> >   Note The test package is meant for internal use by Python only. It
-> >   is documented for the benefit of the core developers of Python. Any
-> >   use of this package outside of Python=E2=80=99s standard library is
-> >   discouraged as code mentioned here can change or be removed without
-> >   notice between releases of Python.
-> >=20
-> > Per the above it is best not to include this module to discourage
-> > folks who might not head the above warnings. Additionally this module
-> > is one of the largest py modules going, by dropping this unneeded
-> > module from the 'modules' package we can reduce overall image size,
-> > something which is important for many embedded deployments.
-> >=20
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> >  meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
-> >  meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> As per the comments at the top of these files, the generator scripts
-> need to be fixed too?
+The most portable way to specifiy a root device in a disk image that we
+create is to use PARTUUID rather than /dev/sda2.  As background, both
+GPT and MBR tables provide valid UUID values for each partition and the
+Linux Kernel contains the logic to parse this value.  With this change
+we can now boot the default disk images when used as any valid block
+device that the included kernel uses.  This for example means that
+VirtualBox can be used to run vmdk without changes as it uses IDE for
+the virtual disk controller.
 
-I am just about to head into the wild with no internet access. I will have =
-a=20
-closer look at this on Monday. I have to admit I did not see the comment.
+Cc: Matt Porter <mporter@konsulko.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+Changes in v2: None
+---
+ scripts/lib/wic/canned-wks/common.wks.inc                   | 2 +-
+ scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg | 8 ++++----
+ scripts/lib/wic/canned-wks/qemux86-directdisk.wks           | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-MarkA
-
->=20
-> Cheers,
->=20
-> Richard
-
+diff --git a/scripts/lib/wic/canned-wks/common.wks.inc b/scripts/lib/wic/canned-wks/common.wks.inc
+index 5cf2fd1f3e06..89880b417b6e 100644
+--- a/scripts/lib/wic/canned-wks/common.wks.inc
++++ b/scripts/lib/wic/canned-wks/common.wks.inc
+@@ -1,3 +1,3 @@
+ # This file is included into 3 canned wks files from this directory
+ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+-part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
++part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
+diff --git a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+index d5a07d20484d..c58e74a853cb 100644
+--- a/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
++++ b/scripts/lib/wic/canned-wks/directdisk-bootloader-config.cfg
+@@ -12,16 +12,16 @@ DEFAULT Graphics console boot
+ 
+ LABEL Graphics console boot
+ KERNEL /vmlinuz
+-APPEND label=boot root=/dev/sda2 rootwait
++APPEND label=boot rootwait
+ 
+ LABEL Serial console boot
+ KERNEL /vmlinuz
+-APPEND label=boot root=/dev/sda2 rootwait console=ttyS0,115200
++APPEND label=boot rootwait console=ttyS0,115200
+ 
+ LABEL Graphics console install
+ KERNEL /vmlinuz
+-APPEND label=install root=/dev/sda2 rootwait
++APPEND label=install rootwait
+ 
+ LABEL Serial console install
+ KERNEL /vmlinuz
+-APPEND label=install root=/dev/sda2 rootwait console=ttyS0,115200
++APPEND label=install rootwait console=ttyS0,115200
+diff --git a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+index db30bbced034..1f8466af29bf 100644
+--- a/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
++++ b/scripts/lib/wic/canned-wks/qemux86-directdisk.wks
+@@ -4,5 +4,5 @@
+ 
+ include common.wks.inc
+ 
+-bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/sda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
++bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
+ 
+-- 
+1.9.1
 
 
