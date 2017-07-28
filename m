@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A8BC78466
+	by mail.openembedded.org (Postfix) with ESMTP id 3FF397846A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 09:53:06 +0000 (UTC)
+	Fri, 28 Jul 2017 09:53:08 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Jul 2017 02:53:07 -0700
+	28 Jul 2017 02:53:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="292649308"
+X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="292649313"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 28 Jul 2017 02:53:07 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 28 Jul 2017 02:53:09 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id EFA915801BC
+	by linux.intel.com (Postfix) with ESMTP id 1C5075809EB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 02:53:06 -0700 (PDT)
+	Fri, 28 Jul 2017 02:53:08 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jul 2017 12:29:25 +0300
-Message-Id: <0d2d0fc8c2636f0f3296cc8ec8687510f8fb68f8.1501233796.git.ed.bartosh@linux.intel.com>
+Date: Fri, 28 Jul 2017 12:29:27 +0300
+Message-Id: <cd9b22acbb332918b2c9f97e4571feccc428f400.1501233796.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1501233796.git.ed.bartosh@linux.intel.com>
 References: <cover.1501233796.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v5 4/7] wic: rootfs: fix rootfs path reporting
+Subject: [PATCH v5 6/7] wic: add /boot mount point to fstab by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 09:53:06 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 09:53:08 -0000
 
-wic gets rootfs paths from partition object property
-'rootfs_dir' and shows them in final report.
+wic avoided adding /boot to fstab for no reason.
+This exception was hardcoded in the wic code.
 
-rootfs plugin sets this property to the temporary path,
-which causes temporary paths appearing in the report.
+There is no need for this as mountpoint in .wks file is an optional
+field. It can be used only if user wants to have partitions
+automatically mounted on system boot.
 
-Changed the code to prevent storing temporary rootfs path
-in part.rootfs_dir. This should fix the report.
+[YOCTO #11662]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/source/rootfs.py | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ scripts/lib/wic/plugins/imager/direct.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index c08f760..e438158 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -81,8 +81,9 @@ class RootfsPlugin(SourcePlugin):
-                 raise WicError("Couldn't find --rootfs-dir=%s connection or "
-                                "it is not a valid path, exiting" % part.rootfs_dir)
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 9b31c9e..9cb2c46 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -135,7 +135,7 @@ class DirectPlugin(ImagerPlugin):
+         updated = False
+         for part in parts:
+             if not part.realnum or not part.mountpoint \
+-               or part.mountpoint in ("/", "/boot"):
++               or part.mountpoint == "/":
+                 continue
  
--        real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
-+        part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
- 
-+        new_rootfs = None
-         # Handle excluded paths.
-         if part.exclude_path is not None:
-             # We need a new rootfs directory we can delete files from. Copy to
-@@ -92,9 +93,7 @@ class RootfsPlugin(SourcePlugin):
-             if os.path.lexists(new_rootfs):
-                 shutil.rmtree(os.path.join(new_rootfs))
- 
--            copyhardlinktree(real_rootfs_dir, new_rootfs)
--
--            real_rootfs_dir = new_rootfs
-+            copyhardlinktree(part.rootfs_dir, new_rootfs)
- 
-             for orig_path in part.exclude_path:
-                 path = orig_path
-@@ -123,6 +122,5 @@ class RootfsPlugin(SourcePlugin):
-                     # Delete whole directory.
-                     shutil.rmtree(full_path)
- 
--        part.rootfs_dir = real_rootfs_dir
-         part.prepare_rootfs(cr_workdir, oe_builddir,
--                            real_rootfs_dir, native_sysroot)
-+                            new_rootfs or part.rootfs_dir, native_sysroot)
+             # mmc device partitions are named mmcblk0p1, mmcblk0p2..
 -- 
 2.1.4
 
