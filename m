@@ -1,47 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 500947850D
+	by mail.openembedded.org (Postfix) with ESMTP id 22C7178522
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 16:44:49 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id y206so5024998wmd.5
+	Fri, 28 Jul 2017 16:45:49 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r77so14967019wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 09:44:51 -0700 (PDT)
+	Fri, 28 Jul 2017 09:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Dn5Q609dSDnhZUsJg1Sw+5g0MAWNfktTMg9APxkiuGg=;
-	b=AhlllN8ecOJOAyE2HEpe0fL/u5ctUd4WYeC3f763rQ9bjm9EN3qzAGmFTX9UkMqCKU
-	QTJUMO0VSLsL1Z1wZraL1U/8pYzKKtOtFhXv8lYNDY80cPyd2B1trHlmYrolHKDBsW+C
-	leRTCTwLmG2Hh0aao97Jw4h3NufnmNwBBFGi2G9R9oJRUnFqWnqjvEta2nUxUd1wZJMl
-	IZX7Juv5Cka4PQRo0bbb4OmYI5rbo7S/gjx5+ivrJE/SN9pACezMyXrRihSun9ZJiGnx
-	FfKVqdKBIPykWfzM/b7xRCtgXeqK2POl8bmtmUiKL0BZnLIIYxfLRguHRiSTw6Htta16
-	Efaw==
+	:cc; bh=SlzeUAkPDRMn7QjAAjd5ZXdMQJRRiXDvM1O+JTQOm0o=;
+	b=IU3+5CclboGc+hw4UyHyxBcmr0i66OqrjBSef6EbvWstOrVth/FjBkAvEAA6XPaoD8
+	LL+gIvpNFcurxN2S+X/R5QizjqWLguAhYa4XszWoEcwUJuAY3bQBcBfIUnluSTUsmlTW
+	f/XjeXaLbQGZPOprUsm/Jm9GQy8wr/TklfOeCTgIrt5ycfZOqS5+Rx0K5OSFHbsrm+lH
+	CCjoNQca3pBXngBqLGZyFZk0YanOT31rxb5kQZmxEGAsBYh6D2yFEvBbuntblP5EJSsG
+	d3zyyx2AJo+dR+YQwmr+hdwWj1A9AUxSAEx6PI1ct/Yf8Ix2h3sL/I/I5h3zW6R1mGpG
+	42jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Dn5Q609dSDnhZUsJg1Sw+5g0MAWNfktTMg9APxkiuGg=;
-	b=MGcChwyvMXmsGZ2YMDBxV6aMezHRpn/C48sxJWwfBqULZaErakhh1tfr0yRSayrnFl
-	LkccAhN3zoIDgAhwYuG5GpPL9qizu6vXlW2u9vEzCUZmw/0AtPOMl8ilz3cl88E0HIDm
-	T0tM7mBwFFCHYBZdAL0HKUE0TnoZ+dQJ1KJAzt0JpwKWudPkKXiTgkZx9wByO17Dub/c
-	cnbInnHRLEjOcxTm/LiOgwiFnUSeCssndRa76yvbgUgmEuN4+4+Y8kCoyFIo+bsT8g8l
-	uL/jux/Ihk8GQ+CnUQPQrwTgh7Oso/d44DOQFtRrWR9jEsbuxNcC6T0Mqj3rTMoDMh0x
-	qAjw==
-X-Gm-Message-State: AIVw112YS0plwZxjwf+vaiX0PKdyiNx80GvMU+2JGD90+jrlz+wldODZ
-	YWMOlPb0Nf5f2EU7XtACWwLfXlaYxg==
-X-Received: by 10.80.145.38 with SMTP id e35mr7487385eda.8.1501260291083; Fri,
-	28 Jul 2017 09:44:51 -0700 (PDT)
+	bh=SlzeUAkPDRMn7QjAAjd5ZXdMQJRRiXDvM1O+JTQOm0o=;
+	b=Yt0e8yaat88+EF80rM/bC/yiNX+eXNnV+86d78N/dqr8NUTNAh+6Qee84ZJk7H5zKf
+	F8xk67dioyX08zZjwhiB+y27uVvoLfBSgnrJkhZ5C1MHRbqtI7pp4FTiuIOhx7IBfmZ3
+	IEWBt/OB6BDMPlwoJoPItz4D8w2Ft1I5mq8et+5jy5mPF/nlTA1Lc05185+Eb89w8kEv
+	wz+B1l2f2b27h8ciEO9P+o9qhne0n55Y+fEbVBFA+KLTUlEniGw1JOxtlaP8d4yRC6MD
+	PimILG7s0sjuh59RwMvcfHVMJpqd1yCA4FyOy+4X8vAwy4RdhPemS2FJkPI2JvSGEJSQ
+	l79Q==
+X-Gm-Message-State: AIVw110n9PRyhAJh3f42ONjmB5KKJxHFRUcYBKIdnk/+TolzHpryMoVp
+	CniLHrdHQYdI0sQwjE+Kee/n0LtI5g==
+X-Received: by 10.80.139.65 with SMTP id l59mr7152011edl.52.1501260350316;
+	Fri, 28 Jul 2017 09:45:50 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.149.181 with HTTP; Fri, 28 Jul 2017 09:44:20 -0700 (PDT)
-In-Reply-To: <97b966925eaaf20263e0f8938806b6e015fc6c70.1501253351.git-series.patrick.ohly@intel.com>
-References: <cover.1afd007ce6c93979d7d4cc2eb225b84710ca1a65.1501253351.git-series.patrick.ohly@intel.com>
-	<97b966925eaaf20263e0f8938806b6e015fc6c70.1501253351.git-series.patrick.ohly@intel.com>
+Received: by 10.80.149.181 with HTTP; Fri, 28 Jul 2017 09:45:19 -0700 (PDT)
+In-Reply-To: <f05e1212a87f739cf27fe9a6c32f45ef92a6fdab.1501250341.git-series.patrick.ohly@intel.com>
+References: <f05e1212a87f739cf27fe9a6c32f45ef92a6fdab.1501250341.git-series.patrick.ohly@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Jul 2017 09:44:20 -0700
-Message-ID: <CAMKF1sq12PyVfGStOaeuSBHx0c96chYuD7jM27pfpcm9zNurhg@mail.gmail.com>
+Date: Fri, 28 Jul 2017 09:45:19 -0700
+Message-ID: <CAMKF1sq98x8jpV_A0Fz2doMO25Cii9v4Ez178ex4uUoPqnnB8A@mail.gmail.com>
 To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] autoconf-archive: simplify and fix recipe
+Subject: Re: [PATCH] autoconf-archive: move from meta-oe to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,76 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 16:44:50 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 16:45:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 28, 2017 at 7:49 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> The COPYING file specifies pure GPLv3, not GPLv2 & GPLv3. There is
-> also the COPYING.EXCEPTION file with the autotools exception, which
-> gets ignored here in the recipe to keep it simpler.
+On Fri, Jul 28, 2017 at 7:01 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> Having common macros in OE-core that are needed by autotools based
+> projects makes sense. For example, tpm2.0-tools in meta-measured
+> depended on meta-oe only because of autoconf-archive.
 >
-> All of the explicit dependencies seem unnecessary, and RDEPENDS_${PN}
-> doesn't do anything for native recipes either, so all of that gets
-> removed.
+> This is a verbatim copy of the autoconf-archive recipe in
+> meta-openembedded rev 1cbd1bc1, with just one change: the patch which
+> disabled the installation of ax_code_coverage.m4 and
+> ax_check_enable_debug.m4 was removed.
 >
-> It also built fine without the m4 and parallel build workarounds.
->
-> There's no need to have a separate .inc file.
+> So now autoconf-archive in OE-core provides them. gnome-common in
+> meta-oe will be changed to not install them and instead depend on
+> autoconf-archive.
+
++1
+LGTM
+
 >
 > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 > ---
->  meta/recipes-devtools/autoconf-archive/autoconf-archive.inc           | 13 -------------
->  meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb | 14 +++++++-------
->  2 files changed, 7 insertions(+), 20 deletions(-)
->  delete mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
+>  meta/recipes-devtools/autoconf-archive/autoconf-archive.inc           | 15 +++++++++++++++
+>  meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb | 13 +++++++++++++
+>  2 files changed, 28 insertions(+)
+>  create mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
+>  create mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
 >
 > diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc b/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
-> deleted file mode 100644
-> index 4f63e0f..0000000
-> --- a/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -LICENSE = "GPLv3"
-> -HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/"
-> -SECTION = "devel"
-> -
-> -DEPENDS += "m4-native"
-> -DEPENDS_class-native = "m4-native gnu-config-native"
-> -DEPENDS_class-nativesdk = "m4-nativesdk gnu-config-nativesdk"
-> -
-> -RDEPENDS_${PN} = "m4 gnu-config"
-> -
-> -SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
-> -
-> -inherit autotools
-> diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
-> index 0a1a771..d77c37d 100644
-> --- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
-> +++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
-> @@ -1,13 +1,13 @@
-> -require autoconf-archive.inc
-> -
-> -
-> -PARALLEL_MAKE = ""
-> -
-> -LICENSE = "GPLv2 & GPLv3"
-> +SUMMARY = "a collection of freely re-usable Autoconf macros"
+> new file mode 100644
+> index 0000000..9684d1f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
+> @@ -0,0 +1,15 @@
+> +LICENSE = "GPLv3"
 > +HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/"
 > +SECTION = "devel"
-> +LICENSE = "GPLv3"
-
-Perhaps  GPL-3.0-with-autoconf-exception would be more accurate here.
-
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->
-> +SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
->  SRC_URI[md5sum] = "bf19d4cddce260b3c3e1d51d42509071"
->  SRC_URI[sha256sum] = "e8f2efd235f842bad2f6938bf4a72240a5e5fcd248e8444335e63beb60fabd82"
->
-> -EXTRA_OECONF += "ac_cv_path_M4=m4"
-> +inherit autotools
 > +
->  BBCLASSEXTEND = "native nativesdk"
+> +DEPENDS += "m4-native"
+> +DEPENDS_class-native = "m4-native gnu-config-native"
+> +DEPENDS_class-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+> +
+> +RDEPENDS_${PN} = "m4 gnu-config gnome-common"
+> +RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
+> +RDEPENDS_${PN}_class-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+> +
+> +SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+> +
+> +inherit autotools
+> diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+> new file mode 100644
+> index 0000000..0a1a771
+> --- /dev/null
+> +++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+> @@ -0,0 +1,13 @@
+> +require autoconf-archive.inc
+> +
+> +
+> +PARALLEL_MAKE = ""
+> +
+> +LICENSE = "GPLv2 & GPLv3"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> +
+> +SRC_URI[md5sum] = "bf19d4cddce260b3c3e1d51d42509071"
+> +SRC_URI[sha256sum] = "e8f2efd235f842bad2f6938bf4a72240a5e5fcd248e8444335e63beb60fabd82"
+> +
+> +EXTRA_OECONF += "ac_cv_path_M4=m4"
+> +BBCLASSEXTEND = "native nativesdk"
+>
+> base-commit: d3a41fbd94462efc8c6f1b55f6fb54001b447c45
 > --
 > git-series 0.9.1
 > --
