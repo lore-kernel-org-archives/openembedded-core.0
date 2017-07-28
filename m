@@ -1,47 +1,47 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA9B784B0
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D5EA4784A1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 14:44:24 +0000 (UTC)
-Received: by mail-pf0-f178.google.com with SMTP id d67so28851018pfc.0
+	Fri, 28 Jul 2017 14:50:00 +0000 (UTC)
+Received: by mail-pf0-f169.google.com with SMTP id q85so96770807pfq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 07:44:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 28 Jul 2017 07:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=CxhoqHkITIFzYV7pR/dChw2fvT3EYB/4mAsm4j86WEg=;
-	b=dsyiCbLxwwAzj2JKCpR4h8C14vVOLOsOb15bnj2q3RLm0cJWo6MbTT1WCOeyXvO1BW
-	oh0fFXrujH7LuM1aU/3khAHkwSRSjqd+G0pv/eCjPPvqcmb4tL+z7noEIs/i7R/xnHAe
-	314yo/+ozsqCzEcFIN2AhOZWZPVpv4IFM7Ui6GymuLGiq+FOWeT7ga4AYCaI+iAfyyKD
-	Un7VCJf7nQLBZ32D4QInqBw0zR3WsyB/E4IxnljZH29IqB/KzPR/sdNqpj7NVNXZgzor
-	Nol1ygh5RSTcf7CexjBx6Pxst3lnoK6dvrZXyfzJft9qtVSRANje+OE00EBhrS2UX6q0
-	tWkg==
+	bh=zIz/Qp0KgXYUdFDZWg+K0C5gEH2rR2sGdsogHNLPHHg=;
+	b=0Ogcb+Zt64eQWTnSE1cbFYUkEZTM66OpnYtJhhmLpbDb9cAuzwLn397dhiCZOcMv8N
+	wUlRK/19R5b5xsEOelpH0nDWy8wGv4a3jc4o4V068Oq+f1V1/21YI9jyHV2AQf5bqeGp
+	KAl3cvTv+vdDnJAjb9UsuXAFrRYIyvOOSFXv8JfYVBuFW4oEAlgIZ6sHAquZ5Pzsrad5
+	xXQJBrbNPuNih7X8LVD9BDvBmugp9GrG/BrRuEepzItYLxK/o5a9L4ySewokevD1FGLj
+	pkQ7MkgkTufGEnSdu9l+tEucp2avirlJuLP6ajVH8vGQTY1l4Aoj6Aj/PECsWN9HVtxR
+	nWcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=CxhoqHkITIFzYV7pR/dChw2fvT3EYB/4mAsm4j86WEg=;
-	b=blx/FG6bW7eK06E9FqSJJYiFwhHBwXhRXq8kD7jo5V1j1OZpRmdoxPSmeETjpYRjj4
-	ftUBC/BKDlJ4HCFsQ0UaLzuEon5p3g5weTNhtAlO62acLiPiIA/lB/7tLlaNCxKAdd90
-	s//tL7oup8eQkmXMTdyJYWe2OTWMHfmw6dA/y1q32t0Pwo7wesxktKPfFVtfNZZ6fBXx
-	dSthAbXgv0U1PRsP///NfJk1njuYlHJa3QwJ6cXYNNedoUp7q7nnOzXflk0cb4je6R5I
-	Gz3q1Rq9ooMxSF7OPtq02t4STsyKwGJsYDtwWFs8L8Kjuwqs2jMkPrGYkURp9Bsu/fQn
-	DC0g==
-X-Gm-Message-State: AIVw111J/t718vp9h4aqyhGzm0E0Z3roDDlaRSC59Z+OlN/9xWgKlVyr
-	TRUugyDOLz+2nA==
-X-Received: by 10.84.231.8 with SMTP id f8mr3694971plk.405.1501253065945;
-	Fri, 28 Jul 2017 07:44:25 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by smtp.gmail.com with ESMTPSA id
-	c7sm37622346pfa.174.2017.07.28.07.44.24
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 28 Jul 2017 07:44:25 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	bh=zIz/Qp0KgXYUdFDZWg+K0C5gEH2rR2sGdsogHNLPHHg=;
+	b=DTIs7ESi/dnAJR0uI2zjIF+bOehhISkYAuBjgQF5zL2CLWtR2nAmxQgl1Sy30Fq8H/
+	TNruXcUgC5OGHILkZpmB3lDoDkbgvRU94tU6hzUV6rcE6PhNs8TGNqpXLhc3bBtrQKRN
+	jJqo0Et/9dSzA+7iHAo3J/bvvrV+YLlHstlMRvi9kDzqenLQcFiHEDvWzEno7DLA6ZSA
+	/tRWl1kWqfgVaqsXh61JL87B6qDoHOlWuW9HdmOYw1gXRUq9a7x8EjqYPgIwD+S250nk
+	pevjB8nNOVyTz+25Pf1Hg6IhUPTOmgl6efXhrXi8PTUTqqmlJkQx+t9ig3ZdIwpz6xo1
+	cYpA==
+X-Gm-Message-State: AIVw111SExUibZT4ZQBwAYFYNjOFdI+R1V9YisUJcf05WlTzZrB3A01G
+	JPPwQwnp+cgY6tLhUcE=
+X-Received: by 10.98.69.91 with SMTP id s88mr7579349pfa.183.1501253401536;
+	Fri, 28 Jul 2017 07:50:01 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p57A5633D.dip0.t-ipconnect.de.
+	[87.165.99.61]) by smtp.gmail.com with ESMTPSA id
+	b13sm38730381pfj.141.2017.07.28.07.49.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 28 Jul 2017 07:50:00 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jul 2017 00:45:27 +1000
-Message-Id: <20170728144527.24322-1-net147@gmail.com>
-X-Mailer: git-send-email 2.13.2
-Subject: [PATCH v3] wic: ensure generated disk system identifier is non-zero
+Date: Fri, 28 Jul 2017 16:49:51 +0200
+Message-Id: <cover.1afd007ce6c93979d7d4cc2eb225b84710ca1a65.1501253351.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v2 0/2] move autoconf-archive into OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +54,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 14:44:25 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 14:50:01 -0000
 
-Zero may be interpreted as no MBR signature present and another
-partitioning program might install a new MBR signature.
+V2:
+ - removed the gnome-common dependency that was still in V1
+ - merged the .inc file into the .bb file and cleaned up the recipe
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- scripts/lib/wic/plugins/imager/direct.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patrick Ohly (2):
+  autoconf-archive: move from meta-oe to OE-core
+  autoconf-archive: simplify and fix recipe
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f20d8433f1..fe9b688ab0 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -297,7 +297,7 @@ class PartitionedImage():
-                           # all partitions (in bytes)
-         self.ptable_format = ptable_format  # Partition table format
-         # Disk system identifier
--        self.identifier = int.from_bytes(os.urandom(4), 'little')
-+        self.identifier = int.from_bytes(os.urandom(4), 'little') or 0xffffffff
- 
-         self.partitions = partitions
-         self.partimages = []
+ meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+
+base-commit: d3a41fbd94462efc8c6f1b55f6fb54001b447c45
 -- 
-2.13.2
-
+git-series 0.9.1
 
