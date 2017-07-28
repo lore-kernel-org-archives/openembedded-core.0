@@ -1,26 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2866D78466
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9533C78461
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 09:53:04 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 28 Jul 2017 02:53:05 -0700
+	Fri, 28 Jul 2017 09:53:05 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jul 2017 02:53:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="132319497"
+X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="112934729"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Jul 2017 02:53:05 -0700
+	by orsmga004.jf.intel.com with ESMTP; 28 Jul 2017 02:53:06 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id C78F75801BC
+	by linux.intel.com (Postfix) with ESMTP id E068C5801BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 02:53:04 -0700 (PDT)
+	Fri, 28 Jul 2017 02:53:05 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jul 2017 12:29:23 +0300
-Message-Id: <337d7dac4fd4e0d1166a2e1dbaf2c59bd2585491.1501233796.git.ed.bartosh@linux.intel.com>
+Date: Fri, 28 Jul 2017 12:29:24 +0300
+Message-Id: <c2f69d1958b4ec3359f88b65f73d00d8b9991573.1501233796.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1501233796.git.ed.bartosh@linux.intel.com>
 References: <cover.1501233796.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v5 2/7] wic: copy rootfs directory before changing fstab
+Subject: [PATCH v5 3/7] wic: use absolute paths in rootfs plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,75 +36,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 28 Jul 2017 09:53:05 -0000
 
-wic updates /etc/fstab on root partition if there are
-valid mount points in .wks
-
-When wic runs from bitbake this can cause incorrect results
-or even breakage of other tasks working with the same rootfs
-directory in parallel with do_image_wic.
-
-Implemented hardlinking rootfs directory to a temporary location
-before updating fstab to avoid conflicts with other tasks working
-with the same rootfs directory.
+Using relative paths can cause copyhardlinktree API to fail as
+it changes current directory when working. Converted all paths
+to absolute paths using os.path.realpath.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/plugins/imager/direct.py | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ scripts/lib/wic/plugins/source/rootfs.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f20d843..9b31c9e 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -115,12 +115,20 @@ class DirectPlugin(ImagerPlugin):
-             fstab_lines = fstab.readlines()
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index 4dc4cb8..c08f760 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -48,7 +48,7 @@ class RootfsPlugin(SourcePlugin):
+     @staticmethod
+     def __get_rootfs_dir(rootfs_dir):
+         if os.path.isdir(rootfs_dir):
+-            return rootfs_dir
++            return os.path.realpath(rootfs_dir)
  
-         if self._update_fstab(fstab_lines, self.parts):
--            shutil.copyfile(fstab_path, fstab_path + ".orig")
-+            # hardlink rootfs content to the temporary directory to update fstab
-+            # as rootfs can be used by other tasks and can't be modified
-+            new_rootfs = os.path.realpath(os.path.join(self.workdir, "rootfs_copy"))
-+            exec_cmd("cp -al %s %s" % (image_rootfs, new_rootfs),
-+                                       self.native_sysroot)
-+
-+            fstab_path = os.path.join(new_rootfs, 'etc/fstab')
-+
-+            os.unlink(fstab_path)
+         image_rootfs_dir = get_bitbake_var("IMAGE_ROOTFS", rootfs_dir)
+         if not os.path.isdir(image_rootfs_dir):
+@@ -56,7 +56,7 @@ class RootfsPlugin(SourcePlugin):
+                            "named %s has been found at %s, exiting." %
+                            (rootfs_dir, image_rootfs_dir))
  
-             with open(fstab_path, "w") as fstab:
-                 fstab.writelines(fstab_lines)
+-        return image_rootfs_dir
++        return os.path.realpath(image_rootfs_dir)
  
--            return fstab_path
-+            return new_rootfs
- 
-     def _update_fstab(self, fstab_lines, parts):
-         """Assume partition order same as in wks"""
-@@ -156,7 +164,10 @@ class DirectPlugin(ImagerPlugin):
-         filesystems from the artifacts directly and combine them into
-         a partitioned image.
-         """
--        fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-+        new_rootfs = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-+        if new_rootfs:
-+            # rootfs was copied to update fstab
-+            self.rootfs_dir['ROOTFS_DIR'] = new_rootfs
- 
-         for part in self.parts:
-             # get rootfs size from bitbake variable if it's not set in .ks file
-@@ -172,12 +183,7 @@ class DirectPlugin(ImagerPlugin):
-                     if rsize_bb:
-                         part.size = int(round(float(rsize_bb)))
- 
--        try:
--            self._image.prepare(self)
--        finally:
--            if fstab_path:
--                shutil.move(fstab_path + ".orig", fstab_path)
--
-+        self._image.prepare(self)
-         self._image.layout_partitions()
-         self._image.create()
- 
+     @classmethod
+     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
 -- 
 2.1.4
 
