@@ -1,25 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AE9378416
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FE7F78461
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 09:52:32 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Jul 2017 02:52:34 -0700
+	Fri, 28 Jul 2017 09:52:48 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jul 2017 02:52:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="883719890"
+X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="130521825"
 Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 28 Jul 2017 02:52:34 -0700
+	by orsmga005.jf.intel.com with ESMTP; 28 Jul 2017 02:52:49 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 4615B5801BC
+	by linux.intel.com (Postfix) with ESMTP id 059FE580941
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 02:52:33 -0700 (PDT)
+	Fri, 28 Jul 2017 02:52:48 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jul 2017 12:29:21 +0300
-Message-Id: <cover.1501233796.git.ed.bartosh@linux.intel.com>
+Date: Fri, 28 Jul 2017 12:29:22 +0300
+Message-Id: <8b36d26f483323a22826a690a2b11a6b39c888df.1501233796.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v5 0/7] #11662 - wic should mount /boot
+In-Reply-To: <cover.1501233796.git.ed.bartosh@linux.intel.com>
+References: <cover.1501233796.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH v5 1/7] image_types.bbclass: ignore tar exit code 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 09:52:33 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 09:52:48 -0000
 
-Hi,
+tar exists with 1 and produces warning "file changed as we read it"
+if content is changed while tar archives it. Even hardlinking content
+causes tar to fail this way as it changes file ctime.
 
-This patchset adds /boot to the /etc/fstab of root partition, making
-it mounted on boot. It also fixes reporting and testing issues
-caused by this change.
+Other tasks running in parallel with do_image_tar may need to hardlink
+rootfs content in order to change it, e.g. do_image_wic does this to
+update etc/fstab.
 
-The patchset also fixes long standing bug: wic updated fstab
-inplace in rootfs directory. This causes other tasks working with
-rootfs directory to produce incorrect results or crash. This is
-fixed by hadlinking rootfs content to the temporary directory before
-updating fstab.
+Ignored tar exit code 1 to be able to hardlink rootfs content while
+do_rootfs_tar is tarring it.
 
-This approach caused do_image_tar to fail with the error "file changed as we read it"
-as hardlinking changes files ctime. In order to solve this we had to
-modify do_image_tar to ignore file changes.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes in v2: squashed patches by reviewer's request
-Changes in v3: unlink /etc/fstab in rootfs copy before updating it
-Changes in v4: used 'cp -a' instead of copyhardlinktree to avoid
-               do_image_tar failure due to changed ctime
-Changes in v5: back to hardlinking. ignored tar exit code 1.
-
-The following changes since commit b73f5e088a543775a2a94b60302f750edfffbd10:
-
-  wic-tools: add dependency to e2fsprogs-native (2017-07-27 16:07:26 +0300)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wip
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
-
-Ed Bartosh (7):
-  image_types.bbclass: ignore tar exit code 1
-  wic: copy rootfs directory before changing fstab
-  wic: use absolute paths in rootfs plugin
-  wic: rootfs: fix rootfs path reporting
-  wic: rootfs: make copied rootfs unique
-  wic: add /boot mount point to fstab by default
-  oe-selftest: wic: fix test_quemu
-
- meta/classes/image_types.bbclass         |  3 ++-
- meta/lib/oeqa/selftest/cases/wic.py      |  2 +-
- scripts/lib/wic/plugins/imager/direct.py | 26 ++++++++++++++++----------
- scripts/lib/wic/plugins/source/rootfs.py | 16 +++++++---------
- 4 files changed, 26 insertions(+), 21 deletions(-)
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index cf946a6..2365ce8 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -119,7 +119,8 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
+ # In practice, it turned out to be not needed when creating archives and
+ # required when extracting, but it seems prudent to use it in both cases.
+ IMAGE_CMD_TAR ?= "tar"
+-IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} ."
++# ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
++IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [[ $? -eq 1 ]]"
+ 
+ do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+ IMAGE_CMD_cpio () {
 -- 
 2.1.4
 
