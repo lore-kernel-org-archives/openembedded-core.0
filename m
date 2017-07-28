@@ -1,47 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD4D78442
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 250DD60766
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 11:58:19 +0000 (UTC)
-Received: by mail-io0-f179.google.com with SMTP id g13so88872580ioj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 04:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2V/XufVQbSdCck0t71ixmZ+mToJCj485ZAVipWVQAtM=;
-	b=jqA48eCgEY8WTF1Hp77Pu2eGvFQ1gJCJcH8B24rq7wRyiArkliRUMPWC+8mqjyHYpV
-	V/7jkhqJYn2UlWhmXpSUagB7YwxmxQTNKAxrIJnkTBZaYw26NP6ce7vLP8+/UbUzQoaJ
-	5sbzy7PAs3h1PH6Kgp67culxCwesRyLSAlsVu0wTMsnq0XuAFrhCEHjnyRyMYsN8xW/g
-	g6Jx6MbXEcJoEEjsYPgYVfaW7V/sssKRK1f5oQyKtpFPSnfthrfd+bL5LeEu6YOpGgDX
-	fnTNzr1rdviU7hzJiVZTxByAGCX20W234cy/wYLpk88o/nD6t3YeHQ1y7T4Iuf5CXLRH
-	kLvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=2V/XufVQbSdCck0t71ixmZ+mToJCj485ZAVipWVQAtM=;
-	b=GoRrkiVBLpYKKA/RpYK9NnVcI2A79365QEfq1xPO68yKu5LZyW+orHYlTO3aHiU3X6
-	gLR8aCA8ygmwdIe9Vusm32eT8psHfo8vhe/ZvbXr93JBltooK/W5hHlIv7IfnjhRqhpi
-	zRovuWwz1MwsWZf+DWLV2AOeIXtvZFoLUDJvSkbuXTcleYX3LQJua5svMhKEBqJl5Xjk
-	MOzxWx0m2+uOFl5rdJpPASznP7m4Ir+T9XIyaBeUfd1GB3xSJatsSPaY3ZKHLDCbbK+X
-	K8fnbEm3cTYd8VkcJWwE3lFIs5vB7F5f3N9hDbKIarZWd9mI6qvzQVQnrevKVm/bMWvi
-	ku6Q==
-X-Gm-Message-State: AIVw112Xxm5VCMEqlbGaeG1s6xy5/JvyffqMK4x/uQpqa7/W2TVR94Tm
-	DYeJQsrr1bOQNkY9YvMHDzDJJplQjzQXJ3Q=
-X-Received: by 10.107.170.170 with SMTP id g42mr9422857ioj.19.1501243100779;
-	Fri, 28 Jul 2017 04:58:20 -0700 (PDT)
+	Fri, 28 Jul 2017 12:03:21 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jul 2017 05:03:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="133067045"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 28 Jul 2017 05:03:22 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 1B8F85801CF;
+	Fri, 28 Jul 2017 05:03:20 -0700 (PDT)
+Date: Fri, 28 Jul 2017 14:40:37 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Jonathan Liu <net147@gmail.com>
+Message-ID: <20170728114037.GA9571@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1501012696-2666-1-git-send-email-trini@konsulko.com>
+	<CANwerB1m5u91dBEGRjVrn42DE38OaUtXUp18f-OC4LXY1mB9sA@mail.gmail.com>
+	<20170728113131.GK26163@bill-the-cat>
+	<CANwerB0gygr63B33YDrVtWtLEfa=1-9DYJ83mjC7RsM7ZwHwWw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Fri, 28 Jul 2017 04:58:00 -0700 (PDT)
-In-Reply-To: <20170727144046.13124-1-alexander.kanavin@linux.intel.com>
-References: <20170727144046.13124-1-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 28 Jul 2017 12:58:00 +0100
-Message-ID: <CAJTo0LbB7mbUmSjiXgnTBYi8G1uBoJ-i2-vCX79Jki7EYbwQGw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] libcap: fix build with gperf 3.1
+In-Reply-To: <CANwerB0gygr63B33YDrVtWtLEfa=1-9DYJ83mjC7RsM7ZwHwWw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Tom Rini <trini@konsulko.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image: Convert vmdk/vdi/qcow2 to strict CONVERSION_CMD types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,261 +43,335 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 11:58:19 -0000
-Content-Type: multipart/alternative; boundary="001a114260babe6f1505555f6582"
+X-List-Received-Date: Fri, 28 Jul 2017 12:03:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a114260babe6f1505555f6582
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Jul 28, 2017 at 09:35:37PM +1000, Jonathan Liu wrote:
+> Hi Tom,
+> 
+> On 28 July 2017 at 21:31, Tom Rini <trini@konsulko.com> wrote:
+> > On Fri, Jul 28, 2017 at 09:09:55PM +1000, Jonathan Liu wrote:
+> >> Hi Tom,
+> >>
+> >> On 26 July 2017 at 05:58, Tom Rini <trini@konsulko.com> wrote:
+> >> > The vmdk/vdi/qcow2 IMAGE_FSTYPEs predate wic.  As such, they provide
+> >> > some similar underlying functionality in order to produce a "disk" image
+> >> > that in turn can be converted into different formats that various
+> >> > hypervisor types work with.  They do not however provide the ability for
+> >> > other disk image types to be converted into these same output types.
+> >> > Furthermore, they are less flexible than what wic does provide.  This
+> >> > drops the old style vmdk/vdi/qcow2 types and re-introduces them under
+> >> > the CONVERSION_CMD framework.  The equivalent of vmdk is now wic.vmdk
+> >> > and so forth for the other types.
+> >> >
+> >> > Signed-off-by: Tom Rini <trini@konsulko.com>
+> >> > ---
+> >> > This depends on my previous series to correct chaining compression
+> >> > support.  I had attempted to keep the vmdk/vdi/qcow2 IMAGE_FSTYPES for
+> >> > compatibility sake using IMAGE_TYPEDEP_vmdk = "wic" and introducing an
+> >> > oe_qemuimg function to run to do the conversion.  This was working, but
+> >> > I could not get it to have the symlinks created automatically.  At this
+> >> > timeI think it makes most sense to not hide that the underlying disk
+> >> > content has changed at least slightly from the old vmdk type to the new
+> >> > type and that we can simply handle this change in documentation.  As
+> >> > such, if there's agreement about dropping the types I'll include some
+> >> > documentation changes in the next version.
+> >> >
+> >> >  meta/classes/image-vm.bbclass                      | 171 ---------------------
+> >> >  meta/classes/image.bbclass                         |   3 -
+> >> >  meta/classes/image_types.bbclass                   |  12 +-
+> >> >  .../images/build-appliance-image_15.0.0.bb         |   6 +-
+> >> >  4 files changed, 10 insertions(+), 182 deletions(-)
+> >> >  delete mode 100644 meta/classes/image-vm.bbclass
+> >> >
+> >> > diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
+> >> > deleted file mode 100644
+> >> > index b52df9f..0000000
+> >> > --- a/meta/classes/image-vm.bbclass
+> >> > +++ /dev/null
+> >> > @@ -1,171 +0,0 @@
+> >> > -# image-vm.bbclass
+> >> > -# (loosly based off image-live.bbclass Copyright (C) 2004, Advanced Micro Devices, Inc.)
+> >> > -#
+> >> > -# Create an image which can be placed directly onto a harddisk using dd and then
+> >> > -# booted.
+> >> > -#
+> >> > -# This uses syslinux. extlinux would have been nice but required the ext2/3
+> >> > -# partition to be mounted. grub requires to run itself as part of the install
+> >> > -# process.
+> >> > -#
+> >> > -# The end result is a 512 boot sector populated with an MBR and partition table
+> >> > -# followed by an msdos fat16 partition containing syslinux and a linux kernel
+> >> > -# completed by the ext2/3 rootfs.
+> >> > -#
+> >> > -# We have to push the msdos parition table size > 16MB so fat 16 is used as parted
+> >> > -# won't touch fat12 partitions.
+> >> > -
+> >> > -inherit live-vm-common
+> >> > -
+> >> > -do_bootdirectdisk[depends] += "dosfstools-native:do_populate_sysroot \
+> >> > -                               virtual/kernel:do_deploy \
+> >> > -                               syslinux:do_populate_sysroot \
+> >> > -                               syslinux-native:do_populate_sysroot \
+> >> > -                               parted-native:do_populate_sysroot \
+> >> > -                               mtools-native:do_populate_sysroot \
+> >> > -                               ${PN}:do_image_${VM_ROOTFS_TYPE} \
+> >> > -                               "
+> >> > -
+> >> > -IMAGE_TYPEDEP_vmdk = "${VM_ROOTFS_TYPE}"
+> >> > -IMAGE_TYPEDEP_vdi = "${VM_ROOTFS_TYPE}"
+> >> > -IMAGE_TYPEDEP_qcow2 = "${VM_ROOTFS_TYPE}"
+> >> > -IMAGE_TYPEDEP_hdddirect = "${VM_ROOTFS_TYPE}"
+> >> > -IMAGE_TYPES_MASKED += "vmdk vdi qcow2 hdddirect"
+> >> > -
+> >> > -VM_ROOTFS_TYPE ?= "ext4"
+> >> > -ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${VM_ROOTFS_TYPE}"
+> >> > -
+> >> > -# Used by bootloader
+> >> > -LABELS_VM ?= "boot"
+> >> > -ROOT_VM ?= "root=/dev/sda2"
+> >> > -# Using an initramfs is optional. Enable it by setting INITRD_IMAGE_VM.
+> >> > -INITRD_IMAGE_VM ?= ""
+> >> > -INITRD_VM ?= "${@'${IMGDEPLOYDIR}/${INITRD_IMAGE_VM}-${MACHINE}.cpio.gz' if '${INITRD_IMAGE_VM}' else ''}"
+> >> > -do_bootdirectdisk[depends] += "${@'${INITRD_IMAGE_VM}:do_image_complete' if '${INITRD_IMAGE_VM}' else ''}"
+> >> > -
+> >> > -BOOTDD_VOLUME_ID   ?= "boot"
+> >> > -BOOTDD_EXTRA_SPACE ?= "16384"
+> >> > -
+> >> > -DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+> >> > -DISK_SIGNATURE[vardepsexclude] = "DISK_SIGNATURE_GENERATED"
+> >> > -
+> >> > -build_boot_dd() {
+> >> > -       HDDDIR="${S}/hdd/boot"
+> >> > -       HDDIMG="${S}/hdd.image"
+> >> > -       IMAGE=${IMGDEPLOYDIR}/${IMAGE_NAME}.hdddirect
+> >> > -
+> >> > -       populate_kernel $HDDDIR
+> >> > -
+> >> > -       if [ "${PCBIOS}" = "1" ]; then
+> >> > -               syslinux_hddimg_populate $HDDDIR
+> >> > -       fi
+> >> > -       if [ "${EFI}" = "1" ]; then
+> >> > -               efi_hddimg_populate $HDDDIR
+> >> > -       fi
+> >> > -
+> >> > -       BLOCKS=`du -bks $HDDDIR | cut -f 1`
+> >> > -       BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
+> >> > -
+> >> > -       # Remove it since mkdosfs would fail when it exists
+> >> > -       rm -f $HDDIMG
+> >> > -       mkdosfs -n ${BOOTDD_VOLUME_ID} ${MKDOSFS_EXTRAOPTS} -C $HDDIMG $BLOCKS
+> >> > -       mcopy -i $HDDIMG -s $HDDDIR/* ::/
+> >> > -
+> >> > -       if [ "${PCBIOS}" = "1" ]; then
+> >> > -               syslinux_hdddirect_install $HDDIMG
+> >> > -       fi
+> >> > -       chmod 644 $HDDIMG
+> >> > -
+> >> > -       ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
+> >> > -       TOTALSIZE=`expr $BLOCKS + $ROOTFSBLOCKS`
+> >> > -       END1=`expr $BLOCKS \* 1024`
+> >> > -       END2=`expr $END1 + 512`
+> >> > -       END3=`expr \( $ROOTFSBLOCKS \* 1024 \) + $END1`
+> >> > -
+> >> > -       echo $ROOTFSBLOCKS $TOTALSIZE $END1 $END2 $END3
+> >> > -       rm -rf $IMAGE
+> >> > -       dd if=/dev/zero of=$IMAGE bs=1024 seek=$TOTALSIZE count=1
+> >> > -
+> >> > -       parted $IMAGE mklabel msdos
+> >> > -       parted $IMAGE mkpart primary fat16 0 ${END1}B
+> >> > -       parted $IMAGE unit B mkpart primary ext2 ${END2}B ${END3}B
+> >> > -       parted $IMAGE set 1 boot on
+> >> > -
+> >> > -       parted $IMAGE print
+> >> > -
+> >> > -       awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | sed 's/\(..\)\(..\)\(..\)\(..\)/\\x\4\\x\3\\x\2\\x\1/')\" }" | \
+> >> > -               dd of=$IMAGE bs=1 seek=440 conv=notrunc
+> >> > -
+> >> > -       OFFSET=`expr $END2 / 512`
+> >> > -       if [ "${PCBIOS}" = "1" ]; then
+> >> > -               dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+> >> > -       fi
+> >> > -
+> >> > -       dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+> >> > -       dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
+> >> > -
+> >> > -       cd ${IMGDEPLOYDIR}
+> >> > -
+> >> > -       ln -sf ${IMAGE_NAME}.hdddirect ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.hdddirect
+> >> > -}
+> >> > -
+> >> > -python do_bootdirectdisk() {
+> >> > -    validate_disk_signature(d)
+> >> > -    set_live_vm_vars(d, 'VM')
+> >> > -    if d.getVar("PCBIOS") == "1":
+> >> > -        bb.build.exec_func('build_syslinux_cfg', d)
+> >> > -    if d.getVar("EFI") == "1":
+> >> > -        bb.build.exec_func('build_efi_cfg', d)
+> >> > -    bb.build.exec_func('build_boot_dd', d)
+> >> > -}
+> >> > -
+> >> > -def generate_disk_signature():
+> >> > -    import uuid
+> >> > -
+> >> > -    signature = str(uuid.uuid4())[:8]
+> >> > -
+> >> > -    if signature != '00000000':
+> >> > -        return signature
+> >> > -    else:
+> >> > -        return 'ffffffff'
+> >> > -
+> >> > -def validate_disk_signature(d):
+> >> > -    import re
+> >> > -
+> >> > -    disk_signature = d.getVar("DISK_SIGNATURE")
+> >> > -
+> >> > -    if not re.match(r'^[0-9a-fA-F]{8}$', disk_signature):
+> >> > -        bb.fatal("DISK_SIGNATURE '%s' must be an 8 digit hex string" % disk_signature)
+> >> > -
+> >> > -DISK_SIGNATURE_GENERATED := "${@generate_disk_signature()}"
+> >> > -
+> >> > -run_qemu_img (){
+> >> > -    type="$1"
+> >> > -    qemu-img convert -O $type ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.hdddirect ${IMGDEPLOYDIR}/${IMAGE_NAME}.$type
+> >> > -
+> >> > -    ln -sf ${IMAGE_NAME}.$type ${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.$type
+> >> > -}
+> >> > -create_vmdk_image () {
+> >> > -    run_qemu_img vmdk
+> >> > -}
+> >> > -
+> >> > -create_vdi_image () {
+> >> > -    run_qemu_img vdi
+> >> > -}
+> >> > -
+> >> > -create_qcow2_image () {
+> >> > -    run_qemu_img qcow2
+> >> > -}
+> >> > -
+> >> > -python do_vmimg() {
+> >> > -    if 'vmdk' in d.getVar('IMAGE_FSTYPES'):
+> >> > -        bb.build.exec_func('create_vmdk_image', d)
+> >> > -    if 'vdi' in d.getVar('IMAGE_FSTYPES'):
+> >> > -        bb.build.exec_func('create_vdi_image', d)
+> >> > -    if 'qcow2' in d.getVar('IMAGE_FSTYPES'):
+> >> > -        bb.build.exec_func('create_qcow2_image', d)
+> >> > -}
+> >> > -
+> >> > -addtask bootdirectdisk before do_vmimg
+> >> > -addtask vmimg after do_bootdirectdisk before do_image_complete
+> >> > -do_vmimg[depends] += "qemu-native:do_populate_sysroot"
+> >> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> >> > index dee17ae..40bd614 100644
+> >> > --- a/meta/classes/image.bbclass
+> >> > +++ b/meta/classes/image.bbclass
+> >> > @@ -138,9 +138,6 @@ def build_live(d):
+> >> >  IMAGE_TYPE_live = "${@build_live(d)}"
+> >> >  inherit ${IMAGE_TYPE_live}
+> >> >
+> >> > -IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2", "hdddirect"], "image-vm", "", d)}'
+> >> > -inherit ${IMAGE_TYPE_vm}
+> >> > -
+> >> >  IMAGE_TYPE_container = '${@bb.utils.contains("IMAGE_FSTYPES", "container", "image-container", "", d)}'
+> >> >  inherit ${IMAGE_TYPE_container}
+> >> >
+> >> > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> >> > index 4fdcde2..138d7a5 100644
+> >> > --- a/meta/classes/image_types.bbclass
+> >> > +++ b/meta/classes/image_types.bbclass
+> >> > @@ -254,10 +254,6 @@ IMAGE_TYPES = " \
+> >> >      ubi ubifs multiubi \
+> >> >      tar tar.gz tar.bz2 tar.xz tar.lz4 \
+> >> >      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+> >> > -    vmdk \
+> >> > -    vdi \
+> >> > -    qcow2 \
+> >> > -    hdddirect \
+> >> >      elf \
+> >> >      wic wic.gz wic.bz2 wic.lzma \
+> >> >      container \
+> >> > @@ -269,7 +265,7 @@ IMAGE_TYPES = " \
+> >> >  # CONVERSION_CMD/DEPENDS.
+> >> >  COMPRESSIONTYPES ?= ""
+> >> >
+> >> > -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot ${COMPRESSIONTYPES}"
+> >> > +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 ${COMPRESSIONTYPES}"
+> >> >  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> >> >  CONVERSION_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+> >> >  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> >> > @@ -287,6 +283,9 @@ CONVERSION_CMD_sha384sum = "sha384sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+> >> >  CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha512sum"
+> >> >  CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
+> >> >  CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
+> >> > +CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
+> >> > +CONVERSION_CMD_vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
+> >> > +CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+> >> >  CONVERSION_DEPENDS_lzma = "xz-native"
+> >> >  CONVERSION_DEPENDS_gz = "pigz-native"
+> >> >  CONVERSION_DEPENDS_bz2 = "pbzip2-native"
+> >> > @@ -297,6 +296,9 @@ CONVERSION_DEPENDS_zip = "zip-native"
+> >> >  CONVERSION_DEPENDS_sum = "mtd-utils-native"
+> >> >  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
+> >> >  CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
+> >> > +CONVERSION_DEPENDS_vmdk = "qemu-native"
+> >> > +CONVERSION_DEPENDS_vdi = "qemu-native"
+> >> > +CONVERSION_DEPENDS_qcow2 = "qemu-native"
+> >> >
+> >> >  RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+> >> >  RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+> >> > diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> >> > index f145b5e..927a931 100644
+> >> > --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> >> > +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> >> > @@ -19,7 +19,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+> >> >  APPEND += "rootfstype=ext4 quiet"
+> >> >
+> >> >  DEPENDS = "zip-native python3-pip-native"
+> >> > -IMAGE_FSTYPES = "vmdk"
+> >> > +IMAGE_FSTYPES = "wic.vmdk"
+> >> >
+> >> >  inherit core-image module-base setuptools3
+> >> >
+> >> > @@ -120,7 +120,7 @@ create_bundle_files () {
+> >> >         cd ${WORKDIR}
+> >> >         mkdir -p Yocto_Build_Appliance
+> >> >         cp *.vmx* Yocto_Build_Appliance
+> >> > -       ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+> >> > +       ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+> >> >         zip -r ${IMGDEPLOYDIR}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
+> >> >         ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${IMGDEPLOYDIR}/Yocto_Build_Appliance.zip
+> >> >  }
+> >> > @@ -130,4 +130,4 @@ python do_bundle_files() {
+> >> >      bb.build.exec_func('create_bundle_files', d)
+> >> >  }
+> >> >
+> >> > -addtask bundle_files after do_vmimg before do_image_complete
+> >> > +addtask bundle_files after do_image_wic before do_image_complete
+> >>
+> >> I know some people rely on DISK_SIGNATURE. Does DISK_SIGNATURE still
+> >> work after this change?
+> >
+> > It does not, because the code is gone.  Can you point me to users of it?
+> > We could move it to the "common" file if there's users still.  FWIW, it
+> > may be better to leverage the UUID support in wic.
+> >
+> > --
+> > Tom
+> 
+> Here is an example of a user having an issue with DISK_SIGNATURE:
+> http://lists.openembedded.org/pipermail/openembedded-core/2017-May/136940.html
+> 
+> I fixed the issue in:
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d2390c0646eb6c66ea2bbce69cea9d2c412bdd93
+> 
+> Does wic support 32-bit MBR disk signature (byte offset 440 in MBR
+> partition table)?
+> 
 
-This breaks systemd:
+Yes, it does.
 
-| In file included from ../git/src/basic/cap-list.c:31:0:
-| ./src/basic/cap-from-name.h:141:1: error: conflicting types for
-'lookup_capability'
-|  lookup_capability (register const char *str, register size_t len)
-|  ^~~~~~~~~~~~~~~~~
-| ../git/src/basic/cap-list.c:29:38: note: previous declaration of
-'lookup_capability' was here
-|  static const struct capability_name* lookup_capability(register const
-char *str, register unsigned int len);
-|                                       ^~~~~~~~~~~~~~~~~
+--
+Regards,
+Ed
 
-Ross
-
-On 27 July 2017 at 15:40, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  .../files/0001-Fix-build-with-gperf-3.1.patch      | 41
-> ++++++++++++++++++++++
->  meta/recipes-support/libcap/libcap_2.25.bb         |  3 +-
->  2 files changed, 43 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/libcap/files/0001-Fix-build-with-
-> gperf-3.1.patch
->
-> diff --git a/meta/recipes-support/libcap/files/0001-Fix-build-with-gperf-3.1.patch
-> b/meta/recipes-support/libcap/files/0001-Fix-build-with-gperf-3.1.patch
-> new file mode 100644
-> index 00000000000..110ef902da2
-> --- /dev/null
-> +++ b/meta/recipes-support/libcap/files/0001-Fix-build-with-
-> gperf-3.1.patch
-> @@ -0,0 +1,41 @@
-> +From a05eba68c42222f02465d7ba376015926433c531 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Wed, 26 Jul 2017 13:37:49 +0300
-> +Subject: [PATCH] Fix build with gperf 3.1
-> +
-> +The generated gperf file refers to size_t which needs to be
-> +provided by stddef.h include. Also, adjust the makefile
-> +to match the declaration in the gperf file.
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +
-> +---
-> + libcap/Makefile | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/libcap/Makefile b/libcap/Makefile
-> +index d189777..1a57206 100644
-> +--- a/libcap/Makefile
-> ++++ b/libcap/Makefile
-> +@@ -22,7 +22,7 @@ all: $(MINLIBNAME) $(STALIBNAME) libcap.pc
-> +
-> + ifeq ($(BUILD_GPERF),yes)
-> + USE_GPERF_OUTPUT = $(GPERF_OUTPUT)
-> +-INCLUDE_GPERF_OUTPUT = -include $(GPERF_OUTPUT)
-> ++INCLUDE_GPERF_OUTPUT = -include stddef.h -include $(GPERF_OUTPUT)
-> + endif
-> +
-> + libcap.pc: libcap.pc.in
-> +@@ -41,7 +41,7 @@ cap_names.h: _makenames
-> +       ./_makenames > cap_names.h
-> +
-> + $(GPERF_OUTPUT): cap_names.list.h
-> +-      perl -e 'print "struct __cap_token_s { const char *name; int
-> index; };\n%{\nconst struct __cap_token_s *__cap_lookup_name(const char *,
-> unsigned int);\n%}\n%%\n"; while ($$l = <>) { $$l =~ s/[\{\"]//g; $$l =~
-> s/\}.*// ; print $$l; }' < $< | gperf --ignore-case --language=ANSI-C
-> --readonly --null-strings --global-table --hash-function-name=__cap_hash_name
-> --lookup-function-name="__cap_lookup_name" -c -t -m20 $(INDENT) > $@
-> ++      perl -e 'print "struct __cap_token_s { const char *name; int
-> index; };\n%{\nconst struct __cap_token_s *__cap_lookup_name(const char *,
-> register size_t);\n%}\n%%\n"; while ($$l = <>) { $$l =~ s/[\{\"]//g; $$l =~
-> s/\}.*// ; print $$l; }' < $< | gperf --ignore-case --language=ANSI-C
-> --readonly --null-strings --global-table --hash-function-name=__cap_hash_name
-> --lookup-function-name="__cap_lookup_name" -c -t -m20 $(INDENT) > $@
-> +
-> + cap_names.list.h: Makefile $(KERNEL_HEADERS)/linux/capability.h
-> +       @echo "=> making $@ from $(KERNEL_HEADERS)/linux/capability.h"
-> +--
-> +2.13.2
-> +
-> diff --git a/meta/recipes-support/libcap/libcap_2.25.bb
-> b/meta/recipes-support/libcap/libcap_2.25.bb
-> index 5c2765f343a..d619a2eb4cc 100644
-> --- a/meta/recipes-support/libcap/libcap_2.25.bb
-> +++ b/meta/recipes-support/libcap/libcap_2.25.bb
-> @@ -9,7 +9,8 @@ DEPENDS = "hostperl-runtime-native gperf-native"
->
->  SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz
-> \
->             file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch
-> \
-> -"
-> +           file://0001-Fix-build-with-gperf-3.1.patch \
-> +           "
->  SRC_URI[md5sum] = "6666b839e5d46c2ad33fc8aa2ceb5f77"
->  SRC_URI[sha256sum] = "693c8ac51e983ee678205571ef2724
-> 39d83afe62dd8e424ea14ad9790bc35162"
->
-> --
-> 2.13.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a114260babe6f1505555f6582
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This breaks systemd:<div><br></div><div><div>| In file inc=
-luded from ../git/src/basic/cap-list.c:31:0:</div><div>| ./src/basic/cap-fr=
-om-name.h:141:1: error: conflicting types for &#39;lookup_capability&#39;</=
-div><div>| =C2=A0lookup_capability (register const char *str, register size=
-_t len)</div><div>| =C2=A0^~~~~~~~~~~~~~~~~</div><div>| ../git/src/basic/ca=
-p-list.c:29:38: note: previous declaration of &#39;lookup_capability&#39; w=
-as here</div><div>| =C2=A0static const struct capability_name* lookup_capab=
-ility(register const char *str, register unsigned int len);</div><div>| =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~~~~~~~</=
-div></div><div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><b=
-r><div class=3D"gmail_quote">On 27 July 2017 at 15:40, Alexander Kanavin <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" ta=
-rget=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span> wrote:<br>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Signed-off-by: Alexander Kanavin &lt;<a href=
-=3D"mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.<wbr>=
-intel.com</a>&gt;<br>
----<br>
-=C2=A0.../files/0001-Fix-build-with-<wbr>gperf-3.1.patch=C2=A0 =C2=A0 =C2=
-=A0 | 41 ++++++++++++++++++++++<br>
-=C2=A0meta/recipes-support/libcap/<a href=3D"http://libcap_2.25.bb" rel=3D"=
-noreferrer" target=3D"_blank">li<wbr>bcap_2.25.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 3 +-<br>
-=C2=A02 files changed, 43 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 meta/recipes-support/libcap/<wbr>files/0001-Fix-bu=
-ild-with-<wbr>gperf-3.1.patch<br>
-<br>
-diff --git a/meta/recipes-support/libcap/<wbr>files/0001-Fix-build-with-<wb=
-r>gperf-3.1.patch b/meta/recipes-support/libcap/<wbr>files/0001-Fix-build-w=
-ith-<wbr>gperf-3.1.patch<br>
-new file mode 100644<br>
-index 00000000000..110ef902da2<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/libcap/<wbr>files/0001-Fix-build-with-<wbr>gperf=
--3.1.patch<br>
-@@ -0,0 +1,41 @@<br>
-+From a05eba68c42222f02465d7ba376015<wbr>926433c531 Mon Sep 17 00:00:00 200=
-1<br>
-+From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex=
-.kanavin@gmail.com</a>&gt;<br>
-+Date: Wed, 26 Jul 2017 13:37:49 +0300<br>
-+Subject: [PATCH] Fix build with gperf 3.1<br>
-+<br>
-+The generated gperf file refers to size_t which needs to be<br>
-+provided by stddef.h include. Also, adjust the makefile<br>
-+to match the declaration in the gperf file.<br>
-+<br>
-+Upstream-Status: Pending<br>
-+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
-com">alex.kanavin@gmail.com</a>&gt;<br>
-+<br>
-+---<br>
-+ libcap/Makefile | 4 ++--<br>
-+ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-+<br>
-+diff --git a/libcap/Makefile b/libcap/Makefile<br>
-+index d189777..1a57206 100644<br>
-+--- a/libcap/Makefile<br>
-++++ b/libcap/Makefile<br>
-+@@ -22,7 +22,7 @@ all: $(MINLIBNAME) $(STALIBNAME) libcap.pc<br>
-+<br>
-+ ifeq ($(BUILD_GPERF),yes)<br>
-+ USE_GPERF_OUTPUT =3D $(GPERF_OUTPUT)<br>
-+-INCLUDE_GPERF_OUTPUT =3D -include $(GPERF_OUTPUT)<br>
-++INCLUDE_GPERF_OUTPUT =3D -include stddef.h -include $(GPERF_OUTPUT)<br>
-+ endif<br>
-+<br>
-+ libcap.pc: <a href=3D"http://libcap.pc.in" rel=3D"noreferrer" target=3D"_=
-blank">libcap.pc.in</a><br>
-+@@ -41,7 +41,7 @@ cap_names.h: _makenames<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0./_makenames &gt; cap_names.h<br>
-+<br>
-+ $(GPERF_OUTPUT): cap_names.list.h<br>
-+-=C2=A0 =C2=A0 =C2=A0 perl -e &#39;print &quot;struct __cap_token_s { cons=
-t char *name; int index; };\n%{\nconst struct __cap_token_s *__cap_lookup_n=
-ame(const char *, unsigned int);\n%}\n%%\n&quot;; while ($$l =3D &lt;&gt;) =
-{ $$l =3D~ s/[\{\&quot;]//g; $$l =3D~ s/\}.*// ; print $$l; }&#39; &lt; $&l=
-t; | gperf --ignore-case --language=3DANSI-C --readonly --null-strings --gl=
-obal-table --hash-function-name=3D__cap_<wbr>hash_name --lookup-function-na=
-me=3D&quot;__cap_<wbr>lookup_name&quot; -c -t -m20 $(INDENT) &gt; $@<br>
-++=C2=A0 =C2=A0 =C2=A0 perl -e &#39;print &quot;struct __cap_token_s { cons=
-t char *name; int index; };\n%{\nconst struct __cap_token_s *__cap_lookup_n=
-ame(const char *, register size_t);\n%}\n%%\n&quot;; while ($$l =3D &lt;&gt=
-;) { $$l =3D~ s/[\{\&quot;]//g; $$l =3D~ s/\}.*// ; print $$l; }&#39; &lt; =
-$&lt; | gperf --ignore-case --language=3DANSI-C --readonly --null-strings -=
--global-table --hash-function-name=3D__cap_<wbr>hash_name --lookup-function=
--name=3D&quot;__cap_<wbr>lookup_name&quot; -c -t -m20 $(INDENT) &gt; $@<br>
-+<br>
-+ cap_names.list.h: Makefile $(KERNEL_HEADERS)/linux/<wbr>capability.h<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@echo &quot;=3D&gt; making $@ from $(KERNEL_HEA=
-DERS)/linux/<wbr>capability.h&quot;<br>
-+--<br>
-+2.13.2<br>
-+<br>
-diff --git a/meta/recipes-support/libcap/<a href=3D"http://libcap_2.25.bb" =
-rel=3D"noreferrer" target=3D"_blank"><wbr>libcap_2.25.bb</a> b/meta/recipes=
--support/libcap/<a href=3D"http://libcap_2.25.bb" rel=3D"noreferrer" target=
-=3D"_blank"><wbr>libcap_2.25.bb</a><br>
-index 5c2765f343a..d619a2eb4cc 100644<br>
---- a/meta/recipes-support/libcap/<a href=3D"http://libcap_2.25.bb" rel=3D"=
-noreferrer" target=3D"_blank"><wbr>libcap_2.25.bb</a><br>
-+++ b/meta/recipes-support/libcap/<a href=3D"http://libcap_2.25.bb" rel=3D"=
-noreferrer" target=3D"_blank"><wbr>libcap_2.25.bb</a><br>
-@@ -9,7 +9,8 @@ DEPENDS =3D &quot;hostperl-runtime-native gperf-native&quot=
-;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/<wbr>libs/security/linux-=
-privs/${<wbr>BPN}2/${BPN}-${PV}.tar.xz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-ensure-the-XATTR_<wbr=
->NAME_CAPS-is-defined-when-it-<wbr>is-use.patch \<br>
--&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-build-with-<wbr>g=
-perf-3.1.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-=C2=A0SRC_URI[md5sum] =3D &quot;<wbr>6666b839e5d46c2ad33fc8aa2ceb5f<wbr>77&=
-quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;<wbr>693c8ac51e983ee678205571ef2724<wbr>=
-39d83afe62dd8e424ea14ad9790bc3<wbr>5162&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.13.2<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a114260babe6f1505555f6582--
