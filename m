@@ -1,25 +1,46 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38D6078452
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F51D78456
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 03:30:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6S3UW1h022954
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 27 Jul 2017 20:30:33 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Thu, 27 Jul 2017 20:30:31 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Jul 2017 11:21:06 +0800
-Message-ID: <d56ae1e0dab367074d56b8525255beb3d6861256.1501211889.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1501211889.git.kai.kang@windriver.com>
-References: <cover.1501211889.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] assimp: upgrade to 4.0.0
+	Fri, 28 Jul 2017 04:32:55 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id y25so12360149pfk.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Jul 2017 21:32:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=D7cMj/A9wUH4UPwmGjvrmlJUeZUBgdS/mS3SGmoygqY=;
+	b=I670Q6BGpS8rkgRRZu+qEa9xKn2yJzR4/5m6TINCLrh1iDLjjk8lxfd0BEDP9Q04JH
+	Lm8KE/Zp+jRnEUzODdEZoyVXR/fqxRYy0eeHdqzZrrcQJLKEyENDdybmhEjwG50AcPeX
+	pa8IJrJXhVSifN4leOmvo1A6k1/hoXN4DqNDaPHBr+0RcURoQGHLn/dsftq5XQV13hRb
+	NJ5/6Z9z3Iq1s6X6S5Qe0x3SWpIvldCUL0nizi9/+GtlVI1ZSgIl3+5K7+cMRAhGK4j9
+	QeahEGjo6q1N5wRYRQOMTy+lVeWTPkGm7AuPQQLDhhV+OLrOP/LeF8f7nIBSrH41QV5I
+	e+Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=D7cMj/A9wUH4UPwmGjvrmlJUeZUBgdS/mS3SGmoygqY=;
+	b=OWs1oFuZtGsXULWZ83aOJwYz6iwpSbFOFkfFHTy3PyVnomKdgH0YxASoEERv+5NoyL
+	7bVh07zDGB/uAkfT0eOabkXJATCMQxv+Q9DAeL12Jv39oINlvhGkIfCA68/bG2bFK1UE
+	muebwsQJEKyruCbxloi5RVh7OcmyzL/h76YDaYs6Ls6W5qD3QN2iNNClCQPQOfjpOu4/
+	HZg7Wt6nDvQSex+k9DcPNxu5BxlTThKu7G9QP9rsrEDJ4TtM0CeatkopFjKDhyuriUQX
+	Qw4l1UwgFsghgR+MVAehDXNfyqEz2bcegp7CJiNlaOUd6yXnKxgZHXve+eSE6dbkonv5
+	bXXw==
+X-Gm-Message-State: AIVw113tdBVzMSgPCsoTHdA25b2lKnMdhj34MFV1rdJo7lwsRIJr5tKu
+	7STFqc6NY/IwTmk/
+X-Received: by 10.84.129.131 with SMTP id b3mr7013720plb.415.1501216376868;
+	Thu, 27 Jul 2017 21:32:56 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c:6245:cbff:fe64:591])
+	by smtp.gmail.com with ESMTPSA id
+	u184sm36036736pfb.37.2017.07.27.21.32.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Jul 2017 21:32:55 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Jul 2017 21:32:47 -0700
+Message-Id: <cover.1501216255.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH 0/1] llvm: Add recipe for 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,61 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 03:30:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jul 2017 04:32:56 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+Create a recipe just for building llvm, which is needed by many other packages e.g. mesa
+can use it for llvmpipe
 
-Upgrade assimp to 4.0.0.
+The following changes since commit 28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e:
 
-* Because there is also an assimp recipe in meta-oe, so update
-  DESCRIPTION, HOMEPAGE and SECTION from it.
-* Remove redundant license file
-* Update EXTRA_OECMAKE to fix library install path for multilib
+  core-image-minimal-initramfs: use initramfs-framework by default (2017-07-27 22:20:16 +0100)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../vulkan/{assimp_git.bb => assimp_4.0.0.bb}       | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
- rename meta/recipes-graphics/vulkan/{assimp_git.bb => assimp_4.0.0.bb} (41%)
+are available in the git repository at:
 
-diff --git a/meta/recipes-graphics/vulkan/assimp_git.bb b/meta/recipes-graphics/vulkan/assimp_4.0.0.bb
-similarity index 41%
-rename from meta/recipes-graphics/vulkan/assimp_git.bb
-rename to meta/recipes-graphics/vulkan/assimp_4.0.0.bb
-index c519458..0268ebb 100644
---- a/meta/recipes-graphics/vulkan/assimp_git.bb
-+++ b/meta/recipes-graphics/vulkan/assimp_4.0.0.bb
-@@ -1,14 +1,21 @@
--DESCRIPTION = "Open Asset Import Library"
-+DESCRIPTION = "Open Asset Import Library is a portable Open Source library to import \
-+               various well-known 3D model formats in a uniform manner."
-+HOMEPAGE = "http://www.assimp.org/"
-+SECTION = "devel"
-+
- LICENSE = "BSD-3-Clause"
--DEPENDS = "zlib"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=2119edef0916b0bd511cb3c731076271"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=2119edef0916b0bd511cb3c731076271 \
--                    file://code/Assimp.cpp;endline=41;md5=717f847b6e8f43c64cdbafcfea109923"
-+DEPENDS = "zlib"
- 
- SRC_URI = "git://github.com/assimp/assimp.git"
--SRCREV = "b38ba233f530fdb103d3ede3df5126121af78b10"
-+
-+SRCREV = "52c8d06f5d6498afd66df983da348a6b112f1314"
-+
- S = "${WORKDIR}/git"
- 
- inherit cmake
--EXTRA_OECMAKE = "-DASSIMP_BUILD_ASSIMP_TOOLS=OFF -DASSIMP_BUILD_TESTS=OFF"
--FILES_${PN}-dev += "${libdir}/cmake/assimp-3.3"
-+
-+EXTRA_OECMAKE = "-DASSIMP_BUILD_ASSIMP_TOOLS=OFF -DASSIMP_BUILD_TESTS=OFF -DASSIMP_LIB_INSTALL_DIR=${baselib}"
-+
-+FILES_${PN}-dev += "${libdir}/cmake/"
+  git://git.openembedded.org/openembedded-core-contrib kraj/llvm
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/llvm
+
+Khem Raj (1):
+  llvm: Add recipe for 5.0
+
+ ...LibraryInfo-Undefine-libc-functions-if-th.patch |  93 ++++++++++++
+ .../0002-llvm-allow-env-override-of-exe-path.patch |  39 +++++
+ meta/recipes-devtools/llvm/llvm_git.bb             | 169 +++++++++++++++++++++
+ 3 files changed, 301 insertions(+)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm_git.bb
+
 -- 
-2.10.1
+2.13.3
 
 
