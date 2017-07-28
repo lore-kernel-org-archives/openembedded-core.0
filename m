@@ -1,18 +1,47 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4935A6093E;
-	Fri, 28 Jul 2017 16:31:09 +0000 (UTC)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 500947850D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jul 2017 16:44:49 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y206so5024998wmd.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jul 2017 09:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Dn5Q609dSDnhZUsJg1Sw+5g0MAWNfktTMg9APxkiuGg=;
+	b=AhlllN8ecOJOAyE2HEpe0fL/u5ctUd4WYeC3f763rQ9bjm9EN3qzAGmFTX9UkMqCKU
+	QTJUMO0VSLsL1Z1wZraL1U/8pYzKKtOtFhXv8lYNDY80cPyd2B1trHlmYrolHKDBsW+C
+	leRTCTwLmG2Hh0aao97Jw4h3NufnmNwBBFGi2G9R9oJRUnFqWnqjvEta2nUxUd1wZJMl
+	IZX7Juv5Cka4PQRo0bbb4OmYI5rbo7S/gjx5+ivrJE/SN9pACezMyXrRihSun9ZJiGnx
+	FfKVqdKBIPykWfzM/b7xRCtgXeqK2POl8bmtmUiKL0BZnLIIYxfLRguHRiSTw6Htta16
+	Efaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Dn5Q609dSDnhZUsJg1Sw+5g0MAWNfktTMg9APxkiuGg=;
+	b=MGcChwyvMXmsGZ2YMDBxV6aMezHRpn/C48sxJWwfBqULZaErakhh1tfr0yRSayrnFl
+	LkccAhN3zoIDgAhwYuG5GpPL9qizu6vXlW2u9vEzCUZmw/0AtPOMl8ilz3cl88E0HIDm
+	T0tM7mBwFFCHYBZdAL0HKUE0TnoZ+dQJ1KJAzt0JpwKWudPkKXiTgkZx9wByO17Dub/c
+	cnbInnHRLEjOcxTm/LiOgwiFnUSeCssndRa76yvbgUgmEuN4+4+Y8kCoyFIo+bsT8g8l
+	uL/jux/Ihk8GQ+CnUQPQrwTgh7Oso/d44DOQFtRrWR9jEsbuxNcC6T0Mqj3rTMoDMh0x
+	qAjw==
+X-Gm-Message-State: AIVw112YS0plwZxjwf+vaiX0PKdyiNx80GvMU+2JGD90+jrlz+wldODZ
+	YWMOlPb0Nf5f2EU7XtACWwLfXlaYxg==
+X-Received: by 10.80.145.38 with SMTP id e35mr7487385eda.8.1501260291083; Fri,
+	28 Jul 2017 09:44:51 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 28 Jul 2017 16:31:11 -0000
-Message-ID: <20170728163111.2381.47368@do.openembedded.org>
-References: <20170728162707.6065-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170728162707.6065-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlicG5nOiBmaXggTUlSUk9SUyB1c2FnZQ==?=
+Received: by 10.80.149.181 with HTTP; Fri, 28 Jul 2017 09:44:20 -0700 (PDT)
+In-Reply-To: <97b966925eaaf20263e0f8938806b6e015fc6c70.1501253351.git-series.patrick.ohly@intel.com>
+References: <cover.1afd007ce6c93979d7d4cc2eb225b84710ca1a65.1501253351.git-series.patrick.ohly@intel.com>
+	<97b966925eaaf20263e0f8938806b6e015fc6c70.1501253351.git-series.patrick.ohly@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 28 Jul 2017 09:44:20 -0700
+Message-ID: <CAMKF1sq12PyVfGStOaeuSBHx0c96chYuD7jM27pfpcm9zNurhg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/2] autoconf-archive: simplify and fix recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +54,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 16:31:09 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jul 2017 16:44:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Fri, Jul 28, 2017 at 7:49 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> The COPYING file specifies pure GPLv3, not GPLv2 & GPLv3. There is
+> also the COPYING.EXCEPTION file with the autotools exception, which
+> gets ignored here in the recipe to keep it simpler.
+>
+> All of the explicit dependencies seem unnecessary, and RDEPENDS_${PN}
+> doesn't do anything for native recipes either, so all of that gets
+> removed.
+>
+> It also built fine without the m4 and parallel build workarounds.
+>
+> There's no need to have a separate .inc file.
+>
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  meta/recipes-devtools/autoconf-archive/autoconf-archive.inc           | 13 -------------
+>  meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb | 14 +++++++-------
+>  2 files changed, 7 insertions(+), 20 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
+>
+> diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc b/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
+> deleted file mode 100644
+> index 4f63e0f..0000000
+> --- a/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -LICENSE = "GPLv3"
+> -HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/"
+> -SECTION = "devel"
+> -
+> -DEPENDS += "m4-native"
+> -DEPENDS_class-native = "m4-native gnu-config-native"
+> -DEPENDS_class-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+> -
+> -RDEPENDS_${PN} = "m4 gnu-config"
+> -
+> -SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+> -
+> -inherit autotools
+> diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+> index 0a1a771..d77c37d 100644
+> --- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+> +++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+> @@ -1,13 +1,13 @@
+> -require autoconf-archive.inc
+> -
+> -
+> -PARALLEL_MAKE = ""
+> -
+> -LICENSE = "GPLv2 & GPLv3"
+> +SUMMARY = "a collection of freely re-usable Autoconf macros"
+> +HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/"
+> +SECTION = "devel"
+> +LICENSE = "GPLv3"
 
-Series: libpng: fix MIRRORS usage
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8007/
-State : failure
+Perhaps  GPL-3.0-with-autoconf-exception would be more accurate here.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 28fc6ba761)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>
+> +SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+>  SRC_URI[md5sum] = "bf19d4cddce260b3c3e1d51d42509071"
+>  SRC_URI[sha256sum] = "e8f2efd235f842bad2f6938bf4a72240a5e5fcd248e8444335e63beb60fabd82"
+>
+> -EXTRA_OECONF += "ac_cv_path_M4=m4"
+> +inherit autotools
+> +
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> git-series 0.9.1
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
