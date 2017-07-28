@@ -1,27 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 97F2B78559
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 70BD278576
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 22:01:33 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v6SM1WiY000874
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 28 Jul 2017 23:01:34 +0100
-Message-ID: <1501279292.22282.188.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jul 2017 23:01:32 +0100
-In-Reply-To: <20170728114716.41389-1-raj.khem@gmail.com>
-References: <20170728114716.41389-1-raj.khem@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 28 Jul 2017 23:01:34 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 3/3] re2c: Transfer recipe from meta-oe and upgrade to 0.16
+	Fri, 28 Jul 2017 22:20:04 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Jul 2017 15:20:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,427,1496127600"; d="scan'208";a="113218211"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga004.jf.intel.com with ESMTP; 28 Jul 2017 15:20:05 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jul 2017 15:20:02 -0700
+Message-Id: <20170728222002.6166-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH] initramfs-framework/setup-live: remove superfluous break
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 22:01:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Jul 2017 22:20:04 -0000
 
-On Fri, 2017-07-28 at 04:47 -0700, Khem Raj wrote:
-> ninja needs it.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-support/re2c/re2c_0.16.bb | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 meta/recipes-support/re2c/re2c_0.16.bb
+This causes us to fall out of the module setup/run loop in the base init
+script should "root=" be defined, causing a boot failure.
 
-Doesn't seem to build:
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ meta/recipes-core/initrdscripts/initramfs-framework/setup-live | 2 --
+ 1 file changed, 2 deletions(-)
 
-https://autobuilder.yocto.io/builders/nightly-no-x11/builds/376/steps/BuildImages/logs/stdio
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+index ec4a139..591c93a 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
+@@ -49,8 +49,6 @@ shelltimeout=30
+ 		done
+ 		# The existing rootfs module has no support for rootfs images. Assign the rootfs image.
+ 		bootparam_root="/run/media/$ROOT_DISK/$ISOLINUX/$ROOT_IMAGE"
+-	else
+-		break
+ 	fi
+ 
+ 	if [ "$bootparam_LABEL" != "boot" -a -f /init.d/$bootparam_LABEL.sh ] ; then
+-- 
+2.9.4
 
-[amongst several other similar failures in the build]
-
-Cheers,
-
-Richard
 
