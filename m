@@ -1,46 +1,47 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C0304784B7
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id DEA9B784B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 14:18:54 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id 125so10301104pgi.5
+	Fri, 28 Jul 2017 14:44:24 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id d67so28851018pfc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 07:18:56 -0700 (PDT)
+	Fri, 28 Jul 2017 07:44:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=1G/Yax9XGFy74fpLwNll7o4FaHGoQ1wdEYspnXi8724=;
-	b=bJuU/TL7oR6WwVozZj6ivBeqRcQinHtjnX6jqwhohwqBoLfvEQ35x/plWMUHcPqOHK
-	R7x8lmcWj21flB4n3TYxdzGy1wzPfIlMHyL/gPWJy4cW63JEnP6IPRSkF58Ymu12nT6t
-	bo0hCl6y0O1G2jJ1Hfe6fKji/MNLkWPwVsErDaP6qIIW1D8SwXiQrZadtwvcdP/vM/6J
-	dAAVaYDlHDOb93zvCbkW2PIcwaiO1MU78TaRoWKOhXWrer1CnXaH2YsmbaL8hrfl07Vi
-	rTt1h31rPB7cki++tK+soQbzHQxcCUMJNaUXo/ImPnrWlALFedOZK4bVZFVbRQtoCDtG
-	DzbQ==
+	bh=CxhoqHkITIFzYV7pR/dChw2fvT3EYB/4mAsm4j86WEg=;
+	b=dsyiCbLxwwAzj2JKCpR4h8C14vVOLOsOb15bnj2q3RLm0cJWo6MbTT1WCOeyXvO1BW
+	oh0fFXrujH7LuM1aU/3khAHkwSRSjqd+G0pv/eCjPPvqcmb4tL+z7noEIs/i7R/xnHAe
+	314yo/+ozsqCzEcFIN2AhOZWZPVpv4IFM7Ui6GymuLGiq+FOWeT7ga4AYCaI+iAfyyKD
+	Un7VCJf7nQLBZ32D4QInqBw0zR3WsyB/E4IxnljZH29IqB/KzPR/sdNqpj7NVNXZgzor
+	Nol1ygh5RSTcf7CexjBx6Pxst3lnoK6dvrZXyfzJft9qtVSRANje+OE00EBhrS2UX6q0
+	tWkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1G/Yax9XGFy74fpLwNll7o4FaHGoQ1wdEYspnXi8724=;
-	b=dKyh51YA1ACmrk6lhONILR74svCPUnWMn57AoyQmgCVd7WlcG5OCKIGJng/OElkr43
-	q1jEYMFpDfmKR8hGadAPjeZkpc8Ca9cU8PmIeCdlWezJF+QejbuI8U3VqIJEyXBGu8om
-	DK60HP72E7nZw+LEviiB03HxE1eCk84zdMC1f+bla3dNLQzR8d6hnUXRgi1XGW9hEHP2
-	lDP/Eeiptcxj3J/9KNjJOmYq1eJFSbEOj/KmEfnkOoUDK9xFAdCaQYPU+T0522WQv4HH
-	LfhDPNC9sOHryZ1z8aq/O0UwuRMfkLxwjaqWkR4kO5ERpb3NmwprTi1xNspu/h/xHYNz
-	qNYQ==
-X-Gm-Message-State: AIVw110YG9o67XWYvKnI9mpWjuEJelqGpH6tmKlzEBj6hW/U8UgcjDWz
-	a2U7fArj2wwOfw==
-X-Received: by 10.84.132.110 with SMTP id 101mr8416254ple.203.1501251536262;
-	Fri, 28 Jul 2017 07:18:56 -0700 (PDT)
+	bh=CxhoqHkITIFzYV7pR/dChw2fvT3EYB/4mAsm4j86WEg=;
+	b=blx/FG6bW7eK06E9FqSJJYiFwhHBwXhRXq8kD7jo5V1j1OZpRmdoxPSmeETjpYRjj4
+	ftUBC/BKDlJ4HCFsQ0UaLzuEon5p3g5weTNhtAlO62acLiPiIA/lB/7tLlaNCxKAdd90
+	s//tL7oup8eQkmXMTdyJYWe2OTWMHfmw6dA/y1q32t0Pwo7wesxktKPfFVtfNZZ6fBXx
+	dSthAbXgv0U1PRsP///NfJk1njuYlHJa3QwJ6cXYNNedoUp7q7nnOzXflk0cb4je6R5I
+	Gz3q1Rq9ooMxSF7OPtq02t4STsyKwGJsYDtwWFs8L8Kjuwqs2jMkPrGYkURp9Bsu/fQn
+	DC0g==
+X-Gm-Message-State: AIVw111J/t718vp9h4aqyhGzm0E0Z3roDDlaRSC59Z+OlN/9xWgKlVyr
+	TRUugyDOLz+2nA==
+X-Received: by 10.84.231.8 with SMTP id f8mr3694971plk.405.1501253065945;
+	Fri, 28 Jul 2017 07:44:25 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by smtp.gmail.com with ESMTPSA id
-	p123sm39603183pfb.177.2017.07.28.07.18.55
+	c7sm37622346pfa.174.2017.07.28.07.44.24
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 28 Jul 2017 07:18:55 -0700 (PDT)
+	Fri, 28 Jul 2017 07:44:25 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jul 2017 00:20:01 +1000
-Message-Id: <20170728142001.23590-1-net147@gmail.com>
+Date: Sat, 29 Jul 2017 00:45:27 +1000
+Message-Id: <20170728144527.24322-1-net147@gmail.com>
 X-Mailer: git-send-email 2.13.2
-Subject: [PATCH v2] wic: ensure generated disk system identifier is non-zero
+Subject: [PATCH v3] wic: ensure generated disk system identifier is non-zero
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,9 +54,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 14:18:54 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 14:44:25 -0000
 
-Zero may be interpreted as no FAT serial number or no MBR signature.
+Zero may be interpreted as no MBR signature present and another
+partitioning program might install a new MBR signature.
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
