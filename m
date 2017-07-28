@@ -1,48 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id EAAB878466
+Return-Path: <shen.joon.tan@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 1880978477
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 04:56:16 +0000 (UTC)
-Received: by mail-pg0-f52.google.com with SMTP id c14so13875314pgn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jul 2017 21:56:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=g958lrOuo0xCtf5whtTSDplVeS7m8RLFe6w0kJK0IqU=;
-	b=Qn6pkB+AcHlbkoCBdrp8+eeFEJtrUnRc99VLWlFt0ySK1vmvs59tfX0eM7RlLus51Q
-	dG8x10f9OvHZ98eFemL168sU9z+jR2wrW7nzn4o+JfHJI9HgSHFySHDaREcYAdyT7OZh
-	FHPw00C0WBeZkMq8hjv2wrQ5i1fm0if/4tn8JQ6G98svm7TQ06Nmds96xpdrWqU1DLvA
-	rDl37ZJarLW0dP7+QrFFZafxp8iB/ffhvPPl8vQjrmBi3f/pe6Af0hCgU6JA78G+jJlH
-	GwBJV6bZXTwcPWdlYghKqPkG8l1LHTLePk3VTIqiz0hC/2jHKkC7YU+5z76uPPuStSbf
-	ww3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=g958lrOuo0xCtf5whtTSDplVeS7m8RLFe6w0kJK0IqU=;
-	b=EUqOj8DTk+eCGbLK+nK/OcUKQROhWo57OAmxHw6oN2kvnQoE/oXs3QqnUSw3ARSCWR
-	hH1o2Sf2agLgAd0K6EdIshcU8oJKVbfNVZ8ykxeEhTY+lf70+24k/WRyQA7FLg9u50EF
-	LD+rwGCWTnYxJnk7cAnSUVmEksPuJOdxuKfsn5VMYrL1Lehn7p9R15tKL9kE1LmaiPxi
-	L6PWqGWqDy0d/K4dzOF50LPS3hBxImY6ZHxSi85AzxwSRrB+cXDXkp+a3rvYIvCeS4Dh
-	q2AUxwKIjxVXjZ6+5eGj8ugztTMt7GlyYJiKLXYMN3fYUuCoipylHYP9b3E8v1NdSGwL
-	u4xA==
-X-Gm-Message-State: AIVw112GOOcnDtabPBZdwbmvDqbbajlXRpM+j/SxS4Jrsb+HZia95k3z
-	x5EyDULV5XVHgiq6
-X-Received: by 10.84.177.36 with SMTP id w33mr6910919plb.302.1501217777746;
-	Thu, 27 Jul 2017 21:56:17 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c:6245:cbff:fe64:591])
-	by smtp.gmail.com with ESMTPSA id
-	n80sm39912188pfj.118.2017.07.27.21.56.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Jul 2017 21:56:16 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 28 Jul 2017 06:31:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Jul 2017 23:31:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,424,1496127600"; d="scan'208";a="1156284921"
+Received: from rebeccas.png.intel.com ([172.30.199.118])
+	by orsmga001.jf.intel.com with ESMTP; 27 Jul 2017 23:31:17 -0700
+From: Tan Shen Joon <shen.joon.tan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jul 2017 21:56:06 -0700
-Message-Id: <e178ab56ae1af5a5b840e933c74f8a10a4e3c794.1501217624.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <cover.1501217624.git.raj.khem@gmail.com>
-References: <cover.1501217624.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] ninja: Add recipe
+Date: Fri, 28 Jul 2017 14:32:06 +0800
+Message-Id: <1501223526-62997-1-git-send-email-shen.joon.tan@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] distrodata: function to identify new packages on a release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,52 +28,238 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 04:56:17 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 06:31:18 -0000
 
-llvm is using it, therefore move it from meta-oe
+Identify new packages based on two distinct branches. This
+script takes 2 parameters; either a commit-ish or a branch
+name
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+To run : distrocompare.sh <older hash> <newer hash>
+E.g. distrocompare.sh morty 92aa0e7
+E.g. distrocompare.sh morty pyro
+
+output : The script will produce a file ending with
+new_recipe_list.txt preceeded by the branch name from input
 ---
- meta/recipes-devtools/ninja/ninja_1.7.2.bb | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/ninja/ninja_1.7.2.bb
+ scripts/distro/build-recipe-list.py | 117 ++++++++++++++++++++++++++++++++++++
+ scripts/distro/distrocompare.sh     |  83 +++++++++++++++++++++++++
+ 2 files changed, 200 insertions(+)
+ create mode 100755 scripts/distro/build-recipe-list.py
+ create mode 100755 scripts/distro/distrocompare.sh
 
-diff --git a/meta/recipes-devtools/ninja/ninja_1.7.2.bb b/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-new file mode 100644
-index 0000000000..20dca2f0af
+diff --git a/scripts/distro/build-recipe-list.py b/scripts/distro/build-recipe-list.py
+new file mode 100755
+index 0000000..407deba
 --- /dev/null
-+++ b/meta/recipes-devtools/ninja/ninja_1.7.2.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "Ninja is a small build system with a focus on speed."
-+HOMEPAGE = "http://martine.github.com/ninja/"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
++++ b/scripts/distro/build-recipe-list.py
+@@ -0,0 +1,117 @@
++#!/usr/bin/env python3
++#
++# Copyright (c) 2017, Intel Corporation.
++#
++# This program is free software; you can redistribute it and/or modify it
++# under the terms and conditions of the GNU General Public License,
++# version 2, as published by the Free Software Foundation.
++#
++# This program is distributed in the hope it will be useful, but WITHOUT
++# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++# more details.
++#
 +
-+DEPENDS = "re2c-native ninja-native"
++import os
++import shutil
++import csv
++import sys
++import argparse
 +
-+SRCREV = "717b7b4a31db6027207588c0fb89c3ead384747b"
++__version__ = "0.1.0"
 +
-+SRC_URI = "git://github.com/martine/ninja.git;branch=release"
++recipenames = []
++allrecipes = []
++ 
++def gather_recipes(rows):
++    # store the data into the array
++    for row in rows:
++        if row[0] not in recipenames:
++            recipenames.append(row[0])
++            allrecipes.append(row)
 +
-+S = "${WORKDIR}/git"
++def generate_recipe_list():
++    # machine list
++    machine_list = ( "qemuarm64", "qemuarm", "qemumips64", "qemumips", "qemuppc", "qemux86-64", "qemux86" )
++    # set filename format
++    fnformat = 'distrodata.%s.csv'
 +
-+do_configure[noexec] = "1"
++    # store all data files in distrodata
++    datadir = 'distrodata'
 +
-+do_compile_class-native() {
-+	./configure.py --bootstrap
++    # create the directory if it does not exists
++    if not os.path.exists(datadir):
++        os.mkdir(datadir)
++
++    # doing bitbake distrodata
++    for machine in machine_list:
++        os.system('MACHINE='+ machine + ' bitbake world -c distrodata')
++        shutil.copy('tmp/log/distrodata.csv', 'distrodata/' + fnformat % machine)
++
++    for machine in machine_list:
++        with open('distrodata/' + fnformat % machine) as f:
++            reader = csv.reader(f)
++            rows = reader.__iter__()
++            gather_recipes(rows)
++
++    with open('recipe-list.txt', 'w') as f:
++        for recipe in sorted(recipenames):
++            f.write("%s\n" % recipe)
++    print("file : recipe-list.txt is created with %d entries." % len(recipenames))
++
++    with open('all-recipe-list.txt', 'w') as f:
++        for recipe in sorted(allrecipes):
++            f.write("%s\n" % ','.join([str(data) for data in recipe]))
++
++
++def diff_for_new_recipes(recipe1, recipe2):
++    prev_recipe_path = recipe1 + '/'
++    curr_recipe_path = recipe2 + '/'
++    if not os.path.isfile(prev_recipe_path + 'recipe-list.txt') or not os.path.isfile(curr_recipe_path + 'recipe-list.txt'):
++        print("recipe files do not exists. please verify that the file exists.")
++        exit(1)
++
++    import csv
++
++    prev = []
++    new = []
++
++    with open(prev_recipe_path + 'recipe-list.txt') as f:
++        prev = f.readlines()
++
++    with open(curr_recipe_path + 'recipe-list.txt') as f:
++        new = f.readlines()
++
++    updates = []
++    for pn in new:
++        if not pn in prev:
++            updates.append(pn.rstrip())
++
++    allrecipe = []
++    with open(recipe1 + '_' + recipe2 + '_new_recipe_list.txt','w') as dr:
++        with open(curr_recipe_path + 'all-recipe-list.txt') as f:
++            reader = csv.reader(f, delimiter=',')
++            for row in reader:
++                if row[0] in updates:
++                    dr.write("%s,%s,%s" % (row[0], row[3], row[5]))
++                    if len(row[9:]) > 0:
++                        dr.write(",%s" % ','.join(row[9:]))
++                    dr.write("\n")
++
++def main(argv):
++    if argv[0] == "generate_recipe_list":
++        generate_recipe_list()
++    elif argv[0] == "compare_recipe":
++        diff_for_new_recipes(argv[1], argv[2])
++    else:
++        print("no such option. choose either 'generate_recipe_list' or 'compare_recipe'")
++
++    exit(0)
++
++if __name__ == "__main__":
++    try:
++        sys.exit(main(sys.argv[1:]))
++    except Exception as e:
++        print("Exception :", e)
++        sys.exit(1)
++
+diff --git a/scripts/distro/distrocompare.sh b/scripts/distro/distrocompare.sh
+new file mode 100755
+index 0000000..8558d17
+--- /dev/null
++++ b/scripts/distro/distrocompare.sh
+@@ -0,0 +1,83 @@
++#!/usr/bin/env bash
++#
++# Copyright (c) 2017, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++#
++# distrocompare.sh : provides capability to get a list of new packages
++#                    based on two distinct branches. This script takes
++#                    2 parameters; either a commit-ish or a branch name
++#
++#                    To run : distrocompare.sh <older hash> <newer hash>
++#                    E.g. distrocompare.sh morty 92aa0e7
++#                    E.g. distrocompare.sh morty pyro
++#
++
++previous_version=$1
++current_version=$2
++scriptdir="$( realpath $(dirname "${BASH_SOURCE[0]}" ))"
++currentworkdir=`pwd`
++
++if [ -z  "$previous_version" ] || [ -z "$current_version" ]; then
++	echo "please input 2 variable; \$1 and \$2"
++	exit 1
++fi
++
++function create_source {
++    mkdir poky
++    cd poky
++    git init
++    git remote add -f origin git://git.yoctoproject.org/poky.git
 +}
 +
-+do_compile() {
-+	./configure.py
-+	ninja
++create_source
++
++#==================================================================
++
++function bake_distrodata {
++    cd $currentworkdir/poky
++    # change the branch / commit
++    git checkout $1
++    # back to main dir
++    cd $currentworkdir
++    # source oe-init to generate a new folder
++    source poky/oe-init-build-env $1
++
++    # if file already exists with distrodata, do not append
++    if ! grep -q "distrodata" "conf/local.conf"; then
++        # add inherit distrodata to local.conf to enable distrodata feature
++        echo 'INHERIT += "distrodata"' >> conf/local.conf
++    fi
++
++    $scriptdir/build-recipe-list.py generate_recipe_list
++    
 +}
 +
-+do_install() {
-+	install -D -m 0755  ${S}/ninja ${D}${bindir}/ninja
-+}
++# bake distrodata for the 2 versions
++bake_distrodata $1
++bake_distrodata $2
 +
-+BBCLASSEXTEND = "native nativesdk"
++#==================================================================
++
++cd $currentworkdir
++
++# compare the 2 generated recipe-list.txt
++$scriptdir/build-recipe-list.py compare_recipe $1 $2
++
++# cleanup
++rm -rf poky $1 $2
++
++#==================================================================
 -- 
-2.13.3
+2.7.4
 
 
