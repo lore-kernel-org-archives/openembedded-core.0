@@ -1,27 +1,26 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FE7F78461
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2866D78466
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 09:52:48 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Jul 2017 02:52:49 -0700
+	Fri, 28 Jul 2017 09:53:04 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP; 28 Jul 2017 02:53:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="130521825"
+X-IronPort-AV: E=Sophos;i="5.40,425,1496127600"; d="scan'208";a="132319497"
 Received: from linux.intel.com ([10.54.29.200])
-	by orsmga005.jf.intel.com with ESMTP; 28 Jul 2017 02:52:49 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 28 Jul 2017 02:53:05 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 059FE580941
+	by linux.intel.com (Postfix) with ESMTP id C78F75801BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 02:52:48 -0700 (PDT)
+	Fri, 28 Jul 2017 02:53:04 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jul 2017 12:29:22 +0300
-Message-Id: <8b36d26f483323a22826a690a2b11a6b39c888df.1501233796.git.ed.bartosh@linux.intel.com>
+Date: Fri, 28 Jul 2017 12:29:23 +0300
+Message-Id: <337d7dac4fd4e0d1166a2e1dbaf2c59bd2585491.1501233796.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1501233796.git.ed.bartosh@linux.intel.com>
 References: <cover.1501233796.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v5 1/7] image_types.bbclass: ignore tar exit code 1
+Subject: [PATCH v5 2/7] wic: copy rootfs directory before changing fstab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,38 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jul 2017 09:52:48 -0000
+X-List-Received-Date: Fri, 28 Jul 2017 09:53:05 -0000
 
-tar exists with 1 and produces warning "file changed as we read it"
-if content is changed while tar archives it. Even hardlinking content
-causes tar to fail this way as it changes file ctime.
+wic updates /etc/fstab on root partition if there are
+valid mount points in .wks
 
-Other tasks running in parallel with do_image_tar may need to hardlink
-rootfs content in order to change it, e.g. do_image_wic does this to
-update etc/fstab.
+When wic runs from bitbake this can cause incorrect results
+or even breakage of other tasks working with the same rootfs
+directory in parallel with do_image_wic.
 
-Ignored tar exit code 1 to be able to hardlink rootfs content while
-do_rootfs_tar is tarring it.
+Implemented hardlinking rootfs directory to a temporary location
+before updating fstab to avoid conflicts with other tasks working
+with the same rootfs directory.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/lib/wic/plugins/imager/direct.py | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index cf946a6..2365ce8 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -119,7 +119,8 @@ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAM
- # In practice, it turned out to be not needed when creating archives and
- # required when extracting, but it seems prudent to use it in both cases.
- IMAGE_CMD_TAR ?= "tar"
--IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} ."
-+# ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
-+IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [[ $? -eq 1 ]]"
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index f20d843..9b31c9e 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -115,12 +115,20 @@ class DirectPlugin(ImagerPlugin):
+             fstab_lines = fstab.readlines()
  
- do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
- IMAGE_CMD_cpio () {
+         if self._update_fstab(fstab_lines, self.parts):
+-            shutil.copyfile(fstab_path, fstab_path + ".orig")
++            # hardlink rootfs content to the temporary directory to update fstab
++            # as rootfs can be used by other tasks and can't be modified
++            new_rootfs = os.path.realpath(os.path.join(self.workdir, "rootfs_copy"))
++            exec_cmd("cp -al %s %s" % (image_rootfs, new_rootfs),
++                                       self.native_sysroot)
++
++            fstab_path = os.path.join(new_rootfs, 'etc/fstab')
++
++            os.unlink(fstab_path)
+ 
+             with open(fstab_path, "w") as fstab:
+                 fstab.writelines(fstab_lines)
+ 
+-            return fstab_path
++            return new_rootfs
+ 
+     def _update_fstab(self, fstab_lines, parts):
+         """Assume partition order same as in wks"""
+@@ -156,7 +164,10 @@ class DirectPlugin(ImagerPlugin):
+         filesystems from the artifacts directly and combine them into
+         a partitioned image.
+         """
+-        fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
++        new_rootfs = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
++        if new_rootfs:
++            # rootfs was copied to update fstab
++            self.rootfs_dir['ROOTFS_DIR'] = new_rootfs
+ 
+         for part in self.parts:
+             # get rootfs size from bitbake variable if it's not set in .ks file
+@@ -172,12 +183,7 @@ class DirectPlugin(ImagerPlugin):
+                     if rsize_bb:
+                         part.size = int(round(float(rsize_bb)))
+ 
+-        try:
+-            self._image.prepare(self)
+-        finally:
+-            if fstab_path:
+-                shutil.move(fstab_path + ".orig", fstab_path)
+-
++        self._image.prepare(self)
+         self._image.layout_partitions()
+         self._image.create()
+ 
 -- 
 2.1.4
 
