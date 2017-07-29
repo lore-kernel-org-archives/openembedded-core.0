@@ -1,40 +1,28 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A73C478597
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F16EE78538
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 00:13:19 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id p68so9149074ywg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jul 2017 17:13:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=MLrECYhH7lakvEfQcMwcY/J1yG6NPL2SjNO22QBc3sI=;
-	b=FvYVIqlPn3CJP5CTLm+JsbVOQ8ZtE2UlnmUDHS7JVIllD2Dpkqrh4ga87dcZwePp/I
-	kK/cEM7VjPUabDKBjrWIBuPTUi8vjKwkKG/g7WiW5D2t51K/aaZcY3EzvkM/+PiqbL7R
-	QBkYF90HUNF8Jxj5EVInYFL0vfmpexp2DsE6w+iIeRDei7QScbkJFbRik3BHrQqEMboh
-	JUGYDgcxbRl0pHX9pqecGg/90TLMC3jjJsKBRk1ePfCVkZzVDMSAAPBBkfBYJjfGuy0L
-	XZFSpwPQVfvNA5J5Z6VdQH5GBU8QMfRJ6kPaJcwnunSxFIkzeegH3D9KtnFIotrJn1oX
-	Uy7A==
-X-Gm-Message-State: AIVw111LkpCQbi9sheCvOhY9GkzU93qul9DWog4sDiz2IbGbcPdMI6Bk
-	di/3KhlJcGDDIHWY
-X-Received: by 10.37.224.85 with SMTP id x82mr7842678ybg.90.1501287200965;
-	Fri, 28 Jul 2017 17:13:20 -0700 (PDT)
-Received: from localhost.localdomain (cpe-174-106-0-58.ec.res.rr.com.
-	[174.106.0.58])
-	by smtp.gmail.com with ESMTPSA id l7sm8368499ywl.92.2017.07.28.17.13.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 28 Jul 2017 17:13:20 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jul 2017 20:14:36 -0400
-Message-Id: <1501287276-28699-5-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1501287276-28699-1-git-send-email-trini@konsulko.com>
-References: <1501287276-28699-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv4 5/5] imagefeatures: Add a test for various hypervisor formats
+	Sat, 29 Jul 2017 07:40:24 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v6T7eJ5v020852
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 29 Jul 2017 08:40:21 +0100
+Message-ID: <1501314019.22282.199.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 29 Jul 2017 08:40:19 +0100
+In-Reply-To: <cover.1501233796.git.ed.bartosh@linux.intel.com>
+References: <cover.1501233796.git.ed.bartosh@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Sat, 29 Jul 2017 08:40:21 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v5 0/7] #11662 - wic should mount /boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,74 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jul 2017 00:13:20 -0000
+X-List-Received-Date: Sat, 29 Jul 2017 07:40:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-We add a new test that will create core-image-minimal for wic.vmdk,
-wic.vdi and wic.qcow2.  We then confirm via qemu-img that the resulting
-file is of the expected type.
+On Fri, 2017-07-28 at 12:29 +0300, Ed Bartosh wrote:
+> This patchset adds /boot to the /etc/fstab of root partition, making
+> it mounted on boot. It also fixes reporting and testing issues
+> caused by this change.
+> 
+> The patchset also fixes long standing bug: wic updated fstab
+> inplace in rootfs directory. This causes other tasks working with
+> rootfs directory to produce incorrect results or crash. This is
+> fixed by hadlinking rootfs content to the temporary directory before
+> updating fstab.
+> 
+> This approach caused do_image_tar to fail with the error "file
+> changed as we read it"
+> as hardlinking changes files ctime. In order to solve this we had to
+> modify do_image_tar to ignore file changes.
+> 
+> Changes in v2: squashed patches by reviewer's request
+> Changes in v3: unlink /etc/fstab in rootfs copy before updating it
+> Changes in v4: used 'cp -a' instead of copyhardlinktree to avoid
+>                do_image_tar failure due to changed ctime
+> Changes in v5: back to hardlinking. ignored tar exit code 1.
 
-Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
-Changes in v2: New patch
----
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 35 +++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+This patchset had a couple of issues, the tar command change was a
+bashism '[[' so I changed it to '['. The cp -a change also doesn't work
+cross device so I resurrected one of the previous versions of that
+patch that uses copyhardlinktree.
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 2c59ef6490b3..bb2e0dba4c23 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -3,6 +3,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.core.decorator.oeid import OETestID
- from oeqa.utils.sshcontrol import SSHControl
- import os
-+import json
- 
- class ImageFeatures(OESelftestTestCase):
- 
-@@ -130,6 +131,40 @@ class ImageFeatures(OESelftestTestCase):
-         # check if the resulting gzip is valid
-         self.assertTrue(runCmd('gzip -t %s' % gzip_path))
- 
-+    def test_hypervisor_fmts(self):
-+        """
-+        Summary:     Check various hypervisor formats
-+        Expected:    1. core-image-minimal can be built with vmdk, vdi and
-+                        qcow2 support.
-+                     2. qemu-img says each image has the expected format
-+        Product:     oe-core
-+        Author:      Tom Rini <trini@konsulko.com>
-+        """
-+
-+        img_types = [ 'vmdk', 'vdi', 'qcow2' ]
-+        features = ""
-+        for itype in img_types:
-+            features += 'IMAGE_FSTYPES += "wic.%s"\n' % itype
-+        self.write_config(features)
-+
-+        image_name = 'core-image-minimal'
-+        bitbake(image_name)
-+
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        link_name = get_bb_var('IMAGE_LINK_NAME', image_name)
-+        for itype in img_types:
-+            image_path = os.path.join(deploy_dir_image, "%s.wic.%s" %
-+                                      (link_name, itype))
-+
-+            # check if result image file is in deploy directory
-+            self.assertTrue(os.path.exists(image_path))
-+
-+            # check if result image is vmdk
-+            sysroot = get_bb_var('STAGING_DIR_NATIVE', 'core-image-minimal')
-+            result = runCmd('qemu-img info --output json %s' % image_path,
-+                            native_sysroot=sysroot)
-+            self.assertTrue(json.loads(result.output).get('format') == itype)
-+
-     def test_long_chain_conversion(self):
-         """
-         Summary:     Check for chaining many CONVERSION_CMDs together
--- 
-1.9.1
+As I mentioned previously, if we can speed up that function, great. We
+do need to handle cross device linkage though (and there may be an
+optimisation to have wic use the same device for the temp rootfs?).
+
+The updated series is going through tests again now.
+
+Cheers,
+
+Richard
 
 
