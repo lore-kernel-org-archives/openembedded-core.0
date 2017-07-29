@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id DAFF878500
+Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
+	[209.85.128.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C33478541
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 13:12:43 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id h199so107972593ith.0
+	Sat, 29 Jul 2017 13:38:43 +0000 (UTC)
+Received: by mail-wr0-f181.google.com with SMTP id 33so107263858wrz.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 06:12:45 -0700 (PDT)
+	Sat, 29 Jul 2017 06:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=i7uOyihDHnzxvmTJ8WB2Q2ePBZgMTOTdnKubQWc1qO0=;
-	b=QwsWMH0+uPy2S7CpwfJ0mkNH1HYRalnjmmlJNGg0wn2+Qj5+vgtUAi1K2+Y2YR4tTZ
-	KIe1Tt0inrkV/+AMdAzojvFeNk/CuqVotrJK4DlQrsrRVvzkq9EtfF7wgQ0Gs/jYPdsQ
-	6yJKeej48RhtspHXi0BR15hHTBcaeuKqsfJlU0Bk/AIW3JPsuNets/jdOolJMn3lVIFa
-	8fxPkNxRrE5lmNC1QV3gl04yNaFnGhPpY/5Jj0Y/K+Gof96LTDvR+OQL+oX652ro+1CR
-	rHVRFDAYVjzdCXXZ9AvJCyT8tcctosYcFhjIdwmSgAQ07B1uEJM6PpXhYUnV6ZAFVysF
-	nOVA==
+	h=from:to:subject:date:message-id;
+	bh=d4/RN3+6Jv0pnNjv3EWOnxCqhIgNyDGu/o4g4/iy+nc=;
+	b=T475i0KJhxQRCXUn2Lw63w3kHy60TUvmHKQgBRrRBnW/ragq55qMOiVy7fuS5Nnn2Z
+	CEjTWFYKuJhnReTYnCkicNSxF+XSuUyIsmvpURvIE8U1m/7UWfuerhxBieUkm48QofgD
+	n6f0BLIVK39QIak561iv58kNb+FuOc0DuJlVScp4zj1BUUitFYc5oVG+lUGOjhTxTeW6
+	1J0HaqdYH0v2JQvj0RpjnxQJrVeajBzKkYxsiE8Oj+ilZfe+AqtXkBNDz45yNhmfpXYp
+	FW/iO7n6kTs31ximefIU64L1c7SzjsPX3Cf4FWLBJHezP/VTRC8tuWZddL4Ne2kGpzDc
+	wDhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=i7uOyihDHnzxvmTJ8WB2Q2ePBZgMTOTdnKubQWc1qO0=;
-	b=X9HxOuQ6TRBSgeY5cq1gxF/wCKbUNY6KsAQodIzkuy9w3zInOu67nu8lnloN5lynD8
-	uXnyjaTx9/YUUPDoAvARbncLByClqEOk+wzUtQnjkwJ/WvQqZrTFA3C0MatYOPlJEAj4
-	rrJqknAhtEA4E3iIGa3SsOFHtVcJeZBqwChsKP0fzwuR+VJneMkk3YWdeeFrOYBqyiHt
-	FkUeG9oNTzCbjlk8VvfVLci4UyNWN/afSxEVdP6j/B3ZYCShWw7I9w7l3x94b9PHEXGs
-	xd9mUsFMwOC0E8N3EeWAH+EtmLl8xk9qfw/1ACAJnxIfNraevZLsIT3cOOPqnqsVfkOI
-	XJ2g==
-X-Gm-Message-State: AIVw110/2hiNTxhX57FKoT3XnbepVirWjjaHCO59sosrmeHxS4ekCoTj
-	PAOjv9AUQXj3gWmr5/TSX/onFLBZk3cO
-X-Received: by 10.36.246.204 with SMTP id u195mr11878287ith.116.1501333964915; 
-	Sat, 29 Jul 2017 06:12:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Sat, 29 Jul 2017 06:12:24 -0700 (PDT)
-In-Reply-To: <CAJ86T=XVbuUGujVF1=FT5W2XGPN8JPXXD-BdNZMacpHFwE4rZA@mail.gmail.com>
-References: <1501223526-62997-1-git-send-email-shen.joon.tan@intel.com>
-	<CAJ86T=XVbuUGujVF1=FT5W2XGPN8JPXXD-BdNZMacpHFwE4rZA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 29 Jul 2017 14:12:24 +0100
-Message-ID: <CAJTo0LY8k4=ji4T+=gtsxNxab9vbyGY9z9X_MMVDqgEeY+WwXg@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distrodata: function to identify new packages on a release
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=d4/RN3+6Jv0pnNjv3EWOnxCqhIgNyDGu/o4g4/iy+nc=;
+	b=osgPggYxtVQn9/CqKYNv3lJp321oV9uENeNK1clqasJ+TLDZmcbqwXovB381HI5yzx
+	ui6ZlfPNpdpgEabMISTlmGoKr6AQlx/JmVRTp0XTv5DWbfisUddi7urreGzhies3mU32
+	jJ2YFY3ZCXr2JEJYqcP1Qa37StBthZ7UIpmBYoRRu6UzlX9bG7o081C/n7MY4T5Rdxvr
+	xrWCheV/UV4YxvtPsT4rG6RzyEaDjPojen1fE+qw5CwbiCZ8DWMq3OnpnK9zHBiRx1FA
+	kWhpB+1IWhIiIMShcEG4n0vSJTiDmGGvvYAl7XZK27UjvYSBs530QX7zIp8Pm3iLRF8+
+	zwqQ==
+X-Gm-Message-State: AIVw1128hEohIqCX9DqOIZXCVFQpIc2qtzb13kLQt02MbZB1Op0KjbCN
+	LrFvUSPet5HJWFxTB5Y=
+X-Received: by 10.223.171.184 with SMTP id s53mr7913971wrc.75.1501335523906;
+	Sat, 29 Jul 2017 06:38:43 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	r128sm18704945wmb.27.2017.07.29.06.38.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Jul 2017 06:38:42 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Jul 2017 14:38:36 +0100
+Message-Id: <cover.1501335449.git.ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/8][pyro] Archiver fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +55,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jul 2017 13:12:44 -0000
-Content-Type: multipart/alternative; boundary="94eb2c118b26ab1a540555748d78"
-
---94eb2c118b26ab1a540555748d78
-Content-Type: text/plain; charset="UTF-8"
-
-On 28 July 2017 at 23:59, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> > +    git remote add -f origin git://git.yoctoproject.org/poky.git
->
-> Is this patch intended for poky? Or should this be fetching oe-core and
-> bitbake?
+X-List-Received-Date: Sat, 29 Jul 2017 13:38:44 -0000
 
 
-Seems to me that if the script were to use the current clone and just
-switch branches, instead of using a fresh clone of poky, then it would be
-generally useful to anyone who wants these reports.
+Hi,
+
+The archiver had bitrotted and the recipe specific sysroot changes were the
+final straw.  Backport a number of patches from master so that it works again.
 
 Ross
 
---94eb2c118b26ab1a540555748d78
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 9d7c958940adeb066517ab6082167163ae9db2ca:
 
-<div dir=3D"ltr">On 28 July 2017 at 23:59, Andre McCurdy <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmai=
-l.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gma=
-il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=
-=3D"h5">&gt; +=C2=A0 =C2=A0 git remote add -f origin git://<a href=3D"http:=
-//git.yoctoproject.org/poky.git" rel=3D"noreferrer" target=3D"_blank">git.y=
-octoproject.org/<wbr>poky.git</a><br>
-<br>
-</div></div>Is this patch intended for poky? Or should this be fetching oe-=
-core and bitbake?</blockquote><div><br></div><div>Seems to me that if the s=
-cript were to use the current clone and just switch branches, instead of us=
-ing a fresh clone of poky, then it would be generally useful to anyone who =
-wants these reports.</div><div><br></div><div>Ross</div></div></div></div>
+  bitbake: toaster: noweb should init database (2017-07-27 22:36:46 +0100)
 
---94eb2c118b26ab1a540555748d78--
+are available in the git repository at:
+
+  ssh://git@git.yoctoproject.org/poky-contrib ross/pyro
+
+for you to fetch changes up to f8b01d64b8708d7d734f041ac050790f067c1837:
+
+  archiver: preserve sysroot paths in configured mode (2017-07-29 14:05:24 +0100)
+
+----------------------------------------------------------------
+Dengke Du (1):
+      archiver.bbclass: fix do_ar_original error for matchbox-desktop
+
+Joshua Watt (1):
+      archiver: Escape recipe name in regex
+
+Mikko Ylinen (1):
+      archiver.bbclass: adapt do_unpack_and_patch to RSS
+
+Patrick Ohly (3):
+      archiver.bbclass: enhance do_ar_recipe task signature
+      archiver.bbclass: various fixes for original+diff mode
+      archiver.bbclass: do not cause kernel rebuilds
+
+Ross Burton (1):
+      archiver: preserve sysroot paths in configured mode
+
+Zhenbo Gao (1):
+      archiver: avoid archiving source for glibc-locale
+
+ meta/classes/archiver.bbclass | 71 +++++++++++++++++++++++++++++++++++--------
+ meta/lib/oe/sstatesig.py      |  6 +++-
+ 2 files changed, 63 insertions(+), 14 deletions(-)
+
+Dengke Du (1):
+  archiver.bbclass: fix do_ar_original error for matchbox-desktop
+
+Joshua Watt (1):
+  archiver: Escape recipe name in regex
+
+Mikko Ylinen (1):
+  archiver.bbclass: adapt do_unpack_and_patch to RSS
+
+Patrick Ohly (3):
+  archiver.bbclass: enhance do_ar_recipe task signature
+  archiver.bbclass: various fixes for original+diff mode
+  archiver.bbclass: do not cause kernel rebuilds
+
+Ross Burton (1):
+  archiver: preserve sysroot paths in configured mode
+
+Zhenbo Gao (1):
+  archiver: avoid archiving source for glibc-locale
+
+ meta/classes/archiver.bbclass | 71 +++++++++++++++++++++++++++++++++++--------
+ meta/lib/oe/sstatesig.py      |  6 +++-
+ 2 files changed, 63 insertions(+), 14 deletions(-)
+
+-- 
+2.11.0
+
+
