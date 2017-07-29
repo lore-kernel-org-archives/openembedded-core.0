@@ -1,28 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F16EE78538
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E29E78547
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 07:40:24 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v6T7eJ5v020852
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sat, 29 Jul 2017 08:40:21 +0100
-Message-ID: <1501314019.22282.199.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jul 2017 08:40:19 +0100
-In-Reply-To: <cover.1501233796.git.ed.bartosh@linux.intel.com>
-References: <cover.1501233796.git.ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Sat, 29 Jul 2017 08:40:21 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v5 0/7] #11662 - wic should mount /boot
+	Sat, 29 Jul 2017 08:35:35 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 125so12249055pgi.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Jul 2017 01:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=ymzsqK7gawJiVolsXrsg1n49iHjl+7xiU1uN6Lt1wE0=;
+	b=fhtqaoeMIGiqMUtM5lKkptkNRGj/aJrpVKekZ7EKXMWmiE3TrisRtsnw0A9Pi4SwCN
+	cn0RsSnq5IUHNIyAGWhkROv77HL3QF3KkMKF3CqVN4ehLwUchTEnPIkK9hyLj5X32c2t
+	LlpfKRNDB8kXDichjMvXUVXe+3pHPoYvJ906zeXa7V0t5nds8KFp07b6sE+qDGdOmDAZ
+	ZU4yfct+cSFgvHzZ3qMw/xfIbsjLXtTuDOSXQbyZFKuWeFKIl85P8UyVrsN9C6wj6BGl
+	XQTsJPVyflcwDH/YgHOcFklxccFzBALcgPuEBbI2rywqu1tOAKYAvHDecCufkJ6stj7v
+	HFng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ymzsqK7gawJiVolsXrsg1n49iHjl+7xiU1uN6Lt1wE0=;
+	b=OKxcPU+OoVqHh1eBsD/FvtAsYZjysYt5fgpF90HJ5rDpZUtVqbkKa7Unyi0mXHYr7v
+	4sGC8HX6cRb7DJBjFGjd73FShThIdPZa/XYjQrYfEO7pzu15UYvrwYOQSpDugIzk+wwt
+	VB9s497DKE4G4cSRoDBceIhx4IeCiejYupPd6OmsulP45B/EXN8x3lJlK+ZBWcJcnaf1
+	V80uTd8xBKY8+e/Mc0tuBhpzVgF//rPt/XmSEd87rNJ9cE7u0Ui8Lx11YKY/jqmHzTx1
+	CG0lrX8mBYsktCNReS+LJ0zkQcjY7orSmTdTo/Vdq2mMujQODcEj8vQEZaI5JV0Z6hdo
+	IRAw==
+X-Gm-Message-State: AIVw113nxuBuF1DWjb9hykvCnCXoIVTtbWmHcN+y1aaFHkRgj+8Tf7Ka
+	E3R8H4ujkmD8Htvo
+X-Received: by 10.84.132.40 with SMTP id 37mr10700683ple.149.1501317337267;
+	Sat, 29 Jul 2017 01:35:37 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::1f6f])
+	by smtp.gmail.com with ESMTPSA id
+	g15sm6605689pgu.22.2017.07.29.01.35.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Jul 2017 01:35:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Jul 2017 01:35:28 -0700
+Message-Id: <cover.1501317178.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH V3 0/4] llvm: Add recipe for 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jul 2017 07:40:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 29 Jul 2017 08:35:36 -0000
 
-On Fri, 2017-07-28 at 12:29 +0300, Ed Bartosh wrote:
-> This patchset adds /boot to the /etc/fstab of root partition, making
-> it mounted on boot. It also fixes reporting and testing issues
-> caused by this change.
-> 
-> The patchset also fixes long standing bug: wic updated fstab
-> inplace in rootfs directory. This causes other tasks working with
-> rootfs directory to produce incorrect results or crash. This is
-> fixed by hadlinking rootfs content to the temporary directory before
-> updating fstab.
-> 
-> This approach caused do_image_tar to fail with the error "file
-> changed as we read it"
-> as hardlinking changes files ctime. In order to solve this we had to
-> modify do_image_tar to ignore file changes.
-> 
-> Changes in v2: squashed patches by reviewer's request
-> Changes in v3: unlink /etc/fstab in rootfs copy before updating it
-> Changes in v4: used 'cp -a' instead of copyhardlinktree to avoid
->                do_image_tar failure due to changed ctime
-> Changes in v5: back to hardlinking. ignored tar exit code 1.
+Create a recipe just for building llvm, which is needed by many other packages e.g. mesa
+can use it for llvmpipe
 
-This patchset had a couple of issues, the tar command change was a
-bashism '[[' so I changed it to '['. The cp -a change also doesn't work
-cross device so I resurrected one of the previous versions of that
-patch that uses copyhardlinktree.
+Fix mesa to work with llvm 5.0.0
 
-As I mentioned previously, if we can speed up that function, great. We
-do need to handle cross device linkage though (and there may be an
-optimisation to have wic use the same device for the temp rootfs?).
+Add supporting recipes needed to build llvm
 
-The updated series is going through tests again now.
+The following changes since commit 28fc6ba761ed4a47efa7c43e7f7dff5e2fe72b5e:
 
-Cheers,
+  core-image-minimal-initramfs: use initramfs-framework by default (2017-07-27 22:20:16 +0100)
 
-Richard
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/llvm
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/llvm
+
+Khem Raj (4):
+  ninja: Add recipe
+  re2c: Transfer recipe from meta-oe and upgrade to 0.16
+  llvm: Add recipe for 5.0
+  mesa: Fix build when building with llvmpipe
+
+ ...LibraryInfo-Undefine-libc-functions-if-th.patch |  93 ++++++++++++
+ .../0002-llvm-allow-env-override-of-exe-path.patch |  39 +++++
+ meta/recipes-devtools/llvm/llvm_git.bb             | 166 +++++++++++++++++++++
+ meta/recipes-devtools/ninja/ninja_1.7.2.bb         |  29 ++++
+ ...1-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch |  40 +++++
+ ...allivm-Fix-build-against-LLVM-SVN-r302589.patch |  49 ++++++
+ .../mesa/files/llvm-config-version.patch           |  23 +++
+ meta/recipes-graphics/mesa/mesa.inc                |   7 +-
+ meta/recipes-graphics/mesa/mesa_17.1.5.bb          |   3 +
+ meta/recipes-support/re2c/re2c_0.16.bb             |  15 ++
+ 10 files changed, 462 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of-exe-path.patch
+ create mode 100644 meta/recipes-devtools/llvm/llvm_git.bb
+ create mode 100644 meta/recipes-devtools/ninja/ninja_1.7.2.bb
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/llvm-config-version.patch
+ create mode 100644 meta/recipes-support/re2c/re2c_0.16.bb
+
+-- 
+2.13.3
 
 
