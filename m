@@ -1,46 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CF20A601A5
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA7E601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 17:21:33 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id m85so44253451wma.0
+	Sat, 29 Jul 2017 17:21:34 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id t201so18391252wmt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 10:21:35 -0700 (PDT)
+	Sat, 29 Jul 2017 10:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Znj/SExElS17JoFWzq0V0679nNkzRgnjFnNXeYstEK8=;
-	b=dDXbTdf3hQpIr0DK4RlvbPQYWHq2TtmmJEgNwwmsA4DWpg1UnCoGxVpQ5gRFDtnGj6
-	u1ixO4koGpPV/bWz30Bx1ADBnsngQ7D3Yfi7DVnmvxTPv8OmSlfjWw5a6O+vYrytCVZa
-	IFzSEi6JXuE9165/zyE2T80ukAywWklUGUev7Itag5fS8XLswsW5M7AOj0gboqzGbuk5
-	RNMZ1oKMLSIiafdcxDuv1UKJ4g9IkwDHDEYK1CYVY7hKZxbS9RYO2S1ZGEPiW9o9JnLt
-	sy3K1PrsZMgibfCVIUe23CWJKaDi6HkbbO9GahSUSW7xc1cbVL92NQUvfJgzZ/r1yMdY
-	D3xg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=75H9Ou2DYHTGIbeR+1BS2Bc3wjR2IfqOHA06e5BR6ek=;
+	b=n0k/z7Rundih63LzRGNbV4sTva5QdZhMMhzBDyqdtoNXbFT0785h1IfkrFw6nbojFo
+	xyD7rXohOnDQHTX0OTKy9O7tJY7jp6+HL2coIeSIrS5HvxEfXHHpz630Jt6ICGlY6h5u
+	l6l6OVECXsoRfHU2ollv8atijUSOGSGpcLDPM8fxrc/405I83qRqp5NvJ+5Bhp38wxDm
+	via9BHdDcdfcfRQX4iRwOH52GwN60hXING1SXqy/6x1eBAaU9y02Yb/zOTogk3YrIc3V
+	gxJrahhA4sJHgNqzXKDwTLvtjmMswQjQEnKJvoNKXh9HT0ZlFi39NOqiQqTp4UHaJbPC
+	WimA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Znj/SExElS17JoFWzq0V0679nNkzRgnjFnNXeYstEK8=;
-	b=KfOdzT5AorNo6eKcAZk3hoeuAX4DQw6k+uAG0mPYkJ7XcudhIk+5oXrNKcswmX+Txm
-	NGosUOJyyEQ+i3lIHFa85IVzsR/hVJEb3AFD7XFBgrerOL31dCcMQ4v4P4ZxrltG0DTU
-	PxvU5fpzH1VqtgIAHLVf4KsXPaGMlcrsjM3Opjj3yK1wCsFofwukaun/PjvGT8U1A/sk
-	FjrXgDeKS/O3zCkZjHoSLap2RqZiAshdutitnLV8hbpkhcx3V+qNr/PBjg6ug9Wi7i3N
-	UiYlklHsvM3w8xWvMcpt7lhKNpYFwCJXS6lc8iAU0lcmtv/FFnzTzdFJFZWTKd2Xr00Y
-	jASA==
-X-Gm-Message-State: AIVw112H1QAIdObzpOiEabva/TXGlGho8IQjA7a7vFJJI97mlfzhOMih
-	B9XIqo3A31d7VwCWifM=
-X-Received: by 10.28.144.7 with SMTP id s7mr7778136wmd.111.1501348894130;
-	Sat, 29 Jul 2017 10:21:34 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=75H9Ou2DYHTGIbeR+1BS2Bc3wjR2IfqOHA06e5BR6ek=;
+	b=qdH0O2ZFxr+Z3KUn5+JLZvy5ERDqOP6pSysskeBQ4qQITXBhuVJmabAP+sI6u7x4yr
+	znpEsiIA0srEZZOHyBjDswJhxG+gb0NebVLHeJulpPZis/o8+fiCg6d5dPxs4/ulHMc2
+	LNzBq3aUELMGmPlVDltJSfLR/XejEQMwHVgRXvOplmO5Bbchtb6Cpn3YREnI5nFoUXzK
+	Y4E5/DL9AGOjkAlsEOddxbKClBirK58hV979aQdnhRHgKxLpyceYSlwWHhHlHgcAIM3U
+	/CFrVFwOpqrdTISpHO/MctZVZHI5jxPanDXdy3V098s2VL6j5Ti2tNnCN5Koqagg3Fj/
+	v8xA==
+X-Gm-Message-State: AIVw110sHx7Rfnfqh51zcS2105GI3oLRQ2u7auUDfqsH8RzrTwh2kpQw
+	Ra+uXU3xbJf64zE5Rnc=
+X-Received: by 10.28.152.206 with SMTP id a197mr8112454wme.7.1501348895260;
+	Sat, 29 Jul 2017 10:21:35 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id l1sm6767394wmb.18.2017.07.29.10.21.32
+	by smtp.gmail.com with ESMTPSA id l1sm6767394wmb.18.2017.07.29.10.21.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 29 Jul 2017 10:21:33 -0700 (PDT)
+	Sat, 29 Jul 2017 10:21:34 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jul 2017 18:21:29 +0100
-Message-Id: <20170729172130.12842-1-ross.burton@intel.com>
+Date: Sat, 29 Jul 2017 18:21:30 +0100
+Message-Id: <20170729172130.12842-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/2] wget: fix FusionForge workaround
+In-Reply-To: <20170729172130.12842-1-ross.burton@intel.com>
+References: <20170729172130.12842-1-ross.burton@intel.com>
+Subject: [PATCH 2/2] chrpath: use https for SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,50 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jul 2017 17:21:34 -0000
+X-List-Received-Date: Sat, 29 Jul 2017 17:21:35 -0000
 
-My previous assertion about FusionForge appears to have been wrong, or
-FusionForge has changed behaviour, or both.
-
-FusionForge now mandates that downloads have the Accept header set, despite that
-header being optional, and returns a 406 Not Acceptable error if it isn't set.
-As we were pretending that 406 was actually 405 (Moved) and tried to handle it as a
-redirect this results in an infinite loop until Python kills the recursion.
-
-Delete the handling of 406 as 405, and pass Accept: */* in the headers.
+Alioth always redirects, so we might as well save time by looking in the right
+place.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- bitbake/lib/bb/fetch2/wget.py | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/chrpath/chrpath_0.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/bitbake/lib/bb/fetch2/wget.py b/bitbake/lib/bb/fetch2/wget.py
-index 8ee9769d39b..7c49c2b1282 100644
---- a/bitbake/lib/bb/fetch2/wget.py
-+++ b/bitbake/lib/bb/fetch2/wget.py
-@@ -283,11 +283,6 @@ class Wget(FetchMethod):
-             """
-             http_error_403 = http_error_405
+diff --git a/meta/recipes-devtools/chrpath/chrpath_0.16.bb b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
+index e115eb5c958..b61eef9c8b1 100644
+--- a/meta/recipes-devtools/chrpath/chrpath_0.16.bb
++++ b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
+@@ -7,7 +7,7 @@ BUGTRACKER = "http://alioth.debian.org/tracker/?atid=412807&group_id=31052"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
  
--            """
--            Some servers (e.g. FusionForge) returns 406 Not Acceptable when they
--            actually mean 405 Method Not Allowed.
--            """
--            http_error_406 = http_error_405
+-SRC_URI = "http://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
++SRC_URI = "https://alioth.debian.org/frs/download.php/file/3979/chrpath-0.16.tar.gz \
+            file://standarddoc.patch"
  
-         class FixedHTTPRedirectHandler(urllib.request.HTTPRedirectHandler):
-             """
-@@ -316,7 +311,9 @@ class Wget(FetchMethod):
-             uri = ud.url.split(";")[0]
-             r = urllib.request.Request(uri)
-             r.get_method = lambda: "HEAD"
--
-+            # Some servers (FusionForge, as used on Alioth) require that the
-+            # optional Accept header is set.
-+            r.add_header("Accept", "*/*")
-             def add_basic_auth(login_str, request):
-                 '''Adds Basic auth to http request, pass in login:password as string'''
-                 import base64
+ SRC_URI[md5sum] = "2bf8d1d1ee345fc8a7915576f5649982"
 -- 
 2.11.0
 
