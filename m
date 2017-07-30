@@ -1,29 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D2237834A
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 07:47:54 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v6U7lpRp005266
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 30 Jul 2017 08:47:52 +0100
-Message-ID: <1501400871.22282.210.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wei.tee.ng@intel.com, openembedded-core@lists.openembedded.org
-Date: Sun, 30 Jul 2017 08:47:51 +0100
-In-Reply-To: <7845bc41803435479389182bed1dfb5d410df24a.1500848692.git.wei.tee.ng@intel.com>
-References: <cover.1500848692.git.wei.tee.ng@intel.com>
-	<7845bc41803435479389182bed1dfb5d410df24a.1500848692.git.wei.tee.ng@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Sun, 30 Jul 2017 08:47:52 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 3/3] core-image-minimal-initramfs: use initramfs-framework by default
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id BC7C8784DC;
+	Sun, 30 Jul 2017 08:01:08 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sun, 30 Jul 2017 08:01:10 -0000
+Message-ID: <20170730080110.2379.91548@do.openembedded.org>
+References: <1501400758-26866-1-git-send-email-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1501400758-26866-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdW5pbmF0aXZlOiBVcGRhdGUgdG8gMS43IHVuaW5hdGl2ZSByZWxlYXNl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jul 2017 07:47:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 30 Jul 2017 08:01:08 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 2017-07-23 at 16:51 -0700, wei.tee.ng@intel.com wrote:
-> From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-> 
-> Use the initramfs-framework for initialization by default due to
-> the modularity and expansibility.
-> 
-> [YOCTO #10987]
-> 
-> Signed-off-by: Ng, Wei Tee <wei.tee.ng@intel.com>
-> ---
->  meta/recipes-core/images/core-image-minimal-initramfs.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+== Series Details ==
 
-I'm afraid I had to revert this change:
+Series: uninative: Update to 1.7 uninative release
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8020/
+State : failure
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=fab2219af4a6566124
-cf95d1d2648d4729391baf
+== Summary ==
 
-because it was causing oe-selftest failures as shown here:
 
-https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/415/st
-eps/Running%20oe-selftest/logs/stdio
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Cheers,
 
-Richard
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a2ab288bd0)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
