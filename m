@@ -1,49 +1,56 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com
-	[209.85.161.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E5327841B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 84A1D783D5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 00:16:29 +0000 (UTC)
-Received: by mail-yw0-f170.google.com with SMTP id u207so79098382ywc.3
+	Sun, 30 Jul 2017 03:22:28 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 125so13833645pgi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 17:16:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=GNupCqo1oa7Ewqf2k8Fu370OcmPM9dpwT6xj0WWrvxw=;
-	b=Ac7X5z4Nx/2JsbHpGhKiuGzi1PfUHoUWH3DGm67Di3JzGKfEEOXkpiXCZw4ZaYzfX/
-	skx+sfhXYbgAZFoEN6FhvfrDOSg875UP4MxfDfB+2AmzDKA6krHY7SuCHktgGEYGWKQK
-	WHYL8eZpBnSy4qRIRna8jABRhSdzUeXQRHf84=
+	Sat, 29 Jul 2017 20:22:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=xeM05C6+3LaGtkHONJl1lcBHj6tv2tlxJU0e+rhDK44=;
+	b=p4f83xrVN/+0POT7icZIRkn1rmdurAXqPcGR3TbVxF+EmBdx6OUl315/ZEHXRfmJBo
+	+x/D/qlzoK/KTCFEuFIHSwfyq3diSo7OjuhD4pe+CInUGoh2ApIi0FKV2LnSrJPpM99Y
+	DPoyiHFRHZINpd7rqU5sYefGODdndIiFS2sK1/CBe+uShTsUZVyKHd0erJDd17OKKO/X
+	lSnrpvn+a8uFzDhh9+2hFg6UiZl4o3fqiZQQEHlxbCXQ+L5D7oAl4kSS8UHE0fdPNrZW
+	q1+Zc04X6gQMNOkD5dz/8VeFnQew++t/VO3KL5iYeq5o3ItDqOd0W/HDydy6jMCVdLIc
+	XHtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=GNupCqo1oa7Ewqf2k8Fu370OcmPM9dpwT6xj0WWrvxw=;
-	b=L6ZsL8LqMwvIhs7EiOnAo2PXLwbxPCtZtrG6kDMozXH26mNgK0B8PAuWAX/rskVw7h
-	vy9BlT70xBvg/KOjS4MI3DRmsOePkdB1hdBeY8p23OLSAlb5gINYJotEVgIXglHIUE4w
-	iOc7yzLyplkgssCVwqHGWgQOPeAQwJ3LLuhriUDUQVj1vL5D4+poADe7kRo5guKtg67b
-	AlWEJV5YJIJp6WJiHMn+oj9qf7+1hIom59USL4QvpTGDY2BS82FAhgR9uWD+R577756s
-	viS152VgvZmXduUcHZ+FqM4W0laDwxiLS1L6fa698nWKXu1BsVJhFQzWlHqnjfgZK9T1
-	/ciQ==
-X-Gm-Message-State: AIVw113Kg2b86sWT75NGzEMDeahjfacRh2ibwP1AoTopN8KXwLCtmvZo
-	FX8rRmPt1Kn2EoGWLWb1CQ==
-X-Received: by 10.129.173.36 with SMTP id l36mr10004960ywh.60.1501373790828;
-	Sat, 29 Jul 2017 17:16:30 -0700 (PDT)
-Received: from bill-the-cat ([2606:a000:1408:4167:44a7:ffcc:4ce7:764c])
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to;
+	bh=xeM05C6+3LaGtkHONJl1lcBHj6tv2tlxJU0e+rhDK44=;
+	b=pu4sznxBp3pxzSH0zQx1GCcEfdDX6pwMbTc370SZG63jXlqQOwKFRbYi9zKAR21B6W
+	VmiTx15aIRVEJK0yy9K5WJQnzQRmWrDq8Rr+fI5rLdUedcci1Obrk4zlByHUP416J3oX
+	ZcEk7FYz2GdkY1deK1BpLQO5U7nnxS1mM9SiqldddtqI8sHoEZl3gIQWnlQoAcbX2Yh1
+	5Hn/FajquP0vRocHWPKrlK2vtBC96pe0o2EPcvY7z1RTazEgChhZv39GqjiKahwlrnTv
+	1iwLoAqn7fmX47YwFc7c0sIqxRDL+Yh62sL2VOg0t5j25qh3hvqjXyRRUD6yOvxLWL7z
+	6HBQ==
+X-Gm-Message-State: AIVw113iv+z1ad7/z9qVr1pILrOETQcuc/TCIkwOcDBTGufwfNzzo995
+	6bt/ztEZW5mQEwvQI6U=
+X-Received: by 10.84.184.12 with SMTP id l12mr693650plc.203.1501384949959;
+	Sat, 29 Jul 2017 20:22:29 -0700 (PDT)
+Received: from Khems-MacBook-Pro.local ([2601:646:8882:b8c:10c6:217:786b:96d8])
 	by smtp.gmail.com with ESMTPSA id
-	i71sm2641086ywg.47.2017.07.29.17.16.28
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Sat, 29 Jul 2017 17:16:29 -0700 (PDT)
-Date: Sat, 29 Jul 2017 20:17:51 -0400
-From: Tom Rini <trini@konsulko.com>
-To: drew.moseley@northern.tech
-Message-ID: <20170730001751.GB16135@bill-the-cat>
-References: <1501348127-1506-1-git-send-email-drew.moseley@northern.tech>
+	b89sm16617694pfe.95.2017.07.29.20.22.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 29 Jul 2017 20:22:28 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1501317178.git.raj.khem@gmail.com>
+	<655b584f33664f8188d3425e28e7657749e5850e.1501317178.git.raj.khem@gmail.com>
+	<CAJTo0La7eo62-OXosVJJX3sp2CktzmV5VQ60q499RL1aKCRLTA@mail.gmail.com>
+	<CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <21a74f99-6446-1523-5c79-1cfe8c818482@gmail.com>
+Date: Sat, 29 Jul 2017 20:22:14 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:55.0)
+	Gecko/20100101 Thunderbird/55.0
 MIME-Version: 1.0
-In-Reply-To: <1501348127-1506-1-git-send-email-drew.moseley@northern.tech>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] documentation: Remove documentation of image_types_uboot.
+In-Reply-To: <CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] llvm: Add recipe for 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +63,605 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jul 2017 00:16:30 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 30 Jul 2017 03:22:29 -0000
+X-Groupsio-MsgNum: 100872
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature";
+	boundary="FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3"
 
-On Sat, Jul 29, 2017 at 01:08:47PM -0400, drew.moseley@northern.tech wrote:
+--FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3
+Content-Type: multipart/mixed; boundary="hGusDaXJnKmHhF3oUrAmTOgSJ9TtXkifO";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <21a74f99-6446-1523-5c79-1cfe8c818482@gmail.com>
+Subject: Re: [OE-core] [PATCH 3/4] llvm: Add recipe for 5.0
+References: <cover.1501317178.git.raj.khem@gmail.com>
+ <655b584f33664f8188d3425e28e7657749e5850e.1501317178.git.raj.khem@gmail.com>
+ <CAJTo0La7eo62-OXosVJJX3sp2CktzmV5VQ60q499RL1aKCRLTA@mail.gmail.com>
+ <CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
 
-> From: Drew Moseley <drew.moseley@northern.tech>
-> 
-> This class was removed with commit:
->      OE-Core rev: 65f27122950a35a67ce39ae4cfe93d0dca6b0dab
-> 
-> Remove unneeded references to it in documentation.
-> 
-> Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
-> ---
->  documentation/ref-manual/ref-classes.xml  | 9 ---------
->  meta-poky/conf/local.conf.sample.extended | 3 ---
->  2 files changed, 12 deletions(-)
-> 
-> diff --git a/documentation/ref-manual/ref-classes.xml b/documentation/ref-manual/ref-classes.xml
-> index 1801faf..292deb3 100644
-> --- a/documentation/ref-manual/ref-classes.xml
-> +++ b/documentation/ref-manual/ref-classes.xml
-> @@ -1288,15 +1288,6 @@
->      </para>
->  </section>
->  
-> -<section id='ref-classes-image_types_uboot'>
-> -    <title><filename>image_types_uboot.bbclass</filename></title>
-> -
-> -    <para>
-> -        The <filename>image_types_uboot</filename> class
-> -        defines additional image types specifically for the U-Boot bootloader.
-> -    </para>
-> -</section>
-> -
->  <section id='ref-classes-image-live'>
->      <title><filename>image-live.bbclass</filename></title>
+--hGusDaXJnKmHhF3oUrAmTOgSJ9TtXkifO
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This half I have taken care of in a patch to yocto-docs, that will be
-applied when the rest of my image related changes land.
+Ross
 
-> diff --git a/meta-poky/conf/local.conf.sample.extended b/meta-poky/conf/local.conf.sample.extended
-> index 0560de8..331fdd1 100644
-> --- a/meta-poky/conf/local.conf.sample.extended
-> +++ b/meta-poky/conf/local.conf.sample.extended
-> @@ -168,9 +168,6 @@
->  
->  # Additional image generation features
->  #
-> -# The following is a list of classes to import to use in the generation of images
-> -# currently an example class is image_types_uboot
-> -# IMAGE_CLASSES = " image_types_uboot"
->  
->  # The following options will build a companion 'debug filesystem' in addition
->  # to the normal deployable filesystem.  This companion system allows a
+I have refreshed the pull branch which should hopefully address mesa
+configure issue you are seeing along with llvm fix to adjust with clang
+layer
 
-This is poky-centric and still applicable however.  Thanks!
+On 7/29/17 4:54 AM, Burton, Ross wrote:
+> Replicated without uninative, so it's not that.
+>=20
+> Ross
+>=20
+> On 29 July 2017 at 12:39, Burton, Ross <ross.burton@intel.com
+> <mailto:ross.burton@intel.com>> wrote:
+>=20
+>     Fails like this for me:
+>=20
+>     | FAILED: tools/llvm-cvtres/Opts.inc.tmp
+>     | cd
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild
+>     &&
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild/NATIVE/bin/llvm-tblgen
+>     -gen-opt-parser-defs -I
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/g=
+it/tools/llvm-cvtres
+>     -I
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/g=
+it/include
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/g=
+it/tools/llvm-cvtres/Opts.td
+>     -o tools/llvm-cvtres/Opts.inc.tmp -d tools/llvm-cvtres/Opts.inc.d
+>     | /bin/sh: 1:
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild/NATIVE/bin/llvm-tblgen:
+>     not found
+>=20
+>     It is there though:
+>=20
+>     $ ls -l
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild/NATIVE/bin/llvm-tblgen
+>     -rwxr-xr-x 1 ross ross 49807224 Jul 29 12:25
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild/NATIVE/bin/llvm-tblgen
+>=20
+>     $
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild/NATIVE/bin/llvm-tblgen
+>     -bash:
+>     /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/b=
+uild/NATIVE/bin/llvm-tblgen:
+>     No such file or directory
+>=20
+>     Might be related to having uninative enabled?
+>=20
+>     Ross
+>=20
+>=20
+>     On 29 July 2017 at 09:35, Khem Raj <raj.khem@gmail.com
+>     <mailto:raj.khem@gmail.com>> wrote:
+>=20
+>         Based on recipe from meta-oe and clang recipe from meta-clang
+>         Needed by mesa
+>=20
+>         Fixes
+>         [YOCTO #11529]
+>=20
+>         Signed-off-by: Khem Raj <raj.khem@gmail.com
+>         <mailto:raj.khem@gmail.com>>
+>         ---
+>         =C2=A0...LibraryInfo-Undefine-libc-functions-if-th.patch |=C2=A0=
+ 93
+>         ++++++++++++
+>         =C2=A0.../0002-llvm-allow-env-override-of-exe-path.patch |=C2=A0=
+ 39 +++++
+>         =C2=A0meta/recipes-devtools/llvm/llvm_git.bb <http://llvm_git.b=
+b>=C2=A0 =C2=A0
+>         =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 166 +++++++++++++++++++++
+>         =C2=A03 files changed, 298 insertions(+)
+>         =C2=A0create mode 100644
+>         meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-Und=
+efine-libc-functions-if-th.patch
+>         =C2=A0create mode 100644
+>         meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-of=
+-exe-path.patch
+>         =C2=A0create mode 100644 meta/recipes-devtools/llvm/llvm_git.bb=
 
--- 
-Tom
+>         <http://llvm_git.bb>
+>=20
+>         diff --git
+>         a/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-U=
+ndefine-libc-functions-if-th.patch
+>         b/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-U=
+ndefine-libc-functions-if-th.patch
+>         new file mode 100644
+>         index 0000000000..e251799259
+>         --- /dev/null
+>         +++
+>         b/meta/recipes-devtools/llvm/llvm/0001-llvm-TargetLibraryInfo-U=
+ndefine-libc-functions-if-th.patch
+>         @@ -0,0 +1,93 @@
+>         +From 28293e48cf1a52004c6a78de448718441f9e05f9 Mon Sep 17
+>         00:00:00 2001
+>         +From: Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.com>=
+>
+>         +Date: Sat, 21 May 2016 00:33:20 +0000
+>         +Subject: [PATCH 1/2] llvm: TargetLibraryInfo: Undefine libc
+>         functions if they
+>         + are macros
+>         +
+>         +musl defines some functions as macros and not inline functions=
 
+>         +if this is the case then make sure to undefine them
+>         +
+>         +Signed-off-by: Khem Raj <raj.khem@gmail.com
+>         <mailto:raj.khem@gmail.com>>
+>         +---
+>         +Upstream-Status: Pending
+>         +
+>         + include/llvm/Analysis/TargetLibraryInfo.def | 21
+>         +++++++++++++++++++++
+>         + 1 file changed, 21 insertions(+)
+>         +
+>         +diff --git a/include/llvm/Analysis/TargetLibraryInfo.def
+>         b/include/llvm/Analysis/TargetLibraryInfo.def
+>         +index 9cbe917c146..aff8419cf54 100644
+>         +--- a/include/llvm/Analysis/TargetLibraryInfo.def
+>         ++++ b/include/llvm/Analysis/TargetLibraryInfo.def
+>         +@@ -656,6 +656,9 @@ TLI_DEFINE_STRING_INTERNAL("fmodl")
+>         + TLI_DEFINE_ENUM_INTERNAL(fopen)
+>         + TLI_DEFINE_STRING_INTERNAL("fopen")
+>         + /// FILE *fopen64(const char *filename, const char *opentype)=
+
+>         ++#ifdef fopen64
+>         ++#undef fopen64
+>         ++#endif
+>         + TLI_DEFINE_ENUM_INTERNAL(fopen64)
+>         + TLI_DEFINE_STRING_INTERNAL("fopen64")
+>         + /// int fprintf(FILE *stream, const char *format, ...);
+>         +@@ -691,6 +694,9 @@ TLI_DEFINE_STRING_INTERNAL("fseek")
+>         + /// int fseeko(FILE *stream, off_t offset, int whence);
+>         + TLI_DEFINE_ENUM_INTERNAL(fseeko)
+>         + TLI_DEFINE_STRING_INTERNAL("fseeko")
+>         ++#ifdef fseeko64
+>         ++#undef fseeko64
+>         ++#endif
+>         + /// int fseeko64(FILE *stream, off64_t offset, int whence)
+>         + TLI_DEFINE_ENUM_INTERNAL(fseeko64)
+>         + TLI_DEFINE_STRING_INTERNAL("fseeko64")
+>         +@@ -701,6 +707,9 @@ TLI_DEFINE_STRING_INTERNAL("fsetpos")
+>         + TLI_DEFINE_ENUM_INTERNAL(fstat)
+>         + TLI_DEFINE_STRING_INTERNAL("fstat")
+>         + /// int fstat64(int filedes, struct stat64 *buf)
+>         ++#ifdef fstat64
+>         ++#undef fstat64
+>         ++#endif
+>         + TLI_DEFINE_ENUM_INTERNAL(fstat64)
+>         + TLI_DEFINE_STRING_INTERNAL("fstat64")
+>         + /// int fstatvfs(int fildes, struct statvfs *buf);
+>         +@@ -716,6 +725,9 @@ TLI_DEFINE_STRING_INTERNAL("ftell")
+>         + TLI_DEFINE_ENUM_INTERNAL(ftello)
+>         + TLI_DEFINE_STRING_INTERNAL("ftello")
+>         + /// off64_t ftello64(FILE *stream)
+>         ++#ifdef ftello64
+>         ++#undef ftello64
+>         ++#endif
+>         + TLI_DEFINE_ENUM_INTERNAL(ftello64)
+>         + TLI_DEFINE_STRING_INTERNAL("ftello64")
+>         + /// int ftrylockfile(FILE *file);
+>         +@@ -836,6 +848,9 @@ TLI_DEFINE_STRING_INTERNAL("logl")
+>         + TLI_DEFINE_ENUM_INTERNAL(lstat)
+>         + TLI_DEFINE_STRING_INTERNAL("lstat")
+>         + /// int lstat64(const char *path, struct stat64 *buf);
+>         ++#ifdef lstat64
+>         ++#undef lstat64
+>         ++#endif
+>         + TLI_DEFINE_ENUM_INTERNAL(lstat64)
+>         + TLI_DEFINE_STRING_INTERNAL("lstat64")
+>         + /// void *malloc(size_t size);
+>         +@@ -1055,6 +1070,9 @@ TLI_DEFINE_STRING_INTERNAL("sscanf")
+>         + TLI_DEFINE_ENUM_INTERNAL(stat)
+>         + TLI_DEFINE_STRING_INTERNAL("stat")
+>         + /// int stat64(const char *path, struct stat64 *buf);
+>         ++#ifdef stat64
+>         ++#undef stat64
+>         ++#endif
+>         + TLI_DEFINE_ENUM_INTERNAL(stat64)
+>         + TLI_DEFINE_STRING_INTERNAL("stat64")
+>         + /// int statvfs(const char *path, struct statvfs *buf);
+>         +@@ -1184,6 +1202,9 @@ TLI_DEFINE_STRING_INTERNAL("times")
+>         + TLI_DEFINE_ENUM_INTERNAL(tmpfile)
+>         + TLI_DEFINE_STRING_INTERNAL("tmpfile")
+>         + /// FILE *tmpfile64(void)
+>         ++#ifdef tmpfile64
+>         ++#undef tmpfile64
+>         ++#endif
+>         + TLI_DEFINE_ENUM_INTERNAL(tmpfile64)
+>         + TLI_DEFINE_STRING_INTERNAL("tmpfile64")
+>         + /// int toascii(int c);
+>         +--
+>         +2.13.1
+>         +
+>         diff --git
+>         a/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-=
+of-exe-path.patch
+>         b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-=
+of-exe-path.patch
+>         new file mode 100644
+>         index 0000000000..832bd729ef
+>         --- /dev/null
+>         +++
+>         b/meta/recipes-devtools/llvm/llvm/0002-llvm-allow-env-override-=
+of-exe-path.patch
+>         @@ -0,0 +1,39 @@
+>         +From d776487bac17650704614248d19d1e6b35775001 Mon Sep 17
+>         00:00:00 2001
+>         +From: Martin Kelly <mkelly@xevo.com <mailto:mkelly@xevo.com>>
+>         +Date: Fri, 19 May 2017 00:22:57 -0700
+>         +Subject: [PATCH 2/2] llvm: allow env override of exe path
+>         +
+>         +When using a native llvm-config from inside a sysroot, we need=
+
+>         llvm-config to
+>         +return the libraries, include directories, etc. from inside th=
+e
+>         sysroot rather
+>         +than from the native sysroot. Thus provide an env override for=
+
+>         calling
+>         +llvm-config from a target sysroot.
+>         +
+>         +Signed-off-by: Martin Kelly <mkelly@xevo.com
+>         <mailto:mkelly@xevo.com>>
+>         +Signed-off-by: Khem Raj <raj.khem@gmail.com
+>         <mailto:raj.khem@gmail.com>>
+>         +---
+>         +Upstream-Status: Pending
+>         +
+>         + tools/llvm-config/llvm-config.cpp | 7 +++++++
+>         + 1 file changed, 7 insertions(+)
+>         +
+>         +diff --git a/tools/llvm-config/llvm-config.cpp
+>         b/tools/llvm-config/llvm-config.cpp
+>         +index 08b096afb05..d8d7742744e 100644
+>         +--- a/tools/llvm-config/llvm-config.cpp
+>         ++++ b/tools/llvm-config/llvm-config.cpp
+>         +@@ -225,6 +225,13 @@ Typical components:\n\
+>         +
+>         + /// \brief Compute the path to the main executable.
+>         + std::string GetExecutablePath(const char *Argv0) {
+>         ++=C2=A0 // Hack for Yocto: we need to override the root path w=
+hen we
+>         are using
+>         ++=C2=A0 // llvm-config from within a target sysroot.
+>         ++=C2=A0 const char *Sysroot =3D std::getenv("YOCTO_ALTERNATE_E=
+XE_PATH");
+>         ++=C2=A0 if (Sysroot !=3D nullptr) {
+>         ++=C2=A0 =C2=A0 return Sysroot;
+>         ++=C2=A0 }
+>         ++
+>         +=C2=A0 =C2=A0// This just needs to be some symbol in the binar=
+y; C++ doesn't
+>         +=C2=A0 =C2=A0// allow taking the address of ::main however.
+>         +=C2=A0 =C2=A0void *P =3D (void *)(intptr_t)GetExecutablePath;
+>         +--
+>         +2.13.1
+>         +
+>         diff --git a/meta/recipes-devtools/llvm/llvm_git.bb
+>         <http://llvm_git.bb> b/meta/recipes-devtools/llvm/llvm_git.bb
+>         <http://llvm_git.bb>
+>         new file mode 100644
+>         index 0000000000..7b51d2153f
+>         --- /dev/null
+>         +++ b/meta/recipes-devtools/llvm/llvm_git.bb <http://llvm_git.b=
+b>
+>         @@ -0,0 +1,166 @@
+>         +# Copyright (C) 2017 Khem Raj <raj.khem@gmail.com
+>         <mailto:raj.khem@gmail.com>>
+>         +# Released under the MIT license (see COPYING.MIT for the term=
+s)
+>         +
+>         +DESCRIPTION =3D "The LLVM Compiler Infrastructure"
+>         +HOMEPAGE =3D "http://llvm.org"
+>         +LICENSE =3D "NCSA"
+>         +SECTION =3D "devel"
+>         +
+>         +LIC_FILES_CHKSUM =3D
+>         "file://LICENSE.TXT;md5=3De825e017edc35cfd58e26116e5251771"
+>         +
+>         +DEPENDS =3D "libffi libxml2-native zlib ninja-native"
+>         +
+>         +RDEPENDS_${PN}_append_class-target =3D " ncurses-terminfo"
+>         +
+>         +inherit perlnative pythonnative cmake pkgconfig
+>         +
+>         +PROVIDES +=3D "llvm${PV}"
+>         +
+>         +LLVM_RELEASE =3D "${PV}"
+>         +LLVM_DIR =3D "llvm${LLVM_RELEASE}"
+>         +
+>         +SRCREV =3D "9a5c333388cbb54a0ce3a67c4f539f5e590a089b"
+>         +PV =3D "5.0"
+>         +PATCH_VERSION =3D "0"
+>         +SRC_URI =3D
+>         "git://github.com/llvm-mirror/llvm.git;branch=3Drelease_50;prot=
+ocol=3Dhttp
+>         <http://github.com/llvm-mirror/llvm.git;branch=3Drelease_50;pro=
+tocol=3Dhttp>
+>         \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
+>         =C2=A0file://0001-llvm-TargetLibraryInfo-Undefine-libc-function=
+s-if-th.patch
+>         \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-llvm-allo=
+w-env-override-of-exe-path.patch \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
+>         +S =3D "${WORKDIR}/git"
+>         +
+>         +LLVM_INSTALL_DIR =3D "${WORKDIR}/llvm-install"
+>         +def get_llvm_arch(bb, d, arch_var):
+>         +=C2=A0 =C2=A0 import re
+>         +=C2=A0 =C2=A0 a =3D d.getVar(arch_var, True)
+>         +=C2=A0 =C2=A0 if=C2=A0 =C2=A0re.match('(i.86|athlon|x86.64)$',=
+ a):=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 'X86'
+>         +=C2=A0 =C2=A0 elif re.match('arm$', a):=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
+ 'ARM'
+>         +=C2=A0 =C2=A0 elif re.match('armeb$', a):=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 'AR=
+M'
+>         +=C2=A0 =C2=A0 elif re.match('aarch64$', a):=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return
+>         'AArch64'
+>         +=C2=A0 =C2=A0 elif re.match('aarch64_be$', a):=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return
+>         'AArch64'
+>         +=C2=A0 =C2=A0 elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a=
+): return
+>         'Mips'
+>         +=C2=A0 =C2=A0 elif re.match('p(pc|owerpc)(|64)', a):=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return
+>         'PowerPC'
+>         +=C2=A0 =C2=A0 else:
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error("cannot map '%s' to a sup=
+ported llvm
+>         architecture" % a)
+>         +=C2=A0 =C2=A0 return ""
+>         +
+>         +def get_llvm_target_arch(bb, d):
+>         +=C2=A0 =C2=A0 return get_llvm_arch(bb, d, 'TARGET_ARCH')
+>         +#
+>         +# Default to build all OE-Core supported target arches (user
+>         overridable).
+>         +#
+>         +LLVM_TARGETS ?=3D "${@get_llvm_target_arch(bb, d)}"
+>         +LLVM_TARGETS_prepend_x86 =3D "AMDGPU;"
+>         +LLVM_TARGETS_prepend_x86-64 =3D "AMDGPU;"
+>         +
+>         +EXTRA_OECMAKE +=3D "-DLLVM_ENABLE_ASSERTIONS=3DOFF \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_ENABLE_EXPENSIVE_CHECKS=3DOFF \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_ENABLE_PIC=3DON \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_BINDINGS_LIST=3D'' \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_LINK_LLVM_DYLIB=3DON \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_ENABLE_FFI=3DON \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DFFI_INCLUDE_DIR=3D$(pkg-config
+>         --variable=3Dincludedir libffi) \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_OPTIMIZED_TABLEGEN=3DON \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DLLVM_TARGETS_TO_BUILD=3D"${LLVM_TARGETS}" \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -DCMAKE_CROSSCOMPILING:BOOL=3DON \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ -G Ninja \
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+"
+>         +EXTRA_OECMAKE_remove_class-native =3D
+>         "-DCMAKE_CROSSCOMPILING:BOOL=3DON"
+>         +
+>         +do_configure_prepend() {
+>         +# Fix paths in llvm-config
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i
+>         "s|sys::path::parent_path(CurrentPath))\.str()|sys::path::paren=
+t_path(sys::path::parent_path(CurrentPath))).str()|g"
+>         ${S}/tools/llvm-config/llvm-config.cpp
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -ri "s#/(bin|include|lib)(/?\")=
+#/\1/${LLVM_DIR}\2#g"
+>         ${S}/tools/llvm-config/llvm-config.cpp
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -ri "s#lib/${LLVM_DIR}#${baseli=
+b}/${LLVM_DIR}#g"
+>         ${S}/tools/llvm-config/llvm-config.cpp
+>         +}
+>         +
+>         +do_compile() {
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0NINJA_STATUS=3D"[%p] " ninja -v ${P=
+ARALLEL_MAKE}
+>         +}
+>         +
+>         +do_install() {
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0NINJA_STATUS=3D"[%p] " DESTDIR=3D${=
+LLVM_INSTALL_DIR} ninja
+>         -v install
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -D -m 0755 ${B}/NATIVE/bin/=
+llvm-config
+>         ${D}${libdir}/${LLVM_DIR}/llvm-config-host
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${bindir}/${LLVM_DIR=
+}
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${LLVM_INSTALL_DIR}${bindir}/=
+*
+>         ${D}${bindir}/${LLVM_DIR}/
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${includedir}/${LLVM=
+_DIR}
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r ${LLVM_INSTALL_DIR}${included=
+ir}/*
+>         ${D}${includedir}/${LLVM_DIR}/
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${libdir}/${LLVM_DIR=
+}
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0# The LLVM sources have "/lib" embe=
+dded and so we cannot
+>         completely rely on the ${libdir} variable
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${LLVM_INSTALL_DIR}${libdir=
+}/ ]; then
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r $=
+{LLVM_INSTALL_DIR}${libdir}/*
+>         ${D}${libdir}/${LLVM_DIR}/
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0elif [ -d ${LLVM_INSTALL_DIR}${pref=
+ix}/lib ]; then
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r $=
+{LLVM_INSTALL_DIR}${prefix}/lib/*
+>         ${D}${libdir}/${LLVM_DIR}/
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0elif [ -d ${LLVM_INSTALL_DIR}${pref=
+ix}/lib64 ]; then
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -r $=
+{LLVM_INSTALL_DIR}${prefix}/lib64/*
+>         ${D}${libdir}/${LLVM_DIR}/
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Remove unnecessary cmake files
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${libdir}/${LLVM_DIR}/cm=
+ake
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s ${LLVM_DIR}/libLLVM-${PV}${SO=
+LIBSDEV}
+>         ${D}${libdir}/libLLVM-${PV}${SOLIBSDEV}
+>         +
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0# We'll have to delete the libLLVM.=
+so due to multiple
+>         reasons...
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${libdir}/${LLVM_DIR}/li=
+bLLVM.so
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${libdir}/${LLVM_DIR}/li=
+bLTO.so
+>         +}
+>         +
+>         +PACKAGES +=3D "${PN}-bugpointpasses ${PN}-llvmhello"
+>         +ALLOW_EMPTY_${PN} =3D "1"
+>         +ALLOW_EMPTY_${PN}-staticdev =3D "1"
+>         +FILES_${PN} =3D ""
+>         +FILES_${PN}-staticdev =3D ""
+>         +FILES_${PN}-dbg =3D " \
+>         +=C2=A0 =C2=A0 ${bindir}/${LLVM_DIR}/.debug \
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/.debug/BugpointPasses.so \=
+
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/.debug/LLVMHello.so \
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/.debug/libLTO.so* \
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/.debug/llvm-config-host \
+>         +=C2=A0 =C2=A0 /usr/src/debug \
+>         +"
+>         +
+>         +FILES_${PN}-dev =3D " \
+>         +=C2=A0 =C2=A0 ${bindir}/${LLVM_DIR} \
+>         +=C2=A0 =C2=A0 ${includedir}/${LLVM_DIR} \
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/llvm-config-host \
+>         +"
+>         +
+>         +RRECOMMENDS_${PN}-dev +=3D "${PN}-bugpointpasses ${PN}-llvmhel=
+lo"
+>         +
+>         +FILES_${PN}-bugpointpasses =3D "\
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/BugpointPasses.so \
+>         +"
+>         +FILES_${PN} +=3D "\
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/libLTO.so.* \
+>         +"
+>         +
+>         +FILES_${PN}-llvmhello =3D "\
+>         +=C2=A0 =C2=A0 ${libdir}/${LLVM_DIR}/LLVMHello.so \
+>         +"
+>         +
+>         +PACKAGES_DYNAMIC =3D "^libllvm${LLVM_RELEASE}-.*$"
+>         +NOAUTOPACKAGEDEBUG =3D "1"
+>         +
+>         +INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${LLVM_RELE=
+ASE}.${PATCH_VERSION}
+>         +=3D "dev-so"
+>         +INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm-${LLVM_RELE=
+ASE}
+>         +=3D "dev-so"
+>         +INSANE_SKIP_${MLPREFIX}libllvm${LLVM_RELEASE}-llvm +=3D "dev-s=
+o"
+>         +
+>         +python llvm_populate_packages() {
+>         +=C2=A0 =C2=A0 libdir =3D bb.data.expand('${libdir}', d)
+>         +=C2=A0 =C2=A0 libllvm_libdir =3D bb.data.expand('${libdir}/${L=
+LVM_DIR}', d)
+>         +=C2=A0 =C2=A0 split_dbg_packages =3D do_split_packages(d,
+>         libllvm_libdir+'/.debug', '^lib(.*)\.so$',
+>         'libllvm${LLVM_RELEASE}-%s-dbg', 'Split debug package for %s',
+>         allow_dirs=3DTrue)
+>         +=C2=A0 =C2=A0 split_packages =3D do_split_packages(d, libdir,
+>         '^lib(.*)\.so$', 'libllvm${LLVM_RELEASE}-%s', 'Split package fo=
+r
+>         %s', allow_dirs=3DTrue, allow_links=3DTrue, recursive=3DTrue)
+>         +=C2=A0 =C2=A0 split_staticdev_packages =3D do_split_packages(d=
+,
+>         libllvm_libdir, '^lib(.*)\.a$',
+>         'libllvm${LLVM_RELEASE}-%s-staticdev', 'Split staticdev package=
+
+>         for %s', allow_dirs=3DTrue)
+>         +=C2=A0 =C2=A0 if split_packages:
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pn =3D d.getVar('PN', True)
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar('RDEPENDS_' + pn, ' '+=
+' '.join(split_packages))
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar('RDEPENDS_' + pn + '-d=
+bg', ' '+'
+>         '.join(split_dbg_packages))
+>         +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar('RDEPENDS_' + pn + '-s=
+taticdev', ' '+'
+>         '.join(split_staticdev_packages))
+>         +}
+>         +
+>         +PACKAGESPLITFUNCS_prepend =3D "llvm_populate_packages "
+>         +
+>         +BBCLASSEXTEND =3D "native nativesdk"
+>         --
+>         2.13.3
+>=20
+>         --
+>         _______________________________________________
+>         Openembedded-core mailing list
+>         Openembedded-core@lists.openembedded.org
+>         <mailto:Openembedded-core@lists.openembedded.org>
+>         http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e
+>         <http://lists.openembedded.org/mailman/listinfo/openembedded-co=
+re>
+>=20
+>=20
+>=20
+
+
+--hGusDaXJnKmHhF3oUrAmTOgSJ9TtXkifO--
+
+--FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iEYEARECAAYFAll9UPIACgkQuwUzVZGdMxQiaQCfcvO31+qbII6awnzPpSKlEInp
+fXYAnREUXTPJzYR7ZD9RKSqjQlxKT8uI
+=9Uiq
+-----END PGP SIGNATURE-----
+
+--FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3--
