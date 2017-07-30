@@ -1,50 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A1D783D5
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C31F78388
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 03:22:28 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 125so13833645pgi.5
+	Sun, 30 Jul 2017 03:52:44 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id t86so1570091pfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jul 2017 20:22:30 -0700 (PDT)
+	Sat, 29 Jul 2017 20:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
+	h=from:subject:to:cc:references:organization:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=xeM05C6+3LaGtkHONJl1lcBHj6tv2tlxJU0e+rhDK44=;
-	b=p4f83xrVN/+0POT7icZIRkn1rmdurAXqPcGR3TbVxF+EmBdx6OUl315/ZEHXRfmJBo
-	+x/D/qlzoK/KTCFEuFIHSwfyq3diSo7OjuhD4pe+CInUGoh2ApIi0FKV2LnSrJPpM99Y
-	DPoyiHFRHZINpd7rqU5sYefGODdndIiFS2sK1/CBe+uShTsUZVyKHd0erJDd17OKKO/X
-	lSnrpvn+a8uFzDhh9+2hFg6UiZl4o3fqiZQQEHlxbCXQ+L5D7oAl4kSS8UHE0fdPNrZW
-	q1+Zc04X6gQMNOkD5dz/8VeFnQew++t/VO3KL5iYeq5o3ItDqOd0W/HDydy6jMCVdLIc
-	XHtw==
+	bh=kFOY3rC8p331SSzVVrm+JKsGM6CfjiZtAdzpZbhBdZI=;
+	b=o296Xe2mRFZ4ToKvAFmvFFfRm+FTDmvWWsD4NVyuYzkWxOjnuJHdLd3jH7B7rNtatx
+	0VCSm93LdVrH1NbVKd8LxfFhlIVOEli1yldpP3J3LVwZl7bsfkfmhknW0D6yjRbB87CP
+	CJ5H9uGuPHX/tBcxb5YqGS6RCM9eDBecbDZNxqyvvpvbRxP8oX7bwD0MYtRRwqp+lbWj
+	Tu/8kH90yuR6TnQ0y9GCB4Z1F1ijaPXZD+XCGYK780MfpeB4lUQuMedpMUzpACt5yfIj
+	Hr3qTaewHWxbywFXj0xNCd5Vo1aumHeA1TreJrZQPUaTNNsLvSTHN0AyC9NAfYcOnlYB
+	qSLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
+	h=x-gm-message-state:from:subject:to:cc:references:organization
 	:message-id:date:user-agent:mime-version:in-reply-to;
-	bh=xeM05C6+3LaGtkHONJl1lcBHj6tv2tlxJU0e+rhDK44=;
-	b=pu4sznxBp3pxzSH0zQx1GCcEfdDX6pwMbTc370SZG63jXlqQOwKFRbYi9zKAR21B6W
-	VmiTx15aIRVEJK0yy9K5WJQnzQRmWrDq8Rr+fI5rLdUedcci1Obrk4zlByHUP416J3oX
-	ZcEk7FYz2GdkY1deK1BpLQO5U7nnxS1mM9SiqldddtqI8sHoEZl3gIQWnlQoAcbX2Yh1
-	5Hn/FajquP0vRocHWPKrlK2vtBC96pe0o2EPcvY7z1RTazEgChhZv39GqjiKahwlrnTv
-	1iwLoAqn7fmX47YwFc7c0sIqxRDL+Yh62sL2VOg0t5j25qh3hvqjXyRRUD6yOvxLWL7z
-	6HBQ==
-X-Gm-Message-State: AIVw113iv+z1ad7/z9qVr1pILrOETQcuc/TCIkwOcDBTGufwfNzzo995
-	6bt/ztEZW5mQEwvQI6U=
-X-Received: by 10.84.184.12 with SMTP id l12mr693650plc.203.1501384949959;
-	Sat, 29 Jul 2017 20:22:29 -0700 (PDT)
+	bh=kFOY3rC8p331SSzVVrm+JKsGM6CfjiZtAdzpZbhBdZI=;
+	b=jDO1Zbx/7FutFMlnDqZEW5GpIUToa59vPnX+47tLgFQxWUu4pSimZuAdp39Jqs/wOi
+	+kAcu4OpYTg9HbTz014bxTOhq/PJFbZd5ntcn4OUKmM9ev5FsQ3p4k/QzY/KqcHXOFgF
+	CwuyZBcQ0ehE/qj+v5kA3dxI4ImIQ+/qZqr1nLS9Jmc5guZp+naxERb+lxFZiosyFxLi
+	c7dMlkhVTgtwxXvAHWBT/AP8N0sJEIR7x6AQZXjFy3mTJT0AMXOlV0PK20zfB1E9zmEo
+	U3LbvUCCTLIDv94Td+mvIHTs1DsdqGtAaSRmm0BCTYUEmshpS7KYqE3Oz3lRs2qb/oPL
+	sXIQ==
+X-Gm-Message-State: AIVw111q78NPl3RZj7TrIQWaHeKVXT3/e1IKaoFlwQyEfbQcyep0KTWF
+	qDMwLv5NQilDAXMvzFk=
+X-Received: by 10.98.159.130 with SMTP id v2mr11547403pfk.20.1501386765862;
+	Sat, 29 Jul 2017 20:52:45 -0700 (PDT)
 Received: from Khems-MacBook-Pro.local ([2601:646:8882:b8c:10c6:217:786b:96d8])
 	by smtp.gmail.com with ESMTPSA id
-	b89sm16617694pfe.95.2017.07.29.20.22.28
+	n69sm34601382pfk.105.2017.07.29.20.52.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 29 Jul 2017 20:22:28 -0700 (PDT)
+	Sat, 29 Jul 2017 20:52:44 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1501317178.git.raj.khem@gmail.com>
 	<655b584f33664f8188d3425e28e7657749e5850e.1501317178.git.raj.khem@gmail.com>
 	<CAJTo0La7eo62-OXosVJJX3sp2CktzmV5VQ60q499RL1aKCRLTA@mail.gmail.com>
 	<CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <21a74f99-6446-1523-5c79-1cfe8c818482@gmail.com>
-Date: Sat, 29 Jul 2017 20:22:14 -0700
+Message-ID: <8264e09e-7c9a-1df7-7e5f-458f253af813@gmail.com>
+Date: Sat, 29 Jul 2017 20:52:37 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:55.0)
 	Gecko/20100101 Thunderbird/55.0
 MIME-Version: 1.0
@@ -63,19 +64,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jul 2017 03:22:29 -0000
-X-Groupsio-MsgNum: 100872
+X-List-Received-Date: Sun, 30 Jul 2017 03:52:45 -0000
+X-Groupsio-MsgNum: 100873
 Content-Type: multipart/signed; micalg=pgp-sha1;
 	protocol="application/pgp-signature";
-	boundary="FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3"
+	boundary="bs3vMNfa0THgWvf77kRw3W9GaeUd2nKFe"
 
---FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3
-Content-Type: multipart/mixed; boundary="hGusDaXJnKmHhF3oUrAmTOgSJ9TtXkifO";
+--bs3vMNfa0THgWvf77kRw3W9GaeUd2nKFe
+Content-Type: multipart/mixed; boundary="8VHCleG9O2vgDGd0IeWlcwLmppTwIOVNR";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <21a74f99-6446-1523-5c79-1cfe8c818482@gmail.com>
+Message-ID: <8264e09e-7c9a-1df7-7e5f-458f253af813@gmail.com>
 Subject: Re: [OE-core] [PATCH 3/4] llvm: Add recipe for 5.0
 References: <cover.1501317178.git.raj.khem@gmail.com>
  <655b584f33664f8188d3425e28e7657749e5850e.1501317178.git.raj.khem@gmail.com>
@@ -83,7 +84,7 @@ References: <cover.1501317178.git.raj.khem@gmail.com>
  <CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
 In-Reply-To: <CAJTo0LZECrZ7Myz1zFr=DiRf_bCTEMf_JZpUqa1vvQV24uEkTw@mail.gmail.com>
 
---hGusDaXJnKmHhF3oUrAmTOgSJ9TtXkifO
+--8VHCleG9O2vgDGd0IeWlcwLmppTwIOVNR
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -91,8 +92,7 @@ Content-Transfer-Encoding: quoted-printable
 Ross
 
 I have refreshed the pull branch which should hopefully address mesa
-configure issue you are seeing along with llvm fix to adjust with clang
-layer
+configure issue you are seeing along with llvm fix
 
 On 7/29/17 4:54 AM, Burton, Ross wrote:
 > Replicated without uninative, so it's not that.
@@ -650,18 +650,19 @@ re>
 >=20
 
 
---hGusDaXJnKmHhF3oUrAmTOgSJ9TtXkifO--
 
---FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3
+--8VHCleG9O2vgDGd0IeWlcwLmppTwIOVNR--
+
+--bs3vMNfa0THgWvf77kRw3W9GaeUd2nKFe
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iEYEARECAAYFAll9UPIACgkQuwUzVZGdMxQiaQCfcvO31+qbII6awnzPpSKlEInp
-fXYAnREUXTPJzYR7ZD9RKSqjQlxKT8uI
-=9Uiq
+iEYEARECAAYFAll9WAoACgkQuwUzVZGdMxTM/QCfRTfxwrqN5oY/g1dyFsaRrS8Z
++KQAn1xLthLX1w0fX3/vvlAzARfc1VTm
+=J8Tj
 -----END PGP SIGNATURE-----
 
---FXNH09Qv9oP67Kg07VIJnc18tft4pUHg3--
+--bs3vMNfa0THgWvf77kRw3W9GaeUd2nKFe--
