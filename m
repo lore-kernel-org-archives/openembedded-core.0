@@ -1,49 +1,31 @@
-Return-Path: <richard.rojfors@gmail.com>
-Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
-	[209.85.215.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AA21784B1
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 19E3C782BB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 09:12:57 +0000 (UTC)
-Received: by mail-lf0-f68.google.com with SMTP id 65so8561314lfa.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 02:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:date:mime-version
-	:content-transfer-encoding;
-	bh=WnYYIIewnr25HZpUTtTn9hQlFwxzpPOHHLj9Om3rP2k=;
-	b=l0dR3gneVsKQSPA9UwW3PxrmDVTG9Exv7gQhqyD33MpB4sl287AdxXDWZRoxUyBejp
-	ziWZ4+AyjEchQoMT3IW/M00Ng5N6gKlKjoxmmdU2DuzyoJK+vIrCb4SDgL7SBGK36BEz
-	Zn3VtL7l+kp7y0vxrhurlEG5BfvBpi5zOZ9gaQLNUa4dKbvU+CORtrtOcIqQT41yCOy9
-	UfZgBT8QWJQH5E3fRbi2ripGtx6yOopKhnIqjxidzeglJCL0QeSeYzd9oRkRxUYtYvpj
-	rPCzCsisq8kx8pvllB+C19mkBGwomVLlkCIa5tfCYdqUg1oSnl5+arCrm9AuqX6N4gKf
-	uF4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
-	:content-transfer-encoding;
-	bh=WnYYIIewnr25HZpUTtTn9hQlFwxzpPOHHLj9Om3rP2k=;
-	b=ZNEvXo/aurcV9TZFNlDYUY+H2FHha1Pagf/KDC8BymsyT0a3kWUWL+F7iyN3UXtj/Q
-	fysbcjtvjj6kMaDEuObetInJ/sqRFAP7SYl7Ehmh8C3l8IRNQJzAK9Qeqq6u7jEfZOMN
-	4uIHYLKxawNaHSbAGDqgF7354NLTP0Ur751gsMjBlsjXGxA8IdJCgUKhm0DlInLQRWwh
-	znYm3Fx1bwStBSrYaR+aEWOzSmB2wjT21aUbfVeg5gMAgjkUSSJh0RXufhOI9kShSNAw
-	54vLEm2XNY4ZHGvVZHGJOne69PUl+d5rx+Dyhe9A3ERSOuC8pYA5xClPkB3gbAP9w22u
-	VHIw==
-X-Gm-Message-State: AIVw112OhWxqSTJjUXuHrOtpBJvhn1M5lc15/bcKHUZzReq7p6OVEeXd
-	PY1hlUO0nr0HnyWegGw=
-X-Received: by 10.25.223.87 with SMTP id q23mr4973113lfj.192.1501405978538;
-	Sun, 30 Jul 2017 02:12:58 -0700 (PDT)
-Received: from ellan7 ([213.115.5.18]) by smtp.googlemail.com with ESMTPSA id
-	2sm5457204lju.0.2017.07.30.02.12.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 30 Jul 2017 02:12:57 -0700 (PDT)
-Message-ID: <1501405976.19684.2.camel@gmail.com>
-From: Richard =?ISO-8859-1?Q?R=F6jfors?= <richard.rojfors@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Jul 2017 11:12:56 +0200
-X-Mailer: Evolution 3.22.6-1ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH v2] package_manager: Fix support for NO_RECOMMENDATONS
+	Sun, 30 Jul 2017 10:25:26 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga105.jf.intel.com with ESMTP; 30 Jul 2017 03:25:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,436,1496127600"; d="scan'208";a="293329708"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 30 Jul 2017 03:25:27 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 665F158039A;
+	Sun, 30 Jul 2017 03:25:26 -0700 (PDT)
+Date: Sun, 30 Jul 2017 13:02:36 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Jonathan Liu <net147@gmail.com>
+Message-ID: <20170730100236.GA28203@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <20170728144527.24322-1-net147@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20170728144527.24322-1-net147@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] wic: ensure generated disk system identifier is non-zero
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jul 2017 09:12:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 30 Jul 2017 10:25:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When support for dnf was introduced the check of the
-no NO_RECOMMENDATIONS variable got broken.
+On Sat, Jul 29, 2017 at 12:45:27AM +1000, Jonathan Liu wrote:
+> Zero may be interpreted as no MBR signature present and another
+> partitioning program might install a new MBR signature.
+> 
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  scripts/lib/wic/plugins/imager/direct.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+> index f20d8433f1..fe9b688ab0 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -297,7 +297,7 @@ class PartitionedImage():
+>                            # all partitions (in bytes)
+>          self.ptable_format = ptable_format  # Partition table format
+>          # Disk system identifier
+> -        self.identifier = int.from_bytes(os.urandom(4), 'little')
+> +        self.identifier = int.from_bytes(os.urandom(4), 'little') or 0xffffffff
+>  
 
-This fixes the issue by compairing to the string "1"
-rather than the number 1.
+Can we generate random identifier by calling os.urandom again if
+self.identifier is zero? Something like this, may be?
 
-Signed-off-by: Richard Röjfors <richard@puffinpack.se>
----
- meta/lib/oe/package_manager.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+while True:
+    self.identifier = int.from_bytes(os.urandom(4), 'little')
+    if self.identifier:
+        break
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 72503eb9d3..518cf8dbe3 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -585,7 +585,7 @@ class RpmPM(PackageManager):
- 
-         output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
-                          (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
--                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == 1 else []) +
-+                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == "1" else []) +
-                          (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
-                          ["install"] +
-                          pkgs)
+Assigning constant 0xffffffff can potentially create nonunique identifiers.
+
+>          self.partitions = partitions
+>          self.partimages = []
+> -- 
+> 2.13.2
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 -- 
-2.11.0
+--
+Regards,
+Ed
 
