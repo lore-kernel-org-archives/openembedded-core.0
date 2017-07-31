@@ -1,45 +1,29 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f173.google.com (mail-yw0-f173.google.com
-	[209.85.161.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 299DC78513
+Return-Path: <maxin.john@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id CFA137850C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 13:57:38 +0000 (UTC)
-Received: by mail-yw0-f173.google.com with SMTP id u207so95866989ywc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 06:57:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=IMkHyRskZAwL5j3CwfMqgVwuebJVJM6ithh+Q5waWqU=;
-	b=J4H3B3P+4ZNpPTcYI7dkRIW1EBRTVwNVssZ5PvOcUepzDsocsP8RITQuh3KnWVGJIq
-	9i9ExQxujUMZkDSrjaTORgrSNWo+FNY+fB5rcBdG9qiJhyNzXP46SiWOg8/9KXdg+sJQ
-	FKTkb9cYGlCJ2tF73Eh1a7WpaDQ37AN/eNjTw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=IMkHyRskZAwL5j3CwfMqgVwuebJVJM6ithh+Q5waWqU=;
-	b=DPR4SQxzZI76dL0aWL1o6wnioH9iwlrFIZ25I/ZUNsW/2G3wOoCxlqzdfsRbx7hCt/
-	M0p4AbCsLO3t3BGDgVvUmZqaqQCWCdUi9qP03ALMEpIfuD+5tx6Mbx29D6nMgtNNAecW
-	XB+TZqvp8c3w7Chy3NjHZ3uTRW9NLjPaw7KJfWA1+l2E7AdHzylgY+QlmduZe5ID0Gsn
-	TCq7lJcNE9UpTKH8zI8DQKPNwCTQztCUpbnpoGWeOnCvjcc4PDa08MJqOlvc238QNjhY
-	T3iwNK2pvjxAQMV11wfV/nQVde2T9qLqFl+d3UWpkZ8mXyo/ibY88QgU7FUN4C/Q9GFy
-	j6xA==
-X-Gm-Message-State: AIVw113TUX4eP+6KFftu4OpCS3fSJEJL/hQ1lyWsDNn22N8BgL3qad8E
-	BfkAaJUBcy6QyYhCLxO8bQ==
-X-Received: by 10.37.33.65 with SMTP id h62mr14181713ybh.227.1501509459840;
-	Mon, 31 Jul 2017 06:57:39 -0700 (PDT)
-Received: from bill-the-cat ([2606:a000:1408:4167:b42c:54f:27db:36c0])
-	by smtp.gmail.com with ESMTPSA id c65sm3879220ywd.2.2017.07.31.06.57.38
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Mon, 31 Jul 2017 06:57:39 -0700 (PDT)
-Date: Mon, 31 Jul 2017 09:59:04 -0400
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org,
-	Armin Kuster <akuster808@gmail.com>
-Message-ID: <20170731135904.GL16135@bill-the-cat>
+	Mon, 31 Jul 2017 14:09:38 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP; 31 Jul 2017 07:09:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,442,1496127600"; d="scan'208";a="999151533"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by orsmga003.jf.intel.com with ESMTP; 31 Jul 2017 07:09:37 -0700
+Date: Mon, 31 Jul 2017 17:10:25 +0300
+From: "Maxin B. John" <maxin.john@intel.com>
+To: rpjday@crashcourse.ca
+Message-ID: <20170731141025.GB15641@mbabyjoh-desk.ger.corp.intel.com>
+References: <20170731064114.Horde.DvVIF0q0YvJ5HlL1pcjzGe4@crashcourse.ca>
+	<ca8a860d-0894-e604-6108-359ccd094e72@linux.intel.com>
+	<1501498850.18633.1.camel@linuxfoundation.org>
+	<20170731071523.Horde.D4ds4jNhxwzGV9es7N9Nh3V@crashcourse.ca>
+	<20170731125017.GA15641@mbabyjoh-desk.ger.corp.intel.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Chaining compression support fixes for morty / pyro
+In-Reply-To: <20170731125017.GA15641@mbabyjoh-desk.ger.corp.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: worth adding a "git"-versioned of i2c-tools to oe-core?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,66 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 13:57:39 -0000
-X-Groupsio-MsgNum: 100925
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Ublo+h3cBgJ33ahC"
-Content-Disposition: inline
-
---Ublo+h3cBgJ33ahC
+X-List-Received-Date: Mon, 31 Jul 2017 14:09:38 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Armin,
+Hi,
+On Mon, Jul 31, 2017 at 03:50:17PM +0300, Maxin B. John wrote:
+> Hi,
+> 
+> On Mon, Jul 31, 2017 at 07:15:23AM -0400, rpjday@crashcourse.ca wrote:
+> > 
+<snip>
+> > 
+> >   well, here's a possible conundrum ... in that same package (i2c-tools),
+> > there appears to be an *obvious* flaw in that the "eeprog" utility uses a
+> > sleep that is far too short for proper operation, as described here:
+> > 
+> > https://www.toradex.com/community/questions/10243/write-issue-with-eeprog-in-eeprom.html
+> > 
+> > there is a link to a patch on that page that simply cranks up a few sleep
+> > calls from 10usec to 5msec, which apparently solves the problem. i've been
+> > involved in a discussion on the i2c-tools mailing list about this very
+> > issue after i tripped over it, but there seems to be little enthusiasm on
+> > that list for "fixing" this -- i was told that people use the kernel driver
+> > instead and access via /sys rather than calling "eeprog".
+> 
+> dl.lm-sensors.org has been down for a while and doesn't show any positive signs that
+> it will be back in near future. One possibility will be to use the unofficial mirrors
+> listed below and upgrade to version 3.1.2
 
-The following changes in master are relevant to both morty and pyro:
+Sorry, I meant to use the most recent version (we already have the latest released verion - 3.1.2) 
 
-commit 0a7ce0b971a208956cb895ba5a869ec8c5d94703
-Author: Tom Rini <trini@konsulko.com>
-Date:   Fri Jul 21 18:06:33 2017 -0400
+> 1. https://fossies.org/linux/misc/
+> 2. http://jdelvare.nerim.net/mirror/i2c-tools/
+> 
+> >   so, from my perspective, this should definitely be fixed so that "eeprog"
+> > functions properly, but it's not clear upstream is all that interested in it.
+> > what would the protocol be here?
+> 
+> Since this genuinely fixes an error, we should be able to include this patch with:
+> "Inappropriate [bug workaround]" status. 
+> 
+> > rday
+> 
+> Best Regards,
+> Maxin
 
-    image.bbclass: Correct chaining compression support
-
-commit 98a2afeb3a53bec7a72a4a9846e1dba636cc6f3d
-Author: Tom Rini <trini@konsulko.com>
-Date:   Tue Jul 25 15:58:09 2017 -0400
-
-    image: Fix "metadata is not deterministic" when chaining 2+ CONVERSION_=
-CMDs
-
-And fix the problem where you cannot make arbitrary combinations of say
-"ext4", "u-boot" and "xz" images.  In the interest of full disclosure,
-it is entirely possible that there are image types introduces in other
-layers that have the same problem that the "u-boot" type had which lead
-to 46bc438374de being done in the first place, which is to say a new
-IMAGE_CMD that also cleaned up the intermediate files on its own.  This
-may make this too risky to pull into stable branches and that's fine.
-Thanks for your consideration!
-
---=20
-Tom
-
---Ublo+h3cBgJ33ahC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZfzenAAoJEIf59jXTHXZS0H8P/10QHFenn7MR68ruA+9NN1SO
-YANmmvHggWnt+ka2ln10aw2rNDPBayPAz/dUvEX9xXU5etjhG08lQh6fZH2iNqM5
-1+1yBScHwCebgvcvYtv0aEHswOG/firqAw4jn5kUgdxDDa/T4bWjM6+e9uOhqt8u
-ZjDOBXow+1osdmizrRptWxXvoRiuACTKGj3Y8DIDFnr7TsL2+WuVRDrNgpgLVujF
-pnPMyqzglT9WqlWpSttZoUbTgURU/KMzviJOdZH+lSLRDnQ9UFfHq+9YX9SbJoqY
-B2FSINuBN0r32yzqeg/FW3kGuiM4Byi2jQv3fuyLfDL9okFGNTyOuut+GAoJNBFo
-TlYqwnwh1zDAnkzsGtkskmx91mzBDM82pYk30KFIZG8A4Qe//s9AdtnVcUKvgIjK
-5/22cfpCKOZb1/ZNiI1kZgm6XkRfKalCn2USbO39xpXg605RO0Kdw+0gD/lc2Qta
-l/kyNY3+rXk0cRbuJ08CE3rVRAUBxsfF83M3ojSjz773LfYgDoGrhYxXJ+tsjtoA
-LDEsr53HMFmK9ELAeQ4kUmMacVj8dRJaFa/fGh3Laej6GgfZ2mMr3Oj+kYu+ric1
-TIkg6luFG6ITo9DKLbRChQXGPKz5fzPSyuIYHZv37VLWXdTloXi5MSRrqGm4+5M6
-gKoPITMVNZKP+TmYuiKu
-=B5qI
------END PGP SIGNATURE-----
-
---Ublo+h3cBgJ33ahC--
