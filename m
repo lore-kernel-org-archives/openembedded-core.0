@@ -1,54 +1,49 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EFBA7844C
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f169.google.com (mail-yw0-f169.google.com
+	[209.85.161.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 797DB7859C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 20:32:53 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id z129so85844590pfb.3
+	Mon, 31 Jul 2017 21:22:33 +0000 (UTC)
+Received: by mail-yw0-f169.google.com with SMTP id p68so27833385ywg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 13:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=QLe3AuVwIuKoO1HPCRvZHyhHAZYSf5+gtDCsfJ/QInM=;
-	b=H6UAw86Mb0Oh7y4AI3L//4u99JoDxI3ryHQEKAiKmK3RglOsr432RQC0Pk77AuEs2t
-	nlWVO6gp1szPGydNwrSSYYY+Oq96Zzer36qBMmJPj508ufkWXZVEYRtXWIht0EMWYDOh
-	243Mgb5g5+1kD7uMnf6Aw6ZfMgrsFtLbItG0KylqyruiYlggLh8V50OlblO/PrBPMW1I
-	Z+pbw+iLiJrz1KlEKbQslI4cmWDUZqHnD9CSJypYsoAdc1CNFJOnRTfzWI84q/5vzTBj
-	cMruFkr7lgOXbGHN+SMkNzviKcUqoMLDtApEa7Nca4IFe4KxRJDgCbfs2dBCOJSl+8WI
-	Bo1A==
+	Mon, 31 Jul 2017 14:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=h9eOQY2KI/E0/vmQVgFkhp2ltGbFjg0ei2hxQ3UxK48=;
+	b=NAQQSt86F4XFhAnCdyYogSNX4kCVNLl6E6LTI1gqejfONQQHcCZl3on7g2VLbP/HWS
+	YRnWPIOiRHlTNGfbvyXjXyKFPl/a0zZdbAnyglHWhYPVT6I6TEl0cMMzmkzUkZRK+7LC
+	8qgMTPEKZ9C+ssTgeJul5FDs0/iB172fsvf0A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=QLe3AuVwIuKoO1HPCRvZHyhHAZYSf5+gtDCsfJ/QInM=;
-	b=rRCN13/yfs6blVNDQ2S/zep/5GpUspSS+wn2NL8r5WvuIGd53BD1W/kLcbLEtSAPGH
-	CM7TlBc8z88uS6it7siJ3PNVfHxROoFXBo0B/5Qjh86fhqvYfRzv6xaT3/Dk4WC2VAGY
-	bmTxqfXt2y4LZ4fUadfeGg9Tbra7B/qClgJnR9POWbPfbXbkjlhCzj1TYQEx3FqZDahc
-	+x8jNoNErs0+FADETPEa//XTnJtyjDMJ5w+PWXTiSFOWEyxLxVYDuOmGB7Pfm8elzCc9
-	Vs8Yh3p8Svio7c1+wi+f5m8Dh+jx/DV0AHqULMmnJbe45OqXKlO/4s9IS6snDGTR3jTA
-	ldmQ==
-X-Gm-Message-State: AIVw11065MCCsTDutcI1YS7OfsblosM0HYGZduQeuqpI5AN8OoT1NNmb
-	Fum7xL1k6fkP1hdETDs=
-X-Received: by 10.99.128.194 with SMTP id j185mr16980061pgd.80.1501533174708; 
-	Mon, 31 Jul 2017 13:32:54 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8FE53.dip0.t-ipconnect.de. [93.232.254.83])
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=h9eOQY2KI/E0/vmQVgFkhp2ltGbFjg0ei2hxQ3UxK48=;
+	b=rdQBcEQyp+QSD9C8OflhSGYH5BOZtAs3djFF5loQFViFMRr/gnc2+TGnGGi9UDICm1
+	//EiKgDvHRZ4ln0YBrT5lSBBl5GUp1uKcG3+BjErqj4K2EmJtOgQpL7P3YqThJJOHZqD
+	Gib4c0qWT3Z2IdPHAAsewlDykvcQ2nWMzXEQBEQqoyWjD9i5/HNX1uoPyWYnVpNWfHnj
+	GqAzOxtJf5GxY5R+TpbH13e1FDgqIU1KaMmsrgCrwWRBBjUveTFQ6vrtE0gkdAHYVM9X
+	j4XwkRqDjhu8qoFRFBfglIry3vsg0O82Bs4D7AIzPKS2/fgqRsAcLYxKk8DC8gQTR8jU
+	JdKA==
+X-Gm-Message-State: AIVw111JfyTF8o+Pf1OpfenHBCAnfBQs+0blUYYecEdBUF4TTZTLkgSH
+	trHskz5//gec06eh
+X-Received: by 10.37.177.151 with SMTP id h23mr14654736ybj.164.1501536154331; 
+	Mon, 31 Jul 2017 14:22:34 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1408:4167:b42c:54f:27db:36c0])
 	by smtp.gmail.com with ESMTPSA id
-	e79sm50650072pfl.40.2017.07.31.13.32.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 31 Jul 2017 13:32:52 -0700 (PDT)
-Message-ID: <1501533167.18875.35.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: wei.tee.ng@intel.com, openembedded-core@lists.openembedded.org
-Date: Mon, 31 Jul 2017 22:32:47 +0200
-In-Reply-To: <42ed3bedf773c1fee314a2e4194c9656c583cc9c.1499887221.git.wei.tee.ng@intel.com>
-References: <cover.1499887221.git.wei.tee.ng@intel.com>
-	<42ed3bedf773c1fee314a2e4194c9656c583cc9c.1499887221.git.wei.tee.ng@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v6 1/1] initramfs-framework: module to support boot live image
+	l190sm2252418ywf.91.2017.07.31.14.22.33
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Mon, 31 Jul 2017 14:22:33 -0700 (PDT)
+Date: Mon, 31 Jul 2017 17:23:59 -0400
+From: Tom Rini <trini@konsulko.com>
+To: drew.moseley@northern.tech
+Message-ID: <20170731212359.GR16135@bill-the-cat>
+References: <1501532184-26270-1-git-send-email-drew.moseley@northern.tech>
+MIME-Version: 1.0
+In-Reply-To: <1501532184-26270-1-git-send-email-drew.moseley@northern.tech>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] local.conf.sample.extended: remove references to image_types_uboot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,28 +56,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 20:32:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Jul 2017 21:22:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2017-07-12 at 12:29 -0700, wei.tee.ng@intel.com wrote:
-> +SUMMARY_initramfs-module-setup-live = "initramfs support for setup
-> live"
-> +RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
-> +FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
+On Mon, Jul 31, 2017 at 04:16:24PM -0400, drew.moseley@northern.tech wrote:
 
-Same problem as with install-efi: this RDEPENDS in initramfs-framework
-makes building the recipe more complicated than strictly necessary.
+> From: Drew Moseley <drew.moseley@northern.tech>
+> 
+> This class was removed with commit:
+>     OE-Core rev: 65f27122950a35a67ce39ae4cfe93d0dca6b0dab
+> 
+> Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
 
-Please move setup-live to its own recipe.
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+Tom
 
