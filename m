@@ -1,28 +1,48 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id B7FCF782EB
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-vk0-f45.google.com (mail-vk0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A055F60762
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 12:50:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 31 Jul 2017 05:50:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,442,1496127600"; d="scan'208";a="999125759"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga003.jf.intel.com with ESMTP; 31 Jul 2017 05:50:30 -0700
-Date: Mon, 31 Jul 2017 15:50:17 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: rpjday@crashcourse.ca
-Message-ID: <20170731125017.GA15641@mbabyjoh-desk.ger.corp.intel.com>
-References: <20170731064114.Horde.DvVIF0q0YvJ5HlL1pcjzGe4@crashcourse.ca>
-	<ca8a860d-0894-e604-6108-359ccd094e72@linux.intel.com>
-	<1501498850.18633.1.camel@linuxfoundation.org>
-	<20170731071523.Horde.D4ds4jNhxwzGV9es7N9Nh3V@crashcourse.ca>
+	Mon, 31 Jul 2017 12:56:32 +0000 (UTC)
+Received: by mail-vk0-f45.google.com with SMTP id g189so11458352vke.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Jul 2017 05:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tPqYf3PU87YuW09U3TiWEk+VPiY8R3/yImyVlzI3GR8=;
+	b=W41UOqyc/8DYdem5Jve/cdbbvGB+zNH0snY3FLi6k4FYQ+OMdPbkZU/0lomamWi3aB
+	LpkqL7oqywBicwR1pO8d0szBVdfqlqBue1SJHeoFLr10p03xsbzCXJroEfFnt8cW06S9
+	XlrqsJtzwVg9lPonFwBfAgEs4YUErmsUaAK78jgZjOAI0uqqeJ/C0boknIsHIIojmyHE
+	06soGDCIRsmy+xU7+HD0bJGsvNmbw+eAcsDnrEnUHfLcWNiOxModegSmU3FglLJRkCIt
+	RqUPcmMQbg6jyGIAYS5dSHe2FurHSpFsnMr02YRraxyErwjxtZRFSALQyuIXI9EB3lSx
+	H5QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tPqYf3PU87YuW09U3TiWEk+VPiY8R3/yImyVlzI3GR8=;
+	b=Rs5K75AZtePznBomRWf/AVIMwQK0BUy7SD/ODIe0G0IxpXCHRPHI5FOFOPRFitPjYz
+	d18699wPB55wPTZ5gq5fIK8OgiUeQAWon4heBiieBMyZB74S6qv0a3ShdC0DC/0h56/v
+	TxT59BpFoM4ajZ0GjP6nIn4eiyCFZ6ZAc0APvvIOtT5MpRVcygDJ5sfFbg3DWsu4czon
+	ovUc6kXwk4qgEahBiqJzZlgdZoLEk59dZ9gRSKpxO+8vwdu1CHikRjFQJKxWNexX2IAN
+	QrMYYQ9KdYDIdmy1A+WmZ1LxSceVlypfz679p5i65UWO4dEjt4hxbZniCx7viIgXW2s8
+	AQ8w==
+X-Gm-Message-State: AIVw11212jbIf9vJBRm68yXL/ocKgQDegPcjCjjKukFuaC4bx+nqyvXN
+	RQBw0PHbEgq/zke413zr2rKAipoorQ==
+X-Received: by 10.31.92.2 with SMTP id q2mr9802505vkb.170.1501505793641; Mon,
+	31 Jul 2017 05:56:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170731071523.Horde.D4ds4jNhxwzGV9es7N9Nh3V@crashcourse.ca>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: worth adding a "git"-versioned of i2c-tools to oe-core?
+Received: by 10.103.120.212 with HTTP; Mon, 31 Jul 2017 05:56:33 -0700 (PDT)
+In-Reply-To: <20170731125036.GG16135@bill-the-cat>
+References: <1501491388-15182-1-git-send-email-liu.ming50@gmail.com>
+	<20170731125036.GG16135@bill-the-cat>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Mon, 31 Jul 2017 14:56:33 +0200
+Message-ID: <CALatG=4BPZ2T4VEh0Sq4v8-amm5pL4C-uh88eZ0xwahfdANVkA@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] meta: drop do_bootdirectdisk do_vmimg references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +55,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 12:50:30 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 31 Jul 2017 12:56:32 -0000
+Content-Type: multipart/alternative; boundary="001a114d44d275538a05559c8f29"
 
-Hi,
+--001a114d44d275538a05559c8f29
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 31, 2017 at 07:15:23AM -0400, rpjday@crashcourse.ca wrote:
-> 
-> Quoting Richard Purdie <richard.purdie@linuxfoundation.org>:
-> 
-> >On Mon, 2017-07-31 at 13:41 +0300, Alexander Kanavin wrote:
-> >>On 07/31/2017 01:41 PM, rpjday@crashcourse.ca wrote:
-> >>>
-> >>>
-> >>>    given that some significant changes have been made to i2c-tools
-> >>> since
-> >>> version 3.1.2, is it worth adding a git-versioned recipe of that
-> >>> to 
-> >>> oe-core,
-> >>> and using DEFAULT_PREFERENCE to force people to select it if they
-> >>> want it?
-> >>> in particular, the code base has been restructured, and a new
-> >>> utility,
-> >>> "i2ctransfer", has been added.
-> >>It's better to ask the upstream to make a new release.
-> >>
-> >>We've had dual git/release recipes in the past, and they were all an 
-> >>utter failure. In the sense, that only one version of the recipe was 
-> >>maintained, and the other was completely neglected.
+> And there's no references to image_type_uboot.bbclass left, either, yes?
+
+Yes, just double checked, there is no references to image_type_uboot.
+
+//Ming Liu
+
+2017-07-31 14:50 GMT+02:00 Tom Rini <trini@konsulko.com>:
+
+> On Mon, Jul 31, 2017 at 10:56:28AM +0200, liu.ming50@gmail.com wrote:
+>
+> > From: Ming Liu <peter.x.liu@external.atlascopco.com>
 > >
-> >Going forward we may accept patches using this instead:
+> > do_bootdirectdisk and do_vmimg had been dropped by commit 929ba563:
+> > [ image: Convert vmdk/vdi/qcow2 to strict CONVERSION_CMD types ]
 > >
-> >http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/classes/devupstream.bbclass
+> > Also drop the references to them and image-vm.
 > >
-> >Cheers,
-> >
-> >Richard
-> 
->   well, here's a possible conundrum ... in that same package (i2c-tools),
-> there appears to be an *obvious* flaw in that the "eeprog" utility uses a
-> sleep that is far too short for proper operation, as described here:
-> 
-> https://www.toradex.com/community/questions/10243/write-issue-with-eeprog-in-eeprom.html
-> 
-> there is a link to a patch on that page that simply cranks up a few sleep
-> calls from 10usec to 5msec, which apparently solves the problem. i've been
-> involved in a discussion on the i2c-tools mailing list about this very
-> issue after i tripped over it, but there seems to be little enthusiasm on
-> that list for "fixing" this -- i was told that people use the kernel driver
-> instead and access via /sys rather than calling "eeprog".
+> > Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+>
+> And there's no references to image_type_uboot.bbclass left, either, yes?
+> If so:
+>
+> Reviewed-by: Tom Rini <trini@konsulko.com>
+>
+> Thanks!
+>
+> --
+> Tom
+>
 
-dl.lm-sensors.org has been down for a while and doesn't show any positive signs that
-it will be back in near future. One possibility will be to use the unofficial mirrors
-listed below and upgrade to version 3.1.2
+--001a114d44d275538a05559c8f29
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-1. https://fossies.org/linux/misc/
-2. http://jdelvare.nerim.net/mirror/i2c-tools/
+<div dir=3D"ltr"><span style=3D"font-size:14px">&gt; And there&#39;s no ref=
+erences to image_type_uboot.bbclass left, either, yes?</span><br style=3D"f=
+ont-size:14px"><br style=3D"font-size:14px"><div>Yes, just double checked, =
+there is no references to=C2=A0<span style=3D"font-size:14px">image_type_ub=
+oot.</span></div><div><span style=3D"font-size:14px"><br></span></div><div>=
+<span style=3D"font-size:14px">//Ming Liu</span></div></div><div class=3D"g=
+mail_extra"><br><div class=3D"gmail_quote">2017-07-31 14:50 GMT+02:00 Tom R=
+ini <span dir=3D"ltr">&lt;<a href=3D"mailto:trini@konsulko.com" target=3D"_=
+blank">trini@konsulko.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><span class=3D"">On Mon, Jul 31, 2017 at 10:56:28AM +0200, <a href=3D"mail=
+to:liu.ming50@gmail.com">liu.ming50@gmail.com</a> wrote:<br>
+<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:peter.x.liu@external.atlascopco.c=
+om">peter.x.liu@external.<wbr>atlascopco.com</a>&gt;<br>
+&gt;<br>
+&gt; do_bootdirectdisk and do_vmimg had been dropped by commit 929ba563:<br=
+>
+&gt; [ image: Convert vmdk/vdi/qcow2 to strict CONVERSION_CMD types ]<br>
+&gt;<br>
+&gt; Also drop the references to them and image-vm.<br>
+&gt;<br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:peter.x.liu@external.atl=
+ascopco.com">peter.x.liu@external.<wbr>atlascopco.com</a>&gt;<br>
+<br>
+</span>And there&#39;s no references to image_type_uboot.bbclass left, eith=
+er, yes?<br>
+If so:<br>
+<br>
+Reviewed-by: Tom Rini &lt;<a href=3D"mailto:trini@konsulko.com">trini@konsu=
+lko.com</a>&gt;<br>
+<br>
+Thanks!<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+Tom<br>
+</font></span></blockquote></div><br></div>
 
->   so, from my perspective, this should definitely be fixed so that "eeprog"
-> functions properly, but it's not clear upstream is all that interested in it.
-> what would the protocol be here?
-
-Since this genuinely fixes an error, we should be able to include this patch with:
-"Inappropriate [bug workaround]" status. 
-
-> rday
-
-Best Regards,
-Maxin
-
+--001a114d44d275538a05559c8f29--
