@@ -1,31 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B9738785BE
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-pg0-f44.google.com (mail-pg0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id A1E25785D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 17:51:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6VHpXTx026354
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 31 Jul 2017 10:51:33 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 31 Jul 2017 10:51:33 -0700
-To: akuster808 <akuster808@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1501521367-17192-1-git-send-email-akuster808@gmail.com>
-	<1501521367-17192-2-git-send-email-akuster808@gmail.com>
-	<b07d8080-7ad5-c68e-5c8b-471db09ff515@windriver.com>
-	<1984b5e8-8d54-4f03-dcdb-b086605b4a91@gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <c5907c3e-ae33-625a-d214-30d130a5a37b@windriver.com>
-Date: Mon, 31 Jul 2017 12:51:32 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1984b5e8-8d54-4f03-dcdb-b086605b4a91@gmail.com>
-Subject: Re: [PATCH 1/2] armv8: update to use armv8-a tune
+	Mon, 31 Jul 2017 18:28:58 +0000 (UTC)
+Received: by mail-pg0-f44.google.com with SMTP id u185so35705421pgb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Jul 2017 11:29:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=TopO+WMaj+qX0rOSo2/JZgPepdBT5CdTQZu/7p3QjFA=;
+	b=xqHs9+n/VnFA8lmTqkVPKD+gcIUVOo641fudTR5qUK0XHYteOKnzRkJz4C24/5kQgK
+	MVtCUE/Qk2r7iGHjcSQBuQZRZL1DQpYo9DADuG1fDxGz6G/w9ncRnuocKtl7wwGa7vZ/
+	ki7vbcP1oHey5X/FRuQ6XxdLP1oxC2i35bDLeDorVPjpX7Lw9xpS27XPPu4+kM/TvdWI
+	ZN/DEtwzI+1c/EVr1vpLXaJBqo/GQefsp0m8KJ4oCtdrv/W3ezLtisvghVkmUiAD+wmf
+	2+TLWlb8qgUjbjsv7cHWRhTLC2SblgGebRBeqsA7RFYUFJ6es6p9hIaXQ6RJVfjvemHW
+	nuuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TopO+WMaj+qX0rOSo2/JZgPepdBT5CdTQZu/7p3QjFA=;
+	b=Hlkbes1YCl5EmatL4wC0u+xyFY53rzbaSfRF5AEr/V4EJJR5J+iUGTiYdGQnzYY+Wp
+	dsM7e14OvfNpsJeQxPyhwhZVI71rwoPYRXo5WMKOWgf9udyluwT6cGJxkz+gpJ1kvz7t
+	rPDPeE69PZIKPdSlZzDE+PO8SLyYkf/QrXRJCAH7tx9eaXuAts3sRm4I4JKxuEukJIYF
+	yneij7ZoLuu7rlSeqRqVYf8FU9PfPzriENt4oMSRRuV1tea6HxrLkIO88wOWv6ly8Vsh
+	It+EPiDrPx8MML6muTPSj9SSP66dTE8aRojoURytrjxnFcfkJRNshupQSORVM1VCW4L1
+	AEow==
+X-Gm-Message-State: AIVw1136Cfr+oPpc/D9T8TnThLclbyPQcb9jQYzCu0wCeBZthM++zMpm
+	jiCReLXN7z/PNzqod3Y=
+X-Received: by 10.84.224.137 with SMTP id s9mr18688377plj.350.1501525739566;
+	Mon, 31 Jul 2017 11:28:59 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8FE53.dip0.t-ipconnect.de.
+	[93.232.254.83]) by smtp.gmail.com with ESMTPSA id
+	d69sm25033399pfe.49.2017.07.31.11.28.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 31 Jul 2017 11:28:58 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Jul 2017 20:28:49 +0200
+Message-Id: <b36be49d6a0148121bf03ef0b93b7f854e72bb21.1501525705.git-series.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] autoconf-archive: GPLv3 + autoconf exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,71 +53,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 17:51:33 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 31 Jul 2017 18:28:58 -0000
 
-On 7/31/17 12:40 PM, akuster808 wrote:
-> 
-> 
-> On 07/31/2017 10:31 AM, Mark Hatle wrote:
->> On 7/31/17 12:16 PM, Armin Kuster wrote:
->>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->>> ---
->>>  meta/conf/machine/include/arm/arch-armv8.inc | 25 +++++++++++++++++++++++++
->>>  1 file changed, 25 insertions(+)
->>>
->>> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc b/meta/conf/machine/include/arm/arch-armv8.inc
->>> index 5e832fa..dc1ba5e 100644
->>> --- a/meta/conf/machine/include/arm/arch-armv8.inc
->>> +++ b/meta/conf/machine/include/arm/arch-armv8.inc
->>> @@ -1 +1,26 @@
->>> +DEFAULTTUNE ?= "armv8-a"
->> do we want the '-a'?  The other arm (7) are of the format armv7a (no '-').
-> works for me either way.
-> 
-> While we are at it. How would we want ‘armv8.1-a’, ‘armv8.2-a’, ‘armv8.3-a'
-> formated as?
+The COPYING file specifies pure GPLv3, not GPLv2 & GPLv3, with the
+autoconf exception in COPYING.EXCEPTION. OE-core currently has
+GPL-3.0-with-GCC-exception for this in meta/conf/licenses.conf, so
+this is used here despite the deprecation note for that license
+identifier in https://spdx.org/licenses/GPL-3.0-with-autoconf-exception.
 
-My preference is to drop the '-'.  As for the '.', I'm not sure.. not something
-we've run across before.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-We could just drop it (the '.'), but it really depends on if armv81a would
-confuse someone (familiar with arm) or not.
+diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+index d77c37d..104dc38 100644
+--- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
++++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
+@@ -1,8 +1,9 @@
+ SUMMARY = "a collection of freely re-usable Autoconf macros"
+ HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/"
+ SECTION = "devel"
+-LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++LICENSE = "GPL-3.0-with-autoconf-exception"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++    file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
+ 
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+ SRC_URI[md5sum] = "bf19d4cddce260b3c3e1d51d42509071"
 
---Mark
-
-> - armin
->>
->> --Mark
->>
->>> +
->>> +TUNEVALID[armv8-a] = "Enable instructions for ARMv8-a"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8-a', ' -march=armv8-a', '', d)}"
->>> +
->>> +TUNEVALID[crypto] = "Enable crypto instructions for ARMv8-a"
->>> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
->>> +
->>> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-a', 'armv8a:', '' ,d)}"
->>> +
->>>  require conf/machine/include/arm/arch-arm64.inc
->>> +
->>> +AVAILTUNES += "armv8-a armv8-a-crypto"
->>> +ARMPKGARCH_tune-armv8-a ?= "armv8-a"
->>> +
->>> +# Enable Crypto extension. This also enables Advanced SIMD and floating-point instructions
->>> +ARMPKGARCH_tune-armv8-a-crypto ?= "armv8-a"
->>> +
->>> +TUNE_FEATURES_tune-armv8-a = "aarch64 armv8-a"
->>> +TUNE_FEATURES_tune-armv8-a-crypto = "${TUNE_FEATURES_tune-armv8-a} crypto"
->>> +
->>> +PACKAGE_EXTRA_ARCHS_tune-armv8-a = "aarch64 armv8-a"
->>> +PACKAGE_EXTRA_ARCHS_tune-armv8-a-crypto = "${PACKAGE_EXTRA_ARCHS_tune-armv8-a} armv8-a-crypto"
->>> +
->>> +BASE_LIB_tune-armv8-a = "${BASE_LIB_tune-aarch64}"
->>> +BASE_LIB_tune-armv8-a-crypto = "${BASE_LIB_tune-aarch64}"
->>>
-> 
-
+base-commit: da29bc17e4dd748f50b054c5e3afaf8d41bf4077
+-- 
+git-series 0.9.1
 
