@@ -1,50 +1,31 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A551C78509
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 26E847823D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 09:19:44 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id g32so13754309wrd.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 02:19:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=pyS71x0pwpTDJj33nQ5jaZFKsyiGufgfq16SAjlQU3s=;
-	b=Q0a+aWwUTbHMrogkZidEByhchr/yybKewtqofdrrqnE17/EGc7xZEkVjklzXaMbm/u
-	4Jlixzcs9ZvpCL3JZbMtXLM3DGqlB2TgBIv8X6KjoHMzhfa9rTZHQ5mcB+8ZKXj/samZ
-	iIJOrmAwBeMLmyLRz6TNXR3jyRb2hXo0hyrQoUJn3BJDM2om/GzXCAGTjWXp4OSMl7sS
-	7cwelhTqSPNO5+9haCFJPLMawgcYsjN9STCYJ9lwTwvdEVEB+SfVQvl4uokaDn4N/FIi
-	71JedxCZOfiSYztdltQ2IjKdLDnzR/qWJPC5E4J/331975n/sI1q9Mbb0DBbPYGKuApA
-	7i2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=pyS71x0pwpTDJj33nQ5jaZFKsyiGufgfq16SAjlQU3s=;
-	b=V0FhEJmgGwCfaW5fdN6r56hHqgSt6LXfpd56o0MuEbzodS4i1K80a56Pgvpss7/+M1
-	8jREOcZ2AFt9W8bBhWHPh4OKXiSltkj3NgPRLZ9Njy5+byTMDstEQgfKnfyg+/L9Z+1e
-	wowz6JRFzdKexBot/6OthRrwa6xomXckOLhyL5+mHh/luLM31C/IAzfneeX6AGHuUU8U
-	W26Wr20oThKq4TsmsG9mbr6V/gOFrrchW4KEXlHXQCDt0xFxGMOM/7mX//SDsaGzUE7V
-	w4p9GrcH+CYAqUev9BGB8UrjXtsM4b9sMcsblx9BvYrv4OXI1dnNsvGYMCiKpAyiFBTg
-	mc7A==
-X-Gm-Message-State: AIVw110q1k0aair33cWDsqny9rEPZBAjCEziz/RMhEKiu5yPylCm4J9d
-	eWZuoSdtASUlnfI6
-X-Received: by 10.223.163.16 with SMTP id c16mr13033509wrb.173.1501492784798; 
-	Mon, 31 Jul 2017 02:19:44 -0700 (PDT)
-Received: from gizero-desktop.tw.it
-	(host193-245-static.58-79-b.business.telecomitalia.it.
-	[79.58.245.193]) by smtp.gmail.com with ESMTPSA id
-	l25sm2914103wrb.44.2017.07.31.02.19.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Jul 2017 02:19:44 -0700 (PDT)
-From: Andrea Galbusera <gizero@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Jul 2017 11:19:18 +0200
-Message-Id: <1501492758-29076-2-git-send-email-gizero@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1501492758-29076-1-git-send-email-gizero@gmail.com>
-References: <1501492758-29076-1-git-send-email-gizero@gmail.com>
-Subject: [PATCH 2/2] scripts/oe-publish-sdk: use hook to call git update-server-info
+	Mon, 31 Jul 2017 09:37:54 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2017 02:37:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,441,1496127600"; d="scan'208";a="293657727"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 31 Jul 2017 02:37:55 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
+References: <20170724142818.44403-1-alexander.kanavin@linux.intel.com>
+	<20170724142818.44403-5-alexander.kanavin@linux.intel.com>
+	<CAJTo0LbJvsviFJGW8k=Hgsr=kCgFhv7MX=wyjxYz2t23zkSQ1Q@mail.gmail.com>
+	<CAMKF1so7BKN37KMUBDcDw9zHqZmO6YJuFpM8igAHo40QG_CkkQ@mail.gmail.com>
+	<CAJTo0LbDLYh1vOOt6UqjbMpK86b5TuhcXRBqFz=EhzjEp0J1mA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <287709d4-1010-10fa-fd94-929e4c465e49@linux.intel.com>
+Date: Mon, 31 Jul 2017 12:35:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbDLYh1vOOt6UqjbMpK86b5TuhcXRBqFz=EhzjEp0J1mA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/11] gperf: upgrade to 3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 09:19:44 -0000
+X-List-Received-Date: Mon, 31 Jul 2017 09:37:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The author's initial intent was to use a git hook to automatically call
-update-server-info, but the wrong hook type was chosen (post-update). A
-post-commit one will do the job, hence allowing to drop the explicit call to
-update-server-info.
+On 07/28/2017 05:50 PM, Burton, Ross wrote:
+> And libid3tag:
+> 
+> | compat.gperf:116:1: error: conflicting types for 'id3_compat_lookup' | 
+> In file included from compat.gperf:37:0: | 
+> ../libid3tag-0.15.1b/compat.h:36:26: note: previous declaration of 
+> 'id3_compat_lookup' was here | struct id3_compat const 
+> *id3_compat_lookup(register char const *, | ^~~~~~~~~~~~~~~~~
+> 
+> http://git.savannah.gnu.org/cgit/gperf.git/commit/?id=d519d1a821511eaa22eae6d9019a548aea21e6d3 
+> is the upstream commit that breaks everything, because the API of the 
+> generated files has changed.
 
-Signed-off-by: Andrea Galbusera <gizero@gmail.com>
----
- scripts/oe-publish-sdk | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Right. Should we just stop fighting with this, and put a 
+RECIPE_NO_UPDATE_REASON into gperf? I'd rather not update gperf with 
+this change reverted.
 
-diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
-index 9f7963c..ee33acf 100755
---- a/scripts/oe-publish-sdk
-+++ b/scripts/oe-publish-sdk
-@@ -114,9 +114,9 @@ def publish(args):
- 
-     # Setting up the git repo
-     if not is_remote:
--        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo "*.pyc\n*.pyo\npyshtables.py" > .gitignore; fi; git add -A .; git config user.email "oe@oe.oe" && git config user.name "OE" && git commit -q -m "init repo" || true; git update-server-info' % (destination, destination)
-+        cmd = 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; cp .git/hooks/post-update.sample .git/hooks/post-commit; echo "*.pyc\n*.pyo\npyshtables.py" > .gitignore; fi; git add -A .; git config user.email "oe@oe.oe" && git config user.name "OE" && git commit -q -m "init repo" || true' % (destination, destination)
-     else:
--        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; mv .git/hooks/post-update.sample .git/hooks/post-update; echo '*.pyc\n*.pyo\npyshtables.py' > .gitignore; fi; git add -A .; git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m \"init repo\" || true; git update-server-info'" % (host, destdir, destdir)
-+        cmd = "ssh %s 'set -e; mkdir -p %s/layers; cd %s/layers; if [ ! -e .git ]; then git init .; cp .git/hooks/post-update.sample .git/hooks/post-commit; echo '*.pyc\n*.pyo\npyshtables.py' > .gitignore; fi; git add -A .; git config user.email 'oe@oe.oe' && git config user.name 'OE' && git commit -q -m \"init repo\" || true'" % (host, destdir, destdir)
-     ret = subprocess.call(cmd, shell=True)
-     if ret == 0:
-         logger.info('SDK published successfully')
--- 
-2.7.4
-
+Alex
 
