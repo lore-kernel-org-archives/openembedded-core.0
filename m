@@ -1,31 +1,56 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F93277E57
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5231071D97
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 01:53:02 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.20,367,1444665600"; 
-   d="scan'208";a="1495050"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by song.cn.fujitsu.com with ESMTP; 31 Jul 2017 09:41:21 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9D82F46BA946
+	Mon, 31 Jul 2017 03:23:43 +0000 (UTC)
+Received: by mail-pg0-f43.google.com with SMTP id u185so27004904pgb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 09:41:22 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Mon, 31 Jul 2017 09:41:24 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Jul 2017 09:41:02 +0800
-Message-ID: <1501465262-742-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Sun, 30 Jul 2017 20:23:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=mHBZP/nYh4poJGzd0MNKauvCOey/RCM0856VqNYxcPg=;
+	b=O1jqi0QBaE5EFEu/ipicI7EwHXHPUpJ+EbxyFsCwV1gBvWU/Kyi8nCeCDV4Y6dSpfr
+	4MrS/yw7ZK2iJ7NnQCXnEJKkERMxeEeXROgMFFS7PJHRCR8QOfX8DtXCigX8V/qPSr85
+	5gBW1gol/Ox5pxHYiME4IsU3re1I3z2VjTB+Wd9kjAeEyipWF/6HGwva7O0+AY3PTTT9
+	3P74sbm1qOJ5T9jpK4Twv7vcl2iS4PA5tZebQLF2WsDTNt717BI4txj/W6nS8vGfTvoM
+	rCf+7JmcuDgPVeTaeDZ3bWl5fU1DqqdPN1/HS0XElElIGkjy9yGVIIJNEYE4KpuN5Lhh
+	1yAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=mHBZP/nYh4poJGzd0MNKauvCOey/RCM0856VqNYxcPg=;
+	b=itoIikWiVIr8kPd6KfJUjVSxtu3rnjtjW7lRvziOUb9Tfnu0tXAyrjPvtJyMNxH+7L
+	P2MZV76YAeN99zwvvcIfWPpQ543dx85pk4DvFW+Iy02bf7RFaliE64vYTARCFBqfGt6n
+	dMBO17aVX2kYH+2NignLw5Tvov0NQxrMi/eAqjhn+XKkDp3/mhuKe76WpZ4gvWocfPfG
+	xpxe1qXOKJRnNPpCWU7an8LwbD/ikK7uT2YW+JqpUrGA+qTZVaL/P2SW9s0Y80DnaFna
+	KfkUXd3/pzAw1JWqiouPXFcq1tbCzCiFkvur7FfapwZHw9a3qzY/3JaL3Smh29h+ws+l
+	qXPg==
+X-Gm-Message-State: AIVw112gV4O42FG43V6ZQQz1+/FaRtxgRl5KnDHFo0ajrP9tbtDWWro8
+	AhzRsn3l34h/sg==
+X-Received: by 10.84.209.142 with SMTP id y14mr16055924plh.286.1501471425411; 
+	Sun, 30 Jul 2017 20:23:45 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:a06c:b971:cca2:453e?
+	([2601:202:4001:9ea0:a06c:b971:cca2:453e])
+	by smtp.gmail.com with ESMTPSA id
+	r86sm16502674pfi.138.2017.07.30.20.23.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 30 Jul 2017 20:23:44 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Cliff Brake <cbrake@bec-systems.com>
+References: <CAMKF1sqWosmxhDABfXu59DvPHmxMNybw0_5qprvbo+jHDoN+GA@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <a15e5c58-8834-3fec-3f8e-b848d8381ee6@gmail.com>
+Date: Sun, 30 Jul 2017 20:23:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 9D82F46BA946.A73D3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] gtk+3: 3.22.16 -> 3.22.17
+In-Reply-To: <CAMKF1sqWosmxhDABfXu59DvPHmxMNybw0_5qprvbo+jHDoN+GA@mail.gmail.com>
+Subject: Re: [Pyro] backport request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +63,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 01:53:04 -0000
-Content-Type: text/plain
-
-Update gtk+3 from 3.22.16 to 3.22.17.
-
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-gnome/gtk+/{gtk+3_3.22.16.bb => gtk+3_3.22.17.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.22.16.bb => gtk+3_3.22.17.bb} (84%)
-
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.22.16.bb b/meta/recipes-gnome/gtk+/gtk+3_3.22.17.bb
-similarity index 84%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.22.16.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.22.17.bb
-index 2ae1d86..66a5463 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.22.16.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.22.17.bb
-@@ -8,8 +8,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://0004-configure.ac-Fix-wayland-protocols-path.patch \
-           "
--SRC_URI[md5sum] = "71820863d5479e2c4a5b78f3164d5f15"
--SRC_URI[sha256sum] = "3e0c3ad01f3c8c5c9b1cc1ae00852bd55164c8e5a9c1f90ba5e07f14f175fe2c"
-+SRC_URI[md5sum] = "29f85430cf7cfa8ca8d0703ba65dbe11"
-+SRC_URI[sha256sum] = "a6c1fb8f229c626a3d9c0e1ce6ea138de7f64a5a6bc799d45fa286fe461c3437"
- 
- S = "${WORKDIR}/gtk+-${PV}"
- 
--- 
-2.7.4
+X-List-Received-Date: Mon, 31 Jul 2017 03:23:44 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
+
+On 07/28/2017 01:08 PM, Khem Raj wrote:
+> Hi Armin
+>
+> Please consider
+>
+> http://git.openembedded.org/openembedded-core/commit/?id=5d3df78367be0afbfe001b4fa776a98a82e6ce54
+
+does 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=pyro&id=cc48789276e0f91b37f1d89e418c87ee8bcc2d2f 
+work?
+
+- armin
+
+>
+> for your next pyro backport list.
+>
+> Thanks
+> -Khem
 
 
