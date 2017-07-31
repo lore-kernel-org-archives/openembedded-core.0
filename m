@@ -1,29 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id CFA137850C
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id EFE6678466
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 14:09:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 31 Jul 2017 07:09:39 -0700
+	Mon, 31 Jul 2017 14:38:24 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2017 07:38:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.40,442,1496127600"; d="scan'208";a="999151533"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by orsmga003.jf.intel.com with ESMTP; 31 Jul 2017 07:09:37 -0700
-Date: Mon, 31 Jul 2017 17:10:25 +0300
-From: "Maxin B. John" <maxin.john@intel.com>
-To: rpjday@crashcourse.ca
-Message-ID: <20170731141025.GB15641@mbabyjoh-desk.ger.corp.intel.com>
-References: <20170731064114.Horde.DvVIF0q0YvJ5HlL1pcjzGe4@crashcourse.ca>
-	<ca8a860d-0894-e604-6108-359ccd094e72@linux.intel.com>
-	<1501498850.18633.1.camel@linuxfoundation.org>
-	<20170731071523.Horde.D4ds4jNhxwzGV9es7N9Nh3V@crashcourse.ca>
-	<20170731125017.GA15641@mbabyjoh-desk.ger.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.40,442,1496127600"; 
+	d="scan'208,217";a="134069636"
+Received: from svurgun-mobl.amr.corp.intel.com (HELO [10.254.20.139])
+	([10.254.20.139])
+	by fmsmga006.fm.intel.com with ESMTP; 31 Jul 2017 07:38:25 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1500914447.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LbPzRM1dqQzZMD-iqA+a4zKevm0qiZzEvp4HXOUeMv9-g@mail.gmail.com>
+From: "Sandoval Gonzalez, Leonardo"
+	<leonardo.sandoval.gonzalez@linux.intel.com>
+Message-ID: <90c4a1a0-a7cb-0113-b569-a812a4e5d135@linux.intel.com>
+Date: Mon, 31 Jul 2017 09:38:24 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20170731125017.GA15641@mbabyjoh-desk.ger.corp.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: worth adding a "git"-versioned of i2c-tools to oe-core?
+In-Reply-To: <CAJTo0LbPzRM1dqQzZMD-iqA+a4zKevm0qiZzEvp4HXOUeMv9-g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] python-3.5-manifest: move python3.5-config script into the dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +37,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 14:09:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 31 Jul 2017 14:38:25 -0000
+Content-Type: multipart/alternative;
+	boundary="------------503C4D6465EC793A21E76048"
+Content-Language: es-ES
 
-Hi,
-On Mon, Jul 31, 2017 at 03:50:17PM +0300, Maxin B. John wrote:
-> Hi,
-> 
-> On Mon, Jul 31, 2017 at 07:15:23AM -0400, rpjday@crashcourse.ca wrote:
-> > 
-<snip>
-> > 
-> >   well, here's a possible conundrum ... in that same package (i2c-tools),
-> > there appears to be an *obvious* flaw in that the "eeprog" utility uses a
-> > sleep that is far too short for proper operation, as described here:
-> > 
-> > https://www.toradex.com/community/questions/10243/write-issue-with-eeprog-in-eeprom.html
-> > 
-> > there is a link to a patch on that page that simply cranks up a few sleep
-> > calls from 10usec to 5msec, which apparently solves the problem. i've been
-> > involved in a discussion on the i2c-tools mailing list about this very
-> > issue after i tripped over it, but there seems to be little enthusiasm on
-> > that list for "fixing" this -- i was told that people use the kernel driver
-> > instead and access via /sys rather than calling "eeprog".
-> 
-> dl.lm-sensors.org has been down for a while and doesn't show any positive signs that
-> it will be back in near future. One possibility will be to use the unofficial mirrors
-> listed below and upgrade to version 3.1.2
+--------------503C4D6465EC793A21E76048
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Sorry, I meant to use the most recent version (we already have the latest released verion - 3.1.2) 
 
-> 1. https://fossies.org/linux/misc/
-> 2. http://jdelvare.nerim.net/mirror/i2c-tools/
-> 
-> >   so, from my perspective, this should definitely be fixed so that "eeprog"
-> > functions properly, but it's not clear upstream is all that interested in it.
-> > what would the protocol be here?
-> 
-> Since this genuinely fixes an error, we should be able to include this patch with:
-> "Inappropriate [bug workaround]" status. 
-> 
-> > rday
-> 
-> Best Regards,
-> Maxin
 
+El 7/29/2017 a las 8:48 AM, Burton, Ross escribió:
+> The first line of the python-3.5-manifest.inc:
+>
+> # WARNING: This file is AUTO GENERATED: Manual edits will be lost next 
+> time I regenerate the file.
+>
+> You'll need to edit the script and then regenerate the manifest.
+Auch, right.
+
+I will send a v2 including the line truncation fix.
+
+Leo
+>
+> Might be worth patching the script to wrap long lines instead of 
+> writing 1000 character lines to save the line length problem in the 
+> future too.
+>
+> Ross
+>
+> On 24 July 2017 at 17:44, <leonardo.sandoval.gonzalez@linux.intel.com 
+> <mailto:leonardo.sandoval.gonzalez@linux.intel.com>> wrote:
+>
+>     From: Leonardo Sandoval
+>     <leonardo.sandoval.gonzalez@linux.intel.com
+>     <mailto:leonardo.sandoval.gonzalez@linux.intel.com>>
+>
+>     The following changes since commit
+>     a4f2bf37b7eac888f37f11cd4d4606436909c507:
+>
+>       mpc8315e-rdb: add wic.bmap to IMAGE_FSTYPES (2017-07-17 15:14:27
+>     +0100)
+>
+>     are available in the git repository at:
+>
+>       git://git.yoctoproject.org/poky-contrib
+>     <http://git.yoctoproject.org/poky-contrib>
+>     lsandov1/python3-config-multilib
+>     http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/python3-config-multilib
+>     <http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/python3-config-multilib>
+>
+>     Leonardo Sandoval (1):
+>       python-3.5-manifest: move python3.5-config script into the dev
+>     package
+>
+>      meta/recipes-devtools/python/python-3.5-manifest.inc | 4 ++--
+>      1 file changed, 2 insertions(+), 2 deletions(-)
+>
+>     --
+>     2.12.3
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+
+
+--------------503C4D6465EC793A21E76048
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">El 7/29/2017 a las 8:48 AM, Burton,
+      Ross escribió:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LbPzRM1dqQzZMD-iqA+a4zKevm0qiZzEvp4HXOUeMv9-g@mail.gmail.com">
+      <div dir="ltr">The first line of the python-3.5-manifest.inc:
+        <div><br>
+          <div># WARNING: This file is AUTO GENERATED: Manual edits will
+            be lost next time I regenerate the file.<br>
+          </div>
+        </div>
+        <div><br>
+        </div>
+        <div>You'll need to edit the script and then regenerate the
+          manifest.</div>
+      </div>
+    </blockquote>
+    Auch, right.<br>
+    <br>
+    I will send a v2 including the line truncation fix.<br>
+    <br>
+    Leo<br>
+    <blockquote type="cite"
+cite="mid:CAJTo0LbPzRM1dqQzZMD-iqA+a4zKevm0qiZzEvp4HXOUeMv9-g@mail.gmail.com">
+      <div dir="ltr">
+        <div><br>
+        </div>
+        <div>Might be worth patching the script to wrap long lines
+          instead of writing 1000 character lines to save the line
+          length problem in the future too.</div>
+        <div><br>
+        </div>
+        <div>Ross</div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On 24 July 2017 at 17:44, <span
+            dir="ltr">&lt;<a
+              href="mailto:leonardo.sandoval.gonzalez@linux.intel.com"
+              target="_blank" moz-do-not-send="true">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">From:
+            Leonardo Sandoval &lt;<a
+              href="mailto:leonardo.sandoval.gonzalez@linux.intel.com"
+              moz-do-not-send="true">leonardo.sandoval.gonzalez@<wbr>linux.intel.com</a>&gt;<br>
+            <br>
+            The following changes since commit
+            a4f2bf37b7eac888f37f11cd4d4606<wbr>436909c507:<br>
+            <br>
+              mpc8315e-rdb: add wic.bmap to IMAGE_FSTYPES (2017-07-17
+            15:14:27 +0100)<br>
+            <br>
+            are available in the git repository at:<br>
+            <br>
+              git://<a href="http://git.yoctoproject.org/poky-contrib"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">git.yoctoproject.org/<wbr>poky-contrib</a>
+            lsandov1/python3-config-<wbr>multilib<br>
+              <a
+href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/python3-config-multilib"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">http://git.yoctoproject.org/<wbr>cgit.cgi/poky-contrib/log/?h=<wbr>lsandov1/python3-config-<wbr>multilib</a><br>
+            <br>
+            Leonardo Sandoval (1):<br>
+              python-3.5-manifest: move python3.5-config script into the
+            dev package<br>
+            <div class="HOEnZb">
+              <div class="h5"><br>
+                 meta/recipes-devtools/python/<wbr>python-3.5-manifest.inc
+                | 4 ++--<br>
+                 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+                <br>
+              </div>
+            </div>
+            <span class="HOEnZb"><font color="#888888">--<br>
+                2.12.3<br>
+                <br>
+                --<br>
+                ______________________________<wbr>_________________<br>
+                Openembedded-core mailing list<br>
+                <a
+                  href="mailto:Openembedded-core@lists.openembedded.org"
+                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+                <a
+                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                  rel="noreferrer" target="_blank"
+                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+              </font></span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------503C4D6465EC793A21E76048--
