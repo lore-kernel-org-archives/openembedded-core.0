@@ -1,24 +1,27 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DCFE577D52
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D060D78554
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 13:21:04 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6VDL5fr002531
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 06:21:05 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 31 Jul 2017 06:21:04 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 31 Jul 2017 21:11:33 +0800
-Message-ID: <1501506693-13285-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Mon, 31 Jul 2017 13:30:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2017 06:30:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,442,1496127600"; d="scan'208";a="999137718"
+Received: from msanabr1-mobl1.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.51.199])
+	by orsmga003.jf.intel.com with ESMTP; 31 Jul 2017 06:30:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 31 Jul 2017 15:30:23 +0200
+Message-ID: <5041187.DqVND4ltU0@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <81100738981ef9b5640b16f804f5f89a76ec2a0c.1501494496.git.liezhi.yang@windriver.com>
+References: <cover.1501494496.git.liezhi.yang@windriver.com>
+	<81100738981ef9b5640b16f804f5f89a76ec2a0c.1501494496.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] qemux86 qemux86-64: Enable pci
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 09/10] buildhistory.bbclass: add ptest_log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 13:21:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 31 Jul 2017 13:30:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: He Zhe <zhe.he@windriver.com>
+Hi Robert,
 
-lspci and some other software require "pci" in MACHINE_FEATURES and PCI
-is valid in the qemux86* context.
+A few minor comments below.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/conf/machine/qemux86-64.conf | 2 +-
- meta/conf/machine/qemux86.conf    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Monday, 31 July 2017 11:50:09 AM CEST Robert Yang wrote:
+> The ptest log will be saved to buildhistory/ptest_log, we can easily get
+> the regression result between builds by:
+> $ git show HEAD ptest_log/pass.fail.skip.*
+> 
+> [YOCTO #11547]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/buildhistory.bbclass | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/
+buildhistory.bbclass
+> index a3e4c7a734a..26430a63d31 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -912,3 +912,31 @@ def write_latest_srcrev(d, pkghistdir):
+>      else:
+>          if os.path.exists(srcrevfile):
+>              os.remove(srcrevfile)
+> +
+> +do_testimage[postfuncs] += "write_ptest_result"
+> +do_testimage[vardepsexclude] += "write_ptest_result"
+> +
+> +python write_ptest_result() {
+> +    write_latest_ptest_result(d, d.getVar('BUILDHISTORY_DIR'))
+> +}
+> +
+> +def write_latest_ptest_result(d, histdir):
+> +    import glob
+> +    import subprocess
+> +    test_log_dir = d.getVar('TEST_LOG_DIR')
+> +    input_ptest_log = os.path.join(test_log_dir, 'ptest_log')
+> +    output_ptest_log = os.path.join(histdir, 'ptest_log')
 
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 4f30033..9f78191 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -28,7 +28,7 @@ XSERVER = "xserver-xorg \
-            xserver-xorg-module-libint10 \
-            "
- 
--MACHINE_FEATURES += "x86"
-+MACHINE_FEATURES += "x86 pci"
- 
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
- 
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index e232947..d778fa7 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -27,7 +27,7 @@ XSERVER = "xserver-xorg \
-            xserver-xorg-module-libint10 \
-            "
- 
--MACHINE_FEATURES += "x86"
-+MACHINE_FEATURES += "x86 pci"
- 
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
- 
+Would it be reasonable for this to just be "ptest"? To ask the question a 
+different way, would you expect to save other types of ptest information into 
+buildhistory, or is this likely to be it?
+
+> +    if os.path.exists(input_ptest_log):
+> +        # Lock it avoid race issue
+> +        lock = bb.utils.lockfile(output_ptest_log + "/ptest_log.lock")
+> +        bb.utils.mkdirhier(output_ptest_log)
+> +        oe.path.copytree(input_ptest_log, output_ptest_log)
+> +        # Sort test result
+> +        for result in glob.glob('%s/pass.fail.*' % output_ptest_log):
+> +            bb.debug(1, 'Processing %s' % result)
+> +            cmd = "sort %s -o %s" % (result, result)
+> +            bb.debug(1, 'Running %s' % cmd)
+> +            ret = subprocess.call(cmd, shell=True)
+
+As a matter of good practice and since it's easy to do here I'd suggest not 
+using shell=True and passing the command as a list instead, that way there 
+can't be any issues with spaces or other shell interpretations.
+
+> +            if ret != 0:
+> +                bb.error('Failed to run %s!' % cmd)
+> +        bb.utils.unlockfile(lock)
+
+Shouldn't you be using try...finally here to ensure the lockfile gets unlocked 
+in the case of exceptions?
+
+Cheers,
+Paul
+
+
 -- 
-2.8.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
