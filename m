@@ -1,44 +1,33 @@
-Return-Path: <eran.m@variscite.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 34EDE78535
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+X-Greylist: delayed 635 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 31 Jul 2017 01:52:06 UTC
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 3114E7836E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 15:24:27 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id m85so56675628wma.0
+	Mon, 31 Jul 2017 01:52:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.20,367,1444665600"; 
+   d="scan'208";a="1495066"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by song.cn.fujitsu.com with ESMTP; 31 Jul 2017 09:42:11 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 1154E46BA941
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jul 2017 08:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=variscite.com; s=variscite;
-	h=from:to:cc:subject:date:message-id;
-	bh=D3xplmkgmP90lCLahQd5TtRy83+ULgJGo+vFv26dD2c=;
-	b=DTJSzt+ZDqRNr3XKePv/BREh7I7++m97dQmB0+WBpJ30HGM7odn2cEpgOKTkVCeFUb
-	dMf/HVvzOCkI3iTrGkp9W//TsmiELFw73GvKRhiVmBk5fSlDiV5+XBhkaKjEBp0yz9cB
-	XpH4ywQwv0TALQ9f5WBJggga0zfE1rOxEKByA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=D3xplmkgmP90lCLahQd5TtRy83+ULgJGo+vFv26dD2c=;
-	b=bq5r+DDZNpfnbuXhQvkIfkCbzy1rGUEXeDiB3MYpH23PI9csRoEWk2srtJhq19lGhW
-	yT8tupDTqHUy7efLwG8LwTt1N3vfB9vqL7ZSW9NkDhBjXAEaCgdnnZfbP8lRcNoUoQJu
-	rtqM3cRaZJxiGACHtOnCCHWrZqzNgQLIq543uC3aw1S68uro+PWjcReZFi731eOjq1tX
-	ndHfbH/s/9GDXSWC7hHyqdEQcJCN33UXfx6snvKhSMqT77KQNSW6qsxdNzZs+bBPYQJN
-	1cz24JPJb+YRK0bRNYsgPat6syETaZsKY8RabC4MQsY2P891TMLqQ2Kl644eC58sAetA
-	TjYg==
-X-Gm-Message-State: AIVw110aiUJbRzQxELBfQLIKM6adMaA5WeHAWCAdOFR+sKhTKwFFFUdZ
-	9N1Ls7IY48LsG/LkNkQ=
-X-Received: by 10.28.19.9 with SMTP id 9mr9926627wmt.171.1501428268718;
-	Sun, 30 Jul 2017 08:24:28 -0700 (PDT)
-Received: from localhost.localdomain (84.94.130.170.cable.012.net.il.
-	[84.94.130.170]) by smtp.gmail.com with ESMTPSA id
-	n132sm8624877wmg.42.2017.07.30.08.24.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 30 Jul 2017 08:24:27 -0700 (PDT)
-From: Eran Matityahu <eran.m@variscite.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Jul 2017 18:24:19 +0300
-Message-Id: <1501428259-4774-1-git-send-email-eran.m@variscite.com>
+	Mon, 31 Jul 2017 09:42:08 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Mon, 31 Jul 2017 09:42:09 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 31 Jul 2017 09:41:50 +0800
+Message-ID: <1501465310-786-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
-Cc: Eran Matityahu <eran.m@variscite.com>
-Subject: [PATCH] matchbox-session-sato: Make the battery applet depend on machine features
+MIME-Version: 1.0
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: 1154E46BA941.A3AAD
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] gtk-icon-utils-native: 3.22.16 -> 3.22.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,52 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jul 2017 15:24:28 -0000
+X-List-Received-Date: Mon, 31 Jul 2017 01:52:08 -0000
+Content-Type: text/plain
 
-matchbox-panel enables the battery plugin only if the
-acpi/apm machine features are enabled,
-so enable the battery applet in the session script
-under the same conditions.
+Update gtk-icon-utils-native from 3.22.16 to 3.22.17.
 
-This avoids the 'Failed to load applet "battery"' warning at runtime,
-in case these machine features are not defined.
-
-Signed-off-by: Eran Matityahu <eran.m@variscite.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-sato/matchbox-sato/matchbox-session-sato/session | 5 ++++-
- meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb  | 2 +-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ ...-icon-utils-native_3.22.16.bb => gtk-icon-utils-native_3.22.17.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk-icon-utils-native_3.22.16.bb => gtk-icon-utils-native_3.22.17.bb} (94%)
 
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-index f6313bd..3a70574 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-@@ -20,7 +20,10 @@ matchbox-desktop &
- # doesn't have the feature "foo".
+diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.16.bb b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.17.bb
+similarity index 94%
+rename from meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.16.bb
+rename to meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.17.bb
+index adfb928..032d82d 100644
+--- a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.16.bb
++++ b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.22.17.bb
+@@ -10,8 +10,8 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- START_APPLETS=showdesktop,windowselector
--END_APPLETS=clock,battery,$KEYBOARD_APPLET,systray,startup-notify,notify
-+END_APPLETS=$KEYBOARD_APPLET,systray,startup-notify,notify
-+END_APPLETS=battery,$END_APPLETS # feature-acpi
-+END_APPLETS=battery,$END_APPLETS # feature-apm
-+END_APPLETS=clock,$END_APPLETS
- END_APPLETS=openmoko-panel-gsm,$END_APPLETS # feature-phone
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+           file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
+-SRC_URI[md5sum] = "71820863d5479e2c4a5b78f3164d5f15"
+-SRC_URI[sha256sum] = "3e0c3ad01f3c8c5c9b1cc1ae00852bd55164c8e5a9c1f90ba5e07f14f175fe2c"
++SRC_URI[md5sum] = "29f85430cf7cfa8ca8d0703ba65dbe11"
++SRC_URI[sha256sum] = "a6c1fb8f229c626a3d9c0e1ce6ea138de7f64a5a6bc799d45fa286fe461c3437"
  
- matchbox-panel --start-applets $START_APPLETS --end-applets $END_APPLETS &
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-index d146e83..8230e95 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-@@ -26,7 +26,7 @@ FILES_${PN} += "${datadir}/themes/Sato/index.theme"
- 
- do_install() {
- 	# This is the set of machine features that the script has markers for
--	FEATURES="phone"
-+	FEATURES="acpi apm phone"
- 	SCRIPT="${S}/sedder"
- 	rm -f $SCRIPT
- 	touch $SCRIPT
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+                     file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
 -- 
 2.7.4
+
+
 
 
