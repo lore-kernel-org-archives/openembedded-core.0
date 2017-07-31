@@ -1,46 +1,46 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8643371DE8
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C91E578348
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 08:31:28 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id x64so10326854wmg.1
+	Mon, 31 Jul 2017 08:56:37 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t138so15863682wmt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 01:31:30 -0700 (PDT)
+	Mon, 31 Jul 2017 01:56:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=fzp9rShrR5Sftc8uQONwkp0yrGeE7Ycn0jQRcnXHigI=;
-	b=N+iSUQiWXmdcG/alt+M8tBzFYZgicvuHqgJQ//FzL3jX96DNZhT76DTR0vpeVJq0yE
-	GmkIlr7+Yqz/AaQXaBT2aLHvs5nLGYVYXZL0+64X+O9QrEY4+jj4bCLK1s2V8YJpym59
-	C5YtsTMI1Nu1/qiT02BqUqfBD5HmXzp6JrTMNO+oYSdVPNDn0zmNlqc4RRa2K84wj2Pl
-	m5+RtULw2J1n15EtdHuafLTCZoYAHYR85U2074Xzb/tEbKQqYr4V+69phav9LnWZC4T6
-	6/zMspM0biuA8cSBOcSWWhy5rcC/g7ssrtN+LLoS3eP/zmP+nKW1q94jRiwmGpoBonyF
-	9W9w==
+	bh=51vaackDptD7fk3fZW619+OOfUjECjlfsgiOfzRFCHA=;
+	b=Ksc9AC3AmAsfP0+aEkDzUlY/COtDRWL5O4Ju4EIm76pzAOF8blKevwpEdnT8fLgXI3
+	6KCG9iiMX7lydOuLypxCr+rLua/NOy1OqLYQOFW/3BZ426kTZBHwa9SRUFv978Ttfc0W
+	/pjNrsNcAjLKZyDBXfJK1wsdUs42uQxOUIL1X6SUyV+wSsLVJulZvmcviPBLIJC8KJZb
+	RjebABmJeJkG0fVJN3vC9Ywapfslyn9WdU6mPkirJzsg5vMnJ4OuRdu3B9kQkhAfc6Aq
+	uHX8l21FcD2HF4jO80ht0kj/WUKTbqoRKAN+uSpdJcVzWBXVLDzWdlFc2d8Qik+DwK7I
+	XDVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fzp9rShrR5Sftc8uQONwkp0yrGeE7Ycn0jQRcnXHigI=;
-	b=W37cq/NFjlVUxg/soRkn9RBDr184FTpRd0kiIpYePY+yAjE4MQJ65IBD88njemdzpd
-	BKgru3AD6YKJngfaRrB4mLDwCrc4gnnyxt2/PaOZt7vA5JJfED9sPHPj0+PYPoj9wW9/
-	PuVnJczByjRv91oMI1LeEFEqn+C4FAtCgOFU0yWO95Wz/fcCPaZPgzF2xs8X4nAYa61U
-	T3NsgqJvLkCfmQk5pWFvcVm9rrpfb0MMZcVSFv5tSYBm50zRLWanYAiUfqKNlcQgph1J
-	vZumTgmf9T9cep57uZqrXFnwhecPV9NeUtCOEbOK5ZbFffy6ASc9zPws449RbBa90FcK
-	59Pg==
-X-Gm-Message-State: AIVw112dcgGNIvo0w+TjzvsKND9XHtNsb3OF88fcdcUhF6/Bryoczr74
-	d5pVC84YTm2bIy+i
-X-Received: by 10.80.147.91 with SMTP id n27mr13307728eda.84.1501489889152;
-	Mon, 31 Jul 2017 01:31:29 -0700 (PDT)
+	bh=51vaackDptD7fk3fZW619+OOfUjECjlfsgiOfzRFCHA=;
+	b=e6oU3ra4NXGMjD+PCeC0HtTo2nyzpAz4ksN6T8oSbcgjjNqO/alFAmhee0d2KiV4WD
+	ZBpxLVLyRYy046UIOLwrFiCXWLNu+gqOqSxfmFFHawb1Y1qlqG5+tt5I96UB+4M/kfeF
+	69e+sFaZywLKxuohbP7dJbcWaAxK3yWGzQS3fksKnOj3CCVlm9/truWMSQIRb7ugAwEq
+	iGy7USheHLONlt9FmABjeq/Oy+YLuTUPRe0NXfTtkLUnuw8PBFOTjMmIgmYEYxDBkR3u
+	qnWM2VCkrgL4FkOHNV0EvU9S2CrQgpDT66iJ3KKLBEGnqYWth6n6lVA+mfqs1ESj7YFT
+	EwQg==
+X-Gm-Message-State: AIVw110MQ84PnkIfb88P2jO3aT8QZmq34q9hTCG33CTwA5GhLn/pTc1B
+	odQv53eD0bYI3RfJ
+X-Received: by 10.80.148.130 with SMTP id s2mr13461329eda.106.1501491398363;
+	Mon, 31 Jul 2017 01:56:38 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([27.191.201.186]) by smtp.gmail.com with ESMTPSA id
-	t36sm7408923edb.38.2017.07.31.01.31.27
+	n2sm13382740edl.73.2017.07.31.01.56.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Jul 2017 01:31:28 -0700 (PDT)
+	Mon, 31 Jul 2017 01:56:37 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Jul 2017 10:31:21 +0200
-Message-Id: <1501489881-8481-1-git-send-email-liu.ming50@gmail.com>
+Date: Mon, 31 Jul 2017 10:56:28 +0200
+Message-Id: <1501491388-15182-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] meta: drop do_bootdirectdisk do_vmimg references
+Subject: [PATCH V2] meta: drop do_bootdirectdisk do_vmimg references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,23 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 08:31:28 -0000
+X-List-Received-Date: Mon, 31 Jul 2017 08:56:38 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
 do_bootdirectdisk and do_vmimg had been dropped by commit 929ba563:
 [ image: Convert vmdk/vdi/qcow2 to strict CONVERSION_CMD types ]
 
-Also need drop their references.
+Also drop the references to them and image-vm.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
  meta/classes/grub-efi.bbclass     | 1 -
  meta/classes/license.bbclass      | 9 ++-------
  meta/classes/rm_work.bbclass      | 2 +-
- meta/classes/systemd-boot.bbclass | 1 -
+ meta/classes/systemd-boot.bbclass | 3 +--
  meta/conf/documentation.conf      | 1 -
- 5 files changed, 3 insertions(+), 11 deletions(-)
+ 5 files changed, 4 insertions(+), 12 deletions(-)
 
 diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
 index df7fe18..610479b 100644
@@ -118,11 +118,15 @@ index badeaeb..0faa4a6 100644
                  break
                  ;;
 diff --git a/meta/classes/systemd-boot.bbclass b/meta/classes/systemd-boot.bbclass
-index 9f8f75e..733d380 100644
+index 9f8f75e..9373070 100644
 --- a/meta/classes/systemd-boot.bbclass
 +++ b/meta/classes/systemd-boot.bbclass
-@@ -10,7 +10,6 @@
- # (images built by image-live.bbclass or image-vm.bbclass)
+@@ -7,10 +7,9 @@
+ #                        maintenance.
+ #
+ # Set EFI_PROVIDER = "systemd-boot" to use systemd-boot on your live images instead of grub-efi
+-# (images built by image-live.bbclass or image-vm.bbclass)
++# (images built by image-live.bbclass)
  
  do_bootimg[depends] += "${MLPREFIX}systemd-boot:do_deploy"
 -do_bootdirectdisk[depends] += "${MLPREFIX}systemd-boot:do_deploy"
