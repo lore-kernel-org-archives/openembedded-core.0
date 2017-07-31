@@ -1,43 +1,25 @@
-Return-Path: <humberto.ibarra.lopez@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8117478561
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EF7378325
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 16:28:13 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Jul 2017 09:28:07 -0700
+	Mon, 31 Jul 2017 16:38:07 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Jul 2017 09:38:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,304,1498546800"; d="scan'208";a="999199215"
-Received: from fmsmsx107.amr.corp.intel.com ([10.18.124.205])
-	by orsmga003.jf.intel.com with ESMTP; 31 Jul 2017 09:28:06 -0700
-Received: from fmsmsx119.amr.corp.intel.com (10.18.124.207) by
-	fmsmsx107.amr.corp.intel.com (10.18.124.205) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 31 Jul 2017 09:28:06 -0700
-Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.222]) by
-	FMSMSX119.amr.corp.intel.com ([169.254.14.117]) with mapi id
-	14.03.0319.002; Mon, 31 Jul 2017 09:28:06 -0700
-From: "Ibarra Lopez, Humberto" <humberto.ibarra.lopez@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] multiconfig.py: added testsuite for
-	multiconfig
-Thread-Index: AQHTBxUBs5qYPqEtRkuoavfWI6Sh9KJooTeAgAWD5EA=
-Date: Mon, 31 Jul 2017 16:28:05 +0000
-Message-ID: <F187383F84EB304A88D055C30495887946875974@FMSMSX106.amr.corp.intel.com>
-References: <cover.1501186507.git.humberto.ibarra.lopez@intel.com>
-	<b042029a217b541e652776a7117a35c70c81f4e3.1501186507.git.humberto.ibarra.lopez@intel.com>
-	<1501189933.22282.170.camel@linuxfoundation.org>
-In-Reply-To: <1501189933.22282.170.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.106]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] multiconfig.py: added testsuite for multiconfig
+X-IronPort-AV: E=Sophos;i="5.41,304,1498546800"; d="scan'208";a="117760882"
+Received: from swold-mobl2.amr.corp.intel.com ([10.254.184.101])
+	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2017 09:38:08 -0700
+Message-ID: <1501519088.27323.413.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 31 Jul 2017 09:38:08 -0700
+In-Reply-To: <20170728015431.25919-1-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170728015431.25919-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] cml1.bbclass: wait until menuconfig terminal finishes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,27 +32,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 16:28:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 31 Jul 2017 16:38:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-VGhpcyBwYXRjaCBkb2VzIG5vdCBjb25zaWRlciBjdXJyZW50IG11bHRpY29uZmlnIHNldHRpbmdz
-LiBJIHRhbGtlZCB3aXRoIEFuaWJhbCBhYm91dCB0aGlzIGFuZCBoZSBzYWlkIHRoaXMgd291bGRu
-J3QgYmUgYW4gaXNzdWUgYWZ0ZXIgIzExNDI5LCB3aGljaCBoZSBpcyB3b3JraW5nIG9uLiBKdXN0
-IGNoZWNrZWQgdGhhdCBidWcgYW5kIGlzIHN0aWxsIGluIGltcGxlbWVudGF0aW9uLCBzbyBJIGNv
-dWxkIHB1dCAxMTQyOSBhcyBhIGRlcGVuZGVuY3kgZm9yIDExNjEyPw0KDQpSZWdhcmRzLA0KDQpI
-dW1iZXJ0byANCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVy
-ZGllIFttYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiBU
-aHVyc2RheSwgSnVseSAyNywgMjAxNyA0OjEyIFBNDQpUbzogSWJhcnJhIExvcGV6LCBIdW1iZXJ0
-byA8aHVtYmVydG8uaWJhcnJhLmxvcGV6QGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMV0g
-bXVsdGljb25maWcucHk6IGFkZGVkIHRlc3RzdWl0ZSBmb3IgbXVsdGljb25maWcNCg0KT24gVGh1
-LCAyMDE3LTA3LTI3IGF0IDE1OjE4IC0wNTAwLCBIdW1iZXJ0byBJYmFycmEgd3JvdGU6DQo+IE11
-bHRpY29uZmlnIHdhcyBub3QgYmVpbmcgdGVzdGVkIGF0IGFsbC4gVGhpcyBhZGRzIGEgZmV3IGJh
-c2ljIHRlc3RzIA0KPiBmb3IgbXVsdGljb25maWcsIGluY2x1ZGluZyBnbG9iYmluZy4NCj4gDQo+
-IFtZb2N0byAjMTE2MTJdDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBIdW1iZXJ0byBJYmFycmEgPGh1
-bWJlcnRvLmliYXJyYS5sb3BlekBpbnRlbC5jb20+DQoNCklmIEkgcnVuIHRoaXMgc2VsZnRlc3Qg
-YW5kIEkgaGF2ZSBzb21lIG11bHRpY29uZmlncyBhbHJlYWR5IGluIG15IGJ1aWxkIGRpcmVjdG9y
-eSwgd2hhdCBoYXBwZW5zIHRvIHRoZW0/DQoNCkNoZWVycywNCg0KUmljaGFyZA0K
+On Thu, 2017-07-27 at 18:54 -0700,
+leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> There are at least two terminals types (gnome and tmux) that when
+> launched to show the kernel's menuconfig, we lost track of the
+> corresponding
+> process ID, thus there is no way to see when they finish, yielding
+> identical
+> timestamps before and after menuconfig thus compile's task
+> is never tainted. This commit takes the solution from [1] but now in
+> the menuconfig's
+> context.
+> 
+I am not sure that this should be specific to the menuconfig code, as
+this will affect devshell also or if you enable dropping into shell for
+patch fixing.
+
+Please generalize the code in meta/lib/oe/terminal.py that gnome uses
+to be useful by any terminal type.
+
+Sau!
+
+
+> [1]
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=c706bfbabbf
+> 9f7caf2cf509eb91381fb49aa44cb
+> 
+> [YOCTO #11146]
+> 
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
+> tel.com>
+> ---
+>  meta/classes/cml1.bbclass | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+> index 38e6613c48..1e84795aa2 100644
+> --- a/meta/classes/cml1.bbclass
+> +++ b/meta/classes/cml1.bbclass
+> @@ -26,8 +26,28 @@ python do_menuconfig() {
+>      except OSError:
+>          mtime = 0
+>  
+> -    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then echo
+> 'Command failed.'; printf 'Press any key to continue... '; read r;
+> fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+> +    # We need to know when the command completes but some terminals
+> (including gnome-terminal
+> +    # and tmux) gives us no way to do this. We therefore write the
+> pid to a temporal file
+> +    # then monitor the pid until it exits.
+> +    import tempfile
+> +    pidfile = tempfile.NamedTemporaryFile(delete = False).name
+> +    try:
+> +        oe_terminal("${SHELL} -c \"echo $$ > %s; make %s; if [ \$?
+> -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to
+> continue... '; read r; fi\"" % (pidfile,
+> d.getVar('KCONFIG_CONFIG_COMMAND')),
+>                  d.getVar('PN') + ' Configuration', d)
+> +        while os.stat(pidfile).st_size <= 0:
+> +            continue
+> +        with open(pidfile, "r") as f:
+> +            pid = int(f.readline())
+> +    finally:
+> +        os.unlink(pidfile)
+> +
+> +    import time
+> +    while True:
+> +        try:
+> +            os.kill(pid, 0)
+> +            time.sleep(0.1)
+> +        except OSError:
+> +            break
+>  
+>      # FIXME this check can be removed when the minimum bitbake
+> version has been bumped
+>      if hasattr(bb.build, 'write_taint'):
 
