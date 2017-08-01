@@ -1,52 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B43D783D5
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C04178240
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 14:02:59 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id x64so3218089wmg.1
+	Tue,  1 Aug 2017 14:56:10 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id y129so3044767pgy.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 07:03:01 -0700 (PDT)
+	Tue, 01 Aug 2017 07:56:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ekc8vaYoWMyOlB2CsFTlkyMdk2uyWfgqSD9Wk9l5qws=;
-	b=PBmJ2izyMHux/DEVma/w3SdkQeSAa1Kwo+Gx3MObY2UpqldRnaKVozBvObyz3b+tQK
-	xAfMQkmLjV8XiWLMbxzEGTQtQAVw27Pa2k3gJdTAqkdyY0rnk3ICEEKv5C+GReKvmjb+
-	vOzUNauhCNR8zybZmI2uWi9FqDRgNBLiWBCA9puh/0IGcn3aLw3xIN//8L9BElYhDCGO
-	FXAzflcDahHyke4/gWVNVSSj4ARQX/LpBx9W+YJv6Zqx8ISimVJlcSQ7xiGZMkIX0Tlp
-	cApK8xbFumapGKeVu00qJTXz6qKwp0JYpNta0u96wnojvdSSsLzMSyOmgppl+vMln39g
-	qjgA==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=lLhEivnUcTINUViMShF3JODgHatAkh6VFjGdiF684XA=;
+	b=REcASDKnuTiTi53tEwfhwy+hMOUwzTXb/5GGxpqSQiOHdNbrqZCsmNU37SE0MlJKLG
+	EWm/fKQSjS0FTgO+65SKl8usNGtPIva05R03v/qdJoGnn0jT5bI4gEuHgtPX0FcrRjvw
+	wGrNIRx9+cXHFC64cVpEk5B2EvS8YSMVr6NjxAFm7rziBwoSGpGdWUdBbKb6LwymNttc
+	DTzE34HuXAVKRsnqVwRx2n0t9tfwQWCT6wZTYfW15CiX2acBn94fzYhyi954XSFpBQf2
+	3Qj4o1hHkgFaRum9RAp6usDVFdhKeqatWmDeGR0Z5QvUbFiwwV09/EGuS0AhhUVbHcge
+	E3Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Ekc8vaYoWMyOlB2CsFTlkyMdk2uyWfgqSD9Wk9l5qws=;
-	b=j96mvWX7kThbplafkx98S3+3K5naRJyz9PNZ7HdaybfMsP+vmXvnP2HY2Kc0hIfPa0
-	tE59VpY8vYTMaiLdnHR2uqEiGhjaGTTmOYyofpUoYPvoFkT2r4fGpa7IBuWcJ8eMG6yU
-	/qbZZDddBMGV5VDVniidzQKJ/SItw7In5/TcKY8jvdVr17XlPpnJVLoq0o/5Q5tsaOvS
-	bAQrweWtw/L3oFIEIgazRccYVshXXMGdN+FKdPHRbBJb1s9hwhm1I4CPMGEtlQmCnoML
-	GCAQf94DF7o+mHSffslzvopLwAs/wN8galQmCzRJUO5225oQtV6XyF3n2rY863uzgeiv
-	288g==
-X-Gm-Message-State: AIVw113GNWyUrJV1TUXG5e2uYnWlQAtz56UJiZ47nYsUjBhPpLa9iv4m
-	//15hXcad2TtTUQL595oJ9hjG17GJQ==
-X-Received: by 10.80.159.227 with SMTP id c90mr11610638edf.11.1501596179654;
-	Tue, 01 Aug 2017 07:02:59 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=lLhEivnUcTINUViMShF3JODgHatAkh6VFjGdiF684XA=;
+	b=ii9Q36bjJMQUCvUwyb5/iJvMvUJ35/y9TPDztp0LZhkBlwgJYs3pgl3lIk9ojK8svZ
+	NoBwrhHajQMXQG2F+UHylb0D+xwwDETEyx6vosayzMWs8l5f7lvZFs5L/QK/SRZoEXG7
+	gM/Yfypaj2x0zhzKaqU5hvZeJIu43Bp4WxdpJOa+ndLY/mNZB+9MDV9THblE8i/+rM0g
+	0Smb5CRsIA4U5fTcpx5Fwbw8nQvDN9O24BMLZIQCESXgdhJ6r3FAstB2nOB98dWKEHvF
+	NZQCBqweoZl7Z1FLJKkrFm3xZqvo/tBFmkfnaQi9KUKIyro+T8DXDTvK2eN5vQmFxGMB
+	nJiw==
+X-Gm-Message-State: AIVw110S9RPGgDyF6t2wj6zQebcmftatOt71Zdq1HHbHiZ+VU4GYhKOZ
+	dbREtVLdmGbDAZ6w
+X-Received: by 10.84.241.3 with SMTP id a3mr21085383pll.160.1501599371581;
+	Tue, 01 Aug 2017 07:56:11 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:2ddd:cc9a:59f3:2754?
+	([2601:202:4001:9ea0:2ddd:cc9a:59f3:2754])
+	by smtp.gmail.com with ESMTPSA id
+	b89sm27732171pfe.95.2017.08.01.07.56.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Aug 2017 07:56:10 -0700 (PDT)
+To: "Maxin B. John" <maxin.john@intel.com>
+References: <1500551462-19196-1-git-send-email-maxin.john@intel.com>
+	<11c0cdf9-c369-f90e-1c3c-3e1e60ac9e57@gmail.com>
+	<20170801084316.GA33379@mbabyjoh-desk.ger.corp.intel.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <55503283-ee4e-7094-06b7-e2d745c00c3a@gmail.com>
+Date: Tue, 1 Aug 2017 07:56:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.80.149.181 with HTTP; Tue, 1 Aug 2017 07:02:29 -0700 (PDT)
-In-Reply-To: <CAJTo0LYQdCtUHo6Af_UkcBOQnuevUwcMS+445oBm=DPGwPRBmg@mail.gmail.com>
-References: <20170728180734.1920-1-otavio@ossystems.com.br>
-	<CAJTo0LbhyV1g4w4PG_hxMEioTTJdthaDvmgQhU-r2V-w3RHLeA@mail.gmail.com>
-	<CAP9ODKqb2hLkkLpbnTSRnGHPRcczZqn_g=Uythiey8Tz+Y_Gcw@mail.gmail.com>
-	<adac39d9-b395-9f8d-5af0-8882e2136140@gmail.com>
-	<CAP9ODKrs_qij8v+q9ViZtW_rT0c9W02YcqQ+gAV1Y8DmWaz4sg@mail.gmail.com>
-	<CAJTo0LYQdCtUHo6Af_UkcBOQnuevUwcMS+445oBm=DPGwPRBmg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 1 Aug 2017 07:02:29 -0700
-Message-ID: <CAMKF1sqMqK1YR_aL-O3Vv4-Bw07HCWnbXMnMOwsAOGP_991j+A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] go-dep: Add 0.2.0 release
+In-Reply-To: <20170801084316.GA33379@mbabyjoh-desk.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [morty][PATCH 1/2] libpng: move SRC_URI back to SOURCEFORGE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,68 +63,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 14:03:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 01 Aug 2017 14:56:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Tue, Aug 1, 2017 at 6:50 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Verifying this here.
->
-> Building for qemuarm puts the binary in /usr/bin/dep.  Building for
-> intel-corei7-64 puts the binary in /usr/lib/x86_64-poky-linux/go/bin/dep.
->
 
-may be configure logs can tell why is it making this distinction.
-Since we are not building
-for multiarch, using /usr/bin/dep might be ok
 
-> Ross
+On 08/01/2017 01:43 AM, Maxin B. John wrote:
+> Hi Armin,
 >
-> On 31 July 2017 at 20:52, Otavio Salvador <otavio.salvador@ossystems.com.br>
-> wrote:
+> On Mon, Jul 24, 2017 at 09:04:40PM -0700, akuster808 wrote:
 >>
->> On Mon, Jul 31, 2017 at 4:20 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> >
->> >
->> > On 7/31/17 12:12 PM, Otavio Salvador wrote:
->> >> Hello Ross,
->> >> Hello Khem,
->> >>
->> >> On Sat, Jul 29, 2017 at 3:28 PM, Burton, Ross <ross.burton@intel.com>
->> >> wrote:
->> >>> Failed in the no-x11 builder at least so far:
->> >>>
->> >>> ERROR: go-dep-0.2.0-r0 do_package: QA Issue: go-dep: Files/directories
->> >>> were
->> >>> installed but not shipped in any package:
->> >>>   /usr/lib/x86_64-poky-linux/go/bin/dep
->> >>> Please set FILES such that these items are packaged. Alternatively if
->> >>> they
->> >>> are unneeded, avoid installing them or delete them within do_install.
->> >>>
->> >>>
->> >>> https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/builds/537
->> >>
->> >> I did reproduce this; I could only reproduce it if I built it with a
->> >> machine which matches the architecture of host, in my case x86-64.
->> >> When building for other arch (e.g: ARM) it works as expected.
->> >>
->> >> The problem seems to be a generic problem and I am not experienced
->> >> enough on the Golang toolchain to look at this. Khem could you take a
->> >> look and see if you find the root cause?
->> >
->> > Delete this file, its building it on x86_64 because it can. We only need
->> > cross version.
->>
->> I am not sure I follow you here.
->>
->> Using qemux86-64 as target it does NOT install on ${bindir} and
->> surprisingly the installation path does also not match GOBIN_FINAL
->> value.
->>
->> --
->> Otavio Salvador                             O.S. Systems
->> http://www.ossystems.com.br        http://code.ossystems.com.br
->> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>> On 07/20/2017 04:51 AM, Maxin B. John wrote:
+>>> Since GENTOO_MIRROR removes older binaries, move back to
+>>> SOURCEFORGE_MIRROR
+>> your fix is cleaner than what I had stagged.
+>> thanks,
+>> Armin
+>>> [YOCTO #11554]
+> Please ignore this fix. I will send v2 which fixes the MIRRORS.
+
+this series already in morty-next. I pull them for your v2
+
+- armin
 >
->
+>>> Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>>> ---
+>>>   meta/recipes-multimedia/libpng/libpng_1.6.24.bb | 6 ++++--
+>>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb b/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
+>>> index f91ab7f..4ee5983 100644
+>>> --- a/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
+>>> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.24.bb
+>>> @@ -6,8 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5089214833586ba444048fd1dbbc76a4 \
+>>>                       file://png.h;endline=149;md5=376d8ff7f69b7c4ad3a09f4672cec696"
+>>>   DEPENDS = "zlib"
+>>> -SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz \
+>>> -          "
+>>> +LIBV = "16"
+>>> +
+>>> +SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/older-releases/${PV}/libpng-${PV}.tar.xz"
+>>> +
+>>>   SRC_URI[md5sum] = "ffcdbd549814787fa8010c372e35ff25"
+>>>   SRC_URI[sha256sum] = "7932dc9e5e45d55ece9d204e90196bbb5f2c82741ccb0f7e10d07d364a6fd6dd"
+> Best Regards,
+> Maxin
+
 
