@@ -1,48 +1,18 @@
-Return-Path: <drew.moseley@northern.tech>
-Received: from mail-yw0-f173.google.com (mail-yw0-f173.google.com
-	[209.85.161.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F78778376
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 12:07:46 +0000 (UTC)
-Received: by mail-yw0-f173.google.com with SMTP id u207so8387399ywc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 05:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=1Kq4OY1d6G6eAyyIAd+M9dlNpxthzl0IM7WoDCYDrOk=;
-	b=brAMzKRL+TqQbStZWpUULVjVvQc7I8Oeh9QShSoW+ezOuaHwvULUCbojgoV7oSml7c
-	gCKzOFjYh3ZPrafSuonwmqpW/awaUzWqjP5lCDNzxJa+eZ7gDq5e0SfGXKMfn+gs22x/
-	9EcXnC0GkkSIQ2mKeLdrp7TWy9XJV1JErstMhlkGgAFqnrQzpPig8tew/bNEHlsWAqFk
-	YIAabEe8jlzKIGCXgGDtjm6rez1zu93J5eUGt/6jsX+jultxDUi+D1v6WeVkKWwI9gS5
-	2X9DkPuQnU0cz8z2vUaAuYAiNInLLwXnZNhYxzuTCDk/o+es76PXtIl2HWB1SirORtmC
-	XvfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1Kq4OY1d6G6eAyyIAd+M9dlNpxthzl0IM7WoDCYDrOk=;
-	b=tfBKRHTyI0ASg1SfKS0EKyOyI+SgV/vGlGU5ZfxddZcoByzTIB+EdmxCsiVsCVSXpn
-	IMRh8OWIaqsQomAGxrivQLEihlYksjs29hZxbeMU69FMTM4btlF8UaAVJ4tByy0UczHb
-	CmRb18oFktJHpl+TJ0Sc0XIyOwCeqXXJ5sRAEP2mlmc+uMO0LFMYi6k6b+qj8XLjecS6
-	tOvQl8JVIbwyEryyRo1bbUjDU6t75amc6Z6cru1ThaNz+6q91APO/gOgJyhAc8dV4eKO
-	EF/uitnV84XARPPZl+3QPPTaEOut8Mj9N+ZwmS1XSbV4mr+L66F0ammQS6GK1GeYWb4P
-	ZvYA==
-X-Gm-Message-State: AIVw111Gnu/kTKgGNZv1qdaOmtgof9A7+RJgoc02z2XwT7l0ixNDBX5V
-	/XSx24cDG6YdLkQTNwXobQ==
-X-Received: by 10.37.77.130 with SMTP id a124mr16871967ybb.131.1501589267236; 
-	Tue, 01 Aug 2017 05:07:47 -0700 (PDT)
-Received: from tobago.home.moseleynet.net (653240hfc152.tampabay.res.rr.com.
-	[65.32.40.152]) by smtp.googlemail.com with ESMTPSA id
-	o81sm7061315ywb.77.2017.08.01.05.07.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Aug 2017 05:07:46 -0700 (PDT)
-From: drew.moseley@northern.tech
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Aug 2017 08:07:46 -0400
-Message-Id: <1501589266-8236-1-git-send-email-drew.moseley@northern.tech>
-X-Mailer: git-send-email 2.7.4
-Cc: trini@konsulko.com
-Subject: [PATCH V2] local.conf.sample.extended: remove references to image_types_uboot
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id D6AF0782E5;
+	Tue,  1 Aug 2017 12:31:03 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: drew.moseley@northern.tech
+Date: Tue, 01 Aug 2017 12:31:05 -0000
+Message-ID: <20170801123105.2382.67762@do.openembedded.org>
+References: <1501589266-8236-1-git-send-email-drew.moseley@northern.tech>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1501589266-8236-1-git-send-email-drew.moseley@northern.tech>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbG9jYWwuY29uZi5zYW1wbGUuZXh0ZW5kZWQ6IHJlbW92ZSByZWZlcmVuY2VzIHRvIGltYWdlX3R5cGVzX3Vib290?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 12:07:46 -0000
+X-List-Received-Date: Tue, 01 Aug 2017 12:31:04 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Drew Moseley <drew.moseley@northern.tech>
+== Series Details ==
 
-This class was removed with commit:
-    OE-Core rev: 65f27122950a35a67ce39ae4cfe93d0dca6b0dab
+Series: local.conf.sample.extended: remove references to image_types_uboot
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8052/
+State : failure
 
-Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at da29bc17e4)
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/poky/]
+  Patch's path:    meta-poky/conf/local.conf.sample.extended
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta-poky/conf/local.conf.sample.extended | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/meta-poky/conf/local.conf.sample.extended b/meta-poky/conf/local.conf.sample.extended
-index 0560de8..331fdd1 100644
---- a/meta-poky/conf/local.conf.sample.extended
-+++ b/meta-poky/conf/local.conf.sample.extended
-@@ -168,9 +168,6 @@
- 
- # Additional image generation features
- #
--# The following is a list of classes to import to use in the generation of images
--# currently an example class is image_types_uboot
--# IMAGE_CLASSES = " image_types_uboot"
- 
- # The following options will build a companion 'debug filesystem' in addition
- # to the normal deployable filesystem.  This companion system allows a
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
