@@ -1,32 +1,28 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-X-Greylist: delayed 635 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 01 Aug 2017 03:06:30 UTC
-Received: from heian.cn.fujitsu.com (unknown [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 655E26093E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E634B78447
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 03:06:29 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.41,304,1498492800"; d="scan'208";a="22024317"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 01 Aug 2017 10:55:52 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0A79C402BB71
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 10:55:52 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 1 Aug 2017 10:55:50 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 1 Aug 2017 10:55:30 +0800
-Message-ID: <1501556130-748-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Tue,  1 Aug 2017 06:47:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v716lbtR029418
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 31 Jul 2017 23:47:37 -0700
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 31 Jul 2017 23:47:36 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1501494496.git.liezhi.yang@windriver.com>
+	<10079809.XLRr4MJIOn@peggleto-mobl.ger.corp.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <353affee-f839-686a-57e8-789cdbb47c73@windriver.com>
+Date: Tue, 1 Aug 2017 14:47:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 0A79C402BB71.A31C0
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] librsvg: 2.40.17 -> 2.40.18
+In-Reply-To: <10079809.XLRr4MJIOn@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/10] Revive ptest and add result to buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,38 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 03:06:31 -0000
-Content-Type: text/plain
-
-Upgrade librsvg from 2.40.17 to 2.40.18.
-
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-gnome/librsvg/{librsvg_2.40.17.bb => librsvg_2.40.18.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.17.bb => librsvg_2.40.18.bb} (91%)
-
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.17.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.18.bb
-similarity index 91%
-rename from meta/recipes-gnome/librsvg/librsvg_2.40.17.bb
-rename to meta/recipes-gnome/librsvg/librsvg_2.40.18.bb
-index 74777e9..21a0dc2 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.17.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.18.bb
-@@ -14,8 +14,8 @@ inherit autotools pkgconfig gnomebase gtk-doc pixbufcache upstream-version-is-ev
- 
- SRC_URI += "file://gtk-option.patch"
- 
--SRC_URI[archive.md5sum] = "d6fcedf86c5c271abb36da5acc7eb987"
--SRC_URI[archive.sha256sum] = "e6f6c5cbecc405bb945c7cd15061276035ae3173bbb3bb25e8a916779c7f69cc"
-+SRC_URI[archive.md5sum] = "eaa5c8a8bbe2600ab5194c0d3b1b621b"
-+SRC_URI[archive.sha256sum] = "bfc8c488c89c1e7212c478beb95c41b44701636125a3e6dab41187f1485b564c"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
- 
--- 
-2.7.4
+X-List-Received-Date: Tue, 01 Aug 2017 06:47:37 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
+On 07/31/2017 09:41 PM, Paul Eggleton wrote:
+> On Monday, 31 July 2017 11:50:00 AM CEST Robert Yang wrote:
+>> We can get the regression result by:
+>> $ git show HEAD ptest_log/pass.fail.skip.*
+>>
+>> Can we add ptest to default TEST_SUITES, please ?
+>
+> Is it possible to get an idea of the time impact if we did so?
+
+The ptest cost about 18 minutes (qemux86 +QEMU_USE_KVM) when test
+core-image-sato. My host is 32 core * 2.6GHz, and 128G MEM. I didn't
+customize qemu settings, just used the default.
+
+
+I fixed all your comments and put them into the repo:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/ptest
+   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ptest
+
+Robert Yang (10):
+   oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
+   runtime/cases/_ptest.py: revive it
+   oeqa/utils/logparser.py: add skip status
+   runtime/cases/_ptest.py: add skip status
+   runtime/cases/_ptest.py: rename it to ptest.py
+   utils/logparser.py: fix section check
+   core/target/ssh.py: replace decode errors
+   buildhistory.bbclass: print message when no commit
+   buildhistory.bbclass: add ptest
+   testimage.bbclass: update comments
+
+>
+> Cheers,
+> Paul
+>
 
