@@ -1,20 +1,29 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 158DD78561
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A5E878543
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 00:57:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 31 Jul 2017 17:57:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,304,1498546800"; d="scan'208";a="117922211"
-Received: from wrath.jf.intel.com ([10.54.70.7])
-	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2017 17:57:08 -0700
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Jul 2017 17:56:47 -0700
-Message-Id: <20170801005647.2162-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-Subject: [PATCH] powertop: update to v2.9
+	Tue,  1 Aug 2017 01:51:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v711p704008707
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 31 Jul 2017 18:51:07 -0700 (PDT)
+Received: from [128.224.162.246] (128.224.162.246) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 31 Jul 2017 18:51:07 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1501494496.git.liezhi.yang@windriver.com>
+	<81100738981ef9b5640b16f804f5f89a76ec2a0c.1501494496.git.liezhi.yang@windriver.com>
+	<5041187.DqVND4ltU0@peggleto-mobl.ger.corp.intel.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <326c5e49-67e5-a87f-2f2f-07d41ea423f5@windriver.com>
+Date: Tue, 1 Aug 2017 09:50:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.2.0
+MIME-Version: 1.0
+In-Reply-To: <5041187.DqVND4ltU0@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 09/10] buildhistory.bbclass: add ptest_log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,108 +36,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 00:57:08 -0000
+X-List-Received-Date: Tue, 01 Aug 2017 01:51:07 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Upstream filename added "v" before version:
-  - Add UPSTREAM_CHECK_REGEX
-  - Update SRC_URI to include the "v"
-  - Point ${S} to proper directory
 
-* Patch for required headers no longer needed in current upstream
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- ...0001-include-rquired-headers-for-typedefs.patch | 47 ----------------------
- .../powertop/{powertop_2.8.bb => powertop_2.9.bb}  | 10 +++--
- 2 files changed, 6 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch
- rename meta/recipes-kernel/powertop/{powertop_2.8.bb => powertop_2.9.bb} (77%)
+On 07/31/2017 09:30 PM, Paul Eggleton wrote:
+> Hi Robert,
+>
+> A few minor comments below.
+>
+> On Monday, 31 July 2017 11:50:09 AM CEST Robert Yang wrote:
+>> The ptest log will be saved to buildhistory/ptest_log, we can easily get
+>> the regression result between builds by:
+>> $ git show HEAD ptest_log/pass.fail.skip.*
+>>
+>> [YOCTO #11547]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>  meta/classes/buildhistory.bbclass | 28 ++++++++++++++++++++++++++++
+>>  1 file changed, 28 insertions(+)
+>>
+>> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/
+> buildhistory.bbclass
+>> index a3e4c7a734a..26430a63d31 100644
+>> --- a/meta/classes/buildhistory.bbclass
+>> +++ b/meta/classes/buildhistory.bbclass
+>> @@ -912,3 +912,31 @@ def write_latest_srcrev(d, pkghistdir):
+>>      else:
+>>          if os.path.exists(srcrevfile):
+>>              os.remove(srcrevfile)
+>> +
+>> +do_testimage[postfuncs] += "write_ptest_result"
+>> +do_testimage[vardepsexclude] += "write_ptest_result"
+>> +
+>> +python write_ptest_result() {
+>> +    write_latest_ptest_result(d, d.getVar('BUILDHISTORY_DIR'))
+>> +}
+>> +
+>> +def write_latest_ptest_result(d, histdir):
+>> +    import glob
+>> +    import subprocess
+>> +    test_log_dir = d.getVar('TEST_LOG_DIR')
+>> +    input_ptest_log = os.path.join(test_log_dir, 'ptest_log')
+>> +    output_ptest_log = os.path.join(histdir, 'ptest_log')
+>
+> Would it be reasonable for this to just be "ptest"? To ask the question a
+> different way, would you expect to save other types of ptest information into
+> buildhistory, or is this likely to be it?
 
-diff --git a/meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch b/meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch
-deleted file mode 100644
-index 0fd6310..0000000
---- a/meta/recipes-kernel/powertop/powertop/0001-include-rquired-headers-for-typedefs.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 0856d8145d187a7e5a49625247abe43a13f95acc Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 15 Sep 2015 19:36:28 +0000
--Subject: [PATCH] include rquired headers for typedefs
--
--timeval struct needs to include sys/time.h and sprintf() usage requires
--to include stdio.h headers from system
--
--Fixes
--src/perf/perf_bundle.cpp:141:2: error: use of undeclared identifier 'sprintf'; did you mean 'vswprintf'?
--src/devices/devfreq.h:35:18: error: field has incomplete type 'struct timeval'
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- src/devices/devfreq.h    | 1 +
-- src/perf/perf_bundle.cpp | 1 +
-- 2 files changed, 2 insertions(+)
--
--diff --git a/src/devices/devfreq.h b/src/devices/devfreq.h
--index 16a60fb..4bede7c 100644
----- a/src/devices/devfreq.h
--+++ b/src/devices/devfreq.h
--@@ -25,6 +25,7 @@
-- #ifndef _INCLUDE_GUARD_DEVFREQ_H
-- #define _INCLUDE_GUARD_DEVFREQ_H
-- 
--+#include <sys/time.h>
-- #include "device.h"
-- #include "../parameters/parameters.h"
-- 
--diff --git a/src/perf/perf_bundle.cpp b/src/perf/perf_bundle.cpp
--index cf1ae11..232f894 100644
----- a/src/perf/perf_bundle.cpp
--+++ b/src/perf/perf_bundle.cpp
--@@ -27,6 +27,7 @@
-- #include <algorithm>
-- #include <string.h>
-- #include <stdint.h>
--+#include <stdio.h>
-- #include <sys/types.h>
-- #include <sys/stat.h>
-- #include <fcntl.h>
---- 
--2.5.2
--
-diff --git a/meta/recipes-kernel/powertop/powertop_2.8.bb b/meta/recipes-kernel/powertop/powertop_2.9.bb
-similarity index 77%
-rename from meta/recipes-kernel/powertop/powertop_2.8.bb
-rename to meta/recipes-kernel/powertop/powertop_2.9.bb
-index 4d7a3e7..93ed5ba 100644
---- a/meta/recipes-kernel/powertop/powertop_2.8.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.9.bb
-@@ -6,17 +6,19 @@ DEPENDS = "ncurses libnl pciutils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
- 
--SRC_URI = "http://01.org/sites/default/files/downloads/powertop/powertop-${PV}.tar.gz \
--           file://0001-include-rquired-headers-for-typedefs.patch \
-+SRC_URI = "http://01.org/sites/default/files/downloads/powertop/powertop-v${PV}.tar.gz \
- "
- 
--SRC_URI[md5sum] = "c55fedb69203e480801b18bd7b886241"
--SRC_URI[sha256sum] = "a87b563f73106babfa3e74dcf92f252938c061e309ace20a361358bbfa579c5a"
-+SRC_URI[md5sum] = "583518c5c4434c6e9b9c58c3920950b6"
-+SRC_URI[sha256sum] = "aa7fb7d8e9a00f05e7d8a7a2866d85929741e0d03a5bf40cab22d2021c959250"
- 
- UPSTREAM_CHECK_URI = "https://01.org/powertop/downloads"
-+UPSTREAM_CHECK_REGEX = "powertop-[v]?(?P<pver>\d+(\.\d+)+)\.tar"
- 
- inherit autotools gettext pkgconfig
- 
-+S = "${WORKDIR}/${PN}-v${PV}"
-+
- # we do not want libncursesw if we can
- do_configure_prepend() {
-     # configure.ac checks for delwin() in "ncursesw ncurses" so let's drop first one
--- 
-2.9.4
+I'm not sure atm, so use "ptest" sounds reasonable. I will update it.
 
+>
+>> +    if os.path.exists(input_ptest_log):
+>> +        # Lock it avoid race issue
+>> +        lock = bb.utils.lockfile(output_ptest_log + "/ptest_log.lock")
+>> +        bb.utils.mkdirhier(output_ptest_log)
+>> +        oe.path.copytree(input_ptest_log, output_ptest_log)
+>> +        # Sort test result
+>> +        for result in glob.glob('%s/pass.fail.*' % output_ptest_log):
+>> +            bb.debug(1, 'Processing %s' % result)
+>> +            cmd = "sort %s -o %s" % (result, result)
+>> +            bb.debug(1, 'Running %s' % cmd)
+>> +            ret = subprocess.call(cmd, shell=True)
+>
+> As a matter of good practice and since it's easy to do here I'd suggest not
+> using shell=True and passing the command as a list instead, that way there
+> can't be any issues with spaces or other shell interpretations.
+
+Thanks, I will update it.
+
+>
+>> +            if ret != 0:
+>> +                bb.error('Failed to run %s!' % cmd)
+>> +        bb.utils.unlockfile(lock)
+>
+> Shouldn't you be using try...finally here to ensure the lockfile gets unlocked
+> in the case of exceptions?
+
+Yes, good idea.
+
+// Robert
+
+>
+> Cheers,
+> Paul
+>
+>
 
