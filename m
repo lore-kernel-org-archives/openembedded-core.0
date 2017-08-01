@@ -1,49 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 64B76785BD
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 418CF7846A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 21:57:01 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id q189so465976wmd.0
+	Tue,  1 Aug 2017 00:14:35 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id l64so178939pge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Jul 2017 14:57:03 -0700 (PDT)
+	Mon, 31 Jul 2017 17:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TG3T3yyJw4cfV0EHuQmqrDCOxJXiTOx8LZo3adxMiNo=;
-	b=ONKx04fC/U21dinFUjM/yzYCecgn9Y/+EKu15zylcg7UV8UK9GiB77wMj6fziqrTUc
-	DhrwQv7TCs8M/ifcS1pkmmM0uCvG5Dq8uU0O27hCtoX40GI9deOPFn8RhcY//0vpm42C
-	DVVNgNqum+EOi+Xr973xuM2hS5TtDbkcI6rD2AHtF/WV2rbkCFZS1QaKP3sL58EBwD/r
-	eooyEXJ/XnfJjwUifD1eB+OMy6i2BRBxsxbzsS/xf76OKGiS5LbkstDK3WfVnjAdV7Qf
-	z3y6/aBpnl7LRvnWWamu4qYyXaS9jVr9ISQK2oh/l3oae04VYUQZrr2STWuccBhLLUy6
-	u4tQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=9AyTrqArk/Sn+fG6whBKdhxH5+HTQR845Kls3NQaO9g=;
+	b=Uwg0adsxPGow9KSICYBtEMajScUTPaFua0byeKQfGm/GnfLVU4HFZ8x4WQS5rw6KNb
+	L/1wrqPF3pkN0GZbNE7ep0KsucLuA9ELwpSkDbl0AIDJGFDVxRoiYRNOC0vAHMMpk7ie
+	SJzSdFIiuV9n/jt6GgMPG2Dr6FWbUvse5l4GfAzDXdTLbUCpb0gtW14IPN01MeGHfAdf
+	//+B6SiH8kuAmw6HxZoRHjTtIG/XQTETJYkz+l4R2hqtPIbKyaJhsnyxUMhAYXNjUjCO
+	///jGutmxduzRbSxoynYeiQXTeEMSYNMJ7KZTk8axAiVSWdWRfI+cetpufFCYDRytOQ1
+	3N3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TG3T3yyJw4cfV0EHuQmqrDCOxJXiTOx8LZo3adxMiNo=;
-	b=By9UvCuhMvt6nx7waTVsAvSIcvxEisPcm1z9L8U8YE/6faKTJsaPe5BeeRz8Y005a0
-	gcot21BIdn50RH/cu8hI1FTRG+NMgLABu1kCUCQKuLw2Mhj7DiSwrxs94CuLfwdH+ONE
-	cB7Uxu+ySnC5T8ocg4VMGuI7XOB3FGK7QWg0JP0NQY1Yv672Cx6nF5LBx/EDD1LUm2NP
-	a9Oav7u4R/YPWYyhiW9+5qmqIpraPgOGk1836IcB4om4OFPOflo/ZFsbAdJM1bfVHNKF
-	TglxfvaalC5Dr+ICdrjSFJxQjnBJ/fte2fjEnKlKPT+N4E1L+I0c3e9ZEhUCiNi/m7Rc
-	YHGw==
-X-Gm-Message-State: AIVw112lwrpu81jMy8EXsfE2dTVrR3BsRooaW7/RMyt3axPOIZ/6T1QV
-	Cv4KyuCBJt0XdDPn5tAMLzlgIvGmYQ==
-X-Received: by 10.80.147.197 with SMTP id o63mr15927911eda.194.1501538222934; 
-	Mon, 31 Jul 2017 14:57:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.149.181 with HTTP; Mon, 31 Jul 2017 14:56:32 -0700 (PDT)
-In-Reply-To: <CALatG=5yu+0gVSg0dEOY-Yt1SftLWY9iweuzzVMj3D29U0XvaA@mail.gmail.com>
-References: <1500730246-25592-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LaGMPJj-=c7FarWJAULoCJfSjouPKNSweMAaf-g38toJg@mail.gmail.com>
-	<CAMKF1soLq6tFwDKBhs_5DxHrNeWr_Hv8kYSvABYsTW_BvgfpKQ@mail.gmail.com>
-	<CALatG=5yu+0gVSg0dEOY-Yt1SftLWY9iweuzzVMj3D29U0XvaA@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9AyTrqArk/Sn+fG6whBKdhxH5+HTQR845Kls3NQaO9g=;
+	b=fJBr0jTjfQ2/45vyX2oZ3n8qMEwTAI12CliUPCRcHwXfxUZoorNA+KARdJ3tUjetrY
+	6XUCQXEb5intNfheU0bdlPD0IS7cxpSOH4GsZ8XN1twKGvp+rLBD9JCTvvDu1brAVJjH
+	S5hzVhAHQH4V6ZB6kjxvA/JAY0lVdtBdQf5BI5ngFk2IhOwb1nrIZhSmy8Ij6h2/ENuv
+	UwyjRS40bnQNMvzLepPA/ZrRX0NRvNmk56SPeH2DT69KzQJeKsfoYfWPs2XjuPCr4z10
+	blpfM1Hj/mmsac8ubxH+t7uaVkvsz3i1ZSPaseKv/tWPT5A7yTBfIe/By6H8uKDkPokj
+	dF4Q==
+X-Gm-Message-State: AIVw112OV9lxTabIslYuT9TwDWW8FCxE3o1D0FtxEzK52Mb8BP+zxfIN
+	llZINV3V+yNx3qFp
+X-Received: by 10.101.77.6 with SMTP id i6mr17076073pgt.181.1501546476348;
+	Mon, 31 Jul 2017 17:14:36 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::1f6f])
+	by smtp.gmail.com with ESMTPSA id
+	m76sm16384747pfk.11.2017.07.31.17.14.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 31 Jul 2017 17:14:35 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 31 Jul 2017 14:56:32 -0700
-Message-ID: <CAMKF1sqBnmmVEDB1GE3ei8=skkyRXc_igD_=_xEcwwOnANspaQ@mail.gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] tclibc-musl.inc: fix bfd "cannot make copy relocation for protected symbol" issues
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Jul 2017 17:14:25 -0700
+Message-Id: <20170801001425.14860-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH] mesa,llvm: Use native version of llvm-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,92 +52,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Jul 2017 21:57:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 01 Aug 2017 00:14:35 -0000
 
-On Tue, Jul 25, 2017 at 1:07 AM, Ming Liu <liu.ming50@gmail.com> wrote:
-> Hi, Burton:
->
-> I also agree with you, your suggestion is better.
->
-> Hi, Khem:
->
-> But is this a bug of binutils? Or musl libc? Since I had only observed this
-> error with musl libc only, it did not occur with glibc.
->
+We have a variable YOCTO_ALTERNATE_EXE_PATH to point to
+target sysroot, utilize this in mesa to use native version
+of llvm-config to report values from target sysroot.
 
-Please try out a tentative patch here
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=11679#c4
+Its in a way similar to --sysroot option
 
-> //Ming Liu
->
-> 2017-07-24 15:39 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
->>
->> On Mon, Jul 24, 2017 at 6:18 AM, Burton, Ross <ross.burton@intel.com>
->> wrote:
->> > If we're going to silently change the linker to bfd under musl if
->> > ld-is-gold
->> > is selected, wouldn't it be better just to throw an exception if both
->> > musl
->> > and ld-is-gold are selected?  Better to tell the user so they can not do
->> > that than silently ignore what they asked.
->>
->> yes, that would be better but I am skeptical of disabling it
->> completely, we should
->> create testcase and report it to binutils bugzilla
->>
->>
->> >
->> > Ross
->> >
->> > On 22 July 2017 at 14:30, <liu.ming50@gmail.com> wrote:
->> >>
->> >> From: Ming Liu <peter.x.liu@external.atlascopco.com>
->> >>
->> >> Quite a few such compiling issues were found when I was building with
->> >> following configs:
->> >> ...
->> >> MACHINE = "beaglebone"
->> >> TCLIBC = "musl"
->> >> DISTRO_FEATURES_append = " ld-is-gold"
->> >> ...
->> >>
->> >> fixed by adding bfd binding now ldflags.
->> >>
->> >> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
->> >> ---
->> >>  meta/conf/distro/include/tclibc-musl.inc | 4 ++++
->> >>  1 file changed, 4 insertions(+)
->> >>
->> >> diff --git a/meta/conf/distro/include/tclibc-musl.inc
->> >> b/meta/conf/distro/include/tclibc-musl.inc
->> >> index 3d3f6ac..99d52a1 100644
->> >> --- a/meta/conf/distro/include/tclibc-musl.inc
->> >> +++ b/meta/conf/distro/include/tclibc-musl.inc
->> >> @@ -18,6 +18,10 @@ PREFERRED_PROVIDER_virtual/nativesdk-libiconv ?=
->> >> "nativesdk-glibc"
->> >>
->> >>  CXXFLAGS += "-fvisibility-inlines-hidden"
->> >>
->> >> +# Workaround for musl libc does not support bfd lazy binding well
->> >> +# Refer to: https://bugzilla.yoctoproject.org/show_bug.cgi?id=11679
->> >> +LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold',
->> >> '-Wl,-z,relro,-z,now -fuse-ld=bfd', '', d)}"
->> >> +
->> >>  IMAGE_LINGUAS = ""
->> >>
->> >>  LIBC_DEPENDENCIES = "\
->> >> --
->> >> 2.7.4
->> >>
->> >
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >
->
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/llvm/llvm_git.bb | 12 +++++++-----
+ meta/recipes-graphics/mesa/mesa.inc    |  6 +++---
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 5dcb508c23..5e754e45dc 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -87,12 +87,12 @@ do_compile() {
+ }
+ 
+ do_compile_class-native() {
+-	NINJA_STATUS="[%p] " ninja -v ${PARALLEL_MAKE} llvm-tblgen
++	NINJA_STATUS="[%p] " ninja -v ${PARALLEL_MAKE} llvm-config llvm-tblgen
+ }
+ 
+ do_install() {
+ 	NINJA_STATUS="[%p] " DESTDIR=${LLVM_INSTALL_DIR} ninja -v install
+-	install -D -m 0755 ${B}/NATIVE/bin/llvm-config ${D}${libdir}/${LLVM_DIR}/llvm-config-host
++	install -D -m 0755 ${B}/bin/llvm-config ${D}${libdir}/${LLVM_DIR}/llvm-config
+ 
+ 	install -d ${D}${bindir}/${LLVM_DIR}
+ 	cp -r ${LLVM_INSTALL_DIR}${bindir}/* ${D}${bindir}/${LLVM_DIR}/
+@@ -121,7 +121,9 @@ do_install() {
+ 	rm -rf ${D}${libdir}/${LLVM_DIR}/libLTO.so
+ }
+ do_install_class-native() {
+-	install -D -m 0755 ${B}/bin/llvm-tblgen ${D}${bindir}/llvm-tblgen
++	install -D -m 0755 ${B}/bin/llvm-tblgen ${D}${bindir}/llvm-tblgen-5.0
++	install -D -m 0755 ${B}/bin/llvm-config ${D}${bindir}/llvm-config-5.0
++	install -D -m 0755 ${B}/lib/libLLVM-5.0.so ${D}${libdir}/libLLVM-5.0.so
+ }
+ 
+ PACKAGES += "${PN}-bugpointpasses ${PN}-llvmhello"
+@@ -134,14 +136,14 @@ FILES_${PN}-dbg = " \
+     ${libdir}/${LLVM_DIR}/.debug/BugpointPasses.so \
+     ${libdir}/${LLVM_DIR}/.debug/LLVMHello.so \
+     ${libdir}/${LLVM_DIR}/.debug/libLTO.so* \
+-    ${libdir}/${LLVM_DIR}/.debug/llvm-config-host \
++    ${libdir}/${LLVM_DIR}/.debug/llvm-config \
+     /usr/src/debug \
+ "
+ 
+ FILES_${PN}-dev = " \
+     ${bindir}/${LLVM_DIR} \
+     ${includedir}/${LLVM_DIR} \
+-    ${libdir}/${LLVM_DIR}/llvm-config-host \
++    ${libdir}/${LLVM_DIR}/llvm-config \
+ "
+ 
+ RRECOMMENDS_${PN}-dev += "${PN}-bugpointpasses ${PN}-llvmhello"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index c9b67d4966..b0f9410e36 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -25,8 +25,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
+ PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
+                ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)}"
+ 
+-export LLVM_CONFIG = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config-host"
+-
++export LLVM_CONFIG = "${STAGING_BINDIR_NATIVE}/llvm-config-${MESA_LLVM_RELEASE}"
++export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
+ EXTRA_OECONF = "--enable-shared-glapi \
+                 --disable-opencl \
+                 --with-llvm-prefix=${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE} \
+@@ -75,7 +75,7 @@ GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-l
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+ PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+ MESA_LLVM_RELEASE ?= "5.0"
+-PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} \
++PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+ PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
+-- 
+2.13.3
+
 
