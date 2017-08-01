@@ -1,46 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 71D64606CA
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B43D783D5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 13:58:34 +0000 (UTC)
-Received: by mail-wm0-f53.google.com with SMTP id m85so15653945wma.1
+	Tue,  1 Aug 2017 14:02:59 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id x64so3218089wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 06:58:36 -0700 (PDT)
+	Tue, 01 Aug 2017 07:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Q89xZC1ZCA/gbXxqzaLhYQJocMvu2Bi6yB578QK9RnM=;
-	b=Iqapky8s4XuB5zg3Crqfhmu2zdpkPSHl8j85gW3YVQvEDPMO0Qo8S258BjBQ85VNG+
-	DfvkSNkZtVF7VeV3bZLfNNilTGcPYk8y/EQIsQf6mQDUIpvHGfuff4KVBIyjsNzOjc/E
-	mCU++3IKkyjHOHkv8AnuYGgC4pq6b3IsqK7oQTQpNRYDxBBsKh2sOMMbb5d3D5pDfLtB
-	poNNxmdDQjl8A3+mnU/MvAkuYe5sQfWLpmf9QJIZ143K8MYtZmqcuuTr7zd3t50KM91j
-	H4407GZsrYATH2i0U6XETp2yBb9KbzeWvdSRyXgPQ/7+dst32imGXmANUe1SuF8yWK6I
-	WhPA==
+	:cc; bh=Ekc8vaYoWMyOlB2CsFTlkyMdk2uyWfgqSD9Wk9l5qws=;
+	b=PBmJ2izyMHux/DEVma/w3SdkQeSAa1Kwo+Gx3MObY2UpqldRnaKVozBvObyz3b+tQK
+	xAfMQkmLjV8XiWLMbxzEGTQtQAVw27Pa2k3gJdTAqkdyY0rnk3ICEEKv5C+GReKvmjb+
+	vOzUNauhCNR8zybZmI2uWi9FqDRgNBLiWBCA9puh/0IGcn3aLw3xIN//8L9BElYhDCGO
+	FXAzflcDahHyke4/gWVNVSSj4ARQX/LpBx9W+YJv6Zqx8ISimVJlcSQ7xiGZMkIX0Tlp
+	cApK8xbFumapGKeVu00qJTXz6qKwp0JYpNta0u96wnojvdSSsLzMSyOmgppl+vMln39g
+	qjgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Q89xZC1ZCA/gbXxqzaLhYQJocMvu2Bi6yB578QK9RnM=;
-	b=N1Segx+VnX5KSk6hvu8HK0waKcrd+yjdicvO1dMkbB2DeVR91hFURDwyyyuq5Tyex8
-	A1Gs03O9ySDHsiM0/unt4Z6P8LuAc/DxsXctKxBOD+94xbEM7xzJIJHCAtG0rhKP3h5C
-	yLQe8fFft09ukLTKV0tfQWFNZkZ22GCRzQQkk16W9G7hsBV6nvVEio7W+T3953Co27nO
-	ih42Mz6mY6J+auY+48GpHhmNNRldcInxl/0UkJlrGAfBgb3s5wAXjWWvKN/glV9FS5LU
-	PeD2WNEW+l/CbDhLD2SridKyw1F1qgj8oJudIjKi1n6OpcLOHF5FKmEXwEXaZrclKWEd
-	nibA==
-X-Gm-Message-State: AIVw112F2hg8brYfsbbD51rwau97c1gC2e5JnoT6snR3N8ESD7qv/x3I
-	mb0IacOHRmu3TYy+mNP2pldwJw08oQ==
-X-Received: by 10.80.145.38 with SMTP id e35mr18343709eda.8.1501595915354;
-	Tue, 01 Aug 2017 06:58:35 -0700 (PDT)
+	bh=Ekc8vaYoWMyOlB2CsFTlkyMdk2uyWfgqSD9Wk9l5qws=;
+	b=j96mvWX7kThbplafkx98S3+3K5naRJyz9PNZ7HdaybfMsP+vmXvnP2HY2Kc0hIfPa0
+	tE59VpY8vYTMaiLdnHR2uqEiGhjaGTTmOYyofpUoYPvoFkT2r4fGpa7IBuWcJ8eMG6yU
+	/qbZZDddBMGV5VDVniidzQKJ/SItw7In5/TcKY8jvdVr17XlPpnJVLoq0o/5Q5tsaOvS
+	bAQrweWtw/L3oFIEIgazRccYVshXXMGdN+FKdPHRbBJb1s9hwhm1I4CPMGEtlQmCnoML
+	GCAQf94DF7o+mHSffslzvopLwAs/wN8galQmCzRJUO5225oQtV6XyF3n2rY863uzgeiv
+	288g==
+X-Gm-Message-State: AIVw113GNWyUrJV1TUXG5e2uYnWlQAtz56UJiZ47nYsUjBhPpLa9iv4m
+	//15hXcad2TtTUQL595oJ9hjG17GJQ==
+X-Received: by 10.80.159.227 with SMTP id c90mr11610638edf.11.1501596179654;
+	Tue, 01 Aug 2017 07:02:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.149.181 with HTTP; Tue, 1 Aug 2017 06:58:04 -0700 (PDT)
-In-Reply-To: <CAJTo0LbrPuF8c+BnhCjaVU=uyyjqZnPp7o48dgUx1B+rWR8TCA@mail.gmail.com>
-References: <20170801002347.23800-1-raj.khem@gmail.com>
-	<CAJTo0LbrPuF8c+BnhCjaVU=uyyjqZnPp7o48dgUx1B+rWR8TCA@mail.gmail.com>
+Received: by 10.80.149.181 with HTTP; Tue, 1 Aug 2017 07:02:29 -0700 (PDT)
+In-Reply-To: <CAJTo0LYQdCtUHo6Af_UkcBOQnuevUwcMS+445oBm=DPGwPRBmg@mail.gmail.com>
+References: <20170728180734.1920-1-otavio@ossystems.com.br>
+	<CAJTo0LbhyV1g4w4PG_hxMEioTTJdthaDvmgQhU-r2V-w3RHLeA@mail.gmail.com>
+	<CAP9ODKqb2hLkkLpbnTSRnGHPRcczZqn_g=Uythiey8Tz+Y_Gcw@mail.gmail.com>
+	<adac39d9-b395-9f8d-5af0-8882e2136140@gmail.com>
+	<CAP9ODKrs_qij8v+q9ViZtW_rT0c9W02YcqQ+gAV1Y8DmWaz4sg@mail.gmail.com>
+	<CAJTo0LYQdCtUHo6Af_UkcBOQnuevUwcMS+445oBm=DPGwPRBmg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 1 Aug 2017 06:58:04 -0700
-Message-ID: <CAMKF1sq6p3rLaNyYqAVpFhjXmVRkEKwz01aJS3w39HNf3hZ1+g@mail.gmail.com>
+Date: Tue, 1 Aug 2017 07:02:29 -0700
+Message-ID: <CAMKF1sqMqK1YR_aL-O3Vv4-Bw07HCWnbXMnMOwsAOGP_991j+A@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] mesa, llvm: Use native version of llvm-config
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go-dep: Add 0.2.0 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,32 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 13:58:34 -0000
+X-List-Received-Date: Tue, 01 Aug 2017 14:03:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 1, 2017 at 3:44 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> ERROR: llvm-5.0-r0 do_compile: Function failed: do_compile (log file is
-> located at
-> /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/temp/log.do_compile.4542)
-> ERROR: Logfile of failure stored in:
-> /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/temp/log.do_compile.4542
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | ninja: error:
-> '/data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/recipe-sysroot-native/usr/bin/llvm-tblgen',
-> needed by 'include/llvm/IR/Attributes.gen.tmp', missing and no known rule to
-> make it
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_compile (log file is located at
-> /data/poky-tmp/master/build/work/corei7-64-poky-linux/llvm/5.0-r0/temp/log.do_compile.4542)
-> ERROR: Task
-> (/home/ross/Yocto/poky/meta/recipes-devtools/llvm/llvm_git.bb:do_compile)
-> failed with exit code '1'
+On Tue, Aug 1, 2017 at 6:50 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Verifying this here.
+>
+> Building for qemuarm puts the binary in /usr/bin/dep.  Building for
+> intel-corei7-64 puts the binary in /usr/lib/x86_64-poky-linux/go/bin/dep.
+>
 
-yes, just realized that I was building it with a build where
-meta-clang is included and TOOLCHAIN = "clang"
-so it was getting llvm-tblgen from clang when llvm-native version got
-renamed so it kept on building for me.
-I have sent a next rev of the patches which addresses this issue as
-well as your comment.
+may be configure logs can tell why is it making this distinction.
+Since we are not building
+for multiarch, using /usr/bin/dep might be ok
+
+> Ross
+>
+> On 31 July 2017 at 20:52, Otavio Salvador <otavio.salvador@ossystems.com.br>
+> wrote:
+>>
+>> On Mon, Jul 31, 2017 at 4:20 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> >
+>> >
+>> > On 7/31/17 12:12 PM, Otavio Salvador wrote:
+>> >> Hello Ross,
+>> >> Hello Khem,
+>> >>
+>> >> On Sat, Jul 29, 2017 at 3:28 PM, Burton, Ross <ross.burton@intel.com>
+>> >> wrote:
+>> >>> Failed in the no-x11 builder at least so far:
+>> >>>
+>> >>> ERROR: go-dep-0.2.0-r0 do_package: QA Issue: go-dep: Files/directories
+>> >>> were
+>> >>> installed but not shipped in any package:
+>> >>>   /usr/lib/x86_64-poky-linux/go/bin/dep
+>> >>> Please set FILES such that these items are packaged. Alternatively if
+>> >>> they
+>> >>> are unneeded, avoid installing them or delete them within do_install.
+>> >>>
+>> >>>
+>> >>> https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/builds/537
+>> >>
+>> >> I did reproduce this; I could only reproduce it if I built it with a
+>> >> machine which matches the architecture of host, in my case x86-64.
+>> >> When building for other arch (e.g: ARM) it works as expected.
+>> >>
+>> >> The problem seems to be a generic problem and I am not experienced
+>> >> enough on the Golang toolchain to look at this. Khem could you take a
+>> >> look and see if you find the root cause?
+>> >
+>> > Delete this file, its building it on x86_64 because it can. We only need
+>> > cross version.
+>>
+>> I am not sure I follow you here.
+>>
+>> Using qemux86-64 as target it does NOT install on ${bindir} and
+>> surprisingly the installation path does also not match GOBIN_FINAL
+>> value.
+>>
+>> --
+>> Otavio Salvador                             O.S. Systems
+>> http://www.ossystems.com.br        http://code.ossystems.com.br
+>> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
+>
 
