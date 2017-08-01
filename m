@@ -1,55 +1,24 @@
-Return-Path: <ian.arkver.dev@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FE4060017
+Return-Path: <maxin.john@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 1612C782E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 09:50:18 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id y43so936415wrd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 02:50:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:cc:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=WHjHQ2u6yHqdCGQpagDOYA4t2P3UdpePLr6nbtiswts=;
-	b=BEsrG6tyXD2bWg4YaxlxSoY0kUyWDTVpxSGq+E9DcfD5EtTMFFoaswnYhnXwFtvZ7f
-	nXz44dF4djvaAAGU/U4uK8m2BdJCMx1lmrZe9Z6UYJDqPiL3DtPpqUpIZTcyp0mUysQd
-	uq0WgC4RRypzmZTx16NqRwJPgTo7xFRgU8vU3zKPrYYAvqOF0WbCQhQjdOH6WfC3XlcE
-	eMDO/1R4zNPGNTVWdnHYhdc4qISkJ2wZfnkF9WfxmLpU/R/RXowsAEh76y/4UlreFSo2
-	4Hjp2mflLDQMOy2S944EET/q8wJ50X7EFLxqLN9nVYo1IqxBr0fCzLfxEiNsJIKxeOmi
-	4yUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:cc:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=WHjHQ2u6yHqdCGQpagDOYA4t2P3UdpePLr6nbtiswts=;
-	b=iABOsSM1zsJk05OfxqyXmvjTCbW5m0IeHFvNihtFBHPoG+mwkqJR8PZl5/jSsvi2Nc
-	BXeP9mR8NJFlCKzztm28ey/oJCWppuQgPj7VXYFWHm9+2ZTOYm/JBEAAzwMcbiTFZbtL
-	LPNopCS30AOYxlyBRwzcXG3B9AvM7Jma47AMGtoA8PILbWL4wOe3PBy8rlLUC9TSHoeC
-	RGjsOsvZS0QhjBUXSBeWgnShnjNrim9fEHdq6y/psa89ByKQRDxqhrwJKGT+Pm5OwshD
-	L5kxtsQqt5Y3y5M0dEeregFhTnqrTT6R67/ibkxgXuKJos1YFnDD+pJXIRU/9FPaB2WM
-	w5dA==
-X-Gm-Message-State: AIVw112IX6rUL/sdE4NkzbccZZTMgwDhXEB7u0534arfL7kDhcIdCn/7
-	2sQ/fOfIY69yGw==
-X-Received: by 10.223.152.172 with SMTP id w41mr6740554wrb.202.1501581019400; 
-	Tue, 01 Aug 2017 02:50:19 -0700 (PDT)
-Received: from [192.168.19.15] ([95.147.75.135])
-	by smtp.googlemail.com with ESMTPSA id
-	r108sm17159839wrb.29.2017.08.01.02.50.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Aug 2017 02:50:18 -0700 (PDT)
-To: Anton Novikov <a.novikov@yadro.com>,
-	openembedded-core@lists.openembedded.org
-References: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-From: Ian Arkver <ian.arkver.dev@gmail.com>
-Message-ID: <9d9d1ea9-d594-e08d-9e17-858b10a1aeca@gmail.com>
-Date: Tue, 1 Aug 2017 10:50:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Subject: Re: [PATCHv2] (morty) Arch Linux build fixes
+	Tue,  1 Aug 2017 10:11:59 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga105.jf.intel.com with ESMTP; 01 Aug 2017 03:12:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,305,1498546800"; d="scan'208";a="885003365"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Aug 2017 03:12:00 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id ED38C5805B3;
+	Tue,  1 Aug 2017 03:11:59 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Aug 2017 13:13:10 +0300
+Message-Id: <1501582390-17482-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [morty][PATCH v2] libpng12: move SRC_URI back to SOURCEFORGE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,20 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 09:50:18 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Aug 2017 10:12:00 -0000
 
-On 21/06/17 10:05, Anton Novikov wrote:
-> [3 patch attachments]
+Since GENTOO_MIRROR removes older binaries, move back to
+SOURCEFORGE_MIRROR. Also provide a MIRROR to "older-releases"
+directory.
 
-Any word on getting these patches applied to Morty? Is anything blocking
-them? Maybe they need resubmitted as individual patches?
+[YOCTO #11556]
 
-They do seem to apply cleanly on the current tip of morty
-(7d5822bf4c) and do fix various automake and gcc7 host build failures.
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-lsb4/libpng/libpng12_1.2.56.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Regards,
-Ian
+diff --git a/meta/recipes-lsb4/libpng/libpng12_1.2.56.bb b/meta/recipes-lsb4/libpng/libpng12_1.2.56.bb
+index 10c350a..277d69f 100644
+--- a/meta/recipes-lsb4/libpng/libpng12_1.2.56.bb
++++ b/meta/recipes-lsb4/libpng/libpng12_1.2.56.bb
+@@ -9,7 +9,11 @@ DEPENDS = "zlib"
+ PN = "libpng12"
+ S = "${WORKDIR}/libpng-${PV}"
+ 
+-SRC_URI = "${GENTOO_MIRROR}/libpng-${PV}.tar.xz"
++LIBV = "12"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz"
++
++MIRRORS += "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/ ${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/older-releases/${PV}"
+ 
+ SRC_URI[md5sum] = "868562bd1c58b76ed8703f135a2e439a"
+ SRC_URI[sha256sum] = "24ce54581468b937734a6ecc86f7e121bc46a90d76a0d948dca08f32ee000dbe"
+-- 
+2.4.0
+
 
