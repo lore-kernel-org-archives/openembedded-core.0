@@ -1,52 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A7BE878335
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F19AC783BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 13:50:37 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id j32so8503104iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 06:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=b2TZDbfLCGk1qMC/9uu3oYnnQVDcCs5FfpxJp/tRqAs=;
-	b=JJlugODMUt1qKu2ttr02W+3pt7ZPOY2GUtXO+xtDKDJu5KNlutAfF++c8xCJcDDExD
-	c2U15b4joSSVmUP/2M4BI4Stgtu4jxFiw8L8hozHPKMDt7UxB5bCPnqTFrCd+8VX5HM9
-	wABa/KtQ4psSyVvNLM5za4aMBhsfF26WpSjPieUJzsJ6AWEng5NIAYBklvNYalSBNCE1
-	9XXuCVwjTeG4QvK2Fvu8tJIJTjEGKfBwco3CJo2a+qb+2526fq0yWZbWOTDMEC6Yc/Dj
-	EIkInSNfR/qf3IdMCjeAqENRhnSUmXniDOSNjenJSONuxnI8qJa371+T1OwhHvXQ2HwB
-	a4/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=b2TZDbfLCGk1qMC/9uu3oYnnQVDcCs5FfpxJp/tRqAs=;
-	b=HtVlLwCzp2VMSVhaVtKsbkMn6Oyd3s8BW4IOyrl044soK2qSwxDl9gKi9InKXvc8zJ
-	Qz6nO285eFVe7EKSfuw5TYU2DWioB+WemnUOK+xahgzwWbjdKF9VyUmTmvhfDz6kluhH
-	5BbQh9KPpeE8e8ehMmanBab4KzPAwaH9zmnTI9zRKxMC4Xk9+8DTchX1lYrxjbMfXyOo
-	YSI2fRy0cjzMuyyFPZ6dH2mrugwEVWZQ4YzM45MEfg3Rbjclq2rKb1nw1gbMppFiREJP
-	Rho11sJznN3pjaZVfQaKoUwRee0ImkabG9/y0fL9d/xSJ8u9N3nlrJNjOnPrDq9P5uvH
-	BXMw==
-X-Gm-Message-State: AIVw11178Abfezc5f4mte4z6SdVG+Efm75I5ltU/MWdQMbZZ2xT8ijsx
-	GTrY9MfFE5TVDWIRmfR6HzEVcJ+TPUbL
-X-Received: by 10.107.132.33 with SMTP id g33mr21614550iod.300.1501595437765; 
-	Tue, 01 Aug 2017 06:50:37 -0700 (PDT)
+	Tue,  1 Aug 2017 13:51:22 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v71DpMfK009388
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Aug 2017 06:51:22 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 1 Aug 2017 06:51:22 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Aug 2017 09:51:12 -0400
+Message-ID: <1501595472-15503-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Tue, 1 Aug 2017 06:50:17 -0700 (PDT)
-In-Reply-To: <CAP9ODKrs_qij8v+q9ViZtW_rT0c9W02YcqQ+gAV1Y8DmWaz4sg@mail.gmail.com>
-References: <20170728180734.1920-1-otavio@ossystems.com.br>
-	<CAJTo0LbhyV1g4w4PG_hxMEioTTJdthaDvmgQhU-r2V-w3RHLeA@mail.gmail.com>
-	<CAP9ODKqb2hLkkLpbnTSRnGHPRcczZqn_g=Uythiey8Tz+Y_Gcw@mail.gmail.com>
-	<adac39d9-b395-9f8d-5af0-8882e2136140@gmail.com>
-	<CAP9ODKrs_qij8v+q9ViZtW_rT0c9W02YcqQ+gAV1Y8DmWaz4sg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 1 Aug 2017 14:50:17 +0100
-Message-ID: <CAJTo0LYQdCtUHo6Af_UkcBOQnuevUwcMS+445oBm=DPGwPRBmg@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] go-dep: Add 0.2.0 release
+Subject: [PATCH v2] python: don't include -tests with modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,139 +30,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 13:50:37 -0000
-Content-Type: multipart/alternative; boundary="001a113ed2e8aa34690555b16e69"
-
---001a113ed2e8aa34690555b16e69
+X-List-Received-Date: Tue, 01 Aug 2017 13:51:23 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Verifying this here.
+Although 'test' is listed in the python module list
+(https://docs.python.org/3/py-modindex.html) it is meant only to be
+used 'internally' by folks developing python itself. Per the
+documentation:
 
-Building for qemuarm puts the binary in /usr/bin/dep.  Building for
-intel-corei7-64 puts the binary in /usr/lib/x86_64-poky-linux/go/bin/dep.
+  Note The test package is meant for internal use by Python only. It
+  is documented for the benefit of the core developers of Python. Any
+  use of this package outside of Python’s standard library is
+  discouraged as code mentioned here can change or be removed without
+  notice between releases of Python.
 
-Ross
+Per the above it is best not to include this module to discourage
+folks who might not head the above warnings. Additionally this module
+is one of the largest py modules going, by dropping this unneeded
+module from the 'modules' package we can reduce overall image size,
+something which is important for many embedded deployments.
 
-On 31 July 2017 at 20:52, Otavio Salvador <otavio.salvador@ossystems.com.br>
-wrote:
+The generator scripts as well as the manifests have thus been modified
+accordingly, providing a generic mechanism to exclude modules from the
+'all modules' package.
 
-> On Mon, Jul 31, 2017 at 4:20 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> >
-> > On 7/31/17 12:12 PM, Otavio Salvador wrote:
-> >> Hello Ross,
-> >> Hello Khem,
-> >>
-> >> On Sat, Jul 29, 2017 at 3:28 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> >>> Failed in the no-x11 builder at least so far:
-> >>>
-> >>> ERROR: go-dep-0.2.0-r0 do_package: QA Issue: go-dep: Files/directories
-> were
-> >>> installed but not shipped in any package:
-> >>>   /usr/lib/x86_64-poky-linux/go/bin/dep
-> >>> Please set FILES such that these items are packaged. Alternatively if
-> they
-> >>> are unneeded, avoid installing them or delete them within do_install.
-> >>>
-> >>> https://autobuilder.yoctoproject.org/main/builders/nightly-no-x11/
-> builds/537
-> >>
-> >> I did reproduce this; I could only reproduce it if I built it with a
-> >> machine which matches the architecture of host, in my case x86-64.
-> >> When building for other arch (e.g: ARM) it works as expected.
-> >>
-> >> The problem seems to be a generic problem and I am not experienced
-> >> enough on the Golang toolchain to look at this. Khem could you take a
-> >> look and see if you find the root cause?
-> >
-> > Delete this file, its building it on x86_64 because it can. We only need
-> > cross version.
->
-> I am not sure I follow you here.
->
-> Using qemux86-64 as target it does NOT install on ${bindir} and
-> surprisingly the installation path does also not match GOBIN_FINAL
-> value.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
 
---001a113ed2e8aa34690555b16e69
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+*** v2 ****
+Updated the generator script missed in the v1 and pointed out
+by RP.
 
-<div dir=3D"ltr">Verifying this here.<div><br></div><div>Building for qemua=
-rm puts the binary in /usr/bin/dep.=C2=A0 Building for intel-corei7-64 puts=
- the binary in=C2=A0/usr/lib/x86_64-poky-linux/go/bin/dep.</div><div><br></=
-div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail=
-_quote">On 31 July 2017 at 20:52, Otavio Salvador <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.s=
-alvador@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Mon, Jul 31, 2017 at 4:20 =
-PM, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</=
-a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 7/31/17 12:12 PM, Otavio Salvador wrote:<br>
-&gt;&gt; Hello Ross,<br>
-&gt;&gt; Hello Khem,<br>
-&gt;&gt;<br>
-&gt;&gt; On Sat, Jul 29, 2017 at 3:28 PM, Burton, Ross &lt;<a href=3D"mailt=
-o:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt;&gt;&gt; Failed in the no-x11 builder at least so far:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; ERROR: go-dep-0.2.0-r0 do_package: QA Issue: go-dep: Files/dir=
-ectories were<br>
-&gt;&gt;&gt; installed but not shipped in any package:<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0/usr/lib/x86_64-poky-linux/go/<wbr>bin/dep<br>
-&gt;&gt;&gt; Please set FILES such that these items are packaged. Alternati=
-vely if they<br>
-&gt;&gt;&gt; are unneeded, avoid installing them or delete them within do_i=
-nstall.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; <a href=3D"https://autobuilder.yoctoproject.org/main/builders/=
-nightly-no-x11/builds/537" rel=3D"noreferrer" target=3D"_blank">https://aut=
-obuilder.<wbr>yoctoproject.org/main/<wbr>builders/nightly-no-x11/<wbr>build=
-s/537</a><br>
-&gt;&gt;<br>
-&gt;&gt; I did reproduce this; I could only reproduce it if I built it with=
- a<br>
-&gt;&gt; machine which matches the architecture of host, in my case x86-64.=
-<br>
-&gt;&gt; When building for other arch (e.g: ARM) it works as expected.<br>
-&gt;&gt;<br>
-&gt;&gt; The problem seems to be a generic problem and I am not experienced=
-<br>
-&gt;&gt; enough on the Golang toolchain to look at this. Khem could you tak=
-e a<br>
-&gt;&gt; look and see if you find the root cause?<br>
-&gt;<br>
-&gt; Delete this file, its building it on x86_64 because it can. We only ne=
-ed<br>
-&gt; cross version.<br>
-<br>
-</div></div>I am not sure I follow you here.<br>
-<br>
-Using qemux86-64 as target it does NOT install on ${bindir} and<br>
-surprisingly the installation path does also not match GOBIN_FINAL<br>
-value.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
-a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
-903-9750</a><br>
-</div></div></blockquote></div><br></div>
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+ meta/recipes-devtools/python/python-3.5-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-2.7.py      | 9 ++++++---
+ scripts/contrib/python/generate-manifest-3.5.py      | 9 ++++++---
+ 4 files changed, 14 insertions(+), 8 deletions(-)
 
---001a113ed2e8aa34690555b16e69--
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index 7ed254b..57d4834 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -281,7 +281,7 @@ RDEPENDS_${PN}-zlib="${PN}-core"
+ FILES_${PN}-zlib="${libdir}/python2.7/lib-dynload/zlib.so "
+ 
+ SUMMARY_${PN}-modules="All Python modules"
+-RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
++RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-audio ${PN}-bsddb ${PN}-codecs ${PN}-compile ${PN}-compiler ${PN}-compression ${PN}-contextlib ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-fcntl ${PN}-gdbm ${PN}-hotshot ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-plistlib ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-resource ${PN}-robotparser ${PN}-shell ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc ${PN}-zlib  "
+ ALLOW_EMPTY_${PN}-modules = "1"
+ 
+ 
+diff --git a/meta/recipes-devtools/python/python-3.5-manifest.inc b/meta/recipes-devtools/python/python-3.5-manifest.inc
+index 65db7e8..0260e87 100644
+--- a/meta/recipes-devtools/python/python-3.5-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.5-manifest.inc
+@@ -277,7 +277,7 @@ RDEPENDS_${PN}-xmlrpc="${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang ${PN}-pyd
+ FILES_${PN}-xmlrpc="${libdir}/python3.5/xmlrpclib.* ${libdir}/python3.5/__pycache__/xmlrpclib.* ${libdir}/python3.5/SimpleXMLRPCServer.* ${libdir}/python3.5/__pycache__/SimpleXMLRPCServer.* ${libdir}/python3.5/DocXMLRPCServer.* ${libdir}/python3.5/__pycache__/DocXMLRPCServer.* ${libdir}/python3.5/xmlrpc ${libdir}/python3.5/xmlrpc/__pycache__ "
+ 
+ SUMMARY_${PN}-modules="All Python modules"
+-RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-compile ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-enum ${PN}-fcntl ${PN}-gdbm ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-reprlib ${PN}-resource ${PN}-selectors ${PN}-shell ${PN}-signal ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-tests ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-typing ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc  "
++RDEPENDS_${PN}-modules="${PN}-2to3 ${PN}-argparse ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-compile ${PN}-compression ${PN}-core ${PN}-crypt ${PN}-ctypes ${PN}-curses ${PN}-datetime ${PN}-db ${PN}-debugger ${PN}-difflib ${PN}-distutils ${PN}-doctest ${PN}-email ${PN}-enum ${PN}-fcntl ${PN}-gdbm ${PN}-html ${PN}-idle ${PN}-image ${PN}-importlib ${PN}-io ${PN}-json ${PN}-lang ${PN}-logging ${PN}-mailbox ${PN}-math ${PN}-mime ${PN}-mmap ${PN}-multiprocessing ${PN}-netclient ${PN}-netserver ${PN}-numbers ${PN}-pickle ${PN}-pkgutil ${PN}-pprint ${PN}-profile ${PN}-pydoc ${PN}-re ${PN}-readline ${PN}-reprlib ${PN}-resource ${PN}-selectors ${PN}-shell ${PN}-signal ${PN}-smtpd ${PN}-sqlite3 ${PN}-sqlite3-tests ${PN}-stringold ${PN}-subprocess ${PN}-syslog ${PN}-terminal ${PN}-textutils ${PN}-threading ${PN}-tkinter ${PN}-typing ${PN}-unittest ${PN}-unixadmin ${PN}-xml ${PN}-xmlrpc  "
+ ALLOW_EMPTY_${PN}-modules = "1"
+ 
+ 
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index dce465a..586b329 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -28,6 +28,7 @@ class MakefileMaker:
+     def __init__( self, outfile, isNative ):
+         """initialize"""
+         self.packages = {}
++        self.excluded_pkgs = []
+         self.targetPrefix = "${libdir}/python%s/" % VERSION[:3]
+         self.isNative = isNative
+         self.output = outfile
+@@ -52,7 +53,7 @@ class MakefileMaker:
+         self.out( """ """ )
+         self.out( "" )
+ 
+-    def addPackage( self, name, description, dependencies, filenames ):
++    def addPackage( self, name, description, dependencies, filenames, mod_exclude = False ):
+         """add a package to the Makefile"""
+         if type( filenames ) == type( "" ):
+             filenames = filenames.split()
+@@ -62,6 +63,8 @@ class MakefileMaker:
+                 fullFilenames.append( "%s%s" % ( self.targetPrefix, filename ) )
+             else:
+                 fullFilenames.append( filename )
++        if mod_exclude:
++            self.excluded_pkgs.append( name )
+         self.packages[name] = description, dependencies, fullFilenames
+ 
+     def doBody( self ):
+@@ -147,7 +150,7 @@ class MakefileMaker:
+         line = 'RDEPENDS_${PN}-modules="'
+ 
+         for name, data in sorted(self.packages.items()):
+-            if name not in ['${PN}-dev', '${PN}-distutils-staticdev']:
++            if name not in ['${PN}-dev', '${PN}-distutils-staticdev'] and name not in self.excluded_pkgs:
+                 line += "%s " % name
+ 
+         self.out( "%s \"" % line )
+@@ -382,7 +385,7 @@ if __name__ == "__main__":
+     "pty.* tty.*" )
+ 
+     m.addPackage( "${PN}-tests", "Python tests", "${PN}-core ${PN}-modules",
+-    "test" ) # package
++    "test", True ) # package
+ 
+     m.addPackage( "${PN}-threading", "Python threading & synchronization support", "${PN}-core ${PN}-lang",
+     "_threading_local.* dummy_thread.* dummy_threading.* mutex.* threading.* Queue.*" )
+diff --git a/scripts/contrib/python/generate-manifest-3.5.py b/scripts/contrib/python/generate-manifest-3.5.py
+index 2975e10..6352f8f 100755
+--- a/scripts/contrib/python/generate-manifest-3.5.py
++++ b/scripts/contrib/python/generate-manifest-3.5.py
+@@ -31,6 +31,7 @@ class MakefileMaker:
+     def __init__( self, outfile, isNative ):
+         """initialize"""
+         self.packages = {}
++        self.excluded_pkgs = []
+         self.targetPrefix = "${libdir}/python%s/" % VERSION[:3]
+         self.isNative = isNative
+         self.output = outfile
+@@ -55,7 +56,7 @@ class MakefileMaker:
+         self.out( """ """ )
+         self.out( "" )
+ 
+-    def addPackage( self, name, description, dependencies, filenames ):
++    def addPackage( self, name, description, dependencies, filenames, mod_exclude = False ):
+         """add a package to the Makefile"""
+         if type( filenames ) == type( "" ):
+             filenames = filenames.split()
+@@ -67,6 +68,8 @@ class MakefileMaker:
+                                                  self.pycachePath( filename ) ) )
+             else:
+                 fullFilenames.append( filename )
++        if mod_exclude:
++            self.excluded_pkgs.append( name )
+         self.packages[name] = description, dependencies, fullFilenames
+ 
+     def pycachePath( self, filename ):
+@@ -160,7 +163,7 @@ class MakefileMaker:
+         line = 'RDEPENDS_${PN}-modules="'
+ 
+         for name, data in sorted(self.packages.items()):
+-            if name not in ['${PN}-dev', '${PN}-distutils-staticdev']:
++            if name not in ['${PN}-dev', '${PN}-distutils-staticdev'] and name not in self.excluded_pkgs:
+                 line += "%s " % name
+ 
+         self.out( "%s \"" % line )
+@@ -401,7 +404,7 @@ if __name__ == "__main__":
+     "pty.* tty.*" )
+ 
+     m.addPackage( "${PN}-tests", "Python tests", "${PN}-core ${PN}-compression",
+-    "test" ) # package
++    "test", True ) # package
+ 
+     m.addPackage( "${PN}-threading", "Python threading & synchronization support", "${PN}-core ${PN}-lang",
+     "_threading_local.* dummy_thread.* dummy_threading.* mutex.* threading.* queue.*" )
+-- 
+2.7.4
+
+
