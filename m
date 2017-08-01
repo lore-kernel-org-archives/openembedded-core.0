@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BA7D60616
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ADA4A7835B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 13:55:46 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id c65so2428561pfl.0
+	Tue,  1 Aug 2017 13:55:48 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 83so2818965pgb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 06:55:48 -0700 (PDT)
+	Tue, 01 Aug 2017 06:55:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4NDfw7jz20dK+niZ+P7z/586wYFEcJw0ZfQhPLj1weQ=;
-	b=SV6Ruo9O5zCZmvBnXQgn3sc0qKyYN0TkWWKQHPz7kv05u8adBdxl6PBlYvY3oO1Zyn
-	fpAbNC93Y1Eg55oYBDzt1J1Fr6r83ahrqwSnEqdRJky+lryoJhMEneH68Kcx6SiZkQcb
-	94kqkU3JuClrCI9JpCaqD1tnbQwXBjYLFdjNrrraenQhdzklf8BTtLviMYFqwfoAQbwa
-	X3432aBXsGt1negA8wTvLTWY3N4B7KOUP1BMPFaJNQr4KOI1G0eeFijJcFfz7eJy31On
-	XxsyVOwjsuVBs4qOCW+ZNJqZn7C2AJ5bsui8jILYQfrhaUT/R0rKiNoJH0WOaV+XjrKA
-	Uh0Q==
+	bh=5YPeeSbulqKnl9n38pfcQ2+Joa13ZBGIAJlW2jkvzPM=;
+	b=MYIDZy57wd394PV6DfZpNml7akQELbtO3NrtnWmgE3bwSo+L5KsQfoV3UeXbv9YxWP
+	B5QSZgCjKnQ3H6mH40qAYgxPqzQE/2b9XwkQoNlFhZoxXbgheEutdGuMuVmIotmT+Q2F
+	QVWX0pSzUmnxRjQLfBqYZzAbhX+clhyena9aH5KXsNXjHQ4kTxTuRxT/hPRZm+AUP3ZK
+	ZzUA39vRwEDG6r5TGJhOoHKOGNI/YI0i0erS0ac8qlSPCz7l1CN+UX/7eBjex3+YQ8xW
+	MSYpMP3fCeAaVrZfjNYSBoOsmBtr5m8KP3JWufoCQMvQ1SdIFy7pP5EJkhsk4mp9/DDF
+	NOtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4NDfw7jz20dK+niZ+P7z/586wYFEcJw0ZfQhPLj1weQ=;
-	b=i1HJ+TnXKCvSGtNFomAwCgvQc1VqTD1Y8isLRoYVBhacvVmyG51t1mtvdkjDP3xAQx
-	7z+3Pv4AJI8SmIiSL9vHCqUo9oIk0SLF58kjuJZu7TxOX59jt25GM2ly0NH+cc1Gh3bJ
-	9ZLBbHFa+Lt1oE2bzfsqOGJ2b+ViUlQm76IS9v/4km5vGzugYjkeP+vXx+uKxYrF/VrC
-	cc85ikckUW/iKbSHQIu3ef2rIuGqCdRbPDBuA8xK/8nFMoXbL4GxkyeXvZE2clGg3Unf
-	kqY0NESA3hTXn4V6rHIzue6aViG/MZlGBsRnWeOb7mIku+Mkom228LX93y5AOlKznsiw
-	xbiA==
-X-Gm-Message-State: AIVw1102cSx82twaX2x4zwQ6qcQhB6puWROnJy28IDcrJGxtmu/AKRX+
-	FYEGoqPXTg0QeTWZ
-X-Received: by 10.99.97.68 with SMTP id v65mr19159604pgb.200.1501595748291;
-	Tue, 01 Aug 2017 06:55:48 -0700 (PDT)
+	bh=5YPeeSbulqKnl9n38pfcQ2+Joa13ZBGIAJlW2jkvzPM=;
+	b=QgZ/2TAhjhHrJUN2D8gtXIaj5zk73FH4B5Df3x5VzIwiAuQZ8bn6JIBcFUEQHa1nRs
+	gWkqozjZoOw19YVdAEXg/YNeag/Ivzzr339MbbDX90kkEkpo7g+Uy0ohvvBVB+j2jRtx
+	tFF20Ix1QHJtns0pZyUUzlmnWPrRvQYfqXlLXnPN3anOoFxqWd29PhlpkmU+Bbc3tUap
+	7hjeBaj5yNwQ1SxEyoPR7cwj4OOBWvuYw8iq4qQKtP8F7Dw2DAGMjkP+Uqfk06mYJ3Lg
+	YWDng3kUEEdr3FzmoJZTWfEvMjjxr5k7wrllZXHZYauUb45XfEsi8Z0dEzGv7TqdUm/t
+	gHyA==
+X-Gm-Message-State: AIVw111gRry9cjRvzO/obiRpxTyjta/0Tis6Nlh8VAm1Jsv6+X+7TMXP
+	/3qkFfen8D0ceDmM
+X-Received: by 10.98.23.69 with SMTP id 66mr19799073pfx.305.1501595749596;
+	Tue, 01 Aug 2017 06:55:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::1f6f])
 	by smtp.gmail.com with ESMTPSA id
-	o29sm57189986pfa.60.2017.08.01.06.55.47
+	o29sm57189986pfa.60.2017.08.01.06.55.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Aug 2017 06:55:47 -0700 (PDT)
+	Tue, 01 Aug 2017 06:55:48 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Aug 2017 06:55:28 -0700
-Message-Id: <20170801135530.33531-2-raj.khem@gmail.com>
+Date: Tue,  1 Aug 2017 06:55:29 -0700
+Message-Id: <20170801135530.33531-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20170801135530.33531-1-raj.khem@gmail.com>
 References: <20170801135530.33531-1-raj.khem@gmail.com>
-Subject: [PATCH 2/4] mesa: Use chrpath to delete rpaths
+Subject: [PATCH 3/4] mesa: Depend on llvm-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +55,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 13:55:47 -0000
+X-List-Received-Date: Tue, 01 Aug 2017 13:55:48 -0000
 
-It adds native sysroot chrpath due to llvm-config in cross compiling
-we can delete them via chrpath, since libs are in standard paths rpath
-is really not needed
+We need to get llvm-config tool staged which is provided by llvm-native
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index c9b67d4966..da449fa70b 100644
+index da449fa70b..e14372775b 100644
 --- a/meta/recipes-graphics/mesa/mesa.inc
 +++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c
- 
- PE = "2"
- 
--DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib"
--
-+DEPENDS = "expat makedepend-native flex-native bison-native libxml2-native zlib chrpath-replacement-native"
-+EXTRANATIVEPATH += "chrpath-native"
- PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
- 
- inherit autotools pkgconfig gettext distro_features_check
-@@ -118,9 +118,10 @@ do_install_append () {
-     rm -f ${D}${libdir}/egl/*.la
-     rm -f ${D}${libdir}/gallium-pipe/*.la
-     rm -f ${D}${libdir}/gbm/*.la
--    
-+
-     # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used 
-     rm -f ${D}${sysconfdir}/drirc
-+    chrpath --delete ${D}${libdir}/dri/*_dri.so
- }
- 
- # For the packages that make up the OpenGL interfaces, inject variables so that
+@@ -75,7 +75,7 @@ GALLIUMDRIVERS_append_x86-64 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-l
+ # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
+ PACKAGECONFIG[gallium]      = "--enable-texture-float --with-gallium-drivers=${GALLIUMDRIVERS}, --without-gallium-drivers"
+ MESA_LLVM_RELEASE ?= "5.0"
+-PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} \
++PACKAGECONFIG[gallium-llvm] = "--enable-llvm --enable-llvm-shared-libs, --disable-llvm, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+ PACKAGECONFIG[xa]  = "--enable-xa, --disable-xa"
 -- 
 2.13.3
 
