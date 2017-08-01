@@ -1,50 +1,47 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 72CCE7835C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E04A782B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 17:14:46 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id u207so1656881ywc.0
+	Tue,  1 Aug 2017 19:06:26 +0000 (UTC)
+Received: by mail-io0-f175.google.com with SMTP id m88so11886533iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 10:14:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kX7pL2DSZoCefyLDeRLYymPbsFZYsM6+KlG/OxOsYHk=;
-	b=kU8rHWD2clgc1pvxweLSJNJMtkKKbiI2cf+ZI3Fct3tF/cOdHfATlfVHSfBarqUcgH
-	tOCCVjcz19/N2VhggGgnV18jhA2nDj97XaikNV3r0KjLharGuQEaSFgPIMuCPNXUhgv5
-	wTMOtT2JlQqjBOUia1dqPrCBWgkdc9DxrxAzJfJbwdMJXwrSfGxXzO+wy8IO3U4ekdOV
-	Hsz7yez+3NRvWReOFzxwZ4obZ+5cYDjA8VCHptMevjinYL31UElSYKxCBi+0r1TALcil
-	6LQIF1ZoGS67wV4jc2/a8AFc1GTmNyiE6jqkpZv3CmAyoXAUXXDxh82lMk3mqog1z+nX
-	TSRA==
+	Tue, 01 Aug 2017 12:06:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=5s1zaUGZqgOVBKByHF5IW0avLHcnfQY4dQap6x9dgxM=;
+	b=LyIms4k0rGvY39MDCjMyHtVDSZH7UZFbDkjY1QUHBXrzqMwbZc9AlRzEvQ244c8VXC
+	7BSt4lnOAZzCbmDPbqancK7aTF2Q0J6M6zrwQYMrC5GQOGwAbgxXsF4YfyjbRf8qmn8U
+	+KP4FWxZbG4WT1Tqs4hwtLjGcjg1LYQDtlVPA/w3BumDzs99u39VTrliDIzd5rsgWgZD
+	QFRjZ481LBM8rZhHXqIw+7sViTKzWwN1rR6eZc6iodN0Jb/qUZz9Nflrc0NGd3h+Ggnd
+	fnANnKk1JX+sfv4HkEIRQ44o6DPOxHnYLdGVPyulaMxH0pi0SYxInxhArO1bCKn7v+Lq
+	nwpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=kX7pL2DSZoCefyLDeRLYymPbsFZYsM6+KlG/OxOsYHk=;
-	b=adWcFAIDV8iff6cQB4APK8Uq6v1p43HhFr3WXG9QcQeaI1PNWrK2eLtZDBnmVUFUpE
-	WQ3tGyB3b81/vhRtbytnRBlMRiUfK7uwzDbhqZhtdw/7WJoKNv8uIIGUKsh0maiFM6IT
-	kjsNmcTUeWihjx+jxLxTSrcJ2Op7i/avGgUkC1wxgek6nQgh3XUbwBbwQbT5h3GbjO7T
-	gAmwa9+7YCjrffXLH7enTEQFwno71iIHbiCXa95DVaaTjw8CUJiUR+GJKduR7cTt2+D4
-	XMNX/UEtr5aA4EwmxxlJIm583GnlrXmLH90vQZrAGTFgv74VnTcpnJJcBk1E6LMLrZ++
-	gk6A==
-X-Gm-Message-State: AIVw110P2aM3NzbBT8mm1d06x5mV6Kro0gU2+umd4gqiUHwPEhByRhdE
-	1MbthHvuap5g7bqu
-X-Received: by 10.37.123.2 with SMTP id w2mr16467882ybc.3.1501607687368;
-	Tue, 01 Aug 2017 10:14:47 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.201.186]) by smtp.gmail.com with ESMTPSA id
-	r64sm10946066ywd.107.2017.08.01.10.14.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Aug 2017 10:14:47 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Aug 2017 19:13:50 +0200
-Message-Id: <1501607630-30241-5-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1501607630-30241-1-git-send-email-liu.ming50@gmail.com>
-References: <1501607630-30241-1-git-send-email-liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH 4/4] qemux86-64.conf: drop do_image_wic task dependencies
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=5s1zaUGZqgOVBKByHF5IW0avLHcnfQY4dQap6x9dgxM=;
+	b=AWEMI/o1PMKXWNJITgOzU2PlWDisfX14ktmfAai4vGJoRBq2hxzTKMKB60rUYf3ftc
+	w38jt2MxQdZ1bcuhYkqS4et5MqhQ1PyYJ2mozpF/UkglY3JW791xotsLGOcpwDD6Phlp
+	mGmkewgxuJntEWHagePK3LbZQtGMaWBszh1HYMCbkdgB8LPCMTZfA8WYXiBoxfDWyLWu
+	Xf0pBXv9vO6Rd0FlYsa5jzE2FSSjrIXxJch5rjkyRXGBCUkLOpc91GC1H3M3UHj1Glo6
+	WSAHZRWgTnmcfs3fr1rqOdrCfIniLUpupG1CFpgW2AF1p0/OVEh6wugy8I3qKuajIEJ1
+	leCA==
+X-Gm-Message-State: AIVw112oAyks4R37gc+07WKMVbN0E7sZR2VDdImCkyufymBLCV4G/gFN
+	x/sHvBqN8Fu91vtiVbg+Y2ANHrGYy5wZ
+X-Received: by 10.107.205.72 with SMTP id d69mr24176094iog.224.1501614388355; 
+	Tue, 01 Aug 2017 12:06:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.234 with HTTP; Tue, 1 Aug 2017 12:06:07 -0700 (PDT)
+In-Reply-To: <20170801005647.2162-1-timothy.t.orling@linux.intel.com>
+References: <20170801005647.2162-1-timothy.t.orling@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 1 Aug 2017 20:06:07 +0100
+Message-ID: <CAJTo0LZq5JZAAQwhbH+kXp1U68gKqZZGWM-tGiVpftVqvj=G0Q@mail.gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] powertop: update to v2.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 17:14:46 -0000
+X-List-Received-Date: Tue, 01 Aug 2017 19:06:27 -0000
+Content-Type: multipart/alternative; boundary="94eb2c189bae353dce0555b5d803"
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
+--94eb2c189bae353dce0555b5d803
+Content-Type: text/plain; charset="UTF-8"
 
-They are being controlled by WKS_FILE_DEPENDS_DEFAULT, the code here
-is redundant and incomplete as well.
+> +S = "${WORKDIR}/${PN}-v${PV}"
 
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/conf/machine/qemux86-64.conf | 1 -
- 1 file changed, 1 deletion(-)
+ERROR: lib32-powertop-2.9-r0 do_populate_lic: QA Issue: lib32-powertop:
+LIC_FILES_CHKSUM points to an invalid file:
+/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-powertop/2.9-r0/lib32-powertop-v2.9/COPYING
+[license-checksum]
 
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 10189cb..9f55aaa 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -30,4 +30,3 @@ MACHINE_FEATURES += "x86"
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
- 
- WKS_FILE ?= "directdisk.wks"
--do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
--- 
-2.7.4
+BPN, not PN.
 
+Ross
 
+--94eb2c189bae353dce0555b5d803
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">&gt; +S =3D &quot;${WORKDIR}/${PN}-v${PV}&quot;<br><br>ERR=
+OR: lib32-powertop-2.9-r0 do_populate_lic: QA Issue: lib32-powertop: LIC_FI=
+LES_CHKSUM points to an invalid file: /home/pokybuild/yocto-autobuilder/yoc=
+to-worker/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-po=
+wertop/2.9-r0/lib32-powertop-v2.9/COPYING [license-checksum]<br><div><br></=
+div><div>BPN, not PN.</div><div><br></div><div>Ross</div></div>
+
+--94eb2c189bae353dce0555b5d803--
