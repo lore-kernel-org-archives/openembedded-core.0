@@ -1,48 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C96F4780A3
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BF84780A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Aug 2017 14:53:12 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id y43so19739973wrd.3
+	Wed,  2 Aug 2017 14:53:14 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id t138so41416005wmt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Aug 2017 07:53:14 -0700 (PDT)
+	Wed, 02 Aug 2017 07:53:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=0Lz/mo7Y6ovruWZvn4DhEXmDgf+CA7IbPtUHAVjQqHc=;
-	b=d67Npn9505ttTUTvZCX+hjA63VJXv1ElGUCd2uCa/vOU7KWxi6woZg9+eR88wi4/DP
-	l+KEjdZPxgnCoV2xtPudHH7N3bJfxXjmeLFHm9fyrve7zmC+KkUIzARnJJ6wUhlz0+R+
-	hA8VkNp0daDDJVrtNBmSXb7LG0bO5kPVJ2+X1SrxabWGVV4zzKtuaETx7CvbG9fjqLTU
-	R3bhHHsJxK3GtltPiOxFmqIJjzYIEonJqmlmClhdDQuEqZHvMqxCjR59MBBuFMScOa+2
-	Od8Wm2si+9IRul7UquAO8K2f4tvsTbUMw+XZP+ZAaUk+2Yvq0dHoEi0wwgURoCoiGeMh
-	AafQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=8euIL2zlrEbi622Qt0i5Y1Qgro0OlJN6JrKiOTjctPU=;
+	b=z0c+6R4icKEmddIC+nvgEXQ8v07m8ko5PiLXcbYbfc8KmFYAqQ3Bz19p6HXHYMAg5R
+	IgQCnElFOf8BApBbygF2i0vT/sJLCrswIZre+dZ/Wndu7mHyZTOPoZsFRWJg8XGTLdi6
+	6qxCz/N4jPaC5/+fkZNwRayX1NDb2xTwSLAlpsxG7voUuKZkSUZyb2KJLYKykmUGSrok
+	mqIHSsmDMzLSDM9ezCADB/rHOXqNWxp//O7BqS2jhN6nNEAzhZg5mJMed9vmdrn5JN/I
+	BB58BSM9yBzgr1HbOuofX0ihnNxB5LoG+gnGJ4y1HIim8saqXJ+YV2nrJwCz2vZPNkLH
+	lMXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=0Lz/mo7Y6ovruWZvn4DhEXmDgf+CA7IbPtUHAVjQqHc=;
-	b=sIh45qWambdU/sXzetG1FK9EWf7xEk6/eTuUwYK6bdskgnVf55sIYBG+5KpaOWftQh
-	ULGu6pxu/kL2MqDw/LwzVzQdcXsNyGhhLXbpnb33ArFU7mqpVFIaU4f/AzM6vWfXYqdT
-	fKDxyIp9ndUmzAnklvlFsMJOaphLGfQVT2C9YLyUevh5WoOH4FcA1+2C6FnekscEdY+l
-	tqodlS5fbZv1loK6s8rbYD0lX8IUyTMuZtf2DNu0fUFmnkR5mWTufQZ9I3dGV1EnfolR
-	2ktEpC8463rNqHRyBNBUgHXpolWC0SAu050Dkn4lUEQO4ON52JKPYjB3JWLQLr8QYj8m
-	yZXQ==
-X-Gm-Message-State: AIVw112fYImImDLML3TLhAV7xThN1n09Cve8jjepsAb8fqDNWxHmF3Fu
-	oyIngX8WFsbtEq/OFCs=
-X-Received: by 10.223.132.164 with SMTP id 33mr17316449wrg.204.1501685593451; 
-	Wed, 02 Aug 2017 07:53:13 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=8euIL2zlrEbi622Qt0i5Y1Qgro0OlJN6JrKiOTjctPU=;
+	b=HTfcPLZ4uZq+1W0yZXsNJzmOte3VTV9Cp6223B8foSecSzqToIFR0EtGNTjwf3N+qN
+	uRcOogq7TiPxeVW2VUvOQ5U97V2AltYtFNW+yYV0Qrc9AhEc601gX+7Ut2REGUEm2X1I
+	UETbN5NcAO3+aXkk99WUCqA4N7lCv6/bVeN8mhTeUi3jAd0iLGCtCqRaMe6CWj+GPj3R
+	TaKu2nzzYOai9XnbUwgGqt2vW3eGvaAkQS9IMnppyeiUua3s4ITKCefXatuWD0gnYv26
+	eeW7TT+cMUcPjYAgFiie0N/cURp4+VKn/l24B4BErPnFAZlu3TH5KVNS1ox71teHjz8Q
+	oMCA==
+X-Gm-Message-State: AIVw111+FmzEBAT7tL2kDdAziBOXnRTZC/R8ogWNXim9Kts72Hkyn3e+
+	q5F/cr+QE/GkBkp4Dgg=
+X-Received: by 10.28.181.18 with SMTP id e18mr3672072wmf.180.1501685595658;
+	Wed, 02 Aug 2017 07:53:15 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	e21sm3203377wme.17.2017.08.02.07.53.12
+	e21sm3203377wme.17.2017.08.02.07.53.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Aug 2017 07:53:12 -0700 (PDT)
+	Wed, 02 Aug 2017 07:53:14 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Aug 2017 15:53:06 +0100
-Message-Id: <20170802145308.19074-1-ross.burton@intel.com>
+Date: Wed,  2 Aug 2017 15:53:08 +0100
+Message-Id: <20170802145308.19074-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/3] ca-certificates: use host Python 3 instead of Python 2
+In-Reply-To: <20170802145308.19074-1-ross.burton@intel.com>
+References: <20170802145308.19074-1-ross.burton@intel.com>
+Subject: [PATCH 3/3] grub: use Python 3 in the build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +61,22 @@ X-List-Received-Date: Wed, 02 Aug 2017 14:53:15 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../ca-certificates/ca-certificates/use-py3.patch            | 12 ++++++++++++
- .../ca-certificates/ca-certificates_20161130.bb              |  3 ++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/use-py3.patch
+ meta/recipes-bsp/grub/grub2.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/use-py3.patch b/meta/recipes-support/ca-certificates/ca-certificates/use-py3.patch
-new file mode 100644
-index 00000000000..4a09dfde4df
---- /dev/null
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/use-py3.patch
-@@ -0,0 +1,12 @@
-+Use the host Python 3 instead of Python 2.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/mozilla/Makefile b/mozilla/Makefile
-+index 6f46118..f98877c 100644
-+--- a/mozilla/Makefile
-++++ b/mozilla/Makefile
-+@@ -6 +6 @@ all:
-+-	python certdata2pem.py
-++	python3 certdata2pem.py
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index 42088b98994..c976e689d98 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -20,7 +20,8 @@ SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
-            file://update-ca-certificates-support-Toybox.patch \
-            file://default-sysroot.patch \
--           file://sbindir.patch"
-+           file://sbindir.patch \
-+           file://use-py3.patch"
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 240a1f92864..6de7ecc2215 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -57,6 +57,8 @@ BUILD_CFLAGS = ""
+ BUILD_CXXFLAGS = ""
+ BUILD_LDFLAGS = ""
  
- S = "${WORKDIR}/git"
- 
++export PYTHON = "python3"
++
+ do_configure_prepend() {
+ 	# The grub2 configure script uses variables such as TARGET_CFLAGS etc
+ 	# for its own purposes. Remove the OE versions from the environment to
 -- 
 2.11.0
 
