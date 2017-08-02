@@ -1,57 +1,51 @@
-Return-Path: <cliff.brake@gmail.com>
-Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 52CFD77F38
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 28CEF780A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Aug 2017 14:19:06 +0000 (UTC)
-Received: by mail-qt0-f178.google.com with SMTP id s6so27772816qtc.1
+	Wed,  2 Aug 2017 14:53:13 +0000 (UTC)
+Received: by mail-wr0-f178.google.com with SMTP id f21so19664621wrf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Aug 2017 07:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=kCMt9OYRsXCgMY83Z8anDr66Bw4kVAqLdScmRKAutno=;
-	b=XU67N57PbPIWMnXs8ug1MyXUPqOb7grAxRLfO5mLYwZK29EFPiDmExLbw7B9I3+OD+
-	5H6/KBmHyVPpE7+9cweDT1c4lpb4sZA5ErqRil2vyyBNPu9orXDrlH6YMhTXY49U2TLz
-	iJax99IKQvcCnjGRFZVZp9KPDF3zaD3KPoAktakaG6AEoQd/HU283jHT+5WQkHCeF6qf
-	Pmspe+YrTCdMegsNhW1Tx7/ui3RcaUaxKxmbf34wzjNUdnpd2wTTqD1XMHcj91hTzZc8
-	L/QAAEeMtsTUDHFZQvOPlZjJW6Ac6OqfCtv5se6b3ZiT7IoTFUqQiGbZFqEip2dU1MmO
-	ANVQ==
+	Wed, 02 Aug 2017 07:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=wax8lQ1+gMTZ20UI7q7kFiAgZ1Bibfsaeet4HLLtWHY=;
+	b=gQA7UtuP1mVWT9nRcpoqtFM8Piy6F9H8EOY3dqDzboO6cQg4C5PZX0kU0VioWxw7Q4
+	ZW2O5ASPKRz7VNb6NECYD6hmnqcSSfLcTrl6sTZvL+XDcBd6isaFfQoP0gl1QHyRbkV4
+	UpTLxaZTowhfmjXOHmtWywODB04tc4HIdChR6xY2fBsqGxQrJVPHY9oAJowjd5Ez1qvi
+	HzCeVUCLLIjnnX6b35A22QNqdXTZGrCFTK+pbxCUvj7QjuYZ1ANIhVoLZUprxOAxDWfP
+	51j6dSXsvQew65qxcZvpIH+mpMM2PjICpxjhYFfRe8jY4GZjGHvY33fUuW07BkqFFA8A
+	JrUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=kCMt9OYRsXCgMY83Z8anDr66Bw4kVAqLdScmRKAutno=;
-	b=lYtI85mqmER+CfzpTCX+Je21Fq8WwNMiednz5aP8sOft/GmtjzoZ34fMx09IvA1ObD
-	U92mavG5fTHhqioew39je1qkHhIT1E5hTcpgGu+SONC152vKWi6Yi0H34TDdfQ4+xM6r
-	9IHGG0oJw6XiOTJ9qfmq7tslll7WXNstGnvub05M3wMV4+NMwqnoPFLyJFF8/JBR1kC1
-	57JUaMecQtihBZshMwMsTjJBiobQvCh7lyZFv+jQlHuMm7gSwKKg1xGSjN9lqTfTp71M
-	SXV5ns3KsFwnxwaOApRnUVTGfEQky49sSfasO3DKHyg7RAdNPTLvNMnR+p2ivbjygxvL
-	rbWg==
-X-Gm-Message-State: AIVw113sa5YWL7vaxAVWDflBpqYOO8bBgSD0xVkSVSUPDVs1urW8aKDj
-	Xuhy0PdMaXCAdZzh9xc=
-X-Received: by 10.200.4.4 with SMTP id v4mr32901017qtg.23.1501683546750;
-	Wed, 02 Aug 2017 07:19:06 -0700 (PDT)
-Received: from [192.168.1.139] ([66.219.186.219])
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=wax8lQ1+gMTZ20UI7q7kFiAgZ1Bibfsaeet4HLLtWHY=;
+	b=FFakujjTsUDxFxIG2X0Yw35tvEHMtDH6/43DZOXGleKLuYkQOXeOoRAK0+pDmlgBta
+	qK5hMBnZfx1KGlwa+CPFe2GPUTPB0uYFDkGHT5be28bLh5MBSL2dXi2ELzC/KVmuktba
+	BOKbnq8Ap50K7G1cW7emRZtDE3f79/tXqbYOOIAdXiz9wiuAtmnd8uD+0sM+u6bkx5CV
+	nnd6u7Kx1R87Mz1v2lnPHgVclJ8ZNT3qWDFU3WhcDFMHFgcTVuPjWw4qs2iFHnkYtnur
+	+hNae6NsC+6IR6ootyyz3OO5uNGA543geTf1RNoaerXceMcC8nBLS6tNjpR56116cA9F
+	ur7A==
+X-Gm-Message-State: AIVw111b7iiq5PnhtssM5DUH0c0y6bscZ3f7k4eWMz0dh1KYjgDja7+e
+	H0wc32SePtPzTNbOM7M=
+X-Received: by 10.223.130.50 with SMTP id 47mr20747814wrb.145.1501685594559;
+	Wed, 02 Aug 2017 07:53:14 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
 	by smtp.gmail.com with ESMTPSA id
-	f32sm26969377qkf.4.2017.08.02.07.19.03
+	e21sm3203377wme.17.2017.08.02.07.53.13
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Aug 2017 07:19:04 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>, akuster808 <akuster808@gmail.com>
-References: <CAMKF1sqWosmxhDABfXu59DvPHmxMNybw0_5qprvbo+jHDoN+GA@mail.gmail.com>
-	<a15e5c58-8834-3fec-3f8e-b848d8381ee6@gmail.com>
-	<CAMKF1spWSv+HK1mpwToskZdADa4ga1kFOa4H2aWNcvCMUkLQFg@mail.gmail.com>
-From: Cliff Brake <cliff.brake@gmail.com>
-Message-ID: <6b3bd161-eb96-5e82-3574-543408da1f79@gmail.com>
-Date: Wed, 2 Aug 2017 10:19:02 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spWSv+HK1mpwToskZdADa4ga1kFOa4H2aWNcvCMUkLQFg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Pyro] backport request
+	Wed, 02 Aug 2017 07:53:13 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Aug 2017 15:53:07 +0100
+Message-Id: <20170802145308.19074-2-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170802145308.19074-1-ross.burton@intel.com>
+References: <20170802145308.19074-1-ross.burton@intel.com>
+Subject: [PATCH 2/3] libsoup: use Python 3 instead of Python 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,34 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Aug 2017 14:19:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB-large
+X-List-Received-Date: Wed, 02 Aug 2017 14:53:14 -0000
 
-On 07/31/2017 12:30 AM, Khem Raj wrote:
-> On Sun, Jul 30, 2017 at 8:23 PM, akuster808 <akuster808@gmail.com> wrote:
->>
->> On 07/28/2017 01:08 PM, Khem Raj wrote:
->>> Hi Armin
->>>
->>> Please consider
->>>
->>>
->>> http://git.openembedded.org/openembedded-core/commit/?id=5d3df78367be0afbfe001b4fa776a98a82e6ce54
->>
->> does
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=pyro&id=cc48789276e0f91b37f1d89e418c87ee8bcc2d2f
->> work?
->>
-> I guess yes.
->
-> Cliff,
->
-> need to bump to latest SRCREV on pyro for oe-core in template.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libsoup/libsoup-2.4/use-py3.patch | 12 ++++++++++++
+ meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb     |  3 ++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/use-py3.patch
 
-Worked great -- thanks all!
-
-Cliff
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/use-py3.patch b/meta/recipes-support/libsoup/libsoup-2.4/use-py3.patch
+new file mode 100644
+index 00000000000..d0156fe1ad2
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-2.4/use-py3.patch
+@@ -0,0 +1,12 @@
++Use Python 3 instead of Python 2.
++
++Upstream-Status: Submitted (https://bugzilla.gnome.org/show_bug.cgi?id=785735)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/libsoup/tld-parser.py b/libsoup/tld-parser.py
++index 5d9d2ba..a743471 100755
++--- a/libsoup/tld-parser.py
+++++ b/libsoup/tld-parser.py
++@@ -1 +1 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb
+index 5b1273efec2..4bd22b4b1ba 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb
+@@ -9,7 +9,8 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native"
+ 
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+-SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
++SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
++           file://use-py3.patch"
+ 
+ SRC_URI[md5sum] = "91d7a6bf8785d31f4b154a7612e53e62"
+ SRC_URI[sha256sum] = "62c669f557de745b7b20ba9d5b74d839c95e4c9cea1a5ab7f3da5531a1aeefb9"
+-- 
+2.11.0
 
 
