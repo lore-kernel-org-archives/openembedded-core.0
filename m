@@ -1,33 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BF1D77E12
+Return-Path: <oliver.staebler@bytesatwork.ch>
+X-Greylist: delayed 510 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 02 Aug 2017 09:19:22 UTC
+Received: from bytesatwork.ch (bytesatwork.ch [91.135.72.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 2939A77E68
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Aug 2017 09:01:36 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga104.jf.intel.com with ESMTP; 02 Aug 2017 02:01:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,310,1498546800"; d="scan'208";a="134338305"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 02 Aug 2017 02:01:38 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 51AD75809DF;
-	Wed,  2 Aug 2017 02:01:37 -0700 (PDT)
-Date: Wed, 2 Aug 2017 11:38:37 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: liu.ming50@gmail.com
-Message-ID: <20170802083837.GC2944@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1501607630-30241-1-git-send-email-liu.ming50@gmail.com>
-	<1501607630-30241-2-git-send-email-liu.ming50@gmail.com>
+	Wed,  2 Aug 2017 09:19:22 +0000 (UTC)
+Received: from stanley.bytesatwork.ch (162.40.150.83.ftth.as8758.net
+	[83.150.40.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested) (Authenticated sender: oliver)
+	by bytesatwork.ch (Postfix) with ESMTPSA id 0EBA7101C0355;
+	Wed,  2 Aug 2017 11:10:51 +0200 (CEST)
+From: =?UTF-8?q?Oliver=20St=C3=A4bler?= <oliver.staebler@bytesatwork.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Aug 2017 11:11:01 +0200
+Message-Id: <20170802091102.23608-1-oliver.staebler@bytesatwork.ch>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-In-Reply-To: <1501607630-30241-2-git-send-email-liu.ming50@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] wic-image-minimal: drop WKS_FILE_DEPENDS definition
+Cc: =?UTF-8?q?Oliver=20St=C3=A4bler?= <oliver.staebler@bytesatwork.ch>
+Subject: [RFC][PATCH] eudev: Remove udev-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Aug 2017 09:01:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Aug 2017 09:19:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 01, 2017 at 07:13:47PM +0200, liu.ming50@gmail.com wrote:
-> From: Ming Liu <peter.x.liu@external.atlascopco.com>
-> 
-> It's being set in image_types_wic.bbclass, not need to double set it
-> here, furthermore, the dependencies are incomplete by missing
-> e2fsprogs-native.
-> 
-> Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
-> ---
->  meta-selftest/recipes-test/images/wic-image-minimal.bb | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-> index e1da203..af40d96 100644
-> --- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
-> +++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-> @@ -6,8 +6,6 @@ IMAGE_INSTALL = "packagegroup-core-boot"
->  
->  IMAGE_FSTYPES = "wic"
->  
-> -WKS_FILE_DEPENDS = "syslinux syslinux-native dosfstools-native mtools-native gptfdisk-native"
-> -
->  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->  
->  IMAGE_ROOTFS_EXTRA_SPACE = "2000"
+As udev depends on devtmpfs, I think it is not necessary to maintain a cache
+anymore as device nodes are created automatically by the kernel.
+It could even lead to problems, when the cache overwrites existing device nodes
+or populates device nodes when no device exists.
+But I'm not sure if this change could have some consequences I don't see,
+therefore a RFC.
 
-Please, consider adding e2fsprogs-native to the list instead of building
-extra packages that are not going to be used.
+Oliver Stäbler (1):
+  eudev: Remove udev-cache
 
---
-Regards,
-Ed
+ meta/recipes-core/udev/eudev/init               | 49 ----------------
+ meta/recipes-core/udev/eudev/udev-cache         | 75 -------------------------
+ meta/recipes-core/udev/eudev/udev-cache.default |  5 --
+ meta/recipes-core/udev/eudev_3.2.2.bb           | 20 +------
+ 4 files changed, 2 insertions(+), 147 deletions(-)
+ delete mode 100644 meta/recipes-core/udev/eudev/udev-cache
+ delete mode 100644 meta/recipes-core/udev/eudev/udev-cache.default
+
+-- 
+2.13.0
+
 
