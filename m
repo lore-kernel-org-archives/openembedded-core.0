@@ -1,24 +1,48 @@
-Return-Path: <oliver.staebler@bytesatwork.ch>
-Received: from bytesatwork.ch (bytesatwork.ch [91.135.72.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E8D9781FF
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 558507810C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Aug 2017 09:36:58 +0000 (UTC)
-Received: from stanley.bytesatwork.ch (162.40.150.83.ftth.as8758.net
-	[83.150.40.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested) (Authenticated sender: oliver)
-	by bytesatwork.ch (Postfix) with ESMTPSA id F1D92101C035B;
-	Wed,  2 Aug 2017 11:36:57 +0200 (CEST)
-From: =?UTF-8?q?Oliver=20St=C3=A4bler?= <oliver.staebler@bytesatwork.ch>
+	Wed,  2 Aug 2017 11:09:24 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id y192so6148739pgd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Aug 2017 04:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=cOqZ9uqHYI1GLaleSLp3UG7kBMNbqn6kiaagkaPqf7g=;
+	b=fDYZys7ChlO1fpYbb5HtCLYI3c3SvqgFiuccqyDhpYpKRgz66OakzGmfVEM/EE8mQI
+	HI7H4s80wzeef0vn/6PSm5pb6ODzBhOMTNe3vnLAYW4tZBPhfAYH5vi2/2c8vgyKLW6I
+	HrwYtWLvlKXI++Uy3k8tToZOw8RqMS8/QnnYAfCiibO8r+yiaU7yvG8w5x0aAJC/nMeM
+	KP95aF4yOokWij7Y0+rKxdjzTrafsjrYQ8qkJEPP5jOctoioH+POI0n9iMH9IJQ1nxaN
+	wtxQPLu27T9NNvcKQ1DxxgK+om58fAqCk5CG5z9FmgZmUOAULLEqHKmivEFuHSOv6TON
+	+Ecw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=cOqZ9uqHYI1GLaleSLp3UG7kBMNbqn6kiaagkaPqf7g=;
+	b=nD67jg5+OL2hJmpdfxzqym5AD7khDip0JfnWgepfIF6cy9Tc7q9GDajd5j3F9lim9d
+	UX5Ylslrn6Mz0+OGAgYlWAcYr3mYSX0aL+aBFI3eIJsx4bPBvwKNrLyG2s63uEouQ0QT
+	SLdSGY9lGuyyfNPyqFlKu6pfQ9kjYwFQwe7gNP0W69sFdNYf/ek/MHnjYVnzcYw7X2EB
+	PYtzWf3Mz54emezDjLKOdcVlkcS0gMs/HtHdYZA/BwjS+/Qd6sEU+xl6Sv/RMzLHjKIt
+	g6n0sFK2IVyVLttWHoWW3zVtWsMsRGXkvo2rTq+cHL30SzPQgkjqZLFCyjSyhuMxPvjy
+	YOgg==
+X-Gm-Message-State: AIVw11096XmnhqrG7pwG/b73eStM/MpjFLeDKnYmImZoXd2pRMOshf45
+	qt3gT2wxdsLxjUA8YkcfMg==
+X-Received: by 10.98.77.6 with SMTP id a6mr22183198pfb.221.1501672165942;
+	Wed, 02 Aug 2017 04:09:25 -0700 (PDT)
+Received: from [127.0.1.1] (CPE-121-223-2-142.lnse2.cha.bigpond.net.au.
+	[121.223.2.142]) by smtp.gmail.com with ESMTPSA id
+	r9sm20412777pgf.83.2017.08.02.04.09.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Aug 2017 04:09:25 -0700 (PDT)
+Date: Wed, 02 Aug 2017 21:09:16 +1000
+Message-Id: <20170802110916.22886-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Aug 2017 11:37:10 +0200
-Message-Id: <20170802093710.26565-2-oliver.staebler@bytesatwork.ch>
-X-Mailer: git-send-email 2.13.0
-In-Reply-To: <20170802093710.26565-1-oliver.staebler@bytesatwork.ch>
-References: <20170802093710.26565-1-oliver.staebler@bytesatwork.ch>
 MIME-Version: 1.0
-Cc: =?UTF-8?q?Oliver=20St=C3=A4bler?= <oliver.staebler@bytesatwork.ch>
-Subject: [RFC][PATCH v2] eudev: Remove udev-cache
+Subject: [PATCH] llvm: Raise SkipRecipe exception for unsupported architectures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,243 +55,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Aug 2017 09:36:59 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 02 Aug 2017 11:09:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-As eudev requires devtmpfs it is not necessary to keep a cache anymore
-as the kernel handles entries in /dev itself.
+When parsing this recipe on an unsupported or non-mappable architecture
+an error is generated despite no dependencies on the recipe. E.g.
 
-Signed-off-by: Oliver Stäbler <oliver.staebler@bytesatwork.ch>
+  ERROR: .../llvm_git.bb: cannot map 'microblazeel' to a supported llvm architecture
+
+Instead of generating an error which might confuse users, raise a
+SkipRecipe exception similar to other arch-style mapping functions (e.g.
+go_map_arch). This avoids showing the error during parse, and prevents
+the use of the recipe on unsupported targets. Resulting in an error like
+so when trying to build llvm:
+
+  ERROR: Nothing PROVIDES 'llvm'
+  llvm was skipped: Cannot map 'microblazeel' to a supported LLVM architecture
+
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-core/udev/eudev/init               | 49 ----------------
- meta/recipes-core/udev/eudev/udev-cache         | 75 -------------------------
- meta/recipes-core/udev/eudev/udev-cache.default |  5 --
- meta/recipes-core/udev/eudev_3.2.2.bb           | 20 +------
- 4 files changed, 2 insertions(+), 147 deletions(-)
- delete mode 100644 meta/recipes-core/udev/eudev/udev-cache
- delete mode 100644 meta/recipes-core/udev/eudev/udev-cache.default
+ meta/recipes-devtools/llvm/llvm_git.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/udev/eudev/init b/meta/recipes-core/udev/eudev/init
-index 0ab028b391..0455ade258 100644
---- a/meta/recipes-core/udev/eudev/init
-+++ b/meta/recipes-core/udev/eudev/init
-@@ -14,25 +14,7 @@ export TZ=/etc/localtime
- [ -d /sys/class ] || exit 1
- [ -r /proc/mounts ] || exit 1
- [ -x @UDEVD@ ] || exit 1
--SYSCONF_CACHED="/etc/udev/cache.data"
--SYSCONF_TMP="/dev/shm/udev.cache"
--DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 5dcb508c23..5db728bf44 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -42,8 +42,7 @@ def get_llvm_arch(bb, d, arch_var):
+     elif re.match('mips(isa|)(32|64|)(r6|)(el|)$', a): return 'Mips'
+     elif re.match('p(pc|owerpc)(|64)', a):             return 'PowerPC'
+     else:
+-        bb.error("cannot map '%s' to a supported llvm architecture" % a)
+-    return ""
++        raise bb.parse.SkipRecipe("Cannot map '%s' to a supported LLVM architecture" % a)
  
--# A list of files which are used as a criteria to judge whether the udev cache could be reused.
--CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
--[ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
--
--# List of files whose metadata (size/mtime/name) will be included in cached
--# system state.
--META_FILE_LIST="lib/udev/rules.d/* etc/udev/rules.d/*"
--
--# Command to compute system configuration.
--sysconf_cmd () {
--	cat -- $CMP_FILE_LIST
--	stat -c '%s %Y %n' -- $META_FILE_LIST | awk -F/ '{print $1 " " $NF;}'
--}
--
--[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
- [ -f /etc/default/rcS ] && . /etc/default/rcS
- 
-@@ -66,37 +48,6 @@ case "$1" in
-     # /var/volatile/tmp directory to be available.
-     mkdir -m 1777 -p /var/volatile/tmp
- 
--    # Cache handling.
--    if [ "$DEVCACHE" != "" ]; then
--            if [ -e $DEVCACHE ]; then
--		    sysconf_cmd > "$SYSCONF_TMP"
--		    if cmp $SYSCONF_CACHED $SYSCONF_TMP >/dev/null; then
--                            tar xmf $DEVCACHE -C / -m
--                            not_first_boot=1
--                            [ "$VERBOSE" != "no" ] && echo "udev: using cache file $DEVCACHE"
--                            [ -e $SYSCONF_TMP ] && rm -f "$SYSCONF_TMP"
--                            [ -e "$DEVCACHE_REGEN" ] && rm -f "$DEVCACHE_REGEN"
--                    else
--			    # Output detailed reason why the cached /dev is not used
--			    cat <<EOF
--udev: Not using udev cache because of changes detected in the following files:
--udev:     $CMP_FILE_LIST
--udev:     $META_FILE_LIST
--udev: The udev cache will be regenerated. To identify the detected changes,
--udev: compare the cached sysconf at   $SYSCONF_CACHED
--udev: against the current sysconf at  $SYSCONF_TMP
--EOF
--			    touch "$DEVCACHE_REGEN"
--                    fi
--	    else
--		    if [ "$ROOTFS_READ_ONLY" != "yes" ]; then
--			    # If rootfs is not read-only, it's possible that a new udev cache would be generated;
--			    # otherwise, we do not bother to read files.
--			    touch "$DEVCACHE_REGEN"
--		    fi
--            fi
--    fi
--
-     # make_extra_nodes
-     kill_udevd > "/dev/null" 2>&1
- 
-diff --git a/meta/recipes-core/udev/eudev/udev-cache b/meta/recipes-core/udev/eudev/udev-cache
-deleted file mode 100644
-index dcfff1cb45..0000000000
---- a/meta/recipes-core/udev/eudev/udev-cache
-+++ /dev/null
-@@ -1,75 +0,0 @@
--#!/bin/sh -e
--
--### BEGIN INIT INFO
--# Provides:          udev-cache
--# Required-Start:    mountall
--# Required-Stop:
--# Default-Start:     S
--# Default-Stop:
--# Short-Description: cache /dev to speedup the udev next boot
--### END INIT INFO
--
--export TZ=/etc/localtime
--
--[ -r /proc/mounts ] || exit 1
--[ -x @UDEVD@ ] || exit 1
--[ -d /sys/class ] || exit 1
--
--[ -f /etc/default/rcS ] && . /etc/default/rcS
--DEVCACHE_TMP="/dev/shm/udev-cache-tmp.tar"
--SYSCONF_CACHED="/etc/udev/cache.data"
--SYSCONF_TMP="/dev/shm/udev.cache"
--DEVCACHE_REGEN="/dev/shm/udev-regen" # create to request cache regen
--
--# A list of files which are used as a criteria to judge whether the udev cache could be reused.
--CMP_FILE_LIST="/proc/version /proc/cmdline /proc/devices"
--[ -f /proc/atags ] && CMP_FILE_LIST="$CMP_FILE_LIST /proc/atags"
--
--# List of files whose metadata (size/mtime/name) will be included in cached
--# system state.
--META_FILE_LIST="lib/udev/rules.d/* etc/udev/rules.d/*"
--
--# Command to compute system configuration.
--sysconf_cmd () {
--	cat -- $CMP_FILE_LIST
--	stat -c '%s %Y %n' -- $META_FILE_LIST | awk -F/ '{print $1 " " $NF;}'
--}
--
--[ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
--
--if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
--    [ "$VERBOSE" != "no" ] && echo "udev-cache: read-only rootfs, skip generating udev-cache"
--    exit 0
--fi
--
--[ "$DEVCACHE" != "" ] || exit 0
--[ "${VERBOSE}" == "no" ] || echo -n "udev-cache: checking for ${DEVCACHE_REGEN}... "
--if ! [ -e "$DEVCACHE_REGEN" ]; then
--	[ "${VERBOSE}" == "no" ] || echo "not found."
--	exit 0
--fi
--[ "${VERBOSE}" == "no" ] || echo "found."
--echo "Populating dev cache"
--
--err_cleanup () {
--        echo "udev-cache: update failed!"
--        udevadm control --start-exec-queue
--	rm -f -- "$SYSCONF_TMP" "$DEVCACHE_TMP" "$DEVCACHE" "$SYSCONF_CACHED"
--}
--
--(
--	set -e
--	trap 'err_cleanup' EXIT
--	udevadm control --stop-exec-queue
--	sysconf_cmd > "$SYSCONF_TMP"
--	find /dev -xdev \( -type b -o -type c -o -type l \) | cut -c 2- \
--		| xargs tar cf "${DEVCACHE_TMP}"
--	gzip < "${DEVCACHE_TMP}" > "$DEVCACHE"
--	rm -f "${DEVCACHE_TMP}"
--	mv "$SYSCONF_TMP" "$SYSCONF_CACHED"
--	udevadm control --start-exec-queue
--	rm -f "$DEVCACHE_REGEN"
--	trap - EXIT
--) &
--
--exit 0
-diff --git a/meta/recipes-core/udev/eudev/udev-cache.default b/meta/recipes-core/udev/eudev/udev-cache.default
-deleted file mode 100644
-index a3b732698d..0000000000
---- a/meta/recipes-core/udev/eudev/udev-cache.default
-+++ /dev/null
-@@ -1,5 +0,0 @@
--# Default for /etc/init.d/udev
--
--# Comment this out to disable device cache
--DEVCACHE="/etc/udev-cache.tar.gz"
--PROBE_PLATFORM_BUS="yes"
-diff --git a/meta/recipes-core/udev/eudev_3.2.2.bb b/meta/recipes-core/udev/eudev_3.2.2.bb
-index 78fef2c144..47d958bf6b 100644
---- a/meta/recipes-core/udev/eudev_3.2.2.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.2.bb
-@@ -17,8 +17,6 @@ SRC_URI = "https://github.com/gentoo/${BPN}/archive/v${PV}.tar.gz;downloadfilena
-            file://local.rules \
-            file://permissions.rules \
-            file://run.rules \
--           file://udev-cache \
--           file://udev-cache.default \
-            file://udev.rules \
- "
- UPSTREAM_CHECK_URI = "https://github.com/gentoo/eudev/releases"
-@@ -40,14 +38,7 @@ PACKAGECONFIG[hwdb] = "--enable-hwdb,--disable-hwdb"
- do_install_append() {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/udev
--	install -m 0755 ${WORKDIR}/udev-cache ${D}${sysconfdir}/init.d/udev-cache
- 	sed -i s%@UDEVD@%${base_sbindir}/udevd% ${D}${sysconfdir}/init.d/udev
--	sed -i s%@UDEVD@%${base_sbindir}/udevd% ${D}${sysconfdir}/init.d/udev-cache
--
--	install -d ${D}${sysconfdir}/default
--	install -m 0755 ${WORKDIR}/udev-cache.default ${D}${sysconfdir}/default/udev-cache
--
--	touch ${D}${sysconfdir}/udev/cache.data
- 
- 	install -d ${D}${sysconfdir}/udev/rules.d
- 	install -m 0644 ${WORKDIR}/local.rules ${D}${sysconfdir}/udev/rules.d/local.rules
-@@ -59,14 +50,10 @@ do_install_append() {
- 	rm -f ${D}${base_libdir}/udev/hid2hci
- }
- 
--INITSCRIPT_PACKAGES = "eudev udev-cache"
--INITSCRIPT_NAME_eudev = "udev"
--INITSCRIPT_PARAMS_eudev = "start 04 S ."
--INITSCRIPT_NAME_udev-cache = "udev-cache"
--INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
-+INITSCRIPT_NAME = "udev"
-+INITSCRIPT_PARAMS = "start 04 S ."
- 
- PACKAGES =+ "libudev"
--PACKAGES =+ "udev-cache"
- PACKAGES =+ "eudev-hwdb"
- 
- 
-@@ -76,13 +63,10 @@ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc \
-                    ${includedir}/udev.h ${libdir}/libudev.la \
-                    ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
- FILES_libudev = "${base_libdir}/libudev.so.*"
--FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
- FILES_eudev-hwdb = "${sysconfdir}/udev/hwdb.d"
- 
- RDEPENDS_eudev-hwdb += "eudev"
- 
--RRECOMMENDS_${PN} += "udev-cache"
--
- RPROVIDES_${PN} = "hotplug udev"
- RPROVIDES_eudev-hwdb += "udev-hwdb"
- 
+ def get_llvm_target_arch(bb, d):
+     return get_llvm_arch(bb, d, 'TARGET_ARCH')
 -- 
-2.13.0
+2.13.2
 
 
