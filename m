@@ -1,22 +1,21 @@
-Return-Path: <mark.d.horn@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 280136011C
+Return-Path: <swee.aun.khor@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 71324606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Aug 2017 23:11:33 +0000 (UTC)
+	Thu,  3 Aug 2017 06:06:24 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Aug 2017 16:11:23 -0700
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Aug 2017 23:06:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,313,1498546800"; d="scan'208";a="132771666"
-Received: from mhorn-dev.jf.intel.com ([10.7.159.65])
-	by orsmga005.jf.intel.com with ESMTP; 02 Aug 2017 16:11:23 -0700
-From: Mark D Horn <mark.d.horn@intel.com>
+X-IronPort-AV: E=Sophos;i="5.41,314,1498546800"; d="scan'208";a="132896514"
+Received: from platypus.jf.intel.com ([10.54.77.139])
+	by orsmga005.jf.intel.com with ESMTP; 02 Aug 2017 23:06:25 -0700
+From: swee.aun.khor@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Aug 2017 16:09:45 -0700
-Message-Id: <1501715385-17089-1-git-send-email-mark.d.horn@intel.com>
+Date: Wed,  2 Aug 2017 15:56:07 -0700
+Message-Id: <1501714567-187128-1-git-send-email-swee.aun.khor@intel.com>
 X-Mailer: git-send-email 2.7.4
-Cc: Mark D Horn <mark.d.horn@intel.com>
-Subject: [PATCH] recipetool: create: allow handers to set license
+Subject: [PATCH] openssl: Support musl-x32 build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,43 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Aug 2017 23:11:34 -0000
+X-List-Received-Date: Thu, 03 Aug 2017 06:06:24 -0000
 
-Recipetool plugins set through register_recipe_handlers were not able
-to impact the license type via setting extravalues['LICENSE']. This is
-due to caching the license variables in create_recipe before the handlers
-have been executed.
+From: sweeaun <swee.aun.khor@intel.com>
 
-This change moves the call to handle_license_vars well after the
-registered plugins (and extravalue functions) have been called.
+Support musl-x32 build which to build openssl with 32 bits.
 
-Signed-off-by: Mark D Horn <mark.d.horn@intel.com>
+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
 ---
- scripts/lib/recipetool/create.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/openssl/openssl.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 359eb9adfc26..6dd1a81369bb 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -549,8 +549,6 @@ def create_recipe(args):
-     lines_before.append('')
- 
-     handled = []
--    licvalues = handle_license_vars(srctree_use, lines_before, handled, extravalues, tinfoil.config_data)
--
-     classes = []
- 
-     # FIXME This is kind of a hack, we probably ought to be using bitbake to do this
-@@ -769,6 +767,8 @@ def create_recipe(args):
-         outlines.append('')
-     outlines.extend(lines_after)
- 
-+    licvalues = handle_license_vars(srctree_use, lines_before, handled, extravalues, tinfoil.config_data)
-+
-     if extravalues:
-         if 'LICENSE' in extravalues and not licvalues:
-             # Don't blow away 'CLOSED' value that comments say we set
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index ce295e8..0d6442e 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -66,7 +66,9 @@ do_configure () {
+ 	case $os in
+ 	linux-gnueabi |\
+ 	linux-gnuspe |\
+-	linux-musl*)
++	linux-musleabi |\
++	linux-muslspe |\
++	linux-musl )
+ 		os=linux
+ 		;;
+ 		*)
+@@ -98,7 +100,7 @@ do_configure () {
+ 	linux-i686)
+ 		target=debian-i386-i686/cmov
+ 		;;
+-	linux-gnux32-x86_64)
++	linux-gnux32-x86_64 | linux-muslx32-x86_64 )
+ 		target=linux-x32
+ 		;;
+ 	linux-gnu64-x86_64)
 -- 
 2.7.4
 
