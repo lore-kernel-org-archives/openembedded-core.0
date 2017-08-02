@@ -1,65 +1,52 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 185B5782FC
+Return-Path: <prvs=380cec95a=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 590 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 02 Aug 2017 07:51:24 UTC
+Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
+	[68.232.139.98])
+	by mail.openembedded.org (Postfix) with ESMTP id D46EB780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Aug 2017 20:39:31 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id t138so4673563wmt.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 13:39:33 -0700 (PDT)
+	Wed,  2 Aug 2017 07:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=E4RrNoCghp66gNToRX+MpoMsV70CMtIugNDdnOVFCm4=;
-	b=Im7xDQ37tipwXsa5hdY4YLhGVfe7pGsuJKx0Iwu4RW7925ogWx1z/HMyYwGEHfoxCY
-	JNHytkkOxTzFQso2P9QbMPIt3Ps2JnAo5a5AuApZ7hp+ZVqVcV8NE4kabNbTFCosUGMB
-	pt6b980kUDxWL2rQ60bGOfwd9JcdVORIUWCtXfB+2Ifmdr+y3NdBYR6khCZIvf06Lwpx
-	K9ZiTZbLLL0/ud0YCg4D3FidG0XbXxtMfSxXi8Cy/fnnmS0bSBS4W0Yo2h6dXuW3jqmL
-	Xze9ibosKJkFdqOYCEaSyOaftBSKbo8C+Zxa0yARfU98FnH0bCROKMap3I5MG3sJieQ6
-	gR8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=E4RrNoCghp66gNToRX+MpoMsV70CMtIugNDdnOVFCm4=;
-	b=WtP9vLy7vg/bcaGSUaRdW/8lGUlFp2ZQgi//GpZsHBuGp8rk6UE9+Pi7NKzX6oZjCl
-	3kouaKb4kY9q+2CcdlSnr+xD/8fabYUwj6OJLAwKGDLIdFVNxLMzmWt+/y9h8f4XXc/m
-	ejJLusDg5nlLpztOSK4YJzn5Ot/oV1ZX3QE8w4zzVr2jdAftwNikgFHM8kOCN6XskNGE
-	MZ4YInHyO1hdx/veRZQwEsHvesbnehqBkjxNiJFHOVEZnvLLN5ywzYib0AwYb+sVL8no
-	32qbtqRb4O5LpjStiCioUC3Z7N0tTmaJdoCb562sUKuyJbrtlJSyg33fKL99aGZQuBCE
-	kHbg==
-X-Gm-Message-State: AIVw113o8KrrJGLNIFJaz6U8HZ22YlVAh9fi8NHuCef5gy5VaFlBe07A
-	fYXgI1CyAEerYYVq9l8=
-X-Received: by 10.80.216.206 with SMTP id y14mr18361084edj.165.1501619972566; 
-	Tue, 01 Aug 2017 13:39:32 -0700 (PDT)
-Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com.
-	[209.85.128.180]) by smtp.gmail.com with ESMTPSA id
-	q22sm3127282edd.64.2017.08.01.13.39.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Aug 2017 13:39:31 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-wr0-f180.google.com with SMTP id k71so11254483wrc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Aug 2017 13:39:31 -0700 (PDT)
-X-Received: by 10.223.148.36 with SMTP id 33mr17862017wrq.24.1501619971540;
-	Tue, 01 Aug 2017 13:39:31 -0700 (PDT)
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1501660287; x=1533196287;
+	h=from:to:subject:date:message-id:references:in-reply-to:
+	content-id:content-transfer-encoding:mime-version;
+	bh=CFTn8LsNUv2PJilTw/BEq08BlpnhyIF3fuNKucpXcqc=;
+	b=Q77e7GZ8DBIfo3j0qPV16JEDz2V3d2m5o0Yjq6jFlWQHtd/hDrYasFH5
+	kcii6x/MbuVquvq5I3ryQ7/b8LHoGj3Bye6TVWw+uqcNMXV4x/flPFp/r
+	HLGVpf9q+KEudJFnWqzIeCAZP+vkuUCMjItJBogTVk5EeQTKuguD/wC84 E=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 02 Aug 2017 09:41:35 +0200
+Received: from esabb1.muc ([160.50.100.31])  by esagw6.muc with ESMTP/TLS;
+	02 Aug 2017 09:41:34 +0200
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb1.muc with ESMTP/TLS; 02 Aug 2017 09:41:34 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Wed, 2 Aug 2017 09:41:34 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1263.000;
+	Wed, 2 Aug 2017 09:41:34 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 02/23] buildhistory.bbclass: add
+	BUILDHISTORY_FORCE_UPDATE option
+Thread-Index: AQHTAVtgJq4tfgjykUSk6dxuoXNELqJwoUiA
+Date: Wed, 2 Aug 2017 07:41:34 +0000
+Message-ID: <20170802074133.ioiarvxv2njzuu6c@hiutale>
+References: <1500556991-11471-1-git-send-email-mikko.rapeli@bmw.de>
+	<1500556991-11471-3-git-send-email-mikko.rapeli@bmw.de>
+In-Reply-To: <1500556991-11471-3-git-send-email-mikko.rapeli@bmw.de>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.44.101]
 MIME-Version: 1.0
-Received: by 10.28.198.70 with HTTP; Tue, 1 Aug 2017 13:39:30 -0700 (PDT)
-In-Reply-To: <1c686c58-c6d6-3235-be04-bf3da58d001e@gmail.com>
-References: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-	<9d9d1ea9-d594-e08d-9e17-858b10a1aeca@gmail.com>
-	<4a2dc4e3-7291-ad72-838c-c54a907312e6@gmail.com>
-	<CAP9ODKqTykvrXqC82Dyq2X_v7MOLbOormG2YCjFoyvxs2_iW3g@mail.gmail.com>
-	<1c686c58-c6d6-3235-be04-bf3da58d001e@gmail.com>
-Date: Tue, 1 Aug 2017 17:39:30 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrNzZ_UqVpP1F0Tpo=W372XxdMR3xyDwfX1Z8RTOey3yg@mail.gmail.com>
-Message-ID: <CAP9ODKrNzZ_UqVpP1F0Tpo=W372XxdMR3xyDwfX1Z8RTOey3yg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: Anton Novikov <a.novikov@yadro.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] (morty) Arch Linux build fixes
+Subject: Re: [PATCH 02/23] buildhistory.bbclass: add BUILDHISTORY_FORCE_UPDATE option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,40 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Aug 2017 20:39:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 02 Aug 2017 07:51:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <64B7F48F00EE4049905D8F4AFEBE69DB@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 1, 2017 at 5:33 PM, akuster808 <akuster808@gmail.com> wrote:
->
->
-> On 08/01/2017 01:32 PM, Otavio Salvador wrote:
->>
->> On Tue, Aug 1, 2017 at 5:30 PM, akuster808 <akuster808@gmail.com> wrote:
->>>
->>>
->>> On 08/01/2017 02:50 AM, Ian Arkver wrote:
->>>>
->>>> On 21/06/17 10:05, Anton Novikov wrote:
->>>>>
->>>>> [3 patch attachments]
->>>
->>>
->>> only one patch is missing
->>>
->>> "fix case fallthrough and printf overflow warnings"
->>>
->>> the others I already had from other back ports. all are in my
->>> akuster/morty-next.
->>
->> It has been there for  a while; what is holding them to be applied?
->
->
-> clean build in the AB.
+On Thu, Jul 20, 2017 at 04:22:50PM +0300, Mikko Rapeli wrote:
+> Setting BUILDHISTORY_FORCE_UPDATE =3D "1" in local.conf forces buildhisto=
+ry
+> updates and recipe rebuilds also when only buildhistory.bbclass changed.
+>=20
+> This is handy when using sstate cache and modifying buildhistory to inclu=
+de
+> new data like recipe and package LICENSE fields.
+>=20
+> By default new buildhistory data is updated when recipes are rebuild and
+> new fields like LICENSE are not deployed immediately.
 
-What are the errors? maybe we could help.
+Are there some problems with this approach?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+I did not find other ways to force updates of buildhistory data without
+writing custom functions to update LICENSE and CVE_PRODUCT (which I care ab=
+out
+now) for every build. If there was a way to invalidate the full sstate
+cache then that would work too, but I doubt a simple PE update somewhere wo=
+uld
+do it.
+
+-Mikko
+
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> ---
+>  meta/classes/buildhistory.bbclass | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistor=
+y.bbclass
+> index cc3b144..bc3145e 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -42,10 +42,11 @@ BUILDHISTORY_COMMIT_AUTHOR ?=3D "buildhistory <buildh=
+istory@${DISTRO}>"
+>  BUILDHISTORY_PUSH_REPO ?=3D ""
+> =20
+>  SSTATEPOSTINSTFUNCS_append =3D " buildhistory_emit_pkghistory"
+> -# We want to avoid influencing the signatures of sstate tasks - first th=
+e function itself:
+> -sstate_install[vardepsexclude] +=3D "buildhistory_emit_pkghistory"
+> +# If BUILDHISTORY_FORCE_UPDATE is not set, we want to avoid influencing =
+the
+> +# signatures of sstate tasks - first the function itself:
+> +sstate_install[vardepsexclude] +=3D "${@'' if d.getVar('BUILDHISTORY_FOR=
+CE_UPDATE', True) =3D=3D '1' else 'buildhistory_emit_pkghistory'}"
+>  # then the value added to SSTATEPOSTINSTFUNCS:
+> -SSTATEPOSTINSTFUNCS[vardepvalueexclude] .=3D "| buildhistory_emit_pkghis=
+tory"
+> +SSTATEPOSTINSTFUNCS[vardepvalueexclude] .=3D "${@'' if d.getVar('BUILDHI=
+STORY_FORCE_UPDATE', True) =3D=3D '1' else '| buildhistory_emit_pkghistory'=
+"
+> =20
+>  # Similarly for our function that gets the output signatures
+>  SSTATEPOSTUNPACKFUNCS_append =3D " buildhistory_emit_outputsigs"
+> --=20
+> 1.9.1=
 
