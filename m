@@ -1,38 +1,50 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CFBB7606CA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F9F871C0F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Aug 2017 08:39:45 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id x64so1324033wmg.1
+	Thu,  3 Aug 2017 11:04:32 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id o9so5645031iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Aug 2017 01:39:47 -0700 (PDT)
+	Thu, 03 Aug 2017 04:04:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=kcX+KGQMfN9Gq5OArjXY7X4Q7VR5Ej0baN8MfRzp9L8=;
+	b=D+cXuYyg5eLLMNuROCfybMB3m1Dn0ik/FBBwiVmCIXyqqu0c8xgMZCAoL0gA+Hg8e2
+	DOZ8BiaFoYSH2gG0CG8bNWW9jHs8rUvvgnq6oL5TACiHZYaTJR4xjzwygLqWaNaiOaap
+	mAfMCPD6JqqBob9VBb0ubeiPfcmsVPIBELIYghOZX5ZzduEZIEztWGs36UvRz8JtlZZW
+	D7ElRUHUYBelSRjKpZT5F1MjzqIl2neVqlD6q5t54rc1N3dEBlWp+Xf86l+fH/hvoBS/
+	Yi18EK/G0PpEN9zeOCiair1P5T52vT8IJGcX5pOQjDZJAevbe8v5MqXcpSC5viKSg1mP
+	R9mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Y3AsNc79dvYOPzxDg2OT6lRqGBFpuZKSTqYgHZ6Pb+g=;
-	b=Z/FXZnoEnZgVz9mo3dwk/KscaqGubeKrLkxLIhWb4kJDPtlfzDSNy4lGibymGNYF5H
-	Z0EqeM9KDiwpjxzge47nVRm0d2iocVWo4uxtc8+kqdLE5IpZpajWYFMwlZc+9KypGwJj
-	xkGh7s2L9S0OM1WXzS7L6MwXRAuP5Oat3P7UY+B0ZO0OJTwXtdyvBkJWxxQnpBBlP9Ri
-	XkB9D9qS8cYJJKB9sYHMTr6qXMkBOyM7ddi4o/Kuo+YO0Ma81T663yvK+D2VN/CmLcTL
-	BwyxYaB6r8QiR3OM5JG/3063uUIdQTyMjZaIkV7rAIVTEXNVilajvpd+xWRHNp1zF/b7
-	uyHw==
-X-Gm-Message-State: AIVw111d8QNvLQ9qU55pDKiYUokNTXDj0a2oJO7uKVyqwUlMTh7Cx5cY
-	5K29GXgpb9ve3UwaPzw=
-X-Received: by 10.80.178.37 with SMTP id o34mr1117110edd.201.1501749586208;
-	Thu, 03 Aug 2017 01:39:46 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id a53sm753747eda.41.2017.08.03.01.39.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Aug 2017 01:39:44 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Aug 2017 09:39:43 +0100
-Message-Id: <20170803083943.13991-1-git@andred.net>
-X-Mailer: git-send-email 2.13.2
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=kcX+KGQMfN9Gq5OArjXY7X4Q7VR5Ej0baN8MfRzp9L8=;
+	b=FXawUhO8yf7ADlEPx53nDjYjo8vaQWDHIUXrPvd5n5U7Tcsn5GNTaRvRWH87vHPVfQ
+	lFjUGUQQO5JCx70USy2RntLif5f3x7CudpFbC2beP1YJeSE9TAE9XjMdiHrYDj1dbddg
+	T51d/LSKv8vFaf1x9JRGMxfYsQsi7o3Orj9Sd5WKRzwG3vPVr6OzqeUc+GT9gXoWv8Ln
+	a7XMsZL6bvn9A6/m1t2IR5vkOfagprAjFs6XTI2FD8E1QmNG3g2KwLwIUr7GyGWu2DrF
+	M6REiEIahiv3d0zhxZZkf5Z/Q1YhKZqpWqm57wSrOPcYLOdyWp2+5jLJ7yjPwGAkCna9
+	qdbQ==
+X-Gm-Message-State: AIVw110gZzZQP+Rn8hnBTpE2UlP36sbL0ahWG7NDgCxr8D6u+U+CWjHf
+	mY6R1jFq+B+CxbY1riJclD586hH9wypT2zA=
+X-Received: by 10.107.171.70 with SMTP id u67mr1326702ioe.231.1501758273540;
+	Thu, 03 Aug 2017 04:04:33 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] valgrind: enable on mips soft-float
+Received: by 10.107.135.234 with HTTP; Thu, 3 Aug 2017 04:04:12 -0700 (PDT)
+In-Reply-To: <CAJTo0LbzivYA=X5=n6FnbJ2jJpuymrcp+YEvRwmEk1t6O85vaw@mail.gmail.com>
+References: <20170801163443.10899-1-raj.khem@gmail.com>
+	<CAJTo0LYexDbJbkWb0=v1L4cjpEMyw5gL8NmcSTQd9QXjnF4_aA@mail.gmail.com>
+	<CAMKF1sossdZYGd9QFunkAHKBxUUikus8N18MKa-fNckLpWerdw@mail.gmail.com>
+	<CAJTo0LbzivYA=X5=n6FnbJ2jJpuymrcp+YEvRwmEk1t6O85vaw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 3 Aug 2017 12:04:12 +0100
+Message-ID: <CAJTo0LbMdiJHrzHSZ4ONtBeso1zCkR+vDZuYeuZvBSD+zF4pPg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Update to latest on 2.26 pre-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Aug 2017 08:39:46 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 03 Aug 2017 11:04:32 -0000
+Content-Type: multipart/alternative; boundary="001a1148bd7a6ef5c70555d758ec"
 
-From: André Draszik <adraszik@tycoint.com>
+--001a1148bd7a6ef5c70555d758ec
+Content-Type: text/plain; charset="UTF-8"
 
-Valgrind support for mips soft-float hosts has been fixed
-in the 3.12 [1] and 3.13 [2] releases, so let's start
-building it on those, too.
+On 2 August 2017 at 23:03, Burton, Ross <ross.burton@intel.com> wrote:
 
-[1] https://sourceware.org/git/?p=valgrind.git;a=commit;h=8f0070d31daea6f0ed18f8fe69498a67530bfcbb
-[2] https://sourceware.org/git/?p=valgrind.git;a=commit;h=3172936d63da4b6257099bc05aee5793978269cb
+> Build almost anything because it will need glibc-locale.  Sorry.
+>
+> I can throw it on the AB to see what fails/works.
+>
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/recipes-devtools/valgrind/valgrind_3.13.0.bb | 2 --
- 1 file changed, 2 deletions(-)
+The autobuilder, for once, is on my side.
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-index e1ff29a312..a5c49431a5 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-@@ -53,9 +53,7 @@ COMPATIBLE_HOST_armv6 = 'null'
- COMPATIBLE_HOST_linux-gnux32 = 'null'
- 
- # Disable for some MIPS variants
--COMPATIBLE_HOST_mipsarcho32 = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
- COMPATIBLE_HOST_mipsarchn32 = 'null'
--COMPATIBLE_HOST_mipsarchn64 = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
- COMPATIBLE_HOST_mipsarchr6 = 'null'
- 
- inherit autotools ptest
--- 
-2.13.2
+https://autobuilder.yocto.io/tgrid, the ross/glibc row at 4cb48130d80a.
 
+Ross
 
+--001a1148bd7a6ef5c70555d758ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 2 August 2017 at 23:03, Burton, Ross <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@=
+intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
+204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">=
+<div class=3D"gmail_quote"><div>Build almost anything because it will need =
+glibc-locale.=C2=A0 Sorry.</div><div><br></div><div>I can throw it on the A=
+B to see what fails/works.</div></div></div></div></blockquote><div><br></d=
+iv><div>The autobuilder, for once, is on my side.</div><br><a href=3D"https=
+://autobuilder.yocto.io/tgrid">https://autobuilder.yocto.io/tgrid</a>, the =
+ross/glibc row at 4cb48130d80a.</div><div class=3D"gmail_quote"><br></div><=
+div class=3D"gmail_quote">Ross</div></div></div>
+
+--001a1148bd7a6ef5c70555d758ec--
