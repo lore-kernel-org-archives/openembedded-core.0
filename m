@@ -1,20 +1,46 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 1812A6006E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C8B6006E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Aug 2017 14:01:39 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 03 Aug 2017 07:01:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,316,1498546800"; d="scan'208";a="119206314"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2017 07:01:41 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Thu,  3 Aug 2017 14:03:32 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id t83so1598337pfj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Aug 2017 07:03:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=SRS+636WT+orJ87pXJ+2eGzub5o1h0fOcbfXPy4dpcs=;
+	b=Pv+KyEnodiajdeDy409HrfNjW/aLnpj1DjGcyVABvPbEg35oceleFO9xKPTZhEddOm
+	VuGAkdch+i/9DgzLUNLBYUvIXAY2NwGPk+2FkAnalAZcI9/d4hTB/uNwpme94ABWyV2d
+	+heEZbAIs6iriFXfTaTxq8daS0m08mDeBjlDJJ0RJlvImM0X2BI+agY4SWLbbq1S7HCh
+	3Iap4jSZ+en9383AZXWE9GFu8VBeD7MaMXN/m+hAUiZ6Qakr8y/6NjYzl0uoFdKMwrol
+	0DvAktSuKLNe+x8V+VicLZKa87vLLfD6XSCiqQql1MCrZq+Nb9luQCu5rg6xTaMMIrnw
+	g48g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=SRS+636WT+orJ87pXJ+2eGzub5o1h0fOcbfXPy4dpcs=;
+	b=e637kvcv47xfJr9CX/01XrK4hJ5+dRIr5e+DVhA3ybkzx/97RF26frk0JqhVrqLpPX
+	KXxMIFS1HH5Gi+pQaIfGm2kq0u+LrY7Iix+2yQq3PxlTWpiF9P5jlfaBbVzk6lxw6Ho2
+	6XnjlOQtLe9Aid0irWpP9iTLq7EMGjuh8Aizz+VDEa7pr1srvRoUEGY5SNUsLxlKE6SY
+	UoxCRSMKwBpStlYyA/wjm5MiFkBS+T5dAKMCFE3HvJr7P354TtNWyPB1yLfZaNVNB43M
+	9AUHWOGOi+relgqzkk0l+f8DY6gnSgRA+QoaxxDgckTfwZZKcjLYO94WJQZWljcGS8oE
+	yO7Q==
+X-Gm-Message-State: AIVw11336IsgwMNqwnnY3F9SBg+QPzzlASyEWEZ14+q2TDsoqbCCoGXG
+	gxtPO0e1gDRHOaqv
+X-Received: by 10.84.136.135 with SMTP id 7mr2151805pll.356.1501769013389;
+	Thu, 03 Aug 2017 07:03:33 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::1f6f])
+	by smtp.gmail.com with ESMTPSA id
+	p10sm15894175pfk.103.2017.08.03.07.03.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Aug 2017 07:03:32 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Aug 2017 07:01:38 -0700
-Message-Id: <20170803140138.19761-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] context: Include a command line argument to run all except certain tests
+Date: Thu,  3 Aug 2017 07:03:19 -0700
+Message-Id: <20170803140320.21404-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH 1/2] llvm: Keep llvm-native dependency with clang toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,140 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Aug 2017 14:01:40 -0000
+X-List-Received-Date: Thu, 03 Aug 2017 14:03:32 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+This was needed when we were conflicting with clang-native
+but this is solved via append PN to binaries of llvm-native
 
-A new command line argument (-R, which is the oposite of current -r) that allows
-to run all test cases except the ones indicated through the command line.
-
-Some command line examples:
-
-* Run all except the distro test case:
-$ oe-selftest -R distrodata
-
-* Run all except the archiver test case and a single bblayers unit test
-$ oe-selftest -R archiver bblayers.BitbakeLayers.test_bitbakelayers_add_remove
-
-[YOCTO #11847]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/core/context.py     | 20 +++++++++++++++++---
- meta/lib/oeqa/selftest/context.py | 11 ++++++++---
- 2 files changed, 25 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/llvm/llvm_git.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index 422e289992..acd547416f 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -41,6 +41,14 @@ class OETestContext(object):
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 722bc53aa1..15152dc1ff 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -10,8 +10,6 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=e825e017edc35cfd58e26116e5251771"
  
-         return modules
+ DEPENDS = "libffi libxml2-native zlib ninja-native llvm-native"
  
-+    def skipTests(self, skips):
-+        if not skips:
-+            return
-+        for test in self.suites:
-+            for skip in skips:
-+                if test.id().startswith(skip):
-+                    setattr(test, 'setUp', lambda: test.skipTest('Skip by the command line argument "%s"' % skip))
-+
-     def loadTests(self, module_paths, modules=[], tests=[],
-             modules_manifest="", modules_required=[], filters={}):
-         if modules_manifest:
-@@ -50,9 +58,12 @@ class OETestContext(object):
-                 modules_required, filters)
-         self.suites = self.loader.discover()
+-DEPENDS_remove_toolchain-clang = "llvm-native"
+-
+ RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
  
--    def runTests(self):
-+    def runTests(self, skips=[]):
-         self.runner = self.runnerClass(self, descriptions=False, verbosity=2)
- 
-+        # Dinamically skip those tests specified though arguments
-+        self.skipTests(skips)
-+
-         self._run_start_time = time.time()
-         result = self.runner.run(self.suites)
-         self._run_end_time = time.time()
-@@ -128,7 +139,8 @@ class OETestContextExecutor(object):
-         self.tc_kwargs = {}
-         self.tc_kwargs['init'] = {}
-         self.tc_kwargs['load'] = {}
--        self.tc_kwargs['run'] = {}
-+        self.tc_kwargs['list'] = {}
-+        self.tc_kwargs['run']  = {}
- 
-         self.tc_kwargs['init']['logger'] = self._setup_logger(logger, args)
-         if args.test_data_file:
-@@ -143,6 +155,8 @@ class OETestContextExecutor(object):
-         else:
-             self.tc_kwargs['load']['modules'] = []
- 
-+        self.tc_kwargs['run']['skips'] = []
-+
-         self.module_paths = args.CASES_PATHS
- 
-     def _pre_run(self):
-@@ -159,7 +173,7 @@ class OETestContextExecutor(object):
-             sys.exit(1)
- 
-         if args.list_tests:
--            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['run'])
-+            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['list'])
-         else:
-             self._pre_run()
-             rc = self.tc.runTests(**self.tc_kwargs['run'])
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 990c761f29..9e90d3c256 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -25,14 +25,14 @@ class OESelftestTestContext(OETestContext):
-         self.custommachine = None
-         self.config_paths = config_paths
- 
--    def runTests(self, machine=None):
-+    def runTests(self, machine=None, skips=[]):
-         if machine:
-             self.custommachine = machine
-             if machine == 'random':
-                 self.custommachine = choice(self.machines)
-             self.logger.info('Run tests with custom MACHINE set to: %s' % \
-                     self.custommachine)
--        return super(OESelftestTestContext, self).runTests()
-+        return super(OESelftestTestContext, self).runTests(skips)
- 
-     def listTests(self, display_type, machine=None):
-         return super(OESelftestTestContext, self).listTests(display_type)
-@@ -51,6 +51,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         group.add_argument('-a', '--run-all-tests', default=False,
-                 action="store_true", dest="run_all_tests",
-                 help='Run all (unhidden) tests')
-+        group.add_argument('-R', '--skip-tests', required=False, action='store',
-+                nargs='+', dest="skips", default=None,
-+                help='Run all (unhidden) tests except the ones specified. Format should be <module>[.<class>[.<test_method>]]')
-         group.add_argument('-r', '--run-tests', required=False, action='store',
-                 nargs='+', dest="run_tests", default=None,
-                 help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
-@@ -133,6 +136,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
-                 self.tc_kwargs['init']['config_paths']['bblayers_backup'])
- 
-+        self.tc_kwargs['run']['skips'] = args.skips
-+
-     def _pre_run(self):
-         def _check_required_env_variables(vars):
-             for var in vars:
-@@ -203,7 +208,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-             sys.exit(1)
- 
-         if args.list_tests:
--            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['run'])
-+            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['list'])
-         else:
-             self._pre_run()
-             rc = self.tc.runTests(**self.tc_kwargs['run'])
+ inherit perlnative pythonnative cmake pkgconfig
 -- 
-2.12.3
+2.13.3
 
 
