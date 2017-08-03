@@ -1,52 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FC3E6E666
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 560E37199A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Aug 2017 16:43:02 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id m88so9082487iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Aug 2017 09:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=x5MXMaIb0chTOkxeTsY/iSBeUCTim0CpO/Y3XNvI9tw=;
-	b=BtHLQZnbheNvyAyg6yB2+rXaoveugc5byKeHrkLnWJYhSJGlGojV7QQ76HEl6GL4aZ
-	e4DX/IQILzupih+7HjBPC/mMy0JW/+a715J4fEBKEUeFRGNtOyK8U7ck4SiFVRTNszsS
-	tnWPA9v+TIIqrfIDpdZUoxHNQdvW4Tj8EtlBaqm8QEhMq1woiWIE7idjIl2pG+FKLzEc
-	RCXibvssA2cpyuixHgn9py95jqStQm7hJYJFGD96UC9XnAeyM6KVuDMIi9QPVRLEdYkq
-	1r9ALnZvIix0bB5uMTCtFyQQQe/WwqPZiwCQQqeu6HgE0zbwrHPrkZjmD7C8Dfyu5Sfw
-	KuUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=x5MXMaIb0chTOkxeTsY/iSBeUCTim0CpO/Y3XNvI9tw=;
-	b=aarxrnXLGzoW7qrDy0/xjOXj1ygcFzQfaa5dJDFQYdTqm+EqYtbeanBGrUG1L4CEVT
-	6rCR18MYZzf7uIwDHouN+gns6fzfrIbQGWHZSAmWo3AInLS/FzaYtgVATuU2cyLtX34b
-	g3Iig7yVUZvg8yycMsfGImWCYaEsTeKFxmC3DbQrPhqrRdQP71obyDLlzRcS32BjXkVM
-	mYz0f4HHJSryELDzFRzBIyEdnUDTILpm30szq4pojbwyrYoxL89IqG59hXaX5O49bWNt
-	iYAlktRWqNhvUpXpngvJTgwFDil8RzwEoB3l+QDvenMNHBZ5FxoxbEFc6LEQqwOK02vK
-	cE+w==
-X-Gm-Message-State: AIVw111qRbShKjvxBpyrR4f7dwBwdGSluk3+omwRbVs6XCcx2qdZF/Uy
-	c0hO8TEhlxVDaZGEPPLuGrIj7lOSg+HV
-X-Received: by 10.107.132.33 with SMTP id g33mr2455509iod.300.1501778583738;
-	Thu, 03 Aug 2017 09:43:03 -0700 (PDT)
+	Thu,  3 Aug 2017 16:46:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v73GkqZA017099
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 3 Aug 2017 09:46:52 -0700
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 3 Aug 2017 09:46:51 -0700
+To: akuster808 <akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>
+References: <1501521367-17192-1-git-send-email-akuster808@gmail.com>
+	<1501521367-17192-2-git-send-email-akuster808@gmail.com>
+	<b07d8080-7ad5-c68e-5c8b-471db09ff515@windriver.com>
+	<1984b5e8-8d54-4f03-dcdb-b086605b4a91@gmail.com>
+	<c5907c3e-ae33-625a-d214-30d130a5a37b@windriver.com>
+	<e0e65de3-e49a-b1af-9bd7-67a6d33ba859@gmail.com>
+	<ef1580a9-9643-f8ad-1865-78fc5f6aeec4@gmail.com>
+	<CAMKF1sp+4C4XPUf5Xhc=fhKiidy-YHqrkLZzhGpToTexCV=1pg@mail.gmail.com>
+	<0ba13ea2-54b8-f447-1e85-5f84a15c3f82@windriver.com>
+	<CAMKF1sp4xrp0hEXh2sY3tb0Sk61S8k_ToX=LBQfp5e3ioYUtOQ@mail.gmail.com>
+	<9ed788dd-bac2-378d-5263-23a5dfab40a4@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <c0562339-5ba4-df6f-be80-fcd15f657c9c@windriver.com>
+Date: Thu, 3 Aug 2017 11:46:51 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Thu, 3 Aug 2017 09:42:43 -0700 (PDT)
-In-Reply-To: <CAJTo0La48UP4m0NRFM+TwrrpmTm1jR222yRaBfD=Nq7fNehg6Q@mail.gmail.com>
-References: <cover.1500357604.git.dengke.du@windriver.com>
-	<dd968ff528a0928627a3bb12b4b1e8d77a1ff829.1500357604.git.dengke.du@windriver.com>
-	<CAJTo0Lac01Ny9N5D0p8Qv+GCFXRNv0qF_BjGdXx4Q3zvc+1How@mail.gmail.com>
-	<CAMKF1soL-B5ryhSUD9twYD6BUwSQOpRN37uxd=OkC9HNLQaC1Q@mail.gmail.com>
-	<CAJTo0Lb0YdjLaVyLqHxfztCuYyrvEVAzXSZt5wZ7o=c_PXMh3g@mail.gmail.com>
-	<CAJTo0La48UP4m0NRFM+TwrrpmTm1jR222yRaBfD=Nq7fNehg6Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Aug 2017 17:42:43 +0100
-Message-ID: <CAJTo0LYbn44Eva+zF1k8KxXMr5atREEzXr_r6odbpiF7g8uf+w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] expat: upgrade to 2.2.2
+In-Reply-To: <9ed788dd-bac2-378d-5263-23a5dfab40a4@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] armv8: update to use armv8-a tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +46,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Aug 2017 16:43:02 -0000
-Content-Type: multipart/alternative; boundary="001a113ed2e803f49b0555dc1333"
+X-List-Received-Date: Thu, 03 Aug 2017 16:46:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---001a113ed2e803f49b0555dc1333
-Content-Type: text/plain; charset="UTF-8"
+On 8/3/17 10:56 AM, akuster808 wrote:
+> 
+> 
+> On 08/01/2017 08:46 AM, Khem Raj wrote:
+>> On Tue, Aug 1, 2017 at 8:24 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>> On 8/1/17 10:20 AM, Khem Raj wrote:
+>>>> On Tue, Aug 1, 2017 at 8:17 AM, akuster808 <akuster808@gmail.com> wrote:
+>>>>>
+>>>>> On 07/31/2017 12:04 PM, Khem Raj wrote:
+>>>>>>
+>>>>>> On 7/31/17 10:51 AM, Mark Hatle wrote:
+>>>>>>> On 7/31/17 12:40 PM, akuster808 wrote:
+>>>>>>>>
+>>>>>>>> On 07/31/2017 10:31 AM, Mark Hatle wrote:
+>>>>>>>>> On 7/31/17 12:16 PM, Armin Kuster wrote:
+>>>>>>>>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>>>>>>>>>> ---
+>>>>>>>>>>    meta/conf/machine/include/arm/arch-armv8.inc | 25
+>>>>>>>>>> +++++++++++++++++++++++++
+>>>>>>>>>>    1 file changed, 25 insertions(+)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/meta/conf/machine/include/arm/arch-armv8.inc
+>>>>>>>>>> b/meta/conf/machine/include/arm/arch-armv8.inc
+>>>>>>>>>> index 5e832fa..dc1ba5e 100644
+>>>>>>>>>> --- a/meta/conf/machine/include/arm/arch-armv8.inc
+>>>>>>>>>> +++ b/meta/conf/machine/include/arm/arch-armv8.inc
+>>>>>>>>>> @@ -1 +1,26 @@
+>>>>>>>>>> +DEFAULTTUNE ?= "armv8-a"
+>>>>>>>>> do we want the '-a'?  The other arm (7) are of the format armv7a (no
+>>>>>>>>> '-').
+>>>>>>>> works for me either way.
+>>>>>>>>
+>>>>>>>> While we are at it. How would we want ‘armv8.1-a’, ‘armv8.2-a’,
+>>>>>>>> ‘armv8.3-a'
+>>>>>>>> formated as?
+>>>>>>> My preference is to drop the '-'.  As for the '.', I'm not sure.. not
+>>>>>>> something
+>>>>>>> we've run across before.
+>>>>>>>
+>>>>>>> We could just drop it (the '.'), but it really depends on if armv81a
+>>>>>>> would
+>>>>>>> confuse someone (familiar with arm) or not.
+>>>>>> I would suggest to also sync  with other distros and ensure that we dont
+>>>>>> do something different. Its very costly later. Since applications get
+>>>>>> ported to most common combination
+>>>>> Sync what part? naming of file? ( sorry lost regarding your comment)
+>>>> naming convention for arch e.g.
+>>>>
+>>> I'd say Debian/Ubuntu -- Fedora/RH would be the two primary sources I'd look at.
+>>>   Between debian package names and RPM package names, it should give a clue if
+>>> there is any community standard forming for those names.
+>>>
+>>> (May still be too premature for those environments for the armv8.X-a naming...
+>>> and I've not seen it discussed on any other lists either.)
+>> yeah, it will be good to not go through the pain of community doing
+>> something else later
+>> like *-*-gnueabihf triplet was invented and to date we keep fixing
+>> packages for OE
+>> to account for gnueabihf can be gnueabi + -mfloat-abi=hard but
+>> packages just assume
+> 
+> I think I now understand the issue. Any interest in having additional 
+> tune files warehoused somewhere so folks don't have to reinvent the 
+> wheel? Something like "meta-extra-tunes" ?
+> 
+> I prefer fostering contributions for additional tune files that get 
+> vetted by the community rather than the multitude of unseen 
+> implementations I have found sitting around.
 
-On 24 July 2017 at 11:23, Burton, Ross <ross.burton@intel.com> wrote:
+I wouldn't be against it.  The original thought was that new tunes (and related
+configurations) would be housed in the BSP until submitted to the YP.  But I'm
+not sure in hindsight that is very robust..
 
-> I've filed a bug upstream about the failure on Debian 8:
-> https://github.com/libexpat/libexpat/issues/97
->
+Having a general meta-* layer that can just collect arch settings would be
+useful to help coordinate people, but keep out in-progress stuff from the base.
+The only issue is someone will have to further coordinate acceptance into the
+extra layer, and help push them into the oe-core proper when the tune quality is
+at a correct level --or-- the tune becomes prevalent in the world.
 
-And this bug is now resolved.  expat in git can read /dev/urandom directly
-if it doesn't find the syscalls it wants.
+(I just don't want it to become a dumping ground and it never ends up in the
+core...  Similarly moving older tunes out of the core might some day be useful
+as well.)
 
-Ross
+Key of course is this should include tunes, as well as things like
+siteinfo.bbclass and insane.bbclass or other extensions.  (via:
+PACKAGEQA_EXTRA_MACHDEFFUNCS and similar.)
 
---001a113ed2e803f49b0555dc1333
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+While the toolchains, arch recipe patches, etc should be elsewhere...
 
-<div dir=3D"ltr">On 24 July 2017 at 11:23, Burton, Ross <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@i=
-ntel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"=
-gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I&#39;ve filed=
- a bug upstream about the failure on Debian 8:=C2=A0<a href=3D"https://gith=
-ub.com/libexpat/libexpat/issues/97" target=3D"_blank">https://github.com/<w=
-br>libexpat/libexpat/issues/97</a></div></blockquote><div><br></div><div>An=
-d this bug is now resolved. =C2=A0expat in git can read /dev/urandom direct=
-ly if it doesn&#39;t find the syscalls it wants.</div><div><br></div><div>R=
-oss</div></div></div></div>
+--Mark
 
---001a113ed2e803f49b0555dc1333--
+> regards,
+> armin
+> 
+>>
+>>
+>>> --Mark
+> 
+
+
