@@ -1,50 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F9F871C0F
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 1812A6006E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Aug 2017 11:04:32 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id o9so5645031iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Aug 2017 04:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=kcX+KGQMfN9Gq5OArjXY7X4Q7VR5Ej0baN8MfRzp9L8=;
-	b=D+cXuYyg5eLLMNuROCfybMB3m1Dn0ik/FBBwiVmCIXyqqu0c8xgMZCAoL0gA+Hg8e2
-	DOZ8BiaFoYSH2gG0CG8bNWW9jHs8rUvvgnq6oL5TACiHZYaTJR4xjzwygLqWaNaiOaap
-	mAfMCPD6JqqBob9VBb0ubeiPfcmsVPIBELIYghOZX5ZzduEZIEztWGs36UvRz8JtlZZW
-	D7ElRUHUYBelSRjKpZT5F1MjzqIl2neVqlD6q5t54rc1N3dEBlWp+Xf86l+fH/hvoBS/
-	Yi18EK/G0PpEN9zeOCiair1P5T52vT8IJGcX5pOQjDZJAevbe8v5MqXcpSC5viKSg1mP
-	R9mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=kcX+KGQMfN9Gq5OArjXY7X4Q7VR5Ej0baN8MfRzp9L8=;
-	b=FXawUhO8yf7ADlEPx53nDjYjo8vaQWDHIUXrPvd5n5U7Tcsn5GNTaRvRWH87vHPVfQ
-	lFjUGUQQO5JCx70USy2RntLif5f3x7CudpFbC2beP1YJeSE9TAE9XjMdiHrYDj1dbddg
-	T51d/LSKv8vFaf1x9JRGMxfYsQsi7o3Orj9Sd5WKRzwG3vPVr6OzqeUc+GT9gXoWv8Ln
-	a7XMsZL6bvn9A6/m1t2IR5vkOfagprAjFs6XTI2FD8E1QmNG3g2KwLwIUr7GyGWu2DrF
-	M6REiEIahiv3d0zhxZZkf5Z/Q1YhKZqpWqm57wSrOPcYLOdyWp2+5jLJ7yjPwGAkCna9
-	qdbQ==
-X-Gm-Message-State: AIVw110gZzZQP+Rn8hnBTpE2UlP36sbL0ahWG7NDgCxr8D6u+U+CWjHf
-	mY6R1jFq+B+CxbY1riJclD586hH9wypT2zA=
-X-Received: by 10.107.171.70 with SMTP id u67mr1326702ioe.231.1501758273540;
-	Thu, 03 Aug 2017 04:04:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Thu, 3 Aug 2017 04:04:12 -0700 (PDT)
-In-Reply-To: <CAJTo0LbzivYA=X5=n6FnbJ2jJpuymrcp+YEvRwmEk1t6O85vaw@mail.gmail.com>
-References: <20170801163443.10899-1-raj.khem@gmail.com>
-	<CAJTo0LYexDbJbkWb0=v1L4cjpEMyw5gL8NmcSTQd9QXjnF4_aA@mail.gmail.com>
-	<CAMKF1sossdZYGd9QFunkAHKBxUUikus8N18MKa-fNckLpWerdw@mail.gmail.com>
-	<CAJTo0LbzivYA=X5=n6FnbJ2jJpuymrcp+YEvRwmEk1t6O85vaw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Aug 2017 12:04:12 +0100
-Message-ID: <CAJTo0LbMdiJHrzHSZ4ONtBeso1zCkR+vDZuYeuZvBSD+zF4pPg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Update to latest on 2.26 pre-release
+	Thu,  3 Aug 2017 14:01:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 03 Aug 2017 07:01:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,316,1498546800"; d="scan'208";a="119206314"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2017 07:01:41 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Aug 2017 07:01:38 -0700
+Message-Id: <20170803140138.19761-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH] context: Include a command line argument to run all except certain tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +27,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Aug 2017 11:04:32 -0000
-Content-Type: multipart/alternative; boundary="001a1148bd7a6ef5c70555d758ec"
+X-List-Received-Date: Thu, 03 Aug 2017 14:01:40 -0000
 
---001a1148bd7a6ef5c70555d758ec
-Content-Type: text/plain; charset="UTF-8"
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 2 August 2017 at 23:03, Burton, Ross <ross.burton@intel.com> wrote:
+A new command line argument (-R, which is the oposite of current -r) that allows
+to run all test cases except the ones indicated through the command line.
 
-> Build almost anything because it will need glibc-locale.  Sorry.
->
-> I can throw it on the AB to see what fails/works.
->
+Some command line examples:
 
-The autobuilder, for once, is on my side.
+* Run all except the distro test case:
+$ oe-selftest -R distrodata
 
-https://autobuilder.yocto.io/tgrid, the ross/glibc row at 4cb48130d80a.
+* Run all except the archiver test case and a single bblayers unit test
+$ oe-selftest -R archiver bblayers.BitbakeLayers.test_bitbakelayers_add_remove
 
-Ross
+[YOCTO #11847]
 
---001a1148bd7a6ef5c70555d758ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oeqa/core/context.py     | 20 +++++++++++++++++---
+ meta/lib/oeqa/selftest/context.py | 11 ++++++++---
+ 2 files changed, 25 insertions(+), 6 deletions(-)
 
-<div dir=3D"ltr">On 2 August 2017 at 23:03, Burton, Ross <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@=
-intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
-204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra">=
-<div class=3D"gmail_quote"><div>Build almost anything because it will need =
-glibc-locale.=C2=A0 Sorry.</div><div><br></div><div>I can throw it on the A=
-B to see what fails/works.</div></div></div></div></blockquote><div><br></d=
-iv><div>The autobuilder, for once, is on my side.</div><br><a href=3D"https=
-://autobuilder.yocto.io/tgrid">https://autobuilder.yocto.io/tgrid</a>, the =
-ross/glibc row at 4cb48130d80a.</div><div class=3D"gmail_quote"><br></div><=
-div class=3D"gmail_quote">Ross</div></div></div>
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 422e289992..acd547416f 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -41,6 +41,14 @@ class OETestContext(object):
+ 
+         return modules
+ 
++    def skipTests(self, skips):
++        if not skips:
++            return
++        for test in self.suites:
++            for skip in skips:
++                if test.id().startswith(skip):
++                    setattr(test, 'setUp', lambda: test.skipTest('Skip by the command line argument "%s"' % skip))
++
+     def loadTests(self, module_paths, modules=[], tests=[],
+             modules_manifest="", modules_required=[], filters={}):
+         if modules_manifest:
+@@ -50,9 +58,12 @@ class OETestContext(object):
+                 modules_required, filters)
+         self.suites = self.loader.discover()
+ 
+-    def runTests(self):
++    def runTests(self, skips=[]):
+         self.runner = self.runnerClass(self, descriptions=False, verbosity=2)
+ 
++        # Dinamically skip those tests specified though arguments
++        self.skipTests(skips)
++
+         self._run_start_time = time.time()
+         result = self.runner.run(self.suites)
+         self._run_end_time = time.time()
+@@ -128,7 +139,8 @@ class OETestContextExecutor(object):
+         self.tc_kwargs = {}
+         self.tc_kwargs['init'] = {}
+         self.tc_kwargs['load'] = {}
+-        self.tc_kwargs['run'] = {}
++        self.tc_kwargs['list'] = {}
++        self.tc_kwargs['run']  = {}
+ 
+         self.tc_kwargs['init']['logger'] = self._setup_logger(logger, args)
+         if args.test_data_file:
+@@ -143,6 +155,8 @@ class OETestContextExecutor(object):
+         else:
+             self.tc_kwargs['load']['modules'] = []
+ 
++        self.tc_kwargs['run']['skips'] = []
++
+         self.module_paths = args.CASES_PATHS
+ 
+     def _pre_run(self):
+@@ -159,7 +173,7 @@ class OETestContextExecutor(object):
+             sys.exit(1)
+ 
+         if args.list_tests:
+-            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['run'])
++            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['list'])
+         else:
+             self._pre_run()
+             rc = self.tc.runTests(**self.tc_kwargs['run'])
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 990c761f29..9e90d3c256 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -25,14 +25,14 @@ class OESelftestTestContext(OETestContext):
+         self.custommachine = None
+         self.config_paths = config_paths
+ 
+-    def runTests(self, machine=None):
++    def runTests(self, machine=None, skips=[]):
+         if machine:
+             self.custommachine = machine
+             if machine == 'random':
+                 self.custommachine = choice(self.machines)
+             self.logger.info('Run tests with custom MACHINE set to: %s' % \
+                     self.custommachine)
+-        return super(OESelftestTestContext, self).runTests()
++        return super(OESelftestTestContext, self).runTests(skips)
+ 
+     def listTests(self, display_type, machine=None):
+         return super(OESelftestTestContext, self).listTests(display_type)
+@@ -51,6 +51,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         group.add_argument('-a', '--run-all-tests', default=False,
+                 action="store_true", dest="run_all_tests",
+                 help='Run all (unhidden) tests')
++        group.add_argument('-R', '--skip-tests', required=False, action='store',
++                nargs='+', dest="skips", default=None,
++                help='Run all (unhidden) tests except the ones specified. Format should be <module>[.<class>[.<test_method>]]')
+         group.add_argument('-r', '--run-tests', required=False, action='store',
+                 nargs='+', dest="run_tests", default=None,
+                 help='Select what tests to run (modules, classes or test methods). Format should be: <module>.<class>.<test_method>')
+@@ -133,6 +136,8 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+         copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
+                 self.tc_kwargs['init']['config_paths']['bblayers_backup'])
+ 
++        self.tc_kwargs['run']['skips'] = args.skips
++
+     def _pre_run(self):
+         def _check_required_env_variables(vars):
+             for var in vars:
+@@ -203,7 +208,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+             sys.exit(1)
+ 
+         if args.list_tests:
+-            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['run'])
++            rc = self.tc.listTests(args.list_tests, **self.tc_kwargs['list'])
+         else:
+             self._pre_run()
+             rc = self.tc.runTests(**self.tc_kwargs['run'])
+-- 
+2.12.3
 
---001a1148bd7a6ef5c70555d758ec--
+
