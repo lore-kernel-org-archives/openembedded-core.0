@@ -1,35 +1,46 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85FD471CB8
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EE8B605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Aug 2017 01:34:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v741YLjp029927
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 3 Aug 2017 18:34:22 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 3 Aug 2017 18:34:21 -0700
-To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1500357604.git.dengke.du@windriver.com>
-	<dd968ff528a0928627a3bb12b4b1e8d77a1ff829.1500357604.git.dengke.du@windriver.com>
-	<CAJTo0Lac01Ny9N5D0p8Qv+GCFXRNv0qF_BjGdXx4Q3zvc+1How@mail.gmail.com>
-	<CAMKF1soL-B5ryhSUD9twYD6BUwSQOpRN37uxd=OkC9HNLQaC1Q@mail.gmail.com>
-	<CAJTo0Lb0YdjLaVyLqHxfztCuYyrvEVAzXSZt5wZ7o=c_PXMh3g@mail.gmail.com>
-	<CAJTo0La48UP4m0NRFM+TwrrpmTm1jR222yRaBfD=Nq7fNehg6Q@mail.gmail.com>
-	<CAJTo0LYbn44Eva+zF1k8KxXMr5atREEzXr_r6odbpiF7g8uf+w@mail.gmail.com>
-	<CAMKF1sp9gvOFaU9CB4SGvoNtsso5iBD6wXuakfDkXX+bW3YPng@mail.gmail.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <8db9a9a9-17a9-4964-48ec-cdac0ecff0f0@windriver.com>
-Date: Fri, 4 Aug 2017 09:33:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp9gvOFaU9CB4SGvoNtsso5iBD6wXuakfDkXX+bW3YPng@mail.gmail.com>
-X-Originating-IP: [128.224.162.194]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] expat: upgrade to 2.2.2
+	Fri,  4 Aug 2017 02:56:41 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r77so4237450wmd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Aug 2017 19:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=83xD2eFDXEdo/90kMSubsgSy0nXRjYLbTzJhCKR62n4=;
+	b=JKSSPGlqkm0XxOpWT/jBNwrqMlaM+8U4g2kwt9YicIpYneWvp3z5VQK9CEkKr0oZAp
+	N75X+GQRYluhUz+k0QXAHdUlf5MJlTueXe3pqN0fF5qU1Tx2Rf+O6CJgi1DnvWsZ0U7w
+	acj9kF7hiEeRTF598JSXUVjH3tTAE8cLdMNneMq8oAaPb0vP+5B0E5lB+VyFmAevEb6r
+	q3Jug92C8os6IH7T0GrUK6e+WjYDqrgboOpAyE6HL9mjqiEV1ePRYSlbJhvdTo7PlNkG
+	Du4MEovwZ/nLAVIfNAe6K6C/QINryCXoSg1GTXwPct5b0Z7hc3CEFRfueb1sNpKBz1yb
+	IGFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=83xD2eFDXEdo/90kMSubsgSy0nXRjYLbTzJhCKR62n4=;
+	b=JcXh8IHYWpmXad78z/3QwySsELIdUWcXw6srZuGnk8d05TLtogO6hVo6s4RSA4PfIt
+	usiKtUU+T6L8zrxk3tyC9x8YLKFrZJL8MwBhMdtnFz+V+ikBqVHn7cTWOj2cfj3T7wKQ
+	yQOgsPU9BH03jyGrbS5mFrToQMn865tlHp5jn2z68+VoUtyp1TgmVUTcG3wRTHqsT/+A
+	aVZkkXvQpzqzzoccggsbrfbwsZvaeOHTyw46iuKgFOGED9nTngA4SE+BF1syGuf3A+vw
+	dJPfmeqpgrmQXXmHW19ZN8aQ4f6FC90ijYeOvu7/V4p5j31Qk5MXxmsfA3Q1YYqPFSe1
+	LbJg==
+X-Gm-Message-State: AIVw113QPdDrH8fySUkODoAIJB+0XFM6N5dmEAEKXRaIXm9aOd+/vAGo
+	a+Q8QoDxAK4knejF
+X-Received: by 10.80.140.65 with SMTP id p59mr1036417edp.0.1501815402047;
+	Thu, 03 Aug 2017 19:56:42 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([27.191.201.186]) by smtp.gmail.com with ESMTPSA id
+	b10sm1984131edl.74.2017.08.03.19.56.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Aug 2017 19:56:41 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Aug 2017 04:56:27 +0200
+Message-Id: <1501815391-8192-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V2 0/4] Set WKS_FILE_DEPENDS/Clean up some do_image_wic depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,28 +53,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Aug 2017 01:34:23 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 04 Aug 2017 02:56:42 -0000
 
-OK!
+From: Ming Liu <liu.ming50@gmail.com>
 
+Ming Liu (4):
+  image_types_wic.bbclass: adjust WKS_FILE_DEPENDS_DEFAULT
+  wic-image-minimal.bb: add parted-native e2fsprogs-native to
+    WKS_FILE_DEPENDS
+  qemux86-64.conf: set WKS_FILE_DEPENDS
+  qemux86.conf: set WKS_FILE_DEPENDS
 
-On 2017年08月04日 00:48, Khem Raj wrote:
-> On Thu, Aug 3, 2017 at 9:42 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> On 24 July 2017 at 11:23, Burton, Ross <ross.burton@intel.com> wrote:
->>> I've filed a bug upstream about the failure on Debian 8:
->>> https://github.com/libexpat/libexpat/issues/97
->>
->> And this bug is now resolved.  expat in git can read /dev/urandom directly
->> if it doesn't find the syscalls it wants.
-> Sounds good. Denke, when you refresh patch please include this patch along
->
-> http://git.openembedded.org/openembedded-core-contrib/tree/meta/recipes-core/expat/expat/libtool-tag.patch?h=kraj/master&id=01929853a8346ba0fc27090150ebc506d1c5cd1e
->
-> which was not there in your v1.
->
->> Ross
+ .../recipes-test/images/wic-image-minimal.bb        |  2 +-
+ meta/classes/image_types_wic.bbclass                | 21 +++++++++++++++++++--
+ meta/conf/machine/qemux86-64.conf                   |  2 +-
+ meta/conf/machine/qemux86.conf                      |  2 +-
+ 4 files changed, 22 insertions(+), 5 deletions(-)
+
+-- 
+2.7.4
 
 
