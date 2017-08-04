@@ -1,24 +1,19 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E5D966067C
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8272771C9A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Aug 2017 21:20:59 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Aug 2017 14:21:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,322,1498546800"; d="scan'208";a="1159331349"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2017 14:21:00 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Aug 2017 14:20:54 -0700
-Message-Id: <20170804212054.17000-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <72844ead-b913-5246-b5b6-99a05fdfae7e@intel.com>
-References: <72844ead-b913-5246-b5b6-99a05fdfae7e@intel.com>
-Cc: wei.tee.ng@intel.com
-Subject: [PATCH] initramfs-framework/setup-live: also boot live image if root=/dev/ram0
+	Fri,  4 Aug 2017 21:31:06 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Sullivan, California L <california.l.sullivan@intel.com>
+Date: Fri, 04 Aug 2017 21:31:08 -0000
+Message-ID: <20170804213108.2383.17414@do.openembedded.org>
+References: <cover.1500848692.git.wei.tee.ng@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1500848692.git.wei.tee.ng@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29yZS1pbWFnZS1taW5pbWFsLWluaXRyYW1mczogdXNlIGluaXRyYW1mcy1mcmFtZXdvcmsgZm9yIGluaXRpYWxpemF0aW9uIGJ5IGRlZmF1bHQgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +26,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Aug 2017 21:21:00 -0000
+X-List-Received-Date: Fri, 04 Aug 2017 21:31:06 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Our grub and syslinux bootloaders both define root=/dev/ram0 for live
-images by default. Kernel docs show that root=/dev/ram0 is just a
-sentinel value to mount the initrd as root, which we're already doing
-in this path, so just check for a missing root= parameter OR
-root=/dev/ram0.
+== Series Details ==
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Series: core-image-minimal-initramfs: use initramfs-framework for initialization by default (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/7879/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a5bb13a5d7)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-NOTE: for the selftests to be fixed, the patch
-"initramfs-framework/setup-live: remove superfluous break" needs to be
-merged as well.
-
- meta/recipes-core/initrdscripts/initramfs-framework/setup-live | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-index 591c93a..b98a321 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/setup-live
-@@ -12,7 +12,7 @@ ISOLINUX=""
- ROOT_DISK=""
- shelltimeout=30
- 
--	if [ -z $bootparam_root ]; then
-+	if [ -z $bootparam_root -o $bootparam_root = "/dev/ram0" ]; then
- 		echo "Waiting for removable media..."
- 		C=0
- 		while true
--- 
-2.9.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
