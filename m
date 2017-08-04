@@ -1,49 +1,40 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F37E172F62
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA79600EB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Aug 2017 02:57:01 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id y206so4195713wmd.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Aug 2017 19:57:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eMd0sE+DVbxgp5HNO08ePQ+1YnX/CARXEcAq9wSUY1U=;
-	b=mNK6HCTXdnHQRQManEhasv45BUnlYn8LtjjDgg2VMJQib0J7w5mSjZjRFJv08MnaS0
-	kg0yaUiPdUrxHSzEoDbX69SRoTpXbHVpJRj6cXScSdvrWPzRafXy5p9voOsavpWlNxw7
-	tBM5gF4elQt7QBuBA1PEy1dj2F4jaj5ucsnfcaZFM/epiHQhvfxS6voWWI0hanXuWEzy
-	0ePmjSc9eiOUurnQf2zUXYbZv+je7woLm0FmXkYg1zztKpt8CeWv6B5pkaE6QF8HM6NR
-	xXFLNrx7s6C5MqGDaff3AvSMt0Kzl8sZGdpcO0aLY4WK/fQClkEH7jIU2lebu8/Y+rTr
-	Ps8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=eMd0sE+DVbxgp5HNO08ePQ+1YnX/CARXEcAq9wSUY1U=;
-	b=EGESCB9u2wdqTfgbyS5vMuKo2M0RNx5nUeU8lXJ2nKUsrUk5clf5mSP9NI2eG574t0
-	7pkQm6un5TkwiPWl0X2p5KS2csklzZYUmXuzArlq5o/NulYW5pzYDp9RvjuP9uQIwYsn
-	oakLbOFSOXA5w8xKZWo16271ucMvHhmNkeZHEffLJ9xhG7ANgyNA01O18PenOOb3uoAC
-	azHdG2sh17uSc6k8kAqnt7XHYGUuVFqKBvIde8GRCBSwRZ6mPmZI30IGThkMWgp85sho
-	Qz5g02laCReGNoZhSQTAe3cvX67OohZPFA+3gKdneCkj6dE78xNkWpeg6D75ONo7m1B2
-	QohA==
-X-Gm-Message-State: AIVw112wb4txK0s/qVdalRJr9/ps78C7rQOiuSe8MsNTHtbkqwLX6WnU
-	DWGN4FOaXidmt5kZ
-X-Received: by 10.80.165.45 with SMTP id y42mr1005059edb.64.1501815422705;
-	Thu, 03 Aug 2017 19:57:02 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.201.186]) by smtp.gmail.com with ESMTPSA id
-	b10sm1984131edl.74.2017.08.03.19.56.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Aug 2017 19:57:01 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Aug 2017 04:56:31 +0200
-Message-Id: <1501815391-8192-5-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1501815391-8192-1-git-send-email-liu.ming50@gmail.com>
-References: <1501815391-8192-1-git-send-email-liu.ming50@gmail.com>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH V2 4/4] qemux86.conf: set WKS_FILE_DEPENDS
+	Fri,  4 Aug 2017 07:17:16 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 04 Aug 2017 00:17:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,319,1498546800"; d="scan'208";a="133473483"
+Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
+	by orsmga005.jf.intel.com with ESMTP; 04 Aug 2017 00:17:15 -0700
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.27]) by
+	PGSMSX104.gar.corp.intel.com ([169.254.3.149]) with mapi id
+	14.03.0319.002; Fri, 4 Aug 2017 15:17:14 +0800
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 3/3] core-image-minimal-initramfs: use
+	initramfs-framework by default
+Thread-Index: AQHTBEEEHf58c1aqIkC4kkZQt3ybbaJrgauAgAhWmQA=
+Date: Fri, 4 Aug 2017 07:17:14 +0000
+Message-ID: <CBAEED2EB06BF94889E80B47A33FE329EE25D6@PGSMSX105.gar.corp.intel.com>
+References: <cover.1500848692.git.wei.tee.ng@intel.com>
+	<7845bc41803435479389182bed1dfb5d410df24a.1500848692.git.wei.tee.ng@intel.com>
+	<1501400871.22282.210.camel@linuxfoundation.org>
+In-Reply-To: <1501400871.22282.210.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [172.30.20.205]
+MIME-Version: 1.0
+Cc: "Wold, Saul" <saul.wold@intel.com>
+Subject: Re: [PATCH 3/3] core-image-minimal-initramfs: use initramfs-framework by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Aug 2017 02:57:02 -0000
+X-List-Received-Date: Fri, 04 Aug 2017 07:17:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Ming Liu <peter.x.liu@external.atlascopco.com>
-
-To involve in a minimal set of dependencies required by directdisk.wks.
-
-Drop do_image_wic depends varflags, it's not needed any more.
-
-Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
----
- meta/conf/machine/qemux86.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index c26dda2..01490b7 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -29,4 +29,4 @@ MACHINE_FEATURES += "x86"
- MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
- 
- WKS_FILE ?= "directdisk.wks"
--do_image_wic[depends] += "syslinux:do_populate_sysroot syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
-+WKS_FILE_DEPENDS ?= "syslinux syslinux-native mtools-native dosfstools-native e2fsprogs-native parted-native"
--- 
-2.7.4
-
+SGkgUmljaGFyZCwNCg0KTm90ZWQgd2l0aCB0aGUgY2hhbmdlcy4gSSBoYWQgdHJ5IHRvIHJlcHJv
+ZHVjZSB0aGUgc2FtZSBmYWlsdXJlIGxvZyB0aGF0IHlvdSBzZW5kIHRvIG1lLiBIb3dldmVyLCB0
+aGUgcmVzdWx0IGlzIGRpZmZlcmVudC4gDQoNCkhvdyBjYW4gSSBydW4gdGhlIG9lLXNlbGZ0ZXN0
+IHRvIHRlc3Qgb3V0IHRoZSBwYXRjaCBvbiBteSBtYWNoaW5lIGNvcnJlY3RseT8gQ2FuIHlvdSB2
+ZXJpZnkgd2l0aCBtZSB3aGV0aGVyIHRoZSBzdGVwcyBiZWxvdyBhcmUgdGhlIGNvcnJlY3Qgc3Rl
+cHM/DQpGaXJzdGx5IGdpdCBjbG9uZSBhIHBva3kgYW5kIG1ldGEtaW50ZWwgbGF5ZXIsIHRoZW4g
+c291cmNlIGEgYnVpbGQuIEkgYWxzbyBlbmFibGUgdGhlIG9lLXNlbGZ0ZXN0IGNvbmZpZ3VyYXRp
+b24gb24gbXkgbG9jYWwuY29uZiBhbmQgcnVuIHRoZSBjb21tYW5kICJvZS1zZWxmdGVzdCAtciBy
+dW5xZW11LlJ1bnFlbXVUZXN0cy50ZXN0X2Jvb3RfZGVwbG95X2hkZGltZyI/DQoNCkkgdHJ5IHRv
+IHRlc3QgdGhlIGxhdGVzdCBwb2t5IG1hc3RlciBicmFuY2ggd2l0aG91dCBteSAidXNlIGluaXRy
+YW1mcy1mcmFtZXdvcmsgYnkgZGVmYXVsdCIgY29tbWl0LCB0aGUgb2Utc2VsZnRlc3QgZm9yIHRo
+b3NlIHR3byB0ZXN0Y2FzZXMgYXJlIGZhaWxlZCB0b28pDQpIZXJlIGlzIHRoZSBmYWlsdXJlIGxv
+ZyB0aGF0IEkgY2FwdHVyZWQ6IGh0dHA6Ly9wYXN0ZWJpbi5pbnRlbC5jb20vaGVmaXplbGl4by52
+aGRsIA0KDQpSZWdhcmRzLA0KV2VpIFRlZQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0K
+RnJvbTogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnXSANClNlbnQ6IFN1bmRheSwgSnVseSAzMCwgMjAxNyAzOjQ4IFBNDQpUbzogTmcsIFdl
+aSBUZWUgPHdlaS50ZWUubmdAaW50ZWwuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KQ2M6IFdvbGQsIFNhdWwgPHNhdWwud29sZEBpbnRlbC5jb20+DQpTdWJq
+ZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAzLzNdIGNvcmUtaW1hZ2UtbWluaW1hbC1pbml0cmFt
+ZnM6IHVzZSBpbml0cmFtZnMtZnJhbWV3b3JrIGJ5IGRlZmF1bHQNCg0KT24gU3VuLCAyMDE3LTA3
+LTIzIGF0IDE2OjUxIC0wNzAwLCB3ZWkudGVlLm5nQGludGVsLmNvbSB3cm90ZToNCj4gRnJvbTog
+Ik5nLCBXZWkgVGVlIiA8d2VpLnRlZS5uZ0BpbnRlbC5jb20+DQo+IA0KPiBVc2UgdGhlIGluaXRy
+YW1mcy1mcmFtZXdvcmsgZm9yIGluaXRpYWxpemF0aW9uIGJ5IGRlZmF1bHQgZHVlIHRvIHRoZSAN
+Cj4gbW9kdWxhcml0eSBhbmQgZXhwYW5zaWJpbGl0eS4NCj4gDQo+IFtZT0NUTyAjMTA5ODddDQo+
+IA0KPiBTaWduZWQtb2ZmLWJ5OiBOZywgV2VpIFRlZSA8d2VpLnRlZS5uZ0BpbnRlbC5jb20+DQo+
+IC0tLQ0KPiDCoG1ldGEvcmVjaXBlcy1jb3JlL2ltYWdlcy9jb3JlLWltYWdlLW1pbmltYWwtaW5p
+dHJhbWZzLmJiIHwgMiArLQ0KPiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
+ZWxldGlvbigtKQ0KDQpJJ20gYWZyYWlkIEkgaGFkIHRvIHJldmVydCB0aGlzIGNoYW5nZToNCg0K
+aHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQuY2dpL3Bva3kvY29tbWl0Lz9pZD1mYWIy
+MjE5YWY0YTY1NjYxMjQNCmNmOTVkMWQyNjQ4ZDQ3MjkzOTFiYWYNCg0KYmVjYXVzZSBpdCB3YXMg
+Y2F1c2luZyBvZS1zZWxmdGVzdCBmYWlsdXJlcyBhcyBzaG93biBoZXJlOg0KDQpodHRwczovL2F1
+dG9idWlsZGVyLnlvY3RvLmlvL2J1aWxkZXJzL25pZ2h0bHktb2Utc2VsZnRlc3QvYnVpbGRzLzQx
+NS9zdA0KZXBzL1J1bm5pbmclMjBvZS1zZWxmdGVzdC9sb2dzL3N0ZGlvDQoNCkNoZWVycywNCg0K
+UmljaGFyZA0K
 
