@@ -1,49 +1,49 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E664172FB0
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F37E172F62
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Aug 2017 02:56:56 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id x64so4237361wmg.1
+	Fri,  4 Aug 2017 02:57:01 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id y206so4195713wmd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Aug 2017 19:56:58 -0700 (PDT)
+	Thu, 03 Aug 2017 19:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KBye+B01q+FFVU+XqvLLT6vdIkyJCMKE4Z9T+6BmMm4=;
-	b=kw3PBa859d9t3ATiCozM4t1YBJAwzbxMGjLVjHhwbSj6jCSUU3sQKuLs2kEL0gjQIV
-	qdnvw9lD0No2c5zAqed8ZebDlnLToJJA0PqiTgHOzQ1wEdKIK0Fx/AC5vEoewPPVcOT0
-	2c5A+v9+UungqwK7XW9B0Z61fKcILpe43kJwzD3JYRvov8ci6v0s+DvW95ek0q4+cJgK
-	HR+idHNORmEeasVDUysFC320oymaedQnP/ahxgy24Xru8Y1O+5wMKKb5ovQdzx75/pNi
-	Wni6yU++LujE/dwqIat8ru2gOIWm7KUKAvuUYtQgLARqj3jMPxlmdrdsQvrFc5x9ocsi
-	MjBw==
+	bh=eMd0sE+DVbxgp5HNO08ePQ+1YnX/CARXEcAq9wSUY1U=;
+	b=mNK6HCTXdnHQRQManEhasv45BUnlYn8LtjjDgg2VMJQib0J7w5mSjZjRFJv08MnaS0
+	kg0yaUiPdUrxHSzEoDbX69SRoTpXbHVpJRj6cXScSdvrWPzRafXy5p9voOsavpWlNxw7
+	tBM5gF4elQt7QBuBA1PEy1dj2F4jaj5ucsnfcaZFM/epiHQhvfxS6voWWI0hanXuWEzy
+	0ePmjSc9eiOUurnQf2zUXYbZv+je7woLm0FmXkYg1zztKpt8CeWv6B5pkaE6QF8HM6NR
+	xXFLNrx7s6C5MqGDaff3AvSMt0Kzl8sZGdpcO0aLY4WK/fQClkEH7jIU2lebu8/Y+rTr
+	Ps8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=KBye+B01q+FFVU+XqvLLT6vdIkyJCMKE4Z9T+6BmMm4=;
-	b=J//xcSsMU0L5dxw+eRJe3ypSzkgn7gzyimVCW9i7LybgDqDJbxA/aAF/1wHrkao0Cd
-	BGft/c+zoDXROATY8Y2ExBgvrSZJL/CGL2B2a59ATeed1+Yj/b1xuLlZnoXgMPdLZaP/
-	UYN4I9JF8Hy/MAK27rzK3Jzcd7oh8+Od6nD+RiWKa49cXlEF0JBF+lcsVUPuNH0MOGL5
-	3fGtn38b2K+G7YpU4g4QWNIietWpTagbF8U9Ef9MOUA3ei9v72/075vC6aKMgcqR62JP
-	zTbWhh3m+n3v+RV4dYSlX78UPaI6qhwx/NHFiRDmjkJHI4dV0bSnTL4nK+TRIGIREme4
-	veLQ==
-X-Gm-Message-State: AIVw110ug1Ilwhb8LTVHdbOv5avqZJr4gEbKDCj2I4adT2ur9IeMt95Y
-	bQ7DUhk4seMjzDnO
-X-Received: by 10.80.153.38 with SMTP id k35mr972107edb.63.1501815417394;
-	Thu, 03 Aug 2017 19:56:57 -0700 (PDT)
+	bh=eMd0sE+DVbxgp5HNO08ePQ+1YnX/CARXEcAq9wSUY1U=;
+	b=EGESCB9u2wdqTfgbyS5vMuKo2M0RNx5nUeU8lXJ2nKUsrUk5clf5mSP9NI2eG574t0
+	7pkQm6un5TkwiPWl0X2p5KS2csklzZYUmXuzArlq5o/NulYW5pzYDp9RvjuP9uQIwYsn
+	oakLbOFSOXA5w8xKZWo16271ucMvHhmNkeZHEffLJ9xhG7ANgyNA01O18PenOOb3uoAC
+	azHdG2sh17uSc6k8kAqnt7XHYGUuVFqKBvIde8GRCBSwRZ6mPmZI30IGThkMWgp85sho
+	Qz5g02laCReGNoZhSQTAe3cvX67OohZPFA+3gKdneCkj6dE78xNkWpeg6D75ONo7m1B2
+	QohA==
+X-Gm-Message-State: AIVw112wb4txK0s/qVdalRJr9/ps78C7rQOiuSe8MsNTHtbkqwLX6WnU
+	DWGN4FOaXidmt5kZ
+X-Received: by 10.80.165.45 with SMTP id y42mr1005059edb.64.1501815422705;
+	Thu, 03 Aug 2017 19:57:02 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([27.191.201.186]) by smtp.gmail.com with ESMTPSA id
-	b10sm1984131edl.74.2017.08.03.19.56.55
+	b10sm1984131edl.74.2017.08.03.19.56.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Aug 2017 19:56:56 -0700 (PDT)
+	Thu, 03 Aug 2017 19:57:01 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Aug 2017 04:56:30 +0200
-Message-Id: <1501815391-8192-4-git-send-email-liu.ming50@gmail.com>
+Date: Fri,  4 Aug 2017 04:56:31 +0200
+Message-Id: <1501815391-8192-5-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1501815391-8192-1-git-send-email-liu.ming50@gmail.com>
 References: <1501815391-8192-1-git-send-email-liu.ming50@gmail.com>
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH V2 3/4] qemux86-64.conf: set WKS_FILE_DEPENDS
+Subject: [PATCH V2 4/4] qemux86.conf: set WKS_FILE_DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Aug 2017 02:56:57 -0000
+X-List-Received-Date: Fri, 04 Aug 2017 02:57:02 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
@@ -66,14 +66,14 @@ Drop do_image_wic depends varflags, it's not needed any more.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/conf/machine/qemux86-64.conf | 2 +-
+ meta/conf/machine/qemux86.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index 10189cb..8fb9fd5 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -30,4 +30,4 @@ MACHINE_FEATURES += "x86"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index c26dda2..01490b7 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -29,4 +29,4 @@ MACHINE_FEATURES += "x86"
  MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
  
  WKS_FILE ?= "directdisk.wks"
