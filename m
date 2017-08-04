@@ -1,19 +1,21 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8272771C9A
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 48C836076F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Aug 2017 21:31:06 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Sullivan, California L <california.l.sullivan@intel.com>
-Date: Fri, 04 Aug 2017 21:31:08 -0000
-Message-ID: <20170804213108.2383.17414@do.openembedded.org>
-References: <cover.1500848692.git.wei.tee.ng@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1500848692.git.wei.tee.ng@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29yZS1pbWFnZS1taW5pbWFsLWluaXRyYW1mczogdXNlIGluaXRyYW1mcy1mcmFtZXdvcmsgZm9yIGluaXRpYWxpemF0aW9uIGJ5IGRlZmF1bHQgKHJldjIp?=
+	Fri,  4 Aug 2017 22:40:54 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Aug 2017 15:40:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,322,1498546800"; d="scan'208";a="115783360"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga004.jf.intel.com with ESMTP; 04 Aug 2017 15:40:56 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Aug 2017 15:40:53 -0700
+Message-Id: <1501886454-36442-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 0/1] GCC segmentation fault fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,41 +28,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Aug 2017 21:31:06 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Aug 2017 22:40:55 -0000
 
-== Series Details ==
+This is a reasonably clean fix for the GCC segmentation fault as reported
+in https://bugzilla.yoctoproject.org/show_bug.cgi?id=11738
 
-Series: core-image-minimal-initramfs: use initramfs-framework for initialization by default (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/7879/
-State : failure
+There should be no danger of any regressions.
 
-== Summary ==
+I reported the issue to GCC bugzilla, so eventually they may have a better fix.
+FWIW, I believe this bug is not GCC7 specific, it goes back to previous versions.
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Juro Bystricky (1):
+  gcc7: fix potential segmentation fault
 
+ meta/recipes-devtools/gcc/gcc-7.1.inc              |  1 +
+ .../fix-segmentation-fault-precompiled-hdr.patch   | 49 ++++++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.1/fix-segmentation-fault-precompiled-hdr.patch
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a5bb13a5d7)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.7.4
 
 
