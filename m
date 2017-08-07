@@ -1,18 +1,22 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CF53B60079;
-	Mon,  7 Aug 2017 06:31:10 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: =?utf-8?q?Richard_R=C3=B6jfors?= <richard.rojfors@gmail.com>
-Date: Mon, 07 Aug 2017 06:31:12 -0000
-Message-ID: <20170807063112.2381.93432@do.openembedded.org>
-References: <1502086865.13610.1.camel@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1502086865.13610.1.camel@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZV9tYW5hZ2VyOiBGaXggc3VwcG9ydCBmb3IgTk9fUkVDT01NRU5EQVRPTlMgKHJldjMp?=
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 201C46FEE0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Aug 2017 10:03:45 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Aug 2017 03:03:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,337,1498546800"; d="scan'208";a="137214637"
+Received: from peggleto-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.43.222])
+	by fmsmga006.fm.intel.com with ESMTP; 07 Aug 2017 03:03:46 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Aug 2017 12:03:42 +0200
+Message-Id: <cover.1502100124.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.4
+Subject: [PATCH 0/2] A couple of fixes related to the server rework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Aug 2017 06:31:11 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Aug 2017 10:03:46 -0000
 
-== Series Details ==
+A couple of fixes for issues I've noticed when working with the newly
+reworked server code in bitbake. 
 
-Series: package_manager: Fix support for NO_RECOMMENDATONS (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/8021/
-State : failure
-
-== Summary ==
+Note: patch 2/2 also requires the revert I just sent to bitbake-devel
+in order to fully resolve the issue.
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+The following changes since commit a5bb13a5d7d7a668ca61da6b17884e3b05b95355:
 
+  python: don't include -tests with modules (2017-08-03 11:14:04 +0100)
 
+are available in the git repository at:
 
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line          
+  git://git.openembedded.org/openembedded-core-contrib paule/server-fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/server-fixes
 
+Paul Eggleton (2):
+  bitbake.conf: whitelist BB_SERVER_TIMEOUT from config hash
+  devtool: fix handling of errors during task execution
 
+ meta/conf/bitbake.conf          |  2 +-
+ scripts/lib/devtool/standard.py | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.9.4
 
 
