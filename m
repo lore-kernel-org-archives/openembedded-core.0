@@ -1,29 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F99770016
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CD1FB6FFED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Aug 2017 13:00:03 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v77D00Hi023982
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 7 Aug 2017 14:00:02 +0100
-Message-ID: <1502110800.18633.220.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 07 Aug 2017 14:00:00 +0100
-In-Reply-To: <41176f6a-807d-f488-7f55-38ee82cc48bf@linux.intel.com>
-References: <1502107769-16160-1-git-send-email-jussi.kukkonen@intel.com>
-	<41176f6a-807d-f488-7f55-38ee82cc48bf@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 07 Aug 2017 14:00:02 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: Meson support in oe-core
+	Mon,  7 Aug 2017 13:02:55 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Aug 2017 06:02:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,338,1498546800"; d="scan'208";a="887424092"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Aug 2017 06:02:56 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170807114504.28410-1-alexander.kanavin@linux.intel.com>
+	<20170807114504.28410-3-alexander.kanavin@linux.intel.com>
+	<CAJTo0LZPE-vj-+4ud=L8n5JiEKYdhFHod6dsox90ULghcvOaWA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <770aa4a4-d872-a701-82c4-ba880652976b@linux.intel.com>
+Date: Mon, 7 Aug 2017 15:59:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZPE-vj-+4ud=L8n5JiEKYdhFHod6dsox90ULghcvOaWA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] btrfs-tools: update to 4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +36,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Aug 2017 13:00:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Aug 2017 13:02:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-08-07 at 15:19 +0300, Alexander Kanavin wrote:
-> On 08/07/2017 03:09 PM, Jussi Kukkonen wrote:
-> Looks like 2017 is when autotools is finally being replaced en masse
-> by 
-> various projects, particularly those related to gnome stack. Even 
-> relatively large projects like gstreamer are going forward with it.
-> The 
-> replacement is meson, whose advantages over autotools are major, and 
-> disadvantages are minor:
-> http://mesonbuild.com/
+On 08/07/2017 03:59 PM, Burton, Ross wrote:
+
+>     +-      $(Q)$(CC) $(CFLAGS) $< -o $@
+>     ++      $(Q)$(BUILD_CC) $(CFLAGS) $< -o $@
 > 
-> Ross and I have done some work on bringing meson support into oe-
-> core. 
-> One recipe has been fully migrated to meson (including tricker bits
-> like
-> gtkdoc, and gobject introspection). Going forward that will be the 
-> default when a project has both that and autotools, and of course we 
-> should be ready for the situation when autotools support is removed
-> from 
-> the upstream altogether.
 > 
-> http://git.openembedded.org/meta-openembedded-contrib/log/?h=akanavin
-> /meson
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavi
-> n/meson
+> This won't work when CFLAGS contains arguments that the host compiler 
+> doesn't recognise, or are inappropriate.
 
-Thanks for looking at this. Whilst some project still have some support
-for both, could we get timings of do_{configure|compile|install} for
-autotools vs. meson?
+Right, should've been BUILD_CFLAGS? Can you amend the patch in-place?
 
-Cheers,
-
-Richard
+Alex
 
