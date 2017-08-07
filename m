@@ -1,50 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D095B6FF69
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ECA66FF78
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Aug 2017 13:05:39 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id c74so2289978iod.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Aug 2017 06:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nWIYs8hhe7WdT4KSBW31ssyenG/pgOCUyJ5BKI00/u0=;
-	b=rCRtDV41byNbjF9qXFvTLjkKjdPA8zSQSSFitYX24zYT25XjGP6KUA2c0z9LmFD62Z
-	7HSsGD90602vn3sFu2b/TSlM6pewBENQ1a1Ee4AjOO2XGh76h+ltw/sxjIXIFuLQPNHl
-	l8zy49g8rQoTV17ND7p3vd6uhDXh8/VnQAwWUdiuSEzCRCQ+urDaipS9a2GYtc98092D
-	4zQY+B7mUAxwrVEKAH5EgPi/njLW621OkA2EQc8z2mGkyBGiou9JbDgHNCR+D342AENa
-	Rmn+zzKVCVpgJVExD7iafNr3Pimvo/SwOIVeLej7H4OTdOWIAfSqAtYhCeNt4xUTOYK0
-	vfmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nWIYs8hhe7WdT4KSBW31ssyenG/pgOCUyJ5BKI00/u0=;
-	b=EpOV7q/oclQvF6la7i+DMsaRkxg/TGUlIt0zsrYk5IwO8lr7BKzV0xnMvAOwhJHibZ
-	VoxntZE43DaGg0Fr713QFhH1IIRQVhoDCOCN4i+PuAWw8+2muzHzLMPPHQmTHBmrjW4q
-	xl9ce7u7H6pNZ55e25KfFKtZ0exyU1ptwpDTyrq8d0LWvEQxkxTNfw1oJopg57DCB7f2
-	/r+OGC8zAsqJE9F6RMLm02dD4rW4M5lrCsTxCLv6phS5FN/DRxb+b88chYE+anijOs6J
-	tBoZBI9NxxnykeT9RG0qBjux0g2FwX2f/zRCsc6TQFhVkR+GJGvbF7KsATKbjpSJyiwf
-	c+bg==
-X-Gm-Message-State: AHYfb5jWPi//NrmYRLnJqes3G7cKO5sZVhtkRbQV/WCd8/MrkW+cjhU/
-	Oko5nzoA+hPd9k7T6hckD9MJWsgdGnGb
-X-Received: by 10.107.12.160 with SMTP id 32mr430989iom.207.1502111140671;
-	Mon, 07 Aug 2017 06:05:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Mon, 7 Aug 2017 06:05:20 -0700 (PDT)
-In-Reply-To: <770aa4a4-d872-a701-82c4-ba880652976b@linux.intel.com>
-References: <20170807114504.28410-1-alexander.kanavin@linux.intel.com>
-	<20170807114504.28410-3-alexander.kanavin@linux.intel.com>
-	<CAJTo0LZPE-vj-+4ud=L8n5JiEKYdhFHod6dsox90ULghcvOaWA@mail.gmail.com>
-	<770aa4a4-d872-a701-82c4-ba880652976b@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Aug 2017 14:05:20 +0100
-Message-ID: <CAJTo0Larn3k1XzFisD00+aR-UGaiEyE_bzxYHeg70yX7WVqwHQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] btrfs-tools: update to 4.12
+	Mon,  7 Aug 2017 13:14:05 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Aug 2017 06:14:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,338,1498546800"; d="scan'208";a="136634472"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 07 Aug 2017 06:14:04 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Aug 2017 16:10:42 +0300
+Message-Id: <20170807131042.34726-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCHv2] btrfs-tools: update to 4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,64 +28,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Aug 2017 13:05:39 -0000
-Content-Type: multipart/alternative; boundary="001a113f9376f40b1e055629807d"
+X-List-Received-Date: Mon, 07 Aug 2017 13:14:05 -0000
 
---001a113f9376f40b1e055629807d
-Content-Type: text/plain; charset="UTF-8"
+Add a patch to force a native build for a helper binary
+(which is not installed or used outside of the build process).
 
-Can you send a v2 instead?
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ ...-Makefile-build-mktables-using-native-gcc.patch | 30 ++++++++++++++++++++++
+ .../{btrfs-tools_4.11.1.bb => btrfs-tools_4.12.bb} |  6 +++--
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-build-mktables-using-native-gcc.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.11.1.bb => btrfs-tools_4.12.bb} (88%)
 
-Presumably they don't already use CC_FOR_BUILD and so on?
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-build-mktables-using-native-gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-build-mktables-using-native-gcc.patch
+new file mode 100644
+index 00000000000..a81900ee7e7
+--- /dev/null
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Makefile-build-mktables-using-native-gcc.patch
+@@ -0,0 +1,30 @@
++From e58369f6d36bc51eb59d6afa34c1cae3ff0810ef Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 7 Aug 2017 14:10:38 +0300
++Subject: [PATCH] Makefile: build mktables using native gcc
++
++It's a throwaway helper binary used during build, and so it needs to
++be native.
++
++Upstream-Status: Inappropriate [oe specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index b3e2b63..347aaf1 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -323,7 +323,7 @@ version.h: version.sh version.h.in configure.ac
++ 
++ mktables: kernel-lib/mktables.c
++ 	@echo "    [CC]     $@"
++-	$(Q)$(CC) $(CFLAGS) $< -o $@
+++	$(Q)$(BUILD_CC) $(BUILD_CFLAGS) $< -o $@
++ 
++ kernel-lib/tables.c: mktables
++ 	@echo "    [TABLE]  $@"
++-- 
++2.13.2
++
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.11.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.12.bb
+similarity index 88%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_4.11.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_4.12.bb
+index a7b42e9546b..c3cc89c2b0f 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.11.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_4.12.bb
+@@ -14,8 +14,10 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
+ 
+-SRCREV = "88221fc081a7a0979a012f243b66cf097382cc8f"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git"
++SRCREV = "0607132c3200bcead1426e6dc685432008de95de"
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
++           file://0001-Makefile-build-mktables-using-native-gcc.patch \
++           "
+ 
+ inherit autotools-brokensep pkgconfig manpages
+ 
+-- 
+2.13.2
 
-Ross
 
-On 7 August 2017 at 13:59, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> On 08/07/2017 03:59 PM, Burton, Ross wrote:
->
->     +-      $(Q)$(CC) $(CFLAGS) $< -o $@
->>     ++      $(Q)$(BUILD_CC) $(CFLAGS) $< -o $@
->>
->>
->> This won't work when CFLAGS contains arguments that the host compiler
->> doesn't recognise, or are inappropriate.
->>
->
-> Right, should've been BUILD_CFLAGS? Can you amend the patch in-place?
->
-> Alex
->
-
---001a113f9376f40b1e055629807d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Can you send a v2 instead?<div><br></div><div>Presumably t=
-hey don&#39;t already use CC_FOR_BUILD and so on?</div><div><br></div><div>=
-Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">O=
-n 7 August 2017 at 13:59, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
-anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><span class=3D"">On 08/07/2017 03:59 PM, Burton, Ross wrote:<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=C2=A0 =C2=A0 +-=C2=A0 =C2=A0 =C2=A0 $(Q)$(CC) $(CFLAGS) $&lt; -o $@<br>
-=C2=A0 =C2=A0 ++=C2=A0 =C2=A0 =C2=A0 $(Q)$(BUILD_CC) $(CFLAGS) $&lt; -o $@<=
-br>
-<br>
-<br>
-This won&#39;t work when CFLAGS contains arguments that the host compiler d=
-oesn&#39;t recognise, or are inappropriate.<br>
-</blockquote>
-<br></span>
-Right, should&#39;ve been BUILD_CFLAGS? Can you amend the patch in-place?<b=
-r>
-<br>
-Alex<br>
-</blockquote></div><br></div>
-
---001a113f9376f40b1e055629807d--
