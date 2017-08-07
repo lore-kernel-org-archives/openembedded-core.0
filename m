@@ -1,24 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F6866FFD8
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2115D60939
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Aug 2017 10:03:47 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Aug 2017 03:03:49 -0700
+	Mon,  7 Aug 2017 11:48:27 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Aug 2017 04:48:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,337,1498546800"; d="scan'208";a="137214645"
-Received: from peggleto-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.43.222])
-	by fmsmga006.fm.intel.com with ESMTP; 07 Aug 2017 03:03:48 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.41,337,1498546800"; d="scan'208";a="136607096"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga005.fm.intel.com with ESMTP; 07 Aug 2017 04:48:28 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Aug 2017 12:03:44 +0200
-Message-Id: <c402f25ed2151e87e201ffcb1b8a9b0fc1550a1c.1502100124.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.4
-In-Reply-To: <cover.1502100124.git.paul.eggleton@linux.intel.com>
-References: <cover.1502100124.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] devtool: fix handling of errors during task execution
+Date: Mon,  7 Aug 2017 14:44:58 +0300
+Message-Id: <20170807114504.28410-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH 1/7] dnf: update to 2.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +28,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Aug 2017 10:03:47 -0000
+X-List-Received-Date: Mon, 07 Aug 2017 11:48:28 -0000
 
-* If an error is logged while executing a task, we need to ensure we
-  exit instead of assuming everything went OK.
-* If we receive CookerExit, the server is shutting down and we need to
-  stop waiting for events and probably exit (knotty does this). This
-  will occur if an exception or bb.fatal() happens during an event
-  handler.
-
-This fixes a couple of issues highlighted when using devtool upgrade or
-modify on a non-supported recipe with intel-iot-refkit together with
-bitbake master, but I'd be very surprised if it were hard to reproduce
-in other scenarios.
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ ...ever-check-after-the-etc-dnf-vars-substit.patch | 37 ----------------------
+ .../dnf/0030-Run-python-scripts-using-env.patch    | 13 +-------
+ .../dnf/{dnf_2.5.1.bb => dnf_2.6.3.bb}             |  3 +-
+ 3 files changed, 2 insertions(+), 51 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch
+ rename meta/recipes-devtools/dnf/{dnf_2.5.1.bb => dnf_2.6.3.bb} (94%)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 22a9ec8..ec19223 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -498,18 +498,24 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d, tinfoil):
-                                 'logging.LogRecord',
-                                 'bb.command.CommandCompleted',
-                                 'bb.command.CommandFailed',
-+                                'bb.cooker.CookerExit',
-                                 'bb.build.TaskStarted',
-                                 'bb.build.TaskSucceeded',
-                                 'bb.build.TaskFailed',
-                                 'bb.build.TaskFailedSilent'])
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch b/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch
+deleted file mode 100644
+index daf058bbae7..00000000000
+--- a/meta/recipes-devtools/dnf/dnf/0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 3d0cdd8af1b415712eeb00e377c307001684ad06 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 21 Jun 2017 15:35:20 +0300
+-Subject: [PATCH] Move releasever check after the etc/dnf/vars substitutions.
+-
+-The substitutions may actually set the releasever correctly,
+-and so the check is premature.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf/pull/868]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- dnf/cli/cli.py | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
+-index c53c2a52..f9f2c13a 100644
+---- a/dnf/cli/cli.py
+-+++ b/dnf/cli/cli.py
+-@@ -882,12 +882,12 @@ class Cli(object):
+-             releasever = dnf.rpm.detect_releasever(conf.installroot)
+-         elif releasever == '/':
+-             releasever = dnf.rpm.detect_releasever(releasever)
+--        if releasever is None:
+--            logger.warning(_("Unable to detect release version (use '--releasever' to specify "
+--                             "release version)"))
+-         conf.releasever = releasever
+-         subst = conf.substitutions
+-         subst.update_from_etc(conf.installroot)
+-+        if releasever is None:
+-+            logger.warning(_("Unable to detect release version (use '--releasever' to specify "
+-+                             "release version)"))
+- 
+-         for opt in ('cachedir', 'logdir', 'persistdir'):
+-             conf.prepend_installroot(opt)
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
+index 61328e6ec5b..1abd880da9b 100644
+--- a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
++++ b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
+@@ -10,8 +10,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+  bin/dnf-automatic.in | 2 +-
+  bin/dnf.in           | 2 +-
+- bin/yum.in           | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
++ 2 files changed, 2 insertions(+), 2 deletions(-)
  
-         def runtask(target, task):
-+            error = False
-             if tinfoil.build_file(target, task):
-                 while True:
-                     event = tinfoil.wait_event(0.25)
-                     if event:
-                         if isinstance(event, bb.command.CommandCompleted):
-                             break
-+                        elif isinstance(event, bb.cooker.CookerExit):
-+                            # The server is going away, so drop the connection
-+                            tinfoil.server_connection = None
-+                            break
-                         elif isinstance(event, bb.command.CommandFailed):
-                             raise DevtoolError('Task do_%s failed: %s' % (task, event.error))
-                         elif isinstance(event, bb.build.TaskFailed):
-@@ -519,7 +525,11 @@ def _extract_source(srctree, keep_temp, devbranch, sync, d, tinfoil):
-                         elif isinstance(event, logging.LogRecord):
-                             if event.levelno <= logging.INFO:
-                                 continue
-+                            if event.levelno >= logging.ERROR:
-+                                error = True
-                             logger.handle(event)
-+                if error:
-+                    raise DevtoolError('An error occurred during do_%s, exiting' % task)
+ diff --git a/bin/dnf-automatic.in b/bin/dnf-automatic.in
+ index 5b06aa26..9f6f703e 100755
+@@ -33,16 +32,6 @@ index 645d0f06..ab141abd 100755
+  # The dnf executable script.
+  #
+  # Copyright (C) 2012-2016 Red Hat, Inc.
+-diff --git a/bin/yum.in b/bin/yum.in
+-index f1fee071..013dc8c5 100755
+---- a/bin/yum.in
+-+++ b/bin/yum.in
+-@@ -1,4 +1,4 @@
+--#!@PYTHON_EXECUTABLE@
+-+#!/usr/bin/env python3
+- # The dnf executable script.
+- #
+- # Copyright (C) 2016 Red Hat, Inc.
+ -- 
+ 2.11.0
  
-         # we need virtual:native:/path/to/recipe if it's a BBCLASSEXTEND
-         fn = tinfoil.get_recipe_file(pn)
+diff --git a/meta/recipes-devtools/dnf/dnf_2.5.1.bb b/meta/recipes-devtools/dnf/dnf_2.6.3.bb
+similarity index 94%
+rename from meta/recipes-devtools/dnf/dnf_2.5.1.bb
+rename to meta/recipes-devtools/dnf/dnf_2.6.3.bb
+index cdc2a8549fb..ade55ea0a80 100644
+--- a/meta/recipes-devtools/dnf/dnf_2.5.1.bb
++++ b/meta/recipes-devtools/dnf/dnf_2.6.3.bb
+@@ -5,7 +5,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                    "
+ 
+ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
+-           file://0001-Move-releasever-check-after-the-etc-dnf-vars-substit.patch \
+            file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            file://0030-Run-python-scripts-using-env.patch \
+            file://0001-Do-not-prepend-installroot-to-logdir.patch \
+@@ -13,7 +12,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
+            file://0001-Corretly-install-tmpfiles.d-configuration.patch \
+            "
+ 
+-SRCREV = "32e6ffdc8902b868cd8f98f9c399c98c9de0c7b8"
++SRCREV = "be2585183ec4485ee4d5e121f242d8669296f065"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.9.4
+2.13.2
 
 
