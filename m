@@ -1,29 +1,21 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3795F6010B
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 746726AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Aug 2017 17:10:43 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Aug 2017 10:10:44 -0700
+	Mon,  7 Aug 2017 19:21:52 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Aug 2017 12:21:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,339,1498546800"; d="scan'208";a="120930000"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2017 10:10:43 -0700
-Message-ID: <1502126358.2330.5.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 07 Aug 2017 12:19:18 -0500
-In-Reply-To: <CAJTo0LbdWuxLS=4VKHbUZ_rcTrBk0MpJB78i11HbCnBmScm6CA@mail.gmail.com>
-References: <20170804185703.51157-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20170804185703.51157-2-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LY5mBjm586rFqHBofcZE3eSzY=kAaxp2P=4PBA-2nYwiA@mail.gmail.com>
-	<1502125572.2330.3.camel@linux.intel.com>
-	<CAJTo0LbdWuxLS=4VKHbUZ_rcTrBk0MpJB78i11HbCnBmScm6CA@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] sstatetests: limit the number of signature comparisons when differ
+X-IronPort-AV: E=Sophos;i="5.41,339,1498546800"; d="scan'208";a="137397472"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by fmsmga006.fm.intel.com with ESMTP; 07 Aug 2017 12:21:53 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Aug 2017 12:21:50 -0700
+Message-Id: <20170807192151.134063-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH 1/2] Revert "cml1.bbclass: wait until menuconfig terminal finishes"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +28,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Aug 2017 17:10:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Aug 2017 19:21:53 -0000
 
-On Mon, 2017-08-07 at 18:05 +0100, Burton, Ross wrote:
-> On 7 August 2017 at 18:06, Leonardo Sandoval
-> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
->         yes, but we this way, we are not listing those > 20 and I
->         believe this
->         is important. This fix just diffsigs the first 20, and the
->         rest are just
->         listed for convenience.
-> 
-> 
-> Good point.  You could neatly print the filenames in one iteration,
-> and then the first 20 diffs in another loop.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-not super convinced but yes, that can be a another way to avoid the if
-inside the for body. I will send a v2.
+This reverts commit d2ebee7c3a0c8ab9a09ebad12a2fda51f8d10954.
+---
+ meta/classes/cml1.bbclass | 22 +---------------------
+ 1 file changed, 1 insertion(+), 21 deletions(-)
 
-Leo
-> 
-> 
->         also, sets are not 'subscriptable' thus slicing is not
->         possible on sets.
-> 
-> 
-> Which is why I called list() before slicing.
-> 
-> 
-> Ross 
-
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 0bab22efed..eb8e7907f6 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -26,28 +26,8 @@ python do_menuconfig() {
+     except OSError:
+         mtime = 0
+ 
+-    # We need to know when the command completes but some terminals (including gnome-terminal
+-    # and tmux) gives us no way to do this. We therefore write the pid to a temporal file
+-    # then monitor the pid until it exits.
+-    import tempfile
+-    pidfile = tempfile.NamedTemporaryFile(delete = False).name
+-    try:
+-        oe_terminal("${SHELL} -c \"echo $$ > %s; make %s; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % (pidfile, d.getVar('KCONFIG_CONFIG_COMMAND')),
++    oe_terminal("${SHELL} -c \"make %s; if [ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+                 d.getVar('PN') + ' Configuration', d)
+-        while os.stat(pidfile).st_size <= 0:
+-            continue
+-        with open(pidfile, "r") as f:
+-            pid = int(f.readline())
+-    finally:
+-        os.unlink(pidfile)
+-
+-    import time
+-    while True:
+-        try:
+-            os.kill(pid, 0)
+-            time.sleep(0.1)
+-        except OSError:
+-            break
+ 
+     # FIXME this check can be removed when the minimum bitbake version has been bumped
+     if hasattr(bb.build, 'write_taint'):
+-- 
+2.12.3
 
 
