@@ -1,48 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C7016E650
+Return-Path: <richard.rojfors@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7047D6FFCD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Aug 2017 02:15:23 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id v105so34206064wrb.0
+	Mon,  7 Aug 2017 06:21:07 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id 65so4765442lfa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Aug 2017 19:15:25 -0700 (PDT)
+	Sun, 06 Aug 2017 23:21:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=O429oVGTTpf3PlPo+eS2RN8asLLsifJ06WyVDyoCAyw=;
-	b=by0RBBcqSToiBlQ4oP1/0RXqXQuH9BZdcU4rdLRcmEBIbSovoPF319Xt8mB87dUdXs
-	mpEYUsG7F9QmXnyI0Aa8qwAUNMeSVDeaikSkKuFyi3FLi+1nxZkPNRGe4qlt+TzOXQMB
-	31iFKzgYMnLnITFj2obJnqcCSRuIv95Dn3gyw9aFDp61gmG3Iwrhykl9blWTdtTr7+JZ
-	dbQOz66TdLqSMaExZTwUM0DapgmHXOuA21Z8FG+KIU3w+anki9P8HRMLOX1fa3TOp5Tx
-	xESM2W05ISez6T25u2CCHH0L0UD4l+8WueHeZGMaLpQASglVjKAVkql48U4/xfhx0RtE
-	znQQ==
+	h=message-id:subject:from:to:date:mime-version
+	:content-transfer-encoding;
+	bh=DLzzR2KCvdGuhxZ90P98NEE2jhEPSQ8gTSCxvuqeAH8=;
+	b=DsM6eIREEa8Wl3PbTUiBZi2T5R/hm5xY8XD4nzHnyc2HLrltE5jmUxfsTIcIfFpfUM
+	EmU10Qhfcj7TnavzxK4RylOEQMj0K62WsxTo9hY+960DgnSg7LjwYOoQLNV3BKastB33
+	VyLmEsyq3/4iniNMzpmo+3w/K5qI3N9j7lTOEtSP8uzBNaZFW9IlzKKYgQFtPKq11MxJ
+	T7Vzxpo8cuD7LE4cMTy9sMKes0tmE1RPmF88lKmF8HoiGMw2CqiCXG6cp1dixAQHiY6d
+	oCwpjl/eYs/uQLV89vMUQurvRZwJ55OP0RPSVHbsRn4KSupWIRZHNRRC6oVBMis6caEM
+	9Kzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=O429oVGTTpf3PlPo+eS2RN8asLLsifJ06WyVDyoCAyw=;
-	b=fX5mu/yM9zSFTYpNO99un5yjIgBwpVeaZYAPCzTEyK0Ej8aEhQK9MeaC8zhXJcZ5F6
-	KA9Z42svD7NFqoQSwfvBb7qW4XMi+T5OmukFYPrXW3je2+9h03PSaUEb2uoIYgNaKp8T
-	mSggIROEf6XJKRhNe3NOu/y0XFofQ8yNlG98ObYGDrtXRlk3alvW3V9ThxqoCcWIJNbG
-	u+QRPF/gPleuu9uP6KhGb9cPhi94rUv/h4KcQlSCvIzA9LlVg61AsKe6vM55heEVI9Ze
-	wWci+1S5bfGNYq3wue5bVnz8ITKLifhN0vw0T6uqgXJxI8NOCQv39ErfKIE6aB67vbr7
-	2lBg==
-X-Gm-Message-State: AIVw113U0gOgPgghD0g9ChAo/6yxAPWZ7vluMgiUUmJRb8vB1K/0vDFZ
-	HdrXCwphFLZqkb7PnficFICh4bwUxw==
-X-Received: by 10.223.166.36 with SMTP id k33mr6361903wrc.282.1502072124841;
-	Sun, 06 Aug 2017 19:15:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.28.15.130 with HTTP; Sun, 6 Aug 2017 19:15:24 -0700 (PDT)
-Received: by 10.28.15.130 with HTTP; Sun, 6 Aug 2017 19:15:24 -0700 (PDT)
-In-Reply-To: <CABcZANnmwq6BKEYwxHf4NgnHBXUPLZOKGOegOEf5qRLdjYEFsw@mail.gmail.com>
-References: <20170805220752.2047-1-JPEWhacker@gmail.com>
-	<CABcZANnmwq6BKEYwxHf4NgnHBXUPLZOKGOegOEf5qRLdjYEFsw@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 6 Aug 2017 21:15:24 -0500
-Message-ID: <CAJdd5GYNXM+QYNd-EBNbRY1HorhC5LR-o3huc4QaFf7ynCv=+g@mail.gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] externalsrc: Handle .git not being a directory
+	h=x-gm-message-state:message-id:subject:from:to:date:mime-version
+	:content-transfer-encoding;
+	bh=DLzzR2KCvdGuhxZ90P98NEE2jhEPSQ8gTSCxvuqeAH8=;
+	b=oXz5yOH4K3imsfkcK4RKEMuf/e6DW9dDeKhJwHRpcGVBwvcwA5sqPg5nJ7mX0+LR2w
+	t849G6qMtbayLvtYz9IOepWGzULTDcQactPFb0Zf1ukCC2HHs86USjq8+Db0SHpOjhiJ
+	KZpZ6sWfa3ilC9+wROxC5JMI/ptGy3stU5SmcmOXwPj/ADrpqp50k80jVHwh+xLrwDaX
+	0+yJugYh5arnh8Tq2/s0K+6fd30F03RKL9qmsdQrAXO7Cozv3KpS4p9V/EvJ6v/f86kL
+	SBwY/JMaQavZufC0QIWexCIk4ZC+Lb+BgnY1/zf0YeTbe4TfAVIkCid2US3EcejUTFp2
+	RS3g==
+X-Gm-Message-State: AHYfb5h0Pw+D8bH4cC6jlVFDMLqw8q7JJ/HzeGInZJ1h3zeYcMDV8bCr
+	Q1e93wSl9+grZv1ro9Y=
+X-Received: by 10.25.33.129 with SMTP id h123mr2622306lfh.68.1502086867818;
+	Sun, 06 Aug 2017 23:21:07 -0700 (PDT)
+Received: from ellan ([213.115.5.18]) by smtp.googlemail.com with ESMTPSA id
+	f78sm2745355lji.45.2017.08.06.23.21.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 06 Aug 2017 23:21:06 -0700 (PDT)
+Message-ID: <1502086865.13610.1.camel@gmail.com>
+From: Richard =?ISO-8859-1?Q?R=F6jfors?= <richard.rojfors@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 07 Aug 2017 08:21:05 +0200
+X-Mailer: Evolution 3.22.6-1ubuntu1 
+Mime-Version: 1.0
+Subject: [pyro][PATCH] package_manager: Fix support for NO_RECOMMENDATONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,73 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Aug 2017 02:15:24 -0000
-Content-Type: multipart/alternative; boundary="f403045cf74a6da4c30556206b7c"
-
---f403045cf74a6da4c30556206b7c
+X-List-Received-Date: Mon, 07 Aug 2017 06:21:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Aug 5, 2017 18:37, "Christopher Larson" <kergoth@gmail.com> wrote:
+When support for dnf was introduced the check of the
+no NO_RECOMMENDATIONS variable got broken.
 
-On Sat, Aug 5, 2017 at 3:07 PM, Joshua Watt <jpewhacker@gmail.com> wrote:
+This fixes the issue by compairing to the string "1"
+rather than the number 1.
 
-> If EXTERNALSRC points to a git submodule, the .git entry will not be a
-> directory, but rather a file that points to the actual .git location (in
-> the parent repository). If this still can't be resolved to a directory,
-> ignore it and fall back to the non-git method for hashing.
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
->
+Signed-off-by: Richard Röjfors <richard@puffinpack.se>
+---
+ meta/lib/oe/package_manager.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We shouldn=E2=80=99t be assuming knowledge of how .git works, IMO we should=
- call
-out to git rev-parse to query the info we need.
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 93d079d73d..28c6b2aec2 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -585,7 +585,7 @@ class RpmPM(PackageManager):
+ 
+         output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
+                          (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
+-                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == 1 else []) +
++                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == "1" else []) +
+                          (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
+                          ["install"] +
+                          pkgs)
+-- 
+2.11.0
 
-
-Ya that makes sense. I'll fix it.
-
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---f403045cf74a6da4c30556206b7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><div class=3D"gmail_extra"><br><div class=3D"gma=
-il_quote">On Aug 5, 2017 18:37, &quot;Christopher Larson&quot; &lt;<a href=
-=3D"mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br type=3D"a=
-ttribution"><blockquote class=3D"quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"quoted-=
-text">On Sat, Aug 5, 2017 at 3:07 PM, Joshua Watt <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com=
-</a>&gt;</span> wrote:<br></div><div class=3D"gmail_extra"><div class=3D"gm=
-ail_quote"><div class=3D"quoted-text"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">If EXT=
-ERNALSRC points to a git submodule, the .git entry will not be a<br>
-directory, but rather a file that points to the actual .git location (in<br=
->
-the parent repository). If this still can&#39;t be resolved to a directory,=
-<br>
-ignore it and fall back to the non-git method for hashing.<br>
-<br>
-Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
-et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br></blockquote><div><br></div><=
-/div><div>We shouldn=E2=80=99t be assuming knowledge of how .git works, IMO=
- we should call out to git rev-parse to query the info we need.</div></div>=
-</div></div></blockquote></div></div></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Ya that makes sense. I&#39;ll fix it.</div><div dir=3D"auto">=
-<div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><font color=3D"#888888">-- =
-<br><div class=3D"m_2106994194228303955gmail_signature" data-smartmail=3D"g=
-mail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<b=
-r>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<b=
-r>Senior Software Engineer, Mentor Graphics</div></div></div></div>
-</font></div></div>
-</blockquote></div><br></div></div></div>
-
---f403045cf74a6da4c30556206b7c--
