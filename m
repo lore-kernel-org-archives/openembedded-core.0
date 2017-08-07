@@ -1,55 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 751B260102
+Return-Path: <shen.joon.tan@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DA1626E666
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Aug 2017 14:55:56 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id u185so6455930pgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Aug 2017 07:55:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:cc:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=H3Sloas+eljg8jgIwwB6PtqWDfmRuHMurvpDGKR3A0s=;
-	b=OjUEnZMwmUUTnvrsOMsp819r46W5dP8uZckKk5FjjiOZeR95USs1hWlfBeR0g1Q4Aw
-	bFcO4oJrk16+rOTl6z32pG4poRHl6f1GzJriUY+Duspq0nbukd+YQXTDzlVkr2gQt1lw
-	GiWffYbpf3UgAi+mfgcPddcXFepKPSLAN+ZPfZusSLha3PUxvPO6NwY+QrJe6c0J41Kr
-	ylukYmOc8l97bFrvd4iPwlN3mfv750bwlGfzRurxTw4eRcTIbpmhYYgYTMu6Y4BJLt/K
-	xzGFEyweaomMeUM6d42hawPZYqDibnx8bcYqssc5gR43dojUjzQqWvWfN4zidxP3j8CT
-	8rBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:cc:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=H3Sloas+eljg8jgIwwB6PtqWDfmRuHMurvpDGKR3A0s=;
-	b=a3dVuqvREE3JQHxKuogevDVkKuU2qtqiHhwJ32DFjoFbGWddDYTg0UXOWX1RWmqEkR
-	ilHDGCOSyzTX85MfJexxGbfyF/7SnWkI8xsbbGIm8ZGpLt7mk5ngzk3l09bOcqRNB+Ce
-	QwuCNgjI7vrzvSoFM42TpyQxzaLP2kIk43N28AUk+LfE4JrTNBcDDtUKQO31f6K81TFu
-	rpEKkgc12HfAgqJzwjX9gzuljnqJ9P6yJf0JJg9VFKiUWalTR/mAGWWkUAS3NVQDvGdD
-	hOEXjfSzOjI76Eio8dvQH9EsLjYAYTZPS7zI3HgJ7sE1MhFRbjtfIp3vmiWCcaf7qmQ8
-	4OpQ==
-X-Gm-Message-State: AIVw1126ZSrPE55FCgnBRRHbCIbMb84uC1JxJ+hSxLDjKhhx5WHzVKST
-	dD4KphW+V0fJB88k
-X-Received: by 10.84.218.136 with SMTP id r8mr10429678pli.111.1502031357597;
-	Sun, 06 Aug 2017 07:55:57 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:2c74:fedb:e59f:1991?
-	([2601:202:4001:9ea0:2c74:fedb:e59f:1991])
-	by smtp.gmail.com with ESMTPSA id
-	b6sm13494207pgn.67.2017.08.06.07.55.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 06 Aug 2017 07:55:57 -0700 (PDT)
-To: Anton Novikov <a.novikov@yadro.com>
-References: <14e5f528-a64b-94e2-4e86-7a22770623d6@yadro.com>
-	<9d9d1ea9-d594-e08d-9e17-858b10a1aeca@gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <51be8a79-1ea5-0387-4c06-43048a48e728@gmail.com>
-Date: Sun, 6 Aug 2017 07:55:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Mon,  7 Aug 2017 01:51:38 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Aug 2017 18:51:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,335,1498546800"; 
+	d="scan'208,217";a="1202720953"
+Received: from kmsmsx154.gar.corp.intel.com ([172.21.73.14])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2017 18:51:38 -0700
+Received: from pgsmsx109.gar.corp.intel.com ([169.254.14.102]) by
+	KMSMSX154.gar.corp.intel.com ([169.254.12.48]) with mapi id
+	14.03.0319.002; Mon, 7 Aug 2017 09:51:38 +0800
+From: "Tan, Shen Joon" <shen.joon.tan@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH] distrodata: function to identify new
+	packages on a release
+Thread-Index: AQHTB2sxd7tMIL6pFEGL0vAlQkd2kaJpVVaAgADuWgCADezCeA==
+Date: Mon, 7 Aug 2017 01:51:37 +0000
+Message-ID: <CBFEF43F49D9A844852DBDA94B6AF818462C8CA9@PGSMSX109.gar.corp.intel.com>
+References: <1501223526-62997-1-git-send-email-shen.joon.tan@intel.com>
+	<CAJ86T=XVbuUGujVF1=FT5W2XGPN8JPXXD-BdNZMacpHFwE4rZA@mail.gmail.com>,
+	<CAJTo0LY8k4=ji4T+=gtsxNxab9vbyGY9z9X_MMVDqgEeY+WwXg@mail.gmail.com>
+In-Reply-To: <CAJTo0LY8k4=ji4T+=gtsxNxab9vbyGY9z9X_MMVDqgEeY+WwXg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.135]
 MIME-Version: 1.0
-In-Reply-To: <9d9d1ea9-d594-e08d-9e17-858b10a1aeca@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] (morty) Arch Linux build fixes
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] distrodata: function to identify new packages on a release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,40 +44,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Aug 2017 14:55:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Aug 2017 01:51:39 -0000
 Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_CBFEF43F49D9A844852DBDA94B6AF818462C8CA9PGSMSX109garcor_"
 
+--_000_CBFEF43F49D9A844852DBDA94B6AF818462C8CA9PGSMSX109garcor_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+Sure. I'll update it to use the current clone instead and submit it as V2
 
-On 08/01/2017 02:50 AM, Ian Arkver wrote:
-> On 21/06/17 10:05, Anton Novikov wrote:
->> [3 patch attachments]
->
-> Any word on getting these patches applied to Morty? Is anything blocking
-> them? Maybe they need resubmitted as individual patches?
->
-They do seem to apply cleanly on the current tip of morty
-> (7d5822bf4c) and do fix various automake and gcc7 host build failures.
+________________________________
+From: Burton, Ross [ross.burton@intel.com]
+Sent: Saturday, July 29, 2017 9:12 PM
+To: Andre McCurdy
+Cc: Tan, Shen Joon; OE Core mailing list
+Subject: Re: [OE-core] [PATCH] distrodata: function to identify new package=
+s on a release
 
-The gcc fix was already back ported
+On 28 July 2017 at 23:59, Andre McCurdy <armccurdy@gmail.com<mailto:armccur=
+dy@gmail.com>> wrote:
+> +    git remote add -f origin git://git.yoctoproject.org/poky.git<http://=
+git.yoctoproject.org/poky.git>
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/morty-next&id=dc4cf876f594240f7fe893a2bba43484f94dc7ac
+Is this patch intended for poky? Or should this be fetching oe-core and bit=
+bake?
 
-and so is the perl fix.
+Seems to me that if the script were to use the current clone and just switc=
+h branches, instead of using a fresh clone of poky, then it would be genera=
+lly useful to anyone who wants these reports.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/morty-next&id=dc4cf876f594240f7fe893a2bba43484f94dc7ac
+Ross
 
-the elfutils too
+--_000_CBFEF43F49D9A844852DBDA94B6AF818462C8CA9PGSMSX109garcor_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akuster/morty-next&id=de3c26330b277d217d14116f80c7d2ac712ce954
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle"></style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">Sure. I'll update it to use the current clone instead and submit it =
+as V2
+<div><br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div id=3D"divRpF266449" style=3D"direction: ltr;"><font face=3D"Tahoma" si=
+ze=3D"2" color=3D"#000000"><b>From:</b> Burton, Ross [ross.burton@intel.com=
+]<br>
+<b>Sent:</b> Saturday, July 29, 2017 9:12 PM<br>
+<b>To:</b> Andre McCurdy<br>
+<b>Cc:</b> Tan, Shen Joon; OE Core mailing list<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] distrodata: function to identify new =
+packages on a release<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">On 28 July 2017 at 23:59, Andre McCurdy <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmai=
+l.com</a>&gt;</span> wrote:<br>
+<div class=3D"gmail_extra">
+<div class=3D"gmail_quote">
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex; border-left:1=
+px #ccc solid; padding-left:1ex">
+<div class=3D"HOEnZb">
+<div class=3D"h5">&gt; &#43;&nbsp; &nbsp; git remote add -f origin git://<a=
+ href=3D"http://git.yoctoproject.org/poky.git" rel=3D"noreferrer" target=3D=
+"_blank">git.yoctoproject.org/<wbr>poky.git</a><br>
+<br>
+</div>
+</div>
+Is this patch intended for poky? Or should this be fetching oe-core and bit=
+bake?</blockquote>
+<div><br>
+</div>
+<div>Seems to me that if the script were to use the current clone and just =
+switch branches, instead of using a fresh clone of poky, then it would be g=
+enerally useful to anyone who wants these reports.</div>
+<div><br>
+</div>
+<div>Ross</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
 
-they have been sitting in my contrib branch for awhile now, we hare 
-having issues getting a clean build out of the AB.
-
-- armin
-> Regards,
-> Ian
-
-
+--_000_CBFEF43F49D9A844852DBDA94B6AF818462C8CA9PGSMSX109garcor_--
