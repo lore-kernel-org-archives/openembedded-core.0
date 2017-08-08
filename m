@@ -1,35 +1,33 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E76E671AD4
+	by mail.openembedded.org (Postfix) with ESMTP id A83EE777FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 20:40:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v78KeB0a014821
+	Tue,  8 Aug 2017 20:41:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v78Kfbrh014989
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Aug 2017 13:40:11 -0700 (PDT)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.209]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Tue, 8 Aug 2017 13:40:09 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>, Leonardo Sandoval
-	<leonardo.sandoval.gonzalez@linux.intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] php: move to version 7.1.8
-Thread-Index: AQHTEIMqbL2VYQCesUqQVFFFy8SfWKJ7YIGA///+cQD//4zM4A==
-Date: Tue, 8 Aug 2017 20:40:09 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF3D353E@ALA-MBD.corp.ad.wrs.com>
-References: <20170808201605.139537-1-jslater@windriver.com>
-	<1502224623.1934.32.camel@linux.intel.com>
-	<CA+chaQdH7vowdB3fTz41zgyF+SkHZGHn6qS6hvAH_AduL_wrDw@mail.gmail.com>
-In-Reply-To: <CA+chaQdH7vowdB3fTz41zgyF+SkHZGHn6qS6hvAH_AduL_wrDw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.157.209]
+	Tue, 8 Aug 2017 13:41:37 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 8 Aug 2017 13:41:36 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
+	<alexander.kanavin@linux.intel.com>
+References: <cover.1502206031.git.alexander.kanavin@linux.intel.com>
+	<7ef3f08bdec1e383464085347222b59894526872.1502206031.git.alexander.kanavin@linux.intel.com>
+	<4ae3a694-c172-c4e7-8cf9-97f6cd8507cd@windriver.com>
+	<c9af037d-bd8f-691c-ec3d-ba17e723805d@linux.intel.com>
+	<CAJTo0LZoTQ__hYMFjbGOYkggYoggxtMiEtwRaapSkwacNVhQMA@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <8efd92d0-80de-2f83-0b15-14f5b19b3b71@windriver.com>
+Date: Tue, 8 Aug 2017 15:41:35 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.1
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] php: move to version 7.1.8
+In-Reply-To: <CAJTo0LZoTQ__hYMFjbGOYkggYoggxtMiEtwRaapSkwacNVhQMA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] gstreamer-plugins-bad: replace openssl dependency with nettle for hls plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,199 +40,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 20:40:14 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF3D353EALAMBDcorpadwrs_"
-
---_000_007BD92917A2324FA403BCF9A464CF84CF3D353EALAMBDcorpadwrs_
+X-List-Received-Date: Tue, 08 Aug 2017 20:41:36 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-SeKAmWxsIGxvb2sgYXQgdGhlIENWRXMuICBMSUNFTlNFIHVwZGF0ZWQgZnJvbSAyMDE2IHRvIDIw
-MTcuICBUZXh0IGlzIHRoZSBzYW1lLiAgICBKb2UNCg0KRnJvbTogTWFydGluIEphbnNhIFttYWls
-dG86bWFydGluLmphbnNhQGdtYWlsLmNvbV0NClNlbnQ6IFR1ZXNkYXksIEF1Z3VzdCAwOCwgMjAx
-NyAxOjMxIFBNDQpUbzogTGVvbmFyZG8gU2FuZG92YWwNCkNjOiBTbGF0ZXIsIEpvc2VwaDsgUGF0
-Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINClN1YmplY3Q6IFJl
-OiBbT0UtY29yZV0gW29lLWNvcmVdW1BBVENIIDEvMV0gcGhwOiBtb3ZlIHRvIHZlcnNpb24gNy4x
-LjgNCg0KQW5kIHdyb25nIE1MDQoNCk9uIFR1ZSwgQXVnIDgsIDIwMTcgYXQgOTozNyBQTSwgTGVv
-bmFyZG8gU2FuZG92YWwgPGxlb25hcmRvLnNhbmRvdmFsLmdvbnphbGV6QGxpbnV4LmludGVsLmNv
-bTxtYWlsdG86bGVvbmFyZG8uc2FuZG92YWwuZ29uemFsZXpAbGludXguaW50ZWwuY29tPj4gd3Jv
-dGU6DQpPbiBUdWUsIDIwMTctMDgtMDggYXQgMTM6MTYgLTA3MDAsIEpvZSBTbGF0ZXIgd3JvdGU6
-DQo+IEZpeGVzIG1hbnkgQ1ZFcy4NCg0Kd291bGQgYmUgYSBwbHVzIGlmIHlvdSBsaXN0IHRob3Nl
-Lg0KDQp3aHkgTElDX0ZJTEVTX0NIS1NVTSBjaGFuZ2VkPw0KDQpMZW8NCg0KPg0KPiBTaWduZWQt
-b2ZmLWJ5OiBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb208bWFpbHRvOmpzbGF0ZXJA
-d2luZHJpdmVyLmNvbT4+DQo+IC0tLQ0KPiAgLi4uL3twaHAtNy4xLjAgPT4gcGhwLTcuMS44fS9j
-aGFuZ2UtQUNfVFJZX1JVTi10by1BQ19UUllfTElOSy5wYXRjaCB8IDANCj4gIG1ldGEtb2UvcmVj
-aXBlcy1kZXZ0b29scy9waHAve3BocF83LjEuMC5iYjxodHRwOi8vcGhwXzcuMS4wLmJiPiA9PiBw
-aHBfNy4xLjguYmI8aHR0cDovL3BocF83LjEuOC5iYj59ICAgICAgICAgfCA2ICsrKy0tLQ0KPiAg
-MiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+ICByZW5h
-bWUgbWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC97cGhwLTcuMS4wID0+IHBocC03LjEuOH0v
-Y2hhbmdlLUFDX1RSWV9SVU4tdG8tQUNfVFJZX0xJTksucGF0Y2ggKDEwMCUpDQo+ICByZW5hbWUg
-bWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC97cGhwXzcuMS4wLmJiPGh0dHA6Ly9waHBfNy4x
-LjAuYmI+ID0+IHBocF83LjEuOC5iYjxodHRwOi8vcGhwXzcuMS44LmJiPn0gKDY0JSkNCj4NCj4g
-ZGlmZiAtLWdpdCBhL21ldGEtb2UvcmVjaXBlcy1kZXZ0b29scy9waHAvcGhwLTcuMS4wL2NoYW5n
-ZS1BQ19UUllfUlVOLXRvLUFDX1RSWV9MSU5LLnBhdGNoIGIvbWV0YS1vZS9yZWNpcGVzLWRldnRv
-b2xzL3BocC9waHAtNy4xLjgvY2hhbmdlLUFDX1RSWV9SVU4tdG8tQUNfVFJZX0xJTksucGF0Y2gN
-Cj4gc2ltaWxhcml0eSBpbmRleCAxMDAlDQo+IHJlbmFtZSBmcm9tIG1ldGEtb2UvcmVjaXBlcy1k
-ZXZ0b29scy9waHAvcGhwLTcuMS4wL2NoYW5nZS1BQ19UUllfUlVOLXRvLUFDX1RSWV9MSU5LLnBh
-dGNoDQo+IHJlbmFtZSB0byBtZXRhLW9lL3JlY2lwZXMtZGV2dG9vbHMvcGhwL3BocC03LjEuOC9j
-aGFuZ2UtQUNfVFJZX1JVTi10by1BQ19UUllfTElOSy5wYXRjaA0KPiBkaWZmIC0tZ2l0IGEvbWV0
-YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC9waHBfNy4xLjAuYmI8aHR0cDovL3BocF83LjEuMC5i
-Yj4gYi9tZXRhLW9lL3JlY2lwZXMtZGV2dG9vbHMvcGhwL3BocF83LjEuOC5iYjxodHRwOi8vcGhw
-XzcuMS44LmJiPg0KPiBzaW1pbGFyaXR5IGluZGV4IDY0JQ0KPiByZW5hbWUgZnJvbSBtZXRhLW9l
-L3JlY2lwZXMtZGV2dG9vbHMvcGhwL3BocF83LjEuMC5iYjxodHRwOi8vcGhwXzcuMS4wLmJiPg0K
-PiByZW5hbWUgdG8gbWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC9waHBfNy4xLjguYmI8aHR0
-cDovL3BocF83LjEuOC5iYj4NCj4gaW5kZXggMjEwZDkxZi4uYzBiMjU0MSAxMDA2NDQNCj4gLS0t
-IGEvbWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC9waHBfNy4xLjAuYmI8aHR0cDovL3BocF83
-LjEuMC5iYj4NCj4gKysrIGIvbWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC9waHBfNy4xLjgu
-YmI8aHR0cDovL3BocF83LjEuOC5iYj4NCj4gQEAgLTEsMTAgKzEsMTAgQEANCj4gIHJlcXVpcmUg
-cGhwLmluYw0KPg0KPiAtTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YjYw
-MjYzNmQ0NmE2MWMwYWMwNDMyYmJmNWMwNzhmZTQ8ZmlsZTovLy9cXExJQ0VOU0U7bWQ1PWI2MDI2
-MzZkNDZhNjFjMGFjMDQzMmJiZjVjMDc4ZmU0PiINCj4gK0xJQ19GSUxFU19DSEtTVU0gPSAiZmls
-ZTovL0xJQ0VOU0U7bWQ1PWMwYWY1OTlmNjZkMDQ2MWM1ODM3YzY5NWZjYmM1YzFlPGZpbGU6Ly8v
-XFxMSUNFTlNFO21kNT1jMGFmNTk5ZjY2ZDA0NjFjNTgzN2M2OTVmY2JjNWMxZT4iDQo+DQo+ICBT
-UkNfVVJJICs9ICJmaWxlOi8vY2hhbmdlLUFDX1RSWV9SVU4tdG8tQUNfVFJZX0xJTksucGF0Y2g8
-ZmlsZTovLy9cXGNoYW5nZS1BQ19UUllfUlVOLXRvLUFDX1RSWV9MSU5LLnBhdGNoPiINCj4gLVNS
-Q19VUklbbWQ1c3VtXSA9ICI1NGUzNjRiNjBhODhkYjc3YWRiOTZhYWNiMTBmMTBhNCINCj4gLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICI2OGJjZmQ3ZGVlZDViMzQ3NGQ4MWRlYzlmNzRkMTIyMDU4MzI3
-ZTJiZWQwYWMyNWJiYzllYzcwOTk1MjI4ZTYxIg0KPiArU1JDX1VSSVttZDVzdW1dID0gImQyMjQ1
-MWRjMjBiYmRmNGI4YmI2NTZkYzc4N2MyYTM2Ig0KPiArU1JDX1VSSVtzaGEyNTZzdW1dID0gIjcw
-NjRhMDBhOTQ1MDU2NTE5MDg5MGM3YTRiZTA0ZTY0NmUwYmU3M2IyZTBmOGM0NmFlMzQ0MTlmMzQz
-Y2EyZjgiDQo+DQo+ICBQQUNLQUdFQ09ORklHW215c3FsXSA9ICItLXdpdGgtbXlzcWxpPSR7U1RB
-R0lOR19CSU5ESVJfQ1JPU1N9L215c3FsX2NvbmZpZyBcDQo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAtLXdpdGgtcGRvLW15c3FsPSR7U1RBR0lOR19CSU5ESVJfQ1JPU1N9L215c3FsX2NvbmZp
-ZyBcDQo+IC0tDQo+IDIuNy40DQo+DQoNCg0KLS0NCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCk9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
+On 8/8/17 2:14 PM, Burton, Ross wrote:
+> On 8 August 2017 at 18:35, Alexander Kanavin <alexander.kanavin@linux.intel.com
+> <mailto:alexander.kanavin@linux.intel.com>> wrote:
+> 
+>     On 08/08/2017 06:58 PM, Mark Hatle wrote:
+> 
+>         Can we somehow make openssl(10) or nettle a choice when compiling?
+> 
+>         I ask because I've worked on a few systems where people seem to want one
+>         encryption engine for as much of the system as possible (usually openssl).
+>         While gstreamer has not been a problem in such systems, I could see it being
+>         something that would need to be considered.
+> 
+> 
+>     This would need to be done across all recipes where such choice is
+>     supported, as a 'preferred crypto engine' distro feature. There's been talk
+>     of doing this, but I don't remember what was the outcome.
+> 
+> 
+> There was a bug for this but I literally closed it earlier today on the grounds
+> that it would mean patching every user of a crypto library to add an abstraction
+> and alternative codepaths.  If you don't patch every instance then there is no
+> point in a global option.
 
---_000_007BD92917A2324FA403BCF9A464CF84CF3D353EALAMBDcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Getting a bit off-topic here, but...
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
-KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
-b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
-emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
-aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
-Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
-eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
-Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
-LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
-LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
-eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0K
-QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
-LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
-O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
-IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
-ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
-cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
-Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
-cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+SeKAmWxsIGxvb2sgYXQg
-dGhlIENWRXMuJm5ic3A7IExJQ0VOU0UgdXBkYXRlZCBmcm9tIDIwMTYgdG8gMjAxNy4mbmJzcDsg
-VGV4dCBpcyB0aGUgc2FtZS4mbmJzcDsmbmJzcDsmbmJzcDsgSm9lPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBNYXJ0aW4gSmFuc2EgW21haWx0bzptYXJ0aW4uamFu
-c2FAZ21haWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFR1ZXNkYXksIEF1Z3VzdCAwOCwgMjAx
-NyAxOjMxIFBNPGJyPg0KPGI+VG86PC9iPiBMZW9uYXJkbyBTYW5kb3ZhbDxicj4NCjxiPkNjOjwv
-Yj4gU2xhdGVyLCBKb3NlcGg7IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1j
-b3JlIGxheWVyPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW29lLWNvcmVdW1BB
-VENIIDEvMV0gcGhwOiBtb3ZlIHRvIHZlcnNpb24gNy4xLjg8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5BbmQgd3JvbmcgTUw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPk9uIFR1ZSwgQXVnIDgsIDIwMTcgYXQgOTozNyBQTSwgTGVvbmFy
-ZG8gU2FuZG92YWwgJmx0OzxhIGhyZWY9Im1haWx0bzpsZW9uYXJkby5zYW5kb3ZhbC5nb256YWxl
-ekBsaW51eC5pbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5sZW9uYXJkby5zYW5kb3ZhbC5nb256
-YWxlekBsaW51eC5pbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPk9uIFR1ZSwgMjAxNy0wOC0wOCBhdCAxMzoxNiAtMDcwMCwgSm9lIFNs
-YXRlciB3cm90ZTo8YnI+DQomZ3Q7IEZpeGVzIG1hbnkgQ1ZFcy48YnI+DQo8YnI+DQp3b3VsZCBi
-ZSBhIHBsdXMgaWYgeW91IGxpc3QgdGhvc2UuPGJyPg0KPGJyPg0Kd2h5IExJQ19GSUxFU19DSEtT
-VU0gY2hhbmdlZD88YnI+DQo8YnI+DQpMZW88bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KJmd0Ozxicj4NCiZndDsgU2lnbmVkLW9mZi1ieTog
-Sm9lIFNsYXRlciAmbHQ7PGEgaHJlZj0ibWFpbHRvOmpzbGF0ZXJAd2luZHJpdmVyLmNvbSI+anNs
-YXRlckB3aW5kcml2ZXIuY29tPC9hPiZndDs8YnI+DQomZ3Q7IC0tLTxicj4NCiZndDsmbmJzcDsg
-Li4uL3twaHAtNy4xLjAgPSZndDsgcGhwLTcuMS44fS9jaGFuZ2UtQUNfVFJZX1JVTi10by1BQ19U
-UllfTElOSy5wYXRjaCB8IDA8YnI+DQomZ3Q7Jm5ic3A7IG1ldGEtb2UvcmVjaXBlcy1kZXZ0b29s
-cy9waHAvezxhIGhyZWY9Imh0dHA6Ly9waHBfNy4xLjAuYmIiIHRhcmdldD0iX2JsYW5rIj5waHBf
-Ny4xLjAuYmI8L2E+ID0mZ3Q7DQo8YSBocmVmPSJodHRwOi8vcGhwXzcuMS44LmJiIiB0YXJnZXQ9
-Il9ibGFuayI+cGhwXzcuMS44LmJiPC9hPn0mbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7fCA2ICYjNDM7JiM0MzsmIzQzOy0tLTxicj4NCiZndDsmbmJzcDsgMiBmaWxlcyBjaGFuZ2Vk
-LCAzIGluc2VydGlvbnMoJiM0MzspLCAzIGRlbGV0aW9ucygtKTxicj4NCiZndDsmbmJzcDsgcmVu
-YW1lIG1ldGEtb2UvcmVjaXBlcy1kZXZ0b29scy9waHAve3BocC03LjEuMCA9Jmd0OyBwaHAtNy4x
-Ljh9L2NoYW5nZS1BQ19UUllfUlVOLXRvLUFDX1RSWV9MSU5LLnBhdGNoICgxMDAlKTxicj4NCiZn
-dDsmbmJzcDsgcmVuYW1lIG1ldGEtb2UvcmVjaXBlcy1kZXZ0b29scy9waHAvezxhIGhyZWY9Imh0
-dHA6Ly9waHBfNy4xLjAuYmIiIHRhcmdldD0iX2JsYW5rIj5waHBfNy4xLjAuYmI8L2E+ID0mZ3Q7
-DQo8YSBocmVmPSJodHRwOi8vcGhwXzcuMS44LmJiIiB0YXJnZXQ9Il9ibGFuayI+cGhwXzcuMS44
-LmJiPC9hPn0gKDY0JSk8YnI+DQomZ3Q7PGJyPg0KJmd0OyBkaWZmIC0tZ2l0IGEvbWV0YS1vZS9y
-ZWNpcGVzLWRldnRvb2xzL3BocC9waHAtNy4xLjAvY2hhbmdlLUFDX1RSWV9SVU4tdG8tQUNfVFJZ
-X0xJTksucGF0Y2ggYi9tZXRhLW9lL3JlY2lwZXMtZGV2dG9vbHMvcGhwL3BocC03LjEuOC9jaGFu
-Z2UtQUNfVFJZX1JVTi10by1BQ19UUllfTElOSy5wYXRjaDxicj4NCiZndDsgc2ltaWxhcml0eSBp
-bmRleCAxMDAlPGJyPg0KJmd0OyByZW5hbWUgZnJvbSBtZXRhLW9lL3JlY2lwZXMtZGV2dG9vbHMv
-cGhwL3BocC03LjEuMC9jaGFuZ2UtQUNfVFJZX1JVTi10by1BQ19UUllfTElOSy5wYXRjaDxicj4N
-CiZndDsgcmVuYW1lIHRvIG1ldGEtb2UvcmVjaXBlcy1kZXZ0b29scy9waHAvcGhwLTcuMS44L2No
-YW5nZS1BQ19UUllfUlVOLXRvLUFDX1RSWV9MSU5LLnBhdGNoPGJyPg0KJmd0OyBkaWZmIC0tZ2l0
-IGEvbWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC88YSBocmVmPSJodHRwOi8vcGhwXzcuMS4w
-LmJiIiB0YXJnZXQ9Il9ibGFuayI+cGhwXzcuMS4wLmJiPC9hPiBiL21ldGEtb2UvcmVjaXBlcy1k
-ZXZ0b29scy9waHAvPGEgaHJlZj0iaHR0cDovL3BocF83LjEuOC5iYiIgdGFyZ2V0PSJfYmxhbmsi
-PnBocF83LjEuOC5iYjwvYT48YnI+DQomZ3Q7IHNpbWlsYXJpdHkgaW5kZXggNjQlPGJyPg0KJmd0
-OyByZW5hbWUgZnJvbSBtZXRhLW9lL3JlY2lwZXMtZGV2dG9vbHMvcGhwLzxhIGhyZWY9Imh0dHA6
-Ly9waHBfNy4xLjAuYmIiIHRhcmdldD0iX2JsYW5rIj5waHBfNy4xLjAuYmI8L2E+PGJyPg0KJmd0
-OyByZW5hbWUgdG8gbWV0YS1vZS9yZWNpcGVzLWRldnRvb2xzL3BocC88YSBocmVmPSJodHRwOi8v
-cGhwXzcuMS44LmJiIiB0YXJnZXQ9Il9ibGFuayI+cGhwXzcuMS44LmJiPC9hPjxicj4NCiZndDsg
-aW5kZXggMjEwZDkxZi4uYzBiMjU0MSAxMDA2NDQ8YnI+DQomZ3Q7IC0tLSBhL21ldGEtb2UvcmVj
-aXBlcy1kZXZ0b29scy9waHAvPGEgaHJlZj0iaHR0cDovL3BocF83LjEuMC5iYiIgdGFyZ2V0PSJf
-YmxhbmsiPnBocF83LjEuMC5iYjwvYT48YnI+DQomZ3Q7ICYjNDM7JiM0MzsmIzQzOyBiL21ldGEt
-b2UvcmVjaXBlcy1kZXZ0b29scy9waHAvPGEgaHJlZj0iaHR0cDovL3BocF83LjEuOC5iYiIgdGFy
-Z2V0PSJfYmxhbmsiPnBocF83LjEuOC5iYjwvYT48YnI+DQomZ3Q7IEBAIC0xLDEwICYjNDM7MSwx
-MCBAQDxicj4NCiZndDsmbmJzcDsgcmVxdWlyZSBwaHAuaW5jPGJyPg0KJmd0Ozxicj4NCiZndDsg
-LUxJQ19GSUxFU19DSEtTVU0gPSAmcXVvdDs8YSBocmVmPSJmaWxlOi8vL1xcTElDRU5TRTttZDU9
-YjYwMjYzNmQ0NmE2MWMwYWMwNDMyYmJmNWMwNzhmZTQiPmZpbGU6Ly9MSUNFTlNFO21kNT1iNjAy
-NjM2ZDQ2YTYxYzBhYzA0MzJiYmY1YzA3OGZlNDwvYT4mcXVvdDs8YnI+DQomZ3Q7ICYjNDM7TElD
-X0ZJTEVTX0NIS1NVTSA9ICZxdW90OzxhIGhyZWY9ImZpbGU6Ly8vXFxMSUNFTlNFO21kNT1jMGFm
-NTk5ZjY2ZDA0NjFjNTgzN2M2OTVmY2JjNWMxZSI+ZmlsZTovL0xJQ0VOU0U7bWQ1PWMwYWY1OTlm
-NjZkMDQ2MWM1ODM3YzY5NWZjYmM1YzFlPC9hPiZxdW90Ozxicj4NCiZndDs8YnI+DQomZ3Q7Jm5i
-c3A7IFNSQ19VUkkgJiM0Mzs9ICZxdW90OzxhIGhyZWY9ImZpbGU6Ly8vXFxjaGFuZ2UtQUNfVFJZ
-X1JVTi10by1BQ19UUllfTElOSy5wYXRjaCI+ZmlsZTovL2NoYW5nZS1BQ19UUllfUlVOLXRvLUFD
-X1RSWV9MSU5LLnBhdGNoPC9hPiZxdW90Ozxicj4NCiZndDsgLVNSQ19VUklbbWQ1c3VtXSA9ICZx
-dW90OzU0ZTM2NGI2MGE4OGRiNzdhZGI5NmFhY2IxMGYxMGE0JnF1b3Q7PGJyPg0KJmd0OyAtU1JD
-X1VSSVtzaGEyNTZzdW1dID0gJnF1b3Q7NjhiY2ZkN2RlZWQ1YjM0NzRkODFkZWM5Zjc0ZDEyMjA1
-ODMyN2UyYmVkMGFjMjViYmM5ZWM3MDk5NTIyOGU2MSZxdW90Ozxicj4NCiZndDsgJiM0MztTUkNf
-VVJJW21kNXN1bV0gPSAmcXVvdDtkMjI0NTFkYzIwYmJkZjRiOGJiNjU2ZGM3ODdjMmEzNiZxdW90
-Ozxicj4NCiZndDsgJiM0MztTUkNfVVJJW3NoYTI1NnN1bV0gPSAmcXVvdDs3MDY0YTAwYTk0NTA1
-NjUxOTA4OTBjN2E0YmUwNGU2NDZlMGJlNzNiMmUwZjhjNDZhZTM0NDE5ZjM0M2NhMmY4JnF1b3Q7
-PGJyPg0KJmd0Ozxicj4NCiZndDsmbmJzcDsgUEFDS0FHRUNPTkZJR1tteXNxbF0gPSAmcXVvdDst
-LXdpdGgtbXlzcWxpPSR7U1RBR0lOR19CSU5ESVJfQ1JPU1N9L215c3FsX2NvbmZpZyBcPGJyPg0K
-Jmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAtLXdpdGgtcGRvLW15c3FsPSR7
-U1RBR0lOR19CSU5ESVJfQ1JPU1N9L215c3FsX2NvbmZpZyBcPGJyPg0KJmd0OyAtLTxicj4NCiZn
-dDsgMi43LjQ8YnI+DQomZ3Q7PGJyPg0KPGJyPg0KPGJyPg0KLS08YnI+DQpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXzxicj4NCk9wZW5lbWJlZGRlZC1jb3Jl
-IG1haWxpbmcgbGlzdDxicj4NCjxhIGhyZWY9Im1haWx0bzpPcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnIj5PcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnPC9hPjxicj4NCjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxt
-YW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlPC9h
-PjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9o
-dG1sPg0K
+I do expect that at some point in the future someone will come along and offer a
+distribution wide setting for preferred (and alternative) encryption and make
+the associated changes to the various recipes to enforce this.
 
---_000_007BD92917A2324FA403BCF9A464CF84CF3D353EALAMBDcorpadwrs_--
+Many of the systems I am working with are starting to have those types of needs.
+ A preferred encryption resource that everything that can - should use.  Along
+with alternatives that are 'acceptable' if the primary isn't available.
+Otherwise other encryption would be prohibited and should trigger an automatic
+blacklist or failure.
+
+(In this case, there is a lot of work to be done, and potentially any encryption
+user/provider [even internal] needs to be audited.  This is not an 'over night'
+process... thus I doubt you'll be seeing it tomorrow from anyone here.)
+
+So don't necessarily dismiss the idea -- but I do think it's outside of the
+immediate scope for the Yocto Project itself, but I would expect something to
+eventually be presented by a member of the larger OpenEmbedded community.
+
+--Mark
+
+> We can have packageconfigs, and expose the choice if the upstream does, but I
+> think the only sane option is to leave it to the user to set the options.  It's
+> trivial enough to blacklist openssl if you never want to use it.
+> 
+> Ross
+
+
