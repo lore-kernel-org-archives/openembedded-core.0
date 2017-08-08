@@ -1,23 +1,30 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id ED85271A8E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BAA8E71984
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 16:57:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2017 09:57:20 -0700
+	Tue,  8 Aug 2017 17:23:06 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Aug 2017 10:23:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,344,1498546800"; d="scan'208";a="1203398979"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2017 09:57:20 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Aug 2017 09:57:17 -0700
-Message-Id: <20170808165717.43114-2-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <20170808165717.43114-1-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20170808165717.43114-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v4 2/2] sstatetests: limit the number of signature comparisons when differ
+X-IronPort-AV: E=Sophos;i="5.41,344,1498546800"; d="scan'208";a="887885462"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Aug 2017 10:23:05 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <20170807114504.28410-1-alexander.kanavin@linux.intel.com>
+	<20170807114504.28410-3-alexander.kanavin@linux.intel.com>
+	<CAMKF1so_29Ojxcmmm6u+HmSo3SF55DQHQEXmokdnvy_ca-5sCA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <3ab5897f-4c1c-841a-9ef5-1335fe2279d0@linux.intel.com>
+Date: Tue, 8 Aug 2017 20:19:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1so_29Ojxcmmm6u+HmSo3SF55DQHQEXmokdnvy_ca-5sCA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/7] btrfs-tools: update to 4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,76 +37,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 16:57:19 -0000
+X-List-Received-Date: Tue, 08 Aug 2017 17:23:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On 08/08/2017 06:48 PM, Khem Raj wrote:
+> I think such a patch would be good upstream too. There are many
+> packages making distinction between
+> build host and target host and help cross compilation.
 
-For perfomance reasons, limit the number of signature comparisons when
-stamps differ. The limit set is hardcoded to 20.
+btrfs-tools does not support this distinction. The host compiler is 
+enforced in the patch through an openembedded-specific variable.
 
-[YOCTO #11651]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/lib/oeqa/selftest/cases/sstatetests.py | 39 ++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 14 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 0b36027918..47900886a3 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -458,6 +458,24 @@ http_proxy = "http://example.com/"
-                     base = os.sep.join(root.rsplit(os.sep, 2)[-2:] + [name])
-                     f[base] = shash
-             return f
-+
-+        def compare_sigfiles(files, files1, files2, compare=False):
-+            for k in files:
-+                if k in files1 and k in files2:
-+                    print("%s differs:" % k)
-+                    if compare:
-+                        sigdatafile1 = self.topdir + "/tmp-sstatesamehash/stamps/" + k + "." + files1[k]
-+                        sigdatafile2 = self.topdir + "/tmp-sstatesamehash2/stamps/" + k + "." + files2[k]
-+                        output = bb.siggen.compare_sigfiles(sigdatafile1, sigdatafile2)
-+                        if output:
-+                            print('\n'.join(output))
-+                elif k in files1 and k not in files2:
-+                    print("%s in files1" % k)
-+                elif k not in files1 and k in files2:
-+                    print("%s in files2" % k)
-+                else:
-+                    assert "shouldn't reach here"
-+
-         files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps/")
-         files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps/")
-         # Remove items that are identical in both sets
-@@ -468,18 +486,11 @@ http_proxy = "http://example.com/"
-             # No changes, so we're done
-             return
- 
--        for k in files1.keys() | files2.keys():
--            if k in files1 and k in files2:
--                print("%s differs:" % k)
--                sigdatafile1 = self.topdir + "/tmp-sstatesamehash/stamps/" + k + "." + files1[k]
--                sigdatafile2 = self.topdir + "/tmp-sstatesamehash2/stamps/" + k + "." + files2[k]
--                output = bb.siggen.compare_sigfiles(sigdatafile1, sigdatafile2)
--                if output:
--                    print('\n'.join(output))
--            elif k in files1 and k not in files2:
--                print("%s in files1" % k)
--            elif k not in files1 and k in files2:
--                print("%s in files2" % k)
--            else:
--                assert "shouldn't reach here"
-+        files = list(files1.keys() | files2.keys())
-+        # this is an expensive computation, thus just compare the first 'max_sigfiles_to_compare' k files
-+        max_sigfiles_to_compare = 20
-+        first, rest = files[:max_sigfiles_to_compare], files[max_sigfiles_to_compare:]
-+        compare_sigfiles(first, files1.keys(), files2.keys(), compare=True)
-+        compare_sigfiles(rest, files1.keys(), files2.keys(), compare=False)
-+
-         self.fail("sstate hashes not identical.")
--- 
-2.12.3
-
+Alex
 
