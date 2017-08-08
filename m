@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B7A0571999
+	by mail.openembedded.org (Postfix) with ESMTP id C91BE71A0C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 15:34:17 +0000 (UTC)
+	Tue,  8 Aug 2017 15:34:18 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2017 08:34:19 -0700
+	08 Aug 2017 08:34:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,343,1498546800"; d="scan'208";a="1001363530"
+X-IronPort-AV: E=Sophos;i="5.41,343,1498546800"; d="scan'208";a="1001363531"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 08 Aug 2017 08:34:18 -0700
+	by orsmga003.jf.intel.com with ESMTP; 08 Aug 2017 08:34:19 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Aug 2017 18:30:49 +0300
-Message-Id: <583ad9350ad6b8e338ae63227e352b1c86d089c9.1502206031.git.alexander.kanavin@linux.intel.com>
+Date: Tue,  8 Aug 2017 18:30:50 +0300
+Message-Id: <e7b03aa7e73bc8e3f08394e4c1e44d8b91f0378f.1502206031.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.13.2
 In-Reply-To: <cover.1502206031.git.alexander.kanavin@linux.intel.com>
 References: <cover.1502206031.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/4] openssh: depend on openssl 1.0
+Subject: [PATCH 3/4] cryptodev-tests: depend on openssl 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 15:34:17 -0000
+X-List-Received-Date: Tue, 08 Aug 2017 15:34:19 -0000
 
-The proposed openssl 1.1 patches are here:
-https://github.com/openssh/openssh-portable/pull/48
-
-Openssl maintainers are not in a hurry to get 1.1 support in;
-if it doesn't show up within reasonable time, we can take a patch
-from Fedora:
-http://lists.mindrot.org/pipermail/openssh-unix-dev/2016-November/035454.html
+Upstream ticket:
+https://github.com/cryptodev-linux/cryptodev-linux/issues/22
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-connectivity/openssh/openssh_7.5p1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-index 7bd313bb4e8..3b8fd7d1cc5 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-@@ -8,7 +8,8 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
+index 9cb5dcb94f0..9afb3de217e 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.9.bb
+@@ -2,7 +2,7 @@ require cryptodev.inc
  
--DEPENDS = "zlib openssl"
-+# openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
-+DEPENDS = "zlib openssl10"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ SUMMARY = "A test suite for /dev/crypto device driver"
  
- SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
+-DEPENDS += "openssl"
++DEPENDS += "openssl10"
+ 
+ SRC_URI += " \
+ file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
 -- 
 2.13.2
 
