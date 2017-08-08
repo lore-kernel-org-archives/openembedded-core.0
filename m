@@ -1,21 +1,48 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6213B719C8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id CC33D6E630
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 12:22:32 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2017 05:22:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,343,1498546800"; d="scan'208";a="121232674"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2017 05:22:33 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Aug 2017 15:22:32 +0300
-Message-Id: <cover.1502193976.git.markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH v4 0/8] support profile-optimized build for Python
+	Tue,  8 Aug 2017 14:41:16 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id g71so14437129ioe.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Aug 2017 07:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=b1abBsxUbS8zYm9XYQMw79eZwyMOTxHSuiQ8u43COFo=;
+	b=PHgM+XaJ9eS3LwFDEPH37rJoBetcRPQhQGOsGMOed+KdFjfKxkyJO+m7+bEjfNc7G8
+	q4FxlppQ3zP0F6q3Q2ORzfYoT+12Lq/+5aoEHvXLitgamKOrIkBw86XWVG/pyi3uWuVF
+	yulGe+iEQpKCgYAdv8dXjFDGGAhYOqBkMio9lYrE17qA81T/JXnQtEjyTCemfW5rpQh7
+	6QaKgme08Pgn6gT/2sNYJzjGPvKpYpXq7DF1cKZzNtexDl/O42BnkrIlhxFAsvtpRLAi
+	zhh3QfOu0m0hSYQrRJL/gdyzeHNPI8XYF2O57MzDg216NVbD5PlYWd92bBfZifjgnkQM
+	F61A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=b1abBsxUbS8zYm9XYQMw79eZwyMOTxHSuiQ8u43COFo=;
+	b=IKAZCp/a4vnrlRdF/0dmUZzQTgpuOoZaCJAFjSu6U3Fw2QoxrUPJn4+txS1tdxJQ3H
+	/wgh4BnLhDtKvzPBPryPeRL/pJj5ocIVpc443TJ4gu8o6UgndFzZAmz7ZnrOY9hBdzsv
+	By+pCL9RrCcYz1TMUPV331BdtcAp+LsKMCuSxZxwpjfwxdbO6aKc/6SnCv2etB7K3jvO
+	m2MQhuwVl2HeBbiYISGv4J7f8eZID9/LUyzuXfyN9YZuIv6wCBiqGnOAekl8NwMGDutC
+	T1fwiQhM/44uOx8Zcf5n7QBtNb2Ab2p5mz5eqFU/A+SbCUdODvihJfmdYwWG1beg9abc
+	4r1w==
+X-Gm-Message-State: AIVw112oavQ54jEZWMlfmc6/lbIgUQf0BQBwrzRP+3W4H9IEXh2X5LIQ
+	TTsHGcCECNc7+Nt8XD1OOa6V0YnmU9Nl
+X-Received: by 10.107.170.170 with SMTP id g42mr4005468ioj.19.1502203277893;
+	Tue, 08 Aug 2017 07:41:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.135.234 with HTTP; Tue, 8 Aug 2017 07:40:57 -0700 (PDT)
+In-Reply-To: <20170807213351.600-2-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170807213351.600-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<20170807213351.600-2-leonardo.sandoval.gonzalez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Aug 2017 15:40:57 +0100
+Message-ID: <CAJTo0LbdP=cQCXd1k5ogPnz3Rn7tcwY5sMhWEKWApvo_VMgCOw@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/2] sstatetests: limit the number of signature comparisons when differ
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,56 +55,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 12:22:33 -0000
+X-List-Received-Date: Tue, 08 Aug 2017 14:41:16 -0000
+Content-Type: multipart/alternative; boundary="001a114260bac2b56905563ef4f8"
 
-Fourth attempt on enabling profile-guided-optimization (PGO) for Python.
+--001a114260bac2b56905563ef4f8
+Content-Type: text/plain; charset="UTF-8"
 
-Changes since v3:
-- rebased on latest oe-core (with Python v3.5.3)
-- typo in assignment of PYTHON3_PROFILE_TASK_DEFAULT fixed
-- task dependencies of python-pgo-image altered to allow do_profile task to be
-  run
+On 7 August 2017 at 22:33, <leonardo.sandoval.gonzalez@linux.intel.com>
+wrote:
 
-The following changes since commit a5bb13a5d7d7a668ca61da6b17884e3b05b95355:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>
+> For perfomance reasons, limit the number of signature comparisons when
+> stamps differ. The limit set is hardcoded to 20.
+>
+> [YOCTO #11651]
+>
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@
+> linux.intel.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/sstatetests.py | 40
+> +++++++++++++++++++----------
+>  1 file changed, 26 insertions(+), 14 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> index 0b36027918..6298443a18 100644
+> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> @@ -458,6 +458,25 @@ http_proxy = "http://example.com/"
+>                      base = os.sep.join(root.rsplit(os.sep, 2)[-2:] +
+> [name])
+>                      f[base] = shash
+>              return f
+> +
+> +        def compare_sigfiles(files, files1, files2, compare=False):
+> +            for k in files:
+> +                if k in files1 and k in files2:
+> +                    i_sigfile += 1
+>
 
-  python: don't include -tests with modules (2017-08-03 11:14:04 +0100)
+Surely this is going to produce an i_sigfile is not defined error?
 
-are available in the git repository at:
+Ross
 
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
+--001a114260bac2b56905563ef4f8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Markus Lehtonen (8):
-  python3-native: support profile optimized build
-  python3: fix depends of python3-tests
-  python3: add python3-profile-opt recipe
-  devtools/images: add python-pgo-image
-  python3: support profile optimized build
-  python3: fix profile-optimized build of modules
-  python3: add python3-tools subpackage
-  python3: remove two setup.py cross-compile hacks
+<div dir=3D"ltr">On 7 August 2017 at 22:33,  <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">le=
+onardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><span class=3D"">From: Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sa=
+ndoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@<wbr>linux.inte=
+l.com</a>&gt;<br>
+<br>
+For perfomance reasons, limit the number of signature comparisons when<br>
+stamps differ. The limit set is hardcoded to 20.<br>
+<br>
+[YOCTO #11651]<br>
+<br>
+Signed-off-by: Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.go=
+nzalez@linux.intel.com">leonardo.sandoval.gonzalez@<wbr>linux.intel.com</a>=
+&gt;<br>
+---<br>
+</span>=C2=A0meta/lib/oeqa/selftest/cases/<wbr>sstatetests.py | 40 ++++++++=
++++++++++++----------<br>
+=C2=A01 file changed, 26 insertions(+), 14 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/selftest/<wbr>cases/sstatetests.py b/meta/lib/oe=
+qa/selftest/<wbr>cases/sstatetests.py<br>
+index 0b36027918..6298443a18 100644<br>
+--- a/meta/lib/oeqa/selftest/<wbr>cases/sstatetests.py<br>
++++ b/meta/lib/oeqa/selftest/<wbr>cases/sstatetests.py<br>
+@@ -458,6 +458,25 @@ http_proxy =3D &quot;<a href=3D"http://example.com/" r=
+el=3D"noreferrer" target=3D"_blank">http://example.com/</a>&quot;<br>
+<span class=3D"">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0base =3D os.sep.join(root.rsplit(os.<wbr>sep, 2)[-2:] +=
+ [name])<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0f[base] =3D shash<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return f<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 def compare_sigfiles(files, files1, files2, co=
+mpare=3DFalse):<br>
+</span>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for k in files:<br>
+<span class=3D"">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
+f k in files1 and k in files2:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i_si=
+gfile +=3D 1<br></span></blockquote><div><br></div><div>Surely this is goin=
+g to produce an i_sigfile is not defined error?</div><div><br></div><div>Ro=
+ss=C2=A0</div></div></div></div>
 
- meta/recipes-devtools/images/python-pgo-image.bb   | 92 ++++++++++++++++++++++
- .../python/python-3.5-manifest.inc                 | 10 ++-
- .../python/python3-native_3.5.3.bb                 |  9 +++
- meta/recipes-devtools/python/python3-profile-opt   |  1 +
- .../python/python3-profile-opt_3.5.3.bb            | 15 ++++
- .../python3/0001-cross-compile-support.patch       |  9 ---
- ...efile-add-install_generate_profile-target.patch | 25 ++++++
- ...-CFLAGS-for-extensions-when-cross-compili.patch | 56 +++++++++++++
- .../python3-setup.py-no-host-headers-libs.patch    | 33 --------
- .../setup.py-find-libraries-in-staging-dirs.patch  | 30 -------
- meta/recipes-devtools/python/python3_3.5.3.bb      | 58 ++++++++++----
- 11 files changed, 246 insertions(+), 92 deletions(-)
- create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
- create mode 120000 meta/recipes-devtools/python/python3-profile-opt
- create mode 100644 meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
- create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
- create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
- delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
- delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-
--- 
-2.12.3
-
-
+--001a114260bac2b56905563ef4f8--
