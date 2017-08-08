@@ -1,33 +1,56 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A83EE777FE
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF416010B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 20:41:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v78Kfbrh014989
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Aug 2017 13:41:37 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 8 Aug 2017 13:41:36 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-References: <cover.1502206031.git.alexander.kanavin@linux.intel.com>
-	<7ef3f08bdec1e383464085347222b59894526872.1502206031.git.alexander.kanavin@linux.intel.com>
-	<4ae3a694-c172-c4e7-8cf9-97f6cd8507cd@windriver.com>
-	<c9af037d-bd8f-691c-ec3d-ba17e723805d@linux.intel.com>
-	<CAJTo0LZoTQ__hYMFjbGOYkggYoggxtMiEtwRaapSkwacNVhQMA@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <8efd92d0-80de-2f83-0b15-14f5b19b3b71@windriver.com>
-Date: Tue, 8 Aug 2017 15:41:35 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZoTQ__hYMFjbGOYkggYoggxtMiEtwRaapSkwacNVhQMA@mail.gmail.com>
+	Tue,  8 Aug 2017 20:57:33 +0000 (UTC)
+Received: by mail-io0-f179.google.com with SMTP id j32so18298637iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Aug 2017 13:57:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=w4dKoOeag1YemmCxi8wMnVJ5Sc7f1ziELBOWag7d/sA=;
+	b=a4VBigF5oECdE0QA6vkytKaGSojYxHN54HEGcCzN0vyHjjAwHRAtIoW2Q/zWNLtW0/
+	o0yv82vWQ1/d0FCGlfk8JCvb3/8HWEfuT+d+qbF0PR/mhdonEpTIj1W/EA6bPa9wxYVK
+	ZHnnAKDZsdgyzQ7GzMBFZETxg6H9tfem2r8LoQSzmAIAW3PaW4ageRChoQKZzsrnRjh7
+	/VX0gUwj80tBYAyOOEYQHvHNmyUKhPWKtYIZctP2jDn9rmioE5LBIQfp9L2+NVJGSItq
+	F29pDcJ7vnIgw7RNVIZ6gynMYhYHySJMQkr7Pj4dz2+LQUVOrFyPgS4NJPU7yGqj7j5O
+	UL6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=w4dKoOeag1YemmCxi8wMnVJ5Sc7f1ziELBOWag7d/sA=;
+	b=P6gLrzyst6v79+CybuoisZ5I8QDB8jAD+e3a/ErxXdfwD/kpr9ssfbNtogNCq6nn6L
+	7ceOMoLvEEWOKWqOnrfTPS9QYWcb3o+CK0QkOHpUPEhS8Idqr22Ryl+ycKcLRAzj8jhY
+	dbwyg4fH/jxN8Hpa1EEpQ0nPqaOUzdpm0HVZAsyeF9lcds27lmW6sIjkg1QFPwNYVdxs
+	0WbvdTxzR+c3VwrMMzoDsnpUYR8cr2xvy1CZ6WHtGIEWuG7NBZ7zdmD2/zxZpYJwGLVl
+	BuI6DrZAH48m619zjTCbRP3atf5hCpVITWX/71/lAutGw5+V6J8+F/rnnuj8zP1T/52D
+	wzYg==
+X-Gm-Message-State: AIVw112Mhl7B5P9GYhsU15xk6eiDjIoLvAmQYxwux5TyYf48ikPLkvo4
+	YzNCZ3cD6G2tNQ==
+X-Received: by 10.107.46.234 with SMTP id u103mr4503918iou.192.1502225854682; 
+	Tue, 08 Aug 2017 13:57:34 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	g63sm1108561iod.8.2017.08.08.13.57.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 08 Aug 2017 13:57:34 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <1502225853.2652.2.camel@gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>, 
+	"Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 08 Aug 2017 15:57:33 -0500
+In-Reply-To: <1502221573.1934.21.camel@linux.intel.com>
+References: <20170808014624.9506-1-JPEWhacker@gmail.com>
+	<CAJTo0LaVB7h5ycSzGOcQgpLKcPVbByu9KeR7oqZWoF1Ab4KU4g@mail.gmail.com>
+	<1502221573.1934.21.camel@linux.intel.com>
+X-Mailer: Evolution 3.24.4 (3.24.4-1.fc26) 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] gstreamer-plugins-bad: replace openssl dependency with nettle for hls plugin
+Subject: Re: [PATCH v3] externalsrc: Handle .git not being a directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,61 +63,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 20:41:36 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+X-List-Received-Date: Tue, 08 Aug 2017 20:57:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/8/17 2:14 PM, Burton, Ross wrote:
-> On 8 August 2017 at 18:35, Alexander Kanavin <alexander.kanavin@linux.intel.com
-> <mailto:alexander.kanavin@linux.intel.com>> wrote:
+On Tue, 2017-08-08 at 14:46 -0500, Leonardo Sandoval wrote:
+> On Tue, 2017-08-08 at 20:32 +0100, Burton, Ross wrote:
+> > On 8 August 2017 at 02:46, Joshua Watt <jpewhacker@gmail.com>
+> > wrote:
+> >         +        git_dir = subprocess.check_output(['git',
+> >         'rev-parse', '--absolute-git-dir'],
+> >         cwd=s_dir).decode("utf-8").rstrip()
+> > 
+> > 
+> > Doesn't work with my old git:
+> > 
+> > 
+> > bb.data_smart.ExpansionError: Failure expanding variable
+> > do_compile[file-checksums], expression was ${@srctree_hash_files(d)
+> > }
+> > which triggered exception FileNotFoundError: [Errno 2] No such file
+> > or
+> > directory: '--absolute-git-dir/index'
+> > Summary: There was 1 ERROR message shown, returning a non-zero exit
+> > code.
+> > 
+> > 
+> > 
+> > $ git rev-parse --absolute-git-dir
+> > --absolute-git-dir
+> > $ git --version
+> > git version 2.11.0
+> > 
 > 
->     On 08/08/2017 06:58 PM, Mark Hatle wrote:
-> 
->         Can we somehow make openssl(10) or nettle a choice when compiling?
-> 
->         I ask because I've worked on a few systems where people seem to want one
->         encryption engine for as much of the system as possible (usually openssl).
->         While gstreamer has not been a problem in such systems, I could see it being
->         something that would need to be considered.
-> 
-> 
->     This would need to be done across all recipes where such choice is
->     supported, as a 'preferred crypto engine' distro feature. There's been talk
->     of doing this, but I don't remember what was the outcome.
-> 
-> 
-> There was a bug for this but I literally closed it earlier today on the grounds
-> that it would mean patching every user of a crypto library to add an abstraction
-> and alternative codepaths.  If you don't patch every instance then there is no
-> point in a global option.
+> I also tried it and got same log. my git is a bit newer (2.12.3).
 
-Getting a bit off-topic here, but...
+Ok. I wasn't sure exactly when that option was added, I'll use the
+older one.
 
-I do expect that at some point in the future someone will come along and offer a
-distribution wide setting for preferred (and alternative) encryption and make
-the associated changes to the various recipes to enforce this.
-
-Many of the systems I am working with are starting to have those types of needs.
- A preferred encryption resource that everything that can - should use.  Along
-with alternatives that are 'acceptable' if the primary isn't available.
-Otherwise other encryption would be prohibited and should trigger an automatic
-blacklist or failure.
-
-(In this case, there is a lot of work to be done, and potentially any encryption
-user/provider [even internal] needs to be audited.  This is not an 'over night'
-process... thus I doubt you'll be seeing it tomorrow from anyone here.)
-
-So don't necessarily dismiss the idea -- but I do think it's outside of the
-immediate scope for the Yocto Project itself, but I would expect something to
-eventually be presented by a member of the larger OpenEmbedded community.
-
---Mark
-
-> We can have packageconfigs, and expose the choice if the upstream does, but I
-> think the only sane option is to leave it to the user to set the options.  It's
-> trivial enough to blacklist openssl if you never want to use it.
 > 
-> Ross
+> Leo
+> > 
+> > Ross
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 
 
