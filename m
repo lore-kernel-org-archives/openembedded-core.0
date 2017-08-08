@@ -1,27 +1,21 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 358717198A
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D4DB6719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 16:25:39 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2017 09:25:41 -0700
+	Tue,  8 Aug 2017 16:57:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Aug 2017 09:57:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,344,1498546800"; d="scan'208";a="121318961"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2017 09:25:39 -0700
-Message-ID: <1502210054.1934.1.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 08 Aug 2017 11:34:14 -0500
-In-Reply-To: <CAJTo0LbdP=cQCXd1k5ogPnz3Rn7tcwY5sMhWEKWApvo_VMgCOw@mail.gmail.com>
-References: <20170807213351.600-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20170807213351.600-2-leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LbdP=cQCXd1k5ogPnz3Rn7tcwY5sMhWEKWApvo_VMgCOw@mail.gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/2] sstatetests: limit the number of signature comparisons when differ
+X-IronPort-AV: E=Sophos;i="5.41,344,1498546800"; d="scan'208";a="1203398977"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2017 09:57:20 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Aug 2017 09:57:16 -0700
+Message-Id: <20170808165717.43114-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH v4 1/2] sstatetests: Use python function instead of bitbake-diffsigs script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +28,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 16:25:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Aug 2017 16:57:19 -0000
 
-On Tue, 2017-08-08 at 15:40 +0100, Burton, Ross wrote:
-> On 7 August 2017 at 22:33,
-> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
->         From: Leonardo Sandoval
->         <leonardo.sandoval.gonzalez@linux.intel.com>
->         
->         For perfomance reasons, limit the number of signature
->         comparisons when
->         stamps differ. The limit set is hardcoded to 20.
->         
->         [YOCTO #11651]
->         
->         Signed-off-by: Leonardo Sandoval
->         <leonardo.sandoval.gonzalez@linux.intel.com>
->         ---
->          meta/lib/oeqa/selftest/cases/sstatetests.py | 40
->         +++++++++++++++++++----------
->          1 file changed, 26 insertions(+), 14 deletions(-)
->         
->         diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py
->         b/meta/lib/oeqa/selftest/cases/sstatetests.py
->         index 0b36027918..6298443a18 100644
->         --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
->         +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
->         @@ -458,6 +458,25 @@ http_proxy = "http://example.com/"
->                              base = os.sep.join(root.rsplit(os.sep,
->         2)[-2:] + [name])
->                              f[base] = shash
->                      return f
->         +
->         +        def compare_sigfiles(files, files1, files2,
->         compare=False):
->         +            for k in files:
->         +                if k in files1 and k in files2:
->         +                    i_sigfile += 1
-> 
-> 
-> Surely this is going to produce an i_sigfile is not defined error?
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Right, I forgot to remove that line and test it properly. Will send
-another revision.
+Using a python function instead of launching a subprocess fasten the
+diffsigs computation.
 
-Leo
+[YOCTO #11651]
 
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-
-> 
-> 
-> Ross 
-
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 07a206824a..0b36027918 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -8,6 +8,8 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
+ from oeqa.selftest.cases.sstate import SStateBase
+ from oeqa.core.decorator.oeid import OETestID
+ 
++import bb.siggen
++
+ class SStateTests(SStateBase):
+ 
+     # Test sstate files creation and their location
+@@ -469,9 +471,11 @@ http_proxy = "http://example.com/"
+         for k in files1.keys() | files2.keys():
+             if k in files1 and k in files2:
+                 print("%s differs:" % k)
+-                print(subprocess.check_output(("bitbake-diffsigs",
+-                                               self.topdir + "/tmp-sstatesamehash/stamps/" + k + "." + files1[k],
+-                                               self.topdir + "/tmp-sstatesamehash2/stamps/" + k + "." + files2[k])))
++                sigdatafile1 = self.topdir + "/tmp-sstatesamehash/stamps/" + k + "." + files1[k]
++                sigdatafile2 = self.topdir + "/tmp-sstatesamehash2/stamps/" + k + "." + files2[k]
++                output = bb.siggen.compare_sigfiles(sigdatafile1, sigdatafile2)
++                if output:
++                    print('\n'.join(output))
+             elif k in files1 and k not in files2:
+                 print("%s in files1" % k)
+             elif k not in files1 and k in files2:
+-- 
+2.12.3
 
 
