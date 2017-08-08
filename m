@@ -1,29 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 738587197E
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 358717198A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 15:58:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v78FwBJG020322
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Aug 2017 08:58:11 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 8 Aug 2017 08:58:11 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1502206031.git.alexander.kanavin@linux.intel.com>
-	<7ef3f08bdec1e383464085347222b59894526872.1502206031.git.alexander.kanavin@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <4ae3a694-c172-c4e7-8cf9-97f6cd8507cd@windriver.com>
-Date: Tue, 8 Aug 2017 10:58:10 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <7ef3f08bdec1e383464085347222b59894526872.1502206031.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 4/4] gstreamer-plugins-bad: replace openssl dependency with nettle for hls plugin
+	Tue,  8 Aug 2017 16:25:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Aug 2017 09:25:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,344,1498546800"; d="scan'208";a="121318961"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2017 09:25:39 -0700
+Message-ID: <1502210054.1934.1.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 08 Aug 2017 11:34:14 -0500
+In-Reply-To: <CAJTo0LbdP=cQCXd1k5ogPnz3Rn7tcwY5sMhWEKWApvo_VMgCOw@mail.gmail.com>
+References: <20170807213351.600-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<20170807213351.600-2-leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LbdP=cQCXd1k5ogPnz3Rn7tcwY5sMhWEKWApvo_VMgCOw@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/2] sstatetests: limit the number of signature comparisons when differ
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,45 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 15:58:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+X-List-Received-Date: Tue, 08 Aug 2017 16:25:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 8/8/17 10:30 AM, Alexander Kanavin wrote:
-> It has not been ported to openssl 1.1 (and there's nothing in upstream git),
-> but it's possible to use nettle or gcrypt intead.
+On Tue, 2017-08-08 at 15:40 +0100, Burton, Ross wrote:
+> On 7 August 2017 at 22:33,
+> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>         From: Leonardo Sandoval
+>         <leonardo.sandoval.gonzalez@linux.intel.com>
+>         
+>         For perfomance reasons, limit the number of signature
+>         comparisons when
+>         stamps differ. The limit set is hardcoded to 20.
+>         
+>         [YOCTO #11651]
+>         
+>         Signed-off-by: Leonardo Sandoval
+>         <leonardo.sandoval.gonzalez@linux.intel.com>
+>         ---
+>          meta/lib/oeqa/selftest/cases/sstatetests.py | 40
+>         +++++++++++++++++++----------
+>          1 file changed, 26 insertions(+), 14 deletions(-)
+>         
+>         diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py
+>         b/meta/lib/oeqa/selftest/cases/sstatetests.py
+>         index 0b36027918..6298443a18 100644
+>         --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+>         +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+>         @@ -458,6 +458,25 @@ http_proxy = "http://example.com/"
+>                              base = os.sep.join(root.rsplit(os.sep,
+>         2)[-2:] + [name])
+>                              f[base] = shash
+>                      return f
+>         +
+>         +        def compare_sigfiles(files, files1, files2,
+>         compare=False):
+>         +            for k in files:
+>         +                if k in files1 and k in files2:
+>         +                    i_sigfile += 1
 > 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> index e964fef3f20..7427772a45f 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-> @@ -40,9 +40,7 @@ PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
->  PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
->  PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
->  PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
-> -# ensure OpenSSL is used for HLS AES description instead of nettle
-> -# (OpenSSL is a shared dependency with dtls)
-> -PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl"
-> +PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
+> Surely this is going to produce an i_sigfile is not defined error?
 
-Can we somehow make openssl(10) or nettle a choice when compiling?
+Right, I forgot to remove that line and test it properly. Will send
+another revision.
 
-I ask because I've worked on a few systems where people seem to want one
-encryption engine for as much of the system as possible (usually openssl).
-While gstreamer has not been a problem in such systems, I could see it being
-something that would need to be considered.
+Leo
 
-Otherwise no concerns with the rest of the patch set.
 
->  PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
->  PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
->  PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
+
 > 
+> 
+> Ross 
+
 
 
