@@ -1,21 +1,29 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E0D9460796
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A5D0660796
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Aug 2017 15:28:25 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Aug 2017 08:28:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,343,1498546800"; d="scan'208";a="135077944"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 08 Aug 2017 08:28:24 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Aug 2017 18:25:01 +0300
-Message-Id: <20170808152501.20198-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.13.2
-Subject: [PATCH] ca-certificates: update to 20170717
+	Tue,  8 Aug 2017 15:30:47 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v78FUkfO001147
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 8 Aug 2017 16:30:47 +0100
+Message-ID: <1502206246.18633.250.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 08 Aug 2017 16:30:46 +0100
+In-Reply-To: <2e63bf95e8a5288464d90567260047217a3617d0.1501494496.git.liezhi.yang@windriver.com>
+References: <cover.1501494496.git.liezhi.yang@windriver.com>
+	<2e63bf95e8a5288464d90567260047217a3617d0.1501494496.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 08 Aug 2017 16:30:47 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 01/10] oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,30 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Aug 2017 15:28:26 -0000
+X-List-Received-Date: Tue, 08 Aug 2017 15:30:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Upstream lacks a tag for this release, so make it a PR bump.
+On Mon, 2017-07-31 at 02:50 -0700, Robert Yang wrote:
+> The "if qemu_use_kvm" is not needed.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/lib/oeqa/targetcontrol.py | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/targetcontrol.py
+> b/meta/lib/oeqa/targetcontrol.py
+> index 3255e3a5c63..11e6c820e85 100644
+> --- a/meta/lib/oeqa/targetcontrol.py
+> +++ b/meta/lib/oeqa/targetcontrol.py
+> @@ -132,9 +132,8 @@ class QemuTarget(BaseTarget):
+>          dump_host_cmds = d.getVar("testimage_dump_host")
+>          dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+>          qemu_use_kvm = d.getVar("QEMU_USE_KVM")
+> -        if qemu_use_kvm and \
+> -           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
+> -            d.getVar("MACHINE") in qemu_use_kvm.split()):
+> +        if qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
+> +            d.getVar("MACHINE") in qemu_use_kvm.split():
+>              use_kvm = True
+>          else:
+>              use_kvm = False
+> 
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It is needed since qemu_use_kvm could be None and None.split() will
+cause an error.
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index 42088b98994..9a80f433711 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -13,7 +13,8 @@ DEPENDS_class-native = "openssl-native"
- DEPENDS_class-nativesdk = "ca-certificates-native openssl-native"
- PACKAGE_WRITE_DEPS += "ca-certificates-native"
- 
--SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
-+SRCREV = "adc13592b55ef00450412d61a2145d162a4afb19"
-+PR = "r20170717"
- 
- SRC_URI = "git://anonscm.debian.org/collab-maint/ca-certificates.git \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
--- 
-2.13.2
+Cheers,
 
+Richard
 
