@@ -1,45 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD9077D2A
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B97377D67
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Aug 2017 14:19:29 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id u185so6028550pgb.0
+	Wed,  9 Aug 2017 14:19:31 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id p13so6278234pfd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Aug 2017 07:19:31 -0700 (PDT)
+	Wed, 09 Aug 2017 07:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=mIIvjuQ9UxQr+6wCYwWBPnazvaFIrEN6dJOVAVv6e+8=;
-	b=Egjub6/vhtCsOiAi0usDTvhfoB485Zp6drwqDCeh5YhIKQNPawAkhIltfKMbVhKto8
-	1MncuBM6vFdw0GdwEufggScG+UXlCmj0F/s7O7H93MPAvmp2+krRksdVfAcvb/db4X+S
-	RT5lkDRZHWIT1FC2+soo9vBwWynYTtti3Xj0+UMbyTEXZVyqyriIoJk4T9mm6rjZBno0
-	FqbqVkwNmaEa8CrVlgiIR8ooz3+gQ6SPUpZ1x74LyRUYU0p4rgafrTIDB6/liftrYWWS
-	QHTH5vOWU53aO8hr499UfSVzcy9hIyJQm5Mr6kWQ3XgLkLC/PezfDFn8R6Rg9vMe6ZG9
-	7s+w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=PU1yQj4ykojqXawDq8zQ7S/5vCfxZsy9Rt3r9HBMk+0=;
+	b=NRE3TBDcXsFDjYSnLieHAT+oJkHhlCjk6VFQf9LE/igJ7X+EAq9b5xSjTKhoZQh8Cx
+	VPqDecaH0nEteRfw+zuP7ZrZM0zlix7iWtUiBQ+ZllBNKaKQEhPfoVYDOiG+kXPwlfR9
+	k3lRwREslgIr4shNgMQeeNhF+GU8guvfRb6Ymbw9Zzn8TqorRwKomzfQ28yAa+QRRFlF
+	uQbjRqSrwRfPOD+P1hBDBNjEv0MeOx3uHk2Oc5tRxqjtM3dWSSpDICAO+kz5dD6VrUyX
+	yTZj58jmuZk9smuoNasiGr/HAwN+WCsBKmM4L5+j+XJ63VVJQ6z6BCjOl0AlzI+jR4lu
+	xlEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=mIIvjuQ9UxQr+6wCYwWBPnazvaFIrEN6dJOVAVv6e+8=;
-	b=pzamInpSy2Q5Ea/mAWvOeRPIutGnT4Ft+t6a0bXS/Gj9BZ7Kf03K+PTywuNHoNBUiX
-	KidRdyiP/YAqTptSsIS6eDSD2esJJAHIVJm5jRDMulxn35D1b8As5xPO1U6rKMXjgBmq
-	G/GFoNOUIWQ01/y2HEhpX/lJWQW6xuh1zZ6pohI+/4AbcEyXKuk341WGTw0XxM+nnjXM
-	e+3/d/bAXcMpSAszHX3nSXPlIL9vA86qZvL4m3GPupO0+irf2AAFtlcaPc8GDKDGMLeM
-	8uXcRJazlGiy6dvO0ImRPZC846nlYZ+3cyBL5VwQs91TEopg4brDtzdbW69IoIFT04wq
-	yuwg==
-X-Gm-Message-State: AHYfb5hfL4Ct0tddz3viuIKT7IFqYzQTSTKT6pie7Fsjis2rL8RLOKkn
-	tLOtXSDLm+Li/PdT
-X-Received: by 10.99.61.79 with SMTP id k76mr7780405pga.206.1502288371401;
-	Wed, 09 Aug 2017 07:19:31 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=PU1yQj4ykojqXawDq8zQ7S/5vCfxZsy9Rt3r9HBMk+0=;
+	b=gKd3mRj4Ev1AwkopXFMsdqgjeu4bw+RoBLFVcCfOXpLxKuEuU0xwKrz77QlXEPzFwL
+	Hpw62p74plR5+wQaNcDrQxXLiqop4ipKsWXcdLlLhouqrAzQZDscNCzP2lXWXBlRdpgO
+	WrRlke1wWZ2kArgoxd0Vf+d2SS3l9bMi+Kli8O7pZXyLNpV9BrLZFIZzeu9paLnJXBA3
+	Kc+SxZYEhSScHpIZBmJvlGfu2pPBVUcWUl0hGMnld2I3vdiOsj41htyWRBsk2GBOVAtj
+	PNG3xz584PjkD3gKmfs4u/BQ8PsS/pkKA1mDc9jogxuW/f8qKfx2Y+nkl1JZ67Aa1T2X
+	/PNQ==
+X-Gm-Message-State: AHYfb5gNqCyr4X3iANmX5YPLiiaJHl29pPd/LPXCnHOZplaydOplOvVb
+	9MS9vBDTc6Zk/eID
+X-Received: by 10.98.22.71 with SMTP id 68mr8359197pfw.248.1502288372489;
+	Wed, 09 Aug 2017 07:19:32 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::8e89])
 	by smtp.gmail.com with ESMTPSA id
-	s89sm9342832pfe.155.2017.08.09.07.19.30
+	s89sm9342832pfe.155.2017.08.09.07.19.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Aug 2017 07:19:30 -0700 (PDT)
+	Wed, 09 Aug 2017 07:19:31 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Aug 2017 07:19:19 -0700
-Message-Id: <20170809141922.2603-1-raj.khem@gmail.com>
+Date: Wed,  9 Aug 2017 07:19:20 -0700
+Message-Id: <20170809141922.2603-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.0
-Subject: [PATCH 1/4] musl: Drop the protected symbol optimization at configure time
+In-Reply-To: <20170809141922.2603-1-raj.khem@gmail.com>
+References: <20170809141922.2603-1-raj.khem@gmail.com>
+Subject: [PATCH 2/4] llvm: Keep llvm-native dependency with clang toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 14:19:30 -0000
+X-List-Received-Date: Wed, 09 Aug 2017 14:19:31 -0000
 
-lld and gold can not handle it and treat it wrong
-
-Fixes
-
-[YOCTO #11689]
+This was needed when we were conflicting with clang-native
+but this is solved via append PN to binaries of llvm-native
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/llvm/llvm_git.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 53a8ba196a..93e3535c8d 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -36,6 +36,7 @@ CONFIGUREOPTS = " \
-     --libdir=${libdir} \
-     --includedir=${includedir} \
-     --syslibdir=${base_libdir} \
-+    --disable-visibility \
- "
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index f36e6978ed..eb2049248e 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -10,8 +10,6 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=e825e017edc35cfd58e26116e5251771"
  
- do_configure() {
+ DEPENDS = "libffi libxml2-native zlib ninja-native llvm-native"
+ 
+-DEPENDS_remove_toolchain-clang = "llvm-native"
+-
+ RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+ 
+ inherit perlnative pythonnative cmake pkgconfig
 -- 
 2.14.0
 
