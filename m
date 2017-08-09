@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 5355A71AE4
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id EF90B77E24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Aug 2017 20:47:38 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id m88so2708675iod.2
+	Wed,  9 Aug 2017 20:47:58 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id 77so3862581itj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Aug 2017 13:47:40 -0700 (PDT)
+	Wed, 09 Aug 2017 13:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IVs1kJuN8vsCbZG4GYV01NBcUKM/qI2XRkDbg7qMljE=;
-	b=AgXcmqn0uSKSvm6ffU+pnZxMXbtvNxG5aRIHAZGytxuTqfSA5G+PSQvKAHPdkEg2Md
-	fQM7+HV4jxZKbnzYjh8KZ4zlaHuPH2XuXROX5D8yLhdi+PS2dVcrTbtS+BprgIlUZoqO
-	52nJkltX+U2i5CDrRaup9cnb0hZawhRIyTjPnvuaViDe1U8Wfs4osIH5AWWjWcPB7weI
-	Q5STp673fwZVAlxJoX2xTInHFYDhRZHZ/4+8X6m5+evvq/YKgt5MJXpyC2Irs1L8+8+H
-	J6DAQwZ3j7dxKVfPWdjKAbWv959kQKWPowgzYKcRvs1fRWl2fVA70VEwm19sHypGrgtF
-	4QFg==
+	:cc; bh=adSi4IUHamzOHkjeYzY8HG3m3AhuWkr300wKePW+47o=;
+	b=cLng+hSKR/0cbDMpWrO7f1jaUpAcVwDNux8NzF2TZha6iBksr/EXSXMRfXMO/7b/t2
+	yPV/DXE7Dp93obWC8UeEXsxQGfodvGQORo//3Qh7ZPaeDYcCKrcDhpg2VTqDYcig60HG
+	vswZ4g9dnPV3H0wPpZLixBdPCnGoushTs+howJ6YUVvFAM5neGxL7r2UEfFMwWdCOMu2
+	xVISbrnmUq3Ac/ZL6NgAKh2gTDxXFsNfKmYUOdHNCVe4twdhnol0Dqh2R2MEyIjhp3sS
+	lMuVTjAF0scekGTMI4zTSJaKeHQt7s9gUGmz9yPZnxNZOA1YPRadD5HmVU5lTxv2q3FU
+	L3Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=IVs1kJuN8vsCbZG4GYV01NBcUKM/qI2XRkDbg7qMljE=;
-	b=uWek/9FuAYC1KQ46rQJ38gI8qWoBE5L0CFpzPWDHq4EDZk6TXuzy47iU5vNlYj/tCK
-	vee0PrajcxCCfDbedA77TnyxHo7m5B9Z6eFJ5S5/qU00EuRUxlKetE3WtG8bTXp8PTE4
-	gywptrSv/w+BKjxm+ZQT7TO40R4+AfX6xq1PAJK2TUrCDGJtZLmwd1B5emx4Ha/tFRAk
-	RRkHXLaZVJl0qqYKgWJP+n8olm0ncpZMmp+Gy/SGWoUF9WJG1QmtLKoFJ4WPWHsDQR7g
-	IpdULhe1k86U+6heP5t+7C3t0poJv1uzCTY283ssggro+Stuvt3yUqYHJpGv0ihw1i2F
-	n+yg==
-X-Gm-Message-State: AIVw111IjK4lww1bApZ0RT/ODdNfPo8wz927h3e+Xf4h3+yWwY+AzlMk
-	q97kirMyEtb4Ov6LqTz6YJ7SXFPsXzkQ
-X-Received: by 10.107.171.69 with SMTP id u66mr8161440ioe.231.1502311660284;
-	Wed, 09 Aug 2017 13:47:40 -0700 (PDT)
+	bh=adSi4IUHamzOHkjeYzY8HG3m3AhuWkr300wKePW+47o=;
+	b=XObQ8106MgIGS1JyzdBFey162Ez3s/GQglBuefqeRgctxRF9GVpeXwu9Zhudcd0E20
+	0VkQogn2i6GdNaX2km12iyqd7MqTUr9T0vTFxTaDxeByirVA5znao/XEUld2a+RfVi5a
+	TwavqO1kJ3EyQ7hEqNOEB4E+mXTX1AROg6tpUHgg+99go8EUBQhLBu0mjbK2nGNRhqma
+	Hq+5ylyZS5IxDkbMV5RZTSiq54aXq21THi5eYUPEV1NU24e+HJMD79UPsGUoERkUpnVZ
+	ti/NjdlBb58CGhiwGwFS1B9KShnO9miaUWeD70KnhT2LnhibhC9ShlqJ+8EGec0qXz02
+	K5TA==
+X-Gm-Message-State: AIVw112QCdM2RTTzsyl2icHG4dIkrv3WCkkuRME4qrhFWHhG+Bt81UW/
+	kFaPxXg56xeTfX8CKW/Q/Yku0G+XHuVP
+X-Received: by 10.36.166.75 with SMTP id r11mr7513682iti.55.1502311679883;
+	Wed, 09 Aug 2017 13:47:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.135.234 with HTTP; Wed, 9 Aug 2017 13:47:19 -0700 (PDT)
-In-Reply-To: <ae1b815e43dd44f4d3ac4d1edd9e4dc50874d346.1501840728.git.dengke.du@windriver.com>
-References: <cover.1501840728.git.dengke.du@windriver.com>
-	<ae1b815e43dd44f4d3ac4d1edd9e4dc50874d346.1501840728.git.dengke.du@windriver.com>
+Received: by 10.107.135.234 with HTTP; Wed, 9 Aug 2017 13:47:39 -0700 (PDT)
+In-Reply-To: <20170807114504.28410-6-alexander.kanavin@linux.intel.com>
+References: <20170807114504.28410-1-alexander.kanavin@linux.intel.com>
+	<20170807114504.28410-6-alexander.kanavin@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Aug 2017 21:47:19 +0100
-Message-ID: <CAJTo0LYXVUb66qtnS3=TsdRm1bhZd1_KskU8zr-UNFt0SHCwZg@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
+Date: Wed, 9 Aug 2017 21:47:39 +0100
+Message-ID: <CAJTo0La5aPZ711UmGoXpvLxoQ3cJPQ1aPjD8EtBdyVaaoeyv5A@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/1] ltp: upgrade to upstream latest commit on 20170804
+Subject: Re: [PATCH 6/7] oprofile: update to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,470 +55,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 20:47:39 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05b4bada875d0556583041"
+X-List-Received-Date: Wed, 09 Aug 2017 20:47:59 -0000
+Content-Type: multipart/alternative; boundary="f403045fae040591640556583294"
 
---94eb2c05b4bada875d0556583041
+--f403045fae040591640556583294
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 Breaks with musl:
 
-http://errors.yoctoproject.org/Errors/Details/150199/
+http://errors.yoctoproject.org/Errors/Details/150200/
 
 Ross
 
-On 4 August 2017 at 11:00, Dengke Du <dengke.du@windriver.com> wrote:
+On 7 August 2017 at 12:45, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-> drop 4 patches because the upstream already contains them:
+> Drop upstreamed 0001-Fix-FTBFS-problem-with-GCC-6.patch
 >
->     0001-dirtyc0w-Include-stdint.h.patch
->     0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
->     0037-faccessat-and-fchmodat-Fix-build-warnings.patch
->     0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch
->
-> drop the do_compile_prepend function, because the upstream already fix
-> the parallel make race, we can check it here:
->
->     https://github.com/linux-test-project/ltp/commit/
-> 3f385652efe811fe7491474f8513baf44cf0a12d
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  .../ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch   |  34 ------
->  ...TH_MAX-undeclared-when-building-with-musl.patch |  31 -----
->  ...faccessat-and-fchmodat-Fix-build-warnings.patch |  68 -----------
->  ...d_key02-update-to-test-fix-for-nonempty-N.patch | 136
-> ---------------------
->  meta/recipes-extended/ltp/ltp_20170516.bb          |  14 +--
->  5 files changed, 1 insertion(+), 282 deletions(-)
->  delete mode 100644 meta/recipes-extended/ltp/ltp/
-> 0001-dirtyc0w-Include-stdint.h.patch
->  delete mode 100644 meta/recipes-extended/ltp/ltp/
-> 0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
->  delete mode 100644 meta/recipes-extended/ltp/ltp/
-> 0037-faccessat-and-fchmodat-Fix-build-warnings.patch
->  delete mode 100644 meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02=
--
-> update-to-test-fix-for-nonempty-N.patch
+>  meta/recipes-kernel/oprofile/oprofile.inc          |  1 -
+>  .../0001-Fix-FTBFS-problem-with-GCC-6.patch        | 51
+> ----------------------
+>  meta/recipes-kernel/oprofile/oprofile_1.1.0.bb     | 10 -----
+>  meta/recipes-kernel/oprofile/oprofile_1.2.0.bb     | 10 +++++
+>  4 files changed, 10 insertions(+), 62 deletions(-)
+>  delete mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-Fix-FTBFS-
+> problem-with-GCC-6.patch
+>  delete mode 100644 meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
+>  create mode 100644 meta/recipes-kernel/oprofile/oprofile_1.2.0.bb
 >
-> diff --git a/meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h=
-.patch
-> b/meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch
+> diff --git a/meta/recipes-kernel/oprofile/oprofile.inc
+> b/meta/recipes-kernel/oprofile/oprofile.inc
+> index 4b01654fa3e..83fc8435cbd 100644
+> --- a/meta/recipes-kernel/oprofile/oprofile.inc
+> +++ b/meta/recipes-kernel/oprofile/oprofile.inc
+> @@ -25,7 +25,6 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz
+> \
+>             file://run-ptest \
+>             file://root-home-dir.patch \
+>             file://0001-Add-rmb-definition-for-NIOS2-architecture.patch \
+> -           file://0001-Fix-FTBFS-problem-with-GCC-6.patch \
+>  "
+>  UPSTREAM_CHECK_REGEX = "oprofile-(?P<pver>\d+(\.\d+)+)/"
+>  UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/oprofile/files/
+> oprofile/"
+> diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Fix-FTBFS-problem-with-GCC-6.patch
+> b/meta/recipes-kernel/oprofile/oprofile/0001-Fix-
+> FTBFS-problem-with-GCC-6.patch
 > deleted file mode 100644
-> index 5c73be4..0000000
-> --- a/meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch
+> index d372fd527ba..00000000000
+> --- a/meta/recipes-kernel/oprofile/oprofile/0001-Fix-
+> FTBFS-problem-with-GCC-6.patch
 > +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -From 1b30d8dac1a37dc0abbb3b545db2824d6489e23f Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Fri, 9 Jun 2017 09:32:13 -0700
-> -Subject: [PATCH] dirtyc0w: Include stdint.h
+> @@ -1,51 +0,0 @@
+> -From 39d4d46a0bd504ac708ffe72df87bf74cd12ad30 Mon Sep 17 00:00:00 2001
+> -From: William Cohen <wcohen@redhat.com>
+> -Date: Fri, 5 Feb 2016 17:30:19 -0500
+> -Subject: [PATCH] Fix FTBFS problem with GCC-6
 > -
-> -uintptr_t is defined in stdint.h
+> -GCC-6 is pickier about some of the type conversions causing the Fedora
+> -24 mass rebuild the build of oprofile failed with:
 > -
-> -Fixes
-> -| dirtyc0w_child.c:76:15: error: 'uintptr_t' undeclared (first use in
-> this function); did you mean 'intptr_t'?
-> -|    lseek(mfd, (uintptr_t) map, SEEK_SET);
-> -|                ^~~~~~~~~
+> -make[3]: Entering directory '/builddir/build/BUILD/
+> oprofile-1.1.0/libutil++'
+> -g++ -DHAVE_CONFIG_H -I. -I..  -I ../libutil -I ../libop -I ../libpp   -W
+> -Wall -fno-common -ftemplate-depth-50 -O2 -g -pipe -Wall
+> -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions
+> -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches
+> -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m32 -march=i686
+> -mtune=atom -fasynchronous-unwind-tables -c -o op_bfd.o op_bfd.cpp
+> -op_bfd.cpp: In member function 'void op_bfd::get_symbol_range(symbol_index_t,
+> long long unsigned int&, long long unsigned int&) const':
+> -op_bfd.cpp:538:47: error: cannot convert 'std::ostream {aka
+> std::basic_ostream<char>}' to 'const bool' in initialization
+> -  bool const verbose = cverb << (vbfd & vlevel1);
+> -                                               ^
+> -op_bfd.cpp:546:7: error: in argument to unary !
+> -  if (!verbose)
+> -       ^~~~~~~
 > -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Avoid the intermediate bool type to make GCC-6 happy.
+> -
+> -Signed-off-by: William Cohen <wcohen@redhat.com>
 > ----
-> -Upstream-Status: Submitted
+> -Upstream-Status: Backport
 > -
-> - testcases/kernel/security/dirtyc0w/dirtyc0w_child.c | 1 +
-> - 1 file changed, 1 insertion(+)
+> - libutil++/op_bfd.cpp | 4 +---
+> - 1 file changed, 1 insertion(+), 3 deletions(-)
 > -
-> -diff --git a/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
-> b/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
-> -index 5328a9bc4..49abdd6ba 100644
-> ---- a/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
-> -+++ b/testcases/kernel/security/dirtyc0w/dirtyc0w_child.c
-> -@@ -23,6 +23,7 @@
-> - #include <sys/stat.h>
-> - #include <string.h>
-> - #include <stdlib.h>
-> -+#include <stdint.h>
-> - #include <pwd.h>
-> -
-> - #include "tst_safe_pthread.h"
-> ---
-> -2.13.1
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-
-> undeclared-when-building-with-musl.patch b/meta/recipes-extended/ltp/
-> ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
-> deleted file mode 100644
-> index 020ddfe..0000000
-> --- a/meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-
-> undeclared-when-building-with-musl.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -From b906ec2fe4711a727e198cd9259287c042eef8e2 Mon Sep 17 00:00:00 2001
-> -From: Dengke Du <dengke.du@windriver.com>
-> -Date: Thu, 9 Feb 2017 16:41:12 +0800
-> -Subject: [PATCH] fix PATH_MAX undeclared when building with musl
-> -
-> -fix PATH_MAX undeclared when building with musl.
-> -
-> -Upstream-Status: Submitted [https://github.com/linux-
-> test-project/ltp/pull/176]
-> -
-> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ----
-> - include/tst_test.h | 3 +++
-> - 1 file changed, 3 insertions(+)
-> -
-> -diff --git a/include/tst_test.h b/include/tst_test.h
-> -index 335c82684..4dfa1511b 100644
-> ---- a/include/tst_test.h
-> -+++ b/include/tst_test.h
-> -@@ -23,6 +23,9 @@
-> - #endif /* __TEST_H__ */
-> -
-> - #include <unistd.h>
-> -+#ifndef __GLIBC__
-> -+#include <limits.h>
-> -+#endif
-> -
-> - #include "tst_common.h"
-> - #include "tst_res_flags.h"
-> ---
-> -2.11.0
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp/0037-faccessat-and-
-> fchmodat-Fix-build-warnings.patch b/meta/recipes-extended/ltp/
-> ltp/0037-faccessat-and-fchmodat-Fix-build-warnings.patch
-> deleted file mode 100644
-> index 99497d6..0000000
-> --- a/meta/recipes-extended/ltp/ltp/0037-faccessat-and-
-> fchmodat-Fix-build-warnings.patch
-> +++ /dev/null
-> @@ -1,68 +0,0 @@
-> -From 4141bdb441f7576a2e73abeb2a0fb1c7b8bd8647 Mon Sep 17 00:00:00 2001
-> -From: Naresh Kamboju <naresh.kamboju@linaro.org>
-> -Date: Mon, 19 Jun 2017 19:01:21 +0530
-> -Subject: [PATCH 1/7] faccessat and fchmodat: Fix build warnings
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -Fixing below build warnings.
-> -
-> -ltp-full-20170516/testcases/kernel/syscalls/faccessat$ make
-> -In file included from ../../../../include/old/test.h:51:0,
-> -                 from faccessat01.c:44:
-> -faccessat01.c: In function =E2=80=98setup=E2=80=99:
-> -../../../../include/old/old_safe_file_ops.h:55:27:
-> -warning: format not a string literal and no format arguments
-> [-Wformat-security]
-> -                   (path), (fmt), ## __VA_ARGS__)
-> -                           ^
-> -faccessat01.c:132:2: note: in expansion of macro =E2=80=98SAFE_FILE_PRIN=
-TF=E2=80=99
-> -  SAFE_FILE_PRINTF(cleanup, testfile, testfile);
-> -  ^
-> -../../../../include/old/old_safe_file_ops.h:55:27:
-> -warning: format not a string literal and no format arguments
-> [-Wformat-security]
-> -                   (path), (fmt), ## __VA_ARGS__)
-> -                           ^
-> -faccessat01.c:133:2: note: in expansion of macro =E2=80=98SAFE_FILE_PRIN=
-TF=E2=80=99
-> -  SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
-> -
-> -Signed-off-by: Naresh Kamboju <naresh.kamboju@linaro.org>
-> -Upstream-Status: Accepted [https://github.com/linux-
-> test-project/ltp/commit/4141bdb441f7576a2e73abeb2a0fb1c7b8bd8647]
-> ----
-> - testcases/kernel/syscalls/faccessat/faccessat01.c | 4 ++--
-> - testcases/kernel/syscalls/fchmodat/fchmodat01.c   | 4 ++--
-> - 2 files changed, 4 insertions(+), 4 deletions(-)
-> -
-> -diff --git a/testcases/kernel/syscalls/faccessat/faccessat01.c
-> b/testcases/kernel/syscalls/faccessat/faccessat01.c
-> -index 622dfd3b0..def7fa755 100644
-> ---- a/testcases/kernel/syscalls/faccessat/faccessat01.c
-> -+++ b/testcases/kernel/syscalls/faccessat/faccessat01.c
-> -@@ -129,8 +129,8 @@ void setup(void)
-> -       fds[0] =3D SAFE_OPEN(cleanup, pathname, O_DIRECTORY);
-> -       fds[1] =3D fds[4] =3D fds[0];
-> -
-> --      SAFE_FILE_PRINTF(cleanup, testfile, testfile);
-> --      SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
-> -+      SAFE_FILE_PRINTF(cleanup, testfile, "%s", testfile);
-> -+      SAFE_FILE_PRINTF(cleanup, testfile2, "%s", testfile2);
-> -
-> -       fds[2] =3D SAFE_OPEN(cleanup, testfile3, O_CREAT | O_RDWR, 0600);
-> -
-> -diff --git a/testcases/kernel/syscalls/fchmodat/fchmodat01.c
-> b/testcases/kernel/syscalls/fchmodat/fchmodat01.c
-> -index 6bf66d8b8..7856ed3fa 100644
-> ---- a/testcases/kernel/syscalls/fchmodat/fchmodat01.c
-> -+++ b/testcases/kernel/syscalls/fchmodat/fchmodat01.c
-> -@@ -127,8 +127,8 @@ void setup(void)
-> -       fds[0] =3D SAFE_OPEN(cleanup, pathname, O_DIRECTORY);
-> -       fds[1] =3D fds[4] =3D fds[0];
-> -
-> --      SAFE_FILE_PRINTF(cleanup, testfile, testfile);
-> --      SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);
-> -+      SAFE_FILE_PRINTF(cleanup, testfile, "%s", testfile);
-> -+      SAFE_FILE_PRINTF(cleanup, testfile2, "%s", testfile2);
-> -
-> -       fds[2] =3D SAFE_OPEN(cleanup, testfile3, O_CREAT | O_RDWR, 0600);
-> -       fds[3] =3D 100;
-> ---
-> -2.13.0
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-
-> update-to-test-fix-for-nonempty-N.patch b/meta/recipes-extended/ltp/
-> ltp/0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch
-> deleted file mode 100644
-> index 3759e1f..0000000
-> --- a/meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-
-> update-to-test-fix-for-nonempty-N.patch
-> +++ /dev/null
-> @@ -1,136 +0,0 @@
-> -From 25045624e941ee76a13febd36187e23c6c435507 Mon Sep 17 00:00:00 2001
-> -From: Eric Biggers <ebiggers@google.com>
-> -Date: Mon, 12 Jun 2017 11:55:21 -0700
-> -Subject: [PATCH 01/39] syscalls/add_key02: update to test fix for nonemp=
-ty
-> - NULL payload
-> -
-> -add_key02 was supposed to be a "Basic test for the add_key() syscall",
-> -but it actually happened to test the obscure case of passing a NULL
-> -payload with nonzero length.  This case was mishandled by the kernel,
-> -which either returned EINVAL or crashed with a NULL pointer dereference,
-> -depending on the key type.  (The former applied to the test, as it used
-> -the "user" key type.)  The expected behavior in this case is that the
-> -syscall fail with EFAULT.
-> -
-> -Update the test to expect the fixed behavior from v4.12-rc5, and make
-> -the test more thorough by testing additional key types, including ones
-> -that caused a NULL pointer dereference in unfixed kernels.
-> -
-> -Signed-off-by: Eric Biggers <ebiggers@google.com>
-> -Upstream-Status: Accepted [https://github.com/linux-
-> test-project/ltp/commit/25045624e941ee76a13febd36187e23c6c435507]
-> ----
-> - testcases/kernel/syscalls/add_key/add_key02.c | 69
-> ++++++++++++++++++++-------
-> - 1 file changed, 51 insertions(+), 18 deletions(-)
-> -
-> -diff --git a/testcases/kernel/syscalls/add_key/add_key02.c
-> b/testcases/kernel/syscalls/add_key/add_key02.c
-> -index 866800d6f..2e3308dcd 100644
-> ---- a/testcases/kernel/syscalls/add_key/add_key02.c
-> -+++ b/testcases/kernel/syscalls/add_key/add_key02.c
-> -@@ -1,5 +1,6 @@
-> - /***********************************************************
-> *******************
-> -  * Copyright (c) Crackerjack Project., 2007
->    *
-> -+ * Copyright (c) 2017 Google, Inc.
->       *
-> -  *
->     *
-> -  * This program is free software;  you can redistribute it and/or
-> modify      *
-> -  * it under the terms of the GNU General Public License as published by
->      *
-> -@@ -18,10 +19,17 @@
-> -  ************************************************************
-> ******************/
-> -
-> - /*
-> -- * Basic test for the add_key() syscall.
-> -+ * Test that the add_key() syscall correctly handles a NULL payload wit=
-h
-> nonzero
-> -+ * length.  Specifically, it should fail with EFAULT rather than oopsin=
-g
-> the
-> -+ * kernel with a NULL pointer dereference or failing with EINVAL, as it
-> did
-> -+ * before (depending on the key type).  This is a regression test for
-> commit
-> -+ * 5649645d725c ("KEYS: fix dereferencing NULL payload with nonzero
-> length").
-> -  *
-> -- * History:   Porting from Crackerjack to LTP is done by
-> -- *          Manas Kumar Nayak maknayak@in.ibm.com>
-> -+ * Note that none of the key types that exhibited the NULL pointer
-> dereference
-> -+ * are guaranteed to be built into the kernel, so we just test as many
-> as we
-> -+ * can, in the hope of catching one.  We also test with the "user" key
-> type for
-> -+ * good measure, although it was one of the types that failed with
-> EINVAL rather
-> -+ * than dereferencing NULL.
-> -  */
-> -
-> - #include "config.h"
-> -@@ -33,36 +41,61 @@
-> -
-> - #ifdef HAVE_LINUX_KEYCTL_H
-> - struct tcase {
-> --      char *type;
-> --      char *desc;
-> --      void *payload;
-> --      int plen;
-> --      int exp_errno;
-> -+      const char *type;
-> -+      size_t plen;
-> - } tcases[] =3D {
-> --      {"user", "firstkey", NULL, 1, EINVAL}
-> -+      /*
-> -+       * The payload length we test for each key type needs to pass
-> initial
-> -+       * validation but is otherwise arbitrary.  Note: the "rxrpc_s" ke=
-y
-> type
-> -+       * requires a payload of exactly 8 bytes.
-> -+       */
-> -+      { "asymmetric",         64 },
-> -+      { "cifs.idmap",         64 },
-> -+      { "cifs.spnego",        64 },
-> -+      { "pkcs7_test",         64 },
-> -+      { "rxrpc",              64 },
-> -+      { "rxrpc_s",             8 },
-> -+      { "user",               64 },
-> - };
-> - #endif /* HAVE_LINUX_KEYCTL_H */
-> -
-> - static void verify_add_key(unsigned int i)
+> -diff --git a/libutil++/op_bfd.cpp b/libutil++/op_bfd.cpp
+> -index 389c920..f2eb42b 100644
+> ---- a/libutil++/op_bfd.cpp
+> -+++ b/libutil++/op_bfd.cpp
+> -@@ -535,15 +535,13 @@ void op_bfd::get_symbol_range(symbol_index_t
+> sym_idx,
 > - {
-> - #ifdef HAVE_LINUX_KEYCTL_H
-> --      TEST(tst_syscall(__NR_add_key, tcases[i].type, tcases[i].desc,
-> --                       tcases[i].payload, tcases[i].plen,
-> --                       KEY_SPEC_USER_KEYRING));
-> -+      TEST(tst_syscall(__NR_add_key, tcases[i].type, "abc:def",
-> -+                       NULL, tcases[i].plen, KEY_SPEC_PROCESS_KEYRING))=
-;
+> -       op_bfd_symbol const & sym = syms[sym_idx];
 > -
-> -       if (TEST_RETURN !=3D -1) {
-> --              tst_res(TFAIL, "add_key() passed unexpectedly");
-> -+              tst_res(TFAIL,
-> -+                      "add_key() with key type '%s' unexpectedly
-> succeeded",
-> -+                      tcases[i].type);
-> -               return;
-> -       }
-> -
-> --      if (TEST_ERRNO =3D=3D tcases[i].exp_errno) {
-> --              tst_res(TPASS | TTERRNO, "add_key() failed expectedly");
-> -+      if (TEST_ERRNO =3D=3D EFAULT) {
-> -+              tst_res(TPASS, "received expected EFAULT with key type
-> '%s'",
-> -+                      tcases[i].type);
-> -               return;
-> -       }
-> -
-> --      tst_res(TFAIL | TTERRNO,
-> --              "add_key() failed unexpectedly, expected %s",
-> --              tst_strerrno(tcases[i].exp_errno));
-> -+      if (TEST_ERRNO =3D=3D ENODEV) {
-> -+              tst_res(TCONF, "kernel doesn't support key type '%s'",
-> -+                      tcases[i].type);
-> -+              return;
-> -+      }
-> -+
-> -+      /*
-> -+       * It's possible for the "asymmetric" key type to be supported,
-> but with
-> -+       * no asymmetric key parsers registered.  In that case, attemptin=
-g
-> to
-> -+       * add a key of type asymmetric will fail with EBADMSG.
-> -+       */
-> -+      if (TEST_ERRNO =3D=3D EBADMSG && !strcmp(tcases[i].type,
-> "asymmetric")) {
-> -+              tst_res(TCONF, "no asymmetric key parsers are registered"=
-);
-> -+              return;
-> -+      }
-> -+
-> -+      tst_res(TFAIL | TTERRNO, "unexpected error with key type '%s'",
-> -+              tcases[i].type);
-> - #else
-> -       tst_brk(TCONF, "linux/keyctl.h was missing upon compilation.");
-> - #endif /* HAVE_LINUX_KEYCTL_H */
-> ---
-> -2.13.0
-> -
-> diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb
-> b/meta/recipes-extended/ltp/ltp_20170516.bb
-> index 86b8012..46c9741 100644
-> --- a/meta/recipes-extended/ltp/ltp_20170516.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20170516.bb
-> @@ -21,7 +21,7 @@ DEPENDS_append_libc-musl =3D " fts "
->  EXTRA_OEMAKE_append_libc-musl =3D " LIBC=3Dmusl "
->  CFLAGS_append_powerpc64 =3D " -D__SANE_USERSPACE_TYPES__"
->  CFLAGS_append_mipsarchn64 =3D " -D__SANE_USERSPACE_TYPES__"
-> -SRCREV =3D "6c6c6ca40afb3611e52486f670085762ff451e91"
-> +SRCREV =3D "18916a2e6d8c997b7b29dcfa9550d5a15b22ed22"
->
->  SRC_URI =3D "git://github.com/linux-test-project/ltp.git \
->             file://0001-add-_GNU_SOURCE-to-pec_listener.c.patch \
-> @@ -29,7 +29,6 @@ SRC_URI =3D "git://github.com/linux-test-project/ltp.gi=
-t \
->             file://0003-Add-knob-to-control-tirpc-support.patch \
->             file://0004-build-Add-option-to-select-libc-implementation.pa=
-tch
-> \
->             file://0005-kernel-controllers-Link-with-libfts-explicitly-on=
--mu.patch
-> \
-> -           file://0006-fix-PATH_MAX-undeclared-when-building-with-musl.p=
-atch
-> \
->             file://0007-fix-__WORDSIZE-undeclared-when-building-with-musl=
-.patch
-> \
->             file://0008-Check-if-__GLIBC_PREREQ-is-defined-before-using-i=
-t.patch
-> \
->             file://0009-fix-redefinition-of-struct-msgbuf-error-building-=
-wit.patch
-> \
-> @@ -49,9 +48,6 @@ SRC_URI =3D "git://github.com/linux-test-project/ltp.gi=
-t \
->             file://0034-periodic_output.patch \
->             file://0035-fix-test_proc_kill-hang.patch \
->             file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-o=
-n-s.patch
-> \
-> -           file://0001-dirtyc0w-Include-stdint.h.patch \
-> -           file://0037-faccessat-and-fchmodat-Fix-build-warnings.patch \
-> -           file://0038-syscalls-add_key02-update-to-test-fix-for-nonempt=
-y-N.patch
-> \
->             "
->
->  S =3D "${WORKDIR}/git"
-> @@ -69,14 +65,6 @@ EXTRA_OECONF =3D " --with-power-management-testsuite
-> --with-realtime-testsuite "
->  # ltp network/rpc test cases ftbfs when libtirpc is found
->  EXTRA_OECONF +=3D " --without-tirpc "
->
-> -# The makefiles make excessive use of make -C and several include
-> testcases.mk
-> -# which triggers a build of the syscall header. To reproduce, build ltp,
-> -# then delete the header, then "make -j XX" and watch regen.sh run
-> multiple
-> -# times. Its easier to generate this once here instead.
-> -do_compile_prepend () {
-> -       ( make -C ${B}/testcases/kernel include/linux_syscall_numbers.h )
-> -}
-> -
->  do_install(){
->      install -d ${D}/opt/ltp/
->      oe_runmake DESTDIR=3D${D} SKIP_IDCHECK=3D1 install
+> --      bool const verbose = cverb << (vbfd & vlevel1);
 > --
-> 2.7.4
+> -       if (anon_obj)
+> -               start = sym.vma();
+> -       else
+> -               start = sym.filepos();
+> -       end = start + sym.size();
+> -
+> --      if (!verbose)
+> -+      if (!(cverb << (vbfd & vlevel1)))
+> -               return;
+> -
+> -       io_state state(cverb << (vbfd & vlevel1));
+> ---
+> -1.9.1
+> -
+> diff --git a/meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
+> b/meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
+> deleted file mode 100644
+> index 92a94ad0d4d..00000000000
+> --- a/meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
+> +++ /dev/null
+> @@ -1,10 +0,0 @@
+> -require oprofile.inc
+> -
+> -DEPENDS += "virtual/kernel"
+> -DEPENDS_append_powerpc64 = " libpfm4"
+> -
+> -SRC_URI[md5sum] = "248c4c069f9476f427fa7195563f9867"
+> -SRC_URI[sha256sum] = "cf759a6de1a6033d5dfc93bda129a9
+> f2e128aecc4238cc657feb0801d1b0366c"
+> -
+> -S = "${WORKDIR}/oprofile-${PV}"
+> -
+> diff --git a/meta/recipes-kernel/oprofile/oprofile_1.2.0.bb
+> b/meta/recipes-kernel/oprofile/oprofile_1.2.0.bb
+> new file mode 100644
+> index 00000000000..e85e805c37c
+> --- /dev/null
+> +++ b/meta/recipes-kernel/oprofile/oprofile_1.2.0.bb
+> @@ -0,0 +1,10 @@
+> +require oprofile.inc
+> +
+> +DEPENDS += "virtual/kernel"
+> +DEPENDS_append_powerpc64 = " libpfm4"
+> +
+> +SRC_URI[md5sum] = "4fcd3920984dcb607314b2e225086c3a"
+> +SRC_URI[sha256sum] = "eb95f98c40b7d0ee29b45fba3565d9
+> f8381747528aa6b6159e37d4fa0c8ca57d"
+> +
+> +S = "${WORKDIR}/oprofile-${PV}"
+> +
+> --
+> 2.13.2
 >
 > --
 > _______________________________________________
@@ -527,553 +215,188 @@ y-N.patch
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---94eb2c05b4bada875d0556583041
+--f403045fae040591640556583294
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">Breaks with musl:<div><br></div><div><a href=3D"http://err=
-ors.yoctoproject.org/Errors/Details/150199/">http://errors.yoctoproject.org=
-/Errors/Details/150199/</a><br></div><div><br></div><div>Ross</div></div><d=
-iv class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 4 August 2017 at=
- 11:00, Dengke Du <span dir=3D"ltr">&lt;<a href=3D"mailto:dengke.du@windriv=
-er.com" target=3D"_blank">dengke.du@windriver.com</a>&gt;</span> wrote:<br>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">drop 4 patches because the upstream already =
-contains them:<br>
+ors.yoctoproject.org/Errors/Details/150200/">http://errors.yoctoproject.org=
+/Errors/Details/150200/</a><br></div><div><br></div><div>Ross</div></div><d=
+iv class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 7 August 2017 at=
+ 12:45, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexander=
+.kanavin@linux.intel.com" target=3D"_blank">alexander.kanavin@linux.intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Drop upstreamed =
+0001-Fix-FTBFS-problem-with-<wbr>GCC-6.patch<br>
 <br>
-=C2=A0 =C2=A0 0001-dirtyc0w-Include-stdint.<wbr>h.patch<br>
-=C2=A0 =C2=A0 0006-fix-PATH_MAX-undeclared-<wbr>when-building-with-musl.pat=
-ch<br>
-=C2=A0 =C2=A0 0037-faccessat-and-fchmodat-<wbr>Fix-build-warnings.patch<br>
-=C2=A0 =C2=A0 0038-syscalls-add_key02-<wbr>update-to-test-fix-for-<wbr>none=
-mpty-N.patch<br>
-<br>
-drop the do_compile_prepend function, because the upstream already fix<br>
-the parallel make race, we can check it here:<br>
-<br>
-=C2=A0 =C2=A0 <a href=3D"https://github.com/linux-test-project/ltp/commit/3=
-f385652efe811fe7491474f8513baf44cf0a12d" rel=3D"noreferrer" target=3D"_blan=
-k">https://github.com/linux-test-<wbr>project/ltp/commit/<wbr>3f385652efe81=
-1fe7491474f8513ba<wbr>f44cf0a12d</a><br>
-<br>
-Signed-off-by: Dengke Du &lt;<a href=3D"mailto:dengke.du@windriver.com">den=
-gke.du@windriver.com</a>&gt;<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alexander.kanavin@li=
+nux.intel.com">alexander.kanavin@linux.<wbr>intel.com</a>&gt;<br>
 ---<br>
-=C2=A0.../ltp/ltp/0001-dirtyc0w-<wbr>Include-stdint.h.patch=C2=A0 =C2=A0|=
-=C2=A0 34 ------<br>
-=C2=A0...TH_MAX-undeclared-when-<wbr>building-with-musl.patch |=C2=A0 31 --=
----<br>
-=C2=A0...faccessat-and-fchmodat-Fix-<wbr>build-warnings.patch |=C2=A0 68 --=
----------<br>
-=C2=A0...d_key02-update-to-test-fix-<wbr>for-nonempty-N.patch | 136 -------=
---------------<br>
-=C2=A0meta/recipes-extended/ltp/<a href=3D"http://ltp_20170516.bb" rel=3D"n=
-oreferrer" target=3D"_blank">ltp_<wbr>20170516.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 14 +--<br>
-=C2=A05 files changed, 1 insertion(+), 282 deletions(-)<br>
-=C2=A0delete mode 100644 meta/recipes-extended/ltp/ltp/<wbr>0001-dirtyc0w-I=
-nclude-stdint.<wbr>h.patch<br>
-=C2=A0delete mode 100644 meta/recipes-extended/ltp/ltp/<wbr>0006-fix-PATH_M=
-AX-undeclared-<wbr>when-building-with-musl.patch<br>
-=C2=A0delete mode 100644 meta/recipes-extended/ltp/ltp/<wbr>0037-faccessat-=
-and-fchmodat-<wbr>Fix-build-warnings.patch<br>
-=C2=A0delete mode 100644 meta/recipes-extended/ltp/ltp/<wbr>0038-syscalls-a=
-dd_key02-<wbr>update-to-test-fix-for-<wbr>nonempty-N.patch<br>
+=C2=A0meta/recipes-kernel/oprofile/<wbr>oprofile.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 1 -<br>
+=C2=A0.../0001-Fix-FTBFS-problem-<wbr>with-GCC-6.patch=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 51 ----------------------<br>
+=C2=A0meta/recipes-kernel/oprofile/<a href=3D"http://oprofile_1.1.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">o<wbr>profile_1.1.0.bb</a>=C2=A0 =C2=A0 =
+=C2=A0| 10 -----<br>
+=C2=A0meta/recipes-kernel/oprofile/<a href=3D"http://oprofile_1.2.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">o<wbr>profile_1.2.0.bb</a>=C2=A0 =C2=A0 =
+=C2=A0| 10 +++++<br>
+=C2=A04 files changed, 10 insertions(+), 62 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-kernel/oprofile/<wbr>oprofile/0001-Fi=
+x-FTBFS-<wbr>problem-with-GCC-6.patch<br>
+=C2=A0delete mode 100644 meta/recipes-kernel/oprofile/<a href=3D"http://opr=
+ofile_1.1.0.bb" rel=3D"noreferrer" target=3D"_blank">o<wbr>profile_1.1.0.bb=
+</a><br>
+=C2=A0create mode 100644 meta/recipes-kernel/oprofile/<a href=3D"http://opr=
+ofile_1.2.0.bb" rel=3D"noreferrer" target=3D"_blank">o<wbr>profile_1.2.0.bb=
+</a><br>
 <br>
-diff --git a/meta/recipes-extended/ltp/<wbr>ltp/0001-dirtyc0w-Include-<wbr>=
-stdint.h.patch b/meta/recipes-extended/ltp/<wbr>ltp/0001-dirtyc0w-Include-<=
-wbr>stdint.h.patch<br>
+diff --git a/meta/recipes-kernel/<wbr>oprofile/oprofile.inc b/meta/recipes-=
+kernel/<wbr>oprofile/oprofile.inc<br>
+index 4b01654fa3e..83fc8435cbd 100644<br>
+--- a/meta/recipes-kernel/<wbr>oprofile/oprofile.inc<br>
++++ b/meta/recipes-kernel/<wbr>oprofile/oprofile.inc<br>
+@@ -25,7 +25,6 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/${BPN}/<wbr>${BPN=
+}-${PV}.tar.gz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://root-home-dir.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Add-rmb-<wbr>definiti=
+on-for-NIOS2-<wbr>architecture.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-FTBFS-problem-<wb=
+r>with-GCC-6.patch \<br>
+=C2=A0&quot;<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;oprofile-(?P&lt;pver&gt;\d+(\.\d+)+<wb=
+r>)/&quot;<br>
+=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://sourceforge.net/proje=
+cts/oprofile/files/oprofile/" rel=3D"noreferrer" target=3D"_blank">https://=
+sourceforge.net/<wbr>projects/oprofile/files/<wbr>oprofile/</a>&quot;<br>
+diff --git a/meta/recipes-kernel/<wbr>oprofile/oprofile/0001-Fix-<wbr>FTBFS=
+-problem-with-GCC-6.patch b/meta/recipes-kernel/<wbr>oprofile/oprofile/0001=
+-Fix-<wbr>FTBFS-problem-with-GCC-6.patch<br>
 deleted file mode 100644<br>
-index 5c73be4..0000000<br>
---- a/meta/recipes-extended/ltp/<wbr>ltp/0001-dirtyc0w-Include-<wbr>stdint.=
-h.patch<br>
+index d372fd527ba..00000000000<br>
+--- a/meta/recipes-kernel/<wbr>oprofile/oprofile/0001-Fix-<wbr>FTBFS-proble=
+m-with-GCC-6.patch<br>
 +++ /dev/null<br>
-@@ -1,34 +0,0 @@<br>
--From 1b30d8dac1a37dc0abbb3b545db282<wbr>4d6489e23f Mon Sep 17 00:00:00 200=
+@@ -1,51 +0,0 @@<br>
+-From 39d4d46a0bd504ac708ffe72df87bf<wbr>74cd12ad30 Mon Sep 17 00:00:00 200=
 1<br>
--From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.co=
-m</a>&gt;<br>
--Date: Fri, 9 Jun 2017 09:32:13 -0700<br>
--Subject: [PATCH] dirtyc0w: Include stdint.h<br>
+-From: William Cohen &lt;<a href=3D"mailto:wcohen@redhat.com">wcohen@redhat=
+.com</a>&gt;<br>
+-Date: Fri, 5 Feb 2016 17:30:19 -0500<br>
+-Subject: [PATCH] Fix FTBFS problem with GCC-6<br>
 -<br>
--uintptr_t is defined in stdint.h<br>
+-GCC-6 is pickier about some of the type conversions causing the Fedora<br>
+-24 mass rebuild the build of oprofile failed with:<br>
 -<br>
--Fixes<br>
--| dirtyc0w_child.c:76:15: error: &#39;uintptr_t&#39; undeclared (first use=
- in this function); did you mean &#39;intptr_t&#39;?<br>
--|=C2=A0 =C2=A0 lseek(mfd, (uintptr_t) map, SEEK_SET);<br>
--|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~<br>
--<br>
--Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem=
-@gmail.com</a>&gt;<br>
-----<br>
--Upstream-Status: Submitted<br>
--<br>
-- testcases/kernel/security/<wbr>dirtyc0w/dirtyc0w_child.c | 1 +<br>
-- 1 file changed, 1 insertion(+)<br>
--<br>
--diff --git a/testcases/kernel/security/<wbr>dirtyc0w/dirtyc0w_child.c b/te=
-stcases/kernel/security/<wbr>dirtyc0w/dirtyc0w_child.c<br>
--index 5328a9bc4..49abdd6ba 100644<br>
----- a/testcases/kernel/security/<wbr>dirtyc0w/dirtyc0w_child.c<br>
--+++ b/testcases/kernel/security/<wbr>dirtyc0w/dirtyc0w_child.c<br>
--@@ -23,6 +23,7 @@<br>
-- #include &lt;sys/stat.h&gt;<br>
-- #include &lt;string.h&gt;<br>
-- #include &lt;stdlib.h&gt;<br>
--+#include &lt;stdint.h&gt;<br>
-- #include &lt;pwd.h&gt;<br>
--<br>
-- #include &quot;tst_safe_pthread.h&quot;<br>
----<br>
--2.13.1<br>
--<br>
-diff --git a/meta/recipes-extended/ltp/<wbr>ltp/0006-fix-PATH_MAX-<wbr>unde=
-clared-when-building-with-<wbr>musl.patch b/meta/recipes-extended/ltp/<wbr>=
-ltp/0006-fix-PATH_MAX-<wbr>undeclared-when-building-with-<wbr>musl.patch<br=
->
-deleted file mode 100644<br>
-index 020ddfe..0000000<br>
---- a/meta/recipes-extended/ltp/<wbr>ltp/0006-fix-PATH_MAX-<wbr>undeclared-=
-when-building-with-<wbr>musl.patch<br>
-+++ /dev/null<br>
-@@ -1,31 +0,0 @@<br>
--From b906ec2fe4711a727e198cd9259287<wbr>c042eef8e2 Mon Sep 17 00:00:00 200=
-1<br>
--From: Dengke Du &lt;<a href=3D"mailto:dengke.du@windriver.com">dengke.du@w=
-indriver.com</a>&gt;<br>
--Date: Thu, 9 Feb 2017 16:41:12 +0800<br>
--Subject: [PATCH] fix PATH_MAX undeclared when building with musl<br>
--<br>
--fix PATH_MAX undeclared when building with musl.<br>
--<br>
--Upstream-Status: Submitted [<a href=3D"https://github.com/linux-test-proje=
-ct/ltp/pull/176" rel=3D"noreferrer" target=3D"_blank">https://github.com/li=
-nux-<wbr>test-project/ltp/pull/176</a>]<br>
--<br>
--Signed-off-by: Dengke Du &lt;<a href=3D"mailto:dengke.du@windriver.com">de=
-ngke.du@windriver.com</a>&gt;<br>
-----<br>
-- include/tst_test.h | 3 +++<br>
-- 1 file changed, 3 insertions(+)<br>
--<br>
--diff --git a/include/tst_test.h b/include/tst_test.h<br>
--index 335c82684..4dfa1511b 100644<br>
----- a/include/tst_test.h<br>
--+++ b/include/tst_test.h<br>
--@@ -23,6 +23,9 @@<br>
-- #endif /* __TEST_H__ */<br>
--<br>
-- #include &lt;unistd.h&gt;<br>
--+#ifndef __GLIBC__<br>
--+#include &lt;limits.h&gt;<br>
--+#endif<br>
--<br>
-- #include &quot;tst_common.h&quot;<br>
-- #include &quot;tst_res_flags.h&quot;<br>
----<br>
--2.11.0<br>
--<br>
-diff --git a/meta/recipes-extended/ltp/<wbr>ltp/0037-faccessat-and-<wbr>fch=
-modat-Fix-build-warnings.<wbr>patch b/meta/recipes-extended/ltp/<wbr>ltp/00=
-37-faccessat-and-<wbr>fchmodat-Fix-build-warnings.<wbr>patch<br>
-deleted file mode 100644<br>
-index 99497d6..0000000<br>
---- a/meta/recipes-extended/ltp/<wbr>ltp/0037-faccessat-and-<wbr>fchmodat-F=
-ix-build-warnings.<wbr>patch<br>
-+++ /dev/null<br>
-@@ -1,68 +0,0 @@<br>
--From 4141bdb441f7576a2e73abeb2a0fb1<wbr>c7b8bd8647 Mon Sep 17 00:00:00 200=
-1<br>
--From: Naresh Kamboju &lt;<a href=3D"mailto:naresh.kamboju@linaro.org">nare=
-sh.kamboju@linaro.org</a>&gt;<br>
--Date: Mon, 19 Jun 2017 19:01:21 +0530<br>
--Subject: [PATCH 1/7] faccessat and fchmodat: Fix build warnings<br>
--MIME-Version: 1.0<br>
--Content-Type: text/plain; charset=3DUTF-8<br>
--Content-Transfer-Encoding: 8bit<br>
--<br>
--Fixing below build warnings.<br>
--<br>
--ltp-full-20170516/testcases/<wbr>kernel/syscalls/faccessat$ make<br>
--In file included from ../../../../include/old/test.<wbr>h:51:0,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0from faccess=
-at01.c:44:<br>
--faccessat01.c: In function =E2=80=98setup=E2=80=99:<br>
--../../../../include/old/old_<wbr>safe_file_ops.h:55:27:<br>
--warning: format not a string literal and no format arguments [-Wformat-sec=
-urity]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(path=
-), (fmt), ## __VA_ARGS__)<br>
+-make[3]: Entering directory &#39;/builddir/build/BUILD/<wbr>oprofile-1.1.0=
+/libutil++&#39;<br>
+-g++ -DHAVE_CONFIG_H -I. -I..=C2=A0 -I ../libutil -I ../libop -I ../libpp=
+=C2=A0 =C2=A0-W -Wall -fno-common -ftemplate-depth-50 -O2 -g -pipe -Wall -W=
+error=3Dformat-security -Wp,-D_FORTIFY_SOURCE=3D2 -fexceptions -fstack-prot=
+ector-strong --param=3Dssp-buffer-size=3D4 -grecord-gcc-switches -specs=3D/=
+usr/lib/rpm/redhat/<wbr>redhat-hardened-cc1 -m32 -march=3Di686 -mtune=3Dato=
+m -fasynchronous-unwind-tables -c -o op_bfd.o op_bfd.cpp<br>
+-op_bfd.cpp: In member function &#39;void op_bfd::get_symbol_range(<wbr>sym=
+bol_index_t, long long unsigned int&amp;, long long unsigned int&amp;) cons=
+t&#39;:<br>
+-op_bfd.cpp:538:47: error: cannot convert &#39;std::ostream {aka std::basic=
+_ostream&lt;char&gt;}&#39; to &#39;const bool&#39; in initialization<br>
+-=C2=A0 bool const verbose =3D cverb &lt;&lt; (vbfd &amp; vlevel1);<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0^<br>
--faccessat01.c:132:2: note: in expansion of macro =E2=80=98SAFE_FILE_PRINTF=
-=E2=80=99<br>
--=C2=A0 SAFE_FILE_PRINTF(cleanup, testfile, testfile);<br>
--=C2=A0 ^<br>
--../../../../include/old/old_<wbr>safe_file_ops.h:55:27:<br>
--warning: format not a string literal and no format arguments [-Wformat-sec=
-urity]<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(path=
-), (fmt), ## __VA_ARGS__)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0^<br>
--faccessat01.c:133:2: note: in expansion of macro =E2=80=98SAFE_FILE_PRINTF=
-=E2=80=99<br>
--=C2=A0 SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);<br>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0^<br>
+-op_bfd.cpp:546:7: error: in argument to unary !<br>
+-=C2=A0 if (!verbose)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0^~~~~~~<br>
 -<br>
--Signed-off-by: Naresh Kamboju &lt;<a href=3D"mailto:naresh.kamboju@linaro.=
-org">naresh.kamboju@linaro.org</a>&gt;<br>
--Upstream-Status: Accepted [<a href=3D"https://github.com/linux-test-projec=
-t/ltp/commit/4141bdb441f7576a2e73abeb2a0fb1c7b8bd8647" rel=3D"noreferrer" t=
-arget=3D"_blank">https://github.com/linux-<wbr>test-project/ltp/commit/<wbr=
->4141bdb441f7576a2e73abeb2a0fb1<wbr>c7b8bd8647</a>]<br>
+-Avoid the intermediate bool type to make GCC-6 happy.<br>
+-<br>
+-Signed-off-by: William Cohen &lt;<a href=3D"mailto:wcohen@redhat.com">wcoh=
+en@redhat.com</a>&gt;<br>
 ----<br>
-- testcases/kernel/syscalls/<wbr>faccessat/faccessat01.c | 4 ++--<br>
-- testcases/kernel/syscalls/<wbr>fchmodat/fchmodat01.c=C2=A0 =C2=A0| 4 ++--=
-<br>
-- 2 files changed, 4 insertions(+), 4 deletions(-)<br>
+-Upstream-Status: Backport<br>
 -<br>
--diff --git a/testcases/kernel/syscalls/<wbr>faccessat/faccessat01.c b/test=
-cases/kernel/syscalls/<wbr>faccessat/faccessat01.c<br>
--index 622dfd3b0..def7fa755 100644<br>
----- a/testcases/kernel/syscalls/<wbr>faccessat/faccessat01.c<br>
--+++ b/testcases/kernel/syscalls/<wbr>faccessat/faccessat01.c<br>
--@@ -129,8 +129,8 @@ void setup(void)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[0] =3D SAFE_OPEN(cleanup, pathname, O_DIREC=
-TORY);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[1] =3D fds[4] =3D fds[0];<br>
+- libutil++/op_bfd.cpp | 4 +---<br>
+- 1 file changed, 1 insertion(+), 3 deletions(-)<br>
 -<br>
---=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile, testfile);<br>
---=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);<br>
--+=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile, &quot;%s&quot;, =
-testfile);<br>
--+=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile2, &quot;%s&quot;,=
- testfile2);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[2] =3D SAFE_OPEN(cleanup, testfile3, O_CREA=
-T | O_RDWR, 0600);<br>
--<br>
--diff --git a/testcases/kernel/syscalls/<wbr>fchmodat/fchmodat01.c b/testca=
-ses/kernel/syscalls/<wbr>fchmodat/fchmodat01.c<br>
--index 6bf66d8b8..7856ed3fa 100644<br>
----- a/testcases/kernel/syscalls/<wbr>fchmodat/fchmodat01.c<br>
--+++ b/testcases/kernel/syscalls/<wbr>fchmodat/fchmodat01.c<br>
--@@ -127,8 +127,8 @@ void setup(void)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[0] =3D SAFE_OPEN(cleanup, pathname, O_DIREC=
-TORY);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[1] =3D fds[4] =3D fds[0];<br>
--<br>
---=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile, testfile);<br>
---=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile2, testfile2);<br>
--+=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile, &quot;%s&quot;, =
-testfile);<br>
--+=C2=A0 =C2=A0 =C2=A0 SAFE_FILE_PRINTF(cleanup, testfile2, &quot;%s&quot;,=
- testfile2);<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[2] =3D SAFE_OPEN(cleanup, testfile3, O_CREA=
-T | O_RDWR, 0600);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fds[3] =3D 100;<br>
----<br>
--2.13.0<br>
--<br>
-diff --git a/meta/recipes-extended/ltp/<wbr>ltp/0038-syscalls-add_key02-<wb=
-r>update-to-test-fix-for-<wbr>nonempty-N.patch b/meta/recipes-extended/ltp/=
-<wbr>ltp/0038-syscalls-add_key02-<wbr>update-to-test-fix-for-<wbr>nonempty-=
-N.patch<br>
-deleted file mode 100644<br>
-index 3759e1f..0000000<br>
---- a/meta/recipes-extended/ltp/<wbr>ltp/0038-syscalls-add_key02-<wbr>updat=
-e-to-test-fix-for-<wbr>nonempty-N.patch<br>
-+++ /dev/null<br>
-@@ -1,136 +0,0 @@<br>
--From 25045624e941ee76a13febd36187e2<wbr>3c6c435507 Mon Sep 17 00:00:00 200=
-1<br>
--From: Eric Biggers &lt;<a href=3D"mailto:ebiggers@google.com">ebiggers@goo=
-gle.com</a>&gt;<br>
--Date: Mon, 12 Jun 2017 11:55:21 -0700<br>
--Subject: [PATCH 01/39] syscalls/add_key02: update to test fix for nonempty=
-<br>
-- NULL payload<br>
--<br>
--add_key02 was supposed to be a &quot;Basic test for the add_key() syscall&=
-quot;,<br>
--but it actually happened to test the obscure case of passing a NULL<br>
--payload with nonzero length.=C2=A0 This case was mishandled by the kernel,=
-<br>
--which either returned EINVAL or crashed with a NULL pointer dereference,<b=
-r>
--depending on the key type.=C2=A0 (The former applied to the test, as it us=
-ed<br>
--the &quot;user&quot; key type.)=C2=A0 The expected behavior in this case i=
-s that the<br>
--syscall fail with EFAULT.<br>
--<br>
--Update the test to expect the fixed behavior from v4.12-rc5, and make<br>
--the test more thorough by testing additional key types, including ones<br>
--that caused a NULL pointer dereference in unfixed kernels.<br>
--<br>
--Signed-off-by: Eric Biggers &lt;<a href=3D"mailto:ebiggers@google.com">ebi=
-ggers@google.com</a>&gt;<br>
--Upstream-Status: Accepted [<a href=3D"https://github.com/linux-test-projec=
-t/ltp/commit/25045624e941ee76a13febd36187e23c6c435507" rel=3D"noreferrer" t=
-arget=3D"_blank">https://github.com/linux-<wbr>test-project/ltp/commit/<wbr=
->25045624e941ee76a13febd36187e2<wbr>3c6c435507</a>]<br>
-----<br>
-- testcases/kernel/syscalls/add_<wbr>key/add_key02.c | 69 +++++++++++++++++=
-+++-------<br>
-- 1 file changed, 51 insertions(+), 18 deletions(-)<br>
--<br>
--diff --git a/testcases/kernel/syscalls/<wbr>add_key/add_key02.c b/testcase=
-s/kernel/syscalls/<wbr>add_key/add_key02.c<br>
--index 866800d6f..2e3308dcd 100644<br>
----- a/testcases/kernel/syscalls/<wbr>add_key/add_key02.c<br>
--+++ b/testcases/kernel/syscalls/<wbr>add_key/add_key02.c<br>
--@@ -1,5 +1,6 @@<br>
-- /*****************************<wbr>******************************<wbr>***=
-****************<br>
--=C2=A0 * Copyright (c) Crackerjack Project., 2007=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0*<br>
--+ * Copyright (c) 2017 Google, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
--=C2=A0 *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *<br>
--=C2=A0 * This program is free software;=C2=A0 you can redistribute it and/=
-or modify=C2=A0 =C2=A0 =C2=A0 *<br>
--=C2=A0 * it under the terms of the GNU General Public License as published=
- by=C2=A0 =C2=A0 =C2=A0 =C2=A0*<br>
--@@ -18,10 +19,17 @@<br>
--=C2=A0 ******************************<wbr>******************************<w=
-br>******************/<br>
--<br>
-- /*<br>
--- * Basic test for the add_key() syscall.<br>
--+ * Test that the add_key() syscall correctly handles a NULL payload with =
-nonzero<br>
--+ * length.=C2=A0 Specifically, it should fail with EFAULT rather than oop=
-sing the<br>
--+ * kernel with a NULL pointer dereference or failing with EINVAL, as it d=
-id<br>
--+ * before (depending on the key type).=C2=A0 This is a regression test fo=
-r commit<br>
--+ * 5649645d725c (&quot;KEYS: fix dereferencing NULL payload with nonzero =
-length&quot;).<br>
--=C2=A0 *<br>
--- * History:=C2=A0 =C2=A0Porting from Crackerjack to LTP is done by<br>
--- *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Manas Kumar Nayak <a href=3D"mailto:=
-maknayak@in.ibm.com">maknayak@in.ibm.com</a>&gt;<br>
--+ * Note that none of the key types that exhibited the NULL pointer derefe=
-rence<br>
--+ * are guaranteed to be built into the kernel, so we just test as many as=
- we<br>
--+ * can, in the hope of catching one.=C2=A0 We also test with the &quot;us=
-er&quot; key type for<br>
--+ * good measure, although it was one of the types that failed with EINVAL=
- rather<br>
--+ * than dereferencing NULL.<br>
--=C2=A0 */<br>
--<br>
-- #include &quot;config.h&quot;<br>
--@@ -33,36 +41,61 @@<br>
--<br>
-- #ifdef HAVE_LINUX_KEYCTL_H<br>
-- struct tcase {<br>
---=C2=A0 =C2=A0 =C2=A0 char *type;<br>
---=C2=A0 =C2=A0 =C2=A0 char *desc;<br>
---=C2=A0 =C2=A0 =C2=A0 void *payload;<br>
---=C2=A0 =C2=A0 =C2=A0 int plen;<br>
---=C2=A0 =C2=A0 =C2=A0 int exp_errno;<br>
--+=C2=A0 =C2=A0 =C2=A0 const char *type;<br>
--+=C2=A0 =C2=A0 =C2=A0 size_t plen;<br>
-- } tcases[] =3D {<br>
---=C2=A0 =C2=A0 =C2=A0 {&quot;user&quot;, &quot;firstkey&quot;, NULL, 1, EI=
-NVAL}<br>
--+=C2=A0 =C2=A0 =C2=A0 /*<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0* The payload length we test for each key type=
- needs to pass initial<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0* validation but is otherwise arbitrary.=C2=A0=
- Note: the &quot;rxrpc_s&quot; key type<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0* requires a payload of exactly 8 bytes.<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;asymmetric&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A064 },<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;cifs.idmap&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A064 },<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;cifs.spnego&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 64 },<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;pkcs7_test&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A064 },<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;rxrpc&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 64 },<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;rxrpc_s&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A08 },<br>
--+=C2=A0 =C2=A0 =C2=A0 { &quot;user&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A064 },<br>
-- };<br>
-- #endif /* HAVE_LINUX_KEYCTL_H */<br>
--<br>
-- static void verify_add_key(unsigned int i)<br>
+-diff --git a/libutil++/op_bfd.cpp b/libutil++/op_bfd.cpp<br>
+-index 389c920..f2eb42b 100644<br>
+---- a/libutil++/op_bfd.cpp<br>
+-+++ b/libutil++/op_bfd.cpp<br>
+-@@ -535,15 +535,13 @@ void op_bfd::get_symbol_range(<wbr>symbol_index_t sy=
+m_idx,<br>
 - {<br>
-- #ifdef HAVE_LINUX_KEYCTL_H<br>
---=C2=A0 =C2=A0 =C2=A0 TEST(tst_syscall(__NR_add_key, tcases[i].type, tcase=
-s[i].desc,<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0tcases[i].payload, tcases[i].plen,<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0KEY_SPEC_USER_KEYRING));<br>
--+=C2=A0 =C2=A0 =C2=A0 TEST(tst_syscall(__NR_add_key, tcases[i].type, &quot=
-;abc:def&quot;,<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0NULL, tcases[i].plen, KEY_SPEC_PROCESS_KEYRING));<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0op_bfd_symbol const &amp; sym =3D syms[sym_idx]=
+;<br>
 -<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if (TEST_RETURN !=3D -1) {<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_res(TFAIL, &quot;add=
-_key() passed unexpectedly&quot;);<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_res(TFAIL,<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;add_key() with key type &#39;%s&#39; unexpectedly succeeded&quot;=
-,<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 tcases[i].type);<br>
+--=C2=A0 =C2=A0 =C2=A0 bool const verbose =3D cverb &lt;&lt; (vbfd &amp; vl=
+evel1);<br>
+--<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (anon_obj)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0start =3D sym.vma()=
+;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0start =3D sym.filep=
+os();<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0end =3D start + sym.size();<br>
+-<br>
+--=C2=A0 =C2=A0 =C2=A0 if (!verbose)<br>
+-+=C2=A0 =C2=A0 =C2=A0 if (!(cverb &lt;&lt; (vbfd &amp; vlevel1)))<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 -<br>
---=C2=A0 =C2=A0 =C2=A0 if (TEST_ERRNO =3D=3D tcases[i].exp_errno) {<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_res(TPASS | TTERRNO,=
- &quot;add_key() failed expectedly&quot;);<br>
--+=C2=A0 =C2=A0 =C2=A0 if (TEST_ERRNO =3D=3D EFAULT) {<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_res(TPASS, &quot;rec=
-eived expected EFAULT with key type &#39;%s&#39;&quot;,<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 tcases[i].type);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--<br>
---=C2=A0 =C2=A0 =C2=A0 tst_res(TFAIL | TTERRNO,<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;add_key() failed u=
-nexpectedly, expected %s&quot;,<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_strerrno(tcases[i].e=
-xp_<wbr>errno));<br>
--+=C2=A0 =C2=A0 =C2=A0 if (TEST_ERRNO =3D=3D ENODEV) {<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_res(TCONF, &quot;ker=
-nel doesn&#39;t support key type &#39;%s&#39;&quot;,<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 tcases[i].type);<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
--+=C2=A0 =C2=A0 =C2=A0 }<br>
--+<br>
--+=C2=A0 =C2=A0 =C2=A0 /*<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0* It&#39;s possible for the &quot;asymmetric&q=
-uot; key type to be supported, but with<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0* no asymmetric key parsers registered.=C2=A0 =
-In that case, attempting to<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0* add a key of type asymmetric will fail with =
-EBADMSG.<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
--+=C2=A0 =C2=A0 =C2=A0 if (TEST_ERRNO =3D=3D EBADMSG &amp;&amp; !strcmp(tca=
-ses[i].type, &quot;asymmetric&quot;)) {<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tst_res(TCONF, &quot;no =
-asymmetric key parsers are registered&quot;);<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
--+=C2=A0 =C2=A0 =C2=A0 }<br>
--+<br>
--+=C2=A0 =C2=A0 =C2=A0 tst_res(TFAIL | TTERRNO, &quot;unexpected error with=
- key type &#39;%s&#39;&quot;,<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tcases[i].type);<br>
-- #else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0tst_brk(TCONF, &quot;linux/keyctl.h was missing=
- upon compilation.&quot;);<br>
-- #endif /* HAVE_LINUX_KEYCTL_H */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0io_state state(cverb &lt;&lt; (vbfd &amp; vleve=
+l1));<br>
 ---<br>
--2.13.0<br>
+-1.9.1<br>
 -<br>
-diff --git a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20170516.bb" r=
-el=3D"noreferrer" target=3D"_blank">lt<wbr>p_20170516.bb</a> b/meta/recipes=
--extended/ltp/<a href=3D"http://ltp_20170516.bb" rel=3D"noreferrer" target=
-=3D"_blank">lt<wbr>p_20170516.bb</a><br>
-index 86b8012..46c9741 100644<br>
---- a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20170516.bb" rel=3D"n=
-oreferrer" target=3D"_blank">lt<wbr>p_20170516.bb</a><br>
-+++ b/meta/recipes-extended/ltp/<a href=3D"http://ltp_20170516.bb" rel=3D"n=
-oreferrer" target=3D"_blank">lt<wbr>p_20170516.bb</a><br>
-@@ -21,7 +21,7 @@ DEPENDS_append_libc-musl =3D &quot; fts &quot;<br>
-=C2=A0EXTRA_OEMAKE_append_libc-musl =3D &quot; LIBC=3Dmusl &quot;<br>
-=C2=A0CFLAGS_append_powerpc64 =3D &quot; -D__SANE_USERSPACE_TYPES__&quot;<b=
-r>
-=C2=A0CFLAGS_append_mipsarchn64 =3D &quot; -D__SANE_USERSPACE_TYPES__&quot;=
-<br>
--SRCREV =3D &quot;<wbr>6c6c6ca40afb3611e52486f6700857<wbr>62ff451e91&quot;<=
-br>
-+SRCREV =3D &quot;<wbr>18916a2e6d8c997b7b29dcfa9550d5<wbr>a15b22ed22&quot;<=
-br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/linux-test-proje=
-ct/ltp.git" rel=3D"noreferrer" target=3D"_blank">github.com/linux-test-<wbr=
->project/ltp.git</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-add-_GNU_SOURCE-<wbr>=
-to-pec_listener.c.patch \<br>
-@@ -29,7 +29,6 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/linu=
-x-test-project/ltp.git" rel=3D"noreferrer" target=3D"_blank">github.com/lin=
-ux-test-<wbr>project/ltp.git</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0003-Add-knob-to-<wbr>cont=
-rol-tirpc-support.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0004-build-Add-option-<wbr=
->to-select-libc-implementation.<wbr>patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0005-kernel-<wbr>controlle=
-rs-Link-with-libfts-<wbr>explicitly-on-mu.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0006-fix-PATH_MAX-<wbr>und=
-eclared-when-building-with-<wbr>musl.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0007-fix-__WORDSIZE-<wbr>u=
-ndeclared-when-building-with-<wbr>musl.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0008-Check-if-__GLIBC_<wbr=
->PREREQ-is-defined-before-<wbr>using-it.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0009-fix-redefinition-<wbr=
->of-struct-msgbuf-error-<wbr>building-wit.patch \<br>
-@@ -49,9 +48,6 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/linu=
-x-test-project/ltp.git" rel=3D"noreferrer" target=3D"_blank">github.com/lin=
-ux-test-<wbr>project/ltp.git</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0034-periodic_output.<wbr>=
-patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0035-fix-test_proc_<wbr>ki=
-ll-hang.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0036-testcases-network-<wb=
-r>nfsv4-acl-acl1.c-Security-fix-<wbr>on-s.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-dirtyc0w-Include-<wbr=
->stdint.h.patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0037-faccessat-and-<wbr>fc=
-hmodat-Fix-build-warnings.<wbr>patch \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0038-syscalls-add_<wbr>key=
-02-update-to-test-fix-for-<wbr>nonempty-N.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-@@ -69,14 +65,6 @@ EXTRA_OECONF =3D &quot; --with-power-management-<wbr>tes=
-tsuite --with-realtime-testsuite &quot;<br>
-=C2=A0# ltp network/rpc test cases ftbfs when libtirpc is found<br>
-=C2=A0EXTRA_OECONF +=3D &quot; --without-tirpc &quot;<br>
-<br>
--# The makefiles make excessive use of make -C and several include <a href=
-=3D"http://testcases.mk" rel=3D"noreferrer" target=3D"_blank">testcases.mk<=
-/a><br>
--# which triggers a build of the syscall header. To reproduce, build ltp,<b=
-r>
--# then delete the header, then &quot;make -j XX&quot; and watch regen.sh r=
-un multiple<br>
--# times. Its easier to generate this once here instead.<br>
--do_compile_prepend () {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0( make -C ${B}/testcases/kernel include/linux_s=
-yscall_numbers.<wbr>h )<br>
--}<br>
+diff --git a/meta/recipes-kernel/<wbr>oprofile/<a href=3D"http://oprofile_1=
+.1.0.bb" rel=3D"noreferrer" target=3D"_blank">oprofile_1.1.0.bb</a> b/meta/=
+recipes-kernel/<wbr>oprofile/<a href=3D"http://oprofile_1.1.0.bb" rel=3D"no=
+referrer" target=3D"_blank">oprofile_1.1.0.bb</a><br>
+deleted file mode 100644<br>
+index 92a94ad0d4d..00000000000<br>
+--- a/meta/recipes-kernel/<wbr>oprofile/<a href=3D"http://oprofile_1.1.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">oprofile_1.1.0.bb</a><br>
++++ /dev/null<br>
+@@ -1,10 +0,0 @@<br>
+-require oprofile.inc<br>
 -<br>
-=C2=A0do_install(){<br>
-=C2=A0 =C2=A0 =C2=A0install -d ${D}/opt/ltp/<br>
-=C2=A0 =C2=A0 =C2=A0oe_runmake DESTDIR=3D${D} SKIP_IDCHECK=3D1 install<br>
+-DEPENDS +=3D &quot;virtual/kernel&quot;<br>
+-DEPENDS_append_powerpc64 =3D &quot; libpfm4&quot;<br>
+-<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>248c4c069f9476f427fa7195563f98<wbr>67&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>cf759a6de1a6033d5dfc93bda129a9<wbr>f2e12=
+8aecc4238cc657feb0801d1b0<wbr>366c&quot;<br>
+-<br>
+-S =3D &quot;${WORKDIR}/oprofile-${PV}&quot;<br>
+-<br>
+diff --git a/meta/recipes-kernel/<wbr>oprofile/<a href=3D"http://oprofile_1=
+.2.0.bb" rel=3D"noreferrer" target=3D"_blank">oprofile_1.2.0.bb</a> b/meta/=
+recipes-kernel/<wbr>oprofile/<a href=3D"http://oprofile_1.2.0.bb" rel=3D"no=
+referrer" target=3D"_blank">oprofile_1.2.0.bb</a><br>
+new file mode 100644<br>
+index 00000000000..e85e805c37c<br>
+--- /dev/null<br>
++++ b/meta/recipes-kernel/<wbr>oprofile/<a href=3D"http://oprofile_1.2.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">oprofile_1.2.0.bb</a><br>
+@@ -0,0 +1,10 @@<br>
++require oprofile.inc<br>
++<br>
++DEPENDS +=3D &quot;virtual/kernel&quot;<br>
++DEPENDS_append_powerpc64 =3D &quot; libpfm4&quot;<br>
++<br>
++SRC_URI[md5sum] =3D &quot;<wbr>4fcd3920984dcb607314b2e225086c<wbr>3a&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>eb95f98c40b7d0ee29b45fba3565d9<wbr>f8381=
+747528aa6b6159e37d4fa0c8c<wbr>a57d&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/oprofile-${PV}&quot;<br>
++<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
+2.13.2<br>
 <br>
 --<br>
 ______________________________<wbr>_________________<br>
@@ -1085,4 +408,4 @@ re@lists.<wbr>openembedded.org</a><br>
 ailman/listinfo/openembedded-<wbr>core</a><br>
 </font></span></blockquote></div><br></div>
 
---94eb2c05b4bada875d0556583041--
+--f403045fae040591640556583294--
