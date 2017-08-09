@@ -1,24 +1,25 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B3F477D9F
+	by mail.openembedded.org (Postfix) with ESMTP id AA90371BA0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  9 Aug 2017 17:49:03 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Aug 2017 10:49:04 -0700
+	09 Aug 2017 10:49:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,348,1498546800"; d="scan'208";a="117337359"
+X-IronPort-AV: E=Sophos;i="5.41,348,1498546800"; d="scan'208";a="117337516"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
 	by orsmga004.jf.intel.com with ESMTP; 09 Aug 2017 10:48:35 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Aug 2017 10:48:25 -0700
-Message-Id: <1502300913-40295-4-git-send-email-juro.bystricky@intel.com>
+Date: Wed,  9 Aug 2017 10:48:32 -0700
+Message-Id: <1502300913-40295-11-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
 References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
+MIME-Version: 1.0
 Cc: jurobystricky@hotmail.com
-Subject: [PATCH v3 03/11] rootfs-postcommands.bbclass: support binary reproducibility
+Subject: [PATCH v3 10/11] kernel.bbclass: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,84 +32,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 17:49:03 -0000
+X-List-Received-Date: Wed, 09 Aug 2017 17:49:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Conditionally support binary reproducibility of rootfs images.
-If BUILD_REPRODUCIBLE_BINARIES = 1 then:
+Several tweaks to improve reproducibility:
 
-1. set /etc/timestamp to a reproducible value
-2. set /etc/version to a reproducible value
-3. set /etc/gconf: set mtime in all %gconf.xml to reproducible values
+1. If BUILD_REPRODUCIBLE_BINARIES == 1, set KBUILD_BUILD_TIMESTAMP
+to a reproducible value. This is either a non-zero SOURCE_DATE_EPOCH, or the
+value obtained from top entry of GIT repo, or (if there is no GIT repo)
+fallback to REPRODUCIBLE_TIMESTAMP_ROOTFS as the last resort.
+Also export KCONFIG_NOTIMESTAMP=1.
 
-The reproducible value is taken from the variable REPRODUCIBLE_TIMESTAMP_ROOTFS.
-If the variable is not specified, the timestamp value is derived from
-the top git commit.
+2. When compressing vmlinux.gz, use gzip "-n" option
 
-[YOCTO#11176]
+3. Kernel and kernel modules contain hard coded paths referencing the host
+build system. This is usually because the source code contains __FILE__
+at some place. This prevents binary reproducibility. However, some compilers
+allow remapping of the __FILE__ value. If we detect the compiler is capable
+of doing this, we replace the source path $(S) part of __FILE__ by a string "/kernel-source".
+For example:
+
+​/data/master/build/tmp/work-shared/qemux86/kernel-source/drivers/media/v4l2-core/videobuf2-core.​c
+
+will be replaced by a reproducible value:
+
+/kernel-source/drivers/media/v4l2-core/videobuf2-core.c.
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 27 ++++++++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+ meta/classes/kernel.bbclass | 39 ++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 36 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 78f7c55..46cb530 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -48,6 +48,7 @@ ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
- SORT_PASSWD_POSTPROCESS_COMMAND ??= " sort_passwd; "
- python () {
-     d.appendVar('ROOTFS_POSTPROCESS_COMMAND', '${SORT_PASSWD_POSTPROCESS_COMMAND}')
-+    d.appendVar('ROOTFS_POSTPROCESS_COMMAND', 'rootfs_reproducible;')
- }
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index ce2cab6..2a76554 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -255,8 +255,39 @@ python do_devshell_prepend () {
  
- systemd_create_users () {
-@@ -245,10 +246,12 @@ python write_image_manifest () {
-         os.symlink(os.path.basename(manifest_name), manifest_link)
- }
+ addtask bundle_initramfs after do_install before do_deploy
  
--# Can be use to create /etc/timestamp during image construction to give a reasonably
-+# Can be used to create /etc/timestamp during image construction to give a reasonably
- # sane default time setting
- rootfs_update_timestamp () {
--	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-+	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "0" ]; then
-+		date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-+	fi
- }
- 
- # Prevent X from being started
-@@ -288,7 +291,6 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
- }
- 
--
- # Generated test data json file
- python write_image_test_data() {
-     from oe.data import export2json
-@@ -304,3 +306,22 @@ python write_image_test_data() {
-        os.remove(testdata_link)
-     os.symlink(os.path.basename(testdata), testdata_link)
- }
++get_cc_option () {
++		# Check if KERNEL_CC supports the option "file-prefix-map".
++		# This option allows us to build images with __FILE__ values that do not
++		# contain the host build path.
++		cc_option_supported=`${KERNEL_CC} -Q --help=joined | grep ffile-prefix-map`
++		cc_extra=""
++		if [ $cc_option_supported = "-ffile-prefix-map=<old=new>" ]; then
++			cc_extra=-ffile-prefix-map=${S}=/kernel-source/
++		fi
++		echo $cc_extra
++}
 +
-+# Perform any additional adjustments needed to make rootf binary reproducible
-+rootfs_reproducible () {
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 +	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-+		if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
-+			REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --pretty=%ct`
++		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
++		# be set....
++		if [ "$SOURCE_DATE_EPOCH" = "0" ]; then
++			olddir=`pwd`
++			cd ${S}
++			SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
++			# git repo not guaranteed, so fall back to REPRODUCIBLE_TIMESTAMP_ROOTFS
++			if [ $? -ne 0 ]; then
++				SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
++			fi
++			cd $olddir
 +		fi
 +
-+		# Convert UTC into %4Y%2m%2d%2H%2M%2S
-+		sformatted=`date -u -d @$REPRODUCIBLE_TIMESTAMP_ROOTFS +%4Y%2m%2d%2H%2M%2S`
-+		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
-+		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
-+		echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
-+		bbnote "rootfs_reproducible: set /etc/timestamp to $sformatted"
-+
-+		find ${IMAGE_ROOTFS}/etc/gconf -name '%gconf.xml' -print0 | xargs -0r \
-+		sed -i -e 's@\bmtime="[0-9][0-9]*"@mtime="'$REPRODUCIBLE_TIMESTAMP_ROOTFS'"@g'
++		ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
++		export KBUILD_BUILD_TIMESTAMP="$ts"
++		export KCONFIG_NOTIMESTAMP=1
++		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
 +	fi
-+}
+ 	# The $use_alternate_initrd is only set from
+ 	# do_bundle_initramfs() This variable is specifically for the
+ 	# case where we are making a second pass at the kernel
+@@ -270,20 +301,22 @@ kernel_do_compile() {
+ 		copy_initramfs
+ 		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE_NAME}.cpio
+ 	fi
++	cc_extra=$(get_cc_option)
+ 	for typeformake in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
+-		oe_runmake ${typeformake} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
++		oe_runmake ${typeformake} CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+ 	done
+ 	# vmlinux.gz is not built by kernel
+ 	if (echo "${KERNEL_IMAGETYPES}" | grep -wq "vmlinux\.gz"); then
+ 		mkdir -p "${KERNEL_OUTPUT_DIR}"
+-		gzip -9c < ${B}/vmlinux > "${KERNEL_OUTPUT_DIR}/vmlinux.gz"
++		gzip -9cn < ${B}/vmlinux > "${KERNEL_OUTPUT_DIR}/vmlinux.gz"
+ 	fi
+ }
+ 
+ do_compile_kernelmodules() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+-		oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
++		cc_extra=$(get_cc_option)
++		oe_runmake -C ${B} ${PARALLEL_MAKE} modules CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+ 
+ 		# Module.symvers gets updated during the 
+ 		# building of the kernel modules. We need to
 -- 
 2.7.4
 
