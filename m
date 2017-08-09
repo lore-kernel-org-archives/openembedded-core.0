@@ -1,24 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E61B77D11
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 12A5377D3A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Aug 2017 09:46:49 +0000 (UTC)
+	Wed,  9 Aug 2017 09:47:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v799klJF007553
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 9 Aug 2017 02:46:47 -0700
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v799l3gx007512
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 9 Aug 2017 02:47:03 -0700 (PDT)
 Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 9 Aug 2017 02:46:46 -0700
+	Wed, 9 Aug 2017 02:47:02 -0700
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1501494496.git.liezhi.yang@windriver.com>
 	<2e63bf95e8a5288464d90567260047217a3617d0.1501494496.git.liezhi.yang@windriver.com>
 	<1502206246.18633.250.camel@linuxfoundation.org>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <9e608de9-0ccb-c576-875c-d174e0070f5c@windriver.com>
-Date: Wed, 9 Aug 2017 17:46:09 +0800
+Message-ID: <030bf5b3-1c90-f037-ac3d-ce15cdedf2de@windriver.com>
+Date: Wed, 9 Aug 2017 17:46:25 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.2.0
 MIME-Version: 1.0
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 09:46:50 -0000
+X-List-Received-Date: Wed, 09 Aug 2017 09:47:04 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -73,7 +73,7 @@ On 08/08/2017 11:30 PM, Richard Purdie wrote:
 > It is needed since qemu_use_kvm could be None and None.split() will
 > cause an error.
 
-Thanks, I removed from the repo:
+Thanks, I removed it from the repo:
 
    git://git.openembedded.org/openembedded-core-contrib rbt/ptest
    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ptest
