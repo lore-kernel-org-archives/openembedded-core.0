@@ -1,47 +1,45 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4086362132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AED8719C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Aug 2017 15:41:40 +0000 (UTC)
-Received: by mail-wr0-f182.google.com with SMTP id v105so25559754wrb.0
+	Wed,  9 Aug 2017 16:45:41 +0000 (UTC)
+Received: by mail-pf0-f178.google.com with SMTP id t86so30045706pfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Aug 2017 08:41:41 -0700 (PDT)
+	Wed, 09 Aug 2017 09:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bg4mo9SS3w924PsGUxbCwATUhZH6a3S52W1En6bWR9k=;
-	b=Mn3dWNaXZCrkSKaJjSJ+lPTCXGB6uiU5MD8hAMF5U3h/SGXBGtiNc0rBUxN+rGWEU1
-	R4x7Ay0/rjrPKsfOpQhxU/rnPfEoRK+l8UG9GyuL6ZiZzXX/tTnQ6ren+aTAfInmpSL5
-	tHt26ZNmVw89s7ZpBJp6XFFsTexGkD+FFJYxMa/LeQO5UAXDKAR9N19GNdOx3IcKDykL
-	i462XhjEQAo4M0m0LF3FwxyIOKrB8qvFg9OYyzOBiKQVLy4w24amo9Du6mu59qq/terW
-	JdxEA82AIWIAbyyFvh+xy8qp/jAEAud8HepHzskbzNL79QhLYscO/o5plpjEuxgT4EZk
-	9KLw==
+	h=from:to:cc:subject:date:message-id;
+	bh=67WtNbc+uzX12/JeALJlAlDfWQ+FlvQjZcAhH0NDnUE=;
+	b=BV6ruGx1qQE/h3jCD/q6SDIyQQSMjKFV4u6+Vi1WQShKZI10dyhqi+AVEyAoOJEaCr
+	i2o9U8EIJQBfVNVxSkyIHMItboLX/zcC1GZ3++6poQKcsj0NS44WXpvK/nkfGYfjS7n4
+	lmtPJ/aOCEOoQkqjh3CqLUDXX0aRygTK/48ZmZPVJ89j4sal23ysGVwHDJlNWMUqGU4F
+	AG60ZrV5RGOj2J9vA1NCGhazYKaKHuOK9KZy8ejgRSsA9gjgKbJaDvDDLj6W1Q8e+6Dr
+	hmj+OQS4OZklgKmZIjeZi290TG4elPNt1b55AohsFsXhMdSqUS5NCR2N5GQ0k7yzCRcM
+	14hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=bg4mo9SS3w924PsGUxbCwATUhZH6a3S52W1En6bWR9k=;
-	b=nz0my0QsUd1nI310qYkXdid3icGfvxttPy7uXZEfCvuupqEJS4WDa6qi84KOFjr3f5
-	rQfD3HAX9PQaYzQeBYFwhKtXVq893iSyFDsT7Pn3+I3WZBUSfJcePoSgkfLFqVgzmVAc
-	bFXvEmjTCXIBauEHdqbk4XQMIyohjHBP+ikpgQXsrrZx3l5v9r0ytOhQBsQ+5ANgH9ZK
-	que4poK4ZMoFp8Px5kx/86u0piP9ICjkS0jgkarYZ+v27Pv4LryrM1Sdx/vtE9pHVGxP
-	LlkVXEIeWIw9n84GRDop424XdL/bQtp5ejV4EfvNIu3E1Ei3/wa6msWM2MnrhokcCTeA
-	YoZA==
-X-Gm-Message-State: AHYfb5iWyp3Eq0Aj3XnB3BAl7vZXFagmWOpo+laZQvMvlufwNQiqfrtD
-	yZTUSkECV4CW+iDRasPgcOQTKii9OA==
-X-Received: by 10.223.167.9 with SMTP id c9mr6720489wrd.180.1502293301156;
-	Wed, 09 Aug 2017 08:41:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.175.16 with HTTP; Wed, 9 Aug 2017 08:41:40 -0700 (PDT)
-In-Reply-To: <20170809141922.2603-4-raj.khem@gmail.com>
-References: <20170809141922.2603-1-raj.khem@gmail.com>
-	<20170809141922.2603-4-raj.khem@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 9 Aug 2017 08:41:40 -0700
-Message-ID: <CAJ86T=VTVv+w9YUCU2HpMDCpY64eS9ngiOGZ0uE-CJY_2M_9RQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] cairo: Add pkgconfig for opengl support
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=67WtNbc+uzX12/JeALJlAlDfWQ+FlvQjZcAhH0NDnUE=;
+	b=m8ooJHREDqcz/rkWulrWT9+DfWhd6FPgI4jV6DwBdx21YzafWpjvjKm7kGhypA2Vws
+	84VNvNzo/PxomZobG/auTPcQ+5wu5c11uFP8UAyBDppN4RTAkqBTY02/REjZOk9BeMl5
+	wmAFoZteYfzJfsXQyQJFwx+bXjlHe5s19/hmbpCa69iDC8/+GORjAxCiwA4T6wtBEH6Y
+	WYVwlGi2L4Neo2Uj5kRpVAE91x8pT82iOQVASMS/BNyG37YTWqaso9lvJeqNKkS/RnJP
+	uwNClMe40STYRF55QWADUPxKxzyfq7xuJxxPjWiDNUrlKy6Xr+agI4W77ET4QQBOmvIH
+	9S8A==
+X-Gm-Message-State: AHYfb5ha8UAoeNo1x3nufB7/YqWl2LlWLIcTXMBiYOn8AvpST4YQjJwm
+	9N3yhteCYbis/PkP
+X-Received: by 10.98.147.131 with SMTP id r3mr8808274pfk.80.1502297143076;
+	Wed, 09 Aug 2017 09:45:43 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::8e89])
+	by smtp.gmail.com with ESMTPSA id g2sm6658170pgu.86.2017.08.09.09.45.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 09 Aug 2017 09:45:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Aug 2017 09:45:18 -0700
+Message-Id: <20170809164518.35834-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.0
+Subject: [PATCH] rootfs-postcommands.bbclass: Filter out dangling symlinks in ssh_allow_empty_password()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +52,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 15:41:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 09 Aug 2017 16:45:42 -0000
 
-On Wed, Aug 9, 2017 at 7:19 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+In images built with pam in DISTRO_FEATURES, we end up with dangling symlinks
+if su is not packaged into image
 
-Any explanation? Was this previously non-deterministic? If so, how far
-back does the problem go?
+$ ls /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/su-l -l
+lrwxrwxrwx 1 kraj users 2 Aug  9 07:56 /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/su-l -> su
 
-> ---
->  meta/recipes-graphics/cairo/cairo.inc | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-> index 8e1e2e1b88..fd376951bd 100644
-> --- a/meta/recipes-graphics/cairo/cairo.inc
-> +++ b/meta/recipes-graphics/cairo/cairo.inc
-> @@ -22,7 +22,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
->  DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
->
->  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
-> -           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
-> +           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-> +           ${@bb.utils.filter('DISTRO_FEATURES', 'opengl', d)}"
->
->  PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
->  PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-> @@ -30,6 +31,7 @@ PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
->  PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
->  PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
->  PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
-> +PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+This causes image do_rootfs to fail
 
-Since the opengl distro feature can imply either OpenGL or OpenGL ES
-support, it doesn't seem right to use it to select one over the other
-(ie for recipes which support both, shouldn't the choice between
-OpenGL or OpenGL ES be independent of the opengl distro feature) ?
+| sed: can't read /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/s
+u-l: No such file or directory
+| WARNING: /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.ssh_allow_empty_
+password.19238:1 exit 2 from 'sed -i 's/nullok_secure/nullok/' /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi
+/core-image-minimal/1.0-r0/rootfs/etc/pam.d/*'
 
->
->  #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points
->  require cairo-fpu.inc
-> --
-> 2.14.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Therefore we need to filter out dangling symlinks before sed'ing
+things out
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 78f7c55933..e26aa90d73 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -158,7 +158,10 @@ ssh_allow_empty_password () {
+ 	fi
+ 
+ 	if [ -d ${IMAGE_ROOTFS}${sysconfdir}/pam.d ] ; then
+-		sed -i 's/nullok_secure/nullok/' ${IMAGE_ROOTFS}${sysconfdir}/pam.d/*
++		for f in `find ${IMAGE_ROOTFS}${sysconfdir}/pam.d -type l -exec test -e {} \; -print`
++		do
++			sed -i 's/nullok_secure/nullok/' $f
++		done
+ 	fi
+ }
+ 
+-- 
+2.14.0
+
 
