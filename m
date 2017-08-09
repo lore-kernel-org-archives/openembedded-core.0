@@ -1,20 +1,50 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C1D96006E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DBA177EF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 04:04:05 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 09 Aug 2017 21:04:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,349,1498546800"; d="scan'208";a="117474817"
-Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by orsmga004.jf.intel.com with ESMTP; 09 Aug 2017 21:04:04 -0700
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Aug 2017 12:04:38 +0800
-Message-Id: <1502337878-89084-1-git-send-email-rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] recipetool: create: disable PREMIRRORS and MIRRORS by default
+	Thu, 10 Aug 2017 04:55:27 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id v189so36736312pgd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Aug 2017 21:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/HdgCOkA5sbU4Ca9vvaxfZOdNreAncCnSz+U0L+ZAns=;
+	b=FP0I8lEdCToWzj2RpXIt9aQizSsp/Xeoqe3FenU4Ku8v0P06gS3BCsAPdEloEptzoO
+	sP1iOk+bumuE6Syyv62cfoKcbC8EKWWwYx4rOfFd6InNbfYiNT6qmQtL+aeTZGjJDbo4
+	OmctpbnwPAz5fOVsAAllUQzHVNrtiEiZcl2OegfQ2D1r12t7myTYISVpz+Tc7CJFAur9
+	doFClvRjL5kfXIxjgd/6yuuWsn06ghvJf1cPfJvkkXAt3xcnSDOAx56OYY0H2Cy/58FB
+	Pv5C2P/AxN2C89vpvC2eXh4DTRfEB06JyE7Eqce5uGXafeXWySZ9cpgMProUar8pmEkN
+	YngQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/HdgCOkA5sbU4Ca9vvaxfZOdNreAncCnSz+U0L+ZAns=;
+	b=ZQveTWdqrjL0YtCgvDJKmU3CQDaDwWY2MLW1pInaBrbOHex8Jnk0NHR/1xs0N/9ibN
+	sSJA/SrT3nw8l9Pk22eRVdaIse4f7Y/RGGsuwjvc8FD0Oq2OaonVgdsXGkk7g1zde5oG
+	2Ws/kKOQcxSPOyBQv96d3dyigV+Y/EmZaAscUfzqW1nLLafcztfpMHXGBny5WCtfpxci
+	Q3xKvUEBjGHqYChuNUyvO0Rlu67KC4+X9fZoRLJRBV7vgCXdtbxVpLkjBzMaLrcKRUk8
+	YAGpEEI+63Fmvd8q6MQCl2BeMSq8WnuyKeHLXHQeDJIHCRwTzdraqoGvcTpXvCYAD0Mz
+	Z7LQ==
+X-Gm-Message-State: AHYfb5ivaGh05b70Q6RWHpstKsHBLPCi416UG0dn0ydzdceQtdSYQ6a6
+	9OT7aPyGVWrdL6i5A9OO0+bt65oOyw==
+X-Received: by 10.98.147.74 with SMTP id b71mr9942233pfe.283.1502320708889;
+	Wed, 09 Aug 2017 16:18:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.167.2 with HTTP; Wed, 9 Aug 2017 16:17:58 -0700 (PDT)
+In-Reply-To: <b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
+References: <1502107769-16160-1-git-send-email-jussi.kukkonen@intel.com>
+	<41176f6a-807d-f488-7f55-38ee82cc48bf@linux.intel.com>
+	<1502110800.18633.220.camel@linuxfoundation.org>
+	<d6c76558-21f5-c41d-9f47-2677644e4087@linux.intel.com>
+	<b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 9 Aug 2017 16:17:58 -0700
+Message-ID: <CAMKF1srCG1cnp7r2fEgw0_YtvUGLf1euJg8a=EP7N+pSj4gCow@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Meson support in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,69 +57,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 04:04:06 -0000
+X-List-Received-Date: Thu, 10 Aug 2017 04:55:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-When creating new recipes, we are almost certainly fetching a new
-source rather that something that has already been fetched. I have
-disable PREMIRRORS and MIRRORS settings in the recipe that created
-by devtool while leaving an option for users to enable them manually
-if needed. Since devtool already has this options, we need to ensure
-that recipetool is able to handle the options passed from devtool.
+On Wed, Aug 9, 2017 at 2:10 PM, Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+> On 2017-08-07 09:47 AM, Alexander Kanavin wrote:
+>>
+>> On 08/07/2017 04:00 PM, Richard Purdie wrote:
+>>
+>>> Thanks for looking at this. Whilst some project still have some support
+>>> for both, could we get timings of do_{configure|compile|install} for
+>>> autotools vs. meson?
+>>
+>>
+>> So far there's just one recipe that I can test, json-glib, which is fairly
+>> small, and so there's not a lot of difference between compile+install steps.
+>> configure however is vastly faster:
+>>
+>> autotools with gtk-doc
+>>
+>> configure 16.53
+>> compile 12.56
+>> install 1.94
+>> total 31.03
+>>
+>> meson with gtk-doc
+>>
+>> configure 2.04
+>> compile 4.87
+>> install 9.16
+>> total 16.07
+>>
+>> autotools without gtk-doc
+>> configure 16.26
+>> compile 5.49
+>> install 1.59
+>> total 23.34
+>>
+>> meson without gtk-doc
+>> configure 1.95
+>> compile 5.04
+>> install 2.26
+>> total 9.25
+>
+>
+> Yep, total time for 'without gtk-doc' is *more* than cut in half!
+>
+> The drop in configure time is certainly expected but the compilation
+> stage should be dominated by the compiler rather than make or ninja.
+> The 'without gtk-doc' compile difference mostly confirms that
+> but the 9% drop is odd. A couple of sources I've found assert that
+> for large projects and parallel builds a full build time is essentially
+> the same with ninja:
+>    http://david.rothlis.net/ninja-benchmark/
+> That work was done on a MacBook (!!) so it would be interesting to
+> see what the results are on a 24+ core Linux system. I might
+> give that a try tonight if there's nothing good on NetFlix.
+>
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
----
- scripts/lib/recipetool/create.py | 3 ++-
- scripts/lib/scriptutils.py       | 9 ++++++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+try chromium builds from meta-browser and play with ninja its a big enough
+package.
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 359eb9a..f6ea422 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -446,7 +446,7 @@ def create_recipe(args):
-         srctree = os.path.join(tempsrc, 'source')
- 
-         try:
--            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp)
-+            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp, mirrors=args.mirrors)
-         except scriptutils.FetchUrlFailure as e:
-             logger.error(str(e))
-             sys.exit(1)
-@@ -1169,5 +1169,6 @@ def register_commands(subparsers):
-     parser_create.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
-     parser_create.add_argument('--fetch-dev', action="store_true", help='For npm, also fetch devDependencies')
-     parser_create.add_argument('--devtool', action="store_true", help=argparse.SUPPRESS)
-+    parser_create.add_argument('--mirrors', action="store_true", help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).')
-     parser_create.set_defaults(func=create_recipe)
- 
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index 9785438..11f1a78 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -102,7 +102,7 @@ class FetchUrlFailure(Exception):
-     def __str__(self):
-         return "Failed to fetch URL %s" % self.url
- 
--def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
-+def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirrors=False):
-     """
-     Fetch the specified URL using normal do_fetch and do_unpack tasks, i.e.
-     any dependencies that need to be satisfied in order to support the fetch
-@@ -150,6 +150,13 @@ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
-                 f.write('WORKDIR = "%s"\n' % tmpworkdir)
-                 # Set S out of the way so it doesn't get created under the workdir
-                 f.write('S = "%s"\n' % os.path.join(tmpdir, 'emptysrc'))
-+                if not mirrors:
-+                    # We do not need PREMIRRORS since we are almost certainly
-+                    # fetching new source rather than something that has already
-+                    # been fetched. Hence, we disable them by default.
-+                    # However, we provide an option for users to enable it.
-+                    f.write('PREMIRRORS = ""\n')
-+                    f.write('MIRRORS = ""\n')
- 
-             logger.info('Fetching %s...' % srcuri)
- 
--- 
-2.7.4
-
+> By the way, systemd-234 has meson support and you (Alex) have sent
+> a patch update to 242 to the oe-core list but without switching to meson
+> as is reasonable. Anyway, 232 takes 51 seconds on my 16+16 core machine
+> so it would be a useful benchmark as well. Want to take a stab at that?
+>
+> ../Randy
+>
+>
+>
+>>
+>>
+>> Alex
+>
+>
+>
+> --
+> # Randy MacLeod. SMTS, Linux, Wind River
+> Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, Canada,
+> K2K 2W5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
