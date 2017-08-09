@@ -1,23 +1,48 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B7FD77E4E
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BD4477DB1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Aug 2017 17:49:04 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 09 Aug 2017 10:49:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,348,1498546800"; d="scan'208";a="117337515"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga004.jf.intel.com with ESMTP; 09 Aug 2017 10:48:35 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Aug 2017 10:48:31 -0700
-Message-Id: <1502300913-40295-10-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
+	Wed,  9 Aug 2017 18:06:50 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id y43so4975725wrd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Aug 2017 11:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pbQ/IhzF2+X4HdNKdLXoB+nv/SOoB6GHrloH9jCc2BY=;
+	b=R4Ip8D7GS+JOCNBDTuD0Z08kQq9+U183aC2VOXybDYGMP+ZDSWGCxTNyNOZbhN2Cy8
+	0dPrEKFrFsy0zCtaK1RMs0e6w89FNAu33OR1c1S59C02GJEZcZslm5g06rsl+Y05cG9H
+	KQAyf68Y4FyOnEbxt5E4HdRiqD8J1WxRAMRNpA74vzgFqVDUJnQPc7uB7gnSdi3KlGRg
+	gr/dOoBujv9Qtj74MQsg6Uco2Cu+G53x5xsAj6OQ1Inm59wZSsTSrnOmns5lTlf0Dk6Y
+	emcThOC3AdpG5cGdcqrSmFpPrQNHWzYBKGb+wT4xM5euho/rgJ8OIe1sYJtj8WsGuRJo
+	UmuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pbQ/IhzF2+X4HdNKdLXoB+nv/SOoB6GHrloH9jCc2BY=;
+	b=iEoH78wN7zQXymNCm7UE2O2GcEsp8iVWvzpftK38kPn5+rjKLZdPX/tYN5e/vDdnvu
+	kuYBUs+MlowfPTZV5egvPez7UaEXePAV3KfWt0mSb6SuHZeKzmfihZe0N//3Qn7AEbxU
+	TEd4zOvMMLeGLiLEqRddBh9om3cJFBezrhTERcshzFfmPpoqaJB+EFX6GZYHiXVwognG
+	lFE3q/9+qQDBtVtR/MqOt/jBfc84LefHXkvj5wj4p/8ZxNCTHoqeHrJEQWVPA/4xqoG5
+	0RRvXgvZiB9hoKsLmJEVlRFSJ0vuG38dhvD/7tHvlcMX94mY72KILhE+3Z2H2yN9vu4m
+	mvQg==
+X-Gm-Message-State: AHYfb5jDrzQtYcQQXgymmGe8zp+hIjCC0ScrBAFg9WfJUjzGwLHlXt03
+	loQ3VVsYVqcuZUKtnshzSK0UqpQJUQ==
+X-Received: by 10.223.179.211 with SMTP id x19mr6272425wrd.7.1502302011695;
+	Wed, 09 Aug 2017 11:06:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.175.16 with HTTP; Wed, 9 Aug 2017 11:06:51 -0700 (PDT)
+In-Reply-To: <1502300913-40295-8-git-send-email-juro.bystricky@intel.com>
 References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH v3 09/11] python3: improve reproducibility
+	<1502300913-40295-8-git-send-email-juro.bystricky@intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 9 Aug 2017 11:06:51 -0700
+Message-ID: <CAJ86T=Ud6Yh6m6+=n6DNaOm06fU+fc0L6ZhAoA32dDNSpTfWxg@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 07/11] image_types.bbclass: improve cpio image reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,153 +55,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 17:49:04 -0000
+X-List-Received-Date: Wed, 09 Aug 2017 18:06:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The compiled .pyc files contain time stamp corresponding to the compile time.
-This prevents binary reproducibility. This patch allows to achieve binary
-reproducibility by overriding the build time stamp by the value
-exported via SOURCE_DATE_EPOCH.
+On Wed, Aug 9, 2017 at 10:48 AM, Juro Bystricky
+<juro.bystricky@intel.com> wrote:
+> This patch helps to build cpio images that are binary reproducible.
+> The changes are as follows:
+>
+> 1. By default, cpio from the host is used, which can be quite old.
+>    Hence we need to implement a way to use/call cpio-native, which supports
+>    new features needed for binary reproducibility, notably the arguments
+>    such as "--reproducible" and "--ignore-devno".
+>    This can be achieved by specifying the following (in local.conf):
 
-Patch by Bernhard M. Wiedemann.
+Is it useful to keep the option using cpio from the host? Why not
+always use cpio-native?
 
-[YOCTO#11241]
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- .../python/python3-native_3.5.3.bb                 |  1 +
- .../support_SOURCE_DATE_EPOCH_in_py_compile.patch  | 97 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.5.3.bb      |  1 +
- 3 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/support_SOURCE_DATE_EPOCH_in_py_compile.patch
-
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-index 250697f..3467d29 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-@@ -24,6 +24,7 @@ ${DISTRO_SRC_URI} \
- file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
- file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
- file://0001-Do-not-use-the-shell-version-of-python-config-that-w.patch \
-+file://support_SOURCE_DATE_EPOCH_in_py_compile.patch \
- "
- 
- SRC_URI[md5sum] = "57d1f8bfbabf4f2500273fb0706e6f21"
-diff --git a/meta/recipes-devtools/python/python3/support_SOURCE_DATE_EPOCH_in_py_compile.patch b/meta/recipes-devtools/python/python3/support_SOURCE_DATE_EPOCH_in_py_compile.patch
-new file mode 100644
-index 0000000..32ecab9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/support_SOURCE_DATE_EPOCH_in_py_compile.patch
-@@ -0,0 +1,97 @@
-+The compiled .pyc files contain time stamp corresponding to the compile time.
-+This prevents binary reproducibility. This patch allows to achieve binary
-+reproducibility by overriding the build time stamp by the value 
-+exported via SOURCE_DATE_EPOCH. 
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-+
-+
-+From aeab488630fdb1b56a8d0b0c13fa88706b2afe9b Mon Sep 17 00:00:00 2001
-+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
-+Date: Sat, 25 Feb 2017 06:42:28 +0100
-+Subject: [PATCH] bpo-29708: support SOURCE_DATE_EPOCH env var in py_compile
-+
-+to allow for reproducible builds of python packages
-+
-+See https://reproducible-builds.org/ for why this is good
-+and https://reproducible-builds.org/specs/source-date-epoch/
-+for the definition of this variable.
-+
-+Background:
-+In some distributions like openSUSE, binary rpms contain precompiled .pyc files.
-+
-+And packages like amqp or twisted dynamically generate .py files at build time
-+so those have the current time and that timestamp gets embedded
-+into the .pyc file header.
-+When we then adapt file timestamps in rpms to be constant,
-+the timestamp in the .pyc header will no more match
-+the .py timestamp in the filesystem.
-+The software will still work, but it will not use the .pyc file as it should.
-+---
-+ Doc/library/py_compile.rst  |  4 ++++
-+ Lib/py_compile.py           |  4 ++++
-+ Lib/test/test_py_compile.py | 19 +++++++++++++++++++
-+ 3 files changed, 27 insertions(+)
-+
-+diff --git a/Doc/library/py_compile.rst b/Doc/library/py_compile.rst
-+index 0af8fb1..841f3e8 100644
-+--- a/Doc/library/py_compile.rst
-++++ b/Doc/library/py_compile.rst
-+@@ -53,6 +53,10 @@ byte-code cache files in the directory containing the source code.
-+    :func:`compile` function.  The default of ``-1`` selects the optimization
-+    level of the current interpreter.
-+ 
-++   If the SOURCE_DATE_EPOCH environment variable is set, the .py file mtime
-++   and timestamp entry in .pyc file header, will be limited to this value.
-++   See https://reproducible-builds.org/specs/source-date-epoch/ for more info.
-++
-+    .. versionchanged:: 3.2
-+       Changed default value of *cfile* to be :PEP:`3147`-compliant.  Previous
-+       default was *file* + ``'c'`` (``'o'`` if optimization was enabled).
-+diff --git a/Lib/py_compile.py b/Lib/py_compile.py
-+index 11c5b50..62dcdc7 100644
-+--- a/Lib/py_compile.py
-++++ b/Lib/py_compile.py
-+@@ -137,6 +137,10 @@ def compile(file, cfile=None, dfile=None, doraise=False, optimize=-1):
-+     except FileExistsError:
-+         pass
-+     source_stats = loader.path_stats(file)
-++    sde = os.environ.get('SOURCE_DATE_EPOCH')
-++    if sde and source_stats['mtime'] > int(sde):
-++        source_stats['mtime'] = int(sde)
-++        os.utime(file, (source_stats['mtime'], source_stats['mtime']))
-+     bytecode = importlib._bootstrap_external._code_to_bytecode(
-+             code, source_stats['mtime'], source_stats['size'])
-+     mode = importlib._bootstrap_external._calc_mode(file)
-+diff --git a/Lib/test/test_py_compile.py b/Lib/test/test_py_compile.py
-+index 4a6caa5..3d09963 100644
-+--- a/Lib/test/test_py_compile.py
-++++ b/Lib/test/test_py_compile.py
-+@@ -98,6 +98,25 @@ def test_bad_coding(self):
-+         self.assertFalse(os.path.exists(
-+             importlib.util.cache_from_source(bad_coding)))
-+ 
-++    def test_source_date_epoch(self):
-++        testtime = 123456789
-++        orig_sde = os.getenv("SOURCE_DATE_EPOCH")
-++        os.environ["SOURCE_DATE_EPOCH"] = str(testtime)
-++        py_compile.compile(self.source_path, self.pyc_path)
-++        if orig_sde:
-++            os.environ["SOURCE_DATE_EPOCH"] = orig_sde
-++        else:
-++            del os.environ["SOURCE_DATE_EPOCH"]
-++        self.assertTrue(os.path.exists(self.pyc_path))
-++        self.assertFalse(os.path.exists(self.cache_path))
-++        statinfo = os.stat(self.source_path)
-++        self.assertEqual(statinfo.st_mtime, testtime)
-++        f = open(self.pyc_path, "rb")
-++        f.read(4)
-++        timebytes = f.read(4) # read timestamp from pyc header
-++        f.close()
-++        self.assertEqual(timebytes, (testtime).to_bytes(4, 'little'))
-++
-+     @unittest.skipIf(sys.flags.optimize > 0, 'test does not work with -O')
-+     def test_double_dot_no_clobber(self):
-+         # http://bugs.python.org/issue22966
-diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
-index 7419c71..0c32b85 100644
---- a/meta/recipes-devtools/python/python3_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.5.3.bb
-@@ -16,6 +16,7 @@ file://130-readline-setup.patch \
- file://150-fix-setupterm.patch \
- file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
- file://tweak-MULTIARCH-for-powerpc-linux-gnuspe.patch \
-+file://support_SOURCE_DATE_EPOCH_in_py_compile.patch \
- ${DISTRO_SRC_URI} \
- "
- 
--- 
-2.7.4
-
+>    do_image_cpio[depends] += "cpio-replacement-native:do_populate_sysroot"
+>    EXTRANATIVEPATH += "cpio-native"
+>
+> 2. Provide a way to pass custom arguments to cpio. This is done via
+>    a new variable IMAGE_CMD_CPIO. For binary reproducible cpio archives
+>    one needs to set (in local.conf)
+>
+>    IMAGE_CMD_CPIO = "cpio --ignore-devno --reproducible "
+>
+> 3. A symlink is created as part of the image. Here we make sure it gets the
+>    timestamps (mtime) based on the timestamp of the symlink target, rather than
+>    the timestamp corresponding to the build time.
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  meta/classes/image_types.bbclass | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index e0368c7..50d0c07 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -122,9 +122,17 @@ IMAGE_CMD_TAR ?= "tar"
+>  # ignore return code 1 "file changed as we read it" as other tasks(e.g. do_image_wic) may be hardlinking rootfs
+>  IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 ]"
+>
+> +# By default, cpio from the host is used, which can be quite old. If
+> +# you need special parameters (like --ignore-devno --reproducible) which are only
+> +# supported by GNU cpio upstream >= 2.12, then override that default:
+> +# IMAGE_CMD_CPIO = "cpio --ignore-devno"
+> +# do_image_cpio[depends] += "cpio-replacement-native:do_populate_sysroot"
+> +# EXTRANATIVEPATH += "cpio-native"
+> +
+> +IMAGE_CMD_CPIO ?= "cpio"
+>  do_image_cpio[cleandirs] += "${WORKDIR}/cpio_append"
+>  IMAGE_CMD_cpio () {
+> -       (cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+> +       (cd ${IMAGE_ROOTFS} && find . | ${IMAGE_CMD_CPIO} -o -H newc -v >${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+>         # We only need the /init symlink if we're building the real
+>         # image. The -dbg image doesn't need it! By being clever
+>         # about this we also avoid 'touch' below failing, as it
+> @@ -134,10 +142,12 @@ IMAGE_CMD_cpio () {
+>                 if [ ! -L ${IMAGE_ROOTFS}/init ] && [ ! -e ${IMAGE_ROOTFS}/init ]; then
+>                         if [ -L ${IMAGE_ROOTFS}/sbin/init ] || [ -e ${IMAGE_ROOTFS}/sbin/init ]; then
+>                                 ln -sf /sbin/init ${WORKDIR}/cpio_append/init
+> +                               # improve reproducibility: set the link mtime to be the same as the target
+> +                               touch -h -r ${IMAGE_ROOTFS}/sbin/init ${WORKDIR}/cpio_append/init
+>                         else
+>                                 touch ${WORKDIR}/cpio_append/init
+>                         fi
+> -                       (cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+> +                       (cd  ${WORKDIR}/cpio_append && echo ./init | ${IMAGE_CMD_CPIO} -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
+>                 fi
+>         fi
+>  }
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
