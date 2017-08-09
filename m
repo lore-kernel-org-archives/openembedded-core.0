@@ -1,48 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A837377D48
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F7DE71C1F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Aug 2017 14:19:34 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 123so6004609pga.5
+	Wed,  9 Aug 2017 15:12:44 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id y206so7128713wmd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Aug 2017 07:19:35 -0700 (PDT)
+	Wed, 09 Aug 2017 08:12:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dUoeSrikBeQHwsee4+tZYDpmlhpvx0mlGb6FHZznKU4=;
-	b=VGMYUTxv+KY+Kf+B0jbkJYMyZbWwjdI8CICZNdQSL2k6JH3ie/dpE4ymv1d5BMi+AZ
-	2tq/onLpA0A7O2khTJKWW3jFNOrUUjOKDDssK/oR/+ItCL2DU3c8emKjNSCAA6Z0jB1H
-	a+az4+ITGEZrxP8bZPgLC0ljsSDXGkRk14F6up5g7c+/bsXekDnqlFSIxl01v06vBeKv
-	QVpk7XY2MLqSejR8hs7KzGLeLjrka+4G3BFrGfU7c2RE5eiuxetr1IwwGFaWR9jjqu1e
-	qkHMGTsxaWQmKr9+XWFLtvf889CL1RG0Ya8PV3rNZuPnX2Dw1zjhUwz3CANa14ONznxE
-	iJpg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Ugow1iHz1/W9XzWrB0sflOFOxQ9z2RWgWzPJpDCmkZk=;
+	b=MlgneQ9ivlwQnQq3HIsrshE3UNjE7DFU/TQuOIricInUkgQZpnHxQV8kNv6/l8Bfny
+	1N2FuSEBYAoDv7YchWVZMPYqCBatj27+r6e2QItaksN3jNH6hInicY6HpUAoLiWRtweC
+	FQiYASS31oPifxlvG99/AJ2oi3W9pmNXjxLQGiSwYGMVO1LAc+yagVgGZEsIGnHCqRMm
+	jn9pmHqCSf1quZGysl1b5/ec9yS95vrc2i2vqJSSdU8aytQMni4ezHHyG9Mw3k1XSIxl
+	Lj2VBtRuMre+x0jAHmrmeaX/tlDITl6TSlx4RcudbckaNMfm7idYx7gnS6Xid4mrVySX
+	2arQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=dUoeSrikBeQHwsee4+tZYDpmlhpvx0mlGb6FHZznKU4=;
-	b=cOrY4IIDjen48z31wYBN7MQ3zpcaroqHQP5H8NGnGS2XBNkLfvIp9xSm7uwDw5ziVt
-	T1bCF+s5GxEwmvfHV1QQ9F6fch3vl1WNvQv7c91fiP77mj45QHTUmAjhG/yMtMr5tNbc
-	bW8D3NQp1BznD4WrPjcnpvUNAyocoB2CS2HEdMdwlk5R07SnLkuEkH3xp+O+iGIlWasP
-	P49hOxwMy7pCwUK0bXBhclSX5UU2ILFQOZjZcnPSMhwtFcjeu3ZiF5BO1IEC2GIpoQWH
-	lTmmDj2opGGlHhiB/BQ0YddwmML8mtS/2oHTkCps/pMm/2GxKp/VpOotRYtRAevPFwJz
-	ILaQ==
-X-Gm-Message-State: AHYfb5h74VRCmqCd1LwrAnULI1/OuNEi0QehipVanXvBEmZeZDviZCzp
-	9A7YyMavR2t0pc3I
-X-Received: by 10.98.113.9 with SMTP id m9mr8281431pfc.263.1502288375610;
-	Wed, 09 Aug 2017 07:19:35 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::8e89])
-	by smtp.gmail.com with ESMTPSA id
-	s89sm9342832pfe.155.2017.08.09.07.19.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Aug 2017 07:19:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Aug 2017 07:19:22 -0700
-Message-Id: <20170809141922.2603-4-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.0
-In-Reply-To: <20170809141922.2603-1-raj.khem@gmail.com>
-References: <20170809141922.2603-1-raj.khem@gmail.com>
-Subject: [PATCH 4/4] cairo: Add pkgconfig for opengl support
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Ugow1iHz1/W9XzWrB0sflOFOxQ9z2RWgWzPJpDCmkZk=;
+	b=O774VMtSjVxUINs6o8vwldgoLmwQVOwU0wZCq6xEaqD+ccHg4GCzWkRb0S6vW65q2Z
+	HwkW1prB4312mxYaS1UhxQxcnx7wQDAvchPuBFvwVXgqR5CD32nFyvqEv0l8N81mBJY5
+	0245px3pWKwOVqKgycJ5/4tFX7JKzNx/YU8e61BDpSrh/cdzoIG0lecFkszc1Rli+4q+
+	9Ve3kgqgr/e93tLLWWUMpmFmxVtQeqZTd2hzZj9OCRGOcmpq8Os+VdSZXiCk4cGOdCxE
+	Ic2h6udZWELHaQzkTFKa7GEu8W28QVpv94K+OuzD2GoMMjN1nxVS2jRQCwdoqtk9OTmI
+	2M8A==
+X-Gm-Message-State: AHYfb5g3rEa6i1SKzb3xVY6gXn894GLOXt4e7Fp6fxwT5+momiL96Ja7
+	m8dGA/ukQW8zx1N13vYO+ry9LrQzsA==
+X-Received: by 10.28.24.210 with SMTP id 201mr5378381wmy.65.1502291565700;
+	Wed, 09 Aug 2017 08:12:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.175.16 with HTTP; Wed, 9 Aug 2017 08:12:45 -0700 (PDT)
+In-Reply-To: <20170809111602.9117-1-alexander.kanavin@linux.intel.com>
+References: <20170809111602.9117-1-alexander.kanavin@linux.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 9 Aug 2017 08:12:45 -0700
+Message-ID: <CAJ86T=W994zJ_CBLx+8oPv3k-DMdW6SaRd=EQMDRgoRd2WoV1g@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer-plugins-bad: replace openssl dependency with nettle for hls plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +52,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Aug 2017 14:19:34 -0000
+X-List-Received-Date: Wed, 09 Aug 2017 15:12:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/cairo/cairo.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Wed, Aug 9, 2017 at 4:16 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> It has not been ported to openssl 1.1 (and there's nothing in upstream git),
+> but it's possible to use nettle or gcrypt intead.
+>
+> Also, provide a fallback option to use openssl 1.0 when necessary.
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> index e964fef3f20..dc47f581af1 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+> @@ -40,9 +40,9 @@ PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
+>  PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
+>  PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
+>  PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+> -# ensure OpenSSL is used for HLS AES description instead of nettle
+> -# (OpenSSL is a shared dependency with dtls)
+> -PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl"
+> +PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
+> +# Provide a fallback to openssl 1.0 when using nettle is not acceptable or desirable
+> +PACKAGECONFIG[hls_openssl10]   = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl10"
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 8e1e2e1b88..fd376951bd 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -22,7 +22,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
- DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
--           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}"
-+           ${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-+           ${@bb.utils.filter('DISTRO_FEATURES', 'opengl', d)}"
- 
- PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
- PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-@@ -30,6 +31,7 @@ PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
- PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
- PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
- PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
-+PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
- 
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--- 
-2.14.0
+The option which isn't enabled is going to cause "--disable-hls" to be
+added to the configure command line, so this isn't going to work as
+expected.
 
+>  PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
+>  PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
+>  PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
+> --
+> 2.13.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
