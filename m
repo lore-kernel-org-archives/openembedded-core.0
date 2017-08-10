@@ -1,28 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F62F780BD
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 71E7878187
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 10:02:49 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7AA0dE9008934
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 10 Aug 2017 11:00:41 +0100
-Message-ID: <1502359239.18633.274.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark D Horn <mark.d.horn@intel.com>,
+	Thu, 10 Aug 2017 10:14:47 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga104.jf.intel.com with ESMTP; 10 Aug 2017 03:14:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,352,1498546800"; d="scan'208";a="888507383"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2017 03:14:48 -0700
+To: Randy MacLeod <randy.macleod@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 10 Aug 2017 11:00:39 +0100
-In-Reply-To: <1501715385-17089-1-git-send-email-mark.d.horn@intel.com>
-References: <1501715385-17089-1-git-send-email-mark.d.horn@intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 10 Aug 2017 11:00:41 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] recipetool: create: allow handers to set license
+References: <1502107769-16160-1-git-send-email-jussi.kukkonen@intel.com>
+	<41176f6a-807d-f488-7f55-38ee82cc48bf@linux.intel.com>
+	<1502110800.18633.220.camel@linuxfoundation.org>
+	<d6c76558-21f5-c41d-9f47-2677644e4087@linux.intel.com>
+	<b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <dbc83877-5b7e-fadb-0e0a-e8edb82386a2@linux.intel.com>
+Date: Thu, 10 Aug 2017 13:11:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
+Subject: Re: Meson support in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,88 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 10:02:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Aug 2017 10:14:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2017-08-02 at 16:09 -0700, Mark D Horn wrote:
-> Recipetool plugins set through register_recipe_handlers were not able
-> to impact the license type via setting extravalues['LICENSE']. This
-> is
-> due to caching the license variables in create_recipe before the
-> handlers
-> have been executed.
+On 08/10/2017 12:10 AM, Randy MacLeod wrote:
+> Yep, total time for 'without gtk-doc' is *more* than cut in half!
 > 
-> This change moves the call to handle_license_vars well after the
-> registered plugins (and extravalue functions) have been called.
-> 
-> Signed-off-by: Mark D Horn <mark.d.horn@intel.com>
-> ---
->  scripts/lib/recipetool/create.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> The drop in configure time is certainly expected but the compilation
+> stage should be dominated by the compiler rather than make or ninja.
+> The 'without gtk-doc' compile difference mostly confirms that
+> but the 9% drop is odd. A couple of sources I've found assert that
+> for large projects and parallel builds a full build time is essentially
+> the same with ninja:
+>     http://david.rothlis.net/ninja-benchmark/
+> That work was done on a MacBook (!!) so it would be interesting to
+> see what the results are on a 24+ core Linux system. I might
+> give that a try tonight if there's nothing good on NetFlix.
 
-I'm afraid this leads to oe-selftest regressions and issues in devtool:
+To be honest, achieving faster build times is secondary in importance to 
+me. The important part is that autotools is one of the most awful pieces 
+of software ever written, and the less we have to deal with it in Yocto, 
+the happier we all will be. Upstreans generally share that POV.
 
-$ oe-selftest -r devtool.DevtoolTests.test_devtool_add
-[...]
-2017-08-10 10:58:01,398 - oe-selftest - INFO - ======================================================================
-2017-08-10 10:58:01,399 - oe-selftest - INFO - FAIL [6.404s]: test_devtool_add (devtool.DevtoolTests)
-2017-08-10 10:58:01,399 - oe-selftest - INFO - ----------------------------------------------------------------------
-2017-08-10 10:58:01,399 - oe-selftest - INFO - Traceback (most recent call last):
-  File "/media/build1/poky/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-    return func(*args, **kwargs)
-  File "/media/build1/poky/meta/lib/oeqa/selftest/cases/devtool.py", line 206, in test_devtool_add
-    result = runCmd('devtool add pv %s' % srcdir)
-  File "/media/build1/poky/meta/lib/oeqa/utils/commands.py", line 191, in runCmd
-    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
-AssertionError: Command 'devtool add pv /tmp/devtoolqaznmpqyo4/pv-1.5.3' returned non-zero exit status 1:
-NOTE: Starting bitbake server...
-NOTE: Creating workspace layer in /media/build1/poky/build/workspace
-NOTE: Enabling workspace layer in bblayers.conf
-NOTE: Starting bitbake server...
-NOTE: Starting bitbake server...
-ERROR: Traceback (most recent call last):
-  File "/media/build1/poky/bitbake/lib/bb/command.py", line 83, in runCommand
-    result = command_method(self, commandline)
-  File "/media/build1/poky/bitbake/lib/bb/command.py", line 566, in parseRecipeFile
-    envdata = parser.loadDataFull(fn, appendfiles)
-  File "/media/build1/poky/bitbake/lib/bb/cache.py", line 339, in loadDataFull
-    bb_data = self.load_bbfile(virtualfn, appends, virtonly=True)
-  File "/media/build1/poky/bitbake/lib/bb/cache.py", line 352, in load_bbfile
-    datastores = parse_recipe(bb_data, bbfile, appends, mc)
-  File "/media/build1/poky/bitbake/lib/bb/cache.py", line 315, in parse_recipe
-    bb_data = bb.parse.handle(bbfile, bb_data)
-  File "/media/build1/poky/bitbake/lib/bb/parse/__init__.py", line 113, in handle
-    return h['handle'](fn, data, include)
-  File "/media/build1/poky/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 157, in handle
-    return ast.multi_finalize(fn, d)
-  File "/media/build1/poky/bitbake/lib/bb/parse/ast.py", line 395, in multi_finalize
-    finalize(fn, d)
-  File "/media/build1/poky/bitbake/lib/bb/parse/ast.py", line 355, in finalize
-    bb.utils.better_exec("\n".join(code), {"d": d})
-  File "/media/build1/poky/bitbake/lib/bb/utils.py", line 399, in better_exec
-    exec(code, get_context(), context)
-  File "<code>", line 3, in <module>
-  File "/media/build1/poky/meta/classes/base.bbclass", line 468, in __anon_686__media_build1_poky_meta_classes_base_bbclass
-  File "/media/build1/poky/bitbake/lib/bb/__init__.py", line 104, in fatal
-    raise BBHandledException()
-bb.BBHandledException
+Read this:
+http://blog.nirbheek.in/2016/05/gstreamer-and-meson-new-hope.html
+and this:
+http://voices.canonical.com/jussi.pakkanen/2011/09/13/autotools/
 
-ERROR: Parsing newly created recipe failed, moving recipe to /media/build1/poky/build/workspace/recipes/pv/pv_1.5.3.bb.parsefailed for reference. If this looks to be caused by the recipe itself, please report this error.
-----------------------------------------------------------------------
-2017-08-10 10:58:01,399 - oe-selftest - INFO - Ran 1 test in 7.684s
-2017-08-10 10:58:01,399 - oe-selftest - INFO - FAILED
-2017-08-10 10:58:01,399 - oe-selftest - INFO -  (failures=1)
-2017-08-10 10:58:01,404 - oe-selftest - INFO - RESULTS:
-2017-08-10 10:58:01,405 - oe-selftest - INFO - RESULTS - devtool.DevtoolTests.test_devtool_add - Testcase 1159: FAILED
-2017-08-10 10:58:01,405 - oe-selftest - INFO - SUMMARY:
-2017-08-10 10:58:01,405 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 7.690s
-2017-08-10 10:58:01,405 - oe-selftest - INFO - oe-selftest - FAIL - Required tests failed
+> By the way, systemd-234 has meson support and you (Alex) have sent
+> a patch update to 242 to the oe-core list but without switching to meson
+> as is reasonable. Anyway, 232 takes 51 seconds on my 16+16 core machine
+> so it would be a useful benchmark as well. Want to take a stab at that?
 
+Oe-core master does not yet have any support for meson. We've done some 
+private work to bring it in, but it's not ready for submission yet. I 
+also want to build a few different recipes with it to make sure it 
+'basically works' for several different things.
 
-There were other failures but this one seem to illustrate the issue.
+After meson support is in master, we can start converting recipes from 
+autotools to meson. That requires careful manual work, but the good news 
+is that it can be done piece-meal; there's no need to switch everything 
+at once.
 
-Cheers,
+My plan is to try gstreamer next, and after that, implement meson 
+support for gettext. It's a notorious bottleneck in many builds, due to 
+inexplicably slow autoconf (that even RP couldn't get down to the root 
+cause of).
 
-Richard
+Alex
 
