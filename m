@@ -1,63 +1,25 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com
-	[209.85.218.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B6009781C9
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A6B90781DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 14:02:39 +0000 (UTC)
-Received: by mail-oi0-f49.google.com with SMTP id e124so7473495oig.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 07:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=M+Y3Cu/ubTF7wBsggjcIplCSRsDSwietwtllXzmzrFw=;
-	b=Ll731HyM7GcSLWJXEhOCGG5OLK1T2N5ElptCHl1/YocNpuUPXIMV/QFwJweXAduECV
-	PV2OaT1HYQj6aTi4j3sVbexyXh8f2HyVz5Ax+x8g26QAwFzZvwGeEL8JdBwTN1dMnDEA
-	hLWxO8bT8sSz9rXgIvLhFLjXAymqcO5gjIjF/IHNMmd+iPCapp8iAz7n/FfyLf8gEQas
-	QShwa4OQA/PHcQgK4ewCBn/B+r+l4EolvINU+AWFLqFfWSPInY07UY6B2NM310LuLjRJ
-	dQ17WcT22GkWa045SczkxQee4HbcvA6eaFEU7Ugcm1Lu7E1vTIeGUnAtE7uqNs+jNgUH
-	ExvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=M+Y3Cu/ubTF7wBsggjcIplCSRsDSwietwtllXzmzrFw=;
-	b=kjwC5ZdSFuuzn55NFCBdJtS6Hvtl7kOkEEXywqyLT6TOiW5dq2NwiRACP0197Ae6gV
-	Mrf0j+R1UheWG6bI7R/nnJaGBS8lUpUbs8kI7hiylXDRR7ZUS6+vKEJvRGDDSBHh5Rsg
-	GFrMcZXx4oq6l76oV4X/6hFxFZz62r7FlL1ed56REiDjsYyrpVIdvYD6MOPtmn6GuYPT
-	8v/ayWAXecLHHa4kpq8qyAMRuGX+z5jtF9uKEury48OV+vphYwdl3bqACpcN8ClgDwuz
-	jDX8aL0FeHTSpwwLrNw+SRFmL01oyKMrFJ3qeH0OYGDXQbHe7Q+UY4XSR2nc+wIHncMx
-	HRmw==
-X-Gm-Message-State: AHYfb5gcsQFTk9y4zJW6l4Gz0SOnLBfZobRj1n07/K05YJjnbXH7YnkT
-	H7xH7S6+7MXTD+tpHoQ=
-X-Received: by 10.202.72.70 with SMTP id v67mr13867748oia.83.1502373760295;
-	Thu, 10 Aug 2017 07:02:40 -0700 (PDT)
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
-	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
-	s69sm7679289ois.15.2017.08.10.07.02.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Aug 2017 07:02:39 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f50.google.com with SMTP id g131so7359081oic.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 07:02:39 -0700 (PDT)
-X-Received: by 10.202.184.8 with SMTP id i8mr13750839oif.266.1502373758710;
-	Thu, 10 Aug 2017 07:02:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.247.10 with HTTP; Thu, 10 Aug 2017 07:02:37 -0700 (PDT)
-In-Reply-To: <3a2e0473-4ff8-21c2-b5f9-0eef996413fe@pseudoterminal.org>
-References: <1499267003-20382-1-git-send-email-maxin.john@intel.com>
-	<3a2e0473-4ff8-21c2-b5f9-0eef996413fe@pseudoterminal.org>
-Date: Thu, 10 Aug 2017 11:02:37 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKp9sALnm09F4y6NRN49Asi1z2moo9+bfjREjObR=fQijw@mail.gmail.com>
-Message-ID: <CAP9ODKp9sALnm09F4y6NRN49Asi1z2moo9+bfjREjObR=fQijw@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>, "Burton,
-	Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 00/12] gstreamer: upgrade to 1.12.1
+	Thu, 10 Aug 2017 14:23:34 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Aug 2017 07:23:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,353,1498546800"; d="scan'208";a="1002164341"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by orsmga003.jf.intel.com with ESMTP; 10 Aug 2017 07:23:34 -0700
+Message-ID: <1502375532.29285.19.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Tan Shen Joon <shen.joon.tan@intel.com>
+Date: Thu, 10 Aug 2017 09:32:12 -0500
+In-Reply-To: <1502319421-24545-1-git-send-email-shen.joon.tan@intel.com>
+References: <1502319421-24545-1-git-send-email-shen.joon.tan@intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] distrodata: add a utility script to compare list of recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,19 +32,297 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 14:02:39 -0000
+X-List-Received-Date: Thu, 10 Aug 2017 14:23:34 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 28, 2017 at 12:03 PM, Carlos Rafael Giani
-<dv@pseudoterminal.org> wrote:
-> What is the status of this? GStreamer is at 1.12.2 now, and these patches
-> are still unmerged. What is the blocker here?
+On Thu, 2017-08-10 at 06:57 +0800, Tan Shen Joon wrote:
+> distrocompare.sh is added to compare the added list of recipes
+> between two releases. The output of the script will share the
+> information of the licenses required and other distributions
+> that are using the package.
+> 
+> If a single input is provided, it will compare the current
+> branch with the provided branch/commit-ish package list.
+> 
+> To run : distrocompare.sh <older hash> <newer hash>
+> E.g. distrocompare.sh morty 92aa0e7
+> E.g. distrocompare.sh morty pyro
+> E.g. distrocompare.sh morty
+> 
 
-Ross?
+forcing the output to a specific file is not flexible. Just print it to
+stdout and user will decide where to store it.
+
+Leo
 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> output : The script will produce a file ending with
+> new_recipe_list.txt preceeded by the branch name from input
+> 
+> Signed-off-by: Tan Shen Joon <shen.joon.tan@intel.com>
+> ---
+>  scripts/distro/build-recipe-list.py | 117 ++++++++++++++++++++++++++++++++++
+>  scripts/distro/distrocompare.sh     | 123 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 240 insertions(+)
+>  create mode 100755 scripts/distro/build-recipe-list.py
+>  create mode 100755 scripts/distro/distrocompare.sh
+> 
+> diff --git a/scripts/distro/build-recipe-list.py b/scripts/distro/build-recipe-list.py
+> new file mode 100755
+> index 0000000..407deba
+> --- /dev/null
+> +++ b/scripts/distro/build-recipe-list.py
+> @@ -0,0 +1,117 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Copyright (c) 2017, Intel Corporation.
+> +#
+> +# This program is free software; you can redistribute it and/or modify it
+> +# under the terms and conditions of the GNU General Public License,
+> +# version 2, as published by the Free Software Foundation.
+> +#
+> +# This program is distributed in the hope it will be useful, but WITHOUT
+> +# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> +# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> +# more details.
+> +#
+> +
+> +import os
+> +import shutil
+> +import csv
+> +import sys
+> +import argparse
+> +
+> +__version__ = "0.1.0"
+> +
+> +recipenames = []
+> +allrecipes = []
+> + 
+> +def gather_recipes(rows):
+> +    # store the data into the array
+> +    for row in rows:
+> +        if row[0] not in recipenames:
+> +            recipenames.append(row[0])
+> +            allrecipes.append(row)
+> +
+> +def generate_recipe_list():
+> +    # machine list
+> +    machine_list = ( "qemuarm64", "qemuarm", "qemumips64", "qemumips", "qemuppc", "qemux86-64", "qemux86" )
+> +    # set filename format
+> +    fnformat = 'distrodata.%s.csv'
+> +
+> +    # store all data files in distrodata
+> +    datadir = 'distrodata'
+> +
+> +    # create the directory if it does not exists
+> +    if not os.path.exists(datadir):
+> +        os.mkdir(datadir)
+> +
+> +    # doing bitbake distrodata
+> +    for machine in machine_list:
+> +        os.system('MACHINE='+ machine + ' bitbake world -c distrodata')
+> +        shutil.copy('tmp/log/distrodata.csv', 'distrodata/' + fnformat % machine)
+> +
+> +    for machine in machine_list:
+> +        with open('distrodata/' + fnformat % machine) as f:
+> +            reader = csv.reader(f)
+> +            rows = reader.__iter__()
+> +            gather_recipes(rows)
+> +
+> +    with open('recipe-list.txt', 'w') as f:
+> +        for recipe in sorted(recipenames):
+> +            f.write("%s\n" % recipe)
+> +    print("file : recipe-list.txt is created with %d entries." % len(recipenames))
+> +
+> +    with open('all-recipe-list.txt', 'w') as f:
+> +        for recipe in sorted(allrecipes):
+> +            f.write("%s\n" % ','.join([str(data) for data in recipe]))
+> +
+> +
+> +def diff_for_new_recipes(recipe1, recipe2):
+> +    prev_recipe_path = recipe1 + '/'
+> +    curr_recipe_path = recipe2 + '/'
+> +    if not os.path.isfile(prev_recipe_path + 'recipe-list.txt') or not os.path.isfile(curr_recipe_path + 'recipe-list.txt'):
+> +        print("recipe files do not exists. please verify that the file exists.")
+> +        exit(1)
+> +
+> +    import csv
+> +
+> +    prev = []
+> +    new = []
+> +
+> +    with open(prev_recipe_path + 'recipe-list.txt') as f:
+> +        prev = f.readlines()
+> +
+> +    with open(curr_recipe_path + 'recipe-list.txt') as f:
+> +        new = f.readlines()
+> +
+> +    updates = []
+> +    for pn in new:
+> +        if not pn in prev:
+> +            updates.append(pn.rstrip())
+> +
+> +    allrecipe = []
+> +    with open(recipe1 + '_' + recipe2 + '_new_recipe_list.txt','w') as dr:
+> +        with open(curr_recipe_path + 'all-recipe-list.txt') as f:
+> +            reader = csv.reader(f, delimiter=',')
+> +            for row in reader:
+> +                if row[0] in updates:
+> +                    dr.write("%s,%s,%s" % (row[0], row[3], row[5]))
+> +                    if len(row[9:]) > 0:
+> +                        dr.write(",%s" % ','.join(row[9:]))
+> +                    dr.write("\n")
+> +
+> +def main(argv):
+> +    if argv[0] == "generate_recipe_list":
+> +        generate_recipe_list()
+> +    elif argv[0] == "compare_recipe":
+> +        diff_for_new_recipes(argv[1], argv[2])
+> +    else:
+> +        print("no such option. choose either 'generate_recipe_list' or 'compare_recipe'")
+> +
+> +    exit(0)
+> +
+> +if __name__ == "__main__":
+> +    try:
+> +        sys.exit(main(sys.argv[1:]))
+> +    except Exception as e:
+> +        print("Exception :", e)
+> +        sys.exit(1)
+> +
+> diff --git a/scripts/distro/distrocompare.sh b/scripts/distro/distrocompare.sh
+> new file mode 100755
+> index 0000000..908760c
+> --- /dev/null
+> +++ b/scripts/distro/distrocompare.sh
+> @@ -0,0 +1,123 @@
+> +#!/usr/bin/env bash
+> +#
+> +# Copyright (c) 2017, Intel Corporation.
+> +# All rights reserved.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program; if not, write to the Free Software
+> +# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+> +#
+> +# distrocompare.sh : provides capability to get a list of new packages
+> +#                    based on two distinct branches. This script takes
+> +#                    2 parameters; either a commit-ish or a branch name
+> +#
+> +#                    To run : distrocompare.sh <older hash> <newer hash>
+> +#                    E.g. distrocompare.sh morty 92aa0e7
+> +#                    E.g. distrocompare.sh morty pyro
+> +#
+> +
+> +# get input as version
+> +previous_version=$1
+> +current_version=$2
+> +
+> +# set previous and current version
+> +if [ -z "$2" ]; then
+> +    previous_version=$1
+> +    current_version="current"
+> +fi
+> +
+> +# get script location. That's where the source supposedly located as well.
+> +scriptdir="$( realpath $(dirname "${BASH_SOURCE[0]}" ))"
+> +sourcedir="$( realpath $scriptdir/../.. )"
+> +
+> +# create working directory
+> +workdir=$(mktemp -d)
+> +
+> +# prepare to rollback to the branch if not similar
+> +branch=`cd $sourcedir; git branch | grep \* | cut -d ' ' -f2`
+> +
+> +# set current workdir to store final result
+> +currentworkdir=`pwd`
+> +
+> +# persists the file after local repo change
+> +cp $scriptdir/build-recipe-list.py $workdir
+> +
+> +#==================================================================
+> +
+> +function bake_distrodata {
+> +    # get to source directory of the git
+> +    cd $sourcedir
+> +
+> +    # change the branch / commit. Do not change if input is current
+> +    if [ "$1" != "current" ]; then
+> +        output=$(git checkout $1 2>&1)
+> +
+> +        # exit if git fails
+> +        if [[ $output == *"error"* ]]; then
+> +            echo "git error : $output"
+> +            echo "exiting ... "
+> +            rm -rf $workdir
+> +            exit
+> +        fi
+> +    fi
+> +
+> +    # make tmp as workdir
+> +    cd $workdir
+> +
+> +    # source oe-init to generate a new build folder
+> +    source $sourcedir/oe-init-build-env $1
+> +
+> +    # if file already exists with distrodata, do not append
+> +    if ! grep -q "distrodata" "conf/local.conf"; then
+> +        # add inherit distrodata to local.conf to enable distrodata feature
+> +        echo 'INHERIT += "distrodata"' >> conf/local.conf
+> +    fi
+> +
+> +    # use from tmp
+> +    $workdir/build-recipe-list.py generate_recipe_list
+> +}
+> +
+> +bake_distrodata $previous_version
+> +bake_distrodata $current_version
+> +
+> +#==================================================================
+> +
+> +cd $workdir
+> +
+> +# compare the 2 generated recipe-list.txt
+> +$workdir/build-recipe-list.py compare_recipe $previous_version $current_version
+> +
+> +# copy final result to current working directory
+> +cp $workdir/*_new_recipe_list.txt $currentworkdir
+> +
+> +if [ $? -ne 0 ]; then
+> +    rm -rf $workdir/$previous_version
+> +    rm -rf $workdir/$current_version
+> +    rm $workdir/build-recipe-list.py
+> +    # preserve the result in /tmp/distrodata if fail to copy the result over
+> +    exit
+> +fi
+> +
+> +# cleanup
+> +rm -rf $workdir
+> +
+> +# perform rollback branch
+> +cd $sourcedir
+> +currentbranch=`git branch | grep \* | cut -d ' ' -f2`
+> +if [ "$currentbranch" != "$branch" ]; then
+> +    git checkout $branch
+> +fi
+> +
+> +cd $currentworkdir
+> +
+> +#==================================================================
+> -- 
+> 2.7.4
+> 
+
+
 
