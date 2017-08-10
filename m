@@ -1,18 +1,21 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A17977E68;
-	Thu, 10 Aug 2017 15:01:10 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 10 Aug 2017 15:01:12 -0000
-Message-ID: <20170810150112.2382.12977@do.openembedded.org>
-References: <20170810143859.17122-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170810143859.17122-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IFVwZ3JhZGUgdG8gMi4yOQ==?=
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0891D781D3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Aug 2017 19:20:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Aug 2017 12:21:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,354,1498546800"; d="scan'208";a="122199892"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2017 12:21:00 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Aug 2017 12:20:55 -0700
+Message-Id: <1502392855-10187-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] e2fsprogs-doc: binary reproducible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +28,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 15:01:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Aug 2017 19:21:04 -0000
 
-== Series Details ==
+When compressing by gzip, do not save the original file name and time stamp.
 
-Series: binutils: Upgrade to 2.29
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8174/
-State : failure
+[YOCTO #11916]
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at df7f5221a5)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../e2fsprogs/e2fsprogs/reproducible-doc.patch      | 21 +++++++++++++++++++++
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch
+
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch
+new file mode 100644
+index 0000000..8e5d1d3
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch
+@@ -0,0 +1,21 @@
++
++Suppport for binary reproducibility.
++When compressing, do not save the original file name and time stamp.
++
++Upstream-Status: Submitted [Theodore Ts'o tytso@mit.edu (maintainer)]
++
++Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
++
++diff --git a/doc/Makefile.in b/doc/Makefile.in
++index 9cb584c..0bee4e4 100644
++--- a/doc/Makefile.in
+++++ b/doc/Makefile.in
++@@ -28,7 +28,7 @@ install-doc-libs: libext2fs.info libext2fs.dvi
++ 		$(INSTALL_DATA) $$i $(DESTDIR)$(infodir)/$$i ; \
++ 	done
++ 	$(E) "	GZIP $(infodir)/libext2fs.info*"
++-	-$(Q) gzip -9 $(DESTDIR)$(infodir)/libext2fs.info*
+++	-$(Q) gzip -9 -n $(DESTDIR)$(infodir)/libext2fs.info*
++ 
++ uninstall-doc-libs:
++ 	$(RM) -rf $(DESTDIR)$(infodir)/libext2fs.info*
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+index 7c8809a..56929c9 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.4.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://acinclude.m4 \
+             file://e2fsprogs-1.43-sysmacros.patch \
+             file://mkdir_p.patch \
+             file://0001-e2fsck-exit-with-exit-status-0-if-no-errors-were-fix.patch \
++            file://reproducible-doc.patch \
+ "
+ 
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
+-- 
+2.7.4
 
 
