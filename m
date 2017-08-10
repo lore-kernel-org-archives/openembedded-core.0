@@ -1,31 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 71E7878187
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DF6A9780E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 10:14:47 +0000 (UTC)
+	Thu, 10 Aug 2017 10:27:06 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga104.jf.intel.com with ESMTP; 10 Aug 2017 03:14:49 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 10 Aug 2017 03:27:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,352,1498546800"; d="scan'208";a="888507383"
+X-IronPort-AV: E=Sophos;i="5.41,352,1498546800"; d="scan'208";a="888510724"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2017 03:14:48 -0700
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Aug 2017 03:27:05 -0700
+To: Carlos Rafael Giani <dv@pseudoterminal.org>,
 	openembedded-core@lists.openembedded.org
-References: <1502107769-16160-1-git-send-email-jussi.kukkonen@intel.com>
-	<41176f6a-807d-f488-7f55-38ee82cc48bf@linux.intel.com>
-	<1502110800.18633.220.camel@linuxfoundation.org>
-	<d6c76558-21f5-c41d-9f47-2677644e4087@linux.intel.com>
-	<b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
+References: <cb7a3cf4-4167-bc42-ab9b-72f67bc996cd@pseudoterminal.org>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <dbc83877-5b7e-fadb-0e0a-e8edb82386a2@linux.intel.com>
-Date: Thu, 10 Aug 2017 13:11:29 +0300
+Message-ID: <1f8d6ec9-bc90-87d9-a774-746d2888d67c@linux.intel.com>
+Date: Thu, 10 Aug 2017 13:23:46 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
-Subject: Re: Meson support in oe-core
+In-Reply-To: <cb7a3cf4-4167-bc42-ab9b-72f67bc996cd@pseudoterminal.org>
+Subject: Re: Stricter fuzz factor when patching?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 10:14:48 -0000
+X-List-Received-Date: Thu, 10 Aug 2017 10:27:07 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 08/10/2017 12:10 AM, Randy MacLeod wrote:
-> Yep, total time for 'without gtk-doc' is *more* than cut in half!
+On 08/10/2017 12:57 PM, Carlos Rafael Giani wrote:
+> I was surprised that Yocto does not use fuzz factor 0 by default. The 
+> case above demonstrates how this can lead to confusing errors. Or worse, 
+> recipes might even build but then cause subtle runtime errors...
 > 
-> The drop in configure time is certainly expected but the compilation
-> stage should be dominated by the compiler rather than make or ninja.
-> The 'without gtk-doc' compile difference mostly confirms that
-> but the 9% drop is odd. A couple of sources I've found assert that
-> for large projects and parallel builds a full build time is essentially
-> the same with ninja:
->     http://david.rothlis.net/ninja-benchmark/
-> That work was done on a MacBook (!!) so it would be interesting to
-> see what the results are on a 24+ core Linux system. I might
-> give that a try tonight if there's nothing good on NetFlix.
+> Is there a reason why the default fuzz factor isn't 0? Is it just 
+> because of the large amount of work required to fix all these patches 
+> that won't apply without a fuzz factor?
 
-To be honest, achieving faster build times is secondary in importance to 
-me. The important part is that autotools is one of the most awful pieces 
-of software ever written, and the less we have to deal with it in Yocto, 
-the happier we all will be. Upstreans generally share that POV.
+You have to ask the author of the patch tool, a certain Larry Wall, why 
+he set the default fuzz to 2. Yocto didn't do this intentionally, it was 
+just never really noticed that the default is like this, and can lead to 
+incorrectly applied patches.
 
-Read this:
-http://blog.nirbheek.in/2016/05/gstreamer-and-meson-new-hope.html
-and this:
-http://voices.canonical.com/jussi.pakkanen/2011/09/13/autotools/
-
-> By the way, systemd-234 has meson support and you (Alex) have sent
-> a patch update to 242 to the oe-core list but without switching to meson
-> as is reasonable. Anyway, 232 takes 51 seconds on my 16+16 core machine
-> so it would be a useful benchmark as well. Want to take a stab at that?
-
-Oe-core master does not yet have any support for meson. We've done some 
-private work to bring it in, but it's not ready for submission yet. I 
-also want to build a few different recipes with it to make sure it 
-'basically works' for several different things.
-
-After meson support is in master, we can start converting recipes from 
-autotools to meson. That requires careful manual work, but the good news 
-is that it can be done piece-meal; there's no need to switch everything 
-at once.
-
-My plan is to try gstreamer next, and after that, implement meson 
-support for gettext. It's a notorious bottleneck in many builds, due to 
-inexplicably slow autoconf (that even RP couldn't get down to the root 
-cause of).
+We have a couple of bugs to fix it, you are welcome to voice your 
+concern there:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+blocked by
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8325
 
 Alex
 
