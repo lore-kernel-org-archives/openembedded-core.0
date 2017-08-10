@@ -1,47 +1,20 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
-	[209.85.214.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 39357780CD
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C1D96006E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 02:19:56 +0000 (UTC)
-Received: by mail-it0-f65.google.com with SMTP id f16so856936itb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Aug 2017 19:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=4HrMnHlWixjOeNfW6PT4FAbcrOSVMm6xbf+B9dtaFZE=;
-	b=haudC6UImzMzjaOolU5NuO/dmp/RRqZWdetB1FN4ky6x4D60xlCcyvAmMZGp1chIvi
-	Urd6UDPVAcDZOSAh4l1hjMH3EbxrJmYblCHGJJqAk4hPR0meXiltydzYu9hZDw7upfHw
-	tP/KQoA/A6DP1EGun6UFc0FGQPK3rIhwOrjFg4K9GkdEptU4XF+4xZup2FRoFsK7OdfU
-	wBvnpODZZOuGKKxGSxRZWscDRZeyyByzdEOYrHldogLSjqz5bn6Wen9YrUz//si7J84O
-	ZGKYnQ2vG/JEwbBFY7OheHbK5BcVHh+c3hirI4mFNfvMzP0poQmoSiLA9i/MyOmhBJ/M
-	flnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4HrMnHlWixjOeNfW6PT4FAbcrOSVMm6xbf+B9dtaFZE=;
-	b=GQQeugFOrNPUwJdtSZLMHGWgAuPZTS2AawcaDFiCvM2PHQLTxzAGfWsNdbtzOCTxPt
-	feumLOOG/CvN9ZohM9gR4J3GCWqXLT54XZCipnbNnXlT936oO8iP8NRTn4p7zrAU299H
-	kUAXHW6Tb99lXzuA/1vi8dG66gtr0lIsatEHDSET30fLg5mMiX8fBPkU8NQApXkn0ZrE
-	XJWyBkA1g6vdm4x4AZkeS+RmKJWTvFUrsXThtjDnhBKr0WtlCw3XP928/jWOd66uP36y
-	PTnDBup7YmQTQTaqUNaD3sDsZC0bYGHcQc43JMpo6p/eq5VulVL9Orq5KuSLCAmGh3MY
-	jU0g==
-X-Gm-Message-State: AHYfb5jJpCyD/8fi4XvEW//xx1N8v9dftSce02SVzbS6fIOTTmhbKGk9
-	GzautpSrfpUO8ex3BQc=
-X-Received: by 10.36.99.69 with SMTP id j66mr9026879itc.100.1502331597300;
-	Wed, 09 Aug 2017 19:19:57 -0700 (PDT)
-Received: from localhost.localdomain ([2605:a601:a83:3700:10fb:b4c1:2c33:798c])
-	by smtp.gmail.com with ESMTPSA id
-	y72sm2522355iod.40.2017.08.09.19.19.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 09 Aug 2017 19:19:56 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Aug 2017 21:18:32 -0500
-Message-Id: <20170810021832.14800-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.13.3
-Subject: [PATCH v4] externalsrc: Handle .git not being a directory
+	Thu, 10 Aug 2017 04:04:05 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 09 Aug 2017 21:04:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,349,1498546800"; d="scan'208";a="117474817"
+Received: from rebeccas.png.intel.com ([172.30.199.118])
+	by orsmga004.jf.intel.com with ESMTP; 09 Aug 2017 21:04:04 -0700
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Aug 2017 12:04:38 +0800
+Message-Id: <1502337878-89084-1-git-send-email-rebecca.swee.fun.chang@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] recipetool: create: disable PREMIRRORS and MIRRORS by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +27,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 02:19:57 -0000
+X-List-Received-Date: Thu, 10 Aug 2017 04:04:06 -0000
 
-Use git rev-parse to determine the location of the .git directory, in
-case it is not an immediate child of EXTERNALSRC (e.g. when using
-submodules). In the event git can't resolve the .git directory, fall
-back to the non-git method for hashing.
+When creating new recipes, we are almost certainly fetching a new
+source rather that something that has already been fetched. I have
+disable PREMIRRORS and MIRRORS settings in the recipe that created
+by devtool while leaving an option for users to enable them manually
+if needed. Since devtool already has this options, we need to ensure
+that recipetool is able to handle the options passed from devtool.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
 ---
- meta/classes/externalsrc.bbclass | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ scripts/lib/recipetool/create.py | 3 ++-
+ scripts/lib/scriptutils.py       | 9 ++++++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 9aabb426d9e..8141f25e041 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -184,11 +184,19 @@ def srctree_hash_files(d, srcdir=None):
-     import tempfile
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 359eb9a..f6ea422 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -446,7 +446,7 @@ def create_recipe(args):
+         srctree = os.path.join(tempsrc, 'source')
  
-     s_dir = srcdir or d.getVar('EXTERNALSRC')
--    git_dir = os.path.join(s_dir, '.git')
--    oe_hash_file = os.path.join(git_dir, 'oe-devtool-tree-sha1')
-+    git_dir = None
-+
-+    try:
-+        # git rev-parse returns the path relative to the current working
-+        # directory
-+        git_dir = os.path.join(s_dir,
-+            subprocess.check_output(['git', 'rev-parse', '--git-dir'], cwd=s_dir).decode("utf-8").rstrip())
-+    except subprocess.CalledProcessError:
-+        pass
+         try:
+-            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp)
++            checksums, ftmpdir = scriptutils.fetch_url(tinfoil, srcuri, srcrev, srctree, logger, preserve_tmp=args.keep_temp, mirrors=args.mirrors)
+         except scriptutils.FetchUrlFailure as e:
+             logger.error(str(e))
+             sys.exit(1)
+@@ -1169,5 +1169,6 @@ def register_commands(subparsers):
+     parser_create.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
+     parser_create.add_argument('--fetch-dev', action="store_true", help='For npm, also fetch devDependencies')
+     parser_create.add_argument('--devtool', action="store_true", help=argparse.SUPPRESS)
++    parser_create.add_argument('--mirrors', action="store_true", help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).')
+     parser_create.set_defaults(func=create_recipe)
  
-     ret = " "
--    if os.path.exists(git_dir):
-+    if git_dir is not None:
-+        oe_hash_file = os.path.join(git_dir, 'oe-devtool-tree-sha1')
-         with tempfile.NamedTemporaryFile(prefix='oe-devtool-index') as tmp_index:
-             # Clone index
-             shutil.copyfile(os.path.join(git_dir, 'index'), tmp_index.name)
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index 9785438..11f1a78 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -102,7 +102,7 @@ class FetchUrlFailure(Exception):
+     def __str__(self):
+         return "Failed to fetch URL %s" % self.url
+ 
+-def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
++def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False, mirrors=False):
+     """
+     Fetch the specified URL using normal do_fetch and do_unpack tasks, i.e.
+     any dependencies that need to be satisfied in order to support the fetch
+@@ -150,6 +150,13 @@ def fetch_url(tinfoil, srcuri, srcrev, destdir, logger, preserve_tmp=False):
+                 f.write('WORKDIR = "%s"\n' % tmpworkdir)
+                 # Set S out of the way so it doesn't get created under the workdir
+                 f.write('S = "%s"\n' % os.path.join(tmpdir, 'emptysrc'))
++                if not mirrors:
++                    # We do not need PREMIRRORS since we are almost certainly
++                    # fetching new source rather than something that has already
++                    # been fetched. Hence, we disable them by default.
++                    # However, we provide an option for users to enable it.
++                    f.write('PREMIRRORS = ""\n')
++                    f.write('MIRRORS = ""\n')
+ 
+             logger.info('Fetching %s...' % srcuri)
+ 
 -- 
-2.13.3
+2.7.4
 
 
