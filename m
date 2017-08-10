@@ -1,31 +1,45 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EC2E66FFD8
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F2FB7780A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Aug 2017 20:34:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7AKYoaD025921
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 10 Aug 2017 13:34:50 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 10 Aug 2017 13:34:49 -0700
-To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
-References: <f05e1212a87f739cf27fe9a6c32f45ef92a6fdab.1501250341.git-series.patrick.ohly@intel.com>
-	<CAMKF1sq98x8jpV_A0Fz2doMO25Cii9v4Ez178ex4uUoPqnnB8A@mail.gmail.com>
-	<CA+chaQetLEuL79Utj_C+e7yQpg9Hw1ZhVQsOdCEeLZNziAzMqQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <04c5a375-93ee-7f32-4f91-a4dc3f7c9b1c@windriver.com>
-Date: Thu, 10 Aug 2017 15:34:48 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
+	Thu, 10 Aug 2017 20:37:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Aug 2017 13:36:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,354,1498546800"; d="scan'208";a="1161402570"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2017 13:36:46 -0700
+Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
+	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Thu, 10 Aug 2017 13:36:45 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.170]) by
+	ORSMSX163.amr.corp.intel.com ([169.254.9.158]) with mapi id
+	14.03.0319.002; Thu, 10 Aug 2017 13:36:45 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH v3 07/11] image_types.bbclass: improve cpio
+	image reproducibility
+Thread-Index: AQHTETfNezyyTe07D0a7mibHNN2fmKJ8x3WAgAEzssCAAIAkAP//kLTg
+Date: Thu, 10 Aug 2017 20:36:44 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6119E129E@ORSMSX112.amr.corp.intel.com>
+References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
+	<1502300913-40295-8-git-send-email-juro.bystricky@intel.com>
+	<CAJ86T=Ud6Yh6m6+=n6DNaOm06fU+fc0L6ZhAoA32dDNSpTfWxg@mail.gmail.com>
+	<6E51916E4A1F32428260031F4C7CD2B6119E1224@ORSMSX112.amr.corp.intel.com>
+	<CAJ86T=WNn=gYeqUmODRxWOit_j9CGKj12Vy+xPvfzpifepL_ow@mail.gmail.com>
+In-Reply-To: <CAJ86T=WNn=gYeqUmODRxWOit_j9CGKj12Vy+xPvfzpifepL_ow@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.102.7
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQetLEuL79Utj_C+e7yQpg9Hw1ZhVQsOdCEeLZNziAzMqQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autoconf-archive: move from meta-oe to OE-core
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 07/11] image_types.bbclass: improve cpio image reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,144 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 20:34:51 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 10 Aug 2017 20:37:03 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 8/10/17 3:18 PM, Martin Jansa wrote:
-> -2
-
-I agree that autoconf-archive should be in oe-core.  But...
-
-> LBTM
-> 
-> 
-> If gnome-common should depend on TUNE_PKGARCH autoconf-archive, then it cannot inherit allarch anymore, see:
-> 
-> 
-> ERROR: gnome-common different signature for task do_package_write_ipk.sigdata between qemux86copy and qemuarm
-> runtaskdeps changed:
-> autoconf-archive/autoconf-archive_2016.09.16.bb.do_packagedata with hash e26a8076711b7e88a3ffcda74a9e5332
->  changed to
-> autoconf-archive/autoconf-archive_2016.09.16.bb.do_packagedata with hash ee3f5138593bed3feb8519cf3c26aa7b
-> Hash for dependent task autoconf-archive/autoconf-archive_2016.09.16.bb.do_packagedata changed from e26a8076711b7e88a3ffcda74a9e5332 to ee3f5138593bed3feb8519cf3c26aa7b
-> 
-
-There should not be an architectural difference.  There is no reason it
-shouldn't be allarch.  Part of the reason we really need to move it into oe-core
-is that currently different BSPs may implement it differently making the
-'allarch' even MORE complicated.
-
---Mark
-
-> 
-> On Fri, Jul 28, 2017 at 6:45 PM, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
-> 
->     On Fri, Jul 28, 2017 at 7:01 AM, Patrick Ohly <patrick.ohly@intel.com
->     <mailto:patrick.ohly@intel.com>> wrote:
->     > Having common macros in OE-core that are needed by autotools based
->     > projects makes sense. For example, tpm2.0-tools in meta-measured
->     > depended on meta-oe only because of autoconf-archive.
->     >
->     > This is a verbatim copy of the autoconf-archive recipe in
->     > meta-openembedded rev 1cbd1bc1, with just one change: the patch which
->     > disabled the installation of ax_code_coverage.m4 and
->     > ax_check_enable_debug.m4 was removed.
->     >
->     > So now autoconf-archive in OE-core provides them. gnome-common in
->     > meta-oe will be changed to not install them and instead depend on
->     > autoconf-archive.
-> 
->     +1
->     LGTM
-> 
->     >
->     > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com
->     <mailto:patrick.ohly@intel.com>>
->     > ---
->     >  meta/recipes-devtools/autoconf-archive/autoconf-archive.inc           |
->     15 +++++++++++++++
->     >  meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
->     <http://autoconf-archive_2016.09.16.bb> | 13 +++++++++++++
->     >  2 files changed, 28 insertions(+)
->     >  create mode 100644
->     meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
->     >  create mode 100644
->     meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
->     <http://autoconf-archive_2016.09.16.bb>
->     >
->     > diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
->     b/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
->     > new file mode 100644
->     > index 0000000..9684d1f
->     > --- /dev/null
->     > +++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive.inc
->     > @@ -0,0 +1,15 @@
->     > +LICENSE = "GPLv3"
->     > +HOMEPAGE = "http://www.gnu.org/software/autoconf-archive/
->     <http://www.gnu.org/software/autoconf-archive/>"
->     > +SECTION = "devel"
->     > +
->     > +DEPENDS += "m4-native"
->     > +DEPENDS_class-native = "m4-native gnu-config-native"
->     > +DEPENDS_class-nativesdk = "m4-nativesdk gnu-config-nativesdk"
->     > +
->     > +RDEPENDS_${PN} = "m4 gnu-config gnome-common"
->     > +RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
->     > +RDEPENDS_${PN}_class-nativesdk = "m4-nativesdk gnu-config-nativesdk"
->     > +
->     > +SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
->     > +
->     > +inherit autotools
->     > diff --git
->     a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
->     <http://autoconf-archive_2016.09.16.bb>
->     b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
->     <http://autoconf-archive_2016.09.16.bb>
->     > new file mode 100644
->     > index 0000000..0a1a771
->     > --- /dev/null
->     > +++
->     b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2016.09.16.bb
->     <http://autoconf-archive_2016.09.16.bb>
->     > @@ -0,0 +1,13 @@
->     > +require autoconf-archive.inc
->     > +
->     > +
->     > +PARALLEL_MAKE = ""
->     > +
->     > +LICENSE = "GPLv2 & GPLv3"
->     > +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->     > +
->     > +SRC_URI[md5sum] = "bf19d4cddce260b3c3e1d51d42509071"
->     > +SRC_URI[sha256sum] =
->     "e8f2efd235f842bad2f6938bf4a72240a5e5fcd248e8444335e63beb60fabd82"
->     > +
->     > +EXTRA_OECONF += "ac_cv_path_M4=m4"
->     > +BBCLASSEXTEND = "native nativesdk"
->     >
->     > base-commit: d3a41fbd94462efc8c6f1b55f6fb54001b447c45
->     > --
->     > git-series 0.9.1
->     > --
->     > _______________________________________________
->     > Openembedded-core mailing list
->     > Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
-> 
-> 
-> 
-> 
-
+PiA+PiBJcyBpdCB1c2VmdWwgdG8ga2VlcCB0aGUgb3B0aW9uIHVzaW5nIGNwaW8gZnJvbSB0aGUg
+aG9zdD8gV2h5IG5vdA0KPiA+PiBhbHdheXMgdXNlIGNwaW8tbmF0aXZlPw0KPiA+DQo+ID4gSSBn
+dWVzcyBpdCBpcyBhIGp1ZGdlbWVudCBjYWxsIHdoaWNoIHRvb2xzIHRvIGJ1aWxkIGFuZCB3aGlj
+aCB0b29scyB0bw0KPiB1c2UgZnJvbSB0aGUgaG9zdC4gTm90IGJ1aWxkaW5nIHRvb2xzIHdoaWNo
+IGFyZSBndWFyYW50ZWVkIHRvIGJlIG9uIHRoZQ0KPiBob3N0IHNhdmVzIGJ1aWxkIHRpbWUuDQo+
+IA0KPiBJIGd1ZXNzIGJ1aWxkIHRpbWUgZm9yIGNwaW8tbmF0aXZlIHdpbGwgYmUgc29tZXdoZXJl
+IGluIHRoZSBub2lzZSBmb3INCj4gYSB0eXBpY2FsIGJ1aWxkLiBBdm9pZGluZyB0aGUgZXh0cmEg
+Y29tcGxleGl0eSAoY29kZSArIHRlc3QgYW5kIFFBKSBvZg0KPiBtYWludGFpbmluZyBzdXBwb3J0
+IGZvciBib3RoIGNwaW8gZnJvbSB0aGUgaG9zdCBhbmQgY3Bpby1uYXRpdmUgd291bGQNCj4gc2Vl
+bSB0byBiZSBmYXIgbW9yZSBvZiBhbiBpc3N1ZS4gVGhlcmUncyBubyBndWFyYW50ZWUgdGhhdCBj
+cGlvIGlzDQo+IGF2YWlsYWJsZSBvbiB0aGUgaG9zdCAoaXQgY3VycmVudGx5IG5lZWRzIHRvIGJl
+IGluc3RhbGxlZCBtYW51YWxseSBpZg0KPiBidWlsZGluZyB3aXRoaW4gdGhlIHVidW50dToxNi4w
+NCBkb2NrZXIgaW1hZ2UsIGZvciBleGFtcGxlKS4NCj4gDQoNCkxvb2tpbmcgYXQgdGhlIEhPU1RU
+T09MUyBpbiBwb2t5L21ldGEvY29uZi9iaXRiYWtlLmNvbmYgSSBzZWUgImNwaW8iIGlzIGxpc3Rl
+ZCBhbW9uZyByZXF1aXJlZCB0b29scy4gU28gYXQgbGVhc3QgZm9yICJwb2t5IiBhIG1pc3Npbmcg
+Y3BpbyB3b3VsZC9zaG91bGQgZ2VuZXJhdGUgYW4gZXJyb3IuDQoNCj4gPiBBbHNvLCB0aGUgbmVl
+ZCBmb3IgY3Bpby1uYXRpdmUgd2l0aCB0aGUgcmVwcm9kdWNpYmxlIG9wdGlvbnMgaXQgaXMgZ29p
+bmcNCj4gdG8gYmUgZmFpcmx5IHJhcmUuDQo+IA0KPiBJJ20gbm90IHN1cmUgSSBhZ3JlZSB0aGF0
+IHdhbnRpbmcgcmVwcm9kdWNpYmxlIGJ1aWxkcyBpcyBhIHJhcmUNCj4gcmVxdWlyZW1lbnQgYnV0
+IGlmIGl0IGlzIHRoZW4gaXNuJ3QgZWxpbWluYXRpbmcgYSByYXJlbHkgdXNlZCBjb2RlDQo+IHBh
+dGggYW4gYXJndW1lbnQgKmluIGZhdm91ciBvZiogc3dpdGNoaW5nIHRvIGEgc2luZ2xlIHNvbHV0
+aW9uIHdoaWNoDQo+IHN1cHBvcnRzIGJvdGggY2FzZXM/DQoNCkFncmVlZC4gSSBkb24ndCBoYXZl
+IGEgcHJvYmxlbSB3aXRoIGRlZmF1bHRpbmcgdG8gY3Bpby1uYXRpdmUsDQppdCB3b3VsZCBzb2x2
+ZSBhIGZldyBwcm9ibGVtcyBhcyB3ZWxsLCBidXQgSSB0aGluayBzb21lIGtpbmQgb2YgY29uc2Vu
+c3VzIGlzIG5lZWRlZCBmaXJzdC4NCg0K
 
