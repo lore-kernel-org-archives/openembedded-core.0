@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DBB8578579;
-	Fri, 11 Aug 2017 22:31:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C1AAF785E0;
+	Fri, 11 Aug 2017 22:31:19 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Date: Fri, 11 Aug 2017 22:31:20 -0000
-Message-ID: <20170811223120.2379.451@do.openembedded.org>
-References: <1502490013-14008-1-git-send-email-hello@oleksandr-kravchuk.com>
+Date: Fri, 11 Aug 2017 22:31:21 -0000
+Message-ID: <20170811223121.2380.73041@do.openembedded.org>
+References: <1502490154-14268-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1502490013-14008-1-git-send-email-hello@oleksandr-kravchuk.com>
+In-Reply-To: <1502490154-14268-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3VybDogdXBncmFkZSB0byA3LjU0LjAgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3VybDogdXBncmFkZSB0byA3LjU0LjAgKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,8 +31,8 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: curl: upgrade to 7.54.0 (rev2)
-Revision: 2
+Series: curl: upgrade to 7.54.0 (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/6459/
 State : failure
 
@@ -49,9 +49,9 @@ series by patchtest resulting in the following failures:
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at df7f5221a5)
 
-* Patch            [meta-oe,v2] curl: upgrade to 7.54.0
+* Patch            [meta-oe,v3] curl: upgrade to 7.54.0
  Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe,v2) and send the patch to the indicated list
+  Suggested fix    Check the project's README (meta-oe,v3) and send the patch to the indicated list
 
 
 
