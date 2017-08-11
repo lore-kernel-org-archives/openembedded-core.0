@@ -1,28 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE62B77FEC
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5318D785D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 15:05:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7BF5qTv018847
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 11 Aug 2017 08:05:52 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 11 Aug 2017 08:05:51 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1502435796-16094-1-git-send-email-richard.purdie@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <a5646b3f-23fb-8567-024f-b48df5abd70a@windriver.com>
-Date: Fri, 11 Aug 2017 10:05:51 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1502435796-16094-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] image-prelink: Disable for musl images
+	Fri, 11 Aug 2017 15:35:32 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Aug 2017 08:35:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,358,1498546800"; d="scan'208";a="299051660"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by fmsmga004.fm.intel.com with ESMTP; 11 Aug 2017 08:35:33 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Aug 2017 18:35:23 +0300
+Message-Id: <cover.1502465021.git.markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH v2 0/7] Support signed RPM package feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,43 +28,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 15:05:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Aug 2017 15:35:33 -0000
 
-On 8/11/17 2:16 AM, Richard Purdie wrote:
-> For some reason prelink was refusing to prelink musl images but now sometimes
-> does modify the binaries. Since musl has no support for this, such images
-> end up broken and unable to boot.
-> 
-> To avoid this, be explicit and only apply prelinking for libc-glibc.
-> 
-> [YOCTO #11913]
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Second try of re-enabling signed rpm package feeds.
 
-Ack.  Agreed, best solution.  (If anyone wants to update musl to support the
-prelinker, I'd love to see it.. but I don't expect that to happen.)
+Changes since v1:
+- enabling sign_package_feed.bbclass now causes the pubkey of the signing key
+  to be installed in the image
+- enabling sign_package_feed.bbclass automatically enables repo_gpgcheck (i.e.
+  gpg signature check of the repo metadata) in rpm repositories added via
+  PACKAGE_FEED_URIS
+- dnf package feed selftest adjusted to the changes above
 
---Mark
 
-> ---
->  meta/classes/image-prelink.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-> index 4157df0..6fcd699 100644
-> --- a/meta/classes/image-prelink.bbclass
-> +++ b/meta/classes/image-prelink.bbclass
-> @@ -1,6 +1,6 @@
->  do_rootfs[depends] += "prelink-native:do_populate_sysroot"
->  
-> -IMAGE_PREPROCESS_COMMAND += "prelink_setup; prelink_image; "
-> +IMAGE_PREPROCESS_COMMAND_append_libc-glibc = " prelink_setup; prelink_image; "
->  
->  python prelink_setup () {
->      oe.utils.write_ld_so_conf(d)
-> 
+The following changes since commit df7f5221a56118da7654476f072c37ae1e75dc50:
+
+  libinput: Upgrade 1.7.3 -> 1.8.1 (2017-08-09 09:25:47 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-11209
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-11209
+
+Markus Lehtonen (7):
+  lib/oe/package_manager: re-implement rpm feed signing
+  dnf: rrecommend gnupg
+  sign_package_feed.bbclass: install signing key into rootfs
+  package_manager.py: enable dnf's repo_gpgcheck if feed signing is
+    enabled
+  oeqa: fix dnf tests
+  oeqa: fix temp file handling in dnf package feed test
+  dnf: expand dnf selftest to test signed package feeds
+
+ meta-selftest/files/signing/key.passphrase         |  1 +
+ .../cases/{dnf-runtime.py => dnf_runtime.py}       | 12 +++++++----
+ meta/classes/sign_package_feed.bbclass             |  3 +++
+ meta/lib/oe/package_manager.py                     | 24 +++++++++++++++++++---
+ meta/lib/oeqa/selftest/cases/runtime_test.py       | 14 +++++++++++--
+ meta/recipes-devtools/dnf/dnf_2.5.1.bb             |  2 ++
+ 6 files changed, 47 insertions(+), 9 deletions(-)
+ create mode 100644 meta-selftest/files/signing/key.passphrase
+ rename meta-selftest/lib/oeqa/runtime/cases/{dnf-runtime.py => dnf_runtime.py} (80%)
+
+-- 
+2.12.3
 
 
