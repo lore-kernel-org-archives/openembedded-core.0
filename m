@@ -1,27 +1,24 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 858477825B
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 88C976E5FC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 07:16:42 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7B7GfmT032007
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 11 Aug 2017 08:16:42 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dg4BV-0004CH-5t; Fri, 11 Aug 2017 08:16:41 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 08:16:36 +0100
-Message-Id: <1502435796-16094-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 11 Aug 2017 08:16:42 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] image-prelink: Disable for musl images
+	Fri, 11 Aug 2017 07:38:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7B7cxZC001436
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Aug 2017 00:38:59 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 11 Aug 2017 00:38:58 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Aug 2017 03:38:56 -0400
+Message-ID: <cover.1502436943.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH V3 0/1] ltp: upgrade to upstream latest commit on 20170804
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 07:16:43 -0000
+X-List-Received-Date: Fri, 11 Aug 2017 07:38:58 -0000
+Content-Type: text/plain
 
-For some reason prelink was refusing to prelink musl images but now sometimes
-does modify the binaries. Since musl has no support for this, such images
-end up broken and unable to boot.
+The following changes since commit 5e4bd86130866d4a92fa7b0fa6d3628126dfdf91:
 
-To avoid this, be explicit and only apply prelinking for libc-glibc.
+  libinput: Upgrade 1.7.3 -> 1.8.1 (2017-08-09 09:38:25 +0100)
 
-[YOCTO #11913]
+are available in the git repository at:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/image-prelink.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  https://github.com/DengkeDu/openembedded-core.git dengke/ltp-fix-PAGE_SIZE
+  https://github.com//tree/dengke/ltp-fix-PAGE_SIZE
 
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelink.bbclass
-index 4157df0..6fcd699 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -1,6 +1,6 @@
- do_rootfs[depends] += "prelink-native:do_populate_sysroot"
- 
--IMAGE_PREPROCESS_COMMAND += "prelink_setup; prelink_image; "
-+IMAGE_PREPROCESS_COMMAND_append_libc-glibc = " prelink_setup; prelink_image; "
- 
- python prelink_setup () {
-     oe.utils.write_ld_so_conf(d)
+Dengke Du (1):
+  ltp: upgrade to upstream latest commit on 20170804
+
+ .../ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch   |  34 ------
+ ...TH_MAX-undeclared-when-building-with-musl.patch |  31 -----
+ ...faccessat-and-fchmodat-Fix-build-warnings.patch |  68 -----------
+ ...E_SIZE-redefinition-and-O_CREAT-undeclear.patch | 113 +++++++++++++++++
+ ...d_key02-update-to-test-fix-for-nonempty-N.patch | 136 ---------------------
+ meta/recipes-extended/ltp/ltp_20170516.bb          |  18 +--
+ 6 files changed, 115 insertions(+), 285 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-dirtyc0w-Include-stdint.h.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0006-fix-PATH_MAX-undeclared-when-building-with-musl.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0037-faccessat-and-fchmodat-Fix-build-warnings.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0037-ltp-fix-PAGE_SIZE-redefinition-and-O_CREAT-undeclear.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0038-syscalls-add_key02-update-to-test-fix-for-nonempty-N.patch
+
 -- 
-2.7.4
+2.8.1
 
 
