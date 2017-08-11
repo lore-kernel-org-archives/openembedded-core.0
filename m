@@ -1,49 +1,49 @@
 Return-Path: <oleksandr.kravchuk@pelagicore.com>
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E1B05785E7
+Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CF3E178569
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 22:18:33 +0000 (UTC)
-Received: by mail-lf0-f42.google.com with SMTP id y15so21301939lfd.5
+	Fri, 11 Aug 2017 22:20:26 +0000 (UTC)
+Received: by mail-lf0-f46.google.com with SMTP id d17so21481569lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 15:18:35 -0700 (PDT)
+	Fri, 11 Aug 2017 15:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
 	bh=0uyYcFIg7aNAoTWUB2FyGYI/A9lE4vyOeyYARK2SXdU=;
-	b=01kkqJL85mLNKgE0FvPj2IRaEPRa0+wt48Suv0FJhGihFlGxNP5uMU1X2A07FQsGlU
-	ziLUNwN4z3K8rdlW8bati9JhA6iW3dLhIxqRcJR2W0PQlNYs55dney8FXQchMZUi9tBo
-	4xfq1koJwUr3D/z6rkkTQW+F+jDw0ilVveFzb9gZKaYvmXikV8ry12WZT7ivK7OJoinJ
-	jTnEwxtDr0vkgTBk8hVGy0wCUOleBi8UEQ5KI1BQ+PuK5ojsFGiEL+fNgFaGKpjtXp4n
-	ajSzkTifKjgYuNTAG3rvlvIg35BtTCMzc90/D0oDKGm2A1EKxxpjxW88MZT7VXl7zQYc
-	zg6w==
+	b=cURBtn4yIWrOf6IbAWarOrtVgNL9/KOceWN31MAWOfasebXJjAtxvEarrc4cwERVSZ
+	VvGsLSMy1YwTtaVvc7aisu1KEIg9vIoE+qw0eVkWZmnMz3D+7uRbgtUfhel7S8OF3phr
+	asn0/Ioo76k5G5r5BTREm+rM1BLKN5Yv6l/flAS0MDo5hHaVKbPg/vvGsLwByDmSignS
+	zA/f5pID6P7NEUrW9iHUlSryYXUZIY6ZT8lw2I9ly3nZK+TBI45071rmJq3Os6aYoyr4
+	N6YYzuBeA3COcBL8bmnhvCe8ZWApSKgOVwggwM+bwx2FvQvVVzwMLN4vKUVU7FwRTEbH
+	ZvgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=0uyYcFIg7aNAoTWUB2FyGYI/A9lE4vyOeyYARK2SXdU=;
-	b=RURPQBCS96Sg8ntcZQh62AS3ZUUMbssXtzEuqYSG3FX8W2Mb+uTHKbT8/d8Vt1K7sy
-	wnfq6+vo0mStz1iT4GCmEKHBIoeYa9GhC5LgeiFXllRyWO5hZ+mOH/KvvHnUOJue+O+6
-	zk2POQrllOewJI1ozu9Po80q1CIaOQVasDDSh9YChiGZVlTmZzweFYT3ZCKc2v+aVx7/
-	dFcNwv16FyhgDZY5mxAB5Gsh978qfFvjiTAUWmj5MDLjxMECTPDs8832h+4FPsFTKDbn
-	SrJ7zDCr4Mi+LofzeHXsGtYt7+zPFIDdwW7cJ61rtk/qQX8I0a1HuacjPNvhr/+l91rx
-	beNw==
-X-Gm-Message-State: AHYfb5hure1u1nMJtTCeURPNl5JbMXS1iEO4jOuzwu0NCjtbtsBa6xp8
-	0bBvZwZpcwiDE468Mvo=
-X-Received: by 10.25.24.105 with SMTP id o102mr6349389lfi.249.1502489913799;
-	Fri, 11 Aug 2017 15:18:33 -0700 (PDT)
+	b=q4qvYvFkb9PPEukv5a8D+kUldcbsbg3ppzG7V7pp/PTiSsC2Wy06Tbm3F3XsQKd9Qx
+	7fj6+Mo5vKJSp9iF9azLdI3nWqCT0u4y/SgKuYOJM+SIgHcdRAxa85fAgLJ1DK2gaWqS
+	PAtB56oOKKVZayYMuSgqaMxlyDFy+s3ToTRkzcVSwZO4j4+inHatxUpatO53RpgL2h7j
+	x0YeWzrREJZQCz6POKhbw/4tEpO3HR+fansPWbsJuxEmV8bN7XF5U+MFGQ0mXnczEp+A
+	ib7X7YhaWIKoDii1gQNKY2JOW8UPJoUbf5aH1uDVSZbKPLTVb2jra86cgXweZlPNgJkG
+	SnzQ==
+X-Gm-Message-State: AHYfb5g/7ke4dNoiqeQtSlwgXbn7l+f4yALBAL2/AYLmYdOdQzM9bu/x
+	uVyRfB5vYTxqX8mm02I=
+X-Received: by 10.46.64.79 with SMTP id n76mr5913469lja.108.1502490027220;
+	Fri, 11 Aug 2017 15:20:27 -0700 (PDT)
 Received: from ubuntu.lan (c-7569e055.018-216-6762674.cust.bredbandsbolaget.se.
 	[85.224.105.117])
-	by smtp.gmail.com with ESMTPSA id 6sm265290lju.0.2017.08.11.15.18.32
+	by smtp.gmail.com with ESMTPSA id h63sm276560lji.54.2017.08.11.15.20.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 11 Aug 2017 15:18:33 -0700 (PDT)
+	Fri, 11 Aug 2017 15:20:26 -0700 (PDT)
 From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 X-Google-Original-From: Oleksandr Kravchuk <hello@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Aug 2017 00:18:09 +0200
-Message-Id: <1502489889-13867-1-git-send-email-hello@oleksandr-kravchuk.com>
+Date: Sat, 12 Aug 2017 00:20:13 +0200
+Message-Id: <1502490013-14008-1-git-send-email-hello@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.7.4
 Cc: Oleksandr Kravchuk <hello@oleksandr-kravchuk.com>
-Subject: [meta-oe][PATCH] curl: upgradeto 7.54.0
+Subject: [meta-oe][PATCH v2] curl: upgrade to 7.54.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 22:18:34 -0000
+X-List-Received-Date: Fri, 11 Aug 2017 22:20:28 -0000
 
 Signed-off-by: Oleksandr Kravchuk <hello@oleksandr-kravchuk.com>
 ---
