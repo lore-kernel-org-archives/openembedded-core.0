@@ -1,23 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BDF747825F
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C119F77FEC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 11:35:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Aug 2017 04:35:12 -0700
+	Fri, 11 Aug 2017 12:54:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Aug 2017 05:54:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,357,1498546800"; d="scan'208";a="1204605684"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Aug 2017 04:35:11 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 14:31:51 +0300
-Message-Id: <20170811113151.26660-2-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.13.2
-In-Reply-To: <20170811113151.26660-1-alexander.kanavin@linux.intel.com>
-References: <20170811113151.26660-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/2] libpfm4: remove the recipe
+X-IronPort-AV: E=Sophos;i="5.41,357,1498546800"; d="scan'208";a="888991357"
+Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.35])
+	([10.237.66.35])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2017 05:54:58 -0700
+User-Agent: Microsoft-MacOutlook/f.20.0.170309
+Date: Fri, 11 Aug 2017 15:54:57 +0300
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <CF633D0C-02ED-4F5C-8679-853DC36C489B@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 5/5] dnf: expand dnf selftest to test signed
+	package feeds
+References: <cover.1502447434.git.markus.lehtonen@linux.intel.com>
+	<4eb7062b1b49a2e67dd84a274e371234021b3ce5.1502447434.git.markus.lehtonen@linux.intel.com>
+	<d453fbc1-1ba3-1bca-71a7-74abb7f0a63c@linux.intel.com>
+In-Reply-To: <d453fbc1-1ba3-1bca-71a7-74abb7f0a63c@linux.intel.com>
+Mime-version: 1.0
+Subject: Re: [PATCH 5/5] dnf: expand dnf selftest to test signed package feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,141 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 11:35:10 -0000
+X-List-Received-Date: Fri, 11 Aug 2017 12:54:58 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
-It was required only by oprofile.
+On 11/08/2017, 14.11, "Alexander Kanavin" <alexander.kanavin@linux.intel.com> wrote:
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- ...Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch | 31 ------------------
- .../files/fix-misleading-indentation-error.patch   | 38 ----------------------
- meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb        | 33 -------------------
- 3 files changed, 102 deletions(-)
- delete mode 100644 meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
- delete mode 100644 meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
- delete mode 100644 meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+    On 08/11/2017 01:51 PM, Markus Lehtonen wrote:
+    > --- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+    > +++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+    > @@ -31,12 +31,24 @@ class DnfSelftest(DnfTest):
+    >           temp_file = os.path.join(self.temp_dir.name, 'tmp.repo')
+    >           self.tc.target.copyFrom("/etc/yum.repos.d/oe-remote-repo.repo", temp_file)
+    >           fixed_config = open(temp_file, "r").read().replace("bogus_ip", self.tc.target.server_ip).replace("bogus_port", str(self.repo_server.port))
+    > +        fixed_config += 'repo_gpgcheck=1\n'
+    >           with open(temp_file, "w") as f:
+    >               f.write(fixed_config)
+    >           self.tc.target.copyTo(temp_file, "/etc/yum.repos.d/oe-remote-repo.repo")
+    >   
+    > +        # First try should fail as the gpg pubkey is not available for dnf
+    >           import re
+    >           output_makecache = self.dnf('makecache')
+    > +        self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is not None, msg = "dnf makecache should have failed: %s" %(output_makecache))
+    > +
+    > +        # Add public key to dnf config -> now we should succeed
+    > +        fixed_config += 'gpgkey=file:///etc/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s\n' % self.tc.td['DISTRO_VERSION']
+    > +        with open(temp_file, "w") as f:
+    > +            f.write(fixed_config)
+    > +        self.tc.target.copyTo(temp_file, "/etc/yum.repos.d/oe-remote-repo.repo")
+    > +
+    > +        output_makecache = self.dnf('-y makecache')
+    > +        self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is None, msg = "dnf makecache failed to synchronize repo: %s" %(output_makecache))
+    >           self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
+    >   
+    >           output_repoinfo = self.dnf('repoinfo')
+    
+    Wait a moment. If feed signing is enabled, then dnf's "repo_gpgcheck", 
+    and "gpgkey" settings should be configured and working by default. You 
+    shouldn't fix them after the fact in the test. Please add the necessary 
+    code to insert_feeds_uris() in package_manager.py.
+    
+Do you think it's a safe assumption that all repos configured via PACKAGE_FEED_URIS are signed and with the same key?
 
-diff --git a/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch b/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
-deleted file mode 100644
-index d59a7f7d88c..00000000000
---- a/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 272a8a069a8f5f06a1e5dfa0ef12f5f92984728b Mon Sep 17 00:00:00 2001
--From: Noor <noor_ahsan@mentor.com>
--Date: Wed, 12 Aug 2015 20:54:00 +0500
--Subject: [PATCH] Makefile: Add LDFLAGS variable to SLDFLAGS.
--
--* Add LDFLAGS variable to SLDFLAGS so that extra linker
--  flags can be sent via this variable.
--
--Upstream-Status: Submitted [perfmon2-libpfm4-commits@lists.sourceforge.net]
--
--Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-----
-- lib/Makefile |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/Makefile b/lib/Makefile
--index 1cc8765..4bd92ef 100644
----- a/lib/Makefile
--+++ b/lib/Makefile
--@@ -187,7 +187,7 @@ CFLAGS += -DCONFIG_PFMLIB_CELL
-- endif
-- 
-- ifeq ($(SYS),Linux)
---SLDFLAGS=-shared -Wl,-soname -Wl,$(VLIBPFM)
--+SLDFLAGS=$(LDFLAGS) -shared -Wl,-soname -Wl,$(VLIBPFM)
-- SLIBPFM=libpfm.so.$(VERSION).$(REVISION).$(AGE)
-- VLIBPFM=libpfm.so.$(VERSION)
-- SOLIBEXT=so
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch b/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
-deleted file mode 100644
-index 25d47ef1255..00000000000
---- a/meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--Upstream-Status: Pending
--
--Fix compile error:
--
--| syst_count.c:346:3: error: this 'for' clause does not guard... [-Werror=misleading-indentation] 
--|    for(c=cmin ; c < cmax; c++) 
--|       ^~~ 
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
-----
--diff --git a/perf_examples/syst_count.c b/perf_examples/syst_count.c
--index 0d53078..2dfb9b9 100644
----- a/perf_examples/syst_count.c
--+++ b/perf_examples/syst_count.c
--@@ -343,8 +343,9 @@ measure(void)
-- 
-- 		for (delay = 1 ; delay <= options.delay; delay++) {
-- 
---		for(c=cmin ; c < cmax; c++)
---			start_cpu(c);
--+			for(c=cmin ; c < cmax; c++) {
--+				start_cpu(c);
--+			}
-- 
-- 			if (0) {
-- 				tv.tv_sec = 0;
--@@ -353,8 +354,9 @@ measure(void)
-- 			} else
-- 				sleep(1);
-- 
---		for(c=cmin ; c < cmax; c++)
---			stop_cpu(c);
--+			for(c=cmin ; c < cmax; c++) {
--+				stop_cpu(c);
--+			}
-- 
-- 			for(c = cmin; c < cmax; c++) {
-- 				printf("# %'ds -----\n", delay);
-diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-deleted file mode 100644
-index 4136eac81f7..00000000000
---- a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-+++ /dev/null
-@@ -1,33 +0,0 @@
--SUMMARY = "Monitoring tools exploiting the performance monitoring events"
--DESCRIPTION = "This package provides a library, called libpfm4 which is used to develop \
--monitoring tools exploiting the performance monitoring events such as those \
--provided by the Performance Monitoring Unit (PMU) of modern processors."
--HOMEPAGE = "http://perfmon2.sourceforge.net/"
--BUGTRACKER = "http://sourceforge.net/tracker/?group_id=144822&atid=759953&source=navbar"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0de488f3bd4424e308e2e399cb99c788"
--
--SECTION = "devel"
--
--COMPATIBLE_HOST = "powerpc64"
--
--SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz \
--           file://0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch \
--           file://fix-misleading-indentation-error.patch \
--          "
--
--SRC_URI[md5sum] = "5077b9022440e4951d96f2d0e73bd487"
--SRC_URI[sha256sum] = "5ab1e5b0472550f9037a8800834f6bc3b927690070f69fac0b67284b4b05fd5f"
--
--UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/perfmon2/files/libpfm4/"
--
--EXTRA_OEMAKE = "DESTDIR=\"${D}\" PREFIX=\"${prefix}\" LIBDIR=\"${libdir}\" LDCONFIG=\"true\""
--EXTRA_OEMAKE_append_powerpc = " ARCH=\"powerpc\""
--EXTRA_OEMAKE_append_powerpc64 = " ARCH=\"powerpc\" BITMODE=\"64\""
--
--S = "${WORKDIR}/libpfm-${PV}"
--
--do_install () {
--	oe_runmake install
--}
--- 
-2.13.2
+Thanks,
+   Markus
+ 
+
 
 
