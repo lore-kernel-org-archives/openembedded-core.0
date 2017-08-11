@@ -1,21 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id F2D197821A
+	by mail.openembedded.org (Postfix) with ESMTP id 1820B78252
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 10:52:01 +0000 (UTC)
+	Fri, 11 Aug 2017 10:52:02 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	11 Aug 2017 03:52:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,357,1498546800"; d="scan'208";a="1002559034"
+X-IronPort-AV: E=Sophos;i="5.41,357,1498546800"; d="scan'208";a="1002559047"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2017 03:52:01 -0700
+	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2017 03:52:02 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 13:51:54 +0300
-Message-Id: <cover.1502447434.git.markus.lehtonen@linux.intel.com>
+Date: Fri, 11 Aug 2017 13:51:55 +0300
+Message-Id: <893ed5f67475f1a7925a1dcbd2eb357f1f6bc1da.1502447434.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
-Subject: [PATCH 0/5] Support signed RPM package feeds
+In-Reply-To: <cover.1502447434.git.markus.lehtonen@linux.intel.com>
+References: <cover.1502447434.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/5] lib/oe/package_manager: re-implement rpm feed signing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +32,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 11 Aug 2017 10:52:02 -0000
 
-This patchset re-enabled support for signed RPM package feeds, a feature that
-was disabled in dnf transition. It also extends the dnf selftest to cover
-signed package feeds (in addition to fixing the testcase which was not being
-run at all because of invalid naming).
+[YOCTO #11209]
 
-The second patch pulls in new dependencies. On core-image-minimal (qemux86) the
-addition of gnupg also pulls 6 other packages, increasing the rootfs disk
-footprint ca. 9MB.
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-The following changes since commit df7f5221a56118da7654476f072c37ae1e75dc50:
-
-  libinput: Upgrade 1.7.3 -> 1.8.1 (2017-08-09 09:25:47 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-11209
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-11209
-
-Markus Lehtonen (5):
-  lib/oe/package_manager: re-implement rpm feed signing
-  dnf: rrecommend gnupg
-  oeqa: fix dnf tests
-  oeqa: fix temp file handling in dnf package feed test
-  dnf: expand dnf selftest to test signed package feeds
-
- meta-selftest/files/signing/key.passphrase          |  1 +
- .../cases/{dnf-runtime.py => dnf_runtime.py}        | 21 ++++++++++++++++++---
- meta/lib/oe/package_manager.py                      | 14 +++++++++++++-
- meta/lib/oeqa/selftest/cases/runtime_test.py        | 15 +++++++++++++--
- meta/recipes-devtools/dnf/dnf_2.5.1.bb              |  2 ++
- 5 files changed, 47 insertions(+), 6 deletions(-)
- create mode 100644 meta-selftest/files/signing/key.passphrase
- rename meta-selftest/lib/oeqa/runtime/cases/{dnf-runtime.py => dnf_runtime.py} (64%)
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 518cf8dbe3..942f2dd903 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -104,13 +104,25 @@ class Indexer(object, metaclass=ABCMeta):
+ class RpmIndexer(Indexer):
+     def write_index(self):
+         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            raise NotImplementedError('Package feed signing not yet implementd for rpm')
++            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
++        else:
++            signer = None
+ 
+         createrepo_c = bb.utils.which(os.environ['PATH'], "createrepo_c")
+         result = create_index("%s --update -q %s" % (createrepo_c, self.deploy_dir))
+         if result:
+             bb.fatal(result)
+ 
++        # Sign repomd
++        if signer:
++            sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
++            is_ascii_sig = (sig_type.upper() != "BIN")
++            signer.detach_sign(os.path.join(self.deploy_dir, 'repodata', 'repomd.xml'),
++                               self.d.getVar('PACKAGE_FEED_GPG_NAME'),
++                               self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
++                               armor=is_ascii_sig)
++
++
+ class OpkgIndexer(Indexer):
+     def write_index(self):
+         arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
 -- 
 2.12.3
 
