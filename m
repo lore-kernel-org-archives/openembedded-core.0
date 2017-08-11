@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B41B785F4
+	by mail.openembedded.org (Postfix) with ESMTP id 12EBA785F9
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Aug 2017 21:37:11 +0000 (UTC)
 Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id BD33F4CB5B
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id E1BBA4CB5C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Aug 2017 23:37:11 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 23:36:58 +0200
-Message-Id: <1502487421-18235-8-git-send-email-dv@pseudoterminal.org>
+Date: Fri, 11 Aug 2017 23:36:59 +0200
+Message-Id: <1502487421-18235-9-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1502487421-18235-1-git-send-email-dv@pseudoterminal.org>
 References: <1502487421-18235-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH v2 07/10] gstreamer1.0-omx: upgrade to version 1.12.2
+Subject: [PATCH v2 08/10] gstreamer1.0-libav: upgrade to version 1.12.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +33,27 @@ From: Maxin John <maxin.john@intel.com>
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.2.bb}        | 4 ++--
+ .../{gstreamer1.0-libav_1.10.4.bb => gstreamer1.0-libav_1.12.2.bb}    | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.2.bb} (69%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.10.4.bb => gstreamer1.0-libav_1.12.2.bb} (88%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.2.bb
-similarity index 69%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.2.bb
-index dfeefa5..a1d4576 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.2.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb
+similarity index 88%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb
+index e4bb477..6c5f779 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb
+@@ -14,7 +14,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz
+            file://mips64_cpu_detection.patch \
+            file://0001-configure-check-for-armv7ve-variant.patch \
+            "
+-SRC_URI[md5sum] = "e2bdd9fde6ca3ff7efffb93df121f4fd"
+-SRC_URI[sha256sum] = "6ca0feca75e3d48315e07f20ec37cf6260ed1e9dde58df355febd5016246268b"
++SRC_URI[md5sum] = "8788aecc032a287227b4bd239d1b998a"
++SRC_URI[sha256sum] = "5bb735b9bb218b652ae4071ea6f6be8eaae55e9d3233aec2f36b882a27542db3"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "cedb230f1c47d0cf4b575d70dff66ff2"
--SRC_URI[sha256sum] = "45072925cf262f0fd528fab78f0de52734e46a5a88aa802fae51c67c09c81aa2"
-+SRC_URI[md5sum] = "4a1404a20b72e4ab6e826500218ec308"
-+SRC_URI[sha256sum] = "1b22398f45a027e977d2b5309625ec91cdcaf0da8751cbc7f596d639a45ba298"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
+ S = "${WORKDIR}/gst-libav-${PV}"
 -- 
 2.7.4
 
