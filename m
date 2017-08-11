@@ -1,33 +1,21 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D494678268
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9806E78250
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 09:08:46 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Aug 2017 02:08:47 -0700
+	Fri, 11 Aug 2017 09:48:37 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Aug 2017 02:48:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,356,1498546800"; d="scan'208";a="888938450"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2017 02:08:46 -0700
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-References: <1502107769-16160-1-git-send-email-jussi.kukkonen@intel.com>
-	<41176f6a-807d-f488-7f55-38ee82cc48bf@linux.intel.com>
-	<1502110800.18633.220.camel@linuxfoundation.org>
-	<d6c76558-21f5-c41d-9f47-2677644e4087@linux.intel.com>
-	<b8ccbfdc-cb51-69e2-7516-5f95e949e170@windriver.com>
-	<dbc83877-5b7e-fadb-0e0a-e8edb82386a2@linux.intel.com>
-	<1502373956.29285.12.camel@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.41,356,1498546800"; d="scan'208";a="117958424"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 11 Aug 2017 02:48:37 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4dcba5de-0e7f-fb09-62c2-3c0f61e8cab2@linux.intel.com>
-Date: Fri, 11 Aug 2017 12:05:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1502373956.29285.12.camel@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Meson support in oe-core
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Aug 2017 12:45:15 +0300
+Message-Id: <20170811094519.27645-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH 1/5] distrodata.bbclass: add UPSTREAM_VERSION_UNKNOWN and UPSTREAM_CHECK_UNRELIABLE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +28,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 09:08:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Aug 2017 09:48:37 -0000
 
-On 08/10/2017 05:05 PM, Leonardo Sandoval wrote:
+These are optional per-recipe variables with the following meaning:
 
->> After meson support is in master, we can start converting recipes from
->> autotools to meson. That requires careful manual work, but the good news
->> is that it can be done piece-meal; there's no need to switch everything
->> at once.
->>
-> 
-> Alex, is there a autotools-to-meson guide? I like to participate on this
-> migration.
+UPSTREAM_VERSION_UNKNOWN - set if the upstream version check fails reliably,
+e.g. absent git tags, or weird version format used on our or on upstream side.
+If this variable is not set and version check fails, or if it is set and
+the version check succeeds, then the checkpkg selftest for the recipe will fail.
 
+UPSTREAM_CHECK_UNRELIABLE - set if the upstream check cannot be reliably performed
+due to transient network failures, or server behaving weirdly. This one should be used
+sparingly, as it completely excludes a recipe from upstream checking, and thus
+we don't get automatically notified about new upstream releases.
 
-If you mean a guide for how to switch yocto recipes from building using 
-autotools to building using meson (when upstream provides both options, 
-or switched from one to the other), then no. No one has done this before 
-:) You can get a rough idea of what is involved by looking here:
+Also the upstream status string in the checkpkg csv output is clarified with the following
+possible values:
+MATCH - recipe is providing the latest upstream version
+UPDATE - there is a new version released by upstream, recipe should be updated
+CHECK_IS_UNRELIABLE - an upstream check was skipped as requested by recipe
+via UPSTREAM_CHECK_UNRELIABLE
+UNKNOWN - upstream version check was performed, but the upstream verison could
+not be determined. The recipe acknowledges this via UPSTREAM_VERSION_UNKNOWN setting.
+UNKNWON_BROKEN - same as previous, but the recipe does not include the acknowledgement
+and should be fixed.
+KNOWN_BROKEN - upstream check worked, but recipe claims it shouldn't; to fix this
+remove UPSTREAM_VERSION_UNKNOWN from recipe.
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/meson&id=7442c79a8e03ac457bca34bbbf0c5c74c89dba6a
+[YOCTO #11896]
 
-So:
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/distrodata.bbclass | 73 ++++++++++++++++++++++-------------------
+ 1 file changed, 39 insertions(+), 34 deletions(-)
 
-1) inherit meson instead of autotools
-2) replace autotools specific build flags with meson-specific ones (in 
-PACKAGECONFIG etc.)
-3) fix other issues until no errors happen
-4) verify that everything that was previously installed and packaged is 
-still installed and packaged.
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 5e344416105..c85f7b3474f 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -261,12 +261,44 @@ python do_checkpkg() {
+         from bb.utils import vercmp_string
+         from bb.fetch2 import FetchError, NoMethodError, decodeurl
+ 
+-        """first check whether a uri is provided"""
+-        src_uri = (d.getVar('SRC_URI') or '').split()
+-        if src_uri:
+-            uri_type, _, _, _, _, _ = decodeurl(src_uri[0])
+-        else:
+-            uri_type = "none"
++        def get_upstream_version_and_status():
++
++            # set if the upstream check fails reliably, e.g. absent git tags, or weird version format used on our or on upstream side.
++            upstream_version_unknown = localdata.getVar('UPSTREAM_VERSION_UNKNOWN')
++            # set if the upstream check cannot be reliably performed due to transient network failures, or server behaving weirdly. 
++            # This one should be used sparingly, as it completely excludes a recipe from upstream checking.
++            upstream_check_unreliable = localdata.getVar('UPSTREAM_CHECK_UNRELIABLE')
++
++            if upstream_check_unreliable == "1":
++                return "N/A", "CHECK_IS_UNRELIABLE"
++
++            try:
++                uv = oe.recipeutils.get_recipe_upstream_version(localdata)
++                pupver = uv['version'] if uv['version'] else "N/A"
++            except Exception as e:
++                pupver = "N/A"
++
++            if pupver == "N/A":
++                pstatus = "UNKNOWN" if upstream_version_unknown else "UNKNOWN_BROKEN"
++            else:
++                src_uri = (localdata.getVar('SRC_URI') or '').split()
++                if src_uri:
++                    uri_type, _, _, _, _, _ = decodeurl(src_uri[0])
++                else:
++                    uri_type = "none"
++                pv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pversion, uri_type)
++                upv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pupver, uri_type)
++
++                cmp = vercmp_string(pv, upv)
++                if cmp == -1:
++                    pstatus = "UPDATE" if not upstream_version_unknown else "KNOWN_BROKEN"
++                elif cmp == 0:
++                    pstatus = "MATCH" if not upstream_version_unknown else "KNOWN_BROKEN"
++                else:
++                    pstatus = "UNKNOWN" if upstream_version_unknown else "UNKNOWN_BROKEN"
++
++            return pupver, pstatus
++
+ 
+         """initialize log files."""
+         logpath = d.getVar('LOG_DIR')
+@@ -313,34 +345,7 @@ python do_checkpkg() {
+         psrcuri = localdata.getVar('SRC_URI')
+         maintainer = localdata.getVar('RECIPE_MAINTAINER')
+ 
+-        """ Get upstream version version """
+-        pupver = ""
+-        pstatus = ""
+-
+-        try:
+-            uv = oe.recipeutils.get_recipe_upstream_version(localdata)
+-
+-            pupver = uv['version']
+-        except Exception as e:
+-            if e is FetchError:
+-                pstatus = "ErrAccess"
+-            elif e is NoMethodError:
+-                pstatus = "ErrUnsupportedProto"
+-            else:
+-                pstatus = "ErrUnknown"
+-
+-        """Set upstream version status"""
+-        if not pupver:
+-            pupver = "N/A"
+-        else:
+-            pv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pversion, uri_type)
+-            upv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pupver, uri_type)
+-
+-            cmp = vercmp_string(pv, upv)
+-            if cmp == -1:
+-                pstatus = "UPDATE"
+-            elif cmp == 0:
+-                pstatus = "MATCH"
++        pupver, pstatus = get_upstream_version_and_status()
+ 
+         if psrcuri:
+             psrcuri = psrcuri.split()[0]
+-- 
+2.13.2
 
-I don't think there can be a generic guide, it's manual work which 
-requires the broad recipe maintenance skillset :)
-
-Now, If you meant writing meson support into the upstream source code, 
-then that is even more specific to each project. You need to first 
-carefully study what is being built, using which toolchain, and what are 
-the various options, and then write meson.build files that do the same 
-thing. And you also need to convince the upstream to take it, because 
-it's generally not something we want to maintain as custom patches. 
-Actually it's complicated enough, that I only want to attempt it for 
-gettext.
-
-Alex
 
