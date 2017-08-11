@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D3671B99;
-	Fri, 11 Aug 2017 03:31:10 +0000 (UTC)
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 98BB7780ED
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Aug 2017 04:35:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7B4ZU5S003694
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Aug 2017 21:35:30 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 10 Aug 2017 21:35:29 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Aug 2017 00:35:27 -0400
+Message-ID: <cover.1502425947.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Stefan Agner <stefan@agner.ch>
-Date: Fri, 11 Aug 2017 03:31:12 -0000
-Message-ID: <20170811033112.2381.96528@do.openembedded.org>
-References: <1503655141-1302-1-git-send-email-stefan@agner.ch>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1503655141-1302-1-git-send-email-stefan@agner.ch>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaW1hZ2UuYmJjbGFzczogZGVsZXRlIERBVEUgdmFyaWFibGUgdG9v?=
+Subject: [PATCH V2 0/1] expat: Upgrade to 2.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 03:31:10 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Aug 2017 04:35:29 -0000
+Content-Type: text/plain
 
-== Series Details ==
+The following changes since commit 5e4bd86130866d4a92fa7b0fa6d3628126dfdf91:
 
-Series: image.bbclass: delete DATE variable too
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8180/
-State : failure
+  libinput: Upgrade 1.7.3 -> 1.8.1 (2017-08-09 09:38:25 +0100)
 
-== Summary ==
+are available in the git repository at:
 
+  https://github.com/DengkeDu/openembedded-core.git dengke/expat-upgrade-to-2.2.3
+  https://github.com//tree/dengke/expat-upgrade-to-2.2.3
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Khem Raj (1):
+  expat: Upgrade to 2.2.3
 
+ meta/recipes-core/expat/expat.inc               |  1 +
+ meta/recipes-core/expat/expat/libtool-tag.patch | 18 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.2.1.bb          |  5 -----
+ meta/recipes-core/expat/expat_2.2.3.bb          |  4 ++++
+ 4 files changed, 23 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat/libtool-tag.patch
+ delete mode 100644 meta/recipes-core/expat/expat_2.2.1.bb
+ create mode 100644 meta/recipes-core/expat/expat_2.2.3.bb
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at df7f5221a5)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.8.1
 
 
