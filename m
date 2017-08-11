@@ -1,20 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id E65BB785E8
+	by mail.openembedded.org (Postfix) with ESMTP id 0B41B785F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 21:37:10 +0000 (UTC)
+	Fri, 11 Aug 2017 21:37:11 +0000 (UTC)
 Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 98B2E4CB5A
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id BD33F4CB5B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Aug 2017 23:37:11 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 23:36:57 +0200
-Message-Id: <1502487421-18235-7-git-send-email-dv@pseudoterminal.org>
+Date: Fri, 11 Aug 2017 23:36:58 +0200
+Message-Id: <1502487421-18235-8-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1502487421-18235-1-git-send-email-dv@pseudoterminal.org>
 References: <1502487421-18235-1-git-send-email-dv@pseudoterminal.org>
-Subject: [PATCH v2 06/10] gstreamer1.0-rtsp-server: upgrade to version 1.12.2
+Subject: [PATCH v2 07/10] gstreamer1.0-omx: upgrade to version 1.12.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,27 @@ From: Maxin John <maxin.john@intel.com>
 
 Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- .../recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb | 6 ------
- .../recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb
+ .../{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.2.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.2.bb} (69%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
-deleted file mode 100644
-index 6aa9a53..0000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require gstreamer1.0-rtsp-server.inc
--
--SRC_URI[md5sum] = "ef587fa6393e09bc26f884510596e305"
--SRC_URI[sha256sum] = "2f6e12fd4e3568ee190dc24e57e4c3a878971c3a3fb6904a9674404fac256de6"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb
-new file mode 100644
-index 0000000..2426cca
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb
-@@ -0,0 +1,6 @@
-+require gstreamer1.0-rtsp-server.inc
-+
-+SRC_URI[md5sum] = "022757cab183f5b970086e9101c60a98"
-+SRC_URI[sha256sum] = "d8ba9264e8ae6e440293328e759e40456f161aa66077b3143dd07581136190b3"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.2.bb
+similarity index 69%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.2.bb
+index dfeefa5..a1d4576 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.12.2.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ 
+ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "cedb230f1c47d0cf4b575d70dff66ff2"
+-SRC_URI[sha256sum] = "45072925cf262f0fd528fab78f0de52734e46a5a88aa802fae51c67c09c81aa2"
++SRC_URI[md5sum] = "4a1404a20b72e4ab6e826500218ec308"
++SRC_URI[sha256sum] = "1b22398f45a027e977d2b5309625ec91cdcaf0da8751cbc7f596d639a45ba298"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
 -- 
 2.7.4
 
