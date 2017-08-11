@@ -1,18 +1,20 @@
 Return-Path: <dv@pseudoterminal.org>
 Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 4658E785D6
+	by mail.openembedded.org (Postfix) with ESMTP id 4566D785D3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Aug 2017 21:28:28 +0000 (UTC)
 Received: from localhost.localdomain (62-178-118-86.cable.dynamic.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 35E3E4CAEA
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 99D6B4CB56
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Aug 2017 23:28:29 +0200 (CEST)
 From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 23:28:10 +0200
-Message-Id: <1502486900-16180-1-git-send-email-dv@pseudoterminal.org>
+Date: Fri, 11 Aug 2017 23:28:12 +0200
+Message-Id: <1502486900-16180-3-git-send-email-dv@pseudoterminal.org>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 00/10] gstreamer 1.x: upgrade to 1.12.2
+In-Reply-To: <1502486900-16180-1-git-send-email-dv@pseudoterminal.org>
+References: <1502486900-16180-1-git-send-email-dv@pseudoterminal.org>
+Subject: [PATCH 02/10] gstreamer1.0-plugins-base: upgrade to version 1.12.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,71 +29,78 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 11 Aug 2017 21:28:29 -0000
 
-This set of patches upgrades the GStreamer 1.x recipes to
-version 1.12.2. It is bsed on Maxin B. John's 1.12.1
-upgrades, which in turn were based on the original
-proposed patches for an upgrade to 1.12.0.
+From: Maxin John <maxin.john@intel.com>
 
-GStreamer is moving towards meson as the primary build
-system. However, OE's support for meson is not ready yet,
-so we stick with autoconf for now.
+* Remove upstreamed patch:
+  1. encodebin-Need-more-buffers-in-output-queue-for-bett.patch
 
-These patches do not touch gst-player, since this one
-requires updates to libva, which needs to be updated.
-This update is beyond the scope of this patchset. Once
-libva is updated, the workaround patch [YOCTO #11437]
-could be removed.
-
- ...ideobufferpool-create-allocator-if-needed.patch |  61 --
- ...ibav_1.10.4.bb => gstreamer1.0-libav_1.12.2.bb} |   4 +-
- .../gstreamer/gstreamer1.0-meta-base.bb            |   2 +-
- ....0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.2.bb} |   4 +-
- .../gstreamer/gstreamer1.0-plugins-bad.inc         |  30 +-
- ...-don-t-hardcode-libtool-name-when-running.patch |  60 +-
- ...G_CONFIG_SYSROOT_DIR-to-pkg-config-output.patch |  42 +-
- ...gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch |  21 +-
- ...1-mssdemux-improved-live-playback-support.patch | 929 ---------------------
- ...ming-implement-adaptivedemux-s-get_live_s.patch | 183 ----
- ...ming-use-the-duration-from-the-list-of-fr.patch |  62 --
- ....10.4.bb => gstreamer1.0-plugins-bad_1.12.2.bb} |  11 +-
- ...eed-more-buffers-in-output-queue-for-bett.patch |  32 -
- ...10.4.bb => gstreamer1.0-plugins-base_1.12.2.bb} |   5 +-
- ...Also-add-videometa-if-there-is-padding-to.patch |  35 -
- ...10.4.bb => gstreamer1.0-plugins-good_1.12.2.bb} |   8 +-
- .../gstreamer/gstreamer1.0-plugins-ugly.inc        |   1 -
- ...10.4.bb => gstreamer1.0-plugins-ugly_1.12.2.bb} |   4 +-
- ...hon_1.10.4.bb => gstreamer1.0-python_1.12.2.bb} |   4 +-
- .../gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb   |   6 -
- .../gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb   |   6 +
- .../gstreamer/gstreamer1.0-vaapi.inc               |  13 +-
- .../gstreamer/gstreamer1.0-vaapi_1.10.4.bb         |   7 -
- .../gstreamer/gstreamer1.0-vaapi_1.12.2.bb         |   5 +
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc |   2 +-
- ...dd-switches-for-enabling-disabling-libdw-.patch |  68 ++
- .../gstreamer1.0/deterministic-unwind.patch        |  24 -
- ...treamer1.0_1.10.4.bb => gstreamer1.0_1.12.2.bb} |   6 +-
- 28 files changed, 199 insertions(+), 1436 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer-vaapi/vaapivideobufferpool-create-allocator-if-needed.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.10.4.bb => gstreamer1.0-libav_1.12.2.bb} (88%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.10.4.bb => gstreamer1.0-omx_1.12.2.bb} (69%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-mssdemux-improved-live-playback-support.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-smoothstreaming-implement-adaptivedemux-s-get_live_s.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-smoothstreaming-use-the-duration-from-the-list-of-fr.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.10.4.bb => gstreamer1.0-plugins-bad_1.12.2.bb} (65%)
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+---
+ ...eed-more-buffers-in-output-queue-for-bett.patch | 32 ----------------------
+ ...10.4.bb => gstreamer1.0-plugins-base_1.12.2.bb} |  5 ++--
+ 2 files changed, 2 insertions(+), 35 deletions(-)
  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.10.4.bb => gstreamer1.0-plugins-base_1.12.2.bb} (78%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2object-Also-add-videometa-if-there-is-padding-to.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.10.4.bb => gstreamer1.0-plugins-good_1.12.2.bb} (77%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.10.4.bb => gstreamer1.0-plugins-ugly_1.12.2.bb} (76%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.10.4.bb => gstreamer1.0-python_1.12.2.bb} (57%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.10.4.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.10.4.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.2.bb
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-configure-Add-switches-for-enabling-disabling-libdw-.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/deterministic-unwind.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.10.4.bb => gstreamer1.0_1.12.2.bb} (59%)
 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
+deleted file mode 100644
+index 5341e3c..0000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 540e02c92c75e08b90326863dc787fa5cadf9da6 Mon Sep 17 00:00:00 2001
+-From: Song Bing <b06498@freescale.com>
+-Date: Fri, 13 Mar 2015 18:04:31 +0800
+-Subject: [PATCH] encodebin: Need more buffers in output queue for better
+- performance
+-
+-Need more buffers in output queue for better performance
+-
+-Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=744191]
+-
+-Signed-off-by: Song Bing <b06498@freescale.com>
+----
+- gst/encoding/gstencodebin.c |    3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/gst/encoding/gstencodebin.c b/gst/encoding/gstencodebin.c
+-index 6728e58..32daae4 100644
+---- a/gst/encoding/gstencodebin.c
+-+++ b/gst/encoding/gstencodebin.c
+-@@ -1228,8 +1228,7 @@ _create_stream_group (GstEncodeBin * ebin, GstEncodingProfile * sprof,
+-    * We only use a 1buffer long queue here, the actual queueing will be done
+-    * in the input queue */
+-   last = sgroup->outqueue = gst_element_factory_make ("queue", NULL);
+--  g_object_set (sgroup->outqueue, "max-size-buffers", (guint32) 1,
+--      "max-size-bytes", (guint32) 0, "max-size-time", (guint64) 0,
+-+  g_object_set (sgroup->outqueue, "max-size-time", (guint64) 0,
+-       "silent", TRUE, NULL);
+- 
+-   gst_bin_add (GST_BIN (ebin), sgroup->outqueue);
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.12.2.bb
+similarity index 78%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.12.2.bb
+index 7c81670..5de0b8b 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.10.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.12.2.bb
+@@ -9,11 +9,10 @@ SRC_URI = " \
+     file://get-caps-from-src-pad-when-query-caps.patch \
+     file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
+     file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
+-    file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
+     file://make-gio_unix_2_0-dependency-configurable.patch \
+     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+ "
+-SRC_URI[md5sum] = "f6b46f8fac01eb773d556e3efc369e86"
+-SRC_URI[sha256sum] = "f6d245b6b3d4cb733f81ebb021074c525ece83db0c10e932794b339b8d935eb7"
++SRC_URI[md5sum] = "77f5379c4ca677616b415e3b3ff95578"
++SRC_URI[sha256sum] = "5067dce3afe197a9536fea0107c77213fab536dff4a213b07fc60378d5510675"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
 -- 
 2.7.4
 
