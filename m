@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DB49F78252
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0BA7826E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 10:52:04 +0000 (UTC)
+	Fri, 11 Aug 2017 10:52:05 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Aug 2017 03:52:06 -0700
+	11 Aug 2017 03:52:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,357,1498546800"; d="scan'208";a="1002559060"
+X-IronPort-AV: E=Sophos;i="5.41,357,1498546800"; d="scan'208";a="1002559071"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2017 03:52:05 -0700
+	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2017 03:52:06 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 13:51:57 +0300
-Message-Id: <7fd6e32f06c786c12499dcad8739f6055a560137.1502447434.git.markus.lehtonen@linux.intel.com>
+Date: Fri, 11 Aug 2017 13:51:58 +0300
+Message-Id: <96094c16f9028d425a497ab5cc95557c07b55dce.1502447434.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
 In-Reply-To: <cover.1502447434.git.markus.lehtonen@linux.intel.com>
 References: <cover.1502447434.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH 3/5] oeqa: fix dnf tests
+Subject: [PATCH 4/5] oeqa: fix temp file handling in dnf package feed test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +32,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 11 Aug 2017 10:52:05 -0000
 
-Rename one dnf runtime test that it will recognized as a python module
-and thus also found by the oe test loader. Also, fix value of
-TEST_SUITES in dnf selftest so that all test dependencies are satisfied
-and the runtime test may be successfully run from there.
+Prevent stale temp files and a possible (if unlikely) race in tempfile
+usage.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/{dnf-runtime.py => dnf_runtime.py} | 0
- meta/lib/oeqa/selftest/cases/runtime_test.py                            | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta-selftest/lib/oeqa/runtime/cases/{dnf-runtime.py => dnf_runtime.py} (100%)
+ meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf-runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-similarity index 100%
-rename from meta-selftest/lib/oeqa/runtime/cases/dnf-runtime.py
-rename to meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 2a70ae15b8..07d05b5972 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -138,7 +138,7 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('core-image-full-cmdline not buildable for poky-tiny')
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+index 123e7259f1..68e56f2c5e 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
+@@ -6,6 +6,8 @@ class DnfSelftest(DnfTest):
  
-         features = 'INHERIT += "testimage"\n'
--        features += 'TEST_SUITES = "ping ssh dnf-runtime"\n'
-+        features += 'TEST_SUITES = "ping ssh dnf_runtime dnf.DnfBasicTest.test_dnf_help"\n'
-         # We don't yet know what the server ip and port will be - they will be patched
-         # in at the start of the on-image test
-         features += 'PACKAGE_FEED_URIS = "http://bogus_ip:bogus_port"\n'
+     @classmethod
+     def setUpClass(cls):
++        import tempfile
++        cls.temp_dir = tempfile.TemporaryDirectory(prefix="oeqa-remotefeeds-")
+         cls.repo_server = HTTPService(os.path.join(cls.tc.td['WORKDIR'], 'oe-rootfs-repo'),
+                                       cls.tc.target.server_ip)
+         cls.repo_server.start()
+@@ -13,6 +15,7 @@ class DnfSelftest(DnfTest):
+     @classmethod
+     def tearDownClass(cls):
+         cls.repo_server.stop()
++        cls.temp_dir.cleanup()
+ 
+     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
+     def test_verify_package_feeds(self):
+@@ -25,11 +28,11 @@ class DnfSelftest(DnfTest):
+         """
+         # When we created an image, we had to supply fake ip and port
+         # for the feeds. Now we can patch the real ones into the config file.
+-        import tempfile
+-        temp_file = tempfile.TemporaryDirectory(prefix="oeqa-remotefeeds-").name
++        temp_file = os.path.join(self.temp_dir.name, 'tmp.repo')
+         self.tc.target.copyFrom("/etc/yum.repos.d/oe-remote-repo.repo", temp_file)
+         fixed_config = open(temp_file, "r").read().replace("bogus_ip", self.tc.target.server_ip).replace("bogus_port", str(self.repo_server.port))
+-        open(temp_file, "w").write(fixed_config)
++        with open(temp_file, "w") as f:
++            f.write(fixed_config)
+         self.tc.target.copyTo(temp_file, "/etc/yum.repos.d/oe-remote-repo.repo")
+ 
+         import re
 -- 
 2.12.3
 
