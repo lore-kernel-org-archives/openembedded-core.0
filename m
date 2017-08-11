@@ -1,45 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 75CB978551
+Return-Path: <oleksandr.kravchuk@pelagicore.com>
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id E1B05785E7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 22:12:16 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id 123so3996048pga.5
+	Fri, 11 Aug 2017 22:18:33 +0000 (UTC)
+Received: by mail-lf0-f42.google.com with SMTP id y15so21301939lfd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 15:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 11 Aug 2017 15:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=p+kJPDadXC3KEykAW39+vcrePVynZTauHf6GDMOBJ8k=;
-	b=eUjH7MfN4UtN1FSeqb4zzXx5K0NK4M3/SKN4mwtXDpUMGEnBsU9fC5peA/iF7rIv1N
-	BDhOsWRVxMXNCngLbQOrM8chcYR4S+dqBFSXs0yndFmubu0x1ync8hnytpiF7TpIzQlh
-	x4cPcgU9ZoR3RUVezREKzERZ5asjy3yu3xvaFtRx2mA4DVJPsZZSqH4Qt+6EQU0Q3Dyz
-	TC2NwWY9Wf1ntNxJBKC0L4Pwmm3A/7uJiFzjvtIZl+NJpJK6AVSfX0NtBtmrUW5HfKgW
-	GN1/5JQpydICrhTALtTnD7dn6mTcvxqpjSJOIkkQ23REdBAQv+0QEuj1iKcVtTNJHqmt
-	W5iA==
+	bh=0uyYcFIg7aNAoTWUB2FyGYI/A9lE4vyOeyYARK2SXdU=;
+	b=01kkqJL85mLNKgE0FvPj2IRaEPRa0+wt48Suv0FJhGihFlGxNP5uMU1X2A07FQsGlU
+	ziLUNwN4z3K8rdlW8bati9JhA6iW3dLhIxqRcJR2W0PQlNYs55dney8FXQchMZUi9tBo
+	4xfq1koJwUr3D/z6rkkTQW+F+jDw0ilVveFzb9gZKaYvmXikV8ry12WZT7ivK7OJoinJ
+	jTnEwxtDr0vkgTBk8hVGy0wCUOleBi8UEQ5KI1BQ+PuK5ojsFGiEL+fNgFaGKpjtXp4n
+	ajSzkTifKjgYuNTAG3rvlvIg35BtTCMzc90/D0oDKGm2A1EKxxpjxW88MZT7VXl7zQYc
+	zg6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=p+kJPDadXC3KEykAW39+vcrePVynZTauHf6GDMOBJ8k=;
-	b=Yhzz8KOgeb/zPebEiJTFcKtbzs9jhAA+IPARpj7WfmCCPhOnMNh+f6zY5/QpHg14fY
-	sSRc15oQ/TyMhbgr6dY2aTnbLwczVdSIowvfTFbeddi+wtpO62Th0ylQjcE3Gw9v9LnL
-	MukDcLK69B1NEOgn9GNIid4VM5trnIpgFzQVlHec+bqNGunmA10KmFofQFO/eBcV3jo/
-	yt4alUHNZpf/4Ky/+IlK5IJss+53PvOH/pupptDc8DRxKwkqLndO0CBM6A8cB84NKiLz
-	6KCx2SwOaCXZ1qcX6gAKowe9lVUXJJ4g90WX680HA7MReZ9Tv8+fyIoY77RpzzyWrSGp
-	frZQ==
-X-Gm-Message-State: AHYfb5jKzZ70Z6EqJcJLhx6JBzZIL4dxtcgJGb7n/ZK2aSyu/intyhav
-	sRwcIP1+NPpBwAHw
-X-Received: by 10.84.224.76 with SMTP id a12mr19085755plt.382.1502489538383;
-	Fri, 11 Aug 2017 15:12:18 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::8e89])
-	by smtp.gmail.com with ESMTPSA id
-	w63sm3182361pfw.28.2017.08.11.15.12.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Aug 2017 15:12:17 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	bh=0uyYcFIg7aNAoTWUB2FyGYI/A9lE4vyOeyYARK2SXdU=;
+	b=RURPQBCS96Sg8ntcZQh62AS3ZUUMbssXtzEuqYSG3FX8W2Mb+uTHKbT8/d8Vt1K7sy
+	wnfq6+vo0mStz1iT4GCmEKHBIoeYa9GhC5LgeiFXllRyWO5hZ+mOH/KvvHnUOJue+O+6
+	zk2POQrllOewJI1ozu9Po80q1CIaOQVasDDSh9YChiGZVlTmZzweFYT3ZCKc2v+aVx7/
+	dFcNwv16FyhgDZY5mxAB5Gsh978qfFvjiTAUWmj5MDLjxMECTPDs8832h+4FPsFTKDbn
+	SrJ7zDCr4Mi+LofzeHXsGtYt7+zPFIDdwW7cJ61rtk/qQX8I0a1HuacjPNvhr/+l91rx
+	beNw==
+X-Gm-Message-State: AHYfb5hure1u1nMJtTCeURPNl5JbMXS1iEO4jOuzwu0NCjtbtsBa6xp8
+	0bBvZwZpcwiDE468Mvo=
+X-Received: by 10.25.24.105 with SMTP id o102mr6349389lfi.249.1502489913799;
+	Fri, 11 Aug 2017 15:18:33 -0700 (PDT)
+Received: from ubuntu.lan (c-7569e055.018-216-6762674.cust.bredbandsbolaget.se.
+	[85.224.105.117])
+	by smtp.gmail.com with ESMTPSA id 6sm265290lju.0.2017.08.11.15.18.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 11 Aug 2017 15:18:33 -0700 (PDT)
+From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+X-Google-Original-From: Oleksandr Kravchuk <hello@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Aug 2017 15:12:08 -0700
-Message-Id: <20170811221208.27335-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] musl: Build only in ARM mode when using clang
+Date: Sat, 12 Aug 2017 00:18:09 +0200
+Message-Id: <1502489889-13867-1-git-send-email-hello@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Oleksandr Kravchuk <hello@oleksandr-kravchuk.com>
+Subject: [meta-oe][PATCH] curl: upgradeto 7.54.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 22:12:17 -0000
+X-List-Received-Date: Fri, 11 Aug 2017 22:18:34 -0000
 
-clang 5.0 has a codegen bug when compiling musl in thumb2 mode see
-
-https://bugs.llvm.org/show_bug.cgi?id=34165
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Oleksandr Kravchuk <hello@oleksandr-kravchuk.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/curl/{curl_7.53.1.bb => curl_7.54.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.53.1.bb => curl_7.54.0.bb} (94%)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 64c7334eea..eefd23bb8e 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -28,6 +28,8 @@ export CROSS_COMPILE="${TARGET_PREFIX}"
+diff --git a/meta/recipes-support/curl/curl_7.53.1.bb b/meta/recipes-support/curl/curl_7.54.0.bb
+similarity index 94%
+rename from meta/recipes-support/curl/curl_7.53.1.bb
+rename to meta/recipes-support/curl/curl_7.54.0.bb
+index bc78ffb..ce5ca37 100644
+--- a/meta/recipes-support/curl/curl_7.53.1.bb
++++ b/meta/recipes-support/curl/curl_7.54.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+ #
+ SRC_URI += " file://configure_ac.patch"
  
- LDFLAGS += "-Wl,-soname,libc.so"
+-SRC_URI[md5sum] = "fb1f03a142236840c1a77c035fa4c542"
+-SRC_URI[sha256sum] = "1c7207c06d75e9136a944a2e0528337ce76f15b9ec9ae4bb30d703b59bf530e8"
++SRC_URI[md5sum] = "89bb7ba87384dfbf4f1a3f953da42458"
++SRC_URI[sha256sum] = "f50ebaf43c507fa7cc32be4b8108fa8bbd0f5022e90794388f3c7694a302ff06"
  
-+ARM_INSTRUCTION_SET_toolchain-clang = "arm"
-+
- CONFIGUREOPTS = " \
-     --prefix=${prefix} \
-     --exec-prefix=${exec_prefix} \
+ CVE_PRODUCT = "libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
 -- 
-2.14.1
+2.7.4
 
 
