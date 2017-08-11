@@ -1,26 +1,49 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D0B6785D0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 17:13:56 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [178.209.48.103])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 33B165C218E;
-	Fri, 11 Aug 2017 19:11:00 +0200 (CEST)
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E5DA778268;
+	Fri, 11 Aug 2017 17:58:35 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id k43so2210881uaf.1;
+	Fri, 11 Aug 2017 10:58:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VnSoYi35VVZiK8RnDuroIfNoEayIulPKwZHn3pzONoE=;
+	b=RLqKZWrxdWsuUOFws6zYrcSB3bx+nlDUu/Ms1kqgo2nsVuUCY28iPzZpfPWdkaDchm
+	iAqMc36LC0QjRuydRCEYTxmW30CQ/Q8c4YiiBGvn2CoVyVT3ovsOVnmQDotfHQ608lHR
+	Bb8szeHOCmKkMnKz54SzieWuYELbES8LJvfiG6hNn5H4cE3CgsWjGYgKkkxfq+6v+eSY
+	lN9HLw/bHiuVJBW/qIqR7qVDwDk9DmNWKZMYtbgYAemihpT4HfNbkCticfQ8pk+6ZcQe
+	IlGrWv4kmZ+zpIxJ3kSAg5MhQThh1mf9plkeZhb/wueGXdocId+gRsr2qx0usZAS+f4J
+	/Iog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VnSoYi35VVZiK8RnDuroIfNoEayIulPKwZHn3pzONoE=;
+	b=JQ9egH3+3xZ80YFVAg08HTyO11v9aBXqcoQ6BuufMu0NN1PkY0Q8IBy9T/t1GacGWm
+	sMmGkc/jKoJ1n2DsBsWUK6QfE2xxKHXBBfsrESTUOp1+0JvvBS7BcVLC1dgTGHEyf4Cs
+	VU8bv6IeMY0ou3XU2ia+ab7NWRcrtRaASAEGdO4Y2NICYrYMUmJ6vxFNE+iNvOHhzKlp
+	xIxfFBpTT5Rq59mM3HijK1NYOG5XZJLR7S7n1KYHHjQ0iGcmnUr3K+bWpj8z4pJjk0ET
+	72fyQVF+SMB5Zzp1mJgCNt2Nyn89/BmbsUW0JGeSuzD+ddtlTMcxgNlGs6qRS29mffNH
+	UBbA==
+X-Gm-Message-State: AHYfb5iRkIgU4abIM9lNaHTzXq2SvkQg2zuOt6WLSDKn5VLBzvtPvdCm
+	jMvT3ouKUXfK+kVNVpCZg8xT1jEE/A==
+X-Received: by 10.176.82.153 with SMTP id v25mr11533106uav.150.1502474316735; 
+	Fri, 11 Aug 2017 10:58:36 -0700 (PDT)
 MIME-Version: 1.0
-Date: Fri, 11 Aug 2017 10:11:32 -0700
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-In-Reply-To: <1504000440-16842-1-git-send-email-stefan@agner.ch>
-References: <1504000440-16842-1-git-send-email-stefan@agner.ch>
-Message-ID: <20e688b7da00db8b87c8720886651d74@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.2.5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1502471460; bh=r0/preR7OgPR32fkU2JmqbYL3jzPVXGkAN48Qi+2ne0=;
-	h=MIME-Version:Content-Type:Content-Transfer-Encoding:Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID;
-	b=hHb/Zm2zfrICzl5RoJpWrJwpcEuaKuG/xssduGA46qQ0g6GXYsUlNEsNm8h1eZSYyXoZA0B/oU+ZnAA6XBCfp+Ank56/xHZZHv9gbjTIiVxC6R587z2Zjv17kaqQdgnS0/9m/VYgS4ILnLWm+6Z3hWvyBIWoQvOMUYvGJ7CurBk=
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH v2] image.bbclass: delete DATE variable too
+Received: by 10.176.64.100 with HTTP; Fri, 11 Aug 2017 10:58:36 -0700 (PDT)
+In-Reply-To: <20170811164545.GC3320@jama>
+References: <20170811080344.GB3320@jama>
+	<CAMKF1sohv7_j=Gduw5y-9-4jCKWNjx-pc205PmfvN2vR4MOe6Q@mail.gmail.com>
+	<20170811164545.GC3320@jama>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Fri, 11 Aug 2017 19:58:36 +0200
+Message-ID: <CALbNGRRdCu1oYc=SOf0LrENZ+tJhJMSTu20OvzBWo8BwMbQMUQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2017-08-09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Aug 2017 17:13:57 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Aug 2017 17:58:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2017-08-29 02:54, Stefan Agner wrote:
+On Fri, Aug 11, 2017 at 6:45 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> firefox and mariadb fail like this only since conf/distro/include/security_flags.inc was included
+>
+> qtbase fails because of ptest addition as reported on ML
+>
+>> Kodi patch to use std::string was sent. mongodb needs something similar.
+>
+> The kodi patch from Andreas was already included in this build. Yours
+> kodi patch looks similar, but not backported from upstream.
+>
+> see:
+>> > 3a03560 kodi: fix build with latest gcc
+I checked the log and don't understand what happened: kodi on qemux86
+failed exactly with the error message I saw before fixing. Since the
+other qemus did not fail: are you sure my patch did not come in while
+build was already running?
+>
+>
+>> imagemagick issue is also taken care of
+>
+> is it? where? Notice that this includes also the 2nd imagemagick upgrade
+> which also already disappeared from the site.
+Randy suggested to skip imagemagick update until upstream stabilizes.
+>
+>> I have sent a patch for squid issue
+>
+> You mean this one?
+>> > e435561 squid: Add missing dependencies on openssl expat and libxml2
+>
+> it's already included (might be missing in qemux86 build which was
+> started first).
+>
+-> kodi?
 
-I am sorry, I didn't meant to spoof the date. I had to play with dates
-on said system to reproduce the issue.
+Regards
 
---
-Stefan
-
-> From: Stefan Agner <stefan.agner@toradex.com>
-> 
-> When creating a custom image which uses the DATE variable the basehash
-> seems to change every day and lead to errors such as:
-> ERROR: console-tdx-image-2.7.6-r0 do_image_customimg: Error executing
-> a python function in exec_python_func() autogenerated:
-> 
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:set_image_size(d)
-> ...
-> 
-> Add DATE to the variables which should not get expanded early and to the
-> vardepsexclude list for the image task.
-> 
-> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> ---
-> I am not that deep in OE usually and I am not sure if I miss something
-> completely here... It seems to solve the issue for us though. Does that
-> change sounds reasonable? Could it be done in the custom image class file?
-> 
->  meta/classes/image.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 2c1dc81..7949b46 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -437,6 +437,7 @@ python () {
->          # date/time values. It will get expanded at execution time.
->          # Similarly TMPDIR since otherwise we see QA stamp comparision problems
->          localdata.delVar('DATETIME')
-> +        localdata.delVar('DATE')
->          localdata.delVar('TMPDIR')
->  
->          image_cmd = localdata.getVar("IMAGE_CMD")
-> @@ -501,7 +502,7 @@ python () {
->          d.prependVarFlag(task, 'postfuncs', ' create_symlinks')
->          d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
->          d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
-> -        d.appendVarFlag(task, 'vardepsexclude', 'DATETIME')
-> +        d.appendVarFlag(task, 'vardepsexclude', 'DATETIME DATE')
->  
->          bb.debug(2, "Adding task %s before %s, after %s" % (task,
-> 'do_image_complete', after))
->          bb.build.addtask(task, 'do_image_complete', after, d)
+Andreas
 
