@@ -1,49 +1,48 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CDE3B78281
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0250278625
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 00:40:17 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id c24so3475081wra.2
+	Sat, 12 Aug 2017 00:40:18 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id t138so8065731wmt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 17:40:19 -0700 (PDT)
+	Fri, 11 Aug 2017 17:40:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RcVx9xNQgKTuhptxEGFpE3XvtHLyQ0SCIWbhlk2prBI=;
-	b=pNYaM/3ROuhA14CX3s8GRKkT8tUfDkVKQoozKvaRqEd7ejzEfnsgVvDZs1r8eWw8c7
-	mkHeaLZ6Ucp0oKM9bQRDz0Dyrz9QHIMVCTY6qVef5SNKgD0007pabDgdVYOfpIL2jiNB
-	kZ9atMLbT4pnmqu2q712vXxMaG1NE4gqoj4VWKKkDYI0kYtHKLCffoawZ5HDTXEt7q7Y
-	qjSsyXfv+yklA4B75iLtVWldIuXGHasMHOF+KE9cvLZFkqsB9G8LcY2/bf3VZfew5kSt
-	QdNG3D5SCSR+T1EQBBdDkkqAdpKcK22K80DrR9bSmxyiSmlngQafgEBQkf1P+t0Cn0eV
-	RpQg==
+	bh=VqAwmdW3J38syJ+xu7wKGpX0/j4gsd5TVTKW2KPtU94=;
+	b=B5o/cijPi2lfLfUR8hHiqfIer7z9DJih3SYgJAytwkX1DeSvg7k1ALRj/nEsqR3JCY
+	Rzmb1KjBwx9YT0her5Fx/prs7ahXGqpYIgF7rBZRgLdUdgwrc2CmHLLeJZP8xfsNgWQK
+	6qPBtcwHRBufAo+Tx8X+gnoZ9z2KmaGDK8mYa2yG9Q2npeGXoqdMbG8RO+O1mhikJtQb
+	adjdnpKremMAvBONbl2yweluVDESgIPcks/Ej7rC3LAEaH92/TVyrl2aXw4K3TnEVQ0K
+	lqyuAl6G9Ls2phlvBhzEKcHuxTSP0nM4qftlkDbNnYpBnBBUcibzplI8YQJ33C3kCFsk
+	swGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=RcVx9xNQgKTuhptxEGFpE3XvtHLyQ0SCIWbhlk2prBI=;
-	b=pZFOdK2kDG15oNOvzBwkAdaY9tChlt6B8coVYmhy6U+ggvGf0c4CxcKszjnmG3KR6f
-	mmmwpD0Aok/pO2u/A4Fg275vUAvyiOpyej1zVbQmpxP7cDSbXrouabxKPn9OnJjmlJNg
-	YAPPyOgbhGGoF0X2jstSYMBW0SmIkUlf0F6ax3lL1pdwvosbXnsT2oX8eL6njeAR4lIv
-	HbhN15DiuDeJogrZS0+f0RkQaq9oPTjBGb9KvJuoUszJzP8CLhWTcXS/eDmVLhAAVYmt
-	b9/d5BJAlyLD1YgvcKtwucgGTEhleFX1I03ox31P4G0Yy03uuIT7G8yI9D73+Pgm38wc
-	g/eA==
-X-Gm-Message-State: AHYfb5h9KVvb5cFkxzHZI1RMWKtMrNI1ovEOTDQL6nfpC5nRe40DuFeN
-	xDxc7ZTQeIwXZLKt
-X-Received: by 10.223.164.194 with SMTP id h2mr14780913wrb.137.1502498418571; 
-	Fri, 11 Aug 2017 17:40:18 -0700 (PDT)
+	bh=VqAwmdW3J38syJ+xu7wKGpX0/j4gsd5TVTKW2KPtU94=;
+	b=St+VaS95/o0zyzdQpSinZkojdFenT7p7oi96kEXDmTwO72N3ETabNhCdoFJxu94f1Z
+	CndnfmaTItte5JZaf9IN/23wufAay828rWod683Te/SbuulkevaldU/UmuJrrmFgjevc
+	OgpZsqiKZnDOOXJVJ+B1kSRwvYSV7wP/4tkz685HEPjj1upd45sI93QZPvNTynUzGYP6
+	Df+6MJsj9Lu9kBiYBOVz0J+ntxXYhXXrVoYKSzCd8iXf6YG8MMj8paO8UVzVBsbiQSE7
+	yCSV4Y603j0fXBChujqUL7gCmlWZfPt/ztoz2Bg9VbqYqvioJn1YdH83CStkYXAPeslm
+	rn8A==
+X-Gm-Message-State: AHYfb5iFS+LZIDBwPim1sJeE9c1+5w3n5vYd2ZWy9waHgfBXDWwavFJn
+	4J+e3FbN71ZmTeV7
+X-Received: by 10.28.63.18 with SMTP id m18mr220452wma.79.1502498419588;
+	Fri, 11 Aug 2017 17:40:19 -0700 (PDT)
 Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id z45sm139540wrb.41.2017.08.11.17.40.17
+	by smtp.gmail.com with ESMTPSA id q10sm2044451wrb.3.2017.08.11.17.40.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Aug 2017 17:40:18 -0700 (PDT)
+	Fri, 11 Aug 2017 17:40:19 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Aug 2017 02:41:42 +0200
-Message-Id: <20170812004145.12654-2-Martin.Jansa@gmail.com>
+Date: Sat, 12 Aug 2017 02:41:43 +0200
+Message-Id: <20170812004145.12654-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.14.0
 In-Reply-To: <20170812004145.12654-1-Martin.Jansa@gmail.com>
 References: <20170812004145.12654-1-Martin.Jansa@gmail.com>
-Subject: [PATCH][morty 2/5] sstate-sysroot-cruft: Add /etc/ld.so.conf to whitelist
+Subject: [PATCH][morty 3/5] eudev: set LGPL-2.1+ for libudev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Aug 2017 00:40:18 -0000
-
-From: Martin Jansa <martin.jansa@gmail.com>
-
-* it reports at least 2 issues in every build (this file in
-  native and target sysroot) add it to whitelist
+X-List-Received-Date: Sat, 12 Aug 2017 00:40:19 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/sstate-sysroot-cruft.sh | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-core/udev/eudev_3.2.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
-index b7ed8ea846..b6166aa1b2 100755
---- a/scripts/sstate-sysroot-cruft.sh
-+++ b/scripts/sstate-sysroot-cruft.sh
-@@ -141,6 +141,18 @@ WHITELIST="${WHITELIST} \
-   .*/var/cache/fontconfig/ \
- "
+diff --git a/meta/recipes-core/udev/eudev_3.2.bb b/meta/recipes-core/udev/eudev_3.2.bb
+index 211252cebc..857d20db78 100644
+--- a/meta/recipes-core/udev/eudev_3.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.bb
+@@ -1,6 +1,7 @@
+ SUMMARY = "eudev is a fork of systemd's udev"
+ HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
+-LICENSE = "GPLv2.0+"
++LICENSE = "GPLv2.0+ & LGPL-2.1+"
++LICENSE_libudev = "LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
  
-+# created by oe.utils.write_ld_so_conf which is used from few bbclasses and recipes:
-+# meta/classes/image-prelink.bbclass:    oe.utils.write_ld_so_conf(d)
-+# meta/classes/insane.bbclass:                oe.utils.write_ld_so_conf(d)
-+# meta/classes/insane.bbclass:                oe.utils.write_ld_so_conf(d)
-+# meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb:    oe.utils.write_ld_so_conf(d)
-+# meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb:        oe.utils.write_ld_so_conf(d)
-+# introduced in oe-core commit 7fd1d7e639c2ed7e0699937a5cb245c187b7c811
-+# and more visible since added to gobject-introspection in 10e0c1a3a452baa05d160a92a54b2e33cf0fd061
-+WHITELIST="${WHITELIST} \
-+  [^/]*/etc/ld.so.conf \
-+"
-+
- SYSROOTS="`readlink -f ${tmpdir}`/sysroots/"
- 
- mkdir ${OUTPUT}
+ DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
 -- 
 2.14.0
 
