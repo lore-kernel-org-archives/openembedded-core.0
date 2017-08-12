@@ -1,49 +1,50 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 439506074F
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 12A4678612
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 00:33:27 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id y67so3452616wrb.3
+	Sat, 12 Aug 2017 00:33:28 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id o33so3449091wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 17:33:28 -0700 (PDT)
+	Fri, 11 Aug 2017 17:33:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dovxyxubK70imeCpZg6JQiZwU+7JX4RIfoY3hMPTKl4=;
-	b=SU5QHm52WOgSJ6vl8AQgrwZsKABhOcHedMSlvK3SCBd7ENcbf9uYJJVR2S8k1GAmuq
-	WIeSroOut7ZbpuC0HwUotj6A/JZruuCSfxjBznFmtHXGPyQ3FyrzTN+YxjXIrL4jlAZb
-	IOzmiG1DcAGI8yKZHBAGYHT+2JVD1yX+4bf+tR0BHR9I+KVKaQtF90NGpXmkkIhDkHcD
-	1z84kkcs/nkzkr1Cn3axmY3IXSVo5Q4wHBBe8ZIpqwEJxxqyPh+wXKWi1DzY624fRCD0
-	X8A0C6iQfbJ8TuqS9Z0HdxXnrU01pmvvmQHumEbJA1Yz1ZrkR7gUtnU9WRaFJpHzNiQb
-	a2RQ==
+	bh=rm+LSN6pSWVewHrT7eDkXMe/6Q28iOLGEtGl3czKT94=;
+	b=sZJ7PFajD8ObbYzF0xfXvmsYTs3AiwNjYWFvMqoDvH8hvPEb2Oowa7wOoj+NtUXWmj
+	3ad+BWtrdmouhpyPCLcIM678IdvtBSMBtxZs3B62MqtIVxC4hPwvaA3d7NBpQmqtZKqd
+	rPsAYh58u7OfXxLwE5B+kN2eKbev3PfyyJkZuifa2kJVhvenHZHzejuN5tbT62qLtfRQ
+	VuaYeFHgqQtx3iDEl8hcEL1KEXGnr7/H5cq208Qe6vrbQfH4fnIR9+DOZwWUHMQhBkUi
+	6o7msk3VxQQus4zFxXQtyKPHQEXp1WARLl+30weiuqlwIcN69HlUZIH1Ad12ypaUQgw0
+	v4AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dovxyxubK70imeCpZg6JQiZwU+7JX4RIfoY3hMPTKl4=;
-	b=gc3G9fE7d3XuAKTmFDGLyywIGKo6ugbyp3C3zaXky40/wbKPaP7euS5OfEh0tAVVFk
-	CUze/tiPOrqKzjnlVMq4RMyX5UeBZEWkh2zzvq5tFOR71YaV4e3TreGAYgVP7ewdc3LK
-	Tft0fDG1rSoB2idkzCs8mcSv3Vdc7pIfWbIEuca+KnbYLRdhVVls+bNiL4CJfL/HP2LF
-	ydu7iK9OAs4Hex/oBwBNtLhLbRgoDA4LviGzz9+Goyro+0v3lHUF4N+RugrZGlmjEuRP
-	hkNQMzifyj/s337yqE+eR8YehXq15BQ21lezQevSYmEmwplYj2fdVd35YS9YOPriBUSH
-	jyHA==
-X-Gm-Message-State: AHYfb5jx1AB3y6MeJCbu7FVozBgGyVVXMDtV+0qNkA/9sjq/n1oCgVBu
-	4kUWDJHZIYtHqgJa
-X-Received: by 10.223.132.2 with SMTP id 2mr13780923wrf.69.1502498008034;
-	Fri, 11 Aug 2017 17:33:28 -0700 (PDT)
+	bh=rm+LSN6pSWVewHrT7eDkXMe/6Q28iOLGEtGl3czKT94=;
+	b=Al4OtITQ4CHvYnxyAEwZEYMZTcD8Pj+715emwNtmUJGfJwZ8m/O3inmSU+Ka2oklOD
+	8nrn0llLogLv5fJEJrcn7xbbTOT97AtHTP5RXyjdtnnPCh0hoYPEiloX/lS6+wo9IA6u
+	jup6wDJxLtIqtWwAP5ntBD96PvXClSIALtCdlWZi2j3v189OlK9yj9Z+dMh/ywbQDukC
+	twZAxg6qA0CHDHihwDWd22YZDjXm2JoNggW6RyCsZZGTW2W1Ep8Fij7jUwBKY0+mOFN8
+	09CSVG8gJTzqdOmWm43d42txaEjDuRYj/Qr6Eh1wvwxWKRQjd4Zpzu9IqbVP58yVqD+A
+	SbAg==
+X-Gm-Message-State: AHYfb5iQrpZd/ubYUeClgKp06fcFsxZhfTw4CTk3CkM09U8yjlWV0N2J
+	r28AQHwn5QM1Xi6t
+X-Received: by 10.223.134.39 with SMTP id 36mr12462516wrv.244.1502498009112;
+	Fri, 11 Aug 2017 17:33:29 -0700 (PDT)
 Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id 81sm413259wmm.17.2017.08.11.17.33.27
+	by smtp.gmail.com with ESMTPSA id m189sm334638wmb.9.2017.08.11.17.33.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Aug 2017 17:33:27 -0700 (PDT)
+	Fri, 11 Aug 2017 17:33:28 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Aug 2017 02:34:53 +0200
-Message-Id: <20170812003455.27183-2-Martin.Jansa@gmail.com>
+Date: Sat, 12 Aug 2017 02:34:54 +0200
+Message-Id: <20170812003455.27183-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.14.0
 In-Reply-To: <20170812003455.27183-1-Martin.Jansa@gmail.com>
 References: <20170812003455.27183-1-Martin.Jansa@gmail.com>
-Subject: [PATCH][pyro 2/4] icecc.bbclass: prevent nativesdk builds depending on target specific KERNEL_CC
+Cc: Gan Yau Wai <yau.wai.gan@intel.com>
+Subject: [PATCH][pyro 3/4] insane.bbclass: fix override handling in RDEPENDS QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Aug 2017 00:33:27 -0000
+X-List-Received-Date: Sat, 12 Aug 2017 00:33:28 -0000
 
-* without this we cause nativesdk-linux-libc-headers to depend
-  on target specific KERNEL_CC (through icecc_get_tool ->
-  icecc_is_kernel -> KERNEL_CC -> HOST_CC_KERNEL_ARCH ->
-  TARGET_CC_KERNEL_ARCH -> TUNE_FEATURES(thumb) as shown by
-  bitbake-diffsigs:
+From: Gan Yau Wai <yau.wai.gan@intel.com>
 
-  OE qemux86@ ~/build/oe-core $ ls /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/qemu*/*sdk*/*/*do_configure.sigdata*
-  /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/qemuarm/x86_64-nativesdk-oesdk-linux/nativesdk-linux-libc-headers/4.10-r0.do_configure.sigdata.3a9a423878d56524e0ee8e42eba1804f
-  /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/qemux86/x86_64-nativesdk-oesdk-linux/nativesdk-linux-libc-headers/4.10-r0.do_configure.sigdata.401071dbaa88903ece37d35a47965ff2
+The package_qa_check_rdepends() in insane.bbclass has
+incorrectly replace its localdata OVERRIDES value with
+the package name. Fixing it by appending the package name
+to the existing OVERRIDES value. This resolves RDEPENDS QA
+error when setting PACKAGECONFIG using a pn- override at
+local.conf.
 
-  OE qemux86@ ~/build/oe-core $ bitbake-diffsigs /OE/build/oe-core/tmp-glibc/sstate-diff/1499859497/qemu*/*sdk*/*/*do_configure.sigdata*
-  basehash changed from 39774238b66763c598153132e87a2c1a to aa2d66e770bf533e312536eb0a401c4c
-  Variable TARGET_CC_KERNEL_ARCH value changed from '${@bb.utils.contains('TUNE_FEATURES', 'thumb', '-mno-thumb-interwork-marm', '', d)} TUNE_FEATURES{thumb} = Set' to ''
+Cherry picked from master 60d28dd72daee235150ab6605cbf953f1ea691df
 
+[YOCTO #11374]
+
+Signed-off-by: Gan Yau Wai <yau.wai.gan@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/icecc.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 8a351cf3b8..77bf61133e 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -42,6 +42,7 @@ def icecc_dep_prepend(d):
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index dc1c2f8d41..5a3d017004 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -867,7 +867,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
  
- DEPENDS_prepend += "${@icecc_dep_prepend(d)} "
+     if not "-dbg" in pkg and not "packagegroup-" in pkg and not "-image" in pkg:
+         localdata = bb.data.createCopy(d)
+-        localdata.setVar('OVERRIDES', pkg)
++        localdata.setVar('OVERRIDES', localdata.getVar('OVERRIDES') + ':' + pkg)
  
-+get_cross_kernel_cc[vardepsexclude] += "KERNEL_CC"
- def get_cross_kernel_cc(bb,d):
-     kernel_cc = d.getVar('KERNEL_CC', False)
- 
+         # Now check the RDEPENDS
+         rdepends = bb.utils.explode_deps(localdata.getVar('RDEPENDS') or "")
 -- 
 2.14.0
 
