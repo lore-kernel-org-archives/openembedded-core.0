@@ -1,48 +1,51 @@
 Return-Path: <max.oss.09@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C7BC36060F
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id AED5677E0D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 17:21:53 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id g32so4456281wrd.5
+	Sat, 12 Aug 2017 17:21:56 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id o33so4448215wrb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 10:21:55 -0700 (PDT)
+	Sat, 12 Aug 2017 10:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=uHVokjzgKKzgETXLAU72Nsx7nTXUxT8GLEPXPYW1M6I=;
-	b=tP3RI+8JrcP/duR4DbSParud3bxQXpeNZDpyuIOdYqa5lGMYu6i9YnQdS91Ox8EobY
-	z/khRyHIVIUYU1fAjYG0lLGcD9eEubqP/opnsFgNURP+V9htUXM+LDOfJXbWlLXq5s/7
-	LjTAxqhQHg+2l/oiDlRd40m06I/3hSjs7kluOWld3O/CNK63jI/XV7ZOJpmVml+2tTI8
-	4P1stOSV0CP13EVBkRrsuttrjwbNFxxI7rFkqsKGRCsugyJtm47JaJbdUNkXGjvH46sZ
-	hZgpwZrpXfIlXu88rYwr4ACkqxQ1VOfgtCVmQGKXk+4hgftuEvRtYt+QAJltKxLGYQTd
-	Nh3w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=td9+gU1bg2nPT0vJE7BHIwlhlCQkQFYu2byA65IBP8E=;
+	b=iFdh/ZeU91BXJkA6DvqxQCyPzxZi7SMEB2725vjHQe7glc9ewDw/2xCpazNc30BEY2
+	is8P4rzBWAjEyWbX3ZNkMT9WzGADkQe58Ur7OhxnAPjLQf5G4qDoprWP4ZEqXwXI3+Dz
+	nTq4ynehrka72Riy2KdSyi8zwAdMqoVVYUTr+UMBJNM03wMLkTuSek9htEJ1Zg2YCtFJ
+	PNknbtEnkWq2jWILj1ICi7NKuFufSw1W8cBOqSFupT9y5u/BH62Ebz0nYJe78pykNml1
+	ea9RRkqctv2VQ0F57FNiqBH3/cRnsfySWQY89NE/1r4ettBE9fzrCIac2VhmTnhBO2OX
+	tzlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uHVokjzgKKzgETXLAU72Nsx7nTXUxT8GLEPXPYW1M6I=;
-	b=TVCYOHKbwBh5HebsflCHQu1vegH7WMm1njyvH4auUJWAls+8hLj2YPRre4+YO/IOra
-	sNlJgQhz6rfI3yCRZ8FqWr/bUwWEiISFGQOKPi0HNdi0unNWHjUCeo5XzBkJ4MHBdhgN
-	ESw1mwdromftX1EDJfRseSJHZ002dkcJeoBY+inaU/sEgqarIDfk0yickL+fguYgyY0L
-	w8W5498UZlj9FzQI/iW8MXCyvBsQc137SGh49c3KpQ2BW/kMiveKQCCsJ1hF2PDj6x3e
-	+x+hZ/MSApREe0SfQpHsIsEvv9JZD6tEjwoCLujoHamH4slEdftSkrB5EyDbhmPKp0D0
-	9ZsQ==
-X-Gm-Message-State: AHYfb5j+qz9522/F02pYeUzzrqECj9x9XI9WHmXJ996UEmbvUPrl49US
-	Cy44bIvyCK/S6GQM
-X-Received: by 10.223.139.21 with SMTP id n21mr15205703wra.116.1502558514198; 
-	Sat, 12 Aug 2017 10:21:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=td9+gU1bg2nPT0vJE7BHIwlhlCQkQFYu2byA65IBP8E=;
+	b=B23YkML8Iek8TQB9pdXNz8PIkXXhi5jCNJYvx5IMvLxBTte4Cd+lPdHshUzqvvaFgH
+	sBnefYtg49tdWMvgEmkbxTbEDddSL3DmCVB4fzLh02QCdF4TIsnEfEXwvCZ7w/hBn97C
+	xFxthP8gWPk3POD8wfRZ9u8eB8OuomPKHTG4Qg6+H3BPoU1CTUFbiP6CKJSfKqvTxLiA
+	5g7xaUJoWFPw6r0xDy/bQF7Edn9xtJwm+9GiXiBZ2L0nAaZPWxxGHB0peHRziXd8j5Fp
+	X8E51p5MO3gnyW6V6A8CYBnggX+RYpO/KfMgM8qBR7vrhar20FgaKXVvFkYrqSWNegGq
+	+WHw==
+X-Gm-Message-State: AHYfb5gS3+uX4JPD3I4/KCzGlEeqSBY1AFKNWr3yWNn1R9hiHQMxRSyT
+	NYbRbp1XzKlavbDy
+X-Received: by 10.223.161.145 with SMTP id u17mr12557476wru.44.1502558517210; 
+	Sat, 12 Aug 2017 10:21:57 -0700 (PDT)
 Received: from linuxdev.toradex.int ([46.140.72.82])
 	by smtp.gmail.com with ESMTPSA id
-	x14sm4429070wmd.19.2017.08.12.10.21.52
+	x14sm4429070wmd.19.2017.08.12.10.21.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 12 Aug 2017 10:21:53 -0700 (PDT)
+	Sat, 12 Aug 2017 10:21:56 -0700 (PDT)
 From: Max Krummenacher <max.oss.09@gmail.com>
 X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Aug 2017 19:20:57 +0200
-Message-Id: <20170812172059.5299-1-max.krummenacher@toradex.com>
+Date: Sat, 12 Aug 2017 19:20:58 +0200
+Message-Id: <20170812172059.5299-2-max.krummenacher@toradex.com>
 X-Mailer: git-send-email 2.9.4
+In-Reply-To: <20170812172059.5299-1-max.krummenacher@toradex.com>
+References: <20170812172059.5299-1-max.krummenacher@toradex.com>
 Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [Resend][PATCH 1/3] dpkg-configure: do not reload daemon configuration
+Subject: [Resend][PATCH 2/3] opkg-configure: do not reload daemon configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,7 +58,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Aug 2017 17:21:54 -0000
+X-List-Received-Date: Sat, 12 Aug 2017 17:21:57 -0000
 
 In case a systemd service disables itself while init is still in its
 boot sequence the reloading of the service files can be problematic.
@@ -87,30 +90,21 @@ above and seems to not cause such issues anymore.
 
 Reported-by: Stefan Agner <stefan.agner@toradex.com>
 Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-(cherry picked from commit 94fabe4b03e899d8876027ee2ced649737a9e522)
+(cherry picked from commit 16b7b455ee40fd1be5bb9aacf24b106df0d9325e)
 ---
- meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service | 2 +-
+ meta/recipes-devtools/opkg/opkg/opkg-configure.service | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi
-
-The thread did not get any positive or negative feedback.
-https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg96339.h
-
-Any thoughts?
-
-Max
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
-index f0b0789..9a248cc 100644
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
-+++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
+diff --git a/meta/recipes-devtools/opkg/opkg/opkg-configure.service b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
+index 8e74026..432c3dd 100644
+--- a/meta/recipes-devtools/opkg/opkg/opkg-configure.service
++++ b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
 @@ -8,7 +8,7 @@ Before=sysinit.target
  Type=oneshot
  EnvironmentFile=-@SYSCONFDIR@/default/postinst
- ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/dpkg --configure -a > $LOGFILE 2>&1; else @BINDIR@/dpkg --configure -a; fi"
--ExecStartPost=@BASE_BINDIR@/systemctl disable dpkg-configure.service
-+ExecStartPost=@BASE_BINDIR@/systemctl --no-reload disable dpkg-configure.service
+ ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/opkg configure > $LOGFILE 2>&1; else @BINDIR@/opkg configure; fi"
+-ExecStartPost=@BASE_BINDIR@/systemctl disable opkg-configure.service
++ExecStartPost=@BASE_BINDIR@/systemctl --no-reload disable opkg-configure.service
  StandardOutput=syslog
  RemainAfterExit=No
  
