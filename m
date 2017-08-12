@@ -1,48 +1,48 @@
-Return-Path: <oleksandr.kravchuk@pelagicore.com>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C21A5605C3
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id C7BC36060F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 15:49:50 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id t128so26239569lff.2
+	Sat, 12 Aug 2017 17:21:53 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id g32so4456281wrd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 08:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
+	Sat, 12 Aug 2017 10:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=TLysmZSDQw6WHmydhai0bZHopU9/VNCyqZnrbbA3NGo=;
-	b=LcOdsdeNGT+wqFQfldBBNch3eHjJCsjxpv3gGFLAb65dxtgRLx5Qdji3MeYPNEn9Lf
-	pIP8g/IP7f6+YtAxkZhssviPiqPuPSxaPv0EQc1h/jJnmlnWP4aHY1ENhtVK3ebzweOD
-	lTR8ujo1ovueIQWGCkBanWXBx8aGDVhFamQFCLkFs2UgLcaXe2ovdrfADa7zwDbyjvg+
-	aD80XkfhEIWtSrlFAebL240JJM2Sxe3s5rC/nnQPR6LjUdmhkL21FAWlL/7QHQKGYslr
-	bApm8VT4/XsF/+erceVzrAkEYx0lbS0sqMGA1lnhvLTsLzT8Pi8U6e+y+SjNmCXf0Uc3
-	vEKQ==
+	bh=uHVokjzgKKzgETXLAU72Nsx7nTXUxT8GLEPXPYW1M6I=;
+	b=tP3RI+8JrcP/duR4DbSParud3bxQXpeNZDpyuIOdYqa5lGMYu6i9YnQdS91Ox8EobY
+	z/khRyHIVIUYU1fAjYG0lLGcD9eEubqP/opnsFgNURP+V9htUXM+LDOfJXbWlLXq5s/7
+	LjTAxqhQHg+2l/oiDlRd40m06I/3hSjs7kluOWld3O/CNK63jI/XV7ZOJpmVml+2tTI8
+	4P1stOSV0CP13EVBkRrsuttrjwbNFxxI7rFkqsKGRCsugyJtm47JaJbdUNkXGjvH46sZ
+	hZgpwZrpXfIlXu88rYwr4ACkqxQ1VOfgtCVmQGKXk+4hgftuEvRtYt+QAJltKxLGYQTd
+	Nh3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=TLysmZSDQw6WHmydhai0bZHopU9/VNCyqZnrbbA3NGo=;
-	b=PKasoMXD39mvFRLbNZOHaClM3cPSxsxU0VhAxxxgRKBVAZJ3+EpWBKKOH3md+EkvRb
-	+bPKFT4Lg+IM4OaXlD10fULFrAMbpf/htTwfaJmnFqEqC4V04+6cUs2Z0yB43Lwa47gr
-	KApge9HeZY9MYbMRr/ujBp1pMM5ui52DEHIKtklQRVjw5KOXuWhIkyYDCyuxUqBx0M5A
-	uK6xMLnaMWUpPP2XE4EKWKLyBQ6I3tlbwMrycnw0NJmmtacQNL0qFsVf0HnKQfmHaerh
-	ClaIt8ZmjBHeOz1oTtUwI8WQdRovk8s+4EPi3RFYiCvmXkGrC7KC2HyhkRyiNotptoMx
-	35bQ==
-X-Gm-Message-State: AHYfb5joaShEUjxjCS7vlhhTzg1EDXZxO8aDsoCtLU9juaGbTlysyRFA
-	DxTJVuCCX/mmxTy0Tv8=
-X-Received: by 10.46.78.1 with SMTP id c1mr6351639ljb.189.1502552991032;
-	Sat, 12 Aug 2017 08:49:51 -0700 (PDT)
-Received: from ubuntu.office.pelagicore.net
-	(h-79-136-12-196.NA.cust.bahnhof.se. [79.136.12.196])
-	by smtp.gmail.com with ESMTPSA id 1sm496317ljg.80.2017.08.12.08.49.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 12 Aug 2017 08:49:50 -0700 (PDT)
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+	bh=uHVokjzgKKzgETXLAU72Nsx7nTXUxT8GLEPXPYW1M6I=;
+	b=TVCYOHKbwBh5HebsflCHQu1vegH7WMm1njyvH4auUJWAls+8hLj2YPRre4+YO/IOra
+	sNlJgQhz6rfI3yCRZ8FqWr/bUwWEiISFGQOKPi0HNdi0unNWHjUCeo5XzBkJ4MHBdhgN
+	ESw1mwdromftX1EDJfRseSJHZ002dkcJeoBY+inaU/sEgqarIDfk0yickL+fguYgyY0L
+	w8W5498UZlj9FzQI/iW8MXCyvBsQc137SGh49c3KpQ2BW/kMiveKQCCsJ1hF2PDj6x3e
+	+x+hZ/MSApREe0SfQpHsIsEvv9JZD6tEjwoCLujoHamH4slEdftSkrB5EyDbhmPKp0D0
+	9ZsQ==
+X-Gm-Message-State: AHYfb5j+qz9522/F02pYeUzzrqECj9x9XI9WHmXJ996UEmbvUPrl49US
+	Cy44bIvyCK/S6GQM
+X-Received: by 10.223.139.21 with SMTP id n21mr15205703wra.116.1502558514198; 
+	Sat, 12 Aug 2017 10:21:54 -0700 (PDT)
+Received: from linuxdev.toradex.int ([46.140.72.82])
+	by smtp.gmail.com with ESMTPSA id
+	x14sm4429070wmd.19.2017.08.12.10.21.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 12 Aug 2017 10:21:53 -0700 (PDT)
+From: Max Krummenacher <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Aug 2017 17:49:28 +0200
-Message-Id: <1502552968-13361-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [meta-oe][PATCH] curl: upgrade to 7.55.0
+Date: Sat, 12 Aug 2017 19:20:57 +0200
+Message-Id: <20170812172059.5299-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.9.4
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [Resend][PATCH 1/3] dpkg-configure: do not reload daemon configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Aug 2017 15:49:51 -0000
+X-List-Received-Date: Sat, 12 Aug 2017 17:21:54 -0000
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+In case a systemd service disables itself while init is still in its
+boot sequence the reloading of the service files can be problematic.
+In that case: It seems that systemd looses the state of .device units,
+and some services depend on such units (namely serial consoles such as
+serial-getty@ttymxc0.service). As a result no getty is spawned on the
+affected serial tty.
+After a power-cycle the second boot (which does not disable services)
+succeeds.
+
+The following sequence shows this problem:
+
+| Jan 09 16:36:28 apalis-t30 systemctl[162]: Removed /etc/systemd/system/sysinit.target.wants/run-postinsts.service.
+| Jan 09 16:36:28 apalis-t30 systemd[1]: Reloading.
+|    ...
+|    And then the failing one:
+| Feb 22 15:33:15 apalis-t30 systemd[1]: dev-ttyS0.device: Job dev-ttyS0.device/start timed out.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: Timed out waiting for device dev-ttyS0.device.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: Dependency failed for Serial Getty on ttyS0.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: serial-getty@ttyS0.service: Job serial-getty@ttyS0.service/start failed with result 'dependency'.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: dev-ttyS0.device: Job dev-ttyS0.device/start failed with result 'timeout'.
+| Feb 22 15:33:15 apalis-t30 systemd[1]: Reached target Login Prompts.
+
+(the time has been updated between this two events, but that does not
+influence the issue)
+
+Using --no-reload in the service file avoids the "Reloading." message
+above and seems to not cause such issues anymore.
+
+Reported-by: Stefan Agner <stefan.agner@toradex.com>
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+(cherry picked from commit 94fabe4b03e899d8876027ee2ced649737a9e522)
 ---
- meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.55.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.55.0.bb} (94%)
+ meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.55.0.bb
-similarity index 94%
-rename from meta/recipes-support/curl/curl_7.54.1.bb
-rename to meta/recipes-support/curl/curl_7.55.0.bb
-index f42582a..9284666 100644
---- a/meta/recipes-support/curl/curl_7.54.1.bb
-+++ b/meta/recipes-support/curl/curl_7.55.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
+Hi
+
+The thread did not get any positive or negative feedback.
+https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg96339.h
+
+Any thoughts?
+
+Max
+
+diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
+index f0b0789..9a248cc 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
++++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
+@@ -8,7 +8,7 @@ Before=sysinit.target
+ Type=oneshot
+ EnvironmentFile=-@SYSCONFDIR@/default/postinst
+ ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/dpkg --configure -a > $LOGFILE 2>&1; else @BINDIR@/dpkg --configure -a; fi"
+-ExecStartPost=@BASE_BINDIR@/systemctl disable dpkg-configure.service
++ExecStartPost=@BASE_BINDIR@/systemctl --no-reload disable dpkg-configure.service
+ StandardOutput=syslog
+ RemainAfterExit=No
  
--SRC_URI[md5sum] = "6b6eb722f512e7a24855ff084f54fe55"
--SRC_URI[sha256sum] = "fdfc4df2d001ee0c44ec071186e770046249263c491fcae48df0e1a3ca8f25a0"
-+SRC_URI[md5sum] = "90cd4d6b20fa7655d2b75efe09fd7bfe"
-+SRC_URI[sha256sum] = "af1d69ec6f15fe70a2cabaa98309732bf035ef2a735e4e1a3e08754d2780e5b1"
- 
- CVE_PRODUCT = "libcurl"
- inherit autotools pkgconfig binconfig multilib_header
 -- 
-2.7.4
+2.9.4
 
 
