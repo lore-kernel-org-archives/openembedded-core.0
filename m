@@ -1,46 +1,49 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id ED89D78281
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CDE3B78281
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Aug 2017 00:40:16 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id y43so3466986wrd.0
+	Sat, 12 Aug 2017 00:40:17 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id c24so3475081wra.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Aug 2017 17:40:18 -0700 (PDT)
+	Fri, 11 Aug 2017 17:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=EqjXoDB2QEzrWa/qt/5T0wCGfYAD9OKsWAbHCoKTfSQ=;
-	b=RIck8/RhhxVsodxUafdusWPd3PX+w0q9xRSYEHJ5TrMPj/lkQasCNPSY5AX5wyRr9T
-	Ca/dlBEl+BD5wErDrNjH+ZbJPxwPrGwiSS4vUluD24XOkN13s8jeMys4ih8qN6JGqxH+
-	2S79COw+bHz/NTOOX3cZoTpIYLHX4+0J2dBubOBhc5+9bCXP+9f6S2ZddfbuiSWrX+sM
-	DmxngAgA0ecmrPrFbQo8IbznkVPsAHan4vi/ZTQWRuSI/Ag9P2UrlJtTb70u/IJi69oo
-	4dcT8fR9RKrLF3IVvLOXBaZyy/AgAJzziKspJn6cifaeblBINpZgpL/duEq54vYPgxyB
-	uKkw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=RcVx9xNQgKTuhptxEGFpE3XvtHLyQ0SCIWbhlk2prBI=;
+	b=pNYaM/3ROuhA14CX3s8GRKkT8tUfDkVKQoozKvaRqEd7ejzEfnsgVvDZs1r8eWw8c7
+	mkHeaLZ6Ucp0oKM9bQRDz0Dyrz9QHIMVCTY6qVef5SNKgD0007pabDgdVYOfpIL2jiNB
+	kZ9atMLbT4pnmqu2q712vXxMaG1NE4gqoj4VWKKkDYI0kYtHKLCffoawZ5HDTXEt7q7Y
+	qjSsyXfv+yklA4B75iLtVWldIuXGHasMHOF+KE9cvLZFkqsB9G8LcY2/bf3VZfew5kSt
+	QdNG3D5SCSR+T1EQBBdDkkqAdpKcK22K80DrR9bSmxyiSmlngQafgEBQkf1P+t0Cn0eV
+	RpQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EqjXoDB2QEzrWa/qt/5T0wCGfYAD9OKsWAbHCoKTfSQ=;
-	b=IEEuuIIhG/E6RGHpriRR4uHJSKtyNMH0Z8lA85wH8D1BTXMpHeeCH4hfMdS1oOniad
-	7HMVzoOHdyUgvRXql7FKGgfu8Kl78B6dslXh9FokAHYHVFCH5nb0PBLgYCIE2RCYhSLm
-	ojs8QP9n03tb57vgW0wpSQKkmUP5ECC+4RBIva0sDbFqTqqkZKvSCtCpw7G9KbNtJYoB
-	UTfp8uPW9ZQld1OxDnPrOrNIB8hXg+09GO259tm1UdXFLMYcJHe08f8rE1v2pLkpRw9M
-	GeDzGXXH62iC7P4+o/UaErAo/j/mEnrU6xlr8sEIFmmjxZj37+sjN1PJD0SoH9zASryP
-	ZGdA==
-X-Gm-Message-State: AHYfb5hln1Jyzk8txgAgsmsRmo7b/6ENSLAWURsw1kVuiPKM8MdcVlTG
-	sAbfkef9Pqbue1UA
-X-Received: by 10.223.171.79 with SMTP id r15mr11435201wrc.57.1502498417496;
-	Fri, 11 Aug 2017 17:40:17 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	e198sm220127wma.15.2017.08.11.17.40.16
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=RcVx9xNQgKTuhptxEGFpE3XvtHLyQ0SCIWbhlk2prBI=;
+	b=pZFOdK2kDG15oNOvzBwkAdaY9tChlt6B8coVYmhy6U+ggvGf0c4CxcKszjnmG3KR6f
+	mmmwpD0Aok/pO2u/A4Fg275vUAvyiOpyej1zVbQmpxP7cDSbXrouabxKPn9OnJjmlJNg
+	YAPPyOgbhGGoF0X2jstSYMBW0SmIkUlf0F6ax3lL1pdwvosbXnsT2oX8eL6njeAR4lIv
+	HbhN15DiuDeJogrZS0+f0RkQaq9oPTjBGb9KvJuoUszJzP8CLhWTcXS/eDmVLhAAVYmt
+	b9/d5BJAlyLD1YgvcKtwucgGTEhleFX1I03ox31P4G0Yy03uuIT7G8yI9D73+Pgm38wc
+	g/eA==
+X-Gm-Message-State: AHYfb5h9KVvb5cFkxzHZI1RMWKtMrNI1ovEOTDQL6nfpC5nRe40DuFeN
+	xDxc7ZTQeIwXZLKt
+X-Received: by 10.223.164.194 with SMTP id h2mr14780913wrb.137.1502498418571; 
+	Fri, 11 Aug 2017 17:40:18 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id z45sm139540wrb.41.2017.08.11.17.40.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 11 Aug 2017 17:40:16 -0700 (PDT)
+	Fri, 11 Aug 2017 17:40:18 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 Aug 2017 02:41:41 +0200
-Message-Id: <20170812004145.12654-1-Martin.Jansa@gmail.com>
+Date: Sat, 12 Aug 2017 02:41:42 +0200
+Message-Id: <20170812004145.12654-2-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.14.0
-Subject: [PATCH][morty 1/5] test-dependencies.sh: Strip also '\.bb: .*' before adding failed recipe to list of failed
+In-Reply-To: <20170812004145.12654-1-Martin.Jansa@gmail.com>
+References: <20170812004145.12654-1-Martin.Jansa@gmail.com>
+Subject: [PATCH][morty 2/5] sstate-sysroot-cruft: Add /etc/ld.so.conf to whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,56 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Aug 2017 00:40:17 -0000
+X-List-Received-Date: Sat, 12 Aug 2017 00:40:18 -0000
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* format of bitbake tasks changed in:
-  2c88afb   taskdata/runqueue: Rewrite without use of ID indirection
-
--ERROR: Task 4 (/OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb, do_fetch) failed with exit code '1'
-+ERROR: Task /OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch (/OE/build/oe-core/openembedded-core/meta/recipes-devtools/rpm/sftp.bb:do_fetch) failed with exit code '1'
-
-  so strip not only '\.bb, .*' used before, but also '\.bb:.*' to drop
-  the task name to get recipe name.
-
-* for more details see:
-  http://lists.openembedded.org/pipermail/openembedded-core/2016-June/123132.html
-
-* without this change you can see test-dependencies.sh trying to rebuild packages
-  like:
-  Building recipe: fbprogress (6/21)
-  Building recipe: fbprogress.bb:do (7/21)
-  where the later of course doesn't exist as a recipe
+* it reports at least 2 issues in every build (this file in
+  native and target sysroot) add it to whitelist
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/test-dependencies.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/sstate-sysroot-cruft.sh | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-index 00c50e0d6c..0b94de8608 100755
---- a/scripts/test-dependencies.sh
-+++ b/scripts/test-dependencies.sh
-@@ -141,7 +141,7 @@ build_all() {
-   bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
-   RESULT+=${PIPESTATUS[0]}
-   grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
--  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb;.*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
-+  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb:.*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
- }
+diff --git a/scripts/sstate-sysroot-cruft.sh b/scripts/sstate-sysroot-cruft.sh
+index b7ed8ea846..b6166aa1b2 100755
+--- a/scripts/sstate-sysroot-cruft.sh
++++ b/scripts/sstate-sysroot-cruft.sh
+@@ -141,6 +141,18 @@ WHITELIST="${WHITELIST} \
+   .*/var/cache/fontconfig/ \
+ "
  
- build_every_recipe() {
-@@ -178,7 +178,7 @@ build_every_recipe() {
-       RESULT+=${RECIPE_RESULT}
-       mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
-       grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
--      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb;.*@@g' >> ${OUTPUTB}/failed-recipes.log
-+      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g; s@\.bb:.*@@g' >> ${OUTPUTB}/failed-recipes.log
-       # and append also ${recipe} in case the failed task was from some dependency
-       echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
-     else
++# created by oe.utils.write_ld_so_conf which is used from few bbclasses and recipes:
++# meta/classes/image-prelink.bbclass:    oe.utils.write_ld_so_conf(d)
++# meta/classes/insane.bbclass:                oe.utils.write_ld_so_conf(d)
++# meta/classes/insane.bbclass:                oe.utils.write_ld_so_conf(d)
++# meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb:    oe.utils.write_ld_so_conf(d)
++# meta/recipes-gnome/gobject-introspection/gobject-introspection_1.48.0.bb:        oe.utils.write_ld_so_conf(d)
++# introduced in oe-core commit 7fd1d7e639c2ed7e0699937a5cb245c187b7c811
++# and more visible since added to gobject-introspection in 10e0c1a3a452baa05d160a92a54b2e33cf0fd061
++WHITELIST="${WHITELIST} \
++  [^/]*/etc/ld.so.conf \
++"
++
+ SYSROOTS="`readlink -f ${tmpdir}`/sysroots/"
+ 
+ mkdir ${OUTPUT}
 -- 
 2.14.0
 
