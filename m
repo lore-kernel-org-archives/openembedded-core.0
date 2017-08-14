@@ -1,48 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DBE48783BF
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FC8F77CDB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 03:24:27 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id u185so8411653pgb.0
+	Mon, 14 Aug 2017 04:13:52 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id v77so38838720pgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Aug 2017 20:24:29 -0700 (PDT)
+	Sun, 13 Aug 2017 21:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=5b7h+ovekDwUFxB/Zwu5BFSTSKvWZoclLmGBzB8nLko=;
-	b=dSC3Rr17nNWCgp2LOr6MF5DhXp/7m0ruOWDC48UyV1TDyR2wKaIF9TJxbsCUFHMoqF
-	l4n3RXcT9aCdCXBnwjCDuB4xEhHn5J0eztF6XbM9oVkvthqkVPaSFcwuuzav/ECF0Cou
-	bLNuLmZX6vH3hK6Z9rtsUYrFjVDsLM/shBqaMuPRXIwFexWUIh0GBh6XETG7xKp21RKL
-	HSeZnUgbiBD87jGWz+O8d5ANqXh8b2pA9er9h0kSgZydMrhBj0Rjij1MRrQnmjd5JYic
-	NgKccT+hZWfNcV1fSz1SagrPterM8Z7mdejngMj4y3hqerVDczJ6G33URgE6Ie/eg49C
-	dQ+Q==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=glVf1thudDonGihxJCsZJySH7caCSvJEhVlzuYrp/iU=;
+	b=IwQ3jZEodI18LS86gny4AhJ2gCR5bufPvKCiUwEf+4ksXx1Zk9fuKPzdFY/Jh3BIah
+	Qbq8k0PMrflAOrw2JipHN6qWnn+SAz0vLL6stsPk3CmCS8SgPaSeFpGO8Zm+6ljemQBr
+	CBAKjD1/uH+BBR1NVoSjal8a1gyAQuAe6RMJbZmaktDYvumsrdqsLCYHpeEq2wPeaD6x
+	vY1KmrNVfcZ1wfFXCAjImjT13vW+I9sudqrtneXTHFueBfLTVg2eqOH02Sydg1xqlgOA
+	3LtaR5MJXRa4EZozxU2m9vKK4NP5S02Jr5TYq1B97SJtmCy/nIRGPx8V7eHY4x5g4Gvr
+	aDPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=5b7h+ovekDwUFxB/Zwu5BFSTSKvWZoclLmGBzB8nLko=;
-	b=KEHsbpWlw41F97WRa9x8VRJ+9n7gtm65DI9CfHyJP2Lz5RzmF2/lxUaxpT2XNyxOjC
-	QLaBu86WpIWUVAGrwQ357SN1SuDGuPDP+2TstlFtRO2ZuNQokvAmVPmp5YMQt+X2dURd
-	YyfXR4FS1noFMXDTNiuOX+B8cNDrsushyVE2RpjfDyFmdCPSkcNvZxp7mQjBVB3BtQAt
-	vv5J3uKgLQclEpIsB8G+LqvMaAGJlqQQBk3DuVACxrjvDR2Unh32EEKmhVkiXSNCFB4E
-	pnkGfKERNlCXdbaMxqtYLRv4gwk0p0tbkVWHS1iQ7LgK6DdXtirv32XtajR2Hcqvl9XV
-	IXfQ==
-X-Gm-Message-State: AHYfb5huayfbv6nCwc3aelYil54x61jjKwaaHhz1vNSowFnl7mbmeRH2
-	NK0kVXmx4ruc0skm
-X-Received: by 10.84.134.36 with SMTP id 33mr27153425plg.412.1502681069445;
-	Sun, 13 Aug 2017 20:24:29 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::8319])
-	by smtp.gmail.com with ESMTPSA id
-	y87sm11930051pfa.41.2017.08.13.20.24.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 13 Aug 2017 20:24:28 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=glVf1thudDonGihxJCsZJySH7caCSvJEhVlzuYrp/iU=;
+	b=IMgQNkWzED4BEXW4/CkMS5AlndNnTZTKKb9TnwuofJtPt53FlVgkh/o/CKFlsUYTOX
+	wjHelumQjw58ADxEz7BWkr04FGLFahe2EOHm0QQmMnfSpF54TwgfYVJO2aH9k/qkbk96
+	YQHRIXJRXHwtR4TNXjgQ1l1zz/67e9pRoM8DZJoxBbcJWMl6qclgtZR2hVEHw7X9mejJ
+	zlQfTuyIwk6vvKY8gzT/hhLthSP1WNRO9NasEFRqhNvDaO0xH3RKVEyfpW934cnQgCbV
+	9VSlYByUkP6NoRgkBy7OiIIK/tz/6h5/i/OQrwOF1S1IvkIoIpamabT7HIRCuGsle0o5
+	JIgA==
+X-Gm-Message-State: AHYfb5g+IQAPIGOJqNsgHRZxTgBLtoa3C7Sqcm+1JiF9+dKtx3VAijDR
+	cqCg8DdFWM501nJD8Y73h77A58oz+g==
+X-Received: by 10.99.98.71 with SMTP id w68mr22688062pgb.100.1502684034070;
+	Sun, 13 Aug 2017 21:13:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.167.2 with HTTP; Sun, 13 Aug 2017 21:13:23 -0700 (PDT)
+In-Reply-To: <59911324.9070808@windriver.com>
+References: <1502421401-112341-1-git-send-email-zhixiong.chi@windriver.com>
+	<1502613383.18633.287.camel@linuxfoundation.org>
+	<CAMKF1sqWL=M367APQ5-L1rw_41Ear+JjXJjVdudcY6uNexXEbQ@mail.gmail.com>
+	<59911324.9070808@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 Aug 2017 20:24:18 -0700
-Message-Id: <20170814032418.3936-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170814032418.3936-1-raj.khem@gmail.com>
-References: <20170814032418.3936-1-raj.khem@gmail.com>
-Subject: [PATCH V2 3/3] cairo: Add pkgconfig for opengl support
+Date: Sun, 13 Aug 2017 21:13:23 -0700
+Message-ID: <CAMKF1sqQTa4KQAV9yiyWrUkXvvvyj6mxciJywPUnTDABrd30vw@mail.gmail.com>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: add ld.so locks in _libc_fork
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +57,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 03:24:28 -0000
+X-List-Received-Date: Mon, 14 Aug 2017 04:13:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/cairo/cairo.inc | 1 +
- 1 file changed, 1 insertion(+)
+On Sun, Aug 13, 2017 at 8:04 PM, Zhixiong Chi
+<zhixiong.chi@windriver.com> wrote:
+>
+>
+> On 2017=E5=B9=B408=E6=9C=8814=E6=97=A5 00:35, Khem Raj wrote:
+>>
+>> On Sun, Aug 13, 2017 at 1:36 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>>
+>>> On Fri, 2017-08-11 at 11:16 +0800, Zhixiong Chi wrote:
+>>>>
+>>>> The patch in this Bugzilla entry was requested by a customer:
+>>>>    https://sourceware.org/bugzilla/show_bug.cgi?id=3D4578
+>>>>    https://www.sourceware.org/bugzilla/show_bug.cgi?id=3D19282
+>>>
+>>> I'm a little nervous about accepting a patch which has been sitting in
+>>> the glibc bugzilla for around 10 years. Any idea why upstream haven't
+>>> taken this?
+>>>
+>> patches look sane to me. I would like to see if we can reproduce the
+>> issue on x86 using the
+>> testcases from bugzilla
+>
+>
+> I don't know why the upstream don't take care of it. I guess the reason
+> may be that the testcases is out of scope and we usually don't use the
+> unasync-signal-safe function after the forking.
+>
+> Yes, the testcases from bugzilla can be reproduced easily on every
+> qemu bsp. At the same time we have done the glibc regression testing,
+> The patches works well.
 
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index f07b42d573..7347f223ff 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -31,6 +31,7 @@ PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
- PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
- PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
- PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
-+PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
- 
- #check for TARGET_FPU=soft and inform configure of the result so it can disable some floating points 
- require cairo-fpu.inc
--- 
-2.14.1
+Please test it on hardware as well. I think the patch is safe. I will bring=
+ this
+up in glibc community.
 
+>
+> Thanks.
+>
+>>> Cheers,
+>>>
+>>> Richard
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> --
+> ---------------------
+> Thanks,
+> Zhixiong Chi
+> Tel: +86-10-8477-7036
+>
 
