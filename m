@@ -1,50 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FC8F77CDB
+Return-Path: <jose.alarcon@ge.com>
+X-Greylist: delayed 3230 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 14 Aug 2017 06:56:03 UTC
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EC0B783F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 04:13:52 +0000 (UTC)
-Received: by mail-pg0-f50.google.com with SMTP id v77so38838720pgb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Aug 2017 21:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=glVf1thudDonGihxJCsZJySH7caCSvJEhVlzuYrp/iU=;
-	b=IwQ3jZEodI18LS86gny4AhJ2gCR5bufPvKCiUwEf+4ksXx1Zk9fuKPzdFY/Jh3BIah
-	Qbq8k0PMrflAOrw2JipHN6qWnn+SAz0vLL6stsPk3CmCS8SgPaSeFpGO8Zm+6ljemQBr
-	CBAKjD1/uH+BBR1NVoSjal8a1gyAQuAe6RMJbZmaktDYvumsrdqsLCYHpeEq2wPeaD6x
-	vY1KmrNVfcZ1wfFXCAjImjT13vW+I9sudqrtneXTHFueBfLTVg2eqOH02Sydg1xqlgOA
-	3LtaR5MJXRa4EZozxU2m9vKK4NP5S02Jr5TYq1B97SJtmCy/nIRGPx8V7eHY4x5g4Gvr
-	aDPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=glVf1thudDonGihxJCsZJySH7caCSvJEhVlzuYrp/iU=;
-	b=IMgQNkWzED4BEXW4/CkMS5AlndNnTZTKKb9TnwuofJtPt53FlVgkh/o/CKFlsUYTOX
-	wjHelumQjw58ADxEz7BWkr04FGLFahe2EOHm0QQmMnfSpF54TwgfYVJO2aH9k/qkbk96
-	YQHRIXJRXHwtR4TNXjgQ1l1zz/67e9pRoM8DZJoxBbcJWMl6qclgtZR2hVEHw7X9mejJ
-	zlQfTuyIwk6vvKY8gzT/hhLthSP1WNRO9NasEFRqhNvDaO0xH3RKVEyfpW934cnQgCbV
-	9VSlYByUkP6NoRgkBy7OiIIK/tz/6h5/i/OQrwOF1S1IvkIoIpamabT7HIRCuGsle0o5
-	JIgA==
-X-Gm-Message-State: AHYfb5g+IQAPIGOJqNsgHRZxTgBLtoa3C7Sqcm+1JiF9+dKtx3VAijDR
-	cqCg8DdFWM501nJD8Y73h77A58oz+g==
-X-Received: by 10.99.98.71 with SMTP id w68mr22688062pgb.100.1502684034070;
-	Sun, 13 Aug 2017 21:13:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Sun, 13 Aug 2017 21:13:23 -0700 (PDT)
-In-Reply-To: <59911324.9070808@windriver.com>
-References: <1502421401-112341-1-git-send-email-zhixiong.chi@windriver.com>
-	<1502613383.18633.287.camel@linuxfoundation.org>
-	<CAMKF1sqWL=M367APQ5-L1rw_41Ear+JjXJjVdudcY6uNexXEbQ@mail.gmail.com>
-	<59911324.9070808@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 13 Aug 2017 21:13:23 -0700
-Message-ID: <CAMKF1sqQTa4KQAV9yiyWrUkXvvvyj6mxciJywPUnTDABrd30vw@mail.gmail.com>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: add ld.so locks in _libc_fork
+	Mon, 14 Aug 2017 06:56:03 +0000 (UTC)
+Received: from pps.filterd (m0048204.ppops.net [127.0.0.1])
+	by m0048204.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7E5vfDF044401 for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Aug 2017 02:02:15 -0400
+From: Jose Alarcon <jose.alarcon@ge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Aug 2017 09:02:01 +0300
+Message-Id: <20170814060201.110742-1-jose.alarcon@ge.com>
+X-Mailer: git-send-email 2.10.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-14_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1706020000
+	definitions=main-1708140096
+Subject: [meta-oe][PATCH] libx11: Add patch to fix hanging issue in _XReply
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,63 +37,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 04:13:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Aug 2017 06:56:04 -0000
 
-On Sun, Aug 13, 2017 at 8:04 PM, Zhixiong Chi
-<zhixiong.chi@windriver.com> wrote:
->
->
-> On 2017=E5=B9=B408=E6=9C=8814=E6=97=A5 00:35, Khem Raj wrote:
->>
->> On Sun, Aug 13, 2017 at 1:36 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>>
->>> On Fri, 2017-08-11 at 11:16 +0800, Zhixiong Chi wrote:
->>>>
->>>> The patch in this Bugzilla entry was requested by a customer:
->>>>    https://sourceware.org/bugzilla/show_bug.cgi?id=3D4578
->>>>    https://www.sourceware.org/bugzilla/show_bug.cgi?id=3D19282
->>>
->>> I'm a little nervous about accepting a patch which has been sitting in
->>> the glibc bugzilla for around 10 years. Any idea why upstream haven't
->>> taken this?
->>>
->> patches look sane to me. I would like to see if we can reproduce the
->> issue on x86 using the
->> testcases from bugzilla
->
->
-> I don't know why the upstream don't take care of it. I guess the reason
-> may be that the testcases is out of scope and we usually don't use the
-> unasync-signal-safe function after the forking.
->
-> Yes, the testcases from bugzilla can be reproduced easily on every
-> qemu bsp. At the same time we have done the glibc regression testing,
-> The patches works well.
+Assume event queue is empty if another thread is blocking waiting for event.
 
-Please test it on hardware as well. I think the patch is safe. I will bring=
- this
-up in glibc community.
+If one thread was blocking waiting for an event and another thread sent a
+reply to the X server, both threads got blocked until an event was
+received.
+---
+ .../libx11/Fix-hanging-issue-in-_XReply.patch      | 59 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb     |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
 
->
-> Thanks.
->
->>> Cheers,
->>>
->>> Richard
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-> --
-> ---------------------
-> Thanks,
-> Zhixiong Chi
-> Tel: +86-10-8477-7036
->
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch b/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
+new file mode 100644
+index 0000000..c3d9ba3
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
+@@ -0,0 +1,59 @@
++From 5235a7f3692a4c3c90dd4ac1be3c670388904bbe Mon Sep 17 00:00:00 2001
++From: Tatu Frisk <tatu.frisk@ge.com>
++Date: Tue, 14 Mar 2017 14:41:27 +0200
++Subject: [PATCH] Fix hanging issue in _XReply
++
++Assume event queue is empty if another thread is blocking waiting for event.
++
++If one thread was blocking waiting for an event and another thread sent a
++reply to the X server, both threads got blocked until an event was
++received.
++
++Upstream-Status: Submitted.
++
++This patch needs to be removed once the corresponding patch has been merged upstream.
++
++https://patchwork.freedesktop.org/patch/171458/
++
++Signed-off-by: Tatu Frisk <tatu.frisk@ge.com>
++---
++ src/xcb_io.c | 19 +++++++------------
++ 1 file changed, 7 insertions(+), 12 deletions(-)
++
++diff --git a/src/xcb_io.c b/src/xcb_io.c
++index 5987329..c64eb04 100644
++--- a/src/xcb_io.c
+++++ b/src/xcb_io.c
++@@ -609,22 +609,17 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
++ 		 * letting anyone else process this sequence number, we
++ 		 * need to process any events that should have come
++ 		 * earlier. */
++-
++ 		if(dpy->xcb->event_owner == XlibOwnsEventQueue)
++ 		{
++ 			xcb_generic_reply_t *event;
++-			/* If some thread is already waiting for events,
++-			 * it will get the first one. That thread must
++-			 * process that event before we can continue. */
++-			/* FIXME: That event might be after this reply,
++-			 * and might never even come--or there might be
++-			 * multiple threads trying to get events. */
++-			while(dpy->xcb->event_waiter)
++-			{ /* need braces around ConditionWait */
++-				ConditionWait(dpy, dpy->xcb->event_notify);
+++
+++			/* Assume event queue is empty if another thread is blocking
+++			 * waiting for event. */
+++			if(!dpy->xcb->event_waiter)
+++			{
+++				while((event = poll_for_response(dpy)))
+++					handle_response(dpy, event, True);
++ 			}
++-			while((event = poll_for_event(dpy)))
++-				handle_response(dpy, event, True);
++ 		}
++ 
++ 		req->reply_waiter = 0;
++-- 
++2.10.1
++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
+index caa95fb..7ee51ad 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.4.bb
+@@ -4,6 +4,7 @@ inherit gettext
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI += "file://disable_tests.patch \
++            file://Fix-hanging-issue-in-_XReply.patch \
+            "
+ 
+ SRC_URI[md5sum] = "6d54227082f3aa2c596f0b3a3fbb9175"
+-- 
+2.10.1
+
 
