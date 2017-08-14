@@ -1,29 +1,18 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DB38783B9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 10:27:20 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7EARJFg025634
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 14 Aug 2017 11:27:20 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dhCad-0001Pb-Tt; Mon, 14 Aug 2017 11:27:19 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Aug 2017 11:27:17 +0100
-Message-Id: <1502706437-5377-3-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1502706437-5377-1-git-send-email-richard.purdie@linuxfoundation.org>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 880E27842E;
+	Mon, 14 Aug 2017 10:31:02 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 14 Aug 2017 10:31:04 -0000
+Message-ID: <20170814103104.2382.32688@do.openembedded.org>
 References: <1502706437-5377-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 14 Aug 2017 11:27:21 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 3/3] selftest/tinfoil: Filter LogRecords in test_event_wait
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1502706437-5377-1-git-send-email-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInNpdGUvaXg4Ni1jb21tb246IERyb3AgYWNfY3Zfcy4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 10:27:21 -0000
+X-List-Received-Date: Mon, 14 Aug 2017 10:31:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-As the code stands today, an event mask does not mask LogRecord events
-since the log levels are controlled separately. We therefore need to
-accept (and ignore) LogRecord events in this test to avoid errors.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "site/ix86-common: Drop ac_cv_s..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8212/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 5a25ed1071)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-core/expat/expat/no_getrandom.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/tinfoil.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index aa1af7e..471517f 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -1,6 +1,7 @@
- import os
- import re
- import time
-+import logging
- import bb.tinfoil
- 
- from oeqa.selftest.case import OESelftestTestCase
-@@ -127,6 +128,8 @@ class TinfoilTests(OESelftestTestCase):
-                         self.assertEqual(pattern, event._pattern)
-                         self.assertIn('qemuarm.conf', event._matches)
-                         eventreceived = True
-+                    elif isinstance(event, logging.LogRecord):
-+                        continue
-                     else:
-                         self.fail('Unexpected event: %s' % event)
- 
--- 
-2.7.4
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
