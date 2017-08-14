@@ -1,44 +1,27 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FBE47840E
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B61C77BF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 08:33:44 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id m88so36395078iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 01:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=YP678GSAcvs/OrxCGTjVlLK2/tRmwM/xa9LGKCqJn2E=;
-	b=CZTX4wC1M1XfTjyIrVOi9lty2ADIfexKnohWsYYgROMyT6/hQpIzEfzT4Wc0BvwTlC
-	ZwfVdpIR6zfV7GMqxuGWv8RhQy39BlhcWL6FAfHMhcNOrzz01XVWz0GdorqpYZe9CvxZ
-	Z361SDJGepbLQDpyhgzKl49Qn32bwHwO9yyFTp2+UKhxs594nVljpjp0JXgrYeSA2UD7
-	XGNN6Rf6itsH2iAvizc2L0sZIwNDePnFBf9iUibNpGnBywYXq2+MgvHHpoxkX9vNY0WG
-	gIlu8tfgZuxdei9o86JHm7w0Au6HZ9GHM0yxRHBVKBqN5uxGXJCTpSZhFbVK2psWOVuB
-	3ltQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=YP678GSAcvs/OrxCGTjVlLK2/tRmwM/xa9LGKCqJn2E=;
-	b=l6RbjfhE+3i2Qd0k7QhsDj8cipJEiTZzLizp0TAfTupjlvvZnH5wisI/gCuUDZGu35
-	Xh9rzo7LYJ3cai1WcNR2KgWsyNto/YAqZAOPZWawl7KbmfHBuftmNy7yIT2QmtbEdo8d
-	LjoIz4V0ZjuC5ZNopnOOfKFYcxx8dHUh3P7cbekT3RxwBw9w+zCQpQhOSIrD3KpHrl0O
-	cdFXGnINjzQfFp5/csF+SlLAmq0EfdQ7gKCiOYX+Of8W4t7pTZeynQkJ7IEk1EboAftL
-	+KUH6Zj1cQ04GtCQtfdzkPnlMM5hJGasBCiM8R8c9Emhs1lK9YmACnx86FMAy78NW08i
-	XnlA==
-X-Gm-Message-State: AHYfb5h3UJUCdLvV0PZx2/bpF0gDXxmi7exBJP1tndLn03xpxOyhABhf
-	fNwQNsp8Fi9iYwr6m+zFG8uIDX/2aezxeoM=
-X-Received: by 10.107.25.137 with SMTP id 131mr18151307ioz.153.1502699626005; 
-	Mon, 14 Aug 2017 01:33:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.141.19 with HTTP; Mon, 14 Aug 2017 01:33:15 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 14 Aug 2017 11:33:15 +0300
-Message-ID: <CAHiDW_EycsMUfCykDicgHuVzykCT0YYQHE9EY8i6yFqJsbbSJQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: native sysroot race with rpmbuild
+	Mon, 14 Aug 2017 10:27:19 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7EARImi025632
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 14 Aug 2017 11:27:20 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dhCac-0001PR-Un; Mon, 14 Aug 2017 11:27:18 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Aug 2017 11:27:15 +0100
+Message-Id: <1502706437-5377-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Mon, 14 Aug 2017 11:27:20 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/3] site/ix86-common: Drop ac_cv_sizeof_ino_t as it can be incorrect with large file support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,66 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 08:33:45 -0000
-Content-Type: multipart/alternative; boundary="001a113fd62e699b5c0556b28547"
+X-List-Received-Date: Mon, 14 Aug 2017 10:27:20 -0000
 
---001a113fd62e699b5c0556b28547
-Content-Type: text/plain; charset="UTF-8"
+Depending on whether large file support is enabled, the size of ino_t can
+be 4 or 8 on 32 bit x86. Drop the value from the site cache and allow the
+system to vary it depending on configuration. Very few other arches actually set
+this so its likely obsolete and doesn't need to be hardcoded anymore.
 
-I'm seeing lots of this failure in my last build:
+Also drop the 64 bit and x32 variants since autodetection of this value appears
+to work fine and this avoids any confusion or sizing errors depending on large
+file support.
 
-| DEBUG: PKGWRITEDIR:
-/mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-r0/deploy-rpms/noarch
-| DEBUG: SITE files ['endian-little', 'bit-32', 'common-linux',
-'common-glibc', 'allarch-linux', 'common']
-| DEBUG: Executing shell function BUILDSPEC
-|
-/mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-r0/recipe-sysroot-native/usr/bin/rpmbuild:
-error while loading shared libraries: libdw.so.1: cannot open shared object
-file: No such file or directory
-| WARNING: exit code 127 from a shell command.
-| DEBUG: Python function do_package_rpm finished
-| DEBUG: Python function do_package_write_rpm finished
-| ERROR: Function failed: BUILDSPEC (log file is located at
-/mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-r0/temp/log.do_package_write_rpm.21827)
-ERROR: Task
-(/home/jku/src/poky/meta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb:do_package_write_rpm)
-failed with exit code '1'
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/site/ix86-common  | 1 -
+ meta/site/x32-linux    | 1 -
+ meta/site/x86_64-linux | 1 -
+ 3 files changed, 3 deletions(-)
 
-* libdw.so.1 isn't found when rpmbuild runs
-* seems to be a race as the library is there when I check (and building
-again works)
-* Seems to mostly happen with allarch recipes (maybe they're just fast
-enough): sysvinit-inittab, adwaita, xcursor-transparent-theme, iso-codes
+diff --git a/meta/site/ix86-common b/meta/site/ix86-common
+index f4cf0b8..4fbf58c 100644
+--- a/meta/site/ix86-common
++++ b/meta/site/ix86-common
+@@ -19,7 +19,6 @@ ac_cv_sizeof_long_p=${ac_cv_sizeof_long_p=4}
+ ac_cv_sizeof_float=${ac_cv_sizeof_float=4}
+ ac_cv_sizeof_uid_t=${ac_cv_sizeof_uid_t=4}
+ ac_cv_sizeof_gid_t=${ac_cv_sizeof_gid_t=4}
+-ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=4}
+ ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
+ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
+ ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
+diff --git a/meta/site/x32-linux b/meta/site/x32-linux
+index 308d6e2..4b70422 100644
+--- a/meta/site/x32-linux
++++ b/meta/site/x32-linux
+@@ -1,6 +1,5 @@
+ # general
+ ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=16}
+-ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=8}
+ ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
+ ac_cv_sys_file_offset_bits=${ac_cv_sys_file_offset_bits=64}
+ ac_cv_alignof_double=8
+diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
+index ebdcf69..778e2c5 100644
+--- a/meta/site/x86_64-linux
++++ b/meta/site/x86_64-linux
+@@ -24,7 +24,6 @@ ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
+ ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=8}
+ ac_cv_sizeof_uid_t=${ac_cv_sizeof_uid_t=4}
+ ac_cv_sizeof_gid_t=${ac_cv_sizeof_gid_t=4}
+-ac_cv_sizeof_ino_t=${ac_cv_sizeof_ino_t=8}
+ ac_cv_sizeof_dev_t=${ac_cv_sizeof_dev_t=8}
+ ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=8}
+ ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
+-- 
+2.7.4
 
-Any ideas?
 
-Jussi
-
---001a113fd62e699b5c0556b28547
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m seeing lots of this failure in my last build:<div>=
-<br></div><div><div>| DEBUG: PKGWRITEDIR: /mnt/extra-ssd/tmp/work/all-poky-=
-linux/adwaita-icon-theme/3.24.0-r0/deploy-rpms/noarch</div><div>| DEBUG: SI=
-TE files [&#39;endian-little&#39;, &#39;bit-32&#39;, &#39;common-linux&#39;=
-, &#39;common-glibc&#39;, &#39;allarch-linux&#39;, &#39;common&#39;]</div><=
-div>| DEBUG: Executing shell function BUILDSPEC</div><div>| /mnt/extra-ssd/=
-tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-r0/recipe-sysroot-native/=
-usr/bin/rpmbuild: error while loading shared libraries: libdw.so.1: cannot =
-open shared object file: No such file or directory</div><div>| WARNING: exi=
-t code 127 from a shell command.</div><div>| DEBUG: Python function do_pack=
-age_rpm finished</div><div>| DEBUG: Python function do_package_write_rpm fi=
-nished</div><div>| ERROR: Function failed: BUILDSPEC (log file is located a=
-t /mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-r0/temp/=
-log.do_package_write_rpm.21827)</div><div>ERROR: Task (/home/jku/src/poky/m=
-eta/recipes-gnome/gnome/adwaita-icon-theme_3.24.0.bb:do_package_write_rpm) =
-failed with exit code &#39;1&#39;</div></div><div><br></div><div>* libdw.so=
-.1 isn&#39;t found when rpmbuild runs</div><div>* seems to be a race as the=
- library is there when I check (and building again works)</div><div>* Seems=
- to mostly happen with allarch recipes (maybe they&#39;re just fast enough)=
-: sysvinit-inittab, adwaita, xcursor-transparent-theme, iso-codes</div><div=
-><br></div><div>Any ideas?</div><div><br></div><div>Jussi</div></div>
-
---001a113fd62e699b5c0556b28547--
