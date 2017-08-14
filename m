@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 880E27842E;
-	Mon, 14 Aug 2017 10:31:02 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Mon, 14 Aug 2017 10:31:04 -0000
-Message-ID: <20170814103104.2382.32688@do.openembedded.org>
-References: <1502706437-5377-1-git-send-email-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1502706437-5377-1-git-send-email-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInNpdGUvaXg4Ni1jb21tb246IERyb3AgYWNfY3Zfcy4uLiIgYW5kIDIgbW9yZQ==?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EAC7C71AD6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Aug 2017 10:38:22 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7EAcI0B026433
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 14 Aug 2017 11:38:19 +0100
+Message-ID: <1502707098.13978.3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Aug 2017 11:38:18 +0100
+In-Reply-To: <CAHiDW_EycsMUfCykDicgHuVzykCT0YYQHE9EY8i6yFqJsbbSJQ@mail.gmail.com>
+References: <CAHiDW_EycsMUfCykDicgHuVzykCT0YYQHE9EY8i6yFqJsbbSJQ@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Mon, 14 Aug 2017 11:38:20 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: native sysroot race with rpmbuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 10:31:02 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Aug 2017 10:38:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On Mon, 2017-08-14 at 11:33 +0300, Jussi Kukkonen wrote:
+> I'm seeing lots of this failure in my last build:
+> 
+> | DEBUG: PKGWRITEDIR: /mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-
+> icon-theme/3.24.0-r0/deploy-rpms/noarch
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'common-linux',
+> 'common-glibc', 'allarch-linux', 'common']
+> | DEBUG: Executing shell function BUILDSPEC
+> | /mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-
+> r0/recipe-sysroot-native/usr/bin/rpmbuild: error while loading shared
+> libraries: libdw.so.1: cannot open shared object file: No such file
+> or directory
+> | WARNING: exit code 127 from a shell command.
+> | DEBUG: Python function do_package_rpm finished
+> | DEBUG: Python function do_package_write_rpm finished
+> | ERROR: Function failed: BUILDSPEC (log file is located at
+> /mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-theme/3.24.0-
+> r0/temp/log.do_package_write_rpm.21827)
+> ERROR: Task (/home/jku/src/poky/meta/recipes-gnome/gnome/adwaita-
+> icon-theme_3.24.0.bb:do_package_write_rpm) failed with exit code '1'
+> 
+> * libdw.so.1 isn't found when rpmbuild runs
+> * seems to be a race as the library is there when I check (and
+> building again works)
+> * Seems to mostly happen with allarch recipes (maybe they're just
+> fast enough): sysvinit-inittab, adwaita, xcursor-transparent-theme,
+> iso-codes
+> 
+> Any ideas?
 
-Series: "site/ix86-common: Drop ac_cv_s..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8212/
-State : failure
+Could you tar up /mnt/extra-ssd/tmp/work/all-poky-linux/adwaita-icon-
+theme/3.24.0-r0/temp/log* and share somewhere please?
 
-== Summary ==
+Not sure what is going on there, it seems odd :( What other tasks were
+running when this happened?
 
+I had a go at reproducing this locally but couldn't.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Cheers,
 
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 5a25ed1071)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-core/expat/expat/no_getrandom.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Richard
 
