@@ -1,27 +1,21 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A36778413
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 73E9A783BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 13:02:30 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7ED2TgL006792
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 14 Aug 2017 14:02:30 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dhF0n-0001lr-NR; Mon, 14 Aug 2017 14:02:29 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 14 Aug 2017 13:22:37 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Aug 2017 06:22:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,373,1498546800"; d="scan'208";a="1162431785"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2017 06:22:37 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Aug 2017 14:02:28 +0100
-Message-Id: <1502715748-6769-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 14 Aug 2017 14:02:30 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] python3-native: Avoid use of getentropy
+Date: Mon, 14 Aug 2017 16:19:21 +0300
+Message-Id: <20170814131921.24685-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH] gstreamer1.0-plugins-bad: do not provide a fallback to openssl 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +28,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 13:02:32 -0000
+X-List-Received-Date: Mon, 14 Aug 2017 13:22:37 -0000
 
-getentropy() is only available in glibc 2.25+ and uninative may relocate binaries
-onto systems that don't have this function. For now, force the code to the older
-codepath until we can come up with a better solution for this kind of issue.
+This does not work as intended: enabling either of the alternatives
+causes the other alternative to append a --disable-hls flag to
+configure. Anyone needing openssl 1.0 should set it up manually
+via EXTRA_OECONF_append or similar.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/python/python3-native_3.5.3.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-index 3467d29..66371aa 100644
---- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
-@@ -44,7 +44,8 @@ inherit native
- 
- require python-native-${PYTHON_MAJMIN}-manifest.inc
- 
--EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --without-ensurepip"
-+# uninative may be used on pre glibc 2.25 systems which don't have getentropy
-+EXTRA_OECONF_append = " --bindir=${bindir}/${PN} --without-ensurepip ac_cv_func_getentropy=no"
- 
- EXTRA_OEMAKE = '\
-   LIBC="" \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index dc47f581af1..7427772a45f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -41,8 +41,6 @@ PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluid
+ PACKAGECONFIG[gles2]           = "--enable-gles2,--disable-gles2,virtual/libgles2"
+ PACKAGECONFIG[gtk]             = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
+-# Provide a fallback to openssl 1.0 when using nettle is not acceptable or desirable
+-PACKAGECONFIG[hls_openssl10]   = "--enable-hls --with-hls-crypto=openssl,--disable-hls,openssl10"
+ PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
+ PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
+ PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
 -- 
-2.7.4
+2.13.2
 
 
