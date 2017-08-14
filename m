@@ -1,28 +1,28 @@
-Return-Path: <jose.alarcon@ge.com>
-Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
-	[67.231.157.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 37D6D7840D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F234D7841E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 08:01:12 +0000 (UTC)
-Received: from pps.filterd (m0048300.ppops.net [127.0.0.1])
-	by m0048300.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
-	v7E7wWl3011896 for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 04:01:14 -0400
-From: Jose Alarcon <jose.alarcon@ge.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Aug 2017 11:00:58 +0300
-Message-Id: <20170814080058.129615-1-jose.alarcon@ge.com>
-X-Mailer: git-send-email 2.10.1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-08-14_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
-	adjust=0
-	reason=mlx scancount=1 engine=8.0.1-1706020000
-	definitions=main-1708140129
-Subject: [PATCH v2] libx11: Add patch to fix hanging issue in _XReply
+	Mon, 14 Aug 2017 08:28:05 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7E8S08N016291
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 14 Aug 2017 09:28:01 +0100
+Message-ID: <1502699280.13978.0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Mon, 14 Aug 2017 09:28:00 +0100
+In-Reply-To: <cover.1502466036.git.markus.lehtonen@linux.intel.com>
+References: <cover.1502466036.git.markus.lehtonen@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Mon, 14 Aug 2017 09:28:02 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v3 0/7] Support signed RPM package feeds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 08:01:13 -0000
+X-List-Received-Date: Mon, 14 Aug 2017 08:28:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Assume event queue is empty if another thread is blocking waiting for event.
+On Fri, 2017-08-11 at 18:43 +0300, Markus Lehtonen wrote:
+> Changes since v2:
+> - bug id in the commit message of the last patch corrected
+>=20
+> The following changes since commit
+> df7f5221a56118da7654476f072c37ae1e75dc50:
+>=20
+> =C2=A0 libinput: Upgrade 1.7.3 -> 1.8.1 (2017-08-09 09:25:47 +0100)
+>=20
+> are available in the git repository at:
+>=20
+> =C2=A0 git://git.openembedded.org/openembedded-core-contrib marquiz/fixes=
+-
+> 11209
+> =C2=A0 http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dma=
+rqu
+> iz/fixes-11209
+>=20
+> Markus Lehtonen (7):
+> =C2=A0 lib/oe/package_manager: re-implement rpm feed signing
+> =C2=A0 dnf: rrecommend gnupg
+> =C2=A0 sign_package_feed.bbclass: install signing key into rootfs
+> =C2=A0 package_manager.py: enable dnf's repo_gpgcheck if feed signing is
+> =C2=A0=C2=A0=C2=A0=C2=A0enabled
+> =C2=A0 oeqa: fix dnf tests
+> =C2=A0 oeqa: fix temp file handling in dnf package feed test
+> =C2=A0 dnf: expand dnf selftest to test signed package feeds
 
-If one thread was blocking waiting for an event and another thread sent a
-reply to the X server, both threads got blocked until an event was
-received.
+This seemed to cause a failure in oe-selftest:
 
-Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
----
- .../libx11/Fix-hanging-issue-in-_XReply.patch      | 60 ++++++++++++++++++++++
- meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb     |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/446/steps/=
+Running%20oe-selftest/logs/stdio
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch b/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
-new file mode 100644
-index 0000000..e04acef
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
-@@ -0,0 +1,60 @@
-+From 5235a7f3692a4c3c90dd4ac1be3c670388904bbe Mon Sep 17 00:00:00 2001
-+From: Tatu Frisk <tatu.frisk@ge.com>
-+Date: Tue, 14 Mar 2017 14:41:27 +0200
-+Subject: [PATCH] Fix hanging issue in _XReply
-+
-+Assume event queue is empty if another thread is blocking waiting for event.
-+
-+If one thread was blocking waiting for an event and another thread sent a
-+reply to the X server, both threads got blocked until an event was
-+received.
-+
-+Upstream-Status: Submitted.
-+
-+This patch needs to be removed once the corresponding patch has been merged upstream.
-+
-+https://patchwork.freedesktop.org/patch/171458/
-+
-+Signed-off-by: Tatu Frisk <tatu.frisk@ge.com>
-+Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
-+---
-+ src/xcb_io.c | 19 +++++++------------
-+ 1 file changed, 7 insertions(+), 12 deletions(-)
-+
-+diff --git a/src/xcb_io.c b/src/xcb_io.c
-+index 5987329..c64eb04 100644
-+--- a/src/xcb_io.c
-++++ b/src/xcb_io.c
-+@@ -609,22 +609,17 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
-+ 		 * letting anyone else process this sequence number, we
-+ 		 * need to process any events that should have come
-+ 		 * earlier. */
-+-
-+ 		if(dpy->xcb->event_owner == XlibOwnsEventQueue)
-+ 		{
-+ 			xcb_generic_reply_t *event;
-+-			/* If some thread is already waiting for events,
-+-			 * it will get the first one. That thread must
-+-			 * process that event before we can continue. */
-+-			/* FIXME: That event might be after this reply,
-+-			 * and might never even come--or there might be
-+-			 * multiple threads trying to get events. */
-+-			while(dpy->xcb->event_waiter)
-+-			{ /* need braces around ConditionWait */
-+-				ConditionWait(dpy, dpy->xcb->event_notify);
-++
-++			/* Assume event queue is empty if another thread is blocking
-++			 * waiting for event. */
-++			if(!dpy->xcb->event_waiter)
-++			{
-++				while((event = poll_for_response(dpy)))
-++					handle_response(dpy, event, True);
-+ 			}
-+-			while((event = poll_for_event(dpy)))
-+-				handle_response(dpy, event, True);
-+ 		}
-+ 
-+ 		req->reply_waiter = 0;
-+-- 
-+2.10.1
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-index 50e8837..427bf28 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
-@@ -4,6 +4,7 @@ inherit gettext
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI += "file://disable_tests.patch \
-+            file://Fix-hanging-issue-in-_XReply.patch \
-            "
- do_configure_append () {
-     sed -i -e "/X11_CFLAGS/d" ${B}/src/util/Makefile
--- 
-2.10.1
+NOTE: recipe core-image-full-cmdline-1.0-r0: task do_rootfs: Started
+ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Could not invoke dnf. Comm=
+and '/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/bui=
+ld/build/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0-r0/reci=
+pe-sysroot-native/usr/bin/dnf -y -c /home/pokybuild/yocto-autobuilder/yocto=
+-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/core=
+-image-full-cmdline/1.0-r0/rootfs/etc/dnf/dnf.conf --setopt=3Dreposdir=3D/h=
+ome/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/buil=
+d/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0-r0/rootfs/etc/=
+yum.repos.d --repofrompath=3Doe-repo,/home/pokybuild/yocto-autobuilder/yoct=
+o-worker/nightly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/cor=
+e-image-full-cmdline/1.0-r0/oe-rootfs-repo --installroot=3D/home/pokybuild/=
+yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/qem=
+ux86_64-poky-linux/core-image-full-cmdline/1.0-r0/rootfs --setopt=3Dlogdir=
+=3D/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build=
+/build/tmp/work/qemux86_64-poky-linux/core-image-full-cmdline/1.0-r0/temp -=
+-nogpgcheck install packagegroup-core-ssh-openssh signing-keys-packagefeed =
+packagegroup-core-boot packagegroup-core-full-cmdline psplash rpm run-posti=
+nsts dnf locale-base-en-us locale-base-en-gb' returned 1:
+Unable to detect release version (use '--releasever' to specify release ver=
+sion)
+Added oe-repo repo from /home/pokybuild/yocto-autobuilder/yocto-worker/nigh=
+tly-oe-selftest/build/build/tmp/work/qemux86_64-poky-linux/core-image-full-=
+cmdline/1.0-r0/oe-rootfs-repo
+Last metadata expiration check: 0:00:01 ago on Mon 14 Aug 2017 01:38:25 AM =
+UTC.
+No package signing-keys-packagefeed available.
+Error: Unable to find a match
 
+ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Function failed: do_rootfs
+
+Cheers,
+
+Richard
 
