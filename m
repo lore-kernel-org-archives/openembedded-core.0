@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DC42700F3;
-	Mon, 14 Aug 2017 07:01:01 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jose Alarcon <jose.alarcon@ge.com>
-Date: Mon, 14 Aug 2017 07:01:03 -0000
-Message-ID: <20170814070103.2380.69088@do.openembedded.org>
-References: <20170814060201.110742-1-jose.alarcon@ge.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170814060201.110742-1-jose.alarcon@ge.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlieDExOiBBZGQgcGF0Y2ggdG8gZml4IGhhbmdpbmcgaXNzdWUgaW4gX1hSZXBseQ==?=
+Return-Path: <jose.alarcon@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 37D6D7840D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Aug 2017 08:01:12 +0000 (UTC)
+Received: from pps.filterd (m0048300.ppops.net [127.0.0.1])
+	by m0048300.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7E7wWl3011896 for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Aug 2017 04:01:14 -0400
+From: Jose Alarcon <jose.alarcon@ge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Aug 2017 11:00:58 +0300
+Message-Id: <20170814080058.129615-1-jose.alarcon@ge.com>
+X-Mailer: git-send-email 2.10.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-14_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1706020000
+	definitions=main-1708140129
+Subject: [PATCH v2] libx11: Add patch to fix hanging issue in _XReply
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,49 +35,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 07:01:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Aug 2017 08:01:13 -0000
 
-== Series Details ==
+Assume event queue is empty if another thread is blocking waiting for event.
 
-Series: libx11: Add patch to fix hanging issue in _XReply
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8209/
-State : failure
+If one thread was blocking waiting for an event and another thread sent a
+reply to the X server, both threads got blocked until an event was
+received.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 5a25ed1071)
-
-* Patch            [meta-oe] libx11: Add patch to fix hanging issue in _XReply
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-* Patch            [meta-oe] libx11: Add patch to fix hanging issue in _XReply
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../libx11/Fix-hanging-issue-in-_XReply.patch      | 60 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb     |  1 +
+ 2 files changed, 61 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
+
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch b/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
+new file mode 100644
+index 0000000..e04acef
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libx11/Fix-hanging-issue-in-_XReply.patch
+@@ -0,0 +1,60 @@
++From 5235a7f3692a4c3c90dd4ac1be3c670388904bbe Mon Sep 17 00:00:00 2001
++From: Tatu Frisk <tatu.frisk@ge.com>
++Date: Tue, 14 Mar 2017 14:41:27 +0200
++Subject: [PATCH] Fix hanging issue in _XReply
++
++Assume event queue is empty if another thread is blocking waiting for event.
++
++If one thread was blocking waiting for an event and another thread sent a
++reply to the X server, both threads got blocked until an event was
++received.
++
++Upstream-Status: Submitted.
++
++This patch needs to be removed once the corresponding patch has been merged upstream.
++
++https://patchwork.freedesktop.org/patch/171458/
++
++Signed-off-by: Tatu Frisk <tatu.frisk@ge.com>
++Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
++---
++ src/xcb_io.c | 19 +++++++------------
++ 1 file changed, 7 insertions(+), 12 deletions(-)
++
++diff --git a/src/xcb_io.c b/src/xcb_io.c
++index 5987329..c64eb04 100644
++--- a/src/xcb_io.c
+++++ b/src/xcb_io.c
++@@ -609,22 +609,17 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
++ 		 * letting anyone else process this sequence number, we
++ 		 * need to process any events that should have come
++ 		 * earlier. */
++-
++ 		if(dpy->xcb->event_owner == XlibOwnsEventQueue)
++ 		{
++ 			xcb_generic_reply_t *event;
++-			/* If some thread is already waiting for events,
++-			 * it will get the first one. That thread must
++-			 * process that event before we can continue. */
++-			/* FIXME: That event might be after this reply,
++-			 * and might never even come--or there might be
++-			 * multiple threads trying to get events. */
++-			while(dpy->xcb->event_waiter)
++-			{ /* need braces around ConditionWait */
++-				ConditionWait(dpy, dpy->xcb->event_notify);
+++
+++			/* Assume event queue is empty if another thread is blocking
+++			 * waiting for event. */
+++			if(!dpy->xcb->event_waiter)
+++			{
+++				while((event = poll_for_response(dpy)))
+++					handle_response(dpy, event, True);
++ 			}
++-			while((event = poll_for_event(dpy)))
++-				handle_response(dpy, event, True);
++ 		}
++ 
++ 		req->reply_waiter = 0;
++-- 
++2.10.1
++
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
+index 50e8837..427bf28 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.5.bb
+@@ -4,6 +4,7 @@ inherit gettext
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ SRC_URI += "file://disable_tests.patch \
++            file://Fix-hanging-issue-in-_XReply.patch \
+            "
+ do_configure_append () {
+     sed -i -e "/X11_CFLAGS/d" ${B}/src/util/Makefile
+-- 
+2.10.1
 
 
