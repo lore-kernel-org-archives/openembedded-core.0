@@ -1,27 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C105C60767
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C8CDE77A61
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Aug 2017 08:30:07 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7E8U6Ci016410
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 14 Aug 2017 09:30:07 +0100
-Message-ID: <1502699405.13978.2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 14 Aug 2017 09:30:05 +0100
-In-Reply-To: <20170809164518.35834-1-raj.khem@gmail.com>
-References: <20170809164518.35834-1-raj.khem@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 14 Aug 2017 09:30:07 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] rootfs-postcommands.bbclass: Filter out dangling symlinks in ssh_allow_empty_password()
+	Mon, 14 Aug 2017 08:33:05 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r77so13625393wmd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Aug 2017 01:33:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=ik8xhbFj1eWuCYmHk6se85V2mv1p8DT6+g49I0lWRn8=;
+	b=Fecc222Cfz4cSZvjRB2Dz67bhG0P1j26rlMu3AJKIXjTjS7p3IwNPTO5uPttxuCNYu
+	IxwukpmeYrtabpU5tKWzxcT70RTf6LGbPdUYzkFn2eMGg32lMYiKShIoacklSrt+AVwb
+	dxkSVMh8KbwBCx0Lh1zfZk3TuEJDn+ceFY0HputIjfVET8JUzqCEFdw9QJ5hnlf7R6LT
+	HLN/tUvDxCJDuKVyN4P2QsxNYyZ66FSMqAga+XBihtbW0fd3dhSIqcmyOZ89vCISeKnS
+	BpwGOtetlikTXx10SQFDntfqD47qMyySZQQOqSPx7qefPJ0VphrWrQmzdqF/pyLTshAs
+	bMZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ik8xhbFj1eWuCYmHk6se85V2mv1p8DT6+g49I0lWRn8=;
+	b=hQDg+8CGbgMPwkRTWcmIEocLMbOJO9M0271zW6H2KAxIRYHRVSr6n3psI9F7u3J7Sy
+	XYW010mzZGTVtYUn1Tn6p0d0UojbbBuk0TaF1BdOb1f2SwH/zDM1evKTrq1UYp9Y1Rf0
+	qZDBf0if7Z7nDO8iAEP4Ci0/3tVOs+t2N3cOrNbemj3jacTudQn2UKfqwAqqe57bnyBa
+	sf8XXgcVH7bqP8iJDFf8lEQm5zmFtpbsLWO6ggOd2/zzmtM+cM5FCR1Gv7iPx0THeAlJ
+	bkf1aHRFT508QEXtGVYOZsLmi95FU2lx8QLaDZ2CMGHJ2AVmLKPVTa0QaAXbpZ7ZgDBh
+	ww4Q==
+X-Gm-Message-State: AHYfb5ieXFN38fo1kghi8NG3zEJzQK7ua/FDw7s1CZ5GCp6TL5wzvOzM
+	k+WDj37/6OxgSnwj
+X-Received: by 10.80.195.193 with SMTP id i1mr23458406edf.241.1502699586406;
+	Mon, 14 Aug 2017 01:33:06 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([27.191.203.240])
+	by smtp.gmail.com with ESMTPSA id s3sm4784652edb.28.2017.08.14.01.33.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 14 Aug 2017 01:33:05 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Aug 2017 10:32:59 +0200
+Message-Id: <1502699579-30366-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] packagefeed-stability.bbclass: change a bb.plain to bb.note
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Aug 2017 08:30:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 Aug 2017 08:33:06 -0000
 
-On Wed, 2017-08-09 at 09:45 -0700, Khem Raj wrote:
-> In images built with pam in DISTRO_FEATURES, we end up with dangling
-> symlinks
-> if su is not packaged into image
-> 
-> $ ls /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-
-> image-minimal/1.0-r0/rootfs/etc/pam.d/su-l -l
-> lrwxrwxrwx 1 kraj users 2 Aug  9 07:56
-> /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-
-> minimal/1.0-r0/rootfs/etc/pam.d/su-l -> su
-> 
-> This causes image do_rootfs to fail
-> 
-> > 
-> > sed: can't read /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-
-> > gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/s
-> u-l: No such file or directory
-> > 
-> > WARNING: /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-
-> > gnueabi/core-image-minimal/1.0-r0/temp/run.ssh_allow_empty_
-> password.19238:1 exit 2 from 'sed -i 's/nullok_secure/nullok/'
-> /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi
-> /core-image-minimal/1.0-r0/rootfs/etc/pam.d/*'
-> 
-> Therefore we need to filter out dangling symlinks before sed'ing
-> things out
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/rootfs-postcommands.bbclass | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-This caused all rootfs sanity tests to fail in lsb images (for all
-arches):
+I could see dozens of "Copying packages for recipe..." messages on the
+console during a image build, this is sort of annoying. I would like
+them to be dumped into the task log instead, so I can get a cleaner
+console and would not miss real important messages.
 
-https://autobuilder.yocto.io/builders/nightly-x86-lsb/builds/410
-https://autobuilder.yocto.io/builders/nightly-x86-64-lsb/builds/408
-https://autobuilder.yocto.io/builders/nightly-ppc-lsb/builds/407
-https://autobuilder.yocto.io/builders/nightly-mips-lsb/builds/394
-https://autobuilder.yocto.io/builders/nightly-arm-lsb/builds/406
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/classes/packagefeed-stability.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-(I've confirmed dropping this patch made this issue go away)
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/packagefeed-stability.bbclass b/meta/classes/packagefeed-stability.bbclass
+index c0e9be5..4837779 100644
+--- a/meta/classes/packagefeed-stability.bbclass
++++ b/meta/classes/packagefeed-stability.bbclass
+@@ -189,7 +189,7 @@ def package_compare_impl(pkgtype, d):
+ 
+     # Remove all the old files and copy again if docopy
+     if docopy:
+-        bb.plain('Copying packages for recipe %s' % pn)
++        bb.note('Copying packages for recipe %s' % pn)
+         pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
+         try:
+             with open(pcmanifest, 'r') as f:
+-- 
+2.7.4
 
 
