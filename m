@@ -1,25 +1,53 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id EC080784E1
+Return-Path: <dvorkin@tibbo.com>
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 551637849F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 10:33:25 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 03:33:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="140363971"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga006.fm.intel.com with ESMTP; 15 Aug 2017 03:33:27 -0700
-Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
-	by linux.intel.com (Postfix) with ESMTP id CFC4958061A;
-	Tue, 15 Aug 2017 03:33:26 -0700 (PDT)
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Tue, 15 Aug 2017 10:37:46 +0000 (UTC)
+Received: by mail-lf0-f48.google.com with SMTP id o85so2192268lff.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Aug 2017 03:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=tibbo-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language;
+	bh=6ay+tWbrXPOqnBNk0yOj8I4pTRtx849vA6XMkMDCUn8=;
+	b=uinu5w3qgozztmOKLjhyKKFf32fsKwIissL5Xg/yp5/HYUmzpe228roi4p+YWJsr7a
+	PeQEigPJjSWQYrWldJWI7fnAvNc7aF7s1BWqsPq8wRSQQMg+hHaQ+uihq13egiHJUDie
+	hZMEtQEAY3WHQqBQUAYT6QWb+ye0JgysMmMIc/sRweqgktCR91HyAQfFoiecBph5zNXL
+	ms4X+NWQf2Xh9doyO7qEhuvgB9tsSn0Asn6U78nlYiTW48BRT9XVsf4HyO3zlmkbeXbN
+	a+dLY3LVflhXDQCLbztw70aIGBzNlv5bZPDF9D51ZHzdbI/nbXo5U78/qlpyQU19zfXa
+	7DGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=6ay+tWbrXPOqnBNk0yOj8I4pTRtx849vA6XMkMDCUn8=;
+	b=ekyZRsBXhrC221AxiotJ0ZbVCpkiJABWJd8QQmo0u323xKmgKOV6UnKvagwL8zd7Zr
+	H45YSmG48ZO6xmXhL8ucTdw6zcuBCOHpn3MGAAWg/5JOCrUlWKVjnLE2ryQGjiQ/JQsG
+	438qcsDmSpqfgz7umkDesKqF79KiIcv6i5828cgKm7HEtkcZIaVnKaxU7RlS5mHoYouW
+	mOOmFh9NmiMe0CD3ft34b7hWthil+9sqxpDnv8JOqQ5h1ygUsop0U6Rb/Cj4xDmQAffo
+	UWzAkcTQWvdb7v9XdqiKAOk+c3bxUFWjD3DW043TBm6KnVb0F0phAcLIhpr1eLKm8BEK
+	pKhA==
+X-Gm-Message-State: AHYfb5jA4uBdqWqMrL/81hiDsO/WutqZFDIoqI1ZxXVb0HJjduBhKyzU
+	OWqMADVIPYvb13fMEIXCDQ==
+X-Received: by 10.46.21.93 with SMTP id 29mr8931665ljv.98.1502793467471;
+	Tue, 15 Aug 2017 03:37:47 -0700 (PDT)
+Received: from [192.168.75.150] ([176.114.204.12])
+	by smtp.gmail.com with ESMTPSA id b9sm1533317lje.20.2017.08.15.03.37.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Aug 2017 03:37:46 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Aug 2017 13:33:20 +0300
-Message-Id: <03a2d5e58a398227bd5b9ae1628f3b348c6791b9.1502792828.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1502792828.git.jussi.kukkonen@intel.com>
-References: <cover.1502792828.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 4/4] gdk-pixbuf: Upgrade 2.36.6 -> 2.36.8
+References: <1503655141-1302-1-git-send-email-stefan@agner.ch>
+From: Dvorkin Dmitry <dvorkin@tibbo.com>
+Message-ID: <3ce69269-11b4-34b8-68fe-0ce8ac9bd103@tibbo.com>
+Date: Tue, 15 Aug 2017 13:37:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <1503655141-1302-1-git-send-email-stefan@agner.ch>
+Subject: two recipes, one replaces files of another
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 10:33:26 -0000
+X-List-Received-Date: Tue, 15 Aug 2017 10:37:47 -0000
+X-Groupsio-MsgNum: 101402
+Content-Type: multipart/mixed; boundary="------------6760FCE4D50A51D723D2FBA8"
+Content-Language: en-US
 
-Smallish releases with bug fixes and minor improvements.
+--------------6760FCE4D50A51D723D2FBA8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-shared-mime-info is now always used for image type sniffing.
-The dependency does not seem to currently be a build-time dependency
-but configure.ac does check for it: I took the easy route and just
-added shared-mime-info to DEPENDS as well.
+Good time of day, people!
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- .../gdk-pixbuf/{gdk-pixbuf_2.36.6.bb => gdk-pixbuf_2.36.8.bb} | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.6.bb => gdk-pixbuf_2.36.8.bb} (91%)
+I have two recipes for two cases:
+recipe-brdRevA.bb
+recipe-brdRevB.bb
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.8.bb
-similarity index 91%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.8.bb
-index fe3e636..3d16ee0 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.6.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.36.8.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
- 
- SECTION = "libs"
- 
--DEPENDS = "glib-2.0 gdk-pixbuf-native"
-+DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
-@@ -21,8 +21,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-queryloaders-Make-output-more-reproducible.patch \
-            "
- 
--SRC_URI[md5sum] = "5dd53760750670d27c194ff6ace7eb51"
--SRC_URI[sha256sum] = "455eb90c09ed1b71f95f3ebfe1c904c206727e0eeb34fc94e5aaf944663a820c"
-+SRC_URI[md5sum] = "e0aaa0061eb12667b32b27472230b962"
-+SRC_URI[sha256sum] = "5d68e5283cdc0bf9bda99c3e6a1d52ad07a03364fa186b6c26cfc86fcd396a19"
- 
- inherit autotools pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
- 
-@@ -39,12 +39,13 @@ PACKAGECONFIG[jpeg] = "--with-libjpeg,--without-libjpeg,jpeg"
- PACKAGECONFIG[tiff] = "--with-libtiff,--without-libtiff,tiff"
- PACKAGECONFIG[jpeg2000] = "--with-libjasper,--without-libjasper,jasper"
- 
--# Use GIO to sniff image format instead of trying all loaders
--PACKAGECONFIG[gio-sniff] = "--enable-gio-sniffing,--disable-gio-sniffing,,shared-mime-info"
- PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
- 
- PACKAGES =+ "${PN}-xlib"
- 
-+# For GIO image type sniffing
-+RDEPENDS_${PN} = "shared-mime-info"
-+
- FILES_${PN}-xlib = "${libdir}/*pixbuf_xlib*${SOLIBS}"
- ALLOW_EMPTY_${PN}-xlib = "1"
- 
--- 
-2.1.4
+both of them has one file:
+/etc/myprog/c.conf
+
+and two image definition files:
+imgA.bb
+imgB.bb
+
+, that requires recipe-brdRevA.bb or recipe-brdRevB.bb indirectly by 
+IMAGE_INSTALL += "myprog"
+
+myprog.bb requires files from recipe-brdRevA or recipe-brdRevB, 
+depending on image.
+
+It's not a correct idea to add IMAGE_INSTALL += "recipe-brdRev<N>" into 
+img<N>.bb explicitely.
+
+How to create dependencies correctly?
+I try to add
+RPROVIDES_${PN} += "recipe-brd" in both recipe-brdRevA/B  and use 
+PREFERRED_PROVIDER_recipe-brd = "..."
+into imgA/B.bb without success.
+
+Please, advice me.
 
 
+
+--------------6760FCE4D50A51D723D2FBA8
+Content-Type: text/x-vcard; charset=utf-8;
+ name="dvorkin.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="dvorkin.vcf"
+
+begin:vcard
+fn:Dmitry Dvorkin
+n:Dvorkin;Dmitry
+org:Tibbo Technology Inc.;Tibbo Engeneering
+adr:;;9F-3, No.31, Lane 169, Kang-Ning St., Hsi-Chih, New Taipei City;Taipei;Taipei;22180;Taiwan
+email;internet:dvorkin@tibbo.com
+title:Embedded Linux System Architect
+url:http://tibbo.com/
+version:2.1
+end:vcard
+
+
+--------------6760FCE4D50A51D723D2FBA8--
