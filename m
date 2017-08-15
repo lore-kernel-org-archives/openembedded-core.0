@@ -1,26 +1,47 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BF628784E1
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A60377E7F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 21:43:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7FLhft8011644
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Aug 2017 14:43:42 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 15 Aug 2017 14:43:41 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Aug 2017 16:41:57 -0500
-Message-ID: <1502833317-48183-7-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
-References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
+	Tue, 15 Aug 2017 21:57:16 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id x24so996210uah.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Aug 2017 14:57:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tqCIwY8OCZsPqTFzOpwqX18WdUiGIeZ06FCayuTFNUg=;
+	b=rc0ykhSIPpwBVbb73yx1wnrddk2k3d0RxPatCwHnjNIEG203Kt0g2T37nZMxC/mzEc
+	Uw0PsMNjGazS0N2uljfA4tU6doYOb83rZ/BfPy7b/2T2owcZ+BHS7rBLT+PLzvLdZIzQ
+	HXolgsxSloGOz17kPT8rFF/eZNh+5oZR7xexC4PAcZm82lX3L4NfEnG2jvbPV/RLOWP+
+	oexP2L/ad9/gHAA9927W2DRZtYNme71wM2v+3uiciBQhqmM1XXUs8YSUNFShdVkGCUiO
+	+YrHp9/sCPzr+gdp9zSlqp57atXM2+w1v0Dgk/edVLBEjTwn/kBYYrGtUrKCDVpSnLp6
+	JeSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tqCIwY8OCZsPqTFzOpwqX18WdUiGIeZ06FCayuTFNUg=;
+	b=bC0nqp/tsI9hIN3rkyZQU6u5eMhyzB8iom3pVMhtrMf5CML5LabCUAP9Rd29Yo2wm3
+	2GSQqBHAqNSLUMrucF2JTz/9LQB+3ALtzfBO50FyhiwSY6nHpspjf1pcqT1IsdfmFa1G
+	+jgaRsDJMwBZ8pMbgOUUdEblNcpNnPKX0Tw6mxLXJuL4j85p474V3QLSurlT4/t28U7u
+	vrM9dP9ocrzcrULR68sC8vOGkkzU2YEmeJGyKtEPCMNn+o3qvFleV7dtUjivvguvR5Fn
+	jjSatuUqWRwjFzqZVP1X9DuZB+BO+/GpWCmV4vyYYHXV8xOb1tZ1IaFWj0OlfBOcYMp9
+	NI3w==
+X-Gm-Message-State: AHYfb5hrt5buJF4/TkpVAOcaditOLaE5SFY6fNjjXWYZ1Zj/vyytfXY6
+	U+l+3oh2dsvL7tslIBGt0P0xh8B+rmLL
+X-Received: by 10.159.33.97 with SMTP id 88mr20072116uab.5.1502834238334; Tue,
+	15 Aug 2017 14:57:18 -0700 (PDT)
 MIME-Version: 1.0
-Cc: peter.kjellerstedt@axis.com
-Subject: [PATCH 6/6 v2] rpm: Disable perl dependency generation
+Received: by 10.176.84.146 with HTTP; Tue, 15 Aug 2017 14:56:57 -0700 (PDT)
+In-Reply-To: <1502831134-27642-1-git-send-email-jose.a.lamego@linux.intel.com>
+References: <1502831134-27642-1-git-send-email-jose.a.lamego@linux.intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 15 Aug 2017 14:56:57 -0700
+Message-ID: <CABcZAN=12C5xBzCo7oRm504nFoLZRVz5DZYbemaBBkRE3XZSpQ@mail.gmail.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagegroup-python3: add packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +54,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 21:43:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Aug 2017 21:57:17 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0b321aeeacf90556d1dc81"
 
-When rpmdeps files a perl script, it attempts to determine what it provides
-and what it requires.  Often the requires are incorrect, within the context
-of Wind River Linux.  This results in an error that DNF is unable to install
-a package due to one or more unresolved dependencies.
+--94eb2c0b321aeeacf90556d1dc81
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In RPM5 we had disabled this behavior, the alternative is to require that all
-perl scripts be 'complete', in that they only require things they absolutely
-need and that OE provides.  If we ever enforce that, this commit can be
-reverted.  Until they fall back to prior behavior (which also matches ipkg
-and deb style packages.)
+On Tue, Aug 15, 2017 at 2:05 PM, Jose Lamego <jose.a.lamego@linux.intel.com=
+>
+wrote:
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../rpm/files/0001-perl-disable-auto-reqs.patch    | 32 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_git.bb               |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
-
-diff --git a/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch b/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
-new file mode 100644
-index 0000000..a6c5869
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
-@@ -0,0 +1,32 @@
-+perl: disable auto requires
-+
-+When generating automatic requirements, it's possible for perl scripts to
-+declare 'optional' dependencies.  These seem to often be incorrect and will
-+cause installation failures in OE.  Instead of fixing the perl scripts, it
-+was decided it is better to simply disable the automatic dependency
-+generation.  This matches the behavior from the previous RPM5 implementation.
-+
-+Upstream-Status: Inappropriate [OE specific configuration]
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+Index: git/fileattrs/perl.attr
-+===================================================================
-+--- git.orig/fileattrs/perl.attr
-++++ git/fileattrs/perl.attr
-+@@ -1,3 +1,3 @@
-+-%__perl_requires	%{_rpmconfigdir}/perl.req
-++#__perl_requires	%{_rpmconfigdir}/perl.req
-+ %__perl_magic		^.*[Pp]erl .*$
-+ %__perl_flags		exeonly
-+Index: git/fileattrs/perllib.attr
-+===================================================================
-+--- git.orig/fileattrs/perllib.attr
-++++ git/fileattrs/perllib.attr
-+@@ -1,5 +1,5 @@
-+ %__perllib_provides	%{_rpmconfigdir}/perl.prov
-+-%__perllib_requires	%{_rpmconfigdir}/perl.req
-++#__perllib_requires	%{_rpmconfigdir}/perl.req
-+ %__perllib_magic	^Perl[[:digit:]] module source.*
-+ %__perllib_path		\\.pm$
-+ %__perllib_flags	magic_and_path
-diff --git a/meta/recipes-devtools/rpm/rpm_git.bb b/meta/recipes-devtools/rpm/rpm_git.bb
-index 513b569..d3d042f 100644
---- a/meta/recipes-devtools/rpm/rpm_git.bb
-+++ b/meta/recipes-devtools/rpm/rpm_git.bb
-@@ -42,6 +42,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm \
-            file://0002-Run-binary-package-creation-via-thread-pools.patch \
-            file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
-            file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
-+           file://0001-perl-disable-auto-reqs.patch \
-            "
- 
- PV = "4.13.90+git${SRCPV}"
--- 
-1.8.3.1
+> Many of the most usual python3 modules are missing when
+> trying to import them to python3 in images built with
+> python3-core installed.
+>
+> This change creates the python3 packagegroup, containing
+> the most usual python3 packages to be installed for images
+> featuring complete python functionality by using the
+> FEATURES_PACKAGES variable to define python3 as a new feature
+> and then adding it to the image to build.
+>
+> [YOCTO #10667]
+>
+> Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
 
 
+Out of curiosity, why not just install =E2=80=98python3-modules=E2=80=99?
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
+
+--94eb2c0b321aeeacf90556d1dc81
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Tue, Aug 15, 2017 at 2:05 PM, Jose Lamego <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:jose.a.lamego@linux.intel.com" target=3D"_blank"=
+>jose.a.lamego@linux.intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail=
+_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Many of =
+the most usual python3 modules are missing when<br>
+trying to import them to python3 in images built with<br>
+python3-core installed.<br>
+<br>
+This change creates the python3 packagegroup, containing<br>
+the most usual python3 packages to be installed for images<br>
+featuring complete python functionality by using the<br>
+FEATURES_PACKAGES variable to define python3 as a new feature<br>
+and then adding it to the image to build.<br>
+<br>
+[YOCTO #10667]<br>
+<br>
+Signed-off-by: Jose Lamego &lt;<a href=3D"mailto:jose.a.lamego@linux.intel.=
+com">jose.a.lamego@linux.intel.com</a><wbr>&gt;</blockquote><div><br></div>=
+<div>Out of curiosity, why not just install =E2=80=98python3-modules=E2=80=
+=99?=C2=A0</div></div>-- <br><div class=3D"gmail_signature" data-smartmail=
+=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christopher Lar=
+son<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
+rus<br>Senior Software Engineer, Mentor Graphics</div></div></div></div>
+</div></div>
+
+--94eb2c0b321aeeacf90556d1dc81--
