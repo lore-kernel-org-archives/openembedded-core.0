@@ -1,25 +1,21 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D178784A2
+Return-Path: <rebecca.swee.fun.chang@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id E1B8E784BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 07:37:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7F7bveF006761
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 00:37:58 -0700
-Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 15 Aug 2017 00:37:57 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Aug 2017 15:38:36 +0800
-Message-ID: <1502782716-20657-1-git-send-email-yi.zhao@windriver.com>
+	Tue, 15 Aug 2017 08:24:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Aug 2017 01:24:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1162711497"
+Received: from rebeccas.png.intel.com ([172.30.199.118])
+	by orsmga001.jf.intel.com with ESMTP; 15 Aug 2017 01:24:07 -0700
+From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Aug 2017 16:24:21 +0800
+Message-Id: <1502785464-89944-1-git-send-email-rebecca.swee.fun.chang@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.198]
-Subject: [PATCH] iproute2: add tipc support
+Subject: [PATCH 0/3] recipetool: bug fixes and enhancement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,55 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 07:37:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Aug 2017 08:24:08 -0000
 
-The tipcutils 2.2 in meta-oe removed the tipc-config tool and
-recommended to use the new configuration tool named "tipc" in iproute2
-package for configuring the tipc, which utilizes the new tipc netlink
-kernel API.
+Hi,
 
-Add tipc support and split it out into its own package.
+This series of patches are bug fix implementation for 11389 and 11393.
+These changes are crutial in terms of improving recipe creation in
+recipetool. The recipe should at least buildable and able to find
+SRCREV on specifc branch/ tag if it is not master.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/recipes-connectivity/iproute2/iproute2.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+This patch series is dependent on 2 patches on mailing list:-
+recipetool: create: fix incorrect URL variable usage
+http://lists.openembedded.org/pipermail/openembedded-core/2017-August/140789.html
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index ce64888a05..57309b7aac 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -13,7 +13,10 @@ DEPENDS = "flex-native bison-native iptables elfutils"
- 
- inherit update-alternatives bash-completion pkgconfig
- 
--EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[tipc] = ",,libmnl,"
-+
-+EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
- 
- do_configure_append () {
-     sh configure ${STAGING_INCDIR}
-@@ -32,7 +35,7 @@ do_install () {
- # The .so files in iproute2-tc are modules, not traditional libraries
- INSANE_SKIP_${PN}-tc = "dev-so"
- 
--PACKAGES =+ "${PN}-tc ${PN}-lnstat ${PN}-ifstat ${PN}-genl ${PN}-rtacct ${PN}-nstat ${PN}-ss"
-+PACKAGES =+ "${PN}-tc ${PN}-lnstat ${PN}-ifstat ${PN}-genl ${PN}-rtacct ${PN}-nstat ${PN}-ss ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc', '', d)}"
- FILES_${PN}-tc = "${base_sbindir}/tc* \
-                   ${libdir}/tc/*.so"
- FILES_${PN}-lnstat = "${base_sbindir}/lnstat ${base_sbindir}/ctstat ${base_sbindir}/rtstat"
-@@ -41,6 +44,7 @@ FILES_${PN}-genl = "${base_sbindir}/genl"
- FILES_${PN}-rtacct = "${base_sbindir}/rtacct"
- FILES_${PN}-nstat = "${base_sbindir}/nstat"
- FILES_${PN}-ss = "${base_sbindir}/ss"
-+FILES_${PN}-tipc = "${base_sbindir}/tipc"
- 
- ALTERNATIVE_${PN} = "ip"
- ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
+and
+
+recipetool: create: disable PREMIRRORS and MIRRORS by default
+http://lists.openembedded.org/pipermail/openembedded-core/2017-August/140618.html
+
+Thanks and best regards,
+Rebecca
+
+Chang Rebecca Swee Fun (1):
+  recipetool: create: being able to set branch when revision is provided
+
+Stanley Phoong (2):
+  recipetool: create: handle git URLs specifying only a tag
+  recipetool: create: replacing PV in SRCURI
+
+ scripts/lib/recipetool/create.py | 73 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
+
 -- 
-2.11.0
+2.7.4
 
 
