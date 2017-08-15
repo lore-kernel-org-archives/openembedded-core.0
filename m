@@ -1,30 +1,21 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C0518784DC
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C5CA784F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 09:20:02 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.41,377,1498492800"; d="scan'208";a="23592227"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Aug 2017 17:20:02 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8E69E472438E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 17:20:00 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Tue, 15 Aug 2017 17:19:59 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Aug 2017 17:19:43 +0800
-Message-ID: <1502788783-997-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	Tue, 15 Aug 2017 09:33:03 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Aug 2017 02:33:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1162726738"
+Received: from echidna.jf.intel.com ([10.54.77.34])
+	by orsmga001.jf.intel.com with ESMTP; 15 Aug 2017 02:33:05 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Aug 2017 19:23:58 -0700
+Message-Id: <1502763838-84450-1-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 8E69E472438E.A56F7
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] nspr: 4.14 -> 4.16
+Subject: [PATCH] insane: add qa check for lowercase recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,38 +28,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 09:20:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Aug 2017 09:33:05 -0000
 
-Upgrade nspr from 4.14 to 4.16
+Since we disabled uppercase characters in overrides a few releases ago,
+uppercase characters in recipe names (and for that matter, distro and
+machine names) cannot be supported due to their reliance upon overrides
+including the name.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+QA check will produce an warning message when it verify that recipe
+name is not lowercase.
+
+[YOCTO# 11592]
+
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/recipes-support/nspr/{nspr_4.14.bb => nspr_4.16.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/nspr/{nspr_4.14.bb => nspr_4.16.bb} (96%)
+ meta/classes/insane.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/nspr/nspr_4.14.bb b/meta/recipes-support/nspr/nspr_4.16.bb
-similarity index 96%
-rename from meta/recipes-support/nspr/nspr_4.14.bb
-rename to meta/recipes-support/nspr/nspr_4.16.bb
-index b0892a1..a634afb 100644
---- a/meta/recipes-support/nspr/nspr_4.14.bb
-+++ b/meta/recipes-support/nspr/nspr_4.16.bb
-@@ -22,8 +22,8 @@ CACHED_CONFIGUREVARS_append_libc-musl = " CFLAGS='${CFLAGS} -D_PR_POLL_AVAILABLE
- UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
- UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
- 
--SRC_URI[md5sum] = "743f6b7888a614da9927400874054d8c"
--SRC_URI[sha256sum] = "64fc18826257403a9132240aa3c45193d577a84b08e96f7e7770a97c074d17d5"
-+SRC_URI[md5sum] = "42fd8963a4b394f62d43ba604f03fab7"
-+SRC_URI[sha256sum] = "9b3102d97665504aeee73363c11a21c062ad67a2522242368b7f019f96a53cd1"
- 
- CVE_PRODUCT = "netscape_portable_runtime"
- 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index b7177c9..8e062d1 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -27,7 +27,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             installed-vs-shipped compile-host-path install-host-path \
+             pn-overrides infodir build-deps \
+             unknown-configure-option symlink-to-sysroot multilib \
+-            invalid-packageconfig host-user-contaminated \
++            invalid-packageconfig host-user-contaminated pn_lowercase \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -1274,7 +1274,9 @@ python () {
+     if pn in overrides:
+         msg = 'Recipe %s has PN of "%s" which is in OVERRIDES, this can result in unexpected behaviour.' % (d.getVar("FILE"), pn)
+         package_qa_handle_error("pn-overrides", msg, d)
+-
++    if pn != pn.lower():
++        package_qa_handle_error("pn_lowercase", 'PN: %s is not lower case, this can result in unexpected behavior.' % pn, d)
++    
+     issues = []
+     if (d.getVar('PACKAGES') or "").split():
+         for dep in (d.getVar('QADEPENDS') or "").split():
 -- 
 2.7.4
-
-
 
 
