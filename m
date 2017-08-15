@@ -1,22 +1,46 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B2B83784E8
+Return-Path: <net147@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D97D784A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 11:35:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 04:35:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1205843518"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2017 04:35:07 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+	Tue, 15 Aug 2017 12:08:14 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id u185so1251287pgb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Aug 2017 05:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=VPKvP+O8uoSIz6BvmvTjPjuZLE5WDLTUE+rFBM3NYdM=;
+	b=qo++AYw+Fi9r302OVLf5T97NsgIYOr0kBenBUaZzvGUV3A91MCEnVJhrOOYEK9qSuY
+	xHuAUpe/ENVB6rzG5QATcBa7K69WNQ5YFxeVoxoaWCHWzF7BAE7loeiZ2TNPVrPn+ww4
+	ev2yka2lCkh3dY6FC65EMsSrYIRrGKsK1Z1unM+Eqo8ebCnasPVjB7jHn5G8qJhFU5CB
+	ER+moD2H1WKmISqpCFkKNFAItzK2NnCNiqj75hBDQOwRH9VXg2Z37Yjog9YSlfEL/9Uy
+	9Fk0xcLsQskYrWk+4sIthNj9Fs7FE6mriW3ZC9Q9StpDZXhB5HSLV69wBJfp1gYUEv4O
+	uZRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VPKvP+O8uoSIz6BvmvTjPjuZLE5WDLTUE+rFBM3NYdM=;
+	b=i+aquFXsadDrmaexjeHAZu5OZt6wV/JqqmIHd8rwMhVw6FgYjBsMzwueMBtAMSXCv8
+	U1LzVB6yvsFwCIxuPkFw3z6MrOQQ95mzVRydcTYq3fiyXYoAkmLcL6opeIF4s9rlksFo
+	dIv80hM2T/z1GmAPgw/VN3lR5GLmmIwExX3GYrblxqZ/8ENrvuGxRxYURGR/JOlc6nb8
+	UFsp9STi4CLOq9GW3r0Q51VdLGZHmC3XnVwac+AK5as9Akbjxn4Vaw3VOMp9atruS7Rv
+	dCmllKCQBvqQ8PjgtzER8fbrxKZBJUrIWcLtA/QhwkzYjDeYE+5O32OPBNmMkRDVik3X
+	rrUw==
+X-Gm-Message-State: AHYfb5geZBvfCkpCDNiIo2N3OknQ02tjxmAIJM2e8PMhDBmfXZ69a+zN
+	r3B+FtYCWxbOFw==
+X-Received: by 10.99.149.6 with SMTP id p6mr26929716pgd.412.1502798896431;
+	Tue, 15 Aug 2017 05:08:16 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id
+	j26sm1666832pfj.69.2017.08.15.05.08.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 15 Aug 2017 05:08:15 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Aug 2017 14:34:57 +0300
-Message-Id: <da867ed46f849c900ef913bc5dabd3801712c3c4.1502795847.git.markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
-References: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v4 8/8] dnf: expand dnf selftest to test signed package feeds
+Date: Tue, 15 Aug 2017 22:09:35 +1000
+Message-Id: <20170815120935.32675-1-net147@gmail.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH] syslinux: Update HOMEPAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,71 +53,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 11:35:06 -0000
+X-List-Received-Date: Tue, 15 Aug 2017 12:08:15 -0000
 
-[YOCTO #11209]
-
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta-selftest/files/signing/key.passphrase          |  1 +
- meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py |  4 +++-
- meta/lib/oeqa/selftest/cases/runtime_test.py        | 12 +++++++++++-
- 3 files changed, 15 insertions(+), 2 deletions(-)
- create mode 100644 meta-selftest/files/signing/key.passphrase
+ meta/recipes-devtools/syslinux/syslinux_6.03.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-selftest/files/signing/key.passphrase b/meta-selftest/files/signing/key.passphrase
-new file mode 100644
-index 0000000000..5271a52680
---- /dev/null
-+++ b/meta-selftest/files/signing/key.passphrase
-@@ -0,0 +1 @@
-+test123
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-index 68e56f2c5e..6742e8c080 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-@@ -36,7 +36,9 @@ class DnfSelftest(DnfTest):
-         self.tc.target.copyTo(temp_file, "/etc/yum.repos.d/oe-remote-repo.repo")
- 
-         import re
--        output_makecache = self.dnf('makecache')
-+        # Use '-y' for non-interactive mode: automatically import the feed signing key
-+        output_makecache = self.dnf('-y makecache')
-+        self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is None, msg = "dnf makecache failed to synchronize repo: %s" %(output_makecache))
-         self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
- 
-         output_repoinfo = self.dnf('repoinfo')
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 27cf584ea5..673b1998ac 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -3,6 +3,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqem
- from oeqa.core.decorator.oeid import OETestID
- import os
- import re
-+import tempfile
- 
- class TestExport(OESelftestTestCase):
- 
-@@ -143,7 +144,16 @@ class TestImage(OESelftestTestCase):
-         # in at the start of the on-image test
-         features += 'PACKAGE_FEED_URIS = "http://bogus_ip:bogus_port"\n'
-         features += 'EXTRA_IMAGE_FEATURES += "package-management"\n'
--        features += 'PACKAGE_CLASSES = "package_rpm"'
-+        features += 'PACKAGE_CLASSES = "package_rpm"\n'
-+
-+        # Enable package feed signing
-+        self.gpg_home = tempfile.TemporaryDirectory(prefix="oeqa-feed-sign-")
-+        signing_key_dir = os.path.join(self.testlayer_path, 'files', 'signing')
-+        runCmd('gpg --batch --homedir %s --import %s' % (self.gpg_home.name, os.path.join(signing_key_dir, 'key.secret')))
-+        features += 'INHERIT += "sign_package_feed"\n'
-+        features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
-+        features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-+        features += 'GPG_PATH = "%s"\n' % self.gpg_home.name
-         self.write_config(features)
- 
-         # Build core-image-sato and testimage
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.03.bb b/meta/recipes-devtools/syslinux/syslinux_6.03.bb
+index 69bce1f8d7..f8b1094096 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.03.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.03.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Multi-purpose linux bootloader"
+-HOMEPAGE = "http://syslinux.zytor.com/"
++HOMEPAGE = "http://www.syslinux.org/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://README;beginline=35;endline=41;md5=558f2c71cb1fb9ba511ccd4858e48e8a"
 -- 
-2.12.3
+2.13.2
 
 
