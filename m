@@ -1,22 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E9F878433
+	by mail.openembedded.org (Postfix) with ESMTP id 421FD784F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 11:34:59 +0000 (UTC)
+	Tue, 15 Aug 2017 11:35:00 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 04:35:00 -0700
+	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 04:35:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1205843444"
+X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1205843455"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2017 04:35:00 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2017 04:35:01 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Aug 2017 14:34:50 +0300
-Message-Id: <c4345802a5f9696e037623c63a7adf3b317af1b4.1502795847.git.markus.lehtonen@linux.intel.com>
+Date: Tue, 15 Aug 2017 14:34:51 +0300
+Message-Id: <0fb1783b18ae67dc7b2528f42090dc3c9c2537b3.1502795847.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
 In-Reply-To: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
 References: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH v4 1/8] lib/oe/package_manager: re-implement rpm feed signing
+Subject: [PATCH v4 2/8] dnf: rrecommend gnupg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,46 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 11:34:59 -0000
+X-List-Received-Date: Tue, 15 Aug 2017 11:35:00 -0000
+
+This makes it possible to enable 'repo_gpgcheck' in dnf.conf. That is, do
+GPG signature check on repository metadata. Without gnupg dnf fails with
+"error: Invalid crypto engine."
 
 [YOCTO #11209]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/lib/oe/package_manager.py | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/dnf/dnf_2.6.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 518cf8dbe3..942f2dd903 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -104,13 +104,25 @@ class Indexer(object, metaclass=ABCMeta):
- class RpmIndexer(Indexer):
-     def write_index(self):
-         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
--            raise NotImplementedError('Package feed signing not yet implementd for rpm')
-+            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
-+        else:
-+            signer = None
+diff --git a/meta/recipes-devtools/dnf/dnf_2.6.3.bb b/meta/recipes-devtools/dnf/dnf_2.6.3.bb
+index ade55ea0a8..51072901e4 100644
+--- a/meta/recipes-devtools/dnf/dnf_2.6.3.bb
++++ b/meta/recipes-devtools/dnf/dnf_2.6.3.bb
+@@ -26,6 +26,8 @@ EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -
  
-         createrepo_c = bb.utils.which(os.environ['PATH'], "createrepo_c")
-         result = create_index("%s --update -q %s" % (createrepo_c, self.deploy_dir))
-         if result:
-             bb.fatal(result)
+ BBCLASSEXTEND = "native nativesdk"
+ RDEPENDS_${PN}_class-target += "python3-core python3-codecs python3-netclient python3-email python3-threading python3-distutils librepo python3-shell python3-subprocess libcomps libdnf python3-sqlite3 python3-compression python3-rpm python3-iniparse python3-json python3-importlib python3-curses python3-argparse python3-misc python3-gpg"
++# Recommend gnupg so that GPG signature check on repository metadata is possible
++RRECOMMENDS_${PN}_class-target += "gnupg"
  
-+        # Sign repomd
-+        if signer:
-+            sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
-+            is_ascii_sig = (sig_type.upper() != "BIN")
-+            signer.detach_sign(os.path.join(self.deploy_dir, 'repodata', 'repomd.xml'),
-+                               self.d.getVar('PACKAGE_FEED_GPG_NAME'),
-+                               self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
-+                               armor=is_ascii_sig)
-+
-+
- class OpkgIndexer(Indexer):
-     def write_index(self):
-         arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
+ # Create a symlink called 'dnf' as 'make install' does not do it, but
+ # .spec file in dnf source tree does (and then Fedora and dnf documentation
 -- 
 2.12.3
 
