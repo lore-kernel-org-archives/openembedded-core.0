@@ -1,20 +1,24 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3486D7848A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DDB57783D6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 21:05:48 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 14:05:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,379,1498546800"; d="scan'208";a="137891216"
-Received: from jalamego-mobl3.zpn.intel.com ([10.219.128.130])
-	by orsmga005.jf.intel.com with ESMTP; 15 Aug 2017 14:05:43 -0700
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Aug 2017 16:05:34 -0500
-Message-Id: <1502831134-27642-1-git-send-email-jose.a.lamego@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] packagegroup-python3: add packagegroup
+	Tue, 15 Aug 2017 21:21:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7FLLUYs026525
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 15 Aug 2017 14:21:31 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 15 Aug 2017 14:21:30 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Aug 2017 16:19:46 -0500
+Message-ID: <1502831992-47827-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Cc: peter.kjellerstedt@axis.com
+Subject: [PATCH 0/6] Fix RPM4 regressions based on Pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,118 +31,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 21:05:49 -0000
+X-List-Received-Date: Tue, 15 Aug 2017 21:21:36 -0000
+Content-Type: text/plain
 
-Many of the most usual python3 modules are missing when
-trying to import them to python3 in images built with
-python3-core installed.
+Work is available at:
 
-This change creates the python3 packagegroup, containing
-the most usual python3 packages to be installed for images
-featuring complete python functionality by using the
-FEATURES_PACKAGES variable to define python3 as a new feature
-and then adding it to the image to build.
+git://git.openembedded.org/openembedded-core-contrib mgh/rpm_dep_regression
 
-[YOCTO #10667]
+This is work based on Peter Kjellerstedt's fixes for the rpm dependency
+generation.  (See poky-contrib pkj/rpm_regressions2 for the original work.)
 
-Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
----
- .../packagegroups/packagegroup-python3.bb          | 85 ++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100644 meta/recipes-devtools/packagegroups/packagegroup-python3.bb
+The major difference is the last commit which disabled the perl requirement
+generation.  This resolves the only problem I found in Peter's patches.
 
-diff --git a/meta/recipes-devtools/packagegroups/packagegroup-python3.bb b/meta/recipes-devtools/packagegroups/packagegroup-python3.bb
-new file mode 100644
-index 0000000..ab83460
---- /dev/null
-+++ b/meta/recipes-devtools/packagegroups/packagegroup-python3.bb
-@@ -0,0 +1,85 @@
-+SUMMARY = "Provides a basic set of python3 packages"
-+
-+DEPENDS = "python3-native"
-+
-+PR = "1"
-+
-+inherit packagegroup
-+
-+RPROVIDES_${PN} = "python3"
-+
-+RDEPENDS_${PN} = "\
-+    libpython3 \
-+    libpython3-staticdev \
-+    python3-pyvenv \
-+    python3-dbg \
-+    python3-2to3 \
-+    python3-argparse \
-+    python3-asyncio \
-+    python3-audio \
-+    python3-codecs \
-+    python3-compile \
-+    python3-compression \
-+    python3-core \
-+    python3-crypt \
-+    python3-ctypes \
-+    python3-curses \
-+    python3-datetime \
-+    python3-db \
-+    python3-debugger \
-+    python3-dev \
-+    python3-difflib \
-+    python3-distutils \
-+    python3-doctest \
-+    python3-email \
-+    python3-enum \
-+    python3-fcntl \
-+    python3-gdbm \
-+    python3-html \
-+    python3-idle \
-+    python3-image \
-+    python3-importlib \
-+    python3-io \
-+    python3-json \
-+    python3-lang \
-+    python3-logging \
-+    python3-mailbox \
-+    python3-math \
-+    python3-mime \
-+    python3-mmap \
-+    python3-multiprocessing \
-+    python3-netclient \
-+    python3-netserver \
-+    python3-numbers \
-+    python3-pickle \
-+    python3-pkgutil \
-+    python3-pprint \
-+    python3-profile \
-+    python3-pydoc \
-+    python3-re \
-+    python3-readline \
-+    python3-reprlib \
-+    python3-resource \
-+    python3-selectors \
-+    python3-shell \
-+    python3-signal \
-+    python3-smtpd \
-+    python3-sqlite3 \
-+    python3-sqlite3-tests \
-+    python3-stringold \
-+    python3-subprocess \
-+    python3-syslog \
-+    python3-terminal \
-+    python3-tests \
-+    python3-textutils \
-+    python3-threading \
-+    python3-tkinter \
-+    python3-typing \
-+    python3-unittest \
-+    python3-unixadmin \
-+    python3-xml \
-+    python3-xmlrpc \
-+    python3-modules \
-+    python3-misc \
-+    python3-man \
-+    "
+From the comments to the original patch, the only not addressed was adding
+an OE self-test for this behavior.  I tried to do this, but I don't see any
+existing tests that build a recipe and inspect the results of the built
+package.  I'm not sure of any other way to identify if things are working or
+not.
+
+To give you an idea of what this does, the provides for libc6, x86-64, prior
+to this change were:
+eglibc
+glibc = 2.26
+libc6 = 2.26-r0
+
+After the change, the following were added (other remain):
+ld-linux-x86-64.so.2()(64bit)
+ld-linux-x86-64.so.2(GLIBC_2.2.5)(64bit)
+ld-linux-x86-64.so.2(GLIBC_2.3)(64bit)
+ld-linux-x86-64.so.2(GLIBC_2.4)(64bit)
+ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
+libanl.so.1()(64bit)
+libanl.so.1(GLIBC_2.2.5)(64bit)
+libBrokenLocale.so.1()(64bit)
+libBrokenLocale.so.1(GLIBC_2.2.5)(64bit)
+libcrypt.so.1()(64bit)
+libcrypt.so.1(GLIBC_2.2.5)(64bit)
+libc.so.6()(64bit)
+libc.so.6(GLIBC_2.10)(64bit)
+libc.so.6(GLIBC_2.11)(64bit)
+libc.so.6(GLIBC_2.12)(64bit)
+libc.so.6(GLIBC_2.13)(64bit)
+libc.so.6(GLIBC_2.14)(64bit)
+libc.so.6(GLIBC_2.15)(64bit)
+libc.so.6(GLIBC_2.16)(64bit)
+libc.so.6(GLIBC_2.17)(64bit)
+libc.so.6(GLIBC_2.18)(64bit)
+libc.so.6(GLIBC_2.22)(64bit)
+libc.so.6(GLIBC_2.23)(64bit)
+libc.so.6(GLIBC_2.24)(64bit)
+libc.so.6(GLIBC_2.2.5)(64bit)
+libc.so.6(GLIBC_2.25)(64bit)
+libc.so.6(GLIBC_2.2.6)(64bit)
+libc.so.6(GLIBC_2.26)(64bit)
+libc.so.6(GLIBC_2.3.2)(64bit)
+libc.so.6(GLIBC_2.3.3)(64bit)
+libc.so.6(GLIBC_2.3.4)(64bit)
+libc.so.6(GLIBC_2.3)(64bit)
+libc.so.6(GLIBC_2.4)(64bit)
+libc.so.6(GLIBC_2.5)(64bit)
+libc.so.6(GLIBC_2.6)(64bit)
+libc.so.6(GLIBC_2.7)(64bit)
+libc.so.6(GLIBC_2.8)(64bit)
+libc.so.6(GLIBC_2.9)(64bit)
+libc.so.6(GLIBC_PRIVATE)(64bit)
+libdl.so.2()(64bit)
+libdl.so.2(GLIBC_2.2.5)(64bit)
+libdl.so.2(GLIBC_2.3.3)(64bit)
+libdl.so.2(GLIBC_2.3.4)(64bit)
+libdl.so.2(GLIBC_PRIVATE)(64bit)
+libm.so.6()(64bit)
+libm.so.6(GLIBC_2.15)(64bit)
+libm.so.6(GLIBC_2.18)(64bit)
+libm.so.6(GLIBC_2.23)(64bit)
+libm.so.6(GLIBC_2.24)(64bit)
+libm.so.6(GLIBC_2.2.5)(64bit)
+libm.so.6(GLIBC_2.25)(64bit)
+libm.so.6(GLIBC_2.26)(64bit)
+libm.so.6(GLIBC_2.4)(64bit)
+libmvec.so.1()(64bit)
+libmvec.so.1(GLIBC_2.22)(64bit)
+libnsl.so.1()(64bit)
+libnsl.so.1(GLIBC_2.2.5)(64bit)
+libnsl.so.1(GLIBC_PRIVATE)(64bit)
+libnss_compat.so.2()(64bit)
+libnss_compat.so.2(GLIBC_PRIVATE)(64bit)
+libnss_dns.so.2()(64bit)
+libnss_dns.so.2(GLIBC_PRIVATE)(64bit)
+libnss_files.so.2()(64bit)
+libnss_files.so.2(GLIBC_PRIVATE)(64bit)
+libpthread.so.0()(64bit)
+libpthread.so.0(GLIBC_2.11)(64bit)
+libpthread.so.0(GLIBC_2.12)(64bit)
+libpthread.so.0(GLIBC_2.18)(64bit)
+libpthread.so.0(GLIBC_2.2.5)(64bit)
+libpthread.so.0(GLIBC_2.2.6)(64bit)
+libpthread.so.0(GLIBC_2.3.2)(64bit)
+libpthread.so.0(GLIBC_2.3.3)(64bit)
+libpthread.so.0(GLIBC_2.3.4)(64bit)
+libpthread.so.0(GLIBC_2.4)(64bit)
+libpthread.so.0(GLIBC_PRIVATE)(64bit)
+libresolv.so.2()(64bit)
+libresolv.so.2(GLIBC_2.2.5)(64bit)
+libresolv.so.2(GLIBC_2.3.2)(64bit)
+libresolv.so.2(GLIBC_2.9)(64bit)
+libresolv.so.2(GLIBC_PRIVATE)(64bit)
+librt.so.1()(64bit)
+librt.so.1(GLIBC_2.2.5)(64bit)
+librt.so.1(GLIBC_2.3.3)(64bit)
+librt.so.1(GLIBC_2.3.4)(64bit)
+librt.so.1(GLIBC_2.4)(64bit)
+librt.so.1(GLIBC_2.7)(64bit)
+libutil.so.1()(64bit)
+libutil.so.1(GLIBC_2.2.5)(64bit)
+rtld(GNU_HASH)
+
+
+I have built and tested this for:
+
+core-image-base core-image-minimal core-image-full-cmdline 
+core-image-kernel-dev core-image-lsb core-image-lsb-dev 
+core-image-lsb-sdk core-image-testmaster core-image-clutter 
+core-image-weston core-image-x11 core-image-sato core-image-sato-dev 
+core-image-sato-sdk core-image-sato-sdk-ptest
+
+Also using qemux86, qemux86-64 and qemuarm64.
+
+The following description is from Peter's original pull request:
+
+Right before the release of Pyro (about a month ago), we noticed a
+problem with missing automatically determined runtime file
+dependencies after the transition to rpm4 and dnf. Unfortunately it
+has taken me quite a while to work out all the details, but here is
+the result finally.
+
+....
+
+Then rpm is updated to make it possible to yet again access the
+runtime dependencies we need, and finally package.bbclass is updated
+to make use of them.
+
+See the patches, especially the last one, for more in depth
+information on what went wrong during the transition to rpm4 and dnf,
+and how to solve it.
+
+
+Mark Hatle (1):
+  rpm: Disable perl dependency generation
+
+Peter Kjellerstedt (5):
+  rpm: Add dependencies on bash, perl and python3-core
+  git: Do not install git cvsserver and git svn by default
+  texinfo: Avoid a problem with a dependency on perl(Locale::gettext_xs)
+  package_rpm.bbclass: Filter out unwanted file deps for nativesdk
+    packages
+  package.bbclass: Restore functionality to detect RPM dependencies
+
+ meta/classes/package.bbclass                       |  5 +-
+ meta/classes/package_rpm.bbclass                   | 25 ++++++++-
+ meta/lib/oe/package.py                             | 60 +++++++++++++++-------
+ meta/recipes-devtools/git/git.inc                  | 21 ++++++++
+ .../rpm/files/0001-perl-disable-auto-reqs.patch    | 30 +++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |  6 +++
+ meta/recipes-extended/texinfo/texinfo_6.3.bb       |  6 +++
+ 7 files changed, 130 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
+
 -- 
-2.7.4
+1.8.3.1
 
 
