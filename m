@@ -1,21 +1,24 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C5CA784F8
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DB1B784D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 09:33:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Aug 2017 02:33:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1162726738"
-Received: from echidna.jf.intel.com ([10.54.77.34])
-	by orsmga001.jf.intel.com with ESMTP; 15 Aug 2017 02:33:05 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Aug 2017 19:23:58 -0700
-Message-Id: <1502763838-84450-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] insane: add qa check for lowercase recipe name
+	Tue, 15 Aug 2017 09:55:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7F9tOMb003377
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Aug 2017 02:55:25 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 15 Aug 2017 02:55:23 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Aug 2017 02:55:23 -0700
+Message-ID: <20170815095523.20810-1-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 2.13.0
+MIME-Version: 1.0
+Subject: [PATCH] libtasn1: CVE-2017-10790
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,48 +31,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 09:33:05 -0000
+X-List-Received-Date: Tue, 15 Aug 2017 09:55:24 -0000
+Content-Type: text/plain
 
-Since we disabled uppercase characters in overrides a few releases ago,
-uppercase characters in recipe names (and for that matter, distro and
-machine names) cannot be supported due to their reliance upon overrides
-including the name.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-QA check will produce an warning message when it verify that recipe
-name is not lowercase.
+The _asn1_check_identifier function in GNU Libtasn1 through 4.12 causes
+a NULL pointer dereference and crash when reading crafted input that
+triggers assignment of a NULL value within an asn1_node structure. It
+may lead to a remote denial of service attack.
 
-[YOCTO# 11592]
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2017-10790
+http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=commit;
+h=d8d805e1f2e6799bb2dff4871a8598dc83088a39
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/classes/insane.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../gnutls/libtasn1/CVE-2017-10790.patch           | 63 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/libtasn1_4.12.bb       |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b7177c9..8e062d1 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -27,7 +27,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             installed-vs-shipped compile-host-path install-host-path \
-             pn-overrides infodir build-deps \
-             unknown-configure-option symlink-to-sysroot multilib \
--            invalid-packageconfig host-user-contaminated \
-+            invalid-packageconfig host-user-contaminated pn_lowercase \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -1274,7 +1274,9 @@ python () {
-     if pn in overrides:
-         msg = 'Recipe %s has PN of "%s" which is in OVERRIDES, this can result in unexpected behaviour.' % (d.getVar("FILE"), pn)
-         package_qa_handle_error("pn-overrides", msg, d)
--
-+    if pn != pn.lower():
-+        package_qa_handle_error("pn_lowercase", 'PN: %s is not lower case, this can result in unexpected behavior.' % pn, d)
-+    
-     issues = []
-     if (d.getVar('PACKAGES') or "").split():
-         for dep in (d.getVar('QADEPENDS') or "").split():
+diff --git a/meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch b/meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch
+new file mode 100644
+index 0000000000..be843808a2
+--- /dev/null
++++ b/meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch
+@@ -0,0 +1,63 @@
++From d8d805e1f2e6799bb2dff4871a8598dc83088a39 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@redhat.com>
++Date: Thu, 22 Jun 2017 16:31:37 +0200
++Subject: [PATCH] _asn1_check_identifier: safer access to values read
++
++Signed-off-by: Nikos Mavrogiannopoulos <nmav@redhat.com>
++
++http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=commit;h=d8d805e1f2e6799bb2dff4871a8598dc83088a39
++Upstream-Status: Backport
++
++CVE: CVE-2017-10790
++
++Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ lib/parser_aux.c |   17 ++++++++++++-----
++ 1 file changed, 12 insertions(+), 5 deletions(-)
++
++diff --git a/lib/parser_aux.c b/lib/parser_aux.c
++index 976ab38..786ea64 100644
++--- a/lib/parser_aux.c
+++++ b/lib/parser_aux.c
++@@ -955,7 +955,7 @@ _asn1_check_identifier (asn1_node node)
++ 	  if (p2 == NULL)
++ 	    {
++ 	      if (p->value)
++-		_asn1_strcpy (_asn1_identifierMissing, p->value);
+++		_asn1_str_cpy (_asn1_identifierMissing, sizeof(_asn1_identifierMissing), (char*)p->value);
++ 	      else
++ 		_asn1_strcpy (_asn1_identifierMissing, "(null)");
++ 	      return ASN1_IDENTIFIER_NOT_FOUND;
++@@ -968,9 +968,15 @@ _asn1_check_identifier (asn1_node node)
++ 	  if (p2 && (type_field (p2->type) == ASN1_ETYPE_DEFAULT))
++ 	    {
++ 	      _asn1_str_cpy (name2, sizeof (name2), node->name);
++-	      _asn1_str_cat (name2, sizeof (name2), ".");
++-	      _asn1_str_cat (name2, sizeof (name2), (char *) p2->value);
++-	      _asn1_strcpy (_asn1_identifierMissing, p2->value);
+++	      if (p2->value)
+++	        {
+++	          _asn1_str_cat (name2, sizeof (name2), ".");
+++	          _asn1_str_cat (name2, sizeof (name2), (char *) p2->value);
+++	          _asn1_str_cpy (_asn1_identifierMissing, sizeof(_asn1_identifierMissing), (char*)p2->value);
+++	        }
+++	      else
+++		_asn1_strcpy (_asn1_identifierMissing, "(null)");
+++
++ 	      p2 = asn1_find_node (node, name2);
++ 	      if (!p2 || (type_field (p2->type) != ASN1_ETYPE_OBJECT_ID) ||
++ 		  !(p2->type & CONST_ASSIGN))
++@@ -990,7 +996,8 @@ _asn1_check_identifier (asn1_node node)
++ 		  _asn1_str_cpy (name2, sizeof (name2), node->name);
++ 		  _asn1_str_cat (name2, sizeof (name2), ".");
++ 		  _asn1_str_cat (name2, sizeof (name2), (char *) p2->value);
++-		  _asn1_strcpy (_asn1_identifierMissing, p2->value);
+++		  _asn1_str_cpy (_asn1_identifierMissing, sizeof(_asn1_identifierMissing), (char*)p2->value);
+++
++ 		  p2 = asn1_find_node (node, name2);
++ 		  if (!p2 || (type_field (p2->type) != ASN1_ETYPE_OBJECT_ID)
++ 		      || !(p2->type & CONST_ASSIGN))
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.12.bb b/meta/recipes-support/gnutls/libtasn1_4.12.bb
+index cec1a9b156..7a7571ad3b 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.12.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.12.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://dont-depend-on-help2man.patch \
+            file://0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch \
++           file://CVE-2017-10790.patch \
+            "
+ 
+ DEPENDS = "bison-native"
 -- 
-2.7.4
+2.13.0
 
 
