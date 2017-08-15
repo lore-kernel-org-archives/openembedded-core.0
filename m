@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id ED64178433
+	by mail.openembedded.org (Postfix) with ESMTP id 3E9F878433
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 11:34:58 +0000 (UTC)
+	Tue, 15 Aug 2017 11:34:59 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 04:35:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1205843427"
+X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1205843444"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2017 04:34:59 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2017 04:35:00 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Aug 2017 14:34:49 +0300
-Message-Id: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
+Date: Tue, 15 Aug 2017 14:34:50 +0300
+Message-Id: <c4345802a5f9696e037623c63a7adf3b317af1b4.1502795847.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
-Subject: [PATCH v4 0/8] Support signed RPM package feeds
+In-Reply-To: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
+References: <cover.1502795847.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH v4 1/8] lib/oe/package_manager: re-implement rpm feed signing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +31,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 15 Aug 2017 11:34:59 -0000
 
-Fourth iteration of the patchset enabling signed RPM package feeds.
-Changes since v3:
-- new patch for the 'signing-keys' recipe, fixing a likely failure in the dnf
-  package feed selftest
-- one comment line added in "dnf: expand dnf selftest to test signed package feeds"
-  patch
+[YOCTO #11209]
 
-The following changes since commit 5a25ed1071f0d9b7d95edcc2b5b4545f960d5f95:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/lib/oe/package_manager.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-  image-prelink: Disable for musl images (2017-08-11 08:14:19 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-11209
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-11209
-
-Markus Lehtonen (8):
-  lib/oe/package_manager: re-implement rpm feed signing
-  dnf: rrecommend gnupg
-  signing-keys: delete unused tasks
-  sign_package_feed.bbclass: install signing key into rootfs
-  package_manager.py: enable dnf's repo_gpgcheck if feed signing is
-    enabled
-  oeqa: fix dnf tests
-  oeqa: fix temp file handling in dnf package feed test
-  dnf: expand dnf selftest to test signed package feeds
-
- meta-selftest/files/signing/key.passphrase         |  1 +
- .../cases/{dnf-runtime.py => dnf_runtime.py}       | 13 ++++++++----
- meta/classes/sign_package_feed.bbclass             |  3 +++
- meta/lib/oe/package_manager.py                     | 24 +++++++++++++++++++---
- meta/lib/oeqa/selftest/cases/runtime_test.py       | 14 +++++++++++--
- meta/recipes-core/meta/signing-keys.bb             |  8 ++++++++
- meta/recipes-devtools/dnf/dnf_2.6.3.bb             |  2 ++
- 7 files changed, 56 insertions(+), 9 deletions(-)
- create mode 100644 meta-selftest/files/signing/key.passphrase
- rename meta-selftest/lib/oeqa/runtime/cases/{dnf-runtime.py => dnf_runtime.py} (77%)
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 518cf8dbe3..942f2dd903 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -104,13 +104,25 @@ class Indexer(object, metaclass=ABCMeta):
+ class RpmIndexer(Indexer):
+     def write_index(self):
+         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            raise NotImplementedError('Package feed signing not yet implementd for rpm')
++            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
++        else:
++            signer = None
+ 
+         createrepo_c = bb.utils.which(os.environ['PATH'], "createrepo_c")
+         result = create_index("%s --update -q %s" % (createrepo_c, self.deploy_dir))
+         if result:
+             bb.fatal(result)
+ 
++        # Sign repomd
++        if signer:
++            sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
++            is_ascii_sig = (sig_type.upper() != "BIN")
++            signer.detach_sign(os.path.join(self.deploy_dir, 'repodata', 'repomd.xml'),
++                               self.d.getVar('PACKAGE_FEED_GPG_NAME'),
++                               self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE'),
++                               armor=is_ascii_sig)
++
++
+ class OpkgIndexer(Indexer):
+     def write_index(self):
+         arch_vars = ["ALL_MULTILIB_PACKAGE_ARCHS",
 -- 
 2.12.3
 
