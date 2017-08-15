@@ -1,46 +1,25 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D97D784A1
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 8801A606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 12:08:14 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id u185so1251287pgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 05:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=VPKvP+O8uoSIz6BvmvTjPjuZLE5WDLTUE+rFBM3NYdM=;
-	b=qo++AYw+Fi9r302OVLf5T97NsgIYOr0kBenBUaZzvGUV3A91MCEnVJhrOOYEK9qSuY
-	xHuAUpe/ENVB6rzG5QATcBa7K69WNQ5YFxeVoxoaWCHWzF7BAE7loeiZ2TNPVrPn+ww4
-	ev2yka2lCkh3dY6FC65EMsSrYIRrGKsK1Z1unM+Eqo8ebCnasPVjB7jHn5G8qJhFU5CB
-	ER+moD2H1WKmISqpCFkKNFAItzK2NnCNiqj75hBDQOwRH9VXg2Z37Yjog9YSlfEL/9Uy
-	9Fk0xcLsQskYrWk+4sIthNj9Fs7FE6mriW3ZC9Q9StpDZXhB5HSLV69wBJfp1gYUEv4O
-	uZRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VPKvP+O8uoSIz6BvmvTjPjuZLE5WDLTUE+rFBM3NYdM=;
-	b=i+aquFXsadDrmaexjeHAZu5OZt6wV/JqqmIHd8rwMhVw6FgYjBsMzwueMBtAMSXCv8
-	U1LzVB6yvsFwCIxuPkFw3z6MrOQQ95mzVRydcTYq3fiyXYoAkmLcL6opeIF4s9rlksFo
-	dIv80hM2T/z1GmAPgw/VN3lR5GLmmIwExX3GYrblxqZ/8ENrvuGxRxYURGR/JOlc6nb8
-	UFsp9STi4CLOq9GW3r0Q51VdLGZHmC3XnVwac+AK5as9Akbjxn4Vaw3VOMp9atruS7Rv
-	dCmllKCQBvqQ8PjgtzER8fbrxKZBJUrIWcLtA/QhwkzYjDeYE+5O32OPBNmMkRDVik3X
-	rrUw==
-X-Gm-Message-State: AHYfb5geZBvfCkpCDNiIo2N3OknQ02tjxmAIJM2e8PMhDBmfXZ69a+zN
-	r3B+FtYCWxbOFw==
-X-Received: by 10.99.149.6 with SMTP id p6mr26929716pgd.412.1502798896431;
-	Tue, 15 Aug 2017 05:08:16 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by smtp.gmail.com with ESMTPSA id
-	j26sm1666832pfj.69.2017.08.15.05.08.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 15 Aug 2017 05:08:15 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Aug 2017 22:09:35 +1000
-Message-Id: <20170815120935.32675-1-net147@gmail.com>
-X-Mailer: git-send-email 2.13.2
-Subject: [PATCH] syslinux: Update HOMEPAGE
+	Tue, 15 Aug 2017 14:14:12 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Aug 2017 07:14:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="139824089"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2017 07:14:13 -0700
+Message-ID: <1502806980.28941.38.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Date: Tue, 15 Aug 2017 09:23:00 -0500
+In-Reply-To: <1502763838-84450-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1502763838-84450-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] insane: add qa check for lowercase recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,25 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 12:08:15 -0000
+X-List-Received-Date: Tue, 15 Aug 2017 14:14:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-devtools/syslinux/syslinux_6.03.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 2017-08-14 at 19:23 -0700, Yeoh Ee Peng wrote:
+> Since we disabled uppercase characters in overrides a few releases ago,
+> uppercase characters in recipe names (and for that matter, distro and
+> machine names) cannot be supported due to their reliance upon overrides
+> including the name.
+> 
+> QA check will produce an warning message when it verify that recipe
+> name is not lowercase.
+> 
+> [YOCTO# 11592]
+> 
+> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+> ---
+>  meta/classes/insane.bbclass | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index b7177c9..8e062d1 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -27,7 +27,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>              installed-vs-shipped compile-host-path install-host-path \
+>              pn-overrides infodir build-deps \
+>              unknown-configure-option symlink-to-sysroot multilib \
+> -            invalid-packageconfig host-user-contaminated \
+> +            invalid-packageconfig host-user-contaminated pn_lowercase \
+>              "
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.03.bb b/meta/recipes-devtools/syslinux/syslinux_6.03.bb
-index 69bce1f8d7..f8b1094096 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.03.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.03.bb
-@@ -1,5 +1,5 @@
- SUMMARY = "Multi-purpose linux bootloader"
--HOMEPAGE = "http://syslinux.zytor.com/"
-+HOMEPAGE = "http://www.syslinux.org/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://README;beginline=35;endline=41;md5=558f2c71cb1fb9ba511ccd4858e48e8a"
--- 
-2.13.2
+IMO, what you warn is that variable has uppercase letters, so the test
+should be named 'pn_uppercase'
+
+
+>  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>              perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+> @@ -1274,7 +1274,9 @@ python () {
+>      if pn in overrides:
+>          msg = 'Recipe %s has PN of "%s" which is in OVERRIDES, this can result in unexpected behaviour.' % (d.getVar("FILE"), pn)
+>          package_qa_handle_error("pn-overrides", msg, d)
+> -
+> +    if pn != pn.lower():
+> +        package_qa_handle_error("pn_lowercase", 'PN: %s is not lower case, this can result in unexpected behavior.' % pn, d)
+> +    
+
+for performance reasons, perhaps it would be better to create a regex
+matching uppercases and if match succeeded, the raise the error/warning
+
+One more thing. At the beginning of the insane class, on the comments
+area you can include this one on the 'Checks we do' section.
+
+>      issues = []
+>      if (d.getVar('PACKAGES') or "").split():
+>          for dep in (d.getVar('QADEPENDS') or "").split():
+> -- 
+> 2.7.4
+> 
+
 
 
