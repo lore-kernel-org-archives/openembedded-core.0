@@ -1,24 +1,20 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6F15779F5
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C00AA784B0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 18:55:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7FItZbl022926
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 11:55:35 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 15 Aug 2017 11:55:34 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Aug 2017 11:55:34 -0700
-Message-ID: <20170815185534.118522-1-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] systemd: Fix rootfs transaction error when PACKAGECONFIG has polkit
+	Tue, 15 Aug 2017 19:08:45 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 12:08:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,379,1498546800"; d="scan'208";a="1206006155"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2017 12:08:45 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Aug 2017 12:08:27 -0700
+Message-Id: <20170815190828.82873-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH 1/2] packagegroup-self-hosted: include missing (pod2man scp ssh) RPEDENDS packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +27,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 18:55:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Aug 2017 19:08:45 -0000
 
-The systemd 234 added some files to the polkit directory and the
-directory the files live in must be owned by the polkitd user, else
-you will receive the following error when the rootfs is being
-assembled:
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Error: Transaction check error:
-  file /usr/share/polkit-1/rules.d conflicts between attempted installs of polkit-0.113-r0.15.core2_64 and systemd-1:234-r0.0.core2_64
+Otherwise, the following bitbake error is observed
 
-The fix similar to other packages such as libvirt where the user must
-exist and the directory must be created with the proper attributes.
+    root@qemux86-64:~/openembedded-core/build# bitbake -e
+    NOTE: Starting bitbake server...
+    ERROR: Unable to start bitbake server
+    ERROR: Last 10 lines of server log /home/root/openembedded-core/build/bitbake-cookerdaemon.log:
+      File "/home/root/openembedded-core/bitbake/lib/bb/cooker.py", line 197, in __init__
+        self.initConfigurationData()
+      File "/home/root/openembedded-core/bitbake/lib/bb/cooker.py", line 348, in initConfigurationData
+        self.databuilder.parseBaseConfiguration()
+      File "/home/root/openembedded-core/bitbake/lib/bb/cookerdata.py", line 323, in parseBaseConfiguration
+        raise bb.BBHandledException
+    bb.BBHandledException
+    NOTE: Starting bitbake server...
+    ERROR: The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:
+      pod2man scp ssh
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-core/systemd/systemd_234.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
-index ad7fc99b90..4560cf4175 100644
---- a/meta/recipes-core/systemd/systemd_234.bb
-+++ b/meta/recipes-core/systemd/systemd_234.bb
-@@ -245,6 +245,14 @@ do_install() {
- 		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
- 	fi
- 	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
-+
-+       # If polkit is setup fixup permissions and ownership
-+       if [ "${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'polkit', '', d)}" = "polkit" ] ; then
-+           if [ -d ${D}${datadir}/polkit-1/rules.d ] ; then
-+               chmod 700 ${D}${datadir}/polkit-1/rules.d
-+               chown polkitd:root ${D}${datadir}/polkit-1/rules.d
-+           fi
-+       fi
- }
- 
- do_install_ptest () {
-@@ -308,6 +316,7 @@ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--sy
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
- USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
-+USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${sysconfdir}/polkit-1 polkitd;', '', d)}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
- USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
- 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 0abd5bc90e..ff42866e32 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -140,12 +140,15 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
+     nfs-utils \
+     nfs-utils-client \
+     openssl \
++    openssh-scp \
+     openssh-sftp-server \
++    openssh-ssh \
+     opkg \
+     opkg-utils \
+     patch \
+     perl \
+     perl-dev \
++    perl-misc \
+     perl-modules \
+     perl-pod \
+     python \
 -- 
-2.11.0
+2.12.3
 
 
