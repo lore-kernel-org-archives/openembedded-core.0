@@ -1,24 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DB1B784D4
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F43178093
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 09:55:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7F9tOMb003377
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 02:55:25 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 15 Aug 2017 02:55:23 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Aug 2017 02:55:23 -0700
-Message-ID: <20170815095523.20810-1-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH] libtasn1: CVE-2017-10790
+	Tue, 15 Aug 2017 10:33:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Aug 2017 03:33:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,377,1498546800"; d="scan'208";a="1162741621"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 15 Aug 2017 03:33:17 -0700
+Received: from theory.fi.intel.com (theory.fi.intel.com [10.237.72.53])
+	by linux.intel.com (Postfix) with ESMTP id 44AEA58035B;
+	Tue, 15 Aug 2017 03:33:16 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Aug 2017 13:33:13 +0300
+Message-Id: <cover.1502792828.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Various point upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,111 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 09:55:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Aug 2017 10:33:16 -0000
 
-From: Yue Tao <Yue.Tao@windriver.com>
+Small point upgrades but several of them require some recipe changes.
 
-The _asn1_check_identifier function in GNU Libtasn1 through 4.12 causes
-a NULL pointer dereference and crash when reading crafted input that
-triggers assignment of a NULL value within an asn1_node structure. It
-may lead to a remote denial of service attack.
+Thanks,
+  Jussi
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2017-10790
-http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=commit;
-h=d8d805e1f2e6799bb2dff4871a8598dc83088a39
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- .../gnutls/libtasn1/CVE-2017-10790.patch           | 63 ++++++++++++++++++++++
- meta/recipes-support/gnutls/libtasn1_4.12.bb       |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch
+The following changes since commit 034bff2ca431b49b7ca9b1e7b7c214ef94b0eb34:
 
-diff --git a/meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch b/meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch
-new file mode 100644
-index 0000000000..be843808a2
---- /dev/null
-+++ b/meta/recipes-support/gnutls/libtasn1/CVE-2017-10790.patch
-@@ -0,0 +1,63 @@
-+From d8d805e1f2e6799bb2dff4871a8598dc83088a39 Mon Sep 17 00:00:00 2001
-+From: Nikos Mavrogiannopoulos <nmav@redhat.com>
-+Date: Thu, 22 Jun 2017 16:31:37 +0200
-+Subject: [PATCH] _asn1_check_identifier: safer access to values read
-+
-+Signed-off-by: Nikos Mavrogiannopoulos <nmav@redhat.com>
-+
-+http://git.savannah.gnu.org/gitweb/?p=libtasn1.git;a=commit;h=d8d805e1f2e6799bb2dff4871a8598dc83088a39
-+Upstream-Status: Backport
-+
-+CVE: CVE-2017-10790
-+
-+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+---
-+ lib/parser_aux.c |   17 ++++++++++++-----
-+ 1 file changed, 12 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/parser_aux.c b/lib/parser_aux.c
-+index 976ab38..786ea64 100644
-+--- a/lib/parser_aux.c
-++++ b/lib/parser_aux.c
-+@@ -955,7 +955,7 @@ _asn1_check_identifier (asn1_node node)
-+ 	  if (p2 == NULL)
-+ 	    {
-+ 	      if (p->value)
-+-		_asn1_strcpy (_asn1_identifierMissing, p->value);
-++		_asn1_str_cpy (_asn1_identifierMissing, sizeof(_asn1_identifierMissing), (char*)p->value);
-+ 	      else
-+ 		_asn1_strcpy (_asn1_identifierMissing, "(null)");
-+ 	      return ASN1_IDENTIFIER_NOT_FOUND;
-+@@ -968,9 +968,15 @@ _asn1_check_identifier (asn1_node node)
-+ 	  if (p2 && (type_field (p2->type) == ASN1_ETYPE_DEFAULT))
-+ 	    {
-+ 	      _asn1_str_cpy (name2, sizeof (name2), node->name);
-+-	      _asn1_str_cat (name2, sizeof (name2), ".");
-+-	      _asn1_str_cat (name2, sizeof (name2), (char *) p2->value);
-+-	      _asn1_strcpy (_asn1_identifierMissing, p2->value);
-++	      if (p2->value)
-++	        {
-++	          _asn1_str_cat (name2, sizeof (name2), ".");
-++	          _asn1_str_cat (name2, sizeof (name2), (char *) p2->value);
-++	          _asn1_str_cpy (_asn1_identifierMissing, sizeof(_asn1_identifierMissing), (char*)p2->value);
-++	        }
-++	      else
-++		_asn1_strcpy (_asn1_identifierMissing, "(null)");
-++
-+ 	      p2 = asn1_find_node (node, name2);
-+ 	      if (!p2 || (type_field (p2->type) != ASN1_ETYPE_OBJECT_ID) ||
-+ 		  !(p2->type & CONST_ASSIGN))
-+@@ -990,7 +996,8 @@ _asn1_check_identifier (asn1_node node)
-+ 		  _asn1_str_cpy (name2, sizeof (name2), node->name);
-+ 		  _asn1_str_cat (name2, sizeof (name2), ".");
-+ 		  _asn1_str_cat (name2, sizeof (name2), (char *) p2->value);
-+-		  _asn1_strcpy (_asn1_identifierMissing, p2->value);
-++		  _asn1_str_cpy (_asn1_identifierMissing, sizeof(_asn1_identifierMissing), (char*)p2->value);
-++
-+ 		  p2 = asn1_find_node (node, name2);
-+ 		  if (!p2 || (type_field (p2->type) != ASN1_ETYPE_OBJECT_ID)
-+ 		      || !(p2->type & CONST_ASSIGN))
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.12.bb b/meta/recipes-support/gnutls/libtasn1_4.12.bb
-index cec1a9b156..7a7571ad3b 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.12.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.12.bb
-@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
-            file://0001-stdint.m4-reintroduce-GNULIB_OVERRIDES_WINT_T-check.patch \
-+           file://CVE-2017-10790.patch \
-            "
- 
- DEPENDS = "bison-native"
+  bitbake: cooker: Ignore common bitbake files for the parse cache invalidation (2017-08-13 09:28:14 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/updates
+
+Jussi Kukkonen (4):
+  cairo: Upgrade 1.14.8 -> 1.14.10
+  fontconfig: Upgrade 2.12.1 -> 2.12.4
+  glib-2.0: Upgrade 2.52.2 -> 2.52.3
+  gdk-pixbuf: Upgrade 2.36.6 -> 2.36.8
+
+ .../{glib-2.0_2.52.2.bb => glib-2.0_2.52.3.bb}     |  4 +-
+ .../{gdk-pixbuf_2.36.6.bb => gdk-pixbuf_2.36.8.bb} | 11 ++--
+ .../cairo/{cairo_1.14.8.bb => cairo_1.14.10.bb}    |  4 +-
+ ...icts-with-integer-width-macros-from-TS-18.patch | 72 ----------------------
+ .../{fontconfig_2.12.1.bb => fontconfig_2.12.4.bb} | 14 +++--
+ 5 files changed, 19 insertions(+), 86 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.52.2.bb => glib-2.0_2.52.3.bb} (85%)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.6.bb => gdk-pixbuf_2.36.8.bb} (91%)
+ rename meta/recipes-graphics/cairo/{cairo_1.14.8.bb => cairo_1.14.10.bb} (92%)
+ delete mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-Avoid-conflicts-with-integer-width-macros-from-TS-18.patch
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.12.1.bb => fontconfig_2.12.4.bb} (80%)
+
 -- 
-2.13.0
+2.1.4
 
 
