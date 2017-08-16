@@ -1,28 +1,44 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E4EF278644
+Return-Path: <vishal.bhoj@linaro.org>
+Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 243C57862A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 12:28:14 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Aug 2017 05:28:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,382,1498546800"; d="scan'208";a="300812042"
-Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.32])
-	([10.237.66.32])
-	by fmsmga004.fm.intel.com with ESMTP; 16 Aug 2017 05:28:14 -0700
-User-Agent: Microsoft-MacOutlook/f.20.0.170309
-Date: Wed, 16 Aug 2017 15:28:17 +0300
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <716364F9-E9E1-4941-97FA-90D9434E518E@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] gpg_sign: perform rpm signing serially
-References: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
-In-Reply-To: <62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
-Mime-version: 1.0
-Subject: Re: [PATCH] gpg_sign: perform rpm signing serially
+	Wed, 16 Aug 2017 12:58:49 +0000 (UTC)
+Received: by mail-wr0-f173.google.com with SMTP id x43so15233173wrb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Aug 2017 05:58:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=a5b0NAhhGBDaDUJ3uiQihRnWCK6HcOMVb0jsgkPqZKE=;
+	b=I5x0klm4PtCj92noAnVEtK5hxITvV5gnnikpSg2TOcxL7Tiv2vjT7KY2q7y5Bm4pky
+	eTrtYsN9V2KrVRkxaeJwjcvCpsuQr61hLb7uSp0WSQLxUn1EDW4o8I0rG6DDWnNNACMz
+	U5OF6i7P7O5inM+KonnmKPwAJZrYyGgqaGiJQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=a5b0NAhhGBDaDUJ3uiQihRnWCK6HcOMVb0jsgkPqZKE=;
+	b=q+McC1jYOuDYWBLxkC+RROSJrmWCFXDvuZMIA86sHKzugroi8U8oSswQNVSu++1Wxu
+	VqAL5S406PRpvAON7R+eA5lb74o+i4RL+/VG8bC+ezGyXGmiYCvRfquNVkNez1+xRf9m
+	IghRQAUlyTlPhupnKebQ/G+QFjAMOEb6bShqzeZqocWsQTR9+sxaIYG++kTguEolk5Ts
+	dzCfwvYcFI07CwemCLbWp4aA9d9wm+vgUQr4KWaIlKY1LGf88Nm80fYshnOXfhP9uWmE
+	BIwCTL6dkP4fs0JgSmHkwErEh1OtG9lOZY9TONFD+Si4qljLFOS4JD6XcN/tbv0mwxCX
+	JmQA==
+X-Gm-Message-State: AHYfb5isgqZZgkr4taSNIIdd784aeCjcuFWvi+7q5fTFjLSJKrGEpRl0
+	Mma4zPlXEC1FCFUsvDErzA==
+X-Received: by 10.223.153.11 with SMTP id x11mr1099124wrb.18.1502888330150;
+	Wed, 16 Aug 2017 05:58:50 -0700 (PDT)
+Received: from hackbox.linaro.org ([81.128.185.36])
+	by smtp.gmail.com with ESMTPSA id
+	g72sm1280962wmc.31.2017.08.16.05.58.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 16 Aug 2017 05:58:49 -0700 (PDT)
+From: Vishal Bhoj <vishal.bhoj@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 13:57:56 +0100
+Message-Id: <20170816125756.29809-1-vishal.bhoj@linaro.org>
+X-Mailer: git-send-email 2.13.0
+Cc: koen.kooi@linaro.org
+Subject: [PATCH] cross-canadian.bbclass: add ilp32 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 12:28:15 -0000
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Wed, 16 Aug 2017 12:58:50 -0000
 
-I agree. I don't see reason for dropping parallelism completely. There is a real gain when running on beefier machines. Making it configurable would probably be best. Or just drop it to a saner value, like 20 or 10.
-   - Markus
+Need to add ilp32 to known list of abi variants
 
-On 16/08/2017, 2.53, "Mark Hatle" <openembedded-core-bounces@lists.openembedded.org on behalf of mark.hatle@windriver.com> wrote:
+Signed-off-by: Vishal Bhoj <vishal.bhoj@linaro.org>
+---
+ meta/classes/cross-canadian.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-    It would probably be better if this was configurable with a 'safe' default.
-    
-    Moving from parallel to single will greatly affect the overall performance on
-    larger build machines (lots of memory and cores) that can handle the load vs a
-    typical development machine.
-    
-    --Mark
-    
-    On 8/15/17 4:40 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-    > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-    > 
-    > gpg signing in file batches (which was default to 100) is a memory expensive
-    > computation, causing trouble in some host machines (even on production AB
-    > as seen on the bugzilla ID). Also, in terms of performance, there is no real
-    > gain when rpm signing is done in batches. Considering the latter issues, perform the
-    > rpm signing serially.
-    > 
-    > Log showing errors observed recently at AB workers:
-    > 
-    >     | gpg: signing failed: Cannot allocate memory
-    >     | gpg: signing failed: Cannot allocate memory
-    >     | error: gpg exec failed (2)
-    >     | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/core2-64-poky-linux/base-passwd/3.5.29-r0/deploy-rpms/core2_64/base-passwd-dev-3.5.29-r0.core2_64.rpm:
-    > 
-    > [YOCTO #11914]
-    > 
-    > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-    > ---
-    >  meta/lib/oe/gpg_sign.py | 6 +++---
-    >  1 file changed, 3 insertions(+), 3 deletions(-)
-    > 
-    > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-    > index f4d8b10e4b..5c7985a856 100644
-    > --- a/meta/lib/oe/gpg_sign.py
-    > +++ b/meta/lib/oe/gpg_sign.py
-    > @@ -45,9 +45,9 @@ class LocalSigner(object):
-    >              if fsk_password:
-    >                  cmd += "--define '_file_signing_key_password %s' " % fsk_password
-    >  
-    > -        # Sign in chunks of 100 packages
-    > -        for i in range(0, len(files), 100):
-    > -            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
-    > +        # Sign packages
-    > +        for f in files:
-    > +            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
-    >              if status:
-    >                  raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
-    >  
-    > 
-    
-    -- 
-    _______________________________________________
-    Openembedded-core mailing list
-    Openembedded-core@lists.openembedded.org
-    http://lists.openembedded.org/mailman/listinfo/openembedded-core
-    
-
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 8554e87521..69cbe901a6 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -38,7 +38,7 @@ python () {
+     extralibcs = [""]
+     if "musl" in d.getVar("BASECANADIANEXTRAOS"):
+         extralibcs.append("musl")
+-    for variant in ["", "spe", "x32", "eabi", "n32"]:
++    for variant in ["", "spe", "x32", "eabi", "n32", "ilp32"]:
+         for libc in extralibcs:
+             entry = "linux"
+             if variant and libc:
+-- 
+2.13.0
 
 
