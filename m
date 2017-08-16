@@ -1,21 +1,21 @@
 Return-Path: <cinly.ooi@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B66AC784BC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 78878785F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 01:17:50 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 18:17:52 -0700
+	Wed, 16 Aug 2017 01:18:26 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 15 Aug 2017 18:18:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,380,1498546800"; d="scan'208";a="119429257"
+X-IronPort-AV: E=Sophos;i="5.41,380,1498546800"; d="scan'208";a="890382856"
 Received: from cinlyooi-mac03.png.intel.com (HELO ubuntu.png.intel.com)
 	([10.221.16.21])
-	by orsmga004.jf.intel.com with ESMTP; 15 Aug 2017 18:17:51 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2017 18:18:27 -0700
 From: cinly.ooi@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 09:17:50 +0800
-Message-Id: <1502846270-32249-1-git-send-email-cinly.ooi@intel.com>
+Date: Wed, 16 Aug 2017 09:18:26 +0800
+Message-Id: <1502846306-32417-1-git-send-email-cinly.ooi@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] libtool: remove /absolute/path/to/host references
+Subject: [PATCH] Perl: No reference conversion for Porting/Glossary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,49 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 01:17:50 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 01:18:26 -0000
 
 From: Ooi Cinly <cinly.ooi@intel.com>
 
-Removed all instances of -fdebug-prefix-map in LTCFLAGS
-declaration because they contain references to host system
-and are not needed.
+do_configure() will no longer convert references to
+/usr/include into /path/to/recipes-sysroot/usr/include
+for the file "Porting/Glossary".
 
-/absolute/path/to/host/dd was replaced with 'dd' in
-lt_truncate_bin declaration.
-
-Please take note that the location of regex is important
-for DEBUG_PREFIX_MAP. Removal of DEBUG_PREFIX_MAP has to be
-done before other regex command modify its option value.
-
-Both are modified because they affect binary reproducibility.
-
-[YOCTO #11656]
+[YOCTO #11243]
 
 Signed-off-by: Ooi Cinly <cinly.ooi@intel.com>
 ---
- meta/recipes-devtools/libtool/libtool_2.4.6.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/perl/perl_5.24.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-index 06abb05..b02620b 100644
---- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-+++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-@@ -15,6 +15,7 @@ ACLOCALEXTRAPATH_class-target = ""
- 
- do_install_append () {
-         sed -e 's@--sysroot=${STAGING_DIR_HOST}@@g' \
-+            -e "s@${DEBUG_PREFIX_MAP}@@g" \
-             -e 's@${STAGING_DIR_HOST}@@g' \
-             -e 's@${STAGING_DIR_NATIVE}@@g' \
-             -e 's@^\(sys_lib_search_path_spec="\).*@\1${libdir} ${base_libdir}"@' \
-@@ -22,5 +23,6 @@ do_install_append () {
-             -e 's@^\(compiler_lib_search_path="\).*@\1${libdir} ${base_libdir}"@' \
-             -e 's@^\(predep_objects="\).*@\1"@' \
-             -e 's@^\(postdep_objects="\).*@\1"@' \
-+            -e "s@${HOSTTOOLS_DIR}/@@g" \
-             -i ${D}${bindir}/libtool
- }
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index 95d9694..1e1d4f5 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -171,7 +171,7 @@ do_configure() {
+ 			;;
+ 	esac
+         # These are strewn all over the source tree
+-        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" -m1 "/usr/include/.*\.h" ${S}/* -r -l` ${S}/utils/h2xs.PL ; do
++        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" --exclude="Glossary" -m1 "/usr/include/.*\.h" ${S}/* -r -l` ${S}/utils/h2xs.PL ; do
+             echo Fixing: $foo
+             sed -e 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i $foo
+         done
 -- 
 2.7.4
 
