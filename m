@@ -1,30 +1,18 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 310657833C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 15:18:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7GFInBt007310
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Aug 2017 08:18:49 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 08:18:49 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
-	<1502890461.13978.127.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <44accf1b-b80e-ad04-0aaa-1d6127a9fcd1@windriver.com>
-Date: Wed, 16 Aug 2017 10:18:48 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AC8078355;
+	Wed, 16 Aug 2017 15:32:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1502890461.13978.127.camel@linuxfoundation.org>
-Cc: peter.kjellerstedt@axis.com
-Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 16 Aug 2017 15:32:44 -0000
+Message-ID: <20170816153244.2381.6153@do.openembedded.org>
+References: <1502831992-47827-1-git-send-email-mark.hatle@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1502831992-47827-1-git-send-email-mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IFJQTTQgcmVncmVzc2lvbnMgYmFzZWQgb24gUHlybw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +25,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 15:18:56 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 15:32:43 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/16/17 8:34 AM, Richard Purdie wrote:
-> On Tue, 2017-08-15 at 16:41 -0500, Mark Hatle wrote:
->> From the comments to the original patch, the only not addressed was
->> adding an OE self-test for this behavior.  I tried to do this, but I
->> don't see any existing tests that build a recipe and inspect the
->> results of the built package.  I'm not sure of any other way to
->> identify if things are working or not.
-> 
-> oe-selftest can do this.
-> 
->> I have built and tested this for:
->>
->> core-image-base core-image-minimal core-image-full-cmdline 
->> core-image-kernel-dev core-image-lsb core-image-lsb-dev 
->> core-image-lsb-sdk core-image-testmaster core-image-clutter 
->> core-image-weston core-image-x11 core-image-sato core-image-sato-dev 
->> core-image-sato-sdk core-image-sato-sdk-ptest
-> 
-> As we both suspected there are some issues with enabling this again,
-> many are showcased here:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1156/steps/BuildImages/logs/stdio
-> 
-> * ltp has ksh/csh requirements in ptest
-> * package dhcp-client-4.3.5-r0.0.armv5e requires libdns.so.170, but none of the providers can be installed
-> * nothing provides /usr/bin/python33 needed by bind-9.10.5+P3-r0.0.armv5e
-> ERROR: openssl-1.1.0f-r0 do_package_qa: QA Issue: /usr/lib/openssl/ptest/util/find-unused-errs contained in package openssl-ptest requires /bin/bash, but no providers found in RDEPENDS_openssl-ptest? [file-rdeps]
-> ERROR: openssl-1.1.0f-r0 do_package_qa: QA Issue: /usr/lib/openssl/ptest/fuzz/helper.py contained in package openssl-ptest requires /usr/bin/python, but no providers found in RDEPENDS_openssl-ptest? [file-rdeps]
-> ERROR: bind-9.10.5-P3-r0 do_package_qa: QA Issue: /usr/sbin/dnssec-checkds contained in package bind requires /usr/bin/python33, but no providers found in RDEPENDS_bind? [file-rdeps]
+== Series Details ==
 
-The above are valid packaging bugs.  RP may get there first, but I'll try to get
-patches setup for them.
+Series: Fix RPM4 regressions based on Pyro
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8245/
+State : failure
 
---Mark
+== Summary ==
 
-> I suspect the key piece of testing you were missing may have been ptest enablement?
-> 
-> I might try and sort a few patches for pieces of this.
-> 
-> Cheers,
-> 
-> Richard
-> 
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 4d65421f38)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
