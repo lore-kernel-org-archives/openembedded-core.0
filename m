@@ -1,30 +1,46 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4351677EFE
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 626FB78507
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 07:09:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G79bFX024674
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Aug 2017 00:09:37 -0700 (PDT)
-Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 00:09:36 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1502846743.git.kai.kang@windriver.com>
-	<03c66574d747ad8186978debb07bce4a2ffc7726.1502846743.git.kai.kang@windriver.com>
-	<CAMKF1sr+QhxS-4cGJGsh1Vaj0U-J4gp=t+VVtZBE9b1wocypZw@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <3f0e2c47-f680-a115-d349-29376bd9b2fc@windriver.com>
-Date: Wed, 16 Aug 2017 15:11:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr+QhxS-4cGJGsh1Vaj0U-J4gp=t+VVtZBE9b1wocypZw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] nss: 3.30.2 -> 3.31.1
+	Wed, 16 Aug 2017 07:13:20 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id i66so26227505wmg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Aug 2017 00:13:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Ek/TVOwSR21gO0r860ku5vRdQexGAls/hprsFSWdHNM=;
+	b=VgFhoL2mAcpLzo3DBdUSYmUg8GdbNVslRlUOfa5qyVX4uZhUf6oGK/Z/ucE3zZv9y2
+	O40a16NZEszu5SsccE/4H5FYDR+zxWv1hJaBSWdmVvWbhoCRPcce1ZksFzkqWBf5qrqk
+	m1x+tAnIaVFUZcHY0TfwYtIx3irSH6811ciBTCtbpgnwpm1/JQ5AofZZ7Y8C/+mjCYMy
+	VASQi8QB2OOCcqMwM6V5amtLuEjSUF+1CFfZp3JYKGTFLlopbeTTEC4QudCh38G+Sfli
+	6QCMcZOlmBP0/OBC9F6eLorvtknAly324Weln27Ae+N/GXynd6DHYvYKQ7PUyuOI8dMB
+	Iofg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ek/TVOwSR21gO0r860ku5vRdQexGAls/hprsFSWdHNM=;
+	b=CYfYxP6DD+XEsrekt4YS5mkFQJciBe/XRqGlTfpS54KA3EiPVabGBTeawPzSlowxCm
+	EWmxpmsqxhAn40wp0zNeEVnYm6sZdQxs9DGTgFElty1IMVq++OyI8Dr/sclrUmDOCLpj
+	r3s2eGMXWccrEIAw+bIlk+8gkn9IFYJoJLxsuaWUgdh5h3K2+UNO7x7rp8Vo5icRFDpy
+	jgN/WNjDDjAxD8NIQalL3E9jAJJqUX6SUoHcCqr9WdarcE2ofL3ONFQ19phP76qv96nq
+	ASaFxH41Ukp5THV69eAU6WJx8RG2NEkkcJazpZdJwTTS8IHRYeny3wEh4QD2uuiNTt8j
+	3lZQ==
+X-Gm-Message-State: AHYfb5j4WPf72NvPP/PwVIE53t2wapBt6Zifnx4614i5LPAlM60CWrTt
+	FZGby0y/0MT73dhG
+X-Received: by 10.80.151.22 with SMTP id c22mr1110854edb.30.1502867601758;
+	Wed, 16 Aug 2017 00:13:21 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([27.191.203.240])
+	by smtp.gmail.com with ESMTPSA id v18sm298877edi.66.2017.08.16.00.13.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 16 Aug 2017 00:13:20 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 09:13:12 +0200
+Message-Id: <1502867592-32470-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
+Subject: [PATCH] packagefeed-stability.bbclass: change another bb.plain to bb.note
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,75 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 07:09:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 16 Aug 2017 07:13:21 -0000
 
-On 2017年08月16日 11:27, Khem Raj wrote:
-> On Tue, Aug 15, 2017 at 6:26 PM,  <kai.kang@windriver.com> wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Upgrade nss from 3.30.2 to latest stable version 3.31.1.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-support/nss/{nss_3.30.2.bb => nss_3.31.1.bb} | 10 ++++++----
->>   1 file changed, 6 insertions(+), 4 deletions(-)
->>   rename meta/recipes-support/nss/{nss_3.30.2.bb => nss_3.31.1.bb} (96%)
->>
->> diff --git a/meta/recipes-support/nss/nss_3.30.2.bb b/meta/recipes-support/nss/nss_3.31.1.bb
->> similarity index 96%
->> rename from meta/recipes-support/nss/nss_3.30.2.bb
->> rename to meta/recipes-support/nss/nss_3.31.1.bb
->> index 6683e5c..955862f 100644
->> --- a/meta/recipes-support/nss/nss_3.30.2.bb
->> +++ b/meta/recipes-support/nss/nss_3.31.1.bb
->> @@ -14,7 +14,9 @@ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
->>                       file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
->>                       file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
->>
->> -SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_30_2_RTM/src/${BP}.tar.gz \
->> +VERSION_DIR = "${@d.getVar('BP').upper().replace('-', '_').replace('.', '_') + '_RTM'}"
->> +
->> +SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSION_DIR}/src/${BP}.tar.gz \
->>              file://nss.pc.in \
->>              file://signlibs.sh \
->>              file://0001-nss-fix-support-cross-compiling.patch \
->> @@ -24,10 +26,10 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_30
->>              file://disable-Wvarargs-with-clang.patch \
->>              file://pqg.c-ULL_addend.patch \
->>              file://Fix-compilation-for-X32.patch \
->> -           file://0001-Fix-warnings-found-with-gcc7.patch \
-> Did you forget to delete the patch file ? it should be deleted if not
-> needed anymore.
+From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-Forgot it. I'll send V2. Thanks.
+In commit 255caaad:
+[ packagefeed-stability.bbclass: change a bb.plain to bb.note ]
 
---Kai
+I changed a bb.plain to bb.note to get a cleaner console, but there is
+still one more bb.plain left which I forgot to change.
 
->
->>              "
->> -SRC_URI[md5sum] = "42c22dd8ec6254f846259f1d8dd2eb76"
->> -SRC_URI[sha256sum] = "0d4a77ff26bcee79fa8afe0125e0df6ae9e798b6b36782fa29e28febf7cfce24"
->> +
->> +SRC_URI[md5sum] = "ebb44f1394250d2cf6ec3c2e3d71fa20"
->> +SRC_URI[sha256sum] = "933439214dc03ee60e86d1419c19e1568998b0776dde987f41fa70ced6cd08dc"
->>
->>   UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
->>   UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
->> --
->> 2.10.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+---
+ meta/classes/packagefeed-stability.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
+diff --git a/meta/classes/packagefeed-stability.bbclass b/meta/classes/packagefeed-stability.bbclass
+index 4837779..5648602 100644
+--- a/meta/classes/packagefeed-stability.bbclass
++++ b/meta/classes/packagefeed-stability.bbclass
+@@ -224,7 +224,7 @@ def package_compare_impl(pkgtype, d):
+                     shutil.copyfile(srcpath, destpath)
+                 f.write('%s\n' % destpath)
+     else:
+-        bb.plain('Not copying packages for recipe %s' % pn)
++        bb.note('Not copying packages for recipe %s' % pn)
+ 
+ do_cleansstate[postfuncs] += "pfs_cleanpkgs"
+ python pfs_cleanpkgs () {
 -- 
-Regards,
-Neil | Kai Kang
+2.7.4
 
 
