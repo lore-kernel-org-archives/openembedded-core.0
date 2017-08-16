@@ -1,23 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 32A1F78391
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C6F878636
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 08:31:27 +0000 (UTC)
+	Wed, 16 Aug 2017 08:31:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G8VLDn025046
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Aug 2017 01:31:28 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7G8VUfR008776
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 16 Aug 2017 01:31:30 -0700
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 01:31:23 -0700
+	Wed, 16 Aug 2017 01:31:29 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 16 Aug 2017 04:31:14 -0400
-Message-ID: <cover.1502869419.git.hongxu.jia@windriver.com>
+Date: Wed, 16 Aug 2017 04:31:15 -0400
+Message-ID: <426d2fb5a0f8a96c145779de8a5056cded4ac006.1502869419.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <cover.1502869419.git.hongxu.jia@windriver.com>
+References: <cover.1502869419.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] upgrade 8 recipes
+Subject: [PATCH 1/8] apr-util: 1.5.4 -> 1.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,174 +32,307 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 08:31:28 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 08:31:30 -0000
 Content-Type: text/plain
 
-The following changes since commit 034bff2ca431b49b7ca9b1e7b7c214ef94b0eb34:
+Drop backported openssl-1.1.patch
 
-  bitbake: cooker: Ignore common bitbake files for the parse cache invalidation (2017-08-13 09:28:14 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib hongxu/upgrade-20170816
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/upgrade-20170816
-
-Hongxu Jia (8):
-  apr-util: 1.5.4 -> 1.6.0
-  bash: 4.3.30 -> 4.4
-  dhcp: 4.3.5 -> 4.3.6
-  elfutils: 0.168 -> 0.170
-  libgcrypt: 1.7.8 -> 1.8.0
-  gnupg: 2.1.20 -> 2.1.23
-  gpgme: 1.8.0 -> 1.9.0
-  ncurses: 6.0+20161126 -> 6.0+20170715
-
- meta/recipes-connectivity/dhcp/dhcp.inc            |   4 +-
- ...-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch} |  12 +-
- ...hclient-dbus.patch => 0002-dhclient-dbus.patch} |  97 +++++---
- ...-lcrypto.patch => 0003-link-with-lcrypto.patch} |  20 +-
- ...ild.patch => 0004-Fix-out-of-tree-builds.patch} |   9 +-
- ...-fix-invoke-dhclient-script-failed-on-Rea.patch |  36 +++
- ...ch => 0006-site.h-enable-gentle-shutdown.patch} |  17 +-
- ...re-argument-to-make-the-libxml2-dependenc.patch |  42 ++++
- ...h => 0008-tweak-to-support-external-bind.patch} |  12 +-
- ...09-remove-dhclient-script-bash-dependency.patch |  28 +++
- ...red-libs.patch => 0010-build-shared-libs.patch} |  30 ++-
- ...ll-to-isc_app_ctxstart-to-not-get-signal.patch} |  10 +-
- ...dhclient-script-drop-resolv.conf.dhclient.patch |  70 ------
- .../dhcp/dhcp/libxml2-configure-argument.patch     |  38 ----
- .../remove-dhclient-script-bash-dependency.patch   |  55 -----
- .../dhcp/dhcp/replace-ifconfig-route.patch         | 188 ---------------
- .../dhcp/dhcp/search-for-libxml2.patch             |  23 --
- meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb       |  20 --
- meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb       |  20 ++
- .../files/{tic-hang.patch => 0001-tic-hang.patch}  |  26 ++-
- ...ble.patch => 0002-configure-reproducible.patch} |  21 +-
- .../ncurses/files/fix-cflags-mangle.patch          |  18 --
- ...ses_6.0+20161126.bb => ncurses_6.0+20170715.bb} |   7 +-
- ...m-Silence-Werror-maybe-uninitialized-fals.patch |  35 ---
- .../elfutils-0.168/Fix_one_GCC7_warning.patch      |  44 ----
- .../elfutils/elfutils-0.168/debian/hurd_path.patch |  17 --
- .../elfutils-0.168/debian/ignore_strmerge.diff     |  14 --
- .../elfutils-0.168/debian/kfreebsd_path.patch      |  20 --
- .../debian/testsuite-ignore-elflint.diff           |  42 ----
- .../elfutils/elfutils-0.168/shadow.patch           |  23 --
- .../elfutils/elfutils/dso-link-change.patch        |  32 ---
- .../{elfutils_0.168.bb => elfutils_0.170.bb}       |  32 ++-
- .../elfutils/files/0001-dso-link-change.patch      |  52 +++++
- ...elf_cvt_gunhash-if-dest-and-src-are-same.patch} |  15 +-
- .../0003-fixheadercheck.patch}                     |  23 +-
- .../0004-Disable-the-test-to-convert-euc-jp.patch} |  10 +-
- .../0005-fix-a-stack-usage-warning.patch}          |  15 +-
- .../0006-Fix-build-on-aarch64-musl.patch}          |  38 +++-
- ...-path-where-we-have-str-as-uninitialized-.patch |  45 ++++
- ...e-alternatives-for-glibc-assumptions-hel.patch} | 168 ++++++--------
- ...ferences-between-mips-machine-identifiers.patch |   0
- ...-support-for-mips64-abis-in-mips_retval.c.patch |   0
- .../0003-Add-mips-n64-relocation-format-hack.patch |   0
- .../debian/arm_backend.diff                        |   0
- .../debian}/fallthrough.patch                      |   0
- .../debian/hppa_backend.diff                       |   0
- .../debian/mips_backend.patch}                     | 115 ++++++----
- .../debian/mips_readelf_w.patch                    |   0
- meta/recipes-extended/bash/bash.inc                |   4 +
- .../recipes-extended/bash/bash/CVE-2016-9401.patch |  50 ----
- ...roc-run-heredoc-run-execscript-run-test-f.patch | 158 ++-----------
- meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 ---------
- meta/recipes-extended/bash/bash/test-output.patch  |  47 ++--
- meta/recipes-extended/bash/bash_4.3.30.bb          |  75 ------
- meta/recipes-extended/bash/bash_4.4.bb             |  58 +++++
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  .../recipes-support/apr/apr-util/openssl-1.1.patch | 253 ---------------------
  .../apr/{apr-util_1.5.4.bb => apr-util_1.6.0.bb}   |   7 +-
- ...config-to-find-pth-instead-of-pth-config.patch} |  29 ++-
- ...002-use-pkgconfig-instead-of-npth-config.patch} |  21 +-
- .../gnupg/0003-dirmngr-uses-libgpg-error.patch     |  32 +++
- ...en.sh-fix-find-version-for-beta-checking.patch} |  17 +-
- .../gnupg/gnupg/dirmngr-uses-libgpg-error.patch    |  16 --
- .../gnupg/{gnupg_2.1.20.bb => gnupg_2.1.23.bb}     |  14 +-
- .../{pkgconfig.patch => 0001-pkgconfig.patch}      |  16 +-
- ...ython-gpg-error-config-should-not-be-use.patch} |  25 +-
- ...=> 0003-Correctly-install-python-modules.patch} |  22 +-
- ...ython-import.patch => 0004-python-import.patch} |  15 ++
- ...-skip-all-lib-or-usr-lib-directories-in-.patch} |   6 +-
- .../gpgme/{gpgme_1.8.0.bb => gpgme_1.9.0.bb}       |  16 +-
- ...pkg-config-for-libgcrypt-instead-of-conf.patch} |  18 +-
- ...x-building-error-with-O2-in-sysroot-path.patch} |  29 ++-
- ...slope.c-workaround-ICE-failure-on-mips-w.patch} |  24 +-
- ...le.am-fix-undefined-reference-to-pthread.patch} |  11 +-
- .../{libgcrypt_1.7.8.bb => libgcrypt_1.8.0.bb}     |  12 +-
- 74 files changed, 973 insertions(+), 1655 deletions(-)
- rename meta/recipes-connectivity/dhcp/dhcp/{define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch => 0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch} (70%)
- rename meta/recipes-connectivity/dhcp/dhcp/{dhcp-3.0.3-dhclient-dbus.patch => 0002-dhclient-dbus.patch} (45%)
- rename meta/recipes-connectivity/dhcp/dhcp/{link-with-lcrypto.patch => 0003-link-with-lcrypto.patch} (68%)
- rename meta/recipes-connectivity/dhcp/dhcp/{fixsepbuild.patch => 0004-Fix-out-of-tree-builds.patch} (92%)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch
- rename meta/recipes-connectivity/dhcp/dhcp/{0001-site.h-enable-gentle-shutdown.patch => 0006-site.h-enable-gentle-shutdown.patch} (65%)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
- rename meta/recipes-connectivity/dhcp/dhcp/{tweak-to-support-external-bind.patch => 0008-tweak-to-support-external-bind.patch} (93%)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0009-remove-dhclient-script-bash-dependency.patch
- rename meta/recipes-connectivity/dhcp/dhcp/{build-shared-libs.patch => 0010-build-shared-libs.patch} (90%)
- rename meta/recipes-connectivity/dhcp/dhcp/{Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch => 0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch} (92%)
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/remove-dhclient-script-bash-dependency.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/search-for-libxml2.patch
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
- rename meta/recipes-core/ncurses/files/{tic-hang.patch => 0001-tic-hang.patch} (63%)
- rename meta/recipes-core/ncurses/files/{configure-reproducible.patch => 0002-configure-reproducible.patch} (50%)
- delete mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
- rename meta/recipes-core/ncurses/{ncurses_6.0+20161126.bb => ncurses_6.0+20170715.bb} (56%)
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/Fix_one_GCC7_warning.patch
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/hurd_path.patch
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/ignore_strmerge.diff
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/kfreebsd_path.patch
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/debian/testsuite-ignore-elflint.diff
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.168/shadow.patch
- delete mode 100644 meta/recipes-devtools/elfutils/elfutils/dso-link-change.patch
- rename meta/recipes-devtools/elfutils/{elfutils_0.168.bb => elfutils_0.170.bb} (71%)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
- rename meta/recipes-devtools/elfutils/{elfutils/Fix_elf_cvt_gunhash.patch => files/0002-Fix-elf_cvt_gunhash-if-dest-and-src-are-same.patch} (72%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168/fixheadercheck.patch => files/0003-fixheadercheck.patch} (69%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168/0001-remove-the-unneed-checking.patch => files/0004-Disable-the-test-to-convert-euc-jp.patch} (76%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168/0001-fix-a-stack-usage-warning.patch => files/0005-fix-a-stack-usage-warning.patch} (72%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168/aarch64_uio.patch => files/0006-Fix-build-on-aarch64-musl.patch} (51%)
- create mode 100644 meta/recipes-devtools/elfutils/files/0007-Fix-control-path-where-we-have-str-as-uninitialized-.patch
- rename meta/recipes-devtools/elfutils/{elfutils-0.168/0001-build-Provide-alternatives-for-glibc-assumptions-hel.patch => files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch} (89%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files}/debian/0001-Ignore-differences-between-mips-machine-identifiers.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files}/debian/0002-Add-support-for-mips64-abis-in-mips_retval.c.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files}/debian/0003-Add-mips-n64-relocation-format-hack.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files}/debian/arm_backend.diff (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files/debian}/fallthrough.patch (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files}/debian/hppa_backend.diff (100%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168/debian/mips_backend.diff => files/debian/mips_backend.patch} (92%)
- rename meta/recipes-devtools/elfutils/{elfutils-0.168 => files}/debian/mips_readelf_w.patch (100%)
- delete mode 100644 meta/recipes-extended/bash/bash/CVE-2016-9401.patch
- delete mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
- delete mode 100644 meta/recipes-extended/bash/bash_4.3.30.bb
- create mode 100644 meta/recipes-extended/bash/bash_4.4.bb
+ 2 files changed, 3 insertions(+), 257 deletions(-)
  delete mode 100644 meta/recipes-support/apr/apr-util/openssl-1.1.patch
  rename meta/recipes-support/apr/{apr-util_1.5.4.bb => apr-util_1.6.0.bb} (92%)
- rename meta/recipes-support/gnupg/gnupg/{pkgconfig.patch => 0001-Use-pkg-config-to-find-pth-instead-of-pth-config.patch} (81%)
- rename meta/recipes-support/gnupg/gnupg/{use-pkgconfig-instead-of-npth-config.patch => 0002-use-pkgconfig-instead-of-npth-config.patch} (81%)
- create mode 100644 meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
- rename meta/recipes-support/gnupg/gnupg/{autogen.sh-fix-find-version-for-beta-checking.patch => 0004-autogen.sh-fix-find-version-for-beta-checking.patch} (58%)
- delete mode 100644 meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
- rename meta/recipes-support/gnupg/{gnupg_2.1.20.bb => gnupg_2.1.23.bb} (69%)
- rename meta/recipes-support/gpgme/gpgme/{pkgconfig.patch => 0001-pkgconfig.patch} (96%)
- rename meta/recipes-support/gpgme/gpgme/{python-lang-config.patch => 0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch} (72%)
- rename meta/recipes-support/gpgme/gpgme/{0001-Correctly-install-python-modules.patch => 0003-Correctly-install-python-modules.patch} (52%)
- rename meta/recipes-support/gpgme/gpgme/{python-import.patch => 0004-python-import.patch} (66%)
- rename meta/recipes-support/gpgme/gpgme/{0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch => 0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch} (85%)
- rename meta/recipes-support/gpgme/{gpgme_1.8.0.bb => gpgme_1.9.0.bb} (84%)
- rename meta/recipes-support/libgcrypt/files/{add-pkgconfig-support.patch => 0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch} (94%)
- rename meta/recipes-support/libgcrypt/files/{libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch => 0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch} (55%)
- rename meta/recipes-support/libgcrypt/files/{fix-ICE-failure-on-mips-with-option-O-and-g.patch => 0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch} (73%)
- rename meta/recipes-support/libgcrypt/files/{fix-undefined-reference-to-pthread.patch => 0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch} (70%)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.7.8.bb => libgcrypt_1.8.0.bb} (75%)
 
+diff --git a/meta/recipes-support/apr/apr-util/openssl-1.1.patch b/meta/recipes-support/apr/apr-util/openssl-1.1.patch
+deleted file mode 100644
+index 891c141..0000000
+--- a/meta/recipes-support/apr/apr-util/openssl-1.1.patch
++++ /dev/null
+@@ -1,253 +0,0 @@
+-# commit f163d8b5af9185de80d24b4dd13951dd64872aa6
+-# Author: Rainer Jung <rjung@apache.org>
+-# Date:   Sun Feb 7 14:40:46 2016 +0000
+-# 
+-#     Add support for OpenSSL 1.1.0:
+-#     - Switch configure test for OpenSSL libcrypto
+-#       from BN_init() to BN_new().
+-#       - BN_init() is gone in OpenSSL 1.1.0.
+-#         BN_new() exists at least since 0.9.8.
+-#     - use OPENSSL_malloc_init() instead of
+-#       CRYPTO_malloc_init
+-#     - make cipherCtx a pointer. Type EVP_CIPHER_CTX
+-#       is now opaque.
+-#       - use EVP_CIPHER_CTX_new() in init() functions
+-#         if initialised flag is not set (and set flag)
+-#       - use EVP_CIPHER_CTX_free() in cleanup function
+-#     - Improve reuse cleanup
+-#       - call EVP_CIPHER_CTX_reset() resp.
+-#         EVP_CIPHER_CTX_cleanup() in finish functions
+-#       - call EVP_CIPHER_CTX_reset() resp.
+-#         EVP_CIPHER_CTX_cleanup() when Update fails
+-#     Backport of r1728958 and r1728963 from trunk.
+-#     
+-#     
+-#     git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.5.x@1728969 13f79535-47bb-0310-9956-ffa450edef68
+-#
+-
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Upstream-Status: Backport 
+-diff --git a/build/crypto.m4 b/build/crypto.m4
+-index 9f9be6f..57884e3 100644
+---- a/build/crypto.m4
+-+++ b/build/crypto.m4
+-@@ -88,7 +88,7 @@ AC_DEFUN([APU_CHECK_CRYPTO_OPENSSL], [
+-   [
+-     if test "$withval" = "yes"; then
+-       AC_CHECK_HEADERS(openssl/x509.h, [openssl_have_headers=1])
+--      AC_CHECK_LIB(crypto, BN_init, AC_CHECK_LIB(ssl, SSL_accept, [openssl_have_libs=1],,-lcrypto))
+-+      AC_CHECK_LIB(crypto, BN_new, AC_CHECK_LIB(ssl, SSL_accept, [openssl_have_libs=1],,-lcrypto))
+-       if test "$openssl_have_headers" != "0" && test "$openssl_have_libs" != "0"; then
+-         apu_have_openssl=1
+-       fi
+-@@ -104,7 +104,7 @@ AC_DEFUN([APU_CHECK_CRYPTO_OPENSSL], [
+- 
+-       AC_MSG_NOTICE(checking for openssl in $withval)
+-       AC_CHECK_HEADERS(openssl/x509.h, [openssl_have_headers=1])
+--      AC_CHECK_LIB(crypto, BN_init, AC_CHECK_LIB(ssl, SSL_accept, [openssl_have_libs=1],,-lcrypto))
+-+      AC_CHECK_LIB(crypto, BN_new, AC_CHECK_LIB(ssl, SSL_accept, [openssl_have_libs=1],,-lcrypto))
+-       if test "$openssl_have_headers" != "0" && test "$openssl_have_libs" != "0"; then
+-         apu_have_openssl=1
+-         APR_ADDTO(APRUTIL_LDFLAGS, [-L$withval/lib])
+-@@ -113,7 +113,7 @@ AC_DEFUN([APU_CHECK_CRYPTO_OPENSSL], [
+- 
+-       if test "$apu_have_openssl" != "1"; then
+-         AC_CHECK_HEADERS(openssl/x509.h, [openssl_have_headers=1])
+--        AC_CHECK_LIB(crypto, BN_init, AC_CHECK_LIB(ssl, SSL_accept, [openssl_have_libs=1],,-lcrypto))
+-+        AC_CHECK_LIB(crypto, BN_new, AC_CHECK_LIB(ssl, SSL_accept, [openssl_have_libs=1],,-lcrypto))
+-         if test "$openssl_have_headers" != "0" && test "$openssl_have_libs" != "0"; then
+-           apu_have_openssl=1
+-           APR_ADDTO(APRUTIL_LDFLAGS, [-L$withval/lib])
+-diff --git a/crypto/apr_crypto_openssl.c b/crypto/apr_crypto_openssl.c
+-index 0740f93..7d61fca 100644
+---- a/crypto/apr_crypto_openssl.c
+-+++ b/crypto/apr_crypto_openssl.c
+-@@ -64,7 +64,7 @@ struct apr_crypto_block_t {
+-     apr_pool_t *pool;
+-     const apr_crypto_driver_t *provider;
+-     const apr_crypto_t *f;
+--    EVP_CIPHER_CTX cipherCtx;
+-+    EVP_CIPHER_CTX *cipherCtx;
+-     int initialised;
+-     int ivSize;
+-     int blockSize;
+-@@ -111,7 +111,11 @@ static apr_status_t crypto_shutdown_helper(void *data)
+- static apr_status_t crypto_init(apr_pool_t *pool, const char *params,
+-         const apu_err_t **result)
+- {
+-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+-     CRYPTO_malloc_init();
+-+#else
+-+    OPENSSL_malloc_init();
+-+#endif
+-     ERR_load_crypto_strings();
+-     /* SSL_load_error_strings(); */
+-     OpenSSL_add_all_algorithms();
+-@@ -134,7 +138,7 @@ static apr_status_t crypto_block_cleanup(apr_crypto_block_t *ctx)
+- {
+- 
+-     if (ctx->initialised) {
+--        EVP_CIPHER_CTX_cleanup(&ctx->cipherCtx);
+-+        EVP_CIPHER_CTX_free(ctx->cipherCtx);
+-         ctx->initialised = 0;
+-     }
+- 
+-@@ -491,8 +495,10 @@ static apr_status_t crypto_block_encrypt_init(apr_crypto_block_t **ctx,
+-             apr_pool_cleanup_null);
+- 
+-     /* create a new context for encryption */
+--    EVP_CIPHER_CTX_init(&block->cipherCtx);
+--    block->initialised = 1;
+-+    if (!block->initialised) {
+-+        block->cipherCtx = EVP_CIPHER_CTX_new();
+-+        block->initialised = 1;
+-+    }
+- 
+-     /* generate an IV, if necessary */
+-     usedIv = NULL;
+-@@ -519,16 +525,16 @@ static apr_status_t crypto_block_encrypt_init(apr_crypto_block_t **ctx,
+- 
+-     /* set up our encryption context */
+- #if CRYPTO_OPENSSL_CONST_BUFFERS
+--    if (!EVP_EncryptInit_ex(&block->cipherCtx, key->cipher, config->engine,
+-+    if (!EVP_EncryptInit_ex(block->cipherCtx, key->cipher, config->engine,
+-             key->key, usedIv)) {
+- #else
+--        if (!EVP_EncryptInit_ex(&block->cipherCtx, key->cipher, config->engine, (unsigned char *) key->key, (unsigned char *) usedIv)) {
+-+        if (!EVP_EncryptInit_ex(block->cipherCtx, key->cipher, config->engine, (unsigned char *) key->key, (unsigned char *) usedIv)) {
+- #endif
+-         return APR_EINIT;
+-     }
+- 
+-     /* Clear up any read padding */
+--    if (!EVP_CIPHER_CTX_set_padding(&block->cipherCtx, key->doPad)) {
+-+    if (!EVP_CIPHER_CTX_set_padding(block->cipherCtx, key->doPad)) {
+-         return APR_EPADDING;
+-     }
+- 
+-@@ -582,11 +588,16 @@ static apr_status_t crypto_block_encrypt(unsigned char **out,
+-     }
+- 
+- #if CRYPT_OPENSSL_CONST_BUFFERS
+--    if (!EVP_EncryptUpdate(&ctx->cipherCtx, (*out), &outl, in, inlen)) {
+-+    if (!EVP_EncryptUpdate(ctx->cipherCtx, (*out), &outl, in, inlen)) {
+- #else
+--    if (!EVP_EncryptUpdate(&ctx->cipherCtx, (*out), &outl,
+-+    if (!EVP_EncryptUpdate(ctx->cipherCtx, (*out), &outl,
+-             (unsigned char *) in, inlen)) {
+- #endif
+-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+-+        EVP_CIPHER_CTX_cleanup(ctx->cipherCtx);
+-+#else
+-+        EVP_CIPHER_CTX_reset(ctx->cipherCtx);
+-+#endif
+-         return APR_ECRYPT;
+-     }
+-     *outlen = outl;
+-@@ -616,14 +627,22 @@ static apr_status_t crypto_block_encrypt(unsigned char **out,
+- static apr_status_t crypto_block_encrypt_finish(unsigned char *out,
+-         apr_size_t *outlen, apr_crypto_block_t *ctx)
+- {
+-+    apr_status_t rc = APR_SUCCESS;
+-     int len = *outlen;
+- 
+--    if (EVP_EncryptFinal_ex(&ctx->cipherCtx, out, &len) == 0) {
+--        return APR_EPADDING;
+-+    if (EVP_EncryptFinal_ex(ctx->cipherCtx, out, &len) == 0) {
+-+        rc = APR_EPADDING;
+-+    }
+-+    else {
+-+        *outlen = len;
+-     }
+--    *outlen = len;
+-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+-+    EVP_CIPHER_CTX_cleanup(ctx->cipherCtx);
+-+#else
+-+    EVP_CIPHER_CTX_reset(ctx->cipherCtx);
+-+#endif
+- 
+--    return APR_SUCCESS;
+-+    return rc;
+- 
+- }
+- 
+-@@ -662,8 +681,10 @@ static apr_status_t crypto_block_decrypt_init(apr_crypto_block_t **ctx,
+-             apr_pool_cleanup_null);
+- 
+-     /* create a new context for encryption */
+--    EVP_CIPHER_CTX_init(&block->cipherCtx);
+--    block->initialised = 1;
+-+    if (!block->initialised) {
+-+        block->cipherCtx = EVP_CIPHER_CTX_new();
+-+        block->initialised = 1;
+-+    }
+- 
+-     /* generate an IV, if necessary */
+-     if (key->ivSize) {
+-@@ -674,16 +695,16 @@ static apr_status_t crypto_block_decrypt_init(apr_crypto_block_t **ctx,
+- 
+-     /* set up our encryption context */
+- #if CRYPTO_OPENSSL_CONST_BUFFERS
+--    if (!EVP_DecryptInit_ex(&block->cipherCtx, key->cipher, config->engine,
+-+    if (!EVP_DecryptInit_ex(block->cipherCtx, key->cipher, config->engine,
+-             key->key, iv)) {
+- #else
+--        if (!EVP_DecryptInit_ex(&block->cipherCtx, key->cipher, config->engine, (unsigned char *) key->key, (unsigned char *) iv)) {
+-+        if (!EVP_DecryptInit_ex(block->cipherCtx, key->cipher, config->engine, (unsigned char *) key->key, (unsigned char *) iv)) {
+- #endif
+-         return APR_EINIT;
+-     }
+- 
+-     /* Clear up any read padding */
+--    if (!EVP_CIPHER_CTX_set_padding(&block->cipherCtx, key->doPad)) {
+-+    if (!EVP_CIPHER_CTX_set_padding(block->cipherCtx, key->doPad)) {
+-         return APR_EPADDING;
+-     }
+- 
+-@@ -737,11 +758,16 @@ static apr_status_t crypto_block_decrypt(unsigned char **out,
+-     }
+- 
+- #if CRYPT_OPENSSL_CONST_BUFFERS
+--    if (!EVP_DecryptUpdate(&ctx->cipherCtx, *out, &outl, in, inlen)) {
+-+    if (!EVP_DecryptUpdate(ctx->cipherCtx, *out, &outl, in, inlen)) {
+- #else
+--    if (!EVP_DecryptUpdate(&ctx->cipherCtx, *out, &outl, (unsigned char *) in,
+-+    if (!EVP_DecryptUpdate(ctx->cipherCtx, *out, &outl, (unsigned char *) in,
+-             inlen)) {
+- #endif
+-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+-+        EVP_CIPHER_CTX_cleanup(ctx->cipherCtx);
+-+#else
+-+        EVP_CIPHER_CTX_reset(ctx->cipherCtx);
+-+#endif
+-         return APR_ECRYPT;
+-     }
+-     *outlen = outl;
+-@@ -771,15 +797,22 @@ static apr_status_t crypto_block_decrypt(unsigned char **out,
+- static apr_status_t crypto_block_decrypt_finish(unsigned char *out,
+-         apr_size_t *outlen, apr_crypto_block_t *ctx)
+- {
+--
+-+    apr_status_t rc = APR_SUCCESS;
+-     int len = *outlen;
+- 
+--    if (EVP_DecryptFinal_ex(&ctx->cipherCtx, out, &len) == 0) {
+--        return APR_EPADDING;
+-+    if (EVP_DecryptFinal_ex(ctx->cipherCtx, out, &len) == 0) {
+-+        rc = APR_EPADDING;
+-     }
+--    *outlen = len;
+-+    else {
+-+        *outlen = len;
+-+    }
+-+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+-+    EVP_CIPHER_CTX_cleanup(ctx->cipherCtx);
+-+#else
+-+    EVP_CIPHER_CTX_reset(ctx->cipherCtx);
+-+#endif
+- 
+--    return APR_SUCCESS;
+-+    return rc;
+- 
+- }
+- 
+diff --git a/meta/recipes-support/apr/apr-util_1.5.4.bb b/meta/recipes-support/apr/apr-util_1.6.0.bb
+similarity index 92%
+rename from meta/recipes-support/apr/apr-util_1.5.4.bb
+rename to meta/recipes-support/apr/apr-util_1.6.0.bb
+index 64f4d94..748d196 100644
+--- a/meta/recipes-support/apr/apr-util_1.5.4.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.0.bb
+@@ -6,18 +6,17 @@ DEPENDS = "apr expat gdbm"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=519e0a18e03f7c023070568c14b077bb \
++LIC_FILES_CHKSUM = "file://LICENSE;md5=158aa0b1efe0c12f23d4b007ddb9a5db \
+                     file://include/apu_version.h;endline=17;md5=806685a84e71f10c80144c48eb35df42"
+ 
+ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+            file://run-ptest \
+-           file://openssl-1.1.patch \
+ "
+ 
+-SRC_URI[md5sum] = "866825c04da827c6e5f53daff5569f42"
+-SRC_URI[sha256sum] = "976a12a59bc286d634a21d7be0841cc74289ea9077aa1af46be19d1a6e844c19"
++SRC_URI[md5sum] = "3b03dbff60728a4f4c33f5d929e8b35a"
++SRC_URI[sha256sum] = "483ef4d59e6ac9a36c7d3fd87ad7b9db7ad8ae29c06b9dd8ff22dda1cc416389"
+ 
+ EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \ 
+ 		--without-odbc \
 -- 
 2.8.1
 
