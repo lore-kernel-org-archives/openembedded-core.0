@@ -1,62 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-X-Greylist: delayed 370 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 16 Aug 2017 11:52:49 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E9CF17827A
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4EF278644
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 11:52:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 37C002F215;
-	Wed, 16 Aug 2017 13:46:40 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id EplwmrD4khn7; Wed, 16 Aug 2017 13:46:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 1A31A2EF11;
-	Wed, 16 Aug 2017 13:46:38 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DC38E1A08E;
-	Wed, 16 Aug 2017 13:46:38 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C40F91A08D;
-	Wed, 16 Aug 2017 13:46:38 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 16 Aug 2017 13:46:38 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id B7DCBA40;
-	Wed, 16 Aug 2017 13:46:38 +0200 (CEST)
-Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 16 Aug 2017 13:46:38 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 16 Aug 2017 13:46:38 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 16 Aug 2017 13:46:38 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Christopher Larson <kergoth@gmail.com>, "Robert P. J. Day"
-	<rpjday@crashcourse.ca>
-Thread-Topic: [OE-core] two identically-named machine .conf files in two
-	different layers?
-Thread-Index: AQHS/K0EQxMx/fatcUOAZ7oZhd139qKHD6VQ
-Date: Wed, 16 Aug 2017 11:46:38 +0000
-Message-ID: <ece1df46b35b44b0b8debbce1cbb0a49@XBOX02.axis.com>
-References: <alpine.LFD.2.20.1707140547090.12072@localhost.localdomain>
-	<CABcZAN=DimUEqjJTNzrh69aCWXx+SrVy2=2pKypPiN+9vOqRLg@mail.gmail.com>
-In-Reply-To: <CABcZAN=DimUEqjJTNzrh69aCWXx+SrVy2=2pKypPiN+9vOqRLg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: two identically-named machine .conf files in two different layers?
+	Wed, 16 Aug 2017 12:28:14 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Aug 2017 05:28:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,382,1498546800"; d="scan'208";a="300812042"
+Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.32])
+	([10.237.66.32])
+	by fmsmga004.fm.intel.com with ESMTP; 16 Aug 2017 05:28:14 -0700
+User-Agent: Microsoft-MacOutlook/f.20.0.170309
+Date: Wed, 16 Aug 2017 15:28:17 +0300
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <716364F9-E9E1-4941-97FA-90D9434E518E@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] gpg_sign: perform rpm signing serially
+References: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
+In-Reply-To: <62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
+Mime-version: 1.0
+Subject: Re: [PATCH] gpg_sign: perform rpm signing serially
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,151 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 11:52:50 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_ece1df46b35b44b0b8debbce1cbb0a49XBOX02axiscom_"
+X-List-Received-Date: Wed, 16 Aug 2017 12:28:15 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
---_000_ece1df46b35b44b0b8debbce1cbb0a49XBOX02axiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+I agree. I don't see reason for dropping parallelism completely. There is a real gain when running on beefier machines. Making it configurable would probably be best. Or just drop it to a saner value, like 20 or 10.
+   - Markus
 
-VGhlcmUgaXMgb25lIGV4Y2VwdGlvbiB0byB0aGUgcnVsZSB0aGF0IEkgYW0gYXdhcmUgb2Y6IG1l
-dGEtcG9reSAoZm9ybWVybHkga25vd24gYXMgbWV0YS15b2N0bykgcHJlcGVuZHMgaXRzZWxmIHRv
-IEJCUEFUSCByYXRoZXIgdGhhbiBhcHBlbmRpbmcgaXRzZWxm4oCmDQoNCi8vUGV0ZXINCg0KRnJv
-bTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWls
-dG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBC
-ZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFyc29uDQpTZW50OiBkZW4gMTQganVsaSAyMDE3IDE2OjI1
-DQpUbzogUm9iZXJ0IFAuIEouIERheSA8cnBqZGF5QGNyYXNoY291cnNlLmNhPg0KQ2M6IE9FIENv
-cmUgbWFpbGluZyBsaXN0IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-Pg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSB0d28gaWRlbnRpY2FsbHktbmFtZWQgbWFjaGluZSAu
-Y29uZiBmaWxlcyBpbiB0d28gZGlmZmVyZW50IGxheWVycz8NCg0KDQoNCk9uIEZyaSwgSnVsIDE0
-LCAyMDE3IGF0IDI6NTAgQU0sIFJvYmVydCBQLiBKLiBEYXkgPHJwamRheUBjcmFzaGNvdXJzZS5j
-YTxtYWlsdG86cnBqZGF5QGNyYXNoY291cnNlLmNhPj4gd3JvdGU6DQoNCiAganVzdCByYW4gYWNy
-b3NzIHNvbWVvbmUgZWxzZSdzIE9FIHdvcmssIHdoZXJlIGhlIHB1bGxlZCBpbiBhDQpzdGFuZGFy
-ZCBsYXllciB0aGF0IGRlZmluZWQgYSBtYWNoaW5lLCBjYWxsIGl0ICJtYWNoaW5lLmNvbmYiLCB0
-aGVuDQphZGRlZCBhbiBpbnRlcm5hbCBsYXllciB3aXRoIHNvbWUgdHdlYWtzIGJ1dCAqYWxzbyog
-Y29udGFpbmVkIGENCm1hY2hpbmUgZGVmaW5pdGlvbiBmaWxlIG5hbWVkIHByZWNpc2VseSAibWFj
-aGluZS5jb25mIiwgd2hpY2ggd2FzIGp1c3QNCnRoZSBvcmlnaW5hbCBmaWxlIHdpdGggc29tZSBl
-ZGl0cy4gc28gaXQgd2Fzbid0IGV4dGVuZGluZyBvciBtb2RpZnlpbmcNCnRoZSBvcmlnaW5hbCBt
-YWNoaW5lLmNvbmYsIGl0IHdhcyBtZWFudCB0byBjb21wbGV0ZWx5IG92ZXJyaWRlIGl0Lg0KDQog
-IGkgd2FzIGEgYml0IGNvbmZ1c2VkIGFzIGknbSBub3Qgc3VyZSB3aGF0IGV2ZW4gaGFwcGVucyBp
-biBhDQpzaXR1YXRpb24gbGlrZSB0aGF0LiBkb2VzIG9uZSB0YWtlIHByZWNlZGVuY2Ugb3ZlciB0
-aGUgb3RoZXIgYmFzZWQgb24NCmxheWVyIHByaW9yaXR5PyBvciB3aGF0Pw0KDQpDb25maWcgZmls
-ZXMgYW5kIGNsYXNzZXMgYXJlIHB1bGxlZCBpbiB2aWEgcmVsYXRpdmUgcGF0aHMsIHdoaWNoIGFy
-ZSBhbHdheXMgZm91bmQgdmlhIEJCUEFUSCwgd2hpY2ggaW4gdHVybiBpcyBkZWZpbmVkIGJhc2Vk
-IG9uIGxheWVyLmNvbmYgZmlsZXMuIFNpbmNlIGFueSBzYW5lIGxheWVyLmNvbmYgZmlsZSB3aWxs
-IGFwcGVuZCB0byBCQlBBVEgsIEJCUEFUSCBlbmRzIHVwIG9iZXlpbmcgdGhlIHNhbWUgb3JkZXIg
-YXMgQkJMQVlFUlMuDQoNCklmIHlvdSB3YW50IGxheWVyIEEgdG8gb3ZlcnJpZGUgYSBjb25maWcg
-ZmlsZSBvciBjbGFzcyBpbiBsYXllciBCLCBwdXQgbGF5ZXIgQSBiZWZvcmUgbGF5ZXIgQiBpbiBC
-QkxBWUVSUyBpbiBjb25mL2JibGF5ZXJzLmNvbmYuDQotLQ0KQ2hyaXN0b3BoZXIgTGFyc29uDQpr
-ZXJnb3RoIGF0IGdtYWlsIGRvdCBjb20NCkZvdW5kZXIgLSBCaXRCYWtlLCBPcGVuRW1iZWRkZWQs
-IE9wZW5aYXVydXMNClNlbmlvciBTb2Z0d2FyZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzDQo=
+On 16/08/2017, 2.53, "Mark Hatle" <openembedded-core-bounces@lists.openembedded.org on behalf of mark.hatle@windriver.com> wrote:
 
---_000_ece1df46b35b44b0b8debbce1cbb0a49XBOX02axiscom_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+    It would probably be better if this was configurable with a 'safe' default.
+    
+    Moving from parallel to single will greatly affect the overall performance on
+    larger build machines (lots of memory and cores) that can handle the load vs a
+    typical development machine.
+    
+    --Mark
+    
+    On 8/15/17 4:40 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
+    > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+    > 
+    > gpg signing in file batches (which was default to 100) is a memory expensive
+    > computation, causing trouble in some host machines (even on production AB
+    > as seen on the bugzilla ID). Also, in terms of performance, there is no real
+    > gain when rpm signing is done in batches. Considering the latter issues, perform the
+    > rpm signing serially.
+    > 
+    > Log showing errors observed recently at AB workers:
+    > 
+    >     | gpg: signing failed: Cannot allocate memory
+    >     | gpg: signing failed: Cannot allocate memory
+    >     | error: gpg exec failed (2)
+    >     | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/core2-64-poky-linux/base-passwd/3.5.29-r0/deploy-rpms/core2_64/base-passwd-dev-3.5.29-r0.core2_64.rpm:
+    > 
+    > [YOCTO #11914]
+    > 
+    > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+    > ---
+    >  meta/lib/oe/gpg_sign.py | 6 +++---
+    >  1 file changed, 3 insertions(+), 3 deletions(-)
+    > 
+    > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+    > index f4d8b10e4b..5c7985a856 100644
+    > --- a/meta/lib/oe/gpg_sign.py
+    > +++ b/meta/lib/oe/gpg_sign.py
+    > @@ -45,9 +45,9 @@ class LocalSigner(object):
+    >              if fsk_password:
+    >                  cmd += "--define '_file_signing_key_password %s' " % fsk_password
+    >  
+    > -        # Sign in chunks of 100 packages
+    > -        for i in range(0, len(files), 100):
+    > -            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
+    > +        # Sign packages
+    > +        for f in files:
+    > +            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
+    >              if status:
+    >                  raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
+    >  
+    > 
+    
+    -- 
+    _______________________________________________
+    Openembedded-core mailing list
+    Openembedded-core@lists.openembedded.org
+    http://lists.openembedded.org/mailman/listinfo/openembedded-core
+    
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1z
-b25vcm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCglt
-c28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4t
-Ym90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4
-DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-IixzYW5zLXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZv
-bnQtc3R5bGU6bm9ybWFsOw0KCXRleHQtZGVjb3JhdGlvbjpub25lIG5vbmU7fQ0KLk1zb0NocERl
-ZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGli
-cmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29y
-ZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0
-IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9
-DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2
-OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYg
-Z3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAg
-djpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZd
-LS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+
-DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-bGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0Nh
-bGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdl
-OkVOLVVTIj5UaGVyZSBpcyBvbmUgZXhjZXB0aW9uIHRvIHRoZSBydWxlIHRoYXQgSSBhbSBhd2Fy
-ZSBvZjogbWV0YS1wb2t5IChmb3JtZXJseSBrbm93biBhcyBtZXRhLXlvY3RvKSBwcmVwZW5kcyBp
-dHNlbGYgdG8gQkJQQVRIDQogcmF0aGVyIHRoYW4gYXBwZW5kaW5nIGl0c2VsZuKApjxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
-bnMtc2VyaWY7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4m
-bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVT
-Ij4vL1BldGVyPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1
-YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3Jk
-ZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20g
-NC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQg
-I0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48
-c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0Bs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0Bs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5DaHJpc3RvcGhlciBM
-YXJzb248YnI+DQo8Yj5TZW50OjwvYj4gZGVuIDE0IGp1bGkgMjAxNyAxNjoyNTxicj4NCjxiPlRv
-OjwvYj4gUm9iZXJ0IFAuIEouIERheSAmbHQ7cnBqZGF5QGNyYXNoY291cnNlLmNhJmd0Ozxicj4N
-CjxiPkNjOjwvYj4gT0UgQ29yZSBtYWlsaW5nIGxpc3QgJmx0O29wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
-ZV0gdHdvIGlkZW50aWNhbGx5LW5hbWVkIG1hY2hpbmUgLmNvbmYgZmlsZXMgaW4gdHdvIGRpZmZl
-cmVudCBsYXllcnM/PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9u
-IEZyaSwgSnVsIDE0LCAyMDE3IGF0IDI6NTAgQU0sIFJvYmVydCBQLiBKLiBEYXkgJmx0OzxhIGhy
-ZWY9Im1haWx0bzpycGpkYXlAY3Jhc2hjb3Vyc2UuY2EiIHRhcmdldD0iX2JsYW5rIj5ycGpkYXlA
-Y3Jhc2hjb3Vyc2UuY2E8L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3Rl
-IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRp
-bmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQombmJzcDsganVzdCByYW4gYWNyb3NzIHNvbWVv
-bmUgZWxzZSdzIE9FIHdvcmssIHdoZXJlIGhlIHB1bGxlZCBpbiBhPGJyPg0Kc3RhbmRhcmQgbGF5
-ZXIgdGhhdCBkZWZpbmVkIGEgbWFjaGluZSwgY2FsbCBpdCAmcXVvdDttYWNoaW5lLmNvbmYmcXVv
-dDssIHRoZW48YnI+DQphZGRlZCBhbiBpbnRlcm5hbCBsYXllciB3aXRoIHNvbWUgdHdlYWtzIGJ1
-dCAqYWxzbyogY29udGFpbmVkIGE8YnI+DQptYWNoaW5lIGRlZmluaXRpb24gZmlsZSBuYW1lZCBw
-cmVjaXNlbHkgJnF1b3Q7bWFjaGluZS5jb25mJnF1b3Q7LCB3aGljaCB3YXMganVzdDxicj4NCnRo
-ZSBvcmlnaW5hbCBmaWxlIHdpdGggc29tZSBlZGl0cy4gc28gaXQgd2Fzbid0IGV4dGVuZGluZyBv
-ciBtb2RpZnlpbmc8YnI+DQp0aGUgb3JpZ2luYWwgbWFjaGluZS5jb25mLCBpdCB3YXMgbWVhbnQg
-dG8gY29tcGxldGVseSBvdmVycmlkZSBpdC48YnI+DQo8YnI+DQombmJzcDsgaSB3YXMgYSBiaXQg
-Y29uZnVzZWQgYXMgaSdtIG5vdCBzdXJlIHdoYXQgZXZlbiBoYXBwZW5zIGluIGE8YnI+DQpzaXR1
-YXRpb24gbGlrZSB0aGF0LiBkb2VzIG9uZSB0YWtlIHByZWNlZGVuY2Ugb3ZlciB0aGUgb3RoZXIg
-YmFzZWQgb248YnI+DQpsYXllciBwcmlvcml0eT8gb3Igd2hhdD88bzpwPjwvbzpwPjwvcD4NCjwv
-YmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDs8bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkNvbmZpZyBmaWxlcyBh
-bmQgY2xhc3NlcyBhcmUgcHVsbGVkIGluIHZpYSByZWxhdGl2ZSBwYXRocywgd2hpY2ggYXJlIGFs
-d2F5cyBmb3VuZCB2aWEgQkJQQVRILCB3aGljaCBpbiB0dXJuIGlzIGRlZmluZWQgYmFzZWQgb24g
-bGF5ZXIuY29uZiBmaWxlcy4gU2luY2UgYW55IHNhbmUgbGF5ZXIuY29uZiBmaWxlIHdpbGwgYXBw
-ZW5kIHRvIEJCUEFUSCwgQkJQQVRIIGVuZHMgdXAgb2JleWluZyB0aGUgc2FtZSBvcmRlcg0KIGFz
-IEJCTEFZRVJTLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5JZiB5b3Ugd2FudCBsYXllciBBIHRvIG92ZXJyaWRlIGEgY29uZmlnIGZpbGUgb3Ig
-Y2xhc3MgaW4gbGF5ZXIgQiwgcHV0IGxheWVyIEEgYmVmb3JlIGxheWVyIEIgaW4gQkJMQVlFUlMg
-aW4gY29uZi9iYmxheWVycy5jb25mLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPi0tIDxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8ZGl2
-Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkNocmlzdG9waGVyIExhcnNvbjxicj4NCmtl
-cmdvdGggYXQgZ21haWwgZG90IGNvbTxicj4NCkZvdW5kZXIgLSBCaXRCYWtlLCBPcGVuRW1iZWRk
-ZWQsIE9wZW5aYXVydXM8YnI+DQpTZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFw
-aGljczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
---_000_ece1df46b35b44b0b8debbce1cbb0a49XBOX02axiscom_--
+
