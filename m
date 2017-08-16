@@ -1,53 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CA6D46FFC7
+Received: from mail-pg0-f54.google.com (mail-pg0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6421F783E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 05:18:36 +0000 (UTC)
-Received: by mail-pg0-f50.google.com with SMTP id l64so18099978pge.5
+	Wed, 16 Aug 2017 05:19:58 +0000 (UTC)
+Received: by mail-pg0-f54.google.com with SMTP id i12so18201462pgr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 22:18:38 -0700 (PDT)
+	Tue, 15 Aug 2017 22:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=GtxCdlR5WIdqDOsrqGFLRcFyplrdKDGv3mqoCjSzDO0=;
-	b=dAVxARp4k7WIiaz2Q8PBrqyGEEDUr6LrIjP8akyFo2xVtkpw17mwqEIPWD5aKzLIl0
-	wOJSTzJJqX509a9Avt5dl5Amjapk8OreeHAfnND+0FBerE8+Cf453tiV7ml0IPXC6CU9
-	YGqpmDIZKKD2AlIAS3G2CpE9cGOV6caxQOSr3r86NZQjqCw+kAWM60KMjUiAN1Wm43pc
-	zikDZxsIGtum0gpfgBgY2X/9v2YyXbWLjBwAFqqToP9VOVokzV3EvmITkoaTP27/RxSt
-	fnQjaICA+nB+N13rJGc8thqcf3QE7f8TlAkuJosXX3Ubr1YhTUFzr/RfEiv18IJKhOsJ
-	6SRg==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=SLDPKoHKzXMOUFZ1LcCB7W5m9JwGmdx+T//oB59lk+8=;
+	b=ofNxZ+vzAkYQaIg+qOHUEUbtwg4x+kAdhY4I1aGJV6nICsPR3GUxvMqeW+SkUlbEGP
+	lHxNEjPP8YhbmcSV0aMe1m/qI+Bi5k0nCYrmZWXEdEoda0Y+d2sOlKAsgUFnT1z9Pokh
+	Eui/oNsJ2lvop4KabHfYvRyZ+6VUEwX7SHPpkSoa0VHPFr292l5IKqdhjCccihtrcYPD
+	j2JYB3621UrVqEu8byrqG5dZUsf74lrcJSYtFytnzp8JdCxGP7uiG+iMw6mIJiKZ1UVN
+	ZExHc7kWStcgnLqJwT3omUCbXqvBSkp5CHK7JeVWVMerJMcWCogVCfryGCGlTkJBN6ic
+	Qyyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=GtxCdlR5WIdqDOsrqGFLRcFyplrdKDGv3mqoCjSzDO0=;
-	b=pQGhyY6gtQSjPKgtYpE1gWUnSTBfRDip3zCgKFK26oPiGBfGqcPmiZ6jnvDwc/XSOw
-	4MqFFynZu8vqO+4+Cs8wFMcQogJ1SXhwtx9L18z4sR9Hj2nLeYPK64x8bSp4/YEIGsaI
-	TeeOuRphqBDtZYi8wDDzMSDguX5XCxmqOlXo+wFVwzr29zwj8JS4/NyTEB3CEH0fthND
-	SdIfKDHXdGk+4ylkTrZ/9rI+2tsSFpjs+QKmXeG+0n1ZwdQlG6gMpwbeLsg0o5cV+yUP
-	2k1jhDL/9ygYBXSKeomgDTohXdHcVyHkiG4ez971vtkhQFX2UtwJMtzUGlkcPEbeipnQ
-	uY6w==
-X-Gm-Message-State: AHYfb5hxXPVo7jDwchBG0/RF58jNe67RDuwXA8mpmYjZbBhR5wisAxSZ
-	8uhr4HrZYwb6E3kZ
-X-Received: by 10.99.126.85 with SMTP id o21mr482797pgn.57.1502860717980;
-	Tue, 15 Aug 2017 22:18:37 -0700 (PDT)
+	bh=SLDPKoHKzXMOUFZ1LcCB7W5m9JwGmdx+T//oB59lk+8=;
+	b=HnPl/DNrRauugQ7DmP6/m4Rkl2E+6eaIZd82u/SJ1vemwFgmi8h9pcav9dtoNdO8ll
+	ejIFiQhD3jkffZmqoZ5s7o9wu3RMswPAoV6G3XzsaRKmsvZF0ypL7GN64lJXynBg1KjX
+	DnhjOgEXZBnVbvEGMLl+hHjuIB7sE+NbRPpq6WZMthIC0bkMxAXRIg6+OTEPvJyW2Ena
+	JE9EbnoFZgFEP9LtNiyqegAlqM0UFG3c5wgC7YfyuhcOiwxdkdPyQvQ8Z4eXNKV95RHI
+	8D2aQ/3NCaVsGj+PwhKsXdtS7Xb5GwgWgGWhB7kaeGQjgLbTYEPdICzTEESxSaQmXnE/
+	fl9g==
+X-Gm-Message-State: AHYfb5jvOy4+sg8RTDtNyR9VYJ59E3LAkBQVrkS5X5CK4IDJa1TFMTcS
+	XFL7WGHTdhM1qw==
+X-Received: by 10.99.111.73 with SMTP id k70mr519805pgc.8.1502860799728;
+	Tue, 15 Aug 2017 22:19:59 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:9b7:5cee:9e0b:bac6?
 	([2601:202:4001:9ea0:9b7:5cee:9e0b:bac6])
-	by smtp.gmail.com with ESMTPSA id u186sm73692pfu.82.2017.08.15.22.18.37
+	by smtp.gmail.com with ESMTPSA id r87sm29738pfa.142.2017.08.15.22.19.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Aug 2017 22:18:37 -0700 (PDT)
-To: =?UTF-8?Q?Richard_R=c3=b6jfors?= <richard.rojfors@gmail.com>,
+	Tue, 15 Aug 2017 22:19:59 -0700 (PDT)
+To: Mark Hatle <mark.hatle@windriver.com>,
 	openembedded-core@lists.openembedded.org
-References: <1502086865.13610.1.camel@gmail.com>
+References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <98330a2f-176a-fe69-c2a5-bcf414c4fa3b@gmail.com>
-Date: Tue, 15 Aug 2017 22:18:36 -0700
+Message-ID: <e7e48185-35fe-d230-df54-70b70b3a1bd1@gmail.com>
+Date: Tue, 15 Aug 2017 22:19:58 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <1502086865.13610.1.camel@gmail.com>
-Subject: Re: [pyro][PATCH] package_manager: Fix support for NO_RECOMMENDATONS
+In-Reply-To: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
+Cc: peter.kjellerstedt@axis.com
+Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +61,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 05:18:36 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 05:19:58 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 08/06/2017 11:21 PM, Richard Röjfors wrote:
-> When support for dnf was introduced the check of the
-> no NO_RECOMMENDATIONS variable got broken.
->
-> This fixes the issue by compairing to the string "1"
-> rather than the number 1.
+On 08/15/2017 02:41 PM, Mark Hatle wrote:
 
-merged to stagging.
-Thanks,
-Armin
+Are these meant for Pyro?
+
+- armin
+> v2:
+> Fixed the patch header (6/6) to silence patchwork/patchtest failure.  All
+> other patches remain the same.
 >
-> Signed-off-by: Richard Röjfors <richard@puffinpack.se>
-> ---
->   meta/lib/oe/package_manager.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> v1:
 >
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 93d079d73d..28c6b2aec2 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -585,7 +585,7 @@ class RpmPM(PackageManager):
->   
->           output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
->                            (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
-> -                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == 1 else []) +
-> +                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == "1" else []) +
->                            (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
->                            ["install"] +
->                            pkgs)
-> -- 
-> 2.11.0
+> Work is available at:
+>
+> git://git.openembedded.org/openembedded-core-contrib mgh/rpm_dep_regression
+>
+> This is work based on Peter Kjellerstedt's fixes for the rpm dependency
+> generation.  (See poky-contrib pkj/rpm_regressions2 for the original work.)
+>
+> The major difference is the last commit which disabled the perl requirement
+> generation.  This resolves the only problem I found in Peter's patches.
+>
+> Peter's patches 2 and 3 attempt to address this in a few places.  The
+> last patch serves the same general purpose -- but it's better in my
+> opinion to fix these perl scripts when we find problems with them then
+> just ignore them.  (Even though ignoring is the standard behavior!)
+>
+>  From the comments to the original patch, the only not addressed was adding
+> an OE self-test for this behavior.  I tried to do this, but I don't see any
+> existing tests that build a recipe and inspect the results of the built
+> package.  I'm not sure of any other way to identify if things are working or
+> not.
+>
+> To give you an idea of what this does, the provides for libc6, x86-64, prior
+> to this change were:
+> eglibc
+> glibc = 2.26
+> libc6 = 2.26-r0
+>
+> After the change, the following were added (other remain):
+> ld-linux-x86-64.so.2()(64bit)
+> ld-linux-x86-64.so.2(GLIBC_2.2.5)(64bit)
+> ld-linux-x86-64.so.2(GLIBC_2.3)(64bit)
+> ld-linux-x86-64.so.2(GLIBC_2.4)(64bit)
+> ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
+> libanl.so.1()(64bit)
+> libanl.so.1(GLIBC_2.2.5)(64bit)
+> libBrokenLocale.so.1()(64bit)
+> libBrokenLocale.so.1(GLIBC_2.2.5)(64bit)
+> libcrypt.so.1()(64bit)
+> libcrypt.so.1(GLIBC_2.2.5)(64bit)
+> libc.so.6()(64bit)
+> libc.so.6(GLIBC_2.10)(64bit)
+> libc.so.6(GLIBC_2.11)(64bit)
+> libc.so.6(GLIBC_2.12)(64bit)
+> libc.so.6(GLIBC_2.13)(64bit)
+> libc.so.6(GLIBC_2.14)(64bit)
+> libc.so.6(GLIBC_2.15)(64bit)
+> libc.so.6(GLIBC_2.16)(64bit)
+> libc.so.6(GLIBC_2.17)(64bit)
+> libc.so.6(GLIBC_2.18)(64bit)
+> libc.so.6(GLIBC_2.22)(64bit)
+> libc.so.6(GLIBC_2.23)(64bit)
+> libc.so.6(GLIBC_2.24)(64bit)
+> libc.so.6(GLIBC_2.2.5)(64bit)
+> libc.so.6(GLIBC_2.25)(64bit)
+> libc.so.6(GLIBC_2.2.6)(64bit)
+> libc.so.6(GLIBC_2.26)(64bit)
+> libc.so.6(GLIBC_2.3.2)(64bit)
+> libc.so.6(GLIBC_2.3.3)(64bit)
+> libc.so.6(GLIBC_2.3.4)(64bit)
+> libc.so.6(GLIBC_2.3)(64bit)
+> libc.so.6(GLIBC_2.4)(64bit)
+> libc.so.6(GLIBC_2.5)(64bit)
+> libc.so.6(GLIBC_2.6)(64bit)
+> libc.so.6(GLIBC_2.7)(64bit)
+> libc.so.6(GLIBC_2.8)(64bit)
+> libc.so.6(GLIBC_2.9)(64bit)
+> libc.so.6(GLIBC_PRIVATE)(64bit)
+> libdl.so.2()(64bit)
+> libdl.so.2(GLIBC_2.2.5)(64bit)
+> libdl.so.2(GLIBC_2.3.3)(64bit)
+> libdl.so.2(GLIBC_2.3.4)(64bit)
+> libdl.so.2(GLIBC_PRIVATE)(64bit)
+> libm.so.6()(64bit)
+> libm.so.6(GLIBC_2.15)(64bit)
+> libm.so.6(GLIBC_2.18)(64bit)
+> libm.so.6(GLIBC_2.23)(64bit)
+> libm.so.6(GLIBC_2.24)(64bit)
+> libm.so.6(GLIBC_2.2.5)(64bit)
+> libm.so.6(GLIBC_2.25)(64bit)
+> libm.so.6(GLIBC_2.26)(64bit)
+> libm.so.6(GLIBC_2.4)(64bit)
+> libmvec.so.1()(64bit)
+> libmvec.so.1(GLIBC_2.22)(64bit)
+> libnsl.so.1()(64bit)
+> libnsl.so.1(GLIBC_2.2.5)(64bit)
+> libnsl.so.1(GLIBC_PRIVATE)(64bit)
+> libnss_compat.so.2()(64bit)
+> libnss_compat.so.2(GLIBC_PRIVATE)(64bit)
+> libnss_dns.so.2()(64bit)
+> libnss_dns.so.2(GLIBC_PRIVATE)(64bit)
+> libnss_files.so.2()(64bit)
+> libnss_files.so.2(GLIBC_PRIVATE)(64bit)
+> libpthread.so.0()(64bit)
+> libpthread.so.0(GLIBC_2.11)(64bit)
+> libpthread.so.0(GLIBC_2.12)(64bit)
+> libpthread.so.0(GLIBC_2.18)(64bit)
+> libpthread.so.0(GLIBC_2.2.5)(64bit)
+> libpthread.so.0(GLIBC_2.2.6)(64bit)
+> libpthread.so.0(GLIBC_2.3.2)(64bit)
+> libpthread.so.0(GLIBC_2.3.3)(64bit)
+> libpthread.so.0(GLIBC_2.3.4)(64bit)
+> libpthread.so.0(GLIBC_2.4)(64bit)
+> libpthread.so.0(GLIBC_PRIVATE)(64bit)
+> libresolv.so.2()(64bit)
+> libresolv.so.2(GLIBC_2.2.5)(64bit)
+> libresolv.so.2(GLIBC_2.3.2)(64bit)
+> libresolv.so.2(GLIBC_2.9)(64bit)
+> libresolv.so.2(GLIBC_PRIVATE)(64bit)
+> librt.so.1()(64bit)
+> librt.so.1(GLIBC_2.2.5)(64bit)
+> librt.so.1(GLIBC_2.3.3)(64bit)
+> librt.so.1(GLIBC_2.3.4)(64bit)
+> librt.so.1(GLIBC_2.4)(64bit)
+> librt.so.1(GLIBC_2.7)(64bit)
+> libutil.so.1()(64bit)
+> libutil.so.1(GLIBC_2.2.5)(64bit)
+> rtld(GNU_HASH)
+>
+>
+> I have built and tested this for:
+>
+> core-image-base core-image-minimal core-image-full-cmdline
+> core-image-kernel-dev core-image-lsb core-image-lsb-dev
+> core-image-lsb-sdk core-image-testmaster core-image-clutter
+> core-image-weston core-image-x11 core-image-sato core-image-sato-dev
+> core-image-sato-sdk core-image-sato-sdk-ptest
+>
+> Also using qemux86, qemux86-64 and qemuarm64.
+>
+> The following description is from Peter's original pull request:
+>
+> Right before the release of Pyro (about a month ago), we noticed a
+> problem with missing automatically determined runtime file
+> dependencies after the transition to rpm4 and dnf. Unfortunately it
+> has taken me quite a while to work out all the details, but here is
+> the result finally.
+>
+> ....
+>
+> Then rpm is updated to make it possible to yet again access the
+> runtime dependencies we need, and finally package.bbclass is updated
+> to make use of them.
+>
+> See the patches, especially the last one, for more in depth
+> information on what went wrong during the transition to rpm4 and dnf,
+> and how to solve it.
+>
+>
+> Mark Hatle (1):
+>    rpm: Disable perl dependency generation
+>
+> Peter Kjellerstedt (5):
+>    rpm: Add dependencies on bash, perl and python3-core
+>    git: Do not install git cvsserver and git svn by default
+>    texinfo: Avoid a problem with a dependency on perl(Locale::gettext_xs)
+>    package_rpm.bbclass: Filter out unwanted file deps for nativesdk
+>      packages
+>    package.bbclass: Restore functionality to detect RPM dependencies
+>
+>   meta/classes/package.bbclass                       |  5 +-
+>   meta/classes/package_rpm.bbclass                   | 25 ++++++++-
+>   meta/lib/oe/package.py                             | 60 +++++++++++++++-------
+>   meta/recipes-devtools/git/git.inc                  | 21 ++++++++
+>   .../rpm/files/0001-perl-disable-auto-reqs.patch    | 30 +++++++++++
+>   meta/recipes-devtools/rpm/rpm_git.bb               |  6 +++
+>   meta/recipes-extended/texinfo/texinfo_6.3.bb       |  6 +++
+>   7 files changed, 130 insertions(+), 23 deletions(-)
+>   create mode 100644 meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
+>
 
 
