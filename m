@@ -1,21 +1,24 @@
-Return-Path: <cinly.ooi@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 78878785F6
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 112BB71BD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 01:18:26 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga105.fm.intel.com with ESMTP; 15 Aug 2017 18:18:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,380,1498546800"; d="scan'208";a="890382856"
-Received: from cinlyooi-mac03.png.intel.com (HELO ubuntu.png.intel.com)
-	([10.221.16.21])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2017 18:18:27 -0700
-From: cinly.ooi@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 09:18:26 +0800
-Message-Id: <1502846306-32417-1-git-send-email-cinly.ooi@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] Perl: No reference conversion for Porting/Glossary
+	Wed, 16 Aug 2017 01:36:46 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G1aliw022815
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Aug 2017 18:36:47 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 15 Aug 2017 18:36:46 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Aug 2017 09:26:06 +0800
+Message-ID: <cover.1502846743.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.10.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] nss: 3.30.2 -> 3.31.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,35 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 01:18:26 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 01:36:47 -0000
+Content-Type: text/plain
 
-From: Ooi Cinly <cinly.ooi@intel.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-do_configure() will no longer convert references to
-/usr/include into /path/to/recipes-sysroot/usr/include
-for the file "Porting/Glossary".
+The following changes since commit 034bff2ca431b49b7ca9b1e7b7c214ef94b0eb34:
 
-[YOCTO #11243]
+  bitbake: cooker: Ignore common bitbake files for the parse cache invalidation (2017-08-13 09:28:14 +0100)
 
-Signed-off-by: Ooi Cinly <cinly.ooi@intel.com>
----
- meta/recipes-devtools/perl/perl_5.24.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 95d9694..1e1d4f5 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -171,7 +171,7 @@ do_configure() {
- 			;;
- 	esac
-         # These are strewn all over the source tree
--        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" -m1 "/usr/include/.*\.h" ${S}/* -r -l` ${S}/utils/h2xs.PL ; do
-+        for foo in `grep -I --exclude="*.patch" --exclude="*.diff" --exclude="*.pod" --exclude="README*" --exclude="Glossary" -m1 "/usr/include/.*\.h" ${S}/* -r -l` ${S}/utils/h2xs.PL ; do
-             echo Fixing: $foo
-             sed -e 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i $foo
-         done
+  git://git.pokylinux.org/poky-contrib kangkai/nss
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/nss
+
+Kai Kang (1):
+  nss: 3.30.2 -> 3.31.1
+
+ meta/recipes-support/nss/{nss_3.30.2.bb => nss_3.31.1.bb} | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/nss/{nss_3.30.2.bb => nss_3.31.1.bb} (96%)
+
 -- 
-2.7.4
+2.10.1
 
 
