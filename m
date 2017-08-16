@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A9CB7866D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A40BD78664
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 08:31:36 +0000 (UTC)
+	Wed, 16 Aug 2017 08:31:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G8VbSO013995
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G8VcnZ025058
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Aug 2017 01:31:37 -0700 (PDT)
+	Wed, 16 Aug 2017 01:31:38 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 01:31:36 -0700
+	Wed, 16 Aug 2017 01:31:38 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 16 Aug 2017 04:31:19 -0400
-Message-ID: <fa46e9d7f10c3c84ab339355ed7e1ac15b4dc477.1502869419.git.hongxu.jia@windriver.com>
+Date: Wed, 16 Aug 2017 04:31:20 -0400
+Message-ID: <10402a7b38658b70df9d5f54d3cd28684ab8fb55.1502869419.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1502869419.git.hongxu.jia@windriver.com>
 References: <cover.1502869419.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] libgcrypt: 1.7.8 -> 1.8.0
+Subject: [PATCH 6/8] gnupg: 2.1.20 -> 2.1.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,272 +32,269 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 08:31:36 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 08:31:37 -0000
 Content-Type: text/plain
 
+COPYING.LIB: Rename to COPYING.LGPL3.
+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=3419a339d9c4e800bf30e9021e05982d8c1021c1
+
 Rebase patches:
-- add-pkgconfig-support.patch -> 0001
-- libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch -> 0002
-- fix-ICE-failure-on-mips-with-option-O-and-g.patch -> 0003
-- fix-undefined-reference-to-pthread.patch -> 0004
+- pkgconfig.patch -> 0001
+- use-pkgconfig-instead-of-npth-config.patch -> 0002
+- dirmngr-uses-libgpg-error.patch -> 0003
+- autogen.sh-fix-find-version-for-beta-checking.patch -> 0004
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...pkg-config-for-libgcrypt-instead-of-conf.patch} | 18 +++++++++-----
- ...x-building-error-with-O2-in-sysroot-path.patch} | 29 ++++++++++++++--------
- ...slope.c-workaround-ICE-failure-on-mips-w.patch} | 24 ++++++++++++------
- ...le.am-fix-undefined-reference-to-pthread.patch} | 11 ++++----
- .../{libgcrypt_1.7.8.bb => libgcrypt_1.8.0.bb}     | 12 ++++-----
- 5 files changed, 59 insertions(+), 35 deletions(-)
- rename meta/recipes-support/libgcrypt/files/{add-pkgconfig-support.patch => 0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch} (94%)
- rename meta/recipes-support/libgcrypt/files/{libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch => 0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch} (55%)
- rename meta/recipes-support/libgcrypt/files/{fix-ICE-failure-on-mips-with-option-O-and-g.patch => 0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch} (73%)
- rename meta/recipes-support/libgcrypt/files/{fix-undefined-reference-to-pthread.patch => 0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch} (70%)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.7.8.bb => libgcrypt_1.8.0.bb} (75%)
+ ...config-to-find-pth-instead-of-pth-config.patch} | 29 +++++++++++++++-----
+ ...002-use-pkgconfig-instead-of-npth-config.patch} | 21 +++++++++++---
+ .../gnupg/0003-dirmngr-uses-libgpg-error.patch     | 32 ++++++++++++++++++++++
+ ...en.sh-fix-find-version-for-beta-checking.patch} | 17 +++++++-----
+ .../gnupg/gnupg/dirmngr-uses-libgpg-error.patch    | 16 -----------
+ .../gnupg/{gnupg_2.1.20.bb => gnupg_2.1.23.bb}     | 14 +++++-----
+ 6 files changed, 88 insertions(+), 41 deletions(-)
+ rename meta/recipes-support/gnupg/gnupg/{pkgconfig.patch => 0001-Use-pkg-config-to-find-pth-instead-of-pth-config.patch} (81%)
+ rename meta/recipes-support/gnupg/gnupg/{use-pkgconfig-instead-of-npth-config.patch => 0002-use-pkgconfig-instead-of-npth-config.patch} (81%)
+ create mode 100644 meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+ rename meta/recipes-support/gnupg/gnupg/{autogen.sh-fix-find-version-for-beta-checking.patch => 0004-autogen.sh-fix-find-version-for-beta-checking.patch} (58%)
+ delete mode 100644 meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.1.20.bb => gnupg_2.1.23.bb} (69%)
 
-diff --git a/meta/recipes-support/libgcrypt/files/add-pkgconfig-support.patch b/meta/recipes-support/libgcrypt/files/0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch
-similarity index 94%
-rename from meta/recipes-support/libgcrypt/files/add-pkgconfig-support.patch
-rename to meta/recipes-support/libgcrypt/files/0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch
-index 69589f5..d41c3de 100644
---- a/meta/recipes-support/libgcrypt/files/add-pkgconfig-support.patch
-+++ b/meta/recipes-support/libgcrypt/files/0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch
-@@ -1,10 +1,16 @@
--Add and use pkg-config for libgcrypt instead of -config scripts.
-+From 72b9e9040d58c15f0302bd8abda28179f04e1c5f Mon Sep 17 00:00:00 2001
+diff --git a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch b/meta/recipes-support/gnupg/gnupg/0001-Use-pkg-config-to-find-pth-instead-of-pth-config.patch
+similarity index 81%
+rename from meta/recipes-support/gnupg/gnupg/pkgconfig.patch
+rename to meta/recipes-support/gnupg/gnupg/0001-Use-pkg-config-to-find-pth-instead-of-pth-config.patch
+index f958603..5c9c022 100644
+--- a/meta/recipes-support/gnupg/gnupg/pkgconfig.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-Use-pkg-config-to-find-pth-instead-of-pth-config.patch
+@@ -1,15 +1,27 @@
+-Use pkg-config to find pth instead of pth-config.
++From 59a3c76d4016ffc615f1c45184f4c6820061d69c Mon Sep 17 00:00:00 2001
 +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Wed, 16 Aug 2017 10:43:18 +0800
-+Subject: [PATCH 1/4] Add and use pkg-config for libgcrypt instead of -config
-+ scripts.
++Date: Wed, 16 Aug 2017 11:14:12 +0800
++Subject: [PATCH 1/4] Use pkg-config to find pth instead of pth-config.
  
--Upstream-Status: Denied [upstream have indicated they don't want a pkg-config dependency]
-+Upstream-Status: Denied [upstream have indicated they don't want a
-+pkg-config dependency]
+ Upstream-Status: Denied
+-[not submitted but they've been clear they don't want a pkg-config dependency]
++[not submitted but they've been clear they don't want a pkg-config
++dependency]
  
  RP 2014/5/22
  
--Rebase to 1.7.0
-+Rebase to 1.8.0
+-Index: gnupg-2.1.0/m4/gnupg-pth.m4
+-===================================================================
+---- gnupg-2.1.0.orig/m4/gnupg-pth.m4
+-+++ gnupg-2.1.0/m4/gnupg-pth.m4
+-@@ -17,33 +17,9 @@ dnl implied warranty of MERCHANTABILITY
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  configure.ac        |  1 +
-@@ -14,10 +20,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  create mode 100644 src/libgcrypt.pc.in
- 
- diff --git a/configure.ac b/configure.ac
--index f683e21..566e1c8 100644
-+index bbe8104..3d2de73 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -2314,6 +2314,7 @@ random/Makefile
-+@@ -2607,6 +2607,7 @@ random/Makefile
-  doc/Makefile
-  src/Makefile
-  src/gcrypt.h
-@@ -173,5 +179,5 @@ index 0000000..2fc8f53
- +Libs.private: -L${libdir} -lgpg-error
- +Cflags: -I${includedir} 
- -- 
--2.8.1
++Rebase to 2.1.23
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ m4/gnupg-pth.m4 | 53 ++++++++---------------------------------------------
++ 1 file changed, 8 insertions(+), 45 deletions(-)
++
++diff --git a/m4/gnupg-pth.m4 b/m4/gnupg-pth.m4
++index 6dc9e0e..5892531 100644
++--- a/m4/gnupg-pth.m4
+++++ b/m4/gnupg-pth.m4
++@@ -17,33 +17,9 @@ dnl implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  # Taken and modified from the m4 macros which come with Pth.
+  AC_DEFUN([GNUPG_PTH_VERSION_CHECK],
+    [
+@@ -88,3 +100,6 @@ Index: gnupg-2.1.0/m4/gnupg-pth.m4
+    AC_SUBST(PTH_LIBS)
+  ])
+ -
++-- 
 +1.8.3.1
- 
-diff --git a/meta/recipes-support/libgcrypt/files/libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-similarity index 55%
-rename from meta/recipes-support/libgcrypt/files/libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-rename to meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-index a3e5403..d7554f3 100644
---- a/meta/recipes-support/libgcrypt/files/libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-+++ b/meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
-@@ -1,25 +1,34 @@
--Upstream-Status: Pending
-+From 97570ef271ea1fb7b5ca903eec88f68407b0ec76 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Wed, 16 Aug 2017 10:44:41 +0800
-+Subject: [PATCH 2/4] libgcrypt: fix building error with '-O2' in sysroot path
- 
--libgcrypt: fix building error with '-O2' in sysroot path
-+Upstream-Status: Pending
- 
--Characters like '-O2' or '-Ofast' will be replaced by '-O1' when compiling cipher.
--If we are cross compiling libgcrypt and sysroot contains such characters, we would
-+Characters like '-O2' or '-Ofast' will be replaced by '-O1' when
-+compiling cipher.
-+If we are cross compiling libgcrypt and sysroot contains such
-+characters, we would
- get compile errors because the sysroot path has been modified.
- 
--Fix this by adding blank spaces before and after the original matching pattern in the
-+Fix this by adding blank spaces before and after the original matching
-+pattern in the
- sed command.
- 
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +
-+Rebase to 1.8.0
+diff --git a/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+similarity index 81%
+rename from meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
+rename to meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+index c6dbf1b..6d86e5c 100644
+--- a/meta/recipes-support/gnupg/gnupg/use-pkgconfig-instead-of-npth-config.patch
++++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+@@ -1,12 +1,22 @@
++From 53c2aec2e13f4e2d09be7148869c862f07dfdd4d Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Wed, 16 Aug 2017 11:16:30 +0800
++Subject: [PATCH 2/4] use pkgconfig instead of npth config
++
+ Upstream-Status: Inappropriate [openembedded specific]
+ 
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
+ 
++Rebase to 2.1.23
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ m4/npth.m4 | 34 ++++++++--------------------------
++ 1 file changed, 8 insertions(+), 26 deletions(-)
+ 
+-Index: gnupg-2.1.0/m4/npth.m4
+-===================================================================
+---- gnupg-2.1.0.orig/m4/npth.m4
+-+++ gnupg-2.1.0/m4/npth.m4
++diff --git a/m4/npth.m4 b/m4/npth.m4
++index 17c2644..15a931b 100644
++--- a/m4/npth.m4
+++++ b/m4/npth.m4
+ @@ -17,10 +17,10 @@ AC_DEFUN([_AM_PATH_NPTH_CONFIG],
+    if test "x$npth_config_prefix" != x ; then
+        NPTH_CONFIG="$npth_config_prefix/bin/npth-config"
+@@ -70,3 +80,6 @@ Index: gnupg-2.1.0/m4/npth.m4
+      NPTH_CFLAGS=""
+      NPTH_LIBS=""
+      ifelse([$3], , :, [$3])
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+new file mode 100644
+index 0000000..3e798ef
+--- /dev/null
++++ b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
+@@ -0,0 +1,32 @@
++From 9c3858ffda6246bf9e1e6aeeb920532a56b19408 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Wed, 16 Aug 2017 11:18:01 +0800
++Subject: [PATCH 3/4] dirmngr uses libgpg error
++
++Upstream-Status: Pending
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Rebase to 2.1.23
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ dirmngr/Makefile.am | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/dirmngr/Makefile.am b/dirmngr/Makefile.am
++index b404165..d3f916e 100644
++--- a/dirmngr/Makefile.am
+++++ b/dirmngr/Makefile.am
++@@ -82,7 +82,8 @@ endif
++ dirmngr_LDADD = $(libcommonpth) \
++         $(DNSLIBS) $(LIBASSUAN_LIBS) \
++ 	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
++-	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV)
+++	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) \
+++	$(GPG_ERROR_LIBS)
++ if USE_LDAP
++ dirmngr_LDADD += $(ldaplibs)
++ endif
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+similarity index 58%
+rename from meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch
+rename to meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+index 4241bc3..dcd8582 100644
+--- a/meta/recipes-support/gnupg/gnupg/autogen.sh-fix-find-version-for-beta-checking.patch
++++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
+@@ -1,7 +1,7 @@
+-From 717f994be2466d378e6611a4739c606db6d0dc46 Mon Sep 17 00:00:00 2001
++From 914ae4a3f7529fb069467bf0ded57dd24ee2e763 Mon Sep 17 00:00:00 2001
+ From: Wenzong Fan <wenzong.fan@windriver.com>
+-Date: Sun, 25 Oct 2015 22:44:47 -0400
+-Subject: [PATCH] autogen.sh: fix find-version for beta checking
++Date: Wed, 16 Aug 2017 11:23:22 +0800
++Subject: [PATCH 4/4] autogen.sh: fix find-version for beta checking
+ 
+ find-version always assumes that gnupg is beta if autogen.sh is run
+ out of git-repo. This doesn't work for users whom just take release
+@@ -10,16 +10,19 @@ tarball and re-run autoconf in their local build dir.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++
++Rebase to 2.1.23
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
  ---
-- cipher/Makefile.am |    2 +-
-+ cipher/Makefile.am | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+  autogen.sh | 1 -
+  1 file changed, 1 deletion(-)
  
- diff --git a/cipher/Makefile.am b/cipher/Makefile.am
--index 76cdc96..9a89792 100644
-+index 95c4510..bd52ec7 100644
- --- a/cipher/Makefile.am
- +++ b/cipher/Makefile.am
--@@ -69,7 +69,7 @@ rfc2268.c \
-- camellia.c camellia.h camellia-glue.c
-+@@ -116,7 +116,7 @@ gost-s-box: gost-s-box.c
-+ 
-  
-  if ENABLE_O_FLAG_MUNGING
- -o_flag_munging = sed -e 's/-O\([2-9s][2-9s]*\)/-O1/' -e 's/-Ofast/-O1/g'
-@@ -28,5 +37,5 @@ index 76cdc96..9a89792 100644
-  o_flag_munging = cat
-  endif
+ diff --git a/autogen.sh b/autogen.sh
+-index 7effd56..d673432 100755
++index e5ba5bf..05e0e11 100755
+ --- a/autogen.sh
+ +++ b/autogen.sh
+-@@ -228,7 +228,6 @@ if [ "$myhost" = "find-version" ]; then
+-       rvd=$((0x$(echo ${rev} | head -c 4)))
++@@ -245,7 +245,6 @@ if [ "$myhost" = "find-version" ]; then
++       rvd=$((0x$(echo ${rev} | dd bs=1 count=4 2>/dev/null)))
+      else
+        ingit=no
+ -      beta=yes
+@@ -27,5 +30,5 @@ index 7effd56..d673432 100755
+        rev="0000000"
+        rvd="0"
  -- 
--1.7.9.5
+-1.9.1
 +1.8.3.1
  
-diff --git a/meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch b/meta/recipes-support/libgcrypt/files/0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch
-similarity index 73%
-rename from meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch
-rename to meta/recipes-support/libgcrypt/files/0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch
-index 582e62f..105df29 100644
---- a/meta/recipes-support/libgcrypt/files/fix-ICE-failure-on-mips-with-option-O-and-g.patch
-+++ b/meta/recipes-support/libgcrypt/files/0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch
-@@ -1,4 +1,8 @@
--tests/bench-slope.c: workaround ICE failure on mips with '-O -g'
-+From 7cc702c7b5a1ccc2b0091f3effa1391b6c3030fd Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 16 Aug 2017 10:46:28 +0800
-+Subject: [PATCH 3/4] tests/bench-slope.c: workaround ICE failure on mips with
-+ '-O -g'
+diff --git a/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
+deleted file mode 100644
+index 7af1955..0000000
+--- a/meta/recipes-support/gnupg/gnupg/dirmngr-uses-libgpg-error.patch
++++ /dev/null
+@@ -1,16 +0,0 @@
+-Upstream-Status: Pending
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-Index: gnupg-2.1.0/dirmngr/Makefile.am
+-===================================================================
+---- gnupg-2.1.0.orig/dirmngr/Makefile.am
+-+++ gnupg-2.1.0/dirmngr/Makefile.am
+-@@ -78,7 +78,8 @@ endif
+- dirmngr_LDADD = $(libcommontlsnpth) $(libcommonpth) \
+-         $(DNSLIBS) $(LIBASSUAN_LIBS) \
+- 	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
+--	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV)
+-+	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) \
+-+	$(GPG_ERROR_LIBS)
+- if USE_LDAP
+- dirmngr_LDADD += $(ldaplibs)
+- endif
+diff --git a/meta/recipes-support/gnupg/gnupg_2.1.20.bb b/meta/recipes-support/gnupg/gnupg_2.1.23.bb
+similarity index 69%
+rename from meta/recipes-support/gnupg/gnupg_2.1.20.bb
+rename to meta/recipes-support/gnupg/gnupg_2.1.23.bb
+index e56421f..0fb170d 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.1.20.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.23.bb
+@@ -2,7 +2,7 @@ SUMMARY = "GNU Privacy Guard - encryption and signing tools (2.x)"
+ HOMEPAGE = "http://www.gnupg.org/"
+ LICENSE = "GPLv3 & LGPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=189af8afca6d6075ba6c9e0aa8077626 \
+-                    file://COPYING.LIB;md5=a2b6bf2cb38ee52619e60f30a1fc7257"
++                    file://COPYING.LGPL3;md5=a2b6bf2cb38ee52619e60f30a1fc7257"
  
- Hit a ICE and could reduce it to the following minimal example:
+ DEPENDS = "npth libassuan libksba zlib bzip2 readline libgcrypt"
  
-@@ -24,31 +28,35 @@ END
- 2. Only -O1 and -g on mips caused the issue:
- $ mips-poky-linux-gcc -O1 -g -o mipgcc-test mipgcc-test.c
- mipgcc-test.c: In function 'main':
--mipgcc-test.c:18:1: internal compiler error: in dwarf2out_var_location, at dwarf2out.c:20810
-+mipgcc-test.c:18:1: internal compiler error: in dwarf2out_var_location,
-+at dwarf2out.c:20810
-  }
-  ^
- Please submit a full bug report,
- with preprocessed source if appropriate.
- See <http://gcc.gnu.org/bugs.html> for instructions
- 
--3. The quick workround is trying to enlarge the size of array with larger
-+3. The quick workround is trying to enlarge the size of array with
-+larger
- than 2.
- 
--4. File a bug to GNU, but it could not be reproduced on there environment.
-+4. File a bug to GNU, but it could not be reproduced on there
-+environment.
- http://gcc.gnu.org/bugzilla/show_bug.cgi?id=60643
- 
- Upstream-Status: Inappropriate [oe specific]
- 
-+Rebase to 1.8.0
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  tests/bench-slope.c | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/tests/bench-slope.c b/tests/bench-slope.c
--index bd05064..28c2438 100644
-+index 75e6e43..4e70842 100644
- --- a/tests/bench-slope.c
- +++ b/tests/bench-slope.c
--@@ -1197,7 +1197,7 @@ static struct bench_ops hash_ops = {
-+@@ -1463,7 +1463,7 @@ static struct bench_ops hash_ops = {
-  };
-  
-  
-@@ -57,7 +65,7 @@ index bd05064..28c2438 100644
-    {"", &hash_ops},
-    {0},
-  };
--@@ -1349,7 +1349,7 @@ static struct bench_ops mac_ops = {
-+@@ -1629,7 +1629,7 @@ static struct bench_ops mac_ops = {
-  };
-  
-  
-@@ -67,5 +75,5 @@ index bd05064..28c2438 100644
-    {0},
-  };
- -- 
--1.8.1.2
-+1.8.3.1
- 
-diff --git a/meta/recipes-support/libgcrypt/files/fix-undefined-reference-to-pthread.patch b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-similarity index 70%
-rename from meta/recipes-support/libgcrypt/files/fix-undefined-reference-to-pthread.patch
-rename to meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-index e7de8ba..8622df3 100644
---- a/meta/recipes-support/libgcrypt/files/fix-undefined-reference-to-pthread.patch
-+++ b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-@@ -1,7 +1,8 @@
--From cc0e2b403d33892963513a3ba98e4ae5a05a4d3c Mon Sep 17 00:00:00 2001
-+From e20dbdb0b8f0af840ef90b299c4e2277c52ddf87 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Sun, 12 Jun 2016 04:44:29 -0400
--Subject: [PATCH] tests/Makefile.am: fix undefined reference to `pthread_create'
-+Subject: [PATCH 4/4] tests/Makefile.am: fix undefined reference to
-+ `pthread_create'
- 
- Add missing '-lpthread' to CFLAGS
- 
-@@ -13,15 +14,15 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index d462f30..bef6dd7 100644
-+index 1744ea7..04cf425 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -62,4 +62,4 @@ EXTRA_DIST = README rsa-16k.key cavs_tests.sh cavs_driver.pl \
-+@@ -64,4 +64,4 @@ EXTRA_DIST = README rsa-16k.key cavs_tests.sh cavs_driver.pl \
-  
-  LDADD = $(standard_ldadd) $(GPG_ERROR_LIBS)
-  t_lock_LDADD = $(standard_ldadd) $(GPG_ERROR_MT_LIBS)
- -t_lock_CFLAGS = $(GPG_ERROR_MT_CFLAGS)
- +t_lock_CFLAGS = $(GPG_ERROR_MT_CFLAGS) -lpthread
- -- 
--2.8.1
-+1.8.3.1
- 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.7.8.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-similarity index 75%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.7.8.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-index ec8b875..1797d95 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.7.8.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-@@ -16,13 +16,13 @@ DEPENDS = "libgpg-error"
+@@ -10,14 +10,14 @@ inherit autotools gettext texinfo pkgconfig
  
  UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
--           file://add-pkgconfig-support.patch \
--           file://libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
--           file://fix-ICE-failure-on-mips-with-option-O-and-g.patch \
--           file://fix-undefined-reference-to-pthread.patch \
-+           file://0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch \
-+           file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
-+           file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
-+           file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
- "
--SRC_URI[md5sum] = "5588b89b75b1353e2454b04c7b8368f3"
--SRC_URI[sha256sum] = "cb076b2efc7ba752f3d4c663c9ee0589a98b1d614fe90878b1facd607a45fd43"
-+SRC_URI[md5sum] = "110ce4352f9ea6f560bdc6c5644ae93c"
-+SRC_URI[sha256sum] = "f6e470b7f2d3a703e8747f05a8c19d9e10e26ebf2d5f3d71ff75a40f504e12ee"
+ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+-           file://pkgconfig.patch \
+-           file://use-pkgconfig-instead-of-npth-config.patch \
+-           file://dirmngr-uses-libgpg-error.patch \
+-           file://autogen.sh-fix-find-version-for-beta-checking.patch \
++           file://0001-Use-pkg-config-to-find-pth-instead-of-pth-config.patch \
++           file://0002-use-pkgconfig-instead-of-npth-config.patch \
++           file://0003-dirmngr-uses-libgpg-error.patch \
++           file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+           "
  
- BINCONFIG = "${bindir}/libgcrypt-config"
+-SRC_URI[md5sum] = "f6bc7e0b82893dfafe09109d86ff6e9b"
+-SRC_URI[sha256sum] = "24cf9a69369be64a9f6f8cc11a1be33ab7780ad77a6a1b93719438f49f69960d"
++SRC_URI[md5sum] = "86c2304ead54b74a422e76c3f1bc7a91"
++SRC_URI[sha256sum] = "a94476391595e9351f219188767a9d6ea128e83be5ed3226a7890f49aa2d0d77"
  
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.8.1
 
