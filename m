@@ -1,28 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 740957866B
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21294784F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 08:51:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Aug 2017 01:51:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,382,1498546800"; d="scan'208";a="124138361"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 16 Aug 2017 01:51:31 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1502831992-47827-1-git-send-email-mark.hatle@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <7384ca55-19b7-15c3-162c-f7d568b15ad7@linux.intel.com>
-Date: Wed, 16 Aug 2017 11:48:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Wed, 16 Aug 2017 10:23:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7GANVSk027662
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Aug 2017 03:23:31 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 16 Aug 2017 03:23:30 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Aug 2017 18:28:09 +0800
+Message-ID: <cover.1502879234.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1502831992-47827-1-git-send-email-mark.hatle@windriver.com>
-Cc: peter.kjellerstedt@axis.com
-Subject: Re: [PATCH 0/6] Fix RPM4 regressions based on Pyro
+Subject: [PATCH 0/1] shadow: fix CVE-2017-12424
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,22 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 08:51:31 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Aug 2017 10:23:31 -0000
+Content-Type: text/plain
 
-On 08/16/2017 12:19 AM, Mark Hatle wrote:
->  From the comments to the original patch, the only not addressed was adding
-> an OE self-test for this behavior.  I tried to do this, but I don't see any
-> existing tests that build a recipe and inspect the results of the built
-> package.  I'm not sure of any other way to identify if things are working or
-> not.
+The following changes since commit 6016ec177af2406cacfeb3276dfcb8bfc3df8fce:
 
-You can add a recipe to the meta-selftest layer that builds successfully 
-only when this behaviour is working properly, and then build it in the 
-selftest.
+  poky.conf: Enable vulkan by default (2017-08-16 00:04:39 +0100)
 
+are available in the git repository at:
 
-Alex
+  git://git.pokylinux.org/poky-contrib ChenQi/CVE-2017-12424
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/CVE-2017-12424
+
+Chen Qi (1):
+  shadow: fix CVE-2017-12424
+
+ .../shadow/files/0001-shadow-CVE-2017-12424        | 46 ++++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow.inc            |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/0001-shadow-CVE-2017-12424
+
+-- 
+1.9.1
+
 
