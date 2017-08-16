@@ -1,28 +1,27 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F3A8C78695
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C1EE07865B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 13:46:01 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Aug 2017 06:46:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,383,1498546800"; d="scan'208";a="890580239"
-Received: from linux.intel.com ([10.54.29.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 16 Aug 2017 06:45:36 -0700
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id 0841958011C
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 06:45:35 -0700 (PDT)
-From: "Maxin B. John" <maxin.john@intel.com>
+	Wed, 16 Aug 2017 14:20:21 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7GEKKvX019059
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 16 Aug 2017 15:20:21 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dhzBE-0007Py-5J; Wed, 16 Aug 2017 15:20:20 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 16:47:11 +0300
-Message-Id: <1502891231-2284-3-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1502891231-2284-1-git-send-email-maxin.john@intel.com>
-References: <1502891231-2284-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 2/2] harfbuzz: upgrade to 1.4.8
+Date: Wed, 16 Aug 2017 15:20:18 +0100
+Message-Id: <1502893219-28475-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 16 Aug 2017 15:20:21 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/2] bind: Use correct python interpreter path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,35 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 13:46:02 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 14:20:22 -0000
 
-1.4.7 -> 1.4.8
+The scripts currently reference "python33", fix this so they reference
+python3. The move the python3 likely broke these.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../harfbuzz/{harfbuzz_1.4.7.bb => harfbuzz_1.4.8.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.4.7.bb => harfbuzz_1.4.8.bb} (88%)
+ meta/recipes-connectivity/bind/bind_9.10.5-P3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_1.4.7.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.4.8.bb
-similarity index 88%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_1.4.7.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.4.8.bb
-index be1dd64..4f5e5a3 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_1.4.7.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.4.8.bb
-@@ -12,8 +12,8 @@ DEPENDS = "glib-2.0 cairo fontconfig freetype"
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb b/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
+index e6e1e8d..b20a4aa 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
+@@ -84,7 +84,7 @@ do_install_append() {
+ 	install -d "${D}${sysconfdir}/init.d"
+ 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
+ 	install -m 755 "${S}/init.d" "${D}${sysconfdir}/init.d/bind"
+-	sed -i -e '1s,#!.*python,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
++	sed -i -e '1s,#!.*python3,#! /usr/bin/python3,' ${D}${sbindir}/dnssec-coverage ${D}${sbindir}/dnssec-checkds
  
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
- 
--SRC_URI[md5sum] = "37096205bc43e2977de0f1cf2706940a"
--SRC_URI[sha256sum] = "b85f6627425d54f32118308e053b939c63a388de9bf455b3830f68cad406bc6d"
-+SRC_URI[md5sum] = "d1aa446e1e65717311c15d9ac0cf31ee"
-+SRC_URI[sha256sum] = "ccec4930ff0bb2d0c40aee203075447954b64a8c2695202413cc5e428c907131"
- 
- inherit autotools pkgconfig lib_package gtk-doc
- 
+ 	# Install systemd related files
+ 	install -d ${D}${sbindir}
 -- 
-2.4.0
+2.7.4
 
 
