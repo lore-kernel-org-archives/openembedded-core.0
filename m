@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E2527866A
+Return-Path: <maxin.john@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6045B77DA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 13:43:58 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7GDhtwS015951
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 16 Aug 2017 14:43:56 +0100
-Message-ID: <1502891035.13978.130.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 14:43:55 +0100
-In-Reply-To: <e7e48185-35fe-d230-df54-70b70b3a1bd1@gmail.com>
-References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
-	<e7e48185-35fe-d230-df54-70b70b3a1bd1@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Wed, 16 Aug 2017 14:43:57 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: peter.kjellerstedt@axis.com
-Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
+	Wed, 16 Aug 2017 13:45:32 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Aug 2017 06:45:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,382,1498546800"; d="scan'208";a="140948895"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga006.fm.intel.com with ESMTP; 16 Aug 2017 06:45:34 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id CA91758011C
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Aug 2017 06:45:33 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 16:47:09 +0300
+Message-Id: <1502891231-2284-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH 0/2] package upgrades from AUH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,21 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 13:43:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Aug 2017 13:45:33 -0000
 
-On Tue, 2017-08-15 at 22:19 -0700, akuster808 wrote:
-> 
-> On 08/15/2017 02:41 PM, Mark Hatle wrote:
-> 
-> Are these meant for Pyro?
+Package upgrades suggested by the Automatic Upgrade Helper.
 
-Some of the initial pieces may be ok for pyro, the actual enablement of
-the rpm deps piece cannot be taken back though as the world will likely
-break.
+Maxin B. John (2):
+  screen: upgrade to 4.6.1
+  harfbuzz: upgrade to 1.4.8
 
-Cheers,
+ .../screen/screen/fix-parallel-make.patch             | 19 -------------------
+ .../screen/{screen_4.6.0.bb => screen_4.6.1.bb}       |  5 ++---
+ .../harfbuzz/{harfbuzz_1.4.7.bb => harfbuzz_1.4.8.bb} |  4 ++--
+ 3 files changed, 4 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-extended/screen/screen/fix-parallel-make.patch
+ rename meta/recipes-extended/screen/{screen_4.6.0.bb => screen_4.6.1.bb} (91%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_1.4.7.bb => harfbuzz_1.4.8.bb} (88%)
 
-Richard
+-- 
+2.4.0
+
 
