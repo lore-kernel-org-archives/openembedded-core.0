@@ -1,24 +1,23 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 82410783B0
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 39C9E782EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 21:46:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7GLkCn9023093
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 14:46:12 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 14:46:11 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Aug 2017 14:46:11 -0700
-Message-ID: <20170816214611.244031-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] ruby: fix CVE-2017-9224
+	Wed, 16 Aug 2017 21:56:35 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Aug 2017 14:56:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,384,1498546800"; d="scan'208";a="141173211"
+Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.corp.intel.com)
+	([10.254.118.231])
+	by fmsmga006.fm.intel.com with ESMTP; 16 Aug 2017 14:56:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 16 Aug 2017 14:56:33 -0700
+Message-Id: <1502920593-13785-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.5
+Subject: [PATCH] build-appliance-image: Don't use COREBASE/LICENSE for checksumming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,80 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 21:46:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Aug 2017 21:56:36 -0000
 
-Use DATA_ENSURE(1) before access.
+This file lists the licenses that the OE-Core meta data falls under
+but should not be used as a LIC_FILES_CHKSUM, use the MIT license file.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../ruby/ruby/ruby-CVE-2017-9224.patch             | 41 ++++++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_2.4.1.bb           |  4 +++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
+ meta/recipes-core/images/build-appliance-image_15.0.0.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
-new file mode 100644
-index 0000000..848139b
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
-@@ -0,0 +1,41 @@
-+From 690313a061f7a4fa614ec5cc8368b4f2284e059b Mon Sep 17 00:00:00 2001
-+From: "K.Kosako" <kosako@sofnec.co.jp>
-+Date: Tue, 23 May 2017 10:28:58 +0900
-+Subject: [PATCH] fix #57 : DATA_ENSURE() check must be before data access
-+
-+---
-+ regexec.c |    5 -----
-+ 1 file changed, 5 deletions(-)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9224
-+
-+Context modified so that patch applies for version 2.4.1.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+diff --git a/regexec.c b/regexec.c
-+index 35fef11..d4e577d 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -1473,14 +1473,9 @@ match_at(regex_t* reg, const UChar* str, const UChar* end,
-+       NEXT;
-+
-+     CASE(OP_EXACT1)  MOP_IN(OP_EXACT1);
-+-#if 0
-+       DATA_ENSURE(1);
-+       if (*p != *s) goto fail;
-+       p++; s++;
-+-#endif
-+-      if (*p != *s++) goto fail;
-+-      DATA_ENSURE(0);
-+-      p++;
-+       MOP_OUT;
-+       break;
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_2.4.1.bb b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-index 1d335f1..77e17f1 100644
---- a/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-@@ -1,5 +1,9 @@
- require ruby.inc
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 927a931..db96a05 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -3,8 +3,7 @@ DESCRIPTION = "An image containing the build system that you can boot and run us
+ HOMEPAGE = "http://www.yoctoproject.org/documentation/build-appliance"
  
-+SRC_URI += " \
-+           file://ruby-CVE-2017-9224.patch \
-+           "
-+
- SRC_URI[md5sum] = "782bca562e474dd25956dd0017d92677"
- SRC_URI[sha256sum] = "a330e10d5cb5e53b3a0078326c5731888bb55e32c4abfeb27d9e7f8e5d000250"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
+-                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
  
+ IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegroup-self-hosted \
+                  kernel-dev kernel-devsrc connman connman-plugin-ethernet dhcp-client \
 -- 
-2.7.4
+2.7.5
 
 
