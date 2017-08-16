@@ -1,54 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f54.google.com (mail-pg0-f54.google.com [74.125.83.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6421F783E9
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 54FE9785EA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 05:19:58 +0000 (UTC)
-Received: by mail-pg0-f54.google.com with SMTP id i12so18201462pgr.3
+	Wed, 16 Aug 2017 05:58:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7G5wajb005415
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 22:20:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=SLDPKoHKzXMOUFZ1LcCB7W5m9JwGmdx+T//oB59lk+8=;
-	b=ofNxZ+vzAkYQaIg+qOHUEUbtwg4x+kAdhY4I1aGJV6nICsPR3GUxvMqeW+SkUlbEGP
-	lHxNEjPP8YhbmcSV0aMe1m/qI+Bi5k0nCYrmZWXEdEoda0Y+d2sOlKAsgUFnT1z9Pokh
-	Eui/oNsJ2lvop4KabHfYvRyZ+6VUEwX7SHPpkSoa0VHPFr292l5IKqdhjCccihtrcYPD
-	j2JYB3621UrVqEu8byrqG5dZUsf74lrcJSYtFytnzp8JdCxGP7uiG+iMw6mIJiKZ1UVN
-	ZExHc7kWStcgnLqJwT3omUCbXqvBSkp5CHK7JeVWVMerJMcWCogVCfryGCGlTkJBN6ic
-	Qyyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=SLDPKoHKzXMOUFZ1LcCB7W5m9JwGmdx+T//oB59lk+8=;
-	b=HnPl/DNrRauugQ7DmP6/m4Rkl2E+6eaIZd82u/SJ1vemwFgmi8h9pcav9dtoNdO8ll
-	ejIFiQhD3jkffZmqoZ5s7o9wu3RMswPAoV6G3XzsaRKmsvZF0ypL7GN64lJXynBg1KjX
-	DnhjOgEXZBnVbvEGMLl+hHjuIB7sE+NbRPpq6WZMthIC0bkMxAXRIg6+OTEPvJyW2Ena
-	JE9EbnoFZgFEP9LtNiyqegAlqM0UFG3c5wgC7YfyuhcOiwxdkdPyQvQ8Z4eXNKV95RHI
-	8D2aQ/3NCaVsGj+PwhKsXdtS7Xb5GwgWgGWhB7kaeGQjgLbTYEPdICzTEESxSaQmXnE/
-	fl9g==
-X-Gm-Message-State: AHYfb5jvOy4+sg8RTDtNyR9VYJ59E3LAkBQVrkS5X5CK4IDJa1TFMTcS
-	XFL7WGHTdhM1qw==
-X-Received: by 10.99.111.73 with SMTP id k70mr519805pgc.8.1502860799728;
-	Tue, 15 Aug 2017 22:19:59 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:9b7:5cee:9e0b:bac6?
-	([2601:202:4001:9ea0:9b7:5cee:9e0b:bac6])
-	by smtp.gmail.com with ESMTPSA id r87sm29738pfa.142.2017.08.15.22.19.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Aug 2017 22:19:59 -0700 (PDT)
-To: Mark Hatle <mark.hatle@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <e7e48185-35fe-d230-df54-70b70b3a1bd1@gmail.com>
-Date: Tue, 15 Aug 2017 22:19:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 15 Aug 2017 22:58:36 -0700
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 15 Aug 2017 22:58:36 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Aug 2017 22:58:36 -0700
+Message-ID: <20170816055836.29912-1-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-In-Reply-To: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
-Cc: peter.kjellerstedt@axis.com
-Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
+Subject: [PATCH] sqlite3: upgrade to 3.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,192 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 05:19:58 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 16 Aug 2017 05:58:36 -0000
+Content-Type: text/plain
 
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
+* Uprev from 3.19.3 to 3.2.0 for fixing CVE-2017-10989:
 
-On 08/15/2017 02:41 PM, Mark Hatle wrote:
+The getNodeSize function in ext/rtree/rtree.c in SQLite through 3.19.3,
+as used in GDAL and other products, mishandles undersized RTree blobs
+in a crafted database, leading to a heap-based buffer over-read or
+possibly unspecified other impact.
 
-Are these meant for Pyro?
+https://nvd.nist.gov/vuln/detail/CVE-2017-10989
 
-- armin
-> v2:
-> Fixed the patch header (6/6) to silence patchwork/patchtest failure.  All
-> other patches remain the same.
->
-> v1:
->
-> Work is available at:
->
-> git://git.openembedded.org/openembedded-core-contrib mgh/rpm_dep_regression
->
-> This is work based on Peter Kjellerstedt's fixes for the rpm dependency
-> generation.  (See poky-contrib pkj/rpm_regressions2 for the original work.)
->
-> The major difference is the last commit which disabled the perl requirement
-> generation.  This resolves the only problem I found in Peter's patches.
->
-> Peter's patches 2 and 3 attempt to address this in a few places.  The
-> last patch serves the same general purpose -- but it's better in my
-> opinion to fix these perl scripts when we find problems with them then
-> just ignore them.  (Even though ignoring is the standard behavior!)
->
->  From the comments to the original patch, the only not addressed was adding
-> an OE self-test for this behavior.  I tried to do this, but I don't see any
-> existing tests that build a recipe and inspect the results of the built
-> package.  I'm not sure of any other way to identify if things are working or
-> not.
->
-> To give you an idea of what this does, the provides for libc6, x86-64, prior
-> to this change were:
-> eglibc
-> glibc = 2.26
-> libc6 = 2.26-r0
->
-> After the change, the following were added (other remain):
-> ld-linux-x86-64.so.2()(64bit)
-> ld-linux-x86-64.so.2(GLIBC_2.2.5)(64bit)
-> ld-linux-x86-64.so.2(GLIBC_2.3)(64bit)
-> ld-linux-x86-64.so.2(GLIBC_2.4)(64bit)
-> ld-linux-x86-64.so.2(GLIBC_PRIVATE)(64bit)
-> libanl.so.1()(64bit)
-> libanl.so.1(GLIBC_2.2.5)(64bit)
-> libBrokenLocale.so.1()(64bit)
-> libBrokenLocale.so.1(GLIBC_2.2.5)(64bit)
-> libcrypt.so.1()(64bit)
-> libcrypt.so.1(GLIBC_2.2.5)(64bit)
-> libc.so.6()(64bit)
-> libc.so.6(GLIBC_2.10)(64bit)
-> libc.so.6(GLIBC_2.11)(64bit)
-> libc.so.6(GLIBC_2.12)(64bit)
-> libc.so.6(GLIBC_2.13)(64bit)
-> libc.so.6(GLIBC_2.14)(64bit)
-> libc.so.6(GLIBC_2.15)(64bit)
-> libc.so.6(GLIBC_2.16)(64bit)
-> libc.so.6(GLIBC_2.17)(64bit)
-> libc.so.6(GLIBC_2.18)(64bit)
-> libc.so.6(GLIBC_2.22)(64bit)
-> libc.so.6(GLIBC_2.23)(64bit)
-> libc.so.6(GLIBC_2.24)(64bit)
-> libc.so.6(GLIBC_2.2.5)(64bit)
-> libc.so.6(GLIBC_2.25)(64bit)
-> libc.so.6(GLIBC_2.2.6)(64bit)
-> libc.so.6(GLIBC_2.26)(64bit)
-> libc.so.6(GLIBC_2.3.2)(64bit)
-> libc.so.6(GLIBC_2.3.3)(64bit)
-> libc.so.6(GLIBC_2.3.4)(64bit)
-> libc.so.6(GLIBC_2.3)(64bit)
-> libc.so.6(GLIBC_2.4)(64bit)
-> libc.so.6(GLIBC_2.5)(64bit)
-> libc.so.6(GLIBC_2.6)(64bit)
-> libc.so.6(GLIBC_2.7)(64bit)
-> libc.so.6(GLIBC_2.8)(64bit)
-> libc.so.6(GLIBC_2.9)(64bit)
-> libc.so.6(GLIBC_PRIVATE)(64bit)
-> libdl.so.2()(64bit)
-> libdl.so.2(GLIBC_2.2.5)(64bit)
-> libdl.so.2(GLIBC_2.3.3)(64bit)
-> libdl.so.2(GLIBC_2.3.4)(64bit)
-> libdl.so.2(GLIBC_PRIVATE)(64bit)
-> libm.so.6()(64bit)
-> libm.so.6(GLIBC_2.15)(64bit)
-> libm.so.6(GLIBC_2.18)(64bit)
-> libm.so.6(GLIBC_2.23)(64bit)
-> libm.so.6(GLIBC_2.24)(64bit)
-> libm.so.6(GLIBC_2.2.5)(64bit)
-> libm.so.6(GLIBC_2.25)(64bit)
-> libm.so.6(GLIBC_2.26)(64bit)
-> libm.so.6(GLIBC_2.4)(64bit)
-> libmvec.so.1()(64bit)
-> libmvec.so.1(GLIBC_2.22)(64bit)
-> libnsl.so.1()(64bit)
-> libnsl.so.1(GLIBC_2.2.5)(64bit)
-> libnsl.so.1(GLIBC_PRIVATE)(64bit)
-> libnss_compat.so.2()(64bit)
-> libnss_compat.so.2(GLIBC_PRIVATE)(64bit)
-> libnss_dns.so.2()(64bit)
-> libnss_dns.so.2(GLIBC_PRIVATE)(64bit)
-> libnss_files.so.2()(64bit)
-> libnss_files.so.2(GLIBC_PRIVATE)(64bit)
-> libpthread.so.0()(64bit)
-> libpthread.so.0(GLIBC_2.11)(64bit)
-> libpthread.so.0(GLIBC_2.12)(64bit)
-> libpthread.so.0(GLIBC_2.18)(64bit)
-> libpthread.so.0(GLIBC_2.2.5)(64bit)
-> libpthread.so.0(GLIBC_2.2.6)(64bit)
-> libpthread.so.0(GLIBC_2.3.2)(64bit)
-> libpthread.so.0(GLIBC_2.3.3)(64bit)
-> libpthread.so.0(GLIBC_2.3.4)(64bit)
-> libpthread.so.0(GLIBC_2.4)(64bit)
-> libpthread.so.0(GLIBC_PRIVATE)(64bit)
-> libresolv.so.2()(64bit)
-> libresolv.so.2(GLIBC_2.2.5)(64bit)
-> libresolv.so.2(GLIBC_2.3.2)(64bit)
-> libresolv.so.2(GLIBC_2.9)(64bit)
-> libresolv.so.2(GLIBC_PRIVATE)(64bit)
-> librt.so.1()(64bit)
-> librt.so.1(GLIBC_2.2.5)(64bit)
-> librt.so.1(GLIBC_2.3.3)(64bit)
-> librt.so.1(GLIBC_2.3.4)(64bit)
-> librt.so.1(GLIBC_2.4)(64bit)
-> librt.so.1(GLIBC_2.7)(64bit)
-> libutil.so.1()(64bit)
-> libutil.so.1(GLIBC_2.2.5)(64bit)
-> rtld(GNU_HASH)
->
->
-> I have built and tested this for:
->
-> core-image-base core-image-minimal core-image-full-cmdline
-> core-image-kernel-dev core-image-lsb core-image-lsb-dev
-> core-image-lsb-sdk core-image-testmaster core-image-clutter
-> core-image-weston core-image-x11 core-image-sato core-image-sato-dev
-> core-image-sato-sdk core-image-sato-sdk-ptest
->
-> Also using qemux86, qemux86-64 and qemuarm64.
->
-> The following description is from Peter's original pull request:
->
-> Right before the release of Pyro (about a month ago), we noticed a
-> problem with missing automatically determined runtime file
-> dependencies after the transition to rpm4 and dnf. Unfortunately it
-> has taken me quite a while to work out all the details, but here is
-> the result finally.
->
-> ....
->
-> Then rpm is updated to make it possible to yet again access the
-> runtime dependencies we need, and finally package.bbclass is updated
-> to make use of them.
->
-> See the patches, especially the last one, for more in depth
-> information on what went wrong during the transition to rpm4 and dnf,
-> and how to solve it.
->
->
-> Mark Hatle (1):
->    rpm: Disable perl dependency generation
->
-> Peter Kjellerstedt (5):
->    rpm: Add dependencies on bash, perl and python3-core
->    git: Do not install git cvsserver and git svn by default
->    texinfo: Avoid a problem with a dependency on perl(Locale::gettext_xs)
->    package_rpm.bbclass: Filter out unwanted file deps for nativesdk
->      packages
->    package.bbclass: Restore functionality to detect RPM dependencies
->
->   meta/classes/package.bbclass                       |  5 +-
->   meta/classes/package_rpm.bbclass                   | 25 ++++++++-
->   meta/lib/oe/package.py                             | 60 +++++++++++++++-------
->   meta/recipes-devtools/git/git.inc                  | 21 ++++++++
->   .../rpm/files/0001-perl-disable-auto-reqs.patch    | 30 +++++++++++
->   meta/recipes-devtools/rpm/rpm_git.bb               |  6 +++
->   meta/recipes-extended/texinfo/texinfo_6.3.bb       |  6 +++
->   7 files changed, 130 insertions(+), 23 deletions(-)
->   create mode 100644 meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
->
+* LIC_FILES_CHKSUM updated for below changes:
+
+  -** 2001 September 15
+  +** 2001-09-15
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ .../recipes-support/sqlite/{sqlite3_3.19.3.bb => sqlite3_3.20.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.19.3.bb => sqlite3_3.20.0.bb} (34%)
+
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.19.3.bb b/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
+similarity index 34%
+rename from meta/recipes-support/sqlite/sqlite3_3.19.3.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.20.0.bb
+index 89d439530f..417c36202d 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.19.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.20.0.bb
+@@ -1,10 +1,10 @@
+ require sqlite3.inc
+ 
+ LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+ 
+ SRC_URI = "\
+   http://www.sqlite.org/2017/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+   "
+-SRC_URI[md5sum] = "c93070d5bf136ce271db23d2dfbc2435"
+-SRC_URI[sha256sum] = "06129c03dced9f87733a8cba408871bd60673b8f93b920ba8d815efab0a06301"
++SRC_URI[md5sum] = "e262a28b73cc330e7e83520c8ce14e4d"
++SRC_URI[sha256sum] = "3814c6f629ff93968b2b37a70497cfe98b366bf587a2261a56a5f750af6ae6a0"
+-- 
+2.13.0
 
 
