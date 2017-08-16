@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE1ED78663
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A3ABB78657
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 08:31:31 +0000 (UTC)
+	Wed, 16 Aug 2017 08:31:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G8VWb9013992
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G8VXpO025055
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Aug 2017 01:31:32 -0700 (PDT)
+	Wed, 16 Aug 2017 01:31:33 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 01:31:31 -0700
+	Wed, 16 Aug 2017 01:31:33 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 16 Aug 2017 04:31:16 -0400
-Message-ID: <63fa43885db5438b55a88dfe69ea8d679da15a05.1502869419.git.hongxu.jia@windriver.com>
+Date: Wed, 16 Aug 2017 04:31:17 -0400
+Message-ID: <08983bf9fece08c9a119b1fa6616e117aeb98ba2.1502869419.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
 In-Reply-To: <cover.1502869419.git.hongxu.jia@windriver.com>
 References: <cover.1502869419.git.hongxu.jia@windriver.com>
-Subject: [PATCH 2/8] bash: 4.3.30 -> 4.4
+MIME-Version: 1.0
+Subject: [PATCH 3/8] dhcp: 4.3.5 -> 4.3.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,617 +33,1140 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 16 Aug 2017 08:31:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Rebase patches:
-- fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
-- test-output.patch
+1. Rebase patches to 4.3.6
+- define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch -> 0001
+- dhcp-3.0.3-dhclient-dbus.patch -> 0002
+- link-with-lcrypto.patch -> 0003
+- fixsepbuild.patch -> 0004
+- dhclient-script-drop-resolv.conf.dhclient.patch -> 0005
+- 0001-site.h-enable-gentle-shutdown.patch -> 0006
+- libxml2-configure-argument.patch -> 0007
+- tweak-to-support-external-bind.patch -> 0008
+- remove-dhclient-script-bash-dependency.patch -> 0009
+- build-shared-libs.patch -> 0010
+- Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch -> 0011
 
-Drop backported patches:
-- CVE-2016-9401.patch
-- fix-run-intl.patch
+2. Drop search-for-libxml2.patch
+   It is overrided by libxml2-configure-argument.patch
 
-Add ${PN}-loadable for loadable builtins which is new features in Bash 4.4
-
-The 4.4 fixed CVE-2017-5932 and CVE-2016-0634
-- https://security-tracker.debian.org/tracker/CVE-2017-5932
-- https://security-tracker.debian.org/tracker/CVE-2016-0634
+3. Rework dhclient-script-drop-resolv.conf.dhclient.patch and
+Drop replace-ifconfig-route.patch.
+vim client/scripts/linux
+...
+Script refresh in 2017. The aliasing code was too convoluted and needs
+to go away. Migrated DHCPv4 script to ip command from iproute2 suite.
+This is based on Debian script with some tweaks. ifconfig is no longer
+used. Everything is done using ip tool from ip-route2.
+...
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/bash/bash.inc                |   4 +
- .../recipes-extended/bash/bash/CVE-2016-9401.patch |  50 -------
- ...roc-run-heredoc-run-execscript-run-test-f.patch | 158 +++------------------
- meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 --------------
- meta/recipes-extended/bash/bash/test-output.patch  |  47 ++++--
- meta/recipes-extended/bash/bash_4.3.30.bb          |  75 ----------
- meta/recipes-extended/bash/bash_4.4.bb             |  58 ++++++++
- 7 files changed, 111 insertions(+), 391 deletions(-)
- delete mode 100644 meta/recipes-extended/bash/bash/CVE-2016-9401.patch
- delete mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
- delete mode 100644 meta/recipes-extended/bash/bash_4.3.30.bb
- create mode 100644 meta/recipes-extended/bash/bash_4.4.bb
+ meta/recipes-connectivity/dhcp/dhcp.inc            |   4 +-
+ ...-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch} |  12 +-
+ ...hclient-dbus.patch => 0002-dhclient-dbus.patch} |  97 +++++++----
+ ...-lcrypto.patch => 0003-link-with-lcrypto.patch} |  20 ++-
+ ...ild.patch => 0004-Fix-out-of-tree-builds.patch} |   9 +-
+ ...-fix-invoke-dhclient-script-failed-on-Rea.patch |  36 ++++
+ ...ch => 0006-site.h-enable-gentle-shutdown.patch} |  17 +-
+ ...re-argument-to-make-the-libxml2-dependenc.patch |  42 +++++
+ ...h => 0008-tweak-to-support-external-bind.patch} |  12 +-
+ ...09-remove-dhclient-script-bash-dependency.patch |  28 +++
+ ...red-libs.patch => 0010-build-shared-libs.patch} |  30 +++-
+ ...ll-to-isc_app_ctxstart-to-not-get-signal.patch} |  10 +-
+ ...dhclient-script-drop-resolv.conf.dhclient.patch |  70 --------
+ .../dhcp/dhcp/libxml2-configure-argument.patch     |  38 -----
+ .../remove-dhclient-script-bash-dependency.patch   |  55 ------
+ .../dhcp/dhcp/replace-ifconfig-route.patch         | 188 ---------------------
+ .../dhcp/dhcp/search-for-libxml2.patch             |  23 ---
+ meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb       |  20 ---
+ meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb       |  20 +++
+ 19 files changed, 265 insertions(+), 466 deletions(-)
+ rename meta/recipes-connectivity/dhcp/dhcp/{define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch => 0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch} (70%)
+ rename meta/recipes-connectivity/dhcp/dhcp/{dhcp-3.0.3-dhclient-dbus.patch => 0002-dhclient-dbus.patch} (45%)
+ rename meta/recipes-connectivity/dhcp/dhcp/{link-with-lcrypto.patch => 0003-link-with-lcrypto.patch} (68%)
+ rename meta/recipes-connectivity/dhcp/dhcp/{fixsepbuild.patch => 0004-Fix-out-of-tree-builds.patch} (92%)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch
+ rename meta/recipes-connectivity/dhcp/dhcp/{0001-site.h-enable-gentle-shutdown.patch => 0006-site.h-enable-gentle-shutdown.patch} (65%)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
+ rename meta/recipes-connectivity/dhcp/dhcp/{tweak-to-support-external-bind.patch => 0008-tweak-to-support-external-bind.patch} (93%)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0009-remove-dhclient-script-bash-dependency.patch
+ rename meta/recipes-connectivity/dhcp/dhcp/{build-shared-libs.patch => 0010-build-shared-libs.patch} (90%)
+ rename meta/recipes-connectivity/dhcp/dhcp/{Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch => 0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch} (92%)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/remove-dhclient-script-bash-dependency.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/search-for-libxml2.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index 6c94a24..ae51aa9 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -70,4 +70,8 @@ PACKAGES += "${PN}-bashbug"
- FILES_${PN} = "${bindir}/bash ${base_bindir}/bash.bash"
- FILES_${PN}-bashbug = "${bindir}/bashbug"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index db4a963..58f4a6f 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -13,7 +13,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=c5c64d696107f84b56fe337d14da1
+ DEPENDS = "openssl bind"
  
-+PACKAGE_BEFORE_PN += "${PN}-loadable"
-+RDEPENDS_${PN}-loadable += "${PN}"
-+FILES_${PN}-loadable += "${libdir}/bash/*"
-+
- RPROVIDES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/sh /bin/bash', '', d)}"
-diff --git a/meta/recipes-extended/bash/bash/CVE-2016-9401.patch b/meta/recipes-extended/bash/bash/CVE-2016-9401.patch
-deleted file mode 100644
-index 28c9277..0000000
---- a/meta/recipes-extended/bash/bash/CVE-2016-9401.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--From fa741771ed47b30547be63b5b5dbfb51977aca12 Mon Sep 17 00:00:00 2001
--From: Chet Ramey <chet.ramey@case.edu>
--Date: Fri, 20 Jan 2017 11:47:31 -0500
--Subject: [PATCH] Bash-4.4 patch 6
+ SRC_URI = "http://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+-           file://define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch \
+            file://init-relay file://default-relay \
+            file://init-server file://default-server \
+            file://dhclient.conf file://dhcpd.conf \
+@@ -21,8 +20,7 @@ SRC_URI = "http://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+            file://dhclient.service \
+            file://dhcpd.service file://dhcrelay.service \
+            file://dhcpd6.service \
+-           file://search-for-libxml2.patch "
 -
--Bug-Reference-URL:
--https://lists.gnu.org/archive/html/bug-bash/2016-11/msg00116.html
--
--Reference to upstream patch:
--https://ftp.gnu.org/pub/gnu/bash/bash-4.4-patches/bash44-006
--
--Bug-Description:
--Out-of-range negative offsets to popd can cause the shell to crash attempting
--to free an invalid memory block.
--
--Upstream-Status: Backport
--CVE: CVE-2016-9401
--Signed-off-by: Li Zhou <li.zhou@windriver.com>
-----
-- builtins/pushd.def | 7 ++++++-
-- 1 file changed, 6 insertions(+), 1 deletion(-)
--
--diff --git a/builtins/pushd.def b/builtins/pushd.def
--index 9c6548f..8a13bae 100644
----- a/builtins/pushd.def
--+++ b/builtins/pushd.def
--@@ -359,7 +359,7 @@ popd_builtin (list)
-- 	break;
--     }
-- 
---  if (which > directory_list_offset || (directory_list_offset == 0 && which == 0))
--+  if (which > directory_list_offset || (which < -directory_list_offset) || (directory_list_offset == 0 && which == 0))
--     {
--       pushd_error (directory_list_offset, which_word ? which_word : "");
--       return (EXECUTION_FAILURE);
--@@ -381,6 +381,11 @@ popd_builtin (list)
-- 	 remove that directory from the list and shift the remainder
-- 	 of the list into place. */
--       i = (direction == '+') ? directory_list_offset - which : which;
--+      if (i < 0 || i > directory_list_offset)
--+	{
--+	  pushd_error (directory_list_offset, which_word ? which_word : "");
--+	  return (EXECUTION_FAILURE);
--+	}
--       free (pushd_directory_list[i]);
--       directory_list_offset--;
-- 
---- 
--1.9.1
--
-diff --git a/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch b/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
-index 7f099ae..9ac2461 100644
---- a/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
-+++ b/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
-@@ -1,15 +1,7 @@
--From 2c30dff8ea8b17ad5ba9881e35ad1eba9c515f13 Mon Sep 17 00:00:00 2001
-+From d1cd4c31ea0ed7406a3ad4bdaa211f581063f655 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Thu, 26 Nov 2015 22:09:07 -0500
--Subject: [PATCH] fix run-coproc/run-heredoc/run-execscript/run-test/ failed
--
--FAIL: run-coproc
--update test case:tests/coproc.right, tests/coproc.tests
--git://git.sv.gnu.org/bash.git bash-4.4-testing
--
--FAIL: run-heredoc
--update test case: tests/heredoc.right tests/heredoc3.sub
--git://git.sv.gnu.org/bash.git bash-4.4-testing
-+Date: Tue, 15 Aug 2017 10:21:21 +0800
-+Subject: [PATCH 2/2] fix run-execscript/run-test/ failed
++           "
+ UPSTREAM_CHECK_URI = "ftp://ftp.isc.org/isc/dhcp/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+\.\d+\.(\d+?))/"
  
- FAIL: run-execscript:
- the test suite should not be run as root
-@@ -21,149 +13,33 @@ Upstream-Status: Pending
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
+similarity index 70%
+rename from meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
+index 32bdaf0..e5b3cf9 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch
+@@ -1,17 +1,21 @@
+-define macro _PATH_DHCPD_CONF and _PATH_DHCLIENT_CONF
++From 7cc29144535a622fc671dc86eb1da65b0473a7c4 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 15 Aug 2017 16:14:22 +0800
++Subject: [PATCH 01/11] define macro _PATH_DHCPD_CONF and _PATH_DHCLIENT_CONF
  
+ Upstream-Status: Inappropriate [OE specific]
+ 
++Rebase to 4.3.6
  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
  ---
-- tests/coproc.right   |  5 +----
-- tests/coproc.tests   | 30 +++++++++++++++++++++++++-----
-- tests/heredoc.right  |  5 ++---
-- tests/heredoc3.sub   |  3 ++-
-- tests/run-execscript |  3 ++-
-- tests/run-test       |  3 ++-
-- 6 files changed, 34 insertions(+), 15 deletions(-)
-+ tests/run-execscript | 3 ++-
-+ tests/run-test       | 3 ++-
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
+  includes/site.h | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
  
--diff --git a/tests/coproc.right b/tests/coproc.right
--index 6d9deaa..94b001c 100644
----- a/tests/coproc.right
--+++ b/tests/coproc.right
--@@ -1,11 +1,8 @@
---84575
-- 63 60
-- a b c
---84577
-- 63 60
-- flop
---./coproc.tests: line 22: 84577 Terminated              coproc REFLECT { cat -; }
---84579
--+coproc.tests: REFLECT: status 143
-- 63 60
-- FOO
-- 63 60
--diff --git a/tests/coproc.tests b/tests/coproc.tests
--index 8be3563..d347eb7 100644
----- a/tests/coproc.tests
--+++ b/tests/coproc.tests
--@@ -1,6 +1,13 @@
--+: ${TMPDIR:=/tmp}
--+TMPOUT=${TMPDIR}/coproc-wait-$BASHPID
--+
-- coproc { echo a b c; sleep 2; }
-- 
---echo $COPROC_PID
--+case $COPROC_PID in
--+[0-9]*)	;;
--+*)	echo COPROC_PID not integer ;;
--+esac
--+
-- echo ${COPROC[@]}
-- 
-- read LINE <&${COPROC[0]}
--@@ -10,7 +17,11 @@ wait $COPROC_PID
-- 
-- coproc REFLECT { cat - ; }
-- 
---echo $REFLECT_PID
--+case $REFLECT_PID in
--+[0-9]*)	;;
--+*)	echo REFLECT_PID not integer ;;
--+esac
--+
-- echo ${REFLECT[@]}
-- 
-- echo flop >&${REFLECT[1]}
--@@ -18,12 +29,21 @@ read LINE <&${REFLECT[0]}
-- 
-- echo $LINE
-- 
---kill $REFLECT_PID
---wait $REFLECT_PID
--+{ sleep 1; kill $REFLECT_PID; } &
--+wait $REFLECT_PID >$TMPOUT 2>&1 || echo "coproc.tests: REFLECT: status $?"
--+grep 'Terminated.*coproc.*REFLECT' < $TMPOUT >/dev/null 2>&1 || {
--+	echo "coproc.tests: wait for REFLECT failed" >&2
--+}
--+rm -f $TMPOUT
--+exec 2>&1
-- 
-- coproc xcase -n -u
-- 
---echo $COPROC_PID
--+case $COPROC_PID in
--+[0-9]*)	;;
--+*)	echo COPROC_PID not integer ;;
--+esac
--+
-- echo ${COPROC[@]}
-- 
-- echo foo >&${COPROC[1]}
--diff --git a/tests/heredoc.right b/tests/heredoc.right
--index 6abaa1f..8df91c5 100644
----- a/tests/heredoc.right
--+++ b/tests/heredoc.right
--@@ -76,15 +76,14 @@ ENDEND
-- end ENDEND
-- hello
-- end hello
---x star x
-- end x*x
-- helloEND
-- end helloEND
-- hello
-- \END
-- end hello<NL>\END
---./heredoc3.sub: line 74: warning: here-document at line 72 delimited by end-of-file (wanted `EOF')
---./heredoc3.sub: line 75: syntax error: unexpected end of file
--+./heredoc3.sub: line 75: warning: here-document at line 73 delimited by end-of-file (wanted `EOF')
--+./heredoc3.sub: line 76: syntax error: unexpected end of file
-- comsub here-string
-- ./heredoc.tests: line 105: warning: here-document at line 103 delimited by end-of-file (wanted `EOF')
-- hi
--diff --git a/tests/heredoc3.sub b/tests/heredoc3.sub
--index 73a111e..9d3d846 100644
----- a/tests/heredoc3.sub
--+++ b/tests/heredoc3.sub
--@@ -49,9 +49,10 @@ hello
--     END    
-- echo end hello
-- 
---cat <<x*x & touch 'x*x'
--+cat <<x*x >/dev/null & touch 'x*x'
-- x star x
-- x*x
--+wait $!
-- echo end 'x*x'
-- rm 'x*x'
-- 
- diff --git a/tests/run-execscript b/tests/run-execscript
--index f97ab21..0d00a1b 100644
-+index de78644..38397c1 100644
- --- a/tests/run-execscript
- +++ b/tests/run-execscript
- @@ -5,5 +5,6 @@ echo "warning: \`/tmp/bash-notthere' not being found or \`/' being a directory"
-  echo "warning: produce diff output, please do not consider this a test failure" >&2
-  echo "warning: if diff output differing only in the location of the bash" >&2
-  echo "warning: binary appears, please do not consider this a test failure" >&2
---${THIS_SH} ./execscript > /tmp/xx 2>&1
--+rm -f /tmp/xx
--+su -c "${THIS_SH} ./execscript > /tmp/xx 2>&1" test
-- diff /tmp/xx exec.right && rm -f /tmp/xx
-+-${THIS_SH} ./execscript > ${BASH_TSTOUT} 2>&1
-++rm -f ${BASH_TSTOUT}
-++su -c "${THIS_SH} ./execscript > ${BASH_TSTOUT} 2>&1" test
-+ diff ${BASH_TSTOUT} exec.right && rm -f ${BASH_TSTOUT}
- diff --git a/tests/run-test b/tests/run-test
--index b2482c3..2e8f049 100644
-+index d68791c..d6317d2 100644
- --- a/tests/run-test
- +++ b/tests/run-test
- @@ -1,4 +1,5 @@
-  unset GROUPS UID 2>/dev/null
+ diff --git a/includes/site.h b/includes/site.h
+-index d87b309..17bc40d 100644
++index b2f7fd7..280fbb9 100644
+ --- a/includes/site.h
+ +++ b/includes/site.h
+-@@ -139,7 +139,8 @@
++@@ -149,7 +149,8 @@
+  /* Define this if you want the dhcpd.conf file to go somewhere other than
+     the default location.   By default, it goes in /etc/dhcpd.conf. */
   
---${THIS_SH} ./test.tests >/tmp/xx 2>&1
--+rm -f /tmp/xx
--+su -c "${THIS_SH} ./test.tests >/tmp/xx 2>&1" test
-- diff /tmp/xx test.right && rm -f /tmp/xx
-+-${THIS_SH} ./test.tests >${BASH_TSTOUT} 2>&1
-++rm -f ${BASH_TSTOUT}
-++su -c "${THIS_SH} ./test.tests > ${BASH_TSTOUT} 2>&1" test
-+ diff ${BASH_TSTOUT} test.right && rm -f ${BASH_TSTOUT}
+@@ -22,5 +26,5 @@ index d87b309..17bc40d 100644
+  /* Network API definitions.   You do not need to choose one of these - if
+     you don't choose, one will be chosen for you in your system's config
  -- 
 -1.9.1
 +1.8.3.1
  
-diff --git a/meta/recipes-extended/bash/bash/fix-run-intl.patch b/meta/recipes-extended/bash/bash/fix-run-intl.patch
-deleted file mode 100644
-index d4a3409..0000000
---- a/meta/recipes-extended/bash/bash/fix-run-intl.patch
-+++ /dev/null
-@@ -1,110 +0,0 @@
--From a00d3161fd7b6a698bdd2ed5f0ac5faac580ee2a Mon Sep 17 00:00:00 2001
--From: Dengke Du <dengke.du@windriver.com>
--Date: Wed, 3 Aug 2016 23:13:00 -0400
--Subject: [PATCH] fix run-intl failed
--
--1. Filter extra white space of intl.right
--
--   Due to the extra white space of intl.right, when the result of
--   sub-test unicode2.sub of intl.tests compared to it, the test
--   failed.
--
--   So we need to filter the extra white space of intl.right.
--
--   Import this patch for intl.right from bash devel branch:
--
--	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
--
--   commit is:
--
--	85ec0778f9d778e1820fb8c0e3e996f2d1103b45
--
--2. Change intl.right correspond to the unicode3.sub's output
--
--   In sub-test unicode3.sub of intl.tests, the payload value is:
--
--	payload=$'\065\247\100\063\231\053\306\123\070\237\242\352\263'
--
--   It used quoted string expansion(escaped octal) to assign ASCII
--   characters to variables. So when the test run the following:
--
--	printf %q "$payload"
--
--   It produced:
--
--	$'5\247@3\231+\306S8\237\242\352\263'
--
--   When compared to the intl.right(contain the converted character), it failed.
--
--   Import parts of patch for intl.right from bash devel branch:
--
--	http://git.savannah.gnu.org/cgit/bash.git/log/?h=devel
--
--   commit is:
--
--	74b8cbb41398b4453d8ba04d0cdd1b25f9dcb9e3
--
--Upstream-Status: Backport
--
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
-----
-- tests/intl.right | 30 +++++++++++++++---------------
-- 1 file changed, 15 insertions(+), 15 deletions(-)
--
--diff --git a/tests/intl.right b/tests/intl.right
--index acf108a..1efdfbe 100644
----- a/tests/intl.right
--+++ b/tests/intl.right
--@@ -18,34 +18,34 @@ a√©b
-- 1.0000
-- 1,0000
-- Passed all 1378 Unicode tests
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   357 277 277 012                                                
--+0000000 357 277 277 012
-- 0000004
---0000000   357 277 277 012                                                
--+0000000 357 277 277 012
-- 0000004
---0000000   012                                                            
--+0000000 012
-- 0000001
---0000000   012                                                            
--+0000000 012
-- 0000001
---0000000   012                                                            
--+0000000 012
-- 0000001
---0000000   012                                                            
--+0000000 012
-- 0000001
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   303 277 012                                                    
--+0000000 303 277 012
-- 0000003
---0000000   101 040 302 243 040 305 222 012                                
--+0000000 101 040 302 243 040 305 222 012
-- 0000010
-- ./unicode3.sub: line 2: 5ß@3ô+∆S8ü¢Í≥: command not found
---5ß@3ô+∆S8ü¢Í≥
--+$'5\247@3\231+\306S8\237\242\352\263'
-- + : $'5\247@3\231+\306S8\237\242\352\263'
---- 
--2.8.1
--
-diff --git a/meta/recipes-extended/bash/bash/test-output.patch b/meta/recipes-extended/bash/bash/test-output.patch
-index 2b09b7d..0ffcc24 100644
---- a/meta/recipes-extended/bash/bash/test-output.patch
-+++ b/meta/recipes-extended/bash/bash/test-output.patch
-@@ -1,25 +1,42 @@
--Add FAIL/PASS output to test output.
-+From 28eb06047ebd2deaa8c7cd2bf6655ef6a469dc14 Mon Sep 17 00:00:00 2001
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhcp-3.0.3-dhclient-dbus.patch b/meta/recipes-connectivity/dhcp/dhcp/0002-dhclient-dbus.patch
+similarity index 45%
+rename from meta/recipes-connectivity/dhcp/dhcp/dhcp-3.0.3-dhclient-dbus.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0002-dhclient-dbus.patch
+index b4a666d..6459dc0 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/dhcp-3.0.3-dhclient-dbus.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0002-dhclient-dbus.patch
+@@ -1,9 +1,27 @@
+-Upstream-Status: Inappropriate [distribution]
++From be7540d31c356e80ee02e90e8bf162b7ac6e5ba5 Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Tue, 15 Aug 2017 10:01:56 +0800
-+Subject: [PATCH 1/2] Add FAIL/PASS output to test output.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++Date: Tue, 15 Aug 2017 14:56:56 +0800
++Subject: [PATCH 02/11] dhclient dbus
  
- Signed-off-by: Bj√∂rn Stenberg <bjst@enea.com>
- Upstream-Status: Pending
+---- client/scripts/bsdos
+-+++ client/scripts/bsdos
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
++upstream-Status: Inappropriate [distribution]
 +
-+Rebase to 4.4
++Rebase to 4.3.6
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
--diff -uNr a/tests/run-all b/tests/run-all
----- a/tests/run-all	1999-10-08 17:07:46.000000000 +0200
--+++ b/tests/run-all	2012-10-27 21:04:18.663331887 +0200
--@@ -22,7 +22,15 @@
-+ tests/run-all | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
++---
++ client/scripts/bsdos   | 5 +++++
++ client/scripts/freebsd | 5 +++++
++ client/scripts/linux   | 5 +++++
++ client/scripts/netbsd  | 5 +++++
++ client/scripts/openbsd | 5 +++++
++ client/scripts/solaris | 5 +++++
++ 6 files changed, 30 insertions(+)
 +
-+diff --git a/tests/run-all b/tests/run-all
-+index 2882fe0..e21d026 100644
-+--- a/tests/run-all
-++++ b/tests/run-all
-+@@ -33,7 +33,16 @@ do
-  	case $x in
-  	$0|run-minimal|run-gprof)	;;
-  	*.orig|*~) ;;
---	*)	echo $x ; sh $x ;;
--+    *)  echo $x
--+         output=`sh $x`
--+         if [ -n "$output" ]; then
--+             echo "$output"
--+             echo "FAIL: $x"
--+         else
--+             echo "PASS: $x"
--+         fi
--+         ;;
-+-	*)	echo $x ; sh $x ; rm -f ${BASH_TSTOUT} ;;
-++	*)	echo $x
-++		output=`sh $x`
-++		if [ -n "$output" ]; then
-++			echo "$output"
-++			echo "FAIL: $x"
-++		else
-++			echo "PASS: $x"
-++		fi
-++		rm -f ${BASH_TSTOUT}
-++		;;
-  	esac
-  done
++diff --git a/client/scripts/bsdos b/client/scripts/bsdos
++index d69d0d8..095b143 100755
++--- a/client/scripts/bsdos
+++++ b/client/scripts/bsdos
++@@ -45,6 +45,11 @@ exit_with_hooks() {
++     . /etc/dhclient-exit-hooks
+    fi
+  # probably should do something with exit status of the local script
+ +  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+@@ -14,10 +32,12 @@ Upstream-Status: Inappropriate [distribution]
+    exit $exit_status
+  }
+  
+---- client/scripts/freebsd
+-+++ client/scripts/freebsd
+-@@ -57,6 +57,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
++diff --git a/client/scripts/freebsd b/client/scripts/freebsd
++index 8f3e2a2..ad7fb44 100755
++--- a/client/scripts/freebsd
+++++ b/client/scripts/freebsd
++@@ -89,6 +89,11 @@ exit_with_hooks() {
++     . /etc/dhclient-exit-hooks
+    fi
+  # probably should do something with exit status of the local script
+ +  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+@@ -28,24 +48,28 @@ Upstream-Status: Inappropriate [distribution]
+    exit $exit_status
+  }
+  
+---- client/scripts/linux
+-+++ client/scripts/linux
+-@@ -69,6 +69,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
+-   fi
+- # probably should do something with exit status of the local script
+-+  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+-+    dbus-send --system --dest=com.redhat.dhcp \
+-+      --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+-+      'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+-+  fi
+-   exit $exit_status
++diff --git a/client/scripts/linux b/client/scripts/linux
++index 5fb1612..3d447b6 100755
++--- a/client/scripts/linux
+++++ b/client/scripts/linux
++@@ -174,6 +174,11 @@ exit_with_hooks() {
++         exit_status=$?
++     fi
++ 
+++    if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+++        dbus-send --system --dest=com.redhat.dhcp \
+++           --type=method_call /com/redhat/dhcp/$interface com.redhat.dhcp.set \
+++           'string:'"`env | grep -Ev '^(PATH|SHLVL|_|PWD|dhc_dbus)\='`"
+++    fi
++     exit $exit_status
+  }
+  
+---- client/scripts/netbsd
+-+++ client/scripts/netbsd
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
++diff --git a/client/scripts/netbsd b/client/scripts/netbsd
++index 07383b7..aaba8e8 100755
++--- a/client/scripts/netbsd
+++++ b/client/scripts/netbsd
++@@ -45,6 +45,11 @@ exit_with_hooks() {
++     . /etc/dhclient-exit-hooks
+    fi
+  # probably should do something with exit status of the local script
+ +  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+@@ -56,10 +80,12 @@ Upstream-Status: Inappropriate [distribution]
+    exit $exit_status
+  }
+  
+---- client/scripts/openbsd
+-+++ client/scripts/openbsd
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
++diff --git a/client/scripts/openbsd b/client/scripts/openbsd
++index e7f4746..56b980c 100644
++--- a/client/scripts/openbsd
+++++ b/client/scripts/openbsd
++@@ -45,6 +45,11 @@ exit_with_hooks() {
++     . /etc/dhclient-exit-hooks
+    fi
+  # probably should do something with exit status of the local script
+ +  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+@@ -70,10 +96,12 @@ Upstream-Status: Inappropriate [distribution]
+    exit $exit_status
+  }
+  
+---- client/scripts/solaris
+-+++ client/scripts/solaris
+-@@ -47,6 +47,11 @@
+-     . /etc/dhcp/dhclient-exit-hooks
++diff --git a/client/scripts/solaris b/client/scripts/solaris
++index af553b9..4a2aa69 100755
++--- a/client/scripts/solaris
+++++ b/client/scripts/solaris
++@@ -26,6 +26,11 @@ exit_with_hooks() {
++     . /etc/dhclient-exit-hooks
+    fi
+  # probably should do something with exit status of the local script
+ +  if [ x$dhc_dbus != x -a $exit_status -eq 0 ]; then
+@@ -84,3 +112,6 @@ Upstream-Status: Inappropriate [distribution]
+    exit $exit_status
+  }
   
 +-- 
 +1.8.3.1
 +
-diff --git a/meta/recipes-extended/bash/bash_4.3.30.bb b/meta/recipes-extended/bash/bash_4.3.30.bb
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch b/meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch
+similarity index 68%
+rename from meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch
+index 0d0e0dd..810c7b6 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/link-with-lcrypto.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0003-link-with-lcrypto.patch
+@@ -1,24 +1,28 @@
+-Author: Andrei Gherzan <andrei@gherzan.ro>
+-Date:   Thu Feb 2 23:59:11 2012 +0200
++From d80bd792323dbd56269309f85b4506eb6b1b60e9 Mon Sep 17 00:00:00 2001
++From: Andrei Gherzan <andrei@gherzan.ro>
++Date: Tue, 15 Aug 2017 15:05:47 +0800
++Subject: [PATCH 03/11] link with lcrypto
+ 
+-From 4.2.0 final release, -lcrypto check was removed and we compile static libraries
+-from bind that are linked to libcrypto. This is why i added a patch in order to add
++From 4.2.0 final release, -lcrypto check was removed and we compile
++static libraries
++from bind that are linked to libcrypto. This is why i added a patch in
++order to add
+ -lcrypto to LIBS.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+ 
+-Rebase to 4.3.4
++Rebase to 4.3.6
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+  configure.ac | 4 ++++
+  1 file changed, 4 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 097b0c3..726c88e 100644
++index cdfa352..44fb57e 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -584,6 +584,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[void foo() __attribute__((noreturn));
++@@ -591,6 +591,10 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[void foo() __attribute__((noreturn));
+  # Look for optional headers.
+  AC_CHECK_HEADERS(sys/socket.h net/if_dl.h net/if6.h regex.h)
+  
+@@ -30,5 +34,5 @@ index 097b0c3..726c88e 100644
+  AC_SEARCH_LIBS(socket, [socket])
+  AC_SEARCH_LIBS(inet_ntoa, [nsl])
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch b/meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch
+similarity index 92%
+rename from meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch
+index 2f44147..7d1d867 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/fixsepbuild.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0004-Fix-out-of-tree-builds.patch
+@@ -1,10 +1,13 @@
+-Fix out of tree builds
++From cccec0344d68dac4100b6f260ee24e7c2da9dfda Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 15 Aug 2017 15:08:22 +0800
++Subject: [PATCH 04/11] Fix out of tree builds
+ 
+ Upstream-Status: Pending
+ 
+ RP 2013/03/21
+ 
+-Rebase to 4.3.4
++Rebase to 4.3.6
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+@@ -93,5 +96,5 @@ index 54feedf..3990b9c 100644
+  dist_sysconf_DATA = dhcpd.conf.example
+  sbin_PROGRAMS = dhcpd
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch b/meta/recipes-connectivity/dhcp/dhcp/0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch
+new file mode 100644
+index 0000000..dd56381
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch
+@@ -0,0 +1,36 @@
++From 2e8ff0e4f6d39e346ea86b8c514ab4ccc78fa359 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Tue, 15 Aug 2017 15:24:14 +0800
++Subject: [PATCH 05/11] dhcp-client: fix invoke dhclient-script failed on
++ Read-only file system
++
++In read-only file system, '/etc' is on the readonly partition,
++and '/etc/resolv.conf' is symlinked to a separate writable
++partition.
++
++In this situation, we create temp files 'resolv.conf.dhclient-new'
++in /tmp dir.
++
++Upstream-Status: Pending
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ client/scripts/linux | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/client/scripts/linux b/client/scripts/linux
++index 3d447b6..3122a75 100755
++--- a/client/scripts/linux
+++++ b/client/scripts/linux
++@@ -40,7 +40,7 @@ make_resolv_conf() {
++     # DHCPv4
++     if [ -n "$new_domain_search" ] || [ -n "$new_domain_name" ] ||
++        [ -n "$new_domain_name_servers" ]; then
++-        new_resolv_conf=/etc/resolv.conf.dhclient-new
+++        new_resolv_conf=/tmp/resolv.conf.dhclient-new
++         rm -f $new_resolv_conf
++ 
++         if [ -n "$new_domain_name" ]; then
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
+similarity index 65%
+rename from meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
+index 47443a5..c62b283 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/0001-site.h-enable-gentle-shutdown.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
+@@ -1,17 +1,22 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Subject: [PATCH] site.h: enable gentle shutdown
++From 01641d146e4e6bea954e4a4ee1f6230b822665b4 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 15 Aug 2017 15:37:49 +0800
++Subject: [PATCH 06/11] site.h: enable gentle shutdown
+ 
++Upstream-Status: Inappropriate [configuration]
+ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++Rebase to 4.3.6
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+  includes/site.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/includes/site.h b/includes/site.h
+-index 1dd1251..abb66e4 100644
++index 280fbb9..e6c2972 100644
+ --- a/includes/site.h
+ +++ b/includes/site.h
+-@@ -289,7 +289,7 @@
++@@ -296,7 +296,7 @@
+     situations.  We plan to revisit this feature and may
+     make non-backwards compatible changes including the
+     removal of this define.  Use at your own risk.  */
+@@ -21,5 +26,5 @@ index 1dd1251..abb66e4 100644
+  /* Include old error codes.  This is provided in case you
+     are building an external program similar to omshell for
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch b/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
+new file mode 100644
+index 0000000..43c26ea
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch
+@@ -0,0 +1,42 @@
++From 7107511fd209f08f9a96f8938041ae48f3295895 Mon Sep 17 00:00:00 2001
++From: Christopher Larson <chris_larson@mentor.com>
++Date: Tue, 15 Aug 2017 16:17:49 +0800
++Subject: [PATCH 07/11] Add configure argument to make the libxml2 dependency
++ explicit and determinisitic.
++
++Upstream-Status: Pending
++
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
++
++Rebase to 4.3.6
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ configure.ac | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index 44fb57e..8e9f509 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -611,6 +611,17 @@ AC_CHECK_FUNCS(strlcat)
++ # For HP/UX we need -lipv6 for if_nametoindex, perhaps others.
++ AC_SEARCH_LIBS(if_nametoindex, [ipv6])
++ 
+++AC_ARG_WITH(libxml2,
+++	AS_HELP_STRING([--with-libxml2], [link against libxml2. this is needed if bind was built with xml2 support enabled]),
+++	with_libxml2="$withval", with_libxml2="no")
+++
+++if test x$with_libxml2 != xno; then
+++	AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],
+++		[if test x$with_libxml2 != xauto; then
+++			AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
+++		fi])
+++fi
+++
++ # check for /dev/random (declares HAVE_DEV_RANDOM)
++ AC_MSG_CHECKING(for random device)
++ AC_ARG_WITH(randomdev,
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch b/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+similarity index 93%
+rename from meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+index 03c6abb..006d18a 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/tweak-to-support-external-bind.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0008-tweak-to-support-external-bind.patch
+@@ -1,7 +1,7 @@
+-From ad7bb401f47714fc30c408853b796ce0f1c7e65f Mon Sep 17 00:00:00 2001
++From 92875f5cc44914515e50c11c503a09cec90497b2 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Sat, 11 Jun 2016 22:51:44 -0400
+-Subject: [PATCH] tweak to support external bind
++Subject: [PATCH 08/11] tweak to support external bind
+ 
+ Tweak the external bind to oe-core's sysroot rather than
+ external bind source build.
+@@ -34,7 +34,7 @@ index 4730bb3..84d8131 100644
+  AM_CPPFLAGS = -DCLIENT_PATH='"PATH=$(sbindir):/sbin:/bin:/usr/sbin:/usr/bin"' \
+  	      -DLOCALSTATEDIR='"$(localstatedir)"' -I$(top_srcdir)/includes
+ diff --git a/client/tests/Makefile.am b/client/tests/Makefile.am
+-index da69ea9..fe35e57 100644
++index 5031d0c..a8dfd26 100644
+ --- a/client/tests/Makefile.am
+ +++ b/client/tests/Makefile.am
+ @@ -1,6 +1,6 @@
+@@ -46,7 +46,7 @@ index da69ea9..fe35e57 100644
+  AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
+  AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
+ diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
+-index f8d6b0e..05cd9c1 100644
++index f6a43e4..2f98d22 100644
+ --- a/common/tests/Makefile.am
+ +++ b/common/tests/Makefile.am
+ @@ -1,6 +1,6 @@
+@@ -101,7 +101,7 @@ index 3990b9c..b5d8c2d 100644
+  AM_CPPFLAGS = -I$(top_srcdir) -DLOCALSTATEDIR='"@localstatedir@"' -I$(top_srcdir)/includes
+  
+ diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
+-index 65a9f74..2892309 100644
++index a87c5e7..9821081 100644
+ --- a/server/tests/Makefile.am
+ +++ b/server/tests/Makefile.am
+ @@ -1,6 +1,6 @@
+@@ -113,5 +113,5 @@ index 65a9f74..2892309 100644
+  AM_CPPFLAGS = $(ATF_CFLAGS) -DUNIT_TEST -I$(top_srcdir)/includes
+  AM_CPPFLAGS += -I@BINDDIR@/include -I$(top_srcdir)
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0009-remove-dhclient-script-bash-dependency.patch b/meta/recipes-connectivity/dhcp/dhcp/0009-remove-dhclient-script-bash-dependency.patch
+new file mode 100644
+index 0000000..912b6d6
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0009-remove-dhclient-script-bash-dependency.patch
+@@ -0,0 +1,28 @@
++From f3f8b7726e50e24ef3edf5fa5a17e31d39118d7e Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Tue, 15 Aug 2017 15:49:31 +0800
++Subject: [PATCH 09/11] remove dhclient-script bash dependency
++
++Upstream-Status: Inappropriate [OE specific]
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++
++Rebase to 4.3.6
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ client/scripts/linux | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/client/scripts/linux b/client/scripts/linux
++index 3122a75..1712d7d 100755
++--- a/client/scripts/linux
+++++ b/client/scripts/linux
++@@ -1,4 +1,4 @@
++-#!/bin/bash
+++#!/bin/sh
++ # dhclient-script for Linux. Dan Halbert, March, 1997.
++ # Updated for Linux 2.[12] by Brian J. Murrell, January 1999.
++ # No guarantees about this. I'm a novice at the details of Linux
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch b/meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
+similarity index 90%
+rename from meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
+index 0b3d6e4..f128731 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/build-shared-libs.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0010-build-shared-libs.patch
+@@ -1,9 +1,28 @@
++From 76c370a929e5ab5dbc81c2fbcf4e50f4fbc08ce9 Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Tue, 15 Aug 2017 15:53:37 +0800
++Subject: [PATCH 10/11] build shared libs
++
+ Upstream-Status: Pending
+ 
+ Port patches from Fedora to build shared libs rather than static libs.
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++Rebase to 4.3.6
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
++ client/Makefile.am       |  4 ++--
++ common/tests/Makefile.am | 13 +++++--------
++ configure.ac             | 12 ++----------
++ dhcpctl/Makefile.am      | 14 ++++++--------
++ omapip/Makefile.am       |  7 +++----
++ relay/Makefile.am        |  5 ++---
++ server/Makefile.am       |  7 +++----
++ server/tests/Makefile.am |  7 +++----
++ 8 files changed, 26 insertions(+), 43 deletions(-)
++
+ diff --git a/client/Makefile.am b/client/Makefile.am
+ index 84d8131..e776bf0 100644
+ --- a/client/Makefile.am
+@@ -19,7 +38,7 @@ index 84d8131..e776bf0 100644
+  man_MANS = dhclient.8 dhclient-script.8 dhclient.conf.5 dhclient.leases.5
+  EXTRA_DIST = $(man_MANS)
+ diff --git a/common/tests/Makefile.am b/common/tests/Makefile.am
+-index 05cd9c1..ab7a5a3 100644
++index 2f98d22..8745e88 100644
+ --- a/common/tests/Makefile.am
+ +++ b/common/tests/Makefile.am
+ @@ -15,26 +15,23 @@ ATF_TESTS += alloc_unittest dns_unittest misc_unittest ns_name_unittest
+@@ -53,9 +72,9 @@ index 05cd9c1..ab7a5a3 100644
+ +	-ldns -lisccfg -lisc
+  
+  check: $(ATF_TESTS)
+- 	-cp -n $(top_srcdir)/common/tests/Atffile Atffile
++ 	@if test $(top_srcdir) != ${top_builddir}; then \
+ diff --git a/configure.ac b/configure.ac
+-index 1684df1..dadc3f1 100644
++index 8e9f509..bfe988a 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -47,16 +47,8 @@ AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = "yes")
+@@ -167,7 +186,7 @@ index b5d8c2d..d7f876d 100644
+  man_MANS = dhcpd.8 dhcpd.conf.5 dhcpd.leases.5
+  EXTRA_DIST = $(man_MANS)
+ diff --git a/server/tests/Makefile.am b/server/tests/Makefile.am
+-index 2892309..056978b 100644
++index 9821081..de95872 100644
+ --- a/server/tests/Makefile.am
+ +++ b/server/tests/Makefile.am
+ @@ -19,10 +19,9 @@ DHCPSRC = ../dhcp.c ../bootp.c ../confpars.c ../db.c ../class.c      \
+@@ -184,3 +203,6 @@ index 2892309..056978b 100644
+  
+  ATF_TESTS =
+  if HAVE_ATF
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch b/meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
+similarity index 92%
+rename from meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
+rename to meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
+index 9b43f96..67bb463 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp/Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
++++ b/meta/recipes-connectivity/dhcp/dhcp/0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch
+@@ -1,8 +1,8 @@
+-From e8c30bac53f8baeb80f87b445f42259cc8984fb5 Mon Sep 17 00:00:00 2001
++From 37725f3e22edb50e0ca2d1fff971321a5a4d5112 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 12 Jul 2017 03:05:13 -0400
+-Subject: [PATCH] Moved the call to isc_app_ctxstart() to not get signal block
+- by all threads
++Subject: [PATCH 11/11] Moved the call to isc_app_ctxstart() to not get signal
++ block by all threads
+ 
+ Signed-off-by: Francis Dupont <fdupont@isc.org>
+ 
+@@ -34,7 +34,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 15 insertions(+), 10 deletions(-)
+ 
+ diff --git a/omapip/isclib.c b/omapip/isclib.c
+-index 13f0d3e..4af04b6 100644
++index ce86490..6a04345 100644
+ --- a/omapip/isclib.c
+ +++ b/omapip/isclib.c
+ @@ -185,16 +185,6 @@ dhcp_context_create(int flags,
+@@ -77,5 +77,5 @@ index 13f0d3e..4af04b6 100644
+  
+  #if defined (NSUPDATE)
+ -- 
+-2.8.1
++1.8.3.1
+ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
 deleted file mode 100644
-index b40059f..0000000
---- a/meta/recipes-extended/bash/bash_4.3.30.bb
+index 96095a5..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-drop-resolv.conf.dhclient.patch
 +++ /dev/null
-@@ -1,75 +0,0 @@
--require bash.inc
+@@ -1,70 +0,0 @@
+-dhcp-client: fix invoke dhclient-script failed on Read-only file system
 -
--# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
--LICENSE = "GPLv3+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-In read-only file system, '/etc' is on the readonly partition,
+-and '/etc/resolv.conf' is symlinked to a separate writable
+-partition.
 -
--SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-031;apply=yes;striplevel=0;name=patch031 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-032;apply=yes;striplevel=0;name=patch032 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-033;apply=yes;striplevel=0;name=patch033 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-034;apply=yes;striplevel=0;name=patch034 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-035;apply=yes;striplevel=0;name=patch035 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-036;apply=yes;striplevel=0;name=patch036 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-037;apply=yes;striplevel=0;name=patch037 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-038;apply=yes;striplevel=0;name=patch038 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-039;apply=yes;striplevel=0;name=patch039 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-040;apply=yes;striplevel=0;name=patch040 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-041;apply=yes;striplevel=0;name=patch041 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-042;apply=yes;striplevel=0;name=patch042 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-043;apply=yes;striplevel=0;name=patch043 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-044;apply=yes;striplevel=0;name=patch044 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-045;apply=yes;striplevel=0;name=patch045 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-046;apply=yes;striplevel=0;name=patch046 \
--           ${GNU_MIRROR}/bash/bash-4.3-patches/bash43-047;apply=yes;striplevel=0;name=patch047 \
--           file://execute_cmd.patch;striplevel=0 \
--           file://mkbuiltins_have_stringize.patch \
--           file://build-tests.patch \
--           file://test-output.patch \
--           file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
--           file://run-ptest \
--           file://fix-run-builtins.patch \
--           file://0001-help-fix-printf-format-security-warning.patch \
--           file://fix-run-intl.patch \
--           file://CVE-2016-9401.patch \
+-In this situation, we should use shell variable to instead of
+-temp files '/etc/resolv.conf.dhclient' and '/etc/resolv.conf.dhclient6'.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- client/scripts/linux | 20 +++++++++-----------
+- 1 file changed, 9 insertions(+), 11 deletions(-)
+-
+-diff --git a/client/scripts/linux b/client/scripts/linux
+---- a/client/scripts/linux
+-+++ b/client/scripts/linux
+-@@ -27,27 +27,25 @@ ip=/sbin/ip
+- 
+- make_resolv_conf() {
+-   if [ x"$new_domain_name_servers" != x ]; then
+--    cat /dev/null > /etc/resolv.conf.dhclient
+--    chmod 644 /etc/resolv.conf.dhclient
+-+    resolv_conf=""
+-     if [ x"$new_domain_search" != x ]; then
+--      echo search $new_domain_search >> /etc/resolv.conf.dhclient
+-+      resolv_conf="search ${new_domain_search}\n"
+-     elif [ x"$new_domain_name" != x ]; then
+-       # Note that the DHCP 'Domain Name Option' is really just a domain
+-       # name, and that this practice of using the domain name option as
+-       # a search path is both nonstandard and deprecated.
+--      echo search $new_domain_name >> /etc/resolv.conf.dhclient
+-+      resolv_conf="search ${new_domain_name}\n"
+-     fi
+-     for nameserver in $new_domain_name_servers; do
+--      echo nameserver $nameserver >>/etc/resolv.conf.dhclient
+-+      resolv_conf="${resolv_conf}nameserver ${nameserver}\n"
+-     done
+- 
+--    mv /etc/resolv.conf.dhclient /etc/resolv.conf
+-+    echo -e "${resolv_conf}" > /etc/resolv.conf
+-   elif [ "x${new_dhcp6_name_servers}" != x ] ; then
+--    cat /dev/null > /etc/resolv.conf.dhclient6
+--    chmod 644 /etc/resolv.conf.dhclient6
+-+    resolv_conf=""
+- 
+-     if [ "x${new_dhcp6_domain_search}" != x ] ; then
+--      echo search ${new_dhcp6_domain_search} >> /etc/resolv.conf.dhclient6
+-+      resolv_conf="search ${new_dhcp6_domain_search}\n"
+-     fi
+-     shopt -s nocasematch 
+-     for nameserver in ${new_dhcp6_name_servers} ; do
+-@@ -59,11 +57,11 @@ make_resolv_conf() {
+-       else
+- 	zone_id=
+-       fi
+--      echo nameserver ${nameserver}$zone_id >> /etc/resolv.conf.dhclient6
+-+      resolv_conf="${resolv_conf}nameserver ${nameserver}$zone_id\n"
+-     done
+-     shopt -u nocasematch 
+- 
+--    mv /etc/resolv.conf.dhclient6 /etc/resolv.conf
+-+    echo -e "${resolv_conf}" > /etc/resolv.conf
+-   fi
+- }
+- 
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch b/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
+deleted file mode 100644
+index 1435662..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/libxml2-configure-argument.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-Add configure argument to make the libxml2 dependency explicit and
+-determinisitic.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+-
+-Rebase to 4.3.4
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- configure.ac | 11 ++++++++++-
+- 1 file changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 726c88e..1684df1 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -718,7 +718,16 @@ AC_SUBST(BINDSRCDIR)
+- 
+- # We need to find libxml2 if bind was built with support enabled
+- # otherwise we'll fail to build omapip/test.c
+--AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],)
+-+AC_ARG_WITH(libxml2,
+-+	AS_HELP_STRING([--with-libxml2], [link against libxml2. this is needed if bind was built with xml2 support enabled]),
+-+	with_libxml2="$withval", with_libxml2="no")
+-+
+-+if test x$with_libxml2 != xno; then
+-+    AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],
+-+                   [if test x$with_libxml2 != xauto; then
+-+                        AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
+-+                    fi])
+-+fi
+- 
+- # OpenLDAP support.
+- AC_ARG_WITH(ldap,
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/remove-dhclient-script-bash-dependency.patch b/meta/recipes-connectivity/dhcp/dhcp/remove-dhclient-script-bash-dependency.patch
+deleted file mode 100644
+index 997b9f6..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/remove-dhclient-script-bash-dependency.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 8aed2a9ff09cb0d584ad0a7340fe3a596879d9b1 Mon Sep 17 00:00:00 2001
+-From: Andre McCurdy <armccurdy@gmail.com>
+-Date: Thu, 21 Jul 2016 19:07:02 -0700
+-Subject: [PATCH] remove dhclient-script bash dependency
+-
+-Take the dash compatible IPv6 link-local address test from the Debian
+-version of dhclient-script.
+-
+-Note that although "echo -e" in the OE version of dhclient-script is
+-technically bash specific too, it is supported by Busybox echo when
+-Busybox is configured with CONFIG_FEATURE_FANCY_ECHO enabled (which
+-is the default in the OE Busybox defconfig) therefore leave as-is.
+-
+-Upstream-Status: Inappropriate [OE specific]
+-
+-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+----
+- client/scripts/linux | 7 +++----
+- 1 file changed, 3 insertions(+), 4 deletions(-)
+-
+-diff --git a/client/scripts/linux b/client/scripts/linux
+-index 232a0aa..1383f46 100755
+---- a/client/scripts/linux
+-+++ b/client/scripts/linux
+-@@ -1,4 +1,4 @@
+--#!/bin/bash
+-+#!/bin/sh
+- # dhclient-script for Linux. Dan Halbert, March, 1997.
+- # Updated for Linux 2.[12] by Brian J. Murrell, January 1999.
+- # No guarantees about this. I'm a novice at the details of Linux
+-@@ -47,11 +47,11 @@ make_resolv_conf() {
+-     if [ "x${new_dhcp6_domain_search}" != x ] ; then
+-       resolv_conf="search ${new_dhcp6_domain_search}\n"
+-     fi
+--    shopt -s nocasematch 
+-     for nameserver in ${new_dhcp6_name_servers} ; do
+-       # If the nameserver has a link-local address
+-       # add a <zone_id> (interface name) to it.
+--      if  [[ "$nameserver" =~ ^fe80:: ]]
+-+      if [ "${nameserver##fe80::}" != "$nameserver" ] ||
+-+         [ "${nameserver##FE80::}" != "$nameserver" ]
+-       then
+- 	zone_id="%$interface"
+-       else
+-@@ -59,7 +59,6 @@ make_resolv_conf() {
+-       fi
+-       resolv_conf="${resolv_conf}nameserver ${nameserver}$zone_id\n"
+-     done
+--    shopt -u nocasematch 
+- 
+-     echo -e "${resolv_conf}" > /etc/resolv.conf
+-   fi
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch b/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
+deleted file mode 100644
+index d84df5c..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/replace-ifconfig-route.patch
++++ /dev/null
+@@ -1,188 +0,0 @@
+-Found this patch here:
+-https://lists.isc.org/pipermail/dhcp-users/2011-January/012910.html
+-
+-and made some adjustments/updates to make it work with this version.
+-Wasn't able to find that why this patch was not accepted by ISC DHCP developers.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+-
+-Rebase to 4.3.4
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- client/scripts/linux | 82 ++++++++++++++++++++++++++++------------------------
+- 1 file changed, 45 insertions(+), 37 deletions(-)
+-
+-diff --git a/client/scripts/linux b/client/scripts/linux
+-index a02cfd9..232a0aa 100755
+---- a/client/scripts/linux
+-+++ b/client/scripts/linux
+-@@ -101,17 +101,11 @@ fi
+- if [ x$old_broadcast_address != x ]; then
+-   old_broadcast_arg="broadcast $old_broadcast_address"
+- fi
+--if [ x$new_subnet_mask != x ]; then
+--  new_subnet_arg="netmask $new_subnet_mask"
+-+if [ -n "$new_subnet_mask" ]; then
+-+    new_mask="/$new_subnet_mask"
+- fi
+--if [ x$old_subnet_mask != x ]; then
+--  old_subnet_arg="netmask $old_subnet_mask"
+--fi
+--if [ x$alias_subnet_mask != x ]; then
+--  alias_subnet_arg="netmask $alias_subnet_mask"
+--fi
+--if [ x$new_interface_mtu != x ]; then
+--  mtu_arg="mtu $new_interface_mtu"
+-+if [ -n "$alias_subnet_mask" ]; then
+-+    alias_mask="/$alias_subnet_mask"
+- fi
+- if [ x$IF_METRIC != x ]; then
+-   metric_arg="metric $IF_METRIC"
+-@@ -125,9 +119,9 @@ fi
+- if [ x$reason = xPREINIT ]; then
+-   if [ x$alias_ip_address != x ]; then
+-     # Bring down alias interface. Its routes will disappear too.
+--    ifconfig $interface:0- inet 0
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}:0
+-   fi
+--  ifconfig $interface 0 up
+-+  ${ip} link set dev ${interface} up
+- 
+-   # We need to give the kernel some time to get the interface up.
+-   sleep 1
+-@@ -154,25 +148,30 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW ] || \
+-   if [ x$old_ip_address != x ] && [ x$alias_ip_address != x ] && \
+- 		[ x$alias_ip_address != x$old_ip_address ]; then
+-     # Possible new alias. Remove old alias.
+--    ifconfig $interface:0- inet 0
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}:0
+-   fi
+-   if [ x$old_ip_address != x ] && [ x$old_ip_address != x$new_ip_address ]; then
+-     # IP address changed. Bringing down the interface will delete all routes,
+-     # and clear the ARP cache.
+--    ifconfig $interface inet 0 down
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}
+- 
+-   fi
+-   if [ x$old_ip_address = x ] || [ x$old_ip_address != x$new_ip_address ] || \
+-      [ x$reason = xBOUND ] || [ x$reason = xREBOOT ]; then
+- 
+--    ifconfig $interface inet $new_ip_address $new_subnet_arg \
+--					$new_broadcast_arg $mtu_arg
+-+    ${ip} -4 addr add ${new_ip_address}${new_mask} ${new_broadcast_arg} \
+-+                dev ${interface} label ${interface}
+-+    if [ -n "$new_interface_mtu" ]; then
+-+      # set MTU
+-+      ${ip} link set dev ${interface} mtu ${new_interface_mtu}
+-+    fi
+-     # Add a network route to the computed network address.
+-     for router in $new_routers; do
+-       if [ "x$new_subnet_mask" = "x255.255.255.255" ] ; then
+--	route add -host $router dev $interface
+-+        ${ip} -4 route add ${router} dev $interface >/dev/null 2>&1
+-       fi
+--      route add default gw $router $metric_arg dev $interface
+-+      ${ip} -4 route add default via ${router} dev ${interface} \
+-+        ${metric_arg} >/dev/null 2>&1
+-     done
+-   else
+-     # we haven't changed the address, have we changed other options           
+-@@ -180,21 +179,23 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW ] || \
+-     if [ x$new_routers != x ] && [ x$new_routers != x$old_routers ] ; then
+-       # if we've changed routers delete the old and add the new.
+-       for router in $old_routers; do
+--        route del default gw $router
+-+        ${ip} -4 route delete default via ${router}
+-       done
+-       for router in $new_routers; do
+-         if [ "x$new_subnet_mask" = "x255.255.255.255" ] ; then
+--	  route add -host $router dev $interface
+--	fi
+--	route add default gw $router $metric_arg dev $interface
+-+	      ${ip} -4 route add ${router} dev $interface >/dev/null 2>&1
+-+	    fi
+-+        ${ip} -4 route add default via ${router} dev ${interface} \
+-+          ${metric_arg} >/dev/null 2>&1
+-       done
+-     fi
+-   fi
+-   if [ x$new_ip_address != x$alias_ip_address ] && [ x$alias_ip_address != x ];
+-    then
+--    ifconfig $interface:0- inet 0
+--    ifconfig $interface:0 inet $alias_ip_address $alias_subnet_arg
+--    route add -host $alias_ip_address $interface:0
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}:0
+-+    ${ip} -4 addr add ${alias_ip_address}${alias_mask} \
+-+        dev ${interface} label ${interface}:0
+-+    ${ip} -4 route add ${alias_ip_address} dev ${interface} >/dev/null 2>&1
+-   fi
+-   make_resolv_conf
+-   exit_with_hooks 0
+-@@ -204,42 +205,49 @@ if [ x$reason = xEXPIRE ] || [ x$reason = xFAIL ] || [ x$reason = xRELEASE ] \
+-    || [ x$reason = xSTOP ]; then
+-   if [ x$alias_ip_address != x ]; then
+-     # Turn off alias interface.
+--    ifconfig $interface:0- inet 0
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}:0
+-   fi
+-   if [ x$old_ip_address != x ]; then
+-     # Shut down interface, which will delete routes and clear arp cache.
+--    ifconfig $interface inet 0 down
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}
+-   fi
+-   if [ x$alias_ip_address != x ]; then
+--    ifconfig $interface:0 inet $alias_ip_address $alias_subnet_arg
+--    route add -host $alias_ip_address $interface:0
+-+    ${ip} -4 addr add ${alias_ip_address}${alias_network_arg} \
+-+        dev ${interface} label ${interface}:0
+-+    ${ip} -4 route add ${alias_ip_address} dev ${interface} >/dev/null 2>&1
+-   fi
+-   exit_with_hooks 0
+- fi
+- 
+- if [ x$reason = xTIMEOUT ]; then
+-   if [ x$alias_ip_address != x ]; then
+--    ifconfig $interface:0- inet 0
+-+    ${ip} -4 addr flush dev ${interface} label ${interface}:0
+-+  fi
+-+  ${ip} -4 addr add ${new_ip_address}${new_mask} ${new_broadcast_arg} \
+-+            dev ${interface} label ${interface}
+-+  if [ -n "$new_interface_mtu" ]; then
+-+    # set MTU
+-+    ip link set dev ${interface} mtu ${new_interface_mtu}
+-   fi
+--  ifconfig $interface inet $new_ip_address $new_subnet_arg \
+--					$new_broadcast_arg $mtu_arg
+-   set $new_routers
+-   if ping -q -c 1 $1; then
+-     if [ x$new_ip_address != x$alias_ip_address ] && \
+- 			[ x$alias_ip_address != x ]; then
+--      ifconfig $interface:0 inet $alias_ip_address $alias_subnet_arg
+--      route add -host $alias_ip_address dev $interface:0
+-+      ${ip} -4 addr add ${alias_ip_address}${alias_mask} \
+-+            dev ${interface} label ${interface}:0
+-+      ${ip} -4 route add ${alias_ip_address} dev ${interface} >/dev/null 2>&1
+-     fi
+-     for router in $new_routers; do
+-       if [ "x$new_subnet_mask" = "x255.255.255.255" ] ; then
+--	route add -host $router dev $interface
+-+	    ${ip} -4 route add ${router} dev $interface >/dev/null 2>&1
+-       fi
+--      route add default gw $router $metric_arg dev $interface
+-+      ${ip} -4 route add default via ${router} dev ${interface} \
+-+        ${metric_arg} >/dev/null 2>&1
+-     done
+-     make_resolv_conf
+-     exit_with_hooks 0
+-   fi
+--  ifconfig $interface inet 0 down
+-+  ${ip} -4 addr flush dev ${interface}
+-   exit_with_hooks 1
+- fi
+- 
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/search-for-libxml2.patch b/meta/recipes-connectivity/dhcp/dhcp/search-for-libxml2.patch
+deleted file mode 100644
+index a08a5b7..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/search-for-libxml2.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-libdns requires libxml2 if bind was built with libxml2 support
+-enabled. Compilation will fail for omapip/test.c in case
+-lxml2 isn't used during the build. So, we add losely coupled
+-search path which will pick up the lib if it is present.
+-
+-Signed-off-by: Awais Belal <awais_belal@mentor.com>
+-Upstream-Status: Pending
+-
+-diff --git a/configure.ac b/configure.ac
+-index c9dc8b5..85f59be 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -602,6 +602,10 @@ no)
+- esac
+- AC_SUBST([libbind])
+- 
+-+# We need to find libxml2 if bind was built with support enabled
+-+# otherwise we'll fail to build omapip/test.c
+-+AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],)
+-+
+- # OpenLDAP support.
+- AC_ARG_WITH(ldap,
+-     AS_HELP_STRING([--with-ldap],[enable OpenLDAP support in dhcpd (default is no)]),
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
+deleted file mode 100644
+index 964d05d..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.5.bb
++++ /dev/null
+@@ -1,20 +0,0 @@
+-require dhcp.inc
+-
+-SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+-            file://link-with-lcrypto.patch \
+-            file://fixsepbuild.patch \
+-            file://dhclient-script-drop-resolv.conf.dhclient.patch \
+-            file://replace-ifconfig-route.patch \
+-            file://0001-site.h-enable-gentle-shutdown.patch \
+-            file://libxml2-configure-argument.patch \
+-            file://tweak-to-support-external-bind.patch \
+-            file://remove-dhclient-script-bash-dependency.patch \
+-            file://build-shared-libs.patch \
+-            file://Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
 -           "
 -
--SRC_URI[tarball.md5sum] = "a27b3ee9be83bd3ba448c0ff52b28447"
--SRC_URI[tarball.sha256sum] = "317881019bbf2262fb814b7dd8e40632d13c3608d2f237800a8828fbb8a640dd"
+-SRC_URI[md5sum] = "2b5e5b2fa31c2e27e487039d86f83d3f"
+-SRC_URI[sha256sum] = "eb95936bf15d2393c55dd505bc527d1d4408289cec5a9fa8abb99f7577e7f954"
 -
--SRC_URI[patch031.md5sum] = "236df1ac1130a033ed0dbe2d2115f28f"
--SRC_URI[patch031.sha256sum] = "cd529f59dd0f2fdd49d619fe34691da6f0affedf87cc37cd460a9f3fe812a61d"
--SRC_URI[patch032.md5sum] = "2360f7e79cfb28526f80021025ea5909"
--SRC_URI[patch032.sha256sum] = "889357d29a6005b2c3308ca5b6286cb223b5e9c083219e5db3156282dd554f4a"
--SRC_URI[patch033.md5sum] = "b551c4ee7b8713759e4143499d0bbd48"
--SRC_URI[patch033.sha256sum] = "fb2a7787a13fbe027a7335aca6eb3c21cdbd813e9edc221274b6a9d8692eaa16"
--SRC_URI[patch034.md5sum] = "c9a56fbe0348e05a886dff97f2872b74"
--SRC_URI[patch034.sha256sum] = "f1694f04f110defe1330a851cc2768e7e57ddd2dfdb0e3e350ca0e3c214ff889"
--SRC_URI[patch035.md5sum] = "e564e8ab44ed1ca3a4e315a9f6cabdc9"
--SRC_URI[patch035.sha256sum] = "370d85e51780036f2386dc18c5efe996eba8e652fc1973f0f4f2ab55a993c1e3"
--SRC_URI[patch036.md5sum] = "b00ff66c41a7c0f06e191200981980b0"
--SRC_URI[patch036.sha256sum] = "ac5f82445b36efdb543dbfae64afed63f586d7574b833e9aa9cd5170bc5fd27c"
--SRC_URI[patch037.md5sum] = "be2a7b05f6ae560313f3c9d5f7127bda"
--SRC_URI[patch037.sha256sum] = "33f170dd7400ab3418d749c55c6391b1d161ef2de7aced1873451b3a3fca5813"
--SRC_URI[patch038.md5sum] = "61e0522830b24fbe8c0d1b010f132470"
--SRC_URI[patch038.sha256sum] = "adbeaa500ca7a82535f0e88d673661963f8a5fcdc7ad63445e68bf5b49786367"
--SRC_URI[patch039.md5sum] = "a4775487abe958536751c8ce53cdf6f9"
--SRC_URI[patch039.sha256sum] = "ab94dced2215541097691f60c3eb323cc28ef2549463e6a5334bbcc1e61e74ec"
--SRC_URI[patch040.md5sum] = "80d3587c58854e226055ef099ffeb535"
--SRC_URI[patch040.sha256sum] = "84bb396b9262992ca5424feab6ed3ec39f193ef5c76dfe4a62b551bd8dd9d76b"
--SRC_URI[patch041.md5sum] = "20bf63eef7cb441c0b1cc49ef3191d03"
--SRC_URI[patch041.sha256sum] = "4ec432966e4198524a7e0cd685fe222e96043769c9613e66742ac475db132c1a"
--SRC_URI[patch042.md5sum] = "70790646ae61e207c995e44931390e50"
--SRC_URI[patch042.sha256sum] = "ac219322db2791da87a496ee6e8e5544846494bdaaea2626270c2f73c1044919"
--SRC_URI[patch043.md5sum] = "855a46955cb251534e80b4732b748e37"
--SRC_URI[patch043.sha256sum] = "47a8a3c005b46e25821f4d8f5ccb04c1d653b1c829cb40568d553dc44f7a6180"
--SRC_URI[patch044.md5sum] = "29623d3282fcbb37e1158136509b5bb8"
--SRC_URI[patch044.sha256sum] = "9338820630bf67373b44d8ea68409f65162ea7a47b9b29ace06a0aed12567f99"
--SRC_URI[patch045.md5sum] = "4473244ca5abfd4b018ea26dc73e7412"
--SRC_URI[patch045.sha256sum] = "ba6ec3978e9eaa1eb3fabdaf3cc6fdf8c4606ac1c599faaeb4e2d69864150023"
--SRC_URI[patch046.md5sum] = "7e5fb09991c077076b86e0e057798913"
--SRC_URI[patch046.sha256sum] = "b3b456a6b690cd293353f17e22d92a202b3c8bce587ae5f2667c20c9ab6f688f"
--SRC_URI[patch047.md5sum] = "8483153bad1a6f52cadc3bd9a8df7835"
--SRC_URI[patch047.sha256sum] = "c69248de7e78ba6b92f118fe1ef47bc86479d5040fe0b1f908ace1c9e3c67c4a"
--
--BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-extended/bash/bash_4.4.bb b/meta/recipes-extended/bash/bash_4.4.bb
+-PACKAGECONFIG ?= ""
+-PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
 new file mode 100644
-index 0000000..b602afe
+index 0000000..4634a01
 --- /dev/null
-+++ b/meta/recipes-extended/bash/bash_4.4.bb
-@@ -0,0 +1,58 @@
-+require bash.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
+@@ -0,0 +1,20 @@
++require dhcp.inc
 +
-+# GPLv2+ (< 4.0), GPLv3+ (>= 4.0)
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+
-+SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-001;apply=yes;striplevel=0;name=patch001 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-002;apply=yes;striplevel=0;name=patch002 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-003;apply=yes;striplevel=0;name=patch003 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-004;apply=yes;striplevel=0;name=patch004 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-005;apply=yes;striplevel=0;name=patch005 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-006;apply=yes;striplevel=0;name=patch006 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-007;apply=yes;striplevel=0;name=patch007 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-008;apply=yes;striplevel=0;name=patch008 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-009;apply=yes;striplevel=0;name=patch009 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-010;apply=yes;striplevel=0;name=patch010 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-011;apply=yes;striplevel=0;name=patch011 \
-+           ${GNU_MIRROR}/bash/bash-4.4-patches/bash44-012;apply=yes;striplevel=0;name=patch012 \
-+           file://execute_cmd.patch;striplevel=0 \
-+           file://mkbuiltins_have_stringize.patch \
-+           file://build-tests.patch \
-+           file://test-output.patch \
-+           file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
-+           file://run-ptest \
-+           file://fix-run-builtins.patch \
-+           file://0001-help-fix-printf-format-security-warning.patch \
++SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.patch \
++            file://0002-dhclient-dbus.patch \
++            file://0003-link-with-lcrypto.patch \
++            file://0004-Fix-out-of-tree-builds.patch \
++            file://0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch \
++            file://0006-site.h-enable-gentle-shutdown.patch \
++            file://0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch \
++            file://0008-tweak-to-support-external-bind.patch \
++            file://0009-remove-dhclient-script-bash-dependency.patch \
++            file://0010-build-shared-libs.patch \
++            file://0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
 +           "
 +
-+SRC_URI[tarball.md5sum] = "148888a7c95ac23705559b6f477dfe25"
-+SRC_URI[tarball.sha256sum] = "d86b3392c1202e8ff5a423b302e6284db7f8f435ea9f39b5b1b20fd3ac36dfcb"
++SRC_URI[md5sum] = "afa6e9b3eb7539ea048421a82c668adc"
++SRC_URI[sha256sum] = "a41eaf6364f1377fe065d35671d9cf82bbbc8f21207819b2b9f33f652aec6f1b"
 +
-+SRC_URI[patch001.md5sum] = "817d01a6c0af6f79308a8b7b649e53d8"
-+SRC_URI[patch001.sha256sum] = "3e28d91531752df9a8cb167ad07cc542abaf944de9353fe8c6a535c9f1f17f0f"
-+SRC_URI[patch002.md5sum] = "765e14cff12c7284009772e8e24f2fe0"
-+SRC_URI[patch002.sha256sum] = "7020a0183e17a7233e665b979c78c184ea369cfaf3e8b4b11f5547ecb7c13c53"
-+SRC_URI[patch003.md5sum] = "49e7da93bf07f510a2eb6bb43ac3e5a2"
-+SRC_URI[patch003.sha256sum] = "51df5a9192fdefe0ddca4bdf290932f74be03ffd0503a3d112e4199905e718b2"
-+SRC_URI[patch004.md5sum] = "4557d674ab5831a5fa98052ab19edaf4"
-+SRC_URI[patch004.sha256sum] = "ad080a30a4ac6c1273373617f29628cc320a35c8cd06913894794293dc52c8b3"
-+SRC_URI[patch005.md5sum] = "cce96dd77cdd1d293beec10848f6cbb5"
-+SRC_URI[patch005.sha256sum] = "221e4b725b770ad0bb6924df3f8d04f89eeca4558f6e4c777dfa93e967090529"
-+SRC_URI[patch006.md5sum] = "d3379f8d8abce5c6ee338f931ad008d5"
-+SRC_URI[patch006.sha256sum] = "6a8e2e2a6180d0f1ce39dcd651622fb6d2fd05db7c459f64ae42d667f1e344b8"
-+SRC_URI[patch007.md5sum] = "ec38c76ca439ca7f9c178e9baede84fc"
-+SRC_URI[patch007.sha256sum] = "de1ccc07b7bfc9e25243ad854f3bbb5d3ebf9155b0477df16aaf00a7b0d5edaf"
-+SRC_URI[patch008.md5sum] = "e0ba18c1e3b94f905da9b5bf9d38b58b"
-+SRC_URI[patch008.sha256sum] = "86144700465933636d7b945e89b77df95d3620034725be161ca0ca5a42e239ba"
-+SRC_URI[patch009.md5sum] = "e952d4f44e612048930c559d90eb99bb"
-+SRC_URI[patch009.sha256sum] = "0b6bdd1a18a0d20e330cc3bc71e048864e4a13652e29dc0ebf3918bea729343c"
-+SRC_URI[patch010.md5sum] = "57b5b35955d68f9a09dbef6b86d2c782"
-+SRC_URI[patch010.sha256sum] = "8465c6f2c56afe559402265b39d9e94368954930f9aa7f3dfa6d36dd66868e06"
-+SRC_URI[patch011.md5sum] = "cc896e1fa696b93ded568e557e2392d5"
-+SRC_URI[patch011.sha256sum] = "dd56426ef7d7295e1107c0b3d06c192eb9298f4023c202ca2ba6266c613d170d"
-+SRC_URI[patch012.md5sum] = "fa47fbfa56fb7e9e5367f19a9df5fc9e"
-+SRC_URI[patch012.sha256sum] = "fac271d2bf6372c9903e3b353cb9eda044d7fe36b5aab52f21f3f21cd6a2063e"
-+
-+BBCLASSEXTEND = "nativesdk"
++PACKAGECONFIG ?= ""
++PACKAGECONFIG[bind-httpstats] = "--with-libxml2,--without-libxml2,libxml2"
 -- 
 2.8.1
 
