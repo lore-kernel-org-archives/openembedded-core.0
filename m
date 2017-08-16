@@ -1,44 +1,29 @@
-Return-Path: <vishal.bhoj@linaro.org>
-Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 243C57862A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E12C77D81
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 12:58:49 +0000 (UTC)
-Received: by mail-wr0-f173.google.com with SMTP id x43so15233173wrb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 05:58:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=a5b0NAhhGBDaDUJ3uiQihRnWCK6HcOMVb0jsgkPqZKE=;
-	b=I5x0klm4PtCj92noAnVEtK5hxITvV5gnnikpSg2TOcxL7Tiv2vjT7KY2q7y5Bm4pky
-	eTrtYsN9V2KrVRkxaeJwjcvCpsuQr61hLb7uSp0WSQLxUn1EDW4o8I0rG6DDWnNNACMz
-	U5OF6i7P7O5inM+KonnmKPwAJZrYyGgqaGiJQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=a5b0NAhhGBDaDUJ3uiQihRnWCK6HcOMVb0jsgkPqZKE=;
-	b=q+McC1jYOuDYWBLxkC+RROSJrmWCFXDvuZMIA86sHKzugroi8U8oSswQNVSu++1Wxu
-	VqAL5S406PRpvAON7R+eA5lb74o+i4RL+/VG8bC+ezGyXGmiYCvRfquNVkNez1+xRf9m
-	IghRQAUlyTlPhupnKebQ/G+QFjAMOEb6bShqzeZqocWsQTR9+sxaIYG++kTguEolk5Ts
-	dzCfwvYcFI07CwemCLbWp4aA9d9wm+vgUQr4KWaIlKY1LGf88Nm80fYshnOXfhP9uWmE
-	BIwCTL6dkP4fs0JgSmHkwErEh1OtG9lOZY9TONFD+Si4qljLFOS4JD6XcN/tbv0mwxCX
-	JmQA==
-X-Gm-Message-State: AHYfb5isgqZZgkr4taSNIIdd784aeCjcuFWvi+7q5fTFjLSJKrGEpRl0
-	Mma4zPlXEC1FCFUsvDErzA==
-X-Received: by 10.223.153.11 with SMTP id x11mr1099124wrb.18.1502888330150;
-	Wed, 16 Aug 2017 05:58:50 -0700 (PDT)
-Received: from hackbox.linaro.org ([81.128.185.36])
-	by smtp.gmail.com with ESMTPSA id
-	g72sm1280962wmc.31.2017.08.16.05.58.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 16 Aug 2017 05:58:49 -0700 (PDT)
-From: Vishal Bhoj <vishal.bhoj@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 13:57:56 +0100
-Message-Id: <20170816125756.29809-1-vishal.bhoj@linaro.org>
-X-Mailer: git-send-email 2.13.0
-Cc: koen.kooi@linaro.org
-Subject: [PATCH] cross-canadian.bbclass: add ilp32 support
+	Wed, 16 Aug 2017 13:34:25 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7GDYLx1015153
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 16 Aug 2017 14:34:22 +0100
+Message-ID: <1502890461.13978.127.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 14:34:21 +0100
+In-Reply-To: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
+References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 16 Aug 2017 14:34:22 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: peter.kjellerstedt@axis.com
+Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,29 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 12:58:50 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 13:34:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Need to add ilp32 to known list of abi variants
+On Tue, 2017-08-15 at 16:41 -0500, Mark Hatle wrote:
+> From the comments to the original patch, the only not addressed was
+> adding an OE self-test for this behavior.  I tried to do this, but I
+> don't see any existing tests that build a recipe and inspect the
+> results of the built package.  I'm not sure of any other way to
+> identify if things are working or not.
 
-Signed-off-by: Vishal Bhoj <vishal.bhoj@linaro.org>
----
- meta/classes/cross-canadian.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+oe-selftest can do this.
 
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index 8554e87521..69cbe901a6 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -38,7 +38,7 @@ python () {
-     extralibcs = [""]
-     if "musl" in d.getVar("BASECANADIANEXTRAOS"):
-         extralibcs.append("musl")
--    for variant in ["", "spe", "x32", "eabi", "n32"]:
-+    for variant in ["", "spe", "x32", "eabi", "n32", "ilp32"]:
-         for libc in extralibcs:
-             entry = "linux"
-             if variant and libc:
--- 
-2.13.0
+> I have built and tested this for:
+> 
+> core-image-base core-image-minimal core-image-full-cmdline 
+> core-image-kernel-dev core-image-lsb core-image-lsb-dev 
+> core-image-lsb-sdk core-image-testmaster core-image-clutter 
+> core-image-weston core-image-x11 core-image-sato core-image-sato-dev 
+> core-image-sato-sdk core-image-sato-sdk-ptest
+
+As we both suspected there are some issues with enabling this again,
+many are showcased here:
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-arm-lsb/builds/1156/steps/BuildImages/logs/stdio
+
+* ltp has ksh/csh requirements in ptest
+* package dhcp-client-4.3.5-r0.0.armv5e requires libdns.so.170, but none of the providers can be installed
+* nothing provides /usr/bin/python33 needed by bind-9.10.5+P3-r0.0.armv5e
+ERROR: openssl-1.1.0f-r0 do_package_qa: QA Issue: /usr/lib/openssl/ptest/util/find-unused-errs contained in package openssl-ptest requires /bin/bash, but no providers found in RDEPENDS_openssl-ptest? [file-rdeps]
+ERROR: openssl-1.1.0f-r0 do_package_qa: QA Issue: /usr/lib/openssl/ptest/fuzz/helper.py contained in package openssl-ptest requires /usr/bin/python, but no providers found in RDEPENDS_openssl-ptest? [file-rdeps]
+ERROR: bind-9.10.5-P3-r0 do_package_qa: QA Issue: /usr/sbin/dnssec-checkds contained in package bind requires /usr/bin/python33, but no providers found in RDEPENDS_bind? [file-rdeps]
+
+I suspect the key piece of testing you were missing may have been ptest enablement?
+
+I might try and sort a few patches for pieces of this.
+
+Cheers,
+
+Richard
 
 
