@@ -1,41 +1,47 @@
-Return-Path: <otavio.salvador@gmail.com>
+Return-Path: <fabio.berton@ossystems.com.br>
 Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
 	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7494C78377
+	by mail.openembedded.org (Postfix) with ESMTP id 0924C7837B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 18:15:53 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id d10so4208174qtb.4
+	Wed, 16 Aug 2017 20:15:58 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id d10so4504777qtb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 11:15:55 -0700 (PDT)
+	Wed, 16 Aug 2017 13:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=JjJMyWSYpgVEroiF67NgAeuhAZYG67ghpCcqmEs0dJ4=;
+	b=0QTlhlvK0Jtx9zj9T5EmxnHnvvWAOX5Ek/fZK+HMvFz6/nI5N5gBquqadtui3LUQuk
+	L40TBXdiMToNIwlRyCTJxqplXZ5KS0xt8zdCIzEzAPnKGV4w8qjj1Y+hjwou2BzCe7S7
+	g/VGOu62xiFRUU8vrhc9wu+cnPxgJBNTXb0i3ocNWxYxm60QXobLtFQE3RPThuJ+hrYl
+	iZkN/XLMcntbuJOrmrMFtJutpbZg8jdEfh6Ob0HKfqQYlBRPb1npBrhTzgytSpWkxJEU
+	RJ2B8meNS8u1NLSwQ+JJ+sxKw2D35uXhwtV79YB3JwXTBrjUuEyKyOzmTRBY1pK5b2ft
+	0N0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=V2DJHvk5XAORpDqZLdO2M7DvBozvNpqKsCYwYHXLYzE=;
-	b=XbWGb1qcl9vfWtSLVIXWUDI8ttz5aa9wN8jSh4da/jA7gSAYe04p5Rx6UjjUfGWLEt
-	mMgP2Cc+2Y6VOxDI5K+GBwFXlC+Fww1VobCdZR+3701feGjlgQjfikar0dhh0dSiOnE9
-	QATqP5deVQpa7lAhmrHLC0QwQa74mBLNaDcOkEkCgengP2+69q8ocxclW810hrCcWwBP
-	EpIOi73B/SlB19fCcpcIYQSEu+GvAvpfGp+usoGia7uh8Il2aQCZgPnRkZgj6+NjW4cp
-	Aemt8b1opomzs2aHlshiy9ZN6vfE5PGx2lsr6e1BZdrLetqaSkfQAikZmREROhtrNjXH
-	fkVg==
-X-Gm-Message-State: AHYfb5glSP0WPE0NlmkbeLeyaCZtfRSi/+YWzRabdn+TWsbWxjFkyYjS
-	Hleub4eaEXC73gK/
-X-Received: by 10.237.42.55 with SMTP id c52mr3781310qtd.311.1502907354129;
-	Wed, 16 Aug 2017 11:15:54 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.72.143])
-	by smtp.gmail.com with ESMTPSA id z85sm933567qkb.71.2017.08.16.11.15.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 16 Aug 2017 11:15:53 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 16 Aug 2017 15:15:44 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Aug 2017 15:15:39 -0300
-Message-Id: <20170816181539.5327-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
+	bh=JjJMyWSYpgVEroiF67NgAeuhAZYG67ghpCcqmEs0dJ4=;
+	b=aFXCTAqmUBtJgUHh2ZkEdkPmUBa6T33w2qnj9BiOJr/nH1FiDCzEeZZBISLrhBVjmU
+	gAeuf0O4y0aB+GZ6eyhsb3LCvSd4ZAw/6LZ8z5fctn0g4HloAL18s+MGs/8h44fQy5mN
+	GpV7edZTTM3EsIlPl4Lje8uLgAS1Sx7lSBsz3v7KsomJVWYH13h5oiKuIW5hjZP7q2Bd
+	YstKUn5nsMYkK/hM8svhswi01lG1WSEDba1GTX2FdBS4QBWvKbVK/74pGgdHnTTOZl4H
+	2U6zZMNMtT+D1VB9MG/9mGdkpQgRTnDAlNI6+45S+DJlDUNdux5iIgiF6cP+0l3TDcf2
+	p8nA==
+X-Gm-Message-State: AHYfb5hLynZUDLn/3sjVqA0h6DenH6hYs/OmdCqypn03dIpZzee/avTL
+	y83KpqhcrQmOHtXqkDQ=
+X-Received: by 10.200.52.100 with SMTP id v33mr4323101qtb.67.1502914559991;
+	Wed, 16 Aug 2017 13:15:59 -0700 (PDT)
+Received: from centrium.lab.ossystems ([181.220.72.143])
+	by smtp.gmail.com with ESMTPSA id c5sm1046954qkd.27.2017.08.16.13.15.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Aug 2017 13:15:59 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 17:15:44 -0300
+Message-Id: <20170816201544.15975-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.11.0
 Organization: O.S. Systems Software LTDA.
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] Revert "kernel: Fix symlinks"
+Subject: [PATCH] python3-native: Add python3-misc-native to RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,76 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 18:15:54 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 20:15:59 -0000
 
-This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
+OE-core commit 800753069f667cd1664d70b3779150c467e3b3fe remove
+RPROVIDES list to get runtime dependences from manifest file.
+python3-misc is added in python3 recipe, we need to add
+native runtime to use python3-misc with native recipes.
 
-The commit has broken the alternatives concept as it is managed by
-links controlled by the alternatives system. That said the failing
-case identified (which some bootloaders fail to load the file) seems
-to be due a misuse of the alternative system.
-
-Cc: Christopher Larson <chris_larson@mentor.com>
-Cc: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
 ---
+ meta/recipes-devtools/python/python3-native_3.5.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
- meta/classes/kernel.bbclass             | 6 +++---
- meta/recipes-kernel/linux/linux-dtb.inc | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 7a134d5c29..2622ada6f5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -49,11 +49,10 @@ python __anonymous () {
- 
-     for type in types.split():
-         typelower = type.lower()
--        imagedest = d.getVar('KERNEL_IMAGEDEST')
- 
-         d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
- 
--        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
-+        d.setVar('FILES_kernel-image-' + typelower, '/boot/' + type + '-${KERNEL_VERSION_NAME}')
- 
-         d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
- 
-@@ -61,8 +60,9 @@ python __anonymous () {
- 
-         d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
- 
-+        imagedest = d.getVar('KERNEL_IMAGEDEST')
-         priority = d.getVar('KERNEL_PRIORITY')
--        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-+        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
-         d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
- 
-         postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 0174c80d85..6c0462126b 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -72,7 +72,7 @@ pkg_postinst_kernel-devicetree () {
- 			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-+			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
+diff --git a/meta/recipes-devtools/python/python3-native_3.5.3.bb b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+index db0e7b9bd8..8cd9c88a82 100644
+--- a/meta/recipes-devtools/python/python3-native_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.5.3.bb
+@@ -80,3 +80,5 @@ do_install() {
+ 	# Tests are large and we don't need them in the native sysroot
+ 	rm ${D}${libdir}/python${PYTHON_MAJMIN}/test -rf
  }
-@@ -85,7 +85,7 @@ pkg_postrm_kernel-devicetree () {
- 			DTB_EXT=${DTB##*.}
- 			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
-+			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} /boot/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
- 		done
- 	done
- }
++
++RPROVIDES += "python3-misc-native"
 -- 
-2.14.1
+2.11.0
 
 
