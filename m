@@ -1,28 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C00C7198E
+Return-Path: <cinly.ooi@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id B66AC784BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 23:53:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7FNrk3Q028168
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 16:53:47 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 15 Aug 2017 16:53:46 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
-Date: Tue, 15 Aug 2017 18:53:45 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: Re: [PATCH] gpg_sign: perform rpm signing serially
+	Wed, 16 Aug 2017 01:17:50 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP; 15 Aug 2017 18:17:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,380,1498546800"; d="scan'208";a="119429257"
+Received: from cinlyooi-mac03.png.intel.com (HELO ubuntu.png.intel.com)
+	([10.221.16.21])
+	by orsmga004.jf.intel.com with ESMTP; 15 Aug 2017 18:17:51 -0700
+From: cinly.ooi@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 09:17:50 +0800
+Message-Id: <1502846270-32249-1-git-send-email-cinly.ooi@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] libtool: remove /absolute/path/to/host references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,59 +28,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Aug 2017 23:53:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Aug 2017 01:17:50 -0000
 
-It would probably be better if this was configurable with a 'safe' default.
+From: Ooi Cinly <cinly.ooi@intel.com>
 
-Moving from parallel to single will greatly affect the overall performance on
-larger build machines (lots of memory and cores) that can handle the load vs a
-typical development machine.
+Removed all instances of -fdebug-prefix-map in LTCFLAGS
+declaration because they contain references to host system
+and are not needed.
 
---Mark
+/absolute/path/to/host/dd was replaced with 'dd' in
+lt_truncate_bin declaration.
 
-On 8/15/17 4:40 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> 
-> gpg signing in file batches (which was default to 100) is a memory expensive
-> computation, causing trouble in some host machines (even on production AB
-> as seen on the bugzilla ID). Also, in terms of performance, there is no real
-> gain when rpm signing is done in batches. Considering the latter issues, perform the
-> rpm signing serially.
-> 
-> Log showing errors observed recently at AB workers:
-> 
->     | gpg: signing failed: Cannot allocate memory
->     | gpg: signing failed: Cannot allocate memory
->     | error: gpg exec failed (2)
->     | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/core2-64-poky-linux/base-passwd/3.5.29-r0/deploy-rpms/core2_64/base-passwd-dev-3.5.29-r0.core2_64.rpm:
-> 
-> [YOCTO #11914]
-> 
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->  meta/lib/oe/gpg_sign.py | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-> index f4d8b10e4b..5c7985a856 100644
-> --- a/meta/lib/oe/gpg_sign.py
-> +++ b/meta/lib/oe/gpg_sign.py
-> @@ -45,9 +45,9 @@ class LocalSigner(object):
->              if fsk_password:
->                  cmd += "--define '_file_signing_key_password %s' " % fsk_password
->  
-> -        # Sign in chunks of 100 packages
-> -        for i in range(0, len(files), 100):
-> -            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
-> +        # Sign packages
-> +        for f in files:
-> +            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
->              if status:
->                  raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
->  
-> 
+Please take note that the location of regex is important
+for DEBUG_PREFIX_MAP. Removal of DEBUG_PREFIX_MAP has to be
+done before other regex command modify its option value.
+
+Both are modified because they affect binary reproducibility.
+
+[YOCTO #11656]
+
+Signed-off-by: Ooi Cinly <cinly.ooi@intel.com>
+---
+ meta/recipes-devtools/libtool/libtool_2.4.6.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
+index 06abb05..b02620b 100644
+--- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
++++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
+@@ -15,6 +15,7 @@ ACLOCALEXTRAPATH_class-target = ""
+ 
+ do_install_append () {
+         sed -e 's@--sysroot=${STAGING_DIR_HOST}@@g' \
++            -e "s@${DEBUG_PREFIX_MAP}@@g" \
+             -e 's@${STAGING_DIR_HOST}@@g' \
+             -e 's@${STAGING_DIR_NATIVE}@@g' \
+             -e 's@^\(sys_lib_search_path_spec="\).*@\1${libdir} ${base_libdir}"@' \
+@@ -22,5 +23,6 @@ do_install_append () {
+             -e 's@^\(compiler_lib_search_path="\).*@\1${libdir} ${base_libdir}"@' \
+             -e 's@^\(predep_objects="\).*@\1"@' \
+             -e 's@^\(postdep_objects="\).*@\1"@' \
++            -e "s@${HOSTTOOLS_DIR}/@@g" \
+             -i ${D}${bindir}/libtool
+ }
+-- 
+2.7.4
 
 
