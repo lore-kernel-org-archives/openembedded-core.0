@@ -1,26 +1,27 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4370F7837B
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id D0F0C78385
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 15:40:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7GFemGR012518
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Aug 2017 08:40:48 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 16 Aug 2017 08:40:47 -0700
-From: <kai.kang@windriver.com>
-To: <raj.khem@gmail.com>
-Date: Wed, 16 Aug 2017 23:30:01 +0800
-Message-ID: <bd58b062db9cf77c8c6a7cda2ce37a60b1399823.1502897149.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1502897149.git.kai.kang@windriver.com>
-References: <cover.1502897149.git.kai.kang@windriver.com>
-MIME-Version: 1.0
+	Wed, 16 Aug 2017 15:51:25 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Aug 2017 08:51:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,383,1498546800"; d="scan'208";a="140386398"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2017 08:51:26 -0700
+Message-ID: <1502899215.28941.50.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Date: Wed, 16 Aug 2017 11:00:15 -0500
+In-Reply-To: <716364F9-E9E1-4941-97FA-90D9434E518E@linux.intel.com>
+References: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
+	<716364F9-E9E1-4941-97FA-90D9434E518E@linux.intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] nss: 3.30.2 -> 3.31.1
+Subject: Re: [PATCH] gpg_sign: perform rpm signing serially
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,103 +34,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 15:40:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Aug 2017 15:51:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+On Wed, 2017-08-16 at 15:28 +0300, Markus Lehtonen wrote:
+> I agree. I don't see reason for dropping parallelism completely. There is a real gain when running on beefier machines. Making it configurable would probably be best. Or just drop it to a saner value, like 20 or 10.
+>    - Markus
+> 
 
-Upgrade nss from 3.30.2 to latest stable version 3.31.1.
+I ran some tests with 100, 20 and 1 and I saw (I can rerun and provide
+times) no difference on times. gpg may be intrinsically serial so
+passing 1 or N files wont make much difference in type. The only gain
+when using file chunks is that one one process is launched.
 
-* remove 0001-Fix-warnings-found-with-gcc7.patch which is not needed now
+I the other hand, I tried using multiprocessing.Pool, but failed
+miserably due to file looking reasons.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../nss/0001-Fix-warnings-found-with-gcc7.patch    | 41 ----------------------
- .../nss/{nss_3.30.2.bb => nss_3.31.1.bb}           | 10 +++---
- 2 files changed, 6 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-support/nss/nss/0001-Fix-warnings-found-with-gcc7.patch
- rename meta/recipes-support/nss/{nss_3.30.2.bb => nss_3.31.1.bb} (96%)
 
-diff --git a/meta/recipes-support/nss/nss/0001-Fix-warnings-found-with-gcc7.patch b/meta/recipes-support/nss/nss/0001-Fix-warnings-found-with-gcc7.patch
-deleted file mode 100644
-index b16fb02..0000000
---- a/meta/recipes-support/nss/nss/0001-Fix-warnings-found-with-gcc7.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From a1d2ef6a8e1bc721e44640bdb85747deaf8edcca Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 19 Apr 2017 10:50:37 -0700
--Subject: [PATCH] Fix warnings found with gcc7
--
--GCC7 finds more type conversion issues
--
--| pkix_pl_ocsprequest.c: In function 'pkix_pl_OcspRequest_Hashcode':
--| pkix_pl_ocsprequest.c:92:60: error: '<<' in boolean context, did you mean '<' ? [-Werror=int-in-bool-context]
--|          *pHashcode = (((((extensionHash << 8) || certHash) << 8) ||
--|                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
--| pkix_pl_ocsprequest.c:93:27: error: '<<' in boolean context, did you mean '<' ? [-Werror=int-in-bool-context]
--|          *pHashcode = (((((extensionHash << 8) || certHash) << 8) ||
--|                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--|                  dateHash) << 8) || signerHash;
--|                  ~~~~~~~~~~^~~~~
--| cc1: all warnings being treated as errors
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- nss/lib/libpkix/pkix_pl_nss/pki/pkix_pl_ocsprequest.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/nss/lib/libpkix/pkix_pl_nss/pki/pkix_pl_ocsprequest.c b/nss/lib/libpkix/pkix_pl_nss/pki/pkix_pl_ocsprequest.c
--index 171a3d2..d5eef88 100644
----- a/nss/lib/libpkix/pkix_pl_nss/pki/pkix_pl_ocsprequest.c
--+++ b/nss/lib/libpkix/pkix_pl_nss/pki/pkix_pl_ocsprequest.c
--@@ -89,7 +89,7 @@ pkix_pl_OcspRequest_Hashcode(
--         PKIX_HASHCODE(ocspRq->signerCert, &signerHash, plContext,
--                 PKIX_CERTHASHCODEFAILED);
-- 
---        *pHashcode = (((((extensionHash << 8) || certHash) << 8) ||
--+        *pHashcode = ((PKIX_UInt32)(((PKIX_UInt32)((extensionHash << 8) || certHash) << 8) ||
--                 dateHash) << 8) || signerHash;
-- 
-- cleanup:
---- 
--2.12.2
--
-diff --git a/meta/recipes-support/nss/nss_3.30.2.bb b/meta/recipes-support/nss/nss_3.31.1.bb
-similarity index 96%
-rename from meta/recipes-support/nss/nss_3.30.2.bb
-rename to meta/recipes-support/nss/nss_3.31.1.bb
-index 6683e5c..955862f 100644
---- a/meta/recipes-support/nss/nss_3.30.2.bb
-+++ b/meta/recipes-support/nss/nss_3.31.1.bb
-@@ -14,7 +14,9 @@ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-                     file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
-                     file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
- 
--SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_30_2_RTM/src/${BP}.tar.gz \
-+VERSION_DIR = "${@d.getVar('BP').upper().replace('-', '_').replace('.', '_') + '_RTM'}"
-+
-+SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSION_DIR}/src/${BP}.tar.gz \
-            file://nss.pc.in \
-            file://signlibs.sh \
-            file://0001-nss-fix-support-cross-compiling.patch \
-@@ -24,10 +26,10 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_30
-            file://disable-Wvarargs-with-clang.patch \
-            file://pqg.c-ULL_addend.patch \
-            file://Fix-compilation-for-X32.patch \
--           file://0001-Fix-warnings-found-with-gcc7.patch \
-            "
--SRC_URI[md5sum] = "42c22dd8ec6254f846259f1d8dd2eb76"
--SRC_URI[sha256sum] = "0d4a77ff26bcee79fa8afe0125e0df6ae9e798b6b36782fa29e28febf7cfce24"
-+
-+SRC_URI[md5sum] = "ebb44f1394250d2cf6ec3c2e3d71fa20"
-+SRC_URI[sha256sum] = "933439214dc03ee60e86d1419c19e1568998b0776dde987f41fa70ced6cd08dc"
- 
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
--- 
-2.10.1
+
+> On 16/08/2017, 2.53, "Mark Hatle" <openembedded-core-bounces@lists.openembedded.org on behalf of mark.hatle@windriver.com> wrote:
+> 
+>     It would probably be better if this was configurable with a 'safe' default.
+>     
+>     Moving from parallel to single will greatly affect the overall performance on
+>     larger build machines (lots of memory and cores) that can handle the load vs a
+>     typical development machine.
+>     
+>     --Mark
+>     
+>     On 8/15/17 4:40 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
+>     > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>     > 
+>     > gpg signing in file batches (which was default to 100) is a memory expensive
+>     > computation, causing trouble in some host machines (even on production AB
+>     > as seen on the bugzilla ID). Also, in terms of performance, there is no real
+>     > gain when rpm signing is done in batches. Considering the latter issues, perform the
+>     > rpm signing serially.
+>     > 
+>     > Log showing errors observed recently at AB workers:
+>     > 
+>     >     | gpg: signing failed: Cannot allocate memory
+>     >     | gpg: signing failed: Cannot allocate memory
+>     >     | error: gpg exec failed (2)
+>     >     | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/core2-64-poky-linux/base-passwd/3.5.29-r0/deploy-rpms/core2_64/base-passwd-dev-3.5.29-r0.core2_64.rpm:
+>     > 
+>     > [YOCTO #11914]
+>     > 
+>     > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>     > ---
+>     >  meta/lib/oe/gpg_sign.py | 6 +++---
+>     >  1 file changed, 3 insertions(+), 3 deletions(-)
+>     > 
+>     > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+>     > index f4d8b10e4b..5c7985a856 100644
+>     > --- a/meta/lib/oe/gpg_sign.py
+>     > +++ b/meta/lib/oe/gpg_sign.py
+>     > @@ -45,9 +45,9 @@ class LocalSigner(object):
+>     >              if fsk_password:
+>     >                  cmd += "--define '_file_signing_key_password %s' " % fsk_password
+>     >  
+>     > -        # Sign in chunks of 100 packages
+>     > -        for i in range(0, len(files), 100):
+>     > -            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
+>     > +        # Sign packages
+>     > +        for f in files:
+>     > +            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
+>     >              if status:
+>     >                  raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
+>     >  
+>     > 
+>     
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     
+> 
+> 
+
 
 
