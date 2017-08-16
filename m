@@ -1,61 +1,24 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com
-	[209.85.218.45])
-	by mail.openembedded.org (Postfix) with ESMTP id AD63A783DD
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 82410783B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 21:13:56 +0000 (UTC)
-Received: by mail-oi0-f45.google.com with SMTP id g131so48631582oic.3
+	Wed, 16 Aug 2017 21:46:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7GLkCn9023093
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 14:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=0nZGSqA22bDoXc+kozoqEzt0kBTctVtKCMJYQxmrVqw=;
-	b=Z34C2BUgsFwNtg5emd+H3E+iZ50okSe+hom3VGYVvBLex64ROD6hxKgraAv3CplVIh
-	oAJgDFpn2I6blWVSOeYjClyfsR0Kj4s7wwx4IYi/tINkaKHGE9s2K4crj5rfMVeSNLSg
-	NCUPjo5/QNy21dphw5o+S8nQu38fqk29U52sQpfZuFQGwmATn7IJJ8N4PcOA0XJ72Uv8
-	aRFbo0L9Y2RWVUjLiy0FP7bs+HeXRaqAbySNwsJ7EjNF6UIwjJKLY+V582YTdlBAmNus
-	ZW6Dr/YPj5Z4GC7VLhtujuHXKMDjNlvVPDr5lHnykiLjL+wQhkgJdT3SHDyVr/6qypcD
-	Be5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=0nZGSqA22bDoXc+kozoqEzt0kBTctVtKCMJYQxmrVqw=;
-	b=qT+cRvZ8JM25SNrHt0ZMOu5TfXp0WsXisaYi7FKqqh8mYgh80+Ay+92lGO3so6g3wD
-	/bdUG4pgaJKWDWVk5tv+NPANCrkWyLERChB5rUgBp3LWlyIoX6GZ+pMgieEOvrHRuPgT
-	eM2LgLAASzONl1aFGkbk0xk9+bh88Q875L9RkMCMyefz5Sj4pBB7ewCxhbOszvjIDGfk
-	t7OAkIVboqWCaN3RfwpnlcsJlBtmpgJ1FsQtzdQ47d0TSq+0j3siux3iGXNhtUYiIZTa
-	eutAQFmQ1ik3nzz+mjW7lGm0rjQjTDytTUY5sXvvBa4/yeniV+XMG8WNYWsB9Js7wCOH
-	3GlA==
-X-Gm-Message-State: AHYfb5gyDJt6NdqLs3uxOn650npB9kF79QO93gmUz4DoDrXBFzdBD51V
-	N7U/xtEJ69IQbjoAuuU=
-X-Received: by 10.202.229.11 with SMTP id c11mr3734587oih.0.1502918037308;
-	Wed, 16 Aug 2017 14:13:57 -0700 (PDT)
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com.
-	[209.85.218.49])
-	by smtp.gmail.com with ESMTPSA id 4sm2107500oid.24.2017.08.16.14.13.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Aug 2017 14:13:56 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f49.google.com with SMTP id x3so48785570oia.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 14:13:56 -0700 (PDT)
-X-Received: by 10.202.184.8 with SMTP id i8mr4003280oif.266.1502918035757;
-	Wed, 16 Aug 2017 14:13:55 -0700 (PDT)
+	Wed, 16 Aug 2017 14:46:12 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 16 Aug 2017 14:46:11 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Aug 2017 14:46:11 -0700
+Message-ID: <20170816214611.244031-1-jslater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-Received: by 10.182.247.10 with HTTP; Wed, 16 Aug 2017 14:13:55 -0700 (PDT)
-In-Reply-To: <20170816201544.15975-1-fabio.berton@ossystems.com.br>
-References: <20170816201544.15975-1-fabio.berton@ossystems.com.br>
-Date: Wed, 16 Aug 2017 18:13:55 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqPkUdwoUp0Lc_M-v4842L02Q3HyuJX+JvjFJKzX+ooWw@mail.gmail.com>
-Message-ID: <CAP9ODKqPkUdwoUp0Lc_M-v4842L02Q3HyuJX+JvjFJKzX+ooWw@mail.gmail.com>
-To: Fabio Berton <fabio.berton@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-native: Add python3-misc-native to RPROVIDES
+Subject: [PATCH 1/1] ruby: fix CVE-2017-9224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,23 +31,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 21:13:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 16 Aug 2017 21:46:11 -0000
+Content-Type: text/plain
 
-On Wed, Aug 16, 2017 at 5:15 PM, Fabio Berton
-<fabio.berton@ossystems.com.br> wrote:
-> OE-core commit 800753069f667cd1664d70b3779150c467e3b3fe remove
-> RPROVIDES list to get runtime dependences from manifest file.
-> python3-misc is added in python3 recipe, we need to add
-> native runtime to use python3-misc with native recipes.
->
-> Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Use DATA_ENSURE(1) before access.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../ruby/ruby/ruby-CVE-2017-9224.patch             | 41 ++++++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_2.4.1.bb           |  4 +++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
 
-
+diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
+new file mode 100644
+index 0000000..848139b
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9224.patch
+@@ -0,0 +1,41 @@
++From 690313a061f7a4fa614ec5cc8368b4f2284e059b Mon Sep 17 00:00:00 2001
++From: "K.Kosako" <kosako@sofnec.co.jp>
++Date: Tue, 23 May 2017 10:28:58 +0900
++Subject: [PATCH] fix #57 : DATA_ENSURE() check must be before data access
++
++---
++ regexec.c |    5 -----
++ 1 file changed, 5 deletions(-)
++
++--- end of original header
++
++CVE: CVE-2017-9224
++
++Context modified so that patch applies for version 2.4.1.
++
++Upstream-Status: Pending
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++diff --git a/regexec.c b/regexec.c
++index 35fef11..d4e577d 100644
++--- a/regexec.c
+++++ b/regexec.c
++@@ -1473,14 +1473,9 @@ match_at(regex_t* reg, const UChar* str, const UChar* end,
++       NEXT;
++
++     CASE(OP_EXACT1)  MOP_IN(OP_EXACT1);
++-#if 0
++       DATA_ENSURE(1);
++       if (*p != *s) goto fail;
++       p++; s++;
++-#endif
++-      if (*p != *s++) goto fail;
++-      DATA_ENSURE(0);
++-      p++;
++       MOP_OUT;
++       break;
++ 
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/ruby/ruby_2.4.1.bb b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
+index 1d335f1..77e17f1 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.4.1.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
+@@ -1,5 +1,9 @@
+ require ruby.inc
+ 
++SRC_URI += " \
++           file://ruby-CVE-2017-9224.patch \
++           "
++
+ SRC_URI[md5sum] = "782bca562e474dd25956dd0017d92677"
+ SRC_URI[sha256sum] = "a330e10d5cb5e53b3a0078326c5731888bb55e32c4abfeb27d9e7f8e5d000250"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.7.4
+
 
