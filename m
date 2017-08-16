@@ -1,54 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C38276FFC7
+Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CA6D46FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 05:17:01 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id j68so393178pfc.2
+	Wed, 16 Aug 2017 05:18:36 +0000 (UTC)
+Received: by mail-pg0-f50.google.com with SMTP id l64so18099978pge.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 22:17:03 -0700 (PDT)
+	Tue, 15 Aug 2017 22:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=2ofeq4LbbQdNIQiq8StAtzDDQZRjrkAYqtT1r2u01SA=;
-	b=McRhWgSSsYrEb2szXWWFvyGjny1XkMzf+pHEdwdOjg1invTbQjMV/FYPeKyQBchxxR
-	jpxQ7bir2Gdss8X8uagiXfGMV3pTBiIvI6VbmhXDryVdjUeEyW2gCNYdBcR7i+Swx/Yi
-	YpmAjzV62f2jB5mSmdYDJinwOeu2YpfZe1XPvjWA537ie/JScJBJO3ztHKfVKsk7XTVd
-	8bPU7f3qL21PnlRVTCGybDxnRaK2MCwMeyV+JvRNufDljOxZui4Xa3sRUy8QZbWCJx4O
-	KYsIXO6Q5VHmE6bWXxWzSIExqnxw1duj3fsdDS9kSuJTnNXDgsDL0IQfgygzfzXuFm9E
-	t6gA==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=GtxCdlR5WIdqDOsrqGFLRcFyplrdKDGv3mqoCjSzDO0=;
+	b=dAVxARp4k7WIiaz2Q8PBrqyGEEDUr6LrIjP8akyFo2xVtkpw17mwqEIPWD5aKzLIl0
+	wOJSTzJJqX509a9Avt5dl5Amjapk8OreeHAfnND+0FBerE8+Cf453tiV7ml0IPXC6CU9
+	YGqpmDIZKKD2AlIAS3G2CpE9cGOV6caxQOSr3r86NZQjqCw+kAWM60KMjUiAN1Wm43pc
+	zikDZxsIGtum0gpfgBgY2X/9v2YyXbWLjBwAFqqToP9VOVokzV3EvmITkoaTP27/RxSt
+	fnQjaICA+nB+N13rJGc8thqcf3QE7f8TlAkuJosXX3Ubr1YhTUFzr/RfEiv18IJKhOsJ
+	6SRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=2ofeq4LbbQdNIQiq8StAtzDDQZRjrkAYqtT1r2u01SA=;
-	b=Tl90M0F7xY5Fm1FvjI5YvbeoS2T9nK1Ps4vVPS1eEh9ecyY+twWh0Hzyn5jegslpqY
-	JX+xuHuF4jDyDtb7TGhlojY6AGCwwZmYBV/gCi96wZ3roK98WAaYflN782IAP9WBFUT9
-	Da+ASDhHFa1gMaOVDXEhTN2xDgPGGYYBpG4WqDi0Ch0yAXlNoyf26VgogbK4bm0pjoS2
-	PmzdFwiXrdNWdDpHXmL9dRUsE7LATyq8KDhsYCYZG5wEZVMJyrp2/glraU5s/iOBtZLN
-	7KIjLPms3xoD8PzIa9laoX0mCcEthhLdTy/LbV9j+m5UQygzv0fJBw5Ml/KOmORyo6X2
-	tqjA==
-X-Gm-Message-State: AHYfb5jPmgeCuqVl4oYG5tAN15/SOzB39+AVcPpVZELELkRIt/3zZQeG
-	AGJt9EBCEuRK+h/U
-X-Received: by 10.99.6.142 with SMTP id 136mr490900pgg.328.1502860622897;
-	Tue, 15 Aug 2017 22:17:02 -0700 (PDT)
+	bh=GtxCdlR5WIdqDOsrqGFLRcFyplrdKDGv3mqoCjSzDO0=;
+	b=pQGhyY6gtQSjPKgtYpE1gWUnSTBfRDip3zCgKFK26oPiGBfGqcPmiZ6jnvDwc/XSOw
+	4MqFFynZu8vqO+4+Cs8wFMcQogJ1SXhwtx9L18z4sR9Hj2nLeYPK64x8bSp4/YEIGsaI
+	TeeOuRphqBDtZYi8wDDzMSDguX5XCxmqOlXo+wFVwzr29zwj8JS4/NyTEB3CEH0fthND
+	SdIfKDHXdGk+4ylkTrZ/9rI+2tsSFpjs+QKmXeG+0n1ZwdQlG6gMpwbeLsg0o5cV+yUP
+	2k1jhDL/9ygYBXSKeomgDTohXdHcVyHkiG4ez971vtkhQFX2UtwJMtzUGlkcPEbeipnQ
+	uY6w==
+X-Gm-Message-State: AHYfb5hxXPVo7jDwchBG0/RF58jNe67RDuwXA8mpmYjZbBhR5wisAxSZ
+	8uhr4HrZYwb6E3kZ
+X-Received: by 10.99.126.85 with SMTP id o21mr482797pgn.57.1502860717980;
+	Tue, 15 Aug 2017 22:18:37 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:9b7:5cee:9e0b:bac6?
 	([2601:202:4001:9ea0:9b7:5cee:9e0b:bac6])
-	by smtp.gmail.com with ESMTPSA id v78sm35100pfd.121.2017.08.15.22.17.01
+	by smtp.gmail.com with ESMTPSA id u186sm73692pfu.82.2017.08.15.22.18.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Aug 2017 22:17:02 -0700 (PDT)
-To: Alejandro Mery <amery@hanoverdisplays.com>,
+	Tue, 15 Aug 2017 22:18:37 -0700 (PDT)
+To: =?UTF-8?Q?Richard_R=c3=b6jfors?= <richard.rojfors@gmail.com>,
 	openembedded-core@lists.openembedded.org
-References: <20170803223702.83936-1-amery@hanoverdisplays.com>
+References: <1502086865.13610.1.camel@gmail.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <25d7e91f-b139-a482-651d-e03bc652b47c@gmail.com>
-Date: Tue, 15 Aug 2017 22:17:01 -0700
+Message-ID: <98330a2f-176a-fe69-c2a5-bcf414c4fa3b@gmail.com>
+Date: Tue, 15 Aug 2017 22:18:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20170803223702.83936-1-amery@hanoverdisplays.com>
-Subject: Re: [poky][pyro][PATCH 0/1] backport IFF_LOWER_UP fix for 4.10+musl
+In-Reply-To: <1502086865.13610.1.camel@gmail.com>
+Subject: Re: [pyro][PATCH] package_manager: Fix support for NO_RECOMMENDATONS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,33 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 05:17:01 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 05:18:36 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 
-On 08/03/2017 03:37 PM, Alejandro Mery wrote:
-> From: Alejandro Mery <amery@geeks.cl>
+On 08/06/2017 11:21 PM, Richard Röjfors wrote:
+> When support for dnf was introduced the check of the
+> no NO_RECOMMENDATIONS variable got broken.
+>
+> This fixes the issue by compairing to the string "1"
+> rather than the number 1.
 
-merged to stagging,
-
-thanks,
-armin
-> This commit cherry-picks a fix already applied to master and accepted upstream
+merged to stagging.
+Thanks,
+Armin
 >
-> commit: 868486c238780ce4a11d9ec9a38e40cb6c1cfc01
+> Signed-off-by: Richard Röjfors <richard@puffinpack.se>
+> ---
+>   meta/lib/oe/package_manager.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> https://patchwork.openembedded.org/patch/141193/
->
-> André Draszik (1):
->    linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
->
->   ....h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch | 46 ++++++++++++++++++++++
->   .../linux-libc-headers/linux-libc-headers_4.10.bb  |  1 +
->   2 files changed, 47 insertions(+)
->   create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
->
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+> index 93d079d73d..28c6b2aec2 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -585,7 +585,7 @@ class RpmPM(PackageManager):
+>   
+>           output = self._invoke_dnf((["--skip-broken"] if attempt_only else []) +
+>                            (["-x", ",".join(exclude_pkgs)] if len(exclude_pkgs) > 0 else []) +
+> -                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == 1 else []) +
+> +                         (["--setopt=install_weak_deps=False"] if self.d.getVar('NO_RECOMMENDATIONS') == "1" else []) +
+>                            (["--nogpgcheck"] if self.d.getVar('RPM_SIGN_PACKAGES') != '1' else ["--setopt=gpgcheck=True"]) +
+>                            ["install"] +
+>                            pkgs)
+> -- 
+> 2.11.0
 
 
