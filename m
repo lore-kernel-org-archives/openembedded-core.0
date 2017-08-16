@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C84C478664
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B686E78677
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 08:31:39 +0000 (UTC)
+	Wed, 16 Aug 2017 08:31:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7G8Ve8w008788
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 16 Aug 2017 01:31:40 -0700
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7G8Vf7R025061
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Aug 2017 01:31:41 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 16 Aug 2017 01:31:39 -0700
+	Wed, 16 Aug 2017 01:31:41 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Wed, 16 Aug 2017 04:31:21 -0400
-Message-ID: <81560385801247ea5c615b7c21dbf9ed199e6492.1502869419.git.hongxu.jia@windriver.com>
+Date: Wed, 16 Aug 2017 04:31:22 -0400
+Message-ID: <cfdcc4c94e196313654f11ca8eca4baec1ab300b.1502869419.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <cover.1502869419.git.hongxu.jia@windriver.com>
 References: <cover.1502869419.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 7/8] gpgme: 1.8.0 -> 1.9.0
+Subject: [PATCH 8/8] ncurses: 6.0+20161126 -> 6.0+20170715
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,278 +32,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 08:31:39 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 08:31:41 -0000
 Content-Type: text/plain
 
 Rebase patches:
-- pkgconfig.patch -> 0001
-- python-lang-config.patch -> 0002
-- 0001-Correctly-install-python-modules.patch -> 0003
-- python-import.patch -> 0004
-- 0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch -> 0005
+- tic-hang.patch -> 0001
+- configure-reproducible.patch -> 0002
+
+Drop fix-cflags-mangle.patch, which accepted by upstream
+...
+commit 1b74f120ab7be89011408a6ad0f1c748a314bae8
+Author: Sven Joachim <svenjoac@gmx.de>
+Date:   Sun Feb 26 09:01:34 2017 +0100
+
+    Import upstream patch 20170225
+
+    20170225
+        + fixes for CF_CC_ENV_FLAGS (report by Ross Burton).
+...
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../{pkgconfig.patch => 0001-pkgconfig.patch}      | 16 ++++++++++----
- ...ython-gpg-error-config-should-not-be-use.patch} | 25 ++++++++++++++++------
- ...=> 0003-Correctly-install-python-modules.patch} | 22 +++++++++++--------
- ...ython-import.patch => 0004-python-import.patch} | 15 +++++++++++++
- ...-skip-all-lib-or-usr-lib-directories-in-.patch} |  6 +++---
- .../gpgme/{gpgme_1.8.0.bb => gpgme_1.9.0.bb}       | 16 +++++++-------
- 6 files changed, 70 insertions(+), 30 deletions(-)
- rename meta/recipes-support/gpgme/gpgme/{pkgconfig.patch => 0001-pkgconfig.patch} (96%)
- rename meta/recipes-support/gpgme/gpgme/{python-lang-config.patch => 0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch} (72%)
- rename meta/recipes-support/gpgme/gpgme/{0001-Correctly-install-python-modules.patch => 0003-Correctly-install-python-modules.patch} (52%)
- rename meta/recipes-support/gpgme/gpgme/{python-import.patch => 0004-python-import.patch} (66%)
- rename meta/recipes-support/gpgme/gpgme/{0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch => 0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch} (85%)
- rename meta/recipes-support/gpgme/{gpgme_1.8.0.bb => gpgme_1.9.0.bb} (84%)
+ .../files/{tic-hang.patch => 0001-tic-hang.patch}  | 26 +++++++++++++++++-----
+ ...ble.patch => 0002-configure-reproducible.patch} | 21 ++++++++++++++---
+ .../ncurses/files/fix-cflags-mangle.patch          | 18 ---------------
+ ...ses_6.0+20161126.bb => ncurses_6.0+20170715.bb} |  7 +++---
+ 4 files changed, 42 insertions(+), 30 deletions(-)
+ rename meta/recipes-core/ncurses/files/{tic-hang.patch => 0001-tic-hang.patch} (63%)
+ rename meta/recipes-core/ncurses/files/{configure-reproducible.patch => 0002-configure-reproducible.patch} (50%)
+ delete mode 100644 meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
+ rename meta/recipes-core/ncurses/{ncurses_6.0+20161126.bb => ncurses_6.0+20170715.bb} (56%)
 
-diff --git a/meta/recipes-support/gpgme/gpgme/pkgconfig.patch b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-similarity index 96%
-rename from meta/recipes-support/gpgme/gpgme/pkgconfig.patch
-rename to meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-index 341cabf..14a43ee 100644
---- a/meta/recipes-support/gpgme/gpgme/pkgconfig.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-@@ -1,10 +1,18 @@
-+From 8ae149035c97d27cd2c624704d1651806c53577e Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Wed, 16 Aug 2017 02:00:08 -0400
-+Subject: [PATCH 1/5] pkgconfig
+diff --git a/meta/recipes-core/ncurses/files/tic-hang.patch b/meta/recipes-core/ncurses/files/0001-tic-hang.patch
+similarity index 63%
+rename from meta/recipes-core/ncurses/files/tic-hang.patch
+rename to meta/recipes-core/ncurses/files/0001-tic-hang.patch
+index cba89d2..4a97056 100644
+--- a/meta/recipes-core/ncurses/files/tic-hang.patch
++++ b/meta/recipes-core/ncurses/files/0001-tic-hang.patch
+@@ -1,13 +1,26 @@
++From a95590f676209832fe0b27226e6de3cb50e2b97c Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 16 Aug 2017 14:31:51 +0800
++Subject: [PATCH 1/2] tic hang
 +
- Update gpgme to use pkgconfig instead of -config files since its
- simpler and less error prone when cross compiling.
+ Upstream-Status: Inappropriate [configuration]
  
- Upstream-Status: Denied [Upstream not interested in pkg-config support]
- RP 2015/4/17
+ 'tic' of some linux distributions (e.g. fedora 11) hang in an infinite
+ loop when processing the original file.
  
--Rebase to 1.8.0
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Rebase to 1.9.0
-+
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  configure.ac            |   1 +
-@@ -17,10 +25,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  create mode 100644 src/gpgme.pc.in
- 
- diff --git a/configure.ac b/configure.ac
--index 0a67b48..e402dd3 100644
-+index 0dac6ce..6a9e507 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -875,6 +875,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-+@@ -866,6 +866,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-                  src/versioninfo.rc
-                  src/gpgme.h)
-  AC_CONFIG_FILES(src/gpgme-config, chmod +x src/gpgme-config)
-@@ -50,7 +58,7 @@ index ce6f1d4..5f38fee 100644
-  
- diff --git a/src/gpgme-pthread.pc.in b/src/gpgme-pthread.pc.in
- new file mode 100644
--index 0000000..980a48e
-+index 0000000..074bbf6
- --- /dev/null
- +++ b/src/gpgme-pthread.pc.in
- @@ -0,0 +1,15 @@
-diff --git a/meta/recipes-support/gpgme/gpgme/python-lang-config.patch b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-similarity index 72%
-rename from meta/recipes-support/gpgme/gpgme/python-lang-config.patch
-rename to meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-index 132e426..f1f8c91 100644
---- a/meta/recipes-support/gpgme/gpgme/python-lang-config.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch
-@@ -1,4 +1,7 @@
--gpgme/lang/python: gpg-error-config should not be used.
-+From fb165c9bd96aca8c9ee3e4509c9b6e35d238ad2e Mon Sep 17 00:00:00 2001
-+From: Mark Hatle <mark.hatle@windriver.com>
-+Date: Wed, 16 Aug 2017 02:02:47 -0400
-+Subject: [PATCH 2/5] gpgme/lang/python: gpg-error-config should not be used.
- 
- gpg-error-config was modified by OE to always return an error.  So we want
- to find an alternative way to retrieve whatever it is we need.  It turns
-@@ -9,10 +12,17 @@ Upstream-Status: Inappropriate [changes are specific to OE]
- 
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- 
--Index: gpgme-1.8.0/lang/python/setup.py.in
+-Index: ncurses-5.7/misc/terminfo.src
 -===================================================================
----- gpgme-1.8.0.orig/lang/python/setup.py.in
--+++ gpgme-1.8.0/lang/python/setup.py.in
-+Rebase to 1.9.0
+---- ncurses-5.7.orig/misc/terminfo.src
+-+++ ncurses-5.7/misc/terminfo.src
+-@@ -3706,12 +3706,11 @@ konsole-xf3x|KDE console window with key
++Signed-off-by: anonymous
 +
++Rebase to 6.0+20170715
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ lang/python/setup.py.in | 15 ++-------------
-+ 1 file changed, 2 insertions(+), 13 deletions(-)
++ misc/terminfo.src | 11 +++++------
++ 1 file changed, 5 insertions(+), 6 deletions(-)
 +
-+diff --git a/lang/python/setup.py.in b/lang/python/setup.py.in
-+index bf4efa3..7c34487 100755
-+--- a/lang/python/setup.py.in
-++++ b/lang/python/setup.py.in
- @@ -24,7 +24,6 @@ import glob
-  import subprocess
-  
-@@ -35,7 +45,7 @@ Index: gpgme-1.8.0/lang/python/setup.py.in
-      subprocess.check_call(gpgme_config + ['--version'],
-                            stdout=devnull)
-  except:
--@@ -81,12 +73,9 @@ if not (major > 1 or (major == 1 and min
-+@@ -81,12 +73,9 @@ if not (major > 1 or (major == 1 and minor >= 7)):
-  if not gpgme_h:
-      gpgme_h = os.path.join(getconfig("prefix")[0], "include", "gpgme.h")
-  
-@@ -50,3 +60,6 @@ Index: gpgme-1.8.0/lang/python/setup.py.in
-  
-  print("Building python gpg module using {} and {}.".format(gpgme_h, gpg_error_h))
-  
++diff --git a/misc/terminfo.src b/misc/terminfo.src
++index ee3fab3..176d593 100644
++--- a/misc/terminfo.src
+++++ b/misc/terminfo.src
++@@ -5177,12 +5177,11 @@ konsole-xf3x|KDE console window with keyboard for XFree86 3.x xterm,
+  # The value for kbs reflects local customization rather than the settings used
+  # for XFree86 xterm.
+  konsole-xf4x|KDE console window with keyboard for XFree86 4.x xterm,
+@@ -25,3 +38,6 @@ Index: ncurses-5.7/misc/terminfo.src
+  # KDE's "vt100" keyboard has no relationship to any terminal that DEC made, but
+  # it is still useful for deriving the other entries.
+  konsole-vt100|KDE console window with vt100 (sic) keyboard,
 +-- 
-+2.8.1
++1.8.3.1
 +
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-Correctly-install-python-modules.patch b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
-similarity index 52%
-rename from meta/recipes-support/gpgme/gpgme/0001-Correctly-install-python-modules.patch
-rename to meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
-index 42655fb..d383311 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-Correctly-install-python-modules.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0003-Correctly-install-python-modules.patch
-@@ -1,26 +1,30 @@
--From 4d714c097e497b63d2e8b22a834c671045e215e9 Mon Sep 17 00:00:00 2001
-+From 62332eec752dd790f4dd071dfb0dbe86be377203 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Thu, 9 Mar 2017 21:34:55 +0200
--Subject: [PATCH] Correctly install python modules
-+Date: Wed, 16 Aug 2017 02:05:34 -0400
-+Subject: [PATCH 3/5] Correctly install python modules
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+diff --git a/meta/recipes-core/ncurses/files/configure-reproducible.patch b/meta/recipes-core/ncurses/files/0002-configure-reproducible.patch
+similarity index 50%
+rename from meta/recipes-core/ncurses/files/configure-reproducible.patch
+rename to meta/recipes-core/ncurses/files/0002-configure-reproducible.patch
+index 54a8bdc..c47ce6a 100644
+--- a/meta/recipes-core/ncurses/files/configure-reproducible.patch
++++ b/meta/recipes-core/ncurses/files/0002-configure-reproducible.patch
+@@ -1,15 +1,27 @@
++From 939c994f3756c2d6d3cab2e6a04d05fa7c2b1d56 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 16 Aug 2017 14:45:27 +0800
++Subject: [PATCH 2/2] configure: reproducible
 +
-+Rebase to 1.9.0
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  lang/python/Makefile.am | 1 +
-  1 file changed, 1 insertion(+)
+ "configure" enforces -U for ar flags, breaking deterministic builds.
+ The flag was added to fix some vaguely specified "recent POSIX binutil
+-build problems" in 2015. 
++build problems" in 2015.
  
- diff --git a/lang/python/Makefile.am b/lang/python/Makefile.am
--index e32fd12..5ecf6fb 100644
-+index d91ead9..67f7cdc 100644
- --- a/lang/python/Makefile.am
- +++ b/lang/python/Makefile.am
--@@ -102,6 +102,7 @@ install-exec-local:
-- 	for PYTHON in $(PYTHONS); do \
-+@@ -106,6 +106,7 @@ install-exec-local:
-+ 	  cd python$${VERSION}-gpg ; \
-  	  $$PYTHON setup.py install \
-  	  --prefix $(DESTDIR)$(prefix) \
--+          --install-lib=$(DESTDIR)${pythondir} \
-++	  --install-lib=$(DESTDIR)${pythondir} \
-  	  --record files.txt \
-  	  --verbose ; \
-- 	  cat files.txt >> install_files.txt ; \
-+ 	  cat files.txt >> ../install_files.txt ; \
- -- 
--2.11.0
-+2.8.1
+ Upstream-Status: Pending
+ Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
  
-diff --git a/meta/recipes-support/gpgme/gpgme/python-import.patch b/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
-similarity index 66%
-rename from meta/recipes-support/gpgme/gpgme/python-import.patch
-rename to meta/recipes-support/gpgme/gpgme/0004-python-import.patch
-index 61b77a1..9307103 100644
---- a/meta/recipes-support/gpgme/gpgme/python-import.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0004-python-import.patch
-@@ -1,9 +1,21 @@
-+From ccbf028eea8815d3b16d6c34b527253a6b108ec3 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 16 Aug 2017 02:06:45 -0400
-+Subject: [PATCH 4/5] python import
-+
- Don't check for output on stderr to know if an import worked, host inputrc and
- sysroot readline can cause warnings on stderr.
- 
- Upstream-Status: Backport (from autoconf-archive 883a2abd)
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
-+Rebase to 1.9.0
++Rebase to Rebase to 6.0+20170715
 +
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ m4/ax_python_devel.m4 | 2 +-
++ configure | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
- diff --git a/m4/ax_python_devel.m4 b/m4/ax_python_devel.m4
- index b990d5b..318b089 100644
- --- a/m4/ax_python_devel.m4
-@@ -17,3 +29,6 @@ index b990d5b..318b089 100644
-  		AC_MSG_RESULT([yes])
-  	else
-  		AC_MSG_RESULT([no])
+ diff --git a/configure b/configure
+-index 7f31208..aa80911 100755
++index 7d7d2c1..f444354 100755
+ --- a/configure
+ +++ b/configure
+-@@ -4428,7 +4428,7 @@ if test "${cf_cv_ar_flags+set}" = set; then
++@@ -4458,7 +4458,7 @@ if test "${cf_cv_ar_flags+set}" = set; then
+  else
+  
+  	cf_cv_ar_flags=unknown
+@@ -18,3 +30,6 @@ index 7f31208..aa80911 100755
+  	do
+  
+  		# check if $ARFLAGS already contains this choice
 +-- 
-+2.8.1
++1.8.3.1
 +
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-similarity index 85%
-rename from meta/recipes-support/gpgme/gpgme/0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-rename to meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-index 84d55b9..7a6cc7b 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-@@ -1,7 +1,7 @@
--From 8c317f6186bd3a9a1c80b4d1e872b3db95934bb6 Mon Sep 17 00:00:00 2001
-+From 064ae4441e2c11329748a18157988f9e953f9752 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 13 Apr 2017 16:40:27 +0300
--Subject: [PATCH] gpgme-config: skip all /lib* or /usr/lib* directories in
-+Subject: [PATCH 5/5] gpgme-config: skip all /lib* or /usr/lib* directories in
-  output
+diff --git a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch b/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
+deleted file mode 100644
+index e9447c5..0000000
+--- a/meta/recipes-core/ncurses/files/fix-cflags-mangle.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-configure has a piece of logic to detect users "abusing" CC to hold compiler
+-flags (which we do).  It also has logic to "correct" this by moving the flags
+-from CC to CFLAGS, but the sed only handles a single argument in CC.
+-
+-Replace the sed with awk to filter out all words that start with a hyphen.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure b/configure
+-index 7f31208..1a29cfc 100755
+---- a/configure
+-+++ b/configure
+-@@ -2191,2 +2191,2 @@ echo "$as_me: WARNING: your environment misuses the CC variable to hold CFLAGS/C
+--	cf_flags=`echo "$CC" | sed -e 's/^.*[ 	]\(-[^ 	]\)/\1/'`
+--	CC=`echo "$CC " | sed -e 's/[ 	]-[^ 	].*$//' -e 's/[ 	]*$//'`
+-+	cf_flags=`echo "$CC" | awk  'BEGIN{ORS=" ";RS=" "} /^-.+/ {print $1}'`
+-+	CC=`echo "$CC " | awk  'BEGIN{ORS=" ";RS=" "} /^[^-].+/ {print $1}'`
+diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb b/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
+similarity index 56%
+rename from meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
+rename to meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
+index ace3108..127394c 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.0+20161126.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.0+20170715.bb
+@@ -1,12 +1,11 @@
+ require ncurses.inc
  
- The logic was not working in multilib setups which use other
-@@ -27,5 +27,5 @@ index a4d152e..8342865 100644
-                        ;;
-                    -L*|-l*)
- -- 
--2.11.0
-+2.8.1
- 
-diff --git a/meta/recipes-support/gpgme/gpgme_1.8.0.bb b/meta/recipes-support/gpgme/gpgme_1.9.0.bb
-similarity index 84%
-rename from meta/recipes-support/gpgme/gpgme_1.8.0.bb
-rename to meta/recipes-support/gpgme/gpgme_1.9.0.bb
-index 4ddf6ed..2518147 100644
---- a/meta/recipes-support/gpgme/gpgme_1.8.0.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.9.0.bb
-@@ -6,20 +6,20 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://COPYING.LESSER;md5=bbb461211a33b134d42ed5ee802b37ff \
--                    file://src/gpgme.h.in;endline=23;md5=0f7059665c4b7897f4f4d0cb93aa9f98 \
-+                    file://src/gpgme.h.in;endline=23;md5=9d157d08a69059344e6f82abd2d25781 \
-                     file://src/engine.h;endline=22;md5=4b6d8ba313d9b564cc4d4cfb1640af9d"
- 
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
--           file://pkgconfig.patch \
--           file://python-lang-config.patch \
--           file://0001-Correctly-install-python-modules.patch \
--           file://python-import.patch \
--           file://0001-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch \
-+           file://0001-pkgconfig.patch \
-+           file://0002-gpgme-lang-python-gpg-error-config-should-not-be-use.patch \
-+           file://0003-Correctly-install-python-modules.patch \
-+           file://0004-python-import.patch \
-+           file://0005-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch \
-           "
- 
--SRC_URI[md5sum] = "722a4153904b9b5dc15485a22d29263b"
--SRC_URI[sha256sum] = "596097257c2ce22e747741f8ff3d7e24f6e26231fa198a41b2a072e62d1e5d33"
-+SRC_URI[md5sum] = "1e00bb8ef04d1d05d5a0f19e143854c3"
-+SRC_URI[sha256sum] = "1b29fedb8bfad775e70eafac5b0590621683b2d9869db994568e6401f4034ceb"
- 
- DEPENDS = "libgpg-error libassuan"
- RDEPENDS_${PN}-cpp += "libstdc++"
+-SRC_URI += "file://tic-hang.patch \
+-            file://fix-cflags-mangle.patch \
++SRC_URI += "file://0001-tic-hang.patch \
++            file://0002-configure-reproducible.patch \
+             file://config.cache \
+-            file://configure-reproducible.patch \
+ "
+ # commit id corresponds to the revision in package version
+-SRCREV = "3db0bd19cb50e3d9b4f2cf15b7a102fe11302068"
++SRCREV = "52681a6a1a18b4d6eb1a716512d0dd827bd71c87"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
 -- 
 2.8.1
 
