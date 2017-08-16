@@ -1,53 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 425EC785FA
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C38276FFC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 05:04:01 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id l64so4332320pge.2
+	Wed, 16 Aug 2017 05:17:01 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id j68so393178pfc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Aug 2017 22:04:03 -0700 (PDT)
+	Tue, 15 Aug 2017 22:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=F3MTeHDcWIxMYLvpuM4tgXx7xSKtMiYyRKi8ekysqLE=;
-	b=OjP7Tt9Kb1meRphnDy4k/FIE7BE0Z60PfwfJGNuRgJTdJyzmzGkhy3Bo47s0XfI1Fp
-	SehvS1TE+rRVBLeyINuHo0lTkws+c4zU5TYMNUrpzdBXAtTZsjWs9n/SgSc9P8HoNJpZ
-	W6RSKlNdCecEJf3KEsjuLIxoScuyeh+uvo8DhMbqESQZygN3jJbvMROt/ITWn+fkCv4J
-	hniVTItvTr2/O7mprgUlQDZCimACGhRY70vCDcCia7aPHU+jSvtD3PhOm7uTOanJ00Og
-	bX3jFdfdPigI/aKI3oG9fidbUGEUhpNqgvtp8kqAc4xoyq9n2Cc7iWDixnj+Hrv/TRun
-	C1Gw==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=2ofeq4LbbQdNIQiq8StAtzDDQZRjrkAYqtT1r2u01SA=;
+	b=McRhWgSSsYrEb2szXWWFvyGjny1XkMzf+pHEdwdOjg1invTbQjMV/FYPeKyQBchxxR
+	jpxQ7bir2Gdss8X8uagiXfGMV3pTBiIvI6VbmhXDryVdjUeEyW2gCNYdBcR7i+Swx/Yi
+	YpmAjzV62f2jB5mSmdYDJinwOeu2YpfZe1XPvjWA537ie/JScJBJO3ztHKfVKsk7XTVd
+	8bPU7f3qL21PnlRVTCGybDxnRaK2MCwMeyV+JvRNufDljOxZui4Xa3sRUy8QZbWCJx4O
+	KYsIXO6Q5VHmE6bWXxWzSIExqnxw1duj3fsdDS9kSuJTnNXDgsDL0IQfgygzfzXuFm9E
+	t6gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=F3MTeHDcWIxMYLvpuM4tgXx7xSKtMiYyRKi8ekysqLE=;
-	b=jEIMnkmNQKfLQxbVfZfCqZ5dgYmNdi3USKlPSrttYVjYFrElYCazPRCQNtrArbqnFK
-	gPW3mBIoTNO64qMzc4icxPvssLwdtpZ5dV9/31zd4i8zedEb9xTsVrShWMXLJRwK8EMW
-	Dt+jvOIQ8QDtHmWsh23F5QonsRT7rmnjHxoA3je8F64vhReJEuc2PlMGQxPD3rzAE5n0
-	72C5LrLNW5uiUdAfXri0/InrWPvpo9J7QDKtR0aLXFPqm4sT9DwMI+FvjoBRgXu3ZgPZ
-	vmeSn7XvWetM5aoIFXfG+icODKBvSN1Fk1H+FlcIx7ECWPwQeFJ1vcymWep1bitrXcHY
-	deCQ==
-X-Gm-Message-State: AHYfb5gpZCfRH4LMjhQ1vg+aX/XZGTXJfE2MjLXdbHoZo1GKza5MZ8wm
-	sQytjdcRK+JCUwYo
-X-Received: by 10.84.228.200 with SMTP id y8mr585408pli.102.1502859843101;
-	Tue, 15 Aug 2017 22:04:03 -0700 (PDT)
+	bh=2ofeq4LbbQdNIQiq8StAtzDDQZRjrkAYqtT1r2u01SA=;
+	b=Tl90M0F7xY5Fm1FvjI5YvbeoS2T9nK1Ps4vVPS1eEh9ecyY+twWh0Hzyn5jegslpqY
+	JX+xuHuF4jDyDtb7TGhlojY6AGCwwZmYBV/gCi96wZ3roK98WAaYflN782IAP9WBFUT9
+	Da+ASDhHFa1gMaOVDXEhTN2xDgPGGYYBpG4WqDi0Ch0yAXlNoyf26VgogbK4bm0pjoS2
+	PmzdFwiXrdNWdDpHXmL9dRUsE7LATyq8KDhsYCYZG5wEZVMJyrp2/glraU5s/iOBtZLN
+	7KIjLPms3xoD8PzIa9laoX0mCcEthhLdTy/LbV9j+m5UQygzv0fJBw5Ml/KOmORyo6X2
+	tqjA==
+X-Gm-Message-State: AHYfb5jPmgeCuqVl4oYG5tAN15/SOzB39+AVcPpVZELELkRIt/3zZQeG
+	AGJt9EBCEuRK+h/U
+X-Received: by 10.99.6.142 with SMTP id 136mr490900pgg.328.1502860622897;
+	Tue, 15 Aug 2017 22:17:02 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:9b7:5cee:9e0b:bac6?
 	([2601:202:4001:9ea0:9b7:5cee:9e0b:bac6])
-	by smtp.gmail.com with ESMTPSA id s8sm7022pfd.77.2017.08.15.22.04.01
+	by smtp.gmail.com with ESMTPSA id v78sm35100pfd.121.2017.08.15.22.17.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Aug 2017 22:04:02 -0700 (PDT)
-To: Martin Jansa <martin.jansa@gmail.com>,
+	Tue, 15 Aug 2017 22:17:02 -0700 (PDT)
+To: Alejandro Mery <amery@hanoverdisplays.com>,
 	openembedded-core@lists.openembedded.org
-References: <20170812003455.27183-1-Martin.Jansa@gmail.com>
+References: <20170803223702.83936-1-amery@hanoverdisplays.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <df8df74b-3186-4aa0-e4ac-81f439d0bea5@gmail.com>
-Date: Tue, 15 Aug 2017 22:04:01 -0700
+Message-ID: <25d7e91f-b139-a482-651d-e03bc652b47c@gmail.com>
+Date: Tue, 15 Aug 2017 22:17:01 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20170812003455.27183-1-Martin.Jansa@gmail.com>
-Subject: Re: [PATCH][pyro 1/4] v86d, qemuboot-x86.inc: use KERNEL_MODULE_AUTOLOAD+KERNEL_MODULE_PROBECONF for uvesafb instead of fbsetup init script
+In-Reply-To: <20170803223702.83936-1-amery@hanoverdisplays.com>
+Subject: Re: [poky][pyro][PATCH 0/1] backport IFF_LOWER_UP fix for 4.10+musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,139 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 05:04:02 -0000
+X-List-Received-Date: Wed, 16 Aug 2017 05:17:01 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 
-On 08/11/2017 05:34 PM, Martin Jansa wrote:
-> * also add UVESA_MODE variable for easier change of resolution and respect it in QB_KERNEL_CMDLINE_APPEND
->    as well
-> * don't use init script just to call modprobe
-> * I wasn't able to test this all the way with runqemu, because runqemu
->    doesn't work on my system, but I've verified that the right params
->    appear there and that I can easily change UVESA_MODE from
->    conf/local.conf, the modules.d and modprobe.d files look OK:
->    OE qemux86@ ~/build/oe-core/tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427212613.rootfs
->    $ cat etc/modules-load.d/uvesafb.conf
->    uvesafb
->
->    OE qemux86@ ~/build/oe-core/tmp-glibc/deploy/images/qemux86/core-image-sato-qemux86-20170427212613.rootfs
->    $ cat etc/modprobe.d/uvesafb.conf
->    options uvesafb mode_option=1600x1200-32
->
->    so I'll be able to drop this KERNEL_MODULE_AUTOLOAD +
->    KERNEL_MODULE_PROBECONF from my DISTRO conf.
+On 08/03/2017 03:37 PM, Alejandro Mery wrote:
+> From: Alejandro Mery <amery@geeks.cl>
 
-All 4 merged to stagging.
+merged to stagging,
 
 thanks,
-Armin
+armin
+> This commit cherry-picks a fix already applied to master and accepted upstream
 >
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->   meta/conf/machine/include/qemuboot-x86.inc |  7 +++++-
->   meta/recipes-bsp/v86d/v86d/fbsetup         |  3 ---
->   meta/recipes-bsp/v86d/v86d/uvesafb.conf    |  2 --
->   meta/recipes-bsp/v86d/v86d_0.1.10.bb       | 36 ------------------------------
->   4 files changed, 6 insertions(+), 42 deletions(-)
->   delete mode 100755 meta/recipes-bsp/v86d/v86d/fbsetup
->   delete mode 100644 meta/recipes-bsp/v86d/v86d/uvesafb.conf
+> commit: 868486c238780ce4a11d9ec9a38e40cb6c1cfc01
 >
-> diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
-> index acd03a1ce8..acf9d55c40 100644
-> --- a/meta/conf/machine/include/qemuboot-x86.inc
-> +++ b/meta/conf/machine/include/qemuboot-x86.inc
-> @@ -10,6 +10,11 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
->   
->   QB_AUDIO_DRV = "alsa"
->   QB_AUDIO_OPT = "-soundhw ac97,es1370"
-> -QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=640x480-32 oprofile.timer=1 uvesafb.task_timeout=-1"
-> +QB_KERNEL_CMDLINE_APPEND = "vga=0 uvesafb.mode_option=${UVESA_MODE} oprofile.timer=1 uvesafb.task_timeout=-1"
->   # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
->   QB_OPT_APPEND = "-vga vmware -show-cursor -usb -usbdevice tablet -device virtio-rng-pci"
-> +
-> +KERNEL_MODULE_AUTOLOAD += "uvesafb"
-> +KERNEL_MODULE_PROBECONF += "uvesafb"
-> +UVESA_MODE ?= "640x480-32"
-> +module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
-> diff --git a/meta/recipes-bsp/v86d/v86d/fbsetup b/meta/recipes-bsp/v86d/v86d/fbsetup
-> deleted file mode 100755
-> index 2a409cc529..0000000000
-> --- a/meta/recipes-bsp/v86d/v86d/fbsetup
-> +++ /dev/null
-> @@ -1,3 +0,0 @@
-> -#!/bin/sh
-> -
-> -/sbin/modprobe uvesafb
-> diff --git a/meta/recipes-bsp/v86d/v86d/uvesafb.conf b/meta/recipes-bsp/v86d/v86d/uvesafb.conf
-> deleted file mode 100644
-> index 43789755d3..0000000000
-> --- a/meta/recipes-bsp/v86d/v86d/uvesafb.conf
-> +++ /dev/null
-> @@ -1,2 +0,0 @@
-> -# Load uvesafb.ko at boot
-> -uvesafb
-> diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-> index eab466d30d..579a0a27eb 100644
-> --- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-> +++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
-> @@ -11,8 +11,6 @@ PR = "r2"
->   
->   SRC_URI = "http://distfiles.gentoo.org/distfiles/${BP}.tar.bz2 \
->              file://Update-x86emu-from-X.org.patch \
-> -           file://fbsetup \
-> -           file://uvesafb.conf \
->              file://ar-from-env.patch \
->              file://aarch64-host.patch \
->   "
-> @@ -23,9 +21,6 @@ SRC_URI[sha256sum] = "634964ae18ef68c8493add2ce150e3b4502badeb0d9194b4bd81241d25
->   PACKAGE_ARCH = "${MACHINE_ARCH}"
->   COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
->   
-> -INITSCRIPT_NAME = "fbsetup"
-> -INITSCRIPT_PARAMS = "start 0 S ."
-> -
->   do_configure () {
->   	./configure --with-x86emu
->   }
-> @@ -37,35 +32,4 @@ do_compile () {
->   do_install () {
->   	install -d ${D}${base_sbindir}
->   	install v86d ${D}${base_sbindir}/
-> -
-> -        # Only install fbsetup script if 'sysvinit' is in DISTRO_FEATURES
-> -        if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-> -            install -d ${D}${sysconfdir}/init.d/
-> -            install -m 0755 ${WORKDIR}/fbsetup ${D}${sysconfdir}/init.d/fbsetup
-> -        fi
-> -
-> -        # Install systemd related configuration file
-> -        if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> -            install -d ${D}${sysconfdir}/modules-load.d
-> -            install -m 0644 ${WORKDIR}/uvesafb.conf ${D}${sysconfdir}/modules-load.d
-> -        fi
-> -}
-> -
-> -# As the recipe doesn't inherit systemd.bbclass, we need to set this variable
-> -# manually to avoid unnecessary postinst/preinst generated.
-> -python __anonymous() {
-> -    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-> -        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
-> -}
-> -
-> -inherit update-rc.d
-> -
-> -PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
-> -pkg_postinst_${PN} () {
-> -	if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
-> -		if [ -n "$D" ]; then
-> -			OPTS="--root=$D"
-> -		fi
-> -		systemctl $OPTS mask fbsetup.service
-> -	fi
->   }
+> https://patchwork.openembedded.org/patch/141193/
+>
+> André Draszik (1):
+>    linux-libc-headers: fix duplicate IFF_LOWER_UP DORMANT ECHO on musl
+>
+>   ....h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch | 46 ++++++++++++++++++++++
+>   .../linux-libc-headers/linux-libc-headers_4.10.bb  |  1 +
+>   2 files changed, 47 insertions(+)
+>   create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch
+>
 
 
