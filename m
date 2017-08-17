@@ -1,26 +1,50 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C118878444
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
+	[209.85.217.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A87056E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 06:45:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7H6jCEW006690
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 Aug 2017 07:09:58 +0000 (UTC)
+Received: by mail-ua0-f194.google.com with SMTP id k43so2748387uaf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 23:45:12 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 16 Aug 2017 23:45:10 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Aug 2017 14:44:29 +0800
-Message-ID: <426809fa85f3bbf114d76916d3a92ce78239f872.1502952233.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1502952233.git.jackie.huang@windriver.com>
-References: <cover.1502952233.git.jackie.huang@windriver.com>
+	Thu, 17 Aug 2017 00:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Rl/ZXDOKmXJJfVyNbLYJhAkbzzyqIlqjGQw0DUjy4cA=;
+	b=N8lQniPJ6TNSwUkqG+rruzMwfumn8+Wqt4mKwNMErNcXlndA8NdE/VDtJoFL4q186I
+	eJJmEPOnU99mDCgC4uXoRba+iHnmzjy4MPYG5Stk5TxC9AoVbddOTMxgzOb0oUEubzZ9
+	qDRqqbjbxI7duGlDaSKRg57ZssZ6yf8PqD1PppydieSkHQtMW6kK9wfRReKvkwr+SEzQ
+	M/bNUWIZER277yDET6DQkxx2PZ1hsZzii4Vg95X1BHSOGEk/bKo7v3M2mSKE3NbePVas
+	3V0IYmgY9Jg7cwnLhqgSCVG9W/TgdkpxRX5Hal1jby8Qaz4w9emfdFprSOWC1hO++3bM
+	ouWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Rl/ZXDOKmXJJfVyNbLYJhAkbzzyqIlqjGQw0DUjy4cA=;
+	b=WuNEZVzOJ7i547Lh9xSTuV2wBHdd8kudZXSEXYKnfuk3f9zd6Og8QysrRbcFYxWFrY
+	FMuzoz3cMMafezj1CsJrD6ZpH+3qu6bGSMJzSWE0/mozX++xODJtbtlkR1gdnq6B0q2Z
+	EOQ+GIwK3PyTrcSOiFqAaRg5EQblHZHbWXDIuZJewyO81o4lPY/hJP/twWaGqn1Qk9cY
+	6vwpHlsPCjqp4LDJaaSR+BGK/XrV1+uyFRCOFNUITZ0fGahLNfE87uSOdHX+NLAbPvwd
+	cvZeQW5y71LA/0yQGC9No361EOCpPeHNXKBNYNfBsgkvpcwmdyxy+c5bfiVsNLLZdlHB
+	IdcQ==
+X-Gm-Message-State: AHYfb5j9ZRTJnMApDx8v9UoYnAI7ICF9KY4OF4T1BAEmTGyBL06PEUpE
+	PT+iBnqvI+eWLaPuKEV0zd/3Fi/LUA==
+X-Received: by 10.176.66.7 with SMTP id i7mr294857uai.118.1502953799478; Thu,
+	17 Aug 2017 00:09:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] libsndfile1: Fix CVE-2017-8363
+Received: by 10.159.51.10 with HTTP; Thu, 17 Aug 2017 00:09:59 -0700 (PDT)
+In-Reply-To: <CAC+thW0AzxtL22OCU_o+Lb_arcHkzvtu-PFSAWYPsxRAanOqUw@mail.gmail.com>
+References: <20170810093755.6342-1-schnitzeltony@googlemail.com>
+	<CAC+thW0AzxtL22OCU_o+Lb_arcHkzvtu-PFSAWYPsxRAanOqUw@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Thu, 17 Aug 2017 09:09:59 +0200
+Message-ID: <CALbNGRS5iR0j7r8gBp7E5M9MT3tB7_itiZ9UKgZ5YeQ=cbbgYQ@mail.gmail.com>
+To: Andrea Galbusera <gizero@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: update to 17.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 06:45:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Aug 2017 07:09:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jackie Huang <jackie.huang@windriver.com>
-
-Backport the patch to fix CVE-2017-8363:
-
-The flac_buffer_copy function in flac.c in libsndfile 1.0.28 allows
-remote attackers to cause a denial of service (heap-based buffer
-over-read and application crash) via a crafted audio file.
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2017-8363
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../libsndfile/libsndfile1/CVE-2017-8363.patch     | 37 ++++++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.28.bb               |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-8363.patch
-
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-8363.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-8363.patch
-new file mode 100644
-index 0000000000..e526e5a346
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2017-8363.patch
-@@ -0,0 +1,37 @@
-+From cd7da8dbf6ee4310d21d9e44b385d6797160d9e8 Mon Sep 17 00:00:00 2001
-+From: Erik de Castro Lopo <erikd@mega-nerd.com>
-+Date: Wed, 12 Apr 2017 20:19:34 +1000
-+Subject: [PATCH] src/flac.c: Fix another memory leak
-+
-+When the FLAC decoder was passed a malformed file, the associated
-+`FLAC__StreamDecoder` object was not getting released.
-+
-+Closes: https://github.com/erikd/libsndfile/issues/233
-+
-+CVE: CVE-2017-8363
-+
-+Upstream-Status: Backport [https://github.com/erikd/libsndfile/commit/cd7da8dbf6ee4310d21d9e44b385d6797160d9e8]
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ src/flac.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/flac.c b/src/flac.c
-+index 986a7b8..5a4f8c2 100644
-+--- a/src/flac.c
-++++ b/src/flac.c
-+@@ -841,7 +841,9 @@ flac_read_header (SF_PRIVATE *psf)
-+ 
-+ 	psf_log_printf (psf, "End\n") ;
-+ 
-+-	if (psf->error == 0)
-++	if (psf->error != 0)
-++		FLAC__stream_decoder_delete (pflac->fsd) ;
-++	else
-+ 	{	FLAC__uint64 position ;
-+ 
-+ 		FLAC__stream_decoder_get_decode_position (pflac->fsd, &position) ;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index 2bd51b1cd9..281ac82e39 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -9,6 +9,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
-            file://CVE-2017-6892.patch \
-            file://CVE-2017-8361-8365.patch \
-            file://CVE-2017-8362.patch \
-+           file://CVE-2017-8363.patch \
-           "
- 
- SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
--- 
-2.11.0
-
+On Fri, Aug 11, 2017 at 3:08 PM, Andrea Galbusera <gizero@gmail.com> wrote:
+> On Thu, Aug 10, 2017 at 11:37 AM, Andreas M=C3=BCller
+> <schnitzeltony@googlemail.com> wrote:
+>>
+>> Optional installation of khrplatform.h was implemented upstream by a
+>> slightly
+>> different approach ->
+>> 0001-mapi-Only-install-khrplatform.h-with-EGL-or-GLES.patch
+>> can be removed.
+>>
+>>
+>> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+>
+>
+> LGTM. Being reporting the issue that originated the here removed patch by
+> Jussi, I build tested this commit on the original setup with
+> meta-raspberrypi and everything still looks good.
+>
+ping
 
