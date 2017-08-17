@@ -1,31 +1,35 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 215BA784A0
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 595 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 17 Aug 2017 11:00:00 UTC
+Received: from atl4mhfb01.myregisteredsite.com
+	(atl4mhfb01.myregisteredsite.com [209.17.115.55])
+	by mail.openembedded.org (Postfix) with ESMTP id 70A2178468
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 10:56:15 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Aug 2017 03:56:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,387,1498546800"; d="scan'208";a="124693685"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2017 03:56:12 -0700
-To: Mark Hatle <mark.hatle@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
-	<1502890461.13978.127.camel@linuxfoundation.org>
-	<e285fe7c-320d-db44-98fd-ff1d06df5706@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <d01a078c-ad1a-2979-3fc2-fc5d4052ae02@linux.intel.com>
-Date: Thu, 17 Aug 2017 13:53:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <e285fe7c-320d-db44-98fd-ff1d06df5706@windriver.com>
-Cc: peter.kjellerstedt@axis.com
-Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
+	Thu, 17 Aug 2017 11:00:00 +0000 (UTC)
+Received: from atl4mhob15.registeredsite.com (atl4mhob15.registeredsite.com
+	[209.17.115.53])
+	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	v7HAo7aM028019 for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Aug 2017 06:50:07 -0400
+Received: from mailpod.hostingplatform.com ([10.30.71.205])
+	by atl4mhob15.registeredsite.com (8.14.4/8.14.4) with ESMTP id
+	v7HAo435008113
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Aug 2017 06:50:04 -0400
+Received: (qmail 28510 invoked by uid 0); 17 Aug 2017 10:50:04 -0000
+X-TCPREMOTEIP: 37.74.225.130
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
+	(mike@milosoftware.com@37.74.225.130)
+	by 0 with ESMTPA; 17 Aug 2017 10:50:04 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Aug 2017 12:49:49 +0200
+Message-Id: <1502966989-24289-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.9.1
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] rootfs-postcommands.bbclass: Prevent linking testdata to itself
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 10:56:16 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Aug 2017 11:00:00 -0000
 
-On 08/16/2017 06:37 PM, Mark Hatle wrote:
-> Are there any examples?  I was looking there and simply didn't see any.  I saw
-> the packaging for instance exercised python interfaces, version comparison
-> tools, etc.. but nothing that built a recipe/package and then verified the
-> contents were 'correct'.
-> 
-> Ideally the test would be to fabricate something with a known set of file
-> dependencies, produce a package from it and then verify that the package
-> properly included those dependencies.
-> 
-> I had looked at just picking some random library out of the deploy directory,
-> and doing a pattern search on it's provides.. but I'm not sure that type of test
-> would be very robust.
+testdata and testdata_link may point to the same file, in particular
+when IMAGE_LINK_NAME and IMAGE_NAME are equal.
 
-How was this regression discovered in the first place? I guess that some 
-recipe used to build without error with rpm5, and stopped building with 
-rpm4. This is what you could test for: isolate the problematic bit, 
-remove everything else, and write a simple recipe(s) that can be placed 
-into meta-selftest. Then simply build those from the selftest; if they 
-build without error, you don't need to do more sophisticated checks.
+Check if this is the case before creating a symlink that points to
+itself and makes the next build fail.
 
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ meta/classes/rootfs-postcommands.bbclass | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Alex
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 78f7c55..c92df7b 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -300,7 +300,8 @@ python write_image_test_data() {
+     searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
+     export2json(d, testdata,searchString=searchString,replaceString="")
+ 
+-    if os.path.lexists(testdata_link):
+-       os.remove(testdata_link)
+-    os.symlink(os.path.basename(testdata), testdata_link)
++    if testdata_link != testdata:
++        if os.path.lexists(testdata_link):
++           os.remove(testdata_link)
++        os.symlink(os.path.basename(testdata), testdata_link)
+ }
+-- 
+1.9.1
+
 
