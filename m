@@ -1,45 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C35017844A
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 52330782A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 16:41:18 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id y192so10695712pgd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 09:41:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=aNxgzWJaeqt5aA7ZOTMR/eZ2hmuIJe4x+6BEVptgeGw=;
-	b=UoFDRMJV94X98fQCayAcMwzCSvB0diTbXpureMbHBb/tdr7T4toRxae4ew+QX5ySe8
-	xgh5ZirTnWo6GP08TA99463/Jz/UNsZdTI5czzLIcg1DLmpuar+wp8Eiwo71BZSA1TaL
-	ajjh8RB40SXfCPzIgR38Qr2nG4sOVn6vmzGuW36uZa5t7G8f9BiZ0YnW86Cd0TIW1yCp
-	hOW8Ku7LYb3S7gEGv+xR9+UA3V8Jt3HEDpjrJ2GuXS00x/idfaQR8NHY++NVXGOrs8lS
-	0bP44m2P+KBJv/N+DIpiiA1G464+kEwsMUU6RzLdOnwj23OvMB1fnUUzrB7Zw1a7fhDR
-	EOTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aNxgzWJaeqt5aA7ZOTMR/eZ2hmuIJe4x+6BEVptgeGw=;
-	b=RoXTLxThERHnJAFUcvSe3kQf48jqMx0It48xfaPkZkX269PlL6OTVg3+iOpM2Aliek
-	xvwrpwAEzQhR5ai+6DVrxAUiD0ooHcJH/N6nIy5nyg8t5HUoJwSCeYemNIeFAWb4NLBS
-	fHAFSwEuSedwqJT0peO8W4TIRc5g9q2WxyYUzcAp9w8LSVsZZC55CRA6iAKCmVqT1V+B
-	kgrbJClRyPBy4aoA8tbtEHYzNsApLFP7cy+ZtbptA1bDSyRNaOHnu8UDUxAAk05S7TUb
-	ZiK8hbz0bHWZJIL9kAw1pTCn6quNOLK8GhaulxnBMLAL9ICXEK/AoPLjhsakj76INIc/
-	+AsA==
-X-Gm-Message-State: AHYfb5jS4dYMRl7AOR6d7FyHvv+jYh9QGpmDPisDxkh9sO5vGQDPuI3c
-	0M5Z3+F0HZeK30gL
-X-Received: by 10.101.73.72 with SMTP id q8mr5635427pgs.219.1502988079744;
-	Thu, 17 Aug 2017 09:41:19 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::8319])
-	by smtp.gmail.com with ESMTPSA id
-	f15sm6201616pgu.90.2017.08.17.09.41.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Aug 2017 09:41:18 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu, 17 Aug 2017 17:11:11 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Aug 2017 10:11:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,388,1498546800"; d="scan'208";a="120130215"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga004.jf.intel.com with ESMTP; 17 Aug 2017 10:11:11 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Aug 2017 09:41:08 -0700
-Message-Id: <20170817164108.43467-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] systemd-boot: Move adjacent to systemd
+Date: Thu, 17 Aug 2017 10:11:00 -0700
+Message-Id: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH 0/3] Restructure python2 and python3 packaging system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,95 +29,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 16:41:18 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 17:11:12 -0000
 
-We always forget to upgrade it when systemd is upgraded, keeping it
-next to systemd will be an easy reminder to upgrade this recipe along
-with systemd
+The reason we have a manifest file for python is that our goal is to
+keep python-core as small as posible and add other python packages only
+when the user needs them, hence why we split upstream python into several
+packages.
 
-Define EFI_CC, so far it has been using detection mechanism which
-worked with gcc but falls back to native gcc when using non-gcc compiler
-as default system compiler e.g. clang
+There are many problems with our current implementation of the manifest file,
+this patch tries to deal with all of them along with adding several other
+features.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...pper-instead-of-looking-for-relative-opti.patch | 40 ----------------------
- .../systemd/systemd-boot_234.bb}                   |  6 ++--
- 2 files changed, 4 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-bsp/systemd-boot/files/0001-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
- rename meta/{recipes-bsp/systemd-boot/systemd-boot_232.bb => recipes-core/systemd/systemd-boot_234.bb} (85%)
+This patch adds a new task to python recipes, which is meant to create a new
+manifest file every release.
 
-diff --git a/meta/recipes-bsp/systemd-boot/files/0001-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch b/meta/recipes-bsp/systemd-boot/files/0001-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
-deleted file mode 100644
-index bc92db7468..0000000000
---- a/meta/recipes-bsp/systemd-boot/files/0001-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From a3482c91642cf568b3ac27fa6c0cb3c6b30669b7 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 9 Nov 2016 19:32:14 -0800
--Subject: [PATCH 07/19] use lnr wrapper instead of looking for --relative
-- option for ln
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- Makefile.am  | 2 +-
-- configure.ac | 2 --
-- 2 files changed, 1 insertion(+), 3 deletions(-)
--
--Index: git/Makefile.am
--===================================================================
----- git.orig/Makefile.am
--+++ git/Makefile.am
--@@ -320,7 +320,7 @@ define install-relative-aliases
-- 	while [ -n "$$1" ]; do \
-- 		$(MKDIR_P) `dirname $(DESTDIR)$$dir/$$2` && \
-- 		rm -f $(DESTDIR)$$dir/$$2 && \
---		$(LN_S) --relative $(DESTDIR)$$1 $(DESTDIR)$$dir/$$2 && \
--+		lnr $(DESTDIR)$$1 $(DESTDIR)$$dir/$$2 && \
-- 		shift 2 || exit $$?; \
-- 	done
-- endef
--Index: git/configure.ac
--===================================================================
----- git.orig/configure.ac
--+++ git/configure.ac
--@@ -110,8 +110,6 @@ AC_PATH_PROG([SULOGIN], [sulogin], [/usr
-- AC_PATH_PROG([MOUNT_PATH], [mount], [/usr/bin/mount], [$PATH:/usr/sbin:/sbin])
-- AC_PATH_PROG([UMOUNT_PATH], [umount], [/usr/bin/umount], [$PATH:/usr/sbin:/sbin])
-- 
---AS_IF([! ln --relative --help > /dev/null 2>&1], [AC_MSG_ERROR([*** ln doesn't support --relative ***])])
---
-- M4_DEFINES=
-- 
-- AC_CHECK_TOOL(OBJCOPY, objcopy)
-diff --git a/meta/recipes-bsp/systemd-boot/systemd-boot_232.bb b/meta/recipes-core/systemd/systemd-boot_234.bb
-similarity index 85%
-rename from meta/recipes-bsp/systemd-boot/systemd-boot_232.bb
-rename to meta/recipes-core/systemd/systemd-boot_234.bb
-index 0471ce246b..ed55e537eb 100644
---- a/meta/recipes-bsp/systemd-boot/systemd-boot_232.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_234.bb
-@@ -1,12 +1,14 @@
--require recipes-core/systemd/systemd.inc
-+require systemd.inc
-+FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemd:"
- 
- DEPENDS = "intltool-native libcap util-linux gnu-efi gperf-native"
- 
--SRC_URI += "file://0001-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch"
-+SRC_URI += "file://0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.patch"
- 
- inherit autotools pkgconfig gettext
- inherit deploy
- 
-+export EFI_CC="${CC}"
- # Man pages are packaged through the main systemd recipe
- EXTRA_OECONF = " --enable-gnuefi \
-                  --with-efi-includedir=${STAGING_INCDIR} \
+$ bitbake python -c create_manifest  
+
+In a very simplistic way what this does is:                                                                                                      
+Launch python and see specifically what is required for it to run at a minimum                                                                   
+                                                                                                                                                 
+Go through the python-manifest file and launch a separate task for every single                                                                  
+one of the files on each package, this task will check what was required for that                                                                
+specific module to run, these modules will be called dependencies.                                                                               
+The output of such task will be a list of the modules or dependencies that were                                                                  
+found for that file.                                                                                                                             
+                                                                                                                                                 
+Such output will be parsed by this script, we will look for each dependency on the                                                               
+manifest and if we find that another package already includes it, then we will add                                                               
+that package as an RDEPENDS to the package we are currently checking; in case we dont                                                            
+find the current dependency on any other package we will add it to the current package                                                           
+as part of FILES.                                                                                                                                
+                                                                                                                                                 
+This way we will create a new manifest from the data structure that was built during                                                             
+this process, ont this new manifest each package will contain specifically only                                                                  
+what it needs to run, providing us with finer granularity.
+
+There are some caveats which we try to deal with, such as repeated files on different                                                            
+packages, packages that include folders, wildcards, and special packages.                                                                        
+Its also important to note that this method only works for python files, and shared                                                              
+libraries. Static libraries, header files and binaries need to be dealt with manually.
+
+
+Using this script a new package can easily be added like this:
+ - If a user wants to add a new package all that has to be done is
+   modify the python2-manifest.json file, and add the required file(s)
+   to the FILES list, the script should handle all the rest.
+   Real example:
+   "webbrowser": {
+       "files": ["${libdir}/python2.7/lib-dynload/webbrowser.py"],
+       "rdepends": [],
+       "summary": "Python Web browser support"}
+
+ Run bitbake python -c create_manifest and the resulting manifest
+ should  be completed after a few seconds, showing something like:
+   "webbrowser": {
+      "files": ["${libdir}/python2.7/webbrowser.py"],
+      "rdepends": ["core","fcntl","io","pickle","shell","subprocess"],
+      "summary": "Python Web browser support"}
+
+It also fixes several errors we didnt even know we had:
+ - Fixes python-core for dependencies, e.g.
+   When python is run on an image, it TRIES to import everything it needs,
+   but it doesnt necessarily fails when it doesnt find something, so even if
+   we didnt know, we had errors like (trimmed on purpose):
+   # trying /usr/lib/python2.7/_locale.so
+   # trying /usr/lib/python2.7/lib-dynload/_locale.so
+   # trying /usr/lib/python2.7/_sysconfigdata.so
+
+   while it didnt complain about _locale it should have imported it,
+   after creating a new manifest with the automated script we get:
+
+   # trying /usr/lib/python2.7/lib-dynload/_locale.so
+   dlopen("/usr/lib/python2.7/lib-dynload/_locale.so", 2);
+   import _locale # dynamically loaded from /usr/lib/python2.7/lib-dynload/_locale.so
+
+The python2 and python3 versions differ on its core functionality in some bits:
+ - Python3 handles precompiled bytecode files  (*.pyc) differently.
+   for this reason and since we are cross compiling, wildcards couldnt be
+   avoided on python3 (See PEP #3147 [1]).
+   Both the manifest and the manifest creation script handle this
+   differently, the manifest for python3 has an extra field for cached
+   files, which is how it lets the user install the cached files or not
+   via : INCLUDE_PYCS = "1" on their local.conf.
+ - Shared libs nomenclature also changed on python3, so again, we use
+   wildcards to deal with this issue ( See PEP #3149 [2]):
+ - Fixes python3 manifest, python3-core should be base and everything
+   should depend on it, hence several packages were deleted:
+   python3-enum, re, gdbm, subprocess, signal, readline.
+
+
+
+The following changes since commit 55bf88603927469de9aa9f6fd4d449230d2e61e3:
+
+  poky: Add nios2 to list of qemu targets (2017-08-17 00:21:35 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib hsalejandro/python_autopack_final
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/python_autopack_final
+
+Alejandro Hernandez (3):
+  python: Restructure python packaging and replace it with autopackaging
+  python3: fix RDEPENDS on several recipes, due to non-existent python3
+    packages
+  python3: Restructure python3 packaging and replace it with
+    autopackaging
+
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |    2 +-
+ .../bootchart2/bootchart2_0.14.8.bb                |    2 +-
+ meta/recipes-devtools/dnf/dnf_2.6.3.bb             |    4 +-
+ meta/recipes-devtools/gdb/gdb-cross-canadian.inc   |    4 +-
+ .../opkg-utils/opkg-utils_0.3.5.bb                 |    2 +-
+ .../python-numpy/python3-numpy_1.13.1.bb           |    2 -
+ .../python/python-2.7-manifest.inc                 |  287 -----
+ .../python/python-3.5-manifest.inc                 |  283 -----
+ .../python/python-native-3.5-manifest.inc          |   10 -
+ .../python/python-native_2.7.13.bb                 |    3 -
+ .../python/python/create_manifest2.py              |  274 +++++
+ .../python/python/get_module_deps2.py              |  110 ++
+ .../python/python/python2-manifest.json            | 1033 ++++++++++++++++++
+ .../python/python/sitecustomize.py                 |    8 -
+ .../recipes-devtools/python/python3-async_0.6.2.bb |    2 +-
+ meta/recipes-devtools/python/python3-git_2.1.5.bb  |    2 +-
+ .../recipes-devtools/python/python3-gitdb_0.6.4.bb |    2 +-
+ .../python/python3-native_3.5.3.bb                 |   10 +-
+ .../python/python3-pygobject_3.24.1.bb             |    2 +-
+ .../python/python3-setuptools_36.2.7.bb            |    3 -
+ .../recipes-devtools/python/python3-smmap_0.9.0.bb |    2 +-
+ .../python/python3/create_manifest3.py             |  318 ++++++
+ .../python/python3/get_module_deps3.py             |  145 +++
+ .../python/python3/python3-manifest.json           | 1107 ++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.5.3.bb      |   90 +-
+ meta/recipes-devtools/python/python_2.7.13.bb      |   82 +-
+ .../qemu/nativesdk-qemu-helper_1.0.bb              |    2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb         |    4 +-
+ meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb        |    2 +-
+ meta/recipes-rt/rt-tests/rt-tests_1.1.bb           |    2 +-
+ scripts/contrib/python/generate-manifest-2.7.py    |  421 --------
+ scripts/contrib/python/generate-manifest-3.5.py    |  433 --------
+ 32 files changed, 3178 insertions(+), 1475 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-2.7-manifest.inc
+ delete mode 100644 meta/recipes-devtools/python/python-3.5-manifest.inc
+ delete mode 100644 meta/recipes-devtools/python/python-native-3.5-manifest.inc
+ create mode 100644 meta/recipes-devtools/python/python/create_manifest2.py
+ create mode 100644 meta/recipes-devtools/python/python/get_module_deps2.py
+ create mode 100644 meta/recipes-devtools/python/python/python2-manifest.json
+ create mode 100644 meta/recipes-devtools/python/python3/create_manifest3.py
+ create mode 100644 meta/recipes-devtools/python/python3/get_module_deps3.py
+ create mode 100644 meta/recipes-devtools/python/python3/python3-manifest.json
+ delete mode 100755 scripts/contrib/python/generate-manifest-2.7.py
+ delete mode 100755 scripts/contrib/python/generate-manifest-3.5.py
+
 -- 
-2.14.1
+2.12.3
 
 
