@@ -1,43 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ua0-f177.google.com (mail-ua0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D6557840A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 215BA784A0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 10:31:18 +0000 (UTC)
-Received: by mail-ua0-f177.google.com with SMTP id y36so23377040uac.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 03:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=R+j4L/aIJ9jm5BaiYlTBh8h/J8cMbpopDDhjgOlp1PE=;
-	b=MqiX9tcpeRajkAfcUme58QYqVsjv57HcoZmR+5lDzT8h6OrzGUuVl2IqB6cfEsYzEf
-	I8jHmoylHv0YtUe6gVZklMOfaqik6DwNPazN6i1B3bs50VWi7F6yMFTr+36B5UPGBy3G
-	EzT3FA5sGdSS72a7od+oEgYsq0Dkuw4j+VIQ0wp4aqsrRfrxOBMZ80Z/qEj1fzS6WoRC
-	YhEXGtulzF/02g6i4fN/JiPEEQsoWXo5p8dWgF6caiiu89V4WNRgnoVVAQ6H6uuLV3RF
-	5fGKbMXDz7F4xIHBrNGTTt/vpm6R+L7VkD6XiN/RGizLtPgvkQlMLJV+3emEY8j7IGLE
-	myHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=R+j4L/aIJ9jm5BaiYlTBh8h/J8cMbpopDDhjgOlp1PE=;
-	b=FaxZkN5l0WCiuy1Vw/NmBD9arScBevP9DNizwhDSRCuU0R0H76r3IS6dj65lXkMNC4
-	eCA0j6eokCrONI8kkd8M0JqGGBLha2/i0Ai/Zl0OQFNvz9pOU+3u5gnK8aOEhJH67M2L
-	gXKNjZu+9SYhSOcrcr0LNgZ7+JNnJyBdCAsKTlCKtbzq35n+LkrGL309kTMHUKDyDhTV
-	2aWi/0O4iCyfT5ke9saNf7wCSMPgIDorJgQDmsty+B6aqQRk9Zyxak6WtHMHMd/uQneA
-	EG+xuemI2t6IfQ2z8O7+1KnSxjSBr3VGSqmjIw3mUuzNGBsfCIWw8Bx8L1WYTKOiUozB
-	RsOg==
-X-Gm-Message-State: AHYfb5hPq0kI+EdJjd/ZCljTBhOv+WqKs2m62DNRj1DaN2ygKk1hO70v
-	Q0xlHuiI1bwfGmGZkjvEN3YllSRATJmA
-X-Received: by 10.176.81.23 with SMTP id e23mr514932uaa.2.1502965879056; Thu,
-	17 Aug 2017 03:31:19 -0700 (PDT)
+	Thu, 17 Aug 2017 10:56:15 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Aug 2017 03:56:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,387,1498546800"; d="scan'208";a="124693685"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2017 03:56:12 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
+	<1502890461.13978.127.camel@linuxfoundation.org>
+	<e285fe7c-320d-db44-98fd-ff1d06df5706@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <d01a078c-ad1a-2979-3fc2-fc5d4052ae02@linux.intel.com>
+Date: Thu, 17 Aug 2017 13:53:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.103.122.88 with HTTP; Thu, 17 Aug 2017 03:31:18 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 17 Aug 2017 12:31:18 +0200
-Message-ID: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: openssl10 unusable for many components
+In-Reply-To: <e285fe7c-320d-db44-98fd-ff1d06df5706@windriver.com>
+Cc: peter.kjellerstedt@axis.com
+Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,176 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 10:31:18 -0000
-Content-Type: multipart/alternative; boundary="94eb2c191a8a54af3a0556f0837b"
+X-List-Received-Date: Thu, 17 Aug 2017 10:56:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---94eb2c191a8a54af3a0556f0837b
-Content-Type: text/plain; charset="UTF-8"
+On 08/16/2017 06:37 PM, Mark Hatle wrote:
+> Are there any examples?  I was looking there and simply didn't see any.  I saw
+> the packaging for instance exercised python interfaces, version comparison
+> tools, etc.. but nothing that built a recipe/package and then verified the
+> contents were 'correct'.
+> 
+> Ideally the test would be to fabricate something with a known set of file
+> dependencies, produce a package from it and then verify that the package
+> properly included those dependencies.
+> 
+> I had looked at just picking some random library out of the deploy directory,
+> and doing a pattern search on it's provides.. but I'm not sure that type of test
+> would be very robust.
 
-Does openssl10 work for anyone in real-world scenarios?
+How was this regression discovered in the first place? I guess that some 
+recipe used to build without error with rpm5, and stopped building with 
+rpm4. This is what you could test for: isolate the problematic bit, 
+remove everything else, and write a simple recipe(s) that can be placed 
+into meta-selftest. Then simply build those from the selftest; if they 
+build without error, you don't need to do more sophisticated checks.
 
-I was trying to fix at least some of the failures reported in last bitbake
-world status:
-http://lists.openembedded.org/pipermail/openembedded-core/2017-August/140829.html
 
-But in most recipes if you update DEPENDS to use openssl10, it will get
-openssl (1.1) somewhere in dependency tree as well, e.g. like qtbase
-through python3:
+Alex
 
-OE qemux86@ ~/build/oe-core $ grep " -> \"openssl.*do_populate_sysroot"
-task-depends.dot
-"qtbase.do_prepare_recipe_sysroot" -> "openssl10.do_populate_sysroot"
-"openssl10.do_prepare_recipe_sysroot" ->
-"openssl-native.do_populate_sysroot"
-"python3-native.do_prepare_recipe_sysroot" ->
-"openssl-native.do_populate_sysroot"
-"python3.do_prepare_recipe_sysroot" -> "openssl.do_populate_sysroot"
-
-and then do_prepare_recipe_sysroot fails, because both dependencies provid
-libssl.a:
-
-ERROR: qtbase-5.9.0+gitAUTOINC+f6b36eaafe-r0 do_prepare_recipe_sysroot:
-Error executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:extend_recipe_sysroot(d)
-     0003:
-File: '/OE/build/oe-core/openembedded-core/meta/classes/staging.bbclass',
-lineno: 510, function: extend_recipe_sysroot
-     0506:                    dest = newmanifest[l]
-     0507:                    if l.endswith("/"):
-     0508:                        staging_copydir(l, targetdir, dest,
-seendirs)
-     0509:                        continue
- *** 0510:                    staging_copyfile(l, targetdir, dest,
-postinsts, seendirs)
-     0511:
-     0512:    for f in fixme:
-     0513:        if f == '':
-     0514:            staging_processfixme(fixme[f], recipesysroot,
-recipesysroot, recipesysrootnative, d)
-File: '/OE/build/oe-core/openembedded-core/meta/classes/staging.bbclass',
-lineno: 151, function: staging_copyfile
-     0147:        os.symlink(linkto, dest)
-     0148:        #bb.warn(c)
-     0149:    else:
-     0150:        try:
- *** 0151:            os.link(c, dest)
-     0152:        except OSError as err:
-     0153:            if err.errno == errno.EXDEV:
-     0154:                bb.utils.copyfile(c, dest)
-     0155:            else:
-Exception: FileExistsError: [Errno 17] File exists:
-'/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl/usr/lib/libssl.a'
-->
-'/OE/build/oe-core/tmp-glibc/work/i586-oe-linux/qtbase/5.9.0+gitAUTOINC+f6b36eaafe-r0/recipe-sysroot/usr/lib/libssl.a'
-
-ERROR: qtbase-5.9.0+gitAUTOINC+f6b36eaafe-r0 do_prepare_recipe_sysroot:
-Function failed: extend_recipe_sysroot
-ERROR: Logfile of failure stored in:
-/OE/build/oe-core/tmp-glibc/work/i586-oe-linux/qtbase/5.9.0+gitAUTOINC+f6b36eaafe-r0/temp/log.do_prepare_recipe_sysroot.6496
-ERROR: Task (/OE/build/oe-core/meta-qt5/recipes-qt/qt5/qtbase_git.bb:do_prepare_recipe_sysroot)
-failed with exit code '1'
-
-And not just libssl.a, they both provide also identically named pkg-config
-files:
-openssl.pc, libcrypto.pc, libssl.pc
-OE qemux86@ ~/build/oe-core $ find
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl10/ | grep pc
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl10/usr/lib/pkgconfig/openssl.pc
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl10/usr/lib/pkgconfig/libcrypto.pc
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl10/usr/lib/pkgconfig/libssl.pc
-OE qemux86@ ~/build/oe-core $ find
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl | grep pc
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl/usr/lib/pkgconfig/openssl.pc
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl/usr/lib/pkgconfig/libcrypto.pc
-/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl/usr/lib/pkgconfig/libssl.pc
-
-So you cannot just select which openssl implementation you want for given
-component, unless it's very simple component with small dependency tree.
-
---94eb2c191a8a54af3a0556f0837b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Does openssl10 work for anyone in real-world scenario=
-s?</div><div><br></div><div>I was trying to fix at least some of the failur=
-es reported in last bitbake world status:</div><div><a href=3D"http://lists=
-.openembedded.org/pipermail/openembedded-core/2017-August/140829.html">http=
-://lists.openembedded.org/pipermail/openembedded-core/2017-August/140829.ht=
-ml</a></div><div><br></div><div>But in most recipes if you update DEPENDS t=
-o use openssl10, it will get openssl (1.1) somewhere in dependency tree as =
-well, e.g. like qtbase through python3:</div><div><br></div><div>OE qemux86=
-@ ~/build/oe-core $ grep &quot; -&gt; \&quot;openssl.*do_populate_sysroot&q=
-uot; task-depends.dot=C2=A0</div><div>&quot;qtbase.do_prepare_recipe_sysroo=
-t&quot; -&gt; &quot;openssl10.do_populate_sysroot&quot;</div><div>&quot;ope=
-nssl10.do_prepare_recipe_sysroot&quot; -&gt; &quot;openssl-native.do_popula=
-te_sysroot&quot;</div><div>&quot;python3-native.do_prepare_recipe_sysroot&q=
-uot; -&gt; &quot;openssl-native.do_populate_sysroot&quot;</div><div>&quot;p=
-ython3.do_prepare_recipe_sysroot&quot; -&gt; &quot;openssl.do_populate_sysr=
-oot&quot;</div><div><br></div><div>and then do_prepare_recipe_sysroot fails=
-, because both dependencies provid libssl.a:</div><div><br></div><div>ERROR=
-: qtbase-5.9.0+gitAUTOINC+f6b36eaafe-r0 do_prepare_recipe_sysroot: Error ex=
-ecuting a python function in exec_python_func() autogenerated:</div><div><b=
-r></div><div>The stack trace of python calls that resulted in this exceptio=
-n/failure was:</div><div>File: &#39;exec_python_func() autogenerated&#39;, =
-lineno: 2, function: &lt;module&gt;</div><div>=C2=A0 =C2=A0 =C2=A00001:</di=
-v><div>=C2=A0*** 0002:extend_recipe_sysroot(d)</div><div>=C2=A0 =C2=A0 =C2=
-=A00003:</div><div>File: &#39;/OE/build/oe-core/openembedded-core/meta/clas=
-ses/staging.bbclass&#39;, lineno: 510, function: extend_recipe_sysroot</div=
-><div>=C2=A0 =C2=A0 =C2=A00506: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0dest =3D newmanifest[l]</div><div>=C2=A0 =C2=A0 =
-=C2=A00507: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0if l.endswith(&quot;/&quot;):</div><div>=C2=A0 =C2=A0 =C2=A00508: =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0staging_copydir(l, targetdir, dest, seendirs)</div><div>=C2=A0 =C2=A0=
- =C2=A00509: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0continue</div><div>=C2=A0*** 0510: =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0staging_copyfile(l, tar=
-getdir, dest, postinsts, seendirs)</div><div>=C2=A0 =C2=A0 =C2=A00511:</div=
-><div>=C2=A0 =C2=A0 =C2=A00512: =C2=A0 =C2=A0for f in fixme:</div><div>=C2=
-=A0 =C2=A0 =C2=A00513: =C2=A0 =C2=A0 =C2=A0 =C2=A0if f =3D=3D &#39;&#39;:</=
-div><div>=C2=A0 =C2=A0 =C2=A00514: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0staging_processfixme(fixme[f], recipesysroot, recipesysroot, recipesysro=
-otnative, d)</div><div>File: &#39;/OE/build/oe-core/openembedded-core/meta/=
-classes/staging.bbclass&#39;, lineno: 151, function: staging_copyfile</div>=
-<div>=C2=A0 =C2=A0 =C2=A00147: =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symlink(linkto=
-, dest)</div><div>=C2=A0 =C2=A0 =C2=A00148: =C2=A0 =C2=A0 =C2=A0 =C2=A0#bb.=
-warn(c)</div><div>=C2=A0 =C2=A0 =C2=A00149: =C2=A0 =C2=A0else:</div><div>=
-=C2=A0 =C2=A0 =C2=A00150: =C2=A0 =C2=A0 =C2=A0 =C2=A0try:</div><div>=C2=A0*=
-** 0151: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.link(c, dest)</div><di=
-v>=C2=A0 =C2=A0 =C2=A00152: =C2=A0 =C2=A0 =C2=A0 =C2=A0except OSError as er=
-r:</div><div>=C2=A0 =C2=A0 =C2=A00153: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0if err.errno =3D=3D errno.EXDEV:</div><div>=C2=A0 =C2=A0 =C2=A00154: =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.copyfile(c,=
- dest)</div><div>=C2=A0 =C2=A0 =C2=A00155: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0else:</div><div>Exception: FileExistsError: [Errno 17] File exist=
-s: &#39;/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl/usr/li=
-b/libssl.a&#39; -&gt; &#39;/OE/build/oe-core/tmp-glibc/work/i586-oe-linux/q=
-tbase/5.9.0+gitAUTOINC+f6b36eaafe-r0/recipe-sysroot/usr/lib/libssl.a&#39;</=
-div><div><br></div><div>ERROR: qtbase-5.9.0+gitAUTOINC+f6b36eaafe-r0 do_pre=
-pare_recipe_sysroot: Function failed: extend_recipe_sysroot</div><div>ERROR=
-: Logfile of failure stored in: /OE/build/oe-core/tmp-glibc/work/i586-oe-li=
-nux/qtbase/5.9.0+gitAUTOINC+f6b36eaafe-r0/temp/log.do_prepare_recipe_sysroo=
-t.6496</div><div>ERROR: Task (/OE/build/oe-core/meta-qt5/recipes-qt/qt5/qtb=
-ase_git.bb:do_prepare_recipe_sysroot) failed with exit code &#39;1&#39;</di=
-v><div><br></div><div>And not just libssl.a, they both provide also identic=
-ally named pkg-config files:=C2=A0</div><div>openssl.pc, libcrypto.pc, libs=
-sl.pc</div><div>OE qemux86@ ~/build/oe-core $ find /OE/build/oe-core/tmp-gl=
-ibc/sysroots-components/i586/openssl10/ | grep pc</div><div>/OE/build/oe-co=
-re/tmp-glibc/sysroots-components/i586/openssl10/usr/lib/pkgconfig/openssl.p=
-c</div><div>/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl10/=
-usr/lib/pkgconfig/libcrypto.pc</div><div>/OE/build/oe-core/tmp-glibc/sysroo=
-ts-components/i586/openssl10/usr/lib/pkgconfig/libssl.pc</div><div>OE qemux=
-86@ ~/build/oe-core $ find /OE/build/oe-core/tmp-glibc/sysroots-components/=
-i586/openssl | grep pc</div><div>/OE/build/oe-core/tmp-glibc/sysroots-compo=
-nents/i586/openssl/usr/lib/pkgconfig/openssl.pc</div><div>/OE/build/oe-core=
-/tmp-glibc/sysroots-components/i586/openssl/usr/lib/pkgconfig/libcrypto.pc<=
-/div><div>/OE/build/oe-core/tmp-glibc/sysroots-components/i586/openssl/usr/=
-lib/pkgconfig/libssl.pc</div><div><br></div><div>So you cannot just select =
-which openssl implementation you want for given component, unless it&#39;s =
-very simple component with small dependency tree.</div></div>
-
---94eb2c191a8a54af3a0556f0837b--
