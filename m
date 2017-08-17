@@ -1,34 +1,33 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 403 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 17 Aug 2017 14:21:14 UTC
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DAB778319
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 70189782E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 14:21:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 7B4DE3220D24;
-	Thu, 17 Aug 2017 16:14:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id xgYVT3cPXuAe; Thu, 17 Aug 2017 16:14:30 +0200 (CEST)
-Received: from t460p (p57A6132B.dip0.t-ipconnect.de [87.166.19.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id B51B23220D23;
-	Thu, 17 Aug 2017 16:14:29 +0200 (CEST)
-Date: Thu, 17 Aug 2017 16:14:28 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <20170817161428.172eb7b8@t460p>
-In-Reply-To: <d19886da974978d84a0522b970503f74ad7ec382.1502965191.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1502965191.git.alejandro.hernandez@linux.intel.com>
-	<d19886da974978d84a0522b970503f74ad7ec382.1502965191.git.alejandro.hernandez@linux.intel.com>
+	Thu, 17 Aug 2017 14:37:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7HEbePK012703
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 17 Aug 2017 07:37:41 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 17 Aug 2017 07:37:40 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1502833317-48183-1-git-send-email-mark.hatle@windriver.com>
+	<1502890461.13978.127.camel@linuxfoundation.org>
+	<e285fe7c-320d-db44-98fd-ff1d06df5706@windriver.com>
+	<d01a078c-ad1a-2979-3fc2-fc5d4052ae02@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <5a938fd6-109e-25f8-638a-1530d055bff5@windriver.com>
+Date: Thu, 17 Aug 2017 09:37:43 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] python: Restructure python packaging and replace it with autopackaging
+In-Reply-To: <d01a078c-ad1a-2979-3fc2-fc5d4052ae02@linux.intel.com>
+Cc: peter.kjellerstedt@axis.com
+Subject: Re: [PATCH 0/6 v2] Fix RPM4 regressions based on Pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,36 +40,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 14:21:15 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 17 Aug 2017 14:37:49 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Thu, 17 Aug 2017 03:24:23 -0700
-Alejandro Hernandez <alejandro.hernandez@linux.intel.com> wrote:
+On 8/17/17 5:53 AM, Alexander Kanavin wrote:
+> On 08/16/2017 06:37 PM, Mark Hatle wrote:
+>> Are there any examples?  I was looking there and simply didn't see any.  I saw
+>> the packaging for instance exercised python interfaces, version comparison
+>> tools, etc.. but nothing that built a recipe/package and then verified the
+>> contents were 'correct'.
+>>
+>> Ideally the test would be to fabricate something with a known set of file
+>> dependencies, produce a package from it and then verify that the package
+>> properly included those dependencies.
+>>
+>> I had looked at just picking some random library out of the deploy directory,
+>> and doing a pattern search on it's provides.. but I'm not sure that type of test
+>> would be very robust.
+> 
+> How was this regression discovered in the first place? I guess that some 
+> recipe used to build without error with rpm5, and stopped building with 
+> rpm4. This is what you could test for: isolate the problematic bit, 
+> remove everything else, and write a simple recipe(s) that can be placed 
+> into meta-selftest. Then simply build those from the selftest; if they 
+> build without error, you don't need to do more sophisticated checks.
+> 
 
->  - It creates a solution for users that want precompiled bytecode files
->    (*.pyc) INCLUDE_PYCS = "1" can be set by the user on their local.conf to
->    include such files, some argument they get faster boot time, even when the
->    files would be created on their first run?, but they also sometimes give a
->    magic number error and take up space, so we leave it to the user to
->    decide if they want them or not.
+In -my- case (I can't speak for Peter), I found the issue trying to build SRPMs
+on the target.  I either ran into dep problems or could not install what I built.
 
-A serious problem with not shipping precompiled pyc and/or pyo files is that,
-once generated on first run, package managers won't uninstall them.
+Further I went in and simply looked at the output (deploy dir):  rpm -qp
+<package> --provides
 
-This can cause many undesired effects, because python programs will still be
-able to import these files, but dependencies like graphics or shared libraries
-may have been deleted by the package manager.
+I was able to quickly determine that only OE style dependencies were present.
 
-Also, not being able to uninstall something is bad on its own.
+So from a test perspective, we probably need to build something with a known
+content and run rpmdeps against it, and then build a package (recipe) and verify
+the dependencies are there as well.  I just don't know how to implement that in
+the existing unit-test framework.
 
-So, if anything, I believe INCLUDE_PYCS = "1" would be the only sane default,
-unless no package management was involved at all.
+--Mark
 
-And no read-only filesystem, for what it's worth.
+> Alex
+> 
 
-Best regards,
-Andreas
-
-P.S.: I didn't see patches 2 and 3. Is it just an incorrect subject?
 
