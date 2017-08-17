@@ -1,28 +1,25 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id D022A78532
+Return-Path: <andrej.valek@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 065507845A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 14:43:11 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 17 Aug 2017 07:43:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,388,1498546800"; d="scan'208";a="1183894840"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2017 07:43:12 -0700
-Message-ID: <1502981523.28682.12.camel@linux.intel.com>
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Thu, 17 Aug 2017 09:52:03 -0500
-In-Reply-To: <200B9582-5A9D-411E-A5B1-B9824244EC26@linux.intel.com>
-References: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
-	<716364F9-E9E1-4941-97FA-90D9434E518E@linux.intel.com>
-	<1502899215.28941.50.camel@linux.intel.com>
-	<200B9582-5A9D-411E-A5B1-B9824244EC26@linux.intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gpg_sign: perform rpm signing serially
+	Thu, 17 Aug 2017 14:44:56 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v7HEivbl005974
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Aug 2017 16:44:57 +0200
+Received: from dev.sbt.siemens.com ([163.242.56.100])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v7HEiur6019895;
+	Thu, 17 Aug 2017 16:44:56 +0200
+Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
+	by dev.sbt.siemens.com (Postfix) with ESMTP id DEC02213577;
+	Thu, 17 Aug 2017 16:44:56 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Aug 2017 16:44:45 +0200
+Message-Id: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,160 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 14:43:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Aug 2017 14:44:57 -0000
 
-On Thu, 2017-08-17 at 10:50 +0300, Markus Lehtonen wrote:
-> Hi,
-> 
-> I quickly run some tests on a Xeon server, using glibc-locale as the recipe to build.
-> 100: 154s 
-> 10: 162s (+5%)
-> 1: 234s (+51%)
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-What I did to measure parallel versus serial is to run the corresponding
-selftest (signing.Signing.test_signing_packages) several times for
-chucks of 100, 20, 10 and 1. 
-
-Here are the results (Xeon machine also)
-
-100:
-- Ran 1 test in 51.857s
-- Ran 1 test in 52.148s
-- Ran 1 test in 52.048s
-- Ran 1 test in 52.397s
-
-20:
-
-- Ran 1 test in 54.068s
-- Ran 1 test in 67.295s
-- Ran 1 test in 52.608s
-- Ran 1 test in 51.948s
-- Ran 1 test in 53.283s
-
-10
-
-- Ran 1 test in 55.178s
-- Ran 1 test in 56.468s
-- Ran 1 test in 52.735s
-- Ran 1 test in 53.530s
-- Ran 1 test in 53.064s
-
-1:
-- Ran 1 test in 52.604s
-- Ran 1 test in 53.211s
-- Ran 1 test in 53.020s
-- Ran 1 test in 53.017s
-- Ran 1 test in 53.029s
-
-
-so at least at selftest level, there is not such an perf penalty as you
-observed. This is the test involved:
-
-
-    @OETestID(1362)
-    def test_signing_packages(self):
-
-"""                                                                                                                                                                                                                                    
-        Summary:     Test that packages can be signed in the package
-feed                                                                                                                                                                      
-        Expected:    Package should be signed with the correct
-key                                                                                                                                                                             
-        Expected:    Images can be created from signed packages      
-
-
-
-
-
-> 
-> Even if signing is not parallel, the difference may be explained by the number of rpm processes that get spawned. I would drop the factor to 10 or use BB_NUMBER_THREADS as Andre suggested in another email.
->   - Markus
-> 
-> 
-> 
-> On 16/08/2017, 19.00, "Leonardo Sandoval" <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-> 
->     On Wed, 2017-08-16 at 15:28 +0300, Markus Lehtonen wrote:
->     > I agree. I don't see reason for dropping parallelism completely. There is a real gain when running on beefier machines. Making it configurable would probably be best. Or just drop it to a saner value, like 20 or 10.
->     >    - Markus
->     > 
->     
->     I ran some tests with 100, 20 and 1 and I saw (I can rerun and provide
->     times) no difference on times. gpg may be intrinsically serial so
->     passing 1 or N files wont make much difference in type. The only gain
->     when using file chunks is that one one process is launched.
->     
->     I the other hand, I tried using multiprocessing.Pool, but failed
->     miserably due to file looking reasons.
->     
->     
->     
->     > On 16/08/2017, 2.53, "Mark Hatle" <openembedded-core-bounces@lists.openembedded.org on behalf of mark.hatle@windriver.com> wrote:
->     > 
->     >     It would probably be better if this was configurable with a 'safe' default.
->     >     
->     >     Moving from parallel to single will greatly affect the overall performance on
->     >     larger build machines (lots of memory and cores) that can handle the load vs a
->     >     typical development machine.
->     >     
->     >     --Mark
->     >     
->     >     On 8/15/17 4:40 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
->     >     > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->     >     > 
->     >     > gpg signing in file batches (which was default to 100) is a memory expensive
->     >     > computation, causing trouble in some host machines (even on production AB
->     >     > as seen on the bugzilla ID). Also, in terms of performance, there is no real
->     >     > gain when rpm signing is done in batches. Considering the latter issues, perform the
->     >     > rpm signing serially.
->     >     > 
->     >     > Log showing errors observed recently at AB workers:
->     >     > 
->     >     >     | gpg: signing failed: Cannot allocate memory
->     >     >     | gpg: signing failed: Cannot allocate memory
->     >     >     | error: gpg exec failed (2)
->     >     >     | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/core2-64-poky-linux/base-passwd/3.5.29-r0/deploy-rpms/core2_64/base-passwd-dev-3.5.29-r0.core2_64.rpm:
->     >     > 
->     >     > [YOCTO #11914]
->     >     > 
->     >     > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->     >     > ---
->     >     >  meta/lib/oe/gpg_sign.py | 6 +++---
->     >     >  1 file changed, 3 insertions(+), 3 deletions(-)
->     >     > 
->     >     > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
->     >     > index f4d8b10e4b..5c7985a856 100644
->     >     > --- a/meta/lib/oe/gpg_sign.py
->     >     > +++ b/meta/lib/oe/gpg_sign.py
->     >     > @@ -45,9 +45,9 @@ class LocalSigner(object):
->     >     >              if fsk_password:
->     >     >                  cmd += "--define '_file_signing_key_password %s' " % fsk_password
->     >     >  
->     >     > -        # Sign in chunks of 100 packages
->     >     > -        for i in range(0, len(files), 100):
->     >     > -            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
->     >     > +        # Sign packages
->     >     > +        for f in files:
->     >     > +            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
->     >     >              if status:
->     >     >                  raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
->     >     >  
->     >     > 
->     >     
->     >     -- 
->     >     _______________________________________________
->     >     Openembedded-core mailing list
->     >     Openembedded-core@lists.openembedded.org
->     >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     >     
->     > 
->     > 
->     
->     
->     
-> 
-> 
-
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+index 9a80f43..771714d 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
+@@ -72,7 +72,7 @@ CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
+ # Postinsts don't seem to be run for nativesdk packages when populating SDKs.
+ CONFFILES_${PN}_append_class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
+ do_install_append_class-nativesdk () {
+-    SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
++    SYSROOT="${D}${SDKPATHNATIVE}" ${D}${sbindir}/update-ca-certificates
+ }
+ 
+ do_install_append_class-native () {
+-- 
+2.1.4
 
 
