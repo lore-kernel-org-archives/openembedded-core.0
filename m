@@ -1,27 +1,25 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2004F782B4
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A0B7851B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 19:15:23 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Aug 2017 12:15:24 -0700
+	Thu, 17 Aug 2017 19:30:14 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga105.jf.intel.com with ESMTP; 17 Aug 2017 12:30:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,389,1498546800"; d="scan'208";a="1206908656"
-Received: from lbandamx-mobl.amr.corp.intel.com (HELO [10.252.248.59])
-	([10.252.248.59])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2017 12:15:24 -0700
-To: openembedded-core@lists.openembedded.org
-References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-	<20170817173502.2382.32182@do.openembedded.org>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <d4cf8e9e-d991-7548-04c3-d19bd583b281@linux.intel.com>
-Date: Thu, 17 Aug 2017 14:15:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.0
-MIME-Version: 1.0
-In-Reply-To: <20170817173502.2382.32182@do.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIFJlc3RydWN0dXJlIHB5dGhvbjIgYW5kIHB5dGhvbjMgcGFja2FnaW5nIHN5c3RlbQ==?=
+X-IronPort-AV: E=Sophos;i="5.41,389,1498546800"; d="scan'208";a="138855194"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by orsmga005.jf.intel.com with ESMTP; 17 Aug 2017 12:30:15 -0700
+Message-ID: <1502998746.28682.17.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Date: Thu, 17 Aug 2017 14:39:06 -0500
+In-Reply-To: <1502300913-40295-9-git-send-email-juro.bystricky@intel.com>
+References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
+	<1502300913-40295-9-git-send-email-juro.bystricky@intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: jurobystricky@hotmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 08/11] python2.7: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +32,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 19:15:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 17 Aug 2017 19:30:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
-The failure is expected, since this patch modifies(removes) the python 
-manifest,
-
-and one of the things that I wanted to fix was exactly this, that 
-submitting a patch to
-
-the manifest shouldnt cause an issue, after this patch is applied this 
-will no longer happen.
-
-
-As for the series not applying, the patch does apply, the contrib branch 
-hsalejandro/python_autopack_final
-
-is baes on the latest master.
-
-
-Regards,
-
-
-Alejandro
-
-
-
-On 08/17/2017 12:35 PM, Patchwork wrote:
-> == Series Details ==
->
-> Series: Restructure python2 and python3 packaging system
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/8314/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format]
->    Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
->    Diff line         diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.13.bb
->
->
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at eca501aeb4)
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
+On Wed, 2017-08-09 at 10:48 -0700, Juro Bystricky wrote:
+> The compiled .pyc files contain time stamp corresponding to the compile time.
+> This prevents binary reproducibility. This patch allows to achieve binary
+> reproducibility by overriding the build time stamp by the value
+> exported via SOURCE_DATE_EPOCH.
+> 
+> Patch by Bernhard M. Wiedemann, backported from https://github.com/python/cpython/pull/296
+> 
+> [YOCTO#11241]
+> 
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 > ---
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
+>  .../python/python-native_2.7.13.bb                 |  1 +
+>  .../python/python/reproducible.patch               | 34 ++++++++++++++++++++++
+>  meta/recipes-devtools/python/python_2.7.13.bb      |  1 +
+>  3 files changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python/reproducible.patch
+> 
+> diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.13.bb
+> index 7edf153..a82b7bb 100644
+> --- a/meta/recipes-devtools/python/python-native_2.7.13.bb
+> +++ b/meta/recipes-devtools/python/python-native_2.7.13.bb
+> @@ -17,6 +17,7 @@ SRC_URI += "\
+>              file://builddir.patch \
+>              file://parallel-makeinst-create-bindir.patch \
+>              file://revert_use_of_sysconfigdata.patch \
+> +            file://reproducible.patch \
+
+
+Not really important but it would be better to rename the patch to
+something more specific
+('repoducible-build-time-override-by-source-date-epoch.path'), allowing
+future patches in this area. Besides a better name, it helps to quickly
+identify the patch purpose without looking at the code itself.
+
+
+
+>             "
+>  
+>  S = "${WORKDIR}/Python-${PV}"
+> diff --git a/meta/recipes-devtools/python/python/reproducible.patch b/meta/recipes-devtools/python/python/reproducible.patch
+> new file mode 100644
+> index 0000000..1265179
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python/reproducible.patch
+> @@ -0,0 +1,34 @@
+> +The compiled .pyc files contain time stamp corresponding to the compile time.
+> +This prevents binary reproducibility. This patch allows to achieve binary
+> +reproducibility by overriding the build time stamp by the value 
+> +exported via SOURCE_DATE_EPOCH. 
+> +
+> +Patch by Bernhard M. Wiedemann
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> +
+> +Fri Feb 24 17:08:25 UTC 2017 - bwiedemann@suse.com
+> +
+> +- Add reproducible.patch to allow reproducible builds of various
+> +  python packages like python-amqp
+> +  Upstream: https://github.com/python/cpython/pull/296
+> +
+> +
+> +@@ -0,0 +1,15 @@
+> +Index: Python-2.7.13/Lib/py_compile.py
+> +===================================================================
+> +--- Python-2.7.13.orig/Lib/py_compile.py
+> ++++ Python-2.7.13/Lib/py_compile.py
+> +@@ -108,6 +108,10 @@ def compile(file, cfile=None, dfile=None
+> +             timestamp = long(os.fstat(f.fileno()).st_mtime)
+> +         except AttributeError:
+> +             timestamp = long(os.stat(file).st_mtime)
+> ++        sde = os.environ.get('SOURCE_DATE_EPOCH')
+> ++        if sde and timestamp > int(sde):
+> ++            timestamp = int(sde)
+> ++            os.utime(file, (timestamp, timestamp))
+> +         codestring = f.read()
+> +     try:
+> +         codeobject = __builtin__.compile(codestring, dfile or file,'exec')
+> diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
+> index 4ef9952..96c3ab2 100644
+> --- a/meta/recipes-devtools/python/python_2.7.13.bb
+> +++ b/meta/recipes-devtools/python/python_2.7.13.bb
+> @@ -27,6 +27,7 @@ SRC_URI += "\
+>    file://use_sysroot_ncurses_instead_of_host.patch \
+>    file://add-CROSSPYTHONPATH-for-PYTHON_FOR_BUILD.patch \
+>    file://Don-t-use-getentropy-on-Linux.patch \
+> +  file://reproducible.patch \
+>  "
+>  
+>  S = "${WORKDIR}/Python-${PV}"
+> -- 
+> 2.7.4
+> 
+
 
 
