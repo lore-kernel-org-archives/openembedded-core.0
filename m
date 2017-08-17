@@ -1,27 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3BD784C6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 212A57806E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 11:26:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Aug 2017 04:26:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,387,1498546800"; d="scan'208";a="124703121"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2017 04:26:46 -0700
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <f196b821-f6bd-1aec-8c45-ca1aa4c3d577@linux.intel.com>
-Date: Thu, 17 Aug 2017 14:23:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
+	Thu, 17 Aug 2017 11:33:59 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7HBXwet006585
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 17 Aug 2017 12:33:59 +0100
+Message-ID: <1502969638.13978.209.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Aug 2017 12:33:58 +0100
 In-Reply-To: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Thu, 17 Aug 2017 12:33:59 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
 Subject: Re: openssl10 unusable for many components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,27 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 11:26:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Aug 2017 11:34:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 08/17/2017 01:31 PM, Martin Jansa wrote:
-> So you cannot just select which openssl implementation you want for 
-> given component, unless it's very simple component with small dependency 
-> tree.
+On Thu, 2017-08-17 at 12:31 +0200, Martin Jansa wrote:
+> Does openssl10 work for anyone in real-world scenarios?
 
-Unfortunately yes. The header names clash, and there's no way to have 
-them both in the sysroot at the same time.
+Depends what "real-world" means really.
 
-The only solution I see is the hard one: first update the component to 
-latest upstream version, and see if that version compiles with 1.1.
-If not, then Fedora probably has a vendor patch for the API fixing, as 
-they've already moved to 1.1 as default.
+I've strongly pushed for OE-Core to have at least some spectrum of
+coverage of various elements of the software stacks people use so we
+can use it as an indicator of changes readiness to be merged. This goes
+against those who want it stripped to the bare bones.
 
-FWIW, qt5 has merged openssl 1.1 support 
-https://codereview.qt-project.org/#/c/189399/, but I don't know if 
-there's a release with it included.
+There was a strong desire to keep qt5 out of OE-Core and I've gone
+along with that, this is one of the downsides, it doesn't get testing
+when changes like this get integrated. We did test openssl 1.1 as far
+as we reasonably could before it merged and it was posted on the list
+for quite a while and discussed.
 
-Alex
+There is a problem here and I don't know how we solve it to be honest
+(other than the obvious upgrading of problematic recipes).
+
+I can imagine some fancy sstate code in the openssl recipes where they
+could prune their populate_sysroot data depending on the dependency
+chains being installed. Equally, that code would be hard to right and
+would only stop another subset of issues, not solve the problem. For
+example, if python3 references the openssl headers, there could be
+ABI/API issues if QT uses python3 openssl functions, depending on how
+the headers are structured.
+
+So I'm not sure how we move forward here, one plus point is that there
+are 1.1 patches for qt5 which is something at least.
+
+People could suggest more testing. The reason patches merge slowly in
+OE-Core is the infrastructure struggles with the current range of
+testing. I've actually "destroyed" one of the autobuilder clusters this
+week and we're running on degraded infrastructure right now until we
+fix the overloading problem I caused there :(. 
+
+Cheers,
+
+Richard
+
+
 
