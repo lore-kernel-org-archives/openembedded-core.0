@@ -1,45 +1,57 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 31A6577E48
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 538A7783C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 02:20:48 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id 83so7352086pgb.4
+	Thu, 17 Aug 2017 03:10:55 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id y129so7521791pgy.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 19:20:50 -0700 (PDT)
+	Wed, 16 Aug 2017 20:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Df13howS50J5jLZ70g15iCJ0BqI/lycUeOllorJjmZc=;
-	b=vNqCv7KPxmhQUd7Vwzf23VaX7e/sSbOlOj/NsI6togVf92R6wG3tbxITa6L/bOl4Se
-	J0UrpwjusA9SRAddSxcMSkXNPI1gbUaetZWIXCDBbc5Rsk30tdvPOI6TC4435y0jXEK5
-	WTOwIX8bMXSTWMlBSQ4JQrkHYpcMTJofYDUJEksCMgLviFhqW3iHh8b9xYYrRS6rhqWe
-	uMXNG+Gl8q4zLCJhtqiICNkQ+suhSk4N/6NX980kLFx+DoH4g37xQDEKJuOZSTgqrmyi
-	napHWwqxZUat7TydtlVvh6ZcAfldMkdLLbXrO9/mrKq/PwDmTDDzVGrvVWLmEQxS+KGq
-	GuCQ==
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=/TmlDj1qm6KevNgldFGCgIo7AGs6sOuNY761tboUp9Q=;
+	b=Q/1vXLp01CJgqYz1ZXo7nQW+EyeINSaDfZdwFMZyRbmf94B0PkRuiFt46xOzzFK5mc
+	C7IrYoDGzP+Vn2C6vIJ55U2ZpPohI2UYhmsSzjvAdtyeBkcDSRHJJHwLM/euQEnGpJlx
+	W/k6eRhCNwjVOHSOeORoMsQKuFnLJkSi6DGs3XHrjYTATHqBz50r1UCkhG6LYSVWN2LE
+	f4jXgkteq2kU1LVkDC0ppSqUYCPMD9aXiGjowhb00bah7gbmbFW5b1s9QDh4i8Y6E8nf
+	mQ+5O2WgMss8WUtr4mi9DoQFjBcOlb4n2dYQEcpqgdD1ZUrtfchkqSnbb/j+5Sbc6dDR
+	+mrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Df13howS50J5jLZ70g15iCJ0BqI/lycUeOllorJjmZc=;
-	b=PJWO9/k7GkRqyKdXV+c0/mmpWIus9/dl3cy/jKw75royc1lODR0zlajuQ0eSQpwjpQ
-	Y/kS2vPy+vIgU2YUlW/Sl+cOaqrc8G9eJtuJWxURHSP1txCY5xMjeQWdEbdStySgPhAU
-	v/jqal2t/zW1gZM2LTgpRJVhenpqMgkNR617aSlJflrD3IXWNU3paWpYF9BFHwQh6UGa
-	fwAb2e1TaLaP4mDlcMaTUzNQURCnc8RkN08O/Cq0d2ejzk6EWbumTfJn254lBp/8gGgW
-	IlSVgItKg0DPG95BqoLmEWwxbtkoiVX52TsCJyIzSjQGef/cla0ANJvoqHyo6PTxAJA/
-	QgJw==
-X-Gm-Message-State: AHYfb5hBB7sHimaQoJFi+RY+k7+NQHvnRxdAA04bWf1cuP2VjYMHrCNq
-	5lXF54gEcl5Ncwpz
-X-Received: by 10.98.129.3 with SMTP id t3mr3643776pfd.167.1502936450192;
-	Wed, 16 Aug 2017 19:20:50 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::8319])
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=/TmlDj1qm6KevNgldFGCgIo7AGs6sOuNY761tboUp9Q=;
+	b=mBBQtHfmCuqERVNNBwo59m4H+FB4anwyd5iHd+KlmoozJe1O041QTQrKy16INY9UrD
+	tha6j8NFO5eV+QpfLQ0KznbjYQidZLIR9NsqHu6RPSZ1pXIWFXqJqrutZmbmbM2exORZ
+	SucnRhpirwa66C9qWA3QfJZwoihBA+WqHtLsLczgY+XgDqCp8rqtyceUgt2piKzErX/+
+	2LPiEP6yeGUTrt0HOl38PF7YHejIRNkYB9+CGeyIbKm+arQ/7IcowNwdqNEOFLbMtnIj
+	0wqLJErm762F/WFeJY2hhNciURrbUNfJCQkBDAEPOtoJ722l6+4fxjv5eubv5IFbjE+2
+	2OGA==
+X-Gm-Message-State: AHYfb5i0dcnC1NPpivllEAcVBRT9SqzT7qQqMxSDYxr3FN5hn/OdPmby
+	1GvBz7+5mSnJdwChAKo=
+X-Received: by 10.84.225.147 with SMTP id u19mr4068494plj.313.1502939457350;
+	Wed, 16 Aug 2017 20:10:57 -0700 (PDT)
+Received: from Khems-MacBook-Pro.local ([2601:646:8882:b8c:f933:597:7ef9:8139])
 	by smtp.gmail.com with ESMTPSA id
-	e128sm4245613pfg.114.2017.08.16.19.20.49
+	188sm4171078pfe.171.2017.08.16.20.10.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Aug 2017 19:20:49 -0700 (PDT)
+	Wed, 16 Aug 2017 20:10:56 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20170814032418.3936-1-raj.khem@gmail.com>
+	<20170814032418.3936-2-raj.khem@gmail.com>
+	<1502870987.13978.87.camel@linuxfoundation.org>
+	<1502871098.13978.88.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 19:20:41 -0700
-Message-Id: <20170817022041.17673-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] mesa: Fix build with llvmpipe enabled on musl
+Organization: HIMVIS LLC
+Message-ID: <15365276-05d6-2fb2-3481-9885861e9e54@gmail.com>
+Date: Wed, 16 Aug 2017 20:10:55 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:56.0)
+	Gecko/20100101 Thunderbird/56.0
+MIME-Version: 1.0
+In-Reply-To: <1502871098.13978.88.camel@linuxfoundation.org>
+Subject: Re: [PATCH 2/3] mesa: Enable gallium-llvm on x86 and x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,70 +64,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 02:20:49 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 03:10:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-winsys-svga-drm-Include-sys-types.h.patch | 34 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_17.1.5.bb          |  3 +-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch b/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
-new file mode 100644
-index 0000000000..549b8671ab
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-winsys-svga-drm-Include-sys-types.h.patch
-@@ -0,0 +1,34 @@
-+From d8750776404b1031d762966d0f551d13d2fe05a7 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 16 Aug 2017 18:58:20 -0700
-+Subject: [PATCH] winsys/svga/drm: Include sys/types.h
-+
-+vmw_screen.h uses dev_t which is defines in sys/types.h
-+this header is required to be included for getting dev_t
-+definition. This issue happens on musl C library, it is hidden
-+on glibc since sys/types.h is included through another
-+system headers
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+
-+Upstream-Status: Submitted
-+
-+ src/gallium/winsys/svga/drm/vmw_screen.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gallium/winsys/svga/drm/vmw_screen.h b/src/gallium/winsys/svga/drm/vmw_screen.h
-+index 0ef8e84..2eda97e 100644
-+--- a/src/gallium/winsys/svga/drm/vmw_screen.h
-++++ b/src/gallium/winsys/svga/drm/vmw_screen.h
-+@@ -41,6 +41,7 @@
-+ #include "svga_winsys.h"
-+ #include "pipebuffer/pb_buffer_fenced.h"
-+ #include <os/os_thread.h>
-++#include <sys/types.h>
-+ 
-+ #define VMW_GMR_POOL_SIZE (16*1024*1024)
-+ #define VMW_QUERY_POOL_SIZE (8192)
-+-- 
-+2.14.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.5.bb b/meta/recipes-graphics/mesa/mesa_17.1.5.bb
-index 36b0377453..4d82452b07 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.5.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.1.5.bb
-@@ -10,7 +10,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://llvm-config-version.patch \
-            file://0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch \
-            file://0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch \
--"
-+           file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-+           "
- SRC_URI[md5sum] = "6cf936fbcaadd98924298a7009e8265d"
- SRC_URI[sha256sum] = "378516b171712687aace4c7ea8b37c85895231d7a6d61e1e27362cf6034fded9"
- 
--- 
-2.14.1
 
+On 8/16/17 1:11 AM, Richard Purdie wrote:
+> On Wed, 2017-08-16 at 09:09 +0100, Richard Purdie wrote:
+>> On Sun, 2017-08-13 at 20:24 -0700, Khem Raj wrote:
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>>  meta/recipes-graphics/cairo/cairo.inc | 3 ++-
+>>>  meta/recipes-graphics/mesa/mesa.inc   | 3 +++
+>>>  2 files changed, 5 insertions(+), 1 deletion(-)
+>> I think this breaks on x32:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds
+>> /1183/steps/BuildImages/logs/stdio
+> 
+> Also on musl:
+> 
+> https://autobuilder.yoctoproject.org/main/builders/nightly-musl/builds/523/steps/BuildImages/logs/stdio
+> 
+
+Fixed and patch is on ml
+http://lists.openembedded.org/pipermail/openembedded-core/2017-August/140928.html
+
+> Cheers,
+> 
+> Richard
+> 
 
