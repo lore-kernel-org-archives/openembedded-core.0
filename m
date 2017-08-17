@@ -1,23 +1,45 @@
-Return-Path: <rebecca.swee.fun.chang@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D5D277D12
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f49.google.com (mail-pg0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D4C0783FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 03:24:35 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Aug 2017 20:24:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,385,1498546800"; d="scan'208";a="140636264"
-Received: from rebeccas.png.intel.com ([172.30.199.118])
-	by fmsmga005.fm.intel.com with ESMTP; 16 Aug 2017 20:24:35 -0700
-From: rebecca.swee.fun.chang@intel.com
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Aug 2017 11:25:19 +0800
-Message-Id: <416dd055d4adbf4b2cd46abc19e0b4ed9f478786.1502939403.git.rebecca.swee.fun.chang@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1502939403.git.rebecca.swee.fun.chang@intel.com>
-References: <cover.1502939403.git.rebecca.swee.fun.chang@intel.com>
-Subject: [PATCH 1/1] devtool: upgrade: enable branch checking when revision is provided
+	Thu, 17 Aug 2017 05:43:26 +0000 (UTC)
+Received: by mail-pg0-f49.google.com with SMTP id v189so35616870pgd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Aug 2017 22:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Q0ODo4nfc0AnByn4ODBEdAfiUrW3Z3bIjKI07EASHqI=;
+	b=WdFKREXfRwKOIHfz55i1wDAANUY835mXDZzMu6txGjnMC3IdkhrZDo7P84+Th5Vswc
+	5yPXY79kAzA092oJHx1wrMOJQJUbN/R3Bm5eG4rne5RwU6cIe483EEF12m/r3U88t9ZR
+	qEFJK/FTkUtOupxtYBgJe13s9M4jxe6827p/YevUR9IZsbhCMLXA8U6o8frclNnLfCEI
+	5tqmYxfFVUjk/WKvw2tRBVga3brGvRZzKgKLh1Czsa2YQ8D0VtfFb3N5XT0xyYQvnMo0
+	+6qRumTv4NOoBBRmGSzRJ8zASMgWxWxWoEXbBv2xEHmyRmv/LbmdiA4jiyOToSLQ5hL9
+	wj5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Q0ODo4nfc0AnByn4ODBEdAfiUrW3Z3bIjKI07EASHqI=;
+	b=AiXcFPbe6ewdTKJEpNN3tggnoVAYwkPLK7aVpgIfaw41BLcIFrKIQM3a+6UWRM4lBj
+	ixK5kbgJNYBluOXL9zLNp+C8YnOq3UOW6wmgm6GgWdJqDW7ynz8mnE/j3rZ482ffClHj
+	GdZtZlJPcSbmzB0h3KErtSnSpfb33BJEhmc/5k/JfVSB/dN/Ja/r12KuLvGgCLmLhTOl
+	IUvceDdMC6fxqXPtxvonyRQD2Gkyxeb/TWeAXIwrmpgPO2cUxjGsGCY+20pBvpytgYMr
+	H3Nk2S9obuAqzTBZBYIMya1RvA9V+zAzsM6U2iqlJyu29HpESmAD0F6oCXs0yL3ZpNcF
+	U9vQ==
+X-Gm-Message-State: AHYfb5j/3ZT7jdJuvTkE9oP6MkwJk5d2lIHWMZZR6EJ0CA7f0rMgFmnm
+	EDHWeOhOXKZigpNX
+X-Received: by 10.98.245.20 with SMTP id n20mr4019097pfh.46.1502948607655;
+	Wed, 16 Aug 2017 22:43:27 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::8319])
+	by smtp.gmail.com with ESMTPSA id
+	v11sm6355263pfl.101.2017.08.16.22.43.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Aug 2017 22:43:26 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Aug 2017 22:43:17 -0700
+Message-Id: <20170817054317.25113-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH V2] rootfs-postcommands.bbclass: Filter out dangling symlinks in ssh_allow_empty_password()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,86 +52,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 03:24:36 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 05:43:26 -0000
 
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+In images built with pam in DISTRO_FEATURES, we end up with dangling symlinks
+if su is not packaged into image
 
-When devtool upgrade is run on a recipe with revision specified
-that is not on master branch, and branch isn't set by --srcbranch or -B,
-then we should get the correct branch and append the branch to the URL.
+$ ls /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/su-l -l
+lrwxrwxrwx 1 kraj users 2 Aug  9 07:56 /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/su-l -> su
 
-If the revision was found on multiple branches, we will display error
-to inform user to provide a correct branch and exit.
+This causes image do_rootfs to fail
 
-[YOCTO #11484]
+| sed: can't read /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/rootfs/etc/pam.d/s
+u-l: No such file or directory
+| WARNING: /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.ssh_allow_empty_
+password.19238:1 exit 2 from 'sed -i 's/nullok_secure/nullok/' /mnt/a/oe/build/tmp/work/raspberrypi3-bec-linux-gnueabi
+/core-image-minimal/1.0-r0/rootfs/etc/pam.d/*'
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Therefore we need to filter out dangling symlinks before sed'ing
+things out
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- scripts/lib/devtool/upgrade.py | 28 +++++++++++++++++++++++-----
- 1 file changed, 23 insertions(+), 5 deletions(-)
+ meta/classes/rootfs-postcommands.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index f077f37..7adeab5 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -180,7 +180,7 @@ def _get_uri(rd):
-             srcuri = rev_re.sub('', srcuri)
-     return srcuri, srcrev
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 78f7c55933..576e4733eb 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -158,7 +158,10 @@ ssh_allow_empty_password () {
+ 	fi
  
--def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tinfoil, rd):
-+def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, keep_temp, tinfoil, rd):
-     """Extract sources of a recipe with a new version"""
+ 	if [ -d ${IMAGE_ROOTFS}${sysconfdir}/pam.d ] ; then
+-		sed -i 's/nullok_secure/nullok/' ${IMAGE_ROOTFS}${sysconfdir}/pam.d/*
++		for f in `find ${IMAGE_ROOTFS}${sysconfdir}/pam.d/* -type f -exec test -e {} \; -print`
++		do
++			sed -i 's/nullok_secure/nullok/' $f
++		done
+ 	fi
+ }
  
-     def __run(cmd):
-@@ -202,6 +202,24 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
-         __run('git tag -f devtool-base-new')
-         md5 = None
-         sha256 = None
-+        if not srcbranch:
-+            check_branch, check_branch_err = __run('git branch -r --contains %s' % srcrev)
-+            get_branch = [x.strip() for x in check_branch.splitlines()]
-+            # Remove HEAD reference point and drop remote prefix
-+            get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
-+            if 'master' in get_branch:
-+                # If it is master, we do not need to append 'branch=master' as this is default.
-+                # Even with the case where get_branch has multiple objects, if 'master' is one
-+                # of them, we should default take from 'master'
-+                srcbranch = ''
-+            elif len(get_branch) == 1:
-+                # If 'master' isn't in get_branch and get_branch contains only ONE object, then store result into 'srcbranch'
-+                srcbranch = get_branch[0]
-+            else:
-+                # If get_branch contains more than one objects, then display error and exit.
-+                mbrch = '\n  ' + '\n  '.join(get_branch)
-+                raise DevtoolError('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the devtool command with "--srcbranch" or "-B" option.' % (srcrev, mbrch))
-+                sys.exit(1)
-     else:
-         __run('git checkout devtool-base -b devtool-%s' % newpv)
- 
-@@ -275,7 +293,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
-         else:
-             shutil.rmtree(tmpsrctree)
- 
--    return (rev, md5, sha256)
-+    return (rev, md5, sha256, srcbranch)
- 
- def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, workspace, tinfoil, rd):
-     """Creates the new recipe under workspace"""
-@@ -374,10 +392,10 @@ def upgrade(args, config, basepath, workspace):
-         rf = None
-         try:
-             rev1 = standard._extract_source(srctree, False, 'devtool-orig', False, rd, tinfoil)
--            rev2, md5, sha256 = _extract_new_source(args.version, srctree, args.no_patch,
--                                                    args.srcrev, args.branch, args.keep_temp,
-+            rev2, md5, sha256, srcbranch = _extract_new_source(args.version, srctree, args.no_patch,
-+                                                    args.srcrev, args.srcbranch, args.branch, args.keep_temp,
-                                                     tinfoil, rd)
--            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, args.srcbranch, config.workspace_path, tinfoil, rd)
-+            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, config.workspace_path, tinfoil, rd)
-         except bb.process.CmdError as e:
-             _upgrade_error(e, rf, srctree)
-         except DevtoolError as e:
 -- 
-2.7.4
+2.14.1
 
 
