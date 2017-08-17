@@ -1,21 +1,18 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F50178519
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 17:12:27 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Aug 2017 10:12:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,388,1498546800"; d="scan'208";a="1004894550"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2017 10:12:29 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Aug 2017 10:12:27 -0700
-Message-Id: <20170817171227.78098-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] sign_rpm: Allow pkg signing by chunks through RPM_GPG_SIGN_CHUNK
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FE2F782B4;
+	Thu, 17 Aug 2017 17:35:01 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Thu, 17 Aug 2017 17:35:02 -0000
+Message-ID: <20170817173502.2382.32182@do.openembedded.org>
+References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVzdHJ1Y3R1cmUgcHl0aG9uMiBhbmQgcHl0aG9uMyBwYWNrYWdpbmcgc3lzdGVt?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,83 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 17:12:28 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 17:35:01 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+== Series Details ==
 
-Commit d58b1d196 moved from chunk to serial signing, but neither of both approaches
-allowed the user to select the chunks size. This patch allows the user to select
-a chunk size through RPM_GPG_SIGN_CHUNK defaulting to BB_NUMBER_THREADS, considered
-a good default. Indirectly, this change reduces the number of processes spawn
-to number-of-packages/RPM_GPG_SIGN_CHUNK.
+Series: Restructure python2 and python3 packaging system
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8314/
+State : failure
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
+  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
+  Diff line         diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.13.bb
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at eca501aeb4)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/sign_rpm.bbclass | 7 ++++++-
- meta/lib/oe/gpg_sign.py       | 8 ++++----
- 2 files changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/sign_rpm.bbclass b/meta/classes/sign_rpm.bbclass
-index c49406c74d..6796780ee4 100644
---- a/meta/classes/sign_rpm.bbclass
-+++ b/meta/classes/sign_rpm.bbclass
-@@ -19,9 +19,12 @@
- # GPG_BIN
- #           Optional variable for specifying the gpg binary/wrapper to use for
- #           signing.
-+# RPM_GPG_SIGN_CHUNK
-+#           Optional variable indicating the number of packages used per gpg
-+#           invocation
- # GPG_PATH
- #           Optional variable for specifying the gnupg "home" directory:
--#
-+
- inherit sanity
- 
- RPM_SIGN_PACKAGES='1'
-@@ -29,6 +32,7 @@ RPM_SIGN_FILES ?= '0'
- RPM_GPG_BACKEND ?= 'local'
- # SHA-256 is used by default
- RPM_FILE_CHECKSUM_DIGEST ?= '8'
-+RPM_GPG_SIGN_CHUNK ?= "${BB_NUMBER_THREADS}"
- 
- 
- python () {
-@@ -56,6 +60,7 @@ python sign_rpm () {
-                      d.getVar('RPM_GPG_NAME'),
-                      d.getVar('RPM_GPG_PASSPHRASE'),
-                      d.getVar('RPM_FILE_CHECKSUM_DIGEST'),
-+                     int(d.getVar('RPM_GPG_SIGN_CHUNK')),
-                      d.getVar('RPM_FSK_PATH'),
-                      d.getVar('RPM_FSK_PASSWORD'))
- }
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 5c7985a856..008478dfeb 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -27,7 +27,7 @@ class LocalSigner(object):
-             raise bb.build.FuncFailed('Failed to export gpg public key (%s): %s' %
-                                       (keyid, output))
- 
--    def sign_rpms(self, files, keyid, passphrase, digest, fsk=None, fsk_password=None):
-+    def sign_rpms(self, files, keyid, passphrase, digest, sign_chunk, fsk=None, fsk_password=None):
-         """Sign RPM files"""
- 
-         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
-@@ -45,9 +45,9 @@ class LocalSigner(object):
-             if fsk_password:
-                 cmd += "--define '_file_signing_key_password %s' " % fsk_password
- 
--        # Sign packages
--        for f in files:
--            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
-+        # Sign in chunks
-+        for i in range(0, len(files), sign_chunk):
-+            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+sign_chunk]))
-             if status:
-                 raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
- 
--- 
-2.12.3
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
