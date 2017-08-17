@@ -1,25 +1,29 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 065507845A
+Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 74A29782DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 14:44:56 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v7HEivbl005974
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 16:44:57 +0200
-Received: from dev.sbt.siemens.com ([163.242.56.100])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v7HEiur6019895;
-	Thu, 17 Aug 2017 16:44:56 +0200
-Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id DEC02213577;
-	Thu, 17 Aug 2017 16:44:56 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Aug 2017 16:44:45 +0200
-Message-Id: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
+	Thu, 17 Aug 2017 15:06:32 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Aug 2017 08:06:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,388,1498546800"; d="scan'208";a="1163657737"
+Received: from jmcruzal-thinkpad-w540.zpn.intel.com (HELO [10.219.128.125])
+	([10.219.128.125])
+	by orsmga001.jf.intel.com with ESMTP; 17 Aug 2017 08:06:33 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170817013615.5900-1-juan.m.cruz.alcaraz@linux.intel.com>
+	<1502955374.13978.182.camel@linuxfoundation.org>
+	<1812364.na1VDiqueP@peggleto-mobl.ger.corp.intel.com>
+From: Juan Manuel <juan.m.cruz.alcaraz@linux.intel.com>
+Message-ID: <d79f4903-2e81-88fd-3000-7d50dd1e107b@linux.intel.com>
+Date: Thu, 17 Aug 2017 10:17:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1812364.na1VDiqueP@peggleto-mobl.ger.corp.intel.com>
+Subject: Re: [PATCH v2] devtool/copy_buildsystem: adds meta-skeleton layer in the eSDK installation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 14:44:57 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 15:06:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- meta/recipes-support/ca-certificates/ca-certificates_20161130.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index 9a80f43..771714d 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -72,7 +72,7 @@ CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
- # Postinsts don't seem to be run for nativesdk packages when populating SDKs.
- CONFFILES_${PN}_append_class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
- do_install_append_class-nativesdk () {
--    SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
-+    SYSROOT="${D}${SDKPATHNATIVE}" ${D}${sbindir}/update-ca-certificates
- }
- 
- do_install_append_class-native () {
--- 
-2.1.4
+
+On 17/08/17 03:59, Paul Eggleton wrote:
+> On Thursday, 17 August 2017 7:36:14 PM NZST Richard Purdie wrote:
+>> On Wed, 2017-08-16 at 18:36 -0700, juan.m.cruz.alcaraz@linux.intel.com
+>> wrote:
+>>> From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+>>>
+>>> The eSDK installation requires the meta-skeleton layer.
+>>> The build system might use the meta-skeleton recipes as layout
+>>> to create custom recipes. An example is the recipetool script
+>>> that uses the meta-skeleton kernel recipe when creating a custom
+>>> kernel recipe.
+>>>
+>>> [YOCTO #11102]
+>>>
+>>> Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.c
+>>> om>
+>>> ---
+>>>   meta/lib/oe/copy_buildsystem.py | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>> Failed to build on the autobuilder I'm afraid:
+>>
+>> https://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/1216/
+> steps/BuildImages_2/logs/stdio
+>
+> Right, the assumption that the first part will be "poky/" is probably the
+> issue here. I suspect you will have to step through the list and remove
+> anything that ends with '/meta-skeleton'.
+Certainly that is the problem. I'll fix and send back.
+
+> Cheers,
+> Paul
+>
+>
 
 
