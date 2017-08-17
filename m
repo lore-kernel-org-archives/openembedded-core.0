@@ -1,35 +1,28 @@
-Return-Path: <mike.looijmans@topic.nl>
-X-Greylist: delayed 595 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 17 Aug 2017 11:00:00 UTC
-Received: from atl4mhfb01.myregisteredsite.com
-	(atl4mhfb01.myregisteredsite.com [209.17.115.55])
-	by mail.openembedded.org (Postfix) with ESMTP id 70A2178468
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D3BD784C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 11:00:00 +0000 (UTC)
-Received: from atl4mhob15.registeredsite.com (atl4mhob15.registeredsite.com
-	[209.17.115.53])
-	by atl4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	v7HAo7aM028019 for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 06:50:07 -0400
-Received: from mailpod.hostingplatform.com ([10.30.71.205])
-	by atl4mhob15.registeredsite.com (8.14.4/8.14.4) with ESMTP id
-	v7HAo435008113
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 06:50:04 -0400
-Received: (qmail 28510 invoked by uid 0); 17 Aug 2017 10:50:04 -0000
-X-TCPREMOTEIP: 37.74.225.130
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
-	(mike@milosoftware.com@37.74.225.130)
-	by 0 with ESMTPA; 17 Aug 2017 10:50:04 -0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Aug 2017 12:49:49 +0200
-Message-Id: <1502966989-24289-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.9.1
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] rootfs-postcommands.bbclass: Prevent linking testdata to itself
+	Thu, 17 Aug 2017 11:26:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Aug 2017 04:26:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,387,1498546800"; d="scan'208";a="124703121"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2017 04:26:46 -0700
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <f196b821-f6bd-1aec-8c45-ca1aa4c3d577@linux.intel.com>
+Date: Thu, 17 Aug 2017 14:23:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+Subject: Re: openssl10 unusable for many components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +35,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 11:00:00 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 11:26:46 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-testdata and testdata_link may point to the same file, in particular
-when IMAGE_LINK_NAME and IMAGE_NAME are equal.
+On 08/17/2017 01:31 PM, Martin Jansa wrote:
+> So you cannot just select which openssl implementation you want for 
+> given component, unless it's very simple component with small dependency 
+> tree.
 
-Check if this is the case before creating a symlink that points to
-itself and makes the next build fail.
+Unfortunately yes. The header names clash, and there's no way to have 
+them both in the sysroot at the same time.
 
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
- meta/classes/rootfs-postcommands.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+The only solution I see is the hard one: first update the component to 
+latest upstream version, and see if that version compiles with 1.1.
+If not, then Fedora probably has a vendor patch for the API fixing, as 
+they've already moved to 1.1 as default.
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 78f7c55..c92df7b 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -300,7 +300,8 @@ python write_image_test_data() {
-     searchString = "%s/"%(d.getVar("TOPDIR")).replace("//","/")
-     export2json(d, testdata,searchString=searchString,replaceString="")
- 
--    if os.path.lexists(testdata_link):
--       os.remove(testdata_link)
--    os.symlink(os.path.basename(testdata), testdata_link)
-+    if testdata_link != testdata:
-+        if os.path.lexists(testdata_link):
-+           os.remove(testdata_link)
-+        os.symlink(os.path.basename(testdata), testdata_link)
- }
--- 
-1.9.1
+FWIW, qt5 has merged openssl 1.1 support 
+https://codereview.qt-project.org/#/c/189399/, but I don't know if 
+there's a release with it included.
 
+Alex
 
