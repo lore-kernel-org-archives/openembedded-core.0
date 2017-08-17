@@ -1,21 +1,29 @@
-Return-Path: <swee.aun.khor@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 35E247848E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C254783AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 09:18:01 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Aug 2017 02:18:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,387,1498546800"; d="scan'208";a="1206695937"
-Received: from platypus.jf.intel.com ([10.54.77.139])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2017 02:18:03 -0700
-From: swee.aun.khor@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Aug 2017 19:07:52 -0700
-Message-Id: <1502935672-112062-1-git-send-email-swee.aun.khor@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] valgrind: disable build for muslx32
+	Thu, 17 Aug 2017 09:23:01 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7H9N0Vv027121
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 17 Aug 2017 10:23:02 +0100
+Message-ID: <1502961780.13978.199.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 17 Aug 2017 10:23:00 +0100
+In-Reply-To: <1502958914-22960-1-git-send-email-hongxu.jia@windriver.com>
+References: <1502955267.13978.181.camel@linuxfoundation.org>
+	<1502958914-22960-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Thu, 17 Aug 2017 10:23:02 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] gpgme: remove local m4/python.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 09:18:02 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 09:23:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: sweeaun <swee.aun.khor@intel.com>
+On Thu, 2017-08-17 at 04:35 -0400, Hongxu Jia wrote:
+> While multilib, the local m4/python.m4 incorrectly assigned
+> am_cv_python_pyexecdir and am_cv_python_pythondir which caused
+> the following error enabled:
+> ...
+> ERROR: gpgme-1.9.0-r0 do_package: QA Issue: gpgme: Files/directories
+> were installed but not shipped in any package:
+>   /usr/lib/python3.5/site-packages/gpg-1.9.0-py3.5.egg-info
+> ...
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-support/gpgme/gpgme_1.9.0.bb | 1 +
+>  1 file changed, 1 insertion(+)
 
-Disable build for muslx32.X32 isn't supported by valgrind at this
-moment.
+Thanks for the quick turnaround on this and the other fix, its much
+appreciated. I'll include them in the next build and see where we are.
 
-Signed-off-by: sweeaun <swee.aun.khor@intel.com>
----
- meta/recipes-devtools/valgrind/valgrind_3.13.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-index a5c4943..25b4126 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.13.0.bb
-@@ -51,6 +51,7 @@ COMPATIBLE_HOST_armv6 = 'null'
- 
- # X32 isn't supported by valgrind at this time
- COMPATIBLE_HOST_linux-gnux32 = 'null'
-+COMPATIBLE_HOST_linux-muslx32 = 'null'
- 
- # Disable for some MIPS variants
- COMPATIBLE_HOST_mipsarchn32 = 'null'
--- 
-2.7.4
-
+Richard
 
