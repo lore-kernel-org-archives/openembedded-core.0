@@ -1,30 +1,26 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B0E22783DC
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 923FA7843C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 07:50:12 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Aug 2017 00:50:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,386,1498546800"; d="scan'208";a="140712292"
-Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.44])
-	([10.237.66.44])
-	by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2017 00:50:12 -0700
-User-Agent: Microsoft-MacOutlook/f.20.0.170309
-Date: Thu, 17 Aug 2017 10:50:14 +0300
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <200B9582-5A9D-411E-A5B1-B9824244EC26@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] gpg_sign: perform rpm signing serially
-References: <20170815214002.55130-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<62f0c732-87f3-9af6-3380-b9fd863f216c@windriver.com>
-	<716364F9-E9E1-4941-97FA-90D9434E518E@linux.intel.com>
-	<1502899215.28941.50.camel@linux.intel.com>
-In-Reply-To: <1502899215.28941.50.camel@linux.intel.com>
-Mime-version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gpg_sign: perform rpm signing serially
+	Thu, 17 Aug 2017 08:35:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7H8ZGEX028575
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 17 Aug 2017 01:35:16 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 17 Aug 2017 01:35:15 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 17 Aug 2017 04:35:14 -0400
+Message-ID: <1502958914-22960-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1502955267.13978.181.camel@linuxfoundation.org>
+References: <1502955267.13978.181.camel@linuxfoundation.org>
+MIME-Version: 1.0
+Subject: [PATCH] gpgme: remove local m4/python.m4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,103 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 07:50:12 -0000
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Thu, 17 Aug 2017 08:35:16 -0000
+Content-Type: text/plain
 
-Hi,
+While multilib, the local m4/python.m4 incorrectly assigned
+am_cv_python_pyexecdir and am_cv_python_pythondir which caused
+the following error enabled:
+...
+ERROR: gpgme-1.9.0-r0 do_package: QA Issue: gpgme: Files/directories
+were installed but not shipped in any package:
+  /usr/lib/python3.5/site-packages/gpg-1.9.0-py3.5.egg-info
+...
 
-I quickly run some tests on a Xeon server, using glibc-locale as the recipe to build.
-100: 154s 
-10: 162s (+5%)
-1: 234s (+51%)
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-support/gpgme/gpgme_1.9.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Even if signing is not parallel, the difference may be explained by the number of rpm processes that get spawned. I would drop the factor to 10 or use BB_NUMBER_THREADS as Andre suggested in another email.
-  - Markus
-
-
-
-On 16/08/2017, 19.00, "Leonardo Sandoval" <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-
-    On Wed, 2017-08-16 at 15:28 +0300, Markus Lehtonen wrote:
-    > I agree. I don't see reason for dropping parallelism completely. There is a real gain when running on beefier machines. Making it configurable would probably be best. Or just drop it to a saner value, like 20 or 10.
-    >    - Markus
-    > 
-    
-    I ran some tests with 100, 20 and 1 and I saw (I can rerun and provide
-    times) no difference on times. gpg may be intrinsically serial so
-    passing 1 or N files wont make much difference in type. The only gain
-    when using file chunks is that one one process is launched.
-    
-    I the other hand, I tried using multiprocessing.Pool, but failed
-    miserably due to file looking reasons.
-    
-    
-    
-    > On 16/08/2017, 2.53, "Mark Hatle" <openembedded-core-bounces@lists.openembedded.org on behalf of mark.hatle@windriver.com> wrote:
-    > 
-    >     It would probably be better if this was configurable with a 'safe' default.
-    >     
-    >     Moving from parallel to single will greatly affect the overall performance on
-    >     larger build machines (lots of memory and cores) that can handle the load vs a
-    >     typical development machine.
-    >     
-    >     --Mark
-    >     
-    >     On 8/15/17 4:40 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-    >     > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-    >     > 
-    >     > gpg signing in file batches (which was default to 100) is a memory expensive
-    >     > computation, causing trouble in some host machines (even on production AB
-    >     > as seen on the bugzilla ID). Also, in terms of performance, there is no real
-    >     > gain when rpm signing is done in batches. Considering the latter issues, perform the
-    >     > rpm signing serially.
-    >     > 
-    >     > Log showing errors observed recently at AB workers:
-    >     > 
-    >     >     | gpg: signing failed: Cannot allocate memory
-    >     >     | gpg: signing failed: Cannot allocate memory
-    >     >     | error: gpg exec failed (2)
-    >     >     | /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/work/core2-64-poky-linux/base-passwd/3.5.29-r0/deploy-rpms/core2_64/base-passwd-dev-3.5.29-r0.core2_64.rpm:
-    >     > 
-    >     > [YOCTO #11914]
-    >     > 
-    >     > Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-    >     > ---
-    >     >  meta/lib/oe/gpg_sign.py | 6 +++---
-    >     >  1 file changed, 3 insertions(+), 3 deletions(-)
-    >     > 
-    >     > diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-    >     > index f4d8b10e4b..5c7985a856 100644
-    >     > --- a/meta/lib/oe/gpg_sign.py
-    >     > +++ b/meta/lib/oe/gpg_sign.py
-    >     > @@ -45,9 +45,9 @@ class LocalSigner(object):
-    >     >              if fsk_password:
-    >     >                  cmd += "--define '_file_signing_key_password %s' " % fsk_password
-    >     >  
-    >     > -        # Sign in chunks of 100 packages
-    >     > -        for i in range(0, len(files), 100):
-    >     > -            status, output = oe.utils.getstatusoutput(cmd + ' '.join(files[i:i+100]))
-    >     > +        # Sign packages
-    >     > +        for f in files:
-    >     > +            status, output = oe.utils.getstatusoutput(cmd + ' ' + f)
-    >     >              if status:
-    >     >                  raise bb.build.FuncFailed("Failed to sign RPM packages: %s" % output)
-    >     >  
-    >     > 
-    >     
-    >     -- 
-    >     _______________________________________________
-    >     Openembedded-core mailing list
-    >     Openembedded-core@lists.openembedded.org
-    >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-    >     
-    > 
-    > 
-    
-    
-    
-
+diff --git a/meta/recipes-support/gpgme/gpgme_1.9.0.bb b/meta/recipes-support/gpgme/gpgme_1.9.0.bb
+index 2518147..065c346 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.9.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.9.0.bb
+@@ -73,4 +73,5 @@ do_configure_prepend () {
+ 	# Else these could be used in preference to those in aclocal-copy
+ 	rm -f ${S}/m4/gpg-error.m4
+ 	rm -f ${S}/m4/libassuan.m4
++	rm -f ${S}/m4/python.m4
+ }
+-- 
+2.8.1
 
 
