@@ -1,23 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 39C9E782EE
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id DFF1473120
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Aug 2017 21:56:35 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Aug 2017 14:56:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,384,1498546800"; d="scan'208";a="141173211"
-Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.corp.intel.com)
-	([10.254.118.231])
-	by fmsmga006.fm.intel.com with ESMTP; 16 Aug 2017 14:56:35 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Wed, 16 Aug 2017 14:56:33 -0700
-Message-Id: <1502920593-13785-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.7.5
-Subject: [PATCH] build-appliance-image: Don't use COREBASE/LICENSE for checksumming
+	Thu, 17 Aug 2017 01:27:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.41,385,1498492800"; d="scan'208";a="23841616"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Aug 2017 09:27:32 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4CC6A4724393
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Aug 2017 09:27:32 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 17 Aug 2017 09:27:32 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Aug 2017 09:27:17 +0800
+Message-ID: <1502933237-3703-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: 4CC6A4724393.A5311
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] openssl10: modified the define cryptodev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,31 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 21:56:36 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 01:27:32 -0000
+Content-Type: text/plain
 
-This file lists the licenses that the OE-Core meta data falls under
-but should not be used as a LIC_FILES_CHKSUM, use the MIT license file.
+Use PACKAGECONFIG to add cryptodev.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-connectivity/openssl/openssl10.inc       | 2 ++
+ meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb | 1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index 927a931..db96a05 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -3,8 +3,7 @@ DESCRIPTION = "An image containing the build system that you can boot and run us
- HOMEPAGE = "http://www.yoctoproject.org/documentation/build-appliance"
+diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
+index c93d5d8..08fd22e 100644
+--- a/meta/recipes-connectivity/openssl/openssl10.inc
++++ b/meta/recipes-connectivity/openssl/openssl10.inc
+@@ -15,7 +15,9 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+           "
+ S = "${WORKDIR}/openssl-${PV}"
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
--                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++PACKAGECONFIG ?= "cryptodev-linux"
+ PACKAGECONFIG[perl] = ",,,"
++PACKAGECONFIG[cryptodev-linux] = "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS,,cryptodev-linux"
  
- IMAGE_INSTALL = "packagegroup-core-boot packagegroup-core-ssh-openssh packagegroup-self-hosted \
-                  kernel-dev kernel-devsrc connman connman-plugin-ethernet dhcp-client \
+ TERMIO_libc-musl = "-DTERMIOS"
+ TERMIO ?= "-DTERMIO"
+diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb
+index cf0459c..8c34ea6 100644
+--- a/meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb
++++ b/meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb
+@@ -2,7 +2,6 @@ require openssl10.inc
+ 
+ # For target side versions of openssl enable support for OCF Linux driver
+ # if they are available.
+-DEPENDS += "cryptodev-linux"
+ 
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ CFLAG_append_class-native = " -fPIC"
 -- 
-2.7.5
+2.7.4
+
+
 
 
