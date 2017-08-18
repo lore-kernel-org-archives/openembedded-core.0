@@ -1,28 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D522B782EA
+Return-Path: <andrej.valek@siemens.com>
+X-Greylist: delayed 1126 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 18 Aug 2017 10:23:57 UTC
+Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 65418785F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 10:23:07 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7IAN3tK027455
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 18 Aug 2017 11:23:04 +0100
-Message-ID: <1503051783.32591.9.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 18 Aug 2017 11:23:03 +0100
-In-Reply-To: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 18 Aug 2017 11:23:04 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 0/3] Restructure python2 and python3 packaging system
+	Fri, 18 Aug 2017 10:23:56 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id v7IA5BM0003161
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 18 Aug 2017 12:05:11 +0200
+Received: from [192.168.253.100] ([163.242.56.100])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v7IA5APD030506
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 18 Aug 2017 12:05:10 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
+	<1502987497.13978.239.camel@linuxfoundation.org>
+	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
+	<1503048946.32591.0.camel@linuxfoundation.org>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <aa161775-9c09-bf1f-8190-9c6e701f07c7@siemens.com>
+Date: Fri, 18 Aug 2017 12:05:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <1503048946.32591.0.camel@linuxfoundation.org>
+Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 10:23:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 18 Aug 2017 10:23:57 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-08-17 at 10:11 -0700, Alejandro Hernandez wrote:
-> The reason we have a manifest file for python is that our goal is to
-> keep python-core as small as posible and add other python packages
-> only when the user needs them, hence why we split upstream python
-> into several packages.
+OK thank You, so please merge it into these branches.
+
+Regards,
+Andrej
+
+On 08/18/2017 11:35 AM, Richard Purdie wrote:
+> On Fri, 2017-08-18 at 08:26 +0200, Andrej Valek wrote:
+>> Yes, for actual branch is not required. But for branches like krogoth
+>> and morty, where HOSTTOOLS is not implemented, is this necessary.
 > 
-> There are many problems with our current implementation of the
-> manifest file, this patch tries to deal with all of them along with
-> adding several other features.
+> Lets just apply this to krogoth/morty then...
 > 
-> This patch adds a new task to python recipes, which is meant to
-> create a new manifest file every release.
-
-https://autobuilder.yocto.io/builders/build-appliance/builds/416/steps/BuildImages_1/logs/stdio
-
-Cheers,
-
-Richard
-
-
+> Cheers,
+> 
+> Richard
+> 
 
