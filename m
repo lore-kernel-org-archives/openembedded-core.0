@@ -1,27 +1,28 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id AE159785F5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D522B782EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 10:16:52 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v7IAGq1O024888
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 12:16:52 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v7IAGp9H007290
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 12:16:52 +0200
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <78647462-c423-bdc3-8adb-544fe8eee978@siemens.com>
-Date: Fri, 18 Aug 2017 12:16:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-Subject: bussybox: updating to new version
+	Fri, 18 Aug 2017 10:23:07 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7IAN3tK027455
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 18 Aug 2017 11:23:04 +0100
+Message-ID: <1503051783.32591.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 18 Aug 2017 11:23:03 +0100
+In-Reply-To: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 18 Aug 2017 11:23:04 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 0/3] Restructure python2 and python3 packaging system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,22 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 10:16:53 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 18 Aug 2017 10:23:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello everyone,
+On Thu, 2017-08-17 at 10:11 -0700, Alejandro Hernandez wrote:
+> The reason we have a manifest file for python is that our goal is to
+> keep python-core as small as posible and add other python packages
+> only when the user needs them, hence why we split upstream python
+> into several packages.
+> 
+> There are many problems with our current implementation of the
+> manifest file, this patch tries to deal with all of them along with
+> adding several other features.
+> 
+> This patch adds a new task to python recipes, which is meant to
+> create a new manifest file every release.
 
-I would like to ask you a question about busybox upgrading.
+https://autobuilder.yocto.io/builders/build-appliance/builds/416/steps/BuildImages_1/logs/stdio
 
-Is there any reason, why we are still using the version 1.24.1?
-I think that, the latest version 1.27.2 has a lot of fixes and it less
-vulnerable then the current.
+Cheers,
 
-I have checked a license and it has not been changed.
+Richard
 
-Thank you for the explanation.
 
-Andrej
 
