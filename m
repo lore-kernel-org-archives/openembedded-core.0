@@ -1,39 +1,28 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 5441E78462
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 166D7784B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 18:27:53 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga105.jf.intel.com with ESMTP; 18 Aug 2017 11:27:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; 
-	d="scan'208,217";a="141970000"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-	by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2017 11:27:55 -0700
-Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
-	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Fri, 18 Aug 2017 11:27:54 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.170]) by
-	ORSMSX113.amr.corp.intel.com ([169.254.9.211]) with mapi id
-	14.03.0319.002; Fri, 18 Aug 2017 11:27:54 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [PATCH v3 00/11] Reproducible binaries
-Thread-Index: AQHTETfNynAW4TLVUkeAe9xueooTOaKK7amA//+NC2s=
-Date: Fri, 18 Aug 2017 18:27:53 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6119E8748@ORSMSX112.amr.corp.intel.com>
-References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>,
-	<CA+chaQcb27Zvu_Hd6pDZ8KHkyF86sJkB3rm4rvzfb_gy98pu4A@mail.gmail.com>
-In-Reply-To: <CA+chaQcb27Zvu_Hd6pDZ8KHkyF86sJkB3rm4rvzfb_gy98pu4A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.137]
+	Fri, 18 Aug 2017 18:30:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7IIUH7t026354
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 18 Aug 2017 11:30:17 -0700
+Received: from yow-masselst-lx1.localnet (128.224.24.34) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Fri, 18 Aug 2017 11:30:16 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 18 Aug 2017 14:30:14 -0400
+Message-ID: <12449814.jIZBER9NW1@yow-masselst-lx1>
+Organization: Wind River
+User-Agent: KMail/5.2.3 (Linux/4.10.0-30-generic; KDE/5.31.0; x86_64; ; )
+In-Reply-To: <CAJ86T=Wz--m+US0Xf5pvOGMuG5FV5XtD1XTdUZerR_LXHfUmOg@mail.gmail.com>
+References: <1503071067-15104-1-git-send-email-mark.asselstine@windriver.com>
+	<CAJ86T=Wz--m+US0Xf5pvOGMuG5FV5XtD1XTdUZerR_LXHfUmOg@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 00/11] Reproducible binaries
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] recipe_links.bbclass: introduction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,90 +35,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 18:27:54 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_"
+X-List-Received-Date: Fri, 18 Aug 2017 18:30:19 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On Friday, August 18, 2017 10:58:30 AM EDT Andre McCurdy wrote:
+> On Fri, Aug 18, 2017 at 8:44 AM, Mark Asselstine
+> 
+> <mark.asselstine@windriver.com> wrote:
+> > This is a new class which can be used (for example via USER_CLASSES in
+> > local.conf) to make your build more development friendly. When
+> > included this class will create symlinks to the various bb and
+> > bbappend files in WORKDIR.
+> > 
+> > Normally when you are debugging or extending a package's recipe files
+> > a developer will employ one of a few indirect techniques to determine
+> > where bb and bbappends files associated with a recipe exist. For
+> > example they might use bitbake-layers show-recipes or similar, or
+> > simply rely on their experience to guide them. Even after working with
+> > openembedded for serveral years now I find these techniques tedious
+> > and time consuming, and sometimes even hit and miss.
+> > 
+> > Since the whereabouts of these files are already stored in various
+> > files at parse time we can create symlinks to simplify the task of
+> > finding these files, making them available in WORKDIR for easy
+> > inpsection and in a convenient location if using devshel for instance.
+> > 
+> > For now this work is completely optional but we could conceivable make
+> > this the default behavior if folks find it is convenient and the cost
+> > of performing these operations across all builds is minimal enough.
+> > 
+> > recipe_links can safely be added to USER_CLASSES for existing builds,
+> > care has been taken to avoid this action causing anything to be
+> > rebuilt. After this has been added you can either 'bitbake <recipe> -C
+> > unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
+> > links to be created in the WORKDIR for the specified recipe.
+> > 
+> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> > ---
+> > 
+> >  meta/classes/recipe_links.bbclass | 79
+> >  +++++++++++++++++++++++++++++++++++++++ meta/conf/documentation.conf    
+> >   |  1 +
+> >  2 files changed, 80 insertions(+)
+> >  create mode 100644 meta/classes/recipe_links.bbclass
+> > 
+> > diff --git a/meta/classes/recipe_links.bbclass
+> > b/meta/classes/recipe_links.bbclass new file mode 100644
+> > index 0000000..ea97605
+> > --- /dev/null
+> > +++ b/meta/classes/recipe_links.bbclass
+> > @@ -0,0 +1,79 @@
+> > +# Create symlink in WORKDIR to the various bb and
+> > +# bbappend files used to define the package ops
+> > +
+> > +# Create a symlink given src and dst paths
+> > +def create_link(d, src, dst):
+> > +    if os.path.islink(dst):
+> > +        try:
+> > +            os.unlink(dst)
+> > +        except OSError as err:
+> > +            bb.error("  Failed to cleanup old link %s: %s"
+> > +                         % (os.path.basename(dst),
+> > os.strerror(err.errno))) +            return False
+> > +
+> > +
+> > +    try:
+> > +        os.symlink(src, dst)
+> > +    except OSError as err:
+> > +        bb.error("  Failed to create file link for %s: %s"
+> > +                     % (src, os.strerror(err.errno)))
+> > +        return False
+> > +
+> > +    return True
+> > +
+> > +# Ensure the work is scheduled. We do this as a func
+> > +# to avoid sig changes causing things to be rebuilt
+> > +# when the class is added/removed after the fact.
+> > +do_unpack[postfuncs] += "create_recipe_links "
+> > +do_unpack[vardepsexclude] += "create_recipe_links "
+> > +python create_recipe_links() {
+> > +    import re
+> > +    import glob
+> > +
+> > +    workdir = d.getVar('WORKDIR')
+> > +
+> > +    # Main recipe file
+> > +    bb.note("Add main recipe file link:")
+> > +    bb_path = d.getVar('FILE')
+> > +    bb_filename = os.path.basename(bb_path)
+> > +    bb_destname = "%s/%s" % (workdir, bb_filename)
+> > +    bb.note("  Linking %s" % bb_path)
+> > +    if not create_link(d, bb_path, bb_destname):
+> > +        return False
+> > +
+> > +    # Cleanup old bbappends links
+> > +    bb.note("Removing old bbappend links:")
+> > +    pn = d.getVar('PN')
+> > +    files = glob.glob('%s/[0-9][0-9]_%s.bbappend' % (workdir,pn))
+> > +    files += glob.glob('%s/[0-9][0-9]_%s_*.bbappend' % (workdir, pn))
+> > +    for filename in files:
+> > +        bb.note("  Removing: %s" % filename)
+> > +        try:
+> > +            os.unlink(filename)
+> > +        except OSError as err:
+> > +            bb.error("  Failed to cleanup old link %s: %s" %
+> > +                         (os.path.basename(filename),
+> > os.strerror(err.errno))) +            return False
+> > +
+> > +    # Add bbappends links
+> > +    bb.note("Adding bbappend links:")
+> > +    included_files = d.getVar('BBINCLUDED').split()
+> > +    bbappend_re = re.compile( r".*/%s(_[^/]*)?\.bbappend$" %
+> > re.escape(pn)) +    for filename in included_files:
+> > +        if bbappend_re.match(filename):
+> > +            bb.note("  Linking %s" % filename)
+> > +            destname = "00_%s" % (os.path.basename(filename))
+> > +            while os.path.exists("%s/%s" % (workdir, destname)):
+> > +                 destname = str(int(destname[:2]) + 1).zfill(2) +
+> > destname[2:] +            if not create_link(d, filename, "%s/%s" %
+> > (workdir, destname)): +                return False
+> > +
+> > +    return True
+> > +}
+> > +
+> > +# In addition to the func we want to make things able to be (re)run
+> > +# easily by the user so ensure it is available as a task.
+> > +addtask do_create_recipe_links
+> 
+> Perhaps just create the symlinks unconditionally as part of
+> do_devshell instead of creating an optional new task?
 
-I will resend the remaining patches, today & tomorrow. Obviously there are =
-also some other changes, but the error you mention should be fixed. I will =
-rebase them on the current master as of today
-(0bd2dd08e3daf284a6bb7757651af8d40393aec2)
+I had thought about this originally but thought I often inspect without 
+enterring a devshell. So opted against it. The solution I present here is the 
+best approach I found to minimalize the impact yet make it useful for those of 
+us doing more than just building.
+
+MarkA
+
+> 
+> > +python do_create_recipe_links() {
+> > +    bb.build.exec_func("create_recipe_links", d)
+> > +}
+> > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> > index a55e283..5a8a07e 100644
+> > --- a/meta/conf/documentation.conf
+> > +++ b/meta/conf/documentation.conf
+> > @@ -23,6 +23,7 @@ do_devshell[doc] = "Starts a shell with the environment
+> > set up for development/d> 
+> >  do_diffconfig[doc] = "Compares the old and new config files after running
+> >  do_menuconfig for the kernel" do_fetch[doc] = "Fetches the source code"
+> >  do_fetchall[doc] = "Fetches all remote sources required to build a
+> >  target"
+> > 
+> > +do_create_recipe_links[doc] = "Creates links to bb and bbappend files in
+> > a package's WORKDIR"> 
+> >  do_install[doc] = "Copies files from the compilation directory to a
+> >  holding area" do_install_ptest_base[doc] = "Copies the runtime test
+> >  suite files from the compilation directory to a holding area"
+> >  do_kernel_checkout[doc] = "Checks out source/meta branches for a
+> >  linux-yocto style kernel"> 
+> > --
+> > 2.7.4
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-________________________________
-From: Martin Jansa [martin.jansa@gmail.com]
-Sent: Friday, August 18, 2017 11:11 AM
-To: Bystricky, Juro
-Cc: Patches and discussions about the oe-core layer; Richard Purdie; Joshua=
- G Lock; Burton, Ross; Juro Bystricky
-Subject: Re: [PATCH v3 00/11] Reproducible binaries
 
-I've seen that some of these patches were already merged to master.
-
-Can you please resend remaining patches for oe-core? I'm testing some sligh=
-tly older version of your patches and I see couple recipes failing e.g. lik=
-e this one:
-http://errors.yoctoproject.org/Errors/Details/151939/
-
-
-
---_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
-0;}</style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">I will resend the remaining patches, today &amp; tomorrow. Obviously=
- there are also some other changes, but the error you mention should be fix=
-ed. I will rebase them on the current
- master as of today<br>
-(0bd2dd08e3daf284a6bb7757651af8d40393aec2)<br>
-<br>
-<br>
-<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
-">
-<hr tabindex=3D"-1">
-<div id=3D"divRpF105861" style=3D"direction: ltr;"><font size=3D"2" face=3D=
-"Tahoma" color=3D"#000000"><b>From:</b> Martin Jansa [martin.jansa@gmail.co=
-m]<br>
-<b>Sent:</b> Friday, August 18, 2017 11:11 AM<br>
-<b>To:</b> Bystricky, Juro<br>
-<b>Cc:</b> Patches and discussions about the oe-core layer; Richard Purdie;=
- Joshua G Lock; Burton, Ross; Juro Bystricky<br>
-<b>Subject:</b> Re: [PATCH v3 00/11] Reproducible binaries<br>
-</font><br>
-</div>
-<div></div>
-<div>
-<div dir=3D"ltr">
-<div>I've seen that some of these patches were already merged to master.</d=
-iv>
-<div><br>
-</div>
-<div>Can you please resend remaining patches for oe-core? I'm testing some =
-slightly older version of your patches and I see couple recipes failing e.g=
-. like this one:</div>
-<a href=3D"http://errors.yoctoproject.org/Errors/Details/151939/" target=3D=
-"_blank">http://errors.yoctoproject.org/Errors/Details/151939/</a></div>
-<div class=3D"gmail_extra"><br>
-<br>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_--
