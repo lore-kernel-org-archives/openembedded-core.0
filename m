@@ -1,24 +1,36 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 32947783FA
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EB2678469
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 17:43:43 +0000 (UTC)
+	Fri, 18 Aug 2017 17:56:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7IHhj4w024060
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 10:43:45 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 18 Aug 2017 10:43:44 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Aug 2017 10:43:44 -0700
-Message-ID: <20170818174344.251791-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7IHuv5c026173
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 18 Aug 2017 10:56:57 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 18 Aug 2017 10:56:57 -0700
+To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
+References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+	<1502969638.13978.209.camel@linuxfoundation.org>
+	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
+	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
+	<CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
+	<fe1575c3-4e74-1a5d-b48e-86c6908b2e63@linux.intel.com>
+	<CAMKF1soQw0VVy0RKe4w-qsCwPh_OTgatYLrx6mPpapBGooy-Ew@mail.gmail.com>
+	<CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <de4a91fe-0dc0-208e-1b2e-3e0e897fdd12@windriver.com>
+Date: Fri, 18 Aug 2017 12:56:56 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ruby: fix CVE-2017-922{6-9}
+In-Reply-To: <CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: openssl10 unusable for many components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,233 +43,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 17:43:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Aug 2017 17:56:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-CVE-2017-9226 : check too big code point value for single byte
-CVE-2017-9227 : access to invalid address by reg->dmin value
-CVE-2017-9228 : invalid state(CCS_VALUE) in parse_char_class()
-CVE-2017-9229 : access to invalid address by reg->dmax value
+On 8/18/17 12:29 PM, Martin Jansa wrote:
+> Even with that patch to rename openssl10 back to openssl we still need to solve
+> the openssl-native which wasn't reverted back to 1.0.
+> 
+> Upstream nodejs isn't going to be openssl-1.1 for a bit longer as explained:
+> https://github.com/nodejs/node/pull/14761
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- .../ruby/ruby/ruby-CVE-2017-9226.patch             | 41 +++++++++++++++
- .../ruby/ruby/ruby-CVE-2017-9227.patch             | 32 ++++++++++++
- .../ruby/ruby/ruby-CVE-2017-9228.patch             | 34 +++++++++++++
- .../ruby/ruby/ruby-CVE-2017-9229.patch             | 59 ++++++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_2.4.1.bb           |  4 ++
- 5 files changed, 170 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9226.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9227.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9228.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9229.patch
+I wanted to pull out a specific comment from the above link that shows one of
+the reasons why OpenSSL 1.1 support is delayed by many:
 
-diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9226.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9226.patch
-new file mode 100644
-index 0000000..0f2a430
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9226.patch
-@@ -0,0 +1,41 @@
-+From b4bf968ad52afe14e60a2dc8a95d3555c543353a Mon Sep 17 00:00:00 2001
-+From: "K.Kosako" <kosako@sofnec.co.jp>
-+Date: Thu, 18 May 2017 17:05:27 +0900
-+Subject: [PATCH] fix #55 : check too big code point value for single byte
-+ value in next_state_val()
-+
-+---
-+ regparse.c |    3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9226
-+
-+Add check for octal number bigger than 255.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+--- ruby-2.4.1.orig/regparse.c
-++++ ruby-2.4.1/regparse.c
-+@@ -3644,7 +3644,7 @@ fetch_token(OnigToken* tok, UChar** src,
-+       if (IS_SYNTAX_OP(syn, ONIG_SYN_OP_ESC_OCTAL3)) {
-+ 	prev = p;
-+ 	num = scan_unsigned_octal_number(&p, end, (c == '0' ? 2:3), enc);
-+-	if (num < 0) return ONIGERR_TOO_BIG_NUMBER;
-++	if (num < 0 || 0xff < num) return ONIGERR_TOO_BIG_NUMBER;
-+ 	if (p == prev) {  /* can't read nothing. */
-+ 	  num = 0; /* but, it's not error */
-+ 	}
-+@@ -4450,6 +4450,9 @@ next_state_val(CClassNode* cc, CClassNod
-+   switch (*state) {
-+   case CCS_VALUE:
-+     if (*type == CCV_SB) {
-++      if (*vs > 0xff)
-++          return ONIGERR_INVALID_CODE_POINT_VALUE;
-++
-+       BITSET_SET_BIT_CHKDUP(cc->bs, (int )(*vs));
-+       if (IS_NOT_NULL(asc_cc))
-+ 	BITSET_SET_BIT(asc_cc->bs, (int )(*vs));
-diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9227.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9227.patch
-new file mode 100644
-index 0000000..85e7ccb
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9227.patch
-@@ -0,0 +1,32 @@
-+From 9690d3ab1f9bcd2db8cbe1fe3ee4a5da606b8814 Mon Sep 17 00:00:00 2001
-+From: "K.Kosako" <kosako@sofnec.co.jp>
-+Date: Tue, 23 May 2017 16:15:35 +0900
-+Subject: [PATCH] fix #58 : access to invalid address by reg->dmin value
-+
-+---
-+ regexec.c |    2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9227
-+
-+Upstream-Status: Inappropriate [not author]
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+diff --git a/regexec.c b/regexec.c
-+index d4e577d..2fa0f3d 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -3154,6 +3154,8 @@ forward_search_range(regex_t* reg, const UChar* str, const UChar* end, UChar* s,
-+     }
-+     else {
-+       UChar *q = p + reg->dmin;
-++
-++      if (q >= end) return 0; /* fail */
-+       while (p < q) p += enclen(reg->enc, p, end);
-+     }
-+   }
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9228.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9228.patch
-new file mode 100644
-index 0000000..d8bfba4
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9228.patch
-@@ -0,0 +1,34 @@
-+From 3b63d12038c8d8fc278e81c942fa9bec7c704c8b Mon Sep 17 00:00:00 2001
-+From: "K.Kosako" <kosako@sofnec.co.jp>
-+Date: Wed, 24 May 2017 13:43:25 +0900
-+Subject: [PATCH] fix #60 : invalid state(CCS_VALUE) in parse_char_class()
-+
-+---
-+ regparse.c |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9228
-+
-+Upstream-Status: Inappropriate [not author]
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+diff --git a/regparse.c b/regparse.c
-+index 69875fa..1988747 100644
-+--- a/regparse.c
-++++ b/regparse.c
-+@@ -4081,7 +4081,9 @@ next_state_class(CClassNode* cc, OnigCodePoint* vs, enum CCVALTYPE* type,
-+     }
-+   }
-+ 
-+-  *state = CCS_VALUE;
-++  if (*state != CCS_START)
-++    *state = CCS_VALUE;
-++
-+   *type  = CCV_CLASS;
-+   return 0;
-+ }
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9229.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9229.patch
-new file mode 100644
-index 0000000..6e765bf
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-9229.patch
-@@ -0,0 +1,59 @@
-+From b690371bbf97794b4a1d3f295d4fb9a8b05d402d Mon Sep 17 00:00:00 2001
-+From: "K.Kosako" <kosako@sofnec.co.jp>
-+Date: Wed, 24 May 2017 10:27:04 +0900
-+Subject: [PATCH] fix #59 : access to invalid address by reg->dmax value
-+
-+---
-+ regexec.c |   27 +++++++++++++++++----------
-+ 1 file changed, 17 insertions(+), 10 deletions(-)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9229
-+
-+Upstream-Status: Inappropriate [not author]
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+diff --git a/regexec.c b/regexec.c
-+index 49bcc50..c0626ef 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -3756,18 +3756,25 @@ forward_search_range(regex_t* reg, const
-+     }
-+     else {
-+       if (reg->dmax != ONIG_INFINITE_DISTANCE) {
-+-	*low = p - reg->dmax;
-+-	if (*low > s) {
-+-	  *low = onigenc_get_right_adjust_char_head_with_prev(reg->enc, s,
-+-							      *low, end, (const UChar** )low_prev);
-+-	  if (low_prev && IS_NULL(*low_prev))
-+-	    *low_prev = onigenc_get_prev_char_head(reg->enc,
-+-						   (pprev ? pprev : s), *low, end);
-++        if (p - str < reg->dmax) {
-++          *low = (UChar* )str;
-++          if (low_prev)
-++            *low_prev = onigenc_get_prev_char_head(reg->enc, str, *low, end);
-+ 	}
-+ 	else {
-+-	  if (low_prev)
-+-	    *low_prev = onigenc_get_prev_char_head(reg->enc,
-+-					       (pprev ? pprev : str), *low, end);
-++          *low = p - reg->dmax;
-++          if (*low > s) {
-++            *low = onigenc_get_right_adjust_char_head_with_prev(reg->enc, s,
-++                                                 *low, end, (const UChar** )low_prev);
-++            if (low_prev && IS_NULL(*low_prev))
-++              *low_prev = onigenc_get_prev_char_head(reg->enc,
-++                                                     (pprev ? pprev : s), *low, end);
-++          }
-++          else {
-++            if (low_prev)
-++              *low_prev = onigenc_get_prev_char_head(reg->enc,
-++                                                     (pprev ? pprev : str), *low, end);
-++          }
-+ 	}
-+       }
-+     }
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/ruby/ruby_2.4.1.bb b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-index 77e17f1..4443146 100644
---- a/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-@@ -2,6 +2,10 @@ require ruby.inc
- 
- SRC_URI += " \
-            file://ruby-CVE-2017-9224.patch \
-+           file://ruby-CVE-2017-9226.patch \
-+           file://ruby-CVE-2017-9227.patch \
-+           file://ruby-CVE-2017-9228.patch \
-+           file://ruby-CVE-2017-9229.patch \
-            "
- 
- SRC_URI[md5sum] = "782bca562e474dd25956dd0017d92677"
--- 
-2.7.4
+7 days ago: shigeki commented:
+> We're also waiting for FIPS support of 1.1.x. They are now working on it as https://www.openssl.org/blog/blog/2017/07/25/fips/.> ...
+
+Until the OpenSSL 1.1.x FIPS work is further along, a lot of projects (and major
+distributions) are going to wait to deploy it.
+
+--Mark
+
+> https://github.com/nodejs/node/pull/11828
+> so it would make sense to revert native and nativesdk versions as well - if it
+> isn't done in oe-core, I'll do it in our own layers to keep the builds going.
+> 
+> On Fri, Aug 18, 2017 at 4:41 PM, Khem Raj <raj.khem@gmail.com
+> <mailto:raj.khem@gmail.com>> wrote:
+> 
+>     On Fri, Aug 18, 2017 at 3:53 AM, Alexander Kanavin
+>     <alexander.kanavin@linux.intel.com
+>     <mailto:alexander.kanavin@linux.intel.com>> wrote:
+>     > On 08/18/2017 08:56 AM, Khem Raj wrote:
+>     >
+>     >> I was trying nodejs and it seems its also broken by this openssl
+>     >> upgrade. Meta-oe alone has amost 50 recipes that are broken. there are
+>     >> hundreds of other layers.
+>     >> Many large packages in external layers are now broken, and the fact
+>     >> that openssl10
+>     >> is almost useless since some package will pull in openssl11 and cause
+>     >> conflicts. This
+>     >> is not a a good solution at least it seems to early for release. It
+>     >> might take a bit for packages to get working with openssl11, We should
+>     >> have carefully thought and considered postponing using it as default
+>     >> until next release ( april 2018). Its fine to keep it in if needed but
+>     >> keep openssl 1.0 as default preferred version, I don't think whole
+>     >> ecosystem is ready for it and we don't have man power to fix
+>     >> everything. This alone has a potential to make
+>     >> October release quite weak as far as external layers are concerned
+>     >
+>     >
+>     > FWIW, nodejs from meta-oe does build just fine with openssl10 dependency.
+> 
+>     no it doesnt try building nodejs-native.
+> 
+>      So
+>     > it's not exactly useless. And no one has established how many of the other
+>     > 50 packages can be fixed by either doing that, or updating them to latest
+>     > upstream releases.
+> 
+>     Thats not going to solve everything. Neither does pointing to fedora patches.
+> 
+>     >
+>     > I'll send a patch that renames openssl10 recipe back to openssl and sets
+>     > that as a preferred version, so anyone can experiment with 1.1 without
+>     > widespread breakage.
+>     >
+>     > But at the start of next development cycle this will be reverted back; no
+>     > more complaining then please, we have to do this at some point, and just
+>     > after a new cycle has started is as good time as it gets.
+> 
+>     Just putting random deadlines is not going to solve this, there has to
+>     be some look
+>     at upstream packages and other distros switching to openssl11 and
+>     dropping openssl10
+>     completely. People have fielded products to support and they need some
+>     assurance of
+>     forward path, their ecosystem might involve a lot larger package set
+>     then just oe-core.
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
+> 
+> 
 
 
