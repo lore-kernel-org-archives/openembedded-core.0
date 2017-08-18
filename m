@@ -1,26 +1,27 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 2008378528
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C799178529
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 09:38:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Aug 2017 02:38:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,392,1498546800"; d="scan'208";a="125101168"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga002.jf.intel.com with ESMTP; 18 Aug 2017 02:38:42 -0700
-To: openembedded-core@lists.openembedded.org
-References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <035ddc83-970f-7b0b-a5b0-8ec3ae62f4ee@linux.intel.com>
-Date: Fri, 18 Aug 2017 12:35:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-Subject: Re: [PATCH 0/3] Restructure python2 and python3 packaging system
+	Fri, 18 Aug 2017 09:51:40 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7I9pbC8023736
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 18 Aug 2017 10:51:38 +0100
+Message-ID: <1503049897.32591.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: cinly.ooi@intel.com, openembedded-core@lists.openembedded.org
+Date: Fri, 18 Aug 2017 10:51:37 +0100
+In-Reply-To: <1502846306-32417-1-git-send-email-cinly.ooi@intel.com>
+References: <1502846306-32417-1-git-send-email-cinly.ooi@intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 18 Aug 2017 10:51:38 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] Perl: No reference conversion for Porting/Glossary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,18 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 09:38:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Aug 2017 09:51:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 08/17/2017 08:11 PM, Alejandro Hernandez wrote:
-> There are many problems with our current implementation of the manifest file,
-> this patch tries to deal with all of them along with adding several other
-> features.
+On Wed, 2017-08-16 at 09:18 +0800, cinly.ooi@intel.com wrote:
+> From: Ooi Cinly <cinly.ooi@intel.com>
+> 
+> do_configure() will no longer convert references to
+> /usr/include into /path/to/recipes-sysroot/usr/include
+> for the file "Porting/Glossary".
+> 
+> [YOCTO #11243]
+> 
+> Signed-off-by: Ooi Cinly <cinly.ooi@intel.com>
+> ---
+>  meta/recipes-devtools/perl/perl_5.24.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for doing this; does it mean that python 3.6 update is coming 
-soon? :)
+I've queued this, I just wanted to note that I had to tweak the
+shortlog. Its not clear from reading the version above what the change
+is doing. The recipe is perl, not Perl too. I changed it to:
 
-Alex
+"perl: Don't change /usr/include references in docs to sysroot paths"
+
+Cheers,
+
+Richard
+
 
