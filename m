@@ -1,49 +1,58 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f47.google.com (mail-pg0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id AFC3F78546
+Return-Path: <dvorkin@tibbo.com>
+Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 74D0C78572
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 05:56:54 +0000 (UTC)
-Received: by mail-pg0-f47.google.com with SMTP id y129so57514513pgy.4
+	Fri, 18 Aug 2017 06:16:50 +0000 (UTC)
+Received: by mail-lf0-f52.google.com with SMTP id t128so38628845lff.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 22:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TKG5HCPTStnxZi3QUlf0ZgiqptOzqWtK9Bi0LzmuRVo=;
-	b=jk0daKO5G4LO7k8uFHvPU4hXfkplEy2KO1h/TB+y4MVsCzZq5GVAKP/wDcTChfmcZF
-	StwDRDPkdFVngbpFMbKMeeOZZtDQr/dhe1QHFmtyohCbgiJmUFFb6yuxMWB9padBvuFW
-	lJ/ghvB5KdImyzFyOWhUKR1AA4KZSqBTZrlB2+MwbJHEV06u9drjl5F+nvQTfhRaOjwk
-	QTFdhYPwdHqUNaoS7tE6dOLuruBbkX0dYKHF3J29j/A4q5semMiE/u3YMkwogQ5WmKmt
-	YggP0eWE1ySMYF37JJR1oIukkwko2Qh8+5iZHd7ALOPL3pT+ZMl0UEo9CO+RUevk+5fn
-	aI9g==
+	Thu, 17 Aug 2017 23:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=tibbo-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language;
+	bh=Yyo8TCQC8C5Vwz2PzCxCP2KF32WWEc4QCVTbVgTQszw=;
+	b=Gmp4CB4l0zaT8pOBk4/q4/XCcCwAGUR9LQIWRJPE7Up7E4IvmcDeYR9XwrM1zkv92G
+	wFKBCtSjxVppABD4j1XA58IXLf4sASiwvWyhVpcG7KpNfpOCE+nj0Oof3KfWNlVIhqBQ
+	p5RG4MsPJ9BJA0h3sKFBHO6uiNa8VnoL5bIxGv5SOx/4h+T3ohJK5UXBCGjrcAuNgoiM
+	76WyfODz2jjuyvebgiBLJWqgj5sYPii3fN1BWPyxUeTCSZohHvkOigsxWHapot0lfQe5
+	zdpcAX/eAMIYFgqunRG0XSq7FCxJLPBCzjJ1Z5PhpxRk6Tn/t6s/9e2Ie7R9nA6JUKeo
+	ekSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TKG5HCPTStnxZi3QUlf0ZgiqptOzqWtK9Bi0LzmuRVo=;
-	b=gdYhirJMN5uFE7Muad2L29G3WX+eXJT/1cQj/xmcpdlLeoD/M3kH2JW/iHatr55qYb
-	uzg1IRHpF3fTVfytIYxI0yPwTnSSDWQ4civUbG4X/8umbRE+uhVhdNWO8us6aI5Tqio+
-	lrYv57dQvuYW5Lmltk3+aIITDOiZQ8svuW+BpOl8df1TQUm532lR/1GIzDprhxyngqIp
-	7Wyj4oarP1r41lq6uLNFA1jOAoY4KD+RHaLLaxZW2cTwoGmHTuylt0ADNwOWDERj4QdE
-	TVOXYdTK9x8IIKrxmj7Q0f5c0s9s+GfdJ8Tb+LZBK83Xk4s4zDgIyAc6SDizt1plhEq0
-	C1pw==
-X-Gm-Message-State: AHYfb5hbqyyvJI/pK3OJU1qAiYxk+PoTmPfb2E3I3HDMLNjhTIhc04CT
-	lP5lgmd8RwvsRd/H5ESbhujLKGjJYg==
-X-Received: by 10.84.149.139 with SMTP id m11mr8314068pla.376.1503035815770;
-	Thu, 17 Aug 2017 22:56:55 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=Yyo8TCQC8C5Vwz2PzCxCP2KF32WWEc4QCVTbVgTQszw=;
+	b=KNcFoWkHuEDsSnEXQxSXx6T5QVgfeUVqPOR5RSBxmQcoQR/GVj/3C0vsN3qxTa8eJB
+	tJs8adoFhjSp8hYaE3+X803jUjM+yb10dP1tIcapqZjZFHscw9WsFpwQoAXsilM4rgGk
+	z2V9fRO7BkG4CFio4uuleDVwIYTFC5Dc/GQq+9FKVORIGfV++2b6rF3bv6Yfdk0YSE7+
+	Zd/bPsDl+DgKs0uc9SMKKVGtzfyURL4TcL/pSPA9mGzoEWbYc6xkj2n2X7T13EaZLAWt
+	Af5lDHVME7U+Bzr8BNxUH0TBl60/G1KsZolg7MXqGdVG2Ur3h0ed8fRqsaBRCy7ahSgE
+	LVIw==
+X-Gm-Message-State: AHYfb5gxhSwSvBMGn6KugHDzm1D3jknQkq/hJOIg90QpVHrwm0vwuc4r
+	HBhgR4aTvYRF/NQfyhVS6Q==
+X-Received: by 10.46.87.19 with SMTP id l19mr2872904ljb.50.1503037011497;
+	Thu, 17 Aug 2017 23:16:51 -0700 (PDT)
+Received: from [192.168.75.150] ([176.114.204.12])
+	by smtp.gmail.com with ESMTPSA id
+	c64sm1114830lfe.40.2017.08.17.23.16.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 17 Aug 2017 23:16:50 -0700 (PDT)
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1503655141-1302-1-git-send-email-stefan@agner.ch>
+	<3ce69269-11b4-34b8-68fe-0ce8ac9bd103@tibbo.com>
+	<5574f618-9b75-43a2-8bdd-e6b45340ee0b@linux.intel.com>
+	<a8241b56-7927-fba3-70eb-296125f7b8c3@tibbo.com>
+	<3eba804b-52e7-4f1d-7b9d-705731d36ccd@linux.intel.com>
+From: Dvorkin Dmitry <dvorkin@tibbo.com>
+Message-ID: <4e5f3ca1-cfc0-1b43-84ba-28e9e3630cb3@tibbo.com>
+Date: Fri, 18 Aug 2017 09:16:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Thu, 17 Aug 2017 22:56:25 -0700 (PDT)
-In-Reply-To: <d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
-References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
-	<1502969638.13978.209.camel@linuxfoundation.org>
-	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
-	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Aug 2017 22:56:25 -0700
-Message-ID: <CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: openssl10 unusable for many components
+In-Reply-To: <3eba804b-52e7-4f1d-7b9d-705731d36ccd@linux.intel.com>
+Subject: Re: two recipes, one replaces files of another
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,49 +65,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 05:56:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 18 Aug 2017 06:16:51 -0000
+X-Groupsio-MsgNum: 101597
+Content-Type: multipart/mixed; boundary="------------165D0DE6E0073BA2C037A345"
+Content-Language: en-US
 
-On Thu, Aug 17, 2017 at 4:54 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 08/17/2017 02:46 PM, Martin Jansa wrote:
+--------------165D0DE6E0073BA2C037A345
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Thanks!
+
+The problem is that this two machines are the same, except only one 
+configuration file.
+Bootloader files are build for two machines with the same image. Linux 
+kernel is the same the small  difference is in two separate DTS files only.
+Everything else is the same.
+I don't like dirty hacks. If somebody knows the good way to set 
+preference in non-root configuration files - please, advice me.
+
+On 15.08.2017 17:38, Alexander Kanavin wrote:
+> On 08/15/2017 05:21 PM, Dvorkin Dmitry wrote:
+>> Thank you, Alexander!
 >>
->> I meant "real-world" as builds for any products on the market (which are
->> likely using one of the failing recipes) - e.g. in LGE we have many more
->> failures over all internal components, so I'll just undo this openssl switch
->> (renaming openssl_1.1 as openssl11 and openssl11_1.0 back as openssl_1.0
->> with PROVIDES openssl11). We won't be able to use openssl-1.1 for long time
->> anyway, because there are some 3rd party component which are difficult (or
->> expensive) to get rebuilt against new openssl ABI, but we might be
->> interested in some other improvements in oe-core/master.
+>> But according to this
+>>
+>> https://lists.yoctoproject.org/pipermail/yocto/2013-January/011855.html
+>>
+>> PREFERRED_PROVIDER_... can't be used in image recipes, only at 
+>> top-level configuration files.
+>>
+>> I can't make it work...
 >
 >
-> Yes, this will work for you as a quick fix, but it is merely postponing
-> dealing with the issue properly to a later date. Make a plan for it and keep
-> in mind that openssl 1.0 goes out of upstream support at the end of 2019.
-> Given its history of major security vulnerabilities, it will be removed from
-> oe-core well before that time, so that it won't linger in supported YP
-> releases.
+> I think you can solve this by defining two machines: brdRevA and 
+> brdRevB. Then set PREFERRED_PROVIDER in the machine definitions.
+> And have just one recipe for the image.
 >
+> You should not make image recipes hardware-specific anyway; any image 
+> recipe should work on any hardware, and details specific to the 
+> hardware are abstracted to the machine definition.
+>
+> Alex
 
-I was trying nodejs and it seems its also broken by this openssl
-upgrade. Meta-oe alone has amost 50 recipes that are broken. there are
-hundreds of other layers.
-Many large packages in external layers are now broken, and the fact
-that openssl10
-is almost useless since some package will pull in openssl11 and cause
-conflicts. This
-is not a a good solution at least it seems to early for release. It
-might take a bit for packages to get working with openssl11, We should
-have carefully thought and considered postponing using it as default
-until next release ( april 2018). Its fine to keep it in if needed but
-keep openssl 1.0 as default preferred version, I don't think whole
-ecosystem is ready for it and we don't have man power to fix
-everything. This alone has a potential to make
-October release quite weak as far as external layers are concerned
 
-If we want to keep openssl 1.1 in Oe-Core as default its fine, then
-lets provide a way to downgrade it instead of openssl10 recipe which
-is sub-optimal since OE does build from
-source and not binary packages where such a solution might work.
+--------------165D0DE6E0073BA2C037A345
+Content-Type: text/x-vcard; charset=utf-8;
+ name="dvorkin.vcf"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="dvorkin.vcf"
 
+begin:vcard
+fn:Dmitry Dvorkin
+n:Dvorkin;Dmitry
+org:Tibbo Technology Inc.;Tibbo Engeneering
+adr:;;9F-3, No.31, Lane 169, Kang-Ning St., Hsi-Chih, New Taipei City;Taipei;Taipei;22180;Taiwan
+email;internet:dvorkin@tibbo.com
+title:Embedded Linux System Architect
+url:http://tibbo.com/
+version:2.1
+end:vcard
+
+
+--------------165D0DE6E0073BA2C037A345--
