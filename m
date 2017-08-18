@@ -1,21 +1,31 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 46FFA78462
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F319C78489
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 09:06:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Aug 2017 02:06:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,392,1498546800"; d="scan'208";a="1163917165"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 18 Aug 2017 02:06:46 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Aug 2017 12:06:45 +0300
-Message-Id: <20170818090645.20260-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] oeqa: increase verbosity of dnf commands in dnf packagefeed test
+	Fri, 18 Aug 2017 09:35:47 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7I9ZkTj022348
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 18 Aug 2017 10:35:47 +0100
+Message-ID: <1503048946.32591.0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Aug 2017 10:35:46 +0100
+In-Reply-To: <b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
+References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
+	<1502987497.13978.239.camel@linuxfoundation.org>
+	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 18 Aug 2017 10:35:47 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +38,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 09:06:47 -0000
+X-List-Received-Date: Fri, 18 Aug 2017 09:35:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Makes diagnosing failures easier.
+On Fri, 2017-08-18 at 08:26 +0200, Andrej Valek wrote:
+> Yes, for actual branch is not required. But for branches like krogoth
+> and morty, where HOSTTOOLS is not implemented, is this necessary.
 
-[YOCTO #11209]
+Lets just apply this to krogoth/morty then...
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-index 6742e8c080..81c50ed97b 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/dnf_runtime.py
-@@ -37,11 +37,11 @@ class DnfSelftest(DnfTest):
- 
-         import re
-         # Use '-y' for non-interactive mode: automatically import the feed signing key
--        output_makecache = self.dnf('-y makecache')
-+        output_makecache = self.dnf('-vy makecache')
-         self.assertTrue(re.match(r".*Failed to synchronize cache", output_makecache, re.DOTALL) is None, msg = "dnf makecache failed to synchronize repo: %s" %(output_makecache))
-         self.assertTrue(re.match(r".*Metadata cache created", output_makecache, re.DOTALL) is not None, msg = "dnf makecache failed: %s" %(output_makecache))
- 
--        output_repoinfo = self.dnf('repoinfo')
-+        output_repoinfo = self.dnf('-v repoinfo')
-         matchobj = re.match(r".*Repo-pkgs\s*:\s*(?P<n_pkgs>[0-9]+)", output_repoinfo, re.DOTALL)
-         self.assertTrue(matchobj is not None, msg = "Could not find the amount of packages in dnf repoinfo output: %s" %(output_repoinfo))
-         self.assertTrue(int(matchobj.group('n_pkgs')) > 0, msg = "Amount of remote packages is not more than zero: %s\n" %(output_repoinfo))
--- 
-2.12.3
-
+Richard
 
