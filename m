@@ -1,34 +1,39 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CD48780EC
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 5441E78462
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 18:22:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga105.fm.intel.com with ESMTP; 18 Aug 2017 11:22:42 -0700
+	Fri, 18 Aug 2017 18:27:53 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 18 Aug 2017 11:27:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; d="scan'208";a="1184358560"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Aug 2017 11:22:41 -0700
-To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
-References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
-	<1502969638.13978.209.camel@linuxfoundation.org>
-	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
-	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
-	<CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
-	<fe1575c3-4e74-1a5d-b48e-86c6908b2e63@linux.intel.com>
-	<CAMKF1soQw0VVy0RKe4w-qsCwPh_OTgatYLrx6mPpapBGooy-Ew@mail.gmail.com>
-	<CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <eda10ddd-0dbd-2ea1-ac75-ed4d2310510d@linux.intel.com>
-Date: Fri, 18 Aug 2017 21:19:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; 
+	d="scan'208,217";a="141970000"
+Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
+	by fmsmga006.fm.intel.com with ESMTP; 18 Aug 2017 11:27:55 -0700
+Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
+	ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Fri, 18 Aug 2017 11:27:54 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.170]) by
+	ORSMSX113.amr.corp.intel.com ([169.254.9.211]) with mapi id
+	14.03.0319.002; Fri, 18 Aug 2017 11:27:54 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [PATCH v3 00/11] Reproducible binaries
+Thread-Index: AQHTETfNynAW4TLVUkeAe9xueooTOaKK7amA//+NC2s=
+Date: Fri, 18 Aug 2017 18:27:53 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6119E8748@ORSMSX112.amr.corp.intel.com>
+References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>,
+	<CA+chaQcb27Zvu_Hd6pDZ8KHkyF86sJkB3rm4rvzfb_gy98pu4A@mail.gmail.com>
+In-Reply-To: <CA+chaQcb27Zvu_Hd6pDZ8KHkyF86sJkB3rm4rvzfb_gy98pu4A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.137]
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: openssl10 unusable for many components
+Subject: Re: [PATCH v3 00/11] Reproducible binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,29 +46,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 18:22:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 18 Aug 2017 18:27:54 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_"
 
-On 08/18/2017 08:29 PM, Martin Jansa wrote:
-> Even with that patch to rename openssl10 back to openssl we still need 
-> to solve the openssl-native which wasn't reverted back to 1.0.
+--_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-That was a simple oversight, I forgot to set PREFERRED_VERSION for 
-native and nativesdk variants.
+I will resend the remaining patches, today & tomorrow. Obviously there are =
+also some other changes, but the error you mention should be fixed. I will =
+rebase them on the current master as of today
+(0bd2dd08e3daf284a6bb7757651af8d40393aec2)
 
-> Upstream nodejs isn't going to be openssl-1.1 for a bit longer as explained:
-> https://github.com/nodejs/node/pull/14761
-> https://github.com/nodejs/node/pull/11828
-> so it would make sense to revert native and nativesdk versions as well - 
-> if it isn't done in oe-core, I'll do it in our own layers to keep the 
-> builds going.
 
-I don't understand why nodejs fails for you with openssl10 dependency. 
-Works totally fine for me here.
+________________________________
+From: Martin Jansa [martin.jansa@gmail.com]
+Sent: Friday, August 18, 2017 11:11 AM
+To: Bystricky, Juro
+Cc: Patches and discussions about the oe-core layer; Richard Purdie; Joshua=
+ G Lock; Burton, Ross; Juro Bystricky
+Subject: Re: [PATCH v3 00/11] Reproducible binaries
 
-qtbase however does fail, but this will be solved in 5.10.
+I've seen that some of these patches were already merged to master.
 
-Alex
+Can you please resend remaining patches for oe-core? I'm testing some sligh=
+tly older version of your patches and I see couple recipes failing e.g. lik=
+e this one:
+http://errors.yoctoproject.org/Errors/Details/151939/
 
+
+
+--_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">I will resend the remaining patches, today &amp; tomorrow. Obviously=
+ there are also some other changes, but the error you mention should be fix=
+ed. I will rebase them on the current
+ master as of today<br>
+(0bd2dd08e3daf284a6bb7757651af8d40393aec2)<br>
+<br>
+<br>
+<div style=3D"font-family: Times New Roman; color: #000000; font-size: 16px=
+">
+<hr tabindex=3D"-1">
+<div id=3D"divRpF105861" style=3D"direction: ltr;"><font size=3D"2" face=3D=
+"Tahoma" color=3D"#000000"><b>From:</b> Martin Jansa [martin.jansa@gmail.co=
+m]<br>
+<b>Sent:</b> Friday, August 18, 2017 11:11 AM<br>
+<b>To:</b> Bystricky, Juro<br>
+<b>Cc:</b> Patches and discussions about the oe-core layer; Richard Purdie;=
+ Joshua G Lock; Burton, Ross; Juro Bystricky<br>
+<b>Subject:</b> Re: [PATCH v3 00/11] Reproducible binaries<br>
+</font><br>
+</div>
+<div></div>
+<div>
+<div dir=3D"ltr">
+<div>I've seen that some of these patches were already merged to master.</d=
+iv>
+<div><br>
+</div>
+<div>Can you please resend remaining patches for oe-core? I'm testing some =
+slightly older version of your patches and I see couple recipes failing e.g=
+. like this one:</div>
+<a href=3D"http://errors.yoctoproject.org/Errors/Details/151939/" target=3D=
+"_blank">http://errors.yoctoproject.org/Errors/Details/151939/</a></div>
+<div class=3D"gmail_extra"><br>
+<br>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_6E51916E4A1F32428260031F4C7CD2B6119E8748ORSMSX112amrcor_--
