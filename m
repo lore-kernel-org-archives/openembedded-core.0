@@ -1,56 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-vk0-f42.google.com (mail-vk0-f42.google.com
-	[209.85.213.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AC21780A0
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2EF78495
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 18:55:26 +0000 (UTC)
-Received: by mail-vk0-f42.google.com with SMTP id r199so35087930vke.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 11:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ul/CeG2YgQfyGSsn9OPNuuwCGh7QxxE3uG+kOhk7Auk=;
-	b=qj0gxDu9f8D0OHjyvhVmc2KjPtki9a914YbmT+zKdMLbQQmaK/dQJwYUcB3yFjtWYP
-	HZh8vPJSZTTI/Z7LVd06V1WVOb9x7myIhPCokfdBalNt3xlt+msTgF3tKad1L3UnYuwx
-	WPmnohl5tYMZwlf629l26WdTph4YbIYqhXT1qGyoNKLPgjJ/n+esX+6jQsmWjrpI/vqZ
-	m1HOy9dtPXSf03IZXCN/yPGOHW0VW8NsjTUIOQ80vIisUlz7u6t9VxU8zpacocSNpSHQ
-	saqVTF6lyPXqHWenkojwbCIWkIhcoF562VNCr7rrL6mN7KHIwuT9xAcqn3dIrdgZ5z40
-	obUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ul/CeG2YgQfyGSsn9OPNuuwCGh7QxxE3uG+kOhk7Auk=;
-	b=CxxlKRc1JbwuPIqXhqhob2OLHS/Ebbjt5PcaISMnmSSVmfBkZRaIZFxfF80s9MvFRS
-	RUAXYhdp/B09d7BHAR6o+vieG4TUAGSYaxKRKUyUL5mIvgxU5QThLbfej0lHMdplhEHN
-	IcxzgNdLdLjP1gJZgKEXcjbP38YWRQuJYg5ND4Wt1XASwB8OPznlqIpP7kdPz3gj7h0d
-	EPhQWoLZSfwR4I3BE883GHpShlrOt52x+4CH1CmYfHe3zeUGZfsIXnxlVlHVI9m82bSe
-	+I/wHZxwcJDFsfkeNXOeOCc37GJRgmOMCrF6+DPs1Qu3BV7b2Sy0kW68IvK8QwdpJONk
-	Yn4A==
-X-Gm-Message-State: AHYfb5hwp+Pr7EB0SBBrBx+XnQhMtokLJZSkyPXdNglb5CnfN5WxgJ44
-	piQ8Sp5pic9DoGs+Czh0XEqyue/SrQ==
-X-Received: by 10.31.156.135 with SMTP id f129mr6526984vke.90.1503082528025;
-	Fri, 18 Aug 2017 11:55:28 -0700 (PDT)
+	Fri, 18 Aug 2017 19:03:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
+	bh=5CAFzl4WKtDJsteACpyB8/g8bOW6zn5VjD6eis4zRIk=; 
+	b=SPxjridz6HbN3VvDTVsgAbZuT/87y7W+g5oSoAxOiyBETWoS+fzyoBnjYO+5QG2RafwaMKPh9Jw8fYs5m8az+ALP8vFwwXt7Ht8skulX60F1xRdRbW93Kr5iYbc3+NBbvzadutvqCOkVIGaW8sJRNBfpPtiYH1iiX2Tr9ed6WOBA2T5sLcQZpwJIN63E6ZqyCaPy8hArkagyGThglPjmc9WjF0dkTY2uKw6CLtaHiCXv3pn/ENj2jlz9XI6zVCYRR24eU0dPOGg29YLdhIe7e1Wb2ePkGiRu+pV661L9N8JwWNFg7BScOW2KvWZquAmVwYxcazlu2+QOMJpiUaBvrg==;
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1dimXv-0008MK-Jn; Fri, 18 Aug 2017 21:03:03 +0200
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+References: <20170817182603.20588-1-clopez@igalia.com>
+	<CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <9db2ee69-1550-a8ba-2f4c-a3aa77f84b94@igalia.com>
+Date: Fri, 18 Aug 2017 21:02:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.103.122.88 with HTTP; Fri, 18 Aug 2017 11:55:27 -0700 (PDT)
-In-Reply-To: <3082288d-055f-50a4-c81e-6483d324d706@linux.intel.com>
-References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
-	<1502969638.13978.209.camel@linuxfoundation.org>
-	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
-	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
-	<CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
-	<fe1575c3-4e74-1a5d-b48e-86c6908b2e63@linux.intel.com>
-	<CAMKF1soQw0VVy0RKe4w-qsCwPh_OTgatYLrx6mPpapBGooy-Ew@mail.gmail.com>
-	<CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
-	<de4a91fe-0dc0-208e-1b2e-3e0e897fdd12@windriver.com>
-	<3082288d-055f-50a4-c81e-6483d324d706@linux.intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 18 Aug 2017 20:55:27 +0200
-Message-ID: <CA+chaQdz6DPvUZ2bnHk_tAnWUkrQW5Epj=ZWtMgrbSiL-38Szw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: openssl10 unusable for many components
+Subject: Re: [PATCH] webkitgtk: Add a recommends on shared-mime-info.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,112 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 18:55:27 -0000
-Content-Type: multipart/alternative; boundary="001a1140f27026b26505570bac2b"
+X-List-Received-Date: Fri, 18 Aug 2017 19:03:10 -0000
+X-Groupsio-MsgNum: 101653
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R"
 
---001a1140f27026b26505570bac2b
-Content-Type: text/plain; charset="UTF-8"
+--A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R
+Content-Type: multipart/mixed; boundary="B4qr6qJANTP5R37P8Eig7gR7KMdDhXKAm";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+Message-ID: <9db2ee69-1550-a8ba-2f4c-a3aa77f84b94@igalia.com>
+Subject: Re: [OE-core] [PATCH] webkitgtk: Add a recommends on
+ shared-mime-info.
+References: <20170817182603.20588-1-clopez@igalia.com>
+ <CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
+In-Reply-To: <CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
 
-I don't know why they care about it, but yes it will take long time:
-https://www.openssl.org/blog/blog/2017/08/17/fips/
-
-On Fri, Aug 18, 2017 at 8:41 PM, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> On 08/18/2017 08:56 PM, Mark Hatle wrote:
->
->> Even with that patch to rename openssl10 back to openssl we still need to
->>> solve
->>> the openssl-native which wasn't reverted back to 1.0.
->>>
->>> Upstream nodejs isn't going to be openssl-1.1 for a bit longer as
->>> explained:
->>> https://github.com/nodejs/node/pull/14761
->>>
->>
->> I wanted to pull out a specific comment from the above link that shows
->> one of
->> the reasons why OpenSSL 1.1 support is delayed by many:
->>
->> 7 days ago: shigeki commented:
->>
->>> We're also waiting for FIPS support of 1.1.x. They are now working on it
->>> as https://www.openssl.org/blog/blog/2017/07/25/fips/.> ...
->>>
->>
->> Until the OpenSSL 1.1.x FIPS work is further along, a lot of projects
->> (and major
->> distributions) are going to wait to deploy it.
->>
->
-> What I don't understand is why node even cares about FIPS? FIPS compliance
-> is needed to win software supplier contracts with one certain government; I
-> haven't seen any other reasons.
->
-> Another point is that getting FIPS done will take a very long time,
-> possibly two years or more, and this work is just starting now with no
-> clear funding or completion date (see the openssl blog link). Meanwhile,
-> all major desktop linux distros have 1.1 by default already; seems to me
-> that they don't care.
->
-> Alex
->
-
---001a1140f27026b26505570bac2b
-Content-Type: text/html; charset="UTF-8"
+--B4qr6qJANTP5R37P8Eig7gR7KMdDhXKAm
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I don&#39;t know why they care about it, but yes it will t=
-ake long time:<div><a href=3D"https://www.openssl.org/blog/blog/2017/08/17/=
-fips/">https://www.openssl.org/blog/blog/2017/08/17/fips/</a><br></div></di=
-v><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Aug 18,=
- 2017 at 8:41 PM, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.kanavin@lin=
-ux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span =
-class=3D"">On 08/18/2017 08:56 PM, Mark Hatle wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-Even with that patch to rename openssl10 back to openssl we still need to s=
-olve<br>
-the openssl-native which wasn&#39;t reverted back to 1.0.<br>
-<br>
-Upstream nodejs isn&#39;t going to be openssl-1.1 for a bit longer as expla=
-ined:<br>
-<a href=3D"https://github.com/nodejs/node/pull/14761" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://github.com/nodejs/node<wbr>/pull/14761</a><br>
-</blockquote>
-<br>
-I wanted to pull out a specific comment from the above link that shows one =
-of<br>
-the reasons why OpenSSL 1.1 support is delayed by many:<br>
-<br>
-7 days ago: shigeki commented:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-We&#39;re also waiting for FIPS support of 1.1.x. They are now working on i=
-t as <a href=3D"https://www.openssl.org/blog/blog/2017/07/25/fips/" rel=3D"=
-noreferrer" target=3D"_blank">https://www.openssl.org/blog/b<wbr>log/2017/0=
-7/25/fips/</a>.&gt; ...<br>
-</blockquote>
-<br>
-Until the OpenSSL 1.1.x FIPS work is further along, a lot of projects (and =
-major<br>
-distributions) are going to wait to deploy it.<br>
-</blockquote>
-<br></span>
-What I don&#39;t understand is why node even cares about FIPS? FIPS complia=
-nce is needed to win software supplier contracts with one certain governmen=
-t; I haven&#39;t seen any other reasons.<br>
-<br>
-Another point is that getting FIPS done will take a very long time, possibl=
-y two years or more, and this work is just starting now with no clear fundi=
-ng or completion date (see the openssl blog link). Meanwhile, all major des=
-ktop linux distros have 1.1 by default already; seems to me that they don&#=
-39;t care.<br>
-<br>
-Alex<br>
-</blockquote></div><br></div>
+On 18/08/17 08:38, Jussi Kukkonen wrote:
+> There's also https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11792 =
+about
+> whether glib should bring in shared-mime-info so GIO file sniffing woul=
+dn't
+> be broken (the database is 3.6MB which is not a big number in a webkit
+> context but can be for others).
 
---001a1140f27026b26505570bac2b--
+This looks to me the best option.
+
+
+
+
+
+--B4qr6qJANTP5R37P8Eig7gR7KMdDhXKAm--
+
+--A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmXOd4ACgkQllCJzmuV
++IKFYQ//SmH8ysx8tJrNBvRPmanYoIeAKekk4tGjVyEA1SbWu4Id/cMlYkCLAjSL
+chqxgBNxck/yEGfT98e7IfHXi74mKYVxfVDOL1pFKq6MYVmGAA/IVlN/kDjtUlv+
+WYhb5Jf2q/4IE4ytUoj5oJfwKvv35Bx+yScU9o1KvUShV+cpNN3+6i5BGYGxD9md
+NtcGll4NqUDJm2L8L6q11Z+6k5U4EOIFM6lqV/sSVDGeJKzE+tRyWoaWXh5njiL0
+HBdKIhKj9hWM9G3AutPikJtz+5tL4JpS90hjEWgItpru2LO9i2v9pRVlvN5KBvR2
+KG+EKOxjVMfcYnLAtPyguZedcFRfbxc7JR3Y4f8AKgEEaqwJs/ZVVLjGZ8QcTRwz
+yoQ+cx3HTERewsjNjBxHYPJyGm00kHsSfFDQJFQH7oN1tiFJlujBwPAcaixh8PYK
+MdQCZLYtsaUm5vlgaI/uhSILjeQczNlqaVmfR6N79U1GqIbS1DUhrg48JfBF/oAm
+QBkqVqSep34bEXrYqQ0qosbkkqmqK876omQVSRA7I19lNG0Pn+bnq59Ho66iu1LY
+EtVt1Mw9UbS91HjTscmv3T+J6iHmIa8V/rbKpmq5V6JsyXhdo7KnGtMjQJN2mK88
+lChtLk6KqcNrbjuWSxkjpmcpSheheC6dChSBDxVNRGg7585Dkn4=
+=J9QF
+-----END PGP SIGNATURE-----
+
+--A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R--
