@@ -1,36 +1,39 @@
-Return-Path: <clopez@igalia.com>
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C2EF78495
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B4A61784E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 19:03:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject;
-	bh=5CAFzl4WKtDJsteACpyB8/g8bOW6zn5VjD6eis4zRIk=; 
-	b=SPxjridz6HbN3VvDTVsgAbZuT/87y7W+g5oSoAxOiyBETWoS+fzyoBnjYO+5QG2RafwaMKPh9Jw8fYs5m8az+ALP8vFwwXt7Ht8skulX60F1xRdRbW93Kr5iYbc3+NBbvzadutvqCOkVIGaW8sJRNBfpPtiYH1iiX2Tr9ed6WOBA2T5sLcQZpwJIN63E6ZqyCaPy8hArkagyGThglPjmc9WjF0dkTY2uKw6CLtaHiCXv3pn/ENj2jlz9XI6zVCYRR24eU0dPOGg29YLdhIe7e1Wb2ePkGiRu+pV661L9N8JwWNFg7BScOW2KvWZquAmVwYxcazlu2+QOMJpiUaBvrg==;
-Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
-	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1dimXv-0008MK-Jn; Fri, 18 Aug 2017 21:03:03 +0200
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-References: <20170817182603.20588-1-clopez@igalia.com>
-	<CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
-	url=http://key.neutrino.es
-Organization: Igalia S.L.
-Mail-Followup-To: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <9db2ee69-1550-a8ba-2f4c-a3aa77f84b94@igalia.com>
-Date: Fri, 18 Aug 2017 21:02:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Fri, 18 Aug 2017 19:03:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7IJ3raC027029
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 18 Aug 2017 12:03:54 -0700
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 18 Aug 2017 12:03:53 -0700
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Martin Jansa
+	<martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
+References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+	<1502969638.13978.209.camel@linuxfoundation.org>
+	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
+	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
+	<CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
+	<fe1575c3-4e74-1a5d-b48e-86c6908b2e63@linux.intel.com>
+	<CAMKF1soQw0VVy0RKe4w-qsCwPh_OTgatYLrx6mPpapBGooy-Ew@mail.gmail.com>
+	<CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
+	<de4a91fe-0dc0-208e-1b2e-3e0e897fdd12@windriver.com>
+	<3082288d-055f-50a4-c81e-6483d324d706@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <7f932500-ae59-3507-2725-c8b0775d76cc@windriver.com>
+Date: Fri, 18 Aug 2017 14:03:51 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
+In-Reply-To: <3082288d-055f-50a4-c81e-6483d324d706@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: Add a recommends on shared-mime-info.
+Subject: Re: openssl10 unusable for many components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,68 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 19:03:10 -0000
-X-Groupsio-MsgNum: 101653
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R"
+X-List-Received-Date: Fri, 18 Aug 2017 19:03:54 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R
-Content-Type: multipart/mixed; boundary="B4qr6qJANTP5R37P8Eig7gR7KMdDhXKAm";
- protected-headers="v1"
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Message-ID: <9db2ee69-1550-a8ba-2f4c-a3aa77f84b94@igalia.com>
-Subject: Re: [OE-core] [PATCH] webkitgtk: Add a recommends on
- shared-mime-info.
-References: <20170817182603.20588-1-clopez@igalia.com>
- <CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
-In-Reply-To: <CAHiDW_EkLn1G9Ofs7doaPfScqmUwmRxrQzgNKT_9VZAUbkj6JQ@mail.gmail.com>
+On 8/18/17 1:41 PM, Alexander Kanavin wrote:
+> On 08/18/2017 08:56 PM, Mark Hatle wrote:
+>>> Even with that patch to rename openssl10 back to openssl we still need to solve
+>>> the openssl-native which wasn't reverted back to 1.0.
+>>>
+>>> Upstream nodejs isn't going to be openssl-1.1 for a bit longer as explained:
+>>> https://github.com/nodejs/node/pull/14761
+>>
+>> I wanted to pull out a specific comment from the above link that shows one of
+>> the reasons why OpenSSL 1.1 support is delayed by many:
+>>
+>> 7 days ago: shigeki commented:
+>>> We're also waiting for FIPS support of 1.1.x. They are now working on it as https://www.openssl.org/blog/blog/2017/07/25/fips/.> ...
+>>
+>> Until the OpenSSL 1.1.x FIPS work is further along, a lot of projects (and major
+>> distributions) are going to wait to deploy it.
+> 
+> What I don't understand is why node even cares about FIPS? FIPS 
+> compliance is needed to win software supplier contracts with one certain 
+> government; I haven't seen any other reasons.
 
---B4qr6qJANTP5R37P8Eig7gR7KMdDhXKAm
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+Many governments and private company require this certification.  FIPS-140-2 is
+the US NIST name for this work, but the same work resolves ISO requirements in
+Europe and other countries.
 
-On 18/08/17 08:38, Jussi Kukkonen wrote:
-> There's also https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11792 =
-about
-> whether glib should bring in shared-mime-info so GIO file sniffing woul=
-dn't
-> be broken (the database is 3.6MB which is not a big number in a webkit
-> context but can be for others).
+Medical devices often requires FIPS certification in order to conform the
+privacy requirements (or to be sold into US Government funded hospitals.)  FIPS
+is really a big deal for many industries.
 
-This looks to me the best option.
+> Another point is that getting FIPS done will take a very long time, 
+> possibly two years or more, and this work is just starting now with no 
+> clear funding or completion date (see the openssl blog link). Meanwhile, 
+> all major desktop linux distros have 1.1 by default already; seems to me 
+> that they don't care.
+
+Yes it will.  It will likely take 6 months to a year of development and likely
+another 6 months to a year of certification lab work.
+
+This is part of the reason the 1.0.2 EOL was set to end of 2019, to help force
+the move to 1.1.  However, if you look at the 1.0.2 FIPS module, it has January
+2022 EOL.  (Note, that EOL has a slightly different meaning then the 2019 1.0.2
+one.... but the reality is that there will be organizations that will continue
+to publish security fixes for OpenSSL 1.0.2 through the FIPS module EOL...
+simply our of necessity.)
+
+One of the key thing with this is that work can accelerate (likely not less then
+a year) if additional people step up and assist in the funding.  I'm aware of a
+few commercial companies that are discussing doing this, but unfortunately
+nothing more concrete then the blog referenced above.)
+
+> Alex
+> 
 
 
-
-
-
---B4qr6qJANTP5R37P8Eig7gR7KMdDhXKAm--
-
---A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: You can fetch my GnuPG key from http://key.neutrino.es
-
-iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmXOd4ACgkQllCJzmuV
-+IKFYQ//SmH8ysx8tJrNBvRPmanYoIeAKekk4tGjVyEA1SbWu4Id/cMlYkCLAjSL
-chqxgBNxck/yEGfT98e7IfHXi74mKYVxfVDOL1pFKq6MYVmGAA/IVlN/kDjtUlv+
-WYhb5Jf2q/4IE4ytUoj5oJfwKvv35Bx+yScU9o1KvUShV+cpNN3+6i5BGYGxD9md
-NtcGll4NqUDJm2L8L6q11Z+6k5U4EOIFM6lqV/sSVDGeJKzE+tRyWoaWXh5njiL0
-HBdKIhKj9hWM9G3AutPikJtz+5tL4JpS90hjEWgItpru2LO9i2v9pRVlvN5KBvR2
-KG+EKOxjVMfcYnLAtPyguZedcFRfbxc7JR3Y4f8AKgEEaqwJs/ZVVLjGZ8QcTRwz
-yoQ+cx3HTERewsjNjBxHYPJyGm00kHsSfFDQJFQH7oN1tiFJlujBwPAcaixh8PYK
-MdQCZLYtsaUm5vlgaI/uhSILjeQczNlqaVmfR6N79U1GqIbS1DUhrg48JfBF/oAm
-QBkqVqSep34bEXrYqQ0qosbkkqmqK876omQVSRA7I19lNG0Pn+bnq59Ho66iu1LY
-EtVt1Mw9UbS91HjTscmv3T+J6iHmIa8V/rbKpmq5V6JsyXhdo7KnGtMjQJN2mK88
-lChtLk6KqcNrbjuWSxkjpmcpSheheC6dChSBDxVNRGg7585Dkn4=
-=J9QF
------END PGP SIGNATURE-----
-
---A7saLIGU7JLQBdOMlbtFTS4JXJVo1JO9R--
