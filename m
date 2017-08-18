@@ -1,26 +1,24 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FD9F7853D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D35578542
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 06:42:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7I6gNSU019008
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Aug 2017 23:42:23 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 17 Aug 2017 23:42:23 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Aug 2017 02:42:20 -0400
-Message-ID: <866a0e0dad91b2716029b546843148d37a85cc59.1503038501.git.dengke.du@windriver.com>
+	Fri, 18 Aug 2017 07:31:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7I7VsnU014008
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 18 Aug 2017 00:31:54 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 18 Aug 2017 00:31:53 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<richard.purdie@linuxfoundation.org>
+Date: Fri, 18 Aug 2017 03:31:50 -0400
+Message-ID: <cover.1503041246.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1503038501.git.dengke.du@windriver.com>
-References: <cover.1503038501.git.dengke.du@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] mpg123: upgrade to 1.25.6
+Subject: [PATCH 0/2] upgrade bash v2 && fix multilib issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 06:42:22 -0000
+X-List-Received-Date: Fri, 18 Aug 2017 07:31:55 -0000
 Content-Type: text/plain
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-multimedia/mpg123/{mpg123_1.25.4.bb => mpg123_1.25.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.25.4.bb => mpg123_1.25.6.bb} (94%)
+Test steps:
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.25.4.bb b/meta/recipes-multimedia/mpg123/mpg123_1.25.6.bb
-similarity index 94%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.25.4.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.25.6.bb
-index 96e8f21..cb86199 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.25.4.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.25.6.bb
-@@ -11,8 +11,8 @@ LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
- 
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[md5sum] = "810e9d00fd75c92c4afafa20245317b5"
--SRC_URI[sha256sum] = "cdb5620e8aab83f75a27dab3394a44b9cc4017fc77b2954b8425ca416db6b3e7"
-+SRC_URI[md5sum] = "43336bef78f67c2e66c4f6c288ca1eb3"
-+SRC_URI[sha256sum] = "0f0458c9b87799bc2c9bf9455279cc4d305e245db43b51a39ef27afe025c5a8e"
- 
- inherit autotools pkgconfig
- 
+vim local.conf:
+...
+MACHINE ?= "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+IMAGE_INSTALL_append = " bash"
+
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_append = " systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+KERNEL_FEATURES_append = " cfg/systemd.scc"
+...
+
+bitbake lib32-core-image-sato-sdk
+
+//Hongxu
+
+The following changes since commit 55bf88603927469de9aa9f6fd4d449230d2e61e3:
+
+  poky: Add nios2 to list of qemu targets (2017-08-17 00:21:35 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib hongxu/upgrade-20170816
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=hongxu/upgrade-20170816
+
+Hongxu Jia (2):
+  bash: 4.3.30 -> 4.4
+  logrotate: fix systemd service not found while multilib
+
+ meta/recipes-extended/bash/bash.inc                |   6 +
+ .../recipes-extended/bash/bash/CVE-2016-9401.patch |  50 -------
+ ...roc-run-heredoc-run-execscript-run-test-f.patch | 158 +++------------------
+ meta/recipes-extended/bash/bash/fix-run-intl.patch | 110 --------------
+ meta/recipes-extended/bash/bash/test-output.patch  |  47 ++++--
+ meta/recipes-extended/bash/bash_4.3.30.bb          |  75 ----------
+ meta/recipes-extended/bash/bash_4.4.bb             |  58 ++++++++
+ .../recipes-extended/logrotate/logrotate_3.12.3.bb |   4 +-
+ 8 files changed, 115 insertions(+), 393 deletions(-)
+ delete mode 100644 meta/recipes-extended/bash/bash/CVE-2016-9401.patch
+ delete mode 100644 meta/recipes-extended/bash/bash/fix-run-intl.patch
+ delete mode 100644 meta/recipes-extended/bash/bash_4.3.30.bb
+ create mode 100644 meta/recipes-extended/bash/bash_4.4.bb
+
 -- 
 2.8.1
 
