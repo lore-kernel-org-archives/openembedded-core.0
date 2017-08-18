@@ -1,21 +1,21 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BB6478276
+	by mail.openembedded.org (Postfix) with ESMTP id 080F177DB6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 19:15:56 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	Fri, 18 Aug 2017 19:34:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Aug 2017 12:15:46 -0700
+	18 Aug 2017 12:34:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; d="scan'208";a="891499519"
+X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; d="scan'208";a="1207343930"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Aug 2017 12:15:45 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Aug 2017 12:34:40 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Aug 2017 22:12:29 +0300
-Message-Id: <20170818191229.40235-1-alexander.kanavin@linux.intel.com>
+Date: Fri, 18 Aug 2017 22:31:29 +0300
+Message-Id: <20170818193129.22701-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
-Subject: [PATCHv2] openssl10: rename back to openssl and make it the default via PREFERRED_VERSION
+Subject: [PATCHv3] openssl10: rename back to openssl and make it the default via PREFERRED_VERSION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,7 +28,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 19:15:57 -0000
+X-List-Received-Date: Fri, 18 Aug 2017 19:34:41 -0000
 
 openssl 1.1 broke 3rd party layers a lot more than was expected; let's flip
 the switch at the start of next development cycle.
@@ -41,41 +41,41 @@ but for many recipes it does.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/default-versions.inc                          | 3 +++
- .../0001-Fix-build-with-clang-using-external-assembler.patch           | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/Makefiles-ptest.patch        | 0
- .../Use-SHA256-not-MD5-as-default-digest.patch                         | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/configure-musl-target.patch  | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/configure-targets.patch      | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/c_rehash-compat.patch | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/ca.patch              | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/debian-targets.patch  | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/man-dir.patch         | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/man-section.patch     | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/no-rpath.patch        | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/no-symbolic.patch     | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/pic.patch             | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/version-script.patch  | 0
- .../debian1.0.2/block_digicert_malaysia.patch                          | 0
- .../{openssl10 => openssl-1.0.2l}/debian1.0.2/block_diginotar.patch    | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian1.0.2/soname.patch     | 0
- .../{openssl10 => openssl-1.0.2l}/debian1.0.2/version-script.patch     | 0
- .../{openssl10 => openssl-1.0.2l}/engines-install-in-libdir-ssl.patch  | 0
- .../recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/find.pl | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/oe-ldflags.patch             | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/openssl-1.0.2a-x32-asm.patch | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/openssl-c_rehash.sh          | 0
- .../{openssl10 => openssl-1.0.2l}/openssl-fix-des.pod-error.patch      | 0
- .../{openssl10 => openssl-1.0.2l}/openssl-util-perlpath.pl-cwd.patch   | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/openssl_fix_for_x32.patch    | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/parallel.patch               | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/ptest-deps.patch             | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/ptest_makefile_deps.patch    | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/run-ptest                    | 0
- .../openssl/{openssl10 => openssl-1.0.2l}/shared-libs.patch            | 0
- meta/recipes-connectivity/openssl/openssl10.inc                        | 2 ++
- .../openssl/{openssl10_1.0.2l.bb => openssl_1.0.2l.bb}                 | 0
- 34 files changed, 5 insertions(+)
+ meta/conf/distro/include/default-versions.inc               |  3 +++
+ ...0001-Fix-build-with-clang-using-external-assembler.patch |  0
+ .../{openssl10 => openssl-1.0.2l}/Makefiles-ptest.patch     |  0
+ .../Use-SHA256-not-MD5-as-default-digest.patch              |  0
+ .../configure-musl-target.patch                             |  0
+ .../{openssl10 => openssl-1.0.2l}/configure-targets.patch   |  0
+ .../debian/c_rehash-compat.patch                            |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/debian/ca.patch   |  0
+ .../debian/debian-targets.patch                             |  0
+ .../{openssl10 => openssl-1.0.2l}/debian/man-dir.patch      |  0
+ .../{openssl10 => openssl-1.0.2l}/debian/man-section.patch  |  0
+ .../{openssl10 => openssl-1.0.2l}/debian/no-rpath.patch     |  0
+ .../{openssl10 => openssl-1.0.2l}/debian/no-symbolic.patch  |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/debian/pic.patch  |  0
+ .../debian/version-script.patch                             |  0
+ .../debian1.0.2/block_digicert_malaysia.patch               |  0
+ .../debian1.0.2/block_diginotar.patch                       |  0
+ .../{openssl10 => openssl-1.0.2l}/debian1.0.2/soname.patch  |  0
+ .../debian1.0.2/version-script.patch                        |  0
+ .../engines-install-in-libdir-ssl.patch                     |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/find.pl           |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/oe-ldflags.patch  |  0
+ .../openssl-1.0.2a-x32-asm.patch                            |  0
+ .../{openssl10 => openssl-1.0.2l}/openssl-c_rehash.sh       |  0
+ .../openssl-fix-des.pod-error.patch                         |  0
+ .../openssl-util-perlpath.pl-cwd.patch                      |  0
+ .../{openssl10 => openssl-1.0.2l}/openssl_fix_for_x32.patch |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/parallel.patch    |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/ptest-deps.patch  |  0
+ .../{openssl10 => openssl-1.0.2l}/ptest_makefile_deps.patch |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/run-ptest         |  0
+ .../openssl/{openssl10 => openssl-1.0.2l}/shared-libs.patch |  0
+ meta/recipes-connectivity/openssl/openssl10.inc             | 13 ++-----------
+ .../openssl/{openssl10_1.0.2l.bb => openssl_1.0.2l.bb}      |  0
+ 34 files changed, 5 insertions(+), 11 deletions(-)
  rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
  rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/Makefiles-ptest.patch (100%)
  rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
@@ -245,7 +245,7 @@ similarity index 100%
 rename from meta/recipes-connectivity/openssl/openssl10/shared-libs.patch
 rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/shared-libs.patch
 diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
-index 54cf4598e1d..86f268db98c 100644
+index 54cf4598e1d..8e199185715 100644
 --- a/meta/recipes-connectivity/openssl/openssl10.inc
 +++ b/meta/recipes-connectivity/openssl/openssl10.inc
 @@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
@@ -257,6 +257,21 @@ index 54cf4598e1d..86f268db98c 100644
  SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
            "
  S = "${WORKDIR}/openssl-${PV}"
+@@ -263,14 +265,3 @@ do_install_append_class-native() {
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-PACKAGE_PREPROCESS_FUNCS += "openssl_package_preprocess"
+-
+-openssl_package_preprocess () {
+-        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
+-                rm $file
+-        done
+-        rm ${PKGD}/usr/bin/openssl
+-        rm ${PKGD}/usr/bin/c_rehash
+-        rmdir ${PKGD}/usr/bin
+-
+-}
 diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
 similarity index 100%
 rename from meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb
