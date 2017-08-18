@@ -1,21 +1,31 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 080F177DB6
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 567CD78474
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 19:34:40 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Aug 2017 12:34:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; d="scan'208";a="1207343930"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Aug 2017 12:34:40 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Aug 2017 22:31:29 +0300
-Message-Id: <20170818193129.22701-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCHv3] openssl10: rename back to openssl and make it the default via PREFERRED_VERSION
+	Fri, 18 Aug 2017 20:20:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7IKKjX9015749
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 18 Aug 2017 13:20:45 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 18 Aug 2017 13:20:44 -0700
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>, Chen Qi <Qi.Chen@windriver.com>
+References: <cover.1502879234.git.Qi.Chen@windriver.com>
+	<7751264307b6966841699d05c26c8d643fcff3ef.1502879234.git.Qi.Chen@windriver.com>
+	<CAHiDW_G9qymXQamiAvFpZmo+drd2TWkOv3eYPTEUxg6pLDNjqw@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <4df58cdd-1d60-26af-cfe4-7e5c25ffb2f9@windriver.com>
+Date: Fri, 18 Aug 2017 16:20:43 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAHiDW_G9qymXQamiAvFpZmo+drd2TWkOv3eYPTEUxg6pLDNjqw@mail.gmail.com>
+X-Originating-IP: [172.25.44.7]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] shadow: fix CVE-2017-12424
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,255 +38,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 19:34:41 -0000
+X-List-Received-Date: Fri, 18 Aug 2017 20:20:45 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-openssl 1.1 broke 3rd party layers a lot more than was expected; let's flip
-the switch at the start of next development cycle.
+On 2017-08-16 07:34 AM, Jussi Kukkonen wrote:
+> On 16 August 2017 at 13:28, Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>> wrote:
+> 
+>     Backport a patch to fix CVE-2017-12424.
+> 
+>     In shadow before 4.5, the newusers tool could be made to manipulate
+>     internal data structures in ways unintended by the authors.
+> 
+>     Reference link: https://nvd.nist.gov/vuln/detail/CVE-2017-12424
+>     <https://nvd.nist.gov/vuln/detail/CVE-2017-12424>
+> 
+>     CVE: CVE-2017-12424
+> 
+> 
+> I don't object to the patch but I'm wondering if there is a reason we 
+> are taking the shadow sources from debian instead of the upstream 
+> github*? shadow 4.5 seems to have been out for months already but Debian 
+> hasn't taken it yet...
+> 
+> *) https://github.com/shadow-maint/shadow
+> 
+> Jussi
 
-Add a PROVIDES = "openssl10" to openssl 1.0 recipe; any dependency that is
-not compatible with 1.1 should use that in its DEPENDS, as the 1.0
-recipe will later be renamed back to openssl10. This does not always work:
-http://lists.openembedded.org/pipermail/openembedded-core/2017-August/140957.html
-but for many recipes it does.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/conf/distro/include/default-versions.inc               |  3 +++
- ...0001-Fix-build-with-clang-using-external-assembler.patch |  0
- .../{openssl10 => openssl-1.0.2l}/Makefiles-ptest.patch     |  0
- .../Use-SHA256-not-MD5-as-default-digest.patch              |  0
- .../configure-musl-target.patch                             |  0
- .../{openssl10 => openssl-1.0.2l}/configure-targets.patch   |  0
- .../debian/c_rehash-compat.patch                            |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/ca.patch   |  0
- .../debian/debian-targets.patch                             |  0
- .../{openssl10 => openssl-1.0.2l}/debian/man-dir.patch      |  0
- .../{openssl10 => openssl-1.0.2l}/debian/man-section.patch  |  0
- .../{openssl10 => openssl-1.0.2l}/debian/no-rpath.patch     |  0
- .../{openssl10 => openssl-1.0.2l}/debian/no-symbolic.patch  |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/debian/pic.patch  |  0
- .../debian/version-script.patch                             |  0
- .../debian1.0.2/block_digicert_malaysia.patch               |  0
- .../debian1.0.2/block_diginotar.patch                       |  0
- .../{openssl10 => openssl-1.0.2l}/debian1.0.2/soname.patch  |  0
- .../debian1.0.2/version-script.patch                        |  0
- .../engines-install-in-libdir-ssl.patch                     |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/find.pl           |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/oe-ldflags.patch  |  0
- .../openssl-1.0.2a-x32-asm.patch                            |  0
- .../{openssl10 => openssl-1.0.2l}/openssl-c_rehash.sh       |  0
- .../openssl-fix-des.pod-error.patch                         |  0
- .../openssl-util-perlpath.pl-cwd.patch                      |  0
- .../{openssl10 => openssl-1.0.2l}/openssl_fix_for_x32.patch |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/parallel.patch    |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/ptest-deps.patch  |  0
- .../{openssl10 => openssl-1.0.2l}/ptest_makefile_deps.patch |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/run-ptest         |  0
- .../openssl/{openssl10 => openssl-1.0.2l}/shared-libs.patch |  0
- meta/recipes-connectivity/openssl/openssl10.inc             | 13 ++-----------
- .../openssl/{openssl10_1.0.2l.bb => openssl_1.0.2l.bb}      |  0
- 34 files changed, 5 insertions(+), 11 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/0001-Fix-build-with-clang-using-external-assembler.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/Makefiles-ptest.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/Use-SHA256-not-MD5-as-default-digest.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/configure-musl-target.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/configure-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/c_rehash-compat.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/ca.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/debian-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/man-dir.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/man-section.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/no-rpath.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/no-symbolic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/pic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian1.0.2/block_digicert_malaysia.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian1.0.2/block_diginotar.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian1.0.2/soname.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/debian1.0.2/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/engines-install-in-libdir-ssl.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/find.pl (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/oe-ldflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/openssl-1.0.2a-x32-asm.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/openssl-c_rehash.sh (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/openssl-fix-des.pod-error.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/openssl-util-perlpath.pl-cwd.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/openssl_fix_for_x32.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/parallel.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/ptest-deps.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/ptest_makefile_deps.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/run-ptest (100%)
- rename meta/recipes-connectivity/openssl/{openssl10 => openssl-1.0.2l}/shared-libs.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl10_1.0.2l.bb => openssl_1.0.2l.bb} (100%)
+Good point. It's late in the release but maybe
+not too late to update shadow.
 
-diff --git a/meta/conf/distro/include/default-versions.inc b/meta/conf/distro/include/default-versions.inc
-index a6f331350eb..868073843af 100644
---- a/meta/conf/distro/include/default-versions.inc
-+++ b/meta/conf/distro/include/default-versions.inc
-@@ -2,3 +2,6 @@
- # Default preferred versions
- #
- 
-+PREFERRED_VERSION_openssl = "1.0.%"
-+PREFERRED_VERSION_openssl-native = "1.0.%"
-+PREFERRED_VERSION_nativesdk-openssl = "1.0.%"
-diff --git a/meta/recipes-connectivity/openssl/openssl10/0001-Fix-build-with-clang-using-external-assembler.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-Fix-build-with-clang-using-external-assembler.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/0001-Fix-build-with-clang-using-external-assembler.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-Fix-build-with-clang-using-external-assembler.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/Makefiles-ptest.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/Makefiles-ptest.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/Makefiles-ptest.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/Makefiles-ptest.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/Use-SHA256-not-MD5-as-default-digest.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/Use-SHA256-not-MD5-as-default-digest.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/Use-SHA256-not-MD5-as-default-digest.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/Use-SHA256-not-MD5-as-default-digest.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/configure-musl-target.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/configure-musl-target.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/configure-musl-target.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/configure-musl-target.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/configure-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/configure-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/configure-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/c_rehash-compat.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/c_rehash-compat.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/c_rehash-compat.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/ca.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/ca.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/ca.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/debian-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/debian-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/debian-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/man-dir.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/man-dir.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/man-dir.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/man-section.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/man-section.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/man-section.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/no-rpath.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/no-rpath.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/no-rpath.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/no-symbolic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/no-symbolic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/no-symbolic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/pic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/pic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/pic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_digicert_malaysia.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/block_digicert_malaysia.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_digicert_malaysia.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/block_digicert_malaysia.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_diginotar.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/block_diginotar.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian1.0.2/block_diginotar.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/block_diginotar.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/soname.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/soname.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian1.0.2/soname.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/soname.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/debian1.0.2/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/debian1.0.2/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/debian1.0.2/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/engines-install-in-libdir-ssl.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/engines-install-in-libdir-ssl.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/engines-install-in-libdir-ssl.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/find.pl b/meta/recipes-connectivity/openssl/openssl-1.0.2l/find.pl
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/find.pl
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/find.pl
-diff --git a/meta/recipes-connectivity/openssl/openssl10/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/oe-ldflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/oe-ldflags.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/oe-ldflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/openssl-1.0.2a-x32-asm.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-1.0.2a-x32-asm.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/openssl-1.0.2a-x32-asm.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-1.0.2a-x32-asm.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/openssl-c_rehash.sh b/meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-c_rehash.sh
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/openssl-c_rehash.sh
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-c_rehash.sh
-diff --git a/meta/recipes-connectivity/openssl/openssl10/openssl-fix-des.pod-error.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-fix-des.pod-error.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/openssl-fix-des.pod-error.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-fix-des.pod-error.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/openssl-util-perlpath.pl-cwd.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-util-perlpath.pl-cwd.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/openssl-util-perlpath.pl-cwd.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl-util-perlpath.pl-cwd.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl_fix_for_x32.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/openssl_fix_for_x32.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/openssl_fix_for_x32.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/parallel.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/parallel.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/parallel.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/parallel.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/ptest-deps.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/ptest-deps.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/ptest-deps.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/ptest-deps.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/ptest_makefile_deps.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/ptest_makefile_deps.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/ptest_makefile_deps.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/ptest_makefile_deps.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10/run-ptest b/meta/recipes-connectivity/openssl/openssl-1.0.2l/run-ptest
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/run-ptest
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/run-ptest
-diff --git a/meta/recipes-connectivity/openssl/openssl10/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/shared-libs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10/shared-libs.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.2l/shared-libs.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
-index 54cf4598e1d..8e199185715 100644
---- a/meta/recipes-connectivity/openssl/openssl10.inc
-+++ b/meta/recipes-connectivity/openssl/openssl10.inc
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
- DEPENDS = "makedepend-native hostperl-runtime-native"
- DEPENDS_append_class-target = " openssl-native"
- 
-+PROVIDES += "openssl10"
-+
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-           "
- S = "${WORKDIR}/openssl-${PV}"
-@@ -263,14 +265,3 @@ do_install_append_class-native() {
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--PACKAGE_PREPROCESS_FUNCS += "openssl_package_preprocess"
--
--openssl_package_preprocess () {
--        for file in `find ${PKGD} -name *.h -o -name *.pc -o -name *.so`; do
--                rm $file
--        done
--        rm ${PKGD}/usr/bin/openssl
--        rm ${PKGD}/usr/bin/c_rehash
--        rmdir ${PKGD}/usr/bin
--
--}
-diff --git a/meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl10_1.0.2l.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+Qi,
+If you could give it a try and let us know if there are any
+'gotchas' that would prevent or make the upgrade risky,
+that would be great.
+
+
+There are quite a few functional changes:
+    $ git diff 4.2.1..4.5 etc lib libmisc man src | diffstat| tail -1
+     83 files changed, 4011 insertions(+), 2020 deletions(-)
+
+and a HUGE number of other changes:
+    $ git diff 4.2.1..4.5 | diffstat| tail -1
+     9818 files changed, 390853 insertions(+), 7556 deletions(-)
+
+mainly in tests:
+    $ git diff 4.2.1..4.5 tests/| diffstat| tail -1
+     9690 files changed, 369156 insertions(+)
+that could, say just post-M3, be added as ptests.
+
+../Randy
+
+> 
+> 
+>     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
+>     <mailto:Qi.Chen@windriver.com>>
+>     ---
+>       .../shadow/files/0001-shadow-CVE-2017-12424        | 46
+>     ++++++++++++++++++++++
+>       meta/recipes-extended/shadow/shadow.inc            |  1 +
+>       2 files changed, 47 insertions(+)
+>       create mode 100644
+>     meta/recipes-extended/shadow/files/0001-shadow-CVE-2017-12424
+> 
+>     diff --git
+>     a/meta/recipes-extended/shadow/files/0001-shadow-CVE-2017-12424
+>     b/meta/recipes-extended/shadow/files/0001-shadow-CVE-2017-12424
+>     new file mode 100644
+>     index 0000000..4d3e1e0
+>     --- /dev/null
+>     +++ b/meta/recipes-extended/shadow/files/0001-shadow-CVE-2017-12424
+>     @@ -0,0 +1,46 @@
+>     +From 954e3d2e7113e9ac06632aee3c69b8d818cc8952 Mon Sep 17 00:00:00 2001
+>     +From: Tomas Mraz <tmraz@fedoraproject.org
+>     <mailto:tmraz@fedoraproject.org>>
+>     +Date: Fri, 31 Mar 2017 16:25:06 +0200
+>     +Subject: [PATCH] Fix buffer overflow if NULL line is present in db.
+>     +
+>     +If ptr->line == NULL for an entry, the first cycle will exit,
+>     +but the second one will happily write past entries buffer.
+>     +We actually do not want to exit the first cycle prematurely
+>     +on ptr->line == NULL.
+>     +Signed-off-by: Tomas Mraz <tmraz@fedoraproject.org
+>     <mailto:tmraz@fedoraproject.org>>
+>     +
+>     +CVE: CVE-2017-12424
+>     +Upstream-Status: Backport
+>     +Signed-off-by: Chen Qi <Qi.Chen@windriver.com
+>     <mailto:Qi.Chen@windriver.com>>
+>     +---
+>     + lib/commonio.c | 8 ++++----
+>     + 1 file changed, 4 insertions(+), 4 deletions(-)
+>     +
+>     +diff --git a/lib/commonio.c b/lib/commonio.c
+>     +index b10da06..31edbaa 100644
+>     +--- a/lib/commonio.c
+>     ++++ b/lib/commonio.c
+>     +@@ -751,16 +751,16 @@ commonio_sort (struct commonio_db *db, int
+>     (*cmp) (const void *, const void *))
+>     +       for (ptr = db->head;
+>     +               (NULL != ptr)
+>     + #if KEEP_NIS_AT_END
+>     +-           && (NULL != ptr->line)
+>     +-           && (   ('+' != ptr->line[0])
+>     +-               && ('-' != ptr->line[0]))
+>     ++           && ((NULL == ptr->line)
+>     ++               || (('+' != ptr->line[0])
+>     ++                   && ('-' != ptr->line[0])))
+>     + #endif
+>     +            ;
+>     +            ptr = ptr->next) {
+>     +               n++;
+>     +       }
+>     + #if KEEP_NIS_AT_END
+>     +-      if ((NULL != ptr) && (NULL != ptr->line)) {
+>     ++      if (NULL != ptr) {
+>     +               nis = ptr;
+>     +       }
+>     + #endif
+>     +--
+>     +2.1.0
+>     +
+>     diff --git a/meta/recipes-extended/shadow/shadow.inc
+>     b/meta/recipes-extended/shadow/shadow.inc
+>     index 5e6b0bd..cc18964 100644
+>     --- a/meta/recipes-extended/shadow/shadow.inc
+>     +++ b/meta/recipes-extended/shadow/shadow.inc
+>     @@ -16,6 +16,7 @@ SRC_URI =
+>     "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz
+>     <http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz> \
+>                 
+>     file://0001-Do-not-read-login.defs-before-doing-chroot.patch \
+>                 
+>     file://check_size_of_uid_t_and_gid_t_using_AC_CHECK_SIZEOF.patch \
+>                 
+>     file://0001-useradd-copy-extended-attributes-of-home.patch \
+>     +           file://0001-shadow-CVE-2017-12424 \
+>                  ${@bb.utils.contains('PACKAGECONFIG', 'pam',
+>     '${PAM_SRC_URI}', '', d)} \
+>                  "
+> 
+>     --
+>     1.9.1
+> 
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
+> 
+> 
+
+
 -- 
-2.14.1
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
