@@ -1,28 +1,31 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 166D7784B0
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DDD3D77D08
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Aug 2017 18:30:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7IIUH7t026354
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Fri, 18 Aug 2017 11:30:17 -0700
-Received: from yow-masselst-lx1.localnet (128.224.24.34) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 18 Aug 2017 11:30:16 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 18 Aug 2017 14:30:14 -0400
-Message-ID: <12449814.jIZBER9NW1@yow-masselst-lx1>
-Organization: Wind River
-User-Agent: KMail/5.2.3 (Linux/4.10.0-30-generic; KDE/5.31.0; x86_64; ; )
-In-Reply-To: <CAJ86T=Wz--m+US0Xf5pvOGMuG5FV5XtD1XTdUZerR_LXHfUmOg@mail.gmail.com>
-References: <1503071067-15104-1-git-send-email-mark.asselstine@windriver.com>
-	<CAJ86T=Wz--m+US0Xf5pvOGMuG5FV5XtD1XTdUZerR_LXHfUmOg@mail.gmail.com>
+	Fri, 18 Aug 2017 18:33:42 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Aug 2017 11:33:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,393,1498546800"; d="scan'208";a="1184363515"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Aug 2017 11:33:33 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+	<1502969638.13978.209.camel@linuxfoundation.org>
+	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
+	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
+	<20170818174114.GA3298@jama>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <6240dfca-820c-ced5-4e78-615b544b9f04@linux.intel.com>
+Date: Fri, 18 Aug 2017 21:30:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] recipe_links.bbclass: introduction
+In-Reply-To: <20170818174114.GA3298@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: openssl10 unusable for many components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,174 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Aug 2017 18:30:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 18 Aug 2017 18:33:43 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Friday, August 18, 2017 10:58:30 AM EDT Andre McCurdy wrote:
-> On Fri, Aug 18, 2017 at 8:44 AM, Mark Asselstine
+On 08/18/2017 08:41 PM, Martin Jansa wrote:
+> openssl 1.1 goes out of upstream support on 2018-08-31 _more than a year
+> before_ 1.0.2 support, see:
 > 
-> <mark.asselstine@windriver.com> wrote:
-> > This is a new class which can be used (for example via USER_CLASSES in
-> > local.conf) to make your build more development friendly. When
-> > included this class will create symlinks to the various bb and
-> > bbappend files in WORKDIR.
-> > 
-> > Normally when you are debugging or extending a package's recipe files
-> > a developer will employ one of a few indirect techniques to determine
-> > where bb and bbappends files associated with a recipe exist. For
-> > example they might use bitbake-layers show-recipes or similar, or
-> > simply rely on their experience to guide them. Even after working with
-> > openembedded for serveral years now I find these techniques tedious
-> > and time consuming, and sometimes even hit and miss.
-> > 
-> > Since the whereabouts of these files are already stored in various
-> > files at parse time we can create symlinks to simplify the task of
-> > finding these files, making them available in WORKDIR for easy
-> > inpsection and in a convenient location if using devshel for instance.
-> > 
-> > For now this work is completely optional but we could conceivable make
-> > this the default behavior if folks find it is convenient and the cost
-> > of performing these operations across all builds is minimal enough.
-> > 
-> > recipe_links can safely be added to USER_CLASSES for existing builds,
-> > care has been taken to avoid this action causing anything to be
-> > rebuilt. After this has been added you can either 'bitbake <recipe> -C
-> > unpack' or 'bitbake <recipe> -c create_recipe_links' to cause the
-> > links to be created in the WORKDIR for the specified recipe.
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> >  meta/classes/recipe_links.bbclass | 79
-> >  +++++++++++++++++++++++++++++++++++++++ meta/conf/documentation.conf    
-> >   |  1 +
-> >  2 files changed, 80 insertions(+)
-> >  create mode 100644 meta/classes/recipe_links.bbclass
-> > 
-> > diff --git a/meta/classes/recipe_links.bbclass
-> > b/meta/classes/recipe_links.bbclass new file mode 100644
-> > index 0000000..ea97605
-> > --- /dev/null
-> > +++ b/meta/classes/recipe_links.bbclass
-> > @@ -0,0 +1,79 @@
-> > +# Create symlink in WORKDIR to the various bb and
-> > +# bbappend files used to define the package ops
-> > +
-> > +# Create a symlink given src and dst paths
-> > +def create_link(d, src, dst):
-> > +    if os.path.islink(dst):
-> > +        try:
-> > +            os.unlink(dst)
-> > +        except OSError as err:
-> > +            bb.error("  Failed to cleanup old link %s: %s"
-> > +                         % (os.path.basename(dst),
-> > os.strerror(err.errno))) +            return False
-> > +
-> > +
-> > +    try:
-> > +        os.symlink(src, dst)
-> > +    except OSError as err:
-> > +        bb.error("  Failed to create file link for %s: %s"
-> > +                     % (src, os.strerror(err.errno)))
-> > +        return False
-> > +
-> > +    return True
-> > +
-> > +# Ensure the work is scheduled. We do this as a func
-> > +# to avoid sig changes causing things to be rebuilt
-> > +# when the class is added/removed after the fact.
-> > +do_unpack[postfuncs] += "create_recipe_links "
-> > +do_unpack[vardepsexclude] += "create_recipe_links "
-> > +python create_recipe_links() {
-> > +    import re
-> > +    import glob
-> > +
-> > +    workdir = d.getVar('WORKDIR')
-> > +
-> > +    # Main recipe file
-> > +    bb.note("Add main recipe file link:")
-> > +    bb_path = d.getVar('FILE')
-> > +    bb_filename = os.path.basename(bb_path)
-> > +    bb_destname = "%s/%s" % (workdir, bb_filename)
-> > +    bb.note("  Linking %s" % bb_path)
-> > +    if not create_link(d, bb_path, bb_destname):
-> > +        return False
-> > +
-> > +    # Cleanup old bbappends links
-> > +    bb.note("Removing old bbappend links:")
-> > +    pn = d.getVar('PN')
-> > +    files = glob.glob('%s/[0-9][0-9]_%s.bbappend' % (workdir,pn))
-> > +    files += glob.glob('%s/[0-9][0-9]_%s_*.bbappend' % (workdir, pn))
-> > +    for filename in files:
-> > +        bb.note("  Removing: %s" % filename)
-> > +        try:
-> > +            os.unlink(filename)
-> > +        except OSError as err:
-> > +            bb.error("  Failed to cleanup old link %s: %s" %
-> > +                         (os.path.basename(filename),
-> > os.strerror(err.errno))) +            return False
-> > +
-> > +    # Add bbappends links
-> > +    bb.note("Adding bbappend links:")
-> > +    included_files = d.getVar('BBINCLUDED').split()
-> > +    bbappend_re = re.compile( r".*/%s(_[^/]*)?\.bbappend$" %
-> > re.escape(pn)) +    for filename in included_files:
-> > +        if bbappend_re.match(filename):
-> > +            bb.note("  Linking %s" % filename)
-> > +            destname = "00_%s" % (os.path.basename(filename))
-> > +            while os.path.exists("%s/%s" % (workdir, destname)):
-> > +                 destname = str(int(destname[:2]) + 1).zfill(2) +
-> > destname[2:] +            if not create_link(d, filename, "%s/%s" %
-> > (workdir, destname)): +                return False
-> > +
-> > +    return True
-> > +}
-> > +
-> > +# In addition to the func we want to make things able to be (re)run
-> > +# easily by the user so ensure it is available as a task.
-> > +addtask do_create_recipe_links
+> https://www.openssl.org/policies/releasestrat.html
+> Version 1.1.0 will be supported until 2018-08-31.
+> Version 1.0.2 will be supported until 2019-12-31 (LTS).
 > 
-> Perhaps just create the symlinks unconditionally as part of
-> do_devshell instead of creating an optional new task?
+> Given its history of major security vulnerabilities, I hope you'll
+> remove openssl-1.1.0 even sooner than openssl-1.0.2.
 
-I had thought about this originally but thought I often inspect without 
-enterring a devshell. So opted against it. The solution I present here is the 
-best approach I found to minimalize the impact yet make it useful for those of 
-us doing more than just building.
-
-MarkA
-
-> 
-> > +python do_create_recipe_links() {
-> > +    bb.build.exec_func("create_recipe_links", d)
-> > +}
-> > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> > index a55e283..5a8a07e 100644
-> > --- a/meta/conf/documentation.conf
-> > +++ b/meta/conf/documentation.conf
-> > @@ -23,6 +23,7 @@ do_devshell[doc] = "Starts a shell with the environment
-> > set up for development/d> 
-> >  do_diffconfig[doc] = "Compares the old and new config files after running
-> >  do_menuconfig for the kernel" do_fetch[doc] = "Fetches the source code"
-> >  do_fetchall[doc] = "Fetches all remote sources required to build a
-> >  target"
-> > 
-> > +do_create_recipe_links[doc] = "Creates links to bb and bbappend files in
-> > a package's WORKDIR"> 
-> >  do_install[doc] = "Copies files from the compilation directory to a
-> >  holding area" do_install_ptest_base[doc] = "Copies the runtime test
-> >  suite files from the compilation directory to a holding area"
-> >  do_kernel_checkout[doc] = "Checks out source/meta branches for a
-> >  linux-yocto style kernel"> 
-> > --
-> > 2.7.4
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+openssl 1.1.1 should be released as soon as final TLS 1.3 spec is 
+published. I expect it will go out of support much later than 1.1.0. I 
+do not expect a situation where 1.0 is supported but 1.1.something is not.
 
 
+Alex
 
