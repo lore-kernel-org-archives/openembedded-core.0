@@ -1,24 +1,29 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1143C77BDE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 881D778310
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Aug 2017 18:07:15 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Aug 2017 11:07:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,398,1498546800"; d="scan'208";a="139546300"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga005.jf.intel.com with ESMTP; 19 Aug 2017 11:07:15 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 19 Aug 2017 11:06:57 -0700
-Message-Id: <1503166017-3945-6-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1503166017-3945-1-git-send-email-juro.bystricky@intel.com>
-References: <1503166017-3945-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH v4 5/5] rootfs-postcommands.bbclass: support binary reproducibility
+	Sat, 19 Aug 2017 21:14:30 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7JLEQSo003655
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sat, 19 Aug 2017 22:14:28 +0100
+Message-ID: <1503177266.32591.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: leonardo.sandoval.gonzalez@linux.intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Sat, 19 Aug 2017 22:14:26 +0100
+In-Reply-To: <20170815190828.82873-2-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20170815190828.82873-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<20170815190828.82873-2-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Sat, 19 Aug 2017 22:14:28 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 2/2] build-appliance-image: include proxy on pip3 installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Aug 2017 18:07:15 -0000
+X-List-Received-Date: Sat, 19 Aug 2017 21:14:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Conditionally support binary reproducibility of rootfs images.
-If BUILD_REPRODUCIBLE_BINARIES = 1 then:
+On Tue, 2017-08-15 at 12:08 -0700,
+leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> Otherwise, we get timeouts, leading to errors:
+> 
+>     pip._vendor.requests.exceptions.ConnectTimeout:
+> HTTPSConnectionPool(host='pypi.python.org', port=443): Max retries
+> exceeded with url: /pypi/pip/json (Caused by
+> ConnectTimeoutError(<pip._vendor.requests.packages.urllib3.connection
+> .VerifiedHTTPSConnection object at 0x7ff741bb3ef0>, 'Connection to
+> pypi.python.org timed out. (connect timeout=5)'))
+>     WARNING: TOPDIR/tmp/work/qemux86-poky-linux/build-appliance-
+> image/15.0.0-r0/temp/run.do_populate_poky_src.185123:1 exit 1 from
+> 'pip3 install --user -I -U -v -r TOPDIR/tmp/work/qemux86-poky-
+> linux/build-appliance-image/15.0.0-
+> r0/rootfs/home/builder/poky/bitbake/toaster-requirements.txt'
+>     DEBUG: Python function do_image finished
+> 
+> Complete log at [1]
+> 
+> [1] http://errors.yoctoproject.org/Errors/Build/43393/
+> 
+> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
+> tel.com>
+> ---
+>  meta/recipes-core/images/build-appliance-image_15.0.0.bb | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-1. set /etc/timestamp to a reproducible value
-2. set /etc/version to a reproducible value
-3. set /etc/gconf: set mtime in all %gconf.xml to reproducible values
+Something isn't correct here:
 
-The reproducible value is taken from the variable REPRODUCIBLE_TIMESTAMP_ROOTFS.
-If the variable is not specified, the timestamp value is derived from
-the top git commit.
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/1176/steps/BuildImages_1/logs/stdio
 
-[YOCTO#11176]
+Cheers,
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/classes/rootfs-postcommands.bbclass | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index e7999d4..fb260f9 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -48,6 +48,7 @@ ROOTFS_POSTPROCESS_COMMAND_append_qemuall = "${SSH_DISABLE_DNS_LOOKUP}"
- SORT_PASSWD_POSTPROCESS_COMMAND ??= " sort_passwd; "
- python () {
-     d.appendVar('ROOTFS_POSTPROCESS_COMMAND', '${SORT_PASSWD_POSTPROCESS_COMMAND}')
-+    d.appendVar('ROOTFS_POSTPROCESS_COMMAND', 'rootfs_reproducible;')
- }
- 
- systemd_create_users () {
-@@ -248,10 +249,12 @@ python write_image_manifest () {
-         os.symlink(os.path.basename(manifest_name), manifest_link)
- }
- 
--# Can be use to create /etc/timestamp during image construction to give a reasonably
-+# Can be used to create /etc/timestamp during image construction to give a reasonably
- # sane default time setting
- rootfs_update_timestamp () {
--	date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-+	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "0" ]; then
-+		date -u +%4Y%2m%2d%2H%2M%2S >${IMAGE_ROOTFS}/etc/timestamp
-+	fi
- }
- 
- # Prevent X from being started
-@@ -308,3 +311,22 @@ python write_image_test_data() {
-            os.remove(testdata_link)
-         os.symlink(os.path.basename(testdata), testdata_link)
- }
-+
-+# Perform any additional adjustments needed to make rootf binary reproducible
-+rootfs_reproducible () {
-+	if [ "$BUILD_REPRODUCIBLE_BINARIES" = "1" ]; then
-+		if [ "$REPRODUCIBLE_TIMESTAMP_ROOTFS" = "" ]; then
-+			REPRODUCIBLE_TIMESTAMP_ROOTFS=`git log -1 --pretty=%ct`
-+		fi
-+
-+		# Convert UTC into %4Y%2m%2d%2H%2M%2S
-+		sformatted=`date -u -d @$REPRODUCIBLE_TIMESTAMP_ROOTFS +%4Y%2m%2d%2H%2M%2S`
-+		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
-+		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
-+		echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
-+		bbnote "rootfs_reproducible: set /etc/timestamp to $sformatted"
-+
-+		find ${IMAGE_ROOTFS}/etc/gconf -name '%gconf.xml' -print0 | xargs -0r \
-+		sed -i -e 's@\bmtime="[0-9][0-9]*"@mtime="'$REPRODUCIBLE_TIMESTAMP_ROOTFS'"@g'
-+	fi
-+}
--- 
-2.7.4
+Richard
 
 
