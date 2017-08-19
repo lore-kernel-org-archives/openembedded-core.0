@@ -1,40 +1,21 @@
 Return-Path: <juro.bystricky@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DFC4171AC9
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id CA15E71AC9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Aug 2017 16:39:35 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Aug 2017 09:39:37 -0700
+	Sat, 19 Aug 2017 16:41:54 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP; 19 Aug 2017 09:41:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,398,1498546800"; d="scan'208";a="141646450"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-	by fmsmga005.fm.intel.com with ESMTP; 19 Aug 2017 09:39:36 -0700
-Received: from orsmsx163.amr.corp.intel.com (10.22.240.88) by
-	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Sat, 19 Aug 2017 09:39:36 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.170]) by
-	ORSMSX163.amr.corp.intel.com ([169.254.9.158]) with mapi id
-	14.03.0319.002; Sat, 19 Aug 2017 09:39:36 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v3 08/11] python2.7: improve reproducibility
-Thread-Index: AQHTETfNvsI9crvrL0+guMuClLQRrqKJc+IAgAJ8deE=
-Date: Sat, 19 Aug 2017 16:39:35 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6119E8D90@ORSMSX112.amr.corp.intel.com>
-References: <1502300913-40295-1-git-send-email-juro.bystricky@intel.com>
-	<1502300913-40295-9-git-send-email-juro.bystricky@intel.com>,
-	<1502998746.28682.17.camel@linux.intel.com>
-In-Reply-To: <1502998746.28682.17.camel@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.137]
-MIME-Version: 1.0
-Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 08/11] python2.7: improve reproducibility
+X-IronPort-AV: E=Sophos;i="5.41,398,1498546800"; d="scan'208";a="1005548518"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
+	by orsmga003.jf.intel.com with ESMTP; 19 Aug 2017 09:41:55 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 19 Aug 2017 09:41:35 -0700
+Message-Id: <1503160895-23422-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] kernel.bbclass: external toolchain fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,13 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Aug 2017 16:39:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 19 Aug 2017 16:41:54 -0000
 
-=0A=
-________________________________________=0A=
-No problem, I will rename the patch, so the name is similar(and more descri=
-ptive)  as the one for python3.=0A=
+Refactor get_cc_option so it is simpler and also does not fail
+when using external toolchain.
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/classes/kernel.bbclass | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 2a76554..3cc0432 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -259,12 +259,9 @@ get_cc_option () {
+ 		# Check if KERNEL_CC supports the option "file-prefix-map".
+ 		# This option allows us to build images with __FILE__ values that do not
+ 		# contain the host build path.
+-		cc_option_supported=`${KERNEL_CC} -Q --help=joined | grep ffile-prefix-map`
+-		cc_extra=""
+-		if [ $cc_option_supported = "-ffile-prefix-map=<old=new>" ]; then
+-			cc_extra=-ffile-prefix-map=${S}=/kernel-source/
++		if ${KERNEL_CC} -Q --help=joined | grep -q "\-ffile-prefix-map=<old=new>"; then
++			echo "-ffile-prefix-map=${S}=/kernel-source/"
+ 		fi
+-		echo $cc_extra
+ }
+ 
+ kernel_do_compile() {
+-- 
+2.7.4
+
 
