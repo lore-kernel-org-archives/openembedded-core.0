@@ -1,30 +1,24 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 91DE5783DE
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C61BE7198F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Aug 2017 22:01:43 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Aug 2017 15:01:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,399,1498546800"; d="scan'208";a="141696972"
-Received: from lsandov1-mobl3.amr.corp.intel.com (HELO [10.255.78.29])
-	([10.255.78.29])
-	by fmsmga005.fm.intel.com with ESMTP; 19 Aug 2017 15:01:43 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20170815190828.82873-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20170815190828.82873-2-leonardo.sandoval.gonzalez@linux.intel.com>
-	<1503177266.32591.25.camel@linuxfoundation.org>
-From: "Sandoval Gonzalez, Leonardo"
-	<leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <35f36156-ba9c-86e4-ab6f-1b287d862f7d@linux.intel.com>
-Date: Sat, 19 Aug 2017 17:01:42 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Sun, 20 Aug 2017 13:22:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7KDM8JU016942
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Aug 2017 06:22:08 -0700
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Sun, 20 Aug 2017 06:22:07 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 20 Aug 2017 21:21:28 +0800
+Message-ID: <20170820132128.5076-1-jackie.huang@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <1503177266.32591.25.camel@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] build-appliance-image: include proxy on pip3 installation
+Subject: [PATCH] valgrind: improvements for run-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Aug 2017 22:01:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: es-ES
+X-List-Received-Date: Sun, 20 Aug 2017 13:22:07 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
+* Add statistic summary for run-ptest
+* Ensure the script can be run anywhere
 
-El 8/19/2017 a las 4:14 PM, Richard Purdie escribió:
-> On Tue, 2017-08-15 at 12:08 -0700,
-> leonardo.sandoval.gonzalez@linux.intel.com wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>
->> Otherwise, we get timeouts, leading to errors:
->>
->>      pip._vendor.requests.exceptions.ConnectTimeout:
->> HTTPSConnectionPool(host='pypi.python.org', port=443): Max retries
->> exceeded with url: /pypi/pip/json (Caused by
->> ConnectTimeoutError(<pip._vendor.requests.packages.urllib3.connection
->> .VerifiedHTTPSConnection object at 0x7ff741bb3ef0>, 'Connection to
->> pypi.python.org timed out. (connect timeout=5)'))
->>      WARNING: TOPDIR/tmp/work/qemux86-poky-linux/build-appliance-
->> image/15.0.0-r0/temp/run.do_populate_poky_src.185123:1 exit 1 from
->> 'pip3 install --user -I -U -v -r TOPDIR/tmp/work/qemux86-poky-
->> linux/build-appliance-image/15.0.0-
->> r0/rootfs/home/builder/poky/bitbake/toaster-requirements.txt'
->>      DEBUG: Python function do_image finished
->>
->> Complete log at [1]
->>
->> [1] http://errors.yoctoproject.org/Errors/Build/43393/
->>
->> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.in
->> tel.com>
->> ---
->>   meta/recipes-core/images/build-appliance-image_15.0.0.bb | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
-> Something isn't correct here:
->
-> https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/1176/steps/BuildImages_1/logs/stdio
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/recipes-devtools/valgrind/valgrind/run-ptest | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-rigth. Missing quotes on the if -n expression. V2 pending.
-
-Leo
-
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-devtools/valgrind/valgrind/run-ptest b/meta/recipes-devtools/valgrind/valgrind/run-ptest
+index f9a72ec4a9..447d33c8cb 100755
+--- a/meta/recipes-devtools/valgrind/valgrind/run-ptest
++++ b/meta/recipes-devtools/valgrind/valgrind/run-ptest
+@@ -2,11 +2,24 @@
+ 
+ # run-ptest - 'ptest' test infrastructure shell script that
+ #   wraps the valgrind regression script vg_regtest. 
+-#   Must be run in the /usr/lib/valgrind/ptest directory. 
+ #
+ # Dave Lerner <dave.lerner@windriver.com>
+ ###############################################################
+ VALGRINDLIB=@libdir@/valgrind
+-tests/vg_regtest --all \
++LOG="${VALGRINDLIB}/ptest/valgrind_ptest_$(date +%Y%m%d-%H%M%S).log"
++
++cd ${VALGRINDLIB}/ptest && ./tests/vg_regtest --all \
+     --valgrind=/usr/bin/valgrind --valgrind-lib=$VALGRINDLIB \
+-	--yocto-ptest
++    --yocto-ptest 2>&1|tee ${LOG}
++
++passed=`grep PASS: ${LOG}|wc -l`
++failed=`grep FAIL: ${LOG}|wc -l`
++skipped=`grep SKIP: ${LOG}|wc -l`
++all=$((passed + failed + skipped))
++
++( echo "=== Test Summary ==="
++  echo "TOTAL: ${all}"
++  echo "PASSED: ${passed}"
++  echo "FAILED: ${failed}"
++  echo "SKIPPED: ${skipped}"
++) | tee -a /${LOG}
+-- 
+2.11.0
 
 
