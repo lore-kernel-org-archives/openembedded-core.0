@@ -1,55 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-vk0-f46.google.com (mail-vk0-f46.google.com
-	[209.85.213.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 669AC78358
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 54D8178216
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 09:59:26 +0000 (UTC)
-Received: by mail-vk0-f46.google.com with SMTP id r199so48581751vke.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 02:59:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=qVhvbpvsz6f2CbZgN63HQLKaL32bh1dfC+cyMUnpG0c=;
-	b=SrvsXiEBMV8d6xc6SS5XDaILfiHu/cyCXcRqf/SyAJMhE2z1Y+htlz1OC4AlNL2ipS
-	Bq2WkLVT10irjLdNbM9PrSIiE0l0h1vZBbCMyXt8lxjfC3WD6H+WsMMW7xtVcXDOHG3m
-	wWEFNEhraYJFP9BeTRquqgVT/5NNdXECDhvjhzvtKy3cgIPviE/JWU3eJVnCct8bRD8d
-	kCPZtnnR8w2Fx8/Hq2FX2Vr5twRHwG2ELsL/yLrwDWZA9EYwlxA55iZF7woiziMSkhqO
-	5Ro+2sWagD4tY57FUSCL9nRsUq1RoZgzztqtTR/bT+fN/q3hLZhFcbNgj7D2/JkZkQYq
-	LtXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=qVhvbpvsz6f2CbZgN63HQLKaL32bh1dfC+cyMUnpG0c=;
-	b=Z298ZHVisJLtvrJg3WHgw9M0t3eRAbv51LPJwyCUdcGg7GWcMyrW6s3KyJGSvbSk5t
-	8xUTsN2f910NGNYQqfRpDRD138ejo1wXhNas6WtywW8QbUJtk9PEh45nYQvC6983cw90
-	LpoDE+np1QZ0ZEY5/VNv4MLSGH0R6r4oVg6hz+Ee5XmkUzCca8qMF0nBANGwWx6yzuYY
-	xWvUQzJUJo5PH5qKtFtkau2EFNu56LpOn6ABZ/D9/3rg6PE9KcwJeBJIumMir3DeebtU
-	CJwmcETXS8qf7lH+9xQZGFMPjnPfPvBrmJ/Hl9auUEVUTLxbg7Yleg6W+LUr/jAk6KnD
-	0wLw==
-X-Gm-Message-State: AHYfb5in3jHs77MrRPTXwYhjfSEzvKuyRQO278irdCz45nkoMYcsU8hr
-	uH+k1meoh8ZrlJ1iUEsxbSaWUYnzdg==
-X-Received: by 10.31.184.66 with SMTP id i63mr7677229vkf.122.1503309568320;
-	Mon, 21 Aug 2017 02:59:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.122.88 with HTTP; Mon, 21 Aug 2017 02:59:27 -0700 (PDT)
-In-Reply-To: <1503307787.32591.59.camel@linuxfoundation.org>
-References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
-	<1502969638.13978.209.camel@linuxfoundation.org>
-	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
-	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
-	<CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
-	<fe1575c3-4e74-1a5d-b48e-86c6908b2e63@linux.intel.com>
-	<CAMKF1soQw0VVy0RKe4w-qsCwPh_OTgatYLrx6mPpapBGooy-Ew@mail.gmail.com>
-	<CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
-	<1503307787.32591.59.camel@linuxfoundation.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 21 Aug 2017 11:59:27 +0200
-Message-ID: <CA+chaQe=9FwaSM8tPoociMkGOJtvssqn6omivh89bBVjzA0mfA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: openssl10 unusable for many components
+	Mon, 21 Aug 2017 11:42:14 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7LBgDHV027764
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 21 Aug 2017 12:42:15 +0100
+Message-ID: <1503315733.32591.61.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 21 Aug 2017 12:42:13 +0100
+In-Reply-To: <cover.1503283308.git.bruce.ashfield@windriver.com>
+References: <cover.1503283308.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Mon, 21 Aug 2017 12:42:15 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,79 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 09:59:27 -0000
-Content-Type: multipart/alternative; boundary="001a1143a716ceacc905574088b2"
-
---001a1143a716ceacc905574088b2
+X-List-Received-Date: Mon, 21 Aug 2017 11:42:16 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Yes, the 'revert' works for me, thanks.
+On Sun, 2017-08-20 at 22:58 -0400, Bruce Ashfield wrote:
+> Hi all,
+> 
+> Here's the collected set of kernel changes that are ready for the M3
+> builds.
+> 
+> We have some kernel meta data changes:
+> 
+>   kernel-yocto: configuration updates: x86 features
+>   linux-yocto/4.1: fix fsl-ls10xx sdhci
+>   linux-yocto: add usb-net configs by default
+> 
+> Some bug fixes:
+> 
+>   kernel-yocto: ensure that only valid BSPs are built
+>   linux-yocto/4.10: CVE & misc fixes
+> 
+> And the important changes are the addition of the 4.12 kernel + libc
+> headers
+> and the removal of the 4.1 kernel.
+> 
+> I also have some -stable updates queued for the active kernel
+> versions, but
+> they will come out once this series has made it into the tree, since
+> I'm
+> trying to isolate any 4.12 issues from other -stable updates.
+> 
+> I built and booted all the qemu targets for 4.12, and have built for
+> core-image-sato, core-image-kernel-dev, glibc and muslc for all of
+> the
+> architectures. My testing didn't pick up any regressions, but I was
+> battling
+> some other build errors (non kernel related) during my testing, so I
+> can
+> never be 100% sure.
+> 
+> I've sent patches to poky to remove/bump any references to the 4.1
+> kernel
+> .. if I've missed any, I'm sure people will shout.
 
-On Mon, Aug 21, 2017 at 11:29 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+I added an extra patch for the ones you missed in meta-yocto-bsp ;-)
 
-> On Fri, 2017-08-18 at 19:29 +0200, Martin Jansa wrote:
-> > Even with that patch to rename openssl10 back to openssl we still
-> > need to solve the openssl-native which wasn't reverted back to 1.0.
-> >
-> > Upstream nodejs isn't going to be openssl-1.1 for a bit longer as
-> > explained:
-> > https://github.com/nodejs/node/pull/14761
-> > https://github.com/nodejs/node/pull/11828
-> > so it would make sense to revert native and nativesdk versions as
-> > well - if it isn't done in oe-core, I'll do it in our own layers to
-> > keep the builds going.
->
-> Hopefully we have a working 'revert' back to 1.0 in master now as there
-> was simply too much breakage for this release.
->
-> I would ask that people do try and figure out how to solve some of the
-> 1.1 issues in the meantime, hopefully people can enable 1.1 with some
-> PREFERRED_VERSION tweaks.
->
-> Cheers,
->
-> Richard
->
+Also, https://autobuilder.yocto.io/builders/build-appliance/builds/425/
+steps/BuildImages_1/logs/stdio
 
---001a1143a716ceacc905574088b2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Error: 
+ Problem: conflicting requests
+  - nothing provides /bin/awk needed by kernel-devsrc-1.0-r0.0.qemux86_64
 
-<div dir=3D"ltr">Yes, the &#39;revert&#39; works for me, thanks.</div><div =
-class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Aug 21, 2017 a=
-t 11:29 AM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.=
-purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundatio=
-n.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=
-=3D"">On Fri, 2017-08-18 at 19:29 +0200, Martin Jansa wrote:<br>
-&gt; Even with that patch to rename openssl10 back to openssl we still<br>
-&gt; need to solve the openssl-native which wasn&#39;t reverted back to 1.0=
-.<br>
-&gt;<br>
-&gt; Upstream nodejs isn&#39;t going to be openssl-1.1 for a bit longer as<=
-br>
-&gt; explained:<br>
-&gt; <a href=3D"https://github.com/nodejs/node/pull/14761" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/nodejs/<wbr>node/pull/14761</a><br>
-&gt; <a href=3D"https://github.com/nodejs/node/pull/11828" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/nodejs/<wbr>node/pull/11828</a><br>
-&gt; so it would make sense to revert native and nativesdk versions as<br>
-&gt; well - if it isn&#39;t done in oe-core, I&#39;ll do it in our own laye=
-rs to<br>
-&gt; keep the builds going.<br>
-<br>
-</span>Hopefully we have a working &#39;revert&#39; back to 1.0 in master n=
-ow as there<br>
-was simply too much breakage for this release.<br>
-<br>
-I would ask that people do try and figure out how to solve some of the<br>
-1.1 issues in the meantime, hopefully people can enable 1.1 with some<br>
-PREFERRED_VERSION tweaks.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br></div>
+Cheers,
 
---001a1143a716ceacc905574088b2--
+Richard
+
+
+
