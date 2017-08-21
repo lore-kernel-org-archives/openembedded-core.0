@@ -1,47 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9572878235
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id BE37278195
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 18:16:53 +0000 (UTC)
-Received: by mail-pg0-f43.google.com with SMTP id i12so104274510pgr.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 11:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hO7zL9lBOyZNgO0H+vh60Dzx8oEYtH6MB6ZUpFSLYTY=;
-	b=QmoykOtFhMLfCJA9EsjQcfDXxlgUYX9f2YvqPkg7zAZcT+he+1yBe3h/iZMuSe3/zt
-	8OZYERDfHQgB9zMVIflxa7DY/j2po7rC5I1BW9nEDrmj//Je9TgouTOLOcqmbsycPmbX
-	I+Bz9Y13o47JNx/0CEfZemwqtU9jhprYom1j1sVQFNhWmKBsSIGWGUi5Ie70u2n7C+yI
-	Pz2BVkD05NFJPhPYIkVuenEFrUJgP9QpwFw0W0UcNrbIDLZiiWa+jQ8YBfiAZPP2Tgwk
-	OXDZTfejUWRZdUG7QGGL6y8YUMw+O0ScrN0JyHYH/Frfc+xhO4euvNjHSG+QTHINkh0m
-	9j7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hO7zL9lBOyZNgO0H+vh60Dzx8oEYtH6MB6ZUpFSLYTY=;
-	b=ffhoz2zZV92KTRxsY+5Hgt4G/XXBRJhu4p7e7l3TIC4ST8QUjCll6W4tpCzVV/BNxn
-	njGz2+Hbskzhr6bW00lDUkrF/yL43JTfoILxM8FNJghuFfbD1/ezh5SIMFgNK0NWWdMq
-	ZGBbe+cyAGy6Q8BZDwCQnzQ347ED+wC5Ck0fOfUtspQZjemzcCBclYq4L+AJSlvcVunI
-	hT54vyaJgrgfjdpZl/rybBHVo3o2KWeYYuGH81po+esEq51KKbSjSNBCOl38ejGnkFtA
-	RiPqXTFsa3OUjuWIq1Moud0e4unrQ5ItWyYwMcuEIWqcEuHfo79fvKHcTXZbAEmAqGxg
-	A34w==
-X-Gm-Message-State: AHYfb5gWKKeLBi2rx/8Ij7WOKJ2qpqEKU8alDmlud3nokECkMD344r+t
-	mJLdaUk3ccmUGh8++biZb2AbrMbxbw==
-X-Received: by 10.98.33.84 with SMTP id h81mr17914767pfh.302.1503339414738;
-	Mon, 21 Aug 2017 11:16:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Mon, 21 Aug 2017 11:16:24 -0700 (PDT)
-In-Reply-To: <CAHiDW_FBQHxDOLgRC_tr-i5Y_rd4TBge0Vt_TwnRg9x5VU2ikg@mail.gmail.com>
-References: <20170821102342.167780-1-jose.alarcon@ge.com>
-	<CAHiDW_FBQHxDOLgRC_tr-i5Y_rd4TBge0Vt_TwnRg9x5VU2ikg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 21 Aug 2017 11:16:24 -0700
-Message-ID: <CAMKF1sp+yQe637v_s9RfxvufHY50DP5VhgUGyTe1UvMzqJ16JA@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] Dhrystone: add recipe 2.1
+	Mon, 21 Aug 2017 19:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Message-Id:Date:Subject:To:From;
+	bh=7+hlUYbhjF0Fr9JBHFgXJbXp9btLJ29iWgQpxDwMahY=; 
+	b=MRbeX5sFR9GITRD6AHEH+ENzQgGeqz/dJGB0/SyvZ/m8aZ5+DP/hRycqmAJ/fXo3XSbG2rZ1BQ4xsi2TGKua3F++XSawe0QU4xNVWaVEZYHnTAp+rU/PFg3w2nknBLT6Tv7HObqfYoOYk6hx5J8OI/a5ptQ2xTFExBE+/KeA7ZftNR0H1fxxDxDPQV3UfaDRNLdRH++H8vVdm6n6hZls8O2isSxV7Tbgdgxwli794PBHHDTC/tpvJUxEMDghadDNTVefZd0vobk7Xbif8TD3gDWP8RbP1msbpzqDVmpN54dHv7ginQBWxoJNZvGrXc5VGGSnIDQ+G9WLoMIjxsPxVg==;
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1djs1Y-0005SP-HR for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Aug 2017 21:06:08 +0200
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Aug 2017 21:05:01 +0200
+Message-Id: <20170821190501.19909-1-clopez@igalia.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] systemd: don't symlink /etc/resolv.conf if resolved is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 18:16:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 21 Aug 2017 19:06:09 -0000
 
-On Mon, Aug 21, 2017 at 5:35 AM, Jussi Kukkonen
-<jussi.kukkonen@intel.com> wrote:
-> On 21 August 2017 at 13:23, Jose Alarcon <jose.alarcon@ge.com> wrote:
->>
->> Dhrystone is a synthetic computing benchmark program developed
->> in 1984 by Reinhold P. Weicker intended to be representative of
->> system (integer) programming.
->>
->> https://en.wikipedia.org/wiki/Dhrystone
->>
->> Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
->> ---
->>  .../dhrystone/dhrystone-2.1/dhrystone.patch        | 81
->> ++++++++++++++++++++++
->>  .../recipes-benchmark/dhrystone/dhrystone_2.1.bb   | 26 +++++++
->>  2 files changed, 107 insertions(+)
->>  create mode 100644
->> meta-oe/recipes-benchmark/dhrystone/dhrystone-2.1/dhrystone.patch
->>  create mode 100644 meta-oe/recipes-benchmark/dhrystone/dhrystone_2.1.bb
->
->
-> Hi,
->
-> Please send meta-oe patches to openembedded-devel@lists.openembedded.org.
->
-> Also this part is unlikely to be welcome on oe-devel either:
->> LICENSE = "Proprietary"
->
-> I think I remember seeing a dhrystone recipe submission with an open source
-> license (NCSA maybe?) last year .
+ * symlinking /etc/resolv.conf to /run/systemd/resolve/resolv.conf
+   when resolved is not enabled is wrong, as this prevents network
+   manager from handling the resolv.conf file itself and breaking
+   DNS resolution.
 
-https://patchwork.openembedded.org/patch/129975/
+   See: NetworkManager.conf manpage or https://git.io/v5UJQ
 
-a v2 was expected, which I cant find so it never got applied. if you
-are interested rework the v1 and test it out. Submit a v2 and we can
-take it further along the line.
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
->
-> Cheers,
->   Jussi
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 4560cf4175..dddad62941 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -235,12 +235,7 @@ do_install() {
+ 	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+ 		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf', d)}
+ 	fi
+-	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
+-		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/resolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+-		echo 'd /run/systemd/resolve 0755 root root -' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+-		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf
+-		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+-	else
++	if ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false', d)}; then
+ 		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+ 		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+ 	fi
+-- 
+2.11.0
+
 
