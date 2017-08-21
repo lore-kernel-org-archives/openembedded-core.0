@@ -1,47 +1,47 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CE15F78340
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 256FD78340
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 11:43:43 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id p8so14561713wrf.2
+	Mon, 21 Aug 2017 11:46:02 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k10so4572234wre.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 04:43:45 -0700 (PDT)
+	Mon, 21 Aug 2017 04:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=msGmC6+GTcXCqGsKfsz7J9or+kpSQol12CV7+wE8+EM=;
-	b=mTXORxIcipNlvSD9fauOziuVheV+vzEcZom97RMRrCc5f7J7JM7qZuGaDsRyWIL7V4
-	iQZTKU1KlivzRIBAg5kC4L9DOlfLOklhB6UC3kh5LvP2O0usQFphyVyGveyIRpZASpLQ
-	rHiuuHc07QmGgO+qhNPixnCQNPU3K78fjPsInr3KsWge1laMSBD1Bthx31Tf8JCYB2LZ
-	MWfHFNgItTFEX0RmyFun5xgd9+7dIZ6eJDPQaUl70JYhdtxG77kPUA8vnykba0X5hKuM
-	dcTEoz8WTPk1yDc0vgILYGLQsO5b2hUzc+j+cJsJLknygpO/tAJrXLvpAsz0Z965WD1M
-	Ob2Q==
+	bh=WEFz6vVfSUeCkqEMrzU87Ig/kGVG6XNpD0skKxjkBdI=;
+	b=I4df00OEuVIXi1bpZYPMS/wcn2YJ4IbZW/UI3Lz8+nrLKa7e8JqgJK923fWQ04KUQr
+	n7nFgb5CgFYiVILFsxmchdhzQImCyIS2h1vJZQyuhX4tZpjgQYe/5oLcIyBUcwaulXvW
+	lqDCsLKHrU0nIoEE1TnS4SCaW/8n3ftICuvkHy2YQAeUXhJhW0iTn1BD7EaDasiEh8/j
+	0TuhL8OOMIUocsxk2hqLjcMIGQUjUzifdBJk8jtNCX1bAjkxwojgYzpLvzuV1NWbCEtP
+	gkGEmiplihLsePkyrYFahAiK5MvnsXEEa0YSQg4W+SVdACnaC0mDYMqRirGTLNcqCiDy
+	YdJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=msGmC6+GTcXCqGsKfsz7J9or+kpSQol12CV7+wE8+EM=;
-	b=irjKogz2aL8+kx1JKVjKqdNkOON9u4O67Qz7wXm+ec1ONFGNdUMRwmMbF18QxkXBxA
-	CxFfUGFTBYymSC0AK/o+BONml84K9LZc0dD0t5+wQ08nDIvfZQGpu2BQUbQtwgcFP2Ta
-	LHzf7+YUkSHVHL17o6OcgezLLGjByKKRcVe76ekcJKSo7ERRKZMpkC4mcQMWQpmtQGv9
-	rDiuoKZvGjks2PuBOEJeMevop0Ncx4T585xF/OTxlOMaYImYKh+HaDAe91WS/dEnJv4T
-	n+1xs1r3Pci9PFQ5Y5VOK4kWsXe/r9FWa0xjUAplq5/GYplrcsBvDr4jEJsKsVlf+Hg9
-	OjuA==
-X-Gm-Message-State: AHYfb5iRU7KWFHCQmtqGEAxM9EtZrVFoZ0Smeo5BkxXyaj8qcq8WYCRN
-	UsE/TGo6nOB70T62
-X-Received: by 10.80.162.39 with SMTP id 36mr11611789edl.58.1503315824614;
-	Mon, 21 Aug 2017 04:43:44 -0700 (PDT)
+	bh=WEFz6vVfSUeCkqEMrzU87Ig/kGVG6XNpD0skKxjkBdI=;
+	b=GZpcnM6qrjUyc0QwPuxpccXz0482dOPmisZhCmi06blcchwVIwrqBQMMYeWZMdN6bw
+	FwdYn5cYVpHUjAkc8zZ3a7bxquaw5cnsm8oYmyVOZIlwrrM19+ywqRclVhzeRPbGtJ3Z
+	wdm2AdXgfirfmwJ12joLw4vwkWNfb5+gY44ZNzNs/hVXHZ0BagCkj4skhPq4S0+rCwxF
+	Klt8cizBQGhnyfTQlBaQCSDvCeLUZHs5I3fudgbpvyQmTPzVy5URv/EK78rHWv9OF617
+	iWfuLG35YUdhNiI3Ccn4ru2CqXAZYx3t8MN2XIm20T9ZdEn6XSnup9TezCvuCYoSypNB
+	7T/w==
+X-Gm-Message-State: AHYfb5iyX9tG+38KkOBZJmi9KNIoIq4rs3mvkPqycI2DL7Wbkx54ZkYq
+	7PjzRwbUKMfeIFIG
+X-Received: by 10.80.153.29 with SMTP id k29mr5100946edb.89.1503315963543;
+	Mon, 21 Aug 2017 04:46:03 -0700 (PDT)
 Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
 	([27.191.201.88]) by smtp.gmail.com with ESMTPSA id
-	j22sm1911376eda.91.2017.08.21.04.43.41
+	j32sm5916712edd.50.2017.08.21.04.46.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 21 Aug 2017 04:43:43 -0700 (PDT)
+	Mon, 21 Aug 2017 04:46:03 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Aug 2017 13:43:34 +0200
-Message-Id: <1503315814-27663-1-git-send-email-liu.ming50@gmail.com>
+Date: Mon, 21 Aug 2017 13:45:52 +0200
+Message-Id: <1503315952-28377-1-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 Cc: Ming Liu <peter.x.liu@external.atlascopco.com>
-Subject: [PATCH] base.bbclass: trim duplicated whitespaces from BUILDCFG_VARS
+Subject: [PATCH] meta: move some text from oe-setup-builddir to conf-notes.txt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +54,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 11:43:44 -0000
+X-List-Received-Date: Mon, 21 Aug 2017 11:46:03 -0000
 
 From: Ming Liu <peter.x.liu@external.atlascopco.com>
 
-To give a example:
-Before the change, in our build console, TUNE_FEATURES looks like:
-...
-TUNE_FEATURES     = "arm armv7a vfp  neon        cortexa8"
-...
-
-After the change:
-...
-TUNE_FEATURES     = "arm armv7a vfp neon cortexa8"
-...
+This allows the end users to be able to override the entire notes
+showing on the shell console. For instance, Our company uses a
+external conf-notes.txt, and we run bitbake with some extra variables,
+looks like: F=xxx D=xxx M=xxx bitbake <target>, so we want to show
+exactly these texts on the shell console, that's why we need this
+change.
 
 Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
 ---
- meta/classes/base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/conf-notes.txt  | 5 +++++
+ scripts/oe-setup-builddir | 7 -------
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 8c86977..07734ac 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -206,7 +206,7 @@ def buildcfg_vars(d):
-     for var in statusvars:
-         value = d.getVar(var)
-         if value is not None:
--            yield '%-17s = "%s"' % (var, value)
-+            yield '%-17s = "%s"' % (var, " ".join(value.split()))
+diff --git a/meta/conf/conf-notes.txt b/meta/conf/conf-notes.txt
+index 2f2932b..f1a4f4d 100644
+--- a/meta/conf/conf-notes.txt
++++ b/meta/conf/conf-notes.txt
+@@ -1,3 +1,8 @@
++
++### Shell environment set up for builds. ###
++
++You can now run 'bitbake <target>'
++
+ Common targets are:
+     core-image-minimal
+     core-image-sato
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index ef49551..55d73ca 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -133,13 +133,6 @@ EOM
+ #    unset SHOWYPDOC
+ fi
  
- def buildcfg_neededvars(d):
-     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
+-cat <<EOM
+-
+-### Shell environment set up for builds. ###
+-
+-You can now run 'bitbake <target>'
+-
+-EOM
+ if [ -z "$OECORENOTESCONF" ]; then
+     OECORENOTESCONF="$OEROOT/meta/conf/conf-notes.txt"
+ fi
 -- 
 2.7.4
 
