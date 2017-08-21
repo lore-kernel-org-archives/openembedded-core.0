@@ -1,25 +1,28 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 070E378240
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 28033782C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 21:30:04 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Aug 2017 14:30:05 -0700
+	Mon, 21 Aug 2017 21:31:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Aug 2017 14:31:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,410,1498546800"; d="scan'208";a="1006158357"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.128.142])
-	by orsmga003.jf.intel.com with ESMTP; 21 Aug 2017 14:30:04 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.41,410,1498546800"; 
+	d="diff'?scan'208";a="1186643112"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.128.142])
+	([10.219.128.142])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2017 14:31:19 -0700
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Aug 2017 16:31:16 -0500
-Message-Id: <20170821213116.26081-2-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170821213116.26081-1-anibal.limon@linux.intel.com>
 References: <20170821213116.26081-1-anibal.limon@linux.intel.com>
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Message-ID: <a334bad6-70b2-199f-4b11-ef9be061f39d@linux.intel.com>
+Date: Mon, 21 Aug 2017 16:32:33 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
+In-Reply-To: <20170821213116.26081-1-anibal.limon@linux.intel.com>
 Cc: jagadeesh.krishnanjanappa@caviumnetworks.com
-Subject: [PATCH 2/2] dpkg: Upgrade to 1.18.24
+Subject: Re: [PATCH 1/2] apt: Upgrade to 1.2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,309 +35,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 21:30:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 21 Aug 2017 21:31:31 -0000
+X-Groupsio-MsgNum: 101771
+Content-Type: multipart/mixed; boundary="------------182FC88C16AE11052377144F"
+Content-Language: en-US
+
+--------------182FC88C16AE11052377144F
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Patches rebased due to don't apply, no major changes,
+Here is the diff of the GPL license,
 
-- 0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-- arch_pm.patch
-- noman.patch
+Cheers,
+Anibal
 
-Patches related to move ostable/triplettable insida data/ostable and
-data/tupletable instead also needs to comply the new format of the
-tables for arch detection.
+On 08/21/2017 04:31 PM, Aníbal Limón wrote:
+> The LIC_FILES_CHKSUM changed because the license file now has
+> style changes in the text remains GPLv2+.
+> 
+> The patch Revert-always-run-dpkg-configure-a-at-the-end-of-our
+> was updated because now the precision fields use floating
+> point numbers.
+> 
+> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> ---
+>  .../{apt-native_1.2.12.bb => apt-native_1.2.24.bb} |  0
+>  meta/recipes-devtools/apt/apt.inc                  |  8 ++++----
+>  ...ys-run-dpkg-configure-a-at-the-end-of-our.patch | 24 +++++++++++-----------
+>  .../apt/{apt_1.2.12.bb => apt_1.2.24.bb}           |  0
+>  4 files changed, 16 insertions(+), 16 deletions(-)
+>  rename meta/recipes-devtools/apt/{apt-native_1.2.12.bb => apt-native_1.2.24.bb} (100%)
+>  rename meta/recipes-devtools/apt/{apt_1.2.12.bb => apt_1.2.24.bb} (100%)
+> 
+> diff --git a/meta/recipes-devtools/apt/apt-native_1.2.12.bb b/meta/recipes-devtools/apt/apt-native_1.2.24.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt-native_1.2.12.bb
+> rename to meta/recipes-devtools/apt/apt-native_1.2.24.bb
+> diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+> index 30263708444..f1cde3068da 100644
+> --- a/meta/recipes-devtools/apt/apt.inc
+> +++ b/meta/recipes-devtools/apt/apt.inc
+> @@ -2,7 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
+>  LICENSE = "GPLv2.0+"
+>  SECTION = "base"
+>  
+> -SRC_URI = "http://snapshot.debian.org/archive/debian/20160526T162943Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
+> +SRC_URI = "http://archive.ubuntu.com/ubuntu/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
+>             file://use-host.patch \
+>             file://makerace.patch \
+>             file://no-nls-dpkg.patch \
+> @@ -14,9 +14,9 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160526T162943Z/pool/main/
+>             file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
+>             file://0001-apt-1.2.12-Fix-musl-build.patch \
+>             "
+> -SRC_URI[md5sum] = "80f6f0ef110a45a7e5af8a9d233fb0e7"
+> -SRC_URI[sha256sum] = "e820d27cba73476df4abcff27dadd1b5847474bfe85f7e9202a9a07526973ea6"
+> -LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+> +SRC_URI[md5sum] = "ce8f9ab11f4fd0a08ec73eaffd75c8f0"
+> +SRC_URI[sha256sum] = "fa1311a9ce00e72379a0a3bc6d240ba30c0968cfbbb3472859e50b99e24e9598"
+> +LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>  
+>  # the package is taken from snapshots.debian.org; that source is static and goes stale
+>  # so we check the latest upstream from a directory that does get updated
+> diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+> index b3a883bae88..734ba00d4f2 100644
+> --- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+> +++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+> @@ -22,10 +22,10 @@ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>   3 files changed, 11 insertions(+), 18 deletions(-)
+>  
+>  diff --git a/apt-pkg/deb/dpkgpm.cc b/apt-pkg/deb/dpkgpm.cc
+> -index 834cb0e..84ded3a 100644
+> +index 533d9b367..6ce81bbd9 100644
+>  --- a/apt-pkg/deb/dpkgpm.cc
+>  +++ b/apt-pkg/deb/dpkgpm.cc
+> -@@ -1037,12 +1037,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
+> +@@ -1041,12 +1041,6 @@ void pkgDPkgPM::BuildPackagesProgressMap()
+>   	 PackagesTotal++;
+>         }
+>      }
+> @@ -38,7 +38,7 @@ index 834cb0e..84ded3a 100644
+>   }
+>                                                                           /*}}}*/
+>   bool pkgDPkgPM::Go(int StatusFd)
+> -@@ -1250,8 +1244,9 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
+> +@@ -1268,8 +1262,9 @@ bool pkgDPkgPM::Go(APT::Progress::PackageManager *progress)
+>   
+>      // support subpressing of triggers processing for special
+>      // cases like d-i that runs the triggers handling manually
+> @@ -50,7 +50,7 @@ index 834cb0e..84ded3a 100644
+>   
+>      // for the progress
+>  diff --git a/test/integration/test-apt-progress-fd-deb822 b/test/integration/test-apt-progress-fd-deb822
+> -index 58fd732..3359762 100755
+> +index a8d59608d..0c6a9bbbf 100755
+>  --- a/test/integration/test-apt-progress-fd-deb822
+>  +++ b/test/integration/test-apt-progress-fd-deb822
+>  @@ -27,36 +27,36 @@ Message: Installing testing (amd64)
+> @@ -69,19 +69,19 @@ index 58fd732..3359762 100755
+>   
+>   Status: progress
+>   Package: testing:amd64
+> --Percent: 50
+> -+Percent: 60
+> +-Percent: 50.0000
+> ++Percent: 60.0000
+>   Message: Preparing to configure testing (amd64)
+>   
+>   Status: progress
+> --Percent: 50
+> -+Percent: 60
+> +-Percent: 50.0000
+> ++Percent: 60.0000
+>   Message: Running dpkg
+>   
+>   Status: progress
+>   Package: testing:amd64
+> --Percent: 50
+> -+Percent: 60
+> +-Percent: 50.0000
+> ++Percent: 60.0000
+>   Message: Configuring testing (amd64)
+>   
+>   Status: progress
+> @@ -98,7 +98,7 @@ index 58fd732..3359762 100755
+>   
+>   Status: progress
+>  diff --git a/test/integration/test-no-fds-leaked-to-maintainer-scripts b/test/integration/test-no-fds-leaked-to-maintainer-scripts
+> -index d86e638..ef6d23b 100755
+> +index d86e638cd..ef6d23be2 100755
+>  --- a/test/integration/test-no-fds-leaked-to-maintainer-scripts
+>  +++ b/test/integration/test-no-fds-leaked-to-maintainer-scripts
+>  @@ -59,8 +59,7 @@ startup packages configure
+> @@ -122,5 +122,5 @@ index d86e638..ef6d23b 100755
+>   checkpurge
+>   
+>  -- 
+> -2.1.4
+> +2.11.0
+>  
+> diff --git a/meta/recipes-devtools/apt/apt_1.2.12.bb b/meta/recipes-devtools/apt/apt_1.2.24.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/apt/apt_1.2.12.bb
+> rename to meta/recipes-devtools/apt/apt_1.2.24.bb
+> 
 
-- 0006-add-musleabi-to-known-target-tripets.patch
-- add_armeb_triplet_entry.patch
+--------------182FC88C16AE11052377144F
+Content-Type: text/x-diff;
+ name="GPL.diff"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="GPL.diff"
 
-And finally a patch to avoid usage --clamp-mtime in tar needs to be
-modified because the dpkg-deb internal API changed.
-
-- 0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- ...nux-wrs-kernel-version-which-has-characte.patch | 12 ++---
- ...0006-add-musleabi-to-known-target-tripets.patch | 57 +++++++++++-----------
- ...uild.c-Remove-usage-of-clamp-mtime-in-tar.patch | 21 ++++----
- .../dpkg/dpkg/add_armeb_triplet_entry.patch        | 30 ++++++------
- meta/recipes-devtools/dpkg/dpkg/arch_pm.patch      | 19 +++++---
- meta/recipes-devtools/dpkg/dpkg/noman.patch        | 18 +++++--
- .../dpkg/{dpkg_1.18.10.bb => dpkg_1.18.24.bb}      |  6 +--
- 7 files changed, 89 insertions(+), 74 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.18.10.bb => dpkg_1.18.24.bb} (77%)
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch b/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-index 231a6a2909d..9fe0ca76002 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch
-@@ -13,13 +13,13 @@ Upstream-Status: Inappropriate [embedded specific]
-  1 file changed, 2 insertions(+), 4 deletions(-)
+--- COPYING.GPL	2017-08-21 14:30:28.498600594 -0500
++++ /home/alimon/repos/poky/build/tmp/work/x86_64-linux/apt-native/1.2.24-r0/apt-1.2.24/COPYING.GPL	2017-06-19 07:02:43.000000000 -0500
+@@ -1,8 +1,8 @@
+ 		    GNU GENERAL PUBLIC LICENSE
+ 		       Version 2, June 1991
  
- diff --git a/lib/dpkg/parsehelp.c b/lib/dpkg/parsehelp.c
--index 79b2908..7758aa5 100644
-+index 453077fd9..f42ea2882 100644
- --- a/lib/dpkg/parsehelp.c
- +++ b/lib/dpkg/parsehelp.c
--@@ -235,14 +235,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
-- 
--   /* XXX: Would be faster to use something like cisversion and cisrevision. */
-+@@ -243,14 +243,12 @@ parseversion(struct dpkg_version *rversion, const char *string,
-    ptr = rversion->version;
-+   if (!*ptr)
-+     return dpkg_put_error(err, _("version number is empty"));
- -  if (*ptr && !c_isdigit(*ptr++))
- -    return dpkg_put_warn(err, _("version number does not start with digit"));
-    for (; *ptr; ptr++) {
-@@ -33,6 +33,6 @@ index 79b2908..7758aa5 100644
-        return dpkg_put_warn(err, _("invalid character in revision number"));
-    }
-  
---- 
--2.1.4
+- Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+-                       59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
++ Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
++ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+  Everyone is permitted to copy and distribute verbatim copies
+  of this license document, but changing it is not allowed.
  
-+-- 
-+2.11.0
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-index a6b00880ced..d929466b702 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0006-add-musleabi-to-known-target-tripets.patch
-@@ -6,37 +6,36 @@ Subject: [PATCH] add musleabi to known target tripets
- helps compiling dpkg for musl/arm-softfloat
+@@ -15,7 +15,7 @@
+ General Public License applies to most of the Free Software
+ Foundation's software and to any other program whose authors commit to
+ using it.  (Some other Free Software Foundation software is covered by
+-the GNU Library General Public License instead.)  You can apply it to
++the GNU Lesser General Public License instead.)  You can apply it to
+ your programs, too.
  
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
- ---
--Upstream-Status: Pending
+   When we speak of free software, we are referring to freedom, not
+@@ -291,7 +291,7 @@
+ the "copyright" line and a pointer to where the full notice is found.
+ 
+     <one line to give the program's name and a brief idea of what it does.>
+-    Copyright (C) 19yy  <name of author>
++    Copyright (C) <year>  <name of author>
+ 
+     This program is free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+@@ -303,17 +303,16 @@
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+ 
+-    You should have received a copy of the GNU General Public License
+-    along with this program; if not, write to the Free Software
+-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 -
-- ostable      | 1 +
-- triplettable | 1 +
-+ data/ostable    | 1 +
-+ data/tupletable | 1 +
-  2 files changed, 2 insertions(+)
++    You should have received a copy of the GNU General Public License along
++    with this program; if not, write to the Free Software Foundation, Inc.,
++    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  
--diff --git a/ostable b/ostable
--index 3bb6819..d0ffdc7 100644
----- a/ostable
--+++ b/ostable
--@@ -15,6 +15,7 @@
-- uclibceabi-linux	linux-uclibceabi	linux[^-]*-uclibceabi
-- uclibc-linux		linux-uclibc		linux[^-]*-uclibc
-- musleabihf-linux	linux-musleabihf	linux[^-]*-musleabihf
--+musleabi-linux		linux-musleabi		linux[^-]*-musleabi
-- musl-linux		linux-musl		linux[^-]*-musl
-- gnueabihf-linux		linux-gnueabihf		linux[^-]*-gnueabihf
-- gnueabi-linux		linux-gnueabi		linux[^-]*-gnueabi
--diff --git a/triplettable b/triplettable
--index 1213584..70d24c1 100644
----- a/triplettable
--+++ b/triplettable
--@@ -6,6 +6,7 @@
-- uclibceabi-linux-arm	uclibc-linux-armel
-- uclibc-linux-<cpu>	uclibc-linux-<cpu>
-- musleabihf-linux-arm	musl-linux-armhf
--+musleabi-linux-arm	musl-linux-armel
-- musl-linux-<cpu>	musl-linux-<cpu>
-- gnueabihf-linux-arm	armhf
-- gnueabi-linux-arm	armel
-+diff --git a/data/ostable b/data/ostable
-+index 99c1f889d..be6434271 100644
-+--- a/data/ostable
-++++ b/data/ostable
-+@@ -17,6 +17,7 @@
-+ eabi-uclibc-linux	linux-uclibceabi	linux[^-]*-uclibceabi
-+ base-uclibc-linux	linux-uclibc		linux[^-]*-uclibc
-+ eabihf-musl-linux	linux-musleabihf	linux[^-]*-musleabihf
-++eabi-musl-linux		linux-musleabi		linux[^-]*-musleabi
-+ base-musl-linux		linux-musl		linux[^-]*-musl
-+ eabihf-gnu-linux	linux-gnueabihf		linux[^-]*-gnueabihf
-+ eabi-gnu-linux		linux-gnueabi		linux[^-]*-gnueabi
-+diff --git a/data/tupletable b/data/tupletable
-+index 5f500f6ca..28f00bfe6 100644
-+--- a/data/tupletable
-++++ b/data/tupletable
-+@@ -8,6 +8,7 @@
-+ eabi-uclibc-linux-arm		uclibc-linux-armel
-+ base-uclibc-linux-<cpu>		uclibc-linux-<cpu>
-+ eabihf-musl-linux-arm		musl-linux-armhf
-++eabi-musl-linux-arm		musl-linux-armel
-+ base-musl-linux-<cpu>		musl-linux-<cpu>
-+ ilp32-gnu-linux-arm64		arm64ilp32
-+ eabihf-gnu-linux-arm		armhf
- -- 
--2.6.4
-+2.11.0
+ Also add information on how to contact you by electronic and paper mail.
  
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-index 8bfaad14d8d..1b985df0f5b 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch
-@@ -23,18 +23,17 @@ Upstream-Status: Inappropriate [Configuration]
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ If the program is interactive, make it output a short notice like this
+ when it starts in an interactive mode:
  
- diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
--index 655aa55..927f56f 100644
-+index a92b58e..a3d1912 100644
- --- a/dpkg-deb/build.c
- +++ b/dpkg-deb/build.c
--@@ -447,7 +447,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
--     snprintf(mtime, sizeof(mtime), "@%ld", timestamp);
-+@@ -450,7 +450,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-  
--     execlp(TAR, "tar", "-cf", "-", "--format=gnu",
---                       "--mtime", mtime, "--clamp-mtime",
--+                       "--mtime", mtime,
--                        "--null", "--no-unquote",
--                        "--no-recursion", "-T", "-", NULL);
--     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
-+     command_init(&cmd, TAR, "tar -cf");
-+     command_add_args(&cmd, "tar", "-cf", "-", "--format=gnu",
-+-                           "--mtime", mtime, "--clamp-mtime", NULL);
-++                           "--mtime", mtime, NULL);
-+     /* Mode might become a positional argument, pass it before -T. */
-+     if (mode)
-+       command_add_args(&cmd, "--mode", mode, NULL);
- -- 
--2.1.4
--
-+2.11.0
-diff --git a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-index dc69eb2d1cd..d165616a191 100644
---- a/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/add_armeb_triplet_entry.patch
-@@ -24,23 +24,25 @@ empty in configure script.
- Upstream-Status: Pending
- 
- Signed-off-by: Krishnanjanappa, Jagadeesh <jagadeesh.krishnanjanappa@caviumnetworks.com>
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
- 
- ---
-- triplettable | 1 +
-+ data/tupletable | 1 +
-  1 file changed, 1 insertion(+)
- 
--diff --git a/triplettable b/triplettable
--index abe4726..1e9c247 100644
----- a/triplettable
--+++ b/triplettable
--@@ -11,6 +11,7 @@ gnueabihf-linux-arm	armhf
-- gnueabi-linux-arm	armel
-- gnuabin32-linux-mips64r6el	mipsn32r6el
-- gnuabin32-linux-mips64r6	mipsn32r6
--+gnueabi-linux-armeb	armeb
-- gnuabin32-linux-mips64el	mipsn32el
-- gnuabin32-linux-mips64	mipsn32
-- gnuabi64-linux-mips64r6el	mips64r6el
-+diff --git a/data/tupletable b/data/tupletable
-+index b7802bec3..5f500f6ca 100644
-+--- a/data/tupletable
-++++ b/data/tupletable
-+@@ -12,6 +12,7 @@ base-musl-linux-<cpu>		musl-linux-<cpu>
-+ ilp32-gnu-linux-arm64		arm64ilp32
-+ eabihf-gnu-linux-arm		armhf
-+ eabi-gnu-linux-arm		armel
-++eabi-gnu-linux-armeb		armeb
-+ abin32-gnu-linux-mips64r6el	mipsn32r6el
-+ abin32-gnu-linux-mips64r6	mipsn32r6
-+ abin32-gnu-linux-mips64el	mipsn32el
- -- 
--2.1.4
-+2.11.0
-+
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-index cad4c0f0a1c..4e0d22acbbf 100644
---- a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
-@@ -7,16 +7,23 @@ Upstream-Status: Pending
- 
- Signed-off-by: Joe Slater <jslater@windriver.com>
- 
-+---
-+ scripts/Dpkg/Arch.pm | 3 ---
-+ 1 file changed, 3 deletions(-)
- 
-+diff --git a/scripts/Dpkg/Arch.pm b/scripts/Dpkg/Arch.pm
-+index 1720847b8..6345ce3b9 100644
- --- a/scripts/Dpkg/Arch.pm
- +++ b/scripts/Dpkg/Arch.pm
--@@ -233,9 +233,6 @@ sub read_triplettable()
-- 		    (my $dt = $debtriplet) =~ s/<cpu>/$_cpu/;
-+@@ -323,9 +323,6 @@ sub _load_tupletable()
-+ 		    (my $dt = $debtuple) =~ s/<cpu>/$_cpu/;
-  		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
-  
---		    next if exists $debarch_to_debtriplet{$da}
---		         or exists $debtriplet_to_debarch{$dt};
-+-		    next if exists $debarch_to_debtuple{$da}
-+-		         or exists $debtuple_to_debarch{$dt};
- -
-- 		    $debarch_to_debtriplet{$da} = $dt;
-- 		    $debtriplet_to_debarch{$dt} = $da;
-+ 		    $debarch_to_debtuple{$da} = $dt;
-+ 		    $debtuple_to_debarch{$dt} = $da;
-  		}
-+-- 
-+2.11.0
-diff --git a/meta/recipes-devtools/dpkg/dpkg/noman.patch b/meta/recipes-devtools/dpkg/dpkg/noman.patch
-index d30c15018a9..a7f3cb8f453 100644
---- a/meta/recipes-devtools/dpkg/dpkg/noman.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/noman.patch
-@@ -1,14 +1,22 @@
- Upstream-Status: Inappropriate [disable feature]
- 
--diff -ruN dpkg-1.15.8.5-orig/Makefile.am dpkg-1.15.8.5/Makefile.am
----- dpkg-1.15.8.5-orig/Makefile.am	2010-10-08 12:27:15.042083703 +0800
--+++ dpkg-1.15.8.5/Makefile.am	2010-10-08 12:27:27.755148228 +0800
--@@ -12,8 +12,7 @@
-- 	utils \
-+---
-+ Makefile.am | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 0da52cb16..a1f79e0a2 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -13,8 +13,7 @@ SUBDIRS = \
-  	$(MAYBE_DSELECT) \
-  	scripts \
-+ 	t-func \
- -	po \
- -	man
- +	po
-  
-  ACLOCAL_AMFLAGS = -I m4
-+ 
-+-- 
-+2.11.0
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.10.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.24.bb
-similarity index 77%
-rename from meta/recipes-devtools/dpkg/dpkg_1.18.10.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.18.24.bb
-index 21385af8780..f06b604ebb2 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.10.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.24.bb
-@@ -1,7 +1,7 @@
- require dpkg.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian/20160731T221931Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-+SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-            file://noman.patch \
-            file://remove-tar-no-timestamp.patch \
-            file://arch_pm.patch \
-@@ -16,5 +16,5 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20160731T221931Z/pool/main/
-            "
- SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch "
- 
--SRC_URI[md5sum] = "ccff17730c0964428fc186ded2f2f401"
--SRC_URI[sha256sum] = "025524da41ba18b183ff11e388eb8686f7cc58ee835ed7d48bd159c46a8b6dc5"
-+SRC_URI[md5sum] = "02e8af8faf1e689228da806c3e8c6882"
-+SRC_URI[sha256sum] = "d853081d3e06bfd46a227056e591f094e42e78fa8a5793b0093bad30b710d7b4"
--- 
-2.11.0
+-    Gnomovision version 69, Copyright (C) 19yy name of author
++    Gnomovision version 69, Copyright (C) year name of author
+     Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
+     This is free software, and you are welcome to redistribute it
+     under certain conditions; type `show c' for details.
+@@ -336,5 +335,5 @@
+ This General Public License does not permit incorporating your program into
+ proprietary programs.  If your program is a subroutine library, you may
+ consider it more useful to permit linking proprietary applications with the
+-library.  If this is what you want to do, use the GNU Library General
++library.  If this is what you want to do, use the GNU Lesser General
+ Public License instead of this License.
 
-
+--------------182FC88C16AE11052377144F--
