@@ -1,35 +1,36 @@
-Return-Path: <prvs=3996e59f5=Martin.Hundeboll@prevas.dk>
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 6022071985
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C64C782FD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 09:21:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=2321; q=dns/txt;
-	s=ironport2; t=1503307319; x=1534843319;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=+otIQPNI9LmWyVXFeUbJjK9UNZLJh209E5fz68McvmY=;
-	b=we+NrKDsG/3pr6Dlz96Bz72XawCJJ2dcujpRM/7iP9GH6lG9QIQEMQW1
-	vXrrYhTIblOA8IyK6zJ2fYUcFFS9wtSXTVQZwn9JeMQe/zqpCyOSQB7SK
-	jQmdiRXS4DxtHX+aL69Mvo0Ok7fWN8GF8zi4bStFf/bZlCUpz9qglhBqO g=;
-X-IronPort-AV: E=Sophos;i="5.41,408,1498514400"; 
-   d="scan'208";a="2406183"
-Received: from vmprevas4.prevas.se (HELO smtp.prevas.se) ([172.16.8.104])
-	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	21 Aug 2017 11:21:56 +0200
-Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.104)
-	with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Mon, 21 Aug 2017 11:21:56 +0200
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Aug 2017 11:21:34 +0200
-Message-ID: <20170821092134.6329-1-mnhu@prevas.dk>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170821083946.4493-1-mnhu@prevas.dk>
-References: <20170821083946.4493-1-mnhu@prevas.dk>
-MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Subject: [PATCH v2] kernel-module-split: rrecommend kernel-image instead of rdepend
+	Mon, 21 Aug 2017 09:29:48 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7L9Tl7g017457
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Mon, 21 Aug 2017 10:29:48 +0100
+Message-ID: <1503307787.32591.59.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Aug 2017 10:29:47 +0100
+In-Reply-To: <CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
+References: <CA+chaQc_oKOja+s54Ku-sCQqxdrqi8d16Dkj2=dJHofYnOR1xA@mail.gmail.com>
+	<1502969638.13978.209.camel@linuxfoundation.org>
+	<CA+chaQcZKA=x1_O88h=Akjh=Cr2Rtt_8GqgRrm61fuLnT_myRw@mail.gmail.com>
+	<d2851cd0-1a15-f5aa-1e9b-dda654978178@linux.intel.com>
+	<CAMKF1sryybJQXYvkQVbSEciBhYY1s7Xc-k+qhFJSRbbRxi1DJQ@mail.gmail.com>
+	<fe1575c3-4e74-1a5d-b48e-86c6908b2e63@linux.intel.com>
+	<CAMKF1soQw0VVy0RKe4w-qsCwPh_OTgatYLrx6mPpapBGooy-Ew@mail.gmail.com>
+	<CA+chaQcQNkYbnSpVzA5xceo=CTpWDnKd8n3WaZM6zbUOe5m_XA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Mon, 21 Aug 2017 10:29:48 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: openssl10 unusable for many components
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,50 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 09:21:57 -0000
+X-List-Received-Date: Mon, 21 Aug 2017 09:29:49 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hard depending on the kernel makes it impossible to install kernel
-modules without getting the kernel image installed too. This is
-inconvenient in e.g. initramdisks, where the kernel is loaded from
-outside the initramdisk.
+On Fri, 2017-08-18 at 19:29 +0200, Martin Jansa wrote:
+> Even with that patch to rename openssl10 back to openssl we still
+> need to solve the openssl-native which wasn't reverted back to 1.0.
+> 
+> Upstream nodejs isn't going to be openssl-1.1 for a bit longer as
+> explained:
+> https://github.com/nodejs/node/pull/14761
+> https://github.com/nodejs/node/pull/11828
+> so it would make sense to revert native and nativesdk versions as
+> well - if it isn't done in oe-core, I'll do it in our own layers to
+> keep the builds going.
 
-Making the kernel modules rrecommend kernel-image-<version> instead of
-rdepending on it, makes it possible to install kernel modules without
-the kernel image by setting "kernel-image" in BAD_RECOMMENDATIONS.
+Hopefully we have a working 'revert' back to 1.0 in master now as there
+was simply too much breakage for this release.
 
-Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
----
- meta/classes/kernel-module-split.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+I would ask that people do try and figure out how to solve some of the
+1.1 issues in the meantime, hopefully people can enable 1.1 with some
+PREFERRED_VERSION tweaks.
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 1035525dac..78843c5474 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -120,6 +120,11 @@ python split_kernel_module_packages () {
-                 rdepends[dep] = []
-         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
- 
-+        # let kernel modules runtime recommend kernel image
-+        rrecommends = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
-+        rrecommends['kernel-image'] = []
-+        d.setVar('RRECOMMENDS_' + pkg, bb.utils.join_deps(rrecommends, commasep=False))
-+
-         # Avoid automatic -dev recommendations for modules ending with -dev.
-         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
- 
-@@ -138,7 +143,7 @@ python split_kernel_module_packages () {
-     postinst = d.getVar('pkg_postinst_modules')
-     postrm = d.getVar('pkg_postrm_modules')
- 
--    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
-+    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='')
-     if modules:
-         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
-         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
--- 
-2.14.1
+Cheers,
 
+Richard
 
