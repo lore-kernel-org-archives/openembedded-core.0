@@ -1,35 +1,46 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 13404782A0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CF1871A50
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 06:12:42 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id v7L6Cfft018917
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 21 Aug 2017 08:12:42 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v7L6Ceov023196
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 21 Aug 2017 08:12:40 +0200
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	Armin Kuster <akuster808@gmail.com>
-References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
-	<1502987497.13978.239.camel@linuxfoundation.org>
-	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
-	<1503048946.32591.0.camel@linuxfoundation.org>
-	<aa161775-9c09-bf1f-8190-9c6e701f07c7@siemens.com>
-	<c9d3d7c6-f6d0-c316-1e1e-8b67f652ae4a@windriver.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <dff127f0-b668-0d09-3270-ce1d67c04891@siemens.com>
-Date: Mon, 21 Aug 2017 08:12:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <c9d3d7c6-f6d0-c316-1e1e-8b67f652ae4a@windriver.com>
-Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
+	Mon, 21 Aug 2017 06:54:53 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id f8so10894214wrf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 20 Aug 2017 23:54:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=2HcPr70BNk2lgb1a4yb36Vg0ljb65Ir40zoVW0e4KR8=;
+	b=QYK+T4IOaMtRVZDrn+tpMBhW15/g87ZrAZmI327bnzfnnNDwyjs7EAqgJnMU12ef3v
+	7vvFmB+k3l+BXRsvMyb6zXbIAnsSOvQVX+XRduBIvVnvKF94WUmSrPSVHlBl76tnerTf
+	kWUqpKgqMLO/H97TvLb8m9Yaboci2RPmofr2QDEHtQsSLan5wttyGMbi7m32fQsbJxCy
+	ckKlISrqxC6HK3hApOf4bT4Cgp8vKzGGwRd19q9YDbPsuq86YjwFIShHxnf9EkWSoJ0E
+	wcsrrywE9p8lVjlN6j/zZuwdz9SA7hXsL3v95cfo0LmXb1H/l51YSJPWDnUsbseM40Ka
+	cfcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=2HcPr70BNk2lgb1a4yb36Vg0ljb65Ir40zoVW0e4KR8=;
+	b=lM325O+tKdWC8wG6cPghwsY5EqgRzNe3E9ZSlnqrA2q9O70FxJ+V4hTkU0WiRCF51e
+	ILM94zlDIxB0k4H+5bjSv/rgQgXOOrR+ErPwl2uFdNSBepPSaq6zvaXi/ZsOrRBJJGHk
+	hRpP8EafFQTs3np+45uTXNUHVil/UvC3p/AOtz2lKs+OjHQXO8EGn6/+i2EIIPFUJiRl
+	Tl/m8z0UnxhZNytTW3KNdyXl+TYAbQeMvk6T660RZaNPGanmTUdxwP/kJrzUWiWJNsOt
+	Wldi8nEo/YZv5gJmgCh/EtnM2Y5+T1vkp+reuJuiaS5UCjjw5cRGe/fe4mMga9Ljc6St
+	329Q==
+X-Gm-Message-State: AHYfb5jNaVneJ7qs23LHs1RyOCpPmPxkoT6O5d1oL0nE7c5q40kY4zPk
+	hYIMZoQM308mAh/H
+X-Received: by 10.223.134.242 with SMTP id 47mr3538086wry.104.1503298494745;
+	Sun, 20 Aug 2017 23:54:54 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	c13sm6351542wrb.87.2017.08.20.23.54.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 20 Aug 2017 23:54:54 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Aug 2017 08:56:33 +0200
+Message-Id: <20170821065633.27570-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.14.0
+Subject: [PATCH] insane.bbclass: write QA issues to log file only when thei are in ERROR_QA or WARN_QA
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +53,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 06:12:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Aug 2017 06:54:54 -0000
 
-Hello Armin,
+* QA check which aren't included in WARN_QA and ERROR_QA are shown
+  during the build only as NOTE message (not shown at all with default
+  knotty setting), so it might be surprising to see them later in qa.log
+  file
 
-Could You please merge it into krogoth and morty branch?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/insane.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-@Randy: last commit into those branches was ~5weeks ago, so they are
-still maintained.
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index b7177c9b32..44e4a01c92 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -184,12 +184,13 @@ def package_qa_write_error(type, error, d):
+             f.write("%s: %s [%s]\n" % (p, error, type))
+ 
+ def package_qa_handle_error(error_class, error_msg, d):
+-    package_qa_write_error(error_class, error_msg, d)
+     if error_class in (d.getVar("ERROR_QA") or "").split():
++        package_qa_write_error(error_class, error_msg, d)
+         bb.error("QA Issue: %s [%s]" % (error_msg, error_class))
+         d.setVar("QA_SANE", False)
+         return False
+     elif error_class in (d.getVar("WARN_QA") or "").split():
++        package_qa_write_error(error_class, error_msg, d)
+         bb.warn("QA Issue: %s [%s]" % (error_msg, error_class))
+     else:
+         bb.note("QA Issue: %s [%s]" % (error_msg, error_class))
+-- 
+2.14.0
 
-Regards,
-Andrej
-
-On 08/18/2017 05:46 PM, Randy MacLeod wrote:
-> On 2017-08-18 06:05 AM, Andrej Valek wrote:
->> OK thank You, so please merge it into these branches.
-> 
-> Add Armin, who maintains those branches:
->     https://wiki.yoctoproject.org/wiki/Releases
-> Is Krogoth still maintained? It's listed at Stable in the link above.
-> 
-> ../Randy
-> 
-> 
-> 
->>
->> Regards,
->> Andrej
->>
->> On 08/18/2017 11:35 AM, Richard Purdie wrote:
->>> On Fri, 2017-08-18 at 08:26 +0200, Andrej Valek wrote:
->>>> Yes, for actual branch is not required. But for branches like krogoth
->>>> and morty, where HOSTTOOLS is not implemented, is this necessary.
->>>
->>> Lets just apply this to krogoth/morty then...
->>>
->>> Cheers,
->>>
->>> Richard
->>>
-> 
-> 
 
