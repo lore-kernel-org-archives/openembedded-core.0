@@ -1,47 +1,60 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ua0-f174.google.com (mail-ua0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A3A73782E0
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CBD07828F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 15:13:59 +0000 (UTC)
-Received: by mail-ua0-f174.google.com with SMTP id n29so23923232uai.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 08:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dMF4mIdczuK/G7D2gZXQRDmbzPeKPM67e9fAk5/o3Uw=;
-	b=cji6PkzYo7KaG64eVAGVB9gYk1ehNcE4DFlpnELAURihvx38nMXceHgUsy7OFqcW0N
-	W39CihHI3ZsA8ETzvnJhbc6lo+AvzRv5d3+WDXIsPbihMwvCPWjtkfXHGtCWZuwGJlHe
-	ZeBnM7xzYagrVH5kC7nwdtoccn++R8miL38WqvlWIGD1nemEC1PQdJtymFZOVPk+ZmIC
-	iuXNansNY0Pa1Z8kCOCDsgFhfho399ao3WK1Gf9mkPq+yhxJLh7gqAUYN4irkYWhRbYx
-	sOFJH9ReMMUmbuJ+qW+qyGnopp+PKkL+LuX96ahsfbb39LJv0UXvDHMlA+fE1fRVNx/3
-	QE4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dMF4mIdczuK/G7D2gZXQRDmbzPeKPM67e9fAk5/o3Uw=;
-	b=SBngx185DqCiE4fOzfTFqph51gf5rcZ2hYb678VUX9jAsg9RsLa3JiwwZVGb9TY2qh
-	nsAGcwbQLOI3Q+TLFM2zEMCsQ0usIY6JdnnKZ039Prrnjaje+OGSqqUbl0LjXmutpD9U
-	AROEx5XbAbI4oEc0LTtFe73RF5GLO336t5gUjNqt/rY5qMzDLckQS5hjowvzfqCH6NH2
-	tTu5w/CLwTVeJx+GDr4Uw8zzSi3tOwNJ+aM8Kt2An+ZBvTMJ+HeJL5WiRd5GORbU/HXI
-	JNQgxASaomflg0SyD/bVN62RPnyHgVgu57KAEMLs5z+RqV5Hi5+3d3SDrpNkkqB5e3Do
-	DwtQ==
-X-Gm-Message-State: AHYfb5hQLt2HhJC2aSLwFjSH8cR3s+Nwnd3uwGfpGtoMs2pJQSkK7a7i
-	vveTozq2HFzqIpLg+5WibnT7fxcHxQ==
-X-Received: by 10.176.7.42 with SMTP id h39mr6909140uah.71.1503328440432; Mon,
-	21 Aug 2017 08:14:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Mon, 21 Aug 2017 08:13:59 -0700 (PDT)
-In-Reply-To: <CADkTA4Nx3EAgggD2ohyZJpX2ZGUgKvmQK-KFLTnreJSjO830Zw@mail.gmail.com>
+	Mon, 21 Aug 2017 15:16:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 240C2180F0;
+	Mon, 21 Aug 2017 17:16:12 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id KqmNA3sLu8Bv; Mon, 21 Aug 2017 17:16:06 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 91E99183FA;
+	Mon, 21 Aug 2017 17:16:06 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5851F1A09D;
+	Mon, 21 Aug 2017 17:16:06 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4C7181A09B;
+	Mon, 21 Aug 2017 17:16:06 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Mon, 21 Aug 2017 17:16:06 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id 3FFA81905;
+	Mon, 21 Aug 2017 17:16:06 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Mon, 21 Aug 2017 17:16:06 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Mon, 21 Aug 2017 17:16:05 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Mon, 21 Aug 2017 17:16:06 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [OE-core] [PATCH 8/9] kernel-yocto: ensure that only valid BSPs
+	are built
+Thread-Index: AQHTGo6r32swxctn9ES0/pjaW8Npa6KOyZWAgAAhxnA=
+Date: Mon, 21 Aug 2017 15:16:06 +0000
+Message-ID: <0e7ac88f282741288f27b4c7774b5f9a@XBOX02.axis.com>
 References: <cover.1503283308.git.bruce.ashfield@windriver.com>
 	<ab92e7d90c416d6e5cdb17cdba269e09ec967607.1503283308.git.bruce.ashfield@windriver.com>
 	<b68f37bbad5940a8bdb7f165a7600f18@XBOX02.axis.com>
 	<CADkTA4Nx3EAgggD2ohyZJpX2ZGUgKvmQK-KFLTnreJSjO830Zw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 21 Aug 2017 11:13:59 -0400
-Message-ID: <CADkTA4PdZwrfh_u44auWAR4r0KV2oVp1VJu=56Uvpv6xocEp1g@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	<CADkTA4PdZwrfh_u44auWAR4r0KV2oVp1VJu=56Uvpv6xocEp1g@mail.gmail.com>
+In-Reply-To: <CADkTA4PdZwrfh_u44auWAR4r0KV2oVp1VJu=56Uvpv6xocEp1g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 8/9] kernel-yocto: ensure that only valid BSPs are built
@@ -57,318 +70,361 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 15:13:59 -0000
-Content-Type: multipart/alternative; boundary="94eb2c124178ac3cd6055744ed09"
+X-List-Received-Date: Mon, 21 Aug 2017 15:16:12 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_0e7ac88f282741288f27b4c7774b5f9aXBOX02axiscom_"
 
---94eb2c124178ac3cd6055744ed09
-Content-Type: text/plain; charset="UTF-8"
+--_000_0e7ac88f282741288f27b4c7774b5f9aXBOX02axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Aug 21, 2017 at 11:03 AM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
+SnVzdCBpbiBjYXNlIHlvdSBtaXNzZWQgaXQgKGFzIHlvdSBkaWRu4oCZdCBjb21tZW50IG9uIG15
+IGNvbW1lbnQgYWJvdXQgaXQpLCB0aGVyZSB3YXMgYSB0eXBvIGluIHRoZSBsb2cgbWVzc2FnZSBh
+cyB3ZWxsLg0KDQovL1BldGVyDQoNCkZyb206IEJydWNlIEFzaGZpZWxkIFttYWlsdG86YnJ1Y2Uu
+YXNoZmllbGRAZ21haWwuY29tXQ0KU2VudDogZGVuIDIxIGF1Z3VzdGkgMjAxNyAxNzoxNA0KVG86
+IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KQ2M6IHJp
+Y2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDgvOV0ga2Vy
+bmVsLXlvY3RvOiBlbnN1cmUgdGhhdCBvbmx5IHZhbGlkIEJTUHMgYXJlIGJ1aWx0DQoNCg0KDQpP
+biBNb24sIEF1ZyAyMSwgMjAxNyBhdCAxMTowMyBBTSwgQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFz
+aGZpZWxkQGdtYWlsLmNvbTxtYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPj4gd3JvdGU6
+DQoNCg0KT24gTW9uLCBBdWcgMjEsIDIwMTcgYXQgMTE6MDAgQU0sIFBldGVyIEtqZWxsZXJzdGVk
+dCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPG1haWx0bzpwZXRlci5ramVsbGVyc3RlZHRA
+YXhpcy5jb20+PiB3cm90ZToNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTog
+b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpv
+cGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQo+IFttYWls
+dG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0
+bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+XSBPbiBC
+ZWhhbGYgT2YNCj4gQnJ1Y2UgQXNoZmllbGQNCj4gU2VudDogZGVuIDIxIGF1Z3VzdGkgMjAxNyAw
+NDo1OA0KPiBUbzogcmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzxtYWlsdG86cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0ggOC85XSBrZXJuZWwt
+eW9jdG86IGVuc3VyZSB0aGF0IG9ubHkgdmFsaWQNCj4gQlNQcyBhcmUgYnVpbHQNCj4NCj4gVGhl
+cmUgd2FzIGEgYnVnIGluIHRoZSBzZWFyY2ggcm91dGluZXMgcmVzcG9uc2libGUgZm9yIGxvY2F0
+aW5nDQo+IEJTUCBkZWZpbml0aW9ucyB3aGljaCByZXR1cm5lZCBhIHZhbGlkIG1hdGNoIGlmIG9u
+bHkgdGhlIGt0eXBlDQo+IG1hdGNoZWQuDQo+DQo+IFRoaXMgbWVhbnQgdGhhdCBzb21lb25lIGxv
+b2tpbmcgZm9yICJxZW11eDg2Zm9vIiAod2hpY2ggaXMgYW4NCj4gaW52YWxpZCBkZWZpbml0aW9u
+KSB3b3VsZCBwb3RlbnRpYWxseSBlbmQgdXAgYnVpbGRpbmcgInFlbXVhcm0iDQo+IGFuZCBiZSBu
+b25lIHRoZSB3aXNlciAodW50aWwgaXQgZGlkbid0IGJvb3QpLg0KPg0KPiBXaXRoIHRoaXMgZml4
+IHRvIHRoZSB0b29scyBzZWFyY2ggcm91dGluZSwgYW5kIGltcHJvdmVkIHJldHVybg0KPiBjb2Rl
+IHRlc3RpbmcsIHdlIHdpbGwgbm93IHN0b3AgdGhlIGJ1aWxkIGFuZCByZXBvcnQgYW5kIGVycm9y
+IHRvDQo+IHRoZSB1c2VyLg0KPg0KPiBbWU9DVE86ICMxMTg3OF0NCj4NCj4gU2lnbmVkLW9mZi1i
+eTogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb208bWFpbHRvOmJy
+dWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb20+Pg0KPiAtLS0NCj4gIG1ldGEvY2xhc3Nlcy9rZXJu
+ZWwteW9jdG8uYmJjbGFzcyAgICAgICAgICAgICAgICAgICAgICAgfCAzICsrKw0KPiAgbWV0YS9y
+ZWNpcGVzLWtlcm5lbC9rZXJuLXRvb2xzL2tlcm4tdG9vbHMtbmF0aXZlX2dpdC5iYjxodHRwOi8v
+a2Vybi10b29scy1uYXRpdmVfZ2l0LmJiPiB8IDIgKy0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNCBp
+bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNz
+ZXMva2VybmVsLXlvY3RvLmJiPGh0dHA6Ly9rZXJuZWwteW9jdG8uYmI+Y2xhc3MgYi9tZXRhL2Ns
+YXNzZXMva2VybmVsLXlvY3RvLmJiPGh0dHA6Ly9rZXJuZWwteW9jdG8uYmI+Y2xhc3MNCj4gaW5k
+ZXggMWNhMDc1NmM0OTU5Li4zYzZkZjkyMTMxYmMgMTAwNjQ0DQo+IC0tLSBhL21ldGEvY2xhc3Nl
+cy9rZXJuZWwteW9jdG8uYmI8aHR0cDovL2tlcm5lbC15b2N0by5iYj5jbGFzcw0KPiArKysgYi9t
+ZXRhL2NsYXNzZXMva2VybmVsLXlvY3RvLmJiPGh0dHA6Ly9rZXJuZWwteW9jdG8uYmI+Y2xhc3MN
+Cj4gQEAgLTE0Myw2ICsxNDMsOSBAQCBkb19rZXJuZWxfbWV0YWRhdGEoKSB7DQo+DQo+ICAgICAg
+ICMgZXhwYW5kIGtlcm5lbCBmZWF0dXJlcyBpbnRvIHRoZWlyIGZ1bGwgcGF0aCBlcXVpdmFsZW50
+cw0KPiAgICAgICBic3BfZGVmaW5pdGlvbj0kKHNwcCAke2luY2x1ZGVzfSAtLWZpbmQgLURLTUFD
+SElORT0ke0tNQUNISU5FfSAtREtUWVBFPSR7TElOVVhfS0VSTkVMX1RZUEV9KQ0KPiArICAgICBp
+ZiBbICQ/IC1uZSAwIF0gfHwgWyAteiAiJHtic3BfZGVmaW5pdGlvbn0iIF07IHRoZW4NClVzZSAk
+YnNwX2RlZmluaXRpb24gaW5zdGVhZCBvZiAke2JzcF9kZWZpbml0aW9ufSBzaW5jZSBpdCBpcyBh
+DQpzaGVsbCB2YXJpYWJsZSBhbmQgbm90IGEgYml0YmFrZSB2YXJpYWJsZS4NCg0KSSBhbHdheXMg
+dXNlICR7Li4ufSwgc28gSSdtIGdvaW5nIHRvIHN0YXkgY29uc2lzdGVudCB3aXRoIHdoYXQgaXMg
+YWxyZWFkeSBpbg0KdGhlIGZpbGUuDQoNCg0KQWN0dWFsbHksIGFmdGVyIGxvb2tpbmcgYXQgdGhl
+IGNvZGUgaW4gdGhhdCBiYmNsYXNzLCBJIHNlZSB0aGlzDQp1c2VkIGZvciBhIG51bWJlciBvZiBz
+aGVsbCB2YXJpYWJsZXMgYWxsIG92ZXIgdGhlIHBsYWNlLiBUaGlzIGlzDQphY3R1YWxseSBiYWQs
+IGFuZCB5b3Ugc2hvdWxkIHJld3JpdGUgdGhlIGNvZGUgdG8gbm90IHVzZSAke3ZhcmlhYmxlfQ0K
+Zm9yIHNoZWxsIHZhcmlhYmxlcy4gVGhlIHJlYXNvbiB0aGlzIGlzIGJhZCBpcyBiZWNhdXNlIHRo
+ZXNlDQp2YXJpYWJsZXMgdW5uZWNlc3NhcmlseSBlbmQgdXAgaW4gdGhlIHNzdGF0ZSBoYXNoIGZv
+ciB0aGVzZSBmdW5jdGlvbnMsDQphbmQgaWYgc29tZW9uZSBhY3R1YWxseSBoYXBwZW5zIHRvIGRl
+ZmluZSBhIGJpdGJha2UgdmFyaWFibGUgd2l0aCB0aGUNCnNhbWUgbmFtZSBhcyBvbmUgb2YgdGhv
+c2Ugc2hlbGwgdmFyaWFibGVzLCB0aGUgcmVzdWx0IHdpbGwgbm90IGJlIHdoYXQNCmlzIGV4cGVj
+dGVkLi4uDQoNCk5vdCBzb21ldGhpbmcgaGlnaCBvbiBteSBwcmlvcml0eSBsaXN0LiBJdCdzIGJl
+ZW4gdGhhdCB3YXkgc2luY2UgdGhlIGJlZ2lubmluZy4NCg0KLi4gYnV0IEkgd2lsbCBsb29wIGJh
+Y2sgYW5kIHRha2UgY2FyZSBvZiB0aGUgaXNzdWVzIGJlZm9yZSBNNCBjbG9zZXMuIEp1c3QgYSBi
+aXQgYnVzeQ0KcHVzaGluZyBvdXQgdGhlIG5ldyBrZXJuZWxzIGFuZCBhIHNsZXcgb2YgYnVnIGZp
+eGVzLg0KDQpUaGlzIHBhdGNoIGNhbiBiZSBpZ25vcmVkIChpZiBuZWVkZWQpIHVudGlsIEkgZ2V0
+IGJhY2sgYXJvdW5kIHRvIHRoYXQuDQoNCkNoZWVycywNCg0KQnJ1Y2UNCg0KDQpDaGVlcnMsDQoN
+CkJydWNlDQoNCg0KPiArICAgICAgICAgICAgIGJiZmF0YWxfbG9nICJDb3VsZCBub3QgbG9jYXRl
+IEJTUCBkZWZpbml0b24gZm9yICR7S01BQ0hJTkV9LyR7TElOVVhfS0VSTkVMX1RZUEV9LiINCg0K
+Q2hhbmdlICJkZWZpbml0b24iIHRvICJkZWZpbml0aW9uIi4NCg0KPiArICAgICBmaQ0KPiAgICAg
+ICBtZXRhX2Rpcj0kKGtnaXQgLS1tZXRhKQ0KPg0KPiAgICAgICAjIHJ1bjE6IHB1bGwgYWxsIHRo
+ZSBjb25maWd1cmF0aW9uIGZyYWdtZW50cywgbm8gbWF0dGVyIHdoZXJlIHRoZXkgY29tZSBmcm9t
+DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2tlcm4tdG9vbHMva2Vybi10b29s
+cy1uYXRpdmVfZ2l0LmJiPGh0dHA6Ly9rZXJuLXRvb2xzLW5hdGl2ZV9naXQuYmI+IGIvbWV0YS9y
+ZWNpcGVzLWtlcm5lbC9rZXJuLXRvb2xzL2tlcm4tdG9vbHMtbmF0aXZlX2dpdC5iYjxodHRwOi8v
+a2Vybi10b29scy1uYXRpdmVfZ2l0LmJiPg0KPiBpbmRleCAyMjE3YTMxMDc2YTIuLjRhNzhiODk3
+ZDM0ZiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXJuLXRvb2xzL2tlcm4t
+dG9vbHMtbmF0aXZlX2dpdC5iYjxodHRwOi8va2Vybi10b29scy1uYXRpdmVfZ2l0LmJiPg0KPiAr
+KysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2tlcm4tdG9vbHMva2Vybi10b29scy1uYXRpdmVfZ2l0
+LmJiPGh0dHA6Ly9rZXJuLXRvb2xzLW5hdGl2ZV9naXQuYmI+DQo+IEBAIC00LDcgKzQsNyBAQCBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9naXQvdG9vbHMva2dpdDtiZWdpbmxpbmU9NTtlbmRs
+aW5lPTk7bWQ1PWE2YzJmYThhZWYxYg0KPg0KPiAgREVQRU5EUyA9IDxmaWxlOi8vZ2l0L3Rvb2xz
+L2tnaXQ7YmVnaW5saW5lPTU7ZW5kbGluZT05O21kNT1hNmMyZmE4YWVmMWIlMGIlM2UlMGIlM2XC
+oCUyMERFUEVORFMlMjA9JTIwPiAiZ2l0LW5hdGl2ZSINCj4NCj4gLVNSQ1JFViA9ICI5Y2QyYjYy
+NmQ2NTJiZWMxMGM2YmM3NTI3NWIzNWJmZWU3NGQ0NDdjIg0KPiArU1JDUkVWID0gIjA1NzE0MTFj
+YzAzM2MxMWRmNzgyNzUwOGRkNzg2ODc2Y2UyZjhjODMiDQo+ICBQUiA9ICJyMTIiDQo+ICBQViA9
+ICIwLjIrZ2l0JHtTUkNQVn0iDQo+DQo+IC0tDQo+IDIuNS4wDQoNCi8vUGV0ZXINCg0KLS0NCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRk
+ZWQtY29yZSBtYWlsaW5nIGxpc3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmc8bWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpo
+dHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRl
+ZC1jb3JlDQoNCg0KDQotLQ0KIlRob3Ugc2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVy
+LCBmb3IgY2hhb3MgYW5kIG1hZG5lc3MgYXdhaXQgdGhlZSBhdCBpdHMgZW5kIg0KDQoNCg0KLS0N
+CiJUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBt
+YWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZCINCg==
 
->
->
-> On Mon, Aug 21, 2017 at 11:00 AM, Peter Kjellerstedt <
-> peter.kjellerstedt@axis.com> wrote:
->
->> > -----Original Message-----
->> > From: openembedded-core-bounces@lists.openembedded.org
->> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> > Bruce Ashfield
->> > Sent: den 21 augusti 2017 04:58
->> > To: richard.purdie@linuxfoundation.org
->> > Cc: openembedded-core@lists.openembedded.org
->> > Subject: [OE-core] [PATCH 8/9] kernel-yocto: ensure that only valid
->> > BSPs are built
->> >
->> > There was a bug in the search routines responsible for locating
->> > BSP definitions which returned a valid match if only the ktype
->> > matched.
->> >
->> > This meant that someone looking for "qemux86foo" (which is an
->> > invalid definition) would potentially end up building "qemuarm"
->> > and be none the wiser (until it didn't boot).
->> >
->> > With this fix to the tools search routine, and improved return
->> > code testing, we will now stop the build and report and error to
->> > the user.
->> >
->> > [YOCTO: #11878]
->> >
->> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> > ---
->> >  meta/classes/kernel-yocto.bbclass                       | 3 +++
->> >  meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
->> >  2 files changed, 4 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/
->> kernel-yocto.bbclass
->> > index 1ca0756c4959..3c6df92131bc 100644
->> > --- a/meta/classes/kernel-yocto.bbclass
->> > +++ b/meta/classes/kernel-yocto.bbclass
->> > @@ -143,6 +143,9 @@ do_kernel_metadata() {
->> >
->> >       # expand kernel features into their full path equivalents
->> >       bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE}
->> -DKTYPE=${LINUX_KERNEL_TYPE})
->> > +     if [ $? -ne 0 ] || [ -z "${bsp_definition}" ]; then
->>
->> Use $bsp_definition instead of ${bsp_definition} since it is a
->> shell variable and not a bitbake variable.
->>
->
-> I always use ${...}, so I'm going to stay consistent with what is already
-> in
-> the file.
->
->
->>
->> Actually, after looking at the code in that bbclass, I see this
->> used for a number of shell variables all over the place. This is
->> actually bad, and you should rewrite the code to not use ${variable}
->> for shell variables. The reason this is bad is because these
->> variables unnecessarily end up in the sstate hash for these functions,
->> and if someone actually happens to define a bitbake variable with the
->> same name as one of those shell variables, the result will not be what
->> is expected...
->>
->
-> Not something high on my priority list. It's been that way since the
-> beginning.
->
+--_000_0e7ac88f282741288f27b4c7774b5f9aXBOX02axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-.. but I will loop back and take care of the issues before M4 closes. Just
-a bit busy
-pushing out the new kernels and a slew of bug fixes.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1z
+b25vcm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCglt
+c28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4t
+Ym90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTIuMHB0Ow0K
+CWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCnNwYW4ubS02NjE5OTQwNzUw
+NTEzNzk1OTc3aW0NCgl7bXNvLXN0eWxlLW5hbWU6bV8tNjYxOTk0MDc1MDUxMzc5NTk3N2ltO30N
+CnNwYW4ubS02NjE5OTQwNzUwNTEzNzk1OTc3aG9lbnpiDQoJe21zby1zdHlsZS1uYW1lOm1fLTY2
+MTk5NDA3NTA1MTM3OTU5Nzdob2VuemI7fQ0Kc3Bhbi5ob2VuemINCgl7bXNvLXN0eWxlLW5hbWU6
+aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTIyDQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJl
+cGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7
+DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5bGU6bm9ybWFsOw0KCXRleHQtZGVjb3Jh
+dGlvbjpub25lIG5vbmU7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
+LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIu
+MHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBwdCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0
+aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5
+XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4N
+CjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlv
+dXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286
+c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIg
+bGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
+OTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5KdXN0IGluIGNhc2UgeW91IG1pc3Nl
+ZCBpdCAoYXMgeW91IGRpZG7igJl0IGNvbW1lbnQgb24gbXkgY29tbWVudCBhYm91dCBpdCksIHRo
+ZXJlIHdhcyBhIHR5cG8gaW4gdGhlIGxvZyBtZXNzYWdlIGFzIHdlbGwuPG86cD48L286cD48L3Nw
+YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+Zjtjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
+YW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPi8vUGV0
+ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
+PSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4t
+VVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25l
+O2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+
+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUx
+IDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxh
+bmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBCcnVjZSBBc2hmaWVsZCBbbWFpbHRvOmJydWNlLmFzaGZp
+ZWxkQGdtYWlsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjEgYXVndXN0aSAyMDE3IDE3
+OjE0PGJyPg0KPGI+VG86PC9iPiBQZXRlciBLamVsbGVyc3RlZHQgJmx0O3BldGVyLmtqZWxsZXJz
+dGVkdEBheGlzLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmc7IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+
+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggOC85XSBrZXJuZWwteW9jdG86
+IGVuc3VyZSB0aGF0IG9ubHkgdmFsaWQgQlNQcyBhcmUgYnVpbHQ8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
+cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gTW9uLCBBdWcgMjEsIDIwMTcgYXQgMTE6MDMgQU0s
+IEJydWNlIEFzaGZpZWxkICZsdDs8YSBocmVmPSJtYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21haWwu
+Y29tIiB0YXJnZXQ9Il9ibGFuayI+YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPC9hPiZndDsgd3Jv
+dGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVy
+LWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdp
+bi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+T24gTW9uLCBBdWcgMjEsIDIwMTcgYXQgMTE6MDAgQU0sIFBldGVyIEtqZWxsZXJzdGVk
+dCAmbHQ7PGEgaHJlZj0ibWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSIgdGFyZ2V0
+PSJfYmxhbmsiPnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+
+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNv
+bGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0
+LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0Ij4mZ3Q7IC0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tPGJyPg0KJmd0OyBGcm9tOiA8YSBocmVmPSJtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUt
+Ym91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+DQpvcGVuZW1i
+ZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PGJyPg0KJmd0OyBb
+bWFpbHRvOjxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj5vcGVuZW1iZWRkZWQtY29yZS1ib3VuY2Vz
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+XSBPbiBCZWhhbGYgT2Y8YnI+DQomZ3Q7IEJydWNl
+IEFzaGZpZWxkPGJyPg0KJmd0OyBTZW50OiBkZW4gMjEgYXVndXN0aSAyMDE3IDA0OjU4PGJyPg0K
+Jmd0OyBUbzogPGEgaHJlZj0ibWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
+cmciIHRhcmdldD0iX2JsYW5rIj5yaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPC9h
+Pjxicj4NCiZndDsgQ2M6IDxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZzwvYT48YnI+DQomZ3Q7IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0gg
+OC85XSBrZXJuZWwteW9jdG86IGVuc3VyZSB0aGF0IG9ubHkgdmFsaWQ8YnI+DQomZ3Q7IEJTUHMg
+YXJlIGJ1aWx0PGJyPg0KJmd0Ozxicj4NCiZndDsgVGhlcmUgd2FzIGEgYnVnIGluIHRoZSBzZWFy
+Y2ggcm91dGluZXMgcmVzcG9uc2libGUgZm9yIGxvY2F0aW5nPGJyPg0KJmd0OyBCU1AgZGVmaW5p
+dGlvbnMgd2hpY2ggcmV0dXJuZWQgYSB2YWxpZCBtYXRjaCBpZiBvbmx5IHRoZSBrdHlwZTxicj4N
+CiZndDsgbWF0Y2hlZC48YnI+DQomZ3Q7PGJyPg0KJmd0OyBUaGlzIG1lYW50IHRoYXQgc29tZW9u
+ZSBsb29raW5nIGZvciAmcXVvdDtxZW11eDg2Zm9vJnF1b3Q7ICh3aGljaCBpcyBhbjxicj4NCiZn
+dDsgaW52YWxpZCBkZWZpbml0aW9uKSB3b3VsZCBwb3RlbnRpYWxseSBlbmQgdXAgYnVpbGRpbmcg
+JnF1b3Q7cWVtdWFybSZxdW90Ozxicj4NCiZndDsgYW5kIGJlIG5vbmUgdGhlIHdpc2VyICh1bnRp
+bCBpdCBkaWRuJ3QgYm9vdCkuPGJyPg0KJmd0Ozxicj4NCiZndDsgV2l0aCB0aGlzIGZpeCB0byB0
+aGUgdG9vbHMgc2VhcmNoIHJvdXRpbmUsIGFuZCBpbXByb3ZlZCByZXR1cm48YnI+DQomZ3Q7IGNv
+ZGUgdGVzdGluZywgd2Ugd2lsbCBub3cgc3RvcCB0aGUgYnVpbGQgYW5kIHJlcG9ydCBhbmQgZXJy
+b3IgdG88YnI+DQomZ3Q7IHRoZSB1c2VyLjxicj4NCiZndDs8YnI+DQomZ3Q7IFtZT0NUTzogIzEx
+ODc4XTxicj4NCiZndDs8YnI+DQomZ3Q7IFNpZ25lZC1vZmYtYnk6IEJydWNlIEFzaGZpZWxkICZs
+dDs8YSBocmVmPSJtYWlsdG86YnJ1Y2UuYXNoZmllbGRAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJf
+YmxhbmsiPmJydWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb208L2E+Jmd0Ozxicj4NCiZndDsgLS0t
+PGJyPg0KJmd0OyZuYnNwOyBtZXRhL2NsYXNzZXMva2VybmVsLXlvY3RvLmJiY2xhc3MmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwO3wgMyAmIzQzOyYjNDM7JiM0Mzs8YnI+DQomZ3Q7Jm5ic3A7IG1l
+dGEvcmVjaXBlcy1rZXJuZWwva2Vybi10b29scy88YSBocmVmPSJodHRwOi8va2Vybi10b29scy1u
+YXRpdmVfZ2l0LmJiIiB0YXJnZXQ9Il9ibGFuayI+a2Vybi10b29scy1uYXRpdmVfZ2l0LmJiPC9h
+PiB8IDIgJiM0MzstPGJyPg0KJmd0OyZuYnNwOyAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
+cygmIzQzOyksIDEgZGVsZXRpb24oLSk8YnI+DQomZ3Q7PGJyPg0KJmd0OyBkaWZmIC0tZ2l0IGEv
+bWV0YS9jbGFzc2VzLzxhIGhyZWY9Imh0dHA6Ly9rZXJuZWwteW9jdG8uYmIiPmtlcm5lbC15b2N0
+by5iYjwvYT5jbGFzcyBiL21ldGEvY2xhc3Nlcy88YSBocmVmPSJodHRwOi8va2VybmVsLXlvY3Rv
+LmJiIj5rZXJuZWwteW9jdG8uYmI8L2E+Y2xhc3M8YnI+DQomZ3Q7IGluZGV4IDFjYTA3NTZjNDk1
+OS4uM2M2ZGY5MjEzMWJjIDEwMDY0NDxicj4NCiZndDsgLS0tIGEvbWV0YS9jbGFzc2VzLzxhIGhy
+ZWY9Imh0dHA6Ly9rZXJuZWwteW9jdG8uYmIiPmtlcm5lbC15b2N0by5iYjwvYT5jbGFzczxicj4N
+CiZndDsgJiM0MzsmIzQzOyYjNDM7IGIvbWV0YS9jbGFzc2VzLzxhIGhyZWY9Imh0dHA6Ly9rZXJu
+ZWwteW9jdG8uYmIiPmtlcm5lbC15b2N0by5iYjwvYT5jbGFzczxicj4NCiZndDsgQEAgLTE0Myw2
+ICYjNDM7MTQzLDkgQEAgZG9fa2VybmVsX21ldGFkYXRhKCkgezxicj4NCiZndDs8YnI+DQomZ3Q7
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IyBleHBhbmQga2VybmVsIGZlYXR1cmVzIGludG8g
+dGhlaXIgZnVsbCBwYXRoIGVxdWl2YWxlbnRzPGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwO2JzcF9kZWZpbml0aW9uPSQoc3BwICR7aW5jbHVkZXN9IC0tZmluZCAtREtNQUNISU5F
+PSR7S01BQ0hJTkV9IC1ES1RZUEU9JHtMSU5VWF9LRVJORUxfVFlQRX0pPGJyPg0KJmd0OyAmIzQz
+OyZuYnNwOyAmbmJzcDsgJm5ic3A7aWYgWyAkPyAtbmUgMCBdIHx8IFsgLXogJnF1b3Q7JHtic3Bf
+ZGVmaW5pdGlvbn0mcXVvdDsgXTsgdGhlbjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPlVzZSAkYnNwX2RlZmluaXRpb24gaW5zdGVhZCBvZiAke2Jz
+cF9kZWZpbml0aW9ufSBzaW5jZSBpdCBpcyBhPGJyPg0Kc2hlbGwgdmFyaWFibGUgYW5kIG5vdCBh
+IGJpdGJha2UgdmFyaWFibGUuPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBhbHdheXMgdXNlICR7Li4u
+fSwgc28gSSdtIGdvaW5nIHRvIHN0YXkgY29uc2lzdGVudCB3aXRoIHdoYXQgaXMgYWxyZWFkeSBp
+bjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+dGhl
+IGZpbGUuJm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj4mbmJzcDs8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9
+ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20g
+MGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxicj4NCkFjdHVhbGx5LCBhZnRlciBsb29raW5nIGF0IHRoZSBjb2Rl
+IGluIHRoYXQgYmJjbGFzcywgSSBzZWUgdGhpczxicj4NCnVzZWQgZm9yIGEgbnVtYmVyIG9mIHNo
+ZWxsIHZhcmlhYmxlcyBhbGwgb3ZlciB0aGUgcGxhY2UuIFRoaXMgaXM8YnI+DQphY3R1YWxseSBi
+YWQsIGFuZCB5b3Ugc2hvdWxkIHJld3JpdGUgdGhlIGNvZGUgdG8gbm90IHVzZSAke3ZhcmlhYmxl
+fTxicj4NCmZvciBzaGVsbCB2YXJpYWJsZXMuIFRoZSByZWFzb24gdGhpcyBpcyBiYWQgaXMgYmVj
+YXVzZSB0aGVzZTxicj4NCnZhcmlhYmxlcyB1bm5lY2Vzc2FyaWx5IGVuZCB1cCBpbiB0aGUgc3N0
+YXRlIGhhc2ggZm9yIHRoZXNlIGZ1bmN0aW9ucyw8YnI+DQphbmQgaWYgc29tZW9uZSBhY3R1YWxs
+eSBoYXBwZW5zIHRvIGRlZmluZSBhIGJpdGJha2UgdmFyaWFibGUgd2l0aCB0aGU8YnI+DQpzYW1l
+IG5hbWUgYXMgb25lIG9mIHRob3NlIHNoZWxsIHZhcmlhYmxlcywgdGhlIHJlc3VsdCB3aWxsIG5v
+dCBiZSB3aGF0PGJyPg0KaXMgZXhwZWN0ZWQuLi48bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90
+ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk5vdCBzb21ldGhpbmcgaGlnaCBvbiBt
+eSBwcmlvcml0eSBsaXN0LiBJdCdzIGJlZW4gdGhhdCB3YXkgc2luY2UgdGhlIGJlZ2lubmluZy48
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1
+b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Li4gYnV0IEkgd2lsbCBsb29wIGJh
+Y2sgYW5kIHRha2UgY2FyZSBvZiB0aGUgaXNzdWVzIGJlZm9yZSBNNCBjbG9zZXMuIEp1c3QgYSBi
+aXQgYnVzeTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+cHVzaGluZyBvdXQgdGhlIG5ldyBrZXJuZWxzIGFuZCBhIHNsZXcgb2YgYnVnIGZpeGVzLjxv
+OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGlz
+IHBhdGNoIGNhbiBiZSBpZ25vcmVkIChpZiBuZWVkZWQpIHVudGlsIEkgZ2V0IGJhY2sgYXJvdW5k
+IHRvIHRoYXQuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPkNoZWVycyw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+QnJ1Y2U8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPiZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBz
+dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5n
+OjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowY20iPg0K
+PGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Q2hlZXJz
+LDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
+cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5C
+cnVjZTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+Jm5ic3A7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6
+bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20g
+Ni4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48YnI+DQomZ3Q7ICYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7YmJmYXRhbF9sb2cgJnF1b3Q7Q291bGQgbm90IGxvY2F0ZSBCU1AgZGVm
+aW5pdG9uIGZvciAke0tNQUNISU5FfS8ke0xJTlVYX0tFUk5FTF9UWVBFfS4mcXVvdDs8YnI+DQo8
+YnI+DQpDaGFuZ2UgJnF1b3Q7ZGVmaW5pdG9uJnF1b3Q7IHRvICZxdW90O2RlZmluaXRpb24mcXVv
+dDsuPGJyPg0KPGJyPg0KPHNwYW4gY2xhc3M9Im0tNjYxOTk0MDc1MDUxMzc5NTk3N2ltIj4mZ3Q7
+ICYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDtmaTwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0ibS02
+NjE5OTQwNzUwNTEzNzk1OTc3aW0iPiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDttZXRh
+X2Rpcj0kKGtnaXQgLS1tZXRhKTwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0ibS02NjE5OTQwNzUw
+NTEzNzk1OTc3aW0iPiZndDs8L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9Im0tNjYxOTk0MDc1MDUx
+Mzc5NTk3N2ltIj4mZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IyBydW4xOiBwdWxsIGFs
+bCB0aGUgY29uZmlndXJhdGlvbiBmcmFnbWVudHMsIG5vIG1hdHRlciB3aGVyZSB0aGV5IGNvbWUg
+ZnJvbTwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0ibS02NjE5OTQwNzUwNTEzNzk1OTc3aW0iPiZn
+dDsgZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwva2Vybi10b29scy88YSBocmVmPSJo
+dHRwOi8va2Vybi10b29scy1uYXRpdmVfZ2l0LmJiIiB0YXJnZXQ9Il9ibGFuayI+a2Vybi10b29s
+cy1uYXRpdmVfZ2l0LmJiPC9hPiBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2Vybi10b29scy88YSBo
+cmVmPSJodHRwOi8va2Vybi10b29scy1uYXRpdmVfZ2l0LmJiIiB0YXJnZXQ9Il9ibGFuayI+a2Vy
+bi10b29scy1uYXRpdmVfZ2l0LmJiPC9hPjwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0ibS02NjE5
+OTQwNzUwNTEzNzk1OTc3aW0iPiZndDsgaW5kZXggMjIxN2EzMTA3NmEyLi40YTc4Yjg5N2QzNGYg
+MTAwNjQ0PC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJtLTY2MTk5NDA3NTA1MTM3OTU5NzdpbSI+
+Jmd0OyAtLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2tlcm4tdG9vbHMvPGEgaHJlZj0iaHR0cDov
+L2tlcm4tdG9vbHMtbmF0aXZlX2dpdC5iYiIgdGFyZ2V0PSJfYmxhbmsiPmtlcm4tdG9vbHMtbmF0
+aXZlX2dpdC5iYjwvYT48L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9Im0tNjYxOTk0MDc1MDUxMzc5
+NTk3N2ltIj4mZ3Q7ICYjNDM7JiM0MzsmIzQzOyBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2Vybi10
+b29scy88YSBocmVmPSJodHRwOi8va2Vybi10b29scy1uYXRpdmVfZ2l0LmJiIiB0YXJnZXQ9Il9i
+bGFuayI+a2Vybi10b29scy1uYXRpdmVfZ2l0LmJiPC9hPjwvc3Bhbj48YnI+DQo8c3BhbiBjbGFz
+cz0ibS02NjE5OTQwNzUwNTEzNzk1OTc3aW0iPiZndDsgQEAgLTQsNyAmIzQzOzQsNyBAQCBMSUNf
+RklMRVNfQ0hLU1VNID0gJnF1b3Q7PGEgaHJlZj0iZmlsZTovL2dpdC90b29scy9rZ2l0O2JlZ2lu
+bGluZT01O2VuZGxpbmU9OTttZDU9YTZjMmZhOGFlZjFiJTBiJTNlJTBiJTNlJm5ic3A7JTIwREVQ
+RU5EUyUyMD0lMjAiPmZpbGU6Ly9naXQvdG9vbHMva2dpdDtiZWdpbmxpbmU9NTtlbmRsaW5lPTk7
+bWQ1PWE2YzJmYThhZWYxYjxicj4NCiZndDs8YnI+DQomZ3Q7Jm5ic3A7IERFUEVORFMgPSA8L2E+
+JnF1b3Q7Z2l0LW5hdGl2ZSZxdW90Ozwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0ibS02NjE5OTQw
+NzUwNTEzNzk1OTc3aW0iPiZndDs8L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9Im0tNjYxOTk0MDc1
+MDUxMzc5NTk3N2ltIj4mZ3Q7IC1TUkNSRVYgPSAmcXVvdDs5Y2QyYjYyNmQ2NTJiZWMxMGM2YmM3
+NTI3NWIzNWJmZWU3NGQ0NDdjJnF1b3Q7PC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJtLTY2MTk5
+NDA3NTA1MTM3OTU5NzdpbSI+Jmd0OyAmIzQzO1NSQ1JFViA9ICZxdW90OzA1NzE0MTFjYzAzM2Mx
+MWRmNzgyNzUwOGRkNzg2ODc2Y2UyZjhjODMmcXVvdDs8L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9
+Im0tNjYxOTk0MDc1MDUxMzc5NTk3N2ltIj4mZ3Q7Jm5ic3A7IFBSID0gJnF1b3Q7cjEyJnF1b3Q7
+PC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJtLTY2MTk5NDA3NTA1MTM3OTU5NzdpbSI+Jmd0OyZu
+YnNwOyBQViA9ICZxdW90OzAuMiYjNDM7Z2l0JHtTUkNQVn0mcXVvdDs8L3NwYW4+PGJyPg0KPHNw
+YW4gY2xhc3M9Im0tNjYxOTk0MDc1MDUxMzc5NTk3N2ltIj4mZ3Q7PC9zcGFuPjxicj4NCjxzcGFu
+IGNsYXNzPSJtLTY2MTk5NDA3NTA1MTM3OTU5NzdpbSI+Jmd0OyAtLTwvc3Bhbj48YnI+DQo8c3Bh
+biBjbGFzcz0ibS02NjE5OTQwNzUwNTEzNzk1OTc3aW0iPiZndDsgMi41LjA8L3NwYW4+PGJyPg0K
+PGJyPg0KPHNwYW4gY2xhc3M9Im0tNjYxOTk0MDc1MDUxMzc5NTk3N2hvZW56YiI+PHNwYW4gc3R5
+bGU9ImNvbG9yOiM4ODg4ODgiPi8vUGV0ZXI8L3NwYW4+PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0K
+PGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQotLTxicj4NCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPGJyPg0KT3BlbmVtYmVkZGVk
+LWNvcmUgbWFpbGluZyBsaXN0PGJyPg0KPGEgaHJlZj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj5PcGVuZW1iZWRkZWQtY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5v
+cGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUiIHRhcmdl
+dD0iX2JsYW5rIj5odHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZv
+L29wZW5lbWJlZGRlZC1jb3JlPC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwv
+YmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImNv
+bG9yOiM4ODg4ODgiPjxicj4NCjxiciBjbGVhcj0iYWxsIj4NCjxzcGFuIGNsYXNzPSJob2VuemIi
+PjxvOnA+PC9vOnA+PC9zcGFuPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGNsYXNzPSJob2VuemIiPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij4tLSA8L3NwYW4+
+PG86cD48L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJjb2xvcjojODg4ODg4Ij4mcXVvdDtUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5V
+TEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZCZx
+dW90Ozwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxv
+Y2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyIGNsZWFyPSJh
+bGwiPg0KPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0tIDxvOnA+PC9v
+OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZxdW90O1Rob3Ugc2hhbHQgbm90
+IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5lc3MgYXdhaXQgdGhl
+ZSBhdCBpdHMgZW5kJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-This patch can be ignored (if needed) until I get back around to that.
-
-Cheers,
-
-Bruce
-
-
->
-> Cheers,
->
-> Bruce
->
->
->>
->> > +             bbfatal_log "Could not locate BSP definiton for
->> ${KMACHINE}/${LINUX_KERNEL_TYPE}."
->>
->> Change "definiton" to "definition".
->>
->> > +     fi
->> >       meta_dir=$(kgit --meta)
->> >
->> >       # run1: pull all the configuration fragments, no matter where
->> they come from
->> > diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> > index 2217a31076a2..4a78b897d34f 100644
->> > --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> > +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> > @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginli
->> ne=5;endline=9;md5=a6c2fa8aef1b
->> >
->> >  DEPENDS = "git-native"
->> >
->> > -SRCREV = "9cd2b626d652bec10c6bc75275b35bfee74d447c"
->> > +SRCREV = "0571411cc033c11df7827508dd786876ce2f8c83"
->> >  PR = "r12"
->> >  PV = "0.2+git${SRCPV}"
->> >
->> > --
->> > 2.5.0
->>
->> //Peter
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c124178ac3cd6055744ed09
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Aug 21, 2017 at 11:03 AM, Bruce Ashfield <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfiel=
-d@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div di=
-r=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><di=
-v><div class=3D"h5">On Mon, Aug 21, 2017 at 11:00 AM, Peter Kjellerstedt <s=
-pan dir=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=
-=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex"><div class=3D"m_-6619940750513795977HOEnZb"><div class=
-=3D"m_-6619940750513795977h5">&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
-rg" target=3D"_blank">openembedded-core-bounces@list<wbr>s.openembedded.org=
-</a><br>
-&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
-.org" target=3D"_blank">openembedded-core-boun<wbr>ces@lists.openembedded.o=
-rg</a>] On Behalf Of<br>
-&gt; Bruce Ashfield<br>
-&gt; Sent: den 21 augusti 2017 04:58<br>
-&gt; To: <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation<wbr>.org</a><br>
-&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openem<wbr>bedded.org</a><br>
-&gt; Subject: [OE-core] [PATCH 8/9] kernel-yocto: ensure that only valid<br=
->
-&gt; BSPs are built<br>
-&gt;<br>
-&gt; There was a bug in the search routines responsible for locating<br>
-&gt; BSP definitions which returned a valid match if only the ktype<br>
-&gt; matched.<br>
-&gt;<br>
-&gt; This meant that someone looking for &quot;qemux86foo&quot; (which is a=
-n<br>
-&gt; invalid definition) would potentially end up building &quot;qemuarm&qu=
-ot;<br>
-&gt; and be none the wiser (until it didn&#39;t boot).<br>
-&gt;<br>
-&gt; With this fix to the tools search routine, and improved return<br>
-&gt; code testing, we will now stop the build and report and error to<br>
-&gt; the user.<br>
-&gt;<br>
-&gt; [YOCTO: #11878]<br>
-&gt;<br>
-&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@win=
-driver.com" target=3D"_blank">bruce.ashfield@windriver.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel-yocto.bbcl<wbr>ass=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 3 +++<br>
-&gt;=C2=A0 meta/recipes-kernel/kern-tools<wbr>/<a href=3D"http://kern-tools=
--native_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.=
-bb</a> | 2 +-<br>
-&gt;=C2=A0 2 files changed, 4 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yo=
-cto.bb</a><wbr>class b/meta/classes/<a href=3D"http://kernel-yocto.bb">kern=
-el-yocto.bb</a><wbr>class<br>
-&gt; index 1ca0756c4959..3c6df92131bc 100644<br>
-&gt; --- a/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yocto.bb<=
-/a><wbr>class<br>
-&gt; +++ b/meta/classes/<a href=3D"http://kernel-yocto.bb">kernel-yocto.bb<=
-/a><wbr>class<br>
-&gt; @@ -143,6 +143,9 @@ do_kernel_metadata() {<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# expand kernel features into their full pat=
-h equivalents<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bsp_definition=3D$(spp ${includes} --find -D=
-KMACHINE=3D${KMACHINE} -DKTYPE=3D${LINUX_KERNEL_TYPE})<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ] || [ -z &quot;${bsp_definition}&q=
-uot; ]; then<br>
-<br>
-</div></div>Use $bsp_definition instead of ${bsp_definition} since it is a<=
-br>
-shell variable and not a bitbake variable.<br></blockquote><div><br></div><=
-/div></div><div>I always use ${...}, so I&#39;m going to stay consistent wi=
-th what is already in</div><div>the file.=C2=A0</div><span class=3D""><div>=
-=C2=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Actually, after looking at the code in that bbclass, I see this<br>
-used for a number of shell variables all over the place. This is<br>
-actually bad, and you should rewrite the code to not use ${variable}<br>
-for shell variables. The reason this is bad is because these<br>
-variables unnecessarily end up in the sstate hash for these functions,<br>
-and if someone actually happens to define a bitbake variable with the<br>
-same name as one of those shell variables, the result will not be what<br>
-is expected...<br></blockquote><div><br></div></span><div>Not something hig=
-h on my priority list. It&#39;s been that way since the beginning.</div></d=
-iv></div></div></blockquote><div><br></div><div>.. but I will loop back and=
- take care of the issues before M4 closes. Just a bit busy</div><div>pushin=
-g out the new kernels and a slew of bug fixes.</div><div><br></div><div>Thi=
-s patch can be ignored (if needed) until I get back around to that.</div><d=
-iv><br></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_ext=
-ra"><div class=3D"gmail_quote"><div><br></div><div>Cheers,</div><div><br></=
-div><div>Bruce</div><span class=3D""><div>=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
-<span><br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal_log &quot;Cou=
-ld not locate BSP definiton for ${KMACHINE}/${LINUX_KERNEL_TYP<wbr>E}.&quot=
-;<br>
-<br>
-</span>Change &quot;definiton&quot; to &quot;definition&quot;.<br>
-<span class=3D"m_-6619940750513795977im m_-6619940750513795977HOEnZb"><br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0meta_dir=3D$(kgit --meta)<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# run1: pull all the configuration fragments=
-, no matter where they come from<br>
-&gt; diff --git a/meta/recipes-kernel/kern-too<wbr>ls/<a href=3D"http://ker=
-n-tools-native_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-nati=
-ve_git.bb</a> b/meta/recipes-kernel/kern-too<wbr>ls/<a href=3D"http://kern-=
-tools-native_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native=
-_git.bb</a><br>
-&gt; index 2217a31076a2..4a78b897d34f 100644<br>
-&gt; --- a/meta/recipes-kernel/kern-too<wbr>ls/<a href=3D"http://kern-tools=
--native_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.=
-bb</a><br>
-&gt; +++ b/meta/recipes-kernel/kern-too<wbr>ls/<a href=3D"http://kern-tools=
--native_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.=
-bb</a><br>
-&gt; @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D &quot;file://git/tools/kgit;begin=
-li<wbr>ne=3D5;endline=3D9;md5=3Da6c2fa8aef1<wbr>b<br>
-&gt;<br>
-&gt;=C2=A0 DEPENDS =3D &quot;git-native&quot;<br>
-&gt;<br>
-&gt; -SRCREV =3D &quot;9cd2b626d652bec10c6bc75275b35<wbr>bfee74d447c&quot;<=
-br>
-&gt; +SRCREV =3D &quot;0571411cc033c11df7827508dd786<wbr>876ce2f8c83&quot;<=
-br>
-&gt;=C2=A0 PR =3D &quot;r12&quot;<br>
-&gt;=C2=A0 PV =3D &quot;0.2+git${SRCPV}&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.5.0<br>
-<br>
-</span><span class=3D"m_-6619940750513795977HOEnZb"><font color=3D"#888888"=
->//Peter<br>
-</font></span><div class=3D"m_-6619940750513795977HOEnZb"><div class=3D"m_-=
-6619940750513795977h5"><br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openem<wbr>bedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></span></div><span class=3D"HOEnZb"><font color=3D=
-"#888888"><br><br clear=3D"all"><div><br></div>-- <br><div class=3D"m_-6619=
-940750513795977gmail_signature" data-smartmail=3D"gmail_signature">&quot;Th=
-ou shalt not follow the NULL pointer, for chaos and madness await thee at i=
-ts end&quot;</div>
-</font></span></div></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div></div>
-
---94eb2c124178ac3cd6055744ed09--
+--_000_0e7ac88f282741288f27b4c7774b5f9aXBOX02axiscom_--
