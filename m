@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E82927827C
+	by mail.openembedded.org (Postfix) with ESMTP id 8E06C782A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 05:40:56 +0000 (UTC)
+	Mon, 21 Aug 2017 05:41:02 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Aug 2017 22:40:58 -0700
+	20 Aug 2017 22:41:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,407,1498546800"; d="scan'208";a="1208228276"
+X-IronPort-AV: E=Sophos;i="5.41,407,1498546800"; d="scan'208";a="1208228290"
 Received: from ssen-mobl.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.129.109])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2017 22:40:54 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2017 22:40:59 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Aug 2017 17:39:44 +1200
-Message-Id: <0df957515454888de7a4fb4a9be66fb9401b4a24.1503293342.git.paul.eggleton@linux.intel.com>
+Date: Mon, 21 Aug 2017 17:39:45 +1200
+Message-Id: <024784eb244f5886a7f8105bfeff3a8649d263fc.1503293342.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <cover.1503293342.git.paul.eggleton@linux.intel.com>
 References: <cover.1503293342.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 05/10] devtool: upgrade: enable branch checking when revision is provided
+Subject: [PATCH 06/10] devtool: export: new plugin to export the devtool workspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,85 +31,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 05:40:57 -0000
+X-List-Received-Date: Mon, 21 Aug 2017 05:41:02 -0000
 
-From: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-When devtool upgrade is run on a recipe with revision specified
-that is not on master branch, and branch isn't set by --srcbranch or -B,
-then we should get the correct branch and append the branch to the URL.
+By default, exports the whole workspace (all recipes) including the source code.
+User can also limit what is exported with --included/--excluded flags. As
+a result of this operation, a tar archive containing only workspace metadata
+and its corresponding source code is created, which can be properly imported
+with 'devtool import'.
 
-If the revision was found on multiple branches, we will display error
-to inform user to provide a correct branch and exit.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10510
 
-[YOCTO #11484]
+[YOCTO #10510]
 
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/upgrade.py | 27 ++++++++++++++++++++++-----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+ scripts/lib/devtool/export.py | 119 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
+ create mode 100644 scripts/lib/devtool/export.py
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index f077f37..1f11d47 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -180,7 +180,7 @@ def _get_uri(rd):
-             srcuri = rev_re.sub('', srcuri)
-     return srcuri, srcrev
- 
--def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tinfoil, rd):
-+def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, keep_temp, tinfoil, rd):
-     """Extract sources of a recipe with a new version"""
- 
-     def __run(cmd):
-@@ -202,6 +202,23 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
-         __run('git tag -f devtool-base-new')
-         md5 = None
-         sha256 = None
-+        if not srcbranch:
-+            check_branch, check_branch_err = __run('git branch -r --contains %s' % srcrev)
-+            get_branch = [x.strip() for x in check_branch.splitlines()]
-+            # Remove HEAD reference point and drop remote prefix
-+            get_branch = [x.split('/', 1)[1] for x in get_branch if not x.startswith('origin/HEAD')]
-+            if 'master' in get_branch:
-+                # If it is master, we do not need to append 'branch=master' as this is default.
-+                # Even with the case where get_branch has multiple objects, if 'master' is one
-+                # of them, we should default take from 'master'
-+                srcbranch = ''
-+            elif len(get_branch) == 1:
-+                # If 'master' isn't in get_branch and get_branch contains only ONE object, then store result into 'srcbranch'
-+                srcbranch = get_branch[0]
-+            else:
-+                # If get_branch contains more than one objects, then display error and exit.
-+                mbrch = '\n  ' + '\n  '.join(get_branch)
-+                raise DevtoolError('Revision %s was found on multiple branches: %s\nPlease provide the correct branch in the devtool command with "--srcbranch" or "-B" option.' % (srcrev, mbrch))
-     else:
-         __run('git checkout devtool-base -b devtool-%s' % newpv)
- 
-@@ -275,7 +292,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, branch, keep_temp, tin
-         else:
-             shutil.rmtree(tmpsrctree)
- 
--    return (rev, md5, sha256)
-+    return (rev, md5, sha256, srcbranch)
- 
- def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, workspace, tinfoil, rd):
-     """Creates the new recipe under workspace"""
-@@ -374,10 +391,10 @@ def upgrade(args, config, basepath, workspace):
-         rf = None
-         try:
-             rev1 = standard._extract_source(srctree, False, 'devtool-orig', False, rd, tinfoil)
--            rev2, md5, sha256 = _extract_new_source(args.version, srctree, args.no_patch,
--                                                    args.srcrev, args.branch, args.keep_temp,
-+            rev2, md5, sha256, srcbranch = _extract_new_source(args.version, srctree, args.no_patch,
-+                                                    args.srcrev, args.srcbranch, args.branch, args.keep_temp,
-                                                     tinfoil, rd)
--            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, args.srcbranch, config.workspace_path, tinfoil, rd)
-+            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, config.workspace_path, tinfoil, rd)
-         except bb.process.CmdError as e:
-             _upgrade_error(e, rf, srctree)
-         except DevtoolError as e:
+diff --git a/scripts/lib/devtool/export.py b/scripts/lib/devtool/export.py
+new file mode 100644
+index 0000000..13ee258
+--- /dev/null
++++ b/scripts/lib/devtool/export.py
+@@ -0,0 +1,119 @@
++# Development tool - export command plugin
++#
++# Copyright (C) 2014-2017 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++"""Devtool export plugin"""
++
++import os
++import argparse
++import tarfile
++import logging
++import datetime
++import json
++
++logger = logging.getLogger('devtool')
++
++# output files
++default_arcname_prefix = "workspace-export"
++metadata = '.export_metadata'
++
++def export(args, config, basepath, workspace):
++    """Entry point for the devtool 'export' subcommand"""
++
++    def add_metadata(tar):
++        """Archive the workspace object"""
++        # finally store the workspace metadata
++        with open(metadata, 'w') as fd:
++            fd.write(json.dumps((config.workspace_path, workspace)))
++        tar.add(metadata)
++        os.unlink(metadata)
++
++    def add_recipe(tar, recipe, data):
++        """Archive recipe with proper arcname"""
++        # Create a map of name/arcnames
++        arcnames = []
++        for key, name in data.items():
++            if name:
++                if key == 'srctree':
++                    # all sources, no matter where are located, goes into the sources directory
++                    arcname = 'sources/%s' % recipe
++                else:
++                    arcname = name.replace(config.workspace_path, '')
++                arcnames.append((name, arcname))
++
++        for name, arcname in arcnames:
++            tar.add(name, arcname=arcname)
++
++
++    # Make sure workspace is non-empty and possible listed include/excluded recipes are in workspace
++    if not workspace:
++        logger.info('Workspace contains no recipes, nothing to export')
++        return 0
++    else:
++        for param, recipes in {'include':args.include,'exclude':args.exclude}.items():
++            for recipe in recipes:
++                if recipe not in workspace:
++                    logger.error('Recipe (%s) on %s argument not in the current workspace' % (recipe, param))
++                    return 1
++
++    name = args.file
++
++    default_name = "%s-%s.tar.gz" % (default_arcname_prefix, datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
++    if not name:
++        name = default_name
++    else:
++        # if name is a directory, append the default name
++        if os.path.isdir(name):
++            name = os.path.join(name, default_name)
++
++    if os.path.exists(name) and not args.overwrite:
++        logger.error('Tar archive %s exists. Use --overwrite/-o to overwrite it')
++        return 1
++
++    # if all workspace is excluded, quit
++    if not len(set(workspace.keys()).difference(set(args.exclude))):
++        logger.warn('All recipes in workspace excluded, nothing to export')
++        return 0
++
++    exported = []
++    with tarfile.open(name, 'w:gz') as tar:
++        if args.include:
++            for recipe in args.include:
++                add_recipe(tar, recipe, workspace[recipe])
++                exported.append(recipe)
++        else:
++            for recipe, data in workspace.items():
++                if recipe not in args.exclude:
++                    add_recipe(tar, recipe, data)
++                    exported.append(recipe)
++
++        add_metadata(tar)
++
++    logger.info('Tar archive created at %s with the following recipes: %s' % (name, ', '.join(exported)))
++    return 0
++
++def register_commands(subparsers, context):
++    """Register devtool export subcommands"""
++    parser = subparsers.add_parser('export',
++                                   help='Export workspace into a tar archive',
++                                   description='Export one or more recipes from current workspace into a tar archive',
++                                   group='advanced')
++
++    parser.add_argument('--file', '-f', help='Output archive file name')
++    parser.add_argument('--overwrite', '-o', action="store_true", help='Overwrite previous export tar archive')
++    group = parser.add_mutually_exclusive_group()
++    group.add_argument('--include', '-i', nargs='+', default=[], help='Include recipes into the tar archive')
++    group.add_argument('--exclude', '-e', nargs='+', default=[], help='Exclude recipes into the tar archive')
++    parser.set_defaults(func=export)
 -- 
 2.9.5
 
