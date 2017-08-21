@@ -1,30 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 38903782EA
+Return-Path: <prvs=3996e59f5=Martin.Hundeboll@prevas.dk>
+X-Greylist: delayed 603 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 21 Aug 2017 08:50:04 UTC
+Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 539B878249
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 08:03:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7L83j8G019092
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 21 Aug 2017 01:03:45 -0700 (PDT)
-Received: from [128.224.162.246] (128.224.162.246) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 21 Aug 2017 01:03:45 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1501494496.git.liezhi.yang@windriver.com>
-	<2e63bf95e8a5288464d90567260047217a3617d0.1501494496.git.liezhi.yang@windriver.com>
-	<1502206246.18633.250.camel@linuxfoundation.org>
-	<9e608de9-0ccb-c576-875c-d174e0070f5c@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1fbcbc75-bdab-bcac-65f6-7595854b2426@windriver.com>
-Date: Mon, 21 Aug 2017 16:02:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.2.0
+	Mon, 21 Aug 2017 08:50:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=2285; q=dns/txt;
+	s=ironport1; t=1503305407; x=1534841407;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=9FVMUymMxGT/oCnEo9nUzpKhK8/PwpOMql/2c6FZuMI=;
+	b=IFCtPPPj5vQW2GYH5XzmIa9aLmW3GS/1D/NNMe90L8K+TA1uLGwrzaf+
+	nhGUxc82J6C99DT/5Y/caJPar1lsg3mZygwCGJdEO4W0s+KhXnQ0gXrIl
+	sKRUI1XXdJqPze/IUOPfRINw45YVjy2d97qIqROasHSTK/tjKwvpmchly Y=;
+X-IronPort-AV: E=Sophos;i="5.41,408,1498514400"; 
+   d="scan'208";a="2514935"
+Received: from vmprevas4.prevas.se (HELO smtp.prevas.se) ([172.16.8.104])
+	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	21 Aug 2017 10:40:00 +0200
+Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.104)
+	with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 21 Aug 2017 10:40:00 +0200
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Aug 2017 10:39:46 +0200
+Message-ID: <20170821083946.4493-1-mnhu@prevas.dk>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-In-Reply-To: <9e608de9-0ccb-c576-875c-d174e0070f5c@windriver.com>
-Subject: Re: [PATCH 01/10] oeqa/targetcontrol.py: simplify checking for qemu_use_kvm
+X-Originating-IP: [172.16.8.31]
+Subject: [PATCH] kernel-module-split: rrecommend kernel-image instead of rdepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 08:03:45 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Aug 2017 08:50:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Ping.
+Hard depending on the kernel makes it impossible to install kernel
+modules without getting the kernel image installed too. This is
+inconvenient in e.g. initramdisks, where the kernel is loaded from
+outside the initramdisk.
 
-// Robert
+Making the kernel modules rrecommend kernel-image-<version> instead of
+rdepending on it, makes it possible to install kernel modules without
+the kernel image by setting "kernel-image" in BAD_RECOMMENDATIONS.
 
-On 08/09/2017 05:46 PM, Robert Yang wrote:
->
->
-> On 08/08/2017 11:30 PM, Richard Purdie wrote:
->> On Mon, 2017-07-31 at 02:50 -0700, Robert Yang wrote:
->>> The "if qemu_use_kvm" is not needed.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>  meta/lib/oeqa/targetcontrol.py | 5 ++---
->>>  1 file changed, 2 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/meta/lib/oeqa/targetcontrol.py
->>> b/meta/lib/oeqa/targetcontrol.py
->>> index 3255e3a5c63..11e6c820e85 100644
->>> --- a/meta/lib/oeqa/targetcontrol.py
->>> +++ b/meta/lib/oeqa/targetcontrol.py
->>> @@ -132,9 +132,8 @@ class QemuTarget(BaseTarget):
->>>          dump_host_cmds = d.getVar("testimage_dump_host")
->>>          dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
->>>          qemu_use_kvm = d.getVar("QEMU_USE_KVM")
->>> -        if qemu_use_kvm and \
->>> -           (qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
->>> -            d.getVar("MACHINE") in qemu_use_kvm.split()):
->>> +        if qemu_use_kvm == "True" and "x86" in d.getVar("MACHINE") or \
->>> +            d.getVar("MACHINE") in qemu_use_kvm.split():
->>>              use_kvm = True
->>>          else:
->>>              use_kvm = False
->>>
->>
->> It is needed since qemu_use_kvm could be None and None.split() will
->> cause an error.
->
-> Thanks, I removed from the repo:
->
->   git://git.openembedded.org/openembedded-core-contrib rbt/ptest
->   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ptest
->
-> // Robert
->
->>
->> Cheers,
->>
->> Richard
->>
+Signed-off-by: Martin Hundebøll <mnhu@prevas.dk>
+---
+ meta/classes/kernel-module-split.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index ba9cc1517e..7a0260e3db 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -120,6 +120,11 @@ python split_kernel_module_packages () {
+                 rdepends[dep] = []
+         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
+ 
++        # let kernel modules runtime recommend kernel image
++        rrecommends = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
++        rrecommends['kernel-image'] = []
++        d.setVar('RRECOMMENDS_' + pkg, bb.utils.join_deps(rrecommends, commasep=False))
++
+         # Avoid automatic -dev recommendations for modules ending with -dev.
+         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
+ 
+@@ -138,7 +143,7 @@ python split_kernel_module_packages () {
+     postinst = d.getVar('pkg_postinst_modules')
+     postrm = d.getVar('pkg_postrm_modules')
+ 
+-    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
++    modules = do_split_packages(d, root='/lib/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='')
+     if modules:
+         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
+         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
+-- 
+2.14.1
+
 
