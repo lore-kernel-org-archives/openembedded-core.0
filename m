@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D2F1577E12
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D8C278257
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 02:58:28 +0000 (UTC)
+	Mon, 21 Aug 2017 02:58:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7L2wTtu017261
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7L2wTCV017250
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
 	Sun, 20 Aug 2017 19:58:29 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 20 Aug 2017 19:58:28 -0700
+	14.3.361.1; Sun, 20 Aug 2017 19:58:29 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 20 Aug 2017 22:58:18 -0400
-Message-ID: <f76bf9d7398f34069c9394ad4c589bd81d95f0c4.1503283308.git.bruce.ashfield@windriver.com>
+Date: Sun, 20 Aug 2017 22:58:19 -0400
+Message-ID: <031a604a989858d916f7b6fa7c9008fa1fe79627.1503283308.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1503283308.git.bruce.ashfield@windriver.com>
 References: <cover.1503283308.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/9] linux-yocto: remove 4.1 recipes
+Subject: [PATCH 6/9] libc-headers: update to 4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,138 +36,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 21 Aug 2017 02:58:29 -0000
 Content-Type: text/plain
 
-We have 4.4 and 4.9 as LTS kernels, the 4.1 variants are no longer
-needed and are dropped.
+The fall 2017 kernel will have 4.12 as the reference kernel, so
+we update the libc-headers to match.
+
+Build tested against glibc and muslc systems.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 36 -------------------
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 23 -------------
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 42 -----------------------
- 3 files changed, 101 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto_4.1.bb
+ meta/conf/distro/include/tcmode-default.inc                           | 2 +-
+ .../{linux-libc-headers_4.10.bb => linux-libc-headers_4.12.bb}        | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_4.10.bb => linux-libc-headers_4.12.bb} (71%)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-deleted file mode 100644
-index f984f7a93d89..000000000000
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ /dev/null
-@@ -1,36 +0,0 @@
--KBRANCH ?= "standard/preempt-rt/base"
--
--require recipes-kernel/linux/linux-yocto.inc
--
--# Skip processing of this recipe if it is not explicitly specified as the
--# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
--# to build multiple virtual/kernel providers, e.g. as dependency of
--# core-image-rt-sdk, core-image-rt.
--python () {
--    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
--        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
--}
--
--SRCREV_machine ?= "091d8c17b1ba75344ed88a909ead563139de68b3"
--SRCREV_meta ?= "660468df599bbd79a287a8a703d9ca066fd6a074"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
--           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
--
--LINUX_VERSION ?= "4.1.42"
--
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "2"
--
--LINUX_KERNEL_TYPE = "preempt-rt"
--
--COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
--
--# Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
--KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
--KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
--KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-deleted file mode 100644
-index 7f934b50acb3..000000000000
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ /dev/null
-@@ -1,23 +0,0 @@
--KBRANCH ?= "standard/tiny/common-pc"
--LINUX_KERNEL_TYPE = "tiny"
--KCONFIG_MODE = "--allnoconfig"
--
--require recipes-kernel/linux/linux-yocto.inc
--
--LINUX_VERSION ?= "4.1.42"
--
--KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "2"
--
--SRCREV_machine ?= "f905fdd5da150ea809f847f00f3476220606c0ff"
--SRCREV_meta ?= "660468df599bbd79a287a8a703d9ca066fd6a074"
--
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
--           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
--
--COMPATIBLE_MACHINE = "(qemux86$)"
--
--# Functionality flags
--KERNEL_FEATURES = ""
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-deleted file mode 100644
-index ae0eb85888be..000000000000
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ /dev/null
-@@ -1,42 +0,0 @@
--KBRANCH ?= "standard/base"
--
--require recipes-kernel/linux/linux-yocto.inc
--
--# board specific branches
--KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
--KBRANCH_qemuarm64 ?= "standard/qemuarm64"
--KBRANCH_qemumips ?= "standard/mti-malta32"
--KBRANCH_qemuppc  ?= "standard/qemuppc"
--KBRANCH_qemux86  ?= "standard/base"
--KBRANCH_qemux86-64 ?= "standard/base"
--KBRANCH_qemumips64 ?= "standard/mti-malta64"
--
--SRCREV_machine_qemuarm ?= "b7334672abf08f9dc9e277969e9266785580fa80"
--SRCREV_machine_qemuarm64 ?= "f905fdd5da150ea809f847f00f3476220606c0ff"
--SRCREV_machine_qemumips ?= "664fb3764bc804bfc9fd8ff582b374299e1fc016"
--SRCREV_machine_qemuppc ?= "7392e713c9eb1c67e9e6f8f2d14cae44467c1fbe"
--SRCREV_machine_qemux86 ?= "f905fdd5da150ea809f847f00f3476220606c0ff"
--SRCREV_machine_qemux86-64 ?= "f905fdd5da150ea809f847f00f3476220606c0ff"
--SRCREV_machine_qemumips64 ?= "85e973a2366e2a42d5082f5cd57852f8086502f4"
--SRCREV_machine ?= "f905fdd5da150ea809f847f00f3476220606c0ff"
--SRCREV_meta ?= "660468df599bbd79a287a8a703d9ca066fd6a074"
--
--SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
--           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
--
--LINUX_VERSION ?= "4.1.42"
--
--PV = "${LINUX_VERSION}+git${SRCPV}"
--
--KMETA = "kernel-meta"
--KCONF_BSP_AUDIT_LEVEL = "2"
--
--COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
--
--# Functionality flags
--KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
--KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
--KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
--KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
--KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 4a820a0939f6..1787a8248d75 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -27,7 +27,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.29%"
+ GDBVERSION ?= "8.0%"
+ GLIBCVERSION ?= "2.26%"
+-LINUXLIBCVERSION ?= "4.10%"
++LINUXLIBCVERSION ?= "4.12%"
+ 
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?= "${GCCVERSION}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.12.bb
+similarity index 71%
+rename from meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
+rename to meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.12.bb
+index 29262789a8ca..f0d0abfa4836 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.10.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_4.12.bb
+@@ -7,5 +7,5 @@ SRC_URI_append_libc-musl = "\
+     file://0001-libc-compat.h-musl-_does_-define-IFF_LOWER_UP-DORMAN.patch \
+    "
+ 
+-SRC_URI[md5sum] = "b5e7f6b9b2fe1b6cc7bc56a3a0bfc090"
+-SRC_URI[sha256sum] = "3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b"
++SRC_URI[md5sum] = "fc454157e2d024d401a60905d6481c6b"
++SRC_URI[sha256sum] = "a45c3becd4d08ce411c14628a949d08e2433d8cdeca92036c7013980e93858ab"
 -- 
 2.5.0
 
