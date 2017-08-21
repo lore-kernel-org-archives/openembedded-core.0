@@ -1,23 +1,18 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A97378304
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 14:32:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Aug 2017 07:32:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,409,1498546800"; d="scan'208";a="1208420810"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2017 07:32:58 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Aug 2017 07:32:56 -0700
-Message-Id: <20170821143256.139578-2-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <20170821143256.139578-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AE3C78227;
+	Mon, 21 Aug 2017 14:35:05 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 21 Aug 2017 14:35:07 -0000
+Message-ID: <20170821143507.2380.87602@do.openembedded.org>
 References: <20170821143256.139578-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2 2/2] build-appliance-image: include proxy on pip3 installation
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170821143256.139578-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gZGV2dG9vbC9jb3B5X2J1aWxkc3lzdGVtOi4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,43 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 14:32:58 -0000
+X-List-Received-Date: Mon, 21 Aug 2017 14:35:05 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+== Series Details ==
 
-Otherwise, we get timeouts, leading to errors:
+Series: "[v2] devtool/copy_buildsystem:..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8393/
+State : failure
 
-    pip._vendor.requests.exceptions.ConnectTimeout: HTTPSConnectionPool(host='pypi.python.org', port=443): Max retries exceeded with url: /pypi/pip/json (Caused by ConnectTimeoutError(<pip._vendor.requests.packages.urllib3.connection.VerifiedHTTPSConnection object at 0x7ff741bb3ef0>, 'Connection to pypi.python.org timed out. (connect timeout=5)'))
-    WARNING: TOPDIR/tmp/work/qemux86-poky-linux/build-appliance-image/15.0.0-r0/temp/run.do_populate_poky_src.185123:1 exit 1 from 'pip3 install --user -I -U -v -r TOPDIR/tmp/work/qemux86-poky-linux/build-appliance-image/15.0.0-r0/rootfs/home/builder/poky/bitbake/toaster-requirements.txt'
-    DEBUG: Python function do_image finished
+== Summary ==
 
-Complete log at [1]
 
-[1] http://errors.yoctoproject.org/Errors/Build/43393/
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 5c9ef0734d)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/images/build-appliance-image_15.0.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index db96a051a7..cd96a128a8 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -100,7 +100,11 @@ fakeroot do_populate_poky_src () {
- 	export STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
- 	export HOME=${IMAGE_ROOTFS}/home/builder
- 	mkdir -p ${IMAGE_ROOTFS}/home/builder/.cache/pip
--	pip3 install --user -I -U -v -r ${IMAGE_ROOTFS}/home/builder/poky/bitbake/toaster-requirements.txt
-+	pip3_install_params="--user -I -U -v -r ${IMAGE_ROOTFS}/home/builder/poky/bitbake/toaster-requirements.txt"
-+	if [ -n "${http_proxy}" ]; then
-+	   pip3_install_params="${pip3_install_params} --proxy ${http_proxy}"
-+	fi
-+	pip3 install ${pip3_install_params}
- 	chown -R builder.builder ${IMAGE_ROOTFS}/home/builder/.local
- 	chown -R builder.builder ${IMAGE_ROOTFS}/home/builder/.cache
- }
--- 
-2.12.3
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
