@@ -1,58 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 81DDE7821F
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
+	[209.85.217.196])
+	by mail.openembedded.org (Postfix) with ESMTP id E73017830D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 15:00:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id BA7802E2A3;
-	Mon, 21 Aug 2017 17:00:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id tq5adgv5a9qV; Mon, 21 Aug 2017 17:00:10 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 5BA652E085;
-	Mon, 21 Aug 2017 17:00:10 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 434491E081;
-	Mon, 21 Aug 2017 17:00:10 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 362231E07E;
-	Mon, 21 Aug 2017 17:00:10 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon, 21 Aug 2017 17:00:10 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id 2990318E6;
-	Mon, 21 Aug 2017 17:00:10 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Mon, 21 Aug 2017 17:00:09 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Mon, 21 Aug 2017 17:00:10 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 8/9] kernel-yocto: ensure that only valid BSPs
-	are	built
-Thread-Index: AQHTGimArXMTMGCMe0+nMPmbF0vQoqKO5cSw
-Date: Mon, 21 Aug 2017 15:00:10 +0000
-Message-ID: <b68f37bbad5940a8bdb7f165a7600f18@XBOX02.axis.com>
-References: <cover.1503283308.git.bruce.ashfield@windriver.com>
-	<ab92e7d90c416d6e5cdb17cdba269e09ec967607.1503283308.git.bruce.ashfield@windriver.com>
-In-Reply-To: <ab92e7d90c416d6e5cdb17cdba269e09ec967607.1503283308.git.bruce.ashfield@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon, 21 Aug 2017 15:03:16 +0000 (UTC)
+Received: by mail-ua0-f196.google.com with SMTP id n29so2499582uai.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Aug 2017 08:03:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=T4haxTGAYIYldtpyd9yAxJ0On0PjlIUG7YWyIMQ0jH4=;
+	b=DE+QqoM5aaLATz6KTqzrqKNQD7Bz84RG0vPvEmn3fwMkL9BD226YiVZ76CTNljojjN
+	2TtP0Sl6dv3pmyI/eefryXH2ANDUtBFKt+Zb/pBqCR9zHasNlc/SN5xdlpypJyB+5RNx
+	CQdsVO527jiyTmlMvdnGhoHL2XX2IMqbnoD+310HUcqryrpCTiv5bWOMf/ebf0LpvHMI
+	I4RPDGv0rO3sWnQbr5VDhjJKIaRq8D0mH+53bmOaQU/NUZL4cBsfvYXecoO2FqM2YWqr
+	kqjNAd0u6qN4mytTCrAPRX8XnMauDPVI4V4031e4U2o2/BjyGavx3XrIlHbt3vEBjIHZ
+	FRXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=T4haxTGAYIYldtpyd9yAxJ0On0PjlIUG7YWyIMQ0jH4=;
+	b=mr7LF57PdL5O6iL1hidaQ68lmU9UzPq0s/BIhqnuswvWoKdMT3gyBPQz7S/zmL6R5A
+	wHvSe+0CD/TsFtTsiTWONw5UvNGhuejePR0VmgZ+UFWWvPKQMv4PDQDDP53EWCcvHFIi
+	PbC/qAGSYl64TEua4n47dc+SI6SsU1CsV4QdI/WQN6S9g4TJoiZeyGELOUtK+zMywAUl
+	FWjRN2qXtjUtVTdOKqyyeo5rIrvzjP95wQh8FioWHrUhFgQD+QQaxMLTxCEt97jAo9OV
+	SGCZJDbdB+zG+HXqOdui7bS+z00A8DZQSInjeo8DEZ7GdQ9KtbtsdQg+9LmVfTOzaQB/
+	l+OA==
+X-Gm-Message-State: AHYfb5gSThPZ11pd03111Y2TeTcDQw7QsLZRwM4U4NohCxfXEr4fP22e
+	+tCChq5ED97qGRYuOKzS9PrL40HZqw==
+X-Received: by 10.176.70.96 with SMTP id z32mr10566066uab.37.1503327797342;
+	Mon, 21 Aug 2017 08:03:17 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 8/9] kernel-yocto: ensure that only valid BSPs are	built
+Received: by 10.103.66.130 with HTTP; Mon, 21 Aug 2017 08:03:16 -0700 (PDT)
+In-Reply-To: <1503326861.7168.6.camel@linux.intel.com>
+References: <1503315952-28377-1-git-send-email-liu.ming50@gmail.com>
+	<1503326861.7168.6.camel@linux.intel.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Mon, 21 Aug 2017 17:03:16 +0200
+Message-ID: <CALatG=7TB=3xGZV6d5UcFL8uBhmqh-9cmiogxcF523w1VpyNJw@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta: move some text from oe-setup-builddir to conf-notes.txt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,93 +55,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 15:00:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 21 Aug 2017 15:03:17 -0000
+Content-Type: multipart/alternative; boundary="f403045f008e5776c3055744c7ae"
+
+--f403045f008e5776c3055744c7ae
+Content-Type: text/plain; charset="UTF-8"
+
+Hi, Leonardo:
+
+I would like to explain our scenario: we want to show our costumers the
+following tips:
+...
+### Shell environment set up for AtlasCopco builds. ###
+
+You can now start a build with:
+F=<features> D=<distro> M=<machine> bitbake <target> [-c task]
+...
+
+and they are duplicated with the header in oe-setup-buildir, I could not
+find a way to override them without this patch. Or maybe you have any other
+suggestions?
+
+//Ming Liu
+
+
+2017-08-21 16:47 GMT+02:00 Leonardo Sandoval <
+leonardo.sandoval.gonzalez@linux.intel.com>:
+
+> On Mon, 2017-08-21 at 13:45 +0200, liu.ming50@gmail.com wrote:
+> > From: Ming Liu <peter.x.liu@external.atlascopco.com>
+> >
+> > This allows the end users to be able to override the entire notes
+> > showing on the shell console. For instance, Our company uses a
+> > external conf-notes.txt, and we run bitbake with some extra variables,
+> > looks like: F=xxx D=xxx M=xxx bitbake <target>, so we want to show
+> > exactly these texts on the shell console, that's why we need this
+> > change.
+> >
+>
+> I do not clearly spot the real gain. oe-setup-buildir just plots the
+> header and you can include what you specific stuff into conf-notes. The
+> header string does not strictly belongs to conf-notes, at least not
+> semantically.
+>
+>
+> > Signed-off-by: Ming Liu <peter.x.liu@external.atlascopco.com>
+> > ---
+> >  meta/conf/conf-notes.txt  | 5 +++++
+> >  scripts/oe-setup-builddir | 7 -------
+> >  2 files changed, 5 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/meta/conf/conf-notes.txt b/meta/conf/conf-notes.txt
+> > index 2f2932b..f1a4f4d 100644
+> > --- a/meta/conf/conf-notes.txt
+> > +++ b/meta/conf/conf-notes.txt
+> > @@ -1,3 +1,8 @@
+> > +
+> > +### Shell environment set up for builds. ###
+> > +
+> > +You can now run 'bitbake <target>'
+> > +
+> >  Common targets are:
+> >      core-image-minimal
+> >      core-image-sato
+> > diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+> > index ef49551..55d73ca 100755
+> > --- a/scripts/oe-setup-builddir
+> > +++ b/scripts/oe-setup-builddir
+> > @@ -133,13 +133,6 @@ EOM
+> >  #    unset SHOWYPDOC
+> >  fi
+> >
+> > -cat <<EOM
+> > -
+> > -### Shell environment set up for builds. ###
+> > -
+> > -You can now run 'bitbake <target>'
+> > -
+> > -EOM
+> >  if [ -z "$OECORENOTESCONF" ]; then
+> >      OECORENOTESCONF="$OEROOT/meta/conf/conf-notes.txt"
+> >  fi
+> > --
+> > 2.7.4
+> >
+>
+>
+>
+
+--f403045f008e5776c3055744c7ae
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Bruce Ashfield
-> Sent: den 21 augusti 2017 04:58
-> To: richard.purdie@linuxfoundation.org
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 8/9] kernel-yocto: ensure that only valid
-> BSPs are built
->=20
-> There was a bug in the search routines responsible for locating
-> BSP definitions which returned a valid match if only the ktype
-> matched.
->=20
-> This meant that someone looking for "qemux86foo" (which is an
-> invalid definition) would potentially end up building "qemuarm"
-> and be none the wiser (until it didn't boot).
->=20
-> With this fix to the tools search routine, and improved return
-> code testing, we will now stop the build and report and error to
-> the user.
->=20
-> [YOCTO: #11878]
->=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/classes/kernel-yocto.bbclass                       | 3 +++
->  meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
->  2 files changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yoct=
-o.bbclass
-> index 1ca0756c4959..3c6df92131bc 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -143,6 +143,9 @@ do_kernel_metadata() {
->=20
->  	# expand kernel features into their full path equivalents
->  	bsp_definition=3D$(spp ${includes} --find -DKMACHINE=3D${KMACHINE} -DKT=
-YPE=3D${LINUX_KERNEL_TYPE})
-> +	if [ $? -ne 0 ] || [ -z "${bsp_definition}" ]; then
+<div dir=3D"ltr">Hi, Leonardo:<div><br></div><div>I would like to explain o=
+ur scenario: we want to show our costumers the following tips:</div><div>..=
+.</div><div><div>### Shell environment set up for AtlasCopco builds. ###</d=
+iv><div><br></div><div>You can now start a build with:</div><div>F=3D&lt;fe=
+atures&gt; D=3D&lt;distro&gt; M=3D&lt;machine&gt; bitbake &lt;target&gt; [-=
+c task]</div></div><div>...</div><div><br></div><div>and they are duplicate=
+d with the header in=C2=A0<span style=3D"font-size:14px">oe-setup-buildir, =
+I could not find a way to override them without this patch. Or maybe you ha=
+ve any other suggestions?</span></div><div><span style=3D"font-size:14px"><=
+br></span></div><div><span style=3D"font-size:14px">//Ming Liu</span></div>=
+<div><br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">2017-08-21 16:47 GMT+02:00 Leonardo Sandoval <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank"=
+>leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span>:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex"><span class=3D"">On Mon, 2017-08-21 at 13:45 +0200, <a h=
+ref=3D"mailto:liu.ming50@gmail.com">liu.ming50@gmail.com</a> wrote:<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:peter.x.liu@external.atlascopco.c=
+om">peter.x.liu@external.<wbr>atlascopco.com</a>&gt;<br>
+&gt;<br>
+&gt; This allows the end users to be able to override the entire notes<br>
+&gt; showing on the shell console. For instance, Our company uses a<br>
+&gt; external conf-notes.txt, and we run bitbake with some extra variables,=
+<br>
+&gt; looks like: F=3Dxxx D=3Dxxx M=3Dxxx bitbake &lt;target&gt;, so we want=
+ to show<br>
+&gt; exactly these texts on the shell console, that&#39;s why we need this<=
+br>
+&gt; change.<br>
+&gt;<br>
+<br>
+</span>I do not clearly spot the real gain. oe-setup-buildir just plots the=
+<br>
+header and you can include what you specific stuff into conf-notes. The<br>
+header string does not strictly belongs to conf-notes, at least not<br>
+semantically.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:peter.x.liu@external.atl=
+ascopco.com">peter.x.liu@external.<wbr>atlascopco.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/conf-notes.txt=C2=A0 | 5 +++++<br>
+&gt;=C2=A0 scripts/oe-setup-builddir | 7 -------<br>
+&gt;=C2=A0 2 files changed, 5 insertions(+), 7 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/conf/conf-notes.txt b/meta/conf/conf-notes.txt<br>
+&gt; index 2f2932b..f1a4f4d 100644<br>
+&gt; --- a/meta/conf/conf-notes.txt<br>
+&gt; +++ b/meta/conf/conf-notes.txt<br>
+&gt; @@ -1,3 +1,8 @@<br>
+&gt; +<br>
+&gt; +### Shell environment set up for builds. ###<br>
+&gt; +<br>
+&gt; +You can now run &#39;bitbake &lt;target&gt;&#39;<br>
+&gt; +<br>
+&gt;=C2=A0 Common targets are:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 core-image-minimal<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 core-image-sato<br>
+&gt; diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir<br>
+&gt; index ef49551..55d73ca 100755<br>
+&gt; --- a/scripts/oe-setup-builddir<br>
+&gt; +++ b/scripts/oe-setup-builddir<br>
+&gt; @@ -133,13 +133,6 @@ EOM<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 unset SHOWYPDOC<br>
+&gt;=C2=A0 fi<br>
+&gt;<br>
+&gt; -cat &lt;&lt;EOM<br>
+&gt; -<br>
+&gt; -### Shell environment set up for builds. ###<br>
+&gt; -<br>
+&gt; -You can now run &#39;bitbake &lt;target&gt;&#39;<br>
+&gt; -<br>
+&gt; -EOM<br>
+&gt;=C2=A0 if [ -z &quot;$OECORENOTESCONF&quot; ]; then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 OECORENOTESCONF=3D&quot;$OEROOT/meta/<wbr>conf/con=
+f-notes.txt&quot;<br>
+&gt;=C2=A0 fi<br>
+&gt; --<br>
+&gt; 2.7.4<br>
+&gt;<br>
+<br>
+<br>
+</div></div></blockquote></div><br></div>
 
-Use $bsp_definition instead of ${bsp_definition} since it is a=20
-shell variable and not a bitbake variable.=20
-
-Actually, after looking at the code in that bbclass, I see this=20
-used for a number of shell variables all over the place. This is=20
-actually bad, and you should rewrite the code to not use ${variable}=20
-for shell variables. The reason this is bad is because these=20
-variables unnecessarily end up in the sstate hash for these functions,=20
-and if someone actually happens to define a bitbake variable with the=20
-same name as one of those shell variables, the result will not be what=20
-is expected...
-
-> +		bbfatal_log "Could not locate BSP definiton for ${KMACHINE}/${LINUX_KE=
-RNEL_TYPE}."
-
-Change "definiton" to "definition".
-
-> +	fi
->  	meta_dir=3D$(kgit --meta)
->=20
->  	# run1: pull all the configuration fragments, no matter where they come=
- from
-> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/me=
-ta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> index 2217a31076a2..4a78b897d34f 100644
-> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://git/tools/kgit;beginline=3D5=
-;endline=3D9;md5=3Da6c2fa8aef1b
->=20
->  DEPENDS =3D "git-native"
->=20
-> -SRCREV =3D "9cd2b626d652bec10c6bc75275b35bfee74d447c"
-> +SRCREV =3D "0571411cc033c11df7827508dd786876ce2f8c83"
->  PR =3D "r12"
->  PV =3D "0.2+git${SRCPV}"
->=20
-> --
-> 2.5.0
-
-//Peter
-
-
+--f403045f008e5776c3055744c7ae--
