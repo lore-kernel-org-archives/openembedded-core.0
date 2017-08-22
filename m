@@ -1,24 +1,36 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 00B5378287
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E639D700F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 20:18:19 +0000 (UTC)
+	Tue, 22 Aug 2017 20:34:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7MKIJqf027329
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 13:18:20 -0700
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 22 Aug 2017 13:18:19 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Aug 2017 13:18:19 -0700
-Message-ID: <20170822201819.48739-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7MKYAVp008824
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Aug 2017 13:34:10 -0700 (PDT)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 22 Aug 2017 13:34:09 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1503283308.git.bruce.ashfield@windriver.com>
+	<1503330934.32591.64.camel@linuxfoundation.org>
+	<74bfd0a2-59a7-c98b-690d-8749ca7a989a@windriver.com>
+	<1503411893.32591.108.camel@linuxfoundation.org>
+	<7f1c93bd-0d0d-b4c4-d084-2a75d7362481@windriver.com>
+	<1503415737.32591.112.camel@linuxfoundation.org>
+	<7462b13d-0fa2-7a9f-c6d9-49c5a3f6abb0@windriver.com>
+	<1503417606.32591.115.camel@linuxfoundation.org>
+	<08e38c79-6ff5-fb02-00f3-c94e76b322fc@windriver.com>
+	<1503418078.32591.118.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <30e270c4-3369-b602-a1de-f8bd92038626@windriver.com>
+Date: Tue, 22 Aug 2017 16:34:09 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ghostscript: fix several CVEs by adding bounds checking
+In-Reply-To: <1503418078.32591.118.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,206 +43,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 20:18:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Aug 2017 20:34:11 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-CVE-2017-9611
-CVE-2017-9612
-CVE-2017-9739
-CVE-2017-9726
+On 08/22/2017 12:07 PM, Richard Purdie wrote:
+> On Tue, 2017-08-22 at 12:04 -0400, Bruce Ashfield wrote:
+>> On 08/22/2017 12:00 PM, Richard Purdie wrote:
+>>>
+>>> On Tue, 2017-08-22 at 11:34 -0400, Bruce Ashfield wrote:
+>>>>
+>>>> I can send you a v4 of the 4.12 patch in the next half an hour,
+>>>> that's easiest for me to do.
+>>>>
+>>>> .. but if it isn't for you, go ahead and do the merge and I'll
+>>>> sort it out in a follow up.
+>>> The above works, I'm still trying to get to the bottom of the other
+>>> issues that are going on.
+>> Patch sent as a v4 (although I now realize I forgot to put
+>> v4 in the subject, only in the summary).
+> 
+> Thanks, I'll pull that into subsequent test runs.
+> 
+>>> Something in the IDE CDROM driver?
+>> I keep getting sent changes to drop IDE support completely, but
+>> they aren't in play here, I'm still waiting on a 4.10 linux-yocto
+>> to configure so I can diff the .configs and fire up some comparison
+>> boot tests.
+> 
+> I did diff the configs and nothing jumped out to me at
+> least, CONFIG_INITRAMFS_COMPRESSION=".gz" went missing but doesn't look
+> relevant as it only affects built in initramfs afaict.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- .../ghostscript/ghostscript/CVE-2017-9611.patch    | 34 ++++++++++++++++++++
- .../ghostscript/ghostscript/CVE-2017-9612.patch    | 35 ++++++++++++++++++++
- .../ghostscript/ghostscript/CVE-2017-9726.patch    | 33 +++++++++++++++++++
- .../ghostscript/ghostscript/CVE-2017-9739.patch    | 37 ++++++++++++++++++++++
- .../ghostscript/ghostscript_9.21.bb                |  4 +++
- 5 files changed, 143 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9611.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9612.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9726.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9739.patch
+I found the commit that is causing the problem (after three hours
+of bisecting). That's the good news. The bad news is it isn't something
+I can revert .. or easily fix, since the commit is large and is pretty
+much tree wide. There's a lot of commits stacked on top if that change,
+so it can't be reverted.
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9611.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9611.patch
-new file mode 100644
-index 0000000..58ef04d
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9611.patch
-@@ -0,0 +1,34 @@
-+From c7c55972758a93350882c32147801a3485b010fe Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Mon, 12 Jun 2017 13:08:40 +0100
-+Subject: [PATCH] Bug 698024: bounds check zone pointer in Ins_MIRP()
-+
-+---
-+ base/ttinterp.c |    3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9611
-+
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+diff --git a/base/ttinterp.c b/base/ttinterp.c
-+index e56aec6..f6a6d95 100644
-+--- a/base/ttinterp.c
-++++ b/base/ttinterp.c
-+@@ -3858,7 +3858,8 @@ static int nInstrCount=0;
-+     /* XXX: UNDOCUMENTED! cvt[-1] = 0 always */
-+ 
-+     if ( BOUNDS( args[0],   CUR.zp1.n_points ) ||
-+-         BOUNDS( args[1]+1, CUR.cvtSize+1 )    )
-++         BOUNDS( args[1]+1, CUR.cvtSize+1 )    ||
-++         BOUNDS(CUR.GS.rp0,  CUR.zp0.n_points) )
-+     {
-+       CUR.error = TT_Err_Invalid_Reference;
-+       return;
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9612.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9612.patch
-new file mode 100644
-index 0000000..b737cc5
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9612.patch
-@@ -0,0 +1,35 @@
-+From 98f6da60b9d463c617e631fc254cf6d66f2e8e3c Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Mon, 12 Jun 2017 13:15:17 +0100
-+Subject: [PATCH] Bug 698026: bounds check zone pointers in Ins_IP()
-+
-+---
-+ base/ttinterp.c |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9612
-+
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+diff --git a/base/ttinterp.c b/base/ttinterp.c
-+index f6a6d95..e7c9d68 100644
-+--- a/base/ttinterp.c
-++++ b/base/ttinterp.c
-+@@ -4129,7 +4129,9 @@ static int nInstrCount=0;
-+     Int         point;
-+     (void)args;
-+ 
-+-    if ( CUR.top < CUR.GS.loop )
-++    if ( CUR.top < CUR.GS.loop ||
-++         BOUNDS(CUR.GS.rp1, CUR.zp0.n_points) ||
-++         BOUNDS(CUR.GS.rp2, CUR.zp1.n_points))
-+     {
-+       CUR.error = TT_Err_Invalid_Reference;
-+       return;
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9726.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9726.patch
-new file mode 100644
-index 0000000..3e6c656
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9726.patch
-@@ -0,0 +1,33 @@
-+From 7755e67116e8973ee0e3b22d653df026a84fa01b Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Thu, 15 Jun 2017 08:58:31 +0100
-+Subject: [PATCH] Bug 698055: bounds check zone pointer in Ins_MDRP
-+
-+---
-+ base/ttinterp.c |    3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9726
-+
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+diff --git a/base/ttinterp.c b/base/ttinterp.c
-+index e7c9d68..af457e8 100644
-+--- a/base/ttinterp.c
-++++ b/base/ttinterp.c
-+@@ -3770,7 +3770,8 @@ static int nInstrCount=0;
-+ 
-+     point = (Int)args[0];
-+ 
-+-    if ( BOUNDS( args[0], CUR.zp1.n_points ) )
-++    if ( BOUNDS( args[0], CUR.zp1.n_points ) ||
-++         BOUNDS( CUR.GS.rp0, CUR.zp0.n_points) )
-+     {
-+         /* Current version of FreeType silently ignores this out of bounds error
-+          * and drops the instruction, see bug #691121
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9739.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9739.patch
-new file mode 100644
-index 0000000..69a94df
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9739.patch
-@@ -0,0 +1,37 @@
-+From c501a58f8d5650c8ba21d447c0d6f07eafcb0f15 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Fri, 16 Jun 2017 08:29:25 +0100
-+Subject: [PATCH] Bug 698063: Bounds check Ins_JMPR
-+
-+---
-+ base/ttinterp.c |    6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+--- end of original header
-+
-+CVE: CVE-2017-9739
-+
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+diff --git a/base/ttinterp.c b/base/ttinterp.c
-+index af457e8..adf3f0c 100644
-+--- a/base/ttinterp.c
-++++ b/base/ttinterp.c
-+@@ -1794,6 +1794,12 @@ static int nInstrCount=0;
-+ 
-+   static void  Ins_JMPR( INS_ARG )
-+   {
-++    if ( BOUNDS(CUR.IP + args[0], CUR.codeSize ) )
-++    {
-++      CUR.error = TT_Err_Invalid_Reference;
-++      return;
-++    }
-++
-+     CUR.IP      += (Int)(args[0]);
-+     CUR.step_ins = FALSE;
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-index adad9fd..93589cc 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.21.bb
-@@ -37,6 +37,10 @@ SRC_URI = "${SRC_URI_BASE} \
-            file://CVE-2017-5951.patch \
-            file://CVE-2017-7975.patch \
-            file://CVE-2017-9216.patch \
-+           file://CVE-2017-9611.patch \
-+           file://CVE-2017-9612.patch \
-+           file://CVE-2017-9739.patch \
-+           file://CVE-2017-9726.patch \
-            "
- 
- SRC_URI_class-native = "${SRC_URI_BASE} \
--- 
-2.7.4
+------------
+
+commit 82ed4db499b8598f16f8871261bff088d6b0597f
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Fri Jan 27 09:46:29 2017 +0100
+
+     block: split scsi_request out of struct request
+
+     And require all drivers that want to support BLOCK_PC to allocate it
+     as the first thing of their private data.  To support this the legacy
+     IDE and BSG code is switched to set cmd_size on their queues to let
+     the block layer allocate the additional space.
+
+     Signed-off-by: Christoph Hellwig <hch@lst.de>
+     Signed-off-by: Jens Axboe <axboe@fb.com>
+
+---------
+
+I was able to boot with the following in the command line:
+
+-drive 
+file=tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64-20170822200708.iso,if=virtio,media=cdrom
+
+--------
+
+IMHO we need to stop using the ancient IDE support, since it continually
+is broken (not usually this badly .. but often in more subtle ways).
+
+So switching to a virtio backed CDROM, while the issue is reported
+upstream is probably the best bet.
+
+Bruce
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
 
