@@ -1,43 +1,28 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA0C782E7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C2746782B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 19:51:07 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id p17so144506wmd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 12:51:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iYNQhhAI8Srh8sYvtHJazuxw2Z3IVZ5fnu6JAZr/ZH0=;
-	b=uBdT6SVxpLaqE9GthPtSnORutp3NxcluMUQS4mbH7UelCoyZepJtb+dsvRSYuYQNsk
-	6PnxSdejvtajwrdohrQj3+7Qsb7+/ZK/SnUveydZH1NtGOW1n2bkz3UhzindvVWos6Wu
-	OSCMDFKMTbFKCp9fNCeRIMAmcuN6b5R4rn4jpyHvp7FTjr2rZne7kGkD/xF4dbj96DTk
-	Axa40Wns+qna+bA6MOAGsYWa60R5UvLD77z9kFTttfSgsYAWl554X9YAkMLDNNnerfMZ
-	n+kVXclmEPg2C6aWYnVXI6/Xq4W40JRcx1roatYupSqNFKE7Zl29QrQRUZbaP5Q39Hb8
-	YN9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iYNQhhAI8Srh8sYvtHJazuxw2Z3IVZ5fnu6JAZr/ZH0=;
-	b=gRs6w8MqK/PVn0JBzmp1UL564IItJY7/ssa7vDp4p1IBfeIW7/K6DAsMMvBqpW9wDG
-	hoSyaYEaWqWtL8ESb+U5edjT/D97nKcKXqHvoZMmbDTU6hfpNsk4rowaLX2qyzsUKdN/
-	j/GnaLDgy/bFKy3r9uJMUuCLgfRaifv6jweX1qGUieqQWltLNHh4zEEhkH52KoUZ0TJl
-	k8ty6bH1267n/effnIqUG4qAuWOBgxa/0Eq/Kpy1Gn7Iy+Uar3zlJ644V+V2YdOf12tC
-	RxWE48cGWdQz7M8f1hvp3ueKL4AuQfZ8ZbaFHTBVEOl4Eq8XEi3NY6POsrpPaakQYgXA
-	Ae7w==
-X-Gm-Message-State: AHYfb5iVcSW/tZ1tgSeVIUgwpA1Zf8cyIfs3Cy6rX6seIMhqDnMMi51I
-	LcIibOH3SMfYWGiIRxgA347T3/UzXg==
-X-Received: by 10.28.182.7 with SMTP id g7mr391815wmf.66.1503431468218; Tue,
-	22 Aug 2017 12:51:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.169.70 with HTTP; Tue, 22 Aug 2017 12:51:07 -0700 (PDT)
-In-Reply-To: <20170822074219.8490-1-jackie.huang@windriver.com>
+	Tue, 22 Aug 2017 19:55:55 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7MJts5v028481
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 22 Aug 2017 20:55:55 +0100
+Message-ID: <1503431754.32591.130.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, "Huang, Jie (Jackie)"
+	<jackie.huang@windriver.com>
+Date: Tue, 22 Aug 2017 20:55:54 +0100
+In-Reply-To: <CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
 References: <20170822074219.8490-1-jackie.huang@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 22 Aug 2017 12:51:07 -0700
-Message-ID: <CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
-To: "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
+	<CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 22 Aug 2017 20:55:55 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] boost: add python to default PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,42 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 19:51:07 -0000
+X-List-Received-Date: Tue, 22 Aug 2017 19:55:56 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 22, 2017 at 12:42 AM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> We want to provide python libs by default, and some other
-> popular Linux distributions like redhat/fedora does the same.
+On Tue, 2017-08-22 at 12:51 -0700, Andre McCurdy wrote:
+> On Tue, Aug 22, 2017 at 12:42 AM,  <jackie.huang@windriver.com>
+> wrote:
+> > 
+> > From: Jackie Huang <jackie.huang@windriver.com>
+> > 
+> > We want to provide python libs by default, and some other
+> > popular Linux distributions like redhat/fedora does the same.
+> Has something changed? Is there anything in oe-core or meta-oe which
+> now needs boost python support enabled?
 
-Has something changed? Is there anything in oe-core or meta-oe which
-now needs boost python support enabled?
+Does it even actually build on all arches?
 
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/recipes-support/boost/boost.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-> index 4ff70e3..f4ecc10 100644
-> --- a/meta/recipes-support/boost/boost.inc
-> +++ b/meta/recipes-support/boost/boost.inc
-> @@ -38,7 +38,7 @@ BOOST_LIBS_remove_class-native = " context coroutine"
->  BOOST_LIBS_remove_mips16e = "wave"
->
->  # optional libraries
-> -PACKAGECONFIG ??= "locale"
-> +PACKAGECONFIG ??= "locale python"
->  PACKAGECONFIG[locale] = ",,icu"
->  PACKAGECONFIG[graph_parallel] = ",,,boost-mpi mpich"
->  PACKAGECONFIG[mpi] = ",,mpich"
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I'm rather behind with patch review right now as people are putting so
+many patches out there with what seems like minimal testing and
+expecting me/Ross and the autobuilder to figure out the problems for
+them.
+
+Each time one fails, it blocks the queue with the rest of them in and I
+have to retest until I get something clean.
+
+Testing this change is quite a way down my priority list I'm afraid.
+
+Cheers,
+
+Richard
+
+
 
