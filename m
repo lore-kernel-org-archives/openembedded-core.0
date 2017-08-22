@@ -1,32 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 28E7B71C9A
+	by mail.openembedded.org (Postfix) with ESMTP id 4FEB777EA1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 10:28:52 +0000 (UTC)
+	Tue, 22 Aug 2017 10:37:11 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7MASp07012877
+	v7MAb3iO013668
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 22 Aug 2017 11:28:52 +0100
-Message-ID: <1503397731.32591.80.camel@linuxfoundation.org>
+	verify=NOT); Tue, 22 Aug 2017 11:37:04 +0100
+Message-ID: <1503398223.32591.81.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 22 Aug 2017 11:28:51 +0100
-In-Reply-To: <CA+chaQfHU-5Jp2Q7171mcJkX8YGnFpngYG39PWeW4WhCjWp+bw@mail.gmail.com>
-References: <20170821205721.20086-1-Martin.Jansa@gmail.com>
-	<20170821205721.20086-2-Martin.Jansa@gmail.com>
-	<1503397329.32591.79.camel@linuxfoundation.org>
-	<CA+chaQfHU-5Jp2Q7171mcJkX8YGnFpngYG39PWeW4WhCjWp+bw@mail.gmail.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 22 Aug 2017 11:37:03 +0100
+In-Reply-To: <20170821213116.26081-1-anibal.limon@linux.intel.com>
+References: <20170821213116.26081-1-anibal.limon@linux.intel.com>
 X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Tue, 22 Aug 2017 11:28:53 +0100 (BST)
+	Tue, 22 Aug 2017 11:37:05 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] grub2: fix build with gcc-7
+Cc: jagadeesh.krishnanjanappa@caviumnetworks.com
+Subject: Re: [PATCH 1/2] apt: Upgrade to 1.2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,52 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 10:28:53 -0000
+X-List-Received-Date: Tue, 22 Aug 2017 10:37:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2017-08-22 at 11:26 +0100, Martin Jansa wrote:
-> I'm sorry for the issues caused by this, can you share config.log
-> from that build? Maybe the native compiler on that build host doesn't
-> support this option?
+On Mon, 2017-08-21 at 16:31 -0500, Aníbal Limón wrote:
+> The LIC_FILES_CHKSUM changed because the license file now has
+> style changes in the text remains GPLv2+.
+> 
+> The patch Revert-always-run-dpkg-configure-a-at-the-end-of-our
+> was updated because now the precision fields use floating
+> point numbers.
+> 
+> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> ---
+>  .../{apt-native_1.2.12.bb => apt-native_1.2.24.bb} |  0
+>  meta/recipes-devtools/apt/apt.inc                  |  8 ++++----
+>  ...ys-run-dpkg-configure-a-at-the-end-of-our.patch | 24 +++++++++++-
+> ----------
+>  .../apt/{apt_1.2.12.bb => apt_1.2.24.bb}           |  0
+>  4 files changed, 16 insertions(+), 16 deletions(-)
+>  rename meta/recipes-devtools/apt/{apt-native_1.2.12.bb => apt-
+> native_1.2.24.bb} (100%)
+>  rename meta/recipes-devtools/apt/{apt_1.2.12.bb => apt_1.2.24.bb}
+> (100%)
 
-The one I linked to was a debian9 system, config.log says:
-
-gcc: error: unrecognized command line option '-qversion'; did you mean '--version'?
-gcc: fatal error: no input files
-compilation terminated.
-configure:5052: $? = 1
-configure:5072: checking whether the C compiler works
-configure:5094: gcc   -Wno-error=trampolines -Wno-error=expansion-to-defined   conftest.c  >&5
-cc1: error: -Werror=expansion-to-defined: no option -Wexpansion-to-defined
-configure:5098: $? = 1
-configure:5136: result: no
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "GRUB"
-| #define PACKAGE_TARNAME "grub"
-| #define PACKAGE_VERSION "2.02"
-| #define PACKAGE_STRING "GRUB 2.02"
-| #define PACKAGE_BUGREPORT "bug-grub@gnu.org"
-| #define PACKAGE_URL ""
-| #define PACKAGE "grub"
-| #define VERSION "2.02"
-| #define GRUB_BOOT_DIR_NAME "boot"
-| #define GRUB_DIR_NAME "grub"
-| /* end confdefs.h.  */
-| 
-| int
-| main (void)
-| {
-| 
-|   ;
-|   return 0;
-| }
-configure:5141: error: in `/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-no-x11/build/build/tmp/work/x86_64-linux/grub-efi-native/2.02-r0/build':
-configure:5143: error: C compiler cannot create executables
-See `config.log' for more details
-
-So yes, it doesn't understand the option.
+https://autobuilder.yocto.io/builders/nightly-packagemanagers/builds/80/steps/BuildImages_2/logs/stdio
 
 Cheers,
 
