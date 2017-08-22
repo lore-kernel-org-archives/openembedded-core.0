@@ -1,53 +1,47 @@
-Return-Path: <freesilicon@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E089D78279
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 15:41:03 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id t138so8876591wmt.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 08:41:05 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-vk0-f50.google.com (mail-vk0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CC8778229;
+	Tue, 22 Aug 2017 15:50:08 +0000 (UTC)
+Received: by mail-vk0-f50.google.com with SMTP id j189so60548098vka.0;
+	Tue, 22 Aug 2017 08:50:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=D7Y40wCTOxJLxxEgmH5QCE3QbCk3B8Qt9i2qr8MaVeY=;
-	b=mDyLeRc7TJwCoz89VwZj8+yNmqgE6QVGEEG33IbUJZtsLhvimF6jdQIQxJZKWrMuo7
-	9BkPRZPzjtJaqFfIyCm9rzLTHgqSOxabfLh9KOEbl3IYB2yJoeTd/ZH4ihqBeeu6OzPG
-	FaWcuIv15hA4DyvwVF1zso5xAdjLVG4ixwRkTR/nTd+R0Jl0sH10Kls01jMiWS1JEEVA
-	HDWIIVEHTjHYiZXCgK0s4CCKw6MRjSNUHkg4ze2ZREx3cb3V1Eo6qt3+k9ioaiXq80p0
-	OYu3QRmQYrqpUrXE6nj3GmP5XQXX2bsJtSh1s9kpiVDGVES5TfwoxE0QFFxs1JONHBxP
-	QkIQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=g/yQZ9/Y/X3883lCYgql5TbdKtkmg3C0SJYAipARkKk=;
+	b=I1W4UgESLSu4YkUy1fpf8oEvJ6SewMZqP3L0v8rFXk7G+gDhF61mHssHrv6z+DchCE
+	diZtzchWYgQ/FMGhaYSGGqA0AyiUgojzItl6obLLrYvS6evwjT8ZTqIoyqWdUyDdd0nr
+	lyY7MGmHzNVaHTC+E1mr/MFTOh5QGUnblT4a182SL0G9T5Qy4cFegB8x8FkC7UfJeIT5
+	EEfIQOsmuEvXHGInuDP8ny0hkiRO3mRTMQTwhA1x6fA6+gTIJj95NQiYH7l6XcFvHDOz
+	8trv4Jui9BenGuW3klS2dCUEYM4HPU7sbOmRmQ98hNifbfM813bdmpGnNJWBHyD2Gw6e
+	Jblw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=D7Y40wCTOxJLxxEgmH5QCE3QbCk3B8Qt9i2qr8MaVeY=;
-	b=OzEZZnrZAQwMfJvnVgwa1i8xwLCAGZ+4oLjK8A9KHlbUxGMa8kCx8p3VytmdZe6M03
-	aIIldlChH0GpMRNKv+lA5mXChhWvPIXEi8gKFlRZmo5n2ORm4Sa0HvZSwtUaTd+2sbXL
-	96A9Ron5JNlmrk/syaiLLU6zspTM3Gg53Bi1dPYRcRbPrlbk2FGGLfq/PvMLhp8ON1k7
-	hRT0hIqWxdfdqL56ukYvHbiAYcPo6Vj50xKMMHho8vW7iDfskRwC3LyoX1s5ellertbz
-	amN3zZRdkpRMyR4cVzw4IlDMEx9SvvgIkNS87OytUQ/IiEh7i/aG3m8b6P5TpaYEzOck
-	lfMA==
-X-Gm-Message-State: AHYfb5jq/nP+qHS2W7k2GSGOMNrmzR2B4si3qhSMIygM5JzlUOUg+4bX
-	QurfBa/g+RvDyQ==
-X-Received: by 10.28.10.131 with SMTP id 125mr44721wmk.132.1503416464521;
-	Tue, 22 Aug 2017 08:41:04 -0700 (PDT)
-Received: from crde-port-20.cahors.local ([185.47.80.46])
-	by smtp.gmail.com with ESMTPSA id
-	h190sm8603052wmd.4.2017.08.22.08.41.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Aug 2017 08:41:03 -0700 (PDT)
-From: David Vincent <freesilicon@gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Tue, 22 Aug 2017 17:40:59 +0200
-Message-ID: <4839097.lYi3dlrNZm@crde-port-20.cahors.local>
-In-Reply-To: <CAP9ODKpOcrd7h5AcgW2zxPHPvkhrgAByZEvF-tzsb-iOGxh_PA@mail.gmail.com>
-References: <20170816181539.5327-1-otavio@ossystems.com.br>
-	<CAP9ODKpOcrd7h5AcgW2zxPHPvkhrgAByZEvF-tzsb-iOGxh_PA@mail.gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=g/yQZ9/Y/X3883lCYgql5TbdKtkmg3C0SJYAipARkKk=;
+	b=Xq7Iru5I+sjAVfCWa6H8nN2tYOy3zt4Pn+DDYcoFHfQhWT4PDWAKPVQF4KJydHjcKb
+	I8WDJWD2Zoac3gGA6NlRJ5KZVbfjhldFVkOc0qW4+RtNIHg4ol4QXgVkQvvEU7GHwCSS
+	VivcXp/iRyywolSIRNPyPBAMmOQUkvnS2uGfHnYMzPcoJlrtTtM7ScfZTfIeR5PPYCdG
+	tN+mSLIuD6kPCZr/WaVNsbNoVxJuCSOK0m6E2Zz5mK2VUzfEBvEuryV0MYbzFqIEqY8V
+	MocoiEPoTprYi7oY5dEHhZKXekaV3fQ5LPdEnkzXVTbIDtwHpy6A7o5L3qze0BVWpk0/
+	OkHg==
+X-Gm-Message-State: AHYfb5g4J67ghb1tFvxcFQcyvnCGYSW9yHTk/322kG59mnwVtvdh7/Js
+	X17OoPgdPl/jyfbHueg7fF6dikCSYQ==
+X-Received: by 10.31.184.66 with SMTP id i63mr667230vkf.122.1503417009836;
+	Tue, 22 Aug 2017 08:50:09 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
+Received: by 10.103.50.144 with HTTP; Tue, 22 Aug 2017 08:50:09 -0700 (PDT)
+In-Reply-To: <77D41A06-7D48-4CFE-948E-5C3D36118CA0@linux.intel.com>
+References: <20170822132022.GA3308@jama>
+	<77D41A06-7D48-4CFE-948E-5C3D36118CA0@linux.intel.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 22 Aug 2017 17:50:09 +0200
+Message-ID: <CA+chaQfr4EzLQqBsLT628qSJt8wiDH+Kf5MxhJBtLewWkHJ-uQ@mail.gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "kernel: Fix symlinks"
+Subject: Re: [oe] State of bitbake world, Failed tasks 2017-08-19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +54,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 15:41:04 -0000
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 22 Aug 2017 15:50:09 -0000
+Content-Type: multipart/alternative; boundary="001a1143a716d2194a0557598c05"
+
+--001a1143a716d2194a0557598c05
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On vendredi 18 ao=C3=BBt 2017 14:44:30 CEST Otavio Salvador wrote:
-> On Wed, Aug 16, 2017 at 3:15 PM, Otavio Salvador
->=20
-> <otavio@ossystems.com.br> wrote:
-> > This reverts commit c7bc46b9bc29dd0953ab8d63b50fa105bb66892e.
-> >=20
-> > The commit has broken the alternatives concept as it is managed by
-> > links controlled by the alternatives system. That said the failing
-> > case identified (which some bootloaders fail to load the file) seems
-> > to be due a misuse of the alternative system.
-> >=20
-> > Cc: Christopher Larson <chris_larson@mentor.com>
-> > Cc: Ross Burton <ross.burton@intel.com>
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->=20
-> I ended forgetting to add the commit author on Cc. Adding now :-)
+Thanks Tim!
 
-This issue has been discussed here : http://lists.openembedded.org/pipermai=
-l/
-openembedded-core/2017-April/135923.html
+Check this thread:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-August/14108=
+7.html
+about python-matplotlib.
 
-Reverting this patch to solve the alternative problem cannot be a definitiv=
-e=20
-solution as it breaks boot on some boards. IMHO, I'd rather break the=20
-alternative system than boot (full disclosure : I use opkg's update-
-alternatives).
+On Tue, Aug 22, 2017 at 4:29 PM, Tim Orling <
+timothy.t.orling@linux.intel.com> wrote:
 
-As already said, absolute paths cannot be used in bootloaders since it may=
-=20
-point to an invalid location (rootfs may not be mounted). I do not have=20
-another solution with plain 'ls', but I think we should find a way to bette=
-r=20
-handle all cases than going back and forth on this patch.
+>
+> > On Aug 22, 2017, at 6:20 AM, Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+> >
+> > Openssl was reverted back to 1.0 version being default, so there is
+> > fewer errors now, but there was also a fix for package.bbclass:
+> > http://lists.openembedded.org/pipermail/openembedded-core/
+> 2017-August/141127.html
+> > which causes many do_package_qa tasks to fail.
+> >
+> > Please help by sending fixes for issues it found.
+> >
+> > <snip>
+> >
+> > =3D=3D Failed tasks 2017-08-19 =3D=3D
+> >
+> > INFO: jenkins-job.sh-1.8.25 Complete log available at
+> http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.
+> report.20170822_023550.log
+> >
+> > =3D=3D=3D common (15) =3D=3D=3D
+> > <snip>
+> >    * meta-openembedded/meta-perl/recipes-perl/libmodule/
+> libmodule-build-perl_0.31.bb:do_package_qa
+>
+> I=E2=80=99ll take a shot at this one, especially since this recipe versio=
+n is very
+> old. Latest is 0.4224.
+>
+> >    * meta-openembedded/meta-python/recipes-devtools/python/
+> python3-pylint_1.6.5.bb:do_package_qa
+> >    * meta-openembedded/meta-python/recipes-devtools/python/
+> python-matplotlib_1.1.0.bb:do_compile
+>
+> I=E2=80=99ll take a shot at these two. pylint version is a bit old, lates=
+t is
+> 1.7.2. matplotlib latest version is 2.0.2, so this recipe is very old; al=
+so
+> needs python3 version.
+>
+> > <snip>
+>
+>
 
-=46YI, this is my use case : I have a bootloader which resides in EEPROM, b=
-ut=20
-needs to boot kernels that can be upgraded. Therefore, I rely on a fixed pa=
-th=20
-to the last kernel / devicetree on a specific partition outside rootfs.
+--001a1143a716d2194a0557598c05
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-=2D-
-David
+<div dir=3D"ltr">Thanks Tim!<div><br></div><div>Check this thread:</div><di=
+v><a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2017=
+-August/141087.html">http://lists.openembedded.org/pipermail/openembedded-c=
+ore/2017-August/141087.html</a><br></div><div>about python-matplotlib.</div=
+></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue, Au=
+g 22, 2017 at 4:29 PM, Tim Orling <span dir=3D"ltr">&lt;<a href=3D"mailto:t=
+imothy.t.orling@linux.intel.com" target=3D"_blank">timothy.t.orling@linux.i=
+ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span cl=
+ass=3D""><br>
+&gt; On Aug 22, 2017, at 6:20 AM, Martin Jansa &lt;<a href=3D"mailto:martin=
+.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Openssl was reverted back to 1.0 version being default, so there is<br=
+>
+&gt; fewer errors now, but there was also a fix for package.bbclass:<br>
+&gt; <a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2=
+017-August/141127.html" rel=3D"noreferrer" target=3D"_blank">http://lists.o=
+penembedded.org/<wbr>pipermail/openembedded-core/<wbr>2017-August/141127.ht=
+ml</a><br>
+&gt; which causes many do_package_qa tasks to fail.<br>
+&gt;<br>
+&gt; Please help by sending fixes for issues it found.<br>
+&gt;<br>
+</span>&gt; &lt;snip&gt;<br>
+<span class=3D"">&gt;<br>
+&gt; =3D=3D Failed tasks 2017-08-19 =3D=3D<br>
+&gt;<br>
+&gt; INFO: jenkins-job.sh-1.8.25 Complete log available at <a href=3D"http:=
+//logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170822_023550.=
+log" rel=3D"noreferrer" target=3D"_blank">http://logs.nslu2-linux.org/<wbr>=
+buildlogs/oe/world/rocko/log.<wbr>report.20170822_023550.log</a><br>
+&gt;<br>
+&gt; =3D=3D=3D common (15) =3D=3D=3D<br>
+</span>&gt; &lt;snip&gt;<br>
+&gt;=C2=A0 =C2=A0 * meta-openembedded/meta-perl/<wbr>recipes-perl/libmodule=
+/<wbr>libmodule-build-perl_0.31.bb:d<wbr>o_package_qa<br>
+<br>
+I=E2=80=99ll take a shot at this one, especially since this recipe version =
+is very old. Latest is 0.4224.<br>
+<span class=3D""><br>
+&gt;=C2=A0 =C2=A0 * meta-openembedded/meta-python/<wbr>recipes-devtools/pyt=
+hon/<wbr>python3-pylint_1.6.5.bb:do_<wbr>package_qa<br>
+&gt;=C2=A0 =C2=A0 * meta-openembedded/meta-python/<wbr>recipes-devtools/pyt=
+hon/<wbr>python-matplotlib_1.1.0.bb:do_<wbr>compile<br>
+<br>
+</span>I=E2=80=99ll take a shot at these two. pylint version is a bit old, =
+latest is 1.7.2. matplotlib latest version is 2.0.2, so this recipe is very=
+ old; also needs python3 version.<br>
+<br>
+&gt; &lt;snip&gt;<br>
+<br>
+</blockquote></div><br></div>
 
+--001a1143a716d2194a0557598c05--
