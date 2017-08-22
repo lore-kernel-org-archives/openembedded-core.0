@@ -1,31 +1,31 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C8B1978273
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id BC27678279
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 18:04:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Aug 2017 11:04:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,413,1498546800"; d="scan'208";a="1187005349"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Aug 2017 11:04:12 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Trevor Woerner <twoerner@gmail.com>,
-	Patches and discussions about the oe-core layer
+	Tue, 22 Aug 2017 18:25:30 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7MIPTQx021603
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 22 Aug 2017 19:25:31 +0100
+Message-ID: <1503426329.32591.121.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 Aug 2017 19:25:29 +0100
+In-Reply-To: <CA+chaQdAOK1nfbug3kRgiv4hcck=dPbWX52x60ZHzMAD1nUPwg@mail.gmail.com>
+References: <1503400000-25414-1-git-send-email-rbilovol@cisco.com>
+	<CAMKF1spLkW=57FZtm5_Xa3OGkBgj4RzvW9GKTudg1o2nDi9=9w@mail.gmail.com>
+	<CA+chaQdAOK1nfbug3kRgiv4hcck=dPbWX52x60ZHzMAD1nUPwg@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 22 Aug 2017 19:25:31 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <CAHUNapTr=oOvVTHvwxGJ2uPZB7Kbs4rBh9U8ZGzdNd0HuHi=1g@mail.gmail.com>
-	<1503423645.32591.120.camel@linuxfoundation.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
-Date: Tue, 22 Aug 2017 21:01:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1503423645.32591.120.camel@linuxfoundation.org>
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>
-Subject: Re: long (never ending?) do_install for adwaita-icon-theme
+Subject: Re: [PATCH] machine-sdk: oldest kernel for x86/x86_64 is 3.2.0 now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +38,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 18:04:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Aug 2017 18:25:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 08/22/2017 08:40 PM, Richard Purdie wrote:
->> Is anyone else seeing insanely long (never ending?) do_install times
->> for adwaita-icon-theme? The other day I manually killed a jenkins
->> jobs
->> still running after 3 days waiting for this recipe's do_install.
->>
->> This morning I started a job manually and it's currently stuck in
->>
->>      0: adwaita-icon-theme-3.24.0-r0 do_install - 9241s (pid 25320)
->>
->> I'm pretty sure it's not going to end without manual intervention.
->>
->> These aren't the first/only times I've seen this issue, they're just
->> the most recent. It doesn't happen often, but enough to be
->> noticeable.
-> 
-> I suspect it may be http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=231c9fe94d5b65bea345ffe9eb5e68b0db11cb07.
-> 
-> I've cc'd Alex, Ross and I have seen this very occasionally too.
+On Tue, 2017-08-22 at 20:00 +0200, Martin Jansa wrote:
+> It's pity that we won't be able to use newer SDK on older hosts, but
+> I'm glad that SDK_OLDEST_KERNEL is going away as it wasn't working
+> very well anyway as discussed here:
+> http://lists.openembedded.org/pipermail/openembedded-core/2016-Octobe
+> r/127519.html
 
-Do you have any kind of logs for when it happens?
+Weren't those issues fixed with 
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=2b1cbb43aeb100f0ee53a62404dd918466422701?
 
-Alex
+Cheers,
+
+Richard
+
 
