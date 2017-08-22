@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3434B78287
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AE2378287
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 06:35:07 +0000 (UTC)
+	Tue, 22 Aug 2017 06:35:08 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7M6Z8QG007173
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7M6ZA5v017236
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 23:35:08 -0700
+	Mon, 21 Aug 2017 23:35:10 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 21 Aug 2017 23:35:07 -0700
+	14.3.361.1; Mon, 21 Aug 2017 23:35:09 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Aug 2017 14:34:24 +0800
-Message-ID: <feac61ca2f3ea35926f092e62ce2496c72326ebf.1503383077.git.jackie.huang@windriver.com>
+Date: Tue, 22 Aug 2017 14:34:25 +0800
+Message-ID: <783e7780f831912c53586a44bfd11f308562e9b2.1503383077.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1503383077.git.jackie.huang@windriver.com>
 References: <cover.1503383077.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] initscripts: split sushell into sub package
+Subject: [PATCH 2/2] systemd: add dependency on initscripts-sushell for selinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 06:35:08 -0000
+X-List-Received-Date: Tue, 22 Aug 2017 06:35:09 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-* sushell is required by systemd service debug-shell
-  when selinux is enabled, but it doesn't make sense
-  to make systemd depend on initscripts, so split sushell
-  into sub package initscripts-sushell.
-
-* The bash dependency has been removed by:
-  '''
-  4917e36a77bd6821b45db52caa43939d344d92f6
-  initscripts: Fix regression for requiring /bin/bash
-  '''
-  so remove bash from RDEPENDS when selinux is enabled.
+sushell is required by systemd service debug-shell
+when selinux is enabled.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd_234.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 7ab0d2b..d627d2e 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -46,11 +46,12 @@ inherit update-alternatives
- DEPENDS_append = " update-rc.d-native"
- PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
- 
--PACKAGES =+ "${PN}-functions"
-+PACKAGES =+ "${PN}-functions ${PN}-sushell"
- RDEPENDS_${PN} = "${PN}-functions \
--                  ${@bb.utils.contains('DISTRO_FEATURES','selinux','bash','',d)} \
-+                  ${@bb.utils.contains('DISTRO_FEATURES','selinux','${PN}-sushell','',d)} \
- 		 "
- FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
-+FILES_${PN}-sushell = "${base_sbindir}/sushell"
- 
- ALTERNATIVE_PRIORITY_${PN}-functions = "90"
- ALTERNATIVE_${PN}-functions = "functions"
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 4560cf4..2736f38 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -106,7 +106,7 @@ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ # Update NAT firewall rules
+ PACKAGECONFIG[iptc] = "--enable-libiptc,--disable-libiptc,iptables"
+ PACKAGECONFIG[ldconfig] = "--enable-ldconfig,--disable-ldconfig,,"
+-PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux"
++PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,initscripts-sushell"
+ PACKAGECONFIG[valgrind] = "ac_cv_header_valgrind_memcheck_h=yes ac_cv_header_valgrind_valgrind_h=yes ,ac_cv_header_valgrind_memcheck_h=no ac_cv_header_valgrind_valgrind_h=no ,valgrind"
+ PACKAGECONFIG[qrencode] = "--enable-qrencode,--disable-qrencode,qrencode"
+ PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
 -- 
 1.9.1
 
