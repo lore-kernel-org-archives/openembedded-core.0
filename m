@@ -1,18 +1,36 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E59C78261;
-	Tue, 22 Aug 2017 01:35:04 +0000 (UTC)
+Return-Path: <jose.alarcon@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6111778280
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Aug 2017 04:54:03 +0000 (UTC)
+Received: from pps.filterd (m0048206.ppops.net [127.0.0.1])
+	by m0048206.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7M4r1ws020450 for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Aug 2017 00:54:05 -0400
+To: Khem Raj <raj.khem@gmail.com>, Jussi Kukkonen <jussi.kukkonen@intel.com>
+References: <20170821102342.167780-1-jose.alarcon@ge.com>
+	<CAHiDW_FBQHxDOLgRC_tr-i5Y_rd4TBge0Vt_TwnRg9x5VU2ikg@mail.gmail.com>
+	<CAMKF1sp+yQe637v_s9RfxvufHY50DP5VhgUGyTe1UvMzqJ16JA@mail.gmail.com>
+From: Jose Alarcon <jose.alarcon@ge.com>
+Message-ID: <d0d95f15-e0d8-8d03-4a24-c4ade9017120@ge.com>
+Date: Tue, 22 Aug 2017 07:53:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ming Liu <liu.ming50@gmail.com>
-Date: Tue, 22 Aug 2017 01:35:05 -0000
-Message-ID: <20170822013505.2381.72548@do.openembedded.org>
-References: <1503365256-31934-1-git-send-email-liu.ming50@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1503365256-31934-1-git-send-email-liu.ming50@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29uZi1ub3Rlcy50eHQ6IGFkZCBzaGVsbCBlbnZpcm9ubWVudCBoZWFkZXI=?=
+In-Reply-To: <CAMKF1sp+yQe637v_s9RfxvufHY50DP5VhgUGyTe1UvMzqJ16JA@mail.gmail.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-22_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1707230000
+	definitions=main-1708220075
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: EXT: Re: [meta-oe][PATCH] Dhrystone: add recipe 2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 01:35:04 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 22 Aug 2017 04:54:04 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-== Series Details ==
+Hello,
 
-Series: conf-notes.txt: add shell environment header
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8411/
-State : failure
-
-== Summary ==
+Thank you for your comments
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+On 21.08.2017 21:16, Khem Raj wrote:
+> On Mon, Aug 21, 2017 at 5:35 AM, Jussi Kukkonen
+> <jussi.kukkonen@intel.com> wrote:
+>> On 21 August 2017 at 13:23, Jose Alarcon <jose.alarcon@ge.com> wrote:
 
+<snip>
+>>
+>> Hi,
+>>
+>> Please send meta-oe patches to openembedded-devel@lists.openembedded.org.
 
+My bad. I will send the v2 to the correct list.
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 5c9ef0734d)
+>>
+>> Also this part is unlikely to be welcome on oe-devel either:
+>>> LICENSE = "Proprietary"
+>> I think I remember seeing a dhrystone recipe submission with an open source
+>> license (NCSA maybe?) last year .
+> https://patchwork.openembedded.org/patch/129975/
+>
+> a v2 was expected, which I cant find so it never got applied. if you
+> are interested rework the v1 and test it out. Submit a v2 and we can
+> take it further along the line.
 
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     poky@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/poky/]
-  Patch's path:    meta-poky/conf/conf-notes.txt
+About the license, I couldn't find any in the source of Dhrystone.
 
+There is an Android package that mentions NCSA. I believe that Public
+Domain would be more appropriate in this case.
 
+I wasn't able to find a dhrystone package in Debian or Fedora to double
+check about the license.
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
+Thanks,
 
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--
+Jose
 
