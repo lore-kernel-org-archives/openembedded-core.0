@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ADFA777A2C
+Return-Path: <rbilovol@cisco.com>
+X-Greylist: delayed 607 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 22 Aug 2017 11:16:51 UTC
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8109278212
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 10:55:58 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Aug 2017 03:55:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,411,1498546800"; d="scan'208";a="892924432"
-Received: from cshikang-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.137.237])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Aug 2017 03:55:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Tue, 22 Aug 2017 22:55:53 +1200
-Message-ID: <2904894.l3jg57PGWo@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <00ad9ee0ea4e4de1773220dfca8792819701092f.1503364879.git.liezhi.yang@windriver.com>
-References: <cover.1503364879.git.liezhi.yang@windriver.com>
-	<00ad9ee0ea4e4de1773220dfca8792819701092f.1503364879.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 6/9] core/target/ssh.py: replace decode errors
+	Tue, 22 Aug 2017 11:16:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1586; q=dns/txt; s=iport;
+	t=1503400613; x=1504610213; h=from:to:subject:date:message-id;
+	bh=w2Z0avlWvURXVcR3JFmMbeDRzjxpR717LGj7qK3J4ZA=;
+	b=mY9Fer/1WMndX7AkUqoW/eIUSGubP1+PWaVqnxUuws/rhxpwFTwEYWVe
+	+a7jkaD7oaFGut1ep5EwFaTpnQZvdezJGgz93xzElb31CJgNoVAh/vqjW
+	6p/pKxNgxwv3BHlbKONERXVaUkfIOllbRocKg5JwXa03fxtCGYiDuFo42 k=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0C4AAAcD5xZ/xbLJq1cGgEBAQECAQEBA?=
+	=?us-ascii?q?QgBAQEBhVOOE3SnMYISiicYAQIBAQEBAQEBayiHaYoxr1qMEYMqg06KSYUoBZI?=
+	=?us-ascii?q?ljjCUQwKSXAJIlWEfOIEKMiEIHBWFEAGCVT02ixUBAQE?=
+X-IronPort-AV: E=Sophos;i="5.41,411,1498521600"; d="scan'208";a="655135027"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-2.cisco.com)
+	([173.38.203.22])
+	by aer-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Aug 2017 11:06:42 +0000
+Received: from localhost (dhcp-10-61-102-176.cisco.com [10.61.102.176])
+	by aer-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id v7MB6fRO032315
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Aug 2017 11:06:42 GMT
+From: Ruslan Bilovol <rbilovol@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Aug 2017 14:06:40 +0300
+Message-Id: <1503400000-25414-1-git-send-email-rbilovol@cisco.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] machine-sdk: oldest kernel for x86/x86_64 is 3.2.0 now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +43,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 10:55:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 22 Aug 2017 11:16:51 -0000
 
-On Tuesday, 22 August 2017 1:23:10 PM NZST Robert Yang wrote:
-> There might be wild strings when read from target (especially when
-> reading ptest results), replace the errors to avoid breaking the test.
-> 
-> Fixed: (Not always happen)
-> $ bitbake core-image-sato -ctestimage
-> [snip]
->     status, output = self.target.run('ptest-runner', 0)
->   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py", line 84, in run
->     status, output = self._run(sshCmd, processTimeout, True)
->   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py", line 55, in _run
->     status, output = SSHCall(command, self.logger, timeout)
->   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py", line 258, in SSHCall
->     run()
->   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py", line 236, in run
->     output = process.communicate()[0].decode("utf-8")
-> UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3 in position 4906: invalid continuation byte
-> 
-> [YOCTO #11547]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/lib/oeqa/core/target/ssh.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-> index b80939c..a2eafcd 100644
-> --- a/meta/lib/oeqa/core/target/ssh.py
-> +++ b/meta/lib/oeqa/core/target/ssh.py
-> @@ -211,7 +211,7 @@ def SSHCall(command, logger, timeout=None, **opts):
->                              process.stdout.close()
->                              eof = True
->                          else:
-> -                            data = data.decode("utf-8")
-> +                            data = data.decode("utf-8", errors='replace')
->                              output += data
->                              logger.debug('Partial data from SSH call: %s' % data)
+With glibc upgrade to 2.26 release (commit d6a0bc57fa07
+"glibc: Upgrade to 2.26 final release") it's not possible
+to build x86/x86_64 SDK for kernels lower than 3.2.0
+(see glibc commit 139ace95756a "Require Linux kernel 3.2
+or later on x86 / x86_64.")
 
-Since we're dealing with partial data here, shouldn't we be using a
-reader object? e.g.:
+Thus drop SDK_OLDEST_KERNEL overrides from machine-specific
+conf files, so default version 3.2.0 from conf/bitbake.conf
+will be picked up.
 
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=bfd8c35c3f917e3806c8dfe36c98c70fbccbb3c9
+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+---
+ meta/conf/machine-sdk/i586.conf   | 1 -
+ meta/conf/machine-sdk/i686.conf   | 1 -
+ meta/conf/machine-sdk/x86_64.conf | 1 -
+ 3 files changed, 3 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/conf/machine-sdk/i586.conf b/meta/conf/machine-sdk/i586.conf
+index 99083fb..41e5e15 100644
+--- a/meta/conf/machine-sdk/i586.conf
++++ b/meta/conf/machine-sdk/i586.conf
+@@ -1,5 +1,4 @@
+ SDK_ARCH = "i586"
+ SDK_CC_ARCH = "-march=i586"
+ ABIEXTENSION_class-nativesdk = ""
+-SDK_OLDEST_KERNEL = "2.6.32"
+ 
+diff --git a/meta/conf/machine-sdk/i686.conf b/meta/conf/machine-sdk/i686.conf
+index cf22784..fe40697 100644
+--- a/meta/conf/machine-sdk/i686.conf
++++ b/meta/conf/machine-sdk/i686.conf
+@@ -1,4 +1,3 @@
+ SDK_ARCH = "i686"
+ SDK_CC_ARCH = "-march=i686"
+ ABIEXTENSION_class-nativesdk = ""
+-SDK_OLDEST_KERNEL = "2.6.32"
+diff --git a/meta/conf/machine-sdk/x86_64.conf b/meta/conf/machine-sdk/x86_64.conf
+index 7d2e717..61439b4 100644
+--- a/meta/conf/machine-sdk/x86_64.conf
++++ b/meta/conf/machine-sdk/x86_64.conf
+@@ -1,3 +1,2 @@
+ SDK_ARCH = "x86_64"
+ ABIEXTENSION_class-nativesdk = ""
+-SDK_OLDEST_KERNEL = "2.6.32"
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
