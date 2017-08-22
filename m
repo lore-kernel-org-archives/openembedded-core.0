@@ -1,21 +1,33 @@
-Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7617C7823A
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 12FA471BD4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 00:24:40 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Aug 2017 17:24:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,410,1498546800"; d="scan'208";a="1186685577"
-Received: from yctb04.ostc.intel.com ([10.54.69.58])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2017 17:24:42 -0700
-From: juan.m.cruz.alcaraz@linux.intel.com
+	Tue, 22 Aug 2017 00:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:Cc:References:To:Subject;
+	bh=QDML9zz7qN/GrgMD3tK1jC3xRNo9TPPN7nam9QdkVtg=; 
+	b=VuZSj43TFiddLSlWX41HODSf80z17pJuOar+2klCmzvmljNrFpnSuV9w68uvhJihgLBqBPhPxrBdlTu64LeORwT+xNwQE6rBHG4YjwnVN8lj81kFc8uxJtCJce9sfM94bDzIP14TJSfoflMMvtnQZeaRZYyLjQ4TB+nuTP6FvO60XycGGmN6GXV5eh4wTFKQ83toom4XW5IddCvtousZjubU7yXfojup/67wf6SpgwCKA8rwONVOLXX5HaDm7B8oFEASii17FYWNl78DbzK352JDmTvWq4GTEg66w1FlnvwfYjsZsTcjOC8AYlJMyRKnYSNIoobQ2qxuKZ07Hldhfw==;
+Received: from 1.14.117.91.dynamic.reverse-mundo-r.com ([91.117.14.1]
+	helo=[192.168.0.23]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1djxHv-0004YX-5Q; Tue, 22 Aug 2017 02:43:23 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Aug 2017 17:24:35 -0700
-Message-Id: <20170822002435.39497-1-juan.m.cruz.alcaraz@linux.intel.com>
-X-Mailer: git-send-email 2.13.2
-Subject: [PATCH] devtool/standard: set a preferred provider when adding a new recipe with devtool
+References: <20170821190501.19909-1-clopez@igalia.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: openembedded-core@lists.openembedded.org,
+	Christopher Larson <chris_larson@mentor.com>
+Message-ID: <b1beb393-07fa-7061-eb8f-1cb4e51475fd@igalia.com>
+Date: Tue, 22 Aug 2017 02:43:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <20170821190501.19909-1-clopez@igalia.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH] systemd: don't symlink /etc/resolv.conf if resolved is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,95 +40,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 00:24:41 -0000
+X-List-Received-Date: Tue, 22 Aug 2017 00:43:23 -0000
+X-Groupsio-MsgNum: 101776
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="BKSMD7hRLXTLgNQpx83CPUwbBpJIHaUHl"
 
-From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+--BKSMD7hRLXTLgNQpx83CPUwbBpJIHaUHl
+Content-Type: multipart/mixed; boundary="bHBifKIloex0gcQPitKB8Mu6Jo2Gi1pMV";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Christopher Larson <chris_larson@mentor.com>
+Message-ID: <b1beb393-07fa-7061-eb8f-1cb4e51475fd@igalia.com>
+Subject: Re: [OE-core] [PATCH] systemd: don't symlink /etc/resolv.conf if
+ resolved is disabled
+References: <20170821190501.19909-1-clopez@igalia.com>
+In-Reply-To: <20170821190501.19909-1-clopez@igalia.com>
 
-A recipe added with "devtool add" requires to be able to take precedence on recipes
-previously defined with PREFERRED_PROVIDER.
+--bHBifKIloex0gcQPitKB8Mu6Jo2Gi1pMV
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-By adding the parameter "--provides" to "devtool add" it is possible to specify
-an element to be provided by the recipe. A devtool recipe can override a previous
-PREFERRED_PROVIDER using the layer configuration file in the workspace.
+On 21/08/17 21:05, Carlos Alberto Lopez Perez wrote:
+>  * symlinking /etc/resolv.conf to /run/systemd/resolve/resolv.conf
+>    when resolved is not enabled is wrong, as this prevents network
+>    manager from handling the resolv.conf file itself and breaking
+>    DNS resolution.
+>=20
+>    See: NetworkManager.conf manpage or https://git.io/v5UJQ
+>=20
+> Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+> ---
+>  meta/recipes-core/systemd/systemd_234.bb | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-co=
+re/systemd/systemd_234.bb
+> index 4560cf4175..dddad62941 100644
+> --- a/meta/recipes-core/systemd/systemd_234.bb
+> +++ b/meta/recipes-core/systemd/systemd_234.bb
+> @@ -235,12 +235,7 @@ do_install() {
+>  	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+>  		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\=
+$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tmp=
+files.d/systemd.conf', d)}
+>  	fi
+> -	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false=
+', d)}; then
+> -		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/re=
+solv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+> -		echo 'd /run/systemd/resolve 0755 root root -' >>${D}${exec_prefix}/=
+lib/tmpfiles.d/systemd.conf
+> -		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${exe=
+c_prefix}/lib/tmpfiles.d/systemd.conf
+> -		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-co=
+nf.systemd
+> -	else
+> +	if ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false',=
+ d)}; then
+>  		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../=
+run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.=
+conf
+>  		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-co=
+nf.systemd
+>  	fi
+>=20
 
-E.g.
-    devtool add my-mesa git@git://my-mesa-repository --provides virtual/mesa
+Looking at the previous history it seems symlinking /etc/resolv.conf
+when not enabling resolved was done originally to allow updating
+resolv.conf on read-only-rootfs filesystems ( commit 7f087f161e ).
 
-[YOCTO #10415]
+So the above patch is not right, as it will break that.
 
-Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
----
- scripts/lib/devtool/standard.py  | 20 ++++++++++++++++++++
- scripts/lib/recipetool/create.py |  3 +++
- 2 files changed, 23 insertions(+)
-
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index ec192238ed..02b4ff4d3b 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -151,6 +151,8 @@ def add(args, config, basepath, workspace):
-         extracmdopts += ' --fetch-dev'
-     if args.mirrors:
-         extracmdopts += ' --mirrors'
-+    if args.provides:
-+        extracmdopts += ' --provides %s' % args.provides
- 
-     tempdir = tempfile.mkdtemp(prefix='devtool')
-     try:
-@@ -266,6 +268,23 @@ def add(args, config, basepath, workspace):
-                 f.write('    done\n')
-                 f.write('}\n')
- 
-+        # Check if the new layer provides recipes whose priorities have been
-+        # overriden by PREFERRED_PROVIDER.
-+        recipe_name = rd.getVar('PN')
-+        provides = rd.getVar('PROVIDES')
-+        # Search every item defined in PROVIDES
-+        for recipe_provided in provides.split():
-+            preferred_provider = 'PREFERRED_PROVIDER_' + recipe_provided
-+            if rd.getVar(preferred_provider):
-+                if args.fixed_setup:
-+                    #if we are inside the eSDK add the new PREFERRED_PROVIDER in the workspace layer.conf
-+                    layerconf_file = os.path.join(config.workspace_path, "conf", "layer.conf")
-+                    with open(layerconf_file, 'a') as f:
-+                        f.write('%s="%s"\n' % (preferred_provider, recipe_name))
-+                else:
-+                    logger.warn('Set \'%s\' in order to use the recipe' % preferred_provider)
-+                break
-+
-         _add_md5(config, recipename, appendfile)
- 
-         logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
-@@ -1810,6 +1829,7 @@ def register_commands(subparsers, context):
-     parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_add.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
-     parser_add.add_argument('--mirrors', help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).', action="store_true")
-+    parser_add.add_argument('--provides', '-p', help='Specify an alias for the item provided by the recipe. E.g. virtual/mesa')
-     parser_add.set_defaults(func=add, fixed_setup=context.fixed_setup)
- 
-     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index e21e2bf298..83c8e4f7b7 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -607,6 +607,8 @@ def create_recipe(args):
-                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
-             srcrev = stdout.rstrip()
-         lines_before.append('SRCREV = "%s"' % srcrev)
-+    if args.provides:
-+        lines_before.append('PROVIDES = "%s"' % args.provides)
-     lines_before.append('')
- 
-     if srcsubdir and not args.binary:
-@@ -1158,6 +1160,7 @@ def register_commands(subparsers):
-                                           description='Creates a new recipe from a source tree')
-     parser_create.add_argument('source', help='Path or URL to source')
-     parser_create.add_argument('-o', '--outfile', help='Specify filename for recipe to create')
-+    parser_create.add_argument('-p', '--provides', help='Specify an alias for the item provided by the recipe')
-     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
-     parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
-     parser_create.add_argument('-N', '--name', help='Name to use within recipe (PN)')
--- 
-2.13.2
+An idea is to symlink /etc/resolv.conf to a different filename in /run
+when resolved is not enabled.
 
 
+--bHBifKIloex0gcQPitKB8Mu6Jo2Gi1pMV--
+
+--BKSMD7hRLXTLgNQpx83CPUwbBpJIHaUHl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmbfiEACgkQllCJzmuV
++IIMLxAArU1WAfiRN5p9g1xX5a8i7X5kG2yMGO3uLEo5M7WdMyV6Gof9Ou/8htVk
+Z2RBmrspl7HimfiQYFPtgW7xb9NZWmw2BF4FXH1+srl8eQITQ5VseEAqnsJtqmEd
+A8L/9y0zAIgg6ekyWj+ZAK5NUjNxNLASXB9wCaqyZ/EXMlP2d/UDGwP5tZGaIPXh
+sa1dXqmW/Qkczpzxq0XqKTownLqXfhOIYithCi3AIlilzOouDaCW9hro591x0LPJ
+efs6mW3huH5i2QCsUUz/JY4F3J5K/j7UE+M04iMtyzaGwXNdgShy/r9jTe2JEKFY
+BNssPVd60m/X+PhSyjhk+CAItGlZ3oNJH7wDQBYN4a4kwys7s9duv1ZQV78wav6x
+i06O1R7UoNzD0LmXR6YV1xNMINWyoYuxMFVS2DKI+H9LQq50JDe4I0yaiaNag5ba
+xT5c/r32tXwo6xHM+0dOXYAwiX/hRe1VAgscZ5mCUXjTsc+HBID4PkEtlYI4//qY
+eIOxDVox4s+3VtPs5hm72x1ndJmWHDny+4AfQ4Fw0IPPkrfUad2rHUDbfB3aDiYz
+1oFav/SuCbRAmEUqpHhDqe1A8p2LRcCJBC+wwhuX/iKCUYIfJyihBW38dNGztYXL
++0uZ9sdbOaH18rImpdOIOyTYoBkMGNd2eUrfAR7Ukrc7gDFanI8=
+=qTRw
+-----END PGP SIGNATURE-----
+
+--BKSMD7hRLXTLgNQpx83CPUwbBpJIHaUHl--
