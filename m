@@ -1,47 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 12E2F7825B
+Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7617C7823A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 23:52:55 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id t3so5454687pgt.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Aug 2017 16:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=MsRAPr6lp8YuIt0t109jAn4ZQ9ewVY5zCKwO6gw1tuk=;
-	b=koJbbzlsyIJHRfDUErFulOujQZyVFM6ZU1o/BX07afj7A3VZPZLbqIQ8sSd6CVlbp1
-	xRYyMGQmLNTbyKQNBovytx0vHtuYRwjZmjY/AW6xF8FXdafSbHZqaoXtEzO+gTGRqCXq
-	oFuMEfZ+BdmIUFdrIL286VrXVKDIuvmgH0Xhd7LgLtRC5pakwNsxywWMyddRZsxvWxm7
-	zqk3LErcV6M1xR+RGeliQyOubYhd15vXPL9T6byjUDbR0QyEUiyh8aDocuUmkNH+u2WE
-	QPTlCrlB2564t/J4KdNhXFE3ovoU5tfsai4CrYoNhEqsPVDdnscAAzpBEF/zocwZrjLk
-	a02A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=MsRAPr6lp8YuIt0t109jAn4ZQ9ewVY5zCKwO6gw1tuk=;
-	b=kOFM7YQQjB6Asbch/C8WygGQ7WUNVV5SYI+r/wptC443/fFeO2YE2KSU3K3UXP8GvT
-	XmMDNNSMqPzAdA13B2yxHm0cqY2iDy5b7M10LuMQqlL5sOtiNYMANEMYVBi+uyZQY7nD
-	1fAsfefYDKp7dIvSliEfBSQGbcUEv/zy+ZU7Do5B3GQV+fOKG7S1sAjbswNkZmylfVfD
-	YPcw6DduUEMcrNwASpixKHA81HATugboUomdQQ6l2ad1XLwJRDwt0kJSHxJH46D1rl9e
-	WTU4fgX5noQmGS1HpPquxzNNhmjITTr3dR3s4Dolr+aYym2KJFqwsDqh1C354LM9cscz
-	1/yw==
-X-Gm-Message-State: AHYfb5gQMuRWRjT+SfmE116O3Mpm7bh96aXq44EKRqJhdmWBTI9x77Gc
-	hOnSUU8QpXoWje3/mT5jZGo/3VO2aw==
-X-Received: by 10.99.141.76 with SMTP id z73mr4733365pgd.288.1503359577015;
-	Mon, 21 Aug 2017 16:52:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Mon, 21 Aug 2017 16:52:26 -0700 (PDT)
-In-Reply-To: <20170821205721.20086-2-Martin.Jansa@gmail.com>
-References: <20170821205721.20086-1-Martin.Jansa@gmail.com>
-	<20170821205721.20086-2-Martin.Jansa@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 21 Aug 2017 16:52:26 -0700
-Message-ID: <CAMKF1spVbAz9h4Z0SWJ9BEh0-03g1ZAi18Z22AztYXfnMLOffw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] grub2: fix build with gcc-7
+	Tue, 22 Aug 2017 00:24:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Aug 2017 17:24:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,410,1498546800"; d="scan'208";a="1186685577"
+Received: from yctb04.ostc.intel.com ([10.54.69.58])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2017 17:24:42 -0700
+From: juan.m.cruz.alcaraz@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Aug 2017 17:24:35 -0700
+Message-Id: <20170822002435.39497-1-juan.m.cruz.alcaraz@linux.intel.com>
+X-Mailer: git-send-email 2.13.2
+Subject: [PATCH] devtool/standard: set a preferred provider when adding a new recipe with devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +28,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Aug 2017 23:52:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 22 Aug 2017 00:24:41 -0000
 
-On Mon, Aug 21, 2017 at 1:57 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * build with gcc-7 fails with:
->   | ./config-util.h:1504:48: error: this use of "defined" may not be   portable [-Werror=expansion-to-defined]
->   |              || (defined _FORTIFY_SOURCE && 0 < _FORTIFY_SOURCE \
->   |
-                                            ^~~~~~~~~~~~~~~
->   and we're not building on Apple or BSD, so we should be able
->   to just ignoreit until it's resolved properly in some newer gnulib
->   and imported from gnulib to grub-2
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-bsp/grub/grub-efi_2.02.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-> index b949bebced..45f4c1ed34 100644
-> --- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-> +++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-> @@ -36,6 +36,12 @@ EXTRA_OECONF += "--enable-efiemu=no"
->  # and many other places in the grub code when compiled with some native gcc compilers (specifically, gentoo)
->  CFLAGS_append_class-native = " -Wno-error=trampolines"
->
-> +# this comes from gnulib and it's used only for Apple and BSD, so we can ignore it
-> +# ./config-util.h:1504:48: error: this use of "defined" may not be portable [-Werror=expansion-to-defined]
-> +#             || (defined _FORTIFY_SOURCE && 0 < _FORTIFY_SOURCE \
-> +#                                                ^~~~~~~~~~~~~~~
-> +CFLAGS_append_class-native = " -Wno-error=expansion-to-defined"
-> +
+From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
 
-This workaround seems reasonable but I wonder why it fails on build host
-for you. how is your build hosts toolchain configured to generate this
-warning. Since you mentioned gcc7 then why doesnt it fail for OE
-targets
-in same way.
+A recipe added with "devtool add" requires to be able to take precedence on recipes
+previously defined with PREFERRED_PROVIDER.
 
-An upstreamable fix would be to break this define into another #if ..
-#else macros and define the new macro to 1 or 0 depending upon the
-conditions
-being tested.
+By adding the parameter "--provides" to "devtool add" it is possible to specify
+an element to be provided by the recipe. A devtool recipe can override a previous
+PREFERRED_PROVIDER using the layer configuration file in the workspace.
 
->  do_install_class-native() {
->         install -d ${D}${bindir}
->         install -m 755 grub-mkimage ${D}${bindir}
-> --
-> 2.14.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+E.g.
+    devtool add my-mesa git@git://my-mesa-repository --provides virtual/mesa
+
+[YOCTO #10415]
+
+Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py  | 20 ++++++++++++++++++++
+ scripts/lib/recipetool/create.py |  3 +++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index ec192238ed..02b4ff4d3b 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -151,6 +151,8 @@ def add(args, config, basepath, workspace):
+         extracmdopts += ' --fetch-dev'
+     if args.mirrors:
+         extracmdopts += ' --mirrors'
++    if args.provides:
++        extracmdopts += ' --provides %s' % args.provides
+ 
+     tempdir = tempfile.mkdtemp(prefix='devtool')
+     try:
+@@ -266,6 +268,23 @@ def add(args, config, basepath, workspace):
+                 f.write('    done\n')
+                 f.write('}\n')
+ 
++        # Check if the new layer provides recipes whose priorities have been
++        # overriden by PREFERRED_PROVIDER.
++        recipe_name = rd.getVar('PN')
++        provides = rd.getVar('PROVIDES')
++        # Search every item defined in PROVIDES
++        for recipe_provided in provides.split():
++            preferred_provider = 'PREFERRED_PROVIDER_' + recipe_provided
++            if rd.getVar(preferred_provider):
++                if args.fixed_setup:
++                    #if we are inside the eSDK add the new PREFERRED_PROVIDER in the workspace layer.conf
++                    layerconf_file = os.path.join(config.workspace_path, "conf", "layer.conf")
++                    with open(layerconf_file, 'a') as f:
++                        f.write('%s="%s"\n' % (preferred_provider, recipe_name))
++                else:
++                    logger.warn('Set \'%s\' in order to use the recipe' % preferred_provider)
++                break
++
+         _add_md5(config, recipename, appendfile)
+ 
+         logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
+@@ -1810,6 +1829,7 @@ def register_commands(subparsers, context):
+     parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
+     parser_add.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
+     parser_add.add_argument('--mirrors', help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).', action="store_true")
++    parser_add.add_argument('--provides', '-p', help='Specify an alias for the item provided by the recipe. E.g. virtual/mesa')
+     parser_add.set_defaults(func=add, fixed_setup=context.fixed_setup)
+ 
+     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index e21e2bf298..83c8e4f7b7 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -607,6 +607,8 @@ def create_recipe(args):
+                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
+             srcrev = stdout.rstrip()
+         lines_before.append('SRCREV = "%s"' % srcrev)
++    if args.provides:
++        lines_before.append('PROVIDES = "%s"' % args.provides)
+     lines_before.append('')
+ 
+     if srcsubdir and not args.binary:
+@@ -1158,6 +1160,7 @@ def register_commands(subparsers):
+                                           description='Creates a new recipe from a source tree')
+     parser_create.add_argument('source', help='Path or URL to source')
+     parser_create.add_argument('-o', '--outfile', help='Specify filename for recipe to create')
++    parser_create.add_argument('-p', '--provides', help='Specify an alias for the item provided by the recipe')
+     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
+     parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
+     parser_create.add_argument('-N', '--name', help='Name to use within recipe (PN)')
+-- 
+2.13.2
+
 
