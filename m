@@ -1,36 +1,48 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BA0B78231
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FB0E78282
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 16:20:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7MGKOIg007377
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Aug 2017 09:20:24 -0700 (PDT)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 22 Aug 2017 09:20:24 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1503283308.git.bruce.ashfield@windriver.com>
-	<1503330934.32591.64.camel@linuxfoundation.org>
-	<74bfd0a2-59a7-c98b-690d-8749ca7a989a@windriver.com>
-	<1503411893.32591.108.camel@linuxfoundation.org>
-	<7f1c93bd-0d0d-b4c4-d084-2a75d7362481@windriver.com>
-	<1503415737.32591.112.camel@linuxfoundation.org>
-	<7462b13d-0fa2-7a9f-c6d9-49c5a3f6abb0@windriver.com>
-	<1503417606.32591.115.camel@linuxfoundation.org>
-	<08e38c79-6ff5-fb02-00f3-c94e76b322fc@windriver.com>
-	<1503418078.32591.118.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <d4c8aa70-a842-e4f4-cc6d-543788e45740@windriver.com>
-Date: Tue, 22 Aug 2017 12:20:23 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 22 Aug 2017 16:33:17 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id u191so2880830pgc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Aug 2017 09:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tg3geIDbBBMJk0+j+cb7glXJWz7abmQX03UvH+jg/L0=;
+	b=kOhFbGHBQJNNNeRLmd7Nwyde03GvjCjxyreq6Xnt/5zSTRDRUMKc9qdiUohM+ft+EG
+	LK7Jzn2HwX3CyZk3AY3WpmtbsQgVOe2wE4OgsTHCddRM/xGQUV0EjXyE4MP1BQzofar/
+	SqqokiAGRWDUY44rCyGgya0/fD/wv2ID+d8S+MO3F9rJdDavx9n3jP9EU1n3nLAj091q
+	tgMFdRsPRY1FQXsIGWjtdiS7Xc4nM6QpbG7/pd5KHNp9DX6xm+6A6IfNc0uTv/+Y4puV
+	n0sYMA+PAA7YUkoKWHN+vSN0jJpSi6krd4O9yXI2neyaKeO8RTGbFNI+vMFkBNlOMZ44
+	vVBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tg3geIDbBBMJk0+j+cb7glXJWz7abmQX03UvH+jg/L0=;
+	b=lFYq+DLga6Uxq8ooFtvhcH18QgNHxrMtcODopPYQHqrZ+A49fMWRf7zdu9Fi2eTAXs
+	xzr4+EydM37RqYlwax6KqruMzyyy5l2GW8SIYrM+YKVjD1iGnMbf8lYZfjcjv15VqrZQ
+	+GHZ1aY+XU3OM/MwIm8Ja6NMtUB2gfkYBmtLXOiFv1JZUmdyaxFZeEieTY9HhjVkEXs1
+	TPFNXFz+yh39lFmdTQ1RBd5GV6BIu8DKdM6yDFwOkjZReIJsH6J4ezoxaZ2iusChlGMz
+	YvlAzLzDee8pZzvP8Bd3/cROAGksY64FMVhO6dMbEmSvODOmFYSHAu4+rWu0KiEckwDm
+	Ey7Q==
+X-Gm-Message-State: AHYfb5iZ7B1VildW10qwVVIimJcjl8cH/ca51GkY2WanphC8wcm/jJSW
+	ls5dQ6m5zea05ODiTJPhnZhJrCQ0dA==
+X-Received: by 10.98.15.209 with SMTP id 78mr1309846pfp.136.1503419598678;
+	Tue, 22 Aug 2017 09:33:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1503418078.32591.118.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
+Received: by 10.100.167.2 with HTTP; Tue, 22 Aug 2017 09:32:48 -0700 (PDT)
+In-Reply-To: <1503397329.32591.79.camel@linuxfoundation.org>
+References: <20170821205721.20086-1-Martin.Jansa@gmail.com>
+	<20170821205721.20086-2-Martin.Jansa@gmail.com>
+	<1503397329.32591.79.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 Aug 2017 09:32:48 -0700
+Message-ID: <CAMKF1sqp=9QZqWKhKP4Go51jny13eY7P4TZ2cRRB9jzOUzWC0g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] grub2: fix build with gcc-7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 16:20:25 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 Aug 2017 16:33:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 08/22/2017 12:07 PM, Richard Purdie wrote:
-> On Tue, 2017-08-22 at 12:04 -0400, Bruce Ashfield wrote:
->> On 08/22/2017 12:00 PM, Richard Purdie wrote:
->>>
->>> On Tue, 2017-08-22 at 11:34 -0400, Bruce Ashfield wrote:
->>>>
->>>> I can send you a v4 of the 4.12 patch in the next half an hour,
->>>> that's easiest for me to do.
->>>>
->>>> .. but if it isn't for you, go ahead and do the merge and I'll
->>>> sort it out in a follow up.
->>> The above works, I'm still trying to get to the bottom of the other
->>> issues that are going on.
->> Patch sent as a v4 (although I now realize I forgot to put
->> v4 in the subject, only in the summary).
-> 
-> Thanks, I'll pull that into subsequent test runs.
-> 
->>> Something in the IDE CDROM driver?
->> I keep getting sent changes to drop IDE support completely, but
->> they aren't in play here, I'm still waiting on a 4.10 linux-yocto
->> to configure so I can diff the .configs and fire up some comparison
->> boot tests.
-> 
-> I did diff the configs and nothing jumped out to me at
-> least, CONFIG_INITRAMFS_COMPRESSION=".gz" went missing but doesn't look
-> relevant as it only affects built in initramfs afaict.
+On Tue, Aug 22, 2017 at 3:22 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2017-08-21 at 22:57 +0200, Martin Jansa wrote:
+>> * build with gcc-7 fails with:
+>>   | ./config-util.h:1504:48: error: this use of "defined" may not
+>> be   portable [-Werror=expansion-to-defined]
+>>   |              || (defined _FORTIFY_SOURCE && 0 < _FORTIFY_SOURCE \
+>>   |                                                 ^~~~~~~~~~~~~~~
+>>   and we're not building on Apple or BSD, so we should be able
+>>   to just ignoreit until it's resolved properly in some newer gnulib
+>>   and imported from gnulib to grub-2
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>  meta/recipes-bsp/grub/grub-efi_2.02.bb | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>
+> Sadly this appears to break grub-efi everywhere on the autobuilder,
+> e.g.:
+>
+> https://autobuilder.yocto.io/builders/nightly-no-x11/builds/428/steps/BuildImages/logs/stdio
+>
+> I took a risk and tried to get this into M3 buts its not paid off and
+> we'll need another rebuild :(.
+>
 
-Likewise, I'm seeing only noise in the diff (i.e. new selected options)
-and nothing that should break this.
+It did not occur to me that this option is introduced in gcc7+ which means
+it will not work on hosts using old gcc versions. Sorry
 
-Could be a valid issue with the driver. I'm onto some boot testing
-now.
-
-Bruce
-
-> 
 > Cheers,
-> 
+>
 > Richard
-> 
-> 
-
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
