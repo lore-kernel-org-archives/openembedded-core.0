@@ -1,41 +1,24 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 86229782EC
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 49C1378237
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 21:07:04 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Aug 2017 14:07:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,413,1498546800"; d="scan'208";a="127124630"
-Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
-	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2017 14:07:07 -0700
-Received: from orsmsx157.amr.corp.intel.com (10.22.240.23) by
-	ORSMSX102.amr.corp.intel.com (10.22.225.129) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Tue, 22 Aug 2017 14:07:05 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.170]) by
-	ORSMSX157.amr.corp.intel.com ([169.254.9.80]) with mapi id
-	14.03.0319.002; Tue, 22 Aug 2017 14:07:04 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Andrew Goodbody <andrew.goodbody@cambrionix.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Change to kernel.bbclass broke kernel build when gcc does not
-	support -ffile-prefix-map
-Thread-Index: AdMbP/IAS7YtOOP4SGipYQJELqD0ggASnOkg
-Date: Tue, 22 Aug 2017 21:07:04 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6119EBBEA@ORSMSX112.amr.corp.intel.com>
-References: <LOXP123MB011794376CC584AF9CC750B485840@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-In-Reply-To: <LOXP123MB011794376CC584AF9CC750B485840@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.102.7
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
+	Tue, 22 Aug 2017 21:14:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7MLElUO028838
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Aug 2017 14:14:47 -0700
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 22 Aug 2017 14:14:46 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 22 Aug 2017 14:14:45 -0700
+Message-ID: <20170822211446.65099-1-jslater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-Subject: Re: Change to kernel.bbclass broke kernel build when gcc does not support -ffile-prefix-map
+Subject: [PATCH 0/1] ghostscript: CVE-2017-9727, -9835, -11714
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,40 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 21:07:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 22 Aug 2017 21:14:46 -0000
+Content-Type: text/plain
 
-Yes, the issue was reported by others as well, it should be fixed by this p=
-atch:
+Apply after 0001-ghostscript-fix-several-CVEs-by-adding-bounds-checki.patch
 
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=3Dmaster-next&id=
-=3D2b7646a113cca7698d8484fe14bdbb8683a5f8ab
+Joe Slater (1):
+  ghostscript: CVE-2017-9727, -9835, -11714
 
+ .../ghostscript/ghostscript/CVE-2017-11714.patch   |  61 ++++++++++
+ .../ghostscript/ghostscript/CVE-2017-9727.patch    |  35 ++++++
+ .../ghostscript/ghostscript/CVE-2017-9835.patch    | 125 +++++++++++++++++++++
+ .../ghostscript/ghostscript_9.21.bb                |   3 +
+ 4 files changed, 224 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-11714.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9727.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2017-9835.patch
 
-> -----Original Message-----
-> From: Andrew Goodbody [mailto:andrew.goodbody@cambrionix.com]
-> Sent: Tuesday, August 22, 2017 5:19 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Bystricky, Juro <juro.bystricky@intel.com>
-> Subject: Change to kernel.bbclass broke kernel build when gcc does not
-> support -ffile-prefix-map
->=20
-> My build uses a version of gcc that does not support -ffile-prefix-map an=
-d
-> this is now broken after I updated the tree to include the latest commit =
-to
-> kernel.bbclass "improve reproducibility" 012a70da7ae0617 by Juro Bystrick=
-y.
->=20
-> The patch introduces the line
-> cc_option_supported=3D`${KERNEL_CC} -Q --help=3Djoined | grep ffile-prefi=
-x-map`
-> When gcc does not support -ffile-prefix-map, the grep will exit with a no=
-n-
-> zero return code which is caught and causes the do_compile step to fail.
->=20
-> Thanks,
-> Andrew
+-- 
+2.7.4
+
 
