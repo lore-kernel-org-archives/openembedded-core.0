@@ -1,46 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 15AA178282
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C989878275
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 16:34:18 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id 83so27794413pgb.4
+	Tue, 22 Aug 2017 16:35:34 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id u191so2884774pgc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 09:34:20 -0700 (PDT)
+	Tue, 22 Aug 2017 09:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=zstuVGvc0nEnTuPIrLo6XEV6SiViCHk7dxRs4qepKyA=;
-	b=o377jcEjOKIxaOvzmhVHBhYqEzDtV+OySWI8L9ZGOD9C0EWI1Ve0URGYEKrhdHtAZD
-	qcRFbTc1S3orCRy/6Dqj/av18/HRK/fkIZ8knEoFFL6L8MgOpK8S5y73zzhrDCKzRorI
-	XkUbeUFvRcD1ZVbfklaAaNEhhOe+VRYnL3ldxSk0r5rFyXmq65AKK7ZEHfNY7tQ/bvzC
-	5x5RmJNH7/eHWI7kF6/Yt+phECwqaIKQycMLIknyKXz3irQ4yba3B4XT6KDIHbdSLssw
-	m4nKJw4CAsSfQSsOReIuiXQ4KHp2QQwrq7D1OtjNs1C9Ip+GQoNC+8wfw7c0UeCNV2MN
-	N8Mw==
+	:cc; bh=nFB3RKPiIguAqkya86ktyc7NYJFo+MKlM3ikSOHoOts=;
+	b=PceHG7ghvY3qER93q48MFvRi1PuUeSF9xKCt77VSR43eohTnUrKm+yX+hAs4RpCMXC
+	LF6vrPFGKhcRL86PP49Q383WA5hkEFL0eUJFniOUVuPWkUtLBzXAWFghqadx3yoMJXsd
+	JjHtYspHnP4q28MKw3/HlquLn4UY6Q6/QkiMwCGc9er9RrCUBu0hXrVEhzhBRPQu1uog
+	Hee6UN4VDXlgoPg+zRWUtQXlPX11O1mA44mFfKKyfB7uOorRJa2ELIWcYTBklgviWv5C
+	s9p4aORTQ/ghC1BKuJP5gMy2c3vWA39OkwMBp6UxMk96T24AZxOAfUJEfqBZyVJRfva0
+	ATVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=zstuVGvc0nEnTuPIrLo6XEV6SiViCHk7dxRs4qepKyA=;
-	b=uR5fSPKmTDUJw1xD+nIvnVkprn1TQO/XwnUqz27w9lBlUN2jFW1u/XhtQrH+0fNefA
-	l72VAxG/ZEth39YC2NKGPEpi7GkcT/5OURQ98ri84eczRCOGbzMWW605gHLyd7DyiTNa
-	e0n99c7opn7g7I9ov3oqxyV5Oomha29G31duU2SwppPA6MV2QNQqdpJU7KJ2faKRzoZM
-	aUJym6lc+01w6BzTZcOzWzhOIeuUbwb4t9sfKDOM6dxVBn5hlGAxES7behF3MgREh9wQ
-	oPpprZBDj5Po1i2isRSqscAXPsPq6uIvOrRZxZpw35mjADoaiOVmFVCgnArkmbJLFjch
-	MhIw==
-X-Gm-Message-State: AHYfb5h7+1fGc/7mQI6/PqG3701o3B9PzUwCqy0JQVrYNejgsV8qSXd2
-	4nxcaqveceNFEfon0ytciFuh+1fI8Q==
-X-Received: by 10.101.86.12 with SMTP id l12mr1296906pgs.123.1503419660174;
-	Tue, 22 Aug 2017 09:34:20 -0700 (PDT)
+	bh=nFB3RKPiIguAqkya86ktyc7NYJFo+MKlM3ikSOHoOts=;
+	b=EUYhiV7mgS5XhXxy0E/SV4wUuqDiWyBZ5nwvKk/dFfLjUL9KA6nrwcX2XU1eORizi2
+	TeURFgKcqhNNHllsa+kxRCpZk8e13l/rGqvO6yCM1hA1EKYr8+Wcb6M7jIM1tnDvx07K
+	so6Lpd+ro8w/q0XwtzFRWx06dPv8+OPflC/HXWeBh90dR+Sv3ysoPqF5IeT3hYW19sTU
+	oznq46SILSm6x6KbQjyjgpVeEt5PrtCiKr+gyXPZUhGz4yzD+QZ6N0XVLY1I1DiiQ/Az
+	ocg3Kr6e4BsOcgQgaD/JO8HnqSHVAMwk2nket/gCmUvjm+10PwXzdiv7p1Dt0cGkc4Oj
+	di8g==
+X-Gm-Message-State: AHYfb5gs2dXGBhA91zSKogNFtCDSEmxXNhdkbSxcvDO98D/WgbFOPzkn
+	un+vfytTHoJRReNN/GqV1Y59yd3anw==
+X-Received: by 10.98.30.7 with SMTP id e7mr1310408pfe.329.1503419736425; Tue,
+	22 Aug 2017 09:35:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Tue, 22 Aug 2017 09:33:49 -0700 (PDT)
-In-Reply-To: <20170822073650.8413-1-jackie.huang@windriver.com>
-References: <20170822073650.8413-1-jackie.huang@windriver.com>
+Received: by 10.100.167.2 with HTTP; Tue, 22 Aug 2017 09:35:04 -0700 (PDT)
+In-Reply-To: <1503400000-25414-1-git-send-email-rbilovol@cisco.com>
+References: <1503400000-25414-1-git-send-email-rbilovol@cisco.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 22 Aug 2017 09:33:49 -0700
-Message-ID: <CAMKF1sonQOf55b0Aap8Lm7yFcoLtoi8kO+6it1PLmXcME_Fxhw@mail.gmail.com>
-To: jhuang0 <jackie.huang@windriver.com>
+Date: Tue, 22 Aug 2017 09:35:04 -0700
+Message-ID: <CAMKF1spLkW=57FZtm5_Xa3OGkBgj4RzvW9GKTudg1o2nDi9=9w@mail.gmail.com>
+To: Ruslan Bilovol <rbilovol@cisco.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: disable gobject-introspection on armv7a
+Subject: Re: [PATCH] machine-sdk: oldest kernel for x86/x86_64 is 3.2.0 now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 16:34:19 -0000
+X-List-Received-Date: Tue, 22 Aug 2017 16:35:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 22, 2017 at 12:36 AM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
+On Tue, Aug 22, 2017 at 4:06 AM, Ruslan Bilovol <rbilovol@cisco.com> wrote:
+> With glibc upgrade to 2.26 release (commit d6a0bc57fa07
+> "glibc: Upgrade to 2.26 final release") it's not possible
+> to build x86/x86_64 SDK for kernels lower than 3.2.0
+> (see glibc commit 139ace95756a "Require Linux kernel 3.2
+> or later on x86 / x86_64.")
 >
-> Disable gobject-introspection on armv7a to avoid
-> do_compile failure:
+> Thus drop SDK_OLDEST_KERNEL overrides from machine-specific
+> conf files, so default version 3.2.0 from conf/bitbake.conf
+> will be picked up.
 >
-> | qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-> | Segmentation fault
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/recipes-sato/webkit/webkitgtk_2.16.6.bb | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
-> index df355d2..a53c42d 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
-> @@ -112,3 +112,7 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
->  ARM_INSTRUCTION_SET_armv7a = "thumb"
->  ARM_INSTRUCTION_SET_armv7r = "thumb"
->  ARM_INSTRUCTION_SET_armv7ve = "thumb"
-> +
-> +# qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-> +# Segmentation fault
-> +EXTRA_OECMAKE_append_armv7a = " -DENABLE_INTROSPECTION=OFF "
 
-there should be a space between beginning quote and -DENABLE_INTROSPECTION
+this is ok
+
+> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+> ---
+>  meta/conf/machine-sdk/i586.conf   | 1 -
+>  meta/conf/machine-sdk/i686.conf   | 1 -
+>  meta/conf/machine-sdk/x86_64.conf | 1 -
+>  3 files changed, 3 deletions(-)
+>
+> diff --git a/meta/conf/machine-sdk/i586.conf b/meta/conf/machine-sdk/i586.conf
+> index 99083fb..41e5e15 100644
+> --- a/meta/conf/machine-sdk/i586.conf
+> +++ b/meta/conf/machine-sdk/i586.conf
+> @@ -1,5 +1,4 @@
+>  SDK_ARCH = "i586"
+>  SDK_CC_ARCH = "-march=i586"
+>  ABIEXTENSION_class-nativesdk = ""
+> -SDK_OLDEST_KERNEL = "2.6.32"
+>
+> diff --git a/meta/conf/machine-sdk/i686.conf b/meta/conf/machine-sdk/i686.conf
+> index cf22784..fe40697 100644
+> --- a/meta/conf/machine-sdk/i686.conf
+> +++ b/meta/conf/machine-sdk/i686.conf
+> @@ -1,4 +1,3 @@
+>  SDK_ARCH = "i686"
+>  SDK_CC_ARCH = "-march=i686"
+>  ABIEXTENSION_class-nativesdk = ""
+> -SDK_OLDEST_KERNEL = "2.6.32"
+> diff --git a/meta/conf/machine-sdk/x86_64.conf b/meta/conf/machine-sdk/x86_64.conf
+> index 7d2e717..61439b4 100644
+> --- a/meta/conf/machine-sdk/x86_64.conf
+> +++ b/meta/conf/machine-sdk/x86_64.conf
+> @@ -1,3 +1,2 @@
+>  SDK_ARCH = "x86_64"
+>  ABIEXTENSION_class-nativesdk = ""
+> -SDK_OLDEST_KERNEL = "2.6.32"
 > --
 > 1.9.1
 >
