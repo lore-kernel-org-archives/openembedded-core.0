@@ -1,50 +1,46 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-yw0-f169.google.com (mail-yw0-f169.google.com
-	[209.85.161.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 274157829C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E2B6782FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 18:46:42 +0000 (UTC)
-Received: by mail-yw0-f169.google.com with SMTP id s143so113272097ywg.1
+	Tue, 22 Aug 2017 19:09:15 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id a47so3004035wra.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 11:46:44 -0700 (PDT)
+	Tue, 22 Aug 2017 12:09:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+G1Ay8KQwxR7AVVeaa+CA74sf4oEkEuTxCjDkYZ+his=;
-	b=Xp53FCe1ith+eWeOxNYUwDfDM12LosQuMGM79X32CMUXSsz2l1EBdS4b49gTcTHZMf
-	1xySuHvX2Vajg2ts6qlqJSMGlI3hR4Ml7ZgDHL3H1d1qmEJTeGl6S41yOa/oJMNsL04j
-	XwcSQ5ZxTfKAmDknE+CoOebHwXpO8Mfy+4uvTchII23wOGSsPVF82xGb+L39j0LjMe5d
-	IE5YvfeXuvqQChkV2EdNEgomXGcc1srEjZm/Ds0UCZu5yVoeD4bkgmmzAv1oQFnc1aGA
-	hwCiXNYF527OeFR+iQJujHfSuoBBIsKAngHGCAKcdKYrn+ILOPGFEsPQweSERzSnwiku
-	smtA==
+	:cc; bh=0JKIAfks71kCebfe+u1brGNpCnMULQyajEde0zgSD4U=;
+	b=dLADoBlVUPuWfrnWL623Q83+cDIeOyPeLextv6QhUm8Fbwj/NPKsLHxG4sznd5wAhh
+	hXg5TtOW70AFOP6xqzXo8fiYduYTgQGdhaNXic3TedrxI60MgBMA3+8i26uT0Ddcsr9n
+	cAYwcULsIZ67QT4sEflifHJu4u+l62lBpEVjWiY5ht/XcT1d7OBgWpGwhHMBfcZd1oZa
+	PkWBTZEowedZ3pZUrhR0gd6+rPmkpe73cStnsbkWZ36S0etrLUp8nkA0RvvZdhOEQMC2
+	VTPJgvmw5/gzO3Llofzx/LF/kcYf6La5B7qr9pFmSRjGnsQM4Y/eMx91iT3ZPdFx9rmX
+	AE1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=+G1Ay8KQwxR7AVVeaa+CA74sf4oEkEuTxCjDkYZ+his=;
-	b=TehQV6AhDAYFEAHkHZ1UkMsZVco10MuY/Laaa/Vu7xFxaIsS/sNInE9p5FzIvTyn3+
-	euZgNFNjUjtosW6bjCB5XMbEKZiNT4YdFgBKAg2vNh0eSoAMU1UwXhJkmJFNAuso+AMt
-	NPlugZb+D7vZCuZl2E3RCQYNevFm38T4UnvtEyorCkpe/sicYkizoxC6QUDePnBBt4zy
-	NSCC30X50CZQkx58fzxahL3ucDvpUftQm9HJ1Bbyn/FAuKwUIC0tEjeZ2jrvtTBL+SaM
-	t0eunecgm3p0QlpDyxwcxb9PMzED+CBDWAtbg6KO11pKCWNGxsn/Ab2oVucLX0Aw42Sf
-	XEcw==
-X-Gm-Message-State: AHYfb5hFjbpGerMJYl5VkXjOVGK3uqaC3jkWbX3FLK44Q3p06yr4sis8
-	pYoTCXBtHWyuuyWRxVYdnSAvcvMl8g==
-X-Received: by 10.129.83.68 with SMTP id h65mr23917ywb.315.1503427604111; Tue,
-	22 Aug 2017 11:46:44 -0700 (PDT)
+	bh=0JKIAfks71kCebfe+u1brGNpCnMULQyajEde0zgSD4U=;
+	b=L3sCnI0xngTos0mfZFkQO5tIGnyvHfxQzneHAevqL/Q6XOHiY2inSM9r75wnXotro2
+	nmIQVnkReK5KRfYCHxRAf3BvaPqgo7/6UgjRv+pFilxEdyG1SCm/HF6cUZtSj0BEpBal
+	kgq8Dlh0B8BORIiuuL9AZgpzy8JBfAysyAsb9K+WbN02033MaeKMCIDj12n61aREOfrt
+	P7a6JwZOj4vkPEkd9kh4JDTCDl4bSwrvg5MsTCxCsjcABC7z9e0paF8zXFh5A2LvdsIt
+	8vw5ysx1nszRPunDu5nsy0CGLIDw65vKRtD8eG0slYojwqSq12WSxu9+stw7ug7ZqiEL
+	otQQ==
+X-Gm-Message-State: AHYfb5hRW+BqMtRNddxV94CUn27sKADFbHmxCXrMhwTFhNa479GtLKZm
+	qKYgEu/YTQ5j9/b/YmFScS4/epwbkQ==
+X-Received: by 10.223.184.116 with SMTP id u49mr77853wrf.182.1503428956130;
+	Tue, 22 Aug 2017 12:09:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.37.66.145 with HTTP; Tue, 22 Aug 2017 11:46:43 -0700 (PDT)
-In-Reply-To: <96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
-References: <CAHUNapTr=oOvVTHvwxGJ2uPZB7Kbs4rBh9U8ZGzdNd0HuHi=1g@mail.gmail.com>
-	<1503423645.32591.120.camel@linuxfoundation.org>
-	<96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 22 Aug 2017 14:46:43 -0400
-Message-ID: <CAHUNapRMGUyRN0omktP7x2sgk1QuHh9C-j13Am4Wo3eWYe04=w@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: long (never ending?) do_install for adwaita-icon-theme
+Received: by 10.223.169.70 with HTTP; Tue, 22 Aug 2017 12:09:15 -0700 (PDT)
+In-Reply-To: <20170822073650.8413-1-jackie.huang@windriver.com>
+References: <20170822073650.8413-1-jackie.huang@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 22 Aug 2017 12:09:15 -0700
+Message-ID: <CAJ86T=W0+y7AS9mSsPDvnNsvao8Uszv0FpbJ+NVKz+jaFyrE0w@mail.gmail.com>
+To: "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] webkitgtk: disable gobject-introspection on armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,25 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 18:46:43 -0000
+X-List-Received-Date: Tue, 22 Aug 2017 19:09:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 22, 2017 at 2:01 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> Do you have any kind of logs for when it happens?
+On Tue, Aug 22, 2017 at 12:36 AM,  <jackie.huang@windriver.com> wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> Disable gobject-introspection on armv7a to avoid
+> do_compile failure:
+>
+> | qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+> | Segmentation fault
+>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  meta/recipes-sato/webkit/webkitgtk_2.16.6.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
+> index df355d2..a53c42d 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
+> @@ -112,3 +112,7 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
+>  ARM_INSTRUCTION_SET_armv7a = "thumb"
+>  ARM_INSTRUCTION_SET_armv7r = "thumb"
+>  ARM_INSTRUCTION_SET_armv7ve = "thumb"
+> +
+> +# qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+> +# Segmentation fault
+> +EXTRA_OECMAKE_append_armv7a = " -DENABLE_INTROSPECTION=OFF "
 
+Using:
 
-Unfortunately not, I'll try to keep some the next time it happens.
+  GI_DATA_ENABLED_armv7a = "False"
 
-But I have a suspicion it might be related to a build failure. Earlier
-today I was doing a build which failed in a recipe that wasn't
-adwaita-icon-theme, nor related to it. When I checked on my build
-later I could see the tail of the error message from the failed
-recipe, but the overall build was still waiting for
-adwaita-icon-theme's do_install to finish (hours after the failure).
+might be a better approach. Since such over-rides for _armv7a should
+also be duplicated for _armv7ve, this:
 
-Maybe adwaita-icon-theme's do_install would have succeeded if
-everything had gone well? Maybe to reproduce, it might be necessary to
-time it such that another recipe fails while adwaita-icon-theme is
-building?
+  GI_DATA_ENABLED_armv7a = "False"
+  GI_DATA_ENABLED_armv7ve = "False"
+
+would be even better.
+
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
