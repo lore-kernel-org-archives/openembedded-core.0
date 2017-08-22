@@ -1,46 +1,45 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E2B6782FE
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 204F560102
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 19:09:15 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id a47so3004035wra.0
+	Tue, 22 Aug 2017 19:29:47 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id t138so83859wmt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 12:09:16 -0700 (PDT)
+	Tue, 22 Aug 2017 12:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0JKIAfks71kCebfe+u1brGNpCnMULQyajEde0zgSD4U=;
-	b=dLADoBlVUPuWfrnWL623Q83+cDIeOyPeLextv6QhUm8Fbwj/NPKsLHxG4sznd5wAhh
-	hXg5TtOW70AFOP6xqzXo8fiYduYTgQGdhaNXic3TedrxI60MgBMA3+8i26uT0Ddcsr9n
-	cAYwcULsIZ67QT4sEflifHJu4u+l62lBpEVjWiY5ht/XcT1d7OBgWpGwhHMBfcZd1oZa
-	PkWBTZEowedZ3pZUrhR0gd6+rPmkpe73cStnsbkWZ36S0etrLUp8nkA0RvvZdhOEQMC2
-	VTPJgvmw5/gzO3Llofzx/LF/kcYf6La5B7qr9pFmSRjGnsQM4Y/eMx91iT3ZPdFx9rmX
-	AE1w==
+	h=from:to:cc:subject:date:message-id;
+	bh=QbD85ejzHZcBLiQWDjfGGOUm5RrK6DHY+oc+0WCKJJQ=;
+	b=l5MOKPxPd7VatUoM9TFIa78HnCLoRmkiIFdKcZc1mzctSibUBH0clWf6Xobkot71cA
+	4UunfgaSjMVCXtI1pMQiHyiQ/rlB2O9NeXOnxtHcxR3YfOk4/LAtPsG25z5eLt8/+7sL
+	l2m0YUPFoMSeanIpuncNMbs/ye5Owhb8dqUD/ULMeQwSPCvFJSDBgfPDv6aCpDz2QO+I
+	HTEogHHAajLImauA0zw1aQ1/ArKObY8HzX1cj5YKIlMkb2a1MGY/VLs6JJWx/In9/nZf
+	Bk/nw5Ess6DSSEA9DDRPoA+Fta/MbAOYQnOaIMn3ndqfC+5NgHKi6bhPS/jZmxjUqR9R
+	NN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0JKIAfks71kCebfe+u1brGNpCnMULQyajEde0zgSD4U=;
-	b=L3sCnI0xngTos0mfZFkQO5tIGnyvHfxQzneHAevqL/Q6XOHiY2inSM9r75wnXotro2
-	nmIQVnkReK5KRfYCHxRAf3BvaPqgo7/6UgjRv+pFilxEdyG1SCm/HF6cUZtSj0BEpBal
-	kgq8Dlh0B8BORIiuuL9AZgpzy8JBfAysyAsb9K+WbN02033MaeKMCIDj12n61aREOfrt
-	P7a6JwZOj4vkPEkd9kh4JDTCDl4bSwrvg5MsTCxCsjcABC7z9e0paF8zXFh5A2LvdsIt
-	8vw5ysx1nszRPunDu5nsy0CGLIDw65vKRtD8eG0slYojwqSq12WSxu9+stw7ug7ZqiEL
-	otQQ==
-X-Gm-Message-State: AHYfb5hRW+BqMtRNddxV94CUn27sKADFbHmxCXrMhwTFhNa479GtLKZm
-	qKYgEu/YTQ5j9/b/YmFScS4/epwbkQ==
-X-Received: by 10.223.184.116 with SMTP id u49mr77853wrf.182.1503428956130;
-	Tue, 22 Aug 2017 12:09:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.169.70 with HTTP; Tue, 22 Aug 2017 12:09:15 -0700 (PDT)
-In-Reply-To: <20170822073650.8413-1-jackie.huang@windriver.com>
-References: <20170822073650.8413-1-jackie.huang@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 22 Aug 2017 12:09:15 -0700
-Message-ID: <CAJ86T=W0+y7AS9mSsPDvnNsvao8Uszv0FpbJ+NVKz+jaFyrE0w@mail.gmail.com>
-To: "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: disable gobject-introspection on armv7a
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=QbD85ejzHZcBLiQWDjfGGOUm5RrK6DHY+oc+0WCKJJQ=;
+	b=cnMPI5pUlkVENmQ1dtJhKYBSfvPvq5LuO0KM3oHyYK1yqq7gOJvXtNsa7CqTJG4NE1
+	8i3r2GUfJxYGh4f1ufuMnNZ60use/NuuzSiq7xq/SpMBIEnraBdJnCQklb15I/KfX9NK
+	L/s/p7hwBmg2pnbnWiE9JoEcwdOAozIjIzCv7xvPUBc34rjNideBpow5W3k/1/qVbp6I
+	o6ya1JtoFtEnQRR4WxhNCtdK0hkGRaUEmLqUQcFT0Ii5gMEn6QH4tl+JclqKkbBqtUwf
+	QswQVbsZUSCqZL8SCZsMVjsbyGk5Kb1M8ltnwNipjDuVtpGa2U/WMWoB00JpSzVSxB5u
+	qsOg==
+X-Gm-Message-State: AHYfb5jCnlxa2IkooAw2nZdEQ0JPyghc222qNoMHdxP8ILwtM+b12myj
+	sDJfu0CeqoK38/Dk
+X-Received: by 10.28.46.197 with SMTP id u188mr358595wmu.26.1503430188350;
+	Tue, 22 Aug 2017 12:29:48 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	13sm20370808wrw.72.2017.08.22.12.29.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Aug 2017 12:29:47 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Aug 2017 21:31:30 +0200
+Message-Id: <20170822193130.8658-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] systemd-machine-units: import last recipe from meta-systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,54 +52,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 19:09:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 22 Aug 2017 19:29:48 -0000
 
-On Tue, Aug 22, 2017 at 12:36 AM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> Disable gobject-introspection on armv7a to avoid
-> do_compile failure:
->
-> | qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-> | Segmentation fault
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/recipes-sato/webkit/webkitgtk_2.16.6.bb | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
-> index df355d2..a53c42d 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.16.6.bb
-> @@ -112,3 +112,7 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
->  ARM_INSTRUCTION_SET_armv7a = "thumb"
->  ARM_INSTRUCTION_SET_armv7r = "thumb"
->  ARM_INSTRUCTION_SET_armv7ve = "thumb"
-> +
-> +# qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-> +# Segmentation fault
-> +EXTRA_OECMAKE_append_armv7a = " -DENABLE_INTROSPECTION=OFF "
+* this recipe is intentionally empty, but useful for BSP layers to
+  provide machine specific systemd services in this MACHINE_ARCH
+  package.
 
-Using:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/systemd/systemd-machine-units_1.0.bb | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd-machine-units_1.0.bb
 
-  GI_DATA_ENABLED_armv7a = "False"
+diff --git a/meta/recipes-core/systemd/systemd-machine-units_1.0.bb b/meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+new file mode 100644
+index 0000000000..a64464cffe
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "Machine specific systemd units"
++
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++PR = "r19"
++
++inherit systemd
++SYSTEMD_SERVICE_${PN} = ""
++
++ALLOW_EMPTY_${PN} = "1"
+-- 
+2.14.1
 
-might be a better approach. Since such over-rides for _armv7a should
-also be duplicated for _armv7ve, this:
-
-  GI_DATA_ENABLED_armv7a = "False"
-  GI_DATA_ENABLED_armv7ve = "False"
-
-would be even better.
-
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
