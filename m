@@ -1,38 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 05D4478293
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8528B78293
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 21:56:56 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7MLutJ3004529
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 22 Aug 2017 22:56:56 +0100
-Message-ID: <1503439015.32591.138.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 22 Aug 2017 22:56:55 +0100
-In-Reply-To: <30e270c4-3369-b602-a1de-f8bd92038626@windriver.com>
-References: <cover.1503283308.git.bruce.ashfield@windriver.com>
-	<1503330934.32591.64.camel@linuxfoundation.org>
-	<74bfd0a2-59a7-c98b-690d-8749ca7a989a@windriver.com>
-	<1503411893.32591.108.camel@linuxfoundation.org>
-	<7f1c93bd-0d0d-b4c4-d084-2a75d7362481@windriver.com>
-	<1503415737.32591.112.camel@linuxfoundation.org>
-	<7462b13d-0fa2-7a9f-c6d9-49c5a3f6abb0@windriver.com>
-	<1503417606.32591.115.camel@linuxfoundation.org>
-	<08e38c79-6ff5-fb02-00f3-c94e76b322fc@windriver.com>
-	<1503418078.32591.118.camel@linuxfoundation.org>
-	<30e270c4-3369-b602-a1de-f8bd92038626@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Tue, 22 Aug 2017 22:56:57 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
+	Tue, 22 Aug 2017 22:08:37 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id t138so462454wmt.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Aug 2017 15:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=93/flN4xnFvBfBcVqDukPHVRVCuGMDw+uTTny03PbZo=;
+	b=MeMF2Xe6B2x3JQ0wUY+19/gITTOdh35MFG6ehENkTI1LGB9VWcSOWj6QE5o3Aw8h5c
+	4KR2v2eay2DR4QB6TyHeMBogj136ZXbafLqKgPFyrlp9VT15eo2BGVzWMwRNNZ6IHeet
+	X4CvgQPXa6+UEEpfwpfyqVzLP6ZEcQ7BsdqQRhrv/2Srom8c1hAoVKXeyj254k5N1TRS
+	D7IwjjmwrneBU3Xwdmmu2PmTAEv20Ctyc8OjKvuDFp6yvDVx9lkjO2Rk7NeHNa3QP2rm
+	kb5GrBEg/YMCGghJL7g2jbAcEDAzBABx/bqgFbfw92U1TTG8lBaRt6UzcNK0KQTVsg7D
+	Pm0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=93/flN4xnFvBfBcVqDukPHVRVCuGMDw+uTTny03PbZo=;
+	b=C9n/2zCK6qNNWSRaZUXJvS5HQOqoUqyyosRycfH3quE2eMIi360cQ3T9tgkDsOT0qu
+	XzPLxWjwOoCwJ5HwrdvZTghzs1QjQAdoEy2DNSa0xU3+bLBGQI28P+qAulXdOKeBwBp6
+	3GrqVmeQQ6m1mNSn4yJx5vpaH+S9NknYVLkdigeUVmvVOtUg4lR2z0jbFLEvrUbR1YHu
+	bLyaHtFmaMz8+ISLrMdbjVmz7AZzYBqi6rzhEGEIYCimhGAtQ3L18z9wD02sKuW2RLRv
+	vWf/3j+XeHqcoL1QqkdwvavC9a2b6n+1JRTvEvuPZdWYe9hz12eG+Vfz0nvbCijI1C43
+	sDGA==
+X-Gm-Message-State: AHYfb5gOyLYBKpQ+lLTCE0nchmQcxjPwW0/QfWaSV3RcCzXYH+8KQQEP
+	VXcHS31chWwxmOUn
+X-Received: by 10.28.144.68 with SMTP id s65mr462127wmd.175.1503439717786;
+	Tue, 22 Aug 2017 15:08:37 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id f9sm304775wmf.9.2017.08.22.15.08.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 22 Aug 2017 15:08:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Aug 2017 00:10:20 +0200
+Message-Id: <20170822221020.10779-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.14.1
+In-Reply-To: <CA+chaQf=yHdsWXEZyDFQ9KsHDvpYY24G8ACGkd4Q3oBOdFVgZw@mail.gmail.com>
+References: <CA+chaQf=yHdsWXEZyDFQ9KsHDvpYY24G8ACGkd4Q3oBOdFVgZw@mail.gmail.com>
+Subject: [PATCHv2] grub2: fix build on gcc where _FORTIFY_SOURCE is defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,65 +55,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 21:56:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Aug 2017 22:08:37 -0000
 
-On Tue, 2017-08-22 at 16:34 -0400, Bruce Ashfield wrote:
-> On 08/22/2017 12:07 PM, Richard Purdie wrote:
-> I found the commit that is causing the problem (after three hours
-> of bisecting). That's the good news. The bad news is it isn't
-> something
-> I can revert .. or easily fix, since the commit is large and is
-> pretty
-> much tree wide. There's a lot of commits stacked on top if that
-> change,
-> so it can't be reverted.
-> 
-> ------------
-> 
-> commit 82ed4db499b8598f16f8871261bff088d6b0597f
-> Author: Christoph Hellwig <hch@lst.de>
-> Date:   Fri Jan 27 09:46:29 2017 +0100
-> 
->      block: split scsi_request out of struct request
-> 
->      And require all drivers that want to support BLOCK_PC to
-> allocate it
->      as the first thing of their private data.  To support this the
-> legacy
->      IDE and BSG code is switched to set cmd_size on their queues to
-> let
->      the block layer allocate the additional space.
-> 
->      Signed-off-by: Christoph Hellwig <hch@lst.de>
->      Signed-off-by: Jens Axboe <axboe@fb.com>
-> 
-> ---------
-> 
-> I was able to boot with the following in the command line:
-> 
-> -drive 
-> file=tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64-
-> 20170822200708.iso,if=virtio,media=cdrom
-> 
-> --------
-> 
-> IMHO we need to stop using the ancient IDE support, since it
-> continually
-> is broken (not usually this badly .. but often in more subtle ways).
-> 
-> So switching to a virtio backed CDROM, while the issue is reported
-> upstream is probably the best bet.
+* e.g. with gentoo gcc-7.1 they define _FORTIFY_SOURCE by default with:
+  https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo/src/patchsets/gcc/7.1.0/gentoo/10_all_default-fortify-source.patch?view=markup
+  which results in following error while building grub-efi-native:
+  ./config-util.h:1504:48: error: this use of "defined" may not be portable [-Werror=expansion-to-defined]
+               || (defined _FORTIFY_SOURCE && 0 < _FORTIFY_SOURCE \
+                                                  ^~~~~~~~~~~~~~~
+  this part comes from gnulib and it's used only for Apple and BSD,
+  so we can ignore it, but we cannot add -Wno-error=expansion-to-defined
+  because this warning was introduced only in gcc-7 and older gcc
+  will fail with:
+  cc1: error: -Werror=expansion-to-defined: no option -Wexpansion-to-defined
+  use #pragma to work around this
 
-That seems reasonable to me and should be a simple change to the
-runqemu script. The hint above should let me test that so I'll try and
-and see how the builds work out. Thanks for the help in figuring a
-workaround!
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
 
-Cheers,
+v2: this version works on hosts with older gcc, tested on Ubuntu-16.04
+    with gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4)
 
-Richard
+ .../grub/files/fix.build.with.gcc-7.patch          | 39 ++++++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc                    |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/fix.build.with.gcc-7.patch
 
+diff --git a/meta/recipes-bsp/grub/files/fix.build.with.gcc-7.patch b/meta/recipes-bsp/grub/files/fix.build.with.gcc-7.patch
+new file mode 100644
+index 0000000000..f35df97bfc
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/fix.build.with.gcc-7.patch
+@@ -0,0 +1,39 @@
++* e.g. with gentoo gcc-7.1 they define _FORTIFY_SOURCE by default with:
++  https://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo/src/patchsets/gcc/7.1.0/gentoo/10_all_default-fortify-source.patch?view=markup
++  which results in following error while building grub-efi-native:
++  ./config-util.h:1504:48: error: this use of "defined" may not be portable [-Werror=expansion-to-defined]
++               || (defined _FORTIFY_SOURCE && 0 < _FORTIFY_SOURCE \
++                                                  ^~~~~~~~~~~~~~~
++  this part comes from gnulib and it's used only for Apple and BSD,
++  so we can ignore it, but we cannot add -Wno-error=expansion-to-defined
++  because this warning was introduced only in gcc-7 and older gcc
++  will fail with:
++  cc1: error: -Werror=expansion-to-defined: no option -Wexpansion-to-defined
++  use #pragma to work around this
++
++Upstream-Status: Pending (should be fixed in gnulib which is then rarely updated in grub)
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++diff -uNr grub-2.02.old/m4/extern-inline.m4 grub-2.02/m4/extern-inline.m4
++--- grub-2.02.old/m4/extern-inline.m4	2016-02-28 15:22:21.000000000 +0100
+++++ grub-2.02/m4/extern-inline.m4	2017-08-22 19:26:45.213637276 +0200
++@@ -39,6 +39,10 @@
++    OS X 10.9 has a macro __header_inline indicating the bug is fixed for C and
++    for clang but remains for g++; see <http://trac.macports.org/ticket/41033>.
++    Assume DragonFly and FreeBSD will be similar.  */
+++#pragma GCC diagnostic push
+++#if __GNUC__ >= 7
+++#pragma GCC diagnostic ignored "-Wexpansion-to-defined"
+++#endif
++ #if (((defined __APPLE__ && defined __MACH__) \
++       || defined __DragonFly__ || defined __FreeBSD__) \
++      && (defined __header_inline \
++@@ -50,6 +52,7 @@
++                 && defined __GNUC__ && ! defined __cplusplus))))
++ # define _GL_EXTERN_INLINE_STDHEADER_BUG
++ #endif
+++#pragma GCC diagnostic pop
++ #if ((__GNUC__ \
++       ? defined __GNUC_STDC_INLINE__ && __GNUC_STDC_INLINE__ \
++       : (199901L <= __STDC_VERSION__ \
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 240a1f9286..a56fbe7bf8 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -17,6 +17,7 @@ SRC_URI = "https://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://autogen.sh-exclude-pc.patch \
+            file://grub-module-explicitly-keeps-symbole-.module_license.patch \
+            file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
++	   file://fix.build.with.gcc-7.patch \
+ "
+ SRC_URI[md5sum] = "1116d1f60c840e6dbd67abbc99acb45d"
+ SRC_URI[sha256sum] = "660ee136fbcee08858516ed4de2ad87068bfe1b6b8b37896ce3529ff054a726d"
+-- 
+2.14.1
 
 
