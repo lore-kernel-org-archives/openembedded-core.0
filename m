@@ -1,26 +1,29 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 24E597826C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 56A6571C54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 08:40:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7M8eput009979
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 01:40:52 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 22 Aug 2017 01:40:50 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Aug 2017 16:29:42 +0800
-Message-ID: <9aa708b6c5cf2874e53216dde589c07bf5407d1c.1503390555.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.10.1
-In-Reply-To: <cover.1503390555.git.kai.kang@windriver.com>
-References: <cover.1503390555.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] watchdog: enable systemd support
+	Tue, 22 Aug 2017 10:22:10 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7MAM9Q3011941
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 22 Aug 2017 11:22:10 +0100
+Message-ID: <1503397329.32591.79.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 22 Aug 2017 11:22:09 +0100
+In-Reply-To: <20170821205721.20086-2-Martin.Jansa@gmail.com>
+References: <20170821205721.20086-1-Martin.Jansa@gmail.com>
+	<20170821205721.20086-2-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 22 Aug 2017 11:22:10 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 2/2] grub2: fix build with gcc-7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +36,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 08:40:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Aug 2017 10:22:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+On Mon, 2017-08-21 at 22:57 +0200, Martin Jansa wrote:
+> * build with gcc-7 fails with:
+>   | ./config-util.h:1504:48: error: this use of "defined" may not
+> be   portable [-Werror=expansion-to-defined]
+>   |              || (defined _FORTIFY_SOURCE && 0 < _FORTIFY_SOURCE \
+>   |                                                 ^~~~~~~~~~~~~~~
+>   and we're not building on Apple or BSD, so we should be able
+>   to just ignoreit until it's resolved properly in some newer gnulib
+>   and imported from gnulib to grub-2
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-bsp/grub/grub-efi_2.02.bb | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-Inherit systemd.bbclass to enable systemd support for watchdog.
+Sadly this appears to break grub-efi everywhere on the autobuilder,
+e.g.:
 
-And fix indentation of do_install_append() as well according to:
-https://www.openembedded.org/wiki/Styleguide#Format_Guidelines
+https://autobuilder.yocto.io/builders/nightly-no-x11/builds/428/steps/BuildImages/logs/stdio
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/watchdog/watchdog_5.15.bb | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+I took a risk and tried to get this into M3 buts its not paid off and
+we'll need another rebuild :(.
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-index 9659f27..3d0b72e 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-@@ -21,8 +21,7 @@ SRC_URI[sha256sum] = "ffdc865137ad5d8e53664bd22bad4de6ca136d1b4636720320cb52af0c
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/watchdog/files/watchdog/"
- UPSTREAM_CHECK_REGEX = "/watchdog/(?P<pver>(\d+[\.\-_]*)+)/"
- 
--inherit autotools
--inherit update-rc.d
-+inherit autotools update-rc.d systemd
- 
- DEPENDS_append_libc-musl = " libtirpc "
- CFLAGS_append_libc-musl = " -I${STAGING_INCDIR}/tirpc "
-@@ -37,12 +36,18 @@ INITSCRIPT_PARAMS_${PN} = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- INITSCRIPT_NAME_${PN}-keepalive = "wd_keepalive"
- INITSCRIPT_PARAMS_${PN}-keepalive = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- 
-+SYSTEMD_SERVICE_${PN} = "watchdog.service wd_keepalive.service"
-+
- do_install_append() {
-+	install -d ${D}${systemd_system_unitdir}
-+	install -m 0644 ${S}/debian/watchdog.service ${D}${systemd_system_unitdir}
-+	install -m 0644 ${S}/debian/wd_keepalive.service ${D}${systemd_system_unitdir}
-+
- 	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
--    install -Dm 0755 ${WORKDIR}/wd_keepalive.init ${D}${sysconfdir}/init.d/wd_keepalive
-+	install -Dm 0755 ${WORKDIR}/wd_keepalive.init ${D}${sysconfdir}/init.d/wd_keepalive
- 
--    # watchdog.conf is provided by the watchdog-config recipe
--    rm ${D}${sysconfdir}/watchdog.conf
-+	# watchdog.conf is provided by the watchdog-config recipe
-+	rm ${D}${sysconfdir}/watchdog.conf
- }
- 
- PACKAGES =+ "${PN}-keepalive"
--- 
-2.10.1
+Cheers,
+
+Richard
+
 
 
