@@ -1,34 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 67ECF7827F
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E051178287
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 16:00:06 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7MG063K009627
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 22 Aug 2017 17:00:07 +0100
-Message-ID: <1503417606.32591.115.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 22 Aug 2017 17:00:06 +0100
-In-Reply-To: <7462b13d-0fa2-7a9f-c6d9-49c5a3f6abb0@windriver.com>
-References: <cover.1503283308.git.bruce.ashfield@windriver.com>
-	<1503330934.32591.64.camel@linuxfoundation.org>
-	<74bfd0a2-59a7-c98b-690d-8749ca7a989a@windriver.com>
-	<1503411893.32591.108.camel@linuxfoundation.org>
-	<7f1c93bd-0d0d-b4c4-d084-2a75d7362481@windriver.com>
-	<1503415737.32591.112.camel@linuxfoundation.org>
-	<7462b13d-0fa2-7a9f-c6d9-49c5a3f6abb0@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Tue, 22 Aug 2017 17:00:07 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
+	Tue, 22 Aug 2017 16:00:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7MG0Fmx007247
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Aug 2017 09:00:16 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 22 Aug 2017 09:00:15 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 22 Aug 2017 12:00:14 -0400
+Message-ID: <1503417614-13412-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
+Subject: [PATCH] linux-yocto: introduce 4.12 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,112 +31,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 16:00:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 22 Aug 2017 16:00:16 -0000
+Content-Type: text/plain
 
-On Tue, 2017-08-22 at 11:34 -0400, Bruce Ashfield wrote:
-> I can send you a v4 of the 4.12 patch in the next half an hour,
-> that's easiest for me to do.
-> 
-> .. but if it isn't for you, go ahead and do the merge and I'll
-> sort it out in a follow up.
+The 4.12 kernel will be the default/reference for the fall 2017
+release.
 
-The above works, I'm still trying to get to the bottom of the other
-issues that are going on.
+These recipes represent the introduction of 4.12.7 + related kernel
+meta data. Existing functionality has been validated against this
+new kernel version, and older versions will be removed in separate
+commits.
 
-> > I can take care of the mips issue but we have one final problem:
-> > 
-> > "oe-selftest -r runqemu.RunqemuTests.test_boot_machine_iso"
-> > 
-> > is failing, it works with 4.10, fails with 4.12. Did some key
-> > config
-> > option for booting isos go missing?
-> Not that I'm aware of, but I admit that I've never done any ISO
-> booting of the images so wouldn't see it.
-> 
-> I'll diff the configs here and see if anything jumps out. Otherwise,
-> I'll do a boot test myself and debug from there.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
 
-After running the failing test case, I was able to manually boot with:
+v2: Adjusting the SRCREVs to fix a patch that no longer needed to be applied.
 
-tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin//qemu-system-x86_64 -device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:02 -netdev tap,id=net0,ifname=tap0,script=no,downscript=no -cdrom tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64-20170822154904.iso -no-reboot -vga vmware -show-cursor -usb -device usb-tablet -device virtio-rng-pci  -nographic   -cpu core2duo -m 256
+v3: fix x86-32 perf build failure
 
-and then quickly "down, enter" to select the serial console option
-which gave me this:
+v4: fix remaining /bin/awk QA issues (via RP's patch)
 
-[    4.980303] netconsole: network logging started
-[    4.980981] rtc_cmos 00:00: setting system clock to 2017-08-22 15:56:12 UTC (1503417372)
-[    5.036130] Freeing unused kernel memory: 1440K
-[    5.036320] Write protecting the kernel read-only data: 14336k
-[    5.039206] Freeing unused kernel memory: 864K
-[    5.072281] Freeing unused kernel memory: 1232K
-[    5.173842] usb 1-1: new full-speed USB device number 2 using uhci_hcd
-starting version 234
-[    5.349596] input: QEMU QEMU USB Tablet as /devices/pci0000:00/0000:00:01.2/usb1/1-1/1-1:1.0/0003:0627:0001.0001/input/input4
-[    5.361353] hid-generic 0003:0627:0001.0001: input: USB HID v0.01 Mouse [QEMU QEMU USB Tablet] on usb-0000:00:01.2-1/input0
-[    5.504201] input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input3
-[    6.408140] BUG: unable to handle kernel NULL pointer dereference at           (null)
-[    6.408651] IP: ide_cdrom_prep_fn+0x63/0x180
-[    6.408802] PGD beed067 
-[    6.408834] P4D beed067 
-[    6.408935] PUD 0 
-[    6.409028] 
-[    6.409251] Oops: 0002 [#1] PREEMPT SMP
-[    6.409524] Modules linked in:
-[    6.409811] CPU: 0 PID: 117 Comm: udevd Not tainted 4.12.7-yocto-standard #4
-[    6.410012] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.10.2-0-g5f4c7b1-prebuilt.qemu-project.org 04/01/2014
-[    6.410399] task: ffff9366cbd87080 task.stack: ffff9778c0304000
-[    6.410613] RIP: 0010:ide_cdrom_prep_fn+0x63/0x180
-[    6.410749] RSP: 0018:ffff9778c0307ad8 EFLAGS: 00000002
-[    6.410902] RAX: 0000000000000002 RBX: ffff9366cc3ef800 RCX: 0000000000000000
-[    6.411089] RDX: 0000000000000000 RSI: ffff9366cbf1ec00 RDI: 000000000000a1fc
-[    6.411318] RBP: ffff9778c0307ad8 R08: 0000000000000000 R09: 0000000000000001
-[    6.411510] R10: 0000000000000020 R11: 0000000020112a00 R12: ffff9366cbf1ec00
-[    6.411717] R13: 00000000ffffff87 R14: 00000000fffffffb R15: 0000000000000000
-[    6.411938] FS:  00007fd6fa79e300(0000) GS:ffff9366cf200000(0000) knlGS:0000000000000000
-[    6.412153] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    6.412351] CR2: 0000000000000000 CR3: 000000000beec000 CR4: 00000000000006f0
-[    6.412686] Call Trace:
-[    6.413793]  blk_peek_request+0x189/0x2d0
-[    6.414010]  blk_fetch_request+0x12/0x30
-[    6.414142]  ? _raw_spin_unlock_irq+0x23/0x30
-[    6.414276]  do_ide_request+0x37d/0x660
-[    6.414382]  ? cfq_group_service_tree_add+0x94/0xc0
-[    6.414559]  ? cfq_service_tree_add+0x258/0x300
-[    6.414695]  ? ktime_get+0x40/0xa0
-[    6.414800]  __blk_run_queue+0x33/0x40
-[    6.414908]  queue_unplugged+0x2f/0xc0
-[    6.415017]  blk_flush_plug_list+0x1f9/0x240
-[    6.415138]  blk_finish_plug+0x2c/0x40
-[    6.415255]  __do_page_cache_readahead+0x1bd/0x260
-[    6.415408]  force_page_cache_readahead+0xb5/0x110
-[    6.415550]  ? force_page_cache_readahead+0xb5/0x110
-[    6.415687]  page_cache_sync_readahead+0x3f/0x50
-[    6.415815]  generic_file_read_iter+0x54b/0x700
-[    6.415965]  blkdev_read_iter+0x35/0x40
-[    6.416085]  __vfs_read+0xbf/0x110
-[    6.416182]  vfs_read+0x8e/0x110
-[    6.416279]  SyS_read+0x46/0xb0
-[    6.416369]  ? SyS_lseek+0x87/0xb0
-[    6.416469]  entry_SYSCALL_64_fastpath+0x1a/0xa5
-[    6.416747] RIP: 0033:0x7fd6f9b06891
-[    6.416854] RSP: 002b:00007fff59e50a08 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-[    6.417057] RAX: ffffffffffffffda RBX: 00007fff59e4f950 RCX: 00007fd6f9b06891
-[    6.417248] RDX: 0000000000000200 RSI: 00007fff59e50ac0 RDI: 000000000000000c
-[    6.417439] RBP: 00007fff59e4f950 R08: 0000000000000000 R09: 00007fd6f98751c0
-[    6.417643] R10: 000000000000006d R11: 0000000000000246 R12: 00007fff59e509d8
-[    6.417832] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-[    6.418057] Code: 2f 01 00 00 b9 01 00 00 00 bf 01 00 00 00 48 8b 46 60 48 99 48 f7 ff 48 89 c7 8b 46 58 31 d2 c1 e8 09 f7 f1 48 8b 8e 50 01 00 00 <48> c7 01 00 00 00 00 48 c7 41 08 00 00 00 00 f6 46 44 01 48 8b 
-[    6.418825] RIP: ide_cdrom_prep_fn+0x63/0x180 RSP: ffff9778c0307ad8
-[    6.419017] CR2: 0000000000000000
-[    6.419324] ---[ end trace dd02c5282d34fc7b ]---
-[    6.419558] note: udevd[117] exited with preempt_count 1
-Waiting for removable media...
+Bruce
 
-Something in the IDE CDROM driver?
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   | 38 +++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 25 ++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 44 ++++++++++++++++++++++
+ 3 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_4.12.bb
 
-Cheers,
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+new file mode 100644
+index 000000000000..49f5bf3522ad
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+@@ -0,0 +1,38 @@
++KBRANCH ?= "standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_meta ?= "edb42d48052dee4dbc3ed9d5e1e39c1375e85fe0"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "4.12.7"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+new file mode 100644
+index 000000000000..ff395e0ad7e3
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+@@ -0,0 +1,25 @@
++KBRANCH ?= "standard/tiny/common-pc"
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++LINUX_VERSION ?= "4.12.7"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_meta ?= "edb42d48052dee4dbc3ed9d5e1e39c1375e85fe0"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
++
++COMPATIBLE_MACHINE = "(qemux86$)"
++
++# Functionality flags
++KERNEL_FEATURES = ""
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+new file mode 100644
+index 000000000000..ce223ca081f3
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+@@ -0,0 +1,44 @@
++KBRANCH ?= "standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# board specific branches
++KBRANCH_qemuarm  ?= "standard/arm-versatile-926ejs"
++KBRANCH_qemuarm64 ?= "standard/qemuarm64"
++KBRANCH_qemumips ?= "standard/mti-malta32"
++KBRANCH_qemuppc  ?= "standard/qemuppc"
++KBRANCH_qemux86  ?= "standard/base"
++KBRANCH_qemux86-64 ?= "standard/base"
++KBRANCH_qemumips64 ?= "standard/mti-malta64"
++
++SRCREV_machine_qemuarm ?= "dc7fc6edebaa6d20967c953a2cd27bac5e955463"
++SRCREV_machine_qemuarm64 ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_machine_qemumips ?= "ff11a70047bbab2c801f9b4f7b9d4bc1d38dbed1"
++SRCREV_machine_qemuppc ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_machine_qemux86 ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_machine_qemux86-64 ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_machine_qemumips64 ?= "a4d6ef2c5428e57f7f9982d230b09459683ddb1d"
++SRCREV_machine ?= "d09f2ce584d60ecb7890550c22a80c48b83c2e19"
++SRCREV_meta ?= "edb42d48052dee4dbc3ed9d5e1e39c1375e85fe0"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
++
++LINUX_VERSION ?= "4.12.7"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+-- 
+2.5.0
 
-Richard
 
