@@ -1,57 +1,28 @@
-Return-Path: <kristian.amlie@northern.tech>
-Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A20DE7828E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DC730782D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 13:19:43 +0000 (UTC)
-Received: by mail-lf0-f47.google.com with SMTP id d17so471577lfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 06:19:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=oLLyiqPIw6ipcfcuY46LdTf6z1Bxnh4D7xWBgfzbPrg=;
-	b=VVzsbuL68ntRP+dnMbF5XKZoSAtQDhkHTtySXOjzkpZlmgmug4O5YjJEOYYAKd+91P
-	rYBdTYyu5ZluKPRadTlIo1G3ZJUH/at+4Ef2IT4pEcKKzbsUy4mEOF5NZmtUO++ILOD4
-	dciTzsb2Ua1Hw0hh57co9yAfgjSFfCll2O0D9QEWM1woPQ9yZdpU9XabzMP5ZvNcLtIi
-	bZ/irHPMLuhGCBsUwMoLi3wQPiB0ddnz7Zru6Z/in99/Kq1mu8sWvueGmRxhA1flFFaX
-	/Xk4TFQ0vu79PxDIUzgwTgXe7wjusqNI0qR9hU13X8M7n3TU7wMc+Hbddwpbjs+TyKIH
-	BBWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=oLLyiqPIw6ipcfcuY46LdTf6z1Bxnh4D7xWBgfzbPrg=;
-	b=LHUHrXbV7mg+hvLDVicTKFi21TV1yHoAd+SxFZSsY6T/tIQiHXSoEpGbgBgLA+O8+A
-	i4ANDJsCMkF9vj7ltYp3BEjVcToc0sXqlpSnIM5Xs2efacKNQtbzWWzChTlmqIZcq2cH
-	OrgcZ68H7SW/cIq3LHMA+X70a2PBBIcsEMNlUr0x1gHucRlNW+Xm4Ax3qh/xcr20Wkj/
-	5jfGBmjSgr/TtOf+Qs6BS9sgaAxqoegWqKpjTbehRwnK532ENRpa58RhS+8hBdWb7M+r
-	sggqeZFjB23oTLhCp6Ew89zEAK1ZtSadExE5bULJ3xkic4c5/8yaUfe3tn8KJrbj5OG2
-	ulPA==
-X-Gm-Message-State: AHYfb5hKGboCSChFn/l8LBftHhzoJKaNACWT45Y6z+8tJWGiNXb21A4K
-	bqdFC0WeAWDb8poxxCfruQ==
-X-Received: by 10.46.33.196 with SMTP id h65mr1372323lji.82.1503494384317;
-	Wed, 23 Aug 2017 06:19:44 -0700 (PDT)
-Received: from [10.20.33.249] ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	t4sm241109lff.96.2017.08.23.06.19.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 23 Aug 2017 06:19:43 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Wed, 23 Aug 2017 13:46:23 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7NDkLHE027558
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 23 Aug 2017 14:46:22 +0100
+Message-ID: <1503495981.32591.159.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
 	openembedded-core@lists.openembedded.org
-References: <1503488763-1554-2-git-send-email-kristian.amlie@northern.tech>
-	<1503491991-14792-1-git-send-email-kristian.amlie@northern.tech>
-	<1503492367.32591.153.camel@linuxfoundation.org>
-From: Kristian Amlie <kristian.amlie@northern.tech>
-Message-ID: <923ee536-02f8-9e81-b8f3-fa25bb8aba24@northern.tech>
-Date: Wed, 23 Aug 2017 15:19:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1503492367.32591.153.camel@linuxfoundation.org>
-Subject: Re: do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
+Date: Wed, 23 Aug 2017 14:46:21 +0100
+In-Reply-To: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Wed, 23 Aug 2017 14:46:22 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 0/3] Restructure python2 and python3 packaging system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,22 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 13:19:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Aug 2017 13:46:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 23/08/17 14:46, Richard Purdie wrote:
-> On Wed, 2017-08-23 at 14:39 +0200, Kristian Amlie wrote:
->> I don't understand why I'm getting patch failures. This is rebased to
->> cutting edge master. Trying one more time...
-> 
-> Its because you're patching documentation which is maintained in a
-> separate repository. Separating that from the patch will avoid that
-> error.
+On Thu, 2017-08-17 at 10:11 -0700, Alejandro Hernandez wrote:
+> Alejandro Hernandez (3):
+>   python: Restructure python packaging and replace it with
+> autopackaging
+>   python3: fix RDEPENDS on several recipes, due to non-existent
+> python3
+>     packages
+>   python3: Restructure python3 packaging and replace it with
+>     autopackaging
 
-Aaah, right, this is from poky. Thanks for explaining, I'll fix that!
+There was an issue exposed on the autobuilder from this patchset which
+then highlighted problems with the incorrect PACKAGES_DYNAMIC use and
+issues with the lack of a native manifest.
 
--- 
-Kristian
+With M3 being now and this change potentially causing issues for other
+layers, I've deferred this patch series for now as I don't think its
+ready yet and I don't think it will be ready in a timeframe that can
+make it into M3.
+
+Cheers,
+
+Richard
 
