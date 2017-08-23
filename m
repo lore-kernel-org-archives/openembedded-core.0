@@ -1,31 +1,58 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D2EF7829B
+Return-Path: <kristian.amlie@northern.tech>
+Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A2377828E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 13:17:07 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7NDH4j4025034
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 23 Aug 2017 14:17:05 +0100
-Message-ID: <1503494224.32591.156.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Robert Yang
-	<liezhi.yang@windriver.com>
-Date: Wed, 23 Aug 2017 14:17:04 +0100
-In-Reply-To: <2904894.l3jg57PGWo@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1503364879.git.liezhi.yang@windriver.com>
-	<00ad9ee0ea4e4de1773220dfca8792819701092f.1503364879.git.liezhi.yang@windriver.com>
-	<2904894.l3jg57PGWo@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Wed, 23 Aug 2017 14:17:05 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 6/9] core/target/ssh.py: replace decode errors
+	Wed, 23 Aug 2017 13:19:03 +0000 (UTC)
+Received: by mail-lf0-f49.google.com with SMTP id l137so331468lfg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Aug 2017 06:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=northern.tech; s=google;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=5xjHdU/mw9XWf2JBjEpuXCIHSSMIx6vABNKC/HHe4ww=;
+	b=TW00gbuYMwMlnsDaiU3QAPK/frixwxmSYRnUUWgc/Zs7FTCrhX7U1dcMJC9XAGLEUD
+	ZlUrW8vWB7f0yAEpX2s3fBzsSWGFlWXVqHg29uxBUVjMGrbIs550R14UIBjGdjukDV4W
+	VJ5IguAWZSVqR2cfMRiVFXY+UoogA4D/8R1BbU+K1rGjZ/c5+2tZvYQcugxyc/luJuI8
+	oXxc4KZ9d9Slq/XpjYr/uKRxd+EGGxqXXNVF/WSdw4ikGTGE5LwoAD0kE7gpYY+hItyU
+	gKf8Ku7LWCXtDerI4l0lJ3VutoXfFISRaHl5KemSqTe2+z/60ijLwHZD/F2Ouf2ltxoX
+	n2mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=5xjHdU/mw9XWf2JBjEpuXCIHSSMIx6vABNKC/HHe4ww=;
+	b=tEOWjuknCZ/X0fxRRplOJILDVc9volSWw0q6BfFmdg2+FcCMcyz/cJv2HPtvKxbDXm
+	8d9t4YpTZ+Sm+U+auPX1C3eZMBCHr+yoUdCOoJA9cRSIOPeeXsgzGloZKuZINID1hCDd
+	d9Rj9pZC9Pv+/T2yyElTJfSZpbxaBdvAdBcXB620g0mer9GjsLPFr0NVrzffNzAR53Ld
+	wCi7t+6a60/CjW8GvT+07yOx7odp418iSxsqNw39KLBzJRFgwit3lvWc4I8PpP6e7MDL
+	BLsukOp9b4qysBjH69Sv82+9lvl6Qfhym7oW3m7Ps0i1TZyUBf2ATYEeaJ8IjtLMBX9a
+	q1cA==
+X-Gm-Message-State: AHYfb5gmPX+cw9lkHxoRG9DOHM5QeOvDMrdaqUl3fWtEdU3C421gHFic
+	VOOuXjHsWX5OkTHK
+X-Received: by 10.46.9.197 with SMTP id 188mr936053ljj.57.1503494344793;
+	Wed, 23 Aug 2017 06:19:04 -0700 (PDT)
+Received: from [10.20.33.249] ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	r5sm270050lje.11.2017.08.23.06.19.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 23 Aug 2017 06:19:04 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <1503488763-1554-2-git-send-email-kristian.amlie@northern.tech>
+	<1503491991-14792-1-git-send-email-kristian.amlie@northern.tech>
+	<1503491991-14792-2-git-send-email-kristian.amlie@northern.tech>
+	<1503492432.32591.155.camel@linuxfoundation.org>
+From: Kristian Amlie <kristian.amlie@northern.tech>
+Message-ID: <a86ad415-8cd7-d037-0e7c-183ff2662911@northern.tech>
+Date: Wed, 23 Aug 2017 15:19:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <1503492432.32591.155.camel@linuxfoundation.org>
+Subject: Re: [PATCH v5] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,72 +65,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 13:17:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 23 Aug 2017 13:19:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2017-08-22 at 22:55 +1200, Paul Eggleton wrote:
-> On Tuesday, 22 August 2017 1:23:10 PM NZST Robert Yang wrote:
-> > 
-> > There might be wild strings when read from target (especially when
-> > reading ptest results), replace the errors to avoid breaking the
-> > test.
-> > 
-> > Fixed: (Not always happen)
-> > $ bitbake core-image-sato -ctestimage
-> > [snip]
-> >     status, output = self.target.run('ptest-runner', 0)
-> >   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py",
-> > line 84, in run
-> >     status, output = self._run(sshCmd, processTimeout, True)
-> >   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py",
-> > line 55, in _run
-> >     status, output = SSHCall(command, self.logger, timeout)
-> >   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py",
-> > line 258, in SSHCall
-> >     run()
-> >   File "/buildarea/lyang1/poky/meta/lib/oeqa/core/target/ssh.py",
-> > line 236, in run
-> >     output = process.communicate()[0].decode("utf-8")
-> > UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3 in
-> > position 4906: invalid continuation byte
-> > 
-> > [YOCTO #11547]
-> > 
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >  meta/lib/oeqa/core/target/ssh.py | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/lib/oeqa/core/target/ssh.py
-> > b/meta/lib/oeqa/core/target/ssh.py
-> > index b80939c..a2eafcd 100644
-> > --- a/meta/lib/oeqa/core/target/ssh.py
-> > +++ b/meta/lib/oeqa/core/target/ssh.py
-> > @@ -211,7 +211,7 @@ def SSHCall(command, logger, timeout=None,
-> > **opts):
-> >                              process.stdout.close()
-> >                              eof = True
-> >                          else:
-> > -                            data = data.decode("utf-8")
-> > +                            data = data.decode("utf-8",
-> > errors='replace')
-> >                              output += data
-> >                              logger.debug('Partial data from SSH
-> > call: %s' % data)
-> Since we're dealing with partial data here, shouldn't we be using a
-> reader object? e.g.:
+On 23/08/17 14:47, Richard Purdie wrote:
+> On Wed, 2017-08-23 at 14:39 +0200, Kristian Amlie wrote:
+>> From: Kristian Amlie <kristian.amlie@mender.io>
+>>
+>> This is a direct followup from the earlier f6a064d969f414 commit in
+>> wic. It works more or less the same way: The variable specifies a
+>> list
+>> of directories relative to the root of the rootfs, and these
+>> directories will be excluded from the resulting rootfs image. If an
+>> entry ends with a slash, only the contents are omitted, not the
+>> directory itself.
+>>
+>> Since the intended use of the variable is to exclude certain
+>> directories from the rootfs, and then include said directories in
+>> other partitions, it is not natural for this variable to be respected
+>> for image creators that create multi partition images. Therefore the
+>> default is to ignore the variable, and image creators that create
+>> single root filesystems need to set
+>>
+>>   do_image_myfs[respect_exclude_path] = "1"
+>>
+>> in order to honor it. Specifically, "wic" and "multiubi" have not
+>> received this variable flag, while others have.
 > 
->   http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=bfd8c35c3
-> f917e3806c8dfe36c98c70fbccbb3c9
+> I have to wonder if this is implemented the correct way around. Would
+> it not be better to mark multiubi and wic as not wanting this feature,
+> rather than requiring every other image creation method (which may even
+> be in other layers) to set this?
 
+The idea was that people in downstream repositories (other layers) are
+more likely to have their own complete image creators than to have
+filesystem creators. So rather than requiring all of the downstream
+repositories to opt out of the feature, we opt in in the filesystem
+creators which are mostly contained in OE.
 
-I've decided to merge this series as it improves the ptest support
-substantially however I am expecting a follow up with the tweaks Paul
-suggests here please.
+Or so was the thinking. Not sure if it's a good reason though. I can
+invert the behavior if you think it's better!
 
-Cheers,
-
-Richard
-
+-- 
+Kristian
 
