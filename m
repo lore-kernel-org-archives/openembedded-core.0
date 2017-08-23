@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B3AC078304
+	by mail.openembedded.org (Postfix) with ESMTP id CE00D782FD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 17:09:33 +0000 (UTC)
+	Wed, 23 Aug 2017 17:09:34 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Aug 2017 10:09:35 -0700
+	23 Aug 2017 10:09:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,417,1498546800"; d="scan'208";a="1187402126"
+X-IronPort-AV: E=Sophos;i="5.41,417,1498546800"; d="scan'208";a="1187402129"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2017 10:09:34 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2017 10:09:35 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Aug 2017 20:06:21 +0300
-Message-Id: <ff3205a2a419e2021bb654c656bbf3b3eb90eb28.1503507784.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 23 Aug 2017 20:06:22 +0300
+Message-Id: <88b6e8e6744cb5fa6712d91b6746a314e850dfa6.1503507784.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1503507784.git.alexander.kanavin@linux.intel.com>
 References: <cover.1503507784.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/7] gtk-doc.bbclass: add all directories where .so files are found to library search path
+Subject: [PATCH 4/7] json-glib: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,27 +30,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 17:09:34 -0000
+X-List-Received-Date: Wed, 23 Aug 2017 17:09:35 -0000
 
-This should reduce the need to manually specify the path in recipes.
+Note that meson flags for gobject introspection and gtk-doc
+appear to be non-standardized; going forward we should devise
+a common way to deal with it.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/classes/gtk-doc.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ ...ble-gobject-introspection-when-cross-comp.patch | 32 ++++++++++++++++++++++
+ meta/recipes-gnome/json-glib/json-glib_1.2.8.bb    | 23 ++++++++++++++--
+ 2 files changed, 53 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
 
-diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
-index 0ae2729c0a0..906ce7854a9 100644
---- a/meta/classes/gtk-doc.bbclass
-+++ b/meta/classes/gtk-doc.bbclass
-@@ -48,6 +48,7 @@ do_compile_prepend_class-target () {
- # which may then get deleted (or their dependencies) and potentially segfault
- export GIO_MODULE_DIR=${STAGING_LIBDIR}/gio/modules-dummy
+diff --git a/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+new file mode 100644
+index 00000000000..849bb9d3165
+--- /dev/null
++++ b/meta/recipes-gnome/json-glib/json-glib/0001-Do-not-disable-gobject-introspection-when-cross-comp.patch
+@@ -0,0 +1,32 @@
++From 293452c963188666dae99521294f09a0cf9582e2 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 4 Aug 2017 16:01:11 +0300
++Subject: [PATCH] Do not disable gobject introspection when cross-compiling.
++
++Introspection does work fine for instance in Open Embedded,
++one of the most prominent cross-compilation frameworks
++(through qemu emulating target hardware), so let the user
++decide if he wants the feature or not.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 43cbfd9..8a32f26 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -147,7 +147,7 @@ root_dir = include_directories('.')
++ 
++ gnome = import('gnome')
++ gir = find_program('g-ir-scanner', required: false)
++-build_gir = gir.found() and not meson.is_cross_build() and not get_option('disable_introspection')
+++build_gir = gir.found() and not get_option('disable_introspection')
++ 
++ subdir('json-glib')
++ 
++-- 
++2.13.2
++
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+index 2c5d3817ba7..bf37015b03f 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.2.8.bb
+@@ -10,11 +10,30 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
  
-+GIR_EXTRA_LIBS_PATH=\`find ${B} -name *.so -printf %h| tr '\n' ':'\`\$GIR_EXTRA_LIBS_PATH
- GIR_EXTRA_LIBS_PATH=\`find ${B} -name .libs| tr '\n' ':'\`\$GIR_EXTRA_LIBS_PATH
+ DEPENDS = "glib-2.0"
  
- if [ -d ".libs" ]; then
++SRC_URI += " \
++           file://0001-Do-not-disable-gobject-introspection-when-cross-comp.patch \
++           "
+ SRC_URI[archive.md5sum] = "ff31e7d0594df44318e12facda3d086e"
+ SRC_URI[archive.sha256sum] = "fd55a9037d39e7a10f0db64309f5f0265fa32ec962bf85066087b83a2807f40a"
+ 
+-inherit gnomebase gettext lib_package gobject-introspection gtk-doc manpages
++inherit gnomebase-meson lib_package gobject-introspection gtk-doc manpages
+ 
+-PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
++GTKDOC_ENABLE_FLAG = "-Denable-gtk-doc=true"
++GTKDOC_DISABLE_FLAG = "-Denable-gtk-doc=false"
++
++GI_ENABLE_FLAG = "-Ddisable_introspection=false"
++GI_DISABLE_FLAG = "-Ddisable_introspection=true"
++
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
++                                                                                    '${GTKDOC_DISABLE_FLAG}', d)} "
++EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
++                                                                                    '${GI_DISABLE_FLAG}', d)} "
++
++PACKAGECONFIG[manpages] = "-Denable-man=true, -Denable-man=false, libxslt-native xmlto-native"
++
++do_install_append() {
++    # FIXME: these need to be provided via ptest
++    rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
++}
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.14.1
 
