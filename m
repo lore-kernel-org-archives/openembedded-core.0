@@ -1,28 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DC730782D4
+Return-Path: <Peter.Marko@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id A6FCF781E1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 13:46:23 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7NDkLHE027558
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 23 Aug 2017 14:46:22 +0100
-Message-ID: <1503495981.32591.159.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 23 Aug 2017 14:46:21 +0100
-In-Reply-To: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1502989095.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Wed, 23 Aug 2017 14:46:22 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 0/3] Restructure python2 and python3 packaging system
+	Wed, 23 Aug 2017 14:04:01 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v7NE41on020700
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Aug 2017 16:04:01 +0200
+Received: from ATNETS9912ZMSX.ww300.siemens.net
+	(atnets9912zmsx.ww300.siemens.net [158.226.163.52])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTPS id v7NE3gx3005352
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Aug 2017 16:04:01 +0200
+Received: from ATVIES991UAMSX.ww300.siemens.net ([169.254.1.6]) by
+	ATNETS9912ZMSX.ww300.siemens.net ([158.226.163.52]) with mapi id
+	14.03.0361.001; Wed, 23 Aug 2017 16:03:58 +0200
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: =?utf-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3RhZ2luZzogYWRkIG1pc3Np?=
+	=?utf-8?B?bmcgaW1wb3J0IGVycm5vIHRvIHN0YWdpbmdfcG9wdWxhdGVfc3lzcm9vdF9k?=
+	=?utf-8?Q?ir?=
+Thread-Index: AQHTHBB1BLi4tWtBw0K9SUKojuH5s6KR948g
+Date: Wed, 23 Aug 2017 14:03:56 +0000
+Message-ID: <6D4566C9E07A8D4DAB6F935696920A84244DC46C@ATVIES991UAMSX.ww300.siemens.net>
+References: <1503490589-19310-1-git-send-email-peter.marko@siemens.com>
+	<20170823130459.2381.14517@do.openembedded.org>
+In-Reply-To: <20170823130459.2381.14517@do.openembedded.org>
+Accept-Language: sk-SK, de-AT, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [158.226.163.10]
+MIME-Version: 1.0
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHN0YWdpbmc6IGFkZCBtaXNzaW5nIGltcG9ydCBlcnJubyB0byBzdGFnaW5nX3BvcHVsYXRlX3N5c3Jvb3RfZGly?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 13:46:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 23 Aug 2017 14:04:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, 2017-08-17 at 10:11 -0700, Alejandro Hernandez wrote:
-> Alejandro Hernandez (3):
->   python: Restructure python packaging and replace it with
-> autopackaging
->   python3: fix RDEPENDS on several recipes, due to non-existent
-> python3
->     packages
->   python3: Restructure python3 packaging and replace it with
->     autopackaging
-
-There was an issue exposed on the autobuilder from this patchset which
-then highlighted problems with the incorrect PACKAGES_DYNAMIC use and
-issues with the lack of a native manifest.
-
-With M3 being now and this change potentially causing issues for other
-layers, I've deferred this patch series for now as I don't think its
-ready yet and I don't think it will be ready in a timeframe that can
-make it into M3.
-
-Cheers,
-
-Richard
+PiogSXNzdWUgICAgICAgICAgICAgU2VyaWVzIGRvZXMgbm90IGFwcGx5IG9uIHRvcCBvZiB0YXJn
+ZXQgYnJhbmNoIFt0ZXN0X3Nlcmllc19tZXJnZV9vbl9oZWFkXSANCj4gIFN1Z2dlc3RlZCBmaXgg
+ICAgUmViYXNlIHlvdXIgc2VyaWVzIG9uIHRvcCBvZiB0YXJnZXRlZCBicmFuY2gNCj4gIFRhcmdl
+dGVkIGJyYW5jaCAgbWFzdGVyIChjdXJyZW50bHkgYXQgYjFlNDgyYWUyMCkNCg0KUmljaGllIGlz
+IGZhc3RlciB0aGFuIHBhdGNod29yayA6LSkNCk1hc3RlciBoZWFkIGNvbW1pdCBiMWU0ODJhZTIw
+IGlzIGFjdHVhbGx5IHBhdGNoIHN1Ym1pdHRlZCBpbiB0aGlzIGVtYWlsICh3aGljaCBuYXR1cmFs
+bHkgY29uZmxpY3RzIHdpdGggaXRzZWxmKS4uLg0KDQpQZXRlcg0K
 
