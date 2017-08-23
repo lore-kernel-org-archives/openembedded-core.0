@@ -1,47 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ua0-f196.google.com (mail-ua0-f196.google.com
-	[209.85.217.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A553E71957
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 09CA171957
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 19:27:45 +0000 (UTC)
-Received: by mail-ua0-f196.google.com with SMTP id c11so215423uad.3
+	Wed, 23 Aug 2017 19:30:25 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id v186so514404wmf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 12:27:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 23 Aug 2017 12:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gherzan-ro.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KjSRHYbliErmvLlrzk9UY7288983uy31/XptiSPokQ0=;
-	b=eOeBbGJmYvOPZtO5x66S4ThJhQD3kxjf/Uu0kKQb5fRM1jRDtEZE2MP3kt24dAA8dM
-	WaBoyz3WJbfAaJTZK1kM511k8hE92K7c78amfP3oiq70Frkbu5YmsceV1+DieVfFr7Wu
-	Uem41ObFWO6rsuIUHDSdo47wr5sNbs6bv27PcJcKVyGail//E8UfjyMue/NGsJX3QVOk
-	WZf9MFqPq5rTb1nx0DtYaFCl+pFa2Kbrpq28ebJwbQ6XJc74YZWuYNZeZKfTRvWnnifp
-	ag/4NY1kuPN8v+e15cQM+vo7IUfJEUtDXBW4+cam/1dy/jD9n0YvHnjee2+OzWr/ykYc
-	CuAA==
+	:cc; bh=eGlCkskp3wcYzPX9uTRFKk13FM+GYzodlsKB/Bmakb0=;
+	b=hgzPOGfZBp6DSDUFvhuwBY1XNTUlKa1gF7sGgz2t7/da/UaCYypwSdaNY4LfqXlIj1
+	ENK2GrSm6/I3AC3KEbmZ0IRnxS0JBsgU/93pctIWxfP6NnOAReyyMA5CVx03UGLtofm5
+	0jvK1mpPglbR5fck40n9w4r8yH/tSD1J5tmwbEYOsGsLU0EJpgTL8s3ZDl3lxEZvCpND
+	mVWR9plUyBJIA/xlMxLYoOb3idnwUrRruHSMxQRKevLplwKA5eeQ8qBggcXfquoUyx58
+	ka1W/fptUUyJlVFPodwY42+E6yyRl3HL4eflLjQz4nFDv1jlrYCRnNSltiLtucf2YRoE
+	OFjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=KjSRHYbliErmvLlrzk9UY7288983uy31/XptiSPokQ0=;
-	b=f7+aUjwcJam8T/Zh17Eoe+GJOiw3UQZKkEcez+KVKNvORuw9Q+MgJ0pQn34wkpOKOf
-	RFSft8KtN93wLxvxtkGy24B4jqWUeNuRHbI8tHkXmQanpfHmqJoQ1Stm5EzeSWzeF5xo
-	N1994fz1x/DIOiGQJO6ClmVPLptv0jmby2ToYZhvpLVyXyMw88xsmlX+0VNumstP0bY9
-	rb0D7sn4jC+T9fSp/NHantGd76w5iQhauzEL3R4xcrWLYGhwIJ+xXQDpgNSFg/azMF5+
-	Yglixq9D9EzfDIA7yfckxtohbqJzcZwoiO9lktQJyfL062L7m6K4LFAvE77dwokWsSzk
-	eIRw==
-X-Gm-Message-State: AHYfb5hdZkLExvXDzHrQ3YIMX9RWKo4yb+x4CbUFh4kROmIQBX3CrQis
-	pZ1CPpEjMMsIk9WQ7xZPPQP5CK44Aw==
-X-Received: by 10.176.23.77 with SMTP id k13mr2322466uaf.128.1503514505716;
-	Wed, 23 Aug 2017 11:55:05 -0700 (PDT)
+	bh=eGlCkskp3wcYzPX9uTRFKk13FM+GYzodlsKB/Bmakb0=;
+	b=hyYqawxLB6uVEcRwXNldicAVqB/RYvbgSZtOHwi7Wa7Tf0U3WnExrNvfdRGKcAhrjR
+	lFX3Y8uSx1QV4AbQy9DHj6YsWALc8KCWR8Di2YlQg0iDAbfya3TDcTeoWEnRMKz9KWu7
+	HOrVK42T4OuEnXKLGcCPUjWagG+yfoZ3m+a//c/6vatke4bUALn35+wNPvqFFajMhbTN
+	8fHqzAqvzLWY1dnuDE+2t9Owt8y4AzAAJ+LwJx0wKZgsH847LpQPRmdKCU5oTA6Ipglv
+	264XO7kcyfki73BbSc+vE+f78hH6yxXduXj1mutcYbEFWXE6STPkmpU8tkQXWmrIUxMv
+	HhKQ==
+X-Gm-Message-State: AHYfb5gycp/5ZGOpUK55FpcMl01AxYHgcW2rBLmSgUwnmqLXDC83ZFHY
+	Rs6pBXDfQnhutVMBoDIZGBbsKRrE9Qoj
+X-Received: by 10.28.100.194 with SMTP id y185mr1716808wmb.95.1503516626803;
+	Wed, 23 Aug 2017 12:30:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Wed, 23 Aug 2017 11:55:04 -0700 (PDT)
-In-Reply-To: <cover.1503284343.git.bruce.ashfield@windriver.com>
-References: <cover.1503284343.git.bruce.ashfield@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 23 Aug 2017 14:55:04 -0400
-Message-ID: <CADkTA4MReLT9ZefD10So9QV+bAYZeBB_Qb1XNH5-6Wy=5ZcJ4g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] poky: update default kernel to 4.12 and lsb to 4.9
+Received: by 10.28.45.195 with HTTP; Wed, 23 Aug 2017 12:29:46 -0700 (PDT)
+X-Originating-IP: [82.22.166.118]
+In-Reply-To: <1503516020-21385-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1503516020-21385-1-git-send-email-bruce.ashfield@windriver.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Wed, 23 Aug 2017 20:29:46 +0100
+Message-ID: <CAK18fxHR10utU+YqNVv09Y7c8bUd_T7fuqGG88SZ5Wr2dtyi8g@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel-yocto: relax BSP definition test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,130 +54,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 19:27:46 -0000
-Content-Type: multipart/alternative; boundary="f4030436207e0729fb05577040ee"
+X-List-Received-Date: Wed, 23 Aug 2017 19:30:26 -0000
+Content-Type: multipart/alternative; boundary="001a114afa52747ca8055770be5d"
 
---f4030436207e0729fb05577040ee
+--001a114afa52747ca8055770be5d
 Content-Type: text/plain; charset="UTF-8"
 
-ignore this!
-
-misfire of my script to send the updated BSP test.
-
-Bruce
-
-On Wed, Aug 23, 2017 at 2:54 PM, Bruce Ashfield <
+On Wed, Aug 23, 2017 at 8:20 PM, Bruce Ashfield <
 bruce.ashfield@windriver.com> wrote:
 
-> Hi all,
+> commit 44aea7b873 [kernel-yocto: ensure that only valid BSPs are built]
+> introduced a new check to ensure that a valid BSP definition was found,
+> rather than building something that 'closely' matched the current
+> MACHINE.
 >
-> To match the pull request to oe-core that adds the 4.12 kernel and removes
-> the 4.1 kernel these two patches bump the default kernel to 4.12 and also
-> update LSB to use the 4.9 kernel.
+> This check breaks valid configurations which do not have a bsp
+> definition but are otherwise completely configured machines.
 >
-> Build and boot testing was performed on all qemu architectures.
+> To allow both elements to co-exist (and not add warnings or errors
+> to otherwise valid builds), we first check to see if an empty bsp
+> definition was found, but then check to see if a defconfig was
+> provided.
 >
-> Cheers,
+> If a defconfig has been provided, that is a sign that the board
+> configuration is complete and we should continue the build without
+> otherwise bothering the user.
 >
-> Bruce
+> Tested on meta-raspberrypi and linux-yocto*
 >
-> The following changes since commit 847d9000180cafedb23c60a6673adc
-> ec62ca67a1:
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
 >
->   linux-yocto/4.10: CVE & misc fixes (2017-08-20 22:38:46 -0400)
+> v2: fixed the badly placed -q
 >
-> are available in the git repository at:
+>  meta/classes/kernel-yocto.bbclass | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 >
->   git://git.pokylinux.org/poky-contrib zedd/kernel-yocto
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-yocto
+> diff --git a/meta/classes/kernel-yocto.bbclass
+> b/meta/classes/kernel-yocto.bbclass
+> index 3c6df92131bc..20b4942320d6 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -143,8 +143,11 @@ do_kernel_metadata() {
 >
-> Bruce Ashfield (2):
->   poky: bump preferred version of linux-yocto to 4.12
->   poky: bump poky lsb to linux 4.9
+>         # expand kernel features into their full path equivalents
+>         bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE}
+> -DKTYPE=${LINUX_KERNEL_TYPE})
+> -       if [ $? -ne 0 ] || [ -z "${bsp_definition}" ]; then
+> -               bbfatal_log "Could not locate BSP definiton for
+> ${KMACHINE}/${LINUX_KERNEL_TYPE}."
+> +       if [ -z "$bsp_definition" ]; then
+> +               echo "$sccs" | grep -q defconfig
+> +               if [ $? -ne 0 ]; then
+> +                       bberror "Could not locate BSP definition for
+> ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was provided"
+> +               fi
+>         fi
+>         meta_dir=$(kgit --meta)
 >
->  meta-poky/conf/distro/poky-lsb.conf | 2 +-
->  meta-poky/conf/distro/poky.conf     | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> --
-> 2.5.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Looks good.
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---f4030436207e0729fb05577040ee
+--001a114afa52747ca8055770be5d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">ignore this!=C2=A0<div><br></div><div>misfire of my script=
- to send the updated BSP test.</div><div><br></div><div>Bruce</div></div><d=
-iv class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Aug 23, 201=
-7 at 2:54 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.=
-ashfield@windriver.com" target=3D"_blank">bruce.ashfield@windriver.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">Hi all=
-,<br>
-<br>
-To match the pull request to oe-core that adds the 4.12 kernel and removes<=
-br>
-the 4.1 kernel these two patches bump the default kernel to 4.12 and also<b=
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div><div class=3D"gmail_signat=
+ure" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div dir=3D"ltr"><=
+br></div></div></div></div>
+<br><div class=3D"gmail_quote">On Wed, Aug 23, 2017 at 8:20 PM, Bruce Ashfi=
+eld <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@windriver.com" t=
+arget=3D"_blank">bruce.ashfield@windriver.com</a>&gt;</span> wrote:<br><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex"><span class=3D"">commit 44aea7b873 [kernel-yocto=
+: ensure that only valid BSPs are built]<br>
+introduced a new check to ensure that a valid BSP definition was found,<br>
+rather than building something that &#39;closely&#39; matched the current<b=
 r>
-update LSB to use the 4.9 kernel.<br>
+MACHINE.<br>
 <br>
-Build and boot testing was performed on all qemu architectures.<br>
+This check breaks valid configurations which do not have a bsp<br>
+definition but are otherwise completely configured machines.<br>
 <br>
-Cheers,<br>
+To allow both elements to co-exist (and not add warnings or errors<br>
+to otherwise valid builds), we first check to see if an empty bsp<br>
+definition was found, but then check to see if a defconfig was<br>
+provided.<br>
 <br>
-Bruce<br>
+If a defconfig has been provided, that is a sign that the board<br>
+configuration is complete and we should continue the build without<br>
+otherwise bothering the user.<br>
 <br>
-The following changes since commit 847d9000180cafedb23c60a6673adc<wbr>ec62c=
-a67a1:<br>
+Tested on meta-raspberrypi and linux-yocto*<br>
 <br>
-=C2=A0 linux-yocto/4.10: CVE &amp; misc fixes (2017-08-20 22:38:46 -0400)<b=
-r>
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@windrive=
+r.com">bruce.ashfield@windriver.com</a>&gt;<br>
+---<br>
 <br>
-are available in the git repository at:<br>
+</span>v2: fixed the badly placed -q<br>
+<span class=3D""><br>
+=C2=A0meta/classes/kernel-yocto.<wbr>bbclass | 7 +++++--<br>
+=C2=A01 file changed, 5 insertions(+), 2 deletions(-)<br>
 <br>
-=C2=A0 git://<a href=3D"http://git.pokylinux.org/poky-contrib" rel=3D"noref=
-errer" target=3D"_blank">git.pokylinux.org/poky-<wbr>contrib</a> zedd/kerne=
-l-yocto<br>
-=C2=A0 <a href=3D"http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dz=
-edd/kernel-yocto" rel=3D"noreferrer" target=3D"_blank">http://git.pokylinux=
-.org/cgit.<wbr>cgi/poky-contrib/log/?h=3Dzedd/<wbr>kernel-yocto</a><br>
+diff --git a/meta/classes/kernel-yocto.<wbr>bbclass b/meta/classes/kernel-y=
+octo.<wbr>bbclass<br>
+</span>index 3c6df92131bc..20b4942320d6 100644<br>
+<span class=3D"">--- a/meta/classes/kernel-yocto.<wbr>bbclass<br>
++++ b/meta/classes/kernel-yocto.<wbr>bbclass<br>
+@@ -143,8 +143,11 @@ do_kernel_metadata() {<br>
 <br>
-Bruce Ashfield (2):<br>
-=C2=A0 poky: bump preferred version of linux-yocto to 4.12<br>
-=C2=A0 poky: bump poky lsb to linux 4.9<br>
-<br>
-=C2=A0meta-poky/conf/distro/poky-<wbr>lsb.conf | 2 +-<br>
-=C2=A0meta-poky/conf/distro/poky.<wbr>conf=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
---<br>
-2.5.0<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-</span>Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # expand kernel features into their full path e=
+quivalents<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bsp_definition=3D$(spp ${includes} --find -DKMA=
+CHINE=3D${KMACHINE} -DKTYPE=3D${LINUX_KERNEL_TYPE})<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ] || [ -z &quot;${bsp_definition}=
+&quot; ]; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal_log &quot;C=
+ould not locate BSP definiton for ${KMACHINE}/${LINUX_KERNEL_<wbr>TYPE}.&qu=
+ot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -z &quot;$bsp_definition&quot; ]; then<br>
+</span>+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;$=
+sccs&quot; | grep -q defconfig<br>
+<div class=3D"HOEnZb"><div class=3D"h5">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0bberror &quot;Could not locate BSP definition for ${KMACHINE}/${L=
+INUX_KERNEL_<wbr>TYPE} and no defconfig was provided&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 meta_dir=3D$(kgit --meta)<br><br></div></div></=
+blockquote><div><br></div><div>Looks good. =C2=A0</div></div></div></div>
 
---f4030436207e0729fb05577040ee--
+--001a114afa52747ca8055770be5d--
