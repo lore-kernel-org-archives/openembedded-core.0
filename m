@@ -1,52 +1,24 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-vk0-f54.google.com (mail-vk0-f54.google.com
-	[209.85.213.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3226E782DA
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8682F782D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 08:10:38 +0000 (UTC)
-Received: by mail-vk0-f54.google.com with SMTP id j189so3074665vka.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 01:10:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tFZChcGedhHx+cWssDLIH8EdZeUDo+fPTH132LY4zLM=;
-	b=E4eIEnS92WxHj254mNwBjXMSFoLjxG4q8JXHMUIAF2g83aSgaapMjnqD2A+GUIucjl
-	8VKm3IfGTF2h4+qGH9QXChp9z9g6GT1t5mSK2rBOLYN8TNzcEbNsyfkxznVotGzq7xPc
-	8ntNVn73kl4UtUTBsvHKUoubcFtQSGDa42xBLSs62bffenQEbNiKmVKp4Xgkh53HMP00
-	rnNr19NwW5uSvLNiYYCkMAr1NfkI9Z9xMIhPy9XvSH+101LE2oOF+V6n5IvWNcYnSmw1
-	NrqN4UepAjTKGYcc50EOjoSpRqKEfDnxBvvDFIQTwWjNXlzPnt8lNliWX3wWnhzsTLuI
-	XbQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tFZChcGedhHx+cWssDLIH8EdZeUDo+fPTH132LY4zLM=;
-	b=ntsvAl5m5OJ/8HS9VzrpY3undoYMp4bJ7L3JB0Yviny2e9xt2VSFslagZDzPHArH0c
-	995u6u7t9zYRlVMskj7PB7oWBcQ0OM0wioNxMWCns0QtW8eO4bBsTNyf9/5cTUIANrf+
-	3tvTxG3a9c/4qjr5W4EVouvgjN1ciVpH6v3PCk6I4HNWi/EBkZlfOAU9o2ZzAouW2tgc
-	dVg7xFnXfhf5SLCNNC4+9oGisrTocwppJE14hDDTSv334MOghX6uJfDKkTn6yuJJjFoV
-	LSKgEV9J3lIin5NChKs7fmjqWnRlvYxoLxwbPMoe48PjAautC8k49BbdycekHpx8Z9pN
-	FBOA==
-X-Gm-Message-State: AHYfb5jcFNsPxHphaW1qkNPVC7eGjYxZpUfljrvb855q1XY3JiQNncT+
-	rUxyhCGy+7lbCzTLQmmvF2QoHXVNRg==
-X-Received: by 10.31.244.131 with SMTP id s125mr1211462vkh.122.1503475840067; 
-	Wed, 23 Aug 2017 01:10:40 -0700 (PDT)
+	Wed, 23 Aug 2017 08:30:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7N8UlmD013846
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Aug 2017 01:30:47 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 23 Aug 2017 01:30:47 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
+	<jussi.kukkonen@intel.com>
+Date: Wed, 23 Aug 2017 04:30:45 -0400
+Message-ID: <1503477045-37003-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Received: by 10.103.88.220 with HTTP; Wed, 23 Aug 2017 01:10:39 -0700 (PDT)
-In-Reply-To: <1503475197.32591.140.camel@linuxfoundation.org>
-References: <1503315814-27663-1-git-send-email-liu.ming50@gmail.com>
-	<CAJ86T=UGT-LDa_EgR_uBqA0jD8ide90ceJv+qk3Ck1v2cBjgbw@mail.gmail.com>
-	<CALatG=69H3SNAyieWRDXdUxMwvGCMFtF=gjmuufsK=TZoiLk0A@mail.gmail.com>
-	<1503474627.32591.139.camel@linuxfoundation.org>
-	<CALatG=6NOefmTqj-1OatYNH+43Bpwzo0Xz+BdrMYrYjZMkJTkw@mail.gmail.com>
-	<1503475197.32591.140.camel@linuxfoundation.org>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Wed, 23 Aug 2017 10:10:39 +0200
-Message-ID: <CALatG=4f-wjAsc58xtfNg2qD1vcVc6Oy=eq4nL38Bc3YyHhJ=w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ming Liu <peter.x.liu@external.atlascopco.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: trim duplicated whitespaces from BUILDCFG_VARS
+Subject: [PATCH V2] libxml2: Fix CVE-2017-8872
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,62 +31,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 08:10:39 -0000
-Content-Type: multipart/alternative; boundary="94eb2c149f82602edf0557673f94"
+X-List-Received-Date: Wed, 23 Aug 2017 08:30:48 -0000
+Content-Type: text/plain
 
---94eb2c149f82602edf0557673f94
-Content-Type: text/plain; charset="UTF-8"
+fix global-buffer-overflow in htmlParseTryOrFinish (HTMLparser.c:5403)
 
-Hi, Richard:
+https://bugzilla.gnome.org/show_bug.cgi?id=775200
 
-OK, understood.
+Here is the reproduce steps on ubuntu 16.04, use clang with "-fsanitize=address"
+...
+export CC="clang"
+export CFLAGS="-fsanitize=address"
 
-So for this kind of issues, the BSP developers should pay attention by
-themselves not to introduce any duplicated whitespaces in their meta-xxx
-layers?
+./configure --disable-shared
 
-//Ming Liu
+make clean all -j
 
-2017-08-23 9:59 GMT+02:00 Richard Purdie <richard.purdie@linuxfoundation.org
->:
+wget https://bugzilla.gnome.org/attachment.cgi?id=340871 -O poc
 
-> On Wed, 2017-08-23 at 09:57 +0200, Ming Liu wrote:
-> > Yes, it's in master-next not in master branch, but wouldn't that mean
-> > it's accepted as a proper fix, or?
->
-> It means it was queued for testing, I've dropped it from master-next
-> now as the comments from Chris still apply from last time.
->
-> Cheers,
->
-> Richard
->
+./xmllint --html --push poc
+==2785==ERROR: AddressSanitizer: global-buffer-overflow on address
+0x000000a0de21 at pc 0x0000006a7f6e bp 0x7ffdfe940c10 sp 0x7ffdfe940c08
+READ of size 1 at 0x000000a0de21 thread T0    #0 0x6a7f6d
+(/home/jiahongxu/Downloads/libxml2-2.9.4/xmllint+0x6a7f6d)    #1 0x6a7356
+(/home/jiahongxu/Downloads/libxml2-2.9.4/xmllint+0x6a7356)    #2 0x4f4504
+(/home/jiahongxu/Downloads/libxml2-2.9.4/xmllint+0x4f4504)    #3 0x4f045e
+(/home/jiahongxu/Downloads/libxml2-2.9.4/xmllint+0x4f045e)    #4 0x7f81977d682f
+(/lib/x86_64-linux-gnu/libc.so.6+0x2082f)    #5 0x419ad8
+(/home/jiahongxu/Downloads/libxml2-2.9.4/xmllint+0x419ad8)
+...
 
---94eb2c149f82602edf0557673f94
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../libxml/libxml2/libxml2-CVE-2017-8872.patch     | 37 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
 
-<div dir=3D"ltr">Hi, Richard:<div><br></div><div>OK, understood.</div><div>=
-<br></div><div>So for this kind of issues, the BSP developers should pay at=
-tention by themselves not to introduce any duplicated whitespaces in their =
-meta-xxx layers?</div><div><br></div><div>//Ming Liu</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">2017-08-23 9:59 GMT+02:00 R=
-ichard Purdie <span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxf=
-oundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;=
-</span>:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Wed, 2017-08=
--23 at 09:57 +0200, Ming Liu wrote:<br>
-&gt; Yes, it&#39;s in master-next not in master branch, but wouldn&#39;t th=
-at mean<br>
-&gt; it&#39;s accepted as a proper fix, or?<br>
-<br>
-</span>It means it was queued for testing, I&#39;ve dropped it from master-=
-next<br>
-now as the comments from Chris still apply from last time.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div><br></div>
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
+new file mode 100644
+index 0000000..26779aa
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2017-8872.patch
+@@ -0,0 +1,37 @@
++From d2f873a541c72b0f67e15562819bf98b884b30b7 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 23 Aug 2017 16:04:49 +0800
++Subject: [PATCH] fix CVE-2017-8872
++
++this makes xmlHaltParser "empty" the buffer, as it resets cur and ava
++il too here.
++
++this seems to cure this specific issue, and also passes the testsuite
++
++Signed-off-by: Marcus Meissner <meissner@suse.de>
++
++https://bugzilla.gnome.org/show_bug.cgi?id=775200
++Upstream-Status: Backport [https://bugzilla.gnome.org/attachment.cgi?id=355527&action=diff]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ parser.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/parser.c b/parser.c
++index 9506ead..6c07ffd 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -12664,6 +12664,10 @@ xmlHaltParser(xmlParserCtxtPtr ctxt) {
++ 	}
++ 	ctxt->input->cur = BAD_CAST"";
++ 	ctxt->input->base = ctxt->input->cur;
+++	if (ctxt->input->buf) {
+++		xmlBufEmpty (ctxt->input->buf->buffer);
+++	} else
+++		ctxt->input->length = 0;
++     }
++ }
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.4.bb b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+index f67c47d..107539b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.4.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.4.bb
+@@ -28,6 +28,7 @@ SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml2-CVE-2017-9049_CVE-2017-9050.patch \
+            file://libxml2-CVE-2017-5969.patch \
+            file://libxml2-CVE-2017-0663.patch \
++           file://libxml2-CVE-2017-8872.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            "
+ 
+-- 
+2.8.1
 
---94eb2c149f82602edf0557673f94--
+
