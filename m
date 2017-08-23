@@ -1,23 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id B641278221
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FA92781F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 12:15:01 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 23 Aug 2017 05:15:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,416,1498546800"; d="scan'208";a="1006804084"
-Received: from skhurana-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.139.43])
-	by orsmga003.jf.intel.com with ESMTP; 23 Aug 2017 05:15:00 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Aug 2017 00:14:48 +1200
-Message-Id: <cdd76ab80e6c1505a9e29adfed20e5f07a13d265.1503490439.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <cover.1503490439.git.paul.eggleton@linux.intel.com>
-References: <cover.1503490439.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] recipetool: create: fix npm license code regression
+	Wed, 23 Aug 2017 12:37:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7NCbwhO017955
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 23 Aug 2017 05:37:58 -0700 (PDT)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 23 Aug 2017 05:37:57 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1503283308.git.bruce.ashfield@windriver.com>
+	<ab92e7d90c416d6e5cdb17cdba269e09ec967607.1503283308.git.bruce.ashfield@windriver.com>
+	<CAMKF1soEQpj++eDz_Cq23t-OEJGi8jJW7V2sYStEyMHwrUrm2g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <c24b84e6-3fa5-371b-e7f4-71055be6814a@windriver.com>
+Date: Wed, 23 Aug 2017 08:37:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1soEQpj++eDz_Cq23t-OEJGi8jJW7V2sYStEyMHwrUrm2g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/9] kernel-yocto: ensure that only valid BSPs are built
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,40 +37,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 12:15:01 -0000
+X-List-Received-Date: Wed, 23 Aug 2017 12:37:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-OE-Core commit 1df60b09f7a60427795ec828c9c7180e4e52f98c caused a
-regression in npm handling since it still expected to be able to get the
-results of the license handling, but this no longer happens until after
-the npm plugin is called. Thus, call the license handling function
-ourselves here (which will record this as having been handled so it
-doesn't get done again later).
+On 08/22/2017 11:40 PM, Khem Raj wrote:
+> On Sun, Aug 20, 2017 at 7:58 PM, Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+>> There was a bug in the search routines responsible for locating
+>> BSP definitions which returned a valid match if only the ktype
+>> matched.
+>>
+>> This meant that someone looking for "qemux86foo" (which is an
+>> invalid definition) would potentially end up building "qemuarm"
+>> and be none the wiser (until it didn't boot).
+>>
+>> With this fix to the tools search routine, and improved return
+>> code testing, we will now stop the build and report and error to
+>> the user.
+>>
+>> [YOCTO: #11878]
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>   meta/classes/kernel-yocto.bbclass                       | 3 +++
+>>   meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+>>   2 files changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+>> index 1ca0756c4959..3c6df92131bc 100644
+>> --- a/meta/classes/kernel-yocto.bbclass
+>> +++ b/meta/classes/kernel-yocto.bbclass
+>> @@ -143,6 +143,9 @@ do_kernel_metadata() {
+>>
+>>          # expand kernel features into their full path equivalents
+>>          bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE} -DKTYPE=${LINUX_KERNEL_TYPE})
+>> +       if [ $? -ne 0 ] || [ -z "${bsp_definition}" ]; then
+>> +               bbfatal_log "Could not locate BSP definiton for ${KMACHINE}/${LINUX_KERNEL_TYPE}."
+>> +       fi
+> 
+> this breaks non linux-yocto kernels which are using the kernel infra
+> from OE-Core
+> since they may not have kmeta structure and bsp_definition may be empty for them
+> so either provide a way to override bsp_definition to something dummy or infact
+> fall back to dummy by default with a warning or note during parse
+> time. fatal is a bit harsh here.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/recipetool/create_npm.py | 3 +++
- 1 file changed, 3 insertions(+)
+Fair enough. I can make it a warning versus fatal, or only make it
+fatal if I detect a defconfig.
 
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index 6252e91..ae53972 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -208,11 +208,14 @@ class NpmRecipeHandler(RecipeHandler):
- 
-                 # Split each npm module out to is own package
-                 npmpackages = oe.package.npm_split_package_dirs(srctree)
-+                licvalues = None
-                 for item in handled:
-                     if isinstance(item, tuple):
-                         if item[0] == 'license':
-                             licvalues = item[1]
-                             break
-+                if not licvalues:
-+                    licvalues = handle_license_vars(srctree, lines_before, handled, extravalues, d)
-                 if licvalues:
-                     # Augment the license list with information we have in the packages
-                     licenses = {}
--- 
-2.9.5
+The issue is that the tools haven't found a configuration entry point
+and could end up building a garbage/invalid configuration. A defconfig
+could stand in as a 'valid entry' point, since it signifies a baseline
+configuration.
+
+Also, I do have completed code to move fragment merging into a common
+location and avoid things like this .. once it goes through some more
+compatibility testing, I'll post it to the list.
+
+Bruce
+
+> 
+>>          meta_dir=$(kgit --meta)
+>>
+>>          # run1: pull all the configuration fragments, no matter where they come from
+>> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> index 2217a31076a2..4a78b897d34f 100644
+>> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+>> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
+>>
+>>   DEPENDS = "git-native"
+>>
+>> -SRCREV = "9cd2b626d652bec10c6bc75275b35bfee74d447c"
+>> +SRCREV = "0571411cc033c11df7827508dd786876ce2f8c83"
+>>   PR = "r12"
+>>   PV = "0.2+git${SRCPV}"
+>>
+>> --
+>> 2.5.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
