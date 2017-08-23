@@ -1,46 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id AE2E17829F
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C7D27829F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 16:57:21 +0000 (UTC)
-Received: by mail-pg0-f53.google.com with SMTP id y129so2331697pgy.4
+	Wed, 23 Aug 2017 17:02:03 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id p14so2415774wrg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 09:57:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=d5avHokEZu2iX5gDzzh6vUDaseqlture3YK0GVuT85c=;
-	b=jn0xx9TnxIYt1taBPvL+R+Gq68E5HWMmaJDtnsZy83vF4Rzz/Y3PeXpw/cT+RSiwWN
-	GVQvLd78+0g+6EnoF/5JIThNnLYH4vmejUDxfjmhfAhG487jdh/ez5uu0WJLo3gWfsvv
-	ETiqxKzGQjhE49PmBy4ql7b9BIjvZDo6ihi4I/0E4NlWqCQdECYCBbfjHabAfIq0X+GD
-	Z+HFeB0kTcOdt9UuQP92LRoLp6trS4fbMqYW/fs6NmI1A9TtfNdMf3t/WSNI1j9oEqkD
-	TYWhUyrrA7w3CbYGh/+XK+o16gWzE3qmbJuhfXS4XC9y1+vuLRxVxGvJzu/LVXYSZ0qH
-	68rQ==
+	Wed, 23 Aug 2017 10:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=gherzan-ro.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4qt69jOZ+saRPVdzSrPpMq2iZjHqk2R+Dvol7PUy7i0=;
+	b=Fvl+CjgWkQxGrN2IrDEYuA8Fjqn8ocxKVyE55z0wYb8f0Nxk0LUWZcckzvjtaQPQ/b
+	ZnGjb6W6jaAkqsQPKXJYqRPg8FkA4qGPMcOhR/YqgoIoERklcMLtogf9a4CF6KqtwAT8
+	PtFigQRzTQ1ibgFCeTGSnGXaCamsXIvPmoKIhk7FaYiTnAlBjlixSCW2SZv0unpCqDtD
+	bo5LxgAF1mHC7tKkMGkCfwoUiS81Z6aBR0GBxUK8tI+3X1lksOkxHVx673ZP4sqkHtPS
+	cJsqF933zTOlCdo4n8ikXvqWoBNbWxBVUw1WgouYnunolJCwr+V5Z/XmdpjH72bqDF3p
+	9MVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=d5avHokEZu2iX5gDzzh6vUDaseqlture3YK0GVuT85c=;
-	b=m9yWtouwJQ69ndOxW2atXZQ1vPW5Oqu7sCpy1XgZNZw0vb4AooSGd0F5T0CPH9i5oQ
-	GyjqIl4EdVC1Wec0CuboZfC341akSX0euTIM3j/EXedPUcY5Zk9DqigTgK4BpDraroLX
-	9zpUyFxhnIsXwr/Wxs4+BN5nxtVToZ11tGhxXqGCHwPyxprGwKM9x/BFj4sr92gmPr7K
-	Ow3C/E5Uz6bU8UtAgU/EOtAV9qqIRsxM6kP0apjHkQtXETfGoJLGrRHXQF7kDs/yVYcR
-	Lf81R4b/coi1jTHa9D7O6ioA0tVvLRhjvK5wrdFmR9QZqBKBQFXFDITOzwCB/agCXb5l
-	74Cg==
-X-Gm-Message-State: AHYfb5g9KbHntXLHisBzi+D+5z9Hayu4EEoMfDPWuxQib36y6hyCHNru
-	5zLzCYJmPXQXcIqJB2jlPAZ3kgIH+w==
-X-Received: by 10.84.216.75 with SMTP id f11mr3700804plj.444.1503507442582;
-	Wed, 23 Aug 2017 09:57:22 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4qt69jOZ+saRPVdzSrPpMq2iZjHqk2R+Dvol7PUy7i0=;
+	b=BSnsrN8qFhHltgpBVqRBqGi8O0kvxwPRp0NPOmXFVuYYFI15IrZQZdi6QoCC4La0Hn
+	e3Re3+/3edMTNvFcI4rgUmDOuoU/fJkwr3/rNToN1L0gGBC5avls0kxg4R2cOVwdjAeC
+	WJwl2qyNndVy6UyCs/SOS7O+4oOiZ/nlkRVRzp+LKriaSWi3Me+ilYfqr4MOy8foek5G
+	C+5O9uJd+OyeY7/XzQXMSUN+tA4Xs9usIRlQZt7c8jiSkgKLxgS1UBfrlnmh4RVRjq4c
+	FT2nOsZCiNwrY6QDZ2xrD50tMKasBwT4gcYhtb3BQo8bpRIysyogesNzguBxWyKuvaWl
+	UjzA==
+X-Gm-Message-State: AHYfb5hZoU+bcDbfZhwheuJWJ0KuwfdHvDOnDwaVj/FBzikXm+cD/u0E
+	zJTBS8gGZKbzANeWQ8BfjvfH5uCMq7fZ
+X-Received: by 10.223.169.109 with SMTP id u100mr2002245wrc.179.1503507724644; 
+	Wed, 23 Aug 2017 10:02:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <352435b6-964b-505d-ceba-ffb5f8bd00ea@windriver.com>
-	<d82dd608-8d33-fdb0-73de-79333f80fa60@windriver.com>
-In-Reply-To: <d82dd608-8d33-fdb0-73de-79333f80fa60@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 23 Aug 2017 16:57:11 +0000
-Message-ID: <CAMKF1srbnYTRGX_OfOcG+PHFHqV0--rArZdqPrxZd7x8-PbW-A@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: pkgconfig vs pkgconf
+Received: by 10.28.45.195 with HTTP; Wed, 23 Aug 2017 10:01:23 -0700 (PDT)
+X-Originating-IP: [82.22.166.118]
+In-Reply-To: <9530249c-064a-8489-d8b5-f9687fa5c2a3@windriver.com>
+References: <CAK18fxG23fiaTMk86hQUYZVbRZApZMtM3StvuM5QefmCEHdw-g@mail.gmail.com>
+	<CAK18fxEj3ZLHzBAh5FgEKq8P9=QPr8MNBO6r4fri47nZZCeVbg@mail.gmail.com>
+	<9530249c-064a-8489-d8b5-f9687fa5c2a3@windriver.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Wed, 23 Aug 2017 18:01:23 +0100
+Message-ID: <CAK18fxF-6W_4vnw10PoSuEhKgER10qO+f25iqLZq0PAkUFdEDQ@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: kernel-yocto class requires BSP definition now
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,85 +57,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 16:57:21 -0000
-Content-Type: multipart/alternative; boundary="f403045c6b64084c2105576e9b7b"
+X-List-Received-Date: Wed, 23 Aug 2017 17:02:04 -0000
+Content-Type: multipart/alternative; boundary="f403045cef4cd86e7a05576eabf5"
 
---f403045c6b64084c2105576e9b7b
+--f403045cef4cd86e7a05576eabf5
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 23, 2017 at 9:19 AM Mark Hatle <mark.hatle@windriver.com> wrote:
+On Wed, Aug 23, 2017 at 5:54 PM, Bruce Ashfield <
+bruce.ashfield@windriver.com> wrote:
 
-> On 8/23/17 10:46 AM, Mark Hatle wrote:
-> > As of this morning, I'm not getting a warning about a preferred provider
-> being
+> Already discussed with Khem and Richard in the original
+> thread.
 >
-> typo.. 'I'm -NOW- getting a warning'
+> I'm sending another patch shortly to back this off to a note/warning.
 >
-> sorry for the confusion...
 >
-> > necessary to differentiate between pkgconfig and pkgconf.
-> >
-> > I've set the following to make it "go away".  But I assume we need to
-> set a
-> > default somewhere in the system...
-> >
-> > PREFERRED_PROVIDER_pkconfig = "pkgconfig"
-> > PREFERRED_PROVIDER_pkgconfig-native = "pkgconfig-native"
-> >
-> > PREFERRED_RPROVIDER_pkgconfig = "pkgconfig"
-> >
->
+That is nice but wouldn't that clutter the build logs for no reason? For
+people who don't take advantage of scc definitions that is. Could you point
+me to the initial discussion? Just want to understand and maybe vote to
+remove it altogether.
 
-How about nativesdk ? I filed a bug for this earlier
-
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---f403045c6b64084c2105576e9b7b
+--f403045cef4cd86e7a05576eabf5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Wed, Aug 23, 2017 =
-at 9:19 AM Mark Hatle &lt;<a href=3D"mailto:mark.hatle@windriver.com">mark.=
-hatle@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-On 8/23/17 10:46 AM, Mark Hatle wrote:<br>
-&gt; As of this morning, I&#39;m not getting a warning about a preferred pr=
-ovider being<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
+ed, Aug 23, 2017 at 5:54 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@w=
+indriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Alread=
+y discussed with Khem and Richard in the original<br>
+thread.<br>
 <br>
-typo.. &#39;I&#39;m -NOW- getting a warning&#39;<br>
-<br>
-sorry for the confusion...<br>
-<br>
-&gt; necessary to differentiate between pkgconfig and pkgconf.<br>
-&gt;<br>
-&gt; I&#39;ve set the following to make it &quot;go away&quot;.=C2=A0 But I=
- assume we need to set a<br>
-&gt; default somewhere in the system...<br>
-&gt;<br>
-&gt; PREFERRED_PROVIDER_pkconfig =3D &quot;pkgconfig&quot;<br>
-&gt; PREFERRED_PROVIDER_pkgconfig-native =3D &quot;pkgconfig-native&quot;<b=
+I&#39;m sending another patch shortly to back this off to a note/warning.<b=
 r>
-&gt;<br>
-&gt; PREFERRED_RPROVIDER_pkgconfig =3D &quot;pkgconfig&quot;<br>
-&gt;<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">How about native=
-sdk ? I filed a bug for this earlier=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex"><br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
+<br></blockquote><div><br></div><div>That is nice but wouldn&#39;t that clu=
+tter the build logs for no reason? For people who don&#39;t take advantage =
+of scc definitions that is. Could you point me to the initial discussion? J=
+ust want to understand and maybe vote to remove it altogether.=C2=A0</div><=
+/div></div></div>
 
---f403045c6b64084c2105576e9b7b--
+--f403045cef4cd86e7a05576eabf5--
