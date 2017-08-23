@@ -1,30 +1,31 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 38D7078279
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9767271A62
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 22:35:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7MMZ4oc030354
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Aug 2017 15:35:05 -0700
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.209]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Tue, 22 Aug 2017 15:35:04 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: building module tools (do_make_scripts)
-Thread-Index: AdMbloBTHwQRryzuTaKO/iIdVxSQ0A==
-Date: Tue, 22 Aug 2017 22:35:03 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF3E6BD0@ALA-MBD.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.118.90]
+	Wed, 23 Aug 2017 01:26:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7N1QhI7011318
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Aug 2017 18:26:43 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 22 Aug 2017 18:26:42 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
+	<armccurdy@gmail.com>, "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
+References: <20170822074219.8490-1-jackie.huang@windriver.com>
+	<CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
+	<1503431754.32591.130.camel@linuxfoundation.org>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <e08e7388-4240-0201-197b-8040d4dfb761@windriver.com>
+Date: Tue, 22 Aug 2017 21:26:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Subject: building module tools (do_make_scripts)
+In-Reply-To: <1503431754.32591.130.camel@linuxfoundation.org>
+X-Originating-IP: [172.25.44.7]
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: add python to default PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +38,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Aug 2017 22:35:04 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF3E6BD0ALAMBDcorpadwrs_"
+X-List-Received-Date: Wed, 23 Aug 2017 01:26:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---_000_007BD92917A2324FA403BCF9A464CF84CF3E6BD0ALAMBDcorpadwrs_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On 2017-08-22 03:55 PM, Richard Purdie wrote:
+> On Tue, 2017-08-22 at 12:51 -0700, Andre McCurdy wrote:
+>> On Tue, Aug 22, 2017 at 12:42 AM,  <jackie.huang@windriver.com>
+>> wrote:
+>>>
+>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>
+>>> We want to provide python libs by default, and some other
+>>> popular Linux distributions like redhat/fedora does the same.
+>> Has something changed? Is there anything in oe-core or meta-oe which
+>> now needs boost python support enabled?
+> 
+> Does it even actually build on all arches? >
+> I'm rather behind with patch review right now as people are putting so
+> many patches out there with what seems like minimal testing and
+> expecting me/Ross and the autobuilder to figure out the problems for
+> them.
+> 
+> Each time one fails, it blocks the queue with the rest of them in and I
+> have to retest until I get something clean.
+> 
+> Testing this change is quite a way down my priority list I'm afraid.
+> 
 
-A while ago I sent a patch to change the way the kernel module tools get bu=
-ilt such that they would be built once, not each time a recipe that inherit=
-s module.bbclass runs.  The current way is wasteful and allows module recip=
-es to interfere with each other.
+Maybe this is better done in our distro configuration.
 
-I can send the patch again, but I would like to know if anyone, on principl=
-e, objects there being a module tool building recipe.
+We're trying to minimize differences with oe-core and
+the boost python support doesn't seem to be much of an
+impact based on looking at logs rather than a having a
+detailed understanding of boost.
 
-Joe
+We've had this commit in our local branch since before:
 
---_000_007BD92917A2324FA403BCF9A464CF84CF3E6BD0ALAMBDcorpadwrs_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+CommitDate: Wed Dec 21 22:16:31 2016 -0800
 
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle"></style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">A while ago I sent a patch to change the way the kernel module tools=
- get built such that they would be built once, not each time a recipe that =
-inherits module.bbclass runs. &nbsp;The
- current way is wasteful and allows module recipes to interfere with each o=
-ther.
-<div><br>
-</div>
-<div>I can send the patch again, but I would like to know if anyone, on pri=
-nciple, objects there being a module tool building recipe.</div>
-<div><br>
-</div>
-<div>Joe</div>
-</div>
-</body>
-</html>
+     boost: add python to default PACKAGECONFIG options
 
---_000_007BD92917A2324FA403BCF9A464CF84CF3E6BD0ALAMBDcorpadwrs_--
+     We want to provide python libs by default, and some other
+     popular Linux distributions like redhat/fedora does the same.
+
+     (LOCAL REV: NOT UPSTREAM) -- sent to oe-core on 20160930
+
+so it certainly builds for all qemu* for glibc configurations.
+
+I'll see if we can add musl builds to our automated builds tonight.
+
+Jackie,
+
+Did/Can you build for musl?
+Do you have any idea of the impact of this config on users that are not
+interested in the python interface with boost?
+What's the additional cost in compile time?
+
+
+
+There certainly are a rush of package updates and other changes
+coming in; apologies for the lack of warning and late arrivals.
+Other than doing more testing and explaining what tests were done,
+what else can we do to help?
+
+
+../Randy
+
+
+> Cheers,
+> 
+> Richard
+> 
+> 
+
+
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
+
