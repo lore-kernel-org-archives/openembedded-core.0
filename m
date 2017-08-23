@@ -1,32 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E060719C8
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1817F7823A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 14:42:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7NEghRp022764
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Aug 2017 07:42:43 -0700 (PDT)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 23 Aug 2017 07:42:42 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1503283308.git.bruce.ashfield@windriver.com>
-	<ab92e7d90c416d6e5cdb17cdba269e09ec967607.1503283308.git.bruce.ashfield@windriver.com>
-	<CAMKF1soEQpj++eDz_Cq23t-OEJGi8jJW7V2sYStEyMHwrUrm2g@mail.gmail.com>
-	<c24b84e6-3fa5-371b-e7f4-71055be6814a@windriver.com>
-	<CAMKF1so-ifGj68AZj6WxFeFRrmDZMq9KcvpQsXYzdi_N5W89-A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <77e11e27-ec62-4a4d-2ca0-f874d9d09883@windriver.com>
-Date: Wed, 23 Aug 2017 10:42:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1so-ifGj68AZj6WxFeFRrmDZMq9KcvpQsXYzdi_N5W89-A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Wed, 23 Aug 2017 14:47:42 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Aug 2017 07:47:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,417,1498546800"; d="scan'208";a="143710621"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by fmsmga006.fm.intel.com with ESMTP; 23 Aug 2017 07:47:43 -0700
+Message-ID: <1503500205.7168.24.camel@linux.intel.com>
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Date: Wed, 23 Aug 2017 09:56:45 -0500
+In-Reply-To: <6D4566C9E07A8D4DAB6F935696920A84244DC46C@ATVIES991UAMSX.ww300.siemens.net>
+References: <1503490589-19310-1-git-send-email-peter.marko@siemens.com>
+	<20170823130459.2381.14517@do.openembedded.org>
+	<6D4566C9E07A8D4DAB6F935696920A84244DC46C@ATVIES991UAMSX.ww300.siemens.net>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 8/9] kernel-yocto: ensure that only valid BSPs are built
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHN0YWdpbmc6IGFkZCBtaXNzaW5nIGltcG9ydCBlcnJubyB0byBzdGFnaW5nX3BvcHVsYXRlX3N5c3Jvb3RfZGly?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,122 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 14:42:44 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 23 Aug 2017 14:47:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/23/2017 10:40 AM, Khem Raj wrote:
-> On Wed, Aug 23, 2017 at 5:37 AM, Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->> On 08/22/2017 11:40 PM, Khem Raj wrote:
->>>
->>> On Sun, Aug 20, 2017 at 7:58 PM, Bruce Ashfield
->>> <bruce.ashfield@windriver.com> wrote:
->>>>
->>>> There was a bug in the search routines responsible for locating
->>>> BSP definitions which returned a valid match if only the ktype
->>>> matched.
->>>>
->>>> This meant that someone looking for "qemux86foo" (which is an
->>>> invalid definition) would potentially end up building "qemuarm"
->>>> and be none the wiser (until it didn't boot).
->>>>
->>>> With this fix to the tools search routine, and improved return
->>>> code testing, we will now stop the build and report and error to
->>>> the user.
->>>>
->>>> [YOCTO: #11878]
->>>>
->>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>> ---
->>>>    meta/classes/kernel-yocto.bbclass                       | 3 +++
->>>>    meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
->>>>    2 files changed, 4 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/classes/kernel-yocto.bbclass
->>>> b/meta/classes/kernel-yocto.bbclass
->>>> index 1ca0756c4959..3c6df92131bc 100644
->>>> --- a/meta/classes/kernel-yocto.bbclass
->>>> +++ b/meta/classes/kernel-yocto.bbclass
->>>> @@ -143,6 +143,9 @@ do_kernel_metadata() {
->>>>
->>>>           # expand kernel features into their full path equivalents
->>>>           bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE}
->>>> -DKTYPE=${LINUX_KERNEL_TYPE})
->>>> +       if [ $? -ne 0 ] || [ -z "${bsp_definition}" ]; then
->>>> +               bbfatal_log "Could not locate BSP definiton for
->>>> ${KMACHINE}/${LINUX_KERNEL_TYPE}."
->>>> +       fi
->>>
->>>
->>> this breaks non linux-yocto kernels which are using the kernel infra
->>> from OE-Core
->>> since they may not have kmeta structure and bsp_definition may be empty
->>> for them
->>> so either provide a way to override bsp_definition to something dummy or
->>> infact
->>> fall back to dummy by default with a warning or note during parse
->>> time. fatal is a bit harsh here.
->>
->>
->> Fair enough. I can make it a warning versus fatal, or only make it
->> fatal if I detect a defconfig.
->>
->> The issue is that the tools haven't found a configuration entry point
->> and could end up building a garbage/invalid configuration. A defconfig
->> could stand in as a 'valid entry' point, since it signifies a baseline
->> configuration.
->>
->> Also, I do have completed code to move fragment merging into a common
->> location and avoid things like this .. once it goes through some more
->> compatibility testing, I'll post it to the list.
+On Wed, 2017-08-23 at 14:03 +0000, Marko, Peter wrote:
+> >* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+> >  Suggested fix    Rebase your series on top of targeted branch
+> >  Targeted branch  master (currently at b1e482ae20)
 > 
+> Richie is faster than patchwork :-)
+
+He is. So, in less that half hour (which is where the patchtest cron
+does it job) RP merged your patch!
+
+
+> Master head commit b1e482ae20 is actually patch submitted in this email (which naturally conflicts with itself)...
 > 
-> Irrespective this was merged today into master, can you send a followup
-> quickly so we can unbreak meta-raspberrypi
+> Peter
 
-I hadn't pulled today, and yes, I'll send something by end of day, since
-I don't want this to stay broken!
-
-Cheers,
-
-Bruce
-
-> 
->>
->> Bruce
->>
->>
->>>
->>>>           meta_dir=$(kgit --meta)
->>>>
->>>>           # run1: pull all the configuration fragments, no matter where
->>>> they come from
->>>> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->>>> b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->>>> index 2217a31076a2..4a78b897d34f 100644
->>>> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->>>> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->>>> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =
->>>> "file://git/tools/kgit;beginline=5;endline=9;md5=a6c2fa8aef1b
->>>>
->>>>    DEPENDS = "git-native"
->>>>
->>>> -SRCREV = "9cd2b626d652bec10c6bc75275b35bfee74d447c"
->>>> +SRCREV = "0571411cc033c11df7827508dd786876ce2f8c83"
->>>>    PR = "r12"
->>>>    PV = "0.2+git${SRCPV}"
->>>>
->>>> --
->>>> 2.5.0
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
 
 
