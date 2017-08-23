@@ -1,27 +1,18 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AC9978282
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Aug 2017 12:51:10 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 23 Aug 2017 05:51:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,417,1498546800"; d="scan'208";a="1187300127"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2017 05:51:11 -0700
-References: <e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-X-Forwarded-Message-Id: <e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
-Message-ID: <9f0302e4-4320-b985-e0b8-ebf3f7422aad@linux.intel.com>
-Date: Wed, 23 Aug 2017 15:48:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E9BA78211;
+	Wed, 23 Aug 2017 13:04:57 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
-Subject: Re: long (never ending?) do_install for adwaita-icon-theme
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Kristian Amlie <kristian.amlie@northern.tech>
+Date: Wed, 23 Aug 2017 13:04:59 -0000
+Message-ID: <20170823130459.2382.33452@do.openembedded.org>
+References: <8e87fb4b-6180-efdc-6f60-4e8ca6d5564c@mender.io>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <8e87fb4b-6180-efdc-6f60-4e8ca6d5564c@mender.io>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZG9faW1hZ2U6IEltcGxlbWVudCBJTUFHRV9ST09URlNfRVhDTFVERV9QQVRIIGZlYXR1cmUuIChyZXY2KQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Aug 2017 12:51:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 23 Aug 2017 13:04:57 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/22/2017 09:46 PM, Trevor Woerner wrote:
->> Do you have any kind of logs for when it happens?
-> 
-> 
-> Unfortunately not, I'll try to keep some the next time it happens.
-> 
-> But I have a suspicion it might be related to a build failure. Earlier
-> today I was doing a build which failed in a recipe that wasn't
-> adwaita-icon-theme, nor related to it. When I checked on my build
-> later I could see the tail of the error message from the failed
-> recipe, but the overall build was still waiting for
-> adwaita-icon-theme's do_install to finish (hours after the failure).
-> 
-> Maybe adwaita-icon-theme's do_install would have succeeded if
-> everything had gone well? Maybe to reproduce, it might be necessary to
-> time it such that another recipe fails while adwaita-icon-theme is
-> building?
+== Series Details ==
 
-We can certainly revert my patch that speeds up the do_install(), but I 
-would prefer not to do it blindly: it's much better to first firmly 
-establish that the patch is indeed the reason for the never ending 
-do_install (I can't imagine why, but it certainly could be). So please 
-do try to get some logs, or a stable way to reproduce.
+Series: do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature. (rev6)
+Revision: 6
+URL   : https://patchwork.openembedded.org/series/6525/
+State : failure
 
-Alex
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at b1e482ae20)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
