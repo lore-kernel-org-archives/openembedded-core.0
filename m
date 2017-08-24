@@ -1,28 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D127D782B3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 10:18:58 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7OAIo21003795
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 24 Aug 2017 11:18:51 +0100
-Message-ID: <1503569930.32591.188.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 24 Aug 2017 11:18:50 +0100
-In-Reply-To: <20170824091924.25945-1-git@andred.net>
-References: <20170824091924.25945-1-git@andred.net>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 24 Aug 2017 11:18:51 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] bitbake.conf: Add run-parts to HOSTTOOLS
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B2BB78280;
+	Thu, 24 Aug 2017 10:34:56 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: =?utf-8?q?Holger_Schr=C3=B6der?= <holger@holgis.net>
+Date: Thu, 24 Aug 2017 10:34:58 -0000
+Message-ID: <20170824103458.2379.76898@do.openembedded.org>
+References: <1911181157.25321.1503568263847@office.mailbox.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1911181157.25321.1503568263847@office.mailbox.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaWdub3JlIC5zdm4gZGlyZWN0b3J5IGluIGludGVyY2VwdHNfZGly?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 10:18:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 Aug 2017 10:34:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2017-08-24 at 10:19 +0100, André Draszik wrote:
-> From: André Draszik <adraszik@tycoint.com>
-> 
-> ca-certificates runs a postinst task, update-ca-certificates,
-> which ultimately wants to execute run-parts.
-> 
-> Signed-off-by: André Draszik <adraszik@tycoint.com>
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 334ba2361f..8011689118 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -469,7 +469,7 @@ HOSTTOOLS += " \
->      fgrep file find flock g++ gawk gcc getconf getopt git grep
-> gunzip gzip \
->      head hostname install ld ldd ln ls make makeinfo md5sum mkdir
-> mknod \
->      mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd
-> python python2 \
-> -    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh
-> sha256sum \
-> +    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen run-
-> parts sed sh sha256sum \
->      sleep sort split stat strings strip tail tar tee test touch tr
-> true uname \
->      uniq wc wget which xargs \
->  "
+== Series Details ==
 
-We definitely should not be doing this, there is clearly a dependency
-missing somewhere else. ca-certificates should depend on whatever
-provides that...
+Series: ignore .svn directory in intercepts_dir
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/8479/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            ignore .svn directory in intercepts_dir
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
