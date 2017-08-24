@@ -1,39 +1,59 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D35A6FF73
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FDB56FFEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 09:19:26 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id f127so2101644wmf.3
+	Thu, 24 Aug 2017 09:27:27 +0000 (UTC)
+Received: by mail-pg0-f53.google.com with SMTP id q2so522263pgr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 02:19:27 -0700 (PDT)
+	Thu, 24 Aug 2017 02:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=lv/UQERCcAUWRlmDQwB/im1FgEhkDa5PfwUv51USzfU=;
+	b=TKDAKZz9vWKJUrmpV2sw+sMu1p0HSliJcs0otX44BIEnqzH2shBP+B+4cxGDC5YaGf
+	fYn6kMCvw8o7lJT6JvK3rVqt4ZFTd4tWB3Z6UuH7n09LxAIarXcDqAqIE731Ry3ZKCvF
+	CV/yvhW2LjQLGpFEdPEvXq9A3ilpz1RIZTNgbrf8tQBOxnZLFeAdLS934wiBrZHLriXA
+	RWYe3ewbaCHfvTjZfZijbF6AcuxridHroow7a4p1eZS8ZEpodr4SvAVybohTW3Wgqh8r
+	1Y1PE3LoAgFJQTyAzfvNhxSJSH0qKasSTrm+wwQvfBHwIacfeCyXMtz0zrdSqWK+0NkQ
+	wQ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zc+ZsbAE0fEUDoR7KcrwwaXPpS/SMR8g0UjSLcnOPs8=;
-	b=c9uXMGVj7YbIDBlqnZgY58M2vskU/YfWGup17AhBStkSjs7HRwWcPv6f2aqtpCbTsB
-	UjmWx9JUpvofa6VfenlsxtxBalB0IcUWKSAbWGUU4a9+NLbXKfjTl4S21fViM7Q5W3+0
-	tJGwbkLm2mYYqHRDM88EgJB9sHW3tS6PaAUOdKDYwztSl7L6IzlWTO//Bjqrrh9pq70w
-	8XhWbQwxf+NMc45hKkGt7qjPp3H/e40y9KvCryO/ZhFXZpo5OW+FFh2KtX3fTguuuBaB
-	jmkwCwlQLEYTHN4CrfOn9VChzpOBL+KAsOuRVblpnbyZqOFmxOl81SmJffNHLhVjMr2J
-	K6+g==
-X-Gm-Message-State: AHYfb5gDacneD5gdcfxcRKqS7CYuftGmuuGuSOdu81fFDFzKvm1gGvvB
-	cR/mciWoKqB92L14BN8=
-X-Received: by 10.80.170.58 with SMTP id o55mr5688511edc.164.1503566366836;
-	Thu, 24 Aug 2017 02:19:26 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	h36sm2371840eda.12.2017.08.24.02.19.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Aug 2017 02:19:25 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Aug 2017 10:19:24 +0100
-Message-Id: <20170824091924.25945-1-git@andred.net>
-X-Mailer: git-send-email 2.14.1
-MIME-Version: 1.0
-Subject: [PATCH] bitbake.conf: Add run-parts to HOSTTOOLS
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=lv/UQERCcAUWRlmDQwB/im1FgEhkDa5PfwUv51USzfU=;
+	b=JQY9osGZVtEVy3ISGX54xp/CJ8Bjsz83xFw1qTkO9NsesBE8WS5llk1+4J75raqRhc
+	WUOwGBM4CJxSNqn8MoZokX3mFuD5aGjaYwbbs2UOfAZ58f8N08TR3zxmPJqk8ZMtTa2j
+	wMvkrdATfB17NMp7hQDw+7gPcXDxpiL9Y60qt9hKheL/gwNm4emfy1T8kPkWaPO8QM4n
+	FpUV3LsufUoIL6zFRJb5vz8cGSZX9JoQj4xM2ZDtVQ8+23AkYO2S2/Lraz0TidtOep/6
+	eeRg1qT5VIax82iOlaFWF4MA3RKaDu7zeb4/0v4hyX447EF7rwYwBict9pN4ritePWqo
+	dMMQ==
+X-Gm-Message-State: AHYfb5jSCHuJ9UzmnmHpKy8ZlRevpnWLaZy89D2p0a/+WlA0BgpGADn1
+	oEjdbn3K7erERV8p
+X-Received: by 10.84.129.103 with SMTP id 94mr6049678plb.63.1503566849235;
+	Thu, 24 Aug 2017 02:27:29 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F93A.dip0.t-ipconnect.de. [93.232.249.58])
+	by smtp.gmail.com with ESMTPSA id f2sm5643028pgc.17.2017.08.24.02.27.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 24 Aug 2017 02:27:27 -0700 (PDT)
+Message-ID: <1503566841.3674.6.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 24 Aug 2017 11:27:21 +0200
+In-Reply-To: <1496995960.30163.175.camel@intel.com>
+References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
+	<1496850184.21235.1.camel@gmail.com>
+	<1496912216.6630.225.camel@linuxfoundation.org>
+	<1496930142.8427.2.camel@gmail.com>
+	<1496932400.6630.250.camel@linuxfoundation.org>
+	<1496935714.8427.7.camel@gmail.com>
+	<1496950316.30163.152.camel@intel.com>
+	<1496995960.30163.175.camel@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Yocto Compatible 2.0 support code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,34 +66,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 09:19:26 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 Aug 2017 09:27:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: André Draszik <adraszik@tycoint.com>
+On Fri, 2017-06-09 at 10:12 +0200, Patrick Ohly wrote:
+> I also get for all recipes (i.e. the error is in the base
+> configuration):
+> 
+> meta/conf/bitbake.conf:752: include/require/inherit "conf/target/${TARGET_SYS}.conf" resulted in including "conf/target/x86_64-oe-linux.conf" while parsing. Variables effecting the parameter changed later such that "conf/target/x86_64-refkit-linux.conf" would have been included at the end of the recipe.
+> 
+> None of these two files exist, so it doesn't make a difference. But is
+> it really intended that a conf/target/${TARGET_SYS}.conf gets included
+> that isn't the one for the final TARGET_SYS? That looks like a genuine
+> bug to me.
 
-ca-certificates runs a postinst task, update-ca-certificates,
-which ultimately wants to execute run-parts.
+And Andre McCurdy also came to the same conclusion - see his
+"[OE-core] [PATCH] bitbake.conf: fix ineffective include conf/target/${TARGET_SYS}.conf"
+patch. However, that patch IMHO is incomplete, because it doesn't account for
+${DISTRO}.conf changing the TARGET_VENDOR part of TARGET_SYS. I'll comment there, too.
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 334ba2361f..8011689118 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -469,7 +469,7 @@ HOSTTOOLS += " \
-     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
-     head hostname install ld ldd ln ls make makeinfo md5sum mkdir mknod \
-     mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python python2 \
--    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sha256sum \
-+    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen run-parts sed sh sha256sum \
-     sleep sort split stat strings strip tail tar tee test touch tr true uname \
-     uniq wc wget which xargs \
- "
 -- 
-2.14.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
