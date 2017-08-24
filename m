@@ -1,30 +1,45 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 20E0078384
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F30571E4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 15:08:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Aug 2017 08:08:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,421,1498546800"; d="scan'208";a="1187752089"
-Received: from lsandov1-mobl3.amr.corp.intel.com (HELO [10.252.202.59])
-	([10.252.202.59])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2017 08:08:46 -0700
-To: "Marko, Peter" <Peter.Marko@siemens.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1503490589-19310-1-git-send-email-peter.marko@siemens.com>
-	<6D4566C9E07A8D4DAB6F935696920A84244DDB59@ATVIES991UAMSX.ww300.siemens.net>
-From: "Sandoval Gonzalez, Leonardo"
-	<leonardo.sandoval.gonzalez@linux.intel.com>
-Message-ID: <d81894e2-8a6d-4d14-b74e-a018b6dccdfc@linux.intel.com>
-Date: Thu, 24 Aug 2017 10:08:45 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Thu, 24 Aug 2017 17:45:10 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id z132so887126wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Aug 2017 10:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=x7i0+M/wzjyb2/q82rtyQmCYdnaS5Z+MtHZ5QY0gcII=;
+	b=cHWGwiWykXottVM/q/U7OhiNC23jZndoVM5B4TqhR8LWbd8peUCeGAoec2Iz7tc8rO
+	rMsfqXD+2Qk/548ME8ChIym9+k/1VMFlyp1b8g1h5l5BCCjA15SbP7PXzIBU1SRTc1aV
+	k0pfcdHaNwgA1zRnIauipVhe+9YdGOz0TnT+QGu6KT/k5YX5AlXxWy6P0wvG0i1KRtnT
+	ZcwczPJ769msz8qw4UrAkOrrvNHbDGbZYbetKIf3B6toxDW5LNvK4CcOvbld/nEMQirk
+	hR7X0G2brbaYr0yh0ZodbqtCdE3hrO7OVXuTPwnI1JGtfHRF0JpiqWnMJ4gsDNCAf1vs
+	fPVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=x7i0+M/wzjyb2/q82rtyQmCYdnaS5Z+MtHZ5QY0gcII=;
+	b=nJ1pyZQg0mp0W9yerWfq07EQqTWs2Y26u/qmaFxV6+2lMWCcJHcKP7aIxgcDuGKjuW
+	5uQY7ViAy1tqWdAMFTbmvd5HyHQcck800uaopz9Ar3Jync9Zj9TO8bdO+NMqpOWs3L7k
+	Iu1aXb0IYZWzKTvsfURDT04LgxsOQ+xtJyChjcihuRjOxYCi4ewn1t7UJf/WNZEMZoCm
+	VXZi7GfiJU3L/cCCXwUR4Z5HajWlmUdkqR6Q6WDMyv67IlqxaFV6uiMZApqUbEqGFLzR
+	l32ydJ5UvUIRpeGvzSIY9Xte9JK19bpYtXt8g1B/p3RxFDt1lIc9QNV09NuBZTE5OLXY
+	aV5g==
+X-Gm-Message-State: AHYfb5jldx1H6NtjJNI9Dis4zIWp/dxHjkXhiNhNGWu34XS4TTYp0sTD
+	FBKDqhiuWEfp/7vl6JBJ4DWkpBjYgg==
+X-Received: by 10.28.182.7 with SMTP id g7mr3889668wmf.66.1503596711494; Thu,
+	24 Aug 2017 10:45:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6D4566C9E07A8D4DAB6F935696920A84244DDB59@ATVIES991UAMSX.ww300.siemens.net>
-Subject: Re: [PATCH] staging: add missing import errno to staging_populate_sysroot_dir
+Received: by 10.223.169.70 with HTTP; Thu, 24 Aug 2017 10:45:10 -0700 (PDT)
+In-Reply-To: <20170824053753.36121-1-jose.alarcon@ge.com>
+References: <20170824053753.36121-1-jose.alarcon@ge.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 24 Aug 2017 10:45:10 -0700
+Message-ID: <CAJ86T=Uip8WChxD_q_jWxCPPmUqw87yJLyn5F29ztbJfMpVMOQ@mail.gmail.com>
+To: Jose Alarcon <jose.alarcon@ge.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libinput: remove obsolete touchpad patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +52,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 15:08:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: es-ES
+X-List-Received-Date: Thu, 24 Aug 2017 17:45:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, Aug 23, 2017 at 10:37 PM, Jose Alarcon <jose.alarcon@ge.com> wrote:
+> This patch was a temporal workaround needed with 4.1 kernels.
+> Remove it.
 
+OLDEST_KERNEL is still set to 3.2.0
 
-El 8/24/2017 a las 5:50 AM, Marko, Peter escribió:
-> Could this be queued also to pyro branch?
-> It's commit ID b1e482ae20b9c714f4089d4da6470d041242e441
-better to send another patch tagged with 'pyro' at the subject.
-
-> Thanks,
->    Peter
->
->> Fixes error "Exception: NameError: name 'errno' is not defined"
->> during build-sysroots.bb:do_build_target_sysroot
->>
->> Signed-off-by: Marko, Peter <peter.marko@siemens.com>
->> ---
->>   meta/classes/staging.bbclass | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass index 162c8e9..9d3d2ad 100644
->> --- a/meta/classes/staging.bbclass
->> +++ b/meta/classes/staging.bbclass
->> @@ -177,6 +177,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
->>   def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
->>       import glob
->>       import subprocess
->> +    import errno
->>   
->>       fixme = []
->>       postinsts = []
->> --
->> 2.1.4
-
+How can you be sure nobody is using 4.1 ?
 
