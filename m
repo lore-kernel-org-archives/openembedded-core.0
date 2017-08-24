@@ -1,41 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CCB271C3D
+Return-Path: <o.mandel@menlosystems.com>
+X-Greylist: delayed 548 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 24 Aug 2017 18:29:19 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D62F7199F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 18:07:00 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id p67so198281qkd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 11:07:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=Mffe7qQ/o3QLo/bmf0kExNHS1IeHh7R1GWPZ3mB/ohc=;
-	b=XOPyA6J2wdAqARkv7cire+nqimlBbZZdF0z2xgDhYWkON1YQePsPWWBKKqGozDNSfO
-	jjRvszLN5RUbCiiYHPi35De/eJ8mOCqglBoNPouUJSUqgKwIeqvLCUGL1TxXMdeHD3cQ
-	o9Y1FTvRaq50BC93nuc84x7BaaUJQbL/C8IvWaWv78kpv0u3CbGYVBg+JDxapxhffJp6
-	aOvS6jx2rMcl9xEF0v4uWUNyr8nb+kyjf8f/zt7a0DkUuFbA0XJgQH4rTIV6MrgbctDk
-	KGPBncJG9KIuSXHKdAFrCdAEAJ1ABxuZGQXmwBV7QVGdTGQo12lMZmpH6NHDlXyo3ycd
-	MzGg==
-X-Gm-Message-State: AHYfb5iq9HJmYSRFvRJOFU28j6cDZF3y50T7+GmTbERPTkwYdu2CIkK9
-	zBAot6IUNNKAqQiV
-X-Received: by 10.233.235.216 with SMTP id b207mr9808006qkg.77.1503598021270; 
-	Thu, 24 Aug 2017 11:07:01 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.72.143])
-	by smtp.gmail.com with ESMTPSA id
-	i124sm2771305qkf.43.2017.08.24.11.06.58
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 24 Aug 2017 11:07:00 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 24 Aug 2017 15:06:52 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Aug 2017 15:06:51 -0300
-Message-Id: <20170824180651.7284-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Upgrade to 17.1.7 release
+	Thu, 24 Aug 2017 18:29:19 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3xdXdm0hqnz1rBnY;
+	Thu, 24 Aug 2017 20:20:12 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 3xdXdm07c3z3hhT6;
+	Thu, 24 Aug 2017 20:20:11 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id UYkCcTMpAfxQ; Thu, 24 Aug 2017 20:20:10 +0200 (CEST)
+X-Auth-Info: HTlDbUQNWVT9a0Z6lIAmsyHXmUqjAAxPHNjISF7lIcGIC3rDa3XaIPESl4Ik+3qv
+Received: from menlobldserver.menlosystems.local
+	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Thu, 24 Aug 2017 20:20:10 +0200 (CEST)
+From: Olaf Mandel <o.mandel@menlosystems.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Aug 2017 18:19:46 +0000
+Message-Id: <20170824181946.4529-1-o.mandel@menlosystems.com>
+X-Mailer: git-send-email 2.11.0
+Cc: Olaf Mandel <o.mandel@menlosystems.com>
+Subject: [PATCH] (PRE)MIRRORS: add pattern for npm:// without slash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,48 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 18:07:00 -0000
+X-List-Received-Date: Thu, 24 Aug 2017 18:29:19 -0000
 
-This is a bugfix release and has following upstream bugs as noteworth:
+For URLs with the npm:// transport but with no other slash in it, the
+common MIRRORS and PREMIRRORS pattern of npm://.*/.* fails to match.
+Add a new pattern in the mirros.bbclass and own-mirrors.bbclass classes
+for these URLs.
 
-Bug 101334 - AMD SI cards: Some vulkan apps freeze the system
-Bug 101766 - Assertion `!"invalid type"' failed when constant expression involves literal of different type
-Bug 102024 - FORMAT_FEATURE_SAMPLED_IMAGE_BIT not supported for D16_UNORM and D32_SFLOAT
-Bug 102148 - Crash when running qopenglwidget example on mesa llvmpipe win32
-Bug 102241 - gallium/wgl: SwapBuffers freezing regularly with swap interval enabled
+Many URLs with the npm:// transport have no slash after the host part:
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  npm://registry.npmjs.org;name=foo;version=0.1.2
+
+This means that MIRRORS and PREMIRRORS containing entries like the
+first one will not match these URLs:
+
+  npm://.*/.*   # fails to match
+  npm://.*      # matches, but not those URLs with a slash
+
+Because the npm:// URLs without a slash seem to be more ubiquitous (they
+are generated by recipetool), place the new pattern first.
+
+Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
 ---
+ meta/classes/mirrors.bbclass     | 2 ++
+ meta/classes/own-mirrors.bbclass | 1 +
+ 2 files changed, 3 insertions(+)
 
- meta/recipes-graphics/mesa/{mesa-gl_17.1.6.bb => mesa-gl_17.1.7.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.1.6.bb => mesa_17.1.7.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.1.6.bb => mesa-gl_17.1.7.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.1.6.bb => mesa_17.1.7.bb} (88%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.6.bb b/meta/recipes-graphics/mesa/mesa_17.1.7.bb
-similarity index 88%
-rename from meta/recipes-graphics/mesa/mesa_17.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa_17.1.7.bb
-index 64a15e3fb7..494cdc6d83 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.1.7.bb
-@@ -11,8 +11,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch \
-            file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-            "
--SRC_URI[md5sum] = "54758bf842f9ea53c8b57cce4311b87e"
--SRC_URI[sha256sum] = "0686deadde1f126b20aa67e47e8c50502043eee4ecdf60d5009ffda3cebfee50"
-+SRC_URI[md5sum] = "e40bb428a263bd28cbf6478dae45b207"
-+SRC_URI[sha256sum] = "69f472a874b1122404fa0bd13e2d6bf87eb3b9ad9c21d2f39872a96d83d9e5f5"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index b98684f5c6..710df3c7bf 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -48,6 +48,7 @@ p4://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \n \
+ osc://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+ https?$://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \n \
+ ftp://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
++npm://.*        http://downloads.yoctoproject.org/mirror/sources/ \n \
+ npm://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+ cvs://.*/.*     http://sources.openembedded.org/ \n \
+ svn://.*/.*     http://sources.openembedded.org/ \n \
+@@ -58,6 +59,7 @@ p4://.*/.*      http://sources.openembedded.org/ \n \
+ osc://.*/.*     http://sources.openembedded.org/ \n \
+ https?$://.*/.* http://sources.openembedded.org/ \n \
+ ftp://.*/.*     http://sources.openembedded.org/ \n \
++npm://.*        http://sources.openembedded.org/ \n \
+ npm://.*/.*     http://sources.openembedded.org/ \n \
+ ${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
+ ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
+diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
+index 12b42675bc..253ed9cb7e 100644
+--- a/meta/classes/own-mirrors.bbclass
++++ b/meta/classes/own-mirrors.bbclass
+@@ -9,5 +9,6 @@ p4://.*/.*      ${SOURCE_MIRROR_URL}
+ osc://.*/.*     ${SOURCE_MIRROR_URL}
+ https?$://.*/.* ${SOURCE_MIRROR_URL}
+ ftp://.*/.*     ${SOURCE_MIRROR_URL}
++npm://.*        ${SOURCE_MIRROR_URL}
+ npm://.*/.*     ${SOURCE_MIRROR_URL}
+ }
 -- 
-2.14.1
+2.11.0
 
 
