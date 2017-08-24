@@ -1,48 +1,60 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id EFDBF78224
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 42DC3779C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 07:10:04 +0000 (UTC)
-Received: by mail-io0-f182.google.com with SMTP id g71so7899714ioe.5
+	Thu, 24 Aug 2017 07:47:24 +0000 (UTC)
+Received: by mail-pg0-f52.google.com with SMTP id t3so13115634pgt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 00:10:06 -0700 (PDT)
+	Thu, 24 Aug 2017 00:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DIYhkuk3Av2Q4wh1u5+FANhxpOI3Fq5CiQMmgzU9Rsc=;
-	b=WeXI5PtIoJHDXG6ti1mhXYbWB2eaOdHUBYim4IBF3NJlqFwzYk3LM0UPR4K97X3Gyx
-	ejMD4P7IN6jNpOGVWahh32HvhFvWjOXzwrD9F5iE+7fyHe/O6pPSCtLu9Y7aCdLdYuow
-	h+YI5erBHY0zUGv4+pm7cjEs7LsTGbSIP17xMoPWgsipDLn4xxcu+wJv3yLDOK71T7co
-	eYf/LdU1h6jheD9IodG9DQ7oVlV1bw457tNB25ACXTyNPDgIsrVtVxSKW87rH8h7ltUg
-	LcggzoKZwE3vQi+mTrKb25pHD6vAggWGYyS5/J9DQE41zWowtf+RaGG8gjVK2lRCldYG
-	/gPA==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=8GdihU0XW4XEGdqqLiqBLGj2DSS7+61z47RhG5GYxis=;
+	b=LjYFLvZdl0l43UsY6pZjB28QDoO0juaTIUvUur5Hv56ysbPymjTYEGUeHsJPGynH/1
+	XCexUfNMOBAQwZTnWPBSdGIQbOrfNUjY2nON89Fj+6ZNrbk6AGkSIWmaYnH9EP6iO1+e
+	LQO5WQkn34Ht6rV/8rkVf+g9jDgWekgoJwd0vpXNy9fiPVQc1ZeZM9ExKm4L/VgkuNc4
+	OhglJYr+rGzdiDD2G2FzNF7xsXU/FnUB/ZaH0uwA6whFtulh20PU/AWaZ141CUZpgu2v
+	Y1lS57eZheEv2bLC02j7xHD44AbYoV33fmT7NaCZeKRjkwhoPCfhijCcB/MSAi0Kyx43
+	ZtVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DIYhkuk3Av2Q4wh1u5+FANhxpOI3Fq5CiQMmgzU9Rsc=;
-	b=BLPBJ3sw6GI9W+hEBHsSVl0GBr2t4VRFPTx18aH/GPdT4i+XX8TRSyxX7xAerEhUzw
-	V86FiuXnIa58iBiaduxSYKHFvFsPzVfdtntvT+p0SrQ3pBzYOBVaRHi53NKJATw+GaHb
-	nSghmkDH20R9xKTAQqhVQ/DDcpMTYAUDHmcVMOO8uaPQ7tLEfERCxTSpJomxLLnSO8Pv
-	nUKDgW5Mun7xa2oxWKWreqnA8Bcv+h1nWe+Rlqs3RVRSXqZmOsLvs0393MHJPNvkM6Zy
-	LnrNiu1vpkyqP93tynCaVWg+dE62WQyb8BI73+uG2LYCMIYzFIir115qQNNPQT/wLYAk
-	ZhaA==
-X-Gm-Message-State: AHYfb5hCrjQhX6UXZx9O5YpNBPHTw+1Nb0WNhl4Y0+TiymGhrDNNuFPE
-	gBKRmyJRrHbBhWZ4KDsYcPIIVthzYUrR
-X-Received: by 10.107.15.155 with SMTP id 27mr4163591iop.203.1503558605866;
-	Thu, 24 Aug 2017 00:10:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.200.71 with HTTP; Thu, 24 Aug 2017 00:09:35 -0700 (PDT)
-In-Reply-To: <1503503416-47233-1-git-send-email-mark.hatle@windriver.com>
-References: <1503503416-47233-1-git-send-email-mark.hatle@windriver.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 24 Aug 2017 10:09:35 +0300
-Message-ID: <CAHiDW_EiK7Yzj9MAoMi_E=+hVdmiHej5c=8JtAd0Ksv8uho0Cw@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=8GdihU0XW4XEGdqqLiqBLGj2DSS7+61z47RhG5GYxis=;
+	b=p//EWxK4igl3DrLs3sFAEkVAc/z9AmuT2nVME3xckn+CfBCTm22Cz2v1rTlolfhoJY
+	t3gXkelB+85T6BfRSzKVqYeAKCAEdenlzjcIfRHWhDyTDjBPqDFtq1hYs2k3kfJn62kz
+	g2HrShzyWUGlehB2lyXRLbiNu8hLh6cBmARKaud3toyfmvk257yZBJEJHyE3ViMhlomw
+	bT6V0Xw5l1tec72h46eHC8TbyFEfMREhKm0g2E8w9vIxACeteu7L/QxZRd/3SAgz1dSL
+	KGxFBODtH1VaGnw4n6LduommizCUceT6+r7g2LYFbZA4+NvmNGnQGRsHprAnaTKtMzPv
+	FuWw==
+X-Gm-Message-State: AHYfb5hGmHOHskTyUiSLrDYust8jybDH+8f5qA6Ljs8zpvQunqnU8ofO
+	I+mZJDMqvrs8Y9tG
+X-Received: by 10.84.217.201 with SMTP id d9mr5989696plj.335.1503560846118;
+	Thu, 24 Aug 2017 00:47:26 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F93A.dip0.t-ipconnect.de. [93.232.249.58])
+	by smtp.gmail.com with ESMTPSA id
+	l79sm4422027pfk.66.2017.08.24.00.47.22
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 24 Aug 2017 00:47:24 -0700 (PDT)
+Message-ID: <1503560838.3674.2.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>, Martin Jansa
+	<martin.jansa@gmail.com>
+Date: Thu, 24 Aug 2017 09:47:18 +0200
+In-Reply-To: <a7fc84e4-f364-ad8e-faf6-7d156f10d5cf@windriver.com>
+References: <f05e1212a87f739cf27fe9a6c32f45ef92a6fdab.1501250341.git-series.patrick.ohly@intel.com>
+	<CAMKF1sq98x8jpV_A0Fz2doMO25Cii9v4Ez178ex4uUoPqnnB8A@mail.gmail.com>
+	<CA+chaQetLEuL79Utj_C+e7yQpg9Hw1ZhVQsOdCEeLZNziAzMqQ@mail.gmail.com>
+	<04c5a375-93ee-7f32-4f91-a4dc3f7c9b1c@windriver.com>
+	<20170810235637.GA3320@jama>
+	<a7fc84e4-f364-ad8e-faf6-7d156f10d5cf@windriver.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] vulkan distro flag update
+Subject: Re: [PATCH] autoconf-archive: move from meta-oe to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,83 +67,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 07:10:06 -0000
-Content-Type: multipart/alternative; boundary="001a113eeca89a1a3005577a84a2"
-
---001a113eeca89a1a3005577a84a2
+X-List-Received-Date: Thu, 24 Aug 2017 07:47:25 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 23 August 2017 at 18:50, Mark Hatle <mark.hatle@windriver.com> wrote:
->
-> I'm not sure if this is right or not, but it resolves the failures I was
-> getting after updating oe this morning.
->
-> I was attempting to run the yocto project compliant script, which runs
-> bitbake -S none world.  The results of this were an error that vulkan
-> needed 'mesa-vulkan-drivers'.  Looking at mesa, it was clear that these
-> are only built in the 'vulkan' distro flag is set.  (and mesa is only
-> built in the opengl flag is set.)
->
-> So I've added these checks to the vulkan recipe, and resolved the check.
+On Thu, 2017-08-10 at 20:53 -0500, Mark Hatle wrote:
+> On 8/10/17 6:56 PM, Martin Jansa wrote:
+> > On Thu, Aug 10, 2017 at 03:34:48PM -0500, Mark Hatle wrote:
+> > > On 8/10/17 3:18 PM, Martin Jansa wrote:
+> > > > -2
+> > > 
+> > > I agree that autoconf-archive should be in oe-core.  But...
+> > 
+> > No argument about that, it was already merged to oe-core, I was
+> > only commenting about the gnome-common change included in this
+> > commit.
+
+The meta-oe patch is here:
+
+https://patchwork.openembedded.org/series/7995/#
+
+> Sorry, I missed the context.. ya if the gnome change is arch or board
+> specific that is wrong.  There should be no reason for that.
+
+The patch itself doesn't change anything around that, autoconf-archive
+already was arch specific.
+
+Martin is right, because of that the gnome-common->autoconf-archive
+dependency can't be done as in the patch above. But what is the right
+fix? Is autoconf-archive really arch specific or can "inherit allarch"
+be added to it?
+
+If not, can we add it to SIGGEN_EXCLUDERECIPES_ABISAFE to allow the
+gnome-common->autoconf-archive dependency? That would also prevent
+rebuilding software when updating autoconf-archive, which may or may
+not be the right thing to do - I'm undecided myself.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
 
-Looks good to me, thanks.
 
-It's possible that mesa could be talked into building just vulkan drivers
-(and so could work without opengl feature) but the mesa recipe certainly
-doesn't support it right now. I'll have a look at that but for now the
-RRECOMMENDS tweak seems reasonable too.
-
-Jussi
-
-
->
->
-> Mark Hatle (1):
->   vulkan: Only build when 'vulkan' distro flag is set
->
->  meta/recipes-graphics/vulkan/vulkan-demos_git.bb | 2 ++
->  meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb  | 4 +++-
->  2 files changed, 5 insertions(+), 1 deletion(-)
->
-> --
-> 1.8.3.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---001a113eeca89a1a3005577a84a2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 23 August 2017 at 18:50, Mark Hatle &lt;<a href=3D"mail=
-to:mark.hatle@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>&gt=
-;<br>&gt; I&#39;m not sure if this is right or not, but it resolves the fai=
-lures I was<br>&gt; getting after updating oe this morning.<br>&gt;<br>&gt;=
- I was attempting to run the yocto project compliant script, which runs<br>=
-&gt; bitbake -S none world.=C2=A0 The results of this were an error that vu=
-lkan<br>&gt; needed &#39;mesa-vulkan-drivers&#39;.=C2=A0 Looking at mesa, i=
-t was clear that these<br>&gt; are only built in the &#39;vulkan&#39; distr=
-o flag is set. =C2=A0(and mesa is only<br>&gt; built in the opengl flag is =
-set.)<br>&gt;<br>&gt; So I&#39;ve added these checks to the vulkan recipe, =
-and resolved the check.<br><br><br>Looks good to me, thanks.<br><br>It&#39;=
-s possible that mesa could be talked into building just vulkan drivers (and=
- so could work without opengl feature) but the mesa recipe certainly doesn&=
-#39;t support it right now. I&#39;ll have a look at that but for now the RR=
-ECOMMENDS tweak seems reasonable too.<br><br>Jussi<br><br><br>&gt;<br>&gt;<=
-br>&gt; Mark Hatle (1):<br>&gt; =C2=A0 vulkan: Only build when &#39;vulkan&=
-#39; distro flag is set<br>&gt;<br>&gt; =C2=A0meta/recipes-graphics/vulkan/=
-<a href=3D"http://vulkan-demos_git.bb">vulkan-demos_git.bb</a> | 2 ++<br>&g=
-t; =C2=A0meta/recipes-graphics/vulkan/<a href=3D"http://vulkan_1.0.51.0.bb"=
->vulkan_1.0.51.0.bb</a> =C2=A0| 4 +++-<br>&gt; =C2=A02 files changed, 5 ins=
-ertions(+), 1 deletion(-)<br>&gt;<br>&gt; --<br>&gt; 1.8.3.1<br>&gt;<br>&gt=
-; --<br>&gt; _______________________________________________<br>&gt; Openem=
-bedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-core@lists.=
-openembedded.org">Openembedded-core@lists.openembedded.org</a><br>&gt; <a h=
-ref=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core">ht=
-tp://lists.openembedded.org/mailman/listinfo/openembedded-core</a></div>
-
---001a113eeca89a1a3005577a84a2--
