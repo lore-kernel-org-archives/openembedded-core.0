@@ -1,38 +1,48 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E8A1D782D9
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EFDBF78224
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 06:31:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7O6VDJ0018648
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 23 Aug 2017 23:31:13 -0700 (PDT)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.209]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Wed, 23 Aug 2017 23:31:13 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>, "MacLeod, Randy"
-	<Randy.MacLeod@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] [PATCH] boost: add python to default PACKAGECONFIG
-	options
-Thread-Index: AQHTG4AEWVh7122takuejULtbCxCfqKRP6wAgABca4D//+37MIABgsRw
-Date: Thu, 24 Aug 2017 06:31:13 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B870CF0@ALA-MBD.corp.ad.wrs.com>
-References: <20170822074219.8490-1-jackie.huang@windriver.com>
-	<CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
-	<1503431754.32591.130.camel@linuxfoundation.org>
-	<e08e7388-4240-0201-197b-8040d4dfb761@windriver.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B86FA85@ALA-MBD.corp.ad.wrs.com>
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA014B86FA85@ALA-MBD.corp.ad.wrs.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.90]
+	Thu, 24 Aug 2017 07:10:04 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id g71so7899714ioe.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Aug 2017 00:10:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DIYhkuk3Av2Q4wh1u5+FANhxpOI3Fq5CiQMmgzU9Rsc=;
+	b=WeXI5PtIoJHDXG6ti1mhXYbWB2eaOdHUBYim4IBF3NJlqFwzYk3LM0UPR4K97X3Gyx
+	ejMD4P7IN6jNpOGVWahh32HvhFvWjOXzwrD9F5iE+7fyHe/O6pPSCtLu9Y7aCdLdYuow
+	h+YI5erBHY0zUGv4+pm7cjEs7LsTGbSIP17xMoPWgsipDLn4xxcu+wJv3yLDOK71T7co
+	eYf/LdU1h6jheD9IodG9DQ7oVlV1bw457tNB25ACXTyNPDgIsrVtVxSKW87rH8h7ltUg
+	LcggzoKZwE3vQi+mTrKb25pHD6vAggWGYyS5/J9DQE41zWowtf+RaGG8gjVK2lRCldYG
+	/gPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DIYhkuk3Av2Q4wh1u5+FANhxpOI3Fq5CiQMmgzU9Rsc=;
+	b=BLPBJ3sw6GI9W+hEBHsSVl0GBr2t4VRFPTx18aH/GPdT4i+XX8TRSyxX7xAerEhUzw
+	V86FiuXnIa58iBiaduxSYKHFvFsPzVfdtntvT+p0SrQ3pBzYOBVaRHi53NKJATw+GaHb
+	nSghmkDH20R9xKTAQqhVQ/DDcpMTYAUDHmcVMOO8uaPQ7tLEfERCxTSpJomxLLnSO8Pv
+	nUKDgW5Mun7xa2oxWKWreqnA8Bcv+h1nWe+Rlqs3RVRSXqZmOsLvs0393MHJPNvkM6Zy
+	LnrNiu1vpkyqP93tynCaVWg+dE62WQyb8BI73+uG2LYCMIYzFIir115qQNNPQT/wLYAk
+	ZhaA==
+X-Gm-Message-State: AHYfb5hCrjQhX6UXZx9O5YpNBPHTw+1Nb0WNhl4Y0+TiymGhrDNNuFPE
+	gBKRmyJRrHbBhWZ4KDsYcPIIVthzYUrR
+X-Received: by 10.107.15.155 with SMTP id 27mr4163591iop.203.1503558605866;
+	Thu, 24 Aug 2017 00:10:05 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: add python to default PACKAGECONFIG options
+Received: by 10.107.200.71 with HTTP; Thu, 24 Aug 2017 00:09:35 -0700 (PDT)
+In-Reply-To: <1503503416-47233-1-git-send-email-mark.hatle@windriver.com>
+References: <1503503416-47233-1-git-send-email-mark.hatle@windriver.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 24 Aug 2017 10:09:35 +0300
+Message-ID: <CAHiDW_EiK7Yzj9MAoMi_E=+hVdmiHej5c=8JtAd0Ksv8uho0Cw@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vulkan distro flag update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,146 +55,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 06:31:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Aug 2017 07:10:06 -0000
+Content-Type: multipart/alternative; boundary="001a113eeca89a1a3005577a84a2"
+
+--001a113eeca89a1a3005577a84a2
+Content-Type: text/plain; charset="UTF-8"
+
+On 23 August 2017 at 18:50, Mark Hatle <mark.hatle@windriver.com> wrote:
+>
+> I'm not sure if this is right or not, but it resolves the failures I was
+> getting after updating oe this morning.
+>
+> I was attempting to run the yocto project compliant script, which runs
+> bitbake -S none world.  The results of this were an error that vulkan
+> needed 'mesa-vulkan-drivers'.  Looking at mesa, it was clear that these
+> are only built in the 'vulkan' distro flag is set.  (and mesa is only
+> built in the opengl flag is set.)
+>
+> So I've added these checks to the vulkan recipe, and resolved the check.
 
 
+Looks good to me, thanks.
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Huang, Jie (Jackie)
-> Sent: Wednesday, August 23, 2017 16:02
-> To: MacLeod, Randy; Richard Purdie; Andre McCurdy
-> Cc: OE Core mailing list
-> Subject: Re: [OE-core] [PATCH] boost: add python to default PACKAGECONFIG
-> options
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: MacLeod, Randy
-> > Sent: Wednesday, August 23, 2017 09:27
-> > To: Richard Purdie; Andre McCurdy; Huang, Jie (Jackie)
-> > Cc: OE Core mailing list
-> > Subject: Re: [OE-core] [PATCH] boost: add python to default PACKAGECONF=
-IG
-> > options
-> >
-> > On 2017-08-22 03:55 PM, Richard Purdie wrote:
-> > > On Tue, 2017-08-22 at 12:51 -0700, Andre McCurdy wrote:
-> > >> On Tue, Aug 22, 2017 at 12:42 AM,  <jackie.huang@windriver.com>
-> > >> wrote:
-> > >>>
-> > >>> From: Jackie Huang <jackie.huang@windriver.com>
-> > >>>
-> > >>> We want to provide python libs by default, and some other
-> > >>> popular Linux distributions like redhat/fedora does the same.
-> > >> Has something changed? Is there anything in oe-core or meta-oe which
-> > >> now needs boost python support enabled?
-> > >
-> > > Does it even actually build on all arches? >
-> > > I'm rather behind with patch review right now as people are putting s=
-o
-> > > many patches out there with what seems like minimal testing and
-> > > expecting me/Ross and the autobuilder to figure out the problems for
-> > > them.
-> > >
-> > > Each time one fails, it blocks the queue with the rest of them in and=
- I
-> > > have to retest until I get something clean.
-> > >
-> > > Testing this change is quite a way down my priority list I'm afraid.
-> > >
-> >
-> > Maybe this is better done in our distro configuration.
-> >
-> > We're trying to minimize differences with oe-core and
-> > the boost python support doesn't seem to be much of an
-> > impact based on looking at logs rather than a having a
-> > detailed understanding of boost.
-> >
-> > We've had this commit in our local branch since before:
-> >
-> > CommitDate: Wed Dec 21 22:16:31 2016 -0800
-> >
-> >      boost: add python to default PACKAGECONFIG options
-> >
-> >      We want to provide python libs by default, and some other
-> >      popular Linux distributions like redhat/fedora does the same.
-> >
-> >      (LOCAL REV: NOT UPSTREAM) -- sent to oe-core on 20160930
-> >
-> > so it certainly builds for all qemu* for glibc configurations.
-> >
-> > I'll see if we can add musl builds to our automated builds tonight.
-> >
-> > Jackie,
-> >
-> > Did/Can you build for musl?
->=20
-> No, I didn't build for musl yet, but yes, I can and will do the test with=
- musl
-> and fix issues as needed.
+It's possible that mesa could be talked into building just vulkan drivers
+(and so could work without opengl feature) but the mesa recipe certainly
+doesn't support it right now. I'll have a look at that but for now the
+RRECOMMENDS tweak seems reasonable too.
 
-I tested for all qemu* with:
-$ for i in qemuarm qemuarm64 qemux86 qemux86-64 qemuppc qemumips qemumips64=
-; do MACHINE=3D"$i" TCLIBC=3Dmusl bitbake boost
+Jussi
 
-And all passed, could you point me out what the failure is caused by this p=
-atch?=20
 
-Thanks,
-Jackie
-
->=20
-> > Do you have any idea of the impact of this config on users that are not
-> > interested in the python interface with boost?
->=20
-> I don't think there is any impact, each library is packaged into a separa=
-te
-> package named with boost-<lib name>
->=20
-> > What's the additional cost in compile time?
->=20
-> A quick test indicates that it's less than 1 second:
->=20
-> $ grep -r 'Elapsed time:' 20170823073306/boost-1.64.0-r0/do_compile
-> 20170823075302/boost-1.64.0-r0/do_compile
-> 20170823073306/boost-1.64.0-r0/do_compile:Elapsed time: 50.96 seconds
-> 20170823075302/boost-1.64.0-r0/do_compile:Elapsed time: 51.63 seconds
->=20
-> Thanks,
-> Jackie
->=20
-> >
-> >
-> >
-> > There certainly are a rush of package updates and other changes
-> > coming in; apologies for the lack of warning and late arrivals.
-> > Other than doing more testing and explaining what tests were done,
-> > what else can we do to help?
-> >
-> >
-> > ../Randy
-> >
-> >
-> > > Cheers,
-> > >
-> > > Richard
-> > >
-> > >
-> >
-> >
-> > --
-> > # Randy MacLeod. SMTS, Linux, Wind River
-> > Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON,
-> > Canada, K2K 2W5
+>
+>
+> Mark Hatle (1):
+>   vulkan: Only build when 'vulkan' distro flag is set
+>
+>  meta/recipes-graphics/vulkan/vulkan-demos_git.bb | 2 ++
+>  meta/recipes-graphics/vulkan/vulkan_1.0.51.0.bb  | 4 +++-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>
+> --
+> 1.8.3.1
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--001a113eeca89a1a3005577a84a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 23 August 2017 at 18:50, Mark Hatle &lt;<a href=3D"mail=
+to:mark.hatle@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>&gt=
+;<br>&gt; I&#39;m not sure if this is right or not, but it resolves the fai=
+lures I was<br>&gt; getting after updating oe this morning.<br>&gt;<br>&gt;=
+ I was attempting to run the yocto project compliant script, which runs<br>=
+&gt; bitbake -S none world.=C2=A0 The results of this were an error that vu=
+lkan<br>&gt; needed &#39;mesa-vulkan-drivers&#39;.=C2=A0 Looking at mesa, i=
+t was clear that these<br>&gt; are only built in the &#39;vulkan&#39; distr=
+o flag is set. =C2=A0(and mesa is only<br>&gt; built in the opengl flag is =
+set.)<br>&gt;<br>&gt; So I&#39;ve added these checks to the vulkan recipe, =
+and resolved the check.<br><br><br>Looks good to me, thanks.<br><br>It&#39;=
+s possible that mesa could be talked into building just vulkan drivers (and=
+ so could work without opengl feature) but the mesa recipe certainly doesn&=
+#39;t support it right now. I&#39;ll have a look at that but for now the RR=
+ECOMMENDS tweak seems reasonable too.<br><br>Jussi<br><br><br>&gt;<br>&gt;<=
+br>&gt; Mark Hatle (1):<br>&gt; =C2=A0 vulkan: Only build when &#39;vulkan&=
+#39; distro flag is set<br>&gt;<br>&gt; =C2=A0meta/recipes-graphics/vulkan/=
+<a href=3D"http://vulkan-demos_git.bb">vulkan-demos_git.bb</a> | 2 ++<br>&g=
+t; =C2=A0meta/recipes-graphics/vulkan/<a href=3D"http://vulkan_1.0.51.0.bb"=
+>vulkan_1.0.51.0.bb</a> =C2=A0| 4 +++-<br>&gt; =C2=A02 files changed, 5 ins=
+ertions(+), 1 deletion(-)<br>&gt;<br>&gt; --<br>&gt; 1.8.3.1<br>&gt;<br>&gt=
+; --<br>&gt; _______________________________________________<br>&gt; Openem=
+bedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-core@lists.=
+openembedded.org">Openembedded-core@lists.openembedded.org</a><br>&gt; <a h=
+ref=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core">ht=
+tp://lists.openembedded.org/mailman/listinfo/openembedded-core</a></div>
+
+--001a113eeca89a1a3005577a84a2--
