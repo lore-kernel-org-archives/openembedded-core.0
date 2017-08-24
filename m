@@ -1,59 +1,53 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FDB56FFEF
+Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EDB0C78212
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 09:27:27 +0000 (UTC)
-Received: by mail-pg0-f53.google.com with SMTP id q2so522263pgr.0
+	Thu, 24 Aug 2017 09:35:38 +0000 (UTC)
+Received: by mail-pg0-f41.google.com with SMTP id r186so487375pgr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 02:27:29 -0700 (PDT)
+	Thu, 24 Aug 2017 02:35:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=lv/UQERCcAUWRlmDQwB/im1FgEhkDa5PfwUv51USzfU=;
-	b=TKDAKZz9vWKJUrmpV2sw+sMu1p0HSliJcs0otX44BIEnqzH2shBP+B+4cxGDC5YaGf
-	fYn6kMCvw8o7lJT6JvK3rVqt4ZFTd4tWB3Z6UuH7n09LxAIarXcDqAqIE731Ry3ZKCvF
-	CV/yvhW2LjQLGpFEdPEvXq9A3ilpz1RIZTNgbrf8tQBOxnZLFeAdLS934wiBrZHLriXA
-	RWYe3ewbaCHfvTjZfZijbF6AcuxridHroow7a4p1eZS8ZEpodr4SvAVybohTW3Wgqh8r
-	1Y1PE3LoAgFJQTyAzfvNhxSJSH0qKasSTrm+wwQvfBHwIacfeCyXMtz0zrdSqWK+0NkQ
-	wQ+g==
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=qdtuSTBAo5HawrOQUkIB13im3K3+K3fkiTer5xzTGZg=;
+	b=ml3FiEhbLHX4MoMCBfAU5eZ6Zvrn64cXUgfyBNy7CDyKtDOZBpxR5dtWEhVm+3585b
+	ry8lWggtUC7SmotXeAOEhiTcENImGOFeslD9rGAR0vfJJGHWnS42LTqPCd48E6M5cI1B
+	baut2YpX4Q+3jysMZmjEGBX3b/9wF98g3zMYUUcQ3sJscdkP8dluKeed1TIYvCEzQA9h
+	PeEfjcm666h6w5a/pVMD1Kp3pBBb1tlnO+9CKPsEedsgXvLiYxZHl7s8Ea2DloI3WvM+
+	c9yyOAaskCwhCShxQMt37PE6FmoIrFSfOU06XraCLRAYlboOtLHJ8jnsiFV52OvmsL/n
+	fMOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=lv/UQERCcAUWRlmDQwB/im1FgEhkDa5PfwUv51USzfU=;
-	b=JQY9osGZVtEVy3ISGX54xp/CJ8Bjsz83xFw1qTkO9NsesBE8WS5llk1+4J75raqRhc
-	WUOwGBM4CJxSNqn8MoZokX3mFuD5aGjaYwbbs2UOfAZ58f8N08TR3zxmPJqk8ZMtTa2j
-	wMvkrdATfB17NMp7hQDw+7gPcXDxpiL9Y60qt9hKheL/gwNm4emfy1T8kPkWaPO8QM4n
-	FpUV3LsufUoIL6zFRJb5vz8cGSZX9JoQj4xM2ZDtVQ8+23AkYO2S2/Lraz0TidtOep/6
-	eeRg1qT5VIax82iOlaFWF4MA3RKaDu7zeb4/0v4hyX447EF7rwYwBict9pN4ritePWqo
-	dMMQ==
-X-Gm-Message-State: AHYfb5jSCHuJ9UzmnmHpKy8ZlRevpnWLaZy89D2p0a/+WlA0BgpGADn1
-	oEjdbn3K7erERV8p
-X-Received: by 10.84.129.103 with SMTP id 94mr6049678plb.63.1503566849235;
-	Thu, 24 Aug 2017 02:27:29 -0700 (PDT)
+	bh=qdtuSTBAo5HawrOQUkIB13im3K3+K3fkiTer5xzTGZg=;
+	b=tsQjJB0G5sXx77wRs6JiwXKcdIUy9wFDHfZQnSieolI965g900va9QtZMbKMS7icZm
+	E/jjkMbVJPbTHm+4oQAgkUICK4dI65ACsWcJ20cSUo8dHMfG99/NW0litksMzwcIZkOD
+	5IMNuyv67vK9XiM4LGPjfr0ywJgWwCXdH1O2jrSAUEYyOXdAl8kND2B2G3isFG/Oz+SB
+	7uZAsjviqsYUNaQPzTk6NdsEiZiQjjdM+QvIi+xDRxiPJq/J7msd5Tdy1IqCQKO7GbhH
+	KvaOA3Mc5HCCGRemId4i7S4eCMOlIhBtlLCA+HRVWAituFk3oF4SSN+KlKgrz/UDUhlf
+	aAmA==
+X-Gm-Message-State: AHYfb5jga+TJ4rckPiTpgEkfFM1ux18ZjrPR0HJRNaTjC3vJ9WE0qXS1
+	B3E0YwcE8q5SKu6F
+X-Received: by 10.84.164.225 with SMTP id l30mr6109022plg.317.1503567340038;
+	Thu, 24 Aug 2017 02:35:40 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8F93A.dip0.t-ipconnect.de. [93.232.249.58])
-	by smtp.gmail.com with ESMTPSA id f2sm5643028pgc.17.2017.08.24.02.27.25
+	by smtp.gmail.com with ESMTPSA id
+	q124sm5604547pga.8.2017.08.24.02.35.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 24 Aug 2017 02:27:27 -0700 (PDT)
-Message-ID: <1503566841.3674.6.camel@intel.com>
+	Thu, 24 Aug 2017 02:35:38 -0700 (PDT)
+Message-ID: <1503567333.3674.8.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 24 Aug 2017 11:27:21 +0200
-In-Reply-To: <1496995960.30163.175.camel@intel.com>
-References: <cover.8ea05a588020117b72a57015f699c7acd76b93e6.1496849345.git-series.patrick.ohly@intel.com>
-	<1496850184.21235.1.camel@gmail.com>
-	<1496912216.6630.225.camel@linuxfoundation.org>
-	<1496930142.8427.2.camel@gmail.com>
-	<1496932400.6630.250.camel@linuxfoundation.org>
-	<1496935714.8427.7.camel@gmail.com>
-	<1496950316.30163.152.camel@intel.com>
-	<1496995960.30163.175.camel@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 24 Aug 2017 11:35:33 +0200
+In-Reply-To: <1487758902-11574-1-git-send-email-armccurdy@gmail.com>
+References: <1487758902-11574-1-git-send-email-armccurdy@gmail.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.22.6-1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Yocto Compatible 2.0 support code
+Subject: Re: [PATCH] bitbake.conf: fix ineffective include conf/target/${TARGET_SYS}.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,25 +60,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 09:27:28 -0000
+X-List-Received-Date: Thu, 24 Aug 2017 09:35:39 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-06-09 at 10:12 +0200, Patrick Ohly wrote:
-> I also get for all recipes (i.e. the error is in the base
-> configuration):
+On Wed, 2017-02-22 at 02:21 -0800, Andre McCurdy wrote:
+> TARGET_SYS is defined in terms of TARGET_ARCH, so it's not valid
+> until after TUNE_ARCH has been set by the machine config. The
+> original order of includes resulted in an attempt to include
+> non-existent files such as:
 > 
-> meta/conf/bitbake.conf:752: include/require/inherit "conf/target/${TARGET_SYS}.conf" resulted in including "conf/target/x86_64-oe-linux.conf" while parsing. Variables effecting the parameter changed later such that "conf/target/x86_64-refkit-linux.conf" would have been included at the end of the recipe.
+>   conf/target/INVALID-oe-linux.conf
 > 
-> None of these two files exist, so it doesn't make a difference. But is
-> it really intended that a conf/target/${TARGET_SYS}.conf gets included
-> that isn't the one for the final TARGET_SYS? That looks like a genuine
-> bug to me.
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index e421650..18d1cfb 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -705,9 +705,9 @@ include conf/auto.conf
+>  include conf/local.conf
+>  require conf/multiconfig/${BB_CURRENT_MC}.conf
+>  include conf/build/${BUILD_SYS}.conf
+> -include conf/target/${TARGET_SYS}.conf
+>  include conf/machine/${MACHINE}.conf
+>  include conf/machine-sdk/${SDKMACHINE}.conf
+> +include conf/target/${TARGET_SYS}.conf
+>  include conf/distro/${DISTRO}.conf
 
-And Andre McCurdy also came to the same conclusion - see his
-"[OE-core] [PATCH] bitbake.conf: fix ineffective include conf/target/${TARGET_SYS}.conf"
-patch. However, that patch IMHO is incomplete, because it doesn't account for
-${DISTRO}.conf changing the TARGET_VENDOR part of TARGET_SYS. I'll comment there, too.
+I think conf/target/${TARGET_SYS}.conf must be included after
+${DISTRO}.conf, because TARGET_SYS contains
+${TARGET_ARCH}${TARGET_VENDOR} and TARGET_VENDOR gets changed by a
+${DISTRO}.conf like poky.conf.
+
+I also found this issue when writing an automated test that detects
+when include file names change while parsing, and I agree that it
+should be either fixed or removed.
+
+See the "Yocto Compatible 2.0 support code" mail thread for details. At
+that time I had missed that there was already a pending patch for it.
 
 -- 
 Best Regards, Patrick Ohly
