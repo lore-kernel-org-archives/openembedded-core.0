@@ -1,27 +1,41 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B780782E4
+	by mail.openembedded.org (Postfix) with ESMTP id 57D0F78249
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 14:15:24 +0000 (UTC)
+	Thu, 24 Aug 2017 14:16:56 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7OEFNr2023824
+	v7OEGrWf024236
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 24 Aug 2017 15:15:24 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dksup-0007CL-FY; Thu, 24 Aug 2017 15:15:23 +0100
+	verify=NOT); Thu, 24 Aug 2017 15:16:55 +0100
+Message-ID: <1503584213.32591.192.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Aug 2017 15:15:20 +0100
-Message-Id: <1503584121-27629-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
+To: Andrej Valek <andrej.valek@siemens.com>, Khem Raj <raj.khem@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>
+Date: Thu, 24 Aug 2017 15:16:53 +0100
+In-Reply-To: <f1547a4c-ad34-2b9d-955a-1c3047e61cbe@siemens.com>
+References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
+	<1502987497.13978.239.camel@linuxfoundation.org>
+	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
+	<1503048946.32591.0.camel@linuxfoundation.org>
+	<aa161775-9c09-bf1f-8190-9c6e701f07c7@siemens.com>
+	<c9d3d7c6-f6d0-c316-1e1e-8b67f652ae4a@windriver.com>
+	<dff127f0-b668-0d09-3270-ce1d67c04891@siemens.com>
+	<1abbf9f3-8f0e-3fba-26f5-114f049cb977@siemens.com>
+	<1503492285.32591.152.camel@linuxfoundation.org>
+	<cda65980-6ae8-426d-72e3-0e016d9fe315@gmail.com>
+	<f1547a4c-ad34-2b9d-955a-1c3047e61cbe@siemens.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Thu, 24 Aug 2017 15:15:24 +0100 (BST)
+	Thu, 24 Aug 2017 15:16:55 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 1/2] debianutils: Add a native version (for run-parts)
+Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 14:15:25 -0000
+X-List-Received-Date: Thu, 24 Aug 2017 14:16:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/debianutils/debianutils_4.8.1.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Thu, 2017-08-24 at 12:38 +0200, Andrej Valek wrote:
+> What about enabling ASSUME_PROVIDED functionality also for nativesdk-
+> components?
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb b/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
-index d41bf98..1857d4b 100644
---- a/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.8.1.1.bb
-@@ -33,7 +33,7 @@ PACKAGES =+ "${PN}-run-parts"
- FILES_${PN}-run-parts = "${base_bindir}/run-parts.debianutils"
- 
- RDEPENDS_${PN} += "${PN}-run-parts"
--
-+RDEPENDS_${PN}_class-native = ""
- 
- ALTERNATIVE_PRIORITY="30"
- ALTERNATIVE_${PN} = "add-shell installkernel remove-shell savelog tempfile which"
-@@ -51,3 +51,5 @@ ALTERNATIVE_LINK_NAME[run-parts]="${base_bindir}/run-parts"
- ALTERNATIVE_LINK_NAME[savelog]="${bindir}/savelog"
- ALTERNATIVE_LINK_NAME[tempfile]="${base_bindir}/tempfile"
- ALTERNATIVE_LINK_NAME[which]="${bindir}/which"
-+
-+BBCLASSEXTEND = "native"
--- 
-2.7.4
+That would mean something quite different, that the dependency was
+provided on the system the nativesdk package ended up running on?
+
+Since I've spent the time to understand the problem, I wrote and sent
+out a patch which I think should address the issues you're seeing?
+
+Cheers,
+
+Richard
+
 
 
