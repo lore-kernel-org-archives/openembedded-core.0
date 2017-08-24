@@ -1,52 +1,54 @@
 Return-Path: <tobias.hagelborn@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 0268A782BB
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E464578303
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 14:14:12 +0000 (UTC)
+	Thu, 24 Aug 2017 14:14:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 7C8B02E2E1
+	by bastet.se.axis.com (Postfix) with ESMTP id 52E0318485
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:13 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 0_y-ZFCgEp0w
+	Thu, 24 Aug 2017 16:14:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id NAyDkrrQLPcF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:12 +0200 (CEST)
+	Thu, 24 Aug 2017 16:14:21 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id DF77E2E324
+	by bastet.se.axis.com (Postfix) with ESMTPS id 057BA18473
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:11 +0200 (CEST)
+	Thu, 24 Aug 2017 16:14:21 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C50441A08D
+	by IMSVA (Postfix) with ESMTP id E2CFF1A08B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:11 +0200 (CEST)
+	Thu, 24 Aug 2017 16:14:20 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B9FC51A082
+	by IMSVA (Postfix) with ESMTP id D7EC41A082
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:11 +0200 (CEST)
+	Thu, 24 Aug 2017 16:14:20 +0200 (CEST)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:11 +0200 (CEST)
+	Thu, 24 Aug 2017 16:14:20 +0200 (CEST)
 Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id AEAEC1C50
+	by seth.se.axis.com (Postfix) with ESMTP id CC5631C50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 16:14:11 +0200 (CEST)
+	Thu, 24 Aug 2017 16:14:20 +0200 (CEST)
 Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
 	(10.0.5.16) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Thu, 24 Aug 2017 16:14:11 +0200
+	Thu, 24 Aug 2017 16:14:20 +0200
 From: Tobias Hagelborn <tobias.hagelborn@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Aug 2017 16:13:52 +0200
-Message-ID: <1503584034-20032-1-git-send-email-tobiasha@axis.com>
+Date: Thu, 24 Aug 2017 16:13:54 +0200
+Message-ID: <1503584034-20032-3-git-send-email-tobiasha@axis.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1503584034-20032-1-git-send-email-tobiasha@axis.com>
+References: <1503584034-20032-1-git-send-email-tobiasha@axis.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.0.5.60]
 X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX02.axis.com (10.0.5.16)
 X-TM-AS-GCONF: 00
 Cc: Tobias Hagelborn <tobiasha@axis.com>
-Subject: [PATCH v4 0/2] devtool deploy-target --strip option
+Subject: [PATCH v4 2/2] devtool: deploy-target: Support stripped libs and execs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +61,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 14:14:13 -0000
+X-List-Received-Date: Thu, 24 Aug 2017 14:14:22 -0000
 Content-Type: text/plain
 
 New devtool deploy-target option --strip which enables deploying
 stripped binaries, saving some space on target.
 
-Updates in v4:
-- Updated to correct the errors found by Autobilder.
-- Verified devtool-deploy-target with poky-master
+* Copies the files of ${D} into a new directory and strips them in place
+* Used oe.package.strip_execs for stripping directory
+* Added devtool.conf option "strip" for changing default behavior
+
+Config example:
+[Deploy]
+strip = true
 
 [YOCTO #11227]
 
+Signed-off-by: Tobias Hagelborn <tobiasha@axis.com>
+---
+ scripts/lib/devtool/deploy.py | 33 +++++++++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 4 deletions(-)
 
-Tobias Hagelborn (2):
-  package.py: strip_execs: Support for .ko modules
-  devtool: deploy-target: Support stripped libs and execs
-
- meta/lib/oe/package.py        | 44 ++++++++++++++++++++++++-------------------
- scripts/lib/devtool/deploy.py | 33 ++++++++++++++++++++++++++++----
- 2 files changed, 54 insertions(+), 23 deletions(-)
-
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 04c34cb..7c57174 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -16,12 +16,16 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ """Devtool plugin containing the deploy subcommands"""
+ 
++import logging
+ import os
++import shutil
+ import subprocess
+-import logging
+ import tempfile
+-import shutil
++
++import bb.utils
+ import argparse_oe
++import oe.types
++
+ from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
+ 
+ logger = logging.getLogger('devtool')
+@@ -140,11 +144,12 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
+     return '\n'.join(lines)
+ 
+ 
++
+ def deploy(args, config, basepath, workspace):
+     """Entry point for the devtool 'deploy' subcommand"""
+-    import re
+     import math
+     import oe.recipeutils
++    import oe.package
+ 
+     check_workspace_recipe(workspace, args.recipename, checksrc=False)
+ 
+@@ -170,6 +175,17 @@ def deploy(args, config, basepath, workspace):
+                             'recipe? If so, the install step has not installed '
+                             'any files.' % args.recipename)
+ 
++        if args.strip and not args.dry_run:
++            # Fakeroot copy to new destination
++            srcdir = recipe_outdir
++            recipe_outdir = os.path.join(rd.getVar('WORKDIR', True), 'deploy-target-stripped')
++            if os.path.isdir(recipe_outdir):
++                bb.utils.remove(recipe_outdir, True)
++            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
++            os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH', True) or ''])
++            oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP', True), rd.getVar('libdir', True),
++                        rd.getVar('base_libdir', True))
++
+         filelist = []
+         ftotalsize = 0
+         for root, _, files in os.walk(recipe_outdir):
+@@ -189,7 +205,6 @@ def deploy(args, config, basepath, workspace):
+                 print('  %s' % item)
+             return 0
+ 
+-
+         extraoptions = ''
+         if args.no_host_check:
+             extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+@@ -301,6 +316,7 @@ def undeploy(args, config, basepath, workspace):
+ 
+ def register_commands(subparsers, context):
+     """Register devtool subcommands from the deploy plugin"""
++
+     parser_deploy = subparsers.add_parser('deploy-target',
+                                           help='Deploy recipe output files to live target machine',
+                                           description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand.',
+@@ -313,6 +329,15 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('-p', '--no-preserve', help='Do not preserve existing files', action='store_true')
+     parser_deploy.add_argument('--no-check-space', help='Do not check for available space before deploying', action='store_true')
+     parser_deploy.add_argument('-P', '--port', default='22', help='Port to use for connection to the target')
++
++    strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
++    strip_opts.add_argument('-S', '--strip',
++                               help='Strip executables prior to deploying (default: %(default)s). '
++                                    'The default value of this option can be controlled by setting the strip option in the [Deploy] section to True or False.',
++                               default=oe.types.boolean(context.config.get('Deploy', 'strip', default='0')),
++                               action='store_true')
++    strip_opts.add_argument('--no-strip', help='Do not strip executables prior to deploy', dest='strip', action='store_false')
++
+     parser_deploy.set_defaults(func=deploy)
+ 
+     parser_undeploy = subparsers.add_parser('undeploy-target',
 -- 
 2.1.4
 
