@@ -1,43 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id F3FE5782C5
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 9337E78306
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 14:26:47 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7OEQkwo025902
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 24 Aug 2017 15:26:47 +0100
-Message-ID: <1503584806.32591.198.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, Khem Raj <raj.khem@gmail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Armin Kuster
-	<akuster808@gmail.com>
-Date: Thu, 24 Aug 2017 15:26:46 +0100
-In-Reply-To: <8994061e-1012-1a4d-e6d7-47e978646841@siemens.com>
-References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
-	<1502987497.13978.239.camel@linuxfoundation.org>
-	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
-	<1503048946.32591.0.camel@linuxfoundation.org>
-	<aa161775-9c09-bf1f-8190-9c6e701f07c7@siemens.com>
-	<c9d3d7c6-f6d0-c316-1e1e-8b67f652ae4a@windriver.com>
-	<dff127f0-b668-0d09-3270-ce1d67c04891@siemens.com>
-	<1abbf9f3-8f0e-3fba-26f5-114f049cb977@siemens.com>
-	<1503492285.32591.152.camel@linuxfoundation.org>
-	<cda65980-6ae8-426d-72e3-0e016d9fe315@gmail.com>
-	<f1547a4c-ad34-2b9d-955a-1c3047e61cbe@siemens.com>
-	<1503584213.32591.192.camel@linuxfoundation.org>
-	<8994061e-1012-1a4d-e6d7-47e978646841@siemens.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 24 Aug 2017 15:26:47 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
+	Thu, 24 Aug 2017 14:29:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
+	bh=hKGwRV/eeW/5REibm4II6Il9cm0haskUKbIKN3rkzEI=; 
+	b=bTjmEwH9G7vWsuz/7+aKjdUtCfvTniSOWp6X8t3OOHW8Z6J+ZkbfFyKN74jnTlA4leowjqR8U0v1ZobMBASlZ8qm/v97n3lVS/ziGz23ZjfNh5Md0AVz3cZmSD7FKNzkaT0TSOhTALgy3U3EiOtkw029q0LmVqk/fgD3kuh1yO4QfnPQ7g1+A2BRWDM4iGSdjQdeqEjU/BJ1dM6s7UUzalGXFUDKw8lwiJUZpfzXySb2whVTRV5VR+xlH6nOX8Cwv6lBSqBy+ew7TlkPx1HEikI0cUQfB03ntwcsdf5rHbhsXWEi3NETkXNl79Q4cVIDEp983pOspHWU6aYvX2W5uw==;
+Received: from [192.168.10.149] by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1dkt8j-0000iq-Qi for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Aug 2017 16:29:45 +0200
+To: openembedded-core@lists.openembedded.org
+References: <20170821190501.19909-1-clopez@igalia.com>
+	<b1beb393-07fa-7061-eb8f-1cb4e51475fd@igalia.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+Message-ID: <d7f9208e-36a8-2d3b-2e4a-2da56362c6f6@igalia.com>
+Date: Thu, 24 Aug 2017 16:29:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <b1beb393-07fa-7061-eb8f-1cb4e51475fd@igalia.com>
+Subject: Re: [PATCH] systemd: don't symlink /etc/resolv.conf if resolved is disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,23 +39,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 14:26:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 Aug 2017 14:29:45 -0000
+X-Groupsio-MsgNum: 101977
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="NUmTNhuMe7cKFfs9eqFE0jU2sOpf3c23S"
 
-On Thu, 2017-08-24 at 16:23 +0200, Andrej Valek wrote:
-> I have seen your patch, but it is not fixing my described issue.
-> A command update-ca-certificates will be not available due to missing
-> native stuff.
+--NUmTNhuMe7cKFfs9eqFE0jU2sOpf3c23S
+Content-Type: multipart/mixed; boundary="Lb3UAhd5b9lSgChR4AMn9Lr2T5xSQeG83";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <d7f9208e-36a8-2d3b-2e4a-2da56362c6f6@igalia.com>
+Subject: Re: [OE-core] [PATCH] systemd: don't symlink /etc/resolv.conf if
+ resolved is disabled
+References: <20170821190501.19909-1-clopez@igalia.com>
+ <b1beb393-07fa-7061-eb8f-1cb4e51475fd@igalia.com>
+In-Reply-To: <b1beb393-07fa-7061-eb8f-1cb4e51475fd@igalia.com>
 
-I changed the postinst so it doesn't need a native update-ca-
-certificates though?
+--Lb3UAhd5b9lSgChR4AMn9Lr2T5xSQeG83
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-Its similar to one of your original patches but fixes the dependency
-issues and explains why the current approach is broken (path mismatch)
-and why its safe to do this (allarch recipe and script).
+On 22/08/17 02:43, Carlos Alberto Lopez Perez wrote:
+> On 21/08/17 21:05, Carlos Alberto Lopez Perez wrote:
+>>  * symlinking /etc/resolv.conf to /run/systemd/resolve/resolv.conf
+>>    when resolved is not enabled is wrong, as this prevents network
+>>    manager from handling the resolv.conf file itself and breaking
+>>    DNS resolution.
+>>
+>>    See: NetworkManager.conf manpage or https://git.io/v5UJQ
+>>
+>> Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+>> ---
+>>  meta/recipes-core/systemd/systemd_234.bb | 7 +------
+>>  1 file changed, 1 insertion(+), 6 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-c=
+ore/systemd/systemd_234.bb
+>> index 4560cf4175..dddad62941 100644
+>> --- a/meta/recipes-core/systemd/systemd_234.bb
+>> +++ b/meta/recipes-core/systemd/systemd_234.bb
+>> @@ -235,12 +235,7 @@ do_install() {
+>>  	if [ -s ${D}${exec_prefix}/lib/tmpfiles.d/systemd.conf ]; then
+>>  		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "=
+\$ad /run/systemd/netif/links 0755 root root -" ${D}${exec_prefix}/lib/tm=
+pfiles.d/systemd.conf', d)}
+>>  	fi
+>> -	if ! ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'fals=
+e', d)}; then
+>> -		echo 'L! ${sysconfdir}/resolv.conf - - - - ../run/systemd/resolve/r=
+esolv.conf' >>${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+>> -		echo 'd /run/systemd/resolve 0755 root root -' >>${D}${exec_prefix}=
+/lib/tmpfiles.d/systemd.conf
+>> -		echo 'f /run/systemd/resolve/resolv.conf 0644 root root' >>${D}${ex=
+ec_prefix}/lib/tmpfiles.d/systemd.conf
+>> -		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-c=
+onf.systemd
+>> -	else
+>> +	if ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'true', 'false'=
+, d)}; then
+>>  		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ..=
+/run/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc=
+=2Econf
+>>  		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-c=
+onf.systemd
+>>  	fi
+>>
+>=20
+> Looking at the previous history it seems symlinking /etc/resolv.conf
+> when not enabling resolved was done originally to allow updating
+> resolv.conf on read-only-rootfs filesystems ( commit 7f087f161e ).
+>=20
+> So the above patch is not right, as it will break that.
+>=20
+> An idea is to symlink /etc/resolv.conf to a different filename in /run
+> when resolved is not enabled.
+>=20
+>=20
+>=20
 
-Cheers,
+FTR; I reported this issue at:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D11969
 
-Richard
 
+--Lb3UAhd5b9lSgChR4AMn9Lr2T5xSQeG83--
+
+--NUmTNhuMe7cKFfs9eqFE0jU2sOpf3c23S
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlme4tkACgkQllCJzmuV
++II8nxAAp7ExvACg1pzmK15WPL/pnubBg4+xWqODsZ2AnhVVQqLBDIzOd4WOycPd
+soD3gZyhNGTS1R3FO5gTIkeJPdQkinj4jYzExioffoySvLs/vBOsL/G45RNcDHg/
+DGBRG7Xo1w/yMOUkIAirAGHrQRG7pzHnjHRACAcqyOLzWKcUMzdYG3ClyYhNbeG/
+cKXN8dMCy5Fvcx/8/O0Gu8xK9vVZLTw7i75V2gjgL/UwomygCwFU5V8Txe5rYr8n
+8T/tlN6F7xETnzfXs4lgnI6/DLlemut3p4vzz2/O29EjtnHi0wWXPgif3JClsfaJ
++w8kshN+4FV93Oh5WeIZShAkpjKOCCIcEeufmTTf2MAPK4dTacQVlzPhOqS3StLX
+TphAUq3UpMPqa5Hy1wd8Fr3QMCTqM0S8FPO0r4+UhxI0pCUmUokvhakx55oYOaDf
+0r1RImIRhsSjSRzF6VO3wptbQ3DGhCLryncWs5LvaEnX66Z/x8WMXwFyEZKDxU3I
+7orNr0wDx+UgNS/uQkqOHa06F9K88m5phlEhOW51BID2qER8H5Tk2E5tmwDYB/My
+KzjZsHbbh6tzkdZ6TUkpWrCkc2BuxysTMI+W4OudnK9vHLTMtN9qPxwDIUqAFiHw
+6q1BSe95o7am4oY+gz62/udIbr/c2lpHKRNW5WBBn56NHg/YiGc=
+=5BuE
+-----END PGP SIGNATURE-----
+
+--NUmTNhuMe7cKFfs9eqFE0jU2sOpf3c23S--
