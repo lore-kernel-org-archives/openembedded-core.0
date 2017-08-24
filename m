@@ -1,27 +1,29 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EB3ED7829F
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1174C77D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 12:15:03 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7OCF2wb013380
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 24 Aug 2017 13:15:03 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dkr2M-0006Pm-3h; Thu, 24 Aug 2017 13:15:02 +0100
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Aug 2017 13:15:00 +0100
-Message-Id: <1503576901-24618-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Thu, 24 Aug 2017 13:15:03 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH 1/2] populate_sdk_ext: Add BB_SERVER_TIMEOUT to SDK_LOCAL_CONF_BLACKLIST
+	Thu, 24 Aug 2017 12:46:36 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Aug 2017 05:46:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,421,1498546800"; d="scan'208";a="1187704104"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2017 05:46:36 -0700
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1503507784.git.alexander.kanavin@linux.intel.com>
+	<88b6e8e6744cb5fa6712d91b6746a314e850dfa6.1503507784.git.alexander.kanavin@linux.intel.com>
+	<1503522842.2166.9.camel@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <41875eb1-b054-edbf-02fb-dd145e6b363f@linux.intel.com>
+Date: Thu, 24 Aug 2017 15:43:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <1503522842.2166.9.camel@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/7] json-glib: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +36,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 12:15:04 -0000
+X-List-Received-Date: Thu, 24 Aug 2017 12:46:37 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Whilst this should work we see failures in testsdkext at the moment when
-this is set. Add this to the blacklist for now until we can fix these issues
-meaning we can at least test BB_SERVER_TIMEOUT in other scenarios.
+On 08/24/2017 12:14 AM, Leonardo Sandoval wrote:
+> 
+>> -inherit gnomebase gettext lib_package gobject-introspection gtk-doc manpages
+>> +inherit gnomebase-meson lib_package gobject-introspection gtk-doc manpages
+> 
+> gettext is dropped, does it mean that it was not needed?
 
-Bug 119733 has been opened to track this.
+No. gettext.bbclass is specific to autotools, and meson has no 
+equivalent functionality. I'll amend the commit message.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/populate_sdk_ext.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 08973a2..6620445 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -33,6 +33,7 @@ SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-                              DL_DIR \
-                              SSTATE_DIR \
-                              TMPDIR \
-+                             BB_SERVER_TIMEOUT \
-                             "
- SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
- SDK_UPDATE_URL ?= ""
--- 
-2.7.4
-
+Alex
 
