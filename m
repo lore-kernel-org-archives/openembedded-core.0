@@ -1,24 +1,28 @@
-Return-Path: <lans.zhang2008@gmail.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E14A78208
+Return-Path: <jose.alarcon@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7245077FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 03:24:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7O3OSZf006737
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 23 Aug 2017 20:24:28 -0700
-Received: from liara.liara.com (147.11.224.169) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 23 Aug 2017 20:24:28 -0700
-From: Jia Zhang <lans.zhang2008@gmail.com>
-To: <liezhi.yang@windriver.com>
-Date: Thu, 24 Aug 2017 11:24:28 +0800
-Message-ID: <20170824032428.8388-1-lans.zhang2008@gmail.com>
-X-Mailer: git-send-email 2.14.1
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gpg_sign: depress the owership warnings on homedir
+	Thu, 24 Aug 2017 05:38:08 +0000 (UTC)
+Received: from pps.filterd (m0048206.ppops.net [127.0.0.1])
+	by m0048206.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7O5XDf2005001 for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 Aug 2017 01:38:09 -0400
+From: Jose Alarcon <jose.alarcon@ge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Aug 2017 08:37:53 +0300
+Message-Id: <20170824053753.36121-1-jose.alarcon@ge.com>
+X-Mailer: git-send-email 2.10.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-24_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1707230000
+	definitions=main-1708240089
+Subject: [PATCH] libinput: remove obsolete touchpad patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +35,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 03:24:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 24 Aug 2017 05:38:09 -0000
 
-A gpg command, e.g, called by get_gpg_version(), may trigger such a warning:
-gpg: WARNING: unsafe ownership on homedir '/home/user/.gnupg'
+This patch was a temporal workaround needed with 4.1 kernels.
+Remove it.
 
-This sort of warning is harmless so it can be depressed through specifying
---no-permission-warning.
-
-Signed-off-by: Jia Zhang <lans.zhang2008@gmail.com>
+Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
 ---
- meta/lib/oe/gpg_sign.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ ...ics-need-to-fake-new-touches-on-TRIPLETAP.patch | 72 ----------------------
+ meta/recipes-graphics/wayland/libinput_1.8.1.bb    |  1 -
+ 2 files changed, 73 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
 
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index 008478dfeb..9cc88f020c 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -15,7 +15,7 @@ class LocalSigner(object):
+diff --git a/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch b/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
+deleted file mode 100644
+index b52b496..0000000
+--- a/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
++++ /dev/null
+@@ -1,72 +0,0 @@
+-This is a workaround upstream suggests for use with kernel 4.1.
+-
+-Upstream-Status: Inappropriate [temporary work-around]
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-
+-
+-
+-From: Peter Hutterer <peter.hutterer@who-t.net>
+-Date: Mon Aug 3 18:23:12 PDT 2015
+-Subject: [PATCH v3 libinput] touchpad: serial synaptics need to fake new touches on TRIPLETAP
+-
+-On the 4.1 kernels synaptics pretends to have 3 slots (the serial fw only does
+-2). This was added to avoid cursor jumps but has since been reverted for 4.2
+-(kernel commit dbf3c37086, 4.1.3 is still buggy). In some cases a TRIPLETAP
+-may be triggered without slot 2 ever activating.
+-
+-While there are still those kernels out there, work around this bug by opening
+-a new touch point where none exists if the fake finger count exceeds the slot
+-count.
+-
+-Reported-by: Jan Alexander Steffens <jan.steffens at gmail.com>
+-Signed-off-by: Peter Hutterer <peter.hutterer at who-t.net>
+-Tested-by: Jan Alexander Steffens <jan.steffens at gmail.com>
+-Reviewed-by: Hans de Goede <hdegoede at redhat.com>
+----
+-Changes to v2:
+-- split out the handling instead of having a tmp state variable, see Hans'
+-  comments from v2
+-
+-Mainly sending this to the list again so I have a link to point people to.
+-If you're on 4.1.x add this patch to your distribution package.
+-
+- src/evdev-mt-touchpad.c | 22 ++++++++++++++++------
+- 1 file changed, 16 insertions(+), 6 deletions(-)
+-
+-diff --git a/src/evdev-mt-touchpad.c b/src/evdev-mt-touchpad.c
+-index a683d9a..5ef03d5 100644
+---- a/src/evdev-mt-touchpad.c
+-+++ b/src/evdev-mt-touchpad.c
+-@@ -369,13 +369,23 @@ tp_restore_synaptics_touches(struct tp_dispatch *tp,
+- 	for (i = 0; i < tp->num_slots; i++) {
+- 		struct tp_touch *t = tp_get_touch(tp, i);
+- 
+--		if (t->state != TOUCH_END)
+-+		switch(t->state) {
+-+		case TOUCH_HOVERING:
+-+		case TOUCH_BEGIN:
+-+		case TOUCH_UPDATE:
+- 			continue;
+--
+--		/* new touch, move it through begin to update immediately */
+--		tp_new_touch(tp, t, time);
+--		tp_begin_touch(tp, t, time);
+--		t->state = TOUCH_UPDATE;
+-+		case TOUCH_NONE:
+-+			/* new touch, move it through to begin immediately */
+-+			tp_new_touch(tp, t, time);
+-+			tp_begin_touch(tp, t, time);
+-+			break;
+-+		case TOUCH_END:
+-+			/* touch just ended ,we need need to restore it to update */
+-+			tp_new_touch(tp, t, time);
+-+			tp_begin_touch(tp, t, time);
+-+			t->state = TOUCH_UPDATE;
+-+			break;
+-+		}
+- 	}
+- }
+- 
+--- 
+-2.4.3
+-
+diff --git a/meta/recipes-graphics/wayland/libinput_1.8.1.bb b/meta/recipes-graphics/wayland/libinput_1.8.1.bb
+index f75298b..a21babe 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.8.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.8.1.bb
+@@ -8,7 +8,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
+ DEPENDS = "libevdev udev mtdev"
  
-     def export_pubkey(self, output_file, keyid, armor=True):
-         """Export GPG public key to a file"""
--        cmd = '%s --batch --yes --export -o %s ' % \
-+        cmd = '%s --no-permission-warning --batch --yes --export -o %s ' % \
-                 (self.gpg_bin, output_file)
-         if self.gpg_path:
-             cmd += "--homedir %s " % self.gpg_path
-@@ -31,7 +31,7 @@ class LocalSigner(object):
-         """Sign RPM files"""
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+-           file://touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch \
+            file://0001-tools-Fix-race-in-autotools-install.patch \
+ "
  
-         cmd = self.rpm_bin + " --addsign --define '_gpg_name %s'  " % keyid
--        gpg_args = '--batch --passphrase=%s' % passphrase
-+        gpg_args = '--no-permission-warning --batch --passphrase=%s' % passphrase
-         if self.gpg_version > (2,1,):
-             gpg_args += ' --pinentry-mode=loopback'
-         cmd += "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
-@@ -58,8 +58,8 @@ class LocalSigner(object):
-         if passphrase_file and passphrase:
-             raise Exception("You should use either passphrase_file of passphrase, not both")
- 
--        cmd = [self.gpg_bin, '--detach-sign', '--batch', '--no-tty', '--yes',
--               '--passphrase-fd', '0', '-u', keyid]
-+        cmd = [self.gpg_bin, '--detach-sign', '--no-permission-warning', '--batch',
-+               '--no-tty', '--yes', '--passphrase-fd', '0', '-u', keyid]
- 
-         if self.gpg_path:
-             cmd += ['--homedir', self.gpg_path]
-@@ -98,7 +98,7 @@ class LocalSigner(object):
-         """Return the gpg version as a tuple of ints"""
-         import subprocess
-         try:
--            ver_str = subprocess.check_output((self.gpg_bin, "--version")).split()[2].decode("utf-8")
-+            ver_str = subprocess.check_output((self.gpg_bin, "--version", "--no-permission-warning")).split()[2].decode("utf-8")
-             return tuple([int(i) for i in ver_str.split('.')])
-         except subprocess.CalledProcessError as e:
-             raise bb.build.FuncFailed("Could not get gpg version: %s" % e)
-@@ -106,7 +106,7 @@ class LocalSigner(object):
- 
-     def verify(self, sig_file):
-         """Verify signature"""
--        cmd = self.gpg_bin + " --verify "
-+        cmd = self.gpg_bin + " --verify --no-permission-warning "
-         if self.gpg_path:
-             cmd += "--homedir %s " % self.gpg_path
-         cmd += sig_file
 -- 
-2.14.1
+2.10.1
 
 
