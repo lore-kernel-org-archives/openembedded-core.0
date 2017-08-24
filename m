@@ -1,45 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 78EF87839E
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F9C178241
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 19:17:50 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id t3so526281pgt.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Aug 2017 12:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z+hdIk/sXDI8iwPfcmPwW1yvdjPBvJb/zP9Hnnu3mNM=;
-	b=pdtl5zH4kE4Gj7PmQTgFEWBaCdU6Rv2Ev6TLRhGmUfWSns/pLj1lPe6TRHQ8f6ohvx
-	ipo1cXpEx3g4p4AKnFGH3qNmxA723s/No2uOYFuCclN46ORf3RSjm/iBj85uEZxW1mNl
-	iCtz3sszpqiWEIDmb8fhbPFRFVjSAYqQwvK0nD2mYTrquiA0gaL3PUuTav1JaYTit1UO
-	c4RJdhKU5+fuP0FL6cfoOYmQ6C+PEHaUHEPuoyGeFDBjdJk2KFa7saNYOx6imewZQH08
-	E36MnGjEEetJbDMau4/ztRqho3od32DUD3nQA7UZ00snrN5AScKbEV7wR1o9LptHpiG+
-	iiRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Z+hdIk/sXDI8iwPfcmPwW1yvdjPBvJb/zP9Hnnu3mNM=;
-	b=PiLwf9KjH1SOpxffh5ybVbiAk0xktERuNI3GlcQD3fmjzjCU1q5q1E/rDHjQ5DEJM/
-	z93FclgnVI1ZiDeDWLc/nAk9KRDocvKE4Hfg+c2KimIy9chjaJRXxinvC7XgxRaXAbqC
-	mgHX6ix2vPAkmMejqzt39t8ox1GamvT92N1YEa5O+S5RZGOEurEDUoXZUp+1gCM+nXwn
-	g3VKloHs5HSwennWJ/DUAEswSnunKjawq9zk5J1/F3czAnprAfhFkFRB9UpspyRg1ZAV
-	7YVgD0rXezQt4UX9+Es4oj5rMevXJx5pF1EWqQ0d/KJBQ1KgXuLHJnJPMRd4b44IWjrH
-	8gQg==
-X-Gm-Message-State: AHYfb5j0c2+8WW2xzGDLweVpEC7KsKAqLbRzfRU7hrPVY9Hm6opX1NaT
-	cbDcl/nW+6wadzyK
-X-Received: by 10.84.208.227 with SMTP id c32mr8076207plj.281.1503602271514;
-	Thu, 24 Aug 2017 12:17:51 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::79ab])
-	by smtp.gmail.com with ESMTPSA id
-	r86sm8486965pfi.161.2017.08.24.12.17.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Aug 2017 12:17:50 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Aug 2017 12:17:41 -0700
-Message-Id: <20170824191741.11096-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] systemd-boot: Make EFI_CC overridable
+	Thu, 24 Aug 2017 19:41:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7OJf3RZ030120
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Thu, 24 Aug 2017 12:41:04 -0700
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 24 Aug 2017 12:41:02 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1503507784.git.alexander.kanavin@linux.intel.com>
+	<9dd72f7d2ac352d71270250e2078907f3c9e0f94.1503507784.git.alexander.kanavin@linux.intel.com>
+	<CAJ86T=WxHev7q26Z+yus_9XCag9Aky2QLTfAA3sxU24PM3bL4w@mail.gmail.com>
+	<f9708961-9ff7-7a5a-ba38-3aa7ab126ea0@linux.intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <07115e5e-36f9-0835-a7a2-6155c0ea7e96@windriver.com>
+Date: Thu, 24 Aug 2017 15:41:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <f9708961-9ff7-7a5a-ba38-3aa7ab126ea0@linux.intel.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH 7/7] sysprof: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,37 +37,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 19:17:50 -0000
+X-List-Received-Date: Thu, 24 Aug 2017 19:41:23 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Some layers may be setting their own EFI_CC
-keep that possibility open
+On 2017-08-24 08:45 AM, Alexander Kanavin wrote:
+> Please do trim your quotation. It's irritating to first search for your 
+> one line of comment, and then do the trimming for you when replying.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/systemd/systemd-boot_234.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+/me trims reply.
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_234.bb b/meta/recipes-core/systemd/systemd-boot_234.bb
-index ed55e537eb..655797f3cc 100644
---- a/meta/recipes-core/systemd/systemd-boot_234.bb
-+++ b/meta/recipes-core/systemd/systemd-boot_234.bb
-@@ -8,13 +8,14 @@ SRC_URI += "file://0007-use-lnr-wrapper-instead-of-looking-for-relative-opti.pat
- inherit autotools pkgconfig gettext
- inherit deploy
- 
--export EFI_CC="${CC}"
-+EFI_CC ?= "${CC}"
- # Man pages are packaged through the main systemd recipe
- EXTRA_OECONF = " --enable-gnuefi \
-                  --with-efi-includedir=${STAGING_INCDIR} \
-                  --with-efi-ldsdir=${STAGING_LIBDIR} \
-                  --with-efi-libdir=${STAGING_LIBDIR} \
-                  --disable-manpages \
-+                 EFI_CC='${EFI_CC}' \
-                "
- 
- # Imported from the old gummiboot recipe
+Many people use am email client feature to deal with lack of
+trimming. I use Thunderbird and an addon called QuoteCollapse:
+    http://quotecollapse.mozdev.org/
+
+FYI, if you're using Thunderbird, you can select a region of
+text before replying to easily trim your response; that's
+probably obvious to many but worth mentioning.
+
 -- 
-2.14.1
-
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
