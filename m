@@ -1,26 +1,44 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AA53E7849D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 24F697849D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 20:13:06 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 25 Aug 2017 13:13:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,426,1498546800"; d="scan'208";a="1007712117"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 25 Aug 2017 13:13:08 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id 8B35858048D
+	Fri, 25 Aug 2017 20:36:39 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 83so1161681pgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 13:13:07 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Fri, 25 Aug 2017 13:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=JKUO/KHfq5pqADL/JWeIP8pOJ6E3Xo5UzCByizcmIFk=;
+	b=m1qSy7Qdh9vB1ihGvlkY2ye1Kj2BgZLFqcWCjMmCtYiLkHbqLBsq+YUnm2bTMNLXkD
+	Y1DRA43h8csURVD0b4Pma5s+YrftvndqDVkmBNfnJDW7ooI9RPt8hR0s8ct+UgBZtuDn
+	JAP3TM06bGVXeJyNWwr4ondYS88sDbc3bvuqzIl4M6OZ+H4jt3ds4iFsjHJvDNXY14MV
+	qbWdH99Z+jfc6+KvahfX18c8goQ3lUKfEo5x1hYgWHNfOuI/ZbfYXQiF/Hr8EBYFEJRH
+	aFGKfBDCBZKfRNpmSYUTqHrtcq9zkISbAnTBEsfAFs4n5rhZTeUfBv/Ravhj7lG1r4jN
+	tuSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=JKUO/KHfq5pqADL/JWeIP8pOJ6E3Xo5UzCByizcmIFk=;
+	b=nMM2qPwFau/LdQdJxOMbVTitkKw7B1YSN5juzfSXydxf3CW7dFPV0hS9wIhMR26LZT
+	vbSqpMTBRvlkiO+j0BcaVYyPscaRXxSdIycv3f4T6PfIOKOWoERG921Dv5Nk03ZXN7/9
+	SP74nRszgBry57Ju8/EHKB/I3/Bgw2+B5Zt0EdrEGSUMyLfxSVAuK5iyKuNohXarYVjT
+	wFMOnPlYf1KgvOATgLb1YaUcc1aPHHsVz+FY0OH8Cpf7WdK5R/7IWh7MGYZdVi930C6Q
+	c+vNrcnqAX9BdxB2DOtW8U6YWgpM+ZGqN/s4oyXwFP5bRdf6RrHNMHl+nQeqEOgeySge
+	dGVA==
+X-Gm-Message-State: AHYfb5jVk6buDppwtmaeDcy8wl98zoDhpwSLFMBNnEw/m87q1EDYK5tX
+	OmqNVvOgRzbWnAGo
+X-Received: by 10.98.202.135 with SMTP id y7mr125459pfk.262.1503693400555;
+	Fri, 25 Aug 2017 13:36:40 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id v3sm1290104pgc.7.2017.08.25.13.36.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 25 Aug 2017 13:36:39 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Aug 2017 23:12:29 +0300
-Message-Id: <cd9c597e9d7acb7edd3b543748d4f9e7d3e6b12d.1503691753.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1503691753.git.ed.bartosh@linux.intel.com>
-References: <cover.1503691753.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 8/8] wic: setlftest: test expanding MBR image
+Date: Fri, 25 Aug 2017 13:36:30 -0700
+Message-Id: <1503693392-7893-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/3] terminal.py: avoid 100% cpu while waiting for phonehome pid file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +51,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 20:13:07 -0000
+X-List-Received-Date: Fri, 25 Aug 2017 20:36:40 -0000
 
-Added test_expand_mbr_image test case to the wic oe-selftest suite.
-The test expands directdisk wic image to 1Gb target, checks if it's
-expanded correctly and boots it in qemu to make sure the image
-is bootable, i.e. bootloader, kernel, boot and root partitions
-are still functional.
+Some of the less common terminal types haven't been tested with the
+recent phonehome pid file changes and there may be error cases where
+the pid file is never created.
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 53 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ meta/lib/oe/terminal.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index aaefd4f..aa73ba4 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -938,3 +938,56 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-             wksname = os.path.splitext(os.path.basename(wks.name))[0]
-             out = glob(self.resultdir + "%s-*direct" % wksname)
-             self.assertEqual(1, len(out))
-+
-+    def test_expand_mbr_image(self):
-+        """Test wic write --expand command for mbr image"""
-+        # build an image
-+        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "directdisk.wks"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal').status)
-+
-+        # get path to the image
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'MACHINE'])
-+        deploy_dir = bb_vars['DEPLOY_DIR_IMAGE']
-+        machine = bb_vars['MACHINE']
-+        image_path = os.path.join(deploy_dir, 'core-image-minimal-%s.wic' % machine)
-+
-+        self.remove_config(config)
-+
-+        try:
-+            # expand image to 1G
-+            new_image_path = None
-+            with NamedTemporaryFile(mode='wb', suffix='.wic.exp',
-+                                    dir=deploy_dir, delete=False) as sparse:
-+                sparse.truncate(1024 ** 3)
-+                new_image_path = sparse.name
-+
-+            sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+            cmd = "wic write -n %s --expand 1:0 %s %s" % (sysroot, image_path, new_image_path)
-+            self.assertEqual(0, runCmd(cmd).status)
-+
-+            # check if partitions are expanded
-+            orig = runCmd("wic ls %s -n %s" % (image_path, sysroot))
-+            exp = runCmd("wic ls %s -n %s" % (new_image_path, sysroot))
-+            orig_sizes = [int(line.split()[3]) for line in orig.output.split('\n')[1:]]
-+            exp_sizes = [int(line.split()[3]) for line in exp.output.split('\n')[1:]]
-+            self.assertEqual(orig_sizes[0], exp_sizes[0]) # first partition is not resized
-+            self.assertTrue(orig_sizes[1] < exp_sizes[1])
-+
-+            # Check if all free space is partitioned
-+            result = runCmd("%s/usr/sbin/sfdisk -F %s" % (sysroot, new_image_path))
-+            self.assertTrue("0 B, 0 bytes, 0 sectors" in result.output)
-+
-+            os.rename(image_path, image_path + '.bak')
-+            os.rename(new_image_path, image_path)
-+
-+            # Check if it boots in qemu
-+            with runqemu('core-image-minimal', ssh=False) as qemu:
-+                cmd = "ls /etc/"
-+                status, output = qemu.run_serial('true')
-+                self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+        finally:
-+            if os.path.exists(new_image_path):
-+                os.unlink(new_image_path)
-+            if os.path.exists(image_path + '.bak'):
-+                os.rename(image_path + '.bak', image_path)
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 3c6220d..714772f 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -221,6 +221,7 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+     # to a file using a "phonehome" wrapper script, then monitor the pid
+     # until it exits.
+     import tempfile
++    import time
+     pidfile = tempfile.NamedTemporaryFile(delete = False).name
+     try:
+         sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
+@@ -232,13 +233,13 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+             raise ExecutionError(sh_cmd, pipe.returncode, output)
+ 
+         while os.stat(pidfile).st_size <= 0:
++            time.sleep(0.01)
+             continue
+         with open(pidfile, "r") as f:
+             pid = int(f.readline())
+     finally:
+         os.unlink(pidfile)
+ 
+-    import time
+     while True:
+         try:
+             os.kill(pid, 0)
 -- 
-2.1.4
+1.9.1
 
 
