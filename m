@@ -1,37 +1,38 @@
 Return-Path: <o.mandel@menlosystems.com>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DFAC78477
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BB4B78470
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 16:15:46 +0000 (UTC)
+	Fri, 25 Aug 2017 17:01:29 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3xf5ql2x7yz1qsZH;
-	Fri, 25 Aug 2017 18:15:47 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3xf6rV6V6Qz1rCgl;
+	Fri, 25 Aug 2017 19:01:30 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3xf5ql1v7gz3hhTj;
-	Fri, 25 Aug 2017 18:15:47 +0200 (CEST)
+	by mail.m-online.net (Postfix) with ESMTP id 3xf6rV5ZGxz3hhTp;
+	Fri, 25 Aug 2017 19:01:30 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
 	port 10024)
-	with ESMTP id P8MryGEnzlqB; Fri, 25 Aug 2017 18:15:46 +0200 (CEST)
-X-Auth-Info: fr6WjuJQcN9v2v1S+oC8lKha/AlAik0bhHqm5ydvCEQHU7YU031gmPUpGk0izKPQ
+	with ESMTP id W0ZyRhQnQiQk; Fri, 25 Aug 2017 19:01:30 +0200 (CEST)
+X-Auth-Info: ZU6M6Dy3fGw8jVreq1odryOXSGK4lwZp6OxHo3mkl9uhlRmJSDRHIxAZ1r+Mmpjo
 Received: from [10.0.0.72] (host-141-40-253-38.customer.izb-online.de
 	[141.40.253.38])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 25 Aug 2017 18:15:46 +0200 (CEST)
+	Fri, 25 Aug 2017 19:01:30 +0200 (CEST)
+From: Olaf Mandel <o.mandel@menlosystems.com>
 To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 References: <fa27449a-ffe7-c742-3d2f-6bcac9cac20f@menlosystems.com>
 	<20170825095808.31468-1-o.mandel@menlosystems.com>
 	<1503671574.21398.3.camel@linux.intel.com>
-From: Olaf Mandel <o.mandel@menlosystems.com>
-Message-ID: <904e30cd-13f3-844e-92ca-a01c0efc408f@menlosystems.com>
-Date: Fri, 25 Aug 2017 18:14:33 +0200
+	<904e30cd-13f3-844e-92ca-a01c0efc408f@menlosystems.com>
+Message-ID: <26cd356d-9d62-145e-a11b-0a0bf682fdd7@menlosystems.com>
+Date: Fri, 25 Aug 2017 19:00:17 +0200
 User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
 	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <1503671574.21398.3.camel@linux.intel.com>
+In-Reply-To: <904e30cd-13f3-844e-92ca-a01c0efc408f@menlosystems.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2] (PRE)MIRRORS: add pattern for npm:// without slash
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,7 +47,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 16:15:47 -0000
+X-List-Received-Date: Fri, 25 Aug 2017 17:01:30 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -54,38 +55,39 @@ Content-Transfer-Encoding: 7bit
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA256
 
-Hello Leonardo,
+Hello again,
 
-Am 25.08.2017 um 16:32 schrieb Leonardo Sandoval:
-> instead of adding a new npm regex, not sure if below one would the
-> same job
+Am 25.08.2017 um 18:14 schrieb Olaf Mandel:
+> Am 25.08.2017 um 16:32 schrieb Leonardo Sandoval:
+>> instead of adding a new npm regex, not sure if below one would
+>> the same job
 > 
-> npm://.*(/.*)?
+>> npm://.*(/.*)?
 > 
-No: the string is split into different parts before the RE is
-considered. So the fetch step fails with this error:
+> No: the string is split into different parts before the RE is 
+> considered. [...]
+> 
+- -Snipp-
+> ['npm', '.*(', '/.*)?', '', '', OrderedDict()]
+> 
+So npm://.*(/.*)? does not work. But npm://.*/?.* works and _is_ more
+elegant than the two pattern lines from my last patches.
 
-Exception: sre_constants.error: missing ), unterminated subpattern at
-position 2
-
-Probably because the pattern was split to:
-
-['npm', '.*(', '/.*)?', '', '', OrderedDict()]
+Thank you for the suggestion, I will send a new patch.
 
 Best regards,
 Olaf
 - -- 
 Olaf Mandel
-
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iQEcBAEBCAAGBQJZoEzpAAoJEFS9nbRiUh3/KgEIAKjWmkwrlR3CXNk1zYgS9XKb
-FQsE47IYogdtLMSgjgbjo+tUVj34a4NpPY4kNXdwadXNSOQZJPDcu2hzkvxAyAVd
-9pX0YtxASx4A25/kgBKiTzOL62gGf3vYAnCg3hCC4nPnZE5d49Xg/oNvhQ2E34xv
-vZMaohiPwK5B2QJpPDYtVXEC72ExoMzeoEy1x46hIplQQTh3CE481TKHbFj1he/a
-UVwRalNhePQbpScDu49oYdrg8bIl+GfmuDwFE5zLAWBdkkgFaDlLdbwUoz+om3xa
-GUHA9eL0lu8CWmrZe1Y4RZuGgj42yJd1CDd7NA3SkeHcB6gsAPzwyn6/UF2rivo=
-=mQeF
+iQEcBAEBCAAGBQJZoFehAAoJEFS9nbRiUh3/FzsH/06OUDbQPrf3yrH5OBMJe+wF
+5Ky8SUworYqA9uGmzR+3nGqmlxlLlhZFMCsM4+a00nr7kSNLu0KF+BISG9fJT5Up
+6PJKDZZBChWYHqhkO8CgB3caiQiJKTlFtKmVznNBzJuIPf+ffTiUb0OX7RgFoHHP
+jSuEXqKxQTUJO1k1tGhD53F6+W0rzfk2NXqtI2xfURCwZFcTHvrIYHflwoGZzF3F
+gc5J37x5oFSxb3Lfy711ZWDTCOljFzoecdpKbhIj2qPr8sO5WVOTE07/FzW4Mb3P
+KUlOpbR3D5eSma8f+lacqNQVx0toWRo15yHOVWssLbcoV6V8rzUu6sF1T1Od7Tw=
+=RJXU
 -----END PGP SIGNATURE-----
 
