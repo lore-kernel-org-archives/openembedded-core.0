@@ -1,34 +1,45 @@
-Return-Path: <jose.alarcon@ge.com>
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
-	[67.231.149.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BCA277D11
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0682177DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 07:09:18 +0000 (UTC)
-Received: from pps.filterd (m0047963.ppops.net [127.0.0.1])
-	by m0047963.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
-	v7P79AJv017270 for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 03:09:20 -0400
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <20170824053753.36121-1-jose.alarcon@ge.com>
-	<CAJ86T=Uip8WChxD_q_jWxCPPmUqw87yJLyn5F29ztbJfMpVMOQ@mail.gmail.com>
-From: Jose Alarcon <jose.alarcon@ge.com>
-Message-ID: <17938e56-c1d0-5316-0263-b954006f9015@ge.com>
-Date: Fri, 25 Aug 2017 10:09:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Uip8WChxD_q_jWxCPPmUqw87yJLyn5F29ztbJfMpVMOQ@mail.gmail.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-08-25_02:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
-	adjust=0
-	reason=mlx scancount=1 engine=8.0.1-1707230000
-	definitions=main-1708250108
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: EXT: Re: [PATCH] libinput: remove obsolete touchpad patch
+	Fri, 25 Aug 2017 08:26:02 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7P8PxV0025080
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 25 Aug 2017 09:26:01 +0100
+Message-ID: <1503649559.32591.211.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, Khem Raj <raj.khem@gmail.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>
+Date: Fri, 25 Aug 2017 09:25:59 +0100
+In-Reply-To: <c23faa8f-5521-e109-b9d0-7ee79a76893d@siemens.com>
+References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
+	<1502987497.13978.239.camel@linuxfoundation.org>
+	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
+	<1503048946.32591.0.camel@linuxfoundation.org>
+	<aa161775-9c09-bf1f-8190-9c6e701f07c7@siemens.com>
+	<c9d3d7c6-f6d0-c316-1e1e-8b67f652ae4a@windriver.com>
+	<dff127f0-b668-0d09-3270-ce1d67c04891@siemens.com>
+	<1abbf9f3-8f0e-3fba-26f5-114f049cb977@siemens.com>
+	<1503492285.32591.152.camel@linuxfoundation.org>
+	<cda65980-6ae8-426d-72e3-0e016d9fe315@gmail.com>
+	<f1547a4c-ad34-2b9d-955a-1c3047e61cbe@siemens.com>
+	<1503584213.32591.192.camel@linuxfoundation.org>
+	<8994061e-1012-1a4d-e6d7-47e978646841@siemens.com>
+	<1503584806.32591.198.camel@linuxfoundation.org>
+	<c23faa8f-5521-e109-b9d0-7ee79a76893d@siemens.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 25 Aug 2017 09:26:02 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,29 +52,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 07:09:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 25 Aug 2017 08:26:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+On Fri, 2017-08-25 at 08:05 +0200, Andrej Valek wrote:
+> It's fine, but for this function
+> 
+> do_install_append_class-nativesdk () {
+>     SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
+> }
+> 
+> is still update-ca-certificates needed from native.
 
+I realised that in testing and have updated the version in master-next
+which passed testing this time.
 
-On 24.08.2017 20:45, Andre McCurdy wrote:
-> On Wed, Aug 23, 2017 at 10:37 PM, Jose Alarcon <jose.alarcon@ge.com> wrote:
->> This patch was a temporal workaround needed with 4.1 kernels.
->> Remove it.
-> OLDEST_KERNEL is still set to 3.2.0
->
-> How can you be sure nobody is using 4.1 ?
+Cheers,
 
-That's a good point!
-
-I didn't know about this variable. I believe we should not integrate
-this change.
-I will resend it once OLDEST_KERNEL is set to 4.2 or bigger.
-
-Thanks,
-
---
-Jose
+Richard
 
