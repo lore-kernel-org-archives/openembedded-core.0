@@ -1,35 +1,61 @@
-Return-Path: <o.mandel@menlosystems.com>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id DBD3C78467
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F25178475
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 17:02:20 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3xf6sT4Yd1z1qsZc;
-	Fri, 25 Aug 2017 19:02:21 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3xf6sT4HPdz3hhTp;
-	Fri, 25 Aug 2017 19:02:21 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id PBHM8YZA6qa7; Fri, 25 Aug 2017 19:02:20 +0200 (CEST)
-X-Auth-Info: 1nwwsbHnseRyScUVBcRy8QZz8ZNSHlTFlLTnVp0p4h2cNBZYZBB2/pf5SGs6/IR1
-Received: from menlobldserver.menlosystems.local
-	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 25 Aug 2017 19:02:20 +0200 (CEST)
-From: Olaf Mandel <o.mandel@menlosystems.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Aug 2017 17:01:57 +0000
-Message-Id: <20170825170157.14883-1-o.mandel@menlosystems.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <26cd356d-9d62-145e-a11b-0a0bf682fdd7@menlosystems.com>
-References: <26cd356d-9d62-145e-a11b-0a0bf682fdd7@menlosystems.com>
-Cc: Olaf Mandel <o.mandel@menlosystems.com>
-Subject: [PATCH v3] (PRE)MIRRORS: fix pattern for npm:// without slash
+	Fri, 25 Aug 2017 17:24:48 +0000 (UTC)
+Received: by mail-oi0-f53.google.com with SMTP id k77so3870391oib.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 10:24:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=Gd4NYStUaN0g27jd98hSfDfnxUIqNaHocHFUALIyiZU=;
+	b=aiAwDxZ7yJQwxfJJQByM/jUsZYyAoQO8TgabIICgsWZ7cbqsedRlGLAzmx7LX5N3h9
+	a8Cysn3Ur4VW4DcIPkZd/vqQ3m2JX/W4kotqm6LQOCn34+VlHv5jKDq1+SbbkG4jgCFr
+	1NMJw94dobfYrBaG4Hyf2UO2vN5ycmLgkNWLqZ43ZfztlrduSQ9WvAmLk2GmEJYAhTuV
+	haQ65g5a+dcdegJtXtdFygogBufUcUUzybkH9Agraz3WnsXPf0361dY0MGVbOUn8BgpP
+	CGqptnpdITBeCFJp/KdOikwxSEUrnpsU3ku3I9JnrTlISG3dkpTVS6zIE90SpSOaGa/s
+	SjIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=Gd4NYStUaN0g27jd98hSfDfnxUIqNaHocHFUALIyiZU=;
+	b=scbbZVJS0rEU2ZmPmxudJm1LFZBOP5cag8sF699aieNhEPXi/VV/LBCm2bRvo+KqsD
+	ClRTXIubxPvhuAgqPqO1jDVj2bo3jYTGobzXDfx+sAgnIIk1tmDiKdPyx924dwhCHo4V
+	P6lkEMCZVTN/detnhDxWyHl7x7GesM1adTtTizZagMQKb8Vw+ngSkKLvwZdCamGEFhvD
+	HpmiZ7pDTUswZhtzUUaFH2tQZt+kPMuGu815pYzM41IeLr4/7strDDni+cmll93L6ZON
+	QDZb7gnIdjlpnC5oOwlV3ATTIx6/c1euk4HNO4pFXfeuDoNhcYhoa7GwaXQBDO/D79US
+	VLPg==
+X-Gm-Message-State: AHYfb5iaWqUT11wcwFXyT2oIAlGI3NQNi9HAa5f7Qx52nxffCwWThADt
+	9Oo/M2PsU0AdivLiknY=
+X-Received: by 10.202.73.130 with SMTP id w124mr13030877oia.249.1503681889929; 
+	Fri, 25 Aug 2017 10:24:49 -0700 (PDT)
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com.
+	[209.85.218.54])
+	by smtp.gmail.com with ESMTPSA id j9sm9171060oiy.31.2017.08.25.10.24.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 25 Aug 2017 10:24:48 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f54.google.com with SMTP id j144so4065283oib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 10:24:47 -0700 (PDT)
+X-Received: by 10.202.92.130 with SMTP id q124mr12936349oib.294.1503681887364; 
+	Fri, 25 Aug 2017 10:24:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.1.183 with HTTP; Fri, 25 Aug 2017 10:24:46 -0700 (PDT)
+In-Reply-To: <cover.1503667857.git.ed.bartosh@linux.intel.com>
+References: <cover.1503667857.git.ed.bartosh@linux.intel.com>
+Date: Fri, 25 Aug 2017 14:24:46 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqZc3seGRmqMBtPav2PidTAnLUsTje-FVFamwSZbDJrEQ@mail.gmail.com>
+Message-ID: <CAP9ODKqZc3seGRmqMBtPav2PidTAnLUsTje-FVFamwSZbDJrEQ@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/10] #11278 - wic: create an option to use entire disk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,68 +68,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 17:02:21 -0000
+X-List-Received-Date: Fri, 25 Aug 2017 17:24:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-For URIs with the npm:// transport but with no other slash in it, the
-common MIRRORS and PREMIRRORS pattern of npm://.*/.* fails to match.
-Make the last slash in the pattern optional in the mirros.bbclass and
-own-mirrors.bbclass classes.
+Hello Ed,
 
-Many URIs with the npm:// transport have no slash after the host part:
+On Fri, Aug 25, 2017 at 10:41 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+...
+>   wic: add help and usage content for 'wic write'
+>   wic: add 'wic write' command
+>   wic: implement 'wic write' command
 
-  npm://registry.npmjs.org;name=foo;version=0.1.2
+Those should be squashed as they are in fact one logical unit.
 
-This means that MIRRORS and PREMIRRORS containing entries like the
-first one will not match these URIs:
-
-  npm://.*/.*   # fails to match
-  npm://.*/?.*  # matches this and URIs with path components
-
-For normal regular expressions, a pattern like 'npm://.*(/.*)?' would
-probably be preferred, but that won't work here: the pattern gets split
-into the substrings 'npm', '.*(' and '/.*)?', which are not valid
-regular expressions individually.
-
-Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
----
- meta/classes/mirrors.bbclass     | 4 ++--
- meta/classes/own-mirrors.bbclass | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index b98684f5c6..766f1cb6fa 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -48,7 +48,7 @@ p4://.*/.*      http://downloads.yoctoproject.org/mirror/sources/ \n \
- osc://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
- https?$://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \n \
- ftp://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
--npm://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
-+npm://.*/?.*    http://downloads.yoctoproject.org/mirror/sources/ \n \
- cvs://.*/.*     http://sources.openembedded.org/ \n \
- svn://.*/.*     http://sources.openembedded.org/ \n \
- git://.*/.*     http://sources.openembedded.org/ \n \
-@@ -58,7 +58,7 @@ p4://.*/.*      http://sources.openembedded.org/ \n \
- osc://.*/.*     http://sources.openembedded.org/ \n \
- https?$://.*/.* http://sources.openembedded.org/ \n \
- ftp://.*/.*     http://sources.openembedded.org/ \n \
--npm://.*/.*     http://sources.openembedded.org/ \n \
-+npm://.*/?.*    http://sources.openembedded.org/ \n \
- ${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
- ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
- "
-diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
-index 12b42675bc..0296d545be 100644
---- a/meta/classes/own-mirrors.bbclass
-+++ b/meta/classes/own-mirrors.bbclass
-@@ -9,5 +9,5 @@ p4://.*/.*      ${SOURCE_MIRROR_URL}
- osc://.*/.*     ${SOURCE_MIRROR_URL}
- https?$://.*/.* ${SOURCE_MIRROR_URL}
- ftp://.*/.*     ${SOURCE_MIRROR_URL}
--npm://.*/.*     ${SOURCE_MIRROR_URL}
-+npm://.*/?.*    ${SOURCE_MIRROR_URL}
- }
 -- 
-2.11.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
