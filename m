@@ -1,38 +1,35 @@
 Return-Path: <o.mandel@menlosystems.com>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F91783C2
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id EE2FD783DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 09:39:18 +0000 (UTC)
+	Fri, 25 Aug 2017 09:58:35 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3xdx2H34dDz1qy0r;
-	Fri, 25 Aug 2017 11:39:19 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 3xdxSX2R1Tz1rG8C;
+	Fri, 25 Aug 2017 11:58:36 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 3xdx2H0Svvz3hhTK;
-	Fri, 25 Aug 2017 11:39:19 +0200 (CEST)
+	by mail.m-online.net (Postfix) with ESMTP id 3xdxSX1sjFz3hhTP;
+	Fri, 25 Aug 2017 11:58:36 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
 	port 10024)
-	with ESMTP id VY405Z317qJY; Fri, 25 Aug 2017 11:39:18 +0200 (CEST)
-X-Auth-Info: 7FjJ8DMqUUjFFoKbhOUTv8Hh0QMDv4exDV37rmnuBNcVRi41kgOwDShru1JaOMVU
-Received: from [10.0.0.72] (host-141-40-253-38.customer.izb-online.de
-	[141.40.253.38])
+	with ESMTP id hfrxOogWvwL4; Fri, 25 Aug 2017 11:58:35 +0200 (CEST)
+X-Auth-Info: rN+NaMtQQiXRn0izperHJvNccTFlHHCVfeTRmdhZKVmGCtyzUiMeSHHVU8hYGn3L
+Received: from menlobldserver.menlosystems.local
+	(host-141-40-253-38.customer.izb-online.de [141.40.253.38])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Fri, 25 Aug 2017 11:39:18 +0200 (CEST)
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <20170824181946.4529-1-o.mandel@menlosystems.com>
-	<1765670.s4Evp06e0l@peggleto-mobl.ger.corp.intel.com>
+	Fri, 25 Aug 2017 11:58:35 +0200 (CEST)
 From: Olaf Mandel <o.mandel@menlosystems.com>
-Message-ID: <fa27449a-ffe7-c742-3d2f-6bcac9cac20f@menlosystems.com>
-Date: Fri, 25 Aug 2017 11:38:03 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <1765670.s4Evp06e0l@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] (PRE)MIRRORS: add pattern for npm:// without slash
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 Aug 2017 09:58:08 +0000
+Message-Id: <20170825095808.31468-1-o.mandel@menlosystems.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <fa27449a-ffe7-c742-3d2f-6bcac9cac20f@menlosystems.com>
+References: <fa27449a-ffe7-c742-3d2f-6bcac9cac20f@menlosystems.com>
+Cc: Olaf Mandel <o.mandel@menlosystems.com>
+Subject: [PATCH v2] (PRE)MIRRORS: add pattern for npm:// without slash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,56 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 09:39:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 25 Aug 2017 09:58:36 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
+For URIs with the npm:// transport but with no other slash in it, the
+common MIRRORS and PREMIRRORS pattern of npm://.*/.* fails to match.
+Add a new pattern in the mirros.bbclass and own-mirrors.bbclass classes
+for these URIs.
 
-Hello Paul,
+Many URIs with the npm:// transport have no slash after the host part:
 
-Am 24.08.2017 um 22:53 schrieb Paul Eggleton:
-> On Friday, 25 August 2017 6:19:46 AM NZST Olaf Mandel wrote:
->> For URLs with the npm:// transport but with no other slash in it,
->> the common MIRRORS and PREMIRRORS pattern of npm://.*/.* fails to
->> match. Add a new pattern in the mirros.bbclass and
->> own-mirrors.bbclass classes for these URLs.
-- -Snipp-
-> 
-> Couldn't we just do away with npm://.*/.* ?
-> 
-While that would fix my specific problem, it would introduce a
-backwards-breaking change: if someone _did_ have a SRC_URI with a
-slash in it, this would change where on the mirror the package is
-searched for:
+  npm://registry.npmjs.org;name=foo;version=0.1.2
 
-SRC_URI = npm://foo.tld/bar;name=baz;version=0.1.2
-npm://.*/.* =>     baz-0.1.2.tar.xz
-npm://.*    => bar/baz-0.1.2.tar.xz
+This means that MIRRORS and PREMIRRORS containing entries like the
+first one will not match these URIs:
 
-So keeping both lines is the better solution. But while testing this I
-found that the order I chose (first npm://.*, then npm://.*/.*) is
-wrong: this first tries the changed (wrong) location on the mirror and
-only then the original (correct) one. It is much more efficient to
-sort the lines the other way around: this prevents extra network
-traffic, if the mirror is not local. I will send an updated batch soon.
+  npm://.*/.*   # fails to match
+  npm://.*      # matches
 
-Best regards,
-Olaf
-- -- 
-Olaf Mandel
+The npm:// URIs without a slash also matches URIs with a slash, but
+then the file is searched for on the mirror with the same path that was
+in the URI. Because of that, the pattern with the slash should be first
+in the list, to prevent extra requests to the mirrors containing the
+wrong path.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Signed-off-by: Olaf Mandel <o.mandel@menlosystems.com>
+---
+ meta/classes/mirrors.bbclass     | 2 ++
+ meta/classes/own-mirrors.bbclass | 1 +
+ 2 files changed, 3 insertions(+)
 
-iQEcBAEBCAAGBQJZn+/7AAoJEFS9nbRiUh3/0EMIAJTUoXVsvSLWDUm8phbAEoXb
-jQZW7hfP+CHzn1V7X6kTu4CZlQWhxOzYbv07sd2cz/4+Hr2U/7JJCul2QTQGizc/
-NxVKaixR8V0tM0irn8NeAHexLXLj+dKdmbvaG/H/BeHhFZc4eQOt6gmbGZ1F7V2g
-njcP7nui13HbYpHViGFKMT5hnU9B2gKWQ0FAtY6kGZFS1UDvyGFXyHXn1kU0hzjl
-6nRuG0q18uueUEEFxqjo4Cb5BTNEjC/QIGIKbSTsqBIU1r3t7uaPSHIYihnRGZ9M
-bCpoFKB2PFgi8qFl+cUaFBmtGMeh+loEIDIi1eZ1HmRO7ST0glDmxB0SKM1N06I=
-=QS0a
------END PGP SIGNATURE-----
+diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
+index b98684f5c6..7ac654494b 100644
+--- a/meta/classes/mirrors.bbclass
++++ b/meta/classes/mirrors.bbclass
+@@ -49,6 +49,7 @@ osc://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+ https?$://.*/.* http://downloads.yoctoproject.org/mirror/sources/ \n \
+ ftp://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
+ npm://.*/.*     http://downloads.yoctoproject.org/mirror/sources/ \n \
++npm://.*        http://downloads.yoctoproject.org/mirror/sources/ \n \
+ cvs://.*/.*     http://sources.openembedded.org/ \n \
+ svn://.*/.*     http://sources.openembedded.org/ \n \
+ git://.*/.*     http://sources.openembedded.org/ \n \
+@@ -59,6 +60,7 @@ osc://.*/.*     http://sources.openembedded.org/ \n \
+ https?$://.*/.* http://sources.openembedded.org/ \n \
+ ftp://.*/.*     http://sources.openembedded.org/ \n \
+ npm://.*/.*     http://sources.openembedded.org/ \n \
++npm://.*        http://sources.openembedded.org/ \n \
+ ${CPAN_MIRROR}  http://cpan.metacpan.org/ \n \
+ ${CPAN_MIRROR}  http://search.cpan.org/CPAN/ \n \
+ "
+diff --git a/meta/classes/own-mirrors.bbclass b/meta/classes/own-mirrors.bbclass
+index 12b42675bc..c70b94e7dc 100644
+--- a/meta/classes/own-mirrors.bbclass
++++ b/meta/classes/own-mirrors.bbclass
+@@ -10,4 +10,5 @@ osc://.*/.*     ${SOURCE_MIRROR_URL}
+ https?$://.*/.* ${SOURCE_MIRROR_URL}
+ ftp://.*/.*     ${SOURCE_MIRROR_URL}
+ npm://.*/.*     ${SOURCE_MIRROR_URL}
++npm://.*        ${SOURCE_MIRROR_URL}
+ }
+-- 
+2.11.0
+
 
