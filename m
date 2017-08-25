@@ -1,29 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DC4871AC6
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A3C5678195
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 11:05:14 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7PB54cm005418
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 25 Aug 2017 12:05:05 +0100
-Message-ID: <1503659104.32591.220.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
+	Fri, 25 Aug 2017 11:09:05 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id z132so309548wmg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 04:09:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=yRponW4gU/BHH+jF+wx8JInruP6QpgxopKB91trsWw8=;
+	b=jTFNE876FtgVA2Jzp1SWzpm5c3w0SiJQZ6oU+6BLKOL2Iw4CE1PKmOlDCb9jBbhADa
+	yzJ1QfxwWarPY2keB2E7Ru3yoihAg6lg5f3vn10HWLerrrtRNNBc81ftKHM//zv6/NDl
+	kgREYSvxP9kibWh+eDcE3Xe9l0ui9C+lXIvQUaPDWXqCJ7EKngPn3w5Ibh4W2siGo8t9
+	tZdu4I4pbfhArojqAnM7zmaLMH73AlbR3PMFOVr4q/cGXp1QXb9fjO2+ShbM7mR08P4p
+	SV20p+WLdpsQq9oEHLVa8X/iT8rXTUt2tXl5YlwqYRFKuFWTjmQLABdxBlDVT4p8o3MK
+	8d/w==
+X-Gm-Message-State: AHYfb5hzE+Xo+9NB0b8Dmy/31/uscEt9vUPz6qcx5sS1MYXGgZlyeP2e
+	Qs1G9hkVp3cz7w==
+X-Received: by 10.80.167.197 with SMTP id i63mr9072671edc.124.1503659346635;
+	Fri, 25 Aug 2017 04:09:06 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	e12sm2940166edm.53.2017.08.25.04.09.05
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 25 Aug 2017 04:09:05 -0700 (PDT)
+Message-ID: <1503659345.5806.11.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	openembedded-core@lists.openembedded.org
-Date: Fri, 25 Aug 2017 12:05:04 +0100
-In-Reply-To: <1503659012.5806.9.camel@andred.net>
+Date: Fri, 25 Aug 2017 12:09:05 +0100
+In-Reply-To: <1503659104.32591.220.camel@linuxfoundation.org>
 References: <20170824091924.25945-1-git@andred.net>
 	<1503569930.32591.188.camel@linuxfoundation.org>
 	<1503659012.5806.9.camel@andred.net>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+	<1503659104.32591.220.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.22.6-1 
 Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 25 Aug 2017 12:05:05 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
 Subject: Re: [PATCH] bitbake.conf: Add run-parts to HOSTTOOLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -37,32 +51,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 11:05:16 -0000
+X-List-Received-Date: Fri, 25 Aug 2017 11:09:05 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-08-25 at 12:03 +0100, André Draszik wrote:
-> On Thu, 2017-08-24 at 11:18 +0100, Richard Purdie wrote:
-> > We definitely should not be doing this, there is clearly a
-> > dependency
-> > missing somewhere else. ca-certificates should depend on whatever
-> > provides that...
-> In OE, run-parts is provided by debianutils, or by busybox, both of
-> which
-> don't have a native version in OE.
-> 
-> ca-certificates seems to always have relied on run-parts from the
-> host
-> environment. OE even carries a patch to make it work with run-parts
-> from
-> Fedora.
-> 
-> What would be the preferred way to resolve this so?
+On Fri, 2017-08-25 at 12:05 +0100, Richard Purdie wrote:
+> The patches I have in master-next which enable a native version of
+> debianutils and then add it as a dependency from ca-certificates?
 
-The patches I have in master-next which enable a native version of
-debianutils and then add it as a dependency from ca-certificates?
+Cool! Hadn't seen those.
 
 Cheers,
+Andre'
 
-Richard
 
