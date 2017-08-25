@@ -1,45 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0682177DD7
+Return-Path: <tobias.hagelborn@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 0663477C31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 08:26:02 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7P8PxV0025080
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 25 Aug 2017 09:26:01 +0100
-Message-ID: <1503649559.32591.211.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, Khem Raj <raj.khem@gmail.com>,
-	Randy MacLeod <randy.macleod@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Armin Kuster
-	<akuster808@gmail.com>
-Date: Fri, 25 Aug 2017 09:25:59 +0100
-In-Reply-To: <c23faa8f-5521-e109-b9d0-7ee79a76893d@siemens.com>
-References: <1502981085-18209-1-git-send-email-andrej.valek@siemens.com>
-	<1502987497.13978.239.camel@linuxfoundation.org>
-	<b911b7ff-0309-e459-0baf-b0fab4b68747@siemens.com>
-	<1503048946.32591.0.camel@linuxfoundation.org>
-	<aa161775-9c09-bf1f-8190-9c6e701f07c7@siemens.com>
-	<c9d3d7c6-f6d0-c316-1e1e-8b67f652ae4a@windriver.com>
-	<dff127f0-b668-0d09-3270-ce1d67c04891@siemens.com>
-	<1abbf9f3-8f0e-3fba-26f5-114f049cb977@siemens.com>
-	<1503492285.32591.152.camel@linuxfoundation.org>
-	<cda65980-6ae8-426d-72e3-0e016d9fe315@gmail.com>
-	<f1547a4c-ad34-2b9d-955a-1c3047e61cbe@siemens.com>
-	<1503584213.32591.192.camel@linuxfoundation.org>
-	<8994061e-1012-1a4d-e6d7-47e978646841@siemens.com>
-	<1503584806.32591.198.camel@linuxfoundation.org>
-	<c23faa8f-5521-e109-b9d0-7ee79a76893d@siemens.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 25 Aug 2017 09:26:02 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] ca-certificates: prevent executing update-ca-certificates from host system
+	Fri, 25 Aug 2017 09:11:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 191872E11C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id dOV9Eq-sz8MO
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:53 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 5A67E2E07B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:53 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 473F51A070
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:53 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3C8311A06B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:53 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:53 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id 30FF41D13
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Aug 2017 11:11:53 +0200 (CEST)
+Received: from lnxtobiasha.se.axis.com (10.0.5.60) by XBOX02.axis.com
+	(10.0.5.16) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Fri, 25 Aug 2017 11:11:53 +0200
+From: Tobias Hagelborn <tobias.hagelborn@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 25 Aug 2017 11:11:37 +0200
+Message-ID: <1503652300-5161-1-git-send-email-tobiasha@axis.com>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX02.axis.com (10.0.5.16)
+X-TM-AS-GCONF: 00
+Cc: Tobias Hagelborn <tobiasha@axis.com>
+Subject: [PATCH v5 0/3] devtool deploy-target --strip option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,23 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 08:26:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 25 Aug 2017 09:11:54 -0000
+Content-Type: text/plain
 
-On Fri, 2017-08-25 at 08:05 +0200, Andrej Valek wrote:
-> It's fine, but for this function
-> 
-> do_install_append_class-nativesdk () {
->     SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
-> }
-> 
-> is still update-ca-certificates needed from native.
+New devtool deploy-target option --strip which enables deploying
+stripped binaries, saving some space on target.
 
-I realised that in testing and have updated the version in master-next
-which passed testing this time.
+Updates in v5:
+- Updated according to feedback from Richard Purdie
+  - Separate lint issue fixes
+- Verified devtool-deploy-target with poky-master
 
-Cheers,
+[YOCTO #11227]
 
-Richard
+
+
+Tobias Hagelborn (3):
+  package.py: Fix some lint errors
+  package.py: strip_execs: Support for .ko modules
+  devtool: deploy-target: Support stripped libs and execs
+
+ meta/lib/oe/package.py        | 42 +++++++++++++++++++++++-------------------
+ scripts/lib/devtool/deploy.py | 33 +++++++++++++++++++++++++++++----
+ 2 files changed, 52 insertions(+), 23 deletions(-)
+
+-- 
+2.1.4
+
 
