@@ -1,25 +1,25 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3FF5783E4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E60782A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 09:36:24 +0000 (UTC)
+	Fri, 25 Aug 2017 09:36:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7P9aM75015652
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7P9aUK8001950
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 02:36:25 -0700
+	Fri, 25 Aug 2017 02:36:42 -0700 (PDT)
 Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 24 Aug 2017 17:41:51 -0700
+	Thu, 24 Aug 2017 19:10:33 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Aug 2017 08:42:38 +0800
-Message-ID: <1503621758-17158-1-git-send-email-yi.zhao@windriver.com>
+Date: Fri, 25 Aug 2017 10:11:20 +0800
+Message-ID: <1503627080-18372-1-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.198]
-Subject: [PATCH] bash: memleak bug fix for builtin command read
+Subject: [PATCH] e2fsprogs: fix ptest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,79 +32,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 09:36:24 -0000
+X-List-Received-Date: Fri, 25 Aug 2017 09:36:41 -0000
 Content-Type: text/plain
 
-From: Zhang Xiao <xiao.zhang@windriver.com>
+* Fix hardcoded path for ptest script which would cause failure on
+  mulitilib:
+  ls: cannot access '/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such file or directory
+  ./test_script: line 54: /usr/lib/e2fsprogs/ptest/test/test_post: No such file or directory
 
-Built in command "read" with "-e" use Readline to obtain the line
-in an interactive shell. In this process, a string "rlbuf" is
-just allocated without free operation thus cause memory leak.
+* Add missing '$' for shell variable reference
 
-This patch had been submitted to upstream:
-http://lists.gnu.org/archive/html/bug-bash/2017-02/msg00061.html
-
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- ...-memleak-bug-fix-for-builtin-command-read.patch | 35 ++++++++++++++++++++++
- meta/recipes-extended/bash/bash_4.4.bb             |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-extended/bash/bash/bash-memleak-bug-fix-for-builtin-command-read.patch
+ .../e2fsprogs/e2fsprogs/ptest.patch                | 25 ++++++++++++++++------
+ .../recipes-devtools/e2fsprogs/e2fsprogs/run-ptest |  2 +-
+ 2 files changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash/bash-memleak-bug-fix-for-builtin-command-read.patch b/meta/recipes-extended/bash/bash/bash-memleak-bug-fix-for-builtin-command-read.patch
-new file mode 100644
-index 0000000..9fb6ba9
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash/bash-memleak-bug-fix-for-builtin-command-read.patch
-@@ -0,0 +1,35 @@
-+From d3b6303a6853f612a56848ee4e59eaa0b0ab9489 Mon Sep 17 00:00:00 2001
-+From: Zhang Xiao <xiao.zhang@windriver.com>
-+Date: Tue, 21 Feb 2017 11:30:14 +0800
-+Subject: [PATCH] bash: memleak bug fix for builtin command read
-+
-+Built in command "read" with "-e" use Readline to obtain the line
-+in an interactive shell. In this process, a string "rlbuf" is
-+just allocated without free operation thus cause memory leak. Fix it.
-+
-+Upstream-Status: Submitted [http://lists.gnu.org/archive/html/bug-bash/2017-02/msg00061.html]
-+
-+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
-+---
-+ builtins/read.def | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/builtins/read.def b/builtins/read.def
-+index 4397154..ee0c5a6 100644
-+--- a/builtins/read.def
-++++ b/builtins/read.def
-+@@ -674,6 +674,11 @@ add_char:
-+   input_string[i] = '\0';
-+   CHECK_ALRM;
-+ 
-++#if defined (READLINE)
-++  if (edit)
-++    xfree (rlbuf);
-++#endif
-++
-+   if (retval < 0)
-+     {
-+       t_errno = errno;
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/bash/bash_4.4.bb b/meta/recipes-extended/bash/bash_4.4.bb
-index b602afe..e544d07 100644
---- a/meta/recipes-extended/bash/bash_4.4.bb
-+++ b/meta/recipes-extended/bash/bash_4.4.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://run-ptest \
-            file://fix-run-builtins.patch \
-            file://0001-help-fix-printf-format-security-warning.patch \
-+           file://bash-memleak-bug-fix-for-builtin-command-read.patch \
-            "
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+index cc32dbf..7df0967 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
+@@ -1,7 +1,7 @@
+ Upstream-Status: Inappropriate
  
- SRC_URI[tarball.md5sum] = "148888a7c95ac23705559b6f477dfe25"
+ diff --git a/tests/Makefile.in b/tests/Makefile.in
+-index 60cf655..ce220f1 100644
++index c130f4a..d2ade03 100644
+ --- a/tests/Makefile.in
+ +++ b/tests/Makefile.in
+ @@ -18,7 +18,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
+@@ -9,21 +9,21 @@ index 60cf655..ce220f1 100644
+  	@echo "HTREE=y" >> test_one
+  	@echo "QUOTA=y" >> test_one
+ -	@echo "SRCDIR=@srcdir@" >> test_one
+-+	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_one
+++	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
+  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
++ 	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
+  	@cat $(srcdir)/test_one.in >> test_one
+- 	@chmod +x test_one
+-@@ -26,7 +26,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
++@@ -27,7 +27,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
+  test_script: test_one test_script.in Makefile mke2fs.conf
+  	@echo "Creating test_script..."
+  	@echo "#!/bin/sh" > test_script
+ -	@echo "SRCDIR=@srcdir@" >> test_script
+-+	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_script
+++	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
+  	@cat $(srcdir)/test_script.in >> test_script
+  	@chmod +x test_script
+  
+ diff --git a/tests/test_config b/tests/test_config
+-index 7f39157..c815a44 100644
++index 547ef4c..e11e6f4 100644
+ --- a/tests/test_config
+ +++ b/tests/test_config
+ @@ -3,24 +3,24 @@
+@@ -67,3 +67,16 @@ index 7f39157..c815a44 100644
+  CLEAN_OUTPUT="sed -f $cmd_dir/filter.sed"
+  LD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss:${LD_LIBRARY_PATH}
+  DYLD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss:${DYLD_LIBRARY_PATH}
++diff --git a/tests/test_script.in b/tests/test_script.in
++index 9959e30..442999d 100644
++--- a/tests/test_script.in
+++++ b/tests/test_script.in
++@@ -39,7 +39,7 @@ for i; do
++ done
++ 
++ if test "$TESTS"x = x ; then
++-    if test -n "DO_FAILED"; then
+++    if test -n "$DO_FAILED"; then
++ 	exit 0
++     fi
++     TESTS=`ls -d $SRCDIR/[a-zA-Z]_*`
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index 1ac2513..e02fc7f 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -5,7 +5,7 @@ cd ./test
+ if [ $? -eq 0 ]
+ then
+ 	echo "PASS: e2fsprogs"
+-	rm test.log
++	rm ../test.log
+ else
+ 	echo "FAIL: e2fsprogs"
+ fi
 -- 
 2.7.4
 
