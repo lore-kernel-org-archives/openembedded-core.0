@@ -1,25 +1,25 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6E60782A8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E8A40783EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 09:36:41 +0000 (UTC)
+	Fri, 25 Aug 2017 09:36:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7P9aUK8001950
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7P9adAV008418
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 02:36:42 -0700 (PDT)
+	Fri, 25 Aug 2017 02:36:47 -0700 (PDT)
 Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 24 Aug 2017 19:10:33 -0700
+	Thu, 24 Aug 2017 19:56:09 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 Aug 2017 10:11:20 +0800
-Message-ID: <1503627080-18372-1-git-send-email-yi.zhao@windriver.com>
+Date: Fri, 25 Aug 2017 10:56:56 +0800
+Message-ID: <1503629816-19824-1-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.198]
-Subject: [PATCH] e2fsprogs: fix ptest script
+Subject: [PATCH] taglib: Security fix CVE-2017-12678
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,92 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 09:36:41 -0000
+X-List-Received-Date: Fri, 25 Aug 2017 09:36:47 -0000
 Content-Type: text/plain
 
-* Fix hardcoded path for ptest script which would cause failure on
-  mulitilib:
-  ls: cannot access '/usr/lib/e2fsprogs/ptest/test/[a-zA-Z]_*': No such file or directory
-  ./test_script: line 54: /usr/lib/e2fsprogs/ptest/test/test_post: No such file or directory
+CVE-2017-12678: In TagLib 1.11.1, the rebuildAggregateFrames function in
+id3v2framefactory.cpp has a pointer to cast vulnerability, which allows
+remote attackers to cause a denial of service or possibly have
+unspecified other impact via a crafted audio file.
 
-* Add missing '$' for shell variable reference
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2017-12678
+
+Patch from:
+https://github.com/taglib/taglib/pull/831/commits/eb9ded1206f18f2c319157337edea2533a40bea6
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../e2fsprogs/e2fsprogs/ptest.patch                | 25 ++++++++++++++++------
- .../recipes-devtools/e2fsprogs/e2fsprogs/run-ptest |  2 +-
- 2 files changed, 20 insertions(+), 7 deletions(-)
+ .../taglib/taglib/CVE-2017-12678.patch             | 40 ++++++++++++++++++++++
+ meta/recipes-support/taglib/taglib_1.11.1.bb       |  5 ++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/taglib/taglib/CVE-2017-12678.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-index cc32dbf..7df0967 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/ptest.patch
-@@ -1,7 +1,7 @@
- Upstream-Status: Inappropriate
- 
- diff --git a/tests/Makefile.in b/tests/Makefile.in
--index 60cf655..ce220f1 100644
-+index c130f4a..d2ade03 100644
- --- a/tests/Makefile.in
- +++ b/tests/Makefile.in
- @@ -18,7 +18,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
-@@ -9,21 +9,21 @@ index 60cf655..ce220f1 100644
-  	@echo "HTREE=y" >> test_one
-  	@echo "QUOTA=y" >> test_one
- -	@echo "SRCDIR=@srcdir@" >> test_one
--+	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_one
-++	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_one
-  	@echo "DIFF_OPTS=@UNI_DIFF_OPTS@" >> test_one
-+ 	@echo "SIZEOF_TIME_T=@SIZEOF_TIME_T@" >> test_one
-  	@cat $(srcdir)/test_one.in >> test_one
-- 	@chmod +x test_one
--@@ -26,7 +26,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
-+@@ -27,7 +27,7 @@ test_one: $(srcdir)/test_one.in Makefile mke2fs.conf
-  test_script: test_one test_script.in Makefile mke2fs.conf
-  	@echo "Creating test_script..."
-  	@echo "#!/bin/sh" > test_script
- -	@echo "SRCDIR=@srcdir@" >> test_script
--+	@echo "SRCDIR=/usr/lib/e2fsprogs/ptest/test" >> test_script
-++	@echo "SRCDIR=${prefix}${libdir}/e2fsprogs/ptest/test" >> test_script
-  	@cat $(srcdir)/test_script.in >> test_script
-  	@chmod +x test_script
-  
- diff --git a/tests/test_config b/tests/test_config
--index 7f39157..c815a44 100644
-+index 547ef4c..e11e6f4 100644
- --- a/tests/test_config
- +++ b/tests/test_config
- @@ -3,24 +3,24 @@
-@@ -67,3 +67,16 @@ index 7f39157..c815a44 100644
-  CLEAN_OUTPUT="sed -f $cmd_dir/filter.sed"
-  LD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss:${LD_LIBRARY_PATH}
-  DYLD_LIBRARY_PATH=../lib:../lib/ext2fs:../lib/e2p:../lib/et:../lib/ss:${DYLD_LIBRARY_PATH}
-+diff --git a/tests/test_script.in b/tests/test_script.in
-+index 9959e30..442999d 100644
-+--- a/tests/test_script.in
-++++ b/tests/test_script.in
-+@@ -39,7 +39,7 @@ for i; do
-+ done
+diff --git a/meta/recipes-support/taglib/taglib/CVE-2017-12678.patch b/meta/recipes-support/taglib/taglib/CVE-2017-12678.patch
+new file mode 100644
+index 0000000..4bd9f2b
+--- /dev/null
++++ b/meta/recipes-support/taglib/taglib/CVE-2017-12678.patch
+@@ -0,0 +1,40 @@
++From eb9ded1206f18f2c319157337edea2533a40bea6 Mon Sep 17 00:00:00 2001
++From: "Stephen F. Booth" <me@sbooth.org>
++Date: Sun, 23 Jul 2017 10:11:09 -0400
++Subject: [PATCH] Don't assume TDRC is an instance of TextIdentificationFrame
++
++If TDRC is encrypted, FrameFactory::createFrame() returns UnknownFrame
++which causes problems in rebuildAggregateFrames() when it is assumed
++that TDRC is a TextIdentificationFrame
++
++Upstream-Status: Backport
++[https://github.com/taglib/taglib/pull/831/commits/eb9ded1206f18f2c319157337edea2533a40bea6]
++
++CVE: CVE-2017-12678
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ taglib/mpeg/id3v2/id3v2framefactory.cpp | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/taglib/mpeg/id3v2/id3v2framefactory.cpp b/taglib/mpeg/id3v2/id3v2framefactory.cpp
++index 759a9b7b..9347ab86 100644
++--- a/taglib/mpeg/id3v2/id3v2framefactory.cpp
+++++ b/taglib/mpeg/id3v2/id3v2framefactory.cpp
++@@ -334,10 +334,11 @@ void FrameFactory::rebuildAggregateFrames(ID3v2::Tag *tag) const
++      tag->frameList("TDAT").size() == 1)
++   {
++     TextIdentificationFrame *tdrc =
++-      static_cast<TextIdentificationFrame *>(tag->frameList("TDRC").front());
+++      dynamic_cast<TextIdentificationFrame *>(tag->frameList("TDRC").front());
++     UnknownFrame *tdat = static_cast<UnknownFrame *>(tag->frameList("TDAT").front());
 + 
-+ if test "$TESTS"x = x ; then
-+-    if test -n "DO_FAILED"; then
-++    if test -n "$DO_FAILED"; then
-+ 	exit 0
-+     fi
-+     TESTS=`ls -d $SRCDIR/[a-zA-Z]_*`
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-index 1ac2513..e02fc7f 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-@@ -5,7 +5,7 @@ cd ./test
- if [ $? -eq 0 ]
- then
- 	echo "PASS: e2fsprogs"
--	rm test.log
-+	rm ../test.log
- else
- 	echo "FAIL: e2fsprogs"
- fi
++-    if(tdrc->fieldList().size() == 1 &&
+++    if(tdrc &&
+++       tdrc->fieldList().size() == 1 &&
++        tdrc->fieldList().front().size() == 4 &&
++        tdat->data().size() >= 5)
++     {
++-- 
++2.13.5
++
+diff --git a/meta/recipes-support/taglib/taglib_1.11.1.bb b/meta/recipes-support/taglib/taglib_1.11.1.bb
+index 54a92d9..50439bc 100644
+--- a/meta/recipes-support/taglib/taglib_1.11.1.bb
++++ b/meta/recipes-support/taglib/taglib_1.11.1.bb
+@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
+ 
+ DEPENDS = "zlib"
+ 
+-SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz"
++SRC_URI = "http://taglib.github.io/releases/${BP}.tar.gz \
++           file://CVE-2017-12678.patch \
++          "
++
+ SRC_URI[md5sum] = "cee7be0ccfc892fa433d6c837df9522a"
+ SRC_URI[sha256sum] = "b6d1a5a610aae6ff39d93de5efd0fdc787aa9e9dc1e7026fa4c961b26563526b"
+ 
 -- 
 2.7.4
 
