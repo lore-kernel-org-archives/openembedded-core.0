@@ -1,39 +1,28 @@
 Return-Path: <jose.alarcon@ge.com>
 Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
 	[67.231.157.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BF0F76FF9F
+	by mail.openembedded.org (Postfix) with ESMTP id 609B260777
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Aug 2017 10:21:53 +0000 (UTC)
-Received: from pps.filterd (m0048299.ppops.net [127.0.0.1])
-	by m0048299.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
-	v7QAKmjC021756 for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Aug 2017 06:21:54 -0400
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Mark Hatle <mark.hatle@windriver.com>
-References: <20170824053753.36121-1-jose.alarcon@ge.com>
-	<CAJ86T=Uip8WChxD_q_jWxCPPmUqw87yJLyn5F29ztbJfMpVMOQ@mail.gmail.com>
-	<17938e56-c1d0-5316-0263-b954006f9015@ge.com>
-	<CAJ86T=VczP+UyDTzRb8zcRreNVp7Ez43cfDquh2ysKy_fqGnFw@mail.gmail.com>
-	<1a320d13-7d4a-7412-5377-e64a728afdfc@windriver.com>
-	<CA+chaQcvg_rktq4iOazbzJzWGa6m6EdDA=RM-x8yg=4_aMtqyg@mail.gmail.com>
+	Sat, 26 Aug 2017 10:38:25 +0000 (UTC)
+Received: from pps.filterd (m0048300.ppops.net [127.0.0.1])
+	by m0048300.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7QAc1kI016539 for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Aug 2017 06:38:27 -0400
 From: Jose Alarcon <jose.alarcon@ge.com>
-Message-ID: <bab72ff8-d672-5fd4-f7bf-b21c7e4e9c51@ge.com>
-Date: Sat, 26 Aug 2017 13:21:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQcvg_rktq4iOazbzJzWGa6m6EdDA=RM-x8yg=4_aMtqyg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 26 Aug 2017 13:38:18 +0300
+Message-Id: <20170826103818.103157-1-jose.alarcon@ge.com>
+X-Mailer: git-send-email 2.10.1
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2017-08-26_05:, , signatures=0
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
 	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
 	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
 	adjust=0
 	reason=mlx scancount=1 engine=8.0.1-1707230000
-	definitions=main-1708260166
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: EXT: Re: [PATCH] libinput: remove obsolete touchpad patch
+	definitions=main-1708260172
+Subject: [PATCH] Revert "libinput: remove obsolete touchpad patch"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,83 +35,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Aug 2017 10:21:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 26 Aug 2017 10:38:26 -0000
 
+This reverts commit 9f32d9405ed5430e9e55de2f1562baac963e807c.
 
+This patch is still needed since OLDEST_KERNEL is set to 3.2.0
 
-On 25.08.2017 21:59, Martin Jansa wrote:
-> Does the patch cause any harm when used on newer kernel?
+Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
+---
+ ...ics-need-to-fake-new-touches-on-TRIPLETAP.patch | 72 ++++++++++++++++++++++
+ meta/recipes-graphics/wayland/libinput_1.8.1.bb    |  1 +
+ 2 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
 
-Based on my limited testing on our devices running kernel 4.11.0, no.
-
->
-> If so shouldn't the patch be fixed to work correctly even with newer
-> kernel?
->
-> Or what's the main reason to remove it?
-
-I am going through each and every patch that we carry on our layers. If
-upstreaming status is pending, we try to upstream it. If the patch is no
-longer needed, we remove it.
-
-When I came across this particular patch, I thought it was obsolete and
-that it should be removed upstream too. I was not aware of OLDEST_KERNEL.
-
-I will send a revert now.
-
-Thanks,
-
---
-Jose
-
->
-> On Fri, Aug 25, 2017 at 8:55 PM, Mark Hatle <mark.hatle@windriver.com
-> <mailto:mark.hatle@windriver.com>> wrote:
->
->     On 8/25/17 1:48 PM, Andre McCurdy wrote:
->     > On Fri, Aug 25, 2017 at 12:09 AM, Jose Alarcon
->     <jose.alarcon@ge.com <mailto:jose.alarcon@ge.com>> wrote:
->     >> On 24.08.2017 20 <tel:24.08.2017%2020>:45, Andre McCurdy wrote:
->     >>> On Wed, Aug 23, 2017 at 10:37 PM, Jose Alarcon
->     <jose.alarcon@ge.com <mailto:jose.alarcon@ge.com>> wrote:
->     >>>> This patch was a temporal workaround needed with 4.1 kernels.
->     >>>> Remove it.
->     >>> OLDEST_KERNEL is still set to 3.2.0
->     >>>
->     >>> How can you be sure nobody is using 4.1 ?
->     >>
->     >> That's a good point!
->     >>
->     >> I didn't know about this variable. I believe we should not
->     integrate
->     >> this change.
->     >> I will resend it once OLDEST_KERNEL is set to 4.2 or bigger.
->     >
->     > The original patch has been merged to master so a second patch
->     will be
->     > needed to revert it.
->     >
->
->     It may make sense to selectively apply the patch based on what
->     OLDEST_KERNEL is
->     set to.
->
->     This way if a user or distribution sets a newer 'OLDEST_KERNEL',
->     that item can
->     be removed automatically.
->
->     --Mark
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
+diff --git a/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch b/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
+new file mode 100644
+index 0000000..b52b496
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
+@@ -0,0 +1,72 @@
++This is a workaround upstream suggests for use with kernel 4.1.
++
++Upstream-Status: Inappropriate [temporary work-around]
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++
++
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Mon Aug 3 18:23:12 PDT 2015
++Subject: [PATCH v3 libinput] touchpad: serial synaptics need to fake new touches on TRIPLETAP
++
++On the 4.1 kernels synaptics pretends to have 3 slots (the serial fw only does
++2). This was added to avoid cursor jumps but has since been reverted for 4.2
++(kernel commit dbf3c37086, 4.1.3 is still buggy). In some cases a TRIPLETAP
++may be triggered without slot 2 ever activating.
++
++While there are still those kernels out there, work around this bug by opening
++a new touch point where none exists if the fake finger count exceeds the slot
++count.
++
++Reported-by: Jan Alexander Steffens <jan.steffens at gmail.com>
++Signed-off-by: Peter Hutterer <peter.hutterer at who-t.net>
++Tested-by: Jan Alexander Steffens <jan.steffens at gmail.com>
++Reviewed-by: Hans de Goede <hdegoede at redhat.com>
++---
++Changes to v2:
++- split out the handling instead of having a tmp state variable, see Hans'
++  comments from v2
++
++Mainly sending this to the list again so I have a link to point people to.
++If you're on 4.1.x add this patch to your distribution package.
++
++ src/evdev-mt-touchpad.c | 22 ++++++++++++++++------
++ 1 file changed, 16 insertions(+), 6 deletions(-)
++
++diff --git a/src/evdev-mt-touchpad.c b/src/evdev-mt-touchpad.c
++index a683d9a..5ef03d5 100644
++--- a/src/evdev-mt-touchpad.c
+++++ b/src/evdev-mt-touchpad.c
++@@ -369,13 +369,23 @@ tp_restore_synaptics_touches(struct tp_dispatch *tp,
++ 	for (i = 0; i < tp->num_slots; i++) {
++ 		struct tp_touch *t = tp_get_touch(tp, i);
++ 
++-		if (t->state != TOUCH_END)
+++		switch(t->state) {
+++		case TOUCH_HOVERING:
+++		case TOUCH_BEGIN:
+++		case TOUCH_UPDATE:
++ 			continue;
++-
++-		/* new touch, move it through begin to update immediately */
++-		tp_new_touch(tp, t, time);
++-		tp_begin_touch(tp, t, time);
++-		t->state = TOUCH_UPDATE;
+++		case TOUCH_NONE:
+++			/* new touch, move it through to begin immediately */
+++			tp_new_touch(tp, t, time);
+++			tp_begin_touch(tp, t, time);
+++			break;
+++		case TOUCH_END:
+++			/* touch just ended ,we need need to restore it to update */
+++			tp_new_touch(tp, t, time);
+++			tp_begin_touch(tp, t, time);
+++			t->state = TOUCH_UPDATE;
+++			break;
+++		}
++ 	}
++ }
++ 
++-- 
++2.4.3
++
+diff --git a/meta/recipes-graphics/wayland/libinput_1.8.1.bb b/meta/recipes-graphics/wayland/libinput_1.8.1.bb
+index a21babe..f75298b 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.8.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.8.1.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
+ DEPENDS = "libevdev udev mtdev"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
++           file://touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch \
+            file://0001-tools-Fix-race-in-autotools-install.patch \
+ "
+ 
+-- 
+2.10.1
 
 
