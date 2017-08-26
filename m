@@ -1,62 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8259877BC3
+Return-Path: <jose.alarcon@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id BF0F76FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Aug 2017 00:48:55 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id c28so27401pfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Aug 2017 17:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=wl5Cc4Vxr/W8eIBiQJuTV+FwIN8TiD/G7U/h/yyL3HQ=;
-	b=RViRJacgEPptZ41O/DFRUcLDpCiYoZJq4Zsc0nXX3Tuz8lrCoQQs6zbfUDuEZqbA8a
-	iBFqlSGhMWTNMaakcSmiv8acD+ODg1/E2BXJZKOXh3ZUVOeNK4SimPAnNLMAcs9obrKU
-	+6IsYdl9LvahieX6leEM+xfUsxwntsCbRpJ9VWJtvBPNh1BLUYm4cpcKHFVw201/pwSa
-	tbonZnesJ/kSukCxGZ30I0e9Fea2P3f01icBJej1ML+YKHyD/j62jWqQUBqhwaycPCVA
-	6pAkrkMWGgEpVbuqlEdvI+I7E4QS0WXF3mo3R1KiPNr/G0cfmMw04rWH+rqH+4DooyaE
-	LvTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=wl5Cc4Vxr/W8eIBiQJuTV+FwIN8TiD/G7U/h/yyL3HQ=;
-	b=FiDAll/2AeZw/pJ/sRMscl+9Wn1Y1XsSX0xVmBNcqGZbRXwh2OmGXuafokWXEy8/Wc
-	tB052y7KRsAWXlaxSh44vWWYVYnmnXWn6+djzWia6dNvSCcO0h5RvorruSIjKZ+Atw+f
-	zEsPp3ig9SrZ0Q6CcTBXd9StByeyxMMhCrGujdKTpWN+kxeys8e0jUgde7R5AqRpToig
-	POOaNbI/GWJ32lyjh/qyaC4mXvRhGc0lATJbm92i1eFOjeRyVZwj+bHU/7K/mSiAclGc
-	G3KXOsO2wYyLlHaudK5iyP3HRf07S2htUCF4T9HbxyWATqRnIghIDuQA1jRg5TLLlKJx
-	sJPA==
-X-Gm-Message-State: AHYfb5iundiefgvU8RgVKk4hsUqgfRBN+e8sSjEURCtwwcrxHdduxO7L
-	bbiX345oJ99fIvtgjuI=
-X-Received: by 10.101.89.69 with SMTP id g5mr282282pgu.270.1503708536585;
-	Fri, 25 Aug 2017 17:48:56 -0700 (PDT)
-Received: from ?IPv6:2601:646:8882:b8c:9019:a157:b45:44d5?
-	([2601:646:8882:b8c:9019:a157:b45:44d5])
-	by smtp.gmail.com with ESMTPSA id
-	x124sm12859428pfx.65.2017.08.25.17.48.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 25 Aug 2017 17:48:56 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>
+	Sat, 26 Aug 2017 10:21:53 +0000 (UTC)
+Received: from pps.filterd (m0048299.ppops.net [127.0.0.1])
+	by m0048299.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7QAKmjC021756 for <openembedded-core@lists.openembedded.org>;
+	Sat, 26 Aug 2017 06:21:54 -0400
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Mark Hatle <mark.hatle@windriver.com>
 References: <20170824053753.36121-1-jose.alarcon@ge.com>
 	<CAJ86T=Uip8WChxD_q_jWxCPPmUqw87yJLyn5F29ztbJfMpVMOQ@mail.gmail.com>
 	<17938e56-c1d0-5316-0263-b954006f9015@ge.com>
 	<CAJ86T=VczP+UyDTzRb8zcRreNVp7Ez43cfDquh2ysKy_fqGnFw@mail.gmail.com>
 	<1a320d13-7d4a-7412-5377-e64a728afdfc@windriver.com>
 	<CA+chaQcvg_rktq4iOazbzJzWGa6m6EdDA=RM-x8yg=4_aMtqyg@mail.gmail.com>
-	<CAMKF1sos=AR9916RZgoDMjNYTrOyo8uka6cKfPB2wLujjg3n5Q@mail.gmail.com>
-	<CAJ86T=Xrtt5xn+DKO1=aC76cWDgMmpqmXbaArSjemU2rC14-dA@mail.gmail.com>
-	<CAMKF1srnsbiCdnoF1tUM8-c-dKGTnv7nsqShKaO_Vqr9Sm0FZg@mail.gmail.com>
-	<CAJ86T=V=DTXGbR4_gCmc-feHR6DH-bhCENHRAJab26koZvFn-Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <e93caa35-871b-b15b-f97d-542ceed73b0c@gmail.com>
-Date: Fri, 25 Aug 2017 17:48:54 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:56.0)
-	Gecko/20100101 Thunderbird/56.0
+From: Jose Alarcon <jose.alarcon@ge.com>
+Message-ID: <bab72ff8-d672-5fd4-f7bf-b21c7e4e9c51@ge.com>
+Date: Sat, 26 Aug 2017 13:21:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=V=DTXGbR4_gCmc-feHR6DH-bhCENHRAJab26koZvFn-Q@mail.gmail.com>
+In-Reply-To: <CA+chaQcvg_rktq4iOazbzJzWGa6m6EdDA=RM-x8yg=4_aMtqyg@mail.gmail.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-26_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1707230000
+	definitions=main-1708260166
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: EXT: Re: [PATCH] libinput: remove obsolete touchpad patch
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -71,39 +46,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Aug 2017 00:48:55 -0000
+X-List-Received-Date: Sat, 26 Aug 2017 10:21:54 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 8/25/17 5:44 PM, Andre McCurdy wrote:
-> On Fri, Aug 25, 2017 at 5:16 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Fri, Aug 25, 2017 at 4:37 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Fri, Aug 25, 2017 at 3:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> OE-core minimal kernel has been bumped to 4.4
->>>> so at this point I think its fine to remove it since there
->>>> is no reliable way for OE-Core to test out validity of
->>>> this patch
->>>
->>> If that's the official policy then let's bump OLDEST_KERNEL and make
->>> the point clear to everyone.
->>
->> its not official policy. However we do try to minimise patches we
->> carry as much as we can moreover I was thinking from testability point
->> of view, we don't know what harm it can cause when you dont need this
->> patch.
-> 
-> Yes we do. The case where we don't need the patch (ie kernel 4.4) is
-> the case we *can* test.
-> 
-> If the patch is found to cause problems with newer kernels then
-> certainly it should be removed (or updated as Martin suggested), but I
-> haven't seen anyone suggest that it's causing any issues.
-> 
 
-Just being there it could have side-effects too, I dont think we have
-enough testing scenario to establish the effect. so removing is best
-unless someone with 4.1 kernel or older can test it out with newer
-kernels and establish that its not causing any undesired effects on
-kernels where its not required. Until then it should stay removed.
+
+On 25.08.2017 21:59, Martin Jansa wrote:
+> Does the patch cause any harm when used on newer kernel?
+
+Based on my limited testing on our devices running kernel 4.11.0, no.
+
+>
+> If so shouldn't the patch be fixed to work correctly even with newer
+> kernel?
+>
+> Or what's the main reason to remove it?
+
+I am going through each and every patch that we carry on our layers. If
+upstreaming status is pending, we try to upstream it. If the patch is no
+longer needed, we remove it.
+
+When I came across this particular patch, I thought it was obsolete and
+that it should be removed upstream too. I was not aware of OLDEST_KERNEL.
+
+I will send a revert now.
+
+Thanks,
+
+--
+Jose
+
+>
+> On Fri, Aug 25, 2017 at 8:55 PM, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+>
+>     On 8/25/17 1:48 PM, Andre McCurdy wrote:
+>     > On Fri, Aug 25, 2017 at 12:09 AM, Jose Alarcon
+>     <jose.alarcon@ge.com <mailto:jose.alarcon@ge.com>> wrote:
+>     >> On 24.08.2017 20 <tel:24.08.2017%2020>:45, Andre McCurdy wrote:
+>     >>> On Wed, Aug 23, 2017 at 10:37 PM, Jose Alarcon
+>     <jose.alarcon@ge.com <mailto:jose.alarcon@ge.com>> wrote:
+>     >>>> This patch was a temporal workaround needed with 4.1 kernels.
+>     >>>> Remove it.
+>     >>> OLDEST_KERNEL is still set to 3.2.0
+>     >>>
+>     >>> How can you be sure nobody is using 4.1 ?
+>     >>
+>     >> That's a good point!
+>     >>
+>     >> I didn't know about this variable. I believe we should not
+>     integrate
+>     >> this change.
+>     >> I will resend it once OLDEST_KERNEL is set to 4.2 or bigger.
+>     >
+>     > The original patch has been merged to master so a second patch
+>     will be
+>     > needed to revert it.
+>     >
+>
+>     It may make sense to selectively apply the patch based on what
+>     OLDEST_KERNEL is
+>     set to.
+>
+>     This way if a user or distribution sets a newer 'OLDEST_KERNEL',
+>     that item can
+>     be removed automatically.
+>
+>     --Mark
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+
 
