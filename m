@@ -1,36 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DECC16E5CB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 17D7C77BBF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Aug 2017 16:07:49 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7RG7iQC013443
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Sun, 27 Aug 2017 17:07:45 +0100
-Message-ID: <1503850064.32591.275.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@intel.com>, Trevor Woerner
-	<twoerner@gmail.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>, seebs@seebs.net
-Date: Sun, 27 Aug 2017 17:07:44 +0100
-In-Reply-To: <1503849667.32591.272.camel@linuxfoundation.org>
-References: <CAHUNapTr=oOvVTHvwxGJ2uPZB7Kbs4rBh9U8ZGzdNd0HuHi=1g@mail.gmail.com>
-	<1503423645.32591.120.camel@linuxfoundation.org>
-	<96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
-	<CAHUNapRMGUyRN0omktP7x2sgk1QuHh9C-j13Am4Wo3eWYe04=w@mail.gmail.com>
-	<e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
-	<1503849667.32591.272.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Sun, 27 Aug 2017 17:07:45 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: long (never ending?) do_install for adwaita-icon-theme
+	Sun, 27 Aug 2017 21:10:13 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id g13so3804868qta.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Aug 2017 14:10:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=8ZaxoTC2ZcCLQtVWhB1eN2EfsAAnP3Go7oiyBPOh1Y8=;
+	b=Cg/+QDkpL/weyCVZSiMCNBVWPNaYZnYO5ipFICjUN2ILrhrIX6gK6Hk2VnhSCOE5To
+	I1Qgcpdmnm6bHwB9/ZYRQQek2bz6rPf71o/MHXekucZtWpN6QQ6W9XTqdyqRyg97TF8X
+	XnrA5Je1ryxxgO9Bp8lY0ofLgrUC70LxlH3wMiNPkUaZzXutGRn37Pk3LATwH+jFRkgH
+	ZJVgW6vxO8DgtWAHiHA+3PtHZccKaJPyY1EJ1fcgpymyV579KkeY79LzqD79Scs2tCdX
+	dWj6ASIocjSn3690kMkhC+ZDE62jV/IIaXlGq7h2DJp9alucK/7wRk7xivTZwjiJJVmE
+	T2aQ==
+X-Gm-Message-State: AHYfb5jHqrMg0spdO3cVI0AeGV0K0dFJoPiTtV8L1ZttABXXh4zEhN9A
+	CUZevfMutRUPuaUC
+X-Received: by 10.200.40.197 with SMTP id j5mr6756560qtj.100.1503868214837;
+	Sun, 27 Aug 2017 14:10:14 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.72.143])
+	by smtp.gmail.com with ESMTPSA id
+	f56sm7901482qta.79.2017.08.27.14.10.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sun, 27 Aug 2017 14:10:14 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Sun, 27 Aug 2017 18:10:06 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sun, 27 Aug 2017 18:10:05 -0300
+Message-Id: <20170827211005.18090-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] initramfs-framework: Change recipe to be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Aug 2017 16:07:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 27 Aug 2017 21:10:14 -0000
 
-On Sun, 2017-08-27 at 17:01 +0100, Richard Purdie wrote:
-> On Wed, 2017-08-23 at 15:46 +0300, Alexander Kanavin wrote:
-> > 
-> > On 08/22/2017 09:46 PM, Trevor Woerner wrote:
-> > > $ strace -p 43675
-> Process 43675 attached
-> read(1025,
+There is no COMPATIBLE_HOST in the recipe neither it makes sense for
+this to be machine specific.
 
-And the answer is staring me in the face. select() only supports FDs up
-to 1024. 1025 > 1024 which is > FD_SETSIZE.
+Possibly, initramfs-framework's based modules may be machine specific
+but if there is the case they can just RDEPENDS on
+initramfs-framework-base and provide the specific module as another
+recipe.
 
-Therefore pseudo hangs when we run into large numbers of fds :/.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-https://access.redhat.com/solutions/488623
+Changes in v2:
+- Add the new dependencies to the hash whitelist
 
-So I think we might at least understand what is breaking. It may be
-using poll/epoll would work instead?
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 9d69a696f1..94bf1756e3 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -3,12 +3,10 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+ 
+-PR = "r2"
++PR = "r3"
++
++inherit allarch
+ 
+-# While the packages maybe an allarch due to it being a
+-# simple script, reality is that it is Host specific based
+-# on the COMPATIBLE_HOST below, which needs to take precedence
+-#inherit allarch
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ SRC_URI = "file://init \
+-- 
+2.14.1
 
 
