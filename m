@@ -1,41 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F4C67825F
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EE3EB60721
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Aug 2017 23:05:45 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id o63so2683198qkb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Aug 2017 16:05:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=QEaBU94RyuliBw3ioh7mK/4cojMbIUiUCOtqnNj7GFw=;
-	b=RGHB3xEZVU7hdYAtQ9qZArrqQLr8nFPdltyKZW1q9/JToQalL0HMA+6moOa8lJNcw6
-	nNmEMRfhdKiXzitERsz01QS1pSOeCU2zqWhjoqK84SxtQGAK80cx6LDe73uQEU9XITw/
-	z+1LXADbc/ryvK9StADbMNiARJXTatGWopBOsRrquL8/1QxBOl05rvmvf7OU8qYEXIJC
-	a0lO79uIOpPOLrb4eplkNZ4feue5NPJunc4U8psrNkzcjs7I2KiVVR1uHOzp/t7JQyG4
-	Vd9ZfyeKA2lYhiYmBGNM5jZ//hbxTpPBQuuD2qSRVtBEuxj821zuinB94STX6f2BSD+P
-	4H1Q==
-X-Gm-Message-State: AHYfb5glaqw1p2+7mREX0bYxTsmqov2mMHYK7B12l0Zac4/dXSjH5Rqa
-	TdyPp1YfTZr+kRJK
-X-Received: by 10.55.112.66 with SMTP id l63mr4012245qkc.302.1503788746691;
-	Sat, 26 Aug 2017 16:05:46 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.72.143])
-	by smtp.gmail.com with ESMTPSA id
-	n40sm3152997qtc.97.2017.08.26.16.05.43
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 26 Aug 2017 16:05:45 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Sat, 26 Aug 2017 20:05:38 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sat, 26 Aug 2017 20:05:37 -0300
-Message-Id: <20170826230537.26171-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] initramfs-framework: Change recipe to be allarch
+	Sun, 27 Aug 2017 08:33:38 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7R8XadK031823
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sun, 27 Aug 2017 09:33:37 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dlt0i-0000wW-KY; Sun, 27 Aug 2017 09:33:36 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Aug 2017 09:33:35 +0100
+Message-Id: <1503822815-3586-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Sun, 27 Aug 2017 09:33:37 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH] staging: Ensure dependencies are removed before being added
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +34,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Aug 2017 23:05:46 -0000
+X-List-Received-Date: Sun, 27 Aug 2017 08:33:39 -0000
 
-There is no COMPATIBLE_HOST in the recipe neither it makes sense for
-this to be machine specific.
+Currently items are added to the sysroot, the obsolete items are removed. If
+a change such as pkgconfig -> pkgconf is made, this leads to conflicts of
+overlapping files in the sysroot.
 
-Possibly, initramfs-framework's based modules may be machine specific
-but if there is the case they can just RDEPENDS on
-initramfs-framework-base and provide the specific module as another
-recipe.
+In order to better support this, handle removing items before adding them.
+This requires some minor refactoring to construct the installed list
+before the main function loop, otherwise there are no changes in this
+patch other than reordering the operations.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+ meta/classes/staging.bbclass | 77 ++++++++++++++++++++++----------------------
+ 1 file changed, 39 insertions(+), 38 deletions(-)
 
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 9d69a696f1..94bf1756e3 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -3,12 +3,10 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 8b833d3..eb06f39 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -389,8 +389,6 @@ python extend_recipe_sysroot() {
+     multilibs = {}
+     manifests = {}
  
--PR = "r2"
-+PR = "r3"
+-    installed = []
+-
+     for f in os.listdir(depdir):
+         if not f.endswith(".complete"):
+             continue
+@@ -402,16 +400,52 @@ python extend_recipe_sysroot() {
+             os.unlink(f)
+             os.unlink(f.replace(".complete", ""))
+ 
++    installed = []
+     for dep in configuredeps:
+         c = setscenedeps[dep][0]
+-        taskhash = setscenedeps[dep][5]
+-        taskmanifest = depdir + "/" + c + "." + taskhash
+         if mytaskname in ["do_sdk_depends", "do_populate_sdk_ext"] and c.endswith("-initial"):
+             bb.note("Skipping initial setscene dependency %s for installation into the sysroot" % c)
+             continue
+-
+         installed.append(c)
+ 
++    # We want to remove anything which this task previously installed but is no longer a dependency
++    taskindex = depdir + "/" + "index." + mytaskname
++    if os.path.exists(taskindex):
++        potential = []
++        with open(taskindex, "r") as f:
++            for l in f:
++                l = l.strip()
++                if l not in installed:
++                    l = depdir + "/" + l
++                    if not os.path.exists(l):
++                        # Was likely already uninstalled
++                        continue
++                    potential.append(l)
++        # We need to ensure not other task needs this dependency. We hold the sysroot
++        # lock so we ca search the indexes to check
++        if potential:
++            for i in glob.glob(depdir + "/index.*"):
++                if i.endswith("." + mytaskname):
++                    continue
++                with open(i, "r") as f:
++                    for l in f:
++                        l = l.strip()
++                        if l in potential:
++                            potential.remove(l)
++        for l in potential:
++            bb.note("Task %s no longer depends on %s, removing from sysroot" % (mytaskname, l))
++            lnk = os.readlink(l)
++            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
++            os.unlink(l)
++            os.unlink(l + ".complete")
 +
-+inherit allarch
++    for dep in configuredeps:
++        c = setscenedeps[dep][0]
++        if c not in installed:
++            continue
++        taskhash = setscenedeps[dep][5]
++        taskmanifest = depdir + "/" + c + "." + taskhash
++
+         if os.path.exists(depdir + "/" + c):
+             lnk = os.readlink(depdir + "/" + c)
+             if lnk == c + "." + taskhash and os.path.exists(depdir + "/" + c + ".complete"):
+@@ -526,39 +560,6 @@ python extend_recipe_sysroot() {
+         c = setscenedeps[dep][0]
+         os.symlink(manifests[dep], depdir + "/" + c + ".complete")
  
--# While the packages maybe an allarch due to it being a
--# simple script, reality is that it is Host specific based
--# on the COMPATIBLE_HOST below, which needs to take precedence
--#inherit allarch
- INHIBIT_DEFAULT_DEPS = "1"
- 
- SRC_URI = "file://init \
+-    # We want to remove anything which this task previously installed but is no longer a dependency
+-    # This could potentially race against another task which also installed it but still requires it
+-    # but the alternative is not doing anything at all and that race window should be small enough
+-    # to be insignificant
+-    taskindex = depdir + "/" + "index." + mytaskname
+-    if os.path.exists(taskindex):
+-        potential = []
+-        with open(taskindex, "r") as f:
+-            for l in f:
+-                l = l.strip()
+-                if l not in installed:
+-                    l = depdir + "/" + l
+-                    if not os.path.exists(l):
+-                        # Was likely already uninstalled
+-                        continue
+-                    potential.append(l)
+-        # We need to ensure not other task needs this dependency. We hold the sysroot
+-        # lock so we ca search the indexes to check
+-        if potential:
+-            for i in glob.glob(depdir + "/index.*"):
+-                if i.endswith("." + mytaskname):
+-                    continue
+-                with open(i, "r") as f:
+-                    for l in f:
+-                        l = l.strip()
+-                        if l in potential:
+-                            potential.remove(l)
+-        for l in potential:
+-            bb.note("Task %s no longer depends on %s, removing from sysroot" % (mytaskname, l))
+-            lnk = os.readlink(l)
+-            sstate_clean_manifest(depdir + "/" + lnk, d, workdir)
+-            os.unlink(l)
+-            os.unlink(l + ".complete")
+     with open(taskindex, "w") as f:
+         for l in sorted(installed):
+             f.write(l + "\n")
 -- 
-2.14.1
+2.7.4
 
 
