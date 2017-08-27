@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AC7460721;
-	Sun, 27 Aug 2017 08:34:53 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun, 27 Aug 2017 08:34:55 -0000
-Message-ID: <20170827083455.2380.27718@do.openembedded.org>
-References: <1503822815-3586-1-git-send-email-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1503822815-3586-1-git-send-email-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3RhZ2luZzogRW5zdXJlIGRlcGVuZGVuY2llcyBhcmUgcmVtb3ZlZCBiZWZvcmUgYmVpbmcgYWRkZWQ=?=
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B4AC177A63
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Aug 2017 12:44:31 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7RCiSR3007664
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Sun, 27 Aug 2017 13:44:31 +0100
+Message-ID: <1503837868.32591.252.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
+	List <openembedded-core@lists.openembedded.org>
+Date: Sun, 27 Aug 2017 13:44:28 +0100
+In-Reply-To: <20170826230537.26171-1-otavio@ossystems.com.br>
+References: <20170826230537.26171-1-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Sun, 27 Aug 2017 13:44:31 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH] initramfs-framework: Change recipe to be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Aug 2017 08:34:53 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 27 Aug 2017 12:44:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On Sat, 2017-08-26 at 20:05 -0300, Otavio Salvador wrote:
+> There is no COMPATIBLE_HOST in the recipe neither it makes sense for
+> this to be machine specific.
+> 
+> Possibly, initramfs-framework's based modules may be machine specific
+> but if there is the case they can just RDEPENDS on
+> initramfs-framework-base and provide the specific module as another
+> recipe.
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+>  meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 8 +++
+> -----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 
-Series: staging: Ensure dependencies are removed before being added
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8527/
-State : failure
+This causes selftest failures for:
 
-== Summary ==
+oe-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs
+oe-selftest -r sstatetests.SStateTests.test_sstate_allarch_samesigs_multilib
 
+as in this build:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/487/steps/Running%20oe-selftest/logs/stdio
 
+Cheers,
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at afa9f769d6)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Richard
 
