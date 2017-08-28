@@ -1,24 +1,24 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D73D77CEC
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BC41781F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Aug 2017 20:28:28 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Aug 2017 13:28:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,442,1498546800"; d="scan'208";a="123361391"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga004.jf.intel.com with ESMTP; 28 Aug 2017 13:28:30 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Aug 2017 13:28:23 -0700
-Message-Id: <1503952106-26310-6-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1503952106-26310-1-git-send-email-juro.bystricky@intel.com>
-References: <1503952106-26310-1-git-send-email-juro.bystricky@intel.com>
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH 5/8] package_manager.py: improve reproducibility
+	Mon, 28 Aug 2017 20:30:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7SKUvdc003506
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 13:30:58 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 28 Aug 2017 13:30:56 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Aug 2017 15:29:31 -0500
+Message-ID: <1503952171-71624-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH] libsdl: Move PACKAGECONFIG options from meta-mingw
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 20:28:29 -0000
+X-List-Received-Date: Mon, 28 Aug 2017 20:30:57 -0000
+Content-Type: text/plain
 
-When creating Packages.gz, do not save the time stamp in the compressed
-file metadata.
+There is no way to make PACKAGECONFIG options sdkmachine specific using
+overrides.  This causes potential failures when running the Yocto Project
+compatible script.  Moving these to the OpenEmbedded Core recipe will
+ensure that the options are always applied evenly and avoid any potential
+problems with the compatible script.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/lib/oe/package_manager.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index d43d729..49058d7 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -232,7 +232,7 @@ class DpkgIndexer(Indexer):
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index b0d70a6..3680ea9 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -54,6 +54,10 @@ PACKAGECONFIG[directfb] = "--enable-video-directfb, --disable-video-directfb, di
+ PACKAGECONFIG[opengl] = "--enable-video-opengl, --disable-video-opengl, virtual/libgl libglu"
+ PACKAGECONFIG[x11] = "--enable-video-x11 --disable-x11-shared, --disable-video-x11, virtual/libx11 libxext libxrandr libxrender"
  
-             cmd = "cd %s; PSEUDO_UNLOAD=1 %s packages . > Packages;" % (arch_dir, apt_ftparchive)
++# The following two options should only enabled with mingw support
++PACKAGECONFIG[stdio-redirect] = "--enable-stdio-redirect,--disable-stdio-redirect"
++PACKAGECONFIG[directx] = "--enable-directx,--disable-directx"
++
+ EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
  
--            cmd += "%s -fc Packages > Packages.gz;" % gzip
-+            cmd += "%s -fcn Packages > Packages.gz;" % gzip
- 
-             with open(os.path.join(arch_dir, "Release"), "w+") as release:
-                 release.write("Label: %s\n" % arch)
+ do_configure_prepend() {
 -- 
-2.7.4
+1.8.3.1
 
 
