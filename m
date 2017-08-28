@@ -1,37 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 269FC71E4B
+Return-Path: <ola.x.nilsson@axis.com>
+X-Greylist: delayed 535 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 28 Aug 2017 15:07:11 UTC
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 988A178221
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Aug 2017 14:43:56 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7SEhnex019878
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 28 Aug 2017 15:43:50 +0100
-Message-ID: <1503931429.32591.284.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Trevor Woerner
-	<twoerner@gmail.com>, seebs@seebs.net
-Date: Mon, 28 Aug 2017 15:43:49 +0100
-In-Reply-To: <a8c771fb-2b49-131d-cbc4-d885a6701279@linux.intel.com>
-References: <CAHUNapTr=oOvVTHvwxGJ2uPZB7Kbs4rBh9U8ZGzdNd0HuHi=1g@mail.gmail.com>
-	<1503423645.32591.120.camel@linuxfoundation.org>
-	<96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
-	<CAHUNapRMGUyRN0omktP7x2sgk1QuHh9C-j13Am4Wo3eWYe04=w@mail.gmail.com>
-	<e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
-	<1503849667.32591.272.camel@linuxfoundation.org>
-	<1503850064.32591.275.camel@linuxfoundation.org>
-	<a8c771fb-2b49-131d-cbc4-d885a6701279@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 28 Aug 2017 15:43:52 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: long (never ending?) do_install for adwaita-icon-theme
+	Mon, 28 Aug 2017 15:07:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 4F9D32E21D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 3wWITZeqDE6f
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 775472E230
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5F2471A08C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 546B01A08A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+Received: from lnxolani1.se.axis.com (lnxolani1.se.axis.com [10.88.130.9])
+	by thoth.se.axis.com (Postfix) with ESMTP id 48F9F71D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+Received: by lnxolani1.se.axis.com (Postfix, from userid 20853)
+	id 4551E409AC; Mon, 28 Aug 2017 16:58:16 +0200 (CEST)
+From: Ola x Nilsson <ola.x.nilsson@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Aug 2017 16:58:15 +0200
+Message-Id: <20170828145816.17208-1-olani@axis.com>
+X-Mailer: git-send-email 2.11.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/2] oeqa/selftest/case: Add recipeinc method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 14:43:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 28 Aug 2017 15:07:12 -0000
 
-On Mon, 2017-08-28 at 13:38 +0300, Alexander Kanavin wrote:
-> On 08/27/2017 07:07 PM, Richard Purdie wrote:
-> > 
-> > > 
-> > > > 
-> > > > On 08/22/2017 09:46 PM, Trevor Woerner wrote:
-> > > > > 
-> > > > > $ strace -p 43675
-> > > Process 43675 attached
-> > > read(1025,
-> > And the answer is staring me in the face. select() only supports
-> > FDs up
-> > to 1024. 1025 > 1024 which is > FD_SETSIZE.
-> > 
-> > Therefore pseudo hangs when we run into large numbers of fds :/.
-> > 
-> > https://access.redhat.com/solutions/488623
-> > 
-> > So I think we might at least understand what is breaking. It may be
-> > using poll/epoll would work instead?
-> What I don't understand is how exceeding the fd limit in select()
-> leads 
-> to read() that never finishes. Can you clarify the sequence please?
+The recipeinc method returns the absolute path of the test_recipe.inc
+file of a specified recipe.  It replaces four instances of identical
+code, and make it possible to access the filename from a testcase for
+cleanup.
 
-The bitfield operation that says "can I read this fd?" probably
-overflows into the next data item in the structure (I haven't checked
-exactly how it fails). It may be "set", certainly the case I debugged
-had to have thought it was and the code thinks "fd 1025 is ready for
-reading" when in fact it may not be. The code then calls read() on it
-and if it wasn't ready for reading, it would block.
+The write_recipeinc and append_recipeinc methods are changed to return
+the path to the file in case that is useful.
 
-Cheers,
+The test_recipe.inc file is usually cleaned up in a finally block,
+but that block executes before any teardown operations.  This blocks
+any teardown that requires the presence of the test_recipe.inc file.
 
-Richard
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+---
+ meta/lib/oeqa/selftest/case.py | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
+diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+index 871009c568..e09915b495 100644
+--- a/meta/lib/oeqa/selftest/case.py
++++ b/meta/lib/oeqa/selftest/case.py
+@@ -212,27 +212,33 @@ to ensure accurate results.")
+         self.logger.debug("Removing from: %s\n%s\n" % (self.testinc_path, data))
+         ftools.remove_from_file(self.testinc_path, data)
+ 
++    def recipeinc(self, recipe):
++        """Return absolute path of meta-sefltest/recipes-test/<recipe>/test_recipe.inc"""
++        return os.path.join(self.testlayer_path, 'recipes-test', recipe, 'test_recipe.inc')
++
+     def write_recipeinc(self, recipe, data):
+         """Write to meta-sefltest/recipes-test/<recipe>/test_recipe.inc"""
+-        inc_file = os.path.join(self.testlayer_path, 'recipes-test', recipe, 'test_recipe.inc')
++        inc_file = self.recipeinc(recipe)
+         self.logger.debug("Writing to: %s\n%s\n" % (inc_file, data))
+         ftools.write_file(inc_file, data)
++        return inc_file
+ 
+     def append_recipeinc(self, recipe, data):
+         """Append data to meta-sefltest/recipes-test/<recipe>/test_recipe.inc"""
+-        inc_file = os.path.join(self.testlayer_path, 'recipes-test', recipe, 'test_recipe.inc')
++        inc_file = self.recipeinc(recipe)
+         self.logger.debug("Appending to: %s\n%s\n" % (inc_file, data))
+         ftools.append_file(inc_file, data)
++        return inc_file
+ 
+     def remove_recipeinc(self, recipe, data):
+         """Remove data from meta-sefltest/recipes-test/<recipe>/test_recipe.inc"""
+-        inc_file = os.path.join(self.testlayer_path, 'recipes-test', recipe, 'test_recipe.inc')
++        inc_file = self.recipeinc(recipe)
+         self.logger.debug("Removing from: %s\n%s\n" % (inc_file, data))
+         ftools.remove_from_file(inc_file, data)
+ 
+     def delete_recipeinc(self, recipe):
+         """Delete meta-sefltest/recipes-test/<recipe>/test_recipe.inc file"""
+-        inc_file = os.path.join(self.testlayer_path, 'recipes-test', recipe, 'test_recipe.inc')
++        inc_file = self.recipeinc(recipe)
+         self.logger.debug("Deleting file: %s" % inc_file)
+         try:
+             os.remove(inc_file)
+@@ -259,13 +265,13 @@ to ensure accurate results.")
+         self.logger.debug("Writing to: %s\n%s\n" % (self.machineinc_path, data))
+         ftools.write_file(self.machineinc_path, data)
+ 
+-    # check does path exist    
++    # check does path exist
+     def assertExists(self, expr, msg=None):
+         if not os.path.exists(expr):
+             msg = self._formatMessage(msg, "%s does not exist" % safe_repr(expr))
+             raise self.failureException(msg)
+-    
+-    # check does path not exist 
++
++    # check does path not exist
+     def assertNotExists(self, expr, msg=None):
+         if os.path.exists(expr):
+             msg = self._formatMessage(msg, "%s exists when it should not" % safe_repr(expr))
+-- 
+2.11.0
 
 
