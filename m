@@ -1,47 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A01DF77A5A;
-	Mon, 28 Aug 2017 17:38:29 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id t3so833590pgt.5;
-	Mon, 28 Aug 2017 10:38:31 -0700 (PDT)
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C60278077
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 17:53:34 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id g13so3246765pfm.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 10:53:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rHQLVnaDbRTUpp2WhtjA8FN/8w5T5ZLjQWFeMXQaTno=;
-	b=ZPlvmnRRp9ZhH441E6jSbjl+UP65kofZRAexFB+mQt8oZW8O05KRmvjI6zlegCDdIU
-	/aBb7ZcLqQYQj906DE6Tz+F8QQCr6lxbRF0kQyLuayFT8SYiJkfkEQt0VT+RVhf9ruS0
-	AhXKe1wYJ2bP3UQEad/qUVnu7QpeqOSdCo2gJX3825BplZu7ZJedM+7Y4nRNoHLwWypc
-	zaF1fuTsigWa2T1Q1GWmnUU7TTIWkhpfEqnUDwp59Ay7meAFdhe7B7IPlSAHixRNfDxc
-	/BoYFf3TVmSmkieesT2wqSLRe3yIgDPfCHI1LOCQrKx6QgNuubFCAQy/2bRWDch0AjTB
-	aZtg==
+	:cc; bh=sVWtzC1GseDZ8ftqxrQOsWIfSStvBumgXqQ3oKt6tys=;
+	b=B1Qjx1C+JmpJGpTD7J7XeVojRf5kg3DRbmlNee50kGN7jZJUbIQN9qawTh6oCMZB1J
+	I0RarmgSa2ApZzUR8ADeeyXPRxDJRv9m+2xXfET6V17/VIyWDrwRTjiAif9z6R+VrSD9
+	gyVRcXeJaGk0S4Gz/k+AKWK5AOENcbV6zkpZAy062VMDk9BG0qjpZTk5vPhb5jxKP031
+	OZtjSQPhKx+cWBAHvjKH4FEorL2OLp9ANW5ulYrQ4aMao2PcPDsNNR74U8k2jQraI+8h
+	WN+8EranoLDROpH2si8o0DOF6GSBaaRoYc0WRbIqk5zKTaxb6v8XaMIRYYNWgHpEzeS7
+	OQ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=rHQLVnaDbRTUpp2WhtjA8FN/8w5T5ZLjQWFeMXQaTno=;
-	b=QOZikh8eb64L7gw90FKErqHpkxDZUyXaTPQ9UE4CEsRkUH2eMnRxDhVg/V7Hga73UK
-	iA+3QkxtIAUCbWDCMp0NyLFuMhqpqAbASt3rFn0gNjsItZuMpanlUqsT1Et3ziKmN+4X
-	/qQZa4kT47miEVjIW3baLh8AdLATQugoRfHtf/nOCzTdLgtsMApgRru5WToaMD/L8Hqh
-	AW8JP1apgrfAx2k1I6ZOJPgBIgrJOWp8soXKaTqrNtVbEKvRhy6n9JWlMCLhI+tQouQG
-	rYq1Qk93VrSQ7BlEW5DeOEsQktvpVLBsY1AglBM6gz0RrhaXwRRWhav+ddYbcRtlouWc
-	iALQ==
-X-Gm-Message-State: AHYfb5geR3Dh6IV7badf19527JRuURc9XSe85MHoy++p4GqhT5sRv3ie
-	oqA8PaqEi01E+r/3Nx/k7R8toHGfXA==
-X-Received: by 10.101.90.196 with SMTP id d4mr1216073pgt.439.1503941910699;
-	Mon, 28 Aug 2017 10:38:30 -0700 (PDT)
+	bh=sVWtzC1GseDZ8ftqxrQOsWIfSStvBumgXqQ3oKt6tys=;
+	b=s+pKQwsJxhovfky61TzedNFHU9glJcOoi410TbtE1UQ3Qz/XwHrYmMMpwKrB4iNNDy
+	zjPNbXR8DUztXVfzOLgpetyFp33hu3kBbV4zV+b0rjrLThl3SR5SuwZDHobnTy4EiLMc
+	74+sJupMBtFYjZp7wKwcm6tRFFu2a4nFo9cv/PmiGXekV11Vn8jhiJn77VIkkq6j7cPN
+	xzk1FEp0Ykc9g7onIJ3ycvkDvQm9Hhpq9VY08d2/VFlPmSykr3JsI8TK/bIhuTJ6bdwp
+	MzqC9C7OAz4x2ZuXoQ/eHKrgI0KaH+Oq/qNt5l+oqmZMm+ck5Fdn+WVUOf9XhSz9lMEm
+	0rxw==
+X-Gm-Message-State: AHYfb5gwf6hblrfh/XkR0C/iKZRqxIOlUA2JZAOlqVTy/XRUwqUHUkkE
+	uIuvTFKbP0pwGZwZWnMnvlA236xoIA==
+X-Received: by 10.84.217.137 with SMTP id p9mr1719363pli.404.1503942816387;
+	Mon, 28 Aug 2017 10:53:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Mon, 28 Aug 2017 10:38:00 -0700 (PDT)
-In-Reply-To: <1503935582.27472.231.camel@linux.intel.com>
-References: <1503933912.27472.227.camel@linux.intel.com>
-	<CAMKF1srChtUATL3_GFx4hzUz81y7SxVM8UbXsahKJwYVJ0iLqw@mail.gmail.com>
-	<1503935582.27472.231.camel@linux.intel.com>
+Received: by 10.100.167.2 with HTTP; Mon, 28 Aug 2017 10:53:05 -0700 (PDT)
+In-Reply-To: <1503850064.32591.275.camel@linuxfoundation.org>
+References: <CAHUNapTr=oOvVTHvwxGJ2uPZB7Kbs4rBh9U8ZGzdNd0HuHi=1g@mail.gmail.com>
+	<1503423645.32591.120.camel@linuxfoundation.org>
+	<96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
+	<CAHUNapRMGUyRN0omktP7x2sgk1QuHh9C-j13Am4Wo3eWYe04=w@mail.gmail.com>
+	<e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
+	<1503849667.32591.272.camel@linuxfoundation.org>
+	<1503850064.32591.275.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 28 Aug 2017 10:38:00 -0700
-Message-ID: <CAMKF1srAL_B=GFXBGvMeZJQiycTsASzBstoSfs+0r194wd7LTA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OpenEmbedded List <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Usage of "elf" IMAGE_TYPES
+Date: Mon, 28 Aug 2017 10:53:05 -0700
+Message-ID: <CAMKF1spfDsEoQUADFiHu2yB-=m1MEk9ywSNPHqp3Keh9wAXp3g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Alexander Kanavin <alexander.kanavin@intel.com>
+Subject: Re: long (never ending?) do_install for adwaita-icon-theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,87 +61,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 17:38:29 -0000
+X-List-Received-Date: Mon, 28 Aug 2017 17:53:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 28, 2017 at 8:53 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On Mon, 2017-08-28 at 08:31 -0700, Khem Raj wrote:
->> On Mon, Aug 28, 2017 at 8:25 AM, Saul Wold <sgw@linux.intel.com>
->> wrote:
+On Sun, Aug 27, 2017 at 9:07 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Sun, 2017-08-27 at 17:01 +0100, Richard Purdie wrote:
+>> On Wed, 2017-08-23 at 15:46 +0300, Alexander Kanavin wrote:
 >> >
->> >
->> > Folks,
->> >
->> > I know it's late in our 2.4 cycle, but we recently discovered that
->> > mkelfImage fails due to a recent upgrade to binutils. In doing some
->> > research, mkelfimage was removed back in Oct 2014 from the coreboot
->> > repo. It was replaced with cbfstool.
->> >
->> > Unless I hear otherwise, I recommend that we mark elf Images as
->> > deprecated for 2.4 and remove them in 2.5.
->> >
->> > I have not yet dived into exactly what binutil change triggered the
->> > failure.
->> >
->> > Further thoughts?
->>
->> you should describe what the errors are, maybe then we can make
->> further
->> inroads into problem. As far as removal is concerned, I support that
->>
-> My Bad!  During testing we found the following bug: https://bugzilla.yo
-> ctoproject.org/show_bug.cgi?id=11967
+>> > On 08/22/2017 09:46 PM, Trevor Woerner wrote:
+>> > > $ strace -p 43675
+>> Process 43675 attached
+>> read(1025,
 >
-> The code that goes along with the Internal error is:
->        /* A sanity check against bad versions of binutils */
->         if (params->convert_magic != CONVERT_MAGIC) {
->                 die("Internal error convert_magic %16llx != %16llx\n",
->                         (unsigned long long)(params->convert_magic),
-> CONVERT_MAGIC);
->         }
+> And the answer is staring me in the face. select() only supports FDs up
+> to 1024. 1025 > 1024 which is > FD_SETSIZE.
 >
-> params->convert_magic is set inside some assembly code:
->         .section ".trailer", "a"
->         /* Constants set at build time, these are at the very end of my
-> image */
->         .balign 16
->         .global params
-> params:
-> convert_magic:
->         .quad   CONVERT_MAGIC
+> Therefore pseudo hangs when we run into large numbers of fds :/.
 >
-> It might be a simple fix, but I have not dived the rest of the way!
+> https://access.redhat.com/solutions/488623
+>
+> So I think we might at least understand what is breaking. It may be
+> using poll/epoll would work instead?
 >
 
-looks like there are some parameter mismatch. its quite likely that
-some displaced
-addresses are being fed. Its probably easy enough to debug it. Just
-match the elf
-header and the members of struct image_parameters which it is mapping into
+I think your explanation looks plausible. I am getting build hung in
+do_package_data
+tasks too after few days on box ( make -j20 and 44 tasks in parallel).
+Then I reboot the box resume the build and it works
+again.
 
-
-static unsigned char payload[] = {
-#include "convert.bin.c"
-};
-
-so check whats the content of convert.bin.c and may be answer is there
-
-secondly I do not see it handling ET_DYN objects. If you are building
-with PIE that could
-be another issue
-
-
-
-> Sau!
+> Cheers,
+>
+> Richard
 >
 >
->> >
->> >
->> > Sau!
->> >
->> > _______________________________________________
->> > Openembedded-architecture mailing list
->> > Openembedded-architecture@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-archite
->> > cture
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
