@@ -1,35 +1,40 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B99D7826D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CF466FFFE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Aug 2017 10:41:46 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Aug 2017 03:41:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,441,1498546800"; d="scan'208";a="1211356256"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Aug 2017 03:41:46 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Trevor Woerner <twoerner@gmail.com>, seebs@seebs.net
-References: <CAHUNapTr=oOvVTHvwxGJ2uPZB7Kbs4rBh9U8ZGzdNd0HuHi=1g@mail.gmail.com>
-	<1503423645.32591.120.camel@linuxfoundation.org>
-	<96bce0e3-a699-4993-3748-a0fc19684ffa@linux.intel.com>
-	<CAHUNapRMGUyRN0omktP7x2sgk1QuHh9C-j13Am4Wo3eWYe04=w@mail.gmail.com>
-	<e165f760-1c1e-1a5f-2fba-f8c293a16278@intel.com>
-	<1503849667.32591.272.camel@linuxfoundation.org>
-	<1503850064.32591.275.camel@linuxfoundation.org>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <a8c771fb-2b49-131d-cbc4-d885a6701279@linux.intel.com>
-Date: Mon, 28 Aug 2017 13:38:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1503850064.32591.275.camel@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: long (never ending?) do_install for adwaita-icon-theme
+	Mon, 28 Aug 2017 11:02:22 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id g13so113030qta.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 04:02:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=XYh17ubWdf0aDc2QMnw0xoea1HkqXY+H6Z+aGlMEXvQ=;
+	b=nFAisPbdyhgMSdK//UAgkq5V4vigiVd1Cy8Me6f+geaPD9B9XHMcIInMUUCm2cGtIi
+	VKSjANbjHpV+MgGHw6cplbUm5LXP97wr0q+VB/GtZxr7vOKudQ7P3dfHpGiQNR8540Vf
+	Ejlzqan5v+XQRK1R2amvAwqPR3+n6cdxaqbOIX7kCf5CGu55PUf7vUDsOVrVdiN1M4Wj
+	Nr7tWVMDeaizZ8q/M8leCnn5DdUzZTcJBvk6T09phRV7vgYMwOwkSbZAUZpdG6I/mjpC
+	7g9IZ1050kaK2StmRbeEXkaJsuA+3ARp+mfqIkkVH78GGAUuSKwYSX2D43W9QvVYCt6c
+	aLCw==
+X-Gm-Message-State: AHPjjUgVlLUNIxhDHI1k3FN0PJbXVN+QoMJIhMk1najy40voQa2bOeWF
+	jXMQ1+7/oP1dmjBW
+X-Received: by 10.200.49.170 with SMTP id h39mr114325qte.301.1503918143974;
+	Mon, 28 Aug 2017 04:02:23 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id m126sm81251qkd.20.2017.08.28.04.02.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 28 Aug 2017 04:02:23 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 28 Aug 2017 08:02:15 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Aug 2017 08:02:14 -0300
+Message-Id: <20170828110214.2647-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] libdrm: Upgrade to 2.4.83
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 10:41:47 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Aug 2017 11:02:23 -0000
 
-On 08/27/2017 07:07 PM, Richard Purdie wrote:
->>> On 08/22/2017 09:46 PM, Trevor Woerner wrote:
->>>> $ strace -p 43675
->> Process 43675 attached
->> read(1025,
-> 
-> And the answer is staring me in the face. select() only supports FDs up
-> to 1024. 1025 > 1024 which is > FD_SETSIZE.
-> 
-> Therefore pseudo hangs when we run into large numbers of fds :/.
-> 
-> https://access.redhat.com/solutions/488623
-> 
-> So I think we might at least understand what is breaking. It may be
-> using poll/epoll would work instead?
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-What I don't understand is how exceeding the fd limit in select() leads 
-to read() that never finishes. Can you clarify the sequence please?
+ meta/recipes-graphics/drm/{libdrm_2.4.81.bb => libdrm_2.4.83.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.81.bb => libdrm_2.4.83.bb} (93%)
 
-Alex
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.81.bb b/meta/recipes-graphics/drm/libdrm_2.4.83.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.81.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.83.bb
+index 9181340a6c..a5cb75c266 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.81.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.83.bb
+@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
+           "
+ 
+-SRC_URI[md5sum] = "d04f3567f0a812188d06f860fded5ab7"
+-SRC_URI[sha256sum] = "8cc05c195ac8708199979a94c4e4d1a928c14ec338ecbcb38ead09f54dae11ae"
++SRC_URI[md5sum] = "23800953ed7564988872e1e8c61fde31"
++SRC_URI[sha256sum] = "03a52669da60ead62548a35bc430aafb6c2d8dd21ec9dba3a90f96eff5fe36d6"
+ 
+ inherit autotools pkgconfig manpages
+ 
+-- 
+2.14.1
+
 
