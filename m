@@ -1,45 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f44.google.com (mail-pg0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D1CAB7821B;
-	Mon, 28 Aug 2017 15:31:54 +0000 (UTC)
-Received: by mail-pg0-f44.google.com with SMTP id t3so2477667pgt.0;
-	Mon, 28 Aug 2017 08:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4r8qGlkQQnHUtbPzQM/JicQfgJDga/kQpawjlSA++08=;
-	b=gIviRjgzXiM2oWTwHsq6FS8R6QK+XNmtzaDe9X7kTPCpJqW0+Yzqm2UJ+cY6EnhpLl
-	PTCqW2fqfx/l9IwCbWkXuPrDz8bh5kV8tf+YktXwzzQ0KPYCEdxmV+/jD6HGC1VD82nz
-	FjsIHJjtQn4iNuqdvy+GYm7IgoB79y7sVQkdv3d6O+DNGSdRmIczbnF5Q1tg7DpjzA02
-	nbf8sugg1N+KKZ845CoF2BqhnXeHd67TruGxbwLHuSxhfwEMTRcproyHTZp4RcJCwehw
-	71G1zNr7uv80wlHiy78HVAorVktAlFu9iqH/Gdyt8erdhRcHSwot/ynQVTbKUuMgvTKj
-	tllw==
+Return-Path: <kristian.amlie@northern.tech>
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B35CB78220
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 15:47:12 +0000 (UTC)
+Received: by mail-lf0-f45.google.com with SMTP id c189so3558692lfe.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Aug 2017 08:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=northern.tech; s=google;
+	h=subject:from:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=ZiKaSEjkDMLHmQNw2cnkrlBSDFnty+WTEcvOClyDdlU=;
+	b=TTF3DDF7Ej9s8gARUr0qUWwFnPEQXnv33eXEZl17CJHtJj0y7YSINPp1jxzANQRi+P
+	pxG65wBNH2AMGKDNfqC0Z+yGE13A7CGQ50umhHZ05zn33inUD4XPLEoR17CE7kWO9ntY
+	dDhFrqO9O9FVWbxbFIoVGB8D8fUP39JRAK7BsYhog9tcl911XhfmT7wjXtlTZ0jU32A6
+	D6Ge2ebIsg3aMWp60S9pMUmfTh7zAMqSo1+YEDv9o/9qEGMdusv66xduPrKj2zJ9YuFi
+	3S0F29N9xTuu1jrhCqHzquhfaEHGjSq10RJn6Y+d3mAXw+rVnqwQU+k68YzqzKvh37oq
+	JLUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4r8qGlkQQnHUtbPzQM/JicQfgJDga/kQpawjlSA++08=;
-	b=QJtDqJbOb2p8T1GY8FdYNsbxfpR+YODEpc9FtVodoRc1m6Z7VPILbo2vF9fnxG7xxG
-	ZYNVSe8Soq+VKDJPjU/e+oFNm3WxfFiL1zUfKFjBv6CP4hXq/IWFtgxZrila4mEt24eX
-	DrSQC/QWKHuM58xUIOS/yFwUKQcIxJycEY13SSrYOo9xNwoAPCtdOenFU0Lz3oSbmK+9
-	Bk3OpbhvgLJJPHIaxGi/BQK2Te2aNySK2nSObWiJbS5SJnyU0Z/Ln3xhuCvSq66Kj9V0
-	DJGDwA1pIWBcKlJ85TaqogoTghI+8rq0GJbVOe2AEeHlRAh2myI1qP6Jm92ujmupiOOm
-	7fpQ==
-X-Gm-Message-State: AHYfb5jmjzUAKMa+ZzubILgqRyh48K+pCo6vHPIU5zBGHVKYXiyedhSL
-	AZ1bEYvjIJPCxOkPM9a2sKmk6hcEcA==
-X-Received: by 10.84.210.200 with SMTP id a66mr1075420pli.161.1503934315890;
-	Mon, 28 Aug 2017 08:31:55 -0700 (PDT)
+	h=x-gm-message-state:subject:from:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=ZiKaSEjkDMLHmQNw2cnkrlBSDFnty+WTEcvOClyDdlU=;
+	b=oazO9QE/NfhUEFhvRYyNqWiIKsSu3Jvr/zVrAAX1aMHMGD74YLaMiVp/6zUXjhx0Bd
+	d3Tfq5I6ZxZSzhooeEj5pUcPJIWCKxGqXmmAHjKQoGSGYK/jbIC8y2z56Hx7/HCPSlet
+	8JRwIuv8EQ+0is5JY78uS00SDYCMK4sZecMEaW4/ixcgqBma1rQHdkAO+kAWKu/fophS
+	vM7Zqn4biIExsrWhmJrfRnPcm0ilLzjlT1O90eIrmC8BrWgmNGRnYhIAToxU8XE+zdlm
+	M76UC8LoZe4mVaKAnj+xEjSWsPt1Cpw/n8xU017ceT/XI0X7gOcZJBWBW8QwzoTZFXDv
+	DUow==
+X-Gm-Message-State: AHYfb5gN0utihLYzIaJA3D+xhg/iv5qaxcj27BPHARaWnQ8wvPAuVll6
+	K4ayM6me/4eIFf7C
+X-Received: by 10.46.83.29 with SMTP id h29mr418700ljb.10.1503935233190;
+	Mon, 28 Aug 2017 08:47:13 -0700 (PDT)
+Received: from [10.20.33.249] ([195.159.234.190])
+	by smtp.googlemail.com with ESMTPSA id
+	n26sm129805lfi.21.2017.08.28.08.47.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 28 Aug 2017 08:47:12 -0700 (PDT)
+From: Kristian Amlie <kristian.amlie@northern.tech>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <1503488763-1554-2-git-send-email-kristian.amlie@northern.tech>
+	<1503491991-14792-1-git-send-email-kristian.amlie@northern.tech>
+	<1503491991-14792-2-git-send-email-kristian.amlie@northern.tech>
+	<1503492432.32591.155.camel@linuxfoundation.org>
+	<a86ad415-8cd7-d037-0e7c-183ff2662911@northern.tech>
+Message-ID: <deabfcea-aa87-d925-1380-249127905c57@northern.tech>
+Date: Mon, 28 Aug 2017 17:47:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Mon, 28 Aug 2017 08:31:25 -0700 (PDT)
-In-Reply-To: <1503933912.27472.227.camel@linux.intel.com>
-References: <1503933912.27472.227.camel@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 28 Aug 2017 08:31:25 -0700
-Message-ID: <CAMKF1srChtUATL3_GFx4hzUz81y7SxVM8UbXsahKJwYVJ0iLqw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OpenEmbedded List <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Usage of "elf" IMAGE_TYPES
+In-Reply-To: <a86ad415-8cd7-d037-0e7c-183ff2662911@northern.tech>
+Subject: Re: [PATCH v5] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +66,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 15:31:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 28 Aug 2017 15:47:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 28, 2017 at 8:25 AM, Saul Wold <sgw@linux.intel.com> wrote:
->
-> Folks,
->
-> I know it's late in our 2.4 cycle, but we recently discovered that
-> mkelfImage fails due to a recent upgrade to binutils. In doing some
-> research, mkelfimage was removed back in Oct 2014 from the coreboot
-> repo. It was replaced with cbfstool.
->
-> Unless I hear otherwise, I recommend that we mark elf Images as
-> deprecated for 2.4 and remove them in 2.5.
->
-> I have not yet dived into exactly what binutil change triggered the
-> failure.
->
-> Further thoughts?
+On 23/08/17 15:19, Kristian Amlie wrote:
+> On 23/08/17 14:47, Richard Purdie wrote:
+>> On Wed, 2017-08-23 at 14:39 +0200, Kristian Amlie wrote:
+>>> From: Kristian Amlie <kristian.amlie@mender.io>
+>>>
+>>> This is a direct followup from the earlier f6a064d969f414 commit in
+>>> wic. It works more or less the same way: The variable specifies a
+>>> list
+>>> of directories relative to the root of the rootfs, and these
+>>> directories will be excluded from the resulting rootfs image. If an
+>>> entry ends with a slash, only the contents are omitted, not the
+>>> directory itself.
+>>>
+>>> Since the intended use of the variable is to exclude certain
+>>> directories from the rootfs, and then include said directories in
+>>> other partitions, it is not natural for this variable to be respected
+>>> for image creators that create multi partition images. Therefore the
+>>> default is to ignore the variable, and image creators that create
+>>> single root filesystems need to set
+>>>
+>>>   do_image_myfs[respect_exclude_path] = "1"
+>>>
+>>> in order to honor it. Specifically, "wic" and "multiubi" have not
+>>> received this variable flag, while others have.
+>>
+>> I have to wonder if this is implemented the correct way around. Would
+>> it not be better to mark multiubi and wic as not wanting this feature,
+>> rather than requiring every other image creation method (which may even
+>> be in other layers) to set this?
+> 
+> The idea was that people in downstream repositories (other layers) are
+> more likely to have their own complete image creators than to have
+> filesystem creators. So rather than requiring all of the downstream
+> repositories to opt out of the feature, we opt in in the filesystem
+> creators which are mostly contained in OE.
+> 
+> Or so was the thinking. Not sure if it's a good reason though. I can
+> invert the behavior if you think it's better!
 
-you should describe what the errors are, maybe then we can make further
-inroads into problem. As far as removal is concerned, I support that
+Since I heard nothing more I assume that it's better inverted, and I
+kind of agree as well, the patch is much smaller. So here follows the
+next patch, the changes from the last are:
 
->
-> Sau!
->
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+* Inverted default of the respect_exclude_path flag, now on by default
+
+* Added a debug message when it's turned off, to lessen confusion.
+
+* Documentation is now stripped out as it should be, I will send it as a
+separate patch as soon as we've concluded on this patch.
+
+-- 
+Kristian
 
