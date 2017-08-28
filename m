@@ -1,59 +1,26 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 416 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 28 Aug 2017 15:47:55 UTC
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E1978228
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Aug 2017 15:47:55 +0000 (UTC)
-Received: from [216.82.249.147] by server-2.bemta-12.messagelabs.com id
-	21/D5-01994-D8934A95; Mon, 28 Aug 2017 15:41:01 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgleJIrShJLcpLzFFi42Jx8l0noNtjuST
-	SYOt1I4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePv/L8sBe4VB6f2sTUwWnYxcnEICaxmlDj+
-	/BsThLOGUWLdmqdsEM5iRokvG46ydzFycggLOEs82TeLsYuRg0NEQE/i6j9RkLCQgI3E0Tkfw
-	ErYgMKTLz1hBrF5BawlOr48ZAEpZxFQlXhyOBgkLCoQLrH/+zWoEkGJkzOfsIDYnAK2Evs/vG
-	UCsZkFLCRmzj/PCGGLS9x6Mh8qLi+x/e0cZoi1KhIHl14Gq5EAim/afJYdwjaRuHh1NxuEbSj
-	xfdY3FghbWmJv30LmCYwis5CsnoVk3Swk62YhWbeAkWUVo0ZxalFZapGuiaFeUlFmekZJbmJm
-	jq6hoZFebmpxcWJ6ak5iUrFecn7uJkZgTNQzMDDuYHyzP/oQoyQHk5Io786KxZFCfEn5KZUZi
-	cUZ8UWlOanFhxhlODiUJHjjLJZECgkWpaanVqRl5gCjEyYtwcGjJMKbYA6U5i0uSMwtzkyHSJ
-	1itOSY92/NFyaOD/9BZNOHLV+YhFjy8vNSpcR5k0HmCYA0ZJTmwY2DJZBLjLJSwryMDAwMQjw
-	FqUW5mSWo8q8YxTkYlYR594FM4cnMK4Hb+groICaggxQFF4IcVJKIkJJqYAz5qlN7/LhQ6oKG
-	nuhpvJt25GpO08/P29LWr5+yYVK+uP+1l8yp4c90r/tOPLu/87vfD38PozNCqzifpp/SeOewS
-	ljFbXL/RvuLZXKGWZwbb365bpYnefLiselcFY1HKnrv1K1dkJXn+cFsWqvmvSTTPdut5HQizd
-	snqkdXRh5MUOFYc+56phJLcUaioRZzUXEiACcM/XUbAwAA
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-11.tower-29.messagelabs.com!1503934860!71374049!1
-X-Originating-IP: [66.77.174.16]
-X-StarScan-Received: 
-X-StarScan-Version: 9.4.45; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 6304 invoked from network); 28 Aug 2017 15:41:00 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-	by server-11.tower-29.messagelabs.com with SMTP;
-	28 Aug 2017 15:41:00 -0000
-Received: from MTK-SMS-XCH03.digi.com (10.10.8.197) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 28 Aug 2017 10:40:57 -0500
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH03.digi.com
-	(10.10.8.197) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 28 Aug 2017 10:40:57 -0500
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
-	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 28 Aug 2017 17:40:55 +0200
-To: <openembedded-core@lists.openembedded.org>
-References: <20170718163202.16781-1-javier.viguera@digi.com>
-From: Javier Viguera <javier.viguera@digi.com>
-Message-ID: <a4aa6da8-b726-dd19-4e40-074b7f9b2a6f@digi.com>
-Date: Mon, 28 Aug 2017 17:40:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <20170718163202.16781-1-javier.viguera@digi.com>
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-Subject: Re: [PATCH] bluez5: cosmetic fixes to bluetooth bootscript
+Return-Path: <sgw@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 1384C78223;
+	Mon, 28 Aug 2017 15:53:02 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga105.jf.intel.com with ESMTP; 28 Aug 2017 08:53:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,442,1498546800"; d="scan'208";a="305234067"
+Received: from swold-mobl2.jf.intel.com ([10.255.74.240])
+	by fmsmga004.fm.intel.com with ESMTP; 28 Aug 2017 08:53:02 -0700
+Message-ID: <1503935582.27472.231.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Aug 2017 08:53:02 -0700
+In-Reply-To: <CAMKF1srChtUATL3_GFx4hzUz81y7SxVM8UbXsahKJwYVJ0iLqw@mail.gmail.com>
+References: <1503933912.27472.227.camel@linux.intel.com>
+	<CAMKF1srChtUATL3_GFx4hzUz81y7SxVM8UbXsahKJwYVJ0iLqw@mail.gmail.com>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
+Mime-Version: 1.0
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	OpenEmbedded List <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Usage of "elf" IMAGE_TYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,15 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 15:47:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Aug 2017 15:53:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Ping?
+On Mon, 2017-08-28 at 08:31 -0700, Khem Raj wrote:
+> On Mon, Aug 28, 2017 at 8:25 AM, Saul Wold <sgw@linux.intel.com>
+> wrote:
+> > 
+> > 
+> > Folks,
+> > 
+> > I know it's late in our 2.4 cycle, but we recently discovered that
+> > mkelfImage fails due to a recent upgrade to binutils. In doing some
+> > research, mkelfimage was removed back in Oct 2014 from the coreboot
+> > repo. It was replaced with cbfstool.
+> > 
+> > Unless I hear otherwise, I recommend that we mark elf Images as
+> > deprecated for 2.4 and remove them in 2.5.
+> > 
+> > I have not yet dived into exactly what binutil change triggered the
+> > failure.
+> > 
+> > Further thoughts?
+> 
+> you should describe what the errors are, maybe then we can make
+> further
+> inroads into problem. As far as removal is concerned, I support that
+> 
+My Bad!  During testing we found the following bug: https://bugzilla.yo
+ctoproject.org/show_bug.cgi?id=11967
 
-Please consider merging this for the 2.4 release.
+The code that goes along with the Internal error is: 
+       /* A sanity check against bad versions of binutils */
+        if (params->convert_magic != CONVERT_MAGIC) {
+                die("Internal error convert_magic %16llx != %16llx\n",
+                        (unsigned long long)(params->convert_magic),
+CONVERT_MAGIC);
+        }
 
--- jviguera
+params->convert_magic is set inside some assembly code:
+        .section ".trailer", "a"
+        /* Constants set at build time, these are at the very end of my
+image */
+        .balign 16
+        .global params
+params:
+convert_magic:
+        .quad   CONVERT_MAGIC
 
+It might be a simple fix, but I have not dived the rest of the way!
+
+Sau!
+
+
+> > 
+> > 
+> > Sau!
+> > 
+> > _______________________________________________
+> > Openembedded-architecture mailing list
+> > Openembedded-architecture@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-archite
+> > cture
 
