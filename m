@@ -1,29 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 97BA16E5FB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Aug 2017 16:58:33 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7SGwX02000507
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 28 Aug 2017 17:58:34 +0100
-Message-ID: <1503939512.32591.309.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Mon, 28 Aug 2017 17:58:32 +0100
-In-Reply-To: <157d0b98-436d-f536-b27e-d295f0ce0c90@windriver.com>
-References: <1503787990.32591.247.camel@linuxfoundation.org>
-	<157d0b98-436d-f536-b27e-d295f0ce0c90@windriver.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Mon, 28 Aug 2017 17:58:34 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Couple of kernel tracebacks
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A01DF77A5A;
+	Mon, 28 Aug 2017 17:38:29 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id t3so833590pgt.5;
+	Mon, 28 Aug 2017 10:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rHQLVnaDbRTUpp2WhtjA8FN/8w5T5ZLjQWFeMXQaTno=;
+	b=ZPlvmnRRp9ZhH441E6jSbjl+UP65kofZRAexFB+mQt8oZW8O05KRmvjI6zlegCDdIU
+	/aBb7ZcLqQYQj906DE6Tz+F8QQCr6lxbRF0kQyLuayFT8SYiJkfkEQt0VT+RVhf9ruS0
+	AhXKe1wYJ2bP3UQEad/qUVnu7QpeqOSdCo2gJX3825BplZu7ZJedM+7Y4nRNoHLwWypc
+	zaF1fuTsigWa2T1Q1GWmnUU7TTIWkhpfEqnUDwp59Ay7meAFdhe7B7IPlSAHixRNfDxc
+	/BoYFf3TVmSmkieesT2wqSLRe3yIgDPfCHI1LOCQrKx6QgNuubFCAQy/2bRWDch0AjTB
+	aZtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rHQLVnaDbRTUpp2WhtjA8FN/8w5T5ZLjQWFeMXQaTno=;
+	b=QOZikh8eb64L7gw90FKErqHpkxDZUyXaTPQ9UE4CEsRkUH2eMnRxDhVg/V7Hga73UK
+	iA+3QkxtIAUCbWDCMp0NyLFuMhqpqAbASt3rFn0gNjsItZuMpanlUqsT1Et3ziKmN+4X
+	/qQZa4kT47miEVjIW3baLh8AdLATQugoRfHtf/nOCzTdLgtsMApgRru5WToaMD/L8Hqh
+	AW8JP1apgrfAx2k1I6ZOJPgBIgrJOWp8soXKaTqrNtVbEKvRhy6n9JWlMCLhI+tQouQG
+	rYq1Qk93VrSQ7BlEW5DeOEsQktvpVLBsY1AglBM6gz0RrhaXwRRWhav+ddYbcRtlouWc
+	iALQ==
+X-Gm-Message-State: AHYfb5geR3Dh6IV7badf19527JRuURc9XSe85MHoy++p4GqhT5sRv3ie
+	oqA8PaqEi01E+r/3Nx/k7R8toHGfXA==
+X-Received: by 10.101.90.196 with SMTP id d4mr1216073pgt.439.1503941910699;
+	Mon, 28 Aug 2017 10:38:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.167.2 with HTTP; Mon, 28 Aug 2017 10:38:00 -0700 (PDT)
+In-Reply-To: <1503935582.27472.231.camel@linux.intel.com>
+References: <1503933912.27472.227.camel@linux.intel.com>
+	<CAMKF1srChtUATL3_GFx4hzUz81y7SxVM8UbXsahKJwYVJ0iLqw@mail.gmail.com>
+	<1503935582.27472.231.camel@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Aug 2017 10:38:00 -0700
+Message-ID: <CAMKF1srAL_B=GFXBGvMeZJQiycTsASzBstoSfs+0r194wd7LTA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	OpenEmbedded List <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Usage of "elf" IMAGE_TYPES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Aug 2017 16:58:33 -0000
+X-List-Received-Date: Mon, 28 Aug 2017 17:38:29 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-08-28 at 08:54 -0400, Bruce Ashfield wrote:
-> On 08/26/2017 06:53 PM, Richard Purdie wrote:
-> > 
-> > Hi Bruce,
-> > 
-> > We are seeing a few teething issues which seem kernel related on
-> > the
-> > autobuilder. The x86 lsb build saw this traceback in the logs:
-> I'll start running some stress tests and see if I can get anything
-> to happen.
+On Mon, Aug 28, 2017 at 8:53 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On Mon, 2017-08-28 at 08:31 -0700, Khem Raj wrote:
+>> On Mon, Aug 28, 2017 at 8:25 AM, Saul Wold <sgw@linux.intel.com>
+>> wrote:
+>> >
+>> >
+>> > Folks,
+>> >
+>> > I know it's late in our 2.4 cycle, but we recently discovered that
+>> > mkelfImage fails due to a recent upgrade to binutils. In doing some
+>> > research, mkelfimage was removed back in Oct 2014 from the coreboot
+>> > repo. It was replaced with cbfstool.
+>> >
+>> > Unless I hear otherwise, I recommend that we mark elf Images as
+>> > deprecated for 2.4 and remove them in 2.5.
+>> >
+>> > I have not yet dived into exactly what binutil change triggered the
+>> > failure.
+>> >
+>> > Further thoughts?
+>>
+>> you should describe what the errors are, maybe then we can make
+>> further
+>> inroads into problem. As far as removal is concerned, I support that
+>>
+> My Bad!  During testing we found the following bug: https://bugzilla.yo
+> ctoproject.org/show_bug.cgi?id=11967
+>
+> The code that goes along with the Internal error is:
+>        /* A sanity check against bad versions of binutils */
+>         if (params->convert_magic != CONVERT_MAGIC) {
+>                 die("Internal error convert_magic %16llx != %16llx\n",
+>                         (unsigned long long)(params->convert_magic),
+> CONVERT_MAGIC);
+>         }
+>
+> params->convert_magic is set inside some assembly code:
+>         .section ".trailer", "a"
+>         /* Constants set at build time, these are at the very end of my
+> image */
+>         .balign 16
+>         .global params
+> params:
+> convert_magic:
+>         .quad   CONVERT_MAGIC
+>
+> It might be a simple fix, but I have not dived the rest of the way!
+>
 
-Thanks!
+looks like there are some parameter mismatch. its quite likely that
+some displaced
+addresses are being fed. Its probably easy enough to debug it. Just
+match the elf
+header and the members of struct image_parameters which it is mapping into
 
-> > This has happened on multiple builders and on multiple images
-> > (sato,
-> > sato-sdk and I think minimal). Could be the new kernel, could be
-> > qemu
-> > :/. If has occurred on lsb and non-lsb ppc which makes it less
-> > kernel
-> > version specific I guess. For some reason I keep wanting to blame
-> > the
-> > IDE drivers but it is using virtio. We never get any backtrace for
-> > this, the log just stop dead and then we hit timeouts, it never
-> > boots
-> > fully in these cases. It stops after:
-> It could be the virtio back end interacting in ways that we've
-> never hit before.
-> 
-> I'll take another look at that IDE mess in 4.12 and see if the
-> driver is fixable.
-> 
-> Is there anyway that we could do a few runs with only virtio on
-> the 4.12 kernel and confirm that the hang goes away with the
-> lsb configuration ? That would definitely point the finger at some
-> sort of virtio interaction and force us into that IDE driver for
-> a fix.
 
-I did try booting the system with a "CONFIG_IDE is not set" from a
-config fragment and confirmed I can turn IDE off at least for ppc and
-it still works. I could put that in master-next and test that a bit,
-see if things keep working and if any of the hangs occur? Its a pure
-guess whether its related to IDE or not at this point...
+static unsigned char payload[] = {
+#include "convert.bin.c"
+};
 
-> FYI: that IDE issue is already logged in kernel.org bugzilla (by
-> someone else) and was reported to the mailing list. Neither the
-> bug or the post got any attention at all. I also tried to fix the
-> code and it is really detailed stuff that is going to take a few
-> days of study to actually understand and fix.
+so check whats the content of convert.bin.c and may be answer is there
 
-Understandable. I can't help wonder if we shouldn't concentrate on on
-dropping the IDE bits where we can?
+secondly I do not see it handling ET_DYN objects. If you are building
+with PIE that could
+be another issue
 
-Cheers,
 
-Richard
+
+> Sau!
+>
+>
+>> >
+>> >
+>> > Sau!
+>> >
+>> > _______________________________________________
+>> > Openembedded-architecture mailing list
+>> > Openembedded-architecture@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-archite
+>> > cture
 
