@@ -1,27 +1,21 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 871F577CEF
+Return-Path: <swee.aun.khor@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 831A872F67
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 03:11:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7T3B5Uv005294
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Aug 2017 20:11:05 -0700
-Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 28 Aug 2017 20:11:04 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1503390555.git.kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <16dee72e-9f83-322c-1021-798bc910cff1@windriver.com>
-Date: Tue, 29 Aug 2017 11:13:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <cover.1503390555.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 0/1] watchdog: enable systemd support
+	Tue, 29 Aug 2017 05:23:09 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Aug 2017 22:23:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,443,1498546800"; d="scan'208";a="1211792998"
+Received: from echidna.jf.intel.com ([10.54.77.34])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Aug 2017 22:23:10 -0700
+From: swee.aun.khor@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Aug 2017 15:14:07 -0700
+Message-Id: <1503958447-114317-1-git-send-email-swee.aun.khor@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] openssh: Fix syntax error on x32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +28,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 03:11:04 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 29 Aug 2017 05:23:09 -0000
 
-On 2017年08月22日 16:29, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> The following changes since commit 04dc76713b57f28457742dd863caa663591d4866:
->
->    devtool/copy_buildsystem: adds meta-skeleton layer in the eSDK installation. (2017-08-19 22:15:39 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib kangkai/watchdog
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/watchdog
->
-> Kai Kang (1):
->    watchdog: enable systemd support
+From: sweeaun <swee.aun.khor@intel.com>
 
-Ping.
+Fix compilation error during openssh x32 build due to syntax error.
 
+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
+---
+ .../0001-openssh-Fix-syntax-error-on-x32.patch     | 33 ++++++++++++++++++++++
+ meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
 
---Kai
-
-
->
->   meta/recipes-extended/watchdog/watchdog_5.15.bb | 15 ++++++++++-----
->   1 file changed, 10 insertions(+), 5 deletions(-)
->
-
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch b/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
+new file mode 100644
+index 0000000..ce9e200
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
+@@ -0,0 +1,33 @@
++From a7e359d4ba345aa2a13c07f1057184e9b4e598a2 Mon Sep 17 00:00:00 2001
++From: sweeaun <swee.aun.khor@intel.com>
++Date: Tue, 22 Aug 2017 11:19:48 -0700
++Subject: [PATCH] openssh: Fix syntax error on x32
++
++Upstream-Status: Backport
++This bug has been fixed in v_7.5 branch https://github.com/openssh/
++openssh-portable/tree/V_7_5 and master branch https://github.com/
++openssh/openssh-portable/tree/master.
++
++Fix compilation error during openssh x32 build due to syntax error.
++
++Signed-off-by: sweeaun <swee.aun.khor@intel.com>
++---
++ sandbox-seccomp-filter.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
++index 3a1aedc..a8d472a 100644
++--- a/sandbox-seccomp-filter.c
+++++ b/sandbox-seccomp-filter.c
++@@ -235,7 +235,7 @@ static const struct sock_filter preauth_insns[] = {
++ 	 * x86-64 syscall under some circumstances, e.g.
++ 	 * https://bugs.debian.org/849923
++ 	 */
++-	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT);
+++	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT),
++ #endif
++ 
++ 	/* Default deny */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+index 3b8fd7d..e46b4c8 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
+            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
++           file://0001-openssh-Fix-syntax-error-on-x32.patch \
+            "
+ 
+ PAM_SRC_URI = "file://sshd"
 -- 
-Regards,
-Neil | Kai Kang
+2.7.4
 
 
