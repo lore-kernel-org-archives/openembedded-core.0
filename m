@@ -1,47 +1,27 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FEE478325
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 986BB78319
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:03:30 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id l19so5074992wmi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 15:03:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IAEuG+8KFHm7oT5Bf7Ku7R5DQpKtlS4Gblz6Ih6EeGw=;
-	b=TUn6087R/XMuGOAruI3Sd3ukYO+0tk9ojmo5CGYcLOu8KSexeyr6chEgC0QSzP2NrH
-	ZoaMS5LM0Acii1tXOOYQjv57DntaFZnsMzqejahRT/I26XCho+0volVwtuArf0tkviUm
-	REF11LteAQTieL3l2V10JrHOTFzDaqfVudZ9wpFhzcWAXIkVN7licdHqbmIbyoMT4Mhf
-	91rxrRvnl41rDIkLQDZNy0bXktaUhuJG5VG71oY6qKkkqgVZ65GBfwPvD/94f00VCTY+
-	NVQNWvVul4s9pKRV9p66Ni7ZQoPGISlwiZVKA+78tLlChH05BBiDrATbqQ1ZBF7Zz0Hz
-	NqIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IAEuG+8KFHm7oT5Bf7Ku7R5DQpKtlS4Gblz6Ih6EeGw=;
-	b=mySrQ70y9Fn9Ji1v/Dh/GmBKRsX0Ky8yEwwk0bsGS/TkwbAU358BFIZ8J7/vQte6ee
-	SZvp3RWlvj57ev3S6RbnMKVCkFQ+8a5bzRkc7M+QcLX75y358eKVGU6BCrPtVX8enqgR
-	Ik0PA/NBmgM5X+gQfBLiiFVz/o/A2ZDcDEETKVnM1YpOUD8K1yWN0/KOzRUSi0qEALog
-	f5neImpK+wNTN9iRw9UJ/ZKsUwxBqbUpGOyCAZBXQuXCi42JkFlRZeCXV6g5ii94jDtB
-	npps8FSSTLyVgkC4ajI+Xd4YOXjZSqPaWmesMTNufYsz6LbC294UEJ/TfoOOck5dvkox
-	P9ow==
-X-Gm-Message-State: AHYfb5hngvcM9kvKLzgV03l2Kv+h4cHb/KIukoePAg+T7QQ/8SgLp0ec
-	eqWUL+NW+nt67wXtdz8c7lLF/pBx8w==
-X-Received: by 10.28.185.12 with SMTP id j12mr12209wmf.100.1504044211934; Tue,
-	29 Aug 2017 15:03:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.184.147 with HTTP; Tue, 29 Aug 2017 15:03:31 -0700 (PDT)
-In-Reply-To: <70b15633357a418095d460b943d3e994@XBOX02.axis.com>
+	Tue, 29 Aug 2017 22:36:02 +0000 (UTC)
+Received: (qmail 32034 invoked by uid 1003); 29 Aug 2017 22:36:02 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@108.44.111.57)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	29 Aug 2017 22:36:02 -0000
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1504036763.git.pkj@axis.com>
-	<CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
-	<70b15633357a418095d460b943d3e994@XBOX02.axis.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 29 Aug 2017 15:03:31 -0700
-Message-ID: <CAJ86T=UBJz2HVnevLKc7CBiG1x6JAdezdq3jC19+5aWno5Lj2g@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Avoid build failures due to setscene errors
+	<20170829200453.2382.2374@do.openembedded.org>
+	<36fcdba0fe5f4161b32cc01d9bf87985@XBOX02.axis.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <c752c36a-0b4c-7ab0-5ce1-b98bf8998585@balister.org>
+Date: Tue, 29 Aug 2017 18:35:57 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <36fcdba0fe5f4161b32cc01d9bf87985@XBOX02.axis.com>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEF2b2lkIGJ1aWxkIGZhaWx1cmVzIGR1ZSB0byBzZXRzY2VuZSBlcnJvcnM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,23 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 22:03:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 Aug 2017 22:36:03 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 29, 2017 at 1:59 PM, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> We do have a daily job that cleans up the global sstate cache and
-> removes files that have not been accessed in the last ten days, but
-> it seems unlikely that it should remove a file that just happens to
-> be required again, and do it at exactly the time when that task is
-> building.
+On 08/29/2017 04:25 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: Patchwork [mailto:patchwork@patchwork.openembedded.org]
+>> Sent: den 29 augusti 2017 22:05
+>> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>> Cc: openembedded-core@lists.openembedded.org
+>> Subject: ✗ patchtest: failure for Avoid build failures due to setscene
+>> errors
+>>
+>> == Series Details ==
+>>
+>> Series: Avoid build failures due to setscene errors
+>> Revision: 1
+>> URL   : https://patchwork.openembedded.org/series/8575/
+>> State : failure
+>>
+>> == Summary ==
+>>
+>>
+>> Thank you for submitting this patch series to OpenEmbedded Core. This is
+>> an automated response. Several tests have been executed on the proposed
+>> series by patchtest resulting in the following failures:
+>>
+>>
+>>
+>> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
+>>   Suggested fix    Rebase your series on top of targeted branch
+>>   Targeted branch  master (currently at 2454019844)
+> 
+> Argh, why can't this handle combined bitbake and OE-Core changes, i.e., 
+> changes for Poky. Oh well, separate patches coming up...
 
-I guess you've already confirmed that accessing the sstate files over
-NFS does actually modify atime on the server (and that the filesystem
-on the server really does have atime support enabled, e.g. mounted
-with strictatime rather than relatime etc)?
+Because poky isn't the upstream project.
 
-If access time isn't being determined reliably and sstate files are
-being removed 10 days after being created then that might make the
-race a little more likely to trigger.
+Philip
+
+> 
+>> If you believe any of these test results are incorrect, please reply to the
+>> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+>> Otherwise we would appreciate you correcting the issues and submitting a new
+>> version of the patchset if applicable. Please ensure you add/increment the
+>> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+>> [PATCH v3] -> ...).
+>>
+>> ---
+>> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+>> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> 
+> //Peter
+> 
 
