@@ -1,45 +1,55 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B702278291
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FD34782F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 17:48:44 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id x189so4474287wmg.4
+	Tue, 29 Aug 2017 20:00:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 0DB1E18421
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 10:48:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=E/ado6CLZ2LFEUVMFzErF1uPseSCYDUXqsKXq+zRUAE=;
-	b=OgBm3WlmRsWVXZO1jcaYDh0l/4M5CVfWgwFqvtqt8v2663iQZhM6v+i/XVa2Kp10Cj
-	elMUwuzZ1OpR9OK19ufXyG5th48nB/NX7NJ7LqJnHaxhU6gUzPpVpk6GRQCeyfMxTv39
-	TY5tDVHy/tpgohs2wJDwsxyuyY6K54dLCFk8pAD54fO2bF20pUR12zDroatmYJuvoMZM
-	zOCXS9zVQmdlBg6ZXfVzVKxUpNYoF1jk2gMOfyfAMBx98s1pNeWBGjeXEUIzJW2TCRrD
-	OVNPADKz5tNu+cQCkRiQyHQ7/7hmrxG3SlUWuB05KCwkYgVivjfqymbLL54hgv058MAW
-	wW1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=E/ado6CLZ2LFEUVMFzErF1uPseSCYDUXqsKXq+zRUAE=;
-	b=Y8YCxz3QIPHufKRpm9BB03EZva3muGARXt1r7fb48VwIHbLVundwiHq8W7cz8vVYbG
-	kQc/vWDM+GAuOSiN8ajS/2H/rLygTrv//PXoKKZsgBodACnPVrucq4H1vv9Jg6KqQxq3
-	ZHMyHgpyqceBbe2eKABvArAjb3amPOjw5u1vX0FU0OZJ4Q8gGPPB0wXzxgLH5vA3fmgL
-	GOJl/JAxRlsIpAeRDlFLsRrHzBVossql6/GgcAdmmeNeYdialvgO/n5tYAXyUa/1eESy
-	EIxAcbj/zbtWcaJu6k0+ehQDlRe3Tf82dlmjTdJzGc+jiRgjztYImNadAczHgvbosuSR
-	KxDw==
-X-Gm-Message-State: AHYfb5iYLMfEuk0vk1nFQ3mRXgfxVYcFVMi8GC3sBWvJ4mJxLCb8jNUy
-	LFzSQJVnPTkdlQXNrfzT027WJ/TmdonB
-X-Received: by 10.28.185.12 with SMTP id j12mr168291wmf.100.1504028925261;
-	Tue, 29 Aug 2017 10:48:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.184.147 with HTTP; Tue, 29 Aug 2017 10:48:44 -0700 (PDT)
-In-Reply-To: <20170827214858.19410-1-otavio@ossystems.com.br>
-References: <20170827214858.19410-1-otavio@ossystems.com.br>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 29 Aug 2017 10:48:44 -0700
-Message-ID: <CAJ86T=UG+eJC0EQk8-ONgLn1bQCA4uoBZw+5EdU6Cp+F3SexDw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] initramfs-framework: Change recipe to be allarch
+	Tue, 29 Aug 2017 22:00:36 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 0WdIeVwVE0OD
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 1B8021843D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 091A51E095
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:34 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F09161E099
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:33 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:33 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id E4ED92122
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:33 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v7TK0WQE009664
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 22:00:32 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v7TK0Wpp009662
+	for openembedded-core@lists.openembedded.org;
+	Tue, 29 Aug 2017 22:00:32 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Aug 2017 22:00:30 +0200
+Message-Id: <7b69cf9f622f86ff7125544b9213d406ba16fe88.1504036763.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+In-Reply-To: <cover.1504036763.git.pkj@axis.com>
+References: <cover.1504036763.git.pkj@axis.com>
+X-TM-AS-GCONF: 00
+Subject: [PATCH 2/2] sstate.bbclass: Do not cause build failures due to setscene errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,47 +62,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 17:48:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 Aug 2017 20:00:35 -0000
 
-On Sun, Aug 27, 2017 at 2:48 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> There is no COMPATIBLE_HOST in the recipe neither it makes sense for
-> this to be machine specific.
->
-> Possibly, initramfs-framework's based modules may be machine specific
-> but if there is the case they can just RDEPENDS on
-> initramfs-framework-base and provide the specific module as another
-> recipe.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->
-> Changes in v3:
-> - Add the new dependencies to the hash whitelist
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> index 9d69a696f1..94bf1756e3 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> @@ -3,12 +3,10 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->  RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
->
-> -PR = "r2"
-> +PR = "r3"
-> +
-> +inherit allarch
->
-> -# While the packages maybe an allarch due to it being a
-> -# simple script, reality is that it is Host specific based
-> -# on the COMPATIBLE_HOST below, which needs to take precedence
-> -#inherit allarch
->  INHIBIT_DEFAULT_DEPS = "1"
+If a setscene task fails, the real task will be run instead. However,
+in case the failed setscene task happened to log any errors, this will
+still cause bitbake to return with an error code, even though
+everything actually built ok. To avoid this, modify setscene to only
+warn about errors.
 
-The allarch class sets INHIBIT_DEFAULT_DEPS, so that line could be removed.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/classes/sstate.bbclass | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
->  SRC_URI = "file://init \
-> --
-> 2.14.1
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 6af0d388bc..7d76ac141b 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -671,7 +671,7 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
+         localdata.setVar('SRC_URI', srcuri)
+         try:
+             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
+-            fetcher.download()
++            fetcher.download(only_warn=True)
+ 
+         except bb.fetch2.BBFetchException:
+             break
+@@ -680,7 +680,8 @@ def sstate_setscene(d):
+     shared_state = sstate_state_fromvars(d)
+     accelerate = sstate_installpkg(shared_state, d)
+     if not accelerate:
+-        bb.fatal("No suitable staging package found")
++        bb.warn("No suitable staging package found")
++        sys.exit(1)
+ 
+ python sstate_task_prefunc () {
+     shared_state = sstate_state_fromvars(d)
+-- 
+2.12.0
+
 
