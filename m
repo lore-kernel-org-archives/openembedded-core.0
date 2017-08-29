@@ -1,21 +1,35 @@
-Return-Path: <swee.aun.khor@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 831A872F67
+Return-Path: <jose.alarcon@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
+	[67.231.149.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 91BA6781F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 05:23:09 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Aug 2017 22:23:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,443,1498546800"; d="scan'208";a="1211792998"
-Received: from echidna.jf.intel.com ([10.54.77.34])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Aug 2017 22:23:10 -0700
-From: swee.aun.khor@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Aug 2017 15:14:07 -0700
-Message-Id: <1503958447-114317-1-git-send-email-swee.aun.khor@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] openssh: Fix syntax error on x32
+	Tue, 29 Aug 2017 06:44:30 +0000 (UTC)
+Received: from pps.filterd (m0047963.ppops.net [127.0.0.1])
+	by m0047963.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v7T6iB1b033142 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Aug 2017 02:44:31 -0400
+From: Jose Alarcon <jose.alarcon@ge.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20170825064339.181395-1-jose.alarcon@ge.com>
+	<1503664143.32591.229.camel@linuxfoundation.org>
+	<c125eff9-fc40-5526-021f-af6aaeda18f7@ge.com>
+Message-ID: <1b29a241-e0fc-c2f8-383a-4c95d44a2dc5@ge.com>
+Date: Tue, 29 Aug 2017 09:44:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <c125eff9-fc40-5526-021f-af6aaeda18f7@ge.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-29_01:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1707230000
+	definitions=main-1708290101
+Subject: Re: EXT: Re: [PATCH resend] meta/classes: add class to test for unsatisfied RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,71 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 05:23:09 -0000
+X-List-Received-Date: Tue, 29 Aug 2017 06:44:30 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: sweeaun <swee.aun.khor@intel.com>
 
-Fix compilation error during openssh x32 build due to syntax error.
 
-Signed-off-by: sweeaun <swee.aun.khor@intel.com>
----
- .../0001-openssh-Fix-syntax-error-on-x32.patch     | 33 ++++++++++++++++++++++
- meta/recipes-connectivity/openssh/openssh_7.5p1.bb |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
+On 26.08.2017 14:27, Jose Alarcon wrote:
+>
+> On 25.08.2017 15:29, Richard Purdie wrote:
+>> On Fri, 2017-08-25 at 09:43 +0300, Jose Alarcon wrote:
+>>> The do_rootfs log contains a number of unsatisfied package
+>>> recommendations. At the moment those are only visible when
+>>> reviewing the rootfs log.
+>>>
+>>> This class adds an extra check to surface any unsatisfied
+>>> recommendation  as WARNINGS to the build output.
+>>>
+>>> Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
+>>> ---
+>>>  meta/classes/rootfs-check-recommends.bbclass | 21
+>>> +++++++++++++++++++++
+>>>  1 file changed, 21 insertions(+)
+>>>  create mode 100644 meta/classes/rootfs-check-recommends.bbclass
+>> This looks like it would be a better fit for rootfs-
+>> postcommands.bbclass?
+> Thanks. I sent a new patch with this check done in rootfs-postcommands
+> class.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch b/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
-new file mode 100644
-index 0000000..ce9e200
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-openssh-Fix-syntax-error-on-x32.patch
-@@ -0,0 +1,33 @@
-+From a7e359d4ba345aa2a13c07f1057184e9b4e598a2 Mon Sep 17 00:00:00 2001
-+From: sweeaun <swee.aun.khor@intel.com>
-+Date: Tue, 22 Aug 2017 11:19:48 -0700
-+Subject: [PATCH] openssh: Fix syntax error on x32
-+
-+Upstream-Status: Backport
-+This bug has been fixed in v_7.5 branch https://github.com/openssh/
-+openssh-portable/tree/V_7_5 and master branch https://github.com/
-+openssh/openssh-portable/tree/master.
-+
-+Fix compilation error during openssh x32 build due to syntax error.
-+
-+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
-+---
-+ sandbox-seccomp-filter.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sandbox-seccomp-filter.c b/sandbox-seccomp-filter.c
-+index 3a1aedc..a8d472a 100644
-+--- a/sandbox-seccomp-filter.c
-++++ b/sandbox-seccomp-filter.c
-+@@ -235,7 +235,7 @@ static const struct sock_filter preauth_insns[] = {
-+ 	 * x86-64 syscall under some circumstances, e.g.
-+ 	 * https://bugs.debian.org/849923
-+ 	 */
-+-	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT);
-++	SC_ALLOW(__NR_clock_gettime & ~__X32_SYSCALL_BIT),
-+ #endif
-+ 
-+ 	/* Default deny */
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-index 3b8fd7d..e46b4c8 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-+           file://0001-openssh-Fix-syntax-error-on-x32.patch \
-            "
- 
- PAM_SRC_URI = "file://sshd"
--- 
-2.7.4
+New patch with the check done in rootfs-postcommands here:
+https://patchwork.openembedded.org/series/8521/#
 
+The reason why I implemented this as a class in the first place was that
+we don't want to modify upstream layers and there is no way to append a
+bbclass.
+So I created a new class in our own layer instead. But for upstreaming
+it is true that rootfs-postcommands is a better fit.
+
+Thanks,
+
+--
+Jose
 
