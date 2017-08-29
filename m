@@ -1,53 +1,45 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 050E878296
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 30AFD78296
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 20:36:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 047BA2E324
+	Tue, 29 Aug 2017 20:38:01 +0000 (UTC)
+Received: by mail-wm0-f50.google.com with SMTP id f13so22455234wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 8K7a6d6EEW_O
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:27 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id 3C4E02E0DA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:27 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 290871E095
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:27 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1E27B1E094
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:27 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:27 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 11DC0216B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:27 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v7TKaPak031743
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 22:36:25 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v7TKaPqq031736
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 Aug 2017 22:36:25 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Aug 2017 22:36:24 +0200
-Message-Id: <cover.1504038941.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCHv2 0/1] Avoid build failures due to setscene errors
+	Tue, 29 Aug 2017 13:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=AA6f/U8OXfGzUGOT5zz42t8REn9DC9eXyWhFlaIC5Mk=;
+	b=td7LUfmeWWo7mwRulXTwR/p7yYXWbVVVgQz+wq1YcbIlw1xLfjrAw8Ru7/U8iPWbNf
+	w2CHNGB0Ohit1WvQDrczOMyAaRigjGZq1Dbb/7ViXEFOXNdcg3lGJoKdHp31xmmJ564P
+	sN/Yy7xlxW4x+6U0f6wXOo6wWCltK1wiyK4zUZNBYLDed8hH1zlHSvcmGDZb0k7rOKBV
+	QMD9RDswUeNOss4YAfGOjfPLVrUUJ8GC8g/QloRuEd483j2WK3ReqBbaMnwXno3MqDNx
+	8dEaxVxRYtOy0OX1CEP8qWdcMUyuT+CMqrfpWmji8SJoPe9b2wx8N+Y9Q3Jhl29v95gq
+	GE2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=AA6f/U8OXfGzUGOT5zz42t8REn9DC9eXyWhFlaIC5Mk=;
+	b=nt12aPMzeCtnc6HPe4WyJycuLp/Y9yf6IIf5LhR3e44z8Cd7wndZ3Sb2aCJdB/1lRq
+	DjEhvBYR1cCmzdCn2EELLshFp74MhsYz2phiy/aepdwvrDIiimRvc1w8FAB2uzVIkBwt
+	d5AWp0DYu5J9nK0deoErzhWiZ780mruEhDpaHLlJDyEgr4g/R9I5s7iXZMmeX2PlgYJp
+	uFCqz2yHeij5aV5kLjsQr6TSzRxBQndYOOlekouix09sDCCT44+wCNeRZIEb/n8jwMOP
+	Q5WsnAtxorl0MJEfOomWDPBE8oSpY8eTgBreSB6pmTy3bKWs7I18OLH41BRx+iPOL0gZ
+	aQ+g==
+X-Gm-Message-State: AHYfb5g6Z0BVplY6Mo9tiM2GSGuBjJ7JArS77bPmy5W7crgonE5a1NGV
+	wOLd3CR6KebLxvxPpVTmo9lm9KDbqn1k
+X-Received: by 10.28.52.195 with SMTP id b186mr352566wma.54.1504039082680;
+	Tue, 29 Aug 2017 13:38:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.184.147 with HTTP; Tue, 29 Aug 2017 13:38:02 -0700 (PDT)
+In-Reply-To: <cover.1504036763.git.pkj@axis.com>
+References: <cover.1504036763.git.pkj@axis.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 29 Aug 2017 13:38:02 -0700
+Message-ID: <CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Avoid build failures due to setscene errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,63 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 20:36:28 -0000
+X-List-Received-Date: Tue, 29 Aug 2017 20:38:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Occasionally, we see errors on our autobuilders where a setscene task
-fails to retrieve a file from our global sstate cache. It typically
-looks something like this:
+On Tue, Aug 29, 2017 at 1:00 PM, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> Occasionally, we see errors on our autobuilders where a setscene task
+> fails to retrieve a file from our global sstate cache. It typically
+> looks something like this:
+>
+> WARNING: zip-3.0-r2 do_populate_sysroot_setscene: Failed to fetch URL
+> file://66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
+> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz;\
+> downloadfilename=66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
+> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz, attempting
+> MIRRORS if available
+> ERROR: zip-3.0-r2 do_populate_sysroot_setscene: Fetcher failure:
+> Unable to find file
+> file://66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
+> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz;\
+> downloadfilename=66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
+> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz anywhere. The
+> paths that were searched were:
+>     /home/pkj/.openembedded/sstate-cache
 
-WARNING: zip-3.0-r2 do_populate_sysroot_setscene: Failed to fetch URL
-file://66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz;\
-downloadfilename=66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz, attempting
-MIRRORS if available
-ERROR: zip-3.0-r2 do_populate_sysroot_setscene: Fetcher failure:
-Unable to find file
-file://66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz;\
-downloadfilename=66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz anywhere. The
-paths that were searched were:
-    /home/pkj/.openembedded/sstate-cache
-ERROR: zip-3.0-r2 do_populate_sysroot_setscene: No suitable staging
-package found
-WARNING: Setscene task
-(meta/recipes-extended/zip/zip_3.0.bb:do_populate_sysroot_setscene)
-failed with exit code '1' - real task will be run instead
+To trigger this, do you have SSTATE_MIRRORS pointing to
+"/home/pkj/.openembedded/sstate-cache" and SSTATE_DIR pointed
+somewhere else? Or are they both pointing to the same local directory?
+Or something else?
 
-As the last warning indicates, the build will proceed and the real
-task will run and the build will eventually complete. However, due to
-the two errors above, bitbake will return with an error code which
-causes the autobuilder to treat the build as failed and it proceeds to
-throw everything it built away.
-
-Since this is quite pointless and causes unnecessary build resources
-to be spent and grief from the developers, the two patches in this
-change set turn the errors from setscene tasks into warnings.
-
-PATCHv2: The bitbake part has been sent to the bitbake mailing list
-instead.
-
-//Peter
-
-The following changes since commit bc2e0b2e9b95707d96c840dade12b00e1450ecc3:
-
-  libsdl: Move PACKAGECONFIG options from meta-mingw (2017-08-29 12:23:10 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib pkj/setscene-errors
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/setscene-errors
-
-Peter Kjellerstedt (1):
-  sstate.bbclass: Do not cause build failures due to setscene errors
-
- meta/classes/sstate.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
--- 
-2.12.0
-
+> ERROR: zip-3.0-r2 do_populate_sysroot_setscene: No suitable staging
+> package found
+> WARNING: Setscene task
+> (meta/recipes-extended/zip/zip_3.0.bb:do_populate_sysroot_setscene)
+> failed with exit code '1' - real task will be run instead
+>
 
