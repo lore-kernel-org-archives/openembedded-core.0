@@ -1,45 +1,41 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 30AFD78296
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 296F1781E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 20:38:01 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id f13so22455234wme.1
+	Tue, 29 Aug 2017 20:43:18 +0000 (UTC)
+Received: by mail-qk0-f194.google.com with SMTP id a77so3851087qkb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 13:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AA6f/U8OXfGzUGOT5zz42t8REn9DC9eXyWhFlaIC5Mk=;
-	b=td7LUfmeWWo7mwRulXTwR/p7yYXWbVVVgQz+wq1YcbIlw1xLfjrAw8Ru7/U8iPWbNf
-	w2CHNGB0Ohit1WvQDrczOMyAaRigjGZq1Dbb/7ViXEFOXNdcg3lGJoKdHp31xmmJ564P
-	sN/Yy7xlxW4x+6U0f6wXOo6wWCltK1wiyK4zUZNBYLDed8hH1zlHSvcmGDZb0k7rOKBV
-	QMD9RDswUeNOss4YAfGOjfPLVrUUJ8GC8g/QloRuEd483j2WK3ReqBbaMnwXno3MqDNx
-	8dEaxVxRYtOy0OX1CEP8qWdcMUyuT+CMqrfpWmji8SJoPe9b2wx8N+Y9Q3Jhl29v95gq
-	GE2g==
+	Tue, 29 Aug 2017 13:43:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=AA6f/U8OXfGzUGOT5zz42t8REn9DC9eXyWhFlaIC5Mk=;
-	b=nt12aPMzeCtnc6HPe4WyJycuLp/Y9yf6IIf5LhR3e44z8Cd7wndZ3Sb2aCJdB/1lRq
-	DjEhvBYR1cCmzdCn2EELLshFp74MhsYz2phiy/aepdwvrDIiimRvc1w8FAB2uzVIkBwt
-	d5AWp0DYu5J9nK0deoErzhWiZ780mruEhDpaHLlJDyEgr4g/R9I5s7iXZMmeX2PlgYJp
-	uFCqz2yHeij5aV5kLjsQr6TSzRxBQndYOOlekouix09sDCCT44+wCNeRZIEb/n8jwMOP
-	Q5WsnAtxorl0MJEfOomWDPBE8oSpY8eTgBreSB6pmTy3bKWs7I18OLH41BRx+iPOL0gZ
-	aQ+g==
-X-Gm-Message-State: AHYfb5g6Z0BVplY6Mo9tiM2GSGuBjJ7JArS77bPmy5W7crgonE5a1NGV
-	wOLd3CR6KebLxvxPpVTmo9lm9KDbqn1k
-X-Received: by 10.28.52.195 with SMTP id b186mr352566wma.54.1504039082680;
-	Tue, 29 Aug 2017 13:38:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.184.147 with HTTP; Tue, 29 Aug 2017 13:38:02 -0700 (PDT)
-In-Reply-To: <cover.1504036763.git.pkj@axis.com>
-References: <cover.1504036763.git.pkj@axis.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 29 Aug 2017 13:38:02 -0700
-Message-ID: <CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Avoid build failures due to setscene errors
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=iRhmi6c1uL4RZsEmN96yl1h40K+ua20RJdiwBqrWLuk=;
+	b=G75zTIwHmvlN1erKqwAggfav4mfrnvRqVkBqkxF+prp/4fS4rcVsqvwwLr0hIAjsdM
+	XFz7dLXAb2SumZQDaPLpKku7w5e75T0w9se/w2EqOYsUaWeaAlXy5sZDF/ogqs5TpbsK
+	gQXfHbZBOyhZrmPjmsVqqKgOzGnkx73tjZ+UpoNofe6bA0ihRl47e6fsHpGJcq3vaYVF
+	lNpp0w56JGmQjBV4/Qgi9WGL2a6vA8nU9ueuJuHWs2zTSmigQ2tWv/yP+Y8t9vy2iByl
+	GLNLjYjcvRJYnbpgtk+G1yIYP90dJV26a7Pm8HPDbBUqRIV/qKvc6yULTDHAvBwQkgRh
+	McQQ==
+X-Gm-Message-State: AHYfb5hD4uyV7uu9wFqVyRZVFQLug+KZoUt2E09BfnxsXGIM74C9rua7
+	ZcdeoPTKCRAQduAI
+X-Received: by 10.55.161.140 with SMTP id k134mr7268461qke.314.1504039399789; 
+	Tue, 29 Aug 2017 13:43:19 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	f189sm2479771qkj.10.2017.08.29.13.43.16
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 29 Aug 2017 13:43:18 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 29 Aug 2017 17:43:10 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Aug 2017 17:43:09 -0300
+Message-Id: <20170829204309.16139-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v4] initramfs-framework: Change recipe to be allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,39 +48,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 20:38:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 29 Aug 2017 20:43:19 -0000
 
-On Tue, Aug 29, 2017 at 1:00 PM, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> Occasionally, we see errors on our autobuilders where a setscene task
-> fails to retrieve a file from our global sstate cache. It typically
-> looks something like this:
->
-> WARNING: zip-3.0-r2 do_populate_sysroot_setscene: Failed to fetch URL
-> file://66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz;\
-> downloadfilename=66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz, attempting
-> MIRRORS if available
-> ERROR: zip-3.0-r2 do_populate_sysroot_setscene: Fetcher failure:
-> Unable to find file
-> file://66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz;\
-> downloadfilename=66/sstate:zip:core2-64-poky-linux:3.0:r2:core2-64:3:\
-> 66832b8c4e7babe0eac9d9579d1e2b6a_populate_sysroot.tgz anywhere. The
-> paths that were searched were:
->     /home/pkj/.openembedded/sstate-cache
+There is no COMPATIBLE_HOST in the recipe neither it makes sense for
+this to be machine specific.
 
-To trigger this, do you have SSTATE_MIRRORS pointing to
-"/home/pkj/.openembedded/sstate-cache" and SSTATE_DIR pointed
-somewhere else? Or are they both pointing to the same local directory?
-Or something else?
+Possibly, initramfs-framework's based modules may be machine specific
+but if there is the case they can just RDEPENDS on
+initramfs-framework-base and provide the specific module as another
+recipe.
 
-> ERROR: zip-3.0-r2 do_populate_sysroot_setscene: No suitable staging
-> package found
-> WARNING: Setscene task
-> (meta/recipes-extended/zip/zip_3.0.bb:do_populate_sysroot_setscene)
-> failed with exit code '1' - real task will be run instead
->
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+Changes in v4:
+- Drop INHIBIT_DEFAULT_DEPS as allarch defines it
+
+Changes in v3:
+- Add the new dependencies to the hash whitelist
+
+ meta/conf/layer.conf                                       | 6 +++++-
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 8 ++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 38bec33197..04aa730160 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -50,8 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   docbook-xsl-stylesheets->perl \
+   ca-certificates->openssl \
+   initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
+-  initramfs-framework->systemd \
++  initramfs-framework->dosfstools \
++  initramfs-framework->e2fsprogs \
+   initramfs-framework->eudev \
++  initramfs-framework->parted \
++  initramfs-framework->systemd \
++  initramfs-framework->util-linux \
+   liberation-fonts->fontconfig \
+   cantarell-fonts->fontconfig \
+   gnome-icon-theme->librsvg \
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 9d69a696f1..77b2ff8959 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -3,13 +3,9 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+-# While the packages maybe an allarch due to it being a
+-# simple script, reality is that it is Host specific based
+-# on the COMPATIBLE_HOST below, which needs to take precedence
+-#inherit allarch
+-INHIBIT_DEFAULT_DEPS = "1"
++inherit allarch
+ 
+ SRC_URI = "file://init \
+            file://rootfs \
+-- 
+2.14.1
+
 
