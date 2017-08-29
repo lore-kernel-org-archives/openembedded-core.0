@@ -1,61 +1,21 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AEC086067D
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D7FA171A5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 08:20:17 +0000 (UTC)
-Received: by mail-lf0-f49.google.com with SMTP id d17so10583471lfe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 01:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=chargestorm-se.20150623.gappssmtp.com; s=20150623;
-	h=date:from:to:cc:subject:message-id:mail-followup-to:references
-	:mime-version:content-disposition:in-reply-to:organization
-	:user-agent; bh=opVhA3ibMxV8aJ2i9BOa4V0Cca3d9sdkDOaNYGKhews=;
-	b=HfReICmXryZ1hgmDQW7rYqTKVHbSAOyiF/RZD6lQNmZyDyseQQBP868c+vVUQx5UTK
-	aa/fJ4fRnmaGJzwk8lrAhlxNNvlHFr7+dJA70LuychjkM1fpGdM/w31U4vyQC9p5lupf
-	tnU/au1khLH+bYbK+TPwNwF2Nimo2MSfOsWwkJcqvVEbBEd2+N49nwYmAMc96/dyvcCc
-	f0Zj5bLebrnKm365gn1BiNHghOdJablxWpvmUA1G8OmDaldU1amPrEd3SU421s/ZYywh
-	oMrMr7sYyoi472w1tXldnsHDvlJouGPouhNNiuz2hDUwuLr/b5tH77VMaMwByf/I7Thv
-	p+HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id
-	:mail-followup-to:references:mime-version:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=opVhA3ibMxV8aJ2i9BOa4V0Cca3d9sdkDOaNYGKhews=;
-	b=KooMsIeZ5DOq8ChNdO28Mv/l90eS4e/8b/Jl/8x8PrCNyMuwLcMM65D7Hs6dDNt1xk
-	t4txtwrqV4yexyObZMsz6i23KykdRIIYYnOWkEgCW/TK4xwSpnwqbXmbRIeWtNYJAjJL
-	jZ53iFqXMegA9S5z0IrwUln5FgQ37i9xaE3zd/+zOWprSzCvAThGVRVZIKqrt9W0tR4t
-	Y92cq/wR2U8+11+wolxYMHmRIhlPSExRoFDi8Ru7l35BkU2aFcgIWaoWzOj8yrEQrfCp
-	ZdsUMpyub7GfSt9dRxiiThnFQbkz4IWZfumgwO0FWRhX5cKbN/95T4yN8/cv9FfRyZOz
-	M/Fg==
-X-Gm-Message-State: AHYfb5hJWgicZHtb13R2fT+L/37fO60W7F/WHw/YMJhvhlZlG2hZ2PUj
-	TqGNnHL8QZlHon8c
-X-Received: by 10.46.8.26 with SMTP id 26mr1487662lji.27.1503994818216;
-	Tue, 29 Aug 2017 01:20:18 -0700 (PDT)
-Received: from ad.chargestorm.se (194-237-220-218.customer.telia.com.
-	[194.237.220.218])
-	by smtp.gmail.com with ESMTPSA id e82sm494254lji.83.2017.08.29.01.20.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 29 Aug 2017 01:20:17 -0700 (PDT)
-Date: Tue, 29 Aug 2017 10:20:14 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-Message-ID: <20170829082014.ncc3tkyjrlurnkbm@ad.chargestorm.se>
-Mail-Followup-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1503946921-111882-1-git-send-email-ee.peng.yeoh@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1503946921-111882-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: NeoMutt/20170609 (1.8.3)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] insane: add qa check for uppercase recipe name
+	Tue, 29 Aug 2017 09:58:32 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Aug 2017 02:58:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,444,1498546800"; d="scan'208";a="123608158"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 29 Aug 2017 02:58:32 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Aug 2017 12:55:32 +0300
+Message-Id: <20170829095532.7446-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] gettext.bbclass: do not add virtual/gettext to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,37 +28,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 08:20:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Aug 2017 09:58:33 -0000
 
-Hi,
+gettext has a notoriously slow configuration step, and so in my testing
+this  greatly speeds up building core-image-minimal: from 21m36s to 19m2s
+(empty sstate and tmp, but pre-populated downloads).
 
-* Yeoh Ee Peng <ee.peng.yeoh@intel.com> [170829 04:11]:
+I have also built world, and core-image-sato to make sure it doesn't break
+or modify the build, and there is no difference whatsoever in packages
+and images content. Target gettext not seems to be used for anything.
 
-> Since we disabled uppercase characters in overrides a few releases
-> ago, uppercase characters in recipe names (and for that matter, distro
-> and machine names) cannot be supported due to their reliance upon
-> overrides including the name.
+Also fix up insane.bbclass to remove the corresponding QA check.
 
-> QA check will produce an warning message when it verify that recipe
-> name is uppercase.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/classes/gettext.bbclass | 2 +-
+ meta/classes/insane.bbclass  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> [YOCTO# 11592]
-
-Could you add QA checks also for uppercase in machine and distro names?
-
-When giving an on-site training last winter (using Morty), I helped the
-customer solve quite a few issues stemming from the fact that they had a
-machine name with uppercase letters in.
-
-I know that the bug in question specifically talks about recipe name,
-though adding checks for them all would be even better, IMHO.
-
-Cheers,
-Anders
-
+diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+index 689ef55ed1f..da68e632424 100644
+--- a/meta/classes/gettext.bbclass
++++ b/meta/classes/gettext.bbclass
+@@ -13,7 +13,7 @@ def gettext_oeconf(d):
+         return '--disable-nls'
+     return "--enable-nls"
+ 
+-DEPENDS_GETTEXT ??= "virtual/gettext gettext-native"
++DEPENDS_GETTEXT ??= "gettext-native"
+ 
+ BASEDEPENDS_append = " ${@gettext_dependencies(d)}"
+ EXTRA_OECONF_append = " ${@gettext_oeconf(d)}"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index b7177c9b329..a2ec466775f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1183,9 +1183,9 @@ Rerun configure task after fixing this.""")
+         elif bb.data.inherits_class('cross-canadian', d):
+             gt = "nativesdk-gettext"
+         else:
+-            gt = "virtual/" + ml + "gettext"
++            gt = None
+         deps = bb.utils.explode_deps(d.getVar('DEPENDS') or "")
+-        if gt not in deps:
++        if gt is not None and gt not in deps:
+             for config in configs:
+                 gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
+                 if subprocess.call(gnu, shell=True) == 0:
 -- 
-Anders Darander, Senior System Architect
-ChargeStorm AB / eStorm AB
+2.14.1
+
 
