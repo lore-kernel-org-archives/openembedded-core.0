@@ -1,21 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D7FA171A5A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D12A36AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 09:58:32 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Aug 2017 02:58:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,444,1498546800"; d="scan'208";a="123608158"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 29 Aug 2017 02:58:32 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Aug 2017 12:55:32 +0300
-Message-Id: <20170829095532.7446-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] gettext.bbclass: do not add virtual/gettext to DEPENDS
+	Tue, 29 Aug 2017 10:30:21 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v7TAUG5B027814
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 29 Aug 2017 11:30:17 +0100
+Message-ID: <1504002616.32591.323.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anders Darander <anders@chargestorm.se>, Yeoh Ee Peng
+	<ee.peng.yeoh@intel.com>
+Date: Tue, 29 Aug 2017 11:30:16 +0100
+In-Reply-To: <20170829082014.ncc3tkyjrlurnkbm@ad.chargestorm.se>
+References: <1503946921-111882-1-git-send-email-ee.peng.yeoh@intel.com>
+	<20170829082014.ncc3tkyjrlurnkbm@ad.chargestorm.se>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 29 Aug 2017 11:30:18 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] insane: add qa check for uppercase recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,54 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 09:58:33 -0000
+X-List-Received-Date: Tue, 29 Aug 2017 10:30:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-gettext has a notoriously slow configuration step, and so in my testing
-this  greatly speeds up building core-image-minimal: from 21m36s to 19m2s
-(empty sstate and tmp, but pre-populated downloads).
+On Tue, 2017-08-29 at 10:20 +0200, Anders Darander wrote:
+> Hi,
+> 
+> * Yeoh Ee Peng <ee.peng.yeoh@intel.com> [170829 04:11]:
+> 
+> > 
+> > Since we disabled uppercase characters in overrides a few releases
+> > ago, uppercase characters in recipe names (and for that matter,
+> > distro
+> > and machine names) cannot be supported due to their reliance upon
+> > overrides including the name.
+> > 
+> > QA check will produce an warning message when it verify that recipe
+> > name is uppercase.
+> > 
+> > [YOCTO# 11592]
+> Could you add QA checks also for uppercase in machine and distro
+> names?
+> 
+> When giving an on-site training last winter (using Morty), I helped
+> the
+> customer solve quite a few issues stemming from the fact that they
+> had a
+> machine name with uppercase letters in.
+> 
+> I know that the bug in question specifically talks about recipe name,
+> though adding checks for them all would be even better, IMHO.
 
-I have also built world, and core-image-sato to make sure it doesn't break
-or modify the build, and there is no difference whatsoever in packages
-and images content. Target gettext not seems to be used for anything.
+I'd just note that such checks would belong somewhere else like
+sanity.bbclass rather than here (we can check once per config, not per
+recipe).
 
-Also fix up insane.bbclass to remove the corresponding QA check.
+Cheers,
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/classes/gettext.bbclass | 2 +-
- meta/classes/insane.bbclass  | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
-index 689ef55ed1f..da68e632424 100644
---- a/meta/classes/gettext.bbclass
-+++ b/meta/classes/gettext.bbclass
-@@ -13,7 +13,7 @@ def gettext_oeconf(d):
-         return '--disable-nls'
-     return "--enable-nls"
- 
--DEPENDS_GETTEXT ??= "virtual/gettext gettext-native"
-+DEPENDS_GETTEXT ??= "gettext-native"
- 
- BASEDEPENDS_append = " ${@gettext_dependencies(d)}"
- EXTRA_OECONF_append = " ${@gettext_oeconf(d)}"
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b7177c9b329..a2ec466775f 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1183,9 +1183,9 @@ Rerun configure task after fixing this.""")
-         elif bb.data.inherits_class('cross-canadian', d):
-             gt = "nativesdk-gettext"
-         else:
--            gt = "virtual/" + ml + "gettext"
-+            gt = None
-         deps = bb.utils.explode_deps(d.getVar('DEPENDS') or "")
--        if gt not in deps:
-+        if gt is not None and gt not in deps:
-             for config in configs:
-                 gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
-                 if subprocess.call(gnu, shell=True) == 0:
--- 
-2.14.1
-
+Richard
 
