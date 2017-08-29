@@ -1,58 +1,45 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D325A78307
+	by mail.openembedded.org (Postfix) with ESMTP id 42427782AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 20:59:36 +0000 (UTC)
+	Tue, 29 Aug 2017 21:21:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 4D0272E2DD;
-	Tue, 29 Aug 2017 22:59:37 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTP id 4C5792E2F6;
+	Tue, 29 Aug 2017 23:21:44 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id iP92J-TtU-E8; Tue, 29 Aug 2017 22:59:36 +0200 (CEST)
+	with LMTP id RrEbB9tWWw3l; Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 469E42E21C;
-	Tue, 29 Aug 2017 22:59:36 +0200 (CEST)
+	by bes.se.axis.com (Postfix) with ESMTPS id 3CF6F2E306;
+	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 361081A0B1;
-	Tue, 29 Aug 2017 22:59:36 +0200 (CEST)
+	by IMSVA (Postfix) with ESMTP id 29B031A0B1;
+	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2B2F11A0B0;
-	Tue, 29 Aug 2017 22:59:36 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by IMSVA (Postfix) with ESMTP id 1E78B1A0B0;
+	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Tue, 29 Aug 2017 22:59:36 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 1D95D31FE;
-	Tue, 29 Aug 2017 22:59:36 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Tue, 29 Aug 2017 22:59:36 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Tue, 29 Aug 2017 22:59:35 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Tue, 29 Aug 2017 22:59:36 +0200
+	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 10E5F2144;
+	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v7TLLeA5030159;
+	Tue, 29 Aug 2017 23:21:40 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v7TLLeo6030158;
+	Tue, 29 Aug 2017 23:21:40 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Thread-Topic: [OE-core] [PATCH 0/2] Avoid build failures due to setscene errors
-Thread-Index: AQHTIQGO5Mo3T+wusUele0wVsAiFUaKbqeAAgAAhuLA=
-Date: Tue, 29 Aug 2017 20:59:35 +0000
-Message-ID: <70b15633357a418095d460b943d3e994@XBOX02.axis.com>
-References: <cover.1504036763.git.pkj@axis.com>
-	<CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
+To: Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 29 Aug 2017 23:20:56 +0200
+Message-Id: <cover.1504041416.git.pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
 X-TM-AS-GCONF: 00
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Avoid build failures due to setscene errors
+Subject: [pyro][PATCH 00/25] Fix RPM regressions for Pyro
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,63 +52,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 20:59:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 29 Aug 2017 21:21:43 -0000
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbmRyZSBNY0N1cmR5IFttYWls
-dG86YXJtY2N1cmR5QGdtYWlsLmNvbV0NCj4gU2VudDogZGVuIDI5IGF1Z3VzdGkgMjAxNyAyMjoz
-OA0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+
-DQo+IENjOiBPRSBDb3JlIG1haWxpbmcgbGlzdCA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZz4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8yXSBBdm9p
-ZCBidWlsZCBmYWlsdXJlcyBkdWUgdG8gc2V0c2NlbmUNCj4gZXJyb3JzDQo+IA0KPiBPbiBUdWUs
-IEF1ZyAyOSwgMjAxNyBhdCAxOjAwIFBNLCBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVyLmtq
-ZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4gT2NjYXNpb25hbGx5LCB3ZSBzZWUgZXJy
-b3JzIG9uIG91ciBhdXRvYnVpbGRlcnMgd2hlcmUgYSBzZXRzY2VuZSB0YXNrDQo+ID4gZmFpbHMg
-dG8gcmV0cmlldmUgYSBmaWxlIGZyb20gb3VyIGdsb2JhbCBzc3RhdGUgY2FjaGUuIEl0IHR5cGlj
-YWxseQ0KPiA+IGxvb2tzIHNvbWV0aGluZyBsaWtlIHRoaXM6DQo+ID4NCj4gPiBXQVJOSU5HOiB6
-aXAtMy4wLXIyIGRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmU6IEZhaWxlZCB0byBmZXRjaCBV
-UkwNCj4gPiBmaWxlOi8vNjYvc3N0YXRlOnppcDpjb3JlMi02NC1wb2t5LWxpbnV4OjMuMDpyMjpj
-b3JlMi02NDozOlwNCj4gPiA2NjgzMmI4YzRlN2JhYmUwZWFjOWQ5NTc5ZDFlMmI2YV9wb3B1bGF0
-ZV9zeXNyb290LnRnejtcDQo+ID4gZG93bmxvYWRmaWxlbmFtZT02Ni9zc3RhdGU6emlwOmNvcmUy
-LTY0LXBva3ktbGludXg6My4wOnIyOmNvcmUyLQ0KPiA2NDozOlwNCj4gPiA2NjgzMmI4YzRlN2Jh
-YmUwZWFjOWQ5NTc5ZDFlMmI2YV9wb3B1bGF0ZV9zeXNyb290LnRneiwgYXR0ZW1wdGluZw0KPiA+
-IE1JUlJPUlMgaWYgYXZhaWxhYmxlDQo+ID4gRVJST1I6IHppcC0zLjAtcjIgZG9fcG9wdWxhdGVf
-c3lzcm9vdF9zZXRzY2VuZTogRmV0Y2hlciBmYWlsdXJlOg0KPiA+IFVuYWJsZSB0byBmaW5kIGZp
-bGUNCj4gPiBmaWxlOi8vNjYvc3N0YXRlOnppcDpjb3JlMi02NC1wb2t5LWxpbnV4OjMuMDpyMjpj
-b3JlMi02NDozOlwNCj4gPiA2NjgzMmI4YzRlN2JhYmUwZWFjOWQ5NTc5ZDFlMmI2YV9wb3B1bGF0
-ZV9zeXNyb290LnRnejtcDQo+ID4gZG93bmxvYWRmaWxlbmFtZT02Ni9zc3RhdGU6emlwOmNvcmUy
-LTY0LXBva3ktbGludXg6My4wOnIyOmNvcmUyLQ0KPiA2NDozOlwNCj4gPiA2NjgzMmI4YzRlN2Jh
-YmUwZWFjOWQ5NTc5ZDFlMmI2YV9wb3B1bGF0ZV9zeXNyb290LnRneiBhbnl3aGVyZS4gVGhlDQo+
-ID4gcGF0aHMgdGhhdCB3ZXJlIHNlYXJjaGVkIHdlcmU6DQo+ID4gICAgIC9ob21lL3Brai8ub3Bl
-bmVtYmVkZGVkL3NzdGF0ZS1jYWNoZQ0KPiANCj4gVG8gdHJpZ2dlciB0aGlzLCBkbyB5b3UgaGF2
-ZSBTU1RBVEVfTUlSUk9SUyBwb2ludGluZyB0bw0KPiAiL2hvbWUvcGtqLy5vcGVuZW1iZWRkZWQv
-c3N0YXRlLWNhY2hlIiBhbmQgU1NUQVRFX0RJUiBwb2ludGVkDQo+IHNvbWV3aGVyZSBlbHNlPyBP
-ciBhcmUgdGhleSBib3RoIHBvaW50aW5nIHRvIHRoZSBzYW1lIGxvY2FsIGRpcmVjdG9yeT8NCj4g
-T3Igc29tZXRoaW5nIGVsc2U/DQoNCk5vLCB0aGUgZGlyZWN0b3J5IGFib3ZlIGlzIGFjdHVhbGx5
-IHdoYXQgaXMgaW4gU1NUQVRFX0RJUi4gDQpTU1RBVEVfTUlSUk9SUyBpcyBzZXQgdG86DQoNClNT
-VEFURV9NSVJST1JTID89ICJcDQpmaWxlOi8vLiogZmlsZTovLy9uL29lL3NzdGF0ZS1jYWNoZS9Q
-QVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCINCg0Kd2hlcmUgL24vb2UgaXMgYW4gTkZTIG1vdW50
-IHdoZXJlIHdlIHNoYXJlIGEgZ2xvYmFsIHNzdGF0ZSBjYWNoZS4gDQoNClRoZSBvbmx5IHdheSBJ
-IGhhdmUgZmlndXJlZCBvdXQgdG8gbWFudWFsbHkgc2ltdWxhdGUgdGhlIHByb2JsZW0gaXMgDQpi
-eSBtb2RpZnlpbmcgdGhlIGNvZGUgaW4gc3N0YXRlX2NoZWNraGFzaGVzKCkgaW4gc3N0YXRlLmJi
-Y2xhc3MgYW5kIA0KY29tbWVudGluZyBvdXQgdGhlIGNhbGwgdG8gZmV0Y2hlci5jaGVja3N0YXR1
-cygpLiBUaGVuIGFzIGxvbmcgYXMgDQp0aGVyZSBhY3R1YWxseSBpcyBubyBzc3RhdGUgZmlsZXMg
-Zm9yIHRoZSB0YXNrIGluIGVpdGhlciB0aGUgZ2xvYmFsIA0Kb3IgdGhlIGxvY2FsIHNzdGF0ZSBj
-YWNoZSwgSSB3aWxsIGdldCB0aGUgYWJvdmUuIA0KDQpJIGRvIG5vdCBrbm93IHdoYXQgdHJpZ2dl
-cnMgaXQgb24gdGhlIGF1dG9idWlsZGVyIHRob3VnaC4gTXkgZ3Vlc3MgaXMgDQp0aGF0IHNvbWVo
-b3cgdGhlIHNzdGF0ZSB0Z3ogZmlsZSBkaXNhcHBlYXJzIGJldHdlZW4gdGhlIGNhbGwgdG8gDQpz
-c3RhdGVfY2hlY2toYXNoZXMoKSBhbmQgd2hlbiBiaXRiYWtlIGFjdHVhbGx5IHRyaWVzIHRvIGRv
-d25sb2FkIHRoZSANCmZpbGUuIA0KDQpXZSBkbyBoYXZlIGEgZGFpbHkgam9iIHRoYXQgY2xlYW5z
-IHVwIHRoZSBnbG9iYWwgc3N0YXRlIGNhY2hlIGFuZCANCnJlbW92ZXMgZmlsZXMgdGhhdCBoYXZl
-IG5vdCBiZWVuIGFjY2Vzc2VkIGluIHRoZSBsYXN0IHRlbiBkYXlzLCBidXQgDQppdCBzZWVtcyB1
-bmxpa2VseSB0aGF0IGl0IHNob3VsZCByZW1vdmUgYSBmaWxlIHRoYXQganVzdCBoYXBwZW5zIHRv
-IA0KYmUgcmVxdWlyZWQgYWdhaW4sIGFuZCBkbyBpdCBhdCBleGFjdGx5IHRoZSB0aW1lIHdoZW4g
-dGhhdCB0YXNrIGlzIA0KYnVpbGRpbmcuDQoNCj4gPiBFUlJPUjogemlwLTMuMC1yMiBkb19wb3B1
-bGF0ZV9zeXNyb290X3NldHNjZW5lOiBObyBzdWl0YWJsZSBzdGFnaW5nDQo+ID4gcGFja2FnZSBm
-b3VuZA0KPiA+IFdBUk5JTkc6IFNldHNjZW5lIHRhc2sNCj4gPiAobWV0YS9yZWNpcGVzLWV4dGVu
-ZGVkL3ppcC96aXBfMy4wLmJiOmRvX3BvcHVsYXRlX3N5c3Jvb3Rfc2V0c2NlbmUpDQo+ID4gZmFp
-bGVkIHdpdGggZXhpdCBjb2RlICcxJyAtIHJlYWwgdGFzayB3aWxsIGJlIHJ1biBpbnN0ZWFkDQoN
-Ci8vUGV0ZXINCg0K
+These are the backported changes from master that re-adds support for
+having rpm generating file dependencies.
+
+The only change compared to master is in the last patch. There I have
+added a new variable called ENABLE_RPM_FILEDEPS_FOR_PYRO. Unless it
+is set to "1", the RPM file dependency machinery will not be
+activated. This should make it possible to integrate these changes to
+Pyro, without risking that they break builds for anyone who do not
+expect the dependency requirements to change. The name of the variable
+was chosen to clearly indicate that this only affects Pyro.
+
+The first patch in the series is strictly not related to the RPM
+changes, but since I cannot build core-image-sato without it, I
+included it here to make my life a little easier.
+
+//Peter
+
+The following changes since commit 9842f64154e633c198b201fae01dbab1fb04c74e:
+
+  rootfs-postcommands.bbclass: Prevent linking testdata to itself (2017-08-29 12:22:06 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/rpm_regressions-pyro
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/rpm_regressions-pyro
+
+Alexander Kanavin (1):
+  libxml2: move python module to Python 3
+
+Mark Hatle (2):
+  ltp: Skip the filedependency scan
+  rpm: Disable perl dependency generation
+
+Martin Jansa (1):
+  libcheck: fix file-rdeps QA issue
+
+Peter Kjellerstedt (20):
+  gtk+3: Update the patches to work with old versions of patch
+  package_manager.py: Generate correct RPM package names again
+  libxml2: Make ptest run the Python tests if Python support is enabled
+  insane.bbclass: Report all file-rdeps errors, not just the first
+  insane.bbclass: Improve the handling of runtime file dependencies
+  buildhistory.bbclass: Improve the generated depends.dot file
+  toaster.bbclass: Simplify parsing of depends.dot
+  toaster.bbclass: Ignore some dependencies in
+    toaster_buildhistory_dump()
+  rpm: Simplify the creation of wrappers for the native tools
+  rpm: Create a wrapper for the native rpmdeps tool
+  rpm: Do not require that ELF binaries are executable to be
+    identifiable
+  rpm: Use conditional to access %{_docdir} in macros.in
+  rpm: Add a new option --alldeps to rpmdeps
+  insane.bbclass: Ignore perl as dependency for nativesdk packages
+  perl: Do not generate file dependencies for perl-ptest
+  rpm: Add dependencies on bash, perl and python3-core
+  git: Do not install git cvsserver and git svn by default
+  texinfo: Avoid a problem with a dependency on perl(Locale::gettext_xs)
+  package_rpm.bbclass: Filter out unwanted file deps for nativesdk
+    packages
+  package.bbclass: Restore functionality to detect RPM dependencies
+
+Richard Purdie (1):
+  bind: Use correct python interpreter path
+
+ meta/classes/buildhistory.bbclass                  |  15 +-
+ meta/classes/insane.bbclass                        |  20 +-
+ meta/classes/package.bbclass                       |  11 +-
+ meta/classes/package_rpm.bbclass                   |  25 +-
+ meta/classes/toaster.bbclass                       |  36 +--
+ meta/lib/oe/package.py                             |  60 +++--
+ meta/lib/oe/package_manager.py                     |   6 +-
+ meta/recipes-connectivity/bind/bind_9.10.3-P3.bb   |   2 +-
+ ...run-the-python-tests-if-python-is-enabled.patch |  99 ++++++++
+ meta/recipes-core/libxml/libxml2_2.9.4.bb          |  17 +-
+ meta/recipes-devtools/git/git.inc                  |  21 ++
+ meta/recipes-devtools/perl/perl-ptest.inc          |   4 +
+ .../rpm/files/0001-perl-disable-auto-reqs.patch    |  32 +++
+ ...ire-that-ELF-binaries-are-executable-to-b.patch |  32 +++
+ ...onditional-to-access-_docdir-in-macros.in.patch |  36 +++
+ .../0013-Add-a-new-option-alldeps-to-rpmdeps.patch | 152 ++++++++++++
+ meta/recipes-devtools/rpm/rpm_git.bb               |  83 +++----
+ meta/recipes-extended/ltp/ltp_20170116.bb          |   5 +
+ meta/recipes-extended/texinfo/texinfo_6.3.bb       |   6 +
+ .../gtk+/gtk+3/0001-Hardcoded-libtool.patch        |  12 +-
+ ...Do-not-try-to-initialize-GL-without-libGL.patch |   8 +-
+ .../0003-Add-disable-opengl-configure-option.patch | 268 +++++++++++++++------
+ ...4-configure.ac-Fix-wayland-protocols-path.patch |   8 +-
+ meta/recipes-support/libcheck/libcheck_0.10.0.bb   |   1 -
+ 24 files changed, 756 insertions(+), 203 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0012-Use-conditional-to-access-_docdir-in-macros.in.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0013-Add-a-new-option-alldeps-to-rpmdeps.patch
+
+-- 
+2.12.0
+
 
