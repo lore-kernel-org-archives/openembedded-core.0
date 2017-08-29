@@ -1,47 +1,47 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 4370F78310
+	by mail.openembedded.org (Postfix) with ESMTP id BC6D17830F
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 29 Aug 2017 21:21:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 5D49C2E363;
+	by bes.se.axis.com (Postfix) with ESMTP id EA43F2E2F6;
 	Tue, 29 Aug 2017 23:21:45 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id G1_WZORu4o9R; Tue, 29 Aug 2017 23:21:43 +0200 (CEST)
+	with LMTP id 0aqZIOrF-X3Z; Tue, 29 Aug 2017 23:21:43 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id E29E52E32D;
+	by bes.se.axis.com (Postfix) with ESMTPS id E00AF2E329;
 	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BA7911A0B0;
+	by IMSVA (Postfix) with ESMTP id A84931A0B2;
 	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AEB751A0B3;
+	by IMSVA (Postfix) with ESMTP id 9CDCA1A0B0;
 	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
+Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP;
 	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id A32712198;
+	by seth.se.axis.com (Postfix) with ESMTP id 9148C2144;
 	Tue, 29 Aug 2017 23:21:42 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v7TLLfIC030215;
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v7TLLfi3030209;
 	Tue, 29 Aug 2017 23:21:41 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v7TLLftB030214;
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v7TLLf8f030207;
 	Tue, 29 Aug 2017 23:21:41 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: Armin Kuster <akuster808@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 29 Aug 2017 23:21:04 +0200
-Message-Id: <132756d2af16aee6df5f1b9f9741b011e9bd2ddc.1504041417.git.pkj@axis.com>
+Date: Tue, 29 Aug 2017 23:21:03 +0200
+Message-Id: <8727628d6f2177d4aeef6a4b1b56a66901f0acc9.1504041417.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1504041416.git.pkj@axis.com>
 References: <cover.1504041416.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [pyro][PATCH 08/25] toaster.bbclass: Simplify parsing of depends.dot
+Subject: [pyro][PATCH 07/25] buildhistory.bbclass: Improve the generated depends.dot file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 21:21:44 -0000
+X-List-Received-Date: Tue, 29 Aug 2017 21:21:45 -0000
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-By using a single regular expression, the parsing of the depends.dot
-file can be simplified a lot. This should also make it less
-susceptible to formatting changes in that file.
+* Convert incorrectly formatted dependencies such as:
+    "bar -> "foo" ">=" "1.2.3"
+  into dependencies with edge labels:
+    "bar -> "foo" [label=">= 1.2.3"]
+* Remove rpmlib() and config() dependencies such as:
+    "foo" -> "rpmlib(CompressedFileNames)" [label="<= 3.0.4-1"]
+  and:
+    "base-files" -> "config(base-files)" [label="= 3.0.14-r89.49"]
+* Remove the trailing semicolon that was added to each line. It fills
+  no purpose.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/toaster.bbclass | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ meta/classes/buildhistory.bbclass | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 296e4764f0..fbf463bbb7 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -270,22 +270,20 @@ python toaster_buildhistory_dump() {
-                     images[target][pname.strip()] = {'size':int(psize)*1024, 'depends' : []}
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 8eafdc9f72..3823c664ab 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -446,13 +446,20 @@ buildhistory_get_installed() {
  
-             with open("%s/depends.dot" % installed_img_path, "r") as fin:
--                p = re.compile(r' -> ')
--                dot = re.compile(r'.*style=dotted')
-+                p = re.compile(r'\s*"(?P<name>[^"]+)"\s*->\s*"(?P<dep>[^"]+)"(?P<rec>.*?\[style=dotted\])?')
-                 for line in fin:
--                    line = line.rstrip(';')
--                    linesplit = p.split(line)
--                    if len(linesplit) == 2:
--                        pname = linesplit[0].rstrip('"').strip('"')
--                        dependsname = linesplit[1].split(" ")[0].strip().strip(";").strip('"').rstrip('"')
--                        deptype = "depends"
--                        if dot.match(line):
--                            deptype = "recommends"
--                        if not pname in images[target]:
--                            images[target][pname] = {'size': 0, 'depends' : []}
--                        if not dependsname in images[target]:
--                            images[target][dependsname] = {'size': 0, 'depends' : []}
--                        images[target][pname]['depends'].append((dependsname, deptype))
-+                    m = p.match(line)
-+                    if not m:
-+                        continue
-+                    pname = m.group('name')
-+                    dependsname = m.group('dep')
-+                    deptype = 'recommends' if m.group('rec') else 'depends'
-+
-+                    if not pname in images[target]:
-+                        images[target][pname] = {'size': 0, 'depends' : []}
-+                    if not dependsname in images[target]:
-+                        images[target][dependsname] = {'size': 0, 'depends' : []}
-+                    images[target][pname]['depends'].append((dependsname, deptype))
+ 	# Produce dependency graph
+ 	# First, quote each name to handle characters that cause issues for dot
+-	sed 's:\([^| ]*\):"\1":g' ${WORKDIR}/bh_installed_pkgs_deps.txt > $1/depends.tmp && \
++	sed 's:\([^| ]*\):"\1":g' ${WORKDIR}/bh_installed_pkgs_deps.txt > $1/depends.tmp &&
+ 		rm ${WORKDIR}/bh_installed_pkgs_deps.txt
+-	# Change delimiter from pipe to -> and set style for recommend lines
+-	sed -i -e 's:|: -> :' -e 's:"\[REC\]":[style=dotted]:' -e 's:$:;:' $1/depends.tmp
++	# Remove lines with rpmlib(...) and config(...) dependencies, change the
++	# delimiter from pipe to "->", set the style for recommend lines and
++	# turn versioned dependencies into edge labels.
++	sed -i -e '/rpmlib(/d' \
++	       -e '/config(/d' \
++	       -e 's:|: -> :' \
++	       -e 's:"\[REC\]":[style=dotted]:' \
++	       -e 's:"\([<>=]\+\)" "\([^"]*\)":[label="\1 \2"]:' \
++		$1/depends.tmp
+ 	# Add header, sorted and de-duped contents and footer and then delete the temp file
+ 	printf "digraph depends {\n    node [shape=plaintext]\n" > $1/depends.dot
+-	cat $1/depends.tmp | sort | uniq >> $1/depends.dot
++	cat $1/depends.tmp | sort -u >> $1/depends.dot
+ 	echo "}" >>  $1/depends.dot
+ 	rm $1/depends.tmp
  
-             # files-in-image.txt is only generated if an image file is created,
-             # so the file entries ('syms', 'dirs', 'files') for a target will be
 -- 
 2.12.0
 
