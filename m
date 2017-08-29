@@ -1,35 +1,23 @@
-Return-Path: <jose.alarcon@ge.com>
-Received: from mx0a-00176a03.pphosted.com (mx0a-00176a03.pphosted.com
-	[67.231.149.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 91BA6781F7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CF0F978229
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 06:44:30 +0000 (UTC)
-Received: from pps.filterd (m0047963.ppops.net [127.0.0.1])
-	by m0047963.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
-	v7T6iB1b033142 for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 02:44:31 -0400
-From: Jose Alarcon <jose.alarcon@ge.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20170825064339.181395-1-jose.alarcon@ge.com>
-	<1503664143.32591.229.camel@linuxfoundation.org>
-	<c125eff9-fc40-5526-021f-af6aaeda18f7@ge.com>
-Message-ID: <1b29a241-e0fc-c2f8-383a-4c95d44a2dc5@ge.com>
-Date: Tue, 29 Aug 2017 09:44:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 29 Aug 2017 07:00:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7T70jLo010271
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 29 Aug 2017 00:00:45 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 29 Aug 2017 00:00:44 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Tue, 29 Aug 2017 03:00:43 -0400
+Message-ID: <1503990043-5633-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <c125eff9-fc40-5526-021f-af6aaeda18f7@ge.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-08-29_01:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
-	adjust=0
-	reason=mlx scancount=1 engine=8.0.1-1707230000
-	definitions=main-1708290101
-Subject: Re: EXT: Re: [PATCH resend] meta/classes: add class to test for unsatisfied RRECOMMENDS
+Subject: [PATCH] gnupg: 2.1.23 -> 2.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 06:44:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 29 Aug 2017 07:00:45 -0000
+Content-Type: text/plain
 
+https://lists.gnupg.org/pipermail/gnupg-announce/2017q3/000413.html
 
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-support/gnupg/{gnupg_2.1.23.bb => gnupg_2.2.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.1.23.bb => gnupg_2.2.0.bb} (91%)
 
-On 26.08.2017 14:27, Jose Alarcon wrote:
->
-> On 25.08.2017 15:29, Richard Purdie wrote:
->> On Fri, 2017-08-25 at 09:43 +0300, Jose Alarcon wrote:
->>> The do_rootfs log contains a number of unsatisfied package
->>> recommendations. At the moment those are only visible when
->>> reviewing the rootfs log.
->>>
->>> This class adds an extra check to surface any unsatisfied
->>> recommendation  as WARNINGS to the build output.
->>>
->>> Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
->>> ---
->>>  meta/classes/rootfs-check-recommends.bbclass | 21
->>> +++++++++++++++++++++
->>>  1 file changed, 21 insertions(+)
->>>  create mode 100644 meta/classes/rootfs-check-recommends.bbclass
->> This looks like it would be a better fit for rootfs-
->> postcommands.bbclass?
-> Thanks. I sent a new patch with this check done in rootfs-postcommands
-> class.
+diff --git a/meta/recipes-support/gnupg/gnupg_2.1.23.bb b/meta/recipes-support/gnupg/gnupg_2.2.0.bb
+similarity index 91%
+rename from meta/recipes-support/gnupg/gnupg_2.1.23.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.0.bb
+index 8cbe5e1..0176ddd 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.1.23.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.0.bb
+@@ -16,8 +16,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+           "
+ 
+-SRC_URI[md5sum] = "86c2304ead54b74a422e76c3f1bc7a91"
+-SRC_URI[sha256sum] = "a94476391595e9351f219188767a9d6ea128e83be5ed3226a7890f49aa2d0d77"
++SRC_URI[md5sum] = "789f16949fae2d003d387f49e9da4b74"
++SRC_URI[sha256sum] = "d4514a0be0f7a1ff263193330019eb4b53c82f0f5e230af3c14df371271a45e6"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
+-- 
+2.8.1
 
-New patch with the check done in rootfs-postcommands here:
-https://patchwork.openembedded.org/series/8521/#
-
-The reason why I implemented this as a class in the first place was that
-we don't want to modify upstream layers and there is no way to append a
-bbclass.
-So I created a new class in our own layer instead. But for upstreaming
-it is true that rootfs-postcommands is a better fit.
-
-Thanks,
-
---
-Jose
 
