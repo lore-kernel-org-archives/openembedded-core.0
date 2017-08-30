@@ -1,53 +1,60 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f169.google.com (mail-wr0-f169.google.com
-	[209.85.128.169])
-	by mail.openembedded.org (Postfix) with ESMTP id C5FA871ABD
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 35CA178335
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 09:39:57 +0000 (UTC)
-Received: by mail-wr0-f169.google.com with SMTP id p14so16952132wrg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 02:39:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=E7TvrngkFgbppyaW4saOseOUlA9ywU4wTkI1+90Ny4g=;
-	b=oKm5YQzkS9QdKa8ME2hr5sC6RuYvUoHK2I7maFMAOq3kmZQioOd3LmDwDGUVeZaWV9
-	ldUsdWsgA383V0BkOM8Xy99Rt6zZfzpH/Ca2Hu0yLG4EV4F6qblZ4JI7V78zdVBsuEEL
-	5sGRUJkUN0EFObbiJuSOd1jn11IlUnbeezb7Cv+lfwE3zS1tgP9nro8rmPejbvA8tRQf
-	rQ3KG98bIrsW8uJAkNJFLpTz5PBBR9ogB8qh97E7l0k6JtcXp3UWNAxpbICgYi3qZbbW
-	L0yfiC50A40iFJANbXLTpuZzhWYu/DVy4botwaqxExwz3Am2tlYID2W03h/IfFthublN
-	zyQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=E7TvrngkFgbppyaW4saOseOUlA9ywU4wTkI1+90Ny4g=;
-	b=RDOdgW/cpmMA31w+TsBTmCOGQayhwqdx1CPaD1cGtaX6U22g5vJfSA926bmyReOjAW
-	xlYCQZU+phebs4w3L+fArjowfpP+nuCFyp535lCxZRGO4722w9/IGkp8oZGq9wSokSjM
-	Y/4lhYC0z/3SIM1u6Fv47GH8SEkNkYQyhcDLUijAciqjMe9ztvPu3ML61H3lhZGbV4+Y
-	m9bR9Hvtwm2aVPrFOB6FksqMVrCm3iCOHccXiR+/q7zU+4OxG3DcjeI+1eL5PiwD7ACl
-	IVuQnyKJnruGp9AN30+p4FVY6/hb23FTkXIANbYGQR86+ZO9Kw45S2eNBYWSt6dRrelF
-	AoCg==
-X-Gm-Message-State: AHYfb5iZ5DatMwrYmfyXHV/aVsQuBdSVW5tPD8WsRqeTr+A4WSV1m6up
-	CLwPxMUQEL53z2STwiQ=
-X-Received: by 10.223.164.131 with SMTP id g3mr638909wrb.121.1504085998356;
-	Wed, 30 Aug 2017 02:39:58 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8EE7A.dip0.t-ipconnect.de. [93.232.238.122])
-	by smtp.gmail.com with ESMTPSA id r2sm2139992wmg.30.2017.08.30.02.39.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 30 Aug 2017 02:39:57 -0700 (PDT)
-Message-ID: <1504085996.12799.39.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
-	List <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Aug 2017 11:39:56 +0200
-In-Reply-To: <20170829204309.16139-1-otavio@ossystems.com.br>
-References: <20170829204309.16139-1-otavio@ossystems.com.br>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v4] initramfs-framework: Change recipe to be allarch
+	Wed, 30 Aug 2017 09:52:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 03BD72E34C;
+	Wed, 30 Aug 2017 11:52:50 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id azOkUYLY1WFM; Wed, 30 Aug 2017 11:52:48 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 6E53D2E329;
+	Wed, 30 Aug 2017 11:52:48 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5C67B1A06F;
+	Wed, 30 Aug 2017 11:52:48 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 47AFE1A05F;
+	Wed, 30 Aug 2017 11:52:48 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed, 30 Aug 2017 11:52:48 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 3BAB01F2F;
+	Wed, 30 Aug 2017 11:52:48 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Wed, 30 Aug 2017 11:52:48 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Wed, 30 Aug 2017 11:52:48 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andre McCurdy
+	<armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH 0/2] Avoid build failures due to setscene errors
+Thread-Index: AQHTIQGO5Mo3T+wusUele0wVsAiFUaKbqeAAgAAhuLD///JggIAAswBw///4PQCAACgp0A==
+Date: Wed, 30 Aug 2017 09:52:48 +0000
+Message-ID: <095b89669fcc44ef9f8a065f5c9792c6@XBOX02.axis.com>
+References: <cover.1504036763.git.pkj@axis.com>
+	<CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
+	<70b15633357a418095d460b943d3e994@XBOX02.axis.com>
+	<1504043397.2175.19.camel@linuxfoundation.org>
+	<5ba32c0773d848ef8e6afb117a72abb0@XBOX02.axis.com>
+	<1504080170.2175.26.camel@linuxfoundation.org>
+In-Reply-To: <1504080170.2175.26.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Avoid build failures due to setscene errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,65 +67,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Aug 2017 09:39:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 30 Aug 2017 09:52:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 2017-08-29 at 17:43 -0300, Otavio Salvador wrote:
-> There is no COMPATIBLE_HOST in the recipe neither it makes sense for
-> this to be machine specific.
-> 
-> Possibly, initramfs-framework's based modules may be machine specific
-> but if there is the case they can just RDEPENDS on
-> initramfs-framework-base and provide the specific module as another
-> recipe.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> 
-> Changes in v4:
-> - Drop INHIBIT_DEFAULT_DEPS as allarch defines it
-> 
-> Changes in v3:
-> - Add the new dependencies to the hash whitelist
-
-As I said before ("Re: [OE-core] [PATCH v6 1/1] initramfs-framework:
-module to support boot live image" from July 31st), I consider it a
-mistake that support for live boot with all its dependencies was added
-directly to initramfs-framework.bb.
-
-I was in a hurry at the time and therefore didn't file a bug, but I can
-also do that.
-
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 38bec33197..04aa730160 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -50,8 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
->    docbook-xsl-stylesheets->perl \
->    ca-certificates->openssl \
->    initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
-> -  initramfs-framework->systemd \
-> +  initramfs-framework->dosfstools \
-> +  initramfs-framework->e2fsprogs \
->    initramfs-framework->eudev \
-> +  initramfs-framework->parted \
-> +  initramfs-framework->systemd \
-> +  initramfs-framework->util-linux \
-
-Let's not dig us deeper into this hole and instead split out the live
-boot module into its own, arch-specific recipe.
-
-Then initramfs-framework can become allarch without having to make
-layer.conf more complicated.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
+bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IGRlbiAzMCBh
+dWd1c3RpIDIwMTcgMTA6MDMNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
+cnN0ZWR0QGF4aXMuY29tPjsgQW5kcmUgTWNDdXJkeQ0KPiA8YXJtY2N1cmR5QGdtYWlsLmNvbT4N
+Cj4gQ2M6IE9FIENvcmUgbWFpbGluZyBsaXN0IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAwLzJdIEF2b2lk
+IGJ1aWxkIGZhaWx1cmVzIGR1ZSB0byBzZXRzY2VuZQ0KPiBlcnJvcnMNCj4gDQo+IE9uIFdlZCwg
+MjAxNy0wOC0zMCBhdCAwNjo0NCArMDAwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+
+ID4gSSBoYXZlIGxlZnQgdGhpcyBjb2RlIGFzIGFuIGVycm9yIGRlbGliZXJhdGVseSBhcyB0aGlz
+IGtpbmQgb2YNCj4gPiA+IHRoaW5nIHNob3VsZCBub3QgaGFwcGVuIGFuZCBpZiBpdCBkb2VzLCB0
+aGVyZSBpcyByZWFsbHkgc29tZXRoaW5nDQo+ID4gPiB3cm9uZyB3aGljaCB5b3UgbmVlZCB0byBm
+aWd1cmUgb3V0LiBJdCBtZWFucyB0aGF0IGF0IG9uZSBwb2ludA0KPiA+ID4gYml0YmFrZSB0aGlu
+a3MgdGhlIHNzdGF0ZSBpcyBwcmVzZW50IGFuZCB2YWxpZCwgdGhlbiBsYXRlciBpdA0KPiA+ID4g
+aXNuJ3QuDQo+ID4NCj4gPiBUcnVlLCBidXQgc2luY2UgdGhlIG9wZXJhdGlvbnMgb2YgY2hlY2tp
+bmcgaWYgYW4gc3N0YXRlIGZpbGUgZXhpc3RzDQo+ID4gYW5kIHJldHJpZXZpbmcgaXQgaXMgbm90
+IGFuIGF0b21pYyBvcGVyYXRpb24sIHRoZXJlIGFyZSBhbHdheXMNCj4gPiBwcm9ibGVtcyB0aGF0
+IGNhbiBvY2N1ci4gU29tZSBtYXkgYmUgZml4YWJsZSwgc29tZSBtYXkgbm90LiBIb3dldmVyLA0K
+PiA+IHVzaW5nIGEgYnVpbGQgZmFpbHVyZSB0byBkZXRlY3QgdGhlc2Uga2luZCBvZiBwcm9ibGVt
+cyBpcyBhIGJpdCBoYXJzaA0KPiA+IG9uIHRoZSBkZXZlbG9wZXJzIHdobyBvbmx5IHNlZXMgdGhl
+aXIgYnVpbGRzIGNvbXBsZXRlIG9ubHkgdG8gZ2V0IGFuDQo+ID4gZXJyb3IgZm9yIHNvbWV0aGlu
+ZyB0aGF0IGlzIG5vdCB0aGVpciBmYXVsdC4gV2UgaGF2ZSBiZXR0ZXIgd2F5cyB0bw0KPiA+IGRl
+dGVjdCB0aGVzZSBraW5kcyBvZiBwcm9ibGVtcywgZS5nLiwgdGhyb3VnaCBsb2cgbW9uaXRvcmlu
+Zywgd2l0aG91dA0KPiA+IGhhdmluZyB0byBjYXVzZSB1bm5lY2Vzc2FyeSBncmllZiBhbW9uZ3N0
+IHRoZSBkZXZlbG9wZXJzLg0KPiANCj4gRmlsZXMgYXJlIHJhbmRvbWx5IGRpc2FwcGVhcmluZyBm
+cm9tIHlvdXIgc3N0YXRlIHNvdXJjZS4gU28gZmFyIHlvdSd2ZQ0KPiBiZWVuIGx1Y2t5IGFuZCB0
+aGVzZSBhcmUgbm90IGNhdXNpbmcgY29ycnVwdGlvbiwgYnV0IHRoZXkgY291bGQuDQoNClNvbWVo
+b3cgSSBmYWlsIHRvIHNlZSBob3cgbWlzc2luZyBzc3RhdGUgY2FjaGUgZmlsZXMgY2FuIGNhdXNl
+IA0KY29ycnVwdGlvbi4gSWYgdGhleSBhcmUgbWlzc2luZywgdGhlIHJlYWwgdGFzayBpcyBydW4g
+YW5kIGFsbCBpcyB3ZWxsLg0KDQpBbHNvLCBJIGRvIG5vdCBhY3R1YWxseSBrbm93IGlmIHRoZSBm
+aWxlcyBkaXNhcHBlYXIgcGVybWFuZW50bHkgb3IgDQp0ZW1wb3JhcmlseSwgYmVjYXVzZSBhdCB0
+aGUgdGltZSB3aGVuIEkgbG9vayBhdCB0aGUgZ2xvYmFsIHNzdGF0ZSBjYWNoZSANCnRoZSBmaWxl
+cyBhcmUgdGhlcmUsIG5ld2x5IGNyZWF0ZWQgYmVjYXVzZSB0aGUgYnVpbGQgY29udGludWVkIGFu
+ZCBsZXQgDQp0aGUgcmVhbCB0YXNrIHJ1bi4gTXkgZ3Vlc3MgdGhvdWdoIGlzIHRoYXQgdGhlIGZp
+bGVzIG9ubHkgdGVtcG9yYXJpbHkgDQpkaXNhcHBlYXJlZCBkdWUgdG8gc29tZSBuZXR3b3JrIGds
+aXRjaCwgYnV0IGN1cnJlbnRseSBJIGNhbm5vdCB2ZXJpZnkgaXQuDQoNClJlZ2FyZGxlc3Mgb2Yg
+d2hldGhlciBteSBwcm9wb3NlZCBjaGFuZ2VzIGFyZSBhY2NlcHRlZCBvciBub3QsIGlmIHlvdSAN
+CndhbnQgdG8ga2VlcCB0aGUgZGVmYXVsdCBiZWhhdmlvciB0aGF0IGEgZmFpbGVkIHNldHNjZW5l
+IHRhc2sgd2lsbCANCmV2ZW50dWFsbHkgY2F1c2UgdGhlIGJ1aWxkIHRvIGZhaWwsIHRoZW4gd2Ug
+c2hvdWxkIGNoYW5nZSBpdCB0byBmYWlsIA0KaW1tZWRpYXRlbHkgaW5zdGVhZC4gQ29udGludWlu
+ZyB0aGUgYnVpbGQgd2hlbiB5b3Uga25vdyBpdCB3aWxsIGZhaWwgDQptYWtlcyBubyBzZW5zZSBh
+dCBhbGwuDQogDQo+IFBsZWFzZSBmaWd1cmUgb3V0IGFuZCBmaXggeW91ciBzc3RhdGUgaW5mcmFz
+dHJ1Y3R1cmUsIG5vdCBoYWNrIHRoZSBjb2RlDQo+IHRvIGF2b2lkIHRoZSBlcnJvcnMuDQoNCkFz
+IE1hcnRpbiBKYW5zYSBtZW50aW9uZWQgaW4gYW5vdGhlciByZXNwb25zZSwgdGhlIHByb2JsZW0g
+bWF5IGJlIGR1ZSANCnRvIE5GUyBvciBnZW5lcmFsIG5ldHdvcmsgZGlzdHVyYmFuY2VzLiBBbmQg
+SSBzZWUgbm8gd2F5IHRvIHByb3RlY3QgDQpvdXJzZWx2ZXMgZnJvbSB0aGVtLiBBbmQgYXBwYXJl
+bnRseSB3ZSBhcmUgbm90IGFsb25lIGluIHNlZWluZyB0aGVzZSANCmtpbmRzIG9mIHRyYW5zaWVu
+dCBlcnJvcnMuDQoNCj4gSSBkbyBhcHByZWNpYXRlIGl0cyBwYWluZnVsLCB3ZSBkaWQgb25jZSBz
+ZWUgdGhpcyBpc3N1ZSBvbiB0aGUNCj4gYXV0b2J1aWxkZXIuIFRoZXJlIHdhcyBhIHJlYWwgZXJy
+b3IgaW4gdGhlIHNzdGF0ZSBjbGVhbnVwIHNjcmlwdHMgYW5kDQo+IHdlIGZpeGVkIHRoYXQgYnV0
+IGl0IHRvb2sgc29tZSB3b3JrIHRvIGZpbmQgaXQuDQoNCkFyZSB5b3VyIHNzdGF0ZSBjYWNoZSBj
+bGVhbiB1cCBzY3JpcHRzIGF2YWlsYWJsZSBzb21ld2hlcmU/IEJlY2F1c2UgDQpvYnZpb3VzbHkg
+aXQgaXMgbm90IHRyaXZpYWwgdG8gZ2V0IGl0IHJpZ2h0LCBhbmQgc2luY2Uga2VlcGluZyB0aGUg
+DQpzc3RhdGUgY2FjaGUgY2xlYW4gaXMgc29tZXRoaW5nIHRoYXQgSSBleHBlY3QgbWFueSBsaWtl
+IHRvIGRvLCBoYXZpbmcgDQphIGNvbW1vbiBzY3JpcHQgZm9yIHRoaXMgc2VlbXMgbGlrZSBhIGdv
+b2QgdGhpbmcuDQoNCk90aGVyd2lzZSBJIGNhbiBjb250cmlidXRlIG91ciBzY3JpcHQuIElmIG5v
+dGhpbmcgZWxzZSBpdCB3b3VsZCANCnByb2JhYmx5IGJlIGdvb2QgdG8gaGF2ZSBpdCByZXZpZXdl
+ZCBieSBzb21lb25lIHdobyBpcyBhbiBleHBlcnQgb24gDQp0aGUgc3N0YXRlIGNhY2hlLiBJdCBj
+dXJyZW50bHkgZmVhdHVyZXM6DQoNCiogY29uZmlndXJhYmxlIHJldGVudGlvbiBwZXJpb2QgKGRl
+ZmF1bHQgaXMgMTAgZGF5cykNCiogcmVtb3ZlcyByZWxhdGVkIC50Z3ogYW5kIC50Z3ouc2lnaW5m
+byBmaWxlcyBhcyBvbmUNCiogY2FuIHJlbW92ZSBzdGFsZSBzeW1ib2xpYyBsaW5rcyAodHlwaWNh
+bGx5IHdhbnRlZCBmb3IgYSBsb2NhbCBzc3RhdGUgDQogIGNhY2hlIHdoaWNoIGhhcyBsaW5rcyBp
+bnRvIGEgZ2xvYmFsIHNzdGF0ZSBjYWNoZSB3aGljaCBoYXZlIHNlZW4gdGhlIA0KICBhY3R1YWwg
+ZmlsZXMgYmVpbmcgY2xlYW5lZCBhd2F5KQ0KKiBkcnkgcnVuIG1vZGUNCiogcXVpZXQgbW9kZSAo
+b25seSBwcmludHMgYSBzdW1tYXJ5IHN0YXRpbmcgaG93IG11Y2ggd2FzIGNsZWFuIHVwIGFuZCAN
+CiAgdGhlIGN1cnJlbnQgc2l6ZSBvZiB0aGUgc3N0YXRlIGNhY2hlOyB2ZXJ5IG5pY2UgZm9yIHJ1
+bm5pbmcgaXQgYXMgYSANCiAgY3JvbmpvYikgDQoNCj4gQWxzbywgd2l0aCBjaGFuZ2VzIGxpa2Ug
+dGhpcyB5b3UgY2FuIGVuZCB1cCBpbiBhIHN0YXRlIHdoZXJlIHNzdGF0ZSBjYW4NCj4gY29tcGxl
+dGVseSBzdG9wIHdvcmtpbmcgYW5kIHRoZSBvbmx5IHdheSB5b3UnZCB0ZWxsIGlzIGJ5IGluY3Jl
+YXNlZA0KPiBidWlsZCB0aW1lLg0KDQpBcyBJIG1lbnRpb25lZCwgd2UgaGF2ZSBtb25pdG9yaW5n
+IG9mIG91ciBidWlsZHMgaW4gcGxhY2UgYW5kIHdvdWxkIA0KZGVmaW5pdGVseSBub3RpY2UgaWYg
+dGhlIGdsb2JhbCBzc3RhdGUgY2FjaGUgaXMgbm90IHVzZWQgYXMgZXhwZWN0ZWQuDQoNCj4gPiA+
+IEknbSBub3QgY29udmluY2VkIHBhdGNoaW5nIG91dCB0aGUgZXJyb3JzIGlzIHRoZSByaWdodCBz
+b2x1dGlvbg0KPiA+ID4gaGVyZS4uLg0KPiA+IA0KPiA+IEhvdyBhYm91dCBJIG1ha2UgaXQgY29u
+ZGl0aW9uYWwgYnkgYWRkaW5nIGFuIElHTk9SRV9TRVRTQ0VORV9FUlJPUlM/DQo+ID4gVGhhdCB3
+YXkgaXQgY2FuIGRlZmF1bHQgdG8gIjAiLCBidXQgd2UgY2FuIHNldCBpdCB0byAiMSIgdG8NCj4g
+PiBwcmlvcml0aXplIHRoZSBwcm9kdWN0aW9uIGJ1aWxkcy4NCj4gDQo+IEknbSBzdGlsbCBub3Qg
+Y29udmluY2VkLCBzb3JyeS4NCj4gDQo+IFtUaGUgcmVhc29uIGJlaW5nIGNvbXBsZXhpdHkuIEkg
+ZG9uJ3QgbGlrZSBoYXZpbmcgbXVsdGlwbGUgd2F5cyBvZg0KPiBkb2luZyB0aGluZ3MgaWYgd2Ug
+Y2FuIGhlbHAgaXQsIHBhcnRpY3VsYXJseSB3aGVuIG9uZSBvZiB0aGVtIGlzIGENCj4gd29ya2Fy
+b3VuZCBmb3IgYSBwcm9ibGVtIGVsc2V3aGVyZS4gT25lIG9mIHRoZSBjb2RlcGF0aHMgaW4gYSBj
+YXNlIGxpa2UNCj4gdGhpcyBpcyB1bmxpa2VseSB0byBnZXQgd2VsbCB0ZXN0ZWQuXQ0KDQpXZWxs
+LCBhcyBsb25nIGFzIHRoZSBjb25kaXRpb25hbCBwYXRoIGlzIGNsZWFybHkgbWFya2VkIGFzICJv
+bmx5IA0KZW5hYmxlIHRoaXMgaWYgeW91IGtub3cgd2hhdCB5b3UgYXJlIGRvaW5nIiwgSSBkbyBu
+b3Qgc2VlIGEgcHJvYmxlbSANCndpdGggdGhhdCBwYXRoIHJlY2VpdmluZyBsZXNzIG9yIG5vIHRl
+c3RpbmcgYnkgeW91LiBJdCBzaG91bGQgZ2V0IA0KZW5vdWdoIHRlc3RpbmcgYnkgdGhvc2Ugb2Yg
+dXMgd2hvIHJlbHkgb24gaXQuDQoNClRoZSBwcm9ibGVtIGZvciBtZSBpbiB0aGlzIGtpbmQgb2Yg
+c2l0dWF0aW9ucyBpcyB0aGF0IHdlIGRvIG5vdCB3YW50IA0KdG8gbWFrZSBjaGFuZ2VzIHRvIGFu
+eXRoaW5nIGluc2lkZSB0aGUgUG9reSByZXBvc2l0b3J5ICh3aGljaCB3b3VsZCANCmVmZmVjdGl2
+ZWx5IGZvcmsgaXQpLCBiZWNhdXNlIGRvd24gdGhhdCByb3V0ZSBsaWVzIG1hZG5lc3MuIFNvIGlu
+c3RlYWQgDQp3ZSByZWx5IG9uIG1ha2luZyBhbGwgYWRhcHRhdGlvbnMgaW4gb3VyIG93biBsYXll
+cnMuIE1ha2luZyBjaGFuZ2VzIHRvIA0KcmVjaXBlcyBpcyBlYXN5IGFzIHdlIGNhbiB1c2UgLmJi
+YXBwZW5kcyBpbiBvdXIgbGF5ZXJzLiBNYWtpbmcgY2hhbmdlcyANCnRvIGNsYXNzZXMgb3IgY29u
+ZmlndXJhdGlvbiBmaWxlcyB3b3JrcyBieSBjb3B5aW5nIHRoZW0gdG8gb3VyIGxheWVycyANCmFu
+ZCBjaGFuZ2luZyB0aGVtIHRoZXJlLCBldmVuIHRob3VnaCBJIHBlcnNvbmFsbHkgaGF0ZSBpdCBi
+ZWNhdXNlIGl0IA0KY2F1c2VzIGV4dHJhIG1haW50ZW5hbmNlIGZvciBtZSBzaW5jZSBJIG9mdGVu
+IG5lZWQgdG8gYnVpbGQgd2l0aCBhIA0KbmV3ZXIgdmVyc2lvbiBvZiBQb2t5IHRoYW4gb3VyIGxh
+eWVycyBhcmUgY3VycmVudGx5IGFkYXB0ZWQgZm9yIGluIA0KcHJlcGFyYXRpb25zIGZvciB1cGRh
+dGluZyB0byB0aGUgbmV4dCBQb2t5IHJlbGVhc2UuIEhvd2V2ZXIsIGNoYW5nZXMgDQp0byBhbnl0
+aGluZyBpbnNpZGUgYml0YmFrZSBpcyBuZWFyIGltcG9zc2libGUuIFRoZSBzYW1lIHdpdGggY2hh
+bmdlcyANCnRvIGFueXRoaW5nIGluIG1ldGEvbGliL29lLiBUaHVzIHdlIHJlbHkgb24gYmVpbmcg
+YWJsZSB0byBmaW5kIGEgd2F5IA0KdG8gZ2V0IHRoZXNlIGtpbmRzIG9mIGNoYW5nZXMgaW50ZWdy
+YXRlZCB1cHN0cmVhbS4NCg0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoNCkFuZCBpbiBjYXNl
+IGFueSBvZiB0aGUgYWJvdmUgc291bmRzIGFzIGlmIEkgYW0gdHJ5aW5nIHRvIGZvcmNlIGEgDQpm
+ZWF0dXJlIGRvd24geW91ciB0aHJvYXQgdGhhdCB5b3UgZG8gbm90IGxpa2UsIHRoZW4gSSBiZWcg
+Zm9yIA0KZm9yZ2l2ZW5lc3MuIFdlIHJlYWxseSBkbyBhcHByZWNpYXRlIHlvdXIgZXhwZXJ0aXNl
+IGFuZCBkZWRpY2F0aW9uIA0KdG8gdGhlIE9FIGNvbW11bml0eSwgYW5kIEkgaG9wZSB3ZSBjYW4g
+d29yayB0aGlzIHRvIHNvbWV0aGluZyB0aGF0IA0KeW91IGNhbiBhY2NlcHQgYW5kIHRoYXQgd2Ug
+Y2FuIHVzZS4NCg0KLy9QZXRlcg0KDQo=
 
