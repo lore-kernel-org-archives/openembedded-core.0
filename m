@@ -1,28 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 62C8C77FEC
+Return-Path: <sona.sarmadi@enea.com>
+Received: from smtp-out11.electric.net (smtp-out11.electric.net
+	[185.38.181.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A8A5A7837C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 10:15:19 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v7UAEv3a029698
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 30 Aug 2017 11:14:58 +0100
-Message-ID: <1504088097.2175.27.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sona Sarmadi <sona.sarmadi@enea.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 30 Aug 2017 11:14:57 +0100
-In-Reply-To: <1504087827-35456-1-git-send-email-sona.sarmadi@enea.com>
-References: <1504087827-35456-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Wed, 30 Aug 2017 11:14:58 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH][pyro] connman: Fix for CVE-2017-12865
+	Wed, 30 Aug 2017 10:22:03 +0000 (UTC)
+Received: from 1dn08K-0005qh-Tf by out11d.electric.net with emc1-ok (Exim 4.87)
+	(envelope-from <sona.sarmadi@enea.com>) id 1dn08K-0005sq-UT
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 Aug 2017 03:22:04 -0700
+Received: by emcmailer; Wed, 30 Aug 2017 03:22:04 -0700
+Received: from [192.36.1.72] (helo=mx-3.enea.com)
+	by out11d.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	(Exim 4.87) (envelope-from <sona.sarmadi@enea.com>)
+	id 1dn08K-0005qh-Tf for openembedded-core@lists.openembedded.org;
+	Wed, 30 Aug 2017 03:22:04 -0700
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2;
+	Wed, 30 Aug 2017 12:21:42 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 Aug 2017 12:21:41 +0200
+Message-ID: <1504088501-6258-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+X-Outbound-IP: 192.36.1.72
+X-Env-From: sona.sarmadi@enea.com
+X-Proto: esmtps
+X-Revdns: mx-3.enea.com
+X-HELO: mx-3.enea.com
+X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
+X-Authenticated_ID: 
+X-PolicySMART: 6551647
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (s)
+Subject: [PATCH][morty] connman: Fix for CVE-2017-12865
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +48,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Aug 2017 10:15:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Aug 2017 10:22:04 -0000
+Content-Type: text/plain
 
-On Wed, 2017-08-30 at 12:10 +0200, Sona Sarmadi wrote:
-> dnsproxy: Fix crash on malformed DNS response
-> If the response query string is malformed, we might access memory
-> pass the end of "name" variable in parse_response().
-> 
-> [YOCTO #11959]
-> 
-> (From OE-Core rev: fb3e30e45eea2042fdb0b667cbc2c79ae3f5a1a9)
-> 
-> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+dnsproxy: Fix crash on malformed DNS response
+If the response query string is malformed, we might access memory
+pass the end of "name" variable in parse_response().
 
-Thanks, I merged this to pyro.
+[YOCTO #11959]
 
-Cheers,
+(From OE-Core rev: fb3e30e45eea2042fdb0b667cbc2c79ae3f5a1a9)
 
-Richard
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+
+Conflicts:
+	meta/recipes-connectivity/connman/connman_1.33.bb
+---
+ .../connman/connman/CVE-2017-12865.patch           | 87 ++++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_1.33.bb  |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch
+
+diff --git a/meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch b/meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch
+new file mode 100644
+index 0000000..45f78f1
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch
+@@ -0,0 +1,87 @@
++From 5c281d182ecdd0a424b64f7698f32467f8f67b71 Mon Sep 17 00:00:00 2001
++From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
++Date: Wed, 9 Aug 2017 10:16:46 +0300
++Subject: dnsproxy: Fix crash on malformed DNS response
++
++If the response query string is malformed, we might access memory
++pass the end of "name" variable in parse_response().
++
++CVE: CVE-2017-12865
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/patch/?id=5c281d182ecdd0a424b64f7698f32467f8f67b71]
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ src/dnsproxy.c | 16 ++++++++++------
++ 1 file changed, 10 insertions(+), 6 deletions(-)
++
++diff --git a/src/dnsproxy.c b/src/dnsproxy.c
++index 38ac5bf..40b4f15 100644
++--- a/src/dnsproxy.c
+++++ b/src/dnsproxy.c
++@@ -838,7 +838,7 @@ static struct cache_entry *cache_check(gpointer request, int *qtype, int proto)
++ static int get_name(int counter,
++ 		unsigned char *pkt, unsigned char *start, unsigned char *max,
++ 		unsigned char *output, int output_max, int *output_len,
++-		unsigned char **end, char *name, int *name_len)
+++		unsigned char **end, char *name, size_t max_name, int *name_len)
++ {
++ 	unsigned char *p;
++ 
++@@ -859,7 +859,7 @@ static int get_name(int counter,
++ 
++ 			return get_name(counter + 1, pkt, pkt + offset, max,
++ 					output, output_max, output_len, end,
++-					name, name_len);
+++					name, max_name, name_len);
++ 		} else {
++ 			unsigned label_len = *p;
++ 
++@@ -869,6 +869,9 @@ static int get_name(int counter,
++ 			if (*output_len > output_max)
++ 				return -ENOBUFS;
++ 
+++			if ((*name_len + 1 + label_len + 1) > max_name)
+++				return -ENOBUFS;
+++
++ 			/*
++ 			 * We need the original name in order to check
++ 			 * if this answer is the correct one.
++@@ -900,14 +903,14 @@ static int parse_rr(unsigned char *buf, unsigned char *start,
++ 			unsigned char *response, unsigned int *response_size,
++ 			uint16_t *type, uint16_t *class, int *ttl, int *rdlen,
++ 			unsigned char **end,
++-			char *name)
+++			char *name, size_t max_name)
++ {
++ 	struct domain_rr *rr;
++ 	int err, offset;
++ 	int name_len = 0, output_len = 0, max_rsp = *response_size;
++ 
++ 	err = get_name(0, buf, start, max, response, max_rsp,
++-		&output_len, end, name, &name_len);
+++			&output_len, end, name, max_name, &name_len);
++ 	if (err < 0)
++ 		return err;
++ 
++@@ -1033,7 +1036,8 @@ static int parse_response(unsigned char *buf, int buflen,
++ 		memset(rsp, 0, sizeof(rsp));
++ 
++ 		ret = parse_rr(buf, ptr, buf + buflen, rsp, &rsp_len,
++-			type, class, ttl, &rdlen, &next, name);
+++			type, class, ttl, &rdlen, &next, name,
+++			sizeof(name) - 1);
++ 		if (ret != 0) {
++ 			err = ret;
++ 			goto out;
++@@ -1099,7 +1103,7 @@ static int parse_response(unsigned char *buf, int buflen,
++ 			 */
++ 			ret = get_name(0, buf, next - rdlen, buf + buflen,
++ 					rsp, rsp_len, &output_len, &end,
++-					name, &name_len);
+++					name, sizeof(name) - 1, &name_len);
++ 			if (ret != 0) {
++ 				/* just ignore the error at this point */
++ 				ptr = next;
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.33.bb b/meta/recipes-connectivity/connman/connman_1.33.bb
+index 56a0a0f..d8793ac 100644
+--- a/meta/recipes-connectivity/connman/connman_1.33.bb
++++ b/meta/recipes-connectivity/connman/connman_1.33.bb
+@@ -6,6 +6,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://no-version-scripts.patch \
+             file://includes.patch \
+             file://0003-stats-Fix-bad-file-descriptor-initialisation.patch \
++            file://CVE-2017-12865.patch \
+             "
+ SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
+ 
+-- 
+1.9.1
+
 
