@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E0787824A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D974578343
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 00:48:58 +0000 (UTC)
+	Wed, 30 Aug 2017 00:48:59 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7U0n03s003903
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v7U0n0Oe002559
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Aug 2017 17:49:00 -0700
+	Tue, 29 Aug 2017 17:49:01 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 29 Aug 2017 17:48:59 -0700
+	Tue, 29 Aug 2017 17:49:00 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Aug 2017 17:48:56 -0700
-Message-ID: <b880c92a7789b5b0d630252ee84d0cc0e10863e8.1504054080.git.liezhi.yang@windriver.com>
+Date: Tue, 29 Aug 2017 17:48:57 -0700
+Message-ID: <6041037c68eda7d2ce7d31ee5c81d6d193bc6cf0.1504054080.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1504054080.git.liezhi.yang@windriver.com>
 References: <cover.1504054080.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libpcre2: Fix CVE-2017-8786
+Subject: [PATCH 2/2] libpcre2: Fix CVE-2017-7186
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,128 +33,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Aug 2017 00:48:59 -0000
+X-List-Received-Date: Wed, 30 Aug 2017 00:49:00 -0000
 Content-Type: text/plain
 
-The pcre2test.c in PCRE2 10.23 allows remote attackers to cause a denial of
-service (heap-based buffer overflow) or possibly have unspecified other impact
-via a crafted regular expression.
+A fuzz on libpcre1 through the pcretest utility revealed an invalid read in the
+library. For who is interested in a detailed description of the bug, will
+follow a feedback from upstream:
+
+This was a genuine bug in the 32-bit library. Thanks for finding it. The crash
+was caused by trying to find a Unicode property for a code value greater than
+0x10ffff, the Unicode maximum, when running in non-UTF mode (where character
+values can be up to 0xffffffff).
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../libpcre/libpcre2/libpcre2-CVE-2017-8786.patch  | 93 ++++++++++++++++++++++
+ .../libpcre/libpcre2/libpcre2-CVE-2017-7186.patch  | 96 ++++++++++++++++++++++
  meta/recipes-support/libpcre/libpcre2_10.23.bb     |  1 +
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-8786.patch
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-7186.patch
 
-diff --git a/meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-8786.patch b/meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-8786.patch
+diff --git a/meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-7186.patch b/meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-7186.patch
 new file mode 100644
-index 0000000..eafafc1f
+index 0000000..bfa3bfe
 --- /dev/null
-+++ b/meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-8786.patch
-@@ -0,0 +1,93 @@
-+libpcre2-10.23: Fix CVE-2017-8786
++++ b/meta/recipes-support/libpcre/libpcre2/libpcre2-CVE-2017-7186.patch
+@@ -0,0 +1,96 @@
++libpcre2-10.23: Fix CVE-2017-7186
 +
-+The pcre2test.c in PCRE2 10.23 allows remote attackers to cause a denial of
-+service (heap-based buffer overflow) or possibly have unspecified other impact
-+via a crafted regular expression.
++A fuzz on libpcre1 through the pcretest utility revealed an invalid read in the
++library. For who is interested in a detailed description of the bug, will
++follow a feedback from upstream:
 +
-+Upstream-Status: Backport [https://vcs.pcre.org/pcre2/code/trunk/src/pcre2test.c?r1=692&r2=697&view=patch]
-+CVE: CVE-2017-8786
++This was a genuine bug in the 32-bit library. Thanks for finding it. The crash
++was caused by trying to find a Unicode property for a code value greater than
++0x10ffff, the Unicode maximum, when running in non-UTF mode (where character
++values can be up to 0xffffffff).
++
++The complete ASan output:
++
++# pcretest -32 -d $FILE
++==14788==ERROR: AddressSanitizer: SEGV on unknown address 0x7f1bbffed4df (pc 0x7f1bbee3fe6b bp 0x7fff8b50d8c0 sp 0x7fff8b50d3a0 T0)
++==14788==The signal is caused by a READ memory access.
++    #0 0x7f1bbee3fe6a in match /tmp/portage/dev-libs/libpcre-8.40/work/pcre-8.40/pcre_exec.c:5473:18
++    #1 0x7f1bbee09226 in pcre32_exec /tmp/portage/dev-libs/libpcre-8.40/work/pcre-8.40/pcre_exec.c:6936:8
++    #2 0x527d6c in main /tmp/portage/dev-libs/libpcre-8.40/work/pcre-8.40/pcretest.c:5218:9
++    #3 0x7f1bbddd678f in __libc_start_main /tmp/portage/sys-libs/glibc-2.23-r3/work/glibc-2.23/csu/../csu/libc-start.c:289
++    #4 0x41b438 in _init (/usr/bin/pcretest+0x41b438)
++
++AddressSanitizer can not provide additional info.
++SUMMARY: AddressSanitizer: SEGV /tmp/portage/dev-libs/libpcre-8.40/work/pcre-8.40/pcre_exec.c:5473:18 in match
++==14788==ABORTING
++
++Upstream-Status: Backport [https://vcs.pcre.org/pcre2/code/trunk/src/pcre2_ucd.c?view=patch&r1=316&r2=670&sortby=date \
++                        https://vcs.pcre.org/pcre2/code/trunk/src/pcre2_internal.h?view=patch&r1=600&r2=670&sortby=date]
++CVE: CVE-2017-7186
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +
-+--- trunk/src/pcre2test.c  2017/03/21 16:18:54 692
-++++ trunk/src/pcre2test.c  2017/03/21 18:36:13 697
-+@@ -1017,9 +1017,9 @@
-+   if (test_mode == PCRE8_MODE) \
-+     r = pcre2_get_error_message_8(a,G(b,8),G(G(b,8),_size)); \
-+   else if (test_mode == PCRE16_MODE) \
-+-    r = pcre2_get_error_message_16(a,G(b,16),G(G(b,16),_size)); \
-++    r = pcre2_get_error_message_16(a,G(b,16),G(G(b,16),_size/2)); \
-+   else \
-+-    r = pcre2_get_error_message_32(a,G(b,32),G(G(b,32),_size))
-++    r = pcre2_get_error_message_32(a,G(b,32),G(G(b,32),_size/4))
++--- trunk/src/pcre2_ucd.c  2015/07/17 15:44:51 316
+++++ trunk/src/pcre2_ucd.c  2017/02/24 18:25:32 670
++@@ -41,6 +41,20 @@
 + 
-+ #define PCRE2_GET_OVECTOR_COUNT(a,b) \
-+   if (test_mode == PCRE8_MODE) \
-+@@ -1399,6 +1399,9 @@
++ const char *PRIV(unicode_version) = "8.0.0";
 + 
-+ /* ----- Common macros for two-mode cases ----- */
-+ 
-++#define BYTEONE (BITONE/8)
-++#define BYTETWO (BITTWO/8)
+++/* If the 32-bit library is run in non-32-bit mode, character values
+++greater than 0x10ffff may be encountered. For these we set up a
+++special record. */
 ++
-+ #define CASTFLD(t,a,b) \
-+   ((test_mode == G(G(PCRE,BITONE),_MODE))? (t)(G(a,BITONE)->b) : \
-+     (t)(G(a,BITTWO)->b))
-+@@ -1481,9 +1484,9 @@
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++const ucd_record PRIV(dummy_ucd_record)[] = {{
+++  ucp_Common,    /* script */
+++  ucp_Cn,        /* type unassigned */
+++  ucp_gbOther,   /* grapheme break property */
+++  0,             /* case set */
+++  0,             /* other case */
+++  }};
+++#endif
+++
++ /* When recompiling tables with a new Unicode version, please check the
++ types in this structure definition from pcre2_internal.h (the actual
++ field names will be different):
++--- trunk/src/pcre2_internal.h 2016/11/19 12:46:24 600
+++++ trunk/src/pcre2_internal.h 2017/02/24 18:25:32 670
++@@ -1774,10 +1774,17 @@
++ /* UCD access macros */
 + 
-+ #define PCRE2_GET_ERROR_MESSAGE(r,a,b) \
-+   if (test_mode == G(G(PCRE,BITONE),_MODE)) \
-+-    r = G(pcre2_get_error_message_,BITONE)(a,G(b,BITONE),G(G(b,BITONE),_size)); \
-++    r = G(pcre2_get_error_message_,BITONE)(a,G(b,BITONE),G(G(b,BITONE),_size/BYTEONE)); \
-+   else \
-+-    r = G(pcre2_get_error_message_,BITTWO)(a,G(b,BITTWO),G(G(b,BITTWO),_size))
-++    r = G(pcre2_get_error_message_,BITTWO)(a,G(b,BITTWO),G(G(b,BITTWO),_size/BYTETWO))
++ #define UCD_BLOCK_SIZE 128
++-#define GET_UCD(ch) (PRIV(ucd_records) + \
+++#define REAL_GET_UCD(ch) (PRIV(ucd_records) + \
++         PRIV(ucd_stage2)[PRIV(ucd_stage1)[(int)(ch) / UCD_BLOCK_SIZE] * \
++         UCD_BLOCK_SIZE + (int)(ch) % UCD_BLOCK_SIZE])
 + 
-+ #define PCRE2_GET_OVECTOR_COUNT(a,b) \
-+   if (test_mode == G(G(PCRE,BITONE),_MODE)) \
-+@@ -1904,7 +1907,7 @@
-+ #define PCRE2_DFA_MATCH(a,b,c,d,e,f,g,h,i,j) \
-+   a = pcre2_dfa_match_16(G(b,16),(PCRE2_SPTR16)c,d,e,f,G(g,16),h,i,j)
-+ #define PCRE2_GET_ERROR_MESSAGE(r,a,b) \
-+-  r = pcre2_get_error_message_16(a,G(b,16),G(G(b,16),_size))
-++  r = pcre2_get_error_message_16(a,G(b,16),G(G(b,16),_size/2))
-+ #define PCRE2_GET_OVECTOR_COUNT(a,b) a = pcre2_get_ovector_count_16(G(b,16))
-+ #define PCRE2_GET_STARTCHAR(a,b) a = pcre2_get_startchar_16(G(b,16))
-+ #define PCRE2_JIT_COMPILE(r,a,b) r = pcre2_jit_compile_16(G(a,16),b)
-+@@ -2000,7 +2003,7 @@
-+ #define PCRE2_DFA_MATCH(a,b,c,d,e,f,g,h,i,j) \
-+   a = pcre2_dfa_match_32(G(b,32),(PCRE2_SPTR32)c,d,e,f,G(g,32),h,i,j)
-+ #define PCRE2_GET_ERROR_MESSAGE(r,a,b) \
-+-  r = pcre2_get_error_message_32(a,G(b,32),G(G(b,32),_size))
-++  r = pcre2_get_error_message_32(a,G(b,32),G(G(b,32),_size/4))
-+ #define PCRE2_GET_OVECTOR_COUNT(a,b) a = pcre2_get_ovector_count_32(G(b,32))
-+ #define PCRE2_GET_STARTCHAR(a,b) a = pcre2_get_startchar_32(G(b,32))
-+ #define PCRE2_JIT_COMPILE(r,a,b) r = pcre2_jit_compile_32(G(a,32),b)
-+@@ -2889,7 +2892,7 @@
-+   {
-+   if (pbuffer32 != NULL) free(pbuffer32);
-+   pbuffer32_size = 4*len + 4;
-+-  if (pbuffer32_size < 256) pbuffer32_size = 256;
-++  if (pbuffer32_size < 512) pbuffer32_size = 512;
-+   pbuffer32 = (uint32_t *)malloc(pbuffer32_size);
-+   if (pbuffer32 == NULL)
-+     {
-+@@ -7600,7 +7603,8 @@
-+   int errcode;
-+   char *endptr;
-+ 
-+-/* Ensure the relevant non-8-bit buffer is available. */
-++/* Ensure the relevant non-8-bit buffer is available. Ensure that it is at 
-++least 128 code units, because it is used for retrieving error messages. */
-+ 
-+ #ifdef SUPPORT_PCRE2_16
-+   if (test_mode == PCRE16_MODE)
-+@@ -7620,7 +7624,7 @@
-+ #ifdef SUPPORT_PCRE2_32
-+   if (test_mode == PCRE32_MODE)
-+     {
-+-    pbuffer32_size = 256;
-++    pbuffer32_size = 512;
-+     pbuffer32 = (uint32_t *)malloc(pbuffer32_size);
-+     if (pbuffer32 == NULL)
-+       {
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++#define GET_UCD(ch) ((ch > MAX_UTF_CODE_POINT)? \
+++  PRIV(dummy_ucd_record) : REAL_GET_UCD(ch))
+++#else
+++#define GET_UCD(ch) REAL_GET_UCD(ch)
+++#endif
+++
++ #define UCD_CHARTYPE(ch)    GET_UCD(ch)->chartype
++ #define UCD_SCRIPT(ch)      GET_UCD(ch)->script
++ #define UCD_CATEGORY(ch)    PRIV(ucp_gentype)[UCD_CHARTYPE(ch)]
++@@ -1834,6 +1841,9 @@
++ #define _pcre2_default_compile_context PCRE2_SUFFIX(_pcre2_default_compile_context_)
++ #define _pcre2_default_match_context   PCRE2_SUFFIX(_pcre2_default_match_context_)
++ #define _pcre2_default_tables          PCRE2_SUFFIX(_pcre2_default_tables_)
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++#define _pcre2_dummy_ucd_record        PCRE2_SUFFIX(_pcre2_dummy_ucd_record_)
+++#endif
++ #define _pcre2_hspace_list             PCRE2_SUFFIX(_pcre2_hspace_list_)
++ #define _pcre2_vspace_list             PCRE2_SUFFIX(_pcre2_vspace_list_)
++ #define _pcre2_ucd_caseless_sets       PCRE2_SUFFIX(_pcre2_ucd_caseless_sets_)
++@@ -1858,6 +1868,9 @@
++ extern const uint32_t                  PRIV(vspace_list)[];
++ extern const uint32_t                  PRIV(ucd_caseless_sets)[];
++ extern const ucd_record                PRIV(ucd_records)[];
+++#if PCRE2_CODE_UNIT_WIDTH == 32
+++extern const ucd_record                PRIV(dummy_ucd_record)[];
+++#endif
++ extern const uint8_t                   PRIV(ucd_stage1)[];
++ extern const uint16_t                  PRIV(ucd_stage2)[];
++ extern const uint32_t                  PRIV(ucp_gbtable)[];
 diff --git a/meta/recipes-support/libpcre/libpcre2_10.23.bb b/meta/recipes-support/libpcre/libpcre2_10.23.bb
-index 794d973..63f8d51 100644
+index 63f8d51..ca2b028 100644
 --- a/meta/recipes-support/libpcre/libpcre2_10.23.bb
 +++ b/meta/recipes-support/libpcre/libpcre2_10.23.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=3de34df49e1fe3c3b59a08dff214488b"
- 
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=3de34df49e1fe3c3b59a08dff214488b"
  SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
             file://pcre-cross.patch \
-+           file://libpcre2-CVE-2017-8786.patch \
+            file://libpcre2-CVE-2017-8786.patch \
++           file://libpcre2-CVE-2017-7186.patch \
  "
  
  SRC_URI[md5sum] = "b2cd00ca7e24049040099b0a46bb3649"
