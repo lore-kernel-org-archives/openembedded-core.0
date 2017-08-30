@@ -1,22 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F3F1778336
+	by mail.openembedded.org (Postfix) with ESMTP id 912C578336
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 23:54:56 +0000 (UTC)
+	Wed, 30 Aug 2017 23:54:59 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Aug 2017 16:54:58 -0700
+	30 Aug 2017 16:55:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,450,1498546800"; d="scan'208";a="146494352"
+X-IronPort-AV: E=Sophos;i="5.41,450,1498546800"; d="scan'208";a="146494372"
 Received: from ekooi-mobl5.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.255.141.249])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2017 16:54:55 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2017 16:54:58 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Aug 2017 11:54:04 +1200
-Message-Id: <cover.1504137086.git.paul.eggleton@linux.intel.com>
+Date: Thu, 31 Aug 2017 11:54:05 +1200
+Message-Id: <6acf76beda4d824bd7edf9ab5bfbb425d4b5aa69.1504137086.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.5
-Subject: [PATCH 00/13] devtool / recipetool fixes
+In-Reply-To: <cover.1504137086.git.paul.eggleton@linux.intel.com>
+References: <cover.1504137086.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 01/13] devtool: update-recipe: ensure patches get deleted in srcrev mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,53 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Aug 2017 23:54:57 -0000
+X-List-Received-Date: Wed, 30 Aug 2017 23:54:59 -0000
 
-Some fixes for devtool / recipetool issues, along with a couple of
-related changes to the oe-selftest tests. I have run the oe-selftest
-tests for devtool and recipetool and they pass with these changes
-applied.
+Patches that we identify as having been "deleted" (i.e. patches in
+SRC_URI that no longer appear in the git tree) need to be dropped even
+if we're updating in srcrev mode. This fixes the case where HEAD of the
+git tree is valid upstream (i.e. no extra commits), but there are
+patches left over in the recipe, e.g. when we do devtool upgrade and
+then all of the commits rebased on top of the new branch get skipped.
 
-NOTE: this patchset depends upon the bitbake patchset I just sent to the
-bitbake-devel list.
+Fixes [YOCTO #11972].
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The following changes since commit 62f1122ef166eba56441d669c6b3b3fe5f367418:
-
-  bluez5: cosmetic fixes to bluetooth bootscript (2017-08-30 11:13:52 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool29-oe
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool29-oe
-
-Paul Eggleton (12):
-  devtool: update-recipe: ensure patches get deleted in srcrev mode
-  devtool: upgrade: fix handling of non-absolute paths
-  devtool: upgrade: workaround for recipes which apply patches conditional upon class
-  devtool: edit-recipe: fix regression
-  oe-selftest: devtool: test find-recipe and edit-recipe
-  devtool: add: add explicit srcrev/branch options
-  recipetool: create: make recently added branch/tag handling git specific
-  recipetool: create: fix SRCPV prefix for non-git SCMs
-  recipetool: create: suppress npm shrinkwrap/lockdown warnings again
-  recipetool: create: detect Eclipse licenses
-  oe-selftest: tinfoil: add a test for variable history
-  scriptutils: fix fetch_url() to use lowercase dummy recipe name
-
-paul (1):
-  devtool: upgrade: check that user has configured git properly
-
- meta/lib/oe/recipeutils.py              | 43 +++++++++++++++++++++++-------
- meta/lib/oeqa/selftest/cases/devtool.py | 25 ++++++++++++------
- meta/lib/oeqa/selftest/cases/tinfoil.py | 34 ++++++++++++++++++++++++
- scripts/lib/devtool/standard.py         | 20 +++++++++++---
- scripts/lib/devtool/upgrade.py          | 32 ++++++++++++++++++++--
- scripts/lib/devtool/utilcmds.py         | 15 ++++++++---
- scripts/lib/recipetool/create.py        | 47 ++++++++++++++++++++++++++++-----
- scripts/lib/scriptutils.py              |  2 +-
- 8 files changed, 183 insertions(+), 35 deletions(-)
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index fa9d347..d79ebf1 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1352,9 +1352,10 @@ def _update_recipe_srcrev(srctree, rd, appendlayerdir, wildcard_version, no_remo
+             old_srcrev = (rd.getVar('SRCREV', False) or '')
+             upd_p, new_p, del_p = _export_patches(srctree, rd, old_srcrev,
+                                                   patches_dir)
++            logger.debug('Patches: update %s, new %s, delete %s' % (dict(upd_p), dict(new_p), dict(del_p)))
+ 
+             # Remove deleted local files and "overlapping" patches
+-            remove_files = list(del_f.values()) + list(upd_p.values())
++            remove_files = list(del_f.values()) + list(upd_p.values()) + list(del_p.values())
+             if remove_files:
+                 removedentries = _remove_file_entries(srcuri, remove_files)[0]
+                 update_srcuri = True
 -- 
 2.9.5
 
