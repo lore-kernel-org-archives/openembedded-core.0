@@ -1,27 +1,48 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B4EFA77B96
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A57B78258
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 21:38:22 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Aug 2017 14:38:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,450,1498546800"; d="scan'208";a="1009425106"
-Received: from yctb05.ostc.intel.com (HELO yctb05) ([10.54.69.59])
-	by orsmga003.jf.intel.com with ESMTP; 30 Aug 2017 14:38:23 -0700
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com
-References: <20170830171856.55394-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Wed, 30 Aug 2017 14:38:23 -0700
-In-Reply-To: <20170830171856.55394-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	(leonardo sandoval gonzalez's message of "Wed, 30 Aug 2017 10:18:56
-	-0700")
-Message-ID: <5qtw0o7n3k.fsf@yctb05>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.0.50 (gnu/linux)
+	Wed, 30 Aug 2017 23:16:57 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id j3so4951960wrb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Aug 2017 16:16:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nGtXVML7oKeqp4nGyGQ/zdftwGU0iAmQVyqVrpfX7jk=;
+	b=YnAR4n42dy9uxrv0vdMvaFIiQ24OvmzsASagzQ6/ZGkKICvk1JdRGUc0ykfBKJMApJ
+	pmp7Kt4twFerYuKcSUUERxXd7IcEUpPlEIcdTSMcSqgmRGj7mmxXn8lmlTMLZtpb6e0t
+	WAPh0p7NZkVnozEJ7Fn5ZiwoHNf3WwhWZSHl4omhTnOTdcoiVXicd1WsAG1UeAVdZm5O
+	3VZI/Jgt24kvqjAgzlelSmi9Ly+Lmd9dV0rYlsP55uR649d7ldz1KLqFnOu6VfoslQyN
+	uJZefyjaVf4Va6OmKINJ2DArxrAqXkfBABlSl0V18/SczHtRJlyZSJBc/Lt+7C4YqVB+
+	dMCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nGtXVML7oKeqp4nGyGQ/zdftwGU0iAmQVyqVrpfX7jk=;
+	b=WFpWbBwMRpgGoZC5AeL/HFVX2dF9alzRoqF7u3poCf/EAs3eGRdDqO+upq7/pi3EYA
+	XjJA0KkVgF4peL6zaG/roGVNbm7jeLF/yNgd3PdrXABCbwYDe3o+PVFfVxxpAV+l+CwV
+	wOoQPcSWXX1rRlbWC3/gkL1If6iNWaR9go+hx8pFM1P1RADvOi+ab3J8/pUCy4Zh6zSF
+	7G1uzWO/d+EMJWkq+45AZgm9BQGPaZKWZIsEsiMKg59CBbIAq9WzDY7x6RHDtrld+NYt
+	CyJXjk8qjLo2TpVdyaWblWXwURyIXgJW3YxxDiIcxBfvee5PWs++jlmF3wsVP/kf3yEA
+	BpDg==
+X-Gm-Message-State: AHYfb5ghOuBm/PiyhONS599id2E0j+oGJDJ8nnflJ3oCiVP8dLWe9XoL
+	jcULaKpdB4WzwAZWkPJHVcuaKpXSMw==
+X-Received: by 10.223.185.109 with SMTP id b42mr2154135wrg.16.1504135018904;
+	Wed, 30 Aug 2017 16:16:58 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] waffle: prefix MLPREFIX on libgl dependency
+Received: by 10.223.184.147 with HTTP; Wed, 30 Aug 2017 16:16:58 -0700 (PDT)
+In-Reply-To: <2d1bb10c-e13c-79d0-4e0e-bd5aa5d99a42@axis.com>
+References: <1499405543-3127-1-git-send-email-tobiasha@axis.com>
+	<2d1bb10c-e13c-79d0-4e0e-bd5aa5d99a42@axis.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 30 Aug 2017 16:16:58 -0700
+Message-ID: <CAJ86T=Vfoe5e86OokE3j9dY8Lc0s4A1OAZPwo318mYdFiKTYdA@mail.gmail.com>
+To: Tobias Hagelborn <tobias.hagelborn@axis.com>
+Cc: Tobias Hagelborn <tobiasha@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/2] Make source code browsable locally - devtool srctree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +55,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Aug 2017 21:38:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Aug 2017 23:16:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-leonardo.sandoval.gonzalez@linux.intel.com writes:
+On Wed, Aug 30, 2017 at 2:03 AM, Tobias Hagelborn
+<tobias.hagelborn@axis.com> wrote:
+> On 07/07/2017 07:32 AM, Tobias Hagelborn wrote:
+>>
+>> UPDATE v2:
+>> - Rebased on latest Poky
+>> - Fixed issue with bad paths
+>> - Dirname based on $PN
+>>
+>> In our organization, there is a demand to be able download source code for
+>> searching.
+>> With the use of sstate-cache this has been challenge. Also, the source is
+>> not gathered
+>> but rather spread in a larger directory structure together with build
+>> output.
+>> There are probably others that also want to be able to do the same.
+>>
+>> This addition does:
+>> * Force download of all source via the srctree_all task
+>> * Symlink the source together in a separate directory structure for easier
+>> search without
+>>    the risk of matching with build output.
+>>
+>> This is achived with a new class srctree.bbclass that implements the
+>> needed tasks and
+>> a devtool command srctree which offers a convenience command to set up
+>> source for
+>> a recipe and it's dependencies.
+>>
+>> There is also a way of organising the package source code in your own way.
+>> This is done by implementing a custom dir generation function and assign
+>> to SRCTREE_PN_PATH
+>> in a custom class and set SRCTREE_EXTENSION in a configuration file.
+>>
+>>
+>> Tobias Hagelborn (2):
+>>    srctree.bbclass: Download sourcecode and make it searchable
+>>    devtool: srctree: New command for setting up browsable source-code
+>>
+>>   meta/classes/srctree.bbclass   | 90
+>> ++++++++++++++++++++++++++++++++++++++++++
+>>   scripts/lib/devtool/srctree.py | 87
+>> ++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 177 insertions(+)
+>>   create mode 100644 meta/classes/srctree.bbclass
+>>   create mode 100644 scripts/lib/devtool/srctree.py
+>>
+>
+> Hi
+>
+> I did not receive any feedback on this one.
+>
+> We do make good use of this feature and we can't be the only ones who want
+> to browse the source of the distro at times?
 
-please ignore this patch. I will git-amend and provide a better explanation.
+Just for reference, I think you could achieve something quite similar with:
 
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+  bitbake <your-image> --runall clean  ( or rm -rf tmp )
+  bitbake <your-image> --runall patch
+
+
+> Cheers
+> Tobias
 >
-> Otherwise, on a multilib environment we get the following bitbake errors
-> while building 'world'
->
->     ERROR: Nothing PROVIDES 'virtual/lib32-libgl' (but virtual:multilib:lib32:/meta/recipes-graphics/waffle/waffle_1.5.2.bb DEPENDS on or otherwise requires it). Close matches:
->       virtual/lib32-libsdl
->       virtual/lib32-libc
->       virtual/lib32-libsdl2
->     ERROR: Required build target 'lib32-meta-world-pkgdata' has no buildable providers.
->     Missing or unbuildable dependency chain was: ['lib32-meta-world-pkgdata', 'meta-world-pkgdata', 'lib32-waffle', 'virtual/lib32-libgl']
->
->     Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
->
-> [YOCTO #10900]
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->  meta/recipes-graphics/waffle/waffle_1.5.2.bb | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-graphics/waffle/waffle_1.5.2.bb b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-> index 9d6b0e0e0d..a5179db1da 100644
-> --- a/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-> +++ b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-> @@ -21,20 +21,20 @@ PACKAGECONFIG ??= "glx"
->  REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'x11', '', d)}"
->  
->  # virtual/libgl requires opengl in DISTRO_FEATURES.
-> -REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/libgl', 'opengl', '', d)}"
-> +REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/${MLPREFIX}libgl', 'opengl', '', d)}"
->  
->  # I say virtual/libgl, actually wants gl.pc
-> -PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/libgl libx11"
-> +PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/${MLPREFIX}libgl libx11"
->  
->  # I say virtual/libgl, actually wants wayland-egl.pc, egl.pc, and the wayland
->  # DISTRO_FEATURE.
-> -PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,-Dwaffle_has_wayland=0,virtual/libgl wayland"
-> +PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,-Dwaffle_has_wayland=0,virtual/${MLPREFIX}libgl wayland"
->  
->  # I say virtual/libgl, actually wants gbm.pc egl.pc
-> -PACKAGECONFIG[gbm] = "-Dwaffle_has_gbm=1,-Dwaffle_has_gbm=0,virtual/libgl udev"
-> +PACKAGECONFIG[gbm] = "-Dwaffle_has_gbm=1,-Dwaffle_has_gbm=0,virtual/${MLPREFIX}libgl udev"
->  
->  # I say virtual/libgl, actually wants egl.pc
-> -PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,-Dwaffle_has_x11_egl=0,virtual/libgl libxcb"
-> +PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,-Dwaffle_has_x11_egl=0,virtual/${MLPREFIX}libgl libxcb"
->  
->  FILES_${PN}-dev += "${datadir}/cmake/Modules/FindWaffle.cmake \
->                      ${libdir}/cmake/Waffle/"
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
