@@ -1,21 +1,45 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B5B778375
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BC85578240
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 17:19:22 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Aug 2017 10:19:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,449,1498546800"; d="scan'208";a="146375601"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Aug 2017 10:19:00 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+	Wed, 30 Aug 2017 17:27:29 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id 63so5524451pgc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Aug 2017 10:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=9ua7XzYihgBa6xPs6GYMBsdf4kx4TkPIqCMkG4n9Zpk=;
+	b=sYStWe+2nXAl8pyrhFPFD/FG0VqInB5VQZu6N8hSCUYZURMYIpnzxrPIpafkh6CnlW
+	kArBrzByl0AF8jnb9pSb0T606Ec/izOuU5FNEftb91lD0CUKZR0ptv4WuZX1G/drBMzK
+	eKx5gWQwFy1/LCd/aiD3sLcgxSSPL8UscXpG622RLUSp6ErbtM3qmryxl8qamWNY6uhM
+	7f8GIsNv7F/BTyD9Z3BKpI4BinnFgoQ9DZsnwLpwYH8IpSY44xYZ5TBI3hXqIcU8hWLn
+	gbNhceuvaAewabUdww2LAXRSmz7bL/71F7KwX9d6YiX2ao26P99UYVDE/JyzioNAXKjF
+	CyLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9ua7XzYihgBa6xPs6GYMBsdf4kx4TkPIqCMkG4n9Zpk=;
+	b=JE+6mz6OIAYuNhlrP1P6bI3R2QIQzcCrvQ72LzDFQ06f6xFbOgSVKVt8F4H58NAAjC
+	2xpdgYquCnF0euiRg6UhKOxGVVXvzVM2AjQdFzst9i9GA4rjm0/JMaT7JfDqK8XIk2/K
+	SyWGHu60FaEV6mYDRr0doZlzwZXZhsvbP3yK8TvG1/HH0pjD1XY6+Ioi1E9e4fmND0Z+
+	+5xEm7I4IsHwGtx489luniSu0YMuRrJ/7IKLrVc4KHNsL7bb1WkXbtA/udItvA/hQBF8
+	BkJjmo4Kn7PHKBe0hwIjGWn6YnJqL65RajRKRXwkAXGfjYjxfcTxXR+V3rOFiqN6mXoa
+	u3Gg==
+X-Gm-Message-State: AHYfb5jVhPUj11dfpyKIuAlpggjfd76TYEs34Z7OZaXJpEx6Ax31UmQn
+	49DmAUaSAyWSTdeK
+X-Received: by 10.84.151.69 with SMTP id i63mr2924583pli.343.1504114050901;
+	Wed, 30 Aug 2017 10:27:30 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::79ab])
+	by smtp.gmail.com with ESMTPSA id
+	j16sm8420035pga.81.2017.08.30.10.27.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 30 Aug 2017 10:27:30 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Aug 2017 10:18:56 -0700
-Message-Id: <20170830171856.55394-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] waffle: prefix MLPREFIX on libgl dependency
+Date: Wed, 30 Aug 2017 10:27:20 -0700
+Message-Id: <20170830172720.21110-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] musl: Update to latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,60 +52,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Aug 2017 17:19:23 -0000
+X-List-Received-Date: Wed, 30 Aug 2017 17:27:29 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Alexander Monakov (1):
+      __init_libc: add fallbacks for __progname setup
 
-Otherwise, on a multilib environment we get the following bitbake errors
-while building 'world'
+Daniel Sabogal (1):
+      fix signed overflow in ftok
 
-    ERROR: Nothing PROVIDES 'virtual/lib32-libgl' (but virtual:multilib:lib32:/meta/recipes-graphics/waffle/waffle_1.5.2.bb DEPENDS on or otherwise requires it). Close matches:
-      virtual/lib32-libsdl
-      virtual/lib32-libc
-      virtual/lib32-libsdl2
-    ERROR: Required build target 'lib32-meta-world-pkgdata' has no buildable providers.
-    Missing or unbuildable dependency chain was: ['lib32-meta-world-pkgdata', 'meta-world-pkgdata', 'lib32-waffle', 'virtual/lib32-libgl']
+Rich Felker (4):
+      fix unsynchronized access to FILE structure in fflush(0)
+      fix undefined behavior in memset due to missing sequence points
+      add powerpc64 and s390x to list of supported archs in INSTALL file
+      move IPPORT_RESERVED from netdb.h to netinet/in.h
 
-    Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+Szabolcs Nagy (2):
+      fix mips ioctl macros to match linux asm/sockios.h
+      add SIOCGSTAMPNS socket ioctl macro to ioctl.h
 
-[YOCTO #10900]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-graphics/waffle/waffle_1.5.2.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/waffle/waffle_1.5.2.bb b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-index 9d6b0e0e0d..a5179db1da 100644
---- a/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-@@ -21,20 +21,20 @@ PACKAGECONFIG ??= "glx"
- REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'x11', '', d)}"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index e67b82d9ea..88769f4e0b 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,7 +3,7 @@
  
- # virtual/libgl requires opengl in DISTRO_FEATURES.
--REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/libgl', 'opengl', '', d)}"
-+REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/${MLPREFIX}libgl', 'opengl', '', d)}"
+ require musl.inc
  
- # I say virtual/libgl, actually wants gl.pc
--PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/libgl libx11"
-+PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/${MLPREFIX}libgl libx11"
+-SRCREV = "1698fe6cdcdeaad03aa19a85433d5396ecfc51ef"
++SRCREV = "5f7efb87a28a311ad377dd26adf53715dedb096d"
  
- # I say virtual/libgl, actually wants wayland-egl.pc, egl.pc, and the wayland
- # DISTRO_FEATURE.
--PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,-Dwaffle_has_wayland=0,virtual/libgl wayland"
-+PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,-Dwaffle_has_wayland=0,virtual/${MLPREFIX}libgl wayland"
+ PV = "1.1.16+git${SRCPV}"
  
- # I say virtual/libgl, actually wants gbm.pc egl.pc
--PACKAGECONFIG[gbm] = "-Dwaffle_has_gbm=1,-Dwaffle_has_gbm=0,virtual/libgl udev"
-+PACKAGECONFIG[gbm] = "-Dwaffle_has_gbm=1,-Dwaffle_has_gbm=0,virtual/${MLPREFIX}libgl udev"
- 
- # I say virtual/libgl, actually wants egl.pc
--PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,-Dwaffle_has_x11_egl=0,virtual/libgl libxcb"
-+PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,-Dwaffle_has_x11_egl=0,virtual/${MLPREFIX}libgl libxcb"
- 
- FILES_${PN}-dev += "${datadir}/cmake/Modules/FindWaffle.cmake \
-                     ${libdir}/cmake/Waffle/"
 -- 
-2.12.3
+2.14.1
 
 
