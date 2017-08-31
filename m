@@ -1,32 +1,52 @@
-Return-Path: <clopez@igalia.com>
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E5797198F
+Return-Path: <haris.okanovic@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B80C783A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 18:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:Subject;
-	bh=I7Ll2EZjo1FOINfEEsZPwhYxcV4X/GfHG7Ixrn3tVoU=; 
-	b=Ks9qJ/CIB8ErtitITr5OS2cKhBl0gYP3FpySdTyMP8X35LEnq+c56N7O3MKJpWeha1qG6ouGgK9BykH0lxsXsLPaAsrve1W2D/h4GyKKnqqj1C4NXb5FaWEQExvqIGQMkWoO+h2Y6Ke0I5MlcvQLg0MpOeuaXKiR5mvoR2af6614ItcphDaUkzj4J9GPJp9TKXm8ykGsXCm0w4Yur+bsUXVjeSUU+IYwXt2u2WYBvMtV44rCN2eYcZ+p0N33xYlSp2xyZM5FLy+Iq/YD4d4gXkTULrl2Hs5WahylCRPixcQDx+MyN7Lg/1FAJeOth+oOlnSA1FrI40K3D5sWreaJKQ==;
-Received: from [192.168.10.149] by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1dnTlt-00072y-WC for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 20:00:54 +0200
-Cc: openembedded-core@lists.openembedded.org
-References: <20170831122335.6864-1-clopez@igalia.com>
-	<CAP9ODKq4Jb4HfhHCpNgg+zwwqc0E21t3cmGGMHm9jfOmqVpg2g@mail.gmail.com>
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
-	url=http://key.neutrino.es
-Organization: Igalia S.L.
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-Message-ID: <d9f6a958-7cb4-c3e8-9d90-25a10204d685@igalia.com>
-Date: Thu, 31 Aug 2017 20:00:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Thu, 31 Aug 2017 18:46:45 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
+	v7VIkHDh013764; Thu, 31 Aug 2017 13:46:47 -0500
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2cmjtq6cx8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 31 Aug 2017 13:46:46 -0500
+Received: from us-aus-exhub1.ni.corp.natinst.com
+	(us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
+	by us-aus-skprod2.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
+	v7VIkksR004435
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Thu, 31 Aug 2017 13:46:46 -0500
+Received: from us-aus-exch7.ni.corp.natinst.com (130.164.68.17) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Thu, 31 Aug 2017 13:46:45 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch7.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Thu, 31 Aug 2017 13:46:45 -0500
+Received: from harisdt.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Thu, 31 Aug 2017 13:46:45 -0500
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 Aug 2017 13:46:43 -0500
+Message-ID: <20170831184643.3991-1-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.13.2
+In-Reply-To: <20170519150121.7707-1-haris.okanovic@ni.com>
+References: <20170519150121.7707-1-haris.okanovic@ni.com>
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKq4Jb4HfhHCpNgg+zwwqc0E21t3cmGGMHm9jfOmqVpg2g@mail.gmail.com>
-Subject: Re: [PATCH] initramfs-live-boot: disable systemd-update-done.service on live images
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-08-31_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1707230000 definitions=main-1708310279
+Cc: haris.okanovic@ni.com, ken.sharp@ni.com
+Subject: [PATCH] package_manager.py: Add PACKAGE_ENABLE_FILELIST option to OpkgIndexer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,91 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Aug 2017 18:00:53 -0000
-X-Groupsio-MsgNum: 102250
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="l5u5CwuWAhPMSL062iWJjkOWvSpcjfAWg"
+X-List-Received-Date: Thu, 31 Aug 2017 18:46:46 -0000
+Content-Type: text/plain
 
---l5u5CwuWAhPMSL062iWJjkOWvSpcjfAWg
-Content-Type: multipart/mixed; boundary="KucOaog3ei59qDosneodFq6DnxsWc8Rg1";
- protected-headers="v1"
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-ID: <d9f6a958-7cb4-c3e8-9d90-25a10204d685@igalia.com>
-Subject: Re: [OE-core] [PATCH] initramfs-live-boot: disable
- systemd-update-done.service on live images
-References: <20170831122335.6864-1-clopez@igalia.com>
- <CAP9ODKq4Jb4HfhHCpNgg+zwwqc0E21t3cmGGMHm9jfOmqVpg2g@mail.gmail.com>
-In-Reply-To: <CAP9ODKq4Jb4HfhHCpNgg+zwwqc0E21t3cmGGMHm9jfOmqVpg2g@mail.gmail.com>
+Setting PACKAGE_ENABLE_FILELIST option generates Packages.filelist on
+`bitbake package-index`, which is index of files provided by each
+IPK package in the feed. It's useful for figuring out which package
+provides a particular file/program/library/etc.
 
---KucOaog3ei59qDosneodFq6DnxsWc8Rg1
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+Disabled by default since generating a filelist involves reading the
+payload of every package in the feed, a time and IO intensive operation
+many users won't want to run. Those who do may flip this switch.
 
-On 31/08/17 19:26, Otavio Salvador wrote:
-> On Thu, Aug 31, 2017 at 9:23 AM, Carlos Alberto Lopez Perez
-> <clopez@igalia.com> wrote:
->> When systemd is used, it will invoke a service on first boot that trig=
-gers
->> a rebuild of ldconfig caches (rebuild dynamic linker cache).
->>
->> This is fine on the first boot of a system that has been installed, bu=
-t it
->> makes no sense on a live system. The worst part is that rebuilding thi=
-s
->> caches is slow and it causes the live system to take longer to boot.
->> (I measured this in 30 seconds longer on a standard PC system booting
->> core-image-sato live from an USB memory).
->>
->> Disable this by touching /etc/.updated and /var/.updated on the live i=
-nitramfs.
->>
->> For more details see https://bugzilla.redhat.com/show_bug.cgi?id=3D120=
-1725 and
->> https://www.freedesktop.org/software/systemd/man/systemd-update-done.s=
-ervice.html
->>
->> Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
->=20
-> This should be done to the live boot module of initramfs-framework as w=
-ell.
->=20
->=20
+Testing:
+ * Built an opkg index with PACKAGE_ENABLE_FILELIST unset and verified
+   no Packages.filelist are generated.
+ * Built with PACKAGE_ENABLE_FILELIST="1" and verified each subfeed
+   has Packages.filelist; took ~3min longer for 8,200 IPKs.
 
-I'm not really familiar with the modules there.
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+---
+ meta/lib/oe/package_manager.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-What is the use case of doing this there as well?
-live systems without an initramfs? is that possible?
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index b4b359a8c6..5e1fc48500 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -161,6 +161,8 @@ class OpkgIndexer(Indexer):
+         else:
+             signer = None
+ 
++        enable_filelist = bb.utils.to_boolean(self.d.getVar('PACKAGE_ENABLE_FILELIST', True) or "False")
++
+         if not os.path.exists(os.path.join(self.deploy_dir, "Packages")):
+             open(os.path.join(self.deploy_dir, "Packages"), "w").close()
+ 
+@@ -175,14 +177,18 @@ class OpkgIndexer(Indexer):
+                 pkgs_dir = os.path.join(self.deploy_dir, arch)
+                 pkgs_file = os.path.join(pkgs_dir, "Packages")
+ 
++                filelist_cmd = ""
++                if enable_filelist:
++                    filelist_cmd = '-l %s.filelist' % (pkgs_file)
++
+                 if not os.path.isdir(pkgs_dir):
+                     continue
+ 
+                 if not os.path.exists(pkgs_file):
+                     open(pkgs_file, "w").close()
+ 
+-                index_cmds.add('%s -r %s -p %s -m %s' %
+-                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
++                index_cmds.add('%s -r %s -p %s -m %s %s' %
++                                  (opkg_index_cmd, pkgs_file, pkgs_file, filelist_cmd, pkgs_dir))
+ 
+                 index_sign_files.add(pkgs_file)
+ 
+-- 
+2.13.2
 
-Where should this exactly be done there?
-I don't see the boot_live_root() equivalent.
 
-
---KucOaog3ei59qDosneodFq6DnxsWc8Rg1--
-
---l5u5CwuWAhPMSL062iWJjkOWvSpcjfAWg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: You can fetch my GnuPG key from http://key.neutrino.es
-
-iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmoTtUACgkQllCJzmuV
-+IIaPBAAt5m6QuZnfF76DLOTBu+Z5KckHeaC6r72qdcIFboG8qgnqdRt+47H2XIu
-8pb6YSHkjW3ZB0SbRgdKb99vs8OlMWLz/TbAm0oHdSE0lQtHvcC3ksnJiAx5MDCM
-tXEabsi0s40BTcQCdqUXc+U9/iUsVdXoZaG89VzaDOF23fJ+GRXDUrcWeHU72MYW
-oW5Z6Ly7WBqIh3yTfG3Pjpdc+hHlnLfzemcHgdNK/ZrXACLgBc/qoXMecMQl9kYA
-gL7S1OuvafkT0ziBNXO8uyfmBGrS5BsEJjB+hQ9mhB7g4cstKHtEO7jheFd8v6cv
-Uhdzkb5FPXLXKUYcWHoGUZ1ElszIEptQUtbBLZPniGehRdwtGfOmd6Gy8bjA7/Vf
-E4Md9ThXUmfoWAbChBIlacew4dlA7U+18Hj5Zo53w/BG++RK9K7mmgwIWI8Xd97K
-wopMKKm+odpIN+Ilh6UBOZU0JFpJo8xHdgI1zMqVT1Gug9rftOk/a+bdFIxFeupk
-HKSvdkCRmiLiSnT7v64wT75IqHWXI6VYdc2T6oY/KBE2waeCApcARrxDk49bJ/Ln
-CLw+3eu+7844DTWNBocmOb5QbXxOJnLnAs8dS4xrJ1Wzr50KmbXu85/LUlmkWPch
-7O3IEtJfVXBYgW7Vav5YThoQBlYJ2AeEHhouZC3FFjl9i1j1o7A=
-=4hbQ
------END PGP SIGNATURE-----
-
---l5u5CwuWAhPMSL062iWJjkOWvSpcjfAWg--
