@@ -1,24 +1,60 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E36B67835B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 6279F71BA6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 05:55:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7V5tkPt012167
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Aug 2017 22:55:46 -0700
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 30 Aug 2017 22:55:45 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Aug 2017 13:54:58 +0800
-Message-ID: <20170831055458.9197-1-jackie.huang@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Thu, 31 Aug 2017 06:32:43 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 8710D2E12A;
+	Thu, 31 Aug 2017 08:32:44 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id FVQ2F8CevUp4; Thu, 31 Aug 2017 08:32:43 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id 34F642E13A;
+	Thu, 31 Aug 2017 08:32:43 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 254F01A070;
+	Thu, 31 Aug 2017 08:32:43 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1A28C1A066;
+	Thu, 31 Aug 2017 08:32:43 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Thu, 31 Aug 2017 08:32:43 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id 0E619224F;
+	Thu, 31 Aug 2017 08:32:43 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Thu, 31 Aug 2017 08:32:43 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Thu, 31 Aug 2017 08:32:42 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Thu, 31 Aug 2017 08:32:42 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Andre McCurdy <armccurdy@gmail.com>, Tobias Hagelborn <tobiasha@axis.com>
+Thread-Topic: [OE-core] [PATCH v2 0/2] Make source code browsable locally -
+	devtool srctree
+Thread-Index: AQHTIW7p5GTx9+70vUOVuEZKaHrbLaKdZ8IAgACZTvA=
+Date: Thu, 31 Aug 2017 06:32:42 +0000
+Message-ID: <0fa15a09e9554731a800e4e771e25ab9@XBOX02.axis.com>
+References: <1499405543-3127-1-git-send-email-tobiasha@axis.com>
+	<2d1bb10c-e13c-79d0-4e0e-bd5aa5d99a42@axis.com>
+	<CAJ86T=Vfoe5e86OokE3j9dY8Lc0s4A1OAZPwo318mYdFiKTYdA@mail.gmail.com>
+In-Reply-To: <CAJ86T=Vfoe5e86OokE3j9dY8Lc0s4A1OAZPwo318mYdFiKTYdA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH] rootfs-postcommands.bbclass: add support for /etc/ld.so.conf.d/*.conf
+X-TM-AS-GCONF: 00
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/2] Make source code browsable locally - devtool srctree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +67,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Aug 2017 05:55:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 Aug 2017 06:32:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jackie Huang <jackie.huang@windriver.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Andre McCurdy
+> Sent: den 31 augusti 2017 01:17
+> To: Tobias Hagelborn <Tobias.Hagelborn@axis.com>
+> Cc: Tobias Hagelborn <Tobias.Hagelborn@axis.com>; OE Core mailing list
+> <openembedded-core@lists.openembedded.org>
+> Subject: Re: [OE-core] [PATCH v2 0/2] Make source code browsable
+> locally - devtool srctree
+>=20
+> On Wed, Aug 30, 2017 at 2:03 AM, Tobias Hagelborn
+> <tobias.hagelborn@axis.com> wrote:
+> > On 07/07/2017 07:32 AM, Tobias Hagelborn wrote:
+> >>
+> >> UPDATE v2:
+> >> - Rebased on latest Poky
+> >> - Fixed issue with bad paths
+> >> - Dirname based on $PN
+> >>
+> >> In our organization, there is a demand to be able download source
+> code for
+> >> searching.
+> >> With the use of sstate-cache this has been challenge. Also, the
+> source is
+> >> not gathered
+> >> but rather spread in a larger directory structure together with
+> build
+> >> output.
+> >> There are probably others that also want to be able to do the same.
+> >>
+> >> This addition does:
+> >> * Force download of all source via the srctree_all task
+> >> * Symlink the source together in a separate directory structure for
+> easier
+> >> search without
+> >>    the risk of matching with build output.
+> >>
+> >> This is achived with a new class srctree.bbclass that implements the
+> >> needed tasks and
+> >> a devtool command srctree which offers a convenience command to set
+> up
+> >> source for
+> >> a recipe and it's dependencies.
+> >>
+> >> There is also a way of organising the package source code in your
+> own way.
+> >> This is done by implementing a custom dir generation function and
+> assign
+> >> to SRCTREE_PN_PATH
+> >> in a custom class and set SRCTREE_EXTENSION in a configuration file.
+> >>
+> >>
+> >> Tobias Hagelborn (2):
+> >>    srctree.bbclass: Download sourcecode and make it searchable
+> >>    devtool: srctree: New command for setting up browsable source-
+> code
+> >>
+> >>   meta/classes/srctree.bbclass   | 90
+> >> ++++++++++++++++++++++++++++++++++++++++++
+> >>   scripts/lib/devtool/srctree.py | 87
+> >> ++++++++++++++++++++++++++++++++++++++++
+> >>   2 files changed, 177 insertions(+)
+> >>   create mode 100644 meta/classes/srctree.bbclass
+> >>   create mode 100644 scripts/lib/devtool/srctree.py
+> >>
+> >
+> > Hi
+> >
+> > I did not receive any feedback on this one.
+> >
+> > We do make good use of this feature and we can't be the only ones who
+> want
+> > to browse the source of the distro at times?
+>=20
+> Just for reference, I think you could achieve something quite similar
+> with:
+>=20
+>   bitbake <your-image> --runall clean  ( or rm -rf tmp )
+>   bitbake <your-image> --runall patch
 
-There are advantages in changing the contents of ld.so.conf to
-"include /etc/ld.so.conf.d/*.conf" instead of directly listing
-directories in it, just like most distributions are doing the same.
+Yes, but the drawback with this is that to find the source code for the=20
+individual packages, you have to dive down into tmp/work/... which can=20
+be quite discouraging for someone who is not an expert in bitbake. What=20
+our developers requested was a way to get easy access to all the source=20
+code being used, typically to be able to search through it all looking=20
+for some specific feature.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/classes/rootfs-postcommands.bbclass | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+> > Cheers
+> > Tobias
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index dc5a76baba..af01eb550a 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -20,6 +20,9 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
- # Generates test data file with data store variables expanded in json format
- ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
- 
-+# Add support for /etc/ld.so.conf.d/*.conf if ldconfig is enabled
-+ROOTFS_POSTINSTALL_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', 'add_ld_so_conf_d ;', '', d)}"
-+
- # Write manifest
- IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.manifest"
- ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
-@@ -244,6 +247,16 @@ make_zimage_symlink_relative () {
- 	fi
- }
- 
-+# Add support for /etc/ld.so.conf.d/*.conf
-+add_ld_so_conf_d() {
-+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf ]; then
-+        if ! `grep -q 'include ld.so.conf.d\/\*.conf' /etc/ld.so.conf`; then
-+            echo 'include ld.so.conf.d/*.conf' >> ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf
-+        fi
-+        mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf.d
-+    fi
-+}
-+
- python write_image_manifest () {
-     from oe.rootfs import image_list_installed_packages
-     from oe.utils import format_pkg_list
--- 
-2.11.0
+//Peter
 
 
