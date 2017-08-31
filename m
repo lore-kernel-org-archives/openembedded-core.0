@@ -1,21 +1,32 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C5CF780ED
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 824AF78207
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 14:01:06 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Aug 2017 07:00:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,453,1498546800"; d="scan'208";a="124383490"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga004.jf.intel.com with ESMTP; 31 Aug 2017 07:00:44 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Aug 2017 07:00:41 -0700
-Message-Id: <20170831140041.70134-1-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH] waffle: fix REQUIRED_DISTRO_FEATURES and PACKAGECONFIG virtual/libgl dependencies
+	Thu, 31 Aug 2017 15:38:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:To:References:Subject;
+	bh=HIz+LZwh+xSFgADXCbtigFFvc923xtUIDSok9FOk6BY=; 
+	b=X3zHlVvN8V3eUeMHD2yalo0l9VsVz671rTEWWYjVjU4KgEM435iGtV/UE2HruecEDhHopIBbF44HYiKlCY6OBjEQad0LYWyd3x+3YEi3IhbvqDXHt6HwuHoObILGljZN2EJ5s1o6aErmBoUhBDvt3t1ttq2LNtauf0cDqnzvEbPcyu/urgv1S0/Nf5sTW5m3852FeTXWdXIHAPUE37VeQ5BpFM0MVqkci7n48QFnKZzvmvyYvACesGQh7BXv/O54hGrAtwDW+JTdlLtCX6qH3vKHoRQSbLAVtMdvwtnPUtO7uvq1UpkP/+ImVk+HQ8uHjlbHMKIMZybxC/qLzcrOAQ==;
+Received: from [192.168.10.149] by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1dnRXn-0000Vl-Ed for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Aug 2017 17:38:11 +0200
+References: <20170831122335.6864-1-clopez@igalia.com>
+	<CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
+Date: Thu, 31 Aug 2017 17:38:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
+Subject: Re: [PATCH] initramfs-live-boot: disable systemd-update-done.service on live images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,69 +39,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Aug 2017 14:01:07 -0000
+X-List-Received-Date: Thu, 31 Aug 2017 15:38:11 -0000
+X-Groupsio-MsgNum: 102244
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="R4KE5gAQelOwsfoC85B3WB2WisLuCeOxo"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+--R4KE5gAQelOwsfoC85B3WB2WisLuCeOxo
+Content-Type: multipart/mixed; boundary="r9pRpXUuKSsWsdTEImfqKjBDbj7gwuINn";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
+Subject: Re: [OE-core] [PATCH] initramfs-live-boot: disable
+ systemd-update-done.service on live images
+References: <20170831122335.6864-1-clopez@igalia.com>
+ <CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
+In-Reply-To: <CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
 
-Waffle's REQUIRED_DISTRO_FEATURES statement looks into DEPENDS and if
-virtual/libgl is present, it includes opengl as distro feature. However,
-in a multilib environment, recipes provides virtual/${MLPREFIX}libgl,
-thus waffle recipe needs to include the prefix. Also PACKAGECONFIG
-statements need this change in order to properly include the libgl
-dependency.
+--r9pRpXUuKSsWsdTEImfqKjBDbj7gwuINn
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-The way this error showed up was in a multilib environment and a distro
-not containing opengl, i.e. nodistro, leading the following error when
-building world -S none (because opengl was not included as required distro
-feature):
+On 31/08/17 15:46, Burton, Ross wrote:
+> Presumably/hopefully systemd isn't hardcoding /etc and /var but respect=
+ing
+> sysconfdir and localstatedir, so the touch should also use those variab=
+les
+> (by sedding the script).
 
-    ERROR: Nothing PROVIDES 'virtual/lib32-libgl' (but virtual:multilib:lib32:/meta/recipes-graphics/waffle/waffle_1.5.2.bb DEPENDS on or otherwise requires it). Close matches:
-      virtual/lib32-libsdl
-      virtual/lib32-libc
-      virtual/lib32-libsdl2
-    ERROR: Required build target 'lib32-meta-world-pkgdata' has no buildable providers.
-    Missing or unbuildable dependency chain was: ['lib32-meta-world-pkgdata', 'meta-world-pkgdata', 'lib32-waffle', 'virtual/lib32-libgl']
+https://github.com/systemd/systemd/blob/master/units/systemd-update-done.=
+service.in#L15
+https://github.com/systemd/systemd/blob/master/src/update-done/update-don=
+e.c#L72
 
-    Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-
-[YOCTO #10900]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/recipes-graphics/waffle/waffle_1.5.2.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-graphics/waffle/waffle_1.5.2.bb b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-index 9d6b0e0e0d..a5179db1da 100644
---- a/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
-@@ -21,20 +21,20 @@ PACKAGECONFIG ??= "glx"
- REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'x11', '', d)}"
- 
- # virtual/libgl requires opengl in DISTRO_FEATURES.
--REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/libgl', 'opengl', '', d)}"
-+REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/${MLPREFIX}libgl', 'opengl', '', d)}"
- 
- # I say virtual/libgl, actually wants gl.pc
--PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/libgl libx11"
-+PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,-Dwaffle_has_glx=0,virtual/${MLPREFIX}libgl libx11"
- 
- # I say virtual/libgl, actually wants wayland-egl.pc, egl.pc, and the wayland
- # DISTRO_FEATURE.
--PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,-Dwaffle_has_wayland=0,virtual/libgl wayland"
-+PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,-Dwaffle_has_wayland=0,virtual/${MLPREFIX}libgl wayland"
- 
- # I say virtual/libgl, actually wants gbm.pc egl.pc
--PACKAGECONFIG[gbm] = "-Dwaffle_has_gbm=1,-Dwaffle_has_gbm=0,virtual/libgl udev"
-+PACKAGECONFIG[gbm] = "-Dwaffle_has_gbm=1,-Dwaffle_has_gbm=0,virtual/${MLPREFIX}libgl udev"
- 
- # I say virtual/libgl, actually wants egl.pc
--PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,-Dwaffle_has_x11_egl=0,virtual/libgl libxcb"
-+PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,-Dwaffle_has_x11_egl=0,virtual/${MLPREFIX}libgl libxcb"
- 
- FILES_${PN}-dev += "${datadir}/cmake/Modules/FindWaffle.cmake \
-                     ${libdir}/cmake/Waffle/"
--- 
-2.12.3
+// losing the hope
 
 
+--r9pRpXUuKSsWsdTEImfqKjBDbj7gwuINn--
+
+--R4KE5gAQelOwsfoC85B3WB2WisLuCeOxo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmoLWIACgkQllCJzmuV
++IJoVBAAngReZy8ea3UoXBK2viqpL+7AsOL/sU6L+o8KUsSNgh8FLCNsUB/lvUt2
+16Z3Fepcksqz0wbaQxbdmb5Slsq+jV2kj+Y7K99FDzZpoLYqNfmemGdz9EgqWX59
+F4lHlNcc8nHboKORhzF+kxecm9JDDxtEarQKLo1XNYsypKkODZ5OsEoij3zzFc5X
+ibBpdY7A5iG86/ykiKHR7k+Xhy3tl6QUAG93CFKnUxRUTh0AmCXo0F1a/rMI+fJg
+XPm3YhjaJSkQ8nHjh7LS0rklz7LBqGTUZjgqHl4IRWiBRGJLBbCtkTN2boIAvXYS
+hokWO8EOekO0YhKtHWNAmI+U4rok//cMv5M5dWNvkwqxjXER2wAO9j39wgcXkQVo
+ZnocqT7qMKbljsV6KFUpi863VKHgYwm/Z62C2V1+IB1VRjExnuM8RfcxLIxoMM9m
+vOi8mx13AWg27R6kx+Ocb1f3CW7gmdplcT/PP1ZLaZip8neBjt3lwE5zgd2ASOEM
+TCgNG1ZdL0mAxuQEdTmOV46Dp8UMAGR361dbAQt08ENk2HfD9BznbmXK16Rnz3qe
+c4HULyeQl7PFF8l8nrQtS8sLvZnFSwfEQZDvja2Z4Ab1kEnlflPXtF2vwHZRKTy3
+WC60Z114u4k7MZGpQ6vojcsoj2RUTNrZBMsdUFJJicFXA1grSvU=
+=WLx6
+-----END PGP SIGNATURE-----
+
+--R4KE5gAQelOwsfoC85B3WB2WisLuCeOxo--
