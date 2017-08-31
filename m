@@ -1,33 +1,50 @@
-Return-Path: <clopez@igalia.com>
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 9936C7840F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B1E78457
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 16:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
-	bh=STaH7DmmMGdFEnga77pAHw7WEjPOi+4wU+mKtWgnYTQ=; 
-	b=m9X1ZhdO9XjjwN481y62FThueEZJHuo2qQ6Fgn9Oe+6EaaVEC8AO6wFsHZ0Cs4J6pppXoXKOgWFKMgwjj6aJHACNDRRXiRzkdXEGJTgDB8EssTREKGwDV9SgOdU+7GFemWBkOz+jqderhh8Wo5bexwcDjIBddB3Sg1kECuXaSk/7dD4JALQ5cHsAUC2iwEEStZ49UtHU0ieYEFPRDGzDUayBEir0ciktnanJRcDmPRG0Jke/XUyvdw6TenNcWEYm5wqvodUaSH5oiFLxfCUxdzwX2A/A3i/x0ksjIJQCesDF9TAfyGuGn0aoV0D+q7gX5ZfSga6bN29RO/ceB3txGw==;
-Received: from [192.168.10.149] by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1dnSmt-00006h-6i for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 18:57:51 +0200
-To: openembedded-core@lists.openembedded.org
+	Thu, 31 Aug 2017 17:01:04 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id d78so2051135ioe.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Aug 2017 10:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=tyrwNYgKHRIQsNC6X7/CUSaL1UoxAeJUJEPneMeZhxs=;
+	b=CJVUhrma7Tli9RErcZTeHKwKDjvukH2H+8m6pSPAKzEqZRIgOEkazGbimYU9AXiWi1
+	N361iGj2o18oXfK1QivBvmqMXNp47zGXlQbk8CgFVGqbOktfCkhkMd/XiMgYdxP280yh
+	3IYoI4vQysBOiNrQXQCA5xJVhQtC9DHJJ+M79tswHE95JVwwyzNXlfY1jodVNONCx+2b
+	lhVI2GW6CN796YCYJ4cQcTbqSgd997mN4GH4NewzQ1eOyjqqUCSjGNdTlli09OhAcQZO
+	E9wQl7tbFpycGtRMcMVMdEge6Va08bjLUr6Cj3LeXw1lCYYo1xswi5aiJE/fi3YkPtdA
+	RxPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=tyrwNYgKHRIQsNC6X7/CUSaL1UoxAeJUJEPneMeZhxs=;
+	b=sawq5HEEP3daEV8OG+3owNulNCYh89iXZrd2+L3i8P7aFflHDipn5aFV0u3dFfqRC5
+	SEctGju0k3IohfwwWI2peQX/ZFzTxAuJib5H+vv1LrvfROAGaLyXV54XEqqBwD62eoOb
+	5fJVWrYPCtY7T4mZZlM7NhpyuC823FvEFrdO6dA+nieeQ6oJtw2qpKjUkc2hW3ixWtya
+	0nTMISurcqHE+xShUcGTc9FS9kt4DI7Mc7XZvuw3+GTRO2CYu5U2uIxME/lZxHdnLOwD
+	kPNXs2G2jYuIuouXxQ5pU7BTgI6a9N61qKwisnK9E1ZxX2/e+u1/CH4sL2zVmpI8ID9I
+	dBTA==
+X-Gm-Message-State: AHPjjUgIZDvpdLKY43kXKMhKxzl4ge5jNaIupXfxHehl3srgtnDEzXWC
+	omjMXfudFvf1QzwJBn+SMemEsCYbssZm
+X-Google-Smtp-Source: ADKCNb6xbGEVR4FEDuPZZuXgIRRdeS2ubcla04+Ukgzb1oC+3uE+5x3+cSkuHfP51ZGxuPl+dNeUmPlPTD9HR3+wGWQ=
+X-Received: by 10.107.9.137 with SMTP id 9mr4476509ioj.196.1504198862980; Thu,
+	31 Aug 2017 10:01:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.33.83 with HTTP; Thu, 31 Aug 2017 10:00:42 -0700 (PDT)
+In-Reply-To: <a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
 References: <20170831122335.6864-1-clopez@igalia.com>
 	<CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
 	<ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
 	<CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
-	url=http://key.neutrino.es
-Organization: Igalia S.L.
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-Message-ID: <a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
-Date: Thu, 31 Aug 2017 18:57:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
+	<a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 31 Aug 2017 18:00:42 +0100
+Message-ID: <CAJTo0LaZFrAcsvMf5CHK6QmeNEnxQaJXy7ho7hK=hCvLxc0_-g@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] initramfs-live-boot: disable systemd-update-done.service on live images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,87 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Aug 2017 16:57:50 -0000
-X-Groupsio-MsgNum: 102247
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo"
+X-List-Received-Date: Thu, 31 Aug 2017 17:01:04 -0000
+Content-Type: multipart/alternative; boundary="001a113f8f14e682ba05580f96d8"
 
---3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo
-Content-Type: multipart/mixed; boundary="w9Xs72H8MiGoxXXacx43U57Q3ntPtwBRL";
- protected-headers="v1"
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
-Subject: Re: [OE-core] [PATCH] initramfs-live-boot: disable
- systemd-update-done.service on live images
-References: <20170831122335.6864-1-clopez@igalia.com>
- <CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
- <ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
- <CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
+--001a113f8f14e682ba05580f96d8
+Content-Type: text/plain; charset="UTF-8"
 
---w9Xs72H8MiGoxXXacx43U57Q3ntPtwBRL
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+On 31 August 2017 at 17:57, Carlos Alberto Lopez Perez <clopez@igalia.com>
+wrote:
+
+> Better done than promised! :)
+> https://github.com/systemd/systemd/issues/6716
+
+
+And staged :)
+
+Ross
+
+--001a113f8f14e682ba05580f96d8
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 31/08/17 17:48, Burton, Ross wrote:
-> On 31 August 2017 at 16:38, Carlos Alberto Lopez Perez <clopez@igalia.c=
-om>
-> wrote:
->=20
->> On 31/08/17 15:46, Burton, Ross wrote:
->>> Presumably/hopefully systemd isn't hardcoding /etc and /var but
->> respecting
->>> sysconfdir and localstatedir, so the touch should also use those
->> variables
->>> (by sedding the script).
->>
->> https://github.com/systemd/systemd/blob/master/units/
->> systemd-update-done.service.in#L15
->> https://github.com/systemd/systemd/blob/master/src/
->> update-done/update-done.c#L72
->>
->> // losing the hope
->=20
->=20
-> Sigh.
->=20
-> If you promise to file a bug against systemd moaning about that, I'll q=
-ueue
-> your patch. ;)
->=20
+<div dir=3D"ltr">On 31 August 2017 at 17:57, Carlos Alberto Lopez Perez <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:clopez@igalia.com" target=3D"_blank">c=
+lopez@igalia.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
+lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Better done than promis=
+ed! :)<br>
+<a href=3D"https://github.com/systemd/systemd/issues/6716" rel=3D"noreferre=
+r" target=3D"_blank">https://github.com/systemd/<wbr>systemd/issues/6716</a=
+></blockquote><div><br></div><div>And staged :)</div><div><br></div><div>Ro=
+ss=C2=A0</div></div></div></div>
 
-Better done than promised! :)
-https://github.com/systemd/systemd/issues/6716
-
-Best regards.
-
-
---w9Xs72H8MiGoxXXacx43U57Q3ntPtwBRL--
-
---3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Comment: You can fetch my GnuPG key from http://key.neutrino.es
-
-iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmoQA4ACgkQllCJzmuV
-+IKQwQ//SJE4k3enuHcxiRV0iqtHrwJSYA9uoOh3bOnesTDmoh7nAQM/f/J28v1M
-Dr6wKs9Q2yUet1OEsF2Jk4XiwfRVh+keUuLoHdSkQnv7RFIOGvW5OoljYbspgDae
-elT3WrORb1OfAfnfQ40BFzJVC4+5+Vwo9/q8WrU4HJG5EiqPJlMAKuu2ioe7X6i2
-O1Z8+/FUmlROM5kNn5QRJm0z3ImnuBrzZs+1pcZzT/xHwmoMZFj0vFq2TUBDYzs6
-M9Qsbf6Q651aS928dJSjSuHswdei8U/aFXLu7DMhjBq4D6tQA1bOgFGjxrkEkRJx
-F9l7D/8VJFZtV5y6mPtlo04evxCTEKukv8qrG/IglqYIEaS7e3db8sPWDfkyBXae
-wQ3U2vqMm/PrusFLG1Rj10Xkzx7XTgqQBpIOZf2iDHPqABR9HmZQ3hdroown/UBF
-zau0861qgf6IwVFlFxFvAYb0+kuSgKe/sr6oAmW8MmQXBBPSKgCoYPMaPOv4kaSP
-uT1aUTpfDGuNHADAWH3mav9XVFpDVSSh8puxol5oVQEzvR+82D53FffdTmDde3Lh
-JZgl2Nsg4F8tSkgLhuUUHEhU/UfSfs+1cKlNoOuGuTzXTgNkWYpArZo+BDT8EuZv
-eT6NWPLkR1klKWVx7vO9cpCQQFY+3w8fAO4ChFU6bj/rJI3C6E8=
-=TfOy
------END PGP SIGNATURE-----
-
---3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo--
+--001a113f8f14e682ba05580f96d8--
