@@ -1,49 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f175.google.com (mail-wr0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 94C8378310
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 9936C7840F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 16:50:24 +0000 (UTC)
-Received: by mail-wr0-f175.google.com with SMTP id y15so525655wrc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Aug 2017 09:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=sXBxe2sD06ojmH3W/P456TLLdn0PQGidzVZ6k+8Mezk=;
-	b=OGopvQHPYi2yUAXbcX9c5H1dTEQHH6BGq+aTFCDWBKS3cXPof61gYpEM+1iEak0zou
-	wExji71zTyi+F/9MQt+SXjL6Pg4BaZIYE96Dge9GcxjLp/ln00aaciI79AasPSIjFH9O
-	OQngrX9297lesXhpZb27pzaawb+258wUZGFxmeMneMQ1V1HOAlUABV8zObt3/HHNgyLK
-	LNLTHpbMMsu3Czsk6BYf7767uztArJwDJNm2CzHd6nfWLRzh0Yqh4vTiGGafOgWAIWao
-	1TbVGh0FBC6TMC8MCx7/s5LbmJpwK/qzkyYjpxh/YJjA0FtAu8yPZvOWi7HZ666AJCxH
-	EuFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=sXBxe2sD06ojmH3W/P456TLLdn0PQGidzVZ6k+8Mezk=;
-	b=YS7ZkDskGiH1OLOMRFaM2/kV1hlq/+T1kH/K/6YHAcUAZ7RbzNSgaOtExSyf1sMUzk
-	gUIO4DmpNiIynM0m5LzM1GcYbPnO52cnIQjlnwDn50GEoUqYlptsuU4QRVjBREyZ+QLo
-	02LKubSe7i+ZZS1odY/d4IPQS1WitOiRsBQj2MY+9fpzoHC7G860KJv10MoszjOD8bdk
-	hTi4c+0wFBwIsLe7J7sDFVYwpcE7YZ8PlkPEl08IC+hBkoB29A5AEKGE30EbEn2Uzci0
-	wDj8b0XiXvzcD2GdqrMCFbcLftg5bVr+329RVSpzI6ne0d99Zp86/lGiJ50ga2KFTVjD
-	PwYQ==
-X-Gm-Message-State: AHYfb5hKaJiSVKLiXzpGhd2/Fgo7Eog/jQySr4WEZM1IuwUclgUutN3Q
-	W/XUtgzZs0N5GGCpxkg=
-X-Google-Smtp-Source: ADKCNb5w1maKwHsH/m1/kd7HNe3nQR+1/Jskg/ZC6KXJl0808CIOeYCzMYILVkvv8h45SpGkDaUMgA==
-X-Received: by 10.223.148.101 with SMTP id 92mr3278819wrq.182.1504198224843;
-	Thu, 31 Aug 2017 09:50:24 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	q186sm529933wmb.26.2017.08.31.09.50.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Aug 2017 09:50:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 31 Aug 2017 16:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
+	bh=STaH7DmmMGdFEnga77pAHw7WEjPOi+4wU+mKtWgnYTQ=; 
+	b=m9X1ZhdO9XjjwN481y62FThueEZJHuo2qQ6Fgn9Oe+6EaaVEC8AO6wFsHZ0Cs4J6pppXoXKOgWFKMgwjj6aJHACNDRRXiRzkdXEGJTgDB8EssTREKGwDV9SgOdU+7GFemWBkOz+jqderhh8Wo5bexwcDjIBddB3Sg1kECuXaSk/7dD4JALQ5cHsAUC2iwEEStZ49UtHU0ieYEFPRDGzDUayBEir0ciktnanJRcDmPRG0Jke/XUyvdw6TenNcWEYm5wqvodUaSH5oiFLxfCUxdzwX2A/A3i/x0ksjIJQCesDF9TAfyGuGn0aoV0D+q7gX5ZfSga6bN29RO/ceB3txGw==;
+Received: from [192.168.10.149] by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1dnSmt-00006h-6i for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Aug 2017 18:57:51 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Aug 2017 17:50:20 +0100
-Message-Id: <20170831165020.30129-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libsoup: upgrade to 2.58.2
+References: <20170831122335.6864-1-clopez@igalia.com>
+	<CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
+	<ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
+	<CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+Message-ID: <a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
+Date: Thu, 31 Aug 2017 18:57:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
+Subject: Re: [PATCH] initramfs-live-boot: disable systemd-update-done.service on live images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +41,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Aug 2017 16:50:25 -0000
+X-List-Received-Date: Thu, 31 Aug 2017 16:57:50 -0000
+X-Groupsio-MsgNum: 102247
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo"
 
-This fixes CVE-2017-2885 (stack overflow with HTTP chunked encoding), no other
-relevant changes.
+--3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo
+Content-Type: multipart/mixed; boundary="w9Xs72H8MiGoxXXacx43U57Q3ntPtwBRL";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
+Subject: Re: [OE-core] [PATCH] initramfs-live-boot: disable
+ systemd-update-done.service on live images
+References: <20170831122335.6864-1-clopez@igalia.com>
+ <CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
+ <ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
+ <CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
+In-Reply-To: <CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../libsoup/{libsoup-2.4_2.58.1.bb => libsoup-2.4_2.58.2.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.58.1.bb => libsoup-2.4_2.58.2.bb} (89%)
+--w9Xs72H8MiGoxXXacx43U57Q3ntPtwBRL
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb
-similarity index 89%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb
-index 5b1273efec2..c9f95e538a2 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.58.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb
-@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "91d7a6bf8785d31f4b154a7612e53e62"
--SRC_URI[sha256sum] = "62c669f557de745b7b20ba9d5b74d839c95e4c9cea1a5ab7f3da5531a1aeefb9"
-+SRC_URI[md5sum] = "eb33adb459c2283efc5c7d09ccdbbcfc"
-+SRC_URI[sha256sum] = "442300ca1b1bf8a3bbf2f788203287ff862542d4fc048f19a92a068a27d17b72"
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
--- 
-2.11.0
+On 31/08/17 17:48, Burton, Ross wrote:
+> On 31 August 2017 at 16:38, Carlos Alberto Lopez Perez <clopez@igalia.c=
+om>
+> wrote:
+>=20
+>> On 31/08/17 15:46, Burton, Ross wrote:
+>>> Presumably/hopefully systemd isn't hardcoding /etc and /var but
+>> respecting
+>>> sysconfdir and localstatedir, so the touch should also use those
+>> variables
+>>> (by sedding the script).
+>>
+>> https://github.com/systemd/systemd/blob/master/units/
+>> systemd-update-done.service.in#L15
+>> https://github.com/systemd/systemd/blob/master/src/
+>> update-done/update-done.c#L72
+>>
+>> // losing the hope
+>=20
+>=20
+> Sigh.
+>=20
+> If you promise to file a bug against systemd moaning about that, I'll q=
+ueue
+> your patch. ;)
+>=20
+
+Better done than promised! :)
+https://github.com/systemd/systemd/issues/6716
+
+Best regards.
 
 
+--w9Xs72H8MiGoxXXacx43U57Q3ntPtwBRL--
+
+--3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
+
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlmoQA4ACgkQllCJzmuV
++IKQwQ//SJE4k3enuHcxiRV0iqtHrwJSYA9uoOh3bOnesTDmoh7nAQM/f/J28v1M
+Dr6wKs9Q2yUet1OEsF2Jk4XiwfRVh+keUuLoHdSkQnv7RFIOGvW5OoljYbspgDae
+elT3WrORb1OfAfnfQ40BFzJVC4+5+Vwo9/q8WrU4HJG5EiqPJlMAKuu2ioe7X6i2
+O1Z8+/FUmlROM5kNn5QRJm0z3ImnuBrzZs+1pcZzT/xHwmoMZFj0vFq2TUBDYzs6
+M9Qsbf6Q651aS928dJSjSuHswdei8U/aFXLu7DMhjBq4D6tQA1bOgFGjxrkEkRJx
+F9l7D/8VJFZtV5y6mPtlo04evxCTEKukv8qrG/IglqYIEaS7e3db8sPWDfkyBXae
+wQ3U2vqMm/PrusFLG1Rj10Xkzx7XTgqQBpIOZf2iDHPqABR9HmZQ3hdroown/UBF
+zau0861qgf6IwVFlFxFvAYb0+kuSgKe/sr6oAmW8MmQXBBPSKgCoYPMaPOv4kaSP
+uT1aUTpfDGuNHADAWH3mav9XVFpDVSSh8puxol5oVQEzvR+82D53FffdTmDde3Lh
+JZgl2Nsg4F8tSkgLhuUUHEhU/UfSfs+1cKlNoOuGuTzXTgNkWYpArZo+BDT8EuZv
+eT6NWPLkR1klKWVx7vO9cpCQQFY+3w8fAO4ChFU6bj/rJI3C6E8=
+=TfOy
+-----END PGP SIGNATURE-----
+
+--3PKXaNK3bmj2x3roWoxI5WISeM3WDwXvo--
