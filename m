@@ -1,29 +1,28 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B59B57849D
+	by mail.openembedded.org (Postfix) with ESMTP id 7CCBD65C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 16:00:03 +0000 (UTC)
+	Fri,  1 Sep 2017 16:08:05 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v81G02d5029681
+	v81G84Dj031166
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 1 Sep 2017 17:00:03 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dnoMU-0002LB-Tj; Fri, 01 Sep 2017 17:00:02 +0100
+	verify=NOT); Fri, 1 Sep 2017 17:08:06 +0100
+Message-ID: <1504282084.2175.59.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Sep 2017 17:00:01 +0100
-Message-Id: <1504281601-8951-2-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1504281601-8951-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1504281601-8951-1-git-send-email-richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Fri, 01 Sep 2017 17:08:04 +0100
+In-Reply-To: <cover.1504207711.git.bruce.ashfield@windriver.com>
+References: <cover.1504207711.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Fri, 01 Sep 2017 17:00:04 +0100 (BST)
+	Fri, 01 Sep 2017 17:08:06 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 2/2] package_manager: Clean up horrible 'None' return values
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/7] kernel-yocto: conslidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,64 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 16:00:05 -0000
+X-List-Received-Date: Fri, 01 Sep 2017 16:08:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If this fails the exception will now be raised. Lets use that and drop
-all this 'None' return value ugliness.
+On Thu, 2017-08-31 at 15:30 -0400, Bruce Ashfield wrote:
+> Now that 4.12 + headers are in the tree, this is the next (and
+> possibly final)
+> around of -stable updates for the active kernels.
+> 
+> I've built and booted them on all four architectures. But as usual,
+> this is a lot of combinations to confirm.
+> 
+> The 4.12 update doesn't specifically address the kernel traces that
+> RP has been seeing, but it also doesn't regress things here. I'd be
+> interested to know if they help/hinder in the search to find the root
+> cause.
+> 
+> I'll of course continue to track it down myself.
+> 
+> I also have some functionality fixes as well as configuration updates
+> as part of this update.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/package_manager.py | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+I ran these on the autobuilder. We did see:
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 5efb286..994e462 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -17,18 +17,11 @@ from oe.gpg_sign import get_signer
- def create_index(arg):
-     index_cmd = arg
- 
--    try:
--        bb.note("Executing '%s' ..." % index_cmd)
--        result = subprocess.check_output(index_cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
--    except subprocess.CalledProcessError as e:
--        return("Index creation command '%s' failed with return code %d:\n%s" %
--               (e.cmd, e.returncode, e.output.decode("utf-8")))
--
-+    bb.note("Executing '%s' ..." % index_cmd)
-+    result = subprocess.check_output(index_cmd, stderr=subprocess.STDOUT, shell=True).decode("utf-8")
-     if result:
-         bb.note(result)
- 
--    return None
--
- """
- This method parse the output from the package managerand return
- a dictionary with the information of the packages. This is used
-@@ -164,9 +157,7 @@ class OpkgIndexer(Indexer):
-             bb.note("There are no packages in %s!" % self.deploy_dir)
-             return
- 
--        result = oe.utils.multiprocess_exec(index_cmds, create_index)
--        if result:
--            bb.fatal('%s' % ('\n'.join(result)))
-+        oe.utils.multiprocess_exec(index_cmds, create_index)
- 
-         if signer:
-             feed_sig_type = self.d.getVar('PACKAGE_FEED_GPG_SIGNATURE_TYPE')
-@@ -247,9 +238,7 @@ class DpkgIndexer(Indexer):
-             bb.note("There are no packages in %s" % self.deploy_dir)
-             return
- 
--        result = oe.utils.multiprocess_exec(index_cmds, create_index)
--        if result:
--            bb.fatal('%s' % ('\n'.join(result)))
-+        oe.utils.multiprocess_exec(index_cmds, create_index)
-         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
-             raise NotImplementedError('Package feed signing not implementd for dpkg')
- 
--- 
-2.7.4
+https://autobuilder.yocto.io/builders/nightly-ppc/builds/465
 
+which is the latest 4.12 kernel and the latest qemu hanging with no
+boot output (but the pid did appear).
+
+So we're still seeing something odd with ppc occasionally. Why? Don't
+know :(
+
+Cheers,
+
+Richard
 
