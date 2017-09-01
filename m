@@ -1,31 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E400F780C3
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E6E578349
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 16:49:06 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v81Gj1aD020595
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 1 Sep 2017 17:45:03 +0100
-Message-ID: <1504284301.2175.64.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "leonardo.sandoval.gonzalez"
-	<leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Fri, 01 Sep 2017 17:45:01 +0100
-In-Reply-To: <070bdf6fc9e8418eb8c4d514fde90573@XBOX02.axis.com>
-References: <1504275645-6421-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<070bdf6fc9e8418eb8c4d514fde90573@XBOX02.axis.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+	Fri,  1 Sep 2017 17:07:27 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Sep 2017 10:07:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,459,1498546800"; d="scan'208";a="144553457"
+Received: from swold-mobl2.jf.intel.com ([10.254.126.139])
+	by orsmga005.jf.intel.com with ESMTP; 01 Sep 2017 10:07:28 -0700
+Message-ID: <1504285648.27472.343.camel@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
+	List <openembedded-core@lists.openembedded.org>
+Date: Fri, 01 Sep 2017 10:07:28 -0700
+In-Reply-To: <20170831213435.16487-1-otavio@ossystems.com.br>
+References: <20170831213435.16487-1-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.20.5 (3.20.5-1.fc24) 
 Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 01 Sep 2017 17:45:04 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 1/3] lib/oe/package: Improve filedeprunner subprocess handling
+Cc: Haris Okanovic <haris.okanovic@ni.com>
+Subject: Re: [PATCH] kernel: Stop using update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +33,193 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 16:49:07 -0000
+X-List-Received-Date: Fri, 01 Sep 2017 17:07:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2017-09-01 at 16:32 +0000, Peter Kjellerstedt wrote:
-> Even with these changes applied, I still see texinfo succeed to
-> build 
-> even when it should not (i.e., without having applied the patch to 
-> package_deb.bbclass that I just sent).
+On Thu, 2017-08-31 at 18:34 -0300, Otavio Salvador wrote:
+> The update-alternatives where using relative links so not being
+> really
+> in use since December 2016 (see OE-Core:c7bc46b9 "kernel: Fix
+> symlinks") so instead we now generate the relative symlinks during
+> the
+> do_install task and drop the update-alternatives use at all.
+> 
+Is there a reason not to fix the U-A usage of the relative links?
 
-Right, there are some nasty bugs with python's multiprocessing
-exception handling in a few places. I've sent some patches for some
-others which I ran into with other problems, Leo should have a patch
-for this specific issue shortly. Thanks for the colon fix!
+How will this affect the installation of multiple kernels?
+for example with Haris's patch: http://lists.openembedded.org/pipermail
+/openembedded-core/2017-August/140996.html
 
-Cheers,
+Sau!
 
-Richard
+
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+>  meta/classes/kernel.bbclass             | 16 +++------------
+>  meta/recipes-kernel/linux/linux-dtb.inc | 36 ++++-------------------
+> ----------
+>  2 files changed, 7 insertions(+), 45 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass
+> b/meta/classes/kernel.bbclass
+> index 3cc0432fcf..02a5e961cb 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -2,7 +2,7 @@ inherit linux-kernel-base kernel-module-split
+>  
+>  PROVIDES += "virtual/kernel"
+>  DEPENDS += "virtual/${TARGET_PREFIX}binutils
+> virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
+> -PACKAGE_WRITE_DEPS += "depmodwrapper-cross virtual/update-
+> alternatives-native"
+> +PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+>  
+>  do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
+>  
+> @@ -57,7 +57,7 @@ python __anonymous () {
+>  
+>          d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+>  
+> -        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest
+> + '/' + type + '-${KERNEL_VERSION_NAME}')
+> +        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest
+> + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' +
+> type)
+>  
+>          d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' +
+> typelower)
+>  
+> @@ -65,13 +65,6 @@ python __anonymous () {
+>  
+>          d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
+>  
+> -        priority = d.getVar('KERNEL_PRIORITY')
+> -        postinst = '#!/bin/sh\n' + 'update-alternatives --install /'
+> + imagedest + '/' + type + ' ' + type + ' ' + type + '-
+> ${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+> -        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
+> -
+> -        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + '
+> ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+> -        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
+> -
+>      image = d.getVar('INITRAMFS_IMAGE')
+>      if image:
+>          d.appendVarFlag('do_bundle_initramfs', 'depends', '
+> ${INITRAMFS_IMAGE}:do_image_complete')
+> @@ -137,10 +130,6 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+>  export KBUILD_BUILD_USER = "oe-user"
+>  export KBUILD_BUILD_HOST = "oe-host"
+>  
+> -KERNEL_PRIORITY ?= "${@int(d.getVar('PV').split('-
+> ')[0].split('+')[0].split('.')[0]) * 10000 + \
+> -                       int(d.getVar('PV').split('-
+> ')[0].split('+')[0].split('.')[1]) * 100 + \
+> -                       int(d.getVar('PV').split('-
+> ')[0].split('+')[0].split('.')[-1])}"
+> -
+>  KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+>  
+>  # The directory where built kernel lies in the kernel tree
+> @@ -350,6 +339,7 @@ kernel_do_install() {
+>  	install -d ${D}/boot
+>  	for type in ${KERNEL_IMAGETYPES} ; do
+>  		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}
+> ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
+> +		ln -sf ${type}-${KERNEL_VERSION}
+> ${D}/${KERNEL_IMAGEDEST}/${type}
+>  	done
+>  	install -m 0644 System.map ${D}/boot/System.map-
+> ${KERNEL_VERSION}
+>  	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-
+> kernel/linux/linux-dtb.inc
+> index 0174c80d85..6e6f39e640 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -1,7 +1,5 @@
+>  # Support for device tree generation
+> -FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+> -
+> -PACKAGE_WRITE_DEPS += "virtual/update-alternatives-native"
+> +FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb
+> /${KERNEL_IMAGEDEST}/*.dtbo"
+>  
+>  python __anonymous () {
+>      d.appendVar("PACKAGES", " kernel-devicetree")
+> @@ -36,12 +34,13 @@ do_install_append() {
+>  	for DTB in ${KERNEL_DEVICETREE}; do
+>  		DTB=`normalize_dtb "${DTB}"`
+>  		DTB_EXT=${DTB##*.}
+> +		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+>  		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+> +		install -m 0644 ${DTB_PATH}
+> ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
+>  		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+>  			symlink_name=${type}"-
+> "${KERNEL_IMAGE_SYMLINK_NAME}
+>  			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -			DTB_PATH=`get_real_dtb_path_in_kernel
+> "${DTB}"`
+> -			install -m 0644 ${DTB_PATH}
+> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+> +			ln -sf ${DTB_BASE_NAME}.${DTB_EXT}
+> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+>  		done
+>  	done
+>  }
+> @@ -59,33 +58,6 @@ do_deploy_append() {
+>  			DTB_PATH=`get_real_dtb_path_in_kernel
+> "${DTB}"`
+>  			install -d ${DEPLOYDIR}
+>  			install -m 0644 ${DTB_PATH}
+> ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
+> -			ln -sf ${DTB_NAME}.${DTB_EXT}
+> ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
+> -		done
+> -	done
+> -}
+> -
+> -pkg_postinst_kernel-devicetree () {
+> -	cd /${KERNEL_IMAGEDEST}
+> -	for DTB in ${KERNEL_DEVICETREE}; do
+> -		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+> -			symlink_name=${type}"-
+> "${KERNEL_IMAGE_SYMLINK_NAME}
+> -			DTB_EXT=${DTB##*.}
+> -			DTB_BASE_NAME=`basename ${DTB}
+> ."${DTB_EXT}"`
+> -			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -			update-alternatives --install
+> /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
+> ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} 
+> ${KERNEL_PRIORITY} || true
+> -		done
+> -	done
+> -}
+> -
+> -pkg_postrm_kernel-devicetree () {
+> -	cd /${KERNEL_IMAGEDEST}
+> -	for DTB in ${KERNEL_DEVICETREE}; do
+> -		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+> -			symlink_name=${type}"-
+> "${KERNEL_IMAGE_SYMLINK_NAME}
+> -			DTB_EXT=${DTB##*.}
+> -			DTB_BASE_NAME=`basename ${DTB}
+> ."${DTB_EXT}"`
+> -			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed
+> "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> -			update-alternatives --remove
+> ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} 
+> ${KERNEL_PRIORITY} || true
+>  		done
+>  	done
+>  }
+> -- 
+> 2.14.1
+> 
 
