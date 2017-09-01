@@ -1,30 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AAA2078457
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA8A78496
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 14:47:14 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v81El8E8021493
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 1 Sep 2017 15:47:13 +0100
-Message-ID: <1504277228.2175.52.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org, haris.okanovic@ni.com
-Date: Fri, 01 Sep 2017 15:47:08 +0100
-In-Reply-To: <025f202d-c573-d8e6-5124-2161c9a91795@linux.intel.com>
-References: <20170519150121.7707-1-haris.okanovic@ni.com>
-	<20170831184643.3991-1-haris.okanovic@ni.com>
-	<025f202d-c573-d8e6-5124-2161c9a91795@linux.intel.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
-	(dan.rpsys.net [192.168.3.1]);
-	Fri, 01 Sep 2017 15:47:13 +0100 (BST)
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] package_manager.py: Add PACKAGE_ENABLE_FILELIST option to OpkgIndexer
+	Fri,  1 Sep 2017 15:11:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v81FBLR8002362
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 1 Sep 2017 08:11:22 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 1 Sep 2017 08:11:20 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+References: <20170831122335.6864-1-clopez@igalia.com>
+	<CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
+	<ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
+	<CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
+	<a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
+	<CAJTo0LaZFrAcsvMf5CHK6QmeNEnxQaJXy7ho7hK=hCvLxc0_-g@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <d8733ca3-1c0c-72cc-1250-2639d0d951bf@windriver.com>
+Date: Fri, 1 Sep 2017 11:11:18 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaZFrAcsvMf5CHK6QmeNEnxQaJXy7ho7hK=hCvLxc0_-g@mail.gmail.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH] initramfs-live-boot: disable systemd-update-done.service on live images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 14:47:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 01 Sep 2017 15:11:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2017-09-01 at 16:04 +0300, Alexander Kanavin wrote:
-> On 08/31/2017 09:46 PM, Haris Okanovic wrote:
-> > 
-> > Setting PACKAGE_ENABLE_FILELIST option generates Packages.filelist
-> > on
-> > `bitbake package-index`, which is index of files provided by each
-> > IPK package in the feed. It's useful for figuring out which package
-> > provides a particular file/program/library/etc.
-> > 
-> > Disabled by default since generating a filelist involves reading
-> > the
-> > payload of every package in the feed, a time and IO intensive
-> > operation
-> > many users won't want to run. Those who do may flip this switch.
-> > 
-> > Testing:
-> >   * Built an opkg index with PACKAGE_ENABLE_FILELIST unset and
-> > verified
-> >     no Packages.filelist are generated.
-> >   * Built with PACKAGE_ENABLE_FILELIST="1" and verified each
-> > subfeed
-> >     has Packages.filelist; took ~3min longer for 8,200 IPKs.
+On 2017-08-31 01:00 PM, Burton, Ross wrote:
+> On 31 August 2017 at 17:57, Carlos Alberto Lopez Perez 
+> <clopez@igalia.com <mailto:clopez@igalia.com>> wrote:
 > 
->
-> The only way to discover that this option exists is to read the code
-> for OpkgIndexer. And it's specific to opkg, which is not reflected in
-> the option name at all.
+>     Better done than promised! :)
+>     https://github.com/systemd/systemd/issues/6716
+>     <https://github.com/systemd/systemd/issues/6716>
 > 
-> Can you instead just place the index generation into a custom recipe 
-> that depends on package-index recipe?
+> 
+> And staged :)
+> 
+> Ross
+> 
+> 
+and closed by Mr Poettering as "Not a bug" :-/
 
-I'm going to disagree with that, I don't want a separate recipe for
-this and I'm not sure that makes sense.
-
-I'm ok with adding an option but we need to come up with a better
-namespace. How about OPKG_PACKAGE_INDEX_FILELIST_GEN?
-
-(says its package index and opkg specific)
-
-Cheers,
-
-Richard
-
-
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
