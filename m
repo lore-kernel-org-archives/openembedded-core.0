@@ -1,53 +1,64 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D421C78468
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f67.google.com (mail-oi0-f67.google.com
+	[209.85.218.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 64B80781FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 17:49:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 7A67D1859F
+	Fri,  1 Sep 2017 18:09:42 +0000 (UTC)
+Received: by mail-oi0-f67.google.com with SMTP id t124so781003oih.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id lHOODc2uDuEp
+	Fri, 01 Sep 2017 11:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=1qvymidwuidQ9e83mgUtIExZ8oJWH2y89xSaOgEwel8=;
+	b=lSpDkQf4S+/mkOPhZxFiqL68+PHITzJbP0weeetX4d4xgwiBX+vwlCfr8IMl9k4QxT
+	JINyh4bOlApD/gFwkYtt3/uGMeQ4teSOPpQ9FPsTuwqOpu9TSHED6i/peVB51kUJBs7d
+	ql/sxT93pvqXhUTBHSJ6Ipb9qMMEU1IW9e5ETZlEp6pM/UmlDGH9vfUfX+XR7gHfx1Cz
+	f+eZONNX1rL+0bVRs4D1JsI+Yr6M2T/un8zfOSwYg5f9crYe5rBEOA351p4BMgPtKjR2
+	VwtcCTigNNxB8Lx+oHmcBaoMS2TP60Usz4W7+cTUHeQf/M98fpncf0A5obLh+o2RpCm+
+	z3IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=1qvymidwuidQ9e83mgUtIExZ8oJWH2y89xSaOgEwel8=;
+	b=mGv/hJo9aiIolrvPjluVecEASqAfjRgbgxjSNGwzbAFiRl60vnCo/LXrqKJAwjejo/
+	CsjkI5/dy8Gfj70HEWB+Z3o8zktfSGfgSt38+JueDWw0XJWMtWCvZN3P5xnxETdqmiDj
+	brJ66yVdAwiqTuSNS7H3aPRkH+Zo/V2AXCCjTe2C6jrG96evnzWPf2SjlfG5GW2UcSDF
+	tek1kKyWxHpt1uvB25AO40fvc41TRIgAgniNfHzHDDugZKuPpZU4+V9NVArrkL4zo4pu
+	0R0BIVyGooEtzsZEzmz0yl0lTuIpI45PrVRlOB9wiAyifzRlMUfetnZQ7ZTY+bWGVTqN
+	1fLA==
+X-Gm-Message-State: AHPjjUj8AAkqTDifFvD8dl5gzS8qmGidg5IrFYuWe+Bub2kxAO/6R+g1
+	w1TGnlI1Rt/K4OykjSU=
+X-Received: by 10.202.76.137 with SMTP id z131mr2388300oia.157.1504289384042; 
+	Fri, 01 Sep 2017 11:09:44 -0700 (PDT)
+Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com.
+	[209.85.218.52]) by smtp.gmail.com with ESMTPSA id
+	c125sm697791oia.58.2017.09.01.11.09.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Sep 2017 11:09:42 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f52.google.com with SMTP id w10so8018058oie.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:31 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C6F5A18582
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:31 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B2F401A080
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:31 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A82581A040
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:31 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:31 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 9C7CE1722
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 19:49:31 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v81HnUgK018211
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Sep 2017 19:49:30 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v81HnUwJ018210
-	for openembedded-core@lists.openembedded.org;
-	Fri, 1 Sep 2017 19:49:30 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Sep 2017 19:49:29 +0200
-Message-Id: <20170901174929.18168-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] alsa-utils: Do not hardcode path to /lib/udev
+	Fri, 01 Sep 2017 11:09:42 -0700 (PDT)
+X-Google-Smtp-Source: ADKCNb5cbIR1+FRsFKhfZr4t7Lznw3YZZTKJC2IarnnfBhz/FBftM2aQSatRGMczSHMejlaZk7wV1g1cm8A+7jMn7qQ=
+X-Received: by 10.202.105.11 with SMTP id e11mr2709309oic.67.1504289382089;
+	Fri, 01 Sep 2017 11:09:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.0.37 with HTTP; Fri, 1 Sep 2017 11:09:41 -0700 (PDT)
+In-Reply-To: <20170817211452.23291-1-haris.okanovic@ni.com>
+References: <1500479806.27323.202.camel@intel.com>
+	<20170817211452.23291-1-haris.okanovic@ni.com>
+Date: Fri, 1 Sep 2017 15:09:41 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrLMWn8mgXpoX2QvcWA1htLp-+Tk181YcyDUvdd=ef2zg@mail.gmail.com>
+Message-ID: <CAP9ODKrLMWn8mgXpoX2QvcWA1htLp-+Tk181YcyDUvdd=ef2zg@mail.gmail.com>
+To: Haris Okanovic <haris.okanovic@ni.com>
+Cc: josh.hernstrom@ni.com, Saul Wold <saul.wold@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v7] kernel: Add support for multiple kernel packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +71,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 17:49:32 -0000
+X-List-Received-Date: Fri, 01 Sep 2017 18:09:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Use ${nonarch_base_libdir}/udev instead. This avoids problems when
-usrmerge is enabled in DISTRO_FEATURES and udev support is disabled.
+On Thu, Aug 17, 2017 at 6:14 PM, Haris Okanovic <haris.okanovic@ni.com> wrote:
+...
+>  7. Verified image contains two bzImage's under /boot/, with
+>     "yocto-standard" selected to boot via symlink.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please take a look at
+https://patchwork.openembedded.org/patch/143549/; it will impact this
+change.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb
-index 54be50ed82..c8f4b861bd 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb
-@@ -103,7 +103,7 @@ do_install() {
- 
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; then
- 		# This is where alsa-utils will install its rules if we don't tell it anything else.
--		rm -rf ${D}/lib/udev
--		rmdir --ignore-fail-on-non-empty ${D}/lib
-+		rm -rf ${D}${nonarch_base_libdir}/udev
-+		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
- 	fi
- }
+I think you could have a symlink with the kernel name on it. So using
+your example we'd have a zImage-tiny-linux next to zImage.
+
+...
+> [PATCH v5]
+>  - Warn when PN == KERNEL_PACKAGE_NAME (bug # 11905)
+>  - Add KERNEL_DEPLOYSUBDIR to avoid DEPLOYDIR collisions
+
+Instead of a subdir, why not using a suffix? it avoids sub directories
+and allows for an easier find of the generated files.
+
+
 -- 
-2.12.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
