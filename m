@@ -1,53 +1,28 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EBB27846E
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A21271BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 16:28:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 7DA4418595
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:41 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id s_lXDfaei0lu
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 6D44E18594
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5978F1A07C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:39 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4D9721A07B
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:39 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:39 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 419F72308
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 18:28:39 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v81GScrq013910
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Sep 2017 18:28:38 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v81GSc61013909
-	for openembedded-core@lists.openembedded.org;
-	Fri, 1 Sep 2017 18:28:38 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Sep 2017 18:28:36 +0200
-Message-Id: <20170901162836.13868-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] package_deb.bbclass: Handle colons in dependencies
+	Fri,  1 Sep 2017 16:30:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v81GUmlp009672
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 1 Sep 2017 09:30:48 -0700 (PDT)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 1 Sep 2017 09:30:47 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1504207711.git.bruce.ashfield@windriver.com>
+	<1504282084.2175.59.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <0579b565-b8e0-9995-84d0-7a239a268e14@windriver.com>
+Date: Fri, 1 Sep 2017 12:30:47 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <1504282084.2175.59.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/7] kernel-yocto: conslidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 16:28:41 -0000
+X-List-Received-Date: Fri, 01 Sep 2017 16:30:48 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Perl dependencies may look as "Perl(Foo::Bar)", but dpkg does not
-support the non-alphanumeric characters. There was already special
-handling present for turning '(' and ')' into '__'. This change does
-the same for ':'.
+On 09/01/2017 12:08 PM, Richard Purdie wrote:
+> On Thu, 2017-08-31 at 15:30 -0400, Bruce Ashfield wrote:
+>> Now that 4.12 + headers are in the tree, this is the next (and
+>> possibly final)
+>> around of -stable updates for the active kernels.
+>>
+>> I've built and booted them on all four architectures. But as usual,
+>> this is a lot of combinations to confirm.
+>>
+>> The 4.12 update doesn't specifically address the kernel traces that
+>> RP has been seeing, but it also doesn't regress things here. I'd be
+>> interested to know if they help/hinder in the search to find the root
+>> cause.
+>>
+>> I'll of course continue to track it down myself.
+>>
+>> I also have some functionality fixes as well as configuration updates
+>> as part of this update.
+> 
+> I ran these on the autobuilder. We did see:
+> 
+> https://autobuilder.yocto.io/builders/nightly-ppc/builds/465
+> 
+> which is the latest 4.12 kernel and the latest qemu hanging with no
+> boot output (but the pid did appear).
+> 
+> So we're still seeing something odd with ppc occasionally. Why? Don't
+> know :(
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/package_deb.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+The only thing crappier than IDE support, is the PPC platforms that
+qemu supports for system emulation.
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index c5824aab97..83baa6c21b 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -192,8 +192,8 @@ def deb_write_pkg(pkg, d):
-         mapping_rename_hook(localdata)
- 
-         def debian_cmp_remap(var):
--            # dpkg does not allow for '(' or ')' in a dependency name
--            # replace these instances with '__' and '__'
-+            # dpkg does not allow for '(', ')' or ':' in a dependency name
-+            # Replace any instances of them with '__'
-             #
-             # In debian '>' and '<' do not mean what it appears they mean
-             #   '<' = less or equal
-@@ -202,8 +202,7 @@ def deb_write_pkg(pkg, d):
-             #
-             for dep in var:
-                 if '(' in dep:
--                    newdep = dep.replace('(', '__')
--                    newdep = newdep.replace(')', '__')
-+                    newdep = re.sub(r'[(:)]', '__', dep)
-                     if newdep != dep:
-                         var[newdep] = var[dep]
-                         del var[dep]
--- 
-2.12.0
+I'll continue to try and track down the issues.
+
+Bruce
+
+> 
+> Cheers,
+> 
+> Richard
+> 
 
 
