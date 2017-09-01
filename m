@@ -1,23 +1,22 @@
-Return-Path: <jose.perez.carranza@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 61DEC71994
+Return-Path: <sgw@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id A81A477D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 20:30:27 +0000 (UTC)
+	Fri,  1 Sep 2017 21:53:26 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Sep 2017 13:30:29 -0700
+	by orsmga105.jf.intel.com with ESMTP; 01 Sep 2017 14:53:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,459,1498546800"; d="scan'208";a="147236476"
-Received: from yctb06.ostc.intel.com ([10.54.69.60])
-	by fmsmga006.fm.intel.com with ESMTP; 01 Sep 2017 13:30:29 -0700
-From: jose.perez.carranza@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Sep 2017 13:30:24 -0700
-Message-Id: <20170901203024.118837-1-jose.perez.carranza@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <20170901200052.116574-1-jose.perez.carranza@linux.intel.com^C--confirm=always>
-References: <20170901200052.116574-1-jose.perez.carranza@linux.intel.com^C--confirm=always>
-Subject: [PATCH v2] oeqa/selftest: Add missing IDs to various test cases
+X-IronPort-AV: E=Sophos;i="5.41,459,1498546800"; d="scan'208";a="147256204"
+Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.intel.com)
+	([10.254.126.139])
+	by fmsmga006.fm.intel.com with ESMTP; 01 Sep 2017 14:53:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Fri,  1 Sep 2017 14:53:25 -0700
+Message-Id: <1504302805-8518-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.7.5
+Subject: [PATCH v2] insane.bbclass: Warn if ${COREBASE}/LICENSE is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,217 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 20:30:28 -0000
+X-List-Received-Date: Fri, 01 Sep 2017 21:53:26 -0000
 
-From: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+The top level LICENSE file is not actually a license, it refers
+other licenses that are used by Bitbake and Meta-data. Relying
+on this file could cause problems for recipes when this file
+changes, which it is about to.
 
-Add decorator @OETestID() with Tesopia TC-ID to the test cases
-that did not have it properly set.
+(From OE-Core rev: a1948ab38c9cb7f0b16cce9dadc03ae6e2fe44ad)
 
-[YOCTO #11873]
-
-Signed-off-by: Jose Perez Carranza <jose.perez.carranza@linux.intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/archiver.py      |  3 ++-
- meta/lib/oeqa/selftest/cases/distrodata.py    |  2 ++
- meta/lib/oeqa/selftest/cases/imagefeatures.py |  3 +++
- meta/lib/oeqa/selftest/cases/runcmd.py        | 17 +++++++++++++++++
- meta/lib/oeqa/selftest/cases/wic.py           |  1 +
- 5 files changed, 25 insertions(+), 1 deletion(-)
+v2: Made one bb.warn instead of 2 and changed up comment
 
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index 72026d573c..f61a522017 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -40,7 +40,7 @@ class Archiver(OESelftestTestCase):
-         excluded_present = len(glob.glob(src_path + '/%s-*' % exclude_recipe))
-         self.assertFalse(excluded_present, 'Recipe %s was not excluded.' % exclude_recipe)
+Available in poky-contrib/sgw/insane
+
+ meta/classes/insane.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3906ba7..aa304f1 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -589,7 +589,7 @@ python populate_lic_qa_checksum() {
+         sane = package_qa_handle_error("license-checksum", pn + ": Recipe file fetches files and does not have license file information (LIC_FILES_CHKSUM)", d)
  
+     srcdir = d.getVar('S')
 -
-+    @OETestID(1900)
-     def test_archiver_filters_by_type(self):
-         """
-         Summary:     The archiver is documented to filter on the recipe type.
-@@ -73,6 +73,7 @@ class Archiver(OESelftestTestCase):
-         excluded_present = len(glob.glob(src_path_native + '/%s-*' % native_recipe))
-         self.assertFalse(excluded_present, 'Recipe %s was not excluded.' % native_recipe)
++    corebase_licensefile = d.getVar('COREBASE') + "/LICENSE"
+     for url in lic_files.split():
+         try:
+             (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
+@@ -601,6 +601,9 @@ python populate_lic_qa_checksum() {
+             package_qa_handle_error("license-checksum", pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile, d)
+             continue
  
-+    @OETestID(1901)
-     def test_archiver_filters_by_type_and_name(self):
-         """
-         Summary:     Test that the archiver archives by recipe type, taking the
-diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
-index ecb15d9aea..12540adc7d 100644
---- a/meta/lib/oeqa/selftest/cases/distrodata.py
-+++ b/meta/lib/oeqa/selftest/cases/distrodata.py
-@@ -2,6 +2,7 @@ from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
- from oeqa.utils.decorators import testcase
- from oeqa.utils.ftools import write_file
-+from oeqa.core.decorator.oeid import OETestID
- 
- class Distrodata(OESelftestTestCase):
- 
-@@ -9,6 +10,7 @@ class Distrodata(OESelftestTestCase):
-     def setUpClass(cls):
-         super(Distrodata, cls).setUpClass()
- 
-+    @OETestID(1902)
-     def test_checkpkg(self):
-         """
-         Summary:     Test that upstream version checks do not regress
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index bb2e0dba4c..1a850008ef 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -131,6 +131,7 @@ class ImageFeatures(OESelftestTestCase):
-         # check if the resulting gzip is valid
-         self.assertTrue(runCmd('gzip -t %s' % gzip_path))
- 
-+    @OETestID(1903)
-     def test_hypervisor_fmts(self):
-         """
-         Summary:     Check various hypervisor formats
-@@ -165,6 +166,7 @@ class ImageFeatures(OESelftestTestCase):
-                             native_sysroot=sysroot)
-             self.assertTrue(json.loads(result.output).get('format') == itype)
- 
-+    @OETestID(1905)
-     def test_long_chain_conversion(self):
-         """
-         Summary:     Check for chaining many CONVERSION_CMDs together
-@@ -196,6 +198,7 @@ class ImageFeatures(OESelftestTestCase):
-         self.assertTrue(runCmd('cd %s;sha256sum -c %s.%s.sha256sum' %
-                                (deploy_dir_image, link_name, conv)))
- 
-+    @OETestID(1904)
-     def test_image_fstypes(self):
-         """
-         Summary:     Check if image of supported image fstypes can be built
-diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
-index 6c785caadc..d76d7063c6 100644
---- a/meta/lib/oeqa/selftest/cases/runcmd.py
-+++ b/meta/lib/oeqa/selftest/cases/runcmd.py
-@@ -1,6 +1,7 @@
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd
- from oeqa.utils import CommandError
-+from oeqa.core.decorator.oeid import OETestID
- 
- import subprocess
- import threading
-@@ -26,49 +27,60 @@ class RunCmdTests(OESelftestTestCase):
-     TIMEOUT = 2
-     DELTA = 1
- 
-+    @OETestID(1916)
-     def test_result_okay(self):
-         result = runCmd("true")
-         self.assertEqual(result.status, 0)
- 
-+    @OETestID(1915)
-     def test_result_false(self):
-         result = runCmd("false", ignore_status=True)
-         self.assertEqual(result.status, 1)
- 
-+    @OETestID(1917)
-     def test_shell(self):
-         # A shell is used for all string commands.
-         result = runCmd("false; true", ignore_status=True)
-         self.assertEqual(result.status, 0)
- 
-+    @OETestID(1910)
-     def test_no_shell(self):
-         self.assertRaises(FileNotFoundError,
-                           runCmd, "false; true", shell=False)
- 
-+    @OETestID(1906)
-     def test_list_not_found(self):
-         self.assertRaises(FileNotFoundError,
-                           runCmd, ["false; true"])
- 
-+    @OETestID(1907)
-     def test_list_okay(self):
-         result = runCmd(["true"])
-         self.assertEqual(result.status, 0)
- 
-+    @OETestID(1913)
-     def test_result_assertion(self):
-         self.assertRaisesRegexp(AssertionError, "Command 'echo .* false' returned non-zero exit status 1:\nfoobar",
-                                 runCmd, "echo foobar >&2; false", shell=True)
- 
-+    @OETestID(1914)
-     def test_result_exception(self):
-         self.assertRaisesRegexp(CommandError, "Command 'echo .* false' returned non-zero exit status 1 with output: foobar",
-                                 runCmd, "echo foobar >&2; false", shell=True, assert_error=False)
- 
-+    @OETestID(1911)
-     def test_output(self):
-         result = runCmd("echo stdout; echo stderr >&2", shell=True)
-         self.assertEqual("stdout\nstderr", result.output)
-         self.assertEqual("", result.error)
- 
-+    @OETestID(1912)
-     def test_output_split(self):
-         result = runCmd("echo stdout; echo stderr >&2", shell=True, stderr=subprocess.PIPE)
-         self.assertEqual("stdout", result.output)
-         self.assertEqual("stderr", result.error)
- 
-+    @OETestID(1920)
-     def test_timeout(self):
-         numthreads = threading.active_count()
-         start = time.time()
-@@ -79,6 +91,7 @@ class RunCmdTests(OESelftestTestCase):
-         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
-         self.assertEqual(numthreads, threading.active_count())
- 
-+    @OETestID(1921)
-     def test_timeout_split(self):
-         numthreads = threading.active_count()
-         start = time.time()
-@@ -89,12 +102,14 @@ class RunCmdTests(OESelftestTestCase):
-         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
-         self.assertEqual(numthreads, threading.active_count())
- 
-+    @OETestID(1918)
-     def test_stdin(self):
-         numthreads = threading.active_count()
-         result = runCmd("cat", data=b"hello world", timeout=self.TIMEOUT)
-         self.assertEqual("hello world", result.output)
-         self.assertEqual(numthreads, threading.active_count())
- 
-+    @OETestID(1919)
-     def test_stdin_timeout(self):
-         numthreads = threading.active_count()
-         start = time.time()
-@@ -104,12 +119,14 @@ class RunCmdTests(OESelftestTestCase):
-         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
-         self.assertEqual(numthreads, threading.active_count())
- 
-+    @OETestID(1908)
-     def test_log(self):
-         log = MemLogger()
-         result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log)
-         self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout", "stderr"], log.info_msgs)
-         self.assertEqual([], log.error_msgs)
- 
-+    @OETestID(1909)
-     def test_log_split(self):
-         log = MemLogger()
-         result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log, stderr=subprocess.PIPE)
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index aa73ba4f7e..fc19a3f211 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -920,6 +920,7 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         self.assertNotIn('\nBZIMAGE        ', result.output)
-         self.assertNotIn('\nEFI          <DIR>     ', result.output)
- 
-+    @OETestID(1922)
-     def test_mkfs_extraopts(self):
-         """Test wks option --mkfs-extraopts for empty and not empty partitions"""
-         img = 'core-image-minimal'
++        if (srclicfile == corebase_licensefile):
++            bb.warn("${COREBASE}/LICENSE is not a valid license file, please use '${COMMON_LICENSE_DIR}/MIT' for a MIT License file in LIC_FILES_CHKSUM. This will become an error in the future")
++
+         recipemd5 = parm.get('md5', '')
+         beginline, endline = 0, 0
+         if 'beginline' in parm:
 -- 
-2.12.3
+2.7.5
 
 
