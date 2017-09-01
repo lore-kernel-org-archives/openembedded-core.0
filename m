@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
-	[209.85.214.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 942E577E35
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6754A78485
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 23:27:20 +0000 (UTC)
-Received: by mail-it0-f46.google.com with SMTP id 77so3320747itj.1
+	Fri,  1 Sep 2017 23:49:03 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id p2so3461765ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Sep 2017 16:27:21 -0700 (PDT)
+	Fri, 01 Sep 2017 16:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=D929eHT8intlUazunih8S/3xNSR4V3/rNDMhswFY1UU=;
-	b=dLlu0SK5QbA71kKUQALtKok/RzUp15SjDrmyF1ZnAgSoLN2iKq2aI1jTNw/XwCt4S6
-	GApi2nkw6ls57oAcNoePoDxZeUJC9iAMlIpZJZBSEsCJMtTevQMuoKp9gCpUTPtPpU3e
-	CRWUSby49HXdJrbF79irXtGjBXWyClBHR+opxLmnhF2acEq9KaU+iR95q9NM9bFHXwCC
-	1kcvpyqs8avfFG49lSyMiE0lkql1Aap3x0UFlTUSkP30NLO40CJVbKCN+seDuoCwBARZ
-	nT1gTrAtjEICccUa6FsTBht97HfeEED3J2o17GPvvnWrhZfCvSd8VI6OUybwxi1d6ig4
-	biyw==
+	:cc; bh=S6TvkOBtj5dyU4G/cEiNJPgTGmlCRDUjmcomwxyk5oY=;
+	b=YATQ6fuugDya0Km9kNwZldC1kBSslIgErv8lzy/pujlIOySYqqgdt2z2zmyrScZ0ke
+	ddAdhBHsoMoNNDXIo1d8iDd1PczexuqQqGQ0yx4AkSuzzQ+KrewqdL56EPETWViL8AaC
+	sXOMjwltfbkJA0jX6pkCK7WCE03U7E4Z4pdGXWgTFSPpUAvEPibBl+amN9tqcQCmX4+Q
+	0JGOgSNSls/Ww39c3K8D0tCh6KtT35pqF6Rjyhm9u1Xw3PmRsLt2LXKhcq3UXdjoB1gU
+	RQgdQoo+N9QRSbzGK0iTKK6o/Qp7B/wiXmxjBvYaKry94S0AhQSZr+1PE8fxYv+e1N46
+	1kmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=D929eHT8intlUazunih8S/3xNSR4V3/rNDMhswFY1UU=;
-	b=XKVW7fL43Kv40ATlU91vwO8mulDH3zVA1AD0Q6Iy6ZwHE5V7T2i9Cm3Q7YbwtUksqF
-	zr8sRl9aqrk+GKaJNejylWXMTAksM5WPHITUPvLC2ChlgWhj8cJfWhV4k7905Rx/Wspu
-	P2sf+U2pSlm3CS2JwSO1lMPJhNYCmZLpMTy8m9BM4fCrQrPiN256SfMBYVtun/T075jU
-	t62mJaEsgXzFcMhJrtwwWGid/FancLURqpRcIeg1HKH7GPU9JqB4AdshC43anrhqEDRr
-	6oCtloMkGcC2n9hZBuSlPqRoYfbi86Pi5slMpIRFMzZh3bf6yT9PytZAD59nCx78OO0k
-	VIVQ==
-X-Gm-Message-State: AHPjjUjK8QMlpALcBFu19qBUfOJR34hNo1YgCdcydndZm7uVXoJk9Ceo
-	RguEUKpv+UqljlZLrJ072Fa8ifl53Ndq
-X-Google-Smtp-Source: ADKCNb4lEbGWw1YRnX8sg5zt+qT2udIk/Wj41cPdP/IdPwPMIwXQn373ngzm+mEF6LOcEI2PCgfWR+0c2xCeg/qrkAw=
-X-Received: by 10.36.90.205 with SMTP id v196mr995437ita.70.1504308441600;
-	Fri, 01 Sep 2017 16:27:21 -0700 (PDT)
+	bh=S6TvkOBtj5dyU4G/cEiNJPgTGmlCRDUjmcomwxyk5oY=;
+	b=UpDr6lDAxBpddvlby4d8zYnIhfI3zutKtGNElRfck2goyCj2UF42tYMm8LErO69nx5
+	JlME4JPD42IxYKUYMVBHmtOZIkl2smoK+oHYnmofkR6ZZIaES0bswB/udQSn4uCRaO3Y
+	CZccrcVGbLgJTjwedzDUUQIS3aMZWbcqd2VcMoDZXPbfsYyl8lnCm4ZV16g4J2kXAvN8
+	J8D573eRCx7l4Q4A8S7DfxicMNb8lUIlmBhiEs8POW/KjGkkiPZMrXz1QpBeNNzhBWW+
+	HINL7+8Thoogk/EI1hNRioCd799B2OmMSpOcXOJhBwhwtkJhwYCdF+AkU0efoxi8qR2q
+	D0IQ==
+X-Gm-Message-State: AHPjjUhX5IeiCrdeMpMZDqGEZOvmWQpVYKJSAk8NPhvmKp1ph/h+8rsZ
+	tanozij7QsV2DrIMMFDHjJ1hl9VoHrpTtlE=
+X-Google-Smtp-Source: ADKCNb6d0GFIZOarfw8LweGoWr40BFB6+Zvy6FvckzWoaqI0rqxNja1/lxWkoZaH9z+RKqQ6SaAH3y7ubq5+e8Ep24c=
+X-Received: by 10.36.224.205 with SMTP id c196mr1303580ith.18.1504309745427;
+	Fri, 01 Sep 2017 16:49:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.33.83 with HTTP; Fri, 1 Sep 2017 16:26:59 -0700 (PDT)
-In-Reply-To: <20170901124506.19317-1-nicolas.dechesne@linaro.org>
-References: <20170901124506.19317-1-nicolas.dechesne@linaro.org>
+Received: by 10.107.33.83 with HTTP; Fri, 1 Sep 2017 16:48:44 -0700 (PDT)
+In-Reply-To: <2ca752dc-b545-6bda-a7e5-fce1fe8c935f@linux.intel.com>
+References: <1502831134-27642-1-git-send-email-jose.a.lamego@linux.intel.com>
+	<2ca752dc-b545-6bda-a7e5-fce1fe8c935f@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 2 Sep 2017 00:26:59 +0100
-Message-ID: <CAJTo0LZV5BNYANyc=R1_kbaLuRGa=cK-EPDa_7U65ffVErz+Uw@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Sat, 2 Sep 2017 00:48:44 +0100
+Message-ID: <CAJTo0La3pK-K+6yi-_f1W5Xo46hj_rVpU79GyFB4xViZGvQqWg@mail.gmail.com>
+To: Jose Lamego <jose.a.lamego@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-good: fix 4k playback for v4l2 decoder
+Subject: Re: [PATCH] packagegroup-python3: add packagegroup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 23:27:20 -0000
-Content-Type: multipart/alternative; boundary="001a1145c7ee4b6b370558291a24"
+X-List-Received-Date: Fri, 01 Sep 2017 23:49:04 -0000
+Content-Type: multipart/alternative; boundary="94eb2c19df86023ea4055829686f"
 
---001a1145c7ee4b6b370558291a24
+--94eb2c19df86023ea4055829686f
 Content-Type: text/plain; charset="UTF-8"
 
-On 1 September 2017 at 13:45, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+On 18 August 2017 at 18:09, Jose Lamego <jose.a.lamego@linux.intel.com>
 wrote:
 
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-
-> plugins-good/0001-v4l2-Fix-4K-colorimetry.patch
-> @@ -0,0 +1,47 @@
-> +From 545646cccba243236e10362fe7325f89be57da1f Mon Sep 17 00:00:00 2001
-> +From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> +Date: Tue, 18 Jul 2017 11:28:37 -0400
-> +Subject: [PATCH] v4l2: Fix 4K colorimetry
-> +
-> +Since 1.6, the transfer function for BT2020 has been changed from BT709
-> +to BT2020_12. It's the same function, but with more precision. As a side
-> +effect, the V4L2 colorpsace didn't match GStreamer colorspace. When
-> +GStreamer ended up making a guess, it would not match anything supported
-> +by V4L2 anymore. This this by using BT2020_12 for BT2020 colorspace and
-> +BT2020 transfer function in replacement of BT709 whenever a 4K
-> +resolution is detected.
-> +
-> +Upstream-Status: Backport
->
+> Please disregard this patch. The python3 recipe provides python-modules,
+> which includes all of the listed packages, making a new packagegroup
+> unnecessary.
 
-This needs your s-o-b.
+
+Its even better than that now:
+
+RPROVIDES_${PN}-modules = "${PN}"
+
+Adding just "python3" to an image will pull in python3-modules, which pulls
+in the lot.
 
 Ross
 
---001a1145c7ee4b6b370558291a24
+--94eb2c19df86023ea4055829686f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 1 September 2017 at 13:45, Nicolas Dechesne <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blan=
-k">nicolas.dechesne@linaro.org</a>&gt;</span> wrote:<div class=3D"gmail_ext=
-ra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-+++ b/meta/recipes-multimedia/<wbr>gstreamer/gstreamer1.0-<wbr>plugins-good=
-/0001-v4l2-Fix-4K-<wbr>colorimetry.patch<br>
-@@ -0,0 +1,47 @@<br>
-+From 545646cccba243236e10362fe7325f<wbr>89be57da1f Mon Sep 17 00:00:00 200=
-1<br>
-+From: Nicolas Dufresne &lt;<a href=3D"mailto:nicolas.dufresne@collabora.co=
-m">nicolas.dufresne@collabora.<wbr>com</a>&gt;<br>
-+Date: Tue, 18 Jul 2017 11:28:37 -0400<br>
-+Subject: [PATCH] v4l2: Fix 4K colorimetry<br>
-+<br>
-+Since 1.6, the transfer function for BT2020 has been changed from BT709<br=
->
-+to BT2020_12. It&#39;s the same function, but with more precision. As a si=
-de<br>
-+effect, the V4L2 colorpsace didn&#39;t match GStreamer colorspace. When<br=
->
-+GStreamer ended up making a guess, it would not match anything supported<b=
-r>
-+by V4L2 anymore. This this by using BT2020_12 for BT2020 colorspace and<br=
->
-+BT2020 transfer function in replacement of BT709 whenever a 4K<br>
-+resolution is detected.<br>
-+<br>
-+Upstream-Status: Backport<br></blockquote><div><br></div><div>This needs y=
-our s-o-b.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+<div dir=3D"ltr">On 18 August 2017 at 18:09, Jose Lamego <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:jose.a.lamego@linux.intel.com" target=3D"_blank">jose=
+.a.lamego@linux.intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extr=
+a"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border=
+-left-color:rgb(204,204,204);padding-left:1ex">Please disregard this patch.=
+ The python3 recipe provides python-modules,<br>
+which includes all of the listed packages, making a new packagegroup<br>
+unnecessary.</blockquote><div><br></div><div>Its even better than that now:=
+</div><div><br></div><div>RPROVIDES_${PN}-modules =3D &quot;${PN}&quot;<br>=
+</div><div><br></div><div>Adding just &quot;python3&quot; to an image will =
+pull in python3-modules, which pulls in the lot.</div><div><br></div><div>R=
+oss</div></div></div></div>
 
---001a1145c7ee4b6b370558291a24--
+--94eb2c19df86023ea4055829686f--
