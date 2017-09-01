@@ -1,29 +1,30 @@
-Return-Path: <richard@rpsys.net>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BEAA784A1
+	by mail.openembedded.org (Postfix) with ESMTP id AAA2078457
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 14:20:47 +0000 (UTC)
+	Fri,  1 Sep 2017 14:47:14 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v81EKkfR014474
+	v81El8E8021493
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 1 Sep 2017 15:20:47 +0100
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1dnmoQ-0001gM-Pj; Fri, 01 Sep 2017 15:20:46 +0100
+	verify=NOT); Fri, 1 Sep 2017 15:47:13 +0100
+Message-ID: <1504277228.2175.52.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Sep 2017 15:20:44 +0100
-Message-Id: <1504275645-6421-2-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1504275645-6421-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1504275645-6421-1-git-send-email-richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	openembedded-core@lists.openembedded.org, haris.okanovic@ni.com
+Date: Fri, 01 Sep 2017 15:47:08 +0100
+In-Reply-To: <025f202d-c573-d8e6-5124-2161c9a91795@linux.intel.com>
+References: <20170519150121.7707-1-haris.okanovic@ni.com>
+	<20170831184643.3991-1-haris.okanovic@ni.com>
+	<025f202d-c573-d8e6-5124-2161c9a91795@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
 X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
 	(dan.rpsys.net [192.168.3.1]);
-	Fri, 01 Sep 2017 15:20:47 +0100 (BST)
+	Fri, 01 Sep 2017 15:47:13 +0100 (BST)
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 2/3] lib/oe/utils: Handle exceptions in multiprocess_exec
+Subject: Re: [PATCH] package_manager.py: Add PACKAGE_ENABLE_FILELIST option to OpkgIndexer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,63 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 14:20:49 -0000
+X-List-Received-Date: Fri, 01 Sep 2017 14:47:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Currently exceptions that happen in pool commands are ignored. Any errors
-would be printed on the console but everything else is silent.
+On Fri, 2017-09-01 at 16:04 +0300, Alexander Kanavin wrote:
+> On 08/31/2017 09:46 PM, Haris Okanovic wrote:
+> > 
+> > Setting PACKAGE_ENABLE_FILELIST option generates Packages.filelist
+> > on
+> > `bitbake package-index`, which is index of files provided by each
+> > IPK package in the feed. It's useful for figuring out which package
+> > provides a particular file/program/library/etc.
+> > 
+> > Disabled by default since generating a filelist involves reading
+> > the
+> > payload of every package in the feed, a time and IO intensive
+> > operation
+> > many users won't want to run. Those who do may flip this switch.
+> > 
+> > Testing:
+> >   * Built an opkg index with PACKAGE_ENABLE_FILELIST unset and
+> > verified
+> >     no Packages.filelist are generated.
+> >   * Built with PACKAGE_ENABLE_FILELIST="1" and verified each
+> > subfeed
+> >     has Packages.filelist; took ~3min longer for 8,200 IPKs.
+> 
+>
+> The only way to discover that this option exists is to read the code
+> for OpkgIndexer. And it's specific to opkg, which is not reflected in
+> the option name at all.
+> 
+> Can you instead just place the index generation into a custom recipe 
+> that depends on package-index recipe?
 
-Switch to use pool.map_async which allows for an error_callback which
-we can use to detect exceptions and make sure these errors are handled.
+I'm going to disagree with that, I don't want a separate recipe for
+this and I'm not sure that makes sense.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/utils.py | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+I'm ok with adding an option but we need to come up with a better
+namespace. How about OPKG_PACKAGE_INDEX_FILELIST_GEN?
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 822d0cd..643ab78 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -224,25 +224,30 @@ def multiprocess_exec(commands, function):
-     def init_worker():
-         signal.signal(signal.SIGINT, signal.SIG_IGN)
- 
-+    fails = []
-+
-+    def failures(res):
-+        fails.append(res)
-+
-     nproc = min(multiprocessing.cpu_count(), len(commands))
-     pool = bb.utils.multiprocessingpool(nproc, init_worker)
--    imap = pool.imap(function, commands)
- 
-     try:
--        res = list(imap)
-+        mapresult = pool.map_async(function, commands, error_callback=failures)
-+
-         pool.close()
-         pool.join()
--        results = []
--        for result in res:
--            if result is not None:
--                results.append(result)
--        return results
--
-+        results = mapresult.get()
-     except KeyboardInterrupt:
-         pool.terminate()
-         pool.join()
-         raise
- 
-+    if fails:
-+        raise fails[0]
-+
-+    return results
-+
- def squashspaces(string):
-     import re
-     return re.sub("\s+", " ", string).strip()
--- 
-2.7.4
+(says its package index and opkg specific)
+
+Cheers,
+
+Richard
+
 
 
