@@ -1,33 +1,27 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AA8A78496
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D9B6E7849D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Sep 2017 15:11:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v81FBLR8002362
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 1 Sep 2017 08:11:22 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 1 Sep 2017 08:11:20 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, OE-core
-	<openembedded-core@lists.openembedded.org>
-References: <20170831122335.6864-1-clopez@igalia.com>
-	<CAJTo0LZTdWS=haawEyk_k2cq=5DKqPM=4s_JS0RyWxyw7epMVA@mail.gmail.com>
-	<ddf815cf-b746-7107-ba7e-9e41ab8747ec@igalia.com>
-	<CAJTo0LbsBGGCqksh5RcM48q-sNMWg42o+3iM=OjnR5dya1mXRw@mail.gmail.com>
-	<a97b1a6b-c037-e7ad-4e6a-f770439b7ff5@igalia.com>
-	<CAJTo0LaZFrAcsvMf5CHK6QmeNEnxQaJXy7ho7hK=hCvLxc0_-g@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <d8733ca3-1c0c-72cc-1250-2639d0d951bf@windriver.com>
-Date: Fri, 1 Sep 2017 11:11:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaZFrAcsvMf5CHK6QmeNEnxQaJXy7ho7hK=hCvLxc0_-g@mail.gmail.com>
-X-Originating-IP: [172.25.44.7]
-Subject: Re: [PATCH] initramfs-live-boot: disable systemd-update-done.service on live images
+	Fri,  1 Sep 2017 16:00:03 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v81G02gs029678
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Fri, 1 Sep 2017 17:00:03 +0100
+Received: from richard by hex with local (Exim 4.86_2)
+	(envelope-from <richard@rpsys.net>)
+	id 1dnoMU-0002L4-CE; Fri, 01 Sep 2017 17:00:02 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Sep 2017 17:00:00 +0100
+Message-Id: <1504281601-8951-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.7.4
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Fri, 01 Sep 2017 17:00:03 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: [PATCH 1/2] package: Change PACKAGE_BBCLASS_VERSION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,28 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Sep 2017 15:11:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Sep 2017 16:00:04 -0000
 
-On 2017-08-31 01:00 PM, Burton, Ross wrote:
-> On 31 August 2017 at 17:57, Carlos Alberto Lopez Perez 
-> <clopez@igalia.com <mailto:clopez@igalia.com>> wrote:
-> 
->     Better done than promised! :)
->     https://github.com/systemd/systemd/issues/6716
->     <https://github.com/systemd/systemd/issues/6716>
-> 
-> 
-> And staged :)
-> 
-> Ross
-> 
-> 
-and closed by Mr Poettering as "Not a bug" :-/
+The silent rpmdeps failures fixed in a preceeding commit mean we
+need to rerun all packaging.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index a051617..7a62181 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2073,7 +2073,7 @@ python do_package () {
+     # cache.  This is useful if an item this class depends on changes in a
+     # way that the output of this class changes.  rpmdeps is a good example
+     # as any change to rpmdeps requires this to be rerun.
+-    # PACKAGE_BBCLASS_VERSION = "1"
++    # PACKAGE_BBCLASS_VERSION = "2"
+ 
+     # Init cachedpath
+     global cpath
 -- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+2.7.4
+
 
