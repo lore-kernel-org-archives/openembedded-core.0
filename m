@@ -1,21 +1,49 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 322FB719E7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B26F60722
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Sep 2017 00:04:59 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP; 01 Sep 2017 17:05:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,459,1498546800"; d="scan'208";a="1010184375"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 01 Sep 2017 17:05:00 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Sep 2017 17:04:58 -0700
-Message-Id: <20170902000458.28655-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.5
-Cc: otavio@ossystems.com.br
-Subject: [PATCH] initramfs-framework: split setup-live and install-efi into separate recipes
+	Sat,  2 Sep 2017 00:22:47 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id f99so7661098ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Sep 2017 17:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TC+4NNod7955LIWm8HIZ6YordObMGIR09Kbv1Pd++SU=;
+	b=OVSKlQF0ihn6sO9n87zvFwOmx9wBJwwcIGu1zXnBdTKzQ9Xyhz6sht8sQpe8lpRp0P
+	S7fOJQqQilquDYCYqcPk+xZovB40l7DN/7JLLnLuHVPYxRpA7+2TL/cC0g9PpUz88iKV
+	peOSog2hM1TWB1Hzwoocxf7SFbmFn8BtLV+exh7Yi4CetgYRj9tSYF2CdOJp3UlEdQcG
+	aw+3fKVzGeWFA7wT8xmfEg2lGwl70yDrsxOdKI93gaXPyQMWuc9MOHtgiu9gapvo8sLI
+	6Vxzi12dGs2RBki3Y9wHl0g4ttbUWBwvAQ756cGwX6iInVDoGMOAODkRCMlyJ6rkMMmB
+	03aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TC+4NNod7955LIWm8HIZ6YordObMGIR09Kbv1Pd++SU=;
+	b=HuK8G20zDV3J9GIgSa1P5pYNfoM/TbAfJc1lEdG91HNhoZRVQQGg1o/HANCFJidYXz
+	w01yrZzGHejzXqvuPgGa6yeUEauMKC9besjaOEo5hZmUBtCgB6XBC5OY0l611tZZ5V58
+	BAMDfR56L/qdU25yOyoJKdWSJ0PSt7Jsz5RQ6xSyVTmIBonOUzCJy5G79erXPwVbokJn
+	L7gO7CX+USpesPTGvoXSpyxfuVWQ6nrtDDa5v1EYkp5tmoYWJostvTwwaXX2amx8tln6
+	4GZmqFYjtsiZYxaxbEXVXoBl/XIJrH+nNJpbwcLQOBX8KFSy7ruJDyp2jM7rI/b7Z0L+
+	188A==
+X-Gm-Message-State: AHPjjUjakhWb4aNdjnNCFXIDKi6/jh+3TKtS0Hq/8Dr6ybsl8cyr4fG7
+	P3cA+SMwbdKUShu17w2KH61nEaFcgJlE
+X-Google-Smtp-Source: ADKCNb53Xo8rFIELTKMSfJvnSRzw8+/oiPV2gMQwkJz9pgxsNeRFlegDW6WImwcrMLVXlx9Qy7kSxTovMoYP9zu3J1A=
+X-Received: by 10.107.59.200 with SMTP id i191mr2981567ioa.117.1504311769036; 
+	Fri, 01 Sep 2017 17:22:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.33.83 with HTTP; Fri, 1 Sep 2017 17:22:28 -0700 (PDT)
+In-Reply-To: <20170826112602.15344-2-jose.alarcon@ge.com>
+References: <20170826112602.15344-1-jose.alarcon@ge.com>
+	<20170826112602.15344-2-jose.alarcon@ge.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 2 Sep 2017 01:22:28 +0100
+Message-ID: <CAJTo0LZPPuC23W4UnbTYBA8MLZAh1E=8RmU5LeTdVEDpJiQ46Q@mail.gmail.com>
+To: Jose Alarcon <jose.alarcon@ge.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] rootfs-postcommands: add test for unsatisfied RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,135 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Sep 2017 00:05:00 -0000
+X-List-Received-Date: Sat, 02 Sep 2017 00:22:48 -0000
+Content-Type: multipart/alternative; boundary="001a114f80dca0184e055829e0ec"
 
-Having these the initramfs-framework recipe forced initramfs-framework
-users to build several tools they didn't need, and made it more
-difficult to declare the recipe as allarch.
+--001a114f80dca0184e055829e0ec
+Content-Type: text/plain; charset="UTF-8"
 
-Fixes [YOCTO #12024].
+On 26 August 2017 at 12:26, Jose Alarcon <jose.alarcon@ge.com> wrote:
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
- .../initrdscripts/initramfs-framework_1.0.bb         | 20 ++------------------
- .../initramfs-module-install-efi_1.0.bb              | 18 ++++++++++++++++++
- .../initrdscripts/initramfs-module-setup-live_1.0.bb | 18 ++++++++++++++++++
- 3 files changed, 38 insertions(+), 18 deletions(-)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
+> The do_rootfs log contains a number of unsatisfied package
+> recommendations. At the moment those are only visible when
+> reviewing the rootfs log.
+>
+> This patch adds an extra check to surface any unsatisfied
+> recommendation  as WARNINGS to the build output when
+> "debug-tweaks" is enabled.
+>
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 77b2ff8..c07a5fc 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -14,8 +14,7 @@ SRC_URI = "file://init \
-            file://udev \
-            file://e2fs \
-            file://debug \
--           file://setup-live \
--           file://install-efi.sh"
-+          "
- 
- S = "${WORKDIR}"
- 
-@@ -27,9 +26,6 @@ do_install() {
-     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
-     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
- 
--    # setup-live
--    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
--
-     # mdev
-     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
- 
-@@ -42,9 +38,6 @@ do_install() {
-     # debug
-     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
- 
--    # install-efi
--    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
--
-     # Create device nodes expected by some kernels in initramfs
-     # before even executing /init.
-     install -d ${D}/dev
-@@ -57,8 +50,7 @@ PACKAGES = "${PN}-base \
-             initramfs-module-e2fs \
-             initramfs-module-rootfs \
-             initramfs-module-debug \
--            initramfs-module-setup-live \
--            initramfs-module-install-efi"
-+           "
- 
- FILES_${PN}-base = "/init /init.d/99-finish /dev"
- 
-@@ -78,10 +70,6 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
- RDEPENDS_initramfs-module-udev = "${PN}-base udev"
- FILES_initramfs-module-udev = "/init.d/01-udev"
- 
--SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
--RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
--FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
--
- SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
- RDEPENDS_initramfs-module-e2fs = "${PN}-base"
- FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
-@@ -93,7 +81,3 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
- SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
- RDEPENDS_initramfs-module-debug = "${PN}-base"
- FILES_initramfs-module-debug = "/init.d/00-debug"
--
--SUMMARY_initramfs-module-install-efi = "initramfs support for installation option"
--RDEPENDS_initramfs-module-install-efi = "${PN}-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
--FILES_initramfs-module-install-efi = "/init.d/install-efi.sh"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-new file mode 100644
-index 0000000..8143f31
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "initramfs-framework module for installation option"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
-+
-+PR = "r1"
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
-+SRC_URI = "file://install-efi.sh"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
-+}
-+
-+FILES_${PN} = "/init.d/install-efi.sh"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-new file mode 100644
-index 0000000..7627cdc
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "initramfs-framework module for live booting"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS_${PN} = "initramfs-framework-base udev-extraconf"
-+
-+PR = "r1"
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
-+SRC_URI = "file://setup-live"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
-+}
-+
-+FILES_${PN} = "/init.d/80-setup-live"
--- 
-2.9.5
+But isn't that the point of recommends?
 
+If the user uses BAD_RECOMMENDATIONS to explicitly stop specific
+recommendations being installed, or the package just isn't available,
+that's fine.
 
+Ross
+
+--001a114f80dca0184e055829e0ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 26 August 2017 at 12:26, Jose Alarcon <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:jose.alarcon@ge.com" target=3D"_blank">jose.alarcon@=
+ge.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gm=
+ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">The do_rootfs log contains a numb=
+er of unsatisfied package<br>
+recommendations. At the moment those are only visible when<br>
+reviewing the rootfs log.<br>
+<br>
+This patch adds an extra check to surface any unsatisfied<br>
+recommendation=C2=A0 as WARNINGS to the build output when<br>
+&quot;debug-tweaks&quot; is enabled.<br></blockquote><div><br></div><div>Bu=
+t isn&#39;t that the point of recommends?</div><div><br></div><div>If the u=
+ser uses BAD_RECOMMENDATIONS to explicitly stop specific recommendations be=
+ing installed, or the package just isn&#39;t available, that&#39;s fine.</d=
+iv><div><br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a114f80dca0184e055829e0ec--
