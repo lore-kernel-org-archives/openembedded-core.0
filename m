@@ -1,36 +1,63 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from cpanel2.indieserve.net (cpanel2.indieserve.net [199.212.143.6])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EDF777AB5
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E585D70100
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Sep 2017 16:49:21 +0000 (UTC)
-Received: from cpec03f0ed08c7f-cm68b6fcf980b0.cpe.net.cable.rogers.com
-	([174.118.92.171]:53688 helo=localhost.localdomain)
-	by cpanel2.indieserve.net with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.89)
-	(envelope-from <rpjday@crashcourse.ca>) id 1doBbm-0001yk-Do
-	for openembedded-core@lists.openembedded.org;
-	Sat, 02 Sep 2017 12:49:22 -0400
-Date: Sat, 2 Sep 2017 12:49:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.21.1709021247450.15707@localhost.localdomain>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+	Sat,  2 Sep 2017 18:17:49 +0000 (UTC)
+Received: by mail-oi0-f48.google.com with SMTP id r203so21905596oih.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 02 Sep 2017 11:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=bVqLut28Cgo9K0rEi+VcM8oZJSTwzHQsXqS+ZjGrp7A=;
+	b=heoL5dBWpIfpLdOh0jrYctE3jY3DG+yXxi0r5dIRk9LRRq5FEju1U80PB3OI/0YRLh
+	viLO7lrdpGBlFmWH8AdFvsfhKD9VQTTL9m8CayXVBPP22QrG2YwC7a7KXmjzjONmz1OK
+	BzbqXQdXLjRlE5uuyg7IV50ha9dG2JVS6lPCg3ftL18NzRtOadKyO9yNt+7d2scgT8ym
+	O9+k5otiacVy1yGRRrPeAXg3NLwskLZZ74S79Qn4m3ICIvo+Giqn6KAHThx0Go85bPGG
+	18Spm7csniE05K9uo04QOFpHmINdvtcnxrzFbchNeW3uMnEQlw9egpVO2/agszqFyPAq
+	LnOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=bVqLut28Cgo9K0rEi+VcM8oZJSTwzHQsXqS+ZjGrp7A=;
+	b=g7gmZBSzQs/DlxTbhMJnHlY4VhIRYwCWswCySsjFAc4dVpeVMdKoyQ5nsj0asSiKuH
+	kgJdV+2k2AkD66d0GCtmr5Th6fJAZoocwkCbqXbutUwsXXh3w6d4Om+hMnYVW0m1hi6l
+	ioxlD2CXebz/nOw8yGZjrigKkX69UZ99Y57tjLLylnO+11G2Xc+us+qZotHBR5/qjvxQ
+	xKgjowUOZ4NU1cSsZ6WTm7WjCVZKAxDr7fBzxgzuRBAR25YuRKf6pJe3BYkfHBr2yOYr
+	s3TtHhF4oa7t8TQ2fR8/9epSljN+vDpsyPeOzjCfDZ5Tm8OJQKMQTLhdJ6q31/DU69i/
+	408w==
+X-Gm-Message-State: AHPjjUgLl8j7PXOTo63+jE5b2EDCQq6q0+MXCmM9ImGXZt25tNiZyKNY
+	FjO8bALt0CDQCwhpMmE=
+X-Received: by 10.202.170.20 with SMTP id t20mr5635893oie.60.1504376269878;
+	Sat, 02 Sep 2017 11:17:49 -0700 (PDT)
+Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com.
+	[209.85.218.45]) by smtp.gmail.com with ESMTPSA id
+	d26sm4479139oic.42.2017.09.02.11.17.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Sep 2017 11:17:48 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f45.google.com with SMTP id n18so21928333oig.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 02 Sep 2017 11:17:48 -0700 (PDT)
+X-Google-Smtp-Source: ADKCNb6ZuQSvUY0QtMIVEFonu3EjjM2L7pto7F/Nm0sZz5J+gg4ZWMC/55hseUx/23iosrx6YxRLUBDCOhmi7sGkRHk=
+X-Received: by 10.202.71.5 with SMTP id u5mr4812871oia.56.1504376267908; Sat,
+	02 Sep 2017 11:17:47 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel2.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel2.indieserve.net: authenticated_id:
-	rpjday+crashcourse.ca/only user confirmed/virtual account not
-	confirmed
-X-Authenticated-Sender: cpanel2.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] oeqa: Replace "append +=" with normal "append =" in layerappend.py
+Received: by 10.157.0.37 with HTTP; Sat, 2 Sep 2017 11:17:47 -0700 (PDT)
+In-Reply-To: <20170902000458.28655-1-california.l.sullivan@intel.com>
+References: <20170902000458.28655-1-california.l.sullivan@intel.com>
+Date: Sat, 2 Sep 2017 15:17:47 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpRT_BQGqzCd-fihZp-Dy4w0uiNr2bG_AYAvdta4wQPRg@mail.gmail.com>
+Message-ID: <CAP9ODKpRT_BQGqzCd-fihZp-Dy4w0uiNr2bG_AYAvdta4wQPRg@mail.gmail.com>
+To: California Sullivan <california.l.sullivan@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initramfs-framework: split setup-live and install-efi into separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +70,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Sep 2017 16:49:22 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sat, 02 Sep 2017 18:17:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, Sep 1, 2017 at 9:04 PM, California Sullivan
+<california.l.sullivan@intel.com> wrote:
+> Having these the initramfs-framework recipe forced initramfs-framework
+> users to build several tools they didn't need, and made it more
+> difficult to declare the recipe as allarch.
+>
+> Fixes [YOCTO #12024].
+>
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+The patch should be based on the allarch patch I sent as it adds the
+dependencies on the whitelist. So you can also set them as allarch.
 
----
-
-diff --git a/meta/lib/oeqa/selftest/cases/layerappend.py b/meta/lib/oeqa/selftest/cases/layerappend.py
-index 9562116..2fd5cdb 100644
---- a/meta/lib/oeqa/selftest/cases/layerappend.py
-+++ b/meta/lib/oeqa/selftest/cases/layerappend.py
-@@ -40,7 +40,7 @@ sysroot_stage_all_append() {
-     append2 = """
- FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-
--SRC_URI_append += "file://appendtest.txt"
-+SRC_URI_append = " file://appendtest.txt"
- """
-     layerappend = ''
-
-rday
+Please also move the scripts to specific directories. As it is not include
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
