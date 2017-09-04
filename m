@@ -1,35 +1,28 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-Received: from mgwym02.jp.fujitsu.com (mgwym02.jp.fujitsu.com [211.128.242.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 87B9F60620
+Return-Path: <jose.alarcon@ge.com>
+Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
+	[67.231.157.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 3737B606A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 04:55:16 +0000 (UTC)
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by
-	mgwym02.jp.fujitsu.com with smtp
-	id 5c84_2e33_f0d736f4_1dbe_4626_b902_24894a811855;
-	Mon, 04 Sep 2017 13:55:13 +0900
-Received: from g01jpfmpwkw03.exch.g01.fujitsu.local
-	(g01jpfmpwkw03.exch.g01.fujitsu.local [10.0.193.57])
-	by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 70044AC00C7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 13:55:12 +0900 (JST)
-Received: from G01JPEXCHKW13.g01.fujitsu.local
-	(G01JPEXCHKW13.g01.fujitsu.local [10.0.194.52])
-	by g01jpfmpwkw03.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	561DBBD6593 for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 13:55:11 +0900 (JST)
-Received: from localhost.localdomain (10.54.205.122) by
-	G01JPEXCHKW13.g01.fujitsu.local (10.0.194.52) with Microsoft SMTP
-	Server id 14.3.352.0; Mon, 4 Sep 2017 13:55:09 +0900
-From: Fan Xin <fan.xin@jp.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Sep 2017 13:55:08 +0900
-Message-ID: <1504500908-24509-1-git-send-email-fan.xin@jp.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-Encrypted: FENCE-Mail/3.1.1
-X-TM-AS-MML: disable
-Subject: [PATCH] systemtap: Add HOMEPAGE info into recipe file.
+	Mon,  4 Sep 2017 05:12:31 +0000 (UTC)
+Received: from pps.filterd (m0048206.ppops.net [127.0.0.1])
+	by m0048206.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
+	v8458v1j040379 for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Sep 2017 01:12:33 -0400
+From: Jose Alarcon <jose.alarcon@ge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Sep 2017 08:12:23 +0300
+Message-Id: <20170904051224.37668-1-jose.alarcon@ge.com>
+X-Mailer: git-send-email 2.10.1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-09-04_03:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 impostorscore=0 adultscore=0 classifier=spam
+	adjust=0
+	reason=mlx scancount=1 engine=8.0.1-1707230000
+	definitions=main-1709040081
+Subject: [PATCH v2 1/2] rootfs-postcommands: remove empty line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,26 +35,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 04:55:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Sep 2017 05:12:32 -0000
 
-Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/rootfs-postcommands.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index b3fd973..475b207 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Script-directed dynamic tracing and performance analysis tool for Linux"
-+HOMEPAGE = "https://sourceware.org/systemtap/"
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index e7999d4..fb36bad 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -291,7 +291,6 @@ rootfs_sysroot_relativelinks () {
+ 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+ }
  
- require systemtap_git.inc
- 
+-
+ # Generated test data json file
+ python write_image_test_data() {
+     from oe.data import export2json
 -- 
-2.7.4
-
+2.10.1
 
 
