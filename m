@@ -1,56 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0D7671AD8
+Return-Path: <gizero@gmail.com>
+Received: from mail-ua0-f180.google.com (mail-ua0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E399B77E7A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 10:22:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 438171833F;
-	Mon,  4 Sep 2017 12:22:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id jcJ1clbNdDpH; Mon,  4 Sep 2017 12:22:32 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 26C0F18401;
-	Mon,  4 Sep 2017 12:22:32 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A9D7F1E078;
-	Mon,  4 Sep 2017 12:22:31 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9E50C1E070;
-	Mon,  4 Sep 2017 12:22:31 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Mon,  4 Sep 2017 12:22:31 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 9286C2754;
-	Mon,  4 Sep 2017 12:22:31 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX01.axis.com (10.0.5.15) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Mon, 4 Sep 2017 12:22:31 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Mon, 4 Sep 2017 12:22:31 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: =?utf-8?B?QW5kcsOpIERyYXN6aWs=?= <git@andred.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] useradd-staticids: don't create username-group
-	if	gid is specified
-Thread-Index: AQHTJWF4toec1K4qAk+f6bkPzn7VpKKkgswg
-Date: Mon, 4 Sep 2017 10:22:31 +0000
-Message-ID: <101285eff0324932a48ca1002532fee5@XBOX02.axis.com>
-References: <20170904093726.11472-1-git@andred.net>
-In-Reply-To: <20170904093726.11472-1-git@andred.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon,  4 Sep 2017 10:33:45 +0000 (UTC)
+Received: by mail-ua0-f180.google.com with SMTP id s15so274841uag.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Sep 2017 03:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MGr9U20a1ZW0/sh72KXdIBEGI/5KO8KRLX8HGisLvH0=;
+	b=aiW9ezDNO4/cu0HHTOD0NQ26WOd058DsMETFRZNHnlalMSiSNtAZ0+wAgpfhLRQXL5
+	m1tEsCYffRBmvL+7dB9svopiWWVuJnMoBo6vKyFT8/XihXJrdL7s5l9Qh2rdvJn9njOJ
+	T1yXU795bGUJg5NIfvFWwlVJVjCIWZ6wJ39GH0X7pUhNWllxwW+Vw1rrjE1KusoTQzeD
+	hNiSYPJtHLGvpep2745m7zFMi37ZDJj7qLrlUJ8NfRldckJOPCS9pgcSP8Hf3d03pakR
+	DhirhRLLNnJyWSO3mV/In4WjhOh3SkEyF6ULWk5nskzkHHYzGdZ0f4J8qUrVvOvG0+u0
+	y1jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MGr9U20a1ZW0/sh72KXdIBEGI/5KO8KRLX8HGisLvH0=;
+	b=bF2eIbHyv+VGYuGNhOSBBAUnVToggiP5T2OpM0AGcB7nHvdaS8RP8LbludcjJ4y5KW
+	o5n0V51H850J/NrZkpZcl6MhDDEEs4pQK/oLrcYVDzihOIfKN/Ea0XxokIs5lK9+aqLw
+	sGmYXzNxouf4Sx2x+pBN7++plsM/K2V8JRwxtbVTgSU+oZOAmpGc1/2R+hYDWHHUtUfL
+	s2Kni8O2kjk68Og2oDyxGjmaFB4ek89opsPgLNv49vWieu1MuNwtQpXYS8m+vueuavfe
+	DhiKEvBnRdvMK7Vy6ucrW1kBoBU/Ks3/Aua81D6iozYVPwyBrlPwCdChdZbKZlKCOCAb
+	/0Eg==
+X-Gm-Message-State: AHPjjUiDi4+eReMYw7H9lQ+FiGIcKxonvmuwbrYBi7vBJrMZE0SBOP16
+	0C/dEsKhNTfq6XTwK8sBvxA/u3/qrQ==
+X-Google-Smtp-Source: ADKCNb7KlcpvO6m3TydPTk1F58mfo2M+bm2OKMVHAeICRBlwW4Ns8mk5dlHuSXmlmphAvU1lOQvXmhQObRYtFNXMmFU=
+X-Received: by 10.176.64.162 with SMTP id i31mr10829uad.60.1504521225371; Mon,
+	04 Sep 2017 03:33:45 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] useradd-staticids: don't create username-group if	gid is specified
+Received: by 10.176.93.42 with HTTP; Mon, 4 Sep 2017 03:33:44 -0700 (PDT)
+In-Reply-To: <CAHiDW_FXX2od__qC-mN=Z_yb2HGy_XCQrnBEqQv-pq7P-aHdwg@mail.gmail.com>
+References: <cover.1503923683.git.jussi.kukkonen@intel.com>
+	<38789a200c02167a293e7b7d51e0f2ac0ce0da21.1503923683.git.jussi.kukkonen@intel.com>
+	<CAC+thW1+RRE8E6KguaGXhs=Hi+P6mp3X++nNYAs-U4S13TL7yQ@mail.gmail.com>
+	<CAHiDW_FXX2od__qC-mN=Z_yb2HGy_XCQrnBEqQv-pq7P-aHdwg@mail.gmail.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Mon, 4 Sep 2017 12:33:44 +0200
+Message-ID: <CAC+thW3fUyuJZWaxjfsdPpwjKubO3MB5NfUWTpOz6XapwYWKfQ@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] mesa: Support building without opengl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,61 +58,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 10:22:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 04 Sep 2017 10:33:46 -0000
+Content-Type: multipart/alternative; boundary="94eb2c122c5032068305585aa5fd"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
-ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBBbmRyw6kg
-RHJhc3ppaw0KPiBTZW50OiBkZW4gNCBzZXB0ZW1iZXIgMjAxNyAxMTozNw0KPiBUbzogb3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBbT0UtY29yZV0g
-W1BBVENIXSB1c2VyYWRkLXN0YXRpY2lkczogZG9uJ3QgY3JlYXRlIHVzZXJuYW1lLQ0KPiBncm91
-cCBpZiBnaWQgaXMgc3BlY2lmaWVkDQo+IA0KPiBGcm9tOiBBbmRyw6kgRHJhc3ppayA8YWRyYXN6
-aWtAdHljb2ludC5jb20+DQo+IA0KPiBBZGRpbmcgZGlzdGNjIHRvIGFuIGltYWdlLCBhbmQgaGF2
-aW5nIHN0YXRpY2lkcyBlbmFibGVkLA0KPiBkb2Vzbid0IHdvcmsgYXMgaXQgY2F1c2VzIGEgYSBz
-dXBlcmZsdW91cyAnZGlzdGNjJyBncm91cA0KPiBiZWluZyBhZGRlZCB1c2luZyBhIGNvbmZsaWN0
-aW5nICBHSUQsIHRodXMgZmFpbGluZyB0aGUNCj4gYnVpbGQ6DQo+ICB8IEVSUk9SOiBkaXN0Y2Mt
-My4yLXIwIGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3Q6IGRpc3RjYzogZ3JvdXBhZGQgY29tbWFu
-ZCBkaWQgbm90IHN1Y2NlZWQuDQo+IA0KPiBDb21wYXJlZCB0byBvdGhlciByZWNpcGVzLCB0aGUg
-ZGlzdGNjIHJlY2lwZSBvbmx5DQo+IHNwZWNpZmllcyAtLWdpZCBmb3IgdGhlIHByaW1hcnkgZ3Jv
-dXAsIGFuZCBkb2Vzbid0IHNwZWNpZnkNCj4gLS1uby11c2VyLWdyb3VwLCBidXQgd2hlbiAtLWdp
-ZCBpcyBnaXZlbiwgaXQgZG9lc24ndCBtYWtlDQo+IHNlbnNlIHRvIGNyZWF0ZSBhIG1hdGNoaW5n
-IHVzZXJuYW1lLWdyb3VwIGluIGFkZGl0aW9uLA0KPiBldmVuIGlmIC0tbm8tdXNlci1ncm91cCB3
-YXMgbm90IHNwZWNpZmllZCwgYW5kICd1c2VyYWRkJw0KPiBhY3R1YWxseSBjb21wbGFpbnMgaWYg
-LS1naWQgYW5kIC0tdXNlci1ncm91cCBhcmUgZ2l2ZW4NCj4gYm90aC4NCj4gDQo+IElmIG9ubHkg
-LS1naWQgaXMgZ2l2ZW4sIHRoZSBjdXJyZW50IGNvZGUgaW4gaGVyZQ0KPiBlZmZlY3RpdmVseSBi
-ZWhhdmVzIGFzIGlmIC0tdXNlci1ncm91cCB3YXMgc3BlY2lmaWVkLA0KPiB0YWtpbmcgdGhlIGdy
-b3VwLWlkIG9mIHRoZSB1c2VybmFtZS1ncm91cCBmcm9tIHRoZQ0KPiAtLWdpZCBwYXJhbWV0ZXIu
-IFRoaXMgY2F1c2VzIHRoZSBlcnJvciBhYm92ZSwgYXMgd2UgdHJ5DQo+IHRvIGFkZCBhIG5ldyBn
-cm91cCAoZGlzdGNjKSB3aXRoIGFuIGV4aXN0aW5nIGdyb3VwLWlkDQo+IChub2dyb3VwKS4NCj4g
-DQo+IFRoaXMgaXMgY29udHJhcnkgdG8gdGhlIGNvbW1lbnQgaW4gdGhpcyBmaWxlIGp1c3QgYWJv
-dmUsDQo+IGNvbnRyYXJ5IHRvIHdoYXQgdXNlcmFkZCBjYW4gZG8sIGNvbnRyYXJ5IHRvIGJlaGF2
-aW91cg0KPiB3aXRob3V0IHRoZSB1c2VyYWRkLXN0YXRpY2lkcyBiYmNsYXNzLCBhbmQgbm9uLWlu
-dHVpdGl2ZS4NCj4gDQo+IENoYW5nZSB0aGUgY29kZSBzdWNoIHRoYXQgYSB1c2VybmFtZS1ncm91
-cCBpcyBvbmx5IGNyZWF0ZWQNCj4gaWYgYWN0dWFsbHkgcmVxdWVzdGVkLCBvZiBpZiBhIHByaW1h
-cnkgZ3JvdXAgdXNpbmcgLS1naWQNCj4gd2FzICpub3QqIHNwZWNpZmllZC4NCj4gDQo+IFNpZ25l
-ZC1vZmYtYnk6IEFuZHLDqSBEcmFzemlrIDxhZHJhc3ppa0B0eWNvaW50LmNvbT4NCj4gLS0tDQo+
-ICBtZXRhL2NsYXNzZXMvdXNlcmFkZC1zdGF0aWNpZHMuYmJjbGFzcyB8IDIgKy0NCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdp
-dCBhL21ldGEvY2xhc3Nlcy91c2VyYWRkLXN0YXRpY2lkcy5iYmNsYXNzIGIvbWV0YS9jbGFzc2Vz
-L3VzZXJhZGQtc3RhdGljaWRzLmJiY2xhc3MNCj4gaW5kZXggY2U0YWM2MmFiNS4uMWI2MWE4YmY5
-YiAxMDA2NDQNCj4gLS0tIGEvbWV0YS9jbGFzc2VzL3VzZXJhZGQtc3RhdGljaWRzLmJiY2xhc3MN
-Cj4gKysrIGIvbWV0YS9jbGFzc2VzL3VzZXJhZGQtc3RhdGljaWRzLmJiY2xhc3MNCj4gQEAgLTEw
-Miw3ICsxMDIsNyBAQCBkZWYgdXBkYXRlX3VzZXJhZGRfc3RhdGljX2NvbmZpZyhkKToNCj4gICAg
-ICAgICAgICAgICMgU28gaWYgdGhlIGltcGxpY2l0IHVzZXJuYW1lLWdyb3VwIGNyZWF0aW9uIGlz
-IG9uLCB0aGVuIHRoZSBpbXBsaWNpdCBncm91cG5hbWUgKExPR0lOKQ0KPiAgICAgICAgICAgICAg
-IyBpcyB1c2VkLCBhbmQgd2UgZGlzYWJsZSB0aGUgdXNlcl9ncm91cCBvcHRpb24uDQo+ICAgICAg
-ICAgICAgICAjDQo+IC0gICAgICAgICAgICB1c2VyX2dyb3VwID0gdWFhcmdzLnVzZXJfZ3JvdXAg
-aXMgTm9uZSBvciB1YWFyZ3MudXNlcl9ncm91cCBpcyBUcnVlDQo+ICsgICAgICAgICAgICB1c2Vy
-X2dyb3VwID0gdWFhcmdzLmdpZCBpcyBOb25lIG9yIHVhYXJncy51c2VyX2dyb3VwIGlzIFRydWUN
-Cg0KSG1tLCBJIGJlbGlldmUgdGhhdCBzaG91bGQgYmU6DQoNCiAgICAgICAgICAgIHVzZXJfZ3Jv
-dXAgPSB1YWFyZ3MuZ2lkIGlzIE5vbmUgYW5kIHVhYXJncy51c2VyX2dyb3VwIGlzIE5vbmUgb3Ig
-dWFhcmdzLnVzZXJfZ3JvdXAgaXMgVHJ1ZQ0KDQpJLmUuLCBpZiBuZWl0aGVyIC0tZ2lkIG5vciAt
-LXVzZXItZ3JvdXAgaXMgc3BlY2lmaWVkLCB0aGVuIGl0IHNob3VsZCANCnRyZWF0IGl0IGFzIGlm
-IC0tdXNlci1ncm91cCB3YXMgc3BlY2lmaWVkLg0KDQo+ICAgICAgICAgICAgICB1YWFyZ3MuZ3Jv
-dXBuYW1lID0gdWFhcmdzLkxPR0lOIGlmIHVzZXJfZ3JvdXAgZWxzZSB1YWFyZ3MuZ2lkDQo+ICAg
-ICAgICAgICAgICB1YWFyZ3MuZ3JvdXBpZCA9IGZpZWxkWzNdIG9yIHVhYXJncy5naWQgb3IgdWFh
-cmdzLmdyb3VwbmFtZQ0KPiANCj4gLS0NCj4gMi4xNC4xDQoNCi8vUGV0ZXINCg0K
+--94eb2c122c5032068305585aa5fd
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, Sep 4, 2017 at 10:15 AM, Jussi Kukkonen <jussi.kukkonen@intel.com>
+wrote:
+
+> On 4 September 2017 at 10:49, Andrea Galbusera <gizero@gmail.com> wrote:
+>
+>> | configure: error: GLX cannot be built without OpenGL
+>> | NOTE: The following config.log files may provide further information.
+>> | NOTE: /home/gizero/work/smartliving/distro/repo-master/build-poky/
+>> tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/mesa-gl/2_
+>> 17.1.7-r0/build/config.log
+>> | ERROR: configure failed
+>> | WARNING: exit code 1 from a shell command.
+>> | ERROR: Function failed: do_configure (log file is located at
+>> /home/gizero/work/smartliving/distro/repo-master/build-poky/
+>> tmp/work/cortexa7hf-neon-vfpv4-poky-linux-gnueabi/mesa-gl/2_
+>> 17.1.7-r0/temp/log.do_configu
+>> re.1391)
+>> ERROR: Task (/home/gizero/work/smartliving/distro/repo-master/build-
+>> poky/conf/../../layers/poky/meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb:
+>> do_configure) failed with exit code '1'
+>>
+>> This doesn't seem to be related to the bbappend for mesa-gl that is
+>> present in meta-raspberrypi, which merely appends "gbm" to PACKAGECONFIG
+>> for rpi machines (bitbake still complains with this removed). Instead,
+>> reverting this commit takes the build back to green light.
+>>
+>
+> Sorry, I must have not tested mesa-gl with the version of the patch that I
+> sent. Sending a fix after a quick test (mesa-gl seems to be missing
+> "opengl" from PACKAGECONFIG).
+>
+
+Positively build tested the patch you just sent: it fixes it! Thanks!
+
+--94eb2c122c5032068305585aa5fd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Mon, Sep 4, 2017 at 10:15 AM, Jussi Kukkonen <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:jussi.kukkonen@intel.com" target=3D"_blank">=
+jussi.kukkonen@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra=
+"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr=
+"><span class=3D""><div class=3D"gmail_extra"><div class=3D"gmail_quote">On=
+ 4 September 2017 at 10:49, Andrea Galbusera <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:gizero@gmail.com" target=3D"_blank">gizero@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><div cla=
+ss=3D"gmail_extra">| configure: error: GLX cannot be built without OpenGL<b=
+r>| NOTE: The following config.log files may provide further information.<b=
+r>| NOTE: /home/gizero/work/smartliving/<wbr>distro/repo-master/build-poky/=
+<wbr>tmp/work/cortexa7hf-neon-vfpv4<wbr>-poky-linux-gnueabi/mesa-gl/2_<wbr>=
+17.1.7-r0/build/config.log<br>| ERROR: configure failed<br>| WARNING: exit =
+code 1 from a shell command.<br>| ERROR: Function failed: do_configure (log=
+ file is located at /home/gizero/work/smartliving/<wbr>distro/repo-master/b=
+uild-poky/<wbr>tmp/work/cortexa7hf-neon-vfpv4<wbr>-poky-linux-gnueabi/mesa-=
+gl/2_<wbr>17.1.7-r0/temp/log.do_configu<br>re.1391)<br>ERROR: Task (/home/g=
+izero/work/smartliving<wbr>/distro/repo-master/build-<wbr>poky/conf/../../l=
+ayers/poky/<wbr>meta/recipes-graphics/mesa/<wbr>mesa-gl_17.1.7.bb:do_<wbr>c=
+onfigure) failed with exit code &#39;1&#39;<br></div><div class=3D"gmail_ex=
+tra"><br></div><div class=3D"gmail_extra">This doesn&#39;t seem to be relat=
+ed to the bbappend for mesa-gl that is present in meta-raspberrypi, which m=
+erely appends &quot;gbm&quot; to PACKAGECONFIG for rpi machines (bitbake st=
+ill complains with this removed). Instead, reverting this commit takes the =
+build back to green light.</div></div></div></blockquote><div>=C2=A0</div><=
+/div></div></span><div class=3D"gmail_extra">Sorry, I must have not tested =
+mesa-gl with the version of the patch that I sent. Sending a fix after a qu=
+ick test (mesa-gl seems to be missing &quot;opengl&quot; from PACKAGECONFIG=
+).</div></div></blockquote><div><br></div><div>Positively build tested the =
+patch you just sent: it fixes it! Thanks!<br></div></div><br></div></div>
+
+--94eb2c122c5032068305585aa5fd--
