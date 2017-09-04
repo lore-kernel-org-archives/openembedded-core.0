@@ -1,50 +1,21 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f46.google.com (mail-pg0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F97B6059F
+Return-Path: <daniela.plascencia@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9632977F76
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 20:16:20 +0000 (UTC)
-Received: by mail-pg0-f46.google.com with SMTP id j6so3706038pgc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 13:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IsG+lYhwLhoDZZ1GfD3X7kPzCXFaLFm0tPiSoiO9wEg=;
-	b=C0E/2a4YsriKAf0tGOd6U7PziOF+oIcHPLBkGbwmESkmDZdPf1WRFPm/9h+RAfgyiz
-	fFm2N1yNr44FsNnaQ3dL0UbVL9LfRK7a3NHM38qdbUYw7xY5WScvxxtv5z4rGwC8VXh0
-	JokW9SB+VpiTCdwC5EJ07VY9unw8zPAra2ORmqYGMe6vmPh4oill+PqtkTbiPn+ICIRF
-	HbZonSfAFz5xvmJJ1sNJW7xbY3q5w6OCIHqXG2ZHwILicgC4l7GS5JxPpR9JPzXEx9zn
-	NdK7dv+FqDIp94/Ap9eKPj2QV8CTIJS4YXx8g61qRGZujR9v31n+arJ8JXV7/tqHkMPR
-	yinw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=IsG+lYhwLhoDZZ1GfD3X7kPzCXFaLFm0tPiSoiO9wEg=;
-	b=GJUKuPWI+xIi6NgyxEBhiCC+vqR2VPwZjplen3ppUkU8znkpDPaVIC11NV5qavRbja
-	LFtHB7evLsE9cfP9fm1lkgL5jwK5Bz8xgMh7ZhoDdUsaGzNp5+wsVVGpFJ8yOSzJFZhn
-	kHuHblo68EmOYdLuMyomntZwLtyJNYvFkk25ivKm72ApWmuapA5twTl4iLwLhmQCARDv
-	/9AUZrHq4aYVI4gzzeNkLe11dcLXRC0BhEt5TKZ5RylTDhAdEavHsKC+oHvruCcGOQJc
-	6701w5f893557VI95ORWXHphMUhWegVkmyfVJ5X5s+EP9SQGj7QqY/L9cKuGzYshEf3B
-	NS4g==
-X-Gm-Message-State: AHPjjUhT2YgUwPFBjD2DCpQmXixC5hqvY49X5dwKmcBere8cHV91iuos
-	Ogx9GhO3qB345EZPWoc2ctXn4C7uTA==
-X-Google-Smtp-Source: ADKCNb6PPvWnDQUH1aaX6PvTDitS2sv2316P3uDuQzGpJphiV6e85fBEo4F5QXhvr38CcxHWxn8O2y17k8CKN19ZvJw=
-X-Received: by 10.99.51.15 with SMTP id z15mr1515026pgz.287.1504556182412;
-	Mon, 04 Sep 2017 13:16:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.167.2 with HTTP; Mon, 4 Sep 2017 13:15:51 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ8UWNkC6td+UYbwB6RENqLx6JFZEakzfWHt6esRGwOyA@mail.gmail.com>
-References: <20170904051224.37668-1-jose.alarcon@ge.com>
-	<20170904051224.37668-2-jose.alarcon@ge.com>
-	<CAMKF1srd9CWxX7gxAUfNxjw6kkk_bcLoVr6UZqGeD8v7FWaTQQ@mail.gmail.com>
-	<CAJTo0LZ8UWNkC6td+UYbwB6RENqLx6JFZEakzfWHt6esRGwOyA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Sep 2017 13:15:51 -0700
-Message-ID: <CAMKF1srBZ9R9OG0+ApeMu1iAawyZ81iqmWfAS5QdbuJeP9kkeg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] rootfs-postcommands: add test for unsatisfied RRECOMMENDS
+	Mon,  4 Sep 2017 21:02:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 04 Sep 2017 14:02:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,476,1498546800"; d="scan'208";a="897028998"
+Received: from dplascen-mobl2.zpn.intel.com ([10.219.128.135])
+	by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2017 14:02:17 -0700
+From: daniela.plascencia@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Sep 2017 16:05:26 -0500
+Message-Id: <1504559126-28164-1-git-send-email-daniela.plascencia@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Daniela Plascencia <daniela.plascencia@linux.intel.com>
+Subject: [PATCH V2] scripts/buildhistory-diff: use of argparse instead of optparse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +28,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 20:16:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 04 Sep 2017 21:02:16 -0000
 
-On Mon, Sep 4, 2017 at 1:12 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 4 September 2017 at 21:10, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Sun, Sep 3, 2017 at 10:12 PM, Jose Alarcon <jose.alarcon@ge.com> wrote:
->> > The do_rootfs log contains a number of unsatisfied package
->> > recommendations. At the moment those are only visible when
->> > reviewing the rootfs log.
->> >
->> > This patch adds an extra check to surface any unsatisfied
->> > recommendation  as WARNINGS to the build output.
->> >
->>
->> I think a note is more appropriate here.
->
->
-> As it's opt-in, I agree that warning is relevant.  If the user didn't care
-> for this, they wouldn't have opted in.
+From: Daniela Plascencia <daniela.plascencia@linux.intel.com>
 
-yes I forgot that its an opt-in and was thinking its another set of warnings
-with opt-in it should be ok.
+Optparse is deprecated since version 2.7 and won't be developed further.
+Argparse should be used instead as it provides better tools for parsing
+and handling arguments.
 
->
-> Ross
+[YOCTO #9635]
+
+Signed-off-by: Daniela Plascencia <daniela.plascencia@linux.intel.com>
+---
+ scripts/buildhistory-diff | 125 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 71 insertions(+), 54 deletions(-)
+
+diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
+index 1b2e0d1..e79cb7a 100755
+--- a/scripts/buildhistory-diff
++++ b/scripts/buildhistory-diff
+@@ -7,7 +7,7 @@
+ 
+ import sys
+ import os
+-import optparse
++import argparse
+ from distutils.version import LooseVersion
+ 
+ # Ensure PythonGit is installed (buildhistory_analysis needs it)
+@@ -17,49 +17,70 @@ except ImportError:
+     print("Please install GitPython (python3-git) 0.3.4 or later in order to use this script")
+     sys.exit(1)
+ 
++def get_args_parser():
++    description = "Reports significant differences in the buildhistory repository."
++
++    parser = argparse.ArgumentParser(description=description,
++                                     usage="""
++    %(prog)s [options] [from-revision [to-revision]]
++    (if not specified, from-revision defaults to build-minus-1, and to-revision defaults to HEAD)""")
++
++    parser.add_argument('-p', '--buildhistory-dir',
++                        action='store',
++                        dest='buildhistory_dir',
++                        default='buildhistory/',
++                        help="Specify path to buildhistory directory (defaults to buildhistory/ under cwd)")
++    parser.add_argument('-v', '--report-version',
++                        action='store_true',
++                        dest='report_ver',
++                        default=False,
++                        help="Report changes in PKGE/PKGV/PKGR even when the values are still the default (PE/PV/PR)")
++    parser.add_argument('-a', '--report-all',
++                        action='store_true',
++                        dest='report_all',
++                        default='False',
++                        help="Report all changes, not just the default significant ones")
++    parser.add_argument('-s', '---signatures',
++                        action='store_true',
++                        dest='sigs',
++                        default=False,
++                        help="Report list of signatures differing instead of output")
++    parser.add_argument('-S', '--signatures-with-diff',
++                        action='store_true',
++                        dest='sigsdiff',
++                        default=False,
++                        help="Report on actual signature differences instead of output (requires signature data to have been generated, either by running the actual tasks or using bitbake -S)")
++    parser.add_argument('-e', '--exclude-path',
++                        action='append',
++                        help="Exclude path from the output")
++    parser.add_argument('revisions',
++                        default = ['build-minus-1', 'HEAD'],
++                        nargs='*',
++                        help=argparse.SUPPRESS)
++    return parser
++
+ def main():
+-    parser = optparse.OptionParser(
+-        description = "Reports significant differences in the buildhistory repository.",
+-        usage = """
+-    %prog [options] [from-revision [to-revision]]
+-(if not specified, from-revision defaults to build-minus-1, and to-revision defaults to HEAD)""")
+-
+-    parser.add_option("-p", "--buildhistory-dir",
+-            help = "Specify path to buildhistory directory (defaults to buildhistory/ under cwd)",
+-            action="store", dest="buildhistory_dir", default='buildhistory/')
+-    parser.add_option("-v", "--report-version",
+-            help = "Report changes in PKGE/PKGV/PKGR even when the values are still the default (PE/PV/PR)",
+-            action="store_true", dest="report_ver", default=False)
+-    parser.add_option("-a", "--report-all",
+-            help = "Report all changes, not just the default significant ones",
+-            action="store_true", dest="report_all", default=False)
+-    parser.add_option("-s", "--signatures",
+-            help = "Report list of signatures differing instead of output",
+-            action="store_true", dest="sigs", default=False)
+-    parser.add_option("-S", "--signatures-with-diff",
+-            help = "Report on actual signature differences instead of output (requires signature data to have been generated, either by running the actual tasks or using bitbake -S)",
+-            action="store_true", dest="sigsdiff", default=False)
+-    parser.add_option("-e", "--exclude-path", action="append",
+-            help = "exclude path from the output")
+-
+-    options, args = parser.parse_args(sys.argv)
+-
+-    if len(args) > 3:
+-        sys.stderr.write('Invalid argument(s) specified: %s\n\n' % ' '.join(args[3:]))
+-        parser.print_help()
+-        sys.exit(1)
++
++    parser = get_args_parser()
++    args = parser.parse_args()
+ 
+     if LooseVersion(git.__version__) < '0.3.1':
+         sys.stderr.write("Version of GitPython is too old, please install GitPython (python-git) 0.3.1 or later in order to use this script\n")
+         sys.exit(1)
+ 
+-    if not os.path.exists(options.buildhistory_dir):
+-        if options.buildhistory_dir == 'buildhistory/':
++    if len(args.revisions) > 2:
++        sys.stderr.write('Invalid argument(s) specified: %s\n\n' % ' '.join(args.revisions[2:]))
++        parser.print_help()
++
++        sys.exit(1)
++    if not os.path.exists(args.buildhistory_dir):
++        if args.buildhistory_dir == 'buildhistory/':
+             cwd = os.getcwd()
+             if os.path.basename(cwd) == 'buildhistory':
+-                options.buildhistory_dir = cwd
+-    if not os.path.exists(options.buildhistory_dir):
+-        sys.stderr.write('Buildhistory directory "%s" does not exist\n\n' % options.buildhistory_dir)
++                args.buildhistory_dir = cwd
++
++    if not os.path.exists(args.buildhistory_dir):
++        sys.stderr.write('Buildhistory directory "%s" does not exist\n\n' % args.buildhistory_dir)
+         parser.print_help()
+         sys.exit(1)
+ 
+@@ -73,32 +94,29 @@ def main():
+     scriptpath.add_oe_lib_path()
+     # Set path to bitbake lib dir so the buildhistory_analysis module can load bb.utils
+     bitbakepath = scriptpath.add_bitbake_lib_path()
++
+     if not bitbakepath:
+         sys.stderr.write("Unable to find bitbake by searching parent directory of this script or PATH\n")
+         sys.exit(1)
+ 
+-    from oe.buildhistory_analysis import process_changes
+-
+-    fromrev = 'build-minus-1'
+-    torev = 'HEAD'
+-    if len(args) > 1:
+-        if len(args) == 2 and '..' in args[1]:
+-            revs = args[1].split('..')
+-            fromrev = revs[0]
+-            if revs[1]:
+-                torev = revs[1]
++    if len(args.revisions) == 1:
++        if '..'  in args.revisions[0]:
++            fromrev, torev = args.revisions[0].split('..')
+         else:
+-            fromrev = args[1]
+-    if len(args) > 2:
+-        torev = args[2]
++            fromrev, torev = args.revisions[0], 'HEAD'
++    elif len(args.revisions) == 2:
++        fromrev, torev = args.revisions
++
++    from oe.buildhistory_analysis import process_changes
+ 
+     import gitdb
++
+     try:
+-        changes = process_changes(options.buildhistory_dir, fromrev, torev,
+-                                  options.report_all, options.report_ver, options.sigs,
+-                                  options.sigsdiff, options.exclude_path)
++        changes = process_changes(args.buildhistory_dir, fromrev, torev,
++                                  args.report_all, args.report_ver, args.sigs,
++                                  args.sigsdiff, args.exclude_path)
+     except gitdb.exc.BadObject as e:
+-        if len(args) == 1:
++        if not args.revisions:
+             sys.stderr.write("Unable to find previous build revision in buildhistory repository\n\n")
+             parser.print_help()
+         else:
+@@ -112,6 +130,5 @@ def main():
+ 
+     sys.exit(0)
+ 
+-
+ if __name__ == "__main__":
+     main()
+-- 
+2.1.4
+
 
