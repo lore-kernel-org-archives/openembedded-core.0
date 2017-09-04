@@ -1,59 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9785A71ABC
+Return-Path: <mcfrisk@kapsi.fi>
+X-Greylist: delayed 4197 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 04 Sep 2017 07:32:12 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 173C577DCD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 06:35:58 +0000 (UTC)
-Received: by mail-wr0-f172.google.com with SMTP id b9so3355150wra.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Sep 2017 23:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=FftkcYMxJHTkuTw9v/A0l+HKTvBnxT91/+rcbgH/qyo=;
-	b=X5gW+8scNhYDUD2pnQoW3B2uue5Mx8ilJP1qQDpmi0ire2ByFVjWLclldKWC0Bdbd+
-	aBA8ZDFek6/8rQfVkST7M/2Lll5ygnnzTiPdC3Zp3WQxECeIwgdwMHEay1/PuPNiR2f+
-	Hf/8tPcb8O8jYftS9l+TNRQ6LtgM2r0l76jRWJ3DBgi7YbcopgRcfZM6tE0nchuD0j+2
-	tDs8vc27Ie5KVvYJNyTkpbD+w8CjdssRmu5rXIyge6/SY4l90uxmBaDfLRwEyeR8N+WU
-	2DLVQsiFizFdl/CtiFgjtIbTR6mOVDuXu38VuxspRaSwIks/6yF/YQIVyhIIGj80ouyh
-	PVxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=FftkcYMxJHTkuTw9v/A0l+HKTvBnxT91/+rcbgH/qyo=;
-	b=rygBdSjKGqnvPpQILVn+pVcNbf8nI8zWkrDgpOI3FxUoWjmPz5TgV20tiNrsC/VuNB
-	v11DUymUdhO3fTNOK0h5TNZoj0LX3LbmPCQZIXNddeqceihwK7nsqUtnOr9qVuNFyPrs
-	HMWt72rUIXdBeNFFIhQZAY1NwKzuQxysmmi/mRMwLlhBv+XN3CHP83ioKxQPduWfNnQ5
-	C0bjmN/UWPNLadfFBy7PJHIoKVi9EBZXaUdXe9UNMCizbilgiwY+Lkm/yKxHw2C5jXXC
-	am5i+UJT6iZS64cZSPIBRKF0mGZ0RwO843ThSXVCYWJih9naR2d1xQng7vunUGICFVaG
-	We5A==
-X-Gm-Message-State: AHPjjUj0gkCFyxuSUuWDSdOzRatmh427TK3V/ixse1w16pXY/qMH75yf
-	YCfiy21Ah69ATVe5
-X-Google-Smtp-Source: ADKCNb7U1PAmpM5ABZKTpmA9xlKqG1hOYHFJHXGbgLkMOB7JOvMBFR5ij2YwQu45QxuJqZpQAypwaQ==
-X-Received: by 10.223.193.14 with SMTP id r14mr5425083wre.64.1504506959331;
-	Sun, 03 Sep 2017 23:35:59 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F21C.dip0.t-ipconnect.de. [93.232.242.28])
-	by smtp.gmail.com with ESMTPSA id
-	f65sm6395155wmd.41.2017.09.03.23.35.57
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 03 Sep 2017 23:35:57 -0700 (PDT)
-Message-ID: <1504506956.12799.55.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, California Sullivan
-	<california.l.sullivan@intel.com>
-Date: Mon, 04 Sep 2017 08:35:56 +0200
-In-Reply-To: <CAP9ODKpRT_BQGqzCd-fihZp-Dy4w0uiNr2bG_AYAvdta4wQPRg@mail.gmail.com>
-References: <20170902000458.28655-1-california.l.sullivan@intel.com>
-	<CAP9ODKpRT_BQGqzCd-fihZp-Dy4w0uiNr2bG_AYAvdta4wQPRg@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] initramfs-framework: split setup-live and install-efi into separate recipes
+	Mon,  4 Sep 2017 07:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From;
+	bh=ZDVo1reCA4mt1UU3fRZoIplwuZ6+m6fxWw5g7g1dZgg=; 
+	b=f5ylX7B37lrqWkNKYDg84biaVAasupLvX5OpO4tfRgHgGln7T6xsn/Ad6QMPp3ErhBFrwsc5Qh1eyyeuGQS6ci1foi1aMgKAWG2Ecb6Ncs0bcrOUAPFmAgVAgquyll/hHXz0AJtsMiZagVxFF3RpNf019dIdehb5amRmGr7X97fxfS+kVls13/T9HEiGw8kyVhTdvJt2HgmKGhJS2Vud/cvwA8R31AfT/VZumCmbvYJOiMvCaF7QYVae2X+WqUZvLmFO4IYDVsMkbLiqQSctXnx1ZzxVZOp5A2DbAp9yUCJyAG3KETKaEHgZ0FDpM5CM2tHXVodUbRXhFSDQkplRTA==;
+Received: from lakka.kapsi.fi ([2001:1bc8:1004::1] ident=Debian-exim)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.84_2) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1doklz-0002q2-JZ; Mon, 04 Sep 2017 09:22:15 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1doklz-0000xh-GB; Mon, 04 Sep 2017 09:22:15 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Sep 2017 09:22:14 +0300
+Message-Id: <1504506134-3477-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 2001:1bc8:1004::1
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH] cve-check.bbclass: detect patched CVE's also from patch file names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,39 +37,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 06:35:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Sep 2017 07:32:13 -0000
 
-On Sat, 2017-09-02 at 15:17 -0300, Otavio Salvador wrote:
-> On Fri, Sep 1, 2017 at 9:04 PM, California Sullivan
-> <california.l.sullivan@intel.com> wrote:
-> > Having these the initramfs-framework recipe
-> > forced initramfs-framework
-> > users to build several tools they didn't need, and made it more
-> > difficult to declare the recipe as allarch.
-> > 
-> > Fixes [YOCTO #12024].
-> > 
-> > Signed-off-by: California Sullivan <california.l.sullivan@intel.com
-> > >
-> 
-> The patch should be based on the allarch patch I sent as it adds the
-> dependencies on the whitelist. So you can also set them as allarch.
+While poky master branch has been fixed so that all CVE patch files have
+the:
 
-I would prefer to keep initramfs-framework-setup-live/install-efi as
-arch-specific and only make initramfs-framework itself allarch. It's
-just a gut feeling about the (minor) advantage of not having to rebuild
-these two small recipes vs. the additional complexity of the layer.conf
-and having to keep that up-to-date.
+CVE: CVE-2017-1234556
 
+strings in the patch comments, many older versions of poky and other meta
+layers are not, but the CVE patches quite often have the CVE id in the
+patch file name.
+
+If the CVE: string also found, there are no duplicates in the report.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/classes/cve-check.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
+resending to openembedded-core
+
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index f44bbed..bc2f03f 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -118,10 +118,24 @@ def get_patches_cves(d):
+ 
+     pn = d.getVar("PN")
+     cve_match = re.compile("CVE:( CVE\-\d{4}\-\d+)+")
++
++    # Matches last CVE-1234-211432 in the file name, also if written
++    # with small letters. Not supporting multiple CVE id's in a single
++    # file name.
++    cve_file_name_match = re.compile(".*([Cc][Vv][Ee]\-\d{4}\-\d+)")
++
+     patched_cves = set()
+     bb.debug(2, "Looking for patches that solves CVEs for %s" % pn)
+     for url in src_patches(d):
+         patch_file = bb.fetch.decodeurl(url)[2]
++
++        # Check patch file name for CVE ID
++        fname_match = cve_file_name_match.search(patch_file)
++        if fname_match:
++            cve = fname_match.group(1).upper()
++            patched_cves.add(cve)
++            bb.debug(2, "Found CVE %s from patch file name %s" % (cve, patch_file))
++
+         with open(patch_file, "r", encoding="utf-8") as f:
+             try:
+                 patch_text = f.read()
+@@ -140,7 +154,7 @@ def get_patches_cves(d):
+             for cve in cves.split():
+                 bb.debug(2, "Patch %s solves %s" % (patch_file, cve))
+                 patched_cves.add(cve)
+-        else:
++        elif not fname_match:
+             bb.debug(2, "Patch %s doesn't solve CVEs" % patch_file)
+ 
+     return patched_cves
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+1.9.1
 
 
