@@ -1,39 +1,48 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id B884F6FFCD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A3A1878170
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 09:37:28 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id e204so5871807wma.2
+	Mon,  4 Sep 2017 09:38:10 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id z67so17784951iof.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 02:37:30 -0700 (PDT)
+	Mon, 04 Sep 2017 02:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MZqBeLXVDV7FvYPjjGgJVdctKoIAvhC0wrFjUzsWEPU=;
+	b=yH6RrWN60eSZZMpzcc9hPygOmAAhpLMSu0NoD8UJOGQnMxvecC8EesYj1ubY8CxQbv
+	8RVUY0iVx1FzRqSGS/nV6ZsVYZJbEhoj7tX7OdV60MmaQEWEO2pdsSdtr5kUk49hKDLy
+	gAOUo88ZgFXNQ0rAWwkaLlNXBRUfIfaXZ9EfEugsKONOx5NeNDecUqbAAAIvQJ8CUITy
+	eJM5AzC2HWLqVasLyG3EtJuJ2MeyhaxQd6jejclPenvVckMUMiz9/EHM15DsA9CLBgES
+	uAHUHXeR3sCNIqJXPtMsqfW1DqmgtZaFOKNrWqYYrP+YUT43BxUwyQGM9TPTLvGKMCs2
+	9gZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=jS3dXOEiCFXubDwe51ackEn1VgpBxt6hmHhNCLJYfHk=;
-	b=WvBwMec/J8uqeHnBBQRHnOjTbPMxnEubn26+UYO1y4ubL2ky6OrR/r8/m4nfc6lmRL
-	4olekKOy/z6ES3UH7Uaxp0kH0x6yEfQTvEj7TGMlvefz02XetJeh4isJbivOO9JdJAgx
-	XqlETKVfDhzllFroWnbivwFnk5dlrJMqFmKvw/bFQgaMOnQf8F5Q4TB9VeNNKvY2TtMN
-	dHMkQmuTWKaMQMhwaKtk4UQOIw3WEhoSk36G+0zeCPcOHS43s4lIRrnG/nsW6389Phew
-	ejZB+BBIFg+rnvsvOkxcbaQKK2v+1VFFUkZN7T67z3Ne2Gyn5vj4jCfHU5YenIlthDDN
-	nVOg==
-X-Gm-Message-State: AHPjjUg1crSKnUIpXmr1nCqqMaZ5KwmuolZ75H5Us6BJfKh4g5txVgvI
-	rohCZ0hWUxfqEfomlDc=
-X-Google-Smtp-Source: ADKCNb5CsdmCBvEdZeVMbzIHftygPaAeEcUGBevCsUtQN6a7/VLWnhcDQbq8C4ZWDhsLR1tWZKAFbQ==
-X-Received: by 10.28.109.77 with SMTP id i74mr136342wmc.67.1504517849106;
-	Mon, 04 Sep 2017 02:37:29 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id 52sm4415258wru.59.2017.09.04.02.37.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Sep 2017 02:37:28 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Sep 2017 10:37:26 +0100
-Message-Id: <20170904093726.11472-1-git@andred.net>
-X-Mailer: git-send-email 2.14.1
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MZqBeLXVDV7FvYPjjGgJVdctKoIAvhC0wrFjUzsWEPU=;
+	b=HXpgcaKyOmX4Oqv2XDgD7XlGALZmZGAtXtecKqLFXecq8r3o8jmEJgTZzHrbqLLe+j
+	0WQm6YCRhB6wWMzqnEzRVqIFuW+iIYrWc7WMpgDBABZszsuduWgpz5GC9La1XsTop/n2
+	6rjW9fhXhM3rb3cQn1GcGhKTllvzzF+9u55om1frAQ3Z47KeIaU8ONXscJ/3PBF8uo/F
+	n22pmuGccLdWBsCUU++73T7VQW5mmynvYzoGC1bJNHNcSPIiBJLJ7onrAlbNv3KgeCdK
+	jDd3eb383zGV624WP/Z95f93aGQZ01808jKfQ07Tl69w8LHYLyUucB2juRnx7QEAsmhb
+	LMng==
+X-Gm-Message-State: AHPjjUhk+HKIlkUiy5Ur7oPCg+tKK61j/wIFCz6TUcolTUMU7WcL99rL
+	3FYDBbQedsADYdNTX5GDwRU5/5SVcaaM
+X-Google-Smtp-Source: ADKCNb4MUfCJuRX4srnHfiqMGppTdjm0+d4Wy2Wwry1avgo4LRlrMe4VF7S9L5QKm8uKl0SVLsWvLoLuyjf8gVpb0r4=
+X-Received: by 10.107.53.17 with SMTP id c17mr21907ioa.117.1504517891784; Mon,
+	04 Sep 2017 02:38:11 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] useradd-staticids: don't create username-group if gid is specified
+Received: by 10.107.33.83 with HTTP; Mon, 4 Sep 2017 02:37:51 -0700 (PDT)
+In-Reply-To: <20170904075716.6361-1-git@andred.net>
+References: <20170904075716.6361-1-git@andred.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Sep 2017 10:37:51 +0100
+Message-ID: <CAJTo0LZVihDnWJtkAT-a++Ogdr9F5=0gXP4kYeSJ6TM1ixu2Bw@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] curl: enable threaded resolver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,60 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 09:37:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 04 Sep 2017 09:38:10 -0000
+Content-Type: multipart/alternative; boundary="001a114493907fa129055859de5b"
 
-From: André Draszik <adraszik@tycoint.com>
+--001a114493907fa129055859de5b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adding distcc to an image, and having staticids enabled,
-doesn't work as it causes a a superfluous 'distcc' group
-being added using a conflicting  GID, thus failing the
-build:
- | ERROR: distcc-3.2-r0 do_prepare_recipe_sysroot: distcc: groupadd command did not succeed.
+On 4 September 2017 at 08:57, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-Compared to other recipes, the distcc recipe only
-specifies --gid for the primary group, and doesn't specify
---no-user-group, but when --gid is given, it doesn't make
-sense to create a matching username-group in addition,
-even if --no-user-group was not specified, and 'useradd'
-actually complains if --gid and --user-group are given
-both.
+> +PACKAGECONFIG[thres] =3D "--enable-threaded-resolver,
+> --disable-threaded-resolver"
+>
 
-If only --gid is given, the current code in here
-effectively behaves as if --user-group was specified,
-taking the group-id of the username-group from the
---gid parameter. This causes the error above, as we try
-to add a new group (distcc) with an existing group-id
-(nogroup).
+That's not the most obvious name for the option, how about just
+"threaded-resolver" to make it clear?
 
-This is contrary to the comment in this file just above,
-contrary to what useradd can do, contrary to behaviour
-without the useradd-staticids bbclass, and non-intuitive.
+Ross
 
-Change the code such that a username-group is only created
-if actually requested, of if a primary group using --gid
-was *not* specified.
+--001a114493907fa129055859de5b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/classes/useradd-staticids.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+<div dir=3D"ltr">On 4 September 2017 at 08:57, Andr=C3=A9 Draszik <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:git@andred.net" target=3D"_blank">git@andred=
+.net</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmai=
+l_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">+PACKAGECONFIG[thres] =3D &quot;--e=
+nable-threaded-resolver, --disable-threaded-resolver&quot;<br></blockquote>=
+<div><br></div><div>That&#39;s not the most obvious name for the option, ho=
+w about just &quot;threaded-resolver&quot; to make it clear?</div><div><br>=
+</div><div>Ross=C2=A0</div></div></div></div>
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index ce4ac62ab5..1b61a8bf9b 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -102,7 +102,7 @@ def update_useradd_static_config(d):
-             # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
-             # is used, and we disable the user_group option.
-             #
--            user_group = uaargs.user_group is None or uaargs.user_group is True
-+            user_group = uaargs.gid is None or uaargs.user_group is True
-             uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
-             uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
- 
--- 
-2.14.1
-
-
+--001a114493907fa129055859de5b--
