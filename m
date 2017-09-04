@@ -1,24 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 673616093B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BD49577FF6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 09:51:41 +0000 (UTC)
+	Mon,  4 Sep 2017 09:51:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v849ph9p015633
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v849piWV025248
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Sep 2017 02:51:43 -0700
+	Mon, 4 Sep 2017 02:51:44 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 4 Sep 2017 02:51:42 -0700
+	14.3.361.1; Mon, 4 Sep 2017 02:51:44 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Sep 2017 17:39:37 +0800
-Message-ID: <cover.1504517912.git.kai.kang@windriver.com>
+Date: Mon, 4 Sep 2017 17:39:38 +0800
+Message-ID: <1919461d34964f3fccb8fe31931dc4daef977b41.1504517912.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <cover.1504517912.git.kai.kang@windriver.com>
+References: <cover.1504517912.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] dbus: fix ptest runtime failures
+Subject: [PATCH 1/1] dbus: fix ptest runtime failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 09:51:42 -0000
+X-List-Received-Date: Mon, 04 Sep 2017 09:51:43 -0000
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-The following changes since commit ee5bce2d11e783c0921df47b629025a6b67c44bf:
+When run dbus ptest cases, there are some failures:
 
-  kernel-dev: Removed bad reference for creating patches. (2017-09-02 00:52:49 +0100)
+| ./test/test-dbus-daemon: relocation error: ./test/test-dbus-daemon: symbol
+| _dbus_real_assert, version LIBDBUS_PRIVATE_1.10.20 not defined in file
+| libdbus-1.so.3 with link time reference
+| FAIL: test/test-dbus-daemon
+| [   24.943454] test-dbus-daemo[251]: segfault at 0 ip           (null) sp
+| 00007ffddabe6818 error 14 in test-dbus-daemon-eavesdrop[ 400000+a000]
 
-are available in the git repository at:
+It disables tests in dbus recipe which cases symbols missing and segment
+fault. When 'ptest' in DISTRO_FEATURES, it should enable some configure
+options to make the symbols visible to ptest cases.
 
-  git://git.pokylinux.org/poky-contrib kangkai/dbus
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/dbus
+It also need to correct paths in ptest configure files.
 
-Kai Kang (1):
-  dbus: fix ptest runtime failures
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
  meta/recipes-core/dbus/dbus-test_1.10.20.bb | 3 +++
  meta/recipes-core/dbus/dbus_1.10.20.bb      | 6 +++---
  2 files changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-core/dbus/dbus-test_1.10.20.bb b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
+index eeadb7d35b..d50bbc8fd6 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.10.20.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
+@@ -54,5 +54,8 @@ do_install_ptest() {
+ 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
+ 	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
+ 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
++
++	# fix host contamination
++	find ${D} -type f -not -executable -exec sed -i 's:${B}:${PTEST_PATH}:' {} \;
+ }
+ RDEPENDS_${PN}-ptest += "bash"
+diff --git a/meta/recipes-core/dbus/dbus_1.10.20.bb b/meta/recipes-core/dbus/dbus_1.10.20.bb
+index 9ddedc15fe..2b550a8599 100644
+--- a/meta/recipes-core/dbus/dbus_1.10.20.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.20.bb
+@@ -91,8 +91,7 @@ pkg_postinst_dbus() {
+ 	fi
+ }
+ 
+-EXTRA_OECONF = "--disable-tests \
+-                --disable-xml-docs \
++EXTRA_OECONF = "--disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+                 --enable-largefile \
+@@ -101,10 +100,11 @@ EXTRA_OECONF = "--disable-tests \
+ EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
+ EXTRA_OECONF_append_class-native = " --disable-selinux"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ptest systemd x11', d)}"
+ PACKAGECONFIG_class-native = ""
+ PACKAGECONFIG_class-nativesdk = ""
+ 
++PACKAGECONFIG[ptest] = "--enable-embedded-tests --enable-asserts --enable-verbose-mode,--enable-embedded-tests --disable-asserts --enable-verbose-mode"
+ PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
+ PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
+ PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
 -- 
 2.14.1
 
