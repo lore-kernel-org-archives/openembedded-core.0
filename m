@@ -1,44 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1646377F70
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DD1647772F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 21:07:14 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id p55so1026067qtc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 14:07:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=r1mTVSAycDmrlnhdPQlP64u9QVH7LBhueMlKJUjU0lk=;
-	b=brx+k7y3gAt9kfbsPr2yyjYLX7ShAXV3EIQaYLpaX44xuTkc9P4kV1XBCuAACG0sZd
-	7ZZaZHrOQFQAC7eUrGclkL+xIsv5YFNm0p1SzUGgNVswgg2fKOjFxtikMxgPqOOm7xqh
-	RektZLZReqEQ59/miKU69sid42tnQTdQbCBYfVGf4YYihnJcyOu9MejQLP0sJJQyb7ma
-	h9kYoUUnOGGUQ0US0Rb8NIMruJxclwSx91LYDqKTaB+DxjXEoqAwgqrdo2Q2U+8mPJdD
-	cYcqcNtMgOiZLEGpaAj1SV4AWotcAYoWOaFoCtlviab3kWHm8GJV1Uoifn2bGquzmlww
-	PO1w==
-X-Gm-Message-State: AHPjjUgyyE+KWh5nMNXr53a9cS+HbNlwCjDv6Rpi6V/D2Q1MZfHr+UhV
-	UvNKuWBAErbcs1cc
-X-Google-Smtp-Source: ADKCNb71CXLmFtcLWuTPXI+FApXpm3EUFbHT752BIgG6APYKTo7nl67Dr7oHMKUqYXGVA/wslZmABQ==
-X-Received: by 10.200.33.206 with SMTP id 14mr2709947qtz.182.1504559236101;
-	Mon, 04 Sep 2017 14:07:16 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id p7sm4436424qkl.53.2017.09.04.14.07.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Sep 2017 14:07:15 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 04 Sep 2017 18:07:08 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  4 Sep 2017 18:06:08 -0300
-Message-Id: <20170904210608.23764-8-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170904210608.23764-1-otavio@ossystems.com.br>
-References: <20170904210608.23764-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 7/7] go.bbclass: Use an auxiliary variable to add the build dependencies
+	Mon,  4 Sep 2017 21:35:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Sep 2017 14:35:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,476,1498546800"; d="scan'208";a="1169068312"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by orsmga001.jf.intel.com with ESMTP; 04 Sep 2017 14:35:49 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Sep 2017 14:35:47 -0700
+Message-Id: <20170904213548.15582-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH 1/2] package_deb, ipk: improve subprocess output on package manager command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,49 +28,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 21:07:15 -0000
+X-List-Received-Date: Mon, 04 Sep 2017 21:35:49 -0000
 
-This is going to easy the addition of nativesdk and virtual providers
-in the future.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-This change is based on the meta-golang[1] layer. Thanks to Matt
-Madison <matt@madison.systems> for his work on this.
+Redirecting stderr to stdout helps debugging issues, i.e instead of just
+getting the return code, get also the error log from the pkg manger
+This commit is in the way to figure out the root cause of [YOCTO #12012],
+where dpkg-deb fails with a 2 return code and according to the man page,
+there are multiple issues leading to the same code.
 
-1. https://github.com/madisongh/meta-golang
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
+ meta/classes/package_deb.bbclass | 4 +++-
+ meta/classes/package_ipk.bbclass | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
- meta/classes/go.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index f80134bf8e..e77c6d4da4 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -24,6 +24,11 @@ GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
- GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
- GOBIN_FINAL = "${GOROOT_FINAL}/${GO_BUILD_BINDIR}"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 83baa6c21b..30605344f4 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -286,7 +286,9 @@ def deb_write_pkg(pkg, d):
+             conffiles.close()
  
-+DEPENDS_GOLANG_class-target = "go-cross-${TARGET_ARCH}"
-+DEPENDS_GOLANG_class-native = "go-native"
-+
-+DEPENDS_append = " ${DEPENDS_GOLANG}"
-+
- export GOBUILDFLAGS ?= "-x -v ${GO_EXTLDFLAGS}"
- GOBUILDFLAGS_prepend_task-compile = "${GO_PARALLEL_BUILD} "
+         os.chdir(basedir)
+-        subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir), shell=True)
++        subprocess.check_output("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH"), root, pkgoutdir),
++                                stderr=subprocess.STDOUT,
++                                shell=True)
  
-@@ -43,9 +48,6 @@ export CGO_CPPFLAGS = "${TARGET_CPPFLAGS}"
- export CGO_CXXFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_CXXFLAGS}"
- export CGO_LDFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_LDFLAGS}"
+     finally:
+         cleanupcontrol(root)
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index d58b824d3a..ec90996184 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -244,7 +244,9 @@ def ipk_write_pkg(pkg, d):
  
--DEPENDS += "go-cross-${TARGET_ARCH}"
--DEPENDS_class-native += "go-native"
--
- FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
- FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
+         os.chdir(basedir)
+         subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
+-                                                          d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir), shell=True)
++                                                          d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
++                                stderr=subprocess.STDOUT,
++                                shell=True)
  
+         if d.getVar('IPK_SIGN_PACKAGES') == '1':
+             ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
 -- 
-2.14.1
+2.12.3
 
 
