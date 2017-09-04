@@ -1,18 +1,20 @@
 Return-Path: <jose.alarcon@ge.com>
 Received: from mx0a-00176a03.pphosted.com (mx0b-00176a03.pphosted.com
 	[67.231.157.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3737B606A8
+	by mail.openembedded.org (Postfix) with ESMTP id 38BE2780EC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 05:12:31 +0000 (UTC)
+	Mon,  4 Sep 2017 05:12:32 +0000 (UTC)
 Received: from pps.filterd (m0048206.ppops.net [127.0.0.1])
 	by m0048206.ppops.net-00176a03. (8.16.0.21/8.16.0.21) with SMTP id
-	v8458v1j040379 for <openembedded-core@lists.openembedded.org>;
+	v8459LuO040702 for <openembedded-core@lists.openembedded.org>;
 	Mon, 4 Sep 2017 01:12:33 -0400
 From: Jose Alarcon <jose.alarcon@ge.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Sep 2017 08:12:23 +0300
-Message-Id: <20170904051224.37668-1-jose.alarcon@ge.com>
+Date: Mon,  4 Sep 2017 08:12:24 +0300
+Message-Id: <20170904051224.37668-2-jose.alarcon@ge.com>
 X-Mailer: git-send-email 2.10.1
+In-Reply-To: <20170904051224.37668-1-jose.alarcon@ge.com>
+References: <20170904051224.37668-1-jose.alarcon@ge.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2017-09-04_03:, , signatures=0
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
@@ -22,7 +24,7 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
 	adjust=0
 	reason=mlx scancount=1 engine=8.0.1-1707230000
 	definitions=main-1709040081
-Subject: [PATCH v2 1/2] rootfs-postcommands: remove empty line
+Subject: [PATCH v2 2/2] rootfs-postcommands: add test for unsatisfied RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +39,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 04 Sep 2017 05:12:32 -0000
 
+The do_rootfs log contains a number of unsatisfied package
+recommendations. At the moment those are only visible when
+reviewing the rootfs log.
+
+This patch adds an extra check to surface any unsatisfied
+recommendation  as WARNINGS to the build output.
+
+Enable this check with:
+ROOTFS_POSTPROCESS_COMMAND += "rootfs_log_check_recommends;"
+
 Signed-off-by: Jose Alarcon <jose.alarcon@ge.com>
 ---
- meta/classes/rootfs-postcommands.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/rootfs-postcommands.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index e7999d4..fb36bad 100644
+index fb36bad..f6d31a0 100644
 --- a/meta/classes/rootfs-postcommands.bbclass
 +++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -291,7 +291,6 @@ rootfs_sysroot_relativelinks () {
- 	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
+@@ -307,3 +307,15 @@ python write_image_test_data() {
+            os.remove(testdata_link)
+         os.symlink(os.path.basename(testdata), testdata_link)
  }
- 
--
- # Generated test data json file
- python write_image_test_data() {
-     from oe.data import export2json
++
++# Check for unsatisfied recommendations (RRECOMMENDS)
++python rootfs_log_check_recommends() {
++    log_path = d.expand("${T}/log.do_rootfs")
++    with open(log_path, 'r') as log:
++        for line in log:
++            if 'log_check' in line:
++                continue
++
++            if 'unsatisfied recommendation for' in line:
++                bb.warn('[log_check] %s: %s' % (d.getVar('PN', True), line))
++}
 -- 
 2.10.1
 
