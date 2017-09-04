@@ -1,26 +1,48 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BD49577FF6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BCEDC6FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 09:51:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v849piWV025248
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  4 Sep 2017 10:09:37 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id y123so184615iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Sep 2017 02:51:44 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 4 Sep 2017 02:51:44 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Sep 2017 17:39:38 +0800
-Message-ID: <1919461d34964f3fccb8fe31931dc4daef977b41.1504517912.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <cover.1504517912.git.kai.kang@windriver.com>
-References: <cover.1504517912.git.kai.kang@windriver.com>
+	Mon, 04 Sep 2017 03:09:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=w1v/yH6CX4KxOq7bsbGjVL28c12smm6KzrKjCm8eASA=;
+	b=nPo6MJcv0C5N70fngJWdQImuYw87F1gILZ+MsopgaWrXiM+l9hOIn5H7ITFhflMzWR
+	fYB1N0XlQ1szYJmr7tFMB+ydC7jHP9rT6am5YSmggW9pf+vYtl8ux5h3cjNs5lmz1rsY
+	QUnm7Hi0n2kz8jOYk6ikMfZY6koiadKAG2M7xrR88VC/ltXN/slQRHb289t48JXVfX+Y
+	D7USzJ6SSfrAqmMIvywdQAzKr1g3R8Y7h10Tfmd6XMgY5PloyQF9vznkTtbbNe0Hqdoj
+	UL/YG+BVnAYSYKKr1kfTAbQXUJcfU85ckl+qnWoSBK4A/zozcGLh4MFBg33JHviOH08r
+	+bcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=w1v/yH6CX4KxOq7bsbGjVL28c12smm6KzrKjCm8eASA=;
+	b=IZoDidrS1Moi64FkGutHCq5bQe+KspeG+3MlPP3PRNovZ4k88CHQR6/nDgnlJgROcv
+	9qvWVZ5oT0GJE8dgmsgysL/e6VZhpjENOmne7UErr19zZjMmFj9X18bLwDGLd6mCzh3u
+	za4ptojuoNjSLhso0ArUESwqFbk7h4pS0z+9h06anHrtuTcfXaRzzPj7WnPzGpo9lFbl
+	DBbJINNDJde5ylhl4NUE6XxX4koA+Cn5Vg0nTcZRawYXytG2AaX2fulpsZgxog8+PUPc
+	TlLWDbERKAdcZ5ft1lrbTQ4IzmdlWXSdMfkK/5iUIQedbgQSOYX6duPvYCYVgGchhFBy
+	AI+g==
+X-Gm-Message-State: AHPjjUjQEjggdEbS1YNE86fmB0M+20CWr9zZt/jPFScN2D4h2NQ2IzJw
+	cVFNx5fQWRXaGVMvE+iojgaZ3Qr5su7cr6Q=
+X-Google-Smtp-Source: ADKCNb6TqSLnuoE7VXJIuh+dVvJGAkukZrm8A4JSx3QpifMaguK/PEe2KXfSsT0KvatXjUVzz/fMwh+Ip9c0cYNdwM8=
+X-Received: by 10.107.16.210 with SMTP id 79mr141137ioq.196.1504519778980;
+	Mon, 04 Sep 2017 03:09:38 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] dbus: fix ptest runtime failures
+Received: by 10.107.33.83 with HTTP; Mon, 4 Sep 2017 03:09:18 -0700 (PDT)
+In-Reply-To: <20170903192536.491-1-otavio@ossystems.com.br>
+References: <20170903192536.491-1-otavio@ossystems.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 4 Sep 2017 11:09:18 +0100
+Message-ID: <CAJTo0LbPBn=TmjGb6ozkVjsMdF8H+MaYF32DhZi8Evs7N=n5sA@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] go-dep: Add 0.3.0 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 09:51:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Sep 2017 10:09:37 -0000
+Content-Type: multipart/alternative; boundary="001a113edb52fbe9af05585a4e4a"
 
-From: Kai Kang <kai.kang@windriver.com>
+--001a113edb52fbe9af05585a4e4a
+Content-Type: text/plain; charset="UTF-8"
 
-When run dbus ptest cases, there are some failures:
+On 3 September 2017 at 20:25, Otavio Salvador <otavio@ossystems.com.br>
+wrote:
 
-| ./test/test-dbus-daemon: relocation error: ./test/test-dbus-daemon: symbol
-| _dbus_real_assert, version LIBDBUS_PRIVATE_1.10.20 not defined in file
-| libdbus-1.so.3 with link time reference
-| FAIL: test/test-dbus-daemon
-| [   24.943454] test-dbus-daemo[251]: segfault at 0 ip           (null) sp
-| 00007ffddabe6818 error 14 in test-dbus-daemon-eavesdrop[ 400000+a000]
+> This is the Golang dependency management tool under development; it is
+> ready for production use and intended to be merged onto Golang
+> 1.10. Until that, projects are starting to use it and making it
+> available on OE-Core reduces the Golang integration work for new
+> recipes.
+>
 
-It disables tests in dbus recipe which cases symbols missing and segment
-fault. When 'ptest' in DISTRO_FEATURES, it should enable some configure
-options to make the symbols visible to ptest cases.
+ERROR: go-dep-0.3.0-r0 do_package: QA Issue: go-dep: Files/directories were
+installed but not shipped in any package:
+  /usr/lib64/x86_64-poky-linux/go/bin/dep
+Please set FILES such that these items are packaged. Alternatively if they
+are unneeded, avoid installing them or delete them within do_install.
+go-dep: 1 installed and not shipped files. [installed-vs-shipped]
 
-It also need to correct paths in ptest configure files.
+Ross
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/dbus/dbus-test_1.10.20.bb | 3 +++
- meta/recipes-core/dbus/dbus_1.10.20.bb      | 6 +++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+--001a113edb52fbe9af05585a4e4a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.10.20.bb b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
-index eeadb7d35b..d50bbc8fd6 100644
---- a/meta/recipes-core/dbus/dbus-test_1.10.20.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
-@@ -54,5 +54,8 @@ do_install_ptest() {
- 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
- 	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
- 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
-+
-+	# fix host contamination
-+	find ${D} -type f -not -executable -exec sed -i 's:${B}:${PTEST_PATH}:' {} \;
- }
- RDEPENDS_${PN}-ptest += "bash"
-diff --git a/meta/recipes-core/dbus/dbus_1.10.20.bb b/meta/recipes-core/dbus/dbus_1.10.20.bb
-index 9ddedc15fe..2b550a8599 100644
---- a/meta/recipes-core/dbus/dbus_1.10.20.bb
-+++ b/meta/recipes-core/dbus/dbus_1.10.20.bb
-@@ -91,8 +91,7 @@ pkg_postinst_dbus() {
- 	fi
- }
- 
--EXTRA_OECONF = "--disable-tests \
--                --disable-xml-docs \
-+EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
-                 --enable-largefile \
-@@ -101,10 +100,11 @@ EXTRA_OECONF = "--disable-tests \
- EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
- EXTRA_OECONF_append_class-native = " --disable-selinux"
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ptest systemd x11', d)}"
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
- 
-+PACKAGECONFIG[ptest] = "--enable-embedded-tests --enable-asserts --enable-verbose-mode,--enable-embedded-tests --disable-asserts --enable-verbose-mode"
- PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
- PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
- PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
--- 
-2.14.1
+<div dir=3D"ltr">On 3 September 2017 at 20:25, Otavio Salvador <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otav=
+io@ossystems.com.br</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><di=
+v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
+color:rgb(204,204,204);padding-left:1ex">This is the Golang dependency mana=
+gement tool under development; it is<br>
+ready for production use and intended to be merged onto Golang<br>
+1.10. Until that, projects are starting to use it and making it<br>
+available on OE-Core reduces the Golang integration work for new<br>
+recipes.<br></blockquote><div><br></div><div>ERROR: go-dep-0.3.0-r0 do_pack=
+age: QA Issue: go-dep: Files/directories were installed but not shipped in =
+any package:</div><div>=C2=A0 /usr/lib64/x86_64-poky-linux/go/bin/dep</div>=
+<div>Please set FILES such that these items are packaged. Alternatively if =
+they are unneeded, avoid installing them or delete them within do_install.<=
+/div><div>go-dep: 1 installed and not shipped files. [installed-vs-shipped]=
+</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
-
+--001a113edb52fbe9af05585a4e4a--
