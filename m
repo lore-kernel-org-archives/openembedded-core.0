@@ -1,49 +1,65 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B6EC2601D3
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
+	[209.85.218.50])
+	by mail.openembedded.org (Postfix) with ESMTP id BF12171A62
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 11:34:36 +0000 (UTC)
-Received: by mail-io0-f170.google.com with SMTP id y123so733835iod.0
+	Mon,  4 Sep 2017 12:46:52 +0000 (UTC)
+Received: by mail-oi0-f50.google.com with SMTP id x184so3117573oia.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 04:34:38 -0700 (PDT)
+	Mon, 04 Sep 2017 05:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vZrFGE0rEIxP5z2XZKAUWrrfrkpGAxoehboQA2dpEx0=;
-	b=K4NqEiio0DxWpJcqWRFSxL8x5QpzGXh++6LJVEwEjIfmPpe6Q94uEasfGy3Cngbeqf
-	FAF/JNdbCpfu7Y+hkdGjokVa4A3Fl+VyBFuHzuygOzaroWXGaYO8D0fnst9zcQnSbYYP
-	3cZjHyTIlPMqp5QNupMRE+yzBGq5nXdZPSd1XelEnUrD1APux2MUTjgM6eqdjcHyZlUw
-	54NrhGBFVusUxsjPujnsc3KexGfpG/movGoyezJD4UEdRNhXSG8nV/6+7QoiVOwWUlPS
-	U8G9huWZSA3zEV19qsJa0M2WChhzP3hK7hoxARFAZDnNM1PbiZCxF/7QoFgeWn2O0r9D
-	YBug==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=3Aof6g1msxK/Ua3VFX824T3c1L5XiypKr4fPth5oCAw=;
+	b=wf3CEDc38LFy7qRCvuwYIXkUfOo+QvJ61OkQBfba4zs13b6WwwlbvrjKYc4sFQtwKK
+	osIaPbzj73Y8gPqljL3gAWtltGpUEfZS5j6AjfYeKa7pGQyjoweMKJT3GboCHQre+KCr
+	e6zror6QY5UPlc2A+N+TykCPevLrD/gp5hJEyAwoICZjZiNaCrAby1d7oQOI0vTvysVE
+	xjjrr2S8D+yVJNi6xwCdM3T6gTBcugjfOvRjxPlv+rUvMNq+HiLnJ61W0XOG8n0gxK0h
+	1YF/g0z+02DutzZofFs3HGP5lQ6a2Qx3ZhnXsoNzzzDtbQrQ3zLtrQl56+ZGsBXIPr7X
+	40ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=vZrFGE0rEIxP5z2XZKAUWrrfrkpGAxoehboQA2dpEx0=;
-	b=n4UdOBcM16liT9d0pyZeAX7BvIXOPDySasjY7YUjKgC93Czsm+7kSz2w7wH2vpSJDb
-	cxbeWNMXh70AU5h0odtAf3NyP2s8kF5byz04o3FN/2AAcNoa+FXAEu7IJvUDRuvvB3Dm
-	9v9Q/d1tNPa8q/42FZXa42b9Wluh5uO+Sf3Ac4bAXnBghiQJleboPVii6pE6CHRny1MS
-	pNFZjeIYcd4ZepLPnOZS79lze/9L11Er0ib7uGDBLq0yVWCEXl1WfAa3+RrJxHN+qP9n
-	MpsYFhzv2SKmZgJMpXfA9Rek6JH31jj1Jwoyydwa6otze3zVn+byAScDhFEsM8JM6QzX
-	foxQ==
-X-Gm-Message-State: AHPjjUju9hLO8eZqwc4yymbIZI8O79riYH4nbNzfX8o9drtyPA3GGJyq
-	8uNtB17SoAadNnb3Hbi4HYmibIMMD4m8
-X-Google-Smtp-Source: ADKCNb4D/zi5T1GwjeSXeYOMgKJNZ5ir2v4I+VIMP0Qf3jFBeNFb1gNvzDR+zt66rDx1uKkUCkLq3I/Hluc54Hwz0Qw=
-X-Received: by 10.107.17.102 with SMTP id z99mr328694ioi.9.1504524877765; Mon,
-	04 Sep 2017 04:34:37 -0700 (PDT)
+	bh=3Aof6g1msxK/Ua3VFX824T3c1L5XiypKr4fPth5oCAw=;
+	b=nRfDJMfC7HiqYGjNOjANp6bvtXxSJOr82bmw9WpM2efma4sSjUoWsg+qkSO/uCmwXU
+	9npwSMYK7vhMnmurFn2HqRwmtq+cnkkSzuexzFq/+rNweFzUjYhZTJgeh+OMPvlcOMTl
+	zr9GHxnRFZ4cxQNVyrhmPJkQ0+wGt4/w0TqUYlnaEmbEmBO4J+r20R8wXFib+XNgmSes
+	HBPYRXvLr2c2lOX8TiznDqgfmC78nrxAVXt4SEHbfRZBxnUzRnsERMWBSNvGDhJVT9PP
+	XJ+EMLmvuiDabC3n7zJ6UQaKFQO55Ya4HxpOpdTmGVNm5n+yMrpo2QhZ3Bj+Wdyz0ypF
+	baTQ==
+X-Gm-Message-State: AHPjjUj0INFGb0FcEWcOapHkdvpzEmTiavqULNA3tugl+hBx/0g9ufa6
+	cx5vEZ9L/rgQdQ3ivOE=
+X-Received: by 10.202.198.79 with SMTP id w76mr548462oif.74.1504529213150;
+	Mon, 04 Sep 2017 05:46:53 -0700 (PDT)
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com.
+	[209.85.218.42])
+	by smtp.gmail.com with ESMTPSA id a9sm9630479oih.57.2017.09.04.05.46.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Sep 2017 05:46:52 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f42.google.com with SMTP id n18so3053400oig.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Sep 2017 05:46:51 -0700 (PDT)
+X-Google-Smtp-Source: ADKCNb5sVrWhw9hGxtpNSy1/LgTZnxd6vZGHR9CcECmayUJdkJRpkguULbuEYtqbK8T46qT3CCk+vkppDAMTma50p84=
+X-Received: by 10.202.83.10 with SMTP id h10mr533864oib.56.1504529211424; Mon,
+	04 Sep 2017 05:46:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.33.83 with HTTP; Mon, 4 Sep 2017 04:34:17 -0700 (PDT)
-In-Reply-To: <78647462-c423-bdc3-8adb-544fe8eee978@siemens.com>
-References: <78647462-c423-bdc3-8adb-544fe8eee978@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Sep 2017 12:34:17 +0100
-Message-ID: <CAJTo0Lb+CWYiM8TJ45XyN9JRxCdwq9QknaOMp98f9DgHKdqdeg@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.157.0.69 with HTTP; Mon, 4 Sep 2017 05:46:50 -0700 (PDT)
+In-Reply-To: <1504506956.12799.55.camel@intel.com>
+References: <20170902000458.28655-1-california.l.sullivan@intel.com>
+	<CAP9ODKpRT_BQGqzCd-fihZp-Dy4w0uiNr2bG_AYAvdta4wQPRg@mail.gmail.com>
+	<1504506956.12799.55.camel@intel.com>
+Date: Mon, 4 Sep 2017 09:46:50 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKr2AuEc61i6hWEm=SiAn0TFgP_HhyOk-01XX0zAV6y=Zg@mail.gmail.com>
+Message-ID: <CAP9ODKr2AuEc61i6hWEm=SiAn0TFgP_HhyOk-01XX0zAV6y=Zg@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: bussybox: updating to new version
+Subject: Re: [PATCH] initramfs-framework: split setup-live and install-efi into separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +72,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 11:34:36 -0000
-Content-Type: multipart/alternative; boundary="001a113f74aee54f2705585b7e8e"
-
---001a113f74aee54f2705585b7e8e
+X-List-Received-Date: Mon, 04 Sep 2017 12:46:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 18 August 2017 at 11:16, Andrej Valek <andrej.valek@siemens.com> wrote:
-
-> Hello everyone,
+On Mon, Sep 4, 2017 at 3:35 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Sat, 2017-09-02 at 15:17 -0300, Otavio Salvador wrote:
+>> On Fri, Sep 1, 2017 at 9:04 PM, California Sullivan
+>> <california.l.sullivan@intel.com> wrote:
+>> > Having these the initramfs-framework recipe
+>> > forced initramfs-framework
+>> > users to build several tools they didn't need, and made it more
+>> > difficult to declare the recipe as allarch.
+>> >
+>> > Fixes [YOCTO #12024].
+>> >
+>> > Signed-off-by: California Sullivan <california.l.sullivan@intel.com
+>> > >
+>>
+>> The patch should be based on the allarch patch I sent as it adds the
+>> dependencies on the whitelist. So you can also set them as allarch.
 >
-> I would like to ask you a question about busybox upgrading.
->
-> Is there any reason, why we are still using the version 1.24.1?
-> I think that, the latest version 1.27.2 has a lot of fixes and it less
-> vulnerable then the current.
->
-> I have checked a license and it has not been changed.
->
-> Thank you for the explanation.
->
+> I would prefer to keep initramfs-framework-setup-live/install-efi as
+> arch-specific and only make initramfs-framework itself allarch. It's
+> just a gut feeling about the (minor) advantage of not having to rebuild
+> these two small recipes vs. the additional complexity of the layer.conf
+> and having to keep that up-to-date.
 
-The last time an upgrade was submitted it ended up with /bin/sh being suid
-root so was understandably rejected.  Nobody has submitted an upgrade since.
+The recipe is a shell script and there is no reason to not make it
+allarch. The need to keep layer.conf up to date is minor as it is
+going to be need only when new dependencies are added. Not ofthen...
 
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a113f74aee54f2705585b7e8e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 1=
-8 August 2017 at 11:16, Andrej Valek <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:andrej.valek@siemens.com" target=3D"_blank">andrej.valek@siemens.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hello everyone,<br>
-<br>
-I would like to ask you a question about busybox upgrading.<br>
-<br>
-Is there any reason, why we are still using the version 1.24.1?<br>
-I think that, the latest version 1.27.2 has a lot of fixes and it less<br>
-vulnerable then the current.<br>
-<br>
-I have checked a license and it has not been changed.<br>
-<br>
-Thank you for the explanation.<br></blockquote><div><br></div><div>The last=
- time an upgrade was submitted it ended up with /bin/sh being suid root so =
-was understandably rejected.=C2=A0 Nobody has submitted an upgrade since.</=
-div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---001a113f74aee54f2705585b7e8e--
