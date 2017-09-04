@@ -1,49 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EA6071A50
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C17B660107
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 19:29:43 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id j141so735552ioj.4
+	Mon,  4 Sep 2017 19:33:24 +0000 (UTC)
+Received: by mail-oi0-f43.google.com with SMTP id t75so10185643oie.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 12:29:45 -0700 (PDT)
+	Mon, 04 Sep 2017 12:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=q9pFPXocTSL9SaNBj0by4m2ifwgghLDnC63DDRgT6aU=;
-	b=q0qtO7FgTO27Y3UACfjscvVOUk99eKSIFHg1zARlcn8xlNrBrUYcpS4iPma1Iob5Ub
-	wB8G8Ff1VALL5p042lg3kSITe4JILpQrxf98j74yNg2A+Q8CNqV2l07hRCwVnrEgWiCu
-	SrpalJVbBgVTDZJJfezT65tT0AvE7YxRW+TczyMg9m2K4JV256bcu4TiJW9hyR2COg2V
-	dhXYbpWZDluNzR+9EkCwyyUP6vdAcNpFk/nrmorDgXLq1F/s94GcyDrpsYbBqjADffFd
-	vVLJA3QwTepENbT7wunYMUYVEk48WixhSZmx1///ra6NTod/Z1MF7Rn+0Ddg8E814YNB
-	7bLA==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=Bfylatp57vmHxbuuEv07MiAcgZ7sMCeYY70ispwvE08=;
+	b=sHFo5o2QORpGxzgYqjjm54EcsFruzXIV+nRMe1Lx8zlxtehk4KC92Rlh6xahqt7HfZ
+	ZdkS5SlquwDmOY6DcTsjCToe6ArGaxlWPdyl60di6ItM6yN8E23LPXvPCGUKf73XO1rw
+	/tbJDLIlOqv7f7tYpNGiLiF4JpdNR5YeTofZMejrBTEL8VvJv3zKUCERN7WxkiTUHJfH
+	DCjAQqDSAYNGPqtYjkmOcQaKxaQhUC44TBblP04m8XgJtWlWsdhkDw/qgx5si2lMrKwA
+	zjaU+OSNhERWORBB9Ecg5Px2DVuIQwW2rO3yWAxnphX0amab4449d9gKtiYfAygW2KPA
+	f0rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=q9pFPXocTSL9SaNBj0by4m2ifwgghLDnC63DDRgT6aU=;
-	b=Aam8wyKoBX+DUxOIWrnLAm6cYEVlNe+N9EWGuEurh6JShI3at40e6cAqi7cllc968H
-	XeHt/RbHWsA77rwu02TrzLpIf3EPiT2momYYgxvDVFAgpjJK2QwVTx15tttFV9Jr6+Ik
-	EVJ4GjOWn1dcd25hB/NRbUKW5GJuW2Y05Bv3xRcStzMJciuSdYYm+RCR5uJF8BB41JJL
-	YKCyy83YQSjL3uMw3kzBK8yK98CH/Kxvt1wWlf4HWhmN819TrPWrGvdz+sm7KpefaOgA
-	NIByWPI9DPQZbLpzstdgmh9cAOSLRVmMVIDCPINYq3bxtI2S/voTq4y2QPJCXgS2miiP
-	T7Ww==
-X-Gm-Message-State: AHPjjUjtz+bh/I4PQhoBqVr/loRw0Eo8XdX/l0Mp6bkB46hhDcLHws2w
-	HlMJWsF/LjT8qncqCS/PbSyJx5aycpMY
-X-Google-Smtp-Source: ADKCNb46EjSJveRfLao+YW+PW8tVIh+3yK2N9e77nCXZU/tNgBKcjt0WKLYNcCtrX83zOeHIPrm5GgriIk5uaw0rWTQ=
-X-Received: by 10.36.108.137 with SMTP id w131mr1727460itb.42.1504553385386;
-	Mon, 04 Sep 2017 12:29:45 -0700 (PDT)
+	bh=Bfylatp57vmHxbuuEv07MiAcgZ7sMCeYY70ispwvE08=;
+	b=j3sTRsACafdnwd0uugMNjLMQbDeq3/0Fts8wbZobix2AdFDvZRKqMfkTpx8fI/xnM9
+	rm2P5NtmMF3xjKC+/WltWY9rIYyBqhuDYURMd4bPKnOSHiTaM6MVJwuzG4OhQbFtWX7o
+	s0Wk3Sc+rAR/E+KtY4i7kyej3kbaSo0xK2x0B2bzW7w3r9tfLoVuQQ6+oEP3v9kGJIyI
+	Nmzvmvh1X+PIQEqfWwUPxJvOyLktPTZSDOFShjBF014WjJ0/DXxcePDa5CUrJCdy6NaE
+	QatRq1oCbmVwZL2JdY/qazlaS9o2bgkeTRmdq8/KS8BBVAZ/Lk/ADzkh0+WFg8Pky3Kk
+	rCAA==
+X-Gm-Message-State: AHPjjUif/4P6q0tuitoxPVih1q620zlBTr2cepXOoDLf/Mz0nQB77Say
+	y1TBd8b90cxvQiFD2co=
+X-Received: by 10.202.85.138 with SMTP id j132mr1519999oib.273.1504553605479; 
+	Mon, 04 Sep 2017 12:33:25 -0700 (PDT)
+Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com.
+	[209.85.218.47])
+	by smtp.gmail.com with ESMTPSA id a9sm9699322oii.11.2017.09.04.12.33.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Sep 2017 12:33:24 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f47.google.com with SMTP id n18so10296933oig.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Sep 2017 12:33:24 -0700 (PDT)
+X-Google-Smtp-Source: ADKCNb7yONBXLWXC4jRCMvau7wIeZOyf9EvBLLzCeduclgh3Wai8IvdNFGrqsAxtQTGIEZO96+IftuWA17g8X6OXjzQ=
+X-Received: by 10.202.117.201 with SMTP id q192mr1660852oic.274.1504553603710; 
+	Mon, 04 Sep 2017 12:33:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.33.83 with HTTP; Mon, 4 Sep 2017 12:29:24 -0700 (PDT)
-In-Reply-To: <CAP9ODKoTRR0e-7MrkN=u5rt928y=Weh2VV_wwdqBSzpV0rK7zA@mail.gmail.com>
+Received: by 10.157.0.69 with HTTP; Mon, 4 Sep 2017 12:33:22 -0700 (PDT)
+In-Reply-To: <CAJTo0LaUnzQ8jpgHnGw0M+HscQ=u8EY=tABLQrgvDAoyFq6WAA@mail.gmail.com>
 References: <20170903192536.491-1-otavio@ossystems.com.br>
 	<CAJTo0LbPBn=TmjGb6ozkVjsMdF8H+MaYF32DhZi8Evs7N=n5sA@mail.gmail.com>
 	<CAP9ODKoTRR0e-7MrkN=u5rt928y=Weh2VV_wwdqBSzpV0rK7zA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 4 Sep 2017 20:29:24 +0100
-Message-ID: <CAJTo0LaUnzQ8jpgHnGw0M+HscQ=u8EY=tABLQrgvDAoyFq6WAA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Khem Raj <raj.khem@gmail.com>
+	<CAJTo0LaUnzQ8jpgHnGw0M+HscQ=u8EY=tABLQrgvDAoyFq6WAA@mail.gmail.com>
+Date: Mon, 4 Sep 2017 16:33:22 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp9hmC+K46OuxDpYMyhMjr2+M1GP9N2pzEv00oMyj7Y_g@mail.gmail.com>
+Message-ID: <CAP9ODKp9hmC+K46OuxDpYMyhMjr2+M1GP9N2pzEv00oMyj7Y_g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] go-dep: Add 0.3.0 release
@@ -59,92 +72,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 19:29:44 -0000
-Content-Type: multipart/alternative; boundary="001a113f651e15072a05586222d2"
-
---001a113f651e15072a05586222d2
+X-List-Received-Date: Mon, 04 Sep 2017 19:33:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 4 September 2017 at 18:46, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
-
-> On Mon, Sep 4, 2017 at 7:09 AM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > On 3 September 2017 at 20:25, Otavio Salvador <otavio@ossystems.com.br>
-> > wrote:
-> >>
-> >> This is the Golang dependency management tool under development; it is
-> >> ready for production use and intended to be merged onto Golang
-> >> 1.10. Until that, projects are starting to use it and making it
-> >> available on OE-Core reduces the Golang integration work for new
-> >> recipes.
-> >
-> >
-> > ERROR: go-dep-0.3.0-r0 do_package: QA Issue: go-dep: Files/directories
-> were
-> > installed but not shipped in any package:
-> >   /usr/lib64/x86_64-poky-linux/go/bin/dep
-> > Please set FILES such that these items are packaged. Alternatively if
-> they
-> > are unneeded, avoid installing them or delete them within do_install.
-> > go-dep: 1 installed and not shipped files. [installed-vs-shipped]
+On Mon, Sep 4, 2017 at 4:29 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 4 September 2017 at 18:46, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>>
+>> On Mon, Sep 4, 2017 at 7:09 AM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>> > On 3 September 2017 at 20:25, Otavio Salvador <otavio@ossystems.com.br>
+>> > wrote:
+>> >>
+>> >> This is the Golang dependency management tool under development; it is
+>> >> ready for production use and intended to be merged onto Golang
+>> >> 1.10. Until that, projects are starting to use it and making it
+>> >> available on OE-Core reduces the Golang integration work for new
+>> >> recipes.
+>> >
+>> >
+>> > ERROR: go-dep-0.3.0-r0 do_package: QA Issue: go-dep: Files/directories
+>> > were
+>> > installed but not shipped in any package:
+>> >   /usr/lib64/x86_64-poky-linux/go/bin/dep
+>> > Please set FILES such that these items are packaged. Alternatively if
+>> > they
+>> > are unneeded, avoid installing them or delete them within do_install.
+>> > go-dep: 1 installed and not shipped files. [installed-vs-shipped]
+>>
+>> I know and this is an issue with our Go toolchain support. It fails
+>> when we are building for same architecture than our build host.
 >
-> I know and this is an issue with our Go toolchain support. It fails
-> when we are building for same architecture than our build host.
 >
-
-(CCing Khem)
-
-Sounds like a serious problem.  Presumably different tooling is used to
-build go-hellworld, as that doesn't have the same problem?
-
-Do we need a bug for this?  How critical is it to fix before 2.4?
-
-Ross
-
---001a113f651e15072a05586222d2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 4 September 2017 at 18:46, Otavio Salvador <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_bl=
-ank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class=
-=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-styl=
-e:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><span class=3D=
-"gmail-">On Mon, Sep 4, 2017 at 7:09 AM, Burton, Ross &lt;<a href=3D"mailto=
-:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt; On 3 September 2017 at 20:25, Otavio Salvador &lt;<a href=3D"mailto:ot=
-avio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br>
-&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; This is the Golang dependency management tool under development; i=
-t is<br>
-&gt;&gt; ready for production use and intended to be merged onto Golang<br>
-&gt;&gt; 1.10. Until that, projects are starting to use it and making it<br=
+> (CCing Khem)
 >
-&gt;&gt; available on OE-Core reduces the Golang integration work for new<b=
-r>
-&gt;&gt; recipes.<br>
-&gt;<br>
-&gt;<br>
-&gt; ERROR: go-dep-0.3.0-r0 do_package: QA Issue: go-dep: Files/directories=
- were<br>
-&gt; installed but not shipped in any package:<br>
-&gt;=C2=A0 =C2=A0/usr/lib64/x86_64-poky-linux/<wbr>go/bin/dep<br>
-&gt; Please set FILES such that these items are packaged. Alternatively if =
-they<br>
-&gt; are unneeded, avoid installing them or delete them within do_install.<=
-br>
-&gt; go-dep: 1 installed and not shipped files. [installed-vs-shipped]<br>
-<br>
-</span>I know and this is an issue with our Go toolchain support. It fails<=
-br>
-when we are building for same architecture than our build host.<br></blockq=
-uote><div><br></div><div>(CCing Khem)</div><div><br></div><div>Sounds like =
-a serious problem.=C2=A0 Presumably different tooling is used to build go-h=
-ellworld, as that doesn&#39;t have the same problem?</div><div><br></div><d=
-iv>Do we need a bug for this?=C2=A0 How critical is it to fix before 2.4?</=
-div><div><br></div><div>Ross</div></div></div></div>
+> Sounds like a serious problem.  Presumably different tooling is used to
+> build go-hellworld, as that doesn't have the same problem?
+>
+> Do we need a bug for this?  How critical is it to fix before 2.4?
 
---001a113f651e15072a05586222d2--
+Honestly, Go support needs some love for 2.4. I am investing some
+quality time reviewing what is missing when comparing to meta-golang
+and there is a lot to improve.
+
+The error is nothing obvious to me. However, I am cleaning up the
+integration so we have it in better quality for the release.
+Eventually, I will end fixing this error.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
