@@ -1,44 +1,44 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id ADF0977F79
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C6D4178044
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 14:56:26 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id c69so2256472qke.5
+	Tue,  5 Sep 2017 14:56:34 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id h21so2330235qth.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 07:56:28 -0700 (PDT)
+	Tue, 05 Sep 2017 07:56:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=iQOKFJDIYT04sxKfjW/IjB7HfaoJ99KekNZ829Zi80w=;
-	b=kgYwm87BCEr4g+w/fyiProzlYxg1b3olYQZKQ+JZCcqrqvd2B7Qbh5DF7Oh0/0cGl8
-	SROpIAQ8pouSS0wMLi6GcbS2cQCHnPKI3C3mcNO1xffqnPwce5aEG3qaGnhlWmLvsLqY
-	plV6uSlq+/SUaro73qX+qVGMC1HHIkfejL9XCAdMuxhF9V3EPfuNg+SfiulDXDZzPG30
-	jkIvdCSvOaPL4xHgjGgwqB10Vl9c5+eNv2tRpRwN3zOlVogM6oZhofcXG9UzKLnUb2rT
-	0HoeweZXK19QnBkHIl1dyUAzmfSeyUjUKoqti6ZshoZRMhsRs6HbEqnP0bfCUXmt3Efh
-	nJlQ==
-X-Gm-Message-State: AHPjjUhwPw+8RlVFym4PdgwF6NSfJ4bcnWeE9Do/VyK8dsnmi1F8KHVN
-	yCv7v+D0NBLCypCN
-X-Google-Smtp-Source: ADKCNb4MtIaO21Jpb67oheMoWIkuEn4GyHVbUm3nXspu/hoC7eetJ6I8Z1U7Fj6HuY88TmVuWeyzrQ==
-X-Received: by 10.55.54.12 with SMTP id d12mr5306994qka.20.1504623387853;
-	Tue, 05 Sep 2017 07:56:27 -0700 (PDT)
+	bh=+Vb9v6UOZSlIZ+lw/2oSnU3sn4RGA5piaa+5mgykjDY=;
+	b=foLC07Qs9Ns5zGKRiSr/H2ZfC6lkTqm9umgudqnjWCMF9ZKk4xZ+2dypYgXOnuk8qj
+	oM+3aa8dDr8RbGcSjsgO1/yM/K9TWKRR8D++pexyPYZqTsfnLTjonyRVao/9pcvchKj9
+	KpoPKLY1rudf+qye0qL2l00ExMjU7esEt/Scdyx0bPDyJPk+KoufHbvnS9UwIaUFkZAS
+	e8PrjyTZzRaUhX51NqrijbkYveZI0sJl2EoBGTDVG7KotM3dhablkqjQcyAMvs1tN2c2
+	eJADlw2HhnaocEKAbtvS/447EXU+5MsXsmxOsx0Jh3pkY4NYO7OjY7uhEFQkwCbXEuFJ
+	toWg==
+X-Gm-Message-State: AHPjjUieJuS/6KXoN6tMBxc3XwSkTSce29olCq+XVigIxr2A+o0c9lEC
+	tDvHQIRKDSjRRkYG
+X-Google-Smtp-Source: ADKCNb55I/u6qENakc4CAexL1HSE1xBxt1j+7koPPR0f95vBPFP6CQUFuY0QnwQ/zsHF6DQZVerI8Q==
+X-Received: by 10.200.56.189 with SMTP id f58mr2995088qtc.88.1504623395701;
+	Tue, 05 Sep 2017 07:56:35 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id q5sm559159qkh.43.2017.09.05.07.56.23
+	by smtp.gmail.com with ESMTPSA id v22sm491515qkb.64.2017.09.05.07.56.31
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Sep 2017 07:56:27 -0700 (PDT)
+	Tue, 05 Sep 2017 07:56:34 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 05 Sep 2017 11:56:20 -0300
+	Tue, 05 Sep 2017 11:56:28 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  5 Sep 2017 11:55:33 -0300
-Message-Id: <20170905145536.21149-6-otavio@ossystems.com.br>
+Date: Tue,  5 Sep 2017 11:55:34 -0300
+Message-Id: <20170905145536.21149-7-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170905145536.21149-1-otavio@ossystems.com.br>
 References: <20170905145536.21149-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 5/8] goarch.bbclass: Add support for ARMv5
+Subject: [PATCH v2 6/8] go.bbclass: Use a global Go build flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,9 +51,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 14:56:26 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 14:56:35 -0000
 
-This adds support to return the proper ARMv5 format.
+We now use a GOBUILDFLAGS to provide a global variable to control the
+build flags to be given to Go.
 
 This change is based on the meta-golang[1] layer. Thanks to Matt
 Madison <matt@madison.systems> for his work on this.
@@ -63,24 +64,35 @@ Madison <matt@madison.systems> for his work on this.
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v2: None
+Changes in v2:
+- Remove -x flag (madisongh)
+- Remove GO_EXTLDFLAGS for now (madisongh)
 
- meta/classes/goarch.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/go.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-index 7960ac5f9e..dbec6ee2c8 100644
---- a/meta/classes/goarch.bbclass
-+++ b/meta/classes/goarch.bbclass
-@@ -47,6 +47,8 @@ def go_map_arm(a, f, d):
-     import re
-     if re.match('arm.*', a) and re.match('arm.*7.*', f):
-         return '7'
-+    if re.match('arm.*', a) and re.match('arm.*5.*', f):
-+        return '5'
-     return ''
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index e073cb91b5..720a504cd8 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -5,6 +5,8 @@ GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+ GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
+ GOBIN_FINAL = "${GOROOT_FINAL}/${GO_BUILD_BINDIR}"
  
- def go_map_os(o, d):
++export GOBUILDFLAGS ?= "-v"
++
+ export GOOS = "${TARGET_GOOS}"
+ export GOARCH = "${TARGET_GOARCH}"
+ export GOARM = "${TARGET_GOARM}"
+@@ -32,7 +34,7 @@ GO_INSTALL ?= "${GO_IMPORT}/..."
+ do_go_compile() {
+ 	GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
+ 	if [ -n "${GO_INSTALL}" ]; then
+-		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install -v ${GO_INSTALL}
++		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
+ 	fi
+ }
+ 
 -- 
 2.14.1
 
