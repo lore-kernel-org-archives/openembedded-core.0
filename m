@@ -1,28 +1,52 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D1FAD77F69
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ua0-f193.google.com (mail-ua0-f193.google.com
+	[209.85.217.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B0BBF6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 08:31:55 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Sep 2017 01:31:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,479,1498546800"; d="scan'208";a="1011028119"
-Received: from mknapp-mobl.amr.corp.intel.com (HELO
-	jlock-mobl3.ger.corp.intel.com) ([10.252.28.122])
-	by orsmga003.jf.intel.com with ESMTP; 05 Sep 2017 01:31:54 -0700
-To: leonardo.sandoval.gonzalez@linux.intel.com,
-	openembedded-core@lists.openembedded.org
-References: <20170904213548.15582-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20170904213548.15582-2-leonardo.sandoval.gonzalez@linux.intel.com>
-From: Joshua Lock <joshua.g.lock@linux.intel.com>
-Message-ID: <69f4fc12-a0bf-c3de-351a-3c48bc4db92f@linux.intel.com>
-Date: Tue, 5 Sep 2017 09:31:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue,  5 Sep 2017 08:44:03 +0000 (UTC)
+Received: by mail-ua0-f193.google.com with SMTP id l24so1025226uaa.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Sep 2017 01:44:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Cr4xD+apN3QmcfkkPhWvTS6cUHD/K3DRvl0LWnA4i78=;
+	b=oK7clYnO7Yzan5MBxMiclgpTnDspfQPfxNY8a/9KYCMprowuATxlWLN9kqTYDXFOhB
+	aXyPA4cLWtkMa1zX7I0Nq7OxF+HpsQNrtK3uvzqcizF4BYqYFGy6t85ZTI8C2rDnnvpw
+	OS/AqxssmkgpktGLKCHZHAPlPHs+s+fuPE7C/ceUk7VU21rGA0jqWvsZzQZgeSYn+cMb
+	ZD25h5OWQb7s4xTgcgHAv1wUYzh1JYk3cs8TocZWE6Q3y5qBsTJi135E9JDA2pnqhCMV
+	QtCUwSEuPEg9bf6tMOgvd/c2Xp+OgRUqzNc0Nw1tRoayZRBDVyYvqQaQID2t5uAT6X1x
+	oGjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Cr4xD+apN3QmcfkkPhWvTS6cUHD/K3DRvl0LWnA4i78=;
+	b=W9RhsSkDYreGomDuSX9eDcFIEEvM4BcWgyZyWKKY//OMCBzVGA3ygJkCIRPiL7YV9e
+	Aqu0KETbOHFQfxFvj1bMXlu6UvMOg9l2phJDWrAJeCCwohyGLZ+Wc0ewsvWUjI/FAA07
+	zdnhRM8d//ajXft1uYWs7vmd2E6TonYjrdNu2bq/ontOHvRWZXFLBgusSmHeqMi/oUrF
+	0RQNEmdBjosoJl4yG4qdAYhIuDpMhPPzMX0SqDYn6GqSnvVRh10Zo6LZP1duJdWQB87n
+	Dj3GqN0WiJxGdwBrgwGnRt++mNvad/XuwdQ+a1ntc3w/SMD3YpStIRKjwc7xuXWVaCnv
+	gliQ==
+X-Gm-Message-State: AHPjjUh7G9Kmny57gzQrlcFJKX61EEVpNm144XUJytmJwsa6NVWlCsUU
+	ghsJPUHnaFRRHweD3FjlwDkTtRgNYA==
+X-Google-Smtp-Source: ADKCNb6HReNR2+q/P5LXX7u/7ckT6+qfFupMCPU4Lw9CJOS5XKGgNo8lnV4MyF+w/yuhYOPBvdWlUAdz8EHAvfROjFc=
+X-Received: by 10.159.57.88 with SMTP id i24mr2060758uag.18.1504601044598;
+	Tue, 05 Sep 2017 01:44:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170904213548.15582-2-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: Re: [PATCH 2/2] package_[deb|ipk]: improve multiprocess logic when creating deb/ipk packages
+Received: by 10.159.51.10 with HTTP; Tue, 5 Sep 2017 01:44:04 -0700 (PDT)
+In-Reply-To: <d5f6dd10-db72-629a-df50-7e6a644c5967@balister.org>
+References: <20170822074219.8490-1-jackie.huang@windriver.com>
+	<CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
+	<1503431754.32591.130.camel@linuxfoundation.org>
+	<e08e7388-4240-0201-197b-8040d4dfb761@windriver.com>
+	<d5f6dd10-db72-629a-df50-7e6a644c5967@balister.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 5 Sep 2017 10:44:04 +0200
+Message-ID: <CALbNGRSzHa1gDGUZDGiHSLVP9DtjKU+XZgj-v5LmYtH919bV0Q@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: add python to default PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,69 +59,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 08:31:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Sep 2017 08:44:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, Aug 23, 2017 at 11:04 PM, Philip Balister <philip@balister.org> wrote:
+> On 08/22/2017 09:26 PM, Randy MacLeod wrote:
+>> On 2017-08-22 03:55 PM, Richard Purdie wrote:
+>>> On Tue, 2017-08-22 at 12:51 -0700, Andre McCurdy wrote:
+>>>> On Tue, Aug 22, 2017 at 12:42 AM,  <jackie.huang@windriver.com>
+>>>> wrote:
+>>>>>
+>>>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>>>
+>>>>> We want to provide python libs by default, and some other
+>>>>> popular Linux distributions like redhat/fedora does the same.
+>>>> Has something changed? Is there anything in oe-core or meta-oe which
+>>>> now needs boost python support enabled?
+>
+> I'm aware of a package in meta-sdr that will need boost python support.
+> So there is need for this feature.
+>
+> Philip
+>
+FWIW: I have an append in metea-qt5-extra enabling python since two years.
 
-
-On 04/09/17 22:35, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> 
-> Current implementation does not handle possible exceptions coming from child
-> processes, the latter responsible for creating packages. With the aim to have more
-> control, use pipes to communicate exceptions and stop package creation in case
-> of failure.
-> 
-> Helps to debug [YOCTO #12012].
-> 
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->   meta/classes/package_deb.bbclass | 36 +++++++++++++++++++++++++++++++++---
->   meta/classes/package_ipk.bbclass | 36 +++++++++++++++++++++++++++++++++---
->   2 files changed, 66 insertions(+), 6 deletions(-)
-> 
-
-<chop>
-
-> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-> index ec90996184..8439cda6dd 100644
-> --- a/meta/classes/package_ipk.bbclass
-> +++ b/meta/classes/package_ipk.bbclass
-> @@ -17,7 +17,29 @@ OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKA
->   OPKGLIBDIR = "${localstatedir}/lib"
->   
->   python do_package_ipk () {
-> -    from multiprocessing import Process
-> +    import multiprocessing
-> +    import traceback
-> +
-> +    class IPKWritePkgProcess(multiprocessing.Process):
-> +        def __init__(self, *args, **kwargs):
-> +            multiprocessing.Process.__init__(self, *args, **kwargs)
-> +            self._pconn, self._cconn = multiprocessing.Pipe()
-> +            self._exception = None
-> +
-> +        def run(self):
-> +            try:
-> +                multiprocessing.Process.run(self)
-> +                self._cconn.send(None)
-> +            except Exception as e:
-> +                tb = traceback.format_exc()
-> +                self._cconn.send((e, tb))
-> +
-> +        @property
-> +        def exception(self):
-> +            if self._pconn.poll():
-> +                self._exception = self._pconn.recv()
-> +            return self._exception
-> +
-
-Other than the name is IPKWritePkgProcess the same as DebianWritePkgProcess?
-
-If so, could we put a single WritePkgProcess class somewhere it can be 
-shared in lib/oe ?
-
-Joshua
+Andreas
 
