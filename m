@@ -1,24 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BD57877E9C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D5AB077F6D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 02:16:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v852GZSb004437
+	Tue,  5 Sep 2017 02:16:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v852GtIE023167
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Sep 2017 19:16:35 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 4 Sep 2017 19:16:34 -0700
+	Mon, 4 Sep 2017 19:16:56 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 4 Sep 2017 19:16:54 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Sep 2017 21:10:32 -0500
-Message-ID: <1504577432-63141-1-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 4 Sep 2017 21:10:52 -0500
+Message-ID: <1504577452-63181-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH] psplash: Initialize psplash only if a framebuffer exists
+Subject: [PATCH] sysstat: Add ability to enable lm-sensors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 02:16:33 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 02:16:55 -0000
 Content-Type: text/plain
 
-psplash-init exits if there is no framebuffer device detected.
-This is done to avoid the following error message from
-occurring when booting up:
+Add lm-sensors PACKAGECONFIG option.
 
-"Error opening /dev/fb0: No such file or directory"
+Change from setting LFLAGS="" to --disable-strip, otherwise lm-sensors will not link
+properly.
 
-Signed-off-by: Aws Ismail <aws.ismail@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-core/psplash/files/psplash-init | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-extended/sysstat/sysstat.inc | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/psplash/files/psplash-init b/meta/recipes-core/psplash/files/psplash-init
-index 66c85e9..0bce1de 100755
---- a/meta/recipes-core/psplash/files/psplash-init
-+++ b/meta/recipes-core/psplash/files/psplash-init
-@@ -7,6 +7,12 @@
- # Default-Stop:
- ### END INIT INFO
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 61da4cd..0bc7e14 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -17,8 +17,10 @@ DEPENDS += "base-passwd"
+ # autotools-brokensep as this package doesn't use automake
+ inherit autotools-brokensep gettext systemd
  
-+if [ ! -e /dev/fb0 ]; then
-+    echo "Framebuffer /dev/fb0 not detected"
-+    echo "Boot splashscreen disabled"
-+    exit 0;
-+fi
+-EXTRA_OECONF += "--disable-sensors"
+-EXTRA_OEMAKE += 'LFLAGS=""'
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
 +
- read CMDLINE < /proc/cmdline
- for x in $CMDLINE; do
-         case $x in
++EXTRA_OECONF += "--disable-stripping"
+ 
+ SYSTEMD_PACKAGES = "${PN}"
+ SYSTEMD_SERVICE_${PN} = "sysstat.service"
 -- 
 1.8.3.1
 
