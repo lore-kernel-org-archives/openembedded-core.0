@@ -1,41 +1,63 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E97977FA6
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f68.google.com (mail-oi0-f68.google.com
+	[209.85.218.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DA4E073117
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 04:36:42 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id h15so1529989qta.0
+	Tue,  5 Sep 2017 04:40:37 +0000 (UTC)
+Received: by mail-oi0-f68.google.com with SMTP id d10so109577oih.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 21:36:44 -0700 (PDT)
+	Mon, 04 Sep 2017 21:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=91YZ54mxSyb3z4ZpzeDTlpvBeNXQkPlWzNy93p83QQU=;
+	b=z50rNbwmx5nM8E3HSBalZD+HzXPav03YxNQbRFRdoBNzoHF8HuPr7bcPc2odK1SlEB
+	SI+yXbJEGqQKO+b9QiC5kkKMPGu8P4MMSGyHyhczxzhvgFsnQ6e495Nh9xVL6KdnU/h4
+	RZuExwz+u9GhH/XnvtXrpYKRu3E8/YiF8zLn3zKB8N4ZMa/qxhBewU8AdTslpfpUxZlx
+	xS9SGtJhZNvZJXTp0ouczBVqimJbeJfYsyjybTrFGY+TB3ypXQG4w0gqUNkNOGxwLkpU
+	Jq1NH02DY1CeLfes+Ezd/blRhblB++Kf9dbi19Tm1Z2vBqVgn74FkrFe07z3dzGOY47s
+	SJ1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=g/qfzoqp+xMel22BIrk4sBG95qq8ri4lXvnk+IOHHTs=;
-	b=b16IdIJS+SSvbamdYGv9DomnIwsxUmpA5Yhe4jI4A9yEm9ZY8LOZ0OMF9Z3nC6+ZVw
-	pSa95lCiXwPTtGxKfhoXFkxwSqD2d3osoI9crNy5JSfSp10w9aH/cgwj69Oy0FG5hfpc
-	GsUyWiMXcHk5svGPu9GgrdGS1GyvkeodJHf2WZKnZZ6nd7bdWM2b+Gp0BtFpRr1YHg4N
-	omNkeuUdE/u9Bhbbf1BuDfREbqAHKFuwjfq2sIZH/T10CT1SHt/KgmO+xLmkoBiMN3j8
-	/ctHI8sVeTCq+6C45ZOGJgF6tLtp0O7NfZp53wxf1TlVKtNEhWmRebEXAmjqKFZ22p+N
-	OVYw==
-X-Gm-Message-State: AHPjjUhY83xKeEUI9WXrTm2OUhmAbfcx2tGNAfj57KfSzF6JZAU+u0bm
-	mI5c9En1/wsBL86S
-X-Google-Smtp-Source: ADKCNb5VBN16QtWxwpsS3roq8wDpQNoHttUlM7bti6SudKenCYgrDZqgWOH3B2wRKCNIHZA+X2PvBA==
-X-Received: by 10.200.50.59 with SMTP id x56mr3831321qta.76.1504586203781;
-	Mon, 04 Sep 2017 21:36:43 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id g8sm6252051qtc.20.2017.09.04.21.36.40
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Sep 2017 21:36:43 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 05 Sep 2017 01:36:35 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  5 Sep 2017 01:36:34 -0300
-Message-Id: <20170905043634.1977-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3] kernel: Move Device Tree support to kernel.bbclass
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=91YZ54mxSyb3z4ZpzeDTlpvBeNXQkPlWzNy93p83QQU=;
+	b=pT10x786FPkF2X+x3HXmuiHSL1BupN0jAGOPYNovFo4Eurf5EypTbHKTtTdYEQ3/hu
+	1zQEj9uoojjKk2hQiu7MSF1XyYuU45xxj1hjSLQEO54dXkcFF4Er2tyX7O3+dHCKWjNt
+	z6mx21jcf9EPfddO1tWyphK7+OU7h+WzhpxJIOK+zRDlu0LatHQaTS7rcoz6kIgSAVkZ
+	crvNHkl2pV44PWTpBmM6XZNJyzP6E7tG6AaF7RfqW61/mUETl9yM13nAlKAKW5cjYflj
+	0xofix3oOxbAiBqMkkQeQqbwpNl6p4F55xPySCkrfATr6De3uJeyUcjBbeizETguvwbC
+	RLpA==
+X-Gm-Message-State: AHPjjUg9Apa09tVCsaRddagCfe92R5Z0yqz35OQ5HL9uJYDFUeXf+1IB
+	1gP8bifnxYdOSguiDsI=
+X-Received: by 10.202.237.131 with SMTP id l125mr2236371oih.254.1504586438413; 
+	Mon, 04 Sep 2017 21:40:38 -0700 (PDT)
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com.
+	[209.85.218.46]) by smtp.gmail.com with ESMTPSA id
+	c187sm11715513oih.52.2017.09.04.21.40.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 04 Sep 2017 21:40:37 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f46.google.com with SMTP id x184so16779382oia.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Sep 2017 21:40:37 -0700 (PDT)
+X-Google-Smtp-Source: ADKCNb6vmGuYIK9r2lH24s1mA8q47QJurT7z0+eemdrmyR7B5BVok8WtMncmMvRmGHy/E6JvXY/U1SR4AaiwAMOYCOc=
+X-Received: by 10.202.56.194 with SMTP id f185mr2183136oia.249.1504586436866; 
+	Mon, 04 Sep 2017 21:40:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.0.69 with HTTP; Mon, 4 Sep 2017 21:40:36 -0700 (PDT)
+In-Reply-To: <CAMKF1sruu96Y0ZUsHXDWG08=eayFWMe+p6QQJwk1oOw6qPViUw@mail.gmail.com>
+References: <20170904210608.23764-1-otavio@ossystems.com.br>
+	<CAMKF1sruu96Y0ZUsHXDWG08=eayFWMe+p6QQJwk1oOw6qPViUw@mail.gmail.com>
+Date: Tue, 5 Sep 2017 01:40:36 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqsTuHMTUPOqERNhTw5WvxhYMw40-PDVfh59LwTWatdCQ@mail.gmail.com>
+Message-ID: <CAP9ODKqsTuHMTUPOqERNhTw5WvxhYMw40-PDVfh59LwTWatdCQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7] Revamp the Go support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,195 +70,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 04:36:43 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 04:40:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The Device Tree is commonly used but it is still kept as a .inc file
-instead of a proper class. Instead now we move the Device Tree code to
-a kernel-devicetree class and automatically enable it when the
-KERNEL_DEVICETREE variable is set.
+On Tue, Sep 5, 2017 at 1:35 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Mon, Sep 4, 2017 at 2:06 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> This is not yet complete but does improve some parts of
+>> Go support on OE-Core.
+>>
+>> We are trying to port as much as possible work done by Matt on
+>> meta-golang back to OE-Core and also to avoid carrying old releases as
+>> there is no need to support more versions of Go toolchain.
+>>
+>> The first commits on this serie does fix errors in current
+>> implementation, the others are improvements and clean ups.
+>>
+>
+> these changes look good to me in general.
+>
+>>
+>> Otavio Salvador (7):
+>>   goarch.bbclass: Stop passing True as second argument of d.getVar
+>>   go.bbclass: Fix binary installation path detection
+>>   go: Remove Go 1.6 and 1.7 releases
+>>   goarch.bbclass: Add support for ARMv5
+>
+> Does it work on v5?
 
-While converting to the class, we reworked the compile and install in
-tasks as well as run the build of the Device Tree files in parallel,
-if possible.
+Yes; I've been using it in UpdateHub project. I can retest it on imx28
+if you want.
 
-To avoid breakage in existing layers, we kept a linux-dtb.inc file
-which raises a warning telling the user about the change so in next
-release this can be removed.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-This commit depends on "kernel: Stop using update-alternatives" patch[1]
-
-1. https://patchwork.openembedded.org/patch/143549/
-
-Changes in v3:
-- rework compile and install to tasks
-- improve commit log
-
-Changes in v2:
-- Wrong version as the changes were not staged. Sorry!
-
- meta/classes/kernel-devicetree.bbclass  | 66 +++++++++++++++++++++++++++++++++
- meta/classes/kernel.bbclass             |  4 ++
- meta/recipes-kernel/linux/linux-dtb.inc | 64 +-------------------------------
- 3 files changed, 72 insertions(+), 62 deletions(-)
- create mode 100644 meta/classes/kernel-devicetree.bbclass
-
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-new file mode 100644
-index 0000000000..f1a6ecdc65
---- /dev/null
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -0,0 +1,66 @@
-+# Support for device tree generation
-+PACKAGES_append = " kernel-devicetree"
-+FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
-+
-+normalize_dtb () {
-+	DTB="$1"
-+	if echo ${DTB} | grep -q '/dts/'; then
-+		bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+		DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
-+	fi
-+	echo "${DTB}"
-+}
-+
-+get_real_dtb_path_in_kernel () {
-+	DTB="$1"
-+	DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
-+	if [ ! -e "${DTB_PATH}" ]; then
-+		DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
-+	fi
-+	echo "${DTB_PATH}"
-+}
-+
-+do_compile_devicetree() {
-+    DTBS=""
-+	for dtb in ${KERNEL_DEVICETREE}; do
-+		dtb=`normalize_dtb "${dtb}"`
-+		DTBS="$DTBS $dtb"
-+	done
-+	oe_runmake -C ${B} ${PARALLEL_MAKE} ${DTBS}
-+}
-+addtask compile_devicetree after do_compile before do_install
-+
-+do_install_devicetree[dirs] = "${B}"
-+do_install_devicetree[umask] = "022"
-+fakeroot do_install_devicetree() {
-+	for DTB in ${KERNEL_DEVICETREE}; do
-+		DTB=`normalize_dtb "${DTB}"`
-+		DTB_EXT=${DTB##*.}
-+		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
-+		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
-+		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
-+		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-+			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
-+			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
-+		done
-+	done
-+}
-+addtask install_devicetree after do_install before do_deploy
-+
-+do_deploy_append() {
-+	for DTB in ${KERNEL_DEVICETREE}; do
-+		DTB=`normalize_dtb "${DTB}"`
-+		DTB_EXT=${DTB##*.}
-+		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
-+		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
-+			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
-+			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
-+			DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
-+			install -d ${DEPLOYDIR}
-+			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
-+		done
-+	done
-+}
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 02a5e961cb..8c01e90709 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -662,3 +662,7 @@ do_deploy[prefuncs] += "package_get_auto_pr"
- addtask deploy after do_populate_sysroot do_packagedata
- 
- EXPORT_FUNCTIONS do_deploy
-+
-+# If we are using Device Tree support, inherit the class to enable it
-+KERNEL_DEVICETREE_CLASS = "${@['kernel-devicetree', ''][d.getVar('KERNEL_DEVICETREE', False) == None]}"
-+inherit ${KERNEL_DEVICETREE_CLASS}
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 6e6f39e640..f1912775ca 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -1,63 +1,3 @@
--# Support for device tree generation
--FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
--
--python __anonymous () {
--    d.appendVar("PACKAGES", " kernel-devicetree")
--}
--
--normalize_dtb () {
--	DTB="$1"
--	if echo ${DTB} | grep -q '/dts/'; then
--		bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
--		DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
--	fi
--	echo "${DTB}"
--}
--
--get_real_dtb_path_in_kernel () {
--	DTB="$1"
--	DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
--	if [ ! -e "${DTB_PATH}" ]; then
--		DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
--	fi
--	echo "${DTB_PATH}"
--}
--
--do_compile_append() {
--	for DTB in ${KERNEL_DEVICETREE}; do
--		DTB=`normalize_dtb "${DTB}"`
--		oe_runmake ${DTB}
--	done
--}
--
--do_install_append() {
--	for DTB in ${KERNEL_DEVICETREE}; do
--		DTB=`normalize_dtb "${DTB}"`
--		DTB_EXT=${DTB##*.}
--		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
--		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
--		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
--		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
--			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
--			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
--		done
--	done
--}
--
--do_deploy_append() {
--	for DTB in ${KERNEL_DEVICETREE}; do
--		DTB=`normalize_dtb "${DTB}"`
--		DTB_EXT=${DTB##*.}
--		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
--		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
--			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
--			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
--			DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
--			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
--			install -d ${DEPLOYDIR}
--			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
--		done
--	done
-+python() {
-+    bb.warn("You are using the linux-dtb.inc which is deprecated. You can safely remove it as the Device Tree support is automatically enabled when KERNEL_DEVICETREE is set.")
- }
 -- 
-2.14.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
