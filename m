@@ -1,55 +1,48 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3FB71974
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F88971B9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 09:03:25 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id 184so878041vkn.4
+	Tue,  5 Sep 2017 09:19:19 +0000 (UTC)
+Received: by mail-io0-f182.google.com with SMTP id b2so13136332iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 02:03:27 -0700 (PDT)
+	Tue, 05 Sep 2017 02:19:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20161025;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qZTS5nUPRnvleo3W4tCi8ztxSM5fxzcl27aMRqb7Roo=;
-	b=h4YrgcEFnOXnM/wCjkSYNrpzoGR3gAnO012JgPwQyscODNFk+P8CBB9hysmsar+pjG
-	7fEP5xWIk7ZB+5csCofjLo1mU8e4tehm5tZA/sl4Zej5KvHbEaVXQ2jKZJGXimPdA2nn
-	+ZAcbO3z3ubO9L5hMDco0LN/+QNeyPFtE7ZaoihS6pPC3oINUepSL0rbvZNCniPwDo1o
-	xQr+fHp4hsgnvnACiNgwuk5SyTBC6RxjwIBcO4LVkzPXZKDNts91i2M2pZ5UYiuDojqa
-	MbIdUOn56ooRk4paENKSruHGtJkPWQWUiuoLEHsxGRteIucctmNNgXOS71WwTzUln2dY
-	S++w==
+	:cc; bh=eqr8z7qdDIkVAk70Idkj1yoLfN7MA8l4t/xs/s8rPf8=;
+	b=mWBe/DRmI5mb4jXMQx9m/yaidgLovXCaLCsQSUsUpJra34bgWF+salQvSsjaw3x/da
+	Tp/tSFuCe063fOFdx52yQi1wfPIr6rHFeZg/6laaDDO6276QRpHuBPWX+EWer8dqMFyh
+	CGIyLksY9D5gVmFvUkP/UUKF/PldeLC12wI29HerPiBdJujRgr0ckAn/HlFCmkQfb5u0
+	Ns9ufbk38KeFpRuhD6+f1s2YZ8A4BZGzXn9YDV3945ARmj2N4h9MRzvBZi+p+wYkn5py
+	sgkfkFqoswukVxy6c7XOEQLWBlasdMxk8+GE0HlnwLCqOwtW4a56eSk9SgA6kjkayqfN
+	xgxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qZTS5nUPRnvleo3W4tCi8ztxSM5fxzcl27aMRqb7Roo=;
-	b=ek0CuU+maZUFMSdX4wMriKKBercc4/UjGBmGNB/zBBumCjisJvX0BHN/aHVsNFAmU1
-	irvKPAVH0aetcKMhg/bt9v63BKX4W4junu+5KEJBxCaU6txSyQ3ApJpcvAdHF361ZFLk
-	iyP3BdmptXdKtSp/HN6B98Zw2qTJO0QPkrVm6nkZ2C+OjUQauZmWukD7hNWPdmuhrxp+
-	C6R4/MP+UEG953jskLMh6h0UhYdicI6Ww3h4Zvqtmv5V5pDLf63wOH/l7eSYbd4FwVfn
-	soHbLfVO0rAHtNW5XHs3DET4valJtN2tZ5CzPiOYhCVDTIViLoAxZ3NZd15yD7LtRey6
-	qseg==
-X-Gm-Message-State: AHPjjUhtgzS1BJjvHy4KAc66AvtPmVjifG5b05nTNcvcth4DsH0338Su
-	lxnUmUDpt0DmAlRJPr6dUNJb00XKew==
-X-Google-Smtp-Source: ADKCNb6JzL0YrEak7eahwUwnKyIii8BgFV64LQbJhU4Y+3ZQmLibT489xvpozxB5W915EcGU0ZVyjZvet2+x2IAq5ME=
-X-Received: by 10.31.216.195 with SMTP id p186mr1829992vkg.89.1504602207241;
-	Tue, 05 Sep 2017 02:03:27 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=eqr8z7qdDIkVAk70Idkj1yoLfN7MA8l4t/xs/s8rPf8=;
+	b=CRrBr0FLJ63dpp+/G+zd8jzlep+cHhJC6/9QEt+blStI5F1VTShyiz7ZRaxgMmhb+B
+	DXmZThq21p2IqCHpLV19FVPqB5UKHqhKxxstGNxrTsgur9FaxDA/Ln18/lWJxpRbxmay
+	fDie/uJFnXbsSup3XVY2b4ZBqQEmcUlc7j7N2asF+szxcpupPbFRCRZsf8XusEyQYBUt
+	2lshWSKUYJEQGzk9FZrwwLdRJMsJG3m3HYZ6pDv/mfVZkIeCZtiT4RGwGu1tf1/OClDa
+	xINLouM/gLfKhiPaXNFwLgu+j+QKXv83b1WEfb4dxti5+5Yfz/W6xnoC1EYDF00TxJNH
+	YMHw==
+X-Gm-Message-State: AHPjjUg3E9ortxWBPe+7KmI0JYOyz9FNZ36nPHSCF8bQxyV51QoS4EfV
+	XKE/Cop2LWFVf8lvmMBxUCtPWE4MzjNi
+X-Google-Smtp-Source: ADKCNb5L0ynJrPf7HWQaBC0SUBrarV/dgZq/Z1t+l8u+BLhQTMmwpUJE+77Al6AjZOVGBsP4xhQ2Lw+y8TuxJnF4WWk=
+X-Received: by 10.36.143.195 with SMTP id k186mr3411696itd.88.1504603160657;
+	Tue, 05 Sep 2017 02:19:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.51.10 with HTTP; Tue, 5 Sep 2017 02:03:26 -0700 (PDT)
-In-Reply-To: <CALbNGRTY=D_CgoyYryb6fooJCcopNG7FG17=zGeNkd1mpgGQ2g@mail.gmail.com>
-References: <20170822074219.8490-1-jackie.huang@windriver.com>
-	<CAJ86T=U1Wp8heeowiTNTwQd9vjmbP6AvSFYe8V8UYuSGQrs7Mw@mail.gmail.com>
-	<1503431754.32591.130.camel@linuxfoundation.org>
-	<e08e7388-4240-0201-197b-8040d4dfb761@windriver.com>
-	<d5f6dd10-db72-629a-df50-7e6a644c5967@balister.org>
-	<CALbNGRSzHa1gDGUZDGiHSLVP9DtjKU+XZgj-v5LmYtH919bV0Q@mail.gmail.com>
-	<CALbNGRTY=D_CgoyYryb6fooJCcopNG7FG17=zGeNkd1mpgGQ2g@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Date: Tue, 5 Sep 2017 11:03:26 +0200
-Message-ID: <CALbNGRQhF-7xWb3eJVNqSuFoMmGj94DTbXYr_qYUVRjKG+RFVQ@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: add python to default PACKAGECONFIG options
+Received: by 10.107.33.83 with HTTP; Tue, 5 Sep 2017 02:19:00 -0700 (PDT)
+In-Reply-To: <1504597605-18076-1-git-send-email-ankit.tarot@gmail.com>
+References: <1504597605-18076-1-git-send-email-ankit.tarot@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Sep 2017 10:19:00 +0100
+Message-ID: <CAJTo0LbyFH-7a2Yq4TpBcYJ5o2D6t5s55qJqhk9s7b29RkAX8w@mail.gmail.com>
+To: Ankit Navik <ankit.tarot@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ell: upgrade SRCREV and move recipes to core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,38 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 09:03:26 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 09:19:20 -0000
+Content-Type: multipart/alternative; boundary="001a1145ed82eb618c05586db86d"
+
+--001a1145ed82eb618c05586db86d
 Content-Type: text/plain; charset="UTF-8"
+
+On 5 September 2017 at 08:46, Ankit Navik <ankit.tarot@gmail.com> wrote:
+
+>  7b7c15c build: Include check for xxd binary when in maintainer-mode
+>
+
+It's too late to add recipes into oe-core as we're now frozen for the 2.4
+release, but if we were not what would the rationale for adding this to
+oe-core be?
+
+Ross
+
+--001a1145ed82eb618c05586db86d
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 5, 2017 at 11:02 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Tue, Sep 5, 2017 at 10:44 AM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
->> On Wed, Aug 23, 2017 at 11:04 PM, Philip Balister <philip@balister.org> =
-wrote:
->>> On 08/22/2017 09:26 PM, Randy MacLeod wrote:
->>>> On 2017-08-22 03:55 PM, Richard Purdie wrote:
->>>>> On Tue, 2017-08-22 at 12:51 -0700, Andre McCurdy wrote:
->>>>>> On Tue, Aug 22, 2017 at 12:42 AM,  <jackie.huang@windriver.com>
->>>>>> wrote:
->>>>>>>
->>>>>>> From: Jackie Huang <jackie.huang@windriver.com>
->>>>>>>
->>>>>>> We want to provide python libs by default, and some other
->>>>>>> popular Linux distributions like redhat/fedora does the same.
->>>>>> Has something changed? Is there anything in oe-core or meta-oe which
->>>>>> now needs boost python support enabled?
->>>
->>> I'm aware of a package in meta-sdr that will need boost python support.
->>> So there is need for this feature.
->>>
->>> Philip
->>>
->> FWIW: I have an append in metea-qt5-extra enabling python since two year=
-s.
->>
-Saw that this was applied already. Sorry for the noise..
+<div dir=3D"ltr">On 5 September 2017 at 08:46, Ankit Navik <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:ankit.tarot@gmail.com" target=3D"_blank">ankit.taro=
+t@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">=C2=A07b7c=
+15c build: Include check for xxd binary when in maintainer-mode<br></span><=
+/blockquote><div><br></div><div>It&#39;s too late to add recipes into oe-co=
+re as we&#39;re now frozen for the 2.4 release, but if we were not what wou=
+ld the rationale for adding this to oe-core be?</div><div><br></div><div>Ro=
+ss</div></div></div></div>
 
-A.
-
+--001a1145ed82eb618c05586db86d--
