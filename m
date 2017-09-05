@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A3B871DD0
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E9D9277FC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 08:02:51 +0000 (UTC)
+	Tue,  5 Sep 2017 08:02:52 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8582qpg013195
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8582rAK021377
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Sep 2017 01:02:52 -0700
+	Tue, 5 Sep 2017 01:02:53 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 5 Sep 2017 01:02:51 -0700
+	14.3.361.1; Tue, 5 Sep 2017 01:02:52 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Sep 2017 16:07:58 +0800
-Message-ID: <cover.1504598502.git.Qi.Chen@windriver.com>
+Date: Tue, 5 Sep 2017 16:07:59 +0800
+Message-ID: <68a878cd6e53211af0f2a5a248328d05597e63af.1504598502.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1504598502.git.Qi.Chen@windriver.com>
+References: <cover.1504598502.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] systemd: fix dependency issue related to serial getty
+Subject: [PATCH 1/2] systemd: change some RRECOMMENDS to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 08:02:51 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 08:02:53 -0000
 Content-Type: text/plain
 
-The following changes since commit 15eac6befb6c4d16bc1b814e040bd7bf006a5bee:
+Set NO_RECOMMENDATIONS to "1", build and start a systemd image, and we
+could not get serial getty spawned, thus causing the user not able to
+login via serial port.
 
-  linux-yocto: add linux-yocto 4.12 bbappends (2017-08-31 23:37:10 +0100)
+E.g.
+MACHINE=qemux86-64 bitbake core-image-minimal
+runqemu qemux86-64 nographic
 
-are available in the git repository at:
+And we cannot login onto the system.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-serialgetty
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-serialgetty
+Move util-linux-agetty and systemd-serialgetty (determined by PACKAGECONFIG)
+from RRECOMMENDS to RDEPENDS to fix the above problem.
 
-Chen Qi (2):
-  systemd: change some RRECOMMENDS to RDEPENDS
-  systemd-serialgetty: remove systemd from RDEPENDS
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- meta/recipes-core/systemd/systemd-serialgetty.bb | 2 --
- meta/recipes-core/systemd/systemd_234.bb         | 8 ++++----
- 2 files changed, 4 insertions(+), 6 deletions(-)
-
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 2736f38..2695e15 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -492,13 +492,13 @@ FILES_${PN} = " ${base_bindir}/* \
+ 
+ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+ 
+-RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
++RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV}) util-linux-agetty"
++RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+ RDEPENDS_${PN} += "volatile-binds update-rc.d"
+ 
+-RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)} \
+-                      systemd-extra-utils \
++RRECOMMENDS_${PN} += "systemd-extra-utils \
+                       systemd-compat-units udev-hwdb \
+-                      util-linux-agetty  util-linux-fsck e2fsprogs-e2fsck \
++                      util-linux-fsck e2fsprogs-e2fsck \
+                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
+                       os-release \
+ "
 -- 
 1.9.1
 
