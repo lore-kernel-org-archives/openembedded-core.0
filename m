@@ -1,44 +1,44 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AD3B177E99
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 5409177F38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 14:55:53 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id d70so2271861qkc.1
+	Tue,  5 Sep 2017 14:56:01 +0000 (UTC)
+Received: by mail-qk0-f177.google.com with SMTP id o129so12368305qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 07:55:55 -0700 (PDT)
+	Tue, 05 Sep 2017 07:56:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=XGkqM9ef2XgamhQRyFUTjkLLUL/PoUkKhX2H/ETGkGE=;
-	b=Um/pmPAxo/qltf/WryDh4Jm3zgV9BkMqToO4kRFAxGB+e4ix4dBZ0YonMFax+p4d+O
-	f7IKEoBnmdCe39YPanPi8XUQNVnbK93K9/IQERdgVo77jLQIbsQaEaf3ErMAOy0w0Z2X
-	X3y55598A5FJYdUeqFB+tbtL5JR60JtAHObAo7/hB5CnFvzHXsuWoRSAzNzI+EgZFrPL
-	7teFHOYTI2l1bMy6GPA/WtSv+t88jm8JwWXJOVappaqqWA+gBdfq/v+OErEtqVJq3R5Q
-	2wHU9ieJtO1gmx5Db7FMef9Lt3oartCXKYrTrniYyuES8/cf1oNHtSPy3POat324itfG
-	gcrw==
-X-Gm-Message-State: AHPjjUgALVtQm/9EL74NwJDqitzYYVLYuXT55Abr1zAUAxANUY8jIMz5
-	JacrJVaP/VpzE5qP
-X-Google-Smtp-Source: ADKCNb4p2aMKU77ysOxdHa61PO8FaG//hoyoq96QLQgqsg5gFp9qZXEMfoh8ddVOgQHamWtzwQHqiA==
-X-Received: by 10.55.209.16 with SMTP id s16mr5840176qki.46.1504623354577;
-	Tue, 05 Sep 2017 07:55:54 -0700 (PDT)
+	bh=L1UCzqbq45uVHUJUVTBdse1R/amrNsL/pz0qd1mkxcA=;
+	b=G4np5xGysWueSPdiMizPYc0DBTJFXzM9DxFxU/H9rrYlVuZQ03qPClplt2lOVX9Zj+
+	oYsf40UizEbPyBIfwxVBawE6BwGrajknNH+t88BeJGhhogVVJ0jcOK32t/A39VsAybgA
+	7otR+5E0K6rW7sx2kyaGeYiOrX5R2Y2AgY22rpT1vokm3zib7RTmC1124NEKkCmXHAbS
+	0Hymv7zBojKDUFZOcIL6EL865hmaEBm9t7IIh5t8Oc/BhOTDrNgw8kaSYtdZa2laMu9/
+	PkoyA54mdcTPMj33rFsjHfgOufxHYznEAvrxngiBLD0mXhafdyTWPCjTPoAEu89AOliG
+	Dnaw==
+X-Gm-Message-State: AHPjjUhzHP7sfG1EK+2P1fbPA87J+sLdgJygdx9yVQfKz/n5/yY3qokW
+	qg2XtPswL7Pjre84
+X-Google-Smtp-Source: ADKCNb4HOny9CmjVy54hpUqfBDfXJ3eb7fhWbqkVjf3+3WkNoB870P2J9dpnvf5iIsD6ynDb5wCypg==
+X-Received: by 10.55.197.29 with SMTP id p29mr5215634qki.207.1504623362276;
+	Tue, 05 Sep 2017 07:56:02 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id w63sm495015qtd.22.2017.09.05.07.55.50
+	by smtp.gmail.com with ESMTPSA id 36sm493302qtz.89.2017.09.05.07.55.58
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Sep 2017 07:55:53 -0700 (PDT)
+	Tue, 05 Sep 2017 07:56:01 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 05 Sep 2017 11:55:47 -0300
+	Tue, 05 Sep 2017 11:55:55 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  5 Sep 2017 11:55:29 -0300
-Message-Id: <20170905145536.21149-2-otavio@ossystems.com.br>
+Date: Tue,  5 Sep 2017 11:55:30 -0300
+Message-Id: <20170905145536.21149-3-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170905145536.21149-1-otavio@ossystems.com.br>
 References: <20170905145536.21149-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 1/8] goarch.bbclass: Stop passing True as second argument of d.getVar
+Subject: [PATCH v2 2/8] go.bbclass: Fix binary installation path detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,48 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 14:55:54 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 14:56:01 -0000
 
-The d.getVar has the second argument as True by default, avoid passing
-it here.
+Go toolchain changes the installation path when building for the same
+architecture as the build host. This was already been considered in
+the GO_BUILD_BINDIR variable but was not being used by the go class.
+
+This fixes following error:
+
+,----
+| ERROR: go-dep-0.3.0-r0 do_package: QA Issue: go-dep: Files/directories
+| were installed but not shipped in any package:
+|   /usr/lib/x86_64-oel-linux/go/bin/dep
+| Please set FILES such that these items are packaged. Alternatively if
+| they are unneeded, avoid installing them or delete them within
+| do_install.
+`----
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
 Changes in v2: None
 
- meta/classes/goarch.bbclass | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ meta/classes/go.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-index 9cd38b8c48..7960ac5f9e 100644
---- a/meta/classes/goarch.bbclass
-+++ b/meta/classes/goarch.bbclass
-@@ -1,15 +1,15 @@
--BUILD_GOOS = "${@go_map_os(d.getVar('BUILD_OS', True), d)}"
--BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH', True), d)}"
-+BUILD_GOOS = "${@go_map_os(d.getVar('BUILD_OS'), d)}"
-+BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH'), d)}"
- BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
--HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS', True), d)}"
--HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH', True), d)}"
--HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH', True), d.getVar('TUNE_FEATURES', True), d)}"
-+HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
-+HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
-+HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
--TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS', True), d)}"
--TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH', True), d)}"
--TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH', True), d.getVar('TUNE_FEATURES', True), d)}"
-+TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
-+TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
-+TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
- TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
--GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE',True) == d.getVar('HOST_GOTUPLE',True)]}"
-+GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index cedda68c55..e073cb91b5 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -3,7 +3,7 @@ inherit goarch
+ GOROOT_class-native = "${STAGING_LIBDIR_NATIVE}/go"
+ GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+ GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
+-GOBIN_FINAL = "${GOROOT_FINAL}/bin/${GOOS}_${GOARCH}"
++GOBIN_FINAL = "${GOROOT_FINAL}/${GO_BUILD_BINDIR}"
  
- # define here because everybody inherits this class
- #
+ export GOOS = "${TARGET_GOOS}"
+ export GOARCH = "${TARGET_GOARCH}"
 -- 
 2.14.1
 
