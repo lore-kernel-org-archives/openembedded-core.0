@@ -1,27 +1,47 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D33173117
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F0C873117
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 04:32:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v854WLw5008487
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 4 Sep 2017 21:32:21 -0700
-Received: from [128.224.162.236] (128.224.162.236) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 4 Sep 2017 21:32:20 -0700
-To: <openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <1504585784-112682-1-git-send-email-zhixiong.chi@windriver.com>
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-Message-ID: <59AE28D3.8060006@windriver.com>
-Date: Tue, 5 Sep 2017 12:32:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.6.0
+	Tue,  5 Sep 2017 04:36:08 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id k3so1124269pfc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Sep 2017 21:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=HTrXIty549zf56UmnSIk7d20F/VNBEL8nUCXw5T4C7g=;
+	b=briEVwMiXb1vpuZ0RRXHqeGVS03QWYSZBL1HtAml4O2tCBYqsfelLPLT3BddngyKQy
+	e9HNkKdGfeol6LAQgsWynRmIo/dPXe1zxJjj0MzqtQt+QHlK355vRiY061pod9z58+Tv
+	5QhKUC8ptEAYXq6kAbsW3eIhpBdp4r6iH0jGPVIl18E1GP4/HmJeNu+h+MuzgsuVFPFF
+	9JQ2HheQJeXh3CETINwzTAymS0PspGeW+wSSYoFt84u1M2EgLbMtEJufDf78Ps7YRoKc
+	/Jbd13AsrAhUySZGxgZhb6ydrOd3Clw73GozQGXalvFcdM27/e/8ZCn4S/4l+GYM+3x1
+	U1+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=HTrXIty549zf56UmnSIk7d20F/VNBEL8nUCXw5T4C7g=;
+	b=aNaQtN2FNUpGJGLZkncjp0lHpATSGodC9iPFBy5xkFrpS+kCIMV8fddU+mvj0LUwzK
+	ReFmPFtOI/fkhrhD0/VW/ROl0KrUnz4agbWo3/TFowNGsErC3V0ABTdsqLuk/cYpGDhz
+	CCDlBsqR7pxZ9PjjXU9gsLWQe7THEWMQFhatEgO8WF29j078UGcy640g1jOI6EK7341o
+	sORzz6pY9p6mK0TPGi2n0iJfjI1u2upBv5U9I8QSLRALaRjqytZt+nnCHSUbUIiYsT04
+	Lk7hIXXnxehYa9MEJQftvUFhBOoqPLzB1CCSHzXoP3CxCe78d09zQf32wSjDLdSrjYFa
+	BRjw==
+X-Gm-Message-State: AHPjjUhWLlWgwQ/fc86/8J+jWBJjMsVF7bGE2mLlvzK9nFVz5IWJNo8L
+	hwfIWpKYVTpEK+mtQmF9ZJGyqD5s/A==
+X-Google-Smtp-Source: ADKCNb6XQU1ZlKNMebSbClTYWMwaK1IhQBsibhMOgOn2Rb/b1CeZ7Inqxmu0Ki/qYvxJ4KH9hl0mWbWuqNNOg0RZDug=
+X-Received: by 10.98.157.74 with SMTP id i71mr2573126pfd.168.1504586170251;
+	Mon, 04 Sep 2017 21:36:10 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1504585784-112682-1-git-send-email-zhixiong.chi@windriver.com>
-Subject: Re: [PATCH v2] glibc: add ld.so locks in _libc_fork
+Received: by 10.100.167.2 with HTTP; Mon, 4 Sep 2017 21:35:39 -0700 (PDT)
+In-Reply-To: <20170904210608.23764-1-otavio@ossystems.com.br>
+References: <20170904210608.23764-1-otavio@ossystems.com.br>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 4 Sep 2017 21:35:39 -0700
+Message-ID: <CAMKF1sruu96Y0ZUsHXDWG08=eayFWMe+p6QQJwk1oOw6qPViUw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7] Revamp the Go support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,166 +54,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 04:32:21 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Sep 2017 04:36:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Rebase it to the master branch for glibc 2.26.
+On Mon, Sep 4, 2017 at 2:06 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> This is not yet complete but does improve some parts of
+> Go support on OE-Core.
+>
+> We are trying to port as much as possible work done by Matt on
+> meta-golang back to OE-Core and also to avoid carrying old releases as
+> there is no need to support more versions of Go toolchain.
+>
+> The first commits on this serie does fix errors in current
+> implementation, the others are improvements and clean ups.
+>
 
-On 2017年09月05日 12:29, Zhixiong Chi wrote:
-> The patch in this Bugzilla entry was requested by a customer:
->    https://sourceware.org/bugzilla/show_bug.cgi?id=4578
->    https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
->
-> If a thread happens to hold dl_load_lock and have r_state set to RT_ADD or
-> RT_DELETE at the time another thread calls fork(), then the child exit code
-> from fork (in nptl/sysdeps/unix/sysv/linux/fork.c in our case) re-initializes
-> dl_load_lock but does not restore r_state to RT_CONSISTENT. If the child
-> subsequently requires ld.so functionality before calling exec(), then the
-> assertion will fire.
->
-> The patch acquires dl_load_lock on entry to fork() and releases it on exit
-> from the parent path.  The child path is initialized as currently done.
-> This is essentially pthreads_atfork, but forced to be first because the
-> acquisition of dl_load_lock must happen before malloc_atfork is active
-> to avoid a deadlock.
->
-> The __libc_fork() code reset dl_load_lock, but it also needed to reset
-> dl_load_write_lock.
->
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->   ...bc-reset-dl-load-write-lock-after-forking.patch | 37 ++++++++++++++
->   .../0028-Bug-4578-add-ld.so-lock-while-fork.patch  | 57 ++++++++++++++++++++++
->   meta/recipes-core/glibc/glibc_2.26.bb              |  2 +
->   3 files changed, 96 insertions(+)
->   create mode 100644 meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
->   create mode 100644 meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
->
-> diff --git a/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch b/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
-> new file mode 100644
-> index 0000000..777b253
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
-> @@ -0,0 +1,37 @@
-> +From a6bb73d1cfd20a73fbbe6076008376fb87879d1b Mon Sep 17 00:00:00 2001
-> +From: Yuanjie Huang <yuanjie.huang@windriver.com>
-> +Date: Thu, 18 Aug 2016 17:59:13 +0800
-> +Subject: [PATCH] reset dl_load_write_lock after forking
-> +
-> +The patch in this Bugzilla entry was requested by a customer:
-> +
-> +  https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
-> +
-> +The __libc_fork() code reset dl_load_lock, but it also needed to reset
-> +dl_load_write_lock.  The patch has not yet been integrated upstream.
-> +
-> +Upstream-Status: Pending [ Not Author See bugzilla]
-> +
-> +Signed-off-by: Damodar Sonone <damodar.sonone@kpit.com>
-> +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> +---
-> + sysdeps/nptl/fork.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/sysdeps/nptl/fork.c b/sysdeps/nptl/fork.c
-> +index 2b9ae4b..3d0b8da 100644
-> +--- a/sysdeps/nptl/fork.c
-> ++++ b/sysdeps/nptl/fork.c
-> +@@ -174,8 +174,9 @@ __libc_fork (void)
-> +       /* Reset locks in the I/O code.  */
-> +       _IO_list_resetlock ();
-> +
-> +-      /* Reset the lock the dynamic loader uses to protect its data.  */
-> ++      /* Reset the locks the dynamic loader uses to protect its data.  */
-> +       __rtld_lock_initialize (GL(dl_load_lock));
-> ++      __rtld_lock_initialize (GL(dl_load_write_lock));
-> +
-> +       /* Run the handlers registered for the child.  */
-> +       while (allp != NULL)
-> +--
-> +1.9.1
-> diff --git a/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch b/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
-> new file mode 100644
-> index 0000000..f76237a
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
-> @@ -0,0 +1,57 @@
-> +The patch in this Bugzilla entry was requested by a customer:
-> +  https://sourceware.org/bugzilla/show_bug.cgi?id=4578
-> +
-> +If a thread happens to hold dl_load_lock and have r_state set to RT_ADD or
-> +RT_DELETE at the time another thread calls fork(), then the child exit code
-> +from fork (in nptl/sysdeps/unix/sysv/linux/fork.c in our case) re-initializes
-> +dl_load_lock but does not restore r_state to RT_CONSISTENT. If the child
-> +subsequently requires ld.so functionality before calling exec(), then the
-> +assertion will fire.
-> +
-> +The patch acquires dl_load_lock on entry to fork() and releases it on exit
-> +from the parent path.  The child path is initialized as currently done.
-> +This is essentially pthreads_atfork, but forced to be first because the
-> +acquisition of dl_load_lock must happen before malloc_atfork is active
-> +to avoid a deadlock.
-> +The patch has not yet been integrated upstream.
-> +
-> +Upstream-Status: Pending [ Not Author See bugzilla]
-> +
-> +Signed-off-by: Raghunath Lolur <Raghunath.Lolur@kpit.com>
-> +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +
-> +Index: git/sysdeps/nptl/fork.c
-> +===================================================================
-> +--- git.orig/sysdeps/nptl/fork.c       2017-08-03 16:02:15.674704080 +0800
-> ++++ git/sysdeps/nptl/fork.c    2017-08-04 18:15:02.463362015 +0800
-> +@@ -25,6 +25,7 @@
-> + #include <tls.h>
-> + #include <hp-timing.h>
-> + #include <ldsodefs.h>
-> ++#include <libc-lock.h>
-> + #include <stdio-lock.h>
-> + #include <atomic.h>
-> + #include <nptl/pthreadP.h>
-> +@@ -60,6 +61,10 @@
-> +      but our current fork implementation is not.  */
-> +   bool multiple_threads = THREAD_GETMEM (THREAD_SELF, header.multiple_threads);
-> +
-> ++  /* grab ld.so lock BEFORE switching to malloc_atfork */
-> ++  __rtld_lock_lock_recursive (GL(dl_load_lock));
-> ++  __rtld_lock_lock_recursive (GL(dl_load_write_lock));
-> ++
-> +   /* Run all the registered preparation handlers.  In reverse order.
-> +      While doing this we build up a list of all the entries.  */
-> +   struct fork_handler *runp;
-> +@@ -247,6 +252,10 @@
-> +
-> + 	  allp = allp->next;
-> + 	}
-> ++
-> ++      /* unlock ld.so last, because we locked it first */
-> ++      __rtld_lock_unlock_recursive (GL(dl_load_write_lock));
-> ++      __rtld_lock_unlock_recursive (GL(dl_load_lock));
-> +     }
-> +
-> +   return pid;
-> diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
-> index d453d8f..135ec4f 100644
-> --- a/meta/recipes-core/glibc/glibc_2.26.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.26.bb
-> @@ -41,6 +41,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->              file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
->              file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
->              file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
-> +           file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
-> +           file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
->   "
->   
->   NATIVESDKFIXES ?= ""
+these changes look good to me in general.
 
--- 
----------------------
-Thanks,
-Zhixiong Chi
-Tel: +86-10-8477-7036
+>
+> Otavio Salvador (7):
+>   goarch.bbclass: Stop passing True as second argument of d.getVar
+>   go.bbclass: Fix binary installation path detection
+>   go: Remove Go 1.6 and 1.7 releases
+>   goarch.bbclass: Add support for ARMv5
 
+Does it work on v5?
+
+>   go.bbclass: Use a global Go build flags
+>   go.bbclass: Enable parallel build
+>   go.bbclass: Use an auxiliary variable to add the build dependencies
+>
+>  meta/classes/go.bbclass                            | 34 ++++++++++--
+>  meta/classes/goarch.bbclass                        | 20 +++----
+>  meta/recipes-devtools/go/go-1.6.inc                | 19 -------
+>  .../go/go-1.6/armhf-elf-header.patch               | 23 --------
+>  .../go/go-1.6/fix-cc-handling.patch                | 50 -----------------
+>  .../go/go-1.6/fix-target-cc-for-build.patch        | 17 ------
+>  meta/recipes-devtools/go/go-1.6/gotooldir.patch    | 30 -----------
+>  .../go/go-1.6/split-host-and-target-build.patch    | 63 ----------------------
+>  meta/recipes-devtools/go/go-1.6/syslog.patch       | 62 ---------------------
+>  meta/recipes-devtools/go/go-1.7.inc                | 19 -------
+>  .../go/go-1.7/armhf-elf-header.patch               | 23 --------
+>  .../go/go-1.7/fix-cc-handling.patch                | 50 -----------------
+>  .../go/go-1.7/fix-target-cc-for-build.patch        | 17 ------
+>  meta/recipes-devtools/go/go-1.7/gotooldir.patch    | 30 -----------
+>  .../go/go-1.7/split-host-and-target-build.patch    | 62 ---------------------
+>  meta/recipes-devtools/go/go-1.7/syslog.patch       | 62 ---------------------
+>  meta/recipes-devtools/go/go-cross_1.7.bb           |  5 --
+>  meta/recipes-devtools/go/go_1.6.bb                 |  4 --
+>  meta/recipes-devtools/go/go_1.7.bb                 |  2 -
+>  19 files changed, 40 insertions(+), 552 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6.inc
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6/gotooldir.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.6/syslog.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7.inc
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7/gotooldir.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-1.7/syslog.patch
+>  delete mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
+>  delete mode 100644 meta/recipes-devtools/go/go_1.6.bb
+>  delete mode 100644 meta/recipes-devtools/go/go_1.7.bb
+>
+> --
+> 2.14.1
+>
 
