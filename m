@@ -1,26 +1,18 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E2A6F780A3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 08:02:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8582twD006567
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Sep 2017 01:02:55 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 5 Sep 2017 01:02:54 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Sep 2017 16:08:00 +0800
-Message-ID: <99820d1de43a39dedd1cdba647d6ad66f8b65751.1504598502.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1504598502.git.Qi.Chen@windriver.com>
-References: <cover.1504598502.git.Qi.Chen@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C6AC577E79;
+	Tue,  5 Sep 2017 08:04:58 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] systemd-serialgetty: remove systemd from RDEPENDS
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Ankit Navik <ankit.tarot@gmail.com>
+Date: Tue, 05 Sep 2017 08:05:00 -0000
+Message-ID: <20170905080500.2382.66631@do.openembedded.org>
+References: <1504597605-18076-1-git-send-email-ankit.tarot@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1504597605-18076-1-git-send-email-ankit.tarot@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZWxsOiB1cGdyYWRlIFNSQ1JFViBhbmQgbW92ZSByZWNpcGVzIHRvIGNvcmUgKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 08:02:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Sep 2017 08:04:58 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-By setting systemd-serialgetty to rdepend on systemd, we are making
-configuration files have runtime dependency on the main utility that
-uses those configuration files. Applied with the same logic, we should
-make any package that provides service files under /etc/init.d/ to have
-runtime dependency on sysvinit. And this is not right.
+== Series Details ==
 
-So we should remove systemd from RDEPENDS of systemd-serialgetty.
+Series: ell: upgrade SRCREV and move recipes to core (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/8712/
+State : failure
 
-Besides, as we have changed systemd to have systemd-serialgetty in its
-RDEPENDS by default, we should avoid circular dependency issue.
+== Summary ==
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at dd75644db2)
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     openembedded-devel@lists.openembedded.org [http://git.openembedded.org/meta-openembedded/]
+  Patch's path:    meta-oe/recipes-connectivity/ell/ell_git.bb
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/systemd/systemd-serialgetty.bb | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 768b130..8d1ec7c 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -38,8 +38,6 @@ do_install() {
- 	fi
- }
- 
--RDEPENDS_${PN} = "systemd"
--
- # This is a machine specific file
- FILES_${PN} = "${systemd_unitdir}/system/*.service ${sysconfdir}"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--- 
-1.9.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
