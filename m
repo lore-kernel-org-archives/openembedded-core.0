@@ -1,45 +1,32 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 185AB77E86
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9410B77E71
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 14:56:50 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id h15so2341212qta.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 07:56:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=OoSgt/+8OIuUO5oAVgrVlazEPUa+ZM4SAjVtIdfsUEM=;
-	b=O/8fm/25KaFHFf7I/5CpQa8yOmq7EVIpmQ9qRVaCA166cdSSFIJs1cBKjMTgUu22gu
-	3k8fWW7i3qwQwINDsSYITwudZ15pjHpm56R2SCeQlhn2P2WfSP+zqBrhTx7bHUV0A932
-	TXsjEaHUxpYi63AA+0Ri3NGTaN31ndmdqFFSetakbx+2GWn+IDFmzEoQd0LJOguMbKAZ
-	N5PsU7ycGxm1JRFIKwSJNbk4N6yLwfwoyObhDeOwvqlqeEjUQpeczPjOHvdf+w9wl9US
-	E/I145JVIzxk3pplMx7pe4NUWk+mRywdpcEcux9cOomJKsYfdBpYJkl9+mYLRtxAsZRG
-	7ZGQ==
-X-Gm-Message-State: AHPjjUgXyJE5T7ppwT/QNJRdn5iZW8HGGzdTImyawx555NJSkc6bcrj4
-	e+O5EULT9dvPjzLF
-X-Google-Smtp-Source: ADKCNb48HRaOANhSKhSmRsL0xLne16NugYf7EZrXZQOX+A2Wh+HiIa1rPjXq61aEvFUm2tVtPrip7Q==
-X-Received: by 10.237.42.231 with SMTP id t94mr5484435qtd.210.1504623411264;
-	Tue, 05 Sep 2017 07:56:51 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	x124sm524147qka.85.2017.09.05.07.56.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 05 Sep 2017 07:56:50 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 05 Sep 2017 11:56:44 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  5 Sep 2017 11:55:36 -0300
-Message-Id: <20170905145536.21149-9-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170905145536.21149-1-otavio@ossystems.com.br>
-References: <20170905145536.21149-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 8/8] go.bbclass: Use an auxiliary variable to add the build dependencies
+	Tue,  5 Sep 2017 15:00:00 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v85ExxBb007812
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 5 Sep 2017 16:00:01 +0100
+Message-ID: <1504623599.2175.89.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Tue, 05 Sep 2017 15:59:59 +0100
+In-Reply-To: <d3073c45-a317-5326-4715-23a6cb3e1058@windriver.com>
+References: <cover.1504207711.git.bruce.ashfield@windriver.com>
+	<1504282084.2175.59.camel@linuxfoundation.org>
+	<0579b565-b8e0-9995-84d0-7a239a268e14@windriver.com>
+	<1504620793.2175.85.camel@linuxfoundation.org>
+	<d3073c45-a317-5326-4715-23a6cb3e1058@windriver.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.11
+	(dan.rpsys.net [192.168.3.1]);
+	Tue, 05 Sep 2017 16:00:01 +0100 (BST)
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/7] kernel-yocto: conslidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,51 +39,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 14:56:50 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 15:00:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This is going to easy the addition of nativesdk and virtual providers
-in the future.
+On Tue, 2017-09-05 at 10:24 -0400, Bruce Ashfield wrote:
+> On 09/05/2017 10:13 AM, Richard Purdie wrote:
+> > 
+> > Hi Bruce,
+> > 
+> > We had a locked up qemuppc lsb image and I was able to find
+> > backtraces
+> > from the serial console log (/home/pokybuild/yocto-
+> > autobuilder/yocto-
+> > worker/nightly-ppc-lsb/build/build/tmp/work/qemuppc-poky-
+> > linux/core-
+> > image-lsb/1.0-r0/target_logs/dmesg_output.log in case anyone ever
+> > needs
+> > to find that). The log is below, this one is for the 4.9 kernel.
+> > 
+> > Failure as seen on the AB:
+> > https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/
+> > buil
+> > ds/1189/steps/Running%20Sanity%20Tests/logs/stdio
+> > 
+> > Not sure what it means, perhaps you can make more sense of it? :)
+> Very interesting.
+> 
+> I'm (un)fortunately familiar with RCU issues, and obviously, this is
+> only happening under load. There's clearly a driver issue as it
+> interacts with whatever is running in userspace.
+> 
+>  From the log, it looks like this is running over NFS and pinning the
+> CPU and the qemu ethernet isn't handling it gracefully.
 
-This change is based on the meta-golang[1] layer. Thanks to Matt
-Madison <matt@madison.systems> for his work on this.
+Looking at the logs I've seen I don't think this is over NFS, it should
+be over virtio:
 
-1. https://github.com/madisongh/meta-golang
+"Kernel command line: root=/dev/vda"
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+> But exactly what it is, I can't say from that trace. I'll try and do
+> a cpu-pinned test on qemuppc (over NFS) and see if I can trigger the
+> same trace.
 
-Changes in v2: None
+I'm also not sure what this might be. I did a bit more staring at the
+log and I think the system did come back:
 
- meta/classes/go.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_install_from_disk (dnf.DnfRepoTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (249.929s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_install_from_http (dnf.DnfRepoTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (212.547s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_reinstall (dnf.DnfRepoTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (1501.682s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_repoinfo (dnf.DnfRepoTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (15.952s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_running (oe_syslog.SyslogTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (3.039s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_logger (oe_syslog.SyslogTestConfig)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... SKIP (0.001s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_restart (oe_syslog.SyslogTestConfig)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... SKIP (0.001s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_startup_config (oe_syslog.SyslogTestConfig)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... SKIP (0.001s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_pam (pam.PamBasicTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (3.003s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_parselogs (parselogs.ParseLogsTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (39.675s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_rpm_help (rpm.RpmBasicTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (2.590s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_rpm_query (rpm.RpmBasicTest)
+NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (2.295s)
+NOTE: core-image-lsb-1.0-r0 do_testimage:   test_rpm_instal
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index f64b07fd82..0c9fbbf984 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -24,6 +24,11 @@ GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
- GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
- GOBIN_FINAL = "${GOROOT_FINAL}/${GO_BUILD_BINDIR}"
- 
-+DEPENDS_GOLANG_class-target = "go-cross-${TARGET_ARCH}"
-+DEPENDS_GOLANG_class-native = "go-native"
-+
-+DEPENDS_append = " ${DEPENDS_GOLANG}"
-+
- export GOBUILDFLAGS ?= "-v"
- GOBUILDFLAGS_prepend_task-compile = "${GO_PARALLEL_BUILD} "
- 
-@@ -43,9 +48,6 @@ export CGO_CPPFLAGS = "${TARGET_CPPFLAGS}"
- export CGO_CXXFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_CXXFLAGS}"
- export CGO_LDFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_LDFLAGS}"
- 
--DEPENDS += "go-cross-${TARGET_ARCH}"
--DEPENDS_class-native += "go-native"
--
- FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
- FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
- 
--- 
-2.14.1
+So for a while there the system "locked up":
+
+AssertionError: 255 != 0 : dnf --repofrompath=oe-testimage-repo-noarch,http://192.168.7.1:38838/noarch --repofrompath=oe-testimage-repo-qemuppc,http://192.168.7.1:38838/qemuppc --repofrompath=oe-testimage-repo-ppc7400,http://192.168.7.1:38838/ppc7400 --nogpgcheck reinstall -y run-postinsts-dev
+
+Process killed - no output for 1500 seconds. Total running time: 1501 seconds.
+
+AssertionError: 255 != 0 : dnf --repofrompath=oe-testimage-repo-noarch,http://192.168.7.1:38838/noarch --repofrompath=oe-testimage-repo-qemuppc,http://192.168.7.1:38838/qemuppc --repofrompath=oe-testimage-repo-ppc7400,http://192.168.7.1:38838/ppc7400 --nogpgcheck repoinfo
+ssh: connect to host 192.168.7.2 port 22: No route to host
+
+self.assertEqual(status, 1, msg = msg)
+AssertionError: 255 != 1 : login command does not work as expected. Status and output:255 and ssh: connect to host 192.168.7.2 port 22: No route to host
+
+then the system seems to have come back. All very odd...
+
+Cheers,
+
+Richard
 
 
