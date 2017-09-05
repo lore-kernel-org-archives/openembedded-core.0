@@ -1,24 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D5AB077F6D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4EB677E76
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 02:16:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v852GtIE023167
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Sep 2017 19:16:56 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 4 Sep 2017 19:16:54 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Sep 2017 21:10:52 -0500
-Message-ID: <1504577452-63181-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
+	Tue,  5 Sep 2017 03:25:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v853PDx7006954
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 4 Sep 2017 20:25:13 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 4 Sep 2017 20:25:12 -0700
+From: <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 5 Sep 2017 11:12:59 +0800
+Message-ID: <cover.1504580538.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-Subject: [PATCH] sysstat: Add ability to enable lm-sensors
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V2 0/1] dbus: fix ptest runtime failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 02:16:55 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 03:25:17 -0000
 Content-Type: text/plain
 
-Add lm-sensors PACKAGECONFIG option.
+From: Kai Kang <kai.kang@windriver.com>
 
-Change from setting LFLAGS="" to --disable-strip, otherwise lm-sensors will not link
-properly.
+V2:
+* Fix typos. It should disable the configure options when ptest is disabled.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-extended/sysstat/sysstat.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+The following changes since commit ee5bce2d11e783c0921df47b629025a6b67c44bf:
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 61da4cd..0bc7e14 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -17,8 +17,10 @@ DEPENDS += "base-passwd"
- # autotools-brokensep as this package doesn't use automake
- inherit autotools-brokensep gettext systemd
- 
--EXTRA_OECONF += "--disable-sensors"
--EXTRA_OEMAKE += 'LFLAGS=""'
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
-+
-+EXTRA_OECONF += "--disable-stripping"
- 
- SYSTEMD_PACKAGES = "${PN}"
- SYSTEMD_SERVICE_${PN} = "sysstat.service"
+  kernel-dev: Removed bad reference for creating patches. (2017-09-02 00:52:49 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/dbus
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/dbus
+
+Kai Kang (1):
+  dbus: fix ptest runtime failures
+
+ meta/recipes-core/dbus/dbus-test_1.10.20.bb | 3 +++
+ meta/recipes-core/dbus/dbus_1.10.20.bb      | 6 +++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
 -- 
-1.8.3.1
+2.14.1
 
 
