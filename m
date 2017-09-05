@@ -1,26 +1,42 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E80CE77EAC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 73D3E77E9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 03:25:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v853PI8M027795
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Sep 2017 20:25:18 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 4 Sep 2017 20:25:17 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 5 Sep 2017 11:13:00 +0800
-Message-ID: <04226f9cba6136805e2bbe98f1c8a91aa55acf08.1504580538.git.kai.kang@windriver.com>
+	Tue,  5 Sep 2017 04:01:32 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id p55so1492846qtc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Sep 2017 21:01:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=TklXhG0/1gzf60Vene1IziBN6bysnMxNFR+dACZ4WdQ=;
+	b=WgDlF6uON6jpwGaKoMxgTl5drUbme619pMpPnUj1KoiTHONfGUR24r1+3gG5jS3YTZ
+	q6tDv0QTgSxr2iV9vXtSl0VbqqISFNm7LTnWPDyKxyu04ddvCc+s9O63E2JhfBCmZLDJ
+	9hFXzLLAjHRweMORtKsSALjaozf7Bc0Qtoo3C/oFrWujTJBhowh3/RMwYskFENbxsg7a
+	KclqHfcvehaI1B2k3BubluHsVII7e32FnLa2xGkwmwUk8TCQxWpg7ZrrkdjzH6e9nEP2
+	QgcYH1NFLVP0Gzeay/EZF5hGTqZyu09uzRVmMrSoRIDQ0j/mJ5G/xik5nudKGkmld3x/
+	5dQg==
+X-Gm-Message-State: AHPjjUjXzI5aAq39232lzsQjJsLDIcLKl12bC9tJV3tqyaXqB5iwCAJ7
+	cHx4wgUkh/nWJyoD
+X-Google-Smtp-Source: ADKCNb412JARRbZcGu4qFcTKksYdWuaJxr5u9sF2iKxVh2wiXYxJkSUdrPyhK89qsIccoJk1D2vnjQ==
+X-Received: by 10.200.11.13 with SMTP id e13mr3609411qti.215.1504584092950;
+	Mon, 04 Sep 2017 21:01:32 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	j185sm4606145qkf.62.2017.09.04.21.01.29
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 04 Sep 2017 21:01:32 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 05 Sep 2017 01:01:24 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  5 Sep 2017 01:01:23 -0300
+Message-Id: <20170905040123.6341-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
-In-Reply-To: <cover.1504580538.git.kai.kang@windriver.com>
-References: <cover.1504580538.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] dbus: fix ptest runtime failures
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] kernel: Move Device Tree support to kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +49,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 03:25:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Sep 2017 04:01:32 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+The Device Tree is commonly used but it is still kept as a .inc file
+instead of a proper class. Instead now we move the Device Tree code to
+a kernel-devicetree class and automatically enable it when the
+KERNEL_DEVICETREE variable is set.
 
-When run dbus ptest cases, there are some failures:
+While converting to the class, we reworked the compile and install in
+tasks as well as run the build of the Device Tree files in parallel,
+if possible.
 
-| ./test/test-dbus-daemon: relocation error: ./test/test-dbus-daemon: symbol
-| _dbus_real_assert, version LIBDBUS_PRIVATE_1.10.20 not defined in file
-| libdbus-1.so.3 with link time reference
-| FAIL: test/test-dbus-daemon
-| [   24.943454] test-dbus-daemo[251]: segfault at 0 ip           (null) sp
-| 00007ffddabe6818 error 14 in test-dbus-daemon-eavesdrop[ 400000+a000]
+To avoid breakage in existing layers, we kept a linux-dtb.inc file
+which raises a warning telling the user about the change so in next
+release this can be removed.
 
-It disables tests in dbus recipe which cases symbols missing and segment
-fault. When 'ptest' in DISTRO_FEATURES, it should enable some configure
-options to make the symbols visible to ptest cases.
-
-It also need to correct paths in ptest configure files.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-core/dbus/dbus-test_1.10.20.bb | 3 +++
- meta/recipes-core/dbus/dbus_1.10.20.bb      | 6 +++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+This commit depends on "kernel: Stop using update-alternatives" patch[1]
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.10.20.bb b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
-index eeadb7d35b..d50bbc8fd6 100644
---- a/meta/recipes-core/dbus/dbus-test_1.10.20.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.10.20.bb
-@@ -54,5 +54,8 @@ do_install_ptest() {
- 	for i in $l; do install ${B}/bus/.libs/test-$i ${D}${PTEST_PATH}/test; done
- 	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
- 	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
+1. https://patchwork.openembedded.org/patch/143549/
+
+Changes in v2:
+- rework compile and install to tasks
+- improve commit log
+
+ meta/classes/kernel-devicetree.bbclass  | 63 ++++++++++++++++++++++++++++++++
+ meta/classes/kernel.bbclass             |  4 +++
+ meta/recipes-kernel/linux/linux-dtb.inc | 64 ++-------------------------------
+ 3 files changed, 69 insertions(+), 62 deletions(-)
+ create mode 100644 meta/classes/kernel-devicetree.bbclass
+
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+new file mode 100644
+index 0000000000..6e6f39e640
+--- /dev/null
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -0,0 +1,63 @@
++# Support for device tree generation
++FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
 +
-+	# fix host contamination
-+	find ${D} -type f -not -executable -exec sed -i 's:${B}:${PTEST_PATH}:' {} \;
++python __anonymous () {
++    d.appendVar("PACKAGES", " kernel-devicetree")
++}
++
++normalize_dtb () {
++	DTB="$1"
++	if echo ${DTB} | grep -q '/dts/'; then
++		bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
++		DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
++	fi
++	echo "${DTB}"
++}
++
++get_real_dtb_path_in_kernel () {
++	DTB="$1"
++	DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
++	if [ ! -e "${DTB_PATH}" ]; then
++		DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
++	fi
++	echo "${DTB_PATH}"
++}
++
++do_compile_append() {
++	for DTB in ${KERNEL_DEVICETREE}; do
++		DTB=`normalize_dtb "${DTB}"`
++		oe_runmake ${DTB}
++	done
++}
++
++do_install_append() {
++	for DTB in ${KERNEL_DEVICETREE}; do
++		DTB=`normalize_dtb "${DTB}"`
++		DTB_EXT=${DTB##*.}
++		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
++		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
++		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
++		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
++			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
++			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
++			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
++		done
++	done
++}
++
++do_deploy_append() {
++	for DTB in ${KERNEL_DEVICETREE}; do
++		DTB=`normalize_dtb "${DTB}"`
++		DTB_EXT=${DTB##*.}
++		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
++		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
++			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
++			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
++			DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
++			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
++			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
++			install -d ${DEPLOYDIR}
++			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
++		done
++	done
++}
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 02a5e961cb..8c01e90709 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -662,3 +662,7 @@ do_deploy[prefuncs] += "package_get_auto_pr"
+ addtask deploy after do_populate_sysroot do_packagedata
+ 
+ EXPORT_FUNCTIONS do_deploy
++
++# If we are using Device Tree support, inherit the class to enable it
++KERNEL_DEVICETREE_CLASS = "${@['kernel-devicetree', ''][d.getVar('KERNEL_DEVICETREE', False) == None]}"
++inherit ${KERNEL_DEVICETREE_CLASS}
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 6e6f39e640..f1912775ca 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -1,63 +1,3 @@
+-# Support for device tree generation
+-FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
+-
+-python __anonymous () {
+-    d.appendVar("PACKAGES", " kernel-devicetree")
+-}
+-
+-normalize_dtb () {
+-	DTB="$1"
+-	if echo ${DTB} | grep -q '/dts/'; then
+-		bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+-		DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+-	fi
+-	echo "${DTB}"
+-}
+-
+-get_real_dtb_path_in_kernel () {
+-	DTB="$1"
+-	DTB_PATH="${B}/arch/${ARCH}/boot/dts/${DTB}"
+-	if [ ! -e "${DTB_PATH}" ]; then
+-		DTB_PATH="${B}/arch/${ARCH}/boot/${DTB}"
+-	fi
+-	echo "${DTB_PATH}"
+-}
+-
+-do_compile_append() {
+-	for DTB in ${KERNEL_DEVICETREE}; do
+-		DTB=`normalize_dtb "${DTB}"`
+-		oe_runmake ${DTB}
+-	done
+-}
+-
+-do_install_append() {
+-	for DTB in ${KERNEL_DEVICETREE}; do
+-		DTB=`normalize_dtb "${DTB}"`
+-		DTB_EXT=${DTB##*.}
+-		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+-		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+-		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
+-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+-			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+-			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+-		done
+-	done
+-}
+-
+-do_deploy_append() {
+-	for DTB in ${KERNEL_DEVICETREE}; do
+-		DTB=`normalize_dtb "${DTB}"`
+-		DTB_EXT=${DTB##*.}
+-		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+-			base_name=${type}"-"${KERNEL_IMAGE_BASE_NAME}
+-			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+-			DTB_NAME=`echo ${base_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+-			install -d ${DEPLOYDIR}
+-			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
+-		done
+-	done
++python() {
++    bb.warn("You are using the linux-dtb.inc which is deprecated. You can safely remove it as the Device Tree support is automatically enabled when KERNEL_DEVICETREE is set.")
  }
- RDEPENDS_${PN}-ptest += "bash"
-diff --git a/meta/recipes-core/dbus/dbus_1.10.20.bb b/meta/recipes-core/dbus/dbus_1.10.20.bb
-index 9ddedc15fe..010fc51946 100644
---- a/meta/recipes-core/dbus/dbus_1.10.20.bb
-+++ b/meta/recipes-core/dbus/dbus_1.10.20.bb
-@@ -91,8 +91,7 @@ pkg_postinst_dbus() {
- 	fi
- }
- 
--EXTRA_OECONF = "--disable-tests \
--                --disable-xml-docs \
-+EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
-                 --enable-largefile \
-@@ -101,10 +100,11 @@ EXTRA_OECONF = "--disable-tests \
- EXTRA_OECONF_append_class-target = " SYSTEMCTL=${base_bindir}/systemctl"
- EXTRA_OECONF_append_class-native = " --disable-selinux"
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)}"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ptest systemd x11', d)}"
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
- 
-+PACKAGECONFIG[ptest] = "--enable-embedded-tests --enable-asserts --enable-verbose-mode,--disable-embedded-tests --disable-asserts --disable-verbose-mode"
- PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_system_unitdir},--disable-systemd --without-systemdsystemunitdir,systemd"
- PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
- PACKAGECONFIG[user-session] = "--enable-user-session --with-systemduserunitdir=${systemd_user_unitdir},--disable-user-session"
 -- 
 2.14.1
 
