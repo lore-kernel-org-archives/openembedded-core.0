@@ -1,45 +1,46 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2298377FED
+Return-Path: <ankit.tarot@gmail.com>
+Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3157A6B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 06:05:10 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id d70so1546547qkc.1
+	Tue,  5 Sep 2017 06:32:33 +0000 (UTC)
+Received: by mail-pg0-f53.google.com with SMTP id v66so7038824pgb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Sep 2017 23:05:12 -0700 (PDT)
+	Mon, 04 Sep 2017 23:32:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+iX62ImvhM924arbM/ghnaOSAs1W1fQJSCwJJFcQEow=;
+	b=iI3aAueKYcOobnkfBJxaUdXqhf8XhgC0Qkuivibr4sRu9sncnQsL3bld4IlHQwESDS
+	ODUN8QX2vDyBypY8lk/hEutupsoZf5jKE26IxnTbbTrumcoxI+OfAuta5CsjvS7KW4y5
+	9GjiAG+AcwcOELhoU5ZP6MP202quG6OCb78tDQmq/972/+QpkE+tK+TFLF59wokcD38f
+	8WuMZ//EJYfDVYGKVmhNNJfHy1JRkiR3IpTdidonxtvymTQRlb3BZqZWUIpGwRiDyXpD
+	Z8PhWGUj96xrg9FN47B+TLwYXPZAcASnxAZQbL0SX1libl3dhlw2VkvzK7wnsSPoQ+eM
+	H5RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=c8sAD+3FK5J5uuNcjMYwAkCFhyHO0XUPTGLSIFL56e8=;
-	b=Pw1MernZhGKSJOkYuSg4xA5wmm/PJVfNXmk4t0Nnrr4tqTRsgN6vqVZ0lKKrqFKy59
-	JaZgoV+BNsKhYGVF+25UQxAL9ykUvlxjO9tnSZRpjenkZILUsPreJFfQ8fgTQpqH3ggp
-	Ba2+BbCbQb6v/vjjEv5g1BL+W7n7kHBn+Q671EzuvfIGw8ZcGGQV+rQARY987AvbHHA1
-	+NOtMlviEMTsyITGDdvMVPA7YkyBsP2Ln6O9BkTF/FQDfMIbZy4WPSm9yq4EWR8+H9ch
-	nwC5kRUW+cG1KV9g6AkZE+6bZ98PcuAPZrx8Bspdlnvx0rdq72oDYCpMc15SSGMUxh/0
-	QE0w==
-X-Gm-Message-State: AHPjjUjoLja/WUvdOU55fYzzHOPcAk0k9Zss46Wi8W0RjGDAclb8+P2y
-	0p/cTut7z3h2ili1
-X-Google-Smtp-Source: ADKCNb5Trj775hsrpZf3NBdee9hTiRxWS3WUOnRntC9PyOPkf6TrYn8D0H33aljGvNGBxj4qbpDlQQ==
-X-Received: by 10.55.101.23 with SMTP id z23mr3544138qkb.257.1504591511847;
-	Mon, 04 Sep 2017 23:05:11 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	x76sm2056685qkb.91.2017.09.04.23.05.08
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 04 Sep 2017 23:05:11 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 05 Sep 2017 03:05:04 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue,  5 Sep 2017 03:04:46 -0300
-Message-Id: <20170905060446.9848-3-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170905060446.9848-1-otavio@ossystems.com.br>
-References: <20170905060446.9848-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v4 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+iX62ImvhM924arbM/ghnaOSAs1W1fQJSCwJJFcQEow=;
+	b=Y6i9qrYM8wY72NPsphZVO5pE4w0e0padx07OOumLbgQC6vnr2SiCppfdrB/hsWtNVl
+	7H6BGkcMxJrrZkwKl0fHY+w/lUxFRFKanSh7CGLNH1RxMe7aBzm0G2k7TPCQtGetcFI6
+	dfY4/sKwVPdg6SGDjG2I5HJ4qAmtkUHzgMu8wJjksWPLUEkWPNAnBAqVlBMqR43gYElj
+	Vscn2UE+Z6oxdWI302VOPxLwe5/dW1vtsTC1RPkJrFGudztNTxbpRxJ7Q4MP0unt4HZv
+	t3Ejd0lnKvbUK55OZlM2q7Xp2DLyJLIyIMqpwdNy7CAtjp7yC5Eyo4Y2EV8qFAL4FB/o
+	hLHQ==
+X-Gm-Message-State: AHPjjUgBj9jjeFZmj6KTW4A0GjU2a4I7D6ACGSezz64Flmo/UjLGZ6kc
+	GpewPCWmWRmDyn0Pup4gVQ==
+X-Google-Smtp-Source: ADKCNb4x2LlATYsxb47k0jEhsxh5v2sluW11pDSWfYbkLDASzvsgcr0HQI0MtoY23I+Qrexefme0GQ==
+X-Received: by 10.99.3.213 with SMTP id 204mr2956226pgd.274.1504593155167;
+	Mon, 04 Sep 2017 23:32:35 -0700 (PDT)
+Received: from ankit.iind.intel.com (fmdmzpr04-ext.fm.intel.com.
+	[192.55.54.39]) by smtp.gmail.com with ESMTPSA id
+	e64sm12557411pfe.187.2017.09.04.23.32.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 04 Sep 2017 23:32:34 -0700 (PDT)
+From: Ankit Navik <ankit.tarot@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Sep 2017 12:06:02 +0530
+Message-Id: <1504593362-13345-1-git-send-email-ankit.tarot@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] ell: upgrade SRCREV and move recipes to core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,97 +53,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 06:05:11 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 06:32:34 -0000
 
-The are use cases where the Device Tree appended to the kernel is
-convinient, so we now allow the generation of this type of bundle.
-
-To enable it, set KERNEL_DEVICETREE_BUNDLE variable to '1'
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ 7b7c15c build: Include check for xxd binary when in maintainer-mode
 ---
+ meta-oe/recipes-connectivity/ell/ell_git.bb | 17 -----------------
+ meta-oe/recipes-core/ell/ell.inc            | 13 +++++++++++++
+ meta-oe/recipes-core/ell/ell_git.bb         |  5 +++++
+ 3 files changed, 18 insertions(+), 17 deletions(-)
+ delete mode 100644 meta-oe/recipes-connectivity/ell/ell_git.bb
+ create mode 100644 meta-oe/recipes-core/ell/ell.inc
+ create mode 100644 meta-oe/recipes-core/ell/ell_git.bb
 
-Changes in v4:
-- new patch
-
-Changes in v3: None
-Changes in v2: None
-
- meta/classes/kernel-devicetree.bbclass | 40 +++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 04e2f2695e..87243dde5d 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -1,6 +1,13 @@
- # Support for device tree generation
--PACKAGES_append = " kernel-devicetree"
-+PACKAGES_append = " \
-+    kernel-devicetree \
-+    ${@['kernel-image-zimage-bundle', ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
-+"
- FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
-+FILES_kernel-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-*.dtb.bundle"
+diff --git a/meta-oe/recipes-connectivity/ell/ell_git.bb b/meta-oe/recipes-connectivity/ell/ell_git.bb
+deleted file mode 100644
+index d259f52..0000000
+--- a/meta-oe/recipes-connectivity/ell/ell_git.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-SUMMARY  = "Embedded Linux Library"
+-DESCRIPTION = "ELL is a DBUS library which provides DBUS bindings."
+-LICENSE  = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
+-SECTION = "libs"
+-
+-inherit autotools pkgconfig
+-
+-S = "${WORKDIR}/git"
+-SRCREV = "399099946abaeb2f3718a0667cc11436a7c0be14"
+-SRC_URI = "git://git.kernel.org/pub/scm/libs/ell/ell.git"
+-
+-do_configure_prepend () {
+-    mkdir ${S}/build-aux
+-}
+-
+-DEPENDS = "dbus"
+diff --git a/meta-oe/recipes-core/ell/ell.inc b/meta-oe/recipes-core/ell/ell.inc
+new file mode 100644
+index 0000000..7bed240
+--- /dev/null
++++ b/meta-oe/recipes-core/ell/ell.inc
+@@ -0,0 +1,13 @@
++SUMMARY  = "Embedded Linux Library"
++DESCRIPTION = "ELL is a DBUS library which provides DBUS bindings."
++LICENSE  = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
++SECTION = "libs"
 +
-+# Generate kernel+devicetree bundle
-+KERNEL_DEVICETREE_BUNDLE ?= "0"
- 
- normalize_dtb () {
- 	DTB="$1"
-@@ -20,6 +27,24 @@ get_real_dtb_path_in_kernel () {
- 	echo "${DTB_PATH}"
- }
- 
++inherit autotools pkgconfig
 +
-+do_configure_devicetree() {
-+	if [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-+		if echo ${KERNEL_IMAGETYPE_FOR_MAKE} | grep -q 'zImage'; then
-+			config="${B}/.config"
-+			if ! grep -q 'CONFIG_ARM_APPENDED_DTB=y' $config; then
-+				bbwarn 'CONFIG_ARM_APPENDED_DTB is NOT enabled in the kernel. Enabling it to allow the kernel to boot with the Device Tree appended!'
-+				sed -i "/CONFIG_ARM_APPENDED_DTB[ =]/d" $config
-+				echo "CONFIG_ARM_APPENDED_DTB=y" >> $config
-+				echo "# CONFIG_ARM_ATAG_DTB_COMPAT is not set" >> $config
-+			fi
-+		else
-+			bberror 'The KERNEL_DEVICETREE_BUNDLE requires the KERNEL_IMAGETYPE to contain zImage.'
-+		fi
-+	fi
++do_configure_prepend () {
++    mkdir ${S}/build-aux
 +}
-+addtask configure_devicetree after do_configure before do_compile
 +
- do_compile_devicetree() {
-     DTBS=""
- 	for dtb in ${KERNEL_DEVICETREE}; do
-@@ -43,6 +68,12 @@ fakeroot do_install_devicetree() {
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
++DEPENDS = "dbus"
+diff --git a/meta-oe/recipes-core/ell/ell_git.bb b/meta-oe/recipes-core/ell/ell_git.bb
+new file mode 100644
+index 0000000..0589809
+--- /dev/null
++++ b/meta-oe/recipes-core/ell/ell_git.bb
+@@ -0,0 +1,5 @@
++require ell.inc
 +
-+			if [ "$type" = "zImage" ] && [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-+				cat ${D}/${KERNEL_IMAGEDEST}/$type \
-+					${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} \
-+					> ${D}/${KERNEL_IMAGEDEST}/$type-${DTB_BASE_NAME}.${DTB_EXT}.bundle
-+			fi
- 		done
- 	done
- }
-@@ -63,6 +94,13 @@ do_deploy_append() {
- 			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
- 			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
- 			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_BASE_NAME}.${DTB_EXT}
-+
-+			if [ "$type" = "zImage" ] && [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-+				cat ${DEPLOYDIR}/$type \
-+					${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT} \
-+					> ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}.bundle
-+				ln -sf ${DTB_NAME}.${DTB_EXT}.bundle ${DEPLOYDIR}/$type-${DTB_BASE_NAME}.${DTB_EXT}.bundle
-+			fi
- 		done
- 	done
- }
++S = "${WORKDIR}/git"
++SRCREV = "7b7c15c2e5caff88fc45e7a8b874a47196a0eddd"
++SRC_URI = "git://git.kernel.org/pub/scm/libs/ell/ell.git"
 -- 
-2.14.1
+1.9.1
 
 
