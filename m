@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D7CE777CFB;
-	Tue,  5 Sep 2017 04:04:53 +0000 (UTC)
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D5FF677EA1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Sep 2017 04:30:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v854USRh007999
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Sep 2017 21:30:28 -0700
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 4 Sep 2017 21:30:27 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Sep 2017 12:29:44 +0800
+Message-ID: <1504585784-112682-1-git-send-email-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 05 Sep 2017 04:04:55 -0000
-Message-ID: <20170905040455.2383.28225@do.openembedded.org>
-References: <20170905040123.6341-1-otavio@ossystems.com.br>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170905040123.6341-1-otavio@ossystems.com.br>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsOiBNb3ZlIERldmljZSBUcmVlIHN1cHBvcnQgdG8ga2VybmVsLmJiY2xhc3MgKHJldjIp?=
+Subject: [PATCH v2] glibc: add ld.so locks in _libc_fork
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +31,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 04:04:54 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Sep 2017 04:30:28 -0000
+Content-Type: text/plain
 
-== Series Details ==
+The patch in this Bugzilla entry was requested by a customer:
+  https://sourceware.org/bugzilla/show_bug.cgi?id=4578
+  https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
 
-Series: kernel: Move Device Tree support to kernel.bbclass (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/8699/
-State : failure
+If a thread happens to hold dl_load_lock and have r_state set to RT_ADD or
+RT_DELETE at the time another thread calls fork(), then the child exit code
+from fork (in nptl/sysdeps/unix/sysv/linux/fork.c in our case) re-initializes
+dl_load_lock but does not restore r_state to RT_CONSISTENT. If the child
+subsequently requires ld.so functionality before calling exec(), then the
+assertion will fire.
 
-== Summary ==
+The patch acquires dl_load_lock on entry to fork() and releases it on exit
+from the parent path.  The child path is initialized as currently done.
+This is essentially pthreads_atfork, but forced to be first because the
+acquisition of dl_load_lock must happen before malloc_atfork is active
+to avoid a deadlock.
 
+The __libc_fork() code reset dl_load_lock, but it also needed to reset
+dl_load_write_lock.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at dd75644db2)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ ...bc-reset-dl-load-write-lock-after-forking.patch | 37 ++++++++++++++
+ .../0028-Bug-4578-add-ld.so-lock-while-fork.patch  | 57 ++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.26.bb              |  2 +
+ 3 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
+
+diff --git a/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch b/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
+new file mode 100644
+index 0000000..777b253
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0027-glibc-reset-dl-load-write-lock-after-forking.patch
+@@ -0,0 +1,37 @@
++From a6bb73d1cfd20a73fbbe6076008376fb87879d1b Mon Sep 17 00:00:00 2001
++From: Yuanjie Huang <yuanjie.huang@windriver.com>
++Date: Thu, 18 Aug 2016 17:59:13 +0800
++Subject: [PATCH] reset dl_load_write_lock after forking
++
++The patch in this Bugzilla entry was requested by a customer:
++
++  https://www.sourceware.org/bugzilla/show_bug.cgi?id=19282
++
++The __libc_fork() code reset dl_load_lock, but it also needed to reset
++dl_load_write_lock.  The patch has not yet been integrated upstream.
++
++Upstream-Status: Pending [ Not Author See bugzilla]
++
++Signed-off-by: Damodar Sonone <damodar.sonone@kpit.com>
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++---
++ sysdeps/nptl/fork.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/sysdeps/nptl/fork.c b/sysdeps/nptl/fork.c
++index 2b9ae4b..3d0b8da 100644
++--- a/sysdeps/nptl/fork.c
+++++ b/sysdeps/nptl/fork.c
++@@ -174,8 +174,9 @@ __libc_fork (void)
++       /* Reset locks in the I/O code.  */
++       _IO_list_resetlock ();
++ 
++-      /* Reset the lock the dynamic loader uses to protect its data.  */
+++      /* Reset the locks the dynamic loader uses to protect its data.  */
++       __rtld_lock_initialize (GL(dl_load_lock));
+++      __rtld_lock_initialize (GL(dl_load_write_lock));
++ 
++       /* Run the handlers registered for the child.  */
++       while (allp != NULL)
++-- 
++1.9.1
+diff --git a/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch b/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
+new file mode 100644
+index 0000000..f76237a
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0028-Bug-4578-add-ld.so-lock-while-fork.patch
+@@ -0,0 +1,57 @@
++The patch in this Bugzilla entry was requested by a customer:
++  https://sourceware.org/bugzilla/show_bug.cgi?id=4578
++
++If a thread happens to hold dl_load_lock and have r_state set to RT_ADD or
++RT_DELETE at the time another thread calls fork(), then the child exit code
++from fork (in nptl/sysdeps/unix/sysv/linux/fork.c in our case) re-initializes
++dl_load_lock but does not restore r_state to RT_CONSISTENT. If the child
++subsequently requires ld.so functionality before calling exec(), then the
++assertion will fire.
++
++The patch acquires dl_load_lock on entry to fork() and releases it on exit
++from the parent path.  The child path is initialized as currently done.
++This is essentially pthreads_atfork, but forced to be first because the
++acquisition of dl_load_lock must happen before malloc_atfork is active
++to avoid a deadlock.
++The patch has not yet been integrated upstream.
++
++Upstream-Status: Pending [ Not Author See bugzilla]
++
++Signed-off-by: Raghunath Lolur <Raghunath.Lolur@kpit.com>
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++
++Index: git/sysdeps/nptl/fork.c
++===================================================================
++--- git.orig/sysdeps/nptl/fork.c       2017-08-03 16:02:15.674704080 +0800
+++++ git/sysdeps/nptl/fork.c    2017-08-04 18:15:02.463362015 +0800
++@@ -25,6 +25,7 @@
++ #include <tls.h>
++ #include <hp-timing.h>
++ #include <ldsodefs.h>
+++#include <libc-lock.h>
++ #include <stdio-lock.h>
++ #include <atomic.h>
++ #include <nptl/pthreadP.h>
++@@ -60,6 +61,10 @@
++      but our current fork implementation is not.  */
++   bool multiple_threads = THREAD_GETMEM (THREAD_SELF, header.multiple_threads);
++ 
+++  /* grab ld.so lock BEFORE switching to malloc_atfork */
+++  __rtld_lock_lock_recursive (GL(dl_load_lock));
+++  __rtld_lock_lock_recursive (GL(dl_load_write_lock));
+++
++   /* Run all the registered preparation handlers.  In reverse order.
++      While doing this we build up a list of all the entries.  */
++   struct fork_handler *runp;
++@@ -247,6 +252,10 @@
++ 
++ 	  allp = allp->next;
++ 	}
+++
+++      /* unlock ld.so last, because we locked it first */
+++      __rtld_lock_unlock_recursive (GL(dl_load_write_lock));
+++      __rtld_lock_unlock_recursive (GL(dl_load_lock));
++     }
++ 
++   return pid;
+diff --git a/meta/recipes-core/glibc/glibc_2.26.bb b/meta/recipes-core/glibc/glibc_2.26.bb
+index d453d8f..135ec4f 100644
+--- a/meta/recipes-core/glibc/glibc_2.26.bb
++++ b/meta/recipes-core/glibc/glibc_2.26.bb
+@@ -41,6 +41,8 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0024-elf-dl-deps.c-Make-_dl_build_local_scope-breadth-fir.patch \
+            file://0025-locale-fix-hard-coded-reference-to-gcc-E.patch \
+            file://0026-assert-Suppress-pedantic-warning-caused-by-statement.patch \
++           file://0027-glibc-reset-dl-load-write-lock-after-forking.patch \
++           file://0028-Bug-4578-add-ld.so-lock-while-fork.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
+-- 
+1.9.1
 
 
