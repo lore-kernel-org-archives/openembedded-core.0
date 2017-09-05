@@ -1,38 +1,25 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CE3171A9D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 21:26:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Sep 2017 14:26:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,481,1498546800"; d="scan'208";a="1169399388"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2017 14:26:11 -0700
-Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
-	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Tue, 5 Sep 2017 14:26:08 -0700
-Received: from orsmsx113.amr.corp.intel.com ([169.254.9.218]) by
-	ORSMSX158.amr.corp.intel.com ([169.254.10.117]) with mapi id
-	14.03.0319.002; Tue, 5 Sep 2017 14:26:07 -0700
-From: "Wold, Saul" <saul.wold@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] systemtap: Bump SRCREV for 4.12 Linux kernel
-	support
-Thread-Index: AQHTJo2WOHK2YQxQdkGKyThlWNV9vA==
-Date: Tue, 5 Sep 2017 21:26:07 +0000
-Message-ID: <1504646766.16957.13.camel@intel.com>
-References: <20170905202254.31830-1-sgw@linux.intel.com>
-In-Reply-To: <20170905202254.31830-1-sgw@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.9.251]
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D95B71D9F;
+	Tue,  5 Sep 2017 21:51:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v85LpQhG001516
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 5 Sep 2017 14:51:26 -0700
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 5 Sep 2017 14:51:24 -0700
+To: <openembedded-devel@lists.openembedded.org>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <48bb4cd8-e3c9-542e-e0d0-7dbac226dc54@windriver.com>
+Date: Tue, 5 Sep 2017 16:51:24 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.3.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] systemtap: Bump SRCREV for 4.12 Linux kernel support
+Subject: iproute2 - meta-openembedded/libmnl and Yocto Project compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 21:26:11 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 05 Sep 2017 21:51:25 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <1A3A799E1B360F49BDBEC14277A9B90F@intel.com>
-Content-Transfer-Encoding: base64
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-T24gVHVlLCAyMDE3LTA5LTA1IGF0IDEzOjIyIC0wNzAwLCBTYXVsIFdvbGQgd3JvdGU6DQo+IFRo
-aXMgU1JDUkVWIGJ1bXAgYnJpbmdzIGluIHN1cHBvcnQgZm9yIHRoZSA0LjEyIExpbnV4IEtlcm5l
-bCwgdGhpcw0KPiBrZXJuZWwNCj4gYWxzbyBoYXMgc29tZSBuZXdlciBDT05GSUcgc2V0dGluZ3Mu
-IFRoZSBuZXdlciBERUJVR19JTkZPIGFuZA0KPiBERUJVR19JTkZPX0RXQVJGNA0KPiBzZXR0aW5n
-cyBjYW4gYmUgdXNlZCB3aXRoIHN5c3RlbXRhcCB0byBnZXQgdGhlIGZ1bGwgaW5mb3JtYXRpb24u
-ICBXZQ0KPiBkbyBub3QNCj4gbm9ybWFsbHkgZW5hYmxlZCB0aGVzZSBmb3IgYSAncHJvZHVjdGlv
-bicgKHN0YW5kYXJkKSBrZXJuZWwsIGJ1dCBjYW4NCj4gYmUNCj4gZW5hYmxlZCB2aWEgbWVudWNv
-bmZpZy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFNhdWwgV29sZCA8c2d3QGxpbnV4LmludGVsLmNv
-bT4NClB1dCBhIGhvbGQgb24gdGhpcyBwYXRjaCwgSSBmb3VuZCBhbiBpc3N1ZSB3aXRoIGEgcGFy
-dGlhbCBmYWlsdXJlDQpkdXJpbmcgdGhlIGluc3RhbGwgcGhhc2Ugd2hpY2ggZGlkIG5vdCBjYXVz
-ZSBhbiBlcnJvciB0byBiZSB0aHJvd24gc28NCml0IGNvbXBsZXRlZCENCg0KU2F1IQ0KDQo+IC0t
-LQ0KPiAgbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwX2dpdC5pbmMgfCAy
-ICstDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4g
-DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9zeXN0ZW10YXBf
-Z2l0LmluYw0KPiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQu
-aW5jDQo+IGluZGV4IGE2YWVkZDM4YTYuLmVhMmQyYzBkMWQgMTAwNjQ0DQo+IC0tLSBhL21ldGEv
-cmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQuaW5jDQo+ICsrKyBiL21ldGEv
-cmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQuaW5jDQo+IEBAIC0xLDYgKzEs
-NiBAQA0KPiAgTElDRU5TRSA9ICJHUEx2MiINCj4gIExJQ19GSUxFU19DSEtTVU0gPQ0KPiAiZmls
-ZTovL0NPUFlJTkc7bWQ1PWIyMzRlZTRkNjlmNWZjZTQ0ODZhODBmZGFmNGE0MjYzIg0KPiAtU1JD
-UkVWID0gImI4ZWEzNTBkYzEzYWRiNjE5MGQ5MDQ0YTViODAxMTBhNGM0NDEyNzAiDQo+ICtTUkNS
-RVYgPSAiNDVkMGU3YTA5YTE1YTIxMDc4ZDBlYmYyZGI1MTc1ZWQ5ZTg3MDE0ZSINCj4gIFBWID0g
-IjMuMSINCj4gIA0KPiAgU1JDX1VSSSA9ICJnaXQ6Ly9zb3VyY2V3YXJlLm9yZy9naXQvc3lzdGVt
-dGFwLmdpdCBcDQo+IC0tIA0KPiAyLjExLjANCj4g
+The patch to oe-core:
+
+commit 944ef0de241de77429ab0e5cb1dd4a7f355cf3fd
+Author: Yi Zhao <yi.zhao@windriver.com>
+Date:   Tue Aug 15 15:38:36 2017 +0800
+
+    iproute2: add tipc support
+
+added tipc support.  This is part of the work that originated in
+meta-openembedded.  However, the default of enabling tipc was not done as it
+requires libmnl, which is only available meta-networking... and we didn't catch
+this until after feature freeze.
+
+So in meta-openembedded -- there is a single .bbappend to iproute2 that sets
+PACKAGECONFIG_append = " tipc"
+
+(Without this change, the tipc-utils fails to build, because it requires
+iproute2-tipc.  Unfortunately there is no way for tipc-utils to check the
+configuration of iproute2 to make this dependency required or not.)
+
+This works -- but this type of thing is forbidden in the yocto-compat-layer.py
+script.
+
+The only way I can see to resolve this issue is to move libmnl into oe-core, as
+well as make the tipc setting the default for iproute2.
+
+I'm open to alternatives, but I'm kind of stuck here otherwise.
+
+--Mark
 
