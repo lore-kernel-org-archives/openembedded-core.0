@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id E94E277E9D
+Return-Path: <andrej.valek@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id E32CE60553
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 16:16:07 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id 108so9705712wra.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 09:16:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Va8UAATzhPargItCnirPbhQKrswYsAvknKudplNcPSM=;
-	b=G3tD3jPJ0Y3CX6oy9OolaCCNForN1HA7Ulk5fUHMc4E99QQxmjaZM2owKF0iy1rXwh
-	RKH0fProlHvRiSVRLf+LKNPyY5P6EZY/BGma3sF+xMdr2SQXIuRu91owKRE/izO0Mp3M
-	KF6RY9m/Z3tgaLAqOkv2npxZxFNE4qOpKHXmmOHicPqKtzPrdMpzjbf9wK2UIGVooCt1
-	XKwUzr2vzDtujwRE1Y4HBvNmoT0lUKnR0Da2Sc2IxfqbmEeRkDdemvT28db5ZcTBtHBS
-	E0yxk+TPrS03tIUOa+HmV/vdL2G029W46qTLpRfTuXi1oBmEKV6jzlP8NLbWgmSE3KsS
-	jYSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Va8UAATzhPargItCnirPbhQKrswYsAvknKudplNcPSM=;
-	b=qsiP2t5n+Us1fjW7gX4liCzarcEvv77lviwijY6vf0nWAr2YszccX40wJTX/Du+MPc
-	iJWx2tStR8S0OyglsLUd7L+EYzYZbCF87MLHpZPo9gHCcbji/V7IjgI4kgxYtQK09spx
-	qVdx8YKq+J9skXQPQy9vF+dl7ILk4A/FF5EIXN1O1z1QpLjUjpjcsKcHpUsMAZCy01FU
-	pG9tii7/9uWc7orT3HsGdODdc4TD8PqiVjffX6T5EUCJOjXY0ep0TIWzCEhSudn9w2is
-	nn8p8eGdr+ku+md/kBuk4h7rrluJakpEkNJcTxTtKesRsLRlIyB9Ut5L+QbeN4ZnN+Im
-	fr7g==
-X-Gm-Message-State: AHPjjUjb0lzTr+WgWYezG+4wwL+DcK8f3dF81aAddirjYgYEwEXq4oNT
-	ZVODL1SmKIFr+iBU3so=
-X-Google-Smtp-Source: ADKCNb4Sn7pah/2Yic85l7oTAef5tmgKa7RvP3cYWciZt9VcYhKhjDJ755GMSRk9h77FcHFXv9L5WA==
-X-Received: by 10.223.174.141 with SMTP id y13mr2728590wrc.209.1504628168200; 
-	Tue, 05 Sep 2017 09:16:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 29sm1069967wrz.77.2017.09.05.09.16.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Sep 2017 09:16:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Sep 2017 17:16:04 +0100
-Message-Id: <20170905161604.5001-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] shared-mime-info: enable nativesdk builds
+	Tue,  5 Sep 2017 17:28:51 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v85HSmAl032521
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 5 Sep 2017 19:28:48 +0200
+Received: from [192.168.253.100] ([139.22.56.44])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v85HSkd4011692
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 5 Sep 2017 19:28:46 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
+	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
+Date: Tue, 5 Sep 2017 19:28:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 16:16:08 -0000
+X-List-Received-Date: Tue, 05 Sep 2017 17:28:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Also remove the redundant DEPENDS_class-native, as the native class generates
-this value automatically.
+Hi Ross,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/shared-mime-info/shared-mime-info.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+There are not any CVEs fixes which has not been already merged. There
+are only general changes. Of course, we can "clean" a lot of patches by
+accepting this.
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info.inc b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-index 6eedb6d3fdb..1f51225b0ee 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info.inc
-@@ -6,7 +6,6 @@ LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- DEPENDS = "libxml2 intltool-native glib-2.0 shared-mime-info-native"
--DEPENDS_class-native = "libxml2-native intltool-native glib-2.0-native"
- 
- SRC_URI = "http://freedesktop.org/~hadess/shared-mime-info-${PV}.tar.xz"
- 
-@@ -33,4 +32,4 @@ do_install_class-native () {
- 	autotools_do_install
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.11.0
+Regards,
+Andrej
 
+On 09/05/2017 11:19 AM, Burton, Ross wrote:
+> On 5 September 2017 at 07:35, Andrej Valek <andrej.valek@siemens.com 
+> <mailto:andrej.valek@siemens.com>> wrote:
+> 
+>     Signed-off-by: Andrej Valek <andrej.valek@siemens.com
+>     <mailto:andrej.valek@siemens.com>>
+> 
+> 
+> We're past freeze to the upgrade will have to wait until 2.4 releases. Does this 
+> fix any outstanding CVEs that we should be cherry-picking?
+> 
+> Ross
+> 
 
