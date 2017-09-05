@@ -1,64 +1,41 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C7FA477E8A
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 98F7177E7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 14:49:49 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id i196so1911301ywg.5
+	Tue,  5 Sep 2017 14:55:46 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id h21so2328888qth.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 07:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=1l0y4imPpekc05lc691NqKIC8n4rdWNkO4+EtQ6pg3E=;
-	b=gJATKqJWFL7Z+wvtfdTbm+kVVAYAGLDKys1e7neUL4n4grxPbm+/M5zKZMBhHb8iOo
-	EzLQ8Nj/jZAo27yuFBt/tfZ1b25XImSyfmI2Y15kGQo3zJz89Y95BYmWzfMM1VXBoUpa
-	JaLHlPAHL1vhisSnCuIpY1cmHB7qFtFhILlazyAJixLLhCKwbPyCUXm/AtW7tBtdPzaE
-	dSqLpd9Y3JzweogITMuYr8+WVoPh/bmGyXRILqa/jMw+gk3lzfPrr68NEn8Diu5Hf8Vl
-	4LMJRKmUh38rqbWA1lOk4a8yNxfG7VQP1wepS2dQ47qBM+0qukQn7d+NobDTxdJcb4SJ
-	+OVA==
+	Tue, 05 Sep 2017 07:55:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=1l0y4imPpekc05lc691NqKIC8n4rdWNkO4+EtQ6pg3E=;
-	b=Ao6Pcovn3pRSFh0aHDbIpDetbRDM+VgZgJMnJjqM66arkhN2khgIo/9w+Vtv2l44tc
-	HmNTymGZJz+l+ZLU7OhAyHbR6AeEUuQWZizLNYUMTMT27YgqU3jkITdmuPBkHnHnL0PW
-	lDuQNweAgQU/oSfD0wXuNt1L5RdHGtAMk/YlK6ysgSLXYN+bOI9VrgjCXt1CjZ4uWbeB
-	63I+n9JXMj+nO080XYvJMKusy1uF4S7im9zgjnr2rnYz/hoEYGxXNFLYjo61tqGhPAgr
-	DNyRtrTUIpf/8P+8hpnFJHp/9xQVEBjZEosGA+nriV3LuOOXQFcZdrKdxrsx59qKOkR5
-	P8ng==
-X-Gm-Message-State: AHPjjUie7mhu2oUFaHlBC8kFMoFwyjaXVINc8ARf2xQkGKxlXe/EVMkf
-	IiYbfO4vTqUas0u8Ezk=
-X-Received: by 10.129.145.214 with SMTP id i205mr3229139ywg.73.1504622990025; 
-	Tue, 05 Sep 2017 07:49:50 -0700 (PDT)
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com.
-	[209.85.218.43]) by smtp.gmail.com with ESMTPSA id
-	d127sm259746ywe.13.2017.09.05.07.49.48
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 05 Sep 2017 07:49:49 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f43.google.com with SMTP id h70so26151832oic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Sep 2017 07:49:48 -0700 (PDT)
-X-Google-Smtp-Source: ADKCNb6qixSVFGnGhcTjIR5n5EyLnn6ypb5IXzmG6Z+EhAOPxIN9iVyguVz9q8ghDpkhBaMsu4lWZc9Gw/y13y3STVA=
-X-Received: by 10.202.81.214 with SMTP id f205mr1448061oib.274.1504622988156; 
-	Tue, 05 Sep 2017 07:49:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Tue, 5 Sep 2017 07:49:47 -0700 (PDT)
-In-Reply-To: <CAGgRHJq8yBn+wxaXOMXmc9jrOSODUFOUL=9RFLCFLm7z_o6V7g@mail.gmail.com>
-References: <20170904210608.23764-1-otavio@ossystems.com.br>
-	<20170904210608.23764-7-otavio@ossystems.com.br>
-	<CAGgRHJq8yBn+wxaXOMXmc9jrOSODUFOUL=9RFLCFLm7z_o6V7g@mail.gmail.com>
-Date: Tue, 5 Sep 2017 11:49:47 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKphOXXRrp=yE7CWSO2fpU2-Ekf7O7NmtD993UvzgcWT0Q@mail.gmail.com>
-Message-ID: <CAP9ODKphOXXRrp=yE7CWSO2fpU2-Ekf7O7NmtD993UvzgcWT0Q@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] go.bbclass: Enable parallel build
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=6FJsolA5ZnM9AXeVoTD4FtNxU+uSTXjHJhswovX2Mps=;
+	b=giP+oY6Mn2QA5ZaTtxM9owvpPqfeCU9xGPmruMw1eRUWouODpPO4mh1Jfq3/R0GqPd
+	mRK8BHutvzfmg+8yS8RQv+sNTtQdY/dEnheicL9Pft6p56pMLGlagezhIKSNdT2LTpVw
+	c37v+z1RhzyGLmu7Ml8c/1mAD9fQGyGqAqX2oWauC8eS0FwKW64lWSK5nL6ycqpo1NT6
+	OyqZupFo1rLLAfo25sTRIlqcg4GuEGG+5PEZYXrJqjUJILNkptDyfJ1TSKrJLTv6YyU4
+	4zV5T3XnDj67g8PaiIpjuf1vtxVqHmdFMrUyYyCpBI3k1LLj10q4ny9w4md981UCdoLf
+	3+Fw==
+X-Gm-Message-State: AHPjjUi8MwvpLl5v3PhY+dT4hE3klh3MNIMBBf7zcyVckuqBk5O2zg+h
+	uVX0fCq/ndw/M5pj
+X-Google-Smtp-Source: ADKCNb6fWvoIjuVCAWezYfUA8ouSy1mZWUzsZKVvbGdnHd+C4ahrdxGeQyDSujkjJFVXGOIE9HZr5Q==
+X-Received: by 10.237.34.25 with SMTP id n25mr5900941qtc.144.1504623346879;
+	Tue, 05 Sep 2017 07:55:46 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id s37sm508185qts.27.2017.09.05.07.55.42
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 05 Sep 2017 07:55:46 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 05 Sep 2017 11:55:37 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  5 Sep 2017 11:55:28 -0300
+Message-Id: <20170905145536.21149-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2 0/8] Revamp the Go support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,58 +48,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 14:49:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 05 Sep 2017 14:55:46 -0000
 
-On Tue, Sep 5, 2017 at 7:50 AM, Matt Madison <matt@madison.systems> wrote:
-> On Mon, Sep 4, 2017 at 2:06 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> The parallel build is based on PARALLEL_MAKE variable but can be
->> overriden setting the GO_PARALLEL_BUILD one.
->>
->> This change is based on the meta-golang[1] layer. Thanks to Matt
->> Madison <matt@madison.systems> for his work on this.
->>
->> 1. https://github.com/madisongh/meta-golang
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>
->>  meta/classes/go.bbclass | 20 ++++++++++++++++++++
->>  1 file changed, 20 insertions(+)
->>
->> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
->> index 45f2add810..f80134bf8e 100644
->> --- a/meta/classes/go.bbclass
->> +++ b/meta/classes/go.bbclass
->> @@ -1,11 +1,31 @@
->>  inherit goarch
->>
->> +def get_go_parallel_make(d):
->> +    pm = (d.getVar('PARALLEL_MAKE') or '').split()
->> +    # look for '-j' and throw other options (e.g. '-l') away
->> +    # because they might have a different meaning in golang
->> +    while pm:
->> +        opt = pm.pop(0)
->> +        if opt == '-j':
->> +            v = pm.pop(0)
->> +        elif opt.startswith('-j'):
->> +            v = opt[2:].strip()
->> +        else:
->> +            continue
->> +
->> +        return '-p %d' % int(v)
->> +
->> +    return ""
->> +
->> +GO_PARALLEL_BUILD ?= "${@get_go_parallel_make(d)}"
->
-> This added variable should be appended to BB_HASHBASE_WHITELIST.
+This is not yet complete but does improve some parts of
+Go support on OE-Core.
 
-I think should not use new variables. We base it on PARALLEL_MAKE so
-the user can control it in local.conf if needed.
+We are trying to port as much as possible work done by Matt on
+meta-golang back to OE-Core and also to avoid carrying old releases as
+there is no need to support more versions of Go toolchain.
+
+The first commits on this serie does fix errors in current
+implementation, the others are improvements and clean ups.
+
+Changes in v2:
+- New patch
+- Remove -x flag (madisongh)
+- Remove GO_EXTLDFLAGS for now (madisongh)
+
+Otavio Salvador (8):
+  goarch.bbclass: Stop passing True as second argument of d.getVar
+  go.bbclass: Fix binary installation path detection
+  go-dep: Add 0.3.0 release
+  go: Remove Go 1.6 and 1.7 releases
+  goarch.bbclass: Add support for ARMv5
+  go.bbclass: Use a global Go build flags
+  go.bbclass: Enable parallel build
+  go.bbclass: Use an auxiliary variable to add the build dependencies
+
+ meta/classes/go.bbclass                            | 34 ++++++++++--
+ meta/classes/goarch.bbclass                        | 20 +++----
+ meta/recipes-devtools/go/go-1.6.inc                | 19 -------
+ .../go/go-1.6/armhf-elf-header.patch               | 23 --------
+ .../go/go-1.6/fix-cc-handling.patch                | 50 -----------------
+ .../go/go-1.6/fix-target-cc-for-build.patch        | 17 ------
+ meta/recipes-devtools/go/go-1.6/gotooldir.patch    | 30 -----------
+ .../go/go-1.6/split-host-and-target-build.patch    | 63 ----------------------
+ meta/recipes-devtools/go/go-1.6/syslog.patch       | 62 ---------------------
+ meta/recipes-devtools/go/go-1.7.inc                | 19 -------
+ .../go/go-1.7/armhf-elf-header.patch               | 23 --------
+ .../go/go-1.7/fix-cc-handling.patch                | 50 -----------------
+ .../go/go-1.7/fix-target-cc-for-build.patch        | 17 ------
+ meta/recipes-devtools/go/go-1.7/gotooldir.patch    | 30 -----------
+ .../go/go-1.7/split-host-and-target-build.patch    | 62 ---------------------
+ meta/recipes-devtools/go/go-1.7/syslog.patch       | 62 ---------------------
+ meta/recipes-devtools/go/go-cross_1.7.bb           |  5 --
+ meta/recipes-devtools/go/go-dep_0.3.0.bb           | 20 +++++++
+ meta/recipes-devtools/go/go_1.6.bb                 |  4 --
+ meta/recipes-devtools/go/go_1.7.bb                 |  2 -
+ 20 files changed, 60 insertions(+), 552 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.6.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/gotooldir.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/syslog.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/gotooldir.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/syslog.patch
+ delete mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
+ create mode 100644 meta/recipes-devtools/go/go-dep_0.3.0.bb
+ delete mode 100644 meta/recipes-devtools/go/go_1.6.bb
+ delete mode 100644 meta/recipes-devtools/go/go_1.7.bb
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.14.1
+
 
