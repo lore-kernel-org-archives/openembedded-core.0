@@ -1,29 +1,29 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E1DA776AA
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C81C373117
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Sep 2017 23:03:33 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Sep 2017 16:03:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,476,1498546800"; 
-	d="scan'208,217";a="897050092"
-Received: from ldrojasm-mobl1.amr.corp.intel.com (HELO [10.252.248.104])
-	([10.252.248.104])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2017 16:03:33 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170821221130.2065-1-alejandro.hernandez@linux.intel.com>
-	<CAJTo0LZrE1BCEewKeu=fqHWDheTAU6bYnPZRw9s-88avvN2_UQ@mail.gmail.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <f7caba0e-76c5-62cb-7844-d625ad14666c@linux.intel.com>
-Date: Mon, 4 Sep 2017 18:03:32 -0500
+	Tue,  5 Sep 2017 01:54:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v851sIBq004789
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 4 Sep 2017 18:54:19 -0700
+Received: from [128.224.162.212] (128.224.162.212) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 4 Sep 2017 18:54:17 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1504517912.git.kai.kang@windriver.com>
+	<1919461d34964f3fccb8fe31931dc4daef977b41.1504517912.git.kai.kang@windriver.com>
+	<1504555483.2175.78.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <cab5b6a6-5d4a-fb02-d2c4-2aadd7b81732@windriver.com>
+Date: Tue, 5 Sep 2017 09:56:47 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZrE1BCEewKeu=fqHWDheTAU6bYnPZRw9s-88avvN2_UQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] hwlatdetect: fix RDEPENDS to avoid QA failures
+In-Reply-To: <1504555483.2175.78.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] dbus: fix ptest runtime failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,173 +36,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Sep 2017 23:03:33 -0000
-Content-Type: multipart/alternative;
-	boundary="------------B48E3E7E552CCACB2862D552"
+X-List-Received-Date: Tue, 05 Sep 2017 01:54:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
---------------B48E3E7E552CCACB2862D552
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 2017年09月05日 04:04, Richard Purdie wrote:
+> On Mon, 2017-09-04 at 17:39 +0800, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> When run dbus ptest cases, there are some failures:
+>>
+>>> ./test/test-dbus-daemon: relocation error: ./test/test-dbus-daemon:
+>>> symbol
+>>> _dbus_real_assert, version LIBDBUS_PRIVATE_1.10.20 not defined in
+>>> file
+>>> libdbus-1.so.3 with link time reference
+>>> FAIL: test/test-dbus-daemon
+>>> [   24.943454] test-dbus-daemo[251]: segfault at 0
+>>> ip           (null) sp
+>>> 00007ffddabe6818 error 14 in test-dbus-daemon-eavesdrop[
+>>> 400000+a000]
+>> It disables tests in dbus recipe which cases symbols missing and
+>> segment
+>> fault. When 'ptest' in DISTRO_FEATURES, it should enable some
+>> configure
+>> options to make the symbols visible to ptest cases.
+>>
+>> It also need to correct paths in ptest configure files.
+> Does this have a runtime effect on dbus, i.e. are these runtime asserts
+> which we don't want in production code?
 
-Yes, this was applied on top of master-next when the python manifest 
-patches were there, Richard decided to delay those for 2.5 M1
+HI Richard,
 
-
-Alejandro
-
-
-On 09/04/2017 05:05 PM, Burton, Ross wrote:
-> This doesn't apply to master, do you have some local Python patches?
->
-> Ross
->
-> On 21 August 2017 at 23:11, Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
->
->     When listing python3 as an RDEPENDS, the image will in fact
->     contain python3-modules, but the QA check fails to get
->     RPROVIDERS correctly (since the python3 package does not
->     actually exist), /usr/bin/python3 is provided by the
->     python3-core package, so by fixing the RDEPENDS and listing
->     python3-creo instead of python3, the QA check works correctly
->     and we avoid failures
->
->     Signed-off-by: Alejandro Hernandez
->     <alejandro.hernandez@linux.intel.com
->     <mailto:alejandro.hernandez@linux.intel.com>>
->     ---
->      meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb
->     <http://hwlatdetect_1.1.bb> | 2 +-
->      1 file changed, 1 insertion(+), 1 deletion(-)
->
->     diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb
->     <http://hwlatdetect_1.1.bb>
->     b/meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb
->     <http://hwlatdetect_1.1.bb>
->     index 60b44a4d258..5f61c4ecddc 100644
->     --- a/meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb
->     <http://hwlatdetect_1.1.bb>
->     +++ b/meta/recipes-rt/rt-tests/hwlatdetect_1.1.bb
->     <http://hwlatdetect_1.1.bb>
->     @@ -22,5 +22,5 @@ do_install() {
->      }
->
->      FILES_${PN} +=
->     "${libdir}/python${PYTHON_BASEVERSION}/dist-packages/hwlatdetect.py"
->     -RDEPENDS_${PN} = "python3 "
->     +RDEPENDS_${PN} = "python3-core "
->      RRECOMMENDS_${PN} = "kernel-module-hwlat-detector"
->     --
->     2.12.3
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
+I am sorry that did some copy and paste errors for packageconfig ptest. 
+It should disable them all if 'ptest' is disabled.
+Did that make myself misunderstood?
 
 
---------------B48E3E7E552CCACB2862D552
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+If not, please:
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Yes, this was applied on top of master-next when the python
-      manifest patches were there, Richard decided to delay those for
-      2.5 M1</p>
-    <p><br>
-    </p>
-    <p>Alejandro<br>
-    </p>
-    <br>
-    <div class="moz-cite-prefix">On 09/04/2017 05:05 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0LZrE1BCEewKeu=fqHWDheTAU6bYnPZRw9s-88avvN2_UQ@mail.gmail.com">
-      <div dir="ltr">This doesn't apply to master, do you have some
-        local Python patches?
-        <div><br>
-        </div>
-        <div>Ross</div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On 21 August 2017 at 23:11, Alejandro
-          Hernandez <span dir="ltr">&lt;<a
-              href="mailto:alejandro.hernandez@linux.intel.com"
-              target="_blank" moz-do-not-send="true">alejandro.hernandez@linux.intel.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">When
-            listing python3 as an RDEPENDS, the image will in fact<br>
-            contain python3-modules, but the QA check fails to get<br>
-            RPROVIDERS correctly (since the python3 package does not<br>
-            actually exist), /usr/bin/python3 is provided by the<br>
-            python3-core package, so by fixing the RDEPENDS and listing<br>
-            python3-creo instead of python3, the QA check works
-            correctly<br>
-            and we avoid failures<br>
-            <br>
-            Signed-off-by: Alejandro Hernandez &lt;<a
-              href="mailto:alejandro.hernandez@linux.intel.com"
-              moz-do-not-send="true">alejandro.hernandez@linux.<wbr>intel.com</a>&gt;<br>
-            ---<br>
-             meta/recipes-rt/rt-tests/<a
-              href="http://hwlatdetect_1.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hwlat<wbr>detect_1.1.bb</a>
-            | 2 +-<br>
-             1 file changed, 1 insertion(+), 1 deletion(-)<br>
-            <br>
-            diff --git a/meta/recipes-rt/rt-tests/<a
-              href="http://hwlatdetect_1.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hwl<wbr>atdetect_1.1.bb</a>
-            b/meta/recipes-rt/rt-tests/<a
-              href="http://hwlatdetect_1.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hwl<wbr>atdetect_1.1.bb</a><br>
-            index 60b44a4d258..5f61c4ecddc 100644<br>
-            --- a/meta/recipes-rt/rt-tests/<a
-              href="http://hwlatdetect_1.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hwl<wbr>atdetect_1.1.bb</a><br>
-            +++ b/meta/recipes-rt/rt-tests/<a
-              href="http://hwlatdetect_1.1.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">hwl<wbr>atdetect_1.1.bb</a><br>
-            @@ -22,5 +22,5 @@ do_install() {<br>
-             }<br>
-            <br>
-             FILES_${PN} += "${libdir}/python${PYTHON_<wbr>BASEVERSION}/dist-packages/<wbr>hwlatdetect.py"<br>
-            -RDEPENDS_${PN} = "python3 "<br>
-            +RDEPENDS_${PN} = "python3-core "<br>
-             RRECOMMENDS_${PN} = "kernel-module-hwlat-detector"<br>
-            <span class="HOEnZb"><font color="#888888">--<br>
-                2.12.3<br>
-                <br>
-                --<br>
-                ______________________________<wbr>_________________<br>
-                Openembedded-core mailing list<br>
-                <a
-                  href="mailto:Openembedded-core@lists.openembedded.org"
-                  moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-                <a
-                  href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                  rel="noreferrer" target="_blank"
-                  moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-              </font></span></blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+It gives warnings in configure.ac for enable embedded_tests and asserts:
 
---------------B48E3E7E552CCACB2862D552--
+if test x$enable_embedded_tests = xyes; then
+         echo "NOTE: building with unit tests increases the size of the 
+installed library and renders it insecure."
+fi
+
+if test x$enable_asserts = xyes; then
+         echo "NOTE: building with assertions increases library size and 
+decreases performance."
+fi
+
+
+It seems true that enable asserts will affect runtime performance. But 
+the configure options are required for ptest cases.
+Would is it not ok that only enable them when ptest in DISTRO_FEATURES?
+
+
+I'll send V2 to correct the typos. Sorry for inconvenience.
+
+
+Regards,
+Kai
+
+> Cheers,
+>
+> Richard
+>
+>
+
+-- 
+Regards,
+Neil | Kai Kang
+
+
