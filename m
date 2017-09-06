@@ -1,50 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E264477D0A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 961F377C17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 16:07:06 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id p17so5649860wmd.3
+	Wed,  6 Sep 2017 16:10:52 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id u26so32942135wma.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Sep 2017 09:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IHoSGwev2ZrnCM4KPZLeQvosrhFYDumxIrbP5anplbw=;
-	b=Jct0CcTqi2fgzN7u+gMcUD05O96ByjPDVun91ber4u5yqD98dm6KuVpvofESM/c2R8
-	SNMA1tnCpNi7aaCPjmeCjgNKtZcvEf9K9aCgqZHxGpG27CV23llZ5lrHOXsk0zLVhDEv
-	HnKV/U648w5gk5o3GCwnKDXSmnMBt0/4mmVSInTW4ppAa1Y+NTYItSGaAe73gPt4t3Kv
-	QpWce7S0rL9WTx/9SH8x+Sbr9u792rpuohm3Wfp22Zagh1HUQ7mTdCA+uzzV+HLWRrdO
-	nVh54UbkpuuM6xQL+g5F2AdSnpOLQTE370dpqR1RIpIKOdgkvhNnSg+0S0ontvdOwU5s
-	lcqA==
+	Wed, 06 Sep 2017 09:10:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=qwybkePSaKF8/alhp68aR05NZsHYTx3tZyH2qZb7amw=;
+	b=IJCW7PxqPlIPBruHAkO0RwtK5QMI9iNCNtx1y6IlcGyq8IIEEZVt1OEe2GJ6FztehE
+	8ofri/5UvglKk5qGvhGy9vidMkbkNat7cN5MpPkdaxr5ICjFtjPNMCkbvqzGDMrDh4G2
+	54JLqsycnMwAXpGs7ldmkZFB1Kj4D62rKLFDlSubisXmkbH2l1CO3DGGmGCesbOU/qsz
+	p1oFRNeMkeMHhXLWFLtQhPSbIjwLvaexXLjw9WzOIQ19ftvCVVW90ilo3CW32b7UUhO/
+	9gFbJPItBqQu9gofyXVsolBgc3zhWMW8UgVQiUQeeUVcid5KhRIw1+rqkQi3ID+RHlPw
+	yoWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=IHoSGwev2ZrnCM4KPZLeQvosrhFYDumxIrbP5anplbw=;
-	b=pfzei2/TG8M8VgWbf+NqTiTtwu6F4jBfk0qzzaXOgLt8h0cCV/04/giZF0jP/ycnrQ
-	HOBSPGZbrY1GM/WPO8srr+IGXuOlYKJSs7nTLMPch1DOtbuCLezDWE8cJ8hZuZd21izw
-	CvGxXmkYKaR8XJkJVtLE7PkzeX1eAOD5rBd8u5aPCfabYg1NIzQ25cQKAtefSuXckoiI
-	XeV7DhPH4BxREd5TkkwUssE88VgZ86bDFUjVzKNEjgTBPkN+ZsDuqzxWwbxuJbft6G2q
-	H+scbkHIJhSkOfMyXWhBhwkdThXKdBZ2dnxShUNBTyuFfa5g9HTeo4R68WPwyDv8I+HQ
-	F4uw==
-X-Gm-Message-State: AHPjjUjgTPXlqeHaIonfnlyi9YTnoHuTfWqRK/yH9GMKNJH4HhsJuD3v
-	3AOP/f71cysGS9U7
-X-Google-Smtp-Source: ADKCNb5Z9TASNxeM8FayH8a0CtMB9H6j7CnsBdyd114iTT4AvCKpRC49NJr4E25dZ40X+BlggWGoEw==
-X-Received: by 10.28.55.203 with SMTP id e194mr182178wma.142.1504714027246;
-	Wed, 06 Sep 2017 09:07:07 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id w82sm3163833wme.5.2017.09.06.09.07.06
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=qwybkePSaKF8/alhp68aR05NZsHYTx3tZyH2qZb7amw=;
+	b=gAoJHUBz8KvYi5ZxP18gKSrq+4ZvfybuU0aD8ZxQ+rX3saQ4+emA7ltzEQNRBEpG93
+	+9gYA3fpn1Za0F3S0Nm8kOoe5n6TlvpTmwVY5SJGcyEP3IB4/3qUomvNlvUOHF+4GX3Z
+	rmjIpRt2Ff0rbIdyCI1PXE7oNZzFJ/qdDCxG+1v0z9JJuVMNqTLVXHGv+GgodSJh7BjV
+	1s27q3eS8zPxPSmEMk19VWI5pegbB5zSAkbGVDr1iBBHAHnanozt7tTJz6f8S/zf9NZ5
+	S9RNMRyZajykaGsh76Da1Ujo39VtKFmDLdO7f6IySx8+Z3DcTlgl5LmnAXfSvlcuZgzy
+	tvEg==
+X-Gm-Message-State: AHPjjUiFIN6n7XhnO90vbpwMHFHiHbLSpAq1rK9CDUUV7xK7e61239qQ
+	iIRkHsTPUKoplAODHgI=
+X-Google-Smtp-Source: ADKCNb4GzHEh+2F7nAcF2FdQ7quN8QOjm/VLx044XB6zDclS0oNfPHy08qJa7e4ol/RXoygRF7M+dw==
+X-Received: by 10.28.148.75 with SMTP id w72mr179756wmd.132.1504714252935;
+	Wed, 06 Sep 2017 09:10:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	p80sm1592156wmf.42.2017.09.06.09.10.51
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 06 Sep 2017 09:07:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Wed, 06 Sep 2017 09:10:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Sep 2017 18:09:07 +0200
-Message-Id: <2a340682c73a95658fda5e5e0b781dffdabb4f07.1504713837.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <cover.1504713837.git.Martin.Jansa@gmail.com>
-References: <cover.1504713837.git.Martin.Jansa@gmail.com>
-Subject: [pyro][PATCH 3/3] nspr: Fix build error due to missing stdint.h> include
+Date: Wed,  6 Sep 2017 17:10:50 +0100
+Message-Id: <20170906161050.11303-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] staging: gracefully abort if two recipes conflict in the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,68 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 16:07:07 -0000
+X-List-Received-Date: Wed, 06 Sep 2017 16:10:52 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+When building the per-recipe sysroot keep track of what files we're installing
+and where they came from, so we can detect when a file is installed by two
+different recipes and tell the user what these recipes are (instead of just
+showing a os.link() stack trace).
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+[ YOCTO #11631 ]
+
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...int.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch | 30 ++++++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.13.1.bb           |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-support/nspr/nspr/0001-include-stdint.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch
+ meta/classes/staging.bbclass | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/nspr/nspr/0001-include-stdint.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch b/meta/recipes-support/nspr/nspr/0001-include-stdint.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch
-new file mode 100644
-index 0000000000..b3bdd8e08d
---- /dev/null
-+++ b/meta/recipes-support/nspr/nspr/0001-include-stdint.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch
-@@ -0,0 +1,30 @@
-+From f7551ec58e2f0a892295e0c2a650083101e12c54 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 20 May 2017 13:24:26 -0700
-+Subject: [PATCH] include stdint.h for SSIZE_MAX and SIZE_MAX definitions
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ pr/tests/prfz.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/pr/tests/prfz.c b/pr/tests/prfz.c
-+index 0c5a432..9c17590 100644
-+--- a/pr/tests/prfz.c
-++++ b/pr/tests/prfz.c
-+@@ -10,7 +10,9 @@
-+ #include <sys/types.h>
-+ #include <limits.h>
-+ #include <string.h>
-+-
-++#ifdef XP_UNIX
-++#include <stdint.h>
-++#endif
-+ int
-+ main(int argc, char **argv)
-+ {
-+-- 
-+2.13.0
-+
-diff --git a/meta/recipes-support/nspr/nspr_4.13.1.bb b/meta/recipes-support/nspr/nspr_4.13.1.bb
-index 27c22379f6..63ebecf729 100644
---- a/meta/recipes-support/nspr/nspr_4.13.1.bb
-+++ b/meta/recipes-support/nspr/nspr_4.13.1.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
-            file://fix-build-on-x86_64.patch \
-            file://remove-srcdir-from-configure-in.patch \
-            file://0002-Add-nios2-support.patch \
-+           file://0001-include-stdint.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch \
-            file://nspr.pc.in \
- "
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index a7740883932..9e822517237 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -388,6 +388,8 @@ python extend_recipe_sysroot() {
+     postinsts = []
+     multilibs = {}
+     manifests = {}
++    # All files that we're going to be installing, to find conflicts.
++    fileset = {}
  
+     for f in os.listdir(depdir):
+         if not f.endswith(".complete"):
+@@ -514,8 +516,19 @@ python extend_recipe_sysroot() {
+                     if l.endswith("/fixmepath.cmd"):
+                         continue
+                     dest = l.replace(stagingdir, "")
+-                    dest = targetdir + "/" + "/".join(dest.split("/")[3:])
+-                    newmanifest[l] = dest
++                    dest = "/" + "/".join(dest.split("/")[3:])
++                    newmanifest[l] = targetdir + dest
++
++                    # Check if files have already been installed by another
++                    # recipe and abort if they have, explaining what recipes are
++                    # conflicting.
++                    hashname = (native and "native:" or "target:") + dest
++                    if not hashname.endswith("/"):
++                        if hashname in fileset:
++                            bb.fatal("The file %s is installed by both %s and %s, aborting" % (dest, c, fileset[hashname]))
++                        else:
++                            fileset[hashname] = c
++
+             # Having multiple identical manifests in each sysroot eats diskspace so
+             # create a shared pool of them and hardlink if we can.
+             # We create the manifest in advance so that if something fails during installation,
+@@ -594,4 +607,3 @@ python staging_taskhandler() {
+ }
+ staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
+ addhandler staging_taskhandler
+-
 -- 
-2.14.1
+2.11.0
 
 
