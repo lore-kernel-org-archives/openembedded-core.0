@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B92F977D3A
+Return-Path: <andrej.valek@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C4A9700F0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 04:49:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v864neCW010642
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Sep 2017 21:49:40 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 5 Sep 2017 21:49:39 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Sep 2017 12:54:46 +0800
-Message-ID: <d5c1771f4903b4302f7b833d02890a30bec9573e.1504673600.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1504673600.git.Qi.Chen@windriver.com>
-References: <cover.1504673600.git.Qi.Chen@windriver.com>
+	Wed,  6 Sep 2017 06:16:12 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v866G9nF007268
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 6 Sep 2017 08:16:09 +0200
+Received: from [192.168.253.100] ([163.242.56.100])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v866G9Aj030486
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 6 Sep 2017 08:16:09 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
+	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
+	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
+	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
+Date: Wed, 6 Sep 2017 08:16:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] python3-setuptools: extend to nativesdk
+In-Reply-To: <CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 04:49:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Sep 2017 06:16:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Extend python3-setuptools to nativesdk because nativesdk-python3-pip needs
-it.
+I have created a PR:
+https://github.com/openembedded/openembedded-core/pull/23 as last time.
 
-Also, adjust RDEPENDS variable setting to keep the runtime dependencies
-for nativesdk package the same with the target one. The native package and
-the target package's dependencies remain the same as before.
+Andrej
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/python/python3-setuptools_36.2.7.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb b/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb
-index 65af6f0..63f2418 100644
---- a/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_36.2.7.bb
-@@ -2,6 +2,7 @@ require python-setuptools.inc
- 
- DEPENDS += "python3"
- DEPENDS_class-native += "python3-native"
-+DEPENDS_class-nativesdk += "nativesdk-python3"
- 
- inherit distutils3
- 
-@@ -14,11 +15,11 @@ do_install_append() {
-     echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
- }
- 
--RDEPENDS_${PN} = "\
-+RDEPENDS_${PN}_class-native = "\
-   python3-distutils \
-   python3-compression \
- "
--RDEPENDS_${PN}_class-target = "\
-+RDEPENDS_${PN} = "\
-   python3-ctypes \
-   python3-distutils \
-   python3-email \
-@@ -34,4 +35,4 @@ RDEPENDS_${PN}_class-target = "\
-   python3-unittest \
-   python3-xml \
- "
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.1
-
+On 09/05/2017 08:52 PM, Burton, Ross wrote:
+> Also the patch has been corrupted by SMTP.  Is it in a branch somewhere?
+> 
+> Ross
+> 
+> On 5 September 2017 at 18:28, Andrej Valek <andrej.valek@siemens.com 
+> <mailto:andrej.valek@siemens.com>> wrote:
+> 
+>     Hi Ross,
+> 
+>     There are not any CVEs fixes which has not been already merged. There
+>     are only general changes. Of course, we can "clean" a lot of patches by
+>     accepting this.
+> 
+>     Regards,
+>     Andrej
+> 
+>     On 09/05/2017 11:19 AM, Burton, Ross wrote:
+>     > On 5 September 2017 at 07:35, Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
+>     > <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>> wrote:
+>     >
+>     >     Signed-off-by: Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
+>      >     <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>>
+>      >
+>      >
+>      > We're past freeze to the upgrade will have to wait until 2.4 releases.
+>     Does this
+>      > fix any outstanding CVEs that we should be cherry-picking?
+>      >
+>      > Ross
+>      >
+> 
+> 
 
