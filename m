@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 37BA977D3A
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AC8077D21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 09:49:33 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Sep 2017 02:49:35 -0700
+	Wed,  6 Sep 2017 09:49:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Sep 2017 02:49:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,483,1498546800"; d="scan'208";a="308495987"
+X-IronPort-AV: E=Sophos;i="5.41,483,1498546800"; d="scan'208";a="1011463860"
 Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga004.fm.intel.com with ESMTP; 06 Sep 2017 02:49:35 -0700
+	by orsmga003.jf.intel.com with ESMTP; 06 Sep 2017 02:49:42 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
-	by linux.intel.com (Postfix) with ESMTP id B6DC458038F
+	by linux.intel.com (Postfix) with ESMTP id 6DD8858038F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 02:49:34 -0700 (PDT)
+	Wed,  6 Sep 2017 02:49:41 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Sep 2017 12:48:23 +0300
-Message-Id: <188a6ad09f7aa5c2efeb1ecd5f25aa06264fe0d3.1504691079.git.ed.bartosh@linux.intel.com>
+Date: Wed,  6 Sep 2017 12:48:24 +0300
+Message-Id: <21a91f0dec49836c7d22c5b38f18532ea3c2d6d6.1504691079.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.13.5
 In-Reply-To: <cover.1504691079.git.ed.bartosh@linux.intel.com>
 References: <cover.1504691079.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 1/3] bmap-tools: upgrade to v3.4
+Subject: [PATCH 2/3] bmap-tools: switch to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 09:49:34 -0000
+X-List-Received-Date: Wed, 06 Sep 2017 09:49:45 -0000
 
-Upgraded to the latest upstream release.
+bmap-tools is the only recipe in oe-core that still uses
+Python 2. Switching it to Python 3 should help to get rid of
+building native Python 2 and its dependencies.
+
+[YOCTO: #11891]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- .../bmap-tools/{bmap-tools_3.2.bb => bmap-tools_3.4.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/bmap-tools/{bmap-tools_3.2.bb => bmap-tools_3.4.bb} (85%)
+ meta/recipes-support/bmap-tools/bmap-tools_3.4.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-similarity index 85%
-rename from meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
-rename to meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-index b8ebe630815..9735707f85b 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.2.bb
+diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+index 9735707f85b..f52fa53b4f3 100644
+--- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
 +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
-@@ -10,7 +10,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+@@ -16,10 +16,7 @@ S = "${WORKDIR}/git"
  
- SRC_URI = "git://github.com/01org/bmap-tools.git"
--SRCREV = "96702a869220ab20830db916ec4ac595e1d97f92"
-+SRCREV = "v3.4"
+ RDEPENDS_${PN} = "python-core python-compression python-mmap"
  
- S = "${WORKDIR}/git"
+-inherit setuptools
++inherit python3native
++inherit setuptools3
  
-@@ -21,5 +21,5 @@ inherit setuptools
  BBCLASSEXTEND = "native"
- 
- do_install_append_class-native() {
--    sed -i -e 's|^#!.*/usr/bin/env python|#! /usr/bin/env nativepython|' ${D}${bindir}/bmaptool
-+    sed -i -e 's|^#!.*/usr/bin/python-native/python|#! /usr/bin/env nativepython|' ${D}${bindir}/bmaptool
- }
+-
+-do_install_append_class-native() {
+-    sed -i -e 's|^#!.*/usr/bin/python-native/python|#! /usr/bin/env nativepython|' ${D}${bindir}/bmaptool
+-}
 -- 
 2.13.5
 
