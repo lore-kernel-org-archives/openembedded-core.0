@@ -1,49 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 217BA77BF0
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A7DF5779FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 10:15:52 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id b142so3949622ioe.1
+	Wed,  6 Sep 2017 10:34:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v86AZ0I5018581
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Sep 2017 03:15:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dI4cstKrOFAE0E3CElZtB9ROI9fRGCddPrsFmfF8AVM=;
-	b=U/s3Bgnfqrlf1ABoUCMi+WTVOIIFYk0HUe9+/iF+pX/CAiMmdGguX5rpQZ1yV/s+ow
-	nWUpTZfimfPcHBACwseHpRhcecM9VlLpVBq9rjoih+Bklmc6NDxh1C8RWGJti0ZnGx5y
-	JJ5yNAfDOtygUbsKeo0mQWvqVjVuxwbAdVV4YBYkCjdhXwpqctBVn97cn8uAZDrl8huo
-	UB+JCmagV+mNmB5n7Qt7XSEAXWVEveHI+vtetYqGNutNyaR6+fxhaCmeO2Z86gPaVkxX
-	i5U5uhQF0CbYuljaAgRKZPfYBZbfCdfEmA/2cFscyVa1mZmAdfWIojxSctbAWVHxOwDY
-	VlVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dI4cstKrOFAE0E3CElZtB9ROI9fRGCddPrsFmfF8AVM=;
-	b=sOeb4W9hso7Bs7VXifSZxBk/dkT2r/F7lyE21rUIts6boq95BtKYci9+HBNLJ3pmhh
-	At3c/c+UQmOqJXcVm/QbE6WdtO6ZI5kzacrDhbXNFyIVUxoVKUmYbs0IHDoCJ875Z/NQ
-	Z49Jgz8b4UpJrbDdSTwFjvAUvsVJwPVBN2mz2CTgQWdAp6KfvPQgyiOqq7ViG/MRpHZw
-	0oc/GscBO9ipoq8CluqxZHwyY7ZsadDA3fhe3xPK9ley52lBBhJ+R3Oig/8s+5fkqZEh
-	PNjQbjT1SW6RmQOo0fwFUTqOdG6yXTdfkXcKsPhacp0FIQ6zySU1xAhYojrcxRiBZtyy
-	ubAw==
-X-Gm-Message-State: AHPjjUgevYPBi5SvPiYlPtp+QjI6QZbKnfjTiqXGjpzHfCKW1oqkB+6n
-	AJNow2DURQI9D4ESzNJ5ECP3BDXbAsuI
-X-Google-Smtp-Source: ADKCNb7Yl1q5Frmed7kPXq/lciJ4z8T4h6klh5zRBZ3lFfkL69VnPYNgIAbjZYdZlQY5d2bCo2gEVLDjdXG97TGsWTs=
-X-Received: by 10.107.53.17 with SMTP id c17mr2012571ioa.117.1504692954242;
-	Wed, 06 Sep 2017 03:15:54 -0700 (PDT)
+	Wed, 6 Sep 2017 03:35:00 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Wed, 6 Sep 2017 03:34:59 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Sep 2017 18:22:45 +0800
+Message-ID: <cover.1504693247.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-Received: by 10.107.33.83 with HTTP; Wed, 6 Sep 2017 03:15:33 -0700 (PDT)
-In-Reply-To: <188a6ad09f7aa5c2efeb1ecd5f25aa06264fe0d3.1504691079.git.ed.bartosh@linux.intel.com>
-References: <cover.1504691079.git.ed.bartosh@linux.intel.com>
-	<188a6ad09f7aa5c2efeb1ecd5f25aa06264fe0d3.1504691079.git.ed.bartosh@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 6 Sep 2017 11:15:33 +0100
-Message-ID: <CAJTo0LZ-aqJX3Q34SQXTUwXhaZTCFUq5Ui0kHKC2s6rn4vdNkg@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] bmap-tools: upgrade to v3.4
+Subject: [PATCH 0/1] bootchart2: update python interpreter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 10:15:53 -0000
-Content-Type: multipart/alternative; boundary="001a1144939008c6e3055882a10d"
+X-List-Received-Date: Wed, 06 Sep 2017 10:34:59 -0000
+Content-Type: text/plain
 
---001a1144939008c6e3055882a10d
-Content-Type: text/plain; charset="UTF-8"
+From: Kai Kang <kai.kang@windriver.com>
 
-On 6 September 2017 at 10:48, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+The following changes since commit 8b4f16a9cbbaf521461f699b7264fac2ac872581:
 
-> -SRCREV = "96702a869220ab20830db916ec4ac595e1d97f92"
-> +SRCREV = "v3.4"
->
+  mesa-gl: Fix build after recent mesa PACKAGECONFIG changes (2017-09-05 15:01:02 +0100)
 
-Using a tag means a fetch to decide if we need to rebuild, and can change.
-Please just use the SHA of the tag, instead of the tag.
+are available in the git repository at:
 
-Ross
+  git://git.pokylinux.org/poky-contrib kangkai/bootchart2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/bootchart2
 
---001a1144939008c6e3055882a10d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Kai Kang (1):
+  bootchart2: update python interpreter
 
-<div dir=3D"ltr">On 6 September 2017 at 10:48, Ed Bartosh <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:ed.bartosh@linux.intel.com" target=3D"_blank">ed.bar=
-tosh@linux.intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><d=
-iv class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left=
--color:rgb(204,204,204);padding-left:1ex">-SRCREV =3D &quot;<wbr>96702a8692=
-20ab20830db916ec4ac5<wbr>95e1d97f92&quot;<br>
-+SRCREV =3D &quot;v3.4&quot;<br></blockquote><div><br></div><div>Using a ta=
-g means a fetch to decide if we need to rebuild, and can change.=C2=A0 Plea=
-se just use the SHA of the tag, instead of the tag.</div><div><br></div><di=
-v>Ross=C2=A0</div></div></div></div>
+ meta/recipes-devtools/bootchart2/bootchart2_0.14.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---001a1144939008c6e3055882a10d--
+-- 
+2.14.1
+
+
