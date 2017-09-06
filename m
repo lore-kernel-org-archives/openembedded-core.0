@@ -1,22 +1,66 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BAFED71A5A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f182.google.com (mail-yw0-f182.google.com
+	[209.85.161.182])
+	by mail.openembedded.org (Postfix) with ESMTP id CD510605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Sep 2017 23:22:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Sep 2017 16:22:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.41,481,1498546800"; d="scan'208";a="1215164808"
-Received: from swold-mobl2.jf.intel.com ([10.24.9.251])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2017 16:22:02 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue,  5 Sep 2017 16:22:02 -0700
-Message-Id: <20170905232202.19347-1-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.13.5
-Subject: [PATCH v2] systemtap: Bump SRCREV for 4.12 Linux kernel support
+	Wed,  6 Sep 2017 00:58:59 +0000 (UTC)
+Received: by mail-yw0-f182.google.com with SMTP id r85so2615075ywg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Sep 2017 17:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=wuiCGSqeB3LVFx14RNI2/lY7z+bFit0kI8xpFd1AtKg=;
+	b=KHlKm6GMmm87J7TJ0a8dpKOe7YR+/+rD5T5B6+9GXZcP+yYPhAuTdEiqVOY0zbbg4P
+	pWXj5k0vaUWw7euhbiTqNGRq2ydiRkrLPGKET37lBONl8XMB6nogTQSALknv1T9t4j2g
+	MRzKjPD5x4uK4s+znY5+q/ZFajFaSM4eidM3YcTf1Knj/tQzOg4GLRl8Sqgn70SM+nvB
+	sn4/G2glKB9K4uAsNR9RF1ph+jdhh8+werzoVJLZBmOjG3NA4cnKLeOc8n9NGUMbjuQo
+	0LNx7jC/dpUacw4PPXZm0GkzuOUNuXlQpVGB2UAgZ+IKrqhmTe9uCEoMSKgB0BlNV3am
+	LcDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=wuiCGSqeB3LVFx14RNI2/lY7z+bFit0kI8xpFd1AtKg=;
+	b=opcHGxzsHEcqd0WEXdCM0tfcEw/lZ5BdQgYr3I6pc8XDW2wEU4+QFWMdTfFqJqPFNy
+	mynScuvXu+qzDJGc5ow2sem3QHbvwDi0CVkZ9woGhV7/Cne+wpSHZHnDZGGEVK9/c3YY
+	6hSL5L8JEgYnmsYcpViYvlAz/FVZ3IH4xrbYDaeaRi7FrLdTV7bwMx56+KN0lUt92idq
+	nhh4uFCH79FH9SjQ7pVtJwxVCH2i7P8MDuHzWnZnGUBC7dwbM5i80kcHKFzyEpmaXV6x
+	gLQCfjz/1a0aJ0B7nRoQ16RilKyWcB/2iEK3mdYyu4wXa5L6ipW252f9zWaL7NbfZIVG
+	vVgw==
+X-Gm-Message-State: AHPjjUgpxSLi9lJyY39rG+ReGLUxyKxYa3f/hMDwiy3LQTEdsRto3NUv
+	3CpX6CZcUfzkYSC+XI8=
+X-Received: by 10.129.52.79 with SMTP id b76mr759052ywa.195.1504659540482;
+	Tue, 05 Sep 2017 17:59:00 -0700 (PDT)
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com.
+	[209.85.218.51])
+	by smtp.gmail.com with ESMTPSA id j6sm703336ywg.31.2017.09.05.17.58.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 05 Sep 2017 17:58:58 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f51.google.com with SMTP id n18so34089012oig.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Sep 2017 17:58:58 -0700 (PDT)
+X-Google-Smtp-Source: ADKCNb4SoN5NfQomvmkFTYgwNn7+MYhd1kCIFd+dL2zLeNMSV3BDAF3OgLDFW4JMcz/nUVCEEkQd0Bh/tps8p62Bt7c=
+X-Received: by 10.202.56.194 with SMTP id f185mr940356oia.249.1504659538137;
+	Tue, 05 Sep 2017 17:58:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.0.69 with HTTP; Tue, 5 Sep 2017 17:58:57 -0700 (PDT)
+In-Reply-To: <CAGgRHJok_8G901Y4psyDTx5=qv=+68PzZS1Au71QHnrJNpzKVw@mail.gmail.com>
+References: <20170904210608.23764-1-otavio@ossystems.com.br>
+	<20170904210608.23764-7-otavio@ossystems.com.br>
+	<CAGgRHJq8yBn+wxaXOMXmc9jrOSODUFOUL=9RFLCFLm7z_o6V7g@mail.gmail.com>
+	<CAP9ODKphOXXRrp=yE7CWSO2fpU2-Ekf7O7NmtD993UvzgcWT0Q@mail.gmail.com>
+	<CAGgRHJok_8G901Y4psyDTx5=qv=+68PzZS1Au71QHnrJNpzKVw@mail.gmail.com>
+Date: Tue, 5 Sep 2017 21:58:57 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqE11_+XWKhFv0PrOkKUn5q=sowco_STHhreN3n+bm+Ng@mail.gmail.com>
+Message-ID: <CAP9ODKqE11_+XWKhFv0PrOkKUn5q=sowco_STHhreN3n+bm+Ng@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] go.bbclass: Enable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,116 +73,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 23:22:07 -0000
+X-List-Received-Date: Wed, 06 Sep 2017 00:59:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This SRCREV bump brings in support for the 4.12 Linux Kernel, this kernel
-also has some newer CONFIG settings. The newer DEBUG_INFO and DEBUG_INFO_DWARF4
-settings can be used with systemtap to get the full information.  We do not
-normally enabled these for a 'production' (standard) kernel, but can be
-enabled via menuconfig.
+On Tue, Sep 5, 2017 at 5:06 PM, Matt Madison <matt@madison.systems> wrote:
+> I thought that GO_PARALLEL_BUILD still needs to be added to
+> BB_HASHBASE_WHITELIST like PARALLEL_MAKE is,
+> or the task signatures will be different between builds done on
+> systems with different CPU counts?
 
-When installing staprun and stapbpf on the target and native ensure we
-don't try to create a new group and chown it.  There is no need since we
-will be running as root, so we add a patch to comment that code out.
+You're right. Added it to v3 but will wait until tomorrow to see if
+someone provides any more feedback before sending the changes.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ...apbpf-don-t-support-installing-a-non-root.patch | 62 ++++++++++++++++++++++
- meta/recipes-kernel/systemtap/systemtap_git.inc    |  5 +-
- 2 files changed, 65 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
-
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
-new file mode 100644
-index 00000000000..9f11648fefd
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch
-@@ -0,0 +1,62 @@
-+From 3e13a006fe3dff9489269274093bf868532036e2 Mon Sep 17 00:00:00 2001
-+From: Saul Wold <sgw@linux.intel.com>
-+Date: Tue, 5 Sep 2017 16:02:55 -0700
-+Subject: [PATCH] staprun/stapbpf: don't support installing a non-root
-+
-+Since we are in a known environment and installing as root and
-+expect to be running as root, don't create the group or chmod
-+the binaries.
-+
-+Upstream-Status: Inappropriate [Embedded]
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+---
-+ stapbpf/Makefile.am | 14 +++++++-------
-+ staprun/Makefile.am | 12 ++++++------
-+ 2 files changed, 13 insertions(+), 13 deletions(-)
-+
-+diff --git a/stapbpf/Makefile.am b/stapbpf/Makefile.am
-+index 421b044ef..f7daeb2b2 100644
-+--- a/stapbpf/Makefile.am
-++++ b/stapbpf/Makefile.am
-+@@ -39,11 +39,11 @@ git_version.stamp ../git_version.h:
-+ 
-+ # Why the "id -u" condition?  This way, an unprivileged user can run
-+ # make install, and have "sudo stap ...." or "sudo stapbpf ...." work later.
-+-install-exec-hook:
-+-	if [ `id -u` -eq 0 ]; then \
-+-		getent group stapusr >/dev/null || groupadd -g 156 -r stapusr 2>/dev/null || groupadd -r stapusr; \
-+-		getent group stapusr >/dev/null \
-+-		&& chgrp stapusr "$(DESTDIR)$(bindir)/stapbpf" \
-+-		&& chmod 04110 "$(DESTDIR)$(bindir)/stapbpf"; \
-+-	fi
-++#install-exec-hook:
-++#	if [ `id -u` -eq 0 ]; then \
-++#		getent group stapusr >/dev/null || groupadd -g 156 -r stapusr 2>/dev/null || groupadd -r stapusr; \
-++#		getent group stapusr >/dev/null \
-++#		&& chgrp stapusr "$(DESTDIR)$(bindir)/stapbpf" \
-++#		&& chmod 04110 "$(DESTDIR)$(bindir)/stapbpf"; \
-++#	fi
-+ endif
-+diff --git a/staprun/Makefile.am b/staprun/Makefile.am
-+index 4073aa01c..2925e34c3 100644
-+--- a/staprun/Makefile.am
-++++ b/staprun/Makefile.am
-+@@ -72,9 +72,9 @@ git_version.stamp ../git_version.h:
-+ 
-+ # Why the "id -u" condition?  This way, an unprivileged user can run
-+ # make install, and have "sudo stap ...." or "sudo staprun ...." work later.
-+-install-exec-hook:
-+-	if [ `id -u` -eq 0 ]; then \
-+-		getent group stapusr >/dev/null || groupadd -g 156 -r stapusr 2>/dev/null || groupadd -r stapusr; \
-+-		getent group stapusr >/dev/null && chgrp stapusr "$(DESTDIR)$(bindir)/staprun"; \
-+-		chmod 04110 "$(DESTDIR)$(bindir)/staprun"; \
-+-	fi
-++#install-exec-hook:
-++#	if [ `id -u` -eq 0 ]; then \
-++#		getent group stapusr >/dev/null || groupadd -g 156 -r stapusr 2>/dev/null || groupadd -r stapusr; \
-++#		getent group stapusr >/dev/null && chgrp stapusr "$(DESTDIR)$(bindir)/staprun"; \
-++#		chmod 04110 "$(DESTDIR)$(bindir)/staprun"; \
-++#	fi
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index a6aedd38a6e..3dc688a18fe 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,6 +1,6 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "b8ea350dc13adb6190d9044a5b80110a4c441270"
-+SRCREV = "45d0e7a09a15a21078d0ebf2db5175ed9e87014e"
- PV = "3.1"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-@@ -12,7 +12,8 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-buildrun-remove-quotes-around-I-include-line.patch \
--          "
-+           file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
-+           "
- 
- # systemtap doesn't support mips
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64).*-linux'
 -- 
-2.13.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
