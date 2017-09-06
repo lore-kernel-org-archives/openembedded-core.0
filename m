@@ -1,30 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 448846FFA1
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id AD11D7199E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 07:13:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.41,483,1498492800"; d="scan'208";a="25271294"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 Sep 2017 15:13:54 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id C60AD4725555
+	Wed,  6 Sep 2017 09:49:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 06 Sep 2017 02:49:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,483,1498546800"; d="scan'208";a="132258037"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga002.jf.intel.com with ESMTP; 06 Sep 2017 02:49:11 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 185EB58038F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 15:13:52 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Wed, 6 Sep 2017 15:13:52 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Sep 2017 15:13:53 +0800
-Message-ID: <1504682033-907-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: C60AD4725555.A3EE3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] xdg-utils: Add HOMEPAGE info into recipe file.
+	Wed,  6 Sep 2017 02:49:10 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Sep 2017 12:48:22 +0300
+Message-Id: <cover.1504691079.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH 0/3] #11891 - Port bmaptools to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 07:13:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Sep 2017 09:49:10 -0000
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi,
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
-index 5007498..34f8d10 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
-@@ -1,5 +1,5 @@
- SUMMARY = "Basic desktop integration functions"
--
-+HOMEPAGE = "https://www.freedesktop.org/wiki/Software/xdg-utils/"
- DESCRIPTION = "The xdg-utils package is a set of simple scripts that provide basic \
- desktop integration functions for any Free Desktop, such as Linux. \
- They are intended to provide a set of defacto standards. \
--- 
-2.7.4
+This patchset switches bmap-tools to usage of native Python 3.
+As bmap-tools is the only recipe in oe-core that uses Python 2
+this change should help to stop building native Python 2.
 
+The following changes since commit 7a5d997dc264ca8913c5ea57a2c5120a2dc41528:
 
+  wic: selftest: add test_wic_rm_ext test case (2017-09-05 14:28:41 +0300)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
+
+Ed Bartosh (3):
+  bmap-tools: upgrade to v3.4
+  bmap-tools: switch to Python 3
+  wic: run bmaptool with native Python3
+
+ .../bmap-tools/{bmap-tools_3.2.bb => bmap-tools_3.4.bb}          | 9 +++------
+ scripts/lib/wic/plugins/imager/direct.py                         | 6 ++++--
+ 2 files changed, 7 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/bmap-tools/{bmap-tools_3.2.bb => bmap-tools_3.4.bb} (79%)
+
+--
+Regards,
+Ed
 
 
