@@ -1,18 +1,25 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7997677CDB;
-	Wed,  6 Sep 2017 11:34:52 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>
-Date: Wed, 06 Sep 2017 11:34:54 -0000
-Message-ID: <20170906113454.2383.22065@do.openembedded.org>
-References: <1504696096-13095-1-git-send-email-mikko.rapeli@bmw.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1504696096-13095-1-git-send-email-mikko.rapeli@bmw.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImdpdHNtLnB5OiB1c2UgZG93bmxvYWQgY2FjaGUgZi4uLiIgYW5kIDIgbW9yZQ==?=
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 080AF71A35
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Sep 2017 12:09:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Sep 2017 05:09:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.41,483,1498546800"; d="scan'208";a="1215420590"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2017 05:09:46 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.38])
+	by linux.intel.com (Postfix) with ESMTP id 39EFB58035B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Sep 2017 05:09:31 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Sep 2017 15:08:22 +0300
+Message-Id: <cover.1504699594.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH v2 0/3] #11891 - Port bmaptools to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 11:34:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Sep 2017 12:09:59 -0000
 
-== Series Details ==
+Hi,
 
-Series: "gitsm.py: use download cache f..." and 2 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8734/
-State : failure
+This patchset switches bmap-tools to usage of native Python 3.
+As bmap-tools is the only recipe in oe-core that uses Python 2
+this change should help to stop building native Python 2.
 
-== Summary ==
+Changes in v2: Used commit id instead of release tag (thanks to Ross)
+               Fixed wrong bug spec in commit messages (thanks to Patchwork)
 
+The following changes since commit 091b759dcec3068eb0b6bffdc5763fd6cc84d0a9:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+  wic: selftest: add test_wic_rm_ext test case (2017-09-06 13:02:02 +0300)
 
+are available in the git repository at:
 
+  git://git.yoctoproject.org/poky-contrib ed/wip
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wip
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at cc319b6dcc)
+Ed Bartosh (3):
+  bmap-tools: upgrade to v3.4
+  bmap-tools: switch to Python 3
+  wic: run bmaptool with native Python3
 
+ .../bmap-tools/{bmap-tools_3.2.bb => bmap-tools_3.4.bb}          | 9 +++------
+ scripts/lib/wic/plugins/imager/direct.py                         | 6 ++++--
+ 2 files changed, 7 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/bmap-tools/{bmap-tools_3.2.bb => bmap-tools_3.4.bb} (79%)
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--
+Regards,
+Ed
 
