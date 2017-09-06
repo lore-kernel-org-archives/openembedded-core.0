@@ -1,25 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B8E3877CEC
+Return-Path: <athoik@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BC0277E0E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 19:32:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v86JWuOe022828
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 6 Sep 2017 12:32:56 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 6 Sep 2017 12:32:56 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Sep 2017 14:26:54 -0500
-Message-ID: <1504726014-12929-2-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1504726014-12929-1-git-send-email-mark.hatle@windriver.com>
-References: <1504726014-12929-1-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH] iproute2: Default to tipc enabled, and include libmnl dependency
+	Wed,  6 Sep 2017 21:02:26 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id y15so3584743wrc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Sep 2017 14:02:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=+yAsfImcbOSYKUN+dK1/LOrVg1wTkwq2pImQtQIcdAk=;
+	b=QQLgJkXkaECw1fzk/TGkiBnnrCiQut5+Rbaa730ir8vkhXaFpK1sjKzksn+ot5+SRy
+	pCj0Iz3TDz23Gdr5+ZiIcdI5CNdktXrF2kLC5xK9nzzM2sawXRvOKLkhnjnIWbTGybOe
+	ewwnNH/i8YUV24WqK3nC6TYhFd2/vvxhL6bPCbRql7GZi26mvnfS4gF6cK/nFHSJ3lM2
+	FNRradI0APIAsIpY/+esmiQLvA+1QAALAg9VpDY/iCbKN3UAVU5gQUuL1kpwWBulUeyd
+	hMlos1+UdMTTwa30+KiMIHNIB8t8+POTVQsogTNa36BpzfKYYbfI2eWfRHIszMdcbUIH
+	mMjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+yAsfImcbOSYKUN+dK1/LOrVg1wTkwq2pImQtQIcdAk=;
+	b=pbEbnH4qtV688SpylhmZwkaLn0JAKWiw9gbuebIUiH2cDjB0RiPpB81AbuhkB8KmFJ
+	idswoT7ZU5rX6xO/Unx2V3bQD6II4f7QTuOqAhUJpBfZYm7Lbrh+FNoK3eZlg8MWyCAb
+	bGcXizzyW9OLmhsC4xQ69X+Bir03tJ/zp97z7444iIRs/jk8DaCqOzZQFQ7WHwlXGy4n
+	JpsvkgKxH6WZqSeGE96FVkyuqYm/GAZ7y2aGgrIZADzI1ihvSik6Z4UiP+dnnfXfOtTf
+	VfV5u+hAJfwyIx5kqkSWKDhbdAo58T7AHdn+vED6Poz4OW6GPaoLRAMc06Y6zXjQBjbv
+	GA5w==
+X-Gm-Message-State: AHPjjUhvZ0xnwDfL/sLXdH1OG0NOdF6q8vHvpTQYZGCVNfxQkfwPxtGg
+	URKMNxTQ14YDf89+
+X-Google-Smtp-Source: ADKCNb6YYcg6ne1Ju8bpXpVkw/Zpm2/Y/ixvHAXxRDiioT8+4dJ4tv3UZp0EZiMySrLng83dUKtcmw==
+X-Received: by 10.223.153.163 with SMTP id y32mr333008wrb.8.1504731747602;
+	Wed, 06 Sep 2017 14:02:27 -0700 (PDT)
+Received: from images.net (ns380618.ip-188-165-252.eu. [188.165.252.42])
+	by smtp.gmail.com with ESMTPSA id
+	m127sm1887448wmm.33.2017.09.06.14.02.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Sep 2017 14:02:27 -0700 (PDT)
+From: Athanasios Oikonomou <athoik@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Sep 2017 00:07:07 +0300
+Message-Id: <1504732027-31142-1-git-send-email-athoik@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Cc: Athanasios Oikonomou <athoik@gmail.com>
+Subject: [meta-oe][PATCH] vsftpd: link with wrap when tcp-wrappers configured
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,67 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 19:32:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Sep 2017 21:02:27 -0000
 
-iproute2 has the ability to include a tipc tool.  When enabled this requires
-the libmnl package (formerly supplied by meta-openembedded).  So both are
-needed at the same time.
+By default we do not build vsftpd with tcp-wrappers, so we should not include lib wrap.
+Make lib wrap optional depending on tcp-wrappers PACKAGECONFIG.
 
-The change itself is needed because of the tipc-utils package (in
-meta-openembedded) which RDEPENDS on iproute2-tipc.  Without this package
-the yocto-compat-layer script indicates there is no way for me to have
-meta-openembedded pass the checker.  This is because meta-openembedded is
-not allowed to just enable 'tipc' on it's own.  (A layer may not make distro
-wide changes without a user saying to do it.)  The checker script invokes
-bitbake -S none world, which will fail on dependency resolution due to there
-being no iproute2-tipc package.  The tipc-utils package does not have a way
-to check the PACKAGECONFIG of the iproute2 package so disable itself if the
-dependency can not be met.  So the default system behavior needs to be:
-
-iproute2 w/ tipc enabled
-tipc-utils RDEPENDS on iproute2-tipc
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Athanasios Oikonomou <athoik@gmail.com>
 ---
- meta/recipes-connectivity/iproute2/iproute2.inc |  2 +-
- meta/recipes-extended/libmnl/libmnl_1.0.4.bb    | 13 +++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libmnl/libmnl_1.0.4.bb
+ meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.3.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index 57309b7..a578eb3 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -13,7 +13,7 @@ DEPENDS = "flex-native bison-native iptables elfutils"
+diff --git a/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.3.bb b/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.3.bb
+index e524614..7a20356 100644
+--- a/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.3.bb
++++ b/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.3.bb
+@@ -37,6 +37,7 @@ PACKAGECONFIG[tcp-wrappers] = ",,tcp-wrappers"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-listfile', '', d)}"
+ PAMLIB = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '-L${STAGING_BASELIBDIR} -lpam', '', d)}"
++WRAPLIB = "${@bb.utils.contains('PACKAGECONFIG', 'tcp-wrappers', '-lwrap', '', d)}"
+ NOPAM_SRC ="${@bb.utils.contains('PACKAGECONFIG', 'tcp-wrappers', 'file://nopam-with-tcp_wrappers.patch', 'file://nopam.patch', d)}"
  
- inherit update-alternatives bash-completion pkgconfig
+ inherit update-rc.d useradd systemd
+@@ -54,7 +55,7 @@ do_configure() {
+ }
  
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "tipc"
- PACKAGECONFIG[tipc] = ",,libmnl,"
+ do_compile() {
+-   oe_runmake "LIBS=-L${STAGING_LIBDIR} -lcrypt -lcap ${PAMLIB} -lwrap"
++   oe_runmake "LIBS=-L${STAGING_LIBDIR} -lcrypt -lcap ${PAMLIB} ${WRAPLIB}"
+ }
  
- EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
-diff --git a/meta/recipes-extended/libmnl/libmnl_1.0.4.bb b/meta/recipes-extended/libmnl/libmnl_1.0.4.bb
-new file mode 100644
-index 0000000..b458799
---- /dev/null
-+++ b/meta/recipes-extended/libmnl/libmnl_1.0.4.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "Minimalistic user-space Netlink utility library"
-+DESCRIPTION = "Minimalistic user-space library oriented to Netlink developers, providing \
-+    functions for common tasks in parsing, validating, and constructing both the Netlink header and TLVs."
-+HOMEPAGE = "http://www.netfilter.org/projects/libmnl/index.html"
-+SECTION = "libs"
-+LICENSE = "LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-+
-+SRC_URI = "http://www.netfilter.org/projects/libmnl/files/libmnl-${PV}.tar.bz2;name=tar"
-+SRC_URI[tar.md5sum] = "be9b4b5328c6da1bda565ac5dffadb2d"
-+SRC_URI[tar.sha256sum] = "171f89699f286a5854b72b91d06e8f8e3683064c5901fb09d954a9ab6f551f81"
-+
-+inherit autotools pkgconfig
+ do_install() {
 -- 
-1.8.3.1
+2.1.4
 
 
