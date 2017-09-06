@@ -1,30 +1,30 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C4A9700F0
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 448846FFA1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Sep 2017 06:16:12 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v866G9nF007268
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 6 Sep 2017 08:16:09 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v866G9Aj030486
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 6 Sep 2017 08:16:09 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
-	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
-	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
-	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
-Date: Wed, 6 Sep 2017 08:16:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Wed,  6 Sep 2017 07:13:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.41,483,1498492800"; d="scan'208";a="25271294"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Sep 2017 15:13:54 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id C60AD4725555
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Sep 2017 15:13:52 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 6 Sep 2017 15:13:52 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Sep 2017 15:13:53 +0800
+Message-ID: <1504682033-907-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: C60AD4725555.A3EE3
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] xdg-utils: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Sep 2017 06:16:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Sep 2017 07:13:54 -0000
+Content-Type: text/plain
 
-I have created a PR:
-https://github.com/openembedded/openembedded-core/pull/23 as last time.
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Andrej
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
+index 5007498..34f8d10 100644
+--- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
++++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Basic desktop integration functions"
+-
++HOMEPAGE = "https://www.freedesktop.org/wiki/Software/xdg-utils/"
+ DESCRIPTION = "The xdg-utils package is a set of simple scripts that provide basic \
+ desktop integration functions for any Free Desktop, such as Linux. \
+ They are intended to provide a set of defacto standards. \
+-- 
+2.7.4
 
-On 09/05/2017 08:52 PM, Burton, Ross wrote:
-> Also the patch has been corrupted by SMTP.  Is it in a branch somewhere?
-> 
-> Ross
-> 
-> On 5 September 2017 at 18:28, Andrej Valek <andrej.valek@siemens.com 
-> <mailto:andrej.valek@siemens.com>> wrote:
-> 
->     Hi Ross,
-> 
->     There are not any CVEs fixes which has not been already merged. There
->     are only general changes. Of course, we can "clean" a lot of patches by
->     accepting this.
-> 
->     Regards,
->     Andrej
-> 
->     On 09/05/2017 11:19 AM, Burton, Ross wrote:
->     > On 5 September 2017 at 07:35, Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
->     > <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>> wrote:
->     >
->     >     Signed-off-by: Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
->      >     <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>>
->      >
->      >
->      > We're past freeze to the upgrade will have to wait until 2.4 releases.
->     Does this
->      > fix any outstanding CVEs that we should be cherry-picking?
->      >
->      > Ross
->      >
-> 
-> 
+
+
 
