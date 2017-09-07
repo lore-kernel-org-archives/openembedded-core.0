@@ -1,43 +1,43 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-vk0-f52.google.com (mail-vk0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 841CE60017;
-	Thu,  7 Sep 2017 08:44:56 +0000 (UTC)
-Received: by mail-vk0-f52.google.com with SMTP id c82so8294274vkd.4;
-	Thu, 07 Sep 2017 01:44:58 -0700 (PDT)
+Received: from mail-vk0-f46.google.com (mail-vk0-f46.google.com
+	[209.85.213.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F44F60017;
+	Thu,  7 Sep 2017 08:47:24 +0000 (UTC)
+Received: by mail-vk0-f46.google.com with SMTP id m142so8003135vkf.2;
+	Thu, 07 Sep 2017 01:47:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:from:date:message-id:subject:to;
-	bh=lS2x6tx1lecXQqvxz3zkSwpxfdpZwPPwfZspHMudSNg=;
-	b=Llf4BTx0rogQw3UV7c/N06UBWE6srTSTPavgI2dfnmFcKO70lrjm+oIYqnBy4KDuQf
-	dTpY9rT4vdSw49cXByvz3m0m9A3nLMCpH0TQzphJ+Dtp82wP7Pk8FYdWUW4mYyoq3aEb
-	rdMNcv9nSwvkDghT1u1Gehm09czVYP8nrW0pfX9Iql/Nlyk0g8ZzDzTjFOtTujLTRXIi
-	J/zbw1NFCOxCRC1vrdlnFQnYGPlbhxWdtrzTDA5JPpZaoicR6p5E0IlY99CPCfn0Szg4
-	/2sO+isWea6PcOrYkylNkY/6M1MfJ6JCqdiQjPpmxl5vyDF4u4H1XCL0mWdBEKzZFnuQ
-	6z0g==
+	bh=V/z8C/jVcfw1SVCYHBqQsGR8pEhFeZNznZsoEhf4Ras=;
+	b=RY2vqT+EkUkbbtUG8O68BPqqpT/JNT9eG9J3yJz90/QVNZ+oqz1UUbrqj1FvXBxLQQ
+	qBcvEPZU7gaDwR5yttc/aUlUeTvO1xmZbkvyg+l+oF1Ne/r/JVVEr+/HMeBYkCBUmSOw
+	3dAuoCxPym1pRS54/zvXi4ggl7XtOTJ7eBK699gfZQul58nmDzvSUR5cCcSvYlfO66dQ
+	z+MaPjJXmQPpF3lELxlrWjL69QXuX/MtpvBy0fkbP4EmKAHG1IZq0PVjRNPmLAy3DEH8
+	n9/01HrTZmxG2C7Ns/tlm7BDAjJCwDPKt6CxRS1tXv7ndvvMIP6GU/Gq9vVVhwJZnxs7
+	p3kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=lS2x6tx1lecXQqvxz3zkSwpxfdpZwPPwfZspHMudSNg=;
-	b=UZFd9rmO6L7AYHlEs5UWs4rBLSfN94GqnkX3TgxjPM+4oH55Jp8ODBpj0od5Ea6+Gd
-	NcbSNWL+vSoxwJhuj87TS3BlOkDWnmyIKFEbIXJyAypzIT+yOLVCHpp3u0GKsn1QpU8b
-	HCmDvsESYxWT1h3lrlAKwy7/h0vcAxY8KiSmYnZ6rQVOgOiy+3bHvpcEQwuG5QeEnD7Y
-	OZyUfrll8PDZEH21RX2g6XMJGKXvhYFcMDqnCd16yYdE1Doge3tLyK3AgG73GGqeTFiy
-	Anbqg/c9SRvChLAG8Mc9s47hve0+fYeZS9TWc6Fs3+HYhg2xHo9GqBmT+/R/FyP2qR3n
-	A42Q==
-X-Gm-Message-State: AHPjjUi27f2ABiXoK/8y3xUK72mcodrGV20Ei/wckrkD1HAJSVTVKj36
-	IkwkA5eUJul9kWcTlaB8yuYRVXo3pO9B
-X-Google-Smtp-Source: ADKCNb7RaZEiHJKMJRjggRIFQ7zz7l6u6iTz0OHMR3fJqGRtuYgQMccBTyjMk4y7jHywIxyapvMKCF2ePq7jy8ZKdqw=
-X-Received: by 10.31.84.5 with SMTP id i5mr1015875vkb.177.1504773897758; Thu,
-	07 Sep 2017 01:44:57 -0700 (PDT)
+	bh=V/z8C/jVcfw1SVCYHBqQsGR8pEhFeZNznZsoEhf4Ras=;
+	b=f/YecgPizGD+67o+F71+CpHEwH/TH4qHH8yQOmXa/ZFXjt3jT9EjBp73uWnobC+yrl
+	VcZ0YhUzaAtQsuOmuDo9nXg5AJdi8lhpRoyyb3Wl8p3+m40QhDbZpUSXLMV6r9ygD7Jn
+	CHf3UJzrQkOj0+3EBVTHo5K/V2qwUXcsvPVdOHcrXvtID18OjAC1EVYmg8hnKFQVFYbv
+	z9JUgO7peFdNlwuC63/lCllh89HYd7qBt61Tn+x5AZVnhI8hUTaT1tBHjUIsW2eB2P2Y
+	8AO03EMWuYS9EyHKP2JTnbQ96wtZgLQ20e1bV/r5LkFz9MG4j6bjEv0t7AuB+JSKsrSR
+	lhEg==
+X-Gm-Message-State: AHPjjUhglbBczM9fiUAQ1R4N2ElnF3fY940FXyNWN/P7lUlzEpCy3mgd
+	l88fZ60P9wu6s6zE490/H29QQIGt7mCw
+X-Google-Smtp-Source: ADKCNb70uV3kCoE7vavM75tmEKd6//Yudr+yoPbe/9QLDTF6FKOPBOMI/JLHMFthVtiIuqz/Hafn5wZr1S5BeHaHguk=
+X-Received: by 10.31.231.1 with SMTP id e1mr1201944vkh.90.1504774045130; Thu,
+	07 Sep 2017 01:47:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.15.69 with HTTP; Thu, 7 Sep 2017 01:44:57 -0700 (PDT)
+Received: by 10.103.15.69 with HTTP; Thu, 7 Sep 2017 01:47:24 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 7 Sep 2017 10:44:57 +0200
-Message-ID: <CA+chaQckFMsPUNfd=+Sch=iVyCVhyPiajQDtYyncXbPnZn_5yQ@mail.gmail.com>
+Date: Thu, 7 Sep 2017 10:47:24 +0200
+Message-ID: <CA+chaQfs4qxeW5uoyi5RH1ftgEr_P61zq8mOjN=YiORBOwMOLg@mail.gmail.com>
 To: openembedded-devel <openembedded-devel@lists.openembedded.org>, 
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: State of bitbake world, Failed tasks 2017-09-05
+Subject: State of bitbake world, Failed tasks 2017-09-06
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,10 +50,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Sep 2017 08:44:58 -0000
-Content-Type: multipart/alternative; boundary="001a114e5f08a4b1470558957966"
+X-List-Received-Date: Thu, 07 Sep 2017 08:47:25 -0000
+Content-Type: multipart/alternative; boundary="94eb2c092d4e6d68e40558958279"
 
---001a114e5f08a4b1470558957966
+--94eb2c092d4e6d68e40558958279
 Content-Type: text/plain; charset="UTF-8"
 
 http://www.openembedded.org/wiki/Bitbake_World_Status
@@ -66,21 +66,18 @@ http://www.openembedded.org/wiki/Bitbake_World_Status
 ||		||qemuarm	||qemux86	||qemux86_64	||all
 	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||version-going-backwards	||host-user-contaminated	||installed-vs-shipped	||unknown-configure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	||ldflags	||compile-host-path	||
 |-
-||2017-09-05	||4	||4	||4	||0	||0		||0		||3		||0		||0		||18		||0		||0		||0		||0		||0		||0		||0		||0		||
+||2017-09-06	||2	||1	||1	||0	||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||0		||
 |}
 
-== Failed tasks 2017-09-05 ==
+== Failed tasks 2017-09-06 ==
 
 INFO: jenkins-job.sh-1.8.28 Complete log available at
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_130000.log
+http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_221116.log
 
-=== common (3) ===
+=== common (1) ===
     * meta-browser/recipes-mozilla/firefox/firefox_45.9.0esr.bb:do_compile
-    * meta-openembedded/meta-filesystems/recipes-utils/xfsprogs/xfsprogs_4.12.0.bb:do_compile
-    * meta-openembedded/meta-networking/recipes-support/ndisc6/ndisc6_git.bb:do_compile
 
-=== common-x86 (1) ===
-    * meta-openembedded/meta-oe/recipes-extended/leveldb/leveldb_git.bb:do_compile
+=== common-x86 (0) ===
 
 === qemuarm (1) ===
     * meta-openembedded/meta-oe/recipes-devtools/android-tools/android-tools_5.1.1.r37.bb:do_compile
@@ -89,25 +86,25 @@ http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_130000.
 
 === qemux86_64 (0) ===
 
-=== Number of failed tasks (12) ===
+=== Number of failed tasks (4) ===
 {| class=wikitable
 |-
-|| qemuarm 	|| 4	 ||
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemuarm.20170905_045419.log/
+|| qemuarm 	|| 2	 ||
+http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemuarm.20170906_130143.log/
+|| http://errors.yoctoproject.org/Errors/Build/46298/
+|-
+|| qemux86 	|| 1	 ||
+http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86.20170906_150119.log/
 ||
 |-
-|| qemux86 	|| 4	 ||
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86.20170905_045419.log/
-|| http://errors.yoctoproject.org/Errors/Build/46257/
-|-
-|| qemux86_64 	|| 4	 ||
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170905_211032.log/
-|| http://errors.yoctoproject.org/Errors/Build/46296/
+|| qemux86_64 	|| 1	 ||
+http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170906_170855.log/
+|| http://errors.yoctoproject.org/Errors/Build/46303/
 |}
 
 === PNBLACKLISTs (4) ===
 
-=== QA issues (21) ===
+=== QA issues (0) ===
 {| class=wikitable
 !| Count		||Issue
 |-
@@ -133,18 +130,18 @@ http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.201709
 |-
 ||0	||symlink-to-sysroot
 |-
+||0	||textrel
+|-
 ||0	||unknown-configure-option
 |-
-||18	||version-going-backwards
-|-
-||3	||textrel
+||0	||version-going-backwards
 |}
 
 
 
 === Incorrect PACKAGE_ARCH or sstate signatures (0) ===
 
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.signatures.20170905_171408.log/
+Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.signatures.20170906_145241.log/
 
 No issues detected
 
@@ -190,16 +187,7 @@ count: 0	issue: already-stripped
 count: 0	issue: libdir
 
 
-count: 3	issue: textrel
-chromium-54.0.2810.2: ELF binary
-'/tmp/work/i586-oe-linux/chromium/54.0.2810.2-r0/packages-split/chromium/usr/bin/chromium/chrome'
-has relocations in .text [textrel]
-chromium-wayland-53.0.2785.143: ELF binary
-'/tmp/work/i586-oe-linux/chromium-wayland/53.0.2785.143-r0/packages-split/chromium-wayland/usr/bin/chromium/chrome'
-has relocations in .text [textrel]
-corosync-2.4.2: ELF binary
-'/tmp/work/core2-64-oe-linux/corosync/2.4.2-r0/packages-split/corosync/usr/sbin/corosync'
-has relocations in .text [textrel]
+count: 0	issue: textrel
 
 
 count: 0	issue: build-deps
@@ -208,61 +196,7 @@ count: 0	issue: build-deps
 count: 0	issue: file-rdeps
 
 
-count: 18	issue: version-going-backwards
-psqlodbc-09.05.0300: Package version for package psqlodbc-dbg went
-backwards which would break package feeds from (0:09.05.0300-r0.32 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dbg went
-backwards which would break package feeds from (0:09.05.0300-r0.38 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dbg went
-backwards which would break package feeds from (0:09.05.0300-r0.39 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dev went
-backwards which would break package feeds from (0:09.05.0300-r0.32 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dev went
-backwards which would break package feeds from (0:09.05.0300-r0.38 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dev went
-backwards which would break package feeds from (0:09.05.0300-r0.39 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-doc went
-backwards which would break package feeds from (0:09.05.0300-r0.32 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-doc went
-backwards which would break package feeds from (0:09.05.0300-r0.38 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-doc went
-backwards which would break package feeds from (0:09.05.0300-r0.39 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-locale went
-backwards which would break package feeds from (0:09.05.0300-r0.32 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-locale went
-backwards which would break package feeds from (0:09.05.0300-r0.38 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-locale went
-backwards which would break package feeds from (0:09.05.0300-r0.39 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-staticdev
-went backwards which would break package feeds from
-(0:09.05.0300-r0.32 to 0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-staticdev
-went backwards which would break package feeds from
-(0:09.05.0300-r0.38 to 0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-staticdev
-went backwards which would break package feeds from
-(0:09.05.0300-r0.39 to 0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc went
-backwards which would break package feeds from (0:09.05.0300-r0.32 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc went
-backwards which would break package feeds from (0:09.05.0300-r0.38 to
-0:09.05.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc went
-backwards which would break package feeds from (0:09.05.0300-r0.39 to
-0:09.05.0300-r0.0) [version-going-backwards]
+count: 0	issue: version-going-backwards
 
 
 count: 0	issue: host-user-contaminated
@@ -420,6 +354,9 @@ baf375f python-networkx: add python-2to3 to RDEPENDS
 1cb2de1 leveldb: Fix build with clang
 41c1962 rsyslog: fix segfault after configuration errors
 eac05cb logcheck: Add HOMEPAGE info into recipe file
+befda04 Revert "leveldb: Fix build with clang"
+7a91a8b Revert "ndisc6: Fix build with clang and update to latest on git"
+8662b99 Revert "xfsprogs: Upgrade to 4.12.0"
 
 == Tested changes (not included in master yet) - meta-qt5 ==
 latest upstream commit:
@@ -434,7 +371,7 @@ latest upstream commit:
 972cab7 gnome-settings-daemon: remove the bbappend for removed recipe
 not included in master yet:
 
---001a114e5f08a4b1470558957966
+--94eb2c092d4e6d68e40558958279
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -455,28 +392,22 @@ extrel	||build-deps	||file-rdeps	||version-going-backwards	||host-user-cont=
 aminated	||installed-vs-shipped	||unknown-configure-option	||symlink-to-sys=
 root	||invalid-pkgconfig	||pkgname	||ldflags	||compile-host-path	||=09
 |-
-||2017-09-05	||4	||4	||4	||0	||0		||0		||3		||0		||0		||18		||0		||0		||0		=
-||0		||0		||0		||0		||0		||=09
+||2017-09-06	||2	||1	||1	||0	||0		||0		||0		||0		||0		||0		||0		||0		||0		|=
+|0		||0		||0		||0		||0		||=09
 |}
 
-=3D=3D Failed tasks 2017-09-05 =3D=3D
+=3D=3D Failed tasks 2017-09-06 =3D=3D
 
 INFO: jenkins-job.sh-1.8.28 Complete log available at <a href=3D"http://log=
-s.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_130000.log" =
+s.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_221116.log" =
 style=3D"box-sizing:border-box;word-wrap:break-word;color:rgb(92,53,102)">h=
-ttp://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_130=
-000.log</a>
+ttp://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20170906_221=
+116.log</a>
 
-=3D=3D=3D common (3) =3D=3D=3D
+=3D=3D=3D common (1) =3D=3D=3D
     * meta-browser/recipes-mozilla/firefox/firefox_45.9.0esr.bb:do_compile
-    * meta-openembedded/meta-filesystems/recipes-utils/xfsprogs/xfsprogs_4.=
-12.0.bb:do_compile
-    * meta-openembedded/meta-networking/recipes-support/ndisc6/ndisc6_git.b=
-b:do_compile
 
-=3D=3D=3D common-x86 (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-extended/leveldb/leveldb_git.bb:do_=
-compile
+=3D=3D=3D common-x86 (0) =3D=3D=3D
 
 =3D=3D=3D qemuarm (1) =3D=3D=3D
     * meta-openembedded/meta-oe/recipes-devtools/android-tools/android-tool=
@@ -486,34 +417,34 @@ s_5.1.1.r37.bb:do_compile
 
 =3D=3D=3D qemux86_64 (0) =3D=3D=3D
 
-=3D=3D=3D Number of failed tasks (12) =3D=3D=3D
+=3D=3D=3D Number of failed tasks (4) =3D=3D=3D
 {| class=3Dwikitable
 |-
-|| qemuarm 	|| 4	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/wo=
-rld/rocko/log.world.qemuarm.20170905_045419.log/" style=3D"box-sizing:borde=
+|| qemuarm 	|| 2	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/wo=
+rld/rocko/log.world.qemuarm.20170906_130143.log/" style=3D"box-sizing:borde=
 r-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.or=
-g/buildlogs/oe/world/rocko/log.world.qemuarm.20170905_045419.log/</a> ||=20
-|-
-|| qemux86 	|| 4	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/wo=
-rld/rocko/log.world.qemux86.20170905_045419.log/" style=3D"box-sizing:borde=
-r-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.or=
-g/buildlogs/oe/world/rocko/log.world.qemux86.20170905_045419.log/</a> || <a=
- href=3D"http://errors.yoctoproject.org/Errors/Build/46257/" style=3D"box-s=
+g/buildlogs/oe/world/rocko/log.world.qemuarm.20170906_130143.log/</a> || <a=
+ href=3D"http://errors.yoctoproject.org/Errors/Build/46298/" style=3D"box-s=
 izing:border-box;word-wrap:break-word;color:rgb(92,53,102)">http://errors.y=
-octoproject.org/Errors/Build/46257/</a>
+octoproject.org/Errors/Build/46298/</a>
 |-
-|| qemux86_64 	|| 4	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe=
-/world/rocko/log.world.qemux86-64.20170905_211032.log/" style=3D"box-sizing=
+|| qemux86 	|| 1	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/wo=
+rld/rocko/log.world.qemux86.20170906_150119.log/" style=3D"box-sizing:borde=
+r-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.or=
+g/buildlogs/oe/world/rocko/log.world.qemux86.20170906_150119.log/</a> ||=20
+|-
+|| qemux86_64 	|| 1	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe=
+/world/rocko/log.world.qemux86-64.20170906_170855.log/" style=3D"box-sizing=
 :border-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-li=
-nux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170905_211032.log/<=
-/a> || <a href=3D"http://errors.yoctoproject.org/Errors/Build/46296/" style=
+nux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170906_170855.log/<=
+/a> || <a href=3D"http://errors.yoctoproject.org/Errors/Build/46303/" style=
 =3D"box-sizing:border-box;word-wrap:break-word;color:rgb(92,53,102)">http:/=
-/errors.yoctoproject.org/Errors/Build/46296/</a>
+/errors.yoctoproject.org/Errors/Build/46303/</a>
 |}
 
 =3D=3D=3D PNBLACKLISTs (4) =3D=3D=3D
 
-=3D=3D=3D QA issues (21) =3D=3D=3D
+=3D=3D=3D QA issues (0) =3D=3D=3D
 {| class=3Dwikitable
 !| Count		||Issue
 |-
@@ -539,11 +470,11 @@ nux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170905_211032.log/<=
 |-
 ||0	||symlink-to-sysroot
 |-
+||0	||textrel
+|-
 ||0	||unknown-configure-option
 |-
-||18	||version-going-backwards
-|-
-||3	||textrel
+||0	||version-going-backwards
 |}
 
 
@@ -551,9 +482,9 @@ nux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20170905_211032.log/<=
 =3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
 
 Complete log: <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/world/roc=
-ko/log.signatures.20170905_171408.log/" style=3D"box-sizing:border-box;word=
+ko/log.signatures.20170906_145241.log/" style=3D"box-sizing:border-box;word=
 -wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.org/buildlog=
-s/oe/world/rocko/log.signatures.20170905_171408.log/</a>
+s/oe/world/rocko/log.signatures.20170906_145241.log/</a>
 
 No issues detected
 
@@ -603,16 +534,7 @@ count: 0	issue: already-stripped
 count: 0	issue: libdir
 
 
-count: 3	issue: textrel
-chromium-54.0.2810.2: ELF binary &#39;/tmp/work/i586-oe-linux/chromium/54.0=
-.2810.2-r0/packages-split/chromium/usr/bin/chromium/chrome&#39; has relocat=
-ions in .text [textrel]
-chromium-wayland-53.0.2785.143: ELF binary &#39;/tmp/work/i586-oe-linux/chr=
-omium-wayland/53.0.2785.143-r0/packages-split/chromium-wayland/usr/bin/chro=
-mium/chrome&#39; has relocations in .text [textrel]
-corosync-2.4.2: ELF binary &#39;/tmp/work/core2-64-oe-linux/corosync/2.4.2-=
-r0/packages-split/corosync/usr/sbin/corosync&#39; has relocations in .text =
-[textrel]
+count: 0	issue: textrel
 
 
 count: 0	issue: build-deps
@@ -621,61 +543,7 @@ count: 0	issue: build-deps
 count: 0	issue: file-rdeps
 
 
-count: 18	issue: version-going-backwards
-psqlodbc-09.05.0300: Package version for package psqlodbc-dbg went backward=
-s which would break package feeds from (0:09.05.0300-r0.32 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dbg went backward=
-s which would break package feeds from (0:09.05.0300-r0.38 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dbg went backward=
-s which would break package feeds from (0:09.05.0300-r0.39 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dev went backward=
-s which would break package feeds from (0:09.05.0300-r0.32 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dev went backward=
-s which would break package feeds from (0:09.05.0300-r0.38 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-dev went backward=
-s which would break package feeds from (0:09.05.0300-r0.39 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-doc went backward=
-s which would break package feeds from (0:09.05.0300-r0.32 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-doc went backward=
-s which would break package feeds from (0:09.05.0300-r0.38 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-doc went backward=
-s which would break package feeds from (0:09.05.0300-r0.39 to 0:09.05.0300-=
-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-locale went backw=
-ards which would break package feeds from (0:09.05.0300-r0.32 to 0:09.05.03=
-00-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-locale went backw=
-ards which would break package feeds from (0:09.05.0300-r0.38 to 0:09.05.03=
-00-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-locale went backw=
-ards which would break package feeds from (0:09.05.0300-r0.39 to 0:09.05.03=
-00-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-staticdev went ba=
-ckwards which would break package feeds from (0:09.05.0300-r0.32 to 0:09.05=
-.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-staticdev went ba=
-ckwards which would break package feeds from (0:09.05.0300-r0.38 to 0:09.05=
-.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc-staticdev went ba=
-ckwards which would break package feeds from (0:09.05.0300-r0.39 to 0:09.05=
-.0300-r0.0) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc went backwards wh=
-ich would break package feeds from (0:09.05.0300-r0.32 to 0:09.05.0300-r0.0=
-) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc went backwards wh=
-ich would break package feeds from (0:09.05.0300-r0.38 to 0:09.05.0300-r0.0=
-) [version-going-backwards]
-psqlodbc-09.05.0300: Package version for package psqlodbc went backwards wh=
-ich would break package feeds from (0:09.05.0300-r0.39 to 0:09.05.0300-r0.0=
-) [version-going-backwards]
+count: 0	issue: version-going-backwards
 
 
 count: 0	issue: host-user-contaminated
@@ -839,6 +707,10 @@ baf375f python-networkx: add python-2to3 to RDEPENDS
 1cb2de1 leveldb: Fix build with clang
 41c1962 rsyslog: fix segfault after configuration errors
 eac05cb logcheck: Add HOMEPAGE info into recipe file
+befda04 Revert &quot;leveldb: Fix build with clang&quot;
+7a91a8b Revert &quot;ndisc6: Fix build with clang and update to latest on g=
+it&quot;
+8662b99 Revert &quot;xfsprogs: Upgrade to 4.12.0&quot;
 
 =3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
 latest upstream commit:=20
@@ -851,6 +723,7 @@ be3c2d3 qtbase-native: set path to mkspec for cmake properly again
 =3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
 latest upstream commit:=20
 972cab7 gnome-settings-daemon: remove the bbappend for removed recipe
-not included in master yet: <br></pre></div>
+not included in master yet:=20
+</pre><div><br></div></div>
 
---001a114e5f08a4b1470558957966--
+--94eb2c092d4e6d68e40558958279--
