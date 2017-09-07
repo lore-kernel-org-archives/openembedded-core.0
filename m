@@ -1,45 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C48781E9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E6EBE77E79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Sep 2017 18:17:25 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id b9so227558wra.0
+	Thu,  7 Sep 2017 19:04:31 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id a2so260964pfj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Sep 2017 11:17:27 -0700 (PDT)
+	Thu, 07 Sep 2017 12:04:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jzv0aOVUHxTp6wofrKQqFpJyfMB+n4Nz61QEN0lLEXY=;
-	b=UItqsG0jeg8VzXGiRqpgmzstyDEVLeDT/mphsyXeKRjCOwlHd+WNNotfmB+sOTnTmr
-	umDv0vl5W3kwx3uCmXdrymvKZsQcniQzmsYRtcZAKOYJTRu4ImZdn732y1jIZ6OqMI1l
-	8x90jdmgt2GiPj7vwk50duEyQpMpFESeZbdklFzhZKVVSMiDuQR8y1hj6zuE9TbiSZHZ
-	+qNkRYw1vhGC1K9UR44N92pYSvkLwE4iKLrfQJgbSD3zTrOkBORglIZMhrHRnGdip5pi
-	N+o/h1aedjP+/0knVE6s67dEvVNJQUcNqg7KQhknzm2e8TGYe13SOcBxL88/XNTAAgkg
-	fwOA==
+	:cc; bh=ky6ZzohfLq+03qH/gkqMEc293MMNTW40vIvBE84jJ8A=;
+	b=jISMQ3fNTeU9Q+MoVhU6MBeAWi/Hp6TqjdwTx98IA1sZgV1biWwdaa3Z9dozJFCVLz
+	Bw9oI8XCrxdRmq63b4K77hfo9EjdZllLm7Qjwb2qa1nH7l3ClQc9fW8CXDeoyFzePt/v
+	ZSaLxqLIjTg8KAXIjiUnKdQVAtGEakJpmPfaOAOIwpPC0JNDWzoZeXB2ourogI3QIcDn
+	1rbhj9ZejaUrewHm50J7QPv+V91Vm1bhJOFwx8MHINFzytkArRjilxEccG37DQ1xMe6c
+	U4j6kBYszEOaD9WzKYrDXWDOWs9OQTFN2W4pkAHk+6n4nbF2iVzf9q2yHXL/39fAYjem
+	+6Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=jzv0aOVUHxTp6wofrKQqFpJyfMB+n4Nz61QEN0lLEXY=;
-	b=i/B86HJrKseLx4/K112zE0cXlJ2u89vnO3T5tY3MooQeWyn/Gxb/DyuqErA1YB7UaT
-	D2Bcio0ATCChg6avqYzhhbcmAkMLsXr+2bkl2wqG6bRvD57L8RBFRtoEB3nndZ576suS
-	KkpqSRVl32Am77HaiUTVPtCy46AHSMrpVyPB22JgF3tlpoXhh97IdSIJhTdb/bFK2GfL
-	lrsiscISrDkb9QCNQfyONVuqPgylvQ9DRgN+ZQ/g5Xxl6sT149Mx3xDqmuG302pKunWm
-	AmvN5QF+S3tLFLI8xT/O7jI2SnYpU9xwzarOx/MLZQUL6IQXFzFP0DUtbvpmvCex7UxL
-	D2Vw==
-X-Gm-Message-State: AHPjjUho/OWO3bMWYyYosqsC7Z06TSzmeW1cq0Rg14BhgS3FqYjBFV8C
-	UIG/xEXrz3iviIJmSUj05EHSYvTAMw==
-X-Google-Smtp-Source: ADKCNb61b5D1jSq7pJ3bRHVNyqQMbaLK0k+qVF7vLIAeqqcopZsZrWhGojDoBI4M15HzLjKvCmPs3Ur7Aq/5bIAx9Ig=
-X-Received: by 10.223.143.110 with SMTP id p101mr152330wrb.182.1504808246558; 
-	Thu, 07 Sep 2017 11:17:26 -0700 (PDT)
+	bh=ky6ZzohfLq+03qH/gkqMEc293MMNTW40vIvBE84jJ8A=;
+	b=s9pdkk4oC2clG+V9adzFadPfUltgHRE2WJZZ70JBsSACJ1SztGuYUqh3Sk1HBogMW7
+	pCdC0UHROkTbyhjQJdkbgzxBDrrSrSVaz3qcvh86XRM3ne+YJgwsZTmYD/GOqTxuKXIP
+	cLsqEPG1sncvAEJBjtFlJtIml/fe+4zpBdjSbePWcz4RH/r0als73jzderaaSIPZ9E/D
+	Pofxwa2jl5woMqraV6qBejjz1VM0ohxCU/vYbyWJ9xf3Wv8dseQyqqK9PsuFIQX5cfmj
+	6pFts9/gbD844MQibjf6TauK6CP0HtpsQx6H7vcqkjEqklua8V2h0tUrGooAqaHZG4aN
+	wccA==
+X-Gm-Message-State: AHPjjUjqkzIjaK9S46BK2eJuURr3l7UYfHu+uToKbVRNOIALwowJoBq+
+	D0HYV8MvkyWQQrswurmdziqs9c9ZMcF1kO68XCw=
+X-Google-Smtp-Source: ADKCNb776dOIzKyWqgfSuPbO3wfoNOa0g3ACjIFBT7Jjn5kmJB9XxEZRoaWDnziS7FO88MBpkDL8fZCLpGg/n2ewd/I=
+X-Received: by 10.84.241.77 with SMTP id u13mr396346plm.440.1504811073036;
+	Thu, 07 Sep 2017 12:04:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.184.166 with HTTP; Thu, 7 Sep 2017 11:17:25 -0700 (PDT)
-In-Reply-To: <20170907123142.28622-1-willn@resin.io>
+Received: by 10.100.189.8 with HTTP; Thu, 7 Sep 2017 12:04:02 -0700 (PDT)
+In-Reply-To: <CAJ86T=VV16HToqmQDuYgRJRvSEggTe2SZf-h1g1XyqVx9tyqHQ@mail.gmail.com>
 References: <20170907123142.28622-1-willn@resin.io>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 7 Sep 2017 11:17:25 -0700
-Message-ID: <CAJ86T=VV16HToqmQDuYgRJRvSEggTe2SZf-h1g1XyqVx9tyqHQ@mail.gmail.com>
-To: Will Newton <will.newton@gmail.com>
+	<CAJ86T=VV16HToqmQDuYgRJRvSEggTe2SZf-h1g1XyqVx9tyqHQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Sep 2017 12:04:02 -0700
+Message-ID: <CAMKF1spvB64vPx052d+KWg0c3tB5f8q3kANHYuofZmNLYXWkEQ@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: Will Newton <willn@resin.io>,
 	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] goarch.bbclass: Replace logic for setting GOARM
@@ -55,46 +56,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Sep 2017 18:17:26 -0000
+X-List-Received-Date: Thu, 07 Sep 2017 19:04:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 7, 2017 at 5:31 AM, Will Newton <will.newton@gmail.com> wrote:
-> The previous logic applied a regex to TUNE_FEATURES which could
-> set the GOARM value to 7 incorrectly, for example when dealing
-> with an arm1176 core. Simplify to check for the presence of
-> "armv7a" instead. At the same time add a check for "armv6" and
-> set GOARM to 6 in that case.
+On Thu, Sep 7, 2017 at 11:17 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Thu, Sep 7, 2017 at 5:31 AM, Will Newton <will.newton@gmail.com> wrote:
+>> The previous logic applied a regex to TUNE_FEATURES which could
+>> set the GOARM value to 7 incorrectly, for example when dealing
+>> with an arm1176 core. Simplify to check for the presence of
+>> "armv7a" instead. At the same time add a check for "armv6" and
+>> set GOARM to 6 in that case.
+>>
+>> Signed-off-by: Will Newton <willn@resin.io>
+>> ---
+>>  meta/classes/goarch.bbclass | 7 +++++--
+>>  1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+>> index 4a5b2ec..35f2987 100644
+>> --- a/meta/classes/goarch.bbclass
+>> +++ b/meta/classes/goarch.bbclass
+>> @@ -38,8 +38,11 @@ def go_map_arch(a, d):
+>>
+>>  def go_map_arm(a, f, d):
+>>      import re
+>> -    if re.match('arm.*', a) and re.match('arm.*7.*', f):
+>> -        return '7'
+>> +    if re.match('arm.*', a):
+>> +        if 'armv7a' in f:
 >
-> Signed-off-by: Will Newton <willn@resin.io>
-> ---
->  meta/classes/goarch.bbclass | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-> index 4a5b2ec..35f2987 100644
-> --- a/meta/classes/goarch.bbclass
-> +++ b/meta/classes/goarch.bbclass
-> @@ -38,8 +38,11 @@ def go_map_arch(a, d):
->
->  def go_map_arm(a, f, d):
->      import re
-> -    if re.match('arm.*', a) and re.match('arm.*7.*', f):
-> -        return '7'
-> +    if re.match('arm.*', a):
-> +        if 'armv7a' in f:
+> You need to test for both armv7a (Cortex A9, etc) and armv7ve (Cortex
+> A7, A15, etc).
 
-You need to test for both armv7a (Cortex A9, etc) and armv7ve (Cortex
-A7, A15, etc).
+yes good point.
 
-> +            return '7'
-> +        elif 'armv6' in f:
-> +            return '6'
->      return ''
 >
->  def go_map_os(o, d):
-> --
-> 2.7.4
->
+>> +            return '7'
+>> +        elif 'armv6' in f:
+>> +            return '6'
+>>      return ''
+>>
+>>  def go_map_os(o, d):
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > --
 > _______________________________________________
 > Openembedded-core mailing list
