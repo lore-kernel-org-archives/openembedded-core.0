@@ -1,45 +1,44 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DF6B37823B
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 13D5578240
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 21:06:22 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id i14so2199151qke.3
+	Fri,  8 Sep 2017 21:06:31 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id 7so2242751qtz.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 14:06:24 -0700 (PDT)
+	Fri, 08 Sep 2017 14:06:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=oozhfkvLTc1pVoKlSsOMrJaIDeoEd5Gxh/YaC68Hjj0=;
-	b=eCnxuu9NVU+ddTK1hDR4ZmpISZL56CpTu3mWlxNG7Dai73XPSp6cMTAPiyuzkrzd0M
-	vci4bta64mKeef7qF3VM4WszknSOXol31l8LtD5x5mlv136E07owasWPG70k5/C9um8y
-	HK82ECrFeS7BuxAp6MeTqpcMQhUARO+ox8RaG5b0UTFeM+jc7HEb4avtrwKcc9TGmsY2
-	AZzbyPcZwJtqjRluEnXlgY2VCA4rZA8zse1CIaBGT199ERQyd/RUNiekdp1JjWNsPAz+
-	IchBp65ySFmFTU4CZ6AaFgyjm0XZRznlNwo3mm1wFuuDhefqDo6K/Lpf/7SKDqL46Ya6
-	uYaw==
-X-Gm-Message-State: AHPjjUi1Pgq8tm9I56/VgQZC7snxNzbsRE0BYrSOD+i7Di8HtvZvDBiJ
-	bG2rL4noPE6TBTRF
-X-Google-Smtp-Source: AOwi7QDLN+fuiCjzRtANJ32hdGAY4jSrqHLg0+3DkjoDky+4bt6pPphqCv9JvhR7ItPjUk0bYQUDYg==
-X-Received: by 10.233.220.199 with SMTP id q190mr5410576qkf.222.1504904783668; 
-	Fri, 08 Sep 2017 14:06:23 -0700 (PDT)
+	bh=mYkZmLSKY/uznA5CYAJxF7+9CgrnOfnmKsZhZl/Aig8=;
+	b=CIlZl/4Th5pYBAABZ0ESwZlLOfqEdREpOyMJafPxDnoWoUXxf4Xy79vH6K2JQe8fmV
+	VN5VFPuAxtvDGGt3F7LPFWi7HDwy2xfKKE5C1jmSBbbxhv4j2r/pI1BVhl/V2RVsKX3E
+	gnqYNuZzMjmUD1Ygb71UfYl7rofJQ6EePtUvBAeLWJs49Nt1n7YrJsCn8h+2TQlinGV4
+	UPQaZN1NhoQ0wTQrIRHvOTqGpSEBaxdYeaH4oNBt1NjAM9d2DNXMB2WfgqIxYRpeWCtv
+	QlLrkcVglVJzYOSROu2EX5BNQyvdb6fPfYshDYRmfD7wE/lPYASPi2ezETeVXFXZi36B
+	HwXg==
+X-Gm-Message-State: AHPjjUhyJpRqrEI4yVZmKRu5PeVlTJnWV3fOxZgyFqwXzNuhsNI3CMHB
+	bAAWG5p81POJuG+D
+X-Google-Smtp-Source: AOwi7QDVDOZ8Ztcb0dTpQoQerhV/fNJaiwprEvSYA7ZyWF6YO5qhD6RPNOdJw2fBX4XjIWiZdm9dHQ==
+X-Received: by 10.200.25.183 with SMTP id u52mr5777057qtj.102.1504904792719;
+	Fri, 08 Sep 2017 14:06:32 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	j61sm1753926qte.84.2017.09.08.14.06.19
+	by smtp.gmail.com with ESMTPSA id s3sm1888857qtg.79.2017.09.08.14.06.27
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 14:06:22 -0700 (PDT)
+	Fri, 08 Sep 2017 14:06:30 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 18:06:16 -0300
+	Fri, 08 Sep 2017 18:06:24 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 18:04:40 -0300
-Message-Id: <20170908210444.25763-11-otavio@ossystems.com.br>
+Date: Fri,  8 Sep 2017 18:04:41 -0300
+Message-Id: <20170908210444.25763-12-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170908210444.25763-1-otavio@ossystems.com.br>
 References: <20170908210444.25763-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v5 10/14] go.bbclass: separate ${S} and ${B}
+Subject: [PATCH v5 11/14] go.bbclass: add do_unpack function to handle common cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,20 +51,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 21:06:23 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 21:06:32 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-Add a do_configure task to populate ${B} by symlinking
-in the src subdirectory under ${S}, which lets us point
-GOPATH at ${B}.  This lets us take advantage of the
-automatic directory creation and cleaning for do_configure.
+Go source trees have a particular structure, with all
+sources located under ${GOROOT}/src/<import-path>.
+The fetcher step implemented by the 'go get' command
+automatically follows this structure, so we need
+to do the same here.
 
-This necessitates a change to do_install to split the
-installation of the sources and built artifacts.  Taking
-advantage of some additional tar options, we can eliminate
-the extra staging area and extra recursive chown command.
-So overall efficiency should be improved.
+Since most Go packages are hosted in git repositories,
+this adds a custom do_unpack() function that sets
+the destsuffix to match the expected directory structure,
+for any git SRC_URIs that haven't had a destsuffix
+explicitly set in the recipe.
+
+This simplifies recipe writing for the most common
+cases.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
@@ -78,72 +81,44 @@ Changes in v3:
 
 Changes in v2: None
 
- meta/classes/go.bbclass | 46 ++++++++++++++++++----------------------------
- 1 file changed, 18 insertions(+), 28 deletions(-)
+ meta/classes/go.bbclass | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index 82b5f83aa0..cfe773e13d 100644
+index cfe773e13d..c1ef01fafe 100644
 --- a/meta/classes/go.bbclass
 +++ b/meta/classes/go.bbclass
-@@ -53,40 +53,30 @@ FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
+@@ -55,6 +55,24 @@ GO_INSTALL ?= "${GO_IMPORT}/..."
  
- GO_INSTALL ?= "${GO_IMPORT}/..."
+ B = "${WORKDIR}/build"
  
-+B = "${WORKDIR}/build"
++python go_do_unpack() {
++    src_uri = (d.getVar('SRC_URI') or "").split()
++    if len(src_uri) == 0:
++        return
 +
-+go_do_configure() {
-+	ln -snf ${S}/src ${B}/
++    try:
++        fetcher = bb.fetch2.Fetch(src_uri, d)
++        for url in fetcher.urls:
++            if fetcher.ud[url].type == 'git':
++                if fetcher.ud[url].parm.get('destsuffix') is None:
++                    s_dirname = os.path.basename(d.getVar('S'))
++                    fetcher.ud[url].parm['destsuffix'] = os.path.join(s_dirname, 'src',
++                                                                      d.getVar('GO_IMPORT')) + '/'
++        fetcher.unpack(d.getVar('WORKDIR'))
++    except bb.fetch2.BBFetchException as e:
++        raise bb.build.FuncFailed(e)
 +}
 +
- go_do_compile() {
--	GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
-+	GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
- 	if [ -n "${GO_INSTALL}" ]; then
--		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
-+		GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
+ go_do_configure() {
+ 	ln -snf ${S}/src ${B}/
+ }
+@@ -79,4 +97,4 @@ go_do_install() {
  	fi
  }
-+do_compile[cleandirs] = "${B}/bin ${B}/pkg"
  
- go_do_install() {
--	rm -rf ${WORKDIR}/staging
--	install -d ${WORKDIR}/staging${GOROOT_FINAL} ${D}${GOROOT_FINAL}
--	tar -C ${S} -cf - . | tar -C ${WORKDIR}/staging${GOROOT_FINAL} -xpvf -
--
--	find ${WORKDIR}/staging${GOROOT_FINAL} \( \
--		-name \*.indirectionsymlink -o \
--		-name .git\* -o                \
--		-name .hg -o                   \
--		-name .svn -o                  \
--		-name .pc\* -o                 \
--		-name patches\*                \
--		\) -print0 | \
--	xargs -r0 rm -rf
--
--	tar -C ${WORKDIR}/staging${GOROOT_FINAL} -cf - . | \
--	tar -C ${D}${GOROOT_FINAL} -xpvf -
--
--	chown -R root:root "${D}${GOROOT_FINAL}"
--
--	if [ -e "${D}${GOBIN_FINAL}" ]; then
--		install -d -m 0755 "${D}${bindir}"
--		find "${D}${GOBIN_FINAL}" ! -type d -print0 | xargs -r0 mv --target-directory="${D}${bindir}"
--		rmdir -p "${D}${GOBIN_FINAL}" || true
-+	install -d ${D}${GOROOT_FINAL}/src/${GO_IMPORT}
-+	tar -C ${S}/src/${GO_IMPORT} -cf - --exclude-vcs . | \
-+		tar -C ${D}${GOROOT_FINAL}/src/${GO_IMPORT} --no-same-owner -xf -
-+	tar -C ${B} -cf - pkg | tar -C ${D}${GOROOT_FINAL} --no-same-owner -xf -
-+
-+	if [ -n "`ls ${B}/${GO_BUILD_BINDIR}/`" ]; then
-+		install -d ${D}${bindir}
-+		install -m 0755 ${B}/${GO_BUILD_BINDIR}/* ${D}${bindir}/
- 	fi
- }
--do_install[dirs] =+ "${WORKDIR}/staging"
--do_install[cleandirs] += "${WORKDIR}/staging"
- 
--EXPORT_FUNCTIONS do_compile do_install
-+EXPORT_FUNCTIONS do_configure do_compile do_install
+-EXPORT_FUNCTIONS do_configure do_compile do_install
++EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
 -- 
 2.14.1
 
