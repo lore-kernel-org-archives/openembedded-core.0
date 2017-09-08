@@ -1,44 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B10078211
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 01A73781E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 14:45:52 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id i14so1642437qke.3
+	Fri,  8 Sep 2017 14:46:02 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id i14so1642694qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 07:45:54 -0700 (PDT)
+	Fri, 08 Sep 2017 07:46:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=emz9hTAFlqzX/QrubI9T2Zbhu/6kD0RKacMb6PXSYeo=;
-	b=SFMdg9tTmaHUV2wUiXOQb3prCTNcdKnti3wgqCOXXoPvcXrRzTiX0lAyX7BsU3LQKN
-	o3FPv6OQ5IX+h5QdhNe0hRS7T+ZyeYMbblYS+SH6pzpWREc0vi7FqzE4q6UeQEroC7lS
-	NHlNVxQJrl6Q2Ev/ksiRpCfO5HzVU+/vUNHLaOUXm6Q68/Ek7+dx5TghykAoH4bzW6Tz
-	2FL2I/PF++Lgyr6ctY2Q2FYgUwjxgPiXQANcHypBN0aYbGICJR5uYsppKHjJrecjUrK3
-	8VgjCwx2QLfy0D3QNlW9H1livwilOyAN0kMCvK6+9gPyX6yOoN7glS9RhkJvt5fOcM5i
-	yKrw==
-X-Gm-Message-State: AHPjjUhc41bHY/oTtO6Kgruxl4/lswQ9WCHwpAPzwbg1XX28g2XQzoHN
-	qjJyoKacpAPwdmFA
-X-Google-Smtp-Source: AOwi7QBR2URevg5ss9i/alyPbS0KQOw2FJjyM66bLzK2J9D7dMJDJg4aLLCFEtA/Jas/COQnH3HBJA==
-X-Received: by 10.55.16.198 with SMTP id 67mr4302906qkq.116.1504881954104;
-	Fri, 08 Sep 2017 07:45:54 -0700 (PDT)
+	bh=9bUd1Ja4QEWnzFASNrFLt86lNtQsdHFlReU0104btk4=;
+	b=Ro/e3EgB+Iq6d+xk6flFb0Eo0j3qb9ELxacHAGxqdslfMHcEa8+NSgn4Fqf0YCg8Zj
+	lhMjt71Fjn6n1Hw57jfpcs2RIlN+dsZhqGaTTe7PBNOYox5ciijGRxk1Kyw+iJ6GEANH
+	5Ab2gG7gmj1C1PANADyliyM81WUX1jKIvr+Z16qZPPD5KR9kPsvpzFp+CvzyR30YG3nY
+	6NqJAQFa0m1KjrWHmKQ+P3muvrTAd93P8/Ce+JowwZIY1ADVOiUtWG5+mlK6NxuPOLRK
+	B1RtCUVBFK0hvp8gIXviT4Dz0XofiTiQ6c1ujYGjD+aB+YBUTxl4bt4VnDNmxGOu5jiR
+	jaXg==
+X-Gm-Message-State: AHPjjUg8Hb9pv44bzxTQmUWfkOgciVNYBiOhrgghrS9Hy+WP6TkS3u9o
+	IkLLoio5Rd7D59+G
+X-Google-Smtp-Source: AOwi7QAgCKKM5cW1yFuSWbElBvcsmzSzLqUs5eajoj2MzJshVMdI3dn9rsNbuGc4ee9hGXG3Jn/Gcw==
+X-Received: by 10.55.31.211 with SMTP id n80mr4251672qkh.324.1504881963181;
+	Fri, 08 Sep 2017 07:46:03 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id k20sm1309290qtj.2.2017.09.08.07.45.50
+	by smtp.gmail.com with ESMTPSA id
+	e39sm1365933qtb.67.2017.09.08.07.45.57
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 07:45:53 -0700 (PDT)
+	Fri, 08 Sep 2017 07:46:00 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 11:45:47 -0300
+	Fri, 08 Sep 2017 11:45:54 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 11:44:48 -0300
-Message-Id: <20170908144454.14308-7-otavio@ossystems.com.br>
+Date: Fri,  8 Sep 2017 11:44:49 -0300
+Message-Id: <20170908144454.14308-8-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170908144454.14308-1-otavio@ossystems.com.br>
 References: <20170908144454.14308-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v4 06/12] goarch.bbclass: Add support for ARMv5
+Subject: [PATCH v4 07/12] go.bbclass: Use a global Go build flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,9 +52,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 14:45:54 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 14:46:02 -0000
 
-This adds support to return the proper ARMv5 format.
+We now use a GOBUILDFLAGS to provide a global variable to control the
+build flags to be given to Go.
 
 This change is based on the meta-golang[1] layer. Thanks to Matt
 Madison <matt@madison.systems> for his work on this.
@@ -63,29 +65,37 @@ Madison <matt@madison.systems> for his work on this.
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v4:
-- rebase on top of new "goarch.bbclass: Replace logic for setting
-  GOARM"
-
+Changes in v4: None
 Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- Remove -x flag (madisongh)
+- Remove GO_EXTLDFLAGS for now (madisongh)
 
- meta/classes/goarch.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/go.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-index 0f0d8b6a60..0c22f80518 100644
---- a/meta/classes/goarch.bbclass
-+++ b/meta/classes/goarch.bbclass
-@@ -50,6 +50,8 @@ def go_map_arm(a, f, d):
-             return '7'
-         elif 'armv6' in f:
-             return '6'
-+        elif 'armv5' in f:
-+            return '5'
-     return ''
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index e073cb91b5..720a504cd8 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -5,6 +5,8 @@ GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+ GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
+ GOBIN_FINAL = "${GOROOT_FINAL}/${GO_BUILD_BINDIR}"
  
- def go_map_os(o, d):
++export GOBUILDFLAGS ?= "-v"
++
+ export GOOS = "${TARGET_GOOS}"
+ export GOARCH = "${TARGET_GOARCH}"
+ export GOARM = "${TARGET_GOARM}"
+@@ -32,7 +34,7 @@ GO_INSTALL ?= "${GO_IMPORT}/..."
+ do_go_compile() {
+ 	GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
+ 	if [ -n "${GO_INSTALL}" ]; then
+-		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install -v ${GO_INSTALL}
++		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
+ 	fi
+ }
+ 
 -- 
 2.14.1
 
