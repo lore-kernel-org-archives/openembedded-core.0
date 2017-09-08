@@ -1,63 +1,21 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
-	[209.85.161.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B65277ACB
+Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AAD1078170
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 13:12:53 +0000 (UTC)
-Received: by mail-yw0-f174.google.com with SMTP id q80so7330706ywg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:12:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=s+jNz2/zwGzStIg0Jt421G5MxcjvAp1ZbPBd/TzjmpE=;
-	b=wwvHiXHQpG9yX64uEF7dSBYskdqd3sAN6+rBtkyjCRPtJ5zz8YwMv30PZEPYtz1KAr
-	DyFBYzJqlqqaz0lBCjUtwRMPwz5s5W+c4pwPCG1u3IYd51Hy/yzDm0aJ9yS95Pc62+SW
-	eUEz9tuGG4mpoXJPZcf+EWSTaE7uZumwz5vL+0SoeUEvD64O3wwYJQzGjEPvCU9Hpi+h
-	OXEAV5e0aAyvMxq+uZmDDgFhLx3b8Bo9BdmzhdKtcbB3Cz3lvGSQza4HRum5/98DttGu
-	dI87OL4Xk8XUFqVATkoFJRFxHzPLXhQDBlmIyB1kA1EDq2ymUYg46ymWPTFQPj0OZZ0K
-	is4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=s+jNz2/zwGzStIg0Jt421G5MxcjvAp1ZbPBd/TzjmpE=;
-	b=Cb8eKv7+/L1QNxeasafocOFITn5DQJY+l2xJx49tbi35bZ0a7RK0PYkB+Ego07M7t9
-	sjS4RAJNZ32GcsqAhf0wHe5faAIcuDj+txm0GtVmucAzsduM1vEtIuW6nGoECOn8Yz5o
-	JqqB9FTwgZ0mq5AnF6h+yRzA2F0GgRij5eS8OpUWKsnQSKobzj7XxCHukcvw7o1JSq4s
-	KbdzxPION82/0B8FrfVOMEXkDWbw41n85XZELikQWRU7wxZWoLk9pEgd3jNpowi4aaDF
-	B2uGg2+sAx8ukfQQDBWl8RjAq56e4gxtuw0Jc6Vy/IQWq/3U9l0R69VCPTLu5DbgFcft
-	1GtQ==
-X-Gm-Message-State: AHPjjUiL1GIA1iCdl1WR0+k/Ze1HZPvbBANgTn/CCoaURyj99Z1wmbHS
-	Cje5NRhReTjwzgFAOrU=
-X-Received: by 10.37.187.7 with SMTP id z7mr2262746ybg.81.1504876374645;
-	Fri, 08 Sep 2017 06:12:54 -0700 (PDT)
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com.
-	[209.85.218.53])
-	by smtp.gmail.com with ESMTPSA id m76sm670556ywd.10.2017.09.08.06.12.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Sep 2017 06:12:53 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f53.google.com with SMTP id z73so11203467oia.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:12:53 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QBrLUE2pBFJtKeipRDwLi4n1cEARVk7TePgrrJAfRe9oVgx2Bw+yZPpr/PmnH6H6TdChL+aC68fEsGaLbhgjbI=
-X-Received: by 10.202.56.194 with SMTP id f185mr2548992oia.249.1504876372865; 
-	Fri, 08 Sep 2017 06:12:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Fri, 8 Sep 2017 06:12:52 -0700 (PDT)
-In-Reply-To: <CAJTo0LY7LOj73k2eu10sw-6NySPDyencXYXTKDBLh_mrFwLaYg@mail.gmail.com>
-References: <20170905015722.16993-1-otavio@ossystems.com.br>
-	<CAJTo0LY7LOj73k2eu10sw-6NySPDyencXYXTKDBLh_mrFwLaYg@mail.gmail.com>
-Date: Fri, 8 Sep 2017 10:12:52 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo+r0joo6h2OHsBO_4mugvOxsNvDPEmG54p3RGB=cy_Pw@mail.gmail.com>
-Message-ID: <CAP9ODKo+r0joo6h2OHsBO_4mugvOxsNvDPEmG54p3RGB=cy_Pw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: Move Device Tree support to kernel.bbclass
+	Fri,  8 Sep 2017 13:34:35 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Sep 2017 06:34:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,361,1500966000"; d="scan'208";a="147000532"
+Received: from yctb04.ostc.intel.com ([10.54.69.58])
+	by orsmga005.jf.intel.com with ESMTP; 08 Sep 2017 06:34:36 -0700
+From: juan.m.cruz.alcaraz@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 06:34:34 -0700
+Message-Id: <20170908133434.26109-1-juan.m.cruz.alcaraz@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH v4] devtool/standard: set a preferred provider when adding a new recipe with devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,19 +28,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 13:12:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Sep 2017 13:34:35 -0000
 
-On Thu, Sep 7, 2017 at 1:21 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> Would this be the cause of this failure on the autobuilder when doing
-> testimage?
+From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
 
-Yes, it is.
+A recipe added with "devtool add" requires to be able to take precedence on recipes
+previously defined with PREFERRED_PROVIDER.
 
-I did reproduce the error here and I am sending a new revision fixing it.
+By adding the parameter "--provides" to "devtool add" it is possible to specify
+an element to be provided by the recipe. A devtool recipe can override a previous
+PREFERRED_PROVIDER using the layer configuration file in the workspace.
 
+E.g.
+    devtool add my-libgl git@git://my-libgl-repository --provides virtual/libgl
+
+[YOCTO #10415]
+
+Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py  | 42 ++++++++++++++++++++++++++++++++++++++++
+ scripts/lib/recipetool/create.py |  3 +++
+ 2 files changed, 45 insertions(+)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 174cc861e1..e976161cbb 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -161,6 +161,8 @@ def add(args, config, basepath, workspace):
+         extracmdopts += ' --srcrev %s' % args.srcrev
+     if args.srcbranch:
+         extracmdopts += ' --srcbranch %s' % args.srcbranch
++    if args.provides:
++        extracmdopts += ' --provides %s' % args.provides
+ 
+     tempdir = tempfile.mkdtemp(prefix='devtool')
+     try:
+@@ -276,6 +278,24 @@ def add(args, config, basepath, workspace):
+                 f.write('    done\n')
+                 f.write('}\n')
+ 
++        # Check if the new layer provides recipes whose priorities have been
++        # overriden by PREFERRED_PROVIDER.
++        recipe_name = rd.getVar('PN')
++        provides = rd.getVar('PROVIDES')
++        # Search every item defined in PROVIDES
++        for recipe_provided in provides.split():
++            preferred_provider = 'PREFERRED_PROVIDER_' + recipe_provided
++            current_pprovider = rd.getVar(preferred_provider)
++            if current_pprovider and current_pprovider != recipe_name:
++                if args.fixed_setup:
++                    #if we are inside the eSDK add the new PREFERRED_PROVIDER in the workspace layer.conf
++                    layerconf_file = os.path.join(config.workspace_path, "conf", "layer.conf")
++                    with open(layerconf_file, 'a') as f:
++                        f.write('%s = "%s"\n' % (preferred_provider, recipe_name))
++                else:
++                    logger.warn('Set \'%s\' in order to use the recipe' % preferred_provider)
++                break
++
+         _add_md5(config, recipename, appendfile)
+ 
+         logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
+@@ -1612,6 +1632,26 @@ def status(args, config, basepath, workspace):
+ def _reset(recipes, no_clean, config, basepath, workspace):
+     """Reset one or more recipes"""
+ 
++    def clean_preferred_provider(pn, layerconf_path):
++        """Remove PREFERRED_PROVIDER from layer.conf'"""
++        import re
++        layerconf_file = os.path.join(layerconf_path, 'conf', 'layer.conf')
++        new_layerconf_file = os.path.join(layerconf_path, 'conf', '.layer.conf')
++        pprovider_found = False
++        with open(layerconf_file, 'r') as f:
++            lines = f.readlines()
++            with open(new_layerconf_file, 'a') as nf:
++                for line in lines:
++                    pprovider_exp = r'^PREFERRED_PROVIDER_.*? = "' + pn + r'"$'
++                    if not re.match(pprovider_exp, line):
++                        nf.write(line)
++                    else:
++                        pprovider_found = True
++        if pprovider_found:
++            shutil.move(new_layerconf_file, layerconf_file)
++        else:
++            os.remove(new_layerconf_file)
++
+     if recipes and not no_clean:
+         if len(recipes) == 1:
+             logger.info('Cleaning sysroot for recipe %s...' % recipes[0])
+@@ -1664,6 +1704,7 @@ def _reset(recipes, no_clean, config, basepath, workspace):
+                 # This is unlikely, but if it's empty we can just remove it
+                 os.rmdir(srctree)
+ 
++        clean_preferred_provider(pn, config.workspace_path)
+ 
+ def reset(args, config, basepath, workspace):
+     """Entry point for the devtool 'reset' subcommand"""
+@@ -1827,6 +1868,7 @@ def register_commands(subparsers, context):
+     parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
+     parser_add.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
+     parser_add.add_argument('--mirrors', help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).', action="store_true")
++    parser_add.add_argument('--provides', '-p', help='Specify an alias for the item provided by the recipe. E.g. virtual/libgl')
+     parser_add.set_defaults(func=add, fixed_setup=context.fixed_setup)
+ 
+     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 4788691cff..ca474fce99 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -699,6 +699,8 @@ def create_recipe(args):
+                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
+             srcrev = stdout.rstrip()
+         lines_before.append('SRCREV = "%s"' % srcrev)
++    if args.provides:
++        lines_before.append('PROVIDES = "%s"' % args.provides)
+     lines_before.append('')
+ 
+     if srcsubdir and not args.binary:
+@@ -1300,6 +1302,7 @@ def register_commands(subparsers):
+                                           description='Creates a new recipe from a source tree')
+     parser_create.add_argument('source', help='Path or URL to source')
+     parser_create.add_argument('-o', '--outfile', help='Specify filename for recipe to create')
++    parser_create.add_argument('-p', '--provides', help='Specify an alias for the item provided by the recipe')
+     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
+     parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
+     parser_create.add_argument('-N', '--name', help='Name to use within recipe (PN)')
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.12.3
+
 
