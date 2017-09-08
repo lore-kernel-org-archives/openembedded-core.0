@@ -1,44 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9415878190
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D5AEE781A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 13:49:08 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id g128so1562409qke.0
+	Fri,  8 Sep 2017 13:49:16 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id d70so1557652qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:49:10 -0700 (PDT)
+	Fri, 08 Sep 2017 06:49:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=sbkCuSHgpkjCV6ZyUdtbHgJPCgY7lKEVnQmNm4+5+BI=;
-	b=Se8lVJRuDLKbG5zVbRbfa1QXPQh/lc57PRsJkkwES1l/BwGxF0ihzK4a7yAtk27SmM
-	Lb45ihTHTqLlykH3f12IeQqizgZSiun4gA5szYatfFVKIxzLsLe7bMr/1MaOU8IoG0XC
-	Lh1MR36hjtWfxS1+isZ8XzoIjneD2sx4XmUasmBuRvs4dTtlJl8EdGacr5JGmmGAGHiX
-	pm+v+dm5ntsbnuZOpmuYA0+BWJgNy8zp1PmKMJG9cGlZGHjQX/PPnyrLDpvqJz/J5CpE
-	Lo/Pf6AZiuhJ37nXpypnFvE0ZLKJ9zhARjpFMbx8cLKoPh6KEDhcKP2m0MDzVTT6ct7S
-	VvdQ==
-X-Gm-Message-State: AHPjjUh/BoW6J41zUVF3zlm8aHiNKPm6eVsebEEuhKVRzrQhiN1E2CJl
-	MOSNlBhUAxdM7tv/
-X-Google-Smtp-Source: AOwi7QBOxxo7Qs6Cv9pTsMp59WliNGXt36K0R/8ZiMQLvNIdz5/EZ3ET1pGNUsIEs/Ju3ZnZL+siSA==
-X-Received: by 10.55.77.72 with SMTP id a69mr3762883qkb.196.1504878549695;
-	Fri, 08 Sep 2017 06:49:09 -0700 (PDT)
+	bh=IjxR5mTK9jMIkarZWq7PfmkHDksCuvxE6zfjRLj5c+Q=;
+	b=RjE6uZAQ6uSB3Lo4cEgf46cBEGlgsnDE23ORgv+vzBXNHX8cL4OBHlr5X8YHTFnvNt
+	KhjMoJ9gGpj5LiYbVoT3UtdKifTqlc1Q+pVufjbWQAIzYU52EB3P7+wosx4p44yilgvX
+	yazTG9Qmw1PwMxmqog6FNOk5JdF6bpvAQxILgxJNUkXRVYtkb64H5GalEpiYXG3z9lVX
+	XxsOEpNIt+ervuakDWIAKmjBiAIq1KtHEArrxHq+T1v6ZbtgcrrFGbJl6yiwH2KMOwrk
+	OQKjEPcTmkGa1B6z+0iiKqyhHy1yM9+cvP8Kk+2qxAlsGIt6YcbmdXtNllHhN1vB7ypc
+	2K/w==
+X-Gm-Message-State: AHPjjUjsk14TBHy7WRD4rI14V2XtGo67xYJc/doLOm3ekq0K+qaY2suV
+	ifJjHr+qGdv0TZQO
+X-Google-Smtp-Source: AOwi7QCTKOv0PlxuiMgEcqohRbM8DxoTjuoYHJnxAqOlXrYnHWKutzHMfTSF7Pg6fu/0H/G7YHNpIg==
+X-Received: by 10.55.113.4 with SMTP id m4mr3765183qkc.349.1504878557887;
+	Fri, 08 Sep 2017 06:49:17 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id 20sm1294199qtu.77.2017.09.08.06.49.05
+	by smtp.gmail.com with ESMTPSA id
+	k51sm1286700qtc.46.2017.09.08.06.49.13
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 06:49:09 -0700 (PDT)
+	Fri, 08 Sep 2017 06:49:17 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 10:49:02 -0300
+	Fri, 08 Sep 2017 10:49:10 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 10:47:55 -0300
-Message-Id: <20170908134758.7570-9-otavio@ossystems.com.br>
+Date: Fri,  8 Sep 2017 10:47:56 -0300
+Message-Id: <20170908134758.7570-10-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170908134758.7570-1-otavio@ossystems.com.br>
 References: <20170908134758.7570-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3 08/11] go.bbclass: exported function cleanup
+Subject: [PATCH v3 09/11] go.bbclass: Use an auxiliary variable to add the build dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,63 +52,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 13:49:09 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 13:49:17 -0000
 
-From: Matt Madison <matt@madison.systems>
+This is going to easy the addition of nativesdk and virtual providers
+in the future.
 
-Since this is a class, it should follow the
-class function export mechanism for its task
-functions, and should set directory-related
-flags for directories they need.
+This change is based on the meta-golang[1] layer. Thanks to Matt
+Madison <matt@madison.systems> for his work on this.
 
-Signed-off-by: Matt Madison <matt@madison.systems>
+1. https://github.com/madisongh/meta-golang
+
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
-Changes in v3:
-- new patch
-
+Changes in v3: None
 Changes in v2: None
 
- meta/classes/go.bbclass | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ meta/classes/go.bbclass | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index f64b07fd82..6df73bf377 100644
+index 6df73bf377..82b5f83aa0 100644
 --- a/meta/classes/go.bbclass
 +++ b/meta/classes/go.bbclass
-@@ -51,14 +51,14 @@ FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
+@@ -24,6 +24,11 @@ GOROOT = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+ GOBIN_FINAL_class-native = "${GOROOT_FINAL}/bin"
+ GOBIN_FINAL = "${GOROOT_FINAL}/${GO_BUILD_BINDIR}"
  
- GO_INSTALL ?= "${GO_IMPORT}/..."
++DEPENDS_GOLANG_class-target = "go-cross-${TARGET_ARCH}"
++DEPENDS_GOLANG_class-native = "go-native"
++
++DEPENDS_append = " ${DEPENDS_GOLANG}"
++
+ export GOBUILDFLAGS ?= "-v"
+ GOBUILDFLAGS_prepend_task-compile = "${GO_PARALLEL_BUILD} "
  
--do_go_compile() {
-+go_do_compile() {
- 	GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
- 	if [ -n "${GO_INSTALL}" ]; then
- 		GOPATH=${S}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
- 	fi
- }
+@@ -43,9 +48,6 @@ export CGO_CPPFLAGS = "${TARGET_CPPFLAGS}"
+ export CGO_CXXFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_CXXFLAGS}"
+ export CGO_LDFLAGS = "${TARGET_CC_ARCH}${TOOLCHAIN_OPTIONS} ${TARGET_LDFLAGS}"
  
--do_go_install() {
-+go_do_install() {
- 	rm -rf ${WORKDIR}/staging
- 	install -d ${WORKDIR}/staging${GOROOT_FINAL} ${D}${GOROOT_FINAL}
- 	tar -C ${S} -cf - . | tar -C ${WORKDIR}/staging${GOROOT_FINAL} -xpvf -
-@@ -84,11 +84,7 @@ do_go_install() {
- 		rmdir -p "${D}${GOBIN_FINAL}" || true
- 	fi
- }
-+do_install[dirs] =+ "${WORKDIR}/staging"
-+do_install[cleandirs] += "${WORKDIR}/staging"
- 
--do_compile() {
--	do_go_compile
--}
+-DEPENDS += "go-cross-${TARGET_ARCH}"
+-DEPENDS_class-native += "go-native"
 -
--do_install() {
--	do_go_install
--}
-+EXPORT_FUNCTIONS do_compile do_install
+ FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
+ FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
+ 
 -- 
 2.14.1
 
