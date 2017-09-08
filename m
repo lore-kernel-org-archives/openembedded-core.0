@@ -1,22 +1,48 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 465147820E
+Return-Path: <yahiafarghaly@gmail.com>
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E778478227
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 22:12:21 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Sep 2017 15:12:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,363,1500966000"; d="scan'208";a="1170489209"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 08 Sep 2017 15:12:23 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 15:12:21 -0700
-Message-Id: <20170908221221.24444-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.5
-Cc: otavio@ossystems.com.br
-Subject: [PATCH v3] initramfs-framework: split setup-live and install-efi into separate recipes
+	Fri,  8 Sep 2017 22:17:46 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id b9so1782302wra.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 15:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=wp+yuzUfrMnGitIxoWj6CvwuAitGhEN7aLYPfVuLZug=;
+	b=euSUp0uyppLagrtBLBikQyRsar32N8eUXOoP0kgLNYRjAlB1JnIX0uSvwwciKhx6CN
+	UNpBVptusAjYFXqNvYZ9o3roKfGIK5ky87ewn2rBF8LRRgi0o3h4Sk8WIG1H9vIHlw2C
+	TF6xt0QDh4tHiglrAPDZq4oDQ0FM2dsGfBJSCmW+idHpe5XKylIgOJRExSnBu2kN1vcg
+	Rv7ZHf8/WFXnXu1WOps9TntCEPE9/ighTzTFDItxV3MrJcHbx7V2VGyhlAYnY/+VB5Ed
+	hPaYjauW0buvLaTgPxygBjqAYtePFunCW1NmvjSBvzusZvAOMM169t0gUJKl3XZHypbH
+	VdrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wp+yuzUfrMnGitIxoWj6CvwuAitGhEN7aLYPfVuLZug=;
+	b=j/Dyr3urjECCQBHvYIDiNQwR33ks17IA0B8Ga2UwvmSGEJPkUygZ8bbUdmWxsTeLyy
+	37+bOoI4CiTI/xR2swCYBFo1WyStRcpYJqaFUTwas3YvexcpuSju3Qa2ZmJ+DrWC4Tci
+	jtgDynj0Yg8ZYy41T5IyDGIZAyMvQ+UoyI6AOYaGfBaP6OsmG/TnqzlP889Uhrlk/lWU
+	10NFkBONExmbn/EEm/ZE1/Xz2vLYMOORDQVGSBgHepv/mWfxDiDyjabXvTxsnAJcxMPd
+	jPG5ZrIqkFYiIrVczab6aIq70mqvW9tW81kRs1/JcFcPAy8WXWw25r8m0BQvEziZmX9R
+	a8hg==
+X-Gm-Message-State: AHPjjUjvTuRlvZeTyDN6Grf+lOnQSLyQFuY4y+P9Yb9omWnuAsriwhfq
+	ptUiDZenmIA98LSdKv4=
+X-Google-Smtp-Source: ADKCNb4b8lgBfy1SJ+VMq7qpGxTd4+/U5wBqFUNyvEL8XxPyLo0mttO8FG6BElJp9RREZyPKVMb+xQ==
+X-Received: by 10.223.176.84 with SMTP id g20mr2927135wra.117.1504909067516;
+	Fri, 08 Sep 2017 15:17:47 -0700 (PDT)
+Received: from localhost.localdomain ([156.223.101.162])
+	by smtp.gmail.com with ESMTPSA id e8sm5145178wmf.12.2017.09.08.15.17.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 08 Sep 2017 15:17:46 -0700 (PDT)
+From: Yahia Farghaly <yahiafarghaly@gmail.com>
+X-Google-Original-From: Yahia Farghaly <yahiacommunication@yahoo.com>
+To: hongxu.jia@windriver.com
+Date: Sat,  9 Sep 2017 00:17:35 +0200
+Message-Id: <1504909055-29659-1-git-send-email-yahiacommunication@yahoo.com>
+X-Mailer: git-send-email 1.9.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: [meta-oe][PATCH] gnupg: added a coreutils runtime dependancy to gnupg recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,180 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 22:12:22 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 22:17:47 -0000
 
-Having these the initramfs-framework recipe forced initramfs-framework
-users to build several tools they didn't need, and made it more
-difficult to declare the recipe as allarch.
+From: yahiafarghaly <yahiafarghaly@gmail.com>
 
-Fixes [YOCTO #12024].
+When using 'apt-key add' on the target image, the gnupg is required
+but for gnupg to be fully functional, the coreutils is required to be exist with the gnupg.
+Otherwise, it may throw an error in runtime as one of components of coreutils is missing.
+For 'apt-key add', i faced the error of 'comm: command not found' so as proper solution, i submit this change.
 
-v2 changes:
-  * fix SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in layer.conf
-  * bump PR of initramfs-framework
-  * add allarch to setup-live and install-efi modules, as they're just
-    shell scripts
-
-v3 changes:
-  * set PR of new recipes to 4, as the name of the packages they build
-    is the same as when they were part of the main recipe.
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: yahiafarghaly <yahiafarghaly@gmail.com>
 ---
- meta/conf/layer.conf                               |  8 ++++----
- .../initrdscripts/initramfs-framework_1.0.bb       | 22 +++-------------------
- .../initramfs-module-install-efi_1.0.bb            | 20 ++++++++++++++++++++
- .../initramfs-module-setup-live_1.0.bb             | 20 ++++++++++++++++++++
- 4 files changed, 47 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
+ meta/recipes-support/gnupg/gnupg_2.2.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 04aa730..df457c2 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -50,12 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   docbook-xsl-stylesheets->perl \
-   ca-certificates->openssl \
-   initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
--  initramfs-framework->dosfstools \
--  initramfs-framework->e2fsprogs \
-   initramfs-framework->eudev \
--  initramfs-framework->parted \
-   initramfs-framework->systemd \
--  initramfs-framework->util-linux \
-+  initramfs-module-install-efi->dosfstools \
-+  initramfs-module-install-efi->e2fsprogs \
-+  initramfs-module-install-efi->parted \
-+  initramfs-module-install-efi->util-linux \
-   liberation-fonts->fontconfig \
-   cantarell-fonts->fontconfig \
-   gnome-icon-theme->librsvg \
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 77b2ff8..2afc37e 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit allarch
- 
-@@ -14,8 +14,7 @@ SRC_URI = "file://init \
-            file://udev \
-            file://e2fs \
-            file://debug \
--           file://setup-live \
--           file://install-efi.sh"
-+          "
- 
- S = "${WORKDIR}"
- 
-@@ -27,9 +26,6 @@ do_install() {
-     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
-     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
- 
--    # setup-live
--    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
--
-     # mdev
-     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
- 
-@@ -42,9 +38,6 @@ do_install() {
-     # debug
-     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
- 
--    # install-efi
--    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
--
-     # Create device nodes expected by some kernels in initramfs
-     # before even executing /init.
-     install -d ${D}/dev
-@@ -57,8 +50,7 @@ PACKAGES = "${PN}-base \
-             initramfs-module-e2fs \
-             initramfs-module-rootfs \
-             initramfs-module-debug \
--            initramfs-module-setup-live \
--            initramfs-module-install-efi"
-+           "
- 
- FILES_${PN}-base = "/init /init.d/99-finish /dev"
- 
-@@ -78,10 +70,6 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
- RDEPENDS_initramfs-module-udev = "${PN}-base udev"
- FILES_initramfs-module-udev = "/init.d/01-udev"
- 
--SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
--RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
--FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
--
- SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
- RDEPENDS_initramfs-module-e2fs = "${PN}-base"
- FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
-@@ -93,7 +81,3 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
- SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
- RDEPENDS_initramfs-module-debug = "${PN}-base"
- FILES_initramfs-module-debug = "/init.d/00-debug"
--
--SUMMARY_initramfs-module-install-efi = "initramfs support for installation option"
--RDEPENDS_initramfs-module-install-efi = "${PN}-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
--FILES_initramfs-module-install-efi = "/init.d/install-efi.sh"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-new file mode 100644
-index 0000000..2270441
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "initramfs-framework module for installation option"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.0.bb b/meta/recipes-support/gnupg/gnupg_2.2.0.bb
+index 0176ddd..8aa0951 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.0.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.0.bb
+@@ -44,3 +44,5 @@ do_install_append() {
+ PACKAGECONFIG ??= "gnutls"
+ PACKAGECONFIG[gnutls] = "--enable-gnutls, --disable-gnutls, gnutls"
+ PACKAGECONFIG[sqlite3] = "--enable-sqlite, --disable-sqlite, sqlite3"
 +
-+PR = "r4"
-+
-+inherit allarch
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
-+SRC_URI = "file://install-efi.sh"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
-+}
-+
-+FILES_${PN} = "/init.d/install-efi.sh"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-new file mode 100644
-index 0000000..4d2fe9d
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "initramfs-framework module for live booting"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS_${PN} = "initramfs-framework-base udev-extraconf"
-+
-+PR = "r4"
-+
-+inherit allarch
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
-+SRC_URI = "file://setup-live"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
-+}
-+
-+FILES_${PN} = "/init.d/80-setup-live"
++RDEPENDS_${PN} = "coreutils"
 -- 
-2.9.5
+2.7.4
 
 
