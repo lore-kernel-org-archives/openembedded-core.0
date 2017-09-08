@@ -1,52 +1,22 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 37C4F7820C
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 465147820E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 21:29:14 +0000 (UTC)
-Received: by mail-wm0-f49.google.com with SMTP id f199so11269770wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 14:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=YVtRoob73j52MDmXV8SHcN2XsylUx+nRRrTDPAFVTyM=;
-	b=mQvfruI/JYNBzO3x9wFxOTixHdZEPjOeWBKUU6mjWkgMVLsCXUQzBbdFBl2w2Ei6ab
-	hmAafoiQTV2JiU7ykQqvmlrfr+JvZRgDATdA+yIqc7JdjXpaYOcOfZEg1Tug284dsdB5
-	UVyyTGcDyh5VcAOcYF9T/24HwvCBtsSeoOLVyXoFHeoUWBfXGluUB1rgro47kgKmL0/B
-	Wx14M1owfKPcvZfuz/eIHopIkJsvQJEyISAO3aAC0ZgIWzk1JEZtbXQAi8KfrBMvoyVn
-	ZSgl43HaVREkPmMn0YBURgKSdPr8N6Yfk67tiM6OsoSiiX40yaFOIsWvnByqo6oUB5KD
-	I7Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=YVtRoob73j52MDmXV8SHcN2XsylUx+nRRrTDPAFVTyM=;
-	b=cj1Ad+6LV8PzgyPzfFO/QrCzsQmtGiV9xNDAEBbU81qOF+ihoRvewFJNcXIV/zhUxk
-	2M8kbwBSVPQ/euxmysU/M2SSCWDzAsiAgiMVI1CT10pupGaTjYokZjNOgxFwUqutRZyE
-	X7RCKczhUP1kClGMPOtg+G3Qgl8pprRxP1zsy6p8hx6Ktm/7b+0TFJc5q3GtplNaTuF2
-	S756zcmqYfKqpTPwe7CTInNsLRj0QgMPwU53pa3mx7+rxuvooniGUDr/agUU19rUTmAT
-	8WuIiOZPyEkRh/5eo6MHa9xAyQJy5p8mX9vKApd81/eDON5ROkF/yJOcQ6q1UZgTASWw
-	ac5A==
-X-Gm-Message-State: AHPjjUii0cwaFltVgBe5LPUbWVE7cOItiHvWweXA6VR4Nz1Br6xkEGZS
-	3O/MCjFJaACyAoMFIvRVUn0QOAG0ZqnC
-X-Google-Smtp-Source: AOwi7QBXauyfHEuB3jdVyUJAA+hMraGKxE0vBkKqhGVHBRpSrkOle6WAHuZML8HuFWwoBS3nU0dlzwwVPNs6KZxPveE=
-X-Received: by 10.28.236.212 with SMTP id h81mr2522452wmi.42.1504906156021;
-	Fri, 08 Sep 2017 14:29:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.155.157 with HTTP; Fri, 8 Sep 2017 14:29:15 -0700 (PDT)
-In-Reply-To: <75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
-References: <20170821083946.4493-1-mnhu@prevas.dk>
-	<20170821092134.6329-1-mnhu@prevas.dk>
-	<CAPyrkgyuQegVc-d694EQgXMuEdBZY4LbjQ4aObCUV1yh=jznjg@mail.gmail.com>
-	<20170908203726.GG26405@denix.org>
-	<75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Fri, 8 Sep 2017 22:29:15 +0100
-Message-ID: <CAPyrkgyzzfR7jmeyJURRyPra4Jd2CPKWMiJbEPR3a8W=h+4W+A@mail.gmail.com>
-To: =?UTF-8?Q?Martin_Hundeb=C3=B8ll?= <martin.hundeboll@prevas.dk>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-module-split: rrecommend kernel-image instead of rdepend
+	Fri,  8 Sep 2017 22:12:21 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Sep 2017 15:12:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,363,1500966000"; d="scan'208";a="1170489209"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga001.jf.intel.com with ESMTP; 08 Sep 2017 15:12:23 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 15:12:21 -0700
+Message-Id: <20170908221221.24444-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.9.5
+Cc: otavio@ossystems.com.br
+Subject: [PATCH v3] initramfs-framework: split setup-live and install-efi into separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,62 +29,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 21:29:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Sep 2017 22:12:22 -0000
 
-On Fri, Sep 8, 2017 at 10:07 PM, Martin Hundeb=C3=B8ll
-<martin.hundeboll@prevas.dk> wrote:
->
->
-> On September 8, 2017 10:37:26 PM GMT+02:00, Denys Dmytriyenko <denis@deni=
-x.org> wrote:
->>On Fri, Sep 08, 2017 at 09:06:17PM +0100, Paul Barker wrote:
->>>
->>> This breaks the method described in the kernel dev FAQ to omit the
->>> kernel image from the rootfs which is to set the following in a conf
->>> file:
->>>
->>>     RDEPENDS_kernel-base =3D ""
->>>
->>> See
->>http://www.yoctoproject.org/docs/2.3.1/kernel-dev/kernel-dev.html#idm4569=
-0538384880.
->>>
->>> By recommending kernel-image directly instead of recommending the
->>> top-level kernel-<version> package which was actually removed from
->>> extra_depends, we skip the inclusion of the kernel-base package. I'm
->>> not familiar enough with the details of kernel module loading to know
->>> if the 2 files in kernel-base (modules.builtin and modules.order) are
->>> strictly needed but I think they should at least be included in via
->>> recommendation.
->>>
->>> As we already have a documented way to omit the kernel image, can we
->>> revert this?
->>>
->>> As an alternative I can send in a patch which changes the recommend
->>to
->>> the top-level kernel-<version> package instead of kernel-image.
->>
->>FWIW, this was discussed at #yocto on IRC today. When I first saw the
->>change
->>several days ago, I was puzzled as well...
->>The existing method has been in use by many of us for a very long time
->>and
->>seems to be well documented - I also vote for reverting the change.
->
-> Does setting `RDEPENDS_kernel-base =3D ""` in an image recipe work too?
->
+Having these the initramfs-framework recipe forced initramfs-framework
+users to build several tools they didn't need, and made it more
+difficult to declare the recipe as allarch.
 
-No, you'd need it to be set in a conf file so it takes effect when the
-kernel-base package is created.
+Fixes [YOCTO #12024].
 
-I can see the issue here though. Can you set `RDEPENDS_kernel-base =3D
-""` globally and explicitly install kernel-image into the appropriate
-image? If not then yes we'll need to find an alternative solution to
-simply reverting the change.
+v2 changes:
+  * fix SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in layer.conf
+  * bump PR of initramfs-framework
+  * add allarch to setup-live and install-efi modules, as they're just
+    shell scripts
 
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
+v3 changes:
+  * set PR of new recipes to 4, as the name of the packages they build
+    is the same as when they were part of the main recipe.
+
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+ meta/conf/layer.conf                               |  8 ++++----
+ .../initrdscripts/initramfs-framework_1.0.bb       | 22 +++-------------------
+ .../initramfs-module-install-efi_1.0.bb            | 20 ++++++++++++++++++++
+ .../initramfs-module-setup-live_1.0.bb             | 20 ++++++++++++++++++++
+ 4 files changed, 47 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
+
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 04aa730..df457c2 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -50,12 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   docbook-xsl-stylesheets->perl \
+   ca-certificates->openssl \
+   initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
+-  initramfs-framework->dosfstools \
+-  initramfs-framework->e2fsprogs \
+   initramfs-framework->eudev \
+-  initramfs-framework->parted \
+   initramfs-framework->systemd \
+-  initramfs-framework->util-linux \
++  initramfs-module-install-efi->dosfstools \
++  initramfs-module-install-efi->e2fsprogs \
++  initramfs-module-install-efi->parted \
++  initramfs-module-install-efi->util-linux \
+   liberation-fonts->fontconfig \
+   cantarell-fonts->fontconfig \
+   gnome-icon-theme->librsvg \
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 77b2ff8..2afc37e 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -3,7 +3,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ inherit allarch
+ 
+@@ -14,8 +14,7 @@ SRC_URI = "file://init \
+            file://udev \
+            file://e2fs \
+            file://debug \
+-           file://setup-live \
+-           file://install-efi.sh"
++          "
+ 
+ S = "${WORKDIR}"
+ 
+@@ -27,9 +26,6 @@ do_install() {
+     install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
+     install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
+ 
+-    # setup-live
+-    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
+-
+     # mdev
+     install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
+ 
+@@ -42,9 +38,6 @@ do_install() {
+     # debug
+     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
+ 
+-    # install-efi
+-    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
+-
+     # Create device nodes expected by some kernels in initramfs
+     # before even executing /init.
+     install -d ${D}/dev
+@@ -57,8 +50,7 @@ PACKAGES = "${PN}-base \
+             initramfs-module-e2fs \
+             initramfs-module-rootfs \
+             initramfs-module-debug \
+-            initramfs-module-setup-live \
+-            initramfs-module-install-efi"
++           "
+ 
+ FILES_${PN}-base = "/init /init.d/99-finish /dev"
+ 
+@@ -78,10 +70,6 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
+ RDEPENDS_initramfs-module-udev = "${PN}-base udev"
+ FILES_initramfs-module-udev = "/init.d/01-udev"
+ 
+-SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
+-RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
+-FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
+-
+ SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
+ RDEPENDS_initramfs-module-e2fs = "${PN}-base"
+ FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
+@@ -93,7 +81,3 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
+ SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
+ RDEPENDS_initramfs-module-debug = "${PN}-base"
+ FILES_initramfs-module-debug = "/init.d/00-debug"
+-
+-SUMMARY_initramfs-module-install-efi = "initramfs support for installation option"
+-RDEPENDS_initramfs-module-install-efi = "${PN}-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
+-FILES_initramfs-module-install-efi = "/init.d/install-efi.sh"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+new file mode 100644
+index 0000000..2270441
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "initramfs-framework module for installation option"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
++
++PR = "r4"
++
++inherit allarch
++
++FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
++SRC_URI = "file://install-efi.sh"
++
++S = "${WORKDIR}"
++
++do_install() {
++    install -d ${D}/init.d
++    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
++}
++
++FILES_${PN} = "/init.d/install-efi.sh"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
+new file mode 100644
+index 0000000..4d2fe9d
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "initramfs-framework module for live booting"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++RDEPENDS_${PN} = "initramfs-framework-base udev-extraconf"
++
++PR = "r4"
++
++inherit allarch
++
++FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
++SRC_URI = "file://setup-live"
++
++S = "${WORKDIR}"
++
++do_install() {
++    install -d ${D}/init.d
++    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
++}
++
++FILES_${PN} = "/init.d/80-setup-live"
+-- 
+2.9.5
+
 
