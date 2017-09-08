@@ -1,25 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C708477CFB
+Return-Path: <mac@mcrowe.com>
+Received: from avasout06.plus.net (avasout06.plus.net [212.159.14.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 42A4B780E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Sep 2017 21:28:57 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v87LSu7I012136
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Thu, 7 Sep 2017 22:28:57 +0100
-Message-ID: <1504819736.726.26.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Thu, 07 Sep 2017 22:28:56 +0100
-In-Reply-To: <20170907170007.ixl53bwhjmk7iwob@mcrowe.com>
+	Fri,  8 Sep 2017 06:04:04 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by avasout06 with smtp
+	id 6u431w0030BmcFC01u44Be; Fri, 08 Sep 2017 07:04:05 +0100
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.2 cv=GetnpUfL c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=8nJEP1OIZ-IA:10 a=2JCJgTwv5E4A:10 a=iGHA9ds3AAAA:8
+	a=Ittgo3lEJ4A8G1-hn3YA:9
+	a=wPNLvfGTeEIA:10 a=opEhNme9xScA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
+Received: from mac by deneb with local (Exim 4.89)
+	(envelope-from <mac@mcrowe.com>)
+	id 1dqCOZ-0007gv-H9; Fri, 08 Sep 2017 07:04:03 +0100
+Date: Fri, 8 Sep 2017 07:04:03 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20170908060403.otjgmahfsdfozosn@mcrowe.com>
 References: <20170907111347.u4bixwf2q7mabuy3@mcrowe.com>
 	<1504786869.726.13.camel@linuxfoundation.org>
 	<20170907170007.ixl53bwhjmk7iwob@mcrowe.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
+	<1504819736.726.26.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1504819736.726.26.camel@linuxfoundation.org>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Building and using a second toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,97 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Sep 2017 21:28:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Sep 2017 06:04:05 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2017-09-07 at 18:00 +0100, Mike Crowe wrote:
-> On Thursday 07 September 2017 at 13:21:09 +0100, Richard Purdie wrote:
+On Thursday 07 September 2017 at 22:28:56 +0100, Richard Purdie wrote:
+> On Thu, 2017-09-07 at 18:00 +0100, Mike Crowe wrote:
+> > On Thursday 07 September 2017 at 13:21:09 +0100, Richard Purdie wrote:
+> > > 
+> > > defined for the 64 bit system, then just use its 32 bit compiler?
+> > I'd persuaded myself that multilib was the x86-style -m32/-m64 thing on one
+> > compiler binary and it appeared that ARM didn't do that.
 > > 
-> > defined for the 64 bit system, then just use its 32 bit compiler?
-> I'd persuaded myself that multilib was the x86-style -m32/-m64 thing on one
-> compiler binary and it appeared that ARM didn't do that.
-> 
-> But, now I've read up on
-> http://www.yoctoproject.org/docs/current/dev-manual/dev-manual.html#combining-multiple-versions-library-files-into-one-image
-> and played around I see that oe-core multilib support does generate
-> multiple compiler binaries.
-> 
-> I'm able to generate a second compiler with a machine file containing:
-> 
->  require conf/machine/include/arm/arch-armv8.inc
+> > But, now I've read up on
+> > http://www.yoctoproject.org/docs/current/dev-manual/dev-manual.html#combining-multiple-versions-library-files-into-one-image
+> > and played around I see that oe-core multilib support does generate
+> > multiple compiler binaries.
+> > 
+> > I'm able to generate a second compiler with a machine file containing:
+> > 
+> > �require conf/machine/include/arm/arch-armv8.inc
 
-This is a less walked path on arm than it is in the x86 world. For x86,
-tune-corei7 includes tune-i586 for example so it 'stacks' neatly and
-you have the various compatible tune options available.
+> I suspect a glitch in the inheritance order of the arm tune files in
+> other to make this work. That said, is there much difference in
+> practise between�armv7at-neon and cortexa15t?
 
-I suspect a glitch in the inheritance order of the arm tune files in
-other to make this work. That said, is there much difference in
-practise between armv7at-neon and cortexa15t?
+Probably not, but I wanted to make sure I was using exactly the same
+options as our vendor when compiling the bootloader. Having said that, I
+can always tweak CFLAGS by hand so this isn't really a showstopper.
 
->  require conf/multilib.conf
->  MULTILIBS = "multilib:lib32"
->  DEFAULTTUNE_virtclass-multilib-lib32 = "armv7at-neon"
-> 
-> However, what I really want to use is:
-> 
->  DEFAULTTUNE_virtclass-multilib-lib32 = "cortexa15t"
-> 
-> but this fails in the sanity checker with:
-> 
->     Toolchain tunings invalid:
->     Tuning 'cortexa15t' has no defined features, and cannot be used.
-> 
-> and if I add
-> 
->  require conf/machine/include/tune-cortexa15.inc
-> 
-> then I get oodles of duplicate-inclusion warnings and I no longer seem to
-> be generating an aarch64 compiler.
-> 
-> I'm not really sure where the split between arch and tune is supposed to be
-> in that include directory, so whilst I could probably hack it to work, I
-> doubt it would be acceptable to you.
+> Glad its at least sort of there. You're actually using the multilib in
+> a different way to the one it'd normally get used as you're trying to
+> put both into one build and its only really designed for one or the
+> other.
 
+Ah, well that's going to be a problem then. I probably didn't make it
+clear, but this is a single bootloader build that uses both compilers. Some
+parts get built with the 32-bit compiler and some with the 64-bit compiler,
+and then the whole thing gets combined into a single binary. Splitting it
+into three separate recipes would mean making larger changes to the vendor
+build system than I'd really like.
 
+> What would be "normal" is to build "lib32-bootloader" which is the
+> lib32 BBCLASSEXTEND'd variant of bootloader. If the 64 bit version
+> doesn't make sense you can make that raise SkipRecipe for the nonsense
+> variants.
 
-> 
-> So, I went back to using armv7at-neon and managed to generate a compiler.
-> In my bootloader recipe I added:
-> 
->  DEPENDS_aarch64_append = "virtual/lib32-arm-oemllib32-linux-gnueabi-gcc"
-> 
-> which results in the compiler ending up in recipe-sysroot-native, but also
-> ends up with the associated libs32-recipe-sysroot installed outside the work
-> directory in:
-> 
->  work/${MACHINE}-oemllib32-linux-gnueabi/bootloader/7-r0/lib32-recipe-sysroot/
-> 
-> which doesn't appear to break anything until I run the clean task on
-> bootloader and it doesn't get cleaned up. This means that subsequent builds
-> fail because the files in lib32-recipe-sysroot already exist. :(
-> 
-> (I'm not up-to-date with oe-core master, but I looked through the changes
-> that I don't have yet and couldn't spot anything that looked like it would
-> address these problems. If you prefer, I can try to reproduce both with the
-> current tip of master.)
-> 
-> Your suggestion has been a great help, but it looks like I'm not quite
-> there yet.
+I was successfully building a few lib32- recipes in order to test the
+compiler and, as you say, they all consistently use the lib32-named work
+directory.
 
-Glad its at least sort of there. You're actually using the multilib in
-a different way to the one it'd normally get used as you're trying to
-put both into one build and its only really designed for one or the
-other.
+I can think of two ways round the problem:
 
-What would be "normal" is to build "lib32-bootloader" which is the
-lib32 BBCLASSEXTEND'd variant of bootloader. If the 64 bit version
-doesn't make sense you can make that raise SkipRecipe for the nonsense
-variants.
+1. Add a do_prepare_sysroot_append that moves the lib32- sysroot into the
+correct work directory.
 
-I'm hoping if you do that the sysroot issue goes away. 
+2. The simplest solution is to add a do_clean_append to my bootloader
+recipe that also cleans up the problem sysroot directory.
 
-Cheers,
+The first is probably preferable and I'll have a go at doing that. Neither
+is ideal, but anything else looks like it's going to complicate the
+multilib class code greatly and possibly break the intended use of the
+secondary toolchain.
 
-Richard
+Thanks for all your help.
+
+Mike.
 
