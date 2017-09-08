@@ -1,44 +1,48 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1624D78213
+Return-Path: <will.newton@gmail.com>
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C54E71A2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 13:49:33 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id r66so1395491qke.4
+	Fri,  8 Sep 2017 13:56:53 +0000 (UTC)
+Received: by mail-lf0-f68.google.com with SMTP id h80so1153207lfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:49:35 -0700 (PDT)
+	Fri, 08 Sep 2017 06:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nssN50NtU4LOK1gMUM8I4LrsMerfFH/2Qc1WoeqlTo4=;
+	b=oDM0tW+NvdMDIRe+wTA5YYpmjgXsMzvEUGzA3JzCn7C+jpv58s3yppDxP/Z49lDV/C
+	AXu3mfEafmDgQ6tPIp8wNppAvBhA1i01ALsgc+Pr2BTcHxBqfci9+saevDjFxNcr+/Bs
+	plkUdc8DSKdi4gjhqw1xt49bP3QfwajylxCXMjG8Sy0aP49/2Wi5pAPBN4czpe7xlmLs
+	RFbzGrymJxtZ1wEfZpwg5nflVmkCXvW1T/udEhWCHofT96Np2uMeoyftvmYfeRYZ8Svp
+	VcqVfp9n1Nx7delcfYemZTcyU6tZtH0kq27jShHtQGICp9Li+EUeA5x31qDMOmySmCyg
+	BG7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=Q5x2/1p65nfrlz2DmXR6WZvo9r0HFtBZKj0vNy21ALk=;
-	b=OqQipMXmwis7TqvMXtR89DD4rMKBliq8/HbBBnUwPuHJ6k7e/Tj8QobPK5FUdOfo7+
-	aQD4qMQGaIdw21u8ng4S62cmBt9GHFV+rm8ca9idsZpimaj/NGfqu7Y1iRc0iq0n+44U
-	zLXVNd8wXxHctgkJI2rCBrErLmAk0jc6YdqzMarq6w4oTgnR+OO2O3T81DlNIzpBgG5R
-	UIeTw8GnsJKiC7vLI19F6gAr9ph9wxKx9+wzSrZrPEKtX60pzy8/7RGUfIM+D4hA6D4w
-	Nl4wZculy1LlZecnDIdhM9ZDC6NvWt7PDzlMBAUOGRggsf3P16V+lxfXv5THNgj7zIoz
-	DngQ==
-X-Gm-Message-State: AHPjjUgg0YhHHSE0dKfuprbKmrFg1i3T/Y3BRVcUiFQHTfW3xRBD2YLa
-	M+dClNs4fyLfJlrf
-X-Google-Smtp-Source: AOwi7QANQBJjrRq5n/tUAQrtSVNjoevDg9Kg0fmDvRCoMXdwHCJaVW58Z6OvYlBkDD/Gcdx3vK2DIg==
-X-Received: by 10.55.203.149 with SMTP id u21mr3961303qkl.327.1504878574971;
-	Fri, 08 Sep 2017 06:49:34 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id p7sm1262147qke.78.2017.09.08.06.49.30
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 06:49:34 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 10:49:25 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 10:47:58 -0300
-Message-Id: <20170908134758.7570-12-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170908134758.7570-1-otavio@ossystems.com.br>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nssN50NtU4LOK1gMUM8I4LrsMerfFH/2Qc1WoeqlTo4=;
+	b=SGw0oJDJ4h/XqlSHa4GanhVwsIT3yW7TbjrJ8uPBS/7S1TQtnb+NWb02nHyOIBCe6J
+	9QqOwS5yWi4LHsfbSbRODFeZzlpFEMTxZH/luT6mktLLKGekuEn09nFrQcfiNWq/Vc99
+	iBKyuj1trn4CsBLt1dWEjt5FRxayrqdc1a0BxWfPemTQ2PhtsDKc60lzx1Q8WuexFBGn
+	7Kzxy3c2VYbQAaBLO7m0G5aD4ACJ9+5LOEKRRa5XNBD0qPUjy6X7sKT/PMZhrjepbpqC
+	8LjKN/YDdqCMHKZzmCiEUCNWUpBKckuANCA9p4LOoNVC31up4y8WraRBMYC8NkAH0BjE
+	hRUw==
+X-Gm-Message-State: AHPjjUjpzFfL7jdAtro13xytfjCEJH96t6FZ79W3TEDZTUKScRciyIeg
+	8bvilpTdOjaMcw1nvKLthoeGiN/qEg==
+X-Google-Smtp-Source: AOwi7QDEmKKrddz4Ol0GgS/kVLVuYt/puzchtEe4GPZ5b9csse1INUacZLqqwFgsDWt7jCHgLFWiHiSlQ8oKbCuaT/Y=
+X-Received: by 10.46.87.5 with SMTP id l5mr1007807ljb.128.1504879014366; Fri,
+	08 Sep 2017 06:56:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.179.66.9 with HTTP; Fri, 8 Sep 2017 06:56:53 -0700 (PDT)
+In-Reply-To: <20170908134758.7570-6-otavio@ossystems.com.br>
 References: <20170908134758.7570-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3 11/11] go.bbclass: add do_unpack function to handle common cases
+	<20170908134758.7570-6-otavio@ossystems.com.br>
+From: Will Newton <will.newton@gmail.com>
+Date: Fri, 8 Sep 2017 14:56:53 +0100
+Message-ID: <CAFbHwiTq2j7x9x3MNh1Aj5BqzfedkUJSEOWNrn3JAet_SAEr3Q@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 05/11] goarch.bbclass: Add support for ARMv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,73 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 13:49:34 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 13:56:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Matt Madison <matt@madison.systems>
+On Fri, Sep 8, 2017 at 2:47 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> This adds support to return the proper ARMv5 format.
+>
+> This change is based on the meta-golang[1] layer. Thanks to Matt
+> Madison <matt@madison.systems> for his work on this.
+>
+> 1. https://github.com/madisongh/meta-golang
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>
+> Changes in v3: None
+> Changes in v2: None
+>
+>  meta/classes/goarch.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> index 7960ac5f9e..dbec6ee2c8 100644
+> --- a/meta/classes/goarch.bbclass
+> +++ b/meta/classes/goarch.bbclass
+> @@ -47,6 +47,8 @@ def go_map_arm(a, f, d):
+>      import re
+>      if re.match('arm.*', a) and re.match('arm.*7.*', f):
+>          return '7'
+> +    if re.match('arm.*', a) and re.match('arm.*5.*', f):
+> +        return '5'
 
-Go source trees have a particular structure, with all
-sources located under ${GOROOT}/src/<import-path>.
-The fetcher step implemented by the 'go get' command
-automatically follows this structure, so we need
-to do the same here.
+I suspect this regular expression is overly general, see:
 
-Since most Go packages are hosted in git repositories,
-this adds a custom do_unpack() function that sets
-the destsuffix to match the expected directory structure,
-for any git SRC_URIs that haven't had a destsuffix
-explicitly set in the recipe.
+http://lists.openembedded.org/pipermail/openembedded-core/2017-September/141938.html
 
-This simplifies recipe writing for the most common
-cases.
+The Go toolchain default is for ARMv5 when cross-compiling so as far
+as I know setting this explicitly should have no effect at the moment,
+although it may be valuable to protect against changes to the default.
 
-Signed-off-by: Matt Madison <matt@madison.systems>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
-Changes in v3:
-- new patch
-
-Changes in v2: None
-
- meta/classes/go.bbclass | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index cfe773e13d..c1ef01fafe 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -55,6 +55,24 @@ GO_INSTALL ?= "${GO_IMPORT}/..."
- 
- B = "${WORKDIR}/build"
- 
-+python go_do_unpack() {
-+    src_uri = (d.getVar('SRC_URI') or "").split()
-+    if len(src_uri) == 0:
-+        return
-+
-+    try:
-+        fetcher = bb.fetch2.Fetch(src_uri, d)
-+        for url in fetcher.urls:
-+            if fetcher.ud[url].type == 'git':
-+                if fetcher.ud[url].parm.get('destsuffix') is None:
-+                    s_dirname = os.path.basename(d.getVar('S'))
-+                    fetcher.ud[url].parm['destsuffix'] = os.path.join(s_dirname, 'src',
-+                                                                      d.getVar('GO_IMPORT')) + '/'
-+        fetcher.unpack(d.getVar('WORKDIR'))
-+    except bb.fetch2.BBFetchException as e:
-+        raise bb.build.FuncFailed(e)
-+}
-+
- go_do_configure() {
- 	ln -snf ${S}/src ${B}/
- }
-@@ -79,4 +97,4 @@ go_do_install() {
- 	fi
- }
- 
--EXPORT_FUNCTIONS do_configure do_compile do_install
-+EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
--- 
-2.14.1
-
+>      return ''
+>
+>  def go_map_os(o, d):
+> --
+> 2.14.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
