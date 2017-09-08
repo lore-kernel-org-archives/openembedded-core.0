@@ -1,49 +1,58 @@
-Return-Path: <will.newton@gmail.com>
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 69E0C719AF
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+X-Greylist: delayed 650 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 08 Sep 2017 10:33:23 UTC
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 27BB677D0A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 08:53:24 +0000 (UTC)
-Received: by mail-lf0-f67.google.com with SMTP id y15so854083lfd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 01:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=+mmRMRq9eSb6ciww1BywmUYDz4jl9crcCrUB3RVF+yA=;
-	b=CxnMasNzdaXr8bau56NVJiMp+8MGJ+hSMsTt24JxaE1vZl06MhNw27rrxYdNgfH9Xp
-	BlpOtTCgVPaVBJib7Qe9aduWJdLeoPTBKMVXXngFXPBIogJPBHNDUImfJi8joREbn2g/
-	jky0YaKW3YfMePd3j9DBb0lgjKhh4oont916YkiLyXhhjlV3aBZmQpZN3CwCfxq1PvT9
-	Cm4gSLcHBz3WfsM8Htvc5lcmEE2sn3NrIYWZCVabYVaWZE1CEYCTnRcHn+5JEqXvxqW7
-	jpd9+cezUigGCfmGEhNyUZBz8+wQLgwhd0V3upTKf5HCyAnvf8xenTlIM4AgbyyWQMq3
-	iOtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=+mmRMRq9eSb6ciww1BywmUYDz4jl9crcCrUB3RVF+yA=;
-	b=hFGplAmTP3gmp8ZKJ+MEy7WQ7RuS1FEKAWer8YWrgnjW7digEDwseTOHtm2nxXWFob
-	N4bwFVRkv50lUCpg+z59f3GkhijGQomyzx/XVUpy/YWdGPLCy/4erlUy6ct7hl8s57z9
-	bJc+Q+/2OcdDyBcdK6jhk3+OyOepDpMIOFXPM5nqCeR3Kf9EVA+gVkPPLgB602h+8n87
-	YdBL1hjuff3jhJCrdjBfq/ywSh48A0tHbHwx0nwwQCFEP1dxV/N/D8qvmAg9X2MYpJrO
-	CigxpZDWGvVYmPKdkC6EW3YEALbeCiT6zS6HbHjCYT99tZ4DQcILawHC+yk+nN/d0qxV
-	s3Gw==
-X-Gm-Message-State: AHPjjUjbRIkyQB8K/s0JH1Xxbqy9twoNuwNpdiG3InmLRcnUsnfMDI3h
-	Q/9PI4wRvpAa3zqMdLC02VCVK8K2jg==
-X-Google-Smtp-Source: AOwi7QBUDCIko9b0Ww0WBWz899fZ6leE3sCHKj0a1T5l9kcM1vKICwTCHRqvfRr9pOuQe6YBNQhYpE0YI9mM9k8O0yw=
-X-Received: by 10.46.87.5 with SMTP id l5mr659216ljb.128.1504860805675; Fri,
-	08 Sep 2017 01:53:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.179.66.9 with HTTP; Fri, 8 Sep 2017 01:53:25 -0700 (PDT)
-In-Reply-To: <CAJ86T=VV16HToqmQDuYgRJRvSEggTe2SZf-h1g1XyqVx9tyqHQ@mail.gmail.com>
-References: <20170907123142.28622-1-willn@resin.io>
-	<CAJ86T=VV16HToqmQDuYgRJRvSEggTe2SZf-h1g1XyqVx9tyqHQ@mail.gmail.com>
-From: Will Newton <will.newton@gmail.com>
-Date: Fri, 8 Sep 2017 09:53:25 +0100
-Message-ID: <CAFbHwiRdEbi3XhkJfHeYVZgNx6CzKMRf7+aMNxufgkyPh+-15Q@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Will Newton <willn@resin.io>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] goarch.bbclass: Replace logic for setting GOARM
+	Fri,  8 Sep 2017 10:33:23 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v88AMXkj005778
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Fri, 8 Sep 2017 12:22:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1504866153;
+	bh=ilsdaa4RgYZZ0bb9W317yFNzznl7e+IckuyyhIloF4c=;
+	h=From:To:Cc:Subject:Date:Message-Id:Sender;
+	b=F6GZhgK/8IcY4xB1lTNUlhcOM6M/1a/ikNj6vnS7zpaVmIg15GolEE/qAwb5UKGIs
+	Cd5QmRVNdrfdIv9kz58/RfmGBqBSMiOwTmCzAssOU1W4MeQjLCFKsRhS4nw0SmDCiz
+	sXfJJ6oB0xpxwUaHfelZK9gq2TQxPONPKjp3xe74=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v88AMOdB024069 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Fri, 8 Sep 2017 12:22:25 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 1CA1A30BB5A;
+	Fri, 8 Sep 2017 12:17:27 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	v88AMNSC024066
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 8 Sep 2017 12:22:23 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1dqGQZ-0006Vb-0e; Fri, 08 Sep 2017 12:22:23 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 12:22:18 +0200
+Message-Id: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 2.9.5
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -4.6
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.79
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] image_types: support lz4 compressed squashfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +65,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 08:53:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Sep 2017 10:33:24 -0000
 
-On Thu, Sep 7, 2017 at 7:17 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Thu, Sep 7, 2017 at 5:31 AM, Will Newton <will.newton@gmail.com> wrote:
->> The previous logic applied a regex to TUNE_FEATURES which could
->> set the GOARM value to 7 incorrectly, for example when dealing
->> with an arm1176 core. Simplify to check for the presence of
->> "armv7a" instead. At the same time add a check for "armv6" and
->> set GOARM to 6 in that case.
->>
->> Signed-off-by: Will Newton <willn@resin.io>
->> ---
->>  meta/classes/goarch.bbclass | 7 +++++--
->>  1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
->> index 4a5b2ec..35f2987 100644
->> --- a/meta/classes/goarch.bbclass
->> +++ b/meta/classes/goarch.bbclass
->> @@ -38,8 +38,11 @@ def go_map_arch(a, d):
->>
->>  def go_map_arm(a, f, d):
->>      import re
->> -    if re.match('arm.*', a) and re.match('arm.*7.*', f):
->> -        return '7'
->> +    if re.match('arm.*', a):
->> +        if 'armv7a' in f:
->
-> You need to test for both armv7a (Cortex A9, etc) and armv7ve (Cortex
-> A7, A15, etc).
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/classes/image_types.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thanks, I've done a v2 that should take care of that.
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 9b646e9..d086061 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -107,6 +107,7 @@ IMAGE_CMD_btrfs () {
+ IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
+ IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
+ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
++IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lz4"
+ 
+ # By default, tar from the host is used, which can be quite old. If
+ # you need special parameters (like --xattrs) which are only supported
+@@ -236,6 +237,7 @@ do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
+ do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_squashfs_xz[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_squashfs_lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs_lz4[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_elf[depends] += "virtual/kernel:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
+ do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
+ do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
+@@ -251,7 +253,7 @@ IMAGE_TYPES = " \
+     btrfs \
+     iso \
+     hddimg \
+-    squashfs squashfs-xz squashfs-lzo \
++    squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
+     ubi ubifs multiubi \
+     tar tar.gz tar.bz2 tar.xz tar.lz4 \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+-- 
+2.9.5
+
 
