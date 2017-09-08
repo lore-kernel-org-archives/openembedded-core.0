@@ -1,45 +1,41 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DA29601D4
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 366EB781E2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 14:33:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id B8AB618581;
-	Fri,  8 Sep 2017 16:33:22 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id tlHqT8KQoR5N; Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 86B72185A3;
-	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 728A41E06C;
-	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 675CC1E075;
-	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 5AD882BF3;
-	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v88EXJ5V030374;
-	Fri, 8 Sep 2017 16:33:19 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v88EXJpB030373;
-	Fri, 8 Sep 2017 16:33:19 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Armin Kuster <akuster808@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:33:15 +0200
-Message-Id: <20170908143315.30326-1-pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-X-TM-AS-GCONF: 00
-Subject: [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow extra variables to be displayed
+	Fri,  8 Sep 2017 14:45:04 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id d70so1650507qkc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 07:45:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=TeNWRDVcxO3U/ANxaVR9i66fp13HM8pEdIH7OgbPstI=;
+	b=Aqoc6y34fKiG6tgjbPxLWWFGuWhO0NbOIcYzdGR9AkUF6VL7UEurvYkuLpnAdZ22cU
+	QeOXKYWIzSuQFkB93wGvhF0L4Cf6qkND0s7Nu396yeHpOCXwmhgs4/CGl3jqkpUMqAgR
+	3NvdP43V4dX/2X3hsLqodt+56PtOJpn+9nUIZljvHoXlqK9e0/2zPn6mINohmSDZBr4A
+	tzND+/Sne4WE41iweiWMl3DR35ZO++9fApGHLwejGsBGeIocFIBsEDE1ybup9UltP3Da
+	LL+Bh6nAYHbHOXFfasLHnjTfWf0jSy2/J7412G8YOvF79pcxvBjzSbzeOr3X0qoDz3ng
+	6b2w==
+X-Gm-Message-State: AHPjjUjXtcB5vOzD6htEDvzTxkB6Y4bS0O5zr92MgDpuNY82MdyHwLLw
+	GcTD2qyh3xx1yOHg
+X-Google-Smtp-Source: AOwi7QAyiw89HK+qsA9WeCmbQ/M3FpgKSFukzG+AEc8d6YhjcCxI0sXFNPOrkOYLlCcqX/0j7CcVCA==
+X-Received: by 10.55.71.79 with SMTP id u76mr4126428qka.289.1504881905869;
+	Fri, 08 Sep 2017 07:45:05 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id 36sm1385513qtz.89.2017.09.08.07.45.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 08 Sep 2017 07:45:05 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 08 Sep 2017 11:44:56 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri,  8 Sep 2017 11:44:42 -0300
+Message-Id: <20170908144454.14308-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v4 00/12] Revamp the Go support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,61 +48,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 14:33:22 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 14:45:05 -0000
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+This is not yet complete but does improve some parts of
+Go support on OE-Core.
 
-By specifying the -e <var> option one or multiple times, extra
-variables available in the pkgdata can be displayed, e.,g,
-`oe-pkgdata-util package-info -e SUMMARY -e LICENSE ...`. The extra
-variables displayed are quoted since some of them may contain
-whitespace.
+We are trying to port as much as possible work done by Matt on
+meta-golang back to OE-Core and also to avoid carrying old releases as
+there is no need to support more versions of Go toolchain.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
+The first commits on this patchset fix errors in current
+implementation, the others are improvements and clean ups.
 
-This is a backport of the corresponding change (6f054fcf) on master.
-It should not change anything unless one actually uses the --extra
-option to oe-pkgdata-util.
+Changes in v4:
+- new patch to consolidade in a single patchset all golang changes
+- rebase on top of new "goarch.bbclass: Replace logic for setting
+  GOARM"
 
-PATCHv2: Now without Change-Id footer.
+Changes in v3:
+- new patch
+- new patch
+- new patch
 
- scripts/oe-pkgdata-util | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Changes in v2:
+- New patch
+- Remove -x flag (madisongh)
+- Remove GO_EXTLDFLAGS for now (madisongh)
 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 6255662a4b..677effeef6 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -325,8 +325,15 @@ def package_info(args):
-             recipe_version = recipe_version + "-" + mappings[pkg]['PR']
-         pkg_size = mappings[pkg]['PKGSIZE']
- 
--        items.append("%s %s %s %s %s" %
--                     (pkg, pkg_version, recipe, recipe_version, pkg_size))
-+        line = "%s %s %s %s %s" % (pkg, pkg_version, recipe, recipe_version, pkg_size)
-+
-+        if args.extra:
-+            for var in args.extra:
-+                val = mappings[pkg][var].strip()
-+                val = re.sub(r'\s+', ' ', val)
-+                line += ' "%s"' % val
-+
-+        items.append(line)
-     print('\n'.join(items))
- 
- def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
-@@ -530,6 +537,7 @@ def main():
-                                           description='Looks up the specified runtime package(s) and display information')
-     parser_package_info.add_argument('pkg', nargs='*', help='Runtime package name to look up')
-     parser_package_info.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
-+    parser_package_info.add_argument('-e', '--extra', help='Extra variables to display, e.g., LICENSE (can be specified multiple times)', action='append')
-     parser_package_info.set_defaults(func=package_info)
- 
-     parser_find_path = subparsers.add_parser('find-path',
+Matt Madison (3):
+  go.bbclass: exported function cleanup
+  go.bbclass: separate ${S} and ${B}
+  go.bbclass: add do_unpack function to handle common cases
+
+Otavio Salvador (8):
+  goarch.bbclass: Stop passing True as second argument of d.getVar
+  go.bbclass: Fix binary installation path detection
+  go-dep: Add 0.3.0 release
+  go: Remove Go 1.6 and 1.7 releases
+  goarch.bbclass: Add support for ARMv5
+  go.bbclass: Use a global Go build flags
+  go.bbclass: Enable parallel build
+  go.bbclass: Use an auxiliary variable to add the build dependencies
+
+Will Newton (1):
+  goarch.bbclass: Replace logic for setting GOARM
+
+ meta/classes/go.bbclass                            | 104 +++++++++++++--------
+ meta/classes/goarch.bbclass                        |  27 +++---
+ meta/recipes-devtools/go/go-1.6.inc                |  19 ----
+ .../go/go-1.6/armhf-elf-header.patch               |  23 -----
+ .../go/go-1.6/fix-cc-handling.patch                |  50 ----------
+ .../go/go-1.6/fix-target-cc-for-build.patch        |  17 ----
+ meta/recipes-devtools/go/go-1.6/gotooldir.patch    |  30 ------
+ .../go/go-1.6/split-host-and-target-build.patch    |  63 -------------
+ meta/recipes-devtools/go/go-1.6/syslog.patch       |  62 ------------
+ meta/recipes-devtools/go/go-1.7.inc                |  19 ----
+ .../go/go-1.7/armhf-elf-header.patch               |  23 -----
+ .../go/go-1.7/fix-cc-handling.patch                |  50 ----------
+ .../go/go-1.7/fix-target-cc-for-build.patch        |  17 ----
+ meta/recipes-devtools/go/go-1.7/gotooldir.patch    |  30 ------
+ .../go/go-1.7/split-host-and-target-build.patch    |  62 ------------
+ meta/recipes-devtools/go/go-1.7/syslog.patch       |  62 ------------
+ meta/recipes-devtools/go/go-cross_1.7.bb           |   5 -
+ meta/recipes-devtools/go/go-dep_0.3.0.bb           |  20 ++++
+ meta/recipes-devtools/go/go_1.6.bb                 |   4 -
+ meta/recipes-devtools/go/go_1.7.bb                 |   2 -
+ 20 files changed, 102 insertions(+), 587 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.6.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/gotooldir.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/syslog.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/gotooldir.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/syslog.patch
+ delete mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
+ create mode 100644 meta/recipes-devtools/go/go-dep_0.3.0.bb
+ delete mode 100644 meta/recipes-devtools/go/go_1.6.bb
+ delete mode 100644 meta/recipes-devtools/go/go_1.7.bb
+
 -- 
-2.12.0
+2.14.1
 
 
