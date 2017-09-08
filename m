@@ -1,29 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C3B272F42
+Return-Path: <will.newton@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3305371976
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 06:53:41 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v886rfJN004614
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 8 Sep 2017 07:53:42 +0100
-Message-ID: <1504853621.726.32.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Fri, 08 Sep 2017 07:53:41 +0100
-In-Reply-To: <20170908060403.otjgmahfsdfozosn@mcrowe.com>
-References: <20170907111347.u4bixwf2q7mabuy3@mcrowe.com>
-	<1504786869.726.13.camel@linuxfoundation.org>
-	<20170907170007.ixl53bwhjmk7iwob@mcrowe.com>
-	<1504819736.726.26.camel@linuxfoundation.org>
-	<20170908060403.otjgmahfsdfozosn@mcrowe.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Building and using a second toolchain
+	Fri,  8 Sep 2017 08:52:32 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k20so940555wre.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 01:52:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Zf7iOHGmAtnBMdMuQvOHhsTLgReYHgpTBdlYV1fNM+M=;
+	b=r8NttrEWpaPCXEglL30GXByvy+7rdWkDStdgxeqygfJuHTneAQWWb7GerJeW/TWVIs
+	VQ9phbPXKUFhLssYUZl5REbBSv7OTrlViMfEmZAQZBj7Rh3FkfoopFUOaK4+CkJnYN1E
+	iq3i2zoN6Spal+O/nLW+WAj1VaUeOmfM3uFFITbPtiSY0ZE+M3mwdNtNlNopDxCu+3i/
+	qeUhqzWYodG/LYrkhzh2BwaAJIyQE4SA7nakZGrpyuTDn+e8t19eH+5bZZqc156lJKLx
+	4LeiOjswcTLpFqywaJAXQ0QokX0cT7+IycZJc1q+DE9EOHQ3X20aVbr95JKs186NEn5Y
+	2mgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Zf7iOHGmAtnBMdMuQvOHhsTLgReYHgpTBdlYV1fNM+M=;
+	b=Y2wcARy9O0VyKXa27cSYWMisCMcjfEMqVgBgJeG5vhAHbCaLB1JlhQWT2w3Nf++7gy
+	qzpWwfeepg4ejKeL4fokzb8prpTgVoxdKW5BrqYxBOTYEOBdYneodVzzHuhTb+6uWVGn
+	vGsPoVEP9YuDCf1zgD1HFrV3vIm6jDAoTObNP7OdQ2H3d3luUlK9ue1ZaRkV85V2/vhI
+	v2U9LI52PDemQ9gkplTpk2HPn8nZryxS+Szi6toZCdcxXa60eEHjFtOdmbOokERdewiv
+	N6M50f68Aemu3jDH5kCM7GOwEToFuwtY/sIF7C+kcd//KE7Ye7apFp+XfJa3SH37KDO9
+	I3wg==
+X-Gm-Message-State: AHPjjUjqrw8sxK3piJVdu9b/2WNMo0OV7pWA/iqjLGxnjfi6nEKymAKf
+	bdc4BPQblqlna82k
+X-Google-Smtp-Source: ADKCNb6P3UYDBeEkkTrl4U0bYM+eGVHNq1VjaTDmG1pqMx+yH3qz8v/pI095qr64b2OIC51NayVBRw==
+X-Received: by 10.223.176.46 with SMTP id f43mr1450499wra.206.1504860753494;
+	Fri, 08 Sep 2017 01:52:33 -0700 (PDT)
+Received: from localhost.localdomain
+	(cpc99254-seac26-2-0-cust416.7-2.cable.virginm.net. [86.7.141.161])
+	by smtp.gmail.com with ESMTPSA id s9sm625919wra.73.2017.09.08.01.52.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 08 Sep 2017 01:52:32 -0700 (PDT)
+From: Will Newton <will.newton@gmail.com>
+X-Google-Original-From: Will Newton <willn@resin.io>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 09:52:23 +0100
+Message-Id: <20170908085223.12278-1-willn@resin.io>
+X-Mailer: git-send-email 2.13.5
+Cc: Will Newton <willn@resin.io>
+Subject: [PATCH v2] goarch.bbclass: Replace logic for setting GOARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,89 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 06:53:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Sep 2017 08:52:33 -0000
 
-On Fri, 2017-09-08 at 07:04 +0100, Mike Crowe wrote:
-> On Thursday 07 September 2017 at 22:28:56 +0100, Richard Purdie
-> wrote:
-> > 
-> > On Thu, 2017-09-07 at 18:00 +0100, Mike Crowe wrote:
-> > I suspect a glitch in the inheritance order of the arm tune files
-> > in
-> > other to make this work. That said, is there much difference in
-> > practise between armv7at-neon and cortexa15t?
-> Probably not, but I wanted to make sure I was using exactly the same
-> options as our vendor when compiling the bootloader. Having said
-> that, I
-> can always tweak CFLAGS by hand so this isn't really a showstopper.
+The previous logic applied a regex to TUNE_FEATURES which could
+set the GOARM value to 7 incorrectly, for example when dealing
+with an arm1176 core. Simplify to check for the presence of
+"armv7" instead. At the same time add a check for "armv6" and
+set GOARM to 6 in that case.
 
-Fair enough, one issue at a time I guess! :)
+Signed-off-by: Will Newton <willn@resin.io>
+---
+ meta/classes/goarch.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-> > Glad its at least sort of there. You're actually using the multilib
-> > in
-> > a different way to the one it'd normally get used as you're trying
-> > to
-> > put both into one build and its only really designed for one or the
-> > other.
-> Ah, well that's going to be a problem then. I probably didn't make it
-> clear, but this is a single bootloader build that uses both
-> compilers. Some
-> parts get built with the 32-bit compiler and some with the 64-bit
-> compiler,
-> and then the whole thing gets combined into a single binary.
-> Splitting it
-> into three separate recipes would mean making larger changes to the
-> vendor
-> build system than I'd really like.
-> 
-> > 
-> > What would be "normal" is to build "lib32-bootloader" which is the
-> > lib32 BBCLASSEXTEND'd variant of bootloader. If the 64 bit version
-> > doesn't make sense you can make that raise SkipRecipe for the
-> > nonsense
-> > variants.
-> I was successfully building a few lib32- recipes in order to test the
-> compiler and, as you say, they all consistently use the lib32-named
-> work
-> directory.
-> 
-> I can think of two ways round the problem:
-> 
-> 1. Add a do_prepare_sysroot_append that moves the lib32- sysroot into
-> the
-> correct work directory.
-> 
-> 2. The simplest solution is to add a do_clean_append to my bootloader
-> recipe that also cleans up the problem sysroot directory.
-> 
-> The first is probably preferable and I'll have a go at doing that.
-> Neither
-> is ideal, but anything else looks like it's going to complicate the
-> multilib class code greatly and possibly break the intended use of
-> the
-> secondary toolchain.
+Changes in v2:
+ - Look for armv7 rather than armv7a
 
-I mentioned the issues above so you understand how you're differing
-from the "standard" way multilib is used. I'm hoping there is some
-simple way you can get it working for you. If I remember rightly, there
-are differently named sysroots simply to avoid file conflict issues
-with the sysroots overlapping (e.g. sets of header files, the usr/share
-data and so on). We allow for that overlapping on the target device, we
-don't really deal with that in the sysroots.
-
-Option 3 may be to have the core staging.bbclass clean code iterate
-over the sysroots, it sounds like its creating them, just not cleaning
-them up, which is kind of a bug. "clean" is a slow path so even a tiny
-performance hit there for this likely isn't an issue...
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 4a5b2ec..35f2987 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -38,8 +38,11 @@ def go_map_arch(a, d):
+ 
+ def go_map_arm(a, f, d):
+     import re
+-    if re.match('arm.*', a) and re.match('arm.*7.*', f):
+-        return '7'
++    if re.match('arm.*', a):
++        if 'armv7' in f:
++            return '7'
++        elif 'armv6' in f:
++            return '6'
+     return ''
+ 
+ def go_map_os(o, d):
+-- 
+2.7.4
 
 
