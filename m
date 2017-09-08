@@ -1,58 +1,63 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-X-Greylist: delayed 650 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 08 Sep 2017 10:33:23 UTC
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 27BB677D0A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
+	[209.85.161.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B65277ACB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 10:33:23 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v88AMXkj005778
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Sep 2017 12:22:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1504866153;
-	bh=ilsdaa4RgYZZ0bb9W317yFNzznl7e+IckuyyhIloF4c=;
-	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=F6GZhgK/8IcY4xB1lTNUlhcOM6M/1a/ikNj6vnS7zpaVmIg15GolEE/qAwb5UKGIs
-	Cd5QmRVNdrfdIv9kz58/RfmGBqBSMiOwTmCzAssOU1W4MeQjLCFKsRhS4nw0SmDCiz
-	sXfJJ6oB0xpxwUaHfelZK9gq2TQxPONPKjp3xe74=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v88AMOdB024069 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Fri, 8 Sep 2017 12:22:25 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 1CA1A30BB5A;
-	Fri, 8 Sep 2017 12:17:27 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v88AMNSC024066
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 8 Sep 2017 12:22:23 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1dqGQZ-0006Vb-0e; Fri, 08 Sep 2017 12:22:23 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 12:22:18 +0200
-Message-Id: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.9.5
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.79
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] image_types: support lz4 compressed squashfs
+	Fri,  8 Sep 2017 13:12:53 +0000 (UTC)
+Received: by mail-yw0-f174.google.com with SMTP id q80so7330706ywg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 06:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=s+jNz2/zwGzStIg0Jt421G5MxcjvAp1ZbPBd/TzjmpE=;
+	b=wwvHiXHQpG9yX64uEF7dSBYskdqd3sAN6+rBtkyjCRPtJ5zz8YwMv30PZEPYtz1KAr
+	DyFBYzJqlqqaz0lBCjUtwRMPwz5s5W+c4pwPCG1u3IYd51Hy/yzDm0aJ9yS95Pc62+SW
+	eUEz9tuGG4mpoXJPZcf+EWSTaE7uZumwz5vL+0SoeUEvD64O3wwYJQzGjEPvCU9Hpi+h
+	OXEAV5e0aAyvMxq+uZmDDgFhLx3b8Bo9BdmzhdKtcbB3Cz3lvGSQza4HRum5/98DttGu
+	dI87OL4Xk8XUFqVATkoFJRFxHzPLXhQDBlmIyB1kA1EDq2ymUYg46ymWPTFQPj0OZZ0K
+	is4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=s+jNz2/zwGzStIg0Jt421G5MxcjvAp1ZbPBd/TzjmpE=;
+	b=Cb8eKv7+/L1QNxeasafocOFITn5DQJY+l2xJx49tbi35bZ0a7RK0PYkB+Ego07M7t9
+	sjS4RAJNZ32GcsqAhf0wHe5faAIcuDj+txm0GtVmucAzsduM1vEtIuW6nGoECOn8Yz5o
+	JqqB9FTwgZ0mq5AnF6h+yRzA2F0GgRij5eS8OpUWKsnQSKobzj7XxCHukcvw7o1JSq4s
+	KbdzxPION82/0B8FrfVOMEXkDWbw41n85XZELikQWRU7wxZWoLk9pEgd3jNpowi4aaDF
+	B2uGg2+sAx8ukfQQDBWl8RjAq56e4gxtuw0Jc6Vy/IQWq/3U9l0R69VCPTLu5DbgFcft
+	1GtQ==
+X-Gm-Message-State: AHPjjUiL1GIA1iCdl1WR0+k/Ze1HZPvbBANgTn/CCoaURyj99Z1wmbHS
+	Cje5NRhReTjwzgFAOrU=
+X-Received: by 10.37.187.7 with SMTP id z7mr2262746ybg.81.1504876374645;
+	Fri, 08 Sep 2017 06:12:54 -0700 (PDT)
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com.
+	[209.85.218.53])
+	by smtp.gmail.com with ESMTPSA id m76sm670556ywd.10.2017.09.08.06.12.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Sep 2017 06:12:53 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f53.google.com with SMTP id z73so11203467oia.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 06:12:53 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QBrLUE2pBFJtKeipRDwLi4n1cEARVk7TePgrrJAfRe9oVgx2Bw+yZPpr/PmnH6H6TdChL+aC68fEsGaLbhgjbI=
+X-Received: by 10.202.56.194 with SMTP id f185mr2548992oia.249.1504876372865; 
+	Fri, 08 Sep 2017 06:12:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.0.69 with HTTP; Fri, 8 Sep 2017 06:12:52 -0700 (PDT)
+In-Reply-To: <CAJTo0LY7LOj73k2eu10sw-6NySPDyencXYXTKDBLh_mrFwLaYg@mail.gmail.com>
+References: <20170905015722.16993-1-otavio@ossystems.com.br>
+	<CAJTo0LY7LOj73k2eu10sw-6NySPDyencXYXTKDBLh_mrFwLaYg@mail.gmail.com>
+Date: Fri, 8 Sep 2017 10:12:52 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo+r0joo6h2OHsBO_4mugvOxsNvDPEmG54p3RGB=cy_Pw@mail.gmail.com>
+Message-ID: <CAP9ODKo+r0joo6h2OHsBO_4mugvOxsNvDPEmG54p3RGB=cy_Pw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: Move Device Tree support to kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,43 +70,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 10:33:24 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 13:12:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/classes/image_types.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Thu, Sep 7, 2017 at 1:21 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> Would this be the cause of this failure on the autobuilder when doing
+> testimage?
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 9b646e9..d086061 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -107,6 +107,7 @@ IMAGE_CMD_btrfs () {
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
- IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
- IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
-+IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lz4"
- 
- # By default, tar from the host is used, which can be quite old. If
- # you need special parameters (like --xattrs) which are only supported
-@@ -236,6 +237,7 @@ do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
- do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
- do_image_squashfs_xz[depends] += "squashfs-tools-native:do_populate_sysroot"
- do_image_squashfs_lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
-+do_image_squashfs_lz4[depends] += "squashfs-tools-native:do_populate_sysroot"
- do_image_elf[depends] += "virtual/kernel:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
- do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
- do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
-@@ -251,7 +253,7 @@ IMAGE_TYPES = " \
-     btrfs \
-     iso \
-     hddimg \
--    squashfs squashfs-xz squashfs-lzo \
-+    squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
-     ubi ubifs multiubi \
-     tar tar.gz tar.bz2 tar.xz tar.lz4 \
-     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+Yes, it is.
+
+I did reproduce the error here and I am sending a new revision fixing it.
+
 -- 
-2.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
