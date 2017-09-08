@@ -1,45 +1,45 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1670A78070
+	by mail.openembedded.org (Postfix) with ESMTP id 0DA29601D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 14:26:32 +0000 (UTC)
+	Fri,  8 Sep 2017 14:33:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id DEE5518462;
-	Fri,  8 Sep 2017 16:26:33 +0200 (CEST)
+	by bastet.se.axis.com (Postfix) with ESMTP id B8AB618581;
+	Fri,  8 Sep 2017 16:33:22 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
 	port 10024)
-	with LMTP id k5noGy_lMp5v; Fri,  8 Sep 2017 16:26:33 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id CD35B18595;
-	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A0C4C1A073;
-	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 95CF11A070;
-	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+	with LMTP id tlHqT8KQoR5N; Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 86B72185A3;
+	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 728A41E06C;
+	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 675CC1E075;
+	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 894C12B69;
-	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+	by thoth.se.axis.com (Postfix) with ESMTP id 5AD882BF3;
+	Fri,  8 Sep 2017 16:33:20 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v88EQVx3029268;
-	Fri, 8 Sep 2017 16:26:31 +0200
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v88EXJ5V030374;
+	Fri, 8 Sep 2017 16:33:19 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v88EQVju029267;
-	Fri, 8 Sep 2017 16:26:31 +0200
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v88EXJpB030373;
+	Fri, 8 Sep 2017 16:33:19 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: Armin Kuster <akuster808@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:26:17 +0200
-Message-Id: <20170908142617.29216-1-pkj@axis.com>
+Date: Fri,  8 Sep 2017 16:33:15 +0200
+Message-Id: <20170908143315.30326-1-pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 X-TM-AS-GCONF: 00
-Subject: [pyro][PATCH] oe-pkgdata-util: package-info: Allow extra variables to be displayed
+Subject: [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow extra variables to be displayed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,7 +52,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 14:26:33 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 14:33:22 -0000
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
@@ -62,7 +62,6 @@ variables available in the pkgdata can be displayed, e.,g,
 variables displayed are quoted since some of them may contain
 whitespace.
 
-Change-Id: Ie59d5ac4c7a6780a78239b210a8d2129388d830a
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -71,6 +70,8 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 This is a backport of the corresponding change (6f054fcf) on master.
 It should not change anything unless one actually uses the --extra
 option to oe-pkgdata-util.
+
+PATCHv2: Now without Change-Id footer.
 
  scripts/oe-pkgdata-util | 12 ++++++++++--
  1 file changed, 10 insertions(+), 2 deletions(-)
