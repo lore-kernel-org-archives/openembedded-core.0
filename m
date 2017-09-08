@@ -1,45 +1,42 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E3278202
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1967478190
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 13:43:57 +0000 (UTC)
-Received: by mail-qk0-f193.google.com with SMTP id o77so1545871qke.2
+	Fri,  8 Sep 2017 13:48:05 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id d70so1555874qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:43:59 -0700 (PDT)
+	Fri, 08 Sep 2017 06:48:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=Qzp0kFRUSGsat5eamu8HPK5stmMNHm+p/E5DyS+jEEY=;
-	b=U75yp70l+AZUgun2+fqlON6QyjYd1QQl4neVIgPejAE7enxXe50nF1bAlhHV+ghRno
-	gOqvbqQH+p+4Qqyw6wZhBGJ4RGz7MZx66CQoTXpGqhLiO7KqNeo6fvsC5Fw2WhBJUH78
-	Msd/LjtYAENFJNzETB0xtK81zrtMeAjhUSdGKTB9SD0360XNaG9aLaNvgHoKg2c74O8w
-	QRfU1arnINPhQksf6ru6gTYiRhe4A0DU7GwgphMOm4s6aRIrQoUB7qYP+QRyDeB0elLJ
-	AQ3UKRVxuTCll/a8jpV/InvEl7EbsBrXL+9P7QFd+mu0yObvGAp0SoWOln97euhQ6eCo
-	9hhg==
-X-Gm-Message-State: AHPjjUhY9+Mee/Ti9g2SAxqZvLDnGsFKilvfAhFbJGZaADZF9ZLgi5NT
-	7hlAN0PYhMybZIgO
-X-Google-Smtp-Source: AOwi7QAPUD+mtR0/V7Tx4YXzk34u7AEVgl9SeKJrYEcrLiU551AWNCfe53vt8XadLJRZ4RVLifgkHw==
-X-Received: by 10.233.220.199 with SMTP id q190mr3654580qkf.222.1504878238662; 
-	Fri, 08 Sep 2017 06:43:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=bRv5jd4fmJtRnZB8emBy2Kd/jugJ49yVcf/hBU+R/zw=;
+	b=pSiGHSTn0tfcSBnYir7O+LQJmZ4V785/nX+27RcF1Yw9yeddM1Wlq7YhY4qvAcyeMQ
+	wKOfDS+dwYcBnr9xaKa/oRMZAiyirUchdd7ZunMiuhNrNLSDXY0Td3mubr3yPCO9AHHl
+	L8HULugLe8GKhHohSNJXSEmZG8qENrTyLD30zuNOVu+p2oQ3or9Uv3EfKL7M/cg1vsBN
+	d/IyiDadZ8PucBDnlDTNxC8Y+sRW8u4uY66zSj5EeDyS/6+/x2YH89cQjaVNgZtZuArV
+	cqMUKY8gsq6C1Evu3+QpmmstVVPwCwbcKV+H1MKUpTXxvJTCxn7xCdqPaE9Mps8Jv/GV
+	HYvw==
+X-Gm-Message-State: AHPjjUgqTJyKVOFxzTfZVxxEilUrfGJN1oya+W/JHhEm4BNpLfvHuISI
+	pUEpLoKmxVLMft0L
+X-Google-Smtp-Source: AOwi7QC5w1cKf2pdaXKQfbidlTPujL+/t5lX/kdPyqRlOhuXcYshsBsEA0W2QsXo5W9QDZfeAT6Rrg==
+X-Received: by 10.55.159.81 with SMTP id i78mr4007353qke.81.1504878486609;
+	Fri, 08 Sep 2017 06:48:06 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	v11sm1232971qti.95.2017.09.08.06.43.54
+	t65sm1271966qke.12.2017.09.08.06.48.02
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 06:43:57 -0700 (PDT)
+	Fri, 08 Sep 2017 06:48:05 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 10:43:51 -0300
+	Fri, 08 Sep 2017 10:47:59 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 10:43:31 -0300
-Message-Id: <20170908134331.6695-3-otavio@ossystems.com.br>
+Date: Fri,  8 Sep 2017 10:47:47 -0300
+Message-Id: <20170908134758.7570-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170908134331.6695-1-otavio@ossystems.com.br>
-References: <20170908134331.6695-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v6 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+Subject: [PATCH v3 00/11] Revamp the Go support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,110 +49,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 13:43:57 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 13:48:06 -0000
 
-The are use cases where the Device Tree appended to the kernel is
-convinient, so we generate the bundle concatenating the kernel (and
-potentionally the initramfs) and the Device Tree binaries.
+This is not yet complete but does improve some parts of
+Go support on OE-Core.
 
-To enable it, set KERNEL_DEVICETREE_BUNDLE variable to '1'
+We are trying to port as much as possible work done by Matt on
+meta-golang back to OE-Core and also to avoid carrying old releases as
+there is no need to support more versions of Go toolchain.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+The first commits on this patchset fix errors in current
+implementation, the others are improvements and clean ups.
 
-Changes in v6: None
-Changes in v5:
-- add support for initramfs bundle
-
-Changes in v4:
+Changes in v3:
+- new patch
+- new patch
 - new patch
 
-Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- New patch
+- Remove -x flag (madisongh)
+- Remove GO_EXTLDFLAGS for now (madisongh)
 
- meta/classes/kernel-devicetree.bbclass | 49 +++++++++++++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 1 deletion(-)
+Matt Madison (3):
+  go.bbclass: exported function cleanup
+  go.bbclass: separate ${S} and ${B}
+  go.bbclass: add do_unpack function to handle common cases
 
-diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-index 04e2f2695e..1499d2ba43 100644
---- a/meta/classes/kernel-devicetree.bbclass
-+++ b/meta/classes/kernel-devicetree.bbclass
-@@ -1,6 +1,13 @@
- # Support for device tree generation
--PACKAGES_append = " kernel-devicetree"
-+PACKAGES_append = " \
-+    kernel-devicetree \
-+    ${@['kernel-image-zimage-bundle', ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
-+"
- FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
-+FILES_kernel-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-*.dtb.bundle"
-+
-+# Generate kernel+devicetree bundle
-+KERNEL_DEVICETREE_BUNDLE ?= "0"
- 
- normalize_dtb () {
- 	DTB="$1"
-@@ -20,6 +27,24 @@ get_real_dtb_path_in_kernel () {
- 	echo "${DTB_PATH}"
- }
- 
-+
-+do_configure_devicetree() {
-+	if [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-+		if echo ${KERNEL_IMAGETYPE_FOR_MAKE} | grep -q 'zImage'; then
-+			config="${B}/.config"
-+			if ! grep -q 'CONFIG_ARM_APPENDED_DTB=y' $config; then
-+				bbwarn 'CONFIG_ARM_APPENDED_DTB is NOT enabled in the kernel. Enabling it to allow the kernel to boot with the Device Tree appended!'
-+				sed -i "/CONFIG_ARM_APPENDED_DTB[ =]/d" $config
-+				echo "CONFIG_ARM_APPENDED_DTB=y" >> $config
-+				echo "# CONFIG_ARM_ATAG_DTB_COMPAT is not set" >> $config
-+			fi
-+		else
-+			bberror 'The KERNEL_DEVICETREE_BUNDLE requires the KERNEL_IMAGETYPE to contain zImage.'
-+		fi
-+	fi
-+}
-+addtask configure_devicetree after do_configure before do_compile
-+
- do_compile_devicetree() {
-     DTBS=""
- 	for dtb in ${KERNEL_DEVICETREE}; do
-@@ -43,6 +68,12 @@ fakeroot do_install_devicetree() {
- 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
- 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
-+
-+			if [ "$type" = "zImage" ] && [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-+				cat ${D}/${KERNEL_IMAGEDEST}/$type \
-+					${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} \
-+					> ${D}/${KERNEL_IMAGEDEST}/$type-${DTB_BASE_NAME}.${DTB_EXT}.bundle
-+			fi
- 		done
- 	done
- }
-@@ -63,6 +94,22 @@ do_deploy_append() {
- 			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
- 			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
- 			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_BASE_NAME}.${DTB_EXT}
-+
-+			if [ "$type" = "zImage" ] && [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-+				cat ${DEPLOYDIR}/$type \
-+					${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT} \
-+					> ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}.bundle
-+				ln -sf ${DTB_NAME}.${DTB_EXT}.bundle ${DEPLOYDIR}/$type-${DTB_BASE_NAME}.${DTB_EXT}.bundle
-+
-+				if [ -e "${KERNEL_OUTPUT_DIR}/${type}.initramfs" ]; then
-+					initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}-${DTB_BASE_NAME}.${DTB_EXT}
-+					initramfs_symlink_name=${type}-initramfs-${DTB_BASE_NAME}.${DTB_EXT}-${MACHINE}
-+					cat ${KERNEL_OUTPUT_DIR}/${type}.initramfs \
-+						${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT} \
-+						> ${DEPLOYDIR}/${initramfs_base_name}.bin
-+					ln -sf ${initramfs_base_name}.bin ${DEPLOYDIR}/${initramfs_symlink_name}.bin
-+				fi
-+			fi
- 		done
- 	done
- }
+Otavio Salvador (8):
+  goarch.bbclass: Stop passing True as second argument of d.getVar
+  go.bbclass: Fix binary installation path detection
+  go-dep: Add 0.3.0 release
+  go: Remove Go 1.6 and 1.7 releases
+  goarch.bbclass: Add support for ARMv5
+  go.bbclass: Use a global Go build flags
+  go.bbclass: Enable parallel build
+  go.bbclass: Use an auxiliary variable to add the build dependencies
+
+ meta/classes/go.bbclass                            | 104 +++++++++++++--------
+ meta/classes/goarch.bbclass                        |  20 ++--
+ meta/recipes-devtools/go/go-1.6.inc                |  19 ----
+ .../go/go-1.6/armhf-elf-header.patch               |  23 -----
+ .../go/go-1.6/fix-cc-handling.patch                |  50 ----------
+ .../go/go-1.6/fix-target-cc-for-build.patch        |  17 ----
+ meta/recipes-devtools/go/go-1.6/gotooldir.patch    |  30 ------
+ .../go/go-1.6/split-host-and-target-build.patch    |  63 -------------
+ meta/recipes-devtools/go/go-1.6/syslog.patch       |  62 ------------
+ meta/recipes-devtools/go/go-1.7.inc                |  19 ----
+ .../go/go-1.7/armhf-elf-header.patch               |  23 -----
+ .../go/go-1.7/fix-cc-handling.patch                |  50 ----------
+ .../go/go-1.7/fix-target-cc-for-build.patch        |  17 ----
+ meta/recipes-devtools/go/go-1.7/gotooldir.patch    |  30 ------
+ .../go/go-1.7/split-host-and-target-build.patch    |  62 ------------
+ meta/recipes-devtools/go/go-1.7/syslog.patch       |  62 ------------
+ meta/recipes-devtools/go/go-cross_1.7.bb           |   5 -
+ meta/recipes-devtools/go/go-dep_0.3.0.bb           |  20 ++++
+ meta/recipes-devtools/go/go_1.6.bb                 |   4 -
+ meta/recipes-devtools/go/go_1.7.bb                 |   2 -
+ 20 files changed, 97 insertions(+), 585 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.6.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-cc-handling.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/fix-target-cc-for-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/gotooldir.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/split-host-and-target-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.6/syslog.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-cc-handling.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/fix-target-cc-for-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/gotooldir.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/split-host-and-target-build.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.7/syslog.patch
+ delete mode 100644 meta/recipes-devtools/go/go-cross_1.7.bb
+ create mode 100644 meta/recipes-devtools/go/go-dep_0.3.0.bb
+ delete mode 100644 meta/recipes-devtools/go/go_1.6.bb
+ delete mode 100644 meta/recipes-devtools/go/go_1.7.bb
+
 -- 
 2.14.1
 
