@@ -1,21 +1,63 @@
-Return-Path: <juan.m.cruz.alcaraz@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AAD1078170
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A9CC1781FB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 13:34:35 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Sep 2017 06:34:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,361,1500966000"; d="scan'208";a="147000532"
-Received: from yctb04.ostc.intel.com ([10.54.69.58])
-	by orsmga005.jf.intel.com with ESMTP; 08 Sep 2017 06:34:36 -0700
-From: juan.m.cruz.alcaraz@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 06:34:34 -0700
-Message-Id: <20170908133434.26109-1-juan.m.cruz.alcaraz@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-Subject: [PATCH v4] devtool/standard: set a preferred provider when adding a new recipe with devtool
+	Fri,  8 Sep 2017 13:35:04 +0000 (UTC)
+Received: by mail-yw0-f193.google.com with SMTP id c85so1336062ywa.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 06:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=owJwBDlFiegDcf4A+fOibDZtBfJmzloPU8EVcmP/Ofo=;
+	b=jzI2vwpRJeZtyF26Uby/Amkv/rQ7mEtucpB5bhpDf7e1E1GoNWPE39CneX73IoKcn8
+	VNW3OWLtrusufEEMoe8M3PHbTCRUwsfynV6oJPtoH4TlJ2sXp5sJwkGpcNhVYjDtGTtI
+	cRtAllThrmjmHYAwpLkOPdFf+FkXUQ1pGZlMGEzFrGkHpxuO+Ruzf4OdwJYArvCORCcq
+	6H93r0Xda79TJcNkMcS9RC57D/hqjQrvqsSCErEXpYt04wvKD8Vt6o3g5WkzHFRMp+uA
+	FVAKu1K8AWOUPZ57baIrdz5IZveucuJcahYbVW3RiCH9VrdW+fpH4H/fHJ/HakKhJvil
+	Fe6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=owJwBDlFiegDcf4A+fOibDZtBfJmzloPU8EVcmP/Ofo=;
+	b=FpvXVWOJ/Ed6k7IQReEBkmJZNiqCoo9Ff/96ZEiIWHmJTWWVCzx8jG5kJr+nDa0tGo
+	xQ72UavX4h8E6SRp4DqDL3u7niTerP9j2o/UkB2PnWfAnE61iNLZJfnavPPwxOReXvJY
+	6eZaLj6P/1SlYkFUTvkOLMKgFxX+M9S6ZWEp7uT+h6Hydh2P1A8yqP9FeBSX1QcBafez
+	cMKoRFpFp7mk5pyXElHEgS4qhqJ9eyda5GBS2AoZ72HRB1RxepwINUSFDwCW7A9NoJa8
+	E7l8rztFtUwcEZ1K32WlC7zpZniRGE+9OPJ4/L5fLA1JupnfdSwSZBDh1nz5xnqIw8E8
+	B9Iw==
+X-Gm-Message-State: AHPjjUjRJPm0em3q+xkhhG0GiIlIt++P3J0c6nURob2Yki8zKoSOsrd9
+	TVad5kBlBT7rr8LYjf8=
+X-Received: by 10.37.160.38 with SMTP id x35mr2478673ybh.325.1504877705573;
+	Fri, 08 Sep 2017 06:35:05 -0700 (PDT)
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com.
+	[209.85.218.48]) by smtp.gmail.com with ESMTPSA id
+	n186sm688080ywn.12.2017.09.08.06.35.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Sep 2017 06:35:04 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f48.google.com with SMTP id r20so14786924oie.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Sep 2017 06:35:04 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QCXpDFiUOh93ciCYnX9kT5Czf1s8QckrIPamRgX+d055mzG3WTeJj4vXMeC+syrBDo2ucenz21y8Ce6Y0KyxN0=
+X-Received: by 10.202.56.194 with SMTP id f185mr2601231oia.249.1504877703904; 
+	Fri, 08 Sep 2017 06:35:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.0.69 with HTTP; Fri, 8 Sep 2017 06:35:03 -0700 (PDT)
+In-Reply-To: <20170906223125.21628-1-california.l.sullivan@intel.com>
+References: <20170906223125.21628-1-california.l.sullivan@intel.com>
+Date: Fri, 8 Sep 2017 10:35:03 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKocL2E6nH-kmJW11BDjcUCF8gCjknvtigTWcjUiA_FFHw@mail.gmail.com>
+Message-ID: <CAP9ODKocL2E6nH-kmJW11BDjcUCF8gCjknvtigTWcjUiA_FFHw@mail.gmail.com>
+To: California Sullivan <california.l.sullivan@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] initramfs-framework: split setup-live and install-efi into separate recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,131 +70,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 13:34:35 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 13:35:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
+On Wed, Sep 6, 2017 at 7:31 PM, California Sullivan
+<california.l.sullivan@intel.com> wrote:
+> Having these the initramfs-framework recipe forced initramfs-framework
+> users to build several tools they didn't need, and made it more
+> difficult to declare the recipe as allarch.
+>
+> Fixes [YOCTO #12024].
+>
+> v2 changes:
+>   * fix SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in layer.conf
+>   * bump PR of initramfs-framework
+>   * add allarch to setup-live and install-efi modules, as they're just
+>     shell scripts
+>
+> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+> ---
+> I think I agree with Otavio on the allarch discussion. Setup-live at the
+> very least is applicable to everything, and while install-efi is
+> unlikely to be used for anything that's not x86-based, it EFI on arm
+> does technically exist.
+>
+> We can discuss it more if necessary.
+>
+>  meta/conf/layer.conf                               |  8 ++++----
+>  .../initrdscripts/initramfs-framework_1.0.bb       | 22 +++-------------------
+>  .../initramfs-module-install-efi_1.0.bb            | 20 ++++++++++++++++++++
+>  .../initramfs-module-setup-live_1.0.bb             | 20 ++++++++++++++++++++
+>  4 files changed, 47 insertions(+), 23 deletions(-)
+>  create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+>  create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
+>
+> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+> index 04aa730..df457c2 100644
+> --- a/meta/conf/layer.conf
+> +++ b/meta/conf/layer.conf
+> @@ -50,12 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+>    docbook-xsl-stylesheets->perl \
+>    ca-certificates->openssl \
+>    initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
+> -  initramfs-framework->dosfstools \
+> -  initramfs-framework->e2fsprogs \
+>    initramfs-framework->eudev \
+> -  initramfs-framework->parted \
+>    initramfs-framework->systemd \
+> -  initramfs-framework->util-linux \
+> +  initramfs-module-install-efi->dosfstools \
+> +  initramfs-module-install-efi->e2fsprogs \
+> +  initramfs-module-install-efi->parted \
+> +  initramfs-module-install-efi->util-linux \
+>    liberation-fonts->fontconfig \
+>    cantarell-fonts->fontconfig \
+>    gnome-icon-theme->librsvg \
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> index 77b2ff8..2afc37e 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+> @@ -3,7 +3,7 @@ LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>  RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
+>
+> -PR = "r3"
+> +PR = "r4"
+>
+>  inherit allarch
+>
+> @@ -14,8 +14,7 @@ SRC_URI = "file://init \
+>             file://udev \
+>             file://e2fs \
+>             file://debug \
+> -           file://setup-live \
+> -           file://install-efi.sh"
+> +          "
+>
+>  S = "${WORKDIR}"
+>
+> @@ -27,9 +26,6 @@ do_install() {
+>      install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
+>      install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
+>
+> -    # setup-live
+> -    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
+> -
+>      # mdev
+>      install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
+>
+> @@ -42,9 +38,6 @@ do_install() {
+>      # debug
+>      install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
+>
+> -    # install-efi
+> -    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
+> -
+>      # Create device nodes expected by some kernels in initramfs
+>      # before even executing /init.
+>      install -d ${D}/dev
+> @@ -57,8 +50,7 @@ PACKAGES = "${PN}-base \
+>              initramfs-module-e2fs \
+>              initramfs-module-rootfs \
+>              initramfs-module-debug \
+> -            initramfs-module-setup-live \
+> -            initramfs-module-install-efi"
+> +           "
+>
+>  FILES_${PN}-base = "/init /init.d/99-finish /dev"
+>
+> @@ -78,10 +70,6 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
+>  RDEPENDS_initramfs-module-udev = "${PN}-base udev"
+>  FILES_initramfs-module-udev = "/init.d/01-udev"
+>
+> -SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
+> -RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
+> -FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
+> -
+>  SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
+>  RDEPENDS_initramfs-module-e2fs = "${PN}-base"
+>  FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
+> @@ -93,7 +81,3 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
+>  SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
+>  RDEPENDS_initramfs-module-debug = "${PN}-base"
+>  FILES_initramfs-module-debug = "/init.d/00-debug"
+> -
+> -SUMMARY_initramfs-module-install-efi = "initramfs support for installation option"
+> -RDEPENDS_initramfs-module-install-efi = "${PN}-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
+> -FILES_initramfs-module-install-efi = "/init.d/install-efi.sh"
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+> new file mode 100644
+> index 0000000..541381b
+> --- /dev/null
+> +++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
+> @@ -0,0 +1,20 @@
+> +SUMMARY = "initramfs-framework module for installation option"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
+> +
+> +PR = "r1"
 
-A recipe added with "devtool add" requires to be able to take precedence on recipes
-previously defined with PREFERRED_PROVIDER.
+Use 'r4' here as well or package feeds can break.
 
-By adding the parameter "--provides" to "devtool add" it is possible to specify
-an element to be provided by the recipe. A devtool recipe can override a previous
-PREFERRED_PROVIDER using the layer configuration file in the workspace.
+Other than that, I am fine with it.
 
-E.g.
-    devtool add my-libgl git@git://my-libgl-repository --provides virtual/libgl
 
-[YOCTO #10415]
-
-Signed-off-by: Juan M Cruz Alcaraz <juan.m.cruz.alcaraz@linux.intel.com>
----
- scripts/lib/devtool/standard.py  | 42 ++++++++++++++++++++++++++++++++++++++++
- scripts/lib/recipetool/create.py |  3 +++
- 2 files changed, 45 insertions(+)
-
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 174cc861e1..e976161cbb 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -161,6 +161,8 @@ def add(args, config, basepath, workspace):
-         extracmdopts += ' --srcrev %s' % args.srcrev
-     if args.srcbranch:
-         extracmdopts += ' --srcbranch %s' % args.srcbranch
-+    if args.provides:
-+        extracmdopts += ' --provides %s' % args.provides
- 
-     tempdir = tempfile.mkdtemp(prefix='devtool')
-     try:
-@@ -276,6 +278,24 @@ def add(args, config, basepath, workspace):
-                 f.write('    done\n')
-                 f.write('}\n')
- 
-+        # Check if the new layer provides recipes whose priorities have been
-+        # overriden by PREFERRED_PROVIDER.
-+        recipe_name = rd.getVar('PN')
-+        provides = rd.getVar('PROVIDES')
-+        # Search every item defined in PROVIDES
-+        for recipe_provided in provides.split():
-+            preferred_provider = 'PREFERRED_PROVIDER_' + recipe_provided
-+            current_pprovider = rd.getVar(preferred_provider)
-+            if current_pprovider and current_pprovider != recipe_name:
-+                if args.fixed_setup:
-+                    #if we are inside the eSDK add the new PREFERRED_PROVIDER in the workspace layer.conf
-+                    layerconf_file = os.path.join(config.workspace_path, "conf", "layer.conf")
-+                    with open(layerconf_file, 'a') as f:
-+                        f.write('%s = "%s"\n' % (preferred_provider, recipe_name))
-+                else:
-+                    logger.warn('Set \'%s\' in order to use the recipe' % preferred_provider)
-+                break
-+
-         _add_md5(config, recipename, appendfile)
- 
-         logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
-@@ -1612,6 +1632,26 @@ def status(args, config, basepath, workspace):
- def _reset(recipes, no_clean, config, basepath, workspace):
-     """Reset one or more recipes"""
- 
-+    def clean_preferred_provider(pn, layerconf_path):
-+        """Remove PREFERRED_PROVIDER from layer.conf'"""
-+        import re
-+        layerconf_file = os.path.join(layerconf_path, 'conf', 'layer.conf')
-+        new_layerconf_file = os.path.join(layerconf_path, 'conf', '.layer.conf')
-+        pprovider_found = False
-+        with open(layerconf_file, 'r') as f:
-+            lines = f.readlines()
-+            with open(new_layerconf_file, 'a') as nf:
-+                for line in lines:
-+                    pprovider_exp = r'^PREFERRED_PROVIDER_.*? = "' + pn + r'"$'
-+                    if not re.match(pprovider_exp, line):
-+                        nf.write(line)
-+                    else:
-+                        pprovider_found = True
-+        if pprovider_found:
-+            shutil.move(new_layerconf_file, layerconf_file)
-+        else:
-+            os.remove(new_layerconf_file)
-+
-     if recipes and not no_clean:
-         if len(recipes) == 1:
-             logger.info('Cleaning sysroot for recipe %s...' % recipes[0])
-@@ -1664,6 +1704,7 @@ def _reset(recipes, no_clean, config, basepath, workspace):
-                 # This is unlikely, but if it's empty we can just remove it
-                 os.rmdir(srctree)
- 
-+        clean_preferred_provider(pn, config.workspace_path)
- 
- def reset(args, config, basepath, workspace):
-     """Entry point for the devtool 'reset' subcommand"""
-@@ -1827,6 +1868,7 @@ def register_commands(subparsers, context):
-     parser_add.add_argument('--also-native', help='Also add native variant (i.e. support building recipe for the build host as well as the target machine)', action='store_true')
-     parser_add.add_argument('--src-subdir', help='Specify subdirectory within source tree to use', metavar='SUBDIR')
-     parser_add.add_argument('--mirrors', help='Enable PREMIRRORS and MIRRORS for source tree fetching (disable by default).', action="store_true")
-+    parser_add.add_argument('--provides', '-p', help='Specify an alias for the item provided by the recipe. E.g. virtual/libgl')
-     parser_add.set_defaults(func=add, fixed_setup=context.fixed_setup)
- 
-     parser_modify = subparsers.add_parser('modify', help='Modify the source for an existing recipe',
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 4788691cff..ca474fce99 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -699,6 +699,8 @@ def create_recipe(args):
-                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
-             srcrev = stdout.rstrip()
-         lines_before.append('SRCREV = "%s"' % srcrev)
-+    if args.provides:
-+        lines_before.append('PROVIDES = "%s"' % args.provides)
-     lines_before.append('')
- 
-     if srcsubdir and not args.binary:
-@@ -1300,6 +1302,7 @@ def register_commands(subparsers):
-                                           description='Creates a new recipe from a source tree')
-     parser_create.add_argument('source', help='Path or URL to source')
-     parser_create.add_argument('-o', '--outfile', help='Specify filename for recipe to create')
-+    parser_create.add_argument('-p', '--provides', help='Specify an alias for the item provided by the recipe')
-     parser_create.add_argument('-m', '--machine', help='Make recipe machine-specific as opposed to architecture-specific', action='store_true')
-     parser_create.add_argument('-x', '--extract-to', metavar='EXTRACTPATH', help='Assuming source is a URL, fetch it and extract it to the directory specified as %(metavar)s')
-     parser_create.add_argument('-N', '--name', help='Name to use within recipe (PN)')
 -- 
-2.12.3
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
