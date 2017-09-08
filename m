@@ -1,49 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 17E4878258
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 7677378259
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 23:22:11 +0000 (UTC)
-Received: by mail-pg0-f51.google.com with SMTP id v66so7027686pgb.5
+	Fri,  8 Sep 2017 23:22:13 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id g13so6591062pfm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 16:22:13 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wtcaaQh6G3QJwzArWfnX5APh4PlApJ6J83o5YonxDXQ=;
-	b=l3lwLzyiN7s/z+IgAoOsrolq1eqYaTO1p9GLIC6GTY8uITFdiAxztN7Ht61eD+tPe8
-	sLdurlr6dQow9tqAGBP3aHmo3i5O7M9xYYad8BjMgvQTzm4MEYui4rAuxmSP3s+Voyw3
-	MeKU3zfDZLWkAq5tOlke0/O15twyF1Asc1wS3wKj1QBGKdkm1ATjLhVuBDoU5nOAcyEz
-	2R7+OuI0gpID6lpyW3usY/tsMH0Qhs5W5OjnDAxWuFeG+9SCq1sGM9b1BPtN1RI++39f
-	D1akvZRvczGsQtVDFfkkkHJ19l0YEEvhEg7P0B4igieBzP0M8YdXmMAAiMhuvwQ9JDTW
-	nK4A==
+	bh=RgwR8WjZ3l+Q/ep7jQx8CqMZb1X6rjcEfw9ysysRNwI=;
+	b=I2Q2RTJXYjGvADO0F0pojrjfB3tp2CdJL/2v4kpcSEeulQbJ9jH1bxRrDeMreobyqj
+	7dsu/QYpzd3WoyvoRkBabzArTqjyG76zxNnMruFcC/9T/waHPdLxf8j3MQAwT7NHQllA
+	wDHDDWhntqJRcwdGbrJxDUJ7oB3Ly2F5w3KwNJPmMh8LYHAckxEU2kvEaLEB95GPSBB0
+	gtKGr7yNbY8Mf5Ti9wBgWLQXYyZl5xTZv3IDmW4zt4OsW5iapkTAo93UxHTfnnNCy4oR
+	bkFagOSGKdm8/70vAf8P5/FDL3PtFYfkf70fUdqY6CADHhr/Pr7ohSjT3JbWkGA04rqn
+	C+Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=wtcaaQh6G3QJwzArWfnX5APh4PlApJ6J83o5YonxDXQ=;
-	b=SkJgj2MqdzImFRQ4s5/kkM5tX4Cn41TemfbYKDlyLGPCHJCmFfQoFPEC0HopDZVAXL
-	7Mq36OuS7ENU7cuyzEDZRc4z1Rz2iEjr2dvn4B7GpYQVdvJvfOsAX6RRmJ9vISrKWHzL
-	WxFHW9A80yeA0P1+1ikT0Esm7BxY6ygNygHR2Fw/Pgue3/YiC9K5nSqrPobTByMqhz+E
-	0AmSh1OYfVlwXEphbR3TQVfrbhVlus8Dl+1IfoOtQZWEuhUMpPkYkpArBRbFecggA7eA
-	1XUoeqoI+LOn0tWQVjUzgMVCPsjkpHNsfQVtjac2mPu1uk0LVTAFZVNQGuxEb6VHVZMK
-	sw6Q==
-X-Gm-Message-State: AHPjjUhP1524MNTIdkj7Ibao7MZuxa5H42RLtUjc1IL2PuCXpwqEPwny
-	VCZ2OHmQ/VWGV6ML
-X-Google-Smtp-Source: ADKCNb6uQw4KLW1136FUM3YXzOAoh5xMaqy+PKfHyoE/oIWNpVfcazHaDn5RZIM4EN87q6S/1EX4qw==
-X-Received: by 10.98.62.80 with SMTP id l77mr4727781pfa.267.1504912933080;
-	Fri, 08 Sep 2017 16:22:13 -0700 (PDT)
+	bh=RgwR8WjZ3l+Q/ep7jQx8CqMZb1X6rjcEfw9ysysRNwI=;
+	b=BlK4G0I8XaGYQfKywBq9Gdxft18zPbo5wGo7N2gEN6iPmW0ufiCVhK1iidUWWAFiEo
+	RPGgBYNPHmmSsMJKR8QTTF0ZrapiTH2An1saSUqGsLgFe8mDgfRPbQFfvxR3X7fJR0ak
+	5FLFf4GgCKztiGcP5lvlpcgRWtyliYs8AVztOIoyx1QO72+Cbby08vpo77n0DkvOjEv+
+	Yr0qBBxBXSGwhwnSgofA4splpZ6FXyp0YT/xRmRWix1920JxOkDTyUESspegONQBbPRt
+	BNtfwD51bY8gOhd9wvO/QMJZC5pcUkz+wMs4kWDYZIEHv6jGk/QUpAOu6rKDk3wswELg
+	e7AQ==
+X-Gm-Message-State: AHPjjUhDjS1bd3kQE4WzfpRZTNiSCx+qSmEzrHHRBBkLoX1u8kRZ8oTB
+	NV4TXuaKgTo6B4E0
+X-Google-Smtp-Source: ADKCNb7+r2zPTiwgN88zSbD3Ec4Nnokqcwn/8AxpYD4mtS7QkT5P0QBAX6ehlmbMDno1dNqwJTnFmg==
+X-Received: by 10.84.164.199 with SMTP id l7mr931075plg.361.1504912935314;
+	Fri, 08 Sep 2017 16:22:15 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	q13sm5510822pfi.110.2017.09.08.16.22.11
+	q13sm5510822pfi.110.2017.09.08.16.22.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Sep 2017 16:22:12 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:14 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:21:39 -0700
-Message-Id: <1504912911-23120-4-git-send-email-armccurdy@gmail.com>
+Date: Fri,  8 Sep 2017 16:21:40 -0700
+Message-Id: <1504912911-23120-5-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
 References: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
-Subject: [daisy][PATCH 03/15] base-passwd: fix SRC_URI
+Subject: [daisy][PATCH 04/15] dosfstools: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 23:22:12 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 23:22:14 -0000
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
 Fixed:
-WARNING: Failed to fetch URL ftp://ftp.debian.org/debian/pool/main/b/base-passwd/base-passwd_3.5.29.tar.gz, attempting MIRRORS if available
+WARNING: Failed to fetch URL ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/dosfstools-2.11.src.tar.gz, attempting MIRRORS if available
+
+And add a HOMEPAGE for it, there is no dosfstools 2.11 on its official
+page (but 3.x).
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-(cherry picked from commit 9ac88e3a9ac36ed83f01ac21db57a3c01a24385e)
+(cherry picked from commit cba73a598abc396fae4fb582be98fc04cb2a580f)
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/base-passwd/base-passwd_3.5.29.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/dosfstools/dosfstools_2.11.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-index 59bd413..ace94a6 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-@@ -4,7 +4,7 @@ SECTION = "base"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+diff --git a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+index a6a7ddc..c797c2a 100644
+--- a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
++++ b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+@@ -2,13 +2,14 @@
+ # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
+ # Released under the MIT license (see packages/COPYING)
+ SUMMARY = "DOS FAT Filesystem Utilities"
++HOMEPAGE = "http://daniel-baumann.ch/software/dosfstools/"
  
--SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
-+SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar.gz \
-            file://add_shutdown.patch \
-            file://nobash.patch \
-            file://noshadow.patch \
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://mkdosfs/COPYING;md5=cbe67f08d6883bff587f615f0cc81aa8"
+ PR = "r5"
+ 
+-SRC_URI = "ftp://ftp.uni-erlangen.de/pub/Linux/LOCAL/dosfstools/dosfstools-${PV}.src.tar.gz \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/${BPN}/${BP}.src.tar.gz/407d405ade410f7597d364ab5dc8c9f6/${BP}.src.tar.gz \
+            file://mkdosfs-bootcode.patch \
+            file://mkdosfs-dir.patch \
+            file://alignment_hack.patch \
 -- 
 1.9.1
 
