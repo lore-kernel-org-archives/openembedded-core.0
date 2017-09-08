@@ -1,49 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AE28C7827D
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3485978275
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 23:22:23 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id m9so1907727pgd.0
+	Fri,  8 Sep 2017 23:22:25 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id q76so2059397pfq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 16:22:25 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=87Dzv+vuHoL8Pqc0XkmedFUmnt5l5ACzOzpT6mpPX/Q=;
-	b=Td/VNtn8rROusy/yKi6fop2JUt4djLHefwMHBZHWdUsG98irz/lS/R/mKeKfVjTX2j
-	ZSf5Y5pnZZKj474o9sVbrmy2dAhSLiyLUW2ZPriNPw020O+Ub5/dMhJ0gMWH9o8mEtBp
-	j0MP0S18EL5UKEnSj4QnxS83zmZi62/99nZWREqq377B5wsT2b7TZ6HA7P+emhZgP/tP
-	OnKF/YyfCf5OC05B2EYimsMY6CcuYgR2xkdzKNFDQ3bZXH5Rvm5VC+bCAh/HxGjdFMe9
-	Q4VnF69BkydjDfoQnGVVBgTVofSLQvCJclO+j4mubCWDnebOTg2k6SPRWPC7oEoZXN/g
-	eXPg==
+	bh=ueiDlD1t3Aie+/jhA4dQidlymTABV1nxOBbxQrMzxdQ=;
+	b=uzx/DMfpfhjjWK+k3DhfKEJTklz5cVKnzE+dLlxTYeJ0a6fcdvORwm7LFftYNMi7xF
+	+AitEFIO4GKyZ0YMacQCGs40Rr0ABh2RHqP4aXTUhMdTsUxqWpHb+z80Rhr0glO3w2Td
+	+MPgS4c5bqZenXTX+4GP0RkujekATf9qWkJZ+IhJzglE9pVaN9tY0KFLkGY0zXfkxzah
+	O9Hw1BvhfIzYnEXNtN8Fyfi8MMREJ8A45nyIS73yz5QLqtxzhTrgO6tBDnMi5vRR9haq
+	JVyY3R8EG/P+r9seZkJ14cr/nXnl8+lqEaGed2I85AwKnJq7hgpso8FeKFhwh00L89zs
+	bosA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=87Dzv+vuHoL8Pqc0XkmedFUmnt5l5ACzOzpT6mpPX/Q=;
-	b=Ojtlzw0q/PmsOnc1ijuUOsOfKISMoPgHV/uSSvjDxCkYV7mds3u/RrU591oR/ds2nl
-	eq4rtj9uUWifRKtjrkzOhNhDS9lZY+vtFTJhnXF7TNBetQuexwLV/4yvj3LOXG/rD5D/
-	JxRtkE9brs8jxW5VSFwc/+VkILsoGiDuiyOrxqwcOHsNjGnCcAOv1BMJyuCsvig2mHbY
-	MKEh/1whVtDtt6y1EvPv643mhUTdmAH3WcdwSNC2hZDXMbNRjDmhPhO5VH4uIDYzet99
-	0pGOWi8y/mcjQejIWcaLdMWBCB92EPlya7wdiGkw2dxmDhyiVLfRiX+6MTZ+I5WGth2B
-	L0rA==
-X-Gm-Message-State: AHPjjUhk4BDS0iBrn53IDnmQH5SoPm8+WoiW+gnlq7MshYSXmODO7Noe
-	wysT3k+ez53Ti8lX
-X-Google-Smtp-Source: ADKCNb4aoupaPXGfnZzLMmY3q6mnTcyRHfAgH8TJm3xYpxwFgzX8eg5mYR3Mwxmxgn+F7+suMNnF0g==
-X-Received: by 10.99.151.2 with SMTP id n2mr4636650pge.452.1504912945020;
-	Fri, 08 Sep 2017 16:22:25 -0700 (PDT)
+	bh=ueiDlD1t3Aie+/jhA4dQidlymTABV1nxOBbxQrMzxdQ=;
+	b=ftQCNXnZ5SWgj9Cl5Eun+5oFLD9/2YCMx3g4WZWhm4crB/Ij3YVjWcM5Iejh4tsqFh
+	Eow5fUMO+RX/ShqJvtpSaKufKBjXbBZOiX+TV7Iqg4OgMh0CvO9nMBBCSF2sNonE45BM
+	VZ/Mavy6ZOjrjmUBgHOVjtEBU0p0bJ7FY38HLasDFBRDfvUVOHS+CEQhYSxv7SUyzMc6
+	eME9y+MIBsP8d5y5hpVGB+rfMKBmd1dLb/v/J6h+3gHNNfv7XxIu9vz+nmKOrmMOpVJq
+	Va00tEkcv/4a0vmbU6uPwCmarZaZy0Ti+LiHPju2f0XCLF0j4uODNwXs92wCTD3qTJ5U
+	u+GA==
+X-Gm-Message-State: AHPjjUjnSGTEJR955nPiKdoK+AilpKhNyhJHLeGeWneYyosa8ECVRu0y
+	U9HZZw/P1MXcmIsp
+X-Google-Smtp-Source: ADKCNb6O760vvR80Nq8C5JYDux+arzn6bTLKUH7cfRsbANCoReVmEc2kGqP7Kwzu+RchVuRSPdhq7g==
+X-Received: by 10.99.123.18 with SMTP id w18mr4678747pgc.27.1504912947172;
+	Fri, 08 Sep 2017 16:22:27 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	q13sm5510822pfi.110.2017.09.08.16.22.23
+	q13sm5510822pfi.110.2017.09.08.16.22.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Sep 2017 16:22:23 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:26 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:21:44 -0700
-Message-Id: <1504912911-23120-9-git-send-email-armccurdy@gmail.com>
+Date: Fri,  8 Sep 2017 16:21:45 -0700
+Message-Id: <1504912911-23120-10-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
 References: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
-Subject: [daisy][PATCH 08/15] ossp-uuid: use snapshot.debian.org for SRC_URI
+Subject: [daisy][PATCH 09/15] pigz: Update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 23:22:24 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 23:22:26 -0000
 
-From: "Maxin B. John" <maxin.john@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Using ${DEBIAN_MIRROR} for SRC_URI doesn't work very well as that will
-only contain releases that are currently in Debian. So, move all of SRC_URI
-to the .bb so it can use snapshot.debian.org instead, and set
-UPSTREAM_CHECK_URI to ${DEBIAN_MIRROR} so upstream release checking continues
-to work.
+Upstream have released a new tarball and removed the old one. Revert to
+the Yocto Project source mirror instead, preserving the upstream version
+check.
 
-[YOCTO #10040]
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 839b17ffd96abff3e9cf47fb4a6d680637c865b1)
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
-(cherry picked from commit 1b38ad4cb8faeb86c5e8cb6b7201194722c5ef31)
+Tweak commit to apply to older pigz v2.3.1 recipe in OE 1.6
+
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/pigz/pigz.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb b/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
-index e77be99..fef3fb7 100644
---- a/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
-+++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
-@@ -16,8 +16,9 @@ LIC_FILES_CHKSUM = "file://README;beginline=30;endline=55;md5=b394fadb039bbfca6a
- 	   file://uuid_md5.c;beginline=1;endline=28;md5=9c1f4b2218546deae24c91be1dcf00dd"
+diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pigz/pigz.inc
+index 355fb2a..5a9f982 100644
+--- a/meta/recipes-extended/pigz/pigz.inc
++++ b/meta/recipes-extended/pigz/pigz.inc
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://zlib.net/pigz/"
+ SECTION = "console/utils"
+ LICENSE = "Zlib"
  
- PR = "r2"
-+UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/o/ossp-uuid/"
+-SRC_URI = "http://zlib.net/pigz/pigz-${PV}.tar.gz"
++SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz"
  
--SRC_URI = "${DEBIAN_MIRROR}/main/o/${BPN}/${BPN}_${PV}.orig.tar.gz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/o/${BPN}/${BPN}_${PV}.orig.tar.gz \
- 	   file://0001-Change-library-name.patch \
- 	   file://0002-uuid-preserve-m-option-status-in-v-option-handling.patch \
- 	   file://0003-Fix-whatis-entries.patch \
+ PROVIDES_class-native += "gzip-native"
+ 
 -- 
 1.9.1
 
