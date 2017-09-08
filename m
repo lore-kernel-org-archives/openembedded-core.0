@@ -1,63 +1,41 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A9CC1781FB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E98778190
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 13:35:04 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id c85so1336062ywa.4
+	Fri,  8 Sep 2017 13:43:41 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id r66so1386451qke.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=owJwBDlFiegDcf4A+fOibDZtBfJmzloPU8EVcmP/Ofo=;
-	b=jzI2vwpRJeZtyF26Uby/Amkv/rQ7mEtucpB5bhpDf7e1E1GoNWPE39CneX73IoKcn8
-	VNW3OWLtrusufEEMoe8M3PHbTCRUwsfynV6oJPtoH4TlJ2sXp5sJwkGpcNhVYjDtGTtI
-	cRtAllThrmjmHYAwpLkOPdFf+FkXUQ1pGZlMGEzFrGkHpxuO+Ruzf4OdwJYArvCORCcq
-	6H93r0Xda79TJcNkMcS9RC57D/hqjQrvqsSCErEXpYt04wvKD8Vt6o3g5WkzHFRMp+uA
-	FVAKu1K8AWOUPZ57baIrdz5IZveucuJcahYbVW3RiCH9VrdW+fpH4H/fHJ/HakKhJvil
-	Fe6A==
+	Fri, 08 Sep 2017 06:43:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=owJwBDlFiegDcf4A+fOibDZtBfJmzloPU8EVcmP/Ofo=;
-	b=FpvXVWOJ/Ed6k7IQReEBkmJZNiqCoo9Ff/96ZEiIWHmJTWWVCzx8jG5kJr+nDa0tGo
-	xQ72UavX4h8E6SRp4DqDL3u7niTerP9j2o/UkB2PnWfAnE61iNLZJfnavPPwxOReXvJY
-	6eZaLj6P/1SlYkFUTvkOLMKgFxX+M9S6ZWEp7uT+h6Hydh2P1A8yqP9FeBSX1QcBafez
-	cMKoRFpFp7mk5pyXElHEgS4qhqJ9eyda5GBS2AoZ72HRB1RxepwINUSFDwCW7A9NoJa8
-	E7l8rztFtUwcEZ1K32WlC7zpZniRGE+9OPJ4/L5fLA1JupnfdSwSZBDh1nz5xnqIw8E8
-	B9Iw==
-X-Gm-Message-State: AHPjjUjRJPm0em3q+xkhhG0GiIlIt++P3J0c6nURob2Yki8zKoSOsrd9
-	TVad5kBlBT7rr8LYjf8=
-X-Received: by 10.37.160.38 with SMTP id x35mr2478673ybh.325.1504877705573;
-	Fri, 08 Sep 2017 06:35:05 -0700 (PDT)
-Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com.
-	[209.85.218.48]) by smtp.gmail.com with ESMTPSA id
-	n186sm688080ywn.12.2017.09.08.06.35.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Sep 2017 06:35:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f48.google.com with SMTP id r20so14786924oie.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 06:35:04 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QCXpDFiUOh93ciCYnX9kT5Czf1s8QckrIPamRgX+d055mzG3WTeJj4vXMeC+syrBDo2ucenz21y8Ce6Y0KyxN0=
-X-Received: by 10.202.56.194 with SMTP id f185mr2601231oia.249.1504877703904; 
-	Fri, 08 Sep 2017 06:35:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Fri, 8 Sep 2017 06:35:03 -0700 (PDT)
-In-Reply-To: <20170906223125.21628-1-california.l.sullivan@intel.com>
-References: <20170906223125.21628-1-california.l.sullivan@intel.com>
-Date: Fri, 8 Sep 2017 10:35:03 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKocL2E6nH-kmJW11BDjcUCF8gCjknvtigTWcjUiA_FFHw@mail.gmail.com>
-Message-ID: <CAP9ODKocL2E6nH-kmJW11BDjcUCF8gCjknvtigTWcjUiA_FFHw@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] initramfs-framework: split setup-live and install-efi into separate recipes
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=mgbY/Ctmz9G63qtfoWYi+ldEpkIeXv5/ocZJl9acRaw=;
+	b=pmFAe2m/ce5OFpsT589blFpCMztOOw3xi3cVPa3IbMvXBCfh8/FH1JgerW0J95y/1K
+	+ToFJGOZtHJ3S84HdEkJQyw+Nm3sM9PXaucxg58idW6Bt0HPkHqzM2+E5Bf0Z3Tvmd4e
+	MvqoZUZoGKGAJQZlOkLZpKVgl46vYQz/ebLex7wHpQlSIKOEp6FM13k4s7aCHc7cgeUR
+	aIutOYadxEhip/uwf2dG8CK3+gMJtWPeSipV6HCOVPRPPQVE0fwLIGmk6X4qa67Zci4q
+	Sw6mfQhfbjMMVA5W2jfC6zuxIf3OeCmmCS/cM1W/uUKMoYPNgorpl8OmahOH1sRHJ8Lm
+	m1Ww==
+X-Gm-Message-State: AHPjjUh5g93ND2uAC/8MagA7HjEzY6o93CaLZuLZnFg07/EERc+5aB/w
+	fWQiFUTwsSWo/wGw
+X-Google-Smtp-Source: AOwi7QB+QuR0RdhqvHNN6KyS62wD+olKLln0jqvXefsq5DFxh5esNCY0d/ft/ZEz7uwX+EqKgdEkKg==
+X-Received: by 10.55.16.75 with SMTP id a72mr4008698qkh.146.1504878222124;
+	Fri, 08 Sep 2017 06:43:42 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id z1sm1268587qtz.87.2017.09.08.06.43.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 08 Sep 2017 06:43:41 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 08 Sep 2017 10:43:32 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri,  8 Sep 2017 10:43:29 -0300
+Message-Id: <20170908134331.6695-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v6 1/3] kernel: Stop using update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,153 +48,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 13:35:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Sep 2017 13:43:42 -0000
 
-On Wed, Sep 6, 2017 at 7:31 PM, California Sullivan
-<california.l.sullivan@intel.com> wrote:
-> Having these the initramfs-framework recipe forced initramfs-framework
-> users to build several tools they didn't need, and made it more
-> difficult to declare the recipe as allarch.
->
-> Fixes [YOCTO #12024].
->
-> v2 changes:
->   * fix SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in layer.conf
->   * bump PR of initramfs-framework
->   * add allarch to setup-live and install-efi modules, as they're just
->     shell scripts
->
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
-> ---
-> I think I agree with Otavio on the allarch discussion. Setup-live at the
-> very least is applicable to everything, and while install-efi is
-> unlikely to be used for anything that's not x86-based, it EFI on arm
-> does technically exist.
->
-> We can discuss it more if necessary.
->
->  meta/conf/layer.conf                               |  8 ++++----
->  .../initrdscripts/initramfs-framework_1.0.bb       | 22 +++-------------------
->  .../initramfs-module-install-efi_1.0.bb            | 20 ++++++++++++++++++++
->  .../initramfs-module-setup-live_1.0.bb             | 20 ++++++++++++++++++++
->  4 files changed, 47 insertions(+), 23 deletions(-)
->  create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
->  create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
->
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 04aa730..df457c2 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -50,12 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
->    docbook-xsl-stylesheets->perl \
->    ca-certificates->openssl \
->    initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
-> -  initramfs-framework->dosfstools \
-> -  initramfs-framework->e2fsprogs \
->    initramfs-framework->eudev \
-> -  initramfs-framework->parted \
->    initramfs-framework->systemd \
-> -  initramfs-framework->util-linux \
-> +  initramfs-module-install-efi->dosfstools \
-> +  initramfs-module-install-efi->e2fsprogs \
-> +  initramfs-module-install-efi->parted \
-> +  initramfs-module-install-efi->util-linux \
->    liberation-fonts->fontconfig \
->    cantarell-fonts->fontconfig \
->    gnome-icon-theme->librsvg \
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> index 77b2ff8..2afc37e 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-> @@ -3,7 +3,7 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->  RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
->
-> -PR = "r3"
-> +PR = "r4"
->
->  inherit allarch
->
-> @@ -14,8 +14,7 @@ SRC_URI = "file://init \
->             file://udev \
->             file://e2fs \
->             file://debug \
-> -           file://setup-live \
-> -           file://install-efi.sh"
-> +          "
->
->  S = "${WORKDIR}"
->
-> @@ -27,9 +26,6 @@ do_install() {
->      install -m 0755 ${WORKDIR}/rootfs ${D}/init.d/90-rootfs
->      install -m 0755 ${WORKDIR}/finish ${D}/init.d/99-finish
->
-> -    # setup-live
-> -    install -m 0755 ${WORKDIR}/setup-live ${D}/init.d/80-setup-live
-> -
->      # mdev
->      install -m 0755 ${WORKDIR}/mdev ${D}/init.d/01-mdev
->
-> @@ -42,9 +38,6 @@ do_install() {
->      # debug
->      install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
->
-> -    # install-efi
-> -    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
-> -
->      # Create device nodes expected by some kernels in initramfs
->      # before even executing /init.
->      install -d ${D}/dev
-> @@ -57,8 +50,7 @@ PACKAGES = "${PN}-base \
->              initramfs-module-e2fs \
->              initramfs-module-rootfs \
->              initramfs-module-debug \
-> -            initramfs-module-setup-live \
-> -            initramfs-module-install-efi"
-> +           "
->
->  FILES_${PN}-base = "/init /init.d/99-finish /dev"
->
-> @@ -78,10 +70,6 @@ SUMMARY_initramfs-module-udev = "initramfs support for udev"
->  RDEPENDS_initramfs-module-udev = "${PN}-base udev"
->  FILES_initramfs-module-udev = "/init.d/01-udev"
->
-> -SUMMARY_initramfs-module-setup-live = "initramfs support for setup live"
-> -RDEPENDS_initramfs-module-setup-live = "${PN}-base udev-extraconf"
-> -FILES_initramfs-module-setup-live = "/init.d/80-setup-live"
-> -
->  SUMMARY_initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
->  RDEPENDS_initramfs-module-e2fs = "${PN}-base"
->  FILES_initramfs-module-e2fs = "/init.d/10-e2fs"
-> @@ -93,7 +81,3 @@ FILES_initramfs-module-rootfs = "/init.d/90-rootfs"
->  SUMMARY_initramfs-module-debug = "initramfs dynamic debug support"
->  RDEPENDS_initramfs-module-debug = "${PN}-base"
->  FILES_initramfs-module-debug = "/init.d/00-debug"
-> -
-> -SUMMARY_initramfs-module-install-efi = "initramfs support for installation option"
-> -RDEPENDS_initramfs-module-install-efi = "${PN}-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
-> -FILES_initramfs-module-install-efi = "/init.d/install-efi.sh"
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-> new file mode 100644
-> index 0000000..541381b
-> --- /dev/null
-> +++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-> @@ -0,0 +1,20 @@
-> +SUMMARY = "initramfs-framework module for installation option"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> +RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
-> +
-> +PR = "r1"
+The update-alternatives where using relative links so not being really
+in use since December 2016 (see OE-Core:c7bc46b9 "kernel: Fix
+symlinks") so instead we now generate the relative symlinks during the
+do_install task and drop the update-alternatives use at all.
 
-Use 'r4' here as well or package feeds can break.
+Acked-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Other than that, I am fine with it.
+Changes in v6: None
+Changes in v5: None
+Changes in v4:
+- Fix symlink on deploy directory
 
+Changes in v3: None
+Changes in v2: None
 
+ meta/classes/kernel.bbclass             | 16 +++------------
+ meta/recipes-kernel/linux/linux-dtb.inc | 36 +++++----------------------------
+ 2 files changed, 8 insertions(+), 44 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3cc0432fcf..02a5e961cb 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -2,7 +2,7 @@ inherit linux-kernel-base kernel-module-split
+ 
+ PROVIDES += "virtual/kernel"
+ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
+-PACKAGE_WRITE_DEPS += "depmodwrapper-cross virtual/update-alternatives-native"
++PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+ do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
+ 
+@@ -57,7 +57,7 @@ python __anonymous () {
+ 
+         d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
+ 
+-        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}')
++        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
+ 
+         d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
+ 
+@@ -65,13 +65,6 @@ python __anonymous () {
+ 
+         d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
+ 
+-        priority = d.getVar('KERNEL_PRIORITY')
+-        postinst = '#!/bin/sh\n' + 'update-alternatives --install /' + imagedest + '/' + type + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} ' + priority + ' || true' + '\n'
+-        d.setVar('pkg_postinst_kernel-image-' + typelower, postinst)
+-
+-        postrm = '#!/bin/sh\n' + 'update-alternatives --remove' + ' ' + type + ' ' + type + '-${KERNEL_VERSION_NAME} || true' + '\n'
+-        d.setVar('pkg_postrm_kernel-image-' + typelower, postrm)
+-
+     image = d.getVar('INITRAMFS_IMAGE')
+     if image:
+         d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+@@ -137,10 +130,6 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+ export KBUILD_BUILD_USER = "oe-user"
+ export KBUILD_BUILD_HOST = "oe-host"
+ 
+-KERNEL_PRIORITY ?= "${@int(d.getVar('PV').split('-')[0].split('+')[0].split('.')[0]) * 10000 + \
+-                       int(d.getVar('PV').split('-')[0].split('+')[0].split('.')[1]) * 100 + \
+-                       int(d.getVar('PV').split('-')[0].split('+')[0].split('.')[-1])}"
+-
+ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+ 
+ # The directory where built kernel lies in the kernel tree
+@@ -350,6 +339,7 @@ kernel_do_install() {
+ 	install -d ${D}/boot
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+ 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
++		ln -sf ${type}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${type}
+ 	done
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 0174c80d85..ca92822d25 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -1,7 +1,5 @@
+ # Support for device tree generation
+-FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+-
+-PACKAGE_WRITE_DEPS += "virtual/update-alternatives-native"
++FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
+ 
+ python __anonymous () {
+     d.appendVar("PACKAGES", " kernel-devicetree")
+@@ -36,12 +34,13 @@ do_install_append() {
+ 	for DTB in ${KERNEL_DEVICETREE}; do
+ 		DTB=`normalize_dtb "${DTB}"`
+ 		DTB_EXT=${DTB##*.}
++		DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+ 		DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
++		install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT}
+ 		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+ 			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+ 			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			DTB_PATH=`get_real_dtb_path_in_kernel "${DTB}"`
+-			install -m 0644 ${DTB_PATH} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
++			ln -sf ${DTB_BASE_NAME}.${DTB_EXT} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT}
+ 		done
+ 	done
+ }
+@@ -60,32 +59,7 @@ do_deploy_append() {
+ 			install -d ${DEPLOYDIR}
+ 			install -m 0644 ${DTB_PATH} ${DEPLOYDIR}/${DTB_NAME}.${DTB_EXT}
+ 			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_SYMLINK_NAME}.${DTB_EXT}
+-		done
+-	done
+-}
+-
+-pkg_postinst_kernel-devicetree () {
+-	cd /${KERNEL_IMAGEDEST}
+-	for DTB in ${KERNEL_DEVICETREE}; do
+-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+-			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+-			DTB_EXT=${DTB##*.}
+-			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+-			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.${DTB_EXT} ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
+-		done
+-	done
+-}
+-
+-pkg_postrm_kernel-devicetree () {
+-	cd /${KERNEL_IMAGEDEST}
+-	for DTB in ${KERNEL_DEVICETREE}; do
+-		for type in ${KERNEL_IMAGETYPE_FOR_MAKE}; do
+-			symlink_name=${type}"-"${KERNEL_IMAGE_SYMLINK_NAME}
+-			DTB_EXT=${DTB##*.}
+-			DTB_BASE_NAME=`basename ${DTB} ."${DTB_EXT}"`
+-			DTB_SYMLINK_NAME=`echo ${symlink_name} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+-			update-alternatives --remove ${DTB_BASE_NAME}.${DTB_EXT} devicetree-${DTB_SYMLINK_NAME}.${DTB_EXT} ${KERNEL_PRIORITY} || true
++			ln -sf ${DTB_NAME}.${DTB_EXT} ${DEPLOYDIR}/${DTB_BASE_NAME}.${DTB_EXT}
+ 		done
+ 	done
+ }
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.14.1
+
 
