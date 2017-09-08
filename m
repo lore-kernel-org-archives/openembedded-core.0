@@ -1,45 +1,50 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D647821B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EDB2A780A3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 14:46:39 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id p55so1682010qtc.2
+	Fri,  8 Sep 2017 16:25:27 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id b9so1473837wra.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 07:46:41 -0700 (PDT)
+	Fri, 08 Sep 2017 09:25:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nA90BMkkLZS/43ximlCwiqwsiEKtaa+kkBnnZaG/4RU=;
+	b=XqFmkfCm4EAJQkv6c8mQmimf5F0zBJ+Fq4VvkublUSxNegaevqrPmAHkXeEV3VFS8K
+	Y9L/IEPBnt4QmAIchmcVFBv6/NqLIT35FTk/PjwPxFo8WhuWNUm8o3AhQfr+CXaag9gE
+	nMlEixEUu7SBmprmnswdFUnFmw2nHLQJxt+rzfIFrfSocN2o0KVahD1veiY7D6OswfW2
+	CIXTllJhJSXJwbD5OQwqYDFqgKYe9NhEhWhuMdv2L5fLtkaxjmuP3GNfwV38uyb4XdRH
+	uVggQYZuWRhuTFN14mf0D027kD3c8fYt4gQRMdci7R1f3wSwUxy7DmV8+uBNquqeqaWi
+	CfyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=mtI4Rz/53+rkYYNYcRSnbbwFG8woQY65g1CM2IOxW2Q=;
-	b=IVW08mr4l9Ag2YffG4Z8eK4Zh0DhegxEfEck1c24kYWkIz4WJVax110zrVH0QiRzic
-	rN+XQIqvwak0S8i8zdq3f+nhkM3TCSlyWiVTQL9n+hq2JO2yqeMSH0wm3alIYB/RdC5Y
-	FyClZGS0QQNqhkjP6/5ceJF6nnexd6Kuk1Nv9nfZe1R2fgQ60jVr0gj8dSigX3vCiVbV
-	D40g6hSWFMO7/Ar3IA4nzxRpg6GeGBG5igLuBHag/rmYvUf/CGa50oKbHKKxeNKpsQpp
-	opH+S/mmxoEZtMZM+XOQSCPT44b2bW0W1xW4Y3QakAnUuq0ptKgboYk2fvtVPsN1cRtx
-	Ukow==
-X-Gm-Message-State: AHPjjUiUqNe5zoLXAff96dLUPhHdnXXg/h3FblzMRTgWpObs9I+h9Y8U
-	HIBy8LvhPlHcL5xi
-X-Google-Smtp-Source: AOwi7QCC9uN+rI5s1AWrnRyjCpH54UZFPbclbd9VdvtfWT7wwvM53S8+2xSmF9dlLdTH8hLyAZSI8w==
-X-Received: by 10.237.63.124 with SMTP id q57mr4431310qtf.23.1504882001003;
-	Fri, 08 Sep 2017 07:46:41 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	a207sm1290951qkc.82.2017.09.08.07.46.37
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 07:46:40 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 11:46:34 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 11:44:54 -0300
-Message-Id: <20170908144454.14308-13-otavio@ossystems.com.br>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nA90BMkkLZS/43ximlCwiqwsiEKtaa+kkBnnZaG/4RU=;
+	b=Jvc19BH3KSG3/tGqrcPB9bmyoaeNRBXSxJV8TRKR9lFyVteGB4ra/BxEM+BzX7mP53
+	heP/XQdIr50RlypqQv7Wck8v/H8G93gSzpe9o5WcXXccuYh4N7V3UsRIPLUc5x7XPHk5
+	CdwL7IZirLkTtIY/PlqZ2FRb1x1jOHVVdCDdTnfkMaI8SkHnO4KZJ2s1Wk3erQJ/4sDK
+	4C9C84dfFmY2pMZzLSEAZXN1x9/m177pOs7EnI8WAHiiOYe8/8sGGp6NVyujPDCzWMDJ
+	V03r7sKYTapqBo37XiQ9xKg00AkUVnSWUmBV8FniqR9kMDZ9LoxfmI0yp1dPfafOZZpy
+	a6fQ==
+X-Gm-Message-State: AHPjjUgWjxB8UUSgVYL/GfIKCNuh+twwdUVjVvUKAPggoydTWr/aM/3h
+	l5h7IyXFb2WE1I8Q
+X-Google-Smtp-Source: ADKCNb54bxhIYEuCnVfpEh4DM/TEzryE3AGc/R8VmcusIyCTcMTIyOIESWkYdy/pLf9zl2m6WidsgA==
+X-Received: by 10.223.160.46 with SMTP id k43mr2910114wrk.113.1504887928442;
+	Fri, 08 Sep 2017 09:25:28 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	m86sm2653474wmi.27.2017.09.08.09.25.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Sep 2017 09:25:27 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 18:27:38 +0200
+Message-Id: <20170908162738.21603-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170908144454.14308-1-otavio@ossystems.com.br>
-References: <20170908144454.14308-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v4 12/12] go.bbclass: add do_unpack function to handle common cases
+MIME-Version: 1.0
+Subject: [PATCH] bitbake.conf: add bzr to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,73 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 14:46:40 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 16:25:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Matt Madison <matt@madison.systems>
+* it's used by bzr fetcher:
+  meta/conf/bitbake.conf:FETCHCMD_bzr = "/usr/bin/env bzr"
+  and when it isn't available in PATH do_fetch tasks fail with:
+  /usr/bin/env: ‘bzr’: No such file or directory
+* it was also added in:
+  https://patchwork.openembedded.org/patch/140107/
+  but this change wasn't merged (nor rejected AFAIS)
 
-Go source trees have a particular structure, with all
-sources located under ${GOROOT}/src/<import-path>.
-The fetcher step implemented by the 'go get' command
-automatically follows this structure, so we need
-to do the same here.
-
-Since most Go packages are hosted in git repositories,
-this adds a custom do_unpack() function that sets
-the destsuffix to match the expected directory structure,
-for any git SRC_URIs that haven't had a destsuffix
-explicitly set in the recipe.
-
-This simplifies recipe writing for the most common
-cases.
-
-Signed-off-by: Matt Madison <matt@madison.systems>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Changes in v4: None
-Changes in v3:
-- new patch
-
-Changes in v2: None
-
- meta/classes/go.bbclass | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index cfe773e13d..c1ef01fafe 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -55,6 +55,24 @@ GO_INSTALL ?= "${GO_IMPORT}/..."
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8ce08340d7..444c53f677 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -483,6 +483,9 @@ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
  
- B = "${WORKDIR}/build"
- 
-+python go_do_unpack() {
-+    src_uri = (d.getVar('SRC_URI') or "").split()
-+    if len(src_uri) == 0:
-+        return
++# Used by bzr fetcher
++HOSTTOOLS_NONFATAL += "bzr"
 +
-+    try:
-+        fetcher = bb.fetch2.Fetch(src_uri, d)
-+        for url in fetcher.urls:
-+            if fetcher.ud[url].type == 'git':
-+                if fetcher.ud[url].parm.get('destsuffix') is None:
-+                    s_dirname = os.path.basename(d.getVar('S'))
-+                    fetcher.ud[url].parm['destsuffix'] = os.path.join(s_dirname, 'src',
-+                                                                      d.getVar('GO_IMPORT')) + '/'
-+        fetcher.unpack(d.getVar('WORKDIR'))
-+    except bb.fetch2.BBFetchException as e:
-+        raise bb.build.FuncFailed(e)
-+}
-+
- go_do_configure() {
- 	ln -snf ${S}/src ${B}/
- }
-@@ -79,4 +97,4 @@ go_do_install() {
- 	fi
- }
- 
--EXPORT_FUNCTIONS do_configure do_compile do_install
-+EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
+ CCACHE ??= ""
+ # ccache < 3.1.10 will create CCACHE_DIR on startup even if disabled, and
+ # autogen sets HOME=/dev/null so in certain situations builds can fail.
 -- 
 2.14.1
 
