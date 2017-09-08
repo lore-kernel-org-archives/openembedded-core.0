@@ -1,50 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BED4878293
+Received: from mail-pg0-f44.google.com (mail-pg0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 267697827B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 23:22:31 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id e199so6576647pfh.3
+	Fri,  8 Sep 2017 23:22:33 +0000 (UTC)
+Received: by mail-pg0-f44.google.com with SMTP id q68so7059067pgq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 16:22:33 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OH+6jKAhy80noZWcLmaLFo0RldacN8fD3d79oa//lNg=;
-	b=nqOCv64mEQx735H0ZEWrSNfXHDASvAlY6XWf/Vb6Kg3atE1Ezz1SKzMLXEk6i9+H+/
-	r7+L+dGls27JOqdLPEOX+f5sw3HYvdo2lEFFsxBcEk22QC51kE+lvFeNMaqDGaa5/htL
-	WOM66f8kbfPYOiO3dsePrwPCCoYrozF2Lifc+sMQi0IS+Cem2aFNCW/be4KI1ufRMnge
-	ra+FWQpl6Dj7LoxRtWe34w1yVAMykV2xWTjuGqz679YJnPysDq68ayo0yFW7Pf2Lv43e
-	a887Y5/06i7Uw6HzvA+ztTAVVjypaPEBUU/p9Iwirkda1YJThF6hp93z7fQQfWBlUpxh
-	1RKg==
+	bh=oHXFSzb+YJvY1DreJ7bbgKrqRAuBj9iDh+0pBLoV+Ng=;
+	b=ARB4Kquud+7ebBr+xpgw4WW7lYponmf17obBBxSZcAB/M/XCCp4YE1tNV8dFkcsHdZ
+	Zi5Xb7+FZnxJtLDNNGicna6e1tqCbJ41doBXAvkyJPGFspkvoCig6ZG46jrQpx/tmBSm
+	aUV89purpgAGD8LdJPQniz7j6J+vM6wOwpBdGmD9RMLfbucEIlZ9a+gFdilO1+/3KDOE
+	hOZISaySTRF6fKnVPgbLTl7ZypJfrCvFbQXCupj4YoV+mUJgxKyqlR+5su0lySg7kAhs
+	DczG8LT6yEpFK4QwKTTRf58EWA47BUt3jy9P0lszQnZ10augV1cKXVNjrHWyazoyGc7Q
+	FJ4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OH+6jKAhy80noZWcLmaLFo0RldacN8fD3d79oa//lNg=;
-	b=rxhNfQbXbPtCar66JCSiqiLmSRZVkLS3Ft259t9q1vtU4TuQCWd9vMVgeI8GG0oeT5
-	HQ+30RApmQXrGIfs9ur8v9ukhmVqQ0PPBT8G0mIOxtrMlOqzTreqei2Vs5hEwQfHo8uG
-	SgCD1RKka32iDGMVNu2U49LIzheXRIzGaSt0+vY0UUxHxTBRp4zzJstcJqkfVQc2fxZY
-	BPlPDPrcTDDB46VIVUw3kxj+UxkT4udA35Ge7VVUeNMlBLxY/bnBN8ABddWSZli3Ch9o
-	U0FAXWMdTl5wUBv1cI0sjWPNzuQVHRMCZNV6agtbBBvtpJt6WwsPDKblsX040tGjjy4A
-	ozgA==
-X-Gm-Message-State: AHPjjUgvD0svF1H6SdU19BsAuMhiwWH/9RKDe433H61TXl1spCq1sZUp
-	2SGOff6hPLIO4LTT
-X-Google-Smtp-Source: ADKCNb4Z1DeDhcMp8JiwyYv3RaWDP9kz/cOPXDiU0cggzuGrxH6lZJblarFg5ASRbadHSaCoEBC6rA==
-X-Received: by 10.84.129.226 with SMTP id b89mr5037790plb.6.1504912953139;
-	Fri, 08 Sep 2017 16:22:33 -0700 (PDT)
+	bh=oHXFSzb+YJvY1DreJ7bbgKrqRAuBj9iDh+0pBLoV+Ng=;
+	b=a5dH3+nQ7clIWMbxsGzXuaZwnIx7CcotGzdom2HN9U0G8QiG7IqvVwiP2lHGZRx5Qn
+	zLldU13V1/J3ooWU8CdfaNAbgDTu0iqq/Bi4arM+7YEa+1gQW+pVy4JwPSmOjN5bV2Jx
+	tvcIFJJogX1QWZZ0Kf+Oga8CpsXC/3BHALqwiVxq9d5KRo/7g+Nk51DVbmQZReB0N3eD
+	EQYO3yju51icaoayAFfwkJy94qvr7L7c0rjKlySm66Hra2K9PmLaXxn5yBlCmojfjjMu
+	Y95hOZGy+teN3+Jub39N8U/RS5+brDqEcBwhYv6rlXrK4LzWq0eUV6gMgG720lG1KpeW
+	y+Pw==
+X-Gm-Message-State: AHPjjUjfyLLMr49GaeOZh+VhpPySnVjIr6mPRIAbJCARYEGpkDCRJenU
+	aImmvWlg0MkLVgWO
+X-Google-Smtp-Source: ADKCNb4q3uCKsBmq+NhOe22NwuGdVlOrr3JpK9MyBvH+djaMr0GTTHvX1rG7SbWZVMyO9ik+xjVcPA==
+X-Received: by 10.99.186.3 with SMTP id k3mr4621673pgf.149.1504912954914;
+	Fri, 08 Sep 2017 16:22:34 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	q13sm5510822pfi.110.2017.09.08.16.22.31
+	q13sm5510822pfi.110.2017.09.08.16.22.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Sep 2017 16:22:32 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:34 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:21:48 -0700
-Message-Id: <1504912911-23120-13-git-send-email-armccurdy@gmail.com>
+Date: Fri,  8 Sep 2017 16:21:49 -0700
+Message-Id: <1504912911-23120-14-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
 References: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
-Subject: [daisy][PATCH 12/15] libproxy: update SRC_URI
+Subject: [daisy][PATCH 13/15] lsof: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 23:22:32 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 23:22:34 -0000
 
-Google Code has been shut down so libproxy tarball needs to be
-fetched from elsewhere.
+The official lsof ftp site rejects download attempts from hosts for
+which it can not perform a DNS reverse-lookup. See:
+
+  https://people.freebsd.org/~abe/
+
+Fix for long download timeout and warnings from the bitbake fetcher.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.11.bb | 2 +-
+ meta/recipes-extended/lsof/lsof_4.87.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.11.bb b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-index aecb7b5..acfe8e5 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-extended/lsof/lsof_4.87.bb b/meta/recipes-extended/lsof/lsof_4.87.bb
+index 5676cd9..f17a700 100644
+--- a/meta/recipes-extended/lsof/lsof_4.87.bb
++++ b/meta/recipes-extended/lsof/lsof_4.87.bb
+@@ -4,7 +4,7 @@ Its name stands for LiSt Open Files, and it does just that."
+ SECTION = "devel"
+ LICENSE = "BSD"
  
- DEPENDS = "gconf glib-2.0"
+-SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
++SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/lsof_${PV}.tar.bz2"
  
--SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.zip \
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/libproxy-${PV}.zip \
-           "
- 
- SRC_URI[md5sum] = "06be230b8b612e64997f8f15af6373aa"
+ SRC_URI[md5sum] = "80e2a76d0e05826db910ec88e631296c"
+ SRC_URI[sha256sum] = "dfdd3709d82bc79ccdf3e404b84aafa9aede5948642a824ecaefd0aac589da2c"
 -- 
 1.9.1
 
