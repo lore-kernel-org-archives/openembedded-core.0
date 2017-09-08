@@ -1,64 +1,45 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
-	[209.85.161.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D2821781F3
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1670A78070
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 14:17:46 +0000 (UTC)
-Received: by mail-yw0-f196.google.com with SMTP id t127so460375ywg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 07:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=sSZepM26Fz3PSfGQ9Qhbq7owo3qRloPv8ywOywiKF1Y=;
-	b=tfezZw6tIswokdUh4L5WlPCtotIQDA+uu0CmQf3yQMiM2mB4FhmOrWS8D4PQLAGYI3
-	m6qikVPCZ8i3j8WckdwDAMBHRkhU1iV69kp3eIWSyIV5SipxVIBm54foc5DNDifGEqcB
-	6+A3oED7OAc6Ce5i/vq1OK4H8Mg/ZR1OgO32GhEBUogXl3zLgGJMiV34Rlsggi0I7pRh
-	ANO4RnvnPdjO/aFvyiCS55Dyvm6iUbF7CqXC6NgxTSlvFjhhQFt0jAQ1reqgPlmgMvHW
-	wtEHaH1qH1t1GfvF84zLHK8iRWasgVPQh3v8/o8cqL+SSuXN9PJWvXPmHusAd+OEfpkG
-	jScw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=sSZepM26Fz3PSfGQ9Qhbq7owo3qRloPv8ywOywiKF1Y=;
-	b=grSI0rVTFzdSoNdKm31xLApkciEA5QoUsUZsrhTo5UEi3dlv+61H8q2QMnrUUxeHS4
-	I9nIlDW2OHq8ZmKTUSdUZhKc/8bUPGRcSm0hVTndOipqJnsvzAJPgjNHVC6UIx/Ug964
-	VvwVBYmfVFACi1ivFSsPX0AkMA7ju3VkfI4MkSgiDUQvWmhqWk/i9GrgCEBPo9LmQuB5
-	PUXyP0T20osTdWu41nN5RUImmrcKgt8LGnMevhC/e+PML/msA+GtS/atR7ZYyVvQcw0T
-	HbeYEvvj66i4ae4sq9FWYqY/+RcJZbOli1eEfEGXgLiLQ8AXPPnGcH7VmyMUkAB33Rbb
-	5LjA==
-X-Gm-Message-State: AHPjjUhxi0Qut8XUOQzHHO+1znvF+3m4PpFC4ET6CtEiMsyi1duWuHH3
-	69dW/BYWHxwswA9J5L0=
-X-Received: by 10.129.68.36 with SMTP id r36mr2667596ywa.21.1504880267282;
-	Fri, 08 Sep 2017 07:17:47 -0700 (PDT)
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com.
-	[209.85.218.51]) by smtp.gmail.com with ESMTPSA id
-	q133sm687100ywc.64.2017.09.08.07.17.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Sep 2017 07:17:45 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f51.google.com with SMTP id z73so12228477oia.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 07:17:45 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QAK/k+6h9mm4c/Is4f8WsGfGszU6JH/qBkDmKuVkPfstBic4Dd/C9qlReVBgc7OaLZ7+TAbdZIAwXPbZ3r8vJ0=
-X-Received: by 10.202.185.8 with SMTP id j8mr2687066oif.294.1504880265184;
-	Fri, 08 Sep 2017 07:17:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Fri, 8 Sep 2017 07:17:43 -0700 (PDT)
-In-Reply-To: <CAFbHwiTq2j7x9x3MNh1Aj5BqzfedkUJSEOWNrn3JAet_SAEr3Q@mail.gmail.com>
-References: <20170908134758.7570-1-otavio@ossystems.com.br>
-	<20170908134758.7570-6-otavio@ossystems.com.br>
-	<CAFbHwiTq2j7x9x3MNh1Aj5BqzfedkUJSEOWNrn3JAet_SAEr3Q@mail.gmail.com>
-Date: Fri, 8 Sep 2017 11:17:43 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqARj1hBJqhqiqSeFoxtbjcGp3zzV0=HyhzE16904nmvw@mail.gmail.com>
-Message-ID: <CAP9ODKqARj1hBJqhqiqSeFoxtbjcGp3zzV0=HyhzE16904nmvw@mail.gmail.com>
-To: Will Newton <will.newton@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 05/11] goarch.bbclass: Add support for ARMv5
+	Fri,  8 Sep 2017 14:26:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id DEE5518462;
+	Fri,  8 Sep 2017 16:26:33 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id k5noGy_lMp5v; Fri,  8 Sep 2017 16:26:33 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id CD35B18595;
+	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A0C4C1A073;
+	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 95CF11A070;
+	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 894C12B69;
+	Fri,  8 Sep 2017 16:26:32 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v88EQVx3029268;
+	Fri, 8 Sep 2017 16:26:31 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v88EQVju029267;
+	Fri, 8 Sep 2017 16:26:31 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 16:26:17 +0200
+Message-Id: <20170908142617.29216-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [pyro][PATCH] oe-pkgdata-util: package-info: Allow extra variables to be displayed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,52 +52,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 14:17:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Sep 2017 14:26:33 -0000
 
-On Fri, Sep 8, 2017 at 10:56 AM, Will Newton <will.newton@gmail.com> wrote:
-> On Fri, Sep 8, 2017 at 2:47 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> This adds support to return the proper ARMv5 format.
->>
->> This change is based on the meta-golang[1] layer. Thanks to Matt
->> Madison <matt@madison.systems> for his work on this.
->>
->> 1. https://github.com/madisongh/meta-golang
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>
->> Changes in v3: None
->> Changes in v2: None
->>
->>  meta/classes/goarch.bbclass | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
->> index 7960ac5f9e..dbec6ee2c8 100644
->> --- a/meta/classes/goarch.bbclass
->> +++ b/meta/classes/goarch.bbclass
->> @@ -47,6 +47,8 @@ def go_map_arm(a, f, d):
->>      import re
->>      if re.match('arm.*', a) and re.match('arm.*7.*', f):
->>          return '7'
->> +    if re.match('arm.*', a) and re.match('arm.*5.*', f):
->> +        return '5'
->
-> I suspect this regular expression is overly general, see:
->
-> http://lists.openembedded.org/pipermail/openembedded-core/2017-September/141938.html
->
-> The Go toolchain default is for ARMv5 when cross-compiling so as far
-> as I know setting this explicitly should have no effect at the moment,
-> although it may be valuable to protect against changes to the default.
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-If you don't mind, I will add your patch in my patchset and rebase
-mine on top of this one so we have a single patchset with all this
-rework included. Are you Ok with that?
+By specifying the -e <var> option one or multiple times, extra
+variables available in the pkgdata can be displayed, e.,g,
+`oe-pkgdata-util package-info -e SUMMARY -e LICENSE ...`. The extra
+variables displayed are quoted since some of them may contain
+whitespace.
 
+Change-Id: Ie59d5ac4c7a6780a78239b210a8d2129388d830a
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+
+This is a backport of the corresponding change (6f054fcf) on master.
+It should not change anything unless one actually uses the --extra
+option to oe-pkgdata-util.
+
+ scripts/oe-pkgdata-util | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 6255662a4b..677effeef6 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -325,8 +325,15 @@ def package_info(args):
+             recipe_version = recipe_version + "-" + mappings[pkg]['PR']
+         pkg_size = mappings[pkg]['PKGSIZE']
+ 
+-        items.append("%s %s %s %s %s" %
+-                     (pkg, pkg_version, recipe, recipe_version, pkg_size))
++        line = "%s %s %s %s %s" % (pkg, pkg_version, recipe, recipe_version, pkg_size)
++
++        if args.extra:
++            for var in args.extra:
++                val = mappings[pkg][var].strip()
++                val = re.sub(r'\s+', ' ', val)
++                line += ' "%s"' % val
++
++        items.append(line)
+     print('\n'.join(items))
+ 
+ def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
+@@ -530,6 +537,7 @@ def main():
+                                           description='Looks up the specified runtime package(s) and display information')
+     parser_package_info.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+     parser_package_info.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
++    parser_package_info.add_argument('-e', '--extra', help='Extra variables to display, e.g., LICENSE (can be specified multiple times)', action='append')
+     parser_package_info.set_defaults(func=package_info)
+ 
+     parser_find_path = subparsers.add_parser('find-path',
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.12.0
+
 
