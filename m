@@ -1,46 +1,52 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE467824A
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 37C4F7820C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 21:06:56 +0000 (UTC)
-Received: by mail-qt0-f174.google.com with SMTP id k2so9343042qte.2
+	Fri,  8 Sep 2017 21:29:14 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id f199so11269770wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 14:06:58 -0700 (PDT)
+	Fri, 08 Sep 2017 14:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=YVtRoob73j52MDmXV8SHcN2XsylUx+nRRrTDPAFVTyM=;
+	b=mQvfruI/JYNBzO3x9wFxOTixHdZEPjOeWBKUU6mjWkgMVLsCXUQzBbdFBl2w2Ei6ab
+	hmAafoiQTV2JiU7ykQqvmlrfr+JvZRgDATdA+yIqc7JdjXpaYOcOfZEg1Tug284dsdB5
+	UVyyTGcDyh5VcAOcYF9T/24HwvCBtsSeoOLVyXoFHeoUWBfXGluUB1rgro47kgKmL0/B
+	Wx14M1owfKPcvZfuz/eIHopIkJsvQJEyISAO3aAC0ZgIWzk1JEZtbXQAi8KfrBMvoyVn
+	ZSgl43HaVREkPmMn0YBURgKSdPr8N6Yfk67tiM6OsoSiiX40yaFOIsWvnByqo6oUB5KD
+	I7Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:organization:content-transfer-encoding;
-	bh=+pnD+I81MP4p4OdOgGJv/cfu0PrGv1SjeBgLsYoTqgI=;
-	b=r0JSqDHF88ke2BoooBG5JAWxfI4v8RPgqnHUuZl+igZ9OyV2QQhEL1WhZyv0EOSK7Y
-	9h2/tJni6hQWv30UP9dxCINtlInJUYfogj4NwDIhRoMbJ4YK5utRLoBZdEiLm/6q1Zln
-	qQ4Yin5KEdLyHEcdjrcmWLRI6aFluDVLBS7CcVMihNH9HRqMb2ncIY7EqUb8uPQ5C+Mt
-	tYttodmYOHcJWMOI1gPIVhKM72axvAVGShjiOLiVBWJ0a9+qfLawY4Qg5/rpblEBLNMz
-	YBW4bKGbZ72voBMSMOLNw6wnwTbzq4poZSS5Dz9RLUOG4vRK4I0Bzix2EsMRWECPYYOw
-	vLyA==
-X-Gm-Message-State: AHPjjUjYhHFrF4nIk39XnvfR1T6MlNV3+oHyMHhNhAtrZi1/NXC2NbQS
-	Q+WkdgQiiW14zhqs
-X-Google-Smtp-Source: AOwi7QCOPo9D0l5eSLyutJ2b5mLx8DBbN0wu2fA3hJf5o2Ju39ebgFaHug/Cqr7GkWzTbPFSOUpfuQ==
-X-Received: by 10.200.14.79 with SMTP id j15mr6043770qti.201.1504904817631;
-	Fri, 08 Sep 2017 14:06:57 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	x194sm2014575qkx.74.2017.09.08.14.06.53
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 14:06:56 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 18:06:50 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 18:04:44 -0300
-Message-Id: <20170908210444.25763-15-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170908210444.25763-1-otavio@ossystems.com.br>
-References: <20170908210444.25763-1-otavio@ossystems.com.br>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=YVtRoob73j52MDmXV8SHcN2XsylUx+nRRrTDPAFVTyM=;
+	b=cj1Ad+6LV8PzgyPzfFO/QrCzsQmtGiV9xNDAEBbU81qOF+ihoRvewFJNcXIV/zhUxk
+	2M8kbwBSVPQ/euxmysU/M2SSCWDzAsiAgiMVI1CT10pupGaTjYokZjNOgxFwUqutRZyE
+	X7RCKczhUP1kClGMPOtg+G3Qgl8pprRxP1zsy6p8hx6Ktm/7b+0TFJc5q3GtplNaTuF2
+	S756zcmqYfKqpTPwe7CTInNsLRj0QgMPwU53pa3mx7+rxuvooniGUDr/agUU19rUTmAT
+	8WuIiOZPyEkRh/5eo6MHa9xAyQJy5p8mX9vKApd81/eDON5ROkF/yJOcQ6q1UZgTASWw
+	ac5A==
+X-Gm-Message-State: AHPjjUii0cwaFltVgBe5LPUbWVE7cOItiHvWweXA6VR4Nz1Br6xkEGZS
+	3O/MCjFJaACyAoMFIvRVUn0QOAG0ZqnC
+X-Google-Smtp-Source: AOwi7QBXauyfHEuB3jdVyUJAA+hMraGKxE0vBkKqhGVHBRpSrkOle6WAHuZML8HuFWwoBS3nU0dlzwwVPNs6KZxPveE=
+X-Received: by 10.28.236.212 with SMTP id h81mr2522452wmi.42.1504906156021;
+	Fri, 08 Sep 2017 14:29:16 -0700 (PDT)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v5 14/14] go-helloworld: Use the Golang examples repository
+Received: by 10.223.155.157 with HTTP; Fri, 8 Sep 2017 14:29:15 -0700 (PDT)
+In-Reply-To: <75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
+References: <20170821083946.4493-1-mnhu@prevas.dk>
+	<20170821092134.6329-1-mnhu@prevas.dk>
+	<CAPyrkgyuQegVc-d694EQgXMuEdBZY4LbjQ4aObCUV1yh=jznjg@mail.gmail.com>
+	<20170908203726.GG26405@denix.org>
+	<75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Fri, 8 Sep 2017 22:29:15 +0100
+Message-ID: <CAPyrkgyzzfR7jmeyJURRyPra4Jd2CPKWMiJbEPR3a8W=h+4W+A@mail.gmail.com>
+To: =?UTF-8?Q?Martin_Hundeb=C3=B8ll?= <martin.hundeboll@prevas.dk>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kernel-module-split: rrecommend kernel-image instead of rdepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,97 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 21:06:56 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Sep 2017 21:29:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This updates the recipe to use the Golang examples repository so it
-makes use of the unpack as well as standard tasks showing how easy it
-can be.
+On Fri, Sep 8, 2017 at 10:07 PM, Martin Hundeb=C3=B8ll
+<martin.hundeboll@prevas.dk> wrote:
+>
+>
+> On September 8, 2017 10:37:26 PM GMT+02:00, Denys Dmytriyenko <denis@deni=
+x.org> wrote:
+>>On Fri, Sep 08, 2017 at 09:06:17PM +0100, Paul Barker wrote:
+>>>
+>>> This breaks the method described in the kernel dev FAQ to omit the
+>>> kernel image from the rootfs which is to set the following in a conf
+>>> file:
+>>>
+>>>     RDEPENDS_kernel-base =3D ""
+>>>
+>>> See
+>>http://www.yoctoproject.org/docs/2.3.1/kernel-dev/kernel-dev.html#idm4569=
+0538384880.
+>>>
+>>> By recommending kernel-image directly instead of recommending the
+>>> top-level kernel-<version> package which was actually removed from
+>>> extra_depends, we skip the inclusion of the kernel-base package. I'm
+>>> not familiar enough with the details of kernel module loading to know
+>>> if the 2 files in kernel-base (modules.builtin and modules.order) are
+>>> strictly needed but I think they should at least be included in via
+>>> recommendation.
+>>>
+>>> As we already have a documented way to omit the kernel image, can we
+>>> revert this?
+>>>
+>>> As an alternative I can send in a patch which changes the recommend
+>>to
+>>> the top-level kernel-<version> package instead of kernel-image.
+>>
+>>FWIW, this was discussed at #yocto on IRC today. When I first saw the
+>>change
+>>several days ago, I was puzzled as well...
+>>The existing method has been in use by many of us for a very long time
+>>and
+>>seems to be well documented - I also vote for reverting the change.
+>
+> Does setting `RDEPENDS_kernel-base =3D ""` in an image recipe work too?
+>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+No, you'd need it to be set in a conf file so it takes effect when the
+kernel-base package is created.
 
-Changes in v5:
-- new patch
+I can see the issue here though. Can you set `RDEPENDS_kernel-base =3D
+""` globally and explicitly install kernel-image into the appropriate
+image? If not then yes we'll need to find an alternative solution to
+simply reverting the change.
 
-Changes in v4: None
-Changes in v3: None
-Changes in v2: None
-
- .../go-examples/files/helloworld.go                | 10 ---------
- meta/recipes-extended/go-examples/go-examples.inc  | 10 ---------
- .../go-examples/go-helloworld_0.1.bb               | 24 ++++++++++++++--------
- 3 files changed, 15 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-extended/go-examples/files/helloworld.go
- delete mode 100644 meta/recipes-extended/go-examples/go-examples.inc
-
-diff --git a/meta/recipes-extended/go-examples/files/helloworld.go b/meta/recipes-extended/go-examples/files/helloworld.go
-deleted file mode 100644
-index 0253c40411..0000000000
---- a/meta/recipes-extended/go-examples/files/helloworld.go
-+++ /dev/null
-@@ -1,10 +0,0 @@
--// You can edit this code!
--// Click here and start typing.
--// taken from https://golang.org/
--package main
--
--import "fmt"
--
--func main() {
--	fmt.Println("Hello, 世界")
--}
-diff --git a/meta/recipes-extended/go-examples/go-examples.inc b/meta/recipes-extended/go-examples/go-examples.inc
-deleted file mode 100644
-index c63268116b..0000000000
---- a/meta/recipes-extended/go-examples/go-examples.inc
-+++ /dev/null
-@@ -1,10 +0,0 @@
--DESCRIPTION = "This is a simple example recipe that cross-compiles a Go program."
--SECTION = "examples"
--HOMEPAGE = "https://golang.org/"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
--
--S = "${WORKDIR}"
--
--inherit go
-diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-index 930c57df95..222fc9d349 100644
---- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-+++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-@@ -1,13 +1,19 @@
--require go-examples.inc
-+DESCRIPTION = "This is a simple example recipe that cross-compiles a Go program."
-+SECTION = "examples"
-+HOMEPAGE = "https://golang.org/"
- 
--SRC_URI += " \
--  file://helloworld.go \
--"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
- 
--do_compile() {
--	go build helloworld.go
--}
-+SRC_URI = "git://${GO_IMPORT}"
-+SRCREV = "46695d81d1fae905a270fb7db8a4d11a334562fe"
-+
-+GO_IMPORT = "github.com/golang/example"
-+GO_INSTALL = "${GO_IMPORT}/hello"
-+
-+inherit go
- 
--do_install() {
--	install -D -m 0755 ${S}/helloworld ${D}${bindir}/helloworld
-+# This is just to make clear where this example is
-+do_install_append() {
-+    mv ${D}${bindir}/hello ${D}${bindir}/${BPN}
- }
--- 
-2.14.1
-
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
 
