@@ -1,45 +1,44 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F011078219
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id AE05978246
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 21:06:39 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id d70so2207571qkc.1
+	Fri,  8 Sep 2017 21:06:48 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id k2so2235798qte.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 14:06:41 -0700 (PDT)
+	Fri, 08 Sep 2017 14:06:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=kU6CXK3y91mXKq2qGWUUE73AHwQpCFU1aEbSVteWXig=;
-	b=uf04h89uvSRD+K+9PuCQQCzzIESVcLDQB/pggnKZ6LM2yDNBOh+cPzHJhFqIbKGiPR
-	ftuGe/KNUIADKl0OkWFJyzQ4WGexJuQ8QkBdbId8RiSbh2JvqtdB77H4px7ChLabK1i3
-	ZgXIMHr0nQ+GX5V1rNeiT0M96oSgohL+63YvMywawvb708wjtwHrM4/w67ipbiGJNra+
-	MH9btli/V0XCjLQpmJv0BvIlNgfJa08zPtyf5co6TNylTm6uhU7v6TZCjTVsXor+C6kV
-	zfsSv8uKRUexlt5Vu7CjF7xVExuzVI/bhS289AlYSjIhxHR6qYqXsNz4xNXLp/UCX0QD
-	owJg==
-X-Gm-Message-State: AHPjjUjENAUtPSBBvbJsqHRRAkJVr9IIbId6/s0CUCHwQCL+Y7zTz6cC
-	ckAaS+JKftq4R7of
-X-Google-Smtp-Source: AOwi7QA5vQTA+BdnCBLNHTnOd34mJO3Dvhfw1baVJXG5oNO/oYJm/U832zCwAjWAE4dGA7lQtuBKkQ==
-X-Received: by 10.55.77.86 with SMTP id a83mr5440375qkb.172.1504904800855;
-	Fri, 08 Sep 2017 14:06:40 -0700 (PDT)
+	bh=SwSwKjbD28O7WebpO8TM7/WPmDjflU+boqiGLvXQy8o=;
+	b=eRQiFQOrKbpTDUFtVJVcDwIcdod6wGIbaxYnESQfRkjdLDbQQKWuDnQvgMXRw+b5lu
+	2j8dHiiwmJ9GWtqd0R5p7WZQ+ALOVsVxt9QQ0F5rjLS9zsDgvnj3G4Pt7Xzows+Stq42
+	I+U2hfsNNu9C9bIgmeNF7Q3y5k/Vu+Qw4vhDf0D/g+WR84ThbUuA8M9uUf7QQeGcwX7O
+	POQsOGOssdmnm9I2A1uVTp2UIV9WM+HbcqHGK3VvjSHNAvjIsTUy6g8f8w+0U1coiDem
+	hUymapyim9/eKMSJdbHbLZH/athjZAb/lkguYE5FvI/NLK/CoRZzcoSN7/5CXEBOqnDu
+	cwPQ==
+X-Gm-Message-State: AHPjjUhWQwrYZRZBnhlqtVSWQfZZxEni302JqctdHpVUMWXgmW47TA6R
+	lpT+kdmWQ2IfcAfb
+X-Google-Smtp-Source: AOwi7QC/3giIWm0VdfOsrALSDHSlTIVksasp4Awi1BQnh5nXVXCFAJgq4upDEGFU18IllRyAGxhECA==
+X-Received: by 10.237.34.25 with SMTP id n25mr6028568qtc.144.1504904809812;
+	Fri, 08 Sep 2017 14:06:49 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	d58sm1860851qte.92.2017.09.08.14.06.36
+	by smtp.gmail.com with ESMTPSA id d5sm1952516qtd.43.2017.09.08.14.06.44
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 08 Sep 2017 14:06:39 -0700 (PDT)
+	Fri, 08 Sep 2017 14:06:47 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 08 Sep 2017 18:06:33 -0300
+	Fri, 08 Sep 2017 18:06:41 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri,  8 Sep 2017 18:04:42 -0300
-Message-Id: <20170908210444.25763-13-otavio@ossystems.com.br>
+Date: Fri,  8 Sep 2017 18:04:43 -0300
+Message-Id: <20170908210444.25763-14-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170908210444.25763-1-otavio@ossystems.com.br>
 References: <20170908210444.25763-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v5 12/14] go.bbclass: add GO_INSTALL_FILTEROUT variable
+Subject: [PATCH v5 13/14] go-dep: Add 0.3.0 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,76 +51,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 21:06:40 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 21:06:49 -0000
 
-From: Matt Madison <matt@madison.systems>
+This is the Golang dependency management tool under development; it is
+ready for production use and intended to be merged onto Golang
+1.10. Until that, projects are starting to use it and making it
+available on OE-Core reduces the Golang integration work for new
+recipes.
 
-When using the Go 'vendor' mechanism to bring in
-dependencies for a Go package, the default GO_INSTALL
-setting, which uses the '...' wildcard, will include
-the vendored packages in the build, which produces
-incorrect results.
-
-There are also some Go packages that are structured
-poorly, so that the '...' wildcard results in building
-example or test code that should not be included in
-the build, or fail to build.
-
-This patch adds a mechanism for filtering out a
-subset of the sources.  It defaults to filtering
-out everything under the 'vendor' subdirectory
-under package's main directory, which is the
-normal location for vendored packages, but can
-be overridden by a recipe to filter out other
-subdirectories, if needed.
-
-Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
 Changes in v5:
-- new patch
+- use new unpack support
 
 Changes in v4: None
 Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- new patch
 
- meta/classes/go.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/go/go-dep_0.3.0.bb | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-dep_0.3.0.bb
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index c1ef01fafe..cb1e96d88b 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -52,6 +52,7 @@ FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
- FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
- 
- GO_INSTALL ?= "${GO_IMPORT}/..."
-+GO_INSTALL_FILTEROUT ?= "${GO_IMPORT}/vendor/"
- 
- B = "${WORKDIR}/build"
- 
-@@ -73,6 +74,11 @@ python go_do_unpack() {
-         raise bb.build.FuncFailed(e)
- }
- 
-+go_list_packages() {
-+	GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go list -f '{{.ImportPath}}' ${GOBUILDFLAGS} ${GO_INSTALL} | \
-+		egrep -v '${GO_INSTALL_FILTEROUT}'
-+}
+diff --git a/meta/recipes-devtools/go/go-dep_0.3.0.bb b/meta/recipes-devtools/go/go-dep_0.3.0.bb
+new file mode 100644
+index 0000000000..c65b4f7cb5
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-dep_0.3.0.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Dependency management tool for Golang"
++HOMEPAGE = "https://github.com/golang/dep"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=1bad315647751fab0007812f70d42c0d"
 +
- go_do_configure() {
- 	ln -snf ${S}/src ${B}/
- }
-@@ -80,7 +86,7 @@ go_do_configure() {
- go_do_compile() {
- 	GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
- 	if [ -n "${GO_INSTALL}" ]; then
--		GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
-+		GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} `go_list_packages`
- 	fi
- }
- do_compile[cleandirs] = "${B}/bin ${B}/pkg"
++GO_IMPORT = "github.com/golang/dep"
++SRC_URI = "git://${GO_IMPORT}"
++
++# Points to 0.3.0 tag
++SRCREV = "7a91b794bbfbf1f3b8b79823799316451127801b"
++
++inherit go
++
++GO_INSTALL = "${GO_IMPORT}/cmd/dep"
++
++INSANE_SKIP_${PN} += "ldflags"
++
++RDEPENDS_${PN}-staticdev += "bash"
 -- 
 2.14.1
 
