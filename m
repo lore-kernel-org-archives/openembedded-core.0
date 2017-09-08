@@ -1,51 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 984AB78242
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 939AC78236
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 23:22:02 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id t3so1890936pgt.5
+	Fri,  8 Sep 2017 23:22:09 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id t3so1891024pgt.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 16:22:04 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4urzVON0qwL0A7ZJLh6OassW3DePm2+3fY67VjpWq1E=;
-	b=lvTJNk9mN6qjN/YHX9m/OxZUtfAZHypc7BTXkeYLF+4xYwrlE/xQfYkrH/YPN3rDuM
-	qz0d+BwyEMe/IRap0pF5u6dS5rUAiZp8kpTve7NoTv7kb6wDVYIIXQhckG9P2Utos+Ky
-	Ll/6pfkgfFooEFV32BYT4aLXmwNtw6OJLCV/V7t1Qw53HUsoMOObc1r6z5fCN1vuks+v
-	x2JqO28vyE4l+2Qa/uzpYN7VfHy/c5I89yeE/5YmpIyI51e7SGQ2gJHiQ8GMoMFoCUj5
-	SV/ZKPdnk/dUQHqUu2Wil76H8hcUSwZf9H/2zWDTWvmYm8mQsb303e1RWiEv4PuEM/d6
-	LglA==
+	bh=qtLJ5cMHxYAiPrCMOkDDG/FuIkceQrbomshvLUy8R+c=;
+	b=nk+MtEA62graNzPtsfCl9Ec7+rInEB4NfoJlPUKNNl3BWxdMzzHwsyyKnKwhq237i7
+	uUNLxdH6/nUFV4xIyfn7tVOxq8G29wzcHL101V97Sq9sIKEaPLonpxMs8EyYYfOQhnqs
+	KnQPEdUWV9hk48Utwvp3gtBkYriIIy8AWeOW936fa3ZIqnWsEwYQMSWZi4xuCvZ5LZ/x
+	z1HJylv9OZd9c4w3dTsH0zacERjy/+4liyAe2uC4cYhiyDoNN69qFpkCAB35QUjgq78x
+	X77VVQKLQXNABp8hprsXxcv38TiHPO8V8DfZCYwth3Z1JJ89W0iRc4JXrgvmATU5Gdn4
+	vIIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4urzVON0qwL0A7ZJLh6OassW3DePm2+3fY67VjpWq1E=;
-	b=uc7y5KigkE7gLpKC55URNUM+j3dek+2q0p6RXknSORA7CTAMCrDCvMfIq8+8PNbBkD
-	Pmf44XxpxXyBBgibvAEveeRcknlcBICBuGGjZuglhQqJNXq0tx4BO7xrwi4NxmMIWi/s
-	fv+PapanmF99oHAFGBKTd0lhmYdXlHuYCFnIOrpsoZHQjP4AN1+63QSq7g6nDwisjOb3
-	THOzR5akEdRoKRB/DiET9I/N8Awf6DH6x59Y5/TcywkfrfXjxbhmpCiEwBgzBzgbuERR
-	O6S0+RP3I8r0uoJUERdWP/2qxll0cUzhEYT0Gk3pU73OOUYCfmIyQUc/Sk+4VWgBL7Qw
-	W5JA==
-X-Gm-Message-State: AHPjjUhUJUskuC/Bv0NNgYBXPkFEEj0QIpeWyC+FqlA1KamAzNf2xr5O
-	tmxbNJsf7KTBxwlC
-X-Google-Smtp-Source: ADKCNb5AHYG4W/WcNh08E7LbfXkz2+7TtBW/7I89sSr1B4kBeX+VT3+YGa0laZ+6XeNNx6UYkSP2Eg==
-X-Received: by 10.99.50.71 with SMTP id y68mr4710547pgy.190.1504912923478;
-	Fri, 08 Sep 2017 16:22:03 -0700 (PDT)
+	bh=qtLJ5cMHxYAiPrCMOkDDG/FuIkceQrbomshvLUy8R+c=;
+	b=YhD/uLzTErGptz4tFzpwEuVV4uxXSnF9cEfiMU33Y4lbEwVWCfhregPxkGcoJ1rqZR
+	+R115Q+SXOFDzxeeLLOyckhrugQ/VrreVpEDfY8/rJfIBADAVJRtBJV5vaKa5Tn/2xNf
+	/NNChDwFr0aTGXo6fiIqR6/OWqp2Jw8JtmB0se9BpfqgV49IxRkrs8ssSJ2gv3D5uEP4
+	ZL+bFUuIQlqHA7d5uTivLI7AIPU2opADcxKYIo6witwus8gCPqCeGqLEa/SoCs5XlOwT
+	lIQrBHW5cuuPI242EbNLzBhzP7soWlQV9eZ9akVtSTbX6pksLQKciSefrEdAZfvue8Tq
+	OL0g==
+X-Gm-Message-State: AHPjjUgyBeDhof5sWrwAfF8Wrvh4eos/No2Hm7n4UmHIvSX6KZxyJf+4
+	gyaSaXSZbRraXaJB
+X-Google-Smtp-Source: ADKCNb62JKDpBr1wC0r+vHh4J7FX9Z4ymattIx8lw6nQ4+diFjrkd6k/0pqOkfFlVyzI1gseUACdqg==
+X-Received: by 10.98.70.90 with SMTP id t87mr4612928pfa.114.1504912930502;
+	Fri, 08 Sep 2017 16:22:10 -0700 (PDT)
 Received: from e6520.cablelabs.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	q13sm5510822pfi.110.2017.09.08.16.22.02
+	q13sm5510822pfi.110.2017.09.08.16.22.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Sep 2017 16:22:02 -0700 (PDT)
+	Fri, 08 Sep 2017 16:22:09 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:21:37 -0700
-Message-Id: <1504912911-23120-2-git-send-email-armccurdy@gmail.com>
+Date: Fri,  8 Sep 2017 16:21:38 -0700
+Message-Id: <1504912911-23120-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
 References: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
-Cc: Yue Tao <yue.tao@windriver.com>,
-	Jonas Zetterberg <jonas.zetterberg@windriver.com>
-Subject: [daisy][PATCH 01/15] setserial: add missing depends on groff-native
+Subject: [daisy][PATCH 02/15] kernel: Added bc-native as DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 23:22:02 -0000
+X-List-Received-Date: Fri, 08 Sep 2017 23:22:09 -0000
 
-From: Yue Tao <Yue.Tao@windriver.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 
-[YOCTO #6526]
+The makefile checks for bc during for compilation
 
-setserial needs groff-native to build
+[YOCTO #6781]
 
-Signed-off-by: Jonas Zetterberg <jonas.zetterberg@windriver.com>
-Signed-off-by: Yue Tao <yue.tao@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1a1d1d89b490703ec163b82ba93f10a7d3e93270)
+(cherry picked from commit c067e52cffe002de3b39aa1bced308dd532859c1)
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-bsp/setserial/setserial_2.17.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
-index 65d6068..f1e8cd3 100644
---- a/meta/recipes-bsp/setserial/setserial_2.17.bb
-+++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
-@@ -8,6 +8,8 @@ LICENSE = "GPLv2.0"
- LIC_FILES_CHKSUM = "file://version.h;beginline=1;endline=6;md5=2e7c59cb9e57e356ae81f50f4e4dfd99"
- PR = "r3"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 58b0ec8..922752b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -1,7 +1,7 @@
+ inherit linux-kernel-base kernel-module-split
  
-+DEPENDS += "groff-native"
-+
- inherit autotools-brokensep
+ PROVIDES += "virtual/kernel"
+-DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
++DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross bc-native"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/setserial/${BPN}-${PV}.tar.gz \
+ # we include gcc above, we dont need virtual/libc
+ INHIBIT_DEFAULT_DEPS = "1"
 -- 
 1.9.1
 
