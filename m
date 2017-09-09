@@ -1,50 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5929660049
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 256CF77A56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Sep 2017 23:22:37 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id g65so1839865pfe.1
+	Sat,  9 Sep 2017 01:41:01 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id g13so6885580pfm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Sep 2017 16:22:39 -0700 (PDT)
+	Fri, 08 Sep 2017 18:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HM500vjpmtDxvYSG46BrNPietPLSwvb/SJO3SAMhRdU=;
-	b=BSRWp7mQXEFO001G4y7YPQQHgOQvBp4MErCHrwdwddHaB5bzpscqqHhpZ76LzFT8YD
-	DNw/Up16fyZ9T4/UfBnEpbl9Cy6VcO9Ewl8GInozgh6SCwd9XsXbEg2sSttz7YJ9XWS5
-	QLaJjDLMSFWPcLp0kgpZ9YP3rxiUcGwZiPDTBwQA8yHr+GcFWdW/cqWHJlsCozKXFxYe
-	BppQ+GRcuCGCXw+WdVF70qqjp2rPLnPUyVGs6Bel95I68mbijCKochwe8939smP9RO6R
-	Sp4c5fjru/+xlkXvH6JxWh9TXMxcdIfIHE5le40TiBW+X1IH35eFrU7cTe79BOniExBr
-	buBA==
+	h=from:to:subject:date:message-id;
+	bh=YXjpCbosmgttGP8dGLEgbo2tMiMxMKwtfeCjy2PbyZ4=;
+	b=fxKFF7sVzUiKAM8yS+kXNcavccO9LRoWFgLZr6JgbB5gF3yzOJgk3S73k0Zsxz13UF
+	rTUZXHgF7zKwgjzOw8ZAQAkP2znbD+NX5wWy/NVMWPR4lPVNXLxwL4SLjlpQjowXq2s1
+	izNKE26GfRBljA4KlXW42/X9yY1Znwxj6Kw1dIBLN6PEBDO0oxABRJmpQ4PXYvRQJhXz
+	5uK7OjBZevfMWJ6V4kLC1AYYeop/Y/dom+hRaAuT461Jnvho46I1I0o+mgigjTp2+wiY
+	c8mExsIQHA0h1Eu3Y1E6h2SE1aH8dEuz7FmTmH750JQSfGQV85LR0+dnmR0jJPPVbMQb
+	3Mvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=HM500vjpmtDxvYSG46BrNPietPLSwvb/SJO3SAMhRdU=;
-	b=DuEMk1+2OmEuRRbq8BZsoHiu4vnoRpeg9nbUcd2wveV7U3sWdg6Tugz9xc8xljr+1g
-	oR9rmnueNKJaC0O/gVIQ0uQQG+tE/wexolyVlBLXrjDdV/40jjeB4o5JJvAjuNIsv4nK
-	abkQ2/yhsAWLG1X8IvoLpzfrbvrts85Qmd+GTakPmYyL3/VZGB8zYEYyYh0d6aNEwFN3
-	3c2fzWaL2dFfxPRUD9sEAIa5lSFAY9wv0wRK4EwGX1IcBB/t0k3yZT4y3Fl3ABQHLdLv
-	E0ut6BuCckCuRS18MZoTX2JYos4IjrM+u1WtbAj9JrgYsVthXUu0B2S9MmLWVerVGCRh
-	rJWg==
-X-Gm-Message-State: AHPjjUhpSVKCKjSJGVV9POnB0JOdRLWuFk428ID0gBkQhUTAAUSKlDxa
-	nCQvAfTxOXyBPtpO
-X-Google-Smtp-Source: ADKCNb5duLeXmOCSZVsSJsK9pY6PH9Y0K/ECsX44fC5AcaNnAqVdo8xQJqngvpac5yVQDPEEWlvZAg==
-X-Received: by 10.84.241.77 with SMTP id u13mr5339919plm.103.1504912958540;
-	Fri, 08 Sep 2017 16:22:38 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=YXjpCbosmgttGP8dGLEgbo2tMiMxMKwtfeCjy2PbyZ4=;
+	b=GykUp89lIF4lq4toxfxsolWG7BT2SAyoy/B2OAWmzYOmgUXHHTBjAYFr25s+cgQLjm
+	cjHODxbGJoJGvkALsBO9DGGjABHFHrlww9QPEWLMWQUG/iMf/1BuBEGnCXsuB0z5rPp8
+	gVCLV6m/N8YzbksOtmqXNt81nGkmvFtfV5RVMfjIV7SoIudJKiSBly8AdCiQ+DxeHjws
+	rn+4hU1+tw8gD50bugu/oT47sbrAImiVoNHw1IWEnPcM1Pd6jjxwYHOYGBiNGt1ggOko
+	+RLrcI49yDpa1l44I4zDjzoOHxy4L1TAjzx9WY7fqSv2V6Qe9GRDb0IyM/w92m2RIFK1
+	4kIA==
+X-Gm-Message-State: AHPjjUhyr/oSlkAkW/N4osGCOtyqxLxdXzrTY6q18TVb0PpDEbnfWigK
+	OhUqMyOMq10/vw==
+X-Google-Smtp-Source: ADKCNb4aW0rps6ZM1GEyoUxRQnI69HVWNsbpByRjJQWBApmpppngYnAhCaTiF2VKehVQlt4fFQYxag==
+X-Received: by 10.98.15.209 with SMTP id 78mr5053404pfp.87.1504921262971;
+	Fri, 08 Sep 2017 18:41:02 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4001:9ea0:a4cc:2cce:3cd3:65])
 	by smtp.gmail.com with ESMTPSA id
-	q13sm5510822pfi.110.2017.09.08.16.22.37
+	j83sm5635571pfe.133.2017.09.08.18.41.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 08 Sep 2017 16:22:37 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Sep 2017 16:21:51 -0700
-Message-Id: <1504912911-23120-16-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
-References: <1504912911-23120-1-git-send-email-armccurdy@gmail.com>
-Subject: [daisy][PATCH 15/15] mklibs-native: update SRC_URI
+	Fri, 08 Sep 2017 18:41:02 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Fri,  8 Sep 2017 18:40:59 -0700
+Message-Id: <1504921260-10735-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [Morty][PATCH] For the next morty dot release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +56,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 23:22:37 -0000
+X-List-Received-Date: Sat, 09 Sep 2017 01:41:02 -0000
 
-The upstream oe-core recipe fixed similar fetcher issues by switching
-to a specific debian snapshot version. However, the debian snapshot
-doesn't provide mklibs 0.1.38 so fetch from yoctoproject.org mirror
-instead.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is the last patch to get Morty to build cleanly in AB 
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-index fd04c97..5db795f 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
- DEPENDS = "python-native dpkg-native"
- 
--SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
-+SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/${BPN}_${PV}.tar.gz \
- 	file://ac_init_fix.patch\
- 	file://fix_STT_GNU_IFUNC.patch\
- "
+Jussi Kukkonen (1):
+  neard: Fix parallel build issue
+
+ ...0001-Add-header-dependency-to-nciattach.o.patch | 35 ++++++++++++++++++++++
+ meta/recipes-connectivity/neard/neard_0.16.bb      |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/neard/neard/0001-Add-header-dependency-to-nciattach.o.patch
+
 -- 
-1.9.1
+2.7.4
 
 
