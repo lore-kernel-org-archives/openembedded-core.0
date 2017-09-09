@@ -1,18 +1,43 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CD802773D5;
-	Sat,  9 Sep 2017 02:00:28 +0000 (UTC)
+Return-Path: <alibey@gmail.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DB0E71B04
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  9 Sep 2017 10:24:31 +0000 (UTC)
+Received: by mail-qk0-f172.google.com with SMTP id r141so11117640qke.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 09 Sep 2017 03:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=GesZ23ksXY+iP7DuoPRCIClVDsBDObs1ZcrTx6N0rSs=;
+	b=F8YCotE5cd5jb8knJHdc5aUXkaFpu83Q1unfaBg+NENbBvSYsfC1/Dvi7wNkNZTtY0
+	OLQBmSKVszjjhl7Bo0M7mLyjoK6BzaKgQs9nRD7RhLJp/WOMNb9L5Ul4fxW5jn1hLKX6
+	sBNWt0gv1hDOi8qxN6biZn6jYFHyOmPW6UJR/jRbDNm6RXs9NVz5WEe3ULsEUgHrdzVD
+	3cxdy/G9nh/hQJ38h/84sU0+0ks9TFjiXMMmG4U2H4oYxBkvn9UxIDNM9VdbeLSmjO7X
+	N6qarNc/C31PrcPpDnTziwKE24TFYZXOUsZdhfxG7F8l8fUPyvGie2slhjXap68ZSzHZ
+	ogMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=GesZ23ksXY+iP7DuoPRCIClVDsBDObs1ZcrTx6N0rSs=;
+	b=JHzIgDqUfg0jxzgrNjhev5uGsv+QKHTk8Pakl8PzJ2zw8rdzNFVR9ezuIOj2IzTCK2
+	EzjczRhbhIzYXn8SPaZiDGB/Yh25/r0NGV4JhPt9B4pAw1q5gFecL7h2xvQmxX3lT3qN
+	li1HA9Jnf0rvL0n8flsi2X7N8++uFOE8XamZyebzIkjQFUoAUx2ecwIux/1rm7IhNwDs
+	14JPW3GD+PPSzqEe3VupnHAxDEBReyyQ5N3WGJUYcTt82XHpAIm56xGdX4dDvmjoUPwG
+	F2ldvctyoH8fP9luECpSznW6mo2ILXSJT2uAZZkRzpyc+6xs0tJCiOHkfXZfbZ3I4fmv
+	zi+A==
+X-Gm-Message-State: AHPjjUjC2x+052g2NZTshxPtqlmvjjbI/ycbWV63+TMJA/QN0VHe8lGq
+	xr1p1CqLKqTRx/aGbNZM7cUpof+pOpVR
+X-Google-Smtp-Source: ADKCNb5jJVY6GsjFnH6Wv95dmog737wX97uX5byCxdtlo4lqovft+oHtXWxTTwkoDnEts6Ru+ufiS4pFehrDdZNCuIs=
+X-Received: by 10.233.221.3 with SMTP id r3mr7319712qkf.219.1504952672452;
+	Sat, 09 Sep 2017 03:24:32 -0700 (PDT)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Sat, 09 Sep 2017 02:00:30 -0000
-Message-ID: <20170909020030.2785.71971@do.openembedded.org>
-References: <1504921260-10735-1-git-send-email-akuster808@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1504921260-10735-1-git-send-email-akuster808@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbmVhcmQ6IEZpeCBwYXJhbGxlbCBidWlsZCBpc3N1ZSAocmV2Mik=?=
+Received: by 10.12.171.131 with HTTP; Sat, 9 Sep 2017 03:24:32 -0700 (PDT)
+From: =?UTF-8?Q?Almir_Alibegovi=C4=87?= <alibey@gmail.com>
+Date: Sat, 9 Sep 2017 12:24:32 +0200
+Message-ID: <CAG5rOOGB0bP1CUUgE=srNS+mA5CUyV069T6iCeXwoZSydGQ9ZA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: New USB ID to kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +50,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Sep 2017 02:00:29 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 09 Sep 2017 10:24:31 -0000
+Content-Type: multipart/alternative; boundary="f40304360c687218200558bf1935"
 
-== Series Details ==
+--f40304360c687218200558bf1935
+Content-Type: text/plain; charset="UTF-8"
 
-Series: neard: Fix parallel build issue (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/5862/
-State : failure
+Hi there,
 
-== Summary ==
+is it possible to add TP-LINK TL-WN722N v 2.0 stick (root@vuzero:~# lsusb
+Bus 001 Device 002: ID 2357:010c) to linux driver and how. Vuplus zero box.
 
+I'm trying to install the ipk, but cannot get it working because system
+doesn't want to override the driver already included in linux kernel.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Is there solution for this?
 
+Kind regards,
 
+--f40304360c687218200558bf1935
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at cc319b6dcc)
+<div dir=3D"ltr"><span style=3D"font-size:12.8px">Hi there,=C2=A0</span><di=
+v style=3D"font-size:12.8px"><br></div><div style=3D"font-size:12.8px">is i=
+t possible to add=C2=A0TP-LINK TL-WN722N v 2.0 stick (root@vuzero:~# lsusb =
+Bus 001 Device 002: ID 2357:010c) to linux driver and how. Vuplus zero box.=
+</div><div style=3D"font-size:12.8px"><br></div><div style=3D"font-size:12.=
+8px">I&#39;m trying to install the ipk, but cannot get it working because s=
+ystem doesn&#39;t want to override the driver already included in linux ker=
+nel.</div><div style=3D"font-size:12.8px"><br></div><div style=3D"font-size=
+:12.8px">Is there solution for this?</div><div style=3D"font-size:12.8px"><=
+br></div><div style=3D"font-size:12.8px">Kind regards,</div></div>
 
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
-
+--f40304360c687218200558bf1935--
