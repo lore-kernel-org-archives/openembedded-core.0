@@ -1,52 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B37F77E91
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D02CE77E97
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 13:14:57 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id g13so10522426pfm.2
+	Sun, 10 Sep 2017 13:15:01 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id y29so9748985pff.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 06:14:59 -0700 (PDT)
+	Sun, 10 Sep 2017 06:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=QVknxWXHFvYJDywGDV2KK55khEj9+2xNOJDTOQRugmo=;
-	b=IDPSR0nMVIzH4Au+cwz/59tNPSaUMdWchHUAsnottCYq8D/C0rLYHt3b4L3Mv1m0W8
-	c2oK3rbToHVEOzkKWYFDK8imI/XWCSVOva5LrwvUJS7b3T95wEbpzf0qrggCZBUYUkjw
-	OJZx7Erpxj50bxzKDsFUpn09FQgoLfRQSv1gmOvu7SdIJ4D5UaIzj1MsOXTBeYJ+nBgg
-	yOwNBVcTSa//PbwLYmv2gAERzpirls6X8C226454PzLX8Nj5xvNQ3+CXxhJfgxEn87B8
-	9dpqhzmogCwSwGU0dBsSu6t+wQDDF1Ybc4VN4iYOwqhmupMF3Ou9xJUvjUOuVMJMwQI3
-	kbbQ==
+	bh=RdjaCLetI3VSMpToDFG/pvy+KkKXJyf1TNVkCPsOMKI=;
+	b=HmMhBUW/PskL+3fxafL0AkIDwJ7tiQaY8eqRwo7gl8EBOMixLmZfLLdS57D1zBr+0l
+	psi2Oc9UQtLh6v7GKmOH1nclV7FSR4smA6Rvqcvvs9g1vXEY7x5owZKi5rK67g+3xAlx
+	wOLrlNnVveKUGRaQPS+sG6HgpZAMsmphIGvmTYAXBmd8iQNjuMIXHmtduTP80a2Fw8QZ
+	bgkiv9bfAFyGMvb71Td1w2tQK1hSE8Y2wLDHGczaeVEp/obQ9JDCVKD4oDVEw3HgyKSI
+	607BqDSvzLGVGVaXKA5jkPKHr469xvUUu526MPNfYKGfp6/5/crgJzW/7ZOExEAQpqoY
+	jyLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=QVknxWXHFvYJDywGDV2KK55khEj9+2xNOJDTOQRugmo=;
-	b=Wjx9T45wkEYo16ygDaSHuP/Nctipn/luMWGsMTEG1JE8ROb+A3cUZiZfmb+IvbqD8g
-	5uE6lsRTyB5IWksyhCOVMl5F8euwZFD71Xc2BWiM/vfeh4OkthzVpgXT2jsVFnTkKVPc
-	yMdX1phfeXU+KsODf/5nEs0uuPW+zXzBfQx8ZZI3sqed1NJCGxRh5Q5kWYEpEYRl2U3r
-	Gm7yOQkt+PR93mTwINZE+U6KROMU1yi/Vy/8VJypEAwAUSKhza39IAWB6X63vvAGSoGA
-	ywltKSkEDJQBvqjUZCrVAZ3RWGvuVOZaOmagEM+UZnCzjgCwRdIMALFXwF3iXXVTw9G5
-	nTsg==
-X-Gm-Message-State: AHPjjUiWgmQ0/snVHQFZBhwQQdxzELmtVpLfUHAp+kBGJpjKC25GSRWy
-	uMo386hJKeQkx7UwYIHOpA==
-X-Google-Smtp-Source: ADKCNb7HJ/dhDgU86DbEspNocCHAMpZNUhnU5gUldphn10JVnsYeyc55WVQbqaVWU8FjAi2v1DrYOg==
-X-Received: by 10.99.119.130 with SMTP id s124mr8737260pgc.436.1505049298566; 
-	Sun, 10 Sep 2017 06:14:58 -0700 (PDT)
+	bh=RdjaCLetI3VSMpToDFG/pvy+KkKXJyf1TNVkCPsOMKI=;
+	b=ebcL1PiEGi7CG4U0OCit/acmWGWH3SPdUBdPzGNLTEUZiN9X/34G3ehvkdHy67RjFa
+	t2XXExGoRMRfQRqC9/Xe4+EPXCpDDKZq+y706r7odpFbKnP2AsWLCXrJIpff2Ifr2scF
+	edka0c7dbIlUIWnhHX94Fh117BgZQ//ouraUsNLEx8O7DaPpyxTmw+x1d5aDKv4tIWWU
+	QobbouVBO9o+OtFIMr0xUDBBW30B6B+eItEvIBruQAbKIP9F6EPaDMpT/AXRwNvvSmMQ
+	TkNWC7Dwdjl9ZtUE2Um7AZdz2uuZ2o3ChAMYa62gCispeBF4YSs64Kiy6zrbXhVMsy1B
+	hKZw==
+X-Gm-Message-State: AHPjjUhZPbeM1HI3gb18RDbO+nOBWiZnLEJyZ9iBEshPlCgwLqT5My5j
+	1afLLWwjRd+G0gNx58VXSw==
+X-Google-Smtp-Source: ADKCNb5btQTo2IRvdRnrxNRK4xOm0UaPtitZkLhDnX6xOapmLS9yz4axh1+e36Y1otdh/WkUqlcWMA==
+X-Received: by 10.84.229.79 with SMTP id d15mr9926116pln.397.1505049302940;
+	Sun, 10 Sep 2017 06:15:02 -0700 (PDT)
 Received: from [127.0.1.1] (CPE-121-223-2-142.lnse2.cha.bigpond.net.au.
-	[121.223.2.142])
-	by smtp.gmail.com with ESMTPSA id f8sm9221715pgs.7.2017.09.10.06.14.56
+	[121.223.2.142]) by smtp.gmail.com with ESMTPSA id
+	j10sm11488350pfj.116.2017.09.10.06.15.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Sep 2017 06:14:58 -0700 (PDT)
+	Sun, 10 Sep 2017 06:15:02 -0700 (PDT)
 Date: Sun, 10 Sep 2017 23:14:46 +1000
-Message-Id: <20170910131446.4555-1-nathan@nathanrossi.com>
+Message-Id: <20170910131446.4555-2-nathan@nathanrossi.com>
 In-Reply-To: <20170910131446.4555-0-nathan@nathanrossi.com>
 References: <20170910131446.4555-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 1/4] yosys: Add Yosys and ABC recipes
+Subject: [PATCH 2/4] icestorm: Add IceStorm tools for iCE40 FPGAs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,121 +59,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Sep 2017 13:14:57 -0000
+X-List-Received-Date: Sun, 10 Sep 2017 13:15:02 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Yosys provides a Open Source Verilog synthesis flow for a number of
-targets including Altera, ASIC flows, Lattice FPGAs/CPLDs, Xilinx, etc.
-This tool provides the first step in a fully open source HDL/Verilog to
-bitstream flow.
-
-Also included is its primary dependency Berkeley ABC which is used for
-the synthesis and formal verification tooling.
+IceStorm includes tools for packing iCE40 designs into bitstreams as
+well as the data used in place and route tooling. Also included in
+IceStorm is JTAG programming (which uses libftdi) and other helper tools
+to generate iCE40 HDL and verify timing constraints.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-devtools/yosys/berkeley-abc_git.bb | 30 ++++++++++++++
- meta/recipes-devtools/yosys/yosys_git.bb        | 55 +++++++++++++++++++++++++
- 2 files changed, 85 insertions(+)
- create mode 100644 meta/recipes-devtools/yosys/berkeley-abc_git.bb
- create mode 100644 meta/recipes-devtools/yosys/yosys_git.bb
+ meta/recipes-devtools/icestorm/icestorm_git.bb | 51 ++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/icestorm/icestorm_git.bb
 
-diff --git a/meta/recipes-devtools/yosys/berkeley-abc_git.bb b/meta/recipes-devtools/yosys/berkeley-abc_git.bb
+diff --git a/meta/recipes-devtools/icestorm/icestorm_git.bb b/meta/recipes-devtools/icestorm/icestorm_git.bb
 new file mode 100644
-index 0000000000..8f39c7ab29
+index 0000000000..01d755212b
 --- /dev/null
-+++ b/meta/recipes-devtools/yosys/berkeley-abc_git.bb
-@@ -0,0 +1,30 @@
-+DESCRIPTION = "Berkeley ABC: System for Sequential Logic Synthesis and Formal Verification"
-+HOMEPAGE = "http://www.eecs.berkeley.edu/~alanmi/abc/"
-+# License is MIT, but differs from standard license text
-+LICENSE = "MIT"
-+SECTION = "devel/hardware"
-+
-+LIC_FILES_CHKSUM = "file://copyright.txt;md5=04eb1ba7f36d87b164b6224e5417b860"
-+
-+SRC_URI = "hg://bitbucket.org/alanmi/abc;protocol=https;branch=default;module=root"
-+SRCREV = "ff5be06"
-+
-+S = "${WORKDIR}/root"
-+
-+PV = "1.01+hg${SRCPV}"
-+
-+DEPENDS = "readline"
-+
-+# set the ARCHFLAGS to avoid execution of arch_flags during build
-+ABC_ARCHFLAGS_x86-64 = "-DLIN64 -DSIZEOF_VOID_P=8 -DSIZEOF_LONG=8 -DSIZEOF_INT=4"
-+ABC_ARCHFLAGS = "-DLIN -DSIZEOF_VOID_P=4 -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -fpermissive -w"
-+
-+do_compile() {
-+	oe_runmake ABC_MAKE_VERBOSE=1 ARCHFLAGS="${ABC_ARCHFLAGS}" CC="${CXX}" CXX="${CXX}" LD="${CXX} ${LDFLAGS}"
-+}
-+
-+do_install() {
-+	install -Dm 755 ${B}/abc ${D}${bindir}/abc
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/yosys/yosys_git.bb b/meta/recipes-devtools/yosys/yosys_git.bb
-new file mode 100644
-index 0000000000..06ae74052a
---- /dev/null
-+++ b/meta/recipes-devtools/yosys/yosys_git.bb
-@@ -0,0 +1,55 @@
-+DESCRIPTION = "Yosys, a framework for Verilog RTL synthesis"
-+HOMEPAGE = "http://www.clifford.at/yosys/"
++++ b/meta/recipes-devtools/icestorm/icestorm_git.bb
+@@ -0,0 +1,51 @@
++DESCRIPTION = "Project IceStorm aims at reverse engineering, documenting and tools for Lattice iCE40 FPGAs"
++HOMEPAGE = "http://www.clifford.at/icestorm/"
 +LICENSE = "ISC"
-+SECTION = "devel/verilog"
++SECTION = "devel/fpga"
 +
-+LIC_FILES_CHKSUM = "file://README.md;beginline=2;endline=16;md5=ed95f8bf65484f10d063cb460b4df728"
++LIC_FILES_CHKSUM = "file://README;beginline=8;endline=18;md5=8104f3444ed967701dafaeab14d572b9"
 +
-+SRC_URI = "git://github.com/cliffordwolf/yosys;protocol=https"
-+SRCREV = "7d41c5e1770419369617011167f01112d9b9b436"
++SRC_URI = "git://github.com/cliffordwolf/icestorm;protocol=https"
++SRCREV = "69613a26d3e3a5c6f0836a773717b03360df85ce"
 +
 +S = "${WORKDIR}/git"
 +
-+PV = "0.7+git${SRCPV}"
++PV = "0+git${SRCPV}"
 +
 +inherit pkgconfig
 +
-+DEPENDS = " \
-+		python3-native \
-+		bison-native \
-+		flex-native \
-+		gawk-native \
-+		tcl-native \
-+		berkeley-abc \
-+		readline \
-+		tcl \
-+		libffi \
-+		"
++# diffutils (provided by hosttools)
++DEPENDS = "gawk-native python3-native"
 +
-+RDEPENDS_${PN} += "berkeley-abc bash"
++PACKAGECONFIG = "icebox icetime"
++PACKAGECONFIG[iceprog] = ",,libftdi"
++PACKAGECONFIG[icetime] = ",,,python3"
++PACKAGECONFIG[icebox] = ",,,python3"
 +
-+# OE modifies target tcl to populate includes into subdirectory but never sets that up in .pc
-+CXXFLAGS_append = " -I=${includedir}/tcl8.6"
++MAKE_SUBDIRS = "icepack icemulti icepll icebram ${PACKAGECONFIG}"
 +
-+do_configure_append () {
-+	# config build for GCC
-+	make config-gcc
-+
-+	# remove posions
-+	sed -i 's/-I$(PREFIX)\/include//g' ${S}/Makefile
-+	sed -i 's/-L$(LIBDIR)//g' ${S}/Makefile
++do_configure () {
++	# remove posioned directories
++	sed -i 's/-I\S*//g' ${S}/config.mk
++	sed -i 's/-L\S*//g' ${S}/iceprog/Makefile
 +}
 +
-+# use abc from PATH
-+export ABCEXTERNAL = "abc"
-+
-+do_compile() {
-+	# force make variables for CXX and LD, the makefile forces them instead of defaulting
-+	oe_runmake PREFIX="${prefix}" PRETTY=0 CXX="${CXX}" LD="${CC}"
++do_compile () {
++	for i in ${MAKE_SUBDIRS}; do
++		oe_runmake -C ${B}/$i PREFIX="${prefix}"
++	done
 +}
 +
-+do_install() {
-+	oe_runmake PREFIX="${prefix}" PRETTY=0 DESTDIR="${D}" install
++do_install () {
++	for i in ${MAKE_SUBDIRS}; do
++		oe_runmake -C ${B}/$i PREFIX="${prefix}" DESTDIR="${D}" install
++	done
 +}
++
++# populate the chipdb into the sysroot (not enabled by default on -native)
++SYSROOT_DIRS_NATIVE_append = " ${datadir}/icebox"
++
++# package the icebox chipdb files
++FILES_${PN} += "${datadir}/icebox"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
