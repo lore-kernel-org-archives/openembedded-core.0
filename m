@@ -1,63 +1,50 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
-	[209.85.161.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 40D006025F
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id DDFB171D97
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Sep 2017 21:33:41 +0000 (UTC)
-Received: by mail-yw0-f174.google.com with SMTP id q80so14840160ywg.2
+	Sun, 10 Sep 2017 12:59:16 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id h4so3762382pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Sep 2017 14:33:43 -0700 (PDT)
+	Sun, 10 Sep 2017 05:59:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=PrsasVLTc+QQYnvBWe4F255bCa76m+YcwYHdWl04LUc=;
-	b=mrxNvxU3d8pO3eUEuOpqxboTyYaQAR0n+sWSTuLytWpYYL2kjyG8spss1/KYB+7VIf
-	g3y7OeM5VUSKKHQH9HeK/m4VHyLDUBCrwMcvyqWCc1Rk54jCISW2cr2B1aL09+IfTmZd
-	nFna2Ar93cD0RZxRzI2vPuOKhOmiSVicjGazaUJs+ISQ3D2zq4Jso0bl+5h5ta3rIdRo
-	SXoGPJBuHT+GVNlwCMVDdl1BBGJzoDp68OHPfUpf4eRFXRyqJr0pz7Ow4sB0k8hcZHP2
-	rCSZcre/NEjkuSuzSbHi6jXR18EcYCilQhI3B+1HKcBe0dh3WW9ZxMVwAZJfKxN150gk
-	h43w==
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=XjPq+obOQfg9TrT3soFITHfJM/K7l+5OMA5QZjLIBck=;
+	b=WVHCipMiRFABAcvSO4fYkLKSXM25HP6Hrc5qfEB6Giq4fnzZmlBU9pjVtx67mVBGLh
+	QoQHszgaB5m0HxuUvj8va7wDUhjeUxmphp9qxZZOjDXnS3z9+TkC/6LPmfoxVWZ0lcAm
+	a2GczZzyTaWHJ6QhSWzBV9O9uQF/Xe4vMS2yu6rZ4/IONKikfXVfjnZbNppH1LxSajIO
+	nV/H3tpMhvyo7ynUkikmw7QHOv3B1NKJXdAIGkxExOeamzJA3Cc0QyagsxU326SQ1870
+	zsrWO3ODjLioZs1R7Ula/rlpKMMNmHOrRx33HOWHJJjHkmvSYpZWWiIQboEfyB6NydtQ
+	7Brg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=PrsasVLTc+QQYnvBWe4F255bCa76m+YcwYHdWl04LUc=;
-	b=EldEmAh8V0ZsbDuUSDhH8xdsynjMbsX5LXmGpblPVrldzCWDGBN+d4pzyLqNcJxAoi
-	OBDpOkxK6UzwVmhHlTBrEALesWBlg3aZZAWn/p86L1knrkxLSKt3vyfeE2Hn4BLuwOdm
-	kTbZKwKRuz+I6Q3ttXYe2Ru54AEiBx8Z1uirNwJHXu/QlCVBXJoX052TB/TPKkU+3jaS
-	g2LevLWfsa0conl8XNYQWCxlKQuyhH/xbXzoklBCKvEV/nfa1eqrZibBakNt2LG9vnGm
-	47dk2jjYQZ6Bb388ZKSXHLhkO8lvdksJv2xQZ/Q+0hgfeoV1Vdr56QPIMMLKiSyGOSPx
-	udZQ==
-X-Gm-Message-State: AHPjjUi5MF2ntMGezu1oJu4M4uVFawMdF67SGLtbyE6weMaB/JSrIVCp
-	vz6POmjZUf+oiarXxwc=
-X-Received: by 10.129.188.81 with SMTP id b17mr5762439ywl.438.1504992822273;
-	Sat, 09 Sep 2017 14:33:42 -0700 (PDT)
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com.
-	[209.85.218.53]) by smtp.gmail.com with ESMTPSA id
-	s27sm1877527ywa.37.2017.09.09.14.33.40
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=XjPq+obOQfg9TrT3soFITHfJM/K7l+5OMA5QZjLIBck=;
+	b=hKzAR5vmRDdLqtdQkdXmiH8lr78wUxP4nHP3QERe3X1E0w4pWpG/A8w8V5PCm+YMH1
+	yemp0Yh8kxKHqpIE03hDYgyD7dYaFDR6vp9zzBeDLe6go0Wn+3RYvOTkXFkfAkGd3EcE
+	27qfO1fSMFZu0yR4mWa/vRfKMMrsUVzTxddiLxkhvBCVMXIq7r8XMnqDQz7f+PdNocpH
+	Bm362vNw74dRQYoIlZVOuh8FbMRIbD6Z68hgOyy4avElF+vV848CWizwRFfdxJUAH/DN
+	KA/BOjz7mL4w6ElKWdMwZEVeytsW7pxuxwHcLTMRuFCIBuKh4+fqT/9+9C6l0TZSOjTy
+	CrcA==
+X-Gm-Message-State: AHPjjUgFWKgH1M50NFEr6PWu/hlPLs6nE9FQGqS410vsG7h0B6OUFbjo
+	96CWn5Cx8SOzbvtl7e9dKA==
+X-Google-Smtp-Source: ADKCNb70OW1tVjXEbvl5iSc/N2L9+nne/Z5pP6AmMEAo4/Q4k/N791tHHvVujGPU9VsuRBOOU98zEQ==
+X-Received: by 10.84.132.99 with SMTP id 90mr10078862ple.406.1505048358000;
+	Sun, 10 Sep 2017 05:59:18 -0700 (PDT)
+Received: from [127.0.1.1] (CPE-121-223-2-142.lnse2.cha.bigpond.net.au.
+	[121.223.2.142]) by smtp.gmail.com with ESMTPSA id
+	x128sm9988767pgb.6.2017.09.10.05.59.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 09 Sep 2017 14:33:40 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f53.google.com with SMTP id l74so25944170oih.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Sep 2017 14:33:40 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QCpoTRRXcPMJIc98AHCvK3qywa1GKDEbkg41HSx13CYUT6P5b3EZWM4FIHCrWg2Z9VbkUdcD5BMtB2JuTkSGwQ=
-X-Received: by 10.202.56.194 with SMTP id f185mr6259462oia.249.1504992820068; 
-	Sat, 09 Sep 2017 14:33:40 -0700 (PDT)
+	Sun, 10 Sep 2017 05:59:17 -0700 (PDT)
+Date: Sun, 10 Sep 2017 22:59:08 +1000
+Message-Id: <20170910125908.975-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Sat, 9 Sep 2017 14:33:39 -0700 (PDT)
-In-Reply-To: <20170908221221.24444-1-california.l.sullivan@intel.com>
-References: <20170908221221.24444-1-california.l.sullivan@intel.com>
-Date: Sat, 9 Sep 2017 18:33:39 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKp5JuuuExXx+34zQqcyfaH3xXRDKSkQuTWg9gZhD1ESpg@mail.gmail.com>
-Message-ID: <CAP9ODKp5JuuuExXx+34zQqcyfaH3xXRDKSkQuTWg9gZhD1ESpg@mail.gmail.com>
-To: California Sullivan <california.l.sullivan@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] initramfs-framework: split setup-live and install-efi into separate recipes
+Subject: [PATCH] gawk: Enable native building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,38 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Sep 2017 21:33:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 10 Sep 2017 12:59:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 8, 2017 at 7:12 PM, California Sullivan
-<california.l.sullivan@intel.com> wrote:
-> Having these the initramfs-framework recipe forced initramfs-framework
-> users to build several tools they didn't need, and made it more
-> difficult to declare the recipe as allarch.
->
-> Fixes [YOCTO #12024].
->
-> v2 changes:
->   * fix SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in layer.conf
->   * bump PR of initramfs-framework
->   * add allarch to setup-live and install-efi modules, as they're just
->     shell scripts
->
-> v3 changes:
->   * set PR of new recipes to 4, as the name of the packages they build
->     is the same as when they were part of the main recipe.
+Also update the ASSUME_PROVIDED in bitbake.conf to contain gawk-native
+as the dependency is passed in via HOSTTOOLS for native builds.
 
-I'd drop this from the commit log.
+This allows for recipes to depend on gawk-native, and have the
+dependency met if not already provided by the host tools.
 
-> Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/conf/bitbake.conf                   | 1 +
+ meta/recipes-extended/gawk/gawk_4.1.4.bb | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-... other than that,
-
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8ce08340d7..3669067863 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -176,6 +176,7 @@ ASSUME_PROVIDED = "\
+     chrpath-native \
+     file-native \
+     findutils-native \
++    gawk-native \
+     git-native \
+     grep-native \
+     diffstat-native \
+diff --git a/meta/recipes-extended/gawk/gawk_4.1.4.bb b/meta/recipes-extended/gawk/gawk_4.1.4.bb
+index dda38ef1bb..04451f7ff8 100644
+--- a/meta/recipes-extended/gawk/gawk_4.1.4.bb
++++ b/meta/recipes-extended/gawk/gawk_4.1.4.bb
+@@ -46,4 +46,4 @@ do_install_ptest() {
+ 	done
+ }
+ 
+-BBCLASSEXTEND = "nativesdk"
++BBCLASSEXTEND = "native nativesdk"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.14.1
+
 
