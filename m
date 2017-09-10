@@ -1,51 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AA3B77E91
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E99EB77EA1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 13:15:06 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id j16so344178pga.2
+	Sun, 10 Sep 2017 13:15:10 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id h4so3771941pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 06:15:08 -0700 (PDT)
+	Sun, 10 Sep 2017 06:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=1YVVbDk+UNzguzvm0/6jp9sXD8LSLE+ZAaJPK0DPaHM=;
-	b=QW8GgwNXth56flgY1tjXDcM1KHSh4ylYvZfoK+5Eu+Lbp5xdzQXrjmlK29l1sAzPdI
-	eyeilWPDNfoUsJCfPaP5YsDX6RDIYYCg2a/XPx3WtGChwgL1RkpPyJtTiKa07ySIfnxZ
-	WQBvQFDED2LcY1QDw/456TN77gEw+L3SnnrACrQBpupNE5E/o6rJG3yZT7P7lSmvdZMr
-	4M7J6aFbNEBQNJ62SlHG+tifAvhcB4zMEDyPkpeIqgT0vMwtmO43fjBq/kHQrBmYoJ6l
-	+H9shuYjEk0HXmFhj8x9puYE5ygnYmM5/JUEvDPG4Wlwjq7WhAy4lLphBXiW1B6nB2A6
-	enqA==
+	bh=zqs1NS71hSfcv0C1p3G+IMk8XV86iFpGfAOY2QytPMc=;
+	b=eHs47wt33DdeB9Te6wRqRSWH0NUgxJNBoywtY4mXXvTNG5zy0o8Let14uiW61ZFTHU
+	QQKtuLB1Pbb2uZA5PZgAtDOVMqno1FLGeBlGS+19mtQM63B6el9IxMjlUoPoG9GhmoSK
+	oFuN0drKDGOOHvBRSiKehjuVnzopcH2YsULbzN3Gv1UPf4uqoNGumhZBtWulZz6gG2F9
+	bsCmwdrF7IrLrQX9UPSIYgsoV6hoM25z1WAzxuNJzS0hbn9nE6aCttUlmRVySf1aLrEh
+	SSY4Paw2y7kFQB6sDhfpScdbiG4yrr0aDh2TheEutvGu8Tm5m4z78MyhJZM5+/CkTQJn
+	Zrog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=1YVVbDk+UNzguzvm0/6jp9sXD8LSLE+ZAaJPK0DPaHM=;
-	b=ZNRggUgrT4qd710oN4RBfIZQadd+rPq+/TfwwEncGEDUuINWle66vN8Jt4d+GyJpXk
-	It1eqisYNAgpSQnRuyf9icCBgsABzAizHnA8y5VJYT9JGQWZS/cKm0Qc09Bl4YvOgvge
-	4M1n9fCcRUcO6e1hEz3E5ue6QMIUKlnMtxKTlKCseNRqpsfe42MHdFA8LH6d5IIFThkf
-	P9q6y99H4oU1RU+cDIDf8iZulVadf+0cVY5P8ITMgIMwbcdodRfxBwRn3/Hb9btDzW5c
-	GBo9zMzvm4kp2fE7cQNr+/bSCdDzXxQyiakKUxY6p5GdGr3Ct2l2VkEVgFFF1vyGjdIK
-	SkTw==
-X-Gm-Message-State: AHPjjUiByrXHh9RKF1RieDCLZAOB1RtTacXh5wtvhbg0Y6qR3G2WqIem
-	3FjXjPYrCRR+sSekaRHZnA==
-X-Google-Smtp-Source: ADKCNb6oaBH9cvnkGVbdp/kMOQJg9xJWzIECWFv3pCU7p+rAlX4IVkC5QxzXyvd96+NsnkK19Hw7fQ==
-X-Received: by 10.84.131.97 with SMTP id 88mr10215641pld.280.1505049307396;
-	Sun, 10 Sep 2017 06:15:07 -0700 (PDT)
+	bh=zqs1NS71hSfcv0C1p3G+IMk8XV86iFpGfAOY2QytPMc=;
+	b=PVDa7Ft6q92kUjKfmxnlKWE/7CbjIdwSBtmSpM3oyxwwjv0lcq0r7SBRYLaRpZQQJN
+	eNMp3mswet2T6h0VtHdT0e/c3TAEOnYqcbScNuwiAr+293cXdJ0rNvqgbqWjTYd/ui80
+	LA89ZYG2/Mvu5bwmkwvK3l3/KsbTJkQkTTMn8tnVfhbh8lyDE9Oe+jJqb7w995iklKrQ
+	L7RFBRXDdFWjxhPxqZ714Yxs/v8tQWIfpFfHPcNJVfLUcsqzVLs864AXkGHkbw38oqrg
+	8LLAPc0ckaDJd4gzUa2Q5rARBvE7UKUAJWwdaJ/WlnhfDHgENO9+LcDjLmH6mLu/LamV
+	+zcg==
+X-Gm-Message-State: AHPjjUh6YUYkmfsta3jSD3r69D6Gz4yjnJ0SFhG4ObaYPmSyLRE+/EWV
+	jT8MaWkq+qtUO3whV/FDIA==
+X-Google-Smtp-Source: ADKCNb6hOmXCPZDTS91mO2x6WRpm51qre6nVTuqMwXJabkQKAqpaO6yyAgrmmXihC8Ep3U+UTQOxTA==
+X-Received: by 10.98.69.136 with SMTP id n8mr8788126pfi.291.1505049311855;
+	Sun, 10 Sep 2017 06:15:11 -0700 (PDT)
 Received: from [127.0.1.1] (CPE-121-223-2-142.lnse2.cha.bigpond.net.au.
 	[121.223.2.142]) by smtp.gmail.com with ESMTPSA id
-	5sm11770686pfr.151.2017.09.10.06.15.05
+	s184sm11829727pfb.123.2017.09.10.06.15.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Sep 2017 06:15:06 -0700 (PDT)
+	Sun, 10 Sep 2017 06:15:11 -0700 (PDT)
 Date: Sun, 10 Sep 2017 23:14:46 +1000
-Message-Id: <20170910131446.4555-3-nathan@nathanrossi.com>
+Message-Id: <20170910131446.4555-4-nathan@nathanrossi.com>
 In-Reply-To: <20170910131446.4555-0-nathan@nathanrossi.com>
 References: <20170910131446.4555-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 3/4] arachne-pnr: Add Arachne Place and route for iCE40 FPGAs
+Subject: [PATCH 4/4] icarus-verilog: Add Icarus Verilog recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,69 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Sep 2017 13:15:06 -0000
+X-List-Received-Date: Sun, 10 Sep 2017 13:15:11 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-Arachne Place and Route provides tools to complete the place and route
-step for iCE40 FPGAs. This allows for processing synthesised designs
-from Yosys, and generating netlist output which can be processed by
-IceStorm.
+Icarus Verilog is a multi-purpose tool for simulation and synthesis of
+Verilog. It is also useful for linting verilog and other tasks.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- .../arachne-pnr/arachne-pnr_git.bb                 | 44 ++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb
+ .../icarus-verilog/icarus-verilog_git.bb           | 33 ++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/icarus-verilog/icarus-verilog_git.bb
 
-diff --git a/meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb b/meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb
+diff --git a/meta/recipes-devtools/icarus-verilog/icarus-verilog_git.bb b/meta/recipes-devtools/icarus-verilog/icarus-verilog_git.bb
 new file mode 100644
-index 0000000000..2928a9d78b
+index 0000000000..d1e4cfdd33
 --- /dev/null
-+++ b/meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb
-@@ -0,0 +1,44 @@
-+DESCRIPTION = "Arachne Place and Route tool for iCE40 FPGAs"
-+HOMEPAGE = "https://github.com/cseed/arachne-pnr"
-+LICENSE = "MIT"
-+SECTION = "devel/fpga"
++++ b/meta/recipes-devtools/icarus-verilog/icarus-verilog_git.bb
+@@ -0,0 +1,33 @@
++DESCRIPTION = "Icarus Verilog is a Verilog simulaton and synthesis tool"
++HOMEPAGE = "http://iverilog.icarus.com/"
++LICENSE = "GPLv2"
++SECTION = "devel/verilog"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=3bb65c4bee625d497d43f50e6dacb4e2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 +
-+SRC_URI = "git://github.com/cseed/arachne-pnr;protocol=https"
-+SRCREV = "7e135edb31feacde85ec5b7e5c03fc9157080977"
-+
-+PV = "0+git${SRCPV}"
++SRC_URI = "git://github.com/steveicarus/iverilog.git;protocol=https"
++SRCREV = "ac87138c44cd6089046668c59a328b4d14c16ddc"
 +
 +S = "${WORKDIR}/git"
 +
-+# needs coreutils for 'sum'
-+# icestorm is needed for chipdb
-+# depends on itself for processing chipdb content
-+DEPENDS = "coreutils-native icestorm-native arachne-pnr-native"
++PV = "10.2+git${SRCPV}"
 +
-+# export the path for icestorm chipdb
-+export ICEBOX = "${STAGING_DIR_NATIVE}${datadir_native}/icebox"
++inherit autotools
 +
-+# set executable for use when processing chipdb
-+ARACHNEPNR_class-native = "${B}/bin/arachne-pnr"
-+ARACHNEPNR = "arachne-pnr"
++EXTRA_OEMAKE_append = ' HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}"'
 +
-+do_compile () {
-+	oe_runmake bin/arachne-pnr
++# issues with install races
++PARALLEL_MAKEINST = ""
 +
-+	# manually build the chipdb.bin files
-+	mkdir -p ${B}/share/arachne-pnr
-+	for i in 384 1k 8k; do
-+		${ARACHNEPNR} -d 384 -c ${ICEBOX}/chipdb-$i.txt --write-binary-chipdb ${B}/share/arachne-pnr/chipdb-$i.bin
-+	done
-+}
++# don't regen aclocal or autoheader
++EXTRA_AUTORECONF += "--exclude=aclocal --exclude=autoheader"
 +
-+do_install () {
-+	oe_runmake PREFIX="${prefix}" DESTDIR="${D}" install
-+}
++DEPENDS = " \
++	flex-native bison-native \
++	gperf-native \
++	readline ncurses \
++	"
 +
-+# populate the chipdb into the sysroot (not enabled by default on -native)
-+SYSROOT_DIRS_NATIVE_append = " ${datadir}/arachne-pnr"
++FILES_${PN} += "${libdir}/ivl"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
