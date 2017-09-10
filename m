@@ -1,52 +1,51 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D02CE77E97
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA3B77E91
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 13:15:01 +0000 (UTC)
-Received: by mail-pf0-f174.google.com with SMTP id y29so9748985pff.0
+	Sun, 10 Sep 2017 13:15:06 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id j16so344178pga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 06:15:03 -0700 (PDT)
+	Sun, 10 Sep 2017 06:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:mime-version:content-transfer-encoding;
-	bh=RdjaCLetI3VSMpToDFG/pvy+KkKXJyf1TNVkCPsOMKI=;
-	b=HmMhBUW/PskL+3fxafL0AkIDwJ7tiQaY8eqRwo7gl8EBOMixLmZfLLdS57D1zBr+0l
-	psi2Oc9UQtLh6v7GKmOH1nclV7FSR4smA6Rvqcvvs9g1vXEY7x5owZKi5rK67g+3xAlx
-	wOLrlNnVveKUGRaQPS+sG6HgpZAMsmphIGvmTYAXBmd8iQNjuMIXHmtduTP80a2Fw8QZ
-	bgkiv9bfAFyGMvb71Td1w2tQK1hSE8Y2wLDHGczaeVEp/obQ9JDCVKD4oDVEw3HgyKSI
-	607BqDSvzLGVGVaXKA5jkPKHr469xvUUu526MPNfYKGfp6/5/crgJzW/7ZOExEAQpqoY
-	jyLg==
+	bh=1YVVbDk+UNzguzvm0/6jp9sXD8LSLE+ZAaJPK0DPaHM=;
+	b=QW8GgwNXth56flgY1tjXDcM1KHSh4ylYvZfoK+5Eu+Lbp5xdzQXrjmlK29l1sAzPdI
+	eyeilWPDNfoUsJCfPaP5YsDX6RDIYYCg2a/XPx3WtGChwgL1RkpPyJtTiKa07ySIfnxZ
+	WQBvQFDED2LcY1QDw/456TN77gEw+L3SnnrACrQBpupNE5E/o6rJG3yZT7P7lSmvdZMr
+	4M7J6aFbNEBQNJ62SlHG+tifAvhcB4zMEDyPkpeIqgT0vMwtmO43fjBq/kHQrBmYoJ6l
+	+H9shuYjEk0HXmFhj8x9puYE5ygnYmM5/JUEvDPG4Wlwjq7WhAy4lLphBXiW1B6nB2A6
+	enqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:mime-version:content-transfer-encoding;
-	bh=RdjaCLetI3VSMpToDFG/pvy+KkKXJyf1TNVkCPsOMKI=;
-	b=ebcL1PiEGi7CG4U0OCit/acmWGWH3SPdUBdPzGNLTEUZiN9X/34G3ehvkdHy67RjFa
-	t2XXExGoRMRfQRqC9/Xe4+EPXCpDDKZq+y706r7odpFbKnP2AsWLCXrJIpff2Ifr2scF
-	edka0c7dbIlUIWnhHX94Fh117BgZQ//ouraUsNLEx8O7DaPpyxTmw+x1d5aDKv4tIWWU
-	QobbouVBO9o+OtFIMr0xUDBBW30B6B+eItEvIBruQAbKIP9F6EPaDMpT/AXRwNvvSmMQ
-	TkNWC7Dwdjl9ZtUE2Um7AZdz2uuZ2o3ChAMYa62gCispeBF4YSs64Kiy6zrbXhVMsy1B
-	hKZw==
-X-Gm-Message-State: AHPjjUhZPbeM1HI3gb18RDbO+nOBWiZnLEJyZ9iBEshPlCgwLqT5My5j
-	1afLLWwjRd+G0gNx58VXSw==
-X-Google-Smtp-Source: ADKCNb5btQTo2IRvdRnrxNRK4xOm0UaPtitZkLhDnX6xOapmLS9yz4axh1+e36Y1otdh/WkUqlcWMA==
-X-Received: by 10.84.229.79 with SMTP id d15mr9926116pln.397.1505049302940;
-	Sun, 10 Sep 2017 06:15:02 -0700 (PDT)
+	bh=1YVVbDk+UNzguzvm0/6jp9sXD8LSLE+ZAaJPK0DPaHM=;
+	b=ZNRggUgrT4qd710oN4RBfIZQadd+rPq+/TfwwEncGEDUuINWle66vN8Jt4d+GyJpXk
+	It1eqisYNAgpSQnRuyf9icCBgsABzAizHnA8y5VJYT9JGQWZS/cKm0Qc09Bl4YvOgvge
+	4M1n9fCcRUcO6e1hEz3E5ue6QMIUKlnMtxKTlKCseNRqpsfe42MHdFA8LH6d5IIFThkf
+	P9q6y99H4oU1RU+cDIDf8iZulVadf+0cVY5P8ITMgIMwbcdodRfxBwRn3/Hb9btDzW5c
+	GBo9zMzvm4kp2fE7cQNr+/bSCdDzXxQyiakKUxY6p5GdGr3Ct2l2VkEVgFFF1vyGjdIK
+	SkTw==
+X-Gm-Message-State: AHPjjUiByrXHh9RKF1RieDCLZAOB1RtTacXh5wtvhbg0Y6qR3G2WqIem
+	3FjXjPYrCRR+sSekaRHZnA==
+X-Google-Smtp-Source: ADKCNb6oaBH9cvnkGVbdp/kMOQJg9xJWzIECWFv3pCU7p+rAlX4IVkC5QxzXyvd96+NsnkK19Hw7fQ==
+X-Received: by 10.84.131.97 with SMTP id 88mr10215641pld.280.1505049307396;
+	Sun, 10 Sep 2017 06:15:07 -0700 (PDT)
 Received: from [127.0.1.1] (CPE-121-223-2-142.lnse2.cha.bigpond.net.au.
 	[121.223.2.142]) by smtp.gmail.com with ESMTPSA id
-	j10sm11488350pfj.116.2017.09.10.06.15.01
+	5sm11770686pfr.151.2017.09.10.06.15.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Sep 2017 06:15:02 -0700 (PDT)
+	Sun, 10 Sep 2017 06:15:06 -0700 (PDT)
 Date: Sun, 10 Sep 2017 23:14:46 +1000
-Message-Id: <20170910131446.4555-2-nathan@nathanrossi.com>
+Message-Id: <20170910131446.4555-3-nathan@nathanrossi.com>
 In-Reply-To: <20170910131446.4555-0-nathan@nathanrossi.com>
 References: <20170910131446.4555-0-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 2/4] icestorm: Add IceStorm tools for iCE40 FPGAs
+Subject: [PATCH 3/4] arachne-pnr: Add Arachne Place and route for iCE40 FPGAs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,76 +58,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Sep 2017 13:15:02 -0000
+X-List-Received-Date: Sun, 10 Sep 2017 13:15:06 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-IceStorm includes tools for packing iCE40 designs into bitstreams as
-well as the data used in place and route tooling. Also included in
-IceStorm is JTAG programming (which uses libftdi) and other helper tools
-to generate iCE40 HDL and verify timing constraints.
+Arachne Place and Route provides tools to complete the place and route
+step for iCE40 FPGAs. This allows for processing synthesised designs
+from Yosys, and generating netlist output which can be processed by
+IceStorm.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-devtools/icestorm/icestorm_git.bb | 51 ++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/icestorm/icestorm_git.bb
+ .../arachne-pnr/arachne-pnr_git.bb                 | 44 ++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb
 
-diff --git a/meta/recipes-devtools/icestorm/icestorm_git.bb b/meta/recipes-devtools/icestorm/icestorm_git.bb
+diff --git a/meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb b/meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb
 new file mode 100644
-index 0000000000..01d755212b
+index 0000000000..2928a9d78b
 --- /dev/null
-+++ b/meta/recipes-devtools/icestorm/icestorm_git.bb
-@@ -0,0 +1,51 @@
-+DESCRIPTION = "Project IceStorm aims at reverse engineering, documenting and tools for Lattice iCE40 FPGAs"
-+HOMEPAGE = "http://www.clifford.at/icestorm/"
-+LICENSE = "ISC"
++++ b/meta/recipes-devtools/arachne-pnr/arachne-pnr_git.bb
+@@ -0,0 +1,44 @@
++DESCRIPTION = "Arachne Place and Route tool for iCE40 FPGAs"
++HOMEPAGE = "https://github.com/cseed/arachne-pnr"
++LICENSE = "MIT"
 +SECTION = "devel/fpga"
 +
-+LIC_FILES_CHKSUM = "file://README;beginline=8;endline=18;md5=8104f3444ed967701dafaeab14d572b9"
++LIC_FILES_CHKSUM = "file://COPYING;md5=3bb65c4bee625d497d43f50e6dacb4e2"
 +
-+SRC_URI = "git://github.com/cliffordwolf/icestorm;protocol=https"
-+SRCREV = "69613a26d3e3a5c6f0836a773717b03360df85ce"
-+
-+S = "${WORKDIR}/git"
++SRC_URI = "git://github.com/cseed/arachne-pnr;protocol=https"
++SRCREV = "7e135edb31feacde85ec5b7e5c03fc9157080977"
 +
 +PV = "0+git${SRCPV}"
 +
-+inherit pkgconfig
++S = "${WORKDIR}/git"
 +
-+# diffutils (provided by hosttools)
-+DEPENDS = "gawk-native python3-native"
++# needs coreutils for 'sum'
++# icestorm is needed for chipdb
++# depends on itself for processing chipdb content
++DEPENDS = "coreutils-native icestorm-native arachne-pnr-native"
 +
-+PACKAGECONFIG = "icebox icetime"
-+PACKAGECONFIG[iceprog] = ",,libftdi"
-+PACKAGECONFIG[icetime] = ",,,python3"
-+PACKAGECONFIG[icebox] = ",,,python3"
++# export the path for icestorm chipdb
++export ICEBOX = "${STAGING_DIR_NATIVE}${datadir_native}/icebox"
 +
-+MAKE_SUBDIRS = "icepack icemulti icepll icebram ${PACKAGECONFIG}"
-+
-+do_configure () {
-+	# remove posioned directories
-+	sed -i 's/-I\S*//g' ${S}/config.mk
-+	sed -i 's/-L\S*//g' ${S}/iceprog/Makefile
-+}
++# set executable for use when processing chipdb
++ARACHNEPNR_class-native = "${B}/bin/arachne-pnr"
++ARACHNEPNR = "arachne-pnr"
 +
 +do_compile () {
-+	for i in ${MAKE_SUBDIRS}; do
-+		oe_runmake -C ${B}/$i PREFIX="${prefix}"
++	oe_runmake bin/arachne-pnr
++
++	# manually build the chipdb.bin files
++	mkdir -p ${B}/share/arachne-pnr
++	for i in 384 1k 8k; do
++		${ARACHNEPNR} -d 384 -c ${ICEBOX}/chipdb-$i.txt --write-binary-chipdb ${B}/share/arachne-pnr/chipdb-$i.bin
 +	done
 +}
 +
 +do_install () {
-+	for i in ${MAKE_SUBDIRS}; do
-+		oe_runmake -C ${B}/$i PREFIX="${prefix}" DESTDIR="${D}" install
-+	done
++	oe_runmake PREFIX="${prefix}" DESTDIR="${D}" install
 +}
 +
 +# populate the chipdb into the sysroot (not enabled by default on -native)
-+SYSROOT_DIRS_NATIVE_append = " ${datadir}/icebox"
-+
-+# package the icebox chipdb files
-+FILES_${PN} += "${datadir}/icebox"
++SYSROOT_DIRS_NATIVE_append = " ${datadir}/arachne-pnr"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
