@@ -1,44 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C1ED278416
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B2C9878422
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 18:30:00 +0000 (UTC)
-Received: by mail-qk0-f194.google.com with SMTP id i14so5911576qke.3
+	Mon, 11 Sep 2017 18:30:08 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id l25so3156111qtf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 11:30:02 -0700 (PDT)
+	Mon, 11 Sep 2017 11:30:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=28/GBOne2mySPA8QW0Pev9GTpsruG2nspyyW20zwBkI=;
-	b=L/9Tz0shI1OLHFWZHCktJPNVKJA7LBynWmWvSctVRoQW0F6sLcU7i10XtwkM5762Sy
-	F5AVlq8/SnEr8uJAyhWTdC/0U511Qy+F9LJUJIOxgJYiXhVSICT5kQkAS+sK3ngVJ/c7
-	q/qMVpoeskTbUrBNS8rgt3fk/3zs8IkfjH7eucMedyOd1X34CUmrB34TGg8kBv+5fxt1
-	gAPqNoorkwjFTWJrMc4Souq5RPdKof1yN5fmd1EyvA/GPPVWVN5tDkE3jdeOChZE1lED
-	DVKBIkkwTf67yqLmjWTBqJ3RhYuv7ukyxyJB2Xye8DXfekPquo2dVCRAsXTxPRPhn+DV
-	MCtw==
-X-Gm-Message-State: AHPjjUhsgEMe25vGnn8bOB4FmHaL14IZufD/OshVxHEzYufHg8ESBuZL
-	m/AsOIrAGOL99CNl
-X-Google-Smtp-Source: ADKCNb74DPbK9gioKl1zGD8gd/EYbTgQR6ABgA5HPseTpHiQ6aNq9UFjncox08H2lkEL4sNBMfbRDA==
-X-Received: by 10.55.5.21 with SMTP id 21mr15522645qkf.184.1505154601544;
-	Mon, 11 Sep 2017 11:30:01 -0700 (PDT)
+	bh=u/gqmf6C7hymJJoRr67Fed1ZQkUpaMQ7cCVgz6bdMGk=;
+	b=javMcr8vZz5i6QyF4jzmQTpzsTOplkdOPf3qQa6WZezasEkUeL5HS8lfzRonpp0zr/
+	Ulvxd7oQ2MscaoUJ6d7S4XxCKhO7KdVmdU1ELvhjbeEPZY8s1ICkwPjGQpcxXpb37Xu8
+	WCQ87T3UXXd3El7R1hmfhp4MT056jnDV6wRWWko/T+Ccz6Yb5//9pn0T7jHE2RJYEE1x
+	uldmVrgHEFIOSk9dttkTG7wku50Fj6C4h/+MoRef9IRyMpzVui8JuCoGlKOk8+rmqPlV
+	TgK3eWEd6fCnswd4/rFXhlqCzrkjecPuEio2lWnLA+x50CXlkcWzS1EwVQhsSMiVArp8
+	gneA==
+X-Gm-Message-State: AHPjjUgtYsBUj0dV7sdp2h2eL8lk5ZH4EwmORNGo2my4w93Mm/RfZDVx
+	NpGJ1r9HuzIg66Xc
+X-Google-Smtp-Source: AOwi7QDPfBHwsFlAxlYhtzV8jifKId2UBBAK8Sp4CsCc/uLtVWElbeYAwuc+eHHNXlIrqSM1B48hng==
+X-Received: by 10.200.34.167 with SMTP id f36mr7383284qta.173.1505154609385;
+	Mon, 11 Sep 2017 11:30:09 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id x49sm6663027qth.7.2017.09.11.11.29.57
+	by smtp.gmail.com with ESMTPSA id
+	u133sm6364536qka.92.2017.09.11.11.30.05
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 11 Sep 2017 11:30:00 -0700 (PDT)
+	Mon, 11 Sep 2017 11:30:08 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 11 Sep 2017 15:29:54 -0300
+	Mon, 11 Sep 2017 15:30:02 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 15:28:48 -0300
-Message-Id: <20170911182853.11076-8-otavio@ossystems.com.br>
+Date: Mon, 11 Sep 2017 15:28:49 -0300
+Message-Id: <20170911182853.11076-9-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170911182853.11076-1-otavio@ossystems.com.br>
 References: <20170911182853.11076-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v7 07/12] go: rename go.inc -> go-target.inc
+Subject: [PATCH v7 08/12] go-cross: take GOARM environment setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,12 +52,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 18:30:01 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 18:30:09 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-to make it clearer that it is only used for building
-the toolchain for the target.
+Instead of hard-coding GOARM to ${TARGET_GOARM} in
+the wrapper script, take it from an existing
+environment setting if present.  This allows the
+same cross-compiler to be used for different ARM
+targets.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
@@ -66,25 +70,22 @@ Changes in v7: None
 Changes in v6:
 - new patch
 
- meta/recipes-devtools/go/{go.inc => go-target.inc} | 0
- meta/recipes-devtools/go/go_1.8.bb                 | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/go/{go.inc => go-target.inc} (100%)
+ meta/recipes-devtools/go/go-cross.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go.inc b/meta/recipes-devtools/go/go-target.inc
-similarity index 100%
-rename from meta/recipes-devtools/go/go.inc
-rename to meta/recipes-devtools/go/go-target.inc
-diff --git a/meta/recipes-devtools/go/go_1.8.bb b/meta/recipes-devtools/go/go_1.8.bb
-index ef8bc14383..08ab793f86 100644
---- a/meta/recipes-devtools/go/go_1.8.bb
-+++ b/meta/recipes-devtools/go/go_1.8.bb
-@@ -1,4 +1,4 @@
- require go-${PV}.inc
--require go.inc
-+require go-target.inc
- TUNE_CCARGS_remove = "-march=mips32r2"
- SECURITY_PIE_CFLAGS_remove = "-fPIE -pie"
+diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
+index df3e4ea914..d18d9613ff 100644
+--- a/meta/recipes-devtools/go/go-cross.inc
++++ b/meta/recipes-devtools/go/go-cross.inc
+@@ -36,7 +36,7 @@ make_wrapper() {
+ here=\`dirname \$0\`
+ export GOARCH="${TARGET_GOARCH}"
+ export GOOS="${TARGET_GOOS}"
+-export GOARM="${TARGET_GOARM}"
++export GOARM="\${GOARM:-${TARGET_GOARM}}"
+ \$here/../../lib/${CROSS_TARGET_SYS_DIR}/go/bin/$1 "\$@"
+ END
+     chmod +x ${D}${bindir}/$2
 -- 
 2.14.1
 
