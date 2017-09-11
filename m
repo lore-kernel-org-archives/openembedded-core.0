@@ -1,45 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F3E77821C
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A107B7822D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 12:47:13 +0000 (UTC)
-Received: by mail-qt0-f193.google.com with SMTP id q8so5487987qtb.1
+	Mon, 11 Sep 2017 12:47:19 +0000 (UTC)
+Received: by mail-qk0-f196.google.com with SMTP id g128so5350044qke.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 05:47:15 -0700 (PDT)
+	Mon, 11 Sep 2017 05:47:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=e2UuXbMkBZTpUGF5zQ4eao0GHr4XGgx6w8Ob9FI4jJk=;
-	b=f2V7CR6oFx9twtP3IFltN/bPgSQ5T7c5WBffjB7DPiZfR1EVrlBRgAOuCma7k1pFPR
-	50VuA0UDgAT5IuDWjmdMf9n5tQF518Mf0qCfKLNcqIMYfMDW8lY1Q+kmPOjAfGmfn+uz
-	kfAeZnXZ2Clv7rAAUoQ7sLHc6+HR13AF1c/w53RWRZ8qJ/ZwuDDVFeAJybt5vyf4LReI
-	qYsV0dw6yv8kEv3RMWcKAVoS6CJZAf3AstzYZ2L3vbKPMxgJgLXfRut/QTJTHzyN2vee
-	HRuVlk3Vsq3YE4Lqrthy2Dqsnh3uBdh9k5+4z9+iybtcaH1CR9Lmbj+YK+oVKuk35eLR
-	F5gw==
-X-Gm-Message-State: AHPjjUiQB5wGH+8SqzGK8yc607B/kAX0Csxqz5M44Lkud3iAcDhiEYmm
-	5DlyJtlF7IuSg939
-X-Google-Smtp-Source: AOwi7QC/JWqor1CkUK3+hpxZciGADrTpMu8YT7FtFT6LVC7t2irW6KS53coB9V9BXH1ezdjjYaQU/g==
-X-Received: by 10.237.36.165 with SMTP id t34mr16393657qtc.65.1505134034808;
-	Mon, 11 Sep 2017 05:47:14 -0700 (PDT)
+	bh=onpX8H/6c/ldAUljPUuBEQ1UEPIC5Eiap4E1LfNc8Ho=;
+	b=nqTSdFiPekiLfpJsxJTsTfOiTAnxO5ARzHei1zPzClo8Iz6xERljOANvwLgZ4iZpWN
+	49gvHHSS4ti6uDzuitZpcmZKu/8MNtDJoNUrIyfpVAHZ4vlGGFczf/292lICvSL3Ajzh
+	5ScjxnvgLB3WGyq3TB785EcjMrcFm/kySPCmAZJZYc6tmsJo66VvYVMXyv/dIRQpes6H
+	AxOSB+GBTHor9eXJydt2sDophnyfW0BQlylEy/saQ/GBg51aJ3jyvIU5Zzm4Dd8dPX7Q
+	iP3M6a9men8DmrCDSz0yDnCUWlOUp2+V9uElxZZc2/X/t6rf43q8dBOkvRnIu+3Jf4O1
+	wUXg==
+X-Gm-Message-State: AHPjjUhvcUS9/ELtpLcYg9jxRwu/LvVFmYCJNaIvxjZBK+dgU8OHY3XH
+	LB5k0oQ0lApWHpz8
+X-Google-Smtp-Source: AOwi7QDQ2uqIkqfiUlyXHFIS5hbqqyj+UAB6Mm1Y4VBVqudAqhxAef+HYNUpOhISATK3+cKJmZ6pDg==
+X-Received: by 10.55.1.202 with SMTP id u71mr14567653qkg.80.1505134040660;
+	Mon, 11 Sep 2017 05:47:20 -0700 (PDT)
 Received: from localhost.localdomain ([189.114.111.135])
 	by smtp.gmail.com with ESMTPSA id
-	e39sm6191923qtb.67.2017.09.11.05.47.11
+	a125sm5987735qkg.13.2017.09.11.05.47.17
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 11 Sep 2017 05:47:14 -0700 (PDT)
+	Mon, 11 Sep 2017 05:47:19 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 11 Sep 2017 09:47:09 -0300
+	Mon, 11 Sep 2017 09:47:15 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 09:45:43 -0300
-Message-Id: <20170911124558.2863-12-otavio@ossystems.com.br>
+Date: Mon, 11 Sep 2017 09:45:44 -0300
+Message-Id: <20170911124558.2863-13-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170911124558.2863-1-otavio@ossystems.com.br>
 References: <20170911124558.2863-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v5 11/26] go.bbclass: add do_unpack function to handle common cases
+Subject: [PATCH v5 12/26] go.bbclass: add GO_INSTALL_FILTEROUT variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,75 +52,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 12:47:13 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 12:47:19 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-Go source trees have a particular structure, with all
-sources located under ${GOROOT}/src/<import-path>.
-The fetcher step implemented by the 'go get' command
-automatically follows this structure, so we need
-to do the same here.
+When using the Go 'vendor' mechanism to bring in
+dependencies for a Go package, the default GO_INSTALL
+setting, which uses the '...' wildcard, will include
+the vendored packages in the build, which produces
+incorrect results.
 
-Since most Go packages are hosted in git repositories,
-this adds a custom do_unpack() function that sets
-the destsuffix to match the expected directory structure,
-for any git SRC_URIs that haven't had a destsuffix
-explicitly set in the recipe.
+There are also some Go packages that are structured
+poorly, so that the '...' wildcard results in building
+example or test code that should not be included in
+the build, or fail to build.
 
-This simplifies recipe writing for the most common
-cases.
+This patch adds a mechanism for filtering out a
+subset of the sources.  It defaults to filtering
+out everything under the 'vendor' subdirectory
+under package's main directory, which is the
+normal location for vendored packages, but can
+be overridden by a recipe to filter out other
+subdirectories, if needed.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
 Changes in v6: None
-Changes in v5: None
-Changes in v4: None
-Changes in v3:
+Changes in v5:
 - new patch
 
+Changes in v4: None
+Changes in v3: None
 Changes in v2: None
 
- meta/classes/go.bbclass | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ meta/classes/go.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index cfe773e13d..c1ef01fafe 100644
+index c1ef01fafe..cb1e96d88b 100644
 --- a/meta/classes/go.bbclass
 +++ b/meta/classes/go.bbclass
-@@ -55,6 +55,24 @@ GO_INSTALL ?= "${GO_IMPORT}/..."
+@@ -52,6 +52,7 @@ FILES_${PN}-staticdev += "${GOSRC_FINAL}/${GO_IMPORT}"
+ FILES_${PN}-staticdev += "${GOPKG_FINAL}/${GO_IMPORT}*"
+ 
+ GO_INSTALL ?= "${GO_IMPORT}/..."
++GO_INSTALL_FILTEROUT ?= "${GO_IMPORT}/vendor/"
  
  B = "${WORKDIR}/build"
  
-+python go_do_unpack() {
-+    src_uri = (d.getVar('SRC_URI') or "").split()
-+    if len(src_uri) == 0:
-+        return
-+
-+    try:
-+        fetcher = bb.fetch2.Fetch(src_uri, d)
-+        for url in fetcher.urls:
-+            if fetcher.ud[url].type == 'git':
-+                if fetcher.ud[url].parm.get('destsuffix') is None:
-+                    s_dirname = os.path.basename(d.getVar('S'))
-+                    fetcher.ud[url].parm['destsuffix'] = os.path.join(s_dirname, 'src',
-+                                                                      d.getVar('GO_IMPORT')) + '/'
-+        fetcher.unpack(d.getVar('WORKDIR'))
-+    except bb.fetch2.BBFetchException as e:
-+        raise bb.build.FuncFailed(e)
+@@ -73,6 +74,11 @@ python go_do_unpack() {
+         raise bb.build.FuncFailed(e)
+ }
+ 
++go_list_packages() {
++	GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go list -f '{{.ImportPath}}' ${GOBUILDFLAGS} ${GO_INSTALL} | \
++		egrep -v '${GO_INSTALL_FILTEROUT}'
 +}
 +
  go_do_configure() {
  	ln -snf ${S}/src ${B}/
  }
-@@ -79,4 +97,4 @@ go_do_install() {
+@@ -80,7 +86,7 @@ go_do_configure() {
+ go_do_compile() {
+ 	GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go env
+ 	if [ -n "${GO_INSTALL}" ]; then
+-		GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} ${GO_INSTALL}
++		GOPATH=${B}:${STAGING_LIBDIR}/${TARGET_SYS}/go go install ${GOBUILDFLAGS} `go_list_packages`
  	fi
  }
- 
--EXPORT_FUNCTIONS do_configure do_compile do_install
-+EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
+ do_compile[cleandirs] = "${B}/bin ${B}/pkg"
 -- 
 2.14.1
 
