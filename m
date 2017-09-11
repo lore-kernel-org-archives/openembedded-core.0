@@ -1,47 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A251B60616
+Return-Path: <prvs=42006fa7b=Martin.Hundeboll@prevas.dk>
+Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
+	by mail.openembedded.org (Postfix) with ESMTP id F1F3677E68
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 12:01:18 +0000 (UTC)
-Received: by mail-wm0-f41.google.com with SMTP id i189so37788275wmf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 05:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=ikKycz9TP8uMw5xUKZQQ+8yVsuBMazEV589dT60ZbKI=;
-	b=OyY1PH7jZb6VbRo1MBP2I8cWu5JOpjGiQRKGTT3ZbULMb0fytWSblMMYvgaWRLLAb4
-	4TN0/vt5iJu4dDyfyIe0bvvH/l+d4chlUorpo8kEabJY1auVxRixwZbjPLv/7nwZR8FO
-	r5ocgPOr/Fq/NmURPyyVIJZ//pdW17DK/Y16s2mrfPyXigPlKWZ33PnVsi7AeCdeXgJE
-	iYixtH5n6cYWvFvhA8mNojOOalOFnkEp9ZTuYc6ptDTQwvBy1i8NUwjDXy7o4e4AmRXv
-	nsESTGKTQyswCXoUgpLGj+FGJy98p2+GnKPfbRFMENyO2j21IOI94fLGO61cG9oJEOLY
-	yu8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ikKycz9TP8uMw5xUKZQQ+8yVsuBMazEV589dT60ZbKI=;
-	b=I71Av6kpBKlJaXlS/ko7GXepfMbeBqXYWpYAOxIR7G+nGwt5Z58r2OzN6tMCbgZrxH
-	8ZXSVPYFkMjD1VUkWQG0wFOSRX1CjxpbEv/iPVsHjV0EviYMplxqt35r1SYgH/XihLa/
-	xTaEmOiDGZUrkuUTzSQ56fmRAl4pVLKdTcXp2sbqqlcs/kOh5Sfy58m5qUIXQiQgeF5+
-	XvKXZcatjhwKOwgsPGwOV6ke4OUaClQ18d2VSdCUyn4YQ0Z2XA7w6ujCqxvv6MINBh3w
-	ffc7LpViMNCVmCUMlOkJTGnYVA53MfSuM1tAgQQWRJYVr1mIS1Tb21J0Rd7Z8NEAG3nc
-	bLhQ==
-X-Gm-Message-State: AHPjjUh8Fg47QNWhb7HgjK0eQigvC/efLyQP/pPqPLlJk9kfbz+coBto
-	v95VezKQKqIYKAsEGTM=
-X-Google-Smtp-Source: AOwi7QAHVi2bmY1HUzTh8Dl70N32tzY1pRg5l7fEtab0cU0ZriU5uLo0nTU0F7f+cBAPAGdHUNybpA==
-X-Received: by 10.28.135.5 with SMTP id j5mr1110651wmd.21.1505131278815;
-	Mon, 11 Sep 2017 05:01:18 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	109sm7119866wrc.25.2017.09.11.05.01.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Sep 2017 05:01:17 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Sep 2017 13:01:14 +0100
-Message-Id: <20170911120114.9490-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH][V2] staging: gracefully abort if two recipes conflict in the sysroot
+	Mon, 11 Sep 2017 12:20:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=1348; q=dns/txt;
+	s=ironport1; t=1505132411; x=1536668411;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=Paz5t4J5XfftFWAnz62hAeor7MAg7QLS6G7jiE0EHCI=;
+	b=O7FSe2pc5QrvdcqcC5OjiTVGbf2NsI8st6JfTlFq5ztZoW80gjDTK333
+	VC8Ty72CBHqNc5frgvreQA/vbV6F3HMW2sq89DkC31uS5E9Fbufm0oVI+
+	oVA2uh4KpK+eGt0Ou3tNZ0hWLqa3Fw4fpFCXEeq2PvrfqfaDqKVrSx1rv w=;
+X-IronPort-AV: E=Sophos;i="5.42,377,1500933600"; 
+   d="scan'208";a="2584752"
+Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
+	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	11 Sep 2017 14:20:07 +0200
+Received: from [172.16.11.54] (172.16.8.31) by smtp.prevas.se (172.16.8.103)
+	with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 11 Sep 2017 14:20:06 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Paul Barker
+	<pbarker@toganlabs.com>
+References: <20170821083946.4493-1-mnhu@prevas.dk>
+	<20170821092134.6329-1-mnhu@prevas.dk>
+	<CAPyrkgyuQegVc-d694EQgXMuEdBZY4LbjQ4aObCUV1yh=jznjg@mail.gmail.com>
+	<20170908203726.GG26405@denix.org>
+	<75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
+	<CAPyrkgyzzfR7jmeyJURRyPra4Jd2CPKWMiJbEPR3a8W=h+4W+A@mail.gmail.com>
+	<aa0e9f4b-bc55-8f25-ab72-efdeca0f7c17@prevas.dk>
+	<1505122013.18640.1.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
+Message-ID: <a52ee58f-6ede-006d-750a-38b5d5f59b8a@prevas.dk>
+Date: Mon, 11 Sep 2017 14:19:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <1505122013.18640.1.camel@linuxfoundation.org>
+X-Originating-IP: [172.16.8.31]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kernel-module-split: rrecommend kernel-image instead of rdepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,64 +52,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 12:01:18 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 12:20:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-When building the per-recipe sysroot keep track of what files we're installing
-and where they came from, so we can detect when a file is installed by two
-different recipes and tell the user what these recipes are (instead of just
-showing a os.link() stack trace).
 
-[ YOCTO #11631 ]
 
-(From OE-Core rev: 606a8e0ca218f023e362c3678122d36d537f95de)
+On 2017-09-11 11:26, Richard Purdie wrote:
+> On Mon, 2017-09-11 at 09:02 +0200, Martin Hundebøll wrote:
+>>
+>> On 2017-09-08 23:29, Paul Barker wrote:
+>>>
+>>> On Fri, Sep 8, 2017 at 10:07 PM, Martin Hundebøll
+>>> <martin.hundeboll@prevas.dk> wrote:
+>>>>
+>>>>   
+>>> No, you'd need it to be set in a conf file so it takes effect when
+>>> the
+>>> kernel-base package is created.
+>>>
+>>> I can see the issue here though. Can you set `RDEPENDS_kernel-base
+>>> =
+>>> ""` globally and explicitly install kernel-image into the
+>>> appropriate
+>>> image? If not then yes we'll need to find an alternative solution
+>>> to
+>>> simply reverting the change.
+>>>
+>> Seems like the inverted approach of disabling install of kernel-
+>> image
+>> globally, and enabling it per-image works just fine.
+>>
+>> Reverting the patch is fine by me - sorry for the noise.
+> 
+> Are you sure? I can't imagine being able to influence this at all from
+> an image recipe, either the dependency is present or its not and it
+> would be set from the global configuration, not from an image recipe...
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/staging.bbclass | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+Pretty sure, yes.
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index a7740883932..6185aefecda 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -388,6 +388,8 @@ python extend_recipe_sysroot() {
-     postinsts = []
-     multilibs = {}
-     manifests = {}
-+    # All files that we're going to be installing, to find conflicts.
-+    fileset = {}
- 
-     for f in os.listdir(depdir):
-         if not f.endswith(".complete"):
-@@ -514,8 +516,19 @@ python extend_recipe_sysroot() {
-                     if l.endswith("/fixmepath.cmd"):
-                         continue
-                     dest = l.replace(stagingdir, "")
--                    dest = targetdir + "/" + "/".join(dest.split("/")[3:])
--                    newmanifest[l] = dest
-+                    dest = "/" + "/".join(dest.split("/")[3:])
-+                    newmanifest[l] = targetdir + dest
-+
-+                    # Check if files have already been installed by another
-+                    # recipe and abort if they have, explaining what recipes are
-+                    # conflicting.
-+                    hashname = targetdir + dest
-+                    if not hashname.endswith("/"):
-+                        if hashname in fileset:
-+                            bb.fatal("The file %s is installed by both %s and %s, aborting" % (dest, c, fileset[hashname]))
-+                        else:
-+                            fileset[hashname] = c
-+
-             # Having multiple identical manifests in each sysroot eats diskspace so
-             # create a shared pool of them and hardlink if we can.
-             # We create the manifest in advance so that if something fails during installation,
-@@ -594,4 +607,3 @@ python staging_taskhandler() {
- }
- staging_taskhandler[eventmask] = "bb.event.RecipeTaskPreProcess"
- addhandler staging_taskhandler
--
--- 
-2.11.0
+conf/distro/basic.conf:
+RDEPENDS_kernel-base = ""
 
+recipes-filesystems/rootfs.bb:
+IMAGE_INSTALL += "kernel-image kernel-module-foo"
+
+recipes-filesystems/rescuefs.bb:
+IMAGE_INSTALL += "kernel-module-foo"
+
+// Martin
 
