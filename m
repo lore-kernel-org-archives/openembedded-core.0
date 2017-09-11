@@ -1,32 +1,24 @@
-Return-Path: <prvs=42006fa7b=Martin.Hundeboll@prevas.dk>
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id D655960797
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3432C71E4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 07:23:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=2250; q=dns/txt;
-	s=ironport2; t=1505114633; x=1536650633;
-	h=from:to:cc:subject:date:message-id:mime-version;
-	bh=zI0hxOP5syOs7En2G+IL8CZUzXj9X/3TKNBLtQpahOM=;
-	b=UmzLsON2eGY4NuRsbyKnfzqcEgUra3HiEZ6WgH9q7lbsXPgRRur+aWx/
-	1rG0H3QNYG74LSbFbIXohU0rRuzhRPm4w91x4dpmV0Mjck74P7PEWZAR/
-	AwV4lj9HlZrrupodFbVUVgkR927Bd+bDCxl1SasZwE7b/KjrAuoYpXMDS o=;
-X-IronPort-AV: E=Sophos;i="5.42,376,1500933600"; 
-   d="scan'208";a="2468106"
-Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
-	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	11 Sep 2017 09:23:51 +0200
-Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
-	with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Mon, 11 Sep 2017 09:23:50 +0200
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+	Mon, 11 Sep 2017 07:29:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8B7U0RP016823
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Sep 2017 00:30:00 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 11 Sep 2017 00:29:59 -0700
+From: Dengke Du <dengke.du@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 09:23:28 +0200
-Message-ID: <20170911072328.8449-1-mnhu@prevas.dk>
-X-Mailer: git-send-email 2.14.1
+Date: Mon, 11 Sep 2017 03:29:57 -0400
+Message-ID: <cover.1505114394.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Subject: [PATCH] Revert "kernel-module-split: rrecommend kernel-image instead of rdepend"
+Subject: [PATCH 0/1] ovmf: fix do_compile error when len(tmp)=410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 07:23:51 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 07:29:59 -0000
 Content-Type: text/plain
 
-This reverts commit e0ed52c51464855e9a6a37ea49df7efde7e91076.
+The following changes since commit 8b4f16a9cbbaf521461f699b7264fac2ac872581:
 
-Commit e0ed52c514 ('kernel-module-split: rrecommend kernel-image instead
-of rdepend') changed kernel modules to rrecommend kernel-image instead
-of rdepend on kernel. This broke existing setups, where the kernel is
-omitted by setting RDEPEND_kernel-base = "".
+  mesa-gl: Fix build after recent mesa PACKAGECONFIG changes (2017-09-05 15:01:02 +0100)
 
-Revert the patch, as the existing way of omitting kernel-image in images
-works just fine.
----
- meta/classes/kernel-module-split.bbclass | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 78843c5474..1035525dac 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -120,11 +120,6 @@ python split_kernel_module_packages () {
-                 rdepends[dep] = []
-         d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commasep=False))
- 
--        # let kernel modules runtime recommend kernel image
--        rrecommends = bb.utils.explode_dep_versions2(d.getVar('RRECOMMENDS_' + pkg) or "")
--        rrecommends['kernel-image'] = []
--        d.setVar('RRECOMMENDS_' + pkg, bb.utils.join_deps(rrecommends, commasep=False))
--
-         # Avoid automatic -dev recommendations for modules ending with -dev.
-         d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
- 
-@@ -143,7 +138,7 @@ python split_kernel_module_packages () {
-     postinst = d.getVar('pkg_postinst_modules')
-     postrm = d.getVar('pkg_postrm_modules')
- 
--    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='')
-+    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
-     if modules:
-         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
-         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
+  https://github.com/DengkeDu/openembedded-core.git dengke/fix-ovmf-do-compile-error-when-enable-long-file-path
+  https://github.com//tree/dengke/fix-ovmf-do-compile-error-when-enable-long-file-path
+
+Dengke Du (1):
+  ovmf: fix do_compile error when len(tmp)=410
+
+ .../ovmf/0004-ovmf-enable-long-path-file.patch     | 28 ++++++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb                 |  3 ++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
+
 -- 
-2.14.1
+2.8.1
 
 
