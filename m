@@ -1,46 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DD13719F7
+Return-Path: <prvs=42006fa7b=Martin.Hundeboll@prevas.dk>
+Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E54977DB6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 05:43:38 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id g65so4261760pfe.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 22:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=NzkWaqQqOlAY6j9dZ0QSi7vG6hk25K3CzcYiO7aiLIQ=;
-	b=WcL3oeI5o8tK4yTKc8zchzSZXhcTLJBGtx3D8gfLTmOnN3wVxZOFPfY5Zn/u1i/uly
-	X/yIXN5fdl8HF7fWl2FL9zTkk/0dBKXjJgUUak6k2HRXuuOqRXQcktHJ+aMBQQ+A91Yw
-	7vkDznV5h5wgSnl6jsiAtTlfAmtQ4K8E262RlcGefw6S5UXDf3He8ss4EGbzq13v6/x9
-	oVmRJnO4gSXwTAuv6fk9uhfwO3Cjmr1y9jJY07jaydn4taCRyizRUblBx6SzVvJTUph7
-	eYV0JXr9btAq5wgkdVTMUqVLK/0+SO8U0OTcN/erwJGg1TE4C/2lSaowuzOYRHqTbagh
-	Q59w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=NzkWaqQqOlAY6j9dZ0QSi7vG6hk25K3CzcYiO7aiLIQ=;
-	b=lFS8Vli1+aO8kU/VAIkriPSrrHd1UPGCNca4uYijeJamDG9oArN1jheaEUBAUFKRam
-	BavzIli4z0YqVblWULKf5Ymh0YBioRm7cHPe+54sdfA9sWmeTmNQlvsE17QuM2W51yZP
-	k4CyEY1by6v1AZM+9xkCiRdrQdELKQRWiPtwEJNbxo3KCNCOEGeYj7/XkrAKzaoDy+uD
-	1aRMo6MfbJVLeSuvAIJ47aSQgfkH1N1KzVo0uW0DmnP1AAN2AYS2FVfkIHUrBot/a4ui
-	81tpXevxlxV+bXajZb+DeADyEB/zfeuEd34Jo5sQ8+5EyJLNol5h+WYAXu7MIapB0OI7
-	2igg==
-X-Gm-Message-State: AHPjjUhXO04EyuGqODivkmaRL4azL3ktOXFWT6N3UeflYHpVlzyaKUql
-	t5gDxWLKVfSZzHQo
-X-Google-Smtp-Source: ADKCNb76APnsKfbTiw3YM5xQ1Kfs6aMZAerX7yQhWTpl9JI5Als/WQUq4JzlKnUspA46yAIe0xUBYw==
-X-Received: by 10.99.186.89 with SMTP id l25mr10786083pgu.212.1505108620029;
-	Sun, 10 Sep 2017 22:43:40 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::989f])
-	by smtp.gmail.com with ESMTPSA id g5sm8957799pfe.94.2017.09.10.22.43.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Sep 2017 22:43:39 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Sep 2017 22:43:31 -0700
-Message-Id: <20170911054331.15383-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] musl: Upgrade to latest master
+	Mon, 11 Sep 2017 07:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=2301; q=dns/txt;
+	s=ironport2; t=1505113366; x=1536649366;
+	h=subject:to:cc:references:from:message-id:date:
+	mime-version:in-reply-to:content-transfer-encoding;
+	bh=iKo7X3Fzgbthls1NTsl1YVFac6Ga3o86ziO9g6p87ew=;
+	b=dgQjnQ2iEPS90aOFIT+qP5zgZh9votpiUK7v/NwjShY/7zTjUF5D83Yv
+	XcTN7iYtPH9VnV61Uu95eRBA4TpMd12mtWxjOJzCxAgVf2WIUfZTiFGgg
+	KreCAKWY2JJonUv9Zd36K95p9/RaFap2qzhfhpGen1WovMZyObh1s1qtx c=;
+X-IronPort-AV: E=Sophos;i="5.42,376,1500933600"; 
+   d="scan'208";a="2467983"
+Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
+	by ironport2.prevas.se with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	11 Sep 2017 09:02:42 +0200
+Received: from [172.16.11.54] (172.16.8.31) by smtp.prevas.se (172.16.8.103)
+	with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 11 Sep 2017 09:02:42 +0200
+To: Paul Barker <pbarker@toganlabs.com>
+References: <20170821083946.4493-1-mnhu@prevas.dk>
+	<20170821092134.6329-1-mnhu@prevas.dk>
+	<CAPyrkgyuQegVc-d694EQgXMuEdBZY4LbjQ4aObCUV1yh=jznjg@mail.gmail.com>
+	<20170908203726.GG26405@denix.org>
+	<75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
+	<CAPyrkgyzzfR7jmeyJURRyPra4Jd2CPKWMiJbEPR3a8W=h+4W+A@mail.gmail.com>
+From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
+Message-ID: <aa0e9f4b-bc55-8f25-ab72-efdeca0f7c17@prevas.dk>
+Date: Mon, 11 Sep 2017 09:02:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAPyrkgyzzfR7jmeyJURRyPra4Jd2CPKWMiJbEPR3a8W=h+4W+A@mail.gmail.com>
+X-Originating-IP: [172.16.8.31]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] kernel-module-split: rrecommend kernel-image instead of rdepend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,49 +49,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 05:43:39 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 07:02:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Alexander Monakov (3):
-      overhaul environment functions
-      free allocations in clearenv
-      fix OOB reads in Xbyte_memmem
 
-Bartosz Brachaczek (1):
-      handle whitespace before %% in scanf
 
-Rich Felker (6):
-      fix erroneous stop before input limit in mbsnrtowcs and wcsnrtombs
-      fix erroneous acceptance of f4 9x xx xx code sequences by utf-8 decoder
-      fix signal masking race in pthread_create with priority attributes
-      don't treat numeric port strings as servent records in getservby*()
-      fix glob descent into . and .. with GLOB_PERIOD
-      work around incorrect EPERM from mmap syscall
+On 2017-09-08 23:29, Paul Barker wrote:
+> On Fri, Sep 8, 2017 at 10:07 PM, Martin Hundebøll
+> <martin.hundeboll@prevas.dk> wrote:
+>>
+>>
+>> On September 8, 2017 10:37:26 PM GMT+02:00, Denys Dmytriyenko <denis@denix.org> wrote:
+>>> On Fri, Sep 08, 2017 at 09:06:17PM +0100, Paul Barker wrote:
+>>>>
+>>>> This breaks the method described in the kernel dev FAQ to omit the
+>>>> kernel image from the rootfs which is to set the following in a conf
+>>>> file:
+>>>>
+>>>>      RDEPENDS_kernel-base = ""
+>>>>
+>>>> See
+>>> http://www.yoctoproject.org/docs/2.3.1/kernel-dev/kernel-dev.html#idm45690538384880.
+>>>>
+>>>> By recommending kernel-image directly instead of recommending the
+>>>> top-level kernel-<version> package which was actually removed from
+>>>> extra_depends, we skip the inclusion of the kernel-base package. I'm
+>>>> not familiar enough with the details of kernel module loading to know
+>>>> if the 2 files in kernel-base (modules.builtin and modules.order) are
+>>>> strictly needed but I think they should at least be included in via
+>>>> recommendation.
+>>>>
+>>>> As we already have a documented way to omit the kernel image, can we
+>>>> revert this?
+>>>>
+>>>> As an alternative I can send in a patch which changes the recommend
+>>> to
+>>>> the top-level kernel-<version> package instead of kernel-image.
+>>>
+>>> FWIW, this was discussed at #yocto on IRC today. When I first saw the
+>>> change
+>>> several days ago, I was puzzled as well...
+>>> The existing method has been in use by many of us for a very long time
+>>> and
+>>> seems to be well documented - I also vote for reverting the change.
+>>
+>> Does setting `RDEPENDS_kernel-base = ""` in an image recipe work too?
+>>
+> 
+> No, you'd need it to be set in a conf file so it takes effect when the
+> kernel-base package is created.
+> 
+> I can see the issue here though. Can you set `RDEPENDS_kernel-base =
+> ""` globally and explicitly install kernel-image into the appropriate
+> image? If not then yes we'll need to find an alternative solution to
+> simply reverting the change.
+> 
 
-Szabolcs Nagy (4):
-      s390x: add bits/hwcap.h
-      add a_clz_64 helper function
-      arm: add HWCAP_ARM_ hwcap macros
-      make syscall.h consistent with linux
+Seems like the inverted approach of disabling install of kernel-image 
+globally, and enabling it per-image works just fine.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reverting the patch is fine by me - sorry for the noise.
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 88769f4e0b..8b6a2e3454 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,7 +3,7 @@
- 
- require musl.inc
- 
--SRCREV = "5f7efb87a28a311ad377dd26adf53715dedb096d"
-+SRCREV = "da438ee1fc516c41ba1790cef7be551a9e244397"
- 
- PV = "1.1.16+git${SRCPV}"
- 
--- 
-2.14.1
-
+// Martin
 
