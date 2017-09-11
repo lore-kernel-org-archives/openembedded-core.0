@@ -1,58 +1,43 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id AB9A4783FC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AF1577E96
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 20:00:22 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8BK0NHx015823
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 22:00:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1505160023;
-	bh=DRkosg3TPCzoz/DWIL9lBhDlBFvrJOzB7XGGHUOvLpE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Sender;
-	b=a5JHTXebBA3OoUFX6Gg2GXAaUBrcxGUa6qViUi3ubZjNQuyulYzK7oEPFytkLODKr
-	7kWO4nyzAl4NSI0gHGS8blzz54tGYFqLRxnTHwi09zv+bz2MaM9WPX7VXbsm8GAoQp
-	OWhjSW2thntA60jrDuC+J71eDMLzFZsoTSq6wOzo=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8BK0G7M002705 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Mon, 11 Sep 2017 22:00:17 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 5124A5E659B;
-	Mon, 11 Sep 2017 21:55:13 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8BK0DL2002702
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 11 Sep 2017 22:00:13 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1drUsP-0004Mm-9w; Mon, 11 Sep 2017 22:00:13 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Sep 2017 22:00:03 +0200
-Message-Id: <20170911200003.16530-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <20170908173303.29634-4-enrico.scholz@sigma-chemnitz.de>
-References: <20170908173303.29634-4-enrico.scholz@sigma-chemnitz.de>
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.76
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.79
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH v2 3/3] wic: apply --extra-space + --overhead to squashfs
+	Mon, 11 Sep 2017 20:31:04 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id r66so5933970qke.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Sep 2017 13:31:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=hj8ajD5Twb7hTS7HmMzT/gLw74ISHmDId/Ozruh+VK4=;
+	b=cq1IfreXvZcY+4HWYBLYzCXCUROQiJp/AuEy55ykcFNeFxxSGCqEM4RZhH1XHCuPl2
+	lPnjjM+Gx7TJdrHwkkF0MkshCyvzmyuDH/+XGgmuM3G8mmPXvNEXq3HcRRg1rl+pF3mY
+	cs+n0O1/PhYMwSiecpqZ4f8YpgzK4FnUVid+FkCjvfl1WRySiVQ49ctMU68h4rK6Y/+M
+	ncNv9MyELlWeLqUp3nfBTd6nrAktbaZgRuP5y4rBXbmz9FRIzLlCAMnCudxvFfpNvKYo
+	YhFbV0CBAYjfWokoq7YOdtZzIo8slCPlaZZ+e5zAAtvXR1lHarhLTVLDPx5Vrtu7pLBG
+	eVNQ==
+X-Gm-Message-State: AHPjjUiyoQkuhnyGtRxTnrIcfcHZbtzgncN9B6wtrE0CWTiH+uOVa6YY
+	P1/R3azicDEaJ+tF
+X-Google-Smtp-Source: AOwi7QAR4Q+OX3iAb+47owH7cS4hVP8dGud5cDtpexNSWApSxs5WRYVqr3dTg2C7AnpBtiWosikteQ==
+X-Received: by 10.55.123.1 with SMTP id w1mr6951693qkc.114.1505161865801;
+	Mon, 11 Sep 2017 13:31:05 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	m93sm6584491qte.72.2017.09.11.13.31.02
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 11 Sep 2017 13:31:05 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 11 Sep 2017 17:30:57 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Sep 2017 17:30:56 -0300
+Message-Id: <20170911203056.22156-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] u-boot: Upgrade to 2017.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,53 +50,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 20:00:24 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 20:31:05 -0000
 
-The --extra-space and --overhead option did not had an effect to squashfs
-partitions.  Although squashfs is read-only, it can be useful to allocate
-more space for the on-disk partition to avoid repartitioning of the whole
-disk when a new (and larger) squashfs image is written on later updates.
+This upgrades the U-Boot to the 2017.09 release.
 
-Patch calls get_rootfs_size() *after* creating the image and truncates
-it then.
-
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- scripts/lib/wic/partition.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b623bb9..bf9bbc3 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -195,6 +195,17 @@ class Partition():
-                            "larger (%d kB) than its allowed size %d kB" %
-                            (self.mountpoint, self.size, self.fixed_size))
+ .../u-boot/{u-boot-common_2017.07.inc => u-boot-common_2017.09.inc}     | 2 +-
+ .../u-boot/{u-boot-fw-utils_2017.07.bb => u-boot-fw-utils_2017.09.bb}   | 0
+ .../u-boot/{u-boot-mkimage_2017.07.bb => u-boot-mkimage_2017.09.bb}     | 0
+ meta/recipes-bsp/u-boot/{u-boot_2017.07.bb => u-boot_2017.09.bb}        | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/u-boot/{u-boot-common_2017.07.inc => u-boot-common_2017.09.inc} (89%)
+ rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2017.07.bb => u-boot-fw-utils_2017.09.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2017.07.bb => u-boot-mkimage_2017.09.bb} (100%)
+ rename meta/recipes-bsp/u-boot/{u-boot_2017.07.bb => u-boot_2017.09.bb} (100%)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc b/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
+similarity index 89%
+rename from meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
+rename to meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
+index e37f5fd409..02e51242cb 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common_2017.07.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common_2017.09.inc
+@@ -7,7 +7,7 @@ PE = "1"
  
-+    def _extend_rootfs_image(self, rootfs):
-+        """Enlarges the rootfs so that it fulfills size/overhead-factor
-+        constraints"""
-+
-+        sz = (os.stat(rootfs).st_size + 1023) // 1024
-+        pad_sz = self.get_rootfs_size(sz)
-+
-+        if pad_sz > sz:
-+            with open(rootfs, 'a') as f:
-+                os.ftruncate(f.fileno(), pad_sz * 1024)
-+
-     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
-                        native_sysroot):
-         """
-@@ -338,6 +349,8 @@ class Partition():
-                        (rootfs_dir, rootfs, extraopts)
-         exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=pseudo)
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "d85ca029f257b53a96da6c2fb421e78a003a9943"
++SRCREV = "c98ac3487e413c71e5d36322ef3324b21c6f60f9"
  
-+        self._extend_rootfs_image(rootfs)
-+
-     def prepare_empty_partition_ext(self, rootfs, oe_builddir,
-                                     native_sysroot):
-         """
+ SRC_URI = "git://git.denx.de/u-boot.git \
+     file://MPC8315ERDB-enable-DHCP.patch \
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2017.09.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2017.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2017.09.bb
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2017.07.bb b/meta/recipes-bsp/u-boot/u-boot_2017.09.bb
+similarity index 100%
+rename from meta/recipes-bsp/u-boot/u-boot_2017.07.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2017.09.bb
 -- 
-2.9.5
+2.14.1
 
 
