@@ -1,26 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5648C77DAF
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 53A9B77EF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 07:30:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8B7U10H013830
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 11 Sep 2017 07:52:13 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.42,376,1500912000"; d="scan'208";a="25613241"
+Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 11 Sep 2017 15:52:14 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2C36947278C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 00:30:01 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 11 Sep 2017 00:30:00 -0700
-From: Dengke Du <dengke.du@windriver.com>
+	Mon, 11 Sep 2017 15:52:13 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Mon, 11 Sep 2017 15:52:15 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 03:29:58 -0400
-Message-ID: <426c9f986646adcd1dbcb601f81ae08f87cbee9d.1505114394.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1505114394.git.dengke.du@windriver.com>
-References: <cover.1505114394.git.dengke.du@windriver.com>
+Date: Mon, 11 Sep 2017 15:52:16 +0800
+Message-ID: <1505116337-28627-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ovmf: fix do_compile error when len(tmp)=410
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: 2C36947278C5.A4B78
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] python-mako: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 07:30:00 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 07:52:15 -0000
 Content-Type: text/plain
 
-[YOCTO #11354]
-
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- .../ovmf/0004-ovmf-enable-long-path-file.patch     | 28 ++++++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb                 |  3 ++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
+ meta/recipes-devtools/python/python-mako.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch b/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-new file mode 100644
-index 0000000..fbb95ed
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-@@ -0,0 +1,28 @@
-+From a07eef024089de6bc1cfe4effa4f04cc765d00eb Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Mon, 11 Sep 2017 02:21:55 -0400
-+Subject: [PATCH] ovmf: enable long path file
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ BaseTools/Source/C/Common/CommonLib.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/BaseTools/Source/C/Common/CommonLib.h b/BaseTools/Source/C/Common/CommonLib.h
-+index 2041b89..279cf59 100644
-+--- a/BaseTools/Source/C/Common/CommonLib.h
-++++ b/BaseTools/Source/C/Common/CommonLib.h
-+@@ -19,7 +19,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-+ #include <Common/BuildVersion.h>
-+ #define PRINTED_GUID_BUFFER_SIZE  37  // including null-termination
-+ 
-+-#define MAX_LONG_FILE_PATH 500
-++#define MAX_LONG_FILE_PATH 800
-+ 
-+ #ifdef __cplusplus
-+ extern "C" {
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 1872c95..50c01aa 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -11,10 +11,11 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[secureboot] = ",,,"
- 
- SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
-+	file://0001-ia32-Dont-use-pie.patch \
- 	file://0002-ovmf-update-path-to-native-BaseTools.patch \
- 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
-+	file://0004-ovmf-enable-long-path-file.patch \
- 	file://VfrCompile-increase-path-length-limit.patch \
--	file://0001-ia32-Dont-use-pie.patch \
- 	file://no-stack-protector-all-archs.patch \
-         "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
+index ba50675..1c83af6 100644
+--- a/meta/recipes-devtools/python/python-mako.inc
++++ b/meta/recipes-devtools/python/python-mako.inc
+@@ -1,4 +1,5 @@
+ SUMMARY = "Templating library for Python"
++HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1bb21fa2d2f7a534c884b990430a6863"
 -- 
-2.8.1
+2.7.4
+
+
 
 
