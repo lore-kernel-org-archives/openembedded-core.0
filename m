@@ -1,34 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DCD4F77EE4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BFFD77EE4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 12:51:41 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v8BCopH1016037
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 11 Sep 2017 13:50:52 +0100
-Message-ID: <1505134251.18640.2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <mnhu@prevas.dk>, Paul Barker
-	<pbarker@toganlabs.com>
-Date: Mon, 11 Sep 2017 13:50:51 +0100
-In-Reply-To: <a52ee58f-6ede-006d-750a-38b5d5f59b8a@prevas.dk>
-References: <20170821083946.4493-1-mnhu@prevas.dk>
-	<20170821092134.6329-1-mnhu@prevas.dk>
-	<CAPyrkgyuQegVc-d694EQgXMuEdBZY4LbjQ4aObCUV1yh=jznjg@mail.gmail.com>
-	<20170908203726.GG26405@denix.org>
-	<75F5325D-9BEC-49A6-AEF8-75448B46BCF7@prevas.dk>
-	<CAPyrkgyzzfR7jmeyJURRyPra4Jd2CPKWMiJbEPR3a8W=h+4W+A@mail.gmail.com>
-	<aa0e9f4b-bc55-8f25-ab72-efdeca0f7c17@prevas.dk>
-	<1505122013.18640.1.camel@linuxfoundation.org>
-	<a52ee58f-6ede-006d-750a-38b5d5f59b8a@prevas.dk>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] kernel-module-split: rrecommend kernel-image instead of rdepend
+	Mon, 11 Sep 2017 12:56:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	11 Sep 2017 05:56:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,377,1500966000"; d="scan'208";a="1193767478"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2017 05:56:55 -0700
+To: openembedded-core@lists.openembedded.org, hongxu.jia@windriver.com,
+	yahia farghaly <yahiafarghaly@gmail.com>
+References: <1504909055-29659-1-git-send-email-yahiacommunication@yahoo.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <cebfbffb-08e3-95b1-fbd9-d16f53541126@linux.intel.com>
+Date: Mon, 11 Sep 2017 15:52:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <1504909055-29659-1-git-send-email-yahiacommunication@yahoo.com>
+Subject: Re: [meta-oe][PATCH] gnupg: added a coreutils runtime dependancy to gnupg recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +34,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 12:51:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Sep 2017 12:56:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2017-09-11 at 14:19 +0200, Martin Hundebøll wrote:
+On 09/09/2017 01:17 AM, Yahia Farghaly wrote:
+> From: yahiafarghaly <yahiafarghaly@gmail.com>
 > 
-> On 2017-09-11 11:26, Richard Purdie wrote:
-> > 
-> > On Mon, 2017-09-11 at 09:02 +0200, Martin Hundebøll wrote:
-> > > 
-> > > Reverting the patch is fine by me - sorry for the noise.
-> > Are you sure? I can't imagine being able to influence this at all
-> > from
-> > an image recipe, either the dependency is present or its not and it
-> > would be set from the global configuration, not from an image
-> > recipe...
-> Pretty sure, yes.
+> When using 'apt-key add' on the target image, the gnupg is required
+> but for gnupg to be fully functional, the coreutils is required to be exist with the gnupg.
+> Otherwise, it may throw an error in runtime as one of components of coreutils is missing.
+> For 'apt-key add', i faced the error of 'comm: command not found' so as proper solution, i submit this change.
 > 
-> conf/distro/basic.conf:
-> RDEPENDS_kernel-base = ""
-> 
-> recipes-filesystems/rootfs.bb:
-> IMAGE_INSTALL += "kernel-image kernel-module-foo"
-> 
-> recipes-filesystems/rescuefs.bb:
-> IMAGE_INSTALL += "kernel-module-foo"
 
-Now I understand, I thought you meant adding in the RRECOMMENDS from an
-image recipe.
+Have you established that it's something in gnupg that needs the 'comm' 
+command, and not something in apt-key? Can you point to the specific 
+place in gnupg source tree where comm is used?
 
 Thanks,
-
-Richard
+Alex
 
