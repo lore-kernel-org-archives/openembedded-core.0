@@ -1,42 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B06278221
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id CDBD278415
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 18:29:03 +0000 (UTC)
-Received: by mail-qk0-f171.google.com with SMTP id b23so20458799qkg.1
+	Mon, 11 Sep 2017 18:29:11 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id s18so19079871qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 11:29:05 -0700 (PDT)
+	Mon, 11 Sep 2017 11:29:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=zwtmILoeWcJvWQ90bsjK5wBizlRcdf+bzFF1uivuBNo=;
-	b=P8/8RnbxLUpuVAavb7xSoEoRW8K57rKcm97H7Xpf0mGJqyJ2/yzXaIZc2ExH1xrYaj
-	HRKNmWWv3OhCzcZCQnLnETf/oe3L27sX8HWYlnoidmP9UPpGc5hIk4p9WC4X+64Gk5Va
-	KUmOyuo3/mPeqpN0FDvMk9gySbqzm2Y35+lWICybe8lJp7/dAHDxUbXRJ+7lMc/AJdBj
-	p6yn4etcLDkHwivoY/GtwdkV+J0LGnshFgTliXuBWKTbu2TA+akSKpHY0gK7/NK95ltb
-	CrFFY4kEIXa3PJIriT2WM0iA0p2YYd4i+Hq5EIIYS41KkcF7sCbXw77Ug/iSK1NfI2l1
-	xO9A==
-X-Gm-Message-State: AHPjjUjb7ZPl2uYlbsRvPPIo3c/VUS5wfNCzMhu5hZ6VhzSi7oUsqHzb
-	bCRpg2hIc4+iSgjr
-X-Google-Smtp-Source: AOwi7QD9COmLy4hI1QC+R8qd1/ZNk/L57hGqx+MaRwv/5/SzsG89r+m8j255G5yBdhTkBfM75ysOsg==
-X-Received: by 10.55.168.12 with SMTP id r12mr15404096qke.283.1505154544404;
-	Mon, 11 Sep 2017 11:29:04 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=ZtWKUyoP47lEvhw1RP03pBqZkB83gp4tKg02ws7CJlw=;
+	b=ZWg4VGPBiXoAsTZcoMMmlpUHBCoiJEj/IinwlHh4f1jeLCtWovTf4PD3kRyKH9ztyl
+	/gCmdUDOa1NTYQDUlf03XL2FqhCo290Bv5YVAhQIpup5EIZfcmVlB7SSnDoJzFbWiAfX
+	6GZNlKlJsGyzgZGGrTd8AWGtYUACwU+8nP6llJLDgZ3PkRAYrHeXE8rEVOFAYXa+b6Yf
+	MaG5FM1vehy2+g+R+aTY+BW9yLBg8BSqqaKenXtOMXNY48EDx+WMugkCJ0WKBhKrrRQr
+	r2UjQwbBSRWfBmyjeX6JKRtgFYHeS8c122W6qOf9vFFnAWudbekD2PEdiptNq3EOkOE2
+	x8Pg==
+X-Gm-Message-State: AHPjjUj+09vCLnAg0rjf2lns/1CNsZgqvxTrM/RlLTldCWT61hnyPxdw
+	xm3tJ72IuOVnYn8m
+X-Google-Smtp-Source: AOwi7QB0qteckb7CFO0bdLG6e8eUoAagQrJ4G90EOf+ww7Gf+orScSVn/5mBFcyNWnb8DGWkybYE3A==
+X-Received: by 10.200.43.23 with SMTP id 23mr3664258qtu.208.1505154552568;
+	Mon, 11 Sep 2017 11:29:12 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	n88sm4702347qki.49.2017.09.11.11.28.59
+	n85sm6372175qke.53.2017.09.11.11.29.07
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 11 Sep 2017 11:29:03 -0700 (PDT)
+	Mon, 11 Sep 2017 11:29:11 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 11 Sep 2017 15:28:54 -0300
+	Mon, 11 Sep 2017 15:29:04 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 15:28:41 -0300
-Message-Id: <20170911182853.11076-1-otavio@ossystems.com.br>
+Date: Mon, 11 Sep 2017 15:28:42 -0300
+Message-Id: <20170911182853.11076-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20170911182853.11076-1-otavio@ossystems.com.br>
+References: <20170911182853.11076-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v7 00/12] Revamp the Go support
+Subject: [PATCH v7 01/12] go-native: remove dependency on go-bootstrap-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,91 +52,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 18:29:03 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 18:29:12 -0000
 
-This improves the Go support on OE-Core.
+From: Matt Madison <matt@madison.systems>
 
-We are trying to port as much as possible work done by Matt on
-meta-golang back to OE-Core and also to avoid carrying old releases as
-there is no need to support more versions of Go toolchain.
+The go1.4 toolchain is only required for bootstrapping
+go-native, and should not be used for anything else,
+so build it as part of the go-native build. This way,
+we don't have to carry around its built artifacts in
+the native sysroot.
 
-This fixes issues in existing support as well as add support for SDK
-generation which supports Go.
+The go-cross and target toolchains can then just depend
+on go-native, using that for their 'bootstrap' toolchain.
 
-Changes in v7:
-- Fix Upstream-Status header typo
-- Add patch header
+Also removed some unnecessary package-related noexec
+settings, since native recipes inherit nopackages.
 
+Signed-off-by: Matt Madison <matt@madison.systems>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+Changes in v7: None
 Changes in v6:
 - new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
-- new patch
 
-Matt Madison (12):
-  go-native: remove dependency on go-bootstrap-native
-  go-bootstrap-native: remove recipe
-  go: split out go-runtime into separate recipe
-  go.bbclass: remove GO_GCFLAGS nad GO_LDFLAGS
-  go.bbclass: remove some xxx_FINAL variables
-  go.bbclass: clean up CGO_xxx settings
-  go: rename go.inc -> go-target.inc
-  go-cross: take GOARM environment setting
-  go: enable nativesdk builds for the toolchain
-  go-crosssdk: add recipe
-  go.bbclass: enable nativesdk builds for Go packages
-  go-cross-canadian: add recipe
+ meta/recipes-devtools/go/go-1.8.inc       |  4 +--
+ meta/recipes-devtools/go/go-common.inc    |  2 +-
+ meta/recipes-devtools/go/go-native.inc    | 48 +++++++++++++++++--------------
+ meta/recipes-devtools/go/go-native_1.8.bb |  1 -
+ meta/recipes-devtools/go/go.inc           |  4 +--
+ 5 files changed, 32 insertions(+), 27 deletions(-)
 
- meta/classes/go.bbclass                            |  54 +++--
- meta/recipes-devtools/go/go-1.4.inc                |  16 --
- ...alignment-for-the-.rel.plt-section-on-32-.patch |  33 ---
- .../go/go-1.4/016-armhf-elf-header.patch           |  24 ---
- ...ckport-cmd-link-support-new-386-amd64-rel.patch | 225 ---------------------
- meta/recipes-devtools/go/go-1.4/syslog.patch       |  62 ------
- meta/recipes-devtools/go/go-1.8.inc                |   6 +-
- .../go/go-1.8/make-goroot-precious.patch           |  21 ++
- .../go/go-1.8/set-gotooldir-during-bootstrap.patch |  22 ++
- .../recipes-devtools/go/go-bootstrap-native_1.4.bb |   3 -
- meta/recipes-devtools/go/go-common.inc             |   2 +-
- meta/recipes-devtools/go/go-cross-canadian.inc     |  64 ++++++
- meta/recipes-devtools/go/go-cross-canadian_1.8.bb  |   2 +
- meta/recipes-devtools/go/go-cross.inc              |  61 +++++-
- meta/recipes-devtools/go/go-cross_1.8.bb           |   5 +-
- meta/recipes-devtools/go/go-crosssdk.inc           |  55 +++++
- meta/recipes-devtools/go/go-crosssdk_1.8.bb        |   2 +
- meta/recipes-devtools/go/go-native.inc             |  48 +++--
- meta/recipes-devtools/go/go-native_1.8.bb          |   1 -
- meta/recipes-devtools/go/go-runtime.inc            |  58 ++++++
- meta/recipes-devtools/go/go-runtime_1.8.bb         |   2 +
- meta/recipes-devtools/go/go-target.inc             |  54 +++++
- meta/recipes-devtools/go/go.inc                    |  81 --------
- meta/recipes-devtools/go/go_1.8.bb                 |   2 +-
- 24 files changed, 393 insertions(+), 510 deletions(-)
- delete mode 100644 meta/recipes-devtools/go/go-1.4.inc
- delete mode 100644 meta/recipes-devtools/go/go-1.4/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
- delete mode 100644 meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch
- delete mode 100644 meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch
- delete mode 100644 meta/recipes-devtools/go/go-1.4/syslog.patch
- create mode 100644 meta/recipes-devtools/go/go-1.8/make-goroot-precious.patch
- create mode 100644 meta/recipes-devtools/go/go-1.8/set-gotooldir-during-bootstrap.patch
- delete mode 100644 meta/recipes-devtools/go/go-bootstrap-native_1.4.bb
- create mode 100644 meta/recipes-devtools/go/go-cross-canadian.inc
- create mode 100644 meta/recipes-devtools/go/go-cross-canadian_1.8.bb
- create mode 100644 meta/recipes-devtools/go/go-crosssdk.inc
- create mode 100644 meta/recipes-devtools/go/go-crosssdk_1.8.bb
- create mode 100644 meta/recipes-devtools/go/go-runtime.inc
- create mode 100644 meta/recipes-devtools/go/go-runtime_1.8.bb
- create mode 100644 meta/recipes-devtools/go/go-target.inc
- delete mode 100644 meta/recipes-devtools/go/go.inc
-
+diff --git a/meta/recipes-devtools/go/go-1.8.inc b/meta/recipes-devtools/go/go-1.8.inc
+index 3690f310bd..bfb26de01d 100644
+--- a/meta/recipes-devtools/go/go-1.8.inc
++++ b/meta/recipes-devtools/go/go-1.8.inc
+@@ -15,5 +15,5 @@ SRC_URI += "\
+        file://split-host-and-target-build.patch \
+        file://gotooldir.patch \
+ "
+-SRC_URI[md5sum] = "64e9380e07bba907e26a00cf5fcbe77e"
+-SRC_URI[sha256sum] = "5f5dea2447e7dcfdc50fa6b94c512e58bfba5673c039259fd843f68829d99fa6"
++SRC_URI[main.md5sum] = "64e9380e07bba907e26a00cf5fcbe77e"
++SRC_URI[main.sha256sum] = "5f5dea2447e7dcfdc50fa6b94c512e58bfba5673c039259fd843f68829d99fa6"
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index f74b8b7650..ce1eb86812 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -14,7 +14,7 @@ LICENSE = "BSD-3-Clause"
+ 
+ inherit goarch
+ 
+-SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz"
++SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz;name=main"
+ S = "${WORKDIR}/go"
+ B = "${S}"
+ 
+diff --git a/meta/recipes-devtools/go/go-native.inc b/meta/recipes-devtools/go/go-native.inc
+index c21f8fda78..9eb2b3211f 100644
+--- a/meta/recipes-devtools/go/go-native.inc
++++ b/meta/recipes-devtools/go/go-native.inc
+@@ -1,16 +1,28 @@
++# Use immediate assingment here to get the original (/usr/lib)
++# instead of the one rewritten by native.bbclass.
++nonstaging_libdir := "${libdir}"
++
+ inherit native
+ 
+-BOOTSTRAP ?= ""
++SRC_URI_append = " http://golang.org/dl/go1.4.3.src.tar.gz;name=bootstrap;subdir=go1.4"
++SRC_URI[bootstrap.md5sum] = "dfb604511115dd402a77a553a5923a04"
++SRC_URI[bootstrap.sha256sum] = "9947fc705b0b841b5938c48b22dc33e9647ec0752bae66e50278df4f23f64959"
++
+ export GOOS = "${BUILD_GOOS}"
+ export GOARCH = "${BUILD_GOARCH}"
+-export GOROOT_FINAL = "${STAGING_LIBDIR_NATIVE}/go${BOOTSTRAP}"
+-export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go1.4"
++CC = "${@d.getVar('BUILD_CC', True).strip()}"
++
+ export CGO_ENABLED = "1"
+ 
+-do_configure[noexec] = "1"
++do_configure() {
++    cd ${WORKDIR}/go1.4/go/src
++    CGO_ENABLED=0 GOROOT=${WORKDIR}/go1.4/go ./make.bash
++}
+ 
+ do_compile() {
+ 	export GOBIN="${B}/bin"
++	export GOROOT_FINAL="${nonstaging_libdir}/go"
++	export GOROOT_BOOTSTRAP="${WORKDIR}/go1.4/go"
+ 	rm -rf ${GOBIN}
+ 	mkdir ${GOBIN}
+ 
+@@ -18,7 +30,7 @@ do_compile() {
+ 	mkdir -p ${WORKDIR}/build-tmp
+ 
+ 	cd src
+-	CGO_ENABLED=0 ./make.bash --host-only
++	./make.bash --host-only
+ }
+ 
+ make_wrapper() {
+@@ -26,31 +38,25 @@ make_wrapper() {
+ 	cat <<END >${D}${bindir}/$2$3
+ #!/bin/bash
+ here=\`dirname \$0\`
+-export GOROOT="${GOROOT:-\`readlink -f \$here/../lib/go$3\`}"
+-\$here/../lib/go$3/bin/$1 "\$@"
++export GOROOT="${GOROOT:-\`readlink -f \$here/../lib/go\`}"
++\$here/../lib/go/bin/$1 "\$@"
+ END
+-	chmod +x ${D}${bindir}/$2$3
++	chmod +x ${D}${bindir}/$2
+ }
+ 
+ do_install() {
+-	install -d ${D}${libdir}/go${BOOTSTRAP}
+-	cp -a ${B}/pkg ${D}${libdir}/go${BOOTSTRAP}/
+-	install -d ${D}${libdir}/go${BOOTSTRAP}/src
++	install -d ${D}${libdir}/go
++	cp --preserve=mode,timestamps -R ${B}/pkg ${D}${libdir}/go/
++	install -d ${D}${libdir}/go/src
+ 	(cd ${S}/src; for d in *; do \
+-		[ -d $d ] && cp -a ${S}/src/$d ${D}${libdir}/go${BOOTSTRAP}/src/; \
++		[ -d $d ] && cp -a ${S}/src/$d ${D}${libdir}/go/src/; \
+ 	done)
+ 
+-	install -d ${D}${bindir} ${D}${libdir}/go${BOOTSTRAP}/bin
++	install -d ${D}${bindir} ${D}${libdir}/go/bin
+ 	for f in ${B}/bin/*
+ 	do
+ 		base=`basename $f`
+-		install -m755 $f ${D}${libdir}/go${BOOTSTRAP}/bin
+-		make_wrapper $base $base ${BOOTSTRAP}
++		install -m755 $f ${D}${libdir}/go/bin
++		make_wrapper $base $base
+ 	done
+ }
+-
+-do_package[noexec] = "1"
+-do_packagedata[noexec] = "1"
+-do_package_write_ipk[noexec] = "1"
+-do_package_write_deb[noexec] = "1"
+-do_package_write_rpm[noexec] = "1"
+diff --git a/meta/recipes-devtools/go/go-native_1.8.bb b/meta/recipes-devtools/go/go-native_1.8.bb
+index 182fca27a0..bbf3c0dd73 100644
+--- a/meta/recipes-devtools/go/go-native_1.8.bb
++++ b/meta/recipes-devtools/go/go-native_1.8.bb
+@@ -1,3 +1,2 @@
+ require ${PN}.inc
+ require go-${PV}.inc
+-DEPENDS += "go-bootstrap-native"
+diff --git a/meta/recipes-devtools/go/go.inc b/meta/recipes-devtools/go/go.inc
+index 52abbebd7e..9efbd275bd 100644
+--- a/meta/recipes-devtools/go/go.inc
++++ b/meta/recipes-devtools/go/go.inc
+@@ -1,5 +1,5 @@
+ inherit goarch
+-DEPENDS += "go-bootstrap-native"
++DEPENDS += "go-native"
+ 
+ # libgcc is required for the target specific libraries to build
+ # properly, but apparently not for go-cross and, more importantly,
+@@ -17,7 +17,7 @@ export GOHOSTARCH = "${BUILD_GOARCH}"
+ export GOOS = "${TARGET_GOOS}"
+ export GOARCH = "${TARGET_GOARCH}"
+ export GOARM = "${TARGET_GOARM}"
+-export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go1.4"
++export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
+ export GOROOT_FINAL = "${libdir}/go"
+ export CGO_ENABLED = "1"
+ export CC_FOR_TARGET = "${CC}"
 -- 
 2.14.1
 
