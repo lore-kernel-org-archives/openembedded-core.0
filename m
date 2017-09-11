@@ -1,49 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D3F9873097
+Return-Path: <maxin.john@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 2220C71A3A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 10:52:08 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id g32so5849838ioj.2
+	Mon, 11 Sep 2017 11:35:13 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP; 11 Sep 2017 04:35:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,377,1500966000"; d="scan'208";a="1171065867"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 11 Sep 2017 04:35:15 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 6C3CC5803A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 03:52:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GNh0raIV18eutBrX8NMiRZwRlFpXMeVIMBKBeYTjR1w=;
-	b=lBWXAOW5PGxRfJnf45vnppHSsbIA6HlglL20oKQnZiQlqH+M2OVy2e1j9tfKrY2+JD
-	wEokpun5PjayWieYckzBgkD6+Tg36lZyNtZJxVAar6Z3aR65J5IRXJUqlV6y46YPl3m/
-	Dwz1jeHSJmqkXtHa28lRhWPwvEPmkYkAy2+8pM+NT2LVsbDa/PA71C/X5lm3ADugoXSe
-	Gq8j46HOS6+mWFGGJaylitLuTIDeYR6PkU3xjWe7SVVfWUVA/Q2sv9yo9yJCPx83p0II
-	9eBHquL/SptvmIRy28vXxufltg33h8qzUNulTf2vGJMNmhR6zNdrOwdYQo1JP3JOHkUG
-	fkbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GNh0raIV18eutBrX8NMiRZwRlFpXMeVIMBKBeYTjR1w=;
-	b=OEjRsCTwp/lshd8mTtySXBlBTRxBGiSbL7Po8hUH8FYGiGElboZk7l+lA/i3uj+9Rc
-	u8QRV2in2I2295cYICKIqGct3AxmukVn8rir1CqGH5Ck1mKyWfAWso0qtxII3XzFEMzO
-	AZZHHyqAaWjVtTLryn+yKKlVjzkejN2jQvK7cx3SPkUk7OeSS1kYhH21QZHv9ehsRFSA
-	xP3NzV/QLDwu4isJdLwSkAPb6WBJfL2IY7GUXMjFZLTJrRwyC27g4Fn2NedkG9I7DX5i
-	EBcT6Xe8Rct010ou7i7BjRD01fv8VUFbkGBnYq2AESdPsEAhy1v8zCiUg/YK4bcJ6KOi
-	ckpQ==
-X-Gm-Message-State: AHPjjUjuQ/schsyzVAOkcD0Zx3l6nIANxlr1Q+PeUTfuz7BPS6+AD9W1
-	/8wArjqPzxYcV45A6pJUHNxD8sYJ+BdyjUk=
-X-Google-Smtp-Source: AOwi7QDAQj8rcqkGHJuiBbL7kBsnxFFFDjs66qeyUljeNa9EO6GFaL/ijyeo6QcLx0hyiBmUDlUPxO3wdMwVkNQX/wU=
-X-Received: by 10.107.135.72 with SMTP id j69mr1136172iod.210.1505127129972;
-	Mon, 11 Sep 2017 03:52:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Mon, 11 Sep 2017 03:51:49 -0700 (PDT)
-In-Reply-To: <426c9f986646adcd1dbcb601f81ae08f87cbee9d.1505114394.git.dengke.du@windriver.com>
-References: <cover.1505114394.git.dengke.du@windriver.com>
-	<426c9f986646adcd1dbcb601f81ae08f87cbee9d.1505114394.git.dengke.du@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Sep 2017 11:51:49 +0100
-Message-ID: <CAJTo0LaSerr07urbRCe_Nxbx1mfKxBD-Wje2P9wqJLtc+tS-uQ@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ovmf: fix do_compile error when len(tmp)=410
+	Mon, 11 Sep 2017 04:35:14 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Sep 2017 14:37:41 +0300
+Message-Id: <1505129861-39655-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] hostap-utils: use w1.fi for SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 10:52:09 -0000
-Content-Type: multipart/alternative; boundary="001a113f8e70ec8bb10558e7b732"
+X-List-Received-Date: Mon, 11 Sep 2017 11:35:14 -0000
 
---001a113f8e70ec8bb10558e7b732
-Content-Type: text/plain; charset="UTF-8"
+epitest.fi is down and hostap-utils source is now available in
+w1.fi. So, move SRC_URI to https://w1.fi
 
-On 11 September 2017 at 08:29, Dengke Du <dengke.du@windriver.com> wrote:
+Since hostap-utils is only meant for old Intersil Prism2/2.5/3 wifi cards,
+this recipe will be removed from oe-core in future (most likely to
+meta-handheld)
 
-> +-#define MAX_LONG_FILE_PATH 500
-> ++#define MAX_LONG_FILE_PATH 800
->
+[YOCTO #12051]
 
-Making this limit a little bigger seems like a great way to hit it with a
-slightly longer path.  The other patch
-(VfrCompile-increase-path-length-limit.patch)
-increases it to 1023 which seems to be a more future-proof solution (and
-consistent).
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ meta/recipes-bsp/hostap/hostap-utils.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Ross
+diff --git a/meta/recipes-bsp/hostap/hostap-utils.inc b/meta/recipes-bsp/hostap/hostap-utils.inc
+index 140321d..6d98e3a 100644
+--- a/meta/recipes-bsp/hostap/hostap-utils.inc
++++ b/meta/recipes-bsp/hostap/hostap-utils.inc
+@@ -1,15 +1,14 @@
+ SUMMARY = "User mode helpers for the hostap driver"
+ DESCRIPTION = "The hostap driver supports Host AP mode, it allows for IEEE 802.11 \
+ management functions on the host computer and allows the system to act as an access point."
+-HOMEPAGE = "http://hostap.epitest.fi"
+-BUGTRACKER = "http://hostap.epitest.fi/bugz/"
++HOMEPAGE = "https://w1.fi"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 			file://util.c;beginline=1;endline=9;md5=d3b9280851302e5ba34e5fb717489b6d"
+ SECTION = "kernel/userland"
+ PR = "r4"
+ 
+-SRC_URI = "http://hostap.epitest.fi/releases/hostap-utils-${PV}.tar.gz \
++SRC_URI = "https://w1.fi/releases/hostap-utils-${PV}.tar.gz \
+            file://hostap-fw-load.patch \
+            file://0001-Define-_u32-__s32-__u16-__s16-__u8-in-terms-of-c99-t.patch \
+ "
+-- 
+2.4.0
 
---001a113f8e70ec8bb10558e7b732
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 11 September 2017 at 08:29, Dengke Du <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:dengke.du@windriver.com" target=3D"_blank">dengke.du=
-@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cla=
-ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color=
-:rgb(204,204,204);padding-left:1ex">+-#define MAX_LONG_FILE_PATH 500<br>
-++#define MAX_LONG_FILE_PATH 800<br></blockquote><div><br></div><div>Making=
- this limit a little bigger seems like a great way to hit it with a slightl=
-y longer path.=C2=A0 The other patch (<span style=3D"font-size:12.800000190=
-734863px">VfrCompile-increase-</span><wbr style=3D"font-size:12.80000019073=
-4863px"><span style=3D"font-size:12.800000190734863px">path-length-limit.pa=
-tch) increases it to 1023 which seems to be a more future-proof solution (a=
-nd consistent).</span></div><div><span style=3D"font-size:12.80000019073486=
-3px"><br></span></div><div><span style=3D"font-size:12.800000190734863px">R=
-oss</span></div></div></div></div>
-
---001a113f8e70ec8bb10558e7b732--
