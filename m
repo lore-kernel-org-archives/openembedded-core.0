@@ -1,22 +1,49 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 20F0A783FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 77ED7783FC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 21:33:27 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Sep 2017 14:33:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,379,1500966000"; d="scan'208";a="148011560"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga005.jf.intel.com with ESMTP; 11 Sep 2017 14:33:28 -0700
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Sep 2017 14:33:26 -0700
-Message-Id: <20170911213326.3480-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.5
-Cc: otavio@ossystems.com.br
-Subject: [PATCH] initramfs-framework: bump PR and fix install-efi and setup-live modules
+	Mon, 11 Sep 2017 21:49:51 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id c195so23151234itb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Sep 2017 14:49:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=d9wGrHsObRgWcoivyXB313nVJHRCQXGfinZlf15ZB4E=;
+	b=PGNtbOam2XhjfdXjvAh0EAG2cB9y4aFkIRTOzOm6LlFYiMF9sX9XvRrMgBdqn4Ag33
+	ujFkw8ZdRpWELQ4vG/kJFgRFbkpGfsAjxW3hH4mdCe04+JfGbX/JuL6Hi5jxIsHnOzN0
+	9x8zO7YSQbXviKS9j4nUvSbx4eILDGd5/xxj8r+rQnHbDes288xrBSW4cURNeLE4A11F
+	xq0vT/9KdluhekzUehlWduh3aLZKoJ/QS/flVdGKcnCe5f7ZOyRPf/LpfT4VQFU3bKGo
+	cR/ve9OYSUhgsXPsm8er/W8Zbua5nJ0XORcXjXS2+41CbySBezRXVWEx+2Vfqdm0jjHj
+	AJ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=d9wGrHsObRgWcoivyXB313nVJHRCQXGfinZlf15ZB4E=;
+	b=V+lb3ivMam2TW+6oCzdq4U40gJlAOM0glg+SD4QGrJOBQj7nvfUwikb0dThjxCW3l2
+	6Nlu9zzL2wNvE0hsEJSzj9DNiwvjf7IBP/A7vqrvdRCl8IS5Cu/QKA7kBpQn4MQMciwE
+	3EW4Z9CiE2RU9IuP7H61SpArJoqeyDzuEJ9FASnLKe41SfgKTmDBmWRYxEgMx8/8fhTu
+	iQWXVblpi8kYw9WhfiLGcyHn1LCeL0tWoBfryrBATfD5dF8zpF9Ic+diR3/tJgoFPFED
+	SNBlbnfmGeORxHbZdB0kQTXran92Cu1ixb9nWA5vvzR4eKnvGZYArbEae5eY+gTBUOHr
+	zRGA==
+X-Gm-Message-State: AHPjjUiCnNh1BVCjhoRfk4nw3PydnuzuQ6twNlIsV12KEs3O9Rspc6w8
+	zzeqJSuT8jo+Nl688u1lyuey8nvR8VHP
+X-Google-Smtp-Source: AOwi7QAEFIBfbW1HcrKJt+rb0Bnb+b/kgRaIriq2pfK5GDPB2RYqYQNa7eHv143g4BYaayqbh6Dr10rcG7gwQp4h4qg=
+X-Received: by 10.36.237.204 with SMTP id r195mr15720040ith.48.1505166593359; 
+	Mon, 11 Sep 2017 14:49:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.19.68 with HTTP; Mon, 11 Sep 2017 14:49:32 -0700 (PDT)
+In-Reply-To: <20170911213326.3480-1-california.l.sullivan@intel.com>
+References: <20170911213326.3480-1-california.l.sullivan@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Sep 2017 22:49:32 +0100
+Message-ID: <CAJTo0LZgBgWL0c9ZaDRFvvKxfULKeDkvGOhAiczGWMXWNrL=Yg@mail.gmail.com>
+To: California Sullivan <california.l.sullivan@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initramfs-framework: bump PR and fix install-efi and setup-live modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,98 +56,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 21:33:28 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 21:49:52 -0000
+Content-Type: multipart/alternative; boundary="94eb2c042c162028380558f0e896"
 
-Bump initramfs-framework PR, as it was missed in the previous
-initramfs-framework patch.
+--94eb2c042c162028380558f0e896
+Content-Type: text/plain; charset="UTF-8"
 
-These modules are shell scripts so they can be allarch.
+On 11 September 2017 at 22:33, California Sullivan <
+california.l.sullivan@intel.com> wrote:
 
-Fix the SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS in layer.conf, as these
-dependencies moved from the main recipe to these modules.
+> Bump initramfs-framework PR, as it was missed in the previous
+> initramfs-framework patch.
+>
 
-Finally, set the PR to 4 in the new module recipes to avoid breaking
-package feeds.
+There's no need to bump PR.  In the ideal world, the PR isn't assigned at
+all.
 
-Fixes [YOCTO #12024].
+Ross
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
----
-Reading the commit message this maybe should be split into multiple
-patches, but since they're issues caused by the taking the v1 version
-of my previous patch, I'm not sure. Let me know if its the former.
+--94eb2c042c162028380558f0e896
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- meta/conf/layer.conf                                              | 8 ++++----
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb        | 2 +-
- .../initrdscripts/initramfs-module-install-efi_1.0.bb             | 4 +++-
- .../recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb | 4 +++-
- 4 files changed, 11 insertions(+), 7 deletions(-)
+<div dir=3D"ltr">On 11 September 2017 at 22:33, California Sullivan <span d=
+ir=3D"ltr">&lt;<a href=3D"mailto:california.l.sullivan@intel.com" target=3D=
+"_blank">california.l.sullivan@intel.com</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>Bump initramfs-framework PR, as it was missed in the previous<br>
+initramfs-framework patch.<br></blockquote><div><br></div><div>There&#39;s =
+no need to bump PR.=C2=A0 In the ideal world, the PR isn&#39;t assigned at =
+all.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 04aa730..df457c2 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -50,12 +50,12 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   docbook-xsl-stylesheets->perl \
-   ca-certificates->openssl \
-   initramfs-framework->${VIRTUAL-RUNTIME_base-utils} \
--  initramfs-framework->dosfstools \
--  initramfs-framework->e2fsprogs \
-   initramfs-framework->eudev \
--  initramfs-framework->parted \
-   initramfs-framework->systemd \
--  initramfs-framework->util-linux \
-+  initramfs-module-install-efi->dosfstools \
-+  initramfs-module-install-efi->e2fsprogs \
-+  initramfs-module-install-efi->parted \
-+  initramfs-module-install-efi->util-linux \
-   liberation-fonts->fontconfig \
-   cantarell-fonts->fontconfig \
-   gnome-icon-theme->librsvg \
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index c07a5fc..2afc37e 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -3,7 +3,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_base-utils}"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit allarch
- 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index 8143f31..2270441 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -3,7 +3,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
- 
--PR = "r1"
-+PR = "r4"
-+
-+inherit allarch
- 
- FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
- SRC_URI = "file://install-efi.sh"
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-index 7627cdc..4d2fe9d 100644
---- a/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-setup-live_1.0.bb
-@@ -3,7 +3,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- RDEPENDS_${PN} = "initramfs-framework-base udev-extraconf"
- 
--PR = "r1"
-+PR = "r4"
-+
-+inherit allarch
- 
- FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
- SRC_URI = "file://setup-live"
--- 
-2.9.5
-
-
+--94eb2c042c162028380558f0e896--
