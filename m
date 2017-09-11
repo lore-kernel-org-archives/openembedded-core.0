@@ -1,32 +1,49 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C26777F79
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A851B71A91
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 07:52:26 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,376,1500912000"; d="scan'208";a="25613261"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Sep 2017 15:52:26 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4BC2547278C4
+	Mon, 11 Sep 2017 08:37:13 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id a43so12964969wrc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 15:52:23 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Mon, 11 Sep 2017 15:52:25 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 15:52:17 +0800
-Message-ID: <1505116337-28627-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1505116337-28627-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1505116337-28627-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	Mon, 11 Sep 2017 01:37:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=JF+09429TTXWvoeEwLA/KwCqJm6Aqd/HzmipwsI7pxY=;
+	b=WTA25XYsBmkwEL5fG/tyM9zgThcura2nBPO7ltuUI7D9Nv5ZC4fNmS1R0cNGMtpPB5
+	unlmxZBicG+ogOCNDIK/rzKjcpZH0IQXoZuYRpxBlfUZWQqBcP0kB0WHIYQDHTSbkH5m
+	Tz95TGv6r544SghTkCsOJkYwXUJe6AmXxSQMr5ZMCALpsklz58y3CvIi8VgKvn7hWDyZ
+	+5HF8IKM0fChBqYscQVHokYdKmOWflnxlaAo69LuooWrbuAiFxY/E8xz5MIickDvt+lV
+	4JnAphKchmHA3OQDCD+bfcVBNfpv+Gwi6nbercyFwNpXKS39Y5jzNdYVF424ydnR654u
+	nUpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=JF+09429TTXWvoeEwLA/KwCqJm6Aqd/HzmipwsI7pxY=;
+	b=t0MgKk57mqKECjFeHTGN38wB/kJ+d6/uaAQQV2Ea+pQAtn5HUQ+zSO/lzLZlDjsZKD
+	7jmXMkQmVSHekCZ5F+UE/ChhxZGrua15YOrWF4HLtloaDtSZinKDSnrcGzo/HuAaqRBX
+	HtOlMNkD+vm3/O7YQE+YokSfiqCSkV/pQjfbSSe+BpRSwPu5W4wmfO+Z4Yr3hk5JIqyD
+	2LOtZfkdTfb9qsC7ef8GX61O4qepGlTmcJOTD+mD+SIQV84YWSmWUoUp22Cif3HVKnTo
+	G8SN1SIvEtbHEi63f6BAXVfPWWxM078noBg4bc08+oXwOQwyrqdwpIoGqrHm9QGVdO6w
+	6ZzA==
+X-Gm-Message-State: AHPjjUit0/LkLeWbUjelbCEq+0tv6Eqyr8iWgtZA6AZB3x48eqVL1fX2
+	Jw/cJ2oh4TF345sVTf3lKrG0ZpST6cIv
+X-Google-Smtp-Source: ADKCNb6QQG3i7s3yWpfYaQcQ8zq15R0GkZeWTcpKV85JBxwuxTAjBilz5FepD9kOKKVECPxYuUGC84lCBfJ0hB6awrc=
+X-Received: by 10.223.136.43 with SMTP id d40mr7583814wrd.121.1505119034479;
+	Mon, 11 Sep 2017 01:37:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 4BC2547278C4.A3B20
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] python-nose: Add HOMEPAGE info into recipe file.
+Received: by 10.223.155.157 with HTTP; Mon, 11 Sep 2017 01:37:13 -0700 (PDT)
+In-Reply-To: <20170911072328.8449-1-mnhu@prevas.dk>
+References: <20170911072328.8449-1-mnhu@prevas.dk>
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Mon, 11 Sep 2017 09:37:13 +0100
+Message-ID: <CAPyrkgydBLXaSn5jjMajy_PO4gs=5GbDzYRypbBiPCdN833yYQ@mail.gmail.com>
+To: =?UTF-8?Q?Martin_Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Revert "kernel-module-split: rrecommend kernel-image instead of rdepend"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +56,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 07:52:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Sep 2017 08:37:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-devtools/python/python-nose_1.3.7.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Sep 11, 2017 at 8:23 AM, Martin Hundeb=C3=B8ll <mnhu@prevas.dk> wro=
+te:
+> This reverts commit e0ed52c51464855e9a6a37ea49df7efde7e91076.
+>
+> Commit e0ed52c514 ('kernel-module-split: rrecommend kernel-image instead
+> of rdepend') changed kernel modules to rrecommend kernel-image instead
+> of rdepend on kernel. This broke existing setups, where the kernel is
+> omitted by setting RDEPEND_kernel-base =3D "".
+>
+> Revert the patch, as the existing way of omitting kernel-image in images
+> works just fine.
 
-diff --git a/meta/recipes-devtools/python/python-nose_1.3.7.bb b/meta/recipes-devtools/python/python-nose_1.3.7.bb
-index 3757f3a..9b3509c 100644
---- a/meta/recipes-devtools/python/python-nose_1.3.7.bb
-+++ b/meta/recipes-devtools/python/python-nose_1.3.7.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Extends Python unittest to make testing easier"
-+HOMEPAGE = "http://readthedocs.org/docs/nose/"
- DESCRIPTION = "nose extends the test loading and running features of unittest, \
- making it easier to write, find and run tests."
- SECTION = "devel/python"
--- 
-2.7.4
+This is missing a Signed-off-by tag.
 
+> ---
+>  meta/classes/kernel-module-split.bbclass | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kern=
+el-module-split.bbclass
+> index 78843c5474..1035525dac 100644
+> --- a/meta/classes/kernel-module-split.bbclass
+> +++ b/meta/classes/kernel-module-split.bbclass
+> @@ -120,11 +120,6 @@ python split_kernel_module_packages () {
+>                  rdepends[dep] =3D []
+>          d.setVar('RDEPENDS_' + pkg, bb.utils.join_deps(rdepends, commase=
+p=3DFalse))
+>
+> -        # let kernel modules runtime recommend kernel image
+> -        rrecommends =3D bb.utils.explode_dep_versions2(d.getVar('RRECOMM=
+ENDS_' + pkg) or "")
+> -        rrecommends['kernel-image'] =3D []
+> -        d.setVar('RRECOMMENDS_' + pkg, bb.utils.join_deps(rrecommends, c=
+ommasep=3DFalse))
+> -
+>          # Avoid automatic -dev recommendations for modules ending with -=
+dev.
+>          d.setVarFlag('RRECOMMENDS_' + pkg, 'nodeprrecs', 1)
+>
+> @@ -143,7 +138,7 @@ python split_kernel_module_packages () {
+>      postinst =3D d.getVar('pkg_postinst_modules')
+>      postrm =3D d.getVar('pkg_postrm_modules')
+>
+> -    modules =3D do_split_packages(d, root=3D'${nonarch_base_libdir}/modu=
+les', file_regex=3Dmodule_regex, output_pattern=3Dmodule_pattern, descripti=
+on=3D'%s kernel module', postinst=3Dpostinst, postrm=3Dpostrm, recursive=3D=
+True, hook=3Dfrob_metadata, extra_depends=3D'')
+> +    modules =3D do_split_packages(d, root=3D'${nonarch_base_libdir}/modu=
+les', file_regex=3Dmodule_regex, output_pattern=3Dmodule_pattern, descripti=
+on=3D'%s kernel module', postinst=3Dpostinst, postrm=3Dpostrm, recursive=3D=
+True, hook=3Dfrob_metadata, extra_depends=3D'kernel-%s' % (d.getVar("KERNEL=
+_VERSION")))
+>      if modules:
+>          metapkg =3D d.getVar('KERNEL_MODULES_META_PACKAGE')
+>          d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
+> --
+> 2.14.1
+>
 
+Change looks good.
 
+Thanks,
+
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
 
