@@ -1,60 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BBB0F77E96
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9409977F70
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 21:58:17 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id c69so6202078qke.5
+	Mon, 11 Sep 2017 22:00:13 +0000 (UTC)
+Received: by mail-io0-f170.google.com with SMTP id v36so22692518ioi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 14:58:19 -0700 (PDT)
+	Mon, 11 Sep 2017 15:00:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=5T5gwVC4+SCkoLdfJ5OpJOPNq5s6Bh29TuQMza0Yg9c=;
-	b=Z4K3gWwBgmML2D/tMJyPjUi2b1SFkMhsecypdgqwLCo3CORM9cVtdUIGE/0bisialA
-	FrD1PJ4v/SP/VDUtyqP900BMm4cPkDAhg+cU5vsP+T1AkaABrLp7eStnZBaPXfiumeZR
-	DR4CFHbfEim4RDy2qss066YHSMCnMVHlsn2QOe2zrHN5o2jNjJTJtC/1+IizaKCDt9LX
-	2VebOJ3Up8tBeYwWFw78ceBJ9oSDl0eK4+acb2/fq/F2lu+xJIgJ3iXrU7F0A1xXANXE
-	DMrvlk9cNGm/NZKlyPb6DoVA/fET4y0r8h9zm0ZZwhdENZnQZDBGSl7u+nqIjjpInBzl
-	JBjA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=80vqoD10rXLdWeuXUBTxa2D7aQfvPeXWCGnfz9i5izo=;
+	b=gGnlBXOoVpcrjl0n52gJXatoBIHCIgENWvObqi2Jv1Dons6cL65qG3CA/vMKjFi7As
+	fhsTNsCef4WaJjyqeUPaZSX84RbEGVILwcEw4fShIC7DfOwVdH1TAH4jViaAGpoIzlJy
+	uRScRCuoxmy7mWm5zqr2CjfK7hlAhM5VyNI9YOhyoPBkeFPaa6x0N00RzG+E5O94qv86
+	mXuoPdzSLSvLC07XvUFuvm/er5tKUSMs5IdQwMhWuQ7ffj8WI7hj5m/3Q6h3iq5p7gOQ
+	YPCf9OvARR2fw9/bc7KEXnh+O6UrGO0wDH57rADtRa1jvTvwW8RL6fLJoWZp5RiEztnj
+	nFyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=5T5gwVC4+SCkoLdfJ5OpJOPNq5s6Bh29TuQMza0Yg9c=;
-	b=R773Nvtgj5jh/H6zgAKYFpSVafZCXeQcVnzNmf08aUuqDrmJRz1VxoMb9L6iotk05b
-	Xgw/AVvntckzlSx50tSX9dWjUBuw5LIKjZQe2+UPvhB+pdLgOwzSJAMqOYubiHyLBVuu
-	FOotC+eWb1V9/cbvfz6X9TX4Mk3MsYeGoPkTsEhciTnlXGkyq0ubJBnuKnjpuDep5HVV
-	eAUIvKjEsdVpiHPZulYQPSoIBFtvGlcNPLcSbGcT6l6gRLGsjm2TU76w8MOJJcsh9doE
-	Xgti7dWCISvz6pFAy/KLaOcF0OUQG2XKtUAm8wiIL28VGJ8adHFi4xWh/eKqzwjP/mtD
-	G71w==
-X-Gm-Message-State: AHPjjUgpmVbDm/fHDjPhJhRh0q+QcxGpiVPSuzFMKI/w+JHzsemyL6lK
-	NmqLDpZAKzrjS+PSY9E=
-X-Received: by 10.55.31.88 with SMTP id f85mr16486674qkf.201.1505167097969;
-	Mon, 11 Sep 2017 14:58:17 -0700 (PDT)
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com.
-	[209.85.223.171]) by smtp.gmail.com with ESMTPSA id
-	s37sm6918455qts.27.2017.09.11.14.58.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Sep 2017 14:58:16 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-io0-f171.google.com with SMTP id n69so34496734ioi.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 14:58:16 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QCQZb3jlBsqhKhKFgI6/GSgY47KCmKC4Y3lF0ISc+MiUtjOdaPlYiilA2ax7S0eC6QExlwaBecZPAZyNX4tzic=
-X-Received: by 10.202.94.67 with SMTP id s64mr3377799oib.249.1505167096151;
-	Mon, 11 Sep 2017 14:58:16 -0700 (PDT)
+	bh=80vqoD10rXLdWeuXUBTxa2D7aQfvPeXWCGnfz9i5izo=;
+	b=Unmz6akKSIbdt3q1AkAmT1wUmVG7OLWvAfvOa3BfFibhELpvjzVaievm1UOtvkZSvH
+	oQpDRh8h0fn2OdOwTB/ng1hcMw1Z+rOit+Xii+EPlxEAMuPYaSQxMqbj+fzUibDhRZmx
+	UIZo8OC6G0BL+WtVq0pjfQPr1hyq2XcVCF5fyghSYKB/YnCMvM0w7D8k/lkkO+zZjhWg
+	vT8qi1rYoZVfO+lMOn7oTmT7+Fq9vrHyZ5uSqYxrFbeNW2H3KC/1cXEeu2+ye+naM3cz
+	yq6hzakF7YsFVfEcKSZCQ1HERlD0sP+GMpojAwsLxeaWJ5kpTmW70ZjXFgUNiAUUGQu/
+	Bnvw==
+X-Gm-Message-State: AHPjjUi32eGrqyo2eJ6segcfDaJ1wgbcqsGE3MoPREIcX9pG03pse/SE
+	m0Zm8D9StKiTDgNwGY1X3Egf99NvYIMD
+X-Google-Smtp-Source: AOwi7QDnMxlO1pF+x4volB2gpCAE5NGRUiHNJGX5ZSAdEoCw9Af7GNChqTN2ftwBXLLSFe8hHhUIag1euhV9Ue88M1I=
+X-Received: by 10.107.32.70 with SMTP id g67mr8958379iog.77.1505167213702;
+	Mon, 11 Sep 2017 15:00:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Mon, 11 Sep 2017 14:58:15 -0700 (PDT)
-In-Reply-To: <CAJTo0LZgBgWL0c9ZaDRFvvKxfULKeDkvGOhAiczGWMXWNrL=Yg@mail.gmail.com>
+Received: by 10.107.19.68 with HTTP; Mon, 11 Sep 2017 14:59:53 -0700 (PDT)
+In-Reply-To: <CAP9ODKpmxcObf-re-298t_uLu2HNCnByi+ic_b8EEJDJ-227iQ@mail.gmail.com>
 References: <20170911213326.3480-1-california.l.sullivan@intel.com>
 	<CAJTo0LZgBgWL0c9ZaDRFvvKxfULKeDkvGOhAiczGWMXWNrL=Yg@mail.gmail.com>
-Date: Mon, 11 Sep 2017 18:58:15 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpmxcObf-re-298t_uLu2HNCnByi+ic_b8EEJDJ-227iQ@mail.gmail.com>
-Message-ID: <CAP9ODKpmxcObf-re-298t_uLu2HNCnByi+ic_b8EEJDJ-227iQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKpmxcObf-re-298t_uLu2HNCnByi+ic_b8EEJDJ-227iQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Sep 2017 22:59:53 +0100
+Message-ID: <CAJTo0Lb42b-PT3_u-1vS-apadje4+ZYpP=8jB4q9oc2jmzjgPw@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] initramfs-framework: bump PR and fix install-efi and setup-live modules
@@ -70,25 +58,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 21:58:17 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 22:00:13 -0000
+Content-Type: multipart/alternative; boundary="001a1140ae2c19c75c0558f10d66"
+
+--001a1140ae2c19c75c0558f10d66
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 11, 2017 at 6:49 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 11 September 2017 at 22:33, California Sullivan
-> <california.l.sullivan@intel.com> wrote:
->>
->> Bump initramfs-framework PR, as it was missed in the previous
->> initramfs-framework patch.
+On 11 September 2017 at 22:58, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> On Mon, Sep 11, 2017 at 6:49 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > On 11 September 2017 at 22:33, California Sullivan
+> > <california.l.sullivan@intel.com> wrote:
+> >>
+> >> Bump initramfs-framework PR, as it was missed in the previous
+> >> initramfs-framework patch.
+> >
+> >
+> > There's no need to bump PR.  In the ideal world, the PR isn't assigned at
+> > all.
 >
+> there is, the package moved across arches so adding the PR makes sure
+> it is upgraded.
 >
-> There's no need to bump PR.  In the ideal world, the PR isn't assigned at
-> all.
 
-there is, the package moved across arches so adding the PR makes sure
-it is upgraded.
+Surely the PR service handles this if you're running a feed.  If you're not
+running a feed then this isn't a problem.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross
 
+--001a1140ae2c19c75c0558f10d66
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 11 September 2017 at 22:58, Otavio Salvador <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"=
+_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><span class=3D"">On Mon, Sep 11, 2017 at 6:49 PM, Burton, Ross &lt;<a href=
+=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt; On 11 September 2017 at 22:33, California Sullivan<br>
+&gt; &lt;<a href=3D"mailto:california.l.sullivan@intel.com">california.l.su=
+llivan@intel.<wbr>com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Bump initramfs-framework PR, as it was missed in the previous<br>
+&gt;&gt; initramfs-framework patch.<br>
+&gt;<br>
+&gt;<br>
+&gt; There&#39;s no need to bump PR.=C2=A0 In the ideal world, the PR isn&#=
+39;t assigned at<br>
+&gt; all.<br>
+<br>
+</span>there is, the package moved across arches so adding the PR makes sur=
+e<br>
+it is upgraded.<br></blockquote><div><br></div><div>Surely the PR service h=
+andles this if you&#39;re running a feed.=C2=A0 If you&#39;re not running a=
+ feed then this isn&#39;t a problem.</div><div><br></div><div>Ross=C2=A0</d=
+iv></div></div></div>
+
+--001a1140ae2c19c75c0558f10d66--
