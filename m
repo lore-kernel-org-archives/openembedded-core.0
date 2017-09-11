@@ -1,22 +1,28 @@
-Return-Path: <swee.aun.khor@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E792560043
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B5EB571996
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Sep 2017 14:37:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Sep 2017 07:37:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,372,1500966000"; d="scan'208";a="1170853601"
-Received: from echidna.jf.intel.com ([10.54.77.34])
-	by orsmga001.jf.intel.com with ESMTP; 10 Sep 2017 07:37:29 -0700
-From: swee.aun.khor@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Sep 2017 00:28:30 -0700
-Message-Id: <1505028510-18691-1-git-send-email-swee.aun.khor@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: saul.wold@intel.com
-Subject: [PATCH] dpkg: Support muslx32 build
+	Mon, 11 Sep 2017 01:38:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8B1ciFj007146
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 10 Sep 2017 18:38:44 -0700
+Received: from [128.224.162.167] (128.224.162.167) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Sun, 10 Sep 2017 18:38:43 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1504598502.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <5fc330f9-9c0b-40e0-0d69-0fc1725a2f7c@windriver.com>
+Date: Mon, 11 Sep 2017 09:43:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <cover.1504598502.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.167]
+Subject: Re: [PATCH 0/2] systemd: fix dependency issue related to serial getty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,79 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Sep 2017 14:37:29 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 01:38:43 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: sweeaun <swee.aun.khor@intel.com>
+ping
 
-Modified ostable and tupletable to support muslx32 build.
-
-Signed-off-by: sweeaun <swee.aun.khor@intel.com>
----
- .../dpkg/0001-dpkg-Support-muslx32-build.patch     | 41 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.18.24.bb         |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch b/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
-new file mode 100644
-index 0000000..50e6894
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-dpkg-Support-muslx32-build.patch
-@@ -0,0 +1,41 @@
-+From a328c8bec0bf8071ae8f20fee4c7475205064ba1 Mon Sep 17 00:00:00 2001
-+From: sweeaun <swee.aun.khor@intel.com>
-+Date: Sun, 10 Sep 2017 00:14:15 -0700
-+Subject: [PATCH] dpkg: Support muslx32 build
-+
-+Upstream-Status: Pending.
-+Changes made on ostable and tupletable to enable muslx32 build.
-+
-+Signed-off-by: sweeaun <swee.aun.khor@intel.com>
-+---
-+ data/ostable    | 1 +
-+ data/tupletable | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/data/ostable b/data/ostable
-+index be64342..87db273 100644
-+--- a/data/ostable
-++++ b/data/ostable
-+@@ -19,6 +19,7 @@ base-uclibc-linux	linux-uclibc		linux[^-]*-uclibc
-+ eabihf-musl-linux	linux-musleabihf	linux[^-]*-musleabihf
-+ eabi-musl-linux		linux-musleabi		linux[^-]*-musleabi
-+ base-musl-linux		linux-musl		linux[^-]*-musl
-++x32-musl-linux		linux-muslx32		linux[^-]*-muslx32
-+ eabihf-gnu-linux	linux-gnueabihf		linux[^-]*-gnueabihf
-+ eabi-gnu-linux		linux-gnueabi		linux[^-]*-gnueabi
-+ abin32-gnu-linux	linux-gnuabin32		linux[^-]*-gnuabin32
-+diff --git a/data/tupletable b/data/tupletable
-+index 28f00bf..748ffab 100644
-+--- a/data/tupletable
-++++ b/data/tupletable
-+@@ -10,6 +10,7 @@ base-uclibc-linux-<cpu>		uclibc-linux-<cpu>
-+ eabihf-musl-linux-arm		musl-linux-armhf
-+ eabi-musl-linux-arm		musl-linux-armel
-+ base-musl-linux-<cpu>		musl-linux-<cpu>
-++x32-musl-linux-amd64		x32
-+ ilp32-gnu-linux-arm64		arm64ilp32
-+ eabihf-gnu-linux-arm		armhf
-+ eabi-gnu-linux-arm		armel
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.18.24.bb b/meta/recipes-devtools/dpkg/dpkg_1.18.24.bb
-index f06b604..7e241af 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.18.24.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.18.24.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-            file://0005-dpkg-compiler.m4-remove-Wvla.patch \
-            file://0006-add-musleabi-to-known-target-tripets.patch \
-            file://0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch \
-+           file://0001-dpkg-Support-muslx32-build.patch \
-            "
- SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch "
- 
--- 
-2.7.4
+On 09/05/2017 04:07 PM, Chen Qi wrote:
+> The following changes since commit 15eac6befb6c4d16bc1b814e040bd7bf006a5bee:
+>
+>    linux-yocto: add linux-yocto 4.12 bbappends (2017-08-31 23:37:10 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/systemd-serialgetty
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-serialgetty
+>
+> Chen Qi (2):
+>    systemd: change some RRECOMMENDS to RDEPENDS
+>    systemd-serialgetty: remove systemd from RDEPENDS
+>
+>   meta/recipes-core/systemd/systemd-serialgetty.bb | 2 --
+>   meta/recipes-core/systemd/systemd_234.bb         | 8 ++++----
+>   2 files changed, 4 insertions(+), 6 deletions(-)
+>
 
 
