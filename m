@@ -1,54 +1,48 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9470860107
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B3E877E33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 08:48:47 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id 108so12989298wra.5
+	Mon, 11 Sep 2017 08:59:10 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id g32so4218940ioj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 01:48:49 -0700 (PDT)
+	Mon, 11 Sep 2017 01:59:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:organization:mime-version
-	:content-transfer-encoding;
-	bh=6hS+CevHc+/8nmxRQSxQleyD8uI1bo4BgRpy+x45QBQ=;
-	b=1QxTaO/sukjf437cDFBG8ml+VbULn2URGZ8eltoD6VMMaA091zRaSlIBueIAtC7bxw
-	R7Zf3Vcf26PNk/it3SlSAfsfWgF6E5Gzij80I++evy+qD7xiaD88twyTh4N3vPQl4+rl
-	TdqJl4Nd1ie6QNCVnQ+XrtWh5NYsBfIuuCULT/0HmC9ohbcbZhsEOPjMx9KKTCNZVnxv
-	ydEVFV/ZXQ4KEIUAY1iJnTl7gQ15G2QYtTZxcFXl08XP0zkd19Xt/YPQQvZfVeVko0Lj
-	GNNFNAadf7wWg61gqLK8uLG5jdATBz8xDtYZ3vXwaxO7FU2wcmK99nRJfB7TpegT40Fi
-	uIfg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JIJtb/rrOoL0YigOiy9nVmhVY2gYFfDGUVLksYi0/2M=;
+	b=QrALelvQ8ui4++HivUkpCeT+6k6SH1R0S+javLGaFchwkM1Z8mDsKwM9d/JpApiDbV
+	C0jxvRhrkUVk0zIC2AgfpYVPg70KE4ou9iDvTuwNL1vYJ/kgH6uLkp6Egrp/TF3jVQ4X
+	uf+0P2fwZOj0HLK+CqV1/POk2bLVcw1SDt6mdLjoOP1N4pzcftfB/TSbRALzc6LYpNEN
+	1dIQ7Gq1KQN9tO9dx3x+RWd5hHimJDWpYOSZJjo04sXCq7K94/jlvfRJztMJRdOcH0oN
+	4jtII1PS68WjYMmkt/5WMGAaxwfwhAD5R/JZdFD/+a43Xw29ohQb0YYiLMIcUeIzTrIL
+	EwSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:organization
-	:mime-version:content-transfer-encoding;
-	bh=6hS+CevHc+/8nmxRQSxQleyD8uI1bo4BgRpy+x45QBQ=;
-	b=BY262ZQVDVuafwq7CcmjkjTWDCus0vvxLWPIRtce31INP6JA9V0tdsGDUMLw/Bv/xj
-	TYztro/839wcr29ILEQRcZbWyn34M/S7uQXVMSOmwUaM5bW01MTWFsDTYfcFFp8sBLBw
-	WMILlqs1cncZ6E/OJ7nD+26ZLLuvQvJP9z1qjiAGlgXqk/tgaygLJgcKmGbybfJP+WPG
-	Ea8x3aorduTw5p6JYKBTOiLYy6UJZFr0lqS/rEKXSENyfqL41oCK0YXwPbBjT6Z+pJin
-	OxWWNBK+GWg1zyqypvjvYqRP27K8wR4+G5Iu3p/2VRy6SBwfo8OUr58qmkD+E8qs6R24
-	AXiA==
-X-Gm-Message-State: AHPjjUggu04ioxO3fOfZOcOT98zohr+I3JczCFiAsLNy6OkGBhbetsL9
-	+CHX64AQDLRoLdH7
-X-Google-Smtp-Source: ADKCNb6XJ8fswJXcQE1KJj61WXWU4WaiLVFgmjXiKcr+RRYOY5D9y3jsEWo5hEbVKxh/QfzpQjrPvA==
-X-Received: by 10.223.161.194 with SMTP id v2mr8429429wrv.45.1505119728399;
-	Mon, 11 Sep 2017 01:48:48 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F185.dip0.t-ipconnect.de. [93.232.241.133])
-	by smtp.gmail.com with ESMTPSA id
-	n57sm1231695wrn.29.2017.09.11.01.48.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 11 Sep 2017 01:48:47 -0700 (PDT)
-Message-ID: <1505119726.9633.18.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>,  OpenEmbedded
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Sep 2017 10:48:46 +0200
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: hidraw support in the kernel(s)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JIJtb/rrOoL0YigOiy9nVmhVY2gYFfDGUVLksYi0/2M=;
+	b=AUs8kwbwHVvvsCIZCv/RI/pqR7/zap1Kz9m/1HlOpCCbfq4LDNKDuqxbQil4mnophr
+	r+Ahg5Iy/B38ZlyZNUAzRWTttKmmtKc6KHlT/n2gVwWDRDkmqsc6rSXiecH2v0WEENlF
+	Ufp2aUMRTA1heUm0mS6RECogkLn4YMd6Z9sxtVa4GmBvgjA7MPxhl/MnK8Yt+Tjb0DQx
+	t1HHchxKmY+o3tPhokuF5UG0SP5m3XAwR7/VdXeXbWpKcTSSr+eiIGgOAZw7RZf5bYae
+	0w1PN/LhBeBOPDgcuGoFVoJfKbS0IIhg7Ujw1ZpvjX18rwyh4zUeRnlzD4iBlAxpAvsQ
+	c8lA==
+X-Gm-Message-State: AHPjjUh3A36pfMp7gJ5BG9JnPveku2Wju9nF18pSSnqE3kW85xAShR0q
+	REGowAQfN+HoEgEhSwHr70q3IIi8Ve7z
+X-Google-Smtp-Source: AOwi7QAnIAClFD0SFRY1N7FlaOG0Wjd6+Dif2PdWkZ6DldYF2zphVaureIY76j3HmvLf7VnlmdDM9p27bLUjISHygKc=
+X-Received: by 10.107.164.28 with SMTP id n28mr13746642ioe.175.1505120351388; 
+	Mon, 11 Sep 2017 01:59:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.19.68 with HTTP; Mon, 11 Sep 2017 01:58:50 -0700 (PDT)
+In-Reply-To: <20170910131446.4555-0-nathan@nathanrossi.com>
+References: <20170910131446.4555-0-nathan@nathanrossi.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Sep 2017 09:58:50 +0100
+Message-ID: <CAJTo0LaqHGMPDF=JHGw5NcBzvTkFbP2bQfmgcG8o-Zx0hTeD3g@mail.gmail.com>
+To: Nathan Rossi <nathan@nathanrossi.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Recipes for Open Source Verilog and Lattice iCE40 FPGAs tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,35 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 08:48:47 -0000
+X-List-Received-Date: Mon, 11 Sep 2017 08:59:10 -0000
+Content-Type: multipart/alternative; boundary="001a114223ace3aab30558e6231d"
+
+--001a114223ace3aab30558e6231d
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-Hello!
+On 10 September 2017 at 14:14, Nathan Rossi <nathan@nathanrossi.com> wrote:
 
-I am currently trying to get fwupd [1] working. For updating a Lenovo
-Unifying Dongle (the USB thingie which connects to wireless mice and
-keyboards), the kernel has to support hidraw, aka CONFIG_HIDRAW,
-otherwise fwupd does not find the dongle.
+> Please note whilst this series is sent for oe-core it may be better
+> located in another layer? (e.g. meta-oe). However since the recipes and
+> the tools they build are not specific to a single BSP it did not make
+> sense to keep in a BSP specific layer.
+>
 
-http://www.signal11.us/oss/udev/ is an article that seems to explain
-the underlying API used by fwupd. Other apps might also need it. The
-recommendation is to enable it unless there are reasons not to do so:
-http://cateee.net/lkddb/web-lkddb/HIDRAW.html
+Sounds like a dedicated FPGA layer would be ideal.
 
-So is there a reason why CONFIG_HIDRAW is disabled in linux-intel and
-(presumably, I haven't checked) linux-yocto for intel-corei7-64?
+Ross
 
-What would be the right way of enabling it? On by default as part of
-some existing kernel feature perhaps? Or a new feature?
+--001a114223ace3aab30558e6231d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best Regards, Patrick Ohly
+<div dir=3D"ltr">On 10 September 2017 at 14:14, Nathan Rossi <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:nathan@nathanrossi.com" target=3D"_blank">nathan@=
+nathanrossi.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">Please note whilst this =
+series is sent for oe-core it may be better<br>
+located in another layer? (e.g. meta-oe). However since the recipes and<br>
+the tools they build are not specific to a single BSP it did not make<br>
+sense to keep in a BSP specific layer.<br></blockquote><div><br></div><div>=
+Sounds like a dedicated FPGA layer would be ideal.</div><div><br></div><div=
+>Ross=C2=A0</div></div><br></div></div>
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+--001a114223ace3aab30558e6231d--
