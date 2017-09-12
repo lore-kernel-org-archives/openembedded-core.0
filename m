@@ -1,64 +1,30 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B1E1F78456
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DA70D7846B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 17:00:45 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id q80so6155298ywg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 10:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=LHBsotu3z94R/E8j4jh/VvikjSc3AwQB101J4RNZXog=;
-	b=QUGF/KRd+XPPFGzdlmSZ12cyrkZ2s40hUMEC7fTr1yhKDHpQPWRI5oACy8zqGtmO7+
-	rdgJyyF0fioW8DhhhUK9T3/O5lKJXwAsxmyLN7oG9QTHoapwsGrqN7QqKa9dHbZuOrlC
-	IzWMof4GKDcnrBwaimQUROxwmNwAFwrcauBnGgykfc5q9UqcAf4RTiisPRIC9smZiqi7
-	Njc+QGCyk5zM3Bta7+wQU5bz5qEz2JJBefb3visa95OhAg0H09aqMa0ZGQz29TWqcys/
-	iXOyNDGPV37cugH5ohAmqEXsLnNdPPs5Yb1w8DwYI0nZMkXLP/zmiENfPhHs4O1hwmls
-	9oXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=LHBsotu3z94R/E8j4jh/VvikjSc3AwQB101J4RNZXog=;
-	b=sNEKNSykr77EsEHYfqFrJWU9BxO3WegsDPKFHLVhf+fNkbYOZ0Om8hErUtI9D8kOfZ
-	tDUWxoqXQ9zU6XRfOe7LGfFBlkg7taxfYhgT078tXCxxofC8A9zHI25gvfUB9jQ6XHdP
-	WBmaGq+eIadJPB43NyM7FDdVGCZNBuw4ABdq3+chdINY9fOxrAbjUZ51qfmkDc1Aw4IR
-	XitwoXOYabGcbeUR091uHKIu0H9snoKx87jkpAuK9w6Uvi/zPQvfC/Kyhg62LT2e8Y1V
-	cuSbA0TJZmvNXCKxoAxP0zxtxqSvQ/jzHreASFBmkiepcBRPXcQWRTBOn/4aWBwc/f/M
-	Tbyg==
-X-Gm-Message-State: AHPjjUg6pN7ji0jxe/6SzFJCwfDZlegZ5mdQaRP4eISHgEzLZgnsCTZh
-	fth/7Ya00ChBylerCt8=
-X-Received: by 10.37.174.87 with SMTP id g23mr7878351ybe.43.1505235646151;
-	Tue, 12 Sep 2017 10:00:46 -0700 (PDT)
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com.
-	[209.85.223.175])
-	by smtp.gmail.com with ESMTPSA id j6sm562686ywg.44.2017.09.12.10.00.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Sep 2017 10:00:44 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-io0-f175.google.com with SMTP id v36so38323675ioi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 10:00:44 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QDSuWbQNuDfDPs9vHqWRtIfm0e1OnKSieynzVdGqjhxYk2KD9ql2dMWOBNmyx8EtvcUdCEkY80pH9eVeyvnHrs=
-X-Received: by 10.202.83.10 with SMTP id h10mr14831540oib.56.1505235643883;
-	Tue, 12 Sep 2017 10:00:43 -0700 (PDT)
+	Tue, 12 Sep 2017 17:31:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8CHVcuV003983
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Sep 2017 10:31:38 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 12 Sep 2017 10:31:37 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170912155906.29716-1-ross.burton@intel.com>
+	<fd5d461b-2217-ef1e-9aa4-690d7508d806@windriver.com>
+	<CAJTo0LYKz5w7fNe=m_5kA+iXpfRvJ9FsxR75_c+=bz4zHTVVWg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <3925ff6f-d39b-df5a-5ac0-cad5d5b72d9e@windriver.com>
+Date: Tue, 12 Sep 2017 12:31:49 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Tue, 12 Sep 2017 10:00:43 -0700 (PDT)
-In-Reply-To: <20170912164531.34d2af4f@t460p>
-References: <20170912134551.12678-1-otavio@ossystems.com.br>
-	<20170912134551.12678-3-otavio@ossystems.com.br>
-	<20170912164531.34d2af4f@t460p>
-Date: Tue, 12 Sep 2017 14:00:43 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoNfmgoL0exFEEfwuPXKwRhcruGfRDBS=QKVKsjGGBQNw@mail.gmail.com>
-Message-ID: <CAP9ODKoNfmgoL0exFEEfwuPXKwRhcruGfRDBS=QKVKsjGGBQNw@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v8 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+In-Reply-To: <CAJTo0LYKz5w7fNe=m_5kA+iXpfRvJ9FsxR75_c+=bz4zHTVVWg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] allarch: don't reset baselib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,37 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 17:00:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Sep 2017 17:31:38 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hello Andreas,
+On 9/12/17 11:34 AM, Burton, Ross wrote:
+> On 12 September 2017 at 17:28, Mark Hatle <mark.hatle@windriver.com
+> <mailto:mark.hatle@windriver.com>> wrote:
+> 
+>     On 9/12/17 10:59 AM, Ross Burton wrote:
+>     > allarch currently resets baselib to "lib" in an attempt to keep allarch recipes
+>     > uniform.  However if the real value for $baselib is actually needed, for example
+>     > in a multilib environment where $baselib is lib64 for standard binaries and the
+>     > allarch package is using postinst intercepts which need to know the real value
+>     > of $libdir, then a non-existant or incorrect $libdir will be used.
+>     >
+>     > Real world example: liberation-fonts is allarch and inherits fontcache, which
+>     > uses a postinst intercept to run fc-cache inside qemu-user.  In a multilib
+>     > configuration where normal libdir=/usr/lib64 and lib32 libdir=/usr/lib qemu will
+>     > try running a 64-bit fc-cache with a 32-bit ld-linux, and predicatably the
+>     > binary crashes.
+> 
+>     This still won't work right.  If we put an allarch package in a configuration
+>     that can be either 32-bit or 64-bit (which is the point of allarch), then how
+>     will it know which arch this magic script is running on?
+> 
+>     It sounds to me like the way the script is running needs to be fixed (and/or
+>     qemu needs to be fixed).   Calls to QEMU should inherit the matching system
+>     envrionment, not assume an environment from the post-install scripts.
+> 
+> 
+> There's several problems, yes.  qemu needs to handle this more gracefully, but
+> it's clearly being told by the postinst-intercept framework to run a binary in
+> rootfs/usr/bin (64-bit) using libraries in rootfs/usr/lib (32-bit).  By not
+> resetting baselib at least allarch packages think libdir is the "native" libdir,
+> not whatever /usr/lib happens to be.
 
-On Tue, Sep 12, 2017 at 11:45 AM, Andreas Oberritter
-<obi@opendreambox.org> wrote:
-> Hi Otavio,
->
-> On Tue, 12 Sep 2017 10:45:51 -0300
-> Otavio Salvador <otavio@ossystems.com.br> wrote:
->
->> +do_configure_devicetree() {
->> +     if [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
->> +             if echo ${KERNEL_IMAGETYPE_FOR_MAKE} | grep -q 'zImage'; then
->> +                     config="${B}/.config"
->> +                     if ! grep -q 'CONFIG_ARM_APPENDED_DTB=y' $config; then
->> +                             bbwarn 'CONFIG_ARM_APPENDED_DTB is NOT enabled in the kernel. Enabling it to allow the kernel to boot with the Device Tree appended!'
->> +                             sed -i "/CONFIG_ARM_APPENDED_DTB[ =]/d" $config
->> +                             echo "CONFIG_ARM_APPENDED_DTB=y" >> $config
->> +                             echo "# CONFIG_ARM_ATAG_DTB_COMPAT is not set" >> $config
->
-> what about CONFIG_MIPS_APPENDED_DTB?
->
-> Can we ever make sure to cover all relevant architectures?
+The call to qemu really should not be embedded into the postinst-intercept
+script.  The framework itself is what should 'know' what it is doing and deal
+with it.  The package can provide hints.. perhaps something like:
 
-I don't know the details about the MIPS and its appended DTB support.
-Do you know what we need?
+call-qemu <arch> <command>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Then the postinst stuff would implement the call-qemu 'function' (wrapper or
+whatever) that would do the right thing for a given arch specified.
+
+> I guess the true solution is for the recipes to not need to know the library
+> path.  Not sure how to do that yet though...
+> 
+> Also its interesting that nobody else noticed this: multilib images that
+> installed fonts were segfaulting in rootfs...
+
+If the segfault is causing the postinst to exit w/ an error (non-0) then it's
+likely re-running on the target itself (and thus working).  If not, ugh.
+
+I don't have a good answer how to resolve this 'right now' with the time we have.
+
+--Mark
 
