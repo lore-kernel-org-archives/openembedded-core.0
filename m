@@ -1,58 +1,64 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 97FDA78459
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com
+	[209.85.161.170])
+	by mail.openembedded.org (Postfix) with ESMTP id ECADD71AC9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 13:30:43 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8CDUhMm020208
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:30:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1505223044;
-	bh=ljEA1gTAyPTiNna2cOvpqUsdK68we2JNuCrTj/JPFJ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Sender;
-	b=V7xLYcPeA1EqtItlAXYSnrUMdXJLqSPgq5fZI0T2+rqBxPk3shvHs1JmpXlXdKjAu
-	LM+phiPGziMfohfQXY6TYyxDgk5EUkdxD+NOZXuWijqbKL3h0F4jk/t+iNBfVqARbQ
-	UbC5fPof3H+BXyTIGgJGCWn2VzUQ2uW5UpGTtsYc=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8CDUbAp021130 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 12 Sep 2017 15:30:37 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 1A7157C5EFF;
-	Tue, 12 Sep 2017 15:25:34 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8CDUZQs021127
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 12 Sep 2017 15:30:35 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1drlGt-0003cI-On; Tue, 12 Sep 2017 15:30:35 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Sep 2017 15:30:33 +0200
-Message-Id: <20170912133033.13866-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
-References: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -4.6
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.79
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH v2] image_types: support lz4 compressed squashfs
+	Tue, 12 Sep 2017 13:32:18 +0000 (UTC)
+Received: by mail-yw0-f170.google.com with SMTP id s62so28231400ywg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Sep 2017 06:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=HiUgppZyf732dEbmCKyFZazuiionl7lLUsVI/CbRMkA=;
+	b=19EVilH13ssx3QgqR5jovXVBSJ1NZKARMb1SGF7SkFSEKqi3+iJilsSSrue3u7EEe0
+	lAgbr0Ue/rLX6YDzBmVzCCKCA+G52d8cXCE5vTQNpiQBamybAlWRvZ3Ke/6M59HKoclr
+	D/XtA5T3leGbN2d57bdr3CPJ2a40CeHdW4Xk+WQrIDzDdlZkzFwrlo+2m2D9FZjHiXKs
+	JuPk5mR2Fz17EYJH4NhSnAsS0mphKO28uiM0pDY+VUPhATM/DKvVM7f13+CMkjhy4DUg
+	zShOHmziiImLKcCcwfuRS5O/U4riyi/tTiwPwbmfVeC96WqH6GaMfo4u30l4HTS1uD/V
+	Bi0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=HiUgppZyf732dEbmCKyFZazuiionl7lLUsVI/CbRMkA=;
+	b=EEYKWrFwwP5x9B70GAwpWax8yd4jDuWRXp+ixSbW+Mh/2XfAWrrruqqzCHVUZRJuhi
+	Y9KkhcYlkZ7lnftHmd/rIJ6VfZySrhotUIPgt8LdflCIQ18r3/U8z80zEauh1as1Flly
+	QsEFimHZSy4VDtxUB92B3qW0Q+iMPDwFTLKq1ZOkToZdKbXTlJJvH6LOpNZoBE6fNGmX
+	wwRPk9S0RQS24qp1/RBFV9ufvCPUpXc5oGoZGTVUdHrU7yM9Mfc2yTwA0AH+Vzp0Hqai
+	koMFKNlwueAIQhER8RmxKt8D7H7r4s326c47M7a4owRyv4+kZU0D4FMnihQNdSCzZOrP
+	LJEQ==
+X-Gm-Message-State: AHPjjUhOlpWQKM79IpVb+kt+ST7obnPtlrHJRfjGXC1QRr+i1tXiZ7Py
+	IPqcOJWXtJk5gU5KP30=
+X-Received: by 10.37.187.203 with SMTP id c11mr12357985ybk.11.1505223139514;
+	Tue, 12 Sep 2017 06:32:19 -0700 (PDT)
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com.
+	[209.85.223.169]) by smtp.gmail.com with ESMTPSA id
+	t66sm3797885ywe.79.2017.09.12.06.32.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Sep 2017 06:32:18 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-io0-f169.google.com with SMTP id g32so29327921ioj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Sep 2017 06:32:18 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QAXB5Ky19Q9NWJLUO+ndV23oS4zeHxxwELAESw1b7qEcuOOZb+Ule+IeV2rWYuLiirhxrk9fqEyuzK9h/9xajM=
+X-Received: by 10.202.81.214 with SMTP id f205mr16442077oib.274.1505223137568; 
+	Tue, 12 Sep 2017 06:32:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.0.69 with HTTP; Tue, 12 Sep 2017 06:32:16 -0700 (PDT)
+In-Reply-To: <CA+chaQckTsnPoOeup9v563r1p3Rh5Yn1kDy=4BFaJbT6JPn3KQ@mail.gmail.com>
+References: <20170912125031.4009-1-otavio@ossystems.com.br>
+	<20170912125031.4009-7-otavio@ossystems.com.br>
+	<CA+chaQckTsnPoOeup9v563r1p3Rh5Yn1kDy=4BFaJbT6JPn3KQ@mail.gmail.com>
+Date: Tue, 12 Sep 2017 10:32:16 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoODpumO+yN7qmkEynJ46fZxC6nNW=+oPtnH20sMQT9aw@mail.gmail.com>
+Message-ID: <CAP9ODKoODpumO+yN7qmkEynJ46fZxC6nNW=+oPtnH20sMQT9aw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v8 06/13] go-dep: Move bash dependency to -dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,43 +71,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 13:30:44 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 13:32:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/classes/image_types.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On Tue, Sep 12, 2017 at 10:15 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Doesn't this belong into:
+> [OE-core] [PATCH v8 03/13] go: split out go-runtime into separate recipe
+> where it packaging change was probably introduced?
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 9b646e9..61dca62 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -107,6 +107,7 @@ IMAGE_CMD_btrfs () {
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
- IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
- IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
-+IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lz4 ${EXTRA_IMAGECMD} -noappend -comp lz4"
- 
- # By default, tar from the host is used, which can be quite old. If
- # you need special parameters (like --xattrs) which are only supported
-@@ -236,6 +237,7 @@ do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
- do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
- do_image_squashfs_xz[depends] += "squashfs-tools-native:do_populate_sysroot"
- do_image_squashfs_lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
-+do_image_squashfs_lz4[depends] += "squashfs-tools-native:do_populate_sysroot"
- do_image_elf[depends] += "virtual/kernel:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
- do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
- do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
-@@ -251,7 +253,7 @@ IMAGE_TYPES = " \
-     btrfs \
-     iso \
-     hddimg \
--    squashfs squashfs-xz squashfs-lzo \
-+    squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
-     ubi ubifs multiubi \
-     tar tar.gz tar.bz2 tar.xz tar.lz4 \
-     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+I can squash it; in fact the change was introduced on "[v8,05/13]
+go.bbclass: remove some xxx_FINAL variables". Not sure if it is better
+or worse in this case. What do you think?
+
+> Also just RFC question, would it make sense to use:
+>
+> VIRTUAL-RUNTIME_bash ?= "bash"
+> RDEPENDS_${PN}-dev += "${VIRTUAL-RUNTIME_bash}"
+>
+> instead of the bash dependency directly? If it's acceptable for oe-core I'll
+> create change to do it for all recipe (I don't mind waiting after 2.4 is
+> released).
+>
+> Because right now for reasons described in
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217 I need to do the
+> above +
+> RDEPENDS_${PN}-dev_remove = "bash"
+> for many recipes with many bbappends, for our distro where we RPROVIDE bash
+> by busybox, which is good enough for package manager, but QA error is still
+> shown in cases where the real bash is built before the component rdpenending
+> on it.
+
+I'd be fine with this. It does make sense to allow the replacement of bash.
+
 -- 
-2.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
