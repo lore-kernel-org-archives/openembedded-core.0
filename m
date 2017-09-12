@@ -1,45 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D12BC78449
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 676E778449
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 12:52:18 +0000 (UTC)
-Received: by mail-qk0-f196.google.com with SMTP id r66so6953709qke.4
+	Tue, 12 Sep 2017 12:52:26 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id i50so25315467qtf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 05:52:20 -0700 (PDT)
+	Tue, 12 Sep 2017 05:52:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=hsiC3QH3obHFl/cKZKK+wSRy1AD8PbMyRAFS6jqsIps=;
-	b=VcDUaWqHfIlRugpthYsmNNtx4uCaygy+pueNGKYyeEtM96CqXqm1L75gEE+nfMgkSn
-	m0Lx8DWcb6aWWpRT9jrM/ufOSYE209Z/zxX+dTDWsFneYAsVnogCacfhvzHikUB8aNoM
-	QFL0OKpNyfJs0otckrBBfyj3STEJLbb4AAEftpxx/6EnUxuA8P+G2nnzgzC7NwEjY970
-	Z/hjAW78iYf6xOcvGejmblJQVfXNdG5z56KQbQHshFvB0QrCJe/sWxDj/hX6XiOF8q87
-	OY1SL2ZbMc18UKCz1V3772H5DU5aTNJZ+76yrb7LypLtJr8OSxn1C+/aG0lJw2hW/rJW
-	qsbQ==
-X-Gm-Message-State: AHPjjUhYfg9AwFqZc0vcTPXFVeFTInqxRsoLnfYIze3NABK117obna5x
-	SfFjZg3RJtsuqMFp
-X-Google-Smtp-Source: AOwi7QDi5chcvyUJiWwyjag9HKJhD0ilqDKWY0PylSTUvvBCggPVJKTQC/aORNXlSFb+Nm66eRz2kQ==
-X-Received: by 10.55.132.131 with SMTP id g125mr20220875qkd.87.1505220739526; 
-	Tue, 12 Sep 2017 05:52:19 -0700 (PDT)
+	bh=0z+MgZDbp22YUyutAKiNHYt/TOHbK/mAjdTR7sIY+Kg=;
+	b=ktY+Ab9BXQjkGO24+FQUaZlwDe4+S2t4dMLlDktXCYMpf3LntSK8moRgVSLH4nncnb
+	7sVnv3DLLYbkb+9o04p7u98jG2bRqCSAXNV/syVcHlhJoKgDTZyIDnj0IPcdT5JwECJQ
+	FqctEz63Rba4JeDCx5Hjx71J34oKo8ttqbyo6HudZVaS1pdHbtMKBJbq2w+TIss6TdV7
+	X14xmea/gMzpGNF5BkI2nwy88PtHDSRTDUkds05Ma/UI6+uBfnWwW4VYpg0TVO2GHBp1
+	3MRtAkoPS26VguyDSS19EkoeWw8rT6hAJYSZij+x041a9iOO4lilWsO0PPJik6nZ2aEn
+	49pQ==
+X-Gm-Message-State: AHPjjUhjWBQptJG21+rSm68vpcz7znLESEyZSphqMkIP6DTt5yugg8jU
+	ZwhG9zrPl7l8xVah
+X-Google-Smtp-Source: AOwi7QBqR/PJvhJ2gS9p3waMEVc8FaAbWAkRJ5BVHRf81Y96uNvHLuD3xBcQYIV9e0Lv8X/AK0Rg1g==
+X-Received: by 10.200.54.240 with SMTP id b45mr20597682qtc.264.1505220747269; 
+	Tue, 12 Sep 2017 05:52:27 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	r11sm8092172qkh.80.2017.09.12.05.52.15
+	c11sm7463025qth.13.2017.09.12.05.52.23
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 12 Sep 2017 05:52:18 -0700 (PDT)
+	Tue, 12 Sep 2017 05:52:26 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 12 Sep 2017 09:52:12 -0300
+	Tue, 12 Sep 2017 09:52:20 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Sep 2017 09:50:28 -0300
-Message-Id: <20170912125031.4009-11-otavio@ossystems.com.br>
+Date: Tue, 12 Sep 2017 09:50:29 -0300
+Message-Id: <20170912125031.4009-12-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170912125031.4009-1-otavio@ossystems.com.br>
 References: <20170912125031.4009-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v8 10/13] go: enable nativesdk builds for the toolchain
+Subject: [PATCH v8 11/13] go-crosssdk: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,11 +52,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 12:52:19 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 12:52:26 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-All that's needed is setting BBCLASSEXTEND.
+Enable crosssdk builds for the Go toolchain.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
@@ -67,26 +67,81 @@ Changes in v7: None
 Changes in v6:
 - new patch
 
- meta/recipes-devtools/go/go-target.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/go/go-crosssdk.inc    | 55 +++++++++++++++++++++++++++++
+ meta/recipes-devtools/go/go-crosssdk_1.8.bb |  2 ++
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-crosssdk.inc
+ create mode 100644 meta/recipes-devtools/go/go-crosssdk_1.8.bb
 
-diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
-index 5984a60c28..0d80bf0d97 100644
---- a/meta/recipes-devtools/go/go-target.inc
-+++ b/meta/recipes-devtools/go/go-target.inc
-@@ -1,5 +1,6 @@
- inherit goarch
- DEPENDS = "virtual/${TARGET_PREFIX}go go-native"
-+DEPENDS_class-nativesdk = "virtual/${TARGET_PREFIX}go-crosssdk go-native"
- 
- export GOHOSTOS = "${BUILD_GOOS}"
- export GOHOSTARCH = "${BUILD_GOARCH}"
-@@ -49,3 +50,5 @@ FILES_${PN} = "${libdir}/go/bin ${libdir}/go/pkg/tool/${TARGET_GOTUPLE} ${bindir
- FILES_${PN}-dev = "${libdir}/go"
- RDEPENDS_${PN}-dev = "perl bash"
- INSANE_SKIP_${PN} = "ldflags"
+diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
+new file mode 100644
+index 0000000000..e9bc677131
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-crosssdk.inc
+@@ -0,0 +1,55 @@
++inherit crosssdk
 +
-+BBCLASSEXTEND = "nativesdk"
++DEPENDS = "go-native virtual/${TARGET_PREFIX}gcc-crosssdk virtual/nativesdk-${TARGET_PREFIX}compilerlibs virtual/${TARGET_PREFIX}binutils-crosssdk"
++PN = "go-crosssdk-${TARGET_ARCH}"
++PROVIDES = "virtual/${TARGET_PREFIX}go-crosssdk"
++
++export GOHOSTOS = "${BUILD_GOOS}"
++export GOHOSTARCH = "${BUILD_GOARCH}"
++export GOOS = "${TARGET_GOOS}"
++export GOARCH = "${TARGET_GOARCH}"
++export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
++export GOROOT_FINAL = "${libdir}/go"
++export CGO_ENABLED = "1"
++export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
++export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
++CC = "${@d.getVar('BUILD_CC', True).strip()}"
++
++do_configure[noexec] = "1"
++
++do_compile() {
++	export GOBIN="${B}/bin"
++	rm -rf ${GOBIN} ${B}/pkg
++	mkdir ${GOBIN}
++	cd src
++	./make.bash --host-only
++	cd ${B}
++}
++
++make_wrapper() {
++    rm -f ${D}${bindir}/$2
++    cat <<END >${D}${bindir}/$2
++#!/bin/bash
++here=\`dirname \$0\`
++export GOARCH="${TARGET_GOARCH}"
++export GOOS="${TARGET_GOOS}"
++\$here/../../lib/${CROSS_TARGET_SYS_DIR}/go/bin/$1 "\$@"
++END
++    chmod +x ${D}${bindir}/$2
++}
++
++do_install() {
++	install -d ${D}${libdir}/go
++	install -d ${D}${libdir}/go/bin
++	install -d ${D}${libdir}/go/pkg/tool
++	install -d ${D}${bindir}
++	cp --preserve=mode,timestamps -R ${S}/pkg/tool/${TARGET_GOTUPLE} ${D}${libdir}/go/pkg/tool/
++	for f in ${B}/${GO_BUILD_BINDIR}/*
++	do
++		base=`basename $f`
++		install -m755 $f ${D}${libdir}/go/bin
++		make_wrapper $base ${TARGET_PREFIX}$base
++	done
++}
++
++FILES_${PN}-staticdev = "${libdir}/go/pkg"
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.8.bb b/meta/recipes-devtools/go/go-crosssdk_1.8.bb
+new file mode 100644
+index 0000000000..1857c8a577
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-crosssdk_1.8.bb
+@@ -0,0 +1,2 @@
++require go-crosssdk.inc
++require go-${PV}.inc
 -- 
 2.14.1
 
