@@ -1,63 +1,50 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CFFC784FA
+Return-Path: <twoerner@gmail.com>
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 77D2C784E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 22:58:54 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id r85so31402495ywg.1
+	Tue, 12 Sep 2017 23:03:17 +0000 (UTC)
+Received: by mail-yw0-f194.google.com with SMTP id u134so3241571ywu.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=zYcdL4NGI1DpRtbgBd9XvkXvg4ijwui73i0Ld2mDLlk=;
-	b=g8uvR6IMpQ3O3C11/y2QEfm7YrOYzCPw2+BbLBRs/O/6WPVXiHpdtZkh5DbAhnjp1p
-	PJBOuhHiN6VJrVJyGCs4402Q8/keeJuKPNnLcW0TF5eokUfELfahKBedv6GqRpfFnSj6
-	Pi6nguDoThJ/ZNA4bsbqdiZt7A/y3iHQ5/8k6S7VzE3VOduJrT0SaCU+HuygqCYUbTFE
-	F/9MV/EvJP2KSW2V0aVXaa1sJmwOY5rkVYu6j6vRp42+FawKMomQNp/JTi7shkb/tr+M
-	dlxHIdWnbP99dA6QgDbQlCpFPH8kiu1IlNfumXrWxvJaLBNcPUepy/scZyqfqvoGcl2J
-	U68Q==
+	Tue, 12 Sep 2017 16:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Z/ZyBVpOpe//DHPKKoe3qZrXx+h7TvuUeUmDMa1Fu1I=;
+	b=tWMp39nQM2cNSoKih7GwhJBu9O5PGjTJ4zcq5eq9QvDWtY5G15025hWGJh8Y/K4nDs
+	ht4FlPlOym2N5bhAAGp9BW7tpPVFCTm85NFA/BHj+t1MOpBLWh5Swx7tLrK6IFbvzMNx
+	WHLzRo31jMyWAlpuGoFsUG3Q9K2MWge+MFdO5eN/D75U2jO+oV+Vvl/4U/tSTI41wBVR
+	FJQrFY8ANYlJOEcRTK6kCvLwC+pd+jntErNRNlGOIgRIBI38WqIYlT4SHsO2pK9hFP5S
+	iImQaa1w6+U7d3eKdJ6FOYuWSMnwza7s6Mj2wK4Jo+kKygMeaSAA9Qka7QWGilNTvnGz
+	IjJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=zYcdL4NGI1DpRtbgBd9XvkXvg4ijwui73i0Ld2mDLlk=;
-	b=HRZQcn0uX9ltCJkA9xCoePNUnzCGrarS78TyHTK+t4RgA4KfQYrFX3CXRIWSa/OAFI
-	znOVUxQCDTZWoXOUldkhaTjmfMlzanvzLDFzD/dWlQwfpkJ6XjvSv0xpgFqL+q/FpMgG
-	mMIcz0ILaQDd1Jwdlrd+xb795Bwb5Nbsue6FrdjLI64xnlTB3ePqtnbEkYZqAMjkSpeS
-	vtD2SiKcyrybvBXGzDq7XnN9bmJVcMzyLLFiQxcAEbIb8vqeaQZUIpR83HBBqUqmZM8K
-	ffbf9OIbXkec9/pEExs/RedF47Imdm1ZuEsDHO2fseZpra3u1/qBuFx0Fu6g7w2YYdcd
-	j/1A==
-X-Gm-Message-State: AHPjjUhhj+NnxacubQCeknpoGGXJnO1wSmS3Q5qNdvP0jDUb/hNyPwKR
-	AW5UIbHOPCm8hKpFUtg=
-X-Received: by 10.129.109.151 with SMTP id i145mr13648142ywc.64.1505257136063; 
-	Tue, 12 Sep 2017 15:58:56 -0700 (PDT)
-Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com.
-	[209.85.218.44]) by smtp.gmail.com with ESMTPSA id
-	q131sm4282247ywq.8.2017.09.12.15.58.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Sep 2017 15:58:54 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f44.google.com with SMTP id l74so32323872oih.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:58:54 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QCFEDunLGQ9BS88VoZFdo3xSB5WQGBqtIRVCk1OhFm/x5wXz87sO8gV4x8rENFrfbT5Pa47V840DzOrlNrERzQ=
-X-Received: by 10.202.199.129 with SMTP id x123mr6742242oif.67.1505257133931; 
-	Tue, 12 Sep 2017 15:58:53 -0700 (PDT)
+	bh=Z/ZyBVpOpe//DHPKKoe3qZrXx+h7TvuUeUmDMa1Fu1I=;
+	b=owLFbMPnIKdHpxno7ekVK6eNmUWtgdGtLGLYqPfiLA18gqrkixHsceblFgvBBYHUEw
+	DQ8iygySIdO6u3pI2Md08JpRvK8xiEQy1CRenHPAZgvW0M61QL/N2V7z0eKf59CReriF
+	eoPc97YTmVN7fwUlCyNsK9ws/l4aJazwV96oEP2+UcgonyjDzwFKeMXT4BgeJkPaC/Oz
+	GwEfZVx8Oj79kUU4BVFKEjEhZRqOck2+q7GtDNckNR7tlY8zHPwgo50YHLBzhPXt3PCm
+	dvOJegDmXeJbWBkVoiQDexomCUUOYi6ihiC3zcXbQcEYeLHT10EPVtuWMWaElZlHHV4B
+	Jjbg==
+X-Gm-Message-State: AHPjjUhIAsE/XLdYyroXkb4OBRR7VAQO0aAmgXWqoEuF1QQlVDw/eFkq
+	tkeEtA16vXq0EfIEUHilypKmMBv8vcTemJ8+WrN/bw==
+X-Google-Smtp-Source: ADKCNb7phYwbKojWFNQRtOWHIUAaIO9p/DqLpTY25Un+OY2hhFAZxYrCHNSNKrQJrPTqWEw/QOFFHXkcCHpaBFwkCDA=
+X-Received: by 10.37.57.193 with SMTP id g184mr13484412yba.65.1505257399265;
+	Tue, 12 Sep 2017 16:03:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.0.69 with HTTP; Tue, 12 Sep 2017 15:58:53 -0700 (PDT)
-In-Reply-To: <CAHUNapQqFe+f-yd6H6ta+M7MaMUiEyaU2PjpNQSQn7S+Ug4hYA@mail.gmail.com>
+Received: by 10.37.4.205 with HTTP; Tue, 12 Sep 2017 16:03:18 -0700 (PDT)
+In-Reply-To: <CAP9ODKqE0+PwHNshx9W_3oJ3VgEEHGgnXQ=YLuazCBCuS4c8DA@mail.gmail.com>
 References: <20170911213326.3480-1-california.l.sullivan@intel.com>
 	<CA+chaQcHzfovU588PVbky_AOrmXgUrgu0qe7U+Uhe8Azh_VUVw@mail.gmail.com>
 	<CAJTo0LZ_FCc-VOn9f+Z=cMPioWav+TmC4z=AXDuDe_+NHW2ywg@mail.gmail.com>
 	<2482308.N8aakNJOlD@peggleto-mobl.ger.corp.intel.com>
 	<CAHUNapQqFe+f-yd6H6ta+M7MaMUiEyaU2PjpNQSQn7S+Ug4hYA@mail.gmail.com>
-Date: Tue, 12 Sep 2017 19:58:53 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqE0+PwHNshx9W_3oJ3VgEEHGgnXQ=YLuazCBCuS4c8DA@mail.gmail.com>
-Message-ID: <CAP9ODKqE0+PwHNshx9W_3oJ3VgEEHGgnXQ=YLuazCBCuS4c8DA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
+	<CAP9ODKqE0+PwHNshx9W_3oJ3VgEEHGgnXQ=YLuazCBCuS4c8DA@mail.gmail.com>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Tue, 12 Sep 2017 16:03:18 -0700
+Message-ID: <CAHUNapSuhAUQK7U+tNWH-Rb2qmOq_rDTsLvDnee2f9cK35szVw@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] initramfs-framework: bump PR and fix install-efi and setup-live modules
@@ -73,22 +60,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 22:58:55 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 23:03:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 12, 2017 at 7:51 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> On Mon, Sep 11, 2017 at 6:40 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->> Is someone documenting all of this? I'm pretty sure this isn't the only one.
+On Tue, Sep 12, 2017 at 3:58 PM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> On Tue, Sep 12, 2017 at 7:51 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+>> On Mon, Sep 11, 2017 at 6:40 PM, Paul Eggleton
+>> <paul.eggleton@linux.intel.com> wrote:
+>>> Is someone documenting all of this? I'm pretty sure this isn't the only one.
+>>
+>> Better still: an automated test (with comments including this
+>> information, so the test doesn't get removed under the assumption the
+>> thing it's testing is buggy)
 >
-> Better still: an automated test (with comments including this
-> information, so the test doesn't get removed under the assumption the
-> thing it's testing is buggy)
+> What kind of test do you imagine?
 
-What kind of test do you imagine?
+This would be bitbake?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Isn't there already a test suite for bitbake (if my previous statement
+is correct)?
 
