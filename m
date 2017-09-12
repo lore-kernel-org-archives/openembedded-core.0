@@ -1,25 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9573B784DA
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CD2C78266
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 08:34:04 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v8C8Y1ZL028728
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 12 Sep 2017 09:34:03 +0100
-Message-ID: <1505205241.18640.14.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
-	List <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Sep 2017 09:34:01 +0100
-In-Reply-To: <20170911211807.21269-1-otavio@ossystems.com.br>
-References: <20170911211807.21269-1-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH v7 1/2] kernel: Move Device Tree support to kernel.bbclass
+	Tue, 12 Sep 2017 08:53:48 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Sep 2017 01:53:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,382,1500966000"; d="scan'208";a="899409050"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Sep 2017 01:53:50 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 93E7C5803DF;
+	Tue, 12 Sep 2017 01:53:49 -0700 (PDT)
+Date: Tue, 12 Sep 2017 11:53:01 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20170912085301.rfsiwojqn2nr6md5@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <20170908173303.29634-1-enrico.scholz@sigma-chemnitz.de>
+	<20170908173303.29634-4-enrico.scholz@sigma-chemnitz.de>
+	<20170911134150.6jpsypaj4dgjv67t@linux.intel.com>
+	<lyzia1fi13.fsf@ensc-virt.intern.sigma-chemnitz.de>
+MIME-Version: 1.0
+In-Reply-To: <lyzia1fi13.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] wic: apply --extra-space + --overhead to squashfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,54 +42,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 08:34:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 12 Sep 2017 08:53:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 2017-09-11 at 18:18 -0300, Otavio Salvador wrote:
-> The Device Tree is commonly used but it is still kept as a .inc file
-> instead of a proper class. Instead now we move the Device Tree code
-> to
-> a kernel-devicetree class and automatically enable it when the
-> KERNEL_DEVICETREE variable is set.
+On Mon, Sep 11, 2017 at 04:04:40PM +0200, Enrico Scholz wrote:
+> Ed Bartosh <ed.bartosh@linux.intel.com> writes:
 > 
-> While converting to the class, we reworked the compile and install in
-> tasks as well as run the build of the Device Tree files in parallel,
-> if possible.
+> >> The --extra-space and --overhead option did not had an effect to squashfs
+> >> partitions.  Although squashfs is read-only, it can be useful to allocate
+> >> more space for the on-disk partition to avoid repartitioning of the whole
+> >> disk when a new (and larger) squashfs image is written on later updates.
+> >
+> > Is it possible to just use --size or --fixed-size in .wks to allocate
+> > partition of certain size?
 > 
-> To avoid breakage in existing layers, we kept a linux-dtb.inc file
-> which raises a warning telling the user about the change so in next
-> release this can be removed.
+> --fixed-size works with this patch (tested); --size should work.
 
-Sorry but this patchset doesn't appear to be well tested and has big
-issues. For example:
+Sorry for not being clear. Why do we need this if we can use --size to
+explicity specify partition size?
 
-https://autobuilder.yocto.io/builders/nightly-x86/builds/497/steps/Buil
-dImages/logs/stdio
-
-I'm going to guess that do_compile_devicetree is racing
-against do_compile_kernelmodules. Debugging these kinds of races is
-tremendously hard and taking a patchset on a key component like the
-kernel at this point in M4 where this hasn't been considered is
-worrying/risky.
-
-https://autobuilder.yocto.io/builders/nightly-mips-lsb/builds/461/steps
-/BuildImages/logs/stdio
-
-another form of the same race? The autobuilder is full of these
-failures :(
-
-I think if this patchset is to go anywhere it needs to be split into
-more incremental changes, one to move to the new file structure but not
-change the functionality, another looking at parallelisation etc. as
-the current approach of "this patch does X + Y + Z" makes review harder
-and makes it harder to merge any piece of it.
-
-Cheers,
-
-Richard
+--extra-space and --overhead have the same meaning as
+IMAGE_ROOTFS_EXTRA_SPACE and IMAGE_OVERHEAD_SIZE variables. From my
+point of view their purpose is to allocate additional space on the file
+system. This doesn't make sense for squashfs. That's the reason those
+options are not used for squashfs. Using them to implicitly make bigger
+partition is a questionable and possible confusing approach.
 
 
+> 
+> >> +    def __extend_rootfs_image(self, rootfs):
+> >
+> > Do we really need to mangle name of this method?
+> 
+> ok; I will make it _extend_rootfs_image
+> 
+> 
+> > As this function is not going to be used anywhere I'd just use this
+> > code in prepare_rootfs_squashfs. It would be less generic, but much
+> > more readable and understandable.
+> 
+> I would keep it as is.  It is a non trivial function which is reusable.
+> Perhaps, somebody adds CRAMFS or another file system which does not
+> support extending its size.
+> 
 
+I personally find this much more understandable and logical:
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -338,6 +338,14 @@ class Partition():
+                        (rootfs_dir, rootfs, extraopts)
+         exec_native_cmd(squashfs_cmd, native_sysroot, pseudo=pseudo)
+ 
++        # Enlarges the image to make bigger partition
++        sz = (os.stat(rootfs).st_size + 1023) // 1024
++        pad_sz = self.get_rootfs_size(sz)
++
++        if pad_sz > sz:
++            with open(rootfs, 'a') as fimage:
++                  fimage.truncate(pad_sz * 1024)
++
+     def prepare_empty_partition_ext(self, rootfs, oe_builddir,
+                                     native_sysroot):
 
+Then introducing a method that will be called for all supported
+filesystems except squashfs without any effect.
+
+> partition.py is full of redundant code (look for all the "du" calls or
+> generally at the beginning of the prepare_rootfs_*() methods) where
+> probably somebody thought that it is not going to be used anywhere else
+> ;)
+Feel free to send a patch then.
+I'd not consider it a good excuse for the above new method though :)
+
+--
+Regards,
+Ed
 
