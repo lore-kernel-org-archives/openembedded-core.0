@@ -1,30 +1,30 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9961478293
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 11D3D78293
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 07:48:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8C7mpVX009148
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Sep 2017 00:48:51 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 12 Sep 2017 00:48:50 -0700
-To: Patrick Ohly <patrick.ohly@intel.com>, <ross.burton@intel.com>
-References: <cover.1505178922.git.dengke.du@windriver.com>
-	<c82454e88d60d4fdcea4fb4eddd8622df7a40caa.1505178922.git.dengke.du@windriver.com>
-	<1505202393.9633.44.camel@intel.com>
-From: Dengke Du <dengke.du@windriver.com>
-Message-ID: <595c548d-e578-1012-a5d4-f8e0facd6822@windriver.com>
-Date: Tue, 12 Sep 2017 15:48:23 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 12 Sep 2017 07:51:07 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.42,382,1500912000"; d="scan'208";a="25828745"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Sep 2017 15:51:07 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id C31E846BA6C8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Sep 2017 15:51:07 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Tue, 12 Sep 2017 15:51:06 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Sep 2017 15:51:12 +0800
+Message-ID: <1505202674-30256-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1505202393.9633.44.camel@intel.com>
-X-Originating-IP: [128.224.162.194]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] ovmf: fix do_compile error when len(tmp)=410
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: C31E846BA6C8.A7EDB
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] at-spi2-atk: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 07:48:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 12 Sep 2017 07:51:08 -0000
+Content-Type: text/plain
+
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-support/atk/at-spi2-atk_2.24.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb b/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
+index ac55081..4a0e411 100644
+--- a/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
++++ b/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "AT-SPI 2 Toolkit Bridge"
++HOMEPAGE = "https://wiki.linuxfoundation.org/accessibility/d-bus"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
+ 
+-- 
+2.7.4
 
 
 
-On 2017年09月12日 15:46, Patrick Ohly wrote:
-> On Mon, 2017-09-11 at 21:20 -0400, Dengke Du wrote:
->> diff --git a/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-
->> file.patch b/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-
->> file.patch
->> new file mode 100644
->> index 0000000..9cc85ad
->> --- /dev/null
->> +++ b/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-
->> file.patch
->> @@ -0,0 +1,28 @@
->> +From 032fc6b1f7691bd537fd2a6bd13821fcf3c45e64 Mon Sep 17 00:00:00
->> 2001
->> +From: Dengke Du <dengke.du@windriver.com>
->> +Date: Mon, 11 Sep 2017 02:21:55 -0400
->> +Subject: [PATCH] ovmf: enable long path file
->> +
->> +Upstream-Status: Pending
-> Pending which action? I.e. what's the next step?
->
-> To me this patch looks more like local customization to fit into path
-> lengths used by the OE build system, so "Inappropriate" might be more
-> reasonable.
->
-Yes, you are right, it just fit for OE build system.
 
