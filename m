@@ -1,58 +1,47 @@
 Return-Path: <enrico.scholz@sigma-chemnitz.de>
 Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E3A37840E
+	by mail.openembedded.org (Postfix) with ESMTP id 97FDA78459
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 13:23:48 +0000 (UTC)
+	Tue, 12 Sep 2017 13:30:43 +0000 (UTC)
 Received: from mail-mta-0.intern.sigma-chemnitz.de
 	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
 	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8CDNmYQ016822
+	v8CDUhMm020208
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:23:49 +0200
+	Tue, 12 Sep 2017 15:30:44 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1505222629;
-	bh=5+uM3gqm7hcrts8ieuV+Vn3zfZDtNiAVH15lldULIjw=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=JqN2EeaXfsEghsswfG9DCXv31B11rricBu8RDu22OKkNJEQJA66M6vseH9MJULTTJ
-	9yNV7SGaV1dJa0p+5grtv+f4R5I2149ixvIpQDL4z+/dmkoezqvcRtNk5fkLz34zeV
-	hGYXbtwNoV2WEA/vR/wPi+5Dd+LJed9CP1iAAbpo=
+	s=v2012061000; t=1505223044;
+	bh=ljEA1gTAyPTiNna2cOvpqUsdK68we2JNuCrTj/JPFJ4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:Sender;
+	b=V7xLYcPeA1EqtItlAXYSnrUMdXJLqSPgq5fZI0T2+rqBxPk3shvHs1JmpXlXdKjAu
+	LM+phiPGziMfohfQXY6TYyxDgk5EUkdxD+NOZXuWijqbKL3h0F4jk/t+iNBfVqARbQ
+	UbC5fPof3H+BXyTIGgJGCWn2VzUQ2uW5UpGTtsYc=
 Received: from reddoxx.intern.sigma-chemnitz.de
 	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
 	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8CDNfLS021015 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 12 Sep 2017 15:23:42 +0200
+	v8CDUbAp021130 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Tue, 12 Sep 2017 15:30:37 +0200
 Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
 	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 1E2BDB6B867;
-	Tue, 12 Sep 2017 15:18:39 +0200
+	(Reddoxx engine) with SMTP id 1A7157C5EFF;
+	Tue, 12 Sep 2017 15:25:34 +0200
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
 	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	v8CDNes5021012
+	v8CDUZQs021127
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 12 Sep 2017 15:23:41 +0200
+	Tue, 12 Sep 2017 15:30:35 +0200
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
 	4.87) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1drlAC-0003Hg-Ma; Tue, 12 Sep 2017 15:23:40 +0200
+	id 1drlGt-0003cI-On; Tue, 12 Sep 2017 15:30:35 +0200
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-References: <20170908173303.29634-1-enrico.scholz@sigma-chemnitz.de>
-	<20170908173303.29634-4-enrico.scholz@sigma-chemnitz.de>
-	<20170911134150.6jpsypaj4dgjv67t@linux.intel.com>
-	<lyzia1fi13.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20170912085301.rfsiwojqn2nr6md5@linux.intel.com>
-	<lymv60fdzx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20170912114837.ytzatxdw2cqcwsyz@linux.intel.com>
-	<lya820f6u6.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20170912125720.lj6rwuclmbrd6fx2@linux.intel.com>
-Date: Tue, 12 Sep 2017 15:23:40 +0200
-In-Reply-To: <20170912125720.lj6rwuclmbrd6fx2@linux.intel.com> (Ed Bartosh's
-	message of "Tue, 12 Sep 2017 15:57:20 +0300")
-Message-ID: <lyk214dp9f.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.2 (gnu/linux)
-MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Sep 2017 15:30:33 +0200
+Message-Id: <20170912133033.13866-1-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 2.9.5
+In-Reply-To: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
+References: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 X-DSPAM-Result: Innocent
 X-DSPAM-Probability: 0
@@ -62,8 +51,8 @@ X-Spam-Level: ----
 X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
 	DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.79
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] wic: apply --extra-space + --overhead to squashfs
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH v2] image_types: support lz4 compressed squashfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -76,36 +65,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 13:23:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Sep 2017 13:30:44 -0000
 
-Ed Bartosh <ed.bartosh@linux.intel.com> writes:
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/classes/image_types.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> I agree. --size is less suitable for your needs than extra space and
-> overhead factor. I still don't like the idea of using them to reserve
-> non-formatted space.
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 9b646e9..61dca62 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -107,6 +107,7 @@ IMAGE_CMD_btrfs () {
+ IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs ${EXTRA_IMAGECMD} -noappend"
+ IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
+ IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
++IMAGE_CMD_squashfs-lz4 = "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lz4 ${EXTRA_IMAGECMD} -noappend -comp lz4"
+ 
+ # By default, tar from the host is used, which can be quite old. If
+ # you need special parameters (like --xattrs) which are only supported
+@@ -236,6 +237,7 @@ do_image_btrfs[depends] += "btrfs-tools-native:do_populate_sysroot"
+ do_image_squashfs[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_squashfs_xz[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_squashfs_lzo[depends] += "squashfs-tools-native:do_populate_sysroot"
++do_image_squashfs_lz4[depends] += "squashfs-tools-native:do_populate_sysroot"
+ do_image_elf[depends] += "virtual/kernel:do_populate_sysroot mkelfimage-native:do_populate_sysroot"
+ do_image_ubi[depends] += "mtd-utils-native:do_populate_sysroot"
+ do_image_ubifs[depends] += "mtd-utils-native:do_populate_sysroot"
+@@ -251,7 +253,7 @@ IMAGE_TYPES = " \
+     btrfs \
+     iso \
+     hddimg \
+-    squashfs squashfs-xz squashfs-lzo \
++    squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
+     ubi ubifs multiubi \
+     tar tar.gz tar.bz2 tar.xz tar.lz4 \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+-- 
+2.9.5
 
-Btw, exactly this is done for extX already.
-
-
-> Any other ideas how to do it?
-
-Perhaps, Logic can be moved into the disk_size() method:
-
-|    def disk_size(self):
-|        method = getattr(self, "_get_disk_size_" + prefix, None)
-|        if method:
-|            return method(self.size)
-|        elif self.fixed_size:
-|            return self.fixed_size
-|        else:
-|            return self.size
-|
-|    def _get_disk_size_squashfs(size):
-|        return self.get_rootfs_size(size)
-
-But I did not checked whether this really works.
-
-
-Enrico
 
