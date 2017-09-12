@@ -1,48 +1,66 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
-	[209.85.161.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 64D1F782DE
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
+	[209.85.161.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CFFC784FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 22:56:16 +0000 (UTC)
-Received: by mail-yw0-f196.google.com with SMTP id v137so4739150ywg.4
+	Tue, 12 Sep 2017 22:58:54 +0000 (UTC)
+Received: by mail-yw0-f181.google.com with SMTP id r85so31402495ywg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ttM9TTPYUxgG4xGRUIQDZW+dxGknyY1CKtDA6ICb1e8=;
-	b=sSyvoBTakgZ5+wTjo0Mw4a+ZvgkQ0N6EU9qnapYLsx1i0xItxzplDgV7tjS0jRCU3e
-	3dmqdmEG4v3tHeF6hXfphZVb72chGEq9vfzcw4jk8LaK50Uxeisr7V8W//ZWBpnrppX4
-	0jLFz4djEm3FJd+Q6Ze/wuffCc4zllVE8i2HVQHZUG3j9mtLd9SwhwxMcPw8nYUU/XKf
-	D3XeHG4I3gTjM37v/oysFpOfa4/gy1tTKWTdTiaFshvzhYKKeDxOqjjbrQt28Ei830xe
-	uHVLM9qn4rLoPNjBck4QTgkOGO7gQDeCxToi25y+XfVZah6J3uPha2ZllJMngia0g1nJ
-	Jkkg==
+	Tue, 12 Sep 2017 15:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=zYcdL4NGI1DpRtbgBd9XvkXvg4ijwui73i0Ld2mDLlk=;
+	b=g8uvR6IMpQ3O3C11/y2QEfm7YrOYzCPw2+BbLBRs/O/6WPVXiHpdtZkh5DbAhnjp1p
+	PJBOuhHiN6VJrVJyGCs4402Q8/keeJuKPNnLcW0TF5eokUfELfahKBedv6GqRpfFnSj6
+	Pi6nguDoThJ/ZNA4bsbqdiZt7A/y3iHQ5/8k6S7VzE3VOduJrT0SaCU+HuygqCYUbTFE
+	F/9MV/EvJP2KSW2V0aVXaa1sJmwOY5rkVYu6j6vRp42+FawKMomQNp/JTi7shkb/tr+M
+	dlxHIdWnbP99dA6QgDbQlCpFPH8kiu1IlNfumXrWxvJaLBNcPUepy/scZyqfqvoGcl2J
+	U68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=ttM9TTPYUxgG4xGRUIQDZW+dxGknyY1CKtDA6ICb1e8=;
-	b=dlCG2dZ+nYbyGHRAraMqnWMm4taXjPAFSs3ApLwOZ3MBcSlYjR3AtXCWJmnIquFFf8
-	CREqFw0KXvlDuyN6NA5f1wP2UiEhpmue4khKWhCZCMj+aKkOQ/uzDjlfDXBXYagqdjbd
-	asf0tGWFS8sb/gCJfZ8fz/MFJNeCFJvGDh8PGZf0mzEEsyr3y39DgVK7HlArGEPX70NE
-	rttqh6aGftLQLd5Ua6knEr+RE4qA4/stcrQZS2DBBSpDQ3gtiHTW18tgpIUjE2bpQpLQ
-	HN7hKNGx4EPLVFtgVHiwx/aA04oNV4l5qVPeV73WsApQoZSMT3vekhIPMlk+yZNqrC6l
-	rJgw==
-X-Gm-Message-State: AHPjjUh7ECqVZaREZ3nVuG81HZJh/zdw5bFXde9qPnimiVPSbLYTLsDc
-	KCrPdUJCzgvnbYVc9YqOmw6i7QxVIEMtcCeAFHDTUw==
-X-Google-Smtp-Source: ADKCNb6XZIVz+GUXVRoy/ATgYzChNxiPl59HAGz4SuWxgwYBqiZkGz3YCN0T/5/TBTkXUVN2whXj80QkQHvUjGPahiY=
-X-Received: by 10.37.57.193 with SMTP id g184mr13471113yba.65.1505256977478;
-	Tue, 12 Sep 2017 15:56:17 -0700 (PDT)
+	bh=zYcdL4NGI1DpRtbgBd9XvkXvg4ijwui73i0Ld2mDLlk=;
+	b=HRZQcn0uX9ltCJkA9xCoePNUnzCGrarS78TyHTK+t4RgA4KfQYrFX3CXRIWSa/OAFI
+	znOVUxQCDTZWoXOUldkhaTjmfMlzanvzLDFzD/dWlQwfpkJ6XjvSv0xpgFqL+q/FpMgG
+	mMIcz0ILaQDd1Jwdlrd+xb795Bwb5Nbsue6FrdjLI64xnlTB3ePqtnbEkYZqAMjkSpeS
+	vtD2SiKcyrybvBXGzDq7XnN9bmJVcMzyLLFiQxcAEbIb8vqeaQZUIpR83HBBqUqmZM8K
+	ffbf9OIbXkec9/pEExs/RedF47Imdm1ZuEsDHO2fseZpra3u1/qBuFx0Fu6g7w2YYdcd
+	j/1A==
+X-Gm-Message-State: AHPjjUhhj+NnxacubQCeknpoGGXJnO1wSmS3Q5qNdvP0jDUb/hNyPwKR
+	AW5UIbHOPCm8hKpFUtg=
+X-Received: by 10.129.109.151 with SMTP id i145mr13648142ywc.64.1505257136063; 
+	Tue, 12 Sep 2017 15:58:56 -0700 (PDT)
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com.
+	[209.85.218.44]) by smtp.gmail.com with ESMTPSA id
+	q131sm4282247ywq.8.2017.09.12.15.58.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Sep 2017 15:58:54 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f44.google.com with SMTP id l74so32323872oih.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Sep 2017 15:58:54 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QCFEDunLGQ9BS88VoZFdo3xSB5WQGBqtIRVCk1OhFm/x5wXz87sO8gV4x8rENFrfbT5Pa47V840DzOrlNrERzQ=
+X-Received: by 10.202.199.129 with SMTP id x123mr6742242oif.67.1505257133931; 
+	Tue, 12 Sep 2017 15:58:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.37.4.205 with HTTP; Tue, 12 Sep 2017 15:56:16 -0700 (PDT)
-In-Reply-To: <CAJTo0LaqHGMPDF=JHGw5NcBzvTkFbP2bQfmgcG8o-Zx0hTeD3g@mail.gmail.com>
-References: <20170910131446.4555-0-nathan@nathanrossi.com>
-	<CAJTo0LaqHGMPDF=JHGw5NcBzvTkFbP2bQfmgcG8o-Zx0hTeD3g@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 12 Sep 2017 15:56:16 -0700
-Message-ID: <CAHUNapR12cWeetX_ZgCrN0-G_AQcPi6asDuCaXp==Mocdwn57g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Recipes for Open Source Verilog and Lattice iCE40 FPGAs tools
+Received: by 10.157.0.69 with HTTP; Tue, 12 Sep 2017 15:58:53 -0700 (PDT)
+In-Reply-To: <CAHUNapQqFe+f-yd6H6ta+M7MaMUiEyaU2PjpNQSQn7S+Ug4hYA@mail.gmail.com>
+References: <20170911213326.3480-1-california.l.sullivan@intel.com>
+	<CA+chaQcHzfovU588PVbky_AOrmXgUrgu0qe7U+Uhe8Azh_VUVw@mail.gmail.com>
+	<CAJTo0LZ_FCc-VOn9f+Z=cMPioWav+TmC4z=AXDuDe_+NHW2ywg@mail.gmail.com>
+	<2482308.N8aakNJOlD@peggleto-mobl.ger.corp.intel.com>
+	<CAHUNapQqFe+f-yd6H6ta+M7MaMUiEyaU2PjpNQSQn7S+Ug4hYA@mail.gmail.com>
+Date: Tue, 12 Sep 2017 19:58:53 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqE0+PwHNshx9W_3oJ3VgEEHGgnXQ=YLuazCBCuS4c8DA@mail.gmail.com>
+Message-ID: <CAP9ODKqE0+PwHNshx9W_3oJ3VgEEHGgnXQ=YLuazCBCuS4c8DA@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initramfs-framework: bump PR and fix install-efi and setup-live modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,24 +73,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 22:56:16 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 22:58:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Nathan, this is awesome!
-
-(haven't tested it yet, but it's great to see this effort!!)
-
-On Mon, Sep 11, 2017 at 1:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 10 September 2017 at 14:14, Nathan Rossi <nathan@nathanrossi.com> wrote:
->>
->> Please note whilst this series is sent for oe-core it may be better
->> located in another layer? (e.g. meta-oe). However since the recipes and
->> the tools they build are not specific to a single BSP it did not make
->> sense to keep in a BSP specific layer.
+On Tue, Sep 12, 2017 at 7:51 PM, Trevor Woerner <twoerner@gmail.com> wrote:
+> On Mon, Sep 11, 2017 at 6:40 PM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+>> Is someone documenting all of this? I'm pretty sure this isn't the only one.
 >
->
-> Sounds like a dedicated FPGA layer would be ideal.
+> Better still: an automated test (with comments including this
+> information, so the test doesn't get removed under the assumption the
+> thing it's testing is buggy)
 
-We already have meta-xilinx (and friends) and meta-altera, looks like
-a meta-lattice is in order?
+What kind of test do you imagine?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
