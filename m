@@ -1,48 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C6187820F
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F059D783D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 23:04:37 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id h4so5496875pfk.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Sep 2017 16:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZZcRKjvtYbPItMo7ZrrT7m80BrA2CtFN6FbCL7iT2i0=;
-	b=rUMud/4VlrcsgJTbdeFm0Huy1GRvGZ/KHHHDg/Cq8PI/U/Bb5U4+kwZGbwVa416vFK
-	xxDLN1bwDx/zwhnEQ1ZRmjqHDQw6zJUIuOlT2sE5AIrIci4qAiSIdq+Scz6aheMOF+Cl
-	v9LdPMZLtoW4NWuBdjXRyQZBn18WVKQ5syan8I2d9X5M3Rxa74WFykSMjEPaQODF+F3F
-	LKqAEBFaMsx9dWrccbD+vw50HbZzByTOMwuBjaWfYdVClEATsts/EeV2+swmHCa9BmPy
-	UvdyIQITZUgN7TPgoXgbxQG9UKHmv7t0jkx/asy6itD5rASauu7zSNbPE2qQd7VsvoXX
-	QuAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZZcRKjvtYbPItMo7ZrrT7m80BrA2CtFN6FbCL7iT2i0=;
-	b=OfDhYOj309LmkcUmOL9wk70wjbQ0Zq3coa6ezVIhVzRzk3M1gkART6KKvwU+yHEYAK
-	p1qMndjbEbk2zKuFARBqVcbRlkql4gtf037fZUxjQMEkeoEy5aKyc79pc388I7auKQuO
-	kJqZjplCyac8Ti0V2xRREm2yAeJWUqLyiQcx7PEaQWYCE4CREmNkJlcC1qiMjgDp13mG
-	enDMJ2Y9yXhCdysHPip6xu4PM7HtgA2EW/VzcULUdxFZFAZ3zBLyoLdPYjlKMHpqFtda
-	rDq9ehN3HeUyTnw752P7deW1T0gZNh6XkxQse1vj7pu5igHTkJ/NekRxHfezCsb8AuP6
-	1Aog==
-X-Gm-Message-State: AHPjjUj9xNu4LcPFaR7qRBLh3smiU8pPOgyaseR4iDz8ITnl4S1H/Fw/
-	rrmOx5J89Me0euscYjK8vScm45AWzK4A/+TFFSE=
-X-Google-Smtp-Source: ADKCNb5dZj5mHXVnpz9EHvs7QMCUb+YfpANDLEzYxETflBv5BnA31KmefJw2Ljo0L1ilE32l5acMmVdXtbbx5/ECx/Q=
-X-Received: by 10.101.67.200 with SMTP id n8mr13301886pgp.317.1505171078439;
-	Mon, 11 Sep 2017 16:04:38 -0700 (PDT)
+	Tue, 12 Sep 2017 00:56:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8C0uGPB008166
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Mon, 11 Sep 2017 17:56:16 -0700
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 11 Sep 2017 17:56:14 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1505114394.git.dengke.du@windriver.com>
+	<426c9f986646adcd1dbcb601f81ae08f87cbee9d.1505114394.git.dengke.du@windriver.com>
+	<CAJTo0LaSerr07urbRCe_Nxbx1mfKxBD-Wje2P9wqJLtc+tS-uQ@mail.gmail.com>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <62d2d18c-d3eb-6d00-3304-6df90e4a9332@windriver.com>
+Date: Tue, 12 Sep 2017 08:55:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.100.189.8 with HTTP; Mon, 11 Sep 2017 16:04:07 -0700 (PDT)
-In-Reply-To: <20170911170533.24155-1-Martin.Jansa@gmail.com>
-References: <20170911170533.24155-1-Martin.Jansa@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 11 Sep 2017 16:04:07 -0700
-Message-ID: <CAMKF1spkQaLZpUT6P_gapHReWjQCKJ1enoMnMr0d3fu-y-JOyQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc-locale: add runtime dependency on glibc
+In-Reply-To: <CAJTo0LaSerr07urbRCe_Nxbx1mfKxBD-Wje2P9wqJLtc+tS-uQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.194]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ovmf: fix do_compile error when len(tmp)=410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,72 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 23:04:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 12 Sep 2017 00:56:16 -0000
+Content-Type: multipart/alternative;
+	boundary="------------0C3A132231B18BB87DBD465C"
+Content-Language: en-US
 
-On Mon, Sep 11, 2017 at 10:05 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * the libc.so.6 dependency is detected always:
->   $ grep FILERDEPENDS BUILD-*/pkgdata/qemux86/runtime/localedef
->   BUILD-bad/pkgdata/qemux86/runtime/localedef:FILERDEPENDSFLIST_localedef: /usr/bin/localedef
->   BUILD-bad/pkgdata/qemux86/runtime/localedef:FILERDEPENDS_/usr/bin/localedef_localedef: libc.so.6(GLIBC_2.15) libc.so.6(GLIBC_2.3) libc.so.6(GLIBC_2.2) libc.so.6(GLIBC_2.1) libc.so.6(GLIBC_2.0) libc.so.6
->   BUILD-ok/pkgdata/qemux86/runtime/localedef:FILERDEPENDSFLIST_localedef: /usr/bin/localedef
->   BUILD-ok/pkgdata/qemux86/runtime/localedef:FILERDEPENDS_/usr/bin/localedef_localedef: libc.so.6(GLIBC_2.15) libc.so.6(GLIBC_2.3) libc.so.6(GLIBC_2.2) libc.so.6(GLIBC_2.1) libc.so.6(GLIBC_2.0) libc.so.6
->
-> * but in some builds the glibc dependency isn't built soon enough:
->   $ diff -uNr BUILD-*/pkgdata/qemux86/runtime/localedef
->   --- BUILD-bad/pkgdata/qemux86/runtime/localedef 2017-09-02 21:17:50.000000000 +0000
->   +++ BUILD-ok/pkgdata/qemux86/runtime/localedef  2017-09-11 10:15:49.954381592 +0000
->   @@ -6,6 +6,7 @@
->    LICENSE: GPLv2 & LGPLv2.1
->    DESCRIPTION_localedef: glibc: compile locale definition files
->    SUMMARY: Locale data from glibc
->   +RDEPENDS_localedef: glibc (>= 2.26)
->    SECTION: base
->    PKG_localedef: localedef
->    FILES_localedef: /usr/bin/localedef
->   and the build fails with QA issues:
->   http://errors.yoctoproject.org/Errors/Details/155529/
->
->   ERROR: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.0), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.15), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.3), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.2), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.1), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6, but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: QA run found fatal errors. Please consider fixing them.
->
-> * easily reproducible with empty TMPDIR and:
->   bitbake -c cleansstate glibc-locale && bitbake -c package_qa glibc-locale
->
-> * reproducible with Yocto 2.2 Morty as well, with slightly different
->   error message:
->   ERROR: glibc-locale-2.24-r0 do_package_qa: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.4), but no providers found in RDEPENDS_localedef? [file-rdeps]
->
-> * with Yocto 2.3 Pyro it's not reproducible by default, because rpmdeps
->   aren't enabled to populate FILERDEPENDS, but once you add:
->   ENABLE_RPM_FILEDEPS_FOR_PYRO = "1"
->   similar QA issue is shown as well:
->   ERROR: glibc-locale-2.25-r0 do_package_qa: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.15), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: glibc-locale-2.25-r0 do_package_qa: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6(GLIBC_2.4), but no providers found in RDEPENDS_localedef? [file-rdeps]
->   ERROR: glibc-locale-2.25-r0 do_package_qa: QA Issue: /usr/bin/localedef contained in package localedef requires libc.so.6, but no providers found in RDEPENDS_localedef? [file-rdeps]
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/glibc/glibc-locale.inc | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-> index 70e2b3a16b..75ababea68 100644
-> --- a/meta/recipes-core/glibc/glibc-locale.inc
-> +++ b/meta/recipes-core/glibc/glibc-locale.inc
-> @@ -12,6 +12,10 @@ BINUTILSDEP = "virtual/${MLPREFIX}${TARGET_PREFIX}binutils:do_populate_sysroot"
->  BINUTILSDEP_class-nativesdk = "virtual/${TARGET_PREFIX}binutils-crosssdk:do_populate_sysroot"
->  do_package[depends] += "${BINUTILSDEP}"
->
-> +# localedef links with libc.so and glibc-collateral.incinhibits all default deps
-> +# cannot add virtual/libc to DEPENDS, because it would conflict with libc-initial in RSS
-> +RDEPENDS_localedef += "glibc"
-> +
+--------------0C3A132231B18BB87DBD465C
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-looks good to me.
+Ok, I will resend it with 1023.
 
+
+On 2017年09月11日 18:51, Burton, Ross wrote:
+> On 11 September 2017 at 08:29, Dengke Du <dengke.du@windriver.com 
+> <mailto:dengke.du@windriver.com>> wrote:
+>
+>     +-#define MAX_LONG_FILE_PATH 500
+>     ++#define MAX_LONG_FILE_PATH 800
+>
+>
+> Making this limit a little bigger seems like a great way to hit it 
+> with a slightly longer path.  The other patch 
+> (VfrCompile-increase-path-length-limit.patch) increases it to 1023 
+> which seems to be a more future-proof solution (and consistent).
+>
+> Ross
+
+
+--------------0C3A132231B18BB87DBD465C
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Ok, I will resend it with 1023.<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 2017年09月11日 18:51, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LaSerr07urbRCe_Nxbx1mfKxBD-Wje2P9wqJLtc+tS-uQ@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">On 11 September 2017 at 08:29, Dengke Du <span
+          dir="ltr">&lt;<a href="mailto:dengke.du@windriver.com"
+            target="_blank" moz-do-not-send="true">dengke.du@windriver.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">+-#define
+              MAX_LONG_FILE_PATH 500<br>
+              ++#define MAX_LONG_FILE_PATH 800<br>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>Making this limit a little bigger seems like a great
+              way to hit it with a slightly longer path.  The other
+              patch (<span style="font-size:12.800000190734863px">VfrCompile-increase-</span><wbr
+                style="font-size:12.800000190734863px"><span
+                style="font-size:12.800000190734863px">path-length-limit.patch)
+                increases it to 1023 which seems to be a more
+                future-proof solution (and consistent).</span></div>
+            <div><span style="font-size:12.800000190734863px"><br>
+              </span></div>
+            <div><span style="font-size:12.800000190734863px">Ross</span></div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------0C3A132231B18BB87DBD465C--
