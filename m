@@ -1,45 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A1C2D78431
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC716012A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 12:52:42 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id o129so24734691qkd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 05:52:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:organization;
-	bh=LpSfU+PXPO+/zZczuuMbaeJbEjhJQfbqPilCVMq7B6o=;
-	b=WbWMuOSp9Iw7fgrKPWMnfpok2fu17Tlu2px7ZViCnMT8mo/R6MMiGdMhTzm+kZ/gTB
-	vaCjfS282WTzcGUpX9pFnvN8zPOeRgBtsPbKWOf1f4O0rY86H40/a+F/FB9j8V9XYZqv
-	MnC8C23D3hDa9h1amntX/m9jlGJWYaEXu02tnF69KhrvmChhF9vk65NrRzr6eEoJz0Je
-	j0D7/4BCHmRExN4764JvtLhKpHD+EDtKvSIktkFeOq1h+0xZ1XrpCpEhhpfyn1C93xH7
-	4Fs4XKZ3mHtNHFwnpsiTETJ/m6T2wh3skvZveiAuVS/ZexhhxHEprM2+K9A4Q3kX1IZe
-	jpqg==
-X-Gm-Message-State: AHPjjUgLYhmnpfd+wyLmN9V+8aK8XEO7BzPc2gSQgTprAJt+/rRQHvMN
-	CKalKr3CU2/8A5yo
-X-Google-Smtp-Source: AOwi7QAwMFr3VCiqRlkajbIp5Vx2F6VDVxgYRv/vJ9LZaJxXfneQ00w6uAuSKT31mn0cSkdgQQl6vA==
-X-Received: by 10.55.104.132 with SMTP id d126mr20068574qkc.142.1505220763298; 
-	Tue, 12 Sep 2017 05:52:43 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	p60sm7652309qtd.93.2017.09.12.05.52.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 12 Sep 2017 05:52:42 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Tue, 12 Sep 2017 09:52:35 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Sep 2017 09:50:31 -0300
-Message-Id: <20170912125031.4009-14-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170912125031.4009-1-otavio@ossystems.com.br>
-References: <20170912125031.4009-1-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v8 13/13] go-cross-canadian: add recipe
+	Tue, 12 Sep 2017 12:58:09 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Sep 2017 05:58:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,383,1500966000"; d="scan'208";a="127951529"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 12 Sep 2017 05:58:10 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 8E5635800E6;
+	Tue, 12 Sep 2017 05:58:09 -0700 (PDT)
+Date: Tue, 12 Sep 2017 15:57:20 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Message-ID: <20170912125720.lj6rwuclmbrd6fx2@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <20170908173303.29634-1-enrico.scholz@sigma-chemnitz.de>
+	<20170908173303.29634-4-enrico.scholz@sigma-chemnitz.de>
+	<20170911134150.6jpsypaj4dgjv67t@linux.intel.com>
+	<lyzia1fi13.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20170912085301.rfsiwojqn2nr6md5@linux.intel.com>
+	<lymv60fdzx.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20170912114837.ytzatxdw2cqcwsyz@linux.intel.com>
+	<lya820f6u6.fsf@ensc-virt.intern.sigma-chemnitz.de>
+MIME-Version: 1.0
+In-Reply-To: <lya820f6u6.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] wic: apply --extra-space + --overhead to squashfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,155 +46,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 12:52:42 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 12:58:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Matt Madison <matt@madison.systems>
+On Tue, Sep 12, 2017 at 02:18:41PM +0200, Enrico Scholz wrote:
+> Ed Bartosh <ed.bartosh@linux.intel.com> writes:
+> 
+> >> >> >> The --extra-space and --overhead option did not had an effect to squashfs
+> >> >> >> partitions.  Although squashfs is read-only, it can be useful to allocate
+> >> >> >> more space for the on-disk partition to avoid repartitioning of the whole
+> >> >> >> disk when a new (and larger) squashfs image is written on later updates.
+> >> >> >
+> >> >> > Is it possible to just use --size or --fixed-size in .wks to allocate
+> >> >> > partition of certain size?
+> >> >> 
+> >> >> --fixed-size works with this patch (tested); --size should work.
+> >> >
+> >> > Sorry for not being clear. Why do we need this if we can use --size to
+> >> > explicity specify partition size?
+> >> 
+> >> --size and --fixed-size did not had an effect for squashfs with the old
+> >> code.
+> >>
+> >
+> > I'd propose to fix this instead of applying extra space and overhead
+> > factor to the filesystems that don't support this by design.
+> >
+> > The idea is to make size and fixed-size parameters to set partition size
+> > and use extra-space and overhead-factor to extend filesystem size as
+> > they're currently used.
+> 
+> For what is this overhead to be used?  In most cases, to allow future
+> updates.  And this is required for squashfs too.
+> 
 
-Enable cross-canadian builds of the Go toolchain.  This
-requires an additional patch to the Go source to allow us
-to use the native GOTOOLDIR during the bootstrap phase.
+It depends on the usage scenario. Additional space may be required
+for other purposes too. It may me needed for the system to be able to
+boot and perform what it was built for.
 
-Signed-off-by: Matt Madison <matt@madison.systems>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+> Only difference is, that updates for squashfs are to be applied on
+> partition level and these for other file systems on file system level.
+> But the need for extra space exists in both cases.
+> 
+> 
+> >> I want/need it to allow updates of the running system without complete
+> >> repartitioning.  E.g. at wic creation time, the squashfs has a certain
+> >> size.  Sometime in the future, there are needed e.g. 5 MiB more because
+> >> a new package was added or so.
+> >>
+> >
+> > Yep, I understood what you want. I think it's better achieved by setting
+> > partition size with --size option than artificially apply extra-space and
+> > overhead factor to the filesystem that doesn't support this.
+> 
+> It really does not matter for me whether the filesystem itself can be
+> extended or whether I need a larger partition to apply future updates.
+> 
 
-Changes in v8:
-- Fix patch header
+It matters for me. I think I explained why.
 
-Changes in v7:
-- Add patch header
+> I just need a partition which provides an absolute or relative amount of
+> additional space.
+> 
+> 
+> >> I need to reserve space in the partition so that I can 'dd' the new
+> >> image without a complete repartitioning.
+> >> 
+> >> --extra-space/--overhead has the meaning which I want (e.g. to say
+> >> "reserve +20% for changes in the future").
+> >
+> > So far extra-space and overhead factor were used to allocate additional
+> > space on the file system. This is different from the way you want to
+> > use them. You're not allocating space on squashfs, you're allocating
+> > unformatted space on the partition. It's better to use --size for this.
+> 
+> No; --size is not what I want. --size (or --fixed-size) assume that I
+> know the absolute size.
+> 
+> Of course, I can get this size empirically.  But it is highly inflexible
+> and requires different wks files for different image types.
+> 
+> I want to reserve an extra percentage for future updates.  And these
+> percentages can be in the range of 1 - 5 MB (for small images with
+> only test tools) or several hundred MB (for large image types with
+> e.g. desktop environments).
+> 
+> --size or --fixed-size for these image types would be in completely
+> different ranges while --extra-space/--overhead fits to all.
+> 
 
-Changes in v6:
-- new patch
+I agree. --size is less suitable for your needs than extra space and
+overhead factor. I still don't like the idea of using them to reserve
+non-formatted space. Any other ideas how to do it?
 
- meta/recipes-devtools/go/go-1.8.inc                |  1 +
- .../go/go-1.8/set-gotooldir-during-bootstrap.patch | 22 ++++++++
- meta/recipes-devtools/go/go-cross-canadian.inc     | 64 ++++++++++++++++++++++
- meta/recipes-devtools/go/go-cross-canadian_1.8.bb  |  2 +
- 4 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.8/set-gotooldir-during-bootstrap.patch
- create mode 100644 meta/recipes-devtools/go/go-cross-canadian.inc
- create mode 100644 meta/recipes-devtools/go/go-cross-canadian_1.8.bb
-
-diff --git a/meta/recipes-devtools/go/go-1.8.inc b/meta/recipes-devtools/go/go-1.8.inc
-index 2920d06f60..141c0994c3 100644
---- a/meta/recipes-devtools/go/go-1.8.inc
-+++ b/meta/recipes-devtools/go/go-1.8.inc
-@@ -15,6 +15,7 @@ SRC_URI += "\
-        file://split-host-and-target-build.patch \
-        file://gotooldir.patch \
-        file://make-goroot-precious.patch \
-+       file://set-gotooldir-during-bootstrap.patch \
- "
- SRC_URI[main.md5sum] = "64e9380e07bba907e26a00cf5fcbe77e"
- SRC_URI[main.sha256sum] = "5f5dea2447e7dcfdc50fa6b94c512e58bfba5673c039259fd843f68829d99fa6"
-diff --git a/meta/recipes-devtools/go/go-1.8/set-gotooldir-during-bootstrap.patch b/meta/recipes-devtools/go/go-1.8/set-gotooldir-during-bootstrap.patch
-new file mode 100644
-index 0000000000..4b5e424d96
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.8/set-gotooldir-during-bootstrap.patch
-@@ -0,0 +1,22 @@
-+Set GOTOOLDIR during bootstrap 
-+
-+Signed-off-by: Matt Madison <matt@madison.systems>
-+Upstream-Status: Pending
-+
-+Index: go/src/make.bash
-+===================================================================
-+--- go.orig/src/make.bash
-++++ go/src/make.bash
-+@@ -172,10 +172,11 @@ if [ "$do_host_build" = "yes" ]; then
-+ 	mv cmd/dist/dist "$GOTOOLDIR"/dist
-+ 	echo
-+ 
-++	GOTOOLDIR_BOOTSTRAP="${GOTOOLDIR_BOOTSTRAP:-$GOTOOLDIR}"
-+ 	echo "##### Building packages and commands for host, $GOHOSTOS/$GOHOSTARCH."
-+ 	# CC_FOR_TARGET is recorded as the default compiler for the go tool. When building for the host, however,
-+ 	# use the host compiler, CC, from `cmd/dist/dist env` instead.
-+-	CC=$CC GOOS=$GOHOSTOS GOARCH=$GOHOSTARCH \
-++	CC=$CC GOOS=$GOHOSTOS GOARCH=$GOHOSTARCH GOTOOLDIR="$GOTOOLDIR_BOOTSTRAP" \
-+ 		"$GOTOOLDIR"/go_bootstrap install -gcflags "$GO_GCFLAGS" -ldflags "$GO_LDFLAGS" -v std cmd
-+ 	echo
-+ fi
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-new file mode 100644
-index 0000000000..f0315d558a
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -0,0 +1,64 @@
-+inherit cross-canadian
-+
-+DEPENDS = "go-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc virtual/nativesdk-${HOST_PREFIX}compilerlibs"
-+PN = "go-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-+
-+export GOHOSTOS = "${BUILD_GOOS}"
-+export GOHOSTARCH = "${BUILD_GOARCH}"
-+export GOOS = "${HOST_GOOS}"
-+export GOARCH = "${HOST_GOARCH}"
-+export GOARM = "${HOST_GOARM}"
-+export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
-+export GOTOOLDIR_BOOTSTRAP = "${GOROOT_BOOTSTRAP}/pkg/tool/${BUILD_GOTUPLE}"
-+export GOROOT_FINAL = "${libdir}/go"
-+export CGO_ENABLED = "1"
-+export CC_FOR_TARGET = "${HOST_CC}"
-+export CXX_FOR_TARGET = "${HOST_CXX}"
-+CC = "${@d.getVar('BUILD_CC', True).strip()}"
-+export GO_LDFLAGS = '-linkmode external -extld ${HOST_PREFIX}gcc -extldflags "${TOOLCHAIN_OPTIONS} ${LDFLAGS}"'
-+
-+do_configure[noexec] = "1"
-+
-+do_compile() {
-+	export GOBIN="${B}/bin"
-+	rm -rf ${GOBIN} ${B}/pkg
-+	mkdir ${GOBIN}
-+	cd src
-+	./make.bash --host-only --no-banner
-+	cd ${B}
-+}
-+
-+
-+make_wrapper() {
-+    rm -f ${D}${bindir}/$2
-+    cat <<END >${D}${bindir}/$2
-+#!/bin/bash
-+here=\`dirname \$0\`
-+native_goroot=\`readlink -f \$here/../../lib/${TARGET_SYS}/go\`
-+export GOARCH="${TARGET_GOARCH}"
-+export GOOS="${TARGET_GOOS}"
-+export GOARM="\${GOARM:-${TARGET_GOARM}}"
-+export GOTOOLDIR="\$native_goroot/pkg/tool/${HOST_GOTUPLE}"
-+export GOROOT="\${GOROOT:-\$OECORE_TARGET_SYSROOT/${target_libdir}/go}"
-+\$here/../../lib/${TARGET_SYS}/go/bin/$1 "\$@"
-+END
-+    chmod +x ${D}${bindir}/$2
-+}
-+
-+do_install() {
-+	install -d ${D}${libdir}/go
-+	cp --preserve=mode,timestamps -R ${B}/pkg ${D}${libdir}/go/
-+	install -d ${D}${libdir}/go/src
-+	(cd ${S}/src; for d in *; do \
-+		[ -d $d ] && cp --preserve=mode,timestamps -R ${S}/src/$d ${D}${libdir}/go/src/; \
-+	done)
-+	install -d ${D}${bindir} ${D}${libdir}/go/bin
-+	for f in ${B}/bin/*
-+	do
-+		base=`basename $f`
-+		install -m755 $f ${D}${libdir}/go/bin
-+		make_wrapper $base ${TARGET_PREFIX}$base
-+	done
-+}
-+
-+FILES_${PN}-staticdev = "${libdir}/go/pkg"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.8.bb b/meta/recipes-devtools/go/go-cross-canadian_1.8.bb
-new file mode 100644
-index 0000000000..7ac9449e47
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-cross-canadian_1.8.bb
-@@ -0,0 +1,2 @@
-+require go-cross-canadian.inc
-+require go-${PV}.inc
--- 
-2.14.1
-
+--
+Regards,
+Ed
 
