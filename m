@@ -1,26 +1,25 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F98B783EB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9573B784DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 08:05:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8C85Dsw011241
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Sep 2017 01:05:13 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 12 Sep 2017 01:05:11 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <ross.burton@intel.com>, <patrick.ohly@intel.com>
-Date: Tue, 12 Sep 2017 04:05:09 -0400
-Message-ID: <70a427e914c866d90949df92b10332ec762ab22f.1505203270.git.dengke.du@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <cover.1505203270.git.dengke.du@windriver.com>
-References: <cover.1505203270.git.dengke.du@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH V3 1/1] ovmf: fix do_compile error when len(tmp)=410
+	Tue, 12 Sep 2017 08:34:04 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v8C8Y1ZL028728
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Tue, 12 Sep 2017 09:34:03 +0100
+Message-ID: <1505205241.18640.14.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing
+	List <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Sep 2017 09:34:01 +0100
+In-Reply-To: <20170911211807.21269-1-otavio@ossystems.com.br>
+References: <20170911211807.21269-1-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH v7 1/2] kernel: Move Device Tree support to kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 08:05:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 12 Sep 2017 08:34:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-[YOCTO #11354]
+On Mon, 2017-09-11 at 18:18 -0300, Otavio Salvador wrote:
+> The Device Tree is commonly used but it is still kept as a .inc file
+> instead of a proper class. Instead now we move the Device Tree code
+> to
+> a kernel-devicetree class and automatically enable it when the
+> KERNEL_DEVICETREE variable is set.
+> 
+> While converting to the class, we reworked the compile and install in
+> tasks as well as run the build of the Device Tree files in parallel,
+> if possible.
+> 
+> To avoid breakage in existing layers, we kept a linux-dtb.inc file
+> which raises a warning telling the user about the change so in next
+> release this can be removed.
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- .../ovmf/0004-ovmf-enable-long-path-file.patch     | 28 ++++++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb                 |  3 ++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
+Sorry but this patchset doesn't appear to be well tested and has big
+issues. For example:
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch b/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-new file mode 100644
-index 0000000..35fc3ac
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-@@ -0,0 +1,28 @@
-+From 49d0923dce509127828b0867c2af31ec84a5c2a9 Mon Sep 17 00:00:00 2001
-+From: Dengke Du <dengke.du@windriver.com>
-+Date: Mon, 11 Sep 2017 02:21:55 -0400
-+Subject: [PATCH] ovmf: enable long path file
-+
-+Upstream-Status: Inappropriate
-+
-+Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+---
-+ BaseTools/Source/C/Common/CommonLib.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/BaseTools/Source/C/Common/CommonLib.h b/BaseTools/Source/C/Common/CommonLib.h
-+index 2041b89..8116aa2 100644
-+--- a/BaseTools/Source/C/Common/CommonLib.h
-++++ b/BaseTools/Source/C/Common/CommonLib.h
-+@@ -19,7 +19,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-+ #include <Common/BuildVersion.h>
-+ #define PRINTED_GUID_BUFFER_SIZE  37  // including null-termination
-+ 
-+-#define MAX_LONG_FILE_PATH 500
-++#define MAX_LONG_FILE_PATH 1023
-+ 
-+ #ifdef __cplusplus
-+ extern "C" {
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 1872c95..50c01aa 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -11,10 +11,11 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[secureboot] = ",,,"
- 
- SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
-+	file://0001-ia32-Dont-use-pie.patch \
- 	file://0002-ovmf-update-path-to-native-BaseTools.patch \
- 	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
-+	file://0004-ovmf-enable-long-path-file.patch \
- 	file://VfrCompile-increase-path-length-limit.patch \
--	file://0001-ia32-Dont-use-pie.patch \
- 	file://no-stack-protector-all-archs.patch \
-         "
- UPSTREAM_VERSION_UNKNOWN = "1"
--- 
-2.8.1
+https://autobuilder.yocto.io/builders/nightly-x86/builds/497/steps/Buil
+dImages/logs/stdio
+
+I'm going to guess that do_compile_devicetree is racing
+against do_compile_kernelmodules. Debugging these kinds of races is
+tremendously hard and taking a patchset on a key component like the
+kernel at this point in M4 where this hasn't been considered is
+worrying/risky.
+
+https://autobuilder.yocto.io/builders/nightly-mips-lsb/builds/461/steps
+/BuildImages/logs/stdio
+
+another form of the same race? The autobuilder is full of these
+failures :(
+
+I think if this patchset is to go anywhere it needs to be split into
+more incremental changes, one to move to the new file structure but not
+change the functionality, another looking at parallelisation etc. as
+the current approach of "this patch does X + Y + Z" makes review harder
+and makes it harder to merge any piece of it.
+
+Cheers,
+
+Richard
+
+
+
 
 
