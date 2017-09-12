@@ -1,32 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C63D3784D2
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D3AB783EB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 07:51:13 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,382,1500912000"; d="scan'208";a="25828764"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Sep 2017 15:51:15 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0CC5646BA6B8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:51:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Tue, 12 Sep 2017 15:51:14 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Sep 2017 15:51:14 +0800
-Message-ID: <1505202674-30256-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1505202674-30256-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1505202674-30256-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	Tue, 12 Sep 2017 08:05:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8C85B5h017681
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 12 Sep 2017 01:05:11 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 12 Sep 2017 01:05:09 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <ross.burton@intel.com>, <patrick.ohly@intel.com>
+Date: Tue, 12 Sep 2017 04:05:08 -0400
+Message-ID: <cover.1505203270.git.dengke.du@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 0CC5646BA6B8.A644B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] m4: Add HOMEPAGE info into recipe file.
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH V3 0/1] ovmf: fix do_compile error when len(tmp)=410
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 07:51:14 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 08:05:11 -0000
 Content-Type: text/plain
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-devtools/m4/m4.inc | 1 +
- 1 file changed, 1 insertion(+)
+Changed in V2:
+	Add the MAX_LONG_FILE_PATH to 1023 suggested by ross.
 
-diff --git a/meta/recipes-devtools/m4/m4.inc b/meta/recipes-devtools/m4/m4.inc
-index 75d8bbe..2002594 100644
---- a/meta/recipes-devtools/m4/m4.inc
-+++ b/meta/recipes-devtools/m4/m4.inc
-@@ -1,4 +1,5 @@
- SUMMARY = "Traditional Unix macro processor"
-+HOMEPAGE = "https://www.gnu.org/software/m4/m4.html"
- DESCRIPTION = "GNU m4 is an implementation of the traditional Unix macro processor.  It is mostly SVR4 \
- compatible although it has some extensions (for example, handling more than 9 positional parameters to macros). \
- GNU M4 also has built-in functions for including files, running shell commands, doing arithmetic, etc."
+Changed in V3:
+	Let the patch Upstream-Status be Inappropriate suggested by patrick.
+
+The following changes since commit e3a69364eb1fdbf1dcb98a04b3ddfc8f9841a7fa:
+
+  staging: gracefully abort if two recipes conflict in the sysroot (2017-09-11 17:30:30 +0100)
+
+are available in the git repository at:
+
+  https://github.com/DengkeDu/openembedded-core.git dengke/fix-ovmf-do-compile-error-when-enable-long-file-path
+  https://github.com//tree/dengke/fix-ovmf-do-compile-error-when-enable-long-file-path
+
+Dengke Du (1):
+  ovmf: fix do_compile error when len(tmp)=410
+
+ .../ovmf/0004-ovmf-enable-long-path-file.patch     | 28 ++++++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb                 |  3 ++-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
+
 -- 
-2.7.4
-
-
+2.8.1
 
 
