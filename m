@@ -1,39 +1,49 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC716012A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D77071C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 12:58:09 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Sep 2017 05:58:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,383,1500966000"; d="scan'208";a="127951529"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga004.jf.intel.com with ESMTP; 12 Sep 2017 05:58:10 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 8E5635800E6;
-	Tue, 12 Sep 2017 05:58:09 -0700 (PDT)
-Date: Tue, 12 Sep 2017 15:57:20 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Message-ID: <20170912125720.lj6rwuclmbrd6fx2@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <20170908173303.29634-1-enrico.scholz@sigma-chemnitz.de>
-	<20170908173303.29634-4-enrico.scholz@sigma-chemnitz.de>
-	<20170911134150.6jpsypaj4dgjv67t@linux.intel.com>
-	<lyzia1fi13.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20170912085301.rfsiwojqn2nr6md5@linux.intel.com>
-	<lymv60fdzx.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20170912114837.ytzatxdw2cqcwsyz@linux.intel.com>
-	<lya820f6u6.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	Tue, 12 Sep 2017 13:15:26 +0000 (UTC)
+Received: by mail-vk0-f41.google.com with SMTP id o22so12846591vke.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Sep 2017 06:15:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=JOFsZymWI7yrFSqtzdyWK0mFc4PpnZFUrfK2vpsWomw=;
+	b=l5u6NS7mqE5x0a2kS3LJ6HrWkc+7eCodNNwxttuUJyP6M9Iw6neOe77K1KxG3p38Tz
+	l8JRqa2W0iu4eEMjWmPpdJUv4/eb4POW6n8YylWKz0RUpg/pnZBCP4BsEzw8HCmq1UC7
+	q8fT+dsZYq5qkqWUXnrPzq0OvogEqBrxC4cRs6ElokktrJN4a7HzXA5csPb9Bp0pv6y8
+	j/qjjXv2KW6KfZ4y6QUIJMz31NhRZjMtzZQqONypTF2JzcpTgtQ8NbG8Ig4eVbcc3tdD
+	1PoVfs/c22w9TRShutONd8Cr18kijGvytuCzvAFYKHi+a7W6mL95sBWEspAANPY7AC6L
+	R63A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=JOFsZymWI7yrFSqtzdyWK0mFc4PpnZFUrfK2vpsWomw=;
+	b=m3ity7WbxdIpB/ufKnQTeuvUR46dFZqDDVqqKdyLNO5wcZDnk6dRTxjGr9pNR+PaEJ
+	jL6Z8Ug4BHhy0QAbxjF46Mb7fZGvy0twhXNnI2CV0vPVNh0Nm+2Db4vGZPYR3rEBs4bQ
+	T5zyJUNfIzzifydZgnmGqCz914lUiokz/fdyZzKhVo1Zr8fnlBpDWrNdvx9g3/43F9jD
+	S2CmkrtC/tDmq8s90aeFL+Iwekb0oUS+dX/xx4Qw5+eVOktATinNqUXix8ZamCbRlZP4
+	EKGWymkoVWNKcD19xWTxAp2WrIKRvwz+BVnhEhCIG34X99y6HDWt/JS3Xtoe0M3EU1+s
+	Txbg==
+X-Gm-Message-State: AHPjjUjjWXMicc58+NlFde5ADuIlM3P+fc7wqmgl9VgY7mRFm5xIsp1k
+	gsgsMcOYmntH6N+1d7tIGWpN7Z+Hhw==
+X-Google-Smtp-Source: AOwi7QBIT4CQtHPoCSLhNRLpjYQ7SM/cu+jq4/Yn6VHq98t8RVEb+xQB5voc6o4ZSXBPIHArGginffqUwSfwMCuj4jY=
+X-Received: by 10.31.224.134 with SMTP id x128mr9545872vkg.1.1505222128039;
+	Tue, 12 Sep 2017 06:15:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <lya820f6u6.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] wic: apply --extra-space + --overhead to squashfs
+Received: by 10.103.67.130 with HTTP; Tue, 12 Sep 2017 06:15:27 -0700 (PDT)
+In-Reply-To: <20170912125031.4009-7-otavio@ossystems.com.br>
+References: <20170912125031.4009-1-otavio@ossystems.com.br>
+	<20170912125031.4009-7-otavio@ossystems.com.br>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 12 Sep 2017 15:15:27 +0200
+Message-ID: <CA+chaQckTsnPoOeup9v563r1p3Rh5Yn1kDy=4BFaJbT6JPn3KQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Will Newton <willn@resin.io>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v8 06/13] go-dep: Move bash dependency to -dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,101 +56,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 12:58:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 12 Sep 2017 13:15:27 -0000
+Content-Type: multipart/alternative; boundary="94eb2c07afe23ffbce0558fdd634"
 
-On Tue, Sep 12, 2017 at 02:18:41PM +0200, Enrico Scholz wrote:
-> Ed Bartosh <ed.bartosh@linux.intel.com> writes:
-> 
-> >> >> >> The --extra-space and --overhead option did not had an effect to squashfs
-> >> >> >> partitions.  Although squashfs is read-only, it can be useful to allocate
-> >> >> >> more space for the on-disk partition to avoid repartitioning of the whole
-> >> >> >> disk when a new (and larger) squashfs image is written on later updates.
-> >> >> >
-> >> >> > Is it possible to just use --size or --fixed-size in .wks to allocate
-> >> >> > partition of certain size?
-> >> >> 
-> >> >> --fixed-size works with this patch (tested); --size should work.
-> >> >
-> >> > Sorry for not being clear. Why do we need this if we can use --size to
-> >> > explicity specify partition size?
-> >> 
-> >> --size and --fixed-size did not had an effect for squashfs with the old
-> >> code.
-> >>
-> >
-> > I'd propose to fix this instead of applying extra space and overhead
-> > factor to the filesystems that don't support this by design.
-> >
-> > The idea is to make size and fixed-size parameters to set partition size
-> > and use extra-space and overhead-factor to extend filesystem size as
-> > they're currently used.
-> 
-> For what is this overhead to be used?  In most cases, to allow future
-> updates.  And this is required for squashfs too.
-> 
+--94eb2c07afe23ffbce0558fdd634
+Content-Type: text/plain; charset="UTF-8"
 
-It depends on the usage scenario. Additional space may be required
-for other purposes too. It may me needed for the system to be able to
-boot and perform what it was built for.
+Doesn't this belong into:
+[OE-core] [PATCH v8 03/13] go: split out go-runtime into separate recipe
+where it packaging change was probably introduced?
 
-> Only difference is, that updates for squashfs are to be applied on
-> partition level and these for other file systems on file system level.
-> But the need for extra space exists in both cases.
-> 
-> 
-> >> I want/need it to allow updates of the running system without complete
-> >> repartitioning.  E.g. at wic creation time, the squashfs has a certain
-> >> size.  Sometime in the future, there are needed e.g. 5 MiB more because
-> >> a new package was added or so.
-> >>
-> >
-> > Yep, I understood what you want. I think it's better achieved by setting
-> > partition size with --size option than artificially apply extra-space and
-> > overhead factor to the filesystem that doesn't support this.
-> 
-> It really does not matter for me whether the filesystem itself can be
-> extended or whether I need a larger partition to apply future updates.
-> 
+Also just RFC question, would it make sense to use:
 
-It matters for me. I think I explained why.
+VIRTUAL-RUNTIME_bash ?= "bash"
+RDEPENDS_${PN}-dev += "${VIRTUAL-RUNTIME_bash}"
 
-> I just need a partition which provides an absolute or relative amount of
-> additional space.
-> 
-> 
-> >> I need to reserve space in the partition so that I can 'dd' the new
-> >> image without a complete repartitioning.
-> >> 
-> >> --extra-space/--overhead has the meaning which I want (e.g. to say
-> >> "reserve +20% for changes in the future").
-> >
-> > So far extra-space and overhead factor were used to allocate additional
-> > space on the file system. This is different from the way you want to
-> > use them. You're not allocating space on squashfs, you're allocating
-> > unformatted space on the partition. It's better to use --size for this.
-> 
-> No; --size is not what I want. --size (or --fixed-size) assume that I
-> know the absolute size.
-> 
-> Of course, I can get this size empirically.  But it is highly inflexible
-> and requires different wks files for different image types.
-> 
-> I want to reserve an extra percentage for future updates.  And these
-> percentages can be in the range of 1 - 5 MB (for small images with
-> only test tools) or several hundred MB (for large image types with
-> e.g. desktop environments).
-> 
-> --size or --fixed-size for these image types would be in completely
-> different ranges while --extra-space/--overhead fits to all.
-> 
+instead of the bash dependency directly? If it's acceptable for oe-core
+I'll create change to do it for all recipe (I don't mind waiting after 2.4
+is released).
 
-I agree. --size is less suitable for your needs than extra space and
-overhead factor. I still don't like the idea of using them to reserve
-non-formatted space. Any other ideas how to do it?
+Because right now for reasons described in
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=9217 I need to do the
+above +
+RDEPENDS_${PN}-dev_remove = "bash"
+for many recipes with many bbappends, for our distro where we RPROVIDE bash
+by busybox, which is good enough for package manager, but QA error is still
+shown in cases where the real bash is built before the component
+rdpenending on it.
 
---
 Regards,
-Ed
 
+
+On Tue, Sep 12, 2017 at 2:50 PM, Otavio Salvador <otavio@ossystems.com.br>
+wrote:
+
+> The src content has been moved to -dev package, so does the test
+> routines. Fix the runtime dependency accordingly.
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>
+> Changes in v8:
+> - new patch
+>
+> Changes in v7: None
+> Changes in v6: None
+>
+>  meta/recipes-devtools/go/go-dep_0.3.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/go/go-dep_0.3.0.bb
+> b/meta/recipes-devtools/go/go-dep_0.3.0.bb
+> index c65b4f7cb5..5e4544a104 100644
+> --- a/meta/recipes-devtools/go/go-dep_0.3.0.bb
+> +++ b/meta/recipes-devtools/go/go-dep_0.3.0.bb
+> @@ -15,4 +15,4 @@ GO_INSTALL = "${GO_IMPORT}/cmd/dep"
+>
+>  INSANE_SKIP_${PN} += "ldflags"
+>
+> -RDEPENDS_${PN}-staticdev += "bash"
+> +RDEPENDS_${PN}-dev += "bash"
+> --
+> 2.14.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--94eb2c07afe23ffbce0558fdd634
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Doesn&#39;t this belong into:</div><div>[OE-core] [PA=
+TCH v8 03/13] go: split out go-runtime into separate recipe<br></div><div>w=
+here it packaging change was probably introduced?</div><div><br></div><div>=
+Also just RFC question, would it make sense to use:</div><div><br></div><di=
+v>VIRTUAL-RUNTIME_bash ?=3D &quot;bash&quot;</div><div>RDEPENDS_${PN}-dev +=
+=3D &quot;${VIRTUAL-RUNTIME_bash}&quot;</div><div><br></div><div>instead of=
+ the bash dependency directly? If it&#39;s acceptable for oe-core I&#39;ll =
+create change to do it for all recipe (I don&#39;t mind waiting after 2.4 i=
+s released).</div><div><br></div><div>Because right now for reasons describ=
+ed in=C2=A0<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9=
+217">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9217</a> I need to=
+ do the above +</div><div>RDEPENDS_${PN}-dev_remove =3D &quot;bash&quot;<br=
+></div><div>for many recipes with many bbappends, for our distro where we R=
+PROVIDE bash by busybox, which is good enough for package manager, but QA e=
+rror is still shown in cases where the real bash is built before the compon=
+ent rdpenending on it.</div><div><br></div><div>Regards,</div><div><br></di=
+v></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue, S=
+ep 12, 2017 at 2:50 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The src content has be=
+en moved to -dev package, so does the test<br>
+routines. Fix the runtime dependency accordingly.<br>
+<br>
+Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
+r">otavio@ossystems.com.br</a>&gt;<br>
+---<br>
+<br>
+Changes in v8:<br>
+- new patch<br>
+<br>
+Changes in v7: None<br>
+Changes in v6: None<br>
+<br>
+=C2=A0meta/recipes-devtools/go/<a href=3D"http://go-dep_0.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">go-<wbr>dep_0.3.0.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-dep_0.3.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">go-<wbr>dep_0.3.0.bb</a> b/meta/recipes-=
+devtools/go/<a href=3D"http://go-dep_0.3.0.bb" rel=3D"noreferrer" target=3D=
+"_blank">go-<wbr>dep_0.3.0.bb</a><br>
+index c65b4f7cb5..5e4544a104 100644<br>
+--- a/meta/recipes-devtools/go/<a href=3D"http://go-dep_0.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">go-<wbr>dep_0.3.0.bb</a><br>
++++ b/meta/recipes-devtools/go/<a href=3D"http://go-dep_0.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">go-<wbr>dep_0.3.0.bb</a><br>
+@@ -15,4 +15,4 @@ GO_INSTALL =3D &quot;${GO_IMPORT}/cmd/dep&quot;<br>
+<br>
+=C2=A0INSANE_SKIP_${PN} +=3D &quot;ldflags&quot;<br>
+<br>
+-RDEPENDS_${PN}-staticdev +=3D &quot;bash&quot;<br>
++RDEPENDS_${PN}-dev +=3D &quot;bash&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.14.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--94eb2c07afe23ffbce0558fdd634--
