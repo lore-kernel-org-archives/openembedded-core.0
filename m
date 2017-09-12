@@ -1,49 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1824478484
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B3441783FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 15:59:10 +0000 (UTC)
-Received: by mail-wr0-f170.google.com with SMTP id m18so23767645wrm.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 08:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=9hv2XIU8US568hEkAuW2/6Y4Q7yGXfPUOI78G0YGdpU=;
-	b=ZXYs4SrbUEDD/mPfGgWd3UVsCaoQzsGUmxEGiXan4RoSNO0IX88wV6WxQc0dxQjzXk
-	v95ZWYUrQ/ko347AIne2caCTlNsnoTNnw62JVlLPhqdORMXs61yiNfFh5ybsxepavHCb
-	JvjuW0F9vWOdpk2L7RPSTatSPytoGo9oIvEZTo9emzYmhxWrgogiFMXhvHrIGI4ghspS
-	/pDQ1EZv7o2PwUmpuXe/06qCGIoJFq2vVypt6mEOnOMNf/Q2cWSBIpRgPadocqCFLxiw
-	qAPiLG26JV50GNjvkFzWNo4fCCcwlgfqU7ALRP8bC50GIOqyDog1jMnD4TMPfIQMVWq8
-	Wf7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=9hv2XIU8US568hEkAuW2/6Y4Q7yGXfPUOI78G0YGdpU=;
-	b=JayKCpjS6VPE6//u00IONuLpQ78bPDz8V5RE8Jt2kpZqDnsHWt1LlVz8e1aYbJTdsO
-	etINu3AvHehni65ncutbKbjMV8Z2B4CkKc/ePmokVQvJo0SAs/ihjhunHcU0/0u31Vd6
-	BQ3/EGVIYO720LK/iDvKBAWgoaVMLUHaaMwuz31jPB9uqdLJ58rdK8zPTEllRrlXO54x
-	Kz/4JAqy0y+G3BCAQ8koOwG9Ycq9nouLD0+Ldz7YynsdlSTGyHLjei4LZuG8chwrmTjL
-	+uDSz6QeoRbKBms//RKn36aWvAnRRJryAiKd3DZ6GZ2g3lYuhK+T53st0JOFGGJgTEfg
-	N+KQ==
-X-Gm-Message-State: AHPjjUjopSJpCJBBrAjOUnkt0GPn7upZxc226SCihKd8snweTxl9hpT9
-	WaSMiv00n6WIP9Bu8D4=
-X-Google-Smtp-Source: ADKCNb5YEw8tuu1RUd8vncjdY3tcGwVO8Njqnb7cBkEs6t2oRiEI6Ep4hEAPNvZQ88V0ZzB+YjdcVQ==
-X-Received: by 10.223.164.206 with SMTP id h14mr12360472wrb.221.1505231950969; 
-	Tue, 12 Sep 2017 08:59:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id
-	f188sm13884603wme.21.2017.09.12.08.59.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 12 Sep 2017 08:59:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Sep 2017 16:59:06 +0100
-Message-Id: <20170912155906.29716-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] allarch: don't reset baselib
+	Tue, 12 Sep 2017 16:27:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8CGRrL7003584
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Sep 2017 09:27:53 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 12 Sep 2017 09:27:52 -0700
+To: Ross Burton <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20170912155906.29716-1-ross.burton@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <fd5d461b-2217-ef1e-9aa4-690d7508d806@windriver.com>
+Date: Tue, 12 Sep 2017 11:28:04 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <20170912155906.29716-1-ross.burton@intel.com>
+Subject: Re: [PATCH] allarch: don't reset baselib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +35,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 15:59:11 -0000
+X-List-Received-Date: Tue, 12 Sep 2017 16:27:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-allarch currently resets baselib to "lib" in an attempt to keep allarch recipes
-uniform.  However if the real value for $baselib is actually needed, for example
-in a multilib environment where $baselib is lib64 for standard binaries and the
-allarch package is using postinst intercepts which need to know the real value
-of $libdir, then a non-existant or incorrect $libdir will be used.
+On 9/12/17 10:59 AM, Ross Burton wrote:
+> allarch currently resets baselib to "lib" in an attempt to keep allarch recipes
+> uniform.  However if the real value for $baselib is actually needed, for example
+> in a multilib environment where $baselib is lib64 for standard binaries and the
+> allarch package is using postinst intercepts which need to know the real value
+> of $libdir, then a non-existant or incorrect $libdir will be used.
+> 
+> Real world example: liberation-fonts is allarch and inherits fontcache, which
+> uses a postinst intercept to run fc-cache inside qemu-user.  In a multilib
+> configuration where normal libdir=/usr/lib64 and lib32 libdir=/usr/lib qemu will
+> try running a 64-bit fc-cache with a 32-bit ld-linux, and predicatably the
+> binary crashes.
 
-Real world example: liberation-fonts is allarch and inherits fontcache, which
-uses a postinst intercept to run fc-cache inside qemu-user.  In a multilib
-configuration where normal libdir=/usr/lib64 and lib32 libdir=/usr/lib qemu will
-try running a 64-bit fc-cache with a 32-bit ld-linux, and predicatably the
-binary crashes.
+This still won't work right.  If we put an allarch package in a configuration
+that can be either 32-bit or 64-bit (which is the point of allarch), then how
+will it know which arch this magic script is running on?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/allarch.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+It sounds to me like the way the script is running needs to be fixed (and/or
+qemu needs to be fixed).   Calls to QEMU should inherit the matching system
+envrionment, not assume an environment from the post-install scripts.
 
-diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
-index 51ba509cd0a..e0326039d0c 100644
---- a/meta/classes/allarch.bbclass
-+++ b/meta/classes/allarch.bbclass
-@@ -13,7 +13,7 @@ python () {
- 
-         # Set these to a common set of values, we shouldn't be using them other that for WORKDIR directory
-         # naming anyway
--        d.setVar("baselib", "lib")
-+        #d.setVar("baselib", "lib")
-         d.setVar("TARGET_ARCH", "allarch")
-         d.setVar("TARGET_OS", "linux")
-         d.setVar("TARGET_CC_ARCH", "none")
-@@ -48,4 +48,3 @@ python () {
-     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
-         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
- }
--
--- 
-2.11.0
+--Mark
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/allarch.bbclass | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+> index 51ba509cd0a..e0326039d0c 100644
+> --- a/meta/classes/allarch.bbclass
+> +++ b/meta/classes/allarch.bbclass
+> @@ -13,7 +13,7 @@ python () {
+>  
+>          # Set these to a common set of values, we shouldn't be using them other that for WORKDIR directory
+>          # naming anyway
+> -        d.setVar("baselib", "lib")
+> +        #d.setVar("baselib", "lib")
+>          d.setVar("TARGET_ARCH", "allarch")
+>          d.setVar("TARGET_OS", "linux")
+>          d.setVar("TARGET_CC_ARCH", "none")
+> @@ -48,4 +48,3 @@ python () {
+>      elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
+>          bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
+>  }
+> -
+> 
 
 
