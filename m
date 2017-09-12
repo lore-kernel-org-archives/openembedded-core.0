@@ -1,34 +1,49 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D2C9783FC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1824478484
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 14:45:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 5A71131801C8
+	Tue, 12 Sep 2017 15:59:10 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id m18so23767645wrm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 16:45:34 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 2fri9IttTdLg
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 16:45:32 +0200 (CEST)
-Received: from t460p (p4FE9AB4C.dip0.t-ipconnect.de [79.233.171.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 831F031801C0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 16:45:32 +0200 (CEST)
-Date: Tue, 12 Sep 2017 16:45:31 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
+	Tue, 12 Sep 2017 08:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=9hv2XIU8US568hEkAuW2/6Y4Q7yGXfPUOI78G0YGdpU=;
+	b=ZXYs4SrbUEDD/mPfGgWd3UVsCaoQzsGUmxEGiXan4RoSNO0IX88wV6WxQc0dxQjzXk
+	v95ZWYUrQ/ko347AIne2caCTlNsnoTNnw62JVlLPhqdORMXs61yiNfFh5ybsxepavHCb
+	JvjuW0F9vWOdpk2L7RPSTatSPytoGo9oIvEZTo9emzYmhxWrgogiFMXhvHrIGI4ghspS
+	/pDQ1EZv7o2PwUmpuXe/06qCGIoJFq2vVypt6mEOnOMNf/Q2cWSBIpRgPadocqCFLxiw
+	qAPiLG26JV50GNjvkFzWNo4fCCcwlgfqU7ALRP8bC50GIOqyDog1jMnD4TMPfIQMVWq8
+	Wf7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=9hv2XIU8US568hEkAuW2/6Y4Q7yGXfPUOI78G0YGdpU=;
+	b=JayKCpjS6VPE6//u00IONuLpQ78bPDz8V5RE8Jt2kpZqDnsHWt1LlVz8e1aYbJTdsO
+	etINu3AvHehni65ncutbKbjMV8Z2B4CkKc/ePmokVQvJo0SAs/ihjhunHcU0/0u31Vd6
+	BQ3/EGVIYO720LK/iDvKBAWgoaVMLUHaaMwuz31jPB9uqdLJ58rdK8zPTEllRrlXO54x
+	Kz/4JAqy0y+G3BCAQ8koOwG9Ycq9nouLD0+Ldz7YynsdlSTGyHLjei4LZuG8chwrmTjL
+	+uDSz6QeoRbKBms//RKn36aWvAnRRJryAiKd3DZ6GZ2g3lYuhK+T53st0JOFGGJgTEfg
+	N+KQ==
+X-Gm-Message-State: AHPjjUjopSJpCJBBrAjOUnkt0GPn7upZxc226SCihKd8snweTxl9hpT9
+	WaSMiv00n6WIP9Bu8D4=
+X-Google-Smtp-Source: ADKCNb5YEw8tuu1RUd8vncjdY3tcGwVO8Njqnb7cBkEs6t2oRiEI6Ep4hEAPNvZQ88V0ZzB+YjdcVQ==
+X-Received: by 10.223.164.206 with SMTP id h14mr12360472wrb.221.1505231950969; 
+	Tue, 12 Sep 2017 08:59:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	f188sm13884603wme.21.2017.09.12.08.59.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 12 Sep 2017 08:59:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20170912164531.34d2af4f@t460p>
-In-Reply-To: <20170912134551.12678-3-otavio@ossystems.com.br>
-References: <20170912134551.12678-1-otavio@ossystems.com.br>
-	<20170912134551.12678-3-otavio@ossystems.com.br>
-MIME-Version: 1.0
-Subject: Re: [PATCH v8 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+Date: Tue, 12 Sep 2017 16:59:06 +0100
+Message-Id: <20170912155906.29716-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] allarch: don't reset baselib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 14:45:34 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Sep 2017 15:59:11 -0000
 
-Hi Otavio,
+allarch currently resets baselib to "lib" in an attempt to keep allarch recipes
+uniform.  However if the real value for $baselib is actually needed, for example
+in a multilib environment where $baselib is lib64 for standard binaries and the
+allarch package is using postinst intercepts which need to know the real value
+of $libdir, then a non-existant or incorrect $libdir will be used.
 
-On Tue, 12 Sep 2017 10:45:51 -0300
-Otavio Salvador <otavio@ossystems.com.br> wrote:
+Real world example: liberation-fonts is allarch and inherits fontcache, which
+uses a postinst intercept to run fc-cache inside qemu-user.  In a multilib
+configuration where normal libdir=/usr/lib64 and lib32 libdir=/usr/lib qemu will
+try running a 64-bit fc-cache with a 32-bit ld-linux, and predicatably the
+binary crashes.
 
-> +do_configure_devicetree() {
-> +	if [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-> +		if echo ${KERNEL_IMAGETYPE_FOR_MAKE} | grep -q 'zImage'; then
-> +			config="${B}/.config"
-> +			if ! grep -q 'CONFIG_ARM_APPENDED_DTB=y' $config; then
-> +				bbwarn 'CONFIG_ARM_APPENDED_DTB is NOT enabled in the kernel. Enabling it to allow the kernel to boot with the Device Tree appended!'
-> +				sed -i "/CONFIG_ARM_APPENDED_DTB[ =]/d" $config
-> +				echo "CONFIG_ARM_APPENDED_DTB=y" >> $config
-> +				echo "# CONFIG_ARM_ATAG_DTB_COMPAT is not set" >> $config
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/allarch.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-what about CONFIG_MIPS_APPENDED_DTB?
-
-Can we ever make sure to cover all relevant architectures?
-
-Regards,
-Andreas
-
-> +			fi
-> +		else
-> +			bberror 'The KERNEL_DEVICETREE_BUNDLE requires the KERNEL_IMAGETYPE to contain zImage.'
-> +		fi
-> +	fi
-> +}
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index 51ba509cd0a..e0326039d0c 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -13,7 +13,7 @@ python () {
+ 
+         # Set these to a common set of values, we shouldn't be using them other that for WORKDIR directory
+         # naming anyway
+-        d.setVar("baselib", "lib")
++        #d.setVar("baselib", "lib")
+         d.setVar("TARGET_ARCH", "allarch")
+         d.setVar("TARGET_OS", "linux")
+         d.setVar("TARGET_CC_ARCH", "none")
+@@ -48,4 +48,3 @@ python () {
+     elif bb.data.inherits_class('packagegroup', d) and not bb.data.inherits_class('nativesdk', d):
+         bb.error("Please ensure recipe %s sets PACKAGE_ARCH before inherit packagegroup" % d.getVar("FILE"))
+ }
+-
+-- 
+2.11.0
 
 
