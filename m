@@ -1,25 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 278AE783DD
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 821F6783FD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 12:30:23 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v8CCULTX013438
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 12 Sep 2017 13:30:22 +0100
-Message-ID: <1505219421.18640.20.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 12 Sep 2017 13:30:21 +0100
-In-Reply-To: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
-References: <20170908102218.23790-1-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH] image_types: support lz4 compressed squashfs
+	Tue, 12 Sep 2017 12:50:56 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id t46so1462852qtj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Sep 2017 05:50:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=O4SpiyMGH2ZV7dnEcPaCJ2/+JVQj9GBNkaBljtK/Zlo=;
+	b=MkV9eLB3TLgQfP5rWhty1viPgG5t02iVqWVU/4WDncE4QhyOWqJfVRDM5yDe8Aeu7w
+	wmwkf4K4P1L8BIi9gX5Pbae1HlhlAaSW9UQsXSta4HdYiOXxEwLtoZx7w1SsDa3BJRfF
+	8wozkx02UliiYG3xjfyKVdEdIxgCEH1Pn/qULs8dFmKU6QjvlqQlJI2aIdf+oj+p32c6
+	3wfKrNXd94Ndx0QI3ibt6P5Bqe5B5icnF2l2x6dZaW/kMXwwRK+UK67Hk5shBT3P6yG+
+	/iy+q82jMbFbd4tNHU/0rBJReRlzGERV8zn7ZYmpZZzWCBwVR3ewkYGZjJ37fCKB+OSp
+	kIlA==
+X-Gm-Message-State: AHPjjUg/VvN12wHpUnd+N939I0MKxILbX/n9p8qPeYqslHOySXOMfl94
+	fc9XABa2M2wndSU1
+X-Google-Smtp-Source: AOwi7QAdnFH7YgE7Xtl/BF14eYHpYluXAbiLzukriy3/8mXMdsJqLJovGwsaBwTXiY7agI0brt5Ssw==
+X-Received: by 10.200.53.168 with SMTP id k37mr19869171qtb.237.1505220657040; 
+	Tue, 12 Sep 2017 05:50:57 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	i84sm8187385qkh.17.2017.09.12.05.50.52
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 12 Sep 2017 05:50:56 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Tue, 12 Sep 2017 09:50:47 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Sep 2017 09:50:18 -0300
+Message-Id: <20170912125031.4009-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
+Organization: O.S. Systems Software LTDA.
+Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v8 00/13] Revamp the Go support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +49,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 12:30:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 12 Sep 2017 12:50:56 -0000
 
-On Fri, 2017-09-08 at 12:22 +0200, Enrico Scholz wrote:
-> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> ---
->  meta/classes/image_types.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+This improves the Go support on OE-Core.
 
-This seems to cause "oe-selftest -r
-imagefeatures.ImageFeatures.test_image_fstypes" to fail:
+We are trying to port as much as possible work done by Matt on
+meta-golang back to OE-Core and also to avoid carrying old releases as
+there is no need to support more versions of Go toolchain.
 
+This fixes issues in existing support as well as add support for SDK
+generation which supports Go.
 
-2017-09-12 12:20:48,435 - oe-selftest - INFO - ======================================================================
-2017-09-12 12:20:48,435 - oe-selftest - INFO - FAIL [61.543s]: test_image_fstypes (imagefeatures.ImageFeatures)
-2017-09-12 12:20:48,435 - oe-selftest - INFO - ----------------------------------------------------------------------
-2017-09-12 12:20:48,436 - oe-selftest - INFO - Traceback (most recent call last):
-  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/core/decorator/__init__.py", line 32, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/cases/imagefeatures.py", line 228, in test_image_fstypes
-    "%s image %s doesn't exist" % (itype, image_path))
-AssertionError: False is not true : squashfs-lz4 image /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.squashfs-lz4 doesn't exist
+Changes in v8:
+- new patch
+- Fix patch header
 
-(from https://autobuilder.yocto.io/builders/nightly-oe-selftest/builds/512/steps/Running%20oe-selftest/logs/stdio)
+Changes in v7:
+- Fix Upstream-Status header typo
+- Add patch header
 
-Cheers,
+Changes in v6:
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
+- new patch
 
-Richard
+Matt Madison (12):
+  go-native: remove dependency on go-bootstrap-native
+  go-bootstrap-native: remove recipe
+  go: split out go-runtime into separate recipe
+  go.bbclass: remove GO_GCFLAGS nad GO_LDFLAGS
+  go.bbclass: remove some xxx_FINAL variables
+  go.bbclass: clean up CGO_xxx settings
+  go: rename go.inc -> go-target.inc
+  go-cross: take GOARM environment setting
+  go: enable nativesdk builds for the toolchain
+  go-crosssdk: add recipe
+  go.bbclass: enable nativesdk builds for Go packages
+  go-cross-canadian: add recipe
+
+Otavio Salvador (1):
+  go-dep: Move bash dependency to -dev package
+
+ meta/classes/go.bbclass                            |  54 +++--
+ meta/recipes-devtools/go/go-1.4.inc                |  16 --
+ ...alignment-for-the-.rel.plt-section-on-32-.patch |  33 ---
+ .../go/go-1.4/016-armhf-elf-header.patch           |  24 ---
+ ...ckport-cmd-link-support-new-386-amd64-rel.patch | 225 ---------------------
+ meta/recipes-devtools/go/go-1.4/syslog.patch       |  62 ------
+ meta/recipes-devtools/go/go-1.8.inc                |   6 +-
+ .../go/go-1.8/make-goroot-precious.patch           |  21 ++
+ .../go/go-1.8/set-gotooldir-during-bootstrap.patch |  22 ++
+ .../recipes-devtools/go/go-bootstrap-native_1.4.bb |   3 -
+ meta/recipes-devtools/go/go-common.inc             |   2 +-
+ meta/recipes-devtools/go/go-cross-canadian.inc     |  64 ++++++
+ meta/recipes-devtools/go/go-cross-canadian_1.8.bb  |   2 +
+ meta/recipes-devtools/go/go-cross.inc              |  61 +++++-
+ meta/recipes-devtools/go/go-cross_1.8.bb           |   5 +-
+ meta/recipes-devtools/go/go-crosssdk.inc           |  55 +++++
+ meta/recipes-devtools/go/go-crosssdk_1.8.bb        |   2 +
+ meta/recipes-devtools/go/go-dep_0.3.0.bb           |   2 +-
+ meta/recipes-devtools/go/go-native.inc             |  48 +++--
+ meta/recipes-devtools/go/go-native_1.8.bb          |   1 -
+ meta/recipes-devtools/go/go-runtime.inc            |  58 ++++++
+ meta/recipes-devtools/go/go-runtime_1.8.bb         |   2 +
+ meta/recipes-devtools/go/go-target.inc             |  54 +++++
+ meta/recipes-devtools/go/go.inc                    |  81 --------
+ meta/recipes-devtools/go/go_1.8.bb                 |   2 +-
+ 25 files changed, 394 insertions(+), 511 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.4.inc
+ delete mode 100644 meta/recipes-devtools/go/go-1.4/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.4/016-armhf-elf-header.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.4/go-cross-backport-cmd-link-support-new-386-amd64-rel.patch
+ delete mode 100644 meta/recipes-devtools/go/go-1.4/syslog.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/make-goroot-precious.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.8/set-gotooldir-during-bootstrap.patch
+ delete mode 100644 meta/recipes-devtools/go/go-bootstrap-native_1.4.bb
+ create mode 100644 meta/recipes-devtools/go/go-cross-canadian.inc
+ create mode 100644 meta/recipes-devtools/go/go-cross-canadian_1.8.bb
+ create mode 100644 meta/recipes-devtools/go/go-crosssdk.inc
+ create mode 100644 meta/recipes-devtools/go/go-crosssdk_1.8.bb
+ create mode 100644 meta/recipes-devtools/go/go-runtime.inc
+ create mode 100644 meta/recipes-devtools/go/go-runtime_1.8.bb
+ create mode 100644 meta/recipes-devtools/go/go-target.inc
+ delete mode 100644 meta/recipes-devtools/go/go.inc
+
+-- 
+2.14.1
+
 
