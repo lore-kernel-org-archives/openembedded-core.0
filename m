@@ -1,28 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E368E77D6B
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B487177B39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 22:48:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8DMmxMA019300
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 15:48:59 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 13 Sep 2017 15:48:58 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-References: <1505342415-93152-1-git-send-email-mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <c460da5b-bda1-fc4b-45cb-6ff5c3c51902@windriver.com>
-Date: Wed, 13 Sep 2017 17:49:10 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <1505342415-93152-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [PATCH v2] bitbake.conf: Add default FILESYSTEM_PERMS_TABLES
+	Wed, 13 Sep 2017 23:06:01 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 13 Sep 2017 16:05:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,390,1500966000"; d="scan'208";a="1014193624"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga003.jf.intel.com with ESMTP; 13 Sep 2017 16:05:59 -0700
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Sep 2017 16:05:49 -0700
+Message-Id: <20170913230549.27953-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.9.5
+Cc: stefan.agner@toradex.com, dominik.sliwa@toradex.com, saul.wold@intel.com
+Subject: [PATCH v2] linux-firmware: bump to latest linux-firmware git revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +28,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 22:48:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Sep 2017 23:06:01 -0000
 
-On 9/13/17 5:40 PM, Mark Hatle wrote:
-> If FILESYSTEM_PERMS_TABLES was not defined, the default was selected by the
-> packages.bbclass.  This made it difficult for a recipe or layer to 'append'
-> to the default.
-> 
-> Copy the default into the bitbake.conf, allowing future _append and += style
-> actions.
-> 
-> Default was remove from package.bbclass.  If a value is not set, only the
-> built-in per fixes will be used.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-per should have been 'perms' above.  I can send a v3 if needed.
+This requires MD5 sum updates for
+- LICENSE.QualcommAtheros_ath10k: year change
+- WHENCE: various version updates and addition of new firmwares
 
---Mark
+The new firmware for Qualcom Venus causes a QA error:
+  QA Issue: linux-firmware: Recipe inherits the allarch class, but has packaged architecture-specific binaries
 
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  meta/classes/package.bbclass | 4 +---
->  meta/conf/bitbake.conf       | 8 ++++++++
->  2 files changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 7a62181..2053d46 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -737,9 +737,7 @@ python fixup_perms () {
->      def get_fs_perms_list(d):
->          str = ""
->          bbpath = d.getVar('BBPATH')
-> -        fs_perms_tables = d.getVar('FILESYSTEM_PERMS_TABLES')
-> -        if not fs_perms_tables:
-> -            fs_perms_tables = 'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR', True)) else 'files/fs-perms-persistent-log.txt'
-> +        fs_perms_tables = d.getVar('FILESYSTEM_PERMS_TABLES') or ""
->          for conf_file in fs_perms_tables.split():
->              str += " %s" % bb.utils.which(bbpath, conf_file)
->          return str
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 444c53f..8fb596e 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -330,6 +330,14 @@ FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE', False))}"
->  # This default was only used for checking
->  FILESEXTRAPATHS ?= "__default:"
->  
-> +# The default list of fs-perms files to process.  If the list is empty only
-> +# the builtin definitions will be used.  Builtin definitions included:
-> +#  base_prefix, prefix, exec_prefix, base_bindir, base_sbindir, base_libdir,
-> +#  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir,
-> +#  mandir, docdir, bindir, sbindir, libexecdir, libdir, includedir and
-> +#  oldincludedir
-> +FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR', True)) else 'files/fs-perms-persistent-log.txt'}"
-> +
->  ##################################################################
->  # General work and output directories for the build system.
->  ##################################################################
-> 
+Since firmware typically do not run on the CPU, the architecture of
+the firmware file is independent from the CPU architecture the image
+will be running on. Disable the QA check for the linux-firmware
+package by default.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+---
+Hi Stefan,
+In interest of getting this into 2.4 (freezes Monday, and it turns out
+we also need this latest bump), I went ahead and fixed it up as per
+Ross' suggestion. Ross was quick and already added the required
+functionality to INSANE_SKIP.
+
+If this isn't acceptable please let me know.
+
+Thanks,
+Cal
+
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 20d140c..6798ace 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -98,7 +98,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.qla1280;md5=d6895732e622d950609093223a2c4f5d \
+     file://LICENCE.qla2xxx;md5=505855e921b75f1be4a437ad9b79dff0 \
+     file://LICENSE.QualcommAtheros_ar3k;md5=b5fe244fb2b532311de1472a3bc06da5 \
+-    file://LICENSE.QualcommAtheros_ath10k;md5=b5fe244fb2b532311de1472a3bc06da5 \
++    file://LICENSE.QualcommAtheros_ath10k;md5=cb42b686ee5f5cb890275e4321db60a8 \
+     file://LICENCE.r8a779x_usb3;md5=4c1671656153025d7076105a5da7e498 \
+     file://LICENSE.radeon;md5=68ec28bacb3613200bca44f404c69b16 \
+     file://LICENCE.ralink_a_mediatek_company_firmware;md5=728f1a85fd53fd67fa8d7afb080bc435 \
+@@ -114,7 +114,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-    file://WHENCE;md5=ad12d0618287e8c10ae3da05fa0edcfb \
++    file://WHENCE;md5=08f6d4371353cac5f6fc271d5407c63e \
+ "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -175,7 +175,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+ NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ 
+-SRCREV = "b14134583c2a15d4404695f72cb523daedb877ab"
++SRCREV = "a61ac5cf8374edbfe692d12f805a1b194f7fead2"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
+ 
+@@ -744,5 +744,6 @@ python populate_packages_prepend () {
+     d.appendVar('RDEPENDS_linux-firmware-ibt', ' ' + ' '.join(ibt_pkgs))
+ }
+ 
+-# Netronome binaries has ELF headers and therefore triggers an arch-specific error.
+-INSANE_SKIP_${PN}-netronome = "arch"
++# Firmware files are generally not ran on the CPU, so they can be
++# allarch despite being architecture specific
++INSANE_SKIP = "arch"
+-- 
+2.9.5
 
 
