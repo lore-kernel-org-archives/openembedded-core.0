@@ -1,66 +1,53 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9377B71C69
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E48278667
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 21:02:47 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id r85so3284406ywg.1
+	Wed, 13 Sep 2017 21:03:11 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id e64so1563963wmi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 14:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=NOhlNXIC901cVjL24aOB+gHC0LHCafrC9CjfwM2r4Ls=;
-	b=SmbvKDQ6VSDqyISJ/jE0kX63YQOSW73z6/ujAFLgtVUZUkc/cSfTmCQ++irEXqlhKa
-	pxaC4xp94yxIXHN5iNuqfwryLs/xjnM1uBK5PG0ouqLBHWJuieR0hJs99noI3xFAa8cd
-	ccR6rNCSQ8udZd7xNEwMM5fC4+E4cGattDdMdBzVtgVi+7imoCnpigZ1wz1heuBMzAjl
-	70YsdY6FpJvbwjaxDpXMIuGFMNeTiXkpgPp2/Qge54h2mnQHPLaaycjF02Rlxd2MgWgy
-	5949nOwrJezmhiynny9TKGodB6rAXdj1lc5JdSNcDJqwYRfAzzn0n9hXhZgBSiUFCsnY
-	cDEA==
+	Wed, 13 Sep 2017 14:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=3kLh5Gfo1YVPMGWZT04c8NOJfGFG5nKvC+0AFenYOcA=;
+	b=n9kbuENEusPTZcgLhWLwrKyTYyvQRCa5eg4TcHrvcWd0MOZj+25uuuyTZ9duaT43Bb
+	u/9EMw/dfEWtRVOs1wRkB3cSLJo3ifhWWU8fo3OPlfZMAFyvvekF8k+bPn5m+RKi0ysB
+	djmAfid1jwsOq2vVnKDFGEyOQ3RIldAjry01tKl8AGkCzB/fMYaIEh95yWKbWtLr37yi
+	stSOu5dxNe7mtHxAtlK//tIljXVAPYuAU4PJWs2J28ZtGZ0xBIuBhAsgiXyxoZpM90Jv
+	OOoUKvbSCoPANWZmTkB14DaZK5aHNvhG1Qko8dhuW8yDkJfvQlvV7b0hQHMwTqNdXVrD
+	vjig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=NOhlNXIC901cVjL24aOB+gHC0LHCafrC9CjfwM2r4Ls=;
-	b=CVU7u90lbW/63k7x9z70x8MqNjT/nkeUgoDl+rIpXEzwXPWtqbO5uYR1wkyzlipLzc
-	oOWhkaDlpZ4VZ0kAgO1TUWF9D16aOdEwyL9PD3aFH915/wuv2tcrKS9tENX2fvAGZ2Wn
-	0ghyAU1ly0lO1Bpx+ucEVGS/k7oI5tLtOfFTMno9+M2ZEqiHdgetR69YmuEtWAInCzg6
-	biqbS6UqloYcVbEhk7/gCZZ41yFuqf1ih0Vm3plqy0jIwX/PZ0DdXQVdENrSvYELVM11
-	dmQcOx+HS+zE7+yxbVGzrIAgOUI0Umam7EA5YWNuOHmF8WPR9MhOLG+v+A/jCtBD4nmc
-	JerA==
-X-Gm-Message-State: AHPjjUi66ucsnaPOQs9/ZaGDWJwlbYI9QGlg0hxaLrcWT7SIG8vMSDkn
-	xK0mOHAziUkQgrWDm4A=
-X-Received: by 10.37.217.194 with SMTP id q185mr15167848ybg.21.1505336568207; 
-	Wed, 13 Sep 2017 14:02:48 -0700 (PDT)
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com.
-	[209.85.223.175])
-	by smtp.gmail.com with ESMTPSA id h7sm4937465ywf.92.2017.09.13.14.02.46
+	h=x-gm-message-state:from:date:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=3kLh5Gfo1YVPMGWZT04c8NOJfGFG5nKvC+0AFenYOcA=;
+	b=RJSYplJbeGqUi/0+EIK87BI3lw9CBJM2yJ+Eiv5Jigbgj2q/Y673qt2T88XDJSs97v
+	Sh6W0g03TgFoC6VCl38fYHctfJa1Qyvwv7xr/TGGbaSJSPdzlswgngr/BinPKwPMnT8w
+	QV4J1sTgRK+Aof3IOgdbM8n4KcQXOs8wmYHcGHZc5YnYH/lFZlk5cP6I9nE/n0s7+JjI
+	DBNeDl4s5jb3kI1fJ1dA7izMLWVT02X1ih7Vg2fKNK3monPeE3OYYVZ+WqKW5ync2h0B
+	yJFMpvXKeckZYiMJJiS3lXvdkJSPzhxflVzFk+LWInWdvgoPBYyRoRXkLIV0tA/bHdsq
+	HEng==
+X-Gm-Message-State: AHPjjUg4Lck3MtCzStxb6tsvOKAdiXin/fNC3Jbrek5ZeUTmYQvi94O4
+	CXWEFl5QmVZHNpI9
+X-Google-Smtp-Source: AOwi7QBMpyJYJ+Gp2MpqhxJgwDWmH8PFd87QZ1/ZMQSImGH9+95ogbFguuXimUOJQ+gtDjtH7FMM6w==
+X-Received: by 10.28.39.71 with SMTP id n68mr39511wmn.114.1505336591892;
+	Wed, 13 Sep 2017 14:03:11 -0700 (PDT)
+Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
+	p78sm3140701wma.11.2017.09.13.14.03.10
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Sep 2017 14:02:46 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-io0-f175.google.com with SMTP id k101so8576543iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 14:02:46 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QCvVRk8UqQfMdK2YoUZsDAhdgsAgu16jngWZl6d7q1iVULhGAotZdvOAXLvmxuxOxpIvE/T01G4EOXzgE+pNGQ=
-X-Received: by 10.202.186.7 with SMTP id k7mr5426963oif.25.1505336565456; Wed,
-	13 Sep 2017 14:02:45 -0700 (PDT)
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 13 Sep 2017 14:03:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 13 Sep 2017 23:05:30 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20170913210530.GE3288@jama>
+References: <20170913204647.1660-1-Martin.Jansa@gmail.com>
+	<20170913204805.GC3288@jama>
 MIME-Version: 1.0
-Received: by 10.157.86.129 with HTTP; Wed, 13 Sep 2017 14:02:44 -0700 (PDT)
-In-Reply-To: <e1470e87-bf69-850e-5666-eba2f4faedf9@gmail.com>
-References: <20170911203056.22156-1-otavio@ossystems.com.br>
-	<26a8ac54-41bc-d74b-6545-5c13f67296d5@gmail.com>
-	<CAP9ODKpmqtGUt7jiqww6=9QcN_0Ou2Dc+THAqbYH6F-KsW45YQ@mail.gmail.com>
-	<e1470e87-bf69-850e-5666-eba2f4faedf9@gmail.com>
-Date: Wed, 13 Sep 2017 18:02:44 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpq19Ni8D7Rra73LU9-KA9LNHgiqjpPXTeHfi97MSUZsA@mail.gmail.com>
-Message-ID: <CAP9ODKpq19Ni8D7Rra73LU9-KA9LNHgiqjpPXTeHfi97MSUZsA@mail.gmail.com>
-To: Marek Vasut <marek.vasut@gmail.com>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio@ossystems.com.br>, Tom Rini <trini@konsulko.com>
-Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
+In-Reply-To: <20170913204805.GC3288@jama>
+User-Agent: Mutt/1.9.0 (2017-09-02)
+Subject: Re: [RFC][PATCH] WIP: qemu: enable sdl2 virglrenderer gtk+ spice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,33 +60,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 21:02:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Sep 2017 21:03:11 -0000
+X-Groupsio-MsgNum: 102872
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="jTMWTj4UTAEmbWeb"
+Content-Disposition: inline
 
-Marek,
+--jTMWTj4UTAEmbWeb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 13, 2017 at 5:20 PM, Marek Vasut <marek.vasut@gmail.com> wrote:
-> On 09/13/2017 10:11 PM, Otavio Salvador wrote:
->> On Wed, Sep 13, 2017 at 5:05 PM, Marek Vasut <marek.vasut@gmail.com> wrote:
->> ...
->>> What is the status of those dangling patches ? They were apparently
->>> posted, but didn't make it into the last two (?) releases.
->>
->> I am confused. Are you asking for U-Boot community or OE community?
->
-> How does that matter ? I am asking about the status of those patches and
-> why they didn't make it upstream yet. Something should be done about that.
->
-> Automated update of the U-Boot recipe version is great and all, but
-> that's not all that should be done when new version is released . The
-> outstanding patches need to be rechecked every now and then too so they
-> get upstream and don't start piling up in OE core.
+On Wed, Sep 13, 2017 at 10:48:05PM +0200, Martin Jansa wrote:
+> On Wed, Sep 13, 2017 at 10:46:47PM +0200, Martin Jansa wrote:
+> > * this is only for test
+> > * it should be enabled in some distro layer which prefers extra
+> >   native dependencies for virglrenderer and enables meta-pyton
+> >   for spice
+> > * cannot enable gtk+ for native builds, because there is no gtk+3-native
+>=20
+> ignore this one, sending last patch but from wrong branch.
 
-You are the maintainer, so step up and do it. I did the upgrade as I
-had it here for testing so I thought it would be good to send it.
+[Patchwork-Status: Rejected]
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--jTMWTj4UTAEmbWeb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWbmdmQAKCRA3VSO3ZXaA
+HAnfAJ91FtB3u06eX97dhgrnma8IQh5mfwCfder2ykipQJAofec8aU6sZ4qQkwQ=
+=IvKA
+-----END PGP SIGNATURE-----
+
+--jTMWTj4UTAEmbWeb--
