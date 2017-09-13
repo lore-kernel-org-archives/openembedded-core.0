@@ -1,53 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E48278667
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CD7C078468
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 21:03:11 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id e64so1563963wmi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 14:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=3kLh5Gfo1YVPMGWZT04c8NOJfGFG5nKvC+0AFenYOcA=;
-	b=n9kbuENEusPTZcgLhWLwrKyTYyvQRCa5eg4TcHrvcWd0MOZj+25uuuyTZ9duaT43Bb
-	u/9EMw/dfEWtRVOs1wRkB3cSLJo3ifhWWU8fo3OPlfZMAFyvvekF8k+bPn5m+RKi0ysB
-	djmAfid1jwsOq2vVnKDFGEyOQ3RIldAjry01tKl8AGkCzB/fMYaIEh95yWKbWtLr37yi
-	stSOu5dxNe7mtHxAtlK//tIljXVAPYuAU4PJWs2J28ZtGZ0xBIuBhAsgiXyxoZpM90Jv
-	OOoUKvbSCoPANWZmTkB14DaZK5aHNvhG1Qko8dhuW8yDkJfvQlvV7b0hQHMwTqNdXVrD
-	vjig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=3kLh5Gfo1YVPMGWZT04c8NOJfGFG5nKvC+0AFenYOcA=;
-	b=RJSYplJbeGqUi/0+EIK87BI3lw9CBJM2yJ+Eiv5Jigbgj2q/Y673qt2T88XDJSs97v
-	Sh6W0g03TgFoC6VCl38fYHctfJa1Qyvwv7xr/TGGbaSJSPdzlswgngr/BinPKwPMnT8w
-	QV4J1sTgRK+Aof3IOgdbM8n4KcQXOs8wmYHcGHZc5YnYH/lFZlk5cP6I9nE/n0s7+JjI
-	DBNeDl4s5jb3kI1fJ1dA7izMLWVT02X1ih7Vg2fKNK3monPeE3OYYVZ+WqKW5ync2h0B
-	yJFMpvXKeckZYiMJJiS3lXvdkJSPzhxflVzFk+LWInWdvgoPBYyRoRXkLIV0tA/bHdsq
-	HEng==
-X-Gm-Message-State: AHPjjUg4Lck3MtCzStxb6tsvOKAdiXin/fNC3Jbrek5ZeUTmYQvi94O4
-	CXWEFl5QmVZHNpI9
-X-Google-Smtp-Source: AOwi7QBMpyJYJ+Gp2MpqhxJgwDWmH8PFd87QZ1/ZMQSImGH9+95ogbFguuXimUOJQ+gtDjtH7FMM6w==
-X-Received: by 10.28.39.71 with SMTP id n68mr39511wmn.114.1505336591892;
-	Wed, 13 Sep 2017 14:03:11 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	p78sm3140701wma.11.2017.09.13.14.03.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 13 Sep 2017 14:03:11 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 13 Sep 2017 23:05:30 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20170913210530.GE3288@jama>
-References: <20170913204647.1660-1-Martin.Jansa@gmail.com>
-	<20170913204805.GC3288@jama>
-MIME-Version: 1.0
-In-Reply-To: <20170913204805.GC3288@jama>
-User-Agent: Mutt/1.9.0 (2017-09-02)
-Subject: Re: [RFC][PATCH] WIP: qemu: enable sdl2 virglrenderer gtk+ spice
+	Wed, 13 Sep 2017 21:09:34 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v8DL9THo018274
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 13 Sep 2017 22:09:30 +0100
+Message-ID: <1505336969.18640.82.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alistair Francis <alistair23@gmail.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Date: Wed, 13 Sep 2017 22:09:29 +0100
+In-Reply-To: <CAKmqyKN-kxvENCrxR1bQ5Z7YDe5wO57GRgYZVmmy8-0eUOOicA@mail.gmail.com>
+References: <20170905150847.32681-1-ross.burton@intel.com>
+	<CAKmqyKPiyBMAMDQZ6RG0envtnUto=n7jx0dxwgsqJaZvV=yMzQ@mail.gmail.com>
+	<CAJTo0LbmEOd=9_W4ru7=1VUY1c0eyOmEzr3rFvwsXnC_ftA1-w@mail.gmail.com>
+	<CAKmqyKN-kxvENCrxR1bQ5Z7YDe5wO57GRgYZVmmy8-0eUOOicA@mail.gmail.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib-2.0: recommend shared-mime-info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,41 +36,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 21:03:11 -0000
-X-Groupsio-MsgNum: 102872
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jTMWTj4UTAEmbWeb"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 13 Sep 2017 21:09:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---jTMWTj4UTAEmbWeb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2017-09-13 at 13:55 -0700, Alistair Francis wrote:
+> On Wed, Sep 13, 2017 at 1:42 PM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > 
+> > Can you share a log showing that?
+> This is the full log, so it's not just OpenSSL:
 
-On Wed, Sep 13, 2017 at 10:48:05PM +0200, Martin Jansa wrote:
-> On Wed, Sep 13, 2017 at 10:46:47PM +0200, Martin Jansa wrote:
-> > * this is only for test
-> > * it should be enabled in some distro layer which prefers extra
-> >   native dependencies for virglrenderer and enables meta-pyton
-> >   for spice
-> > * cannot enable gtk+ for native builds, because there is no gtk+3-native
->=20
-> ignore this one, sending last patch but from wrong branch.
+I suspect the new dependency means other things get built on mingw
+which have never been needed until now. We may need to remove the
+dependency for mingw to avoid this...
 
-[Patchwork-Status: Rejected]
+Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---jTMWTj4UTAEmbWeb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCWbmdmQAKCRA3VSO3ZXaA
-HAnfAJ91FtB3u06eX97dhgrnma8IQh5mfwCfder2ykipQJAofec8aU6sZ4qQkwQ=
-=IvKA
------END PGP SIGNATURE-----
-
---jTMWTj4UTAEmbWeb--
