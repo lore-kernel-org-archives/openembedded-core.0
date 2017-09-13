@@ -1,26 +1,24 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DDF2B78655
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DF74778655
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 15:21:01 +0000 (UTC)
+	Wed, 13 Sep 2017 15:21:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8DFL2Wu012569
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8DFL1Pl031155
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 08:21:02 -0700 (PDT)
+	Wed, 13 Sep 2017 08:21:01 -0700
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 13 Sep 2017 08:21:01 -0700
+	Wed, 13 Sep 2017 08:20:59 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Sep 2017 10:15:06 -0500
-Message-ID: <1505315706-8937-2-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 13 Sep 2017 10:15:05 -0500
+Message-ID: <1505315706-8937-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1505315706-8937-1-git-send-email-mark.hatle@windriver.com>
-References: <1505315706-8937-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] bitbake.conf: Add default FILESYSTEM_PERMS_TABLES
+Subject: [PATCH 1/2] meta/conf/layers.conf: Add ca-certificates as ABISAFE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 15:21:02 -0000
+X-List-Received-Date: Wed, 13 Sep 2017 15:21:03 -0000
 Content-Type: text/plain
 
-If FILESYSTEM_PERMS_TABLES was not defined, the default was selected by the
-packages.bbclass.  This made it difficult for a recipe or layer to 'append'
-to the default.
+meta-oe was doing this before, but it was triggering a yocto-compat-script
+failure during the signature checking.
 
-Copy the default into the bitbake.conf, allowing future _append and += style
-actions.
+The ca-certificates changing is ABISAFE, as the certificates themselves do
+not modify the compiles behavior of the applications.  This should permit
+easier upgrades without as much rebuilding.
+
+The original value was set in meta-oe by commit
+ff7a4b13c4efeffc5853a93c6ff7265fa3d6c143.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/conf/bitbake.conf | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/conf/layer.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 444c53f..791aee0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -330,6 +330,10 @@ FILE_DIRNAME = "${@os.path.dirname(d.getVar('FILE', False))}"
- # This default was only used for checking
- FILESEXTRAPATHS ?= "__default:"
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index df457c2..6be2a57 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -40,6 +40,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   base-passwd \
+   opkg-utils \
+   gstreamer1.0-meta-base \
++  ca-certificates \
+ "
  
-+# Following is a duplication of the default defined in packages.bbclass,
-+# both should be kept in sync
-+FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR', True)) else 'files/fs-perms-persistent-log.txt'}"
-+
- ##################################################################
- # General work and output directories for the build system.
- ##################################################################
+ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
 -- 
 1.8.3.1
 
