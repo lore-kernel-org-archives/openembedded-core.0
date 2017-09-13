@@ -1,51 +1,47 @@
-Return-Path: <ruslan.bilovol@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E049E78647;
-	Wed, 13 Sep 2017 15:40:53 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id 93so559734iol.4;
-	Wed, 13 Sep 2017 08:40:55 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E9C0378643
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Sep 2017 15:46:48 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id g206so10219923wme.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Sep 2017 08:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=568fV5s2eiVKoQa6KDWEtIy8+es2kf79JWXxc2T312s=;
-	b=ALPXhrX69lf6LALRtnwkAax6eRhzIxm1TXjzVyqDR7Yp/PBl/hSsr0U5264nVg+3PB
-	4CPI3LYkvd+h0UTteYb5u6bhjnsA6V+TQltHjVLfgHkp89uMZsfvRK+nMVTa3sRjA8Lu
-	EJMG30aQgxYNBdITmXlINA5xFEivFu1hJv/hTG10EMULgY9JIGaPuR9wTcTfBQubYsGG
-	CFbVguGo40d7eqy5gOQ6QB/k6lUbKYnQt1zOPFj+CQEMJGKB+plkVLwi9HMsd3qLIn48
-	NcDVuzoP5oFxB1HZ+X7C6efN+KljxUurRL0gPI+9AA9WhK/PkLkD4kCR4vHmmJ9qRXpk
-	C6HA==
+	h=from:to:subject:date:message-id;
+	bh=rRbUMBvAiN5uRL1caIq/2JOwjWLJEViNtVSSKlSy8AY=;
+	b=jjjv/7MifYK5IlS8Y+SAJcVuzKUG0xXnKGp4k7Dc8S+iLZ6yW+C+yn7cBrOozLBfNU
+	V6CPHVXAQ54aQu6h80OYCvL14yo+MDzqG1BfUCgdwt5g2r9L9IOV5g5R+bXg8B3lzgAB
+	d8xmYlD3wQ3kwshRMJNFwny2iJRPNSGb4RCMhJVg099x5LexPSscBMKbFM2pzagE2jUw
+	lhz+ULbhH1LchXfWXfn4zceQTXzlo9T4vIXJCDIYLco0vRlePTIlHETdtr46aPwz1vtT
+	YrGO+42ACCidKJmUieDKX7CfbRmrlCyx+2O90urraAqq3Qk1SmFPZWK19Ua1sXoTTXWt
+	xl0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=568fV5s2eiVKoQa6KDWEtIy8+es2kf79JWXxc2T312s=;
-	b=EvFkkHz1RZ2/U3wmsm8oeIZJAJF17vNjSXEQD2ZdGfNdyzZYNRummOdxWHLJo30hsn
-	YKh3+l4A0Tym0bmEtE/9s7ZNUpSiqP2bS2ut/S0Kg4yQjr+G2hfECfLF74j47Ed9nxc1
-	F+zpBIvXBj1GL7d9wvJlAOaVjR4gLcNiNxNY/4MhZ3QUVLEoqF4GIqSri2tQ4ga6yE93
-	uQ/XmLo6XIAsoOEA/BeyXOGTlc3loPNy9ic84CJaQZACCakKuoCNlgc6ebz7RRh9C1Je
-	LTLV+vdwtFpXpvSsK/YFksVKyfRglIKtkYnBB+D8TgvrHUeCEU0LHBG/dqheo9E6xcP4
-	M+JQ==
-X-Gm-Message-State: AHPjjUj/fGJhmX/iawnh3OUI6f6L7nK0W69cgnt7HC7fBFyHscxIrRdd
-	cqiDFD2P1mY+xZsAyhpKi/CGgUvg/wQmvKq/2Mw=
-X-Google-Smtp-Source: ADKCNb4pAWw1N1UtNgRpRR8Fupc+LjtS2LNPm0a44Yynn1nf0Syl58o5cHBGxtJcp1Ac70e1Uy3C7NQS9Ygial7YaA4=
-X-Received: by 10.107.6.78 with SMTP id 75mr25636500iog.204.1505317254697;
-	Wed, 13 Sep 2017 08:40:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.27.133 with HTTP; Wed, 13 Sep 2017 08:40:53 -0700 (PDT)
-In-Reply-To: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
-References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
-From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Date: Wed, 13 Sep 2017 18:40:53 +0300
-Message-ID: <CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rRbUMBvAiN5uRL1caIq/2JOwjWLJEViNtVSSKlSy8AY=;
+	b=bX7Z6F5FhK7t3wAQQyyrofl93a/L8s6u/dKAYZACqVDkjQKNOn8jjCiBetG3Ha30sq
+	6o5nO/s+sEHHn7MGpUDmN/GPE95omvGNbe9m1a5b/96wCb/qW9rUo3sxlly1VoovVZmX
+	Z8EgAPVkO7dCZv+BzzH3asjNWbbKEb6y1TgZ8/YBy0sEGlltDoauWpKxlitlBhoNv8Qh
+	Vj5uVYMiwvjXEpuW/bfcaINJHpP/0r1B1gucmgtVKPZQ0kdAU5TAqkkZozEPCmLJ/MI4
+	aZKeWcAts9PtTdtxDS0hmp0EUKB7NSyLy4RcZMWuhccsTO4gTdP8WyxNs6dP6IURrvd4
+	TOUA==
+X-Gm-Message-State: AHPjjUjiHIKZ77teOuvmPbwjJKcH3ungW+hboRxd7ZGw9vlWiy0XIcrv
+	rhd/XzwEczxH7Q==
+X-Google-Smtp-Source: AOwi7QB+ThWXjmcluV8+PZaKWESDjE1V5MkoTt3DeJo9LXyH7KGpVEo4jUDr6cdbkflCTMpEFAAJCg==
+X-Received: by 10.28.101.133 with SMTP id z127mr3049560wmb.123.1505317609968; 
+	Wed, 13 Sep 2017 08:46:49 -0700 (PDT)
+Received: from localhost ([217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id c83sm1111182wmd.2.2017.09.13.08.46.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 13 Sep 2017 08:46:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 Sep 2017 17:49:01 +0200
+Message-Id: <cover.1505317669.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [morty][PATCH 0/1] Backports for morty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,24 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 15:40:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Sep 2017 15:46:49 -0000
 
-On Thu, Aug 24, 2017 at 9:37 PM, Philip Balister <philip@balister.org> wrote:
-> Once again we will have a developer meeting in Prague the Sunday before
-> ELCE.
->
-> Please go to https://www.openembedded.org/wiki/OEDEM_2017 and add
-> yourself if you are attending and ideas for topics.
->
-> Although it is called a developer meeting, we invite members of the
-> larger community to attend. The core developers are always interested in
-> hearing how OpenEmbedded is used, and what we can do to make it better
-> for building the embedded devices of the future.
+1 cherry-pick from master:
+http://git.openembedded.org/openembedded-core/commit/?id=2d2b4d7383c93174fe8eeb72440e81345df71295
+pull request for pyro sent at the same time.
 
-Is it free to attend, anything else required except of
-self-registration on wiki?
+The following changes since commit 56eae27b3a7bd938d6959e5b671fc48ea2ab80c7:
 
-Thanks,
-Ruslan
+  neard: Fix parallel build issue (2017-09-11 10:46:29 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/morty-backports
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/morty-backports
+
+Martin Jansa (1):
+  glibc-locale: add runtime dependency on glibc
+
+ meta/recipes-core/glibc/glibc-locale.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+-- 
+2.14.1
+
 
