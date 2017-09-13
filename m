@@ -1,46 +1,47 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A268A782D6
+Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C096C78468
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 20:44:32 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id i131so1531442wma.1
+	Wed, 13 Sep 2017 20:44:41 +0000 (UTC)
+Received: by mail-wr0-f179.google.com with SMTP id k20so2792273wre.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 13:44:34 -0700 (PDT)
+	Wed, 13 Sep 2017 13:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=xbCP0C8KP2RkS9ZMlNImUQnk2V4aIV5iexhrK/4ld3Q=;
-	b=E/INkGFAuLaiJQEO6/Sz//lBa+P9hEFPxCBQ+4brVhl2pkgNARBogdwStu+nxRH6O/
-	w+Q4EVjFf7MZ78W6eGB7Rdbmz6AzwhPd/MHsNJQtp6srE+B8gRIHkUEFdJtKSgqQ0kYx
-	FafxxAnRt+S7EGJeluE4Zzj+Boyz4qdUnoPZEktttbLCIXT0I520C8Bs/JF3i6Jww+Nd
-	8sqv6wvXki6dvlK2Dl2ezKjkLE4ZteyXlxza7E3CXxwNjS6vdyuQxGa449j2aUyHqnAc
-	g237HrzQiXcDUvkxyA1fCowplMlz/iu+NfZNeVtSJ6I+89FU9l3rUA2iQu8B2BuYJHyl
-	7joQ==
+	bh=m93sN6UZzX4I1cmfeMaECnu9RJAn9oHpX0VLmiXl1Sw=;
+	b=pvX5eqFZ+E/R/9pvLD06SH+OUAe1mw0JRuAAdjBw9Wgug78UH6Xzz2pxSDq/WF59XS
+	Pw0DkFzQSAOKzbfvHQIIA6x/i2EoksIIjQp3DngiRzYXQiO8qdeGB2b0y95ZiKCqN3Bj
+	71/TC5BNEOA2skkUYMfFaSgRLO4VeooyJQ2NTWuCNLqp7XdYxQXO/b8W/RXz8oJKFFbt
+	VULFJ/dmjqimda56+awvNux86JWHRZmBlobkWTQCCjsAdS4y8DQBBwhW+EIDw0YPsvzC
+	322pkccih0kXFZDsyOBO6py4W9u05EH9SWoZSBJPR9p2odLMf04qAFy7sEigTVJkUdA1
+	FNXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=xbCP0C8KP2RkS9ZMlNImUQnk2V4aIV5iexhrK/4ld3Q=;
-	b=ofkgw2F6DVGKqIUtATs+7ZMbXkvRxDcAaG/w88O4rYA+Jg1A2uNRRj/z7tDD8bw7i0
-	muzBB70dzz+epXpJG9pO081c3yqUAQwlnb+0fFPI+gm6bG0BIV7o0IvDC+V8mvxto+Vl
-	KqRxTWERAE1fNDA+JHJWUgS8aD+afj8v3os4fRwwwmgjilaaKnbmvgM2YbIpY2MvmNmI
-	Fqk8qJRdIop2pZ5PczOHPpyxm85rKc7rfofx92XT+fBRR1Y/m0lMUiJBuDBcFUU3CiUR
-	NbKXGNY5DSJ7PePAmMDaJuQhLJRfu4rbCmqKMYb0iNqyPt41eQBUSI/k3NOilmZG15S9
-	W7cA==
-X-Gm-Message-State: AHPjjUh8/Kl05CpluptMmQH6Tgb98VKSgs1h9ndYW/OlH3DX7odJcRPh
-	Woy2oZZ9+31F5M7W
-X-Google-Smtp-Source: AOwi7QAXCsf07opneZOIjPnXIifQ+bqqkB3hlFFeJePn9wArLHHuWTa7lM1wC06Nn9zFooKOl8bK2Q==
-X-Received: by 10.28.203.196 with SMTP id b187mr6970wmg.126.1505335473226;
-	Wed, 13 Sep 2017 13:44:33 -0700 (PDT)
+	bh=m93sN6UZzX4I1cmfeMaECnu9RJAn9oHpX0VLmiXl1Sw=;
+	b=ac4L6x0wzADrhmCAjPwHNOgBE1301QwggmwkKX7ZRN7+Kz1WmutyG6HPeVztyt1UYE
+	KEfh0kIFyjd6SGniE+EUkGOGh3DEx9xFvR6bMdLB7QAwcouLp49WZ+exM40KgtoN7pXI
+	2hSwXHcQuyglNsHLWYRX75vbLH+UfEXsBYBgUFfabOUpDYMhVvbp/+qBZSRSJFRnH+ww
+	nZ8QiNCIVo/InctrRPcvakI+Qi+3oJvMR0AxWYcJ0nr98iiSzr82vsUX87gQOcKtGsHb
+	Ip5NJ0KuB2zMQinJ9IsUBCHWEbi7V+lAx8qovCNkdQ2jwK4qCf25dFZEXt+RXFfE7q9k
+	SwpQ==
+X-Gm-Message-State: AHPjjUisFzzDAgcfrlHJWJg5tmJcMdPh9LJNUzzQ3iasNF21Fsv69DXh
+	CzTfvvzcuFd6fzaO
+X-Google-Smtp-Source: ADKCNb4hKqY/dYSzxhzLTJIBanzP4IQneRfIIIYtvFuGRzMs6Q4AZ1+jGnTcc74IMVmgea99I67ZJg==
+X-Received: by 10.223.160.23 with SMTP id k23mr16581610wrk.212.1505335482116; 
+	Wed, 13 Sep 2017 13:44:42 -0700 (PDT)
 Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	b127sm1549429wmc.34.2017.09.13.13.44.32
+	b89sm30148405wrd.42.2017.09.13.13.44.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Sep 2017 13:44:32 -0700 (PDT)
+	Wed, 13 Sep 2017 13:44:41 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Sep 2017 22:46:47 +0200
-Message-Id: <20170913204647.1660-1-Martin.Jansa@gmail.com>
+Date: Wed, 13 Sep 2017 22:46:59 +0200
+Message-Id: <20170913204659.1919-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.14.1
-Subject: [RFC][PATCH] WIP: qemu: enable sdl2 virglrenderer gtk+ spice
+Subject: [RFC][PATCH] insane.bbclass: Add do_qa_pseudo function to check for common errors listed in pseudo.log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +54,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 20:44:33 -0000
+X-List-Received-Date: Wed, 13 Sep 2017 20:44:42 -0000
 
-* this is only for test
-* it should be enabled in some distro layer which prefers extra
-  native dependencies for virglrenderer and enables meta-pyton
-  for spice
-* cannot enable gtk+ for native builds, because there is no gtk+3-native
+* we often see QA warnings like:
+  glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-en-gb/usr/lib/locale/en_GB/LC_MEASUREMENT is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+  glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-nn-no.iso-8859-1/usr/lib/locale/nn_NO.ISO-8859-1/LC_MEASUREMENT is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
+  but we don't know the root cause of it.
+* the only theory we currently have is that it's a bug in pseudo when
+  inode is being reused for different files, which is supported by
+  pseudo.log entries:
+
+  Good build:
+  pseudo$ grep -v "^path mismatch" pseudo.log
+  debug_logfile: fd 2
+  pid 7975 [parent 7974], doing new pid setup and server start
+  Setup complete, sending SIGUSR1 to pid 7974.
+  db cleanup for server shutdown, 17:33:58.787
+  memory-to-file backup complete, 17:33:58.787.
+  db cleanup finished, 17:33:58.787
+
+  Build with QA host-user-contaminated issue:
+  ERROR: foo-1.0.0-r0 do_package_qa: QA Issue: foo: file-with-wrong-UID is owned
+  by uid 2001, which is the same as the user running bitbake. This may be due to
+  host contamination [host-user-contaminated]
+
+  pseudo$ grep "file-with-wrong-UID" pseudo.log
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  creat ignored for existing file 'file-with-wrong-UID'.
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
+  path mismatch [1 link]: ino 13242270 db 'file-with-wrong-UID' req 'some-other-unrelated-file'.
+  creat for 'some-other-unrelated-file' replaces existing 13242270 ['file-with-wrong-UID'].
+  db cleanup for server shutdown, 02:16:23.685
+  memory-to-file backup complete, 02:16:23.685.
+  db cleanup finished, 02:16:23.685
+
+  And some-other-unrelated-file is really some different file, not just hardlink
+  to the same file from some different directory (like between WORKDIR and sysroot
+  other "path mismatch" entries show).
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/insane.bbclass | 40 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index e0b8647e88..ddf4c63edd 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -75,10 +75,10 @@ do_install_append() {
- # END of qemu-mips workaround
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 78b41caf99..617bf7011d 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1237,6 +1237,41 @@ python do_qa_unpack() {
+         bb.warn('%s: the directory %s (%s) pointed to by the S variable doesn\'t exist - please set S within the recipe to point to where the source has been unpacked to' % (d.getVar('PN'), d.getVar('S', False), s_dir))
+ }
  
- PACKAGECONFIG ??= " \
--	fdt sdl kvm \
-+	fdt sdl sdl2 virglrenderer kvm \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
- 	"
--PACKAGECONFIG_class-native ??= "fdt alsa kvm"
-+PACKAGECONFIG_class-native ??= "fdt alsa kvm sdl sdl2 virglrenderer"
- PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
++python do_qa_pseudo() {
++    ###########################################################################
++    # Check pseudo.log for unexpected errors
++    #
++    # Typical pseudo.log contains many "^path mismatch" lines for all the hardlinked files
++    # e.g. in some smaller component I see 231/237 lines to be "^path mismatch" other 6
++    # lines are setup and cleanup lines like this:
++    # debug_logfile: fd 2
++    # pid 7975 [parent 7974], doing new pid setup and server start
++    # Setup complete, sending SIGUSR1 to pid 7974.
++    # db cleanup for server shutdown, 17:33:58.787
++    # memory-to-file backup complete, 17:33:58.787.
++    # db cleanup finished, 17:33:58.787
++    #
++    # but if there is one of:
++    # "^inode mismatch"
++    # "^creat ignored for existing file"
++    # "^creat for.*replaces existing"
++    # then there might be some bigger issue which sometimes results in host-user-contaminated QA warnings
++    ###########################################################################
++
++    import subprocess
++
++    pseudodir = d.getVar('PSEUDO_LOCALSTATEDIR')
++    bb.note("Checking pseudo.log for common errors")
++    pseudolog = os.path.join(pseudodir, "pseudo.log")
++    statement = "grep" \
++        " -e '^inode mismatch'" \
++        " -e '^creat ignored for existing file'" \
++        " -e '^creat for.*replaces existing'" \
++        " %s" % pseudolog
++    if subprocess.call("%s -q" % statement, shell=True) == 0:
++        bb.fatal("This %s indicates errors, see %s or grep -v '^path mismatch' %s" % (pseudolog, statement, pseudolog))
++}
++
+ # The Staging Func, to check all staging
+ #addtask qa_staging after do_populate_sysroot before do_build
+ do_populate_sysroot[postfuncs] += "do_qa_staging "
+@@ -1249,6 +1284,11 @@ do_configure[postfuncs] += "do_qa_configure "
+ # Check does S exist.
+ do_unpack[postfuncs] += "do_qa_unpack"
  
- # Handle distros such as CentOS 5 32-bit that do not have kvm support
++# Check pseudo.log for unexpected errors
++# For some reason do_build postfunction isn't executed
++# do_build[postfuncs] += "do_qa_pseudo"
++addtask do_qa_pseudo after do_populate_sysroot do_packagedata do_package before do_build
++
+ python () {
+     import re
+     
 -- 
 2.14.1
 
