@@ -1,56 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D2297865A
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 15:26:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 04CC22E241;
-	Wed, 13 Sep 2017 17:26:57 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id vPZy1ZaBPQ43; Wed, 13 Sep 2017 17:26:55 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id EDC842E0B4;
-	Wed, 13 Sep 2017 17:26:54 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C63301A075;
-	Wed, 13 Sep 2017 17:26:54 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BAF5D1A072;
-	Wed, 13 Sep 2017 17:26:54 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 13 Sep 2017 17:26:54 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id AF41B4AE;
-	Wed, 13 Sep 2017 17:26:54 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 13 Sep 2017 17:26:54 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 13 Sep 2017 17:26:54 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Martin Jansa <martin.jansa@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC][PATCH] recipes: replace runtime dependency on
-	bash	with VIRTUAL-RUNTIME_bash
-Thread-Index: AQHTLJ8hIZpITrtotEWtbw/G5M1QZqKy7xWw
-Date: Wed, 13 Sep 2017 15:26:54 +0000
-Message-ID: <db4ca86fa5444b1aba4b4910d99374c8@XBOX02.axis.com>
-References: <20170913144851.18729-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20170913144851.18729-1-Martin.Jansa@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+Return-Path: <ruslan.bilovol@gmail.com>
+Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
+	[209.85.223.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E049E78647;
+	Wed, 13 Sep 2017 15:40:53 +0000 (UTC)
+Received: by mail-io0-f193.google.com with SMTP id 93so559734iol.4;
+	Wed, 13 Sep 2017 08:40:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=568fV5s2eiVKoQa6KDWEtIy8+es2kf79JWXxc2T312s=;
+	b=ALPXhrX69lf6LALRtnwkAax6eRhzIxm1TXjzVyqDR7Yp/PBl/hSsr0U5264nVg+3PB
+	4CPI3LYkvd+h0UTteYb5u6bhjnsA6V+TQltHjVLfgHkp89uMZsfvRK+nMVTa3sRjA8Lu
+	EJMG30aQgxYNBdITmXlINA5xFEivFu1hJv/hTG10EMULgY9JIGaPuR9wTcTfBQubYsGG
+	CFbVguGo40d7eqy5gOQ6QB/k6lUbKYnQt1zOPFj+CQEMJGKB+plkVLwi9HMsd3qLIn48
+	NcDVuzoP5oFxB1HZ+X7C6efN+KljxUurRL0gPI+9AA9WhK/PkLkD4kCR4vHmmJ9qRXpk
+	C6HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=568fV5s2eiVKoQa6KDWEtIy8+es2kf79JWXxc2T312s=;
+	b=EvFkkHz1RZ2/U3wmsm8oeIZJAJF17vNjSXEQD2ZdGfNdyzZYNRummOdxWHLJo30hsn
+	YKh3+l4A0Tym0bmEtE/9s7ZNUpSiqP2bS2ut/S0Kg4yQjr+G2hfECfLF74j47Ed9nxc1
+	F+zpBIvXBj1GL7d9wvJlAOaVjR4gLcNiNxNY/4MhZ3QUVLEoqF4GIqSri2tQ4ga6yE93
+	uQ/XmLo6XIAsoOEA/BeyXOGTlc3loPNy9ic84CJaQZACCakKuoCNlgc6ebz7RRh9C1Je
+	LTLV+vdwtFpXpvSsK/YFksVKyfRglIKtkYnBB+D8TgvrHUeCEU0LHBG/dqheo9E6xcP4
+	M+JQ==
+X-Gm-Message-State: AHPjjUj/fGJhmX/iawnh3OUI6f6L7nK0W69cgnt7HC7fBFyHscxIrRdd
+	cqiDFD2P1mY+xZsAyhpKi/CGgUvg/wQmvKq/2Mw=
+X-Google-Smtp-Source: ADKCNb4pAWw1N1UtNgRpRR8Fupc+LjtS2LNPm0a44Yynn1nf0Syl58o5cHBGxtJcp1Ac70e1Uy3C7NQS9Ygial7YaA4=
+X-Received: by 10.107.6.78 with SMTP id 75mr25636500iog.204.1505317254697;
+	Wed, 13 Sep 2017 08:40:54 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [RFC][PATCH] recipes: replace runtime dependency on bash	with VIRTUAL-RUNTIME_bash
+Received: by 10.107.27.133 with HTTP; Wed, 13 Sep 2017 08:40:53 -0700 (PDT)
+In-Reply-To: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Date: Wed, 13 Sep 2017 18:40:53 +0300
+Message-ID: <CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,113 +58,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 15:26:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Sep 2017 15:40:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Martin Jansa
-> Sent: den 13 september 2017 16:49
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [RFC][PATCH] recipes: replace runtime dependency on
-> bash with VIRTUAL-RUNTIME_bash
->=20
-> * this allows to reliably replace bash with e.g. busybox
-> * without this change the QA check can find bash as the provider
->   for /bin/bash if you build bash before some other recipe using
->   bash and then QA issue like this is shown:
->   ERROR: QA Issue: foo rdepends on bash, but it isn't a build dependency
->   , missing bash in DEPENDS or PACKAGECONFIG? [build-deps]
->   even when the distro has bash enabled in busybox defconfig and
->   busybox RPROVIDES bash as well as /bin/bash, this is because the QA
->   check (and to some extend also the package-manager) doesn't know which
->   provider is prefered, so if bash isn't built at all in sysroot, it
->   will happily accept busybox as the provider, but when both are built
->   in sysroot, then bash is found first and QA error is shown.
-> * more information in:
->   https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D9217
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb                     | 3 ++-
->  meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb          | 3 ++-
->  meta/recipes-connectivity/openssl/openssl_1.1.0f.bb             | 3 ++-
->  meta/recipes-connectivity/resolvconf/resolvconf_1.79.bb         | 3 ++-
->  meta/recipes-core/console-tools/console-tools_0.3.2.bb          | 3 ++-
->  meta/recipes-core/dbus/dbus-test_1.10.20.bb                     | 3 ++-
->  meta/recipes-core/glibc/glibc-scripts.inc                       | 3 ++-
->  meta/recipes-core/systemd/systemd_234.bb                        | 5 +++-=
--
->  meta/recipes-core/util-linux/util-linux.inc                     | 3 ++-
->  meta/recipes-devtools/apt/apt_1.2.24.bb                         | 3 ++-
->  meta/recipes-devtools/build-compare/build-compare_git.bb        | 3 ++-
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb             | 3 ++-
->  meta/recipes-devtools/flex/flex_2.6.0.bb                        | 3 ++-
->  meta/recipes-devtools/go/go-dep_0.3.0.bb                        | 3 ++-
->  meta/recipes-devtools/go/go-target.inc                          | 3 ++-
->  meta/recipes-devtools/libtool/libtool_2.4.6.bb                  | 3 ++-
->  meta/recipes-devtools/pax-utils/pax-utils_1.2.2.bb              | 3 ++-
->  meta/recipes-devtools/qemu/qemu.inc                             | 3 ++-
->  meta/recipes-devtools/qemu/qemu_2.10.0.bb                       | 3 ++-
->  meta/recipes-devtools/quilt/quilt.inc                           | 5 +++-=
--
->  meta/recipes-devtools/rpm/rpm_git.bb                            | 3 ++-
->  meta/recipes-devtools/tcf-agent/tcf-agent_git.bb                | 3 ++-
->  meta/recipes-extended/hdparm/hdparm_9.52.bb                     | 3 ++-
->  meta/recipes-extended/mdadm/mdadm_4.0.bb                        | 3 ++-
->  meta/recipes-extended/parted/parted_3.2.bb                      | 3 ++-
->  meta/recipes-kernel/dtc/dtc.inc                                 | 3 ++-
->  meta/recipes-kernel/lttng/lttng-tools_2.9.5.bb                  | 3 ++-
->  meta/recipes-kernel/perf/perf.bb                                | 9 ++++=
-+----
->  meta/recipes-kernel/systemtap/systemtap_git.bb                  | 3 ++-
->  meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.4.bb        | 3 ++-
->  meta/recipes-support/apr/apr_1.6.2.bb                           | 3 ++-
->  meta/recipes-support/attr/acl_2.2.52.bb                         | 3 ++-
->  meta/recipes-support/source-highlight/source-highlight_3.1.8.bb | 3 ++-
->  33 files changed, 71 insertions(+), 38 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb b/meta/recipes-b=
-sp/pm-utils/pm-utils_1.4.1.bb
-> index cac09101c4..d9dcde1aff 100644
-> --- a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
-> +++ b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
-> @@ -17,7 +17,8 @@ inherit pkgconfig autotools manpages
->=20
->  PACKAGECONFIG[manpages] =3D "--enable-doc, --disable-doc, libxslt-native=
- xmlto-native"
->=20
-> -RDEPENDS_${PN} =3D "grep bash"
-> +VIRTUAL-RUNTIME_bash ?=3D "bash"
+On Thu, Aug 24, 2017 at 9:37 PM, Philip Balister <philip@balister.org> wrote:
+> Once again we will have a developer meeting in Prague the Sunday before
+> ELCE.
+>
+> Please go to https://www.openembedded.org/wiki/OEDEM_2017 and add
+> yourself if you are attending and ideas for topics.
+>
+> Although it is called a developer meeting, we invite members of the
+> larger community to attend. The core developers are always interested in
+> hearing how OpenEmbedded is used, and what we can do to make it better
+> for building the embedded devices of the future.
 
-Isn't it better to set the default once in=20
-meta/conf/distro/include/default-providers.inc?
+Is it free to attend, anything else required except of
+self-registration on wiki?
 
-> +RDEPENDS_${PN} =3D "grep ${VIRTUAL-RUNTIME_bash}"
->=20
->  do_configure_prepend () {
->  	( cd ${S}; autoreconf -f -i -s )
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb b/met=
-a/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-> index d917c4d713..b0237a72a0 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
-> @@ -9,7 +9,8 @@ LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3D95f3a93a5c3c7888de623b46ea085a84"
->=20
->  # util-linux for libblkid
->  DEPENDS =3D "libcap libnfsidmap libevent util-linux sqlite3 libtirpc"
-> -RDEPENDS_${PN} =3D "${PN}-client bash"
-> +VIRTUAL-RUNTIME_bash ?=3D "bash"
-> +RDEPENDS_${PN} =3D "${PN}-client ${VIRTUAL-RUNTIME_bash}"
->  RRECOMMENDS_${PN} =3D "kernel-module-nfsd"
->=20
->  inherit useradd
-...
-
-//Peter
-
+Thanks,
+Ruslan
 
