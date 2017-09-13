@@ -1,49 +1,23 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 050066012A
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 51D3D78555
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 23:42:51 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id u134so3275405ywu.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 16:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=y6gx9RIAwSY4dkr2m9F6VYPu7LXlGGbyi6TFuNApw7A=;
-	b=FT8t/GESryG4ifaz4jeTYUnHVSrNjQKXCPwkEwMbLHjdQX2jfTe2clIzJpPv6wWrWd
-	aFppMoecJcNZPjrJUGy//PUkwBxYTf12/4RSTtFiJTTxPxGK759Q3CBEousIy2RgXjnj
-	iANFqj+OP+YuGOGJ4lpSc5tIf3pfQ+tpq9/Pb5RhP0JwVKgbvhOgFgaxr3QGFLrUmN3b
-	4I7EEEBQV/Q6AJRaWeNWBqxQg/mPWEkTPUPoiLd4KFZHnTjC5/3OdhlgfiFZuQDc3h0E
-	xY8wYDN6cLVMWHSyrq0kw4c3bLLgWWLqyQJLly/ezRWKx4/p3Rm64sz16ej+sLLsJ6dp
-	m8DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=y6gx9RIAwSY4dkr2m9F6VYPu7LXlGGbyi6TFuNApw7A=;
-	b=D0YrkFKd/cuv7uK+qFqRsgbWlAbHm15TL0Tcydiq3eJL6yOWLw4H8hGmdy20xrSN5Z
-	qCLynK8ztiezgEtVAf+03rTQQVCV9KvAnsmr2BGApj998fEMgcR9bEiDX6oWwwsdyAyg
-	BsRbQ173DdCiGBm39lm83MpJA03LD0czpDznGpD/3EIKnUlTVkJl0B7r/MWo3Nw36eqE
-	dEG/n9lCoSkiESprP/Ma9jw0kB21pRnd6n/NcKwys/vCNOj7LxJryTFPkX+oXQmIe3is
-	gihJopJtFz0EN009uSjImOGbd9qVSApDYlEOrSSgIUVkrlW2opR63OwxJbVhs1qK6W6p
-	j45g==
-X-Gm-Message-State: AHPjjUhTvJ1p1tcoD6R1vXkr6QtV+nsmx56cXcr6EHn7iYncL9bTxIQS
-	sqQVkkI8WWeFOP7Mt3RQ/FS9Fi31XShX67l4IFo=
-X-Google-Smtp-Source: AOwi7QD9kcuU8P64hQEXhLps1UexWcIo0O6fv0cRr9DGn/euAxEWslqGE5ppkj5YLfhFeyMvC/UaMSVYrOKh2qjexHo=
-X-Received: by 10.37.187.7 with SMTP id z7mr12844703ybg.81.1505259773119; Tue,
-	12 Sep 2017 16:42:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.37.4.205 with HTTP; Tue, 12 Sep 2017 16:42:52 -0700 (PDT)
-In-Reply-To: <CAMKF1sp1R_wnW6Zkh96WWJKgC9zzgtbO-__JvqgEYWp_B6whzw@mail.gmail.com>
-References: <20170910131446.4555-0-nathan@nathanrossi.com>
-	<CAJTo0LaqHGMPDF=JHGw5NcBzvTkFbP2bQfmgcG8o-Zx0hTeD3g@mail.gmail.com>
-	<CAMKF1sp1R_wnW6Zkh96WWJKgC9zzgtbO-__JvqgEYWp_B6whzw@mail.gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 12 Sep 2017 16:42:52 -0700
-Message-ID: <CAHUNapT0zPy9SUv+g7OBKp86BF_s8_=_RPrmNhMJQa7S8LbM8w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Recipes for Open Source Verilog and Lattice iCE40 FPGAs tools
+	Wed, 13 Sep 2017 00:07:57 +0000 (UTC)
+Received: from seahawk.toradex.int
+	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 504DC5C1356;
+	Wed, 13 Sep 2017 02:04:11 +0200 (CEST)
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Sep 2017 17:07:51 -0700
+Message-Id: <1505261272-25017-1-git-send-email-stefan@agner.ch>
+X-Mailer: git-send-email 2.7.4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1505261052; bh=qnWaIJ3QsQ2iBQL+uSQ3miDZCqcRBLiyDnUBzzpMNZs=;
+	h=From:To:Cc:Subject:Date:Message-Id;
+	b=aWzTWQK7l2mZWrCGkMjnBS/GauhSyJWLWwvng5FnM83YbXrPxX0pshqeUjv8kNX89embEwbniObOXuwWZU0LrAT6d1cNyNneq+WDY4auRaTngh9PlKnDR98jQkkryYoIMkqdBmsbCglKSs/QyjATx9nzjNp2l2A9If6EkRN2jkE=
+Cc: Stefan Agner <stefan.agner@toradex.com>, dominik.sliwa@toradex.com
+Subject: [PATCH 1/2] linux-firmware: package Marvell PCIe WiFi firmwares
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Sep 2017 23:42:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Sep 2017 00:07:58 -0000
 
-On Tue, Sep 12, 2017 at 4:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Sep 11, 2017 at 1:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> On 10 September 2017 at 14:14, Nathan Rossi <nathan@nathanrossi.com> wrote:
->>>
->>> Please note whilst this series is sent for oe-core it may be better
->>> located in another layer? (e.g. meta-oe). However since the recipes and
->>> the tools they build are not specific to a single BSP it did not make
->>> sense to keep in a BSP specific layer.
->>
->>
->> Sounds like a dedicated FPGA layer would be ideal.
->>
->
-> I think a layer for 2 recipes might be too much. Put it under recipes-devtools
-> in meta-oe for now.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-5?
+Add packages for Marvell Avastar 88W8897 and 88W8997 PCIe WiFi
+chips.
 
-Am I reading this patch correctly? There are 5 recipes?
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 396bd4e..20d140c 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -229,7 +229,8 @@ do_install() {
+ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-mt7601u-license ${PN}-mt7601u \
+              ${PN}-radeon-license ${PN}-radeon \
+-             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
++             ${PN}-marvell-license ${PN}-pcie8897 ${PN}-pcie8997 \
++             ${PN}-sd8686 ${PN}-sd8688 ${PN}-sd8787 ${PN}-sd8797 ${PN}-sd8801 ${PN}-sd8887 ${PN}-sd8897 \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su ${PN}-rtl8723 ${PN}-rtl8821 \
+@@ -356,6 +357,8 @@ FILES_${PN}-radeon = " \
+ RDEPENDS_${PN}-radeon += "${PN}-radeon-license"
+ 
+ # For marvell
++LICENSE_${PN}-pcie8897 = "Firmware-Marvell"
++LICENSE_${PN}-pcie8997 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8688 = "Firmware-Marvell"
+ LICENSE_${PN}-sd8787 = "Firmware-Marvell"
+@@ -366,6 +369,14 @@ LICENSE_${PN}-sd8897 = "Firmware-Marvell"
+ LICENSE_${PN}-marvell-license = "Firmware-Marvell"
+ 
+ FILES_${PN}-marvell-license = "${nonarch_base_libdir}/firmware/LICENCE.Marvell"
++FILES_${PN}-pcie8897 = " \
++  ${nonarch_base_libdir}/firmware/mrvl/pcie8897_uapsta.bin \
++"
++FILES_${PN}-pcie8997 = " \
++  ${nonarch_base_libdir}/firmware/mrvl/pcie8997_wlan_v4.bin \
++  ${nonarch_base_libdir}/firmware/mrvl/pcieuart8997_combo_v4.bin \
++  ${nonarch_base_libdir}/firmware/mrvl/pcieusb8997_combo_v4.bin \
++"
+ FILES_${PN}-sd8686 = " \
+   ${nonarch_base_libdir}/firmware/libertas/sd8686_v9* \
+   ${nonarch_base_libdir}/firmware/sd8686* \
+-- 
+2.7.4
+
 
