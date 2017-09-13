@@ -1,65 +1,29 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C8C94784A4
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9172C78668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 12:30:42 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id v72so37414ywa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 05:30:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=WWSPkgYbkjhrx0ISpIN3QBpz2XG4H/F0OfhyWlyBspU=;
-	b=0BwKw5eK+OPPpA6ISHFXpMLD5yVXYZj03COxInHXd9vjnaP5vNBhjVRA4x5ZOhRYtv
-	wiOkVTKg8+l4IgS9IeInxoxf0uTjfL004pDVYgqg0yakWJK8DCKnjSGNAWwfeza7vtNE
-	Qh/Qg/+8jWTjClpFs3+B2HGmXZ6SAuI2qwGmt3/uJnYhlVrTMKpanqkmk/FY4C1RFyk3
-	Y703z0R3JnJU1MgKx7Qdig4Joks7WFSaEMiJbPnsqTnWbQiRzmqJghZPuo1XR39NEr7e
-	zIHgtzODm5F2VgQaDv+LKaXs1o+CYGbbt7PUzAfdfGwK53A/zlY22bjevRQMGtaf1MvJ
-	4/wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=WWSPkgYbkjhrx0ISpIN3QBpz2XG4H/F0OfhyWlyBspU=;
-	b=g1OPx4a4XI8xR+WRuGbggLhjBOLBuqoOp17de3Ntk0JP8awXnxKWvbQlUUklZn3q9o
-	lqQw/XlGoi2+NubFXinvmgQXJ3uIAwTa9dL4uV5F2Bgo8g7DQQcc2KeGPD9IVI3CslOp
-	yQhbtkU7OWNfTmaNv/qYexkxXCKcOGrTtRhF81VkWUDqBdanPxeocd+I0p/oCKoXuX8P
-	ajMQjuazLxcVXIBwN0s+c6SOliwIqolPkw47CwOaQlI41flH3RebcJIeNtBMGbYJEmUR
-	6t5LLJzJZkJVruxJWhh7+XS2S7GCxIcb/4x9d9Lwye5IGdA5DZDW8ivnkNG4e7TUuGg/
-	1EsQ==
-X-Gm-Message-State: AHPjjUhRU3UOV5szzBKondayhvvbsAQFyKxkeIe40+2FPaU2/zBxmRyn
-	rK9AksttLqrW69A/F8M=
-X-Received: by 10.37.56.87 with SMTP id f84mr14258354yba.194.1505305843439;
-	Wed, 13 Sep 2017 05:30:43 -0700 (PDT)
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com.
-	[209.85.218.54])
-	by smtp.gmail.com with ESMTPSA id e4sm4547852ywd.63.2017.09.13.05.30.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Sep 2017 05:30:42 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f54.google.com with SMTP id z73so408252oia.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 05:30:42 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QDp2DO3YwVoF6AE3CTisctMm/eYZmQF0BCSbpjQX3R5i+ZKTldSMUoDrxfc1CvX0IWRz6umy98pebt02Czewwg=
-X-Received: by 10.202.177.195 with SMTP id a186mr5545767oif.32.1505305841786; 
-	Wed, 13 Sep 2017 05:30:41 -0700 (PDT)
+	Wed, 13 Sep 2017 12:40:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8DCeWuF025314
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Sep 2017 05:40:32 -0700 (PDT)
+Received: from [172.25.59.215] (172.25.59.215) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 13 Sep 2017 05:40:32 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20170815185534.118522-1-jason.wessel@windriver.com>
+	<CA+chaQcVcpkTVPCa7xdpMJZ+dWWdHCZrf66nPsyFOpj+iEos=A@mail.gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Message-ID: <89eb6c7d-f000-117a-7f3c-381499c8af88@windriver.com>
+Date: Wed, 13 Sep 2017 07:40:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.157.86.129 with HTTP; Wed, 13 Sep 2017 05:30:41 -0700 (PDT)
-In-Reply-To: <1505290515.32675.4.camel@andred.net>
-References: <20170912203608.14327-1-otavio@ossystems.com.br>
-	<20170912203608.14327-3-otavio@ossystems.com.br>
-	<1505290515.32675.4.camel@andred.net>
-Date: Wed, 13 Sep 2017 09:30:41 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
-Message-ID: <CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+In-Reply-To: <CA+chaQcVcpkTVPCa7xdpMJZ+dWWdHCZrf66nPsyFOpj+iEos=A@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v8 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+Subject: Re: [PATCH] systemd: Fix rootfs transaction error when PACKAGECONFIG has polkit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,21 +36,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 12:30:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Sep 2017 12:40:32 -0000
+Content-Type: multipart/alternative;
+	boundary="------------AD54615BA1532FE0F80C7673"
+Content-Language: en-GB
 
-On Wed, Sep 13, 2017 at 5:15 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
-> On Tue, 2017-09-12 at 17:36 -0300, Otavio Salvador wrote:
-...
-> AFAICS, zImage is specific to x86 and arm, all other arches, including MI=
-PS
-> have no zImage Makefile target, so we'll never get here.
+--------------AD54615BA1532FE0F80C7673
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Do you know which types we can use here?
+It should work because it has nothing to do with that particular passwd file.   This is builds successfully on a ubuntu 16.04 host which has no polkitd user.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Also with the user add stanza in the patch it should be adding the user that is required when PACKAGECONFIG has the polkitd added to the psuedo passwd file.   We have quite a few configurations building properly.  Where I have seen transient failures before is when the -native sysroot does not get rebuilt but that is typically with other recipes.
 
+Is this still a problem?
+
+
+Jason.
+
+
+On 09/06/2017 01:35 PM, Martin Jansa wrote:
+> Does this work on hosts without polkitd user?
+>
+> Here it failed with:
+>
+> | chown: invalid user: ‘polkitd:root’
+>
+>
+>
+>
+>
+>
+> On Tue, Aug 15, 2017 at 8:55 PM, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
+>
+>     The systemd 234 added some files to the polkit directory and the
+>     directory the files live in must be owned by the polkitd user, else
+>     you will receive the following error when the rootfs is being
+>     assembled:
+>
+>     Error: Transaction check error:
+>       file /usr/share/polkit-1/rules.d conflicts between attempted installs of polkit-0.113-r0.15.core2_64 and systemd-1:234-r0.0.core2_64
+>
+>     The fix similar to other packages such as libvirt where the user must
+>     exist and the directory must be created with the proper attributes.
+>
+>     Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
+>     ---
+>      meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb> | 9 +++++++++
+>      1 file changed, 9 insertions(+)
+>
+>     diff --git a/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb> b/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
+>     index ad7fc99b90..4560cf4175 100644
+>     --- a/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
+>     +++ b/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
+>     @@ -245,6 +245,14 @@ do_install() {
+>                     ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
+>             fi
+>             install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
+>     +
+>     +       # If polkit is setup fixup permissions and ownership
+>     +       if [ "${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'polkit', '', d)}" = "polkit" ] ; then
+>     +           if [ -d ${D}${datadir}/polkit-1/rules.d ] ; then
+>     +               chmod 700 ${D}${datadir}/polkit-1/rules.d
+>     +               chown polkitd:root ${D}${datadir}/polkit-1/rules.d
+>     +           fi
+>     +       fi
+>      }
+>
+>      do_install_ptest () {
+>     @@ -308,6 +316,7 @@ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--sy
+>      USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
+>      USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
+>      USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
+>     +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${sysconfdir}/polkit-1 polkitd;', '', d)}"
+>      GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+>      USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
+>
+>     --
+>     2.11.0
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+>
+>
+
+
+--------------AD54615BA1532FE0F80C7673
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">It should work because it has nothing
+      to do with that particular passwd file.   This is builds
+      successfully on a ubuntu 16.04 host which has no polkitd user.<br>
+      <br>
+      Also with the user add stanza in the patch it should be adding the
+      user that is required when PACKAGECONFIG has the polkitd added to
+      the psuedo passwd file.   We have quite a few configurations
+      building properly.  Where I have seen transient failures before is
+      when the -native sysroot does not get rebuilt but that is
+      typically with other recipes. <br>
+      <br>
+      Is this still a problem? <br>
+      <br>
+      <br>
+      Jason. <br>
+      <br>
+      <br>
+      On 09/06/2017 01:35 PM, Martin Jansa wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQcVcpkTVPCa7xdpMJZ+dWWdHCZrf66nPsyFOpj+iEos=A@mail.gmail.com">
+      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">Does this work on hosts without polkitd user?
+        <div><br>
+        </div>
+        <div>Here it failed with:</div>
+        <div><br>
+        </div>
+        <div>
+          <div>| chown: invalid user: ‘polkitd:root’</div>
+          <div><br>
+          </div>
+          <div><br>
+          </div>
+          <div><br>
+          </div>
+          <div><br>
+          </div>
+          <div><br>
+          </div>
+        </div>
+      </div>
+      <div class="gmail_extra"><br>
+        <div class="gmail_quote">On Tue, Aug 15, 2017 at 8:55 PM, Jason
+          Wessel <span dir="ltr">&lt;<a
+              href="mailto:jason.wessel@windriver.com" target="_blank"
+              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;</span>
+          wrote:<br>
+          <blockquote class="gmail_quote">The systemd 234 added some
+            files to the polkit directory and the<br>
+            directory the files live in must be owned by the polkitd
+            user, else<br>
+            you will receive the following error when the rootfs is
+            being<br>
+            assembled:<br>
+            <br>
+            Error: Transaction check error:<br>
+              file /usr/share/polkit-1/rules.d conflicts between
+            attempted installs of polkit-0.113-r0.15.core2_64 and
+            systemd-1:234-r0.0.core2_64<br>
+            <br>
+            The fix similar to other packages such as libvirt where the
+            user must<br>
+            exist and the directory must be created with the proper
+            attributes.<br>
+            <br>
+            Signed-off-by: Jason Wessel &lt;<a
+              href="mailto:jason.wessel@windriver.com"
+              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;<br>
+            ---<br>
+             meta/recipes-core/systemd/<a href="http://systemd_234.bb"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">syst<wbr>emd_234.bb</a>
+            | 9 +++++++++<br>
+             1 file changed, 9 insertions(+)<br>
+            <br>
+            diff --git a/meta/recipes-core/systemd/<a
+              href="http://systemd_234.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a>
+            b/meta/recipes-core/systemd/<a href="http://systemd_234.bb"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a><br>
+            index ad7fc99b90..4560cf4175 100644<br>
+            --- a/meta/recipes-core/systemd/<a
+              href="http://systemd_234.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a><br>
+            +++ b/meta/recipes-core/systemd/<a
+              href="http://systemd_234.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a><br>
+            @@ -245,6 +245,14 @@ do_install() {<br>
+                            ln -s ../run/systemd/resolve/resolv.<wbr>conf
+            ${D}${sysconfdir}/resolv-conf.<wbr>systemd<br>
+                    fi<br>
+                    install -Dm 0755 ${S}/src/systemctl/systemd-<wbr>sysv-install.SKELETON
+            ${D}${systemd_unitdir}/<wbr>systemd-sysv-install<br>
+            +<br>
+            +       # If polkit is setup fixup permissions and ownership<br>
+            +       if [ "${@bb.utils.contains('<wbr>PACKAGECONFIG',
+            'polkit', 'polkit', '', d)}" = "polkit" ] ; then<br>
+            +           if [ -d ${D}${datadir}/polkit-1/rules.<wbr>d ] ;
+            then<br>
+            +               chmod 700 ${D}${datadir}/polkit-1/rules.<wbr>d<br>
+            +               chown polkitd:root
+            ${D}${datadir}/polkit-1/rules.<wbr>d<br>
+            +           fi<br>
+            +       fi<br>
+             }<br>
+            <br>
+             do_install_ptest () {<br>
+            @@ -308,6 +316,7 @@ USERADD_PARAM_${PN} +=
+            "${@bb.utils.contains('<wbr>PACKAGECONFIG', 'timesyncd',
+            '--sy<br>
+             USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
+            'networkd', '--system -d / -M --shell /bin/nologin
+            systemd-network;', '', d)}"<br>
+             USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
+            'coredump', '--system -d / -M --shell /bin/nologin
+            systemd-coredump;', '', d)}"<br>
+             USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
+            'resolved', '--system -d / -M --shell /bin/nologin
+            systemd-resolve;', '', d)}"<br>
+            +USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
+            'polkit', '--system --no-create-home --user-group --home-dir
+            ${sysconfdir}/polkit-1 polkitd;', '', d)}"<br>
+             GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"<br>
+             USERADD_PARAM_${PN}-extra-<wbr>utils += "--system -d / -M
+            --shell /bin/nologin systemd-bus-proxy;"<br>
+            <span class="HOEnZb"><br>
+              --<br>
+              2.11.0<br>
+              <br>
+              --<br>
+              ______________________________<wbr>_________________<br>
+              Openembedded-core mailing list<br>
+              <a href="mailto:Openembedded-core@lists.openembedded.org"
+                moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+              <a
+                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+            </span></blockquote>
+        </div>
+        <br>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------AD54615BA1532FE0F80C7673--
