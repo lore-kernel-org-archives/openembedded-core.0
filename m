@@ -1,53 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E7C6E78667
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id C9C6978686
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 15:46:56 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id u48so308690wrf.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 08:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=3g/ScngCV7nKwGhayMewECpzGw/6qWV+EQNGcAMkCGM=;
-	b=qEzTmOWDfGJI5y0Xd5E0jY6wKrOb3Tu4WfzW0tyH2HQIOGTEzhyc2tCU/ati3O7nz4
-	VgxMz2FMiokbV9t0/6jM2IKssYdnBg32kyyj71GF+JrqOn4cohl1uhPW7/kGLEhtWKMp
-	xnw5bv5zFVt+65WOmAX4seAd8M3cbhtDxQ8n+al8jRPp4LCUue3QKQobA+CevEBC/L5B
-	tRNSiqm00QJ0/+0q3yxz3O7EuKD3Ogyna3t2GUwDpUussl58OZql9liVbz0a+9xtiAeZ
-	pOVY4gck22ApArPWvWZ11lVeygy4VL8aY51TX27eEeZbPLtCEhLynu4YrkBe8II4ePod
-	QtFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=3g/ScngCV7nKwGhayMewECpzGw/6qWV+EQNGcAMkCGM=;
-	b=BS0RTrEWvY5jTReRFC98skCYC42H7YkRs1fNLSVDItzH1AH8EZhElzonMo2soKSNMl
-	CVfsBqbfnFILp1YZmtuWkk4rbQ5XFg+iPqDdMgGiqZNecxeDcpr9p/GBCGmJ6zAJ6axI
-	lm7gMduZZ1LP+yeo5aATa3ghQzTQojzGPnaey2rpNdLl4Yoy6K9AWEJaF949PVrEQOTv
-	D0luvnyhC3KrqnXuRDdzLR849g7Dx6r6Ua2Grhnr87SPsrwxcNDGwxeIvx6gkuXVmYix
-	fnOUYY1sev+kNiUYB9bRjkBMzM6RECNTCPZqFg1GJQ9gyEwMda7DaAUgH1G2qVX7MT1E
-	oxcQ==
-X-Gm-Message-State: AHPjjUihpeDMqUaiRFG5CY2v3uhUAUd5ypf4tDuS7LbmNf5FklH4XVu/
-	FcCEdweBif8zYg==
-X-Google-Smtp-Source: ADKCNb7xIrT1b8Vomo7BiU5+MyRBmMppK6abT6ms212vvQDbWkufL+vqcuLtJX/qs+G6viSQQu3IpQ==
-X-Received: by 10.223.133.164 with SMTP id 33mr15333139wrt.179.1505317617625; 
-	Wed, 13 Sep 2017 08:46:57 -0700 (PDT)
-Received: from localhost ([217.30.68.212]) by smtp.gmail.com with ESMTPSA id
-	p78sm2197439wma.11.2017.09.13.08.46.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 13 Sep 2017 08:46:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: Armin Kuster <akuster808@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 13 Sep 2017 17:49:11 +0200
-Message-Id: <ca609f03a5b999b80e19e90974ca7b1755e1ec32.1505317670.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <cover.1505317670.git.Martin.Jansa@gmail.com>
-References: <cover.1505317670.git.Martin.Jansa@gmail.com>
+	Wed, 13 Sep 2017 15:56:57 +0000 (UTC)
+Received: (qmail 28561 invoked by uid 1003); 13 Sep 2017 15:56:57 -0000
+Received: from unknown (HELO ?172.16.29.59?) (philip@opensdr.com@67.52.142.5)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	13 Sep 2017 15:56:57 -0000
+To: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <7c9348d9-ed4f-7429-d015-839d3bf02e79@balister.org>
+Date: Wed, 13 Sep 2017 08:56:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Subject: [pyro][PATCH 2/2] bitbake.conf: add bzr to HOSTTOOLS_NONFATAL
+In-Reply-To: <CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 15:46:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 13 Sep 2017 15:56:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On 09/13/2017 08:40 AM, Ruslan Bilovol wrote:
+> On Thu, Aug 24, 2017 at 9:37 PM, Philip Balister <philip@balister.org> wrote:
+>> Once again we will have a developer meeting in Prague the Sunday before
+>> ELCE.
+>>
+>> Please go to https://www.openembedded.org/wiki/OEDEM_2017 and add
+>> yourself if you are attending and ideas for topics.
+>>
+>> Although it is called a developer meeting, we invite members of the
+>> larger community to attend. The core developers are always interested in
+>> hearing how OpenEmbedded is used, and what we can do to make it better
+>> for building the embedded devices of the future.
+> 
+> Is it free to attend, anything else required except of
+> self-registration on wiki?
 
-* it's used by bzr fetcher:
-  meta/conf/bitbake.conf:FETCHCMD_bzr = "/usr/bin/env bzr"
-  and when it isn't available in PATH do_fetch tasks fail with:
-  /usr/bin/env: ‘bzr’: No such file or directory
-* it was also added in:
-  https://patchwork.openembedded.org/patch/140107/
-  but this change wasn't merged (nor rejected AFAIS)
+Self registration on the wiki is fine. See you in October.
 
-* cherry-picked from master c7ba7e9e7a7ca2caf453106112dc5a3c855b21d3
+Philip
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/bitbake.conf | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8e4f4bbb56..2dac3a1481 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -477,6 +477,9 @@ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
- # Temporary add few more detected in bitbake world
- HOSTTOOLS_NONFATAL += "join nl size yes zcat"
- 
-+# Used by bzr fetcher
-+HOSTTOOLS_NONFATAL += "bzr"
-+
- CCACHE ??= ""
- # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
- # of ccache some distributions (e.g., Fedora 17).
--- 
-2.14.1
-
+> 
+> Thanks,
+> Ruslan
+> 
 
