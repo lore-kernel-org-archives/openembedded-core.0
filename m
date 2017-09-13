@@ -1,29 +1,32 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9172C78668
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B0D4B78458
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 12:40:32 +0000 (UTC)
+	Wed, 13 Sep 2017 13:27:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8DCeWuF025314
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8DDRZBQ014896
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 13 Sep 2017 05:40:32 -0700 (PDT)
-Received: from [172.25.59.215] (172.25.59.215) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 13 Sep 2017 05:40:32 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20170815185534.118522-1-jason.wessel@windriver.com>
-	<CA+chaQcVcpkTVPCa7xdpMJZ+dWWdHCZrf66nPsyFOpj+iEos=A@mail.gmail.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <89eb6c7d-f000-117a-7f3c-381499c8af88@windriver.com>
-Date: Wed, 13 Sep 2017 07:40:31 -0500
+	Wed, 13 Sep 2017 06:27:38 -0700 (PDT)
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 13 Sep 2017 06:27:35 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1504207711.git.bruce.ashfield@windriver.com>
+	<1504282084.2175.59.camel@linuxfoundation.org>
+	<0579b565-b8e0-9995-84d0-7a239a268e14@windriver.com>
+	<1504620793.2175.85.camel@linuxfoundation.org>
+	<d3073c45-a317-5326-4715-23a6cb3e1058@windriver.com>
+	<1504623599.2175.89.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <69319168-1db8-3459-9de7-52c763766ab9@windriver.com>
+Date: Wed, 13 Sep 2017 09:27:34 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQcVcpkTVPCa7xdpMJZ+dWWdHCZrf66nPsyFOpj+iEos=A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Fix rootfs transaction error when PACKAGECONFIG has polkit
+In-Reply-To: <1504623599.2175.89.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/7] kernel-yocto: conslidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,248 +39,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 12:40:32 -0000
-Content-Type: multipart/alternative;
-	boundary="------------AD54615BA1532FE0F80C7673"
-Content-Language: en-GB
-
---------------AD54615BA1532FE0F80C7673
+X-List-Received-Date: Wed, 13 Sep 2017 13:27:40 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-It should work because it has nothing to do with that particular passwd file.   This is builds successfully on a ubuntu 16.04 host which has no polkitd user.
+On 09/05/2017 10:59 AM, Richard Purdie wrote:
+> On Tue, 2017-09-05 at 10:24 -0400, Bruce Ashfield wrote:
+>> On 09/05/2017 10:13 AM, Richard Purdie wrote:
+>>>
+>>> Hi Bruce,
+>>>
+>>> We had a locked up qemuppc lsb image and I was able to find
+>>> backtraces
+>>> from the serial console log (/home/pokybuild/yocto-
+>>> autobuilder/yocto-
+>>> worker/nightly-ppc-lsb/build/build/tmp/work/qemuppc-poky-
+>>> linux/core-
+>>> image-lsb/1.0-r0/target_logs/dmesg_output.log in case anyone ever
+>>> needs
+>>> to find that). The log is below, this one is for the 4.9 kernel.
+>>>
+>>> Failure as seen on the AB:
+>>> https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/
+>>> buil
+>>> ds/1189/steps/Running%20Sanity%20Tests/logs/stdio
+>>>
+>>> Not sure what it means, perhaps you can make more sense of it? :)
+>> Very interesting.
+>>
+>> I'm (un)fortunately familiar with RCU issues, and obviously, this is
+>> only happening under load. There's clearly a driver issue as it
+>> interacts with whatever is running in userspace.
+>>
+>>   From the log, it looks like this is running over NFS and pinning the
+>> CPU and the qemu ethernet isn't handling it gracefully.
+> 
+> Looking at the logs I've seen I don't think this is over NFS, it should
+> be over virtio:
+> 
+> "Kernel command line: root=/dev/vda"
+> 
+>> But exactly what it is, I can't say from that trace. I'll try and do
+>> a cpu-pinned test on qemuppc (over NFS) and see if I can trigger the
+>> same trace.
+> 
+> I'm also not sure what this might be. I did a bit more staring at the
+> log and I think the system did come back:
+> 
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_install_from_disk (dnf.DnfRepoTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (249.929s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_install_from_http (dnf.DnfRepoTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (212.547s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_reinstall (dnf.DnfRepoTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (1501.682s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_dnf_repoinfo (dnf.DnfRepoTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (15.952s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_running (oe_syslog.SyslogTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (3.039s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_logger (oe_syslog.SyslogTestConfig)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... SKIP (0.001s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_restart (oe_syslog.SyslogTestConfig)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... SKIP (0.001s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_syslog_startup_config (oe_syslog.SyslogTestConfig)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... SKIP (0.001s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_pam (pam.PamBasicTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... FAIL (3.003s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_parselogs (parselogs.ParseLogsTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (39.675s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_rpm_help (rpm.RpmBasicTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (2.590s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_rpm_query (rpm.RpmBasicTest)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:  ... OK (2.295s)
+> NOTE: core-image-lsb-1.0-r0 do_testimage:   test_rpm_instal
+> 
+> So for a while there the system "locked up":
+> 
+> AssertionError: 255 != 0 : dnf --repofrompath=oe-testimage-repo-noarch,http://192.168.7.1:38838/noarch --repofrompath=oe-testimage-repo-qemuppc,http://192.168.7.1:38838/qemuppc --repofrompath=oe-testimage-repo-ppc7400,http://192.168.7.1:38838/ppc7400 --nogpgcheck reinstall -y run-postinsts-dev
+> 
+> Process killed - no output for 1500 seconds. Total running time: 1501 seconds.
+> 
+> AssertionError: 255 != 0 : dnf --repofrompath=oe-testimage-repo-noarch,http://192.168.7.1:38838/noarch --repofrompath=oe-testimage-repo-qemuppc,http://192.168.7.1:38838/qemuppc --repofrompath=oe-testimage-repo-ppc7400,http://192.168.7.1:38838/ppc7400 --nogpgcheck repoinfo
+> ssh: connect to host 192.168.7.2 port 22: No route to host
+> 
+> self.assertEqual(status, 1, msg = msg)
+> AssertionError: 255 != 1 : login command does not work as expected. Status and output:255 and ssh: connect to host 192.168.7.2 port 22: No route to host
+> 
+> then the system seems to have come back. All very odd...
 
-Also with the user add stanza in the patch it should be adding the user that is required when PACKAGECONFIG has the polkitd added to the psuedo passwd file.   We have quite a few configurations building properly.  Where I have seen transient failures before is when the -native sysroot does not get rebuilt but that is typically with other recipes.
+I'm still trying to get a solid reproducer for this, but I'm now
+going down the route of isolating different parts of the system.
 
-Is this still a problem?
+I was looking at:
 
+https://autobuilder.yocto.io/builders/nightly-ppc-lsb/builds/475/steps/Running%20Sanity%20Tests/logs/stdio
 
-Jason.
+And I thought that this was related to the switch of the cdrom to
+be virtio backed, but looking at the command line:
 
+tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin//qemu-system-ppc 
+-device virtio-net-pci,netdev=net0,mac=52:54:00:12:34:02 -netdev 
+tap,id=net0,ifname=tap0,script=no,downscript=no -drive 
+file=/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-ppc-lsb/build/build/tmp/deploy/images/qemuppc/core-image-lsb-sdk-qemuppc.ext4,if=virtio,format=raw 
+-show-cursor -usb -device usb-tablet -device virtio-rng-pci -serial 
+tcp:127.0.0.1:48509 -pidfile pidfile_13726 -machine mac99 -cpu G4 -m 256 
+-serial tcp:127.0.0.1:40895 -snapshot -kernel 
+tmp/deploy/images/qemuppc/vmlinux--4.9.46+git0+f16cac5343_cf9a7dd9f4-r0.2-qemuppc-20170912090305.bin 
+-append root=/dev/vda rw highres=off  mem=256M 
+ip=192.168.7.2::192.168.7.1:255.255.255.0 console=tty console=ttyS0 
+console=tty1 console=ttyS0,115200n8 printk.time=1
 
-On 09/06/2017 01:35 PM, Martin Jansa wrote:
-> Does this work on hosts without polkitd user?
->
-> Here it failed with:
->
-> | chown: invalid user: ‘polkitd:root’
->
->
->
->
->
->
-> On Tue, Aug 15, 2017 at 8:55 PM, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
->
->     The systemd 234 added some files to the polkit directory and the
->     directory the files live in must be owned by the polkitd user, else
->     you will receive the following error when the rootfs is being
->     assembled:
->
->     Error: Transaction check error:
->       file /usr/share/polkit-1/rules.d conflicts between attempted installs of polkit-0.113-r0.15.core2_64 and systemd-1:234-r0.0.core2_64
->
->     The fix similar to other packages such as libvirt where the user must
->     exist and the directory must be created with the proper attributes.
->
->     Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
->     ---
->      meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb> | 9 +++++++++
->      1 file changed, 9 insertions(+)
->
->     diff --git a/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb> b/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
->     index ad7fc99b90..4560cf4175 100644
->     --- a/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
->     +++ b/meta/recipes-core/systemd/systemd_234.bb <http://systemd_234.bb>
->     @@ -245,6 +245,14 @@ do_install() {
->                     ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf.systemd
->             fi
->             install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
->     +
->     +       # If polkit is setup fixup permissions and ownership
->     +       if [ "${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'polkit', '', d)}" = "polkit" ] ; then
->     +           if [ -d ${D}${datadir}/polkit-1/rules.d ] ; then
->     +               chmod 700 ${D}${datadir}/polkit-1/rules.d
->     +               chown polkitd:root ${D}${datadir}/polkit-1/rules.d
->     +           fi
->     +       fi
->      }
->
->      do_install_ptest () {
->     @@ -308,6 +316,7 @@ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--sy
->      USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'networkd', '--system -d / -M --shell /bin/nologin systemd-network;', '', d)}"
->      USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
->      USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
->     +USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--system --no-create-home --user-group --home-dir ${sysconfdir}/polkit-1 polkitd;', '', d)}"
->      GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
->      USERADD_PARAM_${PN}-extra-utils += "--system -d / -M --shell /bin/nologin systemd-bus-proxy;"
->
->     --
->     2.11.0
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
->
->
+That doesn't come into play here, so I've stopped mining the virtio
+back end for the moment .. if you have
+
+But since this does happen in 4.12 and 4.9, I can't shake the logic
+that it has to do with some different way we are now invoking qemu
+that is triggering and existing kernel issue.
+
+.. but again, back to not seeing that -cdrom change in the command
+line.
+
+Do you know of any other qemu parameter changes that are fairly recent ?
+I'm not seeing any, but wanted to check.
+
+Bruce
+
+> 
+> Cheers,
+> 
+> Richard
+> 
 
 
---------------AD54615BA1532FE0F80C7673
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">It should work because it has nothing
-      to do with that particular passwd file.   This is builds
-      successfully on a ubuntu 16.04 host which has no polkitd user.<br>
-      <br>
-      Also with the user add stanza in the patch it should be adding the
-      user that is required when PACKAGECONFIG has the polkitd added to
-      the psuedo passwd file.   We have quite a few configurations
-      building properly.  Where I have seen transient failures before is
-      when the -native sysroot does not get rebuilt but that is
-      typically with other recipes. <br>
-      <br>
-      Is this still a problem? <br>
-      <br>
-      <br>
-      Jason. <br>
-      <br>
-      <br>
-      On 09/06/2017 01:35 PM, Martin Jansa wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CA+chaQcVcpkTVPCa7xdpMJZ+dWWdHCZrf66nPsyFOpj+iEos=A@mail.gmail.com">
-      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">Does this work on hosts without polkitd user?
-        <div><br>
-        </div>
-        <div>Here it failed with:</div>
-        <div><br>
-        </div>
-        <div>
-          <div>| chown: invalid user: ‘polkitd:root’</div>
-          <div><br>
-          </div>
-          <div><br>
-          </div>
-          <div><br>
-          </div>
-          <div><br>
-          </div>
-          <div><br>
-          </div>
-        </div>
-      </div>
-      <div class="gmail_extra"><br>
-        <div class="gmail_quote">On Tue, Aug 15, 2017 at 8:55 PM, Jason
-          Wessel <span dir="ltr">&lt;<a
-              href="mailto:jason.wessel@windriver.com" target="_blank"
-              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote">The systemd 234 added some
-            files to the polkit directory and the<br>
-            directory the files live in must be owned by the polkitd
-            user, else<br>
-            you will receive the following error when the rootfs is
-            being<br>
-            assembled:<br>
-            <br>
-            Error: Transaction check error:<br>
-              file /usr/share/polkit-1/rules.d conflicts between
-            attempted installs of polkit-0.113-r0.15.core2_64 and
-            systemd-1:234-r0.0.core2_64<br>
-            <br>
-            The fix similar to other packages such as libvirt where the
-            user must<br>
-            exist and the directory must be created with the proper
-            attributes.<br>
-            <br>
-            Signed-off-by: Jason Wessel &lt;<a
-              href="mailto:jason.wessel@windriver.com"
-              moz-do-not-send="true">jason.wessel@windriver.com</a>&gt;<br>
-            ---<br>
-             meta/recipes-core/systemd/<a href="http://systemd_234.bb"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">syst<wbr>emd_234.bb</a>
-            | 9 +++++++++<br>
-             1 file changed, 9 insertions(+)<br>
-            <br>
-            diff --git a/meta/recipes-core/systemd/<a
-              href="http://systemd_234.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a>
-            b/meta/recipes-core/systemd/<a href="http://systemd_234.bb"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a><br>
-            index ad7fc99b90..4560cf4175 100644<br>
-            --- a/meta/recipes-core/systemd/<a
-              href="http://systemd_234.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a><br>
-            +++ b/meta/recipes-core/systemd/<a
-              href="http://systemd_234.bb" rel="noreferrer"
-              target="_blank" moz-do-not-send="true">sy<wbr>stemd_234.bb</a><br>
-            @@ -245,6 +245,14 @@ do_install() {<br>
-                            ln -s ../run/systemd/resolve/resolv.<wbr>conf
-            ${D}${sysconfdir}/resolv-conf.<wbr>systemd<br>
-                    fi<br>
-                    install -Dm 0755 ${S}/src/systemctl/systemd-<wbr>sysv-install.SKELETON
-            ${D}${systemd_unitdir}/<wbr>systemd-sysv-install<br>
-            +<br>
-            +       # If polkit is setup fixup permissions and ownership<br>
-            +       if [ "${@bb.utils.contains('<wbr>PACKAGECONFIG',
-            'polkit', 'polkit', '', d)}" = "polkit" ] ; then<br>
-            +           if [ -d ${D}${datadir}/polkit-1/rules.<wbr>d ] ;
-            then<br>
-            +               chmod 700 ${D}${datadir}/polkit-1/rules.<wbr>d<br>
-            +               chown polkitd:root
-            ${D}${datadir}/polkit-1/rules.<wbr>d<br>
-            +           fi<br>
-            +       fi<br>
-             }<br>
-            <br>
-             do_install_ptest () {<br>
-            @@ -308,6 +316,7 @@ USERADD_PARAM_${PN} +=
-            "${@bb.utils.contains('<wbr>PACKAGECONFIG', 'timesyncd',
-            '--sy<br>
-             USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
-            'networkd', '--system -d / -M --shell /bin/nologin
-            systemd-network;', '', d)}"<br>
-             USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
-            'coredump', '--system -d / -M --shell /bin/nologin
-            systemd-coredump;', '', d)}"<br>
-             USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
-            'resolved', '--system -d / -M --shell /bin/nologin
-            systemd-resolve;', '', d)}"<br>
-            +USERADD_PARAM_${PN} += "${@bb.utils.contains('<wbr>PACKAGECONFIG',
-            'polkit', '--system --no-create-home --user-group --home-dir
-            ${sysconfdir}/polkit-1 polkitd;', '', d)}"<br>
-             GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"<br>
-             USERADD_PARAM_${PN}-extra-<wbr>utils += "--system -d / -M
-            --shell /bin/nologin systemd-bus-proxy;"<br>
-            <span class="HOEnZb"><br>
-              --<br>
-              2.11.0<br>
-              <br>
-              --<br>
-              ______________________________<wbr>_________________<br>
-              Openembedded-core mailing list<br>
-              <a href="mailto:Openembedded-core@lists.openembedded.org"
-                moz-do-not-send="true">Openembedded-core@lists.<wbr>openembedded.org</a><br>
-              <a
-                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
-            </span></blockquote>
-        </div>
-        <br>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------AD54615BA1532FE0F80C7673--
