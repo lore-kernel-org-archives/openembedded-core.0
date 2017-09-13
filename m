@@ -1,49 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 59F7E783E8
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E59678458
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 01:25:19 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id d8so6943491pgt.3
+	Wed, 13 Sep 2017 06:02:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8D622lO008897
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Sep 2017 18:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YNGOXMrxsqLzA3LJDX3flcwWOHrMfLPUpmsT+HF/X+Q=;
-	b=onleYFl+eq68DXXCavAqpaR3uakodvxXtaoqUez0t0U3uS/j1XVA+kOJoNYrawZ1jv
-	MeAZsri+kpYGP/pyQC8W3CnDtpPxGpMwS8uVhb6A8ffjGgMSiZyeSz97JCB7nXCQJGdy
-	3qsCpyYJ8rM1uXbfVIc7Ty87vszXsR+bxjunVWb5iNN7JKIZ2yMegx5NQDq48041hNJ8
-	i6VCDIuz4muGTe09AMM2OvEc/dpkmlQg98jb5zmMMOtWk01L4RFXRa27pgMh8uYf+dTS
-	qpY4hgIiZwWlMGetOdI3DnLbDg94xILaabRbYBBn877jGgmrWb62dVVS9sxQXn3rx3vg
-	1uPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=YNGOXMrxsqLzA3LJDX3flcwWOHrMfLPUpmsT+HF/X+Q=;
-	b=T74nMjvsUDwakpO/gNS3QVi5zkGyXI/LfzlyAQip2L1KRp23ng8bD58MZ4d+XOhKux
-	4NE7k5K4UEIoSi0dFpAoYdE/lcryhq9WlzAQlafc46q4byYAvhhl3Ne5+yrfGNqmReLP
-	0s3jsIZzOO4zF71itSDagJkEvxrPtq2rUy0VKN44kSQhnZchoeLMvOjG3MzJ6SyfP2iv
-	kkQE2dcCsXlF59a2bwdp2DfthsIHbW89WyQw43eOB02rAY2tBJFllAH3tzjayqn3xowk
-	QA2Amw9iJQTqjqVFxQ1ZOd0I/7rdiyGoVtO0fYw51EpQn0DGjI3Gl94ZlNtxu6vA0b6g
-	YR8g==
-X-Gm-Message-State: AHPjjUjV/KBOpdZ5zmH1j9VdvQ45lGt7ngf3soVQNbgZcpnJamHG0/mR
-	BLf1WnknwaQKMOBI9UTJDiORNo0eQYOCetlsvg4=
-X-Google-Smtp-Source: AOwi7QD0rywjhr4ZLohNX2rGi2r2e/E92YFN2KS9jFKkBfRy39qdsxdixNSQl40hRFxgpacEJTnkvbJgstdN5YynRws=
-X-Received: by 10.159.244.21 with SMTP id x21mr4028441plr.440.1505265920529;
-	Tue, 12 Sep 2017 18:25:20 -0700 (PDT)
+	Tue, 12 Sep 2017 23:02:02 -0700 (PDT)
+Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 12 Sep 2017 23:02:01 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Sep 2017 14:01:07 +0800
+Message-ID: <1505282467-17830-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.100.189.8 with HTTP; Tue, 12 Sep 2017 18:24:48 -0700 (PDT)
-In-Reply-To: <CAHUNapT0zPy9SUv+g7OBKp86BF_s8_=_RPrmNhMJQa7S8LbM8w@mail.gmail.com>
-References: <20170910131446.4555-0-nathan@nathanrossi.com>
-	<CAJTo0LaqHGMPDF=JHGw5NcBzvTkFbP2bQfmgcG8o-Zx0hTeD3g@mail.gmail.com>
-	<CAMKF1sp1R_wnW6Zkh96WWJKgC9zzgtbO-__JvqgEYWp_B6whzw@mail.gmail.com>
-	<CAHUNapT0zPy9SUv+g7OBKp86BF_s8_=_RPrmNhMJQa7S8LbM8w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Sep 2017 18:24:48 -0700
-Message-ID: <CAMKF1sry4fSRQa-wqcdcds0U8tN3jQhRdLZbtU1OzBG-4rSVTA@mail.gmail.com>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Recipes for Open Source Verilog and Lattice iCE40 FPGAs tools
+X-Originating-IP: [128.224.162.198]
+Subject: [PATCH] busybox: using ip instead of ifconfig for ifup/ifdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 01:25:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 13 Sep 2017 06:02:01 -0000
+Content-Type: text/plain
 
-On Tue, Sep 12, 2017 at 4:42 PM, Trevor Woerner <twoerner@gmail.com> wrote:
-> On Tue, Sep 12, 2017 at 4:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Mon, Sep 11, 2017 at 1:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>> On 10 September 2017 at 14:14, Nathan Rossi <nathan@nathanrossi.com> wrote:
->>>>
->>>> Please note whilst this series is sent for oe-core it may be better
->>>> located in another layer? (e.g. meta-oe). However since the recipes and
->>>> the tools they build are not specific to a single BSP it did not make
->>>> sense to keep in a BSP specific layer.
->>>
->>>
->>> Sounds like a dedicated FPGA layer would be ideal.
->>>
->>
->> I think a layer for 2 recipes might be too much. Put it under recipes-devtools
->> in meta-oe for now.
->
-> 5?
->
-> Am I reading this patch correctly? There are 5 recipes?
+There is an issue for requesting dynamic IP with ifup/ifdown command
+when using dhclient.
 
-2 or 5 doesnt matter I just meant "too few to be a layer of its own"
-engineers minds :)
+Steps to reproduce:
+1. Build a full-cmdline image and install dhcp-client as the default DHCP client.
+2. Configure a static IP for eth0 in /etc/networking/interfaces and reboot.
+    $ ifconfig eth0
+    eth0      inet addr:192.168.1.2  Bcast:192.168.1.255  Mask:255.255.255.0
+    $ ifdown eth0
+3. Modify /etc/networking/interfaces to configure a dynamic IP for eth0
+    $ ifup eth0
+    $ ifconfig eth0
+    eth0      inet addr:192.168.1.2  Bcast:192.168.1.255  Mask:255.255.255.0
+
+You could see the eth0 still has a static IP. But actually it also has a
+dynamic IP:
+    $ ip addr show eth0
+    eth0:
+        inet 192.168.1.2/24 brd 192.168.1.255 scope global eth0
+        inet 128.224.162.173/23 brd 128.224.163.255 scope global eth0
+
+The root cause is the ifdown invokes "ifconfig" to down the eth0 but
+doesn't remove its IP. The dhclient would invoke "ip" to configure the
+interface. It can not remove an IP from down interface with "ip addr
+flush" and "ip addr add" command can set multiple IPs on one interface.
+
+To fix this issue, we should use the "ip" command to implement
+ifup/ifdown, rather than using the older "ifconfig". It will flush the
+IP before down the interface.
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+---
+ meta/recipes-core/busybox/busybox/defconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 54202ef..cc68bea 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -820,9 +820,9 @@ CONFIG_FEATURE_IFCONFIG_HW=y
+ # CONFIG_IFPLUGD is not set
+ CONFIG_IFUPDOWN=y
+ CONFIG_IFUPDOWN_IFSTATE_PATH="/var/run/ifstate"
+-# CONFIG_FEATURE_IFUPDOWN_IP is not set
+-# CONFIG_FEATURE_IFUPDOWN_IP_BUILTIN is not set
+-CONFIG_FEATURE_IFUPDOWN_IFCONFIG_BUILTIN=y
++CONFIG_FEATURE_IFUPDOWN_IP=y
++CONFIG_FEATURE_IFUPDOWN_IP_BUILTIN=y
++# CONFIG_FEATURE_IFUPDOWN_IFCONFIG_BUILTIN is not set
+ CONFIG_FEATURE_IFUPDOWN_IPV4=y
+ CONFIG_FEATURE_IFUPDOWN_IPV6=y
+ CONFIG_FEATURE_IFUPDOWN_MAPPING=y
+-- 
+2.7.4
+
 
