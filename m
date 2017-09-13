@@ -1,50 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D06478554
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 464847861A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 10:10:37 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id v19so875536ite.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Sep 2017 03:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=E2/O7/rxOh0H8YJnCkUJOJ73NkWCALbjOfxmDEIkCJc=;
-	b=WhbXcyxrHLqzLVT59ROSpVpEdgPFC1J+FU92Aj4mUrwp4cdVJK5kDK0jOsSI8qeivq
-	PEgwjtagUnADf7jVhD2DttygDk7QmmCnZmH6irL5bdvrxIECVsQlMLgXlLdV0z0aVGg2
-	Var/6PG784wLeJvoIjhyaovrofGnbUGwoHs3sSB/8HGglARBdQIyHOmG2GBJ+kBp+tMA
-	vNrVTKcFRWBWRL+cI8yvwHIwf5uDfgT4Pg449R4Pg8AUMhWapqeRNCDaqO6hVpREf7nr
-	Uh97jfekGDBo3LTtB77z9XVUTsZ75h7MKqePhKSj+LFT4mQeUr8yLsJVQ5Zu0pBjrc5S
-	pl1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=E2/O7/rxOh0H8YJnCkUJOJ73NkWCALbjOfxmDEIkCJc=;
-	b=Aj0bZH6vJnaE4pGyEQ6uhUq13E7uAeFfeDSUOnoWRItTksoRZyGn4f3bocT1eZNYv7
-	+JHZnArE3WumDSSWmXnvDYjpOeH02bmlYiDWlMpCgt1eGCQ1PUYiF2t7S/PDYYpFImDQ
-	jD7Ii/084cSKEU7GcQm5Torr8s6CMu6Zzeh+XKtECfxAMnwQDUrvVO7cwx7+cDrFuPxf
-	OMVuGjLPgh9shzRSdGeBYybonOJsrsyj9mt7AvzR8k6KtrBdbNE1mjTfINRkt3UrJfS2
-	FPQG75HT5aJckzbv65LAPsqMiLS2tSIg8e/SjTXaiSD824au3hjHMF1jZkPzVdDLiaUM
-	29yQ==
-X-Gm-Message-State: AHPjjUhlTn0a13+Log9nicywh5FNF0I2/dwPjTuaxB3qxRoWr8cTzI1K
-	8e7E3mSRhKvbMMV3eQo2KSR5dTe8hExczR8VOvsiZw==
-X-Google-Smtp-Source: AOwi7QA75fK6tbSHl79l8pFyU/ZDtpzWQP2a9wTMZjo3Q7wDy9JeCGPoPYV4HnGtCKcAMErOjiHiemE3xhUKmfSeCYI=
-X-Received: by 10.36.237.204 with SMTP id r195mr3928099ith.48.1505297439360;
-	Wed, 13 Sep 2017 03:10:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Wed, 13 Sep 2017 03:10:18 -0700 (PDT)
-In-Reply-To: <1505261272-25017-2-git-send-email-stefan@agner.ch>
-References: <1505261272-25017-1-git-send-email-stefan@agner.ch>
-	<1505261272-25017-2-git-send-email-stefan@agner.ch>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Sep 2017 11:10:18 +0100
-Message-ID: <CAJTo0LYWTA-t7bCcRoRP985hyRJQ9WQPD_6bvVE4mX=8-b7ikw@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: dominik.sliwa@toradex.com, Stefan Agner <stefan.agner@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] linux-firmware: bump to latest linux-firmware git revision
+	Wed, 13 Sep 2017 10:41:50 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v8DAfiLt006562
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Wed, 13 Sep 2017 11:41:46 +0100
+Message-ID: <1505299304.18640.40.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ola x Nilsson <ola.x.nilsson@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Sep 2017 11:41:44 +0100
+In-Reply-To: <1505215422363.98035@axis.com>
+References: <20170828145816.17208-1-olani@axis.com>
+	, <20170828145816.17208-2-olani@axis.com> <1505215422363.98035@axis.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 2/2] externalsrc.bbclass: Avoid symlink clashes	for virtclasses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Sep 2017 10:10:38 -0000
-Content-Type: multipart/alternative; boundary="94eb2c042c1627b9e905590f5f7f"
-
---94eb2c042c1627b9e905590f5f7f
+X-List-Received-Date: Wed, 13 Sep 2017 10:41:51 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 13 September 2017 at 01:07, Stefan Agner <stefan@agner.ch> wrote:
+On Tue, 2017-09-12 at 11:23 +0000, Ola x Nilsson wrote:
+> I noticed that the preceding commit has been merged. 
+> Is there some problem with this one?
 
-> +ERROR_QA_remove = "arch"
->
+Its not something I can describe easily, more a gut feeling that is
+shared by some others I've talked to.
 
-This doesn't remove it from WARN_QA so it will still produce a warning if
-it is present.  However the typical way to do this is to set INSANE_SKIP
-(which the recipe already does for another package with the same problem).
-Of course you can't use INSANE_SKIP without setting a package currently, so
-in the interests of scaling I wonder if we should extend insane.bbclass to
-support recipe-wide assignments of INSANE_SKIP...
+Basically externalsrc is turning into an ever more complicated pile of
+corner cases and it worries me a lot. I can't help thinking we really
+want to simplify and streamline this, not add more complexity to it.
 
-Ross
+How exactly we do that I'm not sure, I haven't had the time to spend
+looking at the code. I do appreciate you added a test case though.
 
---94eb2c042c1627b9e905590f5f7f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I guess what might help would be creating standard API in lib/oe to get
+things like the remapped name.
 
-<div dir=3D"ltr">On 13 September 2017 at 01:07, Stefan Agner <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:stefan@agner.ch" target=3D"_blank">stefan@agner.c=
-h</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">+ERROR_QA_remove =3D &quot;arch&quot;<=
-br></blockquote><div><br></div><div>This doesn&#39;t remove it from WARN_QA=
- so it will still produce a warning if it is present.=C2=A0 However the typ=
-ical way to do this is to set INSANE_SKIP (which the recipe already does fo=
-r another package with the same problem).=C2=A0 Of course you can&#39;t use=
- INSANE_SKIP without setting a package currently, so in the interests of sc=
-aling I wonder if we should extend insane.bbclass to support recipe-wide as=
-signments of INSANE_SKIP...</div><div><br></div><div>Ross</div></div></div>=
-</div>
+I'm actually tempted to throw out he externalsrc symlinks stuff. If our
+directory layout is so bad we really should fix that "properly" and
+that's something I'm thinking about for the next development cycle...
 
---94eb2c042c1627b9e905590f5f7f--
+Cheers,
+
+Richard
+
+
+
