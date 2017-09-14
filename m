@@ -1,49 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 55C2078267
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 026E571A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 10:38:15 +0000 (UTC)
-Received: by mail-io0-f178.google.com with SMTP id d16so17313654ioj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 03:38:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=eeqjGUyfIZUX31bzR/RdO4IqrMo5nVVKZsWHUP7D2yg=;
-	b=0VShzzxynjE2EY18jlWrLSiKdyXnktwRkl4KD+dFkb0LaXtIWBUs7OqD5Dn9nHwOkS
-	yzykfiu7Ybc4jbtUZgmg2z2+slYAh1xZdwUcmsAglihjRSZsks4ATsgJ46c0TnRhqh9E
-	LGBRaC3qsf21aXC3D05vh7Zz/Ibc1tWvlYSCu0wvVB/aDkZzdoj7ficM7vfyKoQ+JumU
-	2WxUyHhEgjLj+C88gXKG4MywCMcoeWVjHD8N2LOId9w1N8EPueAuEj042A/x1j+iEsYB
-	yrIl8JfgkYlsyCY3Pqhdn2Rv3Hq3WaLVc1Rh0mDQt5I73TjAyw+AM354ioDV99pWanI2
-	ZNPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=eeqjGUyfIZUX31bzR/RdO4IqrMo5nVVKZsWHUP7D2yg=;
-	b=VxVXZdW1910o7RL56xJItwEgGG+AOrCv/3RdK5rrhZsfrenvFYFpNpJ2G5XaXH37Mj
-	/NbmTZt6kKfYzJkZMKkmvqpUPnnA/4Yy6uxSSeM27SXwFJAMNDBXVoRcuDKhnFW4V+bH
-	SdWy0CkBys7IzlWAPaekWr6dxbj8qypRlZC3eTby1xfpQDg0KtQmh/VBDc9QqIFaK2jg
-	OBfVI89MpkVJtI6GHbdnbQZu6XK5QShU8hov1enlPF39D0umazvA4gqtAbJ4ZxKe9zBX
-	a01XsJm6Qw1R/Mnk5x63aBPCLvkrO0DB3L9/6+ZE2uZDEV4XLTfhUDkQqMF99v4V/uQE
-	EPqQ==
-X-Gm-Message-State: AHPjjUiz0/XZeV5u8JbBZ2S01syvXbOUzTNmJS8NEsA2v/i6uosOPWtX
-	nxn2/oKPJNHIlZW6gJhHrELIWYm1doyIH05oZ0zxow==
-X-Google-Smtp-Source: AOwi7QBcJZGW/jl3hN26070zKwnwHQ9HFrUNsi7PKC9WiaMBVWjTznOUMXSiDSy0yRni7maj05tZZLd5Uk6282QOSio=
-X-Received: by 10.107.135.72 with SMTP id j69mr2133328iod.210.1505385497448;
-	Thu, 14 Sep 2017 03:38:17 -0700 (PDT)
+	Thu, 14 Sep 2017 11:22:43 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Sep 2017 04:22:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,392,1500966000"; d="scan'208";a="151774731"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 14 Sep 2017 04:22:44 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <20170912155906.29716-1-ross.burton@intel.com>
+	<fd5d461b-2217-ef1e-9aa4-690d7508d806@windriver.com>
+	<CAJTo0LYKz5w7fNe=m_5kA+iXpfRvJ9FsxR75_c+=bz4zHTVVWg@mail.gmail.com>
+	<3925ff6f-d39b-df5a-5ac0-cad5d5b72d9e@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <19ccc7a4-5812-dae4-6ad8-2892cc7550c6@linux.intel.com>
+Date: Thu, 14 Sep 2017 14:18:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Thu, 14 Sep 2017 03:37:56 -0700 (PDT)
-In-Reply-To: <c460da5b-bda1-fc4b-45cb-6ff5c3c51902@windriver.com>
-References: <1505342415-93152-1-git-send-email-mark.hatle@windriver.com>
-	<c460da5b-bda1-fc4b-45cb-6ff5c3c51902@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Sep 2017 11:37:56 +0100
-Message-ID: <CAJTo0LaL33j5AB32GvTpAAGgt40TM2S7Zq9dgzY2_yfGCiB0Sw@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+In-Reply-To: <3925ff6f-d39b-df5a-5ac0-cad5d5b72d9e@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bitbake.conf: Add default FILESYSTEM_PERMS_TABLES
+Subject: Re: [PATCH] allarch: don't reset baselib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 10:38:16 -0000
-Content-Type: multipart/alternative; boundary="001a113f8e70d36093055923df35"
+X-List-Received-Date: Thu, 14 Sep 2017 11:22:45 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---001a113f8e70d36093055923df35
-Content-Type: text/plain; charset="UTF-8"
+On 09/12/2017 08:31 PM, Mark Hatle wrote:
 
-On 13 September 2017 at 23:49, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> Also its interesting that nobody else noticed this: multilib images that
+>> installed fonts were segfaulting in rootfs...
+> 
+> If the segfault is causing the postinst to exit w/ an error (non-0) then it's
+> likely re-running on the target itself (and thus working).  If not, ugh.
 
-> On 9/13/17 5:40 PM, Mark Hatle wrote:
-> > If FILESYSTEM_PERMS_TABLES was not defined, the default was selected by
-> the
-> > packages.bbclass.  This made it difficult for a recipe or layer to
-> 'append'
-> > to the default.
-> >
-> > Copy the default into the bitbake.conf, allowing future _append and +=
-> style
-> > actions.
-> >
-> > Default was remove from package.bbclass.  If a value is not set, only the
-> > built-in per fixes will be used.
->
-> per should have been 'perms' above.  I can send a v3 if needed.
+I still believe sweeping genuine postinst errors under the carpet like 
+this is wrong, and I maintain a patchset to address it:
+
+https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/dnf-rpm4-postinst-fix
+
+Will re-submit after 2.4 is out.
 
 
-Fixed up when merging.
+Alex
 
-Ross
-
---001a113f8e70d36093055923df35
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 13 September 2017 at 23:49, Mark Hatle <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.ha=
-tle@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div =
-class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On 9/=
-13/17 5:40 PM, Mark Hatle wrote:<br>
-&gt; If FILESYSTEM_PERMS_TABLES was not defined, the default was selected b=
-y the<br>
-&gt; packages.bbclass.=C2=A0 This made it difficult for a recipe or layer t=
-o &#39;append&#39;<br>
-&gt; to the default.<br>
-&gt;<br>
-&gt; Copy the default into the bitbake.conf, allowing future _append and +=
-=3D style<br>
-&gt; actions.<br>
-&gt;<br>
-&gt; Default was remove from package.bbclass.=C2=A0 If a value is not set, =
-only the<br>
-&gt; built-in per fixes will be used.<br>
-<br>
-</span>per should have been &#39;perms&#39; above.=C2=A0 I can send a v3 if=
- needed.</blockquote><div><br></div><div>Fixed up when merging.</div><div><=
-br></div><div>Ross</div></div></div></div>
-
---001a113f8e70d36093055923df35--
