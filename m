@@ -1,18 +1,26 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 39EA278587;
-	Thu, 14 Sep 2017 02:30:46 +0000 (UTC)
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id B722A781CD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Sep 2017 04:12:51 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Sep 2017 21:12:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,390,1500966000"; d="scan'208";a="151125763"
+Received: from babarret-mobl1.amr.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.71.243])
+	by fmsmga005.fm.intel.com with ESMTP; 13 Sep 2017 21:12:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Sep 2017 16:12:48 +1200
+Message-ID: <5748329.heIiOPyve6@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <60de8119fc92e3c61f7c616e560f1637e15f98ac.1505211385.git.paul.eggleton@linux.intel.com>
+References: <cover.1505211385.git.paul.eggleton@linux.intel.com>
+	<60de8119fc92e3c61f7c616e560f1637e15f98ac.1505211385.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Date: Thu, 14 Sep 2017 02:30:48 -0000
-Message-ID: <20170914023048.2787.26093@do.openembedded.org>
-References: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXQtc3BpMi1hdGs6IEFkZCBIT01FUEFHRSBpbmZvIGludG8gcmVjaXBlIGZpbGUuIChyZXY1KQ==?=
+Subject: Re: [PATCH 1/2] devtool: rework source extraction so that dependencies are handled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +33,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 02:30:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Sep 2017 04:12:51 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-== Series Details ==
+On Tuesday, 12 September 2017 10:18:38 PM NZST Paul Eggleton wrote:
+> +        tinfoil.run_command('invalidateParseCache')
 
-Series: at-spi2-atk: Add HOMEPAGE info into recipe file. (rev5)
-Revision: 5
-URL   : https://patchwork.openembedded.org/series/8840/
-State : failure
+This was only needed due to a bitbake bug that I have sent a fix for, so I'm
+about to send a v2 for this series that omits this call.
 
-== Summary ==
+Cheers,
+Paul
 
+-- 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 583dca290c)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
