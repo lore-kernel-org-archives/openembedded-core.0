@@ -1,32 +1,18 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A5D4478577
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 02:07:18 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,390,1500912000"; d="scan'208";a="26250454"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2017 10:07:18 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1201946BA6A3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 10:07:17 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Thu, 14 Sep 2017 10:07:16 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 10:07:02 +0800
-Message-ID: <1505354824-33448-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BBA771A0F;
+	Thu, 14 Sep 2017 02:30:45 +0000 (UTC)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 1201946BA6A3.A4972
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] blktrace: Add HOMEPAGE info into recipe file.
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Date: Thu, 14 Sep 2017 02:30:47 -0000
+Message-ID: <20170914023047.2785.22039@do.openembedded.org>
+References: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXQtc3BpMi1hdGs6IEFkZCBIT01FUEFHRSBpbmZvIGludG8gcmVjaXBlIGZpbGUuIChyZXY0KQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 02:07:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Sep 2017 02:30:45 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+== Series Details ==
+
+Series: at-spi2-atk: Add HOMEPAGE info into recipe file. (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/8840/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 583dca290c)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-kernel/blktrace/blktrace_git.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
-index 957cb70..770575f 100644
---- a/meta/recipes-kernel/blktrace/blktrace_git.bb
-+++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Generates traces of I/O traffic on block devices"
-+HOMEPAGE = "http://brick.kernel.dk/snaps/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
- 
--- 
-2.7.4
-
-
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
