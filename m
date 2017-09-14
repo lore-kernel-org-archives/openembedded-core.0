@@ -1,32 +1,48 @@
-Return-Path: <anjalik@iwavesystems.com>
-Received: from sip2-98.nexcess.net (iwavesystems.com [207.32.180.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 13614783B6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A1D17835B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 07:59:02 +0000 (UTC)
-Comment: DomainKeys? See http://domainkeys.sourceforge.net/
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=default; d=iwavesystems.com;
-	b=prUSZ89mrnwp28sKELeJfiFptDbwC3L1z/cxV0nmA0sip++RhouMZARbET+a/6SYAhqAwGhK5txj70Qu6NSPjZaGU0SUsFa6x207592H0iq5qTjmS+QzryPDTQxCfHIkBqTP8YiSdkd1xdMzqmfb0CCX3K8WxJfU1ZNodG3XYMebNn1aFeKAEow/aMrzziZBOUjXDb7Gs+M2PNMCua5YVOsq0Agjc/2dsAZZqQuWSah9T4purl2D2vAc3cPseFXBOafudl+sPWmF9oM0CGJsk4O4Mxzat7q8gyZI/+r4s1l2mWaPeWlRo7UTc9YF4jYg1wXA69t9zAIE7pQeTaEKSA==;
-	h=Received:To:Subject:MIME-Version:Content-Type:Date:From:Cc:In-Reply-To:References:Message-ID:X-Sender:User-Agent;
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=iwavesystems.com; h=to
-	:subject:mime-version:content-type:date:from:cc:in-reply-to
-	:references:message-id; s=default; bh=1oCmRI3BbuaV/qU+QqSWj8Bmvf
-	k=; b=0K0LGnGffjgcrJETtk6ZtZEyx0YWvzb5rw2NNuNG9Pxc+m8IQFigloR6o7
-	6YVqEc/kNYJQILXfmG5v79+z1w3DtR6E/XV96ACjIfKNqp+lnOWN9cXUHatY3N5y
-	FS27hs0nWwyKxYAdNMonKGpK1q02+zonrbM9wS0yYnoz43yDtsHwMHr31IG2y1Xc
-	jMBjgpQIegcDiCzMa2z4APP4KMMI5XHk0I0rE7ipsbzAFUHSc9GpB/uq8PhcT0p8
-	2MllGax/hKz40OkywXIzUOZ0xfzdbGv7EebJT+hrk8tRn4sF1PzrXTQjdhz16WpS
-	iW0QXOsgpRx/phPna7SVkK5MVvuA==
-Received: (qmail 30883 invoked by uid 239); 14 Sep 2017 03:59:03 -0400
-To: "Burton, Ross" <ross.burton@intel.com>
+	Thu, 14 Sep 2017 09:01:39 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id e189so6529779ioa.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Sep 2017 02:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=DlVvWBNIAOdrIsBP9/g6FE71YOD+F8bkQWWlxAhpMZQ=;
+	b=RaxG+7kc9fEbKt40qpI0cpNmqlDLUzFBuhzQya1+OXTFTqXqLW23czJ0G2aoh5WSf0
+	QzjiKhp87x8mf7aNywwjhGSy99ApXjNva9xNq3lN9WUq1mjqOh0TRnWp7FF6UmrR7J4U
+	uFnJ0v9OxsuAxqvRiCSUp1KSd/LS/IuA9CU4y/5X0WN+PAFutwhp2dui9CAyxDP6MvZh
+	2xw1f2+ZzUAWV9NcXYvluJNXfM/ecQ6Jsxnmuym0Uz8NK6bti6iIOfIiAXBCggx7IAe5
+	s70xx7MMAEgm7Y0YvMSsF7ydCQuCluGJQrPOzR5k82yb8aEcQew9jAmzT3/KLHiNDuxQ
+	b/dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=DlVvWBNIAOdrIsBP9/g6FE71YOD+F8bkQWWlxAhpMZQ=;
+	b=oV9dxY/PE2TtVkhs1op5GRURhHfOEN7NF8WMDi7pX8Q8wGvpvkKRuSlECJXMzBNJn4
+	aZGKAbADB9tPTqKliW88Es3ZdchNWrqWOtZLLcROo7LO5ao8ltLOw/YYERTKrItyYKbJ
+	HCbZLHTRjEayJkl2VtzoVTutjzCVHL+579s98KTUt1RXji5dF1kDI15eZE5Lq8wXYoFH
+	nFyNh8B6xUU8V8DYNcpslva4NJXqJZdy+dep0VEzXcDzdq3tC3TgnOd+kzZEQGczZgGP
+	/Si790OcXzbDi26dTJED8CxI/0wiRxyJ00IJoAO95nEY8gzx9qbRwSt3/2fG59g8omyG
+	5ChA==
+X-Gm-Message-State: AHPjjUhDPV2WYzl9zK3sAJNVn/KnU7oB8JGFJTY5oPNIy2TRoA8gdbOu
+	qF48PtU/50Q5Vz0bVicpSwUv2RfV4/59xbi+MpWmUQ==
+X-Google-Smtp-Source: AOwi7QDNy2cy3wNV5wS6TPwzwGsE4U2bmwLN8FuezIqkQ9xblEvkIPHwp5FDnqNJajtgvkWpt/1yFEQBO39UMScro1s=
+X-Received: by 10.107.133.92 with SMTP id h89mr1478700iod.208.1505379701051;
+	Thu, 14 Sep 2017 02:01:41 -0700 (PDT)
 MIME-Version: 1.0
-Date: Thu, 14 Sep 2017 03:59:03 -0400
-From: anjalik@iwavesystems.com
-In-Reply-To: <CAJTo0LZ7G2easoj9mgdv7VjsE40_Zp8bF6WeMNnitYr2vGBexw@mail.gmail.com>
+Received: by 10.107.19.68 with HTTP; Thu, 14 Sep 2017 02:01:20 -0700 (PDT)
+In-Reply-To: <113edd5bbb1fc884d416783db2d2dfe5@iwavesystems.com>
 References: <df4d255a017af31c177f2f6d19cf5724@iwavesystems.com>
 	<CAJTo0LZ7G2easoj9mgdv7VjsE40_Zp8bF6WeMNnitYr2vGBexw@mail.gmail.com>
-Message-ID: <113edd5bbb1fc884d416783db2d2dfe5@iwavesystems.com>
-X-Sender: anjalik@iwavesystems.com (anjalik@iwavesystems.com)
-User-Agent: Roundcube Webmail/1.1.2
+	<113edd5bbb1fc884d416783db2d2dfe5@iwavesystems.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 Sep 2017 10:01:20 +0100
+Message-ID: <CAJTo0LaXUQqxnp4AmRfhcdxD5iX7rJPktDNB5iEA3HMOg3UDTw@mail.gmail.com>
+To: anjalik@iwavesystems.com
 Cc: john@iwavesystems.com, OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Yocto Matchbox in 240x320 LCD Display
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,125 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 07:59:03 -0000
-Content-Type: multipart/alternative;
-	boundary="=_a7d51c581f58eb88093dbe5d537c96d1"
+X-List-Received-Date: Thu, 14 Sep 2017 09:01:40 -0000
+Content-Type: multipart/alternative; boundary="001a113ff7d0556a64055922865b"
 
---=_a7d51c581f58eb88093dbe5d537c96d1
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=US-ASCII
+--001a113ff7d0556a64055922865b
+Content-Type: text/plain; charset="UTF-8"
 
- 
+On 14 September 2017 at 08:59, <anjalik@iwavesystems.com> wrote:
 
-Hi , 
+>  Is there any other Window manager instead of matchbox which supports QVGA
+> theme in Yocto 1.8?
+>
+For a screen that small matchbox is the only real option for behaviour, you
+just need to customise the theme.
 
- Thank You for the valuable information. 
+Ross
 
- Is there any other Window manager instead of matchbox which supports
-QVGA theme in Yocto 1.8? 
-
-Thanks & Regards, 
-
-Anjali 
-
-On 13.09.2017 10:33, Burton, Ross wrote: 
-
-> The default theme, fonts, padding etc all assume the screen has a higher resolution than you have. At one point there used to be a qvga theme but that was dropped several years ago. Making the font a lot smaller will solve most of your problems, then you'll have to fix the remaining problems one by one: as you can see the window decoration theme (the green bar) is far too big at QVGA. 
-> 
-> Ross 
-> 
-> On 13 September 2017 at 15:15, <anjalik@iwavesystems.com> wrote:
-> 
->> Hi, 
->> 
->> Hope I m at the right place asking a query about matchbox in yocto. 
->> 
->> I am using Yocto 1.8 which is working fine in a 640x480 LCD display 
->> 
->> But I have few issues when the same BSP used in a 240x320 LCD display. All the images and fonts are enlarged . 
->> 
->> Attaching few screnschots along with this mail. 
->> 
->> Is there any constraints for matchbox to work on 240x320 display ? 
->> 
->> Awaiting for valuable suggestions. 
->> 
->> Thanks & Regards, 
->> 
->> Anjali 
->> 
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core [1]
-
- 
-
-Links:
-------
-[1] http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=_a7d51c581f58eb88093dbe5d537c96d1
+--001a113ff7d0556a64055922865b
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html; charset=UTF-8
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3DUTF-8" /></head><body style=3D'font-size: 10pt; font-family: Verdana,Gen=
-eva,sans-serif'>
-<p>Hi ,</p>
-<p>&nbsp; Thank You for the valuable information.</p>
-<p>&nbsp; Is there any other Window manager instead of matchbox which suppo=
-rts QVGA theme in Yocto 1.8?</p>
-<p>Thanks &amp; Regards,</p>
-<p>Anjali</p>
-<p>On 13.09.2017 10:33, Burton, Ross wrote:</p>
-<blockquote type=3D"cite" style=3D"padding: 0 0.4em; border-left: #1010ff 2=
-px solid; margin: 0"><!-- html ignored --><!-- head ignored --><!-- meta ig=
-nored -->
-<div dir=3D"ltr">The default theme, fonts, padding etc all assume the scree=
-n has a higher resolution than you have.&nbsp; At one point there used to b=
-e a qvga theme but that was dropped several years ago.&nbsp; Making the fon=
-t a lot smaller will solve most of your problems, then you'll have to fix t=
-he remaining problems one by one: as you can see the window decoration them=
-e (the green bar) is far too big at QVGA.
-<div>&nbsp;</div>
-<div>Ross</div>
-</div>
-<div class=3D"gmail_extra"><br />
-<div class=3D"gmail_quote">On 13 September 2017 at 15:15, <span>&lt;<a href=
-=3D"mailto:anjalik@iwavesystems.com">anjalik@iwavesystems.com</a>&gt;</span=
-> wrote:<br />
-<blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 .8ex; border-left:=
- 1px #ccc solid; padding-left: 1ex;">
-<div style=3D"font-size: 10pt; font-family: Verdana,Geneva,sans-serif;">
-<p>Hi,</p>
-<p>&nbsp; Hope I m at the right place asking a query about matchbox in yoct=
-o.</p>
-<p>&nbsp; I am using Yocto 1.8 which is working fine in a 640x480 LCD displ=
-ay</p>
-<p>&nbsp; But I have few issues when the same BSP used in a 240x320 LCD dis=
-play. All the images and fonts are enlarged .</p>
-<p>&nbsp;Attaching few screnschots along with this mail.</p>
-<p>&nbsp;Is there any constraints for matchbox to work on 240x320 display ?=
-</p>
-<p>&nbsp;</p>
-<p>Awaiting for valuable suggestions.</p>
-<p>Thanks &amp; Regards,</p>
-<p>Anjali</p>
-<div>&nbsp;</div>
-</div>
-<br />--<br /> ______________________________<wbr />_________________<br />=
- Openembedded-core mailing list<br /><a href=3D"mailto:Openembedded-core@li=
-sts.openembedded.org">Openembedded-core@lists.<wbr />openembedded.org</a><b=
-r /><a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-=
-core">http://lists.openembedded.org/<wbr />mailman/listinfo/openembedded-<w=
-br />core</a><br /><br /></blockquote>
-</div>
-</div>
-</blockquote>
-<p>&nbsp;</p>
-<div>&nbsp;</div>
-</body></html>
+<div dir=3D"ltr">On 14 September 2017 at 08:59,  <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:anjalik@iwavesystems.com" target=3D"_blank">anjalik@iwavesyst=
+ems.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div style=3D"font-size:10pt;fon=
+t-family:Verdana,Geneva,sans-serif">
+<p><span style=3D"font-size:10pt">=C2=A0Is there any other Window manager i=
+nstead of matchbox which supports QVGA theme in Yocto 1.8?</span></p></div>=
+</blockquote><div>For a screen that small matchbox is the only real option =
+for behaviour, you just need to customise the theme.</div><div><br></div><d=
+iv>Ross</div></div></div></div>
 
---=_a7d51c581f58eb88093dbe5d537c96d1--
+--001a113ff7d0556a64055922865b--
