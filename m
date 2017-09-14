@@ -1,40 +1,43 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E00D71B69
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D2487857F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 10:19:55 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id u48so1434312wrf.4
+	Thu, 14 Sep 2017 10:26:08 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id 187so2848765wmn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 03:19:57 -0700 (PDT)
+	Thu, 14 Sep 2017 03:26:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=4Oz4jq/AaooMWAvVVRfXz8nI9vISgZ4V2PtpkrDlTKA=;
-	b=DRnrqift7nhuueDj2XBZvGWRKh+g1qDmJ6YE3ZbmYr2sbRy+zjxhd6KXYW+/UbNPjN
-	C58IOileaC2euorc4h46DVHOnodIExzogXuMYHpwMW945UxgtovIDlXO8UgIMHbAnE5S
-	hQ/zqLrahZLuayQjyTSNwO9JoB2mS5PrfHvDonbnJPXc1s6T9SUnUxtzCME8RXKeUwMV
-	C+WAyNB3HjneE1mLnglMZBWDXiM8w3A/AIeqsLRphMWfb1mqBp6324d9RYQWAanz3Ym6
-	I9rt7KVrkXq+igy5GI9rlqN86SF5YLaYs7PSlObidizSKhIK8ZESCmTkmp68Ip0nxFGZ
-	SuTw==
-X-Gm-Message-State: AHPjjUg+L0WjDbEUUpVijMINnU1pQihWFO5W07nLNcZaDfVUW+O9sNin
-	1w1lCYrEhG+rOZ5B8Pk=
-X-Google-Smtp-Source: ADKCNb4D8cwCftN1yznGLowayj5kX9nWgCpPSiv7oYE21Jx1Oo8kQEjiKBf9kywa6VcZA2puXCXeJA==
-X-Received: by 10.223.147.166 with SMTP id 35mr20358422wrp.90.1505384396776;
-	Thu, 14 Sep 2017 03:19:56 -0700 (PDT)
+	bh=2ksYd+RrX5w4YCq2t8aw77u/lnI+dplRlq60ezS2snQ=;
+	b=ZJ1ksjOg7p+fPyQRQKPliPFyboXJ7Q+Htt2RtxM8u0EZpeEzIWh1/d/e+EUCiIMEKd
+	MKQc0wxHNNrOQZK80NmqTHcng6EYUGj7/kBr1l6X4NHL4q2dvS4RahdeR39biK+4RUPz
+	TxWuN/OEExIhfsktsVh5Y3o7uVPwhNJvTnbrgJCTGAkscJ2+Ry4qu8qSDmG9y/ojQ2sJ
+	VE6iFqioIYaOYyB0ZdPRwlxnAxzywkaAG6RaPymTRuwP3hISn3xFy1mtDYlhK7PS1XSr
+	/odhrnNKOIEfZotTYiBl+gxf8kOPm43ay69rrmpk8WbNq5BAkn1rY0+cNQ6or5mz30pV
+	+Apg==
+X-Gm-Message-State: AHPjjUj001qGBWth1ZRdqVPtSqVP4+xPjGP+QAgEi7l9EdIw2H8q4D+u
+	LZdjn+4eXrA28f8FK8I=
+X-Google-Smtp-Source: AOwi7QAKZ0DeTzlpcF6WiombojgW/NV4VXOWcyj+5p9k+ZxGt93GisXeyZ4R2cdCRlmOvc166PZXyA==
+X-Received: by 10.28.163.198 with SMTP id m189mr1353496wme.76.1505384769277;
+	Thu, 14 Sep 2017 03:26:09 -0700 (PDT)
 Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id 1sm995333wml.35.2017.09.14.03.19.55
+	by smtp.gmail.com with ESMTPSA id
+	b72sm1384540wmf.30.2017.09.14.03.26.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Sep 2017 03:19:55 -0700 (PDT)
-Message-ID: <1505384395.19222.2.camel@andred.net>
+	Thu, 14 Sep 2017 03:26:08 -0700 (PDT)
+Message-ID: <1505384767.19222.4.camel@andred.net>
 From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Sep 2017 11:19:55 +0100
-In-Reply-To: <20170912203608.14327-3-otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Sep 2017 11:26:07 +0100
+In-Reply-To: <CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
 References: <20170912203608.14327-1-otavio@ossystems.com.br>
 	<20170912203608.14327-3-otavio@ossystems.com.br>
+	<1505290515.32675.4.camel@andred.net>
+	<CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
 X-Mailer: Evolution 3.22.6-1 
 Mime-Version: 1.0
 Subject: Re: [PATCH v8 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
@@ -50,122 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 10:19:56 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 10:26:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2017-09-12 at 17:36 -0300, Otavio Salvador wrote:
-> The are use cases where the Device Tree appended to the kernel is
-> convinient, so we generate the bundle concatenating the kernel (and
-> potentionally the initramfs) and the Device Tree binaries.
+On Wed, 2017-09-13 at 09:30 -0300, Otavio Salvador wrote:
+> On Wed, Sep 13, 2017 at 5:15 AM, André Draszik <git@andred.net> wrote:
+> > On Tue, 2017-09-12 at 17:36 -0300, Otavio Salvador wrote:
 > 
-> To enable it, set KERNEL_DEVICETREE_BUNDLE variable to '1'
+> ...
+> > AFAICS, zImage is specific to x86 and arm, all other arches, including
+> > MIPS
+> > have no zImage Makefile target, so we'll never get here.
 > 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> 
-> Changes in v8:
-> - rework append support to support ARM and MIPS (obi)
-> 
-> Changes in v7:
-> - simplified code
-> - rename bundle to use .bin extension
-> 
-> Changes in v6: None
-> Changes in v5:
-> - add support for initramfs bundle
-> 
-> Changes in v4:
-> - new patch
-> 
-> Changes in v3: None
-> Changes in v2: None
-> 
->  meta/classes/kernel-devicetree.bbclass | 62
-> +++++++++++++++++++++++++++++++++-
->  1 file changed, 61 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-
-> devicetree.bbclass
-> index 8723f24212..c618594c96 100644
-> --- a/meta/classes/kernel-devicetree.bbclass
-> +++ b/meta/classes/kernel-devicetree.bbclass
-> @@ -1,6 +1,13 @@
->  # Support for device tree generation
-> -PACKAGES_append = " kernel-devicetree"
-> +PACKAGES_append = " \
-> +    kernel-devicetree \
-> +    ${@['kernel-image-zimage-bundle',
-> ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
-> +"
->  FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb
-> /${KERNEL_IMAGEDEST}/*.dtbo"
-> +FILES_kernel-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-
-> *.dtb.bin"
-> +
-> +# Generate kernel+devicetree bundle
-> +KERNEL_DEVICETREE_BUNDLE ?= "0"
->  
->  normalize_dtb () {
->  	DTB="$1"
-> @@ -20,6 +27,38 @@ get_real_dtb_path_in_kernel () {
->  	echo "${DTB_PATH}"
->  }
->  
-> +
-> +do_configure_devicetree() {
-> +	if [ "${KERNEL_DEVICETREE_BUNDLE}" = "1" ]; then
-> +		if echo ${KERNEL_IMAGETYPE_FOR_MAKE} | grep -q 'zImage';
-> then
-> +			case "${ARCH}" in
-> +				"arm")
-> +				config="${B}/.config"
-> +				if ! grep -q 'CONFIG_ARM_APPENDED_DTB=y'
-> $config; then
-> +					bbwarn 'CONFIG_ARM_APPENDED_DTB
-> is NOT enabled in the kernel. Enabling it to allow the kernel to boot with
-> the Device Tree appended!'
-> +					sed -i "/CONFIG_ARM_APPENDED_DTB[
-> =]/d" $config
-> +					echo "CONFIG_ARM_APPENDED_DTB=y"
-> >> $config
-> +					echo "#
-> CONFIG_ARM_ATAG_DTB_COMPAT is not set" >> $config
-> +				fi
-> +				;;
-> +				"mips")
-> +				config="${B}/.config"
-> +				if ! grep -q 'CONFIG_MIPS_APPENDED_DTB=y'
-> $config; then
+> Do you know which types we can use here?
 
-Looking more into this, this Kconfig option doesn't actually exist on mips.
-Instead, it has these three related options:
-CONFIG_MIPS_NO_APPENDED_DTB
-CONFIG_MIPS_ELF_APPENDED_DTB
-CONFIG_MIPS_RAW_APPENDED_DTB
+* for CONFIG_MIPS_RAW_APPENDED_DTB this can be either vmlinux.bin, or
+  vmlinuz.bin
+* for for CONFIG_MIPS_ELF_APPENDED_DTB this should be vmlinux
 
-I've never used this, but I think you'd have to check for
-CONFIG_MIPS_RAW_APPENDED_DTB=y for similar semantics to arm.
+see other mail :-)
 
-And the KERNEL_IMAGETYPE_FOR_MAKE can be either vmlinux.bin, or vmlinuz.bin
-(where vmlinuz.bin is similar to the arm zImage).
-
-i.e.:
-cat vmlinux.bin <filename>.dtb > vmlinux_w_dtb
-cat vmlinuz.bin <filename>.dtb > vmlinuz_w_dtb
-
-
-To also support CONFIG_MIPS_ELF_APPENDED_DTB, you'd have to
-
-objcopy --update-section .appended_dtb=<filename>.dtb vmlinux
-
-instead.
-
-
-All untested.
-
-
-Cheers,
-Andre'
+A.
 
 
