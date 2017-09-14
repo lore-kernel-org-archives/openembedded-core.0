@@ -1,49 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 0399D781F0
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AAD1785BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 13:17:25 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id k101so316617iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 06:17:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FZZGk/gBb4wy3xS+1wTubagRFNgUOlWH01H8lFJF/78=;
-	b=llsnRA3lyhZwUC7ElUK0/RgN+YNm0SSng4BMApM2GXLdllCJnoJ9j/I5Ax8Yvi4IF7
-	ZOHrcY28e3kOzClqRhnoDUlVDZbO6JaTnffd03cedB0CMSo0GmpdFWfdBrtfjxdIEYag
-	6DN3xnC1oTvGZyvfPn/ZzHZ7XRSH+6pAoi8GoWt/UFn5IBLX3IJbkZ7gaIiLdCtiMt0+
-	8xcF+X9Q9qQLKBQhd2eYyUnU/1920RWuO7vuPEYdO6aXpLeAuNeUZkrFiXngxoXBeIcb
-	0e2jiqdM90tUuVCtT1HDn01Nzof483wP/1oGwEpINAD8v8uG8GihIjgp/FgcYm+PdtMA
-	znnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FZZGk/gBb4wy3xS+1wTubagRFNgUOlWH01H8lFJF/78=;
-	b=f4Q5/m+xtjbzUzrmElyomnXrmFBHiUwJE42C2uvIEhnDELzLSyJ/ksaIRTbcFCZgZ/
-	Vpgh3Se/nfBOIxW0LGXyWqKCeOi6Xsj06e37KWFPeu+sM3qPrF5ARW+IKutXZTMg3Te7
-	TyiV/7JK12mwHmyoVakBMazftSrgc4QXvoqFVE1y4o3P9Ab1URBm3Jm7IYIrvwUaX/OP
-	W0gnq2wFwNUCr/67TrVmd+RY19OsIL/kMmxSeKPAmSaFsvsrq84BbujBV+dlJnwprcfL
-	mpNQPyP40TDA2dkh6yGGfss1J/Vk01PkCVhy9KfGhILRwhEagdLcDqaqYTzskpuIfqEL
-	+4gA==
-X-Gm-Message-State: AHPjjUjhJ7cGbUERcj30rR0E80lTd1TvsAE6E0gDf6JcWEo8MDYlfX1x
-	DRDDiQdGrS8ShLXqMcyjLklSCyu7yEVI4Dz8VUtc0A==
-X-Google-Smtp-Source: AOwi7QBqHxZ9bNep3SCOT7RwZV4Zr5F0mWXr5W0CpZGrDFe39t+lVn1uEYLxdWH+t4eMnLMNfIRltaeaZYfdyvAYovI=
-X-Received: by 10.107.32.70 with SMTP id g67mr2777027iog.77.1505395046959;
-	Thu, 14 Sep 2017 06:17:26 -0700 (PDT)
+	Thu, 14 Sep 2017 13:47:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8EDl3PJ029253
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Sep 2017 06:47:03 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 14 Sep 2017 06:47:02 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 14 Sep 2017 09:46:53 -0400
+Message-ID: <cover.1505396619.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Thu, 14 Sep 2017 06:17:06 -0700 (PDT)
-In-Reply-To: <20170913170830.6ac2b8bb@seebsdell>
-References: <20170913204659.1919-1-Martin.Jansa@gmail.com>
-	<20170913205032.GD3288@jama> <20170913170830.6ac2b8bb@seebsdell>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Sep 2017 14:17:06 +0100
-Message-ID: <CAJTo0LZ2wDSPjz3UMGhjJQ0WRk=UOj6Jmb2GQ5dGWTZaBRandw@mail.gmail.com>
-To: Seebs <seebs@seebs.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] insane.bbclass: Add do_qa_pseudo function to check for common errors listed in pseudo.log
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/9] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +31,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 13:17:26 -0000
-Content-Type: multipart/alternative; boundary="001a1140ae2c057f220559261965"
+X-List-Received-Date: Thu, 14 Sep 2017 13:47:03 -0000
+Content-Type: text/plain
 
---001a1140ae2c057f220559261965
-Content-Type: text/plain; charset="UTF-8"
+Hi all,
 
-On 13 September 2017 at 23:08, Seebs <seebs@seebs.net> wrote:
+This is the last set of -stable and meta data changes for the 2.4
+release window. I've also brough aufs4 into the 4.12 tree to keep
+it feature consistent with all the previous linux-yocto kernels
+(and given some bug reports, folks are using the aufs support).
 
-> On Wed, 13 Sep 2017 22:50:32 +0200
-> Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> > inode mismatch:
-> > '/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/
-> systemd/1_234-r0/recipe-sysroot/etc/group'
-> > ino 29361846 in db, 29361904 in request.
->
-> Just to be clear about this:
->
-> This is at least potentially an Actual Problem. It's probably not a
-> good idea to habitually ignore these. A thing like this happening means
-> that, at some point:
->
-> 1. Something created etc/group, and it got inode 29361846 recorded in
-> the database.
-> 2. Something deleted etc/group, and did NOT record this to the database.
-> 3. Something created etc/group, with inode 29361904.
->
-> It's possible that the thing creating etc/group didn't record it to the
-> database, and something else just referred to it later (like a stat
-> call), or that this was generated by the request creating the entry.
->
-> Either way, it means changes were made to a pseudo-managed hunk of
-> filesystem without pseudo knowing about it, and that is generally bad.
+They are -stable updates, some configuration tweaks and a round of
+CVE fixes that won't make -stable before we release.
+
+I'm still trying to track down the reported race in meta data
+gathering and the rcu stalls in qemuppc, but no sense holding onto
+these while those issues churn.
+
+Cheers,
+
+Bruce
+
+The following changes since commit e3a69364eb1fdbf1dcb98a04b3ddfc8f9841a7fa:
+
+  staging: gracefully abort if two recipes conflict in the sysroot (2017-09-11 17:30:30 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  linux-yocto/meta: configuration feature additions
+  linux-yocto/4.12: update to v4.12.12
+  linux-yocto/4.9: update to v4.9.49
+  linux-yocto/4.4: update to v4.4.87
+  linux-yocto/4.12: integrate aufs4 core support
+  linux-yocto/4.10: bluetooth: CVE-2017-1000251
+  linux-yocto/4.12: bluetooth: CVE-2017-1000251
+  linux-yocto/4.9: bluetooth: CVE-2017-1000251
+  linux-yocto/4.4: bluetooth: CVE-2017-1000251
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 20 ++++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       | 20 ++++++++++----------
+ 12 files changed, 61 insertions(+), 61 deletions(-)
+
+-- 
+2.5.0
 
 
-I just applied this patch and got an identical hit in systemd, which makes
-me think that the useradd class (maze of code that it is) is causing this
-instance.
-
-Ross
-
---001a1140ae2c057f220559261965
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 13 September 2017 at 23:08, Seebs <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:seebs@seebs.net" target=3D"_blank">seebs@seebs.net</a>&g=
-t;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex"><span class=3D"">On Wed, 13 Sep 2017 22:50:32=
- +0200<br>
-Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gma=
-il.com</a>&gt; wrote:<br>
-<br>
-&gt; inode mismatch:<br>
-&gt; &#39;/OE/build/oe-core/tmp-glibc/<wbr>work/core2-64-oe-linux/<wbr>syst=
-emd/1_234-r0/recipe-<wbr>sysroot/etc/group&#39;<br>
-&gt; ino 29361846 in db, 29361904 in request.<br>
-<br>
-</span>Just to be clear about this:<br>
-<br>
-This is at least potentially an Actual Problem. It&#39;s probably not a<br>
-good idea to habitually ignore these. A thing like this happening means<br>
-that, at some point:<br>
-<br>
-1. Something created etc/group, and it got inode 29361846 recorded in<br>
-the database.<br>
-2. Something deleted etc/group, and did NOT record this to the database.<br=
->
-3. Something created etc/group, with inode 29361904.<br>
-<br>
-It&#39;s possible that the thing creating etc/group didn&#39;t record it to=
- the<br>
-database, and something else just referred to it later (like a stat<br>
-call), or that this was generated by the request creating the entry.<br>
-<br>
-Either way, it means changes were made to a pseudo-managed hunk of<br>
-filesystem without pseudo knowing about it, and that is generally bad.</blo=
-ckquote><div><br></div><div>I just applied this patch and got an identical =
-hit in systemd, which makes me think that the useradd class (maze of code t=
-hat it is) is causing this instance.</div><div><br></div><div>Ross</div></d=
-iv></div></div>
-
---001a1140ae2c057f220559261965--
