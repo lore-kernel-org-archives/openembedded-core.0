@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BBA771A0F;
-	Thu, 14 Sep 2017 02:30:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 39EA278587;
+	Thu, 14 Sep 2017 02:30:46 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Date: Thu, 14 Sep 2017 02:30:47 -0000
-Message-ID: <20170914023047.2785.22039@do.openembedded.org>
+Date: Thu, 14 Sep 2017 02:30:48 -0000
+Message-ID: <20170914023048.2787.26093@do.openembedded.org>
 References: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXQtc3BpMi1hdGs6IEFkZCBIT01FUEFHRSBpbmZvIGludG8gcmVjaXBlIGZpbGUuIChyZXY0KQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYXQtc3BpMi1hdGs6IEFkZCBIT01FUEFHRSBpbmZvIGludG8gcmVjaXBlIGZpbGUuIChyZXY1KQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 02:30:45 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 02:30:46 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: at-spi2-atk: Add HOMEPAGE info into recipe file. (rev4)
-Revision: 4
+Series: at-spi2-atk: Add HOMEPAGE info into recipe file. (rev5)
+Revision: 5
 URL   : https://patchwork.openembedded.org/series/8840/
 State : failure
 
