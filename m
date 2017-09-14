@@ -1,45 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8ED96785DF
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F17878617
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 19:23:07 +0000 (UTC)
-Received: by mail-qt0-f181.google.com with SMTP id i13so326195qtc.11
+	Thu, 14 Sep 2017 19:23:14 +0000 (UTC)
+Received: by mail-qk0-f180.google.com with SMTP id u73so299722qkl.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 12:23:08 -0700 (PDT)
+	Thu, 14 Sep 2017 12:23:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=LcZ0jz0ew6KCKWwYzA2GyN9/5P+V+PMtr7I05dSvs8I=;
-	b=eZ/wHsrGBrjCvTAn/Y+UkZ/HIv+UVtX78g3+D87sqy0gIbC0JQefxESRPR7SE6hMEd
-	BO4jGFAmVpZG+G9WLnVe/MyUb7bY0ndGabDr1Fz7ArrAS4AzVY04N1mf+mDL/Dio4oqw
-	EtkWgNbqF4stQZiR5lT3L0yigszr6me2XgXg0GUEd03Riu+qu8mAOhTOZDj4uzeaRzyu
-	6nr/AQXBpa6zmxeQHLJtRvEavq71fPrJAJftDzATvN8QpHy1oi9T2z4neqRStWvqU6je
-	BM34LRruhX5rwUH+nJQcKexncmXl5hpPAiEZ0iL4coOx8Xnlbxsq3s5fwFPy65bkz8mO
-	HRTg==
-X-Gm-Message-State: AHPjjUhDTXC/jRtU+5MF52hf05eM0Mm6kNRWhzulepVHwxSZ+zLJ96gZ
-	ttl5E0KdmkDS1MgW
-X-Google-Smtp-Source: AOwi7QBjO2r7jjMid4RMR7hvQOuQYU2yR3l5c2Bp7W0b3pTk1lGO8IcpfwoK7eyFeHY+gjFsRnEpIQ==
-X-Received: by 10.200.5.132 with SMTP id a4mr34015082qth.318.1505416987991;
-	Thu, 14 Sep 2017 12:23:07 -0700 (PDT)
+	bh=k5qzY3xwg3lZxY3pdXG2HgRHPawlqMSbortDcH+72W4=;
+	b=W5Xtw/+VL0nUrQVqsLJxokiA3zULZ0e55iKcoAc9dQJeLTHQnFD9CotGQVAp3pzkNq
+	0+edAkHiNg10cw+XXNslN1c5bVdIpGk7nnhcbEzlejI3gSN+VnMbr9SvYbF5wJXjeiD0
+	VnUiMaHkIUrVTOJodGgK5BzjPeSxWLbrpOLLaa0gIx7bEo2aFtyo+aNSernaavMOGVXF
+	HqIQQ9P4DJCK/tf4F3VRul2GGDQ3BSzQRGqC8137TNHgQt7YLrX45IXXEcF6jiUa4sp+
+	7fzzCdfJYrLZtwSoNZYS44aq4/rIqgVwyMm1a+4KDXbRvzVFYAKUhFRZ2gPMIsDVvmOW
+	f6jQ==
+X-Gm-Message-State: AHPjjUjkR1Qila1bkNmE4V9zFPXviTkcypCj3Xa1oGoioQZAVXsglj6c
+	C/d0umIuAzsOJSq9
+X-Google-Smtp-Source: AOwi7QA9QKRnyDpN/EuD/6/9LSfjyVWSxQwSlQXzkEGv2ojD9JZhAGtfJ4+yqMUQVtxb1CGngweLkA==
+X-Received: by 10.55.200.210 with SMTP id t79mr4206551qkl.299.1505416995680;
+	Thu, 14 Sep 2017 12:23:15 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	o17sm10191793qkl.14.2017.09.14.12.23.03
+	j206sm11428352qke.7.2017.09.14.12.23.11
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Sep 2017 12:23:07 -0700 (PDT)
+	Thu, 14 Sep 2017 12:23:15 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 14 Sep 2017 16:22:58 -0300
+	Thu, 14 Sep 2017 16:23:08 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 16:22:29 -0300
-Message-Id: <20170914192231.15002-4-otavio@ossystems.com.br>
+Date: Thu, 14 Sep 2017 16:22:30 -0300
+Message-Id: <20170914192231.15002-5-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170914192231.15002-1-otavio@ossystems.com.br>
 References: <20170914192231.15002-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v10 3/5] go: fixes for cross-canadian builds
+Subject: [PATCH v10 4/5] go.bbclass: set TMPDIR during compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,20 +52,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 19:23:07 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 19:23:15 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-* Add patch for go's make script to allow for
-  build system != host system
-
-* Add dependencies on the appropriate crosssdk recipes,
-  and use the crosssdk C compiler and linker
-
-* Remove bashism in the wrapper script
-
-* Restrict installation to only the tool binaries
-  to address some packaging errors
+The go build tool creates working directories under
+$TMPDIR for all of its processing.  Create a directory
+under ${WORKDIR} for this and point TMPDIR at it during
+compilation, so that systems that have a relatively
+small /tmp filesystems can still compile larger Go
+packages.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
@@ -74,142 +70,48 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Changes in v10:
 - new patch
 
- meta/recipes-devtools/go/go-1.9.inc                |  1 +
- ...dd-GOHOSTxx-indirection-for-cross-canadia.patch | 33 ++++++++++++++++++
- meta/recipes-devtools/go/go-cross-canadian.inc     | 40 ++++++++++------------
- 3 files changed, 52 insertions(+), 22 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
+ meta/classes/go.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index d538f4c3a3..0b0aca3fbe 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -13,6 +13,7 @@ SRC_URI += "\
-         file://0005-cmd-go-make-GOROOT-precious-by-default.patch \
-         file://0006-make.bash-add-GOTOOLDIR_BOOTSTRAP-environment-variab.patch \
-         file://0007-ld-add-soname-to-shareable-objects.patch \
-+        file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
- "
- SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
- SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
-diff --git a/meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch b/meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
-new file mode 100644
-index 0000000000..0977c78350
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
-@@ -0,0 +1,33 @@
-+From 03e6c339d4fb712fbb8c4ca6ef2fc7100dcdb3d7 Mon Sep 17 00:00:00 2001
-+From: Matt Madison <matt@madison.systems>
-+Date: Thu, 14 Sep 2017 05:38:10 -0700
-+Subject: [PATCH 8/8] make.bash: add GOHOSTxx indirection for cross-canadian
-+ builds
-+
-+Add environment variables for specifying the host OS/arch
-+that we are building the compiler for, so it can differ from
-+the build host OS/arch.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Matt Madison <matt@madison.systems>
-+---
-+ src/make.bash | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/make.bash b/src/make.bash
-+index 2e6fb05..0bdadc6 100755
-+--- a/src/make.bash
-++++ b/src/make.bash
-+@@ -173,6 +173,8 @@ if [ "$do_host_build" = "yes" ]; then
-+ 	echo
-+ 
-+ 	GOTOOLDIR_BOOTSTRAP="${GOTOOLDIR_BOOTSTRAP:-$GOTOOLDIR}"
-++	GOHOSTOS="${GOHOSTOS_CROSS:-$GOHOSTOS}"
-++	GOHOSTARCH="${GOHOSTARCH_CROSS:-$GOHOSTARCH}"
-+ 	echo "##### Building packages and commands for host, $GOHOSTOS/$GOHOSTARCH."
-+ 	# CC_FOR_TARGET is recorded as the default compiler for the go tool. When building for the host, however,
-+ 	# use the host compiler, CC, from `cmd/dist/dist env` instead.
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
-index 0068f34d04..f3ab7351db 100644
---- a/meta/recipes-devtools/go/go-cross-canadian.inc
-+++ b/meta/recipes-devtools/go/go-cross-canadian.inc
-@@ -1,21 +1,24 @@
- inherit cross-canadian
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 863b578e5c..e167c949ec 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -61,6 +61,8 @@ GO_INSTALL_FILTEROUT ?= "${GO_IMPORT}/vendor/"
  
--DEPENDS = "go-native virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc virtual/nativesdk-${HOST_PREFIX}compilerlibs"
-+DEPENDS = "go-native virtual/${HOST_PREFIX}go-crosssdk virtual/nativesdk-${HOST_PREFIX}go-runtime \
-+           virtual/${HOST_PREFIX}gcc-crosssdk virtual/nativesdk-${HOST_PREFIX}libc-for-gcc \
-+           virtual/nativesdk-${HOST_PREFIX}compilerlibs"
- PN = "go-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+ B = "${WORKDIR}/build"
+ export GOPATH = "${B}"
++GO_TMPDIR ?= "${WORKDIR}/go-tmp"
++GO_TMPDIR[vardepvalue] = ""
  
- export GOHOSTOS = "${BUILD_GOOS}"
- export GOHOSTARCH = "${BUILD_GOARCH}"
--export GOOS = "${HOST_GOOS}"
--export GOARCH = "${HOST_GOARCH}"
--export GOARM = "${HOST_GOARM}"
-+export GOHOSTOS_CROSS = "${HOST_GOOS}"
-+export GOHOSTARCH_CROSS = "${HOST_GOARCH}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
--export GOTOOLDIR_BOOTSTRAP = "${GOROOT_BOOTSTRAP}/pkg/tool/${BUILD_GOTUPLE}"
-+export GOTOOLDIR_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/${HOST_SYS}/go/pkg/tool/${BUILD_GOTUPLE}"
- export GOROOT_FINAL = "${libdir}/go"
- export CGO_ENABLED = "1"
--export CC_FOR_TARGET = "${HOST_CC}"
--export CXX_FOR_TARGET = "${HOST_CXX}"
--CC = "${@d.getVar('BUILD_CC', True).strip()}"
--export GO_LDFLAGS = '-linkmode external -extld ${HOST_PREFIX}gcc -extldflags "${TOOLCHAIN_OPTIONS} ${LDFLAGS}"'
-+export CC_FOR_TARGET = "${TARGET_PREFIX}gcc"
-+export CXX_FOR_TARGET = "${TARGET_PREFIX}g++"
-+CC = "${HOST_PREFIX}gcc"
-+export CGO_CFLAGS = "--sysroot=${STAGING_DIR_TARGET} ${HOST_CC_ARCH} ${CFLAGS}"
-+export CGO_LDFLAGS = "--sysroot=${STAGING_DIR_TARGET} ${HOST_CC_ARCH} ${LDFLAGS}"
-+export GO_LDFLAGS = '-linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_TARGET} ${HOST_CC_ARCH} ${LDFLAGS}"'
- 
- do_configure[noexec] = "1"
- 
-@@ -32,34 +35,27 @@ do_compile() {
- make_wrapper() {
-     rm -f ${D}${bindir}/$2
-     cat <<END >${D}${bindir}/$2
--#!/bin/bash
-+#!/bin/sh
- here=\`dirname \$0\`
- native_goroot=\`readlink -f \$here/../../lib/${TARGET_SYS}/go\`
- export GOARCH="${TARGET_GOARCH}"
- export GOOS="${TARGET_GOOS}"
--export GOARM="\${GOARM:-${TARGET_GOARM}}"
-+test -n "\$GOARM" || export GOARM="${TARGET_GOARM}"
- export GOTOOLDIR="\$native_goroot/pkg/tool/${HOST_GOTUPLE}"
--export GOROOT="\${GOROOT:-\$OECORE_TARGET_SYSROOT/${target_libdir}/go}"
-+test -n "\$GOROOT" || export GOROOT="\$OECORE_TARGET_SYSROOT/${target_libdir}/go"
- \$here/../../lib/${TARGET_SYS}/go/bin/$1 "\$@"
- END
-     chmod +x ${D}${bindir}/$2
+ python go_do_unpack() {
+     src_uri = (d.getVar('SRC_URI') or "").split()
+@@ -97,14 +99,17 @@ go_do_configure() {
  }
  
- do_install() {
--	install -d ${D}${libdir}/go
--	cp --preserve=mode,timestamps -R ${B}/pkg ${D}${libdir}/go/
--	install -d ${D}${libdir}/go/src
--	(cd ${S}/src; for d in *; do \
--		[ -d $d ] && cp --preserve=mode,timestamps -R ${S}/src/$d ${D}${libdir}/go/src/; \
--	done)
--	rm -rf ${D}${libdir}/go/src/runtime/pprof/testdata
-+	install -d ${D}${libdir}/go/pkg/tool
-+	cp --preserve=mode,timestamps -R ${B}/pkg/tool/${HOST_GOTUPLE} ${D}${libdir}/go/pkg/tool/
- 	install -d ${D}${bindir} ${D}${libdir}/go/bin
--	for f in ${B}/bin/*
-+	for f in ${B}/${GO_BUILD_BINDIR}/*
- 	do
- 		base=`basename $f`
- 		install -m755 $f ${D}${libdir}/go/bin
- 		make_wrapper $base ${TARGET_PREFIX}$base
+ go_do_compile() {
++	export TMPDIR="${GO_TMPDIR}"
+ 	${GO} env
+ 	if [ -n "${GO_INSTALL}" ]; then
+ 		${GO} install ${GO_LINKSHARED} ${GOBUILDFLAGS} `go_list_packages`
+ 	fi
+ }
++do_compile[dirs] =+ "${GO_TMPDIR}"
+ do_compile[cleandirs] = "${B}/bin ${B}/pkg"
+ 
+ do_compile_ptest() {
++    export TMPDIR="${GO_TMPDIR}"
+     rm -f ${B}/.go_compiled_tests.list
+ 	go_list_package_tests | while read pkg; do
+ 		cd ${B}/src/$pkg
+@@ -113,6 +118,7 @@ do_compile_ptest() {
+ 			sed -e's,/\./,/,'>> ${B}/.go_compiled_tests.list
  	done
  }
--
--FILES_${PN}-staticdev = "${libdir}/go/pkg"
++do_compile_ptest_base[dirs] =+ "${GO_TMPDIR}"
+ 
+ go_do_install() {
+ 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
 -- 
 2.14.1
 
