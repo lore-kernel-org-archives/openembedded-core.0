@@ -1,32 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id C03D378599
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B816B7856E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 09:07:16 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,391,1500912000"; d="scan'208";a="26274221"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2017 17:07:09 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id E658246BA6A8
+	Thu, 14 Sep 2017 09:13:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8E9DJbY029281
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 17:07:05 +0800 (CST)
-Received: from localhost.localdomain (10.167.235.93) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Thu, 14 Sep 2017 17:07:05 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+	Thu, 14 Sep 2017 02:13:19 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 14 Sep 2017 02:13:18 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 17:06:25 +0800
-Message-ID: <1505379985-34044-6-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1505379985-34044-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1505379985-34044-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Thu, 14 Sep 2017 02:13:16 -0700
+Message-ID: <cover.1505380364.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: E658246BA6A8.A634D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] tcp-wrappers: Add HOMEPAGE info into recipe file.
+Subject: [PATCH 0/2] fix e2fsprogs and systemd-machine-units
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 09:07:17 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 09:13:18 -0000
 Content-Type: text/plain
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit 7b501954198c2a810b2c03096accb27339cfd1f9:
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 54587dc..1effef1 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -1,4 +1,5 @@
- SUMMARY = "Security tool that is a wrapper for TCP daemons"
-+HOMEPAGE = "http://www.softpanorama.org/Net/Network_security/TCP_wrappers/"
- DESCRIPTION = "Tools for monitoring and filtering incoming requests for tcp \
-                services."
- SECTION = "console/network"
+  runqemu: let qemuparams override previous settings (2017-09-14 02:11:35 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/2fixes
+
+Robert Yang (2):
+  e2fsprogs: set dir's mode correctly
+  systemd-machine-units: update LIC_FILES_CHKSUM
+
+ .../systemd/systemd-machine-units_1.0.bb           |  2 +-
+ ...c-create_inode.c-set-dir-s-mode-correctly.patch | 41 ++++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb |  1 +
+ 3 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-correctly.patch
+
 -- 
-2.7.4
-
-
+2.10.2
 
 
