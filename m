@@ -1,48 +1,49 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BC4CB781F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0399D781F0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 13:13:05 +0000 (UTC)
-Received: by mail-vk0-f47.google.com with SMTP id c19so141814vke.11
+	Thu, 14 Sep 2017 13:17:25 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id k101so316617iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 06:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 14 Sep 2017 06:17:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ehDhGT2UJhTOcLSXIFDil1byE8CDJZyrtNTCY9EenVQ=;
-	b=mLBPtLE49gg7gmvg5QH7Q1jd9ayrxpAThM6W+uxXZeVpH/Kcss21vdkKjbTp/Nu1ag
-	n5SL4H9v53aQVPl20ySY+trmHnK7WQI1aM03JdSArf83rcvxfeY5W+INpb04/+A5au5q
-	o2CXx+Um8rKoItmrN86lm70AK8Q2tinBrFhkrduF9SEs7GeiiDomR3Im+DPqLkKIha2j
-	C9TVha6J6sZ/TmpWMaBq4rIjBkn5Vn/o/R51NNi/MnsZ/n0P1JCz8KjLCFvz4AbT7U7k
-	RoFA2KgAU3Khj1xFd1U92lYlCH0cigeqO4A0G398BDvsxaOyc5EJyzKg2JaTnJwG41Cp
-	oYuQ==
+	:cc; bh=FZZGk/gBb4wy3xS+1wTubagRFNgUOlWH01H8lFJF/78=;
+	b=llsnRA3lyhZwUC7ElUK0/RgN+YNm0SSng4BMApM2GXLdllCJnoJ9j/I5Ax8Yvi4IF7
+	ZOHrcY28e3kOzClqRhnoDUlVDZbO6JaTnffd03cedB0CMSo0GmpdFWfdBrtfjxdIEYag
+	6DN3xnC1oTvGZyvfPn/ZzHZ7XRSH+6pAoi8GoWt/UFn5IBLX3IJbkZ7gaIiLdCtiMt0+
+	8xcF+X9Q9qQLKBQhd2eYyUnU/1920RWuO7vuPEYdO6aXpLeAuNeUZkrFiXngxoXBeIcb
+	0e2jiqdM90tUuVCtT1HDn01Nzof483wP/1oGwEpINAD8v8uG8GihIjgp/FgcYm+PdtMA
+	znnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ehDhGT2UJhTOcLSXIFDil1byE8CDJZyrtNTCY9EenVQ=;
-	b=KPoCj/PzcGIRFOC90bKHxuAsNM5ocQf9iBrw9/2SkBjPUAL2wl0teQ8wvusQKzZniy
-	8jZNp6y338Vk3lC6PmDmFQmumWw6P7njt3MLqq44FbkiJNW85GbJs1PbqFhrG3dd91aN
-	U6nDoTTRvAJM9HqLh2SKIL/AabuWqtHHJMXBXRtme6d6Vzzeznd1g9v9paN0YfHVZu12
-	shpC+DJqMINY4BDfMYr1zx/bF/W0DAZesrRO6t68ylXIfSadV55OHs1HRkaa8NFHY5wI
-	Yin8OYXy0u4hYBs24gcJtYaHF1Z6VmyLVIQUY/HUqb8nTFOdRZQOSBDbqwejMWUH7xuj
-	GJOw==
-X-Gm-Message-State: AHPjjUiO8r1W9txJXvHN30CKxpx1iYb6U5Y3Ok0HQyk1IgWzWLULVinM
-	TebaP7c136ESPyaLvoVqyn+lsmEupP6upGoardY=
-X-Google-Smtp-Source: AOwi7QCf/Eg+JyhwWX2tPxuhETK6miIAB0pbBo+/6RA4Qwu7yTrbQcwntXuAfM/CaU3J5sJvB4njQyKhMKl8++DEewY=
-X-Received: by 10.31.95.210 with SMTP id t201mr14871546vkb.168.1505394786751; 
-	Thu, 14 Sep 2017 06:13:06 -0700 (PDT)
+	bh=FZZGk/gBb4wy3xS+1wTubagRFNgUOlWH01H8lFJF/78=;
+	b=f4Q5/m+xtjbzUzrmElyomnXrmFBHiUwJE42C2uvIEhnDELzLSyJ/ksaIRTbcFCZgZ/
+	Vpgh3Se/nfBOIxW0LGXyWqKCeOi6Xsj06e37KWFPeu+sM3qPrF5ARW+IKutXZTMg3Te7
+	TyiV/7JK12mwHmyoVakBMazftSrgc4QXvoqFVE1y4o3P9Ab1URBm3Jm7IYIrvwUaX/OP
+	W0gnq2wFwNUCr/67TrVmd+RY19OsIL/kMmxSeKPAmSaFsvsrq84BbujBV+dlJnwprcfL
+	mpNQPyP40TDA2dkh6yGGfss1J/Vk01PkCVhy9KfGhILRwhEagdLcDqaqYTzskpuIfqEL
+	+4gA==
+X-Gm-Message-State: AHPjjUjhJ7cGbUERcj30rR0E80lTd1TvsAE6E0gDf6JcWEo8MDYlfX1x
+	DRDDiQdGrS8ShLXqMcyjLklSCyu7yEVI4Dz8VUtc0A==
+X-Google-Smtp-Source: AOwi7QBqHxZ9bNep3SCOT7RwZV4Zr5F0mWXr5W0CpZGrDFe39t+lVn1uEYLxdWH+t4eMnLMNfIRltaeaZYfdyvAYovI=
+X-Received: by 10.107.32.70 with SMTP id g67mr2777027iog.77.1505395046959;
+	Thu, 14 Sep 2017 06:17:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.59.18 with HTTP; Thu, 14 Sep 2017 06:13:06 -0700 (PDT)
-In-Reply-To: <20170914122753.12713-1-ross.burton@intel.com>
-References: <20170914122753.12713-1-ross.burton@intel.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 14 Sep 2017 09:13:06 -0400
-Message-ID: <CADkTA4Mn14dpJTV65T90dqN3h8cQ_tDiq7dRxV1SxJySCxsazQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][morty] bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
+Received: by 10.107.19.68 with HTTP; Thu, 14 Sep 2017 06:17:06 -0700 (PDT)
+In-Reply-To: <20170913170830.6ac2b8bb@seebsdell>
+References: <20170913204659.1919-1-Martin.Jansa@gmail.com>
+	<20170913205032.GD3288@jama> <20170913170830.6ac2b8bb@seebsdell>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 Sep 2017 14:17:06 +0100
+Message-ID: <CAJTo0LZ2wDSPjz3UMGhjJQ0WRk=UOj6Jmb2GQ5dGWTZaBRandw@mail.gmail.com>
+To: Seebs <seebs@seebs.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] insane.bbclass: Add do_qa_pseudo function to check for common errors listed in pseudo.log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,244 +56,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 13:13:06 -0000
-Content-Type: multipart/alternative; boundary="001a114e2b8082d9b10559260913"
+X-List-Received-Date: Thu, 14 Sep 2017 13:17:26 -0000
+Content-Type: multipart/alternative; boundary="001a1140ae2c057f220559261965"
 
---001a114e2b8082d9b10559260913
+--001a1140ae2c057f220559261965
 Content-Type: text/plain; charset="UTF-8"
 
-.. and if anyone notices, there's a kernel part to this CVE as well.
+On 13 September 2017 at 23:08, Seebs <seebs@seebs.net> wrote:
 
-I've applied to fix to all the active linux-yocto kernels, and the change
-will be part
-of my consolidated pull request that comes out later today.
-
-Cheers,
-
-Bruce
-
-On Thu, Sep 14, 2017 at 8:27 AM, Ross Burton <ross.burton@intel.com> wrote:
-
-> All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to
-> an
-> information disclosure vulnerability which allows remote attackers to
-> obtain
-> sensitive information from the bluetoothd process memory. This
-> vulnerability
-> lies in the processing of SDP search attribute requests.
+> On Wed, 13 Sep 2017 22:50:32 +0200
+> Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
->  .../bluez5/bluez5/cve-2017-1000250.patch           | 34
-> ++++++++++++++++++++++
->  2 files changed, 35 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/cve-2017-
-> 1000250.patch
+> > inode mismatch:
+> > '/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/
+> systemd/1_234-r0/recipe-sysroot/etc/group'
+> > ino 29361846 in db, 29361904 in request.
 >
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc
-> b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index ecefb7b593e..3421c382063 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -23,6 +23,7 @@ SRC_URI = "\
->      file://run-ptest \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '',
-> 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch',
-> d)} \
->      file://0001-tests-add-a-target-for-building-tests-without-runnin.patch
-> \
-> +    file://cve-2017-1000250.patch \
->  "
->  S = "${WORKDIR}/bluez-${PV}"
+> Just to be clear about this:
 >
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
-> b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
-> new file mode 100644
-> index 00000000000..9fac961bcf6
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
-> @@ -0,0 +1,34 @@
-> +All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable
-> to an
-> +information disclosure vulnerability which allows remote attackers to
-> obtain
-> +sensitive information from the bluetoothd process memory. This
-> vulnerability
-> +lies in the processing of SDP search attribute requests.
-> +
-> +CVE: CVE-2017-1000250
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +From 9e009647b14e810e06626dde7f1bb9ea3c375d09 Mon Sep 17 00:00:00 2001
-> +From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-> +Date: Wed, 13 Sep 2017 10:01:40 +0300
-> +Subject: sdp: Fix Out-of-bounds heap read in service_search_attr_req
-> function
-> +
-> +Check if there is enough data to continue otherwise return an error.
-> +---
-> + src/sdpd-request.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/src/sdpd-request.c b/src/sdpd-request.c
-> +index 1eefdce..318d044 100644
-> +--- a/src/sdpd-request.c
-> ++++ b/src/sdpd-request.c
-> +@@ -917,7 +917,7 @@ static int service_search_attr_req(sdp_req_t *req,
-> sdp_buf_t *buf)
-> +       } else {
-> +               /* continuation State exists -> get from cache */
-> +               sdp_buf_t *pCache = sdp_get_cached_rsp(cstate);
-> +-              if (pCache) {
-> ++              if (pCache && cstate->cStateValue.maxBytesSent <
-> pCache->data_size) {
-> +                       uint16_t sent = MIN(max, pCache->data_size -
-> cstate->cStateValue.maxBytesSent);
-> +                       pResponse = pCache->data;
-> +                       memcpy(buf->data, pResponse + cstate->cStateValue.maxBytesSent,
-> sent);
-> +--
-> +cgit v1.1
-> --
-> 2.11.0
+> This is at least potentially an Actual Problem. It's probably not a
+> good idea to habitually ignore these. A thing like this happening means
+> that, at some point:
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 1. Something created etc/group, and it got inode 29361846 recorded in
+> the database.
+> 2. Something deleted etc/group, and did NOT record this to the database.
+> 3. Something created etc/group, with inode 29361904.
 >
+> It's possible that the thing creating etc/group didn't record it to the
+> database, and something else just referred to it later (like a stat
+> call), or that this was generated by the request creating the entry.
+>
+> Either way, it means changes were made to a pseudo-managed hunk of
+> filesystem without pseudo knowing about it, and that is generally bad.
 
 
+I just applied this patch and got an identical hit in systemd, which makes
+me think that the useradd class (maze of code that it is) is causing this
+instance.
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+Ross
 
---001a114e2b8082d9b10559260913
+--001a1140ae2c057f220559261965
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">.. and if anyone notices, there&#39;s a kernel part to thi=
-s CVE as well.<div><br></div><div>I&#39;ve applied to fix to all the active=
- linux-yocto kernels, and the change will be part</div><div>of my consolida=
-ted pull request that comes out later today.</div><div><br></div><div>Cheer=
-s,</div><div><br></div><div>Bruce<br><div class=3D"gmail_extra"><br><div cl=
-ass=3D"gmail_quote">On Thu, Sep 14, 2017 at 8:27 AM, Ross Burton <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ros=
-s.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to =
-an<br>
-information disclosure vulnerability which allows remote attackers to obtai=
-n<br>
-sensitive information from the bluetoothd process memory. This vulnerabilit=
-y<br>
-lies in the processing of SDP search attribute requests.<br>
+<div dir=3D"ltr">On 13 September 2017 at 23:08, Seebs <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:seebs@seebs.net" target=3D"_blank">seebs@seebs.net</a>&g=
+t;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex"><span class=3D"">On Wed, 13 Sep 2017 22:50:32=
+ +0200<br>
+Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gma=
+il.com</a>&gt; wrote:<br>
 <br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-connectivity/<wbr>bluez5/bluez5.inc=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 1 +<br>
-=C2=A0.../bluez5/bluez5/cve-2017-<wbr>1000250.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 34 ++++++++++++++++++++++<br>
-=C2=A02 files changed, 35 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/<wbr>bluez5/bluez5/cve-2=
-017-<wbr>1000250.patch<br>
+&gt; inode mismatch:<br>
+&gt; &#39;/OE/build/oe-core/tmp-glibc/<wbr>work/core2-64-oe-linux/<wbr>syst=
+emd/1_234-r0/recipe-<wbr>sysroot/etc/group&#39;<br>
+&gt; ino 29361846 in db, 29361904 in request.<br>
 <br>
-diff --git a/meta/recipes-connectivity/<wbr>bluez5/bluez5.inc b/meta/recipe=
-s-connectivity/<wbr>bluez5/bluez5.inc<br>
-index ecefb7b593e..3421c382063 100644<br>
---- a/meta/recipes-connectivity/<wbr>bluez5/bluez5.inc<br>
-+++ b/meta/recipes-connectivity/<wbr>bluez5/bluez5.inc<br>
-@@ -23,6 +23,7 @@ SRC_URI =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;DISTRO_<wbr>FEATURES&#39;, &#=
-39;systemd&#39;, &#39;&#39;, &#39;file://0001-Allow-using-<wbr>obexd-withou=
-t-systemd-in-the-<wbr>user-sessio.patch&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0file://0001-tests-add-a-<wbr>target-for-building-tests-=
-<wbr>without-runnin.patch \<br>
-+=C2=A0 =C2=A0 file://cve-2017-1000250.patch \<br>
-=C2=A0&quot;<br>
-=C2=A0S =3D &quot;${WORKDIR}/bluez-${PV}&quot;<br>
+</span>Just to be clear about this:<br>
 <br>
-diff --git a/meta/recipes-connectivity/<wbr>bluez5/bluez5/cve-2017-<wbr>100=
-0250.patch b/meta/recipes-connectivity/<wbr>bluez5/bluez5/cve-2017-<wbr>100=
-0250.patch<br>
-new file mode 100644<br>
-index 00000000000..9fac961bcf6<br>
---- /dev/null<br>
-+++ b/meta/recipes-connectivity/<wbr>bluez5/bluez5/cve-2017-<wbr>1000250.pa=
-tch<br>
-@@ -0,0 +1,34 @@<br>
-+All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to=
- an<br>
-+information disclosure vulnerability which allows remote attackers to obta=
-in<br>
-+sensitive information from the bluetoothd process memory. This vulnerabili=
-ty<br>
-+lies in the processing of SDP search attribute requests.<br>
-+<br>
-+CVE: CVE-2017-1000250<br>
-+Upstream-Status: Backport<br>
-+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ro=
-ss.burton@intel.com</a>&gt;<br>
-+<br>
-+From 9e009647b14e810e06626dde7f1bb9<wbr>ea3c375d09 Mon Sep 17 00:00:00 200=
-1<br>
-+From: Luiz Augusto von Dentz &lt;<a href=3D"mailto:luiz.von.dentz@intel.co=
-m">luiz.von.dentz@intel.com</a>&gt;<br>
-+Date: Wed, 13 Sep 2017 10:01:40 +0300<br>
-+Subject: sdp: Fix Out-of-bounds heap read in service_search_attr_req funct=
-ion<br>
-+<br>
-+Check if there is enough data to continue otherwise return an error.<br>
-+---<br>
-+ src/sdpd-request.c | 2 +-<br>
-+ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/src/sdpd-request.c b/src/sdpd-request.c<br>
-+index 1eefdce..318d044 100644<br>
-+--- a/src/sdpd-request.c<br>
-++++ b/src/sdpd-request.c<br>
-+@@ -917,7 +917,7 @@ static int service_search_attr_req(sdp_<wbr>req_t *req=
-, sdp_buf_t *buf)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* continuation Sta=
-te exists -&gt; get from cache */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sdp_buf_t *pCache =
-=3D sdp_get_cached_rsp(cstate);<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pCache) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pCache &amp;&amp; cs=
-tate-&gt;cStateValue.<wbr>maxBytesSent &lt; pCache-&gt;data_size) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0uint16_t sent =3D MIN(max, pCache-&gt;data_size - cstate-&gt;cSta=
-teValue.<wbr>maxBytesSent);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0pResponse =3D pCache-&gt;data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0memcpy(buf-&gt;data, pResponse + cstate-&gt;cStateValue.<wbr>maxB=
-ytesSent, sent);<br>
-+--<br>
-+cgit v1.1<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.11.0<br>
+This is at least potentially an Actual Problem. It&#39;s probably not a<br>
+good idea to habitually ignore these. A thing like this happening means<br>
+that, at some point:<br>
 <br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div></div></div>
+1. Something created etc/group, and it got inode 29361846 recorded in<br>
+the database.<br>
+2. Something deleted etc/group, and did NOT record this to the database.<br=
+>
+3. Something created etc/group, with inode 29361904.<br>
+<br>
+It&#39;s possible that the thing creating etc/group didn&#39;t record it to=
+ the<br>
+database, and something else just referred to it later (like a stat<br>
+call), or that this was generated by the request creating the entry.<br>
+<br>
+Either way, it means changes were made to a pseudo-managed hunk of<br>
+filesystem without pseudo knowing about it, and that is generally bad.</blo=
+ckquote><div><br></div><div>I just applied this patch and got an identical =
+hit in systemd, which makes me think that the useradd class (maze of code t=
+hat it is) is causing this instance.</div><div><br></div><div>Ross</div></d=
+iv></div></div>
 
---001a114e2b8082d9b10559260913--
+--001a1140ae2c057f220559261965--
