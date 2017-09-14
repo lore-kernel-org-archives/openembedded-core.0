@@ -1,24 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DA95C78594
+	by mail.openembedded.org (Postfix) with ESMTP id 4892D77B8B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 04:15:33 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	Thu, 14 Sep 2017 04:24:34 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Sep 2017 21:15:35 -0700
+	13 Sep 2017 21:24:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,391,1500966000"; d="scan'208";a="151648839"
+X-IronPort-AV: E=Sophos;i="5.42,391,1500966000"; d="scan'208";a="148995747"
 Received: from babarret-mobl1.amr.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.249.71.243])
-	by fmsmga006.fm.intel.com with ESMTP; 13 Sep 2017 21:15:33 -0700
+	by orsmga005.jf.intel.com with ESMTP; 13 Sep 2017 21:24:33 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Sep 2017 16:15:12 +1200
-Message-Id: <b0b789a27d6b94e9ba256c809a2f4e37d7a87082.1505361895.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <cover.1505361895.git.paul.eggleton@linux.intel.com>
+Date: Thu, 14 Sep 2017 16:24:30 +1200
+Message-ID: <9777756.UdYKLuYSlu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <43aa2701a929f7d821c5403b2999446a97166754.1505361895.git.paul.eggleton@linux.intel.com>
 References: <cover.1505361895.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 2/2] devtool: ensure recipes devtool is working on are unlocked within the eSDK
+	<43aa2701a929f7d821c5403b2999446a97166754.1505361895.git.paul.eggleton@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 1/2] devtool: rework source extraction so that dependencies are handled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,259 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 04:15:34 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 04:24:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Alongside reworking the way devtool extracts source, we now need to
-ensure that within the extensible SDK where task signatures are locked,
-the signatures of the tasks for the recipes being worked on get unlocked
-at the right time or otherwise we'll now get taskhash mismatches when
-running devtool modify on a recipe that was included in the eSDK such as
-the kernel (due to a separate bug). The existing mechanism for
-auto-unlocking recipes was a little weak and was happening too late, so
-I've reimplemented it so that:
-(a) it gets triggered immediately when the recipe/append is created
-(b) we avoid writing to the unlocked signatures file unnecessarily
-    (since it's a global configuration file) and
-(c) within the eSDK configuration we whitelist SIGGEN_UNLOCKED_RECIPES
-    to avoid unnecessary reparses every time we perform one of the
-    devtool operations that does need to change this list.
+On Thursday, 14 September 2017 4:15:11 PM NZST Paul Eggleton wrote:
+> * Since we are creating (or modifying) a bbappend on the fly after the
+>   initial cache load has taken place, we need to ensure that this gets
+>   noticed otherwise it won't have any effect. In order to do this
+>   properly with the way cooker currently works, we have to be able to
+>   set its parsecache_valid flag to False. A new invalidateParseCache
+>   command on the bitbake side makes this possible.
 
-Fixes [YOCTO #11883] (not the underlying cause, but this manifestation
-of the issue).
+Whoops, this should have been dropped from the commit message in v2. I've 
+fixed it in the branch.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_ext.bbclass |  3 +++
- scripts/devtool                       | 20 ------------------
- scripts/lib/devtool/__init__.py       | 40 +++++++++++++++++++++++++++++++++++
- scripts/lib/devtool/standard.py       | 18 +++++++++-------
- scripts/lib/devtool/upgrade.py        |  9 +++++---
- 5 files changed, 59 insertions(+), 31 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 6620445..3620995 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -346,6 +346,9 @@ python copy_buildsystem () {
-             # the sig computed from the metadata.
-             f.write('SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n\n')
- 
-+            # We want to be able to set this without a full reparse
-+            f.write('BB_HASHCONFIG_WHITELIST_append = " SIGGEN_UNLOCKED_RECIPES"\n\n')
-+
-             # Set up whitelist for run on install
-             f.write('BB_SETSCENE_ENFORCE_WHITELIST = "%:* *:do_shared_workdir *:do_rm_work wic-tools:* *:do_addto_recipe_sysroot"\n\n')
- 
-diff --git a/scripts/devtool b/scripts/devtool
-index c9ad9dd..5292f18 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -130,25 +130,6 @@ def read_workspace():
-                                      'recipefile': recipefile}
-                     logger.debug('Found recipe %s' % workspace[pn])
- 
--def create_unlockedsigs():
--    """ This function will make unlocked-sigs.inc match the recipes in the
--    workspace. This runs on every run of devtool, but it lets us ensure
--    the unlocked items are in sync with the workspace. """
--
--    confdir = os.path.join(basepath, 'conf')
--    unlockedsigs = os.path.join(confdir, 'unlocked-sigs.inc')
--    bb.utils.mkdirhier(confdir)
--    with open(os.path.join(confdir, 'unlocked-sigs.inc'), 'w') as f:
--        f.write("# DO NOT MODIFY! YOUR CHANGES WILL BE LOST.\n" +
--                "# This layer was created by the OpenEmbedded devtool" +
--                " utility in order to\n" +
--                "# contain recipes that are unlocked.\n")
--
--        f.write('SIGGEN_UNLOCKED_RECIPES += "\\\n')
--        for pn in workspace:
--            f.write('    ' + pn)
--        f.write('"')
--
- def create_workspace(args, config, basepath, workspace):
-     if args.layerpath:
-         workspacedir = os.path.abspath(args.layerpath)
-@@ -332,7 +313,6 @@ def main():
- 
-     if not getattr(args, 'no_workspace', False):
-         read_workspace()
--        create_unlockedsigs()
- 
-     try:
-         ret = args.func(args, config, basepath, workspace)
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 14170cb..94e3d7d 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -297,3 +297,43 @@ def replace_from_file(path, old, new):
-         except ValueError:
-             pass
-     write_file(path, "\n".join(new_contents))
-+
-+
-+def update_unlockedsigs(basepath, workspace, fixed_setup, extra=None):
-+    """ This function will make unlocked-sigs.inc match the recipes in the
-+    workspace plus any extras we want unlocked. """
-+
-+    if not fixed_setup:
-+        # Only need to write this out within the eSDK
-+        return
-+
-+    if not extra:
-+        extra = []
-+
-+    confdir = os.path.join(basepath, 'conf')
-+    unlockedsigs = os.path.join(confdir, 'unlocked-sigs.inc')
-+
-+    # Get current unlocked list if any
-+    values = {}
-+    def get_unlockedsigs_varfunc(varname, origvalue, op, newlines):
-+        values[varname] = origvalue
-+        return origvalue, None, 0, True
-+    if os.path.exists(unlockedsigs):
-+        with open(unlockedsigs, 'r') as f:
-+            bb.utils.edit_metadata(f, ['SIGGEN_UNLOCKED_RECIPES'], get_unlockedsigs_varfunc)
-+    unlocked = sorted(values.get('SIGGEN_UNLOCKED_RECIPES', []))
-+
-+    # If the new list is different to the current list, write it out
-+    newunlocked = sorted(list(workspace.keys()) + extra)
-+    if unlocked != newunlocked:
-+        bb.utils.mkdirhier(confdir)
-+        with open(unlockedsigs, 'w') as f:
-+            f.write("# DO NOT MODIFY! YOUR CHANGES WILL BE LOST.\n" +
-+                    "# This layer was created by the OpenEmbedded devtool" +
-+                    " utility in order to\n" +
-+                    "# contain recipes that are unlocked.\n")
-+
-+            f.write('SIGGEN_UNLOCKED_RECIPES += "\\\n')
-+            for pn in newunlocked:
-+                f.write('    ' + pn)
-+            f.write('"')
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index dfa37b1..7587c38 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -30,7 +30,7 @@ import errno
- import glob
- import filecmp
- from collections import OrderedDict
--from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, use_external_build, setup_git_repo, recipe_to_append, get_bbclassextend_targets, DevtoolError
-+from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, use_external_build, setup_git_repo, recipe_to_append, get_bbclassextend_targets, update_unlockedsigs, DevtoolError
- from devtool import parse_recipe
- 
- logger = logging.getLogger('devtool')
-@@ -387,7 +387,7 @@ def extract(args, config, basepath, workspace):
-             return 1
- 
-         srctree = os.path.abspath(args.srctree)
--        initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, config, rd, tinfoil)
-+        initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, config, basepath, workspace, args.fixed_setup, rd, tinfoil)
-         logger.info('Source tree extracted to %s' % srctree)
- 
-         if initial_rev:
-@@ -411,7 +411,7 @@ def sync(args, config, basepath, workspace):
-             return 1
- 
-         srctree = os.path.abspath(args.srctree)
--        initial_rev = _extract_source(srctree, args.keep_temp, args.branch, True, config, rd, tinfoil)
-+        initial_rev = _extract_source(srctree, args.keep_temp, args.branch, True, config, basepath, workspace, args.fixed_setup, rd, tinfoil)
-         logger.info('Source tree %s synchronized' % srctree)
- 
-         if initial_rev:
-@@ -422,7 +422,7 @@ def sync(args, config, basepath, workspace):
-         tinfoil.shutdown()
- 
- 
--def _extract_source(srctree, keep_temp, devbranch, sync, config, d, tinfoil):
-+def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, workspace, fixed_setup, d, tinfoil):
-     """Extract sources of a recipe"""
-     import oe.recipeutils
-     import oe.patch
-@@ -691,7 +691,7 @@ def modify(args, config, basepath, workspace):
-         initial_rev = None
-         commits = []
-         if not args.no_extract:
--            initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, config, rd, tinfoil)
-+            initial_rev = _extract_source(srctree, args.keep_temp, args.branch, False, config, basepath, workspace, args.fixed_setup, rd, tinfoil)
-             if not initial_rev:
-                 return 1
-             logger.info('Source tree extracted to %s' % srctree)
-@@ -753,6 +753,8 @@ def modify(args, config, basepath, workspace):
-                 for commit in commits:
-                     f.write('# commit: %s\n' % commit)
- 
-+        update_unlockedsigs(basepath, workspace, args.fixed_setup, [pn])
-+
-         _add_md5(config, pn, appendfile)
- 
-         logger.info('Recipe %s now set up to build from %s' % (pn, srctree))
-@@ -1760,7 +1762,7 @@ def register_commands(subparsers, context):
-     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
-     parser_modify.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout (when not using -n/--no-extract) (default "%(default)s")')
-     parser_modify.add_argument('--keep-temp', help='Keep temporary directory (for debugging)', action="store_true")
--    parser_modify.set_defaults(func=modify)
-+    parser_modify.set_defaults(func=modify, fixed_setup=context.fixed_setup)
- 
-     parser_extract = subparsers.add_parser('extract', help='Extract the source for an existing recipe',
-                                        description='Extracts the source for an existing recipe',
-@@ -1769,7 +1771,7 @@ def register_commands(subparsers, context):
-     parser_extract.add_argument('srctree', help='Path to where to extract the source tree')
-     parser_extract.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout (default "%(default)s")')
-     parser_extract.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
--    parser_extract.set_defaults(func=extract)
-+    parser_extract.set_defaults(func=extract, fixed_setup=context.fixed_setup)
- 
-     parser_sync = subparsers.add_parser('sync', help='Synchronize the source tree for an existing recipe',
-                                        description='Synchronize the previously extracted source tree for an existing recipe',
-@@ -1779,7 +1781,7 @@ def register_commands(subparsers, context):
-     parser_sync.add_argument('srctree', help='Path to the source tree')
-     parser_sync.add_argument('--branch', '-b', default="devtool", help='Name for development branch to checkout')
-     parser_sync.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
--    parser_sync.set_defaults(func=sync)
-+    parser_sync.set_defaults(func=sync, fixed_setup=context.fixed_setup)
- 
-     parser_rename = subparsers.add_parser('rename', help='Rename a recipe file in the workspace',
-                                        description='Renames the recipe file for a recipe in the workspace, changing the name or version part or both, ensuring that all references within the workspace are updated at the same time. Only works when the recipe file itself is in the workspace, e.g. after devtool add. Particularly useful when devtool add did not automatically determine the correct name.',
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 39d0bd7..f1b3ff0 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -33,7 +33,7 @@ sys.path = sys.path + [devtool_path]
- 
- import oe.recipeutils
- from devtool import standard
--from devtool import exec_build_env_command, setup_tinfoil, DevtoolError, parse_recipe, use_external_build
-+from devtool import exec_build_env_command, setup_tinfoil, DevtoolError, parse_recipe, use_external_build, update_unlockedsigs
- 
- logger = logging.getLogger('devtool')
- 
-@@ -418,7 +418,7 @@ def upgrade(args, config, basepath, workspace):
- 
-         rf = None
-         try:
--            rev1 = standard._extract_source(srctree, False, 'devtool-orig', False, config, rd, tinfoil)
-+            rev1 = standard._extract_source(srctree, False, 'devtool-orig', False, config, basepath, workspace, args.fixed_setup, rd, tinfoil)
-             rev2, md5, sha256, srcbranch = _extract_new_source(args.version, srctree, args.no_patch,
-                                                     args.srcrev, args.srcbranch, args.branch, args.keep_temp,
-                                                     tinfoil, rd)
-@@ -432,6 +432,9 @@ def upgrade(args, config, basepath, workspace):
-         af = _write_append(rf, srctree, args.same_dir, args.no_same_dir, rev2,
-                         copied, config.workspace_path, rd)
-         standard._add_md5(config, pn, af)
-+
-+        update_unlockedsigs(basepath, workspace, [pn], args.fixed_setup)
-+
-         logger.info('Upgraded source extracted to %s' % srctree)
-         logger.info('New recipe is %s' % rf)
-     finally:
-@@ -457,4 +460,4 @@ def register_commands(subparsers, context):
-     group.add_argument('--same-dir', '-s', help='Build in same directory as source', action="store_true")
-     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
-     parser_upgrade.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
--    parser_upgrade.set_defaults(func=upgrade)
-+    parser_upgrade.set_defaults(func=upgrade, fixed_setup=context.fixed_setup)
 -- 
-2.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
