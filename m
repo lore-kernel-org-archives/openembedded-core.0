@@ -1,50 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A1D17835B
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D08437835B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 09:01:39 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id e189so6529779ioa.4
+	Thu, 14 Sep 2017 09:06:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.42,391,1500912000"; d="scan'208";a="26274157"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2017 17:06:38 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 864B446BA6A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 02:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DlVvWBNIAOdrIsBP9/g6FE71YOD+F8bkQWWlxAhpMZQ=;
-	b=RaxG+7kc9fEbKt40qpI0cpNmqlDLUzFBuhzQya1+OXTFTqXqLW23czJ0G2aoh5WSf0
-	QzjiKhp87x8mf7aNywwjhGSy99ApXjNva9xNq3lN9WUq1mjqOh0TRnWp7FF6UmrR7J4U
-	uFnJ0v9OxsuAxqvRiCSUp1KSd/LS/IuA9CU4y/5X0WN+PAFutwhp2dui9CAyxDP6MvZh
-	2xw1f2+ZzUAWV9NcXYvluJNXfM/ecQ6Jsxnmuym0Uz8NK6bti6iIOfIiAXBCggx7IAe5
-	s70xx7MMAEgm7Y0YvMSsF7ydCQuCluGJQrPOzR5k82yb8aEcQew9jAmzT3/KLHiNDuxQ
-	b/dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=DlVvWBNIAOdrIsBP9/g6FE71YOD+F8bkQWWlxAhpMZQ=;
-	b=oV9dxY/PE2TtVkhs1op5GRURhHfOEN7NF8WMDi7pX8Q8wGvpvkKRuSlECJXMzBNJn4
-	aZGKAbADB9tPTqKliW88Es3ZdchNWrqWOtZLLcROo7LO5ao8ltLOw/YYERTKrItyYKbJ
-	HCbZLHTRjEayJkl2VtzoVTutjzCVHL+579s98KTUt1RXji5dF1kDI15eZE5Lq8wXYoFH
-	nFyNh8B6xUU8V8DYNcpslva4NJXqJZdy+dep0VEzXcDzdq3tC3TgnOd+kzZEQGczZgGP
-	/Si790OcXzbDi26dTJED8CxI/0wiRxyJ00IJoAO95nEY8gzx9qbRwSt3/2fG59g8omyG
-	5ChA==
-X-Gm-Message-State: AHPjjUhDPV2WYzl9zK3sAJNVn/KnU7oB8JGFJTY5oPNIy2TRoA8gdbOu
-	qF48PtU/50Q5Vz0bVicpSwUv2RfV4/59xbi+MpWmUQ==
-X-Google-Smtp-Source: AOwi7QDNy2cy3wNV5wS6TPwzwGsE4U2bmwLN8FuezIqkQ9xblEvkIPHwp5FDnqNJajtgvkWpt/1yFEQBO39UMScro1s=
-X-Received: by 10.107.133.92 with SMTP id h89mr1478700iod.208.1505379701051;
-	Thu, 14 Sep 2017 02:01:41 -0700 (PDT)
+	Thu, 14 Sep 2017 17:06:36 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Thu, 14 Sep 2017 17:06:35 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Sep 2017 17:06:20 +0800
+Message-ID: <1505379985-34044-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Thu, 14 Sep 2017 02:01:20 -0700 (PDT)
-In-Reply-To: <113edd5bbb1fc884d416783db2d2dfe5@iwavesystems.com>
-References: <df4d255a017af31c177f2f6d19cf5724@iwavesystems.com>
-	<CAJTo0LZ7G2easoj9mgdv7VjsE40_Zp8bF6WeMNnitYr2vGBexw@mail.gmail.com>
-	<113edd5bbb1fc884d416783db2d2dfe5@iwavesystems.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 14 Sep 2017 10:01:20 +0100
-Message-ID: <CAJTo0LaXUQqxnp4AmRfhcdxD5iX7rJPktDNB5iEA3HMOg3UDTw@mail.gmail.com>
-To: anjalik@iwavesystems.com
-Cc: john@iwavesystems.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Matchbox in 240x320 LCD Display
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: 864B446BA6A7.A88C2
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libnotify: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 09:01:40 -0000
-Content-Type: multipart/alternative; boundary="001a113ff7d0556a64055922865b"
+X-List-Received-Date: Thu, 14 Sep 2017 09:06:39 -0000
+Content-Type: text/plain
 
---001a113ff7d0556a64055922865b
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-gnome/libnotify/libnotify_0.7.7.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-On 14 September 2017 at 08:59, <anjalik@iwavesystems.com> wrote:
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
+index 2ab2f1f..6c299bc 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Library for sending desktop notifications to a notification daemon"
++HOMEPAGE = "http://www.gnome.org"
+ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+-- 
+2.7.4
 
->  Is there any other Window manager instead of matchbox which supports QVGA
-> theme in Yocto 1.8?
->
-For a screen that small matchbox is the only real option for behaviour, you
-just need to customise the theme.
 
-Ross
 
---001a113ff7d0556a64055922865b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 14 September 2017 at 08:59,  <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:anjalik@iwavesystems.com" target=3D"_blank">anjalik@iwavesyst=
-ems.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"g=
-mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div style=3D"font-size:10pt;fon=
-t-family:Verdana,Geneva,sans-serif">
-<p><span style=3D"font-size:10pt">=C2=A0Is there any other Window manager i=
-nstead of matchbox which supports QVGA theme in Yocto 1.8?</span></p></div>=
-</blockquote><div>For a screen that small matchbox is the only real option =
-for behaviour, you just need to customise the theme.</div><div><br></div><d=
-iv>Ross</div></div></div></div>
-
---001a113ff7d0556a64055922865b--
