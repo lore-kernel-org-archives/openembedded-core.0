@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 75AF27856E
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 712C7785A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 09:13:19 +0000 (UTC)
+	Thu, 14 Sep 2017 09:13:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8E9DKRY023171
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8E9DLA0023997
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 02:13:20 -0700 (PDT)
+	Thu, 14 Sep 2017 02:13:21 -0700
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 14 Sep 2017 02:13:19 -0700
+	Thu, 14 Sep 2017 02:13:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 02:13:17 -0700
-Message-ID: <93267ae9f897ad6cd334f8f6233cf4aa1f769dd4.1505380364.git.liezhi.yang@windriver.com>
+Date: Thu, 14 Sep 2017 02:13:18 -0700
+Message-ID: <a09599c8c5633005f32b7d2645fb444ed03a3729.1505380364.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.10.2
 In-Reply-To: <cover.1505380364.git.liezhi.yang@windriver.com>
 References: <cover.1505380364.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] e2fsprogs: set dir's mode correctly
+Subject: [PATCH 2/2] systemd-machine-units: update LIC_FILES_CHKSUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 09:13:19 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 09:13:20 -0000
 Content-Type: text/plain
 
 Fixed:
-1) in pkg_postinst task set wanted file permissions:
----> chmod -R 521 "$D/opt/my_folder"
-2) generate the rootfs image
-
-Results:
-my_folder hasn't correct permissions on rootfs ext4 image -> permissions are changed to 721
-
-But it should be 521.
-
-[YOCTO #11652]
+WARNING: systemd-machine-units-1.0-r19 do_populate_lic: ${COREBASE}/LICENSE is not a valid license file, please use '${COMMON_LICENSE_DIR}/MIT' for a MIT License file in LIC_FILES_CHKSUM. This will become an error in the future
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...c-create_inode.c-set-dir-s-mode-correctly.patch | 41 ++++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-correctly.patch
+ meta/recipes-core/systemd/systemd-machine-units_1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-correctly.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-correctly.patch
-new file mode 100644
-index 0000000..fc4a540
---- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-correctly.patch
-@@ -0,0 +1,41 @@
-+From f6d188580c2c9599319076fee22f2424652c711c Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Wed, 13 Sep 2017 19:55:35 -0700
-+Subject: [PATCH] misc/create_inode.c: set dir's mode correctly
-+
-+The dir's mode has been set by ext2fs_mkdir() with umask, so
-+reset it to the source's mode in set_inode_extra().
-+
-+Fixed when source dir's mode is 521, but tarball would be 721, this was
-+incorrect.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ misc/create_inode.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/misc/create_inode.c b/misc/create_inode.c
-+index 8ce3faf..50fbaa8 100644
-+--- a/misc/create_inode.c
-++++ b/misc/create_inode.c
-+@@ -116,7 +116,14 @@ static errcode_t set_inode_extra(ext2_filsys fs, ext2_ino_t ino,
-+ 
-+ 	inode.i_uid = st->st_uid;
-+ 	inode.i_gid = st->st_gid;
-+-	inode.i_mode |= st->st_mode;
-++	/*
-++	 * The dir's mode has been set by ext2fs_mkdir() with umask, so
-++	 * reset it to the source's mode
-++	 */
-++	if S_ISDIR(st->st_mode)
-++		inode.i_mode = LINUX_S_IFDIR | st->st_mode;
-++	else
-++		inode.i_mode |= st->st_mode;
-+ 	inode.i_atime = st->st_atime;
-+ 	inode.i_mtime = st->st_mtime;
-+ 	inode.i_ctime = st->st_ctime;
-+-- 
-+2.10.2
-+
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-index fb02d79..7fba8eb 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://acinclude.m4 \
-             file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch \
-             file://mkdir_p.patch \
-             file://reproducible-doc.patch \
-+            file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
- "
+diff --git a/meta/recipes-core/systemd/systemd-machine-units_1.0.bb b/meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+index a64464c..02756f43 100644
+--- a/meta/recipes-core/systemd/systemd-machine-units_1.0.bb
++++ b/meta/recipes-core/systemd/systemd-machine-units_1.0.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Machine specific systemd units"
  
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
 -- 
 2.10.2
 
