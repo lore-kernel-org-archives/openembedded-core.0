@@ -1,67 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
-	[209.85.161.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E831782AB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 55BD3785D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 12:14:01 +0000 (UTC)
-Received: by mail-yw0-f196.google.com with SMTP id v137so1612132ywg.4
+	Thu, 14 Sep 2017 12:28:02 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id 189so5584804wmh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 05:14:03 -0700 (PDT)
+	Thu, 14 Sep 2017 05:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=HGQ5a8jAf/XxyV1GZUA1H1uB4diKSw3WxqDnzgbxTjM=;
-	b=GewaIw3vYtc4GN2xhTaIDVsn0vjmXWBByzrR7f7cAL4cpD9jJq8Qz08G7BKlqmKJoL
-	eFR0+Gwk38WxCpJQibeOm/tVsqnOrNYbeQ6D/CZhUcJD4lj5/Yt5d/tqZTPOOGjPUzpT
-	UwWfgs5kpz/Dm04b21MYJPaOEti1J16jguTfLzSmjtUkthRYjMwEA+8zPBmHaD+fTnBr
-	zctQzpEI7ifJ7EqNbHvY8C2kzsyazbxfT3nfSPEiRFOYvSoglu/EgAQMOHI9oK40+r9h
-	IME6JoRpcvQkdQp7JNa8dIOGZSE67cX8wtQXKi2TrHr+h4GuoN0fipQOcmV7WA0fkaVZ
-	YB6g==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=AOIA7Q8deetocsk5wEQSMbJxAODkg3XNGwiNvaymYLo=;
+	b=SHngL/Stq6A//NPT1n+apnVtrTcJ0gMGplfwJKmwi6e+rmKHtsQVx4Btm3jm5GiRS5
+	oZqC6rENAMyy7u7tXu6ilCCXCGMdHmURV1GaEhOdQf0SpGAWLKtfndtHuDiLqljCng+i
+	WhFXgnu0RTqOpeNUFkZHBUXXNNWtl9fWdyukty+Caj7jaGQXQQsG8JzaJnFGmVvxGAIa
+	B9+4sla7MvFQcDj4ivirizUNN+OCbkHOzbSt4LJk8BCVOJymAj4MNl9Ml85XtkpasD/d
+	W8YVhn25u00F0LkUzPL/QVPJ+1faNQSRdzEE1+cG1WScCDHy3jSgXn4awdx2hIROETO+
+	RIUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=HGQ5a8jAf/XxyV1GZUA1H1uB4diKSw3WxqDnzgbxTjM=;
-	b=Y66sT0BQXKIG+s82QDHqC35bOTJDjD1mE0io5v4doo5o1uxiiPTdD7mBmGyxU3e1/S
-	3guw0gP9jEtvfIQE5sorEKZXVe4QCp/+/i9s0QPkTSWwCnAoromDKsPToQDsajRJmfls
-	Nr9rswCC4G7lEWuGGEO90XMJ+CX2ZmQ0n9Bs4ajUqEpzbBXhvkQFcQKpej4pMtia9u3x
-	f9O90mmI4gWNWYq5MvaRoa4y1h8nQ+Mizkpex0ODjjjxuGyKY7wIdaHCjJmHjP3nPhun
-	LPkcn0vtO3UWV67iwqODr+utNoz7wcCA8zGbsWGX9M0L9szteUUwL7BOQUf+zyDkGQR0
-	+bAA==
-X-Gm-Message-State: AHPjjUgFea0zsEU3HBUUB2gIiHpdZuQ6XxHST93i+JzQE2LoGytZdac/
-	XdgspztsBJ2DZJ4Gg4E=
-X-Received: by 10.37.64.80 with SMTP id n77mr17235951yba.196.1505391242913;
-	Thu, 14 Sep 2017 05:14:02 -0700 (PDT)
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com.
-	[209.85.223.181]) by smtp.gmail.com with ESMTPSA id
-	z145sm5548988ywa.21.2017.09.14.05.14.00
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=AOIA7Q8deetocsk5wEQSMbJxAODkg3XNGwiNvaymYLo=;
+	b=D3yVOmU5qTaFWHaLMT8DlGMyF2bTkNSYcICX6+zsDpyy6ZSg3J7KWTl0N1oMYb83P1
+	mBDJ4tIHlfKVOfHxtdIDDQeSTdMheG5WLqTZGbtIhYYjRRuhY0K/WdIlEh6uO8xZa+08
+	UNuyTdK/2K0zUb3JWX6J+ZNr77OzCSTUyXHZqxGsaRyazYN476xU1uaB4gLjYJx7v5Wv
+	OS2cw/tx6e60eIcE4hL1fL39Ty5ubxkJ/UZ8P8lusaTEHm6R/Ffr9PYsxWj/xFi1zMes
+	3/Dcu6/rD64OyyEhzN7c39YmtA0PFiwqDH0EBV1NRFeaf6aFY/MnUcimy6FRLo7kFyjs
+	ig1Q==
+X-Gm-Message-State: AHPjjUjh6qhYLntKUeSAT7ZZLlb4bQl+2YAA7QUQ43hyFs+uyW3RR2h6
+	xb2FPN+Zewl7nWuO8IU=
+X-Google-Smtp-Source: AOwi7QD9DO+DYYGPae9jHcwadDz6FshaLIuzbQ5mwT9/qRfWvspDCBmwEFeqfaYaGN2kJ2l86ySX2g==
+X-Received: by 10.28.211.1 with SMTP id k1mr1843876wmg.94.1505392083442;
+	Thu, 14 Sep 2017 05:28:03 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	o138sm1592899wmg.36.2017.09.14.05.28.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Sep 2017 05:14:01 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-io0-f181.google.com with SMTP id l15so457500iol.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 05:14:00 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QCNCHQpMRmGBFrnjjRcoOax3bdeQyLRL8WLjeRF/KasVLMBh6HEpJmS5Hc0YjaY+n39hIdd3mhuPQ52JEQRzd0=
-X-Received: by 10.202.199.129 with SMTP id x123mr12222188oif.67.1505391240286; 
-	Thu, 14 Sep 2017 05:14:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.86.129 with HTTP; Thu, 14 Sep 2017 05:13:59 -0700 (PDT)
-In-Reply-To: <1505384767.19222.4.camel@andred.net>
-References: <20170912203608.14327-1-otavio@ossystems.com.br>
-	<20170912203608.14327-3-otavio@ossystems.com.br>
-	<1505290515.32675.4.camel@andred.net>
-	<CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
-	<1505384767.19222.4.camel@andred.net>
-Date: Thu, 14 Sep 2017 09:13:59 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpLckOoc-dvXOFwCoDRiPXZb4dJJJ15+cs1SbtbBQ4wyQ@mail.gmail.com>
-Message-ID: <CAP9ODKpLckOoc-dvXOFwCoDRiPXZb4dJJJ15+cs1SbtbBQ4wyQ@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v8 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+	Thu, 14 Sep 2017 05:28:02 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Sep 2017 13:27:53 +0100
+Message-Id: <20170914122753.12713-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH][morty] bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,35 +55,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 12:14:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Sep 2017 12:28:03 -0000
 
-On Thu, Sep 14, 2017 at 7:26 AM, Andr=C3=A9 Draszik <git@andred.net> wrote:
-> On Wed, 2017-09-13 at 09:30 -0300, Otavio Salvador wrote:
->> On Wed, Sep 13, 2017 at 5:15 AM, Andr=C3=A9 Draszik <git@andred.net> wro=
-te:
->> > On Tue, 2017-09-12 at 17:36 -0300, Otavio Salvador wrote:
->>
->> ...
->> > AFAICS, zImage is specific to x86 and arm, all other arches, including
->> > MIPS
->> > have no zImage Makefile target, so we'll never get here.
->>
->> Do you know which types we can use here?
->
-> * for CONFIG_MIPS_RAW_APPENDED_DTB this can be either vmlinux.bin, or
->   vmlinuz.bin
-> * for for CONFIG_MIPS_ELF_APPENDED_DTB this should be vmlinux
->
-> see other mail :-)
+All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
+information disclosure vulnerability which allows remote attackers to obtain
+sensitive information from the bluetoothd process memory. This vulnerability
+lies in the processing of SDP search attribute requests.
 
-What if I add ARM support now and when someone has the need for MIPS,
-and can test it,  it is added? I can use a switch case for ARM and
-error out for others so it is easy to extend.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+ .../bluez5/bluez5/cve-2017-1000250.patch           | 34 ++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index ecefb7b593e..3421c382063 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -23,6 +23,7 @@ SRC_URI = "\
+     file://run-ptest \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+     file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
++    file://cve-2017-1000250.patch \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
+new file mode 100644
+index 00000000000..9fac961bcf6
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
+@@ -0,0 +1,34 @@
++All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
++information disclosure vulnerability which allows remote attackers to obtain
++sensitive information from the bluetoothd process memory. This vulnerability
++lies in the processing of SDP search attribute requests.
++
++CVE: CVE-2017-1000250
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 9e009647b14e810e06626dde7f1bb9ea3c375d09 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Wed, 13 Sep 2017 10:01:40 +0300
++Subject: sdp: Fix Out-of-bounds heap read in service_search_attr_req function
++
++Check if there is enough data to continue otherwise return an error.
++---
++ src/sdpd-request.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/sdpd-request.c b/src/sdpd-request.c
++index 1eefdce..318d044 100644
++--- a/src/sdpd-request.c
+++++ b/src/sdpd-request.c
++@@ -917,7 +917,7 @@ static int service_search_attr_req(sdp_req_t *req, sdp_buf_t *buf)
++ 	} else {
++ 		/* continuation State exists -> get from cache */
++ 		sdp_buf_t *pCache = sdp_get_cached_rsp(cstate);
++-		if (pCache) {
+++		if (pCache && cstate->cStateValue.maxBytesSent < pCache->data_size) {
++ 			uint16_t sent = MIN(max, pCache->data_size - cstate->cStateValue.maxBytesSent);
++ 			pResponse = pCache->data;
++ 			memcpy(buf->data, pResponse + cstate->cStateValue.maxBytesSent, sent);
++-- 
++cgit v1.1
+-- 
+2.11.0
+
 
