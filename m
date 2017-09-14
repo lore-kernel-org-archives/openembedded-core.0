@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2E78785E4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A1AA6785BC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 13:47:09 +0000 (UTC)
+	Thu, 14 Sep 2017 13:47:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8EDlAGw030762
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Thu, 14 Sep 2017 06:47:10 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8EDlB7L029269
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Sep 2017 06:47:11 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 14 Sep 2017 06:47:09 -0700
+	14.3.361.1; Thu, 14 Sep 2017 06:47:10 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 14 Sep 2017 09:47:00 -0400
-Message-ID: <ea276117b3bf83304196904a4ec44b84eafe4eb1.1505396619.git.bruce.ashfield@windriver.com>
+Date: Thu, 14 Sep 2017 09:47:01 -0400
+Message-ID: <c5fec3d945a25900900c7ad085ccf0b57a957f6d.1505396619.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <cover.1505396619.git.bruce.ashfield@windriver.com>
 References: <cover.1505396619.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/9] linux-yocto/4.12: bluetooth: CVE-2017-1000251
+Subject: [PATCH 8/9] linux-yocto/4.9: bluetooth: CVE-2017-1000251
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 13:47:09 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 13:47:10 -0000
 Content-Type: text/plain
 
 Integrating the following commit:
@@ -58,64 +58,64 @@ Integrating the following commit:
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |  2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 16 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb   |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb      | 16 ++++++++--------
  3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-index 491e5b05a23a..c49a9340f8e2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+index 23c445a814af..6734dc0d05e2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
 @@ -11,7 +11,7 @@ python () {
          raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
-+SRCREV_machine ?= "16de0149674ed12d983b77a453852ac2e64584b4"
- SRCREV_meta ?= "eda4d18ce4b259c84ccd5c249c3dc5958c16928c"
+-SRCREV_machine ?= "1e3f9281ed3043b83d31a3f3dfd28cfb0343873f"
++SRCREV_machine ?= "0817a7b3a853d1bdd3b87a2654ed2ee62f624806"
+ SRCREV_meta ?= "6acae6f7200af17b3c2be5ecab2cffdc59a02b35"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index 05debd338b99..efd876aee5ef 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.12.12"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;branch=${KBRANCH};name=machine \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+index 0c2ff0acb272..e0c523661883 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "4.9.49"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
-+SRCREV_machine ?= "16de0149674ed12d983b77a453852ac2e64584b4"
- SRCREV_meta ?= "eda4d18ce4b259c84ccd5c249c3dc5958c16928c"
+-SRCREV_machine ?= "0a2c7ae3c42cd9009df2df20afd2df78332c3ae3"
++SRCREV_machine ?= "480ee599fb8df712c10dcf4b7aa6398b79f7d404"
+ SRCREV_meta ?= "6acae6f7200af17b3c2be5ecab2cffdc59a02b35"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-index d060e2496b8d..a2624090d3f8 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.9.bb b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
+index dbb5d54117f2..dbe40a338d88 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.9.bb
 @@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/base"
  KBRANCH_qemux86-64 ?= "standard/base"
  KBRANCH_qemumips64 ?= "standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "42a4ca618610964560fcf6e4b6d7540f5449e992"
--SRCREV_machine_qemuarm64 ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
--SRCREV_machine_qemumips ?= "9252e9261b0a606df2f3f49004c23f8a110962ad"
--SRCREV_machine_qemuppc ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
--SRCREV_machine_qemux86 ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
--SRCREV_machine_qemux86-64 ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
--SRCREV_machine_qemumips64 ?= "bbcf4a8ae8af56687938a7412a9da92f4d1b6552"
--SRCREV_machine ?= "c86fccf85be960294703ca9882dde9ee62aaa9e4"
-+SRCREV_machine_qemuarm ?= "67b62d8d7bd9f19f0f4fad044787d947ebc4ec25"
-+SRCREV_machine_qemuarm64 ?= "16de0149674ed12d983b77a453852ac2e64584b4"
-+SRCREV_machine_qemumips ?= "371926551d44c140a0fb869cec34762b40bdf1a6"
-+SRCREV_machine_qemuppc ?= "16de0149674ed12d983b77a453852ac2e64584b4"
-+SRCREV_machine_qemux86 ?= "16de0149674ed12d983b77a453852ac2e64584b4"
-+SRCREV_machine_qemux86-64 ?= "16de0149674ed12d983b77a453852ac2e64584b4"
-+SRCREV_machine_qemumips64 ?= "9d63d9c11c44ceabd452d7ee49cf55a88c39383f"
-+SRCREV_machine ?= "16de0149674ed12d983b77a453852ac2e64584b4"
- SRCREV_meta ?= "eda4d18ce4b259c84ccd5c249c3dc5958c16928c"
+-SRCREV_machine_qemuarm ?= "072093c81a9329cec188905dfadb19c983be14f7"
+-SRCREV_machine_qemuarm64 ?= "0a2c7ae3c42cd9009df2df20afd2df78332c3ae3"
+-SRCREV_machine_qemumips ?= "0c66ebad24541c7673620ca433cd8478e5d06e3b"
+-SRCREV_machine_qemuppc ?= "0a2c7ae3c42cd9009df2df20afd2df78332c3ae3"
+-SRCREV_machine_qemux86 ?= "0a2c7ae3c42cd9009df2df20afd2df78332c3ae3"
+-SRCREV_machine_qemux86-64 ?= "0a2c7ae3c42cd9009df2df20afd2df78332c3ae3"
+-SRCREV_machine_qemumips64 ?= "6ac61462925ac9d6f668286bc29ee54f05e8f5e9"
+-SRCREV_machine ?= "0a2c7ae3c42cd9009df2df20afd2df78332c3ae3"
++SRCREV_machine_qemuarm ?= "8caa35a74753d45178720933f03d8d5150a8ff17"
++SRCREV_machine_qemuarm64 ?= "480ee599fb8df712c10dcf4b7aa6398b79f7d404"
++SRCREV_machine_qemumips ?= "fc2a3b9f932779fdf053675a5a73e8f9917507a5"
++SRCREV_machine_qemuppc ?= "480ee599fb8df712c10dcf4b7aa6398b79f7d404"
++SRCREV_machine_qemux86 ?= "480ee599fb8df712c10dcf4b7aa6398b79f7d404"
++SRCREV_machine_qemux86-64 ?= "480ee599fb8df712c10dcf4b7aa6398b79f7d404"
++SRCREV_machine_qemumips64 ?= "aee63978005c04ea853099764acaa08130e65554"
++SRCREV_machine ?= "480ee599fb8df712c10dcf4b7aa6398b79f7d404"
+ SRCREV_meta ?= "6acae6f7200af17b3c2be5ecab2cffdc59a02b35"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.9.git;name=machine;branch=${KBRANCH}; \
 -- 
 2.5.0
 
