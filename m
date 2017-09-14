@@ -1,30 +1,32 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 416FB77E86
+	by mail.openembedded.org (Postfix) with ESMTP id AC35677E86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 02:07:13 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,390,1500912000"; d="scan'208";a="26250450"
+	Thu, 14 Sep 2017 02:07:14 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.42,390,1500912000"; d="scan'208";a="26250452"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2017 10:07:12 +0800
+	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2017 10:07:15 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id CD85146BA6A8
+	by cn.fujitsu.com (Postfix) with ESMTP id 2D08E46BA6A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 10:07:11 +0800 (CST)
+	Thu, 14 Sep 2017 10:07:15 +0800 (CST)
 Received: from localhost.localdomain (10.167.235.93) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Thu, 14 Sep 2017 10:07:11 +0800
+	Server (TLS) id 14.3.361.1; Thu, 14 Sep 2017 10:07:14 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 10:07:00 +0800
-Message-ID: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Thu, 14 Sep 2017 10:07:01 +0800
+Message-ID: <1505354824-33448-2-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1505354824-33448-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: CD85146BA6A8.A6E75
+X-yoursite-MailScanner-ID: 2D08E46BA6A2.A6F87
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] at-spi2-atk: Add HOMEPAGE info into recipe file.
+Subject: [PATCH] at-spi2-core: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,20 +39,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 02:07:15 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 02:07:16 -0000
 Content-Type: text/plain
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-support/atk/at-spi2-atk_2.24.1.bb | 1 +
+ meta/recipes-support/atk/at-spi2-core_2.24.1.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb b/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
-index ac55081..4a0e411 100644
---- a/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.24.1.bb b/meta/recipes-support/atk/at-spi2-core_2.24.1.bb
+index b5b71e7..1687ae3 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.24.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.24.1.bb
 @@ -1,4 +1,5 @@
- SUMMARY = "AT-SPI 2 Toolkit Bridge"
+ SUMMARY = "Assistive Technology Service Provider Interface (dbus core)"
 +HOMEPAGE = "https://wiki.linuxfoundation.org/accessibility/d-bus"
  LICENSE = "LGPLv2"
  LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
