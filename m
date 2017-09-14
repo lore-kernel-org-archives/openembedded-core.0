@@ -1,46 +1,49 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D2487857F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 55C2078267
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 10:26:08 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id 187so2848765wmn.0
+	Thu, 14 Sep 2017 10:38:15 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id d16so17313654ioj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 03:26:10 -0700 (PDT)
+	Thu, 14 Sep 2017 03:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=eeqjGUyfIZUX31bzR/RdO4IqrMo5nVVKZsWHUP7D2yg=;
+	b=0VShzzxynjE2EY18jlWrLSiKdyXnktwRkl4KD+dFkb0LaXtIWBUs7OqD5Dn9nHwOkS
+	yzykfiu7Ybc4jbtUZgmg2z2+slYAh1xZdwUcmsAglihjRSZsks4ATsgJ46c0TnRhqh9E
+	LGBRaC3qsf21aXC3D05vh7Zz/Ibc1tWvlYSCu0wvVB/aDkZzdoj7ficM7vfyKoQ+JumU
+	2WxUyHhEgjLj+C88gXKG4MywCMcoeWVjHD8N2LOId9w1N8EPueAuEj042A/x1j+iEsYB
+	yrIl8JfgkYlsyCY3Pqhdn2Rv3Hq3WaLVc1Rh0mDQt5I73TjAyw+AM354ioDV99pWanI2
+	ZNPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=2ksYd+RrX5w4YCq2t8aw77u/lnI+dplRlq60ezS2snQ=;
-	b=ZJ1ksjOg7p+fPyQRQKPliPFyboXJ7Q+Htt2RtxM8u0EZpeEzIWh1/d/e+EUCiIMEKd
-	MKQc0wxHNNrOQZK80NmqTHcng6EYUGj7/kBr1l6X4NHL4q2dvS4RahdeR39biK+4RUPz
-	TxWuN/OEExIhfsktsVh5Y3o7uVPwhNJvTnbrgJCTGAkscJ2+Ry4qu8qSDmG9y/ojQ2sJ
-	VE6iFqioIYaOYyB0ZdPRwlxnAxzywkaAG6RaPymTRuwP3hISn3xFy1mtDYlhK7PS1XSr
-	/odhrnNKOIEfZotTYiBl+gxf8kOPm43ay69rrmpk8WbNq5BAkn1rY0+cNQ6or5mz30pV
-	+Apg==
-X-Gm-Message-State: AHPjjUj001qGBWth1ZRdqVPtSqVP4+xPjGP+QAgEi7l9EdIw2H8q4D+u
-	LZdjn+4eXrA28f8FK8I=
-X-Google-Smtp-Source: AOwi7QAKZ0DeTzlpcF6WiombojgW/NV4VXOWcyj+5p9k+ZxGt93GisXeyZ4R2cdCRlmOvc166PZXyA==
-X-Received: by 10.28.163.198 with SMTP id m189mr1353496wme.76.1505384769277;
-	Thu, 14 Sep 2017 03:26:09 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	b72sm1384540wmf.30.2017.09.14.03.26.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Sep 2017 03:26:08 -0700 (PDT)
-Message-ID: <1505384767.19222.4.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 11:26:07 +0100
-In-Reply-To: <CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
-References: <20170912203608.14327-1-otavio@ossystems.com.br>
-	<20170912203608.14327-3-otavio@ossystems.com.br>
-	<1505290515.32675.4.camel@andred.net>
-	<CAP9ODKoRrYs0SB1f6GCvFW6fStoEQNYkv7YbMfZdqbhLfGnXJw@mail.gmail.com>
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v8 3/3] kernel-devicetree.bbclass: Add support to generate append to kernel
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eeqjGUyfIZUX31bzR/RdO4IqrMo5nVVKZsWHUP7D2yg=;
+	b=VxVXZdW1910o7RL56xJItwEgGG+AOrCv/3RdK5rrhZsfrenvFYFpNpJ2G5XaXH37Mj
+	/NbmTZt6kKfYzJkZMKkmvqpUPnnA/4Yy6uxSSeM27SXwFJAMNDBXVoRcuDKhnFW4V+bH
+	SdWy0CkBys7IzlWAPaekWr6dxbj8qypRlZC3eTby1xfpQDg0KtQmh/VBDc9QqIFaK2jg
+	OBfVI89MpkVJtI6GHbdnbQZu6XK5QShU8hov1enlPF39D0umazvA4gqtAbJ4ZxKe9zBX
+	a01XsJm6Qw1R/Mnk5x63aBPCLvkrO0DB3L9/6+ZE2uZDEV4XLTfhUDkQqMF99v4V/uQE
+	EPqQ==
+X-Gm-Message-State: AHPjjUiz0/XZeV5u8JbBZ2S01syvXbOUzTNmJS8NEsA2v/i6uosOPWtX
+	nxn2/oKPJNHIlZW6gJhHrELIWYm1doyIH05oZ0zxow==
+X-Google-Smtp-Source: AOwi7QBcJZGW/jl3hN26070zKwnwHQ9HFrUNsi7PKC9WiaMBVWjTznOUMXSiDSy0yRni7maj05tZZLd5Uk6282QOSio=
+X-Received: by 10.107.135.72 with SMTP id j69mr2133328iod.210.1505385497448;
+	Thu, 14 Sep 2017 03:38:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.19.68 with HTTP; Thu, 14 Sep 2017 03:37:56 -0700 (PDT)
+In-Reply-To: <c460da5b-bda1-fc4b-45cb-6ff5c3c51902@windriver.com>
+References: <1505342415-93152-1-git-send-email-mark.hatle@windriver.com>
+	<c460da5b-bda1-fc4b-45cb-6ff5c3c51902@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 14 Sep 2017 11:37:56 +0100
+Message-ID: <CAJTo0LaL33j5AB32GvTpAAGgt40TM2S7Zq9dgzY2_yfGCiB0Sw@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] bitbake.conf: Add default FILESYSTEM_PERMS_TABLES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +56,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 10:26:09 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 10:38:16 -0000
+Content-Type: multipart/alternative; boundary="001a113f8e70d36093055923df35"
+
+--001a113f8e70d36093055923df35
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2017-09-13 at 09:30 -0300, Otavio Salvador wrote:
-> On Wed, Sep 13, 2017 at 5:15 AM, André Draszik <git@andred.net> wrote:
-> > On Tue, 2017-09-12 at 17:36 -0300, Otavio Salvador wrote:
-> 
-> ...
-> > AFAICS, zImage is specific to x86 and arm, all other arches, including
-> > MIPS
-> > have no zImage Makefile target, so we'll never get here.
-> 
-> Do you know which types we can use here?
+On 13 September 2017 at 23:49, Mark Hatle <mark.hatle@windriver.com> wrote:
 
-* for CONFIG_MIPS_RAW_APPENDED_DTB this can be either vmlinux.bin, or
-  vmlinuz.bin
-* for for CONFIG_MIPS_ELF_APPENDED_DTB this should be vmlinux
-
-see other mail :-)
-
-A.
+> On 9/13/17 5:40 PM, Mark Hatle wrote:
+> > If FILESYSTEM_PERMS_TABLES was not defined, the default was selected by
+> the
+> > packages.bbclass.  This made it difficult for a recipe or layer to
+> 'append'
+> > to the default.
+> >
+> > Copy the default into the bitbake.conf, allowing future _append and +=
+> style
+> > actions.
+> >
+> > Default was remove from package.bbclass.  If a value is not set, only the
+> > built-in per fixes will be used.
+>
+> per should have been 'perms' above.  I can send a v3 if needed.
 
 
+Fixed up when merging.
+
+Ross
+
+--001a113f8e70d36093055923df35
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 13 September 2017 at 23:49, Mark Hatle <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.ha=
+tle@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div =
+class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On 9/=
+13/17 5:40 PM, Mark Hatle wrote:<br>
+&gt; If FILESYSTEM_PERMS_TABLES was not defined, the default was selected b=
+y the<br>
+&gt; packages.bbclass.=C2=A0 This made it difficult for a recipe or layer t=
+o &#39;append&#39;<br>
+&gt; to the default.<br>
+&gt;<br>
+&gt; Copy the default into the bitbake.conf, allowing future _append and +=
+=3D style<br>
+&gt; actions.<br>
+&gt;<br>
+&gt; Default was remove from package.bbclass.=C2=A0 If a value is not set, =
+only the<br>
+&gt; built-in per fixes will be used.<br>
+<br>
+</span>per should have been &#39;perms&#39; above.=C2=A0 I can send a v3 if=
+ needed.</blockquote><div><br></div><div>Fixed up when merging.</div><div><=
+br></div><div>Ross</div></div></div></div>
+
+--001a113f8e70d36093055923df35--
