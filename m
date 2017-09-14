@@ -1,45 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A86BF7860C
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD2B78587
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 19:22:49 +0000 (UTC)
-Received: by mail-qk0-f195.google.com with SMTP id c69so192082qke.5
+	Thu, 14 Sep 2017 19:22:56 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id b1so221884qtc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 12:22:50 -0700 (PDT)
+	Thu, 14 Sep 2017 12:22:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=CLd/JWW1+sIl5V+tp1KLH+7Rd4UbchXeo6tWqzssZfA=;
-	b=p9FCRkV5O2QM+3u1wFeWF5m3FODM9tLbCYeETuGT3ScczKPE3BZyIqNNEeQfPi+F2c
-	v0IGJZ+yQYP7TNty3R1RaD9A7hjg5NOIyq0RiqoOyEY6Xw5BZ4Huhx7oTHNpdoyVt9VA
-	C0R+QhzZLguvF/CjqNkAB9LsB6+GUim65JTkoOQb3dIBkii2K+nBQZZoQbTz5C0gLRNI
-	JGC0uZgb3AoXF0icBw0kXT1hgtbDbbDALBjxtjzLgFliHpO/aJy42WQ3qVC9sNSbUNq7
-	uo2WFLH2JzDkqkZYfl9fdxLQ/eIdujtH7rmHQV0BbNOAQu1cdPS4SHWvQihbJHqnTgQw
-	zojg==
-X-Gm-Message-State: AHPjjUgufNoEGclebkvffsar6IKfR9hEm6InECmVKGu1YJdwKn9qOWrN
-	sriotBREbj3//NX2
-X-Google-Smtp-Source: AOwi7QBFY8T98qvKMafWIoK9/ev9DFq7JSlFF0eR8JSnxtX8fIc8bMRdEX0fmmp5SvKo1ZYtXqu5yA==
-X-Received: by 10.55.102.13 with SMTP id a13mr4251952qkc.320.1505416970178;
-	Thu, 14 Sep 2017 12:22:50 -0700 (PDT)
+	bh=8dI0d2xeV+Pvs+BH2LlYtBIYPGe9LG7obO04rc+q/DI=;
+	b=sTSJ44klDXZSc7IpdAEdv1L+E2mdMhKc6dddhjZzvuZvi4Lz3EwnFm3I8nP7beEB6i
+	55KdMNTmUrhzN2ToIyu7Y1fChJDuIdAXGu8kXPL738BVtVnvTEZ7cfRIZ5gGMle64USL
+	Dh3j6sLFt7uub7c4PeLnJnirdXdRbhBq0LXBsRAI0pPa76LJORTysPuEj6S1wnLFdtn6
+	5MzbRu/yiFRPxyykox+UE+Nhb/OcQ6C2O0H+bn/GFko/VVMRYkQKzp85m/ULQXn93dn3
+	S6nWU0n2/xmRVFR9am9BQoSiVA5bPZpXjHAhduEiUS12ArQibi5thep7ITQonAbzkVQp
+	K6Tg==
+X-Gm-Message-State: AHPjjUiwx2G0lvNIL5wJzeZjkXTcgmcg8LN5qWvyXaQDqeIH0NPNeVKV
+	fp1jh7awlXbqIpSh
+X-Google-Smtp-Source: AOwi7QAopB5ZfyejvxLxuaNgOP5Bl+nm4kNw5Odi6/Z1nBmAZht7Zo2NgJz73cOP6xp85Zk+lOAiqQ==
+X-Received: by 10.200.55.228 with SMTP id e33mr34369280qtc.170.1505416978086; 
+	Thu, 14 Sep 2017 12:22:58 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	e39sm11895896qtb.67.2017.09.14.12.22.45
+	k2sm11778319qtk.53.2017.09.14.12.22.53
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Sep 2017 12:22:49 -0700 (PDT)
+	Thu, 14 Sep 2017 12:22:57 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 14 Sep 2017 16:22:42 -0300
+	Thu, 14 Sep 2017 16:22:50 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 16:22:27 -0300
-Message-Id: <20170914192231.15002-2-otavio@ossystems.com.br>
+Date: Thu, 14 Sep 2017 16:22:28 -0300
+Message-Id: <20170914192231.15002-3-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170914192231.15002-1-otavio@ossystems.com.br>
 References: <20170914192231.15002-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v10 1/5] go-crosssdk: fix host/target references and cleanup
+Subject: [PATCH v10 2/5] go: fix linking issues for nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,16 +52,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 19:22:49 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 19:22:57 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-* The _FOR_TARGET variables need to include SDKNATIVEPATH
-* Install tools (cmd) only, and for the build host
-* Remove unnecessary FILES setting
-
-Corrects some errors when the build host architecture
-is different from the SDKMACHINE's.
+Switch to using an external linker for nativesdk
+go, go-runtime, and go package builds, which works
+more reliably when building 32-bit SDKs.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
@@ -70,41 +67,56 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Changes in v10:
 - new patch
 
- meta/recipes-devtools/go/go-crosssdk.inc | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ meta/classes/go.bbclass                 | 4 +++-
+ meta/recipes-devtools/go/go-runtime.inc | 5 +++++
+ meta/recipes-devtools/go/go-target.inc  | 3 +++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
-index e9bc677131..471c75b3d5 100644
---- a/meta/recipes-devtools/go/go-crosssdk.inc
-+++ b/meta/recipes-devtools/go/go-crosssdk.inc
-@@ -11,8 +11,9 @@ export GOARCH = "${TARGET_GOARCH}"
- export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
- export GOROOT_FINAL = "${libdir}/go"
- export CGO_ENABLED = "1"
--export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
--export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
-+export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}${SDKPATHNATIVE}"
-+export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}${SDKPATHNATIVE}"
-+export GO_INSTALL = "cmd"
- CC = "${@d.getVar('BUILD_CC', True).strip()}"
- 
- do_configure[noexec] = "1"
-@@ -43,13 +44,11 @@ do_install() {
- 	install -d ${D}${libdir}/go/bin
- 	install -d ${D}${libdir}/go/pkg/tool
- 	install -d ${D}${bindir}
--	cp --preserve=mode,timestamps -R ${S}/pkg/tool/${TARGET_GOTUPLE} ${D}${libdir}/go/pkg/tool/
--	for f in ${B}/${GO_BUILD_BINDIR}/*
-+	cp --preserve=mode,timestamps -R ${S}/pkg/tool/${BUILD_GOTUPLE} ${D}${libdir}/go/pkg/tool/
-+	for f in ${B}/bin/*
- 	do
- 		base=`basename $f`
- 		install -m755 $f ${D}${libdir}/go/bin
- 		make_wrapper $base ${TARGET_PREFIX}$base
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 33502bf722..863b578e5c 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -37,7 +37,9 @@ GO_RPATH = "${@'-r ${libdir}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_D
+ GO_RPATH_class-native = "${@'-r ${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+ GO_RPATH_LINK_class-native = "${@'-Wl,-rpath-link=${STAGING_LIBDIR_NATIVE}/go/pkg/${TARGET_GOTUPLE}_dynlink' if d.getVar('GO_DYNLINK') else ''}"
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS}"
+-GO_LDFLAGS ?= '-ldflags="${GO_RPATH} -extldflags '${GO_EXTLDFLAGS}'"'
++GO_LINKMODE ?= ""
++GO_LINKMODE_class-nativesdk = "--linkmode=external"
++GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_EXTLDFLAGS}'"'
+ export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS}"
+ export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+ export GOPTESTFLAGS ?= "-test.v"
+diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+index a074238e47..934d1aaeb9 100644
+--- a/meta/recipes-devtools/go/go-runtime.inc
++++ b/meta/recipes-devtools/go/go-runtime.inc
+@@ -45,6 +45,11 @@ do_install() {
  	done
  }
--
--FILES_${PN}-staticdev = "${libdir}/go/pkg"
+ 
++# Remove test binaries that cannot be relocated
++do_install_append_class-nativesdk() {
++	rm -rf ${D}${libdir}/go/src/runtime/pprof/testdata
++}
++
+ # These testdata directories aren't needed for builds and contain binaries
+ # that can cause errors in sysroot_strip(), so just remove them.
+ sysroot_stage_all_append() {
+diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
+index 0d80bf0d97..b88d0166e5 100644
+--- a/meta/recipes-devtools/go/go-target.inc
++++ b/meta/recipes-devtools/go/go-target.inc
+@@ -14,6 +14,9 @@ export CC_FOR_TARGET = "${CC}"
+ export CXX_FOR_TARGET = "${CXX}"
+ export GO_TARGET_INSTALL = "cmd"
+ export GO_FLAGS = "-a"
++GO_LDFLAGS = ""
++GO_LDFLAGS_class-nativesdk = "-linkmode external"
++export GO_LDFLAGS
+ 
+ do_configure[noexec] = "1"
+ 
 -- 
 2.14.1
 
