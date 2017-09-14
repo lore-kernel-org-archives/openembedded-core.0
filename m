@@ -1,42 +1,45 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8756F782FE
+Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
+	[209.85.220.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A86BF7860C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 19:22:41 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id u48so206549qtc.4
+	Thu, 14 Sep 2017 19:22:49 +0000 (UTC)
+Received: by mail-qk0-f195.google.com with SMTP id c69so192082qke.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Sep 2017 12:22:43 -0700 (PDT)
+	Thu, 14 Sep 2017 12:22:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=JTZbhB0su4MACq6YTX+dtl3U7ahQ2LTd0Jegn2hvtR8=;
-	b=Dd6S6tEcGPhzOFIygfWIYEL/gMmc68m84t2R6kVeavDwuMGw8lHketL5fpDXKQ7r2N
-	xNoDKZR7IkbcY5jPirC6eRT9HpAPGK0j+U83ew16NWA0Ft8cD7r8Q1veKxqThIUjGmzW
-	+UHptix2CNk43Yb8D1a2dMxKrJ7xAfRVV7yrJh+h4f+QRPW8Ac6EPO0bxVB5dMJajgub
-	VYhG+7QGk3pjkgcyCy6Si4Ta+efOP8pk4IAX/dzTTd92DPAfzLhnv0YImFoexKWhIPw6
-	y24MSDGaYqflNygAmFCyOqp+P7gaUKidA4hkgIjPQkHAid0SCnHqvAENpwAwg6avmpnJ
-	xnxg==
-X-Gm-Message-State: AHPjjUhISbAUuUQgQzLAsNN6QmWK2kxo5Fjt23LRsXU0OCqmVWdagUzp
-	htCAB9H84igj4uvn
-X-Google-Smtp-Source: AOwi7QDz2tpPQ4yjQfK1Gtezrju9ALnnMZMraQvjOxQ5jK7qm0Vi94LvcDyKutBJ7lKxc2ciL7U9PA==
-X-Received: by 10.200.27.226 with SMTP id m31mr34042853qtk.198.1505416962337; 
-	Thu, 14 Sep 2017 12:22:42 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:organization;
+	bh=CLd/JWW1+sIl5V+tp1KLH+7Rd4UbchXeo6tWqzssZfA=;
+	b=p9FCRkV5O2QM+3u1wFeWF5m3FODM9tLbCYeETuGT3ScczKPE3BZyIqNNEeQfPi+F2c
+	v0IGJZ+yQYP7TNty3R1RaD9A7hjg5NOIyq0RiqoOyEY6Xw5BZ4Huhx7oTHNpdoyVt9VA
+	C0R+QhzZLguvF/CjqNkAB9LsB6+GUim65JTkoOQb3dIBkii2K+nBQZZoQbTz5C0gLRNI
+	JGC0uZgb3AoXF0icBw0kXT1hgtbDbbDALBjxtjzLgFliHpO/aJy42WQ3qVC9sNSbUNq7
+	uo2WFLH2JzDkqkZYfl9fdxLQ/eIdujtH7rmHQV0BbNOAQu1cdPS4SHWvQihbJHqnTgQw
+	zojg==
+X-Gm-Message-State: AHPjjUgufNoEGclebkvffsar6IKfR9hEm6InECmVKGu1YJdwKn9qOWrN
+	sriotBREbj3//NX2
+X-Google-Smtp-Source: AOwi7QBFY8T98qvKMafWIoK9/ev9DFq7JSlFF0eR8JSnxtX8fIc8bMRdEX0fmmp5SvKo1ZYtXqu5yA==
+X-Received: by 10.55.102.13 with SMTP id a13mr4251952qkc.320.1505416970178;
+	Thu, 14 Sep 2017 12:22:50 -0700 (PDT)
 Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	x55sm1037614qth.91.2017.09.14.12.22.37
+	e39sm11895896qtb.67.2017.09.14.12.22.45
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 14 Sep 2017 12:22:41 -0700 (PDT)
+	Thu, 14 Sep 2017 12:22:49 -0700 (PDT)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Thu, 14 Sep 2017 16:22:31 -0300
+	Thu, 14 Sep 2017 16:22:42 -0300
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Sep 2017 16:22:26 -0300
-Message-Id: <20170914192231.15002-1-otavio@ossystems.com.br>
+Date: Thu, 14 Sep 2017 16:22:27 -0300
+Message-Id: <20170914192231.15002-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20170914192231.15002-1-otavio@ossystems.com.br>
+References: <20170914192231.15002-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v10 0/5] Revamp the Go support
+Subject: [PATCH v10 1/5] go-crosssdk: fix host/target references and cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,49 +52,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Sep 2017 19:22:41 -0000
+X-List-Received-Date: Thu, 14 Sep 2017 19:22:49 -0000
 
-This improves the Go support on OE-Core.
+From: Matt Madison <matt@madison.systems>
 
-We are trying to port as much as possible work done by Matt on
-meta-golang back to OE-Core and also to avoid carrying old releases as
-there is no need to support more versions of Go toolchain.
+* The _FOR_TARGET variables need to include SDKNATIVEPATH
+* Install tools (cmd) only, and for the build host
+* Remove unnecessary FILES setting
 
-This fixes issues in existing support as well as add support for SDK
-generation which supports Go.
+Corrects some errors when the build host architecture
+is different from the SDKMACHINE's.
+
+Signed-off-by: Matt Madison <matt@madison.systems>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
 Changes in v10:
 - new patch
-- new patch
-- new patch
-- new patch
-- new patch
 
-Matt Madison (4):
-  go-crosssdk: fix host/target references and cleanup
-  go: fix linking issues for nativesdk builds
-  go: fixes for cross-canadian builds
-  go.bbclass: set TMPDIR during compilation
+ meta/recipes-devtools/go/go-crosssdk.inc | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-Otavio Salvador (1):
-  Add Go toolchain support
-
- meta/classes/go.bbclass                            | 10 +++++-
- meta/recipes-core/meta/meta-go-toolchain.bb        | 12 +++++++
- .../packagegroup-go-cross-canadian.bb              | 12 +++++++
- .../packagegroups/packagegroup-go-sdk-target.bb    |  8 +++++
- meta/recipes-devtools/go/go-1.9.inc                |  1 +
- ...dd-GOHOSTxx-indirection-for-cross-canadia.patch | 33 ++++++++++++++++++
- meta/recipes-devtools/go/go-cross-canadian.inc     | 40 ++++++++++------------
- meta/recipes-devtools/go/go-crosssdk.inc           | 11 +++---
- meta/recipes-devtools/go/go-runtime.inc            |  5 +++
- meta/recipes-devtools/go/go-target.inc             |  3 ++
- 10 files changed, 106 insertions(+), 29 deletions(-)
- create mode 100644 meta/recipes-core/meta/meta-go-toolchain.bb
- create mode 100644 meta/recipes-core/packagegroups/packagegroup-go-cross-canadian.bb
- create mode 100644 meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
- create mode 100644 meta/recipes-devtools/go/go-1.9/0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
-
+diff --git a/meta/recipes-devtools/go/go-crosssdk.inc b/meta/recipes-devtools/go/go-crosssdk.inc
+index e9bc677131..471c75b3d5 100644
+--- a/meta/recipes-devtools/go/go-crosssdk.inc
++++ b/meta/recipes-devtools/go/go-crosssdk.inc
+@@ -11,8 +11,9 @@ export GOARCH = "${TARGET_GOARCH}"
+ export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
+ export GOROOT_FINAL = "${libdir}/go"
+ export CGO_ENABLED = "1"
+-export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
+-export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
++export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}${SDKPATHNATIVE}"
++export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}${SDKPATHNATIVE}"
++export GO_INSTALL = "cmd"
+ CC = "${@d.getVar('BUILD_CC', True).strip()}"
+ 
+ do_configure[noexec] = "1"
+@@ -43,13 +44,11 @@ do_install() {
+ 	install -d ${D}${libdir}/go/bin
+ 	install -d ${D}${libdir}/go/pkg/tool
+ 	install -d ${D}${bindir}
+-	cp --preserve=mode,timestamps -R ${S}/pkg/tool/${TARGET_GOTUPLE} ${D}${libdir}/go/pkg/tool/
+-	for f in ${B}/${GO_BUILD_BINDIR}/*
++	cp --preserve=mode,timestamps -R ${S}/pkg/tool/${BUILD_GOTUPLE} ${D}${libdir}/go/pkg/tool/
++	for f in ${B}/bin/*
+ 	do
+ 		base=`basename $f`
+ 		install -m755 $f ${D}${libdir}/go/bin
+ 		make_wrapper $base ${TARGET_PREFIX}$base
+ 	done
+ }
+-
+-FILES_${PN}-staticdev = "${libdir}/go/pkg"
 -- 
 2.14.1
 
