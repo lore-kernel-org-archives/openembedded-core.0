@@ -1,64 +1,22 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 807AC78671
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B5A5F7864A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 14:06:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id A264C2E46A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:18 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id j4A5CN129676
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id DE6122E48C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B7FA61A08E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AD4ED1A08D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id A1C642FEE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Fri, 15 Sep 2017 16:06:17 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Fri, 15 Sep 2017 16:06:17 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
-	"command"	to determine if programs exist
-Thread-Index: AQHStFG25407gFtAtEW2zNryFv62gaIsrsuAgIo/lnA=
-Date: Fri, 15 Sep 2017 14:06:17 +0000
-Message-ID: <660cc3aba3ef498188148224f389d457@XBOX02.axis.com>
-References: <cover.1492086566.git.pkj@axis.com>
-	<0991deba9e90e3c32f8566fdfc758cb88790bde4.1492086566.git.pkj@axis.com>
-	<106084978a804bf8a2b3aa10195bfa9f@XBOX02.axis.com>
-In-Reply-To: <106084978a804bf8a2b3aa10195bfa9f@XBOX02.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCHv2 1/1] base-files: profile: Avoid using "command"	to determine if programs exist
+	Fri, 15 Sep 2017 14:24:47 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Sep 2017 07:24:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,397,1500966000"; d="scan'208";a="312100496"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 15 Sep 2017 07:24:46 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	seebs@seebs.net
+Date: Fri, 15 Sep 2017 17:20:39 +0300
+Message-Id: <20170915142039.4855-1-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] pseudo: use epoll API on Linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,82 +29,292 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 14:06:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Sep 2017 14:24:47 -0000
 
-*ping*
+The idea came up here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11309
+and here:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-August/141491.html
 
-//Peter
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ .../pseudo/files/0001-Use-epoll-API-on-Linux.patch | 253 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.8.2.bb       |   1 +
+ 2 files changed, 254 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch
 
-> -----Original Message-----
-> From: Peter Kjellerstedt
-> Sent: den 19 juni 2017 16:53
-> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> core@lists.openembedded.org
-> Subject: RE: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
-> "command" to determine if programs exist
->=20
-> *ping*
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> > Peter Kjellerstedt
-> > Sent: den 13 april 2017 14:30
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
-> > "command" to determine if programs exist
-> >
-> > Since the existence of "command" in itself is not guaranteed, using it
-> > to determine if other executables exist is moot. Instead just run the
-> > executables and let the shell determine if they exist. By piping stderr
-> > to /dev/null we avoid unnecessary warnings in case they do not exist.
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/rec=
-ipes-core/base-files/base-files/profile
-> > index ceaf15f799..e05c8840db 100644
-> > --- a/meta/recipes-core/base-files/base-files/profile
-> > +++ b/meta/recipes-core/base-files/base-files/profile
-> > @@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
-> >  	unset i
-> >  fi
-> >
-> > -if command -v resize >/dev/null && command -v tty >/dev/null; then
-> > -	# Make sure we are on a serial console (i.e. the device used starts w=
-ith
-> > -	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher whic=
-h
-> > -	# tries do use ssh
-> > -	case $(tty) in
-> > -		/dev/tty[A-z]*) resize >/dev/null;;
-> > -	esac
-> > -fi
-> > +# Make sure we are on a serial console (i.e. the device used starts wi=
-th
-> > +# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which=
- tries do
-> > +# use ssh
-> > +case $(tty 2>/dev/null) in
-> > +	/dev/tty[A-z]*) resize >/dev/null 2>&1;;
-> > +esac
-> >
-> >  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
-> >
-> > --
-> > 2.12.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch b/meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch
+new file mode 100644
+index 00000000000..38b98fae37e
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch
+@@ -0,0 +1,253 @@
++From 191e8a778276ad2e1516a887dc8768fbc3762c77 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 15 Sep 2017 17:00:14 +0300
++Subject: [PATCH] Use epoll API on Linux
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ enums/exit_status.in |   3 +
++ pseudo_server.c      | 166 ++++++++++++++++++++++++++++++++++++++++++++++++++-
++ 2 files changed, 167 insertions(+), 2 deletions(-)
++
++diff --git a/enums/exit_status.in b/enums/exit_status.in
++index 6be44d3..88f94cd 100644
++--- a/enums/exit_status.in
+++++ b/enums/exit_status.in
++@@ -18,3 +18,6 @@ listen_fd, "server loop had no valid listen fd"
++ pseudo_loaded, "server couldn't get out of pseudo environment"
++ pseudo_prefix, "couldn't get valid pseudo prefix"
++ pseudo_invocation, "invalid server command arguments"
+++epoll_create, "epoll_create() failed"
+++epoll_ctl, "epoll_ctl() failed"
+++
++diff --git a/pseudo_server.c b/pseudo_server.c
++index ff16efd..f4f11fe 100644
++--- a/pseudo_server.c
+++++ b/pseudo_server.c
++@@ -32,6 +32,7 @@
++ #include <sys/un.h>
++ #include <sys/stat.h>
++ #include <sys/wait.h>
+++#include <sys/epoll.h>
++ #include <signal.h>
++ 
++ #include "pseudo.h"
++@@ -59,6 +60,7 @@ static int active_clients = 0, highest_client = 0, max_clients = 0;
++ 
++ #define LOOP_DELAY 2
++ #define DEFAULT_PSEUDO_SERVER_TIMEOUT 30
+++#define EPOLL_MAX_EVENTS 10
++ int pseudo_server_timeout = DEFAULT_PSEUDO_SERVER_TIMEOUT;
++ static int die_peacefully = 0;
++ static int die_forcefully = 0;
++@@ -81,6 +83,7 @@ static int messages = 0, responses = 0;
++ static struct timeval message_time = { .tv_sec = 0 };
++ 
++ static void pseudo_server_loop(void);
+++static void pseudo_server_loop_epoll(void);
++ 
++ /* helper function to make a directory, just like mkdir -p.
++  * Can't use system() because the child shell would end up trying
++@@ -369,12 +372,16 @@ pseudo_server_start(int daemonize) {
++ 			kill(ppid, SIGUSR1);
++ 		}
++ 	}
+++#ifdef PSEUDO_PORT_LINUX
+++	pseudo_server_loop_epoll();
+++#else
++ 	pseudo_server_loop();
+++#endif
++ 	return 0;
++ }
++ 
++ /* mess with internal tables as needed */
++-static void
+++static unsigned int
++ open_client(int fd) {
++ 	pseudo_client_t *new_clients;
++ 	int i;
++@@ -390,7 +397,7 @@ open_client(int fd) {
++ 			++active_clients;
++ 			if (i > highest_client)
++ 				highest_client = i;
++-			return;
+++			return i;
++ 		}
++ 	}
++ 
++@@ -414,9 +421,11 @@ open_client(int fd) {
++ 
++ 		max_clients += 16;
++ 		++active_clients;
+++		return max_clients - 16;
++ 	} else {
++ 		pseudo_diag("error allocating new client, fd %d\n", fd);
++ 		close(fd);
+++		return 0;
++ 	}
++ }
++ 
++@@ -566,6 +575,159 @@ serve_client(int i) {
++ 	}
++ }
++ 
+++static void pseudo_server_loop_epoll(void)
+++{
+++	struct sockaddr_un client;
+++	socklen_t len;
+++        int i;
+++        int rc;
+++        int fd;
+++	int timeout;
+++	struct epoll_event ev, events[EPOLL_MAX_EVENTS];
+++	int loop_timeout = pseudo_server_timeout;
+++
+++	clients = malloc(16 * sizeof(*clients));
+++
+++	clients[0].fd = listen_fd;
+++	clients[0].pid = getpid();
+++
+++	for (i = 1; i < 16; ++i) {
+++		clients[i].fd = -1;
+++		clients[i].pid = 0;
+++		clients[i].tag = NULL;
+++		clients[i].program = NULL;
+++	}
+++
+++	active_clients = 1;
+++	max_clients = 16;
+++	highest_client = 0;
+++
+++	pseudo_debug(PDBGF_SERVER, "server loop started.\n");
+++	if (listen_fd < 0) {
+++		pseudo_diag("got into loop with no valid listen fd.\n");
+++		exit(PSEUDO_EXIT_LISTEN_FD);
+++	}
+++
+++	timeout = LOOP_DELAY * 1000;
+++
+++	int epollfd = epoll_create1(0);
+++	if (epollfd == -1) {
+++		pseudo_diag("epoll_create1() failed.\n");
+++		exit(PSEUDO_EXIT_EPOLL_CREATE);
+++	}
+++	ev.events = EPOLLIN;
+++	ev.data.u64 = 0;
+++	if (epoll_ctl(epollfd, EPOLL_CTL_ADD, clients[0].fd, &ev) == -1) {
+++		pseudo_diag("epoll_ctl() failed with listening socket.\n");
+++		exit(PSEUDO_EXIT_EPOLL_CTL);
+++	}
+++
+++	pdb_log_msg(SEVERITY_INFO, NULL, NULL, NULL, "server started (pid %d)", getpid());
+++
+++        for (;;) {
+++		rc = epoll_wait(epollfd, events, EPOLL_MAX_EVENTS, timeout);
+++		if (rc == 0 || (rc == -1 && errno == EINTR)) {
+++			/* If there's no clients, start timing out.  If there
+++			 * are active clients, never time out.
+++			 */
+++			if (active_clients == 1) {
+++				loop_timeout -= LOOP_DELAY;
+++                                /* maybe flush database to disk */
+++                                pdb_maybe_backup();
+++				if (loop_timeout <= 0) {
+++					pseudo_debug(PDBGF_SERVER, "no more clients, got bored.\n");
+++					die_peacefully = 1;
+++				} else {
+++					/* display this if not exiting */
+++					pseudo_debug(PDBGF_SERVER | PDBGF_BENCHMARK, "%d messages handled in %.4f seconds, %d responses\n",
+++						messages,
+++						(double) message_time.tv_sec +
+++						(double) message_time.tv_usec / 1000000.0,
+++                                                responses);
+++				}
+++			}
+++		} else if (rc > 0) {
+++			loop_timeout = pseudo_server_timeout;
+++			for (i = 0; i < rc; ++i) {
+++				if (clients[events[i].data.u64].fd == listen_fd) {
+++					if (!die_forcefully) {
+++						len = sizeof(client);
+++						if ((fd = accept(listen_fd, (struct sockaddr *) &client, &len)) != -1) {
+++						/* Don't allow clients to end up on fd 2, because glibc's
+++						 * malloc debug uses that fd unconditionally.
+++						 */
+++							if (fd == 2) {
+++								int newfd = fcntl(fd, F_DUPFD, 3);
+++								close(fd);
+++								fd = newfd;
+++							}
+++							pseudo_debug(PDBGF_SERVER, "new client fd %d\n", fd);
+++		                                        /* A new client implicitly cancels any
+++		                                         * previous shutdown request, or a
+++		                                         * shutdown for lack of clients.
+++		                                         */
+++		                                        pseudo_server_timeout = DEFAULT_PSEUDO_SERVER_TIMEOUT;
+++		                                        die_peacefully = 0;
+++
+++							ev.events = EPOLLIN;
+++							ev.data.u64 = open_client(fd);
+++							if (ev.data.u64 != 0 && epoll_ctl(epollfd, EPOLL_CTL_ADD, clients[ev.data.u64].fd, &ev) == -1) {
+++								pseudo_diag("epoll_ctl() failed with accepted socket.\n");
+++								exit(PSEUDO_EXIT_EPOLL_CTL);
+++							}
+++						} else if (errno == EMFILE) {
+++							// select() loop would drop a client here, we do nothing (for now)
+++							pseudo_debug(PDBGF_SERVER, "Hit max open files.\n");
+++						}
+++					}
+++				} else {
+++					struct timeval tv1, tv2;
+++                                        int rc;
+++					gettimeofday(&tv1, NULL);
+++					rc = serve_client(events[i].data.u64);
+++					gettimeofday(&tv2, NULL);
+++					++messages;
+++                                        if (rc == 0)
+++                                                ++responses;
+++					message_time.tv_sec += (tv2.tv_sec - tv1.tv_sec);
+++					message_time.tv_usec += (tv2.tv_usec - tv1.tv_usec);
+++					if (message_time.tv_usec < 0) {
+++						message_time.tv_usec += 1000000;
+++						--message_time.tv_sec;
+++					} else while (message_time.tv_usec > 1000000) {
+++						message_time.tv_usec -= 1000000;
+++						++message_time.tv_sec;
+++					}
+++				}
+++				if (die_forcefully)
+++					break;
+++			}
+++			pseudo_debug(PDBGF_SERVER, "server loop complete [%d clients left]\n", active_clients);
+++		} else {
+++			pseudo_diag("epoll_wait failed: %s\n", strerror(errno));
+++			break;
+++		}
+++		if (die_peacefully || die_forcefully) {
+++			pseudo_debug(PDBGF_SERVER, "quitting.\n");
+++			pseudo_debug(PDBGF_SERVER | PDBGF_BENCHMARK, "server %d exiting: handled %d messages in %.4f seconds\n",
+++				getpid(), messages,
+++				(double) message_time.tv_sec +
+++				(double) message_time.tv_usec / 1000000.0);
+++			pdb_log_msg(SEVERITY_INFO, NULL, NULL, NULL, "server %d exiting: handled %d messages in %.4f seconds",
+++				getpid(), messages,
+++				(double) message_time.tv_sec +
+++				(double) message_time.tv_usec / 1000000.0);
+++			/* and at this point, we'll start refusing connections */
+++			close(clients[0].fd);
+++			/* This is a good place to insert a delay for
+++			 * debugging race conditions during startup. */
+++			/* usleep(300000); */
+++			exit(0);
+++		}
+++	}
+++
+++}
+++
++ /* get clients, handle messages, shut down.
++  * This doesn't actually do any work, it just calls a ton of things which
++  * do work.
++-- 
++2.14.1
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
+index 9bcd0318926..81853e95c42 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
+@@ -8,6 +8,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
+            file://efe0be279901006f939cd357ccee47b651c786da.patch \
+            file://b6b68db896f9963558334aff7fca61adde4ec10f.patch \
+            file://toomanyfiles.patch \
++           file://0001-Use-epoll-API-on-Linux.patch \
+            "
+ 
+ SRC_URI[md5sum] = "7d41e72188fbea1f696c399c1a435675"
+-- 
+2.14.1
+
 
