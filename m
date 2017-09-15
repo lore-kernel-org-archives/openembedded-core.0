@@ -1,48 +1,130 @@
-Return-Path: <prvs=424ce9e2f=mnhu@prevas.dk>
-X-Greylist: delayed 865 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 15 Sep 2017 18:36:25 UTC
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 680C878622
+Return-Path: <alistai@xilinx.com>
+X-Greylist: delayed 8405 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 15 Sep 2017 19:35:14 UTC
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-bl2nam02on0075.outbound.protection.outlook.com [104.47.38.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 7509B786B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 18:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=13539; q=dns/txt;
-	s=ironport2; t=1505500588; x=1537036588;
-	h=from:subject:to:cc:references:message-id:date:
-	mime-version:in-reply-to;
-	bh=mO0nwNu4yoORjvMGpMzu25hSgJMz62ls6ejtawT79DA=;
-	b=s1uaQLVtkDenySES6Lsl1x+12EjtaM/1sQGDZoDAB9ng+CbSryZXQN1e
-	oJMcgldcPjvOIrYyv0i7agfvknMjU/KsJCR1OnsUPJ3FAwRyZMyyHh8Tp
-	GBPBXWDuIynOv9tPLswVCC7XOb44gqUy8IP1NxflpvVzO1sWiCgXTRzCL A=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GCAAByGbxZ/+iTuFUNUBkBAQEBAgEBA?=
-	=?us-ascii?q?QEIAQEBAYQ/gRWDdZsrMSt5lS6CEgqFPAKEahcBAgEBAQEBAQEDhikBAQEDI0g?=
-	=?us-ascii?q?OEAsNAQQGGBICAkkOBg0GAgEBiiKqWBE4a4InIosMAQEBAQEBAQMBAQEBAQETD?=
-	=?us-ascii?q?4MrhTUrC4I9NYRiQiKCRYJBHwWHP5lGhDmCIYRdg1iFRoIThWqDcYcKSIk4izS?=
-	=?us-ascii?q?BOSEDgUEyKTFJhU6BUHSGVCqCFwEBAQ?=
-X-IPAS-Result: =?us-ascii?q?A2GCAAByGbxZ/+iTuFUNUBkBAQEBAgEBAQEIAQEBAYQ/gRW?=
-	=?us-ascii?q?DdZsrMSt5lS6CEgqFPAKEahcBAgEBAQEBAQEDhikBAQEDI0gOEAsNAQQGGBICA?=
-	=?us-ascii?q?kkOBg0GAgEBiiKqWBE4a4InIosMAQEBAQEBAQMBAQEBAQETD4MrhTUrC4I9NYR?=
-	=?us-ascii?q?iQiKCRYJBHwWHP5lGhDmCIYRdg1iFRoIThWqDcYcKSIk4izSBOSEDgUEyKTFJh?=
-	=?us-ascii?q?U6BUHSGVCqCFwEBAQ?=
-X-IronPort-AV: E=Sophos;i="5.42,398,1500933600"; 
-	d="log'?conf'?scan'208";a="2487290"
-Received: from unknown (HELO [10.0.0.232]) ([85.184.147.232])
-	by mail02.prevas.se with ESMTP/TLS/DHE-RSA-AES128-SHA;
-	15 Sep 2017 20:20:16 +0200
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
-To: Tom Rini <trini@konsulko.com>
-References: <1501012689-2574-1-git-send-email-trini@konsulko.com>
-	<01d79bbc-39d1-b610-f199-15dc2b63c10c@prevas.dk>
-	<20170915121620.GR4560@bill-the-cat>
-Message-ID: <48cfd456-5bb7-8446-2954-b055983e58cd@prevas.dk>
-Date: Fri, 15 Sep 2017 20:20:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Fri, 15 Sep 2017 19:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=8aBJFYmcbwyMSQxLOxtZGNj1uahrbBySu3uVkTjCmrk=;
+	b=ffq+iddYZk8+iP5aphcrc0DITlmRckfqqt68zYms7lTNwTO9QkD3vXmJQdJZDJTnssbQkrg/708WxNRpez1g3joF7Iwef9pKf0kU8aFHLo7sH9Ld8Xmqt9rvMwbEWYXJgU/8Vf9LYgk5SAplfvS9jkl5WNa3qk2cpCZcUMhD0Ps=
+Received: from BLUPR0201CA0021.namprd02.prod.outlook.com (10.163.116.31) by
+	BY2PR0201MB1925.namprd02.prod.outlook.com (10.163.75.155) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.20.56.11; Fri, 15 Sep 2017 17:00:30 +0000
+Received: from SN1NAM02FT012.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::204) by BLUPR0201CA0021.outlook.office365.com
+	(2a01:111:e400:52e7::31) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.56.11 via
+	Frontend Transport; Fri, 15 Sep 2017 17:00:29 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+	signed) header.d=none; lists.openembedded.org;
+	dmarc=bestguesspass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	SN1NAM02FT012.mail.protection.outlook.com (10.152.72.95) with Microsoft
+	SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.35.14
+	via Frontend Transport; Fri, 15 Sep 2017 17:00:29 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <alistair.francis@xilinx.com>) id 1dstye-0002z1-73
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Sep 2017 10:00:28 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <alistair.francis@xilinx.com>) id 1dstye-0000q5-47
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Sep 2017 10:00:28 -0700
+Received: from xsj-pvapsmtp01 (mailhub.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	v8FH0CsL007972; Fri, 15 Sep 2017 10:00:12 -0700
+Received: from [172.19.2.220] (helo=localhost.localdomain)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alistair.francis@xilinx.com>)
+	id 1dstyO-0000SP-EN; Fri, 15 Sep 2017 10:00:12 -0700
+From: Alistair Francis <alistair.francis@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Sep 2017 09:56:29 -0700
+Message-ID: <20170915165629.10005-1-alistair.francis@xilinx.com>
+X-Mailer: git-send-email 2.11.0
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.1.0.1062-23330.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(376002)(346002)(39860400002)(2980300002)(438002)(199003)(189002)(9786002)(189998001)(478600001)(2906002)(50226002)(106466001)(16586007)(50466002)(48376002)(63266004)(1076002)(356003)(305945005)(5003940100001)(316002)(2351001)(47776003)(6916009)(50986999)(107886003)(6666003)(8936002)(77096006)(36756003)(110136004)(230783001)(4326008)(33646002)(36386004)(8676002)(5660300001)(81156014)(81166006)(107986001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BY2PR0201MB1925;
+	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; PTR:unknown-60-83.xilinx.com;
+	A:1; MX:1; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; SN1NAM02FT012;
+	1:r02+b12+XKtF4htgFMWgFSnQ9rTpW6Ao3L4OQu/qQS30hEiqP7X3Tb10IQQG9aB26ri0eRERcEa3IKH5n3oT5e3PZ4k5SmyZgy+Ne58QMwVWeo6OFkP/KPm9UGnpuFAS
 MIME-Version: 1.0
-In-Reply-To: <20170915121620.GR4560@bill-the-cat>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image: Fix "metadata is not deterministic" when chaining 2+ CONVERSION_CMDs
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6b26b729-ac23-4c5e-eb49-08d4fc5b44dc
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(300000500095)(300135000095)(300000501095)(300135300095)(22001)(300000502095)(300135100095)(2017030254152)(8251501002)(300000503095)(300135400095)(2017052603199)(201703131423075)(201703031133081)(201702281549075)(300000504095)(300135200095)(300000505095)(300135600095)(300000506095)(300135500095);
+	SRVR:BY2PR0201MB1925; 
+X-Microsoft-Exchange-Diagnostics: 1; BY2PR0201MB1925;
+	3:EgkK3FZimswJkPcRqPoSorg+cYw6R3O1+3ssDczOy92ysRPwsF9nfLIb88CileV3eay9Ekb0zmGLfBITqnwXkKJNmqLYYKGm4totIi3glIavX3HyrXja0RObbT1qrXR5Lnh7CuFmO3gGQTb51CkkjSHfCkUEUfVirRLAYVfG+N5WIPj65PvvMFChIlelgM5HKT6uZQtPGmjB/vokL+M7NmQsiYQHTYxc/3ogcnr6lhxGt5/oy/bjrrZX40yWY2Gn6qy75ZYkLj/x+sfsW0HikzTciHq4sxyHYNI1/zD+jdYnCZS6ePicj6oYRM4z+Lig3wGHlPMnQVRgWDgb0qyaiER/veO+YVmCAC+igAcIvYo=;
+	25:cVQZBWsP5Gq2kZKsQgmUV5gbnHU+GaJDCXubI2ACByvkgLH8Yk3/H/03QZ4hDQHcgzAGlgWbJathMnK00Jsw07CvWwzfgTw3I0rXZ1wEAhuXkQVXpEoFgwxYwi/hy406Ms1T1/bExwzFpqiEX8RvDqs+/us5t6nxow6sl+9XMxMTc9StTsfgVUwvpgwMlXcPIEosJ3YLhWTGhLY5ROVSlJA1j84Zp58OvRRnKzzs4+TIRII6flJXdfk6SXMcyaeYv3s5i+tZqFH2N2jaOIO+jDPW49PNLl/C8YZiRA8KowoQrkin585LzPFme1nPjRt6wSuuNKziapoo/v31VKZcQw==
+X-MS-TrafficTypeDiagnostic: BY2PR0201MB1925:
+X-Microsoft-Exchange-Diagnostics: 1; BY2PR0201MB1925;
+	31:FdveKep7UDiqn2KMsMzN0mQ9WbnneEftHuoE8RTlv4i7ktErcnNwxznAvNV31hQRsvFhI+ffsH51Uaf+5m83FN3qeh63UmurQxLF0R1cs1RR0SlldL6b8oduM1g3XeSRke9h94cCYKhq5ErT+DgA+2WuEcBHYFVA50STTjGS5kMnhPpz8DlghkQrkCQ78hRHC7rrsYhZoUtWdGLHzeqUO2Z0mNw3PRucZLCwTP0OTPA=;
+	20:AI9YqXU/qt43MzCCCVj6FmydQIzzraRnqqo1LzGbtvFunOGUx0237EiWRhAwywei1aF02/noOEw2CG02PKhmz8Wu/r5MrfPEsCp1+LNbH/ba1M33Q+gAPadGDbOvZjPSSnpks+sssQdCPrB6aKj4WvlRj/YFPWC+kZecUSMsFYFruq5XiWjWTmo0mvd7APx4Nf0ZcaXuzgUFiaF8yTCb+1HKH/39cpfzIi+MQc1nU531iS2t9ZXr6ZCDzAMIrUXjpFFavwRmjfnXw+7MMmouhFgR+TtlDZqZYrWfQ/qKx2+BjlwPCRppaQHtAIiyYt9bbBqEtyIu+6APmMxzViUuOVzl3xJRyR4YEc0cIhe2Zjgjz24C9x4nXyv7XJrxDecCq74r7ELE7qG+nKaZMdIBv/ywxWpqO5SQlHJPaQ3AhXqRCqqIo0g+HSGFodaYQRxLb26eU9HZHKCD7e5RGadTAyXbQlkcMg1sL2PcT3HkQzxvSejPv1uU59dvOgjRc/yL
+X-Exchange-Antispam-Report-Test: UriScan:(192813158149592);
+X-Microsoft-Antispam-PRVS: <BY2PR0201MB19258E7AD25F4BDE7083FBB7DC6C0@BY2PR0201MB1925.namprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(2401047)(8121501046)(5005006)(3002001)(100000703101)(100105400095)(93006095)(93004095)(10201501046)(6055026)(6041248)(20161123555025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(20161123564025)(20161123562025)(20161123560025)(20161123558100)(6072148)(201708071742011)(100000704101)(100105200095)(100000705101)(100105500095);
+	SRVR:BY2PR0201MB1925; BCL:0; PCL:0;
+	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
+	SRVR:BY2PR0201MB1925; 
+X-Microsoft-Exchange-Diagnostics: 1; BY2PR0201MB1925;
+	4:0lMwMvSX+MOCi/RZgVsxs6oyIO5FcDnWw9vWl03uhCLIw6ASLs1eWN21jOglRccGqubBqH4NYTRPClZbRc+prVqrOzC6NKWRbWuD8kPaW7rGbKOJI9uW8PUa+fbSOrew3bhhonSJH95YVf6T7S/EPsOXanOpeAjCUTleKaRdRV2PxeNL8Lg4HCbhXewUezQtAoxr5YhKgycT3+mBvHy2ZE63Er3phtIzdQKCWwn9QhpexDdkLl40vc1gGcPBocLrzRJFF3GXXm2GzFUywMQbsbFkqxtRdnSsR1hM8Rum6/I=
+X-Forefront-PRVS: 0431F981D8
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BY2PR0201MB1925;
+	23:v5Pit+j7DvDpYSUFihAOFLmid0MwcFWNWcYUSTj?=
+	=?us-ascii?Q?ebhPa/l4FtMqZEUsNtf4d94EYs2ojto1xLk/HqqpNRWfslOI6QE/y4sRxcHk?=
+	=?us-ascii?Q?Wok7N4+a1gqOlmfRvoCzRMaODxVIFo42P1iT90PzL1s9TBOBRKcxo7G6gSo4?=
+	=?us-ascii?Q?mLzRDRzHv8ONigpU9iuykWDlzCis+vPVUY8+hQ23JEFN8l+l+Wl7tEme/zA3?=
+	=?us-ascii?Q?j0tcgiRHncJrbTeC93HR0YET8f+EOgnGgQDlJujpMQVOFn2pKv6sj1Khn2ic?=
+	=?us-ascii?Q?1bYAV9WGI8ioxEqGWIKkjLnKhDA+U7ThuvklI3kFZr4U30bQgdrHehsEb01f?=
+	=?us-ascii?Q?YISu2yMe9oyPvlU8l346FOuh3R2BRg1lDG+XP6THu9col6dh/z0NhJ5Y09kT?=
+	=?us-ascii?Q?iOXecQN5Hk7YTy4PZyS5lRu3cUd5FY8xdpVuwxEyqay5BQrsFup4PxwKbJIy?=
+	=?us-ascii?Q?nDM56+k4Ox1tR+O2junRMmPc6hHjvLOw0M3hRA6CscNfwEmL2Dqo6lsE+dZM?=
+	=?us-ascii?Q?diHcdUBdihQfUQ4/umIAyAlL8WxyVxsG4CqbS3mov50Cgu2e5cZynzVlsqbO?=
+	=?us-ascii?Q?bJ4FPfgZ2V4kyp760a7/5R4hG59GCloqnP+h8vsLLzLE48pYidfSF1Sy8lHo?=
+	=?us-ascii?Q?JfCugcRKj1uhkD8hpWZ1/wa4B8Rj/AukAjxHV645s1jkR0dA9AdbmU9FaXOO?=
+	=?us-ascii?Q?Ua4JjfzK3b+x5icupuxzDatZxRxtjTUFLn+L1ZWW7Tidd8cDqE8HTe/Mjavw?=
+	=?us-ascii?Q?5rWFKfwtPg00bh4zR3pn9Mg6gOGRPBHFiiR9y5WQ9TxvjfSMwfiru8eLkgNd?=
+	=?us-ascii?Q?uTYhsD2yv/Yzr3P3qxJGncIqsavOiTkNrcqpIVcemylNjwhMrPpVYE4i9g35?=
+	=?us-ascii?Q?RMIP03pXM+L0KC8x67NtlZFTAA1f79vrxuJptxHWnj3UbAXE6TCOVPYL+PBK?=
+	=?us-ascii?Q?+dHRsTXk3CYT4cmaKDG9zhtNa2ja3dNWLhlcufrbmxzrTsxeMAmTDlNeo8pP?=
+	=?us-ascii?Q?bWg2taFZIVYihybxfZMoIatdh?=
+X-Microsoft-Exchange-Diagnostics: 1; BY2PR0201MB1925;
+	6:qJ919Ye5YhJ4zxW36RAqR7kTIUh7D76AnlUn3DjblQPNYQqshW2pbUAMY6ffDqs6Ot0q15f+vZA21tPHn8d288py1GhNCY06r1k/tEfAw/os+1qdcbTRBOhLn5AiDuFkz3RHqFhKAkO9nbS/p4E9ftt19cuNUs5/YkPcoI7X1v06/02kqZf6m+5rVxv+3NWwmaD+WEtoiKl7TWTbPLDnH7zRwmSL08z/xaXriX16LJRMB4JKYKTOrxNSzdJAluRNRXKMtqc80l2n+uesoidH7DN7KULsKzVfC2qPKebYy80CaIzI8zbLbaZSgMG8XfAJj/cCetBblsEGJ+2lplNU0A==;
+	5:SYho2M0sJW9oZaeHJjU+u/MgkzA7m2qZn0rtVplABg14LwAGXg2D34seYE/u91/eRyYzKh6Nk0hRjMeP7YJIubBH1OpB3sCo8gI+lTrnt09/V+2W74Sr4tM5NcqDOltkFz72zi+137VKzlOd7wmyhQ==;
+	24:em+ljcupY7l/CTbk1ZxqcHcOv8hPlcKlJDaS0HSKGw3GqKL7nITyFkn1NmuzWIkJLmsi+5EZ3ADkQTiBAif318I3uG8hGcM1Sz+QeQXPkT0=;
+	7:1j0LaGJ118elS8j4qAd6KSVU/pA+3YlxDOeWp9b4Bde6NhVovXC1w68RCpXlgSuFlSFt7dgh9mKEOGovN5IJnuW8s7ezp9/kF/AR7QUKZtWxckrL4sdXR9yq03lyh+rUOMqmH6dfBSyg2zFGIBjyRb0kagPwnfaL+eCtlHqhZgnZ35krDsBdZZAkPYv95GwDD1VI7bCTvHnyRiWmNa5ymqNkLXvE8847Y8da0c6ADyg=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2017 17:00:29.2072 (UTC)
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2PR0201MB1925
+Subject: [PATCH] devtools: qemu: Remove obsolete '--with-system-pixman' option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,340 +137,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 18:36:27 -0000
-X-Groupsio-MsgNum: 102990
-Content-Type: multipart/mixed; boundary="------------F911007C9A63AAFD417562B0"
-Content-Language: en-IE
+X-List-Received-Date: Fri, 15 Sep 2017 19:35:15 -0000
+Content-Type: text/plain
 
---------------F911007C9A63AAFD417562B0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+QEMU version 2.11 will remove the pixman submodule. This means users are
+always required to supply pixman from the system if building softmmu
+support in QEMU.
 
-Hi Tom,
+Without specifying a pixman configure option QEMU will default to using
+the system pixman if it is avaliable. In which case let's remove the
+config option as it is no longer supported in recent commits and is not
+required in older builds as the configure system defaults are already
+using system pixman.
 
-On 2017-09-15 14:16, Tom Rini wrote:
->> This commit has resulted in more or less persistent basehash issues
->> for my cpio.gz.u-boot image:
->>
->> ERROR: When reparsing /home/mnhu/projects/pil/yocto/meta-pil/recipes-filesystems/rescue-rootfs.bb.do_image_cpio,
->> the basehash value changed from ac9907bbb8ee2ee6d9ca90f7a7e265f5 to
->> 8c7b717add6b1d1ba6ff761ebfdedf01. The metadata is not deterministic
->> and this needs to be fixed.
->>
->> The error occurs repeatedly when doing `bitbake -c clean
->> rescue-rootfs && bitbake rescue-rootfs`. Reverting the commit makes
->> the error go away.
->>
->> Also, the issue only appears for cpio.gz.u-boot image types, but not
->> for cpio.gz
->>
->> I am far from an expert in bitbake signature handling, so please let
->> me know what to do, to debug this further.
-> Can you let me know what layers and machine I need to reproduce this?
-> I'll take a look, thanks!
+Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-I am able to reproduce with the following:
-
-   - Ubuntu 16.04 based on the attached Dockerfile
-   - A clean clone of poky (commit 072430b9b3)
-   - meta, meta-poky, and meta-yocto-bsp (see build-config.log)
-   - beaglebone machine and gpio.gz.u-boot image type (see local.conf)
-
-// Martin
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 0e1411af64..2a1d14b31b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -26,7 +26,6 @@ EXTRA_OECONF = " \
+     --disable-strip \
+     --disable-werror \
+     --target-list=${@get_qemu_target_list(d)} \
+-    --with-system-pixman \
+     --extra-cflags='${CFLAGS}' \
+     "
+ EXTRA_OECONF_append_class-native = " --python=${USRBINPATH}/python2.7"
+-- 
+2.11.0
 
 
---------------F911007C9A63AAFD417562B0
-Content-Type: text/plain; charset=UTF-8;
- name="Dockerfile"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: attachment;
- filename="Dockerfile"
-
-FROM ubuntu:16.04
-MAINTAINER Martin Hundebøll <mnhu@prevas.dk>
-
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update
-RUN apt-get install -y python python3 build-essential locales
-RUN apt-get install -y chrpath cpio diffstat gawk git texinfo wget iputils-ping openssh-client
-RUN apt-get install -y zsh vim less
-RUN locale-gen en_US.UTF-8
-ENV LANG=en_US.UTF-8
-
-RUN groupadd admin; \
-    useradd -m -p $(openssl passwd -crypt foobar) -s /bin/zsh -G admin mnhu;
-USER mnhu
-WORKDIR /home/mnhu
-CMD ["/bin/zsh"]
-
-
---------------F911007C9A63AAFD417562B0
-Content-Type: text/plain; charset=UTF-8;
- name="local.conf"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="local.conf"
-
-#
-# This file is your local configuration file and is where all local user settings
-# are placed. The comments in this file give some guide to the options a new user
-# to the system might want to change but pretty much any configuration option can
-# be set in this file. More adventurous users can look at local.conf.extended
-# which contains other examples of configuration which can be placed in this file
-# but new users likely won't need any of them initially.
-#
-# Lines starting with the '#' character are commented out and in some cases the
-# default values are provided as comments to show people example syntax. Enabling
-# the option is a question of removing the # character and making any change to the
-# variable as required.
-
-#
-# Machine Selection
-#
-# You need to select a specific machine to target the build with. There are a selection
-# of emulated machines available which can boot and run in the QEMU emulator:
-#
-#MACHINE ?= "qemuarm"
-#MACHINE ?= "qemuarm64"
-#MACHINE ?= "qemumips"
-#MACHINE ?= "qemumips64"
-#MACHINE ?= "qemuppc"
-#MACHINE ?= "qemux86"
-#MACHINE ?= "qemux86-64"
-#
-# There are also the following hardware board target machines included for 
-# demonstration purposes:
-#
-#MACHINE ?= "beaglebone"
-#MACHINE ?= "genericx86"
-#MACHINE ?= "genericx86-64"
-#MACHINE ?= "mpc8315e-rdb"
-#MACHINE ?= "edgerouter"
-#
-# This sets the default machine to be qemux86 if no other machine is selected:
-MACHINE ??= "beaglebone"
-
-#
-# Where to place downloads
-#
-# During a first build the system will download many different source code tarballs
-# from various upstream projects. This can take a while, particularly if your network
-# connection is slow. These are all stored in DL_DIR. When wiping and rebuilding you
-# can preserve this directory to speed up this part of subsequent builds. This directory
-# is safe to share between multiple builds on the same machine too.
-#
-# The default is a downloads directory under TOPDIR which is the build directory.
-#
-#DL_DIR ?= "${TOPDIR}/downloads"
-
-#
-# Where to place shared-state files
-#
-# BitBake has the capability to accelerate builds based on previously built output.
-# This is done using "shared state" files which can be thought of as cache objects
-# and this option determines where those files are placed.
-#
-# You can wipe out TMPDIR leaving this directory intact and the build would regenerate
-# from these files if no changes were made to the configuration. If changes were made
-# to the configuration, only shared state files where the state was still valid would
-# be used (done using checksums).
-#
-# The default is a sstate-cache directory under TOPDIR.
-#
-#SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
-
-#
-# Where to place the build output
-#
-# This option specifies where the bulk of the building work should be done and
-# where BitBake should place its temporary files and output. Keep in mind that
-# this includes the extraction and compilation of many applications and the toolchain
-# which can use Gigabytes of hard disk space.
-#
-# The default is a tmp directory under TOPDIR.
-#
-#TMPDIR = "${TOPDIR}/tmp"
-
-#
-# Default policy config
-#
-# The distribution setting controls which policy settings are used as defaults.
-# The default value is fine for general Yocto project use, at least initially.
-# Ultimately when creating custom policy, people will likely end up subclassing 
-# these defaults.
-#
-DISTRO ?= "poky"
-# As an example of a subclass there is a "bleeding" edge policy configuration
-# where many versions are set to the absolute latest code from the upstream 
-# source control systems. This is just mentioned here as an example, its not
-# useful to most new users.
-# DISTRO ?= "poky-bleeding"
-
-#
-# Package Management configuration
-#
-# This variable lists which packaging formats to enable. Multiple package backends
-# can be enabled at once and the first item listed in the variable will be used
-# to generate the root filesystems.
-# Options are:
-#  - 'package_deb' for debian style deb files
-#  - 'package_ipk' for ipk files are used by opkg (a debian style embedded package manager)
-#  - 'package_rpm' for rpm style packages
-# E.g.: PACKAGE_CLASSES ?= "package_rpm package_deb package_ipk"
-# We default to rpm:
-PACKAGE_CLASSES ?= "package_rpm"
-
-#
-# SDK target architecture
-#
-# This variable specifies the architecture to build SDK items for and means
-# you can build the SDK packages for architectures other than the machine you are
-# running the build on (i.e. building i686 packages on an x86_64 host).
-# Supported values are i686 and x86_64
-#SDKMACHINE ?= "i686"
-
-#
-# Extra image configuration defaults
-#
-# The EXTRA_IMAGE_FEATURES variable allows extra packages to be added to the generated
-# images. Some of these options are added to certain image types automatically. The
-# variable can contain the following options:
-#  "dbg-pkgs"       - add -dbg packages for all installed packages
-#                     (adds symbol information for debugging/profiling)
-#  "dev-pkgs"       - add -dev packages for all installed packages
-#                     (useful if you want to develop against libs in the image)
-#  "ptest-pkgs"     - add -ptest packages for all ptest-enabled packages
-#                     (useful if you want to run the package test suites)
-#  "tools-sdk"      - add development tools (gcc, make, pkgconfig etc.)
-#  "tools-debug"    - add debugging tools (gdb, strace)
-#  "eclipse-debug"  - add Eclipse remote debugging support
-#  "tools-profile"  - add profiling tools (oprofile, lttng, valgrind)
-#  "tools-testapps" - add useful testing tools (ts_print, aplay, arecord etc.)
-#  "debug-tweaks"   - make an image suitable for development
-#                     e.g. ssh root access has a blank password
-# There are other application targets that can be used here too, see
-# meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
-# We default to enabling the debugging tweaks.
-EXTRA_IMAGE_FEATURES ?= "debug-tweaks"
-
-#
-# Additional image features
-#
-# The following is a list of additional classes to use when building images which
-# enable extra features. Some available options which can be included in this variable
-# are:
-#   - 'buildstats' collect build statistics
-#   - 'image-mklibs' to reduce shared library files size for an image
-#   - 'image-prelink' in order to prelink the filesystem image
-# NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
-# NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
-
-#
-# Runtime testing of images
-#
-# The build system can test booting virtual machine images under qemu (an emulator)
-# after any root filesystems are created and run tests against those images. To
-# enable this uncomment this line. See classes/testimage(-auto).bbclass for
-# further details.
-#TEST_IMAGE = "1"
-#
-# Interactive shell configuration
-#
-# Under certain circumstances the system may need input from you and to do this it
-# can launch an interactive shell. It needs to do this since the build is
-# multithreaded and needs to be able to handle the case where more than one parallel
-# process may require the user's attention. The default is iterate over the available
-# terminal types to find one that works.
-#
-# Examples of the occasions this may happen are when resolving patches which cannot
-# be applied, to use the devshell or the kernel menuconfig
-#
-# Supported values are auto, gnome, xfce, rxvt, screen, konsole (KDE 3.x only), none
-# Note: currently, Konsole support only works for KDE 3.x due to the way
-# newer Konsole versions behave
-#OE_TERMINAL = "auto"
-# By default disable interactive patch resolution (tasks will just fail instead):
-PATCHRESOLVE = "noop"
-
-#
-# Disk Space Monitoring during the build
-#
-# Monitor the disk space during the build. If there is less that 1GB of space or less
-# than 100K inodes in any key build location (TMPDIR, DL_DIR, SSTATE_DIR), gracefully
-# shutdown the build. If there is less that 100MB or 1K inodes, perform a hard abort
-# of the build. The reason for this is that running completely out of space can corrupt
-# files and damages the build in ways which may not be easily recoverable.
-# It's necesary to monitor /tmp, if there is no space left the build will fail
-# with very exotic errors.
-BB_DISKMON_DIRS = "\
-    STOPTASKS,${TMPDIR},1G,100K \
-    STOPTASKS,${DL_DIR},1G,100K \
-    STOPTASKS,${SSTATE_DIR},1G,100K \
-    STOPTASKS,/tmp,100M,100K \
-    ABORT,${TMPDIR},100M,1K \
-    ABORT,${DL_DIR},100M,1K \
-    ABORT,${SSTATE_DIR},100M,1K \
-    ABORT,/tmp,10M,1K"
-
-#
-# Shared-state files from other locations
-#
-# As mentioned above, shared state files are prebuilt cache data objects which can
-# used to accelerate build time. This variable can be used to configure the system
-# to search other mirror locations for these objects before it builds the data itself.
-#
-# This can be a filesystem directory, or a remote url such as http or ftp. These
-# would contain the sstate-cache results from previous builds (possibly from other
-# machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the
-# cache locations to check for the shared objects.
-# NOTE: if the mirror uses the same structure as SSTATE_DIR, you need to add PATH
-# at the end as shown in the examples below. This will be substituted with the
-# correct path within the directory structure.
-#SSTATE_MIRRORS ?= "\
-#file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
-#file://.* file:///some/local/dir/sstate/PATH"
-
-
-#
-# Qemu configuration
-#
-# By default qemu will build with a builtin VNC server where graphical output can be
-# seen. The two lines below enable the SDL backend too. By default libsdl-native will
-# be built, if you want to use your host's libSDL instead of the minimal libsdl built
-# by libsdl-native then uncomment the ASSUME_PROVIDED line below.
-PACKAGECONFIG_append_pn-qemu-native = " sdl"
-PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
-#ASSUME_PROVIDED += "libsdl-native"
-
-# CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
-# track the version of this file when it was generated. This can safely be ignored if
-# this doesn't mean anything to you.
-CONF_VERSION = "1"
-
-IMAGE_FSTYPES = "tar cpio.gz cpio.gz.u-boot"
-
-
---------------F911007C9A63AAFD417562B0
-Content-Type: text/x-log;
- name="build-config.log"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="build-config.log"
-
-Build Configuration:
-BB_VERSION        = "1.34.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "ubuntu-16.04"
-TARGET_SYS        = "arm-poky-linux-gnueabi"
-MACHINE           = "beaglebone"
-DISTRO            = "poky"
-DISTRO_VERSION    = "2.3.2"
-TUNE_FEATURES     = "arm armv7a vfp neon callconvention-hard cortexa8"
-TARGET_FPU        = "hard"
-meta
-meta-poky
-meta-yocto-bsp    = "pyro:072430b9b3a78b318b66371c36e2986d2ed5cba4"
-
-
---------------F911007C9A63AAFD417562B0--
