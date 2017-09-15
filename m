@@ -1,18 +1,20 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 42F6078621;
-	Fri, 15 Sep 2017 12:30:29 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jussi Laako <jussi.laako@linux.intel.com>
-Date: Fri, 15 Sep 2017 12:30:31 -0000
-Message-ID: <20170915123031.2785.50774@do.openembedded.org>
-References: <20170915120300.35572-1-jussi.laako@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170915120300.35572-1-jussi.laako@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhLW9lLHYzXSBsaWJnY3J5cHQ6IHVwZGF0ZS4uLiIgYW5kIDEgbW9yZQ==?=
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A5C7854D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 12:54:55 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP; 15 Sep 2017 05:54:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; d="scan'208";a="1014792742"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga003.jf.intel.com with ESMTP; 15 Sep 2017 05:54:56 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Sep 2017 15:54:48 +0300
+Message-Id: <cover.1505479710.git.markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH 0/7] Fixes to oe-build-perf-report
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +27,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 12:30:29 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Sep 2017 12:54:56 -0000
 
-== Series Details ==
-
-Series: "[meta-oe,v3] libgcrypt: update..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8931/
-State : failure
-
-== Summary ==
+A collection of miscellanious small fixes to scripts/oe-build-perf-report. No
+changes in the output of the script, except for a more valid html syntax.
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+The following changes since commit d72d116e0228cc0e4391d0558b2d32c3fd5e399c:
 
+  README.qemu: Add from meta-yocto as it belongs in core (2017-09-14 12:39:29 +0100)
 
+are available in the git repository at:
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+  git://git.openembedded.org/openembedded-core-contrib marquiz/buildperf/fixes
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/buildperf/fixes
 
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch)
+Markus Lehtonen (7):
+  scripts/oe-build-perf-report: fix dumping buildstats
+  scripts/oe-build-perf-report: add AggregateTestData class
+  scripts/oe-build-perf-report: fix handling of --history-length
+  scripts/oe-build-perf-report: use --hostname in --list
+  scripts/oe-build-perf-report: remove dead code
+  scripts/oe-build-perf-report: provide valid title in the html report
+  scripts/oe-build-perf-report: tidy up html syntax
 
+ scripts/lib/build_perf/html/report.html | 36 ++++++++++++++++++---------------
+ scripts/lib/build_perf/report.py        |  5 ++++-
+ scripts/oe-build-perf-report            | 33 ++++++++++++++++--------------
+ 3 files changed, 42 insertions(+), 32 deletions(-)
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+-- 
+2.12.3
 
 
