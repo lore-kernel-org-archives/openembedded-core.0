@@ -1,18 +1,22 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C3E7F60797;
-	Fri, 15 Sep 2017 12:01:01 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Jussi Laako <jussi.laako@linux.intel.com>
-Date: Fri, 15 Sep 2017 12:01:03 -0000
-Message-ID: <20170915120103.2787.92134@do.openembedded.org>
-References: <20170915115619.39118-1-jussi.laako@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20170915115619.39118-1-jussi.laako@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhLW9lLHYyXSBsaWJnY3J5cHQ6IHVwZGF0ZS4uLiIgYW5kIDEgbW9yZQ==?=
+Return-Path: <jussi.laako@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 1160578639
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 12:03:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Sep 2017 05:03:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; d="scan'208";a="135703602"
+Received: from jlaako-lnx.fi.intel.com (HELO jlaako-lnx.fi.intel.com.)
+	([10.237.72.200])
+	by orsmga002.jf.intel.com with ESMTP; 15 Sep 2017 05:03:05 -0700
+From: Jussi Laako <jussi.laako@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Sep 2017 15:02:59 +0300
+Message-Id: <20170915120300.35572-1-jussi.laako@linux.intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [meta-oe][PATCH v3 1/2] libgcrypt: update from version 1.8.0 to 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 12:01:01 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Sep 2017 12:03:06 -0000
 
-== Series Details ==
+Update libgcrypt version from 1.8.0 to 1.8.1.
 
-Series: "[meta-oe,v2] libgcrypt: update..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/8925/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Jussi Laako <jussi.laako@linux.intel.com>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../libgcrypt/{libgcrypt_1.8.0.bb => libgcrypt_1.8.1.bb}            | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.8.0.bb => libgcrypt_1.8.1.bb} (89%)
+
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
+similarity index 89%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
+index 1797d9584d..5bd815ae55 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
+@@ -15,14 +15,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ DEPENDS = "libgpg-error"
+ 
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+-SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
++SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch \
+            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
+            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
+            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
+ "
+-SRC_URI[md5sum] = "110ce4352f9ea6f560bdc6c5644ae93c"
+-SRC_URI[sha256sum] = "f6e470b7f2d3a703e8747f05a8c19d9e10e26ebf2d5f3d71ff75a40f504e12ee"
++SRC_URI[md5sum] = "b21817f9d850064d2177285f1073ec55"
++SRC_URI[sha256sum] = "7a2875f8b1ae0301732e878c0cca2c9664ff09ef71408f085c50e332656a78b3"
+ 
+ BINCONFIG = "${bindir}/libgcrypt-config"
+ 
+-- 
+2.11.0
 
 
