@@ -1,47 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C203978639
+Return-Path: <jussi.laako@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 3718578639
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Sep 2017 11:59:08 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id 13so7690352wmq.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 04:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=/hvr+AE2QuMJn8IQxRGjj5Ip1MBG8drBHCDL0Pcmft8=;
-	b=02wwiaEIhOYUyWiVwSMdOpNOfrem+esfgsribKIz/KNi4CGwMfHjlVN1j5FmpbcCl2
-	NeXUXLh0xChJkyHsB0LkK2Sai/xM2r1MKn21qtbDZNxOJ26T9Xmd6aL3lrkm127acfzg
-	/Pp0jA6tCIv8wu8jdOEbLckF3NtDH+P8YgjQPUA/wwgK+uoKa/rXaH3KlTTauhurMNLm
-	kz8Iu0e2lsCHKMmqgIZ2qSnjqnAiQgQ9vAfAG3ty3hYpjinGAREpnbUSdTM/VhBKsjq0
-	v6a/7KdZx1a5H+Jf+e+1RPObYYhqsBfMB+oat8uYaalzQwrKq7kjZ/O5VjSggFyTNISD
-	T9dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=/hvr+AE2QuMJn8IQxRGjj5Ip1MBG8drBHCDL0Pcmft8=;
-	b=toNV6oopRykSIc9+CDRpH4LI3JIYE3UyhuTd87aF7Fc4apjbIeq6Pa6hjT69en4xBf
-	hUNc6gqkREugW/H8R6tSuG+280OlTMRgbf8sO6LRgipFmqFBHcfx1o+xOXsrYqLiKJSJ
-	aVyzISEMiBQKlx8e3bHiRoJ3hxpm9vkWyTmAo/m+K5pHsoYqZHnOoOzzBBlm9EtUGetB
-	ZgFIAswNn8gSj3xNp+wRBNJBUNvBR2cXQT24A5XYInkyRGqhvBu34PRcPOsKrTcZAupS
-	lRinYqTGUSH2xNHAUyoMcoFB5KxSVgGcC9+8OMFIec8dImOqv+6q6pU7f0SS5llJeOMC
-	Iwgg==
-X-Gm-Message-State: AHPjjUhyTPEAXEPA3vNvqx4EBP5iVACyu2j5I93O5c1jxl8WX+TUj5xB
-	6VKzGbzchreG144fFvUb3euP+PO7
-X-Google-Smtp-Source: AOwi7QC2J1BzbSn91ehfEF+rMOtRZ73d5CvP/PoT2vnxzrHYyNBm3WlpIA7o8zKQpmV/GVeDccSCag==
-X-Received: by 10.28.169.140 with SMTP id s134mr2621007wme.36.1505476748039;
-	Fri, 15 Sep 2017 04:59:08 -0700 (PDT)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d5sm1151311wma.22.2017.09.15.04.59.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Sep 2017 04:59:07 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga104.jf.intel.com with ESMTP; 15 Sep 2017 04:59:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; d="scan'208";a="900567787"
+Received: from jlaako-lnx.fi.intel.com (HELO jlaako-lnx.fi.intel.com.)
+	([10.237.72.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2017 04:59:08 -0700
+From: Jussi Laako <jussi.laako@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Sep 2017 12:59:05 +0100
-Message-Id: <20170915115905.5092-1-ross.burton@intel.com>
+Date: Fri, 15 Sep 2017 14:56:19 +0300
+Message-Id: <20170915115619.39118-2-jussi.laako@linux.intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa/selftest/recipetool: use stable tarball for recipetool create test
+In-Reply-To: <20170915115619.39118-1-jussi.laako@linux.intel.com>
+References: <20170915115619.39118-1-jussi.laako@linux.intel.com>
+Subject: [meta-oe][PATCH v2 2/2] libgcrypt: provide libgcrypt-config wrapper around pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +32,165 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 15 Sep 2017 11:59:09 -0000
 
-GitHub dynamically generates the /archive/ tarballs but we're encoding checksums
-in the test suite.  Change the URL to use a static tarball, and update the
-checksums.
+This patch adds a libgcrypt-config wrapper for pkg-config support in
+order to avoid patching all upstream packages using libgcrypt, while
+otherwise keeping pkg-config functionality.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Jussi Laako <jussi.laako@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../libgcrypt/files/libgcrypt-config-wrapper.patch | 113 +++++++++++++++++++++
+ meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb  |   7 +-
+ 2 files changed, 116 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index bdd405f1cc0..754ea949824 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -367,16 +367,16 @@ class RecipetoolTests(RecipetoolBase):
-         # Try adding a recipe
-         tempsrc = os.path.join(self.tempdir, 'srctree')
-         os.makedirs(tempsrc)
--        recipefile = os.path.join(self.tempdir, 'logrotate_3.8.7.bb')
--        srcuri = 'https://github.com/logrotate/logrotate/archive/r3-8-7.tar.gz'
-+        recipefile = os.path.join(self.tempdir, 'logrotate_3.12.3.bb')
-+        srcuri = 'https://github.com/logrotate/logrotate/releases/download/3.12.3/logrotate-3.12.3.tar.xz'
-         result = runCmd('recipetool create -o %s %s -x %s' % (recipefile, srcuri, tempsrc))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
-         checkvars['LICENSE'] = 'GPLv2'
--        checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=18810669f13b87348459e611d31ab760'
--        checkvars['SRC_URI'] = 'https://github.com/logrotate/logrotate/archive/r3-8-7.tar.gz'
--        checkvars['SRC_URI[md5sum]'] = '6b1aa0e0d07eda3c9a2526520850397a'
--        checkvars['SRC_URI[sha256sum]'] = 'dece4bfeb9d8374a0ecafa34be139b5a697db5c926dcc69a9b8715431a22e733'
-+        checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263'
-+        checkvars['SRC_URI'] = 'https://github.com/logrotate/logrotate/releases/download/${PV}/logrotate-${PV}.tar.xz'
-+        checkvars['SRC_URI[md5sum]'] = 'a560c57fac87c45b2fc17406cdf79288'
-+        checkvars['SRC_URI[sha256sum]'] = '2e6a401cac9024db2288297e3be1a8ab60e7401ba8e91225218aaf4a27e82a07'
-         self._test_recipe_contents(recipefile, checkvars, [])
+diff --git a/meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch b/meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch
+new file mode 100644
+index 0000000000..167706535b
+--- /dev/null
++++ b/meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch
+@@ -0,0 +1,113 @@
++diff -ur libgcrypt-1.8.1.orig/src/libgcrypt-config.in libgcrypt-1.8.1.new/src/libgcrypt-config.in
++--- libgcrypt-1.8.1.orig/src/libgcrypt-config.in	2013-03-15 21:25:38.000000000 +0200
+++++ libgcrypt-1.8.1.new/src/libgcrypt-config.in	2017-09-15 13:56:20.368277151 +0300
++@@ -11,30 +11,6 @@
++ #
++ # File: @configure_input@
++ 
++-# General.
++-prefix="@prefix@"
++-exec_prefix="@exec_prefix@"
++-version="@VERSION@"
++-includedir="@includedir@"
++-libdir="@libdir@"
++-gpg_error_libs="@GPG_ERROR_LIBS@"
++-gpg_error_cflags="@GPG_ERROR_CFLAGS@"
++-
++-# libgcrypt values.
++-libs="@LIBGCRYPT_CONFIG_LIBS@"
++-cflags="@LIBGCRYPT_CONFIG_CFLAGS@"
++-
++-# API info
++-api_version="@LIBGCRYPT_CONFIG_API_VERSION@"
++-
++-# Configured for host
++-my_host="@LIBGCRYPT_CONFIG_HOST@"
++-
++-# Misc information.
++-symmetric_ciphers="@LIBGCRYPT_CIPHERS@"
++-asymmetric_ciphers="@LIBGCRYPT_PUBKEY_CIPHERS@"
++-digests="@LIBGCRYPT_DIGESTS@"
++-
++ # State variables.
++ echo_libs=no
++ echo_cflags=no
++@@ -122,68 +98,35 @@
++ done
++ 
++ if test "$echo_prefix" = "yes"; then
++-    echo "$prefix"
+++    pkg-config --variable=prefix libgcrypt
++ fi
++ 
++ if test "$echo_exec_prefix" = "yes"; then
++-    echo "$exec_prefix"
+++    pkg-config --variable=exec_prefix libgcrypt
++ fi
++ 
++ if test "$echo_cflags" = "yes"; then
++-    includes=""
++-    cflags_final="$cflags"
++-
++-    # Set up `includes'.
++-    if test "x$includedir" != "x/usr/include" -a "x$includedir" != "x/include"; then
++-	includes="-I$includedir"
++-    fi
++-    # Set up `cflags_final'.
++-    cflags_final="$cflags_final $gpg_error_cflags"
++-
++-    tmp=""
++-    for i in $includes $cflags_final; do
++-       if echo "$tmp" | fgrep -v -- "$i" >/dev/null; then
++-           tmp="$tmp $i"
++-       fi
++-    done
++-    echo $tmp
+++    pkg-config --cflags libgcrypt
++ fi
++ 
++ if test "$echo_libs" = "yes"; then
++-    libdirs=""
++-    libs_final="$libs"
++-
++-    # Set up `libdirs'.
++-    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/lib"; then
++-	libdirs="-L$libdir"
++-    fi
++-
++-    # Set up `libs_final'.
++-    libs_final="$libs_final $gpg_error_libs"
++-
++-    tmp=""
++-    for i in $libdirs $libs_final; do
++-       if echo "$tmp" | fgrep -v -- "$i" >/dev/null; then
++-           tmp="$tmp $i"
++-       fi
++-    done
++-    echo $tmp
+++    pkg-config --libs libgcrypt
++ fi
++ 
++ if test "$echo_version" = "yes"; then
++-    echo "$version"
+++    pkg-config --modversion libgcrypt
++ fi
++ 
++ if test "$echo_api_version" = "yes"; then
++-    echo "$api_version"
+++    pkg-config --variable=api_version libgcrypt
++ fi
++ 
++ if test "$echo_host" = "yes"; then
++-    echo "$my_host"
+++    pkg-config --variable=host libgcrypt
++ fi
++ 
++ if test "$echo_algorithms" = "yes"; then
++-    echo "Symmetric cipher algorithms: $symmetric_ciphers"
++-    echo "Public-key cipher algorithms: $asymmetric_ciphers"
++-    echo "Message digest algorithms: $digests"
+++    pkg-config --variable=symmetric_ciphers libgcrypt
+++    pkg-config --variable=asymmetric_ciphers libgcrypt
+++    pkg-config --variable=digests libgcrypt
++ fi
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
+index 5bd815ae55..529882d8a4 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
+@@ -20,13 +20,12 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
+            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
+            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
++           file://libgcrypt-config-wrapper.patch \
+ "
+ SRC_URI[md5sum] = "b21817f9d850064d2177285f1073ec55"
+ SRC_URI[sha256sum] = "7a2875f8b1ae0301732e878c0cca2c9664ff09ef71408f085c50e332656a78b3"
  
-     @OETestID(1194)
+-BINCONFIG = "${bindir}/libgcrypt-config"
+-
+-inherit autotools texinfo binconfig-disabled pkgconfig
++inherit autotools texinfo pkgconfig binconfig
+ 
+ EXTRA_OECONF = "--disable-asm"
+ EXTRA_OEMAKE_class-target = "LIBTOOLFLAGS='--tag=CC'"
+@@ -47,7 +46,7 @@ do_install_append() {
+ 
+ PACKAGES =+ "dumpsexp-dev"
+ 
+-FILES_${PN}-dev += "${bindir}/hmac256"
++FILES_${PN}-dev += "${bindir}/hmac256 ${bindir}/libgcrypt-config"
+ FILES_dumpsexp-dev += "${bindir}/dumpsexp"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.11.0
 
