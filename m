@@ -1,48 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ua0-f173.google.com (mail-ua0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C98078639
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f170.google.com (mail-yw0-f170.google.com
+	[209.85.161.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A6F78354
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 12:04:57 +0000 (UTC)
-Received: by mail-ua0-f173.google.com with SMTP id s15so1122365uag.1
+	Fri, 15 Sep 2017 12:16:52 +0000 (UTC)
+Received: by mail-yw0-f170.google.com with SMTP id w22so1301344ywa.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 05:04:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=h/UHjyRYsWH/O580P2ct/cwAzPrM2HDLfmd+7prFZ9E=;
-	b=t1wkk8xxLFlWbq4z6eI0QU7KB8XRmFDmyutBX8P8rsRQH+7v+lrAn46FPg/RaIbl50
-	bGQPvw+wNa76/hRZ/vRbleoFtKZzCE3LyKdcR4yHRsiWUP9n1TTs9oujslftoMg72+Gs
-	++l+xvJFKs35pBFRmPNIakQ9QbmHZEctvM7Y/Ki+sH2jciPV7UPVG0ljtmE0/V1KpsCi
-	mVoSvOFYTdDeIrBvemv5eAOyshfOptoIM5lk1i1aHP5LA3ywGIC6vO5xBQUzPCvyhw2L
-	PCvOb7RybPSByT/38MOehQIo5i4+m8tejpswBMnoZee+FQbKaBZunP4r4+js1VWbCrZ2
-	0J5g==
+	Fri, 15 Sep 2017 05:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=XzPGBq8dlj5vFdJZmqu9ycGeo62uqww3/dZRsN250tk=;
+	b=OS3SA6J7NnWguKqrUK3cQZa+xth2wxRfvzeL7Qfq23xJkgIkoOZ5wHOWKUOlDqU97W
+	/g6CJYhcMdK6MxuAX6aU8F9XYUYjPqKFs3jSJtC/R2dW03I2YWAuoNk9hsHhStcbDC4s
+	RHhwysS+PQiC/kXk6NaImCZ5WAe+r1+nYuUqk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=h/UHjyRYsWH/O580P2ct/cwAzPrM2HDLfmd+7prFZ9E=;
-	b=HAgXklTtwZ+VVa8CNa4OqDxYvZrzuIiJUNlPXcHAlQrWjgTC+OQN0aYMp/rtAaTtJ/
-	gOc/qMZ5ffgSbokVfKr8WuA8i9kAHVeWHXglzXPGtmQcekTw6FyYW6bnrWFVXbLXFmhk
-	I79uihw/z7RhmF32w8a/mPENiEUbL9dcSsTAflCRiBuRPcLxwp09bSfbA5R5VijXRz4x
-	dtKZ1b2UWIFPjOKdQohPvg9IyLRJB/50vpFJSKW1hngcCmAbVcpEQJnNZc8iGa0mVXrZ
-	Yr6Deyp0fzHT5QxkQh2jCNSmVrdqlIDE26rqWjPmZzFd3+5iNCB3NZ4Yu5lEb+gQfcyS
-	cVTg==
-X-Gm-Message-State: AHPjjUiGs1qViWyHwmUWfSH1b/SU9B1pwxQ0mYMORC8ovQK699ZnWl9A
-	XoYR6sVbkgj/k4/ujgIQjrPBe6XmvsAJKhFTpZ8=
-X-Google-Smtp-Source: AOwi7QDIUc7Rat8g4hnmUNs3h3e8Ai0vpOxUgX7C5RIGANHl0V7kWKKrAk3GQ7L/xPxH6SsNNsWiCrZbrOiQA/m6iz0=
-X-Received: by 10.176.77.76 with SMTP id k12mr21334279uag.141.1505477099233;
-	Fri, 15 Sep 2017 05:04:59 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=XzPGBq8dlj5vFdJZmqu9ycGeo62uqww3/dZRsN250tk=;
+	b=M3JF+ngWBsud2VJeySb2nAryWd6KhIfmeywbS57N/IKRlTe2pLPICp4BBgqrFwq4MT
+	FrqlvOuzTDLwBuLS3dvmg1s6Z26Tby5mYfbQev/wfuJIzGZaa1XBj2Dnf6U9fr2uvAih
+	MJ206YExzdoqTdagbwPeE9CABkFOLhvpdITRYNdvnl1fqp9sERC7QeVO8+BGNPgFpBR6
+	xBfmkebRPoT8nbvyWoCKJlFG0MS2E0ZqEByMwwEDVvuBlZ83knWKckVEwacJk7axljmC
+	8IDOqoWuhmclE3DOCQjvPV+tc4B9nyHit4uq8k5Or6ZXo93p5vGEEsUfrb+oSkx2pGmt
+	Rpww==
+X-Gm-Message-State: AHPjjUiNo7rhKpIdnJtzvJzL4A4cFQ/34xMqCahVO/TxKdRzFAn8hgG8
+	VtWMVbUwKehSdpOU
+X-Google-Smtp-Source: AOwi7QAP8OYXBfXzAFoIxVEOdJms3OtXmB5CjO6t4TxJHQ4jGGjRN6ON4Y9EVZEXBYDEy/rAUyWyWQ==
+X-Received: by 10.37.88.5 with SMTP id m5mr6861004ybb.359.1505477813136;
+	Fri, 15 Sep 2017 05:16:53 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	k189sm241576ywc.18.2017.09.15.05.16.51
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Fri, 15 Sep 2017 05:16:52 -0700 (PDT)
+Date: Fri, 15 Sep 2017 08:16:20 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Martin =?iso-8859-1?Q?Hundeb=F8ll?= <mnhu@prevas.dk>
+Message-ID: <20170915121620.GR4560@bill-the-cat>
+References: <1501012689-2574-1-git-send-email-trini@konsulko.com>
+	<01d79bbc-39d1-b610-f199-15dc2b63c10c@prevas.dk>
 MIME-Version: 1.0
-Received: by 10.103.67.130 with HTTP; Fri, 15 Sep 2017 05:04:58 -0700 (PDT)
-In-Reply-To: <20170915115848.4939-1-ross.burton@intel.com>
-References: <20170915115848.4939-1-ross.burton@intel.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 15 Sep 2017 14:04:58 +0200
-Message-ID: <CA+chaQcu0jP8y-N=DbqVC7rejtwyxOewsE6QGy0JiJmUNCGgzQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] useradd: don't override pseudo environment
+In-Reply-To: <01d79bbc-39d1-b610-f199-15dc2b63c10c@prevas.dk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image: Fix "metadata is not deterministic" when chaining 2+ CONVERSION_CMDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,125 +58,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 12:04:58 -0000
-Content-Type: multipart/alternative; boundary="f403043c5dd0b7a89405593933c8"
+X-List-Received-Date: Fri, 15 Sep 2017 12:16:53 -0000
+X-Groupsio-MsgNum: 102968
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7UIJfHqpdi+oBJdT"
+Content-Disposition: inline
 
---f403043c5dd0b7a89405593933c8
-Content-Type: text/plain; charset="UTF-8"
-
-nice
-
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-
-On Fri, Sep 15, 2017 at 1:58 PM, Ross Burton <ross.burton@intel.com> wrote:
-
-> Back in the dark days before recipe-specific-sysroots the paths being
-> passed in
-> this manual construction of the pseudo environment made sense, but now
-> they're
-> incorrect and result in pseudo writing to two different databases during a
-> single build.  The result is that pseudo doesn't follow changes to
-> /etc/passwd
-> in the sysroot, and warns in the logs.
->
-> Remove the PSEUDO_LOCALSTATEDIR assignment and inherit the correct
-> assignment in
-> FAKEROOTENV.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/useradd.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-> index 6017ded8601..0f51e5522b1 100644
-> --- a/meta/classes/useradd.bbclass
-> +++ b/meta/classes/useradd.bbclass
-> @@ -100,7 +100,7 @@ useradd_sysroot () {
->         # Pseudo may (do_prepare_recipe_sysroot) or may not
-> (do_populate_sysroot_setscene) be running
->         # at this point so we're explicit about the environment so pseudo
-> can load if
->         # not already present.
-> -       export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${
-> STAGING_DIR_TARGET}${localstatedir}/pseudo ${PSEUDO_SYSROOT}${bindir_
-> native}/pseudo"
-> +       export PSEUDO="${FAKEROOTENV} ${PSEUDO_SYSROOT}${bindir_
-> native}/pseudo"
->
->         # Explicitly set $D since it isn't set to anything
->         # before do_prepare_recipe_sysroot
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---f403043c5dd0b7a89405593933c8
-Content-Type: text/html; charset="UTF-8"
+--7UIJfHqpdi+oBJdT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">nice<div><br></div><div>Acked-by: Martin Jansa &lt;<a href=
-=3D"mailto:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt;</div></di=
-v><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Sep 15,=
- 2017 at 1:58 PM, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.=
-burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">Back in the dark days before recipe-=
-specific-sysroots the paths being passed in<br>
-this manual construction of the pseudo environment made sense, but now they=
-&#39;re<br>
-incorrect and result in pseudo writing to two different databases during a<=
-br>
-single build.=C2=A0 The result is that pseudo doesn&#39;t follow changes to=
- /etc/passwd<br>
-in the sysroot, and warns in the logs.<br>
-<br>
-Remove the PSEUDO_LOCALSTATEDIR assignment and inherit the correct assignme=
-nt in<br>
-FAKEROOTENV.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/useradd.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass<br=
->
-index 6017ded8601..0f51e5522b1 100644<br>
---- a/meta/classes/useradd.bbclass<br>
-+++ b/meta/classes/useradd.bbclass<br>
-@@ -100,7 +100,7 @@ useradd_sysroot () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Pseudo may (do_prepare_recipe_sysroot) or may=
- not (do_populate_sysroot_setscene) be running<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # at this point so we&#39;re explicit about the=
- environment so pseudo can load if<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # not already present.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export PSEUDO=3D&quot;${FAKEROOTENV} PSEUDO_LOC=
-ALSTATEDIR=3D${<wbr>STAGING_DIR_TARGET}${<wbr>localstatedir}/pseudo ${PSEUD=
-O_SYSROOT}${bindir_<wbr>native}/pseudo&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export PSEUDO=3D&quot;${FAKEROOTENV} ${PSEUDO_S=
-YSROOT}${bindir_<wbr>native}/pseudo&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Explicitly set $D since it isn&#39;t set to a=
-nything<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # before do_prepare_recipe_sysroot<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.11.0<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+On Fri, Sep 15, 2017 at 09:41:36AM +0200, Martin Hundeb=F8ll wrote:
+>=20
+>=20
+> On 2017-07-25 21:58, Tom Rini wrote:
+> >When we have more than one CONVERSION_CMD being used, for example
+> >ext4.gz.sha256sum we will see errors about "metadata is not
+> >deterministic".  This is because we do not have a stable order of
+> >intermediate files that will be removed in the generated shell command.
+> >We fix this by calling sorted() on the set of rm_tmp_images so that we
+> >will have a stable hash again.
+> >
+> >Cc: Patrick Ohly <patrick.ohly@intel.com>
+> >Signed-off-by: Tom Rini <trini@konsulko.com>
+> >---
+> >  meta/classes/image.bbclass | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> >diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> >index b095bca..dee17ae 100644
+> >--- a/meta/classes/image.bbclass
+> >+++ b/meta/classes/image.bbclass
+> >@@ -474,7 +474,7 @@ python () {
+> >          # Clean up after applying all conversion commands. Some of the=
+m might
+> >          # use the same input, therefore we cannot delete sooner withou=
+t applying
+> >          # some complex dependency analysis.
+> >-        for image in rm_tmp_images:
+> >+        for image in sorted(rm_tmp_images):
+> >              cmds.append("\trm " + image)
+> >          after =3D 'do_image'
+> >
+>=20
+> This commit has resulted in more or less persistent basehash issues
+> for my cpio.gz.u-boot image:
+>=20
+> ERROR: When reparsing /home/mnhu/projects/pil/yocto/meta-pil/recipes-file=
+systems/rescue-rootfs.bb.do_image_cpio,
+> the basehash value changed from ac9907bbb8ee2ee6d9ca90f7a7e265f5 to
+> 8c7b717add6b1d1ba6ff761ebfdedf01. The metadata is not deterministic
+> and this needs to be fixed.
+>=20
+> The error occurs repeatedly when doing `bitbake -c clean
+> rescue-rootfs && bitbake rescue-rootfs`. Reverting the commit makes
+> the error go away.
+>=20
+> Also, the issue only appears for cpio.gz.u-boot image types, but not
+> for cpio.gz
+>=20
+> I am far from an expert in bitbake signature handling, so please let
+> me know what to do, to debug this further.
 
---f403043c5dd0b7a89405593933c8--
+Can you let me know what layers and machine I need to reproduce this?
+I'll take a look, thanks!
+
+--=20
+Tom
+
+--7UIJfHqpdi+oBJdT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZu8STAAoJEIf59jXTHXZSZcMP/10UaPpTWiY6NCZVshErfR9h
+HjbLBXFjQQ6dDi9ao99fqKKTImcM2yX7esJRbPvhZhMRvcuRvNs0f4d0+W6bENVh
+tzK6sgmWYafUyyuf2HprIH2T7b9HGmLrEGW3fQxiadHa9xHVoUK6GHgdb3nNNJmx
+imqaK4yWlIV2sghVsAd3sc+1YfYcweql5hyu8PAFjMoh6TxnobU5XXnM0QObUaPp
+eT033Ko2ArucQLPiAGZ0m4OivP6zlud5BCpAhAxErB3UXmga92p4M3mxVNPDpwRe
+PqBDs6bPrjTpaW03a8SFPwPCIWoN6B3y8r1yA9rsDwTc08VIpuYIlxdZZ+h6F/Oa
+PlpPOU+84Go1o38j4kNnVVrN2EOsbWtzRkJNmPGgJMaxdPiGVCdxiaWdVwdLtGOH
+8qzyquK2Jq5loz+wKPGzmMsjlZYjQosnL7E5rP8T8bsr6S9SelG1Ri3QXJ0gr+RW
+6MrF3ARDwaqk5maQgSecSwL57mxVl48jZYc00la1xDPf/NmyBqLY+Nziz6Fweex+
+n0DtXykEkOPDf6Tgk+htPhh9mBmtgqwVg5QXxzHzW4FjzjmLotaz6QeFykeSnpW1
+ATO1UevAloKgj9zz0qYI/kZkEiZp0oKix5Wi0XGbDADrdeAuzeob68eQfo+i9p0L
+U3/+gf9t01fsHt+vc19K
+=Ij4x
+-----END PGP SIGNATURE-----
+
+--7UIJfHqpdi+oBJdT--
