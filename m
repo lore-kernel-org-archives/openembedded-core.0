@@ -1,25 +1,26 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 678A478682
+	by mail.openembedded.org (Postfix) with ESMTP id 0521D78673
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 15 Sep 2017 13:04:42 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	15 Sep 2017 06:04:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; d="scan'208";a="1172538609"
+X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; 
+	d="scan'208,217";a="1172538619"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2017 06:04:42 -0700
+	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2017 06:04:43 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Sep 2017 16:04:37 +0300
-Message-Id: <338382eef042f00da861620d4fc1823e8032cacb.1505480244.git.markus.lehtonen@linux.intel.com>
+Date: Fri, 15 Sep 2017 16:04:38 +0300
+Message-Id: <bc59cd22a6cb10f867efb0353875b85e16402d4b.1505480244.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
 In-Reply-To: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
 References: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
 In-Reply-To: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
 References: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH 1/4] scripts/buildstats-diff: move code to lib/buildstats.py
+Subject: [PATCH 2/4] scripts/oe-build-perf-report: summary of task resource usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,705 +33,298 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 13:04:42 -0000
+X-List-Received-Date: Fri, 15 Sep 2017 13:04:43 -0000
 
-Move over code from buildstats-diff to new scripts/lib/buildstats.py
-module in order to share code related to buildstats processing.  Also,
-refactor the code, introducing new classes to make the code readable,
-maintainable and easier to debug.
+Utilize buildstats, if available, and show a summary of the resource
+usage of bitbake tasks in the html report. The details provided are:
+- total number of tasks
+- top 5 resource-hungry tasks (cputime)
+- top 5 increase in resource usage (cputime)
+- top 5 decrease in resource usage (cputime)
 
 [YOCTO #11381]
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/buildstats-diff   | 278 +++++-------------------------------------
- scripts/lib/buildstats.py | 301 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 329 insertions(+), 250 deletions(-)
- create mode 100644 scripts/lib/buildstats.py
+ scripts/lib/build_perf/html/report.html | 60 +++++++++++++++++++++-
+ scripts/lib/buildstats.py               |  8 +++
+ scripts/oe-build-perf-report            | 90 ++++++++++++++++++++++++---------
+ 3 files changed, 133 insertions(+), 25 deletions(-)
 
-diff --git a/scripts/buildstats-diff b/scripts/buildstats-diff
-index 8e64480eb3..ce82dabee9 100755
---- a/scripts/buildstats-diff
-+++ b/scripts/buildstats-diff
-@@ -15,15 +15,18 @@
- #
- import argparse
- import glob
--import json
- import logging
- import math
- import os
--import re
- import sys
--from collections import namedtuple
- from operator import attrgetter
- 
-+# Import oe libs
-+scripts_path = os.path.dirname(os.path.realpath(__file__))
-+sys.path.append(os.path.join(scripts_path, 'lib'))
-+from buildstats import BuildStats, diff_buildstats, taskdiff_fields
+diff --git a/scripts/lib/build_perf/html/report.html b/scripts/lib/build_perf/html/report.html
+index 165cbb811c..a7ca5b0cb0 100644
+--- a/scripts/lib/build_perf/html/report.html
++++ b/scripts/lib/build_perf/html/report.html
+@@ -53,9 +53,11 @@ summary th, .meta-table td {
+   border-collapse: collapse;
+ }
+ .details th {
+-  font-weight: normal;
+   padding-right: 8px;
+ }
++.details.plain th {
++  font-weight: normal;
++}
+ .preformatted {
+   font-family: monospace;
+   white-space: pre-wrap;
+@@ -165,6 +167,7 @@ h3 {
+             {{ measurement.absdiff_str }} ({{measurement.reldiff}})
+             </span></span>
+           </div>
++          {# Table for trendchart and the statistics #}
+           <table style="width: 100%">
+             <tr>
+               <td style="width: 75%">
+@@ -173,7 +176,7 @@ h3 {
+               </td>
+               <td>
+                 {# Measurement statistics #}
+-                <table class="details">
++                <table class="details plain">
+                   <tr>
+                     <th>Test runs</th><td>{{ measurement.value.sample_cnt }}</td>
+                   </tr><tr>
+@@ -191,6 +194,59 @@ h3 {
+               </td>
+             </tr>
+           </table>
 +
-+
- # Setup logging
- logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
- log = logging.getLogger()
-@@ -34,196 +37,16 @@ class ScriptError(Exception):
-     pass
- 
- 
--taskdiff_fields = ('pkg', 'pkg_op', 'task', 'task_op', 'value1', 'value2',
--                   'absdiff', 'reldiff')
--TaskDiff = namedtuple('TaskDiff', ' '.join(taskdiff_fields))
--
--
--class BSTask(dict):
--    def __init__(self, *args, **kwargs):
--        self['start_time'] = None
--        self['elapsed_time'] = None
--        self['status'] = None
--        self['iostat'] = {}
--        self['rusage'] = {}
--        self['child_rusage'] = {}
--        super(BSTask, self).__init__(*args, **kwargs)
--
--    @property
--    def cputime(self):
--        """Sum of user and system time taken by the task"""
--        rusage = self['rusage']['ru_stime'] + self['rusage']['ru_utime']
--        if self['child_rusage']:
--            # Child rusage may have been optimized out
--            return rusage + self['child_rusage']['ru_stime'] + self['child_rusage']['ru_utime']
--        else:
--            return rusage
--
--    @property
--    def walltime(self):
--        """Elapsed wall clock time"""
--        return self['elapsed_time']
--
--    @property
--    def read_bytes(self):
--        """Bytes read from the block layer"""
--        return self['iostat']['read_bytes']
--
--    @property
--    def write_bytes(self):
--        """Bytes written to the block layer"""
--        return self['iostat']['write_bytes']
--
--    @property
--    def read_ops(self):
--        """Number of read operations on the block layer"""
--        if self['child_rusage']:
--            # Child rusage may have been optimized out
--            return self['rusage']['ru_inblock'] + self['child_rusage']['ru_inblock']
--        else:
--            return self['rusage']['ru_inblock']
--
--    @property
--    def write_ops(self):
--        """Number of write operations on the block layer"""
--        if self['child_rusage']:
--            # Child rusage may have been optimized out
--            return self['rusage']['ru_oublock'] + self['child_rusage']['ru_oublock']
--        else:
--            return self['rusage']['ru_oublock']
--
--
--def read_buildstats_file(buildstat_file):
--    """Convert buildstat text file into dict/json"""
--    bs_task = BSTask()
--    log.debug("Reading task buildstats from %s", buildstat_file)
--    end_time = None
--    with open(buildstat_file) as fobj:
--        for line in fobj.readlines():
--            key, val = line.split(':', 1)
--            val = val.strip()
--            if key == 'Started':
--                start_time = float(val)
--                bs_task['start_time'] = start_time
--            elif key == 'Ended':
--                end_time = float(val)
--            elif key.startswith('IO '):
--                split = key.split()
--                bs_task['iostat'][split[1]] = int(val)
--            elif key.find('rusage') >= 0:
--                split = key.split()
--                ru_key = split[-1]
--                if ru_key in ('ru_stime', 'ru_utime'):
--                    val = float(val)
--                else:
--                    val = int(val)
--                ru_type = 'rusage' if split[0] == 'rusage' else \
--                                                  'child_rusage'
--                bs_task[ru_type][ru_key] = val
--            elif key == 'Status':
--                bs_task['status'] = val
--    if end_time is not None and start_time is not None:
--        bs_task['elapsed_time'] = end_time - start_time
--    else:
--        raise ScriptError("{} looks like a invalid buildstats file".format(buildstat_file))
--    return bs_task
--
--
--def read_buildstats_dir(bs_dir):
--    """Read buildstats directory"""
--    def split_nevr(nevr):
--        """Split name and version information from recipe "nevr" string"""
--        n_e_v, revision = nevr.rsplit('-', 1)
--        match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[0-9]\S*)$',
--                         n_e_v)
--        if not match:
--            # If we're not able to parse a version starting with a number, just
--            # take the part after last dash
--            match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[^-]+)$',
--                             n_e_v)
--        name = match.group('name')
--        version = match.group('version')
--        epoch = match.group('epoch')
--        return name, epoch, version, revision
--
--    if not os.path.isfile(os.path.join(bs_dir, 'build_stats')):
--        raise ScriptError("{} does not look like a buildstats directory".format(bs_dir))
--
--    log.debug("Reading buildstats directory %s", bs_dir)
--
--    buildstats = {}
--    subdirs = os.listdir(bs_dir)
--    for dirname in subdirs:
--        recipe_dir = os.path.join(bs_dir, dirname)
--        if not os.path.isdir(recipe_dir):
--            continue
--        name, epoch, version, revision = split_nevr(dirname)
--        recipe_bs = {'nevr': dirname,
--                     'name': name,
--                     'epoch': epoch,
--                     'version': version,
--                     'revision': revision,
--                     'tasks': {}}
--        for task in os.listdir(recipe_dir):
--            recipe_bs['tasks'][task] = [read_buildstats_file(
--                    os.path.join(recipe_dir, task))]
--        if name in buildstats:
--            raise ScriptError("Cannot handle multiple versions of the same "
--                              "package ({})".format(name))
--        buildstats[name] = recipe_bs
--
--    return buildstats
--
--
--def bs_append(dst, src):
--    """Append data from another buildstats"""
--    if set(dst.keys()) != set(src.keys()):
--        raise ScriptError("Refusing to join buildstats, set of packages is "
--                          "different")
--    for pkg, data in dst.items():
--        if data['nevr'] != src[pkg]['nevr']:
--            raise ScriptError("Refusing to join buildstats, package version "
--                              "differs: {} vs. {}".format(data['nevr'], src[pkg]['nevr']))
--        if set(data['tasks'].keys()) != set(src[pkg]['tasks'].keys()):
--            raise ScriptError("Refusing to join buildstats, set of tasks "
--                              "in {} differ".format(pkg))
--        for taskname, taskdata in data['tasks'].items():
--            taskdata.extend(src[pkg]['tasks'][taskname])
--
--
--def read_buildstats_json(path):
--    """Read buildstats from JSON file"""
--    buildstats = {}
--    with open(path) as fobj:
--        bs_json = json.load(fobj)
--    for recipe_bs in bs_json:
--        if recipe_bs['name'] in buildstats:
--            raise ScriptError("Cannot handle multiple versions of the same "
--                              "package ({})".format(recipe_bs['name']))
--
--        if recipe_bs['epoch'] is None:
--            recipe_bs['nevr'] = "{}-{}-{}".format(recipe_bs['name'], recipe_bs['version'], recipe_bs['revision'])
--        else:
--            recipe_bs['nevr'] = "{}-{}_{}-{}".format(recipe_bs['name'], recipe_bs['epoch'], recipe_bs['version'], recipe_bs['revision'])
--
--        for task, data in recipe_bs['tasks'].copy().items():
--            recipe_bs['tasks'][task] = [BSTask(data)]
--
--        buildstats[recipe_bs['name']] = recipe_bs
--
--    return buildstats
--
--
- def read_buildstats(path, multi):
-     """Read buildstats"""
-     if not os.path.exists(path):
-         raise ScriptError("No such file or directory: {}".format(path))
- 
-     if os.path.isfile(path):
--        return read_buildstats_json(path)
-+        return BuildStats.from_file_json(path)
- 
-     if os.path.isfile(os.path.join(path, 'build_stats')):
--        return read_buildstats_dir(path)
-+        return BuildStats.from_dir(path)
- 
-     # Handle a non-buildstat directory
-     subpaths = sorted(glob.glob(path + '/*'))
-@@ -238,17 +61,16 @@ def read_buildstats(path, multi):
-     bs = None
-     for subpath in subpaths:
-         if os.path.isfile(subpath):
--            tmpbs = read_buildstats_json(subpath)
-+            _bs = BuildStats.from_file_json(subpath)
-         else:
--            tmpbs = read_buildstats_dir(subpath)
--        if not bs:
--            bs = tmpbs
-+            _bs = BuildStats.from_dir(subpath)
-+        if bs is None:
-+            bs = _bs
-         else:
--            log.debug("Joining buildstats")
--            bs_append(bs, tmpbs)
--
-+            bs.aggregate(_bs)
-     if not bs:
-         raise ScriptError("No buildstats found under {}".format(path))
-+
-     return bs
- 
- 
-@@ -266,11 +88,11 @@ def print_ver_diff(bs1, bs2):
-     common_pkgs = pkgs2.intersection(pkgs1)
-     if common_pkgs:
-         for pkg in common_pkgs:
--            if bs1[pkg]['epoch'] != bs2[pkg]['epoch']:
-+            if bs1[pkg].epoch != bs2[pkg].epoch:
-                 echanged.append(pkg)
--            elif bs1[pkg]['version'] != bs2[pkg]['version']:
-+            elif bs1[pkg].version != bs2[pkg].version:
-                 vchanged.append(pkg)
--            elif bs1[pkg]['revision'] != bs2[pkg]['revision']:
-+            elif bs1[pkg].revision != bs2[pkg].revision:
-                 rchanged.append(pkg)
-             else:
-                 unchanged.append(pkg)
-@@ -288,37 +110,37 @@ def print_ver_diff(bs1, bs2):
-         print("\nNEW PACKAGES:")
-         print("-------------")
-         for pkg in sorted(new_pkgs):
--            print(fmt_str.format(pkg, bs2[pkg]['nevr'], maxlen=maxlen))
-+            print(fmt_str.format(pkg, bs2[pkg].nevr, maxlen=maxlen))
- 
-     if deleted_pkgs:
-         print("\nDELETED PACKAGES:")
-         print("-----------------")
-         for pkg in sorted(deleted_pkgs):
--            print(fmt_str.format(pkg, bs1[pkg]['nevr'], maxlen=maxlen))
-+            print(fmt_str.format(pkg, bs1[pkg].nevr, maxlen=maxlen))
- 
-     fmt_str = "  {0:{maxlen}} {1:<20}    ({2})"
-     if rchanged:
-         print("\nREVISION CHANGED:")
-         print("-----------------")
-         for pkg in sorted(rchanged):
--            field1 = "{} -> {}".format(pkg, bs1[pkg]['revision'], bs2[pkg]['revision'])
--            field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
-+            field1 = "{} -> {}".format(pkg, bs1[pkg].revision, bs2[pkg].revision)
-+            field2 = "{} -> {}".format(bs1[pkg].nevr, bs2[pkg].nevr)
-             print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
- 
-     if vchanged:
-         print("\nVERSION CHANGED:")
-         print("----------------")
-         for pkg in sorted(vchanged):
--            field1 = "{} -> {}".format(bs1[pkg]['version'], bs2[pkg]['version'])
--            field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
-+            field1 = "{} -> {}".format(bs1[pkg].version, bs2[pkg].version)
-+            field2 = "{} -> {}".format(bs1[pkg].nevr, bs2[pkg].nevr)
-             print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
- 
-     if echanged:
-         print("\nEPOCH CHANGED:")
-         print("--------------")
-         for pkg in sorted(echanged):
--            field1 = "{} -> {}".format(bs1[pkg]['epoch'], bs2[pkg]['epoch'])
--            field2 = "{} -> {}".format(bs1[pkg]['nevr'], bs2[pkg]['nevr'])
-+            field1 = "{} -> {}".format(bs1[pkg].epoch, bs2[pkg].epoch)
-+            field2 = "{} -> {}".format(bs1[pkg].nevr, bs2[pkg].nevr)
-             print(fmt_str.format(pkg, field1, field2, maxlen=maxlen))
- 
- 
-@@ -359,12 +181,10 @@ def print_task_diff(bs1, bs2, val_type, min_val=0, min_absdiff=0, sort_by=('absd
-         """Get cumulative sum of all tasks"""
-         total = 0.0
-         for recipe_data in buildstats.values():
--            for bs_task in recipe_data['tasks'].values():
--                total += sum([getattr(b, val_type) for b in bs_task]) / len(bs_task)
-+            for bs_task in recipe_data.tasks.values():
-+                total += getattr(bs_task, val_type)
-         return total
- 
--    tasks_diff = []
--
-     if min_val:
-         print("Ignoring tasks less than {} ({})".format(
-                 val_to_str(min_val, True), val_to_str(min_val)))
-@@ -373,49 +193,7 @@ def print_task_diff(bs1, bs2, val_type, min_val=0, min_absdiff=0, sort_by=('absd
-                 val_to_str(min_absdiff, True), val_to_str(min_absdiff)))
- 
-     # Prepare the data
--    pkgs = set(bs1.keys()).union(set(bs2.keys()))
--    for pkg in pkgs:
--        tasks1 = bs1[pkg]['tasks'] if pkg in bs1 else {}
--        tasks2 = bs2[pkg]['tasks'] if pkg in bs2 else {}
--        if not tasks1:
--            pkg_op = '+ '
--        elif not tasks2:
--            pkg_op = '- '
--        else:
--            pkg_op = '  '
--
--        for task in set(tasks1.keys()).union(set(tasks2.keys())):
--            task_op = '  '
--            if task in tasks1:
--                # Average over all values
--                val1 = [getattr(b, val_type) for b in bs1[pkg]['tasks'][task]]
--                val1 = sum(val1) / len(val1)
--            else:
--                task_op = '+ '
--                val1 = 0
--            if task in tasks2:
--                # Average over all values
--                val2 = [getattr(b, val_type) for b in bs2[pkg]['tasks'][task]]
--                val2 = sum(val2) / len(val2)
--            else:
--                val2 = 0
--                task_op = '- '
--
--            if val1 == 0:
--                reldiff = float('inf')
--            else:
--                reldiff = 100 * (val2 - val1) / val1
--
--            if max(val1, val2) < min_val:
--                log.debug("Filtering out %s:%s (%s)", pkg, task,
--                          val_to_str(max(val1, val2)))
--                continue
--            if abs(val2 - val1) < min_absdiff:
--                log.debug("Filtering out %s:%s (difference of %s)", pkg, task,
--                          val_to_str(val2-val1))
--                continue
--            tasks_diff.append(TaskDiff(pkg, pkg_op, task, task_op, val1, val2,
--                                       val2-val1, reldiff))
-+    tasks_diff = diff_buildstats(bs1, bs2, val_type, min_val, min_absdiff)
- 
-     # Sort our list
-     for field in reversed(sort_by):
++          {# Task and recipe summary from buildstats #}
++          {% if 'buildstats' in measurement %}
++            Task resource usage
++            <table class="details" style="width:100%">
++              <tr>
++                <th>Number of tasks</th>
++                <th>Top consumers of cputime</th>
++              </tr>
++              <tr>
++                <td style="vertical-align: top">{{ measurement.buildstats.tasks.count }} ({{ measurement.buildstats.tasks.change }})</td>
++                {# Table of most resource-hungry tasks #}
++                <td>
++                  <table class="details plain">
++                    {% for diff in measurement.buildstats.top_consumer|reverse %}
++                    <tr>
++                      <th>{{ diff.pkg }}.{{ diff.task }}</th>
++                      <td>{{ '%0.0f' % diff.value2 }} s</td>
++                    </tr>
++                    {% endfor %}
++                  </table>
++                </td>
++              </tr>
++              <tr>
++                <th>Biggest increase in cputime</th>
++                <th>Biggest decrease in cputime</th>
++              </tr>
++              <tr>
++                {# Table biggest increase in resource usage #}
++                <td>
++                  <table class="details plain">
++                    {% for diff in measurement.buildstats.top_increase|reverse %}
++                    <tr>
++                      <th>{{ diff.pkg }}.{{ diff.task }}</th>
++                      <td>{{ '%+0.0f' % diff.absdiff }} s</td>
++                    </tr>
++                    {% endfor %}
++                  </table>
++                </td>
++                {# Table biggest decrease in resource usage #}
++                <td>
++                  <table class="details plain">
++                    {% for diff in measurement.buildstats.top_decrease %}
++                    <tr>
++                      <th>{{ diff.pkg }}.{{ diff.task }}</th>
++                      <td>{{ '%+0.0f' % diff.absdiff }} s</td>
++                    </tr>
++                    {% endfor %}
++                  </table>
++                </td>
++              </tr>
++            </table>
++          {% endif %}
+         </div>
+       {% endfor %}
+     {# Unsuccessful test #}
 diff --git a/scripts/lib/buildstats.py b/scripts/lib/buildstats.py
-new file mode 100644
-index 0000000000..9eb60b1c69
---- /dev/null
+index 9eb60b1c69..bd6332176a 100644
+--- a/scripts/lib/buildstats.py
 +++ b/scripts/lib/buildstats.py
-@@ -0,0 +1,301 @@
-+#
-+# Copyright (c) 2017, Intel Corporation.
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+"""Functionality for analyzing buildstats"""
-+import json
-+import logging
-+import os
-+import re
-+from collections import namedtuple
-+from statistics import mean
-+
-+
-+log = logging.getLogger()
-+
-+
-+taskdiff_fields = ('pkg', 'pkg_op', 'task', 'task_op', 'value1', 'value2',
-+                   'absdiff', 'reldiff')
-+TaskDiff = namedtuple('TaskDiff', ' '.join(taskdiff_fields))
-+
-+
-+class BSError(Exception):
-+    """Error handling of buildstats"""
-+    pass
-+
-+
-+class BSTask(dict):
-+    def __init__(self, *args, **kwargs):
-+        self['start_time'] = None
-+        self['elapsed_time'] = None
-+        self['status'] = None
-+        self['iostat'] = {}
-+        self['rusage'] = {}
-+        self['child_rusage'] = {}
-+        super(BSTask, self).__init__(*args, **kwargs)
-+
+@@ -180,6 +180,14 @@ class BSRecipe(object):
+ class BuildStats(dict):
+     """Class representing buildstats of one build"""
+ 
 +    @property
-+    def cputime(self):
-+        """Sum of user and system time taken by the task"""
-+        rusage = self['rusage']['ru_stime'] + self['rusage']['ru_utime']
-+        if self['child_rusage']:
-+            # Child rusage may have been optimized out
-+            return rusage + self['child_rusage']['ru_stime'] + self['child_rusage']['ru_utime']
-+        else:
-+            return rusage
++    def num_tasks(self):
++        """Get number of tasks"""
++        num = 0
++        for recipe in self.values():
++            num += len(recipe.tasks)
++        return num
 +
-+    @property
-+    def walltime(self):
-+        """Elapsed wall clock time"""
-+        return self['elapsed_time']
+     @classmethod
+     def from_json(cls, bs_json):
+         """Create new BuildStats object from JSON object"""
+diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
+index b5ad42bc8a..8d9c53f91f 100755
+--- a/scripts/oe-build-perf-report
++++ b/scripts/oe-build-perf-report
+@@ -31,6 +31,7 @@ from build_perf import print_table
+ from build_perf.report import (metadata_xml_to_json, results_xml_to_json,
+                                aggregate_data, aggregate_metadata, measurement_stats)
+ from build_perf import html
++from buildstats import BuildStats, diff_buildstats
+ 
+ scriptpath.add_oe_lib_path()
+ 
+@@ -330,7 +331,27 @@ def print_diff_report(metadata_l, data_l, metadata_r, data_r):
+     print()
+ 
+ 
+-def print_html_report(data, id_comp):
++class BSSummary(object):
++    def __init__(self, bs1, bs2):
++        self.tasks = {'count': bs2.num_tasks,
++                      'change': '{:+d}'.format(bs2.num_tasks - bs1.num_tasks)}
++        self.top_consumer = None
++        self.top_decrease = None
++        self.top_increase = None
 +
-+    @property
-+    def read_bytes(self):
-+        """Bytes read from the block layer"""
-+        return self['iostat']['read_bytes']
++        tasks_diff = diff_buildstats(bs1, bs2, 'cputime')
 +
-+    @property
-+    def write_bytes(self):
-+        """Bytes written to the block layer"""
-+        return self['iostat']['write_bytes']
++        # Get top consumers of resources
++        tasks_diff = sorted(tasks_diff, key=attrgetter('value2'))
++        self.top_consumer = tasks_diff[-5:]
 +
-+    @property
-+    def read_ops(self):
-+        """Number of read operations on the block layer"""
-+        if self['child_rusage']:
-+            # Child rusage may have been optimized out
-+            return self['rusage']['ru_inblock'] + self['child_rusage']['ru_inblock']
-+        else:
-+            return self['rusage']['ru_inblock']
-+
-+    @property
-+    def write_ops(self):
-+        """Number of write operations on the block layer"""
-+        if self['child_rusage']:
-+            # Child rusage may have been optimized out
-+            return self['rusage']['ru_oublock'] + self['child_rusage']['ru_oublock']
-+        else:
-+            return self['rusage']['ru_oublock']
-+
-+    @classmethod
-+    def from_file(cls, buildstat_file):
-+        """Read buildstat text file"""
-+        bs_task = cls()
-+        log.debug("Reading task buildstats from %s", buildstat_file)
-+        end_time = None
-+        with open(buildstat_file) as fobj:
-+            for line in fobj.readlines():
-+                key, val = line.split(':', 1)
-+                val = val.strip()
-+                if key == 'Started':
-+                    start_time = float(val)
-+                    bs_task['start_time'] = start_time
-+                elif key == 'Ended':
-+                    end_time = float(val)
-+                elif key.startswith('IO '):
-+                    split = key.split()
-+                    bs_task['iostat'][split[1]] = int(val)
-+                elif key.find('rusage') >= 0:
-+                    split = key.split()
-+                    ru_key = split[-1]
-+                    if ru_key in ('ru_stime', 'ru_utime'):
-+                        val = float(val)
-+                    else:
-+                        val = int(val)
-+                    ru_type = 'rusage' if split[0] == 'rusage' else \
-+                                                      'child_rusage'
-+                    bs_task[ru_type][ru_key] = val
-+                elif key == 'Status':
-+                    bs_task['status'] = val
-+        if end_time is not None and start_time is not None:
-+            bs_task['elapsed_time'] = end_time - start_time
-+        else:
-+            raise BSError("{} looks like a invalid buildstats file".format(buildstat_file))
-+        return bs_task
++        # Get biggest increase and decrease in resource usage
++        tasks_diff = sorted(tasks_diff, key=attrgetter('absdiff'))
++        self.top_decrease = tasks_diff[0:5]
++        self.top_increase = tasks_diff[-5:]
 +
 +
-+class BSTaskAggregate(object):
-+    """Class representing multiple runs of the same task"""
-+    properties = ('cputime', 'walltime', 'read_bytes', 'write_bytes',
-+                  'read_ops', 'write_ops')
-+
-+    def __init__(self, tasks=None):
-+        self._tasks = tasks or []
-+        self._properties = {}
-+
-+    def __getattr__(self, name):
-+        if name in self.properties:
-+            if name not in self._properties:
-+                # Calculate properties on demand only. We only provide mean
-+                # value, so far
-+                self._properties[name] = mean([getattr(t, name) for t in self._tasks])
-+            return self._properties[name]
-+        else:
-+            raise AttributeError("'BSTaskAggregate' has no attribute '{}'".format(name))
-+
-+    def append(self, task):
-+        """Append new task"""
-+        # Reset pre-calculated properties
-+        assert isinstance(task, BSTask), "Type is '{}' instead of 'BSTask'".format(type(task))
-+        self._properties = {}
-+        self._tasks.append(task)
-+
-+
-+class BSRecipe(object):
-+    """Class representing buildstats of one recipe"""
-+    def __init__(self, name, epoch, version, revision):
-+        self.name = name
-+        self.epoch = epoch
-+        self.version = version
-+        self.revision = revision
-+        if epoch is None:
-+            self.nevr = "{}-{}-{}".format(name, version, revision)
-+        else:
-+            self.nevr = "{}-{}_{}-{}".format(name, epoch, version, revision)
-+        self.tasks = {}
-+
-+    def aggregate(self, bsrecipe):
-+        """Aggregate data of another recipe buildstats"""
-+        if self.nevr != bsrecipe.nevr:
-+            raise ValueError("Refusing to aggregate buildstats, recipe version "
-+                             "differs: {} vs. {}".format(self.nevr, bsrecipe.nevr))
-+        if set(self.tasks.keys()) != set(bsrecipe.tasks.keys()):
-+            raise ValueError("Refusing to aggregate buildstats, set of tasks "
-+                             "in {} differ".format(self.name))
-+
-+        for taskname, taskdata in bsrecipe.tasks.items():
-+            if not isinstance(self.tasks[taskname], BSTaskAggregate):
-+                self.tasks[taskname] = BSTaskAggregate([self.tasks[taskname]])
-+            self.tasks[taskname].append(taskdata)
++def print_html_report(data, id_comp, buildstats):
+     """Print report in html format"""
+     # Handle metadata
+     metadata = {'branch': {'title': 'Branch', 'value': 'master'},
+@@ -339,7 +360,6 @@ def print_html_report(data, id_comp):
+                }
+     metadata = metadata_diff(data[id_comp][0], data[-1][0])
+ 
+-
+     # Generate list of tests
+     tests = []
+     for test in data[-1][1]['tests'].keys():
+@@ -389,6 +409,16 @@ def print_html_report(data, id_comp):
+             new_meas['value'] = samples[-1]
+             new_meas['value_type'] = samples[-1]['val_cls']
+ 
++            # Compare buildstats
++            bs_key = test + '.' + meas
++            rev = metadata['commit_num']['value']
++            comp_rev = metadata['commit_num']['value_old']
++            if (rev in buildstats and bs_key in buildstats[rev] and
++                    comp_rev in buildstats and bs_key in buildstats[comp_rev]):
++                new_meas['buildstats'] = BSSummary(buildstats[comp_rev][bs_key],
++                                                   buildstats[rev][bs_key])
 +
 +
-+class BuildStats(dict):
-+    """Class representing buildstats of one build"""
+             new_test['measurements'].append(new_meas)
+         tests.append(new_test)
+ 
+@@ -400,8 +430,8 @@ def print_html_report(data, id_comp):
+     print(html.template.render(metadata=metadata, test_data=tests, chart_opts=chart_opts))
+ 
+ 
+-def dump_buildstats(repo, outdir, notes_ref, revs):
+-    """Dump buildstats of test results"""
++def get_buildstats(repo, notes_ref, revs, outdir=None):
++    """Get the buildstats from git notes"""
+     full_ref = 'refs/notes/' + notes_ref
+     if not repo.rev_parse(full_ref):
+         log.error("No buildstats found, please try running "
+@@ -410,9 +440,10 @@ def dump_buildstats(repo, outdir, notes_ref, revs):
+         return
+ 
+     missing = False
+-    log.info("Writing out buildstats from 'refs/notes/%s' into '%s'",
+-              notes_ref, outdir)
++    buildstats = {}
++    log.info("Parsing buildstats from 'refs/notes/%s'", notes_ref)
+     for rev in revs:
++        buildstats[rev.commit_number] = {}
+         log.debug('Dumping buildstats for %s (%s)', rev.commit_number,
+                   rev.commit)
+         for tag in rev.tags:
+@@ -423,19 +454,32 @@ def dump_buildstats(repo, outdir, notes_ref, revs):
+             except GitError:
+                 log.warning("Buildstats not found for %s", tag)
+                 missing = True
+-            for measurement, buildstats in bs_all.items():
+-                tag_base, run_id = tag.rsplit('/', 1)
+-                tag_base = tag_base.replace('/', '_')
+-                bs_dir = os.path.join(outdir, measurement, tag_base)
+-                if not os.path.exists(bs_dir):
+-                    os.makedirs(bs_dir)
+-                with open(os.path.join(bs_dir, run_id + '.json'), 'w') as f:
+-                    json.dump(buildstats, f, indent=2)
 +
-+    @classmethod
-+    def from_json(cls, bs_json):
-+        """Create new BuildStats object from JSON object"""
-+        buildstats = cls()
-+        for recipe in bs_json:
-+            if recipe['name'] in buildstats:
-+                raise BSError("Cannot handle multiple versions of the same "
-+                              "package ({})".format(recipe['name']))
-+            bsrecipe = BSRecipe(recipe['name'], recipe['epoch'],
-+                                recipe['version'], recipe['revision'])
-+            for task, data in recipe['tasks'].items():
-+                bsrecipe.tasks[task] = BSTask(data)
++            for measurement, bs in bs_all.items():
++                # Write out onto disk
++                if outdir:
++                    tag_base, run_id = tag.rsplit('/', 1)
++                    tag_base = tag_base.replace('/', '_')
++                    bs_dir = os.path.join(outdir, measurement, tag_base)
++                    if not os.path.exists(bs_dir):
++                        os.makedirs(bs_dir)
++                    with open(os.path.join(bs_dir, run_id + '.json'), 'w') as f:
++                        json.dump(bs, f, indent=2)
 +
-+            buildstats[recipe['name']] = bsrecipe
++                # Read buildstats into a dict
++                _bs = BuildStats.from_json(bs)
++                if measurement not in buildstats[rev.commit_number]:
++                    buildstats[rev.commit_number][measurement] = _bs
++                else:
++                    buildstats[rev.commit_number][measurement].aggregate(_bs)
 +
-+        return buildstats
+     if missing:
+         log.info("Buildstats were missing for some test runs, please "
+                  "run 'git fetch origin %s:%s' and try again",
+                  full_ref, full_ref)
+ 
++    return buildstats
 +
-+    @staticmethod
-+    def from_file_json(path):
-+        """Load buildstats from a JSON file"""
-+        with open(path) as fobj:
-+            bs_json = json.load(fobj)
-+        return BuildStats.from_json(bs_json)
+ 
+ def auto_args(repo, args):
+     """Guess arguments, if not defined by the user"""
+@@ -581,20 +625,20 @@ def main(argv=None):
+     index_r = index_r - index_0
+     index_l = index_l - index_0
+ 
++    # Read buildstats only when needed
++    buildstats = None
++    if args.dump_buildstats or args.html:
++        outdir = 'oe-build-perf-buildstats' if args.dump_buildstats else None
++        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch,
++                                                 args.machine)
++        buildstats = get_buildstats(repo, notes_ref, [rev_l, rev_r], outdir)
 +
-+
-+    @staticmethod
-+    def split_nevr(nevr):
-+        """Split name and version information from recipe "nevr" string"""
-+        n_e_v, revision = nevr.rsplit('-', 1)
-+        match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[0-9]\S*)$',
-+                         n_e_v)
-+        if not match:
-+            # If we're not able to parse a version starting with a number, just
-+            # take the part after last dash
-+            match = re.match(r'^(?P<name>\S+)-((?P<epoch>[0-9]{1,5})_)?(?P<version>[^-]+)$',
-+                             n_e_v)
-+        name = match.group('name')
-+        version = match.group('version')
-+        epoch = match.group('epoch')
-+        return name, epoch, version, revision
-+
-+    @classmethod
-+    def from_dir(cls, path):
-+        """Load buildstats from a buildstats directory"""
-+        if not os.path.isfile(os.path.join(path, 'build_stats')):
-+            raise BSError("{} does not look like a buildstats directory".format(path))
-+
-+        log.debug("Reading buildstats directory %s", path)
-+
-+        buildstats = cls()
-+        subdirs = os.listdir(path)
-+        for dirname in subdirs:
-+            recipe_dir = os.path.join(path, dirname)
-+            if not os.path.isdir(recipe_dir):
-+                continue
-+            name, epoch, version, revision = cls.split_nevr(dirname)
-+            bsrecipe = BSRecipe(name, epoch, version, revision)
-+            for task in os.listdir(recipe_dir):
-+                bsrecipe.tasks[task] = BSTask.from_file(
-+                    os.path.join(recipe_dir, task))
-+            if name in buildstats:
-+                raise BSError("Cannot handle multiple versions of the same "
-+                              "package ({})".format(name))
-+            buildstats[name] = bsrecipe
-+
-+        return buildstats
-+
-+    def aggregate(self, buildstats):
-+        """Aggregate other buildstats into this"""
-+        if set(self.keys()) != set(buildstats.keys()):
-+            raise ValueError("Refusing to aggregate buildstats, set of "
-+                             "recipes is different")
-+        for pkg, data in buildstats.items():
-+            self[pkg].aggregate(data)
-+
-+
-+def diff_buildstats(bs1, bs2, stat_attr, min_val=None, min_absdiff=None):
-+    """Compare the tasks of two buildstats"""
-+    tasks_diff = []
-+    pkgs = set(bs1.keys()).union(set(bs2.keys()))
-+    for pkg in pkgs:
-+        tasks1 = bs1[pkg].tasks if pkg in bs1 else {}
-+        tasks2 = bs2[pkg].tasks if pkg in bs2 else {}
-+        if not tasks1:
-+            pkg_op = '+'
-+        elif not tasks2:
-+            pkg_op = '-'
-+        else:
-+            pkg_op = ' '
-+
-+        for task in set(tasks1.keys()).union(set(tasks2.keys())):
-+            task_op = ' '
-+            if task in tasks1:
-+                val1 = getattr(bs1[pkg].tasks[task], stat_attr)
-+            else:
-+                task_op = '+'
-+                val1 = 0
-+            if task in tasks2:
-+                val2 = getattr(bs2[pkg].tasks[task], stat_attr)
-+            else:
-+                val2 = 0
-+                task_op = '-'
-+
-+            if val1 == 0:
-+                reldiff = float('inf')
-+            else:
-+                reldiff = 100 * (val2 - val1) / val1
-+
-+            if min_val and max(val1, val2) < min_val:
-+                log.debug("Filtering out %s:%s (%s)", pkg, task,
-+                          max(val1, val2))
-+                continue
-+            if min_absdiff and abs(val2 - val1) < min_absdiff:
-+                log.debug("Filtering out %s:%s (difference of %s)", pkg, task,
-+                          val2-val1)
-+                continue
-+            tasks_diff.append(TaskDiff(pkg, pkg_op, task, task_op, val1, val2,
-+                                       val2-val1, reldiff))
-+    return tasks_diff
+     # Print report
+     if not args.html:
+         print_diff_report(data[index_l][0], data[index_l][1],
+                           data[index_r][0], data[index_r][1])
+     else:
+-        print_html_report(data, index_l)
+-
+-    # Dump buildstats
+-    if args.dump_buildstats:
+-        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch,
+-                                                 args.machine)
+-        dump_buildstats(repo, 'oe-build-perf-buildstats', notes_ref,
+-                        [rev_l, rev_r])
+-                        #revs_l.tags + revs_r.tags)
++        print_html_report(data, index_l, buildstats)
+ 
+     return 0
+ 
 -- 
 2.12.3
 
