@@ -1,26 +1,64 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B43B378685
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 807AC78671
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 13:04:45 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Sep 2017 06:04:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; 
-	d="scan'208,217";a="1172538629"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2017 06:04:45 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Sep 2017 16:04:40 +0300
-Message-Id: <fec681b6a8adbebbf8ca1a49915880eff9b4b998.1505480244.git.markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
-References: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
-In-Reply-To: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
-References: <cover.1505480244.git.markus.lehtonen@linux.intel.com>
-Subject: [PATCH 4/4] scripts/oe-build-perf-report: show recipe version changes in html report
+	Fri, 15 Sep 2017 14:06:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id A264C2E46A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id j4A5CN129676
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bes.se.axis.com (Postfix) with ESMTPS id DE6122E48C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B7FA61A08E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AD4ED1A08D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id A1C642FEE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 16:06:17 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Fri, 15 Sep 2017 16:06:17 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Fri, 15 Sep 2017 16:06:17 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
+	"command"	to determine if programs exist
+Thread-Index: AQHStFG25407gFtAtEW2zNryFv62gaIsrsuAgIo/lnA=
+Date: Fri, 15 Sep 2017 14:06:17 +0000
+Message-ID: <660cc3aba3ef498188148224f389d457@XBOX02.axis.com>
+References: <cover.1492086566.git.pkj@axis.com>
+	<0991deba9e90e3c32f8566fdfc758cb88790bde4.1492086566.git.pkj@axis.com>
+	<106084978a804bf8a2b3aa10195bfa9f@XBOX02.axis.com>
+In-Reply-To: <106084978a804bf8a2b3aa10195bfa9f@XBOX02.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCHv2 1/1] base-files: profile: Avoid using "command"	to determine if programs exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,141 +71,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 13:04:46 -0000
+X-List-Received-Date: Fri, 15 Sep 2017 14:06:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-If buildstats are available (for a certain measurement), show recipe
-version changes between the two builds that are being compared. The
-information shown includes new and dropped recipes as well as changes in
-recipe version, revision or epoch.
+*ping*
 
-[YOCTO #11382]
+//Peter
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/lib/build_perf/html/report.html | 20 ++++++++++++++++++++
- scripts/lib/buildstats.py               | 15 +++++++++++++--
- scripts/oe-build-perf-report            | 17 ++++++++++++++++-
- 3 files changed, 49 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/lib/build_perf/html/report.html b/scripts/lib/build_perf/html/report.html
-index a7ca5b0cb0..00ecec884b 100644
---- a/scripts/lib/build_perf/html/report.html
-+++ b/scripts/lib/build_perf/html/report.html
-@@ -246,6 +246,26 @@ h3 {
-                 </td>
-               </tr>
-             </table>
-+
-+            {# Recipe version differences #}
-+            {% if measurement.buildstats.ver_diff %}
-+              <div style="margin-top: 16px">Recipe version changes</div>
-+              <table class="details">
-+                {% for head, recipes in measurement.buildstats.ver_diff.items() %}
-+                  <tr>
-+                    <th colspan="2">{{ head }}</th>
-+                  </tr>
-+                  {% for name, info in recipes|sort %}
-+                    <tr>
-+                      <td>{{ name }}</td>
-+                      <td>{{ info }}</td>
-+                    </tr>
-+                  {% endfor %}
-+                {% endfor %}
-+              </table>
-+            {% else %}
-+              <div style="margin-top: 16px">No recipe version changes detected</div>
-+            {% endif %}
-           {% endif %}
-         </div>
-       {% endfor %}
-diff --git a/scripts/lib/buildstats.py b/scripts/lib/buildstats.py
-index b1c9e617c6..d9aadf3cb8 100644
---- a/scripts/lib/buildstats.py
-+++ b/scripts/lib/buildstats.py
-@@ -157,9 +157,9 @@ class BSRecipe(object):
-         self.version = version
-         self.revision = revision
-         if epoch is None:
--            self.nevr = "{}-{}-{}".format(name, version, revision)
-+            self.evr = "{}-{}".format(version, revision)
-         else:
--            self.nevr = "{}-{}_{}-{}".format(name, epoch, version, revision)
-+            self.evr = "{}_{}-{}".format(epoch, version, revision)
-         self.tasks = {}
- 
-     def aggregate(self, bsrecipe):
-@@ -176,6 +176,10 @@ class BSRecipe(object):
-                 self.tasks[taskname] = BSTaskAggregate([self.tasks[taskname]])
-             self.tasks[taskname].append(taskdata)
- 
-+    @property
-+    def nevr(self):
-+        return self.name + '-' + self.evr
-+
- 
- class BuildStats(dict):
-     """Class representing buildstats of one build"""
-@@ -323,6 +327,7 @@ class BSVerDiff(object):
-         self.vchanged = {}
-         self.rchanged = {}
-         self.unchanged = {}
-+        self.empty_diff = False
- 
-         common = recipes2.intersection(recipes1)
-         if common:
-@@ -336,3 +341,9 @@ class BSVerDiff(object):
-                     self.rchanged[recipe] = rdiff
-                 else:
-                     self.unchanged[recipe] = rdiff
-+
-+        if len(recipes1) == len(recipes2) == len(self.unchanged):
-+            self.empty_diff = True
-+
-+    def __bool__(self):
-+        return not self.empty_diff
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index 8d9c53f91f..7296450b9c 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -31,7 +31,7 @@ from build_perf import print_table
- from build_perf.report import (metadata_xml_to_json, results_xml_to_json,
-                                aggregate_data, aggregate_metadata, measurement_stats)
- from build_perf import html
--from buildstats import BuildStats, diff_buildstats
-+from buildstats import BuildStats, diff_buildstats, BSVerDiff
- 
- scriptpath.add_oe_lib_path()
- 
-@@ -338,6 +338,7 @@ class BSSummary(object):
-         self.top_consumer = None
-         self.top_decrease = None
-         self.top_increase = None
-+        self.ver_diff = OrderedDict()
- 
-         tasks_diff = diff_buildstats(bs1, bs2, 'cputime')
- 
-@@ -350,6 +351,20 @@ class BSSummary(object):
-         self.top_decrease = tasks_diff[0:5]
-         self.top_increase = tasks_diff[-5:]
- 
-+        # Compare recipe versions and prepare data for display
-+        ver_diff = BSVerDiff(bs1, bs2)
-+        if ver_diff:
-+            if ver_diff.new:
-+                self.ver_diff['New recipes'] = [(n, r.evr) for n, r in ver_diff.new.items()]
-+            if ver_diff.dropped:
-+                self.ver_diff['Dropped recipes'] = [(n, r.evr) for n, r in ver_diff.dropped.items()]
-+            if ver_diff.echanged:
-+                self.ver_diff['Epoch changed'] = [(n, "{} &rarr; {}".format(r.left.evr, r.right.evr)) for n, r in ver_diff.echanged.items()]
-+            if ver_diff.vchanged:
-+                self.ver_diff['Version changed'] = [(n, "{} &rarr; {}".format(r.left.version, r.right.version)) for n, r in ver_diff.vchanged.items()]
-+            if ver_diff.rchanged:
-+                self.ver_diff['Revision changed'] = [(n, "{} &rarr; {}".format(r.left.evr, r.right.evr)) for n, r in ver_diff.rchanged.items()]
-+
- 
- def print_html_report(data, id_comp, buildstats):
-     """Print report in html format"""
--- 
-2.12.3
-
+> -----Original Message-----
+> From: Peter Kjellerstedt
+> Sent: den 19 juni 2017 16:53
+> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: RE: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
+> "command" to determine if programs exist
+>=20
+> *ping*
+>=20
+> //Peter
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Peter Kjellerstedt
+> > Sent: den 13 april 2017 14:30
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCHv2 1/1] base-files: profile: Avoid using
+> > "command" to determine if programs exist
+> >
+> > Since the existence of "command" in itself is not guaranteed, using it
+> > to determine if other executables exist is moot. Instead just run the
+> > executables and let the shell determine if they exist. By piping stderr
+> > to /dev/null we avoid unnecessary warnings in case they do not exist.
+> >
+> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > ---
+> >  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
+> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/rec=
+ipes-core/base-files/base-files/profile
+> > index ceaf15f799..e05c8840db 100644
+> > --- a/meta/recipes-core/base-files/base-files/profile
+> > +++ b/meta/recipes-core/base-files/base-files/profile
+> > @@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
+> >  	unset i
+> >  fi
+> >
+> > -if command -v resize >/dev/null && command -v tty >/dev/null; then
+> > -	# Make sure we are on a serial console (i.e. the device used starts w=
+ith
+> > -	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher whic=
+h
+> > -	# tries do use ssh
+> > -	case $(tty) in
+> > -		/dev/tty[A-z]*) resize >/dev/null;;
+> > -	esac
+> > -fi
+> > +# Make sure we are on a serial console (i.e. the device used starts wi=
+th
+> > +# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which=
+ tries do
+> > +# use ssh
+> > +case $(tty 2>/dev/null) in
+> > +	/dev/tty[A-z]*) resize >/dev/null 2>&1;;
+> > +esac
+> >
+> >  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+> >
+> > --
+> > 2.12.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
