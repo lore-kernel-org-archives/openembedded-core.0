@@ -1,22 +1,47 @@
-Return-Path: <jussi.laako@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A91960797
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C62737864D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Sep 2017 11:58:21 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Sep 2017 04:58:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,396,1500966000"; d="scan'208";a="900567711"
-Received: from jlaako-lnx.fi.intel.com (HELO jlaako-lnx.fi.intel.com.)
-	([10.237.72.200])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2017 04:58:21 -0700
-From: Jussi Laako <jussi.laako@linux.intel.com>
+	Fri, 15 Sep 2017 11:58:50 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id i189so7697710wmf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Sep 2017 04:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=HMsMLUxASOMLOlWrEzUgrJ4OuYeUf5KZ6fmvfOtgrTQ=;
+	b=R5ye83P+a1JCJ6oT3tRX24UcqUsRN2+x4yV76Nwmzig4FHC0o4lu3m3y3E1gRP19cZ
+	8yJTvvb8nHuaLmZTk3bB9FyxIX3gI6dLDDU+7XaFv2LoaKO+mv8w3/k/LFEk/jRiM/hN
+	K7QrHqerjDTkymVKxYMVvN3jtUlBirPRt42tPLd3sEIJ+X+fThadylCh9XuOx4F8A3lM
+	Nfv394wiV4ct38QVCjsR1IxZjWsuNEiNTE9pqJMuhjsZnUzs1/v031621w07gA1hcoao
+	d3n5W0N5Ay/UuGD3hHgpxRV2BvcnoXYYTZHXf25ORAr3MwfAA0dzj8WWijOLEc53201B
+	zkww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=HMsMLUxASOMLOlWrEzUgrJ4OuYeUf5KZ6fmvfOtgrTQ=;
+	b=mVER/vkJA1DMp/x/AUZ+QXiP2yLvHOtetbLOU8xLq2KQwiv9asXxR9s93i/VW5LMUd
+	B6Pxk5CIEpzVa3/KqRBxqy1TyhOPcTK1NLEutHNPSGrT45aLzp6o50ia3b+SJxcgefO8
+	CNrBbwxj2u6qdutHuls5YhtHvVICicDIwQVLRLlmv9DThtzQM9w7APu9HzKbVGxRy5tl
+	rkH1FhVaJTxJ1icjU3EUs0NFnZsMFFXj//xyRbcXbpa74JH4fujjRYfIuhCgNGHUtJld
+	g0aXJWIjDrEI0FLsTwkkJS5LoFbUKvSpdQGW0W5OjCNipSZwxPGSUDsgbL32leyM3HXa
+	WLsg==
+X-Gm-Message-State: AHPjjUjSWYuoHLgnZ+CtFJEYEorvGV7jjW6wpVwuwtbuZT+z6a2004Iy
+	nnJAd1ZuZLM3f6Y19+8=
+X-Google-Smtp-Source: AOwi7QARD8ZJr1PCy/ryMJH5hO9qLPmXJXoYjKk9ulYGK3iMenoP76XLxYK2B8E72Q7WVx6HyyJ/sQ==
+X-Received: by 10.28.226.84 with SMTP id z81mr2483032wmg.108.1505476731222;
+	Fri, 15 Sep 2017 04:58:51 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id b58sm743981wrg.86.2017.09.15.04.58.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Sep 2017 04:58:50 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Sep 2017 14:56:18 +0300
-Message-Id: <20170915115619.39118-1-jussi.laako@linux.intel.com>
+Date: Fri, 15 Sep 2017 12:58:48 +0100
+Message-Id: <20170915115848.4939-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [meta-oe][PATCH v2 1/2] libgcrypt: update from version 1.8.0 to 1.8.1
+Subject: [PATCH] useradd: don't override pseudo environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,41 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 11:58:22 -0000
+X-List-Received-Date: Fri, 15 Sep 2017 11:58:51 -0000
 
-Update libgcrypt version from 1.8.0 to 1.8.1.
+Back in the dark days before recipe-specific-sysroots the paths being passed in
+this manual construction of the pseudo environment made sense, but now they're
+incorrect and result in pseudo writing to two different databases during a
+single build.  The result is that pseudo doesn't follow changes to /etc/passwd
+in the sysroot, and warns in the logs.
 
-Signed-off-by: Jussi Laako <jussi.laako@linux.intel.com>
+Remove the PSEUDO_LOCALSTATEDIR assignment and inherit the correct assignment in
+FAKEROOTENV.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libgcrypt/{libgcrypt_1.8.0.bb => libgcrypt_1.8.1.bb}            | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.8.0.bb => libgcrypt_1.8.1.bb} (89%)
+ meta/classes/useradd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
-similarity index 89%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
-index 1797d9584d..5bd815ae55 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb
-@@ -15,14 +15,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- DEPENDS = "libgpg-error"
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 6017ded8601..0f51e5522b1 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -100,7 +100,7 @@ useradd_sysroot () {
+ 	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_setscene) be running 
+ 	# at this point so we're explicit about the environment so pseudo can load if 
+ 	# not already present.
+-	export PSEUDO="${FAKEROOTENV} PSEUDO_LOCALSTATEDIR=${STAGING_DIR_TARGET}${localstatedir}/pseudo ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
++	export PSEUDO="${FAKEROOTENV} ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
  
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
--SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
-+SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch \
-            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
-            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
- "
--SRC_URI[md5sum] = "110ce4352f9ea6f560bdc6c5644ae93c"
--SRC_URI[sha256sum] = "f6e470b7f2d3a703e8747f05a8c19d9e10e26ebf2d5f3d71ff75a40f504e12ee"
-+SRC_URI[md5sum] = "b21817f9d850064d2177285f1073ec55"
-+SRC_URI[sha256sum] = "7a2875f8b1ae0301732e878c0cca2c9664ff09ef71408f085c50e332656a78b3"
- 
- BINCONFIG = "${bindir}/libgcrypt-config"
- 
+ 	# Explicitly set $D since it isn't set to anything
+ 	# before do_prepare_recipe_sysroot
 -- 
 2.11.0
 
