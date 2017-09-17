@@ -1,23 +1,53 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.221.74.143])
-	by mail.openembedded.org (Postfix) with ESMTP id E84A1600EA
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2215F776AA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Sep 2017 17:59:36 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 7EB0D2ADC93;
-	Sat, 16 Sep 2017 12:59:37 -0500 (CDT)
-Date: Sat, 16 Sep 2017 12:59:36 -0500
-From: Seebs <seebs@seebs.net>
-To: Will Page <will.page@ni.com>
-Message-ID: <20170916125936.04fcc729@seebsdell>
-In-Reply-To: <CO2PR04MB619C119668833BC7B259C21916D0@CO2PR04MB619.namprd04.prod.outlook.com>
-References: <20170915222700.GA15457@canismajor>
-	<CAJTo0LbA_fr5bd8kAa-ma3zb4X8oEy3YUwrtqvSDjpAdNnxUow@mail.gmail.com>
-	<CO2PR04MB619C119668833BC7B259C21916D0@CO2PR04MB619.namprd04.prod.outlook.com>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.30; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [pseudo][PATCH] Fix to fcntl guts to ignore flags that can be ORed into cmd
+	Sun, 17 Sep 2017 09:06:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id A024918133
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:10 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 1KwFomSfcvcq
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:10 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 06C971811A
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:10 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E49661E064
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D8ED11E05C
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:09 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:09 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id CA7D53060
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:09 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v8H968PB032372
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Sep 2017 11:06:08 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v8H968uk032371
+	for openembedded-core@lists.openembedded.org;
+	Sun, 17 Sep 2017 11:06:08 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 17 Sep 2017 11:06:04 +0200
+Message-Id: <20170917090604.32326-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] bluez5: Correct support for building without systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,22 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Sep 2017 17:59:37 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 17 Sep 2017 09:06:10 -0000
 
-On Sat, 16 Sep 2017 02:22:01 +0000
-Will Page <will.page@ni.com> wrote:
+This avoids the following error when the systemd DISTRO_FEATURE is
+enabled, but the systemd PACKAGECONFIG is not:
 
-> Thanks, Ross.
-> 
-> I had contacted the maintainer off list to ask where I should submit
-> my patch.  I may have misunderstood his reply.
+  ERROR: bluez5-5.46-r0 do_package: SYSTEMD_SERVICE_bluez5 value
+  bluetooth.service does not exist
 
-No, I'm just confused, because I'm not really otherwise active in
-yocto/oe-core these days, I just still know my way around pseudo. (And
-I know I'm several patches behind on things, but I'm really hoping to
-get some free time in a couple of weeks.)
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--s
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 2ae4553d48..1807aa7c96 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -132,7 +132,7 @@ FILES_${PN}-noinst-tools = "${@get_noinst_tools_paths(d, bb, d.getVar('NOINST_TO
+ 
+ RDEPENDS_${PN}-testtools += "python3 python3-dbus python3-pygobject"
+ 
+-SYSTEMD_SERVICE_${PN} = "bluetooth.service"
++SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'systemd', 'bluetooth.service', '', d)}"
+ INITSCRIPT_PACKAGES = "${PN}"
+ INITSCRIPT_NAME_${PN} = "bluetooth"
+ 
+-- 
+2.12.0
+
 
