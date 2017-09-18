@@ -1,55 +1,41 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5862778272
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id F033D78049
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 15:46:26 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id q80so416818ywg.0
+	Mon, 18 Sep 2017 15:51:50 +0000 (UTC)
+Received: by mail-io0-f176.google.com with SMTP id h66so3162592ioh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 08:46:28 -0700 (PDT)
+	Mon, 18 Sep 2017 08:51:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=9qGUaJA6u0nOIZCtS5N8MZS47g7aLnxcmv473RTrhTU=;
-	b=xQZCHTf7zXa6XptmLvC63OYzeDjl9gaevAGX38DuYxLphuSDf7kdBoEhzLxEmcdZ+j
-	m52lsZLLy2Fn0u7K1IxFWNlENXNEvLWVrB1ioQZg25gwwDyF1xp1sskinMYdM0vxZgMC
-	0vfLWEpOi8wJ3WQxPpL8rSRfeYMrwTPQt+A8iKwsW7JRZWX9xfpAfELoAFh77WssOVI1
-	13iMyZe3hCtX+nI7Yc9V+eIKMFGDpDlQsCgFaaDYRJHpJyd6D8mIiiw2TAGC92dZVz5p
-	BrTG5sPewarnZtXlSX8dYJGDsIFRWQScv0XvsZrSTMA8cznFmu+eMkmkXJA07h9S0DVQ
-	bSow==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=3y88yRLyvoTU2zQbZA20IZW98crc9ZQEQNEdc+ao2OM=;
+	b=hN78B5IwvnZut5tv18vIXo64gZKXf+fbawhsIdrI5kvnpu+TmtdHAR5nRWo5jLkKKq
+	mqxUOxhjG7cX435E9/rcSydy7gKq5cimOpeVNdO2IKfixrdRYpfRyBGer+t1a+EAbp/H
+	fqLrlljiKbIi6ST0sPkuR0xbFS5tIqrMmfiFK/lwMzMuN+EHJZkzz2GwwQ4BlXT3ap7F
+	sOgoDAkiIF9ymt2Wnr1n7ySXDsowKLP7JsNnBMhsPGS5xoj0rndvRIhQZX2MO8F26ck2
+	GO1TmHnN4RjkRiEU4qgeDxKkzNnrbavb6MwLCpNmcGOKbdBBMDeUBkrEKzL1upaS7xEd
+	GUMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=9qGUaJA6u0nOIZCtS5N8MZS47g7aLnxcmv473RTrhTU=;
-	b=haWqquR6Qr7R5+FvsUW37oj5c9+D5sQ3AD5XF7uIlpqiHhUGaGZAWUpl4vcYVzHi8n
-	Z4cbKoSOc+85B59j2Ji4/Sbj11w+qTI7RzPk2X0rDwfgTnbLOYJaKOuAP6rllHhgI5uw
-	AzgM4fknadgVQhXQqCGnT1QWW6CH80WPO+NiJh1aJoUOHBA6tmX46yGdbJ6FwXxpEMth
-	IL6UmXTE17Urr4ka42GhkcYWhQMGSRf73XPJIfpyWgV056BV5Q1mXFoOSshMa/VLRd9O
-	OMkNaol3kdLg1/F0h4ZNOdSeiwHb7DdfZs5d1zQw1FrKbVPke6Qk4EjsG7c/i/ehD8bO
-	4zzw==
-X-Gm-Message-State: AHPjjUgpGtFaWQ3LWBcoJyDqDSkm+4r9hhLm6wFXQoedKm6qZBDQG79D
-	mHj8OCSrgujfq8a7Svk=
-X-Received: by 10.129.41.12 with SMTP id p12mr29872808ywp.150.1505749587878;
-	Mon, 18 Sep 2017 08:46:27 -0700 (PDT)
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com.
-	[209.85.223.178]) by smtp.gmail.com with ESMTPSA id
-	q31sm3173720ywa.25.2017.09.18.08.46.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Sep 2017 08:46:26 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-io0-f178.google.com with SMTP id q11so3116813ioe.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 08:46:26 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QDUfplO5I+cKYv0CfgEO5pRRQYjaCeJSw9cKFyHXkkuCRyarpVkl8lPEB192yj72HBLp05E9s9Vl9HsQS1R2eo=
-X-Received: by 10.202.117.9 with SMTP id q9mr5788327oic.25.1505749585820; Mon,
-	18 Sep 2017 08:46:25 -0700 (PDT)
+	bh=3y88yRLyvoTU2zQbZA20IZW98crc9ZQEQNEdc+ao2OM=;
+	b=Zu7VOAw/eDt0EyrgtUQwHPwTt5IdQTDsgFyyg4iFPqCAjY2Zie1X4K++73MOnOSm3K
+	vR9vl+U4+sJGMBzP/LP6UPho8vZoqZlDmL/gCzOnIdwz+ZBACNrhrgxshFA8/5QXzjjT
+	Ox2SOuS9gfGTyByUhB0EhdtUJs50jza4zv1I75XaIBWtURbk/jJkiRZPwspy8n3u5cLj
+	55HX4Ew8RuoFqGvsZJ50q65N00b2WRX1sR9lhqyj+UeSZj8EooXJeNW04vufZkDmdtmL
+	VtwVXG1lTfTZSs/moTdUaZ7PvkdMFSq3fjkzPtuJJpmpNbdvyYiGnx+Fjz+etn+o6D5R
+	MEhQ==
+X-Gm-Message-State: AHPjjUhUjE2X7Cng6Lra+OU2XhBrdXbvLRiQBVbFWmASwD13vLVJiIQP
+	JD0YVxG2aVMyPFUr8Hn6anTfyer3F/Kr1Wf0KPyAjA==
+X-Google-Smtp-Source: AOwi7QAh634xbDGdOc36BSbreF9cGfqOrY2lJFSBWPuCinH81kWXJqD/CxmELfa3/VNAFo4FT4amTTg6HB8/Nm0plHM=
+X-Received: by 10.107.32.70 with SMTP id g67mr21568649iog.77.1505749911950;
+	Mon, 18 Sep 2017 08:51:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.66.149 with HTTP; Mon, 18 Sep 2017 08:46:24 -0700 (PDT)
-Received: by 10.157.66.149 with HTTP; Mon, 18 Sep 2017 08:46:24 -0700 (PDT)
-In-Reply-To: <51b6874b-551a-3983-4002-77e166822521@balister.org>
+Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 08:51:31 -0700 (PDT)
+In-Reply-To: <CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
 References: <20170911203056.22156-1-otavio@ossystems.com.br>
 	<CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
 	<CA+chaQec-cL6x3i3TfOi7yBhmCQ9Gf=-4jXkXqJ2-yJQmPmcmw@mail.gmail.com>
@@ -58,13 +44,14 @@ References: <20170911203056.22156-1-otavio@ossystems.com.br>
 	<1095f2c9-3ff8-bf71-4b6e-707111a4445c@gmail.com>
 	<20170918083915.GB3340@jama>
 	<51b6874b-551a-3983-4002-77e166822521@balister.org>
-Date: Mon, 18 Sep 2017 12:46:24 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
-Message-ID: <CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	Marek Vasut <marek.vasut@gmail.com>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
+	<CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Sep 2017 16:51:31 +0100
+Message-ID: <CAJTo0LbFHX_Wm_W2MteS=6XbJgqzZh-jtGZ_Bhu95kO8Nue+dw@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Marek Vasut <marek.vasut@gmail.com>,
+	U-Boot Mailing List <u-boot@lists.denx.de>
 Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -78,79 +65,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 15:46:27 -0000
-Content-Type: multipart/alternative; boundary="001a1134f9c62f363c055978a56d"
+X-List-Received-Date: Mon, 18 Sep 2017 15:51:51 -0000
+Content-Type: multipart/alternative; boundary="001a1140ae2c9f8d1b055978b85d"
 
---001a1134f9c62f363c055978a56d
+--001a1140ae2c9f8d1b055978b85d
 Content-Type: text/plain; charset="UTF-8"
 
-Em 18 de set de 2017 12:20 PM, "Philip Balister" <philip@balister.org>
-escreveu:
+On 18 September 2017 at 16:46, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-On 09/18/2017 02:39 AM, Martin Jansa wrote:
-> On Mon, Sep 18, 2017 at 10:31:05AM +0200, Marek Vasut wrote:
->> On 09/18/2017 09:54 AM, Martin Jansa wrote:
->>> u-boot-fw-utils-cross is broken for at least a year, if it breaks a lot
->>> of boards, why nobody complained yet?
->>
->> Didn't you say it worked for 2017.07 or did I misunderstand that ?
+> What is the policy on doing u-boot version upgrades this late in the
 >
-> u-boot-fw-utils did work, u-boot-fw-utils-cross no, read it again:
+> release cycle? SHouldn't this wait until after the release?
 >
-> And that u-boot-fw-utils-cross was broken even with Yocto 2.3 Pyro and
-> 2017.01 version there, maybe it's time to remove cross version? As
-> nobody is using it and it's not tested?
+>
+> Why?
+>
+> It is just another recipe and we are upgrading to the final release.
+>
+> As Martin said, it was already broken.
+>
+> I'll take the responsibility to fix it. But as other packages, upgrades
+> has risk and we have more than enough time to proper fix it.
+>
 
-What is the policy on doing u-boot version upgrades this late in the
-release cycle? SHouldn't this wait until after the release?
+Why?  Because it was merged to master after the freeze.
 
+Personally I'm of the opinion that u-boot is one of those special recipes
+that if an upgrade appears just after freeze, we consider it.  If we don't
+keep it up to date BSPs won't use the recipe, and we'll be back to every
+BSP layer containing its own special copy of the u-boot recipe.
 
-Why?
+Ross
 
-It is just another recipe and we are upgrading to the final release.
-
-As Martin said, it was already broken.
-
-I'll take the responsibility to fix it. But as other packages, upgrades has
-risk and we have more than enough time to proper fix it.
-
---001a1134f9c62f363c055978a56d
+--001a1140ae2c9f8d1b055978b85d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><div class=3D"gmail_extra"><br><div class=3D"gma=
-il_quote">Em 18 de set de 2017 12:20 PM, &quot;Philip Balister&quot; &lt;<a=
- href=3D"mailto:philip@balister.org">philip@balister.org</a>&gt; escreveu:<=
-br type=3D"attribution"><blockquote class=3D"quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"elided-text"=
->On 09/18/2017 02:39 AM, Martin Jansa wrote:<br>
-&gt; On Mon, Sep 18, 2017 at 10:31:05AM +0200, Marek Vasut wrote:<br>
-&gt;&gt; On 09/18/2017 09:54 AM, Martin Jansa wrote:<br>
-&gt;&gt;&gt; u-boot-fw-utils-cross is broken for at least a year, if it bre=
-aks a lot<br>
-&gt;&gt;&gt; of boards, why nobody complained yet?<br>
-&gt;&gt;<br>
-&gt;&gt; Didn&#39;t you say it worked for 2017.07 or did I misunderstand th=
-at ?<br>
-&gt;<br>
-&gt; u-boot-fw-utils did work, u-boot-fw-utils-cross no, read it again:<br>
-&gt;<br>
-&gt; And that u-boot-fw-utils-cross was broken even with Yocto 2.3 Pyro and=
-<br>
-&gt; 2017.01 version there, maybe it&#39;s time to remove cross version? As=
-<br>
-&gt; nobody is using it and it&#39;s not tested?<br>
-<br>
-</div>What is the policy on doing u-boot version upgrades this late in the<=
-br>
+<div dir=3D"ltr">On 18 September 2017 at 16:46, Otavio Salvador <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"=
+_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><div dir=3D"auto"><span class=3D""><div>What is the policy on doing u-boot=
+ version upgrades this late in the<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"m_-422887529407011750quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 release cycle? SHouldn&#39;t this wait until after the release?<br></blockq=
-uote></div></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Why?</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">It is just another recipe=
- and we are upgrading to the final release.</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">As Martin said, it was already broken.=C2=A0</div><div =
-dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll take the responsibility t=
-o fix it. But as other packages, upgrades has risk and we have more than en=
-ough time to proper fix it.</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to"><br></div><div dir=3D"auto"></div></div>
+uote></div></div></div><div dir=3D"auto"><br></div></span><div dir=3D"auto"=
+>Why?</div><div dir=3D"auto"><br></div><div dir=3D"auto">It is just another=
+ recipe and we are upgrading to the final release.</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">As Martin said, it was already broken.=C2=A0</di=
+v><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll take the responsib=
+ility to fix it. But as other packages, upgrades has risk and we have more =
+than enough time to proper fix it.</div></div></blockquote><div><br></div><=
+div>Why?=C2=A0 Because it was merged to master after the freeze.</div><div>=
+<br></div><div>Personally I&#39;m of the opinion that u-boot is one of thos=
+e special recipes that if an upgrade appears just after freeze, we consider=
+ it.=C2=A0 If we don&#39;t keep it up to date BSPs won&#39;t use the recipe=
+, and we&#39;ll be back to every BSP layer containing its own special copy =
+of the u-boot recipe.</div><div><br></div><div>Ross=C2=A0</div></div></div>=
+</div>
 
---001a1134f9c62f363c055978a56d--
+--001a1140ae2c9f8d1b055978b85d--
