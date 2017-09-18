@@ -1,31 +1,51 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E7BC77ACB
+Return-Path: <will.page@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 9738C77ACB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 15:20:32 +0000 (UTC)
-Received: (qmail 12611 invoked by uid 1003); 18 Sep 2017 15:20:33 -0000
-Received: from unknown (HELO ?10.50.10.211?) (philip@opensdr.com@69.7.123.146)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	18 Sep 2017 15:20:33 -0000
-To: Martin Jansa <martin.jansa@gmail.com>, Marek Vasut <marek.vasut@gmail.com>
-References: <20170911203056.22156-1-otavio@ossystems.com.br>
-	<CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
-	<CA+chaQec-cL6x3i3TfOi7yBhmCQ9Gf=-4jXkXqJ2-yJQmPmcmw@mail.gmail.com>
-	<5e66c357-fda0-17d8-1d78-5b877fdc47e5@gmail.com>
-	<CA+chaQfdgGcWAc17f=epK8s3q1=h+voUUc4sNJSLdtu_5SbOfA@mail.gmail.com>
-	<1095f2c9-3ff8-bf71-4b6e-707111a4445c@gmail.com>
-	<20170918083915.GB3340@jama>
-From: Philip Balister <philip@balister.org>
-Message-ID: <51b6874b-551a-3983-4002-77e166822521@balister.org>
-Date: Mon, 18 Sep 2017 09:20:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Mon, 18 Sep 2017 15:39:35 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
+	v8IFZovt005442; Mon, 18 Sep 2017 10:39:35 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2d2gu881fx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Mon, 18 Sep 2017 10:39:35 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod3.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
+	v8IFdYXb001088
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Mon, 18 Sep 2017 10:39:34 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Mon, 18 Sep 2017 10:39:34 -0500
+Received: from canismajor (130.164.49.7) by us-aus-exhub2.ni.corp.natinst.com
+	(130.164.68.32) with Microsoft SMTP Server id 15.0.1156.6 via
+	Frontend Transport; Mon, 18 Sep 2017 10:39:33 -0500
+Date: Mon, 18 Sep 2017 08:39:33 -0700
+From: Will Page <will.page@ni.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20170918153933.GB29455@canismajor>
+References: <20170915222700.GA15457@canismajor>
+	<20170915181020.6a184e6a@seebsdell>
+	<1505741066.18640.112.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20170918083915.GB3340@jama>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
+In-Reply-To: <1505741066.18640.112.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-09-18_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
+	adultscore=0
+	classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1707230000 definitions=main-1709180224
+Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [pseudo][PATCH] Fix to fcntl guts to ignore flags that can be ORed into cmd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,73 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 15:20:32 -0000
-X-Groupsio-MsgNum: 103065
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="hWdUECNkPlJBoGGc9eag9cgDQ9tfOLuFT"
+X-List-Received-Date: Mon, 18 Sep 2017 15:39:35 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
---hWdUECNkPlJBoGGc9eag9cgDQ9tfOLuFT
-Content-Type: multipart/mixed; boundary="2Qlm7cfpxcQ9PuGMid1btnRSsjRmGFOke";
- protected-headers="v1"
-From: Philip Balister <philip@balister.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Marek Vasut <marek.vasut@gmail.com>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
- Otavio Salvador <otavio@ossystems.com.br>,
- OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Message-ID: <51b6874b-551a-3983-4002-77e166822521@balister.org>
-Subject: Re: [OE-core] [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
-References: <20170911203056.22156-1-otavio@ossystems.com.br>
- <CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
- <CA+chaQec-cL6x3i3TfOi7yBhmCQ9Gf=-4jXkXqJ2-yJQmPmcmw@mail.gmail.com>
- <5e66c357-fda0-17d8-1d78-5b877fdc47e5@gmail.com>
- <CA+chaQfdgGcWAc17f=epK8s3q1=h+voUUc4sNJSLdtu_5SbOfA@mail.gmail.com>
- <1095f2c9-3ff8-bf71-4b6e-707111a4445c@gmail.com> <20170918083915.GB3340@jama>
-In-Reply-To: <20170918083915.GB3340@jama>
+On Mon, Sep 18, 2017 at 02:24:26PM +0100, Richard Purdie wrote:
+> On Fri, 2017-09-15 at 18:10 -0500, Seebs wrote:
+> > On Fri, 15 Sep 2017 15:27:00 -0700
+> > Will Page <Will.Page@ni.com> wrote:
+> > 
+> > > 
+> > > The fcntl guts switch on "cmd" parameter to identify the fcntl
+> > > command being issued, but isn't aware of the file creation flags
+> > > that
+> > > can be ORed in.
+> > This is true. I was, in fact, not aware of those flags. Looks
+> > reasonable.
+> 
+> I tried adding this to a test build along with AlexK's epoll patch. It
+> resulted in:
+> 
+> https://urldefense.proofpoint.com/v2/url?u=https-3A__autobuilder.yocto.io_builders_nightly-2Dworld_builds_475_steps_BuildImages_logs_stdio&d=DwICaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=-PS0OYZ7YP1crHfex64Ojw&m=xLMg1sihnYcY8mm3vbgoq_awtDy2SclWmfP3SxUNhq0&s=qFv8uK99a-cleN6VLJ7XYfBiLHrcTKtPo63E8FmGuX0&e= 
+> 
+> Any ideas why?
+> 
+> Cheers,
+> 
+> Richard
 
---2Qlm7cfpxcQ9PuGMid1btnRSsjRmGFOke
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-MW
-Content-Transfer-Encoding: quoted-printable
+I'm sorry - I was looking over v2 of my patch, and something just wasn't
+adding up.
 
-On 09/18/2017 02:39 AM, Martin Jansa wrote:
-> On Mon, Sep 18, 2017 at 10:31:05AM +0200, Marek Vasut wrote:
->> On 09/18/2017 09:54 AM, Martin Jansa wrote:
->>> u-boot-fw-utils-cross is broken for at least a year, if it breaks a l=
-ot
->>> of boards, why nobody complained yet?
->>
->> Didn't you say it worked for 2017.07 or did I misunderstand that ?
->=20
-> u-boot-fw-utils did work, u-boot-fw-utils-cross no, read it again:
->=20
-> And that u-boot-fw-utils-cross was broken even with Yocto 2.3 Pyro and
-> 2017.01 version there, maybe it's time to remove cross version? As
-> nobody is using it and it's not tested?
+pseudo already supports F_DUPFD_CLOEXEC (which turned out
+to be the problematic command for me).  The problem was on my end - I
+had two copies of the binary: one that was built on a system where
+F_DUPFD_CLOEXEC was defined, and one built on a system where it wasn't.
 
-What is the policy on doing u-boot version upgrades this late in the
-release cycle? SHouldn't this wait until after the release?
+I repeat, the problem was entirely on my end.  I respectfully retract my
+patch, prior statements, and I thank you for your time.
 
-Philip
+Will Page
 
-
---2Qlm7cfpxcQ9PuGMid1btnRSsjRmGFOke--
-
---hWdUECNkPlJBoGGc9eag9cgDQ9tfOLuFT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEBTQvNQJFZ+nvGDylwMl3iuvSZ6sFAlm/5D8UHHBoaWxpcEBi
-YWxpc3Rlci5vcmcACgkQwMl3iuvSZ6vqMAf+P/07SwcAvvNGlw9V3zdjIOliTt8Z
-9hDEEG3Oo7622wRy1m/SAODX4a7tBk9ZkfdO4odMyD5AMikYwY97+33nYyqqfvqn
-ymSs8LaUGsNNYAg9YvWGfMz5r+AY6E1SUlfkn+SUHg37OopwiTxDRM9RatKcrtex
-nzzNUMZIDtsPSL7iUSHgZGs9hwoiXq1N5bFhO1XNZpWlaQbrzZ4Oe0zzIq2a3yN9
-dDYb2WDXUeLylEJts5nghcvggPJkrxrD3H5KgM5Fe/tfHKtBWIKRBD6ruOBnXwyy
-iNir8Y3SNe/EgJRqN5ERBYJQdaUKfxhopUzZS+ExbACk3ZZyKk9KPAoF1Q==
-=LqMV
------END PGP SIGNATURE-----
-
---hWdUECNkPlJBoGGc9eag9cgDQ9tfOLuFT--
