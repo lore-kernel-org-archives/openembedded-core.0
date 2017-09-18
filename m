@@ -1,32 +1,32 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 264B978278
+	by mail.openembedded.org (Postfix) with ESMTP id 662CE7827D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 04:45:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,410,1500912000"; d="scan'208";a="26727687"
+	Mon, 18 Sep 2017 04:45:39 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.42,410,1500912000"; d="scan'208";a="26727688"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 18 Sep 2017 11:41:05 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1525647CA470
+	by cn.fujitsu.com (Postfix) with ESMTP id 4870D47CA461
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 11:41:04 +0800 (CST)
+	Mon, 18 Sep 2017 11:41:02 +0800 (CST)
 Received: from localhost.localdomain (10.167.235.93) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Mon, 18 Sep 2017 11:41:06 +0800
+	Server (TLS) id 14.3.361.1; Mon, 18 Sep 2017 11:41:04 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Sep 2017 11:40:24 +0800
-Message-ID: <1505706024-40394-19-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Mon, 18 Sep 2017 11:40:23 +0800
+Message-ID: <1505706024-40394-18-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1505706024-40394-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 References: <1505706024-40394-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: 1525647CA470.A3F84
+X-yoursite-MailScanner-ID: 4870D47CA461.A55AE
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] udev-extraconf: Add HOMEPAGE info into recipe file.
+Subject: [PATCH] trace-cmd: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,24 +39,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 04:45:39 -0000
+X-List-Received-Date: Mon, 18 Sep 2017 04:45:40 -0000
 Content-Type: text/plain
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/udev/udev-extraconf_1.1.bb | 1 +
+ meta/recipes-kernel/trace-cmd/trace-cmd_git.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/udev/udev-extraconf_1.1.bb b/meta/recipes-core/udev/udev-extraconf_1.1.bb
-index ae12550..43a1cff 100644
---- a/meta/recipes-core/udev/udev-extraconf_1.1.bb
-+++ b/meta/recipes-core/udev/udev-extraconf_1.1.bb
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
+index fa9ffa3..27c7c19 100644
+--- a/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd_git.bb
 @@ -1,4 +1,5 @@
- SUMMARY = "Extra machine specific configuration files"
-+HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
- DESCRIPTION = "Extra machine specific configuration files for udev, specifically blacklist information."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ SUMMARY = "User interface to Ftrace"
++HOMEPAGE = "http://git.kernel.org/"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ 
+ require trace-cmd.inc
 -- 
 2.7.4
 
