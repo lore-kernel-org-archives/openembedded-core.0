@@ -1,50 +1,28 @@
-Return-Path: <adrian.ratiu@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 0173B78269
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1427377DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 12:22:01 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	v8ICKn1G005641 for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 07:22:02 -0500
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mx0a-00010702.pphosted.com with ESMTP id 2d2dkqg43j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 07:22:02 -0500
-Received: from us-aus-exch1.ni.corp.natinst.com
-	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
-	by us-aus-skprod3.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
-	v8ICM1g5009628
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 07:22:01 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 18 Sep 2017 07:22:01 -0500
-Received: from ionel-work.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Mon, 18 Sep 2017 07:22:00 -0500
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Sep 2017 15:22:02 +0300
-Message-ID: <20170918122202.21008-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.14.1
+	Mon, 18 Sep 2017 12:42:08 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Sep 2017 05:42:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,412,1500966000"; d="scan'208";a="153065061"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 18 Sep 2017 05:42:09 -0700
+To: Jussi Laako <jussi.laako@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170915120300.35572-1-jussi.laako@linux.intel.com>
+	<20170915120300.35572-2-jussi.laako@linux.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <6cb906dd-4a3e-daba-a287-1db781eae5f0@linux.intel.com>
+Date: Mon, 18 Sep 2017 15:38:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-09-18_03:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=4 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1707230000 definitions=main-1709180178
-Cc: haris.okanovic@ni.com
-Subject: [PATCH] util-linux: package switch_root separately
+In-Reply-To: <20170915120300.35572-2-jussi.laako@linux.intel.com>
+Subject: Re: [meta-oe][PATCH v3 2/2] libgcrypt: provide libgcrypt-config wrapper around pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 12:22:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Sep 2017 12:42:09 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Having only this utility is useful for tiny initramfs'es which don't
-need the whole util-linux package (and neither the busybox binary
-which is much bigger than switch_root) to do operations like decrypt
-a rootfs & switch to it in the init file.
+On 09/15/2017 03:03 PM, Jussi Laako wrote:
+> This patch adds a libgcrypt-config wrapper for pkg-config support in
+> order to avoid patching all upstream packages using libgcrypt, while
+> otherwise keeping pkg-config functionality.
+> 
+> Signed-off-by: Jussi Laako <jussi.laako@linux.intel.com>
+> ---
+>   .../libgcrypt/files/libgcrypt-config-wrapper.patch | 113 +++++++++++++++++++++
+>   meta/recipes-support/libgcrypt/libgcrypt_1.8.1.bb  |   5 +-
+>   2 files changed, 115 insertions(+), 3 deletions(-)
+>   create mode 100644 meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch
+> 
+> diff --git a/meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch b/meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch
+> new file mode 100644
+> index 0000000000..167706535b
+> --- /dev/null
+> +++ b/meta/recipes-support/libgcrypt/files/libgcrypt-config-wrapper.patch
+> @@ -0,0 +1,113 @@
+> +diff -ur libgcrypt-1.8.1.orig/src/libgcrypt-config.in libgcrypt-1.8.1.new/src/libgcrypt-config.in
+> +--- libgcrypt-1.8.1.orig/src/libgcrypt-config.in	2013-03-15 21:25:38.000000000 +0200
+> ++++ libgcrypt-1.8.1.new/src/libgcrypt-config.in	2017-09-15 13:56:20.368277151 +0300
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Please don't add bare patches with no information. In addition to mssing 
+signed-off-by and upstream-status (you should have gotten an automated 
+check failure for those), you should also add a 'commit message' for the 
+patch, so that anyone looking at it can quickly see what it's for 
+without digging through commit history. You can simply copy-paste the 
+message to the oe-core commit then.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index ba5d320321..5c4694b1fd 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -35,7 +35,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-lsblk util-linux-mkfs.cramfs util-linux-fstrim \
-              util-linux-partx util-linux-hwclock util-linux-mountpoint \
-              util-linux-findfs util-linux-getopt util-linux-sulogin util-linux-prlimit \
--             util-linux-ionice"
-+             util-linux-ionice util-linux-switch-root"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', 'util-linux-pylibmount', '', d)}"
- PACKAGES =+ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
- 
-@@ -112,6 +112,8 @@ FILES_util-linux-mkfs.cramfs = "${sbindir}/mkfs.cramfs"
- FILES_util-linux-sulogin = "${base_sbindir}/sulogin*"
- FILES_util-linux-mountpoint = "${base_bindir}/mountpoint.${BPN}"
- 
-+FILES_util-linux-switch-root = "${base_sbindir}/switch_root.${BPN}"
-+
- # Util-linux' blkid replaces the e2fsprogs one
- FILES_util-linux-blkid = "${base_sbindir}/blkid*"
- RCONFLICTS_util-linux-blkid = "e2fsprogs-blkid"
-@@ -126,7 +128,7 @@ RDEPENDS_util-linux-su += "libpam"
- RDEPENDS_${PN} = "util-linux-umount util-linux-swaponoff util-linux-losetup util-linux-sulogin util-linux-lsblk"
- RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'util-linux-runuser util-linux-su', '', d)}"
- 
--RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice"
-+RRECOMMENDS_${PN} = "util-linux-fdisk util-linux-cfdisk util-linux-sfdisk util-linux-mount util-linux-readprofile util-linux-mkfs util-linux-mountpoint util-linux-prlimit util-linux-ionice util-linux-switch-root"
- 
- RRECOMMENDS_${PN}_class-native = ""
- RRECOMMENDS_${PN}_class-nativesdk = ""
--- 
-2.14.1
+It's most convenient to add recipe patches using 'devtool 
+modify/update-recipe' - that will automate away the boring bits.
 
+Alex
 
