@@ -1,32 +1,32 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 48A0D7825A
+	by mail.openembedded.org (Postfix) with ESMTP id 22A2978274
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 18 Sep 2017 04:45:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.42,410,1500912000"; d="scan'208";a="26727683"
+X-IronPort-AV: E=Sophos;i="5.42,410,1500912000"; d="scan'208";a="26727685"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Sep 2017 11:40:54 +0800
+	by heian.cn.fujitsu.com with ESMTP; 18 Sep 2017 11:41:00 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id ADD7D47CA470
+	by cn.fujitsu.com (Postfix) with ESMTP id BB76D47CA470
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 11:40:52 +0800 (CST)
+	Mon, 18 Sep 2017 11:40:55 +0800 (CST)
 Received: from localhost.localdomain (10.167.235.93) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Mon, 18 Sep 2017 11:40:54 +0800
+	Server (TLS) id 14.3.361.1; Mon, 18 Sep 2017 11:40:57 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Sep 2017 11:40:21 +0800
-Message-ID: <1505706024-40394-16-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Mon, 18 Sep 2017 11:40:22 +0800
+Message-ID: <1505706024-40394-17-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1505706024-40394-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 References: <1505706024-40394-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.235.93]
-X-yoursite-MailScanner-ID: ADD7D47CA470.A7AD5
+X-yoursite-MailScanner-ID: BB76D47CA470.A7705
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] systemd-compat-units: Add HOMEPAGE info into recipe.
+Subject: [PATCH] systemd-serialgetty: Add HOMEPAGE info into recipe file.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +44,19 @@ Content-Type: text/plain
 
 Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd-serialgetty.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index fe9a521..d228a51 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -1,5 +1,5 @@
- SUMMARY = "Enhances systemd compatilibity with existing SysVinit scripts"
--
-+HOMEPAGE = "http://www.freedesktop.org/wiki/Software/systemd"
- LICENSE = "MIT"
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 768b130..60891e4 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Serial terminal support for systemd"
++HOMEPAGE = "https://www.freedesktop.org/wiki/Software/systemd/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
  
- PR = "r29"
 -- 
 2.7.4
 
