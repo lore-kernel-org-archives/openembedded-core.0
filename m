@@ -1,61 +1,48 @@
-Return-Path: <prvs=0434129fea=mike.looijmans@topicproducts.com>
-X-Greylist: delayed 2256 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 18 Sep 2017 13:24:45 UTC
-Received: from mx5-out4.antispamcloud.com (mx5-out4.antispamcloud.com
-	[95.211.112.140])
-	by mail.openembedded.org (Postfix) with ESMTP id 4437878285
+Return-Path: <will.newton@gmail.com>
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 390697826D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 13:24:45 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx16.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1dtw2S-0000wU-9q; Mon, 18 Sep 2017 15:24:44 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 18 Sep 2017 15:24:29 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
-	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
-	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <34c855b7-3605-9c43-4a63-fdbdd39c2955@topic.nl>
-Date: Mon, 18 Sep 2017 15:24:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Mon, 18 Sep 2017 13:26:18 +0000 (UTC)
+Received: by mail-io0-f195.google.com with SMTP id j26so1074891iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Sep 2017 06:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=+3opY3xvlUbms5IH4MK0NwDM4H++AiEpI9MK2Vq0AIw=;
+	b=TSmvd0Vl33Awl6/wFGMwcnLe5IV3UADTH0JNVRy6B6R11myZCdEiYD01NtEdnL/zQq
+	gBpl2smJd77A+gJt9iQ+YZfZKQXXUAfGUKzK5oThSWj08P/snc2BFbdI+4vL24fht5wq
+	IfeF57T/arfLY0XeitUL8sUDijoQV7uT9I0OHMczKqEshxSwL8tKynmgL9Cj7TsRTXdj
+	Xv4syuLggneH5Pw41Q9LmrwE10XgZjMTsJYoIUd+lmpaiWPqvH7z1HGe8GsXFcxNsHpq
+	uw51c5831u7dlGgqllouKKJMTnxYtHUKGkjzP3exi8b/oA/Tv6U1N+jVxAJEnM/+J+2e
+	3/jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=+3opY3xvlUbms5IH4MK0NwDM4H++AiEpI9MK2Vq0AIw=;
+	b=mjcQqH4Br0lKin35urQwZYNp9Qy61pZI6zqZ9Lrem3Nb/7yFA2RMJPjfzLk6gwGnZT
+	EUSCe7O56I2beltFfeXzznhTGVotm3wjpqHe2hW83QhqPFrNLXgWl5CxepchVMNOs+4W
+	OnJqRtWTozscywe/77ao+1go+Lb+t7JntduTiGOOSBHcwycgTNfjq8OXkp9H8DA/KpIH
+	hS4+5GJfaevcbXtZpz3Jxg82g2QKTxcs0bQ+n2QBU7z9JMxKC0GpoAhbkd+7jhIiZWnz
+	q3ARorJcYvXM2TnSlJSnJhS8UdSukIQbd3TYu5zOMCPGeRY/flQmbE3mQAK1ihD+meCT
+	f7SQ==
+X-Gm-Message-State: AHPjjUj9PAxcD1o4xjCbc4X7nJ+civHmeHVjluu5BbHoYuAxgBJNfXf0
+	ohSmnslMuXklCga5pBsILI8kGhEVLoy8W6XoWx4=
+X-Google-Smtp-Source: AOwi7QAPMg0UUqWm90KEYMSkwl4lFAO8hHqJn+pOByWVABc9tBhMi6Cojx2wwpizDNpEZE2NAstUC+bqrkO5ouoh0n0=
+X-Received: by 10.107.28.129 with SMTP id c123mr18894241ioc.303.1505741180143; 
+	Mon, 18 Sep 2017 06:26:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.01)
-X-Recommended-Action: accept
-X-Filter-ID: PqwsvolAWURa0gwxuN3S5YEa3T7JuZT23fGO2rGt3ZgWMD8gia7lRmdoHJ3n0cm6Vtfp9X1ZBchZ
-	wvx8a7dTUQWF0kx98HH3GX+iQK7NiP6LBDMrD7q/cJogwbqzsuokIXMJ1U4MKKnQ5SAJ1V9dkP9x
-	bu57BDazLmklZgT7xzYAC07bcqdmKWroRWvQzC6ZQrRtPasNJ97MJuP91xDXrDNUIZA1oQYxy+az
-	RaYfaII8CVsONrMJuGzuoGnKTKcygLJjfy2/hUPxxGqITycuLMdYaphGvYopQ24KJ9kgRDN3pbXn
-	aMbbC1QSUBxihEsjBWOBqoptsYkcljagCMIDypReAQCFQo+KUtaSCrVTlxOfVsst/QEVbupaaYfx
-	KYRJ8ar4sO9kYmr7/nmchPR9G2DCX9m2p4wUnZpURALMKaPBcC9OMLR/g2nFXNsLRUFiVhrO1IL/
-	BRIwE9qFcHpvcx816y5YQ/8R4coKOQ/5mNbfLM7Ww0jFUCG51FTiiz6cR64dodD7udB+zcx8OjSt
-	1b1YgBvhxKfoFZHs3o0j+S0jv2y8/jlUqm+TeNrMp4+EE+rDN/FnSl88wIa35p4FFV9l1/WyLBg0
-	mKuTgAEprJGyxQgNyqqf/IN48z1lpo6ODRmiSLYXQoEVxAAhr5KC2/vg7iEFLP+SSY+Av5+AiC6H
-	3owsO4DAdUlQv6V75QMSQrAqZTkENn3hzVQGtqpfy4Ar4mPq3jQmCl8CexcQM5N8JmFmLZ6h3eau
-	qEcwyeT0VZvJGSxm4bcH1lFUB/zPeGsnJ395jBJAgljEd2a/UHQV6Xe4bIYRHe1fiVaECIfGCs+d
-	m3T5GTMS0IoMjuD73NkW0hXdwXAcFMPC3HLevdDEVCx/NXteNl5w3OcW/WnJ5stpWvUU2z84KulN
-	93N/tpcZZABrv9C3rtLpekNsFAVpX3S8nfKMgp2uxqIhgQr0J7xMKUdII3UOYa+YuRxhYlMYFlwk
-	Afgcoh+I6fgaS/FQgekuNmkYNaWzl/I120Xp
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] base-files: profile: Do not assume that the 'command' command exists
+Received: by 10.2.181.161 with HTTP; Mon, 18 Sep 2017 06:26:19 -0700 (PDT)
+In-Reply-To: <20170911124558.2863-5-otavio@ossystems.com.br>
+References: <20170911124558.2863-1-otavio@ossystems.com.br>
+	<20170911124558.2863-5-otavio@ossystems.com.br>
+From: Will Newton <will.newton@gmail.com>
+Date: Mon, 18 Sep 2017 14:26:19 +0100
+Message-ID: <CAFbHwiSZswkrn2u6_4U7gOd7r=vDzAVGNPdBT+CD_k2Soc0ifQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 04/26] goarch.bbclass: Replace logic for setting GOARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,63 +55,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 13:24:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: nl
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Sep 2017 13:26:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-=EF=BB=BFOn 18-09-17 15:08, Burton, Ross wrote:
-> On 18 September 2017 at 12:31, Mike Looijmans <mike.looijmans@topic.nl=20
-> <mailto:mike.looijmans@topic.nl>> wrote:
->=20
->         This is basically the same change as I first sent a patch for in
->         April, and
->         last pinged this Friday... The only real difference is that this =
-one
->         misses
->         passing error output from resize to /dev/null (which it should do=
- to
->         handle
->         the case where tty exists, but resize does not).
->=20
->=20
->     Yeah, indeed.
->=20
->=20
-> Apologies for missing that patch!
->=20
->     Other problem is that "resize" outputs shell script on stdout to be
->     executed, so the proper "total" invokation would be:
->=20
->        /dev/tty[A-z]*) eval `resize 2>/dev/null` ;;
->=20
->     The "eval" part is missing in your version...
->=20
->=20
-> Who is going to submit the One True patch with all the fixes in?  I promi=
-se to=20
-> merge it.
+Hi Armin,
 
-I'll send the one ring, eh, patch, in a few minutes. I'll merge the two int=
-o a=20
-single as well.
+Would it be possible to get this patch backported to the Pyro branch?
+
+It fixes running Go programs on Raspberry Pi 1 systems which without
+this will die with illegal instruction errors.
+
+Thanks,
 
 
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
+On Mon, Sep 11, 2017 at 1:45 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> From: Will Newton <will.newton@gmail.com>
+>
+> The previous logic applied a regex to TUNE_FEATURES which could
+> set the GOARM value to 7 incorrectly, for example when dealing
+> with an arm1176 core. Simplify to check for the presence of
+> "armv7" instead. At the same time add a check for "armv6" and
+> set GOARM to 6 in that case.
+>
+> Signed-off-by: Will Newton <willn@resin.io>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>
+> Changes in v6: None
+> Changes in v5: None
+> Changes in v4:
+> - new patch to consolidade in a single patchset all golang changes
+>
+> Changes in v3: None
+> Changes in v2: None
+>
+>  meta/classes/goarch.bbclass | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> index 7960ac5f9e..0f0d8b6a60 100644
+> --- a/meta/classes/goarch.bbclass
+> +++ b/meta/classes/goarch.bbclass
+> @@ -45,8 +45,11 @@ def go_map_arch(a, d):
+>
+>  def go_map_arm(a, f, d):
+>      import re
+> -    if re.match('arm.*', a) and re.match('arm.*7.*', f):
+> -        return '7'
+> +    if re.match('arm.*', a):
+> +        if 'armv7' in f:
+> +            return '7'
+> +        elif 'armv6' in f:
+> +            return '6'
+>      return ''
+>
+>  def go_map_os(o, d):
+> --
+> 2.14.1
+>
 
