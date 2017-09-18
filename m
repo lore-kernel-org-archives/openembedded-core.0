@@ -1,56 +1,55 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id B4AAC60602
+Return-Path: <prvs=0434129fea=mike.looijmans@topicproducts.com>
+Received: from mx18-out11.antispamcloud.com (mx18-out11.antispamcloud.com
+	[207.244.64.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A7E8A78285
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 08:49:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 1D6CB2E588;
-	Mon, 18 Sep 2017 10:49:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id I5C-v1v2qSnt; Mon, 18 Sep 2017 10:49:38 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 10BC92E093;
-	Mon, 18 Sep 2017 10:49:38 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F09B51A060;
-	Mon, 18 Sep 2017 10:49:37 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E53851A05F;
-	Mon, 18 Sep 2017 10:49:37 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Mon, 18 Sep 2017 10:49:37 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id D94A09C;
-	Mon, 18 Sep 2017 10:49:37 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Mon, 18 Sep 2017 10:49:37 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Mon, 18 Sep 2017 10:49:38 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>,
+	Mon, 18 Sep 2017 11:31:31 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1dtuGw-0001eN-2l; Mon, 18 Sep 2017 13:31:31 +0200
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 18 Sep 2017 13:31:27 +0200
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] base-files: profile: Do not assume that
-	the	'command' command exists
-Thread-Index: AQHTMFmqfleJPWJjoUWE9IOxyO8yGKK6VEgg
-Date: Mon, 18 Sep 2017 08:49:37 +0000
-Message-ID: <da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
 References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-In-Reply-To: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
+Date: Mon, 18 Sep 2017 13:31:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 1/2] base-files: profile: Do not assume that the	'command' command exists
+In-Reply-To: <da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.01)
+X-Recommended-Action: accept
+X-Filter-ID: PqwsvolAWURa0gwxuN3S5YEa3T7JuZT23fGO2rGt3ZgWMD8gia7lRmdoHJ3n0cm6Vtfp9X1ZBchZ
+	wvx8a7dTUQWF0kx98HH3GX+iQK7NiP6LBDMrD7q/cJogwbqzsuokIXMJ1U4MKKnQ5SAJ1V9dkP9x
+	bu57BDazLmklZgT7xzZL0C50qJLwXsK4Th5w0YRwXabFjBE7JtRRCjjlCMO3+P5nG/euvHp9d3A3
+	yTn8aN08CVsONrMJuGzuoGnKTKcygLJjfy2/hUPxxGqITycuLMdYaphGvYopQ24KJ9kgRDN3pbXn
+	aMbbC1QSUBxihEsjBWOBqoptsYkcljagCMIDypReAQCFQo+KUtaSCrVTlxOfVsst/QEVbupaaYfx
+	KYRJ8ar4sO9kYmr7/nmchPR9G2DCX9m2p4wUnZpURALMKaPBcC9OMLR/g2nFXNsLRUFiC4eHE8lE
+	wHRjDhTkZPfRx+S2PnaZiEtp5WzVTa8IOe7fLM7Ww0jFUCG51FTiiz6cR64dodD7udB+zcx8OjSt
+	1b1YgBvhxKfoFZHs3o0j+S0jv2y8/jlUqm+TeNrMp4+EE+rDN/FnSl88wIa35p4FFXznVNpEBSRM
+	35KuCE6M5jOyxQgNyqqf/IN48z1lpo6ODRmiSLYXQoEVxAAhr5KC2/vg7iEFLP+SSY+Av5+AiC4K
+	XP3vTB7AsR5+kaiIjlO6Iw9C0PQ5NLyrXuzfSqvsyY+JnG9TjNQ1CtUj+dcMYHF8JmFmLZ6h3eau
+	qEcwyeT0VZvJGSxm4bcH1lFUB/zPeGsnJ395jBJAgljEd2a/UHQV6Xe4bIYRHe1fiVaECIfGCs+d
+	m3T5GTMS0IoMjuD73NkW0hXdwXAcFMPC3HLevdBVK0LjZ6+HQ46qHOV5qVX7s/U6AqbH6YaJDh6j
+	eW1iMW0/cgevuZFEF1D6sQqSqGeY1vq9X/05xtXkJOYHAFNlHmI1rSMXGtb/41i2T2GPJg==
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Re: [PATCH 1/2] base-files: profile: Do not assume that the 'command' command exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,75 +62,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 08:49:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 Sep 2017 11:31:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: nl
 Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Mike Looijmans
-> Sent: den 18 september 2017 10:39
-> To: openembedded-core@lists.openembedded.org
-> Cc: Mike Looijmans <mike.looijmans@topic.nl>
-> Subject: [OE-core] [PATCH 1/2] base-files: profile: Do not assume that
-> the 'command' command exists
->=20
-> The "command" shell command appears to be a bashism, the standard
-> busybox shell doesn't implement it.
->=20
-> This avoids the following error when logging in to a host that does
-> not have the 'command' command:
->=20
->     -sh: command: not found
->=20
-> It also simplifies the code and reduces the number of forks.
->=20
-> Fixes: e77cdb761169e404556487ac650dc562000da406
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
->  meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->=20
-> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recip=
-es-core/base-files/base-files/profile
-> index ceaf15f..b5b533c 100644
-> --- a/meta/recipes-core/base-files/base-files/profile
-> +++ b/meta/recipes-core/base-files/base-files/profile
-> @@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
->  	unset i
->  fi
->=20
-> -if command -v resize >/dev/null && command -v tty >/dev/null; then
-> -	# Make sure we are on a serial console (i.e. the device used starts wit=
+=EF=BB=BFOn 18-09-17 10:49, Peter Kjellerstedt wrote:
+>>=20
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+-----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Mike Looijmans
+>> Sent: den 18 september 2017 10:39
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Mike Looijmans <mike.looijmans@topic.nl>
+>> Subject: [OE-core] [PATCH 1/2] base-files: profile: Do not assume that
+>> the 'command' command exists
+>>
+>> The "command" shell command appears to be a bashism, the standard
+>> busybox shell doesn't implement it.
+>>
+>> This avoids the following error when logging in to a host that does
+>> not have the 'command' command:
+>>
+>>      -sh: command: not found
+>>
+>> It also simplifies the code and reduces the number of forks.
+>>
+>> Fixes: e77cdb761169e404556487ac650dc562000da406
+>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+>> ---
+>>   meta/recipes-core/base-files/base-files/profile | 14 ++++++--------
+>>   1 file changed, 6 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/reci=
+pes-core/base-files/base-files/profile
+>> index ceaf15f..b5b533c 100644
+>> --- a/meta/recipes-core/base-files/base-files/profile
+>> +++ b/meta/recipes-core/base-files/base-files/profile
+>> @@ -22,14 +22,12 @@ if [ -d /etc/profile.d ]; then
+>>   	unset i
+>>   fi
+>>
+>> -if command -v resize >/dev/null && command -v tty >/dev/null; then
+>> -	# Make sure we are on a serial console (i.e. the device used starts wi=
+th
+>> -	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
+>> -	# tries do use ssh
+>> -	case $(tty) in
+>> -		/dev/tty[A-z]*) resize >/dev/null;;
+>> -	esac
+>> -fi
+>> +# Make sure we are on a serial console (i.e. the device used starts wit=
 h
-> -	# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
-> -	# tries do use ssh
-> -	case $(tty) in
-> -		/dev/tty[A-z]*) resize >/dev/null;;
-> -	esac
-> -fi
-> +# Make sure we are on a serial console (i.e. the device used starts with
-> +# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
-> +# tries do use ssh
-> +case $(tty 2>/dev/null) in
-> +	/dev/tty[A-z]*) resize >/dev/null;;
-> +esac
+>> +# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which
+>> +# tries do use ssh
+>> +case $(tty 2>/dev/null) in
+>> +	/dev/tty[A-z]*) resize >/dev/null;;
+>> +esac
+>>
+>>   export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+>>
+>> --
+>> 1.9.1
 >=20
->  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
->=20
-> --
-> 1.9.1
+> This is basically the same change as I first sent a patch for in April, a=
+nd
+> last pinged this Friday... The only real difference is that this one miss=
+es
+> passing error output from resize to /dev/null (which it should do to hand=
+le
+> the case where tty exists, but resize does not).
 
-This is basically the same change as I first sent a patch for in April, and=
-=20
-last pinged this Friday... The only real difference is that this one misses=
-=20
-passing error output from resize to /dev/null (which it should do to handle=
-=20
-the case where tty exists, but resize does not).
+Yeah, indeed.
 
-//Peter
+Other problem is that "resize" outputs shell script on stdout to be execute=
+d,=20
+so the proper "total" invokation would be:
 
+   /dev/tty[A-z]*) eval `resize 2>/dev/null` ;;
+
+The "eval" part is missing in your version...
 
