@@ -1,31 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C670E77D6D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
+	[209.85.128.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 969C778062
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 22:00:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8IM0JZ7008567
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 18 Sep 2017 15:00:20 -0700
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 18 Sep 2017 15:00:18 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
-	<CAJ86T=XSXk4DGhJqDT4hmKO1BK0y-39rFc7r_codDWf72vAoCg@mail.gmail.com>
-	<41556f05-e92c-1962-99af-97d1812909d1@windriver.com>
-	<CAJ86T=VO8un10ov9_8orHkhec5z5z5GCO6dnvtikqchukT285A@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <649e138d-4ccf-770f-9e4d-aeb066d325a5@windriver.com>
-Date: Mon, 18 Sep 2017 17:00:18 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=VO8un10ov9_8orHkhec5z5z5GCO6dnvtikqchukT285A@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-toolchain / /bin/sh requirement / ldconfig backfill
+	Mon, 18 Sep 2017 22:31:02 +0000 (UTC)
+Received: by mail-wr0-f172.google.com with SMTP id 108so1653661wra.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Sep 2017 15:31:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=JLd9dqipfOROYIPol3LB03JgV3QwjEzmRy1VEh1F/jE=;
+	b=xRJ6iCz3pqLzkAKL2191X6ednWlXu0UvN08Tesg80onblfhCBRNzIw0pjKQNQyhgmG
+	dkD5Oyp7ykRf3cjCfxU90oGJ0f8R5W6pMWNyjldz2zlzFv9mCB+IVO0ssDmDNBuMzVe3
+	81BmLkJKQwa7RPD+NjITVGJpZGnFBRIHvYchIWSN6DMpRThXrHp1hhy7QKdIATPM7oQl
+	EdE/Xa8T8UHscuQGoRTsh73Hoed1xgzHEUsWSv/nqob9VKFzLMtGs4txEz3e1sZoQw5e
+	rIef6HhIDdV9jOX1VxEZ5YGwHQjM7ZcYfr+XP1ySZi23BW82t0JnIJoZGmQCb6Q+aWAu
+	pEuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JLd9dqipfOROYIPol3LB03JgV3QwjEzmRy1VEh1F/jE=;
+	b=uLQrRFPD9gYiYz93z7AUiYDsM/gq08DoD7CCSOcRsVF5rfWUHJ80cZXsE0IO+06/wp
+	JlCH6Wv9AntDgxhALMtRPTc6NwfUTm3YT7z3UdH3ZHMsqrymZgYeJwNhVpYXL4erwPvt
+	p06Qvf0em79mm2h2pOXyhM+pyfZf1tTzUNHKCKTPGh5YozFrJegUqCoGSEVKpd6tBUxp
+	KFun6y5x3v8Rgm+73Sz/JapakMonqOfIaILhVBFIkseBgVhlM2pHov2Wx0XMz3uFsp8L
+	9VA4HwWHGzbiY9RX/R2Se5pBcbLlFrxxygS9PQj7fg13DVl4MRBbnLlrfVMc6HctHgqu
+	4G9w==
+X-Gm-Message-State: AHPjjUhWsk2aeoI3MNgZIc84omIGt2gP5VqJxtVSTMgZuqzIOcG7IjNu
+	rHEH9iop3/yekU8yAxA=
+X-Google-Smtp-Source: AOwi7QClnWHfpmVXp9FLxP6fibxWUOdUskx9L2DF57IKNM3KKAipdBHDUqGjoiAOk4nM4ogfHx4rng==
+X-Received: by 10.223.199.196 with SMTP id y4mr20406036wrg.181.1505773863007; 
+	Mon, 18 Sep 2017 15:31:03 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	p199sm121811wmb.28.2017.09.18.15.31.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Sep 2017 15:31:02 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Sep 2017 23:31:00 +0100
+Message-Id: <20170918223100.18712-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] eudev: use archive tarball instead of Github generated tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,48 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 22:00:20 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Sep 2017 22:31:02 -0000
 
-On 9/18/17 4:33 PM, Andre McCurdy wrote:
-> On Mon, Sep 18, 2017 at 2:20 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 9/18/17 4:05 PM, Andre McCurdy wrote:
->>> On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>>
->>>> Because of this, there is no way (with a default configuration) to build
->>>> meta-toolchain....
->>>>
->>>> Investigating further, ldconfig support moved from "USE_LDCONFIG" to a
->>>> distribution configuration.  It does this via the "DISTRO_FEATURES_BACKFILL"
->>>> (introduced in commit: a905df2dd8f43a2febffa64a39b6e508510326a0)
->>>
->>> The intention of that commit was only to change the way support for
->>> running ldconfig on the target is controlled (ie changed from an
->>> ad-hoc bitbake variable to a distro config option). It's enabled by
->>> default now, but it was enabled by default before that commit as well.
->>>
->>> Did meta-toolchain work previously? If so, was USE_LDCONFIG being
->>> forced to 0 somewhere?
->>
->> In many distributions, the default was 0.
-> 
-> Right. As mentioned in the OE 2.3 reference manual, if your distro
-> previously set USE_LDCONFIG to 0 then you now need to disable the
-> "ldconfig" distro config option instead:
-> 
->   http://www.yoctoproject.org/docs/2.3.1/ref-manual/ref-manual.html#migration-2.3-miscellaneous-changes
-> 
+The Github-generated tarballs can and do change over time, so point at the
+archived tarball website that the maintainer hosts.
 
-The key is that meta-toolchain worked before, and doesn't now.  (In a default
-configuration.)  Either someone needs to add a message to meta-toolchain to tell
-the user it can't work with ldconfig set, fix it (so the missing dependency is
-resolved [optimal solution], or ???
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/udev/eudev_3.2.2.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-In the past there was a way to tell the package manager to ignore a specific
-dependency (such as /bin/sh) and allow the install.  I don't know if there is a
-way to do this any longer.  2.2 was the last version I know this worked on.
+diff --git a/meta/recipes-core/udev/eudev_3.2.2.bb b/meta/recipes-core/udev/eudev_3.2.2.bb
+index fcadfa36f79..02fb23ac569 100644
+--- a/meta/recipes-core/udev/eudev_3.2.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.2.bb
+@@ -8,7 +8,7 @@ DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
+ 
+ PROVIDES = "udev"
+ 
+-SRC_URI = "https://github.com/gentoo/${BPN}/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz \
++SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
+            file://0014-Revert-rules-remove-firmware-loading-rules.patch \
+            file://Revert-udev-remove-userspace-firmware-loading-suppor.patch \
+            file://devfs-udev.rules \
+@@ -21,8 +21,8 @@ SRC_URI = "https://github.com/gentoo/${BPN}/archive/v${PV}.tar.gz;downloadfilena
+ "
+ UPSTREAM_CHECK_URI = "https://github.com/gentoo/eudev/releases"
+ 
+-SRC_URI[md5sum] = "1a0faad3a88ade3475e8c0ddef78e30b"
+-SRC_URI[sha256sum] = "80628191448886846ab9cc0e2af6782358a0afb81d5b4f8cd9d982d2626cca31"
++SRC_URI[md5sum] = "41e19b70462692fefd072a3f38818b6e"
++SRC_URI[sha256sum] = "3e4c56ec2fc1854afd0a31f3affa48f922c62d40ee12a0c1a4b4f152ef5b0f63"
+ 
+ inherit autotools update-rc.d qemu pkgconfig
+ 
+-- 
+2.11.0
 
---Mark
 
