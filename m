@@ -1,62 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F2586011F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BAE8C77D6B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 20:18:22 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id c195so2210999itb.1
+	Mon, 18 Sep 2017 20:54:12 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id u12so848730pfl.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 13:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 18 Sep 2017 13:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=voIeLiIFwiDY7EqA67odL5SVEpiaXl3vMnbd+qOC+lM=;
-	b=zpCy+3elA8d5ofGumYZWZLpmqm+Obco8ROkcRx9S3ib9MOKC9Aed9I/XfIJqbfBEOW
-	N6DXzHgawLVlDGTF1vd7gwlW5TXDycrf4mmzqTS1sKCs5YTnosB+pU0gMYH8D3WXRc+g
-	x4Ix1kcAvcZU9ZOuMBAF1aWspz/pp2rvfJDEl0xzs0Rd2eu4UjeZ8g2K11vMlgqF9kUN
-	SulZYgXif4Fklkh2TSA6xXuujU0v8ljAcEGUWM+U0TAFqORw4eHmvWB9OmZ7GWZYH88O
-	womybg/ZK3eMq+hUsiOJC+5zNr+30E7o4w54f7uZ4t4cEagQvuUXM7NTrnXIljVgKJZi
-	B78Q==
+	:cc; bh=S83FkpeoPYFLgdmeHwN083Ip+6nAy6rgNRzkMi8TUjo=;
+	b=quXBjqVKZ1S1LEJNsJYAntdCHPYjTx1mv6e1ADNalxgfD6Ms7x1/c0Hk0MyR34miRX
+	3gJONDWt9FfnpfPgfKjNSglEONDScsl7P56/y8N2fLiyVVMr2BNUq5agqObuCweMqHrK
+	WhUPAqp1vOQJu7tUomRQ+vLmwqqRJZ5XfrmkioMBdBFTpcBsO70rsb8YATPadPPqMWhc
+	eehC3v5Z8gReCLGxgTJ11Akqlr8/xs5715+Ll7s3F6Y1lM/D6xceCh3TYSWxVf3rw8cu
+	ZsVSeBDWAZehQY1oUb5dsU15NIkc0ZB5ZBqAI0AcpWx9eL4sKkP55WkWU6Nyze+iy+YN
+	Sviw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=voIeLiIFwiDY7EqA67odL5SVEpiaXl3vMnbd+qOC+lM=;
-	b=N9mKUjs91s/qBd0pquuvaK+x9jW6Rvyis4/xmt3lplqsMP+oqpDHRn85w529s3PCcz
-	bcdQTKW0r7I6ZeUCX7CuvlsI1LatZ44np6PrtAbbH9evgrlP6DnFGltL58uZ/f0K0R1L
-	s8Wb8siDT5OBm6PqL55nLGe4DgyS7fywg3iAkoiefpW8be6Ses1UPQEYpMHGislH4jAq
-	8YwupGJypnNOpotf/sMrSIW3ReIJZDTEK2Bdd82EtkXkiB1//uRBgL8cBN+FR2hLPGiD
-	Q9/W/Zhwa4GE1KbyVTYsFj+YFlPtK652uvqBe73cb5m5+B98DrWWXATe2PXjYFfgl6qa
-	yFAg==
-X-Gm-Message-State: AHPjjUhnNh2mtsfQ6h5l6L3qPcKA4g5psNn5jYuzH6H3dA3tIvoXUkKE
-	MdqqHlKTUxgR7LkVs2ZCBpRFXCekmNKcalwpRvK2TA==
-X-Google-Smtp-Source: AOwi7QAKh7CcHFUd6NPwbMMdIpySh8rr+r7+jIckyXguGYKYYOaGc8ZIlgl3rAorwEYMp4+qhNzdY2CDDHUSUvWSZ+U=
-X-Received: by 10.36.26.129 with SMTP id 123mr13821587iti.38.1505765903472;
-	Mon, 18 Sep 2017 13:18:23 -0700 (PDT)
+	bh=S83FkpeoPYFLgdmeHwN083Ip+6nAy6rgNRzkMi8TUjo=;
+	b=eZlltTSOiFKRx2N7C3sS+9GZJmu3t3ZuJiEZer/QW3kZZAQeKNWPQ+emX4ANAyRHtt
+	oZYMElfqp6B43peSweHO4mmTn2IvPlnoxWzu/jZgR8SB5cb6zGeauhJsHRqMbKqj/2HK
+	u2FFaTAXyEohNMOSfAwxeBmSEeumsWJYfHOt7sxeos8s55cLG3LyoyKf8htO4NPW1ZQJ
+	M1XW3X7fvL+TGPMuAojFq14BIhpm7lQomwivD2GegjS+QQ6VVjrNJRsSw+0N01B4O7GB
+	HJdIuxLCpLeyVrC3MmNj1WmvhzJZfU5L/6P0YwABElpq4P6EPh2Fh4vGBFsVz8iGnEQj
+	CPSA==
+X-Gm-Message-State: AHPjjUiKYumeKBMWocQX7kZV3EKhDUHFr97wrX7BSDk+FKiGnX/2AaUi
+	UPG7sqomK2GGdchpxns8RtmmR3j4sIhqbPlFqEA=
+X-Google-Smtp-Source: ADKCNb6TqdfCM/Mn9zaoP4deWnyIF64y4xOD2a1M9VWGi3CH/0j/0H/j17Q60xMmUqzMb8YbtvI8IO8kusPZFLxqcA4=
+X-Received: by 10.98.32.92 with SMTP id g89mr33634885pfg.285.1505768053761;
+	Mon, 18 Sep 2017 13:54:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 13:18:02 -0700 (PDT)
-In-Reply-To: <CAJ86T=XFBTNtAg2_xPEFGTiH2Y_gZnRS_LZWkBWL2kPiUYARpA@mail.gmail.com>
-References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
-	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
-	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
-	<1505743634-13500-1-git-send-email-mike.looijmans@topic.nl>
-	<a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
-	<CAJTo0LaZo2Jhh7Jj=RAUzOzXq_FcXnobu-idL7RFnbq84iR_VA@mail.gmail.com>
-	<CAJ86T=UqdDrT2ApxMiM=g__pTftCc5g0-gzs20vd-jV06+6x7w@mail.gmail.com>
-	<CAJTo0LZrPSoVNAX6onFFsGgkD1LEm=2DLdBOecnhNEQBRDnS6A@mail.gmail.com>
-	<CAJ86T=X5xAtSL4bK9tGLxrdxqtNh6ewG0n8rLfeiewL=cWA6xA@mail.gmail.com>
-	<CAJTo0Lag_GCyfHCcEnNbfLOXSB+qyDhQHxUkdTF5RacgfxQEWg@mail.gmail.com>
-	<CAJ86T=XFBTNtAg2_xPEFGTiH2Y_gZnRS_LZWkBWL2kPiUYARpA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Sep 2017 21:18:02 +0100
-Message-ID: <CAJTo0LbOtfMY7mo5ASNZY0g3yd8+cwLEoWyMc4HifHH_nnyrjw@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: profile: Get rid of "resize"
+Received: by 10.100.149.73 with HTTP; Mon, 18 Sep 2017 13:53:43 -0700 (PDT)
+In-Reply-To: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
+References: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 18 Sep 2017 13:53:43 -0700
+Message-ID: <CAMKF1soGGZ6J1x0yADqOUjbB2Nm8vD=_usgz+PRf8z=8emnfug@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain / /bin/sh requirement / ldconfig backfill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,88 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 20:18:22 -0000
-Content-Type: multipart/alternative; boundary="001a114463eccad4e805597c713b"
-
---001a114463eccad4e805597c713b
+X-List-Received-Date: Mon, 18 Sep 2017 20:54:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 18 September 2017 at 20:30, Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> On Mon, Sep 18, 2017 at 12:19 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > On 18 September 2017 at 20:01, Andre McCurdy <armccurdy@gmail.com>
-> wrote:
-> >>
-> >> > The question is does it do something useful *now*?
-> >>
-> >> I don't have a board with a serial console to test at the moment.
-> >> Busybox hasn't changed in recent memory though, so as long as the
-> >> resize command does actually get run I presume it's still going to
-> >> work.
-> >
-> > Re-read the code.
+On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> I tried to build the meta-toolchain, toolchain SDK today and received an error.
+> My system is configured to use package_rpm by default...
 >
-> I've never read the code before, so don't make any claims to know
-> *how* it works or worked :-)
+> The error I got was:
 >
-> > There's a call to ioctl with TIOCSWINSZ which I'm
-> > *guessing* is set window size.  Google is not useful for this!  It does
-> all
-> > this on stderr.
-> >
-> > So yes it *should* work, but not if you redirect stderr to /dev/null.
+> Error:
+>  Problem: package
+>           packagegroup-core-standalone-sdk-target-1.0-r8.noarch requires
+>           libstdc++6, but none of the providers can be installed
+>   - conflicting requests
+>   - nothing provides /bin/sh needed by libstdc++6-7.2.0-r0.i586
 >
-> We don't redirect stderr to /dev/null, only stdout.
+>
+> The /bin/sh dependency seems kind of odd at first, but after a little research
+> it turns out that by default 'ldconfig' support is now enabled.  This
+> automatically adds a post-install script to any package with a library in it:
+>
+> #!/bin/sh
+> if [ x"$D" = "x" ]; then
+>         if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+> fi
+>
+>
+> That in-turn causes the dependency of /bin/sh to occur.
+>
+> Because of this, there is no way (with a default configuration) to build
+> meta-toolchain....
+>
+> Investigating further, ldconfig support moved from "USE_LDCONFIG" to a
+> distribution configuration.  It does this via the "DISTRO_FEATURES_BACKFILL"
+> (introduced in commit: a905df2dd8f43a2febffa64a39b6e508510326a0)
+>
+>
+> If I add to my configuration:
+>
+>  DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " ldconfig"
+>
+> This works around the issue...  but doesn't resolve the default issue....
+>
+> So my question is, is this behavior (the failure case) really acceptable without
+> telling the user what is happening?  Or do we need to add something to the
+> system that says meta-toolchain can't be used with this DISTRO_FEATURE?  or...
+>
 
+ldconfig is not very useful with cross toolchain unless its a cross tool too
+I think the particular recipe should check for distro feature before calling
+it out in a post_install
 
-One of the many patches here does.
-
-I'm holding off applying any of them right now. :)
-
-Ross
-
---001a114463eccad4e805597c713b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 18 September 2017 at 20:30, Andre McCurdy <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy=
-@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Mon, Se=
-p 18, 2017 at 12:19 PM, Burton, Ross &lt;<a href=3D"mailto:ross.burton@inte=
-l.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt; On 18 September 2017 at 20:01, Andre McCurdy &lt;<a href=3D"mailto:arm=
-ccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; The question is does it do something useful *now*?<br>
-&gt;&gt;<br>
-&gt;&gt; I don&#39;t have a board with a serial console to test at the mome=
-nt.<br>
-&gt;&gt; Busybox hasn&#39;t changed in recent memory though, so as long as =
-the<br>
-&gt;&gt; resize command does actually get run I presume it&#39;s still goin=
-g to<br>
-&gt;&gt; work.<br>
-&gt;<br>
-&gt; Re-read the code.<br>
-<br>
-</span>I&#39;ve never read the code before, so don&#39;t make any claims to=
- know<br>
-*how* it works or worked :-)<br>
-<span class=3D""><br>
-&gt; There&#39;s a call to ioctl with TIOCSWINSZ which I&#39;m<br>
-&gt; *guessing* is set window size.=C2=A0 Google is not useful for this!=C2=
-=A0 It does all<br>
-&gt; this on stderr.<br>
-&gt;<br>
-&gt; So yes it *should* work, but not if you redirect stderr to /dev/null.<=
-br>
-<br>
-</span>We don&#39;t redirect stderr to /dev/null, only stdout.</blockquote>=
-<div><br></div><div>One of the many patches here does.</div><div><br></div>=
-<div>I&#39;m holding off applying any of them right now. :)</div><div><br><=
-/div><div>Ross</div></div></div></div>
-
---001a114463eccad4e805597c713b--
