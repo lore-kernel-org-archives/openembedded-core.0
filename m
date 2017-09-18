@@ -1,44 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id BAE8C77D6B
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f41.google.com (mail-wm0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 018AE77BC5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 20:54:12 +0000 (UTC)
-Received: by mail-pf0-f182.google.com with SMTP id u12so848730pfl.4
+	Mon, 18 Sep 2017 21:05:14 +0000 (UTC)
+Received: by mail-wm0-f41.google.com with SMTP id e71so218143wmg.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 13:54:14 -0700 (PDT)
+	Mon, 18 Sep 2017 14:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=S83FkpeoPYFLgdmeHwN083Ip+6nAy6rgNRzkMi8TUjo=;
-	b=quXBjqVKZ1S1LEJNsJYAntdCHPYjTx1mv6e1ADNalxgfD6Ms7x1/c0Hk0MyR34miRX
-	3gJONDWt9FfnpfPgfKjNSglEONDScsl7P56/y8N2fLiyVVMr2BNUq5agqObuCweMqHrK
-	WhUPAqp1vOQJu7tUomRQ+vLmwqqRJZ5XfrmkioMBdBFTpcBsO70rsb8YATPadPPqMWhc
-	eehC3v5Z8gReCLGxgTJ11Akqlr8/xs5715+Ll7s3F6Y1lM/D6xceCh3TYSWxVf3rw8cu
-	ZsVSeBDWAZehQY1oUb5dsU15NIkc0ZB5ZBqAI0AcpWx9eL4sKkP55WkWU6Nyze+iy+YN
-	Sviw==
+	:cc; bh=xOG4QNm9+qQopVHLAaBGtF0NvzvD1vWmFFD0wL4Zfsw=;
+	b=uTekgMJF8MRCA6CHJznWjnRCdGrW53j3v877Cvg+7OmwwAalK/+DRaC6UWpYx0lXUj
+	Kd+X9FH1UofMTgcuPnN+i7lQZU5RRJYdds0pkmLmE2OLPP1xt3mXCXKQU/HtZrfG2isd
+	m4shCIn9Pd/EngQ43qgqMtAiJD6FzEr3NKS0AsPF6qprxaV6yKguevVVIuSJKrO7CPSA
+	jSQ6PvuZ5KH+DG+a83rkfaLhX2owbXxt3wikeeHz3+jyPi6+mrQH9h5q+N6JAXXZ34FJ
+	gXEudLhTJDGJKjGZ9pERSM8deANRSwzPU31OiUYcSbHdHfYdbAm9FYQrDmiJu1M/Czly
+	Qgxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=S83FkpeoPYFLgdmeHwN083Ip+6nAy6rgNRzkMi8TUjo=;
-	b=eZlltTSOiFKRx2N7C3sS+9GZJmu3t3ZuJiEZer/QW3kZZAQeKNWPQ+emX4ANAyRHtt
-	oZYMElfqp6B43peSweHO4mmTn2IvPlnoxWzu/jZgR8SB5cb6zGeauhJsHRqMbKqj/2HK
-	u2FFaTAXyEohNMOSfAwxeBmSEeumsWJYfHOt7sxeos8s55cLG3LyoyKf8htO4NPW1ZQJ
-	M1XW3X7fvL+TGPMuAojFq14BIhpm7lQomwivD2GegjS+QQ6VVjrNJRsSw+0N01B4O7GB
-	HJdIuxLCpLeyVrC3MmNj1WmvhzJZfU5L/6P0YwABElpq4P6EPh2Fh4vGBFsVz8iGnEQj
-	CPSA==
-X-Gm-Message-State: AHPjjUiKYumeKBMWocQX7kZV3EKhDUHFr97wrX7BSDk+FKiGnX/2AaUi
-	UPG7sqomK2GGdchpxns8RtmmR3j4sIhqbPlFqEA=
-X-Google-Smtp-Source: ADKCNb6TqdfCM/Mn9zaoP4deWnyIF64y4xOD2a1M9VWGi3CH/0j/0H/j17Q60xMmUqzMb8YbtvI8IO8kusPZFLxqcA4=
-X-Received: by 10.98.32.92 with SMTP id g89mr33634885pfg.285.1505768053761;
-	Mon, 18 Sep 2017 13:54:13 -0700 (PDT)
+	bh=xOG4QNm9+qQopVHLAaBGtF0NvzvD1vWmFFD0wL4Zfsw=;
+	b=oInYhw+enWVSVvckAFt8JwFX6uwj2ddktQzWLFTsQUVyWYNs9U7RZVUH4PU2pZS3PH
+	BrdBSTytAfuSJLeGZMADYVE/7uKbSaNzf5lP4tnvyXULEIGh8MVPZBc6A1ZkdX8AMYBw
+	tG/g4aNkOV2FvwH7KWr2Ka77RWb+xshHC4erqzyyNCz/ef+CzLlGLBS6DvWc7pTJLWBY
+	UoIIT+MdbzGryiz4YOuqFqniKW9gtmKSe2nUjArfGGIJS80t7UpPglB+z1QxUFY8jpG4
+	1x/JgbcJAnf0WeMknFUi4HwNX/eGGtY0eK+xN4foOGiYloxikf8t7dSwHH7MDZgmSN1h
+	fFoQ==
+X-Gm-Message-State: AHPjjUgxAC9pbcLvGgCAq6OsGKlPdzmHw8kfmTmJY082KNbG4hRhte1c
+	WfyE3PPhhEC1S34KvI8lKz1SWvyPfk3pjc3/c0U=
+X-Google-Smtp-Source: AOwi7QAbkTTPhade99750rnVnzx5FJfnSDYlZurWILlmHy4E5ejeHrM5OJcnZx+QnK41STGK13AHjJDlNSikJhVZbeo=
+X-Received: by 10.28.43.129 with SMTP id r123mr9693666wmr.101.1505768715719;
+	Mon, 18 Sep 2017 14:05:15 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.149.73 with HTTP; Mon, 18 Sep 2017 13:53:43 -0700 (PDT)
+Received: by 10.223.141.198 with HTTP; Mon, 18 Sep 2017 14:05:15 -0700 (PDT)
 In-Reply-To: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
 References: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Sep 2017 13:53:43 -0700
-Message-ID: <CAMKF1soGGZ6J1x0yADqOUjbB2Nm8vD=_usgz+PRf8z=8emnfug@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 18 Sep 2017 14:05:15 -0700
+Message-ID: <CAJ86T=XSXk4DGhJqDT4hmKO1BK0y-39rFc7r_codDWf72vAoCg@mail.gmail.com>
 To: Mark Hatle <mark.hatle@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: meta-toolchain / /bin/sh requirement / ldconfig backfill
@@ -54,34 +53,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 20:54:12 -0000
+X-List-Received-Date: Mon, 18 Sep 2017 21:05:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> I tried to build the meta-toolchain, toolchain SDK today and received an error.
-> My system is configured to use package_rpm by default...
->
-> The error I got was:
->
-> Error:
->  Problem: package
->           packagegroup-core-standalone-sdk-target-1.0-r8.noarch requires
->           libstdc++6, but none of the providers can be installed
->   - conflicting requests
->   - nothing provides /bin/sh needed by libstdc++6-7.2.0-r0.i586
->
->
-> The /bin/sh dependency seems kind of odd at first, but after a little research
-> it turns out that by default 'ldconfig' support is now enabled.  This
-> automatically adds a post-install script to any package with a library in it:
->
-> #!/bin/sh
-> if [ x"$D" = "x" ]; then
->         if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
-> fi
->
->
-> That in-turn causes the dependency of /bin/sh to occur.
 >
 > Because of this, there is no way (with a default configuration) to build
 > meta-toolchain....
@@ -89,8 +64,15 @@ On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
 > Investigating further, ldconfig support moved from "USE_LDCONFIG" to a
 > distribution configuration.  It does this via the "DISTRO_FEATURES_BACKFILL"
 > (introduced in commit: a905df2dd8f43a2febffa64a39b6e508510326a0)
->
->
+
+The intention of that commit was only to change the way support for
+running ldconfig on the target is controlled (ie changed from an
+ad-hoc bitbake variable to a distro config option). It's enabled by
+default now, but it was enabled by default before that commit as well.
+
+Did meta-toolchain work previously? If so, was USE_LDCONFIG being
+forced to 0 somewhere?
+
 > If I add to my configuration:
 >
 >  DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " ldconfig"
@@ -101,8 +83,6 @@ On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
 > telling the user what is happening?  Or do we need to add something to the
 > system that says meta-toolchain can't be used with this DISTRO_FEATURE?  or...
 >
-
-ldconfig is not very useful with cross toolchain unless its a cross tool too
-I think the particular recipe should check for distro feature before calling
-it out in a post_install
+> --Mark
+> --
 
