@@ -1,31 +1,29 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A7D637198A
+	by mail.openembedded.org (Postfix) with ESMTP id 42D5F6FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 21:11:28 +0000 (UTC)
+	Mon, 18 Sep 2017 21:20:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8ILBQN0012743
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8ILK8kC012783
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Sep 2017 14:11:26 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Mon, 18 Sep 2017 14:11:25 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"matt@madison.systems" <matt@madison.systems>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: go-runtime does not build for mips32r2 tune
-Thread-Index: AdMwwowE+PTUWsdOR36n+wXkbgY95Q==
-Date: Mon, 18 Sep 2017 21:11:24 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF41E3E8@ALA-MBC.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.117.158]
+	Mon, 18 Sep 2017 14:20:08 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 18 Sep 2017 14:20:07 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
+	<CAJ86T=XSXk4DGhJqDT4hmKO1BK0y-39rFc7r_codDWf72vAoCg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <41556f05-e92c-1962-99af-97d1812909d1@windriver.com>
+Date: Mon, 18 Sep 2017 16:20:07 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.3.0
 MIME-Version: 1.0
-Subject: go-runtime does not build for mips32r2 tune
+In-Reply-To: <CAJ86T=XSXk4DGhJqDT4hmKO1BK0y-39rFc7r_codDWf72vAoCg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain / /bin/sh requirement / ldconfig backfill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 21:11:28 -0000
+X-List-Received-Date: Mon, 18 Sep 2017 21:20:08 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_"
+Content-Transfer-Encoding: 7bit
 
---_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On 9/18/17 4:05 PM, Andre McCurdy wrote:
+> On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>
+>> Because of this, there is no way (with a default configuration) to build
+>> meta-toolchain....
+>>
+>> Investigating further, ldconfig support moved from "USE_LDCONFIG" to a
+>> distribution configuration.  It does this via the "DISTRO_FEATURES_BACKFILL"
+>> (introduced in commit: a905df2dd8f43a2febffa64a39b6e508510326a0)
+> 
+> The intention of that commit was only to change the way support for
+> running ldconfig on the target is controlled (ie changed from an
+> ad-hoc bitbake variable to a distro config option). It's enabled by
+> default now, but it was enabled by default before that commit as well.
+> 
+> Did meta-toolchain work previously? If so, was USE_LDCONFIG being
+> forced to 0 somewhere?
 
-This is the default tune for qemumips.  It appears that the problem does no=
-t occur for an oe-core checkout just before the split creating go-runtime.
+In many distributions, the default was 0.  The backfill change made the default
+now '1'.  You have to know to 'skip' it, with the line below.
 
-Before the split, go-helloworld will build, but after the split it will not=
- because it needs go-runtime.
+>> If I add to my configuration:
+>>
+>>  DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " ldconfig"
+>>
+>> This works around the issue...  but doesn't resolve the default issue....
+>>
+>> So my question is, is this behavior (the failure case) really acceptable without
+>> telling the user what is happening?  Or do we need to add something to the
+>> system that says meta-toolchain can't be used with this DISTRO_FEATURE?  or...
+>>
+>> --Mark
+>> --
 
-Joe
 
---_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle"></style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">This is the default tune for qemumips. &nbsp;It appears that the pro=
-blem does not occur for an oe-core checkout just before the split creating =
-go-runtime.
-<div><br>
-</div>
-<div>Before the split, go-helloworld will build, but after the split it wil=
-l not because it needs go-runtime.</div>
-<div><br>
-</div>
-<div>Joe</div>
-</div>
-</body>
-</html>
-
---_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_--
