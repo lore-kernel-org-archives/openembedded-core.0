@@ -1,47 +1,49 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C1C67826E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AB1E7825B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 12:43:15 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id x17so760473wmd.5
+	Mon, 18 Sep 2017 13:02:31 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id z187so1798921ioz.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 05:43:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=tH4oyfCO+1uWLawewIyA/vOScY1DbqVX1lR5J6GcGys=;
-	b=TtHPycCidOogeNc/yA+KmdguOz0jNzoDtchXVS2gJSkmDt2cZFHWoahCD1RRGWksH5
-	3VgOY65ICfPnAl1gru+X2SbQMBA4EmXh2hPTZelxyIIx9Mu5yXMobUfYlUBSh+ZA56L6
-	C6aNLnz8bFtS96nWQyyE9OGz6l56tmL3qJj1riDk68ih0gr/fqGzqM2dkGXO/7wfk8Td
-	t40lqAlgqW4jJAOIEpp99tMabjxLakIz+h49FYVZvXoz2UY9KsswFpWsp3vnyQIFJagT
-	7DjC8t9yii8zaC1FMsNsmz+FKLBTTjTXVwD6AaJ8RPLLZ8+VUrjNO2ydelnWs4pa/8WJ
-	XbDA==
+	Mon, 18 Sep 2017 06:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=XkWyjjsvxktsXJFFp70Hv0Cr8jXZPW43blgBLpa3gKc=;
+	b=WP7mKxbys51H2IHt9aZIxu7tLy94wBL4+06n746axjqjzAoG+kI7LzDQ7XTHIgPZru
+	3SIKyQymHTFkTZriyOMeI1uR1dXXdwHFFR6HAUfqcZ6yazyjlokQUDoQsrkT26U7061c
+	Ik0+0j7nOVSuGWv3/JEEZIa0+LLvXoBZooInM5S4eu08JPs4YhKw8mfOj0Vm445FHtHz
+	cQy3Ru+xS7mfEGWRizqqedLbWF5MeW+hx4uJgjfKqUVNzd9dUvSq+olwDk+kEclLBB8l
+	JlH/0PfERRRRJsgp3rssLQo9wdwSNVZIGMEQ6OMc0wLjmvVztLy7/13ORI1gio0FTEAW
+	8PMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tH4oyfCO+1uWLawewIyA/vOScY1DbqVX1lR5J6GcGys=;
-	b=FOwinQifbwtwtZH6jWvMZvZ9MFenN3TSm784XQIPlFtUXWzvCAabrY/CXbh3fxmPwP
-	OytXxucR0zOM3GtTNutTSL9DEsZ0QDcfN8Koaane7X5bBOuCLKxCnMBxggd8VlZDVg0m
-	VmyBDxDVelDvONXKeihLvc9bADuPVTSl/S56A0bwnhmD3TqcFyB0q7JbxgqtRPKuN+9+
-	DQewsKs5LJcEu1sN/3c4zNr/tfHsC2SQknlegoRxFehMeps6W+Q5czJDW4ae0OimQahW
-	IL7aD8RFXnJxNuc0/krZib5gI8qUPllXgN3/DwZ6XNGAnR1AlKz2O3TQ7H0K1KK4UQW6
-	8PAw==
-X-Gm-Message-State: AHPjjUikdo9mkRtHDt8LYxqfgnYTTGdlYgOtTpTCosCgZNWP7IcTZMmc
-	uhe27+54pGj/VaNPxqE=
-X-Google-Smtp-Source: ADKCNb7Pxhnf57x/L0vYr3vu2QXjV62ssbYYwk/hifG3ZWFlEAREIWwy+eGmNW58gyBDVDVrrU2TeQ==
-X-Received: by 10.80.174.68 with SMTP id c62mr22332845edd.238.1505738596170;
-	Mon, 18 Sep 2017 05:43:16 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([123.125.90.58])
-	by smtp.gmail.com with ESMTPSA id h56sm4357005ede.1.2017.09.18.05.43.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 18 Sep 2017 05:43:14 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Sep 2017 14:43:06 +0200
-Message-Id: <1505738586-28217-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] init-ifupdown: RDEPENDS on procps
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=XkWyjjsvxktsXJFFp70Hv0Cr8jXZPW43blgBLpa3gKc=;
+	b=EAaUMArikEIKamh2zxYe4Q4gyup+qTIgImeFVw5Y/O7G4Tzvcd/K4retumkAjrJlr+
+	1SR4H3UE7cWzs/WT1a8CKQ0fgZCGlkmqloCRc1RSVFYjFxdO7rMSfOau8llbbFzmw3X9
+	ZEwM7TE9WYwDZMjm9+QvuDWu6GnG7kZwSNcynD3Z/FBsdF2OoN3sDDeFsDaeM8LaRwH9
+	rkHEOb50vkrJZZISOC+gqK54/dA3Bq6Ha9YilgV6h2QPueCPkhtF1gckDb327xxZU92P
+	9iYzwUVAgjHvU82XdQgQY65dBnMYA81HYNlGqqbQirmdqk8I2/GZ9SeQ39/gkNdRyWWk
+	dc2w==
+X-Gm-Message-State: AHPjjUjg8GENNkTO6WLnDRgAOTbgE56G0emTYMOPn4Jvk6qSMEcUpsi7
+	CcVhTA/bqXUd4SXHP1u7v85x9f0e+TSAOs7gPyfpjQ==
+X-Google-Smtp-Source: AOwi7QBR/jETAXJrokiI2wnIIPgjhONPV+LM4tfnU5bYvsqIvK8sln/U0YAspTr046qA0pNzLZYJbN14WYvFl8+W7NI=
+X-Received: by 10.107.32.70 with SMTP id g67mr20711725iog.77.1505739753135;
+	Mon, 18 Sep 2017 06:02:33 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 06:02:12 -0700 (PDT)
+In-Reply-To: <20170918122202.21008-1-adrian.ratiu@ni.com>
+References: <20170918122202.21008-1-adrian.ratiu@ni.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Sep 2017 14:02:12 +0100
+Message-ID: <CAJTo0LaVOHBWUANmdXtEXXmBYjcvCDemiWYq=Yg+y4V9ds2BDA@mail.gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: Haris Okanovic <haris.okanovic@ni.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] util-linux: package switch_root separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 12:43:16 -0000
+X-List-Received-Date: Mon, 18 Sep 2017 13:02:32 -0000
+Content-Type: multipart/alternative; boundary="001a1140ae2c1c3b400559765b30"
 
-From: Ming Liu <liu.ming50@gmail.com>
+--001a1140ae2c1c3b400559765b30
+Content-Type: text/plain; charset="UTF-8"
 
-sysctl is being called in /etc/init.d/networking, so it needs RDEPENDS
-on procps.
+On 18 September 2017 at 13:22, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+wrote:
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Having only this utility is useful for tiny initramfs'es which don't
+> need the whole util-linux package (and neither the busybox binary
+> which is much bigger than switch_root) to do operations like decrypt
+> a rootfs & switch to it in the init file.
+>
 
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-index 733ae41..8774386 100644
---- a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-@@ -35,7 +35,7 @@ do_install_append_qemuall () {
- }
- 
- PACKAGE_ARCH_qemuall = "${MACHINE_ARCH}"
--RDEPENDS_${PN} = "netbase"
-+RDEPENDS_${PN} = "netbase procps"
- RCONFLICTS_${PN} = "netbase (< 1:5.0)"
- 
- CONFFILES_${PN} = "${sysconfdir}/network/interfaces"
--- 
-2.7.4
+At what point do we admit defeat and programatically split util-linux into
+a package for every binary?
 
+Ross
 
+--001a1140ae2c1c3b400559765b30
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 18 September 2017 at 13:22, Ioan-Adrian Ratiu <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:adrian.ratiu@ni.com" target=3D"_blank">adria=
+n.ratiu@ni.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">Having only this utility =
+is useful for tiny initramfs&#39;es which don&#39;t<br>
+need the whole util-linux package (and neither the busybox binary<br>
+which is much bigger than switch_root) to do operations like decrypt<br>
+a rootfs &amp; switch to it in the init file.<br></blockquote><div><br></di=
+v><div>At what point do we admit defeat and programatically split util-linu=
+x into a package for every binary?</div><div><br></div><div>Ross=C2=A0</div=
+></div></div></div>
+
+--001a1140ae2c1c3b400559765b30--
