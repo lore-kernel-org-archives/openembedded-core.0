@@ -1,58 +1,60 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 70E1977D6D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id AD7BC77D6D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 19:17:38 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id v72so1058496ywa.3
+	Mon, 18 Sep 2017 19:19:35 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id i197so4694392ioe.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 12:17:40 -0700 (PDT)
+	Mon, 18 Sep 2017 12:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:date:message-id:subject:to;
-	bh=EHxRiNCMbpr9mYV+8XYcIDC6rmwh70N4lQECVgw+iZU=;
-	b=LeGhfFAaH7LxupKiY3ZnrGZGvyCegYTOsLopJusdX2oZWpn3yhmL6sIt0GXRypRbgY
-	2gWF7BDevJjgIyefWawXCAWqIYFWExh8D0kaR0WVcKU4giD6Jbz0AnQ7QRMPdj/elOFn
-	UWFgz/xQHbdkcuJfzbyKZQNeIVJRLAxxCi2o7qXsRX7Opemqld1Kxipq6HPEdsZZEq7O
-	hySj59lKTd4CQCIsDkvEEv2VSlZLoPuiAiHQPZymDMrTy/IJ+UowImR1pZGoBgheXevf
-	o0ijPlNhYs9jDkghAaVQ5hqkjWq9Nez6sG6+9SNLXXoG8mok0HkbUsO+4dAUU7TuuPhL
-	6bJA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=PPHR/tnr/dROUZfkfWpP2anZCY2f18iwMIeByyavpN4=;
+	b=Haa+6JBPqpZOA6fw6w9Y1ei2khhpoNTR/8JDVKK1cDcwIfceKBjl/Lkt0QnLHG+Dfc
+	ABF8Z7rq/wtVoHkfb70Lb+1qQKV9SI9x09WPNIjLeKhuvKqOCau+k8IwqvfGw+tMDaQP
+	k+kIhRHFV+r0z6qOAy4kmLnPcdnkRRx+MiraJg5JsZynSnZvYZTkMBKE+VngaDVUdbqX
+	A4jQWqeuAVA4D7OkUOghXGKgeIgMr7pJGK1Aa6oCq2dfMnVaa34SiHU4AOtCdWeOkpNM
+	bAgu1w7hfteEVgHuqzD3nnmAmbkCSKbr89XM00vaVybcXznVRl786fU8rn66fZzpFQj5
+	sRGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to;
-	bh=EHxRiNCMbpr9mYV+8XYcIDC6rmwh70N4lQECVgw+iZU=;
-	b=jD48LB+4b5qXpPNj48vUEoGCK2YX6XgJCpy43HJbSthJjragyO1w62ZdVCsyUo0Yn8
-	DC4ln9zl/2f93dDbEHUf2zIThG9MkpjLUIc/VhHXn/SFx6XiK0qVSvHWSXrOPFW/i1/r
-	l3uezaFX6yciD5uMPoVuKU7OClVuEgBURpf15n55aVrBFitkpyegbbYZZOt4s6bMAmVg
-	ulScPd2J2IWMvAJAcCI6mJfn2j2w8UFtGY8HtFg3/7ahKI/EiRrhQG1qZMTp4AmwXMSc
-	9hfnNEaz21g0TlmBlIuK8jeNwNdD8jT34TI4afLnISBftXgFtiAzNJ6vycPg90srDdp1
-	Px4A==
-X-Gm-Message-State: AHPjjUgL7IKTn9+c9LmWHk3ydoEx41r+OMoalDo32QbsNfHgNX5q0FLL
-	5AxU6kH86WLeRAxsJmQ=
-X-Received: by 10.37.246.7 with SMTP id t7mr28362477ybd.130.1505762259947;
-	Mon, 18 Sep 2017 12:17:39 -0700 (PDT)
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com.
-	[209.85.223.179]) by smtp.gmail.com with ESMTPSA id
-	z77sm3289246ywd.31.2017.09.18.12.17.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Sep 2017 12:17:38 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-io0-f179.google.com with SMTP id q11so4658872ioe.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 12:17:38 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QDeE0x70Z3LUNP8TZjLRFon+jok4A6tdTZ7112BnjTgjyG9rjSiALWg2/eLDXz5q+IIoXOtu4Zc20yn8H3rv4c=
-X-Received: by 10.202.177.195 with SMTP id a186mr22841448oif.32.1505762257858; 
-	Mon, 18 Sep 2017 12:17:37 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=PPHR/tnr/dROUZfkfWpP2anZCY2f18iwMIeByyavpN4=;
+	b=Sm6TeSqXVpLGklRAV9tfv57G33NTix/YDOyXK5dx7ASRp7uYdawu37KvCaBI3ihn1n
+	KqvFNA2bMqKPn5pWyRjZXPA0h2ZE4p7MSCfsbTr9bQdU4pa8Fip7AEY8AXPSMxCl7mi2
+	wDLDRL4eawU0jaQYuXB6av/7VNVrk+SZLsduiEvNKSd3FbAXwwGWLQWN6pM5rzX75Na/
+	2VwL2FjVSfGFQoILfPA0raWT+tpdOXgnSwpqCa2Rd3lEqxHywrGEdx4KgpXs0a/vxZe8
+	3lSYLuShjgq75+1C9tf/3+8W5bFBW5+1rEz3yAKmmQ6jxpHdHmJHz2gblcquaK9NmCFp
+	SbOA==
+X-Gm-Message-State: AHPjjUhSuyrgyLVm25/0jukBrCtUjCIO8A4XzO7bZZ13Grqw54gbM92k
+	J7lNgNtTr//LB96ORd0rI7nZPWxERqlXdPSWKxyd3g==
+X-Google-Smtp-Source: AOwi7QC3CVahqJmXlUfGLIuriOFlAGDwfrBC7GrwriyZXfGgW4ebAY5G8YKQMHUi7HxcNdl64bv9sf+PYSuDtPZIyLU=
+X-Received: by 10.107.135.72 with SMTP id j69mr22580984iod.210.1505762376737; 
+	Mon, 18 Sep 2017 12:19:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.66.149 with HTTP; Mon, 18 Sep 2017 12:17:37 -0700 (PDT)
-Date: Mon, 18 Sep 2017 16:17:37 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq6rzVbzwxWbwzeW4Y71eXNSaHJOPvAXZxSvU1-CQKRtQ@mail.gmail.com>
-Message-ID: <CAP9ODKq6rzVbzwxWbwzeW4Y71eXNSaHJOPvAXZxSvU1-CQKRtQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 12:19:16 -0700 (PDT)
+In-Reply-To: <CAJ86T=X5xAtSL4bK9tGLxrdxqtNh6ewG0n8rLfeiewL=cWA6xA@mail.gmail.com>
+References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
+	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
+	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
+	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
+	<1505743634-13500-1-git-send-email-mike.looijmans@topic.nl>
+	<a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
+	<CAJTo0LaZo2Jhh7Jj=RAUzOzXq_FcXnobu-idL7RFnbq84iR_VA@mail.gmail.com>
+	<CAJ86T=UqdDrT2ApxMiM=g__pTftCc5g0-gzs20vd-jV06+6x7w@mail.gmail.com>
+	<CAJTo0LZrPSoVNAX6onFFsGgkD1LEm=2DLdBOecnhNEQBRDnS6A@mail.gmail.com>
+	<CAJ86T=X5xAtSL4bK9tGLxrdxqtNh6ewG0n8rLfeiewL=cWA6xA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Sep 2017 20:19:16 +0100
+Message-ID: <CAJTo0Lag_GCyfHCcEnNbfLOXSB+qyDhQHxUkdTF5RacgfxQEWg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Go SDK automated test
+Subject: Re: [PATCH] base-files: profile: Get rid of "resize"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,31 +67,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 19:17:39 -0000
+X-List-Received-Date: Mon, 18 Sep 2017 19:19:35 -0000
+Content-Type: multipart/alternative; boundary="001a113f8e7095030805597b9fe6"
+
+--001a113f8e7095030805597b9fe6
 Content-Type: text/plain; charset="UTF-8"
 
-Hello folks,
+On 18 September 2017 at 20:01, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-I did try to understand the automated test infrastructure but ended
-lost on how the code was designed. So instead I wrote down a step by
-step test so someone which knows better the autotest infra can
-translate it.
+> > The question is does it do something useful *now*?
+>
+> I don't have a board with a serial console to test at the moment.
+> Busybox hasn't changed in recent memory though, so as long as the
+> resize command does actually get run I presume it's still going to
+> work.
+>
 
-git clone https://github.com/golang/dep go/src/github.com/golang/dep
+Re-read the code.  There's a call to ioctl with TIOCSWINSZ which I'm
+*guessing* is set window size.  Google is not useful for this!  It does all
+this on stderr.
 
-. /opt/oel/17.1-snapshot/environment-setup-i586-oel-linux
+So yes it *should* work, but not if you redirect stderr to /dev/null.
 
-export GOPATH=$PWD/go
+Yes, this is a mess. :)
 
-cd go/src/github.com/golang/dep
+Ross
 
-i586-oel-linux-go build github.com/golang/dep/cmd/dep
+--001a113f8e7095030805597b9fe6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This will generate a dep binary on the $PWD; is it possible to someone
-wrap it on OEQA test?
+<div dir=3D"ltr">On 18 September 2017 at 20:01, Andre McCurdy <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy=
+@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:r=
+gb(204,204,204);padding-left:1ex"><div class=3D"gmail-HOEnZb"><div class=3D=
+"gmail-h5">&gt; The question is does it do something useful *now*?<br>
+<br>
+</div></div>I don&#39;t have a board with a serial console to test at the m=
+oment.<br>
+Busybox hasn&#39;t changed in recent memory though, so as long as the<br>
+resize command does actually get run I presume it&#39;s still going to<br>
+work.<br></blockquote><div><br></div><div>Re-read the code.=C2=A0 There&#39=
+;s a call to ioctl with=C2=A0<span style=3D"color:rgb(0,0,0);font-size:13.3=
+33333015441895px">TIOCSWINSZ which I&#39;m *guessing* is set window size.=
+=C2=A0 Google is not useful for this!=C2=A0 It does all this on stderr.</sp=
+an></div><div><span style=3D"color:rgb(0,0,0);font-size:13.333333015441895p=
+x"><br></span></div><div><span style=3D"color:rgb(0,0,0);font-size:13.33333=
+3015441895px">So yes it *should* work, but not if you redirect stderr to /d=
+ev/null.</span></div><div><span style=3D"color:rgb(0,0,0);font-size:13.3333=
+33015441895px"><br></span></div><div><span style=3D"color:rgb(0,0,0);font-s=
+ize:13.333333015441895px">Yes, this is a mess. :)</span></div><div><span st=
+yle=3D"color:rgb(0,0,0);font-size:13.333333015441895px"><br></span></div><d=
+iv><span style=3D"color:rgb(0,0,0);font-size:13.333333015441895px">Ross</sp=
+an></div></div></div></div>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--001a113f8e7095030805597b9fe6--
