@@ -1,54 +1,55 @@
-Return-Path: <will.page@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id A82BF77DB3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D782477ACB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 15:15:36 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	v8IFBT2Y020700; Mon, 18 Sep 2017 10:15:32 -0500
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mx0a-00010702.pphosted.com with ESMTP id 2d2ga6r5wp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 18 Sep 2017 10:15:32 -0500
-Received: from us-aus-exhub1.ni.corp.natinst.com
-	(us-aus-exhub1.ni.corp.natinst.com [130.164.68.41])
-	by us-aus-skprod2.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
-	v8IFFSlV020735
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Mon, 18 Sep 2017 10:15:28 -0500
-Received: from us-aus-exch3.ni.corp.natinst.com (130.164.68.13) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 18 Sep 2017 10:15:28 -0500
-Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
-	us-aus-exch3.ni.corp.natinst.com (130.164.68.13) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Mon, 18 Sep 2017 10:15:28 -0500
-Received: from canismajor (130.164.49.7) by us-aus-exhub2.ni.corp.natinst.com
-	(130.164.68.32) with Microsoft SMTP Server id 15.0.1156.6 via
-	Frontend Transport; Mon, 18 Sep 2017 10:15:27 -0500
-Date: Mon, 18 Sep 2017 08:15:27 -0700
-From: Will Page <will.page@ni.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20170918151527.GA29455@canismajor>
-References: <20170915222700.GA15457@canismajor>
-	<20170915181020.6a184e6a@seebsdell>
-	<1505741066.18640.112.camel@linuxfoundation.org>
+	Mon, 18 Sep 2017 15:18:14 +0000 (UTC)
+Received: by mail-io0-f173.google.com with SMTP id w94so2912609ioi.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Sep 2017 08:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=xkllyRsVs4RTjwVUzAMai59lTbJmVGp2cKyyW0S3zek=;
+	b=rOPER5IobvPR9wFx4HC+nnljcIsrbILPgx0sp6rAlr98SWJdiQaWJzrQ1MfzI0/1oV
+	LTYwaqmKmIhS/ewLggYP/0tbxUa95mqa0JTy71Wz87VV52AQnfdj/jk0DpE6iB08xMt9
+	vme2pW55ynrhbMmZ97l8bVWeEYUUMT8ANuX4cDu5h4hyVGsd+SuUK4shtNM/mt/m+YfA
+	doSL5JxNzCouZeRBx97tZkbBhBgUE+koDG1LqAzTUABawD3OEVfrhTmw25MHTzMwlPaX
+	+sEYco36ShVJFu0C+OT/5/MYrYy0NHwCiJn4tbAwhizfiaEPXaJCRVU+KQvAaW138Fbp
+	HDAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=xkllyRsVs4RTjwVUzAMai59lTbJmVGp2cKyyW0S3zek=;
+	b=RvgeqlhRHZl+bHFXMweBYrlTt9LleUczjhP7IHmZSUMxEFziR7kx/4hYezvU/SSj/m
+	oGwPRW6l74zmKqPTXuR/WjG97Xu9dkYAX6SW9vM3lvp/MzlN8kFgvnGuF1m1LQ2u9wgp
+	daAJ2XCIlQIMa6+XNfryMEhVfCPMGGUByobFF3KmSV70ysJ0UsshEoBrfKkvC4ygpX8x
+	CfNDvWRRYH4XhPC1mV7zAOQ92oD2jPYvt4E0q0kAv8gTzaGo6P9VbgdhjhaPgn2972Ng
+	soiu0fAbKc5gcaR7x9YiIpPdoFwRRaxG7Oc9FYpp/a9iyEqJv2gpI3Fn0wpK/tk9pFLu
+	ONFQ==
+X-Gm-Message-State: AHPjjUjzJIbGOkBSefFLQsyREVufd6VMgeyUYC5yN/HOaxIh0DvX1Zoa
+	xCMXVXdcjk17M+1hVeeLyXK1Le61fZCeJATW7i54qQ==
+X-Google-Smtp-Source: AOwi7QCbZOa9HE2d/h5t9Hq1boaCR2xra63Zk+N+XpF4JcWjHiNyMrW0qGHp4lwtHWQgKcEOmxDwufyamexKJcbGJpc=
+X-Received: by 10.107.135.72 with SMTP id j69mr21421348iod.210.1505747895858; 
+	Mon, 18 Sep 2017 08:18:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1505741066.18640.112.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-09-18_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=2 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1707230000 definitions=main-1709180218
-Cc: Alexander Kanavin <alexander.kanavin@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [pseudo][PATCH] Fix to fcntl guts to ignore flags that can be ORed into cmd
+Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 08:17:55 -0700 (PDT)
+In-Reply-To: <a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
+References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
+	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
+	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
+	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
+	<1505743634-13500-1-git-send-email-mike.looijmans@topic.nl>
+	<a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Sep 2017 16:17:55 +0100
+Message-ID: <CAJTo0LaZo2Jhh7Jj=RAUzOzXq_FcXnobu-idL7RFnbq84iR_VA@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base-files: profile: Get rid of "resize"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,67 +62,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 15:15:36 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Sep 2017 15:18:15 -0000
+Content-Type: multipart/alternative; boundary="001a113f8e70744cfc05597840df"
 
-On Mon, Sep 18, 2017 at 02:24:26PM +0100, Richard Purdie wrote:
-> On Fri, 2017-09-15 at 18:10 -0500, Seebs wrote:
-> > On Fri, 15 Sep 2017 15:27:00 -0700
-> > Will Page <Will.Page@ni.com> wrote:
-> > 
-> > > 
-> > > The fcntl guts switch on "cmd" parameter to identify the fcntl
-> > > command being issued, but isn't aware of the file creation flags
-> > > that
-> > > can be ORed in.
-> > This is true. I was, in fact, not aware of those flags. Looks
-> > reasonable.
-> 
-> I tried adding this to a test build along with AlexK's epoll patch. It
-> resulted in:
-> 
-> https://urldefense.proofpoint.com/v2/url?u=https-3A__autobuilder.yocto.io_builders_nightly-2Dworld_builds_475_steps_BuildImages_logs_stdio&d=DwICaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=-PS0OYZ7YP1crHfex64Ojw&m=xLMg1sihnYcY8mm3vbgoq_awtDy2SclWmfP3SxUNhq0&s=qFv8uK99a-cleN6VLJ7XYfBiLHrcTKtPo63E8FmGuX0&e= 
-> 
-> Any ideas why?
-> 
-> Cheers,
-> 
-> Richard
+--001a113f8e70744cfc05597840df
+Content-Type: text/plain; charset="UTF-8"
 
-The problem is mine.  I sent you the wrong revision of the patch.
-+	int o_mode_mask = (O_RDONLY | O_WRONLY | O_RDWR) |
-+		(O_CREAT | O_EXCL | O_NOCTTY | O_TRUNC);
+On 18 September 2017 at 16:07, Peter Kjellerstedt <
+peter.kjellerstedt@axis.com> wrote:
 
-In the first rev of my patch (which I accidentally sent in place of my
-intended changes), I included the O_ACCMODE flags because it looked like
-the documentation said they should also be ignored, but that's not
-actually true.  The documentation says they will be ignored in the
-"arg" parameter for F_SETFL commands, not in the "cmd" parameter.
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Mike Looijmans
+> > Sent: den 18 september 2017 16:07
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Mike Looijmans <mike.looijmans@topic.nl>; Peter Kjellerstedt
+> > <peter.kjellerstedt@axis.com>
+> > Subject: [OE-core] [PATCH] base-files: profile: Get rid of "resize"
+> >
+> > The "resize" command actually outputs shell commands to be executed, for
+> > example:
+> >
+> > $ resize
+> > COLUMNS=102;
+> > LINES=27;
+> > export COLUMNS LINES;
+> >
+> > The output of "resize" is being discarded to /dev/null so the call has no
+> > effect whatsoever, and does not change the environment (it cannot change
+> the
+> > environment of its parent). Remove the call and hence solve the messages
+> > about shells missing "command" or "tty" or "resize".
+> >
+> > Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> > ---
+> >  meta/recipes-core/base-files/base-files/profile | 9 ---------
+> >  1 file changed, 9 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/base-files/base-files/profile
+> b/meta/recipes-core/base-files/base-files/profile
+> > index a062028..cfd0d69 100644
+> > --- a/meta/recipes-core/base-files/base-files/profile
+> > +++ b/meta/recipes-core/base-files/base-files/profile
+> > @@ -20,15 +20,6 @@ if [ -d /etc/profile.d ]; then
+> >       unset i
+> >  fi
+> >
+> > -if command -v resize >/dev/null && command -v tty >/dev/null; then
+> > -     # Make sure we are on a serial console (i.e. the device used
+> starts with
+> > -     # /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher
+> which
+> > -     # tries do use ssh
+> > -     case $(tty) in
+> > -             /dev/tty[A-z]*) resize >/dev/null;;
+> > -     esac
+> > -fi
+> > -
+> >  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+> >
+> >  umask 022
+> > --
+> > 1.9.1
+>
+> Hold on. Looking at busybox' source code for resize, it seems that
+> it actually does something besides outputting the shell code to
+> set the variables (which is actually enabled by a separate feature
+> called ENABLE_FEATURE_RESIZE_PRINT). It also calls
+> ioctl(STDERR_FILENO, TIOCSWINSZ, &w) where w contains the
+> calculated sizes.
+>
 
-After additional research, I found that my problem case actually relates
-to some "new", linux-specific extensions to fcntl:
+My knowledge of ANSI escapes is incredibly sketchy, but isn't that the code
+to *get* the size of the screen?  Put the cursor at 999,999, then ask where
+it is?
 
-#ifdef __USE_GNU
-# define F_SETLEASE        1024        /* Set a lease.  */
-# define F_GETLEASE        1025        /* Enquire what lease is active.
-  */
-# define F_NOTIFY        1026        /* Request notifications on a
-directory.  */
-# define F_SETPIPE_SZ        1031        /* Set pipe page size array.
-  */
-# define F_GETPIPE_SZ        1032        /* Set pipe page size array.
-  */
-#endif
-#ifdef __USE_XOPEN2K8
-# define F_DUPFD_CLOEXEC 1030        /* Duplicate file descriptor with
-                                   close-on-exit set.  */
-#endif
+Ross
 
-https://code.woboq.org/userspace/glibc/sysdeps/unix/sysv/linux/bits/fcntl-linux.h.html
+--001a113f8e70744cfc05597840df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Consequently, a few new cases are needed in the switch statement, with
-similar ifdef guards to the F_*LK64 cases.
+<div dir=3D"ltr">On 18 September 2017 at 16:07, Peter Kjellerstedt <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_bla=
+nk">peter.kjellerstedt@axis.com</a>&gt;</span> wrote:<br><div class=3D"gmai=
+l_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div cla=
+ss=3D"HOEnZb"><div class=3D"h5">&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
+rg">openembedded-core-bounces@<wbr>lists.openembedded.org</a><br>
+&gt; [mailto:<a href=3D"mailto:openembedded-core-bounces@lists.openembedded=
+.org">openembedded-core-<wbr>bounces@lists.openembedded.org</a><wbr>] On Be=
+half Of<br>
+&gt; Mike Looijmans<br>
+&gt; Sent: den 18 september 2017 16:07<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openem=
+bedded-core@lists.<wbr>openembedded.org</a><br>
+&gt; Cc: Mike Looijmans &lt;<a href=3D"mailto:mike.looijmans@topic.nl">mike=
+.looijmans@topic.nl</a>&gt;; Peter Kjellerstedt<br>
+&gt; &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@=
+axis.com</a>&gt;<br>
+&gt; Subject: [OE-core] [PATCH] base-files: profile: Get rid of &quot;resiz=
+e&quot;<br>
+&gt;<br>
+&gt; The &quot;resize&quot; command actually outputs shell commands to be e=
+xecuted, for<br>
+&gt; example:<br>
+&gt;<br>
+&gt; $ resize<br>
+&gt; COLUMNS=3D102;<br>
+&gt; LINES=3D27;<br>
+&gt; export COLUMNS LINES;<br>
+&gt;<br>
+&gt; The output of &quot;resize&quot; is being discarded to /dev/null so th=
+e call has no<br>
+&gt; effect whatsoever, and does not change the environment (it cannot chan=
+ge the<br>
+&gt; environment of its parent). Remove the call and hence solve the messag=
+es<br>
+&gt; about shells missing &quot;command&quot; or &quot;tty&quot; or &quot;r=
+esize&quot;.<br>
+&gt;<br>
+&gt; Signed-off-by: Mike Looijmans &lt;<a href=3D"mailto:mike.looijmans@top=
+ic.nl">mike.looijmans@topic.nl</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-core/base-files/<wbr>base-files/profile | 9 -------=
+--<br>
+&gt;=C2=A0 1 file changed, 9 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/base-<wbr>files/base-files/profile b/me=
+ta/recipes-core/base-<wbr>files/base-files/profile<br>
+&gt; index a062028..cfd0d69 100644<br>
+&gt; --- a/meta/recipes-core/base-<wbr>files/base-files/profile<br>
+&gt; +++ b/meta/recipes-core/base-<wbr>files/base-files/profile<br>
+&gt; @@ -20,15 +20,6 @@ if [ -d /etc/profile.d ]; then<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0unset i<br>
+&gt;=C2=A0 fi<br>
+&gt;<br>
+&gt; -if command -v resize &gt;/dev/null &amp;&amp; command -v tty &gt;/dev=
+/null; then<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0# Make sure we are on a serial console (i.e. the =
+device used starts with<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0# /dev/tty[A-z]), otherwise we confuse e.g. the e=
+clipse launcher which<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0# tries do use ssh<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0case $(tty) in<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/dev/tty[A-z]*) resiz=
+e &gt;/dev/null;;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0esac<br>
+&gt; -fi<br>
+&gt; -<br>
+&gt;=C2=A0 export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM<br>
+&gt;<br>
+&gt;=C2=A0 umask 022<br>
+&gt; --<br>
+&gt; 1.9.1<br>
+<br>
+</div></div>Hold on. Looking at busybox&#39; source code for resize, it see=
+ms that<br>
+it actually does something besides outputting the shell code to<br>
+set the variables (which is actually enabled by a separate feature<br>
+called ENABLE_FEATURE_RESIZE_PRINT). It also calls<br>
+ioctl(STDERR_FILENO, TIOCSWINSZ, &amp;w) where w contains the<br>
+calculated sizes.<br></blockquote><div><br></div><div>My knowledge of ANSI =
+escapes is incredibly sketchy, but isn&#39;t that the code to *get* the siz=
+e of the screen?=C2=A0 Put the cursor at 999,999, then ask where it is?</di=
+v><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
-I'll submit V2 of my patch shortly.
-
+--001a113f8e70744cfc05597840df--
