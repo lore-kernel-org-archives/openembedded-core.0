@@ -1,52 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id EBB1A7825B
+Return-Path: <prvs=0434129fea=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 1910 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Sep 2017 13:17:21 UTC
+Received: from mx42-out4.antispamcloud.com (mx42-out4.antispamcloud.com
+	[138.201.61.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CAAF778240
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 13:08:22 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id k101so1902650iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 06:08:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=b1n/TJfopFml0Df703lNfYfJGyOhfw+2ExlZULHYfeg=;
-	b=mYmAiZy/Gmdcu4E15V78PLGzPob43VV5eJK57ELgfPXTGup0uvGlZFpfn44PyDABYK
-	o1lpGFH8+pc9yspmBcmiKw93dPvDFxt7Wv1Cw7/963yBURhCffolMQDHgEz7wAn1c2Xv
-	6l9qA5w8xDP3UszNZNgM9apGB9jBKQPjsUx5/PAiU0jZOXtxZhseHBasSkgpIlBY6oKD
-	jA/lfhsTo3VoecmOffoXyk+PICfFe2fHRkRdfuQZd+JKwSwElRq/EEYUNOiwPSRUhzGG
-	62F+zu3bpj45lksmSKh/WNa2PY+1OE+VoXQpL4JR8VL79qgi1wS3SnTudYSfZyHe03jo
-	1tRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=b1n/TJfopFml0Df703lNfYfJGyOhfw+2ExlZULHYfeg=;
-	b=BoysPMg9Ox+7VU66ElkgO5ln2f50EMtdrv2u/gd6JiQeHAZElbZvtpZDSmdq7qPdw+
-	2tF0SuKu+pTq9jjEIgKE/mNmgkmreFHGD9wTb7wNsILA+9yf03ZiKERWm3Y6onZfOnIs
-	3KNHOFf1u/0tvunjs0DHosEvtTGxijGHDksTj42uCmAU75whaZPmJ1lxf1fZn7CAwrZc
-	uNyJMK8ASnPkEX0Hc611WTd1ajaedRBAv833KUTVZl6/prfkYMHmuDbTzrPYHEewu2X7
-	NwhoWRHsNOgxG6madhn9U9iSwg7cGdt8kJBEGd+UKdPm7k5VN0ssXQRWMpTv/+w5jnb1
-	tMYQ==
-X-Gm-Message-State: AHPjjUjqXmo+elZMnFBDFtzsBE4zgEpDrgY8p9uhQVA3d2nXdEAF/CU3
-	YhTISDjUTdT4GXojcMfxHgrx2wkJBVXoEQIJDTicTw==
-X-Google-Smtp-Source: AOwi7QBFX1OqMVY4pQMzE8PXkQQpT1WPzSCeB0nDsGmE+3U1YvLeHBdVQYw29yjMHBYQ3j5ZvhMtVHCiBUNA6adM3RI=
-X-Received: by 10.107.41.135 with SMTP id p129mr4591593iop.142.1505740103783; 
-	Mon, 18 Sep 2017 06:08:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 06:08:03 -0700 (PDT)
-In-Reply-To: <660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
-References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
-	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Sep 2017 14:08:03 +0100
-Message-ID: <CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
+	Mon, 18 Sep 2017 13:17:21 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1dtvQX-0002zR-Te; Mon, 18 Sep 2017 14:45:32 +0200
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 18 Sep 2017 14:45:25 +0200
+To: Philip Balister <philip@balister.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] base-files: profile: Do not assume that the 'command' command exists
+References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
+Date: Mon, 18 Sep 2017 14:45:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: unsure
+X-SpamExperts-Outgoing-Evidence: Combined (0.15)
+X-Recommended-Action: accept
+X-Filter-ID: PqwsvolAWURa0gwxuN3S5YEa3T7JuZT23fGO2rGt3ZgWMD8gia7lRmdoHJ3n0cm6Vtfp9X1ZBchZ
+	wvx8a7dTUQWF0kx98HH3GX+iQK7NiP6LBDMrD7q/cJogwbqzsuokIXMJ1U4MKKnQ5SAJ1V9dkP9x
+	bu57BDazLmklZgT7xzYa28l3WpgINd8pvbkr6I2lHNbC0ytP9CrppLuKy6cyY4Wrsjuxu3kQn4iV
+	yiYm4Qo8CVsONrMJuGzuoGnKTKcygLJjfy2/hUPxxGqITycuLMdYaphGvYopQ24KJ9kgRDN3pbXn
+	aMbbC1QSUBxihEsjBWOBqoptsYkcljagCMIDypReAQCFQo+KUtaSCrVTlxOfVsst/QEVbupaaYfx
+	KYRJ8ar4sO9kYmr7/nmchPR9G2DCX9m2p4wUnZpURALMKaPBcC9OMLR/g2nFXNsLRUFi9vGpx0Rq
+	h8yA93kI9ta5cIQnuMF1eCOYGy7hwGTuVTbfLM7Ww0jFUCG51FTiiz6cR64dodD7udB+zcx8OjSt
+	1b1YgBvhxKfoFZHs3o0j+S0jv2y8/jlUqm+TeNrMp4+EE+rDN/FnSl88wIa35p4FFXznVNpEBSRM
+	35KuCE6M5jOyxQgNyqqf/IN48z1lpo6OSy0pQIjcjDsvFdu939b24miH1Wgh6RAenBR+licROGap
+	ai132weqqbqFXmjz192UHjrqL/0D4l9Ad55N4k/NRRr7+wWgBNA3GF/IHYmjIFN9zdnQx99MhHqb
+	lNXm1HBFs/I3vz5edMy3+l8UejQcw1/LIebKE2AV643WS9zLYClc3VjBdSs4k1M90U7k8R3r4YxO
+	6D+o76TzbdlkRN6TaSYGd9TxV6OZ52C6Jo2kOCh9L6iIQf2pUgKbkR6r29krePjoO4kqj98KGGSb
+	M6zIvHIBwE5RRpIMiXDvc3poU6rY7t7FmzdaeIE/HLkmDxvpAVGz9UD9IyMla/xBFMw8jw==
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,72 +63,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 13:08:23 -0000
-Content-Type: multipart/alternative; boundary="001a1141f22602d6d005597670c7"
-
---001a1141f22602d6d005597670c7
-Content-Type: text/plain; charset="UTF-8"
-
-On 18 September 2017 at 12:31, Mike Looijmans <mike.looijmans@topic.nl>
-wrote:
-
-> This is basically the same change as I first sent a patch for in April, and
->> last pinged this Friday... The only real difference is that this one
->> misses
->> passing error output from resize to /dev/null (which it should do to
->> handle
->> the case where tty exists, but resize does not).
->>
->
-> Yeah, indeed.
->
-
-Apologies for missing that patch!
-
-
-> Other problem is that "resize" outputs shell script on stdout to be
-> executed, so the proper "total" invokation would be:
->
->   /dev/tty[A-z]*) eval `resize 2>/dev/null` ;;
->
-> The "eval" part is missing in your version...
-
-
-Who is going to submit the One True patch with all the fixes in?  I promise
-to merge it.
-
-Ross
-
---001a1141f22602d6d005597670c7
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Sep 2017 13:17:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: nl
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 18 September 2017 at 12:31, Mike Looijmans <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike=
-.looijmans@topic.nl</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"h=
-5"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">This is basically the same change as I fi=
-rst sent a patch for in April, and<br>
-last pinged this Friday... The only real difference is that this one misses=
-<br>
-passing error output from resize to /dev/null (which it should do to handle=
-<br>
-the case where tty exists, but resize does not).<br>
-</blockquote>
-<br></div></div>
-Yeah, indeed.<br></blockquote><div><br></div><div>Apologies for missing tha=
-t patch!</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-Other problem is that &quot;resize&quot; outputs shell script on stdout to =
-be executed, so the proper &quot;total&quot; invokation would be:<br>
-<br>
-=C2=A0 /dev/tty[A-z]*) eval `resize 2&gt;/dev/null` ;;<br>
-<br>
-The &quot;eval&quot; part is missing in your version...</blockquote><div><b=
-r></div><div>Who is going to submit the One True patch with all the fixes i=
-n?=C2=A0 I promise to merge it.</div><div><br></div><div>Ross=C2=A0</div></=
-div></div></div>
+=EF=BB=BF> On Thu, Aug 24, 2017 at 9:37 PM, Philip Balister <philip@baliste=
+r.org> wrote:
+>> Once again we will have a developer meeting in Prague the Sunday before
+>> ELCE.
+>>
+>> Please go to https://www.openembedded.org/wiki/OEDEM_2017 and add
+>> yourself if you are attending and ideas for topics.
+>>
+>> Although it is called a developer meeting, we invite members of the
+>> larger community to attend. The core developers are always interested in
+>> hearing how OpenEmbedded is used, and what we can do to make it better
+>> for building the embedded devices of the future.
 
---001a1141f22602d6d005597670c7--
+I'm planning to attend, but so far haven't made it though the wiki=20
+registration process yet...
+
+I can probably bring some work (e.g. Zynq MPSoC board) and fun (settop box)=
+=20
+hardware along to demonstrate what I'm using OE for.
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
