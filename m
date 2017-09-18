@@ -1,49 +1,53 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E30B77E35
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 20F16781C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 16:25:56 +0000 (UTC)
-Received: by mail-qk0-f181.google.com with SMTP id u73so1040890qkl.12
+	Mon, 18 Sep 2017 16:51:38 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id f84so405274pfj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 09:25:58 -0700 (PDT)
+	Mon, 18 Sep 2017 09:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AHhzTReg4bBt+SiJhmzbD/Di+v+NNY7VgN1E7TYUciU=;
-	b=oPgwVvM+1U9Bk3KwkNbUvnKByFoBfJmizDpUv8y1/AhaCP/U711dy9alcvMk0r9T/M
-	yktG+F2dP4wXsEck+zZu/g2GHXHiiAdoBw4MSESPmW+qsvEYcirZkT52ovvMskafSDMH
-	j9xFqTR8QAizYtECjSs74Wuu0WD4N7idSYO9gSfitaiPnOBPxoDruRVUCoDwrmxmPW82
-	5d51c+A2l6H6ThwoGnni27ER7vynabFwtHgWbtlGs/h5QLfAXol8ebGhMT5jRaVXiZdg
-	KTaT2yOUub4z92g0y8rfslAx7SOzYBoKuWipf/GL2+1GsXtB+LzM/oNZ4B3sKaAdhrVm
-	e7hw==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=3s+IpyWZGP+Avk7rbtCYYJm+xUyAL6E+YumN9kO4tJ4=;
+	b=b/Zc7OPkaQVClKUZgy5IowRwKMrbN0EHWd2W6W4RyVCmvHhXtfhS0PYIX4Cm3sISLl
+	8jzMrhJ5eVnyyJhPkfGiLkSIBgaFuKVNnuVywkokj95nWs5hzEYV0flwE+gzdtDq56Q1
+	Lnq1dG7gIfqZ8gxrHj8KsgOXkxVpW/1dK0x957rdlr5gIgHAt52oAzl3UK1n+KNx3EzK
+	jTpPuq2mgJkqkbxH3zRveXcmodPPkHzBzlKLf1xJC7qWGEja8z+dKZBsHE66miHLpR6s
+	NT+LMAmUrj5Ewa+S7bRhpUEiJRWVZUbaI3DNGxUo4RhYSd5C7gs6Ss1U1L3GtGMwiJhb
+	129Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=AHhzTReg4bBt+SiJhmzbD/Di+v+NNY7VgN1E7TYUciU=;
-	b=q41sFKfMC5S5BUST2571R19wx86F6F1dHYbnFL1Fm9WzP3w+c5OEt9yuy6y2pPfUX4
-	QuC9tS6aiWu/YQww/k0XLMRaPwO0nAZ6FFkHolUlH3PZt1WAKddI6uZ94z2zdUQtJwuB
-	fN7WbsjWh9F/cmfapvvHD4leQCEovvPl7eQTkdyazojvGMdzrNz8lqqeSsO9sa2SHOcf
-	ljrDtgtbv3nmEmaW/bFZJVKWuwH9gd2Baq01jaPkfzv7IwFQKgqrXhmH1HcJjVSI8RA8
-	zFpwxOQF6fHwQweQT6x37n1OwPdbh4QzkXq24rTzzKUIcVVCfof9DFruSg1H2tySjKXR
-	SDkA==
-X-Gm-Message-State: AHPjjUie4mONUAVFndx5JFeNK5f0Ag//He9BFTZFmnrW+6P6ncuczvl6
-	sJwMroIukPr9DufaKKCr3xm7A95uqoi/I8njszo=
-X-Google-Smtp-Source: AOwi7QDz1g+OqYk6BYQIJctuLB9+4uJ1jrg7OzHA8fTC6XnAt3qqJNqZzR0Zf0iBwm11wmEQyLrIzCJ2zdHgXUbQAvw=
-X-Received: by 10.55.15.170 with SMTP id 42mr21343779qkp.262.1505751958045;
-	Mon, 18 Sep 2017 09:25:58 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=3s+IpyWZGP+Avk7rbtCYYJm+xUyAL6E+YumN9kO4tJ4=;
+	b=ZG4dYaumqXKJQfpwyhzIyvMWtQNJ4u6gj2FO01c5on0SwTgzg1Q/va8pv5UGM8sva5
+	z+npoLCQVxOZo5b7SZuNN70YLAl1KfKe7ZC/jCAY3QUEUvtHwUagrTJBewp85pt99GRt
+	aMg1cX/hl+boByRmntpv1eG0ZepR80BqK5H3i9pM+K+Sx5XmqRhrzeTFzxDKi9sqEFEc
+	RufMeOJnaoYjKkyAnzHIQMjhPYZJmrytweHVkOp1LRYdRLtHZfB27fckHqbZQShxr+W5
+	P4pmvIwzBijoeqUVkeIfgPXF3pNbO1tTHL1dsh2yN1kk+l0pjQnfRnmsVmJk1CLTQjup
+	DLEQ==
+X-Gm-Message-State: AHPjjUhP0rOtMxsGiJUtAMSHFGw5HMSvHGPj6c6ZmXdHnDfiFaaQKi/H
+	7U8ZH6SwplhTQA==
+X-Google-Smtp-Source: AOwi7QADDt5i1BJsMeKbvIfqkyuVNvxskcXmcqeAdnilzY+qTcKJihOaefGjGb5yXT/TXdDo9ijUYQ==
+X-Received: by 10.84.160.200 with SMTP id v8mr20557987plg.9.1505753500143;
+	Mon, 18 Sep 2017 09:51:40 -0700 (PDT)
+Received: from apollo ([2601:646:8882:b8c::a20b])
+	by smtp.gmail.com with ESMTPSA id
+	k73sm16480540pfg.81.2017.09.18.09.51.39
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 18 Sep 2017 09:51:39 -0700 (PDT)
+Date: Mon, 18 Sep 2017 09:51:38 -0700
+From: Khem Raj <raj.khem@gmail.com>
+To: liu.ming50@gmail.com
+Message-ID: <20170918165138.dv6vgaradorduiuq@apollo>
+References: <1505738586-28217-1-git-send-email-liu.ming50@gmail.com>
 MIME-Version: 1.0
-Received: by 10.140.29.74 with HTTP; Mon, 18 Sep 2017 09:25:57 -0700 (PDT)
-In-Reply-To: <bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
-References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
-	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Mon, 18 Sep 2017 12:25:57 -0400
-Message-ID: <CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
+In-Reply-To: <1505738586-28217-1-git-send-email-liu.ming50@gmail.com>
+User-Agent: NeoMutt/20170912 (1.9.0)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] init-ifupdown: RDEPENDS on procps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,16 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 16:25:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Sep 2017 16:51:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Mike,
+On Mon, Sep 18, 2017 at 12:43:06PM +0000, liu.ming50@gmail.com wrote:
+> From: Ming Liu <liu.ming50@gmail.com>
+> 
+> sysctl is being called in /etc/init.d/networking, so it needs RDEPENDS
+> on procps.
+> 
+> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> ---
+>  meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+> index 733ae41..8774386 100644
+> --- a/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+> +++ b/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+> @@ -35,7 +35,7 @@ do_install_append_qemuall () {
+>  }
+>  
+>  PACKAGE_ARCH_qemuall = "${MACHINE_ARCH}"
+> -RDEPENDS_${PN} = "netbase"
+> +RDEPENDS_${PN} = "netbase procps"
 
-On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> I can probably bring some work (e.g. Zynq MPSoC board) and fun (settop box)
-> hardware along to demonstrate what I'm using OE for.
+busybox can provide the sysctl applet too. Do we take care of that somewhere ?
 
-
-Any chance you could set something up that could be on display at the
-Yocto booth during the conference?
+>  RCONFLICTS_${PN} = "netbase (< 1:5.0)"
+>  
+>  CONFFILES_${PN} = "${sysconfdir}/network/interfaces"
+> -- 
+> 2.7.4
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
