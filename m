@@ -1,61 +1,31 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id AB2D678245
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A7D637198A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 21:11:23 +0000 (UTC)
-Received: by mail-wm0-f52.google.com with SMTP id e71so251030wmg.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 14:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HESAd3qHKU2PPVLqWlTPSTwnGYO4CpWV8wFy1+WwqE4=;
-	b=IMA7IGECt8HqHcuT0XL7dIpRqULH1Q2Z5Sd7v46rIXG5Rlu7/MtM5BaWHJURCLiAHH
-	qDcE09we8qhirRVynvkHObNmh90/rf2/NyegXv/dTWbBRcb+3aB6F00Pe2nGKVAXBGS7
-	OQCxWRJNfObzCHRFkW9FpxcLtA2umuK46soekBO9xw5yKcxmJeAMmHmeL7q+GY6o5EFF
-	qIrwsFarOYbUTWkCZdf09mYXMID2ZJApHeNrkPBCxeEdSnTQM2RXwwuw4q8CYgL+E2Dz
-	P6nImGV184NfP3yLCsv/4LD7vgbIHI6EHmOMtEsinzBQ8reL6QUKQlibO86yJrTeCl7I
-	ez6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HESAd3qHKU2PPVLqWlTPSTwnGYO4CpWV8wFy1+WwqE4=;
-	b=cx1FZkwT07b+Vy8qrpkoNlWQBH0Yp08w/mTngna0rti3DsbKAKZwoI9ncamVlrApbN
-	aeO3yIu/ERwIdSorMp7QHGrAWtVQI2UGxxWomHc9at70Wer4b7JVaC/eZy3n+Z17k4NZ
-	sQRkQmDAzfMuIqJ54kn/6dRJ0uxClk26ndZ6jz70XKczm80AVBftq0mC3J7lgKrmyhOp
-	0fQSW4MP7JNum58Yfag5JgAFjO6Z4D4udrjkp1V+Z33lBuYb72614Pc1ukeLee7vCCk2
-	zTqyTzhxihJWIpylUkSONhk3dpjWL5deDxiR/L3zKgOK/22jUsY3Jx70QqpCQWg/+iqg
-	/Y1w==
-X-Gm-Message-State: AHPjjUhliM59jKUWgZcWZm2Stato/Rq49lqyIAg2JyvccnZUYiBHhcJO
-	6cpnsRNCEieq9XVmpcpkvqWiWfaA3gZ5e8tTDgI=
-X-Google-Smtp-Source: AOwi7QCp4G7TXLCnj6Eoav/pcQ2OWyHgt4HJjR4hyBicCCD33eQeySyv6f6LrDNWKK2mGIn2fCBXHRfHSFEqKSfLT9I=
-X-Received: by 10.28.19.10 with SMTP id 10mr5896972wmt.87.1505769084342; Mon,
-	18 Sep 2017 14:11:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.141.198 with HTTP; Mon, 18 Sep 2017 14:11:23 -0700 (PDT)
-In-Reply-To: <CAJTo0LbOtfMY7mo5ASNZY0g3yd8+cwLEoWyMc4HifHH_nnyrjw@mail.gmail.com>
-References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
-	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
-	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
-	<1505743634-13500-1-git-send-email-mike.looijmans@topic.nl>
-	<a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
-	<CAJTo0LaZo2Jhh7Jj=RAUzOzXq_FcXnobu-idL7RFnbq84iR_VA@mail.gmail.com>
-	<CAJ86T=UqdDrT2ApxMiM=g__pTftCc5g0-gzs20vd-jV06+6x7w@mail.gmail.com>
-	<CAJTo0LZrPSoVNAX6onFFsGgkD1LEm=2DLdBOecnhNEQBRDnS6A@mail.gmail.com>
-	<CAJ86T=X5xAtSL4bK9tGLxrdxqtNh6ewG0n8rLfeiewL=cWA6xA@mail.gmail.com>
-	<CAJTo0Lag_GCyfHCcEnNbfLOXSB+qyDhQHxUkdTF5RacgfxQEWg@mail.gmail.com>
-	<CAJ86T=XFBTNtAg2_xPEFGTiH2Y_gZnRS_LZWkBWL2kPiUYARpA@mail.gmail.com>
-	<CAJTo0LbOtfMY7mo5ASNZY0g3yd8+cwLEoWyMc4HifHH_nnyrjw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 18 Sep 2017 14:11:23 -0700
-Message-ID: <CAJ86T=XiebPX6z1zPReWd1cZ3U1Hz_rEZ6_8w=oLfZPFv1K5EQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Mon, 18 Sep 2017 21:11:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8ILBQN0012743
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Sep 2017 14:11:26 -0700 (PDT)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Mon, 18 Sep 2017 14:11:25 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"matt@madison.systems" <matt@madison.systems>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: profile: Get rid of "resize"
+Thread-Topic: go-runtime does not build for mips32r2 tune
+Thread-Index: AdMwwowE+PTUWsdOR36n+wXkbgY95Q==
+Date: Mon, 18 Sep 2017 21:11:24 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84CF41E3E8@ALA-MBC.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.117.158]
+MIME-Version: 1.0
+Subject: go-runtime does not build for mips32r2 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,21 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 21:11:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 18 Sep 2017 21:11:28 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_"
 
-On Mon, Sep 18, 2017 at 1:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> > There's a call to ioctl with TIOCSWINSZ which I'm
->> > *guessing* is set window size.  Google is not useful for this!  It does
->> > all this on stderr.
->> >
->> > So yes it *should* work, but not if you redirect stderr to /dev/null.
->>
->> We don't redirect stderr to /dev/null, only stdout.
->
-> One of the many patches here does.
->
-> I'm holding off applying any of them right now. :)
+--_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-The "get rid of resize" patch seems to have made it into mut.
+This is the default tune for qemumips.  It appears that the problem does no=
+t occur for an oe-core checkout just before the split creating go-runtime.
 
+Before the split, go-helloworld will build, but after the split it will not=
+ because it needs go-runtime.
+
+Joe
+
+--_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle"></style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">This is the default tune for qemumips. &nbsp;It appears that the pro=
+blem does not occur for an oe-core checkout just before the split creating =
+go-runtime.
+<div><br>
+</div>
+<div>Before the split, go-helloworld will build, but after the split it wil=
+l not because it needs go-runtime.</div>
+<div><br>
+</div>
+<div>Joe</div>
+</div>
+</body>
+</html>
+
+--_000_007BD92917A2324FA403BCF9A464CF84CF41E3E8ALAMBCcorpadwrs_--
