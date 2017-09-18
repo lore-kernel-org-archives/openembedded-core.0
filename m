@@ -1,41 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id F033D78049
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
+	[209.85.161.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E75F978272
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 15:51:50 +0000 (UTC)
-Received: by mail-io0-f176.google.com with SMTP id h66so3162592ioh.11
+	Mon, 18 Sep 2017 16:06:11 +0000 (UTC)
+Received: by mail-yw0-f180.google.com with SMTP id x131so670491ywa.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 08:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3y88yRLyvoTU2zQbZA20IZW98crc9ZQEQNEdc+ao2OM=;
-	b=hN78B5IwvnZut5tv18vIXo64gZKXf+fbawhsIdrI5kvnpu+TmtdHAR5nRWo5jLkKKq
-	mqxUOxhjG7cX435E9/rcSydy7gKq5cimOpeVNdO2IKfixrdRYpfRyBGer+t1a+EAbp/H
-	fqLrlljiKbIi6ST0sPkuR0xbFS5tIqrMmfiFK/lwMzMuN+EHJZkzz2GwwQ4BlXT3ap7F
-	sOgoDAkiIF9ymt2Wnr1n7ySXDsowKLP7JsNnBMhsPGS5xoj0rndvRIhQZX2MO8F26ck2
-	GO1TmHnN4RjkRiEU4qgeDxKkzNnrbavb6MwLCpNmcGOKbdBBMDeUBkrEKzL1upaS7xEd
-	GUMg==
+	Mon, 18 Sep 2017 09:06:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=qnZozpgrE/oPRq/kWSEBqkeiScesjLlBOZguOeOMiAs=;
+	b=XOzSQsWo2RIapDV807HBekb07cG8anQIVGTOdQjjnOkoyApnttEvHf6mTB4wcJTpBi
+	GUIQdH/D9Gfe9QfeEoxxpQEBxdx1zv4DYF+rO9Obt8zX4z/0Uw1zqmiOybTWheCxSta+
+	3yLpxeLC3QTXh7liRKGJobdcNKY5yZRPq+AZM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3y88yRLyvoTU2zQbZA20IZW98crc9ZQEQNEdc+ao2OM=;
-	b=Zu7VOAw/eDt0EyrgtUQwHPwTt5IdQTDsgFyyg4iFPqCAjY2Zie1X4K++73MOnOSm3K
-	vR9vl+U4+sJGMBzP/LP6UPho8vZoqZlDmL/gCzOnIdwz+ZBACNrhrgxshFA8/5QXzjjT
-	Ox2SOuS9gfGTyByUhB0EhdtUJs50jza4zv1I75XaIBWtURbk/jJkiRZPwspy8n3u5cLj
-	55HX4Ew8RuoFqGvsZJ50q65N00b2WRX1sR9lhqyj+UeSZj8EooXJeNW04vufZkDmdtmL
-	VtwVXG1lTfTZSs/moTdUaZ7PvkdMFSq3fjkzPtuJJpmpNbdvyYiGnx+Fjz+etn+o6D5R
-	MEhQ==
-X-Gm-Message-State: AHPjjUhUjE2X7Cng6Lra+OU2XhBrdXbvLRiQBVbFWmASwD13vLVJiIQP
-	JD0YVxG2aVMyPFUr8Hn6anTfyer3F/Kr1Wf0KPyAjA==
-X-Google-Smtp-Source: AOwi7QAh634xbDGdOc36BSbreF9cGfqOrY2lJFSBWPuCinH81kWXJqD/CxmELfa3/VNAFo4FT4amTTg6HB8/Nm0plHM=
-X-Received: by 10.107.32.70 with SMTP id g67mr21568649iog.77.1505749911950;
-	Mon, 18 Sep 2017 08:51:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Mon, 18 Sep 2017 08:51:31 -0700 (PDT)
-In-Reply-To: <CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=qnZozpgrE/oPRq/kWSEBqkeiScesjLlBOZguOeOMiAs=;
+	b=KvQbNwEgf9fRrDY6eUXxeKMo47uv5RC5oDIlN+Jv45qUwOSKso2e5gcXoV668cCjIs
+	aI/wmfC2zURzwkh4MHvruvEZ2COJglaExLk9J1MdeLTnfDvGcQ5D07bh+SD5Ol91GIpk
+	8AGhDkhgEikJPspmLB2FJWJd56YXXui6Xk3J7CDM1o7LWL3e466nrjbbDcv9+4HKwNlj
+	Zzpkfr5AVg2CAsJULvtNOfo/bi/vDbCIFwfO7+ZA6tP17o0McjWe3GBin4WjGGcIMSk+
+	3E3Q+z3E0l/OCpmGfaKY2K5y1LjPSKeiS0WE2h2kdNHhLWVfhc7ZGqsqcnjOBfrd5pni
+	Q+Ug==
+X-Gm-Message-State: AHPjjUj9uMEx/zDS/KPJ1q218OiG93JvI0TQn1+L353ZtXs2YlK2SUaR
+	GCv9U431B6UnUX2L
+X-Google-Smtp-Source: ADKCNb7xggV2TaOIsio+YFpswjD+qe91I/2+I5La/+1l43VPQHoilNSfXgkjLSs35KJjF0NXY+X4ng==
+X-Received: by 10.129.89.215 with SMTP id n206mr28490787ywb.68.1505750772508; 
+	Mon, 18 Sep 2017 09:06:12 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	by smtp.gmail.com with ESMTPSA id
+	l19sm1409931ywk.69.2017.09.18.09.06.11
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Mon, 18 Sep 2017 09:06:11 -0700 (PDT)
+Date: Mon, 18 Sep 2017 12:06:10 -0400
+From: Tom Rini <trini@konsulko.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20170918160610.GD17137@bill-the-cat>
 References: <20170911203056.22156-1-otavio@ossystems.com.br>
 	<CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
 	<CA+chaQec-cL6x3i3TfOi7yBhmCQ9Gf=-4jXkXqJ2-yJQmPmcmw@mail.gmail.com>
@@ -45,13 +48,14 @@ References: <20170911203056.22156-1-otavio@ossystems.com.br>
 	<20170918083915.GB3340@jama>
 	<51b6874b-551a-3983-4002-77e166822521@balister.org>
 	<CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Sep 2017 16:51:31 +0100
-Message-ID: <CAJTo0LbFHX_Wm_W2MteS=6XbJgqzZh-jtGZ_Bhu95kO8Nue+dw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	<CAJTo0LbFHX_Wm_W2MteS=6XbJgqzZh-jtGZ_Bhu95kO8Nue+dw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbFHX_Wm_W2MteS=6XbJgqzZh-jtGZ_Bhu95kO8Nue+dw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
 	Marek Vasut <marek.vasut@gmail.com>,
-	U-Boot Mailing List <u-boot@lists.denx.de>
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -65,66 +69,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 15:51:51 -0000
-Content-Type: multipart/alternative; boundary="001a1140ae2c9f8d1b055978b85d"
+X-List-Received-Date: Mon, 18 Sep 2017 16:06:12 -0000
+X-Groupsio-MsgNum: 103069
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yudcn1FV7Hsu/q59"
+Content-Disposition: inline
 
---001a1140ae2c9f8d1b055978b85d
-Content-Type: text/plain; charset="UTF-8"
-
-On 18 September 2017 at 16:46, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
-
-> What is the policy on doing u-boot version upgrades this late in the
->
-> release cycle? SHouldn't this wait until after the release?
->
->
-> Why?
->
-> It is just another recipe and we are upgrading to the final release.
->
-> As Martin said, it was already broken.
->
-> I'll take the responsibility to fix it. But as other packages, upgrades
-> has risk and we have more than enough time to proper fix it.
->
-
-Why?  Because it was merged to master after the freeze.
-
-Personally I'm of the opinion that u-boot is one of those special recipes
-that if an upgrade appears just after freeze, we consider it.  If we don't
-keep it up to date BSPs won't use the recipe, and we'll be back to every
-BSP layer containing its own special copy of the u-boot recipe.
-
-Ross
-
---001a1140ae2c9f8d1b055978b85d
-Content-Type: text/html; charset="UTF-8"
+--yudcn1FV7Hsu/q59
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 18 September 2017 at 16:46, Otavio Salvador <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"=
-_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div clas=
-s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div dir=3D"auto"><span class=3D""><div>What is the policy on doing u-boot=
- version upgrades this late in the<br><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"m_-422887529407011750quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-release cycle? SHouldn&#39;t this wait until after the release?<br></blockq=
-uote></div></div></div><div dir=3D"auto"><br></div></span><div dir=3D"auto"=
->Why?</div><div dir=3D"auto"><br></div><div dir=3D"auto">It is just another=
- recipe and we are upgrading to the final release.</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">As Martin said, it was already broken.=C2=A0</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll take the responsib=
-ility to fix it. But as other packages, upgrades has risk and we have more =
-than enough time to proper fix it.</div></div></blockquote><div><br></div><=
-div>Why?=C2=A0 Because it was merged to master after the freeze.</div><div>=
-<br></div><div>Personally I&#39;m of the opinion that u-boot is one of thos=
-e special recipes that if an upgrade appears just after freeze, we consider=
- it.=C2=A0 If we don&#39;t keep it up to date BSPs won&#39;t use the recipe=
-, and we&#39;ll be back to every BSP layer containing its own special copy =
-of the u-boot recipe.</div><div><br></div><div>Ross=C2=A0</div></div></div>=
-</div>
+On Mon, Sep 18, 2017 at 04:51:31PM +0100, Burton, Ross wrote:
+> On 18 September 2017 at 16:46, Otavio Salvador <
+> otavio.salvador@ossystems.com.br> wrote:
+>=20
+> > What is the policy on doing u-boot version upgrades this late in the
+> >
+> > release cycle? SHouldn't this wait until after the release?
+> >
+> >
+> > Why?
+> >
+> > It is just another recipe and we are upgrading to the final release.
+> >
+> > As Martin said, it was already broken.
+> >
+> > I'll take the responsibility to fix it. But as other packages, upgrades
+> > has risk and we have more than enough time to proper fix it.
+> >
+>=20
+> Why?  Because it was merged to master after the freeze.
+>=20
+> Personally I'm of the opinion that u-boot is one of those special recipes
+> that if an upgrade appears just after freeze, we consider it.  If we don't
+> keep it up to date BSPs won't use the recipe, and we'll be back to every
+> BSP layer containing its own special copy of the u-boot recipe.
 
---001a1140ae2c9f8d1b055978b85d--
+Also please note that U-Boot has a rather regular and public release
+schedule: http://www.denx.de/wiki/U-Boot/ReleaseCycle so you can have a
+good idea beforehand if you want to grab something for a release or not.
+
+Personally, I would like to see this in.  But the security issue that's
+been disclosed now is "resolved" just by not enabling functionality that
+no one was enabling in mainline, and will be removed in the next
+release, so don't feel you need to pull it in on those grounds.
+
+--=20
+Tom
+
+--yudcn1FV7Hsu/q59
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZv+7yAAoJEIf59jXTHXZSNSsP/A0DuPICNcksGseGcZAZz1jB
+QRcpfiOR6WrRHt26PbB/+g3dPQ6nppIQ5rffwSVdbx+sTDbr6UOAtopEd7mC1zzW
+TjYofdt2kn4lYKSRzmrvv5Hk+7FkAzf5rb1WS50DU6pEZS9Qm5tvtGCAnp/9tYEI
+RNiUUioK0Cq6bLnS25ZG6YQa68PCeQDG8PYrW0ak2a2cgoEx5nOiByhFCkBYrNkB
+tZgrtOeadS/4gP+Enqi9n73tk4T/7ARKqBJhXrMzCvm/D+O8NY4VKjfCQ1ZOhDtq
+ysaf5YIl5/dYssGhKfLYhwigjfKNj5125+YbKQ6FL6t4Yk+6y9fmkhea/Ms8SsV9
+2aXqNFqlK/x1ZdFlLK+o3c5EkyPXVrdAQ2dEkbjrZLIfA5ERLniHWNe4fI42tFZ2
+3L5JBjMhkyW/wxKipbWewBwNQwtUt22cAZLQDF/ucrMvkHPZyRkH+X8aFJ2NYNQg
+czx+G/k2lIwjJ26J0YfttIt+Qs3oOiqZ2nKtHrEBdnQh9FeB5MAopymLzIN/PV9W
+hPV+ct0z1mdqlQorAekI9gDuI1lN/Yf2FeaJ4jA30XUcQ/4A9LKVWjogIb66XI0E
+G8M0rxqUMEWwMS4d3YkY3vg/a/RuXMM2vI08ZIVR7ZL5tQhRsBf9R9F6iY0Kjoz5
+BD3Dqqd5uLyAjFSI7kod
+=55ec
+-----END PGP SIGNATURE-----
+
+--yudcn1FV7Hsu/q59--
