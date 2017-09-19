@@ -1,48 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CA28781EA
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C83B781EE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 00:17:56 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id e69so805236pfg.4
+	Tue, 19 Sep 2017 00:27:23 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id v5so1085198pgn.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 17:17:57 -0700 (PDT)
+	Mon, 18 Sep 2017 17:27:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=GS+7KDl2/SVZibr6elMBBPlNA81wa4h4zZ7YOLoJwes=;
-	b=MIBJWqSbzJ5ysE2UgzSDu5XEqdPPqNxTqvc9cmHAhX5simhFqRwmZKzAAy11njxsR/
-	6WA1gS0CCWwhaLa9b8/u98I36lNERxiEz/wPC8e0KylEVURa7FArJ7HY5duC5t5VGYwg
-	4qA5Y+8mWca+o3Swun6qr/G1KogfqlRF4gaaA16fN8QQvT3rsCfvOSjXO6f6Alt5maQD
-	UAPIN+5u6PyjZa9oCrflYXzyu72pOOT0W0++KtWpJCWrr48ekxySdbjzJpKPMLDav0Rn
-	HGPd8jTfkFVDhs/XpYXGgSSjmIDQEkbZBAZhhQ9jEZTMvqvubHGLwVmSgPjVbg0zwqc2
-	3W0A==
+	h=from:to:cc:subject:date:message-id;
+	bh=FcsiOdcNMn+yM5gV0ZRWbC/2oPH+BxPuhPCBcILdmtY=;
+	b=Iw4ryXpSILuZjzRwdgX2UiYgV0SFIeh+EBgIqnvWjJcM88CxuPKLyfKKg4UzgRVxlZ
+	wqz2RitesTxtEr1LfNnp3yp66g+in6F5X6wbZVR3/pLA+ciCitCFQsed8hOz5AiW7b0w
+	WCX3sicLjs8aAIgEqVw8XsdLeSVQgaeJNlk8LU+JYY8Co389hCLAZydavNGBDme37YqQ
+	An8h42NWyjwqM0KgtwhR20F6rDfp72sMb2D7c5FuBELS+eNpu3GhFASUNcVjKtmaAp7o
+	QmB+o05sHjDcVzMAfTyEBg6jeKcN7j8XHlPrJ3PDSihnBjFTOou9DGwv8KJQY2iMwA2N
+	OviA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=GS+7KDl2/SVZibr6elMBBPlNA81wa4h4zZ7YOLoJwes=;
-	b=oJbCOKo7KiKCbawRZqrf1ldfg+RPPMIdnHoWUwYIqpVCWMqnb7C27TxD9X9z1J7s0z
-	439JmNDstAWqYAHrDcI5/LJ85jwX+5Qwt9/bOvAQO76tj0NXQrbeEg7tfuWV32CS5Ihe
-	TQi+IG84uQu1zmu9v4IGmuRxdqQ23bUW3ZcnDb9+IqtCFFIKobj9OnS/0wwed5rsw4ZN
-	RB3PCHGOp7guO1Nvk6mCJkDZeoGwxvBvk16YmDe+OnfeJJyAzbThpvQd6PN8GnxyMywm
-	tHB5EusAtlO/Eh6QvXKwXsgaeeKeGY8n0IpYwsRuwOX8RaS7VELFjmYcCIO4MxwMKMw3
-	3OBQ==
-X-Gm-Message-State: AHPjjUh6YKPTzTB7UVnTWNNw7fD0izdZccd+f22KrScEqWjLHpxR3A4H
-	PfrRSCSBMbqqLDtOn50g2bRry35ZSvgxqoHEOPU=
-X-Google-Smtp-Source: AOwi7QBxNMnP61j4xi7T7/Beo3kD8M6iDcIo8gryxOL9BlgaP1ZOZSKHPKl7tfxfc0iCQODuXYrbHHF7KGyU8d4K9fc=
-X-Received: by 10.84.240.137 with SMTP id z9mr317128plk.114.1505780277479;
-	Mon, 18 Sep 2017 17:17:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.149.73 with HTTP; Mon, 18 Sep 2017 17:17:26 -0700 (PDT)
-In-Reply-To: <1502788783-997-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1502788783-997-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FcsiOdcNMn+yM5gV0ZRWbC/2oPH+BxPuhPCBcILdmtY=;
+	b=ajnyfnIWxrq2h9hEeeXCzEVsJswU/9yxQBTdA1d9+n/Ia0lZdTtIdI3aYjP9RnU67A
+	Ve1cLwBy/F8X13Q8Re/k86x56TKzoFcgkkEIGNmYj2BgWz1qEcl1nl+6inZoXKN6aeCu
+	mrlVyuBqKZzafwtLLhE0JKdzcNqPAtZU8DtMAc6c5eRhgT+kPdDfNoJQKTiS3ZyGFujc
+	Fa0a2Jr0DRVGUGmNaYEHTd7iMlj5sI17396RJVXpZdNT8DswmK5E+keCjQkGTwFBogum
+	sg7SKXnGG16PZ5yB/ebbPDvNdZzZ+hfrMQ3w4ZAbaWpjATNYrma7g7iIiQ1tOmqjLuok
+	BdgQ==
+X-Gm-Message-State: AHPjjUidM5hPYYJNDWmevxlzIhJwZv7THAorHFBlppl/rK4fxwMXp2Y5
+	16cjVyyhDlnqOcOZ
+X-Google-Smtp-Source: AOwi7QCytQonEcS/E0PZsP2rhFh3XHTWlzYb/vHDGpkMPcpQT6QxPy/FHhrw+C7wDNdkD+avN6CVaQ==
+X-Received: by 10.99.185.86 with SMTP id v22mr352104pgo.236.1505780845228;
+	Mon, 18 Sep 2017 17:27:25 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::a20b])
+	by smtp.gmail.com with ESMTPSA id c7sm858487pfg.85.2017.09.18.17.27.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Sep 2017 17:27:24 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Sep 2017 17:17:26 -0700
-Message-ID: <CAMKF1sqDEtoaXHwz3=O-i8N5=4Fv4SC1Kqw-gZp5vbcayjU88g@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nspr: 4.14 -> 4.16
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Sep 2017 17:27:16 -0700
+Message-Id: <20170919002716.44275-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] nspr: Fix build with musl/mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +52,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 00:17:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Sep 2017 00:27:24 -0000
 
-On Tue, Aug 15, 2017 at 2:19 AM, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-> Upgrade nspr from 4.14 to 4.16
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../nspr/nspr/0001-md-Fix-build-with-musl.patch    | 31 ++++++++++++++++++++++
+ meta/recipes-support/nspr/nspr_4.16.bb             |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-support/nspr/nspr/0001-md-Fix-build-with-musl.patch
 
-This breaks build with musl. You can reproduce it with
-TCLIBC=musl MACHINE=qemumips bitbake nspr
+diff --git a/meta/recipes-support/nspr/nspr/0001-md-Fix-build-with-musl.patch b/meta/recipes-support/nspr/nspr/0001-md-Fix-build-with-musl.patch
+new file mode 100644
+index 0000000000..f3cd670026
+--- /dev/null
++++ b/meta/recipes-support/nspr/nspr/0001-md-Fix-build-with-musl.patch
+@@ -0,0 +1,31 @@
++From 147f3c2acbd96d44025cec11800ded0282327764 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 18 Sep 2017 17:22:43 -0700
++Subject: [PATCH] md: Fix build with musl
++
++The MIPS specific header <sgidefs.h> is not provided by musl
++linux kernel headers provide <asm/sgidefs.h> which has same definitions
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ pr/include/md/_linux.cfg | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pr/include/md/_linux.cfg b/pr/include/md/_linux.cfg
++index 640b19c..31296a8 100644
++--- a/pr/include/md/_linux.cfg
+++++ b/pr/include/md/_linux.cfg
++@@ -499,7 +499,7 @@
++ #elif defined(__mips__)
++ 
++ /* For _ABI64 */
++-#include <sgidefs.h>
+++#include <asm/sgidefs.h>
++ 
++ #ifdef __MIPSEB__
++ #define IS_BIG_ENDIAN 1
++-- 
++2.14.1
++
+diff --git a/meta/recipes-support/nspr/nspr_4.16.bb b/meta/recipes-support/nspr/nspr_4.16.bb
+index a634afbf75..bb178fe712 100644
+--- a/meta/recipes-support/nspr/nspr_4.16.bb
++++ b/meta/recipes-support/nspr/nspr_4.16.bb
+@@ -11,6 +11,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/nspr/releases/v${PV}/src/nspr-${PV}.tar.gz
+            file://remove-srcdir-from-configure-in.patch \
+            file://0002-Add-nios2-support.patch \
+            file://0001-include-stdint.h-for-SSIZE_MAX-and-SIZE_MAX-definiti.patch \
++           file://0001-md-Fix-build-with-musl.patch \
+            file://nspr.pc.in \
+ "
+ 
+-- 
+2.14.1
 
-> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-support/nspr/{nspr_4.14.bb => nspr_4.16.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-support/nspr/{nspr_4.14.bb => nspr_4.16.bb} (96%)
->
-> diff --git a/meta/recipes-support/nspr/nspr_4.14.bb b/meta/recipes-support/nspr/nspr_4.16.bb
-> similarity index 96%
-> rename from meta/recipes-support/nspr/nspr_4.14.bb
-> rename to meta/recipes-support/nspr/nspr_4.16.bb
-> index b0892a1..a634afb 100644
-> --- a/meta/recipes-support/nspr/nspr_4.14.bb
-> +++ b/meta/recipes-support/nspr/nspr_4.16.bb
-> @@ -22,8 +22,8 @@ CACHED_CONFIGUREVARS_append_libc-musl = " CFLAGS='${CFLAGS} -D_PR_POLL_AVAILABLE
->  UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
->  UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
->
-> -SRC_URI[md5sum] = "743f6b7888a614da9927400874054d8c"
-> -SRC_URI[sha256sum] = "64fc18826257403a9132240aa3c45193d577a84b08e96f7e7770a97c074d17d5"
-> +SRC_URI[md5sum] = "42fd8963a4b394f62d43ba604f03fab7"
-> +SRC_URI[sha256sum] = "9b3102d97665504aeee73363c11a21c062ad67a2522242368b7f019f96a53cd1"
->
->  CVE_PRODUCT = "netscape_portable_runtime"
->
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
