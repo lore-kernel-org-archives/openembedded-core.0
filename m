@@ -1,71 +1,50 @@
-Return-Path: <prvs=043542d3a3=mike.looijmans@topicproducts.com>
-Received: from mx42-out4.antispamcloud.com (mx42-out4.antispamcloud.com
-	[138.201.61.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5236071AD1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 84C3071AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 07:13:25 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx16.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1duBBz-0006dG-50; Tue, 19 Sep 2017 07:35:34 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 19 Sep 2017 07:35:23 +0200
-To: Trevor Woerner <twoerner@gmail.com>, Andre McCurdy <armccurdy@gmail.com>
-References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
-	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
-	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
-	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
-	<1505743634-13500-1-git-send-email-mike.looijmans@topic.nl>
-	<a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
-	<CAJTo0LaZo2Jhh7Jj=RAUzOzXq_FcXnobu-idL7RFnbq84iR_VA@mail.gmail.com>
-	<CAJ86T=UqdDrT2ApxMiM=g__pTftCc5g0-gzs20vd-jV06+6x7w@mail.gmail.com>
-	<CAJTo0LZrPSoVNAX6onFFsGgkD1LEm=2DLdBOecnhNEQBRDnS6A@mail.gmail.com>
-	<CAJ86T=X5xAtSL4bK9tGLxrdxqtNh6ewG0n8rLfeiewL=cWA6xA@mail.gmail.com>
-	<CAJTo0Lag_GCyfHCcEnNbfLOXSB+qyDhQHxUkdTF5RacgfxQEWg@mail.gmail.com>
-	<CAJ86T=XFBTNtAg2_xPEFGTiH2Y_gZnRS_LZWkBWL2kPiUYARpA@mail.gmail.com>
-	<CAJTo0LbOtfMY7mo5ASNZY0g3yd8+cwLEoWyMc4HifHH_nnyrjw@mail.gmail.com>
-	<CAJ86T=XiebPX6z1zPReWd1cZ3U1Hz_rEZ6_8w=oLfZPFv1K5EQ@mail.gmail.com>
-	<CAHUNapSrz4WHTPbcqq-9SeR_1TPvK2stK9S96jrt9HP1uXbaoQ@mail.gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <6885de7e-d486-97a0-6aae-44b21a933d16@topic.nl>
-Date: Tue, 19 Sep 2017 07:35:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue, 19 Sep 2017 07:22:14 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id d123so992626ith.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Sep 2017 00:22:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=y/Fny2qNtvOANk0cIzxR0XrwS+QaMYqGGGYV9VOzn80=;
+	b=lueVpG4UtpnqQMBqilIPUr/vOwXq9wBD+czx7J+b1l9GUOocBsrKGp+SysRONDbs/U
+	08u4MS/kl5X1nDqvW2phBTZl13kNeB63rGi+9oVK2bMyps9llNNtbMjw+UMsSvQyPOO/
+	4p7t+i2NAZkkt5z8xYCRxZd97DV+I7l1V0nSCrXEzs7l1T0+1E0eh4YF4fCQawOmtUlE
+	jsjERSIKI7yg5hCbt3e2gwrdwpQRVAK+zpfYS1bf8l/vYSzCp6FmZNWtfsC9NKEXk2M1
+	QDUQBzlEj1d/HJpIGiQdpvPp3RGISG58vxorwKOubfQPvaLDmYi02FtBIw8jdw2ZNMRd
+	f5jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=y/Fny2qNtvOANk0cIzxR0XrwS+QaMYqGGGYV9VOzn80=;
+	b=lEhBgpQxAdAcYzfqQWGp7hPdgFOH0+8XDzUhnkQaXO5LaB3jJSpV/qxqqJUkeQyYbj
+	AnYGAdaSqSaVB4WANUbdfGgeGGLlnk9+WKyUe5xHsoaHSCxPdAJbXiVM8kmc8MCmJC/E
+	kazdqB+mHSDInHAEi1+eOZQuWwCIV3AfQmgCyW8u23yJObHC+w6F0GMeMV3w0Ug4nlYX
+	XJckLmV+abFfjHhx2XLkaHEsj0JskT3OunbWLFwhlwyVineId/nseCMvPQsoS1iQCaV8
+	E9y/B0c/2dyWIpe/nFC53zP8te5i8TIJuanwoU12MH320w/gOfHzOHnbafNN+lbiUSEN
+	HUbQ==
+X-Gm-Message-State: AHPjjUgftdjeIvdQeIeXVU7kE8+j50AWxSQvqAusZLcJnM/pDUfx7+6s
+	aV2rWOhnAiGQumkbvamQKq6g6fiKdIxvAd+bqCTbyQ==
+X-Google-Smtp-Source: AOwi7QAMO3OjJG4k3HW2qLDWUDTTWJpw0m1HmWKAWSapmkX3ql8ZKjqYZG+sUeDswXJzbMmFEEH0U9C1sE/d379bS9c=
+X-Received: by 10.36.26.129 with SMTP id 123mr279714iti.38.1505805736422; Tue,
+	19 Sep 2017 00:22:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapSrz4WHTPbcqq-9SeR_1TPvK2stK9S96jrt9HP1uXbaoQ@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.09)
-X-Recommended-Action: accept
-X-Filter-ID: PqwsvolAWURa0gwxuN3S5YEa3T7JuZT23fGO2rGt3ZgWMD8gia7lRmdoHJ3n0cm6Vtfp9X1ZBchZ
-	wvx8a7dTUQWF0kx98HH3GX+iQK7NiP6LBDMrD7q/cJogwbqzsuokIXMJ1U4MKKnQ5SAJ1V9dkP9x
-	bu57BDazLmklZgT7xzZ5X3Fg4USa+LB4+iBBimKUdCmBhTVSnCOVQmQuBiTaTs7A5blfsacRtuL3
-	ncWsS+s8CVsONrMJuGzuoGnKTKcygLJjfy2/hUPxxGqITycuLMdYaphGvYopQ24KJ9kgRDN3pbXn
-	aMbbC1QSUBxihEsjBWOBqoptsYkcljagCMIDypReAQCFQo+KUtaSCrVTlxOfVsst/QEVbupaaYfx
-	KYRJ8ar4sO9kYmr7/nmchPR9G2DCX9m2p4wUnZpURALMKaPBcC9OMLR/g2nFXNsLRUFi7RT86z7G
-	T35rb3Tpbr1NcsCxQRoOZKcwDINXHduc8MTfLM7Ww0jFUCG51FTiiz6cR64dodD7udB+zcx8OjSt
-	1b1YgBvhxKfoFZHs3o0j+S0jv2y8/jlUqm+TeNrMp4+EE+rDN/FnSl88wIa35p4FFV9l1/WyLBg0
-	mKuTgAEprJGyxQgNyqqf/IN48z1lpo6ODRmiSLYXQoEVxAAhr5KC2/vg7iEFLP+SSY+Av5+AiC6H
-	3owsO4DAdUlQv6V75QMSQrAqZTkENn3hzVQGtqpfy8or5rKA6eYGVgdFmQBLCGp8JmFmLZ6h3eau
-	qEcwyeT0VZvJGSxm4bcH1lFUB/zPeGsnJ395jBJAgljEd2a/UHQV6Xe4bIYRHe1fiVaECIfGCs+d
-	m3T5GTMS0IoMjuD73NkW0hXdwXAcFMPC3HLevdActK1VbuIevEZIZ0xtO4rEianNMhrFPd4d9v+R
-	yYAcN0nX7KM/L6/1xy5PLYwxZPSrXMBzn0F1oDrD0qksn30/RzcBY99XeInJF1FLx+3hlevP/eyb
-	7dZ1gnp8kuB8vMeopzLgn8wssArbkgpMfcNE8nTawQkj5C9a2CK2tkjhAg9PtOIqPA6w7IKmIzJA
-	wKLvq+PGLkwUHCDwJGWSOuAi
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
+Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 00:21:55 -0700 (PDT)
+In-Reply-To: <CAHUNapTtXFnCurGoVtWKL=7v7Spxj4Hg2JqGh530ktRGgVgOyg@mail.gmail.com>
+References: <20170918133410.31388-1-alexander.kanavin@linux.intel.com>
+	<CAHUNapTtXFnCurGoVtWKL=7v7Spxj4Hg2JqGh530ktRGgVgOyg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Sep 2017 08:21:55 +0100
+Message-ID: <CAJTo0LaTDVp1udWw5mDwA7P3gywHOX9y9Z6AGmZU_sNzOBbyLw@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base-files: profile: Get rid of "resize"
+Subject: Re: [PATCHv2] pseudo: use epoll API on Linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,43 +57,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 07:13:26 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: nl
+X-List-Received-Date: Tue, 19 Sep 2017 07:22:15 -0000
+Content-Type: multipart/alternative; boundary="001a114463ec054d60055985b84a"
+
+--001a114463ec054d60055985b84a
+Content-Type: text/plain; charset="UTF-8"
+
+On 19 September 2017 at 00:16, Trevor Woerner <twoerner@gmail.com> wrote:
+
+> It doesn't make sense to carry these large patches against pseudo in
+> OE itself. Isn't pseudo one of the tools under The Yocto Project
+> umbrella? Adding patches to a recipe is what happens when upstream
+> isn't under our control, isn't responsive, or isn't cooperating.
+>
+> Can someone volunteer to be the active maintainer of it and get commit
+> access? I'll volunteer, if nobody else does. But if I become the
+> maintainer, I'll need some time to get up-to-speed, or some potential
+> support from the current maintainer.
+
+
+This patch may not yet be acceptable "upstream" but is sufficient for our
+purposes, and we've obviously got a good relationship with "upstream" so
+carrying it in oe-core is a short-term measure.
+
+Ross
+
+--001a114463ec054d60055985b84a
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 19-09-17 01:07, Trevor Woerner wrote:
-> I use resize quasi-regularly. Ever end up in the situation where
-> you've run vim and now the command-line has no idea how large the
-> console is, so everything wraps or scrolls at the wrong times/places?
-> resize fixes that:
->=20
-> # . resize
->=20
-> Please don't remove it.
->=20
+<div dir=3D"ltr">On 19 September 2017 at 00:16, Trevor Woerner <span dir=3D=
+"ltr">&lt;<a href=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@=
+gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">It doesn&#39;t make sense to c=
+arry these large patches against pseudo in<br>
+OE itself. Isn&#39;t pseudo one of the tools under The Yocto Project<br>
+umbrella? Adding patches to a recipe is what happens when upstream<br>
+isn&#39;t under our control, isn&#39;t responsive, or isn&#39;t cooperating=
+.<br>
+<br>
+Can someone volunteer to be the active maintainer of it and get commit<br>
+access? I&#39;ll volunteer, if nobody else does. But if I become the<br>
+maintainer, I&#39;ll need some time to get up-to-speed, or some potential<b=
+r>
+support from the current maintainer.</blockquote><div><br></div><div>This p=
+atch may not yet be acceptable &quot;upstream&quot; but is sufficient for o=
+ur purposes, and we&#39;ve obviously got a good relationship with &quot;ups=
+tream&quot; so carrying it in oe-core is a short-term measure.</div><div><b=
+r></div><div>Ross</div></div></div></div>
 
-We're not removing the "resize" command itself. It's about removing somethi=
-ng=20
-that started as a simple one-liner in /etc/profile to call "resize" (that d=
-id=20
-not fix the problem) and grew out to be a monster over time.
-
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
+--001a114463ec054d60055985b84a--
