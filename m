@@ -1,22 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2044077E93
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DDFD277E93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 03:47:15 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Sep 2017 20:47:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,416,1500966000"; d="scan'208";a="901616715"
-Received: from thau-mobl1.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.249.71.87])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2017 20:47:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Sep 2017 15:46:23 +1200
-Message-Id: <cover.1505792710.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.5
-Subject: [PATCH 0/1] scripts: rename yocto-compat-layer to remove "compatible" nomenclature
+	Tue, 19 Sep 2017 03:48:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8J3muI7029918
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Sep 2017 20:48:56 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 18 Sep 2017 20:48:54 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
+	<CAJ86T=XSXk4DGhJqDT4hmKO1BK0y-39rFc7r_codDWf72vAoCg@mail.gmail.com>
+	<41556f05-e92c-1962-99af-97d1812909d1@windriver.com>
+	<CAJ86T=VO8un10ov9_8orHkhec5z5z5GCO6dnvtikqchukT285A@mail.gmail.com>
+	<649e138d-4ccf-770f-9e4d-aeb066d325a5@windriver.com>
+	<CAJ86T=VJkYG3VN2oxsM+3rE3RY18tJbb68BWea-FQ+zYY9uEsQ@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <8a06943b-573f-af2f-84c6-8a4f45e16de7@windriver.com>
+Date: Mon, 18 Sep 2017 22:48:54 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
+	Gecko/20100101 Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=VJkYG3VN2oxsM+3rE3RY18tJbb68BWea-FQ+zYY9uEsQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain / /bin/sh requirement / ldconfig backfill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,41 +40,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 03:47:16 -0000
+X-List-Received-Date: Tue, 19 Sep 2017 03:48:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit cbc396dd10488990c98bb6fd94c7d10a736d57c1:
+On 9/18/17 5:56 PM, Andre McCurdy wrote:
+> On Mon, Sep 18, 2017 at 3:00 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 9/18/17 4:33 PM, Andre McCurdy wrote:
+>>> On Mon, Sep 18, 2017 at 2:20 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>>> On 9/18/17 4:05 PM, Andre McCurdy wrote:
+>>>>> On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>>>>>
+>>>>>> Because of this, there is no way (with a default configuration) to build
+>>>>>> meta-toolchain....
+>>>>>>
+>>>>>> Investigating further, ldconfig support moved from "USE_LDCONFIG" to a
+>>>>>> distribution configuration.  It does this via the "DISTRO_FEATURES_BACKFILL"
+>>>>>> (introduced in commit: a905df2dd8f43a2febffa64a39b6e508510326a0)
+>>>>>
+>>>>> The intention of that commit was only to change the way support for
+>>>>> running ldconfig on the target is controlled (ie changed from an
+>>>>> ad-hoc bitbake variable to a distro config option). It's enabled by
+>>>>> default now, but it was enabled by default before that commit as well.
+>>>>>
+>>>>> Did meta-toolchain work previously? If so, was USE_LDCONFIG being
+>>>>> forced to 0 somewhere?
+>>>>
+>>>> In many distributions, the default was 0.
+>>>
+>>> Right. As mentioned in the OE 2.3 reference manual, if your distro
+>>> previously set USE_LDCONFIG to 0 then you now need to disable the
+>>> "ldconfig" distro config option instead:
+>>>
+>>>   http://www.yoctoproject.org/docs/2.3.1/ref-manual/ref-manual.html#migration-2.3-miscellaneous-changes
+>>
+>> The key is that meta-toolchain worked before, and doesn't now.  (In a default
+>> configuration.)
+> 
+> Do you mean it worked before in plain oe-core or poky? Or was it only
+> tested in a custom distro which sets USE_LDCONFIG to 0?
 
-  gawk: Enable native building (2017-09-18 11:07:24 +0100)
+I have configured a morty project in the same way, and NOT set USE_LDCONFIG one
+way or another.
 
-are available in the git repository at:
+Inspecting the packages, I am finding the install script for LDCONFIG by
+default.  Which means that the skip of /bin/sh is elsewhere.
 
-  git://git.openembedded.org/openembedded-core-contrib paule/yocto-compat-rename
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/yocto-compat-rename
 
-Paul Eggleton (1):
-  scripts: rename yocto-compat-layer to remove "compatible" nomenclature
+Inspecting further, the system defines:
 
- scripts/lib/{compatlayer => checklayer}/__init__.py  |  2 +-
- scripts/lib/{compatlayer => checklayer}/case.py      |  2 +-
- .../{compatlayer => checklayer}/cases/__init__.py    |  0
- scripts/lib/{compatlayer => checklayer}/cases/bsp.py | 10 +++++-----
- .../lib/{compatlayer => checklayer}/cases/common.py  |  6 +++---
- .../lib/{compatlayer => checklayer}/cases/distro.py  |  8 ++++----
- scripts/lib/{compatlayer => checklayer}/context.py   |  4 ++--
- scripts/{yocto-compat-layer.py => yocto-check-layer} | 20 ++++++++++----------
- ...ompat-layer-wrapper => yocto-check-layer-wrapper} | 10 +++++-----
- 9 files changed, 31 insertions(+), 31 deletions(-)
- rename scripts/lib/{compatlayer => checklayer}/__init__.py (99%)
- rename scripts/lib/{compatlayer => checklayer}/case.py (77%)
- rename scripts/lib/{compatlayer => checklayer}/cases/__init__.py (100%)
- rename scripts/lib/{compatlayer => checklayer}/cases/bsp.py (96%)
- rename scripts/lib/{compatlayer => checklayer}/cases/common.py (91%)
- rename scripts/lib/{compatlayer => checklayer}/cases/distro.py (77%)
- rename scripts/lib/{compatlayer => checklayer}/context.py (77%)
- rename scripts/{yocto-compat-layer.py => yocto-check-layer} (91%)
- rename scripts/{yocto-compat-layer-wrapper => yocto-check-layer-wrapper} (73%)
+$ cat
+./sdk/image/usr/local/oecore-x86_64/sysroots/i586-oe-linux/etc/rpm/sysinfo/Providename
 
--- 
-2.9.5
+/bin/sh
+/bin/bash
+/usr/bin/env
+/usr/bin/perl
+pkgconfig
+
+
+This tells RPM(5) to ignore the runtime dependencies listed above.  Which avoids
+the problem.
+
+> If it fails in the OE 2.3 default configuration (ie when the ldconfig
+> distro feature is enabled) then I think either it should also fail in
+> OE 2.2 default configuration (ie when USE_LDCONFIG is not forced to 0)
+> or the change in behaviour is not related to the a905df2 commit.
+
+I've not tried pyro.
+
+I expect it to fail in a similar way, because it switched to RPM4.  Which
+apparently dropped the ability to specify specific provides.  It's possible it
+has this support, but the implementation has changed enough that it is
+definitely NOT doing it.
+
+I expect at this point that an enhancement to rpm4 to pay attention to the
+sysinfo file(s) (like RPM5 had) or a dummy (meta-toolchain only) file with
+rprovides for these things may be required.
+
+--Mark
+
+>> Either someone needs to add a message to meta-toolchain to tell
+>> the user it can't work with ldconfig set, fix it (so the missing dependency is
+>> resolved [optimal solution], or ???
+>>
+>> In the past there was a way to tell the package manager to ignore a specific
+>> dependency (such as /bin/sh) and allow the install.  I don't know if there is a
+>> way to do this any longer.  2.2 was the last version I know this worked on.
+>>
+>> --Mark
 
 
