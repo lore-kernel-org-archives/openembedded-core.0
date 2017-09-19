@@ -1,50 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E2930781CD
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 85394780A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 10:57:20 +0000 (UTC)
-Received: by mail-io0-f175.google.com with SMTP id 21so8987034iof.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 03:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WnG5XjWH/b9DgEv+xHSigCrt20S6hslanWzaUh/g8jE=;
-	b=kDgPPLd6F1HlxJ8J+P/W6cTHou3Hkq884Hu2Rv/HumRq+3kSxabfaMc11ngMXfTTDl
-	/utgLAYAlArHG//HNa/0L3bCzcfhHni8Y6vBjMgj4dFVri5/Dkkvdma8u6ipigfZBQOB
-	08V0XuMB3S0c196c48N8OtXgljIUfDpxpg/Qx29u8ninDhOIiv28kuNMWpmGQKpztMtJ
-	j1U9A2uAc3rr1622WZtJVwIHVjJPjytwAqUb1wsB1uId/Dy9WzRryEsQoicMzQW/rk4e
-	UTeKEjvApPaqzB6Yzksoo7n5S114N+lejv+K9MiNoVxoCQ8jzgosZBvA37XPjIYAf4jE
-	oBDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WnG5XjWH/b9DgEv+xHSigCrt20S6hslanWzaUh/g8jE=;
-	b=RD1guxDitv2inUpAgM2FhIYQhYaap7xuYGbIUa30jz10SENXnmnMIpA9/xnmqwbf5q
-	lUaIgPR8H8nhZym6GGGxcec0/Go5kUxyRzzT3jiE09ciEWtRj3hta7MI1rkRT5d3SdOT
-	c3XoAbYarhWr7mPggD33iX010iyXkUNkdXC4TZgiLXbr56rt9NoL6118ckpXyXWN4cJ1
-	IdSnMG4hoQkZMd102fEfIhOgsrGYZleBaOZ7M+tvEqstJMnnhAxSpVgUh1gLBcrcHs5W
-	wNF8V9L0r0EcCIrjIrpiCX31ddwfw9eRo54WvOJBn52BsurVvQ2ttTYO/VRVlBtSBuXg
-	RsKg==
-X-Gm-Message-State: AHPjjUgiubE18lXl0ej3/L5N+jPgzp766aIal804W5UfyoDsc0bMdXYJ
-	iInUebeCRiVKx98fPDPqJtNzKmJ/BrI/XpvQUMXJPQ==
-X-Google-Smtp-Source: AOwi7QC3w9LN4SKEzO+kJWAB7Ea2x0OJ+0iOD/TelnbLUpaAaUwawxFeCkWZu3b+rP4vdtm/ju3ZIgfQRZK8wPDhQuA=
-X-Received: by 10.107.135.72 with SMTP id j69mr1366363iod.210.1505818641580;
-	Tue, 19 Sep 2017 03:57:21 -0700 (PDT)
+	Tue, 19 Sep 2017 11:24:53 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 19 Sep 2017 04:24:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,418,1500966000"; d="scan'208";a="153540237"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 19 Sep 2017 04:24:53 -0700
+To: Trevor Woerner <twoerner@gmail.com>
+References: <20170915142039.4855-1-alexander.kanavin@linux.intel.com>
+	<bde8ed04-c337-e6ff-2ced-7997b64c6519@linux.intel.com>
+	<CAHUNapQmRab5qoOYLiPbKapkunAfwkxUOak5PRw1bxYHvFTn_w@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <77f7a9e9-0c3e-2b82-b9e9-a105625b29a2@linux.intel.com>
+Date: Tue, 19 Sep 2017 14:20:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 03:57:00 -0700 (PDT)
-In-Reply-To: <20170919083205.ojully66ojq6l2mq@hiutale>
-References: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
-	<20170919083205.ojully66ojq6l2mq@hiutale>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Sep 2017 11:57:00 +0100
-Message-ID: <CAJTo0LaPjXPT4SKz+J0Qw8af4eo4t+LaMZfvBdYXgMxpub1xsw@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Use of github /archive/ tarballs in SRC_URI
+In-Reply-To: <CAHUNapQmRab5qoOYLiPbKapkunAfwkxUOak5PRw1bxYHvFTn_w@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: use epoll API on Linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,50 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 10:57:21 -0000
-Content-Type: multipart/alternative; boundary="001a113f8e703a7bdc055988b93b"
+X-List-Received-Date: Tue, 19 Sep 2017 11:24:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---001a113f8e703a7bdc055988b93b
-Content-Type: text/plain; charset="UTF-8"
+On 09/16/2017 03:06 AM, Trevor Woerner wrote:
+> So, my understand is that pseudo is looking for a new maintainer.
+> Maybe that person has been found? ;-)
+> 
 
-On 19 September 2017 at 09:32, <Mikko.Rapeli@bmw.de> wrote:
+If that person is me, then thank you for the trust, but:
 
-> Yes, we have been affected by this several times too.
->
-> In addition to fixing recipes, a sanity test to warn about the situation
-> would be nice to have so that the issue could be detected in other
-> meta layers too.
->
+a) I had no idea how pseudo works until last week; right now I'm 
+familiar with maybe 3% of its code;
 
-So I have a class adding a few tests to package_qa, including this one:
+b) taking responsibility for these things is unfortunately something of 
+a zero-sum game; my main area is maintenance of oe-core content, and 
+with Jussi Kukkonen no longer involved in the project, I only expect 
+more work, not less. Particularly around graphics, multimedia and 
+gnome-related things.
 
-https://github.com/rossburton/meta-ross/blob/0f788385dbe13914e9e07d382793c494c4927ef9/classes/insanitier.bbclass#L93
 
-If I get a moment I'll move it to insane.bbclass.
+Alex
 
-Ross
-
---001a113f8e703a7bdc055988b93b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 19 September 2017 at 09:32,  <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:Mikko.Rapeli@bmw.de" target=3D"_blank">Mikko.Rapeli@bmw.de</a=
->&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote=
-"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204)=
-;padding-left:1ex">Yes, we have been affected by this several times too.<br=
->
-<br>
-In addition to fixing recipes, a sanity test to warn about the situation<br=
->
-would be nice to have so that the issue could be detected in other<br>
-meta layers too.<br></blockquote><div><br></div><div>So I have a class addi=
-ng a few tests to package_qa, including this one:</div><div><br><a href=3D"=
-https://github.com/rossburton/meta-ross/blob/0f788385dbe13914e9e07d382793c4=
-94c4927ef9/classes/insanitier.bbclass#L93">https://github.com/rossburton/me=
-ta-ross/blob/0f788385dbe13914e9e07d382793c494c4927ef9/classes/insanitier.bb=
-class#L93</a><br><br></div><div>If I get a moment I&#39;ll move it to insan=
-e.bbclass.</div><div><br></div><div>Ross</div></div></div></div>
-
---001a113f8e703a7bdc055988b93b--
