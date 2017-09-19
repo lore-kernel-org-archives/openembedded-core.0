@@ -1,51 +1,32 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f179.google.com (mail-yw0-f179.google.com
-	[209.85.161.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 68357780A1
+Return-Path: <clopez@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F28B780B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 13:26:32 +0000 (UTC)
-Received: by mail-yw0-f179.google.com with SMTP id p10so2459097ywh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 06:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=4+FFp62Ekmy3/OfHruD/OeTTHYYUy+lnCoNi5wSIB80=;
-	b=kAoEFNVGduIC+vrTaWlTEA58Vr9zXufiAzC80cfFWYg6mRjfLfOpZNd81MRB42Lkat
-	y96KELybriQyZLTmMShWLVSgwwWu138sNhjjeYf8DjEXZceEQ6m1KkQTDDiTGlWWDMSC
-	MaP8g8v0I+JiKNxf21KqMrrEl0AHGMK+R634Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=4+FFp62Ekmy3/OfHruD/OeTTHYYUy+lnCoNi5wSIB80=;
-	b=mriFPQM/pAFkyc55KZpEPiLgU2dO4tRs+CHP/9PHpjY1DRS53ZRBFeK8PW6IzGtZ4E
-	PghonUESmfaY3ws1KSCSaf/XKzzblOi9LjGgGNbdSo7BHTeMVDKOb6xW7bXkJNgRBq0j
-	AYUSeQJPlY44ZWV6Sgy5G42IVxwwA4fpds2TWjTxmdcxAO1NCEZHxSLcGR0SIAQwc4XB
-	r7/jAq6ZKj1FJFNTZafHfE7f2MfWZW4jYuCE3GNjAjNz9sDaxHRetEMEdAw6wR4T7JTb
-	374mwNovwcIU5wi+EcVSWfX4rsAIkg5v1WnGglIQloTD3q5odVjndsSQna5N1E23+n2u
-	34RA==
-X-Gm-Message-State: AHPjjUjEftLA269ki0GEBLkpeV7Tt8q/uVzoDZM3WNo+F9fSsQ8aA/G1
-	Ol87vM8lulaZTlPGX7G90eF9sQ==
-X-Google-Smtp-Source: AOwi7QB/lPtSrC+ErrIpzTGOMXeco9XZVM0sdEae7JgC4SDGUngXAE2zAqKRaLqgBW8z/uf/wOK4IA==
-X-Received: by 10.37.97.83 with SMTP id v80mr611967ybb.333.1505827593352;
-	Tue, 19 Sep 2017 06:26:33 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	u123sm4234011ywg.93.2017.09.19.06.26.31
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Tue, 19 Sep 2017 06:26:32 -0700 (PDT)
-Date: Tue, 19 Sep 2017 09:26:31 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20170919132631.GN17137@bill-the-cat>
-References: <20170919131941.23618-1-otavio@ossystems.com.br>
+	Tue, 19 Sep 2017 14:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject;
+	bh=dd4O0iOYqeln+9iqLKr0LDMzdDLKF6rutM0oJR4dL3k=; 
+	b=ohgIYOINxxsMQiulB5maKnW9rSwyQN/DR62jiHgeJtnqnrX8CMyMBGXRZ3FwO0YIGcYsokg6jWmfMsyZtrijTFOLttJnslg7E46j+eV7TaP9kzvGAdnHZcFseFezAosDmkdl798XocGgKa2hjopmeYZTCFiE+UzGm1lKBhGp5tbs+pxK5Z3Wb+VDjyhmn6Owr8oRivhy+myNmvt1qTtBFOP+HNS1qHu2f30OQ/snq/fu9MXOlFCgjvdkx65yl4L8KVAfAe1Zpf/tPwUv5ywjfYT9TPynMqvP714k7bV3S0KG4dQk3nbvU1w2+gonxxHzC1BAtZ9sbWJLpJznpjOkzw==;
+Received: from [192.168.10.149] by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1duJbT-00074a-4Z; Tue, 19 Sep 2017 16:34:23 +0200
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+References: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+Openpgp: id=B5D2B50BC48EC7F1EE90D9AB965089CE6B95F882;
+	url=http://key.neutrino.es
+Organization: Igalia S.L.
+Mail-Followup-To: OE-core <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Message-ID: <d2cf577f-a995-9cc2-380b-9a1922926abd@igalia.com>
+Date: Tue, 19 Sep 2017 16:34:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20170919131941.23618-1-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: marek.vasut@gmail.com,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] u-boot-fw-utils: Fix cross and target builds
+In-Reply-To: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
+Subject: Re: [oe] Use of github /archive/ tarballs in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 13:26:32 -0000
-X-Groupsio-MsgNum: 103134
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Osvg0bgWkLaeQPMj"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Sep 2017 14:34:22 -0000
+X-Groupsio-MsgNum: 103135
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="NNmhmt21GmdVGGagETcdhX5wJ44Fo7Dii"
 
---Osvg0bgWkLaeQPMj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--NNmhmt21GmdVGGagETcdhX5wJ44Fo7Dii
+Content-Type: multipart/mixed; boundary="wSMXuOcFwxqDc5X5PHoNKu8xlN7Up8R5R";
+ protected-headers="v1"
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: OE-core <openembedded-core@lists.openembedded.org>,
+ OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Message-ID: <d2cf577f-a995-9cc2-380b-9a1922926abd@igalia.com>
+Subject: Re: [oe] Use of github /archive/ tarballs in SRC_URI
+References: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
+
+--wSMXuOcFwxqDc5X5PHoNKu8xlN7Up8R5R
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 19, 2017 at 10:19:41AM -0300, Otavio Salvador wrote:
+On 19/09/17 10:09, Burton, Ross wrote:
+> Then the tarball for one of Erlang's repositories changed, and was noti=
+ced
+> by the checksum in the recipe (thanks Gunnar Andersson for reporting
+> this).  The extracted contents are identical, but the tarball itself ha=
+s
+> changed.  I'm presuming this is due to the old tarball expiring in thei=
+r
+> cache, and a newly generated tarball using a later version of tar.
 
->  - The environment tools target has change to envtools;
->  - The HOSTCC variable must be used to set CC for cross;
->  - Drop ARCH variable as it is set on config;
->=20
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+I don't think tar is the one to blame, but gzip.
+I have just tested GNU tar (versions 1.29 and 1.26) and BSD tar (from
+OpenBSD 5.8) and the 3 have produced identical archives (same md5sum)
+when invoked like git archive does.
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+However, the .tar.gz file generated was different in the case of BSD.
+It even had a different file size.
 
---=20
-Tom
+I bet that if you uncompress both files, the .tar will have the same
+checksum in both cases.
 
---Osvg0bgWkLaeQPMj
+I guess that a different version (or implementation) of gzip, or even
+different local settings like forcing a more or less aggressive
+compression can be the explanation here.
+
+Maybe an idea is that OE could gain a feature to optionally do a
+checksum of the .tar file once uncompressed that could be used as a
+fallback second check if the first one fails?
+If the first one fails but the second one passes a non-fatal WARN could
+be issued.
+
+
+--wSMXuOcFwxqDc5X5PHoNKu8xlN7Up8R5R--
+
+--NNmhmt21GmdVGGagETcdhX5wJ44Fo7Dii
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Comment: You can fetch my GnuPG key from http://key.neutrino.es
 
-iQIcBAEBAgAGBQJZwRsHAAoJEIf59jXTHXZSR8MP/3HL5T7wtyacNHGy0+BADZyZ
-LzJoh2q+UOfQqRCaqyVKj5zyJtZPC+0DofM0fLkpP5PbjcFyflLrXbCYeZf8B8qh
-5BgOOXyOu4ckGthJmY+hnigmxlscZB24+POdh7we7YnhmFfjmuJoEERedAjF3SGp
-RMDjhRMrnuTilK647j2xiNAFIKqhzCNz1YsT7irZhKdalSuAHBw/DJHZqpqNkNsl
-wAaQa5V4V2sIU/EAWKzgr8Mx+AGjtncOl2GxoZ6uT7Sn46uw+ol3z7Hp7Dc+O8J1
-PGb114F/xEpLE3z4/4hHRnKH5u2pkAPJHTAU8ycrV8bLgHjR0FjJ5OoUjF0tXWmJ
-kotBFBV31RcNV9+pGOdZpOBVoF81RMzNFPHvD08sidVRzCUjJ6SPNgfORF3hcTMM
-kUDqodzasAJkkCLX+MpYrzki/oK8GdYPONiwH8DUp0fw9zZFCClkMHcFnTIHwSPE
-1+1Rr1vtu2Ens+Mr/yoDpHFiYFj7FOSw1MKshxdXgUsbH/+U544UjHzxG6FUQtJp
-fBBPB8cy+qOYwgOkTsgYOMmrL9sAASge0WQZ8a3PRHv7jNOtpkWz5P43kUvE8Nb8
-Fji9rljSbAIB63R6ACSNv2RENt1WdWNjc9mEjhRv56z/rVEBLnEYdGxDV88XJvWa
-Gcn2MjlQKA8bv/msfikw
-=vc1i
+iQIzBAEBCgAdFiEEtdK1C8SOx/HukNmrllCJzmuV+IIFAlnBKu4ACgkQllCJzmuV
++IJB3A//bm0k9e2CMDtkOjadhAupGtSf2c8XwKO6VajQCePG00ScrzeYD4+qhivi
+G7uPftjD7GsqreLqtCtsl5u5BJZZYmHjxATMRS/75kZjqOuMZQ/lFhUiLpEIwubr
+oU5vDc1FCwtNGlhigyRgD+S8UJWLgQAn/cUvnzU+fEeG8eBD8WfOPmxZdzct2G6P
+s3XWby2LER45/0WOzlau4VpMtM1+s8szBgD287ixB/fw0+mFsgJCMo7kz2Q+axfr
+iYGZv8rX9Ko/uMiwoKwsuY1wp4DBVl+e76Wo1iy6qhmiKvdES2EASsEmDMVBtTFB
+RgQ7ts3YAxvzrcOraSwdw0Gx9DTGgswK8ToHOxZZWTXztY/4q/T+ioGKcAGkBghw
+uVb+jtqbT5PLCPFTFLNJNucNEFdButYssh+QmbplDz6ip96IlKM+tg5IWpdv41if
+eKfANQOuifTaMOkw+A/XRBvtNSaXmILskqdG+Y6i+zvxzq/s8fkDAHZUBtG62bEU
+7gdoaVK+iV79X7rzS2nJLalIqiIty3k6Vcq34TEODdqxh+JDmBow0i82zcfNSTyk
+mHmiCDTeGEG3osu/6FgkSjD7t0rpq/srKfi5yuseVZCoUAiGFY877M69aQbfZCbs
+gzyv+dVsh2WJBW5B3wvT8i7a4mxrv5b2U3uNhuQjXIfK/4jyxYM=
+=14jD
 -----END PGP SIGNATURE-----
 
---Osvg0bgWkLaeQPMj--
+--NNmhmt21GmdVGGagETcdhX5wJ44Fo7Dii--
