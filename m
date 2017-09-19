@@ -1,47 +1,63 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6434D60616
+Return-Path: <prvs=043542d3a3=mike.looijmans@topicproducts.com>
+X-Greylist: delayed 1872 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 19 Sep 2017 05:58:20 UTC
+Received: from mx36-out12.antispamcloud.com (mx36-out12.antispamcloud.com
+	[209.126.121.60])
+	by mail.openembedded.org (Postfix) with ESMTP id 4561E781EF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 05:55:59 +0000 (UTC)
-Received: by mail-pf0-f173.google.com with SMTP id g65so1463329pfe.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Sep 2017 22:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=j0SKkPA++ikeYFizHSof1zGj5YSmJu/IWDavamiIgBU=;
-	b=EN8QdHTSMop4erG5jQiyJKBzjzSWmrny3v+0KKSHuwfwX6cEuDIl/zNy6PWsxoJq5I
-	hR12Wu6q8oWodfHqx51c1sDqkkSTtga8Bx01LrGJOJVZmQDSiofrMtu4CmmRUnx78K4d
-	QYh9umOT2M9nZSunDrrlinYlEDLAdB3H1gGEfrCWrektgJm8Rnw6QijALuOt/QEbliBm
-	QJZ88jenoC6zfDmuYE810piz3WmnkRR12MFacmMebOaUEZC6zL+gasJ10hoGnGH/B5XJ
-	m3X+GpB1r3OAVGeRF+iRyFB2INUbxF9hNXWWT2zfmQKgNyOhv7mtgebp3fNvrIIXlv/V
-	UojA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=j0SKkPA++ikeYFizHSof1zGj5YSmJu/IWDavamiIgBU=;
-	b=cEKHmyatlyRd2SvooDJIm+ljzzP+6v3DylzuPL5AKCIiaGo+8KLezNdrFkpI01GPRq
-	BpfAnpotQpULSUJWkpV46dSgxuKzGWdr74LCA4etahXDL27XQAj0zhIZIj/cS/DkFhyz
-	dvsnGdDDpnnxhOJyEDEHsEAxEJkv7w2WSTXKME7cDJPwD6YUmgLRDfHH2S8bsYfAQ00E
-	5bvZ8saWgilhXLn38zA3gcrWJMvA/lC1z6IAlbms4tQ6AmSOuFpmiI6hoNL2rzwUDg5r
-	x1eOZFkL8bWOAAPz8vAMBVCeapLQmMGtMgnxZTnO4ZscacXRmTID40mU1+SxzegHYZXU
-	kO2w==
-X-Gm-Message-State: AHPjjUgodbjLYrk00tkMiCHXQoJkUP6ZCTqzEmU/mpSWwAvkIEIYwvIy
-	ZpRrU1mkmsO1nnZC51oE40E3/w==
-X-Google-Smtp-Source: AOwi7QAlRBQlFB7sq+p2x1S7jXcWeUga5+WXxSqIuXh/8+foZUdC4G2/650sdTrSMHj3rZuM68VNDA==
-X-Received: by 10.98.17.156 with SMTP id 28mr272580pfr.83.1505800560473;
-	Mon, 18 Sep 2017 22:56:00 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::a20b])
-	by smtp.gmail.com with ESMTPSA id
-	c62sm1682139pfl.84.2017.09.18.22.55.59
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Sep 2017 22:55:59 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Sep 2017 22:55:51 -0700
-Message-Id: <20170919055551.13864-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] strace: Fix ptest bulds with musl/mips
+	Tue, 19 Sep 2017 05:58:20 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1duB3k-0001X8-0K for openembedded-core@lists.openembedded.org;
+	Tue, 19 Sep 2017 07:27:08 +0200
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 19 Sep 2017 07:26:58 +0200
+To: <openembedded-core@lists.openembedded.org>
+References: <1505723966-17120-1-git-send-email-mike.looijmans@topic.nl>
+	<da35387ee5e44bd0a4248c41b79d1512@XBOX02.axis.com>
+	<660382f7-55b7-39cc-ae2a-afab46301b3c@topic.nl>
+	<CAJTo0LY=JnUkd7XMvkpNppc2drcSB8AF9dj_CyxHJRjixZ1uFA@mail.gmail.com>
+	<1505743634-13500-1-git-send-email-mike.looijmans@topic.nl>
+	<a6389819751745fb864af89806f86b5d@XBOX02.axis.com>
+	<CAJTo0LaZo2Jhh7Jj=RAUzOzXq_FcXnobu-idL7RFnbq84iR_VA@mail.gmail.com>
+	<CAJ86T=UqdDrT2ApxMiM=g__pTftCc5g0-gzs20vd-jV06+6x7w@mail.gmail.com>
+	<CAJTo0LZrPSoVNAX6onFFsGgkD1LEm=2DLdBOecnhNEQBRDnS6A@mail.gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <de7d5253-ad4b-a9dc-4d53-413a0014a8c0@topic.nl>
+Date: Tue, 19 Sep 2017 07:26:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZrPSoVNAX6onFFsGgkD1LEm=2DLdBOecnhNEQBRDnS6A@mail.gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.04)
+X-Recommended-Action: accept
+X-Filter-ID: PqwsvolAWURa0gwxuN3S5YEa3T7JuZT23fGO2rGt3ZgWMD8gia7lRmdoHJ3n0cm6Vtfp9X1ZBchZ
+	wvx8a7dTUQWF0kx98HH3GX+iQK7NiP6LBDMrD7q/cJogwbqzsuokIXMJ1U4MKKnQ5SAJ1V9dkP9x
+	bu57BDazLmklZgT7xza2rj6pk4EbBl0qSAHnjUyeXwyWgq6PLONlwfsJSoAO8bDyxIbzW95L4UAJ
+	BVa/YBk8CVsONrMJuGzuoGnKTKcygLJjfy2/hUPxxGqITycuLMdYaphGvYopQ24KJ9kgRDN3pbXn
+	aMbbC1QSUBxihEsjBWOBqoptsYkcljagCMIDypReAQCFQo+KUtaSCrVTlxOfVsst/QEVbupaaYfx
+	KYRJ8ar4sO9kYmr7/nmchPR9G2DCX9m2p4wUnZpURALMKaPBcC9OMLR/g2nFXNsLRUFiMZgHEKhZ
+	csVHVGePyIMTSrKqefbWb9LgHVcrUolS+C/fLM7Ww0jFUCG51FTiiz6cR64dodD7udB+zcx8OjSt
+	1b1YgBvhxKfoFZHs3o0j+S0jv2y8/jlUqm+TeNrMp4+EE+rDN/FnSl88wIa35p4FFXznVNpEBSRM
+	35KuCE6M5jOyxQgNyqqf/IN48z1lpo6ODRmiSLYXQoEVxAAhr5KC2/vg7iEFLP+SSY+Av5+AiC4K
+	XP3vTB7AsR5+kaiIjlO6Iw9C0PQ5NLyrXuzfSqvsySr0uqThpuuRzPsvGgTJwhV8JmFmLZ6h3eau
+	qEcwyeT0VZvJGSxm4bcH1lFUB/zPeGsnJ395jBJAgljEd2a/UHQV6Xe4bIYRHe1fiVaECIfGCs+d
+	m3T5GTMS0IoMjuD73MBlNCXldRLkC5TILJuZrGhtP3IHr7mRRBdQ+rEKkqhnmNb6vV/9OcbV5CTm
+	BwBTZU8v1DnRT2U8cfkuAuwvJls=
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Re: [PATCH] base-files: profile: Get rid of "resize"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,71 +70,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 05:55:59 -0000
+X-List-Received-Date: Tue, 19 Sep 2017 05:58:21 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: nl
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...tion-Check-for-mips-and-alpha-before-usin.patch | 37 ++++++++++++++++++++++
- meta/recipes-devtools/strace/strace_4.18.bb        |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch
+=EF=BB=BFOn 18-09-17 20:43, Burton, Ross wrote:
+> On 18 September 2017 at 19:41, Andre McCurdy <armccurdy@gmail.com=20
+> <mailto:armccurdy@gmail.com>> wrote:
+>=20
+>     On Mon, Sep 18, 2017 at 8:17 AM, Burton, Ross <ross.burton@intel.com
+>     <mailto:ross.burton@intel.com>> wrote:
+>      > On 18 September 2017 at 16:07, Peter Kjellerstedt
+>      > <peter.kjellerstedt@axis.com <mailto:peter.kjellerstedt@axis.com>>=
+ wrote:
+>      >>
+>      >> >=20
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch b/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch
-new file mode 100644
-index 0000000000..52096b28cf
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch
-@@ -0,0 +1,37 @@
-+From 9f3fd388ae7c46420bccba405468690ed46d669a Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 18 Sep 2017 22:51:32 -0700
-+Subject: [PATCH] tests/sigaction: Check for mips and alpha before using
-+ sa_restorer
-+
-+local structure does not define restorer member for mips and alpha
-+in definition, we need to match that assumption here where they are
-+being set
-+
-+Fixes
-+| ../../strace-4.18/tests/sigaction.c:177:36: error: 'struct_set_sa {aka struct set_sa}' has no member named 'restorer'
-+|  # define SA_RESTORER_ARGS , new_act->restorer
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ tests/sigaction.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/sigaction.c b/tests/sigaction.c
-+index 7b46944..f46cda7 100644
-+--- a/tests/sigaction.c
-++++ b/tests/sigaction.c
-+@@ -170,7 +170,7 @@ main(void)
-+ 	sigdelset(mask.libc, SIGHUP);
-+ 
-+ 	memcpy(new_act->mask, mask.old, sizeof(mask.old));
-+-#ifdef SA_RESTORER
-++#if defined(SA_RESTORER) && !defined(MIPS) && !defined(ALPHA)
-+ 	new_act->flags = SA_RESTORER;
-+ 	new_act->restorer = (unsigned long) 0xdeadfacecafef00dULL;
-+ # define SA_RESTORER_FMT ", sa_flags=SA_RESTORER, sa_restorer=%#lx"
-+-- 
-+2.14.1
-+
-diff --git a/meta/recipes-devtools/strace/strace_4.18.bb b/meta/recipes-devtools/strace/strace_4.18.bb
-index bbb82a9d84..4251b6ca90 100644
---- a/meta/recipes-devtools/strace/strace_4.18.bb
-+++ b/meta/recipes-devtools/strace/strace_4.18.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-            file://0001-Fix-build-when-using-non-glibc-libc-implementation-o.patch \
-            file://mips-SIGEMT.patch \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-+           file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
-            "
- 
- SRC_URI[md5sum] = "3579b3266bb096cebaefbe2cdb1a3a78"
--- 
-2.14.1
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+-----Original Message-----
+>      >> > From: openembedded-core-bounces@lists.openembedded.org
+>     <mailto:openembedded-core-bounces@lists.openembedded.org>
+>      >> > [mailto:openembedded-core-bounces@lists.openembedded.org
+>     <mailto:openembedded-core-bounces@lists.openembedded.org>] On Behalf =
+Of
+>      >> > Mike Looijmans
+>      >> > Sent: den 18 september 2017 16:07
+>      >> > To: openembedded-core@lists.openembedded.org
+>     <mailto:openembedded-core@lists.openembedded.org>
+>      >> > Cc: Mike Looijmans <mike.looijmans@topic.nl
+>     <mailto:mike.looijmans@topic.nl>>; Peter Kjellerstedt
+>      >> > <peter.kjellerstedt@axis.com <mailto:peter.kjellerstedt@axis.co=
+m>>
+>      >> > Subject: [OE-core] [PATCH] base-files: profile: Get rid of "res=
+ize"
+>      >> >
+>      >> > The "resize" command actually outputs shell commands to be exec=
+uted, for
+>      >> > example:
+>      >> >
+>      >> > $ resize
+>      >> > COLUMNS=3D102;
+>      >> > LINES=3D27;
+>      >> > export COLUMNS LINES;
+>      >> >
+>      >> > The output of "resize" is being discarded to /dev/null so the c=
+all has
+>      >> > no
+>      >> > effect whatsoever, and does not change the environment (it cann=
+ot change
+>      >> > the
+>      >> > environment of its parent). Remove the call and hence solve the=
+ messages
+>      >> > about shells missing "command" or "tty" or "resize".
+>      >> >
+>      >> > Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl
+>     <mailto:mike.looijmans@topic.nl>>
+>      >> > ---
+>      >> >  meta/recipes-core/base-files/base-files/profile | 9 ---------
+>      >> >  1 file changed, 9 deletions(-)
+>      >> >
+>      >> > diff --git a/meta/recipes-core/base-files/base-files/profile
+>      >> > b/meta/recipes-core/base-files/base-files/profile
+>      >> > index a062028..cfd0d69 100644
+>      >> > --- a/meta/recipes-core/base-files/base-files/profile
+>      >> > +++ b/meta/recipes-core/base-files/base-files/profile
+>      >> > @@ -20,15 +20,6 @@ if [ -d /etc/profile.d ]; then
+>      >> >       unset i
+>      >> >  fi
+>      >> >
+>      >> > -if command -v resize >/dev/null && command -v tty >/dev/null; =
+then
+>      >> > -     # Make sure we are on a serial console (i.e. the device u=
+sed
+>      >> > starts with
+>      >> > -     # /dev/tty[A-z]), otherwise we confuse e.g. the eclipse l=
+auncher
+>      >> > which
+>      >> > -     # tries do use ssh
+>      >> > -     case $(tty) in
+>      >> > -             /dev/tty[A-z]*) resize >/dev/null;;
+>      >> > -     esac
+>      >> > -fi
+>      >> > -
+>      >> >  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+>      >> >
+>      >> >  umask 022
+>      >> > --
+>      >> > 1.9.1
+>      >>
+>      >> Hold on. Looking at busybox' source code for resize, it seems tha=
+t
+>      >> it actually does something besides outputting the shell code to
+>      >> set the variables (which is actually enabled by a separate featur=
+e
+>      >> called ENABLE_FEATURE_RESIZE_PRINT). It also calls
+>      >> ioctl(STDERR_FILENO, TIOCSWINSZ, &w) where w contains the
+>      >> calculated sizes.
+>      >
+>      > My knowledge of ANSI escapes is incredibly sketchy, but isn't that=
+ the code
+>      > to *get* the size of the screen?  Put the cursor at 999,999, then =
+ask where
+>      > it is?
+>=20
+>     The behaviour may have got broken with the various /etc/profile
+>     rewrites but it certainly did do something useful originally - it
+>     greatly improves usability for shells run on serial consoles. Please
+>     don't just remove it.
+>=20
+>=20
+> The question is does it do something useful *now*?
+
+My experience is that it does not, and never has. I run serial consoles all=
+=20
+the time, and if they're not sized to 80x25 weird stuff happens.
+
+Start vi on a serial terminal and it only uses the top 80x25. If a command=
+=20
+exceed the 80 char mark, the cursor goes all weird.
+Running "eval `resize`" fixes that (until you resize the window). Running j=
+ust=20
+"resize" does not have any effect on that at all.
+
+Cannot we determine the presence of "tty" and "resize" commands at compile=
+=20
+time? something like:
+
+if has_command("tty") and has_command("resize"):
+     install -m 755 ${S}/resize.sh ${D}${sysconfdir}/profile.d/
 
 
