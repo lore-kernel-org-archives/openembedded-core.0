@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 696AE780A1
+Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
+	[209.85.214.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E52A77ECB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 16:23:06 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id 21so328255iof.6
+	Tue, 19 Sep 2017 16:50:32 +0000 (UTC)
+Received: by mail-it0-f47.google.com with SMTP id v19so218462ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 09:23:07 -0700 (PDT)
+	Tue, 19 Sep 2017 09:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0gTgbNhlQ0NNjes7g0Sq0wnEOYRF9sPaCE7ZBBUVRRI=;
-	b=o7VnYIbfkk7A0nYLR4Yggwon+X0LpuVvimjn1W5CtlAZ8kS+2ogmqIlkyrLiJpUFVl
-	YGyGvtdJFXlQgIsVm/x2MNo11ZbNkcdRkG5Dq8mb5JHPk3KDmP3O0ZBX+6do358I6VfB
-	pxr0m9molE6uxmtLcKbVGitt2C57xYe2AY/nfYteuNstSi+/B2IB4nUCnogzbGhggHha
-	ey7bIgrejxJw5OPdx/YVqZ4ggmpoHke1mHoy+I4xFtt4RQRxxKbhusd9bcathMCnthc4
-	IJlhGNF0M6cSb/R703vRNBBMh2Y9HW2c0micUB/YcI5ts8Rgg6OLUtAwmP+Z4C4Ao8Z4
-	OSTA==
+	:cc; bh=IMldsn0CgMtfBrZUUVqal+I3KXOmZOJ0BdYisRRkXX4=;
+	b=WjAG9QxYEyRh2PkSicktxNspQnxWffROqcRPqrViLGkb6DHVxgFgmBS2YQWKY9W79O
+	YYT2XQlXzrQ2mSPd3AXcrak92EWmkjTGBysxQ0DlHsYeHCmbOnWBe7zd+dZIOQrNzspU
+	R9oHHb5ywbqdPGIJa3O0dzHVS4Acv1SH9VYya/cxziloZ/2K7uS6DsZV7aCbk543MPVf
+	C8IG7FHejbeuWh3/UR/1AFIz2DqD4numzQP2Iv+6K4nQvrhmtXun/B7ji3ALUiLUHAOq
+	Mq6fE4dt3QTu/yQrBUlr34sqB2hHT/wZGK4wz7lEE29AJBtfuFjvvOVq4EqeW5GUN18y
+	WfBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=0gTgbNhlQ0NNjes7g0Sq0wnEOYRF9sPaCE7ZBBUVRRI=;
-	b=S4cDA+4keigC5f6ebXd4hsiEHKCz5gtI1oaDFaLxe6arxom+aZs4vPsCFZLwJSbsmL
-	IN5OiYxqqSMUvVoHGo0ZcrD5cncHSRHLOxlSKRb0Iny1xy7unCDtEgAi/hvqjngJjgCR
-	STuF0AJP/3EyNC3edHFJD1hkpPA0ZO08HR8XuGcEzsBIe2BPeB2DnoOrzTaQDJ5VX+FY
-	wrFPLC2lzEvy+TmM9DNatUKD4iSvPNve950VmcX5DR9X1+uzlxHBRBG/hJEzQzpYCrZ5
-	NXUlT7bjMk8N5Gh8j6TL2V0/Yhvb/8kN5zEsPhhw2RRmC2pCfOC0cVf6M80TveN3FkLQ
-	Yy4w==
-X-Gm-Message-State: AHPjjUjiBRiOQTYgaN/GZOAQIpue6267fBGBMJ2oKjLlaT+aYggSpcQu
-	wAxdSUoKl3vaZog50jkp6oUgI+Sc3Xom3sb7mXeAsQ==
-X-Google-Smtp-Source: AOwi7QD7la3RH5Aa+oaxhSgngSbFfL5grZa75gSyHOZmaLlLbRgI8k0nAbdbXVYu6PkvmhPavQXCG/ytTv0r64L/6pQ=
-X-Received: by 10.107.135.72 with SMTP id j69mr2872171iod.210.1505838185584;
-	Tue, 19 Sep 2017 09:23:05 -0700 (PDT)
+	bh=IMldsn0CgMtfBrZUUVqal+I3KXOmZOJ0BdYisRRkXX4=;
+	b=Esa+BcpL8ZtBg00Ri4UC+gwzQgRL3Lq/BZUrW4dbeIK0AwPUhywb44Vm6GGP38Jb+v
+	E6SU72lOCT2Z1OG6E4SYjjGEVJthA4trUPEjDPMnniFRvtY1u2VfDnHnuucl7kl4xvCw
+	ih4dGmA++K0/vEYKyH969OqLs+C1fN6ivn/PiSS5G5t8flQ8A54KctcDKuY08yFgzC2I
+	VNNiFbS4jwVGFT6sBLiOmHV4r0MPSRbl9j31OcexEAteY0TquvqJ+N/dVepEhYzkruRx
+	3alxT32r81XU/jxuB7re2E7fGPDJH6tGV5GUsLvln4AH7FAZjkrS95HMQbk54olLTrkk
+	NABA==
+X-Gm-Message-State: AHPjjUjkMOx+bJ4gRA7WuXC/qvC3pcncaK8b1yw+lLnbHWqRRXZKYLm/
+	EW1mnK9Q3F890+pxj8aoOcxbC5wR2bBtdc7bHwYJGw==
+X-Google-Smtp-Source: AOwi7QAap2oTZHzB1T/bpIUGDoIV6fshx2XN1oUlButy4iIv5MCeOZkN15V20ZYTkDQMKPq+YtjidJKN6ezCbkjJmEA=
+X-Received: by 10.36.26.129 with SMTP id 123mr2677206iti.38.1505839833651;
+	Tue, 19 Sep 2017 09:50:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 09:22:45 -0700 (PDT)
-In-Reply-To: <CAJTo0LZmbdxxsxVnvxa_h9LCX2Sy9La=+OqiQ1pBzADmfoKHhg@mail.gmail.com>
-References: <20170919103653.23870-1-tomasz.meresinski@comarch.pl>
-	<CAJTo0LZmbdxxsxVnvxa_h9LCX2Sy9La=+OqiQ1pBzADmfoKHhg@mail.gmail.com>
+Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 09:50:13 -0700 (PDT)
+In-Reply-To: <1504603652-262027-1-git-send-email-liwei.song@windriver.com>
+References: <1504603652-262027-1-git-send-email-liwei.song@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Sep 2017 17:22:45 +0100
-Message-ID: <CAJTo0La10Uta7_QSA-QM3N7iczvRrOHONy5CnHw78Gj-JhFFpQ@mail.gmail.com>
-To: =?UTF-8?Q?Tomasz_Meresi=C5=84ski?= <tomasz.meresinski@comarch.pl>
+Date: Tue, 19 Sep 2017 17:50:13 +0100
+Message-ID: <CAJTo0LYXE=s8tphMTfS9avaM-4ttTpO1=mo-A+rsd46PKFgMRg@mail.gmail.com>
+To: Liwei Song <liwei.song@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/image: fix do_image_qa dependencies
+Subject: Re: [PATCH] linux-firmware: package qat-firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 16:23:06 -0000
-Content-Type: multipart/alternative; boundary="001a113f8e702439ae05598d46b8"
+X-List-Received-Date: Tue, 19 Sep 2017 16:50:32 -0000
+Content-Type: multipart/alternative; boundary="001a114463ec5fcf0705598da87e"
 
---001a113f8e702439ae05598d46b8
+--001a114463ec5fcf0705598da87e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On 19 September 2017 at 17:07, Burton, Ross <ross.burton@intel.com> wrote:
+On 5 September 2017 at 10:27, Liwei Song <liwei.song@windriver.com> wrote:
 
-> On 19 September 2017 at 11:36, Tomasz Meresi=C5=84ski <
-> tomasz.meresinski@comarch.pl> wrote:
->
->> After do_image_complete IMAGE_ROOTFS directory is empty so qa checks do
->> not work
->
->
-> Important context: this only happens if rm_work is enabled.  I'm wonderin=
-g
-> if the task should be moved earlier so its between rootfs and image, as
-> it's actually a *rootfs* QA hook (its expected that functions examine the
-> contents of IMAGE_ROOTFS).
->
-> I think we need to push the task back a bit in the tree and put it in
-> between rootfs and image.  This way if it fails the image generation
-> doesn't happen, and rm_work won't break it.
+> +             ${PN}-qat-license ${PN}-qat_895xcc ${PN}-qat_895xcc_mmp
+> ${PN}-qat_c3xxx ${PN}-qat_c3xxx_mmp ${PN}-qat_c62x ${PN}-qat_c62x_mmp
+> ${PN}-qat_mmp \
 >
 
-I've just sent an alternative patch the list, can you verify that it solves
-your problem and doesn't break your existing image QA functions?
+*** Error: Package name  contains illegal characters, (other than
+[a-z0-9.+-])
 
-Cheers,
+You can't use _ in packages, please just use -.
+
 Ross
 
---001a113f8e702439ae05598d46b8
+--001a114463ec5fcf0705598da87e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 19 September 2017 at 17:07, Burton, Ross <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.bur=
-ton@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><span cla=
-ss=3D"">On 19 September 2017 at 11:36, Tomasz Meresi=C5=84ski <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:tomasz.meresinski@comarch.pl" target=3D"_blank">=
-tomasz.meresinski@comarch.pl</a>&gt;</span> wrote:<br></span><div class=3D"=
-gmail_extra"><div class=3D"gmail_quote"><span class=3D""><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">After do_image_complete IMAGE_ROOTFS directory is empty so qa=
- checks do not work</blockquote><div><br></div></span><div>Important contex=
-t: this only happens if rm_work is enabled.=C2=A0 I&#39;m wondering if the =
-task should be moved earlier so its between rootfs and image, as it&#39;s a=
-ctually a *rootfs* QA hook (its expected that functions examine the content=
-s of IMAGE_ROOTFS).</div><div><br></div><div>I think we need to push the ta=
-sk back a bit in the tree and put it in between rootfs and image.=C2=A0 Thi=
-s way if it fails the image generation doesn&#39;t happen, and rm_work won&=
-#39;t break it.</div></div></div></div></blockquote><div><br></div><div>I&#=
-39;ve just sent an alternative patch the list, can you verify that it solve=
-s your problem and doesn&#39;t break your existing image QA functions?</div=
-><div><br></div><div>Cheers,</div><div>Ross=C2=A0</div></div><br></div></di=
-v>
+<div dir=3D"ltr">On 5 September 2017 at 10:27, Liwei Song <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:liwei.song@windriver.com" target=3D"_blank">liwei.so=
+ng@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
+lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-col=
+or:rgb(204,204,204);padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0${PN}-qat-license ${PN}-qat_895xcc ${PN}-qat_895xcc_mmp ${PN}-=
+qat_c3xxx ${PN}-qat_c3xxx_mmp ${PN}-qat_c62x ${PN}-qat_c62x_mmp ${PN}-qat_m=
+mp \<br></blockquote><div><br></div><div>*** Error: Package name =C2=A0cont=
+ains illegal characters, (other than [a-z0-9.+-])</div><div><br></div><div>=
+You can&#39;t use _ in packages, please just use -.</div><div><br></div><di=
+v>Ross=C2=A0</div></div></div></div>
 
---001a113f8e702439ae05598d46b8--
+--001a114463ec5fcf0705598da87e--
