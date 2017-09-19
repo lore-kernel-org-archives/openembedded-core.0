@@ -1,42 +1,21 @@
-Return-Path: <prvs=4282363e9=mnhu@prevas.dk>
-Received: from mail02.prevas.se (mail02.prevas.se [62.95.78.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 79DB9781A5
+Return-Path: <tomasz.meresinski@comarch.pl>
+Received: from odzwierny3.comarch.com (odzwierny3.comarch.com [217.74.69.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 66150779C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 09:24:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=1833; q=dns/txt;
-	s=ironport2; t=1505813051; x=1537349051;
-	h=subject:to:references:from:cc:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=7qmFD7Qz8wcdcSDvp9R1BtkMAe/+H9JXFD/g5WdoTF0=;
-	b=QMSTZ5WfxAR/e+j+CZOxdc0PTNKz8KfVhIu3mQDioCDySE5nyQdYIyTT
-	+ERPqgelXIpgMzjM3qSsTkrr5lDszbLCraG+gm683BT3GPtkh+n1aR9G8
-	i088qXVS/3SKXglRBybtXfunNtObOjmqXN8roN4N34sC2OXP7gGvrDv81 E=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2F7AABP4cBZ/+iTuFUNTxkBAQEBAQEBA?=
-	=?us-ascii?q?QEBAQcBAQEBAYlInAuYNwqFOwKFGBQBAgEBAQEBAQEDhikBAQEDIxVBEAsNAQo?=
-	=?us-ascii?q?CAiYCAlcGDQgBAYoiqQhrgiciiwUBAQEBAQEBAwEBAQEkgQ6CHYVggn2IC4JBH?=
-	=?us-ascii?q?wWhC5RWi26HC5U3gTk2gS8yKTGFYR2BaYlPAQEB?=
-X-IPAS-Result: =?us-ascii?q?A2F7AABP4cBZ/+iTuFUNTxkBAQEBAQEBAQEBAQcBAQEBAYl?=
-	=?us-ascii?q?InAuYNwqFOwKFGBQBAgEBAQEBAQEDhikBAQEDIxVBEAsNAQoCAiYCAlcGDQgBA?=
-	=?us-ascii?q?YoiqQhrgiciiwUBAQEBAQEBAwEBAQEkgQ6CHYVggn2IC4JBHwWhC5RWi26HC5U?=
-	=?us-ascii?q?3gTk2gS8yKTGFYR2BaYlPAQEB?=
-X-IronPort-AV: E=Sophos;i="5.42,417,1500933600"; 
-   d="scan'208";a="2495034"
-Received: from unknown (HELO [10.0.0.232]) ([85.184.147.232])
-	by mail02.prevas.se with ESMTP/TLS/DHE-RSA-AES128-SHA;
-	19 Sep 2017 11:23:34 +0200
-To: Tom Rini <trini@konsulko.com>
-References: <1500674794-23258-1-git-send-email-trini@konsulko.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <mnhu@prevas.dk>
-Message-ID: <8eec536c-80b0-3a8a-a7dd-d96c3bd34006@prevas.dk>
-Date: Tue, 19 Sep 2017 11:23:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue, 19 Sep 2017 10:36:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	authenticated as tomasz.meresinski@comarch.com
+	by odzwierny3.comarch.com with esmtpsa (TLSv1:AES128-SHA:128)(ComArch
+	ESMTP) id 1duFss-000C8x-KT; Tue, 19 Sep 2017 12:36:06 +0200
+From: =?UTF-8?q?Tomasz=20Meresi=C5=84ski?= <tomasz.meresinski@comarch.pl>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Sep 2017 12:36:00 +0200
+Message-Id: <20170919103600.19074-1-tomasz.meresinski@comarch.pl>
+X-Mailer: git-send-email 2.12.3
 MIME-Version: 1.0
-In-Reply-To: <1500674794-23258-1-git-send-email-trini@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] image.bbclass: Correct chaining compression support
+X-CA-Antivirus: Scanned by ComArch Antivirus on odzwierny3.comarch.com
+X-CA-Is-Spam: No
+Subject: [PATCH] classes/image_live: fix using squashfs as image filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,59 +28,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 09:24:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-IE
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Sep 2017 10:36:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Tom,
+Different squashfs versions have IMAGE_TYPE with hyphen (eg squashfs-lz4).
+Tasks on the other hand have names with underscore (eg do_image_squashfs_lz4).
 
-On 2017-07-22 00:06, Tom Rini wrote:
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index de535ce6fcff..bd6a5b7b810a 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -453,7 +453,7 @@ python () {
->           rm_tmp_images = set()
->           def gen_conversion_cmds(bt):
->               for ctype in ctypes:
-> -                if bt[bt.find('.') + 1:] == ctype:
-> +                if bt.endswith("." + ctype):
->                       type = bt[0:-len(ctype) - 1]
->                       if type.startswith("debugfs_"):
->                           type = type[8:]
+Signed-off-by: Tomasz Meresiński <tomasz.meresinski@comarch.pl>
+---
+ meta/classes/image-live.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is the change that in fact messes with our cpio.gz.u-boot image 
-types, causing base hash changes.
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index c1862b1319..7a388d5c60 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -34,7 +34,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+                         ${MLPREFIX}syslinux:do_populate_sysroot \
+                         syslinux-native:do_populate_sysroot \
+                         ${@oe.utils.ifelse(d.getVar('COMPRESSISO', False),'zisofs-tools-native:do_populate_sysroot','')} \
+-                        ${PN}:do_image_${LIVE_ROOTFS_TYPE} \
++                        ${PN}:do_image_${@d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')} \
+                         "
 
-I suspect the changed if-check to be too permissive. In our case, it now 
-matches any ctype that ends with ".u-boot", and not just "gz.u-boot" as 
-set in IMAGE_FSTYPES.
 
-Wouldn't it be correct to match on the entire bt variable? I.e.
+--
+2.12.3
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass 
-
-index ef2b38aeaf..818932f7f1 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -454,7 +454,7 @@ python () {
-          rm_tmp_images = set()
-          def gen_conversion_cmds(bt):
-              for ctype in ctypes:
--                if bt.endswith("." + ctype):
-+                if bt.split('.', 1) == [t, ctype]:
-                      type = bt[0:-len(ctype) - 1]
-                      if type.startswith("debugfs_"):
-                          type = type[8:]
-
-This works for me, preliminary tested with the following fs types 
-configured:
-
-	IMAGE_FSTYPES = "cpio.gz.u-boot"
-	IMAGE_FSTYPES = "tar cpio cpio.gz cpio.gz.u-boot"
-	IMAGE_FSTYPES = "tar cpio cpio.gz cpio.gz.u-boot tar.bz2 jffs2 wic 
-wic.bmap"
-
-// Martin
 
