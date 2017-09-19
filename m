@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AF7EC78082
+Received: from mail-wr0-f170.google.com (mail-wr0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 090247807D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 16:07:28 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id e134so100545ite.3
+	Tue, 19 Sep 2017 16:22:11 +0000 (UTC)
+Received: by mail-wr0-f170.google.com with SMTP id g29so97258wrg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 09:07:30 -0700 (PDT)
+	Tue, 19 Sep 2017 09:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9CSdkfZr9jOneGx3eC1tALMWnA+BoVtEH1bseqjCwCc=;
-	b=KtXnf7hRl7xyn9wfOqQ1ehdGOs8v/2rckK7PdF9JixDKoVYXk8mX/aQXEuMoP1a7O2
-	kFLsTR3acfUDEiyV280+9ebOmJ94AZPGW1yHxp8khOEmHP4QcVmAyJoLTGExPqSYLuaN
-	u8ZK/38Rpeh0B8mZO6B8N5BJtS8scq29/osA9pGdeWdr34RKA4u9gqOAaQIi9usOW1cA
-	RqfbXDiBsGxsZpbjLbjqNczmKM9ertsg+M57UnozHyUJbRiT3RbqM2TBiAOGW1595hd6
-	EpNt4KhGuMU/UTyr9mmYCWksOI0fuZOxEC5gJPDftuO+D8ir5xZ/xGhYUILz+NDSfxUM
-	Uzsw==
+	h=from:to:subject:date:message-id;
+	bh=OCn8NZC3oLDviUyI/2wYURSyFU1Nh2UQMgeDR9jk6Xg=;
+	b=xMZv1GmWYRXG2Mv8psmQDLDWPcf/Fc1z6CuSw1As9ZuToMzNrsIJ0ODCVCjTWH4Xks
+	Cbv9f7PuLBEDgbzugiLVoMUDaH1HqjJ5cAflkisRqKIgImOVZMNcGw/BBgsPkPbZEBuj
+	rPFAsbzBBurijLWu6pRnMZNs/yX6R3GGfrXUWP/D31QXxzDERf3MBJto90Q5Lcf49IpE
+	ZLM22WaFnjzVqAtGX8zwWjmei9leCVWq1K3+I1V9vZGdD1DFk9X0AIZykvE4MqZ/JSG0
+	c+qnl7LhlCwagyljvskblgMtBF+S8benfHgqjrXoa5EGe0iAcpZryvQJW1q1ioDyxZbW
+	efwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9CSdkfZr9jOneGx3eC1tALMWnA+BoVtEH1bseqjCwCc=;
-	b=o+fhq8hkoUWflbaAinIzg4+vY8+o7m4qP/u5fKA2EVRvqbgASElmWxeRaxd0jD+rs7
-	E6TtFqjdcCE9oEkRUPODPL+rwodnMpkM3M8crPe4E8wPveGIXCq8DzcuTenKdAhfIHbi
-	2WtRcUF6j3G1ucKyH/xj3zIbOVXWPJYoP0JyQ3VDE4Yb55BbEAmYY+E6i+jrFUtBd15k
-	r3t4RGJXfrCgL4MetTuYLe/mEvjSKoGF0hHul6UfT+5Tyz78D57Tvtn/RB7UHElgGjLD
-	e9qHF4UZH0HlipHC4MT2GKT/5bTsaAHxLC+dsV6krTGyeEY+d32pW4sVLobKWp6UsdJL
-	FiGw==
-X-Gm-Message-State: AHPjjUhVMuPbrjW0Z/MbQtoo5893+x31vqvuTlGfP4SWHTuWdO20axFo
-	s/Gidb/SeGGWqcVBAlD5k16a22ObybUBf0fxeTOURg==
-X-Google-Smtp-Source: AOwi7QCCAg61ImPv7Hsboau7351kqUwosuF7zfFiy2QdIyfKvF4SKP2X1ddL26He6/UPj/p1BpnnzKjbMkyxYfjQmw4=
-X-Received: by 10.36.150.4 with SMTP id z4mr2514222itd.48.1505837249646; Tue,
-	19 Sep 2017 09:07:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 09:07:09 -0700 (PDT)
-In-Reply-To: <20170919103653.23870-1-tomasz.meresinski@comarch.pl>
-References: <20170919103653.23870-1-tomasz.meresinski@comarch.pl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Sep 2017 17:07:09 +0100
-Message-ID: <CAJTo0LZmbdxxsxVnvxa_h9LCX2Sy9La=+OqiQ1pBzADmfoKHhg@mail.gmail.com>
-To: =?UTF-8?Q?Tomasz_Meresi=C5=84ski?= <tomasz.meresinski@comarch.pl>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/image: fix do_image_qa dependencies
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=OCn8NZC3oLDviUyI/2wYURSyFU1Nh2UQMgeDR9jk6Xg=;
+	b=SzFixiCnsINh4sfKbR/ZaYCOFoymS3ZbF1mTu+DADoY+7HnqyLRP8eFVgwB76r5GWq
+	Pb8F3yEvl2nXMy4MeL3OpPSKFjY431XIRkHIb+SRQzi7hV2RMcdM0LgOtv3q+B+i1U23
+	pCi6YzpO3oy5fBFIOf90PfCcqyZIg3Ktxu8fVvEnQCtdSmyxBQ45FhxAuHKDqLh9RAl6
+	tsh60j7yS1iMZENaRgSCa94dR5s1V05I8D5My82Fwfn/Lzp+GM4NCP/zviBENbW3WJNh
+	4Q8EpGWSPI6Lgyy/O2917uPinCLqZT0C76TfArqEH8VqMx46zEO4ejnCdUc1JN3WrueJ
+	u7UQ==
+X-Gm-Message-State: AHPjjUizNM9T/XSLyBD59ptaZATuNTZIBS38iNmR8ms6O+V7IT9reVNT
+	d1CNC50hE3ZOQgHrQ+GT86PCJ6lO
+X-Google-Smtp-Source: AOwi7QCv2toS2LHZmKmWg2MlRrczu7KNy/aDtdlkmrmMA8rIFJmESeV8SY5cc3e5+OB2xDhKXu/5ig==
+X-Received: by 10.223.160.23 with SMTP id k23mr1977135wrk.212.1505838132216;
+	Tue, 19 Sep 2017 09:22:12 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	z108sm10527219wrc.49.2017.09.19.09.22.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Sep 2017 09:22:11 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Sep 2017 17:22:08 +0100
+Message-Id: <20170919162208.14673-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] classes/image: move image_qa to between rootfs and image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,48 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 16:07:28 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07ea985aeda405598d0e84"
+X-List-Received-Date: Tue, 19 Sep 2017 16:22:12 -0000
 
---94eb2c07ea985aeda405598d0e84
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It was noticed that do_image_qa is useless when rm_work is enabled as the rootfs
+directory is deleted before image_qa is called.
 
-On 19 September 2017 at 11:36, Tomasz Meresi=C5=84ski <
-tomasz.meresinski@comarch.pl> wrote:
+This indicates that image_qa is incorrectly scheduled as it failing should mean
+images don't get generated, so move it between do_rootfs and do_image.
 
-> After do_image_complete IMAGE_ROOTFS directory is empty so qa checks do
-> not work
+Also, add a little bit more documentation to the comments.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/image.bbclass | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 3639aa44f4e..4850eed7717 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -297,8 +297,11 @@ addtask do_image_complete_setscene
+ # IMAGE_QA_COMMANDS += " \
+ #     image_check_everything_ok \
+ # "
+-# This task runs all functions in IMAGE_QA_COMMANDS after the image
++# This task runs all functions in IMAGE_QA_COMMANDS after the rootfs
+ # construction has completed in order to validate the resulting image.
++#
++# The functions should use ${IMAGE_ROOTFS} to find the unpacked rootfs
++# directory, which if QA passes will be the basis for the images.
+ fakeroot python do_image_qa () {
+     from oe.utils import ImageQAFailed
+ 
+@@ -320,7 +323,7 @@ fakeroot python do_image_qa () {
+         imgname = d.getVar('IMAGE_NAME')
+         bb.fatal("QA errors found whilst validating image: %s\n%s" % (imgname, qamsg))
+ }
+-addtask do_image_qa after do_image_complete before do_build
++addtask do_image_qa after do_rootfs before do_image
+ 
+ SSTATETASKS += "do_image_qa"
+ SSTATE_SKIP_CREATION_task-image-qa = '1'
+-- 
+2.11.0
 
 
-Important context: this only happens if rm_work is enabled.  I'm wondering
-if the task should be moved earlier so its between rootfs and image, as
-it's actually a *rootfs* QA hook (its expected that functions examine the
-contents of IMAGE_ROOTFS).
-
-I think we need to push the task back a bit in the tree and put it in
-between rootfs and image.  This way if it fails the image generation
-doesn't happen, and rm_work won't break it.
-
-Ross
-
---94eb2c07ea985aeda405598d0e84
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 19 September 2017 at 11:36, Tomasz Meresi=C5=84ski <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:tomasz.meresinski@comarch.pl" target=3D=
-"_blank">tomasz.meresinski@comarch.pl</a>&gt;</span> wrote:<br><div class=
-=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-After do_image_complete IMAGE_ROOTFS directory is empty so qa checks do not=
- work</blockquote><div><br></div><div>Important context: this only happens =
-if rm_work is enabled.=C2=A0 I&#39;m wondering if the task should be moved =
-earlier so its between rootfs and image, as it&#39;s actually a *rootfs* QA=
- hook (its expected that functions examine the contents of IMAGE_ROOTFS).</=
-div><div><br></div><div>I think we need to push the task back a bit in the =
-tree and put it in between rootfs and image.=C2=A0 This way if it fails the=
- image generation doesn&#39;t happen, and rm_work won&#39;t break it.</div>=
-<div><br></div><div>Ross</div><div><br></div></div></div></div>
-
---94eb2c07ea985aeda405598d0e84--
