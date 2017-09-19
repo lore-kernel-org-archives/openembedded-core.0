@@ -1,33 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DDFD277E93
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF2F77DC8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 03:48:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8J3muI7029918
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Sep 2017 20:48:56 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 18 Sep 2017 20:48:54 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <d8c3aa94-8f9f-2d06-0dac-9c46a1639505@windriver.com>
-	<CAJ86T=XSXk4DGhJqDT4hmKO1BK0y-39rFc7r_codDWf72vAoCg@mail.gmail.com>
-	<41556f05-e92c-1962-99af-97d1812909d1@windriver.com>
-	<CAJ86T=VO8un10ov9_8orHkhec5z5z5GCO6dnvtikqchukT285A@mail.gmail.com>
-	<649e138d-4ccf-770f-9e4d-aeb066d325a5@windriver.com>
-	<CAJ86T=VJkYG3VN2oxsM+3rE3RY18tJbb68BWea-FQ+zYY9uEsQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <8a06943b-573f-af2f-84c6-8a4f45e16de7@windriver.com>
-Date: Mon, 18 Sep 2017 22:48:54 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:52.0)
-	Gecko/20100101 Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=VJkYG3VN2oxsM+3rE3RY18tJbb68BWea-FQ+zYY9uEsQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-toolchain / /bin/sh requirement / ldconfig backfill
+	Tue, 19 Sep 2017 03:57:20 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Sep 2017 20:57:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,416,1500966000"; d="scan'208";a="150737045"
+Received: from thau-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.71.87])
+	by orsmga005.jf.intel.com with ESMTP; 18 Sep 2017 20:57:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Sep 2017 15:57:07 +1200
+Message-Id: <052822083c17d3dee526e9197c38b428bf40673d.1505792710.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.5
+In-Reply-To: <cover.1505792710.git.paul.eggleton@linux.intel.com>
+References: <cover.1505792710.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] scripts: rename yocto-compat-layer to remove "compatible" nomenclature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,95 +31,273 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 03:48:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Sep 2017 03:57:21 -0000
 
-On 9/18/17 5:56 PM, Andre McCurdy wrote:
-> On Mon, Sep 18, 2017 at 3:00 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 9/18/17 4:33 PM, Andre McCurdy wrote:
->>> On Mon, Sep 18, 2017 at 2:20 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>> On 9/18/17 4:05 PM, Andre McCurdy wrote:
->>>>> On Mon, Sep 18, 2017 at 12:30 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>>>>
->>>>>> Because of this, there is no way (with a default configuration) to build
->>>>>> meta-toolchain....
->>>>>>
->>>>>> Investigating further, ldconfig support moved from "USE_LDCONFIG" to a
->>>>>> distribution configuration.  It does this via the "DISTRO_FEATURES_BACKFILL"
->>>>>> (introduced in commit: a905df2dd8f43a2febffa64a39b6e508510326a0)
->>>>>
->>>>> The intention of that commit was only to change the way support for
->>>>> running ldconfig on the target is controlled (ie changed from an
->>>>> ad-hoc bitbake variable to a distro config option). It's enabled by
->>>>> default now, but it was enabled by default before that commit as well.
->>>>>
->>>>> Did meta-toolchain work previously? If so, was USE_LDCONFIG being
->>>>> forced to 0 somewhere?
->>>>
->>>> In many distributions, the default was 0.
->>>
->>> Right. As mentioned in the OE 2.3 reference manual, if your distro
->>> previously set USE_LDCONFIG to 0 then you now need to disable the
->>> "ldconfig" distro config option instead:
->>>
->>>   http://www.yoctoproject.org/docs/2.3.1/ref-manual/ref-manual.html#migration-2.3-miscellaneous-changes
->>
->> The key is that meta-toolchain worked before, and doesn't now.  (In a default
->> configuration.)
-> 
-> Do you mean it worked before in plain oe-core or poky? Or was it only
-> tested in a custom distro which sets USE_LDCONFIG to 0?
+"Yocto Project Compatible" [1] is a programme which requires you meet
+specific criteria including going through an application process - it is
+not sufficient simply to run the script we have created here and have it
+produce no warnings/errors. To avoid people being confused by the fact
+that this script uses the term "compatible" or variations thereof,
+substitute usage of that word with "check" instead. The functionality of
+the script is unchanged.
 
-I have configured a morty project in the same way, and NOT set USE_LDCONFIG one
-way or another.
+[1] https://www.yoctoproject.org/ecosystem/yocto-project-branding-program
 
-Inspecting the packages, I am finding the install script for LDCONFIG by
-default.  Which means that the skip of /bin/sh is elsewhere.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/{compatlayer => checklayer}/__init__.py  |  2 +-
+ scripts/lib/{compatlayer => checklayer}/case.py      |  2 +-
+ .../{compatlayer => checklayer}/cases/__init__.py    |  0
+ scripts/lib/{compatlayer => checklayer}/cases/bsp.py | 10 +++++-----
+ .../lib/{compatlayer => checklayer}/cases/common.py  |  6 +++---
+ .../lib/{compatlayer => checklayer}/cases/distro.py  |  8 ++++----
+ scripts/lib/{compatlayer => checklayer}/context.py   |  4 ++--
+ scripts/{yocto-compat-layer.py => yocto-check-layer} | 20 ++++++++++----------
+ ...ompat-layer-wrapper => yocto-check-layer-wrapper} | 10 +++++-----
+ 9 files changed, 31 insertions(+), 31 deletions(-)
+ rename scripts/lib/{compatlayer => checklayer}/__init__.py (99%)
+ rename scripts/lib/{compatlayer => checklayer}/case.py (77%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/__init__.py (100%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/bsp.py (96%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/common.py (91%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/distro.py (77%)
+ rename scripts/lib/{compatlayer => checklayer}/context.py (77%)
+ rename scripts/{yocto-compat-layer.py => yocto-check-layer} (91%)
+ rename scripts/{yocto-compat-layer-wrapper => yocto-check-layer-wrapper} (73%)
 
-
-Inspecting further, the system defines:
-
-$ cat
-./sdk/image/usr/local/oecore-x86_64/sysroots/i586-oe-linux/etc/rpm/sysinfo/Providename
-
-/bin/sh
-/bin/bash
-/usr/bin/env
-/usr/bin/perl
-pkgconfig
-
-
-This tells RPM(5) to ignore the runtime dependencies listed above.  Which avoids
-the problem.
-
-> If it fails in the OE 2.3 default configuration (ie when the ldconfig
-> distro feature is enabled) then I think either it should also fail in
-> OE 2.2 default configuration (ie when USE_LDCONFIG is not forced to 0)
-> or the change in behaviour is not related to the a905df2 commit.
-
-I've not tried pyro.
-
-I expect it to fail in a similar way, because it switched to RPM4.  Which
-apparently dropped the ability to specify specific provides.  It's possible it
-has this support, but the implementation has changed enough that it is
-definitely NOT doing it.
-
-I expect at this point that an enhancement to rpm4 to pay attention to the
-sysinfo file(s) (like RPM5 had) or a dummy (meta-toolchain only) file with
-rprovides for these things may be required.
-
---Mark
-
->> Either someone needs to add a message to meta-toolchain to tell
->> the user it can't work with ldconfig set, fix it (so the missing dependency is
->> resolved [optimal solution], or ???
->>
->> In the past there was a way to tell the package manager to ignore a specific
->> dependency (such as /bin/sh) and allow the install.  I don't know if there is a
->> way to do this any longer.  2.2 was the last version I know this worked on.
->>
->> --Mark
+diff --git a/scripts/lib/compatlayer/__init__.py b/scripts/lib/checklayer/__init__.py
+similarity index 99%
+rename from scripts/lib/compatlayer/__init__.py
+rename to scripts/lib/checklayer/__init__.py
+index 7197e85..6c2b86a 100644
+--- a/scripts/lib/compatlayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -1,4 +1,4 @@
+-# Yocto Project compatibility layer tool
++# Yocto Project layer check tool
+ #
+ # Copyright (C) 2017 Intel Corporation
+ # Released under the MIT license (see COPYING.MIT)
+diff --git a/scripts/lib/compatlayer/case.py b/scripts/lib/checklayer/case.py
+similarity index 77%
+rename from scripts/lib/compatlayer/case.py
+rename to scripts/lib/checklayer/case.py
+index 54ce78a..9dd0041 100644
+--- a/scripts/lib/compatlayer/case.py
++++ b/scripts/lib/checklayer/case.py
+@@ -3,5 +3,5 @@
+ 
+ from oeqa.core.case import OETestCase
+ 
+-class OECompatLayerTestCase(OETestCase):
++class OECheckLayerTestCase(OETestCase):
+     pass
+diff --git a/scripts/lib/compatlayer/cases/__init__.py b/scripts/lib/checklayer/cases/__init__.py
+similarity index 100%
+rename from scripts/lib/compatlayer/cases/__init__.py
+rename to scripts/lib/checklayer/cases/__init__.py
+diff --git a/scripts/lib/compatlayer/cases/bsp.py b/scripts/lib/checklayer/cases/bsp.py
+similarity index 96%
+rename from scripts/lib/compatlayer/cases/bsp.py
+rename to scripts/lib/checklayer/cases/bsp.py
+index 43efae4..b6b611b 100644
+--- a/scripts/lib/compatlayer/cases/bsp.py
++++ b/scripts/lib/checklayer/cases/bsp.py
+@@ -3,14 +3,14 @@
+ 
+ import unittest
+ 
+-from compatlayer import LayerType, get_signatures, check_command, get_depgraph
+-from compatlayer.case import OECompatLayerTestCase
++from checklayer import LayerType, get_signatures, check_command, get_depgraph
++from checklayer.case import OECheckLayerTestCase
+ 
+-class BSPCompatLayer(OECompatLayerTestCase):
++class BSPCheckLayer(OECheckLayerTestCase):
+     @classmethod
+     def setUpClass(self):
+         if self.tc.layer['type'] != LayerType.BSP:
+-            raise unittest.SkipTest("BSPCompatLayer: Layer %s isn't BSP one." %\
++            raise unittest.SkipTest("BSPCheckLayer: Layer %s isn't BSP one." %\
+                 self.tc.layer['name'])
+ 
+     def test_bsp_defines_machines(self):
+@@ -62,7 +62,7 @@ class BSPCompatLayer(OECompatLayerTestCase):
+         This criteria can only be tested by testing different machines in combination,
+         i.e. one main layer, potentially several additional BSP layers and an explicit
+         choice of machines:
+-        yocto-compat-layer --additional-layers .../meta-intel --machines intel-corei7-64 imx6slevk -- .../meta-freescale
++        yocto-check-layer --additional-layers .../meta-intel --machines intel-corei7-64 imx6slevk -- .../meta-freescale
+         '''
+ 
+         if not self.td['machines']:
+diff --git a/scripts/lib/compatlayer/cases/common.py b/scripts/lib/checklayer/cases/common.py
+similarity index 91%
+rename from scripts/lib/compatlayer/cases/common.py
+rename to scripts/lib/checklayer/cases/common.py
+index 55e8ba4..a13c108 100644
+--- a/scripts/lib/compatlayer/cases/common.py
++++ b/scripts/lib/checklayer/cases/common.py
+@@ -4,10 +4,10 @@
+ import glob
+ import os
+ import unittest
+-from compatlayer import get_signatures, LayerType, check_command, get_depgraph, compare_signatures
+-from compatlayer.case import OECompatLayerTestCase
++from checklayer import get_signatures, LayerType, check_command, get_depgraph, compare_signatures
++from checklayer.case import OECheckLayerTestCase
+ 
+-class CommonCompatLayer(OECompatLayerTestCase):
++class CommonCheckLayer(OECheckLayerTestCase):
+     def test_readme(self):
+         # The top-level README file may have a suffix (like README.rst or README.txt).
+         readme_files = glob.glob(os.path.join(self.tc.layer['path'], 'README*'))
+diff --git a/scripts/lib/compatlayer/cases/distro.py b/scripts/lib/checklayer/cases/distro.py
+similarity index 77%
+rename from scripts/lib/compatlayer/cases/distro.py
+rename to scripts/lib/checklayer/cases/distro.py
+index 523acc1..df1b303 100644
+--- a/scripts/lib/compatlayer/cases/distro.py
++++ b/scripts/lib/checklayer/cases/distro.py
+@@ -3,14 +3,14 @@
+ 
+ import unittest
+ 
+-from compatlayer import LayerType
+-from compatlayer.case import OECompatLayerTestCase
++from checklayer import LayerType
++from checklayer.case import OECheckLayerTestCase
+ 
+-class DistroCompatLayer(OECompatLayerTestCase):
++class DistroCheckLayer(OECheckLayerTestCase):
+     @classmethod
+     def setUpClass(self):
+         if self.tc.layer['type'] != LayerType.DISTRO:
+-            raise unittest.SkipTest("DistroCompatLayer: Layer %s isn't Distro one." %\
++            raise unittest.SkipTest("DistroCheckLayer: Layer %s isn't Distro one." %\
+                 self.tc.layer['name'])
+ 
+     def test_distro_defines_distros(self):
+diff --git a/scripts/lib/compatlayer/context.py b/scripts/lib/checklayer/context.py
+similarity index 77%
+rename from scripts/lib/compatlayer/context.py
+rename to scripts/lib/checklayer/context.py
+index 7811d4a..1bec2c4 100644
+--- a/scripts/lib/compatlayer/context.py
++++ b/scripts/lib/checklayer/context.py
+@@ -8,8 +8,8 @@ import re
+ 
+ from oeqa.core.context import OETestContext
+ 
+-class CompatLayerTestContext(OETestContext):
++class CheckLayerTestContext(OETestContext):
+     def __init__(self, td=None, logger=None, layer=None, test_software_layer_signatures=True):
+-        super(CompatLayerTestContext, self).__init__(td, logger)
++        super(CheckLayerTestContext, self).__init__(td, logger)
+         self.layer = layer
+         self.test_software_layer_signatures = test_software_layer_signatures
+diff --git a/scripts/yocto-compat-layer.py b/scripts/yocto-check-layer
+similarity index 91%
+rename from scripts/yocto-compat-layer.py
+rename to scripts/yocto-check-layer
+index 9a541c6..5a4fd75 100755
+--- a/scripts/yocto-compat-layer.py
++++ b/scripts/yocto-check-layer
+@@ -1,6 +1,6 @@
+ #!/usr/bin/env python3
+ 
+-# Yocto Project compatibility layer tool
++# Yocto Project layer checking tool
+ #
+ # Copyright (C) 2017 Intel Corporation
+ # Released under the MIT license (see COPYING.MIT)
+@@ -22,29 +22,29 @@ import scriptpath
+ scriptpath.add_oe_lib_path()
+ scriptpath.add_bitbake_lib_path()
+ 
+-from compatlayer import LayerType, detect_layers, add_layer, add_layer_dependencies, get_signatures
++from checklayer import LayerType, detect_layers, add_layer, add_layer_dependencies, get_signatures
+ from oeqa.utils.commands import get_bb_vars
+ 
+-PROGNAME = 'yocto-compat-layer'
++PROGNAME = 'yocto-check-layer'
+ CASES_PATHS = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
+-                'lib', 'compatlayer', 'cases')]
++                'lib', 'checklayer', 'cases')]
+ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+-def test_layer_compatibility(td, layer, test_software_layer_signatures):
+-    from compatlayer.context import CompatLayerTestContext
++def test_layer(td, layer, test_software_layer_signatures):
++    from checklayer.context import CheckLayerTestContext
+     logger.info("Starting to analyze: %s" % layer['name'])
+     logger.info("----------------------------------------------------------------------")
+ 
+-    tc = CompatLayerTestContext(td=td, logger=logger, layer=layer, test_software_layer_signatures=test_software_layer_signatures)
++    tc = CheckLayerTestContext(td=td, logger=logger, layer=layer, test_software_layer_signatures=test_software_layer_signatures)
+     tc.loadTests(CASES_PATHS)
+     return tc.runTests()
+ 
+ def main():
+     parser = argparse.ArgumentParser(
+-            description="Yocto Project compatibility layer tool",
++            description="Yocto Project layer checking tool",
+             add_help=False)
+     parser.add_argument('layers', metavar='LAYER_DIR', nargs='+',
+-            help='Layer to test compatibility with Yocto Project')
++            help='Layer to check')
+     parser.add_argument('-o', '--output-log',
+             help='File to output log (optional)', action='store')
+     parser.add_argument('--dependency', nargs="+",
+@@ -179,7 +179,7 @@ def main():
+             layers_tested = layers_tested + 1
+             continue
+ 
+-        result = test_layer_compatibility(td, layer, args.test_software_layer_signatures)
++        result = test_layer(td, layer, args.test_software_layer_signatures)
+         results[layer['name']] = result
+         results_status[layer['name']] = 'PASS' if results[layer['name']].wasSuccessful() else 'FAIL'
+         layers_tested = layers_tested + 1
+diff --git a/scripts/yocto-compat-layer-wrapper b/scripts/yocto-check-layer-wrapper
+similarity index 73%
+rename from scripts/yocto-compat-layer-wrapper
+rename to scripts/yocto-check-layer-wrapper
+index b6baeb4..bbf6ee1 100755
+--- a/scripts/yocto-compat-layer-wrapper
++++ b/scripts/yocto-check-layer-wrapper
+@@ -1,8 +1,8 @@
+ #!/usr/bin/env bash
+ 
+-# Yocto Project compatibility layer tool wrapper
++# Yocto Project layer check tool wrapper
+ #
+-# Creates a temprary build directory to run Yocto Project Compatible
++# Creates a temporary build directory to run the yocto-check-layer
+ # script to avoid a contaminated environment.
+ #
+ # Copyright (C) 2017 Intel Corporation
+@@ -24,7 +24,7 @@ do
+ done
+ shift $(($OPTIND - 1))
+ 
+-# generate a temp directory to run compat layer script
++# generate a temp directory to run check layer script
+ base_dir=$(realpath $BUILDDIR/../)
+ cd $base_dir
+ 
+@@ -32,9 +32,9 @@ build_dir=$(mktemp -p $base_dir -d -t build-XXXX)
+ 
+ source oe-init-build-env $build_dir
+ if [[ $output_log != '' ]]; then
+-	yocto-compat-layer.py -o "$output_log" "$*"
++	yocto-check-layer -o "$output_log" "$*"
+ else
+-	yocto-compat-layer.py "$@"
++	yocto-check-layer "$@"
+ fi
+ retcode=$?
+ 
+-- 
+2.9.5
 
 
