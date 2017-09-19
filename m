@@ -1,54 +1,39 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BB7665C8F
+Return-Path: <marc.ferland@gmail.com>
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 600FA780A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 12:39:20 +0000 (UTC)
-Received: by mail-yw0-f177.google.com with SMTP id u11so2372423ywh.7
+	Tue, 19 Sep 2017 13:17:12 +0000 (UTC)
+Received: by mail-qt0-f169.google.com with SMTP id i50so3634233qtf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 05:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=l2TI82ke4+NnEL1L8Gnq/hPPo46m5bkGY5boVjExo3w=;
-	b=Dx7nBoygJ8Qea6I3WIpqPU2n0JDC9SRaUS5YQNhXL/1YzMwxr8wpT/QcMXkaFhvP2t
-	8Uhphz2ZciwFtJ1N1R4FbohqTShNYEFR13gRMCNOlNsU3aHHCKWeyZN74MY2j9vCZvgh
-	1g6WfHYvtu8EKA1adtIWlT9VomepClojYA/Eg=
+	Tue, 19 Sep 2017 06:17:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=l2TI82ke4+NnEL1L8Gnq/hPPo46m5bkGY5boVjExo3w=;
-	b=ffW0JRybgqe4wPtn2WnDLepGcsN9wi9x+/14Ih1DYuqclABOLKFmZMOixjHsqCFL5b
-	6VzTqlxAKYkZTrM5XFizrcScS/qCdCf+XOzb099mzP1dh4ggFNOYp1LP0ZJbVYcAvQHS
-	dDExrrMbzGiCkPS883NBAAHiu2U1y8FxcdQm6OGXpspSYEpQH/ISjiq3D33OTzV9QU41
-	OJG0gMeyFOLzjAi8p5rAnzCgyvsGjBjvq0fOB2/0unBlGzq3W7+ppdPux/QAcTV6qVCx
-	c8Zq5QFzhP0HGBiNIHbeUYHnPT6s07L9ijOwEpJLjD0u05bFXAvQKUj5pY3qKy++qLg/
-	jDbA==
-X-Gm-Message-State: AHPjjUiFMbi0n6zD49+wp4tipZNFZWF6mwwVwfeb7clu2qXjrPj9DuRc
-	rBgrbG3NciLdmTCSyUDABTxj8Q==
-X-Google-Smtp-Source: AOwi7QD8mdm334t5DN5cgh2O06WEHs0AYgySyK9qGEC9462uq5NTT7aTxlW4S3+7v+2RE/nGV9JWvQ==
-X-Received: by 10.129.153.81 with SMTP id q78mr792801ywg.133.1505824761497;
-	Tue, 19 Sep 2017 05:39:21 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ap1KxS42DauOFrHO7oDVnr0TKUP2cMOIAsRJfs76m1E=;
+	b=Eno2bX9yv6mq78B+SK0VU5NPJZe7XCVUAY+lXrggIddFri4ZmJNv8c6Go53B/5RYuD
+	3igeMdLIyvnHyYnrYf0gRRX0wZnspj3rIpb2LWFCUMTelOQ7/VcSvCk5Nuvo+gh25B9y
+	BR8AumzaZWBTc0HmyMlLLJLUPWDxVUuIbhhk3kqU97NYtCxsBi7q+mL1+6T0G7t6leBw
+	qmt2t8Z7l8SAqMp/2HfSkEFYT1gqOeA24sbEwxAvnk/FOQJm9iDzepYKKi0uyUCTla2d
+	Lf9xAhgrJq81un5R+6LSgdMXAFIY403bebi9MQLF/8Ng8tsKayUMuYP5wYcMKEmktrC0
+	0ecQ==
+X-Gm-Message-State: AHPjjUjbikrAQCbG0TD1HrCwo+aofWB2N9hY1JSMRRAW0CjMIo3FwRKP
+	xwLTA4+eKR+y3YeS++iQretJcA==
+X-Google-Smtp-Source: AOwi7QBvBpyEI3UXs543YM03GI2A+IehAlgn2n0NRUYyBrumM6ODW9XBV3ioiWoQSG51NVcELTOTVw==
+X-Received: by 10.200.2.141 with SMTP id p13mr1985025qtg.45.1505827033113;
+	Tue, 19 Sep 2017 06:17:13 -0700 (PDT)
+Received: from localhost.localdomain
+	(modemcable182.194-37-24.static.videotron.ca. [24.37.194.182])
 	by smtp.gmail.com with ESMTPSA id
-	q188sm23344ywh.32.2017.09.19.05.39.20
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Tue, 19 Sep 2017 05:39:20 -0700 (PDT)
-Date: Tue, 19 Sep 2017 08:39:20 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-ID: <20170919123920.GM17137@bill-the-cat>
-References: <20170919054058.20380-1-otavio@ossystems.com.br>
-	<20170919112634.GL17137@bill-the-cat>
-	<CAP9ODKoSKajx42ti5DD6tEnzseF5SF=4cdU1OjEUo2at=k0jwA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKoSKajx42ti5DD6tEnzseF5SF=4cdU1OjEUo2at=k0jwA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Marek Vasut <marek.vasut@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-fw-utils: Fix cross and target builds
+	q204sm6853461qke.37.2017.09.19.06.17.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 19 Sep 2017 06:17:12 -0700 (PDT)
+From: Marc Ferland <ferlandm@amotus.ca>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Sep 2017 09:16:39 -0400
+Message-Id: <20170919131639.28283-1-ferlandm@amotus.ca>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] bluez5: Upgrade 5.46 -> 5.47
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,82 +46,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 12:39:20 -0000
-X-Groupsio-MsgNum: 103129
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2O+9B+xSKalj/wdD"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Sep 2017 13:17:12 -0000
 
---2O+9B+xSKalj/wdD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This release includes:
 
-On Tue, Sep 19, 2017 at 08:53:38AM -0300, Otavio Salvador wrote:
-> Em 19 de set de 2017 8:26 AM, "Tom Rini" <trini@konsulko.com> escreveu:
->=20
-> On Tue, Sep 19, 2017 at 02:40:58AM -0300, Otavio Salvador wrote:
-> >  - The environment tools target has change to envtools;
-> >  - The HOSTCC variable must be used to set CC for cross;
-> >  - The ARCH variable must be set for cross;
-> >
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > ---
-> >
-> >  meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> > index c2e8f0fb84..21ab5b3e6d 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> > @@ -5,13 +5,13 @@ DEPENDS =3D "mtd-utils"
-> >
-> >  INSANE_SKIP_${PN} =3D "already-stripped"
-> >  EXTRA_OEMAKE_class-target =3D 'CROSS_COMPILE=3D${TARGET_PREFIX} CC=3D"=
-${CC}
-> ${CFLAGS} ${LDFLAGS}" HOSTCC=3D"${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLA=
-GS}"
-> V=3D1'
-> > -EXTRA_OEMAKE_class-cross =3D 'ARCH=3D${TARGET_ARCH} CC=3D"${CC} ${CFLA=
-GS}
-> ${LDFLAGS}" V=3D1'
-> > +EXTRA_OEMAKE_class-cross =3D 'ARCH=3D${ARCH} HOSTCC=3D"${CC} ${CFLAGS}
-> ${LDFLAGS}" V=3D0'
->=20
-> Since we're messing with this, U-Boot's build system doesn't take ARCH.
-> It's one of the variables that you pick in Kconfig, not set so that
-> arch/$(ARCH)/Kconfig is sourced.  We should drop that.
->=20
->=20
-> You can't. Try dropping it...
+- SDP fix for CVE-2017-1000250.
+- New bluetooth mesh profile.
+- Various fixes to GATT, A2DP and BR/EDR vs LE bearer handling.
 
-I've never ever built U-Boot with ARCH=3D, so, what's going on in OE land?
+This commit also drops the following two patches which are included in
+5.47:
 
---=20
-Tom
+- 0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
+- cve-2017-1000250.patch
 
---2O+9B+xSKalj/wdD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Signed-off-by: Marc Ferland <ferlandm@amotus.ca>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  3 +-
+ ...cm43xx-fix-the-delay-timer-for-firmware-d.patch | 36 ----------------------
+ .../bluez5/bluez5/cve-2017-1000250.patch           | 34 --------------------
+ .../bluez5/{bluez5_5.46.bb => bluez5_5.47.bb}      |  4 +--
+ 4 files changed, 3 insertions(+), 74 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.46.bb => bluez5_5.47.bb} (91%)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 2ae4553d48..3a8d3476ea 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -41,6 +41,7 @@ PACKAGECONFIG[sixaxis] = "--enable-sixaxis,--disable-sixaxis"
+ PACKAGECONFIG[tools] = "--enable-tools,--disable-tools"
+ PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
+ PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
++PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+@@ -49,8 +50,6 @@ SRC_URI = "\
+     file://run-ptest \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+     file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-    file://0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch \
+-    file://cve-2017-1000250.patch \
+ "
+ S = "${WORKDIR}/bluez-${PV}"
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
+deleted file mode 100644
+index 46794381f7..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-hciattach-bcm43xx-fix-the-delay-timer-for-firmware-d.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 3b341fb421ef61db7782bf1314ec693828467de9 Mon Sep 17 00:00:00 2001
+-From: Andy Duan <fugang.duan@nxp.com>
+-Date: Wed, 23 Nov 2016 17:12:12 +0800
+-Subject: [PATCH] hciattach: bcm43xx: fix the delay timer for firmware download
+-
+-From the log in .bcm43xx_load_firmware():
+-        /* Wait 50ms to let the firmware placed in download mode */
+-        nanosleep(&tm_mode, NULL);
+-
+-But timespec tm_mode is real is 50us. Correct the delayed timer count.
+-
+-Upstream-Status: Accepted [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=76255f732d68aef2b90d36d9c7be51a9e1739ce7]
+-
+-Signed-off-by: Fugang Duan <fugang.duan@nxp.com>
+----
+- tools/hciattach_bcm43xx.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/tools/hciattach_bcm43xx.c b/tools/hciattach_bcm43xx.c
+-index 81f38cb..ac1b3c1 100644
+---- a/tools/hciattach_bcm43xx.c
+-+++ b/tools/hciattach_bcm43xx.c
+-@@ -228,8 +228,8 @@ static int bcm43xx_set_speed(int fd, struct termios *ti, uint32_t speed)
+- static int bcm43xx_load_firmware(int fd, const char *fw)
+- {
+- 	unsigned char cmd[] = { HCI_COMMAND_PKT, 0x2e, 0xfc, 0x00 };
+--	struct timespec tm_mode = { 0, 50000 };
+--	struct timespec tm_ready = { 0, 2000000 };
+-+	struct timespec tm_mode = { 0, 50000000 };
+-+	struct timespec tm_ready = { 0, 200000000 };
+- 	unsigned char resp[CC_MIN_SIZE];
+- 	unsigned char tx_buf[1024];
+- 	int len, fd_fw, n;
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
+deleted file mode 100644
+index 9fac961bcf..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
+-information disclosure vulnerability which allows remote attackers to obtain
+-sensitive information from the bluetoothd process memory. This vulnerability
+-lies in the processing of SDP search attribute requests.
+-
+-CVE: CVE-2017-1000250
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 9e009647b14e810e06626dde7f1bb9ea3c375d09 Mon Sep 17 00:00:00 2001
+-From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+-Date: Wed, 13 Sep 2017 10:01:40 +0300
+-Subject: sdp: Fix Out-of-bounds heap read in service_search_attr_req function
+-
+-Check if there is enough data to continue otherwise return an error.
+----
+- src/sdpd-request.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/sdpd-request.c b/src/sdpd-request.c
+-index 1eefdce..318d044 100644
+---- a/src/sdpd-request.c
+-+++ b/src/sdpd-request.c
+-@@ -917,7 +917,7 @@ static int service_search_attr_req(sdp_req_t *req, sdp_buf_t *buf)
+- 	} else {
+- 		/* continuation State exists -> get from cache */
+- 		sdp_buf_t *pCache = sdp_get_cached_rsp(cstate);
+--		if (pCache) {
+-+		if (pCache && cstate->cStateValue.maxBytesSent < pCache->data_size) {
+- 			uint16_t sent = MIN(max, pCache->data_size - cstate->cStateValue.maxBytesSent);
+- 			pResponse = pCache->data;
+- 			memcpy(buf->data, pResponse + cstate->cStateValue.maxBytesSent, sent);
+--- 
+-cgit v1.1
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.46.bb b/meta/recipes-connectivity/bluez5/bluez5_5.47.bb
+similarity index 91%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.46.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.47.bb
+index e1f85879ce..49666f226c 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.46.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.47.bb
+@@ -2,8 +2,8 @@ require bluez5.inc
+ 
+ REQUIRED_DISTRO_FEATURES = "bluez5"
+ 
+-SRC_URI[md5sum] = "913f35d6fa4ca5772c53adb936bf1947"
+-SRC_URI[sha256sum] = "ddab3d3837c1afb8ae228a94ba17709a4650bd4db24211b6771ab735c8908e28"
++SRC_URI[md5sum] = "783e15f65e70cdb8f721c659e140dd56"
++SRC_URI[sha256sum] = "cf75bf7cd5d564f21cc4a2bd01d5c39ce425397335fd47d9bbe43af0a58342c8"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+-- 
+2.11.0
 
-iQIcBAEBAgAGBQJZwQ/4AAoJEIf59jXTHXZSP/IP/jkQqoGOhD13rgRwLJISRVm4
-/2eDzYyFd2qKb1AvEAfwHDOy+8ZfHJhXTxZLsh5XL077KZIfz9SQVGy8RbpIyhgX
-kGO+hvkbqzW9hkMt5T/CNa5V+I1p9kmIDnUjqE9XM/i3S5twpa2RbYbPgj4KDNNh
-bd9usHbQ8VKelOYzD6avzf5uoBPKcUan6knIwbI4tyOfxcdmn4whGssc0cQAno80
-3xLC4VIGPkTrnV/8PXNUx6sZBKwMURNX5B83cNIWwDg9bTmiMa3GTGPOd0fsbwsi
-1+w7pa861uYMhjJoMe99VpmoYXwkpoM7wZ9vFNFt7vDtpztIFl6Ywib9CNo47VVC
-f3JVhqv/UfcjE+IEKmMagAfL/aqBmy8w7XAsxGY623LDirOLChfrMYvPfIw3kkfo
-ILtWPAp3GK+ZlPzow0qlmjU/0COwNEYFxUFkAlfLpI89um2VDTUjl3yjjyS9R/ep
-L65sFiJzCoNmaXyeFvARth24zTTX8nWoML1WEo0thucXS8LTFgQAWeFI8Ki2djP+
-ph6sCJzOM3eqRECbXmr33SIGsJfQ06pXUc5v1bp8cPJ+nvjwerszElgOJ6NKc+wF
-IRR1j5gaXItmSr9W8vj3/SxSVoyHsBSFZ4rMDBO7EIfQlmmsY26/A5TuhhAcMxwC
-llcyAfev52o3+UBQNfb8
-=QvUv
------END PGP SIGNATURE-----
 
---2O+9B+xSKalj/wdD--
