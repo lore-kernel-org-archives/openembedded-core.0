@@ -1,50 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC5A780B4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D252780AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 15:16:26 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id z39so284843wrb.8
+	Tue, 19 Sep 2017 15:55:26 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id w94so111118ioi.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 08:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=/95GgCeiWujg+Fc3LHHRbHYM8THt+RYn3NQ4j1wdBIM=;
-	b=oKwiYsInOn5EXNhfVZImVic4EvydrURbyi+SuNTuCTlxktvwilL/4Z1gWgI4A+8ZmR
-	qwdXdkY1j3vlqtJTu92TNtm8baF3W7ifGeMWuk2SbRpmBKLD0o7FDfRkCPmVhmsiGpK0
-	NZewKmJtF+XnfkEOaUqlQl1bmZzereNmzzHIy9nbXJbhQ7nkl3bC7cGrg+++8EcoJU3g
-	zJUbYuakYRNoz0UYCwGcduPvA0VyfZwpQgSaOhVUTj/llbJnOVKZofjMvnwZ/yk19AZd
-	AmRd4mPU598MQu57XbkHWxd+2m1p7Ngt6ay9cS6zPPXxr9hRw/Zljz6dt8bDORWiCyaU
-	gisQ==
+	Tue, 19 Sep 2017 08:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=0083bGbJC0eCKQLacpoQcOw2BpT81PmmaYQzBBhqP6Y=;
+	b=Fj6T85NMQSC0U/R61ScpD8IMCJTI9Al4sxLHwvl7BvqDFjjTYsdTdKGowwK6woCYh7
+	PGLn5sT9PlklInygXRbDJGS/yDxs2lF7pS3rBguQZ6OtmNmEExrlWX/n8xIC2CjtJZOL
+	GZ3pG2x8M6YsGxLvdZ+DZjB8x8cBUTBY1VdoXrssMSPn7Gzp+mvDiC7dGm+IVyFLfSQ3
+	OGUNpZojkDwCvU5mJbfe2fDj+bruOBAUGBORRe9OAThACQIvuof8z9tZrT0hI9LC2GbP
+	avsjlsWVe+IE9oLuEQYFacdcoSrbdUjG+zexrnEG2lKcc8CqkJecT8XFDeEwWfaym1q9
+	NOxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=/95GgCeiWujg+Fc3LHHRbHYM8THt+RYn3NQ4j1wdBIM=;
-	b=ZUMYMZ3dQ3ujudMj4q3QXxFXVi8wjgl6m3AsxQ+q+gUWyNhClJJ6mxxBqpksuG4TKL
-	lfihe0vgJ/0m3O0q5ZS3H7ExHR5+yNODaWUZI5n9aVaB1z/dcPc5Ai2BriCV4+BOuTuU
-	bGwl/TtyYXR+svDbsc9Jge616QYHTqPo1wz1ej6S/5VRNTU+KYJt2tt6ocATCHDYrt1c
-	0bQBxztsrJENhlnnKAZYgOktVR1izXPbJWO1pyKLMelOHlM03L4eOEYx0qrFMzOtYvCJ
-	jdYD7bD1SzLMF7y2EltuaKpk6AxHWOtM2rGxL34/eXtqqa/QjXxROCPMJPG+7PHRkzAY
-	l35g==
-X-Gm-Message-State: AHPjjUj4Zz/bmPiCoDkuZN7ukXYc2MKQnCKGG8LIc9JTki+adO20hCT1
-	fbRV+SzGGVw2W18mnzu6BBSBYw==
-X-Google-Smtp-Source: AOwi7QBFZBxTXIEYuUPqAPsec3p4z3GHnydn+jIkGUKYs8CdtpSyfGhfcBjxZ/5U+j4lRMVg9/df9w==
-X-Received: by 10.223.163.83 with SMTP id d19mr1774463wrb.84.1505834186846;
-	Tue, 19 Sep 2017 08:16:26 -0700 (PDT)
-Received: from localhost ([217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id 61sm9209241wre.44.2017.09.19.08.16.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Sep 2017 08:16:25 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Sep 2017 17:18:51 +0200
-Message-Id: <20170919151851.25093-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170913204659.1919-1-Martin.Jansa@gmail.com>
-References: <20170913204659.1919-1-Martin.Jansa@gmail.com>
-Subject: [RFC][PATCHv2] insane.bbclass: Add do_qa_pseudo function to check for common errors listed in pseudo.log
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=0083bGbJC0eCKQLacpoQcOw2BpT81PmmaYQzBBhqP6Y=;
+	b=Neq41SUhXpx90oZnI/Di5BRQDLW6tHTNnetaXUKU8vrFv6QmHaFEmhsPAvy8SWQQWM
+	0ymktogYkknWUEAx/OWu58e3vm9f7nFfxV4+/CDEXkazNsvtcatDMzJiZbDemClRgoeX
+	QF5O6wGsybCbZvr9AZ46XbfwnGLJ/PKcQ7YNwnatTzb/MJlBb+GXesKT0HMRUWNGYhrs
+	j8wU8sSerY21gT8dtj8rMP2332MLCsDTMMllyucVBvIk6OLanrJbDj4Xv5BNdoT/Uo9u
+	Rx9GDz+iz9uTw5ptlD/rc40BwVA0UWp65PbBylitRoD+7/ogr9dm6o6Y6XN/HJUzTCRr
+	wB8w==
+X-Gm-Message-State: AHPjjUiWzwarJ/zT6HcOaQ3br5BhxaUB2NSZtCQuhUip9WR8neFh9iBy
+	ETHGp/s2CSd39uGVfgRozqx0AcwMisyPEXQAVKICDeMe
+X-Google-Smtp-Source: AOwi7QAYDFjmhzoRxKsV1qyB7/ZtDawfg9HlAbBodcgoEaPGyMjAoCARlz6US60M5r8GFKbZ/w6gXhZy5MtbXM4QuUc=
+X-Received: by 10.107.133.92 with SMTP id h89mr2311077iod.208.1505836527886;
+	Tue, 19 Sep 2017 08:55:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 08:55:06 -0700 (PDT)
+In-Reply-To: <d2cf577f-a995-9cc2-380b-9a1922926abd@igalia.com>
+References: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
+	<d2cf577f-a995-9cc2-380b-9a1922926abd@igalia.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Sep 2017 16:55:06 +0100
+Message-ID: <CAJTo0LYtC2MVYqwz_LkGEAvNuDKCQByH1r5QBv-TZKBi499meQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Subject: Re: [oe] Use of github /archive/ tarballs in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,121 +56,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 15:16:26 -0000
+X-List-Received-Date: Tue, 19 Sep 2017 15:55:27 -0000
+Content-Type: multipart/alternative; boundary="001a113ff7d055e20f05598ce371"
 
-* we often see QA warnings like:
-  glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-en-gb/usr/lib/locale/en_GB/LC_MEASUREMENT is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-  glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-nn-no.iso-8859-1/usr/lib/locale/nn_NO.ISO-8859-1/LC_MEASUREMENT is owned by uid 3004, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-  but we don't know the root cause of it.
-* don't trigger error from '^inode mismatch'
-* show parts of pseudo.log in console
-  many builds are executed in tmpfs, so I cannot check the pseudo.log later
-* lower from error to warn as I hate all my builds reporting failure
-  just because of this pseudo debug
-* the only theory we currently have is that it's a bug in pseudo when
-  inode is being reused for different files, which is supported by
-  pseudo.log entries:
+--001a113ff7d055e20f05598ce371
+Content-Type: text/plain; charset="UTF-8"
 
-  Good build:
-  pseudo$ grep -v "^path mismatch" pseudo.log
-  debug_logfile: fd 2
-  pid 7975 [parent 7974], doing new pid setup and server start
-  Setup complete, sending SIGUSR1 to pid 7974.
-  db cleanup for server shutdown, 17:33:58.787
-  memory-to-file backup complete, 17:33:58.787.
-  db cleanup finished, 17:33:58.787
+On 19 September 2017 at 15:34, Carlos Alberto Lopez Perez <clopez@igalia.com
+> wrote:
 
-  Build with QA host-user-contaminated issue:
-  ERROR: foo-1.0.0-r0 do_package_qa: QA Issue: foo: file-with-wrong-UID is owned
-  by uid 2001, which is the same as the user running bitbake. This may be due to
-  host contamination [host-user-contaminated]
+> On 19/09/17 10:09, Burton, Ross wrote:
+> > Then the tarball for one of Erlang's repositories changed, and was
+> noticed
+> > by the checksum in the recipe (thanks Gunnar Andersson for reporting
+> > this).  The extracted contents are identical, but the tarball itself has
+> > changed.  I'm presuming this is due to the old tarball expiring in their
+> > cache, and a newly generated tarball using a later version of tar.
+>
+> I don't think tar is the one to blame, but gzip.
+> I have just tested GNU tar (versions 1.29 and 1.26) and BSD tar (from
+> OpenBSD 5.8) and the 3 have produced identical archives (same md5sum)
+> when invoked like git archive does.
+>
+> However, the .tar.gz file generated was different in the case of BSD.
+> It even had a different file size.
+>
+> I bet that if you uncompress both files, the .tar will have the same
+> checksum in both cases.
+>
 
-  pseudo$ grep "file-with-wrong-UID" pseudo.log
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  creat ignored for existing file 'file-with-wrong-UID'.
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  inode mismatch: 'file-with-wrong-UID' ino 13242270 in db, 13242271 in request.
-  path mismatch [1 link]: ino 13242270 db 'file-with-wrong-UID' req 'some-other-unrelated-file'.
-  creat for 'some-other-unrelated-file' replaces existing 13242270 ['file-with-wrong-UID'].
-  db cleanup for server shutdown, 02:16:23.685
-  memory-to-file backup complete, 02:16:23.685.
-  db cleanup finished, 02:16:23.685
+In the situation that I was talking to Gunnar with, the source is the tar
+itself.
 
-  And some-other-unrelated-file is really some different file, not just hardlink
-  to the same file from some different directory (like between WORKDIR and sysroot
-  other "path mismatch" entries show).
+https://paste.fedoraproject.org/paste/rP67aSPn1IuYbQcz2UNY3g
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/insane.bbclass | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+They have identical length
+> $ wc -c new-OTP-18.2.3.tar
+> 159068160 new-OTP-18.2.3.tar
+> 159068160 orig-OTP-18.2.3.tar
+> ...but different content
+> $ cmp new-OTP-18.2.3.tar orig-OTP-18.2.3.tar
+> $ new-OTP-18.2.3.tar orig-OTP-18.2.3.tar differ: byte 79122433, line
+> 2004431
+>
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 0a3b528ddb..76cd92709b 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1238,6 +1238,44 @@ python do_qa_unpack() {
-         bb.warn('%s: the directory %s (%s) pointed to by the S variable doesn\'t exist - please set S within the recipe to point to where the source has been unpacked to' % (d.getVar('PN'), d.getVar('S', False), s_dir))
- }
- 
-+python do_qa_pseudo() {
-+    ###########################################################################
-+    # Check pseudo.log for unexpected errors
-+    #
-+    # Typical pseudo.log contains many "^path mismatch" lines for all the hardlinked files
-+    # e.g. in some smaller component I see 231/237 lines to be "^path mismatch" other 6
-+    # lines are setup and cleanup lines like this:
-+    # debug_logfile: fd 2
-+    # pid 7975 [parent 7974], doing new pid setup and server start
-+    # Setup complete, sending SIGUSR1 to pid 7974.
-+    # db cleanup for server shutdown, 17:33:58.787
-+    # memory-to-file backup complete, 17:33:58.787.
-+    # db cleanup finished, 17:33:58.787
-+    #
-+    # but if there is one of:
-+    # "^inode mismatch"
-+    # "^creat ignored for existing file"
-+    # "^creat for.*replaces existing"
-+    # then there might be some bigger issue which sometimes results in host-user-contaminated QA warnings
-+    ###########################################################################
-+
-+    import subprocess
-+
-+    pseudodir = d.getVar('PSEUDO_LOCALSTATEDIR')
-+    bb.note("Checking pseudo.log for common errors")
-+    pseudolog = os.path.join(pseudodir, "pseudo.log")
-+    statement = "grep" \
-+        " -e '^creat ignored for existing file'" \
-+        " -e '^creat for.*replaces existing'" \
-+        " %s" % pseudolog
-+    if subprocess.call("%s -q" % statement, shell=True) == 0:
-+        statement2 = "grep -v '^path mismatch' %s" % pseudolog
-+        statement2_count = "grep -v '^path mismatch' -c %s" % pseudolog
-+        output = subprocess.check_output(statement2, shell=True).decode("utf-8")
-+        output_count = subprocess.check_output(statement2_count, shell=True).decode("utf-8").replace('\n', '')
-+        bb.warn("This %s indicates %s errors, see %s or %s [qa_pseudo]: %s" % (pseudolog, output_count, statement, statement2, output))
-+}
-+
- # The Staging Func, to check all staging
- #addtask qa_staging after do_populate_sysroot before do_build
- do_populate_sysroot[postfuncs] += "do_qa_staging "
-@@ -1250,6 +1288,11 @@ do_configure[postfuncs] += "do_qa_configure "
- # Check does S exist.
- do_unpack[postfuncs] += "do_qa_unpack"
- 
-+# Check pseudo.log for unexpected errors
-+# For some reason do_build postfunction isn't executed
-+# do_build[postfuncs] += "do_qa_pseudo"
-+addtask do_qa_pseudo after do_populate_sysroot do_packagedata do_package before do_build
-+
- python () {
-     import re
-     
--- 
-2.14.1
+Basically, both tar and gzip can cause problems.
 
+Ross
 
+--001a113ff7d055e20f05598ce371
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 19 September 2017 at 15:34, Carlos Alberto Lopez Perez =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:clopez@igalia.com" target=3D"_blank=
+">clopez@igalia.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><di=
+v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
+color:rgb(204,204,204);padding-left:1ex"><span class=3D"gmail-">On 19/09/17=
+ 10:09, Burton, Ross wrote:<br>
+&gt; Then the tarball for one of Erlang&#39;s repositories changed, and was=
+ noticed<br>
+&gt; by the checksum in the recipe (thanks Gunnar Andersson for reporting<b=
+r>
+&gt; this).=C2=A0 The extracted contents are identical, but the tarball its=
+elf has<br>
+&gt; changed.=C2=A0 I&#39;m presuming this is due to the old tarball expiri=
+ng in their<br>
+&gt; cache, and a newly generated tarball using a later version of tar.<br>
+<br>
+</span>I don&#39;t think tar is the one to blame, but gzip.<br>
+I have just tested GNU tar (versions 1.29 and 1.26) and BSD tar (from<br>
+OpenBSD 5.8) and the 3 have produced identical archives (same md5sum)<br>
+when invoked like git archive does.<br>
+<br>
+However, the .tar.gz file generated was different in the case of BSD.<br>
+It even had a different file size.<br>
+<br>
+I bet that if you uncompress both files, the .tar will have the same<br>
+checksum in both cases.<br></blockquote><div><br></div><div>In the situatio=
+n that I was talking to Gunnar with, the source is the tar itself.</div><di=
+v><br></div><div><a href=3D"https://paste.fedoraproject.org/paste/rP67aSPn1=
+IuYbQcz2UNY3g">https://paste.fedoraproject.org/paste/rP67aSPn1IuYbQcz2UNY3g=
+</a></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left=
+-color:rgb(204,204,204);padding-left:1ex">They have identical length<br>$ w=
+c -c new-OTP-18.2.3.tar<br>159068160 new-OTP-18.2.3.tar<br>159068160 orig-O=
+TP-18.2.3.tar<br>...but different content<br>$ cmp new-OTP-18.2.3.tar orig-=
+OTP-18.2.3.tar<br>$ new-OTP-18.2.3.tar orig-OTP-18.2.3.tar differ: byte 791=
+22433, line 2004431<br></blockquote><div><br></div><div>Basically, both tar=
+ and gzip can cause problems.</div><div><br></div><div>Ross</div></div></di=
+v></div>
+
+--001a113ff7d055e20f05598ce371--
