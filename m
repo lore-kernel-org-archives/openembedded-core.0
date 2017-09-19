@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f47.google.com (mail-it0-f47.google.com
-	[209.85.214.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E52A77ECB
+Return-Path: <twoerner@gmail.com>
+Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EB2877E06
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 16:50:32 +0000 (UTC)
-Received: by mail-it0-f47.google.com with SMTP id v19so218462ite.0
+	Tue, 19 Sep 2017 16:57:22 +0000 (UTC)
+Received: by mail-qt0-f170.google.com with SMTP id s18so267226qta.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 09:50:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 19 Sep 2017 09:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=IMldsn0CgMtfBrZUUVqal+I3KXOmZOJ0BdYisRRkXX4=;
-	b=WjAG9QxYEyRh2PkSicktxNspQnxWffROqcRPqrViLGkb6DHVxgFgmBS2YQWKY9W79O
-	YYT2XQlXzrQ2mSPd3AXcrak92EWmkjTGBysxQ0DlHsYeHCmbOnWBe7zd+dZIOQrNzspU
-	R9oHHb5ywbqdPGIJa3O0dzHVS4Acv1SH9VYya/cxziloZ/2K7uS6DsZV7aCbk543MPVf
-	C8IG7FHejbeuWh3/UR/1AFIz2DqD4numzQP2Iv+6K4nQvrhmtXun/B7ji3ALUiLUHAOq
-	Mq6fE4dt3QTu/yQrBUlr34sqB2hHT/wZGK4wz7lEE29AJBtfuFjvvOVq4EqeW5GUN18y
-	WfBg==
+	:cc; bh=jOnXlg61KSObvJIkK3w1xCjNdEwIgcjQtUAh3aoBnXg=;
+	b=Jb+zWay0e2YXr5XBo/39YtMU+um0AD/iaM1NQkoFwmrR8gPFW6/8JXzKLwoOXFKZjK
+	Dn+mmSvyLYOFnfevK7u/0y+D6vtJYQbtRKnVA6LdHQkj4Y/BbW5cAgor++U9aKhYO5HT
+	GiR6AgQ7j1sR7Je52dSm5lmxHYPYGG/lS5SIq0dMdxzC2Zh8Fb9Ocif7IUqZTvPs6oLj
+	tPfO+Q/RYggyXmBECX5a6P4T7vrUTulIslQY7UtIbYTitdHR41Bjf7QPCWxvxoCyUU+6
+	SAWPJI7nKMKQTDOpR5C/L/dzccqsHBCpi+UM3CI+1kiym3JE0TfYy2o89iWHEsi2Yc6+
+	FP0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=IMldsn0CgMtfBrZUUVqal+I3KXOmZOJ0BdYisRRkXX4=;
-	b=Esa+BcpL8ZtBg00Ri4UC+gwzQgRL3Lq/BZUrW4dbeIK0AwPUhywb44Vm6GGP38Jb+v
-	E6SU72lOCT2Z1OG6E4SYjjGEVJthA4trUPEjDPMnniFRvtY1u2VfDnHnuucl7kl4xvCw
-	ih4dGmA++K0/vEYKyH969OqLs+C1fN6ivn/PiSS5G5t8flQ8A54KctcDKuY08yFgzC2I
-	VNNiFbS4jwVGFT6sBLiOmHV4r0MPSRbl9j31OcexEAteY0TquvqJ+N/dVepEhYzkruRx
-	3alxT32r81XU/jxuB7re2E7fGPDJH6tGV5GUsLvln4AH7FAZjkrS95HMQbk54olLTrkk
-	NABA==
-X-Gm-Message-State: AHPjjUjkMOx+bJ4gRA7WuXC/qvC3pcncaK8b1yw+lLnbHWqRRXZKYLm/
-	EW1mnK9Q3F890+pxj8aoOcxbC5wR2bBtdc7bHwYJGw==
-X-Google-Smtp-Source: AOwi7QAap2oTZHzB1T/bpIUGDoIV6fshx2XN1oUlButy4iIv5MCeOZkN15V20ZYTkDQMKPq+YtjidJKN6ezCbkjJmEA=
-X-Received: by 10.36.26.129 with SMTP id 123mr2677206iti.38.1505839833651;
-	Tue, 19 Sep 2017 09:50:33 -0700 (PDT)
+	bh=jOnXlg61KSObvJIkK3w1xCjNdEwIgcjQtUAh3aoBnXg=;
+	b=muNpSvGWh8Rs2iMJbSCXcKGSs+91StdIFQJ8cqJhzGtsn51fyr0iq7sq/J/xegFbb3
+	aYDNEpNTj+HiXR0G40NcMBLk6rOftLRbOC776rrmP9gAbQoPQQfJ/pCiNXllvPPayLkt
+	yDzMZqHPs32ox/CE1dbdlOI/dYVNqECkVvdZEvxaQlBUHCbItxpG+/qiXIg+5DNxSW+5
+	0qOWN5g5XTKvjj4sPLihnk6+9KG35YF7r8fk/ks99U5OvWwzQitf/lzsnAvA7y3mzSE/
+	qh6TI8qLRx7fHDScwx9M5ZyojlafDKc1mVccCLtLnrZPNmg7D8/9JVw9MeDqPqcTQMbN
+	w6Xw==
+X-Gm-Message-State: AHPjjUhhZ8N/K9GaFYB+ZMsFQJWaQKoSiPqc6lyV0WcaU2muWLOgkxAT
+	idBiZqHPa9ZIyKxlfsNYZGQkfsWvS/C28eoAuxxwkw==
+X-Google-Smtp-Source: AOwi7QDAV3d5DIeVfdBeCLnLfbnDR1WUpgX+SEuRMRsh3IaHlhHRSVMgCUsHAq76TrHy9/O4OSu7FxYHeheaB6gYNC8=
+X-Received: by 10.237.57.38 with SMTP id l35mr3154587qte.118.1505840243376;
+	Tue, 19 Sep 2017 09:57:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Tue, 19 Sep 2017 09:50:13 -0700 (PDT)
-In-Reply-To: <1504603652-262027-1-git-send-email-liwei.song@windriver.com>
-References: <1504603652-262027-1-git-send-email-liwei.song@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 19 Sep 2017 17:50:13 +0100
-Message-ID: <CAJTo0LYXE=s8tphMTfS9avaM-4ttTpO1=mo-A+rsd46PKFgMRg@mail.gmail.com>
-To: Liwei Song <liwei.song@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-firmware: package qat-firmware
+Received: by 10.140.29.74 with HTTP; Tue, 19 Sep 2017 09:57:22 -0700 (PDT)
+In-Reply-To: <20170918231230.256dbd81@seebsdell>
+References: <20170918133410.31388-1-alexander.kanavin@linux.intel.com>
+	<CAHUNapTtXFnCurGoVtWKL=7v7Spxj4Hg2JqGh530ktRGgVgOyg@mail.gmail.com>
+	<20170918181847.594b6943@seebsdell>
+	<CAHUNapRP0E5Qb909WpJqZm9LncV0-4Kw-kY5Y9CFO-Zd1AUNNA@mail.gmail.com>
+	<20170918231230.256dbd81@seebsdell>
+From: Trevor Woerner <twoerner@gmail.com>
+Date: Tue, 19 Sep 2017 12:57:22 -0400
+Message-ID: <CAHUNapSC9EMHCs6agiLrkwHyZ4n=j6u_vP+3sDHd7wm0NVV7qw@mail.gmail.com>
+To: Seebs <seebs@seebs.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] pseudo: use epoll API on Linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +59,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 16:50:32 -0000
-Content-Type: multipart/alternative; boundary="001a114463ec5fcf0705598da87e"
-
---001a114463ec5fcf0705598da87e
+X-List-Received-Date: Tue, 19 Sep 2017 16:57:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 5 September 2017 at 10:27, Liwei Song <liwei.song@windriver.com> wrote:
-
-> +             ${PN}-qat-license ${PN}-qat_895xcc ${PN}-qat_895xcc_mmp
-> ${PN}-qat_c3xxx ${PN}-qat_c3xxx_mmp ${PN}-qat_c62x ${PN}-qat_c62x_mmp
-> ${PN}-qat_mmp \
+On Tue, Sep 19, 2017 at 12:12 AM, Seebs <seebs@seebs.net> wrote:
+> On Mon, 18 Sep 2017 19:41:03 -0400
+> Trevor Woerner <twoerner@gmail.com> wrote:
 >
+>> Would you be open to a co-maintainership? Maybe a co-maintainer who
+>> doesn't push to master directly?
+>
+> Maybe? I don't know, I'd need to think about that a bit. I recognize
+> that there's a need to get some of this stuff fixed, but I think the
+> amount of busy I've been recently is probably transient and not likely
+> to happen very often.
 
-*** Error: Package name  contains illegal characters, (other than
-[a-z0-9.+-])
+Okay, sounds good. I'm glad to hear it's just a transient thing. I was
+under a mistaken impression.
 
-You can't use _ in packages, please just use -.
-
-Ross
-
---001a114463ec5fcf0705598da87e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 5 September 2017 at 10:27, Liwei Song <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:liwei.song@windriver.com" target=3D"_blank">liwei.so=
-ng@windriver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-col=
-or:rgb(204,204,204);padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0${PN}-qat-license ${PN}-qat_895xcc ${PN}-qat_895xcc_mmp ${PN}-=
-qat_c3xxx ${PN}-qat_c3xxx_mmp ${PN}-qat_c62x ${PN}-qat_c62x_mmp ${PN}-qat_m=
-mp \<br></blockquote><div><br></div><div>*** Error: Package name =C2=A0cont=
-ains illegal characters, (other than [a-z0-9.+-])</div><div><br></div><div>=
-You can&#39;t use _ in packages, please just use -.</div><div><br></div><di=
-v>Ross=C2=A0</div></div></div></div>
-
---001a114463ec5fcf0705598da87e--
