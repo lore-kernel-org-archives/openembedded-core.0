@@ -1,52 +1,31 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qt0-f170.google.com (mail-qt0-f170.google.com
-	[209.85.216.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EB2877E06
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 16:57:22 +0000 (UTC)
-Received: by mail-qt0-f170.google.com with SMTP id s18so267226qta.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 09:57:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=jOnXlg61KSObvJIkK3w1xCjNdEwIgcjQtUAh3aoBnXg=;
-	b=Jb+zWay0e2YXr5XBo/39YtMU+um0AD/iaM1NQkoFwmrR8gPFW6/8JXzKLwoOXFKZjK
-	Dn+mmSvyLYOFnfevK7u/0y+D6vtJYQbtRKnVA6LdHQkj4Y/BbW5cAgor++U9aKhYO5HT
-	GiR6AgQ7j1sR7Je52dSm5lmxHYPYGG/lS5SIq0dMdxzC2Zh8Fb9Ocif7IUqZTvPs6oLj
-	tPfO+Q/RYggyXmBECX5a6P4T7vrUTulIslQY7UtIbYTitdHR41Bjf7QPCWxvxoCyUU+6
-	SAWPJI7nKMKQTDOpR5C/L/dzccqsHBCpi+UM3CI+1kiym3JE0TfYy2o89iWHEsi2Yc6+
-	FP0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=jOnXlg61KSObvJIkK3w1xCjNdEwIgcjQtUAh3aoBnXg=;
-	b=muNpSvGWh8Rs2iMJbSCXcKGSs+91StdIFQJ8cqJhzGtsn51fyr0iq7sq/J/xegFbb3
-	aYDNEpNTj+HiXR0G40NcMBLk6rOftLRbOC776rrmP9gAbQoPQQfJ/pCiNXllvPPayLkt
-	yDzMZqHPs32ox/CE1dbdlOI/dYVNqECkVvdZEvxaQlBUHCbItxpG+/qiXIg+5DNxSW+5
-	0qOWN5g5XTKvjj4sPLihnk6+9KG35YF7r8fk/ks99U5OvWwzQitf/lzsnAvA7y3mzSE/
-	qh6TI8qLRx7fHDScwx9M5ZyojlafDKc1mVccCLtLnrZPNmg7D8/9JVw9MeDqPqcTQMbN
-	w6Xw==
-X-Gm-Message-State: AHPjjUhhZ8N/K9GaFYB+ZMsFQJWaQKoSiPqc6lyV0WcaU2muWLOgkxAT
-	idBiZqHPa9ZIyKxlfsNYZGQkfsWvS/C28eoAuxxwkw==
-X-Google-Smtp-Source: AOwi7QDAV3d5DIeVfdBeCLnLfbnDR1WUpgX+SEuRMRsh3IaHlhHRSVMgCUsHAq76TrHy9/O4OSu7FxYHeheaB6gYNC8=
-X-Received: by 10.237.57.38 with SMTP id l35mr3154587qte.118.1505840243376;
-	Tue, 19 Sep 2017 09:57:23 -0700 (PDT)
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 505F378094;
+	Tue, 19 Sep 2017 17:02:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8JH2otg023826
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Sep 2017 10:02:50 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 19 Sep 2017 10:02:49 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+References: <CAJTo0LaTCgNx-g8jyhULWNs3bNiouu2JbptobWE5vbFVwgVnxQ@mail.gmail.com>
+	<efbc10e5-7596-1a3d-e7f8-526cedf20394@windriver.com>
+	<CAJTo0La5F6e8sADgUz7PQO9GzCDObGWdH7tQ7xD9wTaN74EDxw@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <3da9ee13-d200-d242-4a0e-e3904193bbf1@windriver.com>
+Date: Tue, 19 Sep 2017 13:02:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.140.29.74 with HTTP; Tue, 19 Sep 2017 09:57:22 -0700 (PDT)
-In-Reply-To: <20170918231230.256dbd81@seebsdell>
-References: <20170918133410.31388-1-alexander.kanavin@linux.intel.com>
-	<CAHUNapTtXFnCurGoVtWKL=7v7Spxj4Hg2JqGh530ktRGgVgOyg@mail.gmail.com>
-	<20170918181847.594b6943@seebsdell>
-	<CAHUNapRP0E5Qb909WpJqZm9LncV0-4Kw-kY5Y9CFO-Zd1AUNNA@mail.gmail.com>
-	<20170918231230.256dbd81@seebsdell>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Tue, 19 Sep 2017 12:57:22 -0400
-Message-ID: <CAHUNapSC9EMHCs6agiLrkwHyZ4n=j6u_vP+3sDHd7wm0NVV7qw@mail.gmail.com>
-To: Seebs <seebs@seebs.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] pseudo: use epoll API on Linux
+In-Reply-To: <CAJTo0La5F6e8sADgUz7PQO9GzCDObGWdH7tQ7xD9wTaN74EDxw@mail.gmail.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [oe] Use of github /archive/ tarballs in SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,21 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 16:57:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Sep 2017 17:02:50 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 19, 2017 at 12:12 AM, Seebs <seebs@seebs.net> wrote:
-> On Mon, 18 Sep 2017 19:41:03 -0400
-> Trevor Woerner <twoerner@gmail.com> wrote:
->
->> Would you be open to a co-maintainership? Maybe a co-maintainer who
->> doesn't push to master directly?
->
-> Maybe? I don't know, I'd need to think about that a bit. I recognize
-> that there's a need to get some of this stuff fixed, but I think the
-> amount of busy I've been recently is probably transient and not likely
-> to happen very often.
+Add oe-core, oe-devel back after checking privately with Ross.
 
-Okay, sounds good. I'm glad to hear it's just a transient thing. I was
-under a mistaken impression.
+On 2017-09-19 12:38 PM, Burton, Ross wrote:
+> On 19 September 2017 at 17:29, Randy MacLeod 
+> <randy.macleod@windriver.com <mailto:randy.macleod@windriver.com>> wrote:
+> 
+>     On 2017-09-19 04:09 AM, Burton, Ross wrote:
+> 
+>         Then the tarball for one of Erlang's repositories changed, and
+>         was noticed
+>         by the checksum in the recipe (thanks Gunnar Andersson for reporting
+>         this).  The extracted contents are identical, but the tarball
+>         itself has
+>         changed.  I'm presuming this is due to the old tarball expiring
+>         in their
+>         cache, and a newly generated tarball using a later version of tar.
+> 
+>         So we now have documented evidence that this can and does
+>         happen, and it's
+>         quite frustrating when this happens.  So, I suggest that use of
+>         github.com <http://github.com>
+>         /archive/  URLs be considered a bad practise for the primary
+>         SRC_URI tarball.
+> 
+> 
+>     Agreed but it's a shame to have to deal with this as users rather
+>     than have github fix the problem.
+> 
+>     Could report a bug if it's not already known?
+>     https://github.com/contact
+> 
+> 
+> They know, and don't commit to the /archive/ tarballs being persistent.  
+> They're for convenience and if the project owner wants a stable tarball 
+> they should upload one (that's almost quoted verbatim from my mails with 
+> github).
+> 
+> Last time I looked they were generated on demand using git-archive and 
+> cached for "some time" on AWS.  If nobody access the tarball for a while 
+> it will fall off AWS and then be re-generated.  The output from 
+> git-archive will be identical but eg a new tar may write a different 
+> byte stream for the same input.
+
+Ugh, but I guess it makes sense from their point of view since
+they're all about the git repos.
+
+Thanks for the background info Ross,
+
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
