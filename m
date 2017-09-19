@@ -1,33 +1,22 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BED9977EAC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2044077E93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 02:11:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8J2BpeS014709
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 18 Sep 2017 19:11:51 -0700
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 18 Sep 2017 19:11:50 -0700
-To: Khem Raj <raj.khem@gmail.com>, Martin Jansa <martin.jansa@gmail.com>,
-	"Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-References: <20170911203056.22156-1-otavio@ossystems.com.br>
-	<CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
-	<CAMKF1spThq_ChRsvqVsRBuJhH6SBcwDZ_m5UPm8KPn=Arbt=wg@mail.gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <c24ebc61-2c66-ed77-e73f-c00061339929@windriver.com>
-Date: Mon, 18 Sep 2017 22:11:48 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spThq_ChRsvqVsRBuJhH6SBcwDZ_m5UPm8KPn=Arbt=wg@mail.gmail.com>
-X-Originating-IP: [172.25.44.7]
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
-	Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: Upgrade to 2017.09
+	Tue, 19 Sep 2017 03:47:15 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Sep 2017 20:47:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,416,1500966000"; d="scan'208";a="901616715"
+Received: from thau-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.71.87])
+	by FMSMGA003.fm.intel.com with ESMTP; 18 Sep 2017 20:47:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Sep 2017 15:46:23 +1200
+Message-Id: <cover.1505792710.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.5
+Subject: [PATCH 0/1] scripts: rename yocto-compat-layer to remove "compatible" nomenclature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,27 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 02:11:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Sep 2017 03:47:16 -0000
 
-On 2017-09-17 11:35 AM, Khem Raj wrote:
-> I am seeing same failures too. havent yet dug into it.
+The following changes since commit cbc396dd10488990c98bb6fd94c7d10a736d57c1:
 
-Same here.
+  gawk: Enable native building (2017-09-18 11:07:24 +0100)
 
-Jackie said that he's going to investigate now.
+are available in the git repository at:
 
-We've only seen this failure since 2017-09-15 06:00 AM ET
-after we rebased onto 2017-09-14 content/ this commit:
-   583dca2 meta/conf/layers.conf: Add ca-certificates as ABISAFE
-   75e918d linux-firmware: package Marvell PCIe WiFi firmwares
-   0001cee insane: don't pass skip list to functions which don't ...
-   340d413 u-boot: Upgrade to 2017.09
-   ...
+  git://git.openembedded.org/openembedded-core-contrib paule/yocto-compat-rename
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/yocto-compat-rename
+
+Paul Eggleton (1):
+  scripts: rename yocto-compat-layer to remove "compatible" nomenclature
+
+ scripts/lib/{compatlayer => checklayer}/__init__.py  |  2 +-
+ scripts/lib/{compatlayer => checklayer}/case.py      |  2 +-
+ .../{compatlayer => checklayer}/cases/__init__.py    |  0
+ scripts/lib/{compatlayer => checklayer}/cases/bsp.py | 10 +++++-----
+ .../lib/{compatlayer => checklayer}/cases/common.py  |  6 +++---
+ .../lib/{compatlayer => checklayer}/cases/distro.py  |  8 ++++----
+ scripts/lib/{compatlayer => checklayer}/context.py   |  4 ++--
+ scripts/{yocto-compat-layer.py => yocto-check-layer} | 20 ++++++++++----------
+ ...ompat-layer-wrapper => yocto-check-layer-wrapper} | 10 +++++-----
+ 9 files changed, 31 insertions(+), 31 deletions(-)
+ rename scripts/lib/{compatlayer => checklayer}/__init__.py (99%)
+ rename scripts/lib/{compatlayer => checklayer}/case.py (77%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/__init__.py (100%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/bsp.py (96%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/common.py (91%)
+ rename scripts/lib/{compatlayer => checklayer}/cases/distro.py (77%)
+ rename scripts/lib/{compatlayer => checklayer}/context.py (77%)
+ rename scripts/{yocto-compat-layer.py => yocto-check-layer} (91%)
+ rename scripts/{yocto-compat-layer-wrapper => yocto-check-layer-wrapper} (73%)
 
 -- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+2.9.5
+
 
