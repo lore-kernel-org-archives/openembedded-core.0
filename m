@@ -1,51 +1,54 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
-	[209.85.161.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AB26780A1
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f53.google.com (mail-lf0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A098780A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 11:26:34 +0000 (UTC)
-Received: by mail-yw0-f172.google.com with SMTP id s62so2247796ywg.0
+	Tue, 19 Sep 2017 11:47:28 +0000 (UTC)
+Received: by mail-lf0-f53.google.com with SMTP id l196so3414608lfl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Sep 2017 04:26:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=kFOksexhHs3nmgPi0fjhlcb0hWTusAnhrWmI2L3S63c=;
-	b=MttLqyW62E4YBgx1uFz7NlTFF35OyCrtXdnFhDQCHDwvc/dNJc3Uvzeai7Fq6UdAFI
-	5+QK1hmsZWyGSg5ZwmkZ34arC4nKX9S6Y3sTE55cdrlHhNaToSQ0mtyXCUmqdZBCnr0d
-	0cRCbjHikCZb4txom//0l2vPAYwDS/i2oh3Cg=
+	Tue, 19 Sep 2017 04:47:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=1OBDJpe0gXzUnJ/S2AYs9El5OHq5NO1tKiBGOvnjlfI=;
+	b=s/fQvv4F+mBWiJp11tPo6gBbtHotDzWpu/XOfoJLCqfah0U2GaGCcRHvWcNhdpg3xV
+	vb0cb+dNhRRHOhuQI2dV5Na43Wulfj0e8jqV4EflNGh7t27G7lvlujWoMPBzl3MiSeoM
+	mOKyWZPcM64AxqHI+mkjfZ6hA56WL+5WMihVQhek2UqfsM4ujMw99Kn3Ks0a5WP8PCof
+	7p5/hOVohOwIgoqT+cgUuhUBvDW3tabQL7aRgIReFnZZXlf7tiVGWA82C6Owuq+mmAmG
+	Vcphx86sMoOQmSKySVJqUASclmtx+J6V/3CVxxNq5vU1t5Qs+ca9dm5UDm+lvmDY9syI
+	836A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=kFOksexhHs3nmgPi0fjhlcb0hWTusAnhrWmI2L3S63c=;
-	b=qPevTnwTfPXa7tGRMDppoEWCQ4tyfsNsLyGokNylyudCmmSJBQDqVK4Pg1XL/ZUzP5
-	TV+1Q4uaBGBHzdE3Couw6Xd1J/mObKoWhLENR7Y49k4mtewxLSLVyK6lpQ9KnHfegpLo
-	zCPBuByH6zetq2yRxxa4b3eJvS7Liu1/R4sXTEJOp57e3UcsYYV9ldBOqBupRVCSfof6
-	S/MEARa43npJiWFsGaH5DuTYbz4BPJt0yytNbvFKUX8HzwC3l536Lb+l0wUfFqmgJTs7
-	dQRmfbepQpxuwDdZMo3LUWsB3HuDn8fS+9riXXLnXNGzm7T19bwNX2ffdOcI0R2bsucR
-	TniA==
-X-Gm-Message-State: AHPjjUjxA7odRZHtLY12sGa/lEy/j183VlCOZ/Hk5JQQz9ISsziHTQOc
-	9K6vnJoErF+EtYbjkW3nxCmMGQ==
-X-Google-Smtp-Source: AOwi7QBzRSnRpMdlvcV7iytMH7WewZA2NEdtrMbqOk16YqDqHCsBn1yIowdd6DCVQxiTUR9Izaq4Xw==
-X-Received: by 10.129.49.75 with SMTP id x72mr640117ywx.252.1505820396010;
-	Tue, 19 Sep 2017 04:26:36 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	f184sm3885214ywc.19.2017.09.19.04.26.34
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Tue, 19 Sep 2017 04:26:35 -0700 (PDT)
-Date: Tue, 19 Sep 2017 07:26:34 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20170919112634.GL17137@bill-the-cat>
-References: <20170919054058.20380-1-otavio@ossystems.com.br>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=1OBDJpe0gXzUnJ/S2AYs9El5OHq5NO1tKiBGOvnjlfI=;
+	b=MntIcw6e2Z07kiPHyguPGK57WGzDpMOUTrey5vf5eXQauFLYiENJhhh557+FYK+FxM
+	d76Lpk0tVaBYPFW3CwfGeGJHHojJN0kYNgCftumDdpOvujqRlR40YqpWB/cYe8IIGgO+
+	WXeM0Rm9em5Gfj/s49eVSS5W/UxXjeDicKxegqSRc9rfKZvQ07OXoFGQhpR8TlfhLMcq
+	Qfra2qNV7nGyW6Fbdifdc0yI/94/9FqKcEnPIWsEG/sU82Cd9ZUCxOsXc2HY15Spkupr
+	CZ1YNp2TUMrJP/8bry/QXKGMStM9ons2upSdQ/DwFfxKxyoY4ovz11e0Tt2khVavWO48
+	7VyQ==
+X-Gm-Message-State: AHPjjUgH0MZpRJacKZ9CK342iFDa1ruTuHN3pw/YyoF6ewetuavsWOJJ
+	0n9+ieIOKtf4wZvcC2T0F2YSYaWvEQqO7gANSZ46fg==
+X-Google-Smtp-Source: AOwi7QDutsvqpIh1KJ8XWPhbq438qwKFVSWimm4qQWwirJBZlWLUQaOzILxsIJDa23jFFruKu6lB1BdYw0xvMWLZhZk=
+X-Received: by 10.25.16.87 with SMTP id f84mr491568lfi.172.1505821648909; Tue,
+	19 Sep 2017 04:47:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170919054058.20380-1-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: marek.vasut@gmail.com,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-fw-utils: Fix cross and target builds
+Received: by 10.25.213.146 with HTTP; Tue, 19 Sep 2017 04:47:28 -0700 (PDT)
+In-Reply-To: <CAMKF1spd-DuNQLT+iGCTVWDXcWzpsXyEGtUCeHFz953jF5e2Sg@mail.gmail.com>
+References: <007BD92917A2324FA403BCF9A464CF84CF41E3E8@ALA-MBC.corp.ad.wrs.com>
+	<20878500-1BB2-43F0-A6A5-087775FC0FAB@madison.systems>
+	<b8a7eae3-2b65-e17d-efe0-f7efb113fd38@windriver.com>
+	<CAMKF1spd-DuNQLT+iGCTVWDXcWzpsXyEGtUCeHFz953jF5e2Sg@mail.gmail.com>
+From: Matt Madison <matt@madison.systems>
+Date: Tue, 19 Sep 2017 04:47:28 -0700
+Message-ID: <CAGgRHJp27mt4P2pPRkJEQgoUnmD4VAbj83=dCSrZT=X=53NFEQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: go-runtime does not build for mips32r2 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +61,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Sep 2017 11:26:35 -0000
-X-Groupsio-MsgNum: 103124
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nhAUiXSLan16V5i8"
-Content-Disposition: inline
-
---nhAUiXSLan16V5i8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Sep 2017 11:47:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 19, 2017 at 02:40:58AM -0300, Otavio Salvador wrote:
->  - The environment tools target has change to envtools;
->  - The HOSTCC variable must be used to set CC for cross;
->  - The ARCH variable must be set for cross;
->=20
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->=20
->  meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb b/meta/re=
-cipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> index c2e8f0fb84..21ab5b3e6d 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2017.09.bb
-> @@ -5,13 +5,13 @@ DEPENDS =3D "mtd-utils"
-> =20
->  INSANE_SKIP_${PN} =3D "already-stripped"
->  EXTRA_OEMAKE_class-target =3D 'CROSS_COMPILE=3D${TARGET_PREFIX} CC=3D"${=
-CC} ${CFLAGS} ${LDFLAGS}" HOSTCC=3D"${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDF=
-LAGS}" V=3D1'
-> -EXTRA_OEMAKE_class-cross =3D 'ARCH=3D${TARGET_ARCH} CC=3D"${CC} ${CFLAGS=
-} ${LDFLAGS}" V=3D1'
-> +EXTRA_OEMAKE_class-cross =3D 'ARCH=3D${ARCH} HOSTCC=3D"${CC} ${CFLAGS} $=
-{LDFLAGS}" V=3D0'
+On Mon, Sep 18, 2017 at 4:26 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Mon, Sep 18, 2017 at 3:52 PM, Mark Hatle <mark.hatle@windriver.com> wr=
+ote:
+>> On 9/18/17 5:50 PM, Matt Madison wrote:
+>>>
+>>>> On 18 Sep 2017, at 2:11 PM, Slater, Joseph <joe.slater@windriver.com
+>>>> <mailto:joe.slater@windriver.com>> wrote:
+>>>>
+>>>> This is the default tune for qemumips.  It appears that the problem do=
+es not
+>>>> occur for an oe-core checkout just before the split creating go-runtim=
+e.
+>>>>
+>>>> Before the split, go-helloworld will build, but after the split it wil=
+l not
+>>>> because it needs go-runtime.
+>>>
+>>> There=E2=80=99s a TUNE_CCARGS_remove in go_1.9.bb to remove the =E2=80=
+=98-march=3Dmips32r2=E2=80=99 flag
+>>> that probably either needs to be moved to a .inc file or copied to
+>>> go-runtime_1.9.bb.  Missed that when splitting out the runtime recipe.
+>>
+>> That seems wrong.  We should be using the TUNE_CCARGS, and -not- using t=
+he
+>> arguments that 'go' has decided must be right.
+>>
+>> Otherwise the optimizations may or may not be compatible... and if someo=
+ne
+>> selects different arguments, they won't get filtered.
+>
+> go supports mips32r1, and needs fpu or kernel FPU emulation enabled
+> so using mips32r2 might be fine back when I was adding it to oe-core it
+> did not work, things might be different with 1.9 release where mips
+> support is complete in golang.
 
-Since we're messing with this, U-Boot's build system doesn't take ARCH.
-It's one of the variables that you pick in Kconfig, not set so that
-arch/$(ARCH)/Kconfig is sourced.  We should drop that.  And the
-changelog doesn't say you're going from V=3D1 to V=3D0.
+It's still mips32r1, though, and the go build tool explicitly adds
+'-march=3Dmips32 -mabi=3D32' when invoking the C compiler for cgo.
 
---=20
-Tom
+-Matt
 
---nhAUiXSLan16V5i8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZwP7qAAoJEIf59jXTHXZS+1oP/0h/c5RbwK8z/Fla8Yt1l34w
-fy0A9mJgx4400LfKtg+43Y/LZzRfnY/+Ef/erFSbiJ5Xu0nojjpn3AJtJS7EgbR/
-5QUWxrsmPRuZ2tOf4AVPu0Xrh+3nTKjUVt3EV4CEkcCa1YNIT/yGSTOOaBcy8DhD
-H4C5JmT6BJwaGvytV+Nyp8T1mRPJ75NtC5RUGxWeY9IEYvCKRr7klykWH0jK3nQd
-4KVBVQPZIzyu5JAMlzRetuwQoNp+/O2NAAe5Lco+75MgMb64g+UHkUL7+tfeEmIE
-nefqZBckItPXkl4+o9IxR2PlS4zxd/lkb0jMg6AK2is93YuZ3JCtlLP+oyVgFHna
-UTCjIlblMNVRtkRd394AJ+0wCayfSvbd6oVD36fAM0XjlbG/HM4zTAaTGtjYTqRP
-TIpfREuTS7D3kEXmF4YpKsYnRXaT6UM1zsk4gXe2sHMwIPMqyCy1NeGUrxtunoVn
-cNSCC4HmRDuqjvJzUbrELn4lxL1wrHXvt7tEf6XUfpIwEljr/fVOix9VWXxkgQJW
-KxI/PUcDi+ncEwvSstuTcb2Pa4bLY4xzJUlRCXuFa8HP+Fotbd8NU61Cga9199n5
-sTMlMEjIptaCGBeHHw2fgTGptXCiPgZH3Odi2x5peLls6DVu42NwDf3V8oqsJ4N8
-pKG/ZNM+5rMUHGEhJiBz
-=T+JD
------END PGP SIGNATURE-----
-
---nhAUiXSLan16V5i8--
