@@ -1,43 +1,48 @@
-Return-Path: <nandojve@gmail.com>
-Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
-	[209.85.161.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DC2BC77EAA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C28677FC3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 14:08:01 +0000 (UTC)
-Received: by mail-yw0-f180.google.com with SMTP id s62so1972783ywg.0
+	Wed, 20 Sep 2017 14:10:31 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id o200so3169340itg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 07:08:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=GqkDc4mZKSGDvrARFKzDi4li0W7KSrjm8u6x8o3mMG0=;
-	b=VhacexrlgsGZxXF74a46sFoCWuPpVVq/VjYi2YmZw7zl7jW0UYYewIJP0cLlWpnRkh
-	8yahD2LcIrG0LgQe5zf46eZUNnJVtBIKPkINBk+lUb0b3DfeeLf5PVLyiAYVs+4Ut+T8
-	ma3sHlBQrmLOE5/A5awUpm19REC+B6GEQoWGtT4Za1ybY5SR5nFDXkZJNZVYFTeiEAMj
-	tWLIHKjuHqswxtbAUvpYnx2lHg4hfWLqsh7G3H/WLrY5HGTj9tsmYMJs4Ixw87+NJ/uJ
-	kojC2QOlInkz+2wpfC/O/Ny+HW3YXIgQuqbnyzXITDjRrRu1DtnxI2WhXpIROGXDkBGG
-	Bk3g==
+	Wed, 20 Sep 2017 07:10:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=t8I6L/MJVdbgpbOMX/b8IdJf7mVoeqD84nCNa1Q1evg=;
+	b=qJ6NM6/JjvY+84UyYxmupjoUydN3zQ3akPUgDge/6sZKYuQEqMPIt0Kk2nhgIhkbXZ
+	gRUqo0Guur80hdWfrOT+Rd9djgJTUMq7T5sA69hGZL6W7IjjLy8d0uQXMKposzFGQXFa
+	tPuPgAtu+mqBRGbxCe8EK13qj0HpqllZT/umPRwpHcRnMooOUC0L8aRKiHb9ySQ+OypX
+	/nxRIAq8wFo2tqmwM+h5+B3+CzGz+8dWi8QBsnE/GKasvmOuFxeOXvIBvT+TcWpXd65q
+	9Rwi2jo1JJSQSWBD42vYeuRWaLCFvfWwzoHJPEC9DuQa/WSIZkWTxd1sT/YfcZiQAvvl
+	noIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=GqkDc4mZKSGDvrARFKzDi4li0W7KSrjm8u6x8o3mMG0=;
-	b=qgWvdwmVm0F8cKt1XCNUAjGPyqQIrsbc55ICTn/Kq559fOR3JtxBYzzHnWyLPamefJ
-	FGL0GLkao4aZ3op6+iIdUhdC3Kj96xtQdsoNbtg8MEFYs9hyVoe2gHld1VvW/6T8aYnY
-	vlZ1MbKhpcd5EHHol5+PSarETMkb8yRdL4XwN+ssLyzJ0Wc7dAhSGmqVqbdQ1vermnkX
-	VFMfeApynr+6Jzf8z3M146GtMuU4dBLCI5jVMBf2+Qi4ETIyJx5EVrkIf0CTd7+dUWcb
-	wbk+VB+aUBTZ98GdPBUlYAt2JOpaAXEH+sTuvH46nFw9i7upkA8+xwZTBYpgzc0oKgi+
-	3i/A==
-X-Gm-Message-State: AHPjjUglW57Kq01puzpzisKBvSskhfn7pqjkXwpa4FTBalDZQaf6hoaE
-	rVJ6pYojkU1CoK3hlqcohEeG/Vy2p/hEAGp1KAwtnQ==
-X-Google-Smtp-Source: AOwi7QDM7tuvHKu92uwfKCDvWR53XRAtVlYwdUhxuPYrfkpaVi9TUPFRxFQQZiaepqZGBHRjiFS5tVJUKEnyl1pHnAU=
-X-Received: by 10.129.85.88 with SMTP id j85mr3986851ywb.214.1505916482474;
-	Wed, 20 Sep 2017 07:08:02 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=t8I6L/MJVdbgpbOMX/b8IdJf7mVoeqD84nCNa1Q1evg=;
+	b=DbB+mzjzrVTt24k5T5PDepz49c1VFGEPgPOzLePWwzQvbvRy1LE14Zu0t2qN+68Wj4
+	TXBaddI637ROEl6q+2VPGJAvvawu8N2FUSSyIkDdjHIqdeBc/8G9Y9tAI3Cz1wZk57s2
+	fCAf2ZlnfHpoPDr7gwXcIzEImk5jpyRs5jLsls21v1ZbgjihC/jVgLWOxt6Vm2KJZB94
+	lSqItLBoUU/16ASVGQRDz47KVp0feWIlYAytbIWShaRPfqkYFZqWkc0yzGFJ+uJ+uDdR
+	RGRQcnwEmCJV9Uq3aUrspXt9ma4XeEjrxxodpS5msQ7mV4UroLdxaHC2jXqKAgSdAhDO
+	jqKg==
+X-Gm-Message-State: AHPjjUgQ/bewR1QKC59QiEKnFhn09bq+LSCtxWvrf00bc9dd8G9noqDC
+	l7ICnThxFayJIBETSmApIAcWdpPjF/bw8XcIXzpmwQ==
+X-Google-Smtp-Source: AOwi7QBBmcHreIGIFHbvbGuTPJnd6Xm8slvXruFAs70LTPXYgvr/KkqFdt9MT7Gm2Up1yNEKvL0K1G86NlAu7tb81lI=
+X-Received: by 10.36.181.73 with SMTP id j9mr3088411iti.6.1505916633301; Wed,
+	20 Sep 2017 07:10:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.37.197.84 with HTTP; Wed, 20 Sep 2017 07:08:01 -0700 (PDT)
-From: Gerson Fernando Budke <nandojve@gmail.com>
-Date: Wed, 20 Sep 2017 11:08:01 -0300
-Message-ID: <CABOv41NESoPK31WsMaswqVo-4ij=Q-=vUxnb5RLdzd87-D=P+A@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: File with a Windows line ending
+Received: by 10.107.19.68 with HTTP; Wed, 20 Sep 2017 07:10:12 -0700 (PDT)
+In-Reply-To: <CABOv41NESoPK31WsMaswqVo-4ij=Q-=vUxnb5RLdzd87-D=P+A@mail.gmail.com>
+References: <CABOv41NESoPK31WsMaswqVo-4ij=Q-=vUxnb5RLdzd87-D=P+A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 20 Sep 2017 15:10:12 +0100
+Message-ID: <CAJTo0LYYMz62D5GOpj6kxx3FAfUm=rJ47gND4qT-VgSobBTsUg@mail.gmail.com>
+To: Gerson Fernando Budke <nandojve@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: File with a Windows line ending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,44 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 14:08:02 -0000
-Content-Type: multipart/alternative; boundary="001a113f27e6ffef8b05599f8043"
+X-List-Received-Date: Wed, 20 Sep 2017 14:10:32 -0000
+Content-Type: multipart/alternative; boundary="f403045d9e42fd7e5405599f896a"
 
---001a113f27e6ffef8b05599f8043
+--f403045d9e42fd7e5405599f896a
 Content-Type: text/plain; charset="UTF-8"
 
-I don't know if is important but I'm reporting anyway
+On 20 September 2017 at 15:08, Gerson Fernando Budke <nandojve@gmail.com>
+wrote:
 
-remote: error: found carriage return (CR) character in file:
-meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-To ssh://gerrit.intelbras.com.br/yocto/openembedded/openembedded-core
- ! [remote rejected] master -> master (contains files with a Windows line
-ending)
-error: failed to push some refs to 'ssh://
-gerrit.intelbras.com.br/yocto/openembedded/openembedded-core'
-fatal: remote error: access denied or repository not exported:
-/openembedded-core
+> I don't know if is important but I'm reporting anyway
+>
+> remote: error: found carriage return (CR) character in file:
+> meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
+> To ssh://gerrit.intelbras.com.br/yocto/openembedded/openembedded-core
+>  ! [remote rejected] master -> master (contains files with a Windows line
+> ending)
+> error: failed to push some refs to 'ssh://gerrit.intelbras.com.
+> br/yocto/openembedded/openembedded-core'
+> fatal: remote error: access denied or repository not exported:
+> /openembedded-core
+>
 
-Gerrit version:
-Powered by Gerrit Code Review (2.14.2)
+That file has CRs in because the file it is patching has CRs in.  Your
+gerrit server needs to be less strict.
 
---001a113f27e6ffef8b05599f8043
+Ross
+
+--f403045d9e42fd7e5405599f896a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I don&#39;t know if is important but I&#39;m reporting any=
-way<br><br>remote: error: found carriage return (CR) character in file: met=
-a/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0<br>To ssh://<a href=3D"http://gerrit.intelbras.com.br/yoc=
-to/openembedded/openembedded-core">gerrit.intelbras.com.br/yocto/openembedd=
-ed/openembedded-core</a><br>=C2=A0! [remote rejected] master -&gt; master (=
-contains files with a Windows line ending)<br>error: failed to push some re=
-fs to &#39;ssh://<a href=3D"http://gerrit.intelbras.com.br/yocto/openembedd=
-ed/openembedded-core">gerrit.intelbras.com.br/yocto/openembedded/openembedd=
-ed-core</a>&#39;<br>fatal: remote error: access denied or repository not ex=
-ported: /openembedded-core<br><br>Gerrit version:<br>Powered by Gerrit Code=
- Review (2.14.2)<pre class=3D"gmail-console-output" style=3D"box-sizing:bor=
-der-box;white-space:pre-wrap;word-wrap:break-word;margin-top:0px;margin-bot=
-tom:0px;color:rgb(51,51,51);font-size:15px"></pre></div>
+<div dir=3D"ltr">On 20 September 2017 at 15:08, Gerson Fernando Budke <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:nandojve@gmail.com" target=3D"_blank">na=
+ndojve@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
+lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I don&=
+#39;t know if is important but I&#39;m reporting anyway<br><br>remote: erro=
+r: found carriage return (CR) character in file: meta/recipes-core/ovmf/ovm=
+f/<wbr>0004-ovmf-enable-long-path-<wbr>file.patch =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0<br>To ssh://<a href=3D"http://gerrit.intelbras.com.br/yocto/openembedde=
+d/openembedded-core" target=3D"_blank">gerrit.intelbras.com.br/<wbr>yocto/o=
+penembedded/<wbr>openembedded-core</a><br>=C2=A0! [remote rejected] master =
+-&gt; master (contains files with a Windows line ending)<br>error: failed t=
+o push some refs to &#39;ssh://<a href=3D"http://gerrit.intelbras.com.br/yo=
+cto/openembedded/openembedded-core" target=3D"_blank">gerrit.intelbras.com.=
+<wbr>br/yocto/openembedded/<wbr>openembedded-core</a>&#39;<br>fatal: remote=
+ error: access denied or repository not exported: /openembedded-core</div><=
+/blockquote><div><br></div><div>That file has CRs in because the file it is=
+ patching has CRs in.=C2=A0 Your gerrit server needs to be less strict.</di=
+v><div><br></div><div>Ross</div></div></div></div>
 
---001a113f27e6ffef8b05599f8043--
+--f403045d9e42fd7e5405599f896a--
