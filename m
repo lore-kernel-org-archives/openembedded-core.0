@@ -1,39 +1,56 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CC9577E7F
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C33C977E7F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 16:03:32 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id s62so1528831ywg.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 09:03:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yF0fuon7aG45VmOqMlKHDT96qZH/A3WOmWzWRWkvwgE=;
-	b=sGM86XAh5ko4ULBX3FMxgm5fD/YT7LqLKbtduS+Olsxs01arr3L/EGrUwgywPbe9LR
-	Rcxyzw7mQ33YdTTeNFjC1yuabkGd8YdzwxbrYaXqalRco9WyK8W4ZWJ54mayyxGWKs4g
-	EyysarQFpbyZDROUxbtW9TqmA9s1ASr0XWlJRPhjxIWmgMCtA9YocCa746npOTAEdNdI
-	o3vWum7VjlpPhRtcltL2dV+uuXUWTP+nv0pHV/UML5v0+sasFdHvjVhDmFvHrePWGFa0
-	jpBbR40+eU18tdMhd5+AubY/XvE7VjWcxOoxwenIc2K8bJ/WuGXa2rH8ytBk+xamBXMA
-	6JpQ==
-X-Gm-Message-State: AHPjjUgEKg3PM9hTpwxsjQjrjBsYY2/jYNv8iOVD91vWanw2Gu861SnX
-	DAoglDkijylOnZFkkTVJ8fpq
-X-Google-Smtp-Source: AOwi7QCEHgaX+tbLjG/ePOLDctPgFBVENe+8sOmxNSJtMqd9ci7oFIOUfWuXhmoKcgqwTsCO9IIvKQ==
-X-Received: by 10.129.85.88 with SMTP id j85mr4196499ywb.62.1505923413835;
-	Wed, 20 Sep 2017 09:03:33 -0700 (PDT)
-Received: from localhost.localdomain (cpe-65-184-142-68.ec.res.rr.com.
-	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	n129sm830131ywe.109.2017.09.20.09.03.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 20 Sep 2017 09:03:31 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Sep 2017 12:03:27 -0400
-Message-Id: <1505923407-31734-1-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] wic: Generate startup.nsh for EFI cases if none found
+	Wed, 20 Sep 2017 16:07:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 75A0918A15;
+	Wed, 20 Sep 2017 18:07:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id UQynFsL3IsF2; Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 427D918A11;
+	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 326121E082;
+	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 272AA1E081;
+	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by thoth.se.axis.com (Postfix) with ESMTP id 1AF8D1908;
+	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
+Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Wed, 20 Sep 2017 18:07:09 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Wed, 20 Sep 2017 18:07:09 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Armin Kuster <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow
+	extra variables to be displayed
+Thread-Index: AQHTKK9yxvClvC6ZTUytd2aq+NmHqKK+AXlw
+Date: Wed, 20 Sep 2017 16:07:08 +0000
+Message-ID: <d1f3c690a4cc49adb978f14fb5033ae8@XBOX02.axis.com>
+References: <20170908143315.30326-1-pkj@axis.com>
+In-Reply-To: <20170908143315.30326-1-pkj@axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow	extra variables to be displayed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,58 +63,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 16:03:33 -0000
+X-List-Received-Date: Wed, 20 Sep 2017 16:07:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-In the case of non-wic images there is logic today to generate a
-startup.nsh file that will be executed by EFI to run the loader that the
-image contains.  In the WIC case is currently depends on that file being
-generated elsewhere and placed in DEPLOY_DIR_IMAGE and only used if
-present there.  This extends the logic we have today in wic to save the
-name of the loader that's being placed and if no startup.nsh is provided
-already generate the default kind that grub-efi/systemd-boot.bbclass
-generate.
+Is there any chance of this making it into 2.3.2? It seems 2.3.2 is=20
+not too far away, given that the DISTRO_VERSION has been updated to=20
+2.3.2 on the pyro branch, but I do not know what the current status=20
+is or when you expect to cut the release.
 
-Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+For the record this should be safe to take regarding any QA testing=20
+done since it only affects a script that is not used as part of=20
+building anything, and then only changes its behavior if a new=20
+argument is specified.
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 4c4f36a32f56..f4643fc233b2 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -204,13 +204,15 @@ class BootimgEFIPlugin(SourcePlugin):
-                 shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
-                                 "%s/grub.cfg" % cr_workdir)
-                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
--                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[9:])
-+                    loader = mod[9:]
-+                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
-                     exec_cmd(cp_cmd, True)
-                 shutil.move("%s/grub.cfg" % cr_workdir,
-                             "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
-             elif source_params['loader'] == 'systemd-boot':
-                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
--                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
-+                    loader = mod[8:]
-+                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
-                     exec_cmd(cp_cmd, True)
-             else:
-                 raise WicError("unrecognized bootimg-efi loader: %s" %
-@@ -222,6 +224,10 @@ class BootimgEFIPlugin(SourcePlugin):
-         if os.path.exists(startup):
-             cp_cmd = "cp %s %s/" % (startup, hdddir)
-             exec_cmd(cp_cmd, True)
-+        else:
-+            cfg = open("%s/startup.nsh" % hdddir, "w")
-+            cfg.write("fs0:EFI\\BOOT\\%s\n" % loader)
-+            cfg.close()
- 
-         du_cmd = "du -bks %s" % hdddir
-         out = exec_cmd(du_cmd)
--- 
-1.9.1
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Peter Kjellerstedt
+> Sent: den 8 september 2017 16:33
+> To: Armin Kuster <akuster808@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: [OE-core] [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow
+> extra variables to be displayed
+>=20
+> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>=20
+> By specifying the -e <var> option one or multiple times, extra
+> variables available in the pkgdata can be displayed, e.,g,
+> `oe-pkgdata-util package-info -e SUMMARY -e LICENSE ...`. The extra
+> variables displayed are quoted since some of them may contain
+> whitespace.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>=20
+> This is a backport of the corresponding change (6f054fcf) on master.
+> It should not change anything unless one actually uses the --extra
+> option to oe-pkgdata-util.
+>=20
+> PATCHv2: Now without Change-Id footer.
+>=20
+>  scripts/oe-pkgdata-util | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+> index 6255662a4b..677effeef6 100755
+> --- a/scripts/oe-pkgdata-util
+> +++ b/scripts/oe-pkgdata-util
+> @@ -325,8 +325,15 @@ def package_info(args):
+>              recipe_version =3D recipe_version + "-" +
+> mappings[pkg]['PR']
+>          pkg_size =3D mappings[pkg]['PKGSIZE']
+>=20
+> -        items.append("%s %s %s %s %s" %
+> -                     (pkg, pkg_version, recipe, recipe_version,
+> pkg_size))
+> +        line =3D "%s %s %s %s %s" % (pkg, pkg_version, recipe,
+> recipe_version, pkg_size)
+> +
+> +        if args.extra:
+> +            for var in args.extra:
+> +                val =3D mappings[pkg][var].strip()
+> +                val =3D re.sub(r'\s+', ' ', val)
+> +                line +=3D ' "%s"' % val
+> +
+> +        items.append(line)
+>      print('\n'.join(items))
+>=20
+>  def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
+> @@ -530,6 +537,7 @@ def main():
+>                                            description=3D'Looks up the
+> specified runtime package(s) and display information')
+>      parser_package_info.add_argument('pkg', nargs=3D'*', help=3D'Runtime
+> package name to look up')
+>      parser_package_info.add_argument('-f', '--file', help=3D'Read
+> package names from the specified file (one per line, first field
+> only)')
+> +    parser_package_info.add_argument('-e', '--extra', help=3D'Extra
+> variables to display, e.g., LICENSE (can be specified multiple times)',
+> action=3D'append')
+>      parser_package_info.set_defaults(func=3Dpackage_info)
+>=20
+>      parser_find_path =3D subparsers.add_parser('find-path',
+> --
+> 2.12.0
 
+//Peter
 
