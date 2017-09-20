@@ -1,54 +1,54 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0048877E93
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E4D46E650
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 19:30:28 +0000 (UTC)
-Received: by mail-pg0-f52.google.com with SMTP id d8so2231303pgt.4
+	Wed, 20 Sep 2017 20:08:10 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id d8so2192704pgt.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 12:30:30 -0700 (PDT)
+	Wed, 20 Sep 2017 13:08:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=SOyyF+KSwH8+Ise05A0enJUTI9JZvEzroX0I+kTcm8g=;
-	b=kdunxA/d2XvpwarCLx6ILXEKOeg+H4oShAR8OARFxqSJcrTIPoh3t6qTofux4co3RY
-	pvNDSl9dTRa9/chOu/gCWDBmlisR7sAvpGJKcLjzT1dpIcbXca3T7RwM/UTfEfejaII0
-	Hv5ByftxSx/qV0I1IRaM3SLTM4JZiaB9OopX6uFaY1C4Ue+kFmnIhxnW3Pdj2uRGvkYN
-	TBjhXo6eEd8rvbDdT5J/tUQ+4vzm4gwScPdXaQltgU2KedzfFZ/gxOsCXdUdBFm79JVc
-	UjIrSqIsU1xgJihVndNgPFc3tTPtxOTQh96h8HndfmC2H3Sz+rGVypm6tXZj67n3z/h/
-	Zchg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=WhKTzlqZQq+YBFGL6dpvlat1zB1kq4WkNj6/MFBY1Zs=;
+	b=W/BI8EHbnoNIfM/MzK2BO10Y+o89d7z9VVE67XoxX/zkVH2vStDyc17sN9ozPFpyzw
+	fvZZTsEHCJ33eJaF9J2+VpKha9zE6qEhS9Lqm5GIKhUqRG3E7vxuLgObMFp+a8eCxAvt
+	R3wHrOSv0488biGMrqrrqhP0P611r9n7pVMFD1eNdfggzpuzsM++3NY0JmO7tlZI0rUa
+	laxM6n2uFRKn+2Q0W43/8pU0OH/9lNUhFtoiMZlz2kLTgNiidxT8jpb2JYNZLgA/l6sS
+	BgMFX74S7te1xuPcaDduU9ZDBM784vIOmdHZ2xCvAtRmlEGxJB7kVDV/Peu4BNl/1hff
+	HkUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=SOyyF+KSwH8+Ise05A0enJUTI9JZvEzroX0I+kTcm8g=;
-	b=jtqqyCGBSAjmSbAFCASf3dNShVkwM+PwrVuMl7yvt+xmqdZ72RbVLkA67El+ErmNu2
-	caBeJ6m+zrCelPQXx1bhESwKC502Rjd4VH1WchFuxvVytK+oTyejNa/qE4+sIiHA+fYv
-	VEaJITCkGXSMS1Sl03tEqNt20c8BoBO+EXLhDA3UQgzqxEQR3iXBUc/prW9j+rphXBj/
-	bguo1zUM+4oxkTz/H/iq+gtgsTZnz3wZdNXgh2806P/pzz04mFFbmXfHZVRuxI/ZDREo
-	r96ZSdqwEq0AUEI2QLQFjhpoLogisY+ugLQPSG9Xn1RygFwhZwl+ydvaml1xMaTmrnCz
-	dMEA==
-X-Gm-Message-State: AHPjjUhsR/udrLd4DsOc+xwwkQhgkPmttDDDJqE+055nbmLX6NdljXiZ
-	tCS/NdOEvTCrNX9ut1RreDicAQ==
-X-Google-Smtp-Source: AOwi7QAlsuCMP6rBkcicth9H/PXTeryLrr7sFIpRKTcbj4devTKp70SYMsFjD70Iz8Yp8TWL5Qpigg==
-X-Received: by 10.98.59.66 with SMTP id i63mr3226951pfa.31.1505935829349;
-	Wed, 20 Sep 2017 12:30:29 -0700 (PDT)
-Received: from [10.43.100.234] (50-233-148-156-static.hfc.comcastbusiness.net.
-	[50.233.148.156]) by smtp.gmail.com with ESMTPSA id
-	g16sm8691608pgn.62.2017.09.20.12.30.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Sep 2017 12:30:28 -0700 (PDT)
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170914122753.12713-1-ross.burton@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <c93c3583-f1aa-bf91-c86e-bde0f6229592@gmail.com>
-Date: Wed, 20 Sep 2017 12:30:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=WhKTzlqZQq+YBFGL6dpvlat1zB1kq4WkNj6/MFBY1Zs=;
+	b=j9TSbog0ZrFn40cVU15Mv3qc3r0b9LiEyJCETH72qUmyJdu0Vgk3eSnIXX0CpBdwww
+	Ub3xc3gDpPUmeFh6V9CWWKyLkvdqe/6H6ruNyUBUNjrwNZICE1TVyFmnkLOehybFqTd+
+	0wLWU+3+Wr7OjRLOQA5eOiqhqhk/dhzP/stjfvt5Gk2wswGL3/Jrai4Js4HU5hpro9NH
+	xQ9txMqg0BfXOLZJuw95h4Oui3yxNhG8EPW/GuPsBMDjJT5MU5FROKQFLLxkUGDznzjG
+	Wqp8OE1hE7KqPmlu4mO7hRMXs27gnLNP3vbVX9v1l8y1p5yskRbD5WKPmAHxJ5s8Ux64
+	yLkQ==
+X-Gm-Message-State: AHPjjUiZzJ3kgat0d9qsVfkRbXYiDLbqgu/nsnfsFUY/QwhYnU5qh/8r
+	f9ZthbpuwbnmoxKQs+OBsLry/T4H1gp1gvEe/B8=
+X-Google-Smtp-Source: AOwi7QBmlw0jtLS5Z7mHx0blgyURwEOix52bwNrqx/bB0qDX4VvT9UBfvzvA7N5BTw1kk1WHxktPLosuiGr8qhaTpZ4=
+X-Received: by 10.99.111.9 with SMTP id k9mr3261686pgc.439.1505938092408; Wed,
+	20 Sep 2017 13:08:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170914122753.12713-1-ross.burton@intel.com>
-Subject: Re: [PATCH][morty] bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
+Received: by 10.100.149.73 with HTTP; Wed, 20 Sep 2017 13:07:41 -0700 (PDT)
+In-Reply-To: <2eedee2e-f768-8470-1647-ea0c98c4e55c@windriver.com>
+References: <007BD92917A2324FA403BCF9A464CF84CF41E3E8@ALA-MBC.corp.ad.wrs.com>
+	<20878500-1BB2-43F0-A6A5-087775FC0FAB@madison.systems>
+	<b8a7eae3-2b65-e17d-efe0-f7efb113fd38@windriver.com>
+	<CAMKF1spd-DuNQLT+iGCTVWDXcWzpsXyEGtUCeHFz953jF5e2Sg@mail.gmail.com>
+	<CAGgRHJp27mt4P2pPRkJEQgoUnmD4VAbj83=dCSrZT=X=53NFEQ@mail.gmail.com>
+	<2eedee2e-f768-8470-1647-ea0c98c4e55c@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Sep 2017 13:07:41 -0700
+Message-ID: <CAMKF1srnH9eQ-03KJuMKkf+59WZX97K7_mijrQZd_sJ4AUuCgA@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"otavio@ossystems.com.br" <otavio@ossystems.com.br>
+Subject: Re: go-runtime does not build for mips32r2 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,81 +61,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 19:30:29 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 20 Sep 2017 20:08:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 09/14/2017 05:27 AM, Ross Burton wrote:
-> All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
-> information disclosure vulnerability which allows remote attackers to obtain
-> sensitive information from the bluetoothd process memory. This vulnerability
-> lies in the processing of SDP search attribute requests.
-
-merged to stagging.
-thanks
-- armin
+On Wed, Sep 20, 2017 at 11:32 AM, Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+> On 2017-09-19 07:47 AM, Matt Madison wrote:
+>>
+>> On Mon, Sep 18, 2017 at 4:26 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> On Mon, Sep 18, 2017 at 3:52 PM, Mark Hatle <mark.hatle@windriver.com>
+>>> wrote:
+>>>>
+>>>> On 9/18/17 5:50 PM, Matt Madison wrote:
+>>>>>
+>>>>>
+>>>>>> On 18 Sep 2017, at 2:11 PM, Slater, Joseph <joe.slater@windriver.com
+>>>>>> <mailto:joe.slater@windriver.com>> wrote:
+>>>>>>
+>>>>>> This is the default tune for qemumips.  It appears that the problem
+>>>>>> does not
+>>>>>> occur for an oe-core checkout just before the split creating
+>>>>>> go-runtime.
+>>>>>>
+>>>>>> Before the split, go-helloworld will build, but after the split it
+>>>>>> will not
+>>>>>> because it needs go-runtime.
+>>>>>
+>>>>>
+>>>>> There=E2=80=99s a TUNE_CCARGS_remove in go_1.9.bb to remove the
+>>>>> =E2=80=98-march=3Dmips32r2=E2=80=99 flag
+>>>>> that probably either needs to be moved to a .inc file or copied to
+>>>>> go-runtime_1.9.bb.  Missed that when splitting out the runtime recipe=
+.
+>>>>
+>>>>
+>>>> That seems wrong.  We should be using the TUNE_CCARGS, and -not- using
+>>>> the
+>>>> arguments that 'go' has decided must be right.
+>>>>
+>>>> Otherwise the optimizations may or may not be compatible... and if
+>>>> someone
+>>>> selects different arguments, they won't get filtered.
+>>>
+>>>
+>>> go supports mips32r1, and needs fpu or kernel FPU emulation enabled
+>>> so using mips32r2 might be fine back when I was adding it to oe-core it
+>>> did not work, things might be different with 1.9 release where mips
+>>> support is complete in golang.
+>>
+>>
+>> It's still mips32r1, though, and the go build tool explicitly adds
+>> '-march=3Dmips32 -mabi=3D32' when invoking the C compiler for cgo.
+>>
+>> -Matt
+>>
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
->  .../bluez5/bluez5/cve-2017-1000250.patch           | 34 ++++++++++++++++++++++
->  2 files changed, 35 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index ecefb7b593e..3421c382063 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -23,6 +23,7 @@ SRC_URI = "\
->      file://run-ptest \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
->      file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-> +    file://cve-2017-1000250.patch \
->  "
->  S = "${WORKDIR}/bluez-${PV}"
->  
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
-> new file mode 100644
-> index 00000000000..9fac961bcf6
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
-> @@ -0,0 +1,34 @@
-> +All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
-> +information disclosure vulnerability which allows remote attackers to obtain
-> +sensitive information from the bluetoothd process memory. This vulnerability
-> +lies in the processing of SDP search attribute requests.
-> +
-> +CVE: CVE-2017-1000250
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +From 9e009647b14e810e06626dde7f1bb9ea3c375d09 Mon Sep 17 00:00:00 2001
-> +From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-> +Date: Wed, 13 Sep 2017 10:01:40 +0300
-> +Subject: sdp: Fix Out-of-bounds heap read in service_search_attr_req function
-> +
-> +Check if there is enough data to continue otherwise return an error.
-> +---
-> + src/sdpd-request.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/src/sdpd-request.c b/src/sdpd-request.c
-> +index 1eefdce..318d044 100644
-> +--- a/src/sdpd-request.c
-> ++++ b/src/sdpd-request.c
-> +@@ -917,7 +917,7 @@ static int service_search_attr_req(sdp_req_t *req, sdp_buf_t *buf)
-> + 	} else {
-> + 		/* continuation State exists -> get from cache */
-> + 		sdp_buf_t *pCache = sdp_get_cached_rsp(cstate);
-> +-		if (pCache) {
-> ++		if (pCache && cstate->cStateValue.maxBytesSent < pCache->data_size) {
-> + 			uint16_t sent = MIN(max, pCache->data_size - cstate->cStateValue.maxBytesSent);
-> + 			pResponse = pCache->data;
-> + 			memcpy(buf->data, pResponse + cstate->cStateValue.maxBytesSent, sent);
-> +-- 
-> +cgit v1.1
+> Is someone working on a fix or should I open a YP defect?
 
+Open a defect regardless.
 
