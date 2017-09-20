@@ -1,56 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C33C977E7F
+Return-Path: <Javier.Viguera@digi.com>
+Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
+	[216.82.251.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 5995065CC6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 16:07:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 75A0918A15;
-	Wed, 20 Sep 2017 18:07:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id UQynFsL3IsF2; Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 427D918A11;
-	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 326121E082;
-	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 272AA1E081;
-	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 1AF8D1908;
-	Wed, 20 Sep 2017 18:07:09 +0200 (CEST)
-Received: from XBOX02.axis.com (10.0.5.16) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 20 Sep 2017 18:07:09 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 20 Sep 2017 18:07:09 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Armin Kuster <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow
-	extra variables to be displayed
-Thread-Index: AQHTKK9yxvClvC6ZTUytd2aq+NmHqKK+AXlw
-Date: Wed, 20 Sep 2017 16:07:08 +0000
-Message-ID: <d1f3c690a4cc49adb978f14fb5033ae8@XBOX02.axis.com>
-References: <20170908143315.30326-1-pkj@axis.com>
-In-Reply-To: <20170908143315.30326-1-pkj@axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 20 Sep 2017 16:29:13 +0000 (UTC)
+Received: from [216.82.249.131] by server-1.bemta-12.messagelabs.com id
+	C0/90-02067-A5792C95; Wed, 20 Sep 2017 16:29:14 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJIsWRWlGSWpSXmKPExsXi5LtOQDdq+qF
+	Ig+vnJSzu/HzH7sDocW7jCsYAxijWzLyk/IoE1ozGLatYCvo4Kw4ct29gnMnRxcjFISSwilHi
+	9q+zbBDOekaJ62cfsXYxcnKwCehJTL70hLmLkYNDBMi++k8UJCwsYCvRcXkzI4jNIqAq8WB7M
+	xOIzStgIzG5+y0LiC0hIC9x7sFtZoi4oMTJmU/A4swCEhIHX7wAiwsJqEgcXHqZEaZ+0+az7B
+	C2icTFq7vZIGxDie+zvkHNlJbY27eQeQIj/ywkY2chGbuAkWkVo0ZxalFZapGusYFeUlFmekZ
+	JbmJmjq6hoZFebmpxcWJ6ak5iUrFecn7uJkZgsNUzMDDuYPz93/cQoyQHk5Ior+aUQ5FCfEn5
+	KZUZicUZ8UWlOanFhxhlODiUJHiTpgHlBItS01Mr0jJzgGEPk5bg4FES4fUFSfMWFyTmFmemQ
+	6ROMepydNy8+4dJiCUvPy9VSpzXAqRIAKQoozQPbgQsBi8xykoJ8zIyMDAI8RSkFuVmlqDKv2
+	IU52BUEuY1BZnCk5lXArfpFdARTEBHZG84AHJESSJCSqqBUaFUYdKXRXe3H3Jod9F2rSnlMX7
+	VUf/q4e7sf9r8kytffb3mkrPuZfqaSeuerbyWMK0z6WmEQ42TuNmn4P1XDRkYQwxfVZvwNJ1z
+	eLk/mMNWdPKazptqKVMCBP5eqLzXdWqq+P7QINdvPmzW1g6fXS6v1H781Vjme8DSsuhnxSwcS
+	YcdvpWLKbEUZyQaajEXFScCAMMR86+8AgAA
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-8.tower-28.messagelabs.com!1505924952!75943466!5
+X-Originating-IP: [66.77.174.16]
+X-StarScan-Received: 
+X-StarScan-Version: 9.4.45; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 4586 invoked from network); 20 Sep 2017 16:29:14 -0000
+Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
+	by server-8.tower-28.messagelabs.com with SMTP;
+	20 Sep 2017 16:29:14 -0000
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
+	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 20 Sep 2017 11:29:13 -0500
+Received: from log-cln-jviguera.digi.com (10.101.2.54) by
+	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
+	14.3.361.1; Wed, 20 Sep 2017 18:29:09 +0200
+From: Javier Viguera <javier.viguera@digi.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Sep 2017 18:28:56 +0200
+Message-ID: <20170920162856.24278-1-javier.viguera@digi.com>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow	extra variables to be displayed
+X-Originating-IP: [10.101.2.54]
+X-KSE-AntiSpam-Interceptor-Info: protection disabled
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean
+Subject: [PATCH] curl: add 'enable-ares' packageconfig option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,94 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 16:07:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Sep 2017 16:29:13 -0000
+Content-Type: text/plain
 
-Is there any chance of this making it into 2.3.2? It seems 2.3.2 is=20
-not too far away, given that the DISTRO_VERSION has been updated to=20
-2.3.2 on the pyro branch, but I do not know what the current status=20
-is or when you expect to cut the release.
+This build time option is needed to use the '--dns-interface' runtime
+parameter to instruct 'curl' to use a specific interface for DNS
+resolution.
 
-For the record this should be safe to take regarding any QA testing=20
-done since it only affects a script that is not used as part of=20
-building anything, and then only changes its behavior if a new=20
-argument is specified.
+Not enabled by default, as it depends on 'c-ares' package from
+meta-openembedded (meta-networking).
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Peter Kjellerstedt
-> Sent: den 8 september 2017 16:33
-> To: Armin Kuster <akuster808@gmail.com>; openembedded-
-> core@lists.openembedded.org
-> Subject: [OE-core] [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow
-> extra variables to be displayed
->=20
-> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->=20
-> By specifying the -e <var> option one or multiple times, extra
-> variables available in the pkgdata can be displayed, e.,g,
-> `oe-pkgdata-util package-info -e SUMMARY -e LICENSE ...`. The extra
-> variables displayed are quoted since some of them may contain
-> whitespace.
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->=20
-> This is a backport of the corresponding change (6f054fcf) on master.
-> It should not change anything unless one actually uses the --extra
-> option to oe-pkgdata-util.
->=20
-> PATCHv2: Now without Change-Id footer.
->=20
->  scripts/oe-pkgdata-util | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-> index 6255662a4b..677effeef6 100755
-> --- a/scripts/oe-pkgdata-util
-> +++ b/scripts/oe-pkgdata-util
-> @@ -325,8 +325,15 @@ def package_info(args):
->              recipe_version =3D recipe_version + "-" +
-> mappings[pkg]['PR']
->          pkg_size =3D mappings[pkg]['PKGSIZE']
->=20
-> -        items.append("%s %s %s %s %s" %
-> -                     (pkg, pkg_version, recipe, recipe_version,
-> pkg_size))
-> +        line =3D "%s %s %s %s %s" % (pkg, pkg_version, recipe,
-> recipe_version, pkg_size)
-> +
-> +        if args.extra:
-> +            for var in args.extra:
-> +                val =3D mappings[pkg][var].strip()
-> +                val =3D re.sub(r'\s+', ' ', val)
-> +                line +=3D ' "%s"' % val
-> +
-> +        items.append(line)
->      print('\n'.join(items))
->=20
->  def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
-> @@ -530,6 +537,7 @@ def main():
->                                            description=3D'Looks up the
-> specified runtime package(s) and display information')
->      parser_package_info.add_argument('pkg', nargs=3D'*', help=3D'Runtime
-> package name to look up')
->      parser_package_info.add_argument('-f', '--file', help=3D'Read
-> package names from the specified file (one per line, first field
-> only)')
-> +    parser_package_info.add_argument('-e', '--extra', help=3D'Extra
-> variables to display, e.g., LICENSE (can be specified multiple times)',
-> action=3D'append')
->      parser_package_info.set_defaults(func=3Dpackage_info)
->=20
->      parser_find_path =3D subparsers.add_parser('find-path',
-> --
-> 2.12.0
+Signed-off-by: Javier Viguera <javier.viguera@digi.com>
+---
+ meta/recipes-support/curl/curl_7.54.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-//Peter
+diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.54.1.bb
+index 54f3b667c8a7..3a5f1ae7abfc 100644
+--- a/meta/recipes-support/curl/curl_7.54.1.bb
++++ b/meta/recipes-support/curl/curl_7.54.1.bb
+@@ -27,6 +27,8 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls prox
+ PACKAGECONFIG_class-native = "ipv6 proxy ssl threaded-resolver zlib"
+ PACKAGECONFIG_class-nativesdk = "ipv6 proxy ssl threaded-resolver zlib"
+ 
++# 'ares' and 'threaded-resolver' are mutually exclusive
++PACKAGECONFIG[ares] = "--enable-ares,--disable-ares,c-ares"
+ PACKAGECONFIG[dict] = "--enable-dict,--disable-dict,"
+ PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
+ PACKAGECONFIG[gopher] = "--enable-gopher,--disable-gopher,"
 
