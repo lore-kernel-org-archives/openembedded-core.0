@@ -1,26 +1,22 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CC9277E81
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BD7577E87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 17:17:18 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Sep 2017 10:17:18 -0700
+	Wed, 20 Sep 2017 17:27:32 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Sep 2017 10:27:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,421,1500966000"; d="scan'208";a="151486634"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
-	([10.54.69.56])
-	by orsmga005.jf.intel.com with ESMTP; 20 Sep 2017 10:17:18 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.42,422,1500966000"; d="scan'208";a="1016671266"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga003.jf.intel.com with ESMTP; 20 Sep 2017 10:27:08 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Sep 2017 10:17:17 -0700
-Message-Id: <0d237100dc22224840c5cb81f0a32c067e1676ca.1505927561.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <fc8637cdd9e374834b6f1b0846761d43eb2f15f3.1505927561.git.alejandro.hernandez@linux.intel.com>
-References: <fc8637cdd9e374834b6f1b0846761d43eb2f15f3.1505927561.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <cover.1505927561.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1505927561.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 5/5] linux-yocto-tiny: Enable qemux86-64 on linux-yocto-tiny 4.12
+Date: Wed, 20 Sep 2017 10:27:17 -0700
+Message-Id: <1505928437-42844-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] gzip_1.8.bb: improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 17:17:18 -0000
+X-List-Received-Date: Wed, 20 Sep 2017 17:27:32 -0000
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Remove build host references from gzip-ptest package.
+
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/gzip/gzip_1.8.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-index efd876aee5e..ba67af357e9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
-@@ -17,7 +17,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+diff --git a/meta/recipes-extended/gzip/gzip_1.8.bb b/meta/recipes-extended/gzip/gzip_1.8.bb
+index a0dec14..d093207 100644
+--- a/meta/recipes-extended/gzip/gzip_1.8.bb
++++ b/meta/recipes-extended/gzip/gzip_1.8.bb
+@@ -27,6 +27,10 @@ do_install_ptest() {
+             -e 's/^AWK = ..*/AWK = awk/'                \
+             -e 's/^srcdir = ..*/srcdir = \./'           \
+             -e 's/^Makefile: ..*/Makefile: /'           \
++            -e 's,--sysroot=${STAGING_DIR_TARGET},,g'   \
++            -e 's|${DEBUG_PREFIX_MAP}||g' \
++            -e 's:${HOSTTOOLS_DIR}/::g'                 \
++            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
+             ${B}/tests/Makefile > ${D}${PTEST_PATH}/src/tests/Makefile
+ }
  
--COMPATIBLE_MACHINE = "(qemux86$)"
-+COMPATIBLE_MACHINE = "qemux86|qemux86-64"
- 
- # Functionality flags
- KERNEL_FEATURES = ""
 -- 
-2.12.3
+2.7.4
 
 
