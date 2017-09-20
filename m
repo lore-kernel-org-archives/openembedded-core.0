@@ -1,45 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
 Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
 	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D542C77C29
+	by mail.openembedded.org (Postfix) with ESMTP id E2D697197E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 09:29:27 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id u48so1141351wrf.4
+	Wed, 20 Sep 2017 09:41:58 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id g50so1163317wra.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 02:29:29 -0700 (PDT)
+	Wed, 20 Sep 2017 02:42:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=PE3JhOBgUISb20ntOGzWq+znIreK2DOVX22xcVttF64=;
-	b=FZTCnj80lp6LiBfbRubfF8QLynr5h/lUJkCOVnkUF2jRho/7zvYFNQrWTfd9k9QzWS
-	NRwYQArK2EgETOykZAxdct5xqqsspsADHLpRTT3cr3Gzj58680NthtYQRMYbVMLL1p8v
-	xSDz9EogZjMYFAtqneo+AM+zlWlLARhwhOpP3YP+8gMpP0egg8wqUgIvGokRg/LbfTHu
-	ZAhSxK2jgiungvaYp01lv9rFSpUcAIuV5WS3YV179cDIQ0r/EeH07+XzP2b9Qzhf6SNp
-	UOcHF6AMv7jbVwlz33cW1Q+lzp3gQdO3tqkd/2rgc5CS6Wxui0zWkni6i1dfIdyRR9WX
-	PKqw==
-X-Gm-Message-State: AHPjjUi9+TsjnOw6hCB7gJ/xiwgVamKX/W7pPWyjrfxUrKrm4ZyLtPBr
-	tfNRydDjD/n7qnEF+3jqO7Y=
-X-Google-Smtp-Source: AOwi7QAGKHCJ5qkh0hjWFFpK2aI2VLLdjmv60koeMOlfa1O+rze9j/3QHEn2We7W+6p3T1aQ1kEmsw==
-X-Received: by 10.223.143.110 with SMTP id p101mr3756379wrb.182.1505899768562; 
-	Wed, 20 Sep 2017 02:29:28 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id y5sm1238093wmg.6.2017.09.20.02.29.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 20 Sep 2017 02:29:27 -0700 (PDT)
-Message-ID: <1505899714.19222.9.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Sep 2017 10:28:34 +0100
-In-Reply-To: <1504597240.29140.10.camel@andred.net>
-References: <20170904093726.11472-1-git@andred.net>
-	<101285eff0324932a48ca1002532fee5@XBOX02.axis.com>
-	<1504597240.29140.10.camel@andred.net>
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] useradd-staticids: don't create username-group if	gid is specified
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=HGOfIwKS9v48fLFKX4br+yYyall0NBM1zN5K1EJ66Ws=;
+	b=kab+1FVhjXuZX1pWeHo8SBPH/hgEILv/cN9oP+EXJTvnRh/3pxqiKtseltop+7flOr
+	vwtApxy9TJIFwg9GwJPJLKAZsFAoRmcZprsmk0IgwP9Fx+9QZzpqqiWXYEd7OkJyKg8Q
+	/2vpnXqAYZewxwXO3CIItWaXEsd3TuesJiluhIWtuGxVjfwj1izmzvoylF+yp2aW0CVD
+	3XEXuGKWlpFubV44UBfVEX08Dl6jF7ESUGvO2U5sY67AF54LCjwaqZmELOvoIpVQAirm
+	Jd2CxmPJmmjQT7/OJD1UnYfkqeEsESZAO/0etbqb8XKuXqYykK86FPU3ijar/+9sJdJg
+	O2fQ==
+X-Gm-Message-State: AHPjjUhl6GLv1+E5jYwstAw38x5Km4a3qoBM//v4xosq04Eo7DL/xJBB
+	CJ1B28P2DtJ9iNHXPm4sAxOKsAcE
+X-Google-Smtp-Source: AOwi7QAw3NxrUcfdLJ96LxEP5AAArTIt7BX+hQJ+yex7n3ggw8TNFYDxyNNBAVnsSy01pAXtliyFAQ==
+X-Received: by 10.223.168.105 with SMTP id l96mr4163910wrc.248.1505900519408; 
+	Wed, 20 Sep 2017 02:41:59 -0700 (PDT)
+Received: from tfsielt31850.tycofs.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	k52sm1467558wrf.62.2017.09.20.02.41.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Sep 2017 02:41:58 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Sep 2017 10:41:53 +0100
+Message-Id: <20170920094157.11340-1-git@andred.net>
+X-Mailer: git-send-email 2.14.1
+MIME-Version: 1.0
+Subject: [PATCH 1/5] kernel-fitimage: sanitize dtb section name (unbreak MIPS)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,52 +48,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 09:29:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 20 Sep 2017 09:41:59 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-ping
+From: André Draszik <adraszik@tycoint.com>
 
-On Tue, 2017-09-05 at 08:40 +0100, André Draszik wrote:
-> On Mon, 2017-09-04 at 10:22 +0000, Peter Kjellerstedt wrote:
-> > > 
-> 
-> [...]
-> > > diff --git a/meta/classes/useradd-staticids.bbclass
-> > > b/meta/classes/useradd-staticids.bbclass
-> > > index ce4ac62ab5..1b61a8bf9b 100644
-> > > --- a/meta/classes/useradd-staticids.bbclass
-> > > +++ b/meta/classes/useradd-staticids.bbclass
-> > > @@ -102,7 +102,7 @@ def update_useradd_static_config(d):
-> > >              # So if the implicit username-group creation is on, then
-> > > the implicit groupname (LOGIN)
-> > >              # is used, and we disable the user_group option.
-> > >              #
-> > > -            user_group = uaargs.user_group is None or
-> > > uaargs.user_group
-> > > is True
-> > > +            user_group = uaargs.gid is None or uaargs.user_group is
-> > > True
-> > 
-> > Hmm, I believe that should be:
-> > 
-> >             user_group = uaargs.gid is None and uaargs.user_group is
-> > None
-> > or uaargs.user_group is True
-> > 
-> > I.e., if neither --gid nor --user-group is specified, then it should 
-> > treat it as if --user-group was specified.
-> 
-> Hm, isn't this still the same as 
-> 
-> user_group = uaargs.gid is None or uaargs.user_group is True
-> 
-> ? If neither --gid nor --user-group is specified, then gid is None, so it
-> will do what you want already. IOW, unless the group name (gid) is
-> specified, a username-group is being created.
-> 
-> 
-> Cheers,
-> Andre'
-> 
+We can't build fitImages for MIPS any more:
+| Error: fit-image.its:21.27-28 syntax error
+| FATAL ERROR: Unable to parse input tree
+| uboot-mkimage: Can't read arch/mips/boot/fitImage.tmp: Invalid argument
+
+Since commit cd2ed7f80b555add07795cc0cbaee866e6c193a3
+("kernel-fitimage: dtb sections named by their filenames
+and one config section for each dtb"), commit
+1ec405ef5df82884c8997878bbe6c66d924b5127 in yocto, dtb
+sections are named by the DTB filename, but the filename
+can legally be in a subdirectory below
+arch/$arch/boot/dts/, and on MIPS all DTBs are actually
+in a subdirectory.
+
+If so, mkimage fails with the above error message.
+
+Unbreak this by replacing the offending character
+(directory separator /)
+
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index 2630b47316..6f1b7667bc 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -351,6 +351,7 @@ fitimage_assemble() {
+ 				DTB_PATH="arch/${ARCH}/boot/${DTB}"
+ 			fi
+ 
++			DTB=$(echo "${DTB}" | tr '/' '_')
+ 			DTBS="${DTBS} ${DTB}"
+ 			fitimage_emit_section_dtb ${1} ${DTB} ${DTB_PATH}
+ 		done
+-- 
+2.14.1
+
 
