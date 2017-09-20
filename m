@@ -1,57 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DD0A460766
+Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0048877E93
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 19:14:20 +0000 (UTC)
-Received: by mail-qk0-f175.google.com with SMTP id d70so3708454qkc.11
+	Wed, 20 Sep 2017 19:30:28 +0000 (UTC)
+Received: by mail-pg0-f52.google.com with SMTP id d8so2231303pgt.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 12:14:22 -0700 (PDT)
+	Wed, 20 Sep 2017 12:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding:content-language;
-	bh=mtwq/6jBIkQHtZBoxGYUuaitZbYSiObZOkplF/kfkbc=;
-	b=XUMiJtGwTCRN07VctArwip1dkT5FgniGB8WueWUxw8cmKR5I9Z4hO+yRk2AMEFGTIs
-	f3BquryUBMmqwsVfRIKEQS7KWw/IsgqQifklkaz1PD4mDz4LCtpXPBZ2XXhCl4kLmAc+
-	ZwHQPZxaknoD9DGu7YwKFLDLZwbsirCjAE1K4e4bQI6Guh9Z80+2c28r13velHPfR8U/
-	9RfnaFvrivBZJuKUfnVKVW6gdHlPAJyUmvnMTVhoTsyYm1Hdd1yDiwY5Qqd622gRk1YF
-	o+Blw2feKt4BdYr8xkttLmI7Q9FZO1yX/WtkKPmH7gBvgWxAr6gG8V2AlCvk93DuAqYR
-	1Irg==
+	bh=SOyyF+KSwH8+Ise05A0enJUTI9JZvEzroX0I+kTcm8g=;
+	b=kdunxA/d2XvpwarCLx6ILXEKOeg+H4oShAR8OARFxqSJcrTIPoh3t6qTofux4co3RY
+	pvNDSl9dTRa9/chOu/gCWDBmlisR7sAvpGJKcLjzT1dpIcbXca3T7RwM/UTfEfejaII0
+	Hv5ByftxSx/qV0I1IRaM3SLTM4JZiaB9OopX6uFaY1C4Ue+kFmnIhxnW3Pdj2uRGvkYN
+	TBjhXo6eEd8rvbDdT5J/tUQ+4vzm4gwScPdXaQltgU2KedzfFZ/gxOsCXdUdBFm79JVc
+	UjIrSqIsU1xgJihVndNgPFc3tTPtxOTQh96h8HndfmC2H3Sz+rGVypm6tXZj67n3z/h/
+	Zchg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=mtwq/6jBIkQHtZBoxGYUuaitZbYSiObZOkplF/kfkbc=;
-	b=PBGrgs4EQcPTsR9hsTIN+H1SE+KvDsqTwUjiO8iDDrgTxCyfrAvKVTNRp5Z1o7BKBt
-	DvGBMIMNMzT6itX/atiJpHbPkHEwB8QmBaTe3mheQWrs9BA3z7sYKp6igHhS/A17TscE
-	xKk1c7+JvfypfgVErSZrTf+Q3Vbgse6dVQiGM79/OdkYrT5yF3EZyyV0Hpu1qYxmlhei
-	8kU1n9ETYlPOa4SAoj3hQJMI2fCszFEukjSJnBl8ddDsRTtp4kpjCRR+YhI+qY7CeWPV
-	OTm2RwubpS7JhMWMC+IwPargf9RqZRVwmbM2tUk4TmV+WHZQgVICxfZtMVI+7UzHF9ti
-	M8MQ==
-X-Gm-Message-State: AHPjjUi1vlA8/7DHEpxsll92A9+oQxdIVjJMSMqObJmpY0gUDuKxtyCH
-	DI6ikwe+vX8OYrEX1ra0NM5KBQ==
-X-Google-Smtp-Source: AOwi7QCDXrvhBDWrZgntYivkx/UjQsmr6rlpMHMnVmsXvUrg9j3ovzEVwcgD/bqOfPJY16P4xWz2OA==
-X-Received: by 10.233.237.7 with SMTP id c7mr9029397qkg.69.1505934861612;
-	Wed, 20 Sep 2017 12:14:21 -0700 (PDT)
+	bh=SOyyF+KSwH8+Ise05A0enJUTI9JZvEzroX0I+kTcm8g=;
+	b=jtqqyCGBSAjmSbAFCASf3dNShVkwM+PwrVuMl7yvt+xmqdZ72RbVLkA67El+ErmNu2
+	caBeJ6m+zrCelPQXx1bhESwKC502Rjd4VH1WchFuxvVytK+oTyejNa/qE4+sIiHA+fYv
+	VEaJITCkGXSMS1Sl03tEqNt20c8BoBO+EXLhDA3UQgzqxEQR3iXBUc/prW9j+rphXBj/
+	bguo1zUM+4oxkTz/H/iq+gtgsTZnz3wZdNXgh2806P/pzz04mFFbmXfHZVRuxI/ZDREo
+	r96ZSdqwEq0AUEI2QLQFjhpoLogisY+ugLQPSG9Xn1RygFwhZwl+ydvaml1xMaTmrnCz
+	dMEA==
+X-Gm-Message-State: AHPjjUhsR/udrLd4DsOc+xwwkQhgkPmttDDDJqE+055nbmLX6NdljXiZ
+	tCS/NdOEvTCrNX9ut1RreDicAQ==
+X-Google-Smtp-Source: AOwi7QAlsuCMP6rBkcicth9H/PXTeryLrr7sFIpRKTcbj4devTKp70SYMsFjD70Iz8Yp8TWL5Qpigg==
+X-Received: by 10.98.59.66 with SMTP id i63mr3226951pfa.31.1505935829349;
+	Wed, 20 Sep 2017 12:30:29 -0700 (PDT)
 Received: from [10.43.100.234] (50-233-148-156-static.hfc.comcastbusiness.net.
 	[50.233.148.156]) by smtp.gmail.com with ESMTPSA id
-	m18sm1784830qtb.77.2017.09.20.12.14.20
+	g16sm8691608pgn.62.2017.09.20.12.30.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Sep 2017 12:14:21 -0700 (PDT)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20170908143315.30326-1-pkj@axis.com>
-	<d1f3c690a4cc49adb978f14fb5033ae8@XBOX02.axis.com>
+	Wed, 20 Sep 2017 12:30:28 -0700 (PDT)
+To: Ross Burton <ross.burton@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20170914122753.12713-1-ross.burton@intel.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <b566a55a-ea26-a764-dd2a-8e14e68c3741@gmail.com>
-Date: Wed, 20 Sep 2017 12:14:19 -0700
+Message-ID: <c93c3583-f1aa-bf91-c86e-bde0f6229592@gmail.com>
+Date: Wed, 20 Sep 2017 12:30:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <d1f3c690a4cc49adb978f14fb5033ae8@XBOX02.axis.com>
-Subject: Re: [pyro][PATCHv2] oe-pkgdata-util: package-info: Allow extra variables to be displayed
+In-Reply-To: <20170914122753.12713-1-ross.burton@intel.com>
+Subject: Re: [PATCH][morty] bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,112 +61,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 19:14:21 -0000
+X-List-Received-Date: Wed, 20 Sep 2017 19:30:29 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-Peter
 
 
-On 09/20/2017 09:07 AM, Peter Kjellerstedt wrote:
-> Is there any chance of this making it into 2.3.2?=20
-2.3.2 is in QA so it may not. This does not mean it wont end up in morty.=
+On 09/14/2017 05:27 AM, Ross Burton wrote:
+> All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
+> information disclosure vulnerability which allows remote attackers to obtain
+> sensitive information from the bluetoothd process memory. This vulnerability
+> lies in the processing of SDP search attribute requests.
 
-
-I am stagging the change now.
-
-thanks for the reminder.
-Armin
-> It seems 2.3.2 is=20
-> not too far away, given that the DISTRO_VERSION has been updated to=20
-> 2.3.2 on the pyro branch, but I do not know what the current status=20
-> is or when you expect to cut the release.
+merged to stagging.
+thanks
+- armin
 >
-> For the record this should be safe to take regarding any QA testing=20
-> done since it only affects a script that is not used as part of=20
-> building anything, and then only changes its behavior if a new=20
-> argument is specified.
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+>  .../bluez5/bluez5/cve-2017-1000250.patch           | 34 ++++++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
 >
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of=
-
->> Peter Kjellerstedt
->> Sent: den 8 september 2017 16:33
->> To: Armin Kuster <akuster808@gmail.com>; openembedded-
->> core@lists.openembedded.org
->> Subject: [OE-core] [pyro][PATCHv2] oe-pkgdata-util: package-info: Allo=
-w
->> extra variables to be displayed
->>
->> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->>
->> By specifying the -e <var> option one or multiple times, extra
->> variables available in the pkgdata can be displayed, e.,g,
->> `oe-pkgdata-util package-info -e SUMMARY -e LICENSE ...`. The extra
->> variables displayed are quoted since some of them may contain
->> whitespace.
->>
->> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->>
->> This is a backport of the corresponding change (6f054fcf) on master.
->> It should not change anything unless one actually uses the --extra
->> option to oe-pkgdata-util.
->>
->> PATCHv2: Now without Change-Id footer.
->>
->>  scripts/oe-pkgdata-util | 12 ++++++++++--
->>  1 file changed, 10 insertions(+), 2 deletions(-)
->>
->> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
->> index 6255662a4b..677effeef6 100755
->> --- a/scripts/oe-pkgdata-util
->> +++ b/scripts/oe-pkgdata-util
->> @@ -325,8 +325,15 @@ def package_info(args):
->>              recipe_version =3D recipe_version + "-" +
->> mappings[pkg]['PR']
->>          pkg_size =3D mappings[pkg]['PKGSIZE']
->>
->> -        items.append("%s %s %s %s %s" %
->> -                     (pkg, pkg_version, recipe, recipe_version,
->> pkg_size))
->> +        line =3D "%s %s %s %s %s" % (pkg, pkg_version, recipe,
->> recipe_version, pkg_size)
->> +
->> +        if args.extra:
->> +            for var in args.extra:
->> +                val =3D mappings[pkg][var].strip()
->> +                val =3D re.sub(r'\s+', ' ', val)
->> +                line +=3D ' "%s"' % val
->> +
->> +        items.append(line)
->>      print('\n'.join(items))
->>
->>  def get_recipe_pkgs(pkgdata_dir, recipe, unpackaged):
->> @@ -530,6 +537,7 @@ def main():
->>                                            description=3D'Looks up the=
-
->> specified runtime package(s) and display information')
->>      parser_package_info.add_argument('pkg', nargs=3D'*', help=3D'Runt=
-ime
->> package name to look up')
->>      parser_package_info.add_argument('-f', '--file', help=3D'Read
->> package names from the specified file (one per line, first field
->> only)')
->> +    parser_package_info.add_argument('-e', '--extra', help=3D'Extra
->> variables to display, e.g., LICENSE (can be specified multiple times)'=
-,
->> action=3D'append')
->>      parser_package_info.set_defaults(func=3Dpackage_info)
->>
->>      parser_find_path =3D subparsers.add_parser('find-path',
->> --
->> 2.12.0
-> //Peter
-
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+> index ecefb7b593e..3421c382063 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+> @@ -23,6 +23,7 @@ SRC_URI = "\
+>      file://run-ptest \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+>      file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+> +    file://cve-2017-1000250.patch \
+>  "
+>  S = "${WORKDIR}/bluez-${PV}"
+>  
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
+> new file mode 100644
+> index 00000000000..9fac961bcf6
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/bluez5/bluez5/cve-2017-1000250.patch
+> @@ -0,0 +1,34 @@
+> +All versions of the SDP server in BlueZ 5.46 and earlier are vulnerable to an
+> +information disclosure vulnerability which allows remote attackers to obtain
+> +sensitive information from the bluetoothd process memory. This vulnerability
+> +lies in the processing of SDP search attribute requests.
+> +
+> +CVE: CVE-2017-1000250
+> +Upstream-Status: Backport
+> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> +
+> +From 9e009647b14e810e06626dde7f1bb9ea3c375d09 Mon Sep 17 00:00:00 2001
+> +From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+> +Date: Wed, 13 Sep 2017 10:01:40 +0300
+> +Subject: sdp: Fix Out-of-bounds heap read in service_search_attr_req function
+> +
+> +Check if there is enough data to continue otherwise return an error.
+> +---
+> + src/sdpd-request.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/sdpd-request.c b/src/sdpd-request.c
+> +index 1eefdce..318d044 100644
+> +--- a/src/sdpd-request.c
+> ++++ b/src/sdpd-request.c
+> +@@ -917,7 +917,7 @@ static int service_search_attr_req(sdp_req_t *req, sdp_buf_t *buf)
+> + 	} else {
+> + 		/* continuation State exists -> get from cache */
+> + 		sdp_buf_t *pCache = sdp_get_cached_rsp(cstate);
+> +-		if (pCache) {
+> ++		if (pCache && cstate->cStateValue.maxBytesSent < pCache->data_size) {
+> + 			uint16_t sent = MIN(max, pCache->data_size - cstate->cStateValue.maxBytesSent);
+> + 			pResponse = pCache->data;
+> + 			memcpy(buf->data, pResponse + cstate->cStateValue.maxBytesSent, sent);
+> +-- 
+> +cgit v1.1
 
 
