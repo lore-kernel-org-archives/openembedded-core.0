@@ -1,55 +1,60 @@
-Return-Path: <prvs=043639ae0c=mike.looijmans@topicproducts.com>
-Received: from mx18-out11.antispamcloud.com (mx18-out11.antispamcloud.com
-	[207.244.64.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B9F4471C71
+Return-Path: <prvs=1436c8ef92=holzmayr@rsi-elektrotechnik.de>
+X-Greylist: delayed 353 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 20 Sep 2017 08:13:44 UTC
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
+	[81.169.146.216])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B17970057
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 07:50:15 +0000 (UTC)
-Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
-	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1duZlt-0000Yx-I5; Wed, 20 Sep 2017 09:50:15 +0200
-Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
-	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 20 Sep 2017 09:50:07 +0200
-To: Trevor Woerner <twoerner@gmail.com>
+	Wed, 20 Sep 2017 08:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1505895225;
+	s=domk; d=rsi-elektrotechnik.de;
+	h=Content-Transfer-Encoding:Content-Language:Content-Type:In-Reply-To:
+	MIME-Version:Date:From:References:Cc:To:Subject;
+	bh=aibFL75AmqZ48VWtuVckErADgPNs9xUITcogVcMI2ts=;
+	b=p9RNoMOG6mt1LPvaGA9cmL0gH7wm9eDdc7FlAoEp4OUF4mSTs6lAf4pa++vFPz/UH+
+	EQ3ou3T3IrCiiE1f0hu33pMHzMT/08YUXS8z1av2oScleMoph/N6Zy5MQDn8ffjZRUjg
+	nkPqI1CTlgekReHss9ZArwkeVX1rEDr2QIdSY=
+X-RZG-AUTH: :fz5RJhWIaexwuXGosGLfiBc0xYyi1Y5bd+wRKqrzPWwJyH/ODuV4n+N24+CqMVTDvF1MhuFNtPdyidq2MsANrnBlbnwwcVzJtzMys7bgkA==
+X-RZG-CLASS-ID: mo00
+Received: from mail.rsi-elektrotechnik.de
+	([2001:0:9d38:78cf:246b:26e9:af6c:cbea])
+	by smtp.strato.de (RZmta 41.4 AUTH) with ESMTPSA id 401044t8K87iLv3
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve secp384r1
+	with 384 ECDH bits, eq. 7680 bits RSA))
+	(Client did not present a certificate);
+	Wed, 20 Sep 2017 10:07:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/relaxed;
+	d=rsi-elektrotechnik.de; s=MDaemon; t=1505894854; x=1506499654;
+	i=holzmayr@rsi-elektrotechnik.de; q=dns/txt; h=Subject:To:Cc:
+	References:From:Message-ID:Date:User-Agent:MIME-Version:
+	In-Reply-To:Content-Type:Content-Language:
+	Content-Transfer-Encoding; bh=aibFL75AmqZ48VWtuVckErADgPNs9xUITc
+	ogVcMI2ts=; b=aALiTp81nXvN2jzAGCsN4diqEPCwe6Vpz9N7ISCA1N1qLHCQ0D
+	okIg60/Tvy9SgsOHMUK8UpoC3qcgQHb7qNFPcdm+MVxkpAXggSa2Blp1DqqMUba2
+	Cj0CwU0E6L0A+S3aJLfVIC8USbqa7y7HvPvWDJo9ZA1pRQ60Yku1/TE3Q=
+Received: by mail.rsi-elektrotechnik.de (MDaemon PRO v17.0.3) with ESMTPSA id
+	md50000004941.msg; Wed, 20 Sep 2017 10:07:34 +0200
+X-Spam-Processed: mail.rsi-elektrotechnik.de, Wed, 20 Sep 2017 10:07:34 +0200
+	(not processed: message from trusted or authenticated source)
+X-MDArrival-Date: Wed, 20 Sep 2017 10:07:34 +0200
+X-Authenticated-Sender: holzmayr@rsi-elektrotechnik.de
+X-Return-Path: prvs=1436c8ef92=holzmayr@rsi-elektrotechnik.de
+X-Envelope-From: holzmayr@rsi-elektrotechnik.de
+X-CAV-Result: skipped - holzmayr@rsi-elektrotechnik.de is in exclusion list
+To: Mike Looijmans <mike.looijmans@topic.nl>,
+	Trevor Woerner <twoerner@gmail.com>
 References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
 	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
 	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
 	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-Message-ID: <9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
-Date: Wed, 20 Sep 2017 09:50:07 +0200
+	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
+From: Josef Holzmayr <holzmayr@rsi-elektrotechnik.de>
+Message-ID: <a8be08ca-30a4-bbd5-5672-2dd721e6fcff@rsi-elektrotechnik.de>
+Date: Wed, 20 Sep 2017 10:06:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Originating-IP: 37.74.225.130
-X-SpamExperts-Domain: topic.nl
-X-SpamExperts-Username: 37.74.225.128/28
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=37.74.225.128/28@topic.nl
-X-SpamExperts-Outgoing-Class: ham
-X-SpamExperts-Outgoing-Evidence: Combined (0.10)
-X-Recommended-Action: accept
-X-Filter-ID: PqwsvolAWURa0gwxuN3S5YEa3T7JuZT23fGO2rGt3ZgWMD8gia7lRmdoHJ3n0cm6Vtfp9X1ZBchZ
-	wvx8a7dTUQWF0kx98HH3GX+iQK7NiP6LBDMrD7q/cJogwbqzsuokIXMJ1U4MKKnQ5SAJ1V9dkP9x
-	bu57BDazLmklZgT7xzbhkX5wlkInqTGGsM8iftVqeguhvukLYP2VEvzD85T8J7NCQqsdaji3hYdD
-	JtHbRlo8CVsONrMJuGzuoGnKTKcygLJjfy2/hUPxxGqITycuLMdYaphGvYopQ24KJ9kgRDN3pbXn
-	aMbbC1QSUBxihEsjBWOBqoptsYkcljagCMIDypReAQCFQo+KUtaSCrVTlxOfVsst/QEVbupaaYfx
-	KYRJ8ar4sO9kYmr7/nmchPR9G2DCX9m2p4wUnZpURALMKaPBcC9OMLR/g2nFXNsLRUFi629BfVvT
-	QLLzPILTNlfnE6O9dxOP7aK7wq5xtEDLXnjfLM7Ww0jFUCG51FTiiz6cR64dodD7udB+zcx8OjSt
-	1b1YgBvhxKfoFZHs3o0j+S0jv2y8/jlUqm+TeNrMp4+EE+rDN/FnSl88wIa35p4FFXznVNpEBSRM
-	35KuCE6M5jOyxQgNyqqf/IN48z1lpo6ODRmiSLYXQoEVxAAhr5KC2/vg7iEFLP+SSY+Av5+AiC4K
-	XP3vTB7AsR5+kaiIjlO6Iw9C0PQ5NLyrXuzfSqvsyab2GJFSmSbEpvBk3MZid3p8JmFmLZ6h3eau
-	qEcwyeT0VZvJGSxm4bcH1lFUB/zPeGsnJ395jBJAgljEd2a/UHQV6Xe4bIYRHe1fiVaECIfGCs+d
-	m3T5GTMS0IoMjuD73NkW0hXdwXAcFMPC3HLevdBd5OSnmQ79VHBChDRq4FsdiIscDeFU1l+Xg71P
-	NLAVK/kSzgTHdR0s7jseW4etrpEKnuyzaS/cmRpVwk4+qL2rtor9O5jjWZI633McN2M/OeCuU4C5
-	C9Zq0FaIYr+lG8s=
-X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+In-Reply-To: <9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -64,46 +69,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 07:50:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: nl
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Sep 2017 08:13:45 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 18-09-17 18:25, Trevor Woerner wrote:
-> Hi Mike,
->=20
-> On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans <mike.looijmans@topic.nl>=
- wrote:
->> I can probably bring some work (e.g. Zynq MPSoC board) and fun (settop b=
-ox)
->> hardware along to demonstrate what I'm using OE for.
->=20
-> Any chance you could set something up that could be on display at the
-> Yocto booth during the conference?
+On 20.09.2017 09:50, Mike Looijmans wrote:
+> Depends on what I'll be able tug along in my luggage on the airplane, 
+> but whatever I can bring is probably suited for public display. A few 
+> circuit boards will certainly fit, so if the stand could provide a HDMI 
+> monitor (or TV) to connect them to that'd be awesome.
 
-Depends on what I'll be able tug along in my luggage on the airplane, but=20
-whatever I can bring is probably suited for public display. A few circuit=20
-boards will certainly fit, so if the stand could provide a HDMI monitor (or=
-=20
-TV) to connect them to that'd be awesome.
+I can provide a rather small (7") TV with HDMI input if needed. Warning 
+ahead: IIRC it has some 1368 resolution and overscan can't be switched 
+off. Just let me know if I shall bring it.
 
-M.
+Greetz
+-- 
+Josef Holzmayr
+Software Developer Embedded Systems
 
+Tel: +49 8444 9204-48
+Fax: +49 8444 9204-50
 
-Kind regards,
+R-S-I Elektrotechnik GmbH & Co. KG
+Woelkestrasse 11
+D-85301 Schweitenkirchen
+www.rsi-elektrotechnik.de
+———————————————
+Amtsgericht Ingolstadt – GmbH: HRB 191328 – KG: HRA 170393
+Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
+Ust-IdNr: DE 128592548
 
-Mike Looijmans
-System Expert
+_____________________________________________________________
+Amtsgericht Ingolstadt - GmbH: HRB 191328 - KG: HRA 170363
+Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
+USt-IdNr.: DE 128592548
 
-TOPIC Products
-Materiaalweg 4, NL-5681 RJ Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-Visit us at the Space Tech Expo Europe (Stand E-71)
 
