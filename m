@@ -1,62 +1,39 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 22E4777F7D
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CC9577E7F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Sep 2017 14:20:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id A4E302E3D1;
-	Wed, 20 Sep 2017 16:20:27 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id sP-1KehzaRM3; Wed, 20 Sep 2017 16:20:26 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bes.se.axis.com (Postfix) with ESMTPS id 6DF5B2E3FB;
-	Wed, 20 Sep 2017 16:20:26 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 421281A0A1;
-	Wed, 20 Sep 2017 16:20:26 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 372201A0A0;
-	Wed, 20 Sep 2017 16:20:26 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 20 Sep 2017 16:20:26 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by thoth.se.axis.com (Postfix) with ESMTP id 2AE7C1875;
-	Wed, 20 Sep 2017 16:20:26 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 20 Sep 2017 16:20:26 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Wed, 20 Sep 2017 16:20:25 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Wed, 20 Sep 2017 16:20:26 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: =?utf-8?B?QW5kcsOpIERyYXN6aWs=?= <git@andred.net>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] useradd-staticids: don't create username-group
-	if	gid is specified
-Thread-Index: AQHTJWF4toec1K4qAk+f6bkPzn7VpKKkgswggAFFdACAF7EeAIAAbSzA
-Date: Wed, 20 Sep 2017 14:20:26 +0000
-Message-ID: <973534e8429b40d0bcad50c5adecee50@XBOX02.axis.com>
-References: <20170904093726.11472-1-git@andred.net>
-	<101285eff0324932a48ca1002532fee5@XBOX02.axis.com>
-	<1504597240.29140.10.camel@andred.net>
-	<1505899714.19222.9.camel@andred.net>
-In-Reply-To: <1505899714.19222.9.camel@andred.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] useradd-staticids: don't create username-group if	gid is specified
+	Wed, 20 Sep 2017 16:03:32 +0000 (UTC)
+Received: by mail-yw0-f195.google.com with SMTP id s62so1528831ywg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Sep 2017 09:03:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yF0fuon7aG45VmOqMlKHDT96qZH/A3WOmWzWRWkvwgE=;
+	b=sGM86XAh5ko4ULBX3FMxgm5fD/YT7LqLKbtduS+Olsxs01arr3L/EGrUwgywPbe9LR
+	Rcxyzw7mQ33YdTTeNFjC1yuabkGd8YdzwxbrYaXqalRco9WyK8W4ZWJ54mayyxGWKs4g
+	EyysarQFpbyZDROUxbtW9TqmA9s1ASr0XWlJRPhjxIWmgMCtA9YocCa746npOTAEdNdI
+	o3vWum7VjlpPhRtcltL2dV+uuXUWTP+nv0pHV/UML5v0+sasFdHvjVhDmFvHrePWGFa0
+	jpBbR40+eU18tdMhd5+AubY/XvE7VjWcxOoxwenIc2K8bJ/WuGXa2rH8ytBk+xamBXMA
+	6JpQ==
+X-Gm-Message-State: AHPjjUgEKg3PM9hTpwxsjQjrjBsYY2/jYNv8iOVD91vWanw2Gu861SnX
+	DAoglDkijylOnZFkkTVJ8fpq
+X-Google-Smtp-Source: AOwi7QCEHgaX+tbLjG/ePOLDctPgFBVENe+8sOmxNSJtMqd9ci7oFIOUfWuXhmoKcgqwTsCO9IIvKQ==
+X-Received: by 10.129.85.88 with SMTP id j85mr4196499ywb.62.1505923413835;
+	Wed, 20 Sep 2017 09:03:33 -0700 (PDT)
+Received: from localhost.localdomain (cpe-65-184-142-68.ec.res.rr.com.
+	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
+	n129sm830131ywe.109.2017.09.20.09.03.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 20 Sep 2017 09:03:31 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Sep 2017 12:03:27 -0400
+Message-Id: <1505923407-31734-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] wic: Generate startup.nsh for EFI cases if none found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,48 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 14:20:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 20 Sep 2017 16:03:33 -0000
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbmRyw6kgRHJhc3ppayBbbWFp
-bHRvOmdpdEBhbmRyZWQubmV0XQ0KPiBTZW50OiBkZW4gMjAgc2VwdGVtYmVyIDIwMTcgMTE6MjkN
-Cj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsg
-b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDog
-UmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHVzZXJhZGQtc3RhdGljaWRzOiBkb24ndCBjcmVhdGUNCj4g
-dXNlcm5hbWUtZ3JvdXAgaWYgZ2lkIGlzIHNwZWNpZmllZA0KPiANCj4gcGluZw0KDQpTb3JyeSwg
-SSBmb3Jnb3QgdG8gcmVwbHkgdG8gdGhpcy4NCg0KPiBPbiBUdWUsIDIwMTctMDktMDUgYXQgMDg6
-NDAgKzAxMDAsIEFuZHLDqSBEcmFzemlrIHdyb3RlOg0KPiA+IE9uIE1vbiwgMjAxNy0wOS0wNCBh
-dCAxMDoyMiArMDAwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+ID4gPg0KPiA+DQo+
-ID4gWy4uLl0NCj4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy91c2VyYWRkLXN0YXRp
-Y2lkcy5iYmNsYXNzDQo+ID4gPiA+IGIvbWV0YS9jbGFzc2VzL3VzZXJhZGQtc3RhdGljaWRzLmJi
-Y2xhc3MNCj4gPiA+ID4gaW5kZXggY2U0YWM2MmFiNS4uMWI2MWE4YmY5YiAxMDA2NDQNCj4gPiA+
-ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3VzZXJhZGQtc3RhdGljaWRzLmJiY2xhc3MNCj4gPiA+ID4g
-KysrIGIvbWV0YS9jbGFzc2VzL3VzZXJhZGQtc3RhdGljaWRzLmJiY2xhc3MNCj4gPiA+ID4gQEAg
-LTEwMiw3ICsxMDIsNyBAQCBkZWYgdXBkYXRlX3VzZXJhZGRfc3RhdGljX2NvbmZpZyhkKToNCj4g
-PiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAjIFNvIGlmIHRoZSBpbXBsaWNpdCB1c2Vy
-bmFtZS1ncm91cCBjcmVhdGlvbiBpcyBvbiwgdGhlbiB0aGUgaW1wbGljaXQgZ3JvdXBuYW1lIChM
-T0dJTikNCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAjIGlzIHVzZWQsIGFuZCB3
-ZSBkaXNhYmxlIHRoZSB1c2VyX2dyb3VwIG9wdGlvbi4NCj4gPiA+ID4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAjDQo+ID4gPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1c2VyX2dyb3Vw
-ID0gdWFhcmdzLnVzZXJfZ3JvdXAgaXMgTm9uZSBvciB1YWFyZ3MudXNlcl9ncm91cCBpcyBUcnVl
-DQo+ID4gPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB1c2VyX2dyb3VwID0gdWFhcmdzLmdp
-ZCBpcyBOb25lIG9yIHVhYXJncy51c2VyX2dyb3VwIGlzIFRydWUNCj4gPiA+DQo+ID4gPiBIbW0s
-IEkgYmVsaWV2ZSB0aGF0IHNob3VsZCBiZToNCj4gPiA+DQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqB1c2VyX2dyb3VwID0gdWFhcmdzLmdpZCBpcyBOb25lIGFuZCB1YWFyZ3MudXNlcl9n
-cm91cCBpcyBOb25lIG9yIHVhYXJncy51c2VyX2dyb3VwIGlzIFRydWUNCj4gPiA+DQo+ID4gPiBJ
-LmUuLCBpZiBuZWl0aGVyIC0tZ2lkIG5vciAtLXVzZXItZ3JvdXAgaXMgc3BlY2lmaWVkLCB0aGVu
-IGl0IHNob3VsZA0KPiA+ID4gdHJlYXQgaXQgYXMgaWYgLS11c2VyLWdyb3VwIHdhcyBzcGVjaWZp
-ZWQuDQo+ID4NCj4gPiBIbSwgaXNuJ3QgdGhpcyBzdGlsbCB0aGUgc2FtZSBhcw0KPiA+DQo+ID4g
-dXNlcl9ncm91cCA9IHVhYXJncy5naWQgaXMgTm9uZSBvciB1YWFyZ3MudXNlcl9ncm91cCBpcyBU
-cnVlDQoNCk5vLCBiZWNhdXNlIHVhYXJncy51c2VyX2dyb3VwIG1heSBiZSBGYWxzZSBpZiAtLW5v
-LXVzZXItZ3JvdXAgaXMgDQpzcGVjaWZpZWQgKHdoaWNoIEkgb2YgY291cnNlIHNob3VsZCBoYXZl
-IG1lbnRpb25lZCBpbiBteSBwcmV2aW91cyANCnJlcGx5KS4gV2l0aCB5b3VyIHZlcnNpb24sIHlv
-dSB3b3VsZCBzdGlsbCBnZXQgYSB1c2VyIGdyb3VwIGV2ZW4gDQppZiAtLW5vLXVzZXItZ3JvdXAg
-aXMgc3BlY2lmaWVkLg0KDQo+ID4gPyBJZiBuZWl0aGVyIC0tZ2lkIG5vciAtLXVzZXItZ3JvdXAg
-aXMgc3BlY2lmaWVkLCB0aGVuIGdpZCBpcyBOb25lLCBzbyBpdA0KPiA+IHdpbGwgZG8gd2hhdCB5
-b3Ugd2FudCBhbHJlYWR5LiBJT1csIHVubGVzcyB0aGUgZ3JvdXAgbmFtZSAoZ2lkKSBpcw0KPiA+
-IHNwZWNpZmllZCwgYSB1c2VybmFtZS1ncm91cCBpcyBiZWluZyBjcmVhdGVkLg0KPiA+DQo+ID4N
-Cj4gPiBDaGVlcnMsDQo+ID4gQW5kcmUnDQoNCi8vUGV0ZXINCg0K
+In the case of non-wic images there is logic today to generate a
+startup.nsh file that will be executed by EFI to run the loader that the
+image contains.  In the WIC case is currently depends on that file being
+generated elsewhere and placed in DEPLOY_DIR_IMAGE and only used if
+present there.  This extends the logic we have today in wic to save the
+name of the loader that's being placed and if no startup.nsh is provided
+already generate the default kind that grub-efi/systemd-boot.bbclass
+generate.
+
+Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 4c4f36a32f56..f4643fc233b2 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -204,13 +204,15 @@ class BootimgEFIPlugin(SourcePlugin):
+                 shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
+                                 "%s/grub.cfg" % cr_workdir)
+                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
+-                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[9:])
++                    loader = mod[9:]
++                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
+                     exec_cmd(cp_cmd, True)
+                 shutil.move("%s/grub.cfg" % cr_workdir,
+                             "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
+             elif source_params['loader'] == 'systemd-boot':
+                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
+-                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
++                    loader = mod[8:]
++                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
+                     exec_cmd(cp_cmd, True)
+             else:
+                 raise WicError("unrecognized bootimg-efi loader: %s" %
+@@ -222,6 +224,10 @@ class BootimgEFIPlugin(SourcePlugin):
+         if os.path.exists(startup):
+             cp_cmd = "cp %s %s/" % (startup, hdddir)
+             exec_cmd(cp_cmd, True)
++        else:
++            cfg = open("%s/startup.nsh" % hdddir, "w")
++            cfg.write("fs0:EFI\\BOOT\\%s\n" % loader)
++            cfg.close()
+ 
+         du_cmd = "du -bks %s" % hdddir
+         out = exec_cmd(du_cmd)
+-- 
+1.9.1
+
 
