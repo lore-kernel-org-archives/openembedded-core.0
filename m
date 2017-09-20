@@ -1,24 +1,26 @@
 Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C068D77ACD
+	by mail.openembedded.org (Postfix) with ESMTP id D788D77E81
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 20 Sep 2017 17:17:17 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	20 Sep 2017 10:17:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,421,1500966000"; d="scan'208";a="151486630"
+X-IronPort-AV: E=Sophos;i="5.42,421,1500966000"; d="scan'208";a="151486631"
 Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
 	([10.54.69.56])
 	by orsmga005.jf.intel.com with ESMTP; 20 Sep 2017 10:17:18 -0700
 From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Sep 2017 10:17:13 -0700
-Message-Id: <fc8637cdd9e374834b6f1b0846761d43eb2f15f3.1505927561.git.alejandro.hernandez@linux.intel.com>
+Date: Wed, 20 Sep 2017 10:17:14 -0700
+Message-Id: <3a696469fb60ef18618ddf4e7396f8d663a2e649.1505927561.git.alejandro.hernandez@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
+In-Reply-To: <fc8637cdd9e374834b6f1b0846761d43eb2f15f3.1505927561.git.alejandro.hernandez@linux.intel.com>
+References: <fc8637cdd9e374834b6f1b0846761d43eb2f15f3.1505927561.git.alejandro.hernandez@linux.intel.com>
 In-Reply-To: <cover.1505927561.git.alejandro.hernandez@linux.intel.com>
 References: <cover.1505927561.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/5] core-image-tiny-initramfs: Enable running poky-tiny on qemux86-64
+Subject: [PATCH 2/5] linux-yocto-tiny: Enable qemux86-64 on linux-yocto-tiny 4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Sep 2017 17:17:17 -0000
-
-Building poky-tiny for x86-64 seems fine, but when executing qemu
-it complains during boot time about not being able to execute init:
-
-[    5.409730] Failed to execute /init (error -8)
-
-And then it drops to a login prompt (which it should't do on tiny)
-
-This is supposed to be complaining about init's format, it only happens
-on x86-64 architectures so perhaps is a 32/64 bit issue, but since
-core-image-tiny-initramfs does not actually provide a traditional init,
-the script is simply meant to drop to shell, we can workaround the issue
-by specifying the kernel to run the init script via busybox's sh,
-dropping to shell correctly on x86-64 leaving x86 unaffected.
+X-List-Received-Date: Wed, 20 Sep 2017 17:17:18 -0000
 
 Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/recipes-core/images/core-image-tiny-initramfs.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-index a8893d1e53e..16995e6580a 100644
---- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-@@ -39,3 +39,5 @@ python tinyinitrd () {
- }
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+index 50b9a56a005..141ff739955 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb
+@@ -17,7 +17,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.4.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.4;destsuffix=${KMETA}"
  
- IMAGE_PREPROCESS_COMMAND += "tinyinitrd;"
-+
-+QB_KERNEL_CMDLINE_APPEND += "debugshell=3 init=/bin/busybox sh init"
+-COMPATIBLE_MACHINE = "(qemux86$)"
++COMPATIBLE_MACHINE = "qemux86|qemux86-64"
+ 
+ # Functionality flags
+ KERNEL_FEATURES = ""
 -- 
 2.12.3
 
