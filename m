@@ -1,33 +1,62 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id CD28478285
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f173.google.com (mail-yw0-f173.google.com
+	[209.85.161.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D984C7827B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 20:56:20 +0000 (UTC)
-Received: (qmail 7862 invoked by uid 1003); 21 Sep 2017 20:56:22 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@108.44.111.57)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	21 Sep 2017 20:56:22 -0000
-To: akuster808 <akuster808@gmail.com>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Trevor Woerner <twoerner@gmail.com>
-References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
-	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
-	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
-	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
-	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
-	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <c2911001-d598-9e20-8463-085d5f4910db@balister.org>
-Date: Thu, 21 Sep 2017 14:56:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Thu, 21 Sep 2017 21:15:58 +0000 (UTC)
+Received: by mail-yw0-f173.google.com with SMTP id o143so4959576ywd.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Sep 2017 14:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=EdjRGqn1qoJUcEOk+mnJYHayFAepbr/zHKC1KaLJgjs=;
+	b=vka42Ve2VPeST7Fv7Zentj7dGV5nc0xNSE2RdlJ/25U9KbVohyunzxNbLt67aALxSg
+	cTNI4ce8kR+w0cJw+8uBUcwUax2EyJMBfhyurshzL+JZNnpU8kJFlpcRB8G62jA8uERK
+	gUf9HfDPiR0aV/Ke3gd99nBup7+wM0FUNNFdvU4yrnvKusTAS2slHqAdXH4mfz+7EnDX
+	LFEPq/f3JA4/O9adh4NmL0a9p29ZigGKndxdFSjsq3xqYpkG7DFUO67xuvIOCbhQzH9B
+	Ecw3bezWcoQwXyRV6I8qSnafFzww8G4lKSTRW1iAPp9d/Mt6L9FyOLsXZU28UbHWwTRa
+	+S8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=EdjRGqn1qoJUcEOk+mnJYHayFAepbr/zHKC1KaLJgjs=;
+	b=kkeGGiqZycb7XA/abQYrYBZQvj57xPZvj6POnn9nnPOXn3Bb0MgT+sj7Ijo8K3+LHQ
+	EhtiIEH4S2ytn6z9RybUxe2JRk4jl3NRQfkNlv9H2W7ZDbOLqoVT+RCBdqAYEQkvztnT
+	8uwLhCPRpqx2c2FnsROjFP/jQL2g1NwBFBVVdJ4tGalgOyIq7UvDJJnn7MjSJmXXF8TO
+	MAxs+uykcIOJJzlv+TW/SeqVjJuNvB1sCte8YxuLWMN7R+dTeUkVVn8ODq3VO+KkqrLH
+	z7UeiVUAu99SRlc/4DI/eyMrX0YnVAl5sLUttMKsxM4xBxQV6ANhLzce4Sk/nLVXjHU6
+	GLVw==
+X-Gm-Message-State: AHPjjUhLdGbq5nT1uwrR3pFCDY4Kd3NaiBxpYsDUcaMABy1asePYOrno
+	jetIf9YwsZTHvk3WkWHCNfVnL4jA
+X-Received: by 10.37.234.75 with SMTP id o11mr2408381ybe.187.1506028559346;
+	Thu, 21 Sep 2017 14:15:59 -0700 (PDT)
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com.
+	[209.85.218.41])
+	by smtp.gmail.com with ESMTPSA id g72sm908967ywe.26.2017.09.21.14.15.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Sep 2017 14:15:58 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f41.google.com with SMTP id p126so3233620oih.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Sep 2017 14:15:58 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QARzCoUDM2IGcw+iMHRKKyQ9VdunOOVUiF8BP7NDwRYyShVzqyvtKVlufvLRrScqV+sDUfgijt0W2IMr6FNqEI=
+X-Received: by 10.202.83.10 with SMTP id h10mr3713512oib.56.1506028557525;
+	Thu, 21 Sep 2017 14:15:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
+Received: by 10.157.66.149 with HTTP; Thu, 21 Sep 2017 14:15:56 -0700 (PDT)
+In-Reply-To: <1506015977-16858-1-git-send-email-trini@konsulko.com>
+References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
+Date: Thu, 21 Sep 2017 18:15:56 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKquj79BCNcRg66C+GSbDeoAeO6nb61Nk2FQG75w_CCTjg@mail.gmail.com>
+Message-ID: <CAP9ODKquj79BCNcRg66C+GSbDeoAeO6nb61Nk2FQG75w_CCTjg@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,71 +69,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 20:56:21 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Sep 2017 21:15:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/21/2017 02:32 PM, akuster808 wrote:
-> 
-> 
-> On 09/21/2017 01:27 PM, Philip Balister wrote:
->> On 09/20/2017 01:50 AM, Mike Looijmans wrote:
->>> On 18-09-17 18:25, Trevor Woerner wrote:
->>>> Hi Mike,
->>>>
->>>> On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans
->>>> <mike.looijmans@topic.nl> wrote:
->>>>> I can probably bring some work (e.g. Zynq MPSoC board) and fun
->>>>> (settop box)
->>>>> hardware along to demonstrate what I'm using OE for.
->>>> Any chance you could set something up that could be on display at the
->>>> Yocto booth during the conference?
->>> Depends on what I'll be able tug along in my luggage on the airplane,
->>> but whatever I can bring is probably suited for public display. A few
->>> circuit boards will certainly fit, so if the stand could provide a HDMI
->>> monitor (or TV) to connect them to that'd be awesome.
->> I'd love to see some different things on the stand. Make sure you help
->> explain to people why the Yocto Porject and OpenEmbedded are important
->> to you and your product.
-> Philip,
-> 
-> Since you are the OE rep to the Yocto Project, can you make sure this is
-> OK with them. There could be space  or limitations at their booth.
+On Thu, Sep 21, 2017 at 2:46 PM, Tom Rini <trini@konsulko.com> wrote:
+> When we have been told to use the UUID we should also update the fstab
+> to make use of PARTUUID instead of hard-coding the device in question.
+> This will make the resulting image much more portable.
+>
+> Signed-off-by: Tom Rini <trini@konsulko.com>
 
-I mentioned it to Jefro, I'm also making a guess he has something based
-on a Xilinx product, who are members.
+Adding more features which changes the fstab goes to the opposite
+direction of reproducible builds; is it desirable?
 
-Philip
 
-> 
-> Thanks,
-> - Armin
->>
->> Philip
->>
->>
->>
->>> M.
->>>
->>>
->>> Kind regards,
->>>
->>> Mike Looijmans
->>> System Expert
->>>
->>> TOPIC Products
->>> Materiaalweg 4, NL-5681 RJ Best
->>> Postbus 440, NL-5680 AK Best
->>> Telefoon: +31 (0) 499 33 69 79
->>> E-mail: mike.looijmans@topicproducts.com
->>> Website: www.topicproducts.com
->>>
->>> Please consider the environment before printing this e-mail
->>>
->>>
->>> Visit us at the Space Tech Expo Europe (Stand E-71)
->>>
-> 
-> 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
