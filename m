@@ -1,24 +1,25 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 032AB60796
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3125160796
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 03:19:35 +0000 (UTC)
+	Thu, 21 Sep 2017 03:22:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8L3JZj1019568
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 20 Sep 2017 20:19:35 -0700
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8L3MixO006679
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Sep 2017 20:22:44 -0700 (PDT)
 Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 20 Sep 2017 20:19:34 -0700
+	Wed, 20 Sep 2017 20:22:42 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <anibal.limon@linux.intel.com>
-Date: Thu, 21 Sep 2017 11:18:31 +0800
-Message-ID: <1505963911-5187-1-git-send-email-yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Sep 2017 11:21:39 +0800
+Message-ID: <1505964099-5570-1-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.198]
-Subject: [PATCH] ptest-runner: fix segfault with -t option
+Subject: [PATCH] tiff: Security fix CVE-2017-13726 and CVE-2017-13727
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +32,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 03:19:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Sep 2017 03:22:43 -0000
+Content-Type: text/plain
 
-The ptest-runner would segfault with -t option:
-root@qemux86-64:~# ptest-runner -d /usr/lib test_pkg -t 5
-[  237.234112] ptest-runner[810]: segfault at 0 ip 000000382e638060 sp
-00007fff9130f400 error 4 in libc-2.26.so[382e600000+1a7000]
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2017-13726
+https://nvd.nist.gov/vuln/detail/CVE-2017-13727
 
-It is safe to bump SRCREV to latest upstream commit to fix this issue
-because there is only one commit since the last update:
+Patches from:
+CVE-2017-13726:
+https://github.com/vadz/libtiff/commit/f91ca83a21a6a583050e5a5755ce1441b2bf1d7e
 
-  commit 8a93832dad621535e90aa8e1fb74ae5ba743fc3e
-  Author: Anders Wallin <wallinux@gmail.com>
-  Date:   Sun May 28 11:47:00 2017 +0200
-
-      timeout option missing the argument option ":" to getopt
-
-      ptest-runner -t xx gives segfault
-
-      Signed-off-by: Anders Wallin <wallinux@gmail.com>
-      Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+CVE-2017-13727:
+https://github.com/vadz/libtiff/commit/b6af137bf9ef852f1a48a50a5afb88f9e9da01cc
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-support/ptest-runner/ptest-runner_2.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libtiff/files/CVE-2017-13726.patch             | 54 ++++++++++++++++++
+ .../libtiff/files/CVE-2017-13727.patch             | 65 ++++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.8.bb      |  2 +
+ 3 files changed, 121 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-13726.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-13727.patch
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.1.bb
-index 89d709a..71c1dab 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.1.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.1.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2017-13726.patch b/meta/recipes-multimedia/libtiff/files/CVE-2017-13726.patch
+new file mode 100644
+index 0000000..c60ffa6
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2017-13726.patch
+@@ -0,0 +1,54 @@
++From 5317ce215936ce611846557bb104b49d3b4c8345 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Wed, 23 Aug 2017 13:21:41 +0000
++Subject: [PATCH] * libtiff/tif_dirwrite.c: replace assertion related to not
++ finding the SubIFD tag by runtime check. Fixes
++ http://bugzilla.maptools.org/show_bug.cgi?id=2727 Reported by team OWL337
++
++Upstream-Status: Backport
++[https://github.com/vadz/libtiff/commit/f91ca83a21a6a583050e5a5755ce1441b2bf1d7e]
++
++CVE: CVE-2017-13726
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ ChangeLog              | 7 +++++++
++ libtiff/tif_dirwrite.c | 7 ++++++-
++ 2 files changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index 6980da8..3e299d9 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,3 +1,10 @@
+++2017-08-23  Even Rouault <even.rouault at spatialys.com>
+++
+++	* libtiff/tif_dirwrite.c: replace assertion related to not finding the
+++	SubIFD tag by runtime check.
+++	Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2727
+++	Reported by team OWL337
+++
++ 2017-07-15  Even Rouault <even.rouault at spatialys.com>
++ 
++ 	* tools/tiff2pdf.c: prevent heap buffer overflow write in "Raw"
++diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
++index 8d6686b..14090ae 100644
++--- a/libtiff/tif_dirwrite.c
+++++ b/libtiff/tif_dirwrite.c
++@@ -821,7 +821,12 @@ TIFFWriteDirectorySec(TIFF* tif, int isimage, int imagedone, uint64* pdiroff)
++ 			TIFFDirEntry* nb;
++ 			for (na=0, nb=dir; ; na++, nb++)
++ 			{
++-				assert(na<ndir);
+++				if( na == ndir )
+++                                {
+++                                    TIFFErrorExt(tif->tif_clientdata,module,
+++                                                 "Cannot find SubIFD tag");
+++                                    goto bad;
+++                                }
++ 				if (nb->tdir_tag==TIFFTAG_SUBIFD)
++ 					break;
++ 			}
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2017-13727.patch b/meta/recipes-multimedia/libtiff/files/CVE-2017-13727.patch
+new file mode 100644
+index 0000000..e228c2f
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2017-13727.patch
+@@ -0,0 +1,65 @@
++From a5e8245cc67646f7b448b4ca29258eaac418102c Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Wed, 23 Aug 2017 13:33:42 +0000
++Subject: [PATCH] * libtiff/tif_dirwrite.c: replace assertion to tag value not
++ fitting on uint32 when selecting the value of SubIFD tag by runtime check (in
++ TIFFWriteDirectoryTagSubifd()). Fixes
++ http://bugzilla.maptools.org/show_bug.cgi?id=2728 Reported by team OWL337
++
++SubIFD tag by runtime check (in TIFFWriteDirectorySec())
++
++Upstream-Status: Backport
++[https://github.com/vadz/libtiff/commit/b6af137bf9ef852f1a48a50a5afb88f9e9da01cc]
++
++CVE: CVE-2017-13727
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ ChangeLog              | 10 +++++++++-
++ libtiff/tif_dirwrite.c |  9 ++++++++-
++ 2 files changed, 17 insertions(+), 2 deletions(-)
++
++diff --git a/ChangeLog b/ChangeLog
++index 3e299d9..8f5efe9 100644
++--- a/ChangeLog
+++++ b/ChangeLog
++@@ -1,7 +1,15 @@
++ 2017-08-23  Even Rouault <even.rouault at spatialys.com>
++ 
+++	* libtiff/tif_dirwrite.c: replace assertion to tag value not fitting
+++	on uint32 when selecting the value of SubIFD tag by runtime check
+++	(in TIFFWriteDirectoryTagSubifd()).
+++	Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2728
+++	Reported by team OWL337
+++
+++2017-08-23  Even Rouault <even.rouault at spatialys.com>
+++
++ 	* libtiff/tif_dirwrite.c: replace assertion related to not finding the
++-	SubIFD tag by runtime check.
+++	SubIFD tag by runtime check (in TIFFWriteDirectorySec())
++ 	Fixes http://bugzilla.maptools.org/show_bug.cgi?id=2727
++ 	Reported by team OWL337
++ 
++diff --git a/libtiff/tif_dirwrite.c b/libtiff/tif_dirwrite.c
++index 14090ae..f0a4baa 100644
++--- a/libtiff/tif_dirwrite.c
+++++ b/libtiff/tif_dirwrite.c
++@@ -1949,7 +1949,14 @@ TIFFWriteDirectoryTagSubifd(TIFF* tif, uint32* ndir, TIFFDirEntry* dir)
++ 		for (p=0; p < tif->tif_dir.td_nsubifd; p++)
++ 		{
++                         assert(pa != 0);
++-			assert(*pa <= 0xFFFFFFFFUL);
+++
+++                        /* Could happen if an classicTIFF has a SubIFD of type LONG8 (which is illegal) */
+++                        if( *pa > 0xFFFFFFFFUL)
+++                        {
+++                            TIFFErrorExt(tif->tif_clientdata,module,"Illegal value for SubIFD tag");
+++                            _TIFFfree(o);
+++                            return(0);
+++                        }
++ 			*pb++=(uint32)(*pa++);
++ 		}
++ 		n=TIFFWriteDirectoryTagCheckedIfdArray(tif,ndir,dir,TIFFTAG_SUBIFD,tif->tif_dir.td_nsubifd,o);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.8.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.8.bb
+index c8ad5d5..cb91baa 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.8.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.8.bb
+@@ -10,6 +10,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2017-9936.patch \
+            file://CVE-2017-10688.patch \
+            file://CVE-2017-11335.patch \
++           file://CVE-2017-13726.patch \
++           file://CVE-2017-13727.patch \
+           "
  
--SRCREV = "78afe246fb8cb864656c16dd5d1cfa5721ccc8b7"
-+SRCREV = "8a93832dad621535e90aa8e1fb74ae5ba743fc3e"
- PV = "2.1+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+ SRC_URI[md5sum] = "2a7d1c1318416ddf36d5f6fa4600069b"
 -- 
 2.7.4
 
