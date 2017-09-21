@@ -1,24 +1,26 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 201DF6010B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B9F777E93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 00:35:39 +0000 (UTC)
+	Thu, 21 Sep 2017 00:35:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8L0Zegl009304
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Sep 2017 17:35:40 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8L0ZhIb016056
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 20 Sep 2017 17:35:43 -0700
 Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 20 Sep 2017 17:35:39 -0700
+	Wed, 20 Sep 2017 17:35:42 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <juro.bystricky@intel.com>
-Date: Thu, 21 Sep 2017 08:34:36 +0800
-Message-ID: <1505954077-5031-1-git-send-email-yi.zhao@windriver.com>
+Date: Thu, 21 Sep 2017 08:34:37 +0800
+Message-ID: <1505954077-5031-2-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1505954077-5031-1-git-send-email-yi.zhao@windriver.com>
+References: <1505954077-5031-1-git-send-email-yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.198]
-Subject: [PATCH 1/2] qemu: remove unused patches
+Subject: [PATCH 2/2] qemu: Security fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,439 +33,794 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 00:35:41 -0000
+X-List-Received-Date: Thu, 21 Sep 2017 00:35:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Remove the following patches since they are unused after qemu update to
-2.10:
-  0001-replace-struct-ucontext-with-ucontext_t-type.patch
-  CVE-2016-9908.patch
-  CVE-2016-9912.patch
-  configure-fix-Darwin-target-detection.patch
+Fix CVE-2017-13672, CVE-2017-13673, CVE-2017-13711, CVE-2017-14167
+
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2017-13672
+https://nvd.nist.gov/vuln/detail/CVE-2017-13673
+https://nvd.nist.gov/vuln/detail/CVE-2017-13711
+https://nvd.nist.gov/vuln/detail/CVE-2017-14167
+
+Patches from:
+CVE-2017-13672:
+https://git.qemu.org/?p=qemu.git;a=commit;h=3d90c6254863693a6b13d918d2b8682e08bbc681
+CVE-2017-13673:
+https://git.qemu.org/?p=qemu.git;a=commit;h=e65294157d4b69393b3f819c99f4f647452b48e3
+CVE-2017-13711:
+https://git.qemu.org/?p=qemu.git;a=commit;h=1201d308519f1e915866d7583d5136d03cc1d384
+CVE-2017-14167:
+https://git.qemu.org/?p=qemu.git;a=commit;h=ed4f86e8b6eff8e600c69adee68c7cd34dd2cccb
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- ...lace-struct-ucontext-with-ucontext_t-type.patch | 265 ---------------------
- .../recipes-devtools/qemu/qemu/CVE-2016-9908.patch |  44 ----
- .../recipes-devtools/qemu/qemu/CVE-2016-9912.patch |  45 ----
- .../configure-fix-Darwin-target-detection.patch    |  32 ---
- 4 files changed, 386 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch
+ .../qemu/qemu/CVE-2017-13672.patch                 | 504 +++++++++++++++++++++
+ .../qemu/qemu/CVE-2017-13673.patch                 |  53 +++
+ .../qemu/qemu/CVE-2017-13711.patch                 |  87 ++++
+ .../qemu/qemu/CVE-2017-14167.patch                 |  70 +++
+ meta/recipes-devtools/qemu/qemu_2.10.0.bb          |   4 +
+ 5 files changed, 718 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-13672.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-13673.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-13711.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2017-14167.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch b/meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch
-deleted file mode 100644
-index c3eb543..0000000
---- a/meta/recipes-devtools/qemu/qemu/0001-replace-struct-ucontext-with-ucontext_t-type.patch
-+++ /dev/null
-@@ -1,265 +0,0 @@
--From 80954c03163fdbf8b905595a69008093096ee2f6 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 28 Jun 2017 13:28:37 -0700
--Subject: [PATCH] replace struct ucontext with ucontext_t type
--
--The ucontext_t type had a tag struct ucontext until now
--but newer glibc will drop it so we need to adjust and use
--the exposed type instead
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Cc: Kamil Rytarowski <kamil@netbsd.org>
--Cc: Riku Voipio <riku.voipio@iki.fi>
--Cc: Laurent Vivier <laurent@vivier.eu>
--Cc: Paolo Bonzini <pbonzini@redhat.com>
--
--Upstream-Status: Submitted
-----
-- linux-user/host/aarch64/hostdep.h |  2 +-
-- linux-user/host/arm/hostdep.h     |  2 +-
-- linux-user/host/i386/hostdep.h    |  2 +-
-- linux-user/host/ppc64/hostdep.h   |  2 +-
-- linux-user/host/s390x/hostdep.h   |  2 +-
-- linux-user/host/x86_64/hostdep.h  |  2 +-
-- linux-user/signal.c               | 10 +++++-----
-- tests/tcg/test-i386.c             |  4 ++--
-- user-exec.c                       | 18 +++++++++---------
-- 9 files changed, 22 insertions(+), 22 deletions(-)
--
--diff --git a/linux-user/host/aarch64/hostdep.h b/linux-user/host/aarch64/hostdep.h
--index 64f75cef49..a8d41a21ad 100644
----- a/linux-user/host/aarch64/hostdep.h
--+++ b/linux-user/host/aarch64/hostdep.h
--@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
-- /* Adjust the signal context to rewind out of safe-syscall if we're in it */
-- static inline void rewind_if_in_safe_syscall(void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     __u64 *pcreg = &uc->uc_mcontext.pc;
-- 
--     if (*pcreg > (uintptr_t)safe_syscall_start
--diff --git a/linux-user/host/arm/hostdep.h b/linux-user/host/arm/hostdep.h
--index 5c1ae60120..9276fe6ceb 100644
----- a/linux-user/host/arm/hostdep.h
--+++ b/linux-user/host/arm/hostdep.h
--@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
-- /* Adjust the signal context to rewind out of safe-syscall if we're in it */
-- static inline void rewind_if_in_safe_syscall(void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     unsigned long *pcreg = &uc->uc_mcontext.arm_pc;
-- 
--     if (*pcreg > (uintptr_t)safe_syscall_start
--diff --git a/linux-user/host/i386/hostdep.h b/linux-user/host/i386/hostdep.h
--index d834bd80ea..073be74d87 100644
----- a/linux-user/host/i386/hostdep.h
--+++ b/linux-user/host/i386/hostdep.h
--@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
-- /* Adjust the signal context to rewind out of safe-syscall if we're in it */
-- static inline void rewind_if_in_safe_syscall(void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     greg_t *pcreg = &uc->uc_mcontext.gregs[REG_EIP];
-- 
--     if (*pcreg > (uintptr_t)safe_syscall_start
--diff --git a/linux-user/host/ppc64/hostdep.h b/linux-user/host/ppc64/hostdep.h
--index 0b0f5f7821..98979ad917 100644
----- a/linux-user/host/ppc64/hostdep.h
--+++ b/linux-user/host/ppc64/hostdep.h
--@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
-- /* Adjust the signal context to rewind out of safe-syscall if we're in it */
-- static inline void rewind_if_in_safe_syscall(void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     unsigned long *pcreg = &uc->uc_mcontext.gp_regs[PT_NIP];
-- 
--     if (*pcreg > (uintptr_t)safe_syscall_start
--diff --git a/linux-user/host/s390x/hostdep.h b/linux-user/host/s390x/hostdep.h
--index 6f9da9c608..4f0171f36f 100644
----- a/linux-user/host/s390x/hostdep.h
--+++ b/linux-user/host/s390x/hostdep.h
--@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
-- /* Adjust the signal context to rewind out of safe-syscall if we're in it */
-- static inline void rewind_if_in_safe_syscall(void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     unsigned long *pcreg = &uc->uc_mcontext.psw.addr;
-- 
--     if (*pcreg > (uintptr_t)safe_syscall_start
--diff --git a/linux-user/host/x86_64/hostdep.h b/linux-user/host/x86_64/hostdep.h
--index 3b4259633e..a4fefb5114 100644
----- a/linux-user/host/x86_64/hostdep.h
--+++ b/linux-user/host/x86_64/hostdep.h
--@@ -24,7 +24,7 @@ extern char safe_syscall_end[];
-- /* Adjust the signal context to rewind out of safe-syscall if we're in it */
-- static inline void rewind_if_in_safe_syscall(void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     greg_t *pcreg = &uc->uc_mcontext.gregs[REG_RIP];
-- 
--     if (*pcreg > (uintptr_t)safe_syscall_start
--diff --git a/linux-user/signal.c b/linux-user/signal.c
--index c750053edd..4638123dd8 100644
----- a/linux-user/signal.c
--+++ b/linux-user/signal.c
--@@ -3170,7 +3170,7 @@ static void setup_rt_frame(int sig, struct target_sigaction *ka,
--     *
--     *   a0 = signal number
--     *   a1 = pointer to siginfo_t
---    *   a2 = pointer to struct ucontext
--+    *   a2 = pointer to ucontext_t
--     *
--     * $25 and PC point to the signal handler, $29 points to the
--     * struct sigframe.
--@@ -3557,7 +3557,7 @@ struct target_signal_frame {
-- 
-- struct rt_signal_frame {
--     siginfo_t info;
---    struct ucontext uc;
--+    ucontext_t uc;
--     uint32_t tramp[2];
-- };
-- 
--@@ -3773,7 +3773,7 @@ struct rt_signal_frame {
--     siginfo_t *pinfo;
--     void *puc;
--     siginfo_t info;
---    struct ucontext uc;
--+    ucontext_t uc;
--     uint16_t retcode[4];      /* Trampoline code. */
-- };
-- 
--@@ -4074,7 +4074,7 @@ static void setup_rt_frame(int sig, struct target_sigaction *ka,
--         tswap_siginfo(&frame->info, info);
--     }
-- 
---    /*err |= __clear_user(&frame->uc, offsetof(struct ucontext, uc_mcontext));*/
--+    /*err |= __clear_user(&frame->uc, offsetof(ucontext_t, uc_mcontext));*/
--     __put_user(0, &frame->uc.tuc_flags);
--     __put_user(0, &frame->uc.tuc_link);
--     __put_user(target_sigaltstack_used.ss_sp,
--@@ -4565,7 +4565,7 @@ enum {
-- 
-- struct target_ucontext {
--     target_ulong tuc_flags;
---    target_ulong tuc_link;    /* struct ucontext __user * */
--+    target_ulong tuc_link;    /* ucontext_t __user * */
--     struct target_sigaltstack tuc_stack;
-- #if !defined(TARGET_PPC64)
--     int32_t tuc_pad[7];
--diff --git a/tests/tcg/test-i386.c b/tests/tcg/test-i386.c
--index 0f7b943b0c..9599204895 100644
----- a/tests/tcg/test-i386.c
--+++ b/tests/tcg/test-i386.c
--@@ -1720,7 +1720,7 @@ int tab[2];
-- 
-- void sig_handler(int sig, siginfo_t *info, void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
-- 
--     printf("si_signo=%d si_errno=%d si_code=%d",
--            info->si_signo, info->si_errno, info->si_code);
--@@ -1912,7 +1912,7 @@ void test_exceptions(void)
-- /* specific precise single step test */
-- void sig_trap_handler(int sig, siginfo_t *info, void *puc)
-- {
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     printf("EIP=" FMTLX "\n", (long)uc->uc_mcontext.gregs[REG_EIP]);
-- }
-- 
--diff --git a/user-exec.c b/user-exec.c
--index 6db075884d..3f1b899e3d 100644
----- a/user-exec.c
--+++ b/user-exec.c
--@@ -155,7 +155,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-- #elif defined(__OpenBSD__)
--     struct sigcontext *uc = puc;
-- #else
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
-- #endif
--     unsigned long pc;
--     int trapno;
--@@ -210,7 +210,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-- #elif defined(__OpenBSD__)
--     struct sigcontext *uc = puc;
-- #else
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
-- #endif
-- 
--     pc = PC_sig(uc);
--@@ -277,7 +277,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-- #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
--     ucontext_t *uc = puc;
-- #else
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
-- #endif
--     unsigned long pc;
--     int is_write;
--@@ -304,7 +304,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
--                            void *puc)
-- {
--     siginfo_t *info = pinfo;
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     uint32_t *pc = uc->uc_mcontext.sc_pc;
--     uint32_t insn = *pc;
--     int is_write = 0;
--@@ -402,7 +402,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-- #if defined(__NetBSD__)
--     ucontext_t *uc = puc;
-- #else
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
-- #endif
--     unsigned long pc;
--     int is_write;
--@@ -429,7 +429,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
-- int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
-- {
--     siginfo_t *info = pinfo;
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     uintptr_t pc = uc->uc_mcontext.pc;
--     uint32_t insn = *(uint32_t *)pc;
--     bool is_write;
--@@ -462,7 +462,7 @@ int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
-- int cpu_signal_handler(int host_signum, void *pinfo, void *puc)
-- {
--     siginfo_t *info = pinfo;
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     unsigned long ip;
--     int is_write = 0;
-- 
--@@ -493,7 +493,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
--                        void *puc)
-- {
--     siginfo_t *info = pinfo;
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     unsigned long pc;
--     uint16_t *pinsn;
--     int is_write = 0;
--@@ -546,7 +546,7 @@ int cpu_signal_handler(int host_signum, void *pinfo,
--                        void *puc)
-- {
--     siginfo_t *info = pinfo;
---    struct ucontext *uc = puc;
--+    ucontext_t *uc = puc;
--     greg_t pc = uc->uc_mcontext.pc;
--     int is_write;
-- 
---- 
--2.13.2
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch
-deleted file mode 100644
-index e0f7a1a..0000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2016-9908.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 7139ccbc907441337b4b59cde2c5b5a54cb5b2cc Mon Sep 17 00:00:00 2001
--From: Sona Sarmadi <sona.sarmadi@enea.com>
--
--virtio-gpu: fix information leak in capset get dispatch
--
--In virgl_cmd_get_capset function, it uses g_malloc to allocate
--a response struct to the guest. As the 'resp'struct hasn't been full
--initialized it will lead the 'resp->padding' field to the guest.
--Use g_malloc0 to avoid this.
--
--Signed-off-by: Li Qiang <liqiang6-s@360.cn>
--Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
--Message-id: 58188cae.4a6ec20a.3d2d1.aff2@mx.google.com
--
--[Sona: backported from master to v2.8.0 and resolved conflict]
--
--Reference to upstream patch:
--http://git.qemu-project.org/?p=qemu.git;a=commit;h=85d9d044471f93c48c5c396f7e217b4ef12f69f8
--
--CVE: CVE-2016-9908
--Upstream-Status: Backport
--
--Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
--Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-----
-- hw/display/virtio-gpu-3d.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
--index 23f39de..d98b140 100644
----- a/hw/display/virtio-gpu-3d.c
--+++ b/hw/display/virtio-gpu-3d.c
--@@ -371,7 +371,7 @@ static void virgl_cmd_get_capset(VirtIOGPU *g,
-- 
--     virgl_renderer_get_cap_set(gc.capset_id, &max_ver,
--                                &max_size);
---    resp = g_malloc(sizeof(*resp) + max_size);
--+    resp = g_malloc0(sizeof(*resp) + max_size);
-- 
--     resp->hdr.type = VIRTIO_GPU_RESP_OK_CAPSET;
--     virgl_renderer_fill_caps(gc.capset_id,
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch b/meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch
-deleted file mode 100644
-index c009ffd..0000000
---- a/meta/recipes-devtools/qemu/qemu/CVE-2016-9912.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From b8e23926c568f2e963af39028b71c472e3023793 Mon Sep 17 00:00:00 2001
--From: Li Qiang <liq3ea@gmail.com>
--Date: Mon, 28 Nov 2016 21:29:25 -0500
--Subject: [PATCH] virtio-gpu: call cleanup mapping function in resource destroy
--
--If the guest destroy the resource before detach banking, the 'iov'
--and 'addrs' field in resource is not freed thus leading memory
--leak issue. This patch avoid this.
--
--CVE: CVE-2016-9912
--Upstream-Status: Backport
--
--Signed-off-by: Li Qiang <liq3ea@gmail.com>
--Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
--Message-id: 1480386565-10077-1-git-send-email-liq3ea@gmail.com
--Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
--Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-----
-- hw/display/virtio-gpu.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
--index ed2b6d3..6a26258 100644
----- a/hw/display/virtio-gpu.c
--+++ b/hw/display/virtio-gpu.c
--@@ -28,6 +28,8 @@
-- static struct virtio_gpu_simple_resource*
-- virtio_gpu_find_resource(VirtIOGPU *g, uint32_t resource_id);
-- 
--+static void virtio_gpu_cleanup_mapping(struct virtio_gpu_simple_resource *res);
--+
-- #ifdef CONFIG_VIRGL
-- #include <virglrenderer.h>
-- #define VIRGL(_g, _virgl, _simple, ...)                     \
--@@ -364,6 +366,7 @@ static void virtio_gpu_resource_destroy(VirtIOGPU *g,
--                                         struct virtio_gpu_simple_resource *res)
-- {
--     pixman_image_unref(res->image);
--+    virtio_gpu_cleanup_mapping(res);
--     QTAILQ_REMOVE(&g->reslist, res, next);
--     g->hostmem -= res->hostmem;
--     g_free(res);
---- 
--1.9.1
--
-diff --git a/meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch b/meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch
-deleted file mode 100644
-index 59cdc1c..0000000
---- a/meta/recipes-devtools/qemu/qemu/configure-fix-Darwin-target-detection.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--Upstream-Status: Pending
--Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
--
--From 9ac096d8eccf2d56ece646320c282c8369f8337c Mon Sep 17 00:00:00 2001
--From: Cristian Iorga <cristian.iorga@intel.com>
--Date: Tue, 29 Jul 2014 18:35:59 +0300
--Subject: [PATCH] configure: fix Darwin target detection
--
--fix Darwin target detection for qemu
--cross-compilation.
--
--Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-----
-- configure | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/configure b/configure
--index 283c71c..1c66a11 100755
----- a/configure
--+++ b/configure
--@@ -444,6 +444,8 @@ elif check_define __sun__ ; then
--   targetos='SunOS'
-- elif check_define __HAIKU__ ; then
--   targetos='Haiku'
--+elif check_define __APPLE__ ; then
--+  targetos='Darwin'
-- else
--   targetos=`uname -s`
-- fi
---- 
--1.9.1
--
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-13672.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-13672.patch
+new file mode 100644
+index 0000000..ce0b1ee
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-13672.patch
+@@ -0,0 +1,504 @@
++From 3d90c6254863693a6b13d918d2b8682e08bbc681 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 28 Aug 2017 14:29:06 +0200
++Subject: [PATCH] vga: stop passing pointers to vga_draw_line* functions
++
++Instead pass around the address (aka offset into vga memory).
++Add vga_read_* helper functions which apply vbe_size_mask to
++the address, to make sure the address stays within the valid
++range, similar to the cirrus blitter fixes (commits ffaf857778
++and 026aeffcb4).
++
++Impact:  DoS for privileged guest users.  qemu crashes with
++a segfault, when hitting the guard page after vga memory
++allocation, while reading vga memory for display updates.
++
++Fixes: CVE-2017-13672
++Cc: P J P <ppandit@redhat.com>
++Reported-by: David Buchanan <d@vidbuchanan.co.uk>
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Message-id: 20170828122906.18993-1-kraxel@redhat.com
++
++Upstream-Status: Backport
++[https://git.qemu.org/?p=qemu.git;a=commit;h=3d90c6254863693a6b13d918d2b8682e08bbc681]
++
++CVE: CVE-2017-13672
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ hw/display/vga-helpers.h | 202 ++++++++++++++++++++++++++---------------------
++ hw/display/vga.c         |   5 +-
++ hw/display/vga_int.h     |   1 +
++ 3 files changed, 114 insertions(+), 94 deletions(-)
++
++diff --git a/hw/display/vga-helpers.h b/hw/display/vga-helpers.h
++index 94f6de2..5a752b3 100644
++--- a/hw/display/vga-helpers.h
+++++ b/hw/display/vga-helpers.h
++@@ -95,20 +95,46 @@ static void vga_draw_glyph9(uint8_t *d, int linesize,
++     } while (--h);
++ }
++ 
+++static inline uint8_t vga_read_byte(VGACommonState *vga, uint32_t addr)
+++{
+++    return vga->vram_ptr[addr & vga->vbe_size_mask];
+++}
+++
+++static inline uint16_t vga_read_word_le(VGACommonState *vga, uint32_t addr)
+++{
+++    uint32_t offset = addr & vga->vbe_size_mask & ~1;
+++    uint16_t *ptr = (uint16_t *)(vga->vram_ptr + offset);
+++    return lduw_le_p(ptr);
+++}
+++
+++static inline uint16_t vga_read_word_be(VGACommonState *vga, uint32_t addr)
+++{
+++    uint32_t offset = addr & vga->vbe_size_mask & ~1;
+++    uint16_t *ptr = (uint16_t *)(vga->vram_ptr + offset);
+++    return lduw_be_p(ptr);
+++}
+++
+++static inline uint32_t vga_read_dword_le(VGACommonState *vga, uint32_t addr)
+++{
+++    uint32_t offset = addr & vga->vbe_size_mask & ~3;
+++    uint32_t *ptr = (uint32_t *)(vga->vram_ptr + offset);
+++    return ldl_le_p(ptr);
+++}
+++
++ /*
++  * 4 color mode
++  */
++-static void vga_draw_line2(VGACommonState *s1, uint8_t *d,
++-                           const uint8_t *s, int width)
+++static void vga_draw_line2(VGACommonState *vga, uint8_t *d,
+++                           uint32_t addr, int width)
++ {
++     uint32_t plane_mask, *palette, data, v;
++     int x;
++ 
++-    palette = s1->last_palette;
++-    plane_mask = mask16[s1->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
+++    palette = vga->last_palette;
+++    plane_mask = mask16[vga->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
++     width >>= 3;
++     for(x = 0; x < width; x++) {
++-        data = ((uint32_t *)s)[0];
+++        data = vga_read_dword_le(vga, addr);
++         data &= plane_mask;
++         v = expand2[GET_PLANE(data, 0)];
++         v |= expand2[GET_PLANE(data, 2)] << 2;
++@@ -124,7 +150,7 @@ static void vga_draw_line2(VGACommonState *s1, uint8_t *d,
++         ((uint32_t *)d)[6] = palette[(v >> 4) & 0xf];
++         ((uint32_t *)d)[7] = palette[(v >> 0) & 0xf];
++         d += 32;
++-        s += 4;
+++        addr += 4;
++     }
++ }
++ 
++@@ -134,17 +160,17 @@ static void vga_draw_line2(VGACommonState *s1, uint8_t *d,
++ /*
++  * 4 color mode, dup2 horizontal
++  */
++-static void vga_draw_line2d2(VGACommonState *s1, uint8_t *d,
++-                             const uint8_t *s, int width)
+++static void vga_draw_line2d2(VGACommonState *vga, uint8_t *d,
+++                             uint32_t addr, int width)
++ {
++     uint32_t plane_mask, *palette, data, v;
++     int x;
++ 
++-    palette = s1->last_palette;
++-    plane_mask = mask16[s1->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
+++    palette = vga->last_palette;
+++    plane_mask = mask16[vga->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
++     width >>= 3;
++     for(x = 0; x < width; x++) {
++-        data = ((uint32_t *)s)[0];
+++        data = vga_read_dword_le(vga, addr);
++         data &= plane_mask;
++         v = expand2[GET_PLANE(data, 0)];
++         v |= expand2[GET_PLANE(data, 2)] << 2;
++@@ -160,24 +186,24 @@ static void vga_draw_line2d2(VGACommonState *s1, uint8_t *d,
++         PUT_PIXEL2(d, 6, palette[(v >> 4) & 0xf]);
++         PUT_PIXEL2(d, 7, palette[(v >> 0) & 0xf]);
++         d += 64;
++-        s += 4;
+++        addr += 4;
++     }
++ }
++ 
++ /*
++  * 16 color mode
++  */
++-static void vga_draw_line4(VGACommonState *s1, uint8_t *d,
++-                           const uint8_t *s, int width)
+++static void vga_draw_line4(VGACommonState *vga, uint8_t *d,
+++                           uint32_t addr, int width)
++ {
++     uint32_t plane_mask, data, v, *palette;
++     int x;
++ 
++-    palette = s1->last_palette;
++-    plane_mask = mask16[s1->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
+++    palette = vga->last_palette;
+++    plane_mask = mask16[vga->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
++     width >>= 3;
++     for(x = 0; x < width; x++) {
++-        data = ((uint32_t *)s)[0];
+++        data = vga_read_dword_le(vga, addr);
++         data &= plane_mask;
++         v = expand4[GET_PLANE(data, 0)];
++         v |= expand4[GET_PLANE(data, 1)] << 1;
++@@ -192,24 +218,24 @@ static void vga_draw_line4(VGACommonState *s1, uint8_t *d,
++         ((uint32_t *)d)[6] = palette[(v >> 4) & 0xf];
++         ((uint32_t *)d)[7] = palette[(v >> 0) & 0xf];
++         d += 32;
++-        s += 4;
+++        addr += 4;
++     }
++ }
++ 
++ /*
++  * 16 color mode, dup2 horizontal
++  */
++-static void vga_draw_line4d2(VGACommonState *s1, uint8_t *d,
++-                             const uint8_t *s, int width)
+++static void vga_draw_line4d2(VGACommonState *vga, uint8_t *d,
+++                             uint32_t addr, int width)
++ {
++     uint32_t plane_mask, data, v, *palette;
++     int x;
++ 
++-    palette = s1->last_palette;
++-    plane_mask = mask16[s1->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
+++    palette = vga->last_palette;
+++    plane_mask = mask16[vga->ar[VGA_ATC_PLANE_ENABLE] & 0xf];
++     width >>= 3;
++     for(x = 0; x < width; x++) {
++-        data = ((uint32_t *)s)[0];
+++        data = vga_read_dword_le(vga, addr);
++         data &= plane_mask;
++         v = expand4[GET_PLANE(data, 0)];
++         v |= expand4[GET_PLANE(data, 1)] << 1;
++@@ -224,7 +250,7 @@ static void vga_draw_line4d2(VGACommonState *s1, uint8_t *d,
++         PUT_PIXEL2(d, 6, palette[(v >> 4) & 0xf]);
++         PUT_PIXEL2(d, 7, palette[(v >> 0) & 0xf]);
++         d += 64;
++-        s += 4;
+++        addr += 4;
++     }
++ }
++ 
++@@ -233,21 +259,21 @@ static void vga_draw_line4d2(VGACommonState *s1, uint8_t *d,
++  *
++  * XXX: add plane_mask support (never used in standard VGA modes)
++  */
++-static void vga_draw_line8d2(VGACommonState *s1, uint8_t *d,
++-                             const uint8_t *s, int width)
+++static void vga_draw_line8d2(VGACommonState *vga, uint8_t *d,
+++                             uint32_t addr, int width)
++ {
++     uint32_t *palette;
++     int x;
++ 
++-    palette = s1->last_palette;
+++    palette = vga->last_palette;
++     width >>= 3;
++     for(x = 0; x < width; x++) {
++-        PUT_PIXEL2(d, 0, palette[s[0]]);
++-        PUT_PIXEL2(d, 1, palette[s[1]]);
++-        PUT_PIXEL2(d, 2, palette[s[2]]);
++-        PUT_PIXEL2(d, 3, palette[s[3]]);
+++        PUT_PIXEL2(d, 0, palette[vga_read_byte(vga, addr + 0)]);
+++        PUT_PIXEL2(d, 1, palette[vga_read_byte(vga, addr + 1)]);
+++        PUT_PIXEL2(d, 2, palette[vga_read_byte(vga, addr + 2)]);
+++        PUT_PIXEL2(d, 3, palette[vga_read_byte(vga, addr + 3)]);
++         d += 32;
++-        s += 4;
+++        addr += 4;
++     }
++ }
++ 
++@@ -256,63 +282,63 @@ static void vga_draw_line8d2(VGACommonState *s1, uint8_t *d,
++  *
++  * XXX: add plane_mask support (never used in standard VGA modes)
++  */
++-static void vga_draw_line8(VGACommonState *s1, uint8_t *d,
++-                           const uint8_t *s, int width)
+++static void vga_draw_line8(VGACommonState *vga, uint8_t *d,
+++                           uint32_t addr, int width)
++ {
++     uint32_t *palette;
++     int x;
++ 
++-    palette = s1->last_palette;
+++    palette = vga->last_palette;
++     width >>= 3;
++     for(x = 0; x < width; x++) {
++-        ((uint32_t *)d)[0] = palette[s[0]];
++-        ((uint32_t *)d)[1] = palette[s[1]];
++-        ((uint32_t *)d)[2] = palette[s[2]];
++-        ((uint32_t *)d)[3] = palette[s[3]];
++-        ((uint32_t *)d)[4] = palette[s[4]];
++-        ((uint32_t *)d)[5] = palette[s[5]];
++-        ((uint32_t *)d)[6] = palette[s[6]];
++-        ((uint32_t *)d)[7] = palette[s[7]];
+++        ((uint32_t *)d)[0] = palette[vga_read_byte(vga, addr + 0)];
+++        ((uint32_t *)d)[1] = palette[vga_read_byte(vga, addr + 1)];
+++        ((uint32_t *)d)[2] = palette[vga_read_byte(vga, addr + 2)];
+++        ((uint32_t *)d)[3] = palette[vga_read_byte(vga, addr + 3)];
+++        ((uint32_t *)d)[4] = palette[vga_read_byte(vga, addr + 4)];
+++        ((uint32_t *)d)[5] = palette[vga_read_byte(vga, addr + 5)];
+++        ((uint32_t *)d)[6] = palette[vga_read_byte(vga, addr + 6)];
+++        ((uint32_t *)d)[7] = palette[vga_read_byte(vga, addr + 7)];
++         d += 32;
++-        s += 8;
+++        addr += 8;
++     }
++ }
++ 
++ /*
++  * 15 bit color
++  */
++-static void vga_draw_line15_le(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line15_le(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++     int w;
++     uint32_t v, r, g, b;
++ 
++     w = width;
++     do {
++-        v = lduw_le_p((void *)s);
+++        v = vga_read_word_le(vga, addr);
++         r = (v >> 7) & 0xf8;
++         g = (v >> 2) & 0xf8;
++         b = (v << 3) & 0xf8;
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 2;
+++        addr += 2;
++         d += 4;
++     } while (--w != 0);
++ }
++ 
++-static void vga_draw_line15_be(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line15_be(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++     int w;
++     uint32_t v, r, g, b;
++ 
++     w = width;
++     do {
++-        v = lduw_be_p((void *)s);
+++        v = vga_read_word_be(vga, addr);
++         r = (v >> 7) & 0xf8;
++         g = (v >> 2) & 0xf8;
++         b = (v << 3) & 0xf8;
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 2;
+++        addr += 2;
++         d += 4;
++     } while (--w != 0);
++ }
++@@ -320,38 +346,38 @@ static void vga_draw_line15_be(VGACommonState *s1, uint8_t *d,
++ /*
++  * 16 bit color
++  */
++-static void vga_draw_line16_le(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line16_le(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++     int w;
++     uint32_t v, r, g, b;
++ 
++     w = width;
++     do {
++-        v = lduw_le_p((void *)s);
+++        v = vga_read_word_le(vga, addr);
++         r = (v >> 8) & 0xf8;
++         g = (v >> 3) & 0xfc;
++         b = (v << 3) & 0xf8;
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 2;
+++        addr += 2;
++         d += 4;
++     } while (--w != 0);
++ }
++ 
++-static void vga_draw_line16_be(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line16_be(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++     int w;
++     uint32_t v, r, g, b;
++ 
++     w = width;
++     do {
++-        v = lduw_be_p((void *)s);
+++        v = vga_read_word_be(vga, addr);
++         r = (v >> 8) & 0xf8;
++         g = (v >> 3) & 0xfc;
++         b = (v << 3) & 0xf8;
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 2;
+++        addr += 2;
++         d += 4;
++     } while (--w != 0);
++ }
++@@ -359,36 +385,36 @@ static void vga_draw_line16_be(VGACommonState *s1, uint8_t *d,
++ /*
++  * 24 bit color
++  */
++-static void vga_draw_line24_le(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line24_le(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++     int w;
++     uint32_t r, g, b;
++ 
++     w = width;
++     do {
++-        b = s[0];
++-        g = s[1];
++-        r = s[2];
+++        b = vga_read_byte(vga, addr + 0);
+++        g = vga_read_byte(vga, addr + 1);
+++        r = vga_read_byte(vga, addr + 2);
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 3;
+++        addr += 3;
++         d += 4;
++     } while (--w != 0);
++ }
++ 
++-static void vga_draw_line24_be(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line24_be(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++     int w;
++     uint32_t r, g, b;
++ 
++     w = width;
++     do {
++-        r = s[0];
++-        g = s[1];
++-        b = s[2];
+++        r = vga_read_byte(vga, addr + 0);
+++        g = vga_read_byte(vga, addr + 1);
+++        b = vga_read_byte(vga, addr + 2);
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 3;
+++        addr += 3;
++         d += 4;
++     } while (--w != 0);
++ }
++@@ -396,44 +422,36 @@ static void vga_draw_line24_be(VGACommonState *s1, uint8_t *d,
++ /*
++  * 32 bit color
++  */
++-static void vga_draw_line32_le(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line32_le(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++-#ifndef HOST_WORDS_BIGENDIAN
++-    memcpy(d, s, width * 4);
++-#else
++     int w;
++     uint32_t r, g, b;
++ 
++     w = width;
++     do {
++-        b = s[0];
++-        g = s[1];
++-        r = s[2];
+++        b = vga_read_byte(vga, addr + 0);
+++        g = vga_read_byte(vga, addr + 1);
+++        r = vga_read_byte(vga, addr + 2);
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 4;
+++        addr += 4;
++         d += 4;
++     } while (--w != 0);
++-#endif
++ }
++ 
++-static void vga_draw_line32_be(VGACommonState *s1, uint8_t *d,
++-                               const uint8_t *s, int width)
+++static void vga_draw_line32_be(VGACommonState *vga, uint8_t *d,
+++                               uint32_t addr, int width)
++ {
++-#ifdef HOST_WORDS_BIGENDIAN
++-    memcpy(d, s, width * 4);
++-#else
++     int w;
++     uint32_t r, g, b;
++ 
++     w = width;
++     do {
++-        r = s[1];
++-        g = s[2];
++-        b = s[3];
+++        r = vga_read_byte(vga, addr + 1);
+++        g = vga_read_byte(vga, addr + 2);
+++        b = vga_read_byte(vga, addr + 3);
++         ((uint32_t *)d)[0] = rgb_to_pixel32(r, g, b);
++-        s += 4;
+++        addr += 4;
++         d += 4;
++     } while (--w != 0);
++-#endif
++ }
++diff --git a/hw/display/vga.c b/hw/display/vga.c
++index ad7a465..6fc8c87 100644
++--- a/hw/display/vga.c
+++++ b/hw/display/vga.c
++@@ -1005,7 +1005,7 @@ void vga_mem_writeb(VGACommonState *s, hwaddr addr, uint32_t val)
++ }
++ 
++ typedef void vga_draw_line_func(VGACommonState *s1, uint8_t *d,
++-                                const uint8_t *s, int width);
+++                                uint32_t srcaddr, int width);
++ 
++ #include "vga-helpers.h"
++ 
++@@ -1666,7 +1666,7 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
++             if (y_start < 0)
++                 y_start = y;
++             if (!(is_buffer_shared(surface))) {
++-                vga_draw_line(s, d, s->vram_ptr + addr, width);
+++                vga_draw_line(s, d, addr, width);
++                 if (s->cursor_draw_line)
++                     s->cursor_draw_line(s, d, y);
++             }
++@@ -2170,6 +2170,7 @@ void vga_common_init(VGACommonState *s, Object *obj, bool global_vmstate)
++     if (!s->vbe_size) {
++         s->vbe_size = s->vram_size;
++     }
+++    s->vbe_size_mask = s->vbe_size - 1;
++ 
++     s->is_vbe_vmstate = 1;
++     memory_region_init_ram_nomigrate(&s->vram, obj, "vga.vram", s->vram_size,
++diff --git a/hw/display/vga_int.h b/hw/display/vga_int.h
++index dd6c958..ad34a1f 100644
++--- a/hw/display/vga_int.h
+++++ b/hw/display/vga_int.h
++@@ -94,6 +94,7 @@ typedef struct VGACommonState {
++     uint32_t vram_size;
++     uint32_t vram_size_mb; /* property */
++     uint32_t vbe_size;
+++    uint32_t vbe_size_mask;
++     uint32_t latch;
++     bool has_chain4_alias;
++     MemoryRegion chain4_alias;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-13673.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-13673.patch
+new file mode 100644
+index 0000000..3d0695f
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-13673.patch
+@@ -0,0 +1,53 @@
++From e65294157d4b69393b3f819c99f4f647452b48e3 Mon Sep 17 00:00:00 2001
++From: Gerd Hoffmann <kraxel@redhat.com>
++Date: Mon, 28 Aug 2017 14:33:07 +0200
++Subject: [PATCH] vga: fix display update region calculation (split screen)
++
++vga display update mis-calculated the region for the dirty bitmap
++snapshot in case split screen mode is used.  This can trigger an
++assert in cpu_physical_memory_snapshot_get_dirty().
++
++Impact:  DoS for privileged guest users.
++
++Fixes: CVE-2017-13673
++Fixes: fec5e8c92becad223df9d972770522f64aafdb72
++Cc: P J P <ppandit@redhat.com>
++Reported-by: David Buchanan <d@vidbuchanan.co.uk>
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++Message-id: 20170828123307.15392-1-kraxel@redhat.com
++
++Upstream-Status: Backport
++[https://git.qemu.org/?p=qemu.git;a=commit;h=e65294157d4b69393b3f819c99f4f647452b48e3]
++
++CVE: CVE-2017-13673
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ hw/display/vga.c | 10 ++++++++--
++ 1 file changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/hw/display/vga.c b/hw/display/vga.c
++index 3433102..ad7a465 100644
++--- a/hw/display/vga.c
+++++ b/hw/display/vga.c
++@@ -1628,9 +1628,15 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
++     y1 = 0;
++ 
++     if (!full_update) {
+++        ram_addr_t region_start = addr1;
+++        ram_addr_t region_end = addr1 + line_offset * height;
++         vga_sync_dirty_bitmap(s);
++-        snap = memory_region_snapshot_and_clear_dirty(&s->vram, addr1,
++-                                                      line_offset * height,
+++        if (s->line_compare < height) {
+++            /* split screen mode */
+++            region_start = 0;
+++        }
+++        snap = memory_region_snapshot_and_clear_dirty(&s->vram, region_start,
+++                                                      region_end - region_start,
++                                                       DIRTY_MEMORY_VGA);
++     }
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-13711.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-13711.patch
+new file mode 100644
+index 0000000..352f73f
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-13711.patch
+@@ -0,0 +1,87 @@
++From 1201d308519f1e915866d7583d5136d03cc1d384 Mon Sep 17 00:00:00 2001
++From: Samuel Thibault <samuel.thibault@ens-lyon.org>
++Date: Fri, 25 Aug 2017 01:35:53 +0200
++Subject: [PATCH] slirp: fix clearing ifq_so from pending packets
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The if_fastq and if_batchq contain not only packets, but queues of packets
++for the same socket. When sofree frees a socket, it thus has to clear ifq_so
++from all the packets from the queues, not only the first.
++
++Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
++Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++
++Upstream-Status: Backport
++[https://git.qemu.org/?p=qemu.git;a=commit;h=1201d308519f1e915866d7583d5136d03cc1d384]
++
++CVE: CVE-2017-13711
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ slirp/socket.c | 39 +++++++++++++++++++++++----------------
++ 1 file changed, 23 insertions(+), 16 deletions(-)
++
++diff --git a/slirp/socket.c b/slirp/socket.c
++index ecec029..cb7b5b6 100644
++--- a/slirp/socket.c
+++++ b/slirp/socket.c
++@@ -60,29 +60,36 @@ socreate(Slirp *slirp)
++ }
++ 
++ /*
+++ * Remove references to so from the given message queue.
+++ */
+++static void
+++soqfree(struct socket *so, struct quehead *qh)
+++{
+++    struct mbuf *ifq;
+++
+++    for (ifq = (struct mbuf *) qh->qh_link;
+++             (struct quehead *) ifq != qh;
+++             ifq = ifq->ifq_next) {
+++        if (ifq->ifq_so == so) {
+++            struct mbuf *ifm;
+++            ifq->ifq_so = NULL;
+++            for (ifm = ifq->ifs_next; ifm != ifq; ifm = ifm->ifs_next) {
+++                ifm->ifq_so = NULL;
+++            }
+++        }
+++    }
+++}
+++
+++/*
++  * remque and free a socket, clobber cache
++  */
++ void
++ sofree(struct socket *so)
++ {
++   Slirp *slirp = so->slirp;
++-  struct mbuf *ifm;
++ 
++-  for (ifm = (struct mbuf *) slirp->if_fastq.qh_link;
++-       (struct quehead *) ifm != &slirp->if_fastq;
++-       ifm = ifm->ifq_next) {
++-    if (ifm->ifq_so == so) {
++-      ifm->ifq_so = NULL;
++-    }
++-  }
++-
++-  for (ifm = (struct mbuf *) slirp->if_batchq.qh_link;
++-       (struct quehead *) ifm != &slirp->if_batchq;
++-       ifm = ifm->ifq_next) {
++-    if (ifm->ifq_so == so) {
++-      ifm->ifq_so = NULL;
++-    }
++-  }
+++  soqfree(so, &slirp->if_fastq);
+++  soqfree(so, &slirp->if_batchq);
++ 
++   if (so->so_emu==EMU_RSH && so->extra) {
++ 	sofree(so->extra);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2017-14167.patch b/meta/recipes-devtools/qemu/qemu/CVE-2017-14167.patch
+new file mode 100644
+index 0000000..969ad87
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2017-14167.patch
+@@ -0,0 +1,70 @@
++From ed4f86e8b6eff8e600c69adee68c7cd34dd2cccb Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Thu, 7 Sep 2017 12:02:56 +0530
++Subject: [PATCH] multiboot: validate multiboot header address values
++
++While loading kernel via multiboot-v1 image, (flags & 0x00010000)
++indicates that multiboot header contains valid addresses to load
++the kernel image. These addresses are used to compute kernel
++size and kernel text offset in the OS image. Validate these
++address values to avoid an OOB access issue.
++
++This is CVE-2017-14167.
++
++Reported-by: Thomas Garnier <thgarnie@google.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Message-Id: <20170907063256.7418-1-ppandit@redhat.com>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++Upstream-Status: Backport
++[https://git.qemu.org/?p=qemu.git;a=commit;h=ed4f86e8b6eff8e600c69adee68c7cd34dd2cccb]
++
++CVE: CVE-2017-14167
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ hw/i386/multiboot.c | 19 +++++++++++++++++++
++ 1 file changed, 19 insertions(+)
++
++diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
++index 6001f4c..c7b70c9 100644
++--- a/hw/i386/multiboot.c
+++++ b/hw/i386/multiboot.c
++@@ -221,15 +221,34 @@ int load_multiboot(FWCfgState *fw_cfg,
++         uint32_t mh_header_addr = ldl_p(header+i+12);
++         uint32_t mh_load_end_addr = ldl_p(header+i+20);
++         uint32_t mh_bss_end_addr = ldl_p(header+i+24);
+++
++         mh_load_addr = ldl_p(header+i+16);
+++        if (mh_header_addr < mh_load_addr) {
+++            fprintf(stderr, "invalid mh_load_addr address\n");
+++            exit(1);
+++        }
+++
++         uint32_t mb_kernel_text_offset = i - (mh_header_addr - mh_load_addr);
++         uint32_t mb_load_size = 0;
++         mh_entry_addr = ldl_p(header+i+28);
++ 
++         if (mh_load_end_addr) {
+++            if (mh_bss_end_addr < mh_load_addr) {
+++                fprintf(stderr, "invalid mh_bss_end_addr address\n");
+++                exit(1);
+++            }
++             mb_kernel_size = mh_bss_end_addr - mh_load_addr;
+++
+++            if (mh_load_end_addr < mh_load_addr) {
+++                fprintf(stderr, "invalid mh_load_end_addr address\n");
+++                exit(1);
+++            }
++             mb_load_size = mh_load_end_addr - mh_load_addr;
++         } else {
+++            if (kernel_file_size < mb_kernel_text_offset) {
+++                fprintf(stderr, "invalid kernel_file_size\n");
+++                exit(1);
+++            }
++             mb_kernel_size = kernel_file_size - mb_kernel_text_offset;
++             mb_load_size = mb_kernel_size;
++         }
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu_2.10.0.bb b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+index 835577a..75e2a25 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.10.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.10.0.bb
+@@ -24,6 +24,10 @@ SRC_URI = "http://wiki.qemu-project.org/download/${BP}.tar.bz2 \
+            file://0003-Introduce-condition-in-TPM-backend-for-notification.patch \
+            file://0004-Add-support-for-VM-suspend-resume-for-TPM-TIS-v2.9.patch \
+            file://apic-fixup-fallthrough-to-PIC.patch \
++           file://CVE-2017-13711.patch \
++           file://CVE-2017-13673.patch \
++           file://CVE-2017-13672.patch \
++           file://CVE-2017-14167.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+\..*)\.tar"
+ 
 -- 
 2.7.4
 
