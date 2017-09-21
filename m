@@ -1,40 +1,42 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BBE2477FF6
+Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
+	[209.85.128.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A1FE7822A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 11:25:20 +0000 (UTC)
-Received: by mail-wr0-f194.google.com with SMTP id g50so2971970wra.3
+	Thu, 21 Sep 2017 11:25:21 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id k20so2969669wre.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 04:25:22 -0700 (PDT)
+	Thu, 21 Sep 2017 04:25:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/wz1OTlipBSd0vjDWroHnA+v/QAHHWoc7xuY7exFr3o=;
-	b=F+QU9vp/65PT5e6jpqpNVwUa5PevRw/MMtGu/+jOdopxyOSAc4b9S2ptxBmyvZkDzJ
-	jQg3xz3cJAfMx5In4xXU21XBI/bPqhIoEp/YMJ9HYPqM9r3ao5CdzLEALAsYNKgjYgCK
-	X9pq+0G7VwiLxupS1E0r+8b5l8alcKxJ6KxIsPkCLG9tkd+m5tAKuiikdYHlR/181sEt
-	gGxIdTBezXGsm7WYeRdlaGjRtFAC5keWRy9swyz6GE3mWipWSz5hVqIJFCeLVOlTWx4I
-	mrgqSJN1cB2EucCu6oYjyFbGjdgKJwzse9TloRmsrbnjXO7bKWlYUFAwzoZiakr+SF2d
-	usCA==
-X-Gm-Message-State: AHPjjUhBU6I8OzyInZcsZ7R9G/krkssN2u4rPVXIjmA2y24spZA4A51y
-	8wIsqxUIbEebK/HXgNcec3A7f99d
-X-Google-Smtp-Source: AOwi7QB1WgG3qty8e9SDLKOhcc+DHW9/jmAagKtE3YBe9Zzr3GG+lkufBJC5ELoTzpFiZToCg+SSTQ==
-X-Received: by 10.223.173.204 with SMTP id w70mr1712736wrc.281.1505993121041; 
-	Thu, 21 Sep 2017 04:25:21 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=vbjSzm2WLAgm0HjzpK1lrgN6U7PClCNpMLAo/8N8l2A=;
+	b=fKU1W6TtM2FpJp6XdLOBMcxqAA33XnkIJlc5SRVcF7TPpn+ah3KfCJFM5YDB3aS66W
+	A/bew6YyL5dqd4nht0CWY4JtMsDW+/CPiGkwJwjR90AWOkH5GCCJuFRcqFE+IdJ2J6ic
+	+KFEKJRFqjFvlhBbv1fT0Q2jFyLk7dcen82si66KMLyxOnR24NI5rZjyA7h7RC5QDkBh
+	wJmWvxwRrSnTTdgCNxj+KEbqUmm8ntrugMdTFF/BiwzSPofv5bTjzo+rmjwy1SYD8Ht+
+	6dD7WFoNDSm/xT57bK9YjD4vRnW5LT7bTa27XlXwE+mGgkAoqyUucArQSSlzgROwVxB3
+	nmVw==
+X-Gm-Message-State: AHPjjUiSGQslApRAJZc39kOp6LpvfJ3tmTm7A5RKWC7NxMRDnEByP/bW
+	hun1G2scDhq3oYBrHIsrX3fIgL2L
+X-Google-Smtp-Source: AOwi7QDMSJ6JggLuD2srYFPPK96poLYXhJjKi64am7HqueHJbAEGdHYyvJcFOt4tK4VMyvBJQpTFiA==
+X-Received: by 10.223.172.66 with SMTP id v60mr1664690wrc.143.1505993122352;
+	Thu, 21 Sep 2017 04:25:22 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id s3sm1808085wrc.24.2017.09.21.04.25.19
+	by smtp.gmail.com with ESMTPSA id s3sm1808085wrc.24.2017.09.21.04.25.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Sep 2017 04:25:20 -0700 (PDT)
+	Thu, 21 Sep 2017 04:25:21 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Sep 2017 12:25:17 +0100
-Message-Id: <20170921112518.16132-1-git@andred.net>
+Date: Thu, 21 Sep 2017 12:25:18 +0100
+Message-Id: <20170921112518.16132-2-git@andred.net>
 X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20170921112518.16132-1-git@andred.net>
+References: <20170921112518.16132-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] Revert "u-boot: fix extlinux creation race"
+Subject: [PATCH 2/2] uboot-extlinux: fix extlinux creation race (take 2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,42 +49,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 11:25:21 -0000
+X-List-Received-Date: Thu, 21 Sep 2017 11:25:22 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: André Draszik <adraszik@tycoint.com>
 
-This reverts commit 60c90398580998b2379bb438f0f75b29285135a5.
+Alternative solution to original commit
+60c90398580998b2379bb438f0f75b29285135a5 ("u-boot: fix extlinux
+creation race")
 
-This causes circular dependencies when UBOOT_SIGN_ENABLE is active.
-
-These are usually caused by circular dependencies and any circular dependency chains found will be printed below. Increase the debug level to see a list of unbuildable tasks.
-
-Identifying dependency loops (this may take a short while)...
-
-ERROR:
-Dependency loop #1 found:
-  Task u-boot.bb:do_concat_dtb (dependent Tasks ['kernel.bb:do_assemble_fitimage'])
-  Task u-boot.bb:do_install (dependent Tasks ['u-boot.bb:do_concat_dtb', 'pseudo_1.8.2.bb:do_populate_sysroot', 'u-boot.bb:do_compile'])
-  Task u-boot.bb:do_deploy (dependent Tasks ['u-boot.bb:do_deploy_dtb', 'u-boot.bb:do_install'])
-  Task .../recipes-kernel/linux/kernel.bb:do_assemble_fitimage (dependent Tasks ['kernel.bb:do_compile', 'u-boot.bb:do_deploy'])
+(Untested)
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/uboot-extlinux-config.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index aa21c0e556..c2bcf99840 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -304,4 +304,4 @@ do_deploy () {
-     fi
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index 8447a047ee..d60f8c6ae2 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -68,7 +68,7 @@ UBOOT_EXTLINUX_MENU_DESCRIPTION_linux ??= "${DISTRO_NAME}"
+ 
+ UBOOT_EXTLINUX_CONFIG = "${B}/extlinux.conf"
+ 
+-python create_extlinux_config() {
++python do_create_extlinux_config() {
+     if d.getVar("UBOOT_EXTLINUX") != "1":
+       return
+ 
+@@ -149,4 +149,4 @@ python create_extlinux_config() {
+         bb.fatal('Unable to open %s' % (cfile))
  }
  
--addtask deploy before do_build after do_install
-+addtask deploy before do_build after do_compile
+-do_install[prefuncs] += "create_extlinux_config"
++addtask create_extlinux_config before do_install after do_compile
 -- 
 2.14.1
 
