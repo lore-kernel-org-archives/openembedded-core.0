@@ -1,54 +1,38 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
-	[209.85.161.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E77778258
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 41984782A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 21:21:42 +0000 (UTC)
-Received: by mail-yw0-f181.google.com with SMTP id q80so4977231ywg.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 14:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=2bVM/+azkXrn9Qq1ocjES9d6EOzzF57DyNyeWAe11Og=;
-	b=IvOYySFI6s2YLzZ0tpnRumopNaYvuAOy692tnMJ6JY2m2tbaIM4q177Quuor7AnwoT
-	ORWCNz3oVyR41NafBeDSHBbLtO7ErUlWHzvk7rbZJvEN4ng4cuhHSmrOeUFVcf1mDHok
-	/C/qrish3A3dt8da117MzecG1M4fdE5FnMXDE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=2bVM/+azkXrn9Qq1ocjES9d6EOzzF57DyNyeWAe11Og=;
-	b=AjPWhF3dxm/VExdh92AD/BJFdb6oIccsWrXjj/vuEUG0gOh0V+XBIhb58yXq2CaDe2
-	zNgsifeAaKTHrg7th6Sq5wUiTqj9Pnwq+y1S6OkYuC/Fes7LzqxdcCP107GtxholZ23K
-	Ny9NpeRrYkMzrppQf1kDmhWHgSgYKATDx+SDHGI8Zv1rG0vOClZRIDmz9PDd2m2GWo7O
-	2Vzpmdeg1p7yKOG9hEui3y13iW+YS/Mf0x+yONRf+n7kNzCbTduko7MFCbDrdyd7USuL
-	iSdZfYbX4FjqWnR0kOi27NC8sLFSyFsQ7GJcln3HgLotcT9nBhtj2jGQN8UfzEP9qzl9
-	ODAg==
-X-Gm-Message-State: AHPjjUh2uwPfX+ZxVDFM3Br0k6QKMWFGdvQPP99p9hGSglXY+z1DcEfI
-	9PBBAmAlyAZdbndw6Mu2y+ED3A==
-X-Google-Smtp-Source: AOwi7QBkY2uDCWjsBl5I0ksoqHemTN3MZKgrmCg0Wo330h5wFBj/Drl441T6OOlo+zwpfEN293OOlQ==
-X-Received: by 10.129.167.194 with SMTP id e185mr2510570ywh.120.1506028904096; 
-	Thu, 21 Sep 2017 14:21:44 -0700 (PDT)
-Received: from bill-the-cat ([2606:a000:1401:811b:24e9:4a96:6457:ac31])
-	by smtp.gmail.com with ESMTPSA id
-	s125sm867788ywd.65.2017.09.21.14.21.43
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Thu, 21 Sep 2017 14:21:43 -0700 (PDT)
-Date: Thu, 21 Sep 2017 17:21:44 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20170921212144.GM30205@bill-the-cat>
-References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
-	<CAP9ODKquj79BCNcRg66C+GSbDeoAeO6nb61Nk2FQG75w_CCTjg@mail.gmail.com>
-	<a6131189-f150-5383-6858-5d296e2389ed@windriver.com>
+	Thu, 21 Sep 2017 21:35:34 +0000 (UTC)
+Received: (qmail 2911 invoked by uid 1003); 21 Sep 2017 21:35:36 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@108.44.111.57)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	21 Sep 2017 21:35:36 -0000
+To: Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <20170911203056.22156-1-otavio@ossystems.com.br>
+	<CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
+	<CA+chaQec-cL6x3i3TfOi7yBhmCQ9Gf=-4jXkXqJ2-yJQmPmcmw@mail.gmail.com>
+	<5e66c357-fda0-17d8-1d78-5b877fdc47e5@gmail.com>
+	<CA+chaQfdgGcWAc17f=epK8s3q1=h+voUUc4sNJSLdtu_5SbOfA@mail.gmail.com>
+	<1095f2c9-3ff8-bf71-4b6e-707111a4445c@gmail.com>
+	<20170918083915.GB3340@jama>
+	<51b6874b-551a-3983-4002-77e166822521@balister.org>
+	<CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
+	<CAJTo0LbFHX_Wm_W2MteS=6XbJgqzZh-jtGZ_Bhu95kO8Nue+dw@mail.gmail.com>
+	<20170918160610.GD17137@bill-the-cat>
+	<a512c6ac-65d6-e105-8ce7-a2a387084dbe@denx.de>
+From: Philip Balister <philip@balister.org>
+Message-ID: <500e4bce-840a-cd83-ef77-015ea622cbbe@balister.org>
+Date: Thu, 21 Sep 2017 17:35:34 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <a6131189-f150-5383-6858-5d296e2389ed@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
+In-Reply-To: <a512c6ac-65d6-e105-8ce7-a2a387084dbe@denx.de>
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,60 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 21:21:43 -0000
-X-Groupsio-MsgNum: 103241
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+HmK7y6O+lKZIGkr"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 21 Sep 2017 21:35:35 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
---+HmK7y6O+lKZIGkr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 09/19/2017 04:15 AM, Marek Vasut wrote:
+> On 09/18/2017 06:06 PM, Tom Rini wrote:
+>> On Mon, Sep 18, 2017 at 04:51:31PM +0100, Burton, Ross wrote:
+>>> On 18 September 2017 at 16:46, Otavio Salvador <
+>>> otavio.salvador@ossystems.com.br> wrote:
+>>>
+>>>> What is the policy on doing u-boot version upgrades this late in the
+>>>>
+>>>> release cycle? SHouldn't this wait until after the release?
+>>>>
+>>>>
+>>>> Why?
+>>>>
+>>>> It is just another recipe and we are upgrading to the final release.
+>>>>
+>>>> As Martin said, it was already broken.
+>>>>
+>>>> I'll take the responsibility to fix it. But as other packages, upgrades
+>>>> has risk and we have more than enough time to proper fix it.
+>>>>
+>>>
+>>> Why?  Because it was merged to master after the freeze.
+>>>
+>>> Personally I'm of the opinion that u-boot is one of those special recipes
+>>> that if an upgrade appears just after freeze, we consider it.  If we don't
+>>> keep it up to date BSPs won't use the recipe, and we'll be back to every
+>>> BSP layer containing its own special copy of the u-boot recipe.
+>>
+>> Also please note that U-Boot has a rather regular and public release
+>> schedule: http://www.denx.de/wiki/U-Boot/ReleaseCycle so you can have a
+>> good idea beforehand if you want to grab something for a release or not.
+>>
+>> Personally, I would like to see this in.  But the security issue that's
+>> been disclosed now is "resolved" just by not enabling functionality that
+>> no one was enabling in mainline, and will be removed in the next
+>> release, so don't feel you need to pull it in on those grounds.
+> 
+> I agree that the 2017.09 upgrade is a good idea.
+> 
 
-On Thu, Sep 21, 2017 at 04:20:30PM -0500, Mark Hatle wrote:
-> On 9/21/17 4:15 PM, Otavio Salvador wrote:
-> > On Thu, Sep 21, 2017 at 2:46 PM, Tom Rini <trini@konsulko.com> wrote:
-> >> When we have been told to use the UUID we should also update the fstab
-> >> to make use of PARTUUID instead of hard-coding the device in question.
-> >> This will make the resulting image much more portable.
-> >>
-> >> Signed-off-by: Tom Rini <trini@konsulko.com>
-> >=20
-> > Adding more features which changes the fstab goes to the opposite
-> > direction of reproducible builds; is it desirable?
->=20
-> There should be a corresponding way to specify the UUID for a generated
-> partition.  This would allow someone to pre-allocate the UUID and use it =
-for
-> their generated image, and thus the reproducible build.
+OK, I just wanted to make sure everyone was on the same page about
+timing of the update. We certainly don't want very many recipes to
+decide they are special and take version bumps right up to release.
 
-WIC does not today, but the underlying tools do, allow you to specify
-the UUID to use, yes.
+Philip
 
---=20
-Tom
 
---+HmK7y6O+lKZIGkr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZxC1nAAoJEIf59jXTHXZSNqcP+wdU5maaUvRgemomx8pZICJs
-9kBChw4fxTtF0wqUDPu2iX0keYIpqSJQryKc+fV/fnL4AN3uP/s1DHmunQIxar4O
-ZO3DiZRqqnzRWb/0TmpVLiRDCo6J4TvD9qyM9z3ZcC39NzlDWKNAw+TzqfSUTk/A
-sRjEKs59vGH64S9SsV2mvDxd6Sq4IpMhcNzujHmBuVaxs7ro9Q5RErvXgLaT/Qla
-tgjG/DxpdUtfFTEmm59qP9OCKQzI3+MbeyI8a9ISlqyeHLfWKoQarSKQb48FPw0J
-tMVjGY3Wjtvqd3hzJ7LwJlVs+OTgX5zMqedPt2ICPIDLUbDi1qmeGD/x4OnqpH/e
-JRsi+l6eKwJ9t8A+5+BZa+oe60PxrLLzBgBTACJ3sghoMZ7bMrjAlxSOUzLmwyeZ
-Tj4yJZXnSLwbciFilBT/dwzMBssllFD7CTkrjqyMEU4sWx/l+MyXiD5DfTFziHmZ
-OTky+pLdP0FnrxU7EUI1DKH46PfH8b9k0s/Dxi7aHXVuGFU3et5XqRbRgLu2BFyv
-ieubvf19RovhwfjqYhR1LYoclFwn1ps5u0pebQJb3PJt+lFoDY0SIrJk0/952k+o
-zWP7Yd6TkNNpidAZA2ZVFGpk2fEfpokUWjrUxt9ngMBlBsFrGJSKMuMCEnYUeFC7
-jAb0rCCxXIdKXCffhIpH
-=30NJ
------END PGP SIGNATURE-----
-
---+HmK7y6O+lKZIGkr--
