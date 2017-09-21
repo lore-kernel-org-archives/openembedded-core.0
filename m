@@ -1,48 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 04FFD71A65
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 1789677E76
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 14:23:24 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id j16so3517608pga.2
+	Thu, 21 Sep 2017 14:31:31 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id p87so3291152pfj.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 07:23:26 -0700 (PDT)
+	Thu, 21 Sep 2017 07:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=oo1jP1XWu+Wxb4Cv8S5v5T/3lu4xHRynfvv4gpDzWRA=;
-	b=F5XYRZTF1nH8UBj2uPIzCtYD7kFKmu30Vy4C8Y8SGBYSujZsojDdQR78P0X5tOU74T
-	XdXiwNU5GYtW65Rs5EKCZQ02tUyjaiZAdmXEG06glJbRqzYPi3h1K4ZoJ3vCUmjL4tMX
-	9Cl51q8E73ebNU6I7/tEPpumhkPuF3g8VktcOKrOrYDH5byeh82tR4dhsxWajbBpBgEv
-	P7h9ElFn4g6ap19FOOyHzmupSncfjTSzEdM3duNE6wVZV5Bc0rdl5wJJ7SSA3QSzskA1
-	RpFrCJQ+l+AjpMD2LXOwC5gZBqClbCL6UGdcs/iy4oQZq31X0wrtEgclca6lL8602Tyq
-	Qhhw==
+	h=from:to:subject:date:message-id;
+	bh=dFp056pb9bPJJqGBAMyijGqFJe1Ilr5MtXeWNrNCVe8=;
+	b=pQbujMFpI51P12v1R4lJJIan9YZKLnOg0tesOGwtvY8e370zs3bFo9Fi1NoJ4k6UdX
+	hSQHVhuL5UZFdyBOGwpiB4C/BiLvllNoUeva49O/lj4kH6566+p0lGtB2nsRanh3DL8R
+	6ICybNTMQKxduLV8fpFUSlG98SM/fjb2OF4y2/k6JIcuZSpFocsPXZDTiKCxyUbME8yY
+	TH3bGmzZQA1r/Idddsg/bA5QZQ1oy7HDQh490dmmwixO54db5NKd6Ps6X+28RzycAM4+
+	DpSXq0NSOkwBes/Sa+feADXbiMgGan6J7ejQoA3KPM1mNUm5Iq+DN02cJgxUVmit1PwJ
+	rjVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=oo1jP1XWu+Wxb4Cv8S5v5T/3lu4xHRynfvv4gpDzWRA=;
-	b=PQRbxZwXIlP3ZdmDaugLEB020OVObPhP80/f2WmILZ2abcY00WmkUAnWKFnXHcNVHp
-	aLUwFeT7KKeJi9Puxurt7Xzg3uxke+F+0qn8+Ak0l1rEWFs27udO5x2+yaeZY7hpOSs8
-	4Y/tg2WYUwE1irygFf6MXv/IGgBR5WH5mxzBXpppfQoXyg7bI9ttYRyCV/zkRee2LymG
-	8QYOMbj0w8LdTo0CZRriHrt9+cu/P+UDHOCcg3J7wnuhK8Yr21ufzkug8O9gu5wtwjac
-	UK8O+eVWmQPT3Dh/rWzsvN9Qx4BimaMH8yBwwbxym1Vpm5lJUUWxs0j+OxK7Q4G1Ayd3
-	1WuQ==
-X-Gm-Message-State: AHPjjUiMC1VYV5126zqhRfyzR+aoOpjsl+Zxo6V8rIGAt2dAnVmOZ73j
-	EWx/ttnZRGgdswvUX0Qk1G2XKn/Dw1pW+9q8rlg=
-X-Google-Smtp-Source: AOwi7QDSVuZHYs3Ec+VsEPEa8NVHn0+Ua/VvpKPra6fMvaZQ1zVaKVsVuc431pCIvRSw+f2+S6Ke+hmd7R45yc30no0=
-X-Received: by 10.101.86.196 with SMTP id w4mr4106884pgs.341.1506003806244;
-	Thu, 21 Sep 2017 07:23:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.149.73 with HTTP; Thu, 21 Sep 2017 07:22:55 -0700 (PDT)
-In-Reply-To: <20170919182734.15741-3-sgw@linux.intel.com>
-References: <20170919182734.15741-1-sgw@linux.intel.com>
-	<20170919182734.15741-3-sgw@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Sep 2017 07:22:55 -0700
-Message-ID: <CAMKF1soAwV66YPAUKotL4XESZN2X28k4fXbpkJc6nEWZtB5CLg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] wic: remove systemd-boot for x32
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=dFp056pb9bPJJqGBAMyijGqFJe1Ilr5MtXeWNrNCVe8=;
+	b=D9B/X2wL6HY8i6fwjXHOf98H7ulipNMR9RsCVLUaKFSS2D0zG7m7DhJ0BnBrmvliv4
+	3oqgUhRcm6dDrLccJqzhfGHk8VNZzYIcQ1da8sPlnj+XlkeOjF4Y6nWIn/2e41RmDu/x
+	IGhEi6OCUISxTCcPBCQ+SscGKvttap46ct7BhWoR0QgXA4m6Be8nrU0Tt0xuamRbJtK/
+	OYaI9ed8FTZ0OdmuVHcFRH2BWejzw0rHlOD1OLYzd/NcjlFLYelbVCOVOeG9w0Kj41Dw
+	nLZygsErg7EmvfBLMu6/pTyXJWkbU30CyiZ5jb18njxkFb22n6qJ1q+/QDs/BMObjTWD
+	RRqA==
+X-Gm-Message-State: AHPjjUhxQT9xJzkd3J3U+xr3pX1FZEfXIX67uorQKguVawfgLR5SkdaA
+	TOtvkQj1g3HUsx3Y0HK7l28=
+X-Google-Smtp-Source: AOwi7QAEEq+2+gDoQc8i48W/VQvDIAVNNpQU//CoT7ICAEzIVJ3JI63yW4Ch+4y5X4UZE0AkacHNMg==
+X-Received: by 10.98.218.18 with SMTP id c18mr5837838pfh.256.1506004292322;
+	Thu, 21 Sep 2017 07:31:32 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4001:9ea0:6413:eafd:1152:fa5c])
+	by smtp.gmail.com with ESMTPSA id 89sm3438723pfn.75.2017.09.21.07.31.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 21 Sep 2017 07:31:31 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 21 Sep 2017 07:30:36 -0700
+Message-Id: <cover.1506003791.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 00/52] Pyro-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +55,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 14:23:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Sep 2017 14:31:32 -0000
 
-On Tue, Sep 19, 2017 at 11:27 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> Currently systemd-boot actually incorporates libgcc, since the
-> systemd-boot needs to be built with 64bit instructions it can not
-> use the x32 based libgcc.
->
-> Use the new override to ensure it gets overriden, linux-gnux32 could
-> not be used because x86-64 has higher priority.
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/classes/image_types_wic.bbclass | 1 +
->  meta/recipes-core/meta/wic-tools.bb  | 1 +
->  2 files changed, 2 insertions(+)
->
-> diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-> index b825b47ce5..b9503c69c5 100644
-> --- a/meta/classes/image_types_wic.bbclass
-> +++ b/meta/classes/image_types_wic.bbclass
-> @@ -45,6 +45,7 @@ WKS_FILE_DEPENDS_DEFAULT = "syslinux-native bmap-tools-native cdrtools-native bt
->  WKS_FILE_DEPENDS_BOOTLOADERS = ""
->  WKS_FILE_DEPENDS_BOOTLOADERS_x86 = "syslinux grub-efi systemd-boot"
->  WKS_FILE_DEPENDS_BOOTLOADERS_x86-64 = "syslinux grub-efi systemd-boot"
-> +WKS_FILE_DEPENDS_BOOTLOADERS_x86_x32 = "syslinux grub-efi"
+Please consider this for pyro. Have clean AB build.
+Contains kernel security fixes, bsp kernel updates and build fixes
 
-this will confuse with x86 ovrride. shouldnt this be x86-32 ?
+The following changes since commit 072430b9b3a78b318b66371c36e2986d2ed5cba4:
 
->
->  WKS_FILE_DEPENDS ??= "${WKS_FILE_DEPENDS_DEFAULT} ${WKS_FILE_DEPENDS_BOOTLOADERS}"
->
-> diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-> index 57dd37a440..09eb409e87 100644
-> --- a/meta/recipes-core/meta/wic-tools.bb
-> +++ b/meta/recipes-core/meta/wic-tools.bb
-> @@ -10,6 +10,7 @@ DEPENDS = "\
->             "
->  DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
->  DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
-> +DEPENDS_append_x86-x32 = " syslinux grub-efi"
->
->  INHIBIT_DEFAULT_DEPS = "1"
->
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  bitbake.conf: add bzr to HOSTTOOLS_NONFATAL (2017-09-13 22:13:00 +0100)
+
+are available in the git repository at:
+
+  http://git.yoctoproject.org/git/poky-contrib akuster/pyro-next
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/pyro-next
+
+Alejandro Hernandez (17):
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.1
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.1
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.4
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.10
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.9
+  linux-yocto: Update genericx86* SRCREVs for linux-yocto 4.1
+
+Alexander Kanavin (2):
+  package_rpm.bbclass: use multithreaded xz compression
+  package_rpm.bbclass: disable generation of .build-id links
+
+Armin Kuster (3):
+  linuux-yocto/4.1: update to 4.1.43 plus bluetooth CVE-2017-1000251
+  meta-yocto-bsp: bump 4.1 to latest linux stable kernel for the non-x86
+    BSPs
+  linux-yocto/4.1: generix86* bsp fix perf issue with gcc >=7
+
+Awais Belal (1):
+  bitbake: toaster: Order column in Tasks selectable
+
+Bruce Ashfield (5):
+  linux-yocto/4.4: update to v4.4.87
+  linux-yocto/4.9: update to v4.9.49
+  linux-yocto/4.10: bluetooth: CVE-2017-1000251
+  linux-yocto/4.4: bluetooth: CVE-2017-1000251
+  linux-yocto/4.9: bluetooth: CVE-2017-1000251
+
+David Reyna (3):
+  bitbake: toaster: display error when the fstype select is empty
+  bitbake: toaster: edit column list not sorted
+  bitbake: toaster: recipe links broken for default layers
+
+Jose Alarcon (2):
+  rootfs-postcommands: remove empty line
+  rootfs-postcommands: add test for unsatisfied RRECOMMENDS
+
+Juro Bystricky (1):
+  gcc-6.3.inc: Use ucontext_t not struct ucontext.
+
+Kevin Hao (5):
+  meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86
+    BSPs
+  meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86
+    BSPs
+  meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86
+    BSPs
+  meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86
+    BSPs
+  meta-yocto-bsp: bump to the latest linux stable kernel for the non-x86
+    BSPs
+
+Khem Raj (1):
+  rootfs-postcommands.bbclass: Filter out dangling symlinks in
+    ssh_allow_empty_password()
+
+Leonardo Sandoval (1):
+  waffle: fix REQUIRED_DISTRO_FEATURES and PACKAGECONFIG virtual/libgl
+    dependencies
+
+Mark Hatle (1):
+  bitbake: cooker.py: Fix layer priority processing
+
+Ng Wei Tee (1):
+  rpm: allow arch-dependent binaries in noarch packages
+
+Olaf Mandel (3):
+  bitbake: toaster: debug message for lists layers missing separators
+  bitbake: toaster: set default pokydirname if no external layers
+  (PRE)MIRRORS: fix pattern for npm:// without slash
+
+Paul Eggleton (3):
+  bitbake: cooker: add BB_CMDLINE to enable access to UI command line
+    with memres
+  bitbake: cooker: fix watching empty directories
+  bitbake: cooker: ensure monkey-patching in collect_bbfiles() gets
+    undone on error
+
+Peter Kjellerstedt (1):
+  alsa-utils: Do not hardcode path to /lib/udev
+
+Richard Purdie (1):
+  bitbake: cooker: Track directories searched for bbappend/bb files
+
+Ross Burton (1):
+  libproxy: use stable download URL
+
+ bitbake/lib/bb/command.py                          |   3 +-
+ bitbake/lib/bb/cooker.py                           |  84 ++++++++-----
+ bitbake/lib/bb/cookerdata.py                       |   2 +-
+ .../toaster/bldcontrol/localhostbecontroller.py    |   6 +-
+ bitbake/lib/toaster/orm/fixtures/oe-core.xml       |   3 +
+ bitbake/lib/toaster/orm/fixtures/poky.xml          |   9 ++
+ .../toaster/orm/management/commands/lsupdates.py   |   2 +
+ bitbake/lib/toaster/toastergui/buildtables.py      |   3 +
+ bitbake/lib/toaster/toastergui/static/js/table.js  |  11 +-
+ .../toaster/toastergui/templates/projectconf.html  |   3 +
+ meta-yocto-bsp/conf/machine/beaglebone.conf        |   2 +-
+ meta-yocto-bsp/conf/machine/edgerouter.conf        |   2 +-
+ meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf      |   2 +-
+ .../recipes-kernel/linux/linux-yocto_4.1.bbappend  |  20 +--
+ .../recipes-kernel/linux/linux-yocto_4.10.bbappend |  20 +--
+ .../recipes-kernel/linux/linux-yocto_4.4.bbappend  |  20 +--
+ .../recipes-kernel/linux/linux-yocto_4.9.bbappend  |  20 +--
+ meta/classes/mirrors.bbclass                       |   4 +-
+ meta/classes/own-mirrors.bbclass                   |   2 +-
+ meta/classes/package_rpm.bbclass                   |   4 +
+ meta/classes/rootfs-postcommands.bbclass           |  18 ++-
+ meta/recipes-devtools/gcc/gcc-6.3.inc              |   1 +
+ .../gcc/gcc-6.3/0055-unwind_h-glibc26.patch        | 139 +++++++++++++++++++++
+ meta/recipes-graphics/waffle/waffle_1.5.2.bb       |  10 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.10.bb |   4 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.9.bb  |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       |  18 +--
+ meta/recipes-kernel/linux/linux-yocto_4.10.bb      |  18 +--
+ meta/recipes-kernel/linux/linux-yocto_4.4.bb       |  20 +--
+ meta/recipes-kernel/linux/linux-yocto_4.9.bb       |  20 +--
+ meta/recipes-multimedia/alsa/alsa-utils_1.1.3.bb   |   4 +-
+ meta/recipes-support/libproxy/libproxy_0.4.14.bb   |   7 +-
+ 38 files changed, 367 insertions(+), 150 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-6.3/0055-unwind_h-glibc26.patch
+
+-- 
+2.7.4
+
 
