@@ -1,25 +1,25 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E2FE77E4E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 10ED777E4E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 07:56:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8L7u2pF001249
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 00:56:03 -0700 (PDT)
-Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 21 Sep 2017 00:56:01 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Sep 2017 15:54:58 +0800
-Message-ID: <1505980498-12202-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.198]
-Subject: [PATCH] ltp: fix hanging issue for gdb01 case
+	Thu, 21 Sep 2017 08:16:02 +0000 (UTC)
+Received: from hex ([192.168.3.34]) (authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
+	v8L8FvAb014940
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NOT); Thu, 21 Sep 2017 09:15:58 +0100
+Message-ID: <1505981757.18640.155.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 21 Sep 2017 09:15:57 +0100
+In-Reply-To: <20170919182734.15741-2-sgw@linux.intel.com>
+References: <20170919182734.15741-1-sgw@linux.intel.com>
+	<20170919182734.15741-2-sgw@linux.intel.com>
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+Mime-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.99.2 at dan
+X-Virus-Status: Clean
+Subject: Re: [PATCH 1/3] arch-x86: Add x86-x32 to MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,73 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 07:56:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Sep 2017 08:16:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-If gdb01 testcase runs as background process, gdb can receive SIGTTOU
-and then the case gets stuck. Replace stdin with /dev/null to fix this
-issue. The patch is backported from upstream.
+On Tue, 2017-09-19 at 11:27 -0700, Saul Wold wrote:
+> This is needed as an x32 more generic x32 override later in the
+> OVERRIDES, currently linux-gnux32 is the first override, but we
+> need a stronger (later in the list) x32 override to deal with some
+> needed x32 dependency overrides.
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/conf/machine/include/x86/arch-x86.inc | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/conf/machine/include/x86/arch-x86.inc b/meta/conf/machine/include/x86/arch-x86.inc
+> index e51d595f74..31d30b3304 100644
+> --- a/meta/conf/machine/include/x86/arch-x86.inc
+> +++ b/meta/conf/machine/include/x86/arch-x86.inc
+> @@ -26,6 +26,7 @@ TUNE_LDARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-m elf32_x86_64',
+>  TUNE_ASARGS += "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '-x32', '', d)}"
+>  # user mode qemu doesn't support x32
+>  MACHINE_FEATURES_BACKFILL_CONSIDERED_append = " ${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'qemu-usermode', '', d)}"
+> +MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'mx32', 'x86_x32:', '' ,d)}"
+>  
+>  # ELF64 ABI
+>  TUNEVALID[m64] = "IA32e (x86_64) ELF64 standard ABI"
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- ...ommands-gdb01-replace-stdin-with-dev-null.patch | 34 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20170516.bb          |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0038-commands-gdb01-replace-stdin-with-dev-null.patch
+I was ok with this until I realised the patch does not do what it says
+in the commit message, it adds "x86_x32", not "x86-x32". Since "_" is
+the override modifier, I worry about how this reacts with the rest of
+the system and I suspect its a bad idea. Is there a reason you didn't
+use "x86-x32" (following the example of x86-64)?
 
-diff --git a/meta/recipes-extended/ltp/ltp/0038-commands-gdb01-replace-stdin-with-dev-null.patch b/meta/recipes-extended/ltp/ltp/0038-commands-gdb01-replace-stdin-with-dev-null.patch
-new file mode 100644
-index 0000000..f7c0a4b
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0038-commands-gdb01-replace-stdin-with-dev-null.patch
-@@ -0,0 +1,34 @@
-+From 2f6ab8f694b26b7f2566624f6d1f23788d6ab8a0 Mon Sep 17 00:00:00 2001
-+From: Jan Stancek <jstancek@redhat.com>
-+Date: Mon, 11 Sep 2017 12:57:58 +0200
-+Subject: [PATCH] commands/gdb01: replace stdin with /dev/null
-+
-+If this testcase runs as background process, gdb can receive
-+SIGTTOU and then testcase gets stuck.
-+
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/linux-test-project/ltp/commit/2f6ab8f694b26b7f2566624f6d1f23788d6ab8a0]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ testcases/commands/gdb/gdb01.sh | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/testcases/commands/gdb/gdb01.sh b/testcases/commands/gdb/gdb01.sh
-+index 07ae36f..e3a5b51 100755
-+--- a/testcases/commands/gdb/gdb01.sh
-++++ b/testcases/commands/gdb/gdb01.sh
-+@@ -29,7 +29,7 @@ TST_NEEDS_CMDS="gdb /bin/cat"
-+ 
-+ simple_test()
-+ {
-+-	gdb /bin/cat -ex "run /etc/passwd" -ex quit
-++	gdb /bin/cat -ex "run /etc/passwd" -ex quit < /dev/null
-+ 	RC=$?
-+ 	if [ $RC -eq 0 ] ; then
-+ 		tst_res TPASS "gdb attached to process and completed run"
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20170516.bb b/meta/recipes-extended/ltp/ltp_20170516.bb
-index 1d0cc1a..653cbfd 100644
---- a/meta/recipes-extended/ltp/ltp_20170516.bb
-+++ b/meta/recipes-extended/ltp/ltp_20170516.bb
-@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0035-fix-test_proc_kill-hang.patch \
-            file://0036-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
-            file://0037-ltp-fix-PAGE_SIZE-redefinition-and-O_CREAT-undeclear.patch \
-+           file://0038-commands-gdb01-replace-stdin-with-dev-null.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+Cheers,
 
+Richard
 
