@@ -1,42 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A1FE7822A
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 29EDE77FF6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 11:25:21 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id k20so2969669wre.1
+	Thu, 21 Sep 2017 11:29:53 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id r136so4946906wmf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 04:25:23 -0700 (PDT)
+	Thu, 21 Sep 2017 04:29:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=vbjSzm2WLAgm0HjzpK1lrgN6U7PClCNpMLAo/8N8l2A=;
-	b=fKU1W6TtM2FpJp6XdLOBMcxqAA33XnkIJlc5SRVcF7TPpn+ah3KfCJFM5YDB3aS66W
-	A/bew6YyL5dqd4nht0CWY4JtMsDW+/CPiGkwJwjR90AWOkH5GCCJuFRcqFE+IdJ2J6ic
-	+KFEKJRFqjFvlhBbv1fT0Q2jFyLk7dcen82si66KMLyxOnR24NI5rZjyA7h7RC5QDkBh
-	wJmWvxwRrSnTTdgCNxj+KEbqUmm8ntrugMdTFF/BiwzSPofv5bTjzo+rmjwy1SYD8Ht+
-	6dD7WFoNDSm/xT57bK9YjD4vRnW5LT7bTa27XlXwE+mGgkAoqyUucArQSSlzgROwVxB3
-	nmVw==
-X-Gm-Message-State: AHPjjUiSGQslApRAJZc39kOp6LpvfJ3tmTm7A5RKWC7NxMRDnEByP/bW
-	hun1G2scDhq3oYBrHIsrX3fIgL2L
-X-Google-Smtp-Source: AOwi7QDMSJ6JggLuD2srYFPPK96poLYXhJjKi64am7HqueHJbAEGdHYyvJcFOt4tK4VMyvBJQpTFiA==
-X-Received: by 10.223.172.66 with SMTP id v60mr1664690wrc.143.1505993122352;
-	Thu, 21 Sep 2017 04:25:22 -0700 (PDT)
+	bh=qQaI8PsL8yUQms77tqg6/nfX66xRlKtXrgCB9QTmI8s=;
+	b=stTJuFgRFQi7oIapb1MuZWZbGhUJZ7XDWFxm6FXz8XHvPcj0KC9CWSvdRUflc8LO+7
+	1eXZCRDdWZpTDQYBqq85CtUEjtfpUfD+dXKMTydOzYh6Tit2g14HOVm6jiFAA1LxghK3
+	JXHdxJdc8L522+/3oUranYznPxGiNpedkrCVACFPn+S5GJ1xtXfIvsd3HDcUEQOYsuMk
+	sUGpwVrlOD+50Bt9FqUviWzHzW8+uTRT9w4piIv+vGorzGCMsKgNUyZsZPWHz9CfJqpV
+	G8WwbfIj3Qo3FVwMRgvo4d0kIteu8/ziwTemCJHzyLc3lvJ9f+1JHNLXOEJw85U8LE/C
+	vDqA==
+X-Gm-Message-State: AHPjjUg+7ZXX+wzJ2t7MDauFnRSfq1jSRIhIRhkyAlc+urrfUEJxHgW2
+	2nT8FS3kO5JnqeERGaROpGJvZ1ZK
+X-Google-Smtp-Source: AOwi7QCgbpWeU/vDJgWy8SEzMCM+TiLimqql+UA1GhU+VtlgUFbnDET9Iht+zmMNSRgCXcQz10FkBQ==
+X-Received: by 10.28.143.138 with SMTP id r132mr719153wmd.18.1505993394553;
+	Thu, 21 Sep 2017 04:29:54 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id s3sm1808085wrc.24.2017.09.21.04.25.21
+	by smtp.gmail.com with ESMTPSA id j15sm846391wre.87.2017.09.21.04.29.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Sep 2017 04:25:21 -0700 (PDT)
+	Thu, 21 Sep 2017 04:29:53 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Sep 2017 12:25:18 +0100
-Message-Id: <20170921112518.16132-2-git@andred.net>
+Date: Thu, 21 Sep 2017 12:29:52 +0100
+Message-Id: <20170921112952.17395-1-git@andred.net>
 X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170921112518.16132-1-git@andred.net>
-References: <20170921112518.16132-1-git@andred.net>
+In-Reply-To: <20170921112518.16132-2-git@andred.net>
+References: <20170921112518.16132-2-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] uboot-extlinux: fix extlinux creation race (take 2)
+Subject: [PATCH v2] uboot-extlinux: fix extlinux creation race (take 2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 11:25:22 -0000
+X-List-Received-Date: Thu, 21 Sep 2017 11:29:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -62,12 +61,15 @@ creation race")
 (Untested)
 
 Signed-off-by: André Draszik <adraszik@tycoint.com>
+
+---
+v2: also execute before do_deploy
 ---
  meta/classes/uboot-extlinux-config.bbclass | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
-index 8447a047ee..d60f8c6ae2 100644
+index 8447a047ee..61dff14b7c 100644
 --- a/meta/classes/uboot-extlinux-config.bbclass
 +++ b/meta/classes/uboot-extlinux-config.bbclass
 @@ -68,7 +68,7 @@ UBOOT_EXTLINUX_MENU_DESCRIPTION_linux ??= "${DISTRO_NAME}"
@@ -84,7 +86,7 @@ index 8447a047ee..d60f8c6ae2 100644
  }
  
 -do_install[prefuncs] += "create_extlinux_config"
-+addtask create_extlinux_config before do_install after do_compile
++addtask create_extlinux_config before do_install do_deploy after do_compile
 -- 
 2.14.1
 
