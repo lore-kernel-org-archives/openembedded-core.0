@@ -1,43 +1,46 @@
-Return-Path: <tanuk@iki.fi>
-X-Greylist: delayed 501 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 21 Sep 2017 16:03:16 UTC
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E6B78288
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CB8860685
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 16:03:16 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 54DC420C8B;
-	Thu, 21 Sep 2017 11:54:57 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute5.internal (MEProxy); Thu, 21 Sep 2017 11:54:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-sender:x-me-sender:x-sasl-enc:x-sasl-enc; s=
-	fm1; bh=/BMjr9jYWt1zWtlPdJ14mui1HApk7wPtAyBTUKj5LlY=; b=WVtAdNR6
-	QXF41q4u4e9Q8OlAPurZ3v1ydGGGynrDa6kW2MBgElxuzfj8s/yFlgx4SOuyDzMl
-	w+MjyxaOZOGLJH3ZqEe0ZQsF44gFMl8TjzjBqIrt+3wRWskT6KAFMK2eH1uEwoP+
-	+zQ+VUvCuSOdmZtLu+/wOpki/wlCnd37nt0BXVrmGNTK0zY4wICYNxDPzPGD5fVV
-	eFusH+1OVB3a6J1o5gRReJPR+Rwg34tYx86YKuIZj6gqn7uAOc4Ly42xWTD6Wmd4
-	K+Jlqo3BpYBgbD/XqkwnfCm5Ygk8soKqvSqQ71HpFAYJBV4jawlq61vMDlaSbSz7
-	CF1Vgw43yQCZow==
-X-ME-Sender: <xms:0eDDWcmpYPlZqyIztK5KJmbroikY3RzXkQucGnwgvJjW9_iEf25RFA>
-X-Sasl-enc: tsdTzHYF2IWVyAPAzswKtkBaAzHRfukhSD6C2nEBT4c0 1506009296
-Received: from laptop (unknown [192.40.95.38])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 80B537E101;
-	Thu, 21 Sep 2017 11:54:56 -0400 (EDT)
-Message-ID: <1506009294.2272.17.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Ola x Nilsson <ola.x.nilsson@axis.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 21 Sep 2017 18:54:54 +0300
-In-Reply-To: <20170921145614.8579-1-olani@axis.com>
-References: <20170921145614.8579-1-olani@axis.com>
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Cc: olani@axis.com
-Subject: Re: [PATCH] alsa-utils: Install and delete from the same udev-rules-dir
+	Thu, 21 Sep 2017 17:42:22 +0000 (UTC)
+Received: by mail-pg0-f43.google.com with SMTP id b11so3885127pgn.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Sep 2017 10:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=VV4AY9nWJLU25Mo58+E6tQdSvMmPCRDATk0SB4sbCAQ=;
+	b=FiKRbQ8e69O3bT+eus/+k5Cxsw7hvqegaJOAzwN/X1y0izUZ7M/BvbtjpF36fONDI8
+	Yxua6oBOe7j8W3uBjz407pW9wZSryWxvbFNxIurZKjgUAGk2oib9uBYzTjL3u33f+7Ax
+	s10uGwo11DjPiJ7q4Bdg11vDQrYKtMQOQRks8Ww+CUGkSaTpWz1zoxjvdS5CO+uK+JVR
+	X5P+HKqOHOGtdu6epZ9VYveyUBdIBQIO2yy3W1rF4QNWvSSxJGvIVewNV0P9pBdUSFci
+	NqeP0Cu0N3Vlh+gFeEmLmE4H/D30y8wLyzn4rEfCuVLh6zKTwXLzciVqwC04/LLrt6d4
+	6b9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VV4AY9nWJLU25Mo58+E6tQdSvMmPCRDATk0SB4sbCAQ=;
+	b=ev0nh0L5r4WL6ttF6N2hbPXM7pHArcNOjyJIw2AIX0dNFiUF+aQTdSjuZ+4wvjcNuB
+	HJjzalFgXSJJ3cwKJmoVi1/weSDIkhqt9nLVjLK8c9jBStAi+5AnhDR1N5YV2ogKyG3W
+	tSOqr9YDt0Z0CrK5Ydam/OwTOrMii9Ur3QcxoTN7tfQmBzysNh6vfNACJCQYo+VhKoag
+	WKhcuPCfjmFeViLSwSBjdJzG62BjgoVsuEK/J60QCbEXj260rzeuhYSVNahzBYcj1KYj
+	msbxbkioM7ZXs+wQ/Gp9Y9GJjKwkHu/4jQ0cC6lQluMyD5PlSkIZ1hBZYQhEPs7qrtaR
+	lFcA==
+X-Gm-Message-State: AHPjjUhF/2TBUmMsJx/9oWU+tNjb7QIasZONkS/3EYzK/WtLclSJHkOk
+	WpOn/mBY/+CMUxLxFuxm/dYZAA==
+X-Google-Smtp-Source: AOwi7QAwZNpgfumodjjOyEnvwbyPmyMAKNdxaTKhR1q6vAWhfAsI6KjVWAm/9aLQewJ++pS9CUlQyw==
+X-Received: by 10.84.132.2 with SMTP id 2mr6277155ple.381.1506015743693;
+	Thu, 21 Sep 2017 10:42:23 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::e57f])
+	by smtp.gmail.com with ESMTPSA id
+	u20sm3241745pfh.171.2017.09.21.10.42.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Sep 2017 10:42:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Sep 2017 10:42:15 -0700
+Message-Id: <20170921174216.33386-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH 1/2] gstreamer1.0-libav: Fix build on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,85 +53,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Sep 2017 16:03:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Sep 2017 17:42:22 -0000
 
-On Thu, 2017-09-21 at 16:56 +0200, Ola x Nilsson wrote:
-> The --with-udev-rules-dir option used with udev is exactly what the
-> configure script uses, so there is no need for it.
-> On the other hand, if we do not have an udev.pc file we should tell
-> alsa-utils where to install the rules so we know where they should be
-> deleted from.
-> 
-> Signed-off-by: Ola x Nilsson <olani@axis.com>
-> ---
->  meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb
-> index c8f4b861bd..7fc6c29a61 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.4.bb
-> @@ -9,14 +9,17 @@ DEPENDS = "alsa-lib ncurses libsamplerate0"
->  
->  PACKAGECONFIG ??= "udev"
->  
-> +udevdir = "${nonarch_base_libdir}/udev"
-> +
->  # alsabat can be built also without fftw support (with reduced functionality).
->  # It would be better to always enable alsabat, but provide an option for
->  # enabling/disabling fftw. The configure script doesn't support that, however
->  # (at least in any obvious way), so for now we only support alsabat with fftw
->  # or no alsabat at all.
->  PACKAGECONFIG[bat] = "--enable-bat,--disable-bat,fftwf"
-> -
-> -PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
-> +# The udev-rules dir is taken from udev.pc.  Set the dir explicitly
-> +# when udev is not in our DEPENDS.
-> +PACKAGECONFIG[udev] = ",--with-udev-rules-dir=${udevdir}/rules.d,udev"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...a.c-Fix-build-by-Including-libavcodec-hev.patch | 33 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-libav_1.12.2.bb         |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
 
-I'll be reading this recipe every once in a while, and I feel this
-comment won't be easy to understand after some time. My suggestion for
-an alternative:
-
-# If udev is not in PACKAGECONFIG, we will leave the udev rules
-# unpackaged and remove them in do_install(). When removing the rules,
-# we need to know where they were installed, which is why we set the
-# udev-rules-dir variable here.
-
->  PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->  
->  SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-> @@ -101,9 +104,13 @@ do_install() {
->  	rm ${D}${sbindir}/alsa-info.sh
->  	rm -f ${D}${sbindir}/alsabat-test.sh
->  
-> -	if ${@bb.utils.contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; then
-> -		# This is where alsa-utils will install its rules if we don't tell it anything else.
-> -		rm -rf ${D}${nonarch_base_libdir}/udev
-> -		rmdir --ignore-fail-on-non-empty ${D}${nonarch_base_libdir}
-> +	if [ "${@bb.utils.filter('PACKAGECONFIG', 'udev', d)}" ]; then
-> +		# This is where alsa-utils installs if there is an udev.pc file
-> +		udevdir=$(pkg-config --variable=udevdir udev)
-> +	else
-> +		# This is where we told alsa-utils to install the rules
-> +		udevdir=${udevdir}
->  	fi
-> +	rm -rf ${D}$udevdir
-> +	rmdir --ignore-fail-on-non-empty ${D}${udevdir%/*}
-
-This will remove the udev rules also when udev is enabled. Previously
-they were removed only when udev was disabled. I suppose this is a
-mistake, since you didn't indicate this kind of change in the commit
-message.
-
-Some comment about what you're doing would be nice when using
-${udevdir%/*}. At least I didn't understand what is happening here
-without reading the bash manual.
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
+new file mode 100644
+index 0000000000..afbfc84db5
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch
+@@ -0,0 +1,33 @@
++From b5226c096a0b7049874858e94a59d43e10ba3fd2 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 21 Sep 2017 10:22:56 -0700
++Subject: [PATCH] hevcpred_msa.c: Fix build by Including libavcodec/hevcdec.h
++
++src/libavcodec/mips/hevcpred_msa.c:1913:32: error: unknown type name 'HEVCContext'; did you mean 'HEVCPredContext'?
++ void ff_intra_pred_8_16x16_msa(HEVCContext *s, int x0, int y0, int c_idx)
++                                ^~~~~~~~~~~
++                                HEVCPredContext
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c b/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c
++index 6a3b281..963c64c 100644
++--- a/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c
+++++ b/gst-libs/ext/libav/libavcodec/mips/hevcpred_msa.c
++@@ -18,7 +18,7 @@
++  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++  */
++ 
++-#include "libavcodec/hevc.h"
+++#include "libavcodec/hevcdec.h"
++ #include "libavutil/mips/generic_macros_msa.h"
++ #include "hevcpred_mips.h"
++ 
++-- 
++2.14.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb
+index 6c5f779ebf..3b5bbd1507 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.12.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz
+            file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+            file://mips64_cpu_detection.patch \
+            file://0001-configure-check-for-armv7ve-variant.patch \
++           file://0001-hevcpred_msa.c-Fix-build-by-Including-libavcodec-hev.patch \
+            "
+ SRC_URI[md5sum] = "8788aecc032a287227b4bd239d1b998a"
+ SRC_URI[sha256sum] = "5bb735b9bb218b652ae4071ea6f6be8eaae55e9d3233aec2f36b882a27542db3"
 -- 
-Tanu
+2.14.1
 
-https://www.patreon.com/tanuk
 
