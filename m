@@ -1,44 +1,44 @@
-Return-Path: <riku.voipio@linaro.org>
-Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BADE7839C
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B105C77A5A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 13:33:15 +0000 (UTC)
-Received: by mail-lf0-f45.google.com with SMTP id d17so1167587lfe.2
+	Fri, 22 Sep 2017 14:34:33 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id u48so769675qtc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 06:33:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=h2dQHqFd3UXqa8F1FMaAjxYgxPwrwwN5G6JJ1MReAc4=;
-	b=cwB+vo56/ra8KJntrXH+w29x4QdW/FbgYim7h5nwIMu+BGfLrid3e/QtysrRbG87Ri
-	83+0e8Prn3g6c/Mv0/Yx0ddSmzLwZRIL83KZWkzWti4wUDO2l1deOatRBcXHRHbqw7mK
-	R2J3hsXZ/lsot3Owi1vDkqsiPkZtPvkQzkhRQ=
+	Fri, 22 Sep 2017 07:34:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=h2dQHqFd3UXqa8F1FMaAjxYgxPwrwwN5G6JJ1MReAc4=;
-	b=udPRS2CLl4c/cmHA/7qjyi9F6lT06vOE6f3qvFHMi0L7IMDCoz2zjYDtWdRSbn2liX
-	GKZNhlzke/frp77RjwpHUqee+wwKlnXXtQBj6ZAbJOVZ1eh0evoVJtnyR5ssxpBvDD4p
-	pQw0So74tBfz5XubM4k3NLe27avVSvLmS6afFROPPpGsJh5D6lD9TLRYlstjyxKvDQyW
-	b1TApsbfpldqUXKE7sqKr/nHNL4G4o1SeaV+xUBQDPDq0VFe7JczLQgQoeOexZ9gQQhr
-	oAgfITiQfkpYAVvBc8+3yikvN7mSQkjw8VoO18gX1ZwRQ2uDKR43fno5lgakrs3/Zfg6
-	x1QQ==
-X-Gm-Message-State: AHPjjUiHa0xKccm9lCRyng40XgaLGU4omgwjpzjYVxOfDTatCoEK3Ddd
-	pBVTOtiGM1N7mX9UOETEdBiur5f7LeMIp/hrRSeA2g==
-X-Google-Smtp-Source: AOwi7QBfDGOlZCwcipzvVu1OQdOlF0uKtd0i0mG1EgBGv17THzUtkdGGGPrlZl+Wt9hjotDkti4aQEAvpyp6k4l+wLY=
-X-Received: by 10.46.67.29 with SMTP id q29mr2487081lja.85.1506087196937; Fri,
-	22 Sep 2017 06:33:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=RVLsIjU+l+eZ2gst6CimmNCjda0H+b1i19k/O0t4OsM=;
+	b=qhvJk/glVWWyApQauVFKgbAEreHkGl0n3uezjuJsUdaDZAaBPnpJmLQuK43JcIsAUl
+	ycUSq+/HVjVMKQw4rsxOJNLhRPQpXOfYHtHFDRC37GW6j2Ar36A3fgClzCw0IGQHWXtL
+	zserM6cfQRVwAAC8Spq/QXNB3CKR7KKxQmMHprPGLAmoTsgQaVgLNXJdnEqkWNAuUZ4E
+	vXNtoAV90xo0PRzSnjklDUsObfbR/N2eyTfgwj2k7Ti8BKZM5YcMPn5IFgCcNCIjqims
+	z3qs93VoH1Kfo57ucMaEWF4EPyesb3RoTwZnLuiNOve5se+51T3a87zJbKeOXU59YTj6
+	361g==
+X-Gm-Message-State: AHPjjUh6nfdpsKUW8ypAhhyREAIQqaize3xx0vH7qbVgs1BgSV3QyrTt
+	dRYwF9SBkc11XA58gcTnhA28xg==
+X-Google-Smtp-Source: AOwi7QBXkDK/eYOoeTYkbu0qGJ0GnTSnscdxr6XagfCDEMXJ+HVRJk6FOvKiZeA9czCWIL+oIXXnlg==
+X-Received: by 10.237.36.146 with SMTP id t18mr8838553qtc.17.1506090874006;
+	Fri, 22 Sep 2017 07:34:34 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	i124sm2787725qkf.84.2017.09.22.07.34.30
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 22 Sep 2017 07:34:33 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Fri, 22 Sep 2017 11:34:24 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Sep 2017 11:34:23 -0300
+Message-Id: <20170922143423.19502-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-Received: by 10.25.199.81 with HTTP; Fri, 22 Sep 2017 06:33:16 -0700 (PDT)
-From: Riku Voipio <riku.voipio@linaro.org>
-Date: Fri, 22 Sep 2017 16:33:16 +0300
-Message-ID: <CAAqcGHm=k1W9CNBtkmvzhncB-CsaODEsXnXjQGZ0vX62mNa+kg@mail.gmail.com>
-To: Cross Distro Mailman List <cross-distro@lists.linaro.org>,
-	debian-arm@lists.debian.org, arm@lists.fedoraproject.org, arm@gentoo.org, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, opensuse-arm@opensuse.org, 
-	linux-arm@lists.infradead.org
-Subject: ARM Cross-distro BoF at Linaro Connect next week
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v3] OBmesa: Upgrade to 17.2.1 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,15 +51,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 13:33:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 22 Sep 2017 14:34:34 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Upgrade to a new stable release and drop patches applied on upstream.
 
-We'll have the traditional cross-distribution BoF at Linaro connect
-Wednesday  27.9, at 3PM US pacific time - 22.00 UTC. We don't have a
-set agenda, but if anything is bugging you, replying to this mail is
-great way to make it into our topics :)
+For a full release notes, please see:
+https://mesa3d.org/relnotes/17.2.0.html
+https://mesa3d.org/relnotes/17.2.1.html
 
-Riku
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+This patch has been tested using OE-Core current Wayland as well as v2
+of Fabien patches:
+
+ weston: Bump version to 3.0.0
+ wayland-protocols: Fix installation patch issue
+ wayland : Bump to version 1.14.0
+
+The distro used for test had: opengl, wayland, x11 and vulkan enabled.
+
+Changes in v3:
+ - fix build for wayland
+
+Changes in v2:
+ - update to 17.2.1
+
+ ...1-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch | 40 ------------------
+ ...allivm-Fix-build-against-LLVM-SVN-r302589.patch | 49 ----------------------
+ .../mesa/{mesa-gl_17.1.7.bb => mesa-gl_17.2.1.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc                |  2 +-
+ .../mesa/{mesa_17.1.7.bb => mesa_17.2.1.bb}        |  7 ++--
+ 5 files changed, 4 insertions(+), 94 deletions(-)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.1.7.bb => mesa-gl_17.2.1.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.1.7.bb => mesa_17.2.1.bb} (77%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch b/meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
+deleted file mode 100644
+index b27a3bc8e4..0000000000
+--- a/meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 9861437e58fdd0de01193a102608d34e5952953f Mon Sep 17 00:00:00 2001
+-From: Christoph Haag <haagch+mesadev@frickel.club>
+-Date: Thu, 20 Apr 2017 10:34:18 +0200
+-Subject: [PATCH 1/2] ac: fix build after LLVM 5.0 SVN r300718
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-v2: previously getWithDereferenceableBytes() exists, but addAttr() doesn't take that type
+-
+-Signed-off-by: Christoph Haag <haagch+mesadev@frickel.club>
+-Reviewed-by: Nicolai Hähnle <nicolai.haehnle@amd.com>
+-Tested-and-reviewed-by: Mike Lothian <mike@fireburn.co.uk>
+----
+-Upstream-Status: Backport
+-
+- src/amd/common/ac_llvm_helper.cpp | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/src/amd/common/ac_llvm_helper.cpp b/src/amd/common/ac_llvm_helper.cpp
+-index d9ea4b1..11fa809 100644
+---- a/src/amd/common/ac_llvm_helper.cpp
+-+++ b/src/amd/common/ac_llvm_helper.cpp
+-@@ -44,9 +44,13 @@ typedef AttributeSet AttributeList;
+- void ac_add_attr_dereferenceable(LLVMValueRef val, uint64_t bytes)
+- {
+-    llvm::Argument *A = llvm::unwrap<llvm::Argument>(val);
+-+#if HAVE_LLVM < 0x0500
+-    llvm::AttrBuilder B;
+-    B.addDereferenceableAttr(bytes);
+-    A->addAttr(llvm::AttributeList::get(A->getContext(), A->getArgNo() + 1,  B));
+-+#else
+-+   A->addAttr(llvm::Attribute::getWithDereferenceableBytes(A->getContext(), bytes));
+-+#endif
+- }
+- 
+- bool ac_is_sgpr_param(LLVMValueRef arg)
+--- 
+-2.13.3
+-
+diff --git a/meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch b/meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
+deleted file mode 100644
+index ac8caec74d..0000000000
+--- a/meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From a02a0dfda2712d30ad62b8f0421ec7b8244ba2cb Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>
+-Date: Wed, 10 May 2017 17:26:07 +0900
+-Subject: [PATCH 2/2] gallivm: Fix build against LLVM SVN >= r302589
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-deregisterEHFrames doesn't take any parameters anymore.
+-
+-Reviewed-by: Vedran Miletić <vedran@miletic.net>
+-Reviewed-by: Marek Olšák <marek.olsak@amd.com>
+----
+-Upstream-Status: Backport
+-
+- src/gallium/auxiliary/gallivm/lp_bld_misc.cpp | 12 +++++++++---
+- 1 file changed, 9 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
+-index 2a388cb..0e4a531 100644
+---- a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
+-+++ b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
+-@@ -342,14 +342,20 @@ class DelegatingJITMemoryManager : public BaseMemoryManager {
+-       virtual void registerEHFrames(uint8_t *Addr, uint64_t LoadAddr, size_t Size) {
+-          mgr()->registerEHFrames(Addr, LoadAddr, Size);
+-       }
+--      virtual void deregisterEHFrames(uint8_t *Addr, uint64_t LoadAddr, size_t Size) {
+--         mgr()->deregisterEHFrames(Addr, LoadAddr, Size);
+--      }
+- #else
+-       virtual void registerEHFrames(llvm::StringRef SectionData) {
+-          mgr()->registerEHFrames(SectionData);
+-       }
+- #endif
+-+#if HAVE_LLVM >= 0x0500
+-+      virtual void deregisterEHFrames() {
+-+         mgr()->deregisterEHFrames();
+-+      }
+-+#elif HAVE_LLVM >= 0x0304
+-+      virtual void deregisterEHFrames(uint8_t *Addr, uint64_t LoadAddr, size_t Size) {
+-+         mgr()->deregisterEHFrames(Addr, LoadAddr, Size);
+-+      }
+-+#endif
+-       virtual void *getPointerToNamedFunction(const std::string &Name,
+-                                               bool AbortOnFailure=true) {
+-          return mgr()->getPointerToNamedFunction(Name, AbortOnFailure);
+--- 
+-2.13.3
+-
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb b/meta/recipes-graphics/mesa/mesa-gl_17.2.1.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.2.1.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 4f31ed255c..cab8e4bfe7 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -45,7 +45,7 @@ X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage li
+ # "x11" requires "opengl"
+ PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
+ PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+-PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm"
++PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
+ 
+ DRIDRIVERS = "swrast"
+ DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
+diff --git a/meta/recipes-graphics/mesa/mesa_17.1.7.bb b/meta/recipes-graphics/mesa/mesa_17.2.1.bb
+similarity index 77%
+rename from meta/recipes-graphics/mesa/mesa_17.1.7.bb
+rename to meta/recipes-graphics/mesa/mesa_17.2.1.bb
+index a50f32c025..59c40b1371 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.1.7.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.2.1.bb
+@@ -7,13 +7,12 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-hardware-gloat.patch \
+            file://vulkan-mkdir.patch \
+            file://llvm-config-version.patch \
+-           file://0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch \
+-           file://0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch \
+            file://0001-winsys-svga-drm-Include-sys-types.h.patch \
+            file://0001-configure.ac-Always-check-for-expat.patch \
+            "
+-SRC_URI[md5sum] = "e40bb428a263bd28cbf6478dae45b207"
+-SRC_URI[sha256sum] = "69f472a874b1122404fa0bd13e2d6bf87eb3b9ad9c21d2f39872a96d83d9e5f5"
++
++SRC_URI[md5sum] = "f53ed38110237d9df5f9198c09ef0ab0"
++SRC_URI[sha256sum] = "77385d17827cff24a3bae134342234f2efe7f7f990e778109682571dbbc9ba1e"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.14.1
+
 
