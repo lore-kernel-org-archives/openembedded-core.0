@@ -1,42 +1,20 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E160719C4
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+X-Greylist: delayed 582 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 22 Sep 2017 09:01:07 UTC
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 78EA8783A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 09:00:11 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id i131so662755wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 02:00:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=88QzsgXNgBbR4SfNNA+NuJvLH+bIrgOEUcKWnUm2dQM=;
-	b=lb8gx/9A4b9cL50TilGB6L3Lt8EELSf5Ku3E4JMnZAiYC+2jZG7vteA14pNV8lrz+L
-	+zLxhCfhSqFvhH7C8TxpCVuD9tbfufjzosc8nW+ZJr3h+QOna/+Otl/bTolfem653Fk8
-	YLKNLX7BtX2t6vrdWZL0VE7tOMEio2w8cm/mIFBsNuMW+vzKXGFjyPKZCTjx8iRosUoR
-	9VcBYY+ixWXSHI17OtmB4K5+/jYOP6Rvk9H8F4LAzV7z1J3/srnBzgWYNpVGYjRSvpFP
-	S/+Yaa1UbL9TsYAW/3Qvt0MxaxNKQrJic6hKgFTxSs9sS9c6uezDYs5JzY/mc+AwpHhX
-	jeXQ==
-X-Gm-Message-State: AHPjjUiazAC4RUx+UMV4XgqnhrYA/xlHf2J8Ovg+dlV0ENCJFw0/elmp
-	ilt1Rn7HxGrZJPAEuqmE4HOf5CvN
-X-Google-Smtp-Source: AOwi7QDREXV61+ISfty+qLsv5VXczuWEDARG1FbR1akTtVDyA3242p8VzQcYWqnQ+sqTNucYIzHfkQ==
-X-Received: by 10.80.134.16 with SMTP id o16mr3964950edo.158.1506070812569;
-	Fri, 22 Sep 2017 02:00:12 -0700 (PDT)
-Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	l33sm2064845edd.94.2017.09.22.02.00.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Sep 2017 02:00:11 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Fri, 22 Sep 2017 09:01:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id E4A6B26D3CF
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Sep 2017 10:00:10 +0100
-Message-Id: <20170922090010.9685-1-git@andred.net>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170904093726.11472-1-git@andred.net>
-References: <20170904093726.11472-1-git@andred.net>
-MIME-Version: 1.0
-Subject: [PATCH v2] useradd-staticids: don't create username-group if gid is specified
+Date: Fri, 22 Sep 2017 10:51:17 +0200
+Message-Id: <20170922085118.12000-3-fabien.lahoudere@collabora.co.uk>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170922085118.12000-1-fabien.lahoudere@collabora.co.uk>
+References: <20170922085118.12000-1-fabien.lahoudere@collabora.co.uk>
+Subject: [PATCH 3/4] weston: Bump version to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,75 +27,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 09:00:12 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Sep 2017 09:01:07 -0000
 
-From: André Draszik <adraszik@tycoint.com>
-
-Adding distcc to an image, and having staticids enabled,
-doesn't work as it causes a a superfluous 'distcc' group
-being added using a conflicting  GID, thus failing the
-build:
- | ERROR: distcc-3.2-r0 do_prepare_recipe_sysroot: distcc: groupadd command did not succeed.
-
-Compared to other recipes, the distcc recipe only
-specifies --gid for the primary group, and doesn't specify
---no-user-group, but when --gid is given, it doesn't make
-sense to create a matching username-group in addition,
-even if --no-user-group was not specified, and 'useradd'
-actually complains if --gid and --user-group are given
-both.
-
-If only --gid is given, the current code in here
-effectively behaves as if --user-group was specified,
-taking the group-id of the username-group from the
---gid parameter. This causes the error above, as we try
-to add a new group (distcc) with an existing group-id
-(nogroup).
-
-This is contrary to the comment in this file just above,
-contrary to what useradd can do, contrary to behaviour
-without the useradd-staticids bbclass, and non-intuitive.
-
-Change the code such that a username-group is only created
-- if a primary group using --gid was not specified, or
-- if --no-user-group was not specified
-
-To be in line with useradd, if gid is not given, and
---no-user-group is given, we add the user to the group
-'users', which mimics useradd's behaviour.
-
-Signed-off-by: André Draszik <adraszik@tycoint.com>
-
+Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 ---
-v2: bring this even more in line with useradd
----
- meta/classes/useradd-staticids.bbclass | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ .../wayland/{weston_2.0.0.bb => weston_3.0.0.bb}         | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_2.0.0.bb => weston_3.0.0.bb} (89%)
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index ce4ac62ab5..eb8e59e67a 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -102,9 +102,13 @@ def update_useradd_static_config(d):
-             # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
-             # is used, and we disable the user_group option.
-             #
--            user_group = uaargs.user_group is None or uaargs.user_group is True
--            uaargs.groupname = uaargs.LOGIN if user_group else uaargs.gid
--            uaargs.groupid = field[3] or uaargs.gid or uaargs.groupname
-+            if uaargs.gid:
-+                uaargs.groupname = uaargs.gid
-+            elif uaargs.user_group is not False:
-+                uaargs.groupname = uaargs.LOGIN
-+            else:
-+                uaargs.groupname = 'users'
-+            uaargs.groupid = field[3] or uaargs.groupname
+diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_3.0.0.bb
+similarity index 89%
+rename from meta/recipes-graphics/wayland/weston_2.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_3.0.0.bb
+index 54b07bd6b9..6b3fad7b83 100644
+--- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_3.0.0.bb
+@@ -9,12 +9,11 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+            file://0001-make-error-portable.patch \
+-           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+ "
+-SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
+-SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
++SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
++SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
  
-             if uaargs.groupid and uaargs.gid != uaargs.groupid:
-                 newgroup = None
+ inherit autotools pkgconfig useradd distro_features_check
+ # depends on virtual/egl
+@@ -25,7 +24,6 @@ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+ 
+ EXTRA_OECONF = "--enable-setuid-install \
+                 --disable-rdp-compositor \
+-                WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT} \
+                 "
+ EXTRA_OECONF_append_qemux86 = "\
+ 		WESTON_NATIVE_BACKEND=fbdev-backend.so \
+@@ -77,7 +75,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+-	rm -f ${D}/${libdir}/libweston-2/*.la
++	rm -f ${D}/${libdir}/libweston-3/*.la
+ 
+ 	# If X11, ship a desktop file to launch it
+ 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
+@@ -94,16 +92,16 @@ do_install_append() {
+ }
+ 
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
+-             libweston-2 ${PN}-examples"
++             libweston-3 ${PN}-examples"
+ 
+ FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
+ 
+-FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
+-SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
++FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
++SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
+ 
+ FILES_${PN}-examples = "${bindir}/*"
+ 
+-FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
++FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
+ RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
+ 
+ RDEPENDS_${PN} += "xkeyboard-config"
 -- 
-2.14.1
+2.11.0
 
 
