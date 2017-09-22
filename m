@@ -1,49 +1,44 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 149AB71C7E
+Return-Path: <nandojve@gmail.com>
+Received: from mail-yw0-f172.google.com (mail-yw0-f172.google.com
+	[209.85.161.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 00CF66006E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 09:34:19 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id b9so340635wra.0
+	Fri, 22 Sep 2017 10:30:06 +0000 (UTC)
+Received: by mail-yw0-f172.google.com with SMTP id l4so438033ywa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 02:34:21 -0700 (PDT)
+	Fri, 22 Sep 2017 03:30:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=f6MxLsSFxoEwr923JZuCKIDr48OFKgtl5AD1h4iFc5c=;
-	b=VhZoZ0APBzkCKZxC605hgFY33VpSrzYzz4AE5qPUyYmoJU1zRPTN7uzlSs8ODqyzQT
-	AeXHGD7LKhinwyePMKqCjaoWDzXH0sbNfmKf5ubRLp7auoBFjczUGS89l+9qOc0rb12I
-	KyGRXrvsEaTYOZRfmkkmCi8HFp37lcV6PSUfiuGJbP0Ve6+vwEjoPegHlZC4S+4/ZCJP
-	IWAb8EYl7zdN/2IUZIlCVBLrab1UokQJL3lgq9/pA45iZ1IFMuskxH8nyko8eULyJd38
-	MW4XTzTakA07hTaoeKueoVSbgGFpkNzgx6rhHsa99PAcTgrHGjU36t7NsLNUh6w1+Kim
-	hOag==
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=Uh9zmeACCgigJO1bEETdIeFdUfjq6oxRxA0uYr8xCC4=;
+	b=m7dEb83kXTdG3o8f9rukOMeCHgXVaKlmeftMtR8mKj239Wt3mDW91Hg8/LBbHSaY+3
+	r75QLOn5+1uR71qdcwYBTDxWnOglxUl+ijZWxSZCoRkdUbYrA+1VZRjdp7uXH3wfMNW0
+	B91uLj7DbDx2GoXtUlc5dcs26/qI4/IhrFaFKmblA0xym1lV4ciqtSdHmKZS0Pa1monU
+	uHqcNNynzYuPcFzPiBMIPE3EA0L/33BVBgTD+9m+PT2/ADDh5o67cKqGKQ5iDhInAl/d
+	iLFjIpCFZXCMbzR2MDCUlLckv0Jr7Yu/f7RF8PBg4CmhJHpziIh8huzx5GCjJpi+KpU0
+	WwQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=f6MxLsSFxoEwr923JZuCKIDr48OFKgtl5AD1h4iFc5c=;
-	b=ZP8dTjaR+fiZyHPk4kDGe4dS98p6DXJqusotEpWP2QtL0ywrcQG56WhmOjcSPXEcam
-	2WOyJoc3Ua3W3Zwv7OYnK0MTKg8KKFlmDGyKUFsS/ji87Y9DTE9VLj8BJCKrIRh4RqhG
-	QTx4HH0nrZd/+eTi+kgHtPXFluJ666FQF4rN4+QJBQvEc0cZM1ZRo8cfIlcpiO7eF/v0
-	PO/2LvfWl2TKDMbMecowp4jaaRFkZDVXvPHqi9XPJaoPBwkGAOqaMLqLYu8nDWsXX3qB
-	Xox/UEGe3AREErcPBlws0eCxBpyPiJIU8V1OKRqvaCBobLavrCYyI1Zqu3ps20BvycDV
-	lkqQ==
-X-Gm-Message-State: AHPjjUjrgkioxMTwhDcM/s9jNt4HBRjk5rTY5tuglzQZWdVZTQU2gzkT
-	j/tBhEs9V/1t4vTVC32UDNSQEXdhJwZCkk/V8fcBMQ==
-X-Google-Smtp-Source: AOwi7QCwtLCWIZR3vtqfibz3zPfXYJRMvfAS3ZmEq5IWYRk4c0Tr+cU9nhyiae+j7rTDH19IigAS8YwrHqP1h2dVjmw=
-X-Received: by 10.223.157.142 with SMTP id p14mr4027648wre.104.1506072860762; 
-	Fri, 22 Sep 2017 02:34:20 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=Uh9zmeACCgigJO1bEETdIeFdUfjq6oxRxA0uYr8xCC4=;
+	b=liY0PTdzdRW7mX72NrVBDHE+nJVqk40ioEL8esIEiFrs0XzUHVf6GhloeGdmHUPMJt
+	aHDR2moYa23yjvFPqYeC482d8ebUlKBhVWY557d1FjhvJUy9E4ybsmrt6phgXnXsqYSC
+	Vi5Fll0/vlKEqe4Pb1uqgqHR6zHmjNPIuFWJSXnlAr4zHadNt0DrddS87FD/+EYTaQ/7
+	YEdXn4A41PHrZqVBZQ6/VCOZP7bOHoI34wDr+h+T9/APg6MWvU2ghdGpEIoDu9diYJCl
+	kyddNZt5xrCFmlcfuLNd4E+yLmmxNXf/WpF6NXe1Hsz+OYb/n2AnhlSCS1H+OJhlx/0U
+	HdUQ==
+X-Gm-Message-State: AHPjjUhPvtiSJYEhFZkoh3ZSk20jNCgU4+/VZDChhFY1vuIWzWOYzL4I
+	tfK4t+mOhUMFF6hDKdY3l11PlEFDFmnmSTM7mEI8aw==
+X-Google-Smtp-Source: AOwi7QDrSCAU3cSt8Ifas/M6Sw6qh25xSF16pCrO+7dF/F9KM9eGcumkD74Plt6oPr3j9STy00SjnMZDZi54r5p+asY=
+X-Received: by 10.37.64.80 with SMTP id n77mr3525467yba.196.1506076207620;
+	Fri, 22 Sep 2017 03:30:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.147.202 with HTTP; Fri, 22 Sep 2017 02:34:20 -0700 (PDT)
-In-Reply-To: <68a878cd6e53211af0f2a5a248328d05597e63af.1504598502.git.Qi.Chen@windriver.com>
-References: <cover.1504598502.git.Qi.Chen@windriver.com>
-	<68a878cd6e53211af0f2a5a248328d05597e63af.1504598502.git.Qi.Chen@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 22 Sep 2017 11:34:20 +0200
-Message-ID: <CA+chaQfUX5_GS+jJ-Av9-k=pB9RA+JG1=v8MhJhOzUR5jMJBjw@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] systemd: change some RRECOMMENDS to RDEPENDS
+Received: by 10.37.197.84 with HTTP; Fri, 22 Sep 2017 03:30:06 -0700 (PDT)
+From: Gerson Fernando Budke <nandojve@gmail.com>
+Date: Fri, 22 Sep 2017 07:30:06 -0300
+Message-ID: <CABOv41PKzw5yOoS+-LYCNFuAR0Nh1Q0Acv3rhFpjDYDnBtu2qw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: akuster@mvista.com
+Subject: [morty][PATCH] image.bbclass: Sorted ctypes to avoid basehash error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,176 +51,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 09:34:20 -0000
-Content-Type: multipart/alternative; boundary="f403043a43b0df287e0559c3e9b2"
+X-List-Received-Date: Fri, 22 Sep 2017 10:30:07 -0000
+Content-Type: multipart/alternative; boundary="001a11c024325c3f8a0559c4b165"
 
---f403043a43b0df287e0559c3e9b2
+--001a11c024325c3f8a0559c4b165
 Content-Type: text/plain; charset="UTF-8"
 
-This doesn't seem to work correctly for MACHINEs with empty SERIAL_CONSOLE,
-because with empty SERIAL_CONSOLE there is no systemd-serialgetty package
-(because it's also empty) and the build fails with:
+When selected multiple subimages a similar error could happend:
+  Variable do_image_cpio[subimages] value changed \
+    from 'cpio.gz.u-boot cpio.gz' to 'cpio.gz cpio.gz.u-boot'
+To avoid this, 'ctypes' should be sorted at 'gen_conversion_cmds'.
 
-Collected errors:
- * calculate_dependencies_for: Cannot satisfy the following dependencies
-for packagegroup-core-boot:
- *      systemd-serialgetty *
- * opkg_solver_install: Cannot install package packagegroup-core-boot.
+This garantee that 'CONVERSION_CMD_xxx' are always written in tha same
+order and consequently 'do_image_cpio' have the same hash.
 
-If you're setting NO_RECOMMENDATIONS to "1", then you should expect that
-some recommended functionality will be missing, no?
+(From OE-Core rev: 271f1a5f65b8685a1e3645026876251122ef3974)
 
-On Tue, Sep 5, 2017 at 10:07 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
+Signed-off-by: Gerson Fernando Budke <nandojve@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Set NO_RECOMMENDATIONS to "1", build and start a systemd image, and we
-> could not get serial getty spawned, thus causing the user not able to
-> login via serial port.
->
-> E.g.
-> MACHINE=qemux86-64 bitbake core-image-minimal
-> runqemu qemux86-64 nographic
->
-> And we cannot login onto the system.
->
-> Move util-linux-agetty and systemd-serialgetty (determined by
-> PACKAGECONFIG)
-> from RRECOMMENDS to RDEPENDS to fix the above problem.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd_234.bb | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_234.bb
-> b/meta/recipes-core/systemd/systemd_234.bb
-> index 2736f38..2695e15 100644
-> --- a/meta/recipes-core/systemd/systemd_234.bb
-> +++ b/meta/recipes-core/systemd/systemd_234.bb
-> @@ -492,13 +492,13 @@ FILES_${PN} = " ${base_bindir}/* \
->
->  FILES_${PN}-dev += "${base_libdir}/security/*.la
-> ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
->
-> -RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
-> +RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})
-> util-linux-agetty"
-> +RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG',
-> 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
->  RDEPENDS_${PN} += "volatile-binds update-rc.d"
->
-> -RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG',
-> 'serial-getty-generator', '', 'systemd-serialgetty', d)} \
-> -                      systemd-extra-utils \
-> +RRECOMMENDS_${PN} += "systemd-extra-utils \
->                        systemd-compat-units udev-hwdb \
-> -                      util-linux-agetty  util-linux-fsck e2fsprogs-e2fsck
-> \
-> +                      util-linux-fsck e2fsprogs-e2fsck \
->                        kernel-module-autofs4 kernel-module-unix
-> kernel-module-ipv6 \
->                        os-release \
->  "
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ef2b38aeaf..9c9f14a99a 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -453,7 +453,7 @@ python () {
 
---f403043a43b0df287e0559c3e9b2
+         rm_tmp_images = set()
+         def gen_conversion_cmds(bt):
+-            for ctype in ctypes:
++            for ctype in sorted(ctypes):
+                 if bt.endswith("." + ctype):
+                     type = bt[0:-len(ctype) - 1]
+                     if type.startswith("debugfs_"):
+
+--001a11c024325c3f8a0559c4b165
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This doesn&#39;t seem to work correctly for MACHINEs with =
-empty=C2=A0SERIAL_CONSOLE, because with empty SERIAL_CONSOLE there is no sy=
-stemd-serialgetty package (because it&#39;s also empty) and the build fails=
- with:<div><br></div><div>Collected errors:<br></div><div><div>=C2=A0* calc=
-ulate_dependencies_for: Cannot satisfy the following dependencies for packa=
-gegroup-core-boot:</div><div>=C2=A0*=C2=A0 =C2=A0 =C2=A0 systemd-serialgett=
-y *</div><div>=C2=A0* opkg_solver_install: Cannot install package packagegr=
-oup-core-boot.</div></div><div><br></div><div>If you&#39;re setting=C2=A0<s=
-pan style=3D"font-size:12.8px">NO_RECOMMENDATIONS to &quot;1&quot;, then yo=
-u should expect that some recommended functionality=C2=A0will be missing, n=
-o?</span></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Sep 5, 2017 at 10:07 AM, Chen Qi <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Set NO_RECOMMENDATIO=
-NS to &quot;1&quot;, build and start a systemd image, and we<br>
-could not get serial getty spawned, thus causing the user not able to<br>
-login via serial port.<br>
-<br>
-E.g.<br>
-MACHINE=3Dqemux86-64 bitbake core-image-minimal<br>
-runqemu qemux86-64 nographic<br>
-<br>
-And we cannot login onto the system.<br>
-<br>
-Move util-linux-agetty and systemd-serialgetty (determined by PACKAGECONFIG=
-)<br>
-from RRECOMMENDS to RDEPENDS to fix the above problem.<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
-@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" rel=3D"no=
-referrer" target=3D"_blank">syst<wbr>emd_234.bb</a> | 8 ++++----<br>
-=C2=A01 file changed, 4 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" re=
-l=3D"noreferrer" target=3D"_blank">sy<wbr>stemd_234.bb</a> b/meta/recipes-c=
-ore/systemd/<a href=3D"http://systemd_234.bb" rel=3D"noreferrer" target=3D"=
-_blank">sy<wbr>stemd_234.bb</a><br>
-index 2736f38..2695e15 100644<br>
---- a/meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" rel=3D"no=
-referrer" target=3D"_blank">sy<wbr>stemd_234.bb</a><br>
-+++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" rel=3D"no=
-referrer" target=3D"_blank">sy<wbr>stemd_234.bb</a><br>
-@@ -492,13 +492,13 @@ FILES_${PN} =3D &quot; ${base_bindir}/* \<br>
-<br>
-=C2=A0FILES_${PN}-dev +=3D &quot;${base_libdir}/security/*.la ${datadir}/db=
-us-1/interfaces/ ${sysconfdir}/rpm/macros.<wbr>systemd&quot;<br>
-<br>
--RDEPENDS_${PN} +=3D &quot;kmod dbus util-linux-mount udev (=3D ${EXTENDPKG=
-V})&quot;<br>
-+RDEPENDS_${PN} +=3D &quot;kmod dbus util-linux-mount udev (=3D ${EXTENDPKG=
-V}) util-linux-agetty&quot;<br>
-+RDEPENDS_${PN} +=3D &quot;${@bb.utils.contains(&#39;<wbr>PACKAGECONFIG&#39=
-;, &#39;serial-getty-generator&#39;, &#39;&#39;, &#39;systemd-serialgetty&#=
-39;, d)}&quot;<br>
-=C2=A0RDEPENDS_${PN} +=3D &quot;volatile-binds update-rc.d&quot;<br>
-<br>
--RRECOMMENDS_${PN} +=3D &quot;${@bb.utils.contains(&#39;<wbr>PACKAGECONFIG&=
-#39;, &#39;serial-getty-generator&#39;, &#39;&#39;, &#39;systemd-serialgett=
-y&#39;, d)} \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 systemd-extra-utils \<br>
-+RRECOMMENDS_${PN} +=3D &quot;systemd-extra-utils \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0systemd-compat-units udev-hwdb \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 util-linux-agetty=C2=A0 util-linux-fsck e2fsprogs-e2fsck \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 util-linux-fsck e2fsprogs-e2fsck \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0os-release \<br>
-=C2=A0&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+<div dir=3D"ltr"><span style=3D"font-size:12.8px">When selected multiple su=
+bimages a similar error could happend:</span><br style=3D"font-size:12.8px"=
+><span style=3D"font-size:12.8px">=C2=A0 Variable do_image_cpio[subimages] =
+value changed \</span><br style=3D"font-size:12.8px"><span style=3D"font-si=
+ze:12.8px">=C2=A0 =C2=A0 from &#39;cpio.gz.u-boot cpio.gz&#39; to &#39;cpio=
+.gz cpio.gz.u-boot&#39;</span><br style=3D"font-size:12.8px"><span style=3D=
+"font-size:12.8px">To avoid this, &#39;ctypes&#39; should be sorted at &#39=
+;gen_conversion_cmds&#39;.</span><br style=3D"font-size:12.8px"><br style=
+=3D"font-size:12.8px"><span style=3D"font-size:12.8px">This garantee that &=
+#39;CONVERSION_CMD_xxx&#39; are always written in tha same</span><br style=
+=3D"font-size:12.8px"><span style=3D"font-size:12.8px">order and consequent=
+ly &#39;do_image_cpio&#39; have the same hash.</span><br style=3D"font-size=
+:12.8px"><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">(F=
+rom OE-Core rev: 271f1a5f65b8685a1e364502687625</span><wbr style=3D"font-si=
+ze:12.8px"><span style=3D"font-size:12.8px">1122ef3974)</span><br style=3D"=
+font-size:12.8px"><br style=3D"font-size:12.8px"><span style=3D"font-size:1=
+2.8px">Signed-off-by: Gerson Fernando Budke &lt;</span><a href=3D"mailto:na=
+ndojve@gmail.com" style=3D"font-size:12.8px">nandojve@gmail.com</a><span st=
+yle=3D"font-size:12.8px">&gt;</span><br style=3D"font-size:12.8px"><span st=
+yle=3D"font-size:12.8px">Signed-off-by: Ross Burton &lt;</span><a href=3D"m=
+ailto:ross.burton@intel.com" style=3D"font-size:12.8px">ross.burton@intel.c=
+om</a><span style=3D"font-size:12.8px">&gt;</span><br style=3D"font-size:12=
+.8px"><span style=3D"font-size:12.8px">Signed-off-by: Richard Purdie &lt;</=
+span><a href=3D"mailto:richard.purdie@linuxfoundation.org" style=3D"font-si=
+ze:12.8px">richard.purdie@<wbr>linuxfoundation.org</a><span style=3D"font-s=
+ize:12.8px">&gt;</span><br style=3D"font-size:12.8px"><span style=3D"font-s=
+ize:12.8px">---</span><br style=3D"font-size:12.8px"><span style=3D"font-si=
+ze:12.8px">=C2=A0meta/classes/image.bbclass | 2 +-</span><br style=3D"font-=
+size:12.8px"><span style=3D"font-size:12.8px">=C2=A01 file changed, 1 inser=
+tion(+), 1 deletion(-)</span><br style=3D"font-size:12.8px"><br style=3D"fo=
+nt-size:12.8px"><span style=3D"font-size:12.8px">diff --git a/meta/classes/=
+image.bbclass b/meta/classes/image.bbclass</span><br style=3D"font-size:12.=
+8px"><span style=3D"font-size:12.8px">index ef2b38aeaf..9c9f14a99a 100644</=
+span><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">--- a/=
+meta/classes/image.bbclass</span><br style=3D"font-size:12.8px"><span style=
+=3D"font-size:12.8px">+++ b/meta/classes/image.bbclass</span><br style=3D"f=
+ont-size:12.8px"><span style=3D"font-size:12.8px">@@ -453,7 +453,7 @@ pytho=
+n () {</span><br style=3D"font-size:12.8px"><br style=3D"font-size:12.8px">=
+<span style=3D"font-size:12.8px">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm_tmp_i=
+mages =3D set()</span><br style=3D"font-size:12.8px"><span style=3D"font-si=
+ze:12.8px">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0def gen_conversion_cmds(bt):</=
+span><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">-=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for ctype in ctypes:</span><br style=
+=3D"font-size:12.8px"><span style=3D"font-size:12.8px">+=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 for ctype in sorted(ctypes):</span><br style=3D"fo=
+nt-size:12.8px"><span style=3D"font-size:12.8px">=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if bt.endswith(&quot;.&quot; + ctype)=
+:</span><br style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ty=
+pe =3D bt[0:-len(ctype) - 1]</span><br style=3D"font-size:12.8px"><span sty=
+le=3D"font-size:12.8px">=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0if type.startswith(&quot;debugfs_&quot;):</span>=
+<div class=3D"gmail-yj6qo gmail-ajU" style=3D"margin:2px 0px 0px;font-size:=
+12.8px"><div id=3D"gmail-:95h" class=3D"gmail-ajR" tabindex=3D"0"><br></div=
+></div></div>
 
---f403043a43b0df287e0559c3e9b2--
+--001a11c024325c3f8a0559c4b165--
