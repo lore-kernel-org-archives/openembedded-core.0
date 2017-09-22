@@ -1,57 +1,51 @@
-Return-Path: <jefro.net@gmail.com>
-Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 16A6C783C5
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BBD978382
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 20:49:39 +0000 (UTC)
-Received: by mail-wm0-f47.google.com with SMTP id m72so6902717wmc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 13:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=6/KaHD9YlsBcvt6rSZIfM6wne+7fHpV7q1FtvAPr1ec=;
-	b=Yj0uovnp9ijzGUZgT4+kmBp39qjWdDTS8RpVNoUC+OvX1JKuAA0eV3dkGJfarbpBkq
-	zVr88SNGkzP/eqjD2U1KIJziUgFrOt9nl1CoFuh90r0IJwRQqbpIpYKCZwlr9NTSKP9H
-	Z3T+Oo338+8tA70j/lOYOQC7si4JEP3IlbGeH730qZoLhfn73M73lzsiqE4+TEAdNnxP
-	EnWF2jmWwyYPPCrEjj0kK9oNPLexzxCkqHLS7uOFWXHybqedBA5F6W1lOAXdkiC5m8ZR
-	L+dOLiPxKtFgzwvnM+Jl+rgR7MSHm5j9qZr4c4wJUI6tmFNYn35u4Wkt1GJ0VQM/VV+O
-	uRPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=6/KaHD9YlsBcvt6rSZIfM6wne+7fHpV7q1FtvAPr1ec=;
-	b=m3LPl9uSHWMxO2Zse3uON7ea3IMKsmREARASVzPmrByqy5JVtI0Rq3fOBg2auEF8Ro
-	N3rwvS8bQnIeP6NbP837WwQ9ydYRqR3rrVuJ1XlUoeLELArKpVc58PcPzrt7PaeexLsd
-	si7KGkayGLBfz2VO31e4852A/wA0gHY6squHjr+k77/KSU7JDSDWuqDesErKYsfJ63lI
-	pUrEE9WsTPECj7njqsTlLwhy6Vlc4UPDNbwgHn/i84tXh2plr9j+B/8eMjLQqOR31wHu
-	rngANEZnyzxR2Uws7/dFHbzjU1LwZnAYQbvDWHjSjZHyGxVhWz+chS8ST9vrdwcOVXuC
-	lCTg==
-X-Gm-Message-State: AHPjjUjWBrjdrkClJacCc9h+Nkv8+JBi8++YHuMVZoDDmCVXYRcIPCMP
-	Tb7U9yi/hQrKIDQibXjexvrFbCZ3sSBz1vhKNiU=
-X-Google-Smtp-Source: AOwi7QD5i1iW9jywnpzQvf1r4+Y8LKsm98ZxWz38Ds/PnMeFWlneBRT/tOIS/i0EwwfXMNzxdmzRIpABLsvWVGbF+Y0=
-X-Received: by 10.28.228.213 with SMTP id b204mr4754629wmh.157.1506113380027; 
-	Fri, 22 Sep 2017 13:49:40 -0700 (PDT)
+	Fri, 22 Sep 2017 22:19:30 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3xzSZT0rYyz1rK4t;
+	Sat, 23 Sep 2017 00:19:28 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 3xzSZS5Jvlz1qqkD;
+	Sat, 23 Sep 2017 00:19:28 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id 5RfuCBCo30f3; Sat, 23 Sep 2017 00:19:27 +0200 (CEST)
+X-Auth-Info: vyZRTq93ZozatRyPpQL7mae1xAbCgBAbUWOB2tpGnyo=
+Received: from [IPv6:::1] (unknown [195.140.253.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Sat, 23 Sep 2017 00:19:27 +0200 (CEST)
+To: Philip Balister <philip@balister.org>, Tom Rini <trini@konsulko.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <20170911203056.22156-1-otavio@ossystems.com.br>
+	<CA+chaQcUnbBq_f3zkAOxSF_E8M9RUMSaefncSgF6Hdt-j+Q0qg@mail.gmail.com>
+	<CA+chaQec-cL6x3i3TfOi7yBhmCQ9Gf=-4jXkXqJ2-yJQmPmcmw@mail.gmail.com>
+	<5e66c357-fda0-17d8-1d78-5b877fdc47e5@gmail.com>
+	<CA+chaQfdgGcWAc17f=epK8s3q1=h+voUUc4sNJSLdtu_5SbOfA@mail.gmail.com>
+	<1095f2c9-3ff8-bf71-4b6e-707111a4445c@gmail.com>
+	<20170918083915.GB3340@jama>
+	<51b6874b-551a-3983-4002-77e166822521@balister.org>
+	<CAP9ODKpiSEJqR47RnjV+EFBeo7gd3wEtAR398Pwn8HjCj93TEA@mail.gmail.com>
+	<CAJTo0LbFHX_Wm_W2MteS=6XbJgqzZh-jtGZ_Bhu95kO8Nue+dw@mail.gmail.com>
+	<20170918160610.GD17137@bill-the-cat>
+	<a512c6ac-65d6-e105-8ce7-a2a387084dbe@denx.de>
+	<500e4bce-840a-cd83-ef77-015ea622cbbe@balister.org>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <ae60416c-a413-97d6-0702-f068304c1b28@denx.de>
+Date: Sat, 23 Sep 2017 00:19:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Sender: jefro.net@gmail.com
-Received: by 10.223.134.180 with HTTP; Fri, 22 Sep 2017 13:49:19 -0700 (PDT)
-In-Reply-To: <c2911001-d598-9e20-8463-085d5f4910db@balister.org>
-References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
-	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
-	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
-	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
-	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
-	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
-	<c2911001-d598-9e20-8463-085d5f4910db@balister.org>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-Date: Fri, 22 Sep 2017 13:49:19 -0700
-X-Google-Sender-Auth: oA7TWAE9nguxKJ7vv81ztYbEoPg
-Message-ID: <CA+YB3rYwurx0i8oUGUkwWA3JMzTBJtFsijP_V0t+ncYVbOkW6A@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
+In-Reply-To: <500e4bce-840a-cd83-ef77-015ea622cbbe@balister.org>
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [U-Boot] [PATCH] u-boot: Upgrade to 2017.09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,198 +58,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 20:49:41 -0000
-Content-Type: multipart/alternative; boundary="001a114b0be20215200559cd59c3"
+X-List-Received-Date: Fri, 22 Sep 2017 22:19:32 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---001a114b0be20215200559cd59c3
-Content-Type: text/plain; charset="UTF-8"
+On 09/21/2017 11:35 PM, Philip Balister wrote:
+> On 09/19/2017 04:15 AM, Marek Vasut wrote:
+>> On 09/18/2017 06:06 PM, Tom Rini wrote:
+>>> On Mon, Sep 18, 2017 at 04:51:31PM +0100, Burton, Ross wrote:
+>>>> On 18 September 2017 at 16:46, Otavio Salvador <
+>>>> otavio.salvador@ossystems.com.br> wrote:
+>>>>
+>>>>> What is the policy on doing u-boot version upgrades this late in the
+>>>>>
+>>>>> release cycle? SHouldn't this wait until after the release?
+>>>>>
+>>>>>
+>>>>> Why?
+>>>>>
+>>>>> It is just another recipe and we are upgrading to the final release.
+>>>>>
+>>>>> As Martin said, it was already broken.
+>>>>>
+>>>>> I'll take the responsibility to fix it. But as other packages, upgrades
+>>>>> has risk and we have more than enough time to proper fix it.
+>>>>>
+>>>>
+>>>> Why?  Because it was merged to master after the freeze.
+>>>>
+>>>> Personally I'm of the opinion that u-boot is one of those special recipes
+>>>> that if an upgrade appears just after freeze, we consider it.  If we don't
+>>>> keep it up to date BSPs won't use the recipe, and we'll be back to every
+>>>> BSP layer containing its own special copy of the u-boot recipe.
+>>>
+>>> Also please note that U-Boot has a rather regular and public release
+>>> schedule: http://www.denx.de/wiki/U-Boot/ReleaseCycle so you can have a
+>>> good idea beforehand if you want to grab something for a release or not.
+>>>
+>>> Personally, I would like to see this in.  But the security issue that's
+>>> been disclosed now is "resolved" just by not enabling functionality that
+>>> no one was enabling in mainline, and will be removed in the next
+>>> release, so don't feel you need to pull it in on those grounds.
+>>
+>> I agree that the 2017.09 upgrade is a good idea.
+>>
+> 
+> OK, I just wanted to make sure everyone was on the same page about
+> timing of the update. We certainly don't want very many recipes to
+> decide they are special and take version bumps right up to release.
 
-If its relevance to YP and OE is able to be explained, it would be
-welcomed. The only issue I see is the size of the booth, which is tiny.
-However, we frequently spill out of our confined space, and I will locate a
-second table if we end up needing one. Great to see community effort on the
-demos!
+Agreed. So what is the conclusion here about this , are we updating to
+2017.09 or not ?
 
-On Thu, Sep 21, 2017 at 1:56 PM, Philip Balister <philip@balister.org>
-wrote:
-
-> On 09/21/2017 02:32 PM, akuster808 wrote:
-> >
-> >
-> > On 09/21/2017 01:27 PM, Philip Balister wrote:
-> >> On 09/20/2017 01:50 AM, Mike Looijmans wrote:
-> >>> On 18-09-17 18:25, Trevor Woerner wrote:
-> >>>> Hi Mike,
-> >>>>
-> >>>> On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans
-> >>>> <mike.looijmans@topic.nl> wrote:
-> >>>>> I can probably bring some work (e.g. Zynq MPSoC board) and fun
-> >>>>> (settop box)
-> >>>>> hardware along to demonstrate what I'm using OE for.
-> >>>> Any chance you could set something up that could be on display at the
-> >>>> Yocto booth during the conference?
-> >>> Depends on what I'll be able tug along in my luggage on the airplane,
-> >>> but whatever I can bring is probably suited for public display. A few
-> >>> circuit boards will certainly fit, so if the stand could provide a HDMI
-> >>> monitor (or TV) to connect them to that'd be awesome.
-> >> I'd love to see some different things on the stand. Make sure you help
-> >> explain to people why the Yocto Porject and OpenEmbedded are important
-> >> to you and your product.
-> > Philip,
-> >
-> > Since you are the OE rep to the Yocto Project, can you make sure this is
-> > OK with them. There could be space  or limitations at their booth.
->
-> I mentioned it to Jefro, I'm also making a guess he has something based
-> on a Xilinx product, who are members.
->
 > Philip
->
-> >
-> > Thanks,
-> > - Armin
-> >>
-> >> Philip
-> >>
-> >>
-> >>
-> >>> M.
-> >>>
-> >>>
-> >>> Kind regards,
-> >>>
-> >>> Mike Looijmans
-> >>> System Expert
-> >>>
-> >>> TOPIC Products
-> >>> Materiaalweg 4, NL-5681 RJ Best
-> >>> Postbus 440, NL-5680 AK Best
-> >>> Telefoon: +31 (0) 499 33 69 79
-> >>> E-mail: mike.looijmans@topicproducts.com
-> >>> Website: www.topicproducts.com
-> >>>
-> >>> Please consider the environment before printing this e-mail
-> >>>
-> >>>
-> >>> Visit us at the Space Tech Expo Europe (Stand E-71)
-> >>>
-> >
-> >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+> 
+> 
 
 
 -- 
-Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
+Best regards,
+Marek Vasut
 
---001a114b0be20215200559cd59c3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">If its relevance to YP and OE is able to be explained, it =
-would be welcomed. The only issue I see is the size of the booth, which is =
-tiny. However, we frequently spill out of our confined space, and I will lo=
-cate a second table if we end up needing one. Great to see community effort=
- on the demos!</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
-e">On Thu, Sep 21, 2017 at 1:56 PM, Philip Balister <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:philip@balister.org" target=3D"_blank">philip@balister.org=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">O=
-n 09/21/2017 02:32 PM, akuster808 wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 09/21/2017 01:27 PM, Philip Balister wrote:<br>
-&gt;&gt; On 09/20/2017 01:50 AM, Mike Looijmans wrote:<br>
-&gt;&gt;&gt; On 18-09-17 18:25, Trevor Woerner wrote:<br>
-&gt;&gt;&gt;&gt; Hi Mike,<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans<br>
-&gt;&gt;&gt;&gt; &lt;<a href=3D"mailto:mike.looijmans@topic.nl">mike.looijm=
-ans@topic.nl</a>&gt; wrote:<br>
-&gt;&gt;&gt;&gt;&gt; I can probably bring some work (e.g. Zynq MPSoC board)=
- and fun<br>
-&gt;&gt;&gt;&gt;&gt; (settop box)<br>
-&gt;&gt;&gt;&gt;&gt; hardware along to demonstrate what I&#39;m using OE fo=
-r.<br>
-&gt;&gt;&gt;&gt; Any chance you could set something up that could be on dis=
-play at the<br>
-&gt;&gt;&gt;&gt; Yocto booth during the conference?<br>
-&gt;&gt;&gt; Depends on what I&#39;ll be able tug along in my luggage on th=
-e airplane,<br>
-&gt;&gt;&gt; but whatever I can bring is probably suited for public display=
-. A few<br>
-&gt;&gt;&gt; circuit boards will certainly fit, so if the stand could provi=
-de a HDMI<br>
-&gt;&gt;&gt; monitor (or TV) to connect them to that&#39;d be awesome.<br>
-&gt;&gt; I&#39;d love to see some different things on the stand. Make sure =
-you help<br>
-&gt;&gt; explain to people why the Yocto Porject and OpenEmbedded are impor=
-tant<br>
-&gt;&gt; to you and your product.<br>
-&gt; Philip,<br>
-&gt;<br>
-&gt; Since you are the OE rep to the Yocto Project, can you make sure this =
-is<br>
-&gt; OK with them. There could be space=C2=A0 or limitations at their booth=
-.<br>
-<br>
-</span>I mentioned it to Jefro, I&#39;m also making a guess he has somethin=
-g based<br>
-on a Xilinx product, who are members.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Philip<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; - Armin<br>
-&gt;&gt;<br>
-&gt;&gt; Philip<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; M.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Kind regards,<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Mike Looijmans<br>
-&gt;&gt;&gt; System Expert<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; TOPIC Products<br>
-&gt;&gt;&gt; Materiaalweg 4, NL-5681 RJ Best<br>
-&gt;&gt;&gt; Postbus 440, NL-5680 AK Best<br>
-&gt;&gt;&gt; Telefoon: <a href=3D"tel:%2B31%20%280%29%20499%2033%2069%2079"=
- value=3D"+31499336979">+31 (0) 499 33 69 79</a><br>
-&gt;&gt;&gt; E-mail: <a href=3D"mailto:mike.looijmans@topicproducts.com">mi=
-ke.looijmans@topicproducts.<wbr>com</a><br>
-&gt;&gt;&gt; Website: <a href=3D"http://www.topicproducts.com" rel=3D"noref=
-errer" target=3D"_blank">www.topicproducts.com</a><br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Please consider the environment before printing this e-mail<br=
->
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Visit us at the Space Tech Expo Europe (Stand E-71)<br>
-&gt;&gt;&gt;<br>
-&gt;<br>
-&gt;<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=
-=3D"ltr"><div>Jeff Osier-Mixon - Open Source Community Manager, Intel Corpo=
-ration</div></div></div>
-</div>
-
---001a114b0be20215200559cd59c3--
