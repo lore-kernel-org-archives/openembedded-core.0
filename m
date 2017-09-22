@@ -1,28 +1,33 @@
-Return-Path: <Liwei.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DC1BA71A92
+Return-Path: <prvs=431c23770=Martin.Hundeboll@prevas.dk>
+Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 396D671BA0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 05:11:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8M5BHsC023627
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Sep 2017 22:11:17 -0700 (PDT)
-Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 21 Sep 2017 22:11:15 -0700
-Message-ID: <59C49BAA.3040305@windriver.com>
-Date: Fri, 22 Sep 2017 13:12:10 +0800
-From: Liwei Song <liwei.song@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Fri, 22 Sep 2017 05:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=prevas.dk; i=@prevas.dk; l=1296; q=dns/txt;
+	s=ironport1; t=1506058174; x=1537594174;
+	h=from:to:cc:subject:date:message-id:mime-version;
+	bh=zS6+Q6hqzHDcfYMYB0Resrz176xgfsDRMTC0iTGMjw8=;
+	b=ZTA2hvQCwAcil9oStHSMKtOvQPBIOjsL/z30mojqikFiqbd15MymtBX5
+	IXRQAvJkmhGl4nYa4zusVlCZO7KLBLUXgE7dfKibWRDqASW/v0m0cxn4l
+	GESRXiXKLB7AFFI2ll/Ke50IFNN4BWgyP17TD6I0joP6uPZXrNBMpDDO+ k=;
+X-IronPort-AV: E=Sophos;i="5.42,427,1500933600"; 
+   d="scan'208";a="2624131"
+Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
+	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Sep 2017 07:29:29 +0200
+Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
+	with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Fri, 22 Sep 2017 07:29:28 +0200
+From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Sep 2017 07:29:08 +0200
+Message-ID: <20170922052908.25666-1-mnhu@prevas.dk>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1504603652-262027-1-git-send-email-liwei.song@windriver.com>
-	<CAJTo0LYXE=s8tphMTfS9avaM-4ttTpO1=mo-A+rsd46PKFgMRg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYXE=s8tphMTfS9avaM-4ttTpO1=mo-A+rsd46PKFgMRg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-firmware: package qat-firmware
+X-Originating-IP: [172.16.8.31]
+Cc: akuster@mvista.com
+Subject: [pyro][PATCH] image.bbclass: Sorted ctypes to avoid basehash error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 05:11:17 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Sep 2017 05:29:32 -0000
+Content-Type: text/plain
 
+From: Gerson Fernando Budke <nandojve@gmail.com>
 
+When selected multiple subimages a similar error could happend:
+  Variable do_image_cpio[subimages] value changed \
+    from 'cpio.gz.u-boot cpio.gz' to 'cpio.gz cpio.gz.u-boot'
+To avoid this, 'ctypes' should be sorted at 'gen_conversion_cmds'.
 
-On 09/20/2017 12:50 AM, Burton, Ross wrote:
-> On 5 September 2017 at 10:27, Liwei Song <liwei.song@windriver.com> wrote:
-> 
->> +             ${PN}-qat-license ${PN}-qat_895xcc ${PN}-qat_895xcc_mmp
->> ${PN}-qat_c3xxx ${PN}-qat_c3xxx_mmp ${PN}-qat_c62x ${PN}-qat_c62x_mmp
->> ${PN}-qat_mmp \
->>
-> 
-> *** Error: Package name  contains illegal characters, (other than
-> [a-z0-9.+-])
-> 
-> You can't use _ in packages, please just use -.
+This garantee that 'CONVERSION_CMD_xxx' are always written in tha same
+order and consequently 'do_image_cpio' have the same hash.
 
-Got it, Thanks, I will resend a V2, please ignore this one.
+(From OE-Core rev: 271f1a5f65b8685a1e3645026876251122ef3974)
 
-Thanks,
-Liwei.
+Signed-off-by: Gerson Fernando Budke <nandojve@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Ross
-> 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ef2b38aeaf..9c9f14a99a 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -453,7 +453,7 @@ python () {
+ 
+         rm_tmp_images = set()
+         def gen_conversion_cmds(bt):
+-            for ctype in ctypes:
++            for ctype in sorted(ctypes):
+                 if bt.endswith("." + ctype):
+                     type = bt[0:-len(ctype) - 1]
+                     if type.startswith("debugfs_"):
+-- 
+2.14.1
+
 
