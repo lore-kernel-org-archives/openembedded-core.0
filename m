@@ -1,18 +1,29 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 901337808C;
-	Fri, 22 Sep 2017 07:00:33 +0000 (UTC)
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D5045700F3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Sep 2017 08:28:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8M8SIu2028003
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Fri, 22 Sep 2017 01:28:18 -0700
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Fri, 22 Sep 2017 01:28:16 -0700
+To: "Burton, Ross" <ross.burton@intel.com>, Li Zhou <li.zhou@windriver.com>
+References: <1496654112-103612-1-git-send-email-li.zhou@windriver.com>
+	<CAJTo0LY90JXpc4Af8qY-fU-LjX9PFFwg3rHvYrXKO5yGspL04g@mail.gmail.com>
+From: Dengke Du <dengke.du@windriver.com>
+Message-ID: <e1ded094-49f2-eb27-a529-e1bbadd32cc2@windriver.com>
+Date: Fri, 22 Sep 2017 16:27:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Kang Kai <kai.kang@windriver.com>
-Date: Fri, 22 Sep 2017 07:00:35 -0000
-Message-ID: <20170922070035.2785.4701@do.openembedded.org>
-References: <cover.1506061623.git.kai.kang@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1506061623.git.kai.kang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGFtZTogYmFja3BvcnQgcGF0Y2ggdG8gZml4IENWRS0yMDE3LTEzNzEy?=
+In-Reply-To: <CAJTo0LY90JXpc4Af8qY-fU-LjX9PFFwg3rHvYrXKO5yGspL04g@mail.gmail.com>
+X-Originating-IP: [128.224.162.194]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] python2/3: Remove building host path from packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 07:00:33 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Sep 2017 08:28:18 -0000
+Content-Type: multipart/alternative;
+	boundary="------------4E8FD205F42D5AA6C0B69ECA"
+Content-Language: en-US
 
-== Series Details ==
+--------------4E8FD205F42D5AA6C0B69ECA
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Series: lame: backport patch to fix CVE-2017-13712
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9069/
-State : failure
+The libxml2 ,python3-dbus and gpgme used host include and/or library 
+paths, if we
 
-== Summary ==
+remove those host paths in the end of do_install task, those host paths 
+would not
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/1] lame: fix CVE-2017-13712
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+populate in sysroot, so it's better to put the removing action in 
+PACKAGE_PREPROCESS_FUNCS.
 
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+On 2017年06月08日 21:36, Burton, Ross wrote:
+>
+> I think the seds need to be moved earlier in the build, or that py 
+> file recompiled.
 
 
+--------------4E8FD205F42D5AA6C0B69ECA
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>The libxml2 ,python3-dbus and gpgme used host include and/or
+      library paths, if we</p>
+    <p>remove those host paths in the end of do_install task, those host
+      paths would not</p>
+    <p>populate in sysroot, so it's better to put the removing action in
+      PACKAGE_PREPROCESS_FUNCS.<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 2017年06月08日 21:36, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LY90JXpc4Af8qY-fU-LjX9PFFwg3rHvYrXKO5yGspL04g@mail.gmail.com">
+      <div class="gmail_extra"><br>
+      </div>
+      <div class="gmail_extra">I think the seds need to be moved earlier
+        in the build, or that py file recompiled.</div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------4E8FD205F42D5AA6C0B69ECA--
