@@ -1,44 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B105C77A5A
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F4B66FF56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 14:34:33 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id u48so769675qtc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 07:34:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=RVLsIjU+l+eZ2gst6CimmNCjda0H+b1i19k/O0t4OsM=;
-	b=qhvJk/glVWWyApQauVFKgbAEreHkGl0n3uezjuJsUdaDZAaBPnpJmLQuK43JcIsAUl
-	ycUSq+/HVjVMKQw4rsxOJNLhRPQpXOfYHtHFDRC37GW6j2Ar36A3fgClzCw0IGQHWXtL
-	zserM6cfQRVwAAC8Spq/QXNB3CKR7KKxQmMHprPGLAmoTsgQaVgLNXJdnEqkWNAuUZ4E
-	vXNtoAV90xo0PRzSnjklDUsObfbR/N2eyTfgwj2k7Ti8BKZM5YcMPn5IFgCcNCIjqims
-	z3qs93VoH1Kfo57ucMaEWF4EPyesb3RoTwZnLuiNOve5se+51T3a87zJbKeOXU59YTj6
-	361g==
-X-Gm-Message-State: AHPjjUh6nfdpsKUW8ypAhhyREAIQqaize3xx0vH7qbVgs1BgSV3QyrTt
-	dRYwF9SBkc11XA58gcTnhA28xg==
-X-Google-Smtp-Source: AOwi7QBXkDK/eYOoeTYkbu0qGJ0GnTSnscdxr6XagfCDEMXJ+HVRJk6FOvKiZeA9czCWIL+oIXXnlg==
-X-Received: by 10.237.36.146 with SMTP id t18mr8838553qtc.17.1506090874006;
-	Fri, 22 Sep 2017 07:34:34 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	i124sm2787725qkf.84.2017.09.22.07.34.30
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 22 Sep 2017 07:34:33 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 22 Sep 2017 11:34:24 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Sep 2017 11:34:23 -0300
-Message-Id: <20170922143423.19502-1-otavio@ossystems.com.br>
+	Fri, 22 Sep 2017 15:22:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Sep 2017 08:22:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,427,1500966000"; d="scan'208";a="138348104"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by orsmga002.jf.intel.com with ESMTP; 22 Sep 2017 08:22:44 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Sep 2017 18:18:46 +0300
+Message-Id: <20170922151846.6612-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
-MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3] OBmesa: Upgrade to 17.2.1 release
+Subject: [PATCHv3] pseudo: use epoll API on Linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,187 +28,330 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 14:34:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Sep 2017 15:22:45 -0000
 
-Upgrade to a new stable release and drop patches applied on upstream.
+The idea came up here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=11309
+and here:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-August/141491.html
 
-For a full release notes, please see:
-https://mesa3d.org/relnotes/17.2.0.html
-https://mesa3d.org/relnotes/17.2.1.html
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
-This patch has been tested using OE-Core current Wayland as well as v2
-of Fabien patches:
+ .../pseudo/files/0001-Use-epoll-API-on-Linux.patch | 292 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.8.2.bb       |   1 +
+ 2 files changed, 293 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch
 
- weston: Bump version to 3.0.0
- wayland-protocols: Fix installation patch issue
- wayland : Bump to version 1.14.0
-
-The distro used for test had: opengl, wayland, x11 and vulkan enabled.
-
-Changes in v3:
- - fix build for wayland
-
-Changes in v2:
- - update to 17.2.1
-
- ...1-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch | 40 ------------------
- ...allivm-Fix-build-against-LLVM-SVN-r302589.patch | 49 ----------------------
- .../mesa/{mesa-gl_17.1.7.bb => mesa-gl_17.2.1.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc                |  2 +-
- .../mesa/{mesa_17.1.7.bb => mesa_17.2.1.bb}        |  7 ++--
- 5 files changed, 4 insertions(+), 94 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_17.1.7.bb => mesa-gl_17.2.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.1.7.bb => mesa_17.2.1.bb} (77%)
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch b/meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
-deleted file mode 100644
-index b27a3bc8e4..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 9861437e58fdd0de01193a102608d34e5952953f Mon Sep 17 00:00:00 2001
--From: Christoph Haag <haagch+mesadev@frickel.club>
--Date: Thu, 20 Apr 2017 10:34:18 +0200
--Subject: [PATCH 1/2] ac: fix build after LLVM 5.0 SVN r300718
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--v2: previously getWithDereferenceableBytes() exists, but addAttr() doesn't take that type
--
--Signed-off-by: Christoph Haag <haagch+mesadev@frickel.club>
--Reviewed-by: Nicolai Hähnle <nicolai.haehnle@amd.com>
--Tested-and-reviewed-by: Mike Lothian <mike@fireburn.co.uk>
-----
--Upstream-Status: Backport
--
-- src/amd/common/ac_llvm_helper.cpp | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/src/amd/common/ac_llvm_helper.cpp b/src/amd/common/ac_llvm_helper.cpp
--index d9ea4b1..11fa809 100644
----- a/src/amd/common/ac_llvm_helper.cpp
--+++ b/src/amd/common/ac_llvm_helper.cpp
--@@ -44,9 +44,13 @@ typedef AttributeSet AttributeList;
-- void ac_add_attr_dereferenceable(LLVMValueRef val, uint64_t bytes)
-- {
--    llvm::Argument *A = llvm::unwrap<llvm::Argument>(val);
--+#if HAVE_LLVM < 0x0500
--    llvm::AttrBuilder B;
--    B.addDereferenceableAttr(bytes);
--    A->addAttr(llvm::AttributeList::get(A->getContext(), A->getArgNo() + 1,  B));
--+#else
--+   A->addAttr(llvm::Attribute::getWithDereferenceableBytes(A->getContext(), bytes));
--+#endif
-- }
-- 
-- bool ac_is_sgpr_param(LLVMValueRef arg)
---- 
--2.13.3
--
-diff --git a/meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch b/meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
-deleted file mode 100644
-index ac8caec74d..0000000000
---- a/meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From a02a0dfda2712d30ad62b8f0421ec7b8244ba2cb Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel.daenzer@amd.com>
--Date: Wed, 10 May 2017 17:26:07 +0900
--Subject: [PATCH 2/2] gallivm: Fix build against LLVM SVN >= r302589
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--deregisterEHFrames doesn't take any parameters anymore.
--
--Reviewed-by: Vedran Miletić <vedran@miletic.net>
--Reviewed-by: Marek Olšák <marek.olsak@amd.com>
-----
--Upstream-Status: Backport
--
-- src/gallium/auxiliary/gallivm/lp_bld_misc.cpp | 12 +++++++++---
-- 1 file changed, 9 insertions(+), 3 deletions(-)
--
--diff --git a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
--index 2a388cb..0e4a531 100644
----- a/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
--+++ b/src/gallium/auxiliary/gallivm/lp_bld_misc.cpp
--@@ -342,14 +342,20 @@ class DelegatingJITMemoryManager : public BaseMemoryManager {
--       virtual void registerEHFrames(uint8_t *Addr, uint64_t LoadAddr, size_t Size) {
--          mgr()->registerEHFrames(Addr, LoadAddr, Size);
--       }
---      virtual void deregisterEHFrames(uint8_t *Addr, uint64_t LoadAddr, size_t Size) {
---         mgr()->deregisterEHFrames(Addr, LoadAddr, Size);
---      }
-- #else
--       virtual void registerEHFrames(llvm::StringRef SectionData) {
--          mgr()->registerEHFrames(SectionData);
--       }
-- #endif
--+#if HAVE_LLVM >= 0x0500
--+      virtual void deregisterEHFrames() {
--+         mgr()->deregisterEHFrames();
--+      }
--+#elif HAVE_LLVM >= 0x0304
--+      virtual void deregisterEHFrames(uint8_t *Addr, uint64_t LoadAddr, size_t Size) {
--+         mgr()->deregisterEHFrames(Addr, LoadAddr, Size);
--+      }
--+#endif
--       virtual void *getPointerToNamedFunction(const std::string &Name,
--                                               bool AbortOnFailure=true) {
--          return mgr()->getPointerToNamedFunction(Name, AbortOnFailure);
---- 
--2.13.3
--
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb b/meta/recipes-graphics/mesa/mesa-gl_17.2.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.1.7.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.2.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 4f31ed255c..cab8e4bfe7 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -45,7 +45,7 @@ X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage li
- # "x11" requires "opengl"
- PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
- PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
--PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm"
-+PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
- 
- DRIDRIVERS = "swrast"
- DRIDRIVERS_append_x86 = ",radeon,r200,nouveau,i965,i915"
-diff --git a/meta/recipes-graphics/mesa/mesa_17.1.7.bb b/meta/recipes-graphics/mesa/mesa_17.2.1.bb
-similarity index 77%
-rename from meta/recipes-graphics/mesa/mesa_17.1.7.bb
-rename to meta/recipes-graphics/mesa/mesa_17.2.1.bb
-index a50f32c025..59c40b1371 100644
---- a/meta/recipes-graphics/mesa/mesa_17.1.7.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.2.1.bb
-@@ -7,13 +7,12 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-hardware-gloat.patch \
-            file://vulkan-mkdir.patch \
-            file://llvm-config-version.patch \
--           file://0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch \
--           file://0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch \
-            file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-            file://0001-configure.ac-Always-check-for-expat.patch \
-            "
--SRC_URI[md5sum] = "e40bb428a263bd28cbf6478dae45b207"
--SRC_URI[sha256sum] = "69f472a874b1122404fa0bd13e2d6bf87eb3b9ad9c21d2f39872a96d83d9e5f5"
+diff --git a/meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch b/meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch
+new file mode 100644
+index 00000000000..42557b17a7f
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-Use-epoll-API-on-Linux.patch
+@@ -0,0 +1,292 @@
++From 9e407e0be01695e7b927f5820ade87ee9602c248 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 15 Sep 2017 17:00:14 +0300
++Subject: [PATCH] Use epoll API on Linux
 +
-+SRC_URI[md5sum] = "f53ed38110237d9df5f9198c09ef0ab0"
-+SRC_URI[sha256sum] = "77385d17827cff24a3bae134342234f2efe7f7f990e778109682571dbbc9ba1e"
++Also a couple of other modifications due to epoll having
++a different approach to how the working set of fds is defined
++and used:
++1) open_client() returns an index into the array of clients
++2) close_client() has a protection against being called twice
++with the same client (which would mess up the active_clients
++counter)
++
++Upstream-Status: Submitted [Seebs CC'd by email]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
++---
++ enums/exit_status.in |   3 +
++ pseudo_server.c      | 189 ++++++++++++++++++++++++++++++++++++++++++++++++++-
++ 2 files changed, 190 insertions(+), 2 deletions(-)
++
++diff --git a/enums/exit_status.in b/enums/exit_status.in
++index 6be44d3..88f94cd 100644
++--- a/enums/exit_status.in
+++++ b/enums/exit_status.in
++@@ -18,3 +18,6 @@ listen_fd, "server loop had no valid listen fd"
++ pseudo_loaded, "server couldn't get out of pseudo environment"
++ pseudo_prefix, "couldn't get valid pseudo prefix"
++ pseudo_invocation, "invalid server command arguments"
+++epoll_create, "epoll_create() failed"
+++epoll_ctl, "epoll_ctl() failed"
+++
++diff --git a/pseudo_server.c b/pseudo_server.c
++index ff16efd..14d34de 100644
++--- a/pseudo_server.c
+++++ b/pseudo_server.c
++@@ -40,6 +40,12 @@
++ #include "pseudo_client.h"
++ #include "pseudo_db.h"
++ 
+++// This has to come after pseudo includes, as that's where PSEUDO_PORT defines are
+++#ifdef PSEUDO_PORT_LINUX
+++#include <sys/epoll.h>
+++#endif
+++
+++
++ static int listen_fd = -1;
++ 
++ typedef struct {
++@@ -59,6 +65,7 @@ static int active_clients = 0, highest_client = 0, max_clients = 0;
++ 
++ #define LOOP_DELAY 2
++ #define DEFAULT_PSEUDO_SERVER_TIMEOUT 30
+++#define EPOLL_MAX_EVENTS 10
++ int pseudo_server_timeout = DEFAULT_PSEUDO_SERVER_TIMEOUT;
++ static int die_peacefully = 0;
++ static int die_forcefully = 0;
++@@ -80,6 +87,9 @@ quit_now(int signal) {
++ static int messages = 0, responses = 0;
++ static struct timeval message_time = { .tv_sec = 0 };
++ 
+++#ifdef PSEUDO_PORT_LINUX
+++static void pseudo_server_loop_epoll(void);
+++#endif
++ static void pseudo_server_loop(void);
++ 
++ /* helper function to make a directory, just like mkdir -p.
++@@ -369,12 +379,16 @@ pseudo_server_start(int daemonize) {
++ 			kill(ppid, SIGUSR1);
++ 		}
++ 	}
+++#ifdef PSEUDO_PORT_LINUX
+++	pseudo_server_loop_epoll();
+++#else
++ 	pseudo_server_loop();
+++#endif
++ 	return 0;
++ }
++ 
++ /* mess with internal tables as needed */
++-static void
+++static unsigned int
++ open_client(int fd) {
++ 	pseudo_client_t *new_clients;
++ 	int i;
++@@ -390,7 +404,7 @@ open_client(int fd) {
++ 			++active_clients;
++ 			if (i > highest_client)
++ 				highest_client = i;
++-			return;
+++			return i;
++ 		}
++ 	}
++ 
++@@ -414,9 +428,11 @@ open_client(int fd) {
++ 
++ 		max_clients += 16;
++ 		++active_clients;
+++		return max_clients - 16;
++ 	} else {
++ 		pseudo_diag("error allocating new client, fd %d\n", fd);
++ 		close(fd);
+++		return 0;
++ 	}
++ }
++ 
++@@ -433,6 +449,10 @@ close_client(int client) {
++ 			client, highest_client);
++ 		return;
++ 	}
+++	if (clients[client].fd == -1) {
+++		pseudo_debug(PDBGF_SERVER, "client %d already closed\n", client);
+++		return;
+++	}
++ 	close(clients[client].fd);
++ 	clients[client].fd = -1;
++ 	free(clients[client].tag);
++@@ -566,6 +586,171 @@ serve_client(int i) {
++ 	}
++ }
++ 
+++#ifdef PSEUDO_PORT_LINUX
+++static void pseudo_server_loop_epoll(void)
+++{
+++	struct sockaddr_un client;
+++	socklen_t len;
+++        int i;
+++        int rc;
+++        int fd;
+++	int timeout;
+++	struct epoll_event ev, events[EPOLL_MAX_EVENTS];
+++	int loop_timeout = pseudo_server_timeout;
+++
+++	clients = malloc(16 * sizeof(*clients));
+++
+++	clients[0].fd = listen_fd;
+++	clients[0].pid = getpid();
+++
+++	for (i = 1; i < 16; ++i) {
+++		clients[i].fd = -1;
+++		clients[i].pid = 0;
+++		clients[i].tag = NULL;
+++		clients[i].program = NULL;
+++	}
+++
+++	active_clients = 1;
+++	max_clients = 16;
+++	highest_client = 0;
+++
+++	pseudo_debug(PDBGF_SERVER, "server loop started.\n");
+++	if (listen_fd < 0) {
+++		pseudo_diag("got into loop with no valid listen fd.\n");
+++		exit(PSEUDO_EXIT_LISTEN_FD);
+++	}
+++
+++	timeout = LOOP_DELAY * 1000;
+++
+++	int epollfd = epoll_create1(0);
+++	if (epollfd == -1) {
+++		pseudo_diag("epoll_create1() failed.\n");
+++		exit(PSEUDO_EXIT_EPOLL_CREATE);
+++	}
+++	ev.events = EPOLLIN;
+++	ev.data.u64 = 0;
+++	if (epoll_ctl(epollfd, EPOLL_CTL_ADD, clients[0].fd, &ev) == -1) {
+++		pseudo_diag("epoll_ctl() failed with listening socket.\n");
+++		exit(PSEUDO_EXIT_EPOLL_CTL);
+++	}
+++
+++	pdb_log_msg(SEVERITY_INFO, NULL, NULL, NULL, "server started (pid %d)", getpid());
+++
+++        for (;;) {
+++		rc = epoll_wait(epollfd, events, EPOLL_MAX_EVENTS, timeout);
+++		if (rc == 0 || (rc == -1 && errno == EINTR)) {
+++			/* If there's no clients, start timing out.  If there
+++			 * are active clients, never time out.
+++			 */
+++			if (active_clients == 1) {
+++				loop_timeout -= LOOP_DELAY;
+++                                /* maybe flush database to disk */
+++                                pdb_maybe_backup();
+++				if (loop_timeout <= 0) {
+++					pseudo_debug(PDBGF_SERVER, "no more clients, got bored.\n");
+++					die_peacefully = 1;
+++				} else {
+++					/* display this if not exiting */
+++					pseudo_debug(PDBGF_SERVER | PDBGF_BENCHMARK, "%d messages handled in %.4f seconds, %d responses\n",
+++						messages,
+++						(double) message_time.tv_sec +
+++						(double) message_time.tv_usec / 1000000.0,
+++                                                responses);
+++				}
+++			}
+++		} else if (rc > 0) {
+++			loop_timeout = pseudo_server_timeout;
+++			for (i = 0; i < rc; ++i) {
+++				if (clients[events[i].data.u64].fd == listen_fd) {
+++					if (!die_forcefully) {
+++						len = sizeof(client);
+++						if ((fd = accept(listen_fd, (struct sockaddr *) &client, &len)) != -1) {
+++						/* Don't allow clients to end up on fd 2, because glibc's
+++						 * malloc debug uses that fd unconditionally.
+++						 */
+++							if (fd == 2) {
+++								int newfd = fcntl(fd, F_DUPFD, 3);
+++								close(fd);
+++								fd = newfd;
+++							}
+++							pseudo_debug(PDBGF_SERVER, "new client fd %d\n", fd);
+++		                                        /* A new client implicitly cancels any
+++		                                         * previous shutdown request, or a
+++		                                         * shutdown for lack of clients.
+++		                                         */
+++		                                        pseudo_server_timeout = DEFAULT_PSEUDO_SERVER_TIMEOUT;
+++		                                        die_peacefully = 0;
+++
+++							ev.events = EPOLLIN;
+++							ev.data.u64 = open_client(fd);
+++							if (ev.data.u64 != 0 && epoll_ctl(epollfd, EPOLL_CTL_ADD, clients[ev.data.u64].fd, &ev) == -1) {
+++								pseudo_diag("epoll_ctl() failed with accepted socket.\n");
+++								exit(PSEUDO_EXIT_EPOLL_CTL);
+++							}
+++						} else if (errno == EMFILE) {
+++							pseudo_debug(PDBGF_SERVER, "Hit max open files, dropping a client.\n");
+++		                                        /* In theory there is a potential race here where if we close a client, 
+++		                                           it may have sent us a fastop message which we don't act upon.
+++		                                           If we don't close a filehandle we'll loop indefinitely thought. 
+++		                                           Only close one per loop iteration in the interests of caution */
+++				                        for (int j = 1; j <= highest_client; ++j) {
+++				                                if (clients[j].fd != -1) {
+++				                                        close_client(j);
+++									break;
+++								}
+++							}
+++						}
+++					}
+++				} else {
+++					struct timeval tv1, tv2;
+++                                        int rc;
+++					gettimeofday(&tv1, NULL);
+++					rc = serve_client(events[i].data.u64);
+++					gettimeofday(&tv2, NULL);
+++					++messages;
+++                                        if (rc == 0)
+++                                                ++responses;
+++					message_time.tv_sec += (tv2.tv_sec - tv1.tv_sec);
+++					message_time.tv_usec += (tv2.tv_usec - tv1.tv_usec);
+++					if (message_time.tv_usec < 0) {
+++						message_time.tv_usec += 1000000;
+++						--message_time.tv_sec;
+++					} else while (message_time.tv_usec > 1000000) {
+++						message_time.tv_usec -= 1000000;
+++						++message_time.tv_sec;
+++					}
+++				}
+++				if (die_forcefully)
+++					break;
+++			}
+++			pseudo_debug(PDBGF_SERVER, "server loop complete [%d clients left]\n", active_clients);
+++		} else {
+++			pseudo_diag("epoll_wait failed: %s\n", strerror(errno));
+++			break;
+++		}
+++		if (die_peacefully || die_forcefully) {
+++			pseudo_debug(PDBGF_SERVER, "quitting.\n");
+++			pseudo_debug(PDBGF_SERVER | PDBGF_BENCHMARK, "server %d exiting: handled %d messages in %.4f seconds\n",
+++				getpid(), messages,
+++				(double) message_time.tv_sec +
+++				(double) message_time.tv_usec / 1000000.0);
+++			pdb_log_msg(SEVERITY_INFO, NULL, NULL, NULL, "server %d exiting: handled %d messages in %.4f seconds",
+++				getpid(), messages,
+++				(double) message_time.tv_sec +
+++				(double) message_time.tv_usec / 1000000.0);
+++			/* and at this point, we'll start refusing connections */
+++			close(clients[0].fd);
+++			/* This is a good place to insert a delay for
+++			 * debugging race conditions during startup. */
+++			/* usleep(300000); */
+++			exit(0);
+++		}
+++	}
+++
+++}
+++
+++#endif
+++
++ /* get clients, handle messages, shut down.
++  * This doesn't actually do any work, it just calls a ton of things which
++  * do work.
++-- 
++2.14.1
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
+index 9bcd0318926..81853e95c42 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.8.2.bb
+@@ -8,6 +8,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz
+            file://efe0be279901006f939cd357ccee47b651c786da.patch \
+            file://b6b68db896f9963558334aff7fca61adde4ec10f.patch \
+            file://toomanyfiles.patch \
++           file://0001-Use-epoll-API-on-Linux.patch \
+            "
  
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ SRC_URI[md5sum] = "7d41e72188fbea1f696c399c1a435675"
 -- 
 2.14.1
 
