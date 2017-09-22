@@ -1,25 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 922A4780C3
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0324771BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 06:24:17 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	v8M6OG0Z006808
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Fri, 22 Sep 2017 07:24:17 +0100
-Message-ID: <1506061456.18640.173.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 22 Sep 2017 07:24:16 +0100
-In-Reply-To: <20170921174216.33386-2-raj.khem@gmail.com>
-References: <20170921174216.33386-1-raj.khem@gmail.com>
-	<20170921174216.33386-2-raj.khem@gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: Re: [PATCH 2/2] go: Remove mips32r2 from march to get cgo working
+	Fri, 22 Sep 2017 06:41:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8M6fEdJ027790
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Sep 2017 23:41:14 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 21 Sep 2017 23:41:13 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Sep 2017 14:27:50 +0800
+Message-ID: <cover.1506061623.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 2.14.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] lame: backport patch to fix CVE-2017-13712
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 06:24:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 22 Sep 2017 06:41:13 -0000
+Content-Type: text/plain
 
-On Thu, 2017-09-21 at 10:42 -0700, Khem Raj wrote:
-> on mips, cgo used mips32r1 and that conflicts with mips32r2
-> lets remove it for now and work go upstream to make it work
-> for golang as well
-> 
-> Fixes
-> > 
-> > # runtime/cgo
-> > cc1: error: '-mips32r2' conflicts with the other architecture
-> > options, which specify a mips32 processor
-> Fixes [YOCTO #12108]
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/go/go-common.inc | 4 ++++
->  meta/recipes-devtools/go/go_1.9.bb     | 2 --
->  2 files changed, 4 insertions(+), 2 deletions(-)
+From: Kai Kang <kai.kang@windriver.com>
 
-I think this causes:
+The following changes since commit eac8a5cf4212feaf8baf230e9ae991939732141d:
 
-https://autobuilder.yocto.io/builders/nightly-world-lsb/builds/486/steps/BuildImages/logs/stdio
+  oe-build-perf-report-email.py: add cc and bcc options (2017-09-21 23:16:55 +0100)
 
-| # /tmp/go-build282041009/libstd.so
-| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/i586-poky-linux/go-runtime/1.9-r0/go/pkg/tool/linux_amd64/link: running i586-poky-linux-gcc failed: exit status 1
-| /tmp/go-link-130351246/go.o:(.data.rel.ro+0x36bfcc): undefined reference to `main.init'
-| /tmp/go-link-130351246/go.o:(.data.rel.ro+0x36bfd0): undefined reference to `main.main'
-| collect2: error: ld returned 1 exit status
-| 
-| WARNING: exit code 2 from a shell command.
-| ERROR: Function failed: do_compile (log file is located at /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/build/tmp/work/i586-poky-linux/go-runtime/1.9-r0/temp/log.do_compile.29509)
-NOTE: recipe go-runtime-1.9-r0: task do_compile: Failed
-ERROR: Task (/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world-lsb/build/meta/recipes-devtools/go/go-runtime_1.9.bb:do_compile) failed with exit code '1'
+are available in the git repository at:
 
-Cheers,
+  git://git.pokylinux.org/poky-contrib kangkai/lame
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lame
 
-Richard
+Kai Kang (1):
+  lame: fix CVE-2017-13712
+
+ .../lame/lame/CVE-2017-13712.patch                 | 309 +++++++++++++++++++++
+ meta/recipes-multimedia/lame/lame_3.99.5.bb        |   4 +-
+ 2 files changed, 312 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/lame/lame/CVE-2017-13712.patch
+
+-- 
+2.14.1
+
 
