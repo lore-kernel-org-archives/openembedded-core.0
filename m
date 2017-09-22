@@ -1,30 +1,28 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <Liwei.Song@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF8CD7822B
+	by mail.openembedded.org (Postfix) with ESMTP id DC1BA71A92
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 01:53:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8M1r3Da022583
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Sep 2017 18:53:03 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Thu, 21 Sep 2017 18:53:03 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: AUTOREV, tags...
-Thread-Index: AdMzRS/cU3YRROzMSqu1TcfmMHhuWQ==
-Date: Fri, 22 Sep 2017 01:53:02 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF42017C@ALA-MBC.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.117.129]
+	Fri, 22 Sep 2017 05:11:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8M5BHsC023627
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 Sep 2017 22:11:17 -0700 (PDT)
+Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 21 Sep 2017 22:11:15 -0700
+Message-ID: <59C49BAA.3040305@windriver.com>
+Date: Fri, 22 Sep 2017 13:12:10 +0800
+From: Liwei Song <liwei.song@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: AUTOREV, tags...
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1504603652-262027-1-git-send-email-liwei.song@windriver.com>
+	<CAJTo0LYXE=s8tphMTfS9avaM-4ttTpO1=mo-A+rsd46PKFgMRg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYXE=s8tphMTfS9avaM-4ttTpO1=mo-A+rsd46PKFgMRg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-firmware: package qat-firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 01:53:03 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_007BD92917A2324FA403BCF9A464CF84CF42017CALAMBCcorpadwrs_"
-
---_000_007BD92917A2324FA403BCF9A464CF84CF42017CALAMBCcorpadwrs_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-I think it would be nicer if recipes that currently require network access =
-to check repo version info warned, but did not fail to parse.  I actually t=
-hink that allowing AUTOREV at all should be conditional, because it subvert=
-s reproducible builds.  I'd also guess that if tags change that is not a go=
-od sign, so is it really good to check for that?
-
-Joe
+X-List-Received-Date: Fri, 22 Sep 2017 05:11:17 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
 
---_000_007BD92917A2324FA403BCF9A464CF84CF42017CALAMBCcorpadwrs_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
 
-<html dir=3D"ltr">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" id=3D"owaParaStyle"></style>
-</head>
-<body fpstyle=3D"1" ocsi=3D"0">
-<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
-10pt;">I think it would be nicer if recipes that currently require network =
-access to check repo version info warned, but did not fail to parse. &nbsp;=
-I actually think that allowing AUTOREV
- at all should be conditional, because it subverts reproducible builds. &nb=
-sp;I'd also guess that if tags change that is not a good sign, so is it rea=
-lly good to check for that?
-<div><br>
-</div>
-<div>Joe</div>
-<div><br>
-</div>
-</div>
-</body>
-</html>
+On 09/20/2017 12:50 AM, Burton, Ross wrote:
+> On 5 September 2017 at 10:27, Liwei Song <liwei.song@windriver.com> wrote:
+> 
+>> +             ${PN}-qat-license ${PN}-qat_895xcc ${PN}-qat_895xcc_mmp
+>> ${PN}-qat_c3xxx ${PN}-qat_c3xxx_mmp ${PN}-qat_c62x ${PN}-qat_c62x_mmp
+>> ${PN}-qat_mmp \
+>>
+> 
+> *** Error: Package name  contains illegal characters, (other than
+> [a-z0-9.+-])
+> 
+> You can't use _ in packages, please just use -.
 
---_000_007BD92917A2324FA403BCF9A464CF84CF42017CALAMBCcorpadwrs_--
+Got it, Thanks, I will resend a V2, please ignore this one.
+
+Thanks,
+Liwei.
+
+> 
+> Ross
+> 
+
