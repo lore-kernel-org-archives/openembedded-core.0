@@ -1,33 +1,46 @@
-Return-Path: <prvs=431c23770=Martin.Hundeboll@prevas.dk>
-Received: from mail01.prevas.se (mail01.prevas.se [62.95.78.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 396D671BA0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 75DDB71BFC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 05:29:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=prevas.dk; i=@prevas.dk; l=1296; q=dns/txt;
-	s=ironport1; t=1506058174; x=1537594174;
-	h=from:to:cc:subject:date:message-id:mime-version;
-	bh=zS6+Q6hqzHDcfYMYB0Resrz176xgfsDRMTC0iTGMjw8=;
-	b=ZTA2hvQCwAcil9oStHSMKtOvQPBIOjsL/z30mojqikFiqbd15MymtBX5
-	IXRQAvJkmhGl4nYa4zusVlCZO7KLBLUXgE7dfKibWRDqASW/v0m0cxn4l
-	GESRXiXKLB7AFFI2ll/Ke50IFNN4BWgyP17TD6I0joP6uPZXrNBMpDDO+ k=;
-X-IronPort-AV: E=Sophos;i="5.42,427,1500933600"; 
-   d="scan'208";a="2624131"
-Received: from vmprevas3.prevas.se (HELO smtp.prevas.se) ([172.16.8.103])
-	by ironport1.prevas.se with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Sep 2017 07:29:29 +0200
-Received: from mnhu.prevas.se (172.16.8.31) by smtp.prevas.se (172.16.8.103)
-	with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Fri, 22 Sep 2017 07:29:28 +0200
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <mnhu@prevas.dk>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Sep 2017 07:29:08 +0200
-Message-ID: <20170922052908.25666-1-mnhu@prevas.dk>
+	Fri, 22 Sep 2017 06:05:40 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id j16so108797pga.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Sep 2017 23:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=19ddPXhHh4EnXjLsdGSGynssIFxeAUsm0+csgf+zQRM=;
+	b=UQ+SUIj/mqwlf7e/gJFdHSk4W6iEwl6WM6nARxsr0e1xWG4YzaY7j4PTYz6MXR/4Sq
+	h5dW2HSuhiF+rTT48tlv+nlKPugfdGiEwfmMu/lEzJfpmKkIxTG/vmIz4yo3Ph9KREg6
+	Igb2zkX6lIu9bjDEwzj987vsxaRPHZ/xQI2Oj+yharbQBavcAGnd/eZ3/fEEXj1XPxFe
+	X6e0P65Cuoi8xGJkCThW4xWZCPfc5AfiUPNidj3TuJLtU/wDKZaLgdqhnUF1yooHeo1f
+	TvZnUwdCitLdqM1oEjwGi/yU5RYQ6z679yFU0FzAF87DkmweDlJ7La4AMXdM8fxT8JwE
+	bpkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=19ddPXhHh4EnXjLsdGSGynssIFxeAUsm0+csgf+zQRM=;
+	b=r8f89b1zupD4OsFJauKFJEAiVtza+hPzZNEM4J8bCYrM7cfg8ub2A5WJ0VNxJWaOYd
+	1+eozrXY6iO1jkhfrJL7tSSS81UWgqXS8cMB82Tkg2I412CpPCcel5DeYiuJKD3CazvZ
+	X01EGU4N4qRiqFQe32x+cMJczyNHkMDR8bWuoHnxIE3B5Jrx00TeJfrh/LQhXtwWPBL3
+	Gb14q7NQGcWABU6ilfItVw5NdClwN8XovyyhMjUDEUXX99OReyS7R0FBX6kc2VLvILCA
+	0QWy/+/Xf7TT8frwqNc6h/UxUMpmPIEuCbrzJRcba6iMm2E0VturOuL7oODkGI2Zdv8o
+	T7YQ==
+X-Gm-Message-State: AHPjjUg5p4p/yDdZsAkIb8bd/HJpBaI7KX/Rr0/O4CTHz4P7LuxekXaF
+	CNN8HavYCmY8C4ZsW/gBaFeKzw==
+X-Google-Smtp-Source: AOwi7QAXd2EzaehlmOrxjMt1HVmCgTYIWYPotvBjHTNXe4jX7VuRxI7e7xJimPkmARqAv9w7g95pZw==
+X-Received: by 10.84.149.197 with SMTP id a5mr7760538plh.55.1506060341847;
+	Thu, 21 Sep 2017 23:05:41 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::e57f])
+	by smtp.gmail.com with ESMTPSA id
+	q13sm4843802pgt.87.2017.09.21.23.05.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Sep 2017 23:05:41 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Sep 2017 23:05:33 -0700
+Message-Id: <20170922060533.943-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.1
-MIME-Version: 1.0
-X-Originating-IP: [172.16.8.31]
-Cc: akuster@mvista.com
-Subject: [pyro][PATCH] image.bbclass: Sorted ctypes to avoid basehash error
+Subject: [PATCH] go-dep: Fix build with hardening flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,41 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Sep 2017 05:29:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Sep 2017 06:05:41 -0000
 
-From: Gerson Fernando Budke <nandojve@gmail.com>
-
-When selected multiple subimages a similar error could happend:
-  Variable do_image_cpio[subimages] value changed \
-    from 'cpio.gz.u-boot cpio.gz' to 'cpio.gz cpio.gz.u-boot'
-To avoid this, 'ctypes' should be sorted at 'gen_conversion_cmds'.
-
-This garantee that 'CONVERSION_CMD_xxx' are always written in tha same
-order and consequently 'do_image_cpio' have the same hash.
-
-(From OE-Core rev: 271f1a5f65b8685a1e3645026876251122ef3974)
-
-Signed-off-by: Gerson Fernando Budke <nandojve@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/go/go-dep_0.3.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index ef2b38aeaf..9c9f14a99a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -453,7 +453,7 @@ python () {
+diff --git a/meta/recipes-devtools/go/go-dep_0.3.0.bb b/meta/recipes-devtools/go/go-dep_0.3.0.bb
+index abfeb48370..20ea792c52 100644
+--- a/meta/recipes-devtools/go/go-dep_0.3.0.bb
++++ b/meta/recipes-devtools/go/go-dep_0.3.0.bb
+@@ -11,6 +11,10 @@ SRCREV = "7a91b794bbfbf1f3b8b79823799316451127801b"
  
-         rm_tmp_images = set()
-         def gen_conversion_cmds(bt):
--            for ctype in ctypes:
-+            for ctype in sorted(ctypes):
-                 if bt.endswith("." + ctype):
-                     type = bt[0:-len(ctype) - 1]
-                     if type.startswith("debugfs_"):
+ inherit go
+ 
++TUNE_CCARGS_remove = "-march=mips32r2"
++SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
++SECURITY_LDFLAGS = ""
++
+ GO_INSTALL = "${GO_IMPORT}/cmd/dep"
+ 
+ RDEPENDS_${PN}-dev += "bash"
 -- 
 2.14.1
 
