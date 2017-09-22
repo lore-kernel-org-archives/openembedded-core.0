@@ -1,18 +1,16 @@
 Return-Path: <fabien.lahoudere@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AC9E783A8
+	by mail.openembedded.org (Postfix) with ESMTP id 79E85783A7
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 22 Sep 2017 09:01:07 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: aragua) with ESMTPSA id CF3AB26D3D4
+	(Authenticated sender: aragua) with ESMTPSA id D419326047F
 From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Sep 2017 10:51:18 +0200
-Message-Id: <20170922085118.12000-4-fabien.lahoudere@collabora.co.uk>
+Date: Fri, 22 Sep 2017 10:51:15 +0200
+Message-Id: <20170922085118.12000-1-fabien.lahoudere@collabora.co.uk>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170922085118.12000-1-fabien.lahoudere@collabora.co.uk>
-References: <20170922085118.12000-1-fabien.lahoudere@collabora.co.uk>
-Subject: [PATCH 4/4] mesa: Bump to version 17.2.0
+Subject: [PATCH 1/4] wayland : Bump to version 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +27,28 @@ X-List-Received-Date: Fri, 22 Sep 2017 09:01:07 -0000
 
 Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 ---
- meta/recipes-graphics/mesa/mesa_17.2.0.bb | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/mesa_17.2.0.bb
+ .../recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} (92%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa_17.2.0.bb b/meta/recipes-graphics/mesa/mesa_17.2.0.bb
-new file mode 100644
-index 0000000000..e522e0bbfe
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa_17.2.0.bb
-@@ -0,0 +1,24 @@
-+require ${BPN}.inc
-+
-+SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-+           file://replace_glibc_check_with_linux.patch \
-+           file://disable-asm-on-non-gcc.patch \
-+           file://0001-Use-wayland-scanner-in-the-path.patch \
-+           file://0002-hardware-gloat.patch \
-+           file://vulkan-mkdir.patch \
-+           file://llvm-config-version.patch \
-+           file://0001-winsys-svga-drm-Include-sys-types.h.patch \
-+           file://0001-configure.ac-Always-check-for-expat.patch \
-+           "
-+SRC_URI[md5sum] = "1d8d7323d11146767a37c3cb6a6d411d"
-+SRC_URI[sha256sum] = "3123448f770eae58bc73e15480e78909defb892f10ab777e9116c9b218094943"
-+
-+DEPENDS += " llvm-native wayland-protocols "
-+
-+#because we cannot rely on the fact that all apps will use pkgconfig,
-+#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
-+do_install_append() {
-+    if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
-+        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)$/#if defined(MESA_EGL_NO_X11_HEADERS) || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+    fi
-+}
+diff --git a/meta/recipes-graphics/wayland/wayland_1.13.0.bb b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/wayland/wayland_1.13.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.14.0.bb
+index b9396b6c75..2a2489d658 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.13.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+@@ -14,8 +14,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[md5sum] = "cae152ed956da6de53f9727bc1c45039"
+-SRC_URI[sha256sum] = "69b052c031a61e89af7cc8780893d0da1e301492352aa449dee9345043e6fe51"
++SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
++SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
+ 
+ inherit autotools pkgconfig
+ 
 -- 
 2.11.0
 
