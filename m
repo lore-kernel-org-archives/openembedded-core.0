@@ -1,50 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BE6D17846B
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 4306A7846B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Sep 2017 00:58:32 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id e69so1102704pfg.4
+	Sat, 23 Sep 2017 00:58:33 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id d8so1511705pgt.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Sep 2017 17:58:34 -0700 (PDT)
+	Fri, 22 Sep 2017 17:58:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rI2HpEfHkCBMmYb8JEBxylEUAjhMkRGivHm1ibWEnck=;
-	b=GU9XFXMU/Pzz7Bpv8nKgSc/0oXXEeKjsNjQtGUpQq5FxbfMQAYGTBiziTKWrxEXtUf
-	zk9IyTqKvc1TTOvad931IAu+7tb0qPo/DUPERIWa3ExQS2noM/mAeIAdUHySIp1GKr8n
-	bvDtNKswDPIxBd1BStpnU/jjhkxX6VprEVH5I+EEnRpG1OoV1TxJMW3QTmMOTplDdLDL
-	+63DVXKfH+YjUCiPtrhR1LDFoYCGgf81MGjEBPkocJSkwFaN781BWW4litcFYJ5wVECV
-	BlxbExiAhEa6X5mcCJbP135EhjNL7WJiYciwRwXG90aIISs96U0xeUwO4vZw3/MoVgKm
-	qWwQ==
+	bh=CbPfs4LPX3JHlWXMQeWaPZSZGSnB+QMSocXoEp/wzk4=;
+	b=NxByUl4phAYXpnXs0ZjaYwSOKyqUkumit1dK9TQFimYTfHcxnGoqWVR2ARDZxVIIVy
+	yv+/22rplFj/KFnbRVCk7mfJGRn11Et//magzIG3WA/fsPG7JjZNelaiQGWv5h29b9o6
+	QByupWT3vmZcEbVp/VlSThel3yxCHHmgkxPI4OU4nuH3/6WmbakeHZ+iy+9w1uM8rm/v
+	hlf+zj4hjPgYnvH62qhBZrOgFQEd/zZhivgaGHziDCODoVfvux6SW8Q2Envoe7gekpGc
+	3Mh4TVFPcww6hVA3SW2HEHGKC7KYe/0Z2QXzimyqIKp4NjLVFQfRiXf97hevWIWVk5kd
+	rvdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=rI2HpEfHkCBMmYb8JEBxylEUAjhMkRGivHm1ibWEnck=;
-	b=TjLbrJrj2ORf6sH3JKtLQpYaRuNFrhG52McBjJtq5J3u3IgTUHUf8FZkQ0UXyjBpNh
-	tISO9BX4wHThwiS67IM33As2MntTJcdGiwZ9txgRIyR4W0v7jqcZr+fduoxgYE8KLPOy
-	cDXMxKIu0CF9tx/9XDoIcc0hFgsWBLaX/jqaqrFsyRZOQEgdO7W6qh44PXNaB5pHd2cv
-	Vgap0cW8hE3IsYd+Kukc2gA56EdTdoEAhX+uKApVGo6OXrNCVILMdm9UBhUluE791C4A
-	2mMvMa2zIWiJWD9I+9UERsbQ/4vHLzB8cX/xIcKoSULZi+/5r3U4g9BW8GzQ3u/+t1Dy
-	Gp5g==
-X-Gm-Message-State: AHPjjUj56S5MRzYh0kIfpJFAR9Z4+w8To3/K3Vl0hHpvWswtenHtMBSw
-	3qlUfX819Eu9D25BBX1Fo554Dw==
-X-Google-Smtp-Source: AOwi7QD306ss2LZ094ecGgu1XXMO6eqEw8eCZa8XWsJ7/5L21MhnqsocIqvonHQHFLBqA4J+M/vv3Q==
-X-Received: by 10.84.179.36 with SMTP id a33mr684690plc.99.1506128314181;
-	Fri, 22 Sep 2017 17:58:34 -0700 (PDT)
+	bh=CbPfs4LPX3JHlWXMQeWaPZSZGSnB+QMSocXoEp/wzk4=;
+	b=slZ40A2kiK4D/t0bB4dYdoo4aJrTlt/gzdzU0hPNnHtTJNy1G5isDqFC6JPOLIdKST
+	L3RGSrrmWAYWt/bApgTn2LC6J/IRhTiCl5Ob1f1Ymff2oSxZuo0IPEN0SbaYXbGL6KTB
+	y/cxRUu/E/W5PoCISMzc4BYryoz2u13GQR8UPTIOjlcb/nzG5y+/Cp7pOY5+jg0W+94Q
+	Z0CCjVF48jDCuOfLuYLmyUm4FbFMZ4mJSH/mnkVtlvPxFXtugfwXPE/mFgqJvh0ayupf
+	cVnK5BJBCyRb0RTa2q/xjBnO5QyD6S5+6IADXfYagWtSXNJMQDnFU9Y+Pr/2cc17N98A
+	jmog==
+X-Gm-Message-State: AHPjjUhAy5JTuAcMCAbHBdMiKesA/PO5anIumxH2cTczgzW1fiGaQyzL
+	M3ouDLbyAVJSOxvB6Fs0a1DiIA==
+X-Google-Smtp-Source: AOwi7QAcYmFqOSDiS1RBPWv2vW3E9VNOQI3HPe2OFFO+KmmhyXieF/Cz6ZNLkOcIvT9nPWczMDY/Ig==
+X-Received: by 10.99.106.67 with SMTP id f64mr772603pgc.101.1506128315377;
+	Fri, 22 Sep 2017 17:58:35 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::e57f])
 	by smtp.gmail.com with ESMTPSA id
-	b66sm1151521pfe.165.2017.09.22.17.58.33
+	b66sm1151521pfe.165.2017.09.22.17.58.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Sep 2017 17:58:33 -0700 (PDT)
+	Fri, 22 Sep 2017 17:58:34 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Sep 2017 17:58:21 -0700
-Message-Id: <20170923005823.10278-2-raj.khem@gmail.com>
+Date: Fri, 22 Sep 2017 17:58:22 -0700
+Message-Id: <20170923005823.10278-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20170923005823.10278-1-raj.khem@gmail.com>
 References: <20170923005823.10278-1-raj.khem@gmail.com>
-Subject: [PATCH 2/4] go: disable PIE flags for cgo
+Subject: [PATCH 3/4] go_1.9: remove obsolete overrides
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Sep 2017 00:58:33 -0000
+X-List-Received-Date: Sat, 23 Sep 2017 00:58:34 -0000
 
 From: Matt Madison <matt@madison.systems>
 
-If the security_flags.inc file is included, gcc
-will do PIE builds by default.  These flags need
-to be disabled for go packages that use cgo.
+Now that mips and security flags fixes are in place
+in the bbclasses, remove the local settings in this
+recipe.
 
 Signed-off-by: Matt Madison <matt@madison.systems>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/go.bbclass                | 3 +++
- meta/recipes-devtools/go/go-target.inc | 3 +++
- 2 files changed, 6 insertions(+)
+ meta/recipes-devtools/go/go_1.9.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index e167c949ec..09b01a84c3 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -50,6 +50,9 @@ GOTOOLDIR = "${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go/pkg/tool/${BUILD_GOTUPLE}
- GOTOOLDIR_class-native = "${STAGING_LIBDIR_NATIVE}/go/pkg/tool/${BUILD_GOTUPLE}"
- export GOTOOLDIR
- 
-+SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
-+SECURITY_LDFLAGS = ""
-+
- export CGO_ENABLED ?= "1"
- export CGO_CFLAGS ?= "${CFLAGS}"
- export CGO_CPPFLAGS ?= "${CPPFLAGS}"
-diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
-index b88d0166e5..6065c3c80d 100644
---- a/meta/recipes-devtools/go/go-target.inc
-+++ b/meta/recipes-devtools/go/go-target.inc
-@@ -18,6 +18,9 @@ GO_LDFLAGS = ""
- GO_LDFLAGS_class-nativesdk = "-linkmode external"
- export GO_LDFLAGS
- 
-+SECURITY_CFLAGS = "${SECURITY_NOPIE_CFLAGS}"
-+SECURITY_LDFLAGS = ""
-+
- do_configure[noexec] = "1"
- 
- do_compile() {
+diff --git a/meta/recipes-devtools/go/go_1.9.bb b/meta/recipes-devtools/go/go_1.9.bb
+index 08ab793f86..c67e2cb050 100644
+--- a/meta/recipes-devtools/go/go_1.9.bb
++++ b/meta/recipes-devtools/go/go_1.9.bb
+@@ -1,4 +1,2 @@
+ require go-${PV}.inc
+ require go-target.inc
+-TUNE_CCARGS_remove = "-march=mips32r2"
+-SECURITY_PIE_CFLAGS_remove = "-fPIE -pie"
 -- 
 2.14.1
 
