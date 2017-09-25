@@ -1,39 +1,61 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FC7B78296
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 80A4C7820F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Sep 2017 14:48:14 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Sep 2017 07:48:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,436,1500966000"; 
-	d="scan'208,217";a="1198754766"
-Received: from fmsmsx106.amr.corp.intel.com ([10.18.124.204])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2017 07:48:14 -0700
-Received: from fmsmsx125.amr.corp.intel.com (10.18.125.40) by
-	FMSMSX106.amr.corp.intel.com (10.18.124.204) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Mon, 25 Sep 2017 07:48:13 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.234]) by
-	FMSMSX125.amr.corp.intel.com ([169.254.2.126]) with mapi id
-	14.03.0319.002; Mon, 25 Sep 2017 07:48:13 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: =?Windows-1252?Q?Yocto_Project_Status_WW39=9217?=
-Thread-Index: AdM2CQVIn/TBCv17RweVVlb8q0KUUw==
-Date: Mon, 25 Sep 2017 14:48:12 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E98CDF61A@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.106]
-x-ctpclassification: CTP_IC
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjkwYmE0ZGMtMDE0MS00NjZiLWIzNzUtNDczYTY2ODIyY2U2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6Ik5WWWVkc1RrQzBmd1ZjSlN3R0xTZzlVXC8xNTNNcjZwbVwvcVcra2ZcLzluQ2c9In0=
+	Mon, 25 Sep 2017 16:24:15 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id r74so21497210wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Sep 2017 09:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=SYhH4a+ck4mtm3J0jb+QMCA1hvcfVMOXxbSL5GsIljI=;
+	b=G8eBlmJD0kUqllFPMbhTEIyLJQGizm0ufCUV0ua7Fu0DbEYGp3ShEkk3fAbeCcYeek
+	vaft7ABpcXyQraw+mm5A1TRvzhkNyMz93jLAszXv/0wqJJgWlU5rr5QFTWVHb+BESgQ2
+	e41BZ9yDUtt8b7HRm0dWS/Yqw6Zc8sRtBM/G6+xfgyPGbY46fDo9TkGOuflcMW2/+S6I
+	OVyH6UNMMGwwPYGhim8iDGxsqngXLfZJz2SJ4UZVbNeozbv5I22hREqr02plwl4kIMA2
+	GuvB/kYJE7O66GzDecBKTqzA/+ki2lbFaX16WTAX+KNWVSXsXCi4gMX3e4+R5aKiujN1
+	zPXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=SYhH4a+ck4mtm3J0jb+QMCA1hvcfVMOXxbSL5GsIljI=;
+	b=EeZEYEUFQnfisUaxQ3waZrNHsJhU9dAgXgQ3t86uDSdgoSuqqIJwQ5PayHmNpHhnex
+	hiXzwB9oYuFHopQhebs0403w6dOjYAkAM2ODWOvRzdHjd1PcdnK7eULWL+hca/GBh558
+	NUnH44caTUWgGXJj6XtgMzwYGm//BM565wmQXFHyP7rx6qfySbTNlqlLLfFsfrsT9IPg
+	JZB/hDcoR2BEVwrp3x/Hn5RmJ4XCj2HaiEaOKPlCYWNAnwitlDcv4DqqG/QJ4bQUhvkP
+	G3ZnTMVwEN3yNIQiVW0j+wifXBCHAwMNi8GcyHgfVnaXyyzQk5th1dOptj8xe/NF0f7V
+	y51w==
+X-Gm-Message-State: AHPjjUjamwex30yc2ahrLEg07vWEopcvrWi9qXX6S1TXcXbxBInQ8cok
+	gCZCwvEeztHDZlkKUogon7lHCI1Ak/du/RdICDo=
+X-Google-Smtp-Source: AOwi7QBdwiKK1GYb2UDjS9xoLinPaO0kpPM6CNPDLqUBFsXDS7fneJuHXd0N9g/XR6qkB7FTYWsClmQvqeLDzaWv9ds=
+X-Received: by 10.28.224.4 with SMTP id x4mr752198wmg.85.1506356656149; Mon,
+	25 Sep 2017 09:24:16 -0700 (PDT)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1czOeKAmTE3?=
+Sender: jefro.net@gmail.com
+Received: by 10.223.134.180 with HTTP; Mon, 25 Sep 2017 09:23:55 -0700 (PDT)
+In-Reply-To: <CAPybu_3tiZLD4vU6ZrH9iD4OB1wHibGWxFJ20wL_ynDeaLo-Yw@mail.gmail.com>
+References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
+	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
+	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
+	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
+	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
+	<c2911001-d598-9e20-8463-085d5f4910db@balister.org>
+	<CA+YB3rYwurx0i8oUGUkwWA3JMzTBJtFsijP_V0t+ncYVbOkW6A@mail.gmail.com>
+	<CAPybu_1T63Vcw9N3VgVgj45gcUM8UgPqRkSAwaHhvyxWFU0Ztg@mail.gmail.com>
+	<1a067fa9-8e5e-1f18-709d-15df07518928@balister.org>
+	<CAPybu_3tiZLD4vU6ZrH9iD4OB1wHibGWxFJ20wL_ynDeaLo-Yw@mail.gmail.com>
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Mon, 25 Sep 2017 09:23:55 -0700
+X-Google-Sender-Auth: QWHafaILQPy7hIRR62JiLrYh2ws
+Message-ID: <CA+YB3rYipupFC2s_3gsfVSM6sZ5oAis1hAB491+tAXVEfEAPrg@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,540 +68,337 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Sep 2017 14:48:15 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E98CDF61Afmsmsx111amrcor_"
+X-List-Received-Date: Mon, 25 Sep 2017 16:24:16 -0000
+Content-Type: multipart/alternative; boundary="001a114b14a2652159055a05fd94"
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E98CDF61Afmsmsx111amrcor_
-Content-Type: text/plain; charset="Windows-1252"
+--001a114b14a2652159055a05fd94
+Content-Type: text/plain; charset="UTF-8"
+
+It certainly looks interesting! The  main issue is that our table is about
+0.5 x 1.4 meters, so setting up demos as well as screens and keyboards may
+be a difficult task. I'll do what I can to set up a second table at the
+booth.
+
+thanks!
+
+On Mon, Sep 25, 2017 at 7:08 AM, Ricardo Ribalda Delgado <
+ricardo.ribalda@gmail.com> wrote:
+
+> Hi
+>
+> On Mon, Sep 25, 2017 at 4:05 PM, Philip Balister <philip@balister.org>
+> wrote:
+> > On 09/25/2017 10:00 AM, Ricardo Ribalda Delgado wrote:
+> >> If you are looking for a "fun" demo. I plan to show our bottle scanner
+> >> to the ELCE showcase. I could ask my manager if we can leave it on the
+> >> yocto booth during the conference.
+> >>
+> >> We use yocto + our layer https://github.com/qtec/meta-qtec-core
+> >
+> > How large is it? Can you send us a photo?
+>
+> This is the last photo I have from the instrument. You can use the
+> 50cl beer bottle as a reference ;).
+>
+> You also need a screen + keyboard to see the results.
+>
+> >
+> > Philip
+> >
+> >>
+> >> Regards!
+> >>
+> >> On Fri, Sep 22, 2017 at 10:49 PM, Jeff Osier-Mixon <jefro@jefro.net>
+> wrote:
+> >>> If its relevance to YP and OE is able to be explained, it would be
+> welcomed.
+> >>> The only issue I see is the size of the booth, which is tiny. However,
+> we
+> >>> frequently spill out of our confined space, and I will locate a second
+> table
+> >>> if we end up needing one. Great to see community effort on the demos!
+> >>>
+> >>> On Thu, Sep 21, 2017 at 1:56 PM, Philip Balister <philip@balister.org>
+> >>> wrote:
+> >>>>
+> >>>> On 09/21/2017 02:32 PM, akuster808 wrote:
+> >>>>>
+> >>>>>
+> >>>>> On 09/21/2017 01:27 PM, Philip Balister wrote:
+> >>>>>> On 09/20/2017 01:50 AM, Mike Looijmans wrote:
+> >>>>>>> On 18-09-17 18:25, Trevor Woerner wrote:
+> >>>>>>>> Hi Mike,
+> >>>>>>>>
+> >>>>>>>> On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans
+> >>>>>>>> <mike.looijmans@topic.nl> wrote:
+> >>>>>>>>> I can probably bring some work (e.g. Zynq MPSoC board) and fun
+> >>>>>>>>> (settop box)
+> >>>>>>>>> hardware along to demonstrate what I'm using OE for.
+> >>>>>>>> Any chance you could set something up that could be on display at
+> the
+> >>>>>>>> Yocto booth during the conference?
+> >>>>>>> Depends on what I'll be able tug along in my luggage on the
+> airplane,
+> >>>>>>> but whatever I can bring is probably suited for public display. A
+> few
+> >>>>>>> circuit boards will certainly fit, so if the stand could provide a
+> >>>>>>> HDMI
+> >>>>>>> monitor (or TV) to connect them to that'd be awesome.
+> >>>>>> I'd love to see some different things on the stand. Make sure you
+> help
+> >>>>>> explain to people why the Yocto Porject and OpenEmbedded are
+> important
+> >>>>>> to you and your product.
+> >>>>> Philip,
+> >>>>>
+> >>>>> Since you are the OE rep to the Yocto Project, can you make sure
+> this is
+> >>>>> OK with them. There could be space  or limitations at their booth.
+> >>>>
+> >>>> I mentioned it to Jefro, I'm also making a guess he has something
+> based
+> >>>> on a Xilinx product, who are members.
+> >>>>
+> >>>> Philip
+> >>>>
+> >>>>>
+> >>>>> Thanks,
+> >>>>> - Armin
+> >>>>>>
+> >>>>>> Philip
+> >>>>>>
+> >>>>>>
+> >>>>>>
+> >>>>>>> M.
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Kind regards,
+> >>>>>>>
+> >>>>>>> Mike Looijmans
+> >>>>>>> System Expert
+> >>>>>>>
+> >>>>>>> TOPIC Products
+> >>>>>>> Materiaalweg 4, NL-5681 RJ Best
+> >>>>>>> Postbus 440, NL-5680 AK Best
+> >>>>>>> Telefoon: +31 (0) 499 33 69 79
+> >>>>>>> E-mail: mike.looijmans@topicproducts.com
+> >>>>>>> Website: www.topicproducts.com
+> >>>>>>>
+> >>>>>>> Please consider the environment before printing this e-mail
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Visit us at the Space Tech Expo Europe (Stand E-71)
+> >>>>>>>
+> >>>>>
+> >>>>>
+> >>>> --
+> >>>> _______________________________________________
+> >>>> Openembedded-core mailing list
+> >>>> Openembedded-core@lists.openembedded.org
+> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >>>
+> >>>
+> >>>
+> >>> --
+> >>> Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
+> >>>
+> >>> --
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >>
+> >>
+> >>
+>
+>
+>
+> --
+> Ricardo Ribalda
+>
+
+
+
+-- 
+Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
+
+--001a114b14a2652159055a05fd94
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Current Dev Position: YP 2.4 M4 - We are feature frozen.
-
-Next Deadline: YP 2.4 Final Cut off is Sept. 18, 2017
-
-
-SWAT team rotation: Stephano -> Maxin on Sept. 22, 2017.
-
-SWAT team rotation: Maxin -> Cal on Sept. 29, 2017
-
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
-
-
-Key Status/Updates:
-
-=B7        YP 2.3.2 (pyro) had a successful QA pass and is due for release =
-imminently. See: https://wiki.yoctoproject.org/wiki/WW38_-_2017-09-20-_Full=
-_Test_Cycle_-_2.3.2_rc1
-
-=B7        YP 2.2.2 (morty) had a successful QA pass and is due for release=
- imminently. The issues previously identified were due to confusion over fe=
-atures between master and morty. See: https://wiki.yoctoproject.org/wiki/WW=
-37_-_2017-09-13_-_Full_Point_Release_Test_Cycle_2.2.2_rc2
-
-=B7        2.4 rc1 has not been built yet however several key issues have b=
-een addressed including a couple of pseudo issues (select file descriptor o=
-verflows and fastop reply data loss protection), qemu logging issues which =
-generated incorrect error reports and bitbake server timeout problems.
-
-=B7        The remaining major issue is size overflow of the sato-sdk-ptest=
- image which occurs when we merge certain pending patches. We=92re working =
-on identifying a solution to allow the remaining patches to merged and will=
- then be ready for the rc1 build.
-
-=B7        As a reminder, we are still in feature freeze and working on bug=
- fixing. As such, recipe upgrades are not going to be taken, nor are patche=
-s which cause changes in behavior or break compatibility. In future release=
-s our policy regarding version upgrades will be to identify anything that n=
-eeds to change in M4 in advance (e.g. kernel or u-boot) so this issue becom=
-es clearer and only known changes come in.
-
-
-Planned upcoming dot releases:
-
-YP 2.2.2 Cut off June 5, 2017 - Pending release soon.
-
-YP 2.2.2 Release by June, 16 2017
-
-YP 2.3.2 Cut off Sept. 1, 2017 - Pending release soon.
-
-YP 2.3.2 Release by Sept. 15, 2017
-
-
-Key YP 2.4 Dates are:
-
-YP 2.4 M4 (Final) Cut off is Sept. 18, 2017 - Should build soon
-
-YP 2.4 M4 (Final) Release by Oct. 20, 2017
-
-
-Tracking Metrics:
-
-            WDD 2380 (last week 2456)
-
-(https://wiki.yoctoproject.org/charts/combo.html)
-
-
-Key Status Links for YP:
-
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.4_Status
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.4_Schedule
-
-https://wiki.yoctoproject.org/wiki/Yocto_2.4_Features
-
-
-[If anyone has suggestions for other information you=92d like to see on thi=
-s weekly status update, let us know!]
-
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-=95   Work Telephone:        (503) 712-0534
-=95    Cell:               (208) 244-4460
-=95 Email:                          stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E98CDF61Afmsmsx111amrcor_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:579094364;
-	mso-list-template-ids:-1267822854;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:1558587771;
-	mso-list-template-ids:-151362988;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
-on: YP 2.4 M4 - We are feature frozen.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
-2.4 Final Cut off is Sept. 18, 2017</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
-: Stephano -&gt; Maxin on Sept. 22, 2017.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
-: Maxin -&gt; Cal on Sept. 29, 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
-.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
-/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
-:</span><o:p></o:p></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">YP 2.3.2 (pyro) had a successful =
-QA pass and is due for release imminently. See:
-<a href=3D"https://wiki.yoctoproject.org/wiki/WW38_-_2017-09-20-_Full_Test_=
-Cycle_-_2.3.2_rc1">
-<span style=3D"color:#1155CC">https://wiki.yoctoproject.org/wiki/WW38_-_201=
-7-09-20-_Full_Test_Cycle_-_2.3.2_rc1</span></a><o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">YP 2.2.2 (morty) had a successful=
- QA pass and is due for release imminently. The issues previously identifie=
-d were due to confusion over features between
- master and morty. See: <a href=3D"https://wiki.yoctoproject.org/wiki/WW37_=
--_2017-09-13_-_Full_Point_Release_Test_Cycle_2.2.2_rc2">
-<span style=3D"color:#1155CC">https://wiki.yoctoproject.org/wiki/WW37_-_201=
-7-09-13_-_Full_Point_Release_Test_Cycle_2.2.2_rc2</span></a> &nbsp;<o:p></o=
-:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">2.4 rc1 has not been built yet ho=
-wever several key issues have been addressed including a couple of pseudo i=
-ssues (select file descriptor overflows and
- fastop reply data loss protection), qemu logging issues which generated in=
-correct error reports and bitbake server timeout problems.<o:p></o:p></span=
-></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">The remaining major issue is size=
- overflow of the sato-sdk-ptest image which occurs when we merge certain pe=
-nding patches. We=92re working on identifying
- a solution to allow the remaining patches to merged and will then be ready=
- for the rc1 build.<o:p></o:p></span></p>
-<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
-n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l0 level1 lfo=
-3;vertical-align:baseline">
-<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
-or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
-t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
-&quot;Arial&quot;,sans-serif;color:black">As a reminder, we are still in fe=
-ature freeze and working on bug fixing. As such, recipe upgrades are not go=
-ing to be taken, nor are patches which cause
- changes in behavior or break compatibility. In future releases our policy =
-regarding version upgrades will be to identify anything that needs to chang=
-e in M4 in advance (e.g. kernel or u-boot) so this issue becomes clearer an=
-d only known changes come in.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Planned upcoming d=
-ot releases:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.2 Cut off J=
-une 5, 2017 - Pending release soon.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.2 Release b=
-y June, 16 2017</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.2 Cut off S=
-ept. 1, 2017 - Pending release soon.</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.2 Release b=
-y Sept. 15, 2017</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.4 Dates a=
-re:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M4 (Final) =
-Cut off is Sept. 18, 2017 - Should build soon</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4 M4 (Final) =
-Release by Oct. 20, 2017</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
-/span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
-"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
-color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;
-</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
-,sans-serif;color:black">WDD 2380 (last week 2456)</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
-=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
-ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
-.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
-octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:black">)</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
-or YP:</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_Project_v2.4_Status"><span style=3D"font-size:11.0pt=
-;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
-to_Project_v2.4_Status</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.4_Schedule"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.4_=
-Schedule</span></a><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
-project.org/wiki/Yocto_2.4_Features"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.4_=
-Features</span></a><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
-pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
-gestions for other information you=92d like to see on this weekly status up=
-date, let us know!]</span><o:p></o:p></p>
-<p style=3D"margin:0in;margin-bottom:.0001pt"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
-rif;color:black">Thanks,</span><o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
-=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
-"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
-ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
-le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,sa=
-ns-serif"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div dir=3D"ltr">It certainly looks interesting! The =C2=A0main issue is th=
+at our table is about 0.5 x 1.4 meters, so setting up demos as well as scre=
+ens and keyboards may be a difficult task. I&#39;ll do what I can to set up=
+ a second table at the booth.<div><br></div><div>thanks!</div></div><div cl=
+ass=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Sep 25, 2017 at =
+7:08 AM, Ricardo Ribalda Delgado <span dir=3D"ltr">&lt;<a href=3D"mailto:ri=
+cardo.ribalda@gmail.com" target=3D"_blank">ricardo.ribalda@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex">Hi<br>
+<span class=3D""><br>
+On Mon, Sep 25, 2017 at 4:05 PM, Philip Balister &lt;<a href=3D"mailto:phil=
+ip@balister.org">philip@balister.org</a>&gt; wrote:<br>
+&gt; On 09/25/2017 10:00 AM, Ricardo Ribalda Delgado wrote:<br>
+&gt;&gt; If you are looking for a &quot;fun&quot; demo. I plan to show our =
+bottle scanner<br>
+&gt;&gt; to the ELCE showcase. I could ask my manager if we can leave it on=
+ the<br>
+&gt;&gt; yocto booth during the conference.<br>
+&gt;&gt;<br>
+&gt;&gt; We use yocto + our layer <a href=3D"https://github.com/qtec/meta-q=
+tec-core" rel=3D"noreferrer" target=3D"_blank">https://github.com/qtec/meta=
+-<wbr>qtec-core</a><br>
+&gt;<br>
+&gt; How large is it? Can you send us a photo?<br>
+<br>
+</span>This is the last photo I have from the instrument. You can use the<b=
+r>
+50cl beer bottle as a reference ;).<br>
+<br>
+You also need a screen + keyboard to see the results.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;<br>
+&gt; Philip<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Regards!<br>
+&gt;&gt;<br>
+&gt;&gt; On Fri, Sep 22, 2017 at 10:49 PM, Jeff Osier-Mixon &lt;<a href=3D"=
+mailto:jefro@jefro.net">jefro@jefro.net</a>&gt; wrote:<br>
+&gt;&gt;&gt; If its relevance to YP and OE is able to be explained, it woul=
+d be welcomed.<br>
+&gt;&gt;&gt; The only issue I see is the size of the booth, which is tiny. =
+However, we<br>
+&gt;&gt;&gt; frequently spill out of our confined space, and I will locate =
+a second table<br>
+&gt;&gt;&gt; if we end up needing one. Great to see community effort on the=
+ demos!<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On Thu, Sep 21, 2017 at 1:56 PM, Philip Balister &lt;<a href=
+=3D"mailto:philip@balister.org">philip@balister.org</a>&gt;<br>
+&gt;&gt;&gt; wrote:<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; On 09/21/2017 02:32 PM, akuster808 wrote:<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; On 09/21/2017 01:27 PM, Philip Balister wrote:<br>
+&gt;&gt;&gt;&gt;&gt;&gt; On 09/20/2017 01:50 AM, Mike Looijmans wrote:<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; On 18-09-17 18:25, Trevor Woerner wrote:<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Hi Mike,<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; On Mon, Sep 18, 2017 at 8:45 AM, Mike Looi=
+jmans<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; &lt;<a href=3D"mailto:mike.looijmans@topic=
+.nl">mike.looijmans@topic.nl</a>&gt; wrote:<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; I can probably bring some work (e.g. Z=
+ynq MPSoC board) and fun<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; (settop box)<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; hardware along to demonstrate what I&#=
+39;m using OE for.<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Any chance you could set something up that=
+ could be on display at the<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Yocto booth during the conference?<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Depends on what I&#39;ll be able tug along in =
+my luggage on the airplane,<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; but whatever I can bring is probably suited fo=
+r public display. A few<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; circuit boards will certainly fit, so if the s=
+tand could provide a<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; HDMI<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; monitor (or TV) to connect them to that&#39;d =
+be awesome.<br>
+&gt;&gt;&gt;&gt;&gt;&gt; I&#39;d love to see some different things on the s=
+tand. Make sure you help<br>
+&gt;&gt;&gt;&gt;&gt;&gt; explain to people why the Yocto Porject and OpenEm=
+bedded are important<br>
+&gt;&gt;&gt;&gt;&gt;&gt; to you and your product.<br>
+&gt;&gt;&gt;&gt;&gt; Philip,<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Since you are the OE rep to the Yocto Project, can you=
+ make sure this is<br>
+&gt;&gt;&gt;&gt;&gt; OK with them. There could be space=C2=A0 or limitation=
+s at their booth.<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; I mentioned it to Jefro, I&#39;m also making a guess he ha=
+s something based<br>
+&gt;&gt;&gt;&gt; on a Xilinx product, who are members.<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; Philip<br>
+&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt; Thanks,<br>
+&gt;&gt;&gt;&gt;&gt; - Armin<br>
+&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt; Philip<br>
+&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; M.<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Kind regards,<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Mike Looijmans<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; System Expert<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; TOPIC Products<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Materiaalweg 4, NL-5681 RJ Best<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Postbus 440, NL-5680 AK Best<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Telefoon: <a href=3D"tel:%2B31%20%280%29%20499=
+%2033%2069%2079" value=3D"+31499336979">+31 (0) 499 33 69 79</a><br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; E-mail: <a href=3D"mailto:mike.looijmans@topic=
+products.com">mike.looijmans@topicproducts.<wbr>com</a><br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Website: <a href=3D"http://www.topicproducts.c=
+om" rel=3D"noreferrer" target=3D"_blank">www.topicproducts.com</a><br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Please consider the environment before printin=
+g this e-mail<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Visit us at the Space Tech Expo Europe (Stand =
+E-71)<br>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt;&gt;<br>
+&gt;&gt;&gt;&gt; --<br>
+&gt;&gt;&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt;&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt;&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org=
+">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt;&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/=
+openembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openem=
+bedded.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; Jeff Osier-Mixon - Open Source Community Manager, Intel Corpor=
+ation<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt;&gt; Openembedded-core mailing list<br>
+&gt;&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Op=
+enembedded-core@lists.<wbr>openembedded.org</a><br>
+&gt;&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/open=
+embedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedd=
+ed.org/<wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+<br>
+<br>
+<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+Ricardo Ribalda<br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div di=
+r=3D"ltr"><div>Jeff Osier-Mixon - Open Source Community Manager, Intel Corp=
+oration</div></div></div>
 </div>
-</body>
-</html>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E98CDF61Afmsmsx111amrcor_--
+--001a114b14a2652159055a05fd94--
