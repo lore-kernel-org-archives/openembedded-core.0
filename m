@@ -1,23 +1,46 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F66277E9A
+Return-Path: <andreas.kling@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 497EE60616
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Sep 2017 08:07:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8P87Lhm024279
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 25 Sep 2017 01:07:21 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 25 Sep 2017 01:07:20 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Mon, 25 Sep 2017 04:07:19 -0400
-Message-ID: <1506326839-219411-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH V2] libgcrypt: fix CVE-2017-0379
+	Mon, 25 Sep 2017 08:59:33 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id e64so6566831wmi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Sep 2017 01:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=3N2N5Qc+x6LfyboP+xle4OBE5SYqNYXJ0rHgpq29Wxo=;
+	b=GEAwy0Ri787/3iFQ1i/u7ORUqRh9ZYzAn5U6p0MNGLqGe4mQQtRctg9ozalq9OaskV
+	8nj3ekppG40HoEGvmFC9a6/HmeUmRIiPgXfey3dWGNpvl4cixFVtZfckCyKZo/1iaSqQ
+	tEuX0UmhOIIiJRxvuqF9BRPN520tUHHlHILKq6tD6vzJrGFuOFA55GMqh7I2FIr929qD
+	5rv0N9Pj8HNzBVXdGqoQaGzfGxj7liKiHSON4Vu0G3j0BzPDzxfTEzdjRqTxwnhSM1DC
+	DaqOQbUn2/qCTayoMHkTIjMZAB3SRgbj0fT4+8HgRngnCQ53+UH1HF6G12pFJHrsNtrx
+	nXuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3N2N5Qc+x6LfyboP+xle4OBE5SYqNYXJ0rHgpq29Wxo=;
+	b=CM4RlB8mE1xGJASofFTVLXAO7gBt2oa/kOiEgUe+6sDk9zd0P0Fau8+y9HvEg5rK6W
+	ZKmzVfJC4tVRhly5tzp0jjdvFLDQuXFXTRYfP42JT+dsKeMqHFKtLR1BNNkyukajmKQS
+	d54MF5r2v7HqXgIkL0WBBiVdVVQu+uv7QE9etbf3w91STkqANqxojYzQSijkqwJHX4Bw
+	qsh/P3scwAOKkB2ssgWz1GWkmqECk/Z17Lz0mdyfDCRGx7n/xKMCMycE/jJopAD+or7p
+	wzH3BrqYWbpqJO2wiTWSnH6K2Ux22edU0UUWW9L3oaHX9t5mfBVy7IUeaFHVa0M2pYe8
+	Xo2w==
+X-Gm-Message-State: AHPjjUjUFyehfjo6OgYh+oRqxJiOTI4EX9PEpPYGgfdrBdaOYDdZkaqb
+	+PqFJ8h21lkaeJhtIdYjYFaCUA==
+X-Google-Smtp-Source: AOwi7QCnxPfV81U9DDAxxWCHMi/C45OTvS3Oca1v41ox7h8HSrfuVgCzxjdlAffZguE0HGSRo9dMDQ==
+X-Received: by 10.80.211.18 with SMTP id g18mr13065425edh.85.1506329974669;
+	Mon, 25 Sep 2017 01:59:34 -0700 (PDT)
+Received: from nb-lx-hgc-001.peiker-cee.de
+	(business-176-094-229-202.static.arcor-ip.net. [176.94.229.202])
+	by smtp.gmail.com with ESMTPSA id h2sm3444555edf.39.2017.09.25.01.59.33
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 25 Sep 2017 01:59:33 -0700 (PDT)
+From: andreas.kling@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Sep 2017 10:59:29 +0200
+Message-Id: <20170925085929.16112-1-andreas.kling@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH] systemd: move pam files to own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,196 +53,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Sep 2017 08:07:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 25 Sep 2017 08:59:34 -0000
 
-Backport the fix from https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;
-a=commit;h=bf76acbf0da6b0f245e491bec12c0f0a1b5be7c9
+From: Andy Kling <andreas.kling@peiker-cee.de>
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  move pam related files to already existing systemd-pam package.
+  add runtime dependencies to pam plugins introduced by file systemd-user.
+
+Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
 ---
- .../0005-ecc-Add-input-validation-for-X25519.patch | 158 +++++++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb  |   1 +
- 2 files changed, 159 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/0005-ecc-Add-input-validation-for-X25519.patch
+ meta/recipes-core/systemd/systemd_234.bb | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/libgcrypt/files/0005-ecc-Add-input-validation-for-X25519.patch b/meta/recipes-support/libgcrypt/files/0005-ecc-Add-input-validation-for-X25519.patch
-new file mode 100644
-index 0000000..66fdd74
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/0005-ecc-Add-input-validation-for-X25519.patch
-@@ -0,0 +1,158 @@
-+From ef570e3d2773c12126e7d3fcdc4db9ef80a5e214 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Fri, 25 Aug 2017 18:13:28 +0900
-+Subject: [PATCH] ecc: Add input validation for X25519.
-+
-+* cipher/ecc.c (ecc_decrypt_raw): Add input validation.
-+* mpi/ec.c (ec_p_init): Use scratch buffer for bad points.
-+(_gcry_mpi_ec_bad_point): New.
-+
-+--
-+
-+Following is the paper describing the attack:
-+
-+    May the Fourth Be With You: A Microarchitectural Side Channel Attack
-+    on Real-World Applications of Curve25519
-+    by Daniel Genkin, Luke Valenta, and Yuval Yarom
-+
-+In the current implementation, we do output checking and it results an
-+error for those bad points.  However, when attacked, the computation
-+will done with leak of private key, even it will results errors.  To
-+mitigate leak, we added input validation.
-+
-+Note that we only list bad points with MSB=0.  By X25519, MSB is
-+always cleared.
-+
-+In future, we should implement constant-time field computation.  Then,
-+this input validation could be removed, if performance is important
-+and we are sure for no leak.
-+
-+CVE-id: CVE-2017-0379
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2017-0379
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ cipher/ecc.c | 17 +++++++++++++++--
-+ mpi/ec.c     | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
-+ src/mpi.h    |  1 +
-+ 3 files changed, 64 insertions(+), 5 deletions(-)
-+
-+diff --git a/cipher/ecc.c b/cipher/ecc.c
-+index e25bf09..4e3e5b1 100644
-+--- a/cipher/ecc.c
-++++ b/cipher/ecc.c
-+@@ -1628,9 +1628,22 @@ ecc_decrypt_raw (gcry_sexp_t *r_plain, gcry_sexp_t s_data, gcry_sexp_t keyparms)
-+   if (DBG_CIPHER)
-+     log_printpnt ("ecc_decrypt    kG", &kG, NULL);
-+ 
-+-  if (!(flags & PUBKEY_FLAG_DJB_TWEAK)
-++  if ((flags & PUBKEY_FLAG_DJB_TWEAK))
-++    {
-+       /* For X25519, by its definition, validation should not be done.  */
-+-      && !_gcry_mpi_ec_curve_point (&kG, ec))
-++      /* (Instead, we do output check.)
-++       *
-++       * However, to mitigate secret key leak from our implementation,
-++       * we also do input validation here.  For constant-time
-++       * implementation, we can remove this input validation.
-++       */
-++      if (_gcry_mpi_ec_bad_point (&kG, ec))
-++        {
-++          rc = GPG_ERR_INV_DATA;
-++          goto leave;
-++        }
-++    }
-++  else if (!_gcry_mpi_ec_curve_point (&kG, ec))
-+     {
-+       rc = GPG_ERR_INV_DATA;
-+       goto leave;
-+diff --git a/mpi/ec.c b/mpi/ec.c
-+index a0f7357..4c16603 100644
-+--- a/mpi/ec.c
-++++ b/mpi/ec.c
-+@@ -396,6 +396,29 @@ ec_get_two_inv_p (mpi_ec_t ec)
-+ }
-+ 
-+ 
-++static const char *curve25519_bad_points[] = {
-++  "0x0000000000000000000000000000000000000000000000000000000000000000",
-++  "0x0000000000000000000000000000000000000000000000000000000000000001",
-++  "0x00b8495f16056286fdb1329ceb8d09da6ac49ff1fae35616aeb8413b7c7aebe0",
-++  "0x57119fd0dd4e22d8868e1c58c45c44045bef839c55b1d0b1248c50a3bc959c5f",
-++  "0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec",
-++  "0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffed",
-++  "0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffee",
-++  NULL
-++};
-++
-++static gcry_mpi_t
-++scanval (const char *string)
-++{
-++  gpg_err_code_t rc;
-++  gcry_mpi_t val;
-++
-++  rc = _gcry_mpi_scan (&val, GCRYMPI_FMT_HEX, string, 0, NULL);
-++  if (rc)
-++    log_fatal ("scanning ECC parameter failed: %s\n", gpg_strerror (rc));
-++  return val;
-++}
-++
-+ 
-+ /* This function initialized a context for elliptic curve based on the
-+    field GF(p).  P is the prime specifying this field, A is the first
-+@@ -434,9 +457,17 @@ ec_p_init (mpi_ec_t ctx, enum gcry_mpi_ec_models model,
-+ 
-+   _gcry_mpi_ec_get_reset (ctx);
-+ 
-+-  /* Allocate scratch variables.  */
-+-  for (i=0; i< DIM(ctx->t.scratch); i++)
-+-    ctx->t.scratch[i] = mpi_alloc_like (ctx->p);
-++  if (model == MPI_EC_MONTGOMERY)
-++    {
-++      for (i=0; i< DIM(ctx->t.scratch) && curve25519_bad_points[i]; i++)
-++        ctx->t.scratch[i] = scanval (curve25519_bad_points[i]);
-++    }
-++  else
-++    {
-++      /* Allocate scratch variables.  */
-++      for (i=0; i< DIM(ctx->t.scratch); i++)
-++        ctx->t.scratch[i] = mpi_alloc_like (ctx->p);
-++    }
-+ 
-+   /* Prepare for fast reduction.  */
-+   /* FIXME: need a test for NIST values.  However it does not gain us
-+@@ -1572,3 +1603,17 @@ _gcry_mpi_ec_curve_point (gcry_mpi_point_t point, mpi_ec_t ctx)
-+ 
-+   return res;
-+ }
-++
-++
-++int
-++_gcry_mpi_ec_bad_point (gcry_mpi_point_t point, mpi_ec_t ctx)
-++{
-++  int i;
-++  gcry_mpi_t x_bad;
-++
-++  for (i = 0; (x_bad = ctx->t.scratch[i]); i++)
-++    if (!mpi_cmp (point->x, x_bad))
-++      return 1;
-++
-++  return 0;
-++}
-+diff --git a/src/mpi.h b/src/mpi.h
-+index b5385b5..aeba7f8 100644
-+--- a/src/mpi.h
-++++ b/src/mpi.h
-+@@ -296,6 +296,7 @@ void _gcry_mpi_ec_mul_point (mpi_point_t result,
-+                              gcry_mpi_t scalar, mpi_point_t point,
-+                              mpi_ec_t ctx);
-+ int  _gcry_mpi_ec_curve_point (gcry_mpi_point_t point, mpi_ec_t ctx);
-++int _gcry_mpi_ec_bad_point (gcry_mpi_point_t point, mpi_ec_t ctx);
-+ 
-+ gcry_mpi_t _gcry_mpi_ec_ec2os (gcry_mpi_point_t point, mpi_ec_t ectx);
-+ 
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-index 1797d95..fb004d9 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.0.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.gz \
-            file://0003-tests-bench-slope.c-workaround-ICE-failure-on-mips-w.patch \
-            file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch \
-            file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch \
-+           file://0005-ecc-Add-input-validation-for-X25519.patch \
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 2695e15ac6..fa16807406 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -100,7 +100,7 @@ PACKAGECONFIG[importd] = "--enable-importd,--disable-importd"
+ PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
+ PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
+ PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+-PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
++PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PN}-pam"
+ # Verify keymaps on locale change
+ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ # Update NAT firewall rules
+@@ -434,6 +434,17 @@ FILES_${PN}-extra-utils = "\
+                         ${rootlibexecdir}/systemd/systemd-cgroups-agent \
  "
- SRC_URI[md5sum] = "110ce4352f9ea6f560bdc6c5644ae93c"
- SRC_URI[sha256sum] = "f6e470b7f2d3a703e8747f05a8c19d9e10e26ebf2d5f3d71ff75a40f504e12ee"
+ 
++RDEPENDS_${PN}-pam += " \
++                        pam-plugin-unix \
++                        pam-plugin-loginuid \
++                        pam-plugin-keyinit \
++"
++
++FILES_${PN}-pam = " \
++                    ${sysconfdir}/pam.d/ \
++                    ${base_libdir}/security/*.so \
++"
++
+ CONFFILES_${PN} = "${sysconfdir}/machine-id \
+                 ${sysconfdir}/systemd/coredump.conf \
+                 ${sysconfdir}/systemd/journald.conf \
+@@ -450,7 +461,6 @@ FILES_${PN} = " ${base_bindir}/* \
+                 ${sysconfdir}/dbus-1/ \
+                 ${sysconfdir}/machine-id \
+                 ${sysconfdir}/modules-load.d/ \
+-                ${sysconfdir}/pam.d/ \
+                 ${sysconfdir}/sysctl.d/ \
+                 ${sysconfdir}/systemd/ \
+                 ${sysconfdir}/tmpfiles.d/ \
+@@ -459,7 +469,6 @@ FILES_${PN} = " ${base_bindir}/* \
+                 ${sysconfdir}/resolv-conf.systemd \
+                 ${rootlibexecdir}/systemd/* \
+                 ${systemd_unitdir}/* \
+-                ${base_libdir}/security/*.so \
+                 /cgroup \
+                 ${bindir}/systemd* \
+                 ${bindir}/busctl \
 -- 
-2.8.1
+2.14.1
 
 
