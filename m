@@ -1,41 +1,35 @@
-Return-Path: <Sean_Hudson@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CF6078242;
-	Mon, 25 Sep 2017 14:05:39 +0000 (UTC)
-Received: from svr-orw-mbx-04.mgc.mentorg.com ([147.34.90.204])
-	by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-	id 1dwU0x-0004FZ-9h from Sean_Hudson@mentor.com ;
-	Mon, 25 Sep 2017 07:05:39 -0700
-Received: from svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201) by
-	SVR-ORW-MBX-04.mgc.mentorg.com (147.34.90.204) with Microsoft SMTP
-	Server (TLS) id 15.0.1263.5; Mon, 25 Sep 2017 07:05:37 -0700
-Received: from svr-orw-mbx-01.mgc.mentorg.com ([fe80::7525:7282:f67a:970f]) by
-	svr-orw-mbx-01.mgc.mentorg.com ([fe80::7525:7282:f67a:970f%22]) with
-	mapi id 15.00.1263.000; Mon, 25 Sep 2017 07:05:37 -0700
-From: "Hudson, Sean" <Sean_Hudson@mentor.com>
-To: "openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>, Philip Balister
-	<philip@balister.org>
-Thread-Topic: [OE-core] OpenEmbedded Developer Meeting Oct 22, 2017 in Prague
-	(before ELCE)
-Thread-Index: AQHTNAr8pHhNE4852UCniJNePdR4oaLFphIw
-Date: Mon, 25 Sep 2017 14:05:37 +0000
-Message-ID: <68d27fe2dbee4b8d83b1f2418406098d@svr-orw-mbx-01.mgc.mentorg.com>
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id E570E782A4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Sep 2017 14:05:52 +0000 (UTC)
+Received: (qmail 29227 invoked by uid 1003); 25 Sep 2017 14:05:48 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@108.44.111.57)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	25 Sep 2017 14:05:47 -0000
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+	Jeff Osier-Mixon <jefro@jefro.net>
 References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
 	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-In-Reply-To: <CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [147.34.91.1]
+	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
+	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
+	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
+	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
+	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
+	<c2911001-d598-9e20-8463-085d5f4910db@balister.org>
+	<CA+YB3rYwurx0i8oUGUkwWA3JMzTBJtFsijP_V0t+ncYVbOkW6A@mail.gmail.com>
+	<CAPybu_1T63Vcw9N3VgVgj45gcUM8UgPqRkSAwaHhvyxWFU0Ztg@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <1a067fa9-8e5e-1f18-709d-15df07518928@balister.org>
+Date: Mon, 25 Sep 2017 10:05:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Cc: Yocto Project <yocto@yoctoproject.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
+In-Reply-To: <CAPybu_1T63Vcw9N3VgVgj45gcUM8UgPqRkSAwaHhvyxWFU0Ztg@mail.gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague	(before ELCE)
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,58 +42,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Sep 2017 14:05:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Sep 2017 14:05:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-Ruslan,
+On 09/25/2017 10:00 AM, Ricardo Ribalda Delgado wrote:
+> If you are looking for a "fun" demo. I plan to show our bottle scanner
+> to the ELCE showcase. I could ask my manager if we can leave it on the
+> yocto booth during the conference.
+> 
+> We use yocto + our layer https://github.com/qtec/meta-qtec-core
 
-  There is no charge.  Feel free to join.
+How large is it? Can you send us a photo?
 
---
-Sean
+Philip
 
-
-> -----Original Message-----
-> From: openembedded-members-bounces@lists.openembedded.org
-> [mailto:openembedded-members-bounces@lists.openembedded.org] On
-> Behalf Of Ruslan Bilovol
-> Sent: Wednesday, September 13, 2017 10:41 AM
-> To: Philip Balister <philip@balister.org>
-> Cc: Yocto Project <yocto@yoctoproject.org>; openembedded-
-> members@lists.openembedded.org; openembedded-architecture
-> <openembedded-architecture@lists.openembedded.org>;
-> openembedded-devel@lists.openembedded.org; openembedded-core
-> <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] OpenEmbedded Developer Meeting Oct 22, 2017 in
-> Prague (before ELCE)
->=20
-> On Thu, Aug 24, 2017 at 9:37 PM, Philip Balister <philip@balister.org> wr=
-ote:
-> > Once again we will have a developer meeting in Prague the Sunday before
-> > ELCE.
-> >
-> > Please go to https://www.openembedded.org/wiki/OEDEM_2017 and
-> add
-> > yourself if you are attending and ideas for topics.
-> >
-> > Although it is called a developer meeting, we invite members of the
-> > larger community to attend. The core developers are always interested i=
-n
-> > hearing how OpenEmbedded is used, and what we can do to make it
-> better
-> > for building the embedded devices of the future.
->=20
-> Is it free to attend, anything else required except of
-> self-registration on wiki?
->=20
-> Thanks,
-> Ruslan
-> --
-> _______________________________________________
-> Openembedded-members mailing list
-> Openembedded-members@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-
-> members
+> 
+> Regards!
+> 
+> On Fri, Sep 22, 2017 at 10:49 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
+>> If its relevance to YP and OE is able to be explained, it would be welcomed.
+>> The only issue I see is the size of the booth, which is tiny. However, we
+>> frequently spill out of our confined space, and I will locate a second table
+>> if we end up needing one. Great to see community effort on the demos!
+>>
+>> On Thu, Sep 21, 2017 at 1:56 PM, Philip Balister <philip@balister.org>
+>> wrote:
+>>>
+>>> On 09/21/2017 02:32 PM, akuster808 wrote:
+>>>>
+>>>>
+>>>> On 09/21/2017 01:27 PM, Philip Balister wrote:
+>>>>> On 09/20/2017 01:50 AM, Mike Looijmans wrote:
+>>>>>> On 18-09-17 18:25, Trevor Woerner wrote:
+>>>>>>> Hi Mike,
+>>>>>>>
+>>>>>>> On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans
+>>>>>>> <mike.looijmans@topic.nl> wrote:
+>>>>>>>> I can probably bring some work (e.g. Zynq MPSoC board) and fun
+>>>>>>>> (settop box)
+>>>>>>>> hardware along to demonstrate what I'm using OE for.
+>>>>>>> Any chance you could set something up that could be on display at the
+>>>>>>> Yocto booth during the conference?
+>>>>>> Depends on what I'll be able tug along in my luggage on the airplane,
+>>>>>> but whatever I can bring is probably suited for public display. A few
+>>>>>> circuit boards will certainly fit, so if the stand could provide a
+>>>>>> HDMI
+>>>>>> monitor (or TV) to connect them to that'd be awesome.
+>>>>> I'd love to see some different things on the stand. Make sure you help
+>>>>> explain to people why the Yocto Porject and OpenEmbedded are important
+>>>>> to you and your product.
+>>>> Philip,
+>>>>
+>>>> Since you are the OE rep to the Yocto Project, can you make sure this is
+>>>> OK with them. There could be space  or limitations at their booth.
+>>>
+>>> I mentioned it to Jefro, I'm also making a guess he has something based
+>>> on a Xilinx product, who are members.
+>>>
+>>> Philip
+>>>
+>>>>
+>>>> Thanks,
+>>>> - Armin
+>>>>>
+>>>>> Philip
+>>>>>
+>>>>>
+>>>>>
+>>>>>> M.
+>>>>>>
+>>>>>>
+>>>>>> Kind regards,
+>>>>>>
+>>>>>> Mike Looijmans
+>>>>>> System Expert
+>>>>>>
+>>>>>> TOPIC Products
+>>>>>> Materiaalweg 4, NL-5681 RJ Best
+>>>>>> Postbus 440, NL-5680 AK Best
+>>>>>> Telefoon: +31 (0) 499 33 69 79
+>>>>>> E-mail: mike.looijmans@topicproducts.com
+>>>>>> Website: www.topicproducts.com
+>>>>>>
+>>>>>> Please consider the environment before printing this e-mail
+>>>>>>
+>>>>>>
+>>>>>> Visit us at the Space Tech Expo Europe (Stand E-71)
+>>>>>>
+>>>>
+>>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>>
+>> --
+>> Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+> 
+> 
+> 
 
