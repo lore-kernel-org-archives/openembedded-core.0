@@ -1,63 +1,51 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F6B57804E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C8857804E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 19:19:28 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id s62so5578124ywg.4
+	Tue, 26 Sep 2017 19:22:40 +0000 (UTC)
+Received: by mail-io0-f177.google.com with SMTP id g32so13741178ioj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 12:19:29 -0700 (PDT)
+	Tue, 26 Sep 2017 12:22:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=F7XbeJF+RAlzg3KGGo4XSNwyWRtOKPuJqVDR80+VjuQ=;
-	b=fkOu5qyFWLaQg06mp1IfdQIPbX29JMcjb1CIO7w9ZMGBPxsJbyz3xzNslI18ejKWW+
-	0N47zVsgAvtw61k/UNau/mLMOuLlFRQd8RWJi/Pef0EFAWyOF28RKoaBeSyUK2PWjzAV
-	EqIT0YGuyBtjZ0wnOZjhwMNysyyb3vU8eh3DwldcaN7GPIw5iECfrTfikqHq6sOVn84a
-	o3ErEKNlVAetMvrgT0fQAoUbMvQtBdpmlLQhcx4Aj42v1PgdqiwsNnPK1EiQ2wUwjGn8
-	WBidRW4SDwS4CobtUGqSvHkfrZZ/PqhwQT+0O8cN3nQqj/rgBs4+5Y5pxR+VbymTg5+n
-	UjgA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V0k4Nk6d05X7if0ct7eQNIqqudZoLmLZB/lHNLnCjJg=;
+	b=GMghNEBEwZLhkvUVmXuDyPiWeb40JfhCX9WDK0VmLQm7aaqR8H3Lz9ahReCVErVaqa
+	nSXO+aLwKrefXsGulCTCi21CdIY6v0dRYmhGB/zM4gu96R4z6oEQ3atZKd5SOxJIW1Wk
+	szCLreeQdzaeTxVWi+MAIyb7xOuZPsXUV8YoDK87SsCJ8VDSYpzYe0aUH5zzRVAA78TS
+	Arvkt9q8BlglDzgel46hnekfhnSBsL+nV+sfIAp81uHRgcsdEhWmz3y2rWGRSa3fBMGY
+	HIp0g6+yeLCpHcP8d3McQAnTub/+SDUM32kuQZwqA5NnZZ6ofMEAVVTpST8GWEQ5LeYF
+	+7PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=F7XbeJF+RAlzg3KGGo4XSNwyWRtOKPuJqVDR80+VjuQ=;
-	b=WYMmouA254PM7uryeo8l3YGmldELwe1BB1Ts6x2pySbGEp9CmLfsk4i1Mo0iMlQ0bs
-	hHm/DCMj68CTchzb5JnnxxZCcO1h3EB9Slb9o/tw80sdeaENTiO2SbgXFztirUDcEnut
-	R8qn5ho5byYiM2sxXW6NsVAPb14y6M3txuMQY5wbtZcI5uiL83ZFewFYOV/VbuT6iHrT
-	1nU4orSv/ZUhuzanZ/CMC61Kqeo9tTslpyGgFrugKvzoDx1cd0CftdIS5UTKzyYEbF7Z
-	99GNogTF5RCVSxCIRPBmup0eeuaNAArE43nr7RnZ9akNYmXrYN9v6nDuqfS6s1XjbBKi
-	VaFw==
-X-Gm-Message-State: AHPjjUjfhF7nT+ten2Q2o3TVHVw3N1I3l3MXfujf9pZeFDqMXyN/woc6
-	x7ywpcJQYMk9u0OdoC1hW5OWAQHG
-X-Received: by 10.129.112.85 with SMTP id l82mr7248221ywc.191.1506453569282;
-	Tue, 26 Sep 2017 12:19:29 -0700 (PDT)
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com.
-	[209.85.218.42]) by smtp.gmail.com with ESMTPSA id
-	z77sm3829739ywd.31.2017.09.26.12.19.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Sep 2017 12:19:28 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f42.google.com with SMTP id p126so13467295oih.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 12:19:28 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QAUC/406xBaqyNQU3WGEnOTZTCKg5hMVYPzxR8fmbefvFhWFrlwUYv/sxU9BgLlnFwXVKyNEYQVQeK3xaFg60A=
-X-Received: by 10.157.18.162 with SMTP id g31mr2879998otg.158.1506453567586;
-	Tue, 26 Sep 2017 12:19:27 -0700 (PDT)
+	bh=V0k4Nk6d05X7if0ct7eQNIqqudZoLmLZB/lHNLnCjJg=;
+	b=Rl/+GeZQ8p255GbPH6MQASA+Sj46k0ghrCjxb8bBruhDeuJKhhXw/yq8IpIIGqYzVb
+	Y2HVDtiSbLeH4NrZ9u9oMSx947f5ozmYuoCcg2Mb1vqHVfwn26vn2fxO6M+9AXdakOwI
+	NRQGD3a3f2NpWV9gzB+lg0YxSaoDcCVm/ftUnyoToZOmkAQds2dNhZMVe6EpFJ+CvbV3
+	T7FARR2pEY5SYeuUG1WeQs+ddLrvv9HX4VqZV8s6IeDw0DY5aDLPT93IE/TB8Y9McxiU
+	lZoUbfu+pqwa6U5eb6oBHUeSeym+ObyxfZunSVmJTjhBH518vxVQhGUrTAyMxxXIhW1+
+	IcDQ==
+X-Gm-Message-State: AHPjjUgQF47POFmXm2AK5Uy1q6qWXPwd+15ov1hDeUFCoBNcGqpCx2LT
+	saWHUND/WDOI84lY6sWkOE+JIs7OKGfg5DMeV6qfYA==
+X-Google-Smtp-Source: AOwi7QD6G750FV1kpIiCcqSLngsJKzGWXV18lj+tYuyUJ7wp9QWJ7pbPJ+uOXfBW5xhyrbGyqj5ixc6rRQfNrWStjKU=
+X-Received: by 10.107.135.72 with SMTP id j69mr16625164iod.210.1506453761836; 
+	Tue, 26 Sep 2017 12:22:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.66.149 with HTTP; Tue, 26 Sep 2017 12:19:26 -0700 (PDT)
-In-Reply-To: <CAJTo0La3fRSYaQAgWZt-qWB-noNsqvgO8Q2G4wYgqj62qB8Mug@mail.gmail.com>
+Received: by 10.107.19.68 with HTTP; Tue, 26 Sep 2017 12:22:21 -0700 (PDT)
+In-Reply-To: <CAP9ODKpM8_5_AdiO=g-FbcZEH7EVby5nKniQ0m2XhVRdbG593Q@mail.gmail.com>
 References: <20170922110243.10454-1-fabien.lahoudere@collabora.co.uk>
 	<20170922110243.10454-2-fabien.lahoudere@collabora.co.uk>
 	<CAJTo0LYMQ9NAvK+zNegmtbPQnPao1rx6wQM1q48TRP6FDUopHg@mail.gmail.com>
 	<CAP9ODKp6tsZd34jS1QzDnEpi=0ALSs8GaHFPC9iVO-5wjkUD7A@mail.gmail.com>
 	<CAJTo0La3fRSYaQAgWZt-qWB-noNsqvgO8Q2G4wYgqj62qB8Mug@mail.gmail.com>
-Date: Tue, 26 Sep 2017 16:19:26 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpM8_5_AdiO=g-FbcZEH7EVby5nKniQ0m2XhVRdbG593Q@mail.gmail.com>
-Message-ID: <CAP9ODKpM8_5_AdiO=g-FbcZEH7EVby5nKniQ0m2XhVRdbG593Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKpM8_5_AdiO=g-FbcZEH7EVby5nKniQ0m2XhVRdbG593Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 26 Sep 2017 20:22:21 +0100
+Message-ID: <CAJTo0LbzUwTeLro_gQ9-sNq3qVJjq9xk=vf1BWyW5krM6=T1Hg@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 2/4] wayland-protocols: Fix installation patch issue
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -72,31 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 19:19:28 -0000
+X-List-Received-Date: Tue, 26 Sep 2017 19:22:41 -0000
+Content-Type: multipart/alternative; boundary="001a113f8e70586058055a1c9940"
+
+--001a113f8e70586058055a1c9940
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 26, 2017 at 4:16 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 26 September 2017 at 19:04, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> On Tue, Sep 26, 2017 at 12:29 PM, Burton, Ross <ross.burton@intel.com>
->> wrote:
->> > Does this depend on the upgrades, or should it work standalone?
->>
->> This works standalone. I've been using it.
->
->
-> In which case I should report that when I applied it, building weston
-> failed:
->
-> make: *** No rule to make target
-> 'protocol/xdg-shell-unstable-v6-protocol.c', needed by 'all'.  Stop.
+On 26 September 2017 at 20:19, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-Are you using pkgconfig or pkgconf?
+> Are you using pkgconfig or pkgconf?
 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+pkg-config.
 
+Ross
+
+--001a113f8e70586058055a1c9940
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 2=
+6 September 2017 at 20:19, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador=
+@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">A=
+re you using pkgconfig or pkgconf?</blockquote><div><br></div><div>pkg-conf=
+ig.</div><div><br></div><div>Ross</div></div></div></div>
+
+--001a113f8e70586058055a1c9940--
