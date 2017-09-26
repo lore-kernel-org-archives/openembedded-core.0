@@ -1,49 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 74D7D77E55
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A78E877E55
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 17:19:21 +0000 (UTC)
-Received: by mail-io0-f169.google.com with SMTP id d16so13436361ioj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 10:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Wot0oDltaMMNvBxvCWv80YGIYll6gegcUPsyd2xfnGo=;
-	b=oe9zvOF0LA+63xAiaKxAymEpqcaW2UK0LAREnNguGTRWNZ1eZQZWD2v2r2vrM5KjpU
-	tZLTeO4Vliz58yx9qfjCD6cK8GI7F2gfLTmHARkpPwVrQVtk8GW+X+tEeN6+nt2I/CQj
-	+oLJqkZkK+flLSruW/IMi87Ht6j0/er5kPA3v67rF2YPh05wGHQvzMTD82Xeci5VbgDS
-	4oOaW/WewTQnl0lpILp7AmpBCW0642EMSXaVYgfnOXVTMkX7Yf2SmYERT9W82MxugWWQ
-	fEQowhbLI8s6HyXtOKEA1jhcSON9gfHiWynsIsx4xg/zuPbXhewfxQbZ1oAmlVbXnYhY
-	kWDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Wot0oDltaMMNvBxvCWv80YGIYll6gegcUPsyd2xfnGo=;
-	b=QXb3MnL5BzrF3ExbCK4/EMnDaQzVZ+2jTaLvDPT9+iyxnKvakoJtUH13YFIQ8cWhkX
-	d1SR4t682TFaf5PEWXSv6W8lJxs6L8WkCkO3hWkXdO7Lb7J4el2TmBw4pyEIhmUZgXZr
-	a9a+u8kOkoOHR9JjMf6p8BBhE1iaxKpU0FEgzSwyU3uM31xu/fqMEGeCI6ImoPJIFTpQ
-	VWs4lMLbp+fPbgQwvw2Cp+Uzg2mAD0geKVa1FsMoIfaZ98Sa5S6vJuuALDQ1RFf45w3I
-	DB/Q+r7p966udg4nvQaetTqkvSTW/PAgbE9/vl62A9jizwHNu9CfX+isnmoixMyxnYmC
-	NK/g==
-X-Gm-Message-State: AHPjjUj6apfXGDr8xFCx/zEa2kvMSWkE4EVjRk8uiiZ5HkQdKCa0yXdL
-	+QO7g2dfOx/qVp28mznjYlVCc3+4305IcYMQPx2dOw==
-X-Google-Smtp-Source: AOwi7QA+2de9e+eVrXnmpJfqQicW18621dfOTtpnjHn1TL2FigCZbGNTxhL7vn75WZafbOXOlc+vMKhHJntb59u48Mg=
-X-Received: by 10.107.32.70 with SMTP id g67mr16024818iog.77.1506446362593;
-	Tue, 26 Sep 2017 10:19:22 -0700 (PDT)
+	Tue, 26 Sep 2017 17:23:16 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP; 26 Sep 2017 10:23:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,441,1500966000"; 
+	d="scan'208,217";a="316446208"
+Received: from zalatorx-wtg.amr.corp.intel.com (HELO [10.252.252.73])
+	([10.252.252.73])
+	by fmsmga004.fm.intel.com with ESMTP; 26 Sep 2017 10:23:16 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20170926165637.36321-1-alejandro.hernandez@linux.intel.com>
+	<CAJTo0LZOkD1OOws7Fa2bHGBs5093Koiy=619CGUUZs7UOzYNaQ@mail.gmail.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <a1a29ef4-1e62-1455-2810-6388a076c038@linux.intel.com>
+Date: Tue, 26 Sep 2017 12:23:15 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Tue, 26 Sep 2017 10:19:01 -0700 (PDT)
-In-Reply-To: <20170926171708.19010-1-andreas.kling@gmail.com>
-References: <20170925085929.16112-1-andreas.kling@gmail.com>
-	<20170926171708.19010-1-andreas.kling@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Sep 2017 18:19:01 +0100
-Message-ID: <CAJTo0LZCfEu_zP=RCyTQDuOEJXsS-znyBce4ygvos2LNieHaWg@mail.gmail.com>
-To: Andy Kling <andreas.kling@gmail.com>
+In-Reply-To: <CAJTo0LZOkD1OOws7Fa2bHGBs5093Koiy=619CGUUZs7UOzYNaQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: move pam files to own package
+Subject: Re: [PATCH] python-native: Build with ipv6 enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +35,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 17:19:21 -0000
-Content-Type: multipart/alternative; boundary="001a1140ae2c50ec38055a1ae04b"
+X-List-Received-Date: Tue, 26 Sep 2017 17:23:16 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5FDB60F8E806011CFB8BF218"
+Content-Language: en-US
 
---001a1140ae2c50ec38055a1ae04b
-Content-Type: text/plain; charset="UTF-8"
+--------------5FDB60F8E806011CFB8BF218
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26 September 2017 at 18:17, <andreas.kling@gmail.com> wrote:
+Hey Ross,
 
-> From: Andy Kling <andreas.kling@peiker-cee.de>
+
+On 09/26/2017 12:16 PM, Burton, Ross wrote:
+> On 26 September 2017 at 17:56, Alejandro Hernandez 
+> <alejandro.hernandez@linux.intel.com 
+> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
 >
->   move pam related files to already existing systemd-pam package.
->   add runtime dependencies to required pam plugins.
+>     This patch fixes the implementation of EXTRA_OECONF to get the ipv6
+>     configuration correctly (whether were building for native or target),
+>     and it also modifies DISTRO_FEATURES_NATIVE to add ipv6 by default,
+>     simply to get it working like it was before changes were made'
 >
->   This ensures pam plugins required by /etc/pam.d/systemd-user
->   to open a user session are installed.
 >
->   systemd[1]: Starting User Manager for UID 994...
->   systemd[6493]: PAM unable to dlopen(/lib/security/pam_keyinit.so)
+Using EXTRA_OECONF_append gets added to the correct 
+EXTRA_OECONF_class-<target/natve> correctly, otherwise its disregarded.
+
+> Why are changes beyond adding to DISTRO_FEATURES_NATIVE required at all?
 >
+> Ross
 
-Considering systemd-pam appears to be unused currently, and if PAM is
-enabled it is fairly fundamental, why not just add the missing dependencies
-and not move files around?
 
-Ross
+--------------5FDB60F8E806011CFB8BF218
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---001a1140ae2c50ec38055a1ae04b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p>Hey Ross,<br>
+    </p>
+    <br>
+    <div class="moz-cite-prefix">On 09/26/2017 12:16 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0LZOkD1OOws7Fa2bHGBs5093Koiy=619CGUUZs7UOzYNaQ@mail.gmail.com">
+      <div dir="ltr">On 26 September 2017 at 17:56, Alejandro Hernandez
+        <span dir="ltr">&lt;<a
+            href="mailto:alejandro.hernandez@linux.intel.com"
+            target="_blank" moz-do-not-send="true">alejandro.hernandez@linux.intel.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">This
+              patch fixes the implementation of EXTRA_OECONF to get the
+              ipv6<br>
+              configuration correctly (whether were building for native
+              or target),<br>
+              and it also modifies DISTRO_FEATURES_NATIVE to add ipv6 by
+              default,<br>
+              simply to get it working like it was before changes were
+              made'<br>
+            </blockquote>
+            <div><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    Using EXTRA_OECONF_append gets added to the correct
+    EXTRA_OECONF_class-&lt;target/natve&gt; correctly, otherwise its
+    disregarded.<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CAJTo0LZOkD1OOws7Fa2bHGBs5093Koiy=619CGUUZs7UOzYNaQ@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div>Why are changes beyond adding to DISTRO_FEATURES_NATIVE
+              required at all?</div>
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-<div dir=3D"ltr">On 26 September 2017 at 18:17,  <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:andreas.kling@gmail.com" target=3D"_blank">andreas.kling@gmai=
-l.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gma=
-il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><span class=3D"">From: Andy Kling =
-&lt;<a href=3D"mailto:andreas.kling@peiker-cee.de">andreas.kling@peiker-cee=
-.de</a>&gt;<br>
-<br>
-=C2=A0 move pam related files to already existing systemd-pam package.<br>
-</span>=C2=A0 add runtime dependencies to required pam plugins.<br>
-<br>
-=C2=A0 This ensures pam plugins required by /etc/pam.d/systemd-user<br>
-=C2=A0 to open a user session are installed.<br>
-<br>
-=C2=A0 systemd[1]: Starting User Manager for UID 994...<br>
-=C2=A0 systemd[6493]: PAM unable to dlopen(/lib/security/pam_<wbr>keyinit.s=
-o)<br></blockquote><div><br></div><div>Considering systemd-pam appears to b=
-e unused currently, and if PAM is enabled it is fairly fundamental, why not=
- just add the missing dependencies and not move files around?</div><div><br=
-></div><div>Ross=C2=A0</div></div></div></div>
-
---001a1140ae2c50ec38055a1ae04b--
+--------------5FDB60F8E806011CFB8BF218--
