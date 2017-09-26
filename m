@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Ovidiu.Panait@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E7D56FF9F
+	by mail.openembedded.org (Postfix) with ESMTP id CA4A277E8F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 08:35:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8Q8a1b0026430
+	Tue, 26 Sep 2017 09:02:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8Q92N2A026944
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 01:36:01 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.167) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 26 Sep 2017 01:36:00 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue, 26 Sep 2017 02:02:31 -0700
+Received: from otp-opanait-l1.corp.ad.wrs.com (128.224.124.169) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Tue, 26 Sep 2017 02:02:26 -0700
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Sep 2017 16:41:38 +0800
-Message-ID: <d930fe8af17c1ef6f33befc255982d4adfcf874a.1506415261.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1506415261.git.Qi.Chen@windriver.com>
-References: <cover.1506415261.git.Qi.Chen@windriver.com>
+Date: Tue, 26 Sep 2017 12:00:46 +0300
+Message-ID: <20170926090046.24111-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.14.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd-serialtty: allow empty package
+Subject: [PATCH] libparted: Use read only when probing devices on linux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +31,284 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 08:36:00 -0000
+X-List-Received-Date: Tue, 26 Sep 2017 09:02:30 -0000
 Content-Type: text/plain
 
-If SERIAL_CONSOLES is set to empty for some reason, we would have rootfs
-failure like below.
+When a device is opened for RW closing it can trigger other actions,
+like udev scanning it for partition changes. Use read only for the
+init_* methods and RW for actual changes to the device.
 
-  - nothing provides systemd-serialgetty needed by systemd-1:234-r0.core2_64
+This adds _device_open which takes mode flags as an argument and turns
+linux_open into a wrapper for it with RW_MODE.
 
-This is because systemd-serialgetty package is not generated when
-SERIAL_CONSOLES is empty.
+_device_open_ro is added to open the device with RD_MODE and increment
+the open_counter. This is used in the init_* functions.
 
-Set ALLOW_EMPTY to "1" for this recipe to allow for generation of empty
-systemd-serialgetty package to avoid the above error.
+_device_close is a wrapper around linux_close that decrements the
+open_counter and is used in the init_* functions.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+All of these changes are self-contained with no external API changes.
+The only visible change in behavior is that when a new PedDevice is
+created the device is opened in RO_MODE instead of RW_MODE.
+
+Resolves: rhbz#1245144
+
+Reference:
+https://bugzilla.redhat.com/show_bug.cgi?id=1283112
+
+Upstream patch:
+http://git.savannah.gnu.org/cgit/parted.git/commit/?id=44d5ae0115c4ecfe3158748309e9912c5aede92d
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 ---
- meta/recipes-core/systemd/systemd-serialgetty.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...se-read-only-when-probing-devices-on-linu.patch | 224 +++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.2.bb         |   1 +
+ 2 files changed, 225 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 74b5986..d934716 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -48,3 +48,5 @@ python () {
-     if not bb.utils.contains ('DISTRO_FEATURES', 'systemd', True, False, d):
-         raise bb.parse.SkipPackage("'systemd' not in DISTRO_FEATURES")
- }
+diff --git a/meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch b/meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch
+new file mode 100644
+index 0000000000..58be9f57f1
+--- /dev/null
++++ b/meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch
+@@ -0,0 +1,224 @@
++From d6e15a60e84c1511523aa81272b7db7a6ec441d0 Mon Sep 17 00:00:00 2001
++From: Ovidiu Panait <ovidiu.panait@windriver.com>
++Date: Tue, 26 Sep 2017 08:04:58 +0000
++Subject: [PATCH] libparted: Use read only when probing devices on linux
++ (#1245144)
 +
-+ALLOW_EMPTY_${PN} = "1"
++When a device is opened for RW closing it can trigger other actions,
++like udev scanning it for partition changes. Use read only for the
++init_* methods and RW for actual changes to the device.
++
++This adds _device_open which takes mode flags as an argument and turns
++linux_open into a wrapper for it with RW_MODE.
++
++_device_open_ro is added to open the device with RD_MODE and increment
++the open_counter. This is used in the init_* functions.
++
++_device_close is a wrapper around linux_close that decrements the
++open_counter and is used in the init_* functions.
++
++All of these changes are self-contained with no external API changes.
++The only visible change in behavior is that when a new PedDevice is
++created the device is opened in RO_MODE instead of RW_MODE.
++
++Resolves: rhbz#1245144
++
++Upstream-Status: Backport
++
++Author: Brian C. Lane <bcl@redhat.com>
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ libparted/arch/linux.c | 62 +++++++++++++++++++++++++++++++++++---------------
++ 1 file changed, 44 insertions(+), 18 deletions(-)
++
++diff --git a/libparted/arch/linux.c b/libparted/arch/linux.c
++index f612617..0a06a54 100644
++--- a/libparted/arch/linux.c
+++++ b/libparted/arch/linux.c
++@@ -294,7 +294,9 @@ struct blkdev_ioctl_param {
++ static char* _device_get_part_path (PedDevice const *dev, int num);
++ static int _partition_is_mounted_by_path (const char* path);
++ static unsigned int _device_get_partition_range(PedDevice const* dev);
++-
+++static int _device_open (PedDevice* dev, int flags);
+++static int _device_open_ro (PedDevice* dev);
+++static int _device_close (PedDevice* dev);
++ 
++ static int
++ _read_fd (int fd, char **buf)
++@@ -913,7 +915,7 @@ init_ide (PedDevice* dev)
++         if (!_device_stat (dev, &dev_stat))
++                 goto error;
++ 
++-        if (!ped_device_open (dev))
+++        if (!_device_open_ro (dev))
++                 goto error;
++ 
++         if (ioctl (arch_specific->fd, HDIO_GET_IDENTITY, &hdi)) {
++@@ -982,11 +984,11 @@ init_ide (PedDevice* dev)
++         if (!_device_probe_geometry (dev))
++                 goto error_close_dev;
++ 
++-        ped_device_close (dev);
+++        _device_close (dev);
++         return 1;
++ 
++ error_close_dev:
++-        ped_device_close (dev);
+++        _device_close (dev);
++ error:
++         return 0;
++ }
++@@ -1119,7 +1121,7 @@ init_scsi (PedDevice* dev)
++         char* vendor;
++         char* product;
++ 
++-        if (!ped_device_open (dev))
+++        if (!_device_open_ro (dev))
++                 goto error;
++ 
++         if (ioctl (arch_specific->fd, SCSI_IOCTL_GET_IDLUN, &idlun) < 0) {
++@@ -1133,7 +1135,7 @@ init_scsi (PedDevice* dev)
++                         goto error_close_dev;
++                 if (!_device_probe_geometry (dev))
++                         goto error_close_dev;
++-                ped_device_close (dev);
+++                _device_close (dev);
++                 return 1;
++         }
++ 
++@@ -1155,11 +1157,11 @@ init_scsi (PedDevice* dev)
++         if (!_device_probe_geometry (dev))
++                 goto error_close_dev;
++ 
++-        ped_device_close (dev);
+++        _device_close (dev);
++         return 1;
++ 
++ error_close_dev:
++-        ped_device_close (dev);
+++        _device_close (dev);
++ error:
++         return 0;
++ }
++@@ -1171,7 +1173,7 @@ init_file (PedDevice* dev)
++ 
++         if (!_device_stat (dev, &dev_stat))
++                 goto error;
++-        if (!ped_device_open (dev))
+++        if (!_device_open_ro (dev))
++                 goto error;
++ 
++         dev->sector_size = PED_SECTOR_SIZE_DEFAULT;
++@@ -1198,7 +1200,7 @@ init_file (PedDevice* dev)
++                 goto error_close_dev;
++         }
++ 
++-        ped_device_close (dev);
+++        _device_close (dev);
++ 
++         dev->bios_geom.cylinders = dev->length / 4 / 32;
++         dev->bios_geom.heads = 4;
++@@ -1209,7 +1211,7 @@ init_file (PedDevice* dev)
++         return 1;
++ 
++ error_close_dev:
++-        ped_device_close (dev);
+++        _device_close (dev);
++ error:
++         return 0;
++ }
++@@ -1225,7 +1227,7 @@ init_dasd (PedDevice* dev, const char* model_name)
++         if (!_device_stat (dev, &dev_stat))
++                 goto error;
++ 
++-        if (!ped_device_open (dev))
+++        if (!_device_open_ro (dev))
++                 goto error;
++ 
++         LinuxSpecific* arch_specific = LINUX_SPECIFIC (dev);
++@@ -1265,11 +1267,11 @@ init_dasd (PedDevice* dev, const char* model_name)
++ 
++         dev->model = strdup (model_name);
++ 
++-        ped_device_close (dev);
+++        _device_close (dev);
++         return 1;
++ 
++ error_close_dev:
++-        ped_device_close (dev);
+++        _device_close (dev);
++ error:
++         return 0;
++ }
++@@ -1284,7 +1286,7 @@ init_generic (PedDevice* dev, const char* model_name)
++         if (!_device_stat (dev, &dev_stat))
++                 goto error;
++ 
++-        if (!ped_device_open (dev))
+++        if (!_device_open_ro (dev))
++                 goto error;
++ 
++         ped_exception_fetch_all ();
++@@ -1332,11 +1334,11 @@ init_generic (PedDevice* dev, const char* model_name)
++ 
++         dev->model = strdup (model_name);
++ 
++-        ped_device_close (dev);
+++        _device_close (dev);
++         return 1;
++ 
++ error_close_dev:
++-        ped_device_close (dev);
+++        _device_close (dev);
++ error:
++         return 0;
++ }
++@@ -1623,12 +1625,27 @@ retry:
++ }
++ 
++ static int
+++_device_open_ro (PedDevice* dev)
+++{
+++    int rc = _device_open (dev, RD_MODE);
+++    if (rc)
+++        dev->open_count++;
+++    return rc;
+++}
+++
+++static int
++ linux_open (PedDevice* dev)
++ {
+++    return _device_open (dev, RW_MODE);
+++}
+++
+++static int
+++_device_open (PedDevice* dev, int flags)
+++{
++         LinuxSpecific*  arch_specific = LINUX_SPECIFIC (dev);
++ 
++ retry:
++-        arch_specific->fd = open (dev->path, RW_MODE);
+++        arch_specific->fd = open (dev->path, flags);
++ 
++         if (arch_specific->fd == -1) {
++                 char*   rw_error_msg = strerror (errno);
++@@ -1697,6 +1714,15 @@ linux_refresh_close (PedDevice* dev)
++         return 1;
++ }
++ 
+++static int
+++_device_close (PedDevice* dev)
+++{
+++    int rc = linux_close (dev);
+++    if (dev->open_count > 0)
+++        dev->open_count--;
+++    return rc;
+++}
+++
++ #if SIZEOF_OFF_T < 8
++ 
++ #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
++-- 
++2.11.0
++
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index 2bfdfb5f8f..ab30108bf2 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+ 	   file://parted-3.2-sysmacros.patch \
+            file://run-ptest \
+            file://Makefile \
++           file://0001-libparted-Use-read-only-when-probing-devices-on-linu.patch \
+ "
+ 
+ SRC_URI[md5sum] = "0247b6a7b314f8edeb618159fa95f9cb"
 -- 
-1.9.1
+2.11.0
 
 
