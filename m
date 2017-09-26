@@ -1,30 +1,63 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4411E77D0A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f175.google.com (mail-yw0-f175.google.com
+	[209.85.161.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3724477D08
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 17:47:25 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 26 Sep 2017 10:47:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,441,1500966000"; 
-	d="scan'208,217";a="1199259383"
-Received: from zalatorx-wtg.amr.corp.intel.com (HELO [10.252.252.73])
-	([10.252.252.73])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2017 10:47:25 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20170926165637.36321-1-alejandro.hernandez@linux.intel.com>
-	<CAJTo0LZOkD1OOws7Fa2bHGBs5093Koiy=619CGUUZs7UOzYNaQ@mail.gmail.com>
-	<a1a29ef4-1e62-1455-2810-6388a076c038@linux.intel.com>
-	<CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com>
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <0a030b52-93a5-67d2-e7ad-e7492b35f39a@linux.intel.com>
-Date: Tue, 26 Sep 2017 12:47:22 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue, 26 Sep 2017 18:02:14 +0000 (UTC)
+Received: by mail-yw0-f175.google.com with SMTP id u205so7660957ywa.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Sep 2017 11:02:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=CE6LJ+fO3yHAzd3Vmahtqk4GreGo/rNuuuD0bXUqee8=;
+	b=Rn0X31snb4wr4GDrXQa+10ZqORymsS37lFRlFK1GVdJrVb+lwvbgYqCKym0Q0WaBbF
+	eOSRToDPRfovN2P/TMOZAqEYG99bvvRYNScCerYOfRHL4MpilfmGGC0VmCwy4jRKf4hm
+	wAz0jJM3ojF03OK4HRh6hnfOVBJ3/gQpH2p2jAnt9uUdrYQ/4zMNCCeuXp7z8jCyL6tP
+	+NNRj73DZd6kFUhD3DwpJmSnphCbQ6UiQzQD6O4wHYwaZ3WWqHLhWKTqxr3nnFIrx764
+	B/1HqmHXNCXC+FKf/kv5CvGURKntNhc96s7FbOwdcMa66OwAV4vgpZvU/JFtx2blA11J
+	L23w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=CE6LJ+fO3yHAzd3Vmahtqk4GreGo/rNuuuD0bXUqee8=;
+	b=fv19wJruANaKwQd2qwhfjFCr9dMrjYgZpNX++eWZTzz0ebFgR58nt+qVvK4c1Z8QOg
+	ui5odQHhdLZZh5Ho9QKf9Rz8tFH3AX1JA9VhgPwTtc73P+22654KtDmoNPcHucqYFm1U
+	p2bo9mlb1LITZlVGZa+VtCXVupEbu5dDe8f2K+wBRPQANduQZPMQO+fDoryDJuVb/X5j
+	y/7FBIMKwiJC7hhzwjvEJAB2p/yFTXh/gkJ264Z00tBF2nSp/mC530dNhyMf7Pj2q9yi
+	CKhOHIhGuig5WwkQgxaXTC3qvoUu8ivRzwutjXojb6XbR2uVuEjdPEf0unM2MW584xIC
+	r4FA==
+X-Gm-Message-State: AHPjjUgGvahstCFQS+tX6KfIx9kmvjkwR2D4VetruqdQfTRR7lNKTmUl
+	Fz44s9hL4s1amC0aBOrsbsDVArtr
+X-Received: by 10.129.71.133 with SMTP id u127mr7429040ywa.86.1506448935796;
+	Tue, 26 Sep 2017 11:02:15 -0700 (PDT)
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
+	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
+	b11sm3630020ywc.72.2017.09.26.11.02.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Sep 2017 11:02:14 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f50.google.com with SMTP id i128so13139343oih.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Sep 2017 11:02:13 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QDeh60RL7KmHFVVYA7lKdlDEyt85OSj+kaxZDxuFr1BY3BBPVdrTKjrGfcUE4vyOCayUqcDDvo0FGuJqOxN/7Q=
+X-Received: by 10.202.184.69 with SMTP id i66mr12843632oif.241.1506448933245; 
+	Tue, 26 Sep 2017 11:02:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python-native: Build with ipv6 enabled
+Received: by 10.157.66.149 with HTTP; Tue, 26 Sep 2017 11:02:12 -0700 (PDT)
+In-Reply-To: <CAFbHwiQnvfGDk2xxHcOhZhLGhi15xkaNRAMFqak4vBVcXAGoDg@mail.gmail.com>
+References: <20170918134356.16124-1-willn@resin.io>
+	<CAFbHwiQnvfGDk2xxHcOhZhLGhi15xkaNRAMFqak4vBVcXAGoDg@mail.gmail.com>
+Date: Tue, 26 Sep 2017 15:02:12 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo+4WEsjPNLp7+t4nnTKYVTRO=EeyM0ExduTDVmB4kfsg@mail.gmail.com>
+Message-ID: <CAP9ODKo+4WEsjPNLp7+t4nnTKYVTRO=EeyM0ExduTDVmB4kfsg@mail.gmail.com>
+To: Will Newton <will.newton@gmail.com>
+Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [pyro][PATCH] goarch.bbclass: Replace logic for setting GOARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,138 +70,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 17:47:26 -0000
-Content-Type: multipart/alternative;
-	boundary="------------23974A7BF6D3D3CD4A93ADEB"
-Content-Language: en-US
+X-List-Received-Date: Tue, 26 Sep 2017 18:02:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---------------23974A7BF6D3D3CD4A93ADEB
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Tue, Sep 26, 2017 at 1:36 PM, Will Newton <will.newton@gmail.com> wrote:
+> Is this change ok for the stable branch?
 
+Fine with me.
 
-On 09/26/2017 12:25 PM, Burton, Ross wrote:
-> On 26 September 2017 at 18:23, Alejandro Hernandez 
-> <alejandro.hernandez@linux.intel.com 
-> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
->
->>     Using EXTRA_OECONF_append gets added to the correct
->>     EXTRA_OECONF_class-<target/natve> correctly, otherwise its
->>     disregarded.
->
->
-> I guess the subtext was
->
-> +EXTRA_OECONF_class-native = "\
-> + --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'ipv6', 
-> 'yes', 'no', d)} \
->
->
-> That is totally wrong.  In a native recipe, DISTRO_FEATURES has been 
-> altered based on DISTRO_FEATURES_NATIVE.  You don't need to make other 
-> changes, and I suspect that reverting this chunk means the other 
-> chunks can also be reverted.
-I see your point, seems like I got confused, I just checked and the 
-resulting EXTRA_OECONF is the same, but I understand why this is 
-conceptually wrong, I'll send a v2 in a bit.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Thanks!
-
-Alejandro
->
-> Ross
->
-
-
---------------23974A7BF6D3D3CD4A93ADEB
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <br>
-    <div class="moz-cite-prefix">On 09/26/2017 12:25 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com">
-      <div dir="ltr">On 26 September 2017 at 18:23, Alejandro Hernandez
-        <span dir="ltr">&lt;<a
-            href="mailto:alejandro.hernandez@linux.intel.com"
-            target="_blank" moz-do-not-send="true">alejandro.hernandez@linux.intel.com</a>&gt;</span>
-        wrote:<br>
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <blockquote class="gmail_quote" style="margin:0px 0px 0px
-0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
-              <div bgcolor="#FFFFFF"> <span class="gmail-">
-                  <blockquote type="cite">
-                    <div dir="ltr">
-                      <div class="gmail_extra">
-                        <div class="gmail_quote">
-                          <div>Using EXTRA_OECONF_append gets added to
-                            the correct EXTRA_OECONF_class-&lt;target/<wbr>natve&gt;
-                            correctly, otherwise its disregarded.<br>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </blockquote>
-                </span></div>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>I guess the subtext was</div>
-            <div><br>
-            </div>
-            <span style="font-size:12.800000190734863px">+EXTRA_OECONF_class-native
-              = "\</span><br style="font-size:12.800000190734863px">
-            <span style="font-size:12.800000190734863px">+ 
-              --enable-ipv6=${@bb.utils.</span><wbr
-              style="font-size:12.800000190734863px"><span
-              style="font-size:12.800000190734863px">contains('DISTRO_FEATURES_</span><wbr
-              style="font-size:12.800000190734863px"><span
-              style="font-size:12.800000190734863px">NATIVE', 'ipv6',
-              'yes', 'no', d)} \</span><br
-              style="font-size:12.800000190734863px">
-            <div><br>
-            </div>
-            <div><br>
-            </div>
-            <div>That is totally wrong.  In a native recipe,
-              DISTRO_FEATURES has been altered based on
-              DISTRO_FEATURES_NATIVE.  You don't need to make other
-              changes, and I suspect that reverting this chunk means the
-              other chunks can also be reverted.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    I see your point, seems like I got confused, I just checked and the
-    resulting EXTRA_OECONF is the same, but I understand why this is
-    conceptually wrong, I'll send a v2 in a bit.<br>
-    <br>
-    Thanks!<br>
-    <br>
-    Alejandro<br>
-    <blockquote type="cite"
-cite="mid:CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <div>Ross </div>
-          </div>
-          <br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------23974A7BF6D3D3CD4A93ADEB--
