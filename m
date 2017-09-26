@@ -1,27 +1,47 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F32C371A8D
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D21827807C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 12:25:10 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	26 Sep 2017 05:25:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,440,1500966000"; d="scan'208";a="156126866"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 26 Sep 2017 05:25:11 -0700
-To: Mikko Ylinen <mikko.ylinen@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20170926120328.14928-1-mikko.ylinen@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <cf7451e5-77c3-36ff-8e3e-dfef487c6b9e@linux.intel.com>
-Date: Tue, 26 Sep 2017 15:21:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <20170926120328.14928-1-mikko.ylinen@linux.intel.com>
-Subject: Re: [PATCH] package_manager: rpm: remove update-alternatives correctly
+	Tue, 26 Sep 2017 12:31:28 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id e64so9205787wmi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Sep 2017 05:31:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Eph4G715c81cmC/mNuOuJgccjqglhqWwoSLlOlu0TzQ=;
+	b=ALyj+nn6l3nUEKlTnTyiU3ovqhrz7F+oU7KspeIdHsC9idUHJ7McK4NFOIz0h04UXi
+	KDoU/T2QTx4XNV0MTevH+3PE+2GHTsh+V+gwv+7Br2clB5l0cYIl3uuAhQj8l24JxU2n
+	zLUiiTdLjyUmF0kv/nVyhjMLsfz12KJF7cw1/sEwGvXDIP7PZTzfmHDk7MK1fmePGL06
+	J3eq/SWFkh3ArM4S8eQr/QbD9KMFryWjseMQnMdKrlfm/N5g5MzZZ5WMbqLAdmRgZBgx
+	dobioMu15Ouuq/8IY8a7grL9h68Ul90X8fiWxPt/kE6Y+vgpY17CIDQDtshFKN3ot4x3
+	EY0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Eph4G715c81cmC/mNuOuJgccjqglhqWwoSLlOlu0TzQ=;
+	b=WzvtIPmBPgAZXhLV+pafuUg+dEWb/pbvDHfytIwBYP+lJC/nfJfhwuA5lfhQLcPVeT
+	SdYUz4V+NxmApLjX1iqmGprNBTPtqynkGPrsCSp1EknJBWCzZsXHZYSZBQU2p7BWJJpU
+	UnIWo+RgJ7Rq1Gohx2hARnYgtJekEOHzV4lfnx59LpqJfcWwWSWujHxpPlaNacy3gSWh
+	3T3/yGQZIZ+qx6S6KyYtfiO0UCHrAONvQKumpKjZ/JSrWNivxxT+0aIGGynyCKOyMVnI
+	8jWHMQ1rI0k84XKgHCvAjMGM3zdrZw9B4NCsXG8rkhLAJKfZOzuXvpVnFFILs2ZVNH0M
+	otxQ==
+X-Gm-Message-State: AHPjjUilPh8xnz6v92bq2BL5JfdKqPUdfJHzJkwcHRgR+a+8RJGQZb7o
+	592V5vWA5GxG6urHkDI4t5Puiw==
+X-Google-Smtp-Source: AOwi7QBMHhtLSn9Q7CuYr5FjFZoWyk0SSJMM2BrsgiOxv6mKsew6AbjRqxcPr8DGGksbB+/6Z5UyTw==
+X-Received: by 10.80.137.173 with SMTP id g42mr17305764edg.80.1506429089327;
+	Tue, 26 Sep 2017 05:31:29 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([123.125.90.58])
+	by smtp.gmail.com with ESMTPSA id d21sm5716453edb.4.2017.09.26.05.31.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 26 Sep 2017 05:31:28 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Sep 2017 14:31:16 +0200
+Message-Id: <1506429076-9750-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] image.bbclass: let do_image depend on do_populate_lic of EXTRA_IMAGEDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 12:25:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Sep 2017 12:31:29 -0000
 
-On 09/26/2017 03:03 PM, Mikko Ylinen wrote:
-> @@ -614,13 +614,16 @@ class RpmPM(PackageManager):
->               self._invoke_dnf(["remove"] + pkgs)
->           else:
->               cmd = bb.utils.which(os.getenv('PATH'), "rpm")
-> -            args = ["-e", "--nodeps", "--root=%s" %self.target_rootfs]
-> +            args = ["-e", "-v", "--nodeps", "--root=%s" %self.target_rootfs]
->   
-> -            try:
-> -                output = subprocess.check_output([cmd] + args + pkgs, stderr=subprocess.STDOUT).decode("utf-8")
-> -            except subprocess.CalledProcessError as e:
-> -                bb.fatal("Could not invoke rpm. Command "
-> -                     "'%s' returned %d:\n%s" % (' '.join([cmd] + args + pkgs), e.returncode, e.output.decode("utf-8")))
-> +            for pkg in pkgs:
-> +                try:
-> +                    bb.note("Running %s" % ' '.join([cmd] + args + [pkg]))
-> +                    output = subprocess.check_output([cmd] + args + [pkg], stderr=subprocess.STDOUT).decode("utf-8")
-> +                    bb.note(output)
-> +                except subprocess.CalledProcessError as e:
-> +                    bb.fatal("Could not invoke rpm. Command "
-> +                         "'%s' returned %d:\n%s" % (' '.join([cmd] + args + [pkg]), e.returncode, e.output.decode("utf-8")))
->   
->       def upgrade(self):
->           self._prepare_pkg_transaction()
-> 
+From: Ming Liu <liu.ming50@gmail.com>
 
-I'm worried this might significantly slow down image creation. How about 
-fixing this in rootfs.py: first remove everything except 
-update-alternatives, then remove that?
+The licenses of EXTRA_IMAGEDEPENDS recipes are being referenced in
+image postcommand write_deploy_manifest, but a dependency is missing
+between do_image and do_populate_lic of EXTRA_IMAGEDEPENDS recipes,
+this leads some license files not present when write_deploy_manifest
+runs, hence will cause build errors.
 
+Fixed by letting do_image depend on do_populate_lic of
+EXTRA_IMAGEDEPENDS recipes.
 
-Alex
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/image.bbclass | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 0d14250..6bc4f04 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -145,14 +145,18 @@ IMAGE_TYPE_wic = "image_types_wic"
+ inherit ${IMAGE_TYPE_wic}
+ 
+ python () {
++    def extraimage_getdepends(task):
++        deps = ""
++        for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
++            deps += " %s:%s" % (dep, task)
++        return deps
++
++    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_populate_lic'))
++    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
++
+     deps = " " + imagetypes_getdepends(d)
+     d.appendVarFlag('do_rootfs', 'depends', deps)
+ 
+-    deps = ""
+-    for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
+-        deps += " %s:do_populate_sysroot" % dep
+-    d.appendVarFlag('do_image_complete', 'depends', deps)
+-
+     #process IMAGE_FEATURES, we must do this before runtime_mapping_rename
+     #Check for replaces image features
+     features = set(oe.data.typed_value('IMAGE_FEATURES', d))
+-- 
+2.7.4
+
 
