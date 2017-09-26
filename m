@@ -1,48 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f173.google.com (mail-io0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B677806E
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4411E77D0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 17:25:46 +0000 (UTC)
-Received: by mail-io0-f173.google.com with SMTP id w94so13446030ioi.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 10:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=cwGdp0QbR+SgU1df7S1+mWOReU/b+ktE3vTryLsyH0E=;
-	b=h1xO2svwxc0p/upgeBJH1N/+N1ctxzJ5v0RwWEWU34QHKF2/oYkaOxWxSE6Vbdyr8F
-	qf+RMMR/pTzroxrvXmULi/ZCeIMdeHOs2RxPGJKrN16uLPpWDldryM4Mz+scsMQsMnb8
-	+X1wGMDFJCQdOgoFrTJwOyJu7LsydRfPeT9Hk08hJfOY4+GbvhLALNVapig6irCWufb5
-	Mf08v1ylHQUOuOFNppovBUYq33NiTTHK2qmEnffsvPPloaq94OsaleBjQ8KH7GplVtyD
-	nePpcT6l1MS4f8w+pJ6N4yPrOGZ9X5srmewpCRct2tjOok8rf4UwuimcoM0l4CGf8TQ8
-	Hcqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=cwGdp0QbR+SgU1df7S1+mWOReU/b+ktE3vTryLsyH0E=;
-	b=WR3x2OA6FPVN31foL9Go2fLdR/M2FMoCiOr1rGjKRsO2OM0+YCCsnPfyUGZj+KtTNw
-	gLbo990EuD85YFiE3sCi8i/br7B6WYn+K35aJJ3FjI1PprC1pMO/L38mYVS08aBBIX7Z
-	jEkXWWLAPXuGEraWQ8SlVS053EcOt8irWEGyepcM5Dzh1Yq26UDLcjbkxbTnPJE2kuCy
-	Flx3dP0BPei+Yxf09lpd29KRqSREGM3bRvSBvD83blrvBjVpJs6TIlxh35zWdUHD/Voi
-	UpqiimFRsHeTu4ogVWfuP5vxZlmlThBJvo+1y01CltJQYJn8ojKFaYfiEdu26gUusOrF
-	Jivw==
-X-Gm-Message-State: AHPjjUi+3qNVGX2FRUsUWzC4nNFFbO0UgZnND83sntPotAVJV2U2SdcV
-	001UnlGNjlSrKJyOIn6ijKWoW6f6lKhbGNwRlzxF7A==
-X-Google-Smtp-Source: AOwi7QAlh07OJdF9Yv4AKWSv5HTfDRlPP9t7fsgeUhZKnYHSVOZXXw/y+xy9x+nCeEpbuVoSHgCVqxqbUzJgl/mX1gM=
-X-Received: by 10.107.41.135 with SMTP id p129mr14839341iop.142.1506446747993; 
-	Tue, 26 Sep 2017 10:25:47 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Tue, 26 Sep 2017 10:25:27 -0700 (PDT)
-In-Reply-To: <a1a29ef4-1e62-1455-2810-6388a076c038@linux.intel.com>
+	Tue, 26 Sep 2017 17:47:25 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 26 Sep 2017 10:47:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,441,1500966000"; 
+	d="scan'208,217";a="1199259383"
+Received: from zalatorx-wtg.amr.corp.intel.com (HELO [10.252.252.73])
+	([10.252.252.73])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2017 10:47:25 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <20170926165637.36321-1-alejandro.hernandez@linux.intel.com>
 	<CAJTo0LZOkD1OOws7Fa2bHGBs5093Koiy=619CGUUZs7UOzYNaQ@mail.gmail.com>
 	<a1a29ef4-1e62-1455-2810-6388a076c038@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 26 Sep 2017 18:25:27 +0100
-Message-ID: <CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+	<CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com>
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Message-ID: <0a030b52-93a5-67d2-e7ad-e7492b35f39a@linux.intel.com>
+Date: Tue, 26 Sep 2017 12:47:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] python-native: Build with ipv6 enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,65 +37,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 17:25:47 -0000
-Content-Type: multipart/alternative; boundary="001a1141f226499940055a1af797"
+X-List-Received-Date: Tue, 26 Sep 2017 17:47:26 -0000
+Content-Type: multipart/alternative;
+	boundary="------------23974A7BF6D3D3CD4A93ADEB"
+Content-Language: en-US
 
---001a1141f226499940055a1af797
-Content-Type: text/plain; charset="UTF-8"
+--------------23974A7BF6D3D3CD4A93ADEB
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 26 September 2017 at 18:23, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
 
-> Using EXTRA_OECONF_append gets added to the correct
-> EXTRA_OECONF_class-<target/natve> correctly, otherwise its disregarded.
+On 09/26/2017 12:25 PM, Burton, Ross wrote:
+> On 26 September 2017 at 18:23, Alejandro Hernandez 
+> <alejandro.hernandez@linux.intel.com 
+> <mailto:alejandro.hernandez@linux.intel.com>> wrote:
+>
+>>     Using EXTRA_OECONF_append gets added to the correct
+>>     EXTRA_OECONF_class-<target/natve> correctly, otherwise its
+>>     disregarded.
 >
 >
-I guess the subtext was
+> I guess the subtext was
+>
+> +EXTRA_OECONF_class-native = "\
+> + --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'ipv6', 
+> 'yes', 'no', d)} \
+>
+>
+> That is totally wrong.  In a native recipe, DISTRO_FEATURES has been 
+> altered based on DISTRO_FEATURES_NATIVE.  You don't need to make other 
+> changes, and I suspect that reverting this chunk means the other 
+> chunks can also be reverted.
+I see your point, seems like I got confused, I just checked and the 
+resulting EXTRA_OECONF is the same, but I understand why this is 
+conceptually wrong, I'll send a v2 in a bit.
 
-+EXTRA_OECONF_class-native = "\
-+  --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'ipv6',
-'yes', 'no', d)} \
+Thanks!
+
+Alejandro
+>
+> Ross
+>
 
 
-That is totally wrong.  In a native recipe, DISTRO_FEATURES has been
-altered based on DISTRO_FEATURES_NATIVE.  You don't need to make other
-changes, and I suspect that reverting this chunk means the other chunks can
-also be reverted.
+--------------23974A7BF6D3D3CD4A93ADEB
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Ross
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <br>
+    <div class="moz-cite-prefix">On 09/26/2017 12:25 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com">
+      <div dir="ltr">On 26 September 2017 at 18:23, Alejandro Hernandez
+        <span dir="ltr">&lt;<a
+            href="mailto:alejandro.hernandez@linux.intel.com"
+            target="_blank" moz-do-not-send="true">alejandro.hernandez@linux.intel.com</a>&gt;</span>
+        wrote:<br>
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
+              <div bgcolor="#FFFFFF"> <span class="gmail-">
+                  <blockquote type="cite">
+                    <div dir="ltr">
+                      <div class="gmail_extra">
+                        <div class="gmail_quote">
+                          <div>Using EXTRA_OECONF_append gets added to
+                            the correct EXTRA_OECONF_class-&lt;target/<wbr>natve&gt;
+                            correctly, otherwise its disregarded.<br>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </blockquote>
+                </span></div>
+            </blockquote>
+            <div><br>
+            </div>
+            <div>I guess the subtext was</div>
+            <div><br>
+            </div>
+            <span style="font-size:12.800000190734863px">+EXTRA_OECONF_class-native
+              = "\</span><br style="font-size:12.800000190734863px">
+            <span style="font-size:12.800000190734863px">+ 
+              --enable-ipv6=${@bb.utils.</span><wbr
+              style="font-size:12.800000190734863px"><span
+              style="font-size:12.800000190734863px">contains('DISTRO_FEATURES_</span><wbr
+              style="font-size:12.800000190734863px"><span
+              style="font-size:12.800000190734863px">NATIVE', 'ipv6',
+              'yes', 'no', d)} \</span><br
+              style="font-size:12.800000190734863px">
+            <div><br>
+            </div>
+            <div><br>
+            </div>
+            <div>That is totally wrong.  In a native recipe,
+              DISTRO_FEATURES has been altered based on
+              DISTRO_FEATURES_NATIVE.  You don't need to make other
+              changes, and I suspect that reverting this chunk means the
+              other chunks can also be reverted.</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    I see your point, seems like I got confused, I just checked and the
+    resulting EXTRA_OECONF is the same, but I understand why this is
+    conceptually wrong, I'll send a v2 in a bit.<br>
+    <br>
+    Thanks!<br>
+    <br>
+    Alejandro<br>
+    <blockquote type="cite"
+cite="mid:CAJTo0Lb-RHGu+pPOb+Aa-i7DFi_YsvzuaTy7g8+zXDxOt8FXqg@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_extra">
+          <div class="gmail_quote">
+            <div><br>
+            </div>
+            <div>Ross </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
---001a1141f226499940055a1af797
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 26 September 2017 at 18:23, Alejandro Hernandez <span d=
-ir=3D"ltr">&lt;<a href=3D"mailto:alejandro.hernandez@linux.intel.com" targe=
-t=3D"_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span> wrote:<br><=
-div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-=
-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">
- =20
-   =20
- =20
-  <div bgcolor=3D"#FFFFFF">
-    <span class=3D"gmail-"><blockquote type=3D"cite"><div dir=3D"ltr"><div =
-class=3D"gmail_extra"><div class=3D"gmail_quote"><div>Using EXTRA_OECONF_ap=
-pend gets added to the correct
-    EXTRA_OECONF_class-&lt;target/<wbr>natve&gt; correctly, otherwise its
-    disregarded.<br></div></div></div></div></blockquote></span></div></blo=
-ckquote><div><br></div><div>I guess the subtext was</div><div><br></div><sp=
-an style=3D"font-size:12.800000190734863px">+EXTRA_OECONF_class-native =3D =
-&quot;\</span><br style=3D"font-size:12.800000190734863px"><span style=3D"f=
-ont-size:12.800000190734863px">+=C2=A0 --enable-ipv6=3D${@bb.utils.</span><=
-wbr style=3D"font-size:12.800000190734863px"><span style=3D"font-size:12.80=
-0000190734863px">contains(&#39;DISTRO_FEATURES_</span><wbr style=3D"font-si=
-ze:12.800000190734863px"><span style=3D"font-size:12.800000190734863px">NAT=
-IVE&#39;, &#39;ipv6&#39;, &#39;yes&#39;, &#39;no&#39;, d)} \</span><br styl=
-e=3D"font-size:12.800000190734863px"><div><br></div><div><br></div><div>Tha=
-t is totally wrong.=C2=A0 In a native recipe, DISTRO_FEATURES has been alte=
-red based on DISTRO_FEATURES_NATIVE.=C2=A0 You don&#39;t need to make other=
- changes, and I suspect that reverting this chunk means the other chunks ca=
-n also be reverted.</div><div><br></div><div>Ross=C2=A0</div></div><br></di=
-v></div>
-
---001a1141f226499940055a1af797--
+--------------23974A7BF6D3D3CD4A93ADEB--
