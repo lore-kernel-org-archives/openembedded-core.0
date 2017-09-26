@@ -1,47 +1,21 @@
-Return-Path: <will.newton@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 14A1071984
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 72CB870101
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 16:36:09 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id e9so4826644iod.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 09:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Lwj5SAkQ3H9XUHsQ+b7/FLx7AduL3wpzzyEMK9S09S4=;
-	b=DGaObi7J4/uo6ycdzWXFCiW21KEFIO2KHsZVYp37gvUMpPmGHAzRfdONMHBADEhdDY
-	3Vfxj8VyX9YFPJXX9k5qGlLIdmxtX6nRxNvf1SVQ23v2Kgmfg5vSMHpKDRpXrmfA2If0
-	W5TAa+0m2NcZ3z7tlVVjxH5Ir9JAn2hoI6w5KG4L1yOaKROhGyeYFwpzepGhWVXt6GSB
-	j9+OurrHdLzUN64cW4TvZLUWBsaMVkG/YYs7hwcYrBr/tZqAs5Ms3QP9z0A2tFNoFxtQ
-	2q476+U8Pc1Y5VZQzhvUxRL+4Wbcapr899avuo5UjpRnj+Tcxn2mWAv+cG0TXN4h9+Nk
-	olHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Lwj5SAkQ3H9XUHsQ+b7/FLx7AduL3wpzzyEMK9S09S4=;
-	b=rRJ6V+9YynEA+8IjsASm1OGIGwuNZOJRZGIUvAvkC48wMlDJNtJLQRN6VCyVY00+Ku
-	H+lbYzWIn4XmM64Upvqz1YEhmF+a/Hy28dqFfc/2LwcWHckcPpcYs4cuVQKIGkeGmWTy
-	yq36SKyTvdHHAm7WiGoMBa7u1akdfAbuGz5WOFqCfLPcbuTC04wkd1Yn2VBW4Q0hJ6jk
-	xljbt2S2asummyFo2gTUtTHhvFhNUW31YkPiMVFG3Z/+ppcR/qNMO21eb+C3Zl2vtY1Q
-	gdUbVWhXJRRgh5R1TnKpIbAGVMKCNHbLAaeVtBBTJNwA5ItSEbGJxe7PZWoJLfwvi6n2
-	XM1w==
-X-Gm-Message-State: AHPjjUj9rfzgRRMt1e6wIUpU40wlSnKGg6wIp79ov1eBXvWf7f2DaoPh
-	x1YJocQbatZzOxBkW0Vmh/1kOghUWtT4JoEa7p0=
-X-Google-Smtp-Source: AOwi7QDhARiA3d3qr4kynMq5OhlqRH7aS+KFc9cCfDOIPfhUAzvYqz11oNraR+vHWyfQGo+K95nDW/dnQMLHRHktw0A=
-X-Received: by 10.107.159.141 with SMTP id i135mr12085009ioe.300.1506443770524;
-	Tue, 26 Sep 2017 09:36:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.2.181.161 with HTTP; Tue, 26 Sep 2017 09:36:09 -0700 (PDT)
-In-Reply-To: <20170918134356.16124-1-willn@resin.io>
-References: <20170918134356.16124-1-willn@resin.io>
-From: Will Newton <will.newton@gmail.com>
-Date: Tue, 26 Sep 2017 19:36:09 +0300
-Message-ID: <CAFbHwiQnvfGDk2xxHcOhZhLGhi15xkaNRAMFqak4vBVcXAGoDg@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [pyro][PATCH] goarch.bbclass: Replace logic for setting GOARM
+	Tue, 26 Sep 2017 16:56:46 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga105.jf.intel.com with ESMTP; 26 Sep 2017 09:56:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,441,1500966000"; d="scan'208";a="132518358"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.jf.intel.com)
+	([10.54.69.56])
+	by orsmga004.jf.intel.com with ESMTP; 26 Sep 2017 09:56:38 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Sep 2017 09:56:37 -0700
+Message-Id: <20170926165637.36321-1-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [PATCH] python-native: Build with ipv6 enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +28,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 16:36:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Sep 2017 16:56:47 -0000
 
-Hi,
+Before we introduced DISTRO_FEATURES_NATIVE on commit:
+db1f1adace58763c35774e3fdfeaac5c3ca646fd
 
-Is this change ok for the stable branch?
+ipv6 was enabled by default on DISTRO_FEATURES via DISTRO_FEATURES_LIBC
+hence python-native was built with ipv6 support.
 
-On Mon, Sep 18, 2017 at 4:43 PM, Will Newton <will.newton@gmail.com> wrote:
-> From: Will Newton <will.newton@gmail.com>
->
-> The previous logic applied a regex to TUNE_FEATURES which could
-> set the GOARM value to 7 incorrectly, for example when dealing
-> with an arm1176 core. Simplify to check for the presence of
-> "armv7" instead. At the same time add a check for "armv6" and
-> set GOARM to 6 in that case.
->
-> (From OE-Core rev: 07b60c15e9ef650940afdde37bf3f3b9c50a336d)
->
-> Signed-off-by: Will Newton <willn@resin.io>
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/goarch.bbclass | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-> index 4a5b2ec787..12df88f8c4 100644
-> --- a/meta/classes/goarch.bbclass
-> +++ b/meta/classes/goarch.bbclass
-> @@ -38,8 +38,11 @@ def go_map_arch(a, d):
->
->  def go_map_arm(a, f, d):
->      import re
-> -    if re.match('arm.*', a) and re.match('arm.*7.*', f):
-> -        return '7'
-> +    if re.match('arm.*', a):
-> +        if 'armv7' in f:
-> +            return '7'
-> +        elif 'armv6' in f:
-> +            return '6'
->      return ''
->
->  def go_map_os(o, d):
-> --
-> 2.13.5
->
+After this, the check for ipv6 on DISTRO_FEATURES stopped working for the
+python-native recipe and it was always disabled.
+
+This patch fixes the implementation of EXTRA_OECONF to get the ipv6
+configuration correctly (whether were building for native or target),
+and it also modifies DISTRO_FEATURES_NATIVE to add ipv6 by default,
+simply to get it working like it was before changes were made'
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/conf/bitbake.conf                        |  2 +-
+ meta/recipes-devtools/python/python.inc       | 11 +++++++++--
+ meta/recipes-devtools/python/python3_3.5.3.bb |  2 +-
+ meta/recipes-devtools/python/python_2.7.13.bb |  2 +-
+ 4 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 4ff1e9608e7..9ca7c57a5c3 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -807,7 +807,7 @@ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
+ 
+ # Native distro features (will always be used for -native, even if they
+ # are not enabled for target)
+-DISTRO_FEATURES_NATIVE ?= "x11"
++DISTRO_FEATURES_NATIVE ?= "x11 ipv6"
+ DISTRO_FEATURES_NATIVESDK ?= "x11 libc-charsets libc-locales libc-locale-code"
+ 
+ # Normally target distro features will not be applied to native builds:
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index b40f551ab39..73b95ad2c71 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -22,13 +22,20 @@ PYTHON_MAJMIN = "2.7"
+ 
+ inherit autotools pkgconfig
+ 
+-EXTRA_OECONF = "\
++EXTRA_OECONF_class-target = "\
++  --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)} \
++"
++EXTRA_OECONF_class-native = "\
++  --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES_NATIVE', 'ipv6', 'yes', 'no', d)} \
++"
++
++# _append automatically gets appended to the correct EXTRA_OECONF_class-<>
++EXTRA_OECONF_append = "\
+   --with-threads \
+   --with-pymalloc \
+   --without-cxx-main \
+   --with-signal-module \
+   --enable-shared \
+-  --enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)} \
+   ac_cv_header_bluetooth_bluetooth_h=no ac_cv_header_bluetooth_h=no \
+   ${PYTHONLSBOPTS} \
+ "
+diff --git a/meta/recipes-devtools/python/python3_3.5.3.bb b/meta/recipes-devtools/python/python3_3.5.3.bb
+index 13df12fe566..2657ed09618 100644
+--- a/meta/recipes-devtools/python/python3_3.5.3.bb
++++ b/meta/recipes-devtools/python/python3_3.5.3.bb
+@@ -66,7 +66,7 @@ CACHED_CONFIGUREVARS = "ac_cv_have_chflags=no \
+ TARGET_CC_ARCH += "-DNDEBUG -fno-inline"
+ SDK_CC_ARCH += "-DNDEBUG -fno-inline"
+ EXTRA_OEMAKE += "CROSS_COMPILE=yes"
+-EXTRA_OECONF += "CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ --without-ensurepip"
++EXTRA_OECONF_append = " CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ --without-ensurepip"
+ 
+ export CROSS_COMPILE = "${TARGET_PREFIX}"
+ export _PYTHON_PROJECT_BASE = "${B}"
+diff --git a/meta/recipes-devtools/python/python_2.7.13.bb b/meta/recipes-devtools/python/python_2.7.13.bb
+index 4d73cd25c8b..c346b0988bd 100644
+--- a/meta/recipes-devtools/python/python_2.7.13.bb
++++ b/meta/recipes-devtools/python/python_2.7.13.bb
+@@ -37,7 +37,7 @@ inherit autotools multilib_header python-dir pythonnative
+ 
+ CONFIGUREOPTS += " --with-system-ffi "
+ 
+-EXTRA_OECONF += "ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
++EXTRA_OECONF_append = " ac_cv_file__dev_ptmx=yes ac_cv_file__dev_ptc=no"
+ 
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+-- 
+2.12.3
+
 
