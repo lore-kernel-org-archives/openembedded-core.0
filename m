@@ -1,67 +1,20 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
-	[209.85.161.180])
-	by mail.openembedded.org (Postfix) with ESMTP id D24667806D
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1628D78071
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 19:30:06 +0000 (UTC)
-Received: by mail-yw0-f180.google.com with SMTP id t127so7821501ywg.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 12:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=oMLVe8yNQOpCKU4OEOgl6UcPAor6ZjWFsau7/VinAZY=;
-	b=AeEtG9KQlnAA75IfC9VV1shU4K+amwyfLq1QGp9scznRZJT5RfbOjlez/vLxOAYFqV
-	MG2Ys7NZ3VGHIMUQRfruU/oMNuHYcAWzx9+PkYHNniIFQy+qu2Q/YiR/G65dEHOJIxQV
-	qGxeUtCTvuzs6rUHgVwXfXLNw0bBXc7TQvmYGG1foMTKp9sBIKyBTAik8DExSBpkIZPH
-	MuWJxnyHE9NFUndpgLFhUc229+Y0jvLeGaelJPqXRkfyTTcEeLaJwUE00rJsrR/dmR2o
-	E/rQ6vRhBM2KXwHE8xBLpvB0h2eDfBnnVrETFSItHvUjYLxz8t0zhLPF4/Jl4J+76+9h
-	fqDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=oMLVe8yNQOpCKU4OEOgl6UcPAor6ZjWFsau7/VinAZY=;
-	b=GbMgYIsQc3giAwSh3ubtdb8AZnyoP3PGX6IwPKiVU5bzDYCTztd9fIfBzSZIdIo6aH
-	ah/ZK8XeBUcq1OK0FAcE7UFJgm5YMc9KVx2Y/uUruddO5mbJMao9+TmjUsMM/khszUU3
-	6vqpukq2NPokgladWjI8dzphYnLAljPekcZB9a+DTkld9S+fmYLucgti3FjgCxiakr0l
-	v1eUQpSvKcFr9orsKsCnTz7CML9zN8jlxDROhIIlE353aDRsxNEKTMf76GpPQa5bmphS
-	vVC7SlihkKtbYgxCK+05uN31zNlDINWkR/VqCsk7inedJ4XDPNTeK0MO/FU52pmQU4Gd
-	gKyw==
-X-Gm-Message-State: AHPjjUgJdYL2Xv0xOvin1xwkwNzMo3E1Xog37uCvLMftzhugxzWggtQO
-	H1PpGYFZgD0KHODM7TkjbyC782iv
-X-Received: by 10.37.110.67 with SMTP id j64mr7219653ybc.5.1506454207466;
-	Tue, 26 Sep 2017 12:30:07 -0700 (PDT)
-Received: from mail-oi0-f47.google.com (mail-oi0-f47.google.com.
-	[209.85.218.47]) by smtp.gmail.com with ESMTPSA id
-	a14sm3984078ywh.47.2017.09.26.12.30.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Sep 2017 12:30:06 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f47.google.com with SMTP id w65so13497255oia.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 12:30:06 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QA/7KmBiRzZuoFLLklSeimAnOA5eyAwAxsYcK8KcZdiLtkuh0ZzLDp01iSN45W9tGoMYeZvWFpgOQ5AceDJGkI=
-X-Received: by 10.202.172.67 with SMTP id v64mr11895225oie.93.1506454205720;
-	Tue, 26 Sep 2017 12:30:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.66.149 with HTTP; Tue, 26 Sep 2017 12:30:05 -0700 (PDT)
-In-Reply-To: <CAJTo0LbzUwTeLro_gQ9-sNq3qVJjq9xk=vf1BWyW5krM6=T1Hg@mail.gmail.com>
-References: <20170922110243.10454-1-fabien.lahoudere@collabora.co.uk>
-	<20170922110243.10454-2-fabien.lahoudere@collabora.co.uk>
-	<CAJTo0LYMQ9NAvK+zNegmtbPQnPao1rx6wQM1q48TRP6FDUopHg@mail.gmail.com>
-	<CAP9ODKp6tsZd34jS1QzDnEpi=0ALSs8GaHFPC9iVO-5wjkUD7A@mail.gmail.com>
-	<CAJTo0La3fRSYaQAgWZt-qWB-noNsqvgO8Q2G4wYgqj62qB8Mug@mail.gmail.com>
-	<CAP9ODKpM8_5_AdiO=g-FbcZEH7EVby5nKniQ0m2XhVRdbG593Q@mail.gmail.com>
-	<CAJTo0LbzUwTeLro_gQ9-sNq3qVJjq9xk=vf1BWyW5krM6=T1Hg@mail.gmail.com>
-Date: Tue, 26 Sep 2017 16:30:05 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpEd9YcAisoF6KFU+SC3oK8yDKCXAA9CsRfEoim0-GU7Q@mail.gmail.com>
-Message-ID: <CAP9ODKpEd9YcAisoF6KFU+SC3oK8yDKCXAA9CsRfEoim0-GU7Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/4] wayland-protocols: Fix installation patch issue
+	Tue, 26 Sep 2017 19:36:06 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga105.fm.intel.com with ESMTP; 26 Sep 2017 12:36:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,441,1500966000"; d="scan'208";a="904092813"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Sep 2017 12:36:08 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Sep 2017 12:36:03 -0700
+Message-Id: <20170926193604.194047-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Subject: [morty][PATCH 1/2] selftest/cases/signing: ignore removal errors when cleaning temporary gpg directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,21 +27,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 19:30:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 26 Sep 2017 19:36:07 -0000
 
-On Tue, Sep 26, 2017 at 4:22 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 26 September 2017 at 20:19, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> Are you using pkgconfig or pkgconf?
->
-> pkg-config.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Does it have the depends?
+The high-level method tempfile.TemporaryDirectory give us no way to
+ignore erros on removal thus use tempfile.mkdtemp instead. Ignoring possible issues
+on removal is neccesary because it contains gpg sockets that are automatically removed
+by the system once the process terminates, otherwise the following log is observed:
 
+  ..
+  ..
+  File "/usr/lib/python3.5/shutil.py", line 436, in _rmtree_safe_fd
+    os.unlink(name, dir_fd=topfd)
+  FileNotFoundError: [Errno 2] No such file or directory: 'S.gpg-agent.browser'
+
+[YOCTO #11821]
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/signing.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
+index 606bfd3e99..3b5c2da0e0 100644
+--- a/meta/lib/oeqa/selftest/signing.py
++++ b/meta/lib/oeqa/selftest/signing.py
+@@ -21,14 +21,17 @@ class Signing(oeSelfTest):
+         if not shutil.which("gpg"):
+             raise AssertionError("This test needs GnuPG")
+ 
+-        cls.gpg_home_dir = tempfile.TemporaryDirectory(prefix="oeqa-signing-")
+-        cls.gpg_dir = cls.gpg_home_dir.name
++        cls.gpg_dir = tempfile.mkdtemp(prefix="oeqa-signing-")
+ 
+         cls.pub_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.pub")
+         cls.secret_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.secret")
+ 
+         runCmd('gpg --homedir %s --import %s %s' % (cls.gpg_dir, cls.pub_key_path, cls.secret_key_path))
+ 
++    @classmethod
++    def tearDownClass(cls):
++        shutil.rmtree(cls.gpg_dir, ignore_errors=True)
++
+     @testcase(1362)
+     def test_signing_packages(self):
+         """
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.12.3
+
 
