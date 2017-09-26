@@ -1,47 +1,39 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D21827807C
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 07C3571C9B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 12:31:28 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id e64so9205787wmi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 05:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Eph4G715c81cmC/mNuOuJgccjqglhqWwoSLlOlu0TzQ=;
-	b=ALyj+nn6l3nUEKlTnTyiU3ovqhrz7F+oU7KspeIdHsC9idUHJ7McK4NFOIz0h04UXi
-	KDoU/T2QTx4XNV0MTevH+3PE+2GHTsh+V+gwv+7Br2clB5l0cYIl3uuAhQj8l24JxU2n
-	zLUiiTdLjyUmF0kv/nVyhjMLsfz12KJF7cw1/sEwGvXDIP7PZTzfmHDk7MK1fmePGL06
-	J3eq/SWFkh3ArM4S8eQr/QbD9KMFryWjseMQnMdKrlfm/N5g5MzZZ5WMbqLAdmRgZBgx
-	dobioMu15Ouuq/8IY8a7grL9h68Ul90X8fiWxPt/kE6Y+vgpY17CIDQDtshFKN3ot4x3
-	EY0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Eph4G715c81cmC/mNuOuJgccjqglhqWwoSLlOlu0TzQ=;
-	b=WzvtIPmBPgAZXhLV+pafuUg+dEWb/pbvDHfytIwBYP+lJC/nfJfhwuA5lfhQLcPVeT
-	SdYUz4V+NxmApLjX1iqmGprNBTPtqynkGPrsCSp1EknJBWCzZsXHZYSZBQU2p7BWJJpU
-	UnIWo+RgJ7Rq1Gohx2hARnYgtJekEOHzV4lfnx59LpqJfcWwWSWujHxpPlaNacy3gSWh
-	3T3/yGQZIZ+qx6S6KyYtfiO0UCHrAONvQKumpKjZ/JSrWNivxxT+0aIGGynyCKOyMVnI
-	8jWHMQ1rI0k84XKgHCvAjMGM3zdrZw9B4NCsXG8rkhLAJKfZOzuXvpVnFFILs2ZVNH0M
-	otxQ==
-X-Gm-Message-State: AHPjjUilPh8xnz6v92bq2BL5JfdKqPUdfJHzJkwcHRgR+a+8RJGQZb7o
-	592V5vWA5GxG6urHkDI4t5Puiw==
-X-Google-Smtp-Source: AOwi7QBMHhtLSn9Q7CuYr5FjFZoWyk0SSJMM2BrsgiOxv6mKsew6AbjRqxcPr8DGGksbB+/6Z5UyTw==
-X-Received: by 10.80.137.173 with SMTP id g42mr17305764edg.80.1506429089327;
-	Tue, 26 Sep 2017 05:31:29 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([123.125.90.58])
-	by smtp.gmail.com with ESMTPSA id d21sm5716453edb.4.2017.09.26.05.31.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 26 Sep 2017 05:31:28 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Sep 2017 14:31:16 +0200
-Message-Id: <1506429076-9750-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] image.bbclass: let do_image depend on do_populate_lic of EXTRA_IMAGEDEPENDS
+	Tue, 26 Sep 2017 12:56:45 +0000 (UTC)
+Received: (qmail 14745 invoked by uid 1003); 26 Sep 2017 12:56:46 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@108.44.111.57)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	26 Sep 2017 12:56:46 -0000
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+	Jeff Osier-Mixon <jefro@jefro.net>
+References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
+	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
+	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
+	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
+	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
+	<c2911001-d598-9e20-8463-085d5f4910db@balister.org>
+	<CA+YB3rYwurx0i8oUGUkwWA3JMzTBJtFsijP_V0t+ncYVbOkW6A@mail.gmail.com>
+	<CAPybu_1T63Vcw9N3VgVgj45gcUM8UgPqRkSAwaHhvyxWFU0Ztg@mail.gmail.com>
+	<1a067fa9-8e5e-1f18-709d-15df07518928@balister.org>
+	<CAPybu_3tiZLD4vU6ZrH9iD4OB1wHibGWxFJ20wL_ynDeaLo-Yw@mail.gmail.com>
+	<CA+YB3rYipupFC2s_3gsfVSM6sZ5oAis1hAB491+tAXVEfEAPrg@mail.gmail.com>
+	<CAPybu_3BveGWtVbPVTRebodxjzcMGN3zQAJCMnuKUoSxun8nfg@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <2f5800db-6b19-3445-f515-0c31d7257668@balister.org>
+Date: Tue, 26 Sep 2017 08:56:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAPybu_3BveGWtVbPVTRebodxjzcMGN3zQAJCMnuKUoSxun8nfg@mail.gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +46,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 12:31:29 -0000
+X-List-Received-Date: Tue, 26 Sep 2017 12:56:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+On 09/26/2017 02:34 AM, Ricardo Ribalda Delgado wrote:
+> Hi
+> 
+> On Mon, Sep 25, 2017 at 6:23 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
+>> It certainly looks interesting! The  main issue is that our table is about
+>> 0.5 x 1.4 meters, so setting up demos as well as screens and keyboards may
+>> be a difficult task. I'll do what I can to set up a second table at the
+>> booth.
+> 
+> I have to bring it anyway. We can postpone the decision.
 
-The licenses of EXTRA_IMAGEDEPENDS recipes are being referenced in
-image postcommand write_deploy_manifest, but a dependency is missing
-between do_image and do_populate_lic of EXTRA_IMAGEDEPENDS recipes,
-this leads some license files not present when write_deploy_manifest
-runs, hence will cause build errors.
+I'm looking forward to seeing it!
 
-Fixed by letting do_image depend on do_populate_lic of
-EXTRA_IMAGEDEPENDS recipes.
+Philip
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/image.bbclass | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 0d14250..6bc4f04 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -145,14 +145,18 @@ IMAGE_TYPE_wic = "image_types_wic"
- inherit ${IMAGE_TYPE_wic}
- 
- python () {
-+    def extraimage_getdepends(task):
-+        deps = ""
-+        for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
-+            deps += " %s:%s" % (dep, task)
-+        return deps
-+
-+    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_populate_lic'))
-+    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
-+
-     deps = " " + imagetypes_getdepends(d)
-     d.appendVarFlag('do_rootfs', 'depends', deps)
- 
--    deps = ""
--    for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
--        deps += " %s:do_populate_sysroot" % dep
--    d.appendVarFlag('do_image_complete', 'depends', deps)
--
-     #process IMAGE_FEATURES, we must do this before runtime_mapping_rename
-     #Check for replaces image features
-     features = set(oe.data.typed_value('IMAGE_FEATURES', d))
--- 
-2.7.4
-
+> 
+> Regards!
+> 
+>>
+>> thanks!
+>>
+>> On Mon, Sep 25, 2017 at 7:08 AM, Ricardo Ribalda Delgado
+>> <ricardo.ribalda@gmail.com> wrote:
+>>>
+>>> Hi
+>>>
+>>> On Mon, Sep 25, 2017 at 4:05 PM, Philip Balister <philip@balister.org>
+>>> wrote:
+>>>> On 09/25/2017 10:00 AM, Ricardo Ribalda Delgado wrote:
+>>>>> If you are looking for a "fun" demo. I plan to show our bottle scanner
+>>>>> to the ELCE showcase. I could ask my manager if we can leave it on the
+>>>>> yocto booth during the conference.
+>>>>>
+>>>>> We use yocto + our layer https://github.com/qtec/meta-qtec-core
+>>>>
+>>>> How large is it? Can you send us a photo?
+>>>
+>>> This is the last photo I have from the instrument. You can use the
+>>> 50cl beer bottle as a reference ;).
+>>>
+>>> You also need a screen + keyboard to see the results.
+>>>
+>>>>
+>>>> Philip
+>>>>
+>>>>>
+>>>>> Regards!
+>>>>>
+>>>>> On Fri, Sep 22, 2017 at 10:49 PM, Jeff Osier-Mixon <jefro@jefro.net>
+>>>>> wrote:
+>>>>>> If its relevance to YP and OE is able to be explained, it would be
+>>>>>> welcomed.
+>>>>>> The only issue I see is the size of the booth, which is tiny. However,
+>>>>>> we
+>>>>>> frequently spill out of our confined space, and I will locate a second
+>>>>>> table
+>>>>>> if we end up needing one. Great to see community effort on the demos!
+>>>>>>
+>>>>>> On Thu, Sep 21, 2017 at 1:56 PM, Philip Balister <philip@balister.org>
+>>>>>> wrote:
+>>>>>>>
+>>>>>>> On 09/21/2017 02:32 PM, akuster808 wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 09/21/2017 01:27 PM, Philip Balister wrote:
+>>>>>>>>> On 09/20/2017 01:50 AM, Mike Looijmans wrote:
+>>>>>>>>>> On 18-09-17 18:25, Trevor Woerner wrote:
+>>>>>>>>>>> Hi Mike,
+>>>>>>>>>>>
+>>>>>>>>>>> On Mon, Sep 18, 2017 at 8:45 AM, Mike Looijmans
+>>>>>>>>>>> <mike.looijmans@topic.nl> wrote:
+>>>>>>>>>>>> I can probably bring some work (e.g. Zynq MPSoC board) and fun
+>>>>>>>>>>>> (settop box)
+>>>>>>>>>>>> hardware along to demonstrate what I'm using OE for.
+>>>>>>>>>>> Any chance you could set something up that could be on display at
+>>>>>>>>>>> the
+>>>>>>>>>>> Yocto booth during the conference?
+>>>>>>>>>> Depends on what I'll be able tug along in my luggage on the
+>>>>>>>>>> airplane,
+>>>>>>>>>> but whatever I can bring is probably suited for public display. A
+>>>>>>>>>> few
+>>>>>>>>>> circuit boards will certainly fit, so if the stand could provide a
+>>>>>>>>>> HDMI
+>>>>>>>>>> monitor (or TV) to connect them to that'd be awesome.
+>>>>>>>>> I'd love to see some different things on the stand. Make sure you
+>>>>>>>>> help
+>>>>>>>>> explain to people why the Yocto Porject and OpenEmbedded are
+>>>>>>>>> important
+>>>>>>>>> to you and your product.
+>>>>>>>> Philip,
+>>>>>>>>
+>>>>>>>> Since you are the OE rep to the Yocto Project, can you make sure
+>>>>>>>> this is
+>>>>>>>> OK with them. There could be space  or limitations at their booth.
+>>>>>>>
+>>>>>>> I mentioned it to Jefro, I'm also making a guess he has something
+>>>>>>> based
+>>>>>>> on a Xilinx product, who are members.
+>>>>>>>
+>>>>>>> Philip
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Thanks,
+>>>>>>>> - Armin
+>>>>>>>>>
+>>>>>>>>> Philip
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> M.
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Kind regards,
+>>>>>>>>>>
+>>>>>>>>>> Mike Looijmans
+>>>>>>>>>> System Expert
+>>>>>>>>>>
+>>>>>>>>>> TOPIC Products
+>>>>>>>>>> Materiaalweg 4, NL-5681 RJ Best
+>>>>>>>>>> Postbus 440, NL-5680 AK Best
+>>>>>>>>>> Telefoon: +31 (0) 499 33 69 79
+>>>>>>>>>> E-mail: mike.looijmans@topicproducts.com
+>>>>>>>>>> Website: www.topicproducts.com
+>>>>>>>>>>
+>>>>>>>>>> Please consider the environment before printing this e-mail
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Visit us at the Space Tech Expo Europe (Stand E-71)
+>>>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>> --
+>>>>>>> _______________________________________________
+>>>>>>> Openembedded-core mailing list
+>>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> --
+>>>>>> Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
+>>>>>>
+>>>>>> --
+>>>>>> _______________________________________________
+>>>>>> Openembedded-core mailing list
+>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>
+>>>
+>>>
+>>> --
+>>> Ricardo Ribalda
+>>
+>>
+>>
+>>
+>> --
+>> Jeff Osier-Mixon - Open Source Community Manager, Intel Corporation
+> 
+> 
+> 
 
