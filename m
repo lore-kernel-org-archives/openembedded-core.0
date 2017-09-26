@@ -1,24 +1,22 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CA4A277E8F
+Return-Path: <mikko.ylinen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A20877E51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 09:02:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8Q92N2A026944
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 02:02:31 -0700
-Received: from otp-opanait-l1.corp.ad.wrs.com (128.224.124.169) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 26 Sep 2017 02:02:26 -0700
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Sep 2017 12:00:46 +0300
-Message-ID: <20170926090046.24111-1-ovidiu.panait@windriver.com>
+	Tue, 26 Sep 2017 12:03:32 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Sep 2017 05:03:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,440,1500966000"; d="scan'208";a="903963458"
+Received: from tommasog-mobl.amr.corp.intel.com (HELO
+	summit.ger.corp.intel.com) ([10.252.2.145])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Sep 2017 05:03:32 -0700
+From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Sep 2017 15:03:28 +0300
+Message-Id: <20170926120328.14928-1-mikko.ylinen@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
-MIME-Version: 1.0
-Subject: [PATCH] libparted: Use read only when probing devices on linux
+Subject: [PATCH] package_manager: rpm: remove update-alternatives correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,284 +29,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Sep 2017 09:02:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Sep 2017 12:03:33 -0000
 
-When a device is opened for RW closing it can trigger other actions,
-like udev scanning it for partition changes. Use read only for the
-init_* methods and RW for actual changes to the device.
+With "read-only-rootfs" in IMAGE_FEATURES, packages in ROOTFS_RO_UNNEEDED
+are removed when building the rootfs.
 
-This adds _device_open which takes mode flags as an argument and turns
-linux_open into a wrapper for it with RW_MODE.
+rootfs.py has a note about some of the assumptions to that removal:
 
-_device_open_ro is added to open the device with RD_MODE and increment
-the open_counter. This is used in the init_* functions.
+ "Make sure update-alternatives is last on the command line, so
+  that it is removed last. This makes sure that its database is
+  available while uninstalling packages, allowing alternative
+  symlinks of packages to be uninstalled to be managed correctly."
 
-_device_close is a wrapper around linux_close that decrements the
-open_counter and is used in the init_* functions.
+However, it turns out rpm does not care about "last on the command
+line" and update-alternatives provider is removed before other the
+packages get to run their %preun scripts for update-alternatives.
 
-All of these changes are self-contained with no external API changes.
-The only visible change in behavior is that when a new PedDevice is
-created the device is opened in RO_MODE instead of RW_MODE.
+This leaves broken alternative symlinks in rootfs.
 
-Resolves: rhbz#1245144
+The fix is to remove packages one by one (reversed command line
+list did not work either) and process update-alternatives provider
+last.
 
-Reference:
-https://bugzilla.redhat.com/show_bug.cgi?id=1283112
+And while we're at it, make logging more verbose to better see
+what's happening (and to get it consistent with opkg's remove() logging).
 
-Upstream patch:
-http://git.savannah.gnu.org/cgit/parted.git/commit/?id=44d5ae0115c4ecfe3158748309e9912c5aede92d
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
 ---
- ...se-read-only-when-probing-devices-on-linu.patch | 224 +++++++++++++++++++++
- meta/recipes-extended/parted/parted_3.2.bb         |   1 +
- 2 files changed, 225 insertions(+)
- create mode 100644 meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch
+ meta/lib/oe/package_manager.py | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch b/meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch
-new file mode 100644
-index 0000000000..58be9f57f1
---- /dev/null
-+++ b/meta/recipes-extended/parted/files/0001-libparted-Use-read-only-when-probing-devices-on-linu.patch
-@@ -0,0 +1,224 @@
-+From d6e15a60e84c1511523aa81272b7db7a6ec441d0 Mon Sep 17 00:00:00 2001
-+From: Ovidiu Panait <ovidiu.panait@windriver.com>
-+Date: Tue, 26 Sep 2017 08:04:58 +0000
-+Subject: [PATCH] libparted: Use read only when probing devices on linux
-+ (#1245144)
-+
-+When a device is opened for RW closing it can trigger other actions,
-+like udev scanning it for partition changes. Use read only for the
-+init_* methods and RW for actual changes to the device.
-+
-+This adds _device_open which takes mode flags as an argument and turns
-+linux_open into a wrapper for it with RW_MODE.
-+
-+_device_open_ro is added to open the device with RD_MODE and increment
-+the open_counter. This is used in the init_* functions.
-+
-+_device_close is a wrapper around linux_close that decrements the
-+open_counter and is used in the init_* functions.
-+
-+All of these changes are self-contained with no external API changes.
-+The only visible change in behavior is that when a new PedDevice is
-+created the device is opened in RO_MODE instead of RW_MODE.
-+
-+Resolves: rhbz#1245144
-+
-+Upstream-Status: Backport
-+
-+Author: Brian C. Lane <bcl@redhat.com>
-+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-+---
-+ libparted/arch/linux.c | 62 +++++++++++++++++++++++++++++++++++---------------
-+ 1 file changed, 44 insertions(+), 18 deletions(-)
-+
-+diff --git a/libparted/arch/linux.c b/libparted/arch/linux.c
-+index f612617..0a06a54 100644
-+--- a/libparted/arch/linux.c
-++++ b/libparted/arch/linux.c
-+@@ -294,7 +294,9 @@ struct blkdev_ioctl_param {
-+ static char* _device_get_part_path (PedDevice const *dev, int num);
-+ static int _partition_is_mounted_by_path (const char* path);
-+ static unsigned int _device_get_partition_range(PedDevice const* dev);
-+-
-++static int _device_open (PedDevice* dev, int flags);
-++static int _device_open_ro (PedDevice* dev);
-++static int _device_close (PedDevice* dev);
-+ 
-+ static int
-+ _read_fd (int fd, char **buf)
-+@@ -913,7 +915,7 @@ init_ide (PedDevice* dev)
-+         if (!_device_stat (dev, &dev_stat))
-+                 goto error;
-+ 
-+-        if (!ped_device_open (dev))
-++        if (!_device_open_ro (dev))
-+                 goto error;
-+ 
-+         if (ioctl (arch_specific->fd, HDIO_GET_IDENTITY, &hdi)) {
-+@@ -982,11 +984,11 @@ init_ide (PedDevice* dev)
-+         if (!_device_probe_geometry (dev))
-+                 goto error_close_dev;
-+ 
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+         return 1;
-+ 
-+ error_close_dev:
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+ error:
-+         return 0;
-+ }
-+@@ -1119,7 +1121,7 @@ init_scsi (PedDevice* dev)
-+         char* vendor;
-+         char* product;
-+ 
-+-        if (!ped_device_open (dev))
-++        if (!_device_open_ro (dev))
-+                 goto error;
-+ 
-+         if (ioctl (arch_specific->fd, SCSI_IOCTL_GET_IDLUN, &idlun) < 0) {
-+@@ -1133,7 +1135,7 @@ init_scsi (PedDevice* dev)
-+                         goto error_close_dev;
-+                 if (!_device_probe_geometry (dev))
-+                         goto error_close_dev;
-+-                ped_device_close (dev);
-++                _device_close (dev);
-+                 return 1;
-+         }
-+ 
-+@@ -1155,11 +1157,11 @@ init_scsi (PedDevice* dev)
-+         if (!_device_probe_geometry (dev))
-+                 goto error_close_dev;
-+ 
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+         return 1;
-+ 
-+ error_close_dev:
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+ error:
-+         return 0;
-+ }
-+@@ -1171,7 +1173,7 @@ init_file (PedDevice* dev)
-+ 
-+         if (!_device_stat (dev, &dev_stat))
-+                 goto error;
-+-        if (!ped_device_open (dev))
-++        if (!_device_open_ro (dev))
-+                 goto error;
-+ 
-+         dev->sector_size = PED_SECTOR_SIZE_DEFAULT;
-+@@ -1198,7 +1200,7 @@ init_file (PedDevice* dev)
-+                 goto error_close_dev;
-+         }
-+ 
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+ 
-+         dev->bios_geom.cylinders = dev->length / 4 / 32;
-+         dev->bios_geom.heads = 4;
-+@@ -1209,7 +1211,7 @@ init_file (PedDevice* dev)
-+         return 1;
-+ 
-+ error_close_dev:
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+ error:
-+         return 0;
-+ }
-+@@ -1225,7 +1227,7 @@ init_dasd (PedDevice* dev, const char* model_name)
-+         if (!_device_stat (dev, &dev_stat))
-+                 goto error;
-+ 
-+-        if (!ped_device_open (dev))
-++        if (!_device_open_ro (dev))
-+                 goto error;
-+ 
-+         LinuxSpecific* arch_specific = LINUX_SPECIFIC (dev);
-+@@ -1265,11 +1267,11 @@ init_dasd (PedDevice* dev, const char* model_name)
-+ 
-+         dev->model = strdup (model_name);
-+ 
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+         return 1;
-+ 
-+ error_close_dev:
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+ error:
-+         return 0;
-+ }
-+@@ -1284,7 +1286,7 @@ init_generic (PedDevice* dev, const char* model_name)
-+         if (!_device_stat (dev, &dev_stat))
-+                 goto error;
-+ 
-+-        if (!ped_device_open (dev))
-++        if (!_device_open_ro (dev))
-+                 goto error;
-+ 
-+         ped_exception_fetch_all ();
-+@@ -1332,11 +1334,11 @@ init_generic (PedDevice* dev, const char* model_name)
-+ 
-+         dev->model = strdup (model_name);
-+ 
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+         return 1;
-+ 
-+ error_close_dev:
-+-        ped_device_close (dev);
-++        _device_close (dev);
-+ error:
-+         return 0;
-+ }
-+@@ -1623,12 +1625,27 @@ retry:
-+ }
-+ 
-+ static int
-++_device_open_ro (PedDevice* dev)
-++{
-++    int rc = _device_open (dev, RD_MODE);
-++    if (rc)
-++        dev->open_count++;
-++    return rc;
-++}
-++
-++static int
-+ linux_open (PedDevice* dev)
-+ {
-++    return _device_open (dev, RW_MODE);
-++}
-++
-++static int
-++_device_open (PedDevice* dev, int flags)
-++{
-+         LinuxSpecific*  arch_specific = LINUX_SPECIFIC (dev);
-+ 
-+ retry:
-+-        arch_specific->fd = open (dev->path, RW_MODE);
-++        arch_specific->fd = open (dev->path, flags);
-+ 
-+         if (arch_specific->fd == -1) {
-+                 char*   rw_error_msg = strerror (errno);
-+@@ -1697,6 +1714,15 @@ linux_refresh_close (PedDevice* dev)
-+         return 1;
-+ }
-+ 
-++static int
-++_device_close (PedDevice* dev)
-++{
-++    int rc = linux_close (dev);
-++    if (dev->open_count > 0)
-++        dev->open_count--;
-++    return rc;
-++}
-++
-+ #if SIZEOF_OFF_T < 8
-+ 
-+ #if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,20)
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
-index 2bfdfb5f8f..ab30108bf2 100644
---- a/meta/recipes-extended/parted/parted_3.2.bb
-+++ b/meta/recipes-extended/parted/parted_3.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
- 	   file://parted-3.2-sysmacros.patch \
-            file://run-ptest \
-            file://Makefile \
-+           file://0001-libparted-Use-read-only-when-probing-devices-on-linu.patch \
- "
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 994e462..c122902 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -614,13 +614,16 @@ class RpmPM(PackageManager):
+             self._invoke_dnf(["remove"] + pkgs)
+         else:
+             cmd = bb.utils.which(os.getenv('PATH'), "rpm")
+-            args = ["-e", "--nodeps", "--root=%s" %self.target_rootfs]
++            args = ["-e", "-v", "--nodeps", "--root=%s" %self.target_rootfs]
  
- SRC_URI[md5sum] = "0247b6a7b314f8edeb618159fa95f9cb"
+-            try:
+-                output = subprocess.check_output([cmd] + args + pkgs, stderr=subprocess.STDOUT).decode("utf-8")
+-            except subprocess.CalledProcessError as e:
+-                bb.fatal("Could not invoke rpm. Command "
+-                     "'%s' returned %d:\n%s" % (' '.join([cmd] + args + pkgs), e.returncode, e.output.decode("utf-8")))
++            for pkg in pkgs:
++                try:
++                    bb.note("Running %s" % ' '.join([cmd] + args + [pkg]))
++                    output = subprocess.check_output([cmd] + args + [pkg], stderr=subprocess.STDOUT).decode("utf-8")
++                    bb.note(output)
++                except subprocess.CalledProcessError as e:
++                    bb.fatal("Could not invoke rpm. Command "
++                         "'%s' returned %d:\n%s" % (' '.join([cmd] + args + [pkg]), e.returncode, e.output.decode("utf-8")))
+ 
+     def upgrade(self):
+         self._prepare_pkg_transaction()
 -- 
-2.11.0
+2.1.4
 
 
