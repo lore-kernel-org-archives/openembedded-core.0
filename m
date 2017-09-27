@@ -1,54 +1,57 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF0777E2D
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EEB8719F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 03:05:24 +0000 (UTC)
-Received: by mail-pg0-f66.google.com with SMTP id v5so7882692pgn.4
+	Wed, 27 Sep 2017 03:08:26 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id u18so7902129pgo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Sep 2017 20:05:26 -0700 (PDT)
+	Tue, 26 Sep 2017 20:08:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=u129OAGGQVkQfccGpxWH2fI9L1CDhofelFczivA47+I=;
-	b=InasvIxC0vMkSXEUHhMiNgqP946axWewhOZKayEQ6eMVTb94d6WgTqrwjr1tdouTZB
-	vPdCX0uZ4Lzv8lRAasunpAgX+A4rgIRmDQeZLvqu2t6e2BasARgndsu0QrrwlxZwjUmt
-	YxWJC7mEpn9uFnTCtEiCnIA7iIG5Wpa/6lY4CZZKNQb6f99ayXvybxaMj8V9C03zqIVu
-	ActrPTWo0x0FMJt8QmDlx6S2CuFJiT65IQui1LWhJQ7naso6PFkExrTHBr7ZN0aHNCVA
-	OycaMePu+DQz1o3/vWijmfvN8/34WLcRo15/OmcLKNeTHX90V4Sjc/NWS6M2U8J2VVN3
-	d2iw==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=AJUggBqu9R+UrpbQOx2dO/jQ5bCit1JPc6M8QIx4UNY=;
+	b=U84ET/W6VMeUzxmJ0Li2Ww9sRgeePJJHr1grS4OV8G5w/r7cwjbnxHHIYEjI9vTSvI
+	vHZpk0AhFpvs/hlzX8BWUtx3U750b2x0n9m1qi72V9Ybm9BicS4wrLCQUrwJUZyq8X08
+	L7E22s3K8/qz+gnKBQuXWYiox5S7loi1hOl6iS94nb1oqsPxxzr99bSRe+YsmS6loPel
+	+jHu1WZY2cskh9afYODGK+KmY90IBVqnQ7v8imEaMTv2gY9nr7Lb3GRnRAkp2FxxDfaX
+	h5DVK4cXQlJDeVdY2Rf7RlEFDc1yZtBRMzw3Ju1rdMB56kNFylLOUKeHUyBPsTxvMzcW
+	/oqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=u129OAGGQVkQfccGpxWH2fI9L1CDhofelFczivA47+I=;
-	b=anvWgJO97GLIBGU+Bqzs9WPxJfntRhrEOqlC6tX65MbP6N546OIHPoo6fT/ptJL3PS
-	WQDF82DNpefeyNfGpnyejeQpGFHxb/AWU8a4EhvHSGhAhqN/XnbfPmXf2KWxqvQExTBh
-	NGO850V3oJF10NFa/aI/dL8lHAb09Xwzuh/ZjXgmvlQBFs/oELF2mFw1Qj5ZB9yEssVU
-	mFSxQPcbzGyhPh5TCkstrXbGajIZuxCdkfz/C8pbxVFgT88p9yXYp76NfkDDCZFFN5ny
-	RAyaC1P01fVD4adjZTWlS3i67wXd/DOovmeHz8pl6fpNIoJNAJU4HwsEIyLU+7Elyrtr
-	xclA==
-X-Gm-Message-State: AHPjjUgb3B2SvERwlKTB+npadeCIJoC9EnTA38iPOrXbUYOVH6wQ2tLK
-	0+1fkmAogG8gOaR+TzCltJAIWA==
-X-Google-Smtp-Source: AOwi7QBZkO0yD1GhZxz71AXdZfgNes7RBVgQghy/wOKCaccyLFS8ltFw1kRe0OEe/Nb28VNShyPR1g==
-X-Received: by 10.84.238.205 with SMTP id l13mr12363134pln.173.1506481525807; 
-	Tue, 26 Sep 2017 20:05:25 -0700 (PDT)
+	bh=AJUggBqu9R+UrpbQOx2dO/jQ5bCit1JPc6M8QIx4UNY=;
+	b=Gk8d3mMsH0iJlf2rf3Jk9ohdxuc+0w01hwchQgAtfJ1o1zHAhQFlkPmajQQC0ShP3m
+	tmjlyuhXz7Z+ffdMPG5tGSbWKMFEJhXTIkniC6dSkZ2J34lEKIDcIa70fhr2Jb9rSjqG
+	ObhyJ3a04NVLjgMba0Rgf8IRGWiHM6MDMDAiiS72Kghot9dBzxQNU5T10auSGb9J9SpL
+	Eq0vOGfsWu0youf9QZft2Uj44TYXeAKXuhEvOQ0jzImlqYLpjG3nfu57C9soLE8vawFS
+	HbiOh9f8xvP0KQiLboHI6fXbMdpdD+8QlCbmkjaQh7lVZ7GOdetoScBsSGiAsUp1xxUA
+	tfzw==
+X-Gm-Message-State: AHPjjUhBXMmMH735Xyyi+r6hNQLk++UG2puStwRxZJpCua5PiEFsrnH/
+	5Lnpk9R5qyVp100KZwfeOdg=
+X-Google-Smtp-Source: AOwi7QDEz2JCuyQKpdEkbjbQKBNtEMbyGHE4iS02c0qz6d0Vuto1izVioKsJNT56Ugy2Wa4waFoZbA==
+X-Received: by 10.99.132.199 with SMTP id k190mr13048290pgd.25.1506481708619; 
+	Tue, 26 Sep 2017 20:08:28 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:f084:ad3:5bb0:9acb?
 	([2601:202:4001:9ea0:f084:ad3:5bb0:9acb])
-	by smtp.gmail.com with ESMTPSA id z8sm6170452pgs.41.2017.09.26.20.05.25
+	by smtp.gmail.com with ESMTPSA id
+	z9sm18715067pgc.85.2017.09.26.20.08.27
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Sep 2017 20:05:25 -0700 (PDT)
-To: leonardo.sandoval.gonzalez@linux.intel.com,
-	openembedded-core@lists.openembedded.org
-References: <20170926200429.6248-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	Tue, 26 Sep 2017 20:08:28 -0700 (PDT)
+To: Will Newton <will.newton@gmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20170918134356.16124-1-willn@resin.io>
+	<CAFbHwiQnvfGDk2xxHcOhZhLGhi15xkaNRAMFqak4vBVcXAGoDg@mail.gmail.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <f1745217-a9ad-677f-1b37-ccafe108c066@gmail.com>
-Date: Tue, 26 Sep 2017 20:05:24 -0700
+Message-ID: <117f7ca7-527d-0146-99eb-84cbb3c3aa44@gmail.com>
+Date: Tue, 26 Sep 2017 20:08:27 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <20170926200429.6248-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: Re: [pyro][PATCH 1/2] selftest/cases/signing: ignore removal errors when cleaning temporary gpg directory
+In-Reply-To: <CAFbHwiQnvfGDk2xxHcOhZhLGhi15xkaNRAMFqak4vBVcXAGoDg@mail.gmail.com>
+Cc: Will Newton <willn@resin.io>, Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: [pyro][PATCH] goarch.bbclass: Replace logic for setting GOARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,61 +64,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 03:05:24 -0000
+X-List-Received-Date: Wed, 27 Sep 2017 03:08:27 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-Leo,
 
 
-On 09/26/2017 01:04 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On 09/26/2017 09:36 AM, Will Newton wrote:
+> Hi,
 >
-> The high-level method tempfile.TemporaryDirectory give us no way to
-> ignore erros on removal thus use tempfile.mkdtemp instead. Ignoring possible issues
-> on removal is neccesary because it contains gpg sockets that are automatically removed
-> by the system once the process terminates, otherwise the following log is observed:
->
->   ..
->   ..
->   File "/usr/lib/python3.5/shutil.py", line 436, in _rmtree_safe_fd
->     os.unlink(name, dir_fd=topfd)
->   FileNotFoundError: [Errno 2] No such file or directory: 'S.gpg-agent.browser'
->
-> [YOCTO #11821]
-merged to stagging,
-Thanks,
+> Is this change ok for the stable branch?
+merged into staging.
+thanks,
 Armin
 >
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->  meta/lib/oeqa/selftest/signing.py | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oeqa/selftest/signing.py b/meta/lib/oeqa/selftest/signing.py
-> index 0ac3d1fac9..38e29305d5 100644
-> --- a/meta/lib/oeqa/selftest/signing.py
-> +++ b/meta/lib/oeqa/selftest/signing.py
-> @@ -21,14 +21,17 @@ class Signing(oeSelfTest):
->          if not shutil.which("gpg"):
->              raise AssertionError("This test needs GnuPG")
->  
-> -        cls.gpg_home_dir = tempfile.TemporaryDirectory(prefix="oeqa-signing-")
-> -        cls.gpg_dir = cls.gpg_home_dir.name
-> +        cls.gpg_dir = tempfile.mkdtemp(prefix="oeqa-signing-")
->  
->          cls.pub_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.pub")
->          cls.secret_key_path = os.path.join(cls.testlayer_path, 'files', 'signing', "key.secret")
->  
->          runCmd('gpg --batch --homedir %s --import %s %s' % (cls.gpg_dir, cls.pub_key_path, cls.secret_key_path))
->  
-> +    @classmethod
-> +    def tearDownClass(cls):
-> +        shutil.rmtree(cls.gpg_dir, ignore_errors=True)
-> +
->      @testcase(1362)
->      def test_signing_packages(self):
->          """
+> On Mon, Sep 18, 2017 at 4:43 PM, Will Newton <will.newton@gmail.com> wrote:
+>> From: Will Newton <will.newton@gmail.com>
+>>
+>> The previous logic applied a regex to TUNE_FEATURES which could
+>> set the GOARM value to 7 incorrectly, for example when dealing
+>> with an arm1176 core. Simplify to check for the presence of
+>> "armv7" instead. At the same time add a check for "armv6" and
+>> set GOARM to 6 in that case.
+>>
+>> (From OE-Core rev: 07b60c15e9ef650940afdde37bf3f3b9c50a336d)
+>>
+>> Signed-off-by: Will Newton <willn@resin.io>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>  meta/classes/goarch.bbclass | 7 +++++--
+>>  1 file changed, 5 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+>> index 4a5b2ec787..12df88f8c4 100644
+>> --- a/meta/classes/goarch.bbclass
+>> +++ b/meta/classes/goarch.bbclass
+>> @@ -38,8 +38,11 @@ def go_map_arch(a, d):
+>>
+>>  def go_map_arm(a, f, d):
+>>      import re
+>> -    if re.match('arm.*', a) and re.match('arm.*7.*', f):
+>> -        return '7'
+>> +    if re.match('arm.*', a):
+>> +        if 'armv7' in f:
+>> +            return '7'
+>> +        elif 'armv6' in f:
+>> +            return '6'
+>>      return ''
+>>
+>>  def go_map_os(o, d):
+>> --
+>> 2.13.5
+>>
 
 
