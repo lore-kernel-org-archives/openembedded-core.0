@@ -1,22 +1,18 @@
-Return-Path: <fabien.lahoudere@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D38F77E3F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 13:15:19 +0000 (UTC)
-Received: from Collabora.par1.mozilla.com (unknown
-	[IPv6:2a00:8c40:243:232:747a:bb68:a210:2610])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested) (Authenticated sender: aragua)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 59B7426CE44;
-	Wed, 27 Sep 2017 14:15:20 +0100 (BST)
-From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Sep 2017 15:14:26 +0200
-Message-Id: <20170927131426.4037-3-fabien.lahoudere@collabora.co.uk>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170927131426.4037-1-fabien.lahoudere@collabora.co.uk>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0917777E06;
+	Wed, 27 Sep 2017 13:30:29 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+Date: Wed, 27 Sep 2017 13:30:30 -0000
+Message-ID: <20170927133030.2785.13116@do.openembedded.org>
 References: <20170927131426.4037-1-fabien.lahoudere@collabora.co.uk>
-Subject: [PATCH v3 3/3] weston: Bump version to 3.0.0
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20170927131426.4037-1-fabien.lahoudere@collabora.co.uk>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2M10gd2F5bGFuZCA6IEJ1bXAgdG8gdmVyc2lvbi4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,67 +25,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 13:15:19 -0000
+X-List-Received-Date: Wed, 27 Sep 2017 13:30:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+== Series Details ==
+
+Series: "[v3] wayland : Bump to version..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9141/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixforpkgdatadirvariable.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../wayland/{weston_2.0.0.bb => weston_3.0.0.bb}          | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_2.0.0.bb => weston_3.0.0.bb} (90%)
-
-diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_3.0.0.bb
-similarity index 90%
-rename from meta/recipes-graphics/wayland/weston_2.0.0.bb
-rename to meta/recipes-graphics/wayland/weston_3.0.0.bb
-index 8160f5556d..6b3fad7b83 100644
---- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_3.0.0.bb
-@@ -9,12 +9,11 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop \
-            file://0001-make-error-portable.patch \
--           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
- "
--SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
--SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
-+SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
-+SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
- 
- inherit autotools pkgconfig useradd distro_features_check
- # depends on virtual/egl
-@@ -76,7 +75,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
--	rm -f ${D}/${libdir}/libweston-2/*.la
-+	rm -f ${D}/${libdir}/libweston-3/*.la
- 
- 	# If X11, ship a desktop file to launch it
- 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
-@@ -93,16 +92,16 @@ do_install_append() {
- }
- 
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
--             libweston-2 ${PN}-examples"
-+             libweston-3 ${PN}-examples"
- 
- FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
- 
--FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
--SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
-+FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
-+SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
- 
- FILES_${PN}-examples = "${bindir}/*"
- 
--FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
-+FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
- RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
- 
- RDEPENDS_${PN} += "xkeyboard-config"
--- 
-2.11.0
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
