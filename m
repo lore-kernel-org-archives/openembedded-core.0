@@ -1,31 +1,49 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id D4DA9719B7
+Return-Path: <andreas.kling@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 97BF677CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 08:52:27 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v8R8qP3C015994
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 27 Sep 2017 10:52:25 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v8R8qOSo010352
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 27 Sep 2017 10:52:24 +0200
-From: Andrej Valek <andrej.valek@siemens.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
-	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
-	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
-	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
-	<b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
-Message-ID: <239a2cfd-1507-b8dc-0d85-0ab7afa98c71@siemens.com>
-Date: Wed, 27 Sep 2017 10:52:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
+	Wed, 27 Sep 2017 09:40:20 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id q124so754139wmb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Sep 2017 02:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ySQZ5d+kvNutoiju/W+T9xVsXUF1N/xO7mM00KU0/qI=;
+	b=AzmjSgKPqaMno6mAhvMD+aERAsS52jczy8NxP11h0RWZGsWduZ+bQ5ruJGQrxMGa92
+	wf9KMw9O3YcyeI7MIleVs74PeTAzuae6VgBw+w/M1xpCSMKaovNaKVJ5zIQAhlDPtTcj
+	ws2b23aOAmbbw9r7ZnLFriLBmtjy5ksa6RAFh/VIYsedtreWtNnLejH+gNCwNWDvif8u
+	HG6bU5FIGa+WuGV36zk0NKR2oknSK+BOBU8A46ux/DteWutj6k74U8XpK1GR8INClTVX
+	D5kaMAPT24GYWXQGzWfbkfKhF01owD7jRkRqB6jv2TNi7mApRgBx3OZK1LRY9DResZfW
+	V+2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=ySQZ5d+kvNutoiju/W+T9xVsXUF1N/xO7mM00KU0/qI=;
+	b=e8QdIwbTMyyQ3VMoONxkOgPUN1kC5nD9FapM0DOnt1LG4jGFN4L0EzVFPwWnGzU+yg
+	C3AEF37BYTdUZze79yTWoioRyHjWOYLQ8yeucpzNymRconNe+bwHrl5F9ckk6fl+CONc
+	5V8riaoaXlup9Ev3KIEDSgZvn5eEt7oedI+ytuDMzosRRTI3vf5mPo69P/du5Ve52eeO
+	Clt8kPnkoXNciPfG4oxLs2mgQVnnIs6Gy9Q2GBGfabWyonGoQWuIcOtpx4SeMHUJgb+1
+	SPy/+NEGJ73G+jmJGwCh+eLD6LXgkchbpOqnkTpCYVdDBJJqpfhq5+Z4P1UoL6zIP6FP
+	LAwQ==
+X-Gm-Message-State: AHPjjUi7F6b8NC1zhfgTxGBUTKWgGWRGKyx+4GyBciPwIGggIcZ7RIhE
+	vLT2Dd8GE8rqJMvXEyd5ASELlwIY
+X-Google-Smtp-Source: AOwi7QB4N9Fvp0f8JMtPoBns/WwgDDCWvbXcwbRoz5AJhE3IgEWpRbqcwzlhlJ41qtVz3LzIPmlN0Q==
+X-Received: by 10.80.182.206 with SMTP id f14mr1260860ede.110.1506505221028;
+	Wed, 27 Sep 2017 02:40:21 -0700 (PDT)
+Received: from nb-lx-hgc-001.peiker-cee.de
+	(business-176-094-229-202.static.arcor-ip.net. [176.94.229.202])
+	by smtp.gmail.com with ESMTPSA id b8sm6712890eda.35.2017.09.27.02.40.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 27 Sep 2017 02:40:20 -0700 (PDT)
+From: andreas.kling@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Sep 2017 11:40:14 +0200
+Message-Id: <20170927094014.2666-1-andreas.kling@gmail.com>
+X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20170926171708.19010-1-andreas.kling@gmail.com>
+References: <20170926171708.19010-1-andreas.kling@gmail.com>
+Subject: [PATCH v3] systemd: add runtime dependencies to pam plugins.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,55 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 08:52:28 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Sep 2017 09:40:21 -0000
 
-Hi Ross,
+From: Andy Kling <andreas.kling@peiker-cee.de>
 
-Could You please provide my the current status of my request?
+  This ensures pam plugins required by /etc/pam.d/systemd-user
+  to open a user session are installed.
 
-Thank You,
-Andrej
+  systemd[1]: Starting User Manager for UID 994...
+  systemd[6493]: PAM unable to dlopen(/lib/security/pam_keyinit.so)
 
-On 09/06/2017 08:16 AM, Andrej Valek wrote:
-> I have created a PR:
-> https://github.com/openembedded/openembedded-core/pull/23 as last time.
-> 
-> Andrej
-> 
-> On 09/05/2017 08:52 PM, Burton, Ross wrote:
->> Also the patch has been corrupted by SMTP.  Is it in a branch somewhere?
->>
->> Ross
->>
->> On 5 September 2017 at 18:28, Andrej Valek <andrej.valek@siemens.com 
->> <mailto:andrej.valek@siemens.com>> wrote:
->>
->>     Hi Ross,
->>
->>     There are not any CVEs fixes which has not been already merged. There
->>     are only general changes. Of course, we can "clean" a lot of patches by
->>     accepting this.
->>
->>     Regards,
->>     Andrej
->>
->>     On 09/05/2017 11:19 AM, Burton, Ross wrote:
->>     > On 5 September 2017 at 07:35, Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
->>     > <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>> wrote:
->>     >
->>     >     Signed-off-by: Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
->>      >     <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>>
->>      >
->>      >
->>      > We're past freeze to the upgrade will have to wait until 2.4 releases.
->>     Does this
->>      > fix any outstanding CVEs that we should be cherry-picking?
->>      >
->>      > Ross
->>      >
->>
->>
+  Drop package systemd-pam to prevent confusion.
+  It is unused for a long time now.
+
+  v2: improve commit message
+  v3: drop systemd-pam
+
+Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 881896bfb5..acc4c4623b 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -31,6 +31,12 @@ SRC_URI += " \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
++PAM_PLUGINS = " \
++    pam-plugin-unix \
++    pam-plugin-loginuid \
++    pam-plugin-keyinit \
++"
++
+ PACKAGECONFIG ??= "xz \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux ldconfig usrmerge', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+@@ -100,7 +106,7 @@ PACKAGECONFIG[importd] = "--enable-importd,--disable-importd"
+ PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
+ PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
+ PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+-PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
++PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
+ # Verify keymaps on locale change
+ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ # Update NAT firewall rules
+@@ -295,7 +301,6 @@ PACKAGES =+ "\
+     ${PN}-kernel-install \
+     ${PN}-rpm-macros \
+     ${PN}-binfmt \
+-    ${PN}-pam \
+     ${PN}-zsh-completion \
+     ${PN}-xorg-xinitrc \
+     ${PN}-container \
+-- 
+2.14.1
+
 
