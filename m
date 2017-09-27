@@ -1,60 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
-	[209.85.161.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A41B77DB3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
+	[209.85.214.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 24B4077DB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 12:13:07 +0000 (UTC)
-Received: by mail-yw0-f180.google.com with SMTP id w22so9119481ywa.13
+	Wed, 27 Sep 2017 12:16:27 +0000 (UTC)
+Received: by mail-it0-f43.google.com with SMTP id 4so6273028itv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 05:13:09 -0700 (PDT)
+	Wed, 27 Sep 2017 05:16:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=7DUF+yBKr3wqIedvtcu9Fs1oJAu7K+v9XYqupUyjHFs=;
-	b=qUX1RkB9LIxPJkFA92nKg8lvAQNtUKZn2W5AWo+M0bBl0azBopM+z/pUO0aHgFaTOD
-	dDv7VuhFk60GUt8GdwTNJtKRhZIpPNF0lydP5r61mQNdtrkn/7PksPw3Otey0J6FtsUq
-	9f7jiw8bXanGi9JodBBVXXwUAsw7Hz07CRJS/MDy6tRh6fl7/knyz4bPgkvTiSA3pBVh
-	+zISLJpYe1JZ34lFSJUO6LPZEBBoCEQsHbH9Dw0P5NQwl5Ig7v0QRo3Bj/K2MH+Ng1FC
-	wfRJXwPx0JM9K/KoFV517IjxIokTWA3+8aa6shXk7fDvnJ91TnjILqLQiKe9HWe3K8TS
-	Wz+w==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GGaxMfeth0L+RmTOe2xD+2aNP/4amayU8YpThSM+LGE=;
+	b=HmUWdA2YgP8rWzgXrq9V3QB8neXgPI1t7u7oduRdkmo0HL6XyHJJXRd4ITD1WjMiK2
+	uo/1YQF9d4mvo+WWYiJT90mqAPGy/b7zRFBp/WfTlS9Tb33LINK9HlWSOH8Y9HqHecLp
+	RYmmYTQQYP6Qmxfd0z7EDSPqKx2IL+vzL5qakT4ukEaiZseimESpm7RtXBO45ynl3/zm
+	Xhz4qTZ3iUBW/attavIuqs09r3c2l/Set6Gge0uEFvqI2GwcLwPGZ0RMGXHUXC3Ud1KB
+	Vc38W4NZQk1Tug/GPeWADCcMIh3T7u+soQfJkLu2otQ2hygsA2YAVcC8vwAlvDM0LUAK
+	NC9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=7DUF+yBKr3wqIedvtcu9Fs1oJAu7K+v9XYqupUyjHFs=;
-	b=E64qzIaVaPK8EzwmUkXbC1dRwQ91Iovf8T69p8w9c2kNRidGbpqlOGVZ6bWxZuZ5gc
-	fuFl+a8rLqqnG0dIL0g7kDGzHUNKUD1DZKcF0WVgZt1a2BRmnfIL8gzq+JAFHUn7gVs5
-	L1OukvJKHXhB0xsw2ihe4GZPZR3mcor2EIiL9NnXy624qgLixu34A66RCr8mjIw/Tu9i
-	DNHmSdMJkgjG/P31JdD3H669jf3b/9uyVgEY0syhZBfW8CId+ZRN215RQ26OvU9BpZXf
-	NPsE8nR4VeIbmZP9MkN2LU9O1wm8cVvpomCXrgieZ6dY0XmA6tS04FpXGkOVJdf3kX96
-	buPQ==
-X-Gm-Message-State: AHPjjUgSH/1IMRNh3R2KHTORI9VobO/SfD8ddRspCMaJzNYIacX1IXRm
-	vN/iExh4QsKoFBPAayZF8CnNtvFb
-X-Received: by 10.129.52.23 with SMTP id b23mr689305ywa.43.1506514389032;
-	Wed, 27 Sep 2017 05:13:09 -0700 (PDT)
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com.
-	[209.85.218.54]) by smtp.gmail.com with ESMTPSA id
-	z40sm4674704ywj.64.2017.09.27.05.13.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Sep 2017 05:13:08 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f54.google.com with SMTP id u130so15915493oib.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 05:13:08 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QDrCiTSKpctWGSk8uUrD22x8iyFFWBaonLI35MGo+M1sWkBGYBCRhA61gf+QLE7JY7LjzPZmwwKg+/GQTDeXoQ=
-X-Received: by 10.157.20.233 with SMTP id r38mr800913otr.357.1506514387550;
-	Wed, 27 Sep 2017 05:13:07 -0700 (PDT)
+	bh=GGaxMfeth0L+RmTOe2xD+2aNP/4amayU8YpThSM+LGE=;
+	b=dC9p1ceELwZ14oceMcKSQVhtSnOjXV6UmDncs2hweP3Uw11hd9Rs+LLdMujweRI6Zv
+	4wb4CeY9pob1na5xpHd+bdhjWrVvMwkFbnppxzyT+Pk0fb2WgzDQQiZlwzm01nF4m+xT
+	AhwETxltqz4SRYCstJvZFNWBpOXu3+2wWaZwx7Upsjy20nLK+KjJhi1uDjWZQXdZzAGo
+	T0nV699LOwPIefWYAllhYk1EuHlI/Xccs8FLDrq0kO6rCdtVukKhfV/9ChwW3ZQ47dpl
+	tu+HBOYSx7PlJ1dBgCZC7TtwqDIjOqDJBbrI/SgUaKm9pd3f5U1hGHsNgdSytszF/Rq6
+	r6ew==
+X-Gm-Message-State: AHPjjUge1ZnTC3uITZUXY9uNDmo7MFp3uP2FeyLOqlujR3nRRBzDAv4t
+	JBqAEct1BMf1CvACAtpjKCDuIWnlsyVFno8AuY1gIA==
+X-Google-Smtp-Source: AOwi7QCCmYaoW7HJROZyQn7w2A6weNspvfkQYw9tNdFPrHQji7g9WhUTRNRviCpHc6c97UzWTrZJzOkl4JblhhcrdIE=
+X-Received: by 10.36.181.73 with SMTP id j9mr198651iti.6.1506514589127; Wed,
+	27 Sep 2017 05:16:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.66.149 with HTTP; Wed, 27 Sep 2017 05:13:06 -0700 (PDT)
-In-Reply-To: <CAJTo0LaJmEy6EbDZ+uv92ESgLZx-wYB8mmKboJsP4pAR8uDA5g@mail.gmail.com>
+Received: by 10.107.19.68 with HTTP; Wed, 27 Sep 2017 05:16:08 -0700 (PDT)
+In-Reply-To: <CAP9ODKopt-a_Ur8GKMjBwsGo_S9XBFmwZj9K9V8=kxQ6x__MgQ@mail.gmail.com>
 References: <20170922235219.2785-1-sgw@linux.intel.com>
 	<CAJTo0LaJmEy6EbDZ+uv92ESgLZx-wYB8mmKboJsP4pAR8uDA5g@mail.gmail.com>
-Date: Wed, 27 Sep 2017 09:13:06 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKopt-a_Ur8GKMjBwsGo_S9XBFmwZj9K9V8=kxQ6x__MgQ@mail.gmail.com>
-Message-ID: <CAP9ODKopt-a_Ur8GKMjBwsGo_S9XBFmwZj9K9V8=kxQ6x__MgQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAP9ODKopt-a_Ur8GKMjBwsGo_S9XBFmwZj9K9V8=kxQ6x__MgQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Sep 2017 13:16:08 +0100
+Message-ID: <CAJTo0La8Jnb+vccVTLHNqvJgwm4hZWt2VU2dr9zzyny0_RoOxg@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] wayland-protocols: extend to native and fix dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -69,30 +57,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 12:13:08 -0000
+X-List-Received-Date: Wed, 27 Sep 2017 12:16:28 -0000
+Content-Type: multipart/alternative; boundary="f403045d9e42ef3263055a2ac248"
+
+--f403045d9e42ef3263055a2ac248
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 27, 2017 at 9:01 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 23 September 2017 at 00:52, Saul Wold <sgw@linux.intel.com> wrote:
->>
->> When trying to build a newer version of Mesa, a native version of
->> wayland-protocols is needed to build.
->
->
-> Why does meta-target need wayland-protocols-native?
->
->>
->> +DEPENDS = "wayland"
->
->
-> So how does wayland-protocols build now?  What was breaking?
+On 27 September 2017 at 13:13, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-Many host machines provides it; make sure to test in a host without it
-installed.
+> On Wed, Sep 27, 2017 at 9:01 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > On 23 September 2017 at 00:52, Saul Wold <sgw@linux.intel.com> wrote:
+> >>
+> >> When trying to build a newer version of Mesa, a native version of
+> >> wayland-protocols is needed to build.
+> >
+> >
+> > Why does meta-target need wayland-protocols-native?
+> >
+> >>
+> >> +DEPENDS = "wayland"
+> >
+> >
+> > So how does wayland-protocols build now?  What was breaking?
+>
+> Many host machines provides it; make sure to test in a host without it
+> installed.
+>
 
+My machine has a few wayland libraries installed, but no headers or
+anything else relevant.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross
 
+--f403045d9e42ef3263055a2ac248
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 27 September 2017 at 13:13, Otavio Salvador <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"=
+_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+><span class=3D"">On Wed, Sep 27, 2017 at 9:01 AM, Burton, Ross &lt;<a href=
+=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
+&gt; On 23 September 2017 at 00:52, Saul Wold &lt;<a href=3D"mailto:sgw@lin=
+ux.intel.com">sgw@linux.intel.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; When trying to build a newer version of Mesa, a native version of<=
+br>
+&gt;&gt; wayland-protocols is needed to build.<br>
+&gt;<br>
+&gt;<br>
+&gt; Why does meta-target need wayland-protocols-native?<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; +DEPENDS =3D &quot;wayland&quot;<br>
+&gt;<br>
+&gt;<br>
+&gt; So how does wayland-protocols build now?=C2=A0 What was breaking?<br>
+<br>
+</span>Many host machines provides it; make sure to test in a host without =
+it<br>
+installed.<br></blockquote><div><br></div><div>My machine has a few wayland=
+ libraries installed, but no headers or anything else relevant.</div><div><=
+br></div><div>Ross=C2=A0</div></div></div></div>
+
+--f403045d9e42ef3263055a2ac248--
