@@ -1,21 +1,18 @@
-Return-Path: <libertad.cruz@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CDFE77B45
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 20:34:18 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP; 27 Sep 2017 13:34:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,446,1500966000"; d="scan'208";a="156836866"
-Received: from liberta1-mobl1.zpn.intel.com ([10.219.128.45])
-	by fmsmga006.fm.intel.com with ESMTP; 27 Sep 2017 13:34:19 -0700
-From: libertad.cruz@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Sep 2017 15:43:39 -0500
-Message-Id: <1506545019-4144-1-git-send-email-libertad.cruz@intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: libertad.cruz@intel.com
-Subject: [PATCH V3] dpky.py: Adds testcases for dpkg package manager
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2836D77B45;
+	Wed, 27 Sep 2017 21:00:24 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: libertad.cruz@intel.com
+Date: Wed, 27 Sep 2017 21:00:25 -0000
+Message-ID: <20170927210025.2787.24942@do.openembedded.org>
+References: <1506545019-4144-1-git-send-email-libertad.cruz@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1506545019-4144-1-git-send-email-libertad.cruz@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZHBreS5weTogQWRkcyB0ZXN0Y2FzZXMgZm9yIGRwa2cgcGFja2FnZSBtYW5hZ2VyIChyZXY0KQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,73 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 20:34:18 -0000
+X-List-Received-Date: Wed, 27 Sep 2017 21:00:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: libertad <libertad.cruz@intel.com>
+== Series Details ==
 
-Adds dpkg testcases for testing basic operation functionality for the dpkg packgage manager.Adds new assert function to verify expected results given by the dpkg package.
+Series: dpky.py: Adds testcases for dpkg package manager (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/7695/
+State : failure
 
-[YOCTO #10063]
+== Summary ==
 
-Signed-off-by: libertad <libertad.cruz@intel.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at abf2e9526a)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/runtime/cases/dpkg.py | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/dpkg.py b/meta/lib/oeqa/runtime/cases/dpkg.py
-index cd1183c7f12..1bef332effa 100644
---- a/meta/lib/oeqa/runtime/cases/dpkg.py
-+++ b/meta/lib/oeqa/runtime/cases/dpkg.py
-@@ -10,9 +10,10 @@ from oeqa.runtime.decorator.package import OEHasPackage
- 
- 
- class dpkgTest(OERuntimeTestCase):
--    def dpkg(self, command, expected=0):
-+    def dpkg(self, command, expectedStr, expected=0):
-         status, output = self.target.run(command, 1500)
-         message = os.linesep.join([command, output])
-+        self.assertIn(expectedStr, output) 
-         self.assertEqual(status, expected, message)
-         return output
- 
-@@ -24,29 +25,29 @@ class dpkgBasicTest(dpkgTest):
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OETestID(1801)
-     def test_dpkg_help(self):
--        self.dpkg('dpkg --help')
-+        self.dpkg('dpkg --help',"Usage: dpkg [<option> ...] <command>")
- 
-     @OETestDepends(['dpkg.dpkgBasicTest.test_dpkg_help'])
-     @OETestID(1802)
-     def test_dpkg_version(self):
--        self.dpkg('dpkg --version')
-+        self.dpkg('dpkg --version',"Debian 'dpkg' package management program version")
- 
-     @OETestID(1803)
-     def test_dpkg_Dhelp(self):
--        self.dpkg('dpkg -Dhelp')
-+        self.dpkg('dpkg -Dhelp',"dpkg debugging option, --debug=<octal> or -D<octal>:")
- 
-     @OETestID(1805)
-     def test_dpkg_force_help(self):
--        self.dpkg('dpkg --force-help')
-+        self.dpkg('dpkg --force-help',"dpkg forcing options - control behaviour when problems found:")
- 
-     @OETestID(1806)
-     def test_dpkg_deb_help(self):
--        self.dpkg('dpkg-deb --help')
-+        self.dpkg('dpkg-deb --help',"Usage: dpkg-deb [<option> ...] <command>")
- 
-     @OETestID(1812)
-     def test_dpkg_status(self):
--        self.dpkg('dpkg -s dpkg')
-+        self.dpkg('dpkg -s dpkg',"Package: dpkg")
- 
-     @OETestID(1814)
-     def test_dpkg_list(self):
--        self.dpkg('dpkg -l')
-+        self.dpkg('dpkg -l',"Desired=Unknown/Install/Remove/Purge/Hold")
--- 
-2.12.3
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
