@@ -1,45 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C42A377B45
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f180.google.com (mail-yw0-f180.google.com
+	[209.85.161.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 056DF71AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 21:02:12 +0000 (UTC)
-Received: by mail-pf0-f195.google.com with SMTP id g65so7726040pfe.1
+	Wed, 27 Sep 2017 21:52:56 +0000 (UTC)
+Received: by mail-yw0-f180.google.com with SMTP id u205so10295615ywa.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 14:02:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=m3ykegpx16NGtJTlmbfaReoKFPRqLKMEB/KnjppKIDw=;
-	b=iPqjFWnLJB9LnpLLbGipk6Qj2hMSUsdp3yJCXQ1yHqKu4yy+GCEZxQaO7KeduDPZL2
-	5g75zkPrXB//Z9Tc6+wkZ9awo4XGQvBRUuHKfAJ3Qwglq9xgGsVoWnZPlN5FFQg68Nld
-	ae+LZa5EPxLYFNYd119MQ9hbykrkJcuGYnw8r53Lr+MYIZEjecbNqtRkQ1j+7M8yUYwU
-	FQ2CaHGicbzzX79ABq4BRzWoe0sao34cZNRH+ATMltTEnk8ZuCf+YIYATENGc1WUVh3F
-	s+V8qbgYgC8wE3qJX+uACjYdNrCxcmYFKlk10x320Gz3gg6MiDexUHRE/BP6uQrAUKxb
-	b1sA==
+	Wed, 27 Sep 2017 14:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=RyC6HuP/Yh0YyARbHWZnwf6VtJUEdldumx9ovAA06Ac=;
+	b=K+6gtxyI37M4XzOa0ytnopazYc2mG40WLdijsjdf7nbO5ex2hOIeFdYxqiJUhPFRyz
+	eiBsjjjyNFQKXMppSbfYa9IFBFHM9wGh8UsGyyH8sIdulrWndGoIK8ceMObBrP0g+Px8
+	B5IQBjRP/VA5dVvRaY8x5rjcB2G5wcVBa+1Us=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=m3ykegpx16NGtJTlmbfaReoKFPRqLKMEB/KnjppKIDw=;
-	b=Bd4Vx61+eKw8CyLf75CQdwODTvAbJt51u5etMhZko0inzlkV9VGDNrKwXS3DpiVxDi
-	qJOMvAxv6P5amshBrk4gYWRV3gqE3kVCqZPJDS29QpctY6OMrRgYO8cYJeBQzNyspL+E
-	PYuqWvPoHLSsSda/ZwxSNwNckQx3jjO28fYtzrj8ugvMaIDxudGc9IwORYndF4UcY3Fr
-	ACVRScZR+tKPD6Ko2/3f2xE76qkfp52BeinnVGLxm4PJWgi7ESE6tpeh+evLLnSMSUqU
-	Ou9KRZN4eMdQQmJ7ufVwGFgSkV8Nr3+twzHOSkzT06QYHS3du+Rb1QDwmGEypr5EAYId
-	EMuw==
-X-Gm-Message-State: AHPjjUhFVLx7+qgCYQjnSDMQmR0SL5TWfBkVqUttu1M/CkAVP7uHT1L2
-	BEPygCSSz17EQp9OxB3gqA8qDXu1J95QvuvLVrs=
-X-Google-Smtp-Source: AOwi7QAPwLNb0Gj2xEDFV8fu0sD8V49jRzYINyvDa+PCJlDdDAI39HuW2eDotMlMuh/+KjFEb3N3cWqhOq/vOB3McbI=
-X-Received: by 10.98.157.74 with SMTP id i71mr2393207pfd.168.1506546133936;
-	Wed, 27 Sep 2017 14:02:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.149.73 with HTTP; Wed, 27 Sep 2017 14:01:43 -0700 (PDT)
-In-Reply-To: <1506531609-5917-1-git-send-email-trini@konsulko.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=RyC6HuP/Yh0YyARbHWZnwf6VtJUEdldumx9ovAA06Ac=;
+	b=REFikpkNYbglnyVcTTqHcHTRGDPzUObMZ+f4EE2UHN+25HgfZ0QyusaGjSajl1cUtB
+	uAG9EGvowa5DEw9Zd0iJrj3eKXDaocntOoYQg+tq3ifyfJFpv93LY7+6CiNg/Afd4MZS
+	vLM/UZZFRL9xbFZ9bJ24UcLgaotUg3DIi9cf90AVW8BwtcD2vgluM9D3RqQDOtsfm5YP
+	75B3XBk/dEOxrJScQ3PT9A0px+ZXARJEjGDnuok+DUtoAkxCGcwtfdvZyURX+lx6btTz
+	Ugp3+Vhenk5uy/zNoyU5ildC6xPn2uT98mb13PkMCkLtxCsiu/bDQNaYXL8qD3ir+zyH
+	sFQw==
+X-Gm-Message-State: AHPjjUj5cRda2qiSi8gAARGctnZQuAT4PhUz5/3dAIjpgRnATTiXWgnj
+	mDbY/e+KCUYWgDFNiI6tyyNccw==
+X-Google-Smtp-Source: AOwi7QCROOUtme6E/2hNTJI9PQRPgKgwWXxJAEEjmK0S1JPznawREfjIeXD3evZ2Qu8WAqc8zK5Zmg==
+X-Received: by 10.129.76.147 with SMTP id z141mr1985417ywa.258.1506549177754; 
+	Wed, 27 Sep 2017 14:52:57 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1401:811b:a523:8806:2b32:ed54])
+	by smtp.gmail.com with ESMTPSA id
+	g72sm5018777ywe.26.2017.09.27.14.52.57
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 27 Sep 2017 14:52:57 -0700 (PDT)
+Date: Wed, 27 Sep 2017 17:53:00 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170927215300.GD3112@bill-the-cat>
 References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Sep 2017 14:01:43 -0700
-Message-ID: <CAMKF1srXi9mNZejjSK2+1irS4neRHbK+BQyka-czvjPLsc8E2Q@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
+	<CAMKF1srXi9mNZejjSK2+1irS4neRHbK+BQyka-czvjPLsc8E2Q@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1srXi9mNZejjSK2+1irS4neRHbK+BQyka-czvjPLsc8E2Q@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
@@ -55,44 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 21:02:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Sep 2017 21:52:57 -0000
+X-Groupsio-MsgNum: 103433
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="83Y2sXKo4f/n2njO"
+Content-Disposition: inline
 
-On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini <trini@konsulko.com> wrote:
-> With RSS we need to ensure that when making a bmap image that the
-> python3 that we created is found via /usr/bin/env rather than the host
-> python3.  Otherwise we're relying on the build host to have bmaptool
-> support installed.
->
-> Signed-off-by: Tom Rini <trini@konsulko.com>
-> ---
-> I played around with a few ways to try and fix this problem, and this
-> was the best I could come up with.  Once this is in we need this in pyro
-> as well as it's broken there too.
-> ---
->  meta/classes/image_types.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 61dca626311e..3ff960e3a889 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
->  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
->  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
->  IMAGE_TYPES_MASKED ?= ""
-> +
-> +# bmap requires python3 to be in the PATH
-> +EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
-> --
+--83Y2sXKo4f/n2njO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think somewhere inherit python3native should fix it.
+On Wed, Sep 27, 2017 at 02:01:43PM -0700, Khem Raj wrote:
+> On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini <trini@konsulko.com> wrote:
+> > With RSS we need to ensure that when making a bmap image that the
+> > python3 that we created is found via /usr/bin/env rather than the host
+> > python3.  Otherwise we're relying on the build host to have bmaptool
+> > support installed.
+> >
+> > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > ---
+> > I played around with a few ways to try and fix this problem, and this
+> > was the best I could come up with.  Once this is in we need this in pyro
+> > as well as it's broken there too.
+> > ---
+> >  meta/classes/image_types.bbclass | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_type=
+s.bbclass
+> > index 61dca626311e..3ff960e3a889 100644
+> > --- a/meta/classes/image_types.bbclass
+> > +++ b/meta/classes/image_types.bbclass
+> > @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?=3D "hddimg iso"
+> >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IM=
+AGE_FSTYPES,
+> >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, h=
+dddirect, hddimg, iso, etc.
+> >  IMAGE_TYPES_MASKED ?=3D ""
+> > +
+> > +# bmap requires python3 to be in the PATH
+> > +EXTRANATIVEPATH +=3D "${@'python3-native' if d.getVar('IMAGE_FSTYPES')=
+=2Efind('bmap') else ''}"
+> > --
+>=20
+> I think somewhere inherit python3native should fix it.
 
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Yes, image_types.bbclass could also inherit python3native but that
+seemed heavy-handed.  There's not some other place that should be doing
+it as the problem is saying we want to call bmaptool, and that's handled
+here.
 
+--=20
+Tom
+
+--83Y2sXKo4f/n2njO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZzB28AAoJEIf59jXTHXZS2PwP/0bhfjajKumhQHEvyt19Wur/
+hsG58qCQ/arJoqz26/eBrsDON/5gcqYypEevEr7Epwxk53L1sWuD154B3rKKi/Kj
+h3cIBkncrzYt8FNTSuNqlrUrCCTFiI8pk9Ji3bGqMx5nvDXO9fGPja7BbjWpfwnO
+Q38CIgWfgom2bLCOaFsZ/0/Gh7LuDdkgi38tkVwBkMBSirNgmqOdClqRrhypmN/n
+0Ep4ufobcqQPo1PrnRH4eGMi6zIM6bLEbnFb8mrk76ASX7IQpyyxOi3I2BSFDxPk
+yhALVCrS5aNpz2AclZO67xkxE+UfyVs2z22cbDcT8LyxusrNTDEg3faLvcJTGWNv
+NO54WBYvABfoYEHKg+UxD5HQl6xkyvMuHj4kO2X7W3MSyWa4ur9FBvA5F5qNEZ4U
+b7+mckfONJHNkWX65oE9JLZ+enLiNzp20qRr0IAsXUrS1ZvOYClkZRFBPQFdxHuA
+zeqz9A44UvVSS1OMJYAZwzv9ViqnSiLSEsDwe22N+bws2HgsLbHkz7vjv8/bGJle
+QthwfASt6v7pHDZFOaqBavouFaOSRa8IfA7xjVIGq+ERQQUDU+Z+HuYvIQ9lTKic
+NhnDV9NtFm7UMgJeS6gLWZlig8wqBrPga4pcWlJsm2X/TpubpJbL3MnSW79SMEt1
+jQR09rywJcLMqxQuhAN3
+=xLyq
+-----END PGP SIGNATURE-----
+
+--83Y2sXKo4f/n2njO--
