@@ -1,53 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 394166E688
+Return-Path: <kergoth@gmail.com>
+Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
+	[209.85.213.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D2CA8719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 15:35:41 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id d192so11273144itd.1
+	Wed, 27 Sep 2017 15:52:25 +0000 (UTC)
+Received: by mail-vk0-f68.google.com with SMTP id h191so3653607vke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 08:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Wed, 27 Sep 2017 08:52:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QZJAUhUwmEunmKynm3rBkrkAySPYQt52zF3IccSr9XU=;
-	b=qo8sY3gryltJr4zvU4Jmklwpxg3AhVd8Cb+1j6MEXbmJMlsIVx8LHg74zq7Lv+oQcc
-	8aOF8cUVmTNg5x48I05PgYznkxW8cQn8x3VpyBjWyFgKoa0jFqc+iqpPrKxeXTZttDCQ
-	SvMlYBdEf1785sB/Eg31caEfIRiyEezvuCmOXdvVM4nMvhcXtYjLupGoZCxGvPeRyPa1
-	ybc2c8MbP7p/86O0Z3YiHCcKABnEotSwAHwCqJbjoc1zaLC3NEAwkzFKADUUwGaTbu1p
-	ZKPz8oWQNPuokogMnTpiEH9g0RBPO+7mXZjkn2M+hXiBhh2qbJERzc+rPDDgzqwngto7
-	7d1Q==
+	:cc; bh=uJ3PD0L7rVVNk0ny3uY0YGEwpSWDsov94G5+xu7YqZ0=;
+	b=HJWrIv2kY8xin2vve6vSWh47SLP9gUlLp6AbupbY6G+ONrymHDjKPiFtdYU6hg4dOt
+	DhVtOrOKl418N39uHIkREe7hI7rPcqrV5+l648Sdv9Yyq5aUXR3JeDg2Y16Z8rFSAfEF
+	sTKvY62ZQCYi7BQ8SXHNuDgtBc21d2WF2072WCBWv6Gx3bN+/WtPKRyhi8kuY5csBh47
+	dV0oJVa6I/ChYVbmxo4LY7VdgMQqwjExfjI/6GU8A7eXKw9UBSzl+5io+hYL1dFNUhxk
+	/5CBFeSnBiVsDVA6sVGp65dfKKLpQWPFZNaM+/6WD/86G/rdmv8WZ8Iys+qsi9DCYoiH
+	QaKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=QZJAUhUwmEunmKynm3rBkrkAySPYQt52zF3IccSr9XU=;
-	b=nQi9PVUsMihB5hM1jxU4qMrTE/bBf8NUxs3CWYH2wUpYtKREUOGKkCrsKJ7QN4jyEx
-	wpLcI+nsUB5cyeY4e15smohY0XHQdF7jpng2PRE4bekuC2MozEXsrT/sGz93BMaqLWRK
-	P4sBWo0i2+W4LPZ3DB+FguM91yoL9BHuFeCko2x808pDYIZFsRc8mjGTwxoWIAjgB9JM
-	3I40UQuPgykXyc+47ZjSDb/9urP/9/RbdsrTE3TgNJ7Zxqu7e2U4rf4SDOIuEAy72ifJ
-	pj0yVNYT+0lGnZJVJtihCsFJgyK88dW/bfKoPGWHny7Xhip//NR6hIYQWA1d2r1uSYF8
-	Kg8w==
-X-Gm-Message-State: AHPjjUilhsVL8dtAnjRKHHX8lfXFkIj5Ril30/EER/EedU9lDhPiv359
-	FYCNzR+zLB5RqpruKfs6OSAJFqzotveqAzWs7TZU+A==
-X-Google-Smtp-Source: AOwi7QAH/wqLEfyGOem1VUigylYSBRZd3K+Jb7exbbCLTV1QEpqPIHM19LVPEvJF05CcjK62WwJ+VHvhrLlzwR6rkUg=
-X-Received: by 10.36.162.67 with SMTP id o3mr1298678iti.27.1506526543247; Wed,
-	27 Sep 2017 08:35:43 -0700 (PDT)
+	bh=uJ3PD0L7rVVNk0ny3uY0YGEwpSWDsov94G5+xu7YqZ0=;
+	b=sRa3RNYEappoBxb2JzD/JRJEtlIUQN0C5qQqhWKi3KrTg+DrPrThwSGih5eejgUxRJ
+	nEQp6isa7r0hjdFFyMmvcKKbVszr3gAxxCdvb3Q7/hAB+I8bWLu975ohDCVogGTtBZyP
+	5fFOUjGgNyuyNTLS2k1VoWt3INBOQ2ciyAxkDiowaiU5ySjCQ8oEeSi50aef8l5sAV4U
+	qgk06PjUWS0I1YChIYV8yKX8GpADc+Xx3deGxLnFZwlqo0thUI0Kw5ULWneWR2i7950e
+	bPLYGGKs7Atvs3ZYDVusmV3AyDchdHpcndq/kPacGflwSymr3xUxpLJMJzMRBx0JOpt0
+	7WjA==
+X-Gm-Message-State: AHPjjUiQtdPsz6kdJLMn/PhsI9crgaPYUWotPdHaHnovBz1HilbnIeqS
+	nc+K0d81xFHku1f7FjQfRyZfl3amINAhSR1FAow=
+X-Google-Smtp-Source: AOwi7QAEPgagnaBXyV2o3HjPUKCwfcuHIC5L+wGADSel+ADu4xTANtKUYP8kbOfPzys++1uEiu/68Rs0HF5nfO2YAAc=
+X-Received: by 10.31.11.19 with SMTP id 19mr920408vkl.69.1506527546746; Wed,
+	27 Sep 2017 08:52:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Wed, 27 Sep 2017 08:35:22 -0700 (PDT)
-In-Reply-To: <239a2cfd-1507-b8dc-0d85-0ab7afa98c71@siemens.com>
-References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
-	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
-	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
-	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
-	<b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
-	<239a2cfd-1507-b8dc-0d85-0ab7afa98c71@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Sep 2017 16:35:22 +0100
-Message-ID: <CAJTo0LbR-sLX4YY4F1myb2EcEGQ3qSZjQL5OPOh5jut2_h4djg@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
+Received: by 10.176.20.208 with HTTP; Wed, 27 Sep 2017 08:52:06 -0700 (PDT)
+In-Reply-To: <1506513706-14213-1-git-send-email-matt@madison.systems>
+References: <1506513706-14213-1-git-send-email-matt@madison.systems>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Wed, 27 Sep 2017 08:52:06 -0700
+Message-ID: <CABcZAN=uMrwda=MGiKW9qPs_q7KLFR3V04KiSV-WCLwTPJ=XqQ@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] goarch.bbclass: rework mips architecture checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,52 +55,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 15:35:42 -0000
-Content-Type: multipart/alternative; boundary="f403045fb2a27493ee055a2d8bc1"
+X-List-Received-Date: Wed, 27 Sep 2017 15:52:26 -0000
+Content-Type: multipart/alternative; boundary="001a11411ee044af79055a2dc750"
 
---f403045fb2a27493ee055a2d8bc1
+--001a11411ee044af79055a2dc750
 Content-Type: text/plain; charset="UTF-8"
 
-On 27 September 2017 at 09:52, Andrej Valek <andrej.valek@siemens.com>
-wrote:
+Another option is to use contains() for this. The signature generation code
+knows how to handle contains specially, only depending on the presence of
+the specified value in the list, rather than the entirety.
 
-> Could You please provide my the current status of my request?
+On Wed, Sep 27, 2017 at 5:01 AM, Matt Madison <matt@madison.systems> wrote:
+
+> Move the mips32r2->mips32 rewrite to an anonymous
+> python function, and change the GOARCH setting to
+> use just the passed-in architecture string, to
+> avoid an unwanted variable dependency.
+>
+> Signed-off-by: Matt Madison <matt@madison.systems>
+> ---
+>  meta/classes/goarch.bbclass | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> index 9ed562d..7553987 100644
+> --- a/meta/classes/goarch.bbclass
+> +++ b/meta/classes/goarch.bbclass
+> @@ -43,14 +43,10 @@ def go_map_arch(a, d):
+>          return 'mips64le'
+>      elif re.match('mips64*', a):
+>          return 'mips64'
+> -    elif re.match('mips.*', a):
+> -        tf = d.getVar('TUNE_FEATURES').split()
+> -        if 'fpu-hard' in tf and 'n32' not in tf:
+> -            if 'mips32r2' in tf:
+> -                newtf = [t for t in tf if t != 'mips32r2']
+> -                newtf.append('mips32')
+> -                d.setVar('TUNE_FEATURES', ' '.join(newtf))
+> -            return 'mips' if 'bigendian' in tf else 'mipsle'
+> +    elif re.match('mipsel.*', a) and 'r6' not in a and '-nf' not in a and
+> '-n32' not in a:
+> +        return 'mipsle'
+> +    elif re.match('mips', a) and 'r6' not in a and '-nf' not in a and
+> '-n32' not in a:
+> +        return 'mipsle'
+>      elif re.match('p(pc|owerpc)(64)', a):
+>          return 'ppc64'
+>      elif re.match('p(pc|owerpc)(64el)', a):
+> @@ -74,4 +70,10 @@ def go_map_os(o, d):
+>          return 'linux'
+>      return o
+>
+> -
+> +python __anonymous () {
+> +    tf = d.getVar('TUNE_FEATURES').split()
+> +    if 'mips32r2' in tf:
+> +        newtf = [t for t in tf if t != 'mips32r2']
+> +        newtf.append('mips32')
+> +        d.setVar('TUNE_FEATURES', ' '.join(newtf))
+> +}
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Too much of a change for frozen master so it will have to wait for master
-to reopen.
 
-However it fails to build with ptest enabled:
 
-| NOTE: make
-DESTDIR=/data/poky-tmp/master/build/work/corei7-64-poky-linux/libxml2/2.9.5-r0/image/usr/lib/libxml2/ptest
-install-ptest
-| install: missing destination file operand after
-'/data/poky-tmp/master/build/work/corei7-64-poky-linux/libxml2/2.9.5-r0/image/usr/lib/libxml2/ptest'
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Senior Software Engineer, Mentor Graphics
 
-(noinst_PROGRAMS isn't set in the makefile)
-
-Ross
-
---f403045fb2a27493ee055a2d8bc1
+--001a11411ee044af79055a2dc750
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 27 September 2017 at 09:52, Andrej Valek <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:andrej.valek@siemens.com" target=3D"_blank">andre=
-j.valek@siemens.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-=
-color:rgb(204,204,204);padding-left:1ex">Could You please provide my the cu=
-rrent status of my request?<br></blockquote><div><br></div><div>Too much of=
- a change for frozen master so it will have to wait for master to reopen.</=
-div><div><br></div><div>However it fails to build with ptest enabled:</div>=
-<div><br></div><div><div>| NOTE: make DESTDIR=3D/data/poky-tmp/master/build=
-/work/corei7-64-poky-linux/libxml2/2.9.5-r0/image/usr/lib/libxml2/ptest ins=
-tall-ptest</div><div>| install: missing destination file operand after &#39=
-;/data/poky-tmp/master/build/work/corei7-64-poky-linux/libxml2/2.9.5-r0/ima=
-ge/usr/lib/libxml2/ptest&#39;</div></div><div><br></div><div>(noinst_PROGRA=
-MS isn&#39;t set in the makefile)</div><div><br></div><div>Ross</div></div>=
-</div></div>
+<div dir=3D"ltr">Another option is to use contains() for this. The signatur=
+e generation code knows how to handle contains specially, only depending on=
+ the presence of the specified value in the list, rather than the entirety.=
+</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Sep=
+ 27, 2017 at 5:01 AM, Matt Madison <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+matt@madison.systems" target=3D"_blank">matt@madison.systems</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">Move the mips32r2-&gt;mips32 rewr=
+ite to an anonymous<br>
+python function, and change the GOARCH setting to<br>
+use just the passed-in architecture string, to<br>
+avoid an unwanted variable dependency.<br>
+<br>
+Signed-off-by: Matt Madison &lt;matt@madison.systems&gt;<br>
+---<br>
+=C2=A0meta/classes/goarch.bbclass | 20 +++++++++++---------<br>
+=C2=A01 file changed, 11 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass<br>
+index 9ed562d..7553987 100644<br>
+--- a/meta/classes/goarch.bbclass<br>
++++ b/meta/classes/goarch.bbclass<br>
+@@ -43,14 +43,10 @@ def go_map_arch(a, d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;mips64le&#39;<br>
+=C2=A0 =C2=A0 =C2=A0elif re.match(&#39;mips64*&#39;, a):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;mips64&#39;<br>
+-=C2=A0 =C2=A0 elif re.match(&#39;mips.*&#39;, a):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 tf =3D d.getVar(&#39;TUNE_FEATURES&#39;).<wbr>=
+split()<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;fpu-hard&#39; in tf and &#39;n32&#39; =
+not in tf:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;mips32r2&#39; in tf:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newtf =3D [t for t=
+ in tf if t !=3D &#39;mips32r2&#39;]<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newtf.append(&#39;=
+mips32&#39;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;TUNE=
+_FEATURES&#39;, &#39; &#39;.join(newtf))<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;mips&#39; if &#39;bi=
+gendian&#39; in tf else &#39;mipsle&#39;<br>
++=C2=A0 =C2=A0 elif re.match(&#39;mipsel.*&#39;, a) and &#39;r6&#39; not in=
+ a and &#39;-nf&#39; not in a and &#39;-n32&#39; not in a:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;mipsle&#39;<br>
++=C2=A0 =C2=A0 elif re.match(&#39;mips&#39;, a) and &#39;r6&#39; not in a a=
+nd &#39;-nf&#39; not in a and &#39;-n32&#39; not in a:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;mipsle&#39;<br>
+=C2=A0 =C2=A0 =C2=A0elif re.match(&#39;p(pc|owerpc)(64)&#39;, a):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;ppc64&#39;<br>
+=C2=A0 =C2=A0 =C2=A0elif re.match(&#39;p(pc|owerpc)(64el)&#39;, a):<br>
+@@ -74,4 +70,10 @@ def go_map_os(o, d):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;linux&#39;<br>
+=C2=A0 =C2=A0 =C2=A0return o<br>
+<br>
+-<br>
++python __anonymous () {<br>
++=C2=A0 =C2=A0 tf =3D d.getVar(&#39;TUNE_FEATURES&#39;).<wbr>split()<br>
++=C2=A0 =C2=A0 if &#39;mips32r2&#39; in tf:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 newtf =3D [t for t in tf if t !=3D &#39;mips32=
+r2&#39;]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 newtf.append(&#39;mips32&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&#39;TUNE_FEATURES&#39;, &#39; &#39;.=
+join(newtf))<br>
++}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div di=
+r=3D"ltr"><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot =
+com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Senior Software Engin=
+eer, Mentor Graphics</div></div></div></div>
+</div>
 
---f403045fb2a27493ee055a2d8bc1--
+--001a11411ee044af79055a2dc750--
