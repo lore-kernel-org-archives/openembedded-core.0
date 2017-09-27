@@ -1,23 +1,24 @@
 Return-Path: <mikko.ylinen@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E3BC71CB8
+	by mail.openembedded.org (Postfix) with ESMTP id 628F377DB3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 08:08:16 +0000 (UTC)
+	Wed, 27 Sep 2017 08:08:17 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Sep 2017 01:08:17 -0700
+	27 Sep 2017 01:08:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,444,1500966000"; d="scan'208";a="153854534"
+X-IronPort-AV: E=Sophos;i="5.42,444,1500966000"; d="scan'208";a="153854538"
 Received: from summit.tm.intel.com ([10.237.55.152])
-	by orsmga005.jf.intel.com with ESMTP; 27 Sep 2017 01:08:16 -0700
+	by orsmga005.jf.intel.com with ESMTP; 27 Sep 2017 01:08:18 -0700
 From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Sep 2017 11:08:13 +0300
-Message-Id: <20170927080815.18392-1-mikko.ylinen@linux.intel.com>
+Date: Wed, 27 Sep 2017 11:08:14 +0300
+Message-Id: <20170927080815.18392-2-mikko.ylinen@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170926120328.14928-1-mikko.ylinen@linux.intel.com>
+In-Reply-To: <20170927080815.18392-1-mikko.ylinen@linux.intel.com>
 References: <20170926120328.14928-1-mikko.ylinen@linux.intel.com>
-Subject: [PATCH v2 0/2] remove update-alternatives correctly
+	<20170927080815.18392-1-mikko.ylinen@linux.intel.com>
+Subject: [PATCH 1/2] rootfs.py: remove update-alternatives correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,18 +33,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Sep 2017 08:08:17 -0000
 
-v2: move the fix to rootfs.py and implement 2-stage removal
-based on the feedback. split the fix and the logging improvements
-in two commits.
+With "read-only-rootfs" in IMAGE_FEATURES, packages in ROOTFS_RO_UNNEEDED
+are removed when building the rootfs. The list of packages to remove is
+passed to the package manager and the list is sorted so that
+update-alternatives provider is the last entry. This is with the
+assumption that the last entry on the list/command line is removed last.
 
-Mikko Ylinen (2):
-  rootfs.py: remove update-alternatives correctly
-  package_manager: rpm: improve logging
+However, it turns out rpm does not care about "last on the command
+line" and update-alternatives provider is removed before other the
+packages get to run their %preun scripts for update-alternatives.
 
- meta/lib/oe/package_manager.py |  4 +++-
- meta/lib/oe/rootfs.py          | 17 ++++++++++++-----
- 2 files changed, 15 insertions(+), 6 deletions(-)
+This leaves broken alternative symlinks in rootfs.
 
+The fix is to first remove all but update-alternatives provider and
+after that update-alternatives provider in its own remove() call.
+
+Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+---
+ meta/lib/oe/rootfs.py | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 9d4727e..5f62015 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -261,15 +261,22 @@ class Rootfs(object, metaclass=ABCMeta):
+             # Remove components that we don't need if it's a read-only rootfs
+             unneeded_pkgs = self.d.getVar("ROOTFS_RO_UNNEEDED").split()
+             pkgs_installed = image_list_installed_packages(self.d)
+-            # Make sure update-alternatives is last on the command line, so
+-            # that it is removed last. This makes sure that its database is
+-            # available while uninstalling packages, allowing alternative
+-            # symlinks of packages to be uninstalled to be managed correctly.
++            # Make sure update-alternatives is removed last. This is
++            # because its database has to available while uninstalling
++            # other packages, allowing alternative symlinks of packages
++            # to be uninstalled or to be managed correctly otherwise.
+             provider = self.d.getVar("VIRTUAL-RUNTIME_update-alternatives")
+             pkgs_to_remove = sorted([pkg for pkg in pkgs_installed if pkg in unneeded_pkgs], key=lambda x: x == provider)
+ 
++            # update-alternatives provider is removed in its own remove()
++            # call because all package managers do not guarantee the packages
++            # are removed in the order they given in the list (which is
++            # passed to the command line). The sorting done earlier is
++            # utilized to implement the 2-stage removal.
++            if len(pkgs_to_remove) > 1:
++                self.pm.remove(pkgs_to_remove[:-1], False)
+             if len(pkgs_to_remove) > 0:
+-                self.pm.remove(pkgs_to_remove, False)
++                self.pm.remove([pkgs_to_remove[-1]], False)
+ 
+         if delayed_postinsts:
+             self._save_postinsts()
 -- 
 2.1.4
 
