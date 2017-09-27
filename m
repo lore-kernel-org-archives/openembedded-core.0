@@ -1,53 +1,40 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ED9C71CA5
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with ESMTP id 79FEC6E668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 22:17:40 +0000 (UTC)
-Received: by mail-yw0-f177.google.com with SMTP id u205so10329431ywa.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 15:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=9TSL0Drln9+9nFJKKy2+MnD/WczeYEp/5wx5VKoyVNI=;
-	b=VEpUTyQH/PR7UO4IAHclZGawj6iM5itFaQ49tzSEuDKtbJK023s+DHkezjiWRG1/HK
-	MciPLaP+u3i40M6wn5e51y/87xGciv8qEptkxhe72vSvj5xgWXPyDL3rVwx21hw0+1Cx
-	ntiaEznmJEX+7aamDA+GSNVT+DqjSir1ePNnQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=9TSL0Drln9+9nFJKKy2+MnD/WczeYEp/5wx5VKoyVNI=;
-	b=bklsinm6K5G8DwUE5YPwSnYTcwGnYuuTuVNicKEljWfqx6YlWBigJllUEUWOUENK6M
-	OhbKJqTUoGvTJjKa/mlSTaeCyQjX35DQn76C1XHsu6A3+GOAgw911/OKGkGIrVfHy9Hd
-	pTrvq1KoYQ/ScjS+Y9a0giCZFOI/XN0lB43olU0kC4Evti54vWrcfaG9aExIqtucUZMU
-	xMUt3bAmYDY+oETPSpw4RcrPkrDH5QYMj8nfuxaCvpm5N7WpDYYDmXMqskY5LJ4yB7Oy
-	Z8pjojeRAlKh2uxCUcWA68zpJC2qv5yyrOVU36h3ynei39jdaexaIQDw7i+VcYEiIYhD
-	nyJg==
-X-Gm-Message-State: AHPjjUg3aTKsi621CsRTab/hHigZzd3ffYJxSefhLeTze+WlxaIL3nr6
-	9ft72ZWmBRuEbsBmeqpuQ3tJNw==
-X-Google-Smtp-Source: AOwi7QAt+Gf6N7Awfcun9kG5VunoyobLwzlS+kwYmI6KdR8mqBeZXExm/fLiQoJ8VkJj7HkEeX9+GQ==
-X-Received: by 10.129.86.212 with SMTP id k203mr2017989ywb.155.1506550661771; 
-	Wed, 27 Sep 2017 15:17:41 -0700 (PDT)
-Received: from bill-the-cat ([2606:a000:1401:811b:a523:8806:2b32:ed54])
-	by smtp.gmail.com with ESMTPSA id p188sm4271ywb.53.2017.09.27.15.17.40
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Wed, 27 Sep 2017 15:17:41 -0700 (PDT)
-Date: Wed, 27 Sep 2017 18:17:44 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20170927221744.GE3112@bill-the-cat>
-References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-	<CAMKF1srXi9mNZejjSK2+1irS4neRHbK+BQyka-czvjPLsc8E2Q@mail.gmail.com>
-	<20170927215300.GD3112@bill-the-cat>
-	<CAMKF1soatZ5fjbaD6fWmXN7nyw+Hz1T0QJDj176_W6Vrx5LoXw@mail.gmail.com>
+	Wed, 27 Sep 2017 22:32:06 +0000 (UTC)
+Received: (qmail 22193 invoked by uid 1003); 27 Sep 2017 22:32:06 -0000
+Received: from unknown (HELO ?192.168.11.142?)
+	(philip@opensdr.com@108.44.111.57)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	27 Sep 2017 22:32:06 -0000
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
+	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
+	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
+	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
+	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
+	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
+	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
+	<c2911001-d598-9e20-8463-085d5f4910db@balister.org>
+	<CA+YB3rYwurx0i8oUGUkwWA3JMzTBJtFsijP_V0t+ncYVbOkW6A@mail.gmail.com>
+	<CAPybu_1T63Vcw9N3VgVgj45gcUM8UgPqRkSAwaHhvyxWFU0Ztg@mail.gmail.com>
+	<1a067fa9-8e5e-1f18-709d-15df07518928@balister.org>
+	<CAPybu_3tiZLD4vU6ZrH9iD4OB1wHibGWxFJ20wL_ynDeaLo-Yw@mail.gmail.com>
+	<CA+YB3rYipupFC2s_3gsfVSM6sZ5oAis1hAB491+tAXVEfEAPrg@mail.gmail.com>
+	<CAPybu_3BveGWtVbPVTRebodxjzcMGN3zQAJCMnuKUoSxun8nfg@mail.gmail.com>
+	<2f5800db-6b19-3445-f515-0c31d7257668@balister.org>
+	<C11A97A5-8B05-4DE1-9EE9-D68271323C4A@linux.intel.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <71d130f0-4fcb-6d0d-c90e-9c9c9e7ac32f@balister.org>
+Date: Wed, 27 Sep 2017 18:32:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soatZ5fjbaD6fWmXN7nyw+Hz1T0QJDj176_W6Vrx5LoXw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
+In-Reply-To: <C11A97A5-8B05-4DE1-9EE9-D68271323C4A@linux.intel.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,102 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 22:17:41 -0000
-X-Groupsio-MsgNum: 103435
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9hzSyicXuByfNYJd"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Sep 2017 22:32:07 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 8bit
 
---9hzSyicXuByfNYJd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 09/27/2017 01:24 AM, Tim Orling wrote:
+> Does anyone from EU have a z-wave RGBW lightbulb they could loan to the booth during ELCE? I have an EU UZB bridge, but not any easy way to acquire a device to control. Otherwise I will have to use US frequency and that might not be “OK”. Plus I don’t want to spend 30-40 euros on an item that will not be useful to me except for the demo.
 
-On Wed, Sep 27, 2017 at 10:14:51PM +0000, Khem Raj wrote:
-> On Wed, Sep 27, 2017 at 2:52 PM Tom Rini <trini@konsulko.com> wrote:
->=20
-> > On Wed, Sep 27, 2017 at 02:01:43PM -0700, Khem Raj wrote:
-> > > On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini <trini@konsulko.com> wrote:
-> > > > With RSS we need to ensure that when making a bmap image that the
-> > > > python3 that we created is found via /usr/bin/env rather than the h=
-ost
-> > > > python3.  Otherwise we're relying on the build host to have bmaptool
-> > > > support installed.
->=20
-> Who is staging python3 native here may be that's where it could be added
+Tim, I do not. Maybe ping the bigger list?
 
-What do you mean?  Adding whatever.bmap to IMAGE_FSTYPES is valid and
-how you get the bmap file for the whatever image type.  bmap-tool-native
-is correctly inherit'ing python3native which is why it's staged
-correctly.  It's just that images aren't adding the EXTRANATIVEPATH
-that's required because nothing is telling them that bmap requires it.
+Philip
 
->=20
-> >
-> > > >
-> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > > > ---
-> > > > I played around with a few ways to try and fix this problem, and th=
-is
-> > > > was the best I could come up with.  Once this is in we need this in
-> > pyro
-> > > > as well as it's broken there too.
-> > > > ---
-> > > >  meta/classes/image_types.bbclass | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/meta/classes/image_types.bbclass
-> > b/meta/classes/image_types.bbclass
-> > > > index 61dca626311e..3ff960e3a889 100644
-> > > > --- a/meta/classes/image_types.bbclass
-> > > > +++ b/meta/classes/image_types.bbclass
-> > > > @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?=3D "hddimg iso"
-> > > >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the
-> > IMAGE_FSTYPES,
-> > > >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow=
-2,
-> > hdddirect, hddimg, iso, etc.
-> > > >  IMAGE_TYPES_MASKED ?=3D ""
-> > > > +
-> > > > +# bmap requires python3 to be in the PATH
-> > > > +EXTRANATIVEPATH +=3D "${@'python3-native' if
-> > d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
-> > > > --
-> > >
-> > > I think somewhere inherit python3native should fix it.
-> >
-> > Yes, image_types.bbclass could also inherit python3native but that
-> > seemed heavy-handed.  There's not some other place that should be doing
-> > it as the problem is saying we want to call bmaptool, and that's handled
-> > here.
-> >
-> > --
-> > Tom
-> >
+> 
+> —Tim
+> 
+>> On Sep 26, 2017, at 5:56 AM, Philip Balister <philip@balister.org> wrote:
+>>
+>> On 09/26/2017 02:34 AM, Ricardo Ribalda Delgado wrote:
+>>> Hi
+>>>
+>>> On Mon, Sep 25, 2017 at 6:23 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
+>>>> It certainly looks interesting! The  main issue is that our table is about
+>>>> 0.5 x 1.4 meters, so setting up demos as well as screens and keyboards may
+>>>> be a difficult task. I'll do what I can to set up a second table at the
+>>>> booth.
+>>>
+>>> I have to bring it anyway. We can postpone the decision.
+>>
+>> I'm looking forward to seeing it!
+>>
+> 
+> 
 
---=20
-Tom
-
---9hzSyicXuByfNYJd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZzCOIAAoJEIf59jXTHXZSnMoP/2800WscR3AWGUIYbbxWUNGL
-Qrkh+pS7j/6UnhEvckT6nNTsGh5pohcEfxISA413Qz8eEAqDak4dXivl94qZlWgI
-AvKHMm86hvly+sVKebX/RF0KrGCsDnyEFD5ntF+HjwesuUn3xoUEmw7ukqzv/Wan
-39JjcuH79GQ3zKtYPtamX6wiz6kToQvRzervw1NRkWm3Ebnp9qYCcwt7WPgeSUCv
-Ud2wZ7as2McnCMXGP+sGEMgi/u5FkXgqcBEVAZKRcwYJZ0ZbMiE1ejdS9cZq+/Ry
-kPGfWWOIrdSqCVoMv/JRiCLroQSwt1o+z5Ljhx2uOEhj09Vo5vJTy/NaR/7L2r9z
-PSkaLl2o9+Ccx47yb/dRNI69PtoylzSD2wb1MnLR80HRmSexIsvd17q9uie3QQi5
-+4yW1m6SFIUVkG4HT7KxdOd77JGlc3tV9pSafIuWdEzuQtmoVikXQf/X/dQe4hXl
-p5AkeVa/ImxGxyHMr6aLnrTwBpcaLTq+8WyHaQOeZkEG5fXyBtjL3LKiY8Zb5K66
-IUx6Ec2F0R5JktKi+mk68id1eEP9/TXEMUvGSVfxSaXEuKUgafNKsulgwEj1L2To
-VJoqkAmV024FiT7QQEKvj/YQG5DlKJtRxBkf2G6P24KEhtr3+SrNM4lcvuC587B+
-irlqowo0O6/qYx3r8Bmy
-=oj2/
------END PGP SIGNATURE-----
-
---9hzSyicXuByfNYJd--
