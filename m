@@ -1,45 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F78571CA5
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
+	[209.85.161.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0ED9C71CA5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 22:15:00 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id u18so10529722pgo.1
+	Wed, 27 Sep 2017 22:17:40 +0000 (UTC)
+Received: by mail-yw0-f177.google.com with SMTP id u205so10329431ywa.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 15:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=tS+Zey26kHPxnCTW/i9AWN6P4hpjJF7r8kghRl8VH44=;
-	b=h1Uu1Erb6TLHomEgyaSnAY1N9RPGZKHSoz1M8Eu39Zx68GzK3hICO5Z2/mez8bwGVR
-	Lvd8vL8gPtlOMPaCOqbdb6dPMf3m6DZUwCN9dIEvkhaB4Tcmerfx/l4xORt8gQJe54g0
-	g/+OZOntsdHicxAciiF9KyPI9OkSMuUw6fgwILwFv2TEqNZZz17kWBA1CBZ7ck/z42R0
-	Les7N8e+gZSl6/jyn3e8EZ7IEBmcQGcKcqTvLdakoREkbGb/5HP5eTgM+02lf3yn+dFX
-	Ec+KMbZU+LQZ3Slj3LzwOpLtIEXCESsU8WpaODQq+Szom0dKPBqZbaqftQBObIb4+Lz3
-	YBtg==
+	Wed, 27 Sep 2017 15:17:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=9TSL0Drln9+9nFJKKy2+MnD/WczeYEp/5wx5VKoyVNI=;
+	b=VEpUTyQH/PR7UO4IAHclZGawj6iM5itFaQ49tzSEuDKtbJK023s+DHkezjiWRG1/HK
+	MciPLaP+u3i40M6wn5e51y/87xGciv8qEptkxhe72vSvj5xgWXPyDL3rVwx21hw0+1Cx
+	ntiaEznmJEX+7aamDA+GSNVT+DqjSir1ePNnQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=tS+Zey26kHPxnCTW/i9AWN6P4hpjJF7r8kghRl8VH44=;
-	b=Y0GbxMFcknBbDJcSzvTOdZDh+ddUhqk3ljxfuPITsIAYdZO4gph7dRJhueJi6yJKuY
-	ooubsJpbgiNL+98NfbGyJPYBG3fzjWKS13znHQhBydr/7HvQQc8+EkyDGYp/XoiTaOHQ
-	2OThLzlC+MUb3FVrO3hrZl9KaL6ng2kTFZNU+BKC3dTf/ZuOPB7T6pxPNVpEt43fFTkb
-	AOAC0eomYE0V80UVCavxxVoLthHAh3ChQJqFH2VceKK3+2E91q4A0tIKKSlt8rSNEZo6
-	sJY8MHI0lQUks66Njnis2ncUpfPI/y59duTghcy2KktExcvtrUa8zjEiUp89qZ2QqF0d
-	WsTQ==
-X-Gm-Message-State: AHPjjUgpmLLsFbTBTeScWtaxPZIfA35oBXTSSHd6vBFkRi5DvTAOGa5P
-	aXjJ08HRhjggJF5lXZdNddwGtL/XXhwGO8wLNNM=
-X-Google-Smtp-Source: AOwi7QC71lxDAv83GunzuFFfwSjOr57q6DPItHf3BsPFaencLFXjQMVeNBwPnRmf8Qe7t/2EWiT9rl4419wP6ZtGURc=
-X-Received: by 10.98.156.152 with SMTP id u24mr2432182pfk.255.1506550502316;
-	Wed, 27 Sep 2017 15:15:02 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=9TSL0Drln9+9nFJKKy2+MnD/WczeYEp/5wx5VKoyVNI=;
+	b=bklsinm6K5G8DwUE5YPwSnYTcwGnYuuTuVNicKEljWfqx6YlWBigJllUEUWOUENK6M
+	OhbKJqTUoGvTJjKa/mlSTaeCyQjX35DQn76C1XHsu6A3+GOAgw911/OKGkGIrVfHy9Hd
+	pTrvq1KoYQ/ScjS+Y9a0giCZFOI/XN0lB43olU0kC4Evti54vWrcfaG9aExIqtucUZMU
+	xMUt3bAmYDY+oETPSpw4RcrPkrDH5QYMj8nfuxaCvpm5N7WpDYYDmXMqskY5LJ4yB7Oy
+	Z8pjojeRAlKh2uxCUcWA68zpJC2qv5yyrOVU36h3ynei39jdaexaIQDw7i+VcYEiIYhD
+	nyJg==
+X-Gm-Message-State: AHPjjUg3aTKsi621CsRTab/hHigZzd3ffYJxSefhLeTze+WlxaIL3nr6
+	9ft72ZWmBRuEbsBmeqpuQ3tJNw==
+X-Google-Smtp-Source: AOwi7QAt+Gf6N7Awfcun9kG5VunoyobLwzlS+kwYmI6KdR8mqBeZXExm/fLiQoJ8VkJj7HkEeX9+GQ==
+X-Received: by 10.129.86.212 with SMTP id k203mr2017989ywb.155.1506550661771; 
+	Wed, 27 Sep 2017 15:17:41 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1401:811b:a523:8806:2b32:ed54])
+	by smtp.gmail.com with ESMTPSA id p188sm4271ywb.53.2017.09.27.15.17.40
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Wed, 27 Sep 2017 15:17:41 -0700 (PDT)
+Date: Wed, 27 Sep 2017 18:17:44 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20170927221744.GE3112@bill-the-cat>
 References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
 	<CAMKF1srXi9mNZejjSK2+1irS4neRHbK+BQyka-czvjPLsc8E2Q@mail.gmail.com>
 	<20170927215300.GD3112@bill-the-cat>
-In-Reply-To: <20170927215300.GD3112@bill-the-cat>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Sep 2017 22:14:51 +0000
-Message-ID: <CAMKF1soatZ5fjbaD6fWmXN7nyw+Hz1T0QJDj176_W6Vrx5LoXw@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
+	<CAMKF1soatZ5fjbaD6fWmXN7nyw+Hz1T0QJDj176_W6Vrx5LoXw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1soatZ5fjbaD6fWmXN7nyw+Hz1T0QJDj176_W6Vrx5LoXw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
@@ -55,127 +60,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 22:15:01 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0a4a7e86e161055a331f5f"
+X-List-Received-Date: Wed, 27 Sep 2017 22:17:41 -0000
+X-Groupsio-MsgNum: 103435
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="9hzSyicXuByfNYJd"
+Content-Disposition: inline
 
---94eb2c0a4a7e86e161055a331f5f
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Sep 27, 2017 at 2:52 PM Tom Rini <trini@konsulko.com> wrote:
-
-> On Wed, Sep 27, 2017 at 02:01:43PM -0700, Khem Raj wrote:
-> > On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini <trini@konsulko.com> wrote:
-> > > With RSS we need to ensure that when making a bmap image that the
-> > > python3 that we created is found via /usr/bin/env rather than the host
-> > > python3.  Otherwise we're relying on the build host to have bmaptool
-> > > support installed.
-
-
-Who is staging python3 native here may be that's where it could be added
-
->
-> > >
-> > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > > ---
-> > > I played around with a few ways to try and fix this problem, and this
-> > > was the best I could come up with.  Once this is in we need this in
-> pyro
-> > > as well as it's broken there too.
-> > > ---
-> > >  meta/classes/image_types.bbclass | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> > > index 61dca626311e..3ff960e3a889 100644
-> > > --- a/meta/classes/image_types.bbclass
-> > > +++ b/meta/classes/image_types.bbclass
-> > > @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
-> > >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the
-> IMAGE_FSTYPES,
-> > >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2,
-> hdddirect, hddimg, iso, etc.
-> > >  IMAGE_TYPES_MASKED ?= ""
-> > > +
-> > > +# bmap requires python3 to be in the PATH
-> > > +EXTRANATIVEPATH += "${@'python3-native' if
-> d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
-> > > --
-> >
-> > I think somewhere inherit python3native should fix it.
->
-> Yes, image_types.bbclass could also inherit python3native but that
-> seemed heavy-handed.  There's not some other place that should be doing
-> it as the problem is saying we want to call bmaptool, and that's handled
-> here.
->
-> --
-> Tom
->
-
---94eb2c0a4a7e86e161055a331f5f
-Content-Type: text/html; charset="UTF-8"
+--9hzSyicXuByfNYJd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Wed, Sep 27, 2017 =
-at 2:52 PM Tom Rini &lt;<a href=3D"mailto:trini@konsulko.com">trini@konsulk=
-o.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, Sep 27=
-, 2017 at 02:01:43PM -0700, Khem Raj wrote:<br>
-&gt; On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini &lt;<a href=3D"mailto:trini=
-@konsulko.com" target=3D"_blank">trini@konsulko.com</a>&gt; wrote:<br>
-&gt; &gt; With RSS we need to ensure that when making a bmap image that the=
-<br>
-&gt; &gt; python3 that we created is found via /usr/bin/env rather than the=
- host<br>
-&gt; &gt; python3.=C2=A0 Otherwise we&#39;re relying on the build host to h=
-ave bmaptool<br>
-&gt; &gt; support installed.</blockquote><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">Who is staging python3 native here may be that&#39;s where it c=
-ould be added=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Tom Rini &lt;<a href=3D"mailto:trini@konsulko.com"=
- target=3D"_blank">trini@konsulko.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; I played around with a few ways to try and fix this problem, and =
-this<br>
-&gt; &gt; was the best I could come up with.=C2=A0 Once this is in we need =
-this in pyro<br>
-&gt; &gt; as well as it&#39;s broken there too.<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/classes/image_types.bbclass | 3 +++<br>
-&gt; &gt;=C2=A0 1 file changed, 3 insertions(+)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/classes/image_types.bbclass b/meta/classes/imag=
-e_types.bbclass<br>
-&gt; &gt; index 61dca626311e..3ff960e3a889 100644<br>
-&gt; &gt; --- a/meta/classes/image_types.bbclass<br>
-&gt; &gt; +++ b/meta/classes/image_types.bbclass<br>
-&gt; &gt; @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?=3D &quot;hddimg iso&=
-quot;<br>
-&gt; &gt;=C2=A0 # The IMAGE_TYPES_MASKED variable will be used to mask out =
-from the IMAGE_FSTYPES,<br>
-&gt; &gt;=C2=A0 # images that will not be built at do_rootfs time: vmdk, vd=
-i, qcow2, hdddirect, hddimg, iso, etc.<br>
-&gt; &gt;=C2=A0 IMAGE_TYPES_MASKED ?=3D &quot;&quot;<br>
-&gt; &gt; +<br>
-&gt; &gt; +# bmap requires python3 to be in the PATH<br>
-&gt; &gt; +EXTRANATIVEPATH +=3D &quot;${@&#39;python3-native&#39; if d.getV=
-ar(&#39;IMAGE_FSTYPES&#39;).find(&#39;bmap&#39;) else &#39;&#39;}&quot;<br>
-&gt; &gt; --<br>
-&gt;<br>
-&gt; I think somewhere inherit python3native should fix it.<br>
-<br>
-Yes, image_types.bbclass could also inherit python3native but that<br>
-seemed heavy-handed.=C2=A0 There&#39;s not some other place that should be =
-doing<br>
-it as the problem is saying we want to call bmaptool, and that&#39;s handle=
-d<br>
-here.<br>
-<br>
---<br>
-Tom<br>
-</blockquote></div></div>
+On Wed, Sep 27, 2017 at 10:14:51PM +0000, Khem Raj wrote:
+> On Wed, Sep 27, 2017 at 2:52 PM Tom Rini <trini@konsulko.com> wrote:
+>=20
+> > On Wed, Sep 27, 2017 at 02:01:43PM -0700, Khem Raj wrote:
+> > > On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini <trini@konsulko.com> wrote:
+> > > > With RSS we need to ensure that when making a bmap image that the
+> > > > python3 that we created is found via /usr/bin/env rather than the h=
+ost
+> > > > python3.  Otherwise we're relying on the build host to have bmaptool
+> > > > support installed.
+>=20
+> Who is staging python3 native here may be that's where it could be added
 
---94eb2c0a4a7e86e161055a331f5f--
+What do you mean?  Adding whatever.bmap to IMAGE_FSTYPES is valid and
+how you get the bmap file for the whatever image type.  bmap-tool-native
+is correctly inherit'ing python3native which is why it's staged
+correctly.  It's just that images aren't adding the EXTRANATIVEPATH
+that's required because nothing is telling them that bmap requires it.
+
+>=20
+> >
+> > > >
+> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > > > ---
+> > > > I played around with a few ways to try and fix this problem, and th=
+is
+> > > > was the best I could come up with.  Once this is in we need this in
+> > pyro
+> > > > as well as it's broken there too.
+> > > > ---
+> > > >  meta/classes/image_types.bbclass | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/meta/classes/image_types.bbclass
+> > b/meta/classes/image_types.bbclass
+> > > > index 61dca626311e..3ff960e3a889 100644
+> > > > --- a/meta/classes/image_types.bbclass
+> > > > +++ b/meta/classes/image_types.bbclass
+> > > > @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?=3D "hddimg iso"
+> > > >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the
+> > IMAGE_FSTYPES,
+> > > >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow=
+2,
+> > hdddirect, hddimg, iso, etc.
+> > > >  IMAGE_TYPES_MASKED ?=3D ""
+> > > > +
+> > > > +# bmap requires python3 to be in the PATH
+> > > > +EXTRANATIVEPATH +=3D "${@'python3-native' if
+> > d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
+> > > > --
+> > >
+> > > I think somewhere inherit python3native should fix it.
+> >
+> > Yes, image_types.bbclass could also inherit python3native but that
+> > seemed heavy-handed.  There's not some other place that should be doing
+> > it as the problem is saying we want to call bmaptool, and that's handled
+> > here.
+> >
+> > --
+> > Tom
+> >
+
+--=20
+Tom
+
+--9hzSyicXuByfNYJd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZzCOIAAoJEIf59jXTHXZSnMoP/2800WscR3AWGUIYbbxWUNGL
+Qrkh+pS7j/6UnhEvckT6nNTsGh5pohcEfxISA413Qz8eEAqDak4dXivl94qZlWgI
+AvKHMm86hvly+sVKebX/RF0KrGCsDnyEFD5ntF+HjwesuUn3xoUEmw7ukqzv/Wan
+39JjcuH79GQ3zKtYPtamX6wiz6kToQvRzervw1NRkWm3Ebnp9qYCcwt7WPgeSUCv
+Ud2wZ7as2McnCMXGP+sGEMgi/u5FkXgqcBEVAZKRcwYJZ0ZbMiE1ejdS9cZq+/Ry
+kPGfWWOIrdSqCVoMv/JRiCLroQSwt1o+z5Ljhx2uOEhj09Vo5vJTy/NaR/7L2r9z
+PSkaLl2o9+Ccx47yb/dRNI69PtoylzSD2wb1MnLR80HRmSexIsvd17q9uie3QQi5
++4yW1m6SFIUVkG4HT7KxdOd77JGlc3tV9pSafIuWdEzuQtmoVikXQf/X/dQe4hXl
+p5AkeVa/ImxGxyHMr6aLnrTwBpcaLTq+8WyHaQOeZkEG5fXyBtjL3LKiY8Zb5K66
+IUx6Ec2F0R5JktKi+mk68id1eEP9/TXEMUvGSVfxSaXEuKUgafNKsulgwEj1L2To
+VJoqkAmV024FiT7QQEKvj/YQG5DlKJtRxBkf2G6P24KEhtr3+SrNM4lcvuC587B+
+irlqowo0O6/qYx3r8Bmy
+=oj2/
+-----END PGP SIGNATURE-----
+
+--9hzSyicXuByfNYJd--
