@@ -1,24 +1,31 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D75B477DE7
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id D4DA9719B7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 08:08:18 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Sep 2017 01:08:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,444,1500966000"; d="scan'208";a="153854542"
-Received: from summit.tm.intel.com ([10.237.55.152])
-	by orsmga005.jf.intel.com with ESMTP; 27 Sep 2017 01:08:19 -0700
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Sep 2017 11:08:15 +0300
-Message-Id: <20170927080815.18392-3-mikko.ylinen@linux.intel.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20170927080815.18392-1-mikko.ylinen@linux.intel.com>
-References: <20170926120328.14928-1-mikko.ylinen@linux.intel.com>
-	<20170927080815.18392-1-mikko.ylinen@linux.intel.com>
-Subject: [PATCH 2/2] package_manager: rpm: improve logging
+	Wed, 27 Sep 2017 08:52:27 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v8R8qP3C015994
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 27 Sep 2017 10:52:25 +0200
+Received: from [192.168.253.100] ([163.242.56.100])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id v8R8qOSo010352
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 27 Sep 2017 10:52:24 +0200
+From: Andrej Valek <andrej.valek@siemens.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
+	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
+	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
+	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
+	<b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
+Message-ID: <239a2cfd-1507-b8dc-0d85-0ab7afa98c71@siemens.com>
+Date: Wed, 27 Sep 2017 10:52:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +38,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 08:08:19 -0000
+X-List-Received-Date: Wed, 27 Sep 2017 08:52:28 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-To be able to better debug remove() behaviour, add more logging
-to rpm calls via bb.note(). The change also makes remove() logging
-more consistent with other package managers' remove() (e.g., opkg).
+Hi Ross,
 
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Could You please provide my the current status of my request?
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 994e462..eb0824e 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -614,10 +614,12 @@ class RpmPM(PackageManager):
-             self._invoke_dnf(["remove"] + pkgs)
-         else:
-             cmd = bb.utils.which(os.getenv('PATH'), "rpm")
--            args = ["-e", "--nodeps", "--root=%s" %self.target_rootfs]
-+            args = ["-e", "-v", "--nodeps", "--root=%s" %self.target_rootfs]
- 
-             try:
-+                bb.note("Running %s" % ' '.join([cmd] + args + pkgs))
-                 output = subprocess.check_output([cmd] + args + pkgs, stderr=subprocess.STDOUT).decode("utf-8")
-+                bb.note(output)
-             except subprocess.CalledProcessError as e:
-                 bb.fatal("Could not invoke rpm. Command "
-                      "'%s' returned %d:\n%s" % (' '.join([cmd] + args + pkgs), e.returncode, e.output.decode("utf-8")))
--- 
-2.1.4
+Thank You,
+Andrej
 
+On 09/06/2017 08:16 AM, Andrej Valek wrote:
+> I have created a PR:
+> https://github.com/openembedded/openembedded-core/pull/23 as last time.
+> 
+> Andrej
+> 
+> On 09/05/2017 08:52 PM, Burton, Ross wrote:
+>> Also the patch has been corrupted by SMTP.  Is it in a branch somewhere?
+>>
+>> Ross
+>>
+>> On 5 September 2017 at 18:28, Andrej Valek <andrej.valek@siemens.com 
+>> <mailto:andrej.valek@siemens.com>> wrote:
+>>
+>>     Hi Ross,
+>>
+>>     There are not any CVEs fixes which has not been already merged. There
+>>     are only general changes. Of course, we can "clean" a lot of patches by
+>>     accepting this.
+>>
+>>     Regards,
+>>     Andrej
+>>
+>>     On 09/05/2017 11:19 AM, Burton, Ross wrote:
+>>     > On 5 September 2017 at 07:35, Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
+>>     > <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>> wrote:
+>>     >
+>>     >     Signed-off-by: Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
+>>      >     <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>>
+>>      >
+>>      >
+>>      > We're past freeze to the upgrade will have to wait until 2.4 releases.
+>>     Does this
+>>      > fix any outstanding CVEs that we should be cherry-picking?
+>>      >
+>>      > Ross
+>>      >
+>>
+>>
 
