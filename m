@@ -1,33 +1,24 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D24C60670
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE3B16093A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 15:48:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Sep 2017 08:48:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,450,1500966000"; d="scan'208";a="1176718613"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2017 08:48:51 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 43E585802DC;
-	Thu, 28 Sep 2017 08:48:50 -0700 (PDT)
-Date: Thu, 28 Sep 2017 18:47:07 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20170928154707.362zfbhccbydkdox@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1505923407-31734-1-git-send-email-trini@konsulko.com>
+	Thu, 28 Sep 2017 15:59:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8SFxAcv017271
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 28 Sep 2017 08:59:11 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.361.1; Thu, 28 Sep 2017 08:59:09 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 28 Sep 2017 11:59:09 -0400
+Message-ID: <1506614349-23562-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.5.0
 MIME-Version: 1.0
-In-Reply-To: <1505923407-31734-1-git-send-email-trini@konsulko.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic: Generate startup.nsh for EFI cases if none found
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] cml1: remove diffconfig return code checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,80 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 15:48:52 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Sep 2017 15:59:12 -0000
+Content-Type: text/plain
 
-On Wed, Sep 20, 2017 at 12:03:27PM -0400, Tom Rini wrote:
-> In the case of non-wic images there is logic today to generate a
-> startup.nsh file that will be executed by EFI to run the loader that the
-> image contains.  In the WIC case is currently depends on that file being
-> generated elsewhere and placed in DEPLOY_DIR_IMAGE and only used if
-> present there.
+The following commit:
 
-What's wrong with this approach?
+[
+  commit 578c8205fd14c48c6d30ef2889d86f1b4aee060a
+  Author: Mikko Rapeli <mikko.rapeli@bmw.de>
+  Date:   Thu Jun 22 16:23:14 2017 +0300
 
-I'd be happy to make wic to do only partitioning and assembling the
-image and avoiding to modify image content as much as possible.
-That would make wic design much more clear and let us to remove
-a lot of duplication between wic and meta/classes code.
+      meta: Fix return value checks from subprocess.call()'s
 
-Regarding boot partition content, I think preparing it from bootfs
-directory the same way as it's done for root partition is the way to go.
-You can find more details about it here:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10073
+      Python function subprocess.call() returns the return value of the
+      executed process. If return values are not checked, errors may
+      go unnoticed and bad things can happen.
 
->  This extends the logic we have today in wic to save the
-> name of the loader that's being placed and if no startup.nsh is provided
-> already generate the default kind that grub-efi/systemd-boot.bbclass
-> generate.
-> 
-> Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
-> Cc: Christopher Larson <chris_larson@mentor.com>
-> Signed-off-by: Tom Rini <trini@konsulko.com>
-> ---
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index 4c4f36a32f56..f4643fc233b2 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -204,13 +204,15 @@ class BootimgEFIPlugin(SourcePlugin):
->                  shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
->                                  "%s/grub.cfg" % cr_workdir)
->                  for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
-> -                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[9:])
-> +                    loader = mod[9:]
-> +                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
->                      exec_cmd(cp_cmd, True)
->                  shutil.move("%s/grub.cfg" % cr_workdir,
->                              "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
->              elif source_params['loader'] == 'systemd-boot':
->                  for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
-> -                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
-> +                    loader = mod[8:]
-> +                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
->                      exec_cmd(cp_cmd, True)
->              else:
->                  raise WicError("unrecognized bootimg-efi loader: %s" %
-> @@ -222,6 +224,10 @@ class BootimgEFIPlugin(SourcePlugin):
->          if os.path.exists(startup):
->              cp_cmd = "cp %s %s/" % (startup, hdddir)
->              exec_cmd(cp_cmd, True)
-> +        else:
-> +            cfg = open("%s/startup.nsh" % hdddir, "w")
-> +            cfg.write("fs0:EFI\\BOOT\\%s\n" % loader)
-> +            cfg.close()
->  
->          du_cmd = "du -bks %s" % hdddir
->          out = exec_cmd(du_cmd)
-> -- 
-> 1.9.1
-> 
+      Change all callers of subprocess.call() which do not check for
+      the return value to use subprocess.check_call() which raises
+      CalledProcessError if the subprocess returns with non-zero value.
 
+      https://docs.python.org/2/library/subprocess.html#using-the-subprocess-module
+
+      All users of the function were found with:
+
+      $ git grep "subprocess\.call" | \
+            egrep -v 'if.*subprocess\.call|=\
+            +subprocess\.call|return.*subprocess\.call'
+
+      Tested similar patch on top of yocto jethro. Only compile tested
+      core-image-minimal on poky master branch.
+
+      Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+      Signed-off-by: Ross Burton <ross.burton@intel.com>
+      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+]
+
+Added return code checking to do_diffconfig. Although the change is
+well intentioned, it isn't correct in this instance since 'diff' returns
+'1' to indicate that there are differences in the files .. and not as
+an error code.
+
+subprocess.check_call() flags this as an error and the routine aborts.
+
+We are already checking the inputs, and in fact already know there's a
+diff in the files before we even make the call, so there's no need to
+look for an error in this case.
+
+Putting back subprocess.call() restores the routine to working order.
+
+[YOCTO #12132]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/cml1.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index eb8e7907f602..38e6613c486d 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -63,7 +63,7 @@ python do_diffconfig() {
+ 
+     if isdiff:
+         statement = 'diff --unchanged-line-format= --old-line-format= --new-line-format="%L" ' + configorig + ' ' + config + '>' + fragment
+-        subprocess.check_call(statement, shell=True)
++        subprocess.call(statement, shell=True)
+ 
+         shutil.copy(configorig, config)
+ 
 -- 
---
-Regards,
-Ed
+2.5.0
+
 
