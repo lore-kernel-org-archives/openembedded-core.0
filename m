@@ -1,57 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 15AEE72F6C
+Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
+	[209.85.214.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 343E06059F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 10:24:21 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id 4so644695itv.4
+	Thu, 28 Sep 2017 11:08:34 +0000 (UTC)
+Received: by mail-it0-f48.google.com with SMTP id c195so776540itb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 03:24:23 -0700 (PDT)
+	Thu, 28 Sep 2017 04:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mSn7mPkRSloWZwF2BECeogfL3b03bxivO9TV13GJe+4=;
-	b=kjAKiduFbAKmM5tLiOpjq/CmM2RpdMiw/vDrABXKnhxzYSWuBYPv6rTT2aoWsOICxa
-	yDwlANX6C7G5aXp6fE0ROnPQczyJUowCg0wgFw9LmnxDI9zwLDDFzsAMd2KEUxuftjcV
-	letFnT1sDgEC60IaJibzoCUFTEgo9TwZcjyHoWgw0AQjUhxcIQutt/OJmzDDS/wVeM7X
-	satCJqSwP/EOjdhP1tvol6qsN1WTdwpqQCnEulVJE74IL3F+H1zy/hNaFT1OZymTNulA
-	+9M7Zvuc7HPy4SdM/IYO8nAOlu95GdzQ/uuWxTbWKvppMzf2EqGsvhZk5Yr/hSgaExIs
-	v6NQ==
+	:cc; bh=o1bb3Mkacjn5FupCJUNe9Xfe+5RBG7m6Ug3N2T3VZxk=;
+	b=iJvRSl+pS13KmRDc2YY6YeLFvddQCAwKND0FF7bJnlCA61Mil++K7SATaxAn949nu2
+	YPqZQGVCAn7mOuFQiQK6cZfXZ1glDXMGCozfEKjUi58X1LVqnjQwQ5XeRyCIa3BAJfSC
+	yg+iZVCi29bRhXsdsZic4VXG60bGJVEMVtJXNTD9jeQ5kOzjkWnDu8jWg2CGyyjh1AX4
+	zYad+pcgtZggrt+/BdX3HkzW6YNcwOgItItrydT3sHDiTWCPTTOiNwgPfRcPX2kVVs/7
+	5vuUVau6YDc/DEj9oSnB/1t+NzNiQDj6tGWvVQmosgJSKAJycgkMiQHFqZOMt1Lc6feb
+	NwOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=mSn7mPkRSloWZwF2BECeogfL3b03bxivO9TV13GJe+4=;
-	b=MbrGfBto6w40ZgNOU5IudYpS1IK2Z1HZk5gUR1N8pZ4WKznCI7h9RGTzQd/JDo32zS
-	AUYgQYv/CZRiGYVZfI7fj/NZnzTloATrcg/aJpCPjSfie5w8YA5ZKZFEs1GYvgPBxPsc
-	KGRMH9t9tw4K3IAr3xOO6NddFDeLMdQniKjAkfKeYQPCikN7I4eHQ8d9bx44mmExAm/0
-	MnbPAB+T61Fn/ttoWK9Fx14fqxUgZMCjjl4PKzZshPFysNIDtJ4R5zXo5osnJywEbl6U
-	LA0u9nptpsxYelkoZs+yk+7fNIoVkx9lb3qc7rmQka+sqOb709st8s6rnIZWHQWX70vp
-	E4LQ==
-X-Gm-Message-State: AHPjjUgBBMxEMyCy6QYyBp9uSLTogKwj8uRX1kekrexwcCaf6rtvD+2G
-	tm9U08DCKqEH3PBXmDuiIDlL92TBVNv++VZy7y5cKg==
-X-Google-Smtp-Source: AOwi7QD9i8e20FY6ckfveK+Tc8JFvHFt4mhSoejjyLsR10ohvdvoDcVp9oviRXHULibik0vvnkrW16StOIj9kTKrUkI=
-X-Received: by 10.36.150.4 with SMTP id z4mr805929itd.48.1506594263157; Thu,
-	28 Sep 2017 03:24:23 -0700 (PDT)
+	bh=o1bb3Mkacjn5FupCJUNe9Xfe+5RBG7m6Ug3N2T3VZxk=;
+	b=gnLKM4Nn9oK5dSVfwUJeYBn8w1vYf+eDR64+262h9qWwwcqqdT5hxbaVFRQNBJWHaJ
+	CgZyo5EKYFOQ2Xfl/3MfV2uQZm5WGSfSLsyr53CAUtT3Yi7xVplemtwyDh5/yzEP2IGc
+	/IM3Jh70HEfeK0dWsNSFQO1l4UTFY2nadpCQprd2YbYu3n83NkX/jCWtLwIKh9xKLb/j
+	C8TpQ7O/RLrjTzN8wYk8YlirsVep7eEUNew8lgyfVWqZ7ztqurK9edKcUlwese8Qmkz+
+	g1KMckxjpB8/jD446AhuadQPze/cI0+yOrETqPz+YvVakL6FMVpQRR1Rd3k2BfNvbPcH
+	YtoQ==
+X-Gm-Message-State: AHPjjUgGr6N+8CcXaPAvbggWQsczAvkkrDjStK+vadzS98MwWqzmKjfb
+	+WPCKt4AXzrrSCRLLA5QpsZcsm57yIp18vRp+N9P1A==
+X-Google-Smtp-Source: AOwi7QDr0TXVi3NyBqVcvbAcplHO9OmZ096+70jIva2suAZTz2YTipK7OpHAnIJdWcktBzrwQv5T/wFnOoBNB7yOQ4Y=
+X-Received: by 10.36.162.67 with SMTP id o3mr966772iti.27.1506596916061; Thu,
+	28 Sep 2017 04:08:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Thu, 28 Sep 2017 03:24:02 -0700 (PDT)
-In-Reply-To: <617e9e3d-e7a4-ea73-9f9c-10ca4c46c441@siemens.com>
-References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
-	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
-	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
-	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
-	<b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
-	<239a2cfd-1507-b8dc-0d85-0ab7afa98c71@siemens.com>
-	<CAJTo0LbR-sLX4YY4F1myb2EcEGQ3qSZjQL5OPOh5jut2_h4djg@mail.gmail.com>
-	<59fecff0-d359-a4ea-3d3c-cb0064f0e70d@siemens.com>
-	<CAJTo0LYnEPOs3k0UTRHQdq_Mn=MZVWXbUNhEbJcpP_exHjcJXA@mail.gmail.com>
-	<617e9e3d-e7a4-ea73-9f9c-10ca4c46c441@siemens.com>
+Received: by 10.107.19.68 with HTTP; Thu, 28 Sep 2017 04:08:15 -0700 (PDT)
+In-Reply-To: <1506593061-168725-1-git-send-email-li.zhou@windriver.com>
+References: <1506593061-168725-1-git-send-email-li.zhou@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Sep 2017 11:24:02 +0100
-Message-ID: <CAJTo0LaNBhZMR5ufy8=f2h4mHD2u_j8uLxWhs_TdWTMNNPM=xQ@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
+Date: Thu, 28 Sep 2017 12:08:15 +0100
+Message-ID: <CAJTo0LY4o9LEdO1R27-D=hE7R3frOF383K5LY3s2q83CzfCHFQ@mail.gmail.com>
+To: Li Zhou <li.zhou@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
+Subject: Re: [PATCH] expect: Fix segfaults when Expect clib is used directly from C program
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,37 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 10:24:23 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07ea98e0a21a055a3d4f92"
+X-List-Received-Date: Thu, 28 Sep 2017 11:08:35 -0000
+Content-Type: multipart/alternative; boundary="f403045fb2a200adfa055a3dee6d"
 
---94eb2c07ea98e0a21a055a3d4f92
+--f403045fb2a200adfa055a3dee6d
 Content-Type: text/plain; charset="UTF-8"
 
-On 28 September 2017 at 11:14, Andrej Valek <andrej.valek@siemens.com>
-wrote:
+On 28 September 2017 at 11:04, Li Zhou <li.zhou@windriver.com> wrote:
 
-> Of course, but there is a problem with mailing list encoding. This is
-> the reason, why is pushed into branch.
->
+> +Upstream-Status: Backport
+> +Backport from http://pkgs.fedoraproject.org/cgit/rpms/expect.git/commit/
+> +?h=master&id=b6737eed550be93182f2ed194e836a6cbbcf4fa3
 
-I understand, and I will be pulling from the branch, but review is on the
-list so patches need to be on the list.
+
+Another distribution patching a recipe does not make it a backport,
+backports have to be from upstream.
 
 Ross
 
---94eb2c07ea98e0a21a055a3d4f92
+--f403045fb2a200adfa055a3dee6d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 28 September 2017 at 11:14, Andrej Valek <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:andrej.valek@siemens.com" target=3D"_blank">andre=
-j.valek@siemens.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><di=
-v class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Of course, but there=
- is a problem with mailing list encoding. This is<br>
-the reason, why is pushed into branch.<br></blockquote><div><br></div><div>=
-I understand, and I will be pulling from the branch, but review is on the l=
-ist so patches need to be on the list.</div><div><br></div><div>Ross=C2=A0<=
-/div></div></div></div>
+<div dir=3D"ltr">On 28 September 2017 at 11:04, Li Zhou <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:li.zhou@windriver.com" target=3D"_blank">li.zhou@windr=
+iver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"=
+gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">+Upstream-Status: Backport<br>
++Backport from <a href=3D"http://pkgs.fedoraproject.org/cgit/rpms/expect.gi=
+t/commit/
++?h=3Dmaster&amp;id=3Db6737eed550be93182f2ed194e836a6cbbcf4fa3" rel=3D"nore=
+ferrer" target=3D"_blank">http://pkgs.fedoraproject.org/<wbr>cgit/rpms/expe=
+ct.git/commit/<br>
++?h=3Dmaster&amp;id=3D<wbr>b6737eed550be93182f2ed194e836a<wbr>6cbbcf4fa3</a=
+></blockquote><div><br></div><div>Another distribution patching a recipe do=
+es not make it a backport, backports have to be from upstream.</div><div><b=
+r></div><div>Ross=C2=A0</div></div></div></div>
 
---94eb2c07ea98e0a21a055a3d4f92--
+--f403045fb2a200adfa055a3dee6d--
