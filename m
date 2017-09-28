@@ -1,51 +1,33 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by mail.openembedded.org (Postfix) with ESMTP id B4F2172F67
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D24C60670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 14:53:24 +0000 (UTC)
-Received: by mail-yw0-f177.google.com with SMTP id s62so1179266ywg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 07:53:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Vi+qmu7j2HhJcfvDSUOuRd4a5IYN7fgDW/gs+kAA9uk=;
-	b=K0OfS3O3qSAlg9m+9mAhAqbaK8PyMpPhnxxKCN5obqoFMivJuZdY++GDdh4YoeTi1y
-	V5TsKAgy1pKw0J/vi6XKDXyZfh12gV5vkL1U4v4lv9t6O93A+2cQd8LXDr73vJm5rntY
-	kcPvs8FsUbs4IFGFaZfU0o9gc5ZpXVXgqj9rU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Vi+qmu7j2HhJcfvDSUOuRd4a5IYN7fgDW/gs+kAA9uk=;
-	b=ds+ynal2j6T7b2P9Vl/LQXUE22Xci4L7rMTU6iIk1KzSfM1Nfj4lBa7HHhnzcp+SwO
-	y+R8MKV0Z+XWLP5g1TS/9OEKU9lRYy7hGf/LCLxl9noLrTvHTFpUAKNLnuZNyLyTL8KR
-	gn2grFGZIc5nGzjI6uXYdV4P0qPZVmzz8kAnOW3b7aidVNOZxvHiS1FelpfQ78K8+aKC
-	L61PtNzKVOgNqK/u107XKLSq0ZKksKa6yLNjGDassrYTILD7+QcUa3GScHNQrjEyMFmK
-	ysccDgZphkqEarB9BuHtKY5xr+lquB2AW4o7AANMjwR3CF08Y2JBlSDHB6geRQuJv2Sg
-	zOMg==
-X-Gm-Message-State: AHPjjUhaNZ4pqnqczHuziEpQxrRcu+oq971RRWw1DnEy4KHFiIiCFQX/
-	coGScO5I9tklhIR1UIuqESC/Lg==
-X-Google-Smtp-Source: AOwi7QDVd8giVx3RakYUEErJj4jiDDhYfcM+bJFXMk9N9k5H8+EWkQ1r0dbnv+Se69fdDLJKVYQZkw==
-X-Received: by 10.129.158.131 with SMTP id v125mr3762014ywg.201.1506610405642; 
-	Thu, 28 Sep 2017 07:53:25 -0700 (PDT)
-Received: from bill-the-cat ([2606:a000:1401:811b:706c:f3a8:eab4:3cc8])
-	by smtp.gmail.com with ESMTPSA id
-	i206sm648888ywg.27.2017.09.28.07.53.24
-	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
-	Thu, 28 Sep 2017 07:53:24 -0700 (PDT)
-Date: Thu, 28 Sep 2017 10:53:28 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Message-ID: <20170928145328.GN3112@bill-the-cat>
-References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-	<20170928141303.a6gdp3fqsyqe3t5n@linux.intel.com>
+	Thu, 28 Sep 2017 15:48:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Sep 2017 08:48:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,450,1500966000"; d="scan'208";a="1176718613"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga001.jf.intel.com with ESMTP; 28 Sep 2017 08:48:51 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 43E585802DC;
+	Thu, 28 Sep 2017 08:48:50 -0700 (PDT)
+Date: Thu, 28 Sep 2017 18:47:07 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20170928154707.362zfbhccbydkdox@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1505923407-31734-1-git-send-email-trini@konsulko.com>
 MIME-Version: 1.0
-In-Reply-To: <20170928141303.a6gdp3fqsyqe3t5n@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
+In-Reply-To: <1505923407-31734-1-git-send-email-trini@konsulko.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: Generate startup.nsh for EFI cases if none found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,90 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 14:53:24 -0000
-X-Groupsio-MsgNum: 103458
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="AO40I52Xc3kOyr3I"
-Content-Disposition: inline
-
---AO40I52Xc3kOyr3I
+X-List-Received-Date: Thu, 28 Sep 2017 15:48:52 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 28, 2017 at 05:13:03PM +0300, Ed Bartosh wrote:
-> On Wed, Sep 27, 2017 at 01:00:09PM -0400, Tom Rini wrote:
-> > With RSS we need to ensure that when making a bmap image that the
-> > python3 that we created is found via /usr/bin/env rather than the host
-> > python3.  Otherwise we're relying on the build host to have bmaptool
-> > support installed.
-> >=20
->=20
-> Can you suggest how to reproduce the issue you're trying to fix with
-> this patch?
->=20
-> Here is what I did:
->=20
-> 1. Checked if bmaptools are available for host python3:
->=20
-> $ python3 -c 'import bmaptools'
-> Traceback (most recent call last):
->   File "<string>", line 1, in <module>
-> ImportError: No module named 'bmaptools'
->=20
-> 2. Added cpio.bmap to my build configuration:
->=20
-> $ grep ^IMAGE_FSTYPES ./conf/local.conf=20
-> IMAGE_FSTYPES =3D "cpio.bmap"
->=20
-> 3. Built core-image-minimal:
-> [build (master)]$ rm -rf tmp/
-> [build (master)]$ bitbake core-image-minimal
-> ...
-> NOTE: Tasks Summary: Attempted 2395 tasks of which 2186 didn't need to
-> be rerun and all succeeded.
->=20
-> 4. Checked if bmap file has been generated:
-> [build (master)]$ ls ./tmp/deploy/images/qemux86-64/ |grep cpio
-> core-image-minimal-qemux86-64-20170928135949.rootfs.cpio.bmap
-> core-image-minimal-qemux86-64.cpio.bmap
->=20
-> Hm, cpio image got removed for some reason. Looks like a bug, but not
-> related to bmaptool. (I remember you're fixing that code some time ago).
->=20
-> Should I use another MACHINE or anything else that can trigger build
-> failure?
->=20
-> PS. I used latest poky master. commit id: fcdfe09d9cc4e2977bd602dfd18f729=
-cd9f6d73d
+On Wed, Sep 20, 2017 at 12:03:27PM -0400, Tom Rini wrote:
+> In the case of non-wic images there is logic today to generate a
+> startup.nsh file that will be executed by EFI to run the loader that the
+> image contains.  In the WIC case is currently depends on that file being
+> generated elsewhere and placed in DEPLOY_DIR_IMAGE and only used if
+> present there.
 
-I'm on oe-core only, abf2e9526a11bcb51b71b90a7b76bd33af656494 and just
-replicated the problem again.  I'm doing ext4.bmap, but that shouldn't
-matter.
+What's wrong with this approach?
 
---=20
-Tom
+I'd be happy to make wic to do only partitioning and assembling the
+image and avoiding to modify image content as much as possible.
+That would make wic design much more clear and let us to remove
+a lot of duplication between wic and meta/classes code.
 
---AO40I52Xc3kOyr3I
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Regarding boot partition content, I think preparing it from bootfs
+directory the same way as it's done for root partition is the way to go.
+You can find more details about it here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10073
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+>  This extends the logic we have today in wic to save the
+> name of the loader that's being placed and if no startup.nsh is provided
+> already generate the default kind that grub-efi/systemd-boot.bbclass
+> generate.
+> 
+> Cc: Ed Bartosh <ed.bartosh@linux.intel.com>
+> Cc: Christopher Larson <chris_larson@mentor.com>
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+> ---
+>  scripts/lib/wic/plugins/source/bootimg-efi.py | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> index 4c4f36a32f56..f4643fc233b2 100644
+> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
+> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> @@ -204,13 +204,15 @@ class BootimgEFIPlugin(SourcePlugin):
+>                  shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir,
+>                                  "%s/grub.cfg" % cr_workdir)
+>                  for mod in [x for x in os.listdir(kernel_dir) if x.startswith("grub-efi-")]:
+> -                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[9:])
+> +                    loader = mod[9:]
+> +                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
+>                      exec_cmd(cp_cmd, True)
+>                  shutil.move("%s/grub.cfg" % cr_workdir,
+>                              "%s/hdd/boot/EFI/BOOT/grub.cfg" % cr_workdir)
+>              elif source_params['loader'] == 'systemd-boot':
+>                  for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
+> -                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
+> +                    loader = mod[8:]
+> +                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, loader)
+>                      exec_cmd(cp_cmd, True)
+>              else:
+>                  raise WicError("unrecognized bootimg-efi loader: %s" %
+> @@ -222,6 +224,10 @@ class BootimgEFIPlugin(SourcePlugin):
+>          if os.path.exists(startup):
+>              cp_cmd = "cp %s %s/" % (startup, hdddir)
+>              exec_cmd(cp_cmd, True)
+> +        else:
+> +            cfg = open("%s/startup.nsh" % hdddir, "w")
+> +            cfg.write("fs0:EFI\\BOOT\\%s\n" % loader)
+> +            cfg.close()
+>  
+>          du_cmd = "du -bks %s" % hdddir
+>          out = exec_cmd(du_cmd)
+> -- 
+> 1.9.1
+> 
 
-iQIcBAEBAgAGBQJZzQznAAoJEIf59jXTHXZShpYP/AuRBU5aUIOkjI2P9mQB4vhN
-RNPnUTDasZ4BVOJRLE2sDTf8cnnzN0UxiCcE1YIUvg7O6Ze0HD9HUWfldDloDGmQ
-sepwpsuO7uKr0TVZWwBE7qQ/7xw1EoBfQU03eXRIxFQaA2Cc3Y/qLk3EoEIOiD8N
-93E1Uzlx4t1Su7+hJSaW2w2Y86Hzlu2FZZS+mzApILU0BLl8jmhYJPFwCuMe0hGb
-PNsMxqaVm9SE5bj25KZ0jSPcGGgF+76Ye2H6Jyv/MaaMkous8l4kqanbZGDdt/G/
-FObsB4PTwLfpg9DbVF7EVA43kvK9L9RJ+FLINvmRJLvSI4vhaeiN66r1qJcpYzKJ
-MXob3ERaDqJsUuzHtz1VuXrRZ03Rp0mx73GrKeCIws9jvi4yohaF52dar3e2sEtP
-IKUzmixxXvwv5MJEAvuLBcKEJWOa++K2O/V4Hbvh+zLkIdRZa50tT9K7NDafP4cs
-KAQ4Q6TMNwO4yVe4lkfDZdxgcgrk9GpjnjVrTlq3ghegAGZfsDkNfsWFng1VZpWN
-n5ZDuRIJ7Zrm4LthzIcS3gIv7p5DJEIZTZejhWrAyqEPyBLduyQmaHvLlDiFCrQO
-BwsWfigqn8mqotA9Wxpx3IQGr5+DQ2WpVM7BE82UJbMXHHM99zuSaoNnrTI2iEeI
-A4AjVw/oNVWL1IznzbvN
-=vCOs
------END PGP SIGNATURE-----
+-- 
+--
+Regards,
+Ed
 
---AO40I52Xc3kOyr3I--
