@@ -1,50 +1,44 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id EDEDE71A71
+Return-Path: <riku.voipio@linaro.org>
+Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 147E771974
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 21:22:55 +0000 (UTC)
-Received: by mail-wr0-f173.google.com with SMTP id 54so4989061wrz.10
+	Thu, 28 Sep 2017 23:06:21 +0000 (UTC)
+Received: by mail-wr0-f180.google.com with SMTP id g29so5310671wrg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 14:22:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=yDlagIqN7J3R2QwgmSB+oCuUERXepkgFBTGUJypDiGo=;
-	b=PkGZv6c1PpXmob15d526OwepcVR3eF/iQvtL6nt/3ULx64r+Tu2a+oErYy1R2k3zZh
-	CQr2ig0zg8e7uDRz0FF+lA0ydc+t0O1S9ez0rXx3jHaetRo82oiz8nUIowpC/0aJenNl
-	WIpqy3JPs/YNzbQ3x1GvcBl7jf+rBoDde4z9LryMTag8KUasrbyIl9W2qk/KYbpKma+p
-	oVMVE+oZa7D4xzGcdJbl3eabrCFXBeJnLO6ggVrYlLhFFhg2nFdGqs4oVbMsQv22QCmx
-	DaoP9BY5OY0FWNfemc0/JHh8Lf6F4QejAsLnXdJVKHT86BZuYB8hDQWgM1aZygX90a1O
-	yNmQ==
+	Thu, 28 Sep 2017 16:06:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=doU7tbaR0dIiRZjvDZsRzINcFo+rtCdViL5HJCkk9XE=;
+	b=Prm9hw4Tqh8FpYzzeNMo3+EXjPQeH/gTlWqOy0wyNH9zAbL/qzz0OQHSH5uNdwXreR
+	DtYNZ4JBF/jQUDLOqqR3nuHWH1gvIv6NPuuYH0Jn87OrKfWD2drZ2M1MVIuKX2chsZqs
+	/xdG6n0/Z4Cyh9hZORyjFtcJaGYuM9HQXw584=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=yDlagIqN7J3R2QwgmSB+oCuUERXepkgFBTGUJypDiGo=;
-	b=OpT6+HvHr4yEYFhb6qjMHDZuiwii1jlhb3FDeDDW0aaNwJQFkiMNNNjDxjvq71htOD
-	e5LXD/JIAKTIXM0bAw87B4dBlSeXGTUHbTNDj5N/Hz5bikOTrWFRX20nEx372IQl/k8M
-	58VOYLkowO1RA+tbzV6izotjwVqDTeclx/TRCirgNAsZ/ukfxcDq8cV4BxnceVnW//F0
-	3L/RbMPbqNPgVr97PC4x0m82GxGjAO9wZqZi2Hhl4qGmW3lvsOT0aO2dEcplb/kkiShK
-	q0qG15/baj9D1i4lSLSYL8WiDQdqOapgnNVUxAzLIy0okSaFNK+opRGekyuaSiWPijuk
-	fVyQ==
-X-Gm-Message-State: AHPjjUjMaChyxdu755JcgFb8kFRMv220abEmYeggAUHtBjnZOgXR9BZ6
-	pc8jqs679R9pm/PWLSs5w/P6HN6i1JiLsHpbMPdk8A==
-X-Google-Smtp-Source: AOwi7QCnz0FwRgTKXomNmuNX9tIt7bCtsb9tp7vFLKnY/3uhiYQISucvqtyTDGAaNlfIlkq9aqFndTPFuM4WzUfCEWs=
-X-Received: by 10.25.74.75 with SMTP id x72mr716345lfa.186.1506633776537; Thu,
-	28 Sep 2017 14:22:56 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=doU7tbaR0dIiRZjvDZsRzINcFo+rtCdViL5HJCkk9XE=;
+	b=bvIgScdAA0QAzxvOmSkztLII5pJ9xElBSb11BEzjppYWyFwLFDOrIhV2MBb29U6WwF
+	3vSXvz5t1WeJjzTnc+saUxHLaVtrMSxqc/7ylvdJgktMnlSF71jVh84JxniwTVVUD765
+	7oHuWGFWkB4AR+M3ey4Sv1uD5UfAhkcT14oFdCRx/hDUyCkgEXFpvqOnu60Dlub8Pu5w
+	viSdtJtAKw/wM4RiSK0tLLJLcO1n+o7LLPP7bz84Aepw9fjKyHen5nyC2I87qQ5Dzq0C
+	gvr3ZGWJCfqmyM0oDHtSELo645KIAl8MZ21LgA4GNTyvGcsKBduHOAN8hTEkGapo+LLZ
+	G0jg==
+X-Gm-Message-State: AHPjjUgvonaJa0qkYCjSqHtq4GJF2yxFX2bTAadqV32Yo/iR3xOUEKcZ
+	2t0NJELLgufYeIhC/brVNJegrX2CTgasNZMPJHYVRg==
+X-Google-Smtp-Source: AOwi7QATnDbgZKAlQ+nrLpvYSAkFbPalU52puVPdcIYvENDeddfefF9Wc/BmhYeQgH0o9SrH1m92YFjYH1UWXw1YSng=
+X-Received: by 10.46.67.29 with SMTP id q29mr2682579lja.85.1506639982533; Thu,
+	28 Sep 2017 16:06:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.25.225.68 with HTTP; Thu, 28 Sep 2017 14:22:55 -0700 (PDT)
-In-Reply-To: <CAPyrkgyyXnZCkL=_GzW1pwfXzUmRrRQ8UiqNDcKdGiNqc5ruSQ@mail.gmail.com>
-References: <CAPyrkgyyXnZCkL=_GzW1pwfXzUmRrRQ8UiqNDcKdGiNqc5ruSQ@mail.gmail.com>
-From: Matt Madison <matt@madison.systems>
-Date: Thu, 28 Sep 2017 14:22:55 -0700
-Message-ID: <CAGgRHJrwm9yWbSrK_3FpgTxKVuAjhpF31U9TAUeq9asLhY91Ag@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Go runtime host contamination
+Received: by 10.25.213.20 with HTTP; Thu, 28 Sep 2017 16:06:21 -0700 (PDT)
+From: Riku Voipio <riku.voipio@linaro.org>
+Date: Fri, 29 Sep 2017 02:06:21 +0300
+Message-ID: <CAAqcGHk4xEzrbMxZtree8EGCAZ2mBX6X=h5w4aD2ZvQJ14=XJw@mail.gmail.com>
+To: "cross-distro@lists.linaro.org" <cross-distro@lists.linaro.org>,
+	debian-arm@lists.debian.org, arm@lists.fedoraproject.org, arm@gentoo.org, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, opensuse-arm@opensuse.org, 
+	linux-arm@lists.infradead.org
+Subject: SFO17 Cross-Distro meeting notes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,69 +51,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 21:22:56 -0000
+X-List-Received-Date: Thu, 28 Sep 2017 23:06:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 28, 2017 at 10:28 AM, Paul Barker <pbarker@toganlabs.com> wrote=
-:
-> Hey,
->
-> I'm trying to upgrade runc-opencontainers in meta-virtualization to
-> v1.0.0-rc4 and hitting a host contamination issue.
->
-> Both host and target are x86-64 but I'm using glibc on the host
-> (Ubuntu 16.04) and musl on the target. I'm getting link failures
-> referring to missing symbols "__vfprintf_chk" and "__fprintf_chk" in
-> libcontainer. I'm pretty sure these symbols exist in glibc but not in
-> musl.
->
-> The failure is occurring when trying to link libcontainer which uses
-> the go extension cgo to incorporate some c code in with the go code.
->
-> Using a pretty dumb grep, I can see the contamination in the go-runtime p=
-ackage:
->
->     $ grep -r __fprintf_chk
-> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/
->     Binary file
-> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/src/ho=
-st-tools/trace
-> matches
->     Binary file
-> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/src/ho=
-st-tools/pprof
-> matches
->     Binary file
-> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/pkg/li=
-nux_amd64/runtime/cgo.a
-> matches
+= LSE atomics problem =
 
-Yep, I see what's going on here.  I have a patch in the works to take
-care of it.
+Large System Extensions, part of ARMv8.1, provides new atomics
+instructions. These instructions are essential for high performance
+locking when you have lots of cores.
 
-Thanks,
--Matt
+Recommendation: distributions should provide an alternative optimized
+glibc with LSE atomics based locks for end users.
 
->
-> The go build process seems to build host tools & runtime first and
-> then the target runtime, even for the go-runtime recipe. It looks like
-> it's installing the host version of the runtime library instead of the
-> target version but I'm not 100% sure here. There is some code in
-> go/src/make.bash to handle the case when host arch & os match target
-> arch & os and I think this is getting tripped up.
->
-> I can provide further info and logs tomorrow. Just wondering if anyone
-> has seen this sort of problem before and has any suggestions.
->
-> Cheers,
->
-> --
-> Paul Barker
-> Tog=C3=A1n Labs Ltd
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+= Scalable Vector Extensions =
+
+May have an ABI issue. Situation under investigation.
+
+= Page size =
+
+Don't assume your binaries will always execute in the page size they
+were built on. Even if your distribution is built on 4K page size, be
+aware that some of your users might opt to run with 64K page size
+kernel - for example in containers.
+
+Users be aware, that switching between 4K and 64K kernels may break
+some data structures that depend on page size. Swap needs be
+reformatted, and btrfs will explode on page size change-
+
+= OCI spec =
+
+With LSE, SVE, armv8.x releases coming, any containers using newer
+instructions should be identified in variant field.
+
+= Booting =
+
+One day, booting on arm will be so boring, that nobody will bring it
+up on our cross-distribution BoF. That day was not today.
+
+RHEL only supports ACPI on arm64. Even if you are not RHEL, you should
+prefer ACPI over device tree, if the former is available.
+
+U-boot can now start EFI binaries, making u-boot an excellent platform
+to implement an UEFI bios. This allows single-path installers for
+distributions, where install of distribution starts always by loading
+grub from EFI.
+
+On arm64, Kernel doesn't self-decompress. The bootloaders are stringly
+recommended to support decompressing kernel images. It's optional in
+grub, make sure your grub does. At least iPXE and u-boot don't support
+booting Image.gz on arm64, and should be fixed.
+
+Riku
 
