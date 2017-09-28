@@ -1,25 +1,35 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 18D9E60777
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 49FF671A32
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 10:05:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8SA5DoD004249
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 03:05:13 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 28 Sep 2017 03:05:12 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Sep 2017 18:04:21 +0800
-Message-ID: <1506593061-168725-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 28 Sep 2017 10:14:04 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v8SAE2JG015227
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Thu, 28 Sep 2017 12:14:02 +0200
+Received: from [192.168.253.100] ([163.242.56.100])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v8SAE179005126
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 28 Sep 2017 12:14:01 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1504593353-7409-1-git-send-email-andrej.valek@siemens.com>
+	<CAJTo0LYxVmQidhcuq9VeSBzb7y1KPcgqN6_R97d7PNf51C094g@mail.gmail.com>
+	<1ebb3564-9e52-9480-c1c8-9f959d9e9416@siemens.com>
+	<CAJTo0LYwUhk9tHNHZ7DACOC5WXKW_x=1vrNd7pArCxP7-Pe_dA@mail.gmail.com>
+	<b48b82e6-bb1d-2e7a-ab50-609bd39c93d8@siemens.com>
+	<239a2cfd-1507-b8dc-0d85-0ab7afa98c71@siemens.com>
+	<CAJTo0LbR-sLX4YY4F1myb2EcEGQ3qSZjQL5OPOh5jut2_h4djg@mail.gmail.com>
+	<59fecff0-d359-a4ea-3d3c-cb0064f0e70d@siemens.com>
+	<CAJTo0LYnEPOs3k0UTRHQdq_Mn=MZVWXbUNhEbJcpP_exHjcJXA@mail.gmail.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <617e9e3d-e7a4-ea73-9f9c-10ca4c46c441@siemens.com>
+Date: Thu, 28 Sep 2017 12:14:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] expect: Fix segfaults when Expect clib is used directly from C program
+In-Reply-To: <CAJTo0LYnEPOs3k0UTRHQdq_Mn=MZVWXbUNhEbJcpP_exHjcJXA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: 2.9.4 -> 2.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,128 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 10:05:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Sep 2017 10:14:05 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Fix segfaults if Tcl is built with stubs and Expect clib function is used
-directly from C program.
+Of course, but there is a problem with mailing list encoding. This is
+the reason, why is pushed into branch.
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- ...segfaults-if-Tcl-is-built-with-stubs-and-.patch | 90 ++++++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.bb        |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
+Only for the information. A difference between last version posted here,
+is only in file runtest.patch So, basically the versions are the same.
 
-diff --git a/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch b/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
-new file mode 100644
-index 0000000..d1619ba
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
-@@ -0,0 +1,90 @@
-+From f0049b4b2ea55b3b3c53bf6f0275654801c755d2 Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Thu, 28 Sep 2017 15:54:55 +0800
-+Subject: [PATCH] expect: Fix segfaults if Tcl is built with stubs and Expect
-+ is used directly from C program
-+
-+Description: This dirty hack fixes segfaults if Tcl is built with stubs
-+ and Expect is used directly from C program.
-+Bug: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=588817
-+Example:
-+ #include <stdio.h>
-+ #include <tcl8.5/expect.h>
-+ int main()
-+ {
-+     FILE *pipe;
-+     char *some_command = "uname";
-+     char datum;
-+     pipe = exp_popen(some_command);
-+     if (pipe == NULL) return 1;
-+     while ((datum = getc (pipe)) != EOF)
-+ 	printf("%c",datum);
-+ }
-+Example:
-+ #include <stdio.h>
-+ #include "expect.h"
-+ main()
-+ {
-+     int fd = 0;
-+     fd = exp_spawnl("echo", "echo", "Hello User: Whats up?", (char*) 0);
-+     switch (exp_expectl(fd, exp_regexp, "ser:", 1, exp_end)) {
-+ 	case 1: {
-+ 	    printf("GOT ser:\n");
-+ 	    break;
-+ 	}
-+ 	default: {
-+ 	    printf("DEFAULT\n");
-+ 	    return 1;
-+ 	}
-+     }
-+     printf("Normal Exit\n");
-+     return 0;
-+ }
-+Author: Sergei Golovan <sgolovan@debian.org>
-+
-+Upstream-Status: Backport
-+Backport from http://pkgs.fedoraproject.org/cgit/rpms/expect.git/commit/
-+?h=master&id=b6737eed550be93182f2ed194e836a6cbbcf4fa3
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ exp_clib.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/exp_clib.c b/exp_clib.c
-+index 172c05e..19341d5 100644
-+--- a/exp_clib.c
-++++ b/exp_clib.c
-+@@ -114,7 +114,11 @@ extern unsigned long	strtoul _ANSI_ARGS_((CONST char *string,
-+ #include <stdlib.h>		/* for malloc */
-+ #endif
-+ 
-+-#include <tcl.h>
-++#define ckalloc(x) Tcl_Alloc(x)
-++#define ckfree(x) Tcl_Free(x)
-++extern char *Tcl_ErrnoMsg(int err);
-++extern char *Tcl_Alloc(unsigned int size);
-++extern void Tcl_Free(char *ptr);
-+ #include "expect.h"
-+ #define TclRegError exp_TclRegError
-+ 
-+@@ -389,7 +393,7 @@ char *exp;
-+ 		FAIL("regexp too big");
-+ 
-+ 	/* Allocate space. */
-+-	r = (regexp *)ckalloc(sizeof(regexp) + (unsigned)rcstate->regsize);
-++	r = (regexp *)malloc(sizeof(regexp) + (unsigned)rcstate->regsize);
-+ 	if (r == NULL)
-+ 		FAIL("out of space");
-+ 
-+@@ -399,7 +403,7 @@ char *exp;
-+ 	rcstate->regcode = r->program;
-+ 	regc(MAGIC, rcstate);
-+ 	if (reg(0, &flags, rcstate) == NULL) {
-+-	  ckfree ((char*) r);
-++	  free((char*) r);
-+ 	  return(NULL);
-+ 	}
-+ 
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
-index e2d24e8..c9f5aba 100644
---- a/meta/recipes-devtools/expect/expect_5.45.bb
-+++ b/meta/recipes-devtools/expect/expect_5.45.bb
-@@ -26,6 +26,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-            file://01-example-shebang.patch \
-            file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
-            file://0001-Resolve-string-formatting-issues.patch \
-+           file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch \
-           "
- SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
- SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
--- 
-1.9.1
+>-+	install $(noinst_PROGRAMS) $(DESTDIR))
+>++	install $(check_PROGRAMS) $(DESTDIR))
 
+Developers changed variable for binaries in Makefile.
+
+Andrej
+
+On 09/28/2017 11:34 AM, Burton, Ross wrote:
+> Can you resubmit the patch here too please, patch review happens primarily on 
+> the list.
+> 
+> Ross
+> 
+> On 28 September 2017 at 07:06, Andrej Valek <andrej.valek@siemens.com 
+> <mailto:andrej.valek@siemens.com>> wrote:
+> 
+>     Thank You for pointing to this. I have fixed and updated the pull request.
+> 
+>     Andrej
+> 
+>     On 09/27/2017 05:35 PM, Burton, Ross wrote:
+>     > On 27 September 2017 at 09:52, Andrej Valek <andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>
+>      > <mailto:andrej.valek@siemens.com <mailto:andrej.valek@siemens.com>>> wrote:
+>      >
+>      >     Could You please provide my the current status of my request?
+>      >
+>      >
+>      > Too much of a change for frozen master so it will have to wait for master
+>     to reopen.
+>      >
+>      > However it fails to build with ptest enabled:
+>      >
+>      > | NOTE: make
+>      >
+>     DESTDIR=/data/poky-tmp/master/build/work/corei7-64-poky-linux/libxml2/2.9.5-r0/image/usr/lib/libxml2/ptest
+>      > install-ptest
+>      > | install: missing destination file operand after
+>      >
+>     '/data/poky-tmp/master/build/work/corei7-64-poky-linux/libxml2/2.9.5-r0/image/usr/lib/libxml2/ptest'
+>      >
+>      > (noinst_PROGRAMS isn't set in the makefile)
+>      >
+>      > Ross
+>      >
+> 
+> 
 
