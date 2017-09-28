@@ -1,40 +1,51 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 79FEC6E668
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f46.google.com (mail-pg0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4216062134
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Sep 2017 22:32:06 +0000 (UTC)
-Received: (qmail 22193 invoked by uid 1003); 27 Sep 2017 22:32:06 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@108.44.111.57)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	27 Sep 2017 22:32:06 -0000
-To: Tim Orling <timothy.t.orling@linux.intel.com>
-References: <37a76fa5-4f25-56dd-9616-4b4b23fbb093@balister.org>
-	<CAB=otbS8_F_Yhisc+ybm8X1m3GXBzCK1q16YjrWATDArwVf+Hw@mail.gmail.com>
-	<bdabbc35-fa12-55ae-5387-54da9204fd55@topic.nl>
-	<CAHUNapRuc6RHNZXHGdN0TO2A0EwRgkT53bqqqM-DcwqKzUz55w@mail.gmail.com>
-	<9e86f719-bcf9-132e-3a82-8c924385710d@topic.nl>
-	<646f4edc-ff9f-7f2e-37a7-260cbd2af60d@balister.org>
-	<ab1501ba-e625-61ac-c6f5-ce676531a473@gmail.com>
-	<c2911001-d598-9e20-8463-085d5f4910db@balister.org>
-	<CA+YB3rYwurx0i8oUGUkwWA3JMzTBJtFsijP_V0t+ncYVbOkW6A@mail.gmail.com>
-	<CAPybu_1T63Vcw9N3VgVgj45gcUM8UgPqRkSAwaHhvyxWFU0Ztg@mail.gmail.com>
-	<1a067fa9-8e5e-1f18-709d-15df07518928@balister.org>
-	<CAPybu_3tiZLD4vU6ZrH9iD4OB1wHibGWxFJ20wL_ynDeaLo-Yw@mail.gmail.com>
-	<CA+YB3rYipupFC2s_3gsfVSM6sZ5oAis1hAB491+tAXVEfEAPrg@mail.gmail.com>
-	<CAPybu_3BveGWtVbPVTRebodxjzcMGN3zQAJCMnuKUoSxun8nfg@mail.gmail.com>
-	<2f5800db-6b19-3445-f515-0c31d7257668@balister.org>
-	<C11A97A5-8B05-4DE1-9EE9-D68271323C4A@linux.intel.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <71d130f0-4fcb-6d0d-c90e-9c9c9e7ac32f@balister.org>
-Date: Wed, 27 Sep 2017 18:32:05 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Thu, 28 Sep 2017 04:39:19 +0000 (UTC)
+Received: by mail-pg0-f46.google.com with SMTP id p5so275011pgn.7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Sep 2017 21:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=R4XnR6y01uETetrvFt4NkL2t4phmuBPa5jynwHYE83U=;
+	b=mUShpr/J0lhwqF7q6ImyqfQTitP6DsMNYGKXDQp0ZT/f33e6oohXkZB/dDPXt6HDpg
+	G2bqMEmgwzf3psEe7nT+3fsJAKusA6qrxiTO/o4c4Jep1AeEC7YUOrV/q5rxJJgN9mbF
+	+IW9UlpO81t9w13WkIOYna5ESJFVqC84l+wGWtDwRCdPgTsoOA6eOC2anv7iOJO27bIS
+	BwZPCeUks/3iR1YHWJo9HJe4GzaCj6FGLm4VrNl2V6botpyVbnOLwiPZBWuFUhKsvJbB
+	xqz4vnTG1uD7MnG+/PnFynZiRsZScHbDb8v7547d62FWz2pIZ6BahBzELjuBEsqz+bpS
+	6N0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=R4XnR6y01uETetrvFt4NkL2t4phmuBPa5jynwHYE83U=;
+	b=hPsIiTguUr961/qXMooukhZ5x0Fyyp93CoK9nDP7Cx5Am5QOlsNn1ObOp2ujj7CC24
+	bSySmyEQAz2c93PuzCFC+Em9Yu9OPqGOmW/mRC90R4bwdKJkaAyHbD6urAJ1Yfr2uaRL
+	FFhBYo1Zi09kG8EZOOED6jNfFi9LsWW4iyMM1dG5Gs8Q6ssWMRrBYkRJfGnBK0pDtRCW
+	oL2PmFvClaXwhXy/GAwriwhUFgmyzyPZ8d1TnEhdir7uaJkcCCExyWaPLSegUWk5vfhi
+	bLQVLYhR9ITBGjoWnQ7xIAgxOAX+tKfiOJJe/75IxHyb/NiMaDI1OZUHJu8zJ1ZH1i2f
+	78TQ==
+X-Gm-Message-State: AHPjjUgT8DNiRWTRMANc6jBZHlzmZUrdnTbwrxVWptxqluinZTT8Zyy2
+	vEN6I9x5MX2sNlzuIJNDnmaVNPqu9zN0rIEfvf4=
+X-Google-Smtp-Source: AOwi7QCx15BqeAY/0ZLKMQxmvIHN1Dwg8ntSLVcTu7lIkkRl/awatbq9LjuNATNbHhOPnlbwVOK+r72sTMtID3tdc8Y=
+X-Received: by 10.84.138.1 with SMTP id 1mr3032880plo.404.1506573561331; Wed,
+	27 Sep 2017 21:39:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <C11A97A5-8B05-4DE1-9EE9-D68271323C4A@linux.intel.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded Developer Meeting Oct 22, 2017 in Prague (before ELCE)
+Received: by 10.100.149.73 with HTTP; Wed, 27 Sep 2017 21:38:50 -0700 (PDT)
+In-Reply-To: <20170927221744.GE3112@bill-the-cat>
+References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
+	<CAMKF1srXi9mNZejjSK2+1irS4neRHbK+BQyka-czvjPLsc8E2Q@mail.gmail.com>
+	<20170927215300.GD3112@bill-the-cat>
+	<CAMKF1soatZ5fjbaD6fWmXN7nyw+Hz1T0QJDj176_W6Vrx5LoXw@mail.gmail.com>
+	<20170927221744.GE3112@bill-the-cat>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Sep 2017 21:38:50 -0700
+Message-ID: <CAMKF1soPQfNe9m2bNa2gTTWUja02o74NTBuxwXkBqHkXWVJhLQ@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Sep 2017 22:32:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 28 Sep 2017 04:39:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/27/2017 01:24 AM, Tim Orling wrote:
-> Does anyone from EU have a z-wave RGBW lightbulb they could loan to the booth during ELCE? I have an EU UZB bridge, but not any easy way to acquire a device to control. Otherwise I will have to use US frequency and that might not be “OK”. Plus I don’t want to spend 30-40 euros on an item that will not be useful to me except for the demo.
-
-Tim, I do not. Maybe ping the bigger list?
-
-Philip
-
-> 
-> —Tim
-> 
->> On Sep 26, 2017, at 5:56 AM, Philip Balister <philip@balister.org> wrote:
+On Wed, Sep 27, 2017 at 3:17 PM, Tom Rini <trini@konsulko.com> wrote:
+> On Wed, Sep 27, 2017 at 10:14:51PM +0000, Khem Raj wrote:
+>> On Wed, Sep 27, 2017 at 2:52 PM Tom Rini <trini@konsulko.com> wrote:
 >>
->> On 09/26/2017 02:34 AM, Ricardo Ribalda Delgado wrote:
->>> Hi
->>>
->>> On Mon, Sep 25, 2017 at 6:23 PM, Jeff Osier-Mixon <jefro@jefro.net> wrote:
->>>> It certainly looks interesting! The  main issue is that our table is about
->>>> 0.5 x 1.4 meters, so setting up demos as well as screens and keyboards may
->>>> be a difficult task. I'll do what I can to set up a second table at the
->>>> booth.
->>>
->>> I have to bring it anyway. We can postpone the decision.
+>> > On Wed, Sep 27, 2017 at 02:01:43PM -0700, Khem Raj wrote:
+>> > > On Wed, Sep 27, 2017 at 10:00 AM, Tom Rini <trini@konsulko.com> wrote:
+>> > > > With RSS we need to ensure that when making a bmap image that the
+>> > > > python3 that we created is found via /usr/bin/env rather than the host
+>> > > > python3.  Otherwise we're relying on the build host to have bmaptool
+>> > > > support installed.
 >>
->> I'm looking forward to seeing it!
->>
-> 
-> 
+>> Who is staging python3 native here may be that's where it could be added
+>
+> What do you mean?  Adding whatever.bmap to IMAGE_FSTYPES is valid and
+> how you get the bmap file for the whatever image type.  bmap-tool-native
+> is correctly inherit'ing python3native which is why it's staged
+> correctly.  It's just that images aren't adding the EXTRANATIVEPATH
+> that's required because nothing is telling them that bmap requires it.
+
+hmm, I see, I wonder if these paths should be added unconditionally.
+During image build.
 
