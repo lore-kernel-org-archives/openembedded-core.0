@@ -1,48 +1,51 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 173177751C
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
+	[209.85.161.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C098D771F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 17:35:17 +0000 (UTC)
-Received: by mail-pg0-f53.google.com with SMTP id p5so1315031pgn.7
+	Thu, 28 Sep 2017 17:44:29 +0000 (UTC)
+Received: by mail-yw0-f174.google.com with SMTP id q80so1551000ywg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 10:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=yVael/mJlrTn0KnagcejUjp5IGOk+XZIHK/8Xvf45EQ=;
-	b=iR/TBApq6wwDQy5Uv98HXRjQeTSWcwCgQl/dxaqh++DYI5U7ZXf0SqsGFEnpwmdGcY
-	bG4DJIJRsiH5uqupblR74C1JTFyd1yHTdEf+Lu+SYCpd+9DfGw0L6HFpbIr0rPlKiYF+
-	RGhLdllK5gpFTvWUNLMTT02poSRPnXkYNLlV6KKecE5m5aCZUyI6wfMtMTbX/0TF6KZ9
-	vGGJDb8wzns+V7kpwFX5bS2qfz+pZGhDd7BKh25ZMxA4EKOckpHM9Q+oyo5588EPqIiH
-	fJDSIu/pa2u4D4jr+3R67DGTg/Acb2bpcw9kPn3zVlgDlGqjXthdn11FK1iKR2geSLuf
-	Op0g==
+	Thu, 28 Sep 2017 10:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=l0xgIUp/4CUbfAzg/ar5J8lzvnN/rULuGkMrhNeHbHc=;
+	b=DJRDo8d3pwk7F3/l/73kXcU1eEb9ysG4J6/TnjMCGk+BKDsYK7pkhSC/Mgn/GSw3Os
+	MxNkbIjg/pHCdUFpgQeVysyo9TMVt8fU9/nm5pyC03tme/Zkhtx5+l8yyec9p3v82l2G
+	hkIAtlPAN5Fq6CBLxn6/Bn0P7aliB8kyr0ghU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=yVael/mJlrTn0KnagcejUjp5IGOk+XZIHK/8Xvf45EQ=;
-	b=VuBLkfB2sBI5m1/YTBZd/Up92jeYwDS+bfL2nUVHWoPmZRvQrF0q2H+rA9B0V45WP4
-	1foE5F8hwPyxiXI7EN1YjxVtKEWYVJL/dgcIhXAWnAwAa1fKtSJMmntjFtmbzim+UaIy
-	DnrmLzcCyQH+nZ7Mu9zaFHxSBZPoY38MffeK22BXfH3o4aEck64aobtHs/cyKkRI6VGd
-	6O57CrBuurpxfoKU8OCluR+Yo2YnAQVQLxT441NEjWgZcPYlWUq1kfINJk6OrUIpTEJa
-	xaAwYFsHI8Ezdm4LGhgeT0FbIppsTqu3TGHRvAiRzeEeKgEneELAFX1y1e7f+Ik42AhP
-	Vxeg==
-X-Gm-Message-State: AHPjjUi4Nd0146icAYzSXNEMDr11OCOleITwGQ53XSplPijmX/QZxpBW
-	nkdEfbVoq3CsdUI0TXzxKtwB2jbvBHU=
-X-Google-Smtp-Source: AOwi7QCe56UtNhZv3OGV1rX0HyBSyd7a6GcADWxCLwGsLu06msd6W01BpmzCljVApHvLPSr9qoRQyw==
-X-Received: by 10.84.229.7 with SMTP id b7mr4437572plk.75.1506620115411;
-	Thu, 28 Sep 2017 10:35:15 -0700 (PDT)
-Received: from workhorse.madison.systems
-	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
-	by smtp.gmail.com with ESMTPSA id
-	e133sm3159362pfh.177.2017.09.28.10.35.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 28 Sep 2017 10:35:14 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Sep 2017 10:34:41 -0700
-Message-Id: <1506620082-27597-1-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2 0/1] goarch.bbclass: rework mips architecture checks
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=l0xgIUp/4CUbfAzg/ar5J8lzvnN/rULuGkMrhNeHbHc=;
+	b=FEEbJC4nmKPbf3CIeNXL+UqBTyetu+95wCx+EsQAIQBePafXwYuG7cu0Nov7cq0p3Q
+	7jHbDs9o85b6vC1eox0HWkTKkLMx7uSPE74vVY/2/VQrdHKBnNR/jBKCc7slIoQC41b5
+	szWVXJPnfaBhEb95d7t0ogXqMouzO4g2JiLqnRLoOJzuHsmpzR6MTiE5ezhbISuf7nfi
+	oWMP75p+DNM0BddNa5fsU7riNuTRLpn353IsLwSaOZbIm9u6GonMb00Ur8TMUJMPbCMs
+	SBoYoFct1UExGdelkW4yyr/Jn1nqS5U9zbNmMD718OcsQ0nENlQgCKLG0A41Q8UVNNmU
+	usdw==
+X-Gm-Message-State: AHPjjUj3BNNNJ/K4HNH9ssFs8ZRQcdsVHgQnZOpPSvuTDSZ7Mp1ESuyi
+	clIGJ4e3hju+1NzseJ79F6VihQ==
+X-Google-Smtp-Source: AOwi7QB4mgo3GTB+siXfNenjZhjcTW+OF7L8etdwJ658Aiup6aVny+0MTcS1pbtRAIQz7wRNmy4VWw==
+X-Received: by 10.129.159.73 with SMTP id w70mr4143266ywg.479.1506620670674;
+	Thu, 28 Sep 2017 10:44:30 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1401:811b:706c:f3a8:eab4:3cc8])
+	by smtp.gmail.com with ESMTPSA id t64sm807222ywf.91.2017.09.28.10.44.26
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Thu, 28 Sep 2017 10:44:27 -0700 (PDT)
+Date: Thu, 28 Sep 2017 13:44:29 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Message-ID: <20170928174429.GO3112@bill-the-cat>
+References: <1505923407-31734-1-git-send-email-trini@konsulko.com>
+	<20170928154707.362zfbhccbydkdox@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <20170928154707.362zfbhccbydkdox@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: Generate startup.nsh for EFI cases if none found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +58,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 17:35:18 -0000
+X-List-Received-Date: Thu, 28 Sep 2017 17:44:30 -0000
+X-Groupsio-MsgNum: 103470
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="TlGginnuNEm5PkhK"
+Content-Disposition: inline
 
-New in V2:
+--TlGginnuNEm5PkhK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- * Replaced the regex matches for mips with straight
-   comparisons -- the only mips TUNE_ARCHs that map
-   into Go support are 'mips' and 'mipsel'.
+On Thu, Sep 28, 2017 at 06:47:07PM +0300, Ed Bartosh wrote:
+> On Wed, Sep 20, 2017 at 12:03:27PM -0400, Tom Rini wrote:
+> > In the case of non-wic images there is logic today to generate a
+> > startup.nsh file that will be executed by EFI to run the loader that the
+> > image contains.  In the WIC case is currently depends on that file being
+> > generated elsewhere and placed in DEPLOY_DIR_IMAGE and only used if
+> > present there.
+>=20
+> What's wrong with this approach?
 
-* Removed the anonymous python function, and dropped
-  rewriting TUNE_FEATURES altogether.  TUNE_CCARGS_remove
-  (which had been used in the past) is used to handle
-  the compiler flags conflict with cgo for mips.
+No one ever provides a startup.nsh and everyone that wants one creates
+the same one line trivial example.  The end result is that no WIC images
+are Just Bootable on UEFI systems unless you first go and spell that out
+as the desired booting device.  This isn't an awesome workflow which is
+why the non-WIC cases make the required startup.nsh :)
 
-* Fixed regexes for the mips64 checks, which I missed
-  last time.
+> I'd be happy to make wic to do only partitioning and assembling the
+> image and avoiding to modify image content as much as possible.
+> That would make wic design much more clear and let us to remove
+> a lot of duplication between wic and meta/classes code.
+>=20
+> Regarding boot partition content, I think preparing it from bootfs
+> directory the same way as it's done for root partition is the way to go.
+> You can find more details about it here:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10073
 
-Matt Madison (1):
-  goarch.bbclass: rework mips architecture checks
+I don't conceptually see a problem with going that route.  But today WIC
+images aren't nearly as useful as they could be, with a rather tiny
+change.
 
- meta/classes/goarch.bbclass | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+My patch is also a regression-fix, I believe, in that at some point in
+the past, when Christopher's patch went in, things were laid out such
+that startup.nsh was often/always generated by another class and placed
+where WIC would find it and copy it in.  At some point that was
+broken/changed, and no one noticed / was interested enough to fix it.
 
--- 
-2.7.4
+--=20
+Tom
 
+--TlGginnuNEm5PkhK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZzTT9AAoJEIf59jXTHXZSQ04QAIup5rXIA8ESbq7qRhSEAdqQ
+QYHkS8fNDQOPpuDBpAfiHcU6B/Qah3rbiKUhvBt1l8o97oWQoe43thSaLgJxQm8f
+Rf2+dx5ATB9Z0LuCJHJp7LHT/f97i7HV2vdhRiimghdWFzdB9rio8bobsvQqFzZc
+tE5AXZJpGdPDJyulqMIC88aXb+gk/M1wwS4m2AAs4w3BiO1BHN/HecMwNin/8xaV
+j0pQTBmBUsMikeg8jvXRqYic5PtPGC1Kx6EpEOqbbX23AQcapXkVyGCO44r7nliG
+aBUhAYhd11YYY+qMR3KXcPmB6HcwMg+zmz3SK46/JmecVwrf7HvcvFFoWTTTHJFv
+qdp4jRMPm7NFtcCkZxxifpidvt5NPKPpvMYtiX9J1u9LGEyxCNSGNHz1IldfzwEZ
+pcIul3Fjd8MToiuWdP7YonW5qDFOzzt90vQ4r5KSBOjS00wqlSxhLQ1oQtiohy1H
+bKyeK4mVbm8kcXV3/EXOWhoNXX/ljMgr+BU8wjRJnukVEERcOQLhb+aGYztNtj4i
+XkV/3QDi5fNSD2MHqyKvkBkB7r7cgBDnE2l3fS1VY/uwT2RFGc6FbCZpecw/aOQj
+MBX/FHiigdOfgao5jvEyB2p4Q6UEKORN5COOEbcid/gGHkEGE7piq6UR7wDNCusg
+uJcrUjWTuSLGz8JbQJF4
+=5Hg/
+-----END PGP SIGNATURE-----
+
+--TlGginnuNEm5PkhK--
