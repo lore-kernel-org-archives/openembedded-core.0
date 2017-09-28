@@ -1,48 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id A318371CBD
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 33BC171CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 11:28:14 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id d16so1258467ioj.3
+	Thu, 28 Sep 2017 11:37:26 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id e189so1289061ioa.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 04:28:16 -0700 (PDT)
+	Thu, 28 Sep 2017 04:37:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XL2X3f6UKybQ0Gh3INlxGaFD1LsyRTlbuEtamZ+kFZs=;
-	b=S6FsR2AXPTbWANFHkGV6/Rvd85zsgy+acpWrgh8UOsG4vk8xd74bh1hy6U90x3/QKG
-	KG3dNhH/SQaNQ+QWCOiEUL1UEBxuuW6jWNyDI1MZhmGEskztZMe7iQ+2Yh0zQEqmX8P1
-	ni2CjCtSgAYJB8RLDuvc/URow+X4cRLcChByaULyU0clziMFQJamB2+EdYHNw4HREzC0
-	rRKo80zeNqUaQiLAH5yGdNP+QAmH4Rhdi4ESOhGjvgTTBr3QmZyBk1i38nP4I9rNX2Rp
-	otIhHAKaHE1vB2CoPK4Ouh6TrxW/gThQsbVv4gurlXwQuv5eQACVIiVZl+OoVpFT8JJd
-	TqiQ==
+	:cc; bh=4jlCjwxMfHh7IIYFV1f0nsHSYU3RZiL2Kyr73C2me/0=;
+	b=XqV6pfTwYYpDWXbTyMRt05rM6LbwqoLX2xZd30M9M+7jNBVbcX2ybBtLBinJ0RxOue
+	qzdPipUuroPg6fAm4hrX5TjKHOvq09XgKy8+ZkYDaWGQk+4DpD6oNk3grQiuDRCCY1es
+	jIkqGyYBtHx9WDyoYzNZRuHrAuOLN6yaPU6UBGsiWEhXCtOVTDadHPeTNwRkVKAxZCsP
+	uxrMNceTuHWFocfgu+iahw6IsijiC6zU0cBl3QjI1m6I2vBXIQwpVCJCl8Yr1ExW0xp2
+	Ao8UZPOvMlgX/rjkGas7zwWP80dCya92dtWVzXRwSy7mqxNm+wYD/WYPMJHYimAEbC0D
+	pPCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=XL2X3f6UKybQ0Gh3INlxGaFD1LsyRTlbuEtamZ+kFZs=;
-	b=Dtu5aLVoRVyI/AM+XGIjH8k4BRhGWmmIttTREnzi1eEEsVnJJ+4YFIkPKnLsWS7dHy
-	uGjhBoY5vI9R948EdLayrhcr+hVYJYCGLk4m7/bG7LG+rfM3UM2tAz371UuBEUafNZYa
-	fo3FQxD5WdaSIyzV3LrZSlJmsiyFAYqYvgfWhBBhj6erW+ZnjWjONXRH/y4wPuxvpIb3
-	qiYSR610solXXwascPb9ZuMCEJfQdxhvUqzNgUgS96lIgOwpZegXmWrI+JpjvitAembk
-	eZ1D0XUMCEVoOHwU8dNjfBc6IGcVgvU2A8E/9bL7GfEc7WOK43LatmZJLYnnOlSIcPrj
-	p2cA==
-X-Gm-Message-State: AHPjjUhhKPamXWIDOr0wxwzbLsD2LEkBvCzL535Aeu+zvc1NTeKx06IZ
-	d12MY6j5fYB/GQHbRd1lyG77n0MogHCQq4FZ0HnX1w==
-X-Google-Smtp-Source: AOwi7QDx8XEaHp56aRVQM02Zuz3SuzAa3GfUi95JOapaEwi87PzMvTaQ2iJzZNCqNFKgKNAslzq13jPkanDPjl7mJTM=
-X-Received: by 10.107.41.135 with SMTP id p129mr6395351iop.142.1506598095951; 
-	Thu, 28 Sep 2017 04:28:15 -0700 (PDT)
+	bh=4jlCjwxMfHh7IIYFV1f0nsHSYU3RZiL2Kyr73C2me/0=;
+	b=FIq2+Rql2Oag0dOMfdYeYzSuko5VwiZ8hyJLH3iK8ygOkHfv7ReTa0PZutflIf8QmM
+	IExSdSiE8NxK6jxYQ7EE4hkHNcJpB0Kdvz31lAQhfwh8lgURcnjCe9/4d4iSk1eyFRi2
+	7AGVBhOTNCwlaTDA29N2QCtMdTEVtzyqpU+b0ru6az+kGyG0QNVHW//tfI8rOTe7fKix
+	okBq8dNHJ8INXRLAeJsr5QqJWflqWuAakVugnSS5rh4ZQIo0m3fWRG3IEd3rlwuk/bM4
+	Mo42jx/YKSny6q/gJU3CqzLrH32g92WwRZnOyDWV8SJv3wDUZIyUSyZEaB7YxWjzGDVS
+	oFqQ==
+X-Gm-Message-State: AMCzsaVecJWyWgvW5mJcI3tZHvt8oaElRmkPahdNQcBK1SVNMDut4iXh
+	qHEDhYmWaUVBgqaft73FALVo/JoY5SIjDq+FT+NTDA==
+X-Google-Smtp-Source: AOwi7QC9/yEg+wvssWEwZTGmAZZXXYEhj0wQ9HV4LuizgqKy4nQK62RvDxZbFcRd1KN6aUHxf0X69CPNhZRK+n6J0q4=
+X-Received: by 10.107.133.92 with SMTP id h89mr6250580iod.208.1506598647968;
+	Thu, 28 Sep 2017 04:37:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Thu, 28 Sep 2017 04:27:55 -0700 (PDT)
-In-Reply-To: <20170831055458.9197-1-jackie.huang@windriver.com>
-References: <20170831055458.9197-1-jackie.huang@windriver.com>
+Received: by 10.107.19.68 with HTTP; Thu, 28 Sep 2017 04:37:07 -0700 (PDT)
+In-Reply-To: <CAP9ODKq6rzVbzwxWbwzeW4Y71eXNSaHJOPvAXZxSvU1-CQKRtQ@mail.gmail.com>
+References: <CAP9ODKq6rzVbzwxWbwzeW4Y71eXNSaHJOPvAXZxSvU1-CQKRtQ@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 28 Sep 2017 12:27:55 +0100
-Message-ID: <CAJTo0LaXfJCZ5hw+sLcm4yWe_K9ck_H+7kTgva1+i9NSLdB6RA@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs-postcommands.bbclass: add support for /etc/ld.so.conf.d/*.conf
+Date: Thu, 28 Sep 2017 12:37:07 +0100
+Message-ID: <CAJTo0LZELSTX08VNZze3V299CtoFrH=jXhXsxOJc9xiv-KxHfA@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Go SDK automated test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,156 +56,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 11:28:16 -0000
-Content-Type: multipart/alternative; boundary="001a1141f226545524055a3e3421"
+X-List-Received-Date: Thu, 28 Sep 2017 11:37:27 -0000
+Content-Type: multipart/alternative; boundary="001a113ff7d03b5254055a3e553a"
 
---001a1141f226545524055a3e3421
+--001a113ff7d03b5254055a3e553a
 Content-Type: text/plain; charset="UTF-8"
 
-Why implement this as a rootfs postinstall command?  glibc writes this
-file, so we can alter it when that recipe is written.
+On 18 September 2017 at 20:17, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
+
+> Hello folks,
+>
+> I did try to understand the automated test infrastructure but ended
+> lost on how the code was designed. So instead I wrote down a step by
+> step test so someone which knows better the autotest infra can
+> translate it.
+>
+> git clone https://github.com/golang/dep go/src/github.com/golang/dep
+>
+> . /opt/oel/17.1-snapshot/environment-setup-i586-oel-linux
+>
+> export GOPATH=$PWD/go
+>
+> cd go/src/github.com/golang/dep
+>
+> i586-oel-linux-go build github.com/golang/dep/cmd/dep
+>
+> This will generate a dep binary on the $PWD; is it possible to someone
+> wrap it on OEQA test?
+>
+
+Thanks Otavio, that's really useful.
+
+Can you file a bug with this in (and CC me)?  It's a good exercise for a
+new QA engineer.
 
 Ross
 
-On 31 August 2017 at 06:54, <jackie.huang@windriver.com> wrote:
-
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> There are advantages in changing the contents of ld.so.conf to
-> "include /etc/ld.so.conf.d/*.conf" instead of directly listing
-> directories in it, just like most distributions are doing the same.
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  meta/classes/rootfs-postcommands.bbclass | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> index dc5a76baba..af01eb550a 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -20,6 +20,9 @@ ROOTFS_POSTPROCESS_COMMAND +=
-> '${@bb.utils.contains("IMAGE_FEATURES", "read-only
->  # Generates test data file with data store variables expanded in json
-> format
->  ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
->
-> +# Add support for /etc/ld.so.conf.d/*.conf if ldconfig is enabled
-> +ROOTFS_POSTINSTALL_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES',
-> 'ldconfig', 'add_ld_so_conf_d ;', '', d)}"
-> +
->  # Write manifest
->  IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}.rootfs.manifest"
->  ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
-> @@ -244,6 +247,16 @@ make_zimage_symlink_relative () {
->         fi
->  }
->
-> +# Add support for /etc/ld.so.conf.d/*.conf
-> +add_ld_so_conf_d() {
-> +    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf ]; then
-> +        if ! `grep -q 'include ld.so.conf.d\/\*.conf' /etc/ld.so.conf`;
-> then
-> +            echo 'include ld.so.conf.d/*.conf' >>
-> ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf
-> +        fi
-> +        mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/ld.so.conf.d
-> +    fi
-> +}
-> +
->  python write_image_manifest () {
->      from oe.rootfs import image_list_installed_packages
->      from oe.utils import format_pkg_list
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a1141f226545524055a3e3421
+--001a113ff7d03b5254055a3e553a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Why implement this as a rootfs postinstall command? =C2=A0=
-glibc writes this file, so we can alter it when that recipe is written.<div=
-><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=
-=3D"gmail_quote">On 31 August 2017 at 06:54,  <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:jackie.huang@windriver.com" target=3D"_blank">jackie.huang@windr=
-iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Ja=
-ckie Huang &lt;<a href=3D"mailto:jackie.huang@windriver.com">jackie.huang@w=
-indriver.com</a>&gt;<br>
+<div dir=3D"ltr">On 18 September 2017 at 20:17, Otavio Salvador <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"=
+_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div clas=
+s=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>Hello folks,<br>
 <br>
-There are advantages in changing the contents of ld.so.conf to<br>
-&quot;include /etc/ld.so.conf.d/*.conf&quot; instead of directly listing<br=
->
-directories in it, just like most distributions are doing the same.<br>
+I did try to understand the automated test infrastructure but ended<br>
+lost on how the code was designed. So instead I wrote down a step by<br>
+step test so someone which knows better the autotest infra can<br>
+translate it.<br>
 <br>
-Signed-off-by: Jackie Huang &lt;<a href=3D"mailto:jackie.huang@windriver.co=
-m">jackie.huang@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/rootfs-<wbr>postcommands.bbclass | 13 +++++++++++++<br>
-=C2=A01 file changed, 13 insertions(+)<br>
+git clone <a href=3D"https://github.com/golang/dep" rel=3D"noreferrer" targ=
+et=3D"_blank">https://github.com/golang/dep</a> go/src/<a href=3D"http://gi=
+thub.com/golang/dep" rel=3D"noreferrer" target=3D"_blank">github.com/golang=
+/dep</a><br>
 <br>
-diff --git a/meta/classes/rootfs-<wbr>postcommands.bbclass b/meta/classes/r=
-ootfs-<wbr>postcommands.bbclass<br>
-index dc5a76baba..af01eb550a 100644<br>
---- a/meta/classes/rootfs-<wbr>postcommands.bbclass<br>
-+++ b/meta/classes/rootfs-<wbr>postcommands.bbclass<br>
-@@ -20,6 +20,9 @@ ROOTFS_POSTPROCESS_COMMAND +=3D &#39;${@bb.utils.contains=
-(&quot;IMAGE_<wbr>FEATURES&quot;, &quot;read-only<br>
-=C2=A0# Generates test data file with data store variables expanded in json=
- format<br>
-=C2=A0ROOTFS_POSTPROCESS_COMMAND +=3D &quot;write_image_test_data ; &quot;<=
-br>
+. /opt/oel/17.1-snapshot/<wbr>environment-setup-i586-oel-<wbr>linux<br>
 <br>
-+# Add support for /etc/ld.so.conf.d/*.conf if ldconfig is enabled<br>
-+ROOTFS_POSTINSTALL_COMMAND +=3D &quot;${@bb.utils.contains(&#39;DISTRO_<wb=
-r>FEATURES&#39;, &#39;ldconfig&#39;, &#39;add_ld_so_conf_d ;&#39;, &#39;&#3=
-9;, d)}&quot;<br>
-+<br>
-=C2=A0# Write manifest<br>
-=C2=A0IMAGE_MANIFEST =3D &quot;${IMGDEPLOYDIR}/${IMAGE_NAME}<wbr>.rootfs.ma=
-nifest&quot;<br>
-=C2=A0ROOTFS_POSTUNINSTALL_COMMAND =3D+ &quot;write_image_manifest ; &quot;=
+export GOPATH=3D$PWD/go<br>
 <br>
-@@ -244,6 +247,16 @@ make_zimage_symlink_relative () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
+cd go/src/<a href=3D"http://github.com/golang/dep" rel=3D"noreferrer" targe=
+t=3D"_blank">github.com/golang/dep</a><br>
 <br>
-+# Add support for /etc/ld.so.conf.d/*.conf<br>
-+add_ld_so_conf_d() {<br>
-+=C2=A0 =C2=A0 if [ -f ${IMAGE_ROOTFS}${sysconfdir}/<wbr>ld.so.conf ]; then=
+i586-oel-linux-go build <a href=3D"http://github.com/golang/dep/cmd/dep" re=
+l=3D"noreferrer" target=3D"_blank">github.com/golang/dep/cmd/dep</a><br>
 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ! `grep -q &#39;include ld.so.conf.d\/\*.co=
-nf&#39; /etc/ld.so.conf`; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &#39;include ld.so.conf.d/*=
-.conf&#39; &gt;&gt; ${IMAGE_ROOTFS}${sysconfdir}/<wbr>ld.so.conf<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p ${IMAGE_ROOTFS}${sysconfdir}/<wbr>ld.=
-so.conf.d<br>
-+=C2=A0 =C2=A0 fi<br>
-+}<br>
-+<br>
-=C2=A0python write_image_manifest () {<br>
-=C2=A0 =C2=A0 =C2=A0from oe.rootfs import image_list_installed_packages<br>
-=C2=A0 =C2=A0 =C2=A0from oe.utils import format_pkg_list<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.11.0<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
+This will generate a dep binary on the $PWD; is it possible to someone<br>
+wrap it on OEQA test?<br></blockquote><div><br></div><div>Thanks Otavio, th=
+at&#39;s really useful.</div><div><br></div><div>Can you file a bug with th=
+is in (and CC me)?=C2=A0 It&#39;s a good exercise for a new QA engineer.</d=
+iv><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
---001a1141f226545524055a3e3421--
+--001a113ff7d03b5254055a3e553a--
