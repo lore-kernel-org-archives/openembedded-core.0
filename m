@@ -1,24 +1,16 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE3B16093A
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 20F616093A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 15:59:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8SFxAcv017271
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Sep 2017 08:59:11 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Thu, 28 Sep 2017 08:59:09 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 28 Sep 2017 11:59:09 -0400
-Message-ID: <1506614349-23562-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.5.0
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cml1: remove diffconfig return code checking
+	Thu, 28 Sep 2017 16:01:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id A81AF2662FC
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Sep 2017 18:01:23 +0200
+Message-Id: <1506614485-31675-1-git-send-email-fabien.lahoudere@collabora.co.uk>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH v4 1/3] wayland : Bump to version 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +23,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 15:59:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Sep 2017 16:01:33 -0000
 
-The following commit:
-
-[
-  commit 578c8205fd14c48c6d30ef2889d86f1b4aee060a
-  Author: Mikko Rapeli <mikko.rapeli@bmw.de>
-  Date:   Thu Jun 22 16:23:14 2017 +0300
-
-      meta: Fix return value checks from subprocess.call()'s
-
-      Python function subprocess.call() returns the return value of the
-      executed process. If return values are not checked, errors may
-      go unnoticed and bad things can happen.
-
-      Change all callers of subprocess.call() which do not check for
-      the return value to use subprocess.check_call() which raises
-      CalledProcessError if the subprocess returns with non-zero value.
-
-      https://docs.python.org/2/library/subprocess.html#using-the-subprocess-module
-
-      All users of the function were found with:
-
-      $ git grep "subprocess\.call" | \
-            egrep -v 'if.*subprocess\.call|=\
-            +subprocess\.call|return.*subprocess\.call'
-
-      Tested similar patch on top of yocto jethro. Only compile tested
-      core-image-minimal on poky master branch.
-
-      Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-      Signed-off-by: Ross Burton <ross.burton@intel.com>
-      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-]
-
-Added return code checking to do_diffconfig. Although the change is
-well intentioned, it isn't correct in this instance since 'diff' returns
-'1' to indicate that there are differences in the files .. and not as
-an error code.
-
-subprocess.check_call() flags this as an error and the routine aborts.
-
-We are already checking the inputs, and in fact already know there's a
-diff in the files before we even make the call, so there's no need to
-look for an error in this case.
-
-Putting back subprocess.call() restores the routine to working order.
-
-[YOCTO #12132]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 ---
- meta/classes/cml1.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} (92%)
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index eb8e7907f602..38e6613c486d 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -63,7 +63,7 @@ python do_diffconfig() {
+diff --git a/meta/recipes-graphics/wayland/wayland_1.13.0.bb b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/wayland/wayland_1.13.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.14.0.bb
+index b9396b6..2a2489d 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.13.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+@@ -14,8 +14,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
  
-     if isdiff:
-         statement = 'diff --unchanged-line-format= --old-line-format= --new-line-format="%L" ' + configorig + ' ' + config + '>' + fragment
--        subprocess.check_call(statement, shell=True)
-+        subprocess.call(statement, shell=True)
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[md5sum] = "cae152ed956da6de53f9727bc1c45039"
+-SRC_URI[sha256sum] = "69b052c031a61e89af7cc8780893d0da1e301492352aa449dee9345043e6fe51"
++SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
++SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
  
-         shutil.copy(configorig, config)
+ inherit autotools pkgconfig
  
 -- 
-2.5.0
+1.8.3.1
 
 
