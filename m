@@ -1,60 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8182B7198F
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BA9660721
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 07:37:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id F08782E9A3;
-	Thu, 28 Sep 2017 09:37:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id r1r9RoijGcDY; Thu, 28 Sep 2017 09:37:12 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bes.se.axis.com (Postfix) with ESMTPS id DA1B12E76B;
-	Thu, 28 Sep 2017 09:37:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BB12C1E080;
-	Thu, 28 Sep 2017 09:37:11 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AFE671E07F;
-	Thu, 28 Sep 2017 09:37:11 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Thu, 28 Sep 2017 09:37:11 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by thoth.se.axis.com (Postfix) with ESMTP id A40171FB7;
-	Thu, 28 Sep 2017 09:37:11 +0200 (CEST)
-Received: from xbox12.axis.com (10.0.5.26) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Thu, 28 Sep 2017 09:37:11 +0200
-Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
-	Microsoft SMTP Server (TLS) id 15.0.1263.5;
-	Thu, 28 Sep 2017 09:37:11 +0200
-Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
-	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
-	15.00.1263.000; Thu, 28 Sep 2017 09:37:11 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "andreas.kling@gmail.com" <andreas.kling@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] systemd: add runtime dependencies to pam
-	plugins.
-Thread-Index: AQHTN3Sw36q7cwykKUORWEctEzv8paLJ6Rxg
-Date: Thu, 28 Sep 2017 07:37:11 +0000
-Message-ID: <360d718b5d554d5d93b19ead209eb3bd@XBOX02.axis.com>
-References: <20170926171708.19010-1-andreas.kling@gmail.com>
-	<20170927094014.2666-1-andreas.kling@gmail.com>
-In-Reply-To: <20170927094014.2666-1-andreas.kling@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 28 Sep 2017 08:06:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8S86oBE001644
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Sep 2017 01:06:50 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 28 Sep 2017 01:06:49 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Sep 2017 16:06:05 +0800
+Message-ID: <1506585965-244456-1-git-send-email-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH v3] systemd: add runtime dependencies to pam	plugins.
+Subject: [PATCH] libarchive: CVE-2017-14502
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,94 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 07:37:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Sep 2017 08:06:49 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> andreas.kling@gmail.com
-> Sent: den 27 september 2017 11:40
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v3] systemd: add runtime dependencies to pam
-> plugins.
->=20
-> From: Andy Kling <andreas.kling@peiker-cee.de>
->=20
->   This ensures pam plugins required by /etc/pam.d/systemd-user
->   to open a user session are installed.
->=20
->   systemd[1]: Starting User Manager for UID 994...
->   systemd[6493]: PAM unable to dlopen(/lib/security/pam_keyinit.so)
->=20
->   Drop package systemd-pam to prevent confusion.
->   It is unused for a long time now.
->=20
->   v2: improve commit message
->   v3: drop systemd-pam
+read_header in archive_read_support_format_rar.c suffers from an
+off-by-one error for UTF-16 names in RAR archives, leading to an
+out-of-bounds read in archive_read_format_rar_read_header.
+Backport the patch from
+https://github.com/libarchive/libarchive/commit
+commit 5562545b5562f6d12a4ef991fae158bf4ccf92b6
 
-The patch version information does not belong in the commit message.
-You should add this kind of information below the three dashes below.
+CVE: CVE-2017-14502
 
-> Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
-> ---
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ .../libarchive/libarchive/CVE-2017-14502.patch     | 37 ++++++++++++++++++++++
+ .../libarchive/libarchive_3.3.2.bb                 |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2017-14502.patch
 
-This is where information about the patch belongs, e.g., what has changed=20
-in the various versions of the patch.
-
->  meta/recipes-core/systemd/systemd_234.bb | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core=
-/systemd/systemd_234.bb
-> index 881896bfb5..acc4c4623b 100644
-> --- a/meta/recipes-core/systemd/systemd_234.bb
-> +++ b/meta/recipes-core/systemd/systemd_234.bb
-> @@ -31,6 +31,12 @@ SRC_URI +=3D " \
->             "
->  SRC_URI_append_qemuall =3D " file://0001-core-device.c-Change-the-defaul=
-t-device-timeout-to-2.patch"
->=20
-> +PAM_PLUGINS =3D " \
-> +    pam-plugin-unix \
-> +    pam-plugin-loginuid \
-> +    pam-plugin-keyinit \
-> +"
-> +
->  PACKAGECONFIG ??=3D "xz \
->                     ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinu=
-x ldconfig usrmerge', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbco=
-mmon', '', d)} \
-> @@ -100,7 +106,7 @@ PACKAGECONFIG[importd] =3D "--enable-importd,--disabl=
-e-importd"
->  PACKAGECONFIG[libidn] =3D "--enable-libidn,--disable-libidn,libidn"
->  PACKAGECONFIG[audit] =3D "--enable-audit,--disable-audit,audit"
->  PACKAGECONFIG[manpages] =3D "--enable-manpages,--disable-manpages,libxsl=
-t-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-nativ=
-e"
-> -PACKAGECONFIG[pam] =3D "--enable-pam,--disable-pam,libpam"
-> +PACKAGECONFIG[pam] =3D "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}=
-"
->  # Verify keymaps on locale change
->  PACKAGECONFIG[xkbcommon] =3D "--enable-xkbcommon,--disable-xkbcommon,lib=
-xkbcommon"
->  # Update NAT firewall rules
-> @@ -295,7 +301,6 @@ PACKAGES =3D+ "\
->      ${PN}-kernel-install \
->      ${PN}-rpm-macros \
->      ${PN}-binfmt \
-> -    ${PN}-pam \
->      ${PN}-zsh-completion \
->      ${PN}-xorg-xinitrc \
->      ${PN}-container \
-> --
-> 2.14.1
->=20
-> --
-
-//Peter
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2017-14502.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14502.patch
+new file mode 100644
+index 0000000..72e1546
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2017-14502.patch
+@@ -0,0 +1,37 @@
++From 5562545b5562f6d12a4ef991fae158bf4ccf92b6 Mon Sep 17 00:00:00 2001
++From: Joerg Sonnenberger <joerg@bec.de>
++Date: Sat, 9 Sep 2017 17:47:32 +0200
++Subject: [PATCH] Avoid a read off-by-one error for UTF16 names in RAR
++ archives.
++
++Reported-By: OSS-Fuzz issue 573
++
++CVE: CVE-2017-14502
++
++Upstream-Status: Backport
++
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ libarchive/archive_read_support_format_rar.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index cbb14c3..751de69 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -1496,7 +1496,11 @@ read_header(struct archive_read *a, struct archive_entry *entry,
++         return (ARCHIVE_FATAL);
++       }
++       filename[filename_size++] = '\0';
++-      filename[filename_size++] = '\0';
+++      /*
+++       * Do not increment filename_size here as the computations below
+++       * add the space for the terminating NUL explicitly.
+++       */
+++      filename[filename_size] = '\0';
++ 
++       /* Decoded unicode form is UTF-16BE, so we have to update a string
++        * conversion object for it. */
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
+index 9e4588f..edc4d6a 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.3.2.bb
+@@ -34,6 +34,7 @@ EXTRA_OECONF += "--enable-largefile"
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://bug929.patch \
+            file://CVE-2017-14166.patch \
++           file://CVE-2017-14502.patch \
+           "
+ 
+ SRC_URI[md5sum] = "4583bd6b2ebf7e0e8963d90879eb1b27"
+-- 
+1.9.1
 
 
