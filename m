@@ -1,45 +1,51 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 582A460720
+Return-Path: <matt@madison.systems>
+Received: from mail-pg0-f51.google.com (mail-pg0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ADCA60720
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 17:28:21 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id u138so3708681wmu.5
+	Thu, 28 Sep 2017 17:35:15 +0000 (UTC)
+Received: by mail-pg0-f51.google.com with SMTP id 7so1309752pgd.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 10:28:23 -0700 (PDT)
+	Thu, 28 Sep 2017 10:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=ohCHFUg49SgIlllGS/hbo74mcJyN8gttQdXe3euVdoY=;
-	b=NFJaTHIbZC7iFsjDKIHHCwj+KiPFQL+BsOISCYSMXq4LYF3IwdRNrNcIt7G1UXGjqG
-	WA0AfomyGXPo7rdd+EMQ09oV2Wk6j++lIbe6mZC/emw932W+YJRkkq3r1eCtW0vhyHKl
-	LbFHdviyP95nKX8nPPGsvuwihjcf11lY5v56r64xAL0Bd72oSk3Sbxd4NLvQ+5e5f2oZ
-	V0784TOesZqbwMAhddh9dqSLpAa0vzuHlbVT87eW5C4aOq0biWXD7VZnPj1M+8rR/CbY
-	J0DmSgs3dhbybGSTJhTbHMW20nUSmnQU3w938Q+A9inrycaWIYhWWQE6w3/ZX7z87oF9
-	FDMQ==
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=AEDHCJWfumTthGU1SnXxZ8fgeB3VJDmtvrBsgfZDss4=;
+	b=iwDDQg++cCYnQsAzBQPIVqvX/QLy+pXUCaXvJchqMLFNkLV3XLMFP/NZbN/Fb5n4i1
+	VmtC9dEVOafQQZA6NfCSur1eKmO/QvW6OGMTeehrLOZ+x+9otysSUUc/axSWuHaPwzqg
+	FdtEPyPet0YxJmEUNcxW8KWio+O/pzUD6iOQZQfwQrgpgkKBtPdv177/QdXaad4GHZbc
+	9VGcmLWwHccuDEmYjcTZ8WIDmisMiEPTzGhCJfwmRP3zcvYsOIjDepOFI5+BIxYS3ajs
+	9Rujh3MT/ZjQdbSrrpj99Hz4cAYwTGoShxCgFrOSTFPBJoLydUmCrXSzJa+rCAM6/Qk7
+	RHsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=ohCHFUg49SgIlllGS/hbo74mcJyN8gttQdXe3euVdoY=;
-	b=Gj0DzBlkKsgSIRG/x+0vljDpf0EYzWOJFKNfY73Z2a1ZDSDoca49DBc21EftN1oLkF
-	hKqoZnuDwAn+6dTLAV557MRDuw9n0L/7booDdvCbsr6mH42B7VJJZarSM1FadNfhda93
-	CNBd8V2snyeWsEdgqzcPbU19rusTbOwonIP78mnleehGZ2oizL4KGmpyaNGXVIG3iwNF
-	3AQDtICZIvxggkGXcJnqgwHucKsbpiSYpQrLjlWi/rNuCEQ1xPNFb8H2XdZ06aK0wPxw
-	TelWa+NUioxkpdC9GOeKl902QWW2CwFBr0isa3H4ociUCwAA3glCEoDvdnnAdRBzO/SR
-	gn3Q==
-X-Gm-Message-State: AMCzsaVqXHN3LHj/G1iiD/2Ujns/WuTEgyi+adiTUJYuY8+bHv7ciJWB
-	XOfOkbhLOSNKCPxL+CQ1Ivrb+6EDR1EwvzEdee9RL47H
-X-Google-Smtp-Source: AOwi7QAnBd8J8N1aKUese/HXMPV5fG9/4DC2jGePl2mLva1/qkuRq198tg8gpqiJFaOYGV5weBDPOXsodIBngdRvWng=
-X-Received: by 10.28.236.212 with SMTP id h81mr1659954wmi.42.1506619702271;
-	Thu, 28 Sep 2017 10:28:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.155.157 with HTTP; Thu, 28 Sep 2017 10:28:21 -0700 (PDT)
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Thu, 28 Sep 2017 18:28:21 +0100
-Message-ID: <CAPyrkgyyXnZCkL=_GzW1pwfXzUmRrRQ8UiqNDcKdGiNqc5ruSQ@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=AEDHCJWfumTthGU1SnXxZ8fgeB3VJDmtvrBsgfZDss4=;
+	b=MEIbLCGUVRme+KYQcreM/jD/pt4TW+XrYIufCft9qELUBMq+WvovSMlHsRuOR5oDhG
+	QTh0t9+nhhpke6LLUjc3JM5yAVSyU+OP1Ja55okFpISIEJHI23r7lswLvzZwsTKECiG8
+	yXXvnMvsAtH2RBBZywarhS+JFwjdDTo5B4OECK6wveyHh3DA2GvnV9zR8KBWfszDyEE0
+	02UfeFyX/MgiL0zsQHjkkkQx6sxnw7pBxcPXy65AWmJ8wag8IzzpaV1HzBUxQ4Dg+4Oh
+	dSxOLwLz86SV1p3+oGfWi1/LEviqRxYyujVKpcw+ZVi4EfYHldAwntmbKRYQ3etFpx9e
+	sQhA==
+X-Gm-Message-State: AHPjjUhHnNBM3HZsCBQpMmXQFahYoUeWhQuQ3gNT3ylhusKczBzJ/BWQ
+	fptO4B2HFGYM7bHc0dOkY8SaTJH1+a8=
+X-Google-Smtp-Source: AOwi7QBpwEgpEckEWzFmd6E2MMm+Apmx6k+tYGkUuxR7LY0DOr7eC+wMiAl4uCKlCSy6ADHcYO7Etw==
+X-Received: by 10.101.82.8 with SMTP id o8mr4780605pgp.261.1506620117113;
+	Thu, 28 Sep 2017 10:35:17 -0700 (PDT)
+Received: from workhorse.madison.systems
+	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
+	by smtp.gmail.com with ESMTPSA id
+	e133sm3159362pfh.177.2017.09.28.10.35.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 28 Sep 2017 10:35:16 -0700 (PDT)
+From: Matt Madison <matt@madison.systems>
 To: openembedded-core@lists.openembedded.org
-Subject: Go runtime host contamination
+Date: Thu, 28 Sep 2017 10:34:42 -0700
+Message-Id: <1506620082-27597-2-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1506620082-27597-1-git-send-email-matt@madison.systems>
+References: <1506620082-27597-1-git-send-email-matt@madison.systems>
+Subject: [PATCH v2 1/1] goarch.bbclass: rework mips architecture checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,55 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Sep 2017 17:28:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Sep 2017 17:35:16 -0000
 
-Hey,
+Remove the TUNE_FEATURES references from go_map_arch,
+to avoid an unwanted variable dependency.  Direct
+comparisons of the architecture name are sufficient
+for covering what Go currently supports, and using
+TUNE_CCARGS_remove adequately handles the conflict
+with the cgo-supplied flags for mips.
 
-I'm trying to upgrade runc-opencontainers in meta-virtualization to
-v1.0.0-rc4 and hitting a host contamination issue.
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ meta/classes/goarch.bbclass | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-Both host and target are x86-64 but I'm using glibc on the host
-(Ubuntu 16.04) and musl on the target. I'm getting link failures
-referring to missing symbols "__vfprintf_chk" and "__fprintf_chk" in
-libcontainer. I'm pretty sure these symbols exist in glibc but not in
-musl.
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 9ed562d..659b26a 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -28,6 +28,7 @@ COMPATIBLE_HOST_linux-muslx32 = "null"
+ COMPATIBLE_HOST_powerpc = "null"
+ COMPATIBLE_HOST_powerpc64 = "null"
+ ARM_INSTRUCTION_SET = "arm"
++TUNE_CCARGS_remove = "-march=mips32r2"
+ 
+ def go_map_arch(a, d):
+     import re
+@@ -39,18 +40,14 @@ def go_map_arch(a, d):
+         return 'arm'
+     elif re.match('aarch64.*', a):
+         return 'arm64'
+-    elif re.match('mips64el*', a):
++    elif re.match('mips64el.*', a):
+         return 'mips64le'
+-    elif re.match('mips64*', a):
++    elif re.match('mips64.*', a):
+         return 'mips64'
+-    elif re.match('mips.*', a):
+-        tf = d.getVar('TUNE_FEATURES').split()
+-        if 'fpu-hard' in tf and 'n32' not in tf:
+-            if 'mips32r2' in tf:
+-                newtf = [t for t in tf if t != 'mips32r2']
+-                newtf.append('mips32')
+-                d.setVar('TUNE_FEATURES', ' '.join(newtf))
+-            return 'mips' if 'bigendian' in tf else 'mipsle'
++    elif a == 'mips':
++        return 'mips'
++    elif a == 'mipsel':
++        return 'mipsle'
+     elif re.match('p(pc|owerpc)(64)', a):
+         return 'ppc64'
+     elif re.match('p(pc|owerpc)(64el)', a):
+-- 
+2.7.4
 
-The failure is occurring when trying to link libcontainer which uses
-the go extension cgo to incorporate some c code in with the go code.
-
-Using a pretty dumb grep, I can see the contamination in the go-runtime pac=
-kage:
-
-    $ grep -r __fprintf_chk
-tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/
-    Binary file
-tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/src/host=
--tools/trace
-matches
-    Binary file
-tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/src/host=
--tools/pprof
-matches
-    Binary file
-tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/pkg/linu=
-x_amd64/runtime/cgo.a
-matches
-
-The go build process seems to build host tools & runtime first and
-then the target runtime, even for the go-runtime recipe. It looks like
-it's installing the host version of the runtime library instead of the
-target version but I'm not 100% sure here. There is some code in
-go/src/make.bash to handle the case when host arch & os match target
-arch & os and I think this is getting tripped up.
-
-I can provide further info and logs tomorrow. Just wondering if anyone
-has seen this sort of problem before and has any suggestions.
-
-Cheers,
-
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
 
