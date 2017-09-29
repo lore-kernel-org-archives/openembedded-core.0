@@ -1,53 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f48.google.com (mail-it0-f48.google.com
-	[209.85.214.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 56202779F9
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D7C8260107
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 11:02:58 +0000 (UTC)
-Received: by mail-it0-f48.google.com with SMTP id d192so1773956itd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 04:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fkyw/H7tOlfE2wfyYg5cqfzlakIT+32PIZYf2r75xTg=;
-	b=F40p9uLKgnt8FaH46FeAUj0EvhgeqGt7n7aQu7ChLJc0+Ea5cJEVCn+nFwCbbsCnNF
-	ikdedH+jYqP+iKcTnkId9Jd36Rx3ie9qj+LctZCmTzsfj7LGRmqyWBerAf7sjd8xlXz+
-	mV8GWjXJK2GE96NuHvwVTXCgOiffgG1cctxmA5ltM/iT9WSZLc6Jr7htSq9d0D02NLay
-	cN87QgJIxlVgUgPUD/pvk+hhbW2dHxWoLgudfjqaQLtIvlCBU9YaiRInh4m7Q5l5Astz
-	C2OwYQoiIfqBn0PGOxtZJHpK1ByQqAPQXR3MbuEuMyQcApC+YE5A7y96GePLyvuS0M41
-	BeWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=fkyw/H7tOlfE2wfyYg5cqfzlakIT+32PIZYf2r75xTg=;
-	b=QvSHx+iCz3g8Io71zQ+oKWifVgJ4B+XFTeAY9WlkkXeICdj1oEl3SjNxgp+aWO585J
-	I+W/JB1nYZoFMI8YTJ0/uXXM/aOCRBB9+ExtjNFsPsIN/nNWWpWYeUzxtKHeD42THYY8
-	2rNoYsvvcSVrfSUBskj+SWg1PpmS7Xt1eth3rt9UFJpDCdh0815nrqLTsd2teEIUr3xP
-	OjdlHI694DzPfSiw5vINEQzCN+3JBGkvomLhfc29+FWNbT1vs+Avn6qCofNosVFJyuh5
-	WQoOXMVJxCgcAp5zhNVhSBO//LglR6YCNjCsQD1kKwD0fINBUmCXrmDvR5DEBrQ9I97F
-	hD/g==
-X-Gm-Message-State: AHPjjUjiNCXcUYIJBZ07oy535kIp+cGYzD54OgEZtaxJ5Q49PhlYOX4q
-	ONZKTMPNnNZ2pNCZ2cJi6qjJTg55bVgw+tpOXd5k2Q==
-X-Google-Smtp-Source: AOwi7QCWEuiE0bSf0xUYrCBMwC/MpKEUHrJGfJ417eFRY2Q7AQoLv16OD/ITmK2fNFarV5ea1PxeEibeCRYEeL27kgk=
-X-Received: by 10.36.162.67 with SMTP id o3mr6797810iti.27.1506682980355; Fri,
-	29 Sep 2017 04:03:00 -0700 (PDT)
+	Fri, 29 Sep 2017 11:18:06 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Sep 2017 04:18:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,452,1500966000"; d="scan'208";a="1019797279"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 29 Sep 2017 04:18:07 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id EEA8A5802DA;
+	Fri, 29 Sep 2017 04:18:06 -0700 (PDT)
+Date: Fri, 29 Sep 2017 14:16:21 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20170929111621.is7opcm5chmk5czu@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Fri, 29 Sep 2017 04:02:39 -0700 (PDT)
-In-Reply-To: <CAEQ58sh2WoS01ktF=2yVVXuyoYu3+dHpTB6UbqaQBcUeGA-6WQ@mail.gmail.com>
-References: <20170929094702.5334-1-francescogiancane8@gmail.com>
-	<CAJTo0LZTrRnhgFRhK3=GxVfzrT5H7p-k=Untwq9T+KWTrpyMQA@mail.gmail.com>
-	<CAEQ58siT6Lw_W9Oe60v125ZZak2UXQ0L-R4PvaHAz6NKRi_-vA@mail.gmail.com>
-	<CAJTo0LYaN8SapMtgpQhNkPz7TKR9JgOMhroxWp4Q1+BDkcucMQ@mail.gmail.com>
-	<CAEQ58sgLXBEc4k=E2A2=SoG360_8zva-w+Y+Q9P_QauTK0uznw@mail.gmail.com>
-	<CAEQ58sh2WoS01ktF=2yVVXuyoYu3+dHpTB6UbqaQBcUeGA-6WQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 29 Sep 2017 12:02:39 +0100
-Message-ID: <CAJTo0LaEGQGNzMf7BYRs+TZnA3L=e-g8YZKPn3+gstWRAQPipA@mail.gmail.com>
-To: Francesco Giancane <francescogiancane8@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [openembedded-core][PATCH] xorg-xserver: fix building of the package when different virtual/egl provider are selected
+In-Reply-To: <1506531609-5917-1-git-send-email-trini@konsulko.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,54 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 11:02:59 -0000
-Content-Type: multipart/alternative; boundary="f403045fb2a2d584db055a51f7d8"
+X-List-Received-Date: Fri, 29 Sep 2017 11:18:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---f403045fb2a2d584db055a51f7d8
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Sep 27, 2017 at 01:00:09PM -0400, Tom Rini wrote:
+> With RSS we need to ensure that when making a bmap image that the
+> python3 that we created is found via /usr/bin/env rather than the host
+> python3.  Otherwise we're relying on the build host to have bmaptool
+> support installed.
+> 
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+> ---
+> I played around with a few ways to try and fix this problem, and this
+> was the best I could come up with.  Once this is in we need this in pyro
+> as well as it's broken there too.
+> ---
+>  meta/classes/image_types.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 61dca626311e..3ff960e3a889 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+>  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+>  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
+>  IMAGE_TYPES_MASKED ?= ""
+> +
+> +# bmap requires python3 to be in the PATH
+> +EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
 
-On 29 September 2017 at 11:54, Francesco Giancane <
-francescogiancane8@gmail.com> wrote:
++1
 
-> Hi again Ross,
-> sorry to still bother but grepping inside poky recipes I did found no
-> references to 'libegl'. Every (virtual) dependency is built upon
-> virtual/egl; Maybe folks at meta-raspberrypi where not wrong... The
-> same apply for Freescale GPU recipes: they do not provide libegl, only
-> egl.
-> Francesco Giancane
->
+Would ...find('.bmap') be a bit more safe?
 
-You're confusing runtime and buildtime dependencies.
+--
+Regards,
+Ed
 
-In oe-core the mesa recipes PROVIDES virtual/egl.  It generates a package
-libegl-mesa, which RPROVIDES libegl and libegl1.
-
-It is expected that other GL providers would follow the same pattern.
-
-Ross
-
---f403045fb2a2d584db055a51f7d8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 29 September 2017 at 11:54, Francesco Giancane <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:francescogiancane8@gmail.com" target=3D"_bl=
-ank">francescogiancane8@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gm=
-ail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi aga=
-in Ross,<br>
-sorry to still bother but grepping inside poky recipes I did found no<br>
-references to &#39;libegl&#39;. Every (virtual) dependency is built upon<br=
->
-virtual/egl; Maybe folks at meta-raspberrypi where not wrong... The<br>
-same apply for Freescale GPU recipes: they do not provide libegl, only<br>
-egl.<br>
-<span class=3D"">Francesco Giancane<br></span></blockquote><div><br></div><=
-div>You&#39;re confusing runtime and buildtime dependencies.</div><div><br>=
-</div><div>In oe-core the mesa recipes PROVIDES virtual/egl.=C2=A0 It gener=
-ates a package libegl-mesa, which RPROVIDES libegl and libegl1.</div><div><=
-br></div><div>It is expected that other GL providers would follow the same =
-pattern.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---f403045fb2a2d584db055a51f7d8--
