@@ -1,25 +1,25 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 21C736FF9F
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D673A601A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 00:29:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8T0T899021369
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Fri, 29 Sep 2017 02:01:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8T21DCq004706
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 17:29:08 -0700
-Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Thu, 28 Sep 2017 17:29:07 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
+	Thu, 28 Sep 2017 19:01:13 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Thu, 28 Sep 2017 19:01:13 -0700
+From: Li Zhou <li.zhou@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Sep 2017 08:27:55 +0800
-Message-ID: <1506644875-30179-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+Date: Fri, 29 Sep 2017 10:00:21 +0800
+Message-ID: <1506650421-174569-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.198]
-Subject: [PATCH] watchdog: install wd_keepalive service file to its own package
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH v2] expect: Fix segfaults when Expect clib is used directly from C program
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +32,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 00:29:08 -0000
+X-List-Received-Date: Fri, 29 Sep 2017 02:01:13 -0000
 Content-Type: text/plain
 
-Move wd_keepalive.service from watchdog package to watchdog-keepalive
-package. Also remove debian specific code from the service file.
+Fix segfaults if Tcl is built with stubs and Expect clib function is used
+directly from C program.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
 ---
- meta/recipes-extended/watchdog/watchdog_5.15.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ ...segfaults-if-Tcl-is-built-with-stubs-and-.patch | 91 ++++++++++++++++++++++
+ meta/recipes-devtools/expect/expect_5.45.bb        |  1 +
+ 2 files changed, 92 insertions(+)
+ create mode 100644 meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.15.bb b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-index 3d0b72e..5246b84 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.15.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.15.bb
-@@ -36,12 +36,17 @@ INITSCRIPT_PARAMS_${PN} = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- INITSCRIPT_NAME_${PN}-keepalive = "wd_keepalive"
- INITSCRIPT_PARAMS_${PN}-keepalive = "start 15 1 2 3 4 5 . stop 85 0 6 ."
- 
--SYSTEMD_SERVICE_${PN} = "watchdog.service wd_keepalive.service"
-+SYSTEMD_PACKAGES = "${PN} ${PN}-keepalive"
-+SYSTEMD_SERVICE_${PN} = "watchdog.service"
-+SYSTEMD_SERVICE_${PN}-keepalive = "wd_keepalive.service"
- 
- do_install_append() {
- 	install -d ${D}${systemd_system_unitdir}
- 	install -m 0644 ${S}/debian/watchdog.service ${D}${systemd_system_unitdir}
- 	install -m 0644 ${S}/debian/wd_keepalive.service ${D}${systemd_system_unitdir}
-+	# remove specific code for debian
-+	sed -i -e '/^ExecStartPost/d' \
-+		-e '/^ExecStopPost/d' ${D}${systemd_system_unitdir}/wd_keepalive.service
- 
- 	install -D ${S}/redhat/watchdog.init ${D}/${sysconfdir}/init.d/watchdog.sh
- 	install -Dm 0755 ${WORKDIR}/wd_keepalive.init ${D}${sysconfdir}/init.d/wd_keepalive
-@@ -54,6 +59,7 @@ PACKAGES =+ "${PN}-keepalive"
- 
- FILES_${PN}-keepalive = " \
-     ${sysconfdir}/init.d/wd_keepalive \
-+    ${systemd_system_unitdir}/wd_keepalive.service \
-     ${sbindir}/wd_keepalive \
- "
- 
+diff --git a/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch b/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
+new file mode 100644
+index 0000000..b1d322d
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch
+@@ -0,0 +1,91 @@
++From f0049b4b2ea55b3b3c53bf6f0275654801c755d2 Mon Sep 17 00:00:00 2001
++From: Li Zhou <li.zhou@windriver.com>
++Date: Thu, 28 Sep 2017 15:54:55 +0800
++Subject: [PATCH] expect: Fix segfaults if Tcl is built with stubs and Expect
++ is used directly from C program
++
++Description: This dirty hack fixes segfaults if Tcl is built with stubs
++ and Expect is used directly from C program.
++Bug: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=588817
++Example:
++ #include <stdio.h>
++ #include <tcl8.5/expect.h>
++ int main()
++ {
++     FILE *pipe;
++     char *some_command = "uname";
++     char datum;
++     pipe = exp_popen(some_command);
++     if (pipe == NULL) return 1;
++     while ((datum = getc (pipe)) != EOF)
++ 	printf("%c",datum);
++ }
++Example:
++ #include <stdio.h>
++ #include "expect.h"
++ main()
++ {
++     int fd = 0;
++     fd = exp_spawnl("echo", "echo", "Hello User: Whats up?", (char*) 0);
++     switch (exp_expectl(fd, exp_regexp, "ser:", 1, exp_end)) {
++ 	case 1: {
++ 	    printf("GOT ser:\n");
++ 	    break;
++ 	}
++ 	default: {
++ 	    printf("DEFAULT\n");
++ 	    return 1;
++ 	}
++     }
++     printf("Normal Exit\n");
++     return 0;
++ }
++Author: Sergei Golovan <sgolovan@debian.org>
++
++Upstream-Status: Pending
++This patch is backported from fedora changes for expect:
++http://pkgs.fedoraproject.org/cgit/rpms/expect.git/commit/
++?h=master&id=b6737eed550be93182f2ed194e836a6cbbcf4fa3
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ exp_clib.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/exp_clib.c b/exp_clib.c
++index 172c05e..19341d5 100644
++--- a/exp_clib.c
+++++ b/exp_clib.c
++@@ -114,7 +114,11 @@ extern unsigned long	strtoul _ANSI_ARGS_((CONST char *string,
++ #include <stdlib.h>		/* for malloc */
++ #endif
++ 
++-#include <tcl.h>
+++#define ckalloc(x) Tcl_Alloc(x)
+++#define ckfree(x) Tcl_Free(x)
+++extern char *Tcl_ErrnoMsg(int err);
+++extern char *Tcl_Alloc(unsigned int size);
+++extern void Tcl_Free(char *ptr);
++ #include "expect.h"
++ #define TclRegError exp_TclRegError
++ 
++@@ -389,7 +393,7 @@ char *exp;
++ 		FAIL("regexp too big");
++ 
++ 	/* Allocate space. */
++-	r = (regexp *)ckalloc(sizeof(regexp) + (unsigned)rcstate->regsize);
+++	r = (regexp *)malloc(sizeof(regexp) + (unsigned)rcstate->regsize);
++ 	if (r == NULL)
++ 		FAIL("out of space");
++ 
++@@ -399,7 +403,7 @@ char *exp;
++ 	rcstate->regcode = r->program;
++ 	regc(MAGIC, rcstate);
++ 	if (reg(0, &flags, rcstate) == NULL) {
++-	  ckfree ((char*) r);
+++	  free((char*) r);
++ 	  return(NULL);
++ 	}
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
+index e2d24e8..c9f5aba 100644
+--- a/meta/recipes-devtools/expect/expect_5.45.bb
++++ b/meta/recipes-devtools/expect/expect_5.45.bb
+@@ -26,6 +26,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
+            file://01-example-shebang.patch \
+            file://0001-expect-install-scripts-without-using-the-fixline1-tc.patch \
+            file://0001-Resolve-string-formatting-issues.patch \
++           file://0001-expect-Fix-segfaults-if-Tcl-is-built-with-stubs-and-.patch \
+           "
+ SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
+ SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
 -- 
-2.7.4
+1.9.1
 
 
