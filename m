@@ -1,49 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A86E70101
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
+	[209.85.161.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FB9B77AA9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 16:31:45 +0000 (UTC)
-Received: by mail-io0-f171.google.com with SMTP id z187so255182ioz.12
+	Fri, 29 Sep 2017 18:26:21 +0000 (UTC)
+Received: by mail-yw0-f178.google.com with SMTP id w22so318138ywa.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 09:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0pkM+q8Ontd9VaolpVh4cKOhEcyJe3dkovb4caLrebM=;
-	b=wwir8o3M6CsVp2MJn267kLpoa10E1pbQZFAmWx6sAgfYsko+Yeu9LbVu8mdQyZmLMP
-	XqKrv8/lb/PTjj3xNKf49bn61PVXmholMr/rFodrSKPdC99GD44Ks9bdLIy2NLmjgoM1
-	1HslAxD0r6Wu/6AQbOF3AZINjis0mpvBe2aC5v6WZHwp/P6yuhjvDtGtP04/QW9pGp/L
-	wSOJgQv9MIO8WU3qC1yu/e1c+wlYTV8IN8895WBfb+igtZsOAw71k3xdgwk8fgbzzDU6
-	+QWVVyLh1tKD5jPNuaFQsq0l6+makmpGxHQJp7js0LHIviCxdbEHoHmAPo2mhoplhEbi
-	VcRw==
+	Fri, 29 Sep 2017 11:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=YtCixec70J7Ay6zVw7DE5hNPOf4NB32JiuZAapkx/uk=;
+	b=jVj5wMPSNzfCz16m80pT3M6TF0w2f0QWFv/FIGX5BaUMOiDgeee8e+/V4/Ph7ea/Vr
+	hK7yK2aJfmYCl1CgMKPmplCq8i3rlrSynbZorbX7ZfnloOBAzVZv+G9jKWo+3qA2AsDZ
+	4uwoZvXqr1Fw9unW+/ySNQa2kdKcmi0KhvS74=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0pkM+q8Ontd9VaolpVh4cKOhEcyJe3dkovb4caLrebM=;
-	b=Ssb9eJoanSKvGWsNL5DN/qKw0Q2iWdCwUKFX1GwDAr4R2YYFhSTR8+xEUy/yxKy1a9
-	SkkvVTAuYLrlVPM9Z2mgoxAK57ArUw1VSnuUtV+RN9cWjKJNntDt/OBiEOPZln2KkdW6
-	ydJwYXLSVi68nKn+jbs6ZCX7hnjhJ7H2c94JTsMshiJ92wVWTaRiyOyiIOKBfnosMKmX
-	5DLIn8QCY6tm764XhDIDBjx1l81gB96hYDzNlxC2PwPOQQAjLSRv370xjpCAciWdDOiw
-	ZB8LUzUPIBxkjgcMrOI9RwqxVmhg0/3XfJVnmK75IZoXPLOppqcYcCeIzhD5wonjlAfP
-	hlMg==
-X-Gm-Message-State: AHPjjUgblyt6ONuZFjOgl5IrpKZgl0e6vzhtUNRHyZEyfJ0tHnj0dXW6
-	dymuGpgr4gznkUpailILcpDkiXQyOSOCl0NoNYve2A==
-X-Google-Smtp-Source: AOwi7QBmiCgzSqCH2waSknIYkFGGvEecvwxGjoo4afzI71Zwiz92V44K52hgRySAKVc12uHx4W+HU7hAjvWa03eEoKE=
-X-Received: by 10.107.41.135 with SMTP id p129mr12686480iop.142.1506702707423; 
-	Fri, 29 Sep 2017 09:31:47 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=YtCixec70J7Ay6zVw7DE5hNPOf4NB32JiuZAapkx/uk=;
+	b=C+tbcTrmBrESvWElFJZ9Mktow+uoWFhNvWFsYU34/agPZknIKIvTxqILch6zZQFhoJ
+	ClLNXuDkh+u1v7obEuuVrAguTW4pfCTOF+ns/QLpe7T4DeWr6vRWIEARy/69Eg8p6YVE
+	cEuyYH4LFQCL7jDbi0uchWIX/HN4KSFW0t+Q3m+J5RB2bYa2l4vL2ShUf2XkUWAmL5sd
+	HXX14ktJ+K6hLiYIv5eHM2GHir86VwoHe1NsmLqySf/Ao59Vcmk4YEP+xCb17+cTlEZl
+	2N6lNu8qoFoldScvlD2kROJc3k2i3Sm2C21FtxVItZKlZsZx+10x4qp8K4BBQifGamZ7
+	N6QQ==
+X-Gm-Message-State: AHPjjUgJxfE2T1v4B2jO2qSLcVBUt2nlTWFqYA/hzO1DvzZjPJRRN1qV
+	9vSduZJ8KJnSVmjCdp3fXQZqrQ==
+X-Google-Smtp-Source: AOwi7QA0L14BsYL/vsT/FzT2e95HL1/t7PWxv2VIVvn68GpS6oAK63H1A6jJelIdyeVAstJ3geC21g==
+X-Received: by 10.129.163.67 with SMTP id a64mr6556129ywh.236.1506709582657;
+	Fri, 29 Sep 2017 11:26:22 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1401:811b:59d1:1e23:9925:e8d6])
+	by smtp.gmail.com with ESMTPSA id
+	q36sm2054159ywa.82.2017.09.29.11.26.21
+	(version=TLS1_2 cipher=AES128-SHA bits=128/128);
+	Fri, 29 Sep 2017 11:26:22 -0700 (PDT)
+Date: Fri, 29 Sep 2017 14:26:25 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Riku Voipio <riku.voipio@linaro.org>
+Message-ID: <20170929182625.GB3112@bill-the-cat>
+References: <CAAqcGHk4xEzrbMxZtree8EGCAZ2mBX6X=h5w4aD2ZvQJ14=XJw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Fri, 29 Sep 2017 09:31:26 -0700 (PDT)
-In-Reply-To: <20170928163521.21828-1-andreas.kling@gmail.com>
-References: <20170927094014.2666-1-andreas.kling@gmail.com>
-	<20170928163521.21828-1-andreas.kling@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 29 Sep 2017 17:31:26 +0100
-Message-ID: <CAJTo0LaWULzrFRwq+7Pwnv-_Py5-AHAYuKoc9iT61q1iuMLNFg@mail.gmail.com>
-To: Andy Kling <andreas.kling@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: add runtime dependencies to pam plugins.
+In-Reply-To: <CAAqcGHk4xEzrbMxZtree8EGCAZ2mBX6X=h5w4aD2ZvQJ14=XJw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "cross-distro@lists.linaro.org" <cross-distro@lists.linaro.org>,
+	arm@gentoo.org, opensuse-arm@opensuse.org,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	debian-arm@lists.debian.org, arm@lists.fedoraproject.org,
+	linux-arm@lists.infradead.org
+Subject: Re: SFO17 Cross-Distro meeting notes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,207 +62,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 16:31:46 -0000
-Content-Type: multipart/alternative; boundary="001a1141f226a8c583055a568f97"
+X-List-Received-Date: Fri, 29 Sep 2017 18:26:22 -0000
+X-Groupsio-MsgNum: 103523
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rkP7PWE2Nphkw5Dx"
+Content-Disposition: inline
 
---001a1141f226a8c583055a568f97
-Content-Type: text/plain; charset="UTF-8"
-
-I wish I knew why git was ignoring the commit message entirely when
-applying...  It's ignoring everything apart from the SOB:
-
-$ git show
-commit 079754f2681ded614c5ee90e61f4ddbd8407998a
-Author: andreas.kling@peiker-cee.de <andreas.kling@peiker-cee.de>
-Date:   Thu Sep 28 18:35:21 2017 +0200
-
-    systemd: add runtime dependencies to pam plugins.
-
-    Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-Ross
-
-On 28 September 2017 at 17:35, <andreas.kling@gmail.com> wrote:
-
-> From: Andy Kling <andreas.kling@peiker-cee.de>
->
->   This ensures pam plugins required by /etc/pam.d/systemd-user
->   to open a user session are installed.
->
->   systemd[1]: Starting User Manager for UID 994...
->   systemd[6493]: PAM unable to dlopen(/lib/security/pam_keyinit.so)
->
->   Drop package systemd-pam to prevent confusion.
->   It is unused for a long time now.
->
-> Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
-> ---
->  v2: improve commit message
->  v3: drop systemd-pam
->  v4: move version info to annotation
->  meta/recipes-core/systemd/systemd_234.bb | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_234.bb
-> b/meta/recipes-core/systemd/systemd_234.bb
-> index 881896bfb5..acc4c4623b 100644
-> --- a/meta/recipes-core/systemd/systemd_234.bb
-> +++ b/meta/recipes-core/systemd/systemd_234.bb
-> @@ -31,6 +31,12 @@ SRC_URI += " \
->             "
->  SRC_URI_append_qemuall = " file://0001-core-device.c-
-> Change-the-default-device-timeout-to-2.patch"
->
-> +PAM_PLUGINS = " \
-> +    pam-plugin-unix \
-> +    pam-plugin-loginuid \
-> +    pam-plugin-keyinit \
-> +"
-> +
->  PACKAGECONFIG ??= "xz \
->                     ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam
-> selinux ldconfig usrmerge', d)} \
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
-> 'xkbcommon', '', d)} \
-> @@ -100,7 +106,7 @@ PACKAGECONFIG[importd] = "--enable-importd,--disable-
-> importd"
->  PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
->  PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
->  PACKAGECONFIG[manpages] = "--enable-manpages,--disable-manpages,libxslt-native
-> xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
-> -PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
-> +PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
->  # Verify keymaps on locale change
->  PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-
-> xkbcommon,libxkbcommon"
->  # Update NAT firewall rules
-> @@ -295,7 +301,6 @@ PACKAGES =+ "\
->      ${PN}-kernel-install \
->      ${PN}-rpm-macros \
->      ${PN}-binfmt \
-> -    ${PN}-pam \
->      ${PN}-zsh-completion \
->      ${PN}-xorg-xinitrc \
->      ${PN}-container \
-> --
-> 2.14.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a1141f226a8c583055a568f97
-Content-Type: text/html; charset="UTF-8"
+--rkP7PWE2Nphkw5Dx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I wish I knew why git was ignoring the commit message enti=
-rely when applying...=C2=A0 It&#39;s ignoring everything apart from the SOB=
-:<div><br></div><div><div>$ git show</div><div>commit 079754f2681ded614c5ee=
-90e61f4ddbd8407998a</div><div>Author: <a href=3D"mailto:andreas.kling@peike=
-r-cee.de">andreas.kling@peiker-cee.de</a> &lt;<a href=3D"mailto:andreas.kli=
-ng@peiker-cee.de">andreas.kling@peiker-cee.de</a>&gt;</div><div>Date: =C2=
-=A0 Thu Sep 28 18:35:21 2017 +0200</div><div><br></div><div>=C2=A0 =C2=A0 s=
-ystemd: add runtime dependencies to pam plugins.</div><div><br></div><div>=
-=C2=A0 =C2=A0 Signed-off-by: Andy Kling &lt;<a href=3D"mailto:andreas.kling=
-@peiker-cee.de">andreas.kling@peiker-cee.de</a>&gt;</div><div>=C2=A0 =C2=A0=
- Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ro=
-ss.burton@intel.com</a>&gt;</div></div><div><br></div><div>Ross</div></div>=
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 28 September 2=
-017 at 17:35,  <span dir=3D"ltr">&lt;<a href=3D"mailto:andreas.kling@gmail.=
-com" target=3D"_blank">andreas.kling@gmail.com</a>&gt;</span> wrote:<br><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><span class=3D"">From: Andy Kling &lt;<a href=
-=3D"mailto:andreas.kling@peiker-cee.de">andreas.kling@peiker-cee.de</a>&gt;=
-<br>
-<br>
-=C2=A0 This ensures pam plugins required by /etc/pam.d/systemd-user<br>
-=C2=A0 to open a user session are installed.<br>
-<br>
-=C2=A0 systemd[1]: Starting User Manager for UID 994...<br>
-=C2=A0 systemd[6493]: PAM unable to dlopen(/lib/security/pam_<wbr>keyinit.s=
-o)<br>
-<br>
-=C2=A0 Drop package systemd-pam to prevent confusion.<br>
-=C2=A0 It is unused for a long time now.<br>
-<br>
-</span><span class=3D"">Signed-off-by: Andy Kling &lt;<a href=3D"mailto:and=
-reas.kling@peiker-cee.de">andreas.kling@peiker-cee.de</a>&gt;<br>
----<br>
-=C2=A0v2: improve commit message<br>
-=C2=A0v3: drop systemd-pam<br>
-</span>=C2=A0v4: move version info to annotation<br>
-<div><div class=3D"h5">=C2=A0meta/recipes-core/systemd/<a href=3D"http://sy=
-stemd_234.bb" rel=3D"noreferrer" target=3D"_blank">syst<wbr>emd_234.bb</a> =
-| 9 +++++++--<br>
-=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" re=
-l=3D"noreferrer" target=3D"_blank">sy<wbr>stemd_234.bb</a> b/meta/recipes-c=
-ore/systemd/<a href=3D"http://systemd_234.bb" rel=3D"noreferrer" target=3D"=
-_blank">sy<wbr>stemd_234.bb</a><br>
-index 881896bfb5..acc4c4623b 100644<br>
---- a/meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" rel=3D"no=
-referrer" target=3D"_blank">sy<wbr>stemd_234.bb</a><br>
-+++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_234.bb" rel=3D"no=
-referrer" target=3D"_blank">sy<wbr>stemd_234.bb</a><br>
-@@ -31,6 +31,12 @@ SRC_URI +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0SRC_URI_append_qemuall =3D &quot; file://0001-core-device.c-<wbr>Chan=
-ge-the-default-device-<wbr>timeout-to-2.patch&quot;<br>
-<br>
-+PAM_PLUGINS =3D &quot; \<br>
-+=C2=A0 =C2=A0 pam-plugin-unix \<br>
-+=C2=A0 =C2=A0 pam-plugin-loginuid \<br>
-+=C2=A0 =C2=A0 pam-plugin-keyinit \<br>
-+&quot;<br>
-+<br>
-=C2=A0PACKAGECONFIG ??=3D &quot;xz \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb=
-.utils.filter(&#39;DISTRO_<wbr>FEATURES&#39;, &#39;efi pam selinux ldconfig=
- usrmerge&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb=
-.utils.contains(&#39;DISTRO_<wbr>FEATURES&#39;, &#39;x11&#39;, &#39;xkbcomm=
-on&#39;, &#39;&#39;, d)} \<br>
-@@ -100,7 +106,7 @@ PACKAGECONFIG[importd] =3D &quot;--enable-importd,--dis=
-able-<wbr>importd&quot;<br>
-=C2=A0PACKAGECONFIG[libidn] =3D &quot;--enable-libidn,--disable-<wbr>libidn=
-,libidn&quot;<br>
-=C2=A0PACKAGECONFIG[audit] =3D &quot;--enable-audit,--disable-<wbr>audit,au=
-dit&quot;<br>
-=C2=A0PACKAGECONFIG[manpages] =3D &quot;--enable-manpages,--disable-<wbr>ma=
-npages,libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-styl=
-esheets-<wbr>native&quot;<br>
--PACKAGECONFIG[pam] =3D &quot;--enable-pam,--disable-pam,<wbr>libpam&quot;<=
-br>
-+PACKAGECONFIG[pam] =3D &quot;--enable-pam,--disable-pam,<wbr>libpam,${PAM_=
-PLUGINS}&quot;<br>
-=C2=A0# Verify keymaps on locale change<br>
-=C2=A0PACKAGECONFIG[xkbcommon] =3D &quot;--enable-xkbcommon,--disable-<wbr>=
-xkbcommon,libxkbcommon&quot;<br>
-=C2=A0# Update NAT firewall rules<br>
-@@ -295,7 +301,6 @@ PACKAGES =3D+ &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-kernel-install \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-rpm-macros \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-binfmt \<br>
--=C2=A0 =C2=A0 ${PN}-pam \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-zsh-completion \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-xorg-xinitrc \<br>
-=C2=A0 =C2=A0 =C2=A0${PN}-container \<br>
---<br>
-</div></div>2.14.2<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div>
+On Fri, Sep 29, 2017 at 02:06:21AM +0300, Riku Voipio wrote:
 
---001a1141f226a8c583055a568f97--
+[snip]
+> On arm64, Kernel doesn't self-decompress. The bootloaders are stringly
+> recommended to support decompressing kernel images. It's optional in
+> grub, make sure your grub does. At least iPXE and u-boot don't support
+> booting Image.gz on arm64, and should be fixed.
+
+Not strictly true.  We do expect that if you're loading in a
+compressed something that you uncompress it then boot it.  I assume part
+of the reason that Linux didn't go for self-decompression this time is
+the "my goodness, it's tricky to get here's where we are, here's what
+else is in the system, lets not stomp anything and get ourself to where
+we need to be" is in fact tricky.
+
+That said, patches to check for ${VALID_COMPRESSION_HEADER}, uncompress
+a chunk, confirm valid Image header, and uncompress to where it needs to
+reside would be welcome.
+
+Thanks!
+
+--=20
+Tom
+
+--rkP7PWE2Nphkw5Dx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZzpBRAAoJEIf59jXTHXZSeH0P/RXV7RI0bN2tLI2FwTnxse7b
+LCDbXQg0iHsHTS4ykRWJRQ4jZQvCRleSgX4CcKEm3NjbAPG/4plNm4Oh+gjz91u1
+EYaGg7gnBQbeeh2xwuv9Gr6NgEfRtsIA45I2MU4jAQCqrc9ZrhMrkn7k8EhHc/9L
+e+engHSDTuFrkZ78pAoeoTNSlNSE61VLt/CPn/Uqj35O2af0lepkxNcHFE0oMjJ9
+j3xgisCExWHVUgIQPBx0r39KfBfABDIUOonjp3shtt5S8HVs9/hJdTM5KXhJybQW
+0scf/pFwomuKp6JA81hWGYMrqVo1Zp1LLlD0Tcq+KUQhtu5ieUK6yfuVMC79M/RA
+HVhvIHyQCQ+oVe7lMAunCmhQWE6FxNS+urcCpXGTLq2+NVQwFrYTa7vlFGi5WMM5
+Rt0tLBd2xD6PJ6IWTd8p3vY2tfvPCJNn9fHUCeJbgcWAkoJN7Q747BMflwmWpH+/
+GqaHMr/Lklt0PDoAtGdGlj7fuSkdS8+PjhrFWWgZtzE81D6BxtxD1omK/9aeGSrh
+RxkeBt1poq0F2wwLHw2adEJP+NN15hBBQz/VCGCEUCAfmRNIqmf5GW+9k8LVn6Xb
+HgegFKGBeKBi4bBoppaRoeLvwt7EucA+ih9i4U5RpDrs5meskO0FmVihdOV/4pVi
+4NIpmJk2lgnbxZmqzzUf
+=TsKp
+-----END PGP SIGNATURE-----
+
+--rkP7PWE2Nphkw5Dx--
