@@ -1,26 +1,53 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 23973601F2
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F2356FFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 11:48:25 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Sep 2017 04:48:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,452,1500966000"; d="scan'208";a="157496136"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 29 Sep 2017 04:48:25 -0700
-To: Jef.Driesen@niko.eu, openembedded-core@lists.openembedded.org
-References: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <d0e88e18-0540-2d7f-abe4-11f677d5af4e@linux.intel.com>
-Date: Fri, 29 Sep 2017 14:44:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>
-Subject: Re: [PATCH] Small improvement for the initscripts package
+	Fri, 29 Sep 2017 12:20:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id F2AB0189B4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:31 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 3IOp8OJrreHq
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:31 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 1B8101835E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:31 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 04C8B1E079
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:31 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ED8461E078
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:30 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:30 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id E1BB81FF7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:30 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v8TCKTOQ009115
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 14:20:29 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v8TCKT14009114
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Sep 2017 14:20:29 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Sep 2017 14:20:28 +0200
+Message-Id: <20170929122028.9073-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] license.py: Correct selection of licenses in is_included()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +60,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 11:48:26 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Sep 2017 12:20:31 -0000
 
-On 09/29/2017 11:38 AM, Jef.Driesen@niko.eu wrote:
-> For our system, we are using some custom initscripts. Because of
-> that, some files conflict with the initscripts package, and thus the
-> initscript package gets removed from our build. But when trying to
-> build an sdk, somehow the initscripts-dev package gets pulled in, and
-> since that has an automatic dependency on initscripts, our build
-> fails.
+When faced with multiple sets of licenses combined with | (OR), it was
+possible for oe.license.is_included() to choose a set of licenses with
+a blacklisted license and then report failure, even if choosing
+another set of licenses would have resulted in a successful
+result. This happened when the chosen set still contained more
+whitelisted licenses than the other set.
 
-Please do find out why this happens; that's what you really need to fix.
+This change makes sure a set with any blacklisted license is always
+considered with a lower weight than a set with only whitelisted
+licenses.
 
-> I've been trying to find out why this happens, but without much
-> success so far. But I did found a simple workaround: remove the
-> initscripts-dev package completely. Since the initscripts recipe
-> contains some shell scripts the initscript-dev is empty anyway.
-> 
-> I've fixed this locally with a bbappend, but this is probably
-> something that can be applied upstream.
+Example: Faced with the license string "GPL-3.0 & GPL-2.0 & LGPL-2.1 |
+Proprietary" and with "GPL-3.0" being blacklisted, the old code would
+report a failure since "GPL-3.0 & GPL-2.0 & LGPL-2.1" still contains
+more whitelisted licenses than "Proprietary" does.
 
-You can use bbappend to instead replace the standard files with the ones 
-that you want installed. Or you can add PROVIDES = "initscripts" to your 
-recipe with the 'custom' initscripts, and set 
-PREFERRED_PROVIDER_initscripts = "my-custom-initscripts" to have that 
-installed.
+This change also adds a unit test for oe.license.is_included().
 
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/lib/oe/license.py                        | 18 +++++++++++-----
+ meta/lib/oeqa/selftest/cases/oelib/license.py | 31 +++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 5 deletions(-)
 
-Alex
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 8d2fd1709c..ca385d5187 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -106,7 +106,8 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+     license string matches the whitelist and does not match the blacklist.
+ 
+     Returns a tuple holding the boolean state and a list of the applicable
+-    licenses which were excluded (or None, if the state is True)
++    licenses that were excluded if state is False, or the licenses that were
++    included if the state is True.
+     """
+ 
+     def include_license(license):
+@@ -117,10 +118,17 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+ 
+     def choose_licenses(alpha, beta):
+         """Select the option in an OR which is the 'best' (has the most
+-        included licenses)."""
+-        alpha_weight = len(list(filter(include_license, alpha)))
+-        beta_weight = len(list(filter(include_license, beta)))
+-        if alpha_weight > beta_weight:
++        included licenses and no excluded licenses)."""
++        # The factor 1000 below is arbitrary, just expected to be much larger
++        # that the number of licenses actually specified. That way the weight
++        # will be negative if the list of licenses contains an excluded license,
++        # but still gives a higher weight to the list with the most included
++        # licenses.
++        alpha_weight = (len(list(filter(include_license, alpha))) -
++                        1000 * (len(list(filter(exclude_license, alpha))) > 0))
++        beta_weight = (len(list(filter(include_license, beta))) -
++                       1000 * (len(list(filter(exclude_license, beta))) > 0))
++        if alpha_weight >= beta_weight:
+             return alpha
+         else:
+             return beta
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/license.py b/meta/lib/oeqa/selftest/cases/oelib/license.py
+index bfd9ed9c29..e74bf4a589 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/license.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/license.py
+@@ -66,3 +66,34 @@ class TestComplexCombinations(TestSimpleCombinations):
+         "(GPL-2.0|Proprietary)&BSD-4-clause&MIT": ["GPL-2.0", "BSD-4-clause", "MIT"],
+     }
+     preferred = ["BAR", "OMEGA", "BETA", "GPL-2.0"]
++
++class TestIsIncluded(unittest.TestCase):
++    tests = {
++        ("FOO | BAR", None, None):
++            [True, ["FOO"]],
++        ("FOO | BAR", None, "FOO"):
++            [True, ["BAR"]],
++        ("FOO | BAR", "BAR", None):
++            [True, ["BAR"]],
++        ("FOO | BAR & FOOBAR", "*BAR", None):
++            [True, ["BAR", "FOOBAR"]],
++        ("FOO | BAR & FOOBAR", None, "FOO*"):
++            [False, ["FOOBAR"]],
++        ("(FOO | BAR) & FOOBAR | BARFOO", None, "FOO"):
++            [True, ["BAR", "FOOBAR"]],
++        ("(FOO | BAR) & FOOBAR | BAZ & MOO & BARFOO", None, "FOO"):
++            [True, ["BAZ", "MOO", "BARFOO"]],
++        ("GPL-3.0 & GPL-2.0 & LGPL-2.1 | Proprietary", None, None):
++            [True, ["GPL-3.0", "GPL-2.0", "LGPL-2.1"]],
++        ("GPL-3.0 & GPL-2.0 & LGPL-2.1 | Proprietary", None, "GPL-3.0"):
++            [True, ["Proprietary"]],
++        ("GPL-3.0 & GPL-2.0 & LGPL-2.1 | Proprietary", None, "GPL-3.0 Proprietary"):
++            [False, ["GPL-3.0"]]
++    }
++
++    def test_tests(self):
++        for args, expected in self.tests.items():
++            is_included, licenses = oe.license.is_included(
++                args[0], (args[1] or '').split(), (args[2] or '').split())
++            self.assertEqual(is_included, expected[0])
++            self.assertListEqual(licenses, expected[1])
+-- 
+2.12.0
+
 
