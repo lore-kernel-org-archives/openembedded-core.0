@@ -1,48 +1,33 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pg0-f53.google.com (mail-pg0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 30D2F779C6
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 26CA5779C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 14:16:25 +0000 (UTC)
-Received: by mail-pg0-f53.google.com with SMTP id 188so853018pgb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 07:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=fB/I+6hfOby4tomPvHj7bLvHPnYe++U6ibWved8mOQQ=;
-	b=y7GN0ZBGp5kKyzirGL6pzKQp6aG8aj29h9pkKrjQa9eH0Y4q6vA1uWS875XMfOl9Ns
-	6H+Dmv214KEsVaBNSTDKrALfDz26uEXEvSLBy+9QZMy0XfhNEjy8mALrjbOZNvVTmZ+X
-	c2XaJ0Ca0K0rBQlSKZikBV/Qi4/5aNKcfilArYbTb60ELg6doGEK6KwNakMLFsri6S2n
-	wQDCEFxTz0n+h5JoQx7ZvLZEu826gKSnutuw1zcxLtnWmYnV+5TEiwcxl07X+RbIQDLE
-	5AdR3SPiofNuaGirAbsOqNo3xnaD+dVzwS/c3mMbXVlPzJHYivJROrltSppfyBJB++Ep
-	xWjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fB/I+6hfOby4tomPvHj7bLvHPnYe++U6ibWved8mOQQ=;
-	b=oNJz4ZP2MS6dcd6yp+mDxcKY3TVyqPuWerhkPAOd8AwhsN6R39glzYEKKgDIIGiXCi
-	anyhf56ea/XtTlsVx8JAlxs+f3b0iY5valjmr42LPrPwWBbniY/zfjMpKnmiH4xuGL/s
-	Yi3yqrCjMFU4ypKii8Agf7SL/q6OoDdJ2FjaNxQWyf48WYe7SbDhMJalgQxS0tPsKjue
-	H4ig+nQ8RO7nIAfQ68Rq03x/z2uMNY65+Kd3pGn0vdTer2RVE9wD61q/7uzfa5s8I8LS
-	T5s5/j1v4112CpDZr8xLLJwjd6Ndf8LAFbJrXPXVVoDuOdIAQGXiqw2OhN2yHolvTUGb
-	ebXQ==
-X-Gm-Message-State: AHPjjUhgbleBjzbY8N0Vz/Cmvl8VPUAa9OEdlt8bpmTOx7g+keEsow3n
-	gEmum1X1L7y0VSPKiHZWagueJi3YjOI=
-X-Google-Smtp-Source: AOwi7QBmc78zxZHj0ozARFh+O98RhOM5i6SkvZnhXHICbRTqw/5sKbJBOMXIkgiCFvZWZMVWjuGIiQ==
-X-Received: by 10.84.225.130 with SMTP id u2mr7214700plj.44.1506694586773;
-	Fri, 29 Sep 2017 07:16:26 -0700 (PDT)
-Received: from ip-172-31-1-8.us-west-2.compute.internal
-	(ec2-52-89-23-9.us-west-2.compute.amazonaws.com. [52.89.23.9])
-	by smtp.gmail.com with ESMTPSA id 4sm7214283pfs.1.2017.09.29.07.16.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Sep 2017 07:16:25 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Sep 2017 14:15:51 +0000
-Message-Id: <1506694551-4487-1-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.7.4
-Cc: otavio@ossystems.com.br
-Subject: [PATCH] go-runtime: prevent host leakage into target objects
+	Fri, 29 Sep 2017 14:22:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga105.jf.intel.com with ESMTP; 29 Sep 2017 07:22:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,452,1500966000"; d="scan'208";a="1200439299"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Sep 2017 07:22:48 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id D42B45802BB;
+	Fri, 29 Sep 2017 07:22:47 -0700 (PDT)
+Date: Fri, 29 Sep 2017 17:21:02 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20170929142102.int56ejorufnkh4v@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
+	<20170929111621.is7opcm5chmk5czu@linux.intel.com>
+	<20170929123652.GV3112@bill-the-cat>
+MIME-Version: 1.0
+In-Reply-To: <20170929123652.GV3112@bill-the-cat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +40,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 14:16:26 -0000
+X-List-Received-Date: Fri, 29 Sep 2017 14:22:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When building for a target whose architecture matches
-the build host's, the second pass through make.bash
-to build the shareable runtime would also overwrite
-the target's static cgo library with host-compatibile
-binaries.
+On Fri, Sep 29, 2017 at 08:36:52AM -0400, Tom Rini wrote:
+> On Fri, Sep 29, 2017 at 02:16:21PM +0300, Ed Bartosh wrote:
+> > On Wed, Sep 27, 2017 at 01:00:09PM -0400, Tom Rini wrote:
+> > > With RSS we need to ensure that when making a bmap image that the
+> > > python3 that we created is found via /usr/bin/env rather than the host
+> > > python3.  Otherwise we're relying on the build host to have bmaptool
+> > > support installed.
+> > > 
+> > > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > > ---
+> > > I played around with a few ways to try and fix this problem, and this
+> > > was the best I could come up with.  Once this is in we need this in pyro
+> > > as well as it's broken there too.
+> > > ---
+> > >  meta/classes/image_types.bbclass | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> > > index 61dca626311e..3ff960e3a889 100644
+> > > --- a/meta/classes/image_types.bbclass
+> > > +++ b/meta/classes/image_types.bbclass
+> > > @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+> > >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+> > >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
+> > >  IMAGE_TYPES_MASKED ?= ""
+> > > +
+> > > +# bmap requires python3 to be in the PATH
+> > > +EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
+> > 
+> > +1
+> > 
+> > Would ...find('.bmap') be a bit more safe?
+> 
+> Could be.  Do I need to v2 or can someone just fix up while applying?
 
-Fix this by running the host-side build once and
-target-only passes of make.bash twice, for static
-and shareable.  This ensures that what gets installed
-is target-compatible.
+Please send v2.
 
-[YOCTO #12136]
-
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/recipes-devtools/go/go-runtime.inc | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index 934d1aa..bd26e2e 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -23,9 +23,13 @@ do_compile() {
- 	rm -rf ${GOBIN} ${B}/pkg
- 	mkdir ${GOBIN}
- 	cd src
--	GO_FLAGS="" ./make.bash
-+	./make.bash --host-only
-+	cp ${B}/pkg/tool/${BUILD_GOTUPLE}/go_bootstrap ${B}
-+	rm -rf ${B}/pkg/${TARGET_GOTUPLE}
-+	./make.bash --target-only
- 	if [ -n "${GO_DYNLINK}" ]; then
--		GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags \"${LDFLAGS}\"" ./make.bash
-+		cp ${B}/go_bootstrap ${B}/pkg/tool/${BUILD_GOTUPLE}
-+		GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags \"${LDFLAGS}\"" ./make.bash --target-only
- 	fi
- 	cd ${B}
- }
-@@ -41,8 +45,9 @@ do_install() {
- 	rm -rf ${D}${libdir}/go/pkg/obj
- 	rm -rf ${D}${libdir}/go/pkg/bootstrap
- 	find src -mindepth 1 -maxdepth 1 -type d | while read srcdir; do
--		[ "$srcdir" = "./cmd" ] || cp --preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
-+		cp --preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
- 	done
-+	rm -f ${D}${libdir}/go/src/cmd/dist/dist
- }
- 
- # Remove test binaries that cannot be relocated
--- 
-2.7.4
-
+--
+Regards,
+Ed
 
