@@ -1,36 +1,50 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A6B9771984
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F92671984
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 03:02:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8T32GOn025110
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Fri, 29 Sep 2017 03:09:12 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id h4so111745pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Sep 2017 20:02:16 -0700
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Thu, 28 Sep 2017 20:02:15 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>, "BURTON, ROSS"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] rootfs-postcommands.bbclass: add support for
-	/etc/ld.so.conf.d/*.conf
-Thread-Index: AQHTOEzi6qQB4YBPnkiiiW9g3LtIUaLLKNiggAAE8WA=
-Date: Fri, 29 Sep 2017 03:02:14 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B8C9657@ALA-MBC.corp.ad.wrs.com>
-References: <20170831055458.9197-1-jackie.huang@windriver.com>
-	<CAJTo0LaXfJCZ5hw+sLcm4yWe_K9ck_H+7kTgva1+i9NSLdB6RA@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B8C9612@ALA-MBC.corp.ad.wrs.com>
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA014B8C9612@ALA-MBC.corp.ad.wrs.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.125]
+	Thu, 28 Sep 2017 20:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=WWU8KJyyHPTd7GWGLfF9WvTUcyOiuea7ikW5wbumecI=;
+	b=Y+FxbkW5CC/mDOWN9KE1Yu47Lhy0B7nlbSqhVLXDgUADpAHxNzVvyBLBoSi/Rpcaqd
+	2G64pk3hTfayobyHs6kNJM/d8feXgbn4+ABgH/4cGjFsIjVRbGg90t5WEwNKrPPJ9qrj
+	fX6zxuh3C4WfpdqsvV6OAqsniaRigMqh+vorBDKaJ2tZw99ST0Gn4k8ppIslW+PPE/nT
+	7yGpibmStz0QhraKZbDRgEoACpPD2w4uWy24gJrzPakqI9u1mNgddFb10jKtvJdSv6Tm
+	oSLhqIq7QavMy2QHPxMGH+FmxJcw3362UZmILUOjJdZglu4v6xni2dCdmTbFObFrIwLS
+	zwAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=WWU8KJyyHPTd7GWGLfF9WvTUcyOiuea7ikW5wbumecI=;
+	b=lE9j8NrBpHE2ZJqZJli7mAbKO/6jEiz1gq6tFrLxZcFEan/1bxjWG+om6tI/9TlJ6r
+	XJSIbtIzogZGFM1BqpJvaHUB0LRhleaf8QAkd/h0AjBEsk/IVctGUks9n/gnE8Hi8MXq
+	H9KfNB2v0Uucnu3yXmynhA+/14+Fsu9mG9VaBQ87WTBiFPTR1kAhYjusbR897cy01+nw
+	FBFDg+LvBjoNMMXzDNQcvf/99HHNR02dtYMdKC9kMHlKo4SHjHvqvvJTtE0fiPEhjmCp
+	wsvW4iFMPdaMJNLjrgnmURbYJIPB4MWgS9bjcJ4UmBdW9z8T5JnBrdpInIN2L6RH/K0w
+	r5KQ==
+X-Gm-Message-State: AMCzsaVyQunDKPsvbX/152E3hAIEaNkjIsGYwHOhAF5RDy9d0XTJc2wM
+	h+l3vqHSNttq7iUy3YseM81QghOMKRfxFptWcwM=
+X-Google-Smtp-Source: AOwi7QA4pcamzOpykpMxflbpIU0D9lEo4uQ+AGDcSMa+xdvQYAX9Ui6QL70IR9b2WQmXbXytIJ/hhuFCIcOhBN/7s0I=
+X-Received: by 10.84.240.12 with SMTP id y12mr121322plk.215.1506654554074;
+	Thu, 28 Sep 2017 20:09:14 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs-postcommands.bbclass: add support for /etc/ld.so.conf.d/*.conf
+Received: by 10.100.149.73 with HTTP; Thu, 28 Sep 2017 20:08:43 -0700 (PDT)
+In-Reply-To: <1506614485-31675-2-git-send-email-fabien.lahoudere@collabora.co.uk>
+References: <1506614485-31675-1-git-send-email-fabien.lahoudere@collabora.co.uk>
+	<1506614485-31675-2-git-send-email-fabien.lahoudere@collabora.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 28 Sep 2017 20:08:43 -0700
+Message-ID: <CAMKF1sqtTMwQOtaGBXhnj3_WVW3sLKdUCZc8zNmeEDa247PenQ@mail.gmail.com>
+To: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 2/3] wayland: Fix installation patch issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,409 +57,365 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 03:02:15 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA014B8C9657ALAMBCcorpadw_"
+X-List-Received-Date: Fri, 29 Sep 2017 03:09:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---_000_1B858668EC6A94408DCA5225FDFA85AA014B8C9657ALAMBCcorpadw_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+this is a good patch. Thanks
 
-SSBmb3VuZCB0aGUgb3JpZ2luYWwgcGF0Y2g6DQoNCmh0dHBzOi8vcGF0Y2h3b3JrLm9wZW5lbWJl
-ZGRlZC5vcmcvcGF0Y2gvNjI0NTMvDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBvcGVuZW1i
-ZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1i
-ZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZiBI
-dWFuZywgSmllIChKYWNraWUpDQpTZW50OiBGcmlkYXksIFNlcHRlbWJlciAyOSwgMjAxNyAxMDo1
-OA0KVG86IEJVUlRPTiwgUk9TUw0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
-W1BBVENIXSByb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3M6IGFkZCBzdXBwb3J0IGZvciAvZXRj
-L2xkLnNvLmNvbmYuZC8qLmNvbmYNCg0KVGhhdOKAmXMgd2hhdCB3ZSBkaWQgaW4gdGhlIG9yaWdp
-bmFsIHBhdGNoLCBidXQgcmVqZWN0ZWQgbG9uZyB0aW1lIGFnbw0KdGhlbiB3ZSBoYXZlIGJlZW4g
-a2VlcGluZyBpdCBpbiBvdXIgbG9jYWwgYnJhbmNoOg0KDQpjb21taXQgMWU0M2ZmMTFmODQxMjQ3
-NDUzZjFkNDEwNmIyMmQzM2FhM2ExNTBmOQ0KQXV0aG9yOiBNaW5nIExpdSA8bWluZy5saXVAd2lu
-ZHJpdmVyLmNvbTxtYWlsdG86bWluZy5saXVAd2luZHJpdmVyLmNvbT4+DQpEYXRlOiAgIFdlZCBB
-dWcgMjEgMTY6MDY6MjkgMjAxMyArMDgwMA0KDQogICAgZWdsaWJjOiBhZGQgc3VwcG9ydCBmb3Ig
-L2V0Yy9sZC5zby5jb25mLmQvKi5jb25mDQoNCiAgICBUaGVyZSBhcmUgYWR2YW50YWdlcyBpbiBj
-aGFuZ2luZyB0aGUgY29udGVudHMgb2YgbGQuc28uY29uZiB0bw0KICAgICJpbmNsdWRlIC9ldGMv
-bGQuc28uY29uZi5kLyouY29uZiIgaW5zdGVhZCBvZiBkaXJlY3RseSBsaXN0aW5nIGRpcmVjdG9y
-aWVzDQogICAgaW4gaXQsIGp1c3QgbGlrZSBtb3N0IGRpc3RyaWJ1dGlvbnMgYXJlIGRvaW5nIHRo
-ZSBzYW1lLg0KDQogICAgU2lnbmVkLW9mZi1ieTogTWluZyBMaXUgPG1pbmcubGl1QHdpbmRyaXZl
-ci5jb208bWFpbHRvOm1pbmcubGl1QHdpbmRyaXZlci5jb20+Pg0KICAgIFNpZ25lZC1vZmYtYnk6
-IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPG1haWx0bzpsaWV6aGkueWFu
-Z0B3aW5kcml2ZXIuY29tPj4NCg0KICAgIChMT0NBTCBSRVY6IE5PVCBVUFNUUkVBTSkgLS0gU2Vu
-dCB0byBvZS1jb3JlIG9uIDIwMTMxMTI3DQoNCiAgICBSZWplY3RlZCBieSBvZS1jb3JlIHNpbmNl
-Og0KICAgICAtIFRoaXMgd2lsbCBjYXVzZSB0aGUgZXhpc3RpbmcgY29udGVudHMgb2YgbGQuc28u
-Y29uZiB0byBiZSBvYmxpdGVyYXRlZA0KICAgICAgIGlmIHRoZSBmaWxlIHdhc24ndCBlbXB0eSB0
-byBiZWdpbiB3aXRoLiAgKEkga25vdyB0aGF0IGl0IGlzIGVtcHR5IGluDQogICAgICAgb2UtY29y
-ZSwgYnV0IGEgZGlzdHJvIGxheWVyIG1pZ2h0IGJlIG92ZXJsYXlpbmcgdGhpcyBmaWxlIHdpdGgg
-aXRzDQogICAgICAgb3duLikNCg0KICAgICAtIEFsc28sIGl0IHNlZW1zIGFzIHRob3VnaCB0aGUg
-Y2hvaWNlIG9mIHdoZXRoZXIgdG8gdXNlIGFuICJsZC5zby5jb25mLmQiDQogICAgICAgYXJyYW5n
-ZW1lbnQgb3Igbm90IGlzIG9uZSB0aGF0IHRoZSBkaXN0cm8gc2hvdWxkIGJlIG1ha2luZy4gSXMg
-dGhlcmUNCiAgICAgICBhIHN0cm9uZyByZWFzb24gd2h5IHRoaXMgbmVlZHMgdG8gYmUgZG9uZSBp
-biBvZS1jb3JlPw0KDQogICAgIC0gSSB3b3VsZCBsaWtlIHRvIGRpZmZlcmVudCBjb21wb25lbnRz
-IHRvIGFkZCB0aGVpciBvd24gY29uZiBmaWxlcyB0bw0KICAgICAgICR7RH0ke3N5c2NvbmZkaXJ9
-L2xkLnNvLmNvbmYuZCBhbmQgbGV0IGxkY29uZmlnIGV4ZWN1dGVkIGluIGRvX3Jvb3Rmcw0KICAg
-ICAgIHRvIGZpbmQgdGhlbSwgYnV0IHRoZXkgd29uJ3QgYmUgdGhlcmUgd2hlbiBlZ2xpYmMuZG9f
-aW5zdGFsbCBpcyBleGVjdXRlZC4NCg0KU2lnbmVkLW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1
-LmppYUB3aW5kcml2ZXIuY29tPG1haWx0bzpob25neHUuamlhQHdpbmRyaXZlci5jb20+Pg0KDQoN
-ClRoZW4gd2UgcmUtaW1wbGVtZW50IGl0IGFzIGEgcm9vdGZzIHBvc3RpbnN0YWxsIGNvbW1hbmQg
-dG8gYXZvaWQgdGhlIGNvbmNlcm4NCmFuZCBpdCBjb3VsZCBiZSBjb250cm9sbGVkIGluIGRpc3Ry
-byBzZXR0aW5ncy4NCg0KVGhhbmtzLA0KSmFja2llDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFp
-bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IFRodXJzZGF5LCBTZXB0ZW1iZXIgMjgs
-IDIwMTcgMTk6MjgNClRvOiBIdWFuZywgSmllIChKYWNraWUpDQpDYzogT0UtY29yZQ0KU3ViamVj
-dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHJvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzczogYWRk
-IHN1cHBvcnQgZm9yIC9ldGMvbGQuc28uY29uZi5kLyouY29uZg0KDQpXaHkgaW1wbGVtZW50IHRo
-aXMgYXMgYSByb290ZnMgcG9zdGluc3RhbGwgY29tbWFuZD8gIGdsaWJjIHdyaXRlcyB0aGlzIGZp
-bGUsIHNvIHdlIGNhbiBhbHRlciBpdCB3aGVuIHRoYXQgcmVjaXBlIGlzIHdyaXR0ZW4uDQoNClJv
-c3MNCg0KT24gMzEgQXVndXN0IDIwMTcgYXQgMDY6NTQsIDxqYWNraWUuaHVhbmdAd2luZHJpdmVy
-LmNvbTxtYWlsdG86amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+PiB3cm90ZToNCkZyb206IEph
-Y2tpZSBIdWFuZyA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5odWFu
-Z0B3aW5kcml2ZXIuY29tPj4NCg0KVGhlcmUgYXJlIGFkdmFudGFnZXMgaW4gY2hhbmdpbmcgdGhl
-IGNvbnRlbnRzIG9mIGxkLnNvLmNvbmYgdG8NCiJpbmNsdWRlIC9ldGMvbGQuc28uY29uZi5kLyou
-Y29uZiIgaW5zdGVhZCBvZiBkaXJlY3RseSBsaXN0aW5nDQpkaXJlY3RvcmllcyBpbiBpdCwganVz
-dCBsaWtlIG1vc3QgZGlzdHJpYnV0aW9ucyBhcmUgZG9pbmcgdGhlIHNhbWUuDQoNClNpZ25lZC1v
-ZmYtYnk6IEphY2tpZSBIdWFuZyA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb208bWFpbHRvOmph
-Y2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPj4NCi0tLQ0KIG1ldGEvY2xhc3Nlcy9yb290ZnMtcG9z
-dGNvbW1hbmRzLmJiY2xhc3MgfCAxMyArKysrKysrKysrKysrDQogMSBmaWxlIGNoYW5nZWQsIDEz
-IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9yb290ZnMtcG9zdGNv
-bW1hbmRzLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNz
-DQppbmRleCBkYzVhNzZiYWJhLi5hZjAxZWI1NTBhIDEwMDY0NA0KLS0tIGEvbWV0YS9jbGFzc2Vz
-L3Jvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFzc2VzL3Jvb3Rmcy1w
-b3N0Y29tbWFuZHMuYmJjbGFzcw0KQEAgLTIwLDYgKzIwLDkgQEAgUk9PVEZTX1BPU1RQUk9DRVNT
-X0NPTU1BTkQgKz0gJyR7QGJiLnV0aWxzLmNvbnRhaW5zKCJJTUFHRV9GRUFUVVJFUyIsICJyZWFk
-LW9ubHkNCiAjIEdlbmVyYXRlcyB0ZXN0IGRhdGEgZmlsZSB3aXRoIGRhdGEgc3RvcmUgdmFyaWFi
-bGVzIGV4cGFuZGVkIGluIGpzb24gZm9ybWF0DQogUk9PVEZTX1BPU1RQUk9DRVNTX0NPTU1BTkQg
-Kz0gIndyaXRlX2ltYWdlX3Rlc3RfZGF0YSA7ICINCg0KKyMgQWRkIHN1cHBvcnQgZm9yIC9ldGMv
-bGQuc28uY29uZi5kLyouY29uZiBpZiBsZGNvbmZpZyBpcyBlbmFibGVkDQorUk9PVEZTX1BPU1RJ
-TlNUQUxMX0NPTU1BTkQgKz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMn
-LCAnbGRjb25maWcnLCAnYWRkX2xkX3NvX2NvbmZfZCA7JywgJycsIGQpfTxtYWlsdG86JCU3YkBi
-Yi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywlMjAnbGRjb25maWcnLCUyMCdhZGRf
-bGRfc29fY29uZl9kJTIwOycsJTIwJycsJTIwZCklN2Q+Ig0KKw0KICMgV3JpdGUgbWFuaWZlc3QN
-CiBJTUFHRV9NQU5JRkVTVCA9ICIke0lNR0RFUExPWURJUn0vJHtJTUFHRV9OQU1FfS5yb290ZnMu
-bWFuaWZlc3QiDQogUk9PVEZTX1BPU1RVTklOU1RBTExfQ09NTUFORCA9KyAid3JpdGVfaW1hZ2Vf
-bWFuaWZlc3QgOyAiDQpAQCAtMjQ0LDYgKzI0NywxNiBAQCBtYWtlX3ppbWFnZV9zeW1saW5rX3Jl
-bGF0aXZlICgpIHsNCiAgICAgICAgZmkNCiB9DQoNCisjIEFkZCBzdXBwb3J0IGZvciAvZXRjL2xk
-LnNvLmNvbmYuZC8qLmNvbmYNCithZGRfbGRfc29fY29uZl9kKCkgew0KKyAgICBpZiBbIC1mICR7
-SU1BR0VfUk9PVEZTfSR7c3lzY29uZmRpcn0vbGQuc28uY29uZiBdOyB0aGVuDQorICAgICAgICBp
-ZiAhIGBncmVwIC1xICdpbmNsdWRlIGxkLnNvLmNvbmYuZFwvXCouY29uZicgL2V0Yy9sZC5zby5j
-b25mYDsgdGhlbg0KKyAgICAgICAgICAgIGVjaG8gJ2luY2x1ZGUgbGQuc28uY29uZi5kLyouY29u
-ZicgPj4gJHtJTUFHRV9ST09URlN9JHtzeXNjb25mZGlyfS9sZC5zby5jb25mDQorICAgICAgICBm
-aQ0KKyAgICAgICAgbWtkaXIgLXAgJHtJTUFHRV9ST09URlN9JHtzeXNjb25mZGlyfS9sZC5zby5j
-b25mLmQNCisgICAgZmkNCit9DQorDQogcHl0aG9uIHdyaXRlX2ltYWdlX21hbmlmZXN0ICgpIHsN
-CiAgICAgZnJvbSBvZS5yb290ZnMgaW1wb3J0IGltYWdlX2xpc3RfaW5zdGFsbGVkX3BhY2thZ2Vz
-DQogICAgIGZyb20gb2UudXRpbHMgaW1wb3J0IGZvcm1hdF9wa2dfbGlzdA0KLS0NCjIuMTEuMA0K
-DQotLQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCk9w
-ZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZzxtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZz4NCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
-bmVtYmVkZGVkLWNvcmUNCg0K
+On Thu, Sep 28, 2017 at 9:01 AM, Fabien Lahoudere
+<fabien.lahoudere@collabora.co.uk> wrote:
+> This patch modify the way we manage wayland path issues.
+> Instead of patching each recipe to make it work with wayland and its prot=
+ocols,
+> it is better to patch wayland to fix its path issues.
+>
+> So wayland-scanner.pc, wayland-client.pc and wayland-protocols.pc are pat=
+ched to change paths.
+>
+> Then we can drop the following workaround:
+>
+> WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${RECIPE_SYSROOT}
+>
+> in:
+>
+> - gtk+3
+> - libsdl2
+> - xserver-xorg
+> - gstreamer1.0-plugins-bad
+> - weston-2.0.0
+>
+> We also dropped libsdl2 patches which fix wayland paths.
+>
+> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> ---
+>  meta/recipes-gnome/gtk+/gtk+3.inc                  |  1 -
+>  ...-sysroot-path-so-that-make-finds-our-wayl.patch | 34 ----------------=
+------
+>  ...void-finding-build-host-s-wayland-scanner.patch | 31 ----------------=
+----
+>  meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb     |  4 +--
+>  .../usesysrootprefixforpkgdatadirvariable.patch    | 27 ++++++++++++++++=
++
+>  .../wayland/wayland-protocols_1.10.bb              |  1 +
+>  .../wayland/wayland/fixpathinpcfiles.patch         | 33 ++++++++++++++++=
++++++
+>  meta/recipes-graphics/wayland/wayland_1.14.0.bb    |  1 +
+>  meta/recipes-graphics/wayland/weston_2.0.0.bb      |  1 -
+>  .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  1 -
+>  .../gstreamer/gstreamer1.0-plugins-bad_1.12.2.bb   |  1 -
+>  11 files changed, 63 insertions(+), 72 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-ou=
+r-sysroot-path-so-that-make-finds-our-wayl.patch
+>  delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0002-Avoid-find=
+ing-build-host-s-wayland-scanner.patch
+>  create mode 100644 meta/recipes-graphics/wayland/wayland-protocols/usesy=
+srootprefixforpkgdatadirvariable.patch
+>  create mode 100644 meta/recipes-graphics/wayland/wayland/fixpathinpcfile=
+s.patch
+>
+> diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/=
+gtk+3.inc
+> index 0a357db..420ead2 100644
+> --- a/meta/recipes-gnome/gtk+/gtk+3.inc
+> +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+> @@ -35,7 +35,6 @@ EXTRA_OECONF +=3D " \
+>                   --enable-modules \
+>                   --disable-cups \
+>                   --disable-colord \
+> -                 WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${RECIPE_SYSROOT} \
+>                   ${@bb.utils.contains("DISTRO_FEATURES", "x11", "", "--d=
+isable-gtk-doc", d)} \
+>                   "
+>
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysro=
+ot-path-so-that-make-finds-our-wayl.patch b/meta/recipes-graphics/libsdl2/l=
+ibsdl2/0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.patch
+> deleted file mode 100644
+> index efc8418..0000000
+> --- a/meta/recipes-graphics/libsdl2/libsdl2/0001-prepend-our-sysroot-path=
+-so-that-make-finds-our-wayl.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -From b44808e43130dcd13b43e5b978b9b24aeb4c134c Mon Sep 17 00:00:00 2001
+> -From: =3D?UTF-8?q?Andreas=3D20M=3DC3=3DBCller?=3D <schnitzeltony@googlem=
+ail.com>
+> -Date: Thu, 20 Oct 2016 14:57:51 +0200
+> -Subject: [PATCH] prepend our sysroot path so that make finds our
+> - wayland-protocol files
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=3DUTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> ----
+> - configure.in | 4 +-
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/configure.in b/configure.in
+> -index 726ded3..3376600 100644
+> ---- a/configure.in
+> -+++ b/configure.in
+> -@@ -1206,7 +1206,7 @@ AC_HELP_STRING([--enable-video-wayland-qt-touch], =
+[QtWayland server support for
+> -                 WAYLAND_CFLAGS=3D`$PKG_CONFIG --cflags wayland-client w=
+ayland-egl wayland-cursor xkbcommon`
+> -                 WAYLAND_LIBS=3D`$PKG_CONFIG --libs wayland-client wayla=
+nd-egl wayland-cursor xkbcommon`
+> -                 WAYLAND_SCANNER=3D`$PKG_CONFIG --variable=3Dwayland_sca=
+nner wayland-scanner`
+> --                WAYLAND_CORE_PROTOCOL_DIR=3D`$PKG_CONFIG --variable=3Dp=
+kgdatadir wayland-client`
+> --                WAYLAND_PROTOCOLS_DIR=3D`$PKG_CONFIG --variable=3Dpkgda=
+tadir wayland-protocols`
+> -+                WAYLAND_CORE_PROTOCOL_DIR=3D${WAYLAND_PROTOCOLS_SYSROOT=
+_DIR}`$PKG_CONFIG --variable=3Dpkgdatadir wayland-client`
+> -+                WAYLAND_PROTOCOLS_DIR=3D${WAYLAND_PROTOCOLS_SYSROOT_DIR=
+}`$PKG_CONFIG --variable=3Dpkgdatadir wayland-protocols`
+> -                 video_wayland=3Dyes
+> -             fi
+> -         fi
+> ---
+> -2.5.5
+> -
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0002-Avoid-finding-bui=
+ld-host-s-wayland-scanner.patch b/meta/recipes-graphics/libsdl2/libsdl2/000=
+2-Avoid-finding-build-host-s-wayland-scanner.patch
+> deleted file mode 100644
+> index 7837315..0000000
+> --- a/meta/recipes-graphics/libsdl2/libsdl2/0002-Avoid-finding-build-host=
+-s-wayland-scanner.patch
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -From ae879091cf65cb70293b375ec7e61ed12a96d8a7 Mon Sep 17 00:00:00 2001
+> -From: =3D?UTF-8?q?Andreas=3D20M=3DC3=3DBCller?=3D <schnitzeltony@googlem=
+ail.com>
+> -Date: Fri, 2 Dec 2016 09:39:25 +0100
+> -Subject: [PATCH] Avoid finding build host's wayland-scanner
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=3DUTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> ----
+> - configure.in | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/configure.in b/configure.in
+> -index 3376600..2aa6ed4 100644
+> ---- a/configure.in
+> -+++ b/configure.in
+> -@@ -1204,7 +1204,7 @@ AC_HELP_STRING([--enable-video-wayland-qt-touch], =
+[QtWayland server support for
+> -             if $PKG_CONFIG --exists wayland-client wayland-scanner wayl=
+and-protocols wayland-egl wayland-cursor egl xkbcommon ; then
+> -                 WAYLAND_CFLAGS=3D`$PKG_CONFIG --cflags wayland-client w=
+ayland-egl wayland-cursor xkbcommon`
+> -                 WAYLAND_LIBS=3D`$PKG_CONFIG --libs wayland-client wayla=
+nd-egl wayland-cursor xkbcommon`
+> --                WAYLAND_SCANNER=3D`$PKG_CONFIG --variable=3Dwayland_sca=
+nner wayland-scanner`
+> -+                AC_PATH_PROG([WAYLAND_SCANNER], [wayland-scanner])
+> -                 WAYLAND_CORE_PROTOCOL_DIR=3D${WAYLAND_PROTOCOLS_SYSROOT=
+_DIR}`$PKG_CONFIG --variable=3Dpkgdatadir wayland-client`
+> -                 WAYLAND_PROTOCOLS_DIR=3D${WAYLAND_PROTOCOLS_SYSROOT_DIR=
+}`$PKG_CONFIG --variable=3Dpkgdatadir wayland-protocols`
+> -                 video_wayland=3Dyes
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb b/meta/recipe=
+s-graphics/libsdl2/libsdl2_2.0.5.bb
+> index 12d3aaf..032f45b 100644
+> --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+> +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
+> @@ -17,8 +17,6 @@ DEPENDS_class-nativesdk =3D "${@bb.utils.contains('DIST=
+RO_FEATURES', 'x11', 'virtu
+>  SRC_URI =3D " \
+>      http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+>      file://linkage.patch \
+> -    file://0001-prepend-our-sysroot-path-so-that-make-finds-our-wayl.pat=
+ch \
+> -    file://0002-Avoid-finding-build-host-s-wayland-scanner.patch \
+>      file://fix-build-failure-on-ppc.patch \
+>  "
+>
+> @@ -35,7 +33,7 @@ EXTRA_OECONF =3D "--disable-oss --disable-esd --disable=
+-arts \
+>                  --enable-pthreads \
+>                  --enable-sdl-dlopen \
+>                  --disable-rpath \
+> -                WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${RECIPE_SYSROOT}"
+> +                "
+>
+>  # opengl packageconfig factored out to make it easy for distros
+>  # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+> diff --git a/meta/recipes-graphics/wayland/wayland-protocols/usesysrootpr=
+efixforpkgdatadirvariable.patch b/meta/recipes-graphics/wayland/wayland-pro=
+tocols/usesysrootprefixforpkgdatadirvariable.patch
+> new file mode 100644
+> index 0000000..0922a4d
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixfor=
+pkgdatadirvariable.patch
+> @@ -0,0 +1,27 @@
+> +From 875130ee3cbcf62266901ef4b91b9a0fb6adad43 Mon Sep 17 00:00:00 2001
+> +From: Tomek Bury <tomek.bury@broadcom.com>
+> +Date: Fri, 4 Aug 2017 16:16:38 +0100
+> +Subject: Use sysroot prefix for pkgdatadir variable
+> +
+> +The pc_sysroot is automatically added to cflags and libs but not
+> +to 'pkg-config --variable'
+> +
+> +Upstream-Status: Backport [https://cgit.freedesktop.org/wayland/wayland-=
+protocols/commit/?id=3D875130ee3cbcf62266901ef4b91b9a0fb6adad43]
+> +
+> +Reviewed-by: Daniel Stone <daniels@collabora.com>
+> +
+> +diff --git a/wayland-protocols.pc.in b/wayland-protocols.pc.in
+> +index a26744c..379be06 100644
+> +--- a/wayland-protocols.pc.in
+> ++++ b/wayland-protocols.pc.in
+> +@@ -1,6 +1,6 @@
+> + prefix=3D@prefix@
+> + datarootdir=3D@datarootdir@
+> +-pkgdatadir=3D@datadir@/@PACKAGE@
+> ++pkgdatadir=3D${pc_sysrootdir}@datadir@/@PACKAGE@
+> +
+> + Name: Wayland Protocols
+> + Description: Wayland protocol files
+> +--
+> +cgit v0.10.2
+> +
+> diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb b/me=
+ta/recipes-graphics/wayland/wayland-protocols_1.10.bb
+> index 4f9e9f3..1ff12c6 100644
+> --- a/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb
+> +++ b/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb
+> @@ -10,6 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc7b12b6702da=
+38ca028ace54aae3d484 \
+>                      file://stable/presentation-time/presentation-time.xm=
+l;endline=3D26;md5=3D4646cd7d9edc9fa55db941f2d3a7dc53"
+>
+>  SRC_URI =3D "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.x=
+z \
+> +          file://usesysrootprefixforpkgdatadirvariable.patch \
+>             "
+>  SRC_URI[md5sum] =3D "84a7846c2b6a6a3e265fc9be36453e60"
+>  SRC_URI[sha256sum] =3D "5719c51d7354864983171c5083e93a72ac99229e2b460c4b=
+b10513de08839c0a"
+> diff --git a/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch=
+ b/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch
+> new file mode 100644
+> index 0000000..9fb1252
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/wayland/fixpathinpcfiles.patch
+> @@ -0,0 +1,33 @@
+> +Fix wayland-client and wayland-scanner pc files
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> +
+> +Index: wayland-1.14.0/src/wayland-client.pc.in
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- wayland-1.14.0.orig/src/wayland-client.pc.in
+> ++++ wayland-1.14.0/src/wayland-client.pc.in
+> +@@ -1,7 +1,7 @@
+> + prefix=3D@prefix@
+> + exec_prefix=3D@exec_prefix@
+> + datarootdir=3D@datarootdir@
+> +-pkgdatadir=3D@datadir@/@PACKAGE@
+> ++pkgdatadir=3D${pc_sysrootdir}@datadir@/@PACKAGE@
+> + libdir=3D@libdir@
+> + includedir=3D@includedir@
+> +
+> +Index: wayland-1.14.0/src/wayland-scanner.pc.in
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +--- wayland-1.14.0.orig/src/wayland-scanner.pc.in
+> ++++ wayland-1.14.0/src/wayland-scanner.pc.in
+> +@@ -1,8 +1,8 @@
+> + prefix=3D@prefix@
+> + exec_prefix=3D@exec_prefix@
+> + datarootdir=3D@datarootdir@
+> + pkgdatadir=3D@datadir@/@PACKAGE@
+> +-wayland_scanner=3D@bindir@/wayland-scanner
+> ++wayland_scanner=3Dwayland-scanner
+> +
+> + Name: Wayland Scanner
+> + Description: Wayland scanner
+> diff --git a/meta/recipes-graphics/wayland/wayland_1.14.0.bb b/meta/recip=
+es-graphics/wayland/wayland_1.14.0.bb
+> index 2a2489d..1a9ff98 100644
+> --- a/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> +++ b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+> @@ -13,6 +13,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db31d8f53b6aa=
+f2b4985d7dd7810a70d1 \
+>  DEPENDS =3D "expat libxml2 libffi wayland-native"
+>
+>  SRC_URI =3D "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.x=
+z \
+> +          file://fixpathinpcfiles.patch \
+>             "
+>  SRC_URI[md5sum] =3D "0235f6075c32c3be61cff94fa0b9f108"
+>  SRC_URI[sha256sum] =3D "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe=
+2b812f008da27ab8"
+> diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes=
+-graphics/wayland/weston_2.0.0.bb
+> index 54b07bd..8160f55 100644
+> --- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
+> +++ b/meta/recipes-graphics/wayland/weston_2.0.0.bb
+> @@ -25,7 +25,6 @@ DEPENDS +=3D "wayland wayland-protocols libinput virtua=
+l/egl pango wayland-native"
+>
+>  EXTRA_OECONF =3D "--enable-setuid-install \
+>                  --disable-rdp-compositor \
+> -                WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${RECIPE_SYSROOT} \
+>                  "
+>  EXTRA_OECONF_append_qemux86 =3D "\
+>                 WESTON_NATIVE_BACKEND=3Dfbdev-backend.so \
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/r=
+ecipes-graphics/xorg-xserver/xserver-xorg.inc
+> index 863d80c..e8025de 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+> @@ -117,7 +117,6 @@ EXTRA_OECONF +=3D "--with-fop=3Dno \
+>                   --sysconfdir=3D/etc/X11 \
+>                   --localstatedir=3D/var \
+>                   --with-xkb-output=3D/var/lib/xkb \
+> -                 WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${RECIPE_SYSROOT} \
+>  "
+>
+>  OPENGL_PKGCONFIGS =3D "dri glx glamor dri3 xshmfence"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1=
+.12.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.=
+2.bb
+> index 8321da0..a83a5ba 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.2.b=
+b
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.2.b=
+b
+> @@ -22,5 +22,4 @@ SRC_URI[sha256sum] =3D "9c2c7edde4f59d74eb414e0701c5513=
+1f562e5c605a3ce9b091754f106
+>
+>  S =3D "${WORKDIR}/gst-plugins-bad-${PV}"
+>
+> -EXTRA_OECONF +=3D "WAYLAND_PROTOCOLS_SYSROOT_DIR=3D${RECIPE_SYSROOT}"
+>
+> --
+> 1.8.3.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---_000_1B858668EC6A94408DCA5225FDFA85AA014B8C9657ALAMBCcorpadw_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
-
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnAuTXNvQWNldGF0ZSwgbGkuTXNvQWNldGF0ZSwgZGl2Lk1zb0FjZXRhdGUN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJCYWxsb29uIFRleHQg
-Q2hhciI7DQoJbWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXpl
-OjguMHB0Ow0KCWZvbnQtZmFtaWx5OiJUYWhvbWEiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLkJhbGxv
-b25UZXh0Q2hhcg0KCXttc28tc3R5bGUtbmFtZToiQmFsbG9vbiBUZXh0IENoYXIiOw0KCW1zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiQmFsbG9vbiBUZXh0IjsNCglmb250
-LWZhbWlseToiVGFob21hIiwic2Fucy1zZXJpZiI7fQ0Kc3Bhbi5ob2VuemINCgl7bXNvLXN0eWxl
-LW5hbWU6aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTIwDQoJe21zby1zdHlsZS10eXBlOnBlcnNv
-bmFsOw0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3
-RDt9DQpzcGFuLkVtYWlsU3R5bGUyMQ0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsN
-Cglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0K
-Lk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXpl
-OjEwLjBwdDt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFy
-Z2luOjEuMGluIDEuMjVpbiAxLjBpbiAxLjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdl
-OldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86
-c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2Vu
-ZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVk
-aXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+
-PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1
-ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkkg
-Zm91bmQgdGhlIG9yaWdpbmFsIHBhdGNoOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PGEgaHJlZj0iaHR0cHM6Ly9wYXRj
-aHdvcmsub3BlbmVtYmVkZGVkLm9yZy9wYXRjaC82MjQ1My8iPmh0dHBzOi8vcGF0Y2h3b3JrLm9w
-ZW5lbWJlZGRlZC5vcmcvcGF0Y2gvNjI0NTMvPC9hPjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
-OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+VGhhbmtzLDxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5KYWNraWU8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
-RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7
-Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDQuMHB0Ij4N
-CjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYg
-MS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7Ij4gb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5IdWFuZywgSmllIChKYWNraWUpPGJyPg0K
-PGI+U2VudDo8L2I+IEZyaWRheSwgU2VwdGVtYmVyIDI5LCAyMDE3IDEwOjU4PGJyPg0KPGI+VG86
-PC9iPiBCVVJUT04sIFJPU1M8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0
-OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHJvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzczog
-YWRkIHN1cHBvcnQgZm9yIC9ldGMvbGQuc28uY29uZi5kLyouY29uZjxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90
-Oztjb2xvcjojMUY0OTdEIj5UaGF04oCZcyB3aGF0IHdlIGRpZCBpbiB0aGUgb3JpZ2luYWwgcGF0
-Y2gsIGJ1dCByZWplY3RlZCBsb25nIHRpbWUgYWdvPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPnRoZW4gd2UgaGF2ZSBiZWVuIGtlZXBpbmcgaXQgaW4gb3VyIGxvY2FsIGJyYW5jaDo8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
-RjQ5N0QiPmNvbW1pdCAxZTQzZmYxMWY4NDEyNDc0NTNmMWQ0MTA2YjIyZDMzYWEzYTE1MGY5PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5z
-LXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkF1dGhvcjogTWluZyBMaXUgJmx0OzxhIGhyZWY9
-Im1haWx0bzptaW5nLmxpdUB3aW5kcml2ZXIuY29tIj5taW5nLmxpdUB3aW5kcml2ZXIuY29tPC9h
-PiZndDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+RGF0ZTombmJzcDsmbmJzcDsgV2Vk
-IEF1ZyAyMSAxNjowNjoyOSAyMDEzICYjNDM7MDgwMDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
-OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5i
-c3A7IGVnbGliYzogYWRkIHN1cHBvcnQgZm9yIC9ldGMvbGQuc28uY29uZi5kLyouY29uZjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
-ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFG
-NDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IFRoZXJlIGFyZSBhZHZhbnRhZ2VzIGluIGNoYW5naW5n
-IHRoZSBjb250ZW50cyBvZiBsZC5zby5jb25mIHRvPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPiZuYnNwOyZuYnNwOyZuYnNwOyAmcXVvdDtpbmNsdWRlIC9ldGMvbGQuc28uY29uZi5kLyou
-Y29uZiZxdW90OyBpbnN0ZWFkIG9mIGRpcmVjdGx5IGxpc3RpbmcgZGlyZWN0b3JpZXM8bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IGluIGl0LCBqdXN0IGxp
-a2UgbW9zdCBkaXN0cmlidXRpb25zIGFyZSBkb2luZyB0aGUgc2FtZS48bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
-Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNw
-OyZuYnNwOyZuYnNwOyBTaWduZWQtb2ZmLWJ5OiBNaW5nIExpdSAmbHQ7PGEgaHJlZj0ibWFpbHRv
-Om1pbmcubGl1QHdpbmRyaXZlci5jb20iPm1pbmcubGl1QHdpbmRyaXZlci5jb208L2E+Jmd0Ozxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj4mbmJzcDsmbmJzcDsmbmJzcDsgU2lnbmVkLW9m
-Zi1ieTogUm9iZXJ0IFlhbmcgJmx0OzxhIGhyZWY9Im1haWx0bzpsaWV6aGkueWFuZ0B3aW5kcml2
-ZXIuY29tIj5saWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDs8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
-Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNw
-OyZuYnNwOyAmbmJzcDsoTE9DQUwgUkVWOiBOT1QgVVBTVFJFQU0pIC0tIFNlbnQgdG8gb2UtY29y
-ZSBvbiAyMDEzMTEyNzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IFJlamVjdGVkIGJ5IG9l
-LWNvcmUgc2luY2U6PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZu
-YnNwOyZuYnNwOyAtIFRoaXMgd2lsbCBjYXVzZSB0aGUgZXhpc3RpbmcgY29udGVudHMgb2YgbGQu
-c28uY29uZiB0byBiZSBvYmxpdGVyYXRlZDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj4m
-bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgdGhlIGZpbGUgd2Fzbid0IGVt
-cHR5IHRvIGJlZ2luIHdpdGguJm5ic3A7IChJIGtub3cgdGhhdCBpdCBpcyBlbXB0eSBpbjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1z
-ZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsgb2UtY29yZSwgYnV0IGEgZGlzdHJvIGxheWVyIG1pZ2h0IGJlIG92ZXJsYXlpbmcgdGhp
-cyBmaWxlIHdpdGggaXRzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNw
-OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBvd24uKTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
-OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7IC0gQWxzbywgaXQgc2VlbXMgYXMgdGhvdWdoIHRoZSBjaG9pY2Ugb2Ygd2hldGhl
-ciB0byB1c2UgYW4gJnF1b3Q7bGQuc28uY29uZi5kJnF1b3Q7PG86cD48L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
-dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9y
-OiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBhcnJhbmdlbWVu
-dCBvciBub3QgaXMgb25lIHRoYXQgdGhlIGRpc3RybyBzaG91bGQgYmUgbWFraW5nLiBJcyB0aGVy
-ZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
-c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
-bmJzcDsmbmJzcDsgYSBzdHJvbmcgcmVhc29uIHdoeSB0aGlzIG5lZWRzIHRvIGJlIGRvbmUgaW4g
-b2UtY29yZT88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1
-b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyAtIEkgd291bGQgbGlr
-ZSB0byBkaWZmZXJlbnQgY29tcG9uZW50cyB0byBhZGQgdGhlaXIgb3duIGNvbmYgZmlsZXMgdG88
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
-bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
-c3A7Jm5ic3A7ICR7RH0ke3N5c2NvbmZkaXJ9L2xkLnNvLmNvbmYuZCBhbmQgbGV0IGxkY29uZmln
-IGV4ZWN1dGVkIGluIGRvX3Jvb3RmczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj4mbmJz
-cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgdG8gZmluZCB0aGVtLCBidXQgdGhleSB3
-b24ndCBiZSB0aGVyZSB3aGVuIGVnbGliYy5kb19pbnN0YWxsIGlzIGV4ZWN1dGVkLjxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
-RCI+U2lnbmVkLW9mZi1ieTogSG9uZ3h1IEppYSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmhvbmd4dS5q
-aWFAd2luZHJpdmVyLmNvbSI+aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPC9hPiZndDs8bzpwPjwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
-N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGVuIHdlIHJlLWltcGxl
-bWVudCBpdCBhcyBhIHJvb3RmcyBwb3N0aW5zdGFsbCBjb21tYW5kIHRvIGF2b2lkIHRoZSBjb25j
-ZXJuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVv
-dDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPmFuZCBpdCBjb3VsZCBiZSBjb250cm9s
-bGVkIGluIGRpc3RybyBzZXR0aW5ncy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
-dDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86
-cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVv
-dDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRoYW5rcyw8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
-Y29sb3I6IzFGNDk3RCI+SmFja2llPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1s
-ZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0LjBwdCI+DQo8ZGl2Pg0K
-PGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjQjVDNERGIDEuMHB0O3Bh
-ZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbPGEgaHJlZj0ibWFpbHRvOnJvc3MuYnVydG9uQGludGVs
-LmNvbSI+bWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbTwvYT5dDQo8YnI+DQo8Yj5TZW50Ojwv
-Yj4gVGh1cnNkYXksIFNlcHRlbWJlciAyOCwgMjAxNyAxOToyODxicj4NCjxiPlRvOjwvYj4gSHVh
-bmcsIEppZSAoSmFja2llKTxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6
-PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzOiBh
-ZGQgc3VwcG9ydCBmb3IgL2V0Yy9sZC5zby5jb25mLmQvKi5jb25mPG86cD48L286cD48L3NwYW4+
-PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPldoeSBpbXBsZW1lbnQgdGhpcyBh
-cyBhIHJvb3RmcyBwb3N0aW5zdGFsbCBjb21tYW5kPyAmbmJzcDtnbGliYyB3cml0ZXMgdGhpcyBm
-aWxlLCBzbyB3ZSBjYW4gYWx0ZXIgaXQgd2hlbiB0aGF0IHJlY2lwZSBpcyB3cml0dGVuLjxvOnA+
-PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZu
-YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAzMSBBdWd1c3Qg
-MjAxNyBhdCAwNjo1NCwgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVy
-LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsg
-d3JvdGU6PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Gcm9tOiBKYWNraWUg
-SHVhbmcgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSI+amFj
-a2llLmh1YW5nQHdpbmRyaXZlci5jb208L2E+Jmd0Ozxicj4NCjxicj4NClRoZXJlIGFyZSBhZHZh
-bnRhZ2VzIGluIGNoYW5naW5nIHRoZSBjb250ZW50cyBvZiBsZC5zby5jb25mIHRvPGJyPg0KJnF1
-b3Q7aW5jbHVkZSAvZXRjL2xkLnNvLmNvbmYuZC8qLmNvbmYmcXVvdDsgaW5zdGVhZCBvZiBkaXJl
-Y3RseSBsaXN0aW5nPGJyPg0KZGlyZWN0b3JpZXMgaW4gaXQsIGp1c3QgbGlrZSBtb3N0IGRpc3Ry
-aWJ1dGlvbnMgYXJlIGRvaW5nIHRoZSBzYW1lLjxicj4NCjxicj4NClNpZ25lZC1vZmYtYnk6IEph
-Y2tpZSBIdWFuZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29t
-Ij5qYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbTwvYT4mZ3Q7PGJyPg0KLS0tPGJyPg0KJm5ic3A7
-bWV0YS9jbGFzc2VzL3Jvb3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzcyB8IDEzICYjNDM7JiM0Mzsm
-IzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7PGJy
-Pg0KJm5ic3A7MSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoJiM0MzspPGJyPg0KPGJyPg0K
-ZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MgYi9t
-ZXRhL2NsYXNzZXMvcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzPGJyPg0KaW5kZXggZGM1YTc2
-YmFiYS4uYWYwMWViNTUwYSAxMDA2NDQ8YnI+DQotLS0gYS9tZXRhL2NsYXNzZXMvcm9vdGZzLXBv
-c3Rjb21tYW5kcy5iYmNsYXNzPGJyPg0KJiM0MzsmIzQzOyYjNDM7IGIvbWV0YS9jbGFzc2VzL3Jv
-b3Rmcy1wb3N0Y29tbWFuZHMuYmJjbGFzczxicj4NCkBAIC0yMCw2ICYjNDM7MjAsOSBAQCBST09U
-RlNfUE9TVFBST0NFU1NfQ09NTUFORCAmIzQzOz0gJyR7QGJiLnV0aWxzLmNvbnRhaW5zKCZxdW90
-O0lNQUdFX0ZFQVRVUkVTJnF1b3Q7LCAmcXVvdDtyZWFkLW9ubHk8YnI+DQombmJzcDsjIEdlbmVy
-YXRlcyB0ZXN0IGRhdGEgZmlsZSB3aXRoIGRhdGEgc3RvcmUgdmFyaWFibGVzIGV4cGFuZGVkIGlu
-IGpzb24gZm9ybWF0PGJyPg0KJm5ic3A7Uk9PVEZTX1BPU1RQUk9DRVNTX0NPTU1BTkQgJiM0Mzs9
-ICZxdW90O3dyaXRlX2ltYWdlX3Rlc3RfZGF0YSA7ICZxdW90Ozxicj4NCjxicj4NCiYjNDM7IyBB
-ZGQgc3VwcG9ydCBmb3IgL2V0Yy9sZC5zby5jb25mLmQvKi5jb25mIGlmIGxkY29uZmlnIGlzIGVu
-YWJsZWQ8YnI+DQomIzQzO1JPT1RGU19QT1NUSU5TVEFMTF9DT01NQU5EICYjNDM7PSAmcXVvdDs8
-YSBocmVmPSJtYWlsdG86JCU3YkBiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywl
-MjAnbGRjb25maWcnLCUyMCdhZGRfbGRfc29fY29uZl9kJTIwOycsJTIwJycsJTIwZCklN2QiPiR7
-QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAnbGRjb25maWcnLCAnYWRkX2xk
-X3NvX2NvbmZfZCA7JywgJycsIGQpfTwvYT4mcXVvdDs8YnI+DQomIzQzOzxicj4NCiZuYnNwOyMg
-V3JpdGUgbWFuaWZlc3Q8YnI+DQombmJzcDtJTUFHRV9NQU5JRkVTVCA9ICZxdW90OyR7SU1HREVQ
-TE9ZRElSfS8ke0lNQUdFX05BTUV9LnJvb3Rmcy5tYW5pZmVzdCZxdW90Ozxicj4NCiZuYnNwO1JP
-T1RGU19QT1NUVU5JTlNUQUxMX0NPTU1BTkQgPSYjNDM7ICZxdW90O3dyaXRlX2ltYWdlX21hbmlm
-ZXN0IDsgJnF1b3Q7PGJyPg0KQEAgLTI0NCw2ICYjNDM7MjQ3LDE2IEBAIG1ha2VfemltYWdlX3N5
-bWxpbmtfcmVsYXRpdmUgKCkgezxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmaTxi
-cj4NCiZuYnNwO308YnI+DQo8YnI+DQomIzQzOyMgQWRkIHN1cHBvcnQgZm9yIC9ldGMvbGQuc28u
-Y29uZi5kLyouY29uZjxicj4NCiYjNDM7YWRkX2xkX3NvX2NvbmZfZCgpIHs8YnI+DQomIzQzOyZu
-YnNwOyAmbmJzcDsgaWYgWyAtZiAke0lNQUdFX1JPT1RGU30ke3N5c2NvbmZkaXJ9L2xkLnNvLmNv
-bmYgXTsgdGhlbjxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGlmICEgYGdy
-ZXAgLXEgJ2luY2x1ZGUgbGQuc28uY29uZi5kXC9cKi5jb25mJyAvZXRjL2xkLnNvLmNvbmZgOyB0
-aGVuPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBl
-Y2hvICdpbmNsdWRlIGxkLnNvLmNvbmYuZC8qLmNvbmYnICZndDsmZ3Q7ICR7SU1BR0VfUk9PVEZT
-fSR7c3lzY29uZmRpcn0vbGQuc28uY29uZjxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsg
-Jm5ic3A7IGZpPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgbWtkaXIgLXAg
-JHtJTUFHRV9ST09URlN9JHtzeXNjb25mZGlyfS9sZC5zby5jb25mLmQ8YnI+DQomIzQzOyZuYnNw
-OyAmbmJzcDsgZmk8YnI+DQomIzQzO308YnI+DQomIzQzOzxicj4NCiZuYnNwO3B5dGhvbiB3cml0
-ZV9pbWFnZV9tYW5pZmVzdCAoKSB7PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDtmcm9tIG9lLnJv
-b3RmcyBpbXBvcnQgaW1hZ2VfbGlzdF9pbnN0YWxsZWRfcGFja2FnZXM8YnI+DQombmJzcDsgJm5i
-c3A7ICZuYnNwO2Zyb20gb2UudXRpbHMgaW1wb3J0IGZvcm1hdF9wa2dfbGlzdDxicj4NCjxzcGFu
-IGNsYXNzPSJob2VuemIiPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij4tLTwvc3Bhbj48L3Nw
-YW4+PHNwYW4gc3R5bGU9ImNvbG9yOiM4ODg4ODgiPjxicj4NCjxzcGFuIGNsYXNzPSJob2VuemIi
-PjIuMTEuMDwvc3Bhbj48YnI+DQo8YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj4tLTwvc3Bhbj48
-YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj5fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXzwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj5PcGVuZW1i
-ZWRkZWQtY29yZSBtYWlsaW5nIGxpc3Q8L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+
-PGEgaHJlZj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmci
-Pk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PC9zcGFuPjxicj4N
-CjxzcGFuIGNsYXNzPSJob2VuemIiPjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUiIHRhcmdldD0iX2JsYW5rIj5o
-dHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRl
-ZC1jb3JlPC9hPjwvc3Bhbj48L3NwYW4+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
-
---_000_1B858668EC6A94408DCA5225FDFA85AA014B8C9657ALAMBCcorpadw_--
