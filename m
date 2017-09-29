@@ -1,43 +1,40 @@
-Return-Path: <cavallini.koan@gmail.com>
-Received: from mail-wr0-f171.google.com (mail-wr0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id BEF98602D9
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 08:08:32 +0000 (UTC)
-Received: by mail-wr0-f171.google.com with SMTP id g29so995769wrg.11
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 01:08:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=7QHR5HBL9zwDbpFQnDvHHP7RtHTfkzV9p3K1PiIckc8=;
-	b=Iq4w5CNWD9SQgfuONJF5nX87vwW/Vc/Q/2i6AczFstyn62CvpwA5EWUPSXNlrh36um
-	QB0V93Csvi/Q90c27gKJ3lFImRLFVoiOwV6wGNa2deONMR8AH4tDlFEZc1X4Bm6IffdH
-	WHXGpr7mt3W87AHebVKOxjuKYR2AfR1pvR4SEcYaq4tos+GTSfBZLVJfI1atSoFAFQwB
-	PHl/uFRIor5ARIm/kE0U9iOtZHaddTRp6A/k/schq/vXYMkqSS7VTd5JdCMPy1NBaWmp
-	/Ki5Ic6yd7HEsqsPkmd3ZPXk7hrAxJ+rjeE5buThiuEkNyQoWDKcnjxseUR9vJc3vpR6
-	Sedw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=7QHR5HBL9zwDbpFQnDvHHP7RtHTfkzV9p3K1PiIckc8=;
-	b=RxyI8exdNAMwHswykKNLZhbhNmOUapafBvZ+B+OUBw7VHrwWhQ6xWafuJiULD2BCO4
-	ccak0perqK9H2kHSEV24Pq5TagHFWR+xj09ypoT9XdjayJFbTBGlbI5a4S8WR9Eclguz
-	OHMBQ5VWyE0gVZU0wltFR1Z0KRrkxY6gBn18cLUgly0YbzP9AH/GWi2tufpKyxHEJM2n
-	D5jzWNA06YjXVQUp2JreZiqexCSeTB1RzqInWg2eK47wZaFR0IXweTX3OJkwLpbc/JEX
-	2otNovWZD3cK+xcfx7jJAFabTBDbMBq7r+K/tz6HPlXJdHPzG2lMqeJqOfa1j8Sw24jL
-	CW9g==
-X-Gm-Message-State: AHPjjUio+gKArwlxb1vZhYILhNSz0eDXpPTxLasNooAm/eaXqIArKgZL
-	HatcYZR8FYE6aNTgZJV4RKqeMnU4j2RBg7RGUTTCLA==
-X-Google-Smtp-Source: AOwi7QCivKHOHgPfn5vLZOYXrQuLL2MF83MemLGXZixeP8usov3+iKbSahNewHFUzb3SCHXfFK6xveVzdWvcwIHe87A=
-X-Received: by 10.25.162.193 with SMTP id l184mr1018707lfe.120.1506672513152; 
-	Fri, 29 Sep 2017 01:08:33 -0700 (PDT)
+Return-Path: <Jef.Driesen@niko.eu>
+X-Greylist: delayed 596 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 29 Sep 2017 08:48:13 UTC
+Received: from relay06.secure-mail.be (relay06.secure-mail.be [195.13.7.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 57ACD6FFA4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 08:48:12 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2B3CADdBc5Z/7lOx1RdSQYMgmZLVBCBF?=
+	=?us-ascii?q?QedcJghDoIECh+FHAKEKUEWAQEBAQEBAQEBAQFqKIIzIoJDAYERARkDAQILJjA?=
+	=?us-ascii?q?dCgQTCAaKJAMBqWSLQwEBAQEBBQEBAQEBARMPCQGDIYExUYswHxoVCQwggnaCM?=
+	=?us-ascii?q?QWYPIhvhDyDIoNfBYs0hW6FKYVaAooRiz2BOSYFLEJMe4V1HIFndoV4gTOBEAE?=
+	=?us-ascii?q?BAQ?=
+X-IPAS-Result: =?us-ascii?q?A2B3CADdBc5Z/7lOx1RdSQYMgmZLVBCBFQedcJghDoIECh+?=
+	=?us-ascii?q?FHAKEKUEWAQEBAQEBAQEBAQFqKIIzIoJDAYERARkDAQILJjAdCgQTCAaKJAMBq?=
+	=?us-ascii?q?WSLQwEBAQEBBQEBAQEBARMPCQGDIYExUYswHxoVCQwggnaCMQWYPIhvhDyDIoN?=
+	=?us-ascii?q?fBYs0hW6FKYVaAooRiz2BOSYFLEJMe4V1HIFndoV4gTOBEAEBAQ?=
+Received: from edge.nikogroup.be ([84.199.78.185])
+	by relay06.secure-mail.be with ESMTP; 29 Sep 2017 10:38:17 +0200
+Received: from HUB.NIKO.LAN (172.22.10.201) by EDGE.nikogroup.be
+	(192.168.22.31) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 29 Sep 2017 10:38:20 +0200
+Received: from MBX.NIKO.LAN ([::1]) by HUB.NIKO.LAN ([::1]) with mapi id
+	14.03.0224.002; Fri, 29 Sep 2017 10:38:16 +0200
+From: <Jef.Driesen@niko.eu>
+To: <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] Small improvement for the initscripts package
+Thread-Index: AQHTOPkyug4RbXCTlkS3EIoEWRxT8w==
+Date: Fri, 29 Sep 2017 08:38:15 +0000
+Message-ID: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>
+Accept-Language: en-US, nl-BE
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.22.10.222]
+x-exclaimer-md-config: ea9a6d46-d5fe-4ddc-9ba9-49fab8e88ad4
 MIME-Version: 1.0
-Received: by 10.25.212.195 with HTTP; Fri, 29 Sep 2017 01:08:32 -0700 (PDT)
-From: Marco <cavallini.koan@gmail.com>
-Date: Fri, 29 Sep 2017 10:08:32 +0200
-Message-ID: <CAFQ+DiirJpmmnhLcrX6OW-vHLv-rBhc6XCrJ4j47JeMQ5rE=sg@mail.gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Subject: SSTATE_DIR not working with multi user environment
+Subject: [PATCH] Small improvement for the initscripts package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,162 +47,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 08:08:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 29 Sep 2017 08:48:13 -0000
+X-Groupsio-MsgNum: 103489
+Content-Language: en-US
+Content-Type: multipart/mixed;
+	boundary="_002_FAB9E48578194042BE5C63B8BE47610339682897MBXNIKOLAN_"
 
-Hello,
-I am trying to share a sstate-cache between two (or more) users in a
-shared directory.
-Although I set the directory owner, group and permissions I face to a
-weird condition that I don't understand and seems to point out a
-bitbake/class problem.
+--_002_FAB9E48578194042BE5C63B8BE47610339682897MBXNIKOLAN_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-Problem description
+Attached is a small patch to remove the empty initscripts-{dev,doc,dbg} pac=
+kages.
 
-I have a shared area with the following permissions (g+ws) set up
-before the builds
+For our system, we are using some custom initscripts. Because of that, some=
+ files conflict with the initscripts package, and thus the initscript packa=
+ge gets removed from our build. But when trying to build an sdk, somehow th=
+e initscripts-dev package gets pulled in, and since that has an automatic d=
+ependency on initscripts, our build fails.
 
-ls -al /opt/yocto
-    drwxrwsrwx   4 tux yocto 20480 set 28 14:47 downloads
-    drwxrwsrwx 259 tux yocto  4096 set 28 15:33 sstate-cache
+I've been trying to find out why this happens, but without much success so =
+far. But I did found a simple workaround: remove the initscripts-dev packag=
+e completely. Since the initscripts recipe contains some shell scripts the =
+initscript-dev is empty anyway.
 
-This is the common local.conf
-    DL_DIR ?= "/opt/yocto/downloads"
-    SSTATE_DIR ?= "/opt/yocto/sstate-cache"
+I've fixed this locally with a bbappend, but this is probably something tha=
+t can be applied upstream.
 
-1. workspace1 with user1 (tux) generates the first build using bitbake
-core-image-minimal
+Jef
+Disclaimer
 
-    /opt/yocto/sstate-cache (content excerpt)
-    drwxr-xr-x   2 tux yocto 4096 set 28 14:44 94
-    drwxr-sr-x   2 tux yocto 4096 set 28 14:45 95
-    drwxr-xr-x   2 tux yocto 4096 set 28 14:46 96
+This e-mail and its attachments is intended only for the person(s) or entit=
+y to which it is addressed. If you receive this e-mail by mistake, please d=
+elete this e-mail from your system and destroy all copies of it. It may con=
+tain confidential and/or privileged information. You should not copy it or =
+use it for any purpose nor disclose its contents to any person unless allow=
+ed by a written document between the sender and the addressee.
 
-2. build on workspace2 using user2 (devel) faces to the following problem
-Permission denied: '/opt/yocto/sstate-cache/95/sigtask'
-because the permissions of directory '95' is 'drwxr-sr-x'
+--_002_FAB9E48578194042BE5C63B8BE47610339682897MBXNIKOLAN_
+Content-Type: text/x-patch; name="0001-Remove-empty-packages.patch"
+Content-Description: 0001-Remove-empty-packages.patch
+Content-Disposition: attachment;
+	filename="0001-Remove-empty-packages.patch"; size=1177;
+	creation-date="Fri, 29 Sep 2017 07:25:19 GMT";
+	modification-date="Fri, 29 Sep 2017 07:25:19 GMT"
+Content-Transfer-Encoding: base64
 
-3. The only temporary solution I've found is to manually set the
-directory permissions in sstate.cache affter each bitbake.
+RnJvbSA5MzkwNGI5N2VkMzY3OGY2YzRhNzdlNjUwNGQyZDA1ZTk2N2IwZDcxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBKZWYgRHJpZXNlbiA8amVmLmRyaWVzZW5Abmlrby5ldT4KRGF0
+ZTogRnJpLCAyOSBTZXAgMjAxNyAwOTowOTo0MyArMDIwMApTdWJqZWN0OiBbUEFUQ0hdIFJlbW92
+ZSBlbXB0eSBwYWNrYWdlcwoKQmVjYXVzZSB0aGUgaW5pdHNjcmlwdHMgcmVjaXBlIGNvbnRhaW5z
+IG9ubHkgc29tZSBzaGVsbCBzY3JpcHRzLCB0aGUgc3RhbmRhcmQKcGFja2FnZXMgKGUuZy4gJHtQ
+Tn0tZGJnICR7UE59LXN0YXRpY2RldiAke1BOfS1kZXYgJHtQTn0tZG9jLCBldGMpIGFyZSBhbGwK
+ZW1wdHkgYW5kIGNhbiBiZSByZW1vdmVkLgoKU2lnbmVkLW9mZi1ieTogSmVmIERyaWVzZW4gPGpl
+Zi5kcmllc2VuQG5pa28uZXU+Ci0tLQogbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHNjcmlwdHMvaW5p
+dHNjcmlwdHNfMS4wLmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHNjcmlwdHMv
+aW5pdHNjcmlwdHNfMS4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvaW5pdHNjcmlwdHMvaW5pdHNj
+cmlwdHNfMS4wLmJiCmluZGV4IGY5MGRlNmUuLmNiMDU2YjcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1jb3JlL2luaXRzY3JpcHRzL2luaXRzY3JpcHRzXzEuMC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9pbml0c2NyaXB0cy9pbml0c2NyaXB0c18xLjAuYmIKQEAgLTQ2LDcgKzQ2LDcgQEAg
+aW5oZXJpdCB1cGRhdGUtYWx0ZXJuYXRpdmVzCiBERVBFTkRTX2FwcGVuZCA9ICIgdXBkYXRlLXJj
+LmQtbmF0aXZlIgogREVQRU5EU19hcHBlbmQgPSAiICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNU
+Uk9fRkVBVFVSRVMnLCdzeXN0ZW1kJywnc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlJywnJyxkKX0i
+CiAKLVBBQ0tBR0VTID0rICIke1BOfS1mdW5jdGlvbnMiCitQQUNLQUdFUyA9ICIke1BOfS1mdW5j
+dGlvbnMgJHtQTn0iCiBSREVQRU5EU18ke1BOfSA9ICIke1BOfS1mdW5jdGlvbnMgXAogICAgICAg
+ICAgICAgICAgICAgJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsJ3NlbGlu
+dXgnLCdiYXNoJywnJyxkKX0gXAogCQkgIgotLSAKMi43LjQKCg==
 
-Any hint would be appreciated.
-
-
-$ bitbake core-image-minimal
-
-Build Configuration:
-BB_VERSION        = "1.34.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "universal-4.8"
-TARGET_SYS        = "arm-poky-linux-gnueabi"
-MACHINE           = "qemuarm"
-DISTRO            = "poky"
-DISTRO_VERSION    = "2.3.2"
-TUNE_FEATURES     = "arm armv5 thumb dsp"
-TARGET_FPU        = "soft"
-meta
-meta-poky
-meta-yocto-bsp    = "pyro:30613467d864130202d90e8460f7bbfa4db98397"
-
-Initialising tasks: 100%
-|############################################################################################################|
-Time: 0:00:04
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-ERROR: core-image-minimal-1.0-r0 do_image_ext4: Execution of event
-handler 'sstate_eventhandler' failed
-Traceback (most recent call last):
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/siggen.py",
-line 356, in dump_this_task(outfile='/opt/yocto/sstate-cache/95/sstate:core-image-minimal:qemuarm-poky-linux-gnueabi:1.0:r0:qemuarm:3:95da4ea64e782dcc0c8dfb4b9b7c0099_image_ext4.tgz.siginfo',
-d=<bb.data_smart.DataSmart object at 0x7f0e07567cc0>):
-         referencestamp = bb.build.stamp_internal(task, d, None, True)
-    >    bb.parse.siggen.dump_sigtask(fn, task, outfile, "customfile:"
-+ referencestamp)
-
-  File "/home/devel/yocto-pyro-qemuarm2/poky/meta/lib/oe/sstatesig.py",
-line 184, in SignatureGeneratorOEBasicHash.dump_sigtask(fn='/home/devel/yocto-pyro-qemuarm2/poky/meta/recipes-core/images/core-image-minimal.bb',
-task='do_image_ext4',
-stampbase='/opt/yocto/sstate-cache/95/sstate:core-image-minimal:qemuarm-poky-linux-gnueabi:1.0:r0:qemuarm:3:95da4ea64e782dcc0c8dfb4b9b7c0099_image_ext4.tgz.siginfo',
-runtime='customfile:/home/devel/yocto-pyro-qemuarm2/poky/build/tmp/stamps/qemuarm-poky-linux-gnueabi/core-image-minimal/1.0-r0'):
-                 return
-    >        super(bb.siggen.SignatureGeneratorBasicHash,
-self).dump_sigtask(fn, task, stampbase, runtime)
-
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/siggen.py",
-line 300, in SignatureGeneratorOEBasicHash.dump_sigtask(fn='/home/devel/yocto-pyro-qemuarm2/poky/meta/recipes-core/images/core-image-minimal.bb',
-task='do_image_ext4',
-stampbase='/opt/yocto/sstate-cache/95/sstate:core-image-minimal:qemuarm-poky-linux-gnueabi:1.0:r0:qemuarm:3:95da4ea64e782dcc0c8dfb4b9b7c0099_image_ext4.tgz.siginfo',
-runtime='customfile:/home/devel/yocto-pyro-qemuarm2/poky/build/tmp/stamps/qemuarm-poky-linux-gnueabi/core-image-minimal/1.0-r0'):
-
-    >        fd, tmpfile =
-tempfile.mkstemp(dir=os.path.dirname(sigfile), prefix="sigtask.")
-             try:
-  File "/usr/lib/python3.4/tempfile.py", line 409, in
-mkstemp(suffix='', prefix='sigtask.',
-dir='/opt/yocto/sstate-cache/95', text=False):
-
-    >    return _mkstemp_inner(dir, prefix, suffix, flags)
-
-  File "/usr/lib/python3.4/tempfile.py", line 339, in
-_mkstemp_inner(dir='/opt/yocto/sstate-cache/95', pre='sigtask.',
-suf='', flags=131266):
-             try:
-    >            fd = _os.open(file, flags, 0o600)
-                 return (fd, _os.path.abspath(file))
-PermissionError: [Errno 13] Permission denied:
-'/opt/yocto/sstate-cache/95/sigtask._nk80whe'
-
-ERROR: core-image-minimal-1.0-r0 do_image_ext4: Build of do_image_ext4 failed
-ERROR: core-image-minimal-1.0-r0 do_image_ext4: Traceback (most recent
-call last):
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/build.py",
-line 644, in exec_task
-    return _exec_task(fn, task, d, quieterr)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/build.py",
-line 618, in _exec_task
-    event.fire(TaskSucceeded(task, logfn, localdata), localdata)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/event.py",
-line 211, in fire
-    fire_class_handlers(event, d)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/event.py",
-line 134, in fire_class_handlers
-    execute_handler(name, handler, event, d)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/event.py",
-line 106, in execute_handler
-    ret = handler(event)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/meta/classes/sstate.bbclass",
-line 1003, in sstate_eventhandler
-    bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/siggen.py",
-line 356, in dump_this_task
-    bb.parse.siggen.dump_sigtask(fn, task, outfile, "customfile:" +
-referencestamp)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/meta/lib/oe/sstatesig.py",
-line 184, in dump_sigtask
-    super(bb.siggen.SignatureGeneratorBasicHash,
-self).dump_sigtask(fn, task, stampbase, runtime)
-  File "/home/devel/yocto-pyro-qemuarm2/poky/bitbake/lib/bb/siggen.py",
-line 300, in dump_sigtask
-    fd, tmpfile = tempfile.mkstemp(dir=os.path.dirname(sigfile),
-prefix="sigtask.")
-  File "/usr/lib/python3.4/tempfile.py", line 409, in mkstemp
-    return _mkstemp_inner(dir, prefix, suffix, flags)
-  File "/usr/lib/python3.4/tempfile.py", line 339, in _mkstemp_inner
-    fd = _os.open(file, flags, 0o600)
-PermissionError: [Errno 13] Permission denied:
-'/opt/yocto/sstate-cache/95/sigtask._nk80whe'
-
-ERROR: Task (/home/devel/yocto-pyro-qemuarm2/poky/meta/recipes-core/images/core-image-minimal.bb:do_image_ext4)
-failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2254 tasks of which 2063 didn't need to
-be rerun and 1 failed.
-
-Summary: 1 task failed:
-  /home/devel/yocto-pyro-qemuarm2/poky/meta/recipes-core/images/core-image-minimal.bb:do_image_ext4
-Summary: There was 1 WARNING message shown.
-Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
-
---
-Marco
-
+--_002_FAB9E48578194042BE5C63B8BE47610339682897MBXNIKOLAN_--
