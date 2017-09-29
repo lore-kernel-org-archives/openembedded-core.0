@@ -1,50 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D9C6779C6
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D62257782F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 13:38:16 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id 85so40288ith.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 06:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rViHi7hIrEVvhxyjoLYIkIu4akIZ7l6OSBPz0cvjNsg=;
-	b=Qu+7YSwKJYR8EkySJx9pfKiDlzQfqrlDjBAXzThjldAORX+dBKBTmCFTzFEL3opj5f
-	yWybl8bhBbuLb+tB9hqjmVcM7R1jHLFv18nFLOaPP/+tFu2ib4TrJJEXfNpFOZ0AdfBm
-	HsrE6yCKHG2+8/sArEeHpWY1Sx+Ah1+/8qJKuUdyHGGStWkR2P4HGEgc0WtbseAHfXDM
-	ZUI/RzKkXH4KsFVZavOixpYFM5pr0Mjd4OYP2gvyk79J+jhGFsVsSHJPFy9nGusvLR/h
-	1Qo/BKeQm/hepOlLDerBu+4oB2Pbm9Jb2M+5G+4ots2bzA2841gx3tqz65qmK9S/+CIT
-	FlgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=rViHi7hIrEVvhxyjoLYIkIu4akIZ7l6OSBPz0cvjNsg=;
-	b=e8GN/zMVJ3tRBpATK1j3yAwZ7skXdOnLJXdA52e9Odk0QTkVQxevjlbQi2+LykKDPL
-	2zwngP1qo0QiTaakfIJmDsQkMbh7vxunEQI75oO8IXLDk64pG0p9285FcQZTmO9AJT9I
-	6ISzAjPgeYY5V+gWPgCe62Gu7oUEoxEHblmTr3F3G+bRlXDekabhxFIVL5PPlFoawG+V
-	PWistHStxZdUfRT8hjWdIbMazGgGOYzTGIUXhf8uJgV10laXQfzOZnPgBCdEpEA3x+aZ
-	QVmyV1QcB36l0klCj9MLBpCid+65Q9fsiTNV/MIqI/L3b+M0IkGVjceOEWbzXkJXkpR/
-	vaEg==
-X-Gm-Message-State: AHPjjUg5zNAJSPFyz0elnH5+Wt+sRIoGcMWjERsOap8Wll3WqqostZdg
-	l02PtCI+8DK+Xf1wHLqyDU0m0m9wUo6fkqMeaMuwIg==
-X-Google-Smtp-Source: AOwi7QBxfJuZOPi+kO17dxL3H6NhFT5ZEo7gcm3Tuc/EKK//MXuj5EX9DjEXB1c+CF/Q3elWZUlGZDOF/IF4O0BC3iU=
-X-Received: by 10.36.178.1 with SMTP id u1mr7485306ite.120.1506692297962; Fri,
-	29 Sep 2017 06:38:17 -0700 (PDT)
+	Fri, 29 Sep 2017 13:46:39 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP; 29 Sep 2017 06:46:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,452,1500966000"; d="scan'208";a="317685875"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 29 Sep 2017 06:46:40 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id AB0065802BB;
+	Fri, 29 Sep 2017 06:46:39 -0700 (PDT)
+Date: Fri, 29 Sep 2017 16:44:54 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20170929134454.w4hm54uvbjbpwmba@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1505923407-31734-1-git-send-email-trini@konsulko.com>
+	<20170928154707.362zfbhccbydkdox@linux.intel.com>
+	<20170928174429.GO3112@bill-the-cat>
+	<20170929112757.xrhavs2uctb6iog7@linux.intel.com>
+	<20170929123542.GU3112@bill-the-cat>
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Fri, 29 Sep 2017 06:37:57 -0700 (PDT)
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA014B8C9612@ALA-MBC.corp.ad.wrs.com>
-References: <20170831055458.9197-1-jackie.huang@windriver.com>
-	<CAJTo0LaXfJCZ5hw+sLcm4yWe_K9ck_H+7kTgva1+i9NSLdB6RA@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B8C9612@ALA-MBC.corp.ad.wrs.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 29 Sep 2017 14:37:57 +0100
-Message-ID: <CAJTo0LYD5hLHJ=PWySes9nWzCK79asRummuCnn8qKeM0MSwwOw@mail.gmail.com>
-To: "Huang, Jackie (Wind River)" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rootfs-postcommands.bbclass: add support for /etc/ld.so.conf.d/*.conf
+In-Reply-To: <20170929123542.GU3112@bill-the-cat>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: Generate startup.nsh for EFI cases if none found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,92 +43,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 13:38:18 -0000
-Content-Type: multipart/alternative; boundary="f403045d9c0e34efc4055a542372"
+X-List-Received-Date: Fri, 29 Sep 2017 13:46:40 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---f403045d9c0e34efc4055a542372
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Sep 29, 2017 at 08:35:42AM -0400, Tom Rini wrote:
+> On Fri, Sep 29, 2017 at 02:27:57PM +0300, Ed Bartosh wrote:
+> > On Thu, Sep 28, 2017 at 01:44:29PM -0400, Tom Rini wrote:
+> > > On Thu, Sep 28, 2017 at 06:47:07PM +0300, Ed Bartosh wrote:
+> > > > On Wed, Sep 20, 2017 at 12:03:27PM -0400, Tom Rini wrote:
+> > > > > In the case of non-wic images there is logic today to generate a
+> > > > > startup.nsh file that will be executed by EFI to run the loader that the
+> > > > > image contains.  In the WIC case is currently depends on that file being
+> > > > > generated elsewhere and placed in DEPLOY_DIR_IMAGE and only used if
+> > > > > present there.
+> > > > 
+> > > > What's wrong with this approach?
+> > > 
+> > > No one ever provides a startup.nsh and everyone that wants one creates
+> > > the same one line trivial example.  The end result is that no WIC images
+> > > are Just Bootable on UEFI systems unless you first go and spell that out
+> > > as the desired booting device.  This isn't an awesome workflow which is
+> > > why the non-WIC cases make the required startup.nsh :)
+> > 
+> > Would it be better if EFI providers create this file?
+> > 
+> > I still believe that wic should't hack the filesystem content unless
+> > it's really unavoidable. So far I know only one exception: updating
+> > /etc/fstab. And even that is not always needed (see --no-update-fstab
+> > patchset for further details.)
+> 
+> Well, it depends on your view of who is supposed to do what.  Today, in
+> wic BootimgEFIPlugin mirrors the efi_populate() function of
+> systemd-boot/grub-efi.bbclass.
+I'd call this unnecessary duplication. This content should be prepared
+by EFI provider class or recipe and taken by wic as is, without
+modification.
 
-On 29 September 2017 at 03:58, Huang, Jackie (Wind River) <
-jackie.huang@windriver.com> wrote:
+I did some work on this: http://lists.openembedded.org/pipermail/openembedded-core/2017-May/136656.html
+If this or similar approach is accepted wic wouldn't need most of boot
+plugings. Boot partition can be prepared out of bootfs directory using
+rootfs plugin.
 
->      - This will cause the existing contents of ld.so.conf to be
-> obliterated
+>  That's where startup.nsh is made because
+> it needs to know the name of the EFI application (also technically the
+> path, but EFI\BOOT\ is spec mandatated I believe).  So we can't
+> easily make the deploy functions create startup.nsh without duplicating
+> logic from the bbclasss.
+> 
+> > > > I'd be happy to make wic to do only partitioning and assembling the
+> > > > image and avoiding to modify image content as much as possible.
+> > > > That would make wic design much more clear and let us to remove
+> > > > a lot of duplication between wic and meta/classes code.
+> > > > 
+> > > > Regarding boot partition content, I think preparing it from bootfs
+> > > > directory the same way as it's done for root partition is the way to go.
+> > > > You can find more details about it here:
+> > > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10073
+> > > 
+> > > I don't conceptually see a problem with going that route.  But today WIC
+> > > images aren't nearly as useful as they could be, with a rather tiny
+> > > change.
+> > 
+> > If we agree that wic should avoid modifying content then the obvious way
+> > to solve this is to provide required content (startup.nsh in this case)
+> > either by EFI related recipes or core classes.
+> 
+> Maybe I have to change my mind after thinking harder :)  Where's the
+> logic that creates the boot partition now?
 >
->        if the file wasn't empty to begin with.  (I know that it is empty in
->
->        oe-core, but a distro layer might be overlaying this file with its
->
->        own.)
->
+Now it's in several places: in meta/classes, efi recipes and wic. I
+think wic should be removed from this list. It's not a wic job to prepare boot content.
 
->
->      - Also, it seems as though the choice of whether to use an
-> "ld.so.conf.d"
->
->        arrangement or not is one that the distro should be making. Is there
->
->        a strong reason why this needs to be done in oe-core?
->
-
-This is easily handled in many ways.  Check the include doesn't already
-exist and concatenate the file instead of overwriting it, for example.  Or
-add the include to the default oe-core ld.so.conf, and distros that want to
-change ld.so.conf can by changing that file.
-
-Ross
-
---f403045d9c0e34efc4055a542372
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 29 September 2017 at 03:58, Huang, Jackie (Wind River) =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:jackie.huang@windriver.com" target=
-=3D"_blank">jackie.huang@windriver.com</a>&gt;</span> wrote:<br><div class=
-=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+> > > My patch is also a regression-fix, I believe, in that at some point in
+> > > the past, when Christopher's patch went in, things were laid out such
+> > > that startup.nsh was often/always generated by another class and placed
+> > > where WIC would find it and copy it in.  At some point that was
+> > > broken/changed, and no one noticed / was interested enough to fix it.
+> > 
+> > If this functionality is covered by wic test suite this wouldn't
+> > happen.
+> 
+> Once we agree on what the fix looks like, I'll see if I can figure out
+> how to add in another test. :)
 
 
+--
+Regards,
+Ed
 
-
-
-<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"m_-1921326690285416234WordSection1">
-<p class=3D"MsoNormal"><span style=3D"color:rgb(31,73,125);font-family:Cali=
-bri,sans-serif;font-size:11pt">=C2=A0 =C2=A0 =C2=A0- This will cause the ex=
-isting contents of ld.so.conf to be obliterated</span><br></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if the file wasn&#39;t empty to begin with.=C2=A0 (I know that=
- it is empty in<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 oe-core, but a distro layer might be overlaying this file with=
- its<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 own.)</span></p></div></div></blockquote><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><div lang=3D"EN-US" link=3D"blue" vlink=3D"purple"><div class=3D"=
-m_-1921326690285416234WordSection1"><p class=3D"MsoNormal"><span style=3D"c=
-olor:rgb(31,73,125);font-family:Calibri,sans-serif;font-size:11pt">=C2=A0</=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0 =
-- Also, it seems as though the choice of whether to use an &quot;ld.so.conf=
-.d&quot;<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 arrangement or not is one that the distro should be making. Is=
- there<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 a strong reason why this needs to be done in oe-core?</span></=
-p></div></div></blockquote><div><br></div><div>This is easily handled in ma=
-ny ways.=C2=A0 Check the include doesn&#39;t already exist and concatenate =
-the file instead of overwriting it, for example.=C2=A0 Or add the include t=
-o the default oe-core ld.so.conf, and distros that want to change ld.so.con=
-f can by changing that file.</div><div><br></div><div>Ross</div></div></div=
-></div>
-
---f403045d9c0e34efc4055a542372--
