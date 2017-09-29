@@ -1,46 +1,48 @@
-Return-Path: <francescogiancane8@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F2E371AD8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5391477B27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 10:14:54 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id b189so609025wmd.2
+	Fri, 29 Sep 2017 10:16:24 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id 85so1645821ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 03:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 29 Sep 2017 03:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BFr8RnXW7Bkp9ybDapsD3ORlQXDZoCNugkJ5UyNqKHE=;
-	b=JJibwE2OPo9srPckPbwxvzmIGHAQCa9Fn8DdvE+GSzxVTh9/sf8TDXmdKqMwurQ6Pw
-	OyUOvgpFKNi/aFcHna5lZuKpAjiOisWo1njsWhX1gyOunz/5lU3wKvZVZWsf4vgWz1/u
-	i1aAC5GBU4q3J0VpjqLJUWeiPcUwYIsr94oOHvphV2M+Vrrwf0CsQfeXN6QK5BnE/44N
-	S6mvFTmx4gQ2zL14lSxyIs54kH45uMehXooUBF0tYRumm7BD/+j/ACMBQSFZpDPzcT6p
-	uDG54GTNsNX9/BKpwTud+jMX2LNkyIMW8cZMpfFq7jccveRH46HIG9YD+FFvEytRvqb1
-	JT6A==
+	:cc; bh=T8G8yVwVRtf6tJ4CSOSXkGAlJfgMRmyXruh2KimAfpI=;
+	b=F8kM2/pxsWEkefUh9rTAQBBMlFGcs9OkGE1RSu9Kog2VI3+0lo3ei7P5EKfYqJvyH6
+	oXyq9X8fGGzPU7a9SVupmibvlp4nFpOUxtzJJU9IqxFHTtoPui1nkpmBCl4piAYf30nB
+	HWDSTwze+sG1EP/R8tylDvyOQvOrJjAPbAFGlT+D/1g1oWNocbehiBJ1uYFmGlQq6VCZ
+	8h6gTWgF1CEaOdwoe9vlo4DYHEFEGQsOeK55wp+ZbL8zvjs8ACIteTE6YHJOqrYj97t/
+	j+SXkc6DeAoh5vIvBJ6/3engeD0Y5ivx0O5ty0lMwO/t7GYhtUfRo+TUDzJngYQ4IhK6
+	4FVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=BFr8RnXW7Bkp9ybDapsD3ORlQXDZoCNugkJ5UyNqKHE=;
-	b=GSw21gsuLRZGAEuxz0BjJOEqqWa9W2efN4qGjPE9BGvBXHkbVRZGea9fERuB2bLq8H
-	srv6ckFnSkE9Ewf6T8lSrkkX4Awm+5cndfziJc2gGdcMbzd1ICTb9rD3SjV5o0hFWaYq
-	bUJy/6x5Lk0rTWAG/vIF0IXU+4zao2vH4Xs+M30gAUv+PIBTU465pEQyfY5YBHmH0xRA
-	fP18QaAPDp9GKt4v6Y1/okxWSPu/kuLuXdwraEM8NwmM+dCHAlb7Y9QwlHBNWmJvklty
-	RWJrgPAxqt9eKsHS/zDJDOU9AkJhMX00lM2nkiPbp21pfhNkWw938U9lXGymHHHWOZoN
-	CHwQ==
-X-Gm-Message-State: AHPjjUigILUNo7lclmIfFz+RCFjd2wPNKRRzu8/OHsE/Cecku9C22iHJ
-	7Z4Ew2bH5ILw8v73XsOfnxFlW4lkVKLV5C15F58=
-X-Google-Smtp-Source: AOwi7QAPJ1mO7jwZho5+ueX/9CqPL5WTBJdjqwR45TkyouA3u3k851HhIhi6LrGqIEcqMWdmkTz5b3rGsES/6F/ra/U=
-X-Received: by 10.80.201.138 with SMTP id w10mr9194112edh.56.1506680095906;
-	Fri, 29 Sep 2017 03:14:55 -0700 (PDT)
+	bh=T8G8yVwVRtf6tJ4CSOSXkGAlJfgMRmyXruh2KimAfpI=;
+	b=py4t+CZmtVYAHoi9xeC9HHOkGqptanwMymFc6lECRNSpjESdPZoXnA5vRig/XMVw6w
+	V2bhzDq29aU4p4gQKwYoCRZkXviw6LplN+WSI9xHCKCxVyM1d7JFiiEgqEPxTdH5PXPF
+	pXeS8L6sz0XUKxtiSz7QQboAHUWeZXb0JL6uphRzNgKBiMBMXM1pI+gVVWrE66EmuBLs
+	8UQNjxP2wy02rNIAfSU/YEXLQNSOaJdNeU27S2w2GDzHGB0qw9M3aTclmvRrrfB/PO6+
+	lcO+0Y1AoB9OvT5j3ROIY0rKYqak9Pg+SsE75KpuwraBYC6YsQFlzA8OUS2OBFxWz515
+	r3yw==
+X-Gm-Message-State: AHPjjUhu3B0v/8KHmVzZmk4K+XbuLvzmJlwNu5039hZjYqevUogNcBtt
+	tzocFfa1w1SVcpf1gIXpnPFoH0QOqD6+KHkEi/zO+w==
+X-Google-Smtp-Source: AOwi7QCI3RurZpnnkr4Fknta51DBeTJK1h9VOXRQNKySu8eYhlBthw+HwfWl4s/akCcXtN3Hy30RYR5HMw72rnlOmGE=
+X-Received: by 10.36.178.1 with SMTP id u1mr6602746ite.120.1506680186359; Fri,
+	29 Sep 2017 03:16:26 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.142.236 with HTTP; Fri, 29 Sep 2017 03:14:54 -0700 (PDT)
-Received: by 10.80.142.236 with HTTP; Fri, 29 Sep 2017 03:14:54 -0700 (PDT)
-In-Reply-To: <CAJTo0LZTrRnhgFRhK3=GxVfzrT5H7p-k=Untwq9T+KWTrpyMQA@mail.gmail.com>
+Received: by 10.107.19.68 with HTTP; Fri, 29 Sep 2017 03:16:05 -0700 (PDT)
+In-Reply-To: <CAEQ58siT6Lw_W9Oe60v125ZZak2UXQ0L-R4PvaHAz6NKRi_-vA@mail.gmail.com>
 References: <20170929094702.5334-1-francescogiancane8@gmail.com>
 	<CAJTo0LZTrRnhgFRhK3=GxVfzrT5H7p-k=Untwq9T+KWTrpyMQA@mail.gmail.com>
-From: Francesco Giancane <francescogiancane8@gmail.com>
-Date: Fri, 29 Sep 2017 12:14:54 +0200
-Message-ID: <CAEQ58siT6Lw_W9Oe60v125ZZak2UXQ0L-R4PvaHAz6NKRi_-vA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAEQ58siT6Lw_W9Oe60v125ZZak2UXQ0L-R4PvaHAz6NKRi_-vA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 29 Sep 2017 11:16:05 +0100
+Message-ID: <CAJTo0LYaN8SapMtgpQhNkPz7TKR9JgOMhroxWp4Q1+BDkcucMQ@mail.gmail.com>
+To: Francesco Giancane <francescogiancane8@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [openembedded-core][PATCH] xorg-xserver: fix building of the package when different virtual/egl provider are selected
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,84 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 10:14:55 -0000
-Content-Type: multipart/alternative; boundary="f4030438d438e81f0f055a514b71"
+X-List-Received-Date: Fri, 29 Sep 2017 10:16:25 -0000
+Content-Type: multipart/alternative; boundary="f403045d9c0e4c6902055a515170"
 
---f4030438d438e81f0f055a514b71
+--f403045d9c0e4c6902055a515170
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Ross,
-Thank you for your clarification. I double checked the recipes before
-asking for the patch,  and I found out that Mesa provides both virtual/egl
-and virtual/libegl; searching through the layers I did not find any recipe
-depending on libegl but only on egl. Incidentally, userland from
-meta-raspberrypi provided only egl, and that was the final confirmation.
+On 29 September 2017 at 11:14, Francesco Giancane <
+francescogiancane8@gmail.com> wrote:
 
-Given that assumptions, if you can surely tell that libegl is the correct
-dependency name form of libEGL, I will be happy with rejection of the patch
-and contact meta-raspberrypi maintainers directly.
-
-Thank you,
-
-Francesco Giancane
-
-Via Paolo Braccini 46, 10141 Torino (TO)
-
-+393933920466
-
-Il 29 set 2017 12:05, "Burton, Ross" <ross.burton@intel.com> ha scritto:
-
-> On 29 September 2017 at 10:47, Francesco Giancane <
-> francescogiancane8@gmail.com> wrote:
->
->> -PACKAGECONFIG[glamor] = "--enable-glamor,--disable-gla
->> mor,libepoxy,libegl"
->> +PACKAGECONFIG[glamor] = "--enable-glamor,--disable-glamor,libepoxy,egl"
->>
->
-> userland is in the wrong here, not mesa or xorg.
->
-> The policy is that there are generalised names (libgles, libegl) and they
-> should either be used by BSPs directly, or RPROVIDED.  Mesa generates
-> libgles1-mesa libegl-mesa etc, and they RPROVIDE libegl libegl1.
->
-> Ross
+> Hi Ross,
+> Thank you for your clarification. I double checked the recipes before
+> asking for the patch,  and I found out that Mesa provides both virtual/egl
+> and virtual/libegl; searching through the layers I did not find any recipe
+> depending on libegl but only on egl. Incidentally, userland from
+> meta-raspberrypi provided only egl, and that was the final confirmation.
 >
 
---f4030438d438e81f0f055a514b71
+Note that virtual/* are build-time dependencies, this dependency is a
+runtime dependency.
+
+Ross
+
+--f403045d9c0e4c6902055a515170
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Hi Ross,=C2=A0<div dir=3D"auto">Thank you for your clarif=
-ication. I double checked the recipes before asking for the patch,=C2=A0 an=
-d I found out that Mesa provides both virtual/egl and virtual/libegl; searc=
-hing through the layers I did not find any recipe depending on libegl but o=
-nly on egl. Incidentally, userland from meta-raspberrypi provided only egl,=
- and that was the final confirmation.=C2=A0</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">Given that assumptions, if you can surely tell that lib=
-egl is the correct dependency name form of libEGL, I will be happy with rej=
-ection of the patch and contact meta-raspberrypi maintainers directly.=C2=
-=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">Thank you,=C2=A0<br>=
-<br><div data-smartmail=3D"gmail_signature" dir=3D"auto">Francesco Giancane=
-<br><br>Via Paolo Braccini 46, 10141 Torino (TO)<br><br>+393933920466</div>=
-</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">Il 29=
- set 2017 12:05, &quot;Burton, Ross&quot; &lt;<a href=3D"mailto:ross.burton=
-@intel.com">ross.burton@intel.com</a>&gt; ha scritto:<br type=3D"attributio=
-n"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">On 29 September 2017 at =
-10:47, Francesco Giancane <span dir=3D"ltr">&lt;<a href=3D"mailto:francesco=
-giancane8@gmail.com" target=3D"_blank">francescogiancane8@gmail.com</a>&gt;=
-</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">-PACKAGECONFIG[glamor] =3D &quot;--enable-glamo=
-r,--disable-gla<wbr>mor,libepoxy,libegl&quot;<br>
-+PACKAGECONFIG[glamor] =3D &quot;--enable-glamor,--disable-gla<wbr>mor,libe=
-poxy,egl&quot;<br></blockquote><div><br></div><div>userland is in the wrong=
- here, not mesa or xorg.</div><div><br></div><div>The policy is that there =
-are generalised names (libgles, libegl) and they should either be used by B=
-SPs directly, or RPROVIDED.=C2=A0 Mesa generates libgles1-mesa libegl-mesa =
-etc, and they RPROVIDE libegl libegl1.</div><div><br></div><div>Ross=C2=A0<=
-/div></div></div></div>
-</blockquote></div></div>
+<div dir=3D"ltr">On 29 September 2017 at 11:14, Francesco Giancane <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:francescogiancane8@gmail.com" target=3D"_bl=
+ank">francescogiancane8@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gm=
+ail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div d=
+ir=3D"auto">Hi Ross,=C2=A0<div dir=3D"auto">Thank you for your clarificatio=
+n. I double checked the recipes before asking for the patch,=C2=A0 and I fo=
+und out that Mesa provides both virtual/egl and virtual/libegl; searching t=
+hrough the layers I did not find any recipe depending on libegl but only on=
+ egl. Incidentally, userland from meta-raspberrypi provided only egl, and t=
+hat was the final confirmation.=C2=A0</div></div></blockquote><div><br></di=
+v><div>Note that virtual/* are build-time dependencies, this dependency is =
+a runtime dependency.=C2=A0</div><div><br></div><div>Ross</div></div></div>=
+</div>
 
---f4030438d438e81f0f055a514b71--
+--f403045d9c0e4c6902055a515170--
