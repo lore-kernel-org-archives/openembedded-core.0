@@ -1,42 +1,53 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DE16277A2C
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D448977A60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 14:28:16 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id r85so789100ywg.3
+	Fri, 29 Sep 2017 15:52:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 30E7718BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 07:28:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=ZnJaZ4QT/aD33TOKdvu5IAGF9uCUTazhUW9foEgKZ+I=;
-	b=PdUDMqH2NrQZjNNChkpqzhB3F0hwMNI1V4HPd43rf+A7LutuZ08IgJ7zs1Bfopbjsu
-	O+r0A3owNKC0SekdFw5lxoVirYCAo9ZtxqpK3pv6S1kJBqAWMVwd5O958o2Xx7sN0Rbe
-	O3STxhe2f4qarol3RxGDXiAzghOyzfvi8JTw0vuJySImRVVAS+KeXdDwGn5nu/uAat2S
-	J3UD0unrwxUmTFjgeZrIYYztVIFnrVKm0g0YDiNJqbiUZb6Q1AnyeopvVjd8F456KlUt
-	F4vzZy6i0/AY/jEAO+Kklw7lpBOK7yoaBPIabYAJNeG7J9b9fEuZ5+64mIyjJMD3mhjh
-	AWNg==
-X-Gm-Message-State: AHPjjUjQbhsXBudPi3nFyhlDDiZebqsZvz+LobPaHPNfuxwxHoO93VMQ
-	cD7BhbEEj+piK+lZbKHc5YmP
-X-Google-Smtp-Source: AOwi7QAh2j/XVzhDgnGBIbitXWwmZBL7VJqKfGynD65+zdBYp8JsePpBPh00QJJSoTjNFBsAsgqbow==
-X-Received: by 10.129.57.3 with SMTP id g3mr6193887ywa.433.1506695297504;
-	Fri, 29 Sep 2017 07:28:17 -0700 (PDT)
-Received: from localhost.localdomain (cpe-65-184-142-68.ec.res.rr.com.
-	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	o126sm1732416ywb.8.2017.09.29.07.28.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 29 Sep 2017 07:28:16 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
+	Fri, 29 Sep 2017 17:52:40 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id CCnT1wo1qJ8h
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:38 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3F12418C1C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:38 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 297351A2A3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:38 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1EB311A2A2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:38 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:38 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 130BA2205
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:38 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id v8TFqaDw001350
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 17:52:36 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id v8TFqaFe001349
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Sep 2017 17:52:36 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Sep 2017 10:28:19 -0400
-Message-Id: <1506695299-30364-1-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-Subject: [PATCHv2] image_types: Fix bmaptool support for RSS
+Date: Fri, 29 Sep 2017 17:52:34 +0200
+Message-Id: <20170929155234.1308-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCHv2] license.py: Correct selection of licenses in is_included()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,33 +60,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 14:28:17 -0000
+X-List-Received-Date: Fri, 29 Sep 2017 15:52:40 -0000
 
-With RSS we need to ensure that when making a bmap image that the
-python3 that we created is found via /usr/bin/env rather than the host
-python3.  Otherwise we're relying on the build host to have bmaptool
-support installed.
+When faced with multiple sets of licenses combined with | (OR), it was
+possible for oe.license.is_included() to choose a set of licenses with
+a blacklisted license and then report failure, even if choosing
+another set of licenses would have resulted in a successful
+result. This happened when the chosen set still contained more
+whitelisted licenses than the other set.
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
+This change makes sure a set with any blacklisted license is always
+considered with a lower weight than a set with only whitelisted
+licenses.
+
+Example: Faced with the license string "GPL-3.0 & GPL-2.0 & LGPL-2.1 |
+Proprietary" and with "GPL-3.0" being blacklisted, the old code would
+report a failure since "GPL-3.0 & GPL-2.0 & LGPL-2.1" still contains
+more whitelisted licenses than "Proprietary" does.
+
+This change also adds a unit test for oe.license.is_included().
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
-Changes in v2:
-- Switch to checking for '.bmap' not 'bmap', per Ed Bartosh.
----
- meta/classes/image_types.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 61dca626311e..b373b217145f 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
- # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
- # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
- IMAGE_TYPES_MASKED ?= ""
+PATCHv2: Correct the parent class for TestIsIncluded, a change I had
+forgotten to git --amend when going from Pyro to Rocko.
+
+ meta/lib/oe/license.py                        | 18 +++++++++++-----
+ meta/lib/oeqa/selftest/cases/oelib/license.py | 31 +++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 5 deletions(-)
+
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 8d2fd1709c..ca385d5187 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -106,7 +106,8 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+     license string matches the whitelist and does not match the blacklist.
+ 
+     Returns a tuple holding the boolean state and a list of the applicable
+-    licenses which were excluded (or None, if the state is True)
++    licenses that were excluded if state is False, or the licenses that were
++    included if the state is True.
+     """
+ 
+     def include_license(license):
+@@ -117,10 +118,17 @@ def is_included(licensestr, whitelist=None, blacklist=None):
+ 
+     def choose_licenses(alpha, beta):
+         """Select the option in an OR which is the 'best' (has the most
+-        included licenses)."""
+-        alpha_weight = len(list(filter(include_license, alpha)))
+-        beta_weight = len(list(filter(include_license, beta)))
+-        if alpha_weight > beta_weight:
++        included licenses and no excluded licenses)."""
++        # The factor 1000 below is arbitrary, just expected to be much larger
++        # that the number of licenses actually specified. That way the weight
++        # will be negative if the list of licenses contains an excluded license,
++        # but still gives a higher weight to the list with the most included
++        # licenses.
++        alpha_weight = (len(list(filter(include_license, alpha))) -
++                        1000 * (len(list(filter(exclude_license, alpha))) > 0))
++        beta_weight = (len(list(filter(include_license, beta))) -
++                       1000 * (len(list(filter(exclude_license, beta))) > 0))
++        if alpha_weight >= beta_weight:
+             return alpha
+         else:
+             return beta
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/license.py b/meta/lib/oeqa/selftest/cases/oelib/license.py
+index bfd9ed9c29..d7f91fb2f4 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/license.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/license.py
+@@ -66,3 +66,34 @@ class TestComplexCombinations(TestSimpleCombinations):
+         "(GPL-2.0|Proprietary)&BSD-4-clause&MIT": ["GPL-2.0", "BSD-4-clause", "MIT"],
+     }
+     preferred = ["BAR", "OMEGA", "BETA", "GPL-2.0"]
 +
-+# bmap requires python3 to be in the PATH
-+EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('.bmap') else ''}"
++class TestIsIncluded(TestCase):
++    tests = {
++        ("FOO | BAR", None, None):
++            [True, ["FOO"]],
++        ("FOO | BAR", None, "FOO"):
++            [True, ["BAR"]],
++        ("FOO | BAR", "BAR", None):
++            [True, ["BAR"]],
++        ("FOO | BAR & FOOBAR", "*BAR", None):
++            [True, ["BAR", "FOOBAR"]],
++        ("FOO | BAR & FOOBAR", None, "FOO*"):
++            [False, ["FOOBAR"]],
++        ("(FOO | BAR) & FOOBAR | BARFOO", None, "FOO"):
++            [True, ["BAR", "FOOBAR"]],
++        ("(FOO | BAR) & FOOBAR | BAZ & MOO & BARFOO", None, "FOO"):
++            [True, ["BAZ", "MOO", "BARFOO"]],
++        ("GPL-3.0 & GPL-2.0 & LGPL-2.1 | Proprietary", None, None):
++            [True, ["GPL-3.0", "GPL-2.0", "LGPL-2.1"]],
++        ("GPL-3.0 & GPL-2.0 & LGPL-2.1 | Proprietary", None, "GPL-3.0"):
++            [True, ["Proprietary"]],
++        ("GPL-3.0 & GPL-2.0 & LGPL-2.1 | Proprietary", None, "GPL-3.0 Proprietary"):
++            [False, ["GPL-3.0"]]
++    }
++
++    def test_tests(self):
++        for args, expected in self.tests.items():
++            is_included, licenses = oe.license.is_included(
++                args[0], (args[1] or '').split(), (args[2] or '').split())
++            self.assertEqual(is_included, expected[0])
++            self.assertListEqual(licenses, expected[1])
 -- 
-1.9.1
+2.12.0
 
 
