@@ -1,33 +1,63 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 26CA5779C6
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f179.google.com (mail-yw0-f179.google.com
+	[209.85.161.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 37613779C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 14:22:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga105.jf.intel.com with ESMTP; 29 Sep 2017 07:22:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,452,1500966000"; d="scan'208";a="1200439299"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Sep 2017 07:22:48 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id D42B45802BB;
-	Fri, 29 Sep 2017 07:22:47 -0700 (PDT)
-Date: Fri, 29 Sep 2017 17:21:02 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20170929142102.int56ejorufnkh4v@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-	<20170929111621.is7opcm5chmk5czu@linux.intel.com>
-	<20170929123652.GV3112@bill-the-cat>
+	Fri, 29 Sep 2017 14:27:20 +0000 (UTC)
+Received: by mail-yw0-f179.google.com with SMTP id o143so957726ywd.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 07:27:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=lpeg7RgqmDhQwJ7rzux0PpSlLDdNLcj4Ijh+IiKx/qE=;
+	b=DhrWDO1CYsdV5SkT5eVPIskOuog1vUyiQiK70cd0RqAqP9+eySFKLEXkei2H/1Q3GG
+	SO5x+R1xPV1l1F4CxfTdG9jd+nb9zXuTmUnBTIGSFRArkDb2nZyPQhqNVIalrFtEBQMZ
+	PQpHXk3cuf7IR43/uob/Je3wlrummvLJ7BUZ4FUW7ACsKdHFAryOlfEjdEe+sFzAHqEq
+	HAXAquez94Lmnvr+3IR575IsJfCRJNOgup1TlMBSjWhY7skGqlKuqi1udd0ENZz1QYIZ
+	jls1sMMw5JxsHsJGRaFa7wACaI1d+rfL3IAo4jbmRwCjH6ea2fcLqqmYEmjKm9Q6grmB
+	O1uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=lpeg7RgqmDhQwJ7rzux0PpSlLDdNLcj4Ijh+IiKx/qE=;
+	b=Ti3YKuSf9vkgxVWcJilGmRKPypgnIsLm77Ks8h64LULHnF7RTqen0oYvKiUlCagjsr
+	t3K8lScvi683rjf/NQjv2fY1IESjRXHU1p1yG7eGV6WT1bWDroE18F4gi/uLpkWw8ZZ7
+	okQzCDxEahGUG3mq8kZXkZ5Eu0x12A8WIV5Dyg+5fx33CTXHs7rzyY+n+qcZp//HOVl4
+	CYd2Id/ypeOAX9lg5CSFOcgs3M7x7YaNiG5jj8PepHlHxHebuoJ0FyiurbkqMs51qzu1
+	BiBe8dCjXoNNACxiZn76jGOT9+JUq8yk7enqgRuqCgukDun9MIoK9DMaI090mzMm+Wvl
+	Hn9Q==
+X-Gm-Message-State: AHPjjUiaEvY6VxKYOCSCiVwRy22oOSQe4gyk6V3BXf24jeRib5BlJ8za
+	WS604nIAb1baDvMihBPUAjEY1BYc
+X-Received: by 10.37.12.196 with SMTP id 187mr6190220ybm.48.1506695241807;
+	Fri, 29 Sep 2017 07:27:21 -0700 (PDT)
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com.
+	[209.85.218.46]) by smtp.gmail.com with ESMTPSA id
+	t17sm1843818ywg.81.2017.09.29.07.27.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 29 Sep 2017 07:27:20 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f46.google.com with SMTP id 125so2267304oie.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Sep 2017 07:27:20 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QAzHsMZZIYHFzhjmaD0Vqizdv9a5/jBL7WYnJh+v5fKrBkzECZBKBE1gvMulSe6zgAE33sDatwtN/yJzRcAdEU=
+X-Received: by 10.157.41.100 with SMTP id d91mr3226025otb.426.1506695239996;
+	Fri, 29 Sep 2017 07:27:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20170929123652.GV3112@bill-the-cat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types: Fix bmaptool support for RSS
+Received: by 10.157.56.216 with HTTP; Fri, 29 Sep 2017 07:27:19 -0700 (PDT)
+In-Reply-To: <1506694551-4487-1-git-send-email-matt@madison.systems>
+References: <1506694551-4487-1-git-send-email-matt@madison.systems>
+Date: Fri, 29 Sep 2017 11:27:19 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqrAFnbS2RqQSxSB9gX4Ban5sDjof4SjMw_yc7aEqZrpQ@mail.gmail.com>
+Message-ID: <CAP9ODKqrAFnbS2RqQSxSB9gX4Ban5sDjof4SjMw_yc7aEqZrpQ@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go-runtime: prevent host leakage into target objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +70,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 14:22:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 29 Sep 2017 14:27:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 29, 2017 at 08:36:52AM -0400, Tom Rini wrote:
-> On Fri, Sep 29, 2017 at 02:16:21PM +0300, Ed Bartosh wrote:
-> > On Wed, Sep 27, 2017 at 01:00:09PM -0400, Tom Rini wrote:
-> > > With RSS we need to ensure that when making a bmap image that the
-> > > python3 that we created is found via /usr/bin/env rather than the host
-> > > python3.  Otherwise we're relying on the build host to have bmaptool
-> > > support installed.
-> > > 
-> > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > > ---
-> > > I played around with a few ways to try and fix this problem, and this
-> > > was the best I could come up with.  Once this is in we need this in pyro
-> > > as well as it's broken there too.
-> > > ---
-> > >  meta/classes/image_types.bbclass | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> > > index 61dca626311e..3ff960e3a889 100644
-> > > --- a/meta/classes/image_types.bbclass
-> > > +++ b/meta/classes/image_types.bbclass
-> > > @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
-> > >  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
-> > >  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
-> > >  IMAGE_TYPES_MASKED ?= ""
-> > > +
-> > > +# bmap requires python3 to be in the PATH
-> > > +EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('bmap') else ''}"
-> > 
-> > +1
-> > 
-> > Would ...find('.bmap') be a bit more safe?
-> 
-> Could be.  Do I need to v2 or can someone just fix up while applying?
+On Fri, Sep 29, 2017 at 11:15 AM, Matt Madison <matt@madison.systems> wrote:
+> When building for a target whose architecture matches
+> the build host's, the second pass through make.bash
+> to build the shareable runtime would also overwrite
+> the target's static cgo library with host-compatibile
+> binaries.
+>
+> Fix this by running the host-side build once and
+> target-only passes of make.bash twice, for static
+> and shareable.  This ensures that what gets installed
+> is target-compatible.
+>
+> [YOCTO #12136]
+>
+> Signed-off-by: Matt Madison <matt@madison.systems>
 
-Please send v2.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
---
-Regards,
-Ed
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
