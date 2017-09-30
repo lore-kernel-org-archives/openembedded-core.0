@@ -1,50 +1,36 @@
-Return-Path: <riku.voipio@linaro.org>
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B06216FEFA
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2733877B95
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 23:16:23 +0000 (UTC)
-Received: by mail-lf0-f48.google.com with SMTP id 23so1013887lfs.10
+	Sat, 30 Sep 2017 01:23:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8U1NEdW023608
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Sep 2017 16:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vJUKoQPd1yB9bk6RnZkf4xyJrh+lo7vnUL3YSFw2KGM=;
-	b=FhhQBYDrARm1pypqolELX7w+aHjHnLjtR5tLLJFwZVekkciod2eHS38ac5laI/xoKV
-	5b4kggVGHqga7hHeKxss+Z13gfmBPGIC+oA+qPXxBoDmB6skoj6DcnqgyCQrYHsh8stP
-	IieAmxLJjoCruPOjbqhyYvTDcPC2OLeAOwwXk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=vJUKoQPd1yB9bk6RnZkf4xyJrh+lo7vnUL3YSFw2KGM=;
-	b=qzj+a2+DKuHdsoF4EGkPQGdtSsy60a2pPEM1fS31tzTscYkr3g37XGnqrmySIvRrt6
-	sqMrqry/mYbporffMjmhVra/Mc5yGAUfVDGBDYYTSxSkuKvvlCw0lODd27A5RyL3x87c
-	l6+ZjBSbBQr1vp/o4FhSfqzmdLKQ6n/5ZeWqzpPjfy68f/BGyUdeUC/GT6n/T987DCw+
-	UsjHq2j/FvvNOZYD3MzZOigif1shrpngzWGAQYZLpLY4BkyZ4bSxd6xKOAhHJd/1EFIr
-	7+fjSF5Q2p+P4ky6wlhgNFa60uCy+T4c9OJANXj7Ute+QjYh9VU7SxSio3yttc0T3Zta
-	1UDQ==
-X-Gm-Message-State: AHPjjUi0vTxKLTk1WfDbFar+P4+9VoI+cjASTu3qIf81Ed3wtgY6iPLt
-	MmH5SHB36/Dnhr5rOi7RD2voF6NJd4b38JvGCpCpmQ==
-X-Google-Smtp-Source: AOwi7QAcsRMuenzM7jC4Xa+XrGCrI+WgpIQwJgeBFi0lHb/qs7My0TcyVwNhCvg1FqISM7Pk684JrmyMQbHQZfEvpNI=
-X-Received: by 10.46.101.208 with SMTP id e77mr4115091ljf.52.1506726984371;
-	Fri, 29 Sep 2017 16:16:24 -0700 (PDT)
+	Fri, 29 Sep 2017 18:23:14 -0700
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Fri, 29 Sep 2017 18:23:13 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] rootfs-postcommands.bbclass: add support for
+	/etc/ld.so.conf.d/*.conf
+Thread-Index: AQHTOEzi6qQB4YBPnkiiiW9g3LtIUaLLKNiggAEsOICAAE7oQA==
+Date: Sat, 30 Sep 2017 01:23:12 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B8CB148@ALA-MBC.corp.ad.wrs.com>
+References: <20170831055458.9197-1-jackie.huang@windriver.com>
+	<CAJTo0LaXfJCZ5hw+sLcm4yWe_K9ck_H+7kTgva1+i9NSLdB6RA@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AA014B8C9612@ALA-MBC.corp.ad.wrs.com>
+	<CAJTo0LYD5hLHJ=PWySes9nWzCK79asRummuCnn8qKeM0MSwwOw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYD5hLHJ=PWySes9nWzCK79asRummuCnn8qKeM0MSwwOw@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.176.125]
 MIME-Version: 1.0
-Received: by 10.25.74.21 with HTTP; Fri, 29 Sep 2017 16:16:23 -0700 (PDT)
-In-Reply-To: <20170929182625.GB3112@bill-the-cat>
-References: <CAAqcGHk4xEzrbMxZtree8EGCAZ2mBX6X=h5w4aD2ZvQJ14=XJw@mail.gmail.com>
-	<20170929182625.GB3112@bill-the-cat>
-From: Riku Voipio <riku.voipio@linaro.org>
-Date: Sat, 30 Sep 2017 02:16:23 +0300
-Message-ID: <CAAqcGHkJrJ76dENopHQCmbvWCELNn-Q5mLgXYk=etQwCSfCdmA@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: "cross-distro@lists.linaro.org" <cross-distro@lists.linaro.org>,
-	arm@gentoo.org, opensuse-arm@opensuse.org,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	debian-arm@lists.debian.org, arm@lists.fedoraproject.org,
-	linux-arm@lists.infradead.org
-Subject: Re: SFO17 Cross-Distro meeting notes
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rootfs-postcommands.bbclass: add support for /etc/ld.so.conf.d/*.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +43,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Sep 2017 23:16:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 30 Sep 2017 01:23:13 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AA014B8CB148ALAMBCcorpadw_"
 
-On 29 September 2017 at 21:26, Tom Rini <trini@konsulko.com> wrote:
-> On Fri, Sep 29, 2017 at 02:06:21AM +0300, Riku Voipio wrote:
->
-> [snip]
->> On arm64, Kernel doesn't self-decompress. The bootloaders are stringly
->> recommended to support decompressing kernel images. It's optional in
->> grub, make sure your grub does. At least iPXE and u-boot don't support
->> booting Image.gz on arm64, and should be fixed.
->
-> Not strictly true.  We do expect that if you're loading in a
-> compressed something that you uncompress it then boot it.  I assume part
-> of the reason that Linux didn't go for self-decompression this time is
-> the "my goodness, it's tricky to get here's where we are, here's what
-> else is in the system, lets not stomp anything and get ourself to where
-> we need to be" is in fact tricky.
+--_000_1B858668EC6A94408DCA5225FDFA85AA014B8CB148ALAMBCcorpadw_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Thanks for the clarification. The kernel
-Documentation/arm64/booting.txt is vague in reasoning, but you are
-right it's tricky. Kernel developers  assume the bootloader is better
-equipped to know where in memory to decompress than a early kernel
-decompress loop.
+DQpPaywgSSB3aWxsIGRvIHRoaXMgaW4gdGhlIGdsaWJjIHJlY2lwZSBpbnN0ZWFkIGlmIGl04oCZ
+cyBwcmVmZXJyZWQuDQoNClRoYW5rcywNCkphY2tpZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21h
+aWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBGcmlkYXksIFNlcHRlbWJlciAyOSwg
+MjAxNyAyMTozOA0KVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCkNjOiBPRS1jb3JlDQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gcm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzOiBhZGQg
+c3VwcG9ydCBmb3IgL2V0Yy9sZC5zby5jb25mLmQvKi5jb25mDQoNCk9uIDI5IFNlcHRlbWJlciAy
+MDE3IGF0IDAzOjU4LCBIdWFuZywgSmFja2llIChXaW5kIFJpdmVyKSA8amFja2llLmh1YW5nQHdp
+bmRyaXZlci5jb208bWFpbHRvOmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPj4gd3JvdGU6DQog
+ICAgIC0gVGhpcyB3aWxsIGNhdXNlIHRoZSBleGlzdGluZyBjb250ZW50cyBvZiBsZC5zby5jb25m
+IHRvIGJlIG9ibGl0ZXJhdGVkDQogICAgICAgaWYgdGhlIGZpbGUgd2Fzbid0IGVtcHR5IHRvIGJl
+Z2luIHdpdGguICAoSSBrbm93IHRoYXQgaXQgaXMgZW1wdHkgaW4NCiAgICAgICBvZS1jb3JlLCBi
+dXQgYSBkaXN0cm8gbGF5ZXIgbWlnaHQgYmUgb3ZlcmxheWluZyB0aGlzIGZpbGUgd2l0aCBpdHMN
+CiAgICAgICBvd24uKQ0KDQogICAgIC0gQWxzbywgaXQgc2VlbXMgYXMgdGhvdWdoIHRoZSBjaG9p
+Y2Ugb2Ygd2hldGhlciB0byB1c2UgYW4gImxkLnNvLmNvbmYuZCINCiAgICAgICBhcnJhbmdlbWVu
+dCBvciBub3QgaXMgb25lIHRoYXQgdGhlIGRpc3RybyBzaG91bGQgYmUgbWFraW5nLiBJcyB0aGVy
+ZQ0KICAgICAgIGEgc3Ryb25nIHJlYXNvbiB3aHkgdGhpcyBuZWVkcyB0byBiZSBkb25lIGluIG9l
+LWNvcmU/DQoNClRoaXMgaXMgZWFzaWx5IGhhbmRsZWQgaW4gbWFueSB3YXlzLiAgQ2hlY2sgdGhl
+IGluY2x1ZGUgZG9lc24ndCBhbHJlYWR5IGV4aXN0IGFuZCBjb25jYXRlbmF0ZSB0aGUgZmlsZSBp
+bnN0ZWFkIG9mIG92ZXJ3cml0aW5nIGl0LCBmb3IgZXhhbXBsZS4gIE9yIGFkZCB0aGUgaW5jbHVk
+ZSB0byB0aGUgZGVmYXVsdCBvZS1jb3JlIGxkLnNvLmNvbmYsIGFuZCBkaXN0cm9zIHRoYXQgd2Fu
+dCB0byBjaGFuZ2UgbGQuc28uY29uZiBjYW4gYnkgY2hhbmdpbmcgdGhhdCBmaWxlLg0KDQpSb3Nz
+DQoNCg0K
 
-> That said, patches to check for ${VALID_COMPRESSION_HEADER}, uncompress
-> a chunk, confirm valid Image header, and uncompress to where it needs to
-> reside would be welcome.
+--_000_1B858668EC6A94408DCA5225FDFA85AA014B8CB148ALAMBCcorpadw_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-While the unzip command hint is good, from cross-distro PoV I think
-this kind of transparent decompression is needed to make the syslinux
-bootmenu command "just work".
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
+NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTt9DQpA
+cGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEu
+MjVpbiAxLjBpbiAxLjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5PaywgSSB3aWxsIGRvIHRoaXMgaW4gdGhlIGdsaWJjIHJl
+Y2lwZSBpbnN0ZWFkIGlmIGl04oCZcyBwcmVmZXJyZWQuPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
+RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
+cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNl
+cmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0
+OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
+ZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQi
+Pg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0I1QzRE
+RiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9t
+YSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90
+O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRl
+bC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5LCBTZXB0ZW1iZXIgMjksIDIwMTcgMjE6
+Mzg8YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEphY2tpZSk8YnI+DQo8Yj5DYzo8L2I+IE9F
+LWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHJvb3Rmcy1w
+b3N0Y29tbWFuZHMuYmJjbGFzczogYWRkIHN1cHBvcnQgZm9yIC9ldGMvbGQuc28uY29uZi5kLyou
+Y29uZjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5PbiAyOSBTZXB0ZW1iZXIgMjAxNyBhdCAwMzo1OCwgSHVhbmcsIEphY2tpZSAoV2luZCBSaXZl
+cikgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0
+PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48
+L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTti
+b3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7
+bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2lu
+LWJvdHRvbS1hbHQ6YXV0byI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5
+N0QiPiZuYnNwOyAmbmJzcDsgJm5ic3A7LSBUaGlzIHdpbGwgY2F1c2UgdGhlIGV4aXN0aW5nIGNv
+bnRlbnRzIG9mIGxkLnNvLmNvbmYgdG8gYmUgb2JsaXRlcmF0ZWQ8L3NwYW4+PG86cD48L286cD48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87
+bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG8iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztj
+b2xvcjojMUY0OTdEIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgaWYgdGhl
+IGZpbGUgd2Fzbid0IGVtcHR5IHRvIGJlZ2luIHdpdGguJm5ic3A7IChJIGtub3cgdGhhdCBpdCBp
+cyBlbXB0eSBpbjwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0
+eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0byI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPiZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBvZS1jb3JlLCBidXQgYSBkaXN0cm8gbGF5ZXIgbWlnaHQg
+YmUgb3ZlcmxheWluZyB0aGlzIGZpbGUgd2l0aCBpdHM8L3NwYW4+PG86cD48L286cD48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdpbi10b3AtYWx0OmF1dG87bXNvLW1h
+cmdpbi1ib3R0b20tYWx0OmF1dG8iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
+MUY0OTdEIj4mbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgb3duLik8L3NwYW4+
+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGJsb2NrcXVv
+dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFk
+ZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGlu
+Ij4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4t
+dG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj48c3BhbiBzdHlsZT0iZm9u
+dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
+c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1t
+YXJnaW4tYm90dG9tLWFsdDphdXRvIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6
+IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IC0gQWxzbywgaXQgc2VlbXMgYXMgdGhv
+dWdoIHRoZSBjaG9pY2Ugb2Ygd2hldGhlciB0byB1c2UgYW4gJnF1b3Q7bGQuc28uY29uZi5kJnF1
+b3Q7PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1z
+by1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
+dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7IGFycmFuZ2VtZW50IG9yIG5vdCBpcyBvbmUgdGhhdCB0aGUgZGlzdHJv
+IHNob3VsZCBiZSBtYWtpbmcuIElzIHRoZXJlPC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9wLWFsdDphdXRvO21zby1tYXJnaW4t
+Ym90dG9tLWFsdDphdXRvIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
+RCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IGEgc3Ryb25nIHJlYXNvbiB3
+aHkgdGhpcyBuZWVkcyB0byBiZSBkb25lIGluIG9lLWNvcmU/PC9zcGFuPjxvOnA+PC9vOnA+PC9w
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPlRoaXMgaXMgZWFzaWx5IGhhbmRsZWQgaW4gbWFueSB3YXlzLiZuYnNwOyBDaGVjayB0
+aGUgaW5jbHVkZSBkb2Vzbid0IGFscmVhZHkgZXhpc3QgYW5kIGNvbmNhdGVuYXRlIHRoZSBmaWxl
+IGluc3RlYWQgb2Ygb3ZlcndyaXRpbmcgaXQsIGZvciBleGFtcGxlLiZuYnNwOyBPciBhZGQgdGhl
+IGluY2x1ZGUgdG8gdGhlIGRlZmF1bHQgb2UtY29yZSBsZC5zby5jb25mLCBhbmQgZGlzdHJvcyB0
+aGF0IHdhbnQgdG8gY2hhbmdlIGxkLnNvLmNvbmYNCiBjYW4gYnkgY2hhbmdpbmcgdGhhdCBmaWxl
+LjxzcGFuIHN0eWxlPSJjb2xvcjojMUY0OTdEIj48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iY29s
+b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
+CjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-Riku
-
+--_000_1B858668EC6A94408DCA5225FDFA85AA014B8CB148ALAMBCcorpadw_--
