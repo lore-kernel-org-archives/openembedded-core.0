@@ -1,44 +1,42 @@
-Return-Path: <gizero@gmail.com>
-Received: from mail-ua0-f169.google.com (mail-ua0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id B790660268
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B47D672F5D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Sep 2017 15:51:48 +0000 (UTC)
-Received: by mail-ua0-f169.google.com with SMTP id l94so1253240ual.11
+	Sat, 30 Sep 2017 18:07:03 +0000 (UTC)
+Received: by mail-qt0-f193.google.com with SMTP id 47so3101575qts.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Sep 2017 08:51:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=81Bi5z+hiqB4wnTbrBfsvMIuIj4kAf6jWPdyyKtMHPY=;
-	b=qR8GFzQYlof1r2z8mry5SOYEgdTephK/PCd9s7TTycCR3RFNy7L93sV0IdZK8EbDR2
-	wMH/CrUWvBLTbTaSzEghwVS7ig97ZIYcPC+NLY1L3KC97hLb2IRdyF6QzCa0t8xt0n2K
-	gg99hmvMGQ4Ob5Qv0yDgMW9K4kg+gahar4GplUFSFjdlMCJNO3Hh/hi/M8qQE9i32xtT
-	O2Eb5NmiO5fcR6SaQ6Ob00zWB7adq1tK/cLEa+k4gA8uym6BcNls6eB7s+o4HgkWkdB7
-	sgNu58+kSEUgmcLdMuF8RFtKXPuqgJnwmG4N0DhOGx6x2mElhQExowOFf6RB21dsTXzB
-	RYcw==
+	Sat, 30 Sep 2017 11:07:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=81Bi5z+hiqB4wnTbrBfsvMIuIj4kAf6jWPdyyKtMHPY=;
-	b=O5Rl7p0eCrO13UPWHoJ8qBLePmzqJXyv3DzCWbevTGhPo72/VfRCg9W4Oq7yu5OPM8
-	0sVJiS4Q98mE6u7BH3iAMU/6D/yBDretbOozmYNotIVV5MN25y0Pp8AgGTgc2W3cNxZ8
-	krAwoj7hwRC54oF91Fsz/WBUOGADOdDENeAcy4/BwidDPK/IGwZ9oEejZXzZuBPtaKgX
-	uPZW/sDKvIOVOzmdaIueC3hfbShF7zZCei9tOBl3IBlDjK83p0T4ntj9vCrYVEKN0h5v
-	mKG5f0mznn1pZI2lRMF1jtwgHDIP8xyojmOehUgfvXuCHoAw8HpMNo4xmHK/yo6lH7dM
-	Befg==
-X-Gm-Message-State: AHPjjUgcjgII20AxYkh3+9U3fUlO+ghOWs59n/SmzTxpnP/YpJnQQ7iw
-	x7UAZDJH6CYyEAcdIgE9FnShPVnprwVjiJcMojJ4+w==
-X-Google-Smtp-Source: AOwi7QDhvmgXtVT1iPbz3V2aQsZ1n+Uhom3uaYfHOEXhMqIb5k1Qw4Vr2j8m/pvw/R+gAwcNsppnMF/hhk30C02keF0=
-X-Received: by 10.176.64.162 with SMTP id i31mr6370133uad.60.1506786709008;
-	Sat, 30 Sep 2017 08:51:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.176.71.83 with HTTP; Sat, 30 Sep 2017 08:51:48 -0700 (PDT)
-From: Andrea Galbusera <gizero@gmail.com>
-Date: Sat, 30 Sep 2017 17:51:48 +0200
-Message-ID: <CAC+thW2LM0aNJ+Ro8mq6GX1gYB8K83tro8v-kYxfa+oLoJYj-g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: non uniform directories permissions in sstate-cache
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=8kY4cPUZLjfiSXzEWMNf2SRiD/7INhr0V1fYm7fmW1M=;
+	b=aE1CWHxyRARz8qJ49YP3gFylxyQJf1rXTKLVtdePTWQaKl87Hx7m9BXnAw9lroC16G
+	s29K/dvcInWYXe/IC8NNND1C4I1GHFHrSrCw33O4+PK4/Iz7IQoiBnf7zE6Oll7FgdeO
+	/QvhfjmrfSg4s74wNtE67I1jWJZlj2GoIlkZVms1dtfSwLE8gveA5i3PF/q2PNauaIUA
+	keMGJ7lj44/HgEuo303f7vu351NNEnfuYGuD2l1IFYzab2gHt9aOgzDI532fUd+GHlpp
+	INsNZ15qJ0NWoUhX+utpMS3lsSVqk16f6YHjSIk6r4vAQwwkEheVI2IVZE1dAJD295XJ
+	ZngQ==
+X-Gm-Message-State: AMCzsaUIQ0pZMk0EeQd9hmttOossJgrkg7Coc6DqdBMaqcZ5DrO75Tii
+	rmY6PQccQ+kf5mK0J+cGQx40Iw==
+X-Google-Smtp-Source: AOwi7QDav3aezuuWJVqeanghlWuqHQ0WYUbaCzZ+BmoPi7HPqNELSaTnwNTnuQEnwgSMOhnbNE7ocQ==
+X-Received: by 10.200.4.158 with SMTP id s30mr11993781qtg.311.1506794824324;
+	Sat, 30 Sep 2017 11:07:04 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id
+	x55sm4638611qth.91.2017.09.30.11.07.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 30 Sep 2017 11:07:03 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Sat, 30 Sep 2017 15:06:55 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sat, 30 Sep 2017 15:06:54 -0300
+Message-Id: <20170930180655.25134-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 1/2] lib/oe/package_manager.py (rpm): Signature check is enabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,81 +49,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Sep 2017 15:51:49 -0000
-Content-Type: multipart/alternative; boundary="94eb2c122c508af7ac055a6a1e9d"
+X-List-Received-Date: Sat, 30 Sep 2017 18:07:03 -0000
 
---94eb2c122c508af7ac055a6a1e9d
-Content-Type: text/plain; charset="UTF-8"
+The dnf has GPG signature check enabled by default. It has been confimed using:
 
-Recent posts on both Yocto's ML and here mentioned this issue, but I prefer
-to post in a new thread, since it's possible that the main focus of those
-thread (sharing sstate-cache between multiple users) might somewhat have
-shadowed what IMHO seems indeed an issue with directories permissions in
-sstate-cache.
+,----
+| root@qemux86-64:~# grep gpgcheck /etc/dnf/dnf.conf
+| gpgcheck=1
+`----
 
-What I observed on at least three different build hosts is quite simple:
-the permissions directories in sstate-cache/ are not uniform. Most of them
-are 775, but some are 755. This happens with fresh builds (all by the same
-user) and can be observed on master and morty branches for sure (not
-verified with pyro).
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
-Anyone else seeing this? It might have been unnoticed, or you might have an
-explanation to state this is normal, but I'd be very surprised if you told
-me I'm alone in seeing this. Between the hosts that showed this behaviour I
-have Ubuntu 16.04 boxes (either baremetal or Virtualbox VMs) and the
-crops/poky-container running on OSX native docker implementation.
+ meta/lib/oe/package_manager.py | 1 -
+ 1 file changed, 1 deletion(-)
 
-After noticing this, I got a look at sstate.bbclass, which I believe is the
-code responsible for actually creating those hierarchies. The following
-snippet seems to be the place where, regardless of the process' umask,
-bitbake should ensure sstate-cache subdirs are created with 775 permissions
-(by changing the process' umask to 002). Am I missing other places where
-this is handled indeed?
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 658c964277..1501291657 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -549,7 +549,6 @@ class RpmPM(PackageManager):
+             return
+ 
+         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
+-            gpg_opts = 'repo_gpgcheck=1\n'
+             gpg_opts += 'gpgkey=file://%s/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s-%s\n' % (self.d.getVar('sysconfdir'), self.d.getVar('DISTRO'), self.d.getVar('DISTRO_CODENAME'))
+         else:
+             gpg_opts = ''
+-- 
+2.14.2
 
-   omask = os.umask(0o002)
-   if omask != 0o002:
-      bb.note("Using umask 0o002 (not %0o) for sstate packaging" % omask)
-   sstate_package(shared_state, d)
-   os.umask(omask)
 
-Now, I'd don't feel confident enough with the code to push my investigation
-further, than I'm writing this to hopefully have someone more experienced
-looking at it and help figuring out what's going on.
-
-Any thought? Should I file it as a bug?
-
---94eb2c122c508af7ac055a6a1e9d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Recent posts on both Yocto&#39;s ML and here mentioned thi=
-s issue, but I prefer to post in a new thread, since it&#39;s possible that=
- the main focus of those thread (sharing sstate-cache between multiple user=
-s) might somewhat have shadowed what IMHO seems indeed an issue with direct=
-ories permissions in sstate-cache.<div><br></div><div>What I observed on at=
- least three different build hosts is quite simple: the permissions directo=
-ries in sstate-cache/ are not uniform. Most of them are 775, but some are 7=
-55. This happens with fresh builds (all by the same user) and can be observ=
-ed on master and morty branches for sure (not verified with pyro).</div><di=
-v><br></div><div>Anyone else seeing this? It might have been unnoticed, or =
-you might have an explanation to state this is normal, but I&#39;d be very =
-surprised if you told me I&#39;m alone in seeing this. Between the hosts th=
-at showed this behaviour I have Ubuntu 16.04 boxes (either baremetal or Vir=
-tualbox VMs) and the crops/poky-container running on OSX native docker impl=
-ementation.</div><div><br></div><div>After noticing this, I got a look at s=
-state.bbclass, which I believe is the code responsible for actually creatin=
-g those hierarchies. The following snippet seems to be the place where, reg=
-ardless of the process&#39; umask, bitbake should ensure sstate-cache subdi=
-rs are created with 775 permissions (by changing the process&#39; umask to =
-002). Am I missing other places where this is handled indeed?</div><div><br=
-></div><div><div><div>=C2=A0=C2=A0 omask =3D os.umask(0o002)</div><div>=C2=
-=A0 =C2=A0if omask !=3D 0o002:</div><div>=C2=A0 =C2=A0 =C2=A0 bb.note(&quot=
-;Using umask 0o002 (not %0o) for sstate packaging&quot; % omask)</div><div>=
-=C2=A0 =C2=A0sstate_package(shared_state, d)</div><div>=C2=A0 =C2=A0os.umas=
-k(omask)</div></div></div><div><br></div><div>Now, I&#39;d don&#39;t feel c=
-onfident enough with the code to push my investigation further, than I&#39;=
-m writing this to hopefully have someone more experienced looking at it and=
- help figuring out what&#39;s going on.</div><div><br></div><div>Any though=
-t? Should I file it as a bug?</div></div>
-
---94eb2c122c508af7ac055a6a1e9d--
