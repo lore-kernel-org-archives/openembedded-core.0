@@ -1,64 +1,47 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E505607A4
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 07EC571ABF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Oct 2017 22:01:57 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id u134so2533214ywu.2
+	Mon,  2 Oct 2017 05:09:05 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id l10so8705wmg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Oct 2017 15:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=HCA9CJxKr1j57bQ1jHjH7NdFehGGwUiSuLybo1Zvfi8=;
-	b=M0X1oDKy3xZxvL2zrayxT332nLQT4sZEpaXYgwD044P9CrwQoc0bvrGiNN+3P5cqg4
-	2EL5cl4kqAs+6XKm50J+aaOx2RBpLxGza9fsvmpRF4YQWVG3grLFAWvjTJSBZtqRc71x
-	k6JQSv9FV3d+THfkGsrHXsmPoWmZ1j6v+ZOCYUrCI/ZpmFBHJQJdqdoEp8lk4Rweend9
-	ymxFs7hEX/+AEafwrIK8loLbLrD0rMXagUKrGv99+SHmPiTloHkh8dbTYyrxrhLi5yjH
-	26p29nL3+fylSTLgA4SEm8q59xzZCsrJa0FecPtT8rcIrI9t03vGHaAWnvUJfsPVzTo+
-	/PsQ==
+	Sun, 01 Oct 2017 22:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=1mfgGGBWka7oZRZKGUXjX5bD54XB07y/oJjxGjPU0NQ=;
+	b=pU7pX6Yh83BXSMobt9C/SsZpHoSjUj9rTepvrxblMoVLjNen9rVMT/3X9/cBO+XiaZ
+	B2QR0DfPEvE+Tz/Jp8WhxPv5KnDHIv2AEjPa/dzn7LOt3wtyeuHhu5n9OiWs6jpcZhMg
+	WXm3FmptjbJHcC4hgiO+C2nbaZhEG5T+/WoRt/FoD39f0mAo+hB6LunMaxZaTZk3JSWE
+	UV6rjG97oqoyuK/3Baaz/4F+ON0Fz0XBYce3f3UC0+8HcIg9E/mVgUXj31xCkVjlVywn
+	mbgxT8aKe2ATqDNb25fW3JOskUxBRrOUOCh77AsNvQUeE7/hARR1nvLp12PHh4gwa3/E
+	Y4Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=HCA9CJxKr1j57bQ1jHjH7NdFehGGwUiSuLybo1Zvfi8=;
-	b=N2RKtgK3qEIZN9XEGK3qbrFZeZXbsAkuj6aHqmnOPx1QgO2bIUWVLU27wm75SyOthN
-	dZP7yfAr6x2T+kMzvCPLW8ihaKQfnhtz59R0QsPiOEAXPm42j2i9ljTTrfmbFuEc65bH
-	hUBrpLVCHjFlrq3u5zoZD5ZuP2fr0IFochcFzYEQzKZjUXifJFZ4v8NAx5ujBFguEoBo
-	edMJj4AiTKb0zYmyC4ppyIl9zeHpoGN3IbsKsD+X6QePaYKH7Ip69hIkpzRtlWwASPAB
-	CnTCnxkHnQJ6LjFXxWfz+uZBLhx9KmFxtPae6f3Jdex9f7zan2mmY0jIfEc9lqeFtLyX
-	yZTw==
-X-Gm-Message-State: AHPjjUi4oaYb0W5ExyGmj4AimHc42pLz12goRVFnDmkfmLGyM2x6F7Hz
-	BrxYYzcsfdsKdtns3Fhj6czVH7aQ
-X-Received: by 10.129.37.7 with SMTP id l7mr11559259ywl.67.1506895318692;
-	Sun, 01 Oct 2017 15:01:58 -0700 (PDT)
-Received: from mail-oi0-f45.google.com (mail-oi0-f45.google.com.
-	[209.85.218.45])
-	by smtp.gmail.com with ESMTPSA id l24sm539581ywh.23.2017.10.01.15.01.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 01 Oct 2017 15:01:57 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f45.google.com with SMTP id f3so6536953oia.2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Oct 2017 15:01:57 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QD1q2oprmV7Bxrv3hlhDquXudanqZYZvo5uif5boL9CQicBqZv/SR3XHqQrU/YtJIouRca3NfOvXsjKv6XALJ8=
-X-Received: by 10.157.8.134 with SMTP id 6mr6216907otf.189.1506895316937; Sun,
-	01 Oct 2017 15:01:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.56.216 with HTTP; Sun, 1 Oct 2017 15:01:56 -0700 (PDT)
-In-Reply-To: <7738c857-3635-f56f-45fd-cd7d5b5eb82e@linux.intel.com>
-References: <20170930180655.25134-1-otavio@ossystems.com.br>
-	<20170930180655.25134-2-otavio@ossystems.com.br>
-	<7738c857-3635-f56f-45fd-cd7d5b5eb82e@linux.intel.com>
-Date: Sun, 1 Oct 2017 19:01:56 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqpb2nGy9M55g44Onm6Bub4nZ8xKQv4A+LEuoqtkwtRPQ@mail.gmail.com>
-Message-ID: <CAP9ODKqpb2nGy9M55g44Onm6Bub4nZ8xKQv4A+LEuoqtkwtRPQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] lib/oe/package_manager.py (rpm): Allow use of non-signed feeds
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1mfgGGBWka7oZRZKGUXjX5bD54XB07y/oJjxGjPU0NQ=;
+	b=jbv5YC7KNSoVizGBlHQfNHTGMwMi3am1SitPTtXfXv0zYptdCjHT9MWa7QxNyujOhA
+	Sg8JnEC/aSjXLhErD1BOZW/8DkiuMyoykLNtMH41sWmPwEo6mNAuAamcjK9UMTxS39ES
+	f7cVfPrHgf01RKMqsGYxroyz7dwoi8ZPiDb/EY6D5INeqp/MFZ9KdrUAnjW1ij2wmzB5
+	Z6JUSDQTYMfHQrPRMSnhJX9Hx+u7ruhJ/hod/slOL04iZ8N3G19ojb6WV/EX/dkYj/bW
+	G5EMY1zd9Z9o+qLizdNZDi6vW/BqtaxhMptge+CZl/6nWA2C5TPF+lijRYfoNlVqedyj
+	MLug==
+X-Gm-Message-State: AHPjjUhLCn0Dwyu4ATLbXNr+a4kPIAVSAUT4kv5d5lANhetG3thbDlVA
+	6GBlvtTvP132l96woM3N8OW66Ncc
+X-Google-Smtp-Source: AOwi7QAG986TjF8kGEFOIJd7d4MQcfiMEgHxvendXrJXUej6mx6F35741rttX5dFi7fpbPucQzkKpA==
+X-Received: by 10.80.150.196 with SMTP id z4mr18463113eda.269.1506920946411;
+	Sun, 01 Oct 2017 22:09:06 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([117.136.38.60]) by smtp.gmail.com with ESMTPSA id
+	x29sm9792646eda.51.2017.10.01.22.09.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 01 Oct 2017 22:09:05 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Oct 2017 07:08:46 +0200
+Message-Id: <1506920927-1938-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] libsolv: fix a kernel-devsrc installation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,43 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Oct 2017 22:01:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 02 Oct 2017 05:09:06 -0000
 
-On Sun, Oct 1, 2017 at 4:39 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 09/30/2017 09:06 PM, Otavio Salvador wrote:
->>
->> When we wish to use the package feed for local development, it does
->> not uses GPG signed feeds by default but dnf does. We need to
->> configure the GPG signature check out so it works out of box.
->>>
->>> @@ -551,7 +551,7 @@ class RpmPM(PackageManager):
->>
->>           if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
->>               gpg_opts +=
->> 'gpgkey=file://%s/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s-%s\n' %
->> (self.d.getVar('sysconfdir'), self.d.getVar('DISTRO'),
->> self.d.getVar('DISTRO_CODENAME'))
->>           else:
->> -            gpg_opts = ''
->> +            gpg_opts = 'gpgcheck=0\n'
->>
->
->
-> Again, 'gpcheck' option has nothing to do with verifying signed package
-> feeds. NAK.
+From: Ming Liu <liu.ming50@gmail.com>
 
-Oh really? so tell me why it fixed my error?
+This patch aims to fix a kernel-devsrc rpm installation failure on
+target, I had sent the patch to libsolv upstream, but its maintainers
+rejected it with the reason:
+...
+we probably want to sync these values with RPM code...
+...
 
-Without this patch I need to use:
+I am not a rpm expert, would somebody please comment on this? Is this a
+issue also should be addressed in rpm?
 
-dnf install --nogpgcheck <pkg>
+Ming Liu (1):
+  libsolv: fix a kernel-devsrc installation issue
 
-and it is sub-optimal as I did not enabled signed support.
+ ....c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch | 35 ++++++++++++++++++++++
+ meta/recipes-extended/libsolv/libsolv_0.6.28.bb    |  3 +-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libsolv/libsolv/0001-repo_rpmdb.c-increase-MAX_HDR_CNT-and-MAX_HDR_DSIZE.patch
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.7.4
+
 
