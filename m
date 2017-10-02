@@ -1,48 +1,51 @@
-Return-Path: <drew.moseley@northern.tech>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0153871A15
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DFAB771F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 21:48:39 +0000 (UTC)
-Received: by mail-oi0-f51.google.com with SMTP id f3so11365530oia.2
+	Mon,  2 Oct 2017 22:05:59 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id 85so9320103ith.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 14:48:41 -0700 (PDT)
+	Mon, 02 Oct 2017 15:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google; h=from:to:subject:date:message-id;
-	bh=j01MYECfZIkpqjB7QMcx4mse2/O5z7V72wuhaGuQsPI=;
-	b=HL7cdhSjguYDt9ehWRmFuC4/SzFmygWCoM2NOcxisJOTHX7zPicUS/Xvbg0I8kc/Ot
-	6YzpOG6h+HSEdDH9VWm/FUUh7HHWp7GkviM5C1k295Wg1JBsKgFdw43s58STGo4s+KIL
-	cWu6xS2eRiU6oyqA/AuPWQdwKfWatc8h/X6uK3tdYgjxDEkDF4LYk1FmoV4YrCNiJBrP
-	xmRdCRWf5Kts1Wi02QhbcX60ry+7UsrZ+3NIu386MJpfiTNUO0RPlKfr0ennRTvZ6ffx
-	KoztiUFKAYBdguyjg6+biiCuzHyqmYylm0sSO2OpD+/G4d78Xyx9evCc6ugvlUPlHrfB
-	Q59g==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=KkTbNtK9eLUPgZB8km8c5gIs6zFqUzGSpAI537uLe6A=;
+	b=bLXRVCO27d9/3m8FK1HhxX9V55rGkl+8r1/cePD/t3SpY0qTTo7Cjc1tCBIK4FahIc
+	SHWUdpXL4B2ImDSx7fQqzdg1txp8oE92O40T0FRG6Q5RKRIBY0thtcq8yeBLDLz7Wklj
+	gGHEVIwO0oQXbG8nd75pVvY9LAbYV8pF5h9SRodefCFg7Ux7GteUs7UKsxjpjpc37qyd
+	sXY/FcxtyZNJNTqNjGDvELNO0fEiKBG0l4aE6GLtCG+wd2R5Oq8UzjZOR1oNmTx/Bpe/
+	xy/hcsbQN3ocnc6CWYVajU0/QTC9m3a1QwP8P/dwt3je12NBs86EVPs4Fp3fbTnjKKpP
+	ak6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=j01MYECfZIkpqjB7QMcx4mse2/O5z7V72wuhaGuQsPI=;
-	b=mW+HP4RcN+am6C//CuVcGq7twbXQWITq3ifkP9VpZQhwA6bfqYm97OC5By21go/3ha
-	aVVCQ1DZoWjxtKvmSQjMEamx7ix2OoUd1DmclKG9uhya1rO/L7Zb3qdT/USojBusl9Rv
-	JYIHx6OAVnUBL6QcmfhpN2PV7/UMKTf+zxGhy7+q72W73TRFcUAirbfVMDaGAnyM43PM
-	qgu8pPj7842Qs5xWATily4zf63Z5ZiYlRCEBLqTn66espCAHKNi3fTKS9wMaLPrLYM2E
-	EPdgTwB9YkGJeBvVKzhMiV8wQjkYDa3A6wUUIhaLtNJwuvXxbNTJvdEIV1gNrFiArfa6
-	vtbQ==
-X-Gm-Message-State: AMCzsaXvVgczShRm5APVvKWOImhoi63mXcxlVX3/NYdKAXQIxVtKODbc
-	Xokmy7Wr5X7+R7+5ncGjnWfdtaoeaBU=
-X-Google-Smtp-Source: AOwi7QDd31B6cDNA9FxCtgdgR4XPjqr/pBn7AeoeK0UHLAsiTI0tLpY0tGbBHZ1XHSJyrxa+d6dX8w==
-X-Received: by 10.157.4.233 with SMTP id 96mr9210698otm.484.1506980920506;
-	Mon, 02 Oct 2017 14:48:40 -0700 (PDT)
-Received: from tobago.home.moseleynet.net (173-168-237-167.res.bhn.net.
-	[173.168.237.167]) by smtp.googlemail.com with ESMTPSA id
-	t188sm5830516oie.42.2017.10.02.14.48.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 Oct 2017 14:48:39 -0700 (PDT)
-From: drew.moseley@northern.tech
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Oct 2017 17:48:36 -0400
-Message-Id: <1506980916-22348-1-git-send-email-drew.moseley@northern.tech>
-X-Mailer: git-send-email 2.7.4
-Subject: [pyro][PATCH] archiver.bbclass: adapt do_unpack_and_patch to RSS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=KkTbNtK9eLUPgZB8km8c5gIs6zFqUzGSpAI537uLe6A=;
+	b=b9q/aAoEMqRzKroRCBB9g6Q154rIlb+T95vJC143Df13t84rEldWHXeIUP12cFPhZ2
+	r/uuhwrb8rjc1RCAE3DFSUEPgDVhuTcHruH6pWGqfTru1MKCFPP6l0Ck5T2nRcLd153M
+	t4ESaWnc1+NK5l79788IbggzCVAw6OPlYkVSJDnWuubiI4QUGFytlOXJU7mPY06D7iHb
+	yhaV/Af/SG4N32dHxcT5ReYSwPZZC/UfiJEC5ZFygzPFYukbxUFG5tPeGotCE8ngOmAK
+	zsHf4V6DFN7nrV7wDmQoKAtQmdruCTANGQkG7sDFV8ZDUjSbpHTHJt9LHylxpK9/0OWc
+	dDgA==
+X-Gm-Message-State: AMCzsaWycci6qM+oLpB+Y4iqO1ZJzP+zwriDkF+mW2kx8Q/2He8pTorm
+	jhhcRvIUZ275eTElfcJHIOjt5uLMxRrn7oU6hTxrnQ==
+X-Google-Smtp-Source: AOwi7QCt68eLY6ykpvJIxmz79mgdtFc6macGWGFedv/pxBIkfI71NF92jard+5CGJyvRLaOzlm3k8sqBIMWjZB6vm6o=
+X-Received: by 10.36.162.67 with SMTP id o3mr2758113iti.27.1506981961350; Mon,
+	02 Oct 2017 15:06:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.164.134 with HTTP; Mon, 2 Oct 2017 15:05:40 -0700 (PDT)
+In-Reply-To: <CAP71WjwMd7F1ZB+et7W_rBhh=dmk-g1OXqyEjTGF7+-py9GGYA@mail.gmail.com>
+References: <20170921092131.25537-1-nicolas.dechesne@linaro.org>
+	<CAMKF1src=fX9LRauodhyBtWOBgpYSRYKukFN2x9t5srkPxAsrA@mail.gmail.com>
+	<CAP71WjwMd7F1ZB+et7W_rBhh=dmk-g1OXqyEjTGF7+-py9GGYA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 2 Oct 2017 23:05:40 +0100
+Message-ID: <CAJTo0LbBTXoPGJWs-eU7T4uKA06Y5RP2A6zDnKBAq5c7EKFekQ@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/10] gstreamer1.0: upgrade to 1.12.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,55 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 21:48:40 -0000
+X-List-Received-Date: Mon, 02 Oct 2017 22:06:00 -0000
+Content-Type: multipart/alternative; boundary="f403045fb2a27d695a055a9794f3"
 
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+--f403045fb2a27d695a055a9794f3
+Content-Type: text/plain; charset="UTF-8"
 
-do_unpack_and_patch was not correctly run until recently
-("archiver.bbclass: various fixes for original+diff mode") but
-with the fix applied, the errors we get indicate the function
-is not adapted to work with recipe specific sysroots.
+On 2 October 2017 at 21:49, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+wrote:
 
-do_unpack_and_patch sets WORKDIR to ARCHIVER_WORKDIR which
-affects all path settings relative to WORKDIR, inluding the paths
-to recipes' sysroots. IOW, when do_unpack and do_patch are run, they
-cannot find the necessary native tools and files located in the
-sysroot (e.g., quiltrc) because the paths point to ARCHIVER_WORKDIR.
-
-Adapt do_unpack_and_patch to RSS by restoring the original
-STAGING_DIR_NATIVE after WORKDIR is changed to ARCHIVER_WORKDIR.
-
-(From OE-Core rev: db7d2cc5a4df3c2077ba874c7ae395c73fd9ed13)
-
-Tested-by: Drew Moseley <drew.moseley@northern.tech>
-Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/archiver.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 2c04557..bab3461 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -299,12 +299,15 @@ python do_unpack_and_patch() {
-         return
-     ar_outdir = d.getVar('ARCHIVER_OUTDIR')
-     ar_workdir = d.getVar('ARCHIVER_WORKDIR')
-+    ar_sysroot_native = d.getVar('STAGING_DIR_NATIVE')
-     pn = d.getVar('PN')
- 
-     # The kernel class functions require it to be on work-shared, so we dont change WORKDIR
-     if not (bb.data.inherits_class('kernel-yocto', d) or pn.startswith('gcc-source')):
-         # Change the WORKDIR to make do_unpack do_patch run in another dir.
-         d.setVar('WORKDIR', ar_workdir)
-+        # Restore the original path to recipe's native sysroot (it's relative to WORKDIR).
-+        d.setVar('STAGING_DIR_NATIVE', ar_sysroot_native)
- 
-         # The changed 'WORKDIR' also caused 'B' changed, create dir 'B' for the
-         # possibly requiring of the following tasks (such as some recipes's
--- 
-2.7.4
+> I have seen these patches on master-next at some point, and they got
+> dropped. Was there any specific issue?
 
 
+They were pulled in briefly for a test build to check for any serious
+problems, but as I'm sure you're aware from the weekly status emails sent
+every Monday master is currently frozen solid as we built the first 2.4
+release candidate last week.  The current schedule is that we release 2.4
+around October 20th (again, this is in the weekly status emails sent every
+Monday), once that has been released (or maybe earlier) master will reopen
+and patches such as this will be merged.
+
+Ross
+
+--f403045fb2a27d695a055a9794f3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 2 October 2017 at 21:49, Nicolas Dechesne <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">n=
+icolas.dechesne@linaro.org</a>&gt;</span> wrote:<br><div class=3D"gmail_ext=
+ra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I have seen t=
+hese patches on master-next at some point, and they got<br>
+dropped. Was there any specific issue?</blockquote><div><br></div><div>They=
+ were pulled in briefly for a test build to check for any serious problems,=
+ but as I&#39;m sure you&#39;re aware from the weekly status emails sent ev=
+ery Monday master is currently frozen solid as we built the first 2.4 relea=
+se candidate last week.=C2=A0 The current schedule is that we release 2.4 a=
+round October 20th (again, this is in the weekly status emails sent every M=
+onday), once that has been released (or maybe earlier) master will reopen a=
+nd patches such as this will be merged.</div><div><br></div><div>Ross</div>=
+</div></div></div>
+
+--f403045fb2a27d695a055a9794f3--
