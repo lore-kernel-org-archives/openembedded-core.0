@@ -1,41 +1,66 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 40500771A3
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 018F577527
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 14:52:43 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id y57so2625297qta.1
+	Mon,  2 Oct 2017 14:52:47 +0000 (UTC)
+Received: by mail-yw0-f195.google.com with SMTP id v72so3713589ywa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 07:52:45 -0700 (PDT)
+	Mon, 02 Oct 2017 07:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=GqA0fIckLWjmDu8LFhe58mamSDxuYyt2J23klSeJ8+4=;
+	b=l9LBMen2sR6FPsc1Kyt/NNz5hSOMDsS6RWEGBCXIqy4rgFO2c1OTDjROBMFC0yaRMd
+	dUHnfPrGCP4ezR5+SrlW4fqSHpQe9uWmnQbVasp6ZePxsQ6rUIQeoKZfZSZOyWPJ85Q2
+	tFy3gyYDrvqn63/vJAJztxFPK8sY/4fGOCiyEtGejciP4pZw1iK3aeLmG7DTnavuj9jJ
+	09OR1MDhNoJcD8A1Hbgrs8WO9uO06lmdKR1B5tSR3aZ6C7XmvnPceQywW2UGRRFKJ/PU
+	t7y5dV3id3hPPi1565B8at1cNRQXJNOsLgnDH7g83a+EyTwKCD0i8IpPJMw4BFnqia8H
+	8v/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=EZ7ybwNbcCKUKo5lKJgcuxYteiS2JxnnGm+DGnnpbN8=;
-	b=Bs0Fjrj8ggx0cqSmOoj4SKTWzNlDLirE5UtmJERWUAMVGk81kbeZsZZPGcV/3tt2dq
-	pitPu/6XTjDpAPaBhf81bUydznb9yuwkB+grIgoclMq2O1u9EdtQ07GQfMvYdhPAcJsR
-	cplZ1LHM01ryFD/wD/dM+kEPUIPd9qaZ5FDidjO9mnBZvNNcwTv44pbHTtIQarNtF1uN
-	2iq6Pw+vhYNj/U7mUPmW9HmMFfxt84xLPaLsYUZq8lBoanCNimId0wptQeeflgNBtQWl
-	QJ9yg9XL9BNNka1W3mlprbiH7TxnB3aBHf3BCab4YrIKzJ6YYR4Cexx8nlo/YyVZaV56
-	xIPw==
-X-Gm-Message-State: AMCzsaXJ76QeLe3MToUL09ET4Kdn3K8wW7wvH6E7QQzAhkpf3rJy39ul
-	G3kgj8YeUEl4Kfy42vguGNeqbg==
-X-Google-Smtp-Source: AOwi7QDhjnMYX1Pp3UzWGzs7du4DiJw9ZfyR1w5FwdnO8HNxHexWj31wajoLrQclv2s9xNR42nn1mw==
-X-Received: by 10.200.22.8 with SMTP id p8mr19769722qtj.54.1506955964807;
-	Mon, 02 Oct 2017 07:52:44 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id w20sm439277qkb.95.2017.10.02.07.52.41
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 02 Oct 2017 07:52:44 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 02 Oct 2017 11:52:35 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  2 Oct 2017 11:52:34 -0300
-Message-Id: <20171002145234.6306-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v3] lib/oe/package_manager.py (rpm): Allow use of non-signed packages
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=GqA0fIckLWjmDu8LFhe58mamSDxuYyt2J23klSeJ8+4=;
+	b=TBzYqMSoDjvCrJy7e53LVnMQTdpOk+wlJZuui1frxD7Q1eSc8OeglvU9KX2UG78mvZ
+	XBAe6aKFxNz+GOGBUyAoRAuvhBKCicGRCZAhaeM7WQDYG9USS/RL/VLjlbtPPFss3AOH
+	Bltvb6UKKA6sfGr7Q0ZmeVFGG7PY9Afa8EpfZwBMCV5U6I+pfNWu/Ox6OLdNbUzt524i
+	izTrWTpUtPseqvUoXdrnjL7CBhTVy6UZMrUFq0AJSOqxB+N9CZZ7jManlr6qYJKdmjp0
+	2J6iSHSdb4EjqbJJ4TFKxUjO2YS0uC3iU3NSaC1C9ziGL7WAtmSPFpvNYr5GinXUv9UC
+	Fo7A==
+X-Gm-Message-State: AHPjjUjbdiUcIcjCVJtBzpCErYyznnLeBUmB/+HHtC6NfvUOVui3cI8H
+	GQw7YKfZJ/Q8adAKqhecG3bvrtpF
+X-Received: by 10.37.132.8 with SMTP id u8mr12776360ybk.384.1506955968400;
+	Mon, 02 Oct 2017 07:52:48 -0700 (PDT)
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com.
+	[209.85.218.54])
+	by smtp.gmail.com with ESMTPSA id m8sm196389ywd.27.2017.10.02.07.52.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Oct 2017 07:52:47 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f54.google.com with SMTP id y64so9409180oia.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Oct 2017 07:52:46 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QDoQ4gwaT53nIGu4gbMPFCFr/c6xL9TuhWIWmgfLhUtXlagLU5mO/pzI4U/DWjwsuY1ndRQrpNh7oZVRHo6tyU=
+X-Received: by 10.157.8.134 with SMTP id 6mr7339513otf.189.1506955966414; Mon,
+	02 Oct 2017 07:52:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.56.216 with HTTP; Mon, 2 Oct 2017 07:52:45 -0700 (PDT)
+In-Reply-To: <0a24cf32-b806-c63d-095e-75b14111065c@linux.intel.com>
+References: <20171002141814.29709-1-otavio@ossystems.com.br>
+	<28ebae92-b3c1-7664-87f7-4c326711e647@linux.intel.com>
+	<CAP9ODKpr_ypij4Z919kVkQkJgWcr_VaS7AzP=0Wi7oumP3k8oA@mail.gmail.com>
+	<0a24cf32-b806-c63d-095e-75b14111065c@linux.intel.com>
+Date: Mon, 2 Oct 2017 11:52:45 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo7njSPpc3dSBWjPssGfuymzugYb3s5si3=cQgSY1yaRA@mail.gmail.com>
+Message-ID: <CAP9ODKo7njSPpc3dSBWjPssGfuymzugYb3s5si3=cQgSY1yaRA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] lib/oe/package_manager.py (rpm): Allow use of non-signed packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +73,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 14:52:44 -0000
+X-List-Received-Date: Mon, 02 Oct 2017 14:52:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-When we wish to use the package feed for local development, it does
-not uses GPG signed feeds by default but dnf uses package signature
-check. We need to configure the GPG signature check out so it works
-out of box.
+Alex,
 
-With this patch, installing non-signed packages works:
+v3 is out.
 
-$: dnf install <package>
+On Mon, Oct 2, 2017 at 11:34 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 10/02/2017 05:34 PM, Otavio Salvador wrote:
+>
+>> It does not work as you are explaining. Without this patch I /need/ to
+>> use:
+>>
+>> dnf install --nogpgcheck nano
+>>
+>> to install nano. dnf has it enabled.
+>>
+>> root@qemux86-64:~# grep gpg /etc/dnf/dnf.conf
+>> gpgcheck=1
+>
+>
+>
+> Yes; your patch is solving this problem incorrectly, introducing a new,
+> different problem. The new problem is:
+>
+> - enable package signing, disable package feed signing, check that the
+> resulting dnf.conf file has package verification enabled (it won't).
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
 
-Changes in v3:
-- Check if package signing is disabled prior disabling it
 
-Changes in v2:
-- Improve commit log
-
- meta/lib/oe/package_manager.py | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 658c964277..4fbc293992 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -551,6 +551,8 @@ class RpmPM(PackageManager):
-         if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
-             gpg_opts = 'repo_gpgcheck=1\n'
-             gpg_opts += 'gpgkey=file://%s/pki/packagefeed-gpg/PACKAGEFEED-GPG-KEY-%s-%s\n' % (self.d.getVar('sysconfdir'), self.d.getVar('DISTRO'), self.d.getVar('DISTRO_CODENAME'))
-+        elif: self.d.getVar('RPM_SIGN_PACKAGES') == '0':
-+            gpg_opts = 'gpgcheck=0\n'
-         else:
-             gpg_opts = ''
- 
 -- 
-2.14.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
