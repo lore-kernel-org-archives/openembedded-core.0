@@ -1,50 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A1C7E71951
+Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 76D86606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 12:03:10 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id g18so6967942itg.5
+	Mon,  2 Oct 2017 12:19:46 +0000 (UTC)
+Received: by mail-it0-f49.google.com with SMTP id d192so7029624itd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 05:03:12 -0700 (PDT)
+	Mon, 02 Oct 2017 05:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
-	bh=eKPh8PqFzzKPkSU3GTDbGazVzp/oIKGApXouKyvkd+w=;
-	b=bKBNcYbvgRoQDYhzWtVN3HkSr3kOcW5h85i+UIRjdJhwuROl3H9qTWg9m3E5EQ9SWt
-	klLympUccc6uUMTa6O9cAzD0lfxhxDY/9ZgGJz98G6QFhHI+fHB7SAEoBkRYLuog0vof
-	HE6BF72FoxzWVBuxmUQZbYs+9slrKip3BH6TpXNFEmv5o96R0HcgqQ0idY8zJfG0Vnyz
-	kbCZx25w7q4RDqdQN2C9CBjaLe8uCzaOk7S3zPzfZeAxeUPd/o98lUy7TxWPR8DGohzi
-	SpOCz9WMycsvasDu3dQ0/qc6zD9HpN2zJ1hCcUqoPDLow4GgY6cdZMx0lPXXjIGwEolh
-	SaFQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=49i8+/Dn+s5IUP0yfh8SHIejZZgqI6mZRZCr8ESZMdQ=;
+	b=QjXhpyaB12PtejAQt7AaUWUcS/zAZzrUru744Z5rDlX02YCVjCJ6ddBt0n5P8NY5tB
+	k8poojfA6ND8yrTy3YD3rPhqTRMPf9KVdsPenbNlBfQmYL4atLcs1WtD+Uc9oVpUve1z
+	Cqw1AXjVK6nqvzfo3pFdDUuo1BvGqswxhYLepOVhGsYYhQnvcdiyGelpbuD6vbTbwa25
+	+HsJC8fC6YSVisPKS4GmkDjsviJOsQMGtJgmLPGvyA6n5rvK8OSrFMVBCKW14JtlcD9+
+	QJ/BTjnYvpfWahYsroYBUap+GvcyO4UapArQIXWmoBwpMRN75Rr+Ma9HYVAreyuyJcIA
+	StZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=eKPh8PqFzzKPkSU3GTDbGazVzp/oIKGApXouKyvkd+w=;
-	b=BnwKofAzy9YYs3gMInIVBytM03u/f5YvGmd86hTl0BnzgLAYGSQy+j6/6bL7mNdAwA
-	/i7ugNHk63tX67caojCQaQo1jem4oZ+wsi5Lcx3seG7B9hZT9lo4tTqbDKuAHZFGCXXJ
-	gFrTNKwTlzcrD7ZR0aFR6WmSb3kIG6UoIfLL4LBcm1m1GY1/omyW85MyxWyh4LWfMGJU
-	ojS6Rf03bOQ/KWFUDDZDUH10xD2GODjg33lwiDp6AvfcbOfkzp/Oz2ohyZF+B9iWqFKt
-	8WOaXcspTboBaZzVwGdS+sZFF+wJvTcZxh/s3X0Iq0LFMd3UYlHFWL1XbTAAuR+lsjw8
-	GR9g==
-X-Gm-Message-State: AMCzsaVn2POt5WTo/e9mFY+EMRkDGqzuuTW7l0CGMPGmmuqDvGfpAfF4
-	Zs1uIVPGPq3gd4/7cwHhvVvAgTzSskRPS2K1FPqmew==
-X-Google-Smtp-Source: AOwi7QB9dicT8yWoqVuTBC4fePIfahvEJPvW6CjOREF5+D588B288CmlIuRgtLXCtKTcav5jBWJdj/2u5mk0TtMHlo4=
-X-Received: by 10.36.167.79 with SMTP id s15mr11335742iti.6.1506945791526;
-	Mon, 02 Oct 2017 05:03:11 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=49i8+/Dn+s5IUP0yfh8SHIejZZgqI6mZRZCr8ESZMdQ=;
+	b=ZvxFMRFa5LG3tk/LvKiGnfu/nXa4Ilv0AtIWmiZxImz/AR6Vf4A3+/8uzc9sx7n4Qx
+	KOWtuEKNylz/suwoF+4Tz69aY1XDWK7iAVaGbEZ0eknZwqp13d+baHCslgLuSAMtSSLd
+	LcKPKoZzL1mNB+wpX32ZoFtbU5jDG/TGj6M+ZsDvmljdbj2fAvynlRlXCMXtAgAi8YIN
+	fzZdyvzHunt7CRnj5wn9g+j7XL/5I1l7g6d0EqFAs26iaCBGEea+RjSLkIhEi7vOKnuK
+	CSxYsU3bADizWA7dvY3ucfKTEKbC2AT+EvQYurUzR7kiK1PLrnB5DtHwZiM/tzJimX8n
+	jueQ==
+X-Gm-Message-State: AMCzsaVy5/5pt2cdrWuZgJ6HW0CN1qJ7yvhM9Fwzrg40Rno+XkSKqvQl
+	HAfuuFrLnPV5UZVJaqdSzYDIuYhYR0AS5OFW3voV7Q==
+X-Google-Smtp-Source: AOwi7QDt73HSIshyjPR+jKRW5K2U5pO+ezpMyU2ZfDEDVE+1lCJlkJe82h3Zox12l/LoQVy+EmeIO1ixSHgSIEmnht8=
+X-Received: by 10.36.167.79 with SMTP id s15mr11406824iti.6.1506946787587;
+	Mon, 02 Oct 2017 05:19:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.19.68 with HTTP; Mon, 2 Oct 2017 05:02:51 -0700 (PDT)
-In-Reply-To: <98853737-95db-371c-992a-decc361f58be@linux.intel.com>
-References: <20170927191215.15752-1-alejandro.hernandez@linux.intel.com>
-	<CAJTo0LZARrNgW0ULNmLgf7vgGAY9fw-T89Ox4LZkYN06hKnAmA@mail.gmail.com>
-	<98853737-95db-371c-992a-decc361f58be@linux.intel.com>
+Received: by 10.107.19.68 with HTTP; Mon, 2 Oct 2017 05:19:27 -0700 (PDT)
+In-Reply-To: <1506644875-30179-1-git-send-email-yi.zhao@windriver.com>
+References: <1506644875-30179-1-git-send-email-yi.zhao@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 2 Oct 2017 13:02:51 +0100
-Message-ID: <CAJTo0Lb=Ea6bZFKqrXK8BCxY9QPMUttWjw3Y1qDvibaLS2w4gQ@mail.gmail.com>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python-native: Build with ipv6 enabled
+Date: Mon, 2 Oct 2017 13:19:27 +0100
+Message-ID: <CAJTo0LaM_D3862Yuq3Y6vQkMa3bwBjgozYZd93r1nv=dV=F2wQ@mail.gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] watchdog: install wd_keepalive service file to its own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,100 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 12:03:10 -0000
-Content-Type: multipart/alternative; boundary="f403045fb21899a9fc055a8f282e"
+X-List-Received-Date: Mon, 02 Oct 2017 12:19:47 -0000
+Content-Type: multipart/alternative; boundary="f403045fb218f84dae055a8f63b8"
 
---f403045fb21899a9fc055a8f282e
+--f403045fb218f84dae055a8f63b8
 Content-Type: text/plain; charset="UTF-8"
 
-I think that's probably the best option.  There's not a lot of network
-operations done by native applications and the ones that are will fallback
-to IPv4, so I'm not surprised it wasn't noticed.
+On 29 September 2017 at 01:27, Yi Zhao <yi.zhao@windriver.com> wrote:
+
+> Move wd_keepalive.service from watchdog package to watchdog-keepalive
+> package. Also remove debian specific code from the service file.
+>
+
+Remember to say *why*.  Reading the diff tells us that you are putting
+wd-keepalive into a separate package, but doesn't explain *why*.
+
+I suspect its because you should only be running one of them and if they
+both start then they'll race.  I also suspect the real solution is to have
+them either one or both disabled by default instead, as it appears to be
+perfectly reasonable to start with one and then swap to the other.
 
 Ross
 
-On 27 September 2017 at 21:28, Alejandro Hernandez <
-alejandro.hernandez@linux.intel.com> wrote:
-
-> Yes, I really didnt want to enable ipv6 as a DISTRO_FEATURES_NATIVE,
-> because it would affect other packages,
->
-> and since it was deleted back in April and no one has complained, I
-> figured we didnt need to enable it for all of them,
->
-> but can definitely do that as well.
->
-> On 09/27/2017 02:46 PM, Burton, Ross wrote:
->
-> On 27 September 2017 at 20:12, Alejandro Hernandez <
-> alejandro.hernandez@linux.intel.com> wrote:
->
->> +# Enable ipv6 support for native by default, without having to modify
->> DISTRO_FEATURES_NATIVE
->>
->
-> Or lets just change DISTRO_FEATURES_NATIVE?
->
-> Ross
->
->
->
-
---f403045fb21899a9fc055a8f282e
+--f403045fb218f84dae055a8f63b8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think that&#39;s probably the best option.=C2=A0 There&#=
-39;s not a lot of network operations done by native applications and the on=
-es that are will fallback to IPv4, so I&#39;m not surprised it wasn&#39;t n=
-oticed.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><=
-div class=3D"gmail_quote">On 27 September 2017 at 21:28, Alejandro Hernande=
-z <span dir=3D"ltr">&lt;<a href=3D"mailto:alejandro.hernandez@linux.intel.c=
-om" target=3D"_blank">alejandro.hernandez@linux.intel.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">
- =20
-   =20
- =20
-  <div text=3D"#000000" bgcolor=3D"#FFFFFF">
-    <p>Yes, I really didnt want to enable ipv6 as a
-      DISTRO_FEATURES_NATIVE, because it would affect other packages, <br>
-    </p>
-    <p>and since it was deleted back in April and no one has complained,
-      I figured we didnt need to enable it for all of them,</p>
-    <p>but can definitely do that as well.<br>
-    </p><div><div class=3D"h5">
-    <br>
-    <div class=3D"m_-8040907798814805920moz-cite-prefix">On 09/27/2017 02:4=
-6 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <div dir=3D"ltr">On 27 September 2017 at 20:12, Alejandro Hernandez
-        <span dir=3D"ltr">&lt;<a href=3D"mailto:alejandro.hernandez@linux.i=
-ntel.com" target=3D"_blank">alejandro.hernandez@linux.<wbr>intel.com</a>&gt=
-;</span>
-        wrote:<br>
-        <div class=3D"gmail_extra">
-          <div class=3D"gmail_quote">
-            <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">+#
-              Enable ipv6 support for native by default, without having
-              to modify DISTRO_FEATURES_NATIVE<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>Or lets just change DISTRO_FEATURES_NATIVE?</div>
-            <div><br>
-            </div>
-            <div>Ross=C2=A0</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </div></div></div>
+<div dir=3D"ltr">On 29 September 2017 at 01:27, Yi Zhao <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windr=
+iver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"=
+gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">Move wd_keepalive.service from =
+watchdog package to watchdog-keepalive<br>
+package. Also remove debian specific code from the service file.<br></block=
+quote><div><br></div><div>Remember to say *why*.=C2=A0 Reading the diff tel=
+ls us that you are putting wd-keepalive into a separate package, but doesn&=
+#39;t explain *why*.</div><div><br></div><div>I suspect its because you sho=
+uld only be running one of them and if they both start then they&#39;ll rac=
+e.=C2=A0 I also suspect the real solution is to have them either one or bot=
+h disabled by default instead, as it appears to be perfectly reasonable to =
+start with one and then swap to the other.</div><div><br></div><div>Ross</d=
+iv></div></div></div>
 
-</blockquote></div><br></div>
-
---f403045fb21899a9fc055a8f282e--
+--f403045fb218f84dae055a8f63b8--
