@@ -1,33 +1,29 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E99760190
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CBF460616
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 10:59:09 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Oct 2017 03:59:09 -0700
+	Mon,  2 Oct 2017 11:04:43 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP; 02 Oct 2017 04:04:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,469,1500966000"; d="scan'208";a="1020595464"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga003.jf.intel.com with ESMTP; 02 Oct 2017 03:59:09 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id 810FF580321;
-	Mon,  2 Oct 2017 03:59:08 -0700 (PDT)
-Date: Mon, 2 Oct 2017 12:59:18 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20171002095918.i6qrs6u57z6zhs53@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
-	<1506695299-30364-1-git-send-email-trini@konsulko.com>
+X-IronPort-AV: E=Sophos;i="5.42,469,1500966000"; d="scan'208";a="158321154"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 02 Oct 2017 04:04:44 -0700
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <20170930180655.25134-1-otavio@ossystems.com.br>
+	<d270479c-2e98-0211-1cc0-b7775a318d1b@linux.intel.com>
+	<CAP9ODKopd3YGyd7wfz-Xyc+QDEJSJX3yeCwY7ced+aFAY4+Lgg@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <2adc6b6c-9538-bede-9235-b3642b0d5ccc@linux.intel.com>
+Date: Mon, 2 Oct 2017 14:01:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <1506695299-30364-1-git-send-email-trini@konsulko.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] image_types: Fix bmaptool support for RSS
+In-Reply-To: <CAP9ODKopd3YGyd7wfz-Xyc+QDEJSJX3yeCwY7ced+aFAY4+Lgg@mail.gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lib/oe/package_manager.py (rpm): Signature check is enabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,51 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 10:59:10 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Oct 2017 11:04:44 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 29, 2017 at 10:28:19AM -0400, Tom Rini wrote:
-> With RSS we need to ensure that when making a bmap image that the
-> python3 that we created is found via /usr/bin/env rather than the host
-> python3.  Otherwise we're relying on the build host to have bmaptool
-> support installed.
+On 10/02/2017 01:00 AM, Otavio Salvador wrote:
+
+>> NAK both patches, I'm afraid. gpgcheck and repo_gpgcheck are two different
+>> options, which control different things, and you thoroughly confused them
+>> here.
 > 
+> I did test both patches and this is not what I figured. Did you test it?
 
-Thank you for the patch.
-
-+1
-
-> Signed-off-by: Tom Rini <trini@konsulko.com>
-> ---
-> Changes in v2:
-> - Switch to checking for '.bmap' not 'bmap', per Ed Bartosh.
-> ---
->  meta/classes/image_types.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
+>> Again, 'gpcheck' option has nothing to do with verifying signed package
+>> feeds. NAK.
 > 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 61dca626311e..b373b217145f 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
->  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
->  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
->  IMAGE_TYPES_MASKED ?= ""
-> +
-> +# bmap requires python3 to be in the PATH
-> +EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('.bmap') else ''}"
-> -- 
-> 1.9.1
+> Oh really? so tell me why it fixed my error?
 > 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Without this patch I need to use:
+> 
+> dnf install --nogpgcheck <pkg>
+> 
+> and it is sub-optimal as I did not enabled signed support.
 
--- 
---
-Regards,
-Ed
+
+Oe-core has support for two different things:
+
+1. Signing and verifying individual package files. This feature is 
+controlled by RPM_SIGN_PACKAGES option in build configuration and dnf's 
+gpgcheck config file option at runtime.
+
+2. Signing and verifying repository metadata. This feature is controlled 
+by PACKAGE_FEED_SIGN option and repo_gpgcheck config file option 
+respectively.
+
+The above two things are completely orthogonal, and can be enabled and 
+disabled independently of each other. Now please look at your patches 
+keeping this in mind.
+
+I assure you, both of the patches are incorrect. Exactly why is left as 
+an exercise for the reader.
+
+Alex
 
