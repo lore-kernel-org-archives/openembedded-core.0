@@ -1,53 +1,33 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6624A6E666
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E99760190
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 10:41:53 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id q4so6631896qtq.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 03:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Oeu+V06eGgwBhcczyC5rbBkivPFETjkQppoHPRJDefw=;
-	b=gs2ZF/QCVXqpNYEqX0yuGs2AZtapnGLqHHPZjfE2BQ+wWkowD11XU2uuGw05lPEO1c
-	O5+GMRcrliqTRtSWRkaJJsAoFeqa2hGZugmMnpi3t2DUlgad0ceNhv/3y+fqPtE3QUcW
-	6VFcTHwlHdVaXWWpt4r3hMYCrlhitGR2Dv/OX5bxp2pYML0DBh1aGVzPXPIssMac6c//
-	WbddkvjgRTaiBR15UYZxWTCrXIvt+ROAZqyNjrruIysBBkKkimv09tyP1tSv6FFpR7bW
-	ioZmJxrj91nyUeg9j9WtwGUhUNukShNL5//r9lG3ve2jtraqFbmGOPHoLLntq9f0jjLf
-	pw1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Oeu+V06eGgwBhcczyC5rbBkivPFETjkQppoHPRJDefw=;
-	b=Zl6fFaZj6plVdDzb+yNOL1TH8EKxphja49u475q7EzTP7SrGvhAk7uDAPowQn7lcuc
-	4a/o2v1+tZuRJgdk9qQQkC5zDtWSRp2bgPn65UvqdITK0Oqx/H44z22gpULIT//cn4oX
-	Uz+bDDjgMN7WQs0Knx4nzvKIc/kDGhO793is+zu+rYoOOTBLZy2TRyWIwyi8DqFF1dwr
-	dPiHyQMz7JQazrt3Yk7036IVigSYei/qPVTtRB+VDNqD0m1nbElWARaM9c1ITGfu/HKS
-	UYl1EOPXqaOsaJNDm/e6Dc+/weF+Q5bwaaf6rR4CVXAqz0D6ZFKQxBdRzLEjqqhcmUEN
-	1TDQ==
-X-Gm-Message-State: AMCzsaVFNGMRm3YElJ8jhLk710LSBw07a85uuRwMEy/WvalO6hv8mXah
-	KYLfZ1ZOXkOVcGOlKfJEaw/PN8sc2owgVpIySmKc8A==
-X-Google-Smtp-Source: AOwi7QAMUTKyb9JVKUKGpa/4pUM61auIKE52+UX+UsXkJCSUckq6zR6lh8faHWthM74y1mzTH/CXmB+XcX+FjNYUNtw=
-X-Received: by 10.200.23.140 with SMTP id o12mr17871836qtj.269.1506940914904; 
-	Mon, 02 Oct 2017 03:41:54 -0700 (PDT)
+	Mon,  2 Oct 2017 10:59:09 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Oct 2017 03:59:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,469,1500966000"; d="scan'208";a="1020595464"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga003.jf.intel.com with ESMTP; 02 Oct 2017 03:59:09 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 810FF580321;
+	Mon,  2 Oct 2017 03:59:08 -0700 (PDT)
+Date: Mon, 2 Oct 2017 12:59:18 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Tom Rini <trini@konsulko.com>
+Message-ID: <20171002095918.i6qrs6u57z6zhs53@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <1506531609-5917-1-git-send-email-trini@konsulko.com>
+	<1506695299-30364-1-git-send-email-trini@konsulko.com>
 MIME-Version: 1.0
-Received: by 10.12.152.157 with HTTP; Mon, 2 Oct 2017 03:41:54 -0700 (PDT)
-In-Reply-To: <CA+aJhH1pOZyXvkSCfp=g6C15oe+NQD0+fMKwcTiK=bOTnsZAEQ@mail.gmail.com>
-References: <20170910131446.4555-0-nathan@nathanrossi.com>
-	<CAJTo0LaqHGMPDF=JHGw5NcBzvTkFbP2bQfmgcG8o-Zx0hTeD3g@mail.gmail.com>
-	<CAMKF1sp1R_wnW6Zkh96WWJKgC9zzgtbO-__JvqgEYWp_B6whzw@mail.gmail.com>
-	<CAHUNapT0zPy9SUv+g7OBKp86BF_s8_=_RPrmNhMJQa7S8LbM8w@mail.gmail.com>
-	<CAMKF1sry4fSRQa-wqcdcds0U8tN3jQhRdLZbtU1OzBG-4rSVTA@mail.gmail.com>
-	<CA+aJhH1pOZyXvkSCfp=g6C15oe+NQD0+fMKwcTiK=bOTnsZAEQ@mail.gmail.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Mon, 2 Oct 2017 20:41:54 +1000
-Message-ID: <CA+aJhH1TL8pEm+PtfAsarOjjm4L583M2G2JGd9_DUQ1+uqZVrA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Recipes for Open Source Verilog and Lattice iCE40 FPGAs tools
+In-Reply-To: <1506695299-30364-1-git-send-email-trini@konsulko.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] image_types: Fix bmaptool support for RSS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,59 +40,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 10:41:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 02 Oct 2017 10:59:10 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 14 September 2017 at 22:56, Nathan Rossi <nathan@nathanrossi.com> wrote:
-> On 13 September 2017 at 11:24, Khem Raj <raj.khem@gmail.com> wrote:
->> On Tue, Sep 12, 2017 at 4:42 PM, Trevor Woerner <twoerner@gmail.com> wrote:
->>> On Tue, Sep 12, 2017 at 4:21 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> On Mon, Sep 11, 2017 at 1:58 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>>>> On 10 September 2017 at 14:14, Nathan Rossi <nathan@nathanrossi.com> wrote:
->>>>>>
->>>>>> Please note whilst this series is sent for oe-core it may be better
->>>>>> located in another layer? (e.g. meta-oe). However since the recipes and
->>>>>> the tools they build are not specific to a single BSP it did not make
->>>>>> sense to keep in a BSP specific layer.
->>>>>
->>>>>
->>>>> Sounds like a dedicated FPGA layer would be ideal.
->>>>>
->>>>
->>>> I think a layer for 2 recipes might be too much. Put it under recipes-devtools
->>>> in meta-oe for now.
->>>
->>> 5?
->>>
->>> Am I reading this patch correctly? There are 5 recipes?
->>
->> 2 or 5 doesnt matter I just meant "too few to be a layer of its own"
->> engineers minds :)
->
-> That was my initial thoughts, and I was following your suggestion Khem :).
->
-> Though it seems like now is probably a reasonable time as any to
-> create a layer to give a home for recipes in the HDL/FPGA space. After
-> all there are other projects that I would like to look at and probably
-> create recipes for in time, so what is now 5 recipes is likely to
-> increase.
->
-> But I don't like the idea of a FPGA or vendor (e.g. lattice/etc)
-> specific layer since that makes it appear like a BSP layer, and there
-> is the problem of the tools 'conflicting' with proprietary tools those
-> vendors provide. I was thinking of following the approach of a
-> language-like layer similar to how meta-python/meta-rust/etc. are
-> setup, something like meta-hdl? Which would cover the recipes in the
-> language space (simulation/high-level hdl) as well as the recipes that
-> translate/compile HDLs for physical targets (FPGA, CPLD, etc).
+On Fri, Sep 29, 2017 at 10:28:19AM -0400, Tom Rini wrote:
+> With RSS we need to ensure that when making a bmap image that the
+> python3 that we created is found via /usr/bin/env rather than the host
+> python3.  Otherwise we're relying on the build host to have bmaptool
+> support installed.
+> 
 
-For those interested, I have setup a meta-hdl layer and published it
-on github, it includes all the recipes from this patch series.
+Thank you for the patch.
 
-https://github.com/nathanrossi/meta-hdl
++1
 
-I've also submitted it to the layer index.
+> Signed-off-by: Tom Rini <trini@konsulko.com>
+> ---
+> Changes in v2:
+> - Switch to checking for '.bmap' not 'bmap', per Ed Bartosh.
+> ---
+>  meta/classes/image_types.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 61dca626311e..b373b217145f 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -311,3 +311,6 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+>  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+>  # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hdddirect, hddimg, iso, etc.
+>  IMAGE_TYPES_MASKED ?= ""
+> +
+> +# bmap requires python3 to be in the PATH
+> +EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('.bmap') else ''}"
+> -- 
+> 1.9.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+-- 
+--
 Regards,
-Nathan
+Ed
 
