@@ -1,49 +1,63 @@
-Return-Path: <andreas.kling@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 78ABA775DA
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2D971B9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 18:06:26 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id h191so1841423vke.2
+	Mon,  2 Oct 2017 18:39:44 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id d13so115559qta.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 11:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=57jJsAzbYOWZbylrKDTzcTCHmeBE5ql8wf2gOTJu7B4=;
-	b=VS6v70JYtvHbMe4qWQdFOexYpM9KwdPZ1Tg6drYAIzKZebX/9/omcjNyzdPRYTY6+b
-	/2fchP8hqDCeVkRVvlILNTBegxAGgtxtnS8b2gGjNLDHlBJmin8vNjQw++KlhhtzDQwc
-	82adUbZVcRFmXYlIjuGgF9W35jOcttN6AiKp9Mpg1ITR889kDISlPRz7riYbpq4iIQtb
-	GQlgsaeKutoNUQBJ1xu+k+E4HePtKZCkvjPcnnvpUNqEuHPJ6JETeKboyPZJaOxQWol0
-	DAo9JyPTRt7MP3jkePI2RCvkDBC+cnRhJxwn6k0yPKYBYi9OMkyks3RclauV4qyOJiFI
-	VmcQ==
+	Mon, 02 Oct 2017 11:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=/YFoNHAILHgHiO0IFXgdINxH+D40yEmXKv+T/mxKynM=;
+	b=g3+a8ESOxfb3e3jMnyamaP7qP52VRUq/pCNeAk6XdKKLYdYJV/YEuBqW9DMOtV/koD
+	U1DNO4MU70ImrNMHtODTJNiYDFn8Ui8THXo5f4rvDeVbNlWfD4S0KfHUuWKq2F+BPnPa
+	W1P4/BSv0EMQKuHRwTa6YRdAdY6uUtEVF6RMj1nKOtSBrm7H/onxXMt/MC08mPtZFYfR
+	DH7zmqL52QY8dplWbn23EgNENrZhnOxksmEqlGsvuZO0chFF+vg9uqzurbm4kvsQ5+2I
+	z/qdxcPtTrgEebhnEZvTkgX6NIJ8PeoWcoW0PEWi4HOufxckrhLBOkHQhuVS2m7C3gOm
+	0FOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=57jJsAzbYOWZbylrKDTzcTCHmeBE5ql8wf2gOTJu7B4=;
-	b=NSwJE+GIDp9OAwp2GkYUTOBjV15ENJrXBTX4r2O08SrKrcwlzgL054g1rxx1X6AQKT
-	vbQlR1jAiam1gAzEQ90vaiO1l9vPDI2qu1ymUyizm6Q6WVTlUSzyNjetdtGe5sKGmTai
-	Xb5hSgjQqeI+6je98TyPQY7hi6JyzG15atubg9Sl8uvOD/E18A2mdIW4DehqpS2ovYTo
-	N+Ys3I8BkwbQC4xL+PEcQIAhS6E4RyDE+GIaexxLHFezGMe+VSxoCYdlP3FWbR4HNXon
-	aHHxiS7tE+Xc8Y62dcqvH2R0F62n/2ocjACqyqyfFuH1iFeOSpM7FBOOUnFzblTI8KJc
-	iSGw==
-X-Gm-Message-State: AMCzsaX1kQS2p9t82gKUOQKvVVXZ9ZPdxUfDhvlvNKi3qkZ5X4osa2s7
-	rBMMK3fP8/U4DwahiDjpThJ0mkSNA82ftBYD8WA=
-X-Google-Smtp-Source: AOwi7QC3lu4Wrcf4N5RGGvItF9X2qOGfhifD+Un6AErgDMUotNh4DoGhxXve+f3/PM5+SI9hpgIxR+0o8FMcvqg2whk=
-X-Received: by 10.31.172.78 with SMTP id v75mr5737275vke.75.1506967588163;
-	Mon, 02 Oct 2017 11:06:28 -0700 (PDT)
+	bh=/YFoNHAILHgHiO0IFXgdINxH+D40yEmXKv+T/mxKynM=;
+	b=CncNH/egbMrC6Zsa160HWzlh0wbE9yK2S9uNF2hIZ0Fe5YiCZFBQp7XkxFEO/vRs5r
+	y3rjvY2wbauxWrUMF/Jfcuq23qZ64jUocZvZin3SfU6Fhv5LPImrIwGcub4PltMqU663
+	nL5U9mb/GO333okOhCYAtg1+hnU8pI1IQ+RpzqBjQcexc4hGh+Us47ukGlcaHJvXpnvw
+	+redExsGIYpk0S+jjmDfkOPJAc1BoF0klisMmbmiRtO8GziAYVkXqFK/krCV+JYp4Pu5
+	gIGXBFJ/fGXVD3VFRwSjsrWg4ep3SHgvRx8KjiE5kIIcIsyC/dmJi6em5x9y4Wq+XmzX
+	zMaQ==
+X-Gm-Message-State: AHPjjUhAnAuc7gNcY2WutOoYAlojz1AMpavRA4dDMnJkdQLFl9IynB0x
+	YBdO3q88ey97mR34FtV/IsN3vrrd
+X-Received: by 10.13.232.7 with SMTP id r7mr14092540ywe.0.1506969584886;
+	Mon, 02 Oct 2017 11:39:44 -0700 (PDT)
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com.
+	[209.85.218.51])
+	by smtp.gmail.com with ESMTPSA id j6sm4575238ywg.44.2017.10.02.11.39.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Oct 2017 11:39:43 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f51.google.com with SMTP id n82so3305397oig.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Oct 2017 11:39:43 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QAmivfr6P35b2RtbqvfucT/RKRUqkdcY3prS89CCnXRUinx4GF2E/pBEwMOi1PIm6vrcrG1z5JDolI67hMMi9E=
+X-Received: by 10.202.76.22 with SMTP id z22mr5686628oia.241.1506969583059;
+	Mon, 02 Oct 2017 11:39:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.103.147.146 with HTTP; Mon, 2 Oct 2017 11:06:27 -0700 (PDT)
-In-Reply-To: <CAJTo0LaWULzrFRwq+7Pwnv-_Py5-AHAYuKoc9iT61q1iuMLNFg@mail.gmail.com>
-References: <20170927094014.2666-1-andreas.kling@gmail.com>
-	<20170928163521.21828-1-andreas.kling@gmail.com>
-	<CAJTo0LaWULzrFRwq+7Pwnv-_Py5-AHAYuKoc9iT61q1iuMLNFg@mail.gmail.com>
-From: Andy <andreas.kling@gmail.com>
-Date: Mon, 2 Oct 2017 20:06:27 +0200
-Message-ID: <CAE-gg=5Wq6K4JdNpscupPVAHi+cY1Npo8_Ajt17uNMNbA0ZY=g@mail.gmail.com>
+Received: by 10.157.56.216 with HTTP; Mon, 2 Oct 2017 11:39:42 -0700 (PDT)
+In-Reply-To: <CAJTo0LZELSTX08VNZze3V299CtoFrH=jXhXsxOJc9xiv-KxHfA@mail.gmail.com>
+References: <CAP9ODKq6rzVbzwxWbwzeW4Y71eXNSaHJOPvAXZxSvU1-CQKRtQ@mail.gmail.com>
+	<CAJTo0LZELSTX08VNZze3V299CtoFrH=jXhXsxOJc9xiv-KxHfA@mail.gmail.com>
+Date: Mon, 2 Oct 2017 15:39:42 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoUOeoXNKwMVAGYPQ8dhMpgVPM2AJLqeypqYC3QT=rPBA@mail.gmail.com>
+Message-ID: <CAP9ODKoUOeoXNKwMVAGYPQ8dhMpgVPM2AJLqeypqYC3QT=rPBA@mail.gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: add runtime dependencies to pam plugins.
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Go SDK automated test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,112 +70,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 18:06:27 -0000
+X-List-Received-Date: Mon, 02 Oct 2017 18:39:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-2017-09-29 18:31 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
-> I wish I knew why git was ignoring the commit message entirely when
-> applying...  It's ignoring everything apart from the SOB:
->
-> $ git show
-> commit 079754f2681ded614c5ee90e61f4ddbd8407998a
-> Author: andreas.kling@peiker-cee.de <andreas.kling@peiker-cee.de>
-> Date:   Thu Sep 28 18:35:21 2017 +0200
->
->     systemd: add runtime dependencies to pam plugins.
->
->     Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> Ross
->
-> On 28 September 2017 at 17:35, <andreas.kling@gmail.com> wrote:
+On Thu, Sep 28, 2017 at 8:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 18 September 2017 at 20:17, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
 >>
->> From: Andy Kling <andreas.kling@peiker-cee.de>
+>> Hello folks,
 >>
->>   This ensures pam plugins required by /etc/pam.d/systemd-user
->>   to open a user session are installed.
+>> I did try to understand the automated test infrastructure but ended
+>> lost on how the code was designed. So instead I wrote down a step by
+>> step test so someone which knows better the autotest infra can
+>> translate it.
 >>
->>   systemd[1]: Starting User Manager for UID 994...
->>   systemd[6493]: PAM unable to dlopen(/lib/security/pam_keyinit.so)
+>> git clone https://github.com/golang/dep go/src/github.com/golang/dep
 >>
->>   Drop package systemd-pam to prevent confusion.
->>   It is unused for a long time now.
+>> . /opt/oel/17.1-snapshot/environment-setup-i586-oel-linux
 >>
->> Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
->> ---
->>  v2: improve commit message
->>  v3: drop systemd-pam
->>  v4: move version info to annotation
->>  meta/recipes-core/systemd/systemd_234.bb | 9 +++++++--
->>  1 file changed, 7 insertions(+), 2 deletions(-)
+>> export GOPATH=$PWD/go
 >>
->> diff --git a/meta/recipes-core/systemd/systemd_234.bb
->> b/meta/recipes-core/systemd/systemd_234.bb
->> index 881896bfb5..acc4c4623b 100644
->> --- a/meta/recipes-core/systemd/systemd_234.bb
->> +++ b/meta/recipes-core/systemd/systemd_234.bb
->> @@ -31,6 +31,12 @@ SRC_URI += " \
->>             "
->>  SRC_URI_append_qemuall = "
->> file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+>> cd go/src/github.com/golang/dep
 >>
->> +PAM_PLUGINS = " \
->> +    pam-plugin-unix \
->> +    pam-plugin-loginuid \
->> +    pam-plugin-keyinit \
->> +"
->> +
->>  PACKAGECONFIG ??= "xz \
->>                     ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux
->> ldconfig usrmerge', d)} \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
->> 'xkbcommon', '', d)} \
->> @@ -100,7 +106,7 @@ PACKAGECONFIG[importd] =
->> "--enable-importd,--disable-importd"
->>  PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
->>  PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
->>  PACKAGECONFIG[manpages] =
->> "--enable-manpages,--disable-manpages,libxslt-native xmlto-native
->> docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->> -PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
->> +PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
->>  # Verify keymaps on locale change
->>  PACKAGECONFIG[xkbcommon] =
->> "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
->>  # Update NAT firewall rules
->> @@ -295,7 +301,6 @@ PACKAGES =+ "\
->>      ${PN}-kernel-install \
->>      ${PN}-rpm-macros \
->>      ${PN}-binfmt \
->> -    ${PN}-pam \
->>      ${PN}-zsh-completion \
->>      ${PN}-xorg-xinitrc \
->>      ${PN}-container \
->> --
->> 2.14.2
+>> i586-oel-linux-go build github.com/golang/dep/cmd/dep
 >>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> This will generate a dep binary on the $PWD; is it possible to someone
+>> wrap it on OEQA test?
 >
 >
+> Thanks Otavio, that's really useful.
+>
+> Can you file a bug with this in (and CC me)?  It's a good exercise for a new
+> QA engineer.
 
-I'm still convinced this somehow must be my fault by editing the patch
-with annotation. But no matter what I try, I can't get it to fail.
-Downloading the original message from gmail, fetching the the patch
-from patchwork. Using git mailinfo directly. Throwing different
-options at it, looking at the mail content in hex, and so on. Even the
-ugly cr/lf downloaded from gmail gets processed just fine.
+I just did; I assigned it to you. Thanks a lot
 
-I'm a little bit lost here. I appreciate any idea what could went
-wrong. I'm also happy with any workaround you may use to make it work
-at you side. Maybe I should just upload the patch again without
-touching the file?
 
-many thanks in advance
-
-Andy
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
