@@ -1,63 +1,46 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C2D971B9D
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id B3D8771C7E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Oct 2017 18:39:44 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id d13so115559qta.1
+	Mon,  2 Oct 2017 20:50:07 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id k123so3035745qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 11:39:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=/YFoNHAILHgHiO0IFXgdINxH+D40yEmXKv+T/mxKynM=;
-	b=g3+a8ESOxfb3e3jMnyamaP7qP52VRUq/pCNeAk6XdKKLYdYJV/YEuBqW9DMOtV/koD
-	U1DNO4MU70ImrNMHtODTJNiYDFn8Ui8THXo5f4rvDeVbNlWfD4S0KfHUuWKq2F+BPnPa
-	W1P4/BSv0EMQKuHRwTa6YRdAdY6uUtEVF6RMj1nKOtSBrm7H/onxXMt/MC08mPtZFYfR
-	DH7zmqL52QY8dplWbn23EgNENrZhnOxksmEqlGsvuZO0chFF+vg9uqzurbm4kvsQ5+2I
-	z/qdxcPtTrgEebhnEZvTkgX6NIJ8PeoWcoW0PEWi4HOufxckrhLBOkHQhuVS2m7C3gOm
-	0FOA==
+	Mon, 02 Oct 2017 13:50:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TXHQilxigcmzAuntQnDUkdDdxr9vuKIcD/qC+w/tKAc=;
+	b=Ss0XP8/Tgny7Nme4m8aFbFAXJGZGLAGZoHyVWeP7tFT09vBdqZitJZt4tYSDTdcuuC
+	GMKr55EGnkOlChoqYE8Wj7eNPTPOiDY1w2kyy7gkV2uC5CGE+xSo4bYycVLwjI6k/I6s
+	ehvJZWh2hxPMsfD1rp+4//cJuo00GSyKnlpT8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=/YFoNHAILHgHiO0IFXgdINxH+D40yEmXKv+T/mxKynM=;
-	b=CncNH/egbMrC6Zsa160HWzlh0wbE9yK2S9uNF2hIZ0Fe5YiCZFBQp7XkxFEO/vRs5r
-	y3rjvY2wbauxWrUMF/Jfcuq23qZ64jUocZvZin3SfU6Fhv5LPImrIwGcub4PltMqU663
-	nL5U9mb/GO333okOhCYAtg1+hnU8pI1IQ+RpzqBjQcexc4hGh+Us47ukGlcaHJvXpnvw
-	+redExsGIYpk0S+jjmDfkOPJAc1BoF0klisMmbmiRtO8GziAYVkXqFK/krCV+JYp4Pu5
-	gIGXBFJ/fGXVD3VFRwSjsrWg4ep3SHgvRx8KjiE5kIIcIsyC/dmJi6em5x9y4Wq+XmzX
-	zMaQ==
-X-Gm-Message-State: AHPjjUhAnAuc7gNcY2WutOoYAlojz1AMpavRA4dDMnJkdQLFl9IynB0x
-	YBdO3q88ey97mR34FtV/IsN3vrrd
-X-Received: by 10.13.232.7 with SMTP id r7mr14092540ywe.0.1506969584886;
-	Mon, 02 Oct 2017 11:39:44 -0700 (PDT)
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com.
-	[209.85.218.51])
-	by smtp.gmail.com with ESMTPSA id j6sm4575238ywg.44.2017.10.02.11.39.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Oct 2017 11:39:43 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f51.google.com with SMTP id n82so3305397oig.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 11:39:43 -0700 (PDT)
-X-Google-Smtp-Source: AOwi7QAmivfr6P35b2RtbqvfucT/RKRUqkdcY3prS89CCnXRUinx4GF2E/pBEwMOi1PIm6vrcrG1z5JDolI67hMMi9E=
-X-Received: by 10.202.76.22 with SMTP id z22mr5686628oia.241.1506969583059;
-	Mon, 02 Oct 2017 11:39:43 -0700 (PDT)
+	bh=TXHQilxigcmzAuntQnDUkdDdxr9vuKIcD/qC+w/tKAc=;
+	b=cg8far7LhTRwWMI86pe2XZV57Uz2S+m4aVy7+Zzd89Sehsgt7xz6A3yLKIUMrHCbTU
+	Q+/EPP9ra6zckReh1324NBAeVUw62fz7ughUNp3QcS1r2nI+Vc8w7be/+St/D+Hyks3X
+	KcdKg0S9x2sCQZ7gFCSjmoRzkrdj6YWDF6RBsng51+MN4Y/Z4dDPTTmMc5rfaVj4f4p1
+	nRdBL63+udSqPSIKuN2L/fHCZ9Hsi+aDEeK7KSsX4eOVxgPh2Snt5o4aVWaKvrzKaAHc
+	WQG2BFZEhSyOL+5aYNxviZxnSqTtOdwPPH9Y5vwBy8T5f+MVHw+s6d9gL9sm5w6s2LKs
+	obPw==
+X-Gm-Message-State: AMCzsaXJOOBfK6V9N2KgWkl2x/hapz08eW7ocqLEMO/1KJBDEX3QRTDj
+	FY1bvr7KACpz1Wu/+ToFjDVyfdjnB9XL9aFqL3M2zQ==
+X-Google-Smtp-Source: AOwi7QDUvbEQjF5M5DRsE9DoELv9LJVvSbsoyfABdPgmhSa/G9POkOMwAMf7hKqprjEGClYu7Cw9kc//RXV3hDc6K7Y=
+X-Received: by 10.55.132.5 with SMTP id g5mr17093389qkd.228.1506977408557;
+	Mon, 02 Oct 2017 13:50:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.56.216 with HTTP; Mon, 2 Oct 2017 11:39:42 -0700 (PDT)
-In-Reply-To: <CAJTo0LZELSTX08VNZze3V299CtoFrH=jXhXsxOJc9xiv-KxHfA@mail.gmail.com>
-References: <CAP9ODKq6rzVbzwxWbwzeW4Y71eXNSaHJOPvAXZxSvU1-CQKRtQ@mail.gmail.com>
-	<CAJTo0LZELSTX08VNZze3V299CtoFrH=jXhXsxOJc9xiv-KxHfA@mail.gmail.com>
-Date: Mon, 2 Oct 2017 15:39:42 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoUOeoXNKwMVAGYPQ8dhMpgVPM2AJLqeypqYC3QT=rPBA@mail.gmail.com>
-Message-ID: <CAP9ODKoUOeoXNKwMVAGYPQ8dhMpgVPM2AJLqeypqYC3QT=rPBA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.140.104.146 with HTTP; Mon, 2 Oct 2017 13:49:48 -0700 (PDT)
+In-Reply-To: <CAMKF1src=fX9LRauodhyBtWOBgpYSRYKukFN2x9t5srkPxAsrA@mail.gmail.com>
+References: <20170921092131.25537-1-nicolas.dechesne@linaro.org>
+	<CAMKF1src=fX9LRauodhyBtWOBgpYSRYKukFN2x9t5srkPxAsrA@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 2 Oct 2017 13:49:48 -0700
+Message-ID: <CAP71WjwMd7F1ZB+et7W_rBhh=dmk-g1OXqyEjTGF7+-py9GGYA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Go SDK automated test
+Subject: Re: [PATCH 00/10] gstreamer1.0: upgrade to 1.12.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,44 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 18:39:44 -0000
+X-List-Received-Date: Mon, 02 Oct 2017 20:50:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 28, 2017 at 8:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 18 September 2017 at 20:17, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
+On Thu, Sep 21, 2017 at 7:19 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Sep 21, 2017 at 2:21 AM, Nicolas Dechesne
+> <nicolas.dechesne@linaro.org> wrote:
+>> A boring upgrade from 1.12.2 to 1.12.3. This is a bugfixes only release,
+>> a couple of patches removed as they made it upstream in the mean time.
 >>
->> Hello folks,
+>> Nicolas Dechesne (10):
+>>   gstreamer1.0: upgrade to version 1.12.3
+>>   gstreamer1.0-plugins-base: upgrade to version 1.12.3
+>>   gstreamer1.0-plugins-good: upgrade to version 1.12.3
+>>   gstreamer1.0-plugins-bad: upgrade to version 1.12.3
+>>   gstreamer1.0-plugins-ugly: upgrade to version 1.12.3
+>>   gstreamer1.0-rtsp-server: upgrade to version 1.12.3
+>>   gstreamer1.0-omx: upgrade to version 1.12.3
+>>   gstreamer1.0-libav: upgrade to version 1.12.3
+>>   gstreamer1.0-vaapi: upgrade to version 1.12.3
+>>   gstreamer1.0-python: upgrade to version 1.12.3
 >>
->> I did try to understand the automated test infrastructure but ended
->> lost on how the code was designed. So instead I wrote down a step by
->> step test so someone which knows better the autotest infra can
->> translate it.
->>
->> git clone https://github.com/golang/dep go/src/github.com/golang/dep
->>
->> . /opt/oel/17.1-snapshot/environment-setup-i586-oel-linux
->>
->> export GOPATH=$PWD/go
->>
->> cd go/src/github.com/golang/dep
->>
->> i586-oel-linux-go build github.com/golang/dep/cmd/dep
->>
->> This will generate a dep binary on the $PWD; is it possible to someone
->> wrap it on OEQA test?
 >
 >
-> Thanks Otavio, that's really useful.
+> this series seems good to me,
+
+I have seen these patches on master-next at some point, and they got
+dropped. Was there any specific issue?
+
 >
-> Can you file a bug with this in (and CC me)?  It's a good exercise for a new
-> QA engineer.
-
-I just did; I assigned it to you. Thanks a lot
-
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>
+>>  ...ibav_1.12.2.bb => gstreamer1.0-libav_1.12.3.bb} |  4 +-
+>>  ....0-omx_1.12.2.bb => gstreamer1.0-omx_1.12.3.bb} |  4 +-
+>>  ....12.2.bb => gstreamer1.0-plugins-bad_1.12.3.bb} |  4 +-
+>>  ...12.2.bb => gstreamer1.0-plugins-base_1.12.3.bb} |  4 +-
+>>  .../0001-v4l2-Fix-4K-colorimetry.patch             | 48 ---------------
+>>  ...12.2.bb => gstreamer1.0-plugins-good_1.12.3.bb} |  5 +-
+>>  ...12.2.bb => gstreamer1.0-plugins-ugly_1.12.3.bb} |  4 +-
+>>  .../gstreamer/gstreamer1.0-python.inc              |  2 -
+>>  ...hon_1.12.2.bb => gstreamer1.0-python_1.12.3.bb} |  4 +-
+>>  .../gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb   |  6 --
+>>  .../gstreamer/gstreamer1.0-rtsp-server_1.12.3.bb   |  6 ++
+>>  .../gstreamer/gstreamer1.0-vaapi_1.12.2.bb         |  5 --
+>>  .../gstreamer/gstreamer1.0-vaapi_1.12.3.bb         |  5 ++
+>>  ...dd-switches-for-enabling-disabling-libdw-.patch | 70 ----------------------
+>>  ...treamer1.0_1.12.2.bb => gstreamer1.0_1.12.3.bb} |  5 +-
+>>  15 files changed, 27 insertions(+), 149 deletions(-)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.12.2.bb => gstreamer1.0-libav_1.12.3.bb} (88%)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.12.2.bb => gstreamer1.0-omx_1.12.3.bb} (69%)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.12.2.bb => gstreamer1.0-plugins-bad_1.12.3.bb} (88%)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.12.2.bb => gstreamer1.0-plugins-base_1.12.3.bb} (84%)
+>>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-v4l2-Fix-4K-colorimetry.patch
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.12.2.bb => gstreamer1.0-plugins-good_1.12.3.bb} (82%)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.12.2.bb => gstreamer1.0-plugins-ugly_1.12.3.bb} (76%)
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.12.2.bb => gstreamer1.0-python_1.12.3.bb} (57%)
+>>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.2.bb
+>>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.12.3.bb
+>>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.2.bb
+>>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.12.3.bb
+>>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-configure-Add-switches-for-enabling-disabling-libdw-.patch
+>>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.12.2.bb => gstreamer1.0_1.12.3.bb} (59%)
+>>
+>> --
+>> 2.11.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
