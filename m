@@ -1,28 +1,25 @@
 Return-Path: <andrej.valek@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id C5B7360938
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id D27AD77BC5
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Oct 2017 15:38:52 +0000 (UTC)
 Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v93Fcrva020361
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v93Fcr9I013678
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 3 Oct 2017 17:38:53 +0200
 Received: from dev.sbt.siemens.com ([163.242.56.100])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v93FcrHT022678;
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v93FcrBZ022672;
 	Tue, 3 Oct 2017 17:38:53 +0200
 Received: from dev.sbt.siemens.com (localhost [127.0.0.1])
-	by dev.sbt.siemens.com (Postfix) with ESMTP id 7C93D140B10F;
+	by dev.sbt.siemens.com (Postfix) with ESMTP id 6ED09140B094;
 	Tue,  3 Oct 2017 17:38:56 +0200 (CEST)
 From: Andrej Valek <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Oct 2017 17:38:53 +0200
-Message-Id: <1507045133-16665-3-git-send-email-andrej.valek@siemens.com>
+Date: Tue,  3 Oct 2017 17:38:51 +0200
+Message-Id: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
-References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] busybox: Fix CVE-2011-5325
+Subject: [PATCH 0/2] busybox updating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,517 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 15:38:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Oct 2017 15:38:54 -0000
 
-Signed-off-by: Radovan Scasny <radovan.scasny@siemens.com>
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- .../busybox/busybox/CVE-2011-5325.patch            | 481 +++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
- 2 files changed, 482 insertions(+)
+Update busybox to version 1.27.2
+Fix CVE-20177-5325
+
+Changes:
+- busybox: 1.24.1 -> 1.27.2:
+ - fixed link creation to shell
+  - reported bug with suid shells [https://bugs.busybox.net/show_bug.cgi?id=10346]
+ - removed and modified already merged patches
+ - updated defconfig regarding to new version
+
+- busybox: Fix CVE-2011-5325
+ - include necessary commits from upstream and fix CVE
+
+Andrej Valek (1):
+  busybox: 1.24.1 -> 1.27.2
+Radovan Scasny (1):
+  busybox: Fix CVE-2011-5325
+
+ ...ss-interface-device-name-for-ipv6-route-c.patch |  52 --
+ meta/recipes-core/busybox/busybox.inc              |  16 +-
+ ...e-the-behaviour-of-c-parameter-to-match-u.patch |  64 ---
+ ...mproper-optimization-req.r.rtm_scope-may-.patch |  33 --
+ .../0001-iproute-support-scope-.-Closes-8561.patch | 122 -----
+ ...biproute-handle-table-ids-larger-than-255.patch | 134 -----
+ ...-n-flushes-pattern-space-terminates-early.patch |  72 ---
+ .../busybox/BUG9071_buffer_overflow_arp.patch      |  53 --
+ .../busybox/busybox/CVE-2011-5325.patch            | 481 +++++++++++++++++
+ .../busybox/busybox/CVE-2016-2147.patch            |  57 --
+ .../busybox/busybox/CVE-2016-2147_2.patch          |  32 --
+ .../busybox/busybox/CVE-2016-2148.patch            |  74 ---
+ .../busybox/busybox/CVE-2016-6301.patch            |  37 --
+ .../busybox-1.24.1-truncate-open-mode.patch        |  81 ---
+ .../busybox/busybox-1.24.1-unzip-regression.patch  | 143 ------
+ .../busybox/busybox/busybox-1.24.1-unzip.patch     | 118 -----
+ .../busybox/busybox/busybox-cross-menuconfig.patch |  18 +-
+ .../busybox-kbuild-race-fix-commit-d8e61bb.patch   |  53 --
+ .../busybox-tar-add-IF_FEATURE_-checks.patch       |  70 ---
+ .../busybox/busybox-udhcpc-no_deconfig.patch       |  68 +--
+ .../commit-applet_tables-fix-commit-0dddbc1.patch  |  61 ---
+ meta/recipes-core/busybox/busybox/defconfig        | 572 ++++++++++++---------
+ ...lem_on_mips64_n64_big_endian_musl_systems.patch |  90 ----
+ .../busybox/busybox/makefile-fix-backport.patch    |  40 --
+ .../{busybox_1.24.1.bb => busybox_1.27.2.bb}       |  24 +-
+ 25 files changed, 866 insertions(+), 1699 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.24.1/ifupdown-pass-interface-device-name-for-ipv6-route-c.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-flock-update-the-behaviour-of-c-parameter-to-match-u.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-ip-fix-an-improper-optimization-req.r.rtm_scope-may-.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-iproute-support-scope-.-Closes-8561.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-libiproute-handle-table-ids-larger-than-255.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-sed-fix-sed-n-flushes-pattern-space-terminates-early.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/BUG9071_buffer_overflow_arp.patch
  create mode 100755 meta/recipes-core/busybox/busybox/CVE-2011-5325.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2147.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2147_2.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-2148.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2016-6301.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-1.24.1-truncate-open-mode.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-1.24.1-unzip-regression.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-1.24.1-unzip.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-kbuild-race-fix-commit-d8e61bb.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/busybox-tar-add-IF_FEATURE_-checks.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/commit-applet_tables-fix-commit-0dddbc1.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/ip_fix_problem_on_mips64_n64_big_endian_musl_systems.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/makefile-fix-backport.patch
+ rename meta/recipes-core/busybox/{busybox_1.24.1.bb => busybox_1.27.2.bb} (57%)
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2011-5325.patch b/meta/recipes-core/busybox/busybox/CVE-2011-5325.patch
-new file mode 100755
-index 0000000..0926107
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2011-5325.patch
-@@ -0,0 +1,481 @@
-+busybox-1.27.2: Fix CVE-2011-5325
-+
-+[No upstream tracking] -- https://bugs.busybox.net/show_bug.cgi?id=8411
-+
-+libarchive: do not extract unsafe symlinks
-+
-+Prevent unsafe links extracting unless env variable $EXTRACT_UNSAFE_SYMLINKS=1
-+is not set. Untarring file with -C DESTDIR parameter could be extracted with
-+unwanted symlinks. This doesn't feel right, and IIRC GNU tar doesn't do that.
-+Include necessary changes from previous commits.
-+
-+Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=bc9bbeb2b81001e8731cd2ae501c8fccc8d87cc7]
-+CVE: CVE-2011-5325
-+bug: 8411
-+Signed-off-by: Radovan Scasny <radovan.scasny@siemens.com>
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+
-+diff --git a/archival/libarchive/Kbuild.src b/archival/libarchive/Kbuild.src
-+index 942e755..e1a8a75 100644
-+--- a/archival/libarchive/Kbuild.src
-++++ b/archival/libarchive/Kbuild.src
-+@@ -12,6 +12,8 @@ COMMON_FILES:= \
-+ 	data_extract_all.o \
-+ 	data_extract_to_stdout.o \
-+ \
-++	unsafe_symlink_target.o \
-++\
-+ 	filter_accept_all.o \
-+ 	filter_accept_list.o \
-+ 	filter_accept_reject_list.o \
-+diff --git a/archival/libarchive/data_extract_all.c b/archival/libarchive/data_extract_all.c
-+index 1830ffb..b828b65 100644
-+--- a/archival/libarchive/data_extract_all.c
-++++ b/archival/libarchive/data_extract_all.c
-+@@ -128,10 +128,9 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
-+ 		res = link(hard_link, dst_name);
-+ 		if (res != 0 && !(archive_handle->ah_flags & ARCHIVE_EXTRACT_QUIET)) {
-+ 			/* shared message */
-+-			bb_perror_msg("can't create %slink "
-+-					"%s to %s", "hard",
-+-					dst_name,
-+-					hard_link);
-++			bb_perror_msg("can't create %slink '%s' to '%s'",
-++					 "hard", dst_name, hard_link
-++			);
-+ 		}
-+ 		/* Hardlinks have no separate mode/ownership, skip chown/chmod */
-+ 		goto ret;
-+@@ -178,15 +177,17 @@ void FAST_FUNC data_extract_all(archive_handle_t *archive_handle)
-+ 	case S_IFLNK:
-+ 		/* Symlink */
-+ //TODO: what if file_header->link_target == NULL (say, corrupted tarball?)
-+-		res = symlink(file_header->link_target, dst_name);
-+-		if (res != 0
-+-		 && !(archive_handle->ah_flags & ARCHIVE_EXTRACT_QUIET)
-+-		) {
-+-			/* shared message */
-+-			bb_perror_msg("can't create %slink "
-+-				"%s to %s", "sym",
-+-				dst_name,
-+-				file_header->link_target);
-++		if (!unsafe_symlink_target(file_header->link_target)) {
-++			res = symlink(file_header->link_target, dst_name);
-++			if (res != 0
-++				&& !(archive_handle->ah_flags & ARCHIVE_EXTRACT_QUIET)
-++			) {
-++						/* shared message */
-++						bb_perror_msg("can't create %slink '%s' to '%s'",
-++							"sym",
-++							dst_name, file_header->link_target
-++						);
-++			}
-+ 		}
-+ 		break;
-+ 	case S_IFSOCK:
-+diff --git a/archival/libarchive/unsafe_symlink_target.c b/archival/libarchive/unsafe_symlink_target.c
-+new file mode 100644
-+index 0000000..ee46e28
-+--- /dev/null
-++++ b/archival/libarchive/unsafe_symlink_target.c
-+@@ -0,0 +1,48 @@
-++/* vi: set sw=4 ts=4: */
-++/*
-++ * Licensed under GPLv2 or later, see file LICENSE in this source tree.
-++ */
-++#include "libbb.h"
-++#include "bb_archive.h"
-++
-++int FAST_FUNC unsafe_symlink_target(const char *target)
-++{
-++	const char *dot;
-++
-++	if (target[0] == '/') {
-++		const char *var;
-++unsafe:
-++		var = getenv("EXTRACT_UNSAFE_SYMLINKS");
-++		if (var) {
-++			if (LONE_CHAR(var, '1'))
-++				return 0; /* pretend it's safe */
-++			return 1; /* "UNSAFE!" */
-++		}
-++		bb_error_msg("skipping unsafe symlink to '%s' in archive,"
-++			" set %s=1 to extract",
-++			target,
-++			"EXTRACT_UNSAFE_SYMLINKS"
-++		);
-++		/* Prevent further messages */
-++		setenv("EXTRACT_UNSAFE_SYMLINKS", "0", 0);
-++		return 1; /* "UNSAFE!" */
-++	}
-++
-++	dot = target;
-++	for (;;) {
-++		dot = strchr(dot, '.');
-++			if (!dot)
-++				return 0; /* safe target */
-++
-++			/* Is it a path component starting with ".."? */
-++			if ((dot[1] == '.')
-++				&& (dot == target || dot[-1] == '/')
-++					/* Is it exactly ".."? */
-++				&& (dot[2] == '/' || dot[2] == '\0')
-++			) {
-++				goto unsafe;
-++			}
-++			/* NB: it can even be trailing ".", should only add 1 */
-++			dot += 1;
-++	}
-++}
-+\ No newline at end of file
-+diff --git a/archival/unzip.c b/archival/unzip.c
-+index 9037262..270e261 100644
-+--- a/archival/unzip.c
-++++ b/archival/unzip.c
-+@@ -335,6 +335,44 @@ static void unzip_create_leading_dirs(const char *fn)
-+ 	free(name);
-+ }
-+ 
-++static void unzip_extract_symlink(zip_header_t *zip, const char *dst_fn)
-++{
-++	char *target;
-++
-++	if (zip->fmt.ucmpsize > 0xfff) /* no funny business please */
-++		bb_error_msg_and_die("bad archive");
-++
-++	if (zip->fmt.method == 0) {
-++		/* Method 0 - stored (not compressed) */
-++		target = xzalloc(zip->fmt.ucmpsize + 1);
-++		xread(zip_fd, target, zip->fmt.ucmpsize);
-++	} else {
-++#if 1
-++		bb_error_msg_and_die("compressed symlink is not supported");
-++#else
-++		transformer_state_t xstate;
-++		init_transformer_state(&xstate);
-++		xstate.mem_output_size_max = zip->fmt.ucmpsize;
-++		/* ...unpack... */
-++		if (!xstate.mem_output_buf)
-++			WTF();
-++		target = xstate.mem_output_buf;
-++		target = xrealloc(target, xstate.mem_output_size + 1);
-++		target[xstate.mem_output_size] = '\0';
-++#endif
-++	}
-++	if (!unsafe_symlink_target(target)) {
-++//TODO: libbb candidate
-++		if (symlink(target, dst_fn)) {
-++			/* shared message */
-++			bb_perror_msg_and_die("can't create %slink '%s' to '%s'",
-++				"sym", dst_fn, target
-++			);
-++		}
-++	}
-++	free(target);
-++}
-++
-+ static void unzip_extract(zip_header_t *zip, int dst_fd)
-+ {
-+ 	transformer_state_t xstate;
-+@@ -813,7 +851,7 @@ int unzip_main(int argc, char **argv)
-+ 		}
-+  check_file:
-+ 		/* Extract file */
-+-		if (stat(dst_fn, &stat_buf) == -1) {
-++		if (lstat(dst_fn, &stat_buf) == -1) {
-+ 			/* File does not exist */
-+ 			if (errno != ENOENT) {
-+ 				bb_perror_msg_and_die("can't stat '%s'", dst_fn);
-+@@ -834,6 +872,7 @@ int unzip_main(int argc, char **argv)
-+ 			goto do_open_and_extract;
-+ 		printf("replace %s? [y]es, [n]o, [A]ll, [N]one, [r]ename: ", dst_fn);
-+ 		my_fgets80(key_buf);
-++//TODO: redo lstat + ISREG check! user input could have taken a long time!
-+ 
-+ 		switch (key_buf[0]) {
-+ 		case 'A':
-+@@ -842,7 +881,8 @@ int unzip_main(int argc, char **argv)
-+  do_open_and_extract:
-+ 			unzip_create_leading_dirs(dst_fn);
-+ #if ENABLE_FEATURE_UNZIP_CDF
-+-			dst_fd = xopen3(dst_fn, O_WRONLY | O_CREAT | O_TRUNC, file_mode);
-++			if (!S_ISLNK(file_mode))
-++				dst_fd = xopen3(dst_fn, O_WRONLY | O_CREAT | O_TRUNC, file_mode);
-+ #else
-+ 			dst_fd = xopen(dst_fn, O_WRONLY | O_CREAT | O_TRUNC);
-+ #endif
-+@@ -852,10 +892,18 @@ int unzip_main(int argc, char **argv)
-+ 					? " extracting: %s\n"
-+ 					: */ "  inflating: %s\n", dst_fn);
-+ 			}
-+-			unzip_extract(&zip, dst_fd);
-+-			if (dst_fd != STDOUT_FILENO) {
-+-				/* closing STDOUT is potentially bad for future business */
-+-				close(dst_fd);
-++#if ENABLE_FEATURE_UNZIP_CDF
-++			if (S_ISLNK(file_mode)) {
-++				if (dst_fd != STDOUT_FILENO) /* no -p */
-++					unzip_extract_symlink(&zip, dst_fn);
-++			} else
-++#endif
-++			{
-++				unzip_extract(&zip, dst_fd);
-++				if (dst_fd != STDOUT_FILENO) {
-++					/* closing STDOUT is potentially bad for future business */
-++					close(dst_fd);
-++				};
-+ 			}
-+ 			break;
-+ 
-+diff --git a/coreutils/link.c b/coreutils/link.c
-+index ac3ef85..aab249d 100644
-+--- a/coreutils/link.c
-++++ b/coreutils/link.c
-+@@ -32,9 +32,8 @@ int link_main(int argc UNUSED_PARAM, char **argv)
-+ 	argv += optind;
-+ 	if (link(argv[0], argv[1]) != 0) {
-+ 		/* shared message */
-+-		bb_perror_msg_and_die("can't create %slink "
-+-					"%s to %s", "hard",
-+-					argv[1], argv[0]
-++		bb_perror_msg_and_die("can't create %slink '%s' to '%s'",
-++					"hard",	argv[1], argv[0]
-+ 		);
-+ 	}
-+ 	return EXIT_SUCCESS;
-+diff --git a/include/bb_archive.h b/include/bb_archive.h
-+index 2b9c5f0..1e4da3c 100644
-+--- a/include/bb_archive.h
-++++ b/include/bb_archive.h
-+@@ -196,6 +196,7 @@ void seek_by_jump(int fd, off_t amount) FAST_FUNC;
-+ void seek_by_read(int fd, off_t amount) FAST_FUNC;
-+ 
-+ const char *strip_unsafe_prefix(const char *str) FAST_FUNC;
-++int unsafe_symlink_target(const char *target) FAST_FUNC;
-+ 
-+ void data_align(archive_handle_t *archive_handle, unsigned boundary) FAST_FUNC;
-+ const llist_t *find_list_entry(const llist_t *list, const char *filename) FAST_FUNC;
-+diff --git a/libbb/copy_file.c b/libbb/copy_file.c
-+index 23c0f83..be90066 100644
-+--- a/libbb/copy_file.c
-++++ b/libbb/copy_file.c
-+@@ -371,7 +371,10 @@ int FAST_FUNC copy_file(const char *source, const char *dest, int flags)
-+ 			int r = symlink(lpath, dest);
-+ 			free(lpath);
-+ 			if (r < 0) {
-+-				bb_perror_msg("can't create symlink '%s'", dest);
-++				/* shared message */
-++				bb_perror_msg("can't create %slink '%s' to '%s'",
-++					"sym", dest, lpath
-++				);
-+ 				return -1;
-+ 			}
-+ 			if (flags & FILEUTILS_PRESERVE_STATUS)
-+diff --git a/testsuite/tar.tests b/testsuite/tar.tests
-+index 9f7ce15..b7cd74c 100755
-+--- a/testsuite/tar.tests
-++++ b/testsuite/tar.tests
-+@@ -10,9 +10,6 @@ unset LC_COLLATE
-+ unset LC_ALL
-+ umask 022
-+ 
-+-rm -rf tar.tempdir 2>/dev/null
-+-mkdir tar.tempdir && cd tar.tempdir || exit 1
-+-
-+ # testing "test name" "script" "expected result" "file input" "stdin"
-+ 
-+ testing "Empty file is not a tarball" '\
-+@@ -53,6 +50,7 @@ dd if=/dev/zero bs=512 count=20 2>/dev/null | tar xvf - 2>&1; echo $?
-+ "" ""
-+ SKIP=
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ # "tar cf test.tar input input_dir/ input_hard1 input_hard2 input_hard1 input_dir/ input":
-+ # GNU tar 1.26 records as hardlinks:
-+ #  input_hard2 -> input_hard1
-+@@ -64,7 +62,6 @@ SKIP=
-+ # We also don't use "hrw-r--r--" notation for hardlinks in "tar tv" listing.
-+ optional FEATURE_TAR_CREATE FEATURE_LS_SORTFILES
-+ testing "tar hardlinks and repeated files" '\
-+-rm -rf input_* test.tar 2>/dev/null
-+ >input_hard1
-+ ln input_hard1 input_hard2
-+ mkdir input_dir
-+@@ -95,10 +92,11 @@ drwxr-xr-x input_dir
-+ " \
-+ "" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ optional FEATURE_TAR_CREATE FEATURE_LS_SORTFILES
-+ testing "tar hardlinks mode" '\
-+-rm -rf input_* test.tar 2>/dev/null
-+ >input_hard1
-+ chmod 741 input_hard1
-+ ln input_hard1 input_hard2
-+@@ -128,10 +126,11 @@ Ok: 0
-+ " \
-+ "" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ optional FEATURE_TAR_CREATE FEATURE_LS_SORTFILES
-+ testing "tar symlinks mode" '\
-+-rm -rf input_* test.tar 2>/dev/null
-+ >input_file
-+ chmod 741 input_file
-+ ln -s input_file input_soft
-+@@ -159,10 +158,11 @@ lrwxrwxrwx input_file
-+ " \
-+ "" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ optional FEATURE_TAR_CREATE FEATURE_TAR_LONG_OPTIONS
-+ testing "tar --overwrite" "\
-+-rm -rf input_* test.tar 2>/dev/null
-+ ln input input_hard
-+ tar cf test.tar input_hard
-+ echo WRONG >input
-+@@ -174,12 +174,13 @@ Ok
-+ " \
-+ "Ok\n" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ test x"$SKIP_KNOWN_BUGS" = x"" && {
-+ # Needs to be run under non-root for meaningful test
-+ optional FEATURE_TAR_CREATE
-+ testing "tar writing into read-only dir" '\
-+-rm -rf input_* test.tar 2>/dev/null
-+ mkdir input_dir
-+ >input_dir/input_file
-+ chmod 550 input_dir
-+@@ -201,7 +202,9 @@ dr-xr-x--- input_dir
-+ "" ""
-+ SKIP=
-+ }
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ # Had a bug where on extract autodetect first "switched off" -z
-+ # and then failed to recognize .tgz extension
-+ optional FEATURE_TAR_CREATE FEATURE_SEAMLESS_GZ GUNZIP
-+@@ -217,7 +220,9 @@ Ok
-+ " \
-+ "" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ # Do we detect XZ-compressed data (even w/o .tar.xz or txz extension)?
-+ # (the uuencoded hello_world.txz contains one empty file named "hello_world")
-+ optional UUDECODE FEATURE_TAR_AUTODETECT FEATURE_SEAMLESS_XZ
-+@@ -236,7 +241,9 @@ AAAEWVo=
-+ ====
-+ "
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ # On extract, everything up to and including last ".." component is stripped
-+ optional FEATURE_TAR_CREATE
-+ testing "tar strips /../ on extract" "\
-+@@ -255,7 +262,9 @@ Ok
-+ " \
-+ "" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ # attack.tar.bz2 has symlink pointing to a system file
-+ # followed by a regular file with the same name
-+ # containing "root::0:0::/root:/bin/sh":
-+@@ -270,6 +279,7 @@ optional UUDECODE FEATURE_TAR_AUTODETECT FEATURE_SEAMLESS_BZ2
-+ testing "tar does not extract into symlinks" "\
-+ >>/tmp/passwd && uudecode -o input && tar xf input 2>&1 && rm passwd; cat /tmp/passwd; echo \$?
-+ " "\
-++tar: skipping unsafe symlink to '/tmp/passwd' in archive, set EXTRACT_UNSAFE_SYMLINKS=1 to extract
-+ 0
-+ " \
-+ "" "\
-+@@ -281,12 +291,15 @@ l4/V8LDoe90yiWJhOJvIypgEfxdyRThQkBVn/bI=
-+ ====
-+ "
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-++
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ # And same with -k
-+ optional UUDECODE FEATURE_TAR_AUTODETECT FEATURE_SEAMLESS_BZ2
-+ testing "tar -k does not extract into symlinks" "\
-+ >>/tmp/passwd && uudecode -o input && tar xf input -k 2>&1 && rm passwd; cat /tmp/passwd; echo \$?
-+ " "\
-+-tar: can't open 'passwd': File exists
-++tar: skipping unsafe symlink to '/tmp/passwd' in archive, set EXTRACT_UNSAFE_SYMLINKS=1 to extract
-+ 0
-+ " \
-+ "" "\
-+@@ -298,7 +311,9 @@ l4/V8LDoe90yiWJhOJvIypgEfxdyRThQkBVn/bI=
-+ ====
-+ "
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-+ optional UNICODE_SUPPORT FEATURE_TAR_GNU_EXTENSIONS FEATURE_SEAMLESS_BZ2 FEATURE_TAR_AUTODETECT
-+ testing "Pax-encoded UTF8 names and symlinks" '\
-+ tar xvf ../tar.utf8.tar.bz2 2>&1; echo $?
-+@@ -309,17 +324,45 @@ rm -rf etc usr
-+ ' "\
-+ etc/ssl/certs/3b2716e5.0
-+ etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-++tar: skipping unsafe symlink to '/usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt' in archive, set EXTRACT_UNSAFE_SYMLINKS=1 to extract
-+ etc/ssl/certs/f80cc7f6.0
-+ usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-+ 0
-+ etc/ssl/certs/3b2716e5.0 -> EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-+-etc/ssl/certs/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem -> /usr/share/ca-certificates/mozilla/EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.crt
-+ etc/ssl/certs/f80cc7f6.0 -> EBG_Elektronik_Sertifika_Hizmet_Sağlayıcısı.pem
-+ " \
-+ "" ""
-+ SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-+-
-+-cd .. && rm -rf tar.tempdir || exit 1
-++mkdir tar.tempdir && cd tar.tempdir || exit 1
-++optional UUDECODE FEATURE_SEAMLESS_BZ2 FEATURE_TAR_AUTODETECT
-++testing "Symlink attack: create symlink and then write through it" '\
-++exec 2>&1
-++uudecode -o input && tar xvf input; echo $?
-++ls /tmp/bb_test_evilfile
-++ls bb_test_evilfile
-++ls symlink/bb_test_evilfile
-++' "\
-++anything.txt
-++symlink
-++tar: skipping unsafe symlink to '/tmp' in archive, set EXTRACT_UNSAFE_SYMLINKS=1 to extract
-++symlink/bb_test_evilfile
-++0
-++ls: /tmp/bb_test_evilfile: No such file or directory
-++ls: bb_test_evilfile: No such file or directory
-++symlink/bb_test_evilfile
-++" \
-++"" "\
-++begin-base64 644 tar_symlink_attack.tar.bz2
-++QlpoOTFBWSZTWZgs7bQAALT/hMmQAFBAAf+AEMAGJPPv32AAAIAIMAC5thlR
-++omAjAmCMADQT1BqNE0AEwAAjAEwElTKeo9NTR6h6gaeoA0DQNLVdwZZ5iNTk
-++AQwCAV6S00QFJYhrlfFkVCEDEGtgNVqYrI0uK3ggnt30gqk4e1TTQm5QIAKa
-++SJqzRGSFLMmOloHSAcvLiFxxRiQtQZF+qPxbo173ZDISOAoNoPN4PQPhBhKS
-++n8fYaKlioCTzL2oXYczyUUIP4u5IpwoSEwWdtoA=
-++====
-++"
-++SKIP=
-++cd .. || exit 1; rm -rf tar.tempdir 2>/dev/null
-+ 
-+ exit $FAILCOUNT
-diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
-index 47b4f48..575127e 100644
---- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-@@ -42,6 +42,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://rcK \
-            file://runlevel \
-            file://makefile-libbb-race.patch \
-+           file://CVE-2011-5325.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
 -- 
 2.1.4
 
