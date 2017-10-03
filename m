@@ -1,31 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 180D5602D9
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f52.google.com (mail-wm0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B0B9F719A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Oct 2017 16:16:32 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Oct 2017 09:16:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,474,1500966000"; d="scan'208";a="158874322"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 03 Oct 2017 09:16:30 -0700
-To: Jef.Driesen@niko.eu, ross.burton@intel.com
-References: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>
-	<d0e88e18-0540-2d7f-abe4-11f677d5af4e@linux.intel.com>
-	<FAB9E48578194042BE5C63B8BE4761033969175B@MBX.NIKO.LAN>
-	<CAJTo0LY6UW=G2pfVPSQH3bMdU03FDMRFACpzsXJYoW1255rPRg@mail.gmail.com>
-	<FAB9E48578194042BE5C63B8BE47610339692797@MBX.NIKO.LAN>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <238e8a7d-59e1-309a-6f96-6be7261646a2@linux.intel.com>
-Date: Tue, 3 Oct 2017 19:12:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue,  3 Oct 2017 18:12:21 +0000 (UTC)
+Received: by mail-wm0-f52.google.com with SMTP id l68so4839882wmd.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Oct 2017 11:12:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=vUlscPlGPwTqpq/Tmhfm80qg2g2JE+JMa4tzZKSr9+I=;
+	b=N5wP3QlE2tH0Up1nEQ0Y5OjlMrlKCNKW2cnDXYpYU1TkrBnwqi7YVrcIo0Orx2ltJd
+	80WIf83rz2zo7XI/Axu7MzZCw7ZzB5/1Ih0nieGBPWEN8YHQ6I2g832YAVjnmqU2QrBT
+	AOSHTXhkNcK7pjXfHjKCAVLAT5S37yFDbEMt3GrWdPbBH5/AwQRwkzpUdTIO1IeTGjgT
+	FvoK4ewniLwZVM4RBGDA0JeOSZvJGtkENGj5Psbpbb5b6XL2dY5T3ODkNZ3aPLck/jXQ
+	2RzdquMP4W51RsyC6bN8apa6a4f7OZWDEFK6dh+aGklLy6uS+Pvu3SMpSwr34rifh3qH
+	U6zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=vUlscPlGPwTqpq/Tmhfm80qg2g2JE+JMa4tzZKSr9+I=;
+	b=jRfyWidNITPeV4YKiPqtfWc+sgKOsEeGc5hUk5BZSlZGXFuBOkYHNQhdjpum8jacBE
+	usl9jtLhCDZT595boDhOJo/rV0jjCRGVE2xCxAokbAVc6wYzl9HoBv2/8ktVDg9k/7eV
+	qUjKk9JZDrpWfr3GsJ/5ELwEQ2LkKyb9i17mC8AzW5NSy3inLtMCc0qsbY15yWlBlR/d
+	a2EFn5yOATCgA0E/xImnHLM0ZpnltmbnAIPqc7sRu37ruQKdadfxkFlc5lNhgYLPoVax
+	k9f1CywLv8+lbC7HSH1756qknYhMTJPNeeo9xKtVEE6G0ZwVWvvaI/WIHVcUTf1EWBn4
+	H6cA==
+X-Gm-Message-State: AMCzsaUUrYzlyDVVFa/LfcbooT6OMrrkmtAPp9aeP+y7rKcZqfr8dAm/
+	TIu2xuYox2g5APNNItU9a2sfa/sPy93B2O8xm7E=
+X-Google-Smtp-Source: AOwi7QAa6KsUV5RTU2bvMz2IROCtZgwHXL2K7hOKgtieiK32fRniGuzOwEBLiix6Sf6O4H+WNJDljadYLLnlmKG/2ZE=
+X-Received: by 10.28.54.89 with SMTP id d86mr3590110wma.101.1507054342626;
+	Tue, 03 Oct 2017 11:12:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <FAB9E48578194042BE5C63B8BE47610339692797@MBX.NIKO.LAN>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Small improvement for the initscripts package
+Received: by 10.223.166.19 with HTTP; Tue, 3 Oct 2017 11:12:22 -0700 (PDT)
+In-Reply-To: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
+References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 3 Oct 2017 11:12:22 -0700
+Message-ID: <CAJ86T=Xh4HZO8e-u6r9gn0nCx+ZbzkjV+AJOP3-Cgt1fF3xr7w@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] busybox updating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +53,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 16:16:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Oct 2017 18:12:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/03/2017 06:03 PM, Jef.Driesen@niko.eu wrote:
-> Burton, Ross [ross.burton@intel.com]
->> On 3 October 2017 at 11:03, <Jef.Driesen@niko.eu> wrote:
->>> Note: base-files-emperor is the package with the custom init scripts. I added:
->>>
->>> PROVIDES = "initscripts"
->>>
->>> And in conf/machine/emperor.conf, I added:
->>>
->>> PREFERRED_PROVIDER_initscripts = "base-files-emperor"
->>>
->>   If your initscripts package is a replacement for the oe-core initscripts package, then also set RPROVIDES_${PN} += "initscripts".
-> 
-> I tried your suggest, but I still get the error:
-> 
-> "The recipe base-files-emperor is trying to install files into a shared area when those files already exist." error
-> 
-> With base-files-emperor.bb containing:
-> 
-> PROVIDES += "initscripts"
-> RPROVIDES_${PN} += "initscripts"
-> 
-> What am I still doing wrong?
-> 
-> (I'll try to re-build after wiping the tmp directory tonight. A simple "bitbake -c cleanall initscripts base-files-emperor" didn't help.)
+On Tue, Oct 3, 2017 at 8:38 AM, Andrej Valek <andrej.valek@siemens.com> wrote:
+> Update busybox to version 1.27.2
+> Fix CVE-20177-5325
+>
+> Changes:
+> - busybox: 1.24.1 -> 1.27.2:
+>  - fixed link creation to shell
+>   - reported bug with suid shells [https://bugs.busybox.net/show_bug.cgi?id=10346]
+>  - removed and modified already merged patches
+>  - updated defconfig regarding to new version
 
-I might be reading it wrong, but the full error message seems to 
-indicate you also have a recipe called emperor-intscripts that provides 
-(some of) the same files as base-files-emperor, and they clash?
-
-Alex
+Did you compare the list of applets enabled before and after the
+update? Any notable changes?
 
