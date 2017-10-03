@@ -1,48 +1,48 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-qt0-f173.google.com (mail-qt0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 655DA77ACB
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A37C16B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Oct 2017 03:59:40 +0000 (UTC)
-Received: by mail-qt0-f173.google.com with SMTP id i13so10781888qtc.11
+	Tue,  3 Oct 2017 06:41:47 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id w63so7465064qkd.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 20:59:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 02 Oct 2017 23:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OD8WGTKrkNzvctP3MbawtxrpCl9awSto7bOlJuncGlQ=;
-	b=f1EBXiJTaENTwPMaThwWiHzImqhaQA+J98h5c/fkvnOtwKn6Jk5B2pqySvRRt53IBx
-	7qdd1xDjQi5VNm/TwQmWq10Cl1dFVMrrijTdFqXtP8cM1Y/qDxllfqOEJi9FV6o2aG6Q
-	KyoLOVAlEZyjnlykdIxEnzrdRFPTAdPzYWnPCOxfQB5Jxxucoht0ols+vCcniOxeOpE3
-	RhNG0QBrvzfoYoWDUxcfURBrSPRMtCDvtAehp0SJZ49xnKuSVgRkRHfjFP8vxnlxBFXS
-	pUtHyX6icLK6Yfshy2sxSziOUWfOHrGo4arDTFd+GDU9ZO6gfBNRbFvI/E+MhSldGUep
-	grIw==
+	:cc; bh=ghTWn2S69NzmO/VpSs5tCAnWeFHYyGU2EK7RND8dsg4=;
+	b=JHvL02FTsZgzDs+rTWgciuk4Cz+sJqYUEODtVHKt2CLxwMfBzZPHJ3iOrmRuyTSbIW
+	9yiE+CI/9Nyt+6zEfymt/u/HBt8TK9GiJA52aCR0ueh0ah8VBJshCo8rhJygohyb9XI0
+	Tcaps1+76IZ5Tteid3C5ub81NFBhMlHZQzDAo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=OD8WGTKrkNzvctP3MbawtxrpCl9awSto7bOlJuncGlQ=;
-	b=L/0POSd6tN/UU3I20rv3lFPp7jBDhp8aPwah1+1MVocjMSK3As4cnXpqMZacIrb6kW
-	52jJDYy8AVul2MQ7SxUMswAWd4KmWuBqNtQ+eHDKWnzN6ZFTQvd2Fke/yjH9OjGOWNji
-	Vxz4fT7Wjz2aqFJOfxciwvKTcBYV0VdTESrtQJOk+2E6k3mPx9GS2yRQ9VUwInlMqwWU
-	lMrruQtuaBz5euBvh66Jou3LN9rbrjpJpv3+kM2kO1E6Aex7UlTMOwklxQz9m7R31Ds/
-	55sanddCbHdJfwd/tai1+8gR/vC1L7cuS8gj397h0tB8D+TV5STnCV1w9qk2RbAcAA1f
-	f8gQ==
-X-Gm-Message-State: AMCzsaUOf+ri4miVTxIF9Jih45rC+f//LoWwRp5qUtN1mZmwGTS6U1K3
-	fixAaZS0fwxY3Q4roGHWcEir6Tqozr/aavvdDMs=
-X-Google-Smtp-Source: AOwi7QATWD/OBh+W5jQ1FUtpsQ3j83NXQrFmuTg2SminoODcQOyI4Erms0wC54JFMu2ZILQ0rpoJYjwe0WC5HsWZMqU=
-X-Received: by 10.200.42.244 with SMTP id c49mr21723734qta.46.1507003182404;
-	Mon, 02 Oct 2017 20:59:42 -0700 (PDT)
+	bh=ghTWn2S69NzmO/VpSs5tCAnWeFHYyGU2EK7RND8dsg4=;
+	b=axxOn70EtnA6UkUK7GB6sAWeF3J5RaNhAmu4IOpeQ+Uvrt+nqTriACfMoY8CN/JlIA
+	7XbF6cXDdkmWYqNpFNdT27PywbERwMnIUb5OXo4hw8l+u5RDZ2A4Ul5HoW34/JHamB+Q
+	oGQFwizGoSFC3NH8pVBiW8+fiSRllpRjO5z5QbB125724WErUjvyk+7E6HOWPKBaqxrx
+	IKZZzjTMokpyZBoD42ME6NK0/BCvAQHW9PBGHjx/yh3xm72pkyF2qzs43gt7TmWMBZKW
+	zwM/nU1oGby9Oi581HhszPXf8LuRjenkRH17qRD43dbcd2fxdGpFwO6F1fzzxa0zku+O
+	R6YQ==
+X-Gm-Message-State: AMCzsaVR+dgXdTfmGhFANcEzPuwiaFHxIx8GsOPT3kExYh9mnCSU3VT1
+	e5PtPMjn2qkXROoQqmLXOOZNQShREl4mqRD9JSrVMw==
+X-Google-Smtp-Source: AOwi7QB6ZN2VQcWdjqZBLgrIPD9q3gtvQh9+x9YB8XwVgPUvsW8L7w+7KyPy5pp+HzPQnnEdycZbpqHCWnCrpCnsb2Y=
+X-Received: by 10.55.17.36 with SMTP id b36mr11027218qkh.3.1507012908415; Mon,
+	02 Oct 2017 23:41:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.200.55.72 with HTTP; Mon, 2 Oct 2017 20:59:41 -0700 (PDT)
-In-Reply-To: <e2c0777f-af1f-d7d9-ebe3-816f4d6059a2@linux.intel.com>
-References: <1506920927-1938-1-git-send-email-liu.ming50@gmail.com>
-	<e2c0777f-af1f-d7d9-ebe3-816f4d6059a2@linux.intel.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Tue, 3 Oct 2017 05:59:41 +0200
-Message-ID: <CALatG=4EguhkFgC-cSJ4tgrLDUtog1FMJN8NAr6WQG2qKmogLw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsolv: fix a kernel-devsrc installation issue
+Received: by 10.140.104.146 with HTTP; Mon, 2 Oct 2017 23:41:27 -0700 (PDT)
+In-Reply-To: <CAJTo0LbBTXoPGJWs-eU7T4uKA06Y5RP2A6zDnKBAq5c7EKFekQ@mail.gmail.com>
+References: <20170921092131.25537-1-nicolas.dechesne@linaro.org>
+	<CAMKF1src=fX9LRauodhyBtWOBgpYSRYKukFN2x9t5srkPxAsrA@mail.gmail.com>
+	<CAP71WjwMd7F1ZB+et7W_rBhh=dmk-g1OXqyEjTGF7+-py9GGYA@mail.gmail.com>
+	<CAJTo0LbBTXoPGJWs-eU7T4uKA06Y5RP2A6zDnKBAq5c7EKFekQ@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 2 Oct 2017 23:41:27 -0700
+Message-ID: <CAP71WjyCz4nrjd4hWs75iOOQCA1FSyYjMom9qyZcmrnQV6F-9g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/10] gstreamer1.0: upgrade to 1.12.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,87 +55,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 03:59:41 -0000
-Content-Type: multipart/alternative; boundary="001a114063a85cd87f055a9c85bd"
-
---001a114063a85cd87f055a9c85bd
+X-List-Received-Date: Tue, 03 Oct 2017 06:41:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi, Alexander:
-
-Thanks for the input, I will then try to investigate the rpm code for
-tweaking the values.
-
-//Ming Liu
-
-2017-10-02 13:37 GMT+02:00 Alexander Kanavin <
-alexander.kanavin@linux.intel.com>:
-
-> On 10/02/2017 08:08 AM, liu.ming50@gmail.com wrote:
->
->> From: Ming Liu <liu.ming50@gmail.com>
+On Mon, Oct 2, 2017 at 3:05 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 2 October 2017 at 21:49, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> wrote:
 >>
->> This patch aims to fix a kernel-devsrc rpm installation failure on
->> target, I had sent the patch to libsolv upstream, but its maintainers
->> rejected it with the reason:
->> ...
->> we probably want to sync these values with RPM code...
->> ...
->>
->> I am not a rpm expert, would somebody please comment on this? Is this a
->> issue also should be addressed in rpm?
->>
+>> I have seen these patches on master-next at some point, and they got
+>> dropped. Was there any specific issue?
 >
-> Note that they did not reject the pull request, but merely commented on
-> it; it is still open.
 >
-> What the upstream probably meant is that rpm could also be defining these
-> values somewhere, and so instead of just re-defining them blindly to
-> arbitrary values in libsolv, you should take them from rpm header files, or
-> otherwise figure out how the header limits are handled in rpm.
->
-> Alex
->
+> They were pulled in briefly for a test build to check for any serious
+> problems, but as I'm sure you're aware from the weekly status emails sent
+> every Monday master is currently frozen solid as we built the first 2.4
+> release candidate last week.  The current schedule is that we release 2.4
+> around October 20th (again, this is in the weekly status emails sent every
+> Monday), once that has been released (or maybe earlier) master will reopen
+> and patches such as this will be merged.
 
---001a114063a85cd87f055a9c85bd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+of course, I am aware ;-)
 
-<div dir=3D"ltr">Hi, Alexander:<div><br></div><div>Thanks for the input, I =
-will then try to investigate the rpm code for tweaking the values.</div><di=
-v><br></div><div>//Ming Liu</div></div><div class=3D"gmail_extra"><br><div =
-class=3D"gmail_quote">2017-10-02 13:37 GMT+02:00 Alexander Kanavin <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" target=
-=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span>:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex"><span class=3D"">On 10/02/2017 08:08 AM, <a href=3D"ma=
-ilto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a> wrote=
-:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank=
-">liu.ming50@gmail.com</a>&gt;<br>
-<br>
-This patch aims to fix a kernel-devsrc rpm installation failure on<br>
-target, I had sent the patch to libsolv upstream, but its maintainers<br>
-rejected it with the reason:<br>
-...<br>
-we probably want to sync these values with RPM code...<br>
-...<br>
-<br>
-I am not a rpm expert, would somebody please comment on this? Is this a<br>
-issue also should be addressed in rpm?<br>
-</blockquote>
-<br></span>
-Note that they did not reject the pull request, but merely commented on it;=
- it is still open.<br>
-<br>
-What the upstream probably meant is that rpm could also be defining these v=
-alues somewhere, and so instead of just re-defining them blindly to arbitra=
-ry values in libsolv, you should take them from rpm header files, or otherw=
-ise figure out how the header limits are handled in rpm.<br>
-<br>
-Alex<br>
-</blockquote></div><br></div>
+I was surprised to see the patches in -next to be honest, and then
+surprised again to no longer see them , thanks for the explanation!
 
---001a114063a85cd87f055a9c85bd--
+>
+> Ross
+
