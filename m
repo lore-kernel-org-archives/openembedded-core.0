@@ -1,49 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C38277C31
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB2A77CCC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Oct 2017 02:16:06 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id y192so7920644pgd.5
+	Tue,  3 Oct 2017 02:16:11 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id f84so7461582pfj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Oct 2017 19:16:08 -0700 (PDT)
+	Mon, 02 Oct 2017 19:16:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=HP6KmfFJ8uDNzDkRW0XrLhRnzASv2QgFcRm/PTg9BTE=;
-	b=g85p6Xx/4p1M/fVaSpjxwZA/uWuyTmYYX3GyOZWvuVlVR/C+KiLX11fRWxPQgThQ78
-	ADWl+OvZd2pvlzoswdrSE7xytoc0abVOqGZU5kGIAtZ642JWTZEIb+FuhAmcp10rai0i
-	Cy3slSXjrMnTBl1U49Wv80GodAfdwrtM9OfEWJgT0oLseTIksfdOpXCGiLk9aZrkTBmK
-	owSxdNtHyp+EVwmrt9w735ClJQRdO5UnrJPQjc7tzm16xzxsMis+h7sdz0UFO2LPHH6D
-	IdzzQfCj6JWhXGoU7/75VUcmiZN0oGAm6wGrMDLRjjDfq7Ng9TsB27PTrV74LaJLGCef
-	psoQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=RJqFA+PfiuGQjtESTQSaPU7lVTdHvrH4K/UXpidOtCA=;
+	b=jGBG28+70s5Tt+4vqT2Ta/3ODXFTRAljjNQAkD/GKxvdX/2Vyb8NuzC/aTsdbT9dMS
+	WGYPhIIm6Y8gG34xXnrFgBRGO6Jixq7twOoz2654GFswWwsrWZm1YTumCCexbgbY/BWf
+	QiwUD/0aJ4tRnk5JrWjRfuBKev4hqqeWDP4dshN2bb8R3x5f9QeR9cANOcTMkSrRHSbh
+	nOttUvAdMtdlCxzNGpKwfXOPsBn2v34tZfWv16vmg2pzksAeQxaxZL7X+Glx3bHV3jGB
+	TOMZAWs5LJGaX/Y30Defk8zE71wdWJqx5YsN1SiVhsphGLKXHQtPx7IXZ//YQiFQPxnR
+	KYaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=HP6KmfFJ8uDNzDkRW0XrLhRnzASv2QgFcRm/PTg9BTE=;
-	b=EjLR68Jyt/dNG3kGNWFv9Q/wAoNrZh/LGLu/3hyvbBeN/FHQNnAouiZ6RNkP8PCw5K
-	77RNFa+SbpmXoyxPC1yJIIUiXDXbkOMheuCdwLJjJ/Y42YKxCpshbCQ9TDYzxgK2OsV+
-	62LQLo3YyhYuHLwtK4yAFJRBdqdEBQaFnemWi+jIc0sUT21Vrpa92gOtcQm/8RuthwjJ
-	9DN5V9bymy48gPksN2NXXrO25ubvz//Xek/uFZoN9KFL4PiXqh5uNgNb82s1MoFrFRJ5
-	ZuSuKjLNPCUpEEqVLqeUUbG8oJEussF3Tilo8mD8+F+Nioo2y3eR7ii4xZeDsTDWiVkC
-	CrAg==
-X-Gm-Message-State: AMCzsaW5U89mHhAS++td8DFvFNJyDOwCXfCwDoOQJ5pdizF1zwlHiDbY
-	ufSvhVLR2m+8p65XkZJ0Iiqq0w==
-X-Google-Smtp-Source: AOwi7QB1h83UTnDY04LuBtRguaVuC+nHcqveuKtpij0PJb4gnQyfnuK7ioKRnmS51P0RiX/54CR0PA==
-X-Received: by 10.99.115.79 with SMTP id d15mr5197786pgn.343.1506996968227;
-	Mon, 02 Oct 2017 19:16:08 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=RJqFA+PfiuGQjtESTQSaPU7lVTdHvrH4K/UXpidOtCA=;
+	b=FpBVrwX/azXe0As2ZPrUjVJmIG82ebMCxSCbItYKKEL45Gsn0d7bn/+676XJ0B7Xii
+	l7vLyPHT7On9xwDdsqXhfGLHcZxqPsQmTIkEDBraCl+UhWwXcQ2eZX7EB+f3I0UbPn6s
+	X9TM3h5LxyigEyiLyYpq8oHItfLdPrgFYZ/hjPqU2vR3BZATS3O56rVbwxSBnaamS4ud
+	rFyv4sWDT26Uu4hZKN6ro/6P8GFk4htvle16YETLW9J69V6ZTs0WQG1DJWrCPQfR+XDb
+	8puiYPMCf2o32uI93udOG0x4VaIwS/Rhjw/8zOv9ShWxjFkWT9viHn39YbrF0nqEwMtQ
+	awyw==
+X-Gm-Message-State: AHPjjUiTG2ts+N1Tqs+YxWSaKw3rZx1Vv44pMy1YsD714UAiU9BLd2Yt
+	UcZyI83WTF+ttJIbnZMBUiJi0w==
+X-Google-Smtp-Source: AOwi7QCQfMGvMfV9NscvI8Po6t79c+hNKVlTKCTQU8/yVqlSgrAmzgwVq6G0156uKMNM7CWlmOcQFA==
+X-Received: by 10.101.86.133 with SMTP id v5mr14213137pgs.249.1506996972875;
+	Mon, 02 Oct 2017 19:16:12 -0700 (PDT)
 Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	20sm19427476pft.109.2017.10.02.19.16.06
+	20sm19427476pft.109.2017.10.02.19.16.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 Oct 2017 19:16:07 -0700 (PDT)
+	Mon, 02 Oct 2017 19:16:11 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Oct 2017 19:15:58 -0700
-Message-Id: <1506996960-17686-1-git-send-email-armccurdy@gmail.com>
+Date: Mon,  2 Oct 2017 19:15:59 -0700
+Message-Id: <1506996960-17686-2-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [morty][PATCH v2 0/2] coreutils: musl build fix for gplv2 coreutils recipe
+In-Reply-To: <1506996960-17686-1-git-send-email-armccurdy@gmail.com>
+References: <1506996960-17686-1-git-send-email-armccurdy@gmail.com>
+Subject: [morty][PATCH v2 1/2] coreutils_6.9: Disable broken man pages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 02:16:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Oct 2017 02:16:12 -0000
 
-Two minor patches backported from meta-gplv2 for the gplv2 coreutils
-recipe in oe-core morty.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-v2: Add Signed-off-by's to both patches + reference upstream
-meta-gplv2 commits and add _6.9 suffix in both commit messages.
+These are generated from --help output of the host tools which is clearly
+incorrect, particularly given the older nature of this recipe. Simply
+disable them entirely.
 
-André Draszik (1):
-  coreutils_6.9: fix musl compilation
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Richard Purdie (1):
-  coreutils_6.9: Disable broken man pages
+Cherry-pick from meta-gplv2:
 
- ...-need-charset.alias-when-building-for-mus.patch | 46 ++++++++++++++++++++++
- .../coreutils/coreutils-6.9/no-man.patch           | 21 ++++++++++
- meta/recipes-core/coreutils/coreutils_6.9.bb       |  2 +
- 3 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/build-don-t-need-charset.alias-when-building-for-mus.patch
+  http://git.yoctoproject.org/cgit/cgit.cgi/meta-gplv2/commit/?id=46349e1a8734fb94a04bf7c234c01fa175333238
+
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ .../coreutils/coreutils-6.9/no-man.patch            | 21 +++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_6.9.bb        |  1 +
+ 2 files changed, 22 insertions(+)
  create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/no-man.patch
 
+diff --git a/meta/recipes-core/coreutils/coreutils-6.9/no-man.patch b/meta/recipes-core/coreutils/coreutils-6.9/no-man.patch
+new file mode 100644
+index 0000000..6767d7d
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils-6.9/no-man.patch
+@@ -0,0 +1,21 @@
++Disable manpages for coreutils. These are generated by running the host version --help
++which is going to give incorrect results so its better simply not to do this at all.
++
++RP 2017/3/9
++Upstream-Status: Inappropriate [OE cross compile specific hack]
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++
++Index: coreutils-6.9/Makefile.am
++===================================================================
++--- coreutils-6.9.orig/Makefile.am
+++++ coreutils-6.9/Makefile.am
++@@ -17,7 +17,7 @@
++ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
++ # 02110-1301, USA.
++ 
++-SUBDIRS = lib src doc man po tests
+++SUBDIRS = lib src doc po tests
++ EXTRA_DIST = Makefile.cfg Makefile.maint GNUmakefile \
++   .gitignore \
++   .hgignore \
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 35700a3..6bcf8de 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -26,6 +26,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.bz2 \
+            file://coreutils-fix-texinfo.patch \
+            file://fix_for_manpage_building.patch \
+            file://loadavg.patch \
++           file://no-man.patch \
+            "
+ 
+ SRC_URI[md5sum] = "c9607d8495f16e98906e7ed2d9751a06"
 -- 
 1.9.1
 
