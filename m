@@ -1,40 +1,49 @@
-Return-Path: <Jef.Driesen@niko.eu>
-Received: from relay04.secure-mail.be (relay04.secure-mail.be [195.13.7.7])
-	by mail.openembedded.org (Postfix) with ESMTP id E0FD377D04
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id F097E77C98
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Oct 2017 11:56:35 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2AuBwD8edNZ/7lOx1RcHAEBBAEBCgEBF?=
-	=?us-ascii?q?wEBBAEBCgEBgmYfLVSBLJ10mjQKhTsChExCFQEBAQEBAQEBAQEBaiiCMyKCRAM?=
-	=?us-ascii?q?DOjQbAgEIIhQQMiUCBAEaE4oWAwGnZ4syAQEBAQEFAQEBAQEjCQGDI4ExUYZjh?=
-	=?us-ascii?q?QaDQIIyAQSKC4kejgmLPgWLNoVviwaVVIE5NSKBDntbhx2JOoEQAQEB?=
-X-IPAS-Result: =?us-ascii?q?A2AuBwD8edNZ/7lOx1RcHAEBBAEBCgEBFwEBBAEBCgEBgmY?=
-	=?us-ascii?q?fLVSBLJ10mjQKhTsChExCFQEBAQEBAQEBAQEBaiiCMyKCRAMDOjQbAgEIIhQQM?=
-	=?us-ascii?q?iUCBAEaE4oWAwGnZ4syAQEBAQEFAQEBAQEjCQGDI4ExUYZjhQaDQIIyAQSKC4k?=
-	=?us-ascii?q?ejgmLPgWLNoVviwaVVIE5NSKBDntbhx2JOoEQAQEB?=
-Received: from edge.nikogroup.be ([84.199.78.185])
-	by relay04.secure-mail.be with ESMTP; 03 Oct 2017 13:56:35 +0200
-Received: from HUB.NIKO.LAN (172.22.10.201) by EDGE.nikogroup.be
-	(192.168.22.31) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 3 Oct 2017 13:56:26 +0200
-Received: from MBX.NIKO.LAN ([::1]) by HUB.NIKO.LAN ([::1]) with mapi id
-	14.03.0224.002; Tue, 3 Oct 2017 12:03:02 +0200
-From: <Jef.Driesen@niko.eu>
-To: <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Small improvement for the initscripts package
-Thread-Index: AQHTOPkyug4RbXCTlkS3EIoEWRxT86LLnS2AgAZNSQg=
-Date: Tue, 3 Oct 2017 10:03:02 +0000
-Message-ID: <FAB9E48578194042BE5C63B8BE4761033969175B@MBX.NIKO.LAN>
-References: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>,
-	<d0e88e18-0540-2d7f-abe4-11f677d5af4e@linux.intel.com>
-In-Reply-To: <d0e88e18-0540-2d7f-abe4-11f677d5af4e@linux.intel.com>
-Accept-Language: en-US, nl-BE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.10.222]
-x-exclaimer-md-config: ea9a6d46-d5fe-4ddc-9ba9-49fab8e88ad4
+	Tue,  3 Oct 2017 12:06:49 +0000 (UTC)
+Received: by mail-io0-f169.google.com with SMTP id w94so7370862ioi.7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Oct 2017 05:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VgI3YPz5T2ThZTwqk+GJrayWq7d/5TorhdwJenX5VcU=;
+	b=lsJjy62Xcz78ZVtcMVVpmg7algw1CTV0ChE1jNRsNsWSaUIC8+l4rNbQbMHRMwNdDv
+	crLTxxpJKKFqWTZN/P1FeycPMlWXGVUgB++4ykS4LRaqjG9RdpLhEySHns/NXJU/knhS
+	wAqSY9hl1OgvA6yBsJPbECAECLBWg3A8G51OrtFUgHFTeQ6ksgZLrH6J+8tCkUBE2SM4
+	Z+OZa8siCBLXbl/yg6c89Y+CmbXvxIayhQwwCfe0SzGAsyx+bEO/ADdoatkiHy2styRZ
+	mhvR8nQDdRMZ9FBDd8H+anSAjELDxWwPEj+q67e6SJbFhHkFti7K49goc7vFLYuuxeDl
+	5aPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VgI3YPz5T2ThZTwqk+GJrayWq7d/5TorhdwJenX5VcU=;
+	b=qZnF9z6NE9Tsscdf17pkh5Xi4V0IW99Zfz6Woc/P/KArJIgECP0O0uwAqUUBUI6qr6
+	yuNEaiRek/5kYo1vwX4j67DWd/H/W9Vs4J3JPmPMO1ZhZCMJ/CsaLQLpdVL90urRIPws
+	Z5WcY9BMkD0S/ZUYrW4viqCP/1jxw+4mHx6WuLhQZMYdynGGOdZNPhV7wNf2vgO8bLKD
+	zjepTQstDZcJTtXGjmrIVfyOiX1GoWIU7wY2XhKlladhyN+M5r3veUkQVA8XkcrleZov
+	KZ9KAk8DVMRFP4xpz1+m8SuD6oJTvmR2UqELiVbrUvcQGfbEvpNEhwLABw9n5jWP7zGO
+	RjCQ==
+X-Gm-Message-State: AMCzsaXkblvg/APiORmkw3CcEoxtxlM7szJi/O1EYvNsT28zJofLgUmx
+	qe4z1dO88vt+2+cW4M+wXlej/RmFKpqR3thzrIMYFQ==
+X-Google-Smtp-Source: AOwi7QAqhY97oeV+0KMxoMtQWYg0fqb8ZT6Ne9hJ0n4RZHNIjWf6ckaT4ru5TxmeP+MgNYJUtHMRAnUwePWjaBXzYck=
+X-Received: by 10.107.32.70 with SMTP id g67mr29183416iog.77.1507032411127;
+	Tue, 03 Oct 2017 05:06:51 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.107.164.134 with HTTP; Tue, 3 Oct 2017 05:06:30 -0700 (PDT)
+In-Reply-To: <FAB9E48578194042BE5C63B8BE4761033969175B@MBX.NIKO.LAN>
+References: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>
+	<d0e88e18-0540-2d7f-abe4-11f677d5af4e@linux.intel.com>
+	<FAB9E48578194042BE5C63B8BE4761033969175B@MBX.NIKO.LAN>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 3 Oct 2017 13:06:30 +0100
+Message-ID: <CAJTo0LY6UW=G2pfVPSQH3bMdU03FDMRFACpzsXJYoW1255rPRg@mail.gmail.com>
+To: Jef.Driesen@niko.eu
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] Small improvement for the initscripts package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -48,72 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 11:56:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 03 Oct 2017 12:06:51 -0000
+Content-Type: multipart/alternative; boundary="001a1140ae2c87de89055aa35326"
+
+--001a1140ae2c87de89055aa35326
+Content-Type: text/plain; charset="UTF-8"
+
+On 3 October 2017 at 11:03, <Jef.Driesen@niko.eu> wrote:
+
+>
+> Note: base-files-emperor is the package with the custom init scripts. I
+> added:
+>
+> PROVIDES = "initscripts"
+>
+> And in conf/machine/emperor.conf, I added:
+>
+> PREFERRED_PROVIDER_initscripts = "base-files-emperor"
+>
+
+If your initscripts package is a replacement for the oe-core initscripts
+package, then also set RPROVIDES_${PN} += "initscripts".
+
+Ross
+
+--001a1140ae2c87de89055aa35326
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Alexander Kanavin:
-> You can use bbappend to instead replace the standard files with the ones
-> that you want installed. Or you can add PROVIDES =3D "initscripts" to you=
-r
-> recipe with the 'custom' initscripts, and set
-> PREFERRED_PROVIDER_initscripts =3D "my-custom-initscripts" to have that
-> installed.
-
-If I try that, I get a different error:
-
-ERROR: The recipe base-files-emperor is trying to install files into a shar=
-ed area when those files already exist. Those files and their manifest loca=
-tion are:
-   /home/jdi/develop/yocto/build/tmp/sysroots/emperor/sysroot-providers/ini=
-tscripts
- Matched in manifest-emperor-initscripts.populate_sysroot
-Please verify which recipe should provide the above files.
-The build has stopped as continuing in this scenario WILL break things, if =
-not now, possibly in the future (we've seen builds fail several months late=
-r). If the system knew how to recover from this automatically it would howe=
-ver there are several different scenarios which can result in this and we d=
-on't know which one this is. It may be you have switched providers of somet=
-hing like virtual/kernel (e.g. from linux-yocto to linux-yocto-dev), in tha=
-t case you need to execute the clean task for both recipes and it will reso=
-lve this error. It may be you changed DISTRO_FEATURES from systemd to udev =
-or vice versa. Cleaning those recipes should again resolve this error howev=
-er switching DISTRO_FEATURES on an existing build directory is not supporte=
-d, you should really clean out tmp and rebuild (reusing sstate should be sa=
-fe). It could be the overlapping files detected are harmless in which case =
-adding them to SSTATE_DUPWHITELIST may be the correct solution. It could al=
-so be your build is including two different conflicting versions of things =
-(e.g. bluez 4 and bluez 5 and the correct solution for that would be to res=
-olve the conflict. If in doubt, please ask on the mailing list, sharing the=
- error and filelist above.
-ERROR: If the above message is too much, the simpler version is you're advi=
-sed to wipe out tmp and rebuild (reusing sstate is fine). That will likely =
-fix things in most (but not all) cases.
-ERROR: Function failed: sstate_task_postfunc
-ERROR: Logfile of failure stored in: /home/jdi/develop/yocto/build/tmp/work=
-/armv7a-vfp-neon-poky-linux-gnueabi/base-files-emperor/1.0-r0/temp/log.do_p=
-opulate_sysroot.8244
-ERROR: Task 676 (/home/jdi/develop/yocto/meta-fifthplay-bsp/recipes-fifthpl=
-ay-bsp/base-files-emperor/base-files-emperor.bb, do_populate_sysroot) faile=
-d with exit code '1'
-
+<div dir=3D"ltr">On 3 October 2017 at 11:03,  <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:Jef.Driesen@niko.eu" target=3D"_blank">Jef.Driesen@niko.eu</a>&g=
+t;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex"><br>
 Note: base-files-emperor is the package with the custom init scripts. I add=
-ed:
+ed:<br>
+<br>
+PROVIDES =3D &quot;initscripts&quot;<br>
+<br>
+And in conf/machine/emperor.conf, I added:<br>
+<br>
+PREFERRED_PROVIDER_initscripts =3D &quot;base-files-emperor&quot;<br></bloc=
+kquote><div><br></div><div>If your initscripts package is a replacement for=
+ the oe-core initscripts package, then also set RPROVIDES_${PN} +=3D &quot;=
+initscripts&quot;.</div><div><br></div><div>Ross=C2=A0</div></div></div></d=
+iv>
 
-PROVIDES =3D "initscripts"
-
-And in conf/machine/emperor.conf, I added:
-
-PREFERRED_PROVIDER_initscripts =3D "base-files-emperor"
-
-Jef
-Disclaimer
-
-This e-mail and its attachments is intended only for the person(s) or entit=
-y to which it is addressed. If you receive this e-mail by mistake, please d=
-elete this e-mail from your system and destroy all copies of it. It may con=
-tain confidential and/or privileged information. You should not copy it or =
-use it for any purpose nor disclose its contents to any person unless allow=
-ed by a written document between the sender and the addressee.
-
+--001a1140ae2c87de89055aa35326--
