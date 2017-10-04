@@ -1,48 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D896277E9C
+Return-Path: <matt@madison.systems>
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 14BC077EA5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 15:46:24 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id c195so16197644itb.1
+	Wed,  4 Oct 2017 16:01:31 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id r68so6470994pfj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 08:46:26 -0700 (PDT)
+	Wed, 04 Oct 2017 09:01:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gL6OgWXXsUyn5sQGsdch1t3Dd+4ApJJU3sIf9wTE3+s=;
-	b=l2Sl/j/cFrfkmzNDEAo71UqUsFu9kPH734m38DbZNSUX0eu1bwrdtYFFtHL66AeizF
-	Vu5WkdPPk4jjX7ks4XiAcXrlFC6EG0kBk/zxknKnMRLovdx71cC9vthR7UchrQHQjuXT
-	Qh+5J0UZ+/riSCc8isGhtYYFZzObffug99u+g1CfV2BrZrra4vyOCeZRbClsVhPA47TM
-	dIQwSoe8csaZOmI9Co2TEKi5hMut60aDr6D7IwjoGbFpzuAwl3FfAgUYacL4stSGI/VQ
-	mLrRInqCX6iYhsMMuVk5R0pajLv0MhfqJmyzkePppK7Q0PEStRsboju9ve89DiNPj+Zs
-	Ck7g==
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=VizCCOF4IjuvXAIOzuVw63JZHwAnZi716rlqgYaaMwY=;
+	b=DRRWsIzy6+j4WUB5xcC40NpwtmNsyTED/9fB4QSEumpVQROBjOJxlZq6d7mr7gr3n8
+	ZL/cjviz9VRGU1X6rlst8OejW3uV98fDZfzhtrJmKFxB+Di4LUsRHMWmnZzEW63WizEm
+	fFcwxNJ1F1Sf4AmbBQ5e9zgUuNREwGWw/4iOhZIwerjXyXZV5cYcBnG0Su+iTpvIzlMo
+	znYkzJGgdiUq1Kck3P8JoXqcSmMGaen7SnSe/JuAUwoAui/UMn/BQ/cQmQ4RinDxfv0x
+	BcCL07YFFgsCDmFRxRx9QOT78lZIw2PVhWQyJxCJKKSD0IVHlqjBi4azaC53dZ/mcdMF
+	r23Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=gL6OgWXXsUyn5sQGsdch1t3Dd+4ApJJU3sIf9wTE3+s=;
-	b=ulZQQ3BT1cSB7eGM8e7YsQ+CckcANkseOnWD0T02/NZiy1AUXESJwvRad5vWLB4XUn
-	RhEWEWcWDuvK9ddasYm3fJlFQLabIl+QP+780IcGYpWOkxPng9fElVka6lUFyFwjMBHR
-	yZtxSMSq9S/UNXv1LHV9D779Ot49PnbcCshqTvDfxzRaLoMYLcgDbqVGh46H89G+37E7
-	m5/G5+5pkxOz2ygVnj/h1NaqLqE3iibrV4/Ka8HYR6GF8bkyW/ZxfcP2eY9OHfO/Gw8y
-	z6EY0x7F//c+s9ptBRIMGws2hz4IkDY2LpzAOCHICs6DIpFuU9Uii8kSR+YMIV0luYq7
-	TDgQ==
-X-Gm-Message-State: AHPjjUiGCmsKQIAjB4CJNThy9f9IMWpbHGeVrnyo1J6TtClZ8FTc+cuE
-	o8ny/qp+cQYdirPT14fCHnvwfnGSLrRJmwNeOeBmdg==
-X-Google-Smtp-Source: AOwi7QCkmNuN8ckQrXyGTUQAh1M6vvnGO451QhEJcAsnH4m9DouWqxNNO7E1aCkvyhDm4n1rYLVPgefV4gy7E0vXfrs=
-X-Received: by 10.36.178.1 with SMTP id u1mr31637185ite.120.1507131985814;
-	Wed, 04 Oct 2017 08:46:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.164.134 with HTTP; Wed, 4 Oct 2017 08:46:05 -0700 (PDT)
-In-Reply-To: <1504750598-591-1-git-send-email-yi.zhao@windriver.com>
-References: <1504750598-591-1-git-send-email-yi.zhao@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 Oct 2017 16:46:05 +0100
-Message-ID: <CAJTo0Lbpaf_jJzvbWfKiGbYwbQw-czvjfysUMWeckb0CGEtzag@mail.gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dhcp: make dhclient to get configuration for other programs
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VizCCOF4IjuvXAIOzuVw63JZHwAnZi716rlqgYaaMwY=;
+	b=NJ+i3xheibTiB0UMGwJl9G0pMPLclVHDAG9aBK7OKC7hky7oRanDZnRH06s5OHik9E
+	eoZgerBZ9lf8Y/6cyvWbImzZ00kXNeXoaS5Uf7OaTLrhg8INHNDntfWo7/H5o64KTmfT
+	w04ATSsBn0MaW46ul880hat5Ow6rOO9YLfQdepsg59c3PVs2xbtHJ4wbwcRYN7ScuJBV
+	hMNXL4wvVZ27nSZ4Hiq0WvGHOHgVqG8feguzzEqazna9j0yosR30aROwubQFNQMROqQp
+	z/WMYffDCz/CM36xy0opzy5PgZhRycd2x9A2k7167HTAW+XN5bKegy3EmjB+Va6Uc+Dt
+	WmRQ==
+X-Gm-Message-State: AHPjjUj9XB8pY+FPVtqTiHnli/4fJmXHmo6Eehxp07jcu8ZHRUxpq8Mv
+	H/FdjIaLpU8p/faij6HaoeAixK2c
+X-Google-Smtp-Source: AOwi7QA6NMVZO89U7XkCKRcRuBb5UjLSeH3kg5+wW3YfeDmZM4zkVQe3qeM0VxjRxKWKtLt/RtnHMQ==
+X-Received: by 10.99.164.81 with SMTP id c17mr19287697pgp.445.1507132892448;
+	Wed, 04 Oct 2017 09:01:32 -0700 (PDT)
+Received: from ip-172-31-4-49.us-west-2.compute.internal
+	(ec2-34-214-157-19.us-west-2.compute.amazonaws.com. [34.214.157.19])
+	by smtp.gmail.com with ESMTPSA id
+	z78sm26762491pfd.178.2017.10.04.09.01.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 04 Oct 2017 09:01:31 -0700 (PDT)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Oct 2017 16:01:14 +0000
+Message-Id: <1507132875-29155-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.7.4
+Cc: otavio@ossystems.com.br, saul.wold@intel.com
+Subject: [PATCH v2 0/1] updated go-runtime patch for musl builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +57,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 15:46:25 -0000
-Content-Type: multipart/alternative; boundary="f403045d9c0ea50a62055aba8265"
+X-List-Received-Date: Wed, 04 Oct 2017 16:01:32 -0000
 
---f403045d9c0ea50a62055aba8265
-Content-Type: text/plain; charset="UTF-8"
+Updated patch for fixing go builds for musl with x86-64
+targets.
 
-On 7 September 2017 at 03:16, Yi Zhao <yi.zhao@windriver.com> wrote:
+New in v2:
+  * Remove runtime support for go's race detector for
+    musl targets.  Go includes pre-built binaries for
+    this, which are built against glibc and lead to
+    linker errors for the missing glibc symbols.
 
-> +Upstream-Status: Backport [redhat]
->
+Matt Madison (1):
+  go-runtime: prevent host leakage into target objects
 
-Unless Redhat is upstream, this is not a backport.
+ meta/recipes-devtools/go/go-runtime.inc | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-Ross
+-- 
+2.7.4
 
---f403045d9c0ea50a62055aba8265
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 7 September 2017 at 03:16, Yi Zhao <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windri=
-ver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"g=
-mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">+Upstream-Status: Backport [redh=
-at]<br></blockquote><div><br></div><div>Unless Redhat is upstream, this is =
-not a backport.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---f403045d9c0ea50a62055aba8265--
