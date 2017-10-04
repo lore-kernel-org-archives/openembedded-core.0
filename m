@@ -1,46 +1,49 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DE116093D
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BCBFC6E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 01:43:37 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id i195so3254170pgd.3
+	Wed,  4 Oct 2017 02:01:57 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id k10so7107521wrk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Oct 2017 18:43:39 -0700 (PDT)
+	Tue, 03 Oct 2017 19:01:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=oaSk6IJG1sjmrWnR0rjlBsetYswIf3humik6dXw5UGw=;
-	b=DLmK8GRGQDunbaCpc2ozzBl17bpHVU62Wlfecad92OZhN+ZDz+6IiLGiyoqHGM8jxw
-	bnKUqcs4BLt5ihLfKffvZ0MpVfQL2+HNvqTNC5eMVRlw4LgyRQOyOEswTuikA99IRvCk
-	hrmnJU9szd4YZ0N+wg8zpaD4TiSYhgSmuhRGCw90O8BPY3DZaKZMZBg6vW+UXyJHJJYd
-	3rZQpzEKRlQ6yJgF3cQMBLlM8YCu1TqMbNkZx3htizcxo8NNNptAWcoDiNMcoIxq6nfm
-	EkXBEYHlZJ9eFv0sO7G/UI5XW8TV9/UYZTMM1k7K0Qf/E/e66Re6dEy4fACxjgBj5RPL
-	gjyA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=J++YUSVg/es4FMopOM3vCY4HXMJI05GaYruxxR4txWc=;
+	b=Ehy+P/zAVAD/AFG3fW1J/28hzz8uWO7cW1uElU1a2ObpWv5tEamyvJVS/NJb5SWPRZ
+	BTQ13/mQxoOPwlAkBflUl2gAp+NVz94Yno6aHt9MCOLWFE0EflsnvDCztS72DEg9mB+f
+	XSvXY3wv8lQzWHG8FZUy46MnCZLzHiGcYP740PhxmQGtEe6V/uXADAUMPgv+pVE+/LHu
+	xNhYszcQPRJoJwCm9+1l5Q7qAt7b4hr7BEZSWfUj/E5fcZ+lyzeaFTpdt0ktBZHh4vfC
+	3NhbTJqpMR/d7DFQuGRFbs9IMedg///DVZxqGtS1Pw0CdsqllHfW6xttCQJfvqUy3Btf
+	nMCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=oaSk6IJG1sjmrWnR0rjlBsetYswIf3humik6dXw5UGw=;
-	b=HGXaxKOjglvQk6z4/jAvopPbD07lnAugdIofNJjS5AVE+E21j551HGcNJ6NoTU/Ldz
-	F2C8LV34uBkrkrusydkmoaNMVWZMYhOQrvHW2yaTpn+ZsW9e4T/aAnisMtYjLlLHgU2Q
-	NheHPG+dBFrnqfott8m7/hzg22CK5/rUI3vbHYoX2M/ztavHczA0FOBEENnggruj+o2g
-	/3kca5Evjto2GOXoKyw6p0fGLwmBmeAndBLxmcT5AYC0oBoYOFiSGCDAMtP8kKHt9c72
-	4JNJpe/e8u48WAmKKSSCHHq1UABQO3H16H7EA6f6/Giit1E5c9sbJgEUqE0Eas82GG9u
-	Px4A==
-X-Gm-Message-State: AMCzsaXVLrYFV40hJHfXa6EHm+CaX7h3yAXGAGuIDsBsEcRqZJbKOx48
-	B0UwpV7tkmOMK301akhSBbpOyA==
-X-Google-Smtp-Source: AOwi7QCAUPIkswW8V7vOm+H5MqpXbaLXKQLFlu7rVBEwAsjrpblxGdXQttZJfxTdmATRMKACvlyirw==
-X-Received: by 10.99.101.135 with SMTP id z129mr11397142pgb.75.1507081418884; 
-	Tue, 03 Oct 2017 18:43:38 -0700 (PDT)
-Received: from e6520.cablelabs.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	v10sm24568822pgf.8.2017.10.03.18.43.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Oct 2017 18:43:37 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=J++YUSVg/es4FMopOM3vCY4HXMJI05GaYruxxR4txWc=;
+	b=SHjBIOMckRUik6F7tFcsEqWnhCzl5F1DYQi0oTDWuixPJZcDRujmJwCziofGMu2akF
+	6+l1L7PpWPQuP0OGtB2q8atUpwzjzSd8yTzRpwhU4esbA+CNdWcnmD3sNlMFIzBd8x83
+	mkDE0OQ9+4XV0BkITMpsv0B9UaVZoFhL2adyw2Xhz5Z7sLMJ4MyFm42H4vSxLowBe0eP
+	5FJj1K+Z94MyvWKjQ+Wq+HI0zovmAp4PL2QnjRrZXheQzWWDqcH4Lf1SeEiZMN4heKfI
+	sWRyWPxXRKma4v9gSaC0F6E6ILKqGJat7/o7wEdYiFsifc7iWvEHP6MjLmkSsGaShuFy
+	vOGQ==
+X-Gm-Message-State: AHPjjUjLvjPqmLD8/6EjJIhqT5EcQth1tayFqRoLUvBcR4CMq32l0DnT
+	qZKIiQ6Ok1iChCgqpS9jzU8B7Lbe7qp0Tvg0w/g=
+X-Google-Smtp-Source: AOwi7QD6aQz1y3N5yo6DrjDgCCUIHDoXr7z/rYVspBLToEduFHq1d/No0ssGqo6QWGP2vx451gjZUaPf/CDcb1JsH2Y=
+X-Received: by 10.223.186.140 with SMTP id p12mr18582676wrg.235.1507082518849; 
+	Tue, 03 Oct 2017 19:01:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.166.19 with HTTP; Tue, 3 Oct 2017 19:01:58 -0700 (PDT)
+In-Reply-To: <1507067652-27633-1-git-send-email-juro.bystricky@intel.com>
+References: <1507067652-27633-1-git-send-email-juro.bystricky@intel.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Oct 2017 18:43:32 -0700
-Message-Id: <1507081412-1114-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] systemd: drop unreferenced uclibc specific agetty -> getty patch
+Date: Tue, 3 Oct 2017 19:01:58 -0700
+Message-ID: <CAJ86T=UdzPA4WyTELZjiLmfAtK4asKRN-SBd6tsinmi76FiV_A@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: marex@denx.de, Juro Bystricky <jurobystricky@hotmail.com>,
+	yau.wai.gan@intel.com,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] siteinfo: nios2-linux - remove wrong mutex info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,70 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 01:43:38 -0000
+X-List-Received-Date: Wed, 04 Oct 2017 02:01:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The patch is uclibc specific and reference to it was removed from the
-systemd recipe in:
+On Tue, Oct 3, 2017 at 2:54 PM, Juro Bystricky <juro.bystricky@intel.com> wrote:
+> With the commit f4e8e9242c5df095b52688b083df3c9d36e7144b
 
-  http://git.openembedded.org/openembedded-core/commit/?id=653704e9cf325cb494eb23facca19e9f05132ffd
+That revision doesn't exist in oe-core...
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- ...r-getty-to-agetty-in-console-setup-system.patch | 44 ----------------------
- 1 file changed, 44 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch
-
-diff --git a/meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch b/meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch
-deleted file mode 100644
-index 951a28d..0000000
---- a/meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 8736d9b9bb492f60e8f3a1a7fb5a05ba3201d86b Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 20 Feb 2015 05:29:15 +0000
--Subject: [PATCH 02/19] units: Prefer getty to agetty in console setup systemd
-- units
--
--Upstream-Status: Inappropriate [configuration specific]
--
--Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- units/getty@.service.m4        | 2 +-
-- units/serial-getty@.service.m4 | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/units/getty@.service.m4 b/units/getty@.service.m4
--index 5b82c13..e729469 100644
----- a/units/getty@.service.m4
--+++ b/units/getty@.service.m4
--@@ -33,7 +33,7 @@ ConditionPathExists=/dev/tty0
-- 
-- [Service]
-- # the VT is cleared by TTYVTDisallocate
---ExecStart=-/sbin/agetty --noclear %I $TERM
--+ExecStart=-/sbin/getty -L %I $TERM
-- Type=idle
-- Restart=always
-- RestartSec=0
--diff --git a/units/serial-getty@.service.m4 b/units/serial-getty@.service.m4
--index 4522d0d..e6d499d 100644
----- a/units/serial-getty@.service.m4
--+++ b/units/serial-getty@.service.m4
--@@ -22,7 +22,7 @@ Before=getty.target
-- IgnoreOnIsolate=yes
-- 
-- [Service]
---ExecStart=-/sbin/agetty --keep-baud 115200,38400,9600 %I $TERM
--+ExecStart=-/sbin/getty -L 115200 %I $TERM
-- Type=idle
-- Restart=always
-- UtmpIdentifier=%I
---- 
--2.10.2
--
--- 
-1.9.1
-
+> some nios2 builds
+> (uboot, core-image-minimal, etc) were broken due to db trying to use ARM instructions
+> in mutexes. The reason was db "configure" used the cached entry from nios2-linux
+> (which was incorrect). So the remedy was to remove the incorrect cached entry
+> and let db "configure" figure out which is the proper mutex to use.
+>
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  meta/site/nios2-linux | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
+> index 2f4e570..5bae748 100644
+> --- a/meta/site/nios2-linux
+> +++ b/meta/site/nios2-linux
+> @@ -33,7 +33,6 @@ db_cv_path_sh=${db_cv_path_sh=/bin/sh}
+>  db_cv_path_strip=${db_cv_path_strip=/usr/bin/strip}
+>  db_cv_align_t=${db_cv_align_t='unsigned long long'}
+>  db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
+> -db_cv_mutex=${db_cv_mutex=ARM/gcc-assembly}
+>  db_cv_posixmutexes=${db_cv_posixmutexes=no}
+>  db_cv_uimutexes=${db_cv_uimutexes=no}
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
