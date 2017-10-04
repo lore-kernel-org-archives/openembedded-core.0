@@ -1,30 +1,47 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id A533F719C8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 164E06FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 11:56:35 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v94BuRit028848
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 4 Oct 2017 13:56:27 +0200
-Received: from [192.168.253.100] ([163.242.56.100])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v94BuR8J012098
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 4 Oct 2017 13:56:27 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
-	<CAJ86T=Xh4HZO8e-u6r9gn0nCx+ZbzkjV+AJOP3-Cgt1fF3xr7w@mail.gmail.com>
-	<bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
-	<CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <ba1bbc29-6515-e99f-be98-921ccd96c614@siemens.com>
-Date: Wed, 4 Oct 2017 13:56:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] busybox updating
+	Wed,  4 Oct 2017 13:13:27 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id l68so9242447wmd.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Oct 2017 06:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=pyR7ua5dHbykbq5vDq/v+v7v5XzH2N2DNU02Lehzk2k=;
+	b=uV8ELZBgwlzLjnrE3WlIvB/fO14BVtRoikoE7CLGNhwvTW+hxmUa88JQ3O8wafUh4k
+	N2k+U1aYKZclESeUQqyqB8m0Y6RrCqdhCMUGHvOgigdd8eIob3UKLrbzceQDKzEQtyyA
+	yVr4EcYyFbQo5F4YggxvA49EE7ZSa7a4bXtrPselLFnv4QYn5PBp4Lje/kSUWieGZSB0
+	/mW3IuWC+BncmuRD/LfEAHy+XmxF7tsXR+dW0PUXgxxD222I9c5C8oTksXK+TIJi74xM
+	ttyj7sk2JekG+bZA9JfFmyQt7YVOsOyWlsZEbpHgsGcDxhm4sQ619MLyJRHZdAIOg/Om
+	0ooA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pyR7ua5dHbykbq5vDq/v+v7v5XzH2N2DNU02Lehzk2k=;
+	b=a2lOtHJUO2pSBGjcCdDvfOBHB+hwyTtmUI4tmh2zNQwR7aEyfkn0iCzQ4hX9S/bsTs
+	BA2econMpI8MELPpoH09sPSgWUepDAw7GULf5/ho/mLR2R4XvRUXgTBSs8l51wkb+urQ
+	4OZpBbiWkw+G0TnVG4eRZUtsdgd25RGgzBeS7ikrhMxLuJvTpDzXLMxGgyNRoq3B2jn8
+	IQQezqtPqZC6GTvq+osXwV1A7JMcrpE1vLGJ/JoZ0O3TDUBZe7Xzj4HUc8RYpjyKUdGJ
+	xQpA5qrQWbKKJYh8qBnMuaMbxW8AAtR0CwJOPS36KswOOx02Jllh8SiQG/cQZP7l3bqL
+	W7zw==
+X-Gm-Message-State: AMCzsaUOrDOlyWQY5As7nG3mglQYZ9+UyDu8K/1wTvie4MsxqPJho7KI
+	6OIU+LTujnlGm+LR0Zg3YauT9nVb
+X-Google-Smtp-Source: AOwi7QAukLa8JFpYYyp83G88Af6IQG1kzu1xGJdJvye11WC19XsBukpUkFGPUjcLPVArVr9cWq8XPw==
+X-Received: by 10.28.152.5 with SMTP id a5mr8133181wme.131.1507122808269;
+	Wed, 04 Oct 2017 06:13:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 9sm15225847wml.24.2017.10.04.06.13.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Oct 2017 06:13:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Oct 2017 14:13:25 +0100
+Message-Id: <20171004131325.26620-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] oe-pkgdata-util: add unescape option to read-value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,81 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 11:56:36 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Oct 2017 13:13:28 -0000
 
-I have unpacked the rpm package over command "rpm -qp --scripts
-busybox-1.27.2-r0.i586.rpm" and links to /bin/sh looks good for me.
+Some fields are multiline values which have been escaped, so add an option to
+unescape the \n and \t.
 
-update-alternatives --install /bin/sh sh /bin/busybox.nosuid 50
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/oe-pkgdata-util | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index a690870b1c5..c6fba56c89b 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -197,6 +197,10 @@ def read_value(args):
+                 # PKGSIZE is now in bytes, but we we want it in KB
+                 pkgsize = (int(value) + 1024 // 2) // 1024
+                 value = "%d" % pkgsize
++            if args.unescape:
++                import codecs
++                # escape_decode() unescapes backslash encodings in byte streams
++                value = codecs.escape_decode(bytes(value, "utf-8"))[0].decode("utf-8")
+             if args.prefix_name:
+                 print('%s %s' % (pkg_name, value))
+             else:
+@@ -552,6 +556,7 @@ def main():
+     parser_read_value.add_argument('pkg', nargs='*', help='Runtime package name to look up')
+     parser_read_value.add_argument('-f', '--file', help='Read package names from the specified file (one per line, first field only)')
+     parser_read_value.add_argument('-n', '--prefix-name', help='Prefix output with package name', action='store_true')
++    parser_read_value.add_argument('-u', '--unescape', help='Expand escapes such as \\n', action='store_true')
+     parser_read_value.set_defaults(func=read_value)
+ 
+     parser_glob = subparsers.add_parser('glob',
+-- 
+2.11.0
 
->   chrt
->   cttyhack
->   init
->   mdev
->   setsid
->   partprobe
-
-You have right, there was a mistake. These applets are disabled in
-defconfig, so they are not installed.
-
-Only lzcat, xzcat and nproc are new.
-
-Regards,
-Andrej
-
-On 10/04/2017 12:15 PM, Burton, Ross wrote:
-> On 4 October 2017 at 07:20, Andrej Valek <andrej.valek@siemens.com 
-> <mailto:andrej.valek@siemens.com>> wrote:
-> 
->     I have compared no/suid links between these versions. So, I was trying
->     to enable the same applets like in older version and do not enable the
->     new one. Some applets could not be disabled (they are automatically
->     enabled) due to dependencies.
-> 
->     For this version of defconfig the new applets are:
->     chrt
->     cttyhack
->     init
->     lzcat
->     mdev
->     nproc
->     setsid
->     xzcat
->     partprobe
-> 
-> 
-> This doesn't quite match what I'm seeing by comparing old and new links in the 
-> postinst:
-> 
-> $ diff then now
-> 44c44,45
-> < update-alternatives --install /bin/sh sh /bin/busybox.nosuid 50
-> ---
->  > update-alternatives --install /bin/sh sh /bin/busybox.suid 50
->  > update-alternatives --install /bin/sh sh /bin/busybox.suid 50
-> 122a124
->  > update-alternatives --install /usr/bin/lzcat lzcat /bin/busybox.nosuid 50
-> 128a131
->  > update-alternatives --install /usr/bin/nproc nproc /bin/busybox.nosuid 50
-> 167a171
->  > update-alternatives --install /usr/bin/xzcat xzcat /bin/busybox.nosuid 50
-> 
-> Note the two lines installing an alternative of /bin/sh to busybox.suid.
-> 
-> Assuming they should have alternative links installed, the following applets are 
-> still disabled too:
-> 
->   chrt
->   cttyhack
->   init
->   mdev
->   setsid
->   partprobe
-> 
-> Ross
-> 
 
