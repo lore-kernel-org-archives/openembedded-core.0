@@ -1,49 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CB7A77822
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D896277E9C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 15:11:16 +0000 (UTC)
-Received: by mail-it0-f52.google.com with SMTP id v62so5917743itd.1
+	Wed,  4 Oct 2017 15:46:24 +0000 (UTC)
+Received: by mail-it0-f50.google.com with SMTP id c195so16197644itb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 08:11:18 -0700 (PDT)
+	Wed, 04 Oct 2017 08:46:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3MMaMiGA+no18DzHP0qlu+aYARY2hY6F6kppDAcXsds=;
-	b=h3xtXdE8pwxQ6Qz/I0xNiQivZkRksgE7QCZWdvMgH79lNrRKjnvbcX8boKqaxY6Qdy
-	Psw6Ky2nohSA69UsryvLemCxTB/Lqf7tQitscv+Kx1v8pBeYFmWsyWpDlKEpXno9+4zt
-	VQfwiCF78/8bvzTdZOUmHh+CJivS828YEByLpLxOQu879Rzz4uEGxyOUxw/m8iaq1eWg
-	9RuzN5kkQmj0U1BMF31WFUgdE6mus615ZPToWS2Iyu1PlMl6pPKKzYfTrtOXmFOmkast
-	OU0DY7REznk8bBK6P93fA9NBZLOCiuO6wDh5ReBALkSL7JRg/eIaZT3YF/AS0wY/YF5z
-	lIjA==
+	:cc; bh=gL6OgWXXsUyn5sQGsdch1t3Dd+4ApJJU3sIf9wTE3+s=;
+	b=l2Sl/j/cFrfkmzNDEAo71UqUsFu9kPH734m38DbZNSUX0eu1bwrdtYFFtHL66AeizF
+	Vu5WkdPPk4jjX7ks4XiAcXrlFC6EG0kBk/zxknKnMRLovdx71cC9vthR7UchrQHQjuXT
+	Qh+5J0UZ+/riSCc8isGhtYYFZzObffug99u+g1CfV2BrZrra4vyOCeZRbClsVhPA47TM
+	dIQwSoe8csaZOmI9Co2TEKi5hMut60aDr6D7IwjoGbFpzuAwl3FfAgUYacL4stSGI/VQ
+	mLrRInqCX6iYhsMMuVk5R0pajLv0MhfqJmyzkePppK7Q0PEStRsboju9ve89DiNPj+Zs
+	Ck7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=3MMaMiGA+no18DzHP0qlu+aYARY2hY6F6kppDAcXsds=;
-	b=cPXK3BxgB3al/AWErx5+kekeDMxOMOboyTS/rz4Vka1jT42jXtEgFZbtOk7RVk5zSO
-	py1HWu/bd8ym6+Y6jAZue1YyxLtiXYOA+hTkVKoWxOGJvpOG2+TvXVXot04w8qndexZc
-	zzebt+ZLNvontSxRd+hfYvdSw69/lE6lrI6G39v9roEVlyvJOK2Y05M1Xo7j3y++4C/3
-	r+ALGMoR9o/gJbToqRAJHXU255w0jwXCh9l6VmwpEP4B77Gy+TaYoOakqSNi7HfoxPYZ
-	vFti9FVe+HEGQZiUyGgSkDxv68I9a97qUJLONZieTv75mwLLFPkxF8ro8U58HDV3f34C
-	tcsw==
-X-Gm-Message-State: AHPjjUjBDacXmOuK4CQZU5qWtXDeXxMhavTi2RL7u992UgZHqozNF6l7
-	cYAzchNBSa+cUH0zfI2BQeZuFK+IVYVZ0SqK4uvwmw==
-X-Google-Smtp-Source: AOwi7QDi2QiwyJ9UflhuSNtMCTX6LSYQaHrcq9tOZbv07iTWx8t8uehqsWTn6p5MlwaquJr9GcCl+V8X+HTwinaxdqI=
-X-Received: by 10.36.178.1 with SMTP id u1mr31475374ite.120.1507129877474;
-	Wed, 04 Oct 2017 08:11:17 -0700 (PDT)
+	bh=gL6OgWXXsUyn5sQGsdch1t3Dd+4ApJJU3sIf9wTE3+s=;
+	b=ulZQQ3BT1cSB7eGM8e7YsQ+CckcANkseOnWD0T02/NZiy1AUXESJwvRad5vWLB4XUn
+	RhEWEWcWDuvK9ddasYm3fJlFQLabIl+QP+780IcGYpWOkxPng9fElVka6lUFyFwjMBHR
+	yZtxSMSq9S/UNXv1LHV9D779Ot49PnbcCshqTvDfxzRaLoMYLcgDbqVGh46H89G+37E7
+	m5/G5+5pkxOz2ygVnj/h1NaqLqE3iibrV4/Ka8HYR6GF8bkyW/ZxfcP2eY9OHfO/Gw8y
+	z6EY0x7F//c+s9ptBRIMGws2hz4IkDY2LpzAOCHICs6DIpFuU9Uii8kSR+YMIV0luYq7
+	TDgQ==
+X-Gm-Message-State: AHPjjUiGCmsKQIAjB4CJNThy9f9IMWpbHGeVrnyo1J6TtClZ8FTc+cuE
+	o8ny/qp+cQYdirPT14fCHnvwfnGSLrRJmwNeOeBmdg==
+X-Google-Smtp-Source: AOwi7QCkmNuN8ckQrXyGTUQAh1M6vvnGO451QhEJcAsnH4m9DouWqxNNO7E1aCkvyhDm4n1rYLVPgefV4gy7E0vXfrs=
+X-Received: by 10.36.178.1 with SMTP id u1mr31637185ite.120.1507131985814;
+	Wed, 04 Oct 2017 08:46:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.164.134 with HTTP; Wed, 4 Oct 2017 08:10:56 -0700 (PDT)
-In-Reply-To: <b720c2022a0a49b08ea3159ef3fdf083@XBOX02.axis.com>
-References: <b720c2022a0a49b08ea3159ef3fdf083@XBOX02.axis.com>
+Received: by 10.107.164.134 with HTTP; Wed, 4 Oct 2017 08:46:05 -0700 (PDT)
+In-Reply-To: <1504750598-591-1-git-send-email-yi.zhao@windriver.com>
+References: <1504750598-591-1-git-send-email-yi.zhao@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 Oct 2017 16:10:56 +0100
-Message-ID: <CAJTo0LaAzpHbaqcDSNF3TQ0J+X=07be8YK8DKfLXpWSaGef=AQ@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Oddness regarding file locks in package.bbclass
+Date: Wed, 4 Oct 2017 16:46:05 +0100
+Message-ID: <CAJTo0Lbpaf_jJzvbWfKiGbYwbQw-czvjfysUMWeckb0CGEtzag@mail.gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dhcp: make dhclient to get configuration for other programs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,83 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 15:11:16 -0000
-Content-Type: multipart/alternative; boundary="f403045d9c0efa4fff055aba0427"
+X-List-Received-Date: Wed, 04 Oct 2017 15:46:25 -0000
+Content-Type: multipart/alternative; boundary="f403045d9c0ea50a62055aba8265"
 
---f403045d9c0efa4fff055aba0427
+--f403045d9c0ea50a62055aba8265
 Content-Type: text/plain; charset="UTF-8"
 
-On 3 October 2017 at 19:17, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-wrote:
+On 7 September 2017 at 03:16, Yi Zhao <yi.zhao@windriver.com> wrote:
 
-> > +     # Take shared lock since we're only reading, not writing
-> >       lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}", d))
->
-> Here, however, it is not changed, even though a comment is added to
-> say that it is. Was this intentional, or just an oversight?
->
-> > +     # Take shared lock since we're only reading, not writing
-> >       lf = bb.utils.lockfile(bb.data.expand("${PACKAGELOCK}", d))
->
-> Here again a comment is added, but the code is not changed to match.
-
-
-I'm no expert on this piece of code but that definitely looks like an
-oversight.
-
-
-> Also, what is the ${PACKAGELOCK} lock file actually protecting? With
->
-the exception of the two questionable cases above, I cannot see that
-> the lock is taken privately anywhere else. And since it looks as the
-> code in package_do_shlibs() and package_do_pkgconfig() is not what
-> needs protection (based on the added comments above), what is?
+> +Upstream-Status: Backport [redhat]
 >
 
-Good point.  The sstate locks are also shared.
-
-Richard was involved in all of these changes so lets wait for him to return
-from his holiday...
+Unless Redhat is upstream, this is not a backport.
 
 Ross
 
---f403045d9c0efa4fff055aba0427
+--f403045d9c0ea50a62055aba8265
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 3 October 2017 at 19:17, Peter Kjellerstedt <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com" target=3D"_blan=
-k">peter.kjellerstedt@axis.com</a>&gt;</span> wrote:<br><div class=3D"gmail=
-_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex">&gt; +=C2=A0 =C2=A0 =
-=C2=A0# Take shared lock since we&#39;re only reading, not writing<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0lf =3D bb.utils.lockfile(bb.data.<wbr>expand=
-(&quot;${PACKAGELOCK}&quot;, d))<br>
-<br>
-Here, however, it is not changed, even though a comment is added to<br>
-say that it is. Was this intentional, or just an oversight?<br>
-<br>&gt; +=C2=A0 =C2=A0 =C2=A0# Take shared lock since we&#39;re only readi=
-ng, not writing<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0lf =3D bb.utils.lockfile(bb.data.<wbr>expand=
-(&quot;${PACKAGELOCK}&quot;, d))<br>
-<br>
-Here again a comment is added, but the code is not changed to match.</block=
-quote><div><br></div><div>I&#39;m no expert on this piece of code but that =
-definitely looks like an oversight.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">=
-Also, what is the ${PACKAGELOCK} lock file actually protecting? With<br></b=
-lockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,=
-204,204);padding-left:1ex">
-the exception of the two questionable cases above, I cannot see that<br>
-the lock is taken privately anywhere else. And since it looks as the<br>
-code in package_do_shlibs() and package_do_pkgconfig() is not what<br>
-needs protection (based on the added comments above), what is?<br></blockqu=
-ote><div><br></div><div>Good point.=C2=A0 The sstate locks are also shared.=
-</div><div><br></div><div>Richard was involved in all of these changes so l=
-ets wait for him to return from his holiday...</div><div><br></div><div>Ros=
-s</div><div>=C2=A0</div></div></div></div>
+<div dir=3D"ltr">On 7 September 2017 at 03:16, Yi Zhao <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windri=
+ver.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">+Upstream-Status: Backport [redh=
+at]<br></blockquote><div><br></div><div>Unless Redhat is upstream, this is =
+not a backport.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
---f403045d9c0efa4fff055aba0427--
+--f403045d9c0ea50a62055aba8265--
