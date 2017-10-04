@@ -1,42 +1,52 @@
-Return-Path: <Peter.Marko@siemens.com>
-X-Greylist: delayed 432 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 04 Oct 2017 18:38:41 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 75FFA77EA8
+Return-Path: <richard.rojfors@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 40B466FFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 18:38:41 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v94IVLIo004323
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 4 Oct 2017 20:31:21 +0200
-Received: from ATVIES991UHMSX.ww300.siemens.net
-	(atvies991uhmsx.ww300.siemens.net [158.226.163.38])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTPS id v94IVLPN009974
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Wed, 4 Oct 2017 20:31:21 +0200
-Received: from ATVIES991UAMSX.ww300.siemens.net ([169.254.1.234]) by
-	ATVIES991UHMSX.ww300.siemens.net ([158.226.163.38]) with mapi id
-	14.03.0361.001; Wed, 4 Oct 2017 20:31:20 +0200
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "Burton, Ross" <ross.burton@intel.com>, OE Core mailing list
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2] busybox updating
-Thread-Index: AQHTPF3Eesp8fKrDc0KUQ3TxpB/98KLSTA4AgADLV4CAAEG1AIAAHE2AgABH4YCAAEb4UA==
-Date: Wed, 4 Oct 2017 18:31:20 +0000
-Message-ID: <6D4566C9E07A8D4DAB6F935696920A842450D831@ATVIES991UAMSX.ww300.siemens.net>
-References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
-	<CAJ86T=Xh4HZO8e-u6r9gn0nCx+ZbzkjV+AJOP3-Cgt1fF3xr7w@mail.gmail.com>
-	<bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
-	<CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
-	<ba1bbc29-6515-e99f-be98-921ccd96c614@siemens.com>
-	<CAJTo0LaHrM7r1S4=Qp5AXZMwrH5Qd4Vcn2O5Z2QnDW9Q24wPrw@mail.gmail.com>
-In-Reply-To: <CAJTo0LaHrM7r1S4=Qp5AXZMwrH5Qd4Vcn2O5Z2QnDW9Q24wPrw@mail.gmail.com>
-Accept-Language: sk-SK, de-AT, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [158.226.163.11]
+	Wed,  4 Oct 2017 19:05:20 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id q132so14505079lfe.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Oct 2017 12:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yUC4wARh2ZrX5bxUEQp3mEgDtWqJL4i46Ykq8mGMGzI=;
+	b=k7sYfuxUyP6Prvgms02lAcXpEh3LhDvjvzHoQsScO78xzYCXqc2qqseJ0u1xhYD7qK
+	Q6uthbPmAZhk5P6A5bjUNmjp+y5FQthzPpsQwfybr1uz0ZycGAK9nDY74GR1HzwfIflM
+	VZ1icPBV6jhpa7yFrJIMwkKXDzb/1hs85/jEY4XCM1PaE5GJ8oTN0fUscqWZiWvqegS7
+	PjdAKFalqAOcY1EyB1vq5obtQIt5zszd0zWoYW6jzZKpxDeEqnuGEuZUup5vHzMgG9rf
+	XjlJMT300lo6SNInk4VkQfsqZR6ar4SF94VQ1+KylXHsf+ykrJNiU88XAkl3haOcvfWJ
+	eJOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yUC4wARh2ZrX5bxUEQp3mEgDtWqJL4i46Ykq8mGMGzI=;
+	b=rv4WMq0qSTzX5sWMJ9zGigxJxk+hfWVqUqCKWUcG2FH0wWDUvS08jBzSdHyGIN7oU7
+	MHIxBqG3vgbdNzM3yPw65eQ7PKebtevGW9TNp3oQXbXzwr5MSUuw4a1HThYbDMAJ2wSN
+	wQlD8qofAnvdmNopcd6Esij7ie0K5ilJrnJ7sr9M4uY6Vh6OI28cxJv8bAkrO2bFNVPm
+	54ddEG4ul5j+wpVjye0chI+cILsBJ9AnJQFgHbnupPEUYZ28ztnA5hzpNXb77/ugjhUf
+	CTD9UMxz+S0hSAXdYs1cX80uhUSW7xJq+hnyaE558foeDs2nkXm7hwmaJrK0M2Hhb3rR
+	w2TA==
+X-Gm-Message-State: AMCzsaUorhP5rMrD2SgkLyWxxTrKLkCUEcVxfz7IR4GYvSpI0IpiL5iz
+	TGOI0GIAc2BBd/HoT8h6AIudKw==
+X-Google-Smtp-Source: AOwi7QBEO3/DCKHz8JEML3heuggwfkGXCJ878XTFZBNXi3uQ4OV6xfFT738Np3JcVQ7kQmO9ymaI2Q==
+X-Received: by 10.25.84.7 with SMTP id i7mr7307549lfb.24.1507143921460;
+	Wed, 04 Oct 2017 12:05:21 -0700 (PDT)
+Received: from localhost.localdomain (2-249-150-218-no288.tbcn.telia.com.
+	[2.249.150.218])
+	by smtp.gmail.com with ESMTPSA id x6sm1338161lfi.81.2017.10.04.12.05.20
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Oct 2017 12:05:20 -0700 (PDT)
+From: "=?UTF-8?q?Richard=20R=C3=B6jfors?=" <richard.rojfors@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Richard=20R=C3=B6jfors?=
+	<richard@puffinpack.se>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Oct 2017 21:05:13 +0200
+Message-Id: <20171004190513.13405-1-richard@puffinpack.se>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] busybox updating
+Subject: [PATCH] connman: Add connman-wait-online to systemd packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,22 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 18:38:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 04 Oct 2017 19:05:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Q2FuIGJlIHRoYXQgWW91J3JlIHVzaW5nIG9sZCBkZWZjb25maWcgZnJvbSBkaWZmZXJlbnQgbGF5
-ZXIgKGUuZy4gbWV0YS1wb2t5KSB2aWEgYmJhcHBlbmQ/DQpQZXRlcg0KDQpPbiAxMC8wNC8yMDE3
-IDA2OjEzIFBNLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+IE9uIDQgT2N0b2JlciAyMDE3IGF0IDEy
-OjU2LCBBbmRyZWogVmFsZWsgPGFuZHJlai52YWxla0BzaWVtZW5zLmNvbSANCj4gPG1haWx0bzph
-bmRyZWoudmFsZWtAc2llbWVucy5jb20+PiB3cm90ZToNCj4gDQo+ICAgICBJIGhhdmUgdW5wYWNr
-ZWQgdGhlIHJwbSBwYWNrYWdlIG92ZXIgY29tbWFuZCAicnBtIC1xcCAtLXNjcmlwdHMNCj4gICAg
-IGJ1c3lib3gtMS4yNy4yLXIwLmk1ODYucnBtIiBhbmQgbGlua3MgdG8gL2Jpbi9zaCBsb29rcyBn
-b29kIGZvciBtZS4NCj4gDQo+ICAgICB1cGRhdGUtYWx0ZXJuYXRpdmVzIC0taW5zdGFsbCAvYmlu
-L3NoIHNoIC9iaW4vYnVzeWJveC5ub3N1aWQgNTANCj4gDQo+IA0KPiBJIHdpcGVkIHRtcCBhbmQg
-cmVidWlsZCBidXN5Ym94IGFuZCBpdCdzIHN0aWxsIGxpbmtpbmcgdG8gYnVzeWJveC5zdWlkIGhl
-cmUuICANCj4gQW5ub3lpbmdseSBJIGFza2VkIEpvc2h1YSB0byByZXBsaWNhdGUgYW5kIGhlIGNv
-bmZpcm1lZCB5b3VyIGJ1c3lib3gubm9zdWlkIGxpbmsuDQo+IA0KPiBBcmdoISA6KA0KPiANCj4g
-Um9zcw0KDQo=
+From: Richard Röjfors <richard.rojfors@gmail.com>
+
+It was missing, causing systemd to not install
+the service correctly.
+
+Signed-off-by Richard Röjfors <richard@puffinpack.se>
+---
+ meta/recipes-connectivity/connman/connman.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 6c8f405a8a..09cc362a9c 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -58,7 +58,7 @@ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+ 
+ python __anonymous () {
+-    systemd_packages = "${PN}"
++    systemd_packages = "${PN} ${PN}-wait-online"
+     pkgconfig = d.getVar('PACKAGECONFIG')
+     if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
+         systemd_packages += " ${PN}-vpn"
+-- 
+2.11.0
+
 
