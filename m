@@ -1,51 +1,30 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 579FE77ACB
+Return-Path: <andrej.valek@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id A533F719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 11:18:16 +0000 (UTC)
-Received: by mail-lf0-f45.google.com with SMTP id o125so8395476lfe.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 04:18:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=W0ialYSjqzEMLwUy6TgF1EG/8kl8NBsszx3rxSb8Jlw=;
-	b=ChBDMheWeHxXFn/YTmlr06FMkred5zsmKIyfHjB/7J1UhZIFF+A2yINu5MxHv35A6X
-	1uOggSPKWha27rit9beddIhUGWaYjsrZZ7h6UYY1Lfnlh8bVopZxE488mEK6mGoEcxNA
-	sN/H2tG2rjJtvsEnbCeKdaE2OoB4HoOD8iYOOI60jLOvfC+RhYSxboFYGlsoD4V6ULV6
-	ntcnLCpJZa0x/rTaKjE3hVT1Z1c/bvWR03nitWB4HgANnF4E8Hm8oiD1AKNIenfQFGBY
-	K7xk5Y/yYX+IgWsOlBvPjPxjOcuE3CdUlCMMqQ2wo3Xj3J2BtAtM8Cg3ZKXHZWHhugBt
-	NL/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=W0ialYSjqzEMLwUy6TgF1EG/8kl8NBsszx3rxSb8Jlw=;
-	b=VnD0SZdX84R6xtYp+o16VPKpnxzARX8IFWy1lgrlxxIxc4x+CQdeSzEAnp40GwW5k3
-	k02JXMdxRjq+m8j6DYoL6e0vHzJcaz+LGAqgwaU2uz4+2xzE4F31ucTc1I4luOBM8qFD
-	DtfD1pEzXzorfLqOhojoAAnOB2FraXi3Tn173ipec55GUIpVtlnIA23IeIGcnaIwFsZS
-	GF9ZS8l2G47WbLO19nMPoqIHZ3+VyYAhtmELylJMBdd29Bo0NFcgkEe/53hTJsGlM/kL
-	hdb1zS8YoH8JAdiR8+7aJIcRu3qDanJ5IpStj1XEtzeF5S+wvaXz61Qqrno3oOsOMFgg
-	QW/g==
-X-Gm-Message-State: AHPjjUgqJsqSFZuaEMc9Vqe+sY+hyX97xd8vvt1lWJZMXLxBd/pF/OjN
-	lT1/MqoFHiMAZpgxcY1nPpL9Zw1X8Twg9sDdOfiRTg==
-X-Google-Smtp-Source: AOwi7QDyN8v8NOQNP+OUhXCQUshxbLr0civzrEWekruq6iFNTk/F1zOoxAASV0h5+vvlFG+gXxtoiJM2W6OKE0WsAlc=
-X-Received: by 10.46.1.100 with SMTP id 97mr9710097ljb.10.1507115897010; Wed,
-	04 Oct 2017 04:18:17 -0700 (PDT)
+	Wed,  4 Oct 2017 11:56:35 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id v94BuRit028848
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 4 Oct 2017 13:56:27 +0200
+Received: from [192.168.253.100] ([163.242.56.100])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id v94BuR8J012098
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 4 Oct 2017 13:56:27 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
+	<CAJ86T=Xh4HZO8e-u6r9gn0nCx+ZbzkjV+AJOP3-Cgt1fF3xr7w@mail.gmail.com>
+	<bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
+	<CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <ba1bbc29-6515-e99f-be98-921ccd96c614@siemens.com>
+Date: Wed, 4 Oct 2017 13:56:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.25.192.4 with HTTP; Wed, 4 Oct 2017 04:18:16 -0700 (PDT)
-In-Reply-To: <1507068152.7331.291.camel@intel.com>
-References: <1506694551-4487-1-git-send-email-matt@madison.systems>
-	<1507068152.7331.291.camel@intel.com>
-From: Matt Madison <matt@madison.systems>
-Date: Wed, 4 Oct 2017 04:18:16 -0700
-Message-ID: <CAGgRHJoj=5aZEoLeYjbpd=-RiGFQHOV3rXBUykefdCBEi3Awvg@mail.gmail.com>
-To: "Wold, Saul" <saul.wold@intel.com>
-Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] go-runtime: prevent host leakage into target objects
+In-Reply-To: <CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] busybox updating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,85 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 11:18:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Oct 2017 11:56:36 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 3, 2017 at 3:02 PM, Wold, Saul <saul.wold@intel.com> wrote:
-> On Fri, 2017-09-29 at 14:15 +0000, Matt Madison wrote:
->> When building for a target whose architecture matches
->> the build host's, the second pass through make.bash
->> to build the shareable runtime would also overwrite
->> the target's static cgo library with host-compatibile
->> binaries.
->>
->> Fix this by running the host-side build once and
->> target-only passes of make.bash twice, for static
->> and shareable.  This ensures that what gets installed
->> is target-compatible.
->>
->> [YOCTO #12136]
->>
-> This does not appear to actually fix the bug mentioned here, I just
-> found the failure again with intel-corei7-64 (from meta-intel) and then
-> confirmed that it fails with qemux86-64 and genericx86-64 when using
-> TCLIBC = "musl"
->
-> Can you please verify and test with MUSL.
+I have unpacked the rpm package over command "rpm -qp --scripts
+busybox-1.27.2-r0.i586.rpm" and links to /bin/sh looks good for me.
 
-Hmm.  I had tested with MUSL before sending that patch, but I'll try
-it again to see what I might have missed.
-
--Matt
+update-alternatives --install /bin/sh sh /bin/busybox.nosuid 50
 
 
->
-> Thanks
->    Sau!
->
->
->> Signed-off-by: Matt Madison <matt@madison.systems>
->> ---
->>  meta/recipes-devtools/go/go-runtime.inc | 11 ++++++++---
->>  1 file changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-
->> devtools/go/go-runtime.inc
->> index 934d1aa..bd26e2e 100644
->> --- a/meta/recipes-devtools/go/go-runtime.inc
->> +++ b/meta/recipes-devtools/go/go-runtime.inc
->> @@ -23,9 +23,13 @@ do_compile() {
->>       rm -rf ${GOBIN} ${B}/pkg
->>       mkdir ${GOBIN}
->>       cd src
->> -     GO_FLAGS="" ./make.bash
->> +     ./make.bash --host-only
->> +     cp ${B}/pkg/tool/${BUILD_GOTUPLE}/go_bootstrap ${B}
->> +     rm -rf ${B}/pkg/${TARGET_GOTUPLE}
->> +     ./make.bash --target-only
->>       if [ -n "${GO_DYNLINK}" ]; then
->> -             GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags
->> \"${LDFLAGS}\"" ./make.bash
->> +             cp ${B}/go_bootstrap ${B}/pkg/tool/${BUILD_GOTUPLE}
->> +             GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags
->> \"${LDFLAGS}\"" ./make.bash --target-only
->>       fi
->>       cd ${B}
->>  }
->> @@ -41,8 +45,9 @@ do_install() {
->>       rm -rf ${D}${libdir}/go/pkg/obj
->>       rm -rf ${D}${libdir}/go/pkg/bootstrap
->>       find src -mindepth 1 -maxdepth 1 -type d | while read
->> srcdir; do
->> -             [ "$srcdir" = "./cmd" ] || cp --
->> preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
->> +             cp --preserve=mode,timestamps -R $srcdir
->> ${D}${libdir}/go/src/
->>       done
->> +     rm -f ${D}${libdir}/go/src/cmd/dist/dist
->>  }
->>
->>  # Remove test binaries that cannot be relocated
->> --
->> 2.7.4
->>
+>   chrt
+>   cttyhack
+>   init
+>   mdev
+>   setsid
+>   partprobe
+
+You have right, there was a mistake. These applets are disabled in
+defconfig, so they are not installed.
+
+Only lzcat, xzcat and nproc are new.
+
+Regards,
+Andrej
+
+On 10/04/2017 12:15 PM, Burton, Ross wrote:
+> On 4 October 2017 at 07:20, Andrej Valek <andrej.valek@siemens.com 
+> <mailto:andrej.valek@siemens.com>> wrote:
+> 
+>     I have compared no/suid links between these versions. So, I was trying
+>     to enable the same applets like in older version and do not enable the
+>     new one. Some applets could not be disabled (they are automatically
+>     enabled) due to dependencies.
+> 
+>     For this version of defconfig the new applets are:
+>     chrt
+>     cttyhack
+>     init
+>     lzcat
+>     mdev
+>     nproc
+>     setsid
+>     xzcat
+>     partprobe
+> 
+> 
+> This doesn't quite match what I'm seeing by comparing old and new links in the 
+> postinst:
+> 
+> $ diff then now
+> 44c44,45
+> < update-alternatives --install /bin/sh sh /bin/busybox.nosuid 50
+> ---
+>  > update-alternatives --install /bin/sh sh /bin/busybox.suid 50
+>  > update-alternatives --install /bin/sh sh /bin/busybox.suid 50
+> 122a124
+>  > update-alternatives --install /usr/bin/lzcat lzcat /bin/busybox.nosuid 50
+> 128a131
+>  > update-alternatives --install /usr/bin/nproc nproc /bin/busybox.nosuid 50
+> 167a171
+>  > update-alternatives --install /usr/bin/xzcat xzcat /bin/busybox.nosuid 50
+> 
+> Note the two lines installing an alternative of /bin/sh to busybox.suid.
+> 
+> Assuming they should have alternative links installed, the following applets are 
+> still disabled too:
+> 
+>   chrt
+>   cttyhack
+>   init
+>   mdev
+>   setsid
+>   partprobe
+> 
+> Ross
+> 
 
