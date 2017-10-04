@@ -1,48 +1,46 @@
-Return-Path: <costamagna.gianfranco@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1977C77CF6
+Return-Path: <alistair23@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2567377BE0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 21:13:21 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id q132so25662100wmd.2
+	Wed,  4 Oct 2017 21:50:56 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b189so21450853wmd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 14:13:23 -0700 (PDT)
+	Wed, 04 Oct 2017 14:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=hr8O7Tj0+n+y/WNCu1hBaFShXy2/Y9dt38H2TWDvfQk=;
-	b=gW+7eN6eQAKJmqbxp/JIz2gfIJZwlQSKL4r2X1JVOa/1FQgt+8D2xhC1EUi7MVhIPT
-	t4Pj6oUFNQmwYiWYIfKKCNBckfuuPxceeQD0gpDSQdhvO4Obk8FsCENtqGf9845A+M2q
-	HtBp3MDYh2RF/elvHeBfAxDo4J9hBxWtU6bwo9eq9llK6sZiQynadUfzfYhDGwfRclGl
-	2XQcSDSv5LTbmPVgei5tzleiGo5hYA3K2CxE1V53TOcHS6a6avlxvynN/hW0iDh15ds7
-	SrMcYUX+wArrKmk955LXmnXb5cBUO6SMREZUuzU0SdzMu6iqN5m2vTWDGStG/CL0NiCD
-	S7fg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hZtMIk9dZd8T4zUs5vCd3cx287vGHfJNU23Yo9Wu5Cw=;
+	b=LaQnWSxJAMw8lvv0URD0+KYFg3JV4bWembe0aeuBFS0Ffyv8DHKCJrva9kZKa86/Fh
+	QUjJaryrVyNwPRvlRVKnNGqdKPVJZmH6rg0CdjPAzKjRMpsyYFauAAr+VRGS4VC40yPH
+	onBoLOJ0UtY2Ye9NEqF+rAFmfUZU/5wMJFteJZkxkCAfhEEZhySD542BXXr485VX3Rz0
+	SPP4LOPnuplqkHCEdA2aUpoAsXBEgkZ+OkcZSfUvt7+rAY0oY/9CpDNDJMkXzdb5YZNY
+	giWHVpaKAciZke+xpPsKCMC9cItMnTsos0ZB5xvTJkD4wp/Mz/MVzF/wn2o56RidXxTP
+	EwRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hr8O7Tj0+n+y/WNCu1hBaFShXy2/Y9dt38H2TWDvfQk=;
-	b=GU54JOqgxOZOd28CW7SeGnMm5y+E3X2M/BOD1tp7c96jAm8Hs1nRvJgITJ6S//lGc5
-	pR59MB6kJ0jBwPv182Kf7FwBO3tKj7I1HDy9VpKm8H/oNGqDmi+LJHYGlVcTOJnvyF4c
-	s7o9NWuTVwrSNBnYzllnFbmcXcWkqgdAWlTPNwECNc/UBTYMkr+LFj5FcG3MXT/FRkQZ
-	L/26lQHVmD4/euEVufSX9JUUEzAt9eK3ZaZVVr1Ex1EX8b47j06YYubygmkUSDc5a9gm
-	wwlcYaHV+p0hYUjhUv66+mkIVjQ/RvuH6k0/60JiTZ3WL2HwlHBdpYpTJGXOTZfouVCa
-	iqfQ==
-X-Gm-Message-State: AHPjjUjcL5JlG/1/3kDvhUz34DQuumq13mBoQxHWRchqcURrjox2as1K
-	zrU+cIXEbF3n/EfdfL0CMvW5GZOfmF4=
-X-Google-Smtp-Source: AOwi7QBZE5X6wsvtBayd4wI4f03XbgYiQWfUvs56IeGuzQi/lzuTY1wcs7eGn+vcMqg48bjHsoePAg==
-X-Received: by 10.28.107.17 with SMTP id g17mr18584422wmc.58.1507151602289;
-	Wed, 04 Oct 2017 14:13:22 -0700 (PDT)
-Received: from localhost.localdomain ([31.159.87.76])
-	by smtp.gmail.com with ESMTPSA id 50sm8882302wry.84.2017.10.04.14.13.21
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Oct 2017 14:13:21 -0700 (PDT)
-From: Gianfranco Costamagna <costamagna.gianfranco@gmail.com>
-X-Google-Original-From: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Oct 2017 23:12:46 +0200
-Message-Id: <20171004211246.2772-1-costamagnagianfranco@yahoo.it>
-X-Mailer: git-send-email 2.11.0
-Cc: Gianfranco Costamagna <gianfranco.costamagna@abinsula.com>,
-	Lorenzo Chianura <lorenzo.chianura@abinsula.com>
-Subject: [PATCH] glibc-locale.inc: fix typo in comment
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hZtMIk9dZd8T4zUs5vCd3cx287vGHfJNU23Yo9Wu5Cw=;
+	b=RbI9f5c9izp12hEgU2j4wq9vWguL/qMdR1+2b/er2uXAu2mGuTX1V/wC/fJr3S4Sgi
+	A1u51I/69BCuNW5fP9kpVOvfa5buoxBJXSrTDbS74Vc72EofXcTnXCSZjHlf4FAm9hJj
+	nM0Jmp+JPAH7zOjjYY2HVvDgbUhM/9m9zGDsZ0MXUmJT8CprEJjDPlB/8hXvoXw+hUFy
+	iaAbUxfdnYkdDG+pBgy9DVBBWHvpSHKcVc3nLUDK6fk3BJ7Hdh/hgukuTBGP5KJtkngR
+	/JwM14s88dfyMYyjpxQKAg+GIfYxuHGuefY03B77m5Nm4RNq0oMKA71lmATxKeMXLeVN
+	meUg==
+X-Gm-Message-State: AMCzsaXZnnkuAgA9DBVDQeiHEuqLaVYedWn8f4PqwYkBdehKYJQl51bT
+	iNtRFB/EZI8gQ6tKoBhvxGcY3bUO29UkFnobGwA=
+X-Google-Smtp-Source: AOwi7QAjMmGHNTQvQQJ/x7RMg1PidCG9Y92vu0QnefBr26mv2w2NCQf9OhIGLVSX3bKbYNOQgrR6g36U6tZ3eVBG9Sw=
+X-Received: by 10.28.54.133 with SMTP id y5mr13412922wmh.6.1507153858110; Wed,
+	04 Oct 2017 14:50:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.28.157.2 with HTTP; Wed, 4 Oct 2017 14:50:27 -0700 (PDT)
+In-Reply-To: <20170925225655.24585-1-alistair.francis@xilinx.com>
+References: <20170925225655.24585-1-alistair.francis@xilinx.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 4 Oct 2017 14:50:27 -0700
+Message-ID: <CAKmqyKN2b3nHMOTD-QS1-MchR6prLJAtr8_tn7-umWKm=6HB_Q@mail.gmail.com>
+To: Alistair Francis <alistair.francis@xilinx.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib-2.0: Remove recommend shared-mime-info for MinGW
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,28 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 21:13:22 -0000
+X-List-Received-Date: Wed, 04 Oct 2017 21:50:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Gianfranco Costamagna <gianfranco.costamagna@abinsula.com>
-Signed-off-by: Lorenzo Chianura <lorenzo.chianura@abinsula.com>
----
- meta/recipes-core/glibc/glibc-locale.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Sep 25, 2017 at 3:56 PM, Alistair Francis
+<alistair.francis@xilinx.com> wrote:
+> Commit glib-2.0: recommend shared-mime-info
+> (51e4f9ca5368af5cefa26f4ca50b282e858982f8) broke compilation when cross
+> compiling for Windows. This patch removes the recommendation for
+> shared-mime-info when using MinGW cross compile.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+> Cc: Ross Burton <ross.burton@intel.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
-index 75ababea68..1a629fc69d 100644
---- a/meta/recipes-core/glibc/glibc-locale.inc
-+++ b/meta/recipes-core/glibc/glibc-locale.inc
-@@ -12,7 +12,7 @@ BINUTILSDEP = "virtual/${MLPREFIX}${TARGET_PREFIX}binutils:do_populate_sysroot"
- BINUTILSDEP_class-nativesdk = "virtual/${TARGET_PREFIX}binutils-crosssdk:do_populate_sysroot"
- do_package[depends] += "${BINUTILSDEP}"
- 
--# localedef links with libc.so and glibc-collateral.incinhibits all default deps
-+# localedef links with libc.so and glibc-collateral.inc inhibits all default deps
- # cannot add virtual/libc to DEPENDS, because it would conflict with libc-initial in RSS
- RDEPENDS_localedef += "glibc"
- 
--- 
-2.11.0
+Ping!
 
+Thanks,
+Alistair
+
+> ---
+>  meta/recipes-core/glib-2.0/glib.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index ce15ccefc3..8434b7dae3 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -74,6 +74,8 @@ FILES_${PN}-codegen = "${datadir}/glib-2.0/codegen/*.py \
+>  FILES_${PN}-utils = "${bindir}/*"
+>
+>  RRECOMMENDS_${PN} += "shared-mime-info"
+> +# When cross compiling for Windows we don't want to include this
+> +RRECOMMENDS_${PN}_remove_mingw32 = "shared-mime-info"
+>
+>  ARM_INSTRUCTION_SET_armv4 = "arm"
+>  ARM_INSTRUCTION_SET_armv5 = "arm"
+> --
+> 2.11.0
+>
 
