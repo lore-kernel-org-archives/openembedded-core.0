@@ -1,47 +1,50 @@
-Return-Path: <Jef.Driesen@niko.eu>
-Received: from relay04.secure-mail.be (relay04.secure-mail.be [195.13.7.7])
-	by mail.openembedded.org (Postfix) with ESMTP id DE44777C31
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2395677D08
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 09:51:01 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2BKAwD3rdRZ/7lOx1RdGgEBAQECAQEBA?=
-	=?us-ascii?q?QgBAQEBFQEBAQECAQEBAQgBAQEBgmZMVBCBFQeddoF2mD4KH4UcAoRWQhUBAQE?=
-	=?us-ascii?q?BAQEBAQEBAWoogjMigkMBAQEBAzo/EAIBCBgKFBAyJQIEAQ0FCIopAwGoXYseA?=
-	=?us-ascii?q?QEBAQEBAQEBAQEBAQEBAQEBAQEBHQkBgyOBMVGGY4UGBSUMgwqCMgEEiguJHo4?=
-	=?us-ascii?q?Jh16DYAWLNoVviwaVVIE5NSKBDnuHeHaIOYEQAQEB?=
-X-IPAS-Result: =?us-ascii?q?A2BKAwD3rdRZ/7lOx1RdGgEBAQECAQEBAQgBAQEBFQEBAQE?=
-	=?us-ascii?q?CAQEBAQgBAQEBgmZMVBCBFQeddoF2mD4KH4UcAoRWQhUBAQEBAQEBAQEBAWoog?=
-	=?us-ascii?q?jMigkMBAQEBAzo/EAIBCBgKFBAyJQIEAQ0FCIopAwGoXYseAQEBAQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQEBAQEBHQkBgyOBMVGGY4UGBSUMgwqCMgEEiguJHo4Jh16DYAWLNoVvi?=
-	=?us-ascii?q?waVVIE5NSKBDnuHeHaIOYEQAQEB?=
-Received: from edge.nikogroup.be ([84.199.78.185])
-	by relay04.secure-mail.be with ESMTP; 04 Oct 2017 11:51:01 +0200
-Received: from HUB.NIKO.LAN (172.22.10.201) by EDGE.nikogroup.be
-	(192.168.22.31) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Wed, 4 Oct 2017 11:51:01 +0200
-Received: from MBX.NIKO.LAN ([::1]) by HUB.NIKO.LAN ([::1]) with mapi id
-	14.03.0224.002; Wed, 4 Oct 2017 11:51:01 +0200
-From: <Jef.Driesen@niko.eu>
-To: <alexander.kanavin@linux.intel.com>, <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] Small improvement for the initscripts package
-Thread-Index: AQHTOPkyug4RbXCTlkS3EIoEWRxT86LLnS2AgAZNSQiAAAIoAIAATzhq///1mICAARZz4g==
-Date: Wed, 4 Oct 2017 09:51:00 +0000
-Message-ID: <FAB9E48578194042BE5C63B8BE4761033969D5C9@MBX.NIKO.LAN>
-References: <FAB9E48578194042BE5C63B8BE47610339682897@MBX.NIKO.LAN>
-	<d0e88e18-0540-2d7f-abe4-11f677d5af4e@linux.intel.com>
-	<FAB9E48578194042BE5C63B8BE4761033969175B@MBX.NIKO.LAN>
-	<CAJTo0LY6UW=G2pfVPSQH3bMdU03FDMRFACpzsXJYoW1255rPRg@mail.gmail.com>
-	<FAB9E48578194042BE5C63B8BE47610339692797@MBX.NIKO.LAN>,
-	<238e8a7d-59e1-309a-6f96-6be7261646a2@linux.intel.com>
-In-Reply-To: <238e8a7d-59e1-309a-6f96-6be7261646a2@linux.intel.com>
-Accept-Language: en-US, nl-BE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.22.10.222]
-x-exclaimer-md-config: ea9a6d46-d5fe-4ddc-9ba9-49fab8e88ad4
+	Wed,  4 Oct 2017 10:15:39 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id c195so14977541itb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Oct 2017 03:15:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Snf9sK9VQw+GGkrHkNMs0/ALZM8p0rEIv6OZmxHwq5o=;
+	b=VXzcLZznfz6u3mzP5gxhfiQRjxFaGhYcTgjCsQV1eK6zXdTSsx35t0t74GRB8P4ica
+	ITBRAWm2qXaDlJ/fj+zWEQMTkxDv2Qzui5XXr1p0A7NrnyoZGu7kjxRWJ28YGBcdC1kL
+	A6NaMWga9laT5Yd7GvmjD0hpV6ryj2JBxdB/D010410zRhKFPDqlsbMQ9iDdqmXDDWxu
+	YoM7Fyl7sdYrEAjMen1CVmFUN2cv086sAPw2m6FGiYclXIX057iFF9vPwDuu6B54YIdh
+	lI3PKtaNeI5VcMgq1fPu7ccn2CeEYWekHxW+F1S5wHoIC4FfiR8EhFRHXb5JPspp6ldG
+	I2YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Snf9sK9VQw+GGkrHkNMs0/ALZM8p0rEIv6OZmxHwq5o=;
+	b=N5rEhf8D9n3kNcpymgXVkB1S9EpdSRnaP+bI3HGaSvEqorCfW0oMI52N3JNNDrEKer
+	a/bpoS3Q3EoukzwH7ylbI7oQ9XpeVcomA3j+pUWtOiePtw9eN3LyUgzuL7z/CzAREJ8o
+	0VkvQpOTTvRNpXM5Oqg2fFPYthGsgNvYUbn0AmHe22vFv2q3uKhI6ji8JAAD4ij6CRQU
+	bMmJfafGHtsNRFlfaloK5VWz1WDi3G/4LcymzLODJgolyglUmRhseTt/EXMgToVoCOib
+	ir6hAMfQK8OxNh8P9RSAkR7mAeNdMhqZU48w9L7Ww3ozT9tKin3LyHP2y7xOXp9QEsHp
+	SocQ==
+X-Gm-Message-State: AHPjjUhWEjrW+EeIz98y20gRa/2MupQ+I71aVoNT2MvPWbplPFkYvYof
+	Y1zVK+K+eNEOeDw9HlIPZ9w3Sj9R9LetnPTXQwudpg==
+X-Google-Smtp-Source: AOwi7QCnXHgXtgcYmSuGNBWhANNnGdnt4SRnURsASkrkVPiTp2rlElVqi5z7dR4G/ALR9dPUo9embxH/Qk5M7LAgwuQ=
+X-Received: by 10.36.150.4 with SMTP id z4mr29252436itd.48.1507112141394; Wed,
+	04 Oct 2017 03:15:41 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Small improvement for the initscripts package
+Received: by 10.107.164.134 with HTTP; Wed, 4 Oct 2017 03:15:20 -0700 (PDT)
+In-Reply-To: <bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
+References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
+	<CAJ86T=Xh4HZO8e-u6r9gn0nCx+ZbzkjV+AJOP3-Cgt1fF3xr7w@mail.gmail.com>
+	<bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 4 Oct 2017 11:15:20 +0100
+Message-ID: <CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] busybox updating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,67 +57,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 09:51:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 04 Oct 2017 10:15:40 -0000
+Content-Type: multipart/alternative; boundary="94eb2c07ea98d33051055ab5e3fd"
+
+--94eb2c07ea98d33051055ab5e3fd
+Content-Type: text/plain; charset="UTF-8"
+
+On 4 October 2017 at 07:20, Andrej Valek <andrej.valek@siemens.com> wrote:
+
+> I have compared no/suid links between these versions. So, I was trying
+> to enable the same applets like in older version and do not enable the
+> new one. Some applets could not be disabled (they are automatically
+> enabled) due to dependencies.
+>
+> For this version of defconfig the new applets are:
+> chrt
+> cttyhack
+> init
+> lzcat
+> mdev
+> nproc
+> setsid
+> xzcat
+> partprobe
+
+
+This doesn't quite match what I'm seeing by comparing old and new links in
+the postinst:
+
+$ diff then now
+44c44,45
+< update-alternatives --install /bin/sh sh /bin/busybox.nosuid 50
+---
+> update-alternatives --install /bin/sh sh /bin/busybox.suid 50
+> update-alternatives --install /bin/sh sh /bin/busybox.suid 50
+122a124
+> update-alternatives --install /usr/bin/lzcat lzcat /bin/busybox.nosuid 50
+128a131
+> update-alternatives --install /usr/bin/nproc nproc /bin/busybox.nosuid 50
+167a171
+> update-alternatives --install /usr/bin/xzcat xzcat /bin/busybox.nosuid 50
+
+Note the two lines installing an alternative of /bin/sh to busybox.suid.
+
+Assuming they should have alternative links installed, the following
+applets are still disabled too:
+
+ chrt
+ cttyhack
+ init
+ mdev
+ setsid
+ partprobe
+
+Ross
+
+--94eb2c07ea98d33051055ab5e3fd
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Alexander Kanavin:
->On 10/03/2017 06:03 PM, Jef.Driesen@niko.eu wrote:
->> Burton, Ross [ross.burton@intel.com]
->>> On 3 October 2017 at 11:03, <Jef.Driesen@niko.eu> wrote:
->>>> Note: base-files-emperor is the package with the custom init scripts. =
-I added:
->>>>
->>>> PROVIDES =3D "initscripts"
->>>>
->>>> And in conf/machine/emperor.conf, I added:
->>>>
->>>> PREFERRED_PROVIDER_initscripts =3D "base-files-emperor"
->>>>
->>>   If your initscripts package is a replacement for the oe-core initscri=
-pts package, then also set RPROVIDES_${PN} +=3D "initscripts".
->>
->> I tried your suggest, but I still get the error:
->>
->> "The recipe base-files-emperor is trying to install files into a shared =
-area when those files already exist." error
->>
->> With base-files-emperor.bb containing:
->>
->> PROVIDES +=3D "initscripts"
->> RPROVIDES_${PN} +=3D "initscripts"
->>
->> What am I still doing wrong?
->>
->> (I'll try to re-build after wiping the tmp directory tonight. A simple "=
-bitbake -c cleanall initscripts base-files-emperor" didn't help.)
->
-> I might be reading it wrong, but the full error message seems to
-> indicate you also have a recipe called emperor-intscripts that provides
-> (some of) the same files as base-files-emperor, and they clash?
+<div dir=3D"ltr">On 4 October 2017 at 07:20, Andrej Valek <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:andrej.valek@siemens.com" target=3D"_blank">andrej.v=
+alek@siemens.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
+lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-col=
+or:rgb(204,204,204);padding-left:1ex">I have compared no/suid links between=
+ these versions. So, I was trying<br>
+to enable the same applets like in older version and do not enable the<br>
+new one. Some applets could not be disabled (they are automatically<br>
+enabled) due to dependencies.<br>
+<br>
+For this version of defconfig the new applets are:<br>
+chrt<br>
+cttyhack<br>
+init<br>
+lzcat<br>
+mdev<br>
+nproc<br>
+setsid<br>
+xzcat<br>
+partprobe</blockquote><div><br></div><div>This doesn&#39;t quite match what=
+ I&#39;m seeing by comparing old and new links in the postinst:</div><div><=
+br></div><div><div>$ diff then now</div><div>44c44,45</div><div>&lt; update=
+-alternatives --install /bin/sh sh /bin/busybox.nosuid 50</div><div>---</di=
+v><div>&gt; update-alternatives --install /bin/sh sh /bin/busybox.suid 50</=
+div><div>&gt; update-alternatives --install /bin/sh sh /bin/busybox.suid 50=
+</div><div>122a124</div><div>&gt; update-alternatives --install /usr/bin/lz=
+cat lzcat /bin/busybox.nosuid 50</div><div>128a131</div><div>&gt; update-al=
+ternatives --install /usr/bin/nproc nproc /bin/busybox.nosuid 50</div><div>=
+167a171</div><div>&gt; update-alternatives --install /usr/bin/xzcat xzcat /=
+bin/busybox.nosuid 50</div></div><div><br></div><div>Note the two lines ins=
+talling an alternative of /bin/sh to busybox.suid.</div><div><br></div><div=
+>Assuming they should have alternative links installed, the following apple=
+ts are still disabled too:</div><div><br></div><div>=C2=A0chrt</div><div>=
+=C2=A0cttyhack</div><div>=C2=A0init</div><div>=C2=A0mdev</div><div>=C2=A0se=
+tsid</div><div>=C2=A0partprobe</div><div><br></div><div>Ross</div></div></d=
+iv></div>
 
-It's the oe-core initscripts recipe that clashes with base-files-emperor. B=
-oth recipies have their own /etc/init.d/halt script.
-
-The full rebuild failed as well, with the error "Can't install ntp-4.2.8p8-=
-r0.7@armv7a_vfp_neon: no package provides initscripts-functions"
-
-And that's probably because the oe-core recipe produces a initscripts-funct=
-ions package. We stil need that package in our image. I assume that due to =
-using PROVIDES, the oe-core initscripts recipe is replaced completely with =
-our own base-files-emperor recipe. And since our custom package doesn't pro=
-duce an initscripts-functions package (because we still want the one from t=
-he oe-core initscripts), the build fails. So it looks like using PROVIDES d=
-oesn't work.
-
-Alex
-Disclaimer
-
-This e-mail and its attachments is intended only for the person(s) or entit=
-y to which it is addressed. If you receive this e-mail by mistake, please d=
-elete this e-mail from your system and destroy all copies of it. It may con=
-tain confidential and/or privileged information. You should not copy it or =
-use it for any purpose nor disclose its contents to any person unless allow=
-ed by a written document between the sender and the addressee.
-
+--94eb2c07ea98d33051055ab5e3fd--
