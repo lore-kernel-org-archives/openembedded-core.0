@@ -1,50 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2395677D08
+Return-Path: <matt@madison.systems>
+Received: from mail-lf0-f45.google.com (mail-lf0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 579FE77ACB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 10:15:39 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id c195so14977541itb.1
+	Wed,  4 Oct 2017 11:18:16 +0000 (UTC)
+Received: by mail-lf0-f45.google.com with SMTP id o125so8395476lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 03:15:41 -0700 (PDT)
+	Wed, 04 Oct 2017 04:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Snf9sK9VQw+GGkrHkNMs0/ALZM8p0rEIv6OZmxHwq5o=;
-	b=VXzcLZznfz6u3mzP5gxhfiQRjxFaGhYcTgjCsQV1eK6zXdTSsx35t0t74GRB8P4ica
-	ITBRAWm2qXaDlJ/fj+zWEQMTkxDv2Qzui5XXr1p0A7NrnyoZGu7kjxRWJ28YGBcdC1kL
-	A6NaMWga9laT5Yd7GvmjD0hpV6ryj2JBxdB/D010410zRhKFPDqlsbMQ9iDdqmXDDWxu
-	YoM7Fyl7sdYrEAjMen1CVmFUN2cv086sAPw2m6FGiYclXIX057iFF9vPwDuu6B54YIdh
-	lI3PKtaNeI5VcMgq1fPu7ccn2CeEYWekHxW+F1S5wHoIC4FfiR8EhFRHXb5JPspp6ldG
-	I2YQ==
+	:cc; bh=W0ialYSjqzEMLwUy6TgF1EG/8kl8NBsszx3rxSb8Jlw=;
+	b=ChBDMheWeHxXFn/YTmlr06FMkred5zsmKIyfHjB/7J1UhZIFF+A2yINu5MxHv35A6X
+	1uOggSPKWha27rit9beddIhUGWaYjsrZZ7h6UYY1Lfnlh8bVopZxE488mEK6mGoEcxNA
+	sN/H2tG2rjJtvsEnbCeKdaE2OoB4HoOD8iYOOI60jLOvfC+RhYSxboFYGlsoD4V6ULV6
+	ntcnLCpJZa0x/rTaKjE3hVT1Z1c/bvWR03nitWB4HgANnF4E8Hm8oiD1AKNIenfQFGBY
+	K7xk5Y/yYX+IgWsOlBvPjPxjOcuE3CdUlCMMqQ2wo3Xj3J2BtAtM8Cg3ZKXHZWHhugBt
+	NL/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Snf9sK9VQw+GGkrHkNMs0/ALZM8p0rEIv6OZmxHwq5o=;
-	b=N5rEhf8D9n3kNcpymgXVkB1S9EpdSRnaP+bI3HGaSvEqorCfW0oMI52N3JNNDrEKer
-	a/bpoS3Q3EoukzwH7ylbI7oQ9XpeVcomA3j+pUWtOiePtw9eN3LyUgzuL7z/CzAREJ8o
-	0VkvQpOTTvRNpXM5Oqg2fFPYthGsgNvYUbn0AmHe22vFv2q3uKhI6ji8JAAD4ij6CRQU
-	bMmJfafGHtsNRFlfaloK5VWz1WDi3G/4LcymzLODJgolyglUmRhseTt/EXMgToVoCOib
-	ir6hAMfQK8OxNh8P9RSAkR7mAeNdMhqZU48w9L7Ww3ozT9tKin3LyHP2y7xOXp9QEsHp
-	SocQ==
-X-Gm-Message-State: AHPjjUhWEjrW+EeIz98y20gRa/2MupQ+I71aVoNT2MvPWbplPFkYvYof
-	Y1zVK+K+eNEOeDw9HlIPZ9w3Sj9R9LetnPTXQwudpg==
-X-Google-Smtp-Source: AOwi7QCnXHgXtgcYmSuGNBWhANNnGdnt4SRnURsASkrkVPiTp2rlElVqi5z7dR4G/ALR9dPUo9embxH/Qk5M7LAgwuQ=
-X-Received: by 10.36.150.4 with SMTP id z4mr29252436itd.48.1507112141394; Wed,
-	04 Oct 2017 03:15:41 -0700 (PDT)
+	bh=W0ialYSjqzEMLwUy6TgF1EG/8kl8NBsszx3rxSb8Jlw=;
+	b=VnD0SZdX84R6xtYp+o16VPKpnxzARX8IFWy1lgrlxxIxc4x+CQdeSzEAnp40GwW5k3
+	k02JXMdxRjq+m8j6DYoL6e0vHzJcaz+LGAqgwaU2uz4+2xzE4F31ucTc1I4luOBM8qFD
+	DtfD1pEzXzorfLqOhojoAAnOB2FraXi3Tn173ipec55GUIpVtlnIA23IeIGcnaIwFsZS
+	GF9ZS8l2G47WbLO19nMPoqIHZ3+VyYAhtmELylJMBdd29Bo0NFcgkEe/53hTJsGlM/kL
+	hdb1zS8YoH8JAdiR8+7aJIcRu3qDanJ5IpStj1XEtzeF5S+wvaXz61Qqrno3oOsOMFgg
+	QW/g==
+X-Gm-Message-State: AHPjjUgqJsqSFZuaEMc9Vqe+sY+hyX97xd8vvt1lWJZMXLxBd/pF/OjN
+	lT1/MqoFHiMAZpgxcY1nPpL9Zw1X8Twg9sDdOfiRTg==
+X-Google-Smtp-Source: AOwi7QDyN8v8NOQNP+OUhXCQUshxbLr0civzrEWekruq6iFNTk/F1zOoxAASV0h5+vvlFG+gXxtoiJM2W6OKE0WsAlc=
+X-Received: by 10.46.1.100 with SMTP id 97mr9710097ljb.10.1507115897010; Wed,
+	04 Oct 2017 04:18:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.164.134 with HTTP; Wed, 4 Oct 2017 03:15:20 -0700 (PDT)
-In-Reply-To: <bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
-References: <1507045133-16665-1-git-send-email-andrej.valek@siemens.com>
-	<CAJ86T=Xh4HZO8e-u6r9gn0nCx+ZbzkjV+AJOP3-Cgt1fF3xr7w@mail.gmail.com>
-	<bb590f7b-67d0-f106-785f-9f4ecf3127a0@siemens.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 4 Oct 2017 11:15:20 +0100
-Message-ID: <CAJTo0Lb-QW_zHVs3eyGsVE6sXwBb9AwWDSFEhoe=EWMrCKF7uA@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] busybox updating
+Received: by 10.25.192.4 with HTTP; Wed, 4 Oct 2017 04:18:16 -0700 (PDT)
+In-Reply-To: <1507068152.7331.291.camel@intel.com>
+References: <1506694551-4487-1-git-send-email-matt@madison.systems>
+	<1507068152.7331.291.camel@intel.com>
+From: Matt Madison <matt@madison.systems>
+Date: Wed, 4 Oct 2017 04:18:16 -0700
+Message-ID: <CAGgRHJoj=5aZEoLeYjbpd=-RiGFQHOV3rXBUykefdCBEi3Awvg@mail.gmail.com>
+To: "Wold, Saul" <saul.wold@intel.com>
+Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go-runtime: prevent host leakage into target objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,101 +58,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 10:15:40 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07ea98d33051055ab5e3fd"
-
---94eb2c07ea98d33051055ab5e3fd
+X-List-Received-Date: Wed, 04 Oct 2017 11:18:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 4 October 2017 at 07:20, Andrej Valek <andrej.valek@siemens.com> wrote:
-
-> I have compared no/suid links between these versions. So, I was trying
-> to enable the same applets like in older version and do not enable the
-> new one. Some applets could not be disabled (they are automatically
-> enabled) due to dependencies.
+On Tue, Oct 3, 2017 at 3:02 PM, Wold, Saul <saul.wold@intel.com> wrote:
+> On Fri, 2017-09-29 at 14:15 +0000, Matt Madison wrote:
+>> When building for a target whose architecture matches
+>> the build host's, the second pass through make.bash
+>> to build the shareable runtime would also overwrite
+>> the target's static cgo library with host-compatibile
+>> binaries.
+>>
+>> Fix this by running the host-side build once and
+>> target-only passes of make.bash twice, for static
+>> and shareable.  This ensures that what gets installed
+>> is target-compatible.
+>>
+>> [YOCTO #12136]
+>>
+> This does not appear to actually fix the bug mentioned here, I just
+> found the failure again with intel-corei7-64 (from meta-intel) and then
+> confirmed that it fails with qemux86-64 and genericx86-64 when using
+> TCLIBC = "musl"
 >
-> For this version of defconfig the new applets are:
-> chrt
-> cttyhack
-> init
-> lzcat
-> mdev
-> nproc
-> setsid
-> xzcat
-> partprobe
+> Can you please verify and test with MUSL.
+
+Hmm.  I had tested with MUSL before sending that patch, but I'll try
+it again to see what I might have missed.
+
+-Matt
 
 
-This doesn't quite match what I'm seeing by comparing old and new links in
-the postinst:
+>
+> Thanks
+>    Sau!
+>
+>
+>> Signed-off-by: Matt Madison <matt@madison.systems>
+>> ---
+>>  meta/recipes-devtools/go/go-runtime.inc | 11 ++++++++---
+>>  1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-
+>> devtools/go/go-runtime.inc
+>> index 934d1aa..bd26e2e 100644
+>> --- a/meta/recipes-devtools/go/go-runtime.inc
+>> +++ b/meta/recipes-devtools/go/go-runtime.inc
+>> @@ -23,9 +23,13 @@ do_compile() {
+>>       rm -rf ${GOBIN} ${B}/pkg
+>>       mkdir ${GOBIN}
+>>       cd src
+>> -     GO_FLAGS="" ./make.bash
+>> +     ./make.bash --host-only
+>> +     cp ${B}/pkg/tool/${BUILD_GOTUPLE}/go_bootstrap ${B}
+>> +     rm -rf ${B}/pkg/${TARGET_GOTUPLE}
+>> +     ./make.bash --target-only
+>>       if [ -n "${GO_DYNLINK}" ]; then
+>> -             GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags
+>> \"${LDFLAGS}\"" ./make.bash
+>> +             cp ${B}/go_bootstrap ${B}/pkg/tool/${BUILD_GOTUPLE}
+>> +             GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags
+>> \"${LDFLAGS}\"" ./make.bash --target-only
+>>       fi
+>>       cd ${B}
+>>  }
+>> @@ -41,8 +45,9 @@ do_install() {
+>>       rm -rf ${D}${libdir}/go/pkg/obj
+>>       rm -rf ${D}${libdir}/go/pkg/bootstrap
+>>       find src -mindepth 1 -maxdepth 1 -type d | while read
+>> srcdir; do
+>> -             [ "$srcdir" = "./cmd" ] || cp --
+>> preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
+>> +             cp --preserve=mode,timestamps -R $srcdir
+>> ${D}${libdir}/go/src/
+>>       done
+>> +     rm -f ${D}${libdir}/go/src/cmd/dist/dist
+>>  }
+>>
+>>  # Remove test binaries that cannot be relocated
+>> --
+>> 2.7.4
+>>
 
-$ diff then now
-44c44,45
-< update-alternatives --install /bin/sh sh /bin/busybox.nosuid 50
----
-> update-alternatives --install /bin/sh sh /bin/busybox.suid 50
-> update-alternatives --install /bin/sh sh /bin/busybox.suid 50
-122a124
-> update-alternatives --install /usr/bin/lzcat lzcat /bin/busybox.nosuid 50
-128a131
-> update-alternatives --install /usr/bin/nproc nproc /bin/busybox.nosuid 50
-167a171
-> update-alternatives --install /usr/bin/xzcat xzcat /bin/busybox.nosuid 50
-
-Note the two lines installing an alternative of /bin/sh to busybox.suid.
-
-Assuming they should have alternative links installed, the following
-applets are still disabled too:
-
- chrt
- cttyhack
- init
- mdev
- setsid
- partprobe
-
-Ross
-
---94eb2c07ea98d33051055ab5e3fd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 4 October 2017 at 07:20, Andrej Valek <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:andrej.valek@siemens.com" target=3D"_blank">andrej.v=
-alek@siemens.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div c=
-lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-col=
-or:rgb(204,204,204);padding-left:1ex">I have compared no/suid links between=
- these versions. So, I was trying<br>
-to enable the same applets like in older version and do not enable the<br>
-new one. Some applets could not be disabled (they are automatically<br>
-enabled) due to dependencies.<br>
-<br>
-For this version of defconfig the new applets are:<br>
-chrt<br>
-cttyhack<br>
-init<br>
-lzcat<br>
-mdev<br>
-nproc<br>
-setsid<br>
-xzcat<br>
-partprobe</blockquote><div><br></div><div>This doesn&#39;t quite match what=
- I&#39;m seeing by comparing old and new links in the postinst:</div><div><=
-br></div><div><div>$ diff then now</div><div>44c44,45</div><div>&lt; update=
--alternatives --install /bin/sh sh /bin/busybox.nosuid 50</div><div>---</di=
-v><div>&gt; update-alternatives --install /bin/sh sh /bin/busybox.suid 50</=
-div><div>&gt; update-alternatives --install /bin/sh sh /bin/busybox.suid 50=
-</div><div>122a124</div><div>&gt; update-alternatives --install /usr/bin/lz=
-cat lzcat /bin/busybox.nosuid 50</div><div>128a131</div><div>&gt; update-al=
-ternatives --install /usr/bin/nproc nproc /bin/busybox.nosuid 50</div><div>=
-167a171</div><div>&gt; update-alternatives --install /usr/bin/xzcat xzcat /=
-bin/busybox.nosuid 50</div></div><div><br></div><div>Note the two lines ins=
-talling an alternative of /bin/sh to busybox.suid.</div><div><br></div><div=
->Assuming they should have alternative links installed, the following apple=
-ts are still disabled too:</div><div><br></div><div>=C2=A0chrt</div><div>=
-=C2=A0cttyhack</div><div>=C2=A0init</div><div>=C2=A0mdev</div><div>=C2=A0se=
-tsid</div><div>=C2=A0partprobe</div><div><br></div><div>Ross</div></div></d=
-iv></div>
-
---94eb2c07ea98d33051055ab5e3fd--
