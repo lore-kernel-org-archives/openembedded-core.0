@@ -1,52 +1,45 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C307F77EA8
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 673C977EA5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Oct 2017 16:01:34 +0000 (UTC)
-Received: by mail-pg0-f43.google.com with SMTP id k7so1768972pga.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 09:01:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NVlct13hnCyeroPpn8BGsHaa3HC8oa2iAkD54YSOAr4=;
-	b=f8mHbElF4Fc2Yaat2DcWEIDPswDMDplPpcpFdfdISXHbRCovhUBoMD+ZCkhwazQ3RK
-	6A1BcgaIIOILabh/DkJ3thKaOP6lnut5lZf31/mRdqfNL4M8KuJGJx35lEN3B7mrXwum
-	spMubBZn7RiXvSZh9/hiOdKH2/uwOq+0gO0Bnix9G831MBYcHxMIH1teDS2B4bDbR16r
-	uxKI1S/X/MidwXytxhQcBmjI9rhwwVapR6hMXyxtdZYK5bTtOiiVWrjDEPKll2388+MN
-	adiSarwrFcONan+JQc7pkWU+qMKuq6B+GyKwB9FHKY4lwQMTGGq1WtiTHz0CYux6hJco
-	wL8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=NVlct13hnCyeroPpn8BGsHaa3HC8oa2iAkD54YSOAr4=;
-	b=l2PvC4hBnrtVxaKkT0u6bZzREFeFK4+mmqW8q/rBu6tuhFQN6933R61jo3QnkrSTMt
-	C5U/rCchaXUvn/bhwJo6BdpRP75M9FErBLerUYHCkl2r5Xh1YRjMSS88ShfvsI1wwpPG
-	GvR8EX4oorLnjPxKP07lYdq/XBv38igQ0zP3KExWhjQ81f6pClvFLMOtVgpR6L6n2BWO
-	/FTaLWTHA+MmgMIq0O0bwHxcJ2hokqq0+I/GO8I/3lotc5PNKBD9NNjIBtvyx7zyuqI/
-	Lriy16InzMH1Uu6JVEaFp3WCzAZRGLTBHnIq+PP+sMctcxNAeH2OkGfFkcUEQpRHnnau
-	SVBg==
-X-Gm-Message-State: AHPjjUjE0wTFnu0wy+sELvAIyLTPyP8VwOqWVrVtgOz64Lz3P4074TmP
-	CncilR0cUI5VW3f1KP8htIxUriur
-X-Google-Smtp-Source: AOwi7QBfhvVnujZl4HKLOGw8KCmS+6vbxCvrcv2iypvYn2z4HTgarrNqSjVI/Xx7MzvO6ZzrBRlPVg==
-X-Received: by 10.99.67.193 with SMTP id q184mr18412650pga.56.1507132894359;
-	Wed, 04 Oct 2017 09:01:34 -0700 (PDT)
-Received: from ip-172-31-4-49.us-west-2.compute.internal
-	(ec2-34-214-157-19.us-west-2.compute.amazonaws.com. [34.214.157.19])
-	by smtp.gmail.com with ESMTPSA id
-	z78sm26762491pfd.178.2017.10.04.09.01.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Oct 2017 09:01:33 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Oct 2017 16:01:15 +0000
-Message-Id: <1507132875-29155-2-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1507132875-29155-1-git-send-email-matt@madison.systems>
-References: <1507132875-29155-1-git-send-email-matt@madison.systems>
-Cc: otavio@ossystems.com.br, saul.wold@intel.com
-Subject: [PATCH v2 1/1] go-runtime: prevent host leakage into target objects
+	Wed,  4 Oct 2017 16:07:26 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Oct 2017 09:07:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,477,1500966000"; d="scan'208";a="135139571"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga004.jf.intel.com with ESMTP; 04 Oct 2017 09:07:27 -0700
+Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 4 Oct 2017 09:07:27 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.30]) by
+	ORSMSX158.amr.corp.intel.com ([169.254.10.25]) with mapi id
+	14.03.0319.002; Wed, 4 Oct 2017 09:07:26 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, Marek Vasut <marex@denx.de>
+Thread-Topic: [OE-core] [PATCH v2] siteinfo: nios2-linux - remove wrong
+	mutex info
+Thread-Index: AQHTPJI3w0UwK6XDJ0uEzXwhUiC0oKLTZbkAgAAGgACAAAICgIAAbJig
+Date: Wed, 4 Oct 2017 16:07:25 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B611A2318C@ORSMSX112.amr.corp.intel.com>
+References: <1507067652-27633-1-git-send-email-juro.bystricky@intel.com>
+	<CAJ86T=UdzPA4WyTELZjiLmfAtK4asKRN-SBd6tsinmi76FiV_A@mail.gmail.com>
+	<427c98e1-fbe4-592b-6554-a3a93d747c61@denx.de>
+	<CAMKF1sqiBU6oicH4vCvJQDDR+5BRP=RXttheU9ysCdd4QRYwfQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqiBU6oicH4vCvJQDDR+5BRP=RXttheU9ysCdd4QRYwfQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Cc: "Gan, Yau Wai" <yau.wai.gan@intel.com>,
+	Juro Bystricky <jurobystricky@hotmail.com>, OE
+	Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] siteinfo: nios2-linux - remove wrong mutex info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,75 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Oct 2017 16:01:34 -0000
+X-List-Received-Date: Wed, 04 Oct 2017 16:07:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-When building for a target whose architecture matches
-the build host's, the second pass through make.bash
-to build the shareable runtime would also overwrite
-the target's static cgo library with host-compatibile
-binaries.
-
-Fix this by running the host-side build once and
-target-only passes of make.bash twice, for static
-and shareable.  This ensures that what gets installed
-is target-compatible.
-
-Also fix an issue with x86-64 targets running MUSL by
-removing the pre-built (for glibc) objects for the
-race detector runtime before building.
-
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/recipes-devtools/go/go-runtime.inc | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
-index 934d1aa..f181dc7 100644
---- a/meta/recipes-devtools/go/go-runtime.inc
-+++ b/meta/recipes-devtools/go/go-runtime.inc
-@@ -15,7 +15,13 @@ export CC_FOR_TARGET="${CC}"
- export CXX_FOR_TARGET="${CXX}"
- export GOROOT_OVERRIDE = "1"
- 
--do_configure[noexec] = "1"
-+do_configure() {
-+	:
-+}
-+
-+do_configure_libc-musl() {
-+	rm -f ${S}/src/runtime/race/*.syso
-+}
- 
- do_compile() {
- 	export GOBIN="${B}/bin"
-@@ -23,9 +29,13 @@ do_compile() {
- 	rm -rf ${GOBIN} ${B}/pkg
- 	mkdir ${GOBIN}
- 	cd src
--	GO_FLAGS="" ./make.bash
-+	./make.bash --host-only
-+	cp ${B}/pkg/tool/${BUILD_GOTUPLE}/go_bootstrap ${B}
-+	rm -rf ${B}/pkg/${TARGET_GOTUPLE}
-+	./make.bash --target-only
- 	if [ -n "${GO_DYNLINK}" ]; then
--		GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags \"${LDFLAGS}\"" ./make.bash
-+		cp ${B}/go_bootstrap ${B}/pkg/tool/${BUILD_GOTUPLE}
-+		GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-extldflags \"${LDFLAGS}\"" ./make.bash --target-only
- 	fi
- 	cd ${B}
- }
-@@ -41,8 +51,9 @@ do_install() {
- 	rm -rf ${D}${libdir}/go/pkg/obj
- 	rm -rf ${D}${libdir}/go/pkg/bootstrap
- 	find src -mindepth 1 -maxdepth 1 -type d | while read srcdir; do
--		[ "$srcdir" = "./cmd" ] || cp --preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
-+		cp --preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
- 	done
-+	rm -f ${D}${libdir}/go/src/cmd/dist/dist
- }
- 
- # Remove test binaries that cannot be relocated
--- 
-2.7.4
-
+PiA+IE9uIDEwLzA0LzIwMTcgMDQ6MDEgQU0sIEFuZHJlIE1jQ3VyZHkgd3JvdGU6DQo+ID4+IE9u
+IFR1ZSwgT2N0IDMsIDIwMTcgYXQgMjo1NCBQTSwgSnVybyBCeXN0cmlja3kNCj4gPGp1cm8uYnlz
+dHJpY2t5QGludGVsLmNvbT4gd3JvdGU6DQo+ID4+PiBXaXRoIHRoZSBjb21taXQgZjRlOGU5MjQy
+YzVkZjA5NWI1MjY4OGIwODNkZjNjOWQzNmU3MTQ0Yg0KPiA+Pg0KPiA+PiBUaGF0IHJldmlzaW9u
+IGRvZXNuJ3QgZXhpc3QgaW4gb2UtY29yZS4uLg0KPiA+DQo+IA0KPiBpdCBleGlzdHMgaW4gcG9r
+eSwgc29tZXRpbWVzIHVzZXJzIGNvbmZ1c2UgT3BlbmVtYmVkZGVkIHJlcG9zaXRvcmllcyB3aXRo
+DQo+IHlvY3RvIHJlcG9zaXRvcmllcywgaXRzIHVuZm9ydHVuYXRlIGJ1dCBub3QgdW5jb21tb24N
+Cj4gDQoNClRoZSBjb21taXQgSSByZWZlcmVuY2VkIGlzIGhlcmU6DQpodHRwOi8vZ2l0LnlvY3Rv
+cHJvamVjdC5vcmcvY2dpdC5jZ2kvcG9reS9jb21taXQvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGI/
+aWQ9ZjRlOGU5MjQyYzVkZjA5NWI1MjY4OGIwODNkZjNjOWQzNmU3MTQ0Yg0KDQpKdXN0IHRvIGNs
+YXJpZnk6IHRoYXQgY29tbWl0IGRpZCBub3QgYnJlYWsgdGhlIGJ1aWxkLCBpdCBleHBvc2VkIHRo
+ZSBlcnJvciB0aGF0IGJyb2tlIHRoZSBidWlsZCBmb3IgbmlvczIuDQoNCg0K
 
