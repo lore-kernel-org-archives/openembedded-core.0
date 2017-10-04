@@ -1,27 +1,46 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 315C560102
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DE116093D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Oct 2017 22:07:06 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Oct 2017 15:07:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,475,1500966000"; d="scan'208";a="158465203"
-Received: from swold-mobl2.jf.intel.com ([10.24.8.66])
-	by fmsmga005.fm.intel.com with ESMTP; 03 Oct 2017 15:07:07 -0700
-Message-ID: <1507068427.7331.292.camel@linux.intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-To: "matt@madison.systems" <matt@madison.systems>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 03 Oct 2017 15:07:07 -0700
-References: <1506694551-4487-1-git-send-email-matt@madison.systems>
-In-Reply-To: <1506694551-4487-1-git-send-email-matt@madison.systems>
-X-Mailer: Evolution 3.24.5 (3.24.5-1.fc26) 
-Mime-Version: 1.0
-Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>
-Subject: Re: [PATCH] go-runtime: prevent host leakage into target objects
+	Wed,  4 Oct 2017 01:43:37 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id i195so3254170pgd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Oct 2017 18:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=oaSk6IJG1sjmrWnR0rjlBsetYswIf3humik6dXw5UGw=;
+	b=DLmK8GRGQDunbaCpc2ozzBl17bpHVU62Wlfecad92OZhN+ZDz+6IiLGiyoqHGM8jxw
+	bnKUqcs4BLt5ihLfKffvZ0MpVfQL2+HNvqTNC5eMVRlw4LgyRQOyOEswTuikA99IRvCk
+	hrmnJU9szd4YZ0N+wg8zpaD4TiSYhgSmuhRGCw90O8BPY3DZaKZMZBg6vW+UXyJHJJYd
+	3rZQpzEKRlQ6yJgF3cQMBLlM8YCu1TqMbNkZx3htizcxo8NNNptAWcoDiNMcoIxq6nfm
+	EkXBEYHlZJ9eFv0sO7G/UI5XW8TV9/UYZTMM1k7K0Qf/E/e66Re6dEy4fACxjgBj5RPL
+	gjyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=oaSk6IJG1sjmrWnR0rjlBsetYswIf3humik6dXw5UGw=;
+	b=HGXaxKOjglvQk6z4/jAvopPbD07lnAugdIofNJjS5AVE+E21j551HGcNJ6NoTU/Ldz
+	F2C8LV34uBkrkrusydkmoaNMVWZMYhOQrvHW2yaTpn+ZsW9e4T/aAnisMtYjLlLHgU2Q
+	NheHPG+dBFrnqfott8m7/hzg22CK5/rUI3vbHYoX2M/ztavHczA0FOBEENnggruj+o2g
+	/3kca5Evjto2GOXoKyw6p0fGLwmBmeAndBLxmcT5AYC0oBoYOFiSGCDAMtP8kKHt9c72
+	4JNJpe/e8u48WAmKKSSCHHq1UABQO3H16H7EA6f6/Giit1E5c9sbJgEUqE0Eas82GG9u
+	Px4A==
+X-Gm-Message-State: AMCzsaXVLrYFV40hJHfXa6EHm+CaX7h3yAXGAGuIDsBsEcRqZJbKOx48
+	B0UwpV7tkmOMK301akhSBbpOyA==
+X-Google-Smtp-Source: AOwi7QCAUPIkswW8V7vOm+H5MqpXbaLXKQLFlu7rVBEwAsjrpblxGdXQttZJfxTdmATRMKACvlyirw==
+X-Received: by 10.99.101.135 with SMTP id z129mr11397142pgb.75.1507081418884; 
+	Tue, 03 Oct 2017 18:43:38 -0700 (PDT)
+Received: from e6520.cablelabs.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	v10sm24568822pgf.8.2017.10.03.18.43.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 03 Oct 2017 18:43:37 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Oct 2017 18:43:32 -0700
+Message-Id: <1507081412-1114-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] systemd: drop unreferenced uclibc specific agetty -> getty patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,80 +53,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 22:07:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Oct 2017 01:43:38 -0000
 
-On Fri, 2017-09-29 at 14:15 +0000, Matt Madison wrote:
-> When building for a target whose architecture matches
-> the build host's, the second pass through make.bash
-> to build the shareable runtime would also overwrite
-> the target's static cgo library with host-compatibile
-> binaries.
-> 
-> Fix this by running the host-side build once and
-> target-only passes of make.bash twice, for static
-> and shareable.  This ensures that what gets installed
-> is target-compatible.
-> 
-> [YOCTO #12136]
-> 
+The patch is uclibc specific and reference to it was removed from the
+systemd recipe in:
 
-This does not appear to actually fix the bug mentioned here, I just
-found the failure again with intel-corei7-64 (from meta-intel) and then
-confirmed that it fails with qemux86-64 and genericx86-64 when using
-TCLIBC = "musl"
+  http://git.openembedded.org/openembedded-core/commit/?id=653704e9cf325cb494eb23facca19e9f05132ffd
 
-Can you please verify and test with MUSL.
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ ...r-getty-to-agetty-in-console-setup-system.patch | 44 ----------------------
+ 1 file changed, 44 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch
 
-Thanks
-   Sau!
+diff --git a/meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch b/meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch
+deleted file mode 100644
+index 951a28d..0000000
+--- a/meta/recipes-core/systemd/systemd/0002-units-Prefer-getty-to-agetty-in-console-setup-system.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From 8736d9b9bb492f60e8f3a1a7fb5a05ba3201d86b Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 20 Feb 2015 05:29:15 +0000
+-Subject: [PATCH 02/19] units: Prefer getty to agetty in console setup systemd
+- units
+-
+-Upstream-Status: Inappropriate [configuration specific]
+-
+-Signed-off-by: Maxime Ripard <maxime.ripard@free-electrons.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- units/getty@.service.m4        | 2 +-
+- units/serial-getty@.service.m4 | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/units/getty@.service.m4 b/units/getty@.service.m4
+-index 5b82c13..e729469 100644
+---- a/units/getty@.service.m4
+-+++ b/units/getty@.service.m4
+-@@ -33,7 +33,7 @@ ConditionPathExists=/dev/tty0
+- 
+- [Service]
+- # the VT is cleared by TTYVTDisallocate
+--ExecStart=-/sbin/agetty --noclear %I $TERM
+-+ExecStart=-/sbin/getty -L %I $TERM
+- Type=idle
+- Restart=always
+- RestartSec=0
+-diff --git a/units/serial-getty@.service.m4 b/units/serial-getty@.service.m4
+-index 4522d0d..e6d499d 100644
+---- a/units/serial-getty@.service.m4
+-+++ b/units/serial-getty@.service.m4
+-@@ -22,7 +22,7 @@ Before=getty.target
+- IgnoreOnIsolate=yes
+- 
+- [Service]
+--ExecStart=-/sbin/agetty --keep-baud 115200,38400,9600 %I $TERM
+-+ExecStart=-/sbin/getty -L 115200 %I $TERM
+- Type=idle
+- Restart=always
+- UtmpIdentifier=%I
+--- 
+-2.10.2
+-
+-- 
+1.9.1
 
-
-> Signed-off-by: Matt Madison <matt@madison.systems>
-> ---
->  meta/recipes-devtools/go/go-runtime.inc | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-
-> devtools/go/go-runtime.inc
-> index 934d1aa..bd26e2e 100644
-> --- a/meta/recipes-devtools/go/go-runtime.inc
-> +++ b/meta/recipes-devtools/go/go-runtime.inc
-> @@ -23,9 +23,13 @@ do_compile() {
->  	rm -rf ${GOBIN} ${B}/pkg
->  	mkdir ${GOBIN}
->  	cd src
-> -	GO_FLAGS="" ./make.bash
-> +	./make.bash --host-only
-> +	cp ${B}/pkg/tool/${BUILD_GOTUPLE}/go_bootstrap ${B}
-> +	rm -rf ${B}/pkg/${TARGET_GOTUPLE}
-> +	./make.bash --target-only
->  	if [ -n "${GO_DYNLINK}" ]; then
-> -		GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-
-> extldflags 
-> \"${LDFLAGS}\"" ./make.bash
-> +		cp ${B}/go_bootstrap ${B}/pkg/tool/${BUILD_GOTUPLE}
-> +		GO_FLAGS="-buildmode=shared" GO_LDFLAGS="-
-> extldflags 
-> \"${LDFLAGS}\"" ./make.bash --target-only
->  	fi
->  	cd ${B}
->  }
-> @@ -41,8 +45,9 @@ do_install() {
->  	rm -rf ${D}${libdir}/go/pkg/obj
->  	rm -rf ${D}${libdir}/go/pkg/bootstrap
->  	find src -mindepth 1 -maxdepth 1 -type d | while read
-> srcdir; do
-> -		[ "$srcdir" = "./cmd" ] || cp --
-> preserve=mode,timestamps -R $srcdir ${D}${libdir}/go/src/
-> +		cp --preserve=mode,timestamps -R $srcdir
-> ${D}${libdir}/go/src/
->  	done
-> +	rm -f ${D}${libdir}/go/src/cmd/dist/dist
->  }
->  
->  # Remove test binaries that cannot be relocated
-> -- 
-> 2.7.4
 
