@@ -1,25 +1,25 @@
 Return-Path: <n.merinov@inango-systems.com>
 Received: from main-1.inango.com (main-1.inango-systems.com [5.189.174.2])
-	by mail.openembedded.org (Postfix) with ESMTP id D03C778062
+	by mail.openembedded.org (Postfix) with ESMTP id A2E2E6FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 07:46:25 +0000 (UTC)
+	Thu,  5 Oct 2017 08:02:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by main-1.inango.com (Postfix) with ESMTP id 083374C0EDC
+	by main-1.inango.com (Postfix) with ESMTP id 005DF4C1251
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 09:46:26 +0200 (CEST)
+	Thu,  5 Oct 2017 10:02:51 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
 Received: from main-1.inango.com ([127.0.0.1])
 	by localhost (main-1.inango.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HjryYtK6aOMU; Thu,  5 Oct 2017 09:46:24 +0200 (CEST)
+	with ESMTP id GIreCAGbLH6Q; Thu,  5 Oct 2017 10:02:50 +0200 (CEST)
 Received: from nmerinov.inango-sw (unknown [194.60.247.123])
-	by main-1.inango.com (Postfix) with ESMTPSA id CE32F4C0C6D;
-	Thu,  5 Oct 2017 09:46:23 +0200 (CEST)
+	by main-1.inango.com (Postfix) with ESMTPSA id DC3AE4C1140;
+	Thu,  5 Oct 2017 10:02:49 +0200 (CEST)
 From: Nikolay Merinov <n.merinov@inango-systems.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 12:46:07 +0500
-Message-Id: <20171005074607.20260-1-n.merinov@inango-systems.com>
+Date: Thu,  5 Oct 2017 13:02:27 +0500
+Message-Id: <20171005080227.20685-1-n.merinov@inango-systems.com>
 X-Mailer: git-send-email 2.14.2
-Subject: [PATCH] utils.bbclass: Support applications with keys in check_app_exist function
+Subject: [PATCH] cross.bbclass: Remove usage of host flags for cross-compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 07:46:27 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 08:02:51 -0000
 
-check_app_exist function must support cases when "app" variable defined
-as "progname --keys". For example BUILD_CC="gcc -march=x86-64" must
-pass sanity check.
+BUILD_* flags can't be used as TARGET_* flags even for "cross" packages.
+
+gcc-cross buils leaks config.log's through "gcc-stashed-builddir" and
+TARGET_* flags to libgcc cross-build through "gcc/libgcc.mvars" file
+on "gcc-stashed-builddir". This means that if BUILD_CFLAGS contains
+host-specific flags like "-isystem/usr/include" libgcc build will
+fail "do_qa_configure" and "do_package_qa" checks.
+
+Remove host-related flags from TARGET_* flags for gcc-cross build.
 
 Signed-off-by: Nikolay Merinov <n.merinov@inango-systems.com>
 ---
- meta/classes/utils.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/cross.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index 081e662da1..8e07eac07a 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -320,7 +320,7 @@ hardlinkdir () {
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 4887317a9a..29d4424829 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -28,10 +28,10 @@ MULTIMACH_TARGET_SYS = "${BUILD_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
+ export PKG_CONFIG_DIR = "${exec_prefix}/lib/pkgconfig"
+ export PKG_CONFIG_SYSROOT_DIR = ""
  
+-TARGET_CPPFLAGS = "${BUILD_CPPFLAGS}"
+-TARGET_CFLAGS = "${BUILD_CFLAGS}"
+-TARGET_CXXFLAGS = "${BUILD_CXXFLAGS}"
+-TARGET_LDFLAGS = "${BUILD_LDFLAGS}"
++TARGET_CPPFLAGS = ""
++TARGET_CFLAGS = ""
++TARGET_CXXFLAGS = ""
++TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
  
- def check_app_exists(app, d):
--    app = d.expand(app).strip()
-+    app = d.expand(app).split()[0].strip()
-     path = d.getVar('PATH')
-     return bool(bb.utils.which(path, app))
- 
+ CPPFLAGS = "${BUILD_CPPFLAGS}"
+ CFLAGS = "${BUILD_CFLAGS}"
 -- 
 2.14.2
 
