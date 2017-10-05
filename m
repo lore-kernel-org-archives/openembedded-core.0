@@ -1,25 +1,25 @@
 Return-Path: <n.merinov@inango-systems.com>
 Received: from main-1.inango.com (main-1.inango-systems.com [5.189.174.2])
-	by mail.openembedded.org (Postfix) with ESMTP id C42B17804E
+	by mail.openembedded.org (Postfix) with ESMTP id D03C778062
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 07:37:08 +0000 (UTC)
+	Thu,  5 Oct 2017 07:46:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by main-1.inango.com (Postfix) with ESMTP id F3D944C0EDC
+	by main-1.inango.com (Postfix) with ESMTP id 083374C0EDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 09:37:09 +0200 (CEST)
+	Thu,  5 Oct 2017 09:46:26 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
 Received: from main-1.inango.com ([127.0.0.1])
 	by localhost (main-1.inango.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cfy6ylLAfzcI; Thu,  5 Oct 2017 09:37:07 +0200 (CEST)
+	with ESMTP id HjryYtK6aOMU; Thu,  5 Oct 2017 09:46:24 +0200 (CEST)
 Received: from nmerinov.inango-sw (unknown [194.60.247.123])
-	by main-1.inango.com (Postfix) with ESMTPSA id E54B64C0C6D;
-	Thu,  5 Oct 2017 09:37:06 +0200 (CEST)
+	by main-1.inango.com (Postfix) with ESMTPSA id CE32F4C0C6D;
+	Thu,  5 Oct 2017 09:46:23 +0200 (CEST)
 From: Nikolay Merinov <n.merinov@inango-systems.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 12:36:50 +0500
-Message-Id: <20171005073651.19752-1-n.merinov@inango-systems.com>
+Date: Thu,  5 Oct 2017 12:46:07 +0500
+Message-Id: <20171005074607.20260-1-n.merinov@inango-systems.com>
 X-Mailer: git-send-email 2.14.2
-Subject: [PATCH] perl-native: Provide correct lddlflags
+Subject: [PATCH] utils.bbclass: Support applications with keys in check_app_exist function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 07:37:09 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 07:46:27 -0000
 
-For shared libraries compilation perl uses LDDLFLAGS instead of
-LDFLAGS. Value for LDDLFLAGS can be provided through
-recipe-sysroot-native/usr/lib/perl-native/perl/config.sh file
-generated during perl-native compilation.
-
-With default LDDLFLAGS libxml-parser-perl-native package have no
-correct rpath in Expat.so module. Provide correct LDDLFLAGS for perl
-modules compilation to fix build on hosts without libexpat.so.
+check_app_exist function must support cases when "app" variable defined
+as "progname --keys". For example BUILD_CC="gcc -march=x86-64" must
+pass sanity check.
 
 Signed-off-by: Nikolay Merinov <n.merinov@inango-systems.com>
 ---
- meta/recipes-devtools/perl/perl-native_5.24.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/utils.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-index e01d11fbed..6c56a7d701 100644
---- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl-native_5.24.1.bb
-@@ -32,6 +32,7 @@ do_configure () {
- 		-Dcc="${CC}" \
- 		-Dcflags="${CFLAGS}" \
- 		-Dldflags="${LDFLAGS}" \
-+		-Dlddlflags="${LDFLAGS} -shared" \
- 		-Dcf_by="Open Embedded" \
- 		-Dprefix=${prefix} \
- 		-Dvendorprefix=${prefix} \
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index 081e662da1..8e07eac07a 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -320,7 +320,7 @@ hardlinkdir () {
+ 
+ 
+ def check_app_exists(app, d):
+-    app = d.expand(app).strip()
++    app = d.expand(app).split()[0].strip()
+     path = d.getVar('PATH')
+     return bool(bb.utils.which(path, app))
+ 
 -- 
 2.14.2
 
