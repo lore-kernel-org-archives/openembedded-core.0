@@ -1,50 +1,51 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wr0-f179.google.com (mail-wr0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B0977F90
+Return-Path: <prvs=045169b0da=mike.looijmans@topicproducts.com>
+Received: from mx36-out12.antispamcloud.com (mx36-out12.antispamcloud.com
+	[209.126.121.60])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FAC177F85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 14:35:04 +0000 (UTC)
-Received: by mail-wr0-f179.google.com with SMTP id p46so8537928wrb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 07:35:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=zCkmLtVuButTePh91BoA1odZTLjqj07VMbZIC4E3QME=;
-	b=oRig1nyTgxmF4/r/zFZTVC+4MivWnHiK41w9rW1IScquVz+jsv0fCcp1jxH6GCToNE
-	Yab8Dzg5dgi7USxiOLJxlf4IUXKUZuslsP6N0aOevj7emkFN1ql/4lOGav2pfXxIcaGY
-	V+iAoaTT9PL/wB9Ir1opJH+fx51506wUPqK/+9oFSU3QVq2QyMgWs4TYBHlHvazwIvAi
-	0LZkDU2QuOBn7hPdr63hhI2wZzS7PXrVY9REkcoBH7FbKTp25eCC4BZTk+AD+posafwI
-	ojI96/5Kss6y7ws9DQFcuTK7CWPmR8VklHWOk7B1I8KyZZU29HzO6ArjTQilgm33CyrN
-	sYYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=zCkmLtVuButTePh91BoA1odZTLjqj07VMbZIC4E3QME=;
-	b=lDs8D7dONu25tRNU10KnIhRm3NtgztEMbqc2ohX52bDv3RTWHB/Rf7XKsudp8hrHMk
-	hYKTq91cdNEGHhguO6lzyRd5EKQKVVfx9JvRod/WDmgqp1xFlZbrlqNXnIbfc88xprWK
-	PJWnwhYLY7pS4Yh6300zyoGuFuVWYv+S0jCsc3AWCCYeXpoSTqObO2UEzRCESWOMGu80
-	k/JG+PldDtbrtkONneHDqxRxYDu/ID9+gY51+Un0HruWGGYJDR7T4VCQXGXo3iWuZnJn
-	QCiGvU+KNdqPDuaKNAKgwn/2y6p+boZSrwIzOXdVUaKzqiEzdVFL8AwOsiVAcG/0aEVh
-	bXCA==
-X-Gm-Message-State: AHPjjUiXrpd+uWZF5gE4iaCzcMI9T93zGmgm41H2bcmsBUNJPp8akvAq
-	m9CkY3njk9ohhGlA8ba1V7ycCWlCNwXYC/ZWf0ypGw==
-X-Google-Smtp-Source: AOwi7QCDkuQDbs3yxk3wZE5v1QiFaiufYdmoyUannccgkkROKR3gRpDZ5nVvbS4uCasRZ33eKQ28qhH6V3f7dqjoanc=
-X-Received: by 10.223.199.136 with SMTP id l8mr18897272wrg.121.1507214105274; 
-	Thu, 05 Oct 2017 07:35:05 -0700 (PDT)
+	Thu,  5 Oct 2017 14:49:35 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx19.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1e07Su-0002h5-Ti for openembedded-core@lists.openembedded.org;
+	Thu, 05 Oct 2017 16:49:36 +0200
+Received: from [192.168.80.121] (192.168.80.121) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 5 Oct 2017 16:49:28 +0200
+To: <openembedded-core@lists.openembedded.org>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <8b6c437e-c5b6-d242-5e1c-b19406153c76@topic.nl>
+Date: Thu, 5 Oct 2017 16:49:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-Received: by 10.223.173.139 with HTTP; Thu, 5 Oct 2017 07:35:04 -0700 (PDT)
-In-Reply-To: <CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
-References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
-	<CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Thu, 5 Oct 2017 15:35:04 +0100
-Message-ID: <CAPyrkgxRjHRF9ALg9QwdUPdXAsetFNb9iUCQZNw+GtJsz+hM5g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Illegal instruction when running go binaries in qemux86
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.09)
+X-Recommended-Action: accept
+X-Filter-ID: EX5BVjFpneJeBchSMxfU5l7RZG3Uw5vSKTw/Zx1Mq9kXv9krsgRhBn0ayn6qsUc7bT9yB6+5kUQX
+	UPqxCpKoZ5jW+r1f/TnG1eQk5gcAU2WhbUpxw1vG9PXf7FQITIU+5y52g9tkUN1gyfQJCkGsPFpr
+	jQPFk8m4tSTfORUp3ym5u2cOM36kSfHLUNZ8jXlTlpkp8lcBwdj1nW72qmYnhk6MzMc1fDmFYhRo
+	7i9WJP5mbN3yE6VLW+O3vV6S7uAIDD99ZlIsNfiocclhkIZyCGjioP69xCSqetMX+Tub+tlh+q6J
+	LTjskgR575u7xBF9hR7TYzdcZcyGV4sMr3jbmlhuJD+Y8aK1TyNciD6O03XTF30yCBdC0hoGIYfN
+	AfQYf1exmkjWatqTdEex9V99jq6OzRuRTJwMfmIg2Nif3MxrBz0V0g4dFqQD34faMjgG1QvB/+yF
+	uaiuWkOJt9O67X0L6e4zOli0rnG7yFLXzFow01W+NjrLbEwlXeN/SGGsLrdRfTGQ/ER6YFMqAKA1
+	uuidX4Ts4xdG+C13IyWeZaJlAy8FU/wcJ5JtAUu50klfjzMVFIf3P+0IJqUbiG872h7xteQEmGaV
+	W1mnJSWy6AuNgs8oYZ5lsqYsWCts9e//Ca1bA7EWj1UdpyT2OFucbhHs8hFved+TJQDB7m48G5wy
+	ib2YE5CQCxqaNpZCFyWPoUMKiAE1LoIP8/8PHVIU4dU7sbKGfaun//Cs8l49htwccBIk1Sag4dKi
+	qCrF8eZZ1QHMcEeBpH8yvscxmKl4od5A5psCwEHlRDIvt/V1ctXmZ4ldddW8AQ13MCJzaGFMOmG6
+	/54gza7q5Za0AFsz6MnV7t/5I5IUYXUcyaqJvqWePPfahHwp+39ee3Z+Hn10kVWClPVvbW5lVyQa
+	nRxw5oyYMyos1aE7d9BPogpXu4GPi179JfUwTJS+PZhsciKe
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Subject: Recipe versions and layer confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 14:35:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 05 Oct 2017 14:49:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: nl
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 5, 2017 at 3:31 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 5 October 2017 at 15:23, Paul Barker <pbarker@toganlabs.com> wrote:
->>
->> So my question is: should we just set GO386 =3D "387" so that it applies
->> to all go binaries and accept the slight loss of performance on x86
->> systems that do support sse2 instructions? Or should we make this
->> MACHINE specific so that sse2 instructions can be used where
->> supported?
->
->
-> Definitely machine-specific.  Need a way of mapping from OE tunes to Go
-> options that control the instructions used.
->
-> Ross
+=EF=BB=BFI'm confused.
 
-Looking again, we already have go_map_arm() in goarch.bbclass to set
-HOST_GOARM and TARGET_GOARM. We probably need to do the same for the
-GO386 variable.
+Layer "meta-xilinx" defines:
 
-Cheers,
+recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.1.bb
 
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
+This recipe is too old for my liking, so I made a newer one in "meta-topic"
+
+recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.3.bb
+
+
+Much to my surprise, when I build, OE picks the 2017.1 version and not the=
+=20
+2017.3 version.
+
+bitbake-layers show-layers reveils:
+..
+meta-xilinx           /home/mike/projects/zynq-platform/meta-xilinx  5
+meta-topic            /home/mike/projects/zynq-platform/meta-topic  6
+..
+
+so that means that my meta-topic should win even if my PV were lower, right=
+?
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+Visit us at the Space Tech Expo Europe (Stand E-71)
 
