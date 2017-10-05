@@ -1,25 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3877C60102
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id AAAAC60102
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 21:18:43 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Oct 2017 14:18:44 -0700
+	Thu,  5 Oct 2017 21:35:15 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Oct 2017 14:35:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,482,1500966000"; d="scan'208";a="157257216"
-Received: from pnaidu-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.147.41])
-	by orsmga005.jf.intel.com with ESMTP; 05 Oct 2017 14:18:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Fri, 06 Oct 2017 10:18:38 +1300
-Message-ID: <4488567.fOZDuWkyH7@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <8b6c437e-c5b6-d242-5e1c-b19406153c76@topic.nl>
+X-IronPort-AV: E=Sophos;i="5.42,482,1500966000"; d="scan'208";a="159378413"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by fmsmga005.fm.intel.com with SMTP; 05 Oct 2017 14:35:16 -0700
+Date: Thu, 5 Oct 2017 16:44:47 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-Id: <20171005164447.48dc7a86bd86519f67a3a41a@linux.intel.com>
+In-Reply-To: <20171005101918.282f15658ac2a600e3c4c251@linux.intel.com>
 References: <8b6c437e-c5b6-d242-5e1c-b19406153c76@topic.nl>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<20171005101918.282f15658ac2a600e3c4c251@linux.intel.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: Recipe versions and layer confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,49 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 21:18:44 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Oct 2017 21:35:15 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Mike,
+On Thu, 5 Oct 2017 10:19:18 -0500
+Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
 
-On Friday, 6 October 2017 3:49:28 AM NZDT Mike Looijmans wrote:
-> I'm confused.
+> On Thu, 5 Oct 2017 16:49:28 +0200
+> Mike Looijmans <mike.looijmans@topic.nl> wrote:
 > 
-> Layer "meta-xilinx" defines:
+> > ﻿I'm confused.
+> > 
+> > Layer "meta-xilinx" defines:
+> > 
+> > recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.1.bb
+> > 
+> > This recipe is too old for my liking, so I made a newer one in "meta-topic"
+> > 
+> > recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.3.bb
+> > 
+> > 
+> > Much to my surprise, when I build, OE picks the 2017.1 version and not the 
+> > 2017.3 version.
+> > 
+> > bitbake-layers show-layers reveils:
+> > ..
+> > meta-xilinx           /home/mike/projects/zynq-platform/meta-xilinx  5
+> > meta-topic            /home/mike/projects/zynq-platform/meta-topic  6
+> > ..
+> > 
+> > so that means that my meta-topic should win even if my PV were lower, right?
 > 
-> recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.1.bb
-> 
-> This recipe is too old for my liking, so I made a newer one in "meta-topic"
-> 
-> recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.3.bb
-> 
-> 
-> Much to my surprise, when I build, OE picks the 2017.1 version and not the 
-> 2017.3 version.
-> 
-> bitbake-layers show-layers reveils:
-> ..
-> meta-xilinx           /home/mike/projects/zynq-platform/meta-xilinx  5
-> meta-topic            /home/mike/projects/zynq-platform/meta-topic  6
-> ..
-> 
-> so that means that my meta-topic should win even if my PV were lower, right?
+> "For example, a layer that has a recipe with a higher PV value but for which the BBFILE_PRIORITY is set to have a lower precedence still has a lower precedence."
 
-At face value I would have to agree - it doesn't sound like it's working the 
-way it should.
+My bad. topic has higher priority than xilinx, so there is something wrong as you mentioned.
 
-What does bitbake-layers show-recipes  arm-trusted-firmware show ?
+Leo
 
-Another diagnostic would be to do bitbake -DDD arm-trusted-firmware and see if 
-it gives any explanation as to why it's picking the older version (you'll have 
-to wade through all of the other irrelevant debug info though).
 
-Cheers,
-Paul
+> 
+> taken from
+> 
+> http://www.yoctoproject.org/docs/2.3.2/mega-manual/mega-manual.html#var-BBFILE_PRIORITY
+> 
+> > 
+> > 
+> > Kind regards,
+> > 
+> > Mike Looijmans
+> > System Expert
+> > 
+> > TOPIC Products
+> > Materiaalweg 4, NL-5681 RJ Best
+> > Postbus 440, NL-5680 AK Best
+> > Telefoon: +31 (0) 499 33 69 79
+> > E-mail: mike.looijmans@topicproducts.com
+> > Website: www.topicproducts.com
+> > 
+> > Please consider the environment before printing this e-mail
+> > 
+> > 
+> > Visit us at the Space Tech Expo Europe (Stand E-71)
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> -- 
+> Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
