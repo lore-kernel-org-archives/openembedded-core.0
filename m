@@ -1,50 +1,48 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1083171B2E
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F94277F85
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 12:52:35 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id b189so1921845wmd.4
+	Thu,  5 Oct 2017 14:10:50 +0000 (UTC)
+Received: by mail-qk0-f176.google.com with SMTP id k123so11312194qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 05:52:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 05 Oct 2017 07:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=cNkv9ILvbPVgWIRqR/EAzfSCe9n6AccSKGerDeYaRH0=;
-	b=iO5RtH4T1APHN3ySnGxdmZXKEgKRJvAHjfgySWW0SKlMs58qChBaN4HX4/Zyz6FNxZ
-	M6LSsCSkNmywBKmsHwYidCOuzKuW/LMEcPyZvNz0WUSYsh3ajZvzfHDXLebRSREVXgOv
-	IPDYc1B0w1xa3HwTeDjWvNkm5PnLwZS6mvwiD7rn2uSu7d51BUzJdG3OvJ0yg2alAFGn
-	y9Fmlnoy4lEwo9OBzoL00fxILOSYUGH2be5BPcPsnCHon4U61okP0GUmv3RtQpY0NGd1
-	Ohw3yUxPhfNQuMvxGYUh1DK21FrEi9otp41x/A5iR3VHJHB/RWxYBgQIlg09w8Q9JyVB
-	wEEg==
+	:cc; bh=x8tWYhCaE8oWZCp4pIGwujurIX68f17jyccPDiM9krg=;
+	b=fsV4lgKA54RkO2UKUG9b+eNS7qP6jq87fciVtTyGFydWPnHA7fUy6USNVc/IPmFbN2
+	gadCYG+cZFTTscxtxbjc2gWaHfQ62K6GnOIcNALlm6h2Jc4qGCqfQQ1V1PJeIAvBiN6o
+	P2rCsPEUaWqETXtP27Ff1dzA8za7sVp7NC22+lU3s/PjS84lv4rhl681WL/jDr2IWlsq
+	8onsaXvYe9Hov5aK1BcvyoRA91n5eUR9mvoQ3Js90xIDliWxF1dkpbo41ly1XeB4BCpl
+	hz29kp/sozVaapNnQjVHeFkXqn1UR9WIdGzuZss2DmbYSmEe5J+eih1ORg9nRL1aHw/Z
+	MahA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=cNkv9ILvbPVgWIRqR/EAzfSCe9n6AccSKGerDeYaRH0=;
-	b=bzd3LnYlfjWxx9msPWC9tbYNivr8dkOOQOBM4HQuVrt3qzruGsigCkmNGo6brc6o/G
-	TfNyoArb130yLP+1+I01GVe1aFgycFJ1B4nhsWGHBsif5dziUvrdnlGkPyDwf3aV3REg
-	rzXx2JORu5k0HgAXoDYJYQVUWSZ0YZ+bJ9Ra18ZMqekveInF3v9/aM5dHJcwH9zizgb5
-	AtAHA4Dx1oDpqjUrTTfnsxUq0Bl+fDrIe7v1krqSiiYP219RRVFHZN9zAKtz86ZmAtnt
-	6Zt1QJw1GRSvSZM25SWjcL0H0y+C7qHBA6EcuK42S78x34zA+ERFc4IZ05OW9Ulo9iG6
-	pHOg==
-X-Gm-Message-State: AMCzsaXMSCXqssV8SNAg25G3U3by1TFpRaCerLUOum9HiMKFB2xI8Y9g
-	iWr4U6CoBE6P2iOZx2d9Weh7XiM4Q8Qpth3cEUak8Yjm
-X-Google-Smtp-Source: AOwi7QBn8a/NWlImZJX763KLU927DEnPHiJq5KuCxLNHm1mO242qlGh4SQ/WdyvS9RTWhQqnGNvFiqhOLBdSqCK+coY=
-X-Received: by 10.28.19.11 with SMTP id 11mr20331925wmt.122.1507207956469;
-	Thu, 05 Oct 2017 05:52:36 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=x8tWYhCaE8oWZCp4pIGwujurIX68f17jyccPDiM9krg=;
+	b=ZyproAXo89uuPSzn/vIezEIe1Twk66ZEYJMkdD/cjGZkJRmchvEYxH5EypqyGPp2Y6
+	fqKZoclVSHdoPOS3iy0TyZbb3TEudAvpR1iIW5+3scOBvVOtjysKGgPSveNkPFUSDhes
+	RZ3vMs3qscy4OadCUXchbG5lLjhc7fbQgAMLm2hBt7jYHjEeHpFHg5/DNurbTXLvdKFv
+	5VxXm0ld9CDOcBmOv2q1EAmWdSBflXPvbJa1KkPSveuhAejrUvTxtg3u22zfzLSqVo3L
+	gHfL5rsojIUQzZJ1wIAYwYh8x/TLtKjJPShIbRX4NlE5BZ6vLZ7TQ3dBxABnug92fuX8
+	B4oQ==
+X-Gm-Message-State: AMCzsaV8HYs4r2XXrps1UC3i2+WIwSJTPVfHeLMYpYNLizJ5bFJi0EiG
+	k5nu17bdD6XLnFcaHrFuEclI4eg8tuVCiX996jk=
+X-Google-Smtp-Source: AOwi7QB/CVqvBbOfSB7hx9/f1pVyiKieQfdtz98I+RuU1v/3qPn8h2wULsInnltfEmnxoz1YV2KDD9093QukVB9ROtc=
+X-Received: by 10.55.82.214 with SMTP id g205mr30568651qkb.191.1507212651470; 
+	Thu, 05 Oct 2017 07:10:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.173.139 with HTTP; Thu, 5 Oct 2017 05:52:36 -0700 (PDT)
-In-Reply-To: <CAGgRHJrwm9yWbSrK_3FpgTxKVuAjhpF31U9TAUeq9asLhY91Ag@mail.gmail.com>
-References: <CAPyrkgyyXnZCkL=_GzW1pwfXzUmRrRQ8UiqNDcKdGiNqc5ruSQ@mail.gmail.com>
-	<CAGgRHJrwm9yWbSrK_3FpgTxKVuAjhpF31U9TAUeq9asLhY91Ag@mail.gmail.com>
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Thu, 5 Oct 2017 13:52:36 +0100
-Message-ID: <CAPyrkgztm6u2_qchXmG7eRPtMVBuMzLFR+=FVnFv4N1zmyy_aw@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Go runtime host contamination
+Received: by 10.200.55.72 with HTTP; Thu, 5 Oct 2017 07:10:50 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ0oanPjJSh4a4qoUEDHoK7xb1MsFmcjvZ_aY-D5dGTHw@mail.gmail.com>
+References: <1507175286-8225-1-git-send-email-liu.ming50@gmail.com>
+	<CAJTo0LZ0oanPjJSh4a4qoUEDHoK7xb1MsFmcjvZ_aY-D5dGTHw@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Thu, 5 Oct 2017 16:10:50 +0200
+Message-ID: <CALatG=6KcyWh_BLwgMtHXNwu+OOneEJoOodz6MYjAsQw093TRw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] argp-standalone: set ALLOW_EMPTY to PN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,62 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 12:52:36 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 14:10:50 -0000
+Content-Type: multipart/alternative; boundary="001a114a6996b12e9f055acd4a82"
+
+--001a114a6996b12e9f055acd4a82
 Content-Type: text/plain; charset="UTF-8"
+
+Hi, Ross:
+
+Agreed, will send a V2 soon.
+
+//Ming Liu
+
+2017-10-05 12:22 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
+
+> On 5 October 2017 at 04:48, <liu.ming50@gmail.com> wrote:
+>
+>> From: Ming Liu <liu.ming50@gmail.com>
+>>
+>> This ensures argp-standalone-staticdev package could be installed
+>> correctly(depending on argp-standalone) if it's being required during
+>> SDK population.
+>>
+>
+> I'd prefer to remove the dependency on PN in PN-staticdev, as a
+> argp-standalone library package with nothing in it is more confusing.
+>
+> Ross
+>
+
+--001a114a6996b12e9f055acd4a82
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 28, 2017 at 10:22 PM, Matt Madison <matt@madison.systems> wrote=
-:
-> On Thu, Sep 28, 2017 at 10:28 AM, Paul Barker <pbarker@toganlabs.com> wro=
-te:
->> Hey,
->>
->> I'm trying to upgrade runc-opencontainers in meta-virtualization to
->> v1.0.0-rc4 and hitting a host contamination issue.
->>
->> Both host and target are x86-64 but I'm using glibc on the host
->> (Ubuntu 16.04) and musl on the target. I'm getting link failures
->> referring to missing symbols "__vfprintf_chk" and "__fprintf_chk" in
->> libcontainer. I'm pretty sure these symbols exist in glibc but not in
->> musl.
->>
->> The failure is occurring when trying to link libcontainer which uses
->> the go extension cgo to incorporate some c code in with the go code.
->>
->> Using a pretty dumb grep, I can see the contamination in the go-runtime =
-package:
->>
->>     $ grep -r __fprintf_chk
->> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/
->>     Binary file
->> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/src/h=
-ost-tools/trace
->> matches
->>     Binary file
->> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/src/h=
-ost-tools/pprof
->> matches
->>     Binary file
->> tmp/work/core2-64-oe-linux-musl/go-runtime/1.9-r0/image/usr/lib/go/pkg/l=
-inux_amd64/runtime/cgo.a
->> matches
->
-> Yep, I see what's going on here.  I have a patch in the works to take
-> care of it.
->
+<div dir=3D"ltr">Hi, Ross:<div><br></div><div>Agreed, will send a V2 soon.<=
+/div><div><br></div><div>//Ming Liu</div></div><div class=3D"gmail_extra"><=
+br><div class=3D"gmail_quote">2017-10-05 12:22 GMT+02:00 Burton, Ross <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank"=
+>ross.burton@intel.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
+iv dir=3D"ltr"><span class=3D"">On 5 October 2017 at 04:48,  <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming5=
+0@gmail.com</a>&gt;</span> wrote:<br></span><div class=3D"gmail_extra"><div=
+ class=3D"gmail_quote"><span class=3D""><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From=
+: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">li=
+u.ming50@gmail.com</a>&gt;<br>
+<br>
+This ensures argp-standalone-staticdev package could be installed<br>
+correctly(depending on argp-standalone) if it&#39;s being required during<b=
+r>
+SDK population.<br></blockquote><div><br></div></span><div>I&#39;d prefer t=
+o remove the dependency on PN in PN-staticdev, as a argp-standalone library=
+ package with nothing in it is more confusing.</div><span class=3D"HOEnZb">=
+<font color=3D"#888888"><div><br></div><div>Ross=C2=A0</div></font></span><=
+/div></div></div>
+</blockquote></div><br></div>
 
-Right, with a detour via the innards of the go linker I've finally
-spotted the problem here.
-
-The recipe in question is overriding GOROOT in the do_compile stage to
-point at recipe-sysroot-native.
-
-With that fixed, and Matt's latest patch on the oe-core mailing list
-applied, runc-opencontainers now builds as expected for qemux86-64.
-
-Cheers,
-
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
-
+--001a114a6996b12e9f055acd4a82--
