@@ -1,47 +1,27 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D59D2719C4
+Return-Path: <n.merinov@inango-systems.com>
+X-Greylist: delayed 329 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 05 Oct 2017 07:32:41 UTC
+Received: from main-1.inango.com (main-1.inango-systems.com [5.189.174.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A7276007A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 03:48:24 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id l10so6328208wmg.1
+	Thu,  5 Oct 2017 07:32:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by main-1.inango.com (Postfix) with ESMTP id 206934C0EDC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Oct 2017 20:48:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=TeZuyh8Bfd+rNg9Y4EmRaj2+2OsFOi59BCFwY0oUK04=;
-	b=TV7Yt2wDe74ZsL1V7bVMzMuLHApSE8EphkAWJ2C4aO+opdYWxrD4gD3wAhrlOHNpPK
-	aR/nrXVHWJ4zACuWlf2WS/Jd2UUHzDKUqSM4KM0Coh8jsp9hhhTpbtWh4Rwq/w+sXAbg
-	8wzjwxSCGbU7FTs97Lj7eH8ySXxKv1KfdBu5tPEbgKpUDAxUUzPKZKTfG8MTpeRhcsej
-	CPFdqJyNFmEUhBUgESuQkbxdINUrOl+m4KkcM8FBd+/d6tKSd5Wic/SRsaVqkyh68WxV
-	KhqhhcpQp8pNL07iaAVN4TAiUiOaPPlZTJp8PeUaTh59mMZB3geCG/8dpchVRGWkZ0mM
-	jjEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=TeZuyh8Bfd+rNg9Y4EmRaj2+2OsFOi59BCFwY0oUK04=;
-	b=iEx5GJFMbArJkE2ONmUtodz1w6MghQjoHESRzbpZUavgWuUACC044t9H1+JIR4lvAh
-	7p4YfHivm/HXN5Q6datBZXuwRfto7WflrajRlvbBE5mKL82E5Jdwqa2u9qCZpWkIZH91
-	2fc+YU2dZu3TMKpWGI6EpKBKILuqmVxpKk9Y5CCEJM11cilbkrvbcEpV8j2CJUUX62jq
-	8rHOIx/ViqyhVLCCJsLF585xIGjhyAmDnXtneP0oXCgvTj6m497qhysf6hJQBytJQbr8
-	INYgw4fIZ/snu5xmgXXqDe+JlE+vXFMts7oMpydi6efSLvjBoh3hC7pkgUqjsoyaix8s
-	FsnA==
-X-Gm-Message-State: AHPjjUhEKDkxifhIyjh/9ofZaLvKpA8uWZehbjkOZX1mwTkDsNSzpyBA
-	q443UrdS/Kjoaso43nnTUG/fafH9
-X-Google-Smtp-Source: AOwi7QCJIk6peOB1+OC5BAHVgO49Y2HpYssHfglCzKIxrKSH4MNSA/Zus2a9O++aSEGyuiq8TT7Isw==
-X-Received: by 10.80.188.5 with SMTP id j5mr31267035edh.249.1507175305401;
-	Wed, 04 Oct 2017 20:48:25 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([223.104.101.67]) by smtp.gmail.com with ESMTPSA id
-	f27sm13145097edj.82.2017.10.04.20.48.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 04 Oct 2017 20:48:24 -0700 (PDT)
-From: liu.ming50@gmail.com
+	Thu,  5 Oct 2017 09:27:13 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.inango-systems.com
+Received: from main-1.inango.com ([127.0.0.1])
+	by localhost (main-1.inango.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jFZOXnmlje3W; Thu,  5 Oct 2017 09:27:10 +0200 (CEST)
+Received: from nmerinov.inango-sw (unknown [194.60.247.123])
+	by main-1.inango.com (Postfix) with ESMTPSA id 263BC4C0C6D;
+	Thu,  5 Oct 2017 09:27:10 +0200 (CEST)
+From: Nikolay Merinov <n.merinov@inango-systems.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 05:48:06 +0200
-Message-Id: <1507175286-8225-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] argp-standalone: set ALLOW_EMPTY to PN
+Date: Thu,  5 Oct 2017 12:25:39 +0500
+Message-Id: <20171005072539.26530-1-n.merinov@inango-systems.com>
+X-Mailer: git-send-email 2.14.2
+Subject: [PATCH] nspr, nss: Use BUILD_CC instead of hardcoded "gcc"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 03:48:25 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 07:32:41 -0000
 
-From: Ming Liu <liu.ming50@gmail.com>
+Recipes nspr_4.16.bb and nss_3.31.1.bb ignored BUILD_CC and it's
+BUILD_CFLAGS and tried to compile with hardcoded "gcc" instead. As
+result build for this recipes will fail if host use different name for
+compiler or require any flags.
 
-This ensures argp-standalone-staticdev package could be installed
-correctly(depending on argp-standalone) if it's being required during
-SDK population.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Nikolay Merinov <n.merinov@inango-systems.com>
 ---
- meta/recipes-support/argp-standalone/argp-standalone_1.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/nspr/nspr_4.16.bb | 2 +-
+ meta/recipes-support/nss/nss_3.31.1.bb | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-index bd0cfdf..1242e31 100644
---- a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-+++ b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-@@ -19,6 +19,8 @@ inherit autotools
+diff --git a/meta/recipes-support/nspr/nspr_4.16.bb b/meta/recipes-support/nspr/nspr_4.16.bb
+index bb178fe712..78ef994ffd 100644
+--- a/meta/recipes-support/nspr/nspr_4.16.bb
++++ b/meta/recipes-support/nspr/nspr_4.16.bb
+@@ -155,7 +155,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
  
- CFLAGS += "-fPIC -U__OPTIMIZE__"
+ do_compile_prepend() {
+-	oe_runmake CROSS_COMPILE=1 CFLAGS="-DXP_UNIX" LDFLAGS="" CC=gcc -C config export
++	oe_runmake CROSS_COMPILE=1 CFLAGS="-DXP_UNIX ${BUILD_CFLAGS}" LDFLAGS="" CC="${BUILD_CC}" -C config export
+ }
  
-+ALLOW_EMPTY_${PN} = "1"
-+
+ do_compile_append() {
+diff --git a/meta/recipes-support/nss/nss_3.31.1.bb b/meta/recipes-support/nss/nss_3.31.1.bb
+index 955862fddb..588708fc31 100644
+--- a/meta/recipes-support/nss/nss_3.31.1.bb
++++ b/meta/recipes-support/nss/nss_3.31.1.bb
+@@ -66,8 +66,8 @@ do_compile_prepend_class-native() {
+ 
+ do_compile() {
+     export CROSS_COMPILE=1
+-    export NATIVE_CC="gcc"
+-    export NATIVE_FLAGS="${HOST_CFLAGS}"
++    export NATIVE_CC="${BUILD_CC}"
++    export NATIVE_FLAGS="${BUILD_CFLAGS}"
+     export BUILD_OPT=1
+ 
+     export FREEBL_NO_DEPEND=1
+@@ -118,7 +118,7 @@ do_install_prepend_class-nativesdk() {
+ 
  do_install() {
- 	install -D -m 0644 ${B}/libargp.a ${D}${libdir}/libargp.a
- 	install -D -m 0644 ${S}/argp.h ${D}${includedir}/argp.h
+     export CROSS_COMPILE=1
+-    export NATIVE_CC="gcc"
++    export NATIVE_CC="${BUILD_CC}"
+     export BUILD_OPT=1
+ 
+     export FREEBL_NO_DEPEND=1
 -- 
-2.7.4
+2.14.2
 
 
