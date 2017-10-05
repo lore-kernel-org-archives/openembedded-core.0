@@ -1,47 +1,45 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EB425719A4
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 85AC577FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 14:23:23 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b189so9987270wmd.2
+	Thu,  5 Oct 2017 14:23:38 +0000 (UTC)
+Received: by mail-wm0-f54.google.com with SMTP id u138so2547652wmu.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 07:23:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=j9ZyERVtzq+6Oxc5zZmgDHzuLUWsA7IB1qij+RwMcbk=;
-	b=SUGswi0fsUHbRZLuwaPIIUX7gf3PloD99k2jvTbE4kBA2pkYFfJ2A+wAmy8vsyzNiD
-	254MQNKykHmXylIgAJCEhPmq9YlCUfgRmilKJKhFwlBhZSxa4KBVcOFl60+MJhyIGjxW
-	qwOEMQh24gyO1VN2godLZv6Gwq8jVNQqwiaRoUID3ALf5UHgG4KririARTjzNKXvcrVD
-	ueCuzgDoR3sDKlAKAAcJIgpO6NXY09JBO2Q/tSsVjiCfjbZNtsuZZ1bsJ+FcOj1an68D
-	Gd1X8hjNPOuhp6fYQekGwOXydGTR73TltBkIPO/cBp+U6ZjQARUrqn1CNFLFrSs96usd
-	RCRg==
+	Thu, 05 Oct 2017 07:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=24mKWMGXUnGH1Yoi09xhDHHyIWImnBJ1FuJQUbaO8VY=;
+	b=lBEawCiotnNC8FjX7OJS3rR5EbgKNQrW8wnEEW6ajgcVqJqNm9kpZDCo1oIYIsP0rL
+	xLvMXlOGzwe8uAmtQpX+9jdwPAkJm5XYuFxLfamSt/5KQ9qNE13FCTOdQisrN4t5K7jj
+	BXGoIQqSiiR2IH9u95WxDaetv9Vk/N0d27j9KYdsuNZcft7JJSR49daunhgkD1+hV/ee
+	X8I6+nVwugFsgrthV5Evz4m6oCptWZDlsumzK1c/KSNaV0nhhw8wiMg+W0rRh0I+g3Gf
+	z+MC2cFIC80uOUbiFyTZCWjKKbcdjAYZgP7jPF9Mg92uCL1Qx/Bthrpeyjdsa067mt7C
+	udSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=j9ZyERVtzq+6Oxc5zZmgDHzuLUWsA7IB1qij+RwMcbk=;
-	b=XkoGRj73SojBu4fMPw/ORtMDJfnM6DUUqv66vTCBoYSzJoqR1TMSa6BkbAN5/mQ5ZM
-	mLi0aYU1a69w+WROiwEvgyHMZIdcjkszTQ5mNnbSQ39QdOfnLhREKJsm9asKf/BwD2Gf
-	P8MQIwkyK6nLF1OuAeJaP0XDKrVTvhncsZaqbVeHWHsQiRq35NUKPvHN3u1AFqc2518I
-	zE9uIQUXIti65L6cD5SZVkqUWbzA/49+ai3lSBBTXEQwpHPP1QUpcCFv/4ThcVJ2dqUI
-	YASq8sOiZfnKo4Reg6F3MM5TSphbNByzGrC2rpaT0EczrymG/DL2OwKtHzNSKkxatvmU
-	pN7A==
-X-Gm-Message-State: AMCzsaUb4/3BkHxLYALbeK1IhUxoUzKWtuMJiBO3avn8LKWCjiZcqeke
-	iwJfTkwg2+QJ/Au8C+7RpXwCNw==
-X-Google-Smtp-Source: AOwi7QBiYCz1bhcl0yF4k4L4QE9naUdbKbCdg34quqXl0cK16kpaREaX3daEu9Y/4I2E2ayxlIihJg==
-X-Received: by 10.80.166.133 with SMTP id e5mr5598584edc.51.1507213404578;
-	Thu, 05 Oct 2017 07:23:24 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([27.191.203.10]) by smtp.gmail.com with ESMTPSA id
-	w20sm14265503edl.2.2017.10.05.07.23.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Oct 2017 07:23:23 -0700 (PDT)
-From: liu.ming50@gmail.com
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=24mKWMGXUnGH1Yoi09xhDHHyIWImnBJ1FuJQUbaO8VY=;
+	b=jSF6Gf4YcwUi+WWDzzhWotUGHQYpmEap1ADgHcTagbiTK+GpbBWMM1Vs1XcxZNseuu
+	IsYclOK0UzD6JEfKktN4tXQvrgY3IZ/7ygbEbQhRRbYZCbKV5HMZtnQgpU1Gcqq4T/lY
+	gXb7OKcWacCpUTf0oPFqJFRimFLEHGbss1Pt9CoYS45jiU6JXqYnFgV/78Ab3SRjU55s
+	HC52ZvjJaS9/JBqI87lCFdgwljkx4g372zmBKXmnXWGIRGJWRYP3jvISziS28YnY9BB0
+	OTvEmNhXnRTBx1EwHPqBHohE6ULTInUIJzkIF7a/vBnJuejLaEMoe6Ir/H2SZ6POgnM7
+	O4OQ==
+X-Gm-Message-State: AMCzsaV4wJw+jzOs0H+EEJpUDuJnWL3fQkIkfS6la4mRgY1wP9UWQWPQ
+	6x2KrOScbC9F4jenHET44t+FanN7zbWeCdHlCVnSvojq
+X-Google-Smtp-Source: AOwi7QDLVzkZ2enA+kWCeLpuEQXkPHvLMCjyfYUI8N3Djr5Oj4IrTjzspiekEqXBY23uMhjjyWehZackDnKgRGHqkdc=
+X-Received: by 10.28.19.11 with SMTP id 11mr20584705wmt.122.1507213419123;
+	Thu, 05 Oct 2017 07:23:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.173.139 with HTTP; Thu, 5 Oct 2017 07:23:38 -0700 (PDT)
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Thu, 5 Oct 2017 15:23:38 +0100
+Message-ID: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 16:23:02 +0200
-Message-Id: <1507213382-23230-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH V2] argp-standalone: drop RDEPENDS dev/staticdev packages on main package
+Subject: Illegal instruction when running go binaries in qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,34 +52,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 14:23:24 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 14:23:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Ming Liu <liu.ming50@gmail.com>
+So, after fixing all my build issues I now have runtime issues :(
 
-This ensures argp-standalone-staticdev package could be installed
-correctly(without depending on the empty argp-standalone package) if
-it's being required during SDK population.
+Software written in go fails on qemux86 with illegal instruction traps:
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-support/argp-standalone/argp-standalone_1.3.bb | 3 +++
- 1 file changed, 3 insertions(+)
+    root@qemux86:~# netns ls
+    [   18.984298] traps: netns[491] trap invalid opcode ip:807b541
+sp:bf9694bc error:0[   18.985354]  in netns[8048000+1c3000]
+    Illegal instruction
+    root@qemux86:~# runc
+    traps: runc[492] trap invalid opcode ip:807b561 sp:bff6ec1c
+error:0[   21.604966]  in runc[8048000+457000]
+    Illegal instruction
 
-diff --git a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-index bd0cfdf..21bbcab 100644
---- a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-+++ b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
-@@ -19,6 +19,9 @@ inherit autotools
- 
- CFLAGS += "-fPIC -U__OPTIMIZE__"
- 
-+RDEPENDS_${PN}-dev = ""
-+RDEPENDS_${PN}-staticdev = ""
-+
- do_install() {
- 	install -D -m 0644 ${B}/libargp.a ${D}${libdir}/libargp.a
- 	install -D -m 0644 ${S}/argp.h ${D}${includedir}/argp.h
--- 
-2.7.4
+I've done a git bisect and tracked this down to commit 20b35747
+"qemuboot.conf: make cpus match built artifacts" on master. This has
+been backported to pyro as commit d9456782 and I've confirmed that I
+have the same issue on pyro. On pyro in particular this is a
+regression as the patch was backported after pyro was released.
 
+The important change is:
+
+    -QB_CPU_x86 =3D "-cpu qemu32"
+    +QB_CPU_x86 =3D "-cpu pentium2"
+
+So my guess was that the go toolchain isn't limiting itself to the
+instructions supported by pentium2.
+
+To fix things I've added the following line to meta/classes/go.bbclass
+and meta/recipes-devtools/go/go-common.inc:
+
+    export GO386 =3D "387"
+
+As documented in https://golang.org/doc/install/source, this ensures
+that sse2 instructions aren't used. This fixes the issue and I now
+have working go binaries on qemux86 :)
+
+So my question is: should we just set GO386 =3D "387" so that it applies
+to all go binaries and accept the slight loss of performance on x86
+systems that do support sse2 instructions? Or should we make this
+MACHINE specific so that sse2 instructions can be used where
+supported?
+
+Whatever we do will need backporting to pyro as well.
+
+Cheers,
+
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
 
