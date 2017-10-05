@@ -1,45 +1,48 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 85AC577FC9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id F3AE87804E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 14:23:38 +0000 (UTC)
-Received: by mail-wm0-f54.google.com with SMTP id u138so2547652wmu.4
+	Thu,  5 Oct 2017 14:32:00 +0000 (UTC)
+Received: by mail-it0-f51.google.com with SMTP id p185so1543486itc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 07:23:39 -0700 (PDT)
+	Thu, 05 Oct 2017 07:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=24mKWMGXUnGH1Yoi09xhDHHyIWImnBJ1FuJQUbaO8VY=;
-	b=lBEawCiotnNC8FjX7OJS3rR5EbgKNQrW8wnEEW6ajgcVqJqNm9kpZDCo1oIYIsP0rL
-	xLvMXlOGzwe8uAmtQpX+9jdwPAkJm5XYuFxLfamSt/5KQ9qNE13FCTOdQisrN4t5K7jj
-	BXGoIQqSiiR2IH9u95WxDaetv9Vk/N0d27j9KYdsuNZcft7JJSR49daunhgkD1+hV/ee
-	X8I6+nVwugFsgrthV5Evz4m6oCptWZDlsumzK1c/KSNaV0nhhw8wiMg+W0rRh0I+g3Gf
-	z+MC2cFIC80uOUbiFyTZCWjKKbcdjAYZgP7jPF9Mg92uCL1Qx/Bthrpeyjdsa067mt7C
-	udSg==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=GPjSynnX2ye2mtRkLi5Osgf7ZXdFEREsJ9kOQr/SUc0=;
+	b=kSNqjFub3liJjTiRWwB3y7GFBv04RwfRqo+fXwkvLuPErM06p89wkuP6IajMDufrFc
+	rj18r85kzWpR0u30hQQCiAVmV41XVK1R6aHOivX7cj7xwQwLopGpYXDCoPLbAnNmw1fE
+	ekSMXkZz5+etu01bLqRsy0sm/OBEHHCd5Fd2votqTtiNDccGGWzvEZqwAkEzFJNVAPTb
+	WR3rEwtEDaK+Hdjab7aCMfZePyWV0zszPzXj49oLA6TCSOiyLkEctpwPzYGJnIot2lzE
+	eZQsvgFHIbiDPUDe0dS8quMqXD+3YWgkKMWt4SY4dK45hwCy1LuHyMoqQ0Lm5ME6VOFJ
+	P5GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=24mKWMGXUnGH1Yoi09xhDHHyIWImnBJ1FuJQUbaO8VY=;
-	b=jSF6Gf4YcwUi+WWDzzhWotUGHQYpmEap1ADgHcTagbiTK+GpbBWMM1Vs1XcxZNseuu
-	IsYclOK0UzD6JEfKktN4tXQvrgY3IZ/7ygbEbQhRRbYZCbKV5HMZtnQgpU1Gcqq4T/lY
-	gXb7OKcWacCpUTf0oPFqJFRimFLEHGbss1Pt9CoYS45jiU6JXqYnFgV/78Ab3SRjU55s
-	HC52ZvjJaS9/JBqI87lCFdgwljkx4g372zmBKXmnXWGIRGJWRYP3jvISziS28YnY9BB0
-	OTvEmNhXnRTBx1EwHPqBHohE6ULTInUIJzkIF7a/vBnJuejLaEMoe6Ir/H2SZ6POgnM7
-	O4OQ==
-X-Gm-Message-State: AMCzsaV4wJw+jzOs0H+EEJpUDuJnWL3fQkIkfS6la4mRgY1wP9UWQWPQ
-	6x2KrOScbC9F4jenHET44t+FanN7zbWeCdHlCVnSvojq
-X-Google-Smtp-Source: AOwi7QDLVzkZ2enA+kWCeLpuEQXkPHvLMCjyfYUI8N3Djr5Oj4IrTjzspiekEqXBY23uMhjjyWehZackDnKgRGHqkdc=
-X-Received: by 10.28.19.11 with SMTP id 11mr20584705wmt.122.1507213419123;
-	Thu, 05 Oct 2017 07:23:39 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=GPjSynnX2ye2mtRkLi5Osgf7ZXdFEREsJ9kOQr/SUc0=;
+	b=nyVQsji52jZlL48a3AC3xoIcpR+5zjEvCl3gPmo84CQE+bu71clDKj9DoDwoxBLWF3
+	TAwifF3a12anvcBSmFK9yNiO/JTfVhudTutWK3F96wngVohSPvB0Hh7SMMxqUfKRD8Ar
+	4+tuOsa4G/3qjkIhwcyMQV+7b+uWDyG4sO5wd8jKKc4oBgSDtmiqjKuRk60BF/TI3iMF
+	U3nCkayuZ9pl44C6j8bCGSmM0JkIupZAs2UZGzUsQIqyv3JMenYlNBK71p8YL902HmIl
+	eszlHOQpVJruDqp5bkb/sLp47Fm5ZjfpTVvQOJ94F4IJdvqNg70OBcdTBUe671Qyy36x
+	z7tA==
+X-Gm-Message-State: AHPjjUh4+a4vCj3KoHtqBeMbXTH8rY1UqnRwjuvsV8mS1BS40uXIhDtd
+	c6BvyQbDUQ1kip2vZG4UpEEJmWoFSLM5PSb6/d46Wg==
+X-Google-Smtp-Source: AOwi7QC1TwuFA/TuFoX1ZAZmdXiSX6rHX4OxMcyxokbGtMvSDHnUYiv3n1vZLqp/LtWE/EdIcHJJLawlrV0ZcRJw7D4=
+X-Received: by 10.36.150.4 with SMTP id z4mr34870939itd.48.1507213921767; Thu,
+	05 Oct 2017 07:32:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.173.139 with HTTP; Thu, 5 Oct 2017 07:23:38 -0700 (PDT)
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Thu, 5 Oct 2017 15:23:38 +0100
-Message-ID: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Illegal instruction when running go binaries in qemux86
+Received: by 10.107.59.22 with HTTP; Thu, 5 Oct 2017 07:31:41 -0700 (PDT)
+In-Reply-To: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
+References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Oct 2017 15:31:41 +0100
+Message-ID: <CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
+To: Paul Barker <pbarker@toganlabs.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Illegal instruction when running go binaries in qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 14:23:38 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 14:32:01 -0000
+Content-Type: multipart/alternative; boundary="94eb2c07ea9868716c055acd96cf"
+
+--94eb2c07ea9868716c055acd96cf
 Content-Type: text/plain; charset="UTF-8"
+
+On 5 October 2017 at 15:23, Paul Barker <pbarker@toganlabs.com> wrote:
+
+> So my question is: should we just set GO386 = "387" so that it applies
+> to all go binaries and accept the slight loss of performance on x86
+> systems that do support sse2 instructions? Or should we make this
+> MACHINE specific so that sse2 instructions can be used where
+> supported?
+>
+
+Definitely machine-specific.  Need a way of mapping from OE tunes to Go
+options that control the instructions used.
+
+Ross
+
+--94eb2c07ea9868716c055acd96cf
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-So, after fixing all my build issues I now have runtime issues :(
+<div dir=3D"ltr">On 5 October 2017 at 15:23, Paul Barker <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:pbarker@toganlabs.com" target=3D"_blank">pbarker@toga=
+nlabs.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">So my question is: should we j=
+ust set GO386 =3D &quot;387&quot; so that it applies<br>
+to all go binaries and accept the slight loss of performance on x86<br>
+systems that do support sse2 instructions? Or should we make this<br>
+MACHINE specific so that sse2 instructions can be used where<br>
+supported?<br></blockquote><div><br></div><div>Definitely machine-specific.=
+=C2=A0 Need a way of mapping from OE tunes to Go options that control the i=
+nstructions used.</div><div><br></div><div>Ross=C2=A0</div></div></div></di=
+v>
 
-Software written in go fails on qemux86 with illegal instruction traps:
-
-    root@qemux86:~# netns ls
-    [   18.984298] traps: netns[491] trap invalid opcode ip:807b541
-sp:bf9694bc error:0[   18.985354]  in netns[8048000+1c3000]
-    Illegal instruction
-    root@qemux86:~# runc
-    traps: runc[492] trap invalid opcode ip:807b561 sp:bff6ec1c
-error:0[   21.604966]  in runc[8048000+457000]
-    Illegal instruction
-
-I've done a git bisect and tracked this down to commit 20b35747
-"qemuboot.conf: make cpus match built artifacts" on master. This has
-been backported to pyro as commit d9456782 and I've confirmed that I
-have the same issue on pyro. On pyro in particular this is a
-regression as the patch was backported after pyro was released.
-
-The important change is:
-
-    -QB_CPU_x86 =3D "-cpu qemu32"
-    +QB_CPU_x86 =3D "-cpu pentium2"
-
-So my guess was that the go toolchain isn't limiting itself to the
-instructions supported by pentium2.
-
-To fix things I've added the following line to meta/classes/go.bbclass
-and meta/recipes-devtools/go/go-common.inc:
-
-    export GO386 =3D "387"
-
-As documented in https://golang.org/doc/install/source, this ensures
-that sse2 instructions aren't used. This fixes the issue and I now
-have working go binaries on qemux86 :)
-
-So my question is: should we just set GO386 =3D "387" so that it applies
-to all go binaries and accept the slight loss of performance on x86
-systems that do support sse2 instructions? Or should we make this
-MACHINE specific so that sse2 instructions can be used where
-supported?
-
-Whatever we do will need backporting to pyro as well.
-
-Cheers,
-
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
-
+--94eb2c07ea9868716c055acd96cf--
