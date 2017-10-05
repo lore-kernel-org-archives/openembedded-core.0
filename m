@@ -1,48 +1,47 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F94277F85
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EB425719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Oct 2017 14:10:50 +0000 (UTC)
-Received: by mail-qk0-f176.google.com with SMTP id k123so11312194qke.3
+	Thu,  5 Oct 2017 14:23:23 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id b189so9987270wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 07:10:51 -0700 (PDT)
+	Thu, 05 Oct 2017 07:23:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=x8tWYhCaE8oWZCp4pIGwujurIX68f17jyccPDiM9krg=;
-	b=fsV4lgKA54RkO2UKUG9b+eNS7qP6jq87fciVtTyGFydWPnHA7fUy6USNVc/IPmFbN2
-	gadCYG+cZFTTscxtxbjc2gWaHfQ62K6GnOIcNALlm6h2Jc4qGCqfQQ1V1PJeIAvBiN6o
-	P2rCsPEUaWqETXtP27Ff1dzA8za7sVp7NC22+lU3s/PjS84lv4rhl681WL/jDr2IWlsq
-	8onsaXvYe9Hov5aK1BcvyoRA91n5eUR9mvoQ3Js90xIDliWxF1dkpbo41ly1XeB4BCpl
-	hz29kp/sozVaapNnQjVHeFkXqn1UR9WIdGzuZss2DmbYSmEe5J+eih1ORg9nRL1aHw/Z
-	MahA==
+	h=from:to:cc:subject:date:message-id;
+	bh=j9ZyERVtzq+6Oxc5zZmgDHzuLUWsA7IB1qij+RwMcbk=;
+	b=SUGswi0fsUHbRZLuwaPIIUX7gf3PloD99k2jvTbE4kBA2pkYFfJ2A+wAmy8vsyzNiD
+	254MQNKykHmXylIgAJCEhPmq9YlCUfgRmilKJKhFwlBhZSxa4KBVcOFl60+MJhyIGjxW
+	qwOEMQh24gyO1VN2godLZv6Gwq8jVNQqwiaRoUID3ALf5UHgG4KririARTjzNKXvcrVD
+	ueCuzgDoR3sDKlAKAAcJIgpO6NXY09JBO2Q/tSsVjiCfjbZNtsuZZ1bsJ+FcOj1an68D
+	Gd1X8hjNPOuhp6fYQekGwOXydGTR73TltBkIPO/cBp+U6ZjQARUrqn1CNFLFrSs96usd
+	RCRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=x8tWYhCaE8oWZCp4pIGwujurIX68f17jyccPDiM9krg=;
-	b=ZyproAXo89uuPSzn/vIezEIe1Twk66ZEYJMkdD/cjGZkJRmchvEYxH5EypqyGPp2Y6
-	fqKZoclVSHdoPOS3iy0TyZbb3TEudAvpR1iIW5+3scOBvVOtjysKGgPSveNkPFUSDhes
-	RZ3vMs3qscy4OadCUXchbG5lLjhc7fbQgAMLm2hBt7jYHjEeHpFHg5/DNurbTXLvdKFv
-	5VxXm0ld9CDOcBmOv2q1EAmWdSBflXPvbJa1KkPSveuhAejrUvTxtg3u22zfzLSqVo3L
-	gHfL5rsojIUQzZJ1wIAYwYh8x/TLtKjJPShIbRX4NlE5BZ6vLZ7TQ3dBxABnug92fuX8
-	B4oQ==
-X-Gm-Message-State: AMCzsaV8HYs4r2XXrps1UC3i2+WIwSJTPVfHeLMYpYNLizJ5bFJi0EiG
-	k5nu17bdD6XLnFcaHrFuEclI4eg8tuVCiX996jk=
-X-Google-Smtp-Source: AOwi7QB/CVqvBbOfSB7hx9/f1pVyiKieQfdtz98I+RuU1v/3qPn8h2wULsInnltfEmnxoz1YV2KDD9093QukVB9ROtc=
-X-Received: by 10.55.82.214 with SMTP id g205mr30568651qkb.191.1507212651470; 
-	Thu, 05 Oct 2017 07:10:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.200.55.72 with HTTP; Thu, 5 Oct 2017 07:10:50 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ0oanPjJSh4a4qoUEDHoK7xb1MsFmcjvZ_aY-D5dGTHw@mail.gmail.com>
-References: <1507175286-8225-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LZ0oanPjJSh4a4qoUEDHoK7xb1MsFmcjvZ_aY-D5dGTHw@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Thu, 5 Oct 2017 16:10:50 +0200
-Message-ID: <CALatG=6KcyWh_BLwgMtHXNwu+OOneEJoOodz6MYjAsQw093TRw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] argp-standalone: set ALLOW_EMPTY to PN
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=j9ZyERVtzq+6Oxc5zZmgDHzuLUWsA7IB1qij+RwMcbk=;
+	b=XkoGRj73SojBu4fMPw/ORtMDJfnM6DUUqv66vTCBoYSzJoqR1TMSa6BkbAN5/mQ5ZM
+	mLi0aYU1a69w+WROiwEvgyHMZIdcjkszTQ5mNnbSQ39QdOfnLhREKJsm9asKf/BwD2Gf
+	P8MQIwkyK6nLF1OuAeJaP0XDKrVTvhncsZaqbVeHWHsQiRq35NUKPvHN3u1AFqc2518I
+	zE9uIQUXIti65L6cD5SZVkqUWbzA/49+ai3lSBBTXEQwpHPP1QUpcCFv/4ThcVJ2dqUI
+	YASq8sOiZfnKo4Reg6F3MM5TSphbNByzGrC2rpaT0EczrymG/DL2OwKtHzNSKkxatvmU
+	pN7A==
+X-Gm-Message-State: AMCzsaUb4/3BkHxLYALbeK1IhUxoUzKWtuMJiBO3avn8LKWCjiZcqeke
+	iwJfTkwg2+QJ/Au8C+7RpXwCNw==
+X-Google-Smtp-Source: AOwi7QBiYCz1bhcl0yF4k4L4QE9naUdbKbCdg34quqXl0cK16kpaREaX3daEu9Y/4I2E2ayxlIihJg==
+X-Received: by 10.80.166.133 with SMTP id e5mr5598584edc.51.1507213404578;
+	Thu, 05 Oct 2017 07:23:24 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([27.191.203.10]) by smtp.gmail.com with ESMTPSA id
+	w20sm14265503edl.2.2017.10.05.07.23.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 05 Oct 2017 07:23:23 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Oct 2017 16:23:02 +0200
+Message-Id: <1507213382-23230-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH V2] argp-standalone: drop RDEPENDS dev/staticdev packages on main package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 14:10:50 -0000
-Content-Type: multipart/alternative; boundary="001a114a6996b12e9f055acd4a82"
+X-List-Received-Date: Thu, 05 Oct 2017 14:23:24 -0000
 
---001a114a6996b12e9f055acd4a82
-Content-Type: text/plain; charset="UTF-8"
+From: Ming Liu <liu.ming50@gmail.com>
 
-Hi, Ross:
+This ensures argp-standalone-staticdev package could be installed
+correctly(without depending on the empty argp-standalone package) if
+it's being required during SDK population.
 
-Agreed, will send a V2 soon.
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/recipes-support/argp-standalone/argp-standalone_1.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-//Ming Liu
+diff --git a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
+index bd0cfdf..21bbcab 100644
+--- a/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
++++ b/meta/recipes-support/argp-standalone/argp-standalone_1.3.bb
+@@ -19,6 +19,9 @@ inherit autotools
+ 
+ CFLAGS += "-fPIC -U__OPTIMIZE__"
+ 
++RDEPENDS_${PN}-dev = ""
++RDEPENDS_${PN}-staticdev = ""
++
+ do_install() {
+ 	install -D -m 0644 ${B}/libargp.a ${D}${libdir}/libargp.a
+ 	install -D -m 0644 ${S}/argp.h ${D}${includedir}/argp.h
+-- 
+2.7.4
 
-2017-10-05 12:22 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
 
-> On 5 October 2017 at 04:48, <liu.ming50@gmail.com> wrote:
->
->> From: Ming Liu <liu.ming50@gmail.com>
->>
->> This ensures argp-standalone-staticdev package could be installed
->> correctly(depending on argp-standalone) if it's being required during
->> SDK population.
->>
->
-> I'd prefer to remove the dependency on PN in PN-staticdev, as a
-> argp-standalone library package with nothing in it is more confusing.
->
-> Ross
->
-
---001a114a6996b12e9f055acd4a82
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi, Ross:<div><br></div><div>Agreed, will send a V2 soon.<=
-/div><div><br></div><div>//Ming Liu</div></div><div class=3D"gmail_extra"><=
-br><div class=3D"gmail_quote">2017-10-05 12:22 GMT+02:00 Burton, Ross <span=
- dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank"=
->ross.burton@intel.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><d=
-iv dir=3D"ltr"><span class=3D"">On 5 October 2017 at 04:48,  <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming5=
-0@gmail.com</a>&gt;</span> wrote:<br></span><div class=3D"gmail_extra"><div=
- class=3D"gmail_quote"><span class=3D""><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From=
-: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">li=
-u.ming50@gmail.com</a>&gt;<br>
-<br>
-This ensures argp-standalone-staticdev package could be installed<br>
-correctly(depending on argp-standalone) if it&#39;s being required during<b=
-r>
-SDK population.<br></blockquote><div><br></div></span><div>I&#39;d prefer t=
-o remove the dependency on PN in PN-staticdev, as a argp-standalone library=
- package with nothing in it is more confusing.</div><span class=3D"HOEnZb">=
-<font color=3D"#888888"><div><br></div><div>Ross=C2=A0</div></font></span><=
-/div></div></div>
-</blockquote></div><br></div>
-
---001a114a6996b12e9f055acd4a82--
