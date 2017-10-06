@@ -1,57 +1,48 @@
-Return-Path: <Javier.Viguera@digi.com>
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F5DF780C0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id CBD7160620
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 10:31:34 +0000 (UTC)
-Received: from [216.82.251.39] by server-14.bemta-12.messagelabs.com id
-	55/C8-01756-88B57D95; Fri, 06 Oct 2017 10:31:36 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrLIsWRWlGSWpSXmKPExsXi5LtOQLct+nq
-	kwYeDVhZ7Py1itLjz8x27A5PHzll32T3ObVzBGMAUxZqZl5RfkcCaMbH9M2vBP8aKZTfusTUw
-	nmHsYuTiEBJYySixcuoLJghnEaPEjbZWti5GTg5hgTiJzvtTWUESIgINjBKvDv9mBkkICeRIf
-	HjRD2azCehJTL70BMjm4OAVsJb415EPEmYRUJHY0raTEcQWFQiXaDrbzwJi8woISpyc+QTM5h
-	SwlVg1Yw3YLmYBC4mZ888zQtjiEreezGeCsOUltr+dA7VWReLg0stgNRJA8U2bz7JD2CYSF6/
-	uZoOwDSW+z/rGAmFLS+ztW8g8gVF4FpLVs5Csm4Vk3Swk6xYwsqxi1ChOLSpLLdI1NtRLKspM
-	zyjJTczM0TU0NNLLTS0uTkxPzUlMKtZLzs/dxAiMinoGBsYdjH+++B5ilORgUhLlfR1yPVKIL
-	yk/pTIjsTgjvqg0J7X4EKMMB4eSBG9OFFBOsCg1PbUiLTMHGJ8waQkOHiURXlWQNG9xQWJucW
-	Y6ROoUoy7HjYfX/zAJseTl56VKifNmgBQJgBRllObBjYClikuMslLCvIwMDAxCPAWpRbmZJaj
-	yrxjFORiVhHnzQabwZOaVwG16BXQEE9ARc5qugBxRkoiQkmpgXHGgJ+ORRMcNpelngms5rwRt
-	kfFa6dM4f9rFFWfk/s25qKvaEVJ3j/3IhtOLuOce+1m+5ov7lXnJjRJTjki9bVbbnXYi2UVr1
-	ZqflsIfGjNcU0J2m/qJ8BqY/1Ji/tZ/o3rbcjmH5o9F5hc+ufnHN+4Jlauz8XYw85J/u8HhUL
-	jKsrUP7XNuKLEUZyQaajEXFScCAHHACXMQAwAA
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-8.tower-164.messagelabs.com!1507285894!50930433!1
-X-Originating-IP: [66.77.174.16]
-X-StarScan-Received: 
-X-StarScan-Version: 9.4.45; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 71088 invoked from network); 6 Oct 2017 10:31:34 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-	by server-8.tower-164.messagelabs.com with SMTP;
-	6 Oct 2017 10:31:34 -0000
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Fri, 6 Oct 2017 05:31:32 -0500
-Received: from [10.101.2.54] (10.101.2.54) by dor-sms-xch01.digi.com
-	(10.49.8.99) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Fri, 6 Oct 2017 12:31:29 +0200
-To: Armin Kuster <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20170914122753.12713-1-ross.burton@intel.com>
-	<c93c3583-f1aa-bf91-c86e-bde0f6229592@gmail.com>
-From: Javier Viguera <javier.viguera@digi.com>
-Message-ID: <6ba17c2a-78cd-2705-0ce4-1fffeb4c007e@digi.com>
-Date: Fri, 6 Oct 2017 12:31:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Fri,  6 Oct 2017 10:45:35 +0000 (UTC)
+Received: by mail-io0-f172.google.com with SMTP id 97so3424282iok.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Oct 2017 03:45:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=jSDhieJQvKAKeOZk9pnkhYKrtjI+/NUgC9ETg0sh3xc=;
+	b=hdhh+3qcSM3+EbBBz8jI9dlcLy4Yf5xDZRcE4bg+Lma0rveemNTY65C7fLnB7VdCSV
+	LR0xznbrDRw4DMCfV47QRn7whK4oQ9NVeRCMP6Eff4CONmZBg4X7IhD07anAxi6Usn0j
+	9YFQ3CY928+DxV1peSqE546vRHHkDvNw5qyT1ZktTeGWw34gOTqbjLpbKHLwhq9k2oB/
+	DqZ8RzW4GBHgHhikZZIOM+ZWzT3RduDEViUGvlFf32+7Ic3+nHL8/57ACv5WWduNust/
+	n6Ht1654eblupbGzJeD0P3rTsg4wNJmM7/MaodkzlpcbAgUIJQA/i0FntzQo5ZVAOxVL
+	NPWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=jSDhieJQvKAKeOZk9pnkhYKrtjI+/NUgC9ETg0sh3xc=;
+	b=BvOwd80tVq4vEgcjYgQm2D5OHQS01EgVVEawUYuVAlD2DFaoumw3S/OuBmGFk3VjKK
+	YSd+4Uc6MTiRsmbVt9N9vswenfsz3+qal2m0PMcCP1sDmHckKrgOF2hNzCMpHelXtbbw
+	UhVYnoHQDWm6eCGzAu7JhM6IPAf+swj0MHsBhBIfdqts+UGGtd+CLLW/nnP5h4Ulmihw
+	InDyOHcrChAtBVYLV6faS58cQODYV2YlA4qSVtjafd2eAmnvcAZ+1dI2LnA+WAgA81lS
+	Ytj4BPKez+nS0dOB5T+MrPWyfAlh+40p6UAPifnQrhkS8NiOSb9UxCYWgXMYHt+A1UmT
+	UEmg==
+X-Gm-Message-State: AMCzsaVd2DgOtNtcXTuNskQc3F4qtOcLrxNrRdasUGmt4eaZxez9CyJS
+	Oovq/8ti2ad0FayIifYEMLM+Uz0tFcrBGdZCI5ixAw==
+X-Google-Smtp-Source: AOwi7QCe4Ksd++1LNq8+0bchlSL1YPjqnTlaR6pFRE3caGVnWS2kTBytbcXcRdigm38g+MdVNgIajny1udprj8f69YI=
+X-Received: by 10.107.57.3 with SMTP id g3mr1902681ioa.210.1507286736558; Fri,
+	06 Oct 2017 03:45:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c93c3583-f1aa-bf91-c86e-bde0f6229592@gmail.com>
-X-Originating-IP: [10.101.2.54]
-X-KSE-AntiSpam-Interceptor-Info: protection disabled
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean
-Subject: Re: [PATCH][morty] bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
+Received: by 10.107.59.22 with HTTP; Fri, 6 Oct 2017 03:45:16 -0700 (PDT)
+In-Reply-To: <20171005074607.20260-1-n.merinov@inango-systems.com>
+References: <20171005074607.20260-1-n.merinov@inango-systems.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Oct 2017 11:45:16 +0100
+Message-ID: <CAJTo0LZsvj+er5x+GjOQ_sXBGWE2wOhyEJKi=ndjZy2qwMRCSw@mail.gmail.com>
+To: Nikolay Merinov <n.merinov@inango-systems.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utils.bbclass: Support applications with keys in check_app_exist function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,26 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 10:31:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Oct 2017 10:45:35 -0000
+Content-Type: multipart/alternative; boundary="001a114ac18081f5df055ade8ad9"
 
-On 20/09/17 21:30, akuster808 wrote:
-> 
-> merged to stagging.
-> thanks
-> - armin
+--001a114ac18081f5df055ade8ad9
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Armin,
+On 5 October 2017 at 08:46, Nikolay Merinov <n.merinov@inango-systems.com>
+wrote:
 
-Do you plan to merge this into 'morty' soonish?
+> check_app_exist function must support cases when "app" variable defined
+> as "progname --keys". For example BUILD_CC="gcc -march=x86-64" must
+> pass sanity check.
+>
 
-Some users of our BSP layer are asking about this vulnerability.
+Whilst this is useful, -march should be in BUILD_CFLAGS.
 
-Thanks.
+Ross
 
--- 
-Javier Viguera
-Software Engineer
+--001a114ac18081f5df055ade8ad9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">On 5 October 2017 at 08:46, Nikolay Merinov <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:n.merinov@inango-systems.com" target=3D"_blank">n=
+.merinov@inango-systems.com</a>&gt;</span> wrote:<br><div class=3D"gmail_ex=
+tra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">check_app_ex=
+ist function must support cases when &quot;app&quot; variable defined<br>
+as &quot;progname --keys&quot;. For example BUILD_CC=3D&quot;gcc -march=3Dx=
+86-64&quot; must<br>
+pass sanity check.<br></blockquote><div><br></div><div>Whilst this is usefu=
+l, -march should be in BUILD_CFLAGS.</div><div><br></div><div>Ross=C2=A0</d=
+iv></div></div></div>
+
+--001a114ac18081f5df055ade8ad9--
