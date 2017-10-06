@@ -1,49 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 95841780D8
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 349E1780E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 00:51:02 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id e69so15587411pfg.4
+	Fri,  6 Oct 2017 00:51:03 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id i195so8478321pgd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 17:51:04 -0700 (PDT)
+	Thu, 05 Oct 2017 17:51:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=WyVWErJSHCBs8hAPMKozqApdgy6nFK3uhm3Sgi1PbCc=;
-	b=QdvZmZjyPSdG5G46BgqaZF3vyrP/MCUp4Nrd3neMhKr3yCKNgOrZRvzjnGtRfGCEzo
-	xi/BXfTt7TxeILPkNHxYDv0YaSWH5DAy+ZESzXiLUsM4XvUQuhfgDCPij/0mIBFAdcGg
-	t0fXygeuGCJ5YZxVkFOvDRmgJmRkhpJqNcAvLH7FeGtKrSfVLX1JEVL5lsPJ2KyiXiGd
-	EQvtW3Ap9fwRxFM9+PkpNrfjOSXFNLES2MM+qELPZTSqP/lat2XOW5Day9BAJraFotpx
-	HmEmrDtB8dwcVAIZtqbeGKM0S/qsbFQy41nO+SwJuyr5O0p1hQXVbBtOcdOF2oKU4Qng
-	wbkQ==
+	bh=XqTY7NZGkO4geo3MbjulmP7E7RHF6+bhGh1ibVjdYiw=;
+	b=LTDfKVtVDuYWGra6lYoq9DaS0nBNEJ+RZB3ry82INuix0gx+8Sya0VmAGdOpp1RFog
+	oZvz1zT6HPGVwm6Vg3zCofx7VBeM2R27IXPxSybVRrtwyj+yQ8YzBqTLNpuC2ZtNbjj/
+	bggAw5sUv74aTBYSblxCVGGeWMfY1O3t3jBthQurLWMFpgKA5CBahP/fYk11s0yH+tA8
+	kUbm3iUXY9udvBCqVuJVe6H1ItfmkSvCZ2vCjttgiJLfMp5vaK538ImyQIBGTHMJyHcY
+	K7nX/hGH6Y8FgZRJPIpXZDKA8OIC9d9E72+lF9D+n8ZiR4Fq6DutrNbP0aJ8xDLpbvXw
+	qaTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=WyVWErJSHCBs8hAPMKozqApdgy6nFK3uhm3Sgi1PbCc=;
-	b=ineePjEZdVAF8MwNJVXFpjYfHpLYpKGIotenygXhnDEXmCjp3yY5Bm2tfNRf8VfXTt
-	eqTB37LkJYhp2snuZKm2ojPKOUdD+22ZenAt6CKiWgeAdflHxH5K6BWMXVG+4Ux7tF1Q
-	HvpqO4RLjz8bcfMhYNzF9uuGuni/5qgYhR3EufOrY0JP9FG3O/2R2C4zaqipfrRZcQ6E
-	vm3Oivyyutc8qQqr9gkdsmcmmPs0c2by4ynqkYiFYZRTz8fhUeINudH4b3Gy165+xpKA
-	8wkQrFZzNqtmxvsNoZF4rG+JdVHy8/v9xFr0uj7XgF+VXLbBtyZR0AfCtt38oLoThfr8
-	+pzA==
-X-Gm-Message-State: AMCzsaWUM/LPcIKUh2OpGJBQe1r7ROefgGcxLzPUFSYcB1XUG+89JmqU
-	aAEeDwnWfRwlTrF23cELpOGyRQ==
-X-Google-Smtp-Source: AOwi7QATM5zSyJSztaiwfdIX8uxG0q5GDqP6/LhH6VyJp//xTofjD+WA7p83cI0EFxX2iM1//4UtBg==
-X-Received: by 10.84.129.193 with SMTP id b59mr403224plb.121.1507251064231;
-	Thu, 05 Oct 2017 17:51:04 -0700 (PDT)
+	bh=XqTY7NZGkO4geo3MbjulmP7E7RHF6+bhGh1ibVjdYiw=;
+	b=hIjZioekv95t5id+IM5BkUk8incbg5eIY3Q1zefM1pJGCpO9YjqY9qiYh4/jn/9eMj
+	zOr2ysuS0LjwXMm3hqh/sg7NXADOS2PGR88jbARjTmXe0BNw/oqrcbgKhsOM8YoogdAN
+	lzDDkzw0Mm5F0iM7RuNrdzIkTvYgMjEgPOzomYoQLeQqJf8R7Q+6xMDVpGCTCDM3VTEZ
+	muXaFRLRt5KH1OGMk8PTW2Q0/Sy8AJdOvD/Ywtb/gtB0qu2pLc5ctq4tEfJxbKoCGTDJ
+	rujkA+tVlrnIAtAXthhZFkt8mkHVUGb9HOQm4HjOQ8XZYySnUpb/RrsO04rfwn9molkU
+	/ATw==
+X-Gm-Message-State: AMCzsaXI3S4rtpBo+e2H0vQXMwnpwCUYs24ZlOGFI4gCjzIMLerrWW8q
+	5yz6lcx5pjoMWpafuU5/rRjOog==
+X-Google-Smtp-Source: AOwi7QCEvGUtzLzlPM/IL41/NWZ1LliE8D6+kWsg1aqyJMpnotFhxbm2gXfwZrvvq8Ag3muGqyfzxA==
+X-Received: by 10.84.236.74 with SMTP id h10mr390751pln.315.1507251065218;
+	Thu, 05 Oct 2017 17:51:05 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::1f76])
-	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.51.02
+	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.51.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Oct 2017 17:51:03 -0700 (PDT)
+	Thu, 05 Oct 2017 17:51:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 17:50:46 -0700
-Message-Id: <9045558e883211b8abbe8b1d0f6e01070258d485.1507250774.git.raj.khem@gmail.com>
+Date: Thu,  5 Oct 2017 17:50:47 -0700
+Message-Id: <42e0f32bced9a1a9933a856732c68497324eb0ff.1507250774.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <cover.1507250774.git.raj.khem@gmail.com>
 References: <cover.1507250774.git.raj.khem@gmail.com>
-Subject: [PATCH 07/10] gcc: Backport fix for a segfault on riscv
+Subject: [PATCH 08/10] gcc-runtime: Disable libitm on riscv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,85 +55,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 00:51:03 -0000
-
-seen during kernel compile
+X-List-Received-Date: Fri, 06 Oct 2017 00:51:04 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
- ...le-non-legitimate-address-in-riscv_legiti.patch | 50 ++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-index 796e6b1eef..5883bc61a6 100644
---- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0047-sync-gcc-stddef.h-with-musl.patch \
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-+           file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch b/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
-new file mode 100644
-index 0000000000..fe175abecd
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
-@@ -0,0 +1,50 @@
-+From 16210e6270e200cd4892a90ecef608906be3a130 Mon Sep 17 00:00:00 2001
-+From: Kito Cheng <kito.cheng@gmail.com>
-+Date: Thu, 4 May 2017 02:11:13 +0800
-+Subject: [PATCH] RISC-V: Handle non-legitimate address in
-+ riscv_legitimize_move
-+
-+GCC may generate non-legitimate address due to we allow some
-+load/store with non-legitimate address in pic.md.
-+
-+  2017-05-12  Kito Cheng  <kito.cheng@gmail.com>
-+
-+      * config/riscv/riscv.c (riscv_legitimize_move): Handle
-+      non-legitimate address.
-+---
-+Upstream-Status: Backport
-+
-+ gcc/ChangeLog            |  5 +++++
-+ gcc/config/riscv/riscv.c | 16 ++++++++++++++++
-+ 2 files changed, 21 insertions(+)
-+
-+diff --git a/gcc/config/riscv/riscv.c b/gcc/config/riscv/riscv.c
-+index f7fec4bfcf8..d519be1659a 100644
-+--- a/gcc/config/riscv/riscv.c
-++++ b/gcc/config/riscv/riscv.c
-+@@ -1385,6 +1385,22 @@ riscv_legitimize_move (enum machine_mode mode, rtx dest, rtx src)
-+       return true;
-+     }
-+ 
-++  /* RISC-V GCC may generate non-legitimate address due to we provide some
-++     pattern for optimize access PIC local symbol and it's make GCC generate
-++     unrecognizable instruction during optmizing.  */
-++
-++  if (MEM_P (dest) && !riscv_legitimate_address_p (mode, XEXP (dest, 0),
-++						   reload_completed))
-++    {
-++      XEXP (dest, 0) = riscv_force_address (XEXP (dest, 0), mode);
-++    }
-++
-++  if (MEM_P (src) && !riscv_legitimate_address_p (mode, XEXP (src, 0),
-++						  reload_completed))
-++    {
-++      XEXP (src, 0) = riscv_force_address (XEXP (src, 0), mode);
-++    }
-++
-+   return false;
-+ }
-+ 
-+-- 
-+2.14.2
-+
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index ee08529a5f..d3d4bd36a8 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -20,6 +20,8 @@ RUNTIMELIBITM = "libitm"
+ RUNTIMELIBITM_mipsarch = ""
+ RUNTIMELIBITM_nios2 = ""
+ RUNTIMELIBITM_microblaze = ""
++RUNTIMELIBITM_riscv32 = ""
++RUNTIMELIBITM_riscv64 = ""
+ 
+ RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
+     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
 -- 
 2.14.2
 
