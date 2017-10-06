@@ -1,41 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BB9D9780F9
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C019C780B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 12:13:19 +0000 (UTC)
-Received: by mail-wm0-f42.google.com with SMTP id m72so2558163wmc.0
+	Fri,  6 Oct 2017 12:13:20 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id q124so7270706wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Oct 2017 05:13:21 -0700 (PDT)
+	Fri, 06 Oct 2017 05:13:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=EYH9JvmaSb8zMzKisnKss61iEjleXevTB3URCm1ByYw=;
-	b=jSIUGvZYmslxF6y1DNvE0Hy+HHgSKne6zwBDvlf30IUsQX04gXhKmXQTKLnOSV16zK
-	NC06H+JR91JJwuzjUXlkKxu0q+pZLcWnBWnyOXK2WHm1qlP4+KRq4nPoNJJvPqjbf4XG
-	kw4ESLN0TIQrfe9oRu8xo7WOPQG56ql1CAFut7zq1W1x8/2XDTbUMEa2fEP6CaCYRoiG
-	+pMCQuTb3faz/55vWvM3dFsl0IkzGtsIeJVv80g/7LYnCz/ilj0zg9nQjI8Wa1W49W8b
-	BjA6C6vhwKTVljHKhO/2KOYAjUUic0ohCRrPm1Opiw49wmHN02OoiPicLa+VD0fK0Itl
-	1tTA==
-X-Gm-Message-State: AMCzsaUR9fDeaSH5S27wd9w/p+D1NlcchTRRd+OInDSxsEUAMMyrVI1L
-	rKSXjJseftjE9e6qGhfgO++/1GBN
-X-Google-Smtp-Source: AOwi7QBiPeZ1awtR++g//AWl57qvyYY1Rj2y/X3Y77katEI2gnHLj1Vz87Rn6MVAKZ+/lXbn+P9bMg==
-X-Received: by 10.28.100.212 with SMTP id y203mr1567457wmb.64.1507292000301;
-	Fri, 06 Oct 2017 05:13:20 -0700 (PDT)
+	bh=j9W9iXL66ck+DPTfr4DNMURPVQEHc3dns3D6hP3h93s=;
+	b=M93CDJIPMWsFBDV23i3VoGzgsGGUrrTJOWVmoI+bcCpnBxPegRYFE2cKbEh2oghGyy
+	MD0WGt5X81esV5LE1eu/dQcG6n+4rXLM9kLdmYV/EK+PY1iqBtVpIQT8NnnsAU18fX7R
+	HaWV5COrXhn2tBzmV2JXHTra309cXjXF2MdApns1r2f6GxtytWPLA29hld0BOwuq2sR1
+	Vxjz1z5izlNQEnF2s3AfyIHdvnaqyMWdJAyCJyx40/C8EhW/vpI1X5dbR2Q/LPVM4MT/
+	KNOESSp3LsFgeh2UhCuM6HNCymQba+6tqQDA1faKEdFMalndUj6PR+PlwyNEeQ99by2/
+	P/gA==
+X-Gm-Message-State: AMCzsaX+KbPzH0nMfIZGpSvJGmuvFohi5tIBROwCLZsnVU6q+XERDH4g
+	PKEHHZuZrcHmhWmqG1RSqIrBAvdW
+X-Google-Smtp-Source: AOwi7QB2KTjIctr8VDJVe697McjQ9cpXpZmXgI41dpRSIlVAyvXug5xYElRrCxt5LGnYmy09fr54yA==
+X-Received: by 10.28.183.67 with SMTP id h64mr1577617wmf.76.1507292001265;
+	Fri, 06 Oct 2017 05:13:21 -0700 (PDT)
 Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id r15sm994045wrc.30.2017.10.06.05.13.19
+	by smtp.gmail.com with ESMTPSA id r15sm994045wrc.30.2017.10.06.05.13.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Oct 2017 05:13:19 -0700 (PDT)
+	Fri, 06 Oct 2017 05:13:20 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Oct 2017 13:12:51 +0100
-Message-Id: <20171006121259.5817-10-git@andred.net>
+Date: Fri,  6 Oct 2017 13:12:52 +0100
+Message-Id: <20171006121259.5817-11-git@andred.net>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <20171006121259.5817-1-git@andred.net>
 References: <20171006121259.5817-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [pyro][PATCH 09/17] ca-certificates: Fix postinst dependency issues
+Subject: [pyro][PATCH 10/17] kernel-uimage.bbclass: Fix up generation of uImage from vmlinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,67 +48,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 12:13:20 -0000
+X-List-Received-Date: Fri, 06 Oct 2017 12:13:21 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Nathan Rossi <nathan@nathanrossi.com>
 
-We were relying on running ca-certificates from the -native version. This
-meant the host and target path layouts had to match which might not be true,
-it certainly isn't true for the sdk builds.
+Fix up the generation of uImage from vmlinux when KEEPUIMAGE != 'yes'.
+This fixes up the working directory that do_uboot_mkimage is run from,
+such that it is run from the ${B} directory to access built artefacts.
 
-There was a dependency on run-parts which wasn't represented (we can get it
-from busybox or debianutils).
+Simplify the logic in the task so that the parse step either adds the
+task or not if the conditions are met. This reduces the need for the
+task to run in cases when it is not used. The task is also changed to
+depend on the kernel_link_images task as arch/<arch>/boot/* is not
+available until after kernel_link_images in certain cases (e.g.
+vmlinux/uImage only KERNEL_IMAGETYPES).
 
-Since this is an allarch script, call the script directly, making sure debianutils
-and openssl are available as postinst rootfs time to resolve the issues.
+Fix up the use of ${S}/vmlinux when pulling the entry symbols
+address so that it accesses the vmlinux in ${B}.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-(cherry picked from commit d9575e05f2cb8bf293534c036ddc0d0336701256)
+(cherry picked from commit e0b4f018d1c2a65e66c81e5be1da8894e9a6c132)
 Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- .../ca-certificates/ca-certificates_20161130.bb               | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/classes/kernel-uimage.bbclass | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-index 42088b9899..c282ace264 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20161130.bb
-@@ -8,10 +8,11 @@ LICENSE = "GPL-2.0+ & MPL-2.0"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=e7358b9541ccf3029e9705ed8de57968"
- 
- # This is needed to ensure we can run the postinst at image creation time
--DEPENDS = "ca-certificates-native"
-+DEPENDS = ""
- DEPENDS_class-native = "openssl-native"
--DEPENDS_class-nativesdk = "ca-certificates-native openssl-native"
--PACKAGE_WRITE_DEPS += "ca-certificates-native"
-+DEPENDS_class-nativesdk = "openssl-native"
-+# Need c_rehash from openssl and run-parts from debianutils
-+PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
- SRCREV = "61b70a1007dc269d56881a0d480fc841daacc77c"
- 
-@@ -63,7 +64,7 @@ do_install_append_class-target () {
+diff --git a/meta/classes/kernel-uimage.bbclass b/meta/classes/kernel-uimage.bbclass
+index 19c6ade507..7c026abf0b 100644
+--- a/meta/classes/kernel-uimage.bbclass
++++ b/meta/classes/kernel-uimage.bbclass
+@@ -15,23 +15,21 @@ python __anonymous () {
+             typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
+             if "uImage" in typeformake.split():
+                 d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('uImage', 'vmlinux'))
++
++            # Enable building of uImage with mkimage
++            bb.build.addtask('do_uboot_mkimage', 'do_install', 'do_kernel_link_images', d)
  }
  
- pkg_postinst_${PN} () {
--    SYSROOT="$D" update-ca-certificates
-+    SYSROOT="$D" $D${sbindir}/update-ca-certificates
- }
++do_uboot_mkimage[dirs] += "${B}"
+ do_uboot_mkimage() {
+-	if echo "${KERNEL_IMAGETYPES}" | grep -wq "uImage"; then
+-		if test "x${KEEPUIMAGE}" != "xyes" ; then
+-			uboot_prep_kimage
+-
+-			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+-			if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
+-				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+-					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
+-			fi
++	uboot_prep_kimage
  
- CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
-@@ -71,7 +72,7 @@ CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
- # Postinsts don't seem to be run for nativesdk packages when populating SDKs.
- CONFFILES_${PN}_append_class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
- do_install_append_class-nativesdk () {
--    SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
-+    SYSROOT="${D}${SDKPATHNATIVE}" ${D}${sbindir}/update-ca-certificates
- }
+-			uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
+-			rm -f linux.bin
+-		fi
++	ENTRYPOINT=${UBOOT_ENTRYPOINT}
++	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
++		ENTRYPOINT=`${HOST_PREFIX}nm ${B}/vmlinux | \
++			awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
+ 	fi
+-}
  
- do_install_append_class-native () {
+-addtask uboot_mkimage before do_install after do_compile
++	uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C "${linux_comp}" -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin ${B}/arch/${ARCH}/boot/uImage
++	rm -f linux.bin
++}
 -- 
 2.14.2
 
