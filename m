@@ -1,48 +1,18 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BE00780D3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 00:51:06 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id b11so7813934pgn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 17:51:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Pgm44QkaYlKZr9g4stcOAhLs2w3GWQtJ6/KdfeV8VNI=;
-	b=KSwi2W43+YmHJnmi+4Q5gKcZ0RI8XM8AiDgb4RSP6EKubYwaUw/ReTI0muvykkdKfz
-	xobrtrbN9HiIQFYKvbMgjK8s5akI2KyxBy/SLibdIJV5jaJIdPWK62ZP5CIkcJeZqNZH
-	8NQyEg2N4bXQm1QFXENs0wFegHC+AGKKUZOLO2XqWaIk9xg76fi4r0yKywrMtH26pdHu
-	cwefp782NpZ6PmT3y3+vyk9yLFsl3O9geAOoej+yjfsGyr3n5qeydorw3yahOWLquvcP
-	tSOOi3JDa5tMia4OvndbP1o8+k5naNd8fbjbmfBknztAImZ8eYegh+erTI89yuFwMM6W
-	1h6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Pgm44QkaYlKZr9g4stcOAhLs2w3GWQtJ6/KdfeV8VNI=;
-	b=DfhZS1RPgSWkpuAneWWLTjs/kGz+ZhvLL26xqXM8JihMi5CH11PGEvjN1pRn5M8iRV
-	UqrN5Xe8HhiPZKMu2vq+Kd/8exdOmDvvn8MaOZVwtSVXpyIfJxq2R60BtU5chqz2/dxH
-	FW37JasV5FP9oHW1DlRTpaozg6u9EKzme0CBbtRzBwXPLmHd4YaHtpCuXGu1YMBu9f3e
-	Lu/nkUWZREoT/S91cRNX4pke8Om8hF3AtCX14uU95dridISIbhsUsSVz0U7wQQe4yAdK
-	B+URcIagLLGNOLoHdDr5JwGzGRHKeBDJE0QIthwkRnMmeySGjfh07xcT91pgRAUME1Iq
-	PFSQ==
-X-Gm-Message-State: AMCzsaUHk6cwov5d5BIocVrLkjhbkntiw8HGv0bwg6zhn7CR0K0beUDc
-	UaUN261tvUx2ysHnU72oytRu2g==
-X-Google-Smtp-Source: AOwi7QDFLeDVGrj9m51h5FTucRx0DL5PJCOlfRWxPFGiHRMeg/M8Uf4NlhpaH8SwM/11MvRLcMpNyQ==
-X-Received: by 10.159.253.150 with SMTP id q22mr413209pls.84.1507251067455;
-	Thu, 05 Oct 2017 17:51:07 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::1f76])
-	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.51.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Oct 2017 17:51:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 17:50:49 -0700
-Message-Id: <eb96dfefc160bdb993345a46db2e18c4990ced3a.1507250774.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.2
-In-Reply-To: <cover.1507250774.git.raj.khem@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 24CCD77E13;
+	Fri,  6 Oct 2017 01:00:30 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 06 Oct 2017 01:00:31 -0000
+Message-ID: <20171006010031.2786.50773@do.openembedded.org>
 References: <cover.1507250774.git.raj.khem@gmail.com>
-Subject: [PATCH 10/10] openssl: Add support for riscv32/riscv64
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1507250774.git.raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIGZvdW5kYXRpb24gZm9yIHJpc2N2IGFyY2hpdGVjdHVyZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +25,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 00:51:06 -0000
+X-List-Received-Date: Fri, 06 Oct 2017 01:00:30 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+== Series Details ==
+
+Series: Add foundation for riscv architecture
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9254/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-connectivity/openssl/openssl10.inc     | 6 ++++++
- meta/recipes-connectivity/openssl/openssl_1.1.0f.bb | 6 ++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl10.inc b/meta/recipes-connectivity/openssl/openssl10.inc
-index a710e9e25a..469775582b 100644
---- a/meta/recipes-connectivity/openssl/openssl10.inc
-+++ b/meta/recipes-connectivity/openssl/openssl10.inc
-@@ -135,6 +135,12 @@ do_configure () {
- 	linux-powerpc64)
- 		target=linux-ppc64
- 		;;
-+	linux-riscv64)
-+		target=linux-generic64
-+		;;
-+	linux-riscv32)
-+		target=linux-generic32
-+		;;
- 	linux-supersparc)
- 		target=linux-sparcv8
- 		;;
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.0f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.0f.bb
-index 711a95985a..4517f8734a 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.0f.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.0f.bb
-@@ -95,6 +95,12 @@ do_configure () {
- 	linux-powerpc64)
- 		target=linux-ppc64
- 		;;
-+	linux-riscv64)
-+		target=linux-generic64
-+		;;
-+	linux-riscv32)
-+		target=linux-generic32
-+		;;
- 	linux-supersparc)
- 		target=linux-sparcv9
- 		;;
--- 
-2.14.2
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
