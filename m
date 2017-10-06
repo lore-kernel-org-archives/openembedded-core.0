@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 349E1780E4
+Received: from mail-pg0-f54.google.com (mail-pg0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FFB6780BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 00:51:03 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id i195so8478321pgd.3
+	Fri,  6 Oct 2017 00:51:04 +0000 (UTC)
+Received: by mail-pg0-f54.google.com with SMTP id v13so9123444pgq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 17:51:05 -0700 (PDT)
+	Thu, 05 Oct 2017 17:51:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=XqTY7NZGkO4geo3MbjulmP7E7RHF6+bhGh1ibVjdYiw=;
-	b=LTDfKVtVDuYWGra6lYoq9DaS0nBNEJ+RZB3ry82INuix0gx+8Sya0VmAGdOpp1RFog
-	oZvz1zT6HPGVwm6Vg3zCofx7VBeM2R27IXPxSybVRrtwyj+yQ8YzBqTLNpuC2ZtNbjj/
-	bggAw5sUv74aTBYSblxCVGGeWMfY1O3t3jBthQurLWMFpgKA5CBahP/fYk11s0yH+tA8
-	kUbm3iUXY9udvBCqVuJVe6H1ItfmkSvCZ2vCjttgiJLfMp5vaK538ImyQIBGTHMJyHcY
-	K7nX/hGH6Y8FgZRJPIpXZDKA8OIC9d9E72+lF9D+n8ZiR4Fq6DutrNbP0aJ8xDLpbvXw
-	qaTQ==
+	bh=Y8887ziTVaKR88syUL8rTzaUUR/1MNgAfEolbvVNL0A=;
+	b=RxUYSB9EMvuEH3sRsrSfRn5kYXHalkn6fT/zY6T/mX+iUUgpzzim1hBb9/KgwFz7t9
+	1JTXPZbjfYFzhb9W0C1qn2gdGVWwK2mQHr8MmWaAELBL6trXCMTJ4YbbGPRYJGISoG/Z
+	ZNR/TWfP6vQQeUmK5fGnEYZS9f+XO7Cm53JfYdT0Rxi1pThQwPvZrh1Iz441Nepv3Rw6
+	IrorB/GnV2BQ9+dvr7lWLnrt/0aYjXf0q5F6556nOqszCXfpluu6QogdoohExkjPZjmz
+	3oC9GvDLa6pVOHu12r89dViWtokQhDZrHj6JyuOPbI6e03H6vNSw1UTTY1vYTm02ObmL
+	wouw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=XqTY7NZGkO4geo3MbjulmP7E7RHF6+bhGh1ibVjdYiw=;
-	b=hIjZioekv95t5id+IM5BkUk8incbg5eIY3Q1zefM1pJGCpO9YjqY9qiYh4/jn/9eMj
-	zOr2ysuS0LjwXMm3hqh/sg7NXADOS2PGR88jbARjTmXe0BNw/oqrcbgKhsOM8YoogdAN
-	lzDDkzw0Mm5F0iM7RuNrdzIkTvYgMjEgPOzomYoQLeQqJf8R7Q+6xMDVpGCTCDM3VTEZ
-	muXaFRLRt5KH1OGMk8PTW2Q0/Sy8AJdOvD/Ywtb/gtB0qu2pLc5ctq4tEfJxbKoCGTDJ
-	rujkA+tVlrnIAtAXthhZFkt8mkHVUGb9HOQm4HjOQ8XZYySnUpb/RrsO04rfwn9molkU
-	/ATw==
-X-Gm-Message-State: AMCzsaXI3S4rtpBo+e2H0vQXMwnpwCUYs24ZlOGFI4gCjzIMLerrWW8q
-	5yz6lcx5pjoMWpafuU5/rRjOog==
-X-Google-Smtp-Source: AOwi7QCEvGUtzLzlPM/IL41/NWZ1LliE8D6+kWsg1aqyJMpnotFhxbm2gXfwZrvvq8Ag3muGqyfzxA==
-X-Received: by 10.84.236.74 with SMTP id h10mr390751pln.315.1507251065218;
-	Thu, 05 Oct 2017 17:51:05 -0700 (PDT)
+	bh=Y8887ziTVaKR88syUL8rTzaUUR/1MNgAfEolbvVNL0A=;
+	b=BiTEJstUfN3xPqD1eAk9sOcD/nDiHzkmAZhJOq9Mi9fOIBnZoLKBDRLhVXE6Na+5MC
+	keij0LrtdfM8wOXjiRu6Xq9EbI6J4TOA0GNzq481zVIGfhCoAP7AyJ+jGZ2AACaZtc8X
+	eFl+aiyY8qNookAvqpNVGZDvaYfTIjZLccX9m4juzzYBAuUHKpcf3dOxHn19zRb3A9op
+	6TvHAfhz5SQqJB06gN5npebXETqHaagVvr5SO/CI/rwZmddmxRbXKC65H8sJdUewjVrj
+	Xa7k/CpCYmybuTrizg7EFW0s5J9HWsIPpaz1oxtg05RnG+H/v7rFPVQfUvlsvEbihS8z
+	xWYw==
+X-Gm-Message-State: AMCzsaXj1TAQ48U5pQ2w4HsYJmS3QL7SYZay6zlll8lpblP9k36zxe0S
+	9YY30xjHz969HbWqx7pXiHIWsg==
+X-Google-Smtp-Source: AOwi7QCppX0q5grt/TZIxjOMPw7E5nZOzzBvDZNLup9XF+KITE1/zu6VtbU+SOqAJApSqaUHnbbnuw==
+X-Received: by 10.84.235.76 with SMTP id g12mr408161plt.338.1507251066361;
+	Thu, 05 Oct 2017 17:51:06 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::1f76])
-	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.51.04
+	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.51.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Oct 2017 17:51:04 -0700 (PDT)
+	Thu, 05 Oct 2017 17:51:05 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 17:50:47 -0700
-Message-Id: <42e0f32bced9a1a9933a856732c68497324eb0ff.1507250774.git.raj.khem@gmail.com>
+Date: Thu,  5 Oct 2017 17:50:48 -0700
+Message-Id: <05a4310d120918678aa3de7654ed21f2433f7e63.1507250774.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <cover.1507250774.git.raj.khem@gmail.com>
 References: <cover.1507250774.git.raj.khem@gmail.com>
-Subject: [PATCH 08/10] gcc-runtime: Disable libitm on riscv
+Subject: [PATCH 09/10] elfutils: Fix missing library on linker cmdline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +55,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 00:51:04 -0000
+X-List-Received-Date: Fri, 06 Oct 2017 00:51:05 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/elfutils/elfutils_0.170.bb   |  1 +
+ ...0001-libasm-may-link-with-libbz2-if-found.patch | 39 ++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index ee08529a5f..d3d4bd36a8 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -20,6 +20,8 @@ RUNTIMELIBITM = "libitm"
- RUNTIMELIBITM_mipsarch = ""
- RUNTIMELIBITM_nios2 = ""
- RUNTIMELIBITM_microblaze = ""
-+RUNTIMELIBITM_riscv32 = ""
-+RUNTIMELIBITM_riscv64 = ""
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.170.bb b/meta/recipes-devtools/elfutils/elfutils_0.170.bb
+index 8a339e48c9..3b81e287b0 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.170.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.170.bb
+@@ -17,6 +17,7 @@ SRC_URI += "\
+         file://0005-fix-a-stack-usage-warning.patch \
+         file://0006-Fix-build-on-aarch64-musl.patch \
+         file://0007-Fix-control-path-where-we-have-str-as-uninitialized-.patch \
++        file://0001-libasm-may-link-with-libbz2-if-found.patch \
+ "
+ SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch"
  
- RUNTIMETARGET = "libssp libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
-     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
+diff --git a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch b/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+new file mode 100644
+index 0000000000..fb0b060b4b
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+@@ -0,0 +1,39 @@
++From 7672e363468271b4c63ff58770c5aac15ab8f722 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 4 Oct 2017 22:30:46 -0700
++Subject: [PATCH] libasm may link with libbz2 if found
++
++This can fail to link binaries like objdump
++where indirect libraries may be not found by linker
++
++| /mnt/a/oe/build/tmp/work/riscv64-bec-linux/elfutils/0.170-r0/recipe-sysroot/usr/lib/libbz2.so.1: error adding symbols: DSO missing from command line
++| collect2: error: ld returned 1 exit status
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ src/Makefile.am | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/Makefile.am b/src/Makefile.am
++index e03bc32..9b7e853 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -39,11 +39,11 @@ EXTRA_DIST += make-debug-archive.in
++ CLEANFILES += make-debug-archive
++ 
++ if BUILD_STATIC
++-libasm = ../libasm/libasm.a
+++libasm = ../libasm/libasm.a $(zip_LIBS)
++ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl
++ libelf = ../libelf/libelf.a -lz
++ else
++-libasm = ../libasm/libasm.so
+++libasm = ../libasm/libasm.so $(zip_LIBS)
++ libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
++ libelf = ../libelf/libelf.so
++ endif
++-- 
++2.14.2
++
 -- 
 2.14.2
 
