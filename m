@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 71DB9780BD
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0789E719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 00:50:56 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id g65so15606902pfe.1
+	Fri,  6 Oct 2017 00:50:57 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id g65so15606923pfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Oct 2017 17:50:58 -0700 (PDT)
+	Thu, 05 Oct 2017 17:50:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YD62y6Nq1sdjb9UEdJTdIA/JH7569tclkIChd7I9d/Y=;
-	b=ujUaCxrxoakkD+3rf8L0OJvwmM9MEB6nKmq+P1SHisjYQ6EV7lQ2ujk1yGUbDAJf6f
-	eavOuHhKfWU4OD4ApqvAvZaguECQ4vQmwTRbxrtg8oinHebViTgEeSQ3iKEIJY9svHuW
-	889s96GxORy/Ng8WmBg3nsplV84tUeVDv0sf/6wuyaUTytvrKxtbfVQ1hVEZ53W+hhVy
-	hqAv19X0goCKNa9mI9C+RW6cwoOu6n1J4OvzlpFJ23iEpGArMN82WN05BXypUdA7lg7l
-	NQQK10oEy+u2pqNh2T7rbK4OI1El5S8HDX8vQEFZCvsO0AmKZelld2v2IcEEe8NVPOYh
-	1eQA==
+	bh=97CUiX6dyWEwJCP5feQTZMZ6UVEceGS7I0i+Pioj+JM=;
+	b=CDgTHqvLnI5BBSTIriMJTE1ATzrGG+8Tj3aiPK+IWJv3eegRVSp2+uy90WbXUY0f45
+	uLIyET85kSmarAm90fIqZBTKJ4uPULqQKdVfO2ByYFgj9d0rTUXhPlS+c5+Ox0w8+jrw
+	eVvOLI1gaDF6RNWoQkt4LNLkVN6+RJ3hDcSxPkZdovdTnfCyakqJidL6aBizHJcy5AZn
+	FLbHocq9f8+j1nYUGvd/zagPXLtbJ3U7ARHNno3a5zzUYl8FsKNgm8FJkvu9ZWQsxNuZ
+	vDqXgB81EhKh+ilmLLtfJiRteZWdKpi0/WC4GckwjgOO+AUrP4j/Z7PdXjPSevD8NgBj
+	Tw7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=YD62y6Nq1sdjb9UEdJTdIA/JH7569tclkIChd7I9d/Y=;
-	b=TA0XvtNyL9LaQkQ47QNoHyU+atxjE/pwTjw0G9iMtruLrB3Q+SGlOb97oCvm7JWW7h
-	jmsarTKY+pXagGLUZrDOhp2mJIWDEr9+WOuCF2rP8o82sKzsliJtqEFQNUU0l9R0ciL6
-	X4ElMKy0rJ9w62l5kxriqYZKyWDcctLW4blHhaD4ca5AG9CPHDEcvBJ8O16+0UxxCgbb
-	sYFQz8RkZgotG2fCN2txPbqIwaBRfnFVcePXiWto3AQ+b+j20yVX8cA3bp+rQaApqOM+
-	BekyhhIR7GzY+HikAqspl1yrTtzAqTR4GfhPAGwuI/79Zw8Ymdom6Hb/wSCOP2DLi3VD
-	rB3g==
-X-Gm-Message-State: AMCzsaVOL4++1HcnuC/AYvXutY0NfpmtTF94J7BjRgA3gBYC/IzVGkw0
-	tP+/NCyM3pkgj7mXnJdL+iIxLA==
-X-Google-Smtp-Source: AOwi7QCUCiw0yT5qPUI3BFoJq20kr36lG6cjuLhhL4ZluVluycd90Zsg5l80+1F2uOkEFwA1o2wyJg==
-X-Received: by 10.99.43.4 with SMTP id r4mr406703pgr.380.1507251057947;
-	Thu, 05 Oct 2017 17:50:57 -0700 (PDT)
+	bh=97CUiX6dyWEwJCP5feQTZMZ6UVEceGS7I0i+Pioj+JM=;
+	b=r1tc/RBlhPlqGjKJLKRdf89eCo8dPuRJMPmdcl4FBTegFZ2/RL05IYe+zgAW51DNGq
+	io0YD2klI9hB8VlalVsuNOxhteA9a7mV3D3dnYmfIXD4/AahXmoK7z2ukEQ+iD8NZoKW
+	62nr+A/G4Qwna/FBVBllmLsySLY3YfBgpBuxEdh8ZQLagP1/iid9yF+n/UVemE1jA2qm
+	OTUNvk4Xn9O5zW0SaS4w3DayP24y2cAkEIu8PG0Bt8NnNcAy4Uq3qHD8MkgIxQ0dAr4N
+	cpMqhHeOnp17cOfBmCKSbsaBWFK7s7srIhAGBOFGwx3skbU1R/GR7Rh8Z9W3ev0A61Ss
+	+y+g==
+X-Gm-Message-State: AMCzsaVjJppuvJLLxcs9AGXJH60AIJ+GZ4i9IGcGIViVOQ7zCiKVfEhW
+	TyoT3MpDB/aHPlUv+8kROT3X9A==
+X-Google-Smtp-Source: AOwi7QCOcTbaj7oWBtIiZ6HFplQQEAkB0mROTAGnwak2LDNB5g0rbC+BdHY4zHJEInWj9bJF5YBQkQ==
+X-Received: by 10.84.217.210 with SMTP id d18mr412971plj.157.1507251059088;
+	Thu, 05 Oct 2017 17:50:59 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::1f76])
-	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.50.56
+	by smtp.gmail.com with ESMTPSA id o128sm259308pga.5.2017.10.05.17.50.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Oct 2017 17:50:57 -0700 (PDT)
+	Thu, 05 Oct 2017 17:50:58 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Oct 2017 17:50:41 -0700
-Message-Id: <f8af837248f8a07733f9066891d7c045bbc8250e.1507250774.git.raj.khem@gmail.com>
+Date: Thu,  5 Oct 2017 17:50:42 -0700
+Message-Id: <794e2c27270d2d908672bf4f6bab747e3ff47fd2.1507250774.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <cover.1507250774.git.raj.khem@gmail.com>
 References: <cover.1507250774.git.raj.khem@gmail.com>
-Subject: [PATCH 02/10] insane: Add entries for riscv 32bit/64bit
+Subject: [PATCH 03/10] siteinfo: Define data for riscv32 and riscv64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 00:50:56 -0000
+X-List-Received-Date: Fri, 06 Oct 2017 00:50:58 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/insane.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/siteinfo.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 0a3b528ddb..def9c707a4 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -94,6 +94,8 @@ def package_qa_get_machine_dict(d):
-                         "mipsisa64r6":   ( 8,  0,    0,          False,         64),
-                         "mipsisa64r6el": ( 8,  0,    0,          True,          64),
-                         "nios2":      (113,    0,    0,          True,          32),
-+                        "riscv":      (243,    0,    0,          True,          32),
-+                        "riscv64":    (243,    0,    0,          True,          64),
-                         "s390":       (22,     0,    0,          False,         32),
-                         "sh4":        (42,     0,    0,          True,          32),
-                         "sparc":      ( 2,     0,    0,          False,         32),
-@@ -119,6 +121,8 @@ def package_qa_get_machine_dict(d):
-                         "microblaze":  (189,     0,    0,          False,         32),
-                         "microblazeeb":(189,     0,    0,          False,         32),
-                         "microblazeel":(189,     0,    0,          True,          32),
-+                        "riscv":      (243,      0,    0,          True,          32),
-+                        "riscv64":    (243,      0,    0,          True,          64),
-                         "sh4":        (  42,     0,    0,          True,          32),
-                       },
-             "uclinux-uclibc" : {
+diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
+index 1aada40695..29cd2aa82b 100644
+--- a/meta/classes/siteinfo.bbclass
++++ b/meta/classes/siteinfo.bbclass
+@@ -47,6 +47,8 @@ def siteinfo_data(d):
+         "ppc": "endian-big bit-32 powerpc-common",
+         "ppc64": "endian-big bit-64 powerpc-common",
+         "ppc64le" : "endian-little bit-64 powerpc-common",
++        "riscv32": "endian-little bit-32 riscv-common",
++        "riscv64": "endian-little bit-64 riscv-common",
+         "sh3": "endian-little bit-32 sh-common",
+         "sh4": "endian-little bit-32 sh-common",
+         "sparc": "endian-big bit-32",
+@@ -95,6 +97,10 @@ def siteinfo_data(d):
+         "powerpc64-linux-muslspe": "powerpc-linux powerpc64-linux",
+         "powerpc64-linux": "powerpc-linux",
+         "powerpc64-linux-musl": "powerpc-linux",
++        "riscv32-linux": "riscv32-linux",
++        "riscv32-linux-musl": "riscv32-linux",
++        "riscv64-linux": "riscv64-linux",
++        "riscv64-linux-musl": "riscv64-linux",
+         "x86_64-cygwin": "bit-64",
+         "x86_64-darwin": "bit-64",
+         "x86_64-darwin9": "bit-64",
 -- 
 2.14.2
 
