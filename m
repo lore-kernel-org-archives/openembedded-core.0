@@ -1,55 +1,22 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 976BA71D9F
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F1C616093C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 22:34:40 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id b11so10444324pgn.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Oct 2017 15:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=KFQMby8eY0Ejv6I1WMxNUgWAwTYNZPWCP3x2Iwrha/c=;
-	b=MtGrTwgjUxrXPAcDBsYzpilAQxkoo4p25eOAX6L26ztRjqHbTeNcGmaePTtDSH2lB8
-	41/Hyq6gGiLkuTYVeb7a0bw1Bo3zufDVTls3g1sEsK2OI7gctkHo99WcbvTpFtGM6fxA
-	w0r8zqnU4lNJ0zI84RgEjTYsZ2jRWCKwO4vwLNbwsK6skEz3oxcMo07y3l2Ldw3orkUU
-	nhCU6N5mF8cYBfCypCVtrokq9dHeA7yhDR83W+Xrm6a1ecALoKJ1o0h7T8ApH7X9SHaF
-	8h51ePkhZ5iFyf4OiiCy1e7RinOzSbW7T/3QnzkKqIDj6PebqrZ2pEveJUwhMmF1tRYy
-	V8ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=KFQMby8eY0Ejv6I1WMxNUgWAwTYNZPWCP3x2Iwrha/c=;
-	b=l5W6r+oRHW0P/wngoHAd+O5Q4fNsDrmNoJE6HBbjPC8zzR5bvRw7wf3RtcZwOPMfKT
-	NgtHDcMcpFidYK+M8dEva6iMJjafH/ZZtmm+fpsFDIhZOEQpRtqqd/25vonB5OteqUpb
-	jdO5z3FopmFxBGckyyrgxSRsy1JObnSTiQE5ID/JtrMf7NJHzNyfssXsfQFkv4zUHpCL
-	zbsbXrwdXBaiOkbQkuBIzk4kNvMEcVkakJqYg0HHeLJI0wKb5heHEem3u4pBgv/y6OBO
-	OU+H8pdklw5Ttr6FvaAm4jMp0NLO18IYV9EzE6cPzKL6ipfeYsdMydcTL+nGHg8O2Wxh
-	NFtg==
-X-Gm-Message-State: AMCzsaVwShFvRswEVYnE2VpJSrLUftZI1I9mVp67An11dPus0Kycawei
-	MXs0i3TSWPJoOZZsSqC7r5F3rQ==
-X-Google-Smtp-Source: AOwi7QA+whGcA3Je71VtdSTkSEizgk0eHYzQ05HbuK6+aGcJPx79uX9ovc9rhGHm4HXpFyC8wsZFeg==
-X-Received: by 10.99.120.3 with SMTP id t3mr3138432pgc.388.1507329281537;
-	Fri, 06 Oct 2017 15:34:41 -0700 (PDT)
-Received: from ?IPv6:2601:202:4001:9ea0:2592:db33:fab5:1bd8?
-	([2601:202:4001:9ea0:2592:db33:fab5:1bd8])
-	by smtp.gmail.com with ESMTPSA id 68sm4979785pfo.24.2017.10.06.15.34.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Oct 2017 15:34:41 -0700 (PDT)
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <cover.1507301999.git.akuster808@gmail.com>
-	<CAJ86T=Xw7rBZ_2N2NT1kWKwspx9S88wmASx5mgxxGYcG4QqBVA@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <0a9943ac-68c6-ef68-5182-5e39d442424e@gmail.com>
-Date: Fri, 6 Oct 2017 15:34:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Xw7rBZ_2N2NT1kWKwspx9S88wmASx5mgxxGYcG4QqBVA@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/16] Morty next pull request
+	Fri,  6 Oct 2017 23:31:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Oct 2017 16:30:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,486,1500966000"; d="scan'208";a="1179528070"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga001.jf.intel.com with ESMTP; 06 Oct 2017 16:30:54 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Oct 2017 16:30:46 -0700
+Message-Id: <1507332646-37100-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] e2fsprogs: modify ptest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,121 +29,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 22:34:40 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+X-List-Received-Date: Fri, 06 Oct 2017 23:31:08 -0000
 
+e2fsprog testsuite used to log results into its own log file into
+/usr/lib/e2fsprogs/ptest/test.log. Therefore console output was not available and
+redirecting ptest-runner output into a log file would not capture output of any
+individual tests. So overall the whole e2fsprogs testsuite consisting of about
+300 tests was evaluated as a single test.
 
-Hello Andre,
+This patch ensures the e2fsprogs test_script output is not automatically redirected
+while executing during run-ptest. Any redirection is up to the user.
+Additionally, the results of tests are prefixed by more canonical "PASS:" FAIL:"
+based on the actual test results.
 
-On 10/06/2017 02:28 PM, Andre McCurdy wrote:
-> Hi Armin,
->
-> On Fri, Oct 6, 2017 at 8:02 AM, Armin Kuster <akuster808@gmail.com> wro=
-te:
->> Cover letter only
->>
->> Please consider these changes for Morty.
->> Clean build on AB
-> I guess these changes are too late for this round but please consider
-> for the next one:
-For this current request yes. This current set was held up by build
-issues and I did not want to add any more variations in until we got
-things sorted out.
-This does not stop me from queuing yours up and getting a build going. I
-do need to double check Pyro to ensure the changes are there all ready.
-=C2=A0
-thanks for the patches.
+Aditionally, remove various files created by the testsuite.
 
-- armin
->
->   http://lists.openembedded.org/pipermail/openembedded-core/2017-Octobe=
-r/142985.html
->
->> The following changes since commit e2fcc721c2af8e2785a91eaceea1d81f503=
-ea2ec:
->>
->>   devtool.py: update testcase Ids in morty (2017-09-25 22:21:45 +0100)=
+[YOCTO #12146]
 
->>
->> are available in the git repository at:
->>
->>   git://push.yoctoproject.org/poky-contrib akuster/morty-next
->>
->> Alexander Kanavin (1):
->>   v86d: take tarball from debian
->>
->> Armin Kuster (7):
->>   linux-yocto/4.1: update to 4.1.43 plus bluetooth CVE-2017-1000251
->>   linux-yocto/4.4: update to 4.4.87 plus bluetooth: CVE-2017-1000251
->>   lunux-yocto/4.8: update to 4.8.25 plus bluetooth: CVE-2017-1000251
->>   linux-yotoc/4.1: update to 4.1.43 plus CVE-2017-1000251
->>   linux-yotoc/4.4: update to 4.4.87 plus CVE-2017-1000251
->>   linux-yotoc/4.8: update to 4.8.25 plus CVE-2017-1000251
->>   libpng: lsb version 1.2.56 url fix
->>
->> Bruce Ashfield (1):
->>   linux-yocto/4.1: fix gcc7 compilation and v4.1.39
->>
->> Leonardo Sandoval (2):
->>   selftest/cases/signing: ignore removal errors when cleaning temporar=
-y
->>     gpg directory
->>   sign_rpm.bbclass: force rpm serial signing
->>
->> Maxin B. John (1):
->>   hostap-utils: use w1.fi for SRC_URI
->>
->> Nicolas Dechesne (1):
->>   kernel.bbclass: fix KERNEL_IMAGETYPE(S) for Image.gz
->>
->> Ross Burton (3):
->>   bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
->>   diffstat: use HTTP mirror for SRC_URI
->>   libpng: use SourceForge mirror
->>
->>  .../recipes-kernel/linux/linux-yocto_4.1.bbappend  | 20 ++++++-------=
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
->>  .../recipes-kernel/linux/linux-yocto_4.4.bbappend  | 20 ++++++-------=
-
->>  .../recipes-kernel/linux/linux-yocto_4.8.bbappend  | 20 ++++++-------=
-
->>  meta/classes/kernel.bbclass                        | 18 ++++++------
->>  meta/classes/sign_rpm.bbclass                      |  6 ++++
->>  meta/lib/oeqa/selftest/signing.py                  |  7 +++--
->>  meta/recipes-bsp/hostap/hostap-utils.inc           |  5 ++--
->>  meta/recipes-bsp/v86d/v86d_0.1.10.bb               |  6 ++--
->>  meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
->>  .../bluez5/bluez5/cve-2017-1000250.patch           | 34 +++++++++++++=
-+++++++++
->>  meta/recipes-devtools/diffstat/diffstat_1.61.bb    |  2 +-
->>  meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-rt_4.8.bb    |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_4.4.bb  |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_4.8.bb  |  6 ++--
->>  meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 20 ++++++-------=
-
->>  meta/recipes-kernel/linux/linux-yocto_4.4.bb       | 20 ++++++-------=
-
->>  meta/recipes-kernel/linux/linux-yocto_4.8.bb       | 20 ++++++-------=
-
->>  meta/recipes-lsb4/libpng/libpng12_1.2.56.bb        |  6 ++--
->>  meta/recipes-multimedia/libpng/libpng_1.6.24.bb    |  6 ++--
->>  22 files changed, 145 insertions(+), 102 deletions(-)
->>  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/cve-2017-1=
-000250.patch
->>
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index e02fc7f..ef10b08 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -1,11 +1,10 @@
+ #!/bin/sh
+ 
+ cd ./test
+-./test_script &>../test.log
+-if [ $? -eq 0 ]
+-then
+-	echo "PASS: e2fsprogs"
+-	rm ../test.log
+-else
+-	echo "FAIL: e2fsprogs"
+-fi
++./test_script | sed -u -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
++rm -rf /var/volatile/tmp/*e2fsprogs*
++rm -f tmp-*
++rm -f *.tmp
++rm -f *.ok
++rm -f *.failed
++rm -f *.log
+-- 
+2.7.4
 
 
