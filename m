@@ -1,40 +1,58 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr0-f177.google.com (mail-wr0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id DB6E278243
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f182.google.com (mail-pf0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 7387578228
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 14:19:21 +0000 (UTC)
-Received: by mail-wr0-f177.google.com with SMTP id z1so4344753wre.3
+	Fri,  6 Oct 2017 14:49:15 +0000 (UTC)
+Received: by mail-pf0-f182.google.com with SMTP id a1so6432246pfj.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Oct 2017 07:19:23 -0700 (PDT)
+	Fri, 06 Oct 2017 07:49:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=eJVdekWjvP/81UPyqH01uHWgHse/KAd9czXK711eMVg=;
+	b=X5+BqIn9gCbVE1jqdiukPm5JzlYA44tIrMTLBp/p1nWCXdOXE8zZgVeiEYULPQAL9D
+	dbNN8GlNRMhXzOIbX+yQAxE3EfmBTDMWl6sy9cCf95/8CIgRmmsmmWSsDwapmk5PzaFl
+	dVnyNsdI22RaFxnvSDkBR3Ple/IgmkLN231Xc/faqrx+O4AvqlFTt/qrrFJNOnY/49vc
+	7StQEKAPjt5TzsAgbw41p3u8VeswOU+smrKwkDSagEaW2gGvQH7Q18aRvZdYz4Wugn2k
+	zkZ9ka31ou64qBowpRd8JTfD5uPdXsgAq/Jca7Sj99wqloUugdIigs5ZjqVUJAIX+bcD
+	6GFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=aBklO6x4WC//1urqF66YlPvVm+Xc4ShNJwKUQwwnJTw=;
-	b=VjMfcJ56EyZwbpDz6KC2KnmNfVpsshBonBBexWT3mFEGSUwYeu2YXKASknOvRtzlNq
-	rJstp1TxdLoDEdixQrPTjJ6DPuSkzmgoUrY4uI+ynAGBkBTT6X9Yz+Z8N6q22CAEp95Y
-	7M96d03DsJC1TRAnRCGeMBkX9w0dvveE17A1yKwmk7DfSBQQO0VER+0SOpnKCCP9wd//
-	vlL5p5OZIbwBBHBbd7Yqt50pDv25DWFReiGXB/sDO/ZwY8+hm1IT4SNr8/7deHxBXWZr
-	1hltyYoUBPeOfQwFJ3bPuAsbi0/E0YUa/DUYSRNLH8X8Eo4pPjWjcAwz8ET7bBzJ2dt1
-	62qg==
-X-Gm-Message-State: AMCzsaX3jdsm6tnuEpV+TvtCu8oLcWsnSrFbE/sZCbuorIjn5m6mt+3D
-	UvfoyDb5XH8x2hxKMjAAj19JBAhV
-X-Google-Smtp-Source: AOwi7QC+YbLaEz+cQDdo2mDSSeSRvWbHkO4DmOjzEUmhifZWcoTz8V9V4fPM/uL98477xGyOJgd/Zw==
-X-Received: by 10.223.174.194 with SMTP id y60mr2328862wrc.105.1507299562170; 
-	Fri, 06 Oct 2017 07:19:22 -0700 (PDT)
-Received: from tfsielt31850.tycofs.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id i76sm5576804wmd.2.2017.10.06.07.19.20
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=eJVdekWjvP/81UPyqH01uHWgHse/KAd9czXK711eMVg=;
+	b=LXf/f5CYJsNIQxAy5Z6Sj+1EFAOOio+UpNSwP4tOwAwYMeIoiFo8OURfs+FAmwNLSH
+	Xpdb1RXXnoeMxks46DjjPXDuoF6vd7voUdqF2radPkChR/AXsviD7qQzpVRphXPFVvD5
+	Lxl1Outr0xRQYwk21Ze7XuQDXUw+SxV5sKlECg/9mAIp1rdZkCKR3FAii+rRsDezEa4X
+	KxuO23vokGGT3/oBW7QBnXcFehnay4jxIEYY1rg7ip94PqFme9kDODnAp/7OZtjzM4FE
+	XDha/PO/eO0lVgKKJBtdCgBZvWhFJkCaTeyiMsxaIh0+ExCGzesEUU2KjhpxT2bkif35
+	/GMQ==
+X-Gm-Message-State: AMCzsaUn4ekpc8m4BKzwL0LENzhME/ODSM4nInAZ7qy3EqHYE+uS8EJs
+	B7yHa4tbgJtg6Tm+Y+n6jR3v7Q==
+X-Google-Smtp-Source: AOwi7QAEUEQP290O3VRijS5vWOCzX35dm6hwrOUKCwEZovaFi1AmkTqdRojUyS9wrda7lTG2OCd/BQ==
+X-Received: by 10.98.84.66 with SMTP id i63mr2443365pfb.97.1507301357331;
+	Fri, 06 Oct 2017 07:49:17 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:2592:db33:fab5:1bd8?
+	([2601:202:4001:9ea0:2592:db33:fab5:1bd8])
+	by smtp.gmail.com with ESMTPSA id b9sm3735875pff.63.2017.10.06.07.49.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Oct 2017 07:19:21 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Oct 2017 15:19:20 +0100
-Message-Id: <20171006141920.17000-1-git@andred.net>
-X-Mailer: git-send-email 2.14.2
+	Fri, 06 Oct 2017 07:49:16 -0700 (PDT)
+To: Javier Viguera <javier.viguera@digi.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20170914122753.12713-1-ross.burton@intel.com>
+	<c93c3583-f1aa-bf91-c86e-bde0f6229592@gmail.com>
+	<6ba17c2a-78cd-2705-0ce4-1fffeb4c007e@digi.com>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <3ec3a685-211e-6feb-3391-c29bded5ccac@gmail.com>
+Date: Fri, 6 Oct 2017 07:49:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Subject: [pyro][PATCH] openssh: Fix key generation with systemd
+In-Reply-To: <6ba17c2a-78cd-2705-0ce4-1fffeb4c007e@digi.com>
+Subject: Re: [PATCH][morty] bluez5: fix out-of-bounds access in SDP server (CVE-2017-1000250)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,277 +65,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 14:19:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Oct 2017 14:49:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-From: Joshua Watt <jpewhacker@gmail.com>
 
-106b59d9 broke SSH host key generation when systemd and a read-only root file
-system are in use because there isn't a way for systemd to get the optional
-weak assigment of SYSCONFDIR from /etc/default/sshd and still provide a default
-value if it is not specified. Instead, move the logic for determining if keys
-need to be created to a helper script that both the SysV init script and the
-systemd unit file can reference.
+Javier,
 
-This does mean that the systemd unit file can't check for file existence to
-know if it should start the service, but it wasn't able to do that correctly
-anyway anymore. This should be a problem since the serivce is only run once per
-power cycle by systemd, and should exit quickly if the keys already exist
+On 10/06/2017 03:31 AM, Javier Viguera wrote:
+> On 20/09/17 21:30, akuster808 wrote:
+>>
+>> merged to stagging.
+>> thanks
+>> - armin
+>
+> Hi Armin,
+>
+> Do you plan to merge this into 'morty' soonish?
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+I hope to send a merge request shortly. We have been having build issues
+with the series I put together that included this fix causing some concer=
+n.
+build looks good now.
 
-(cherry picked from commit 7e49c5879862253ae1b6a26535d07a2740a95798)
-Signed-off-by: André Draszik <adraszik@tycoint.com>
----
- meta/recipes-connectivity/openssh/openssh/init     | 69 +---------------------
- .../openssh/openssh/sshd_check_keys                | 64 ++++++++++++++++++++
- .../openssh/openssh/sshdgenkeys.service            | 16 +----
- meta/recipes-connectivity/openssh/openssh_7.4p1.bb |  8 +++
- 4 files changed, 76 insertions(+), 81 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+apologies for the delay.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/init b/meta/recipes-connectivity/openssh/openssh/init
-index 386628afc8..34ba0f8460 100644
---- a/meta/recipes-connectivity/openssh/openssh/init
-+++ b/meta/recipes-connectivity/openssh/openssh/init
-@@ -19,25 +19,6 @@ fi
- [ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
- mkdir -p $SYSCONFDIR
- 
--parse_sshd_opts() {
--    set -- ${SSHD_OPTS} --
--    sshd_config=/etc/ssh/sshd_config
--    while true ; do
--        case "$1" in
--        -f*) if [ "$1" = "-f" ] ; then
--                 sshd_config="$2"
--                 shift
--             else
--                 sshd_config="${1#-f}"
--             fi
--             shift
--             ;;
--        --) shift; break;;
--        *) shift;;
--        esac
--    done
--}
--
- check_for_no_start() {
-     # forget it if we're trying to start, and /etc/ssh/sshd_not_to_be_run exists
-     if [ -e $SYSCONFDIR/sshd_not_to_be_run ]; then
-@@ -58,57 +39,13 @@ check_config() {
- 	/usr/sbin/sshd -t $SSHD_OPTS || exit 1
- }
- 
--check_keys() {
--	# parse location of keys
--	local HOST_KEY_RSA
--	local HOST_KEY_DSA
--	local HOST_KEY_ECDSA
--	local HOST_KEY_ED25519
--
--	parse_sshd_opts
--	HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
--	HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
--	HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
--	HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
--	[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
--
--	# create keys if necessary
--	if [ ! -f $HOST_KEY_RSA ]; then
--		echo "  generating ssh RSA key..."
--		mkdir -p $(dirname $HOST_KEY_RSA)
--		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
--	fi
--	if [ ! -f $HOST_KEY_ECDSA ]; then
--		echo "  generating ssh ECDSA key..."
--		mkdir -p $(dirname $HOST_KEY_ECDSA)
--		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
--	fi
--	if [ ! -f $HOST_KEY_DSA ]; then
--		echo "  generating ssh DSA key..."
--		mkdir -p $(dirname $HOST_KEY_DSA)
--		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
--	fi
--	if [ ! -f $HOST_KEY_ED25519 ]; then
--		echo "  generating ssh ED25519 key..."
--		mkdir -p $(dirname $HOST_KEY_ED25519)
--		ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
--	fi
--}
--
- export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
- 
- case "$1" in
-   start)
- 	check_for_no_start
- 	echo "Starting OpenBSD Secure Shell server: sshd"
--	check_keys
-+	@LIBEXECDIR@/sshd_check_keys
- 	check_privsep_dir
- 	start-stop-daemon -S -p $PIDFILE -x /usr/sbin/sshd -- $SSHD_OPTS
-         echo "done."
-@@ -121,7 +58,7 @@ case "$1" in
- 
-   reload|force-reload)
- 	check_for_no_start
--	check_keys
-+	@LIBEXECDIR@/sshd_check_keys
- 	check_config
-         echo -n "Reloading OpenBSD Secure Shell server's configuration"
- 	start-stop-daemon -K -p $PIDFILE -s 1 -x /usr/sbin/sshd
-@@ -129,7 +66,7 @@ case "$1" in
- 	;;
- 
-   restart)
--  	check_keys
-+	@LIBEXECDIR@/sshd_check_keys
- 	check_config
-         echo -n "Restarting OpenBSD Secure Shell server: sshd"
- 	start-stop-daemon -K -p $PIDFILE --oknodo -x /usr/sbin/sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-new file mode 100644
-index 0000000000..f5bba53ca3
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-@@ -0,0 +1,64 @@
-+#! /bin/sh
-+
-+# /etc/default/ssh may set SYSCONFDIR and SSHD_OPTS
-+if test -f /etc/default/ssh; then
-+    . /etc/default/ssh
-+fi
-+
-+[ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
-+mkdir -p $SYSCONFDIR
-+
-+# parse sshd options
-+set -- ${SSHD_OPTS} --
-+sshd_config=/etc/ssh/sshd_config
-+while true ; do
-+    case "$1" in
-+    -f*) if [ "$1" = "-f" ] ; then
-+            sshd_config="$2"
-+            shift
-+        else
-+            sshd_config="${1#-f}"
-+        fi
-+        shift
-+        ;;
-+    --) shift; break;;
-+    *) shift;;
-+    esac
-+done
-+
-+# parse location of keys
-+HOST_KEY_RSA=$(grep ^HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$(grep HostKey "${sshd_config}" | grep _rsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_RSA}" ] && HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
-+HOST_KEY_DSA=$(grep ^HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$(grep HostKey "${sshd_config}" | grep _dsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_DSA}" ] && HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
-+HOST_KEY_ECDSA=$(grep ^HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$(grep HostKey "${sshd_config}" | grep _ecdsa_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ECDSA}" ] && HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
-+HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$(grep HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | awk ' { print $2 } ')
-+[ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
-+
-+# create keys if necessary
-+if [ ! -f $HOST_KEY_RSA ]; then
-+    echo "  generating ssh RSA key..."
-+    mkdir -p $(dirname $HOST_KEY_RSA)
-+    ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
-+fi
-+if [ ! -f $HOST_KEY_ECDSA ]; then
-+    echo "  generating ssh ECDSA key..."
-+    mkdir -p $(dirname $HOST_KEY_ECDSA)
-+    ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
-+fi
-+if [ ! -f $HOST_KEY_DSA ]; then
-+    echo "  generating ssh DSA key..."
-+    mkdir -p $(dirname $HOST_KEY_DSA)
-+    ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
-+fi
-+if [ ! -f $HOST_KEY_ED25519 ]; then
-+    echo "  generating ssh ED25519 key..."
-+    mkdir -p $(dirname $HOST_KEY_ED25519)
-+    ssh-keygen -q -f $HOST_KEY_ED25519 -N '' -t ed25519
-+fi
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-index 148e6ad63a..603c33787f 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshdgenkeys.service
-@@ -1,22 +1,8 @@
- [Unit]
- Description=OpenSSH Key Generation
- RequiresMountsFor=/var /run
--ConditionPathExists=!/var/run/ssh/ssh_host_rsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_dsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_ecdsa_key
--ConditionPathExists=!/var/run/ssh/ssh_host_ed25519_key
--ConditionPathExists=!/etc/ssh/ssh_host_rsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_dsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_ecdsa_key
--ConditionPathExists=!/etc/ssh/ssh_host_ed25519_key
- 
- [Service]
--Environment="SYSCONFDIR=/etc/ssh"
--EnvironmentFile=-/etc/default/ssh
--ExecStart=@BASE_BINDIR@/mkdir -p $SYSCONFDIR
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_rsa_key -N '' -t rsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_dsa_key -N '' -t dsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ecdsa_key -N '' -t ecdsa
--ExecStart=@BINDIR@/ssh-keygen -q -f ${SYSCONFDIR}/ssh_host_ed25519_key -N '' -t ed25519
-+ExecStart=@LIBEXECDIR@/sshd_check_keys
- Type=oneshot
- RemainAfterExit=yes
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-index c8093d4e2b..e501eadd63 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.4p1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://openssh-7.1p1-conditional-compile-des-in-cipher.patch \
-            file://openssh-7.1p1-conditional-compile-des-in-pkcs11.patch \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-+           file://sshd_check_keys \
-            "
- 
- PAM_SRC_URI = "file://sshd"
-@@ -124,7 +125,13 @@ do_install_append () {
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 		-e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@BINDIR@,${bindir},g' \
-+		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
- 		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
-+
-+	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-+		${D}${sysconfdir}/init.d/sshd
-+
-+	install -D -m 0755 ${WORKDIR}/sshd_check_keys ${D}${libexecdir}/${BPN}/sshd_check_keys
- }
- 
- do_install_ptest () {
-@@ -139,6 +146,7 @@ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_unitdir}/system"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
-+FILES_${PN}-sshd += "${libexecdir}/${BPN}/sshd_check_keys"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
--- 
-2.14.2
+regards,
+Armin
+
+>
+> Some users of our BSP layer are asking about this vulnerability.
+>
+> Thanks.
+>
+
 
 
