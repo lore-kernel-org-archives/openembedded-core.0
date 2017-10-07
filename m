@@ -1,48 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f41.google.com (mail-pg0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CF1B78269
+Return-Path: <prvs=04536f8613=mike.looijmans@topicproducts.com>
+Received: from mx42-out4.antispamcloud.com (mx42-out4.antispamcloud.com
+	[138.201.61.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 72E9477C31
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Oct 2017 02:36:28 +0000 (UTC)
-Received: by mail-pg0-f41.google.com with SMTP id i8so1024587pgd.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Oct 2017 19:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sTwIBQ0tWEsVCt+KwGWkraP3LI5fsB+ns8KU1l1ukwY=;
-	b=aQ/XQgMNxUy0nQcwcPAVjcu4dfNb+Uos5Nv1EqTayOhjrkxg/323EMnJLfk5ZZ3wR5
-	rhJiMvqLjX4kMLS1Ds4qWzZdyQGxBVHkCuZ99AgXMDF73GW3GzW/oZ2KDvGp35oh2sIx
-	BLeODhywWM1J/2e0KOpsQ0PrZ3TEHRv58YBo/ipzV85ripKIJqz4O2fZNKXjYLw8wXLT
-	czVUW0TBjCh5stSgDfB4WVyjrLNS2kHMli/Qh73Wt4KO/TIbFU87QAIcrGJ0twQLaj1U
-	eICgo9GbNmChQbvLn7RB2IDZdG+J9KLGNBZZ7+nNd2u1pfTh060ejZXAy6aZxYGub/nZ
-	8New==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sTwIBQ0tWEsVCt+KwGWkraP3LI5fsB+ns8KU1l1ukwY=;
-	b=DBZ2iDddt3Os0s3buxQS8auDt+ndiIsVbkbpSkyPubXmzqMXROBx0ga68P/l+fPLP7
-	21arar70w9SKB/ctjfA6rVKdJnXS/ZjPZe3RC1WwLo61qtq+I8xMTL0RMHHCKKY+SsXZ
-	sCltGP28Oq1ivCQplTZDwss7iF5ylvs/PBG903b12u80AExCS4l0B6rh6P269Q5Zvz5x
-	GBHlcqxpgGqBGiGk9AS7eRDt85X4nbbyFatqqTvvfsRTu3pMmSYwh87r1cDFkZXpleaV
-	PQOa6dGpcIm1PbhgcmSToST8q6pt29x0QChlatWFYPHhTdw9oWD9CrBiw5orI+zgIWSh
-	mHWQ==
-X-Gm-Message-State: AMCzsaWBtBejB+yNN1F1Lc1MU4mMydUnobAplOKQCDyOWrtlQSNhY8JA
-	eSOykBrE8UozEjPqxfQH4tKvTfoFa8Zvfk7inps=
-X-Google-Smtp-Source: AOwi7QBIW/Mf7Z1Q898JREDTAvpgcVUaZbajKy8b9cLf2wO7y46Zo0XoKcWVHj8JlEgN85xCZJL7P7+XMdnJDyJ+diM=
-X-Received: by 10.99.181.68 with SMTP id u4mr3670774pgo.317.1507343789988;
-	Fri, 06 Oct 2017 19:36:29 -0700 (PDT)
+	Sat,  7 Oct 2017 09:15:27 +0000 (UTC)
+Received: from [37.74.225.130] (helo=TOP-EX01.TOPIC.LOCAL)
+	by mx42.antispamcloud.com with esmtps (TLSv1:ECDHE-RSA-AES128-SHA:128)
+	(Exim 4.89) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1e0lCf-0003S4-SJ; Sat, 07 Oct 2017 11:15:26 +0200
+Received: from [192.168.1.17] (85.150.144.104) by webmail.topic.nl
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Sat, 7 Oct 2017 11:15:23 +0200
+To: Andre McCurdy <armccurdy@gmail.com>, Leonardo Sandoval
+	<leonardo.sandoval.gonzalez@linux.intel.com>
+References: <8b6c437e-c5b6-d242-5e1c-b19406153c76@topic.nl>
+	<20171005101918.282f15658ac2a600e3c4c251@linux.intel.com>
+	<20171005164447.48dc7a86bd86519f67a3a41a@linux.intel.com>
+	<CAJ86T=WdwVG5sqj70FZ-AEw7+CYu0dNvqqXBCxwp2jPP_bogcQ@mail.gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+Message-ID: <f5a0f8aa-b2f4-7d3d-eb17-1206ee7d41f2@topic.nl>
+Date: Sat, 7 Oct 2017 11:15:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.100.135.23 with HTTP; Fri, 6 Oct 2017 19:35:59 -0700 (PDT)
-In-Reply-To: <94360711-c98a-a103-20c4-6fa4e5d70ef7@windriver.com>
-References: <1485350316-4842-1-git-send-email-ed.bartosh@linux.intel.com>
-	<94360711-c98a-a103-20c4-6fa4e5d70ef7@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 6 Oct 2017 19:35:59 -0700
-Message-ID: <CAMKF1sodenAYDuMXv1ijTd71C=38TCGeqjN52SjCrq-PznKZow@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-shar-extract: compare SDK and host gcc versions
+In-Reply-To: <CAJ86T=WdwVG5sqj70FZ-AEw7+CYu0dNvqqXBCxwp2jPP_bogcQ@mail.gmail.com>
+X-Originating-IP: [85.150.144.104]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Originating-IP: 37.74.225.130
+X-SpamExperts-Domain: topic.nl
+X-SpamExperts-Username: 37.74.225.128/28
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=37.74.225.128/28@topic.nl
+X-SpamExperts-Outgoing-Class: ham
+X-SpamExperts-Outgoing-Evidence: Combined (0.07)
+X-Recommended-Action: accept
+X-Filter-ID: EX5BVjFpneJeBchSMxfU5vowmECMiq/4JnAN/bmPlWbj1g3/PwYZaTCzSym8uE9HHLStVW7iHrxG
+	SGdMbTuKxOGLXQDqhEd18VQjy7vXNEkEG5MLDuoooi9XIdhffT/c5t5kI8bj/+C8FfdyMi00+ual
+	qIMc+aGxKBgFSUBu+Z1yAcBOUUaSDIlw73N6aFOq2O7exZs3WniBPxy5Jg8b6Wmtl09apMCg+hOC
+	XfQjPFuWJBGK2n5zTKAcbNEplBODiX3B3wJ270/ucObjAI0W+hLZMhzkpYgnXUKzdOwkyNOLTZro
+	hEYNqXHUJBt/zvJoTGAA1gLIPnzkgagc0cD3Qr55uEarDRQL7qLu2RUTIErKiQF97MDlWzng5zYL
+	9n0H2pBQuvYxaKaSltgGMsRMCd8EV8HUERMpYa4seQ+ZSwen0oaFOaP/hpsrOHl4Aqy0FdlTez4E
+	p6JVGftOsEfid75H5C/X4ju7C24pupFtnyB64Bn/xFW1Emq7hJ1ivG4zukmd9wS3TgOUAKXMmP2N
+	lmHDuyYrGIFIj12us0/wEETNcgXXMYaGQeGKWD2ycTNwgjRzIF2aw7lrAkSGFzmzB9t1hZn/H5iq
+	95o9mggIqa9zHDeqqFz43py4SDhdaHkWhhtV5JeaQLbEqlRdwnhcsh+LrVPfyiw4jXCWfHO/nErq
+	HUx/wo0nG1y20s5lTkE9hJKO0HXjIOPGlWOKWte4nKjjs+yFELaYcViFGzPpcnGQnK1Eemanbhyv
+	hRUH9mQs5OwVDz9YWiSIE6UlBHmyBNHWaeo31xlxAKeT3BrGQ4c1ocmVvOcmlSojJE0CfxBH9lcy
+	xn1b8er9UeWkyQkvAU4I+Ejjz/JrjvMThG5CO0SH6640lW0V/uWsFpzOWyoD9R/2gMGq0KWAzmMf
+	+ibVDlca0Oe+GLTU85C76niv74nFzIypV5FmMyQg7HiIwlVmxgQ5WhUTstUhLxc+FWbKglss+n2f
+	fnQxt6aJ7klZab/PEOv01feB/X5C0TO9q4jiZAZIRR+VyigHaVBuCYGeaxrdrXiV0ngIHMGxAZUL
+	6ME=
+X-Report-Abuse-To: spam@quarantine2.antispamcloud.com
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Recipe versions and layer confusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,108 +66,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Oct 2017 02:36:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 07 Oct 2017 09:15:28 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 5, 2017 at 10:43 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> I realize this reply is months after the original email.  But I think I found a
-> bug with the implementation.  See below inline.
->
-> On 1/25/17 7:18 AM, Ed Bartosh wrote:
->> If ext sdk is built by gcc version higher than host gcc version
->> and host gcc version is 4.8 or 4.9 the installation is known to
->> fail due to the way uninative sstate package is built.
+=EF=BB=BFOn 06-10-17 00:10, Andre McCurdy wrote:
+> On Thu, Oct 5, 2017 at 2:44 PM, Leonardo Sandoval
+> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>> On Thu, 5 Oct 2017 10:19:18 -0500
+>> Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
 >>
->> It's a known issue and we don't have a way to fix it for above
->> mentioned combinations of build and host gcc versions.
->>
->> Detected non-installable combinations of gcc versions and
->> print an installation error.
->>
->> [YOCTO #10881]
->>
->> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->> ---
->>  meta/classes/populate_sdk_base.bbclass | 1 +
->>  meta/files/toolchain-shar-extract.sh   | 8 ++++++++
->>  2 files changed, 9 insertions(+)
->>
->> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
->> index 5ad08c6..588a3cb 100644
->> --- a/meta/classes/populate_sdk_base.bbclass
->> +++ b/meta/classes/populate_sdk_base.bbclass
->> @@ -226,6 +226,7 @@ EOF
->>               -e 's#@SDK_VERSION@#${SDK_VERSION}#g' \
->>               -e '/@SDK_PRE_INSTALL_COMMAND@/d' \
->>               -e '/@SDK_POST_INSTALL_COMMAND@/d' \
->> +             -e 's#@SDK_GCC_VER@#${@oe.utils.host_gcc_version(d)}#g' \
->
-> The return value from "oe.utils.host_gcc_version(d)" includes a leading '-'...
->
->>               ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
->>
->>       # add execution permission
->> diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
->> index 9295ddc..3f54c96 100644
->> --- a/meta/files/toolchain-shar-extract.sh
->> +++ b/meta/files/toolchain-shar-extract.sh
->> @@ -11,6 +11,9 @@ export PATH=`echo "$PATH" | sed -e 's/:\.//' -e 's/::/:/'`
->>  INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
->>  SDK_ARCH=$(echo @SDK_ARCH@ | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
->>
->> +INST_GCC_VER=$(gcc --version | sed -ne 's/.* \([0-9]\+\.[0-9]\+\)\.[0-9]\+.*/\1/p')
->
-> The item above fails with the message:
->
-> line 28: gcc: command not found
->
-> If the host does not have gcc on it.  (I realize this is incredibly rare
-> situation, but is valid in some cases.)  It might be a good idea to catch this
-> and put up a warning or otherwise clean up the error situation.
->
+>>> On Thu, 5 Oct 2017 16:49:28 +0200
+>>> Mike Looijmans <mike.looijmans@topic.nl> wrote:
+>>>
+>>>> =EF=BB=BFI'm confused.
+>>>>
+>>>> Layer "meta-xilinx" defines:
+>>>>
+>>>> recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.1.bb
+>>>>
+>>>> This recipe is too old for my liking, so I made a newer one in "meta-t=
+opic"
+>>>>
+>>>> recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2017.3.bb
+>>>>
+>>>>
+>>>> Much to my surprise, when I build, OE picks the 2017.1 version and not=
+ the
+>>>> 2017.3 version.
+>>>>
+>>>> bitbake-layers show-layers reveils:
+>>>> ..
+>>>> meta-xilinx           /home/mike/projects/zynq-platform/meta-xilinx  5
+>>>> meta-topic            /home/mike/projects/zynq-platform/meta-topic  6
+>>>> ..
+>>>>
+>>>> so that means that my meta-topic should win even if my PV were lower, =
+right?
+>=20
+> Yes. The comments in bitbake/lib/bb/providers.py -> findBestProvider()
+> explain the process pretty well:
+>=20
+>    If there is a PREFERRED_VERSION, find the highest-priority bbfile
+>    providing that version.  If not, find the latest version provided by
+>    an bbfile in the highest-priority set.
+>=20
+> The only caveat is that if PREFERRED_VERSION contains a wildcard (%)
+> and matches more than one available version then all bets are off and
+> results may be unpredictable. It's up to the user to ensure that
+> doesn't happen.
+>=20
+> Note that looking at the meta-xilinx recipe it seems that PV is set
+> manually and doesn't follow the recipe name, so depending on how you
+> set PV in your new recipe, it may not be completely obvious which
+> recipe is actually being used?
+>=20
+>    https://github.com/Xilinx/meta-xilinx/blob/master/recipes-bsp/arm-trus=
+ted-firmware/arm-trusted-firmware_2017.1.bb
+>=20
 
-I think if we need gcc then we should sanitize the installer to check-before-use
-so end user gets a good error message.
+Yeah, that turned out to be the problem. The recipe is versioned as=20
+"2017.1" but that is not the version it will actually build.
+
+"bitbake-layers show-recipes arm-trusted-firmware" reveiled the true=20
+versions, as Paul suggested, and that explained the strange choices.
+
+--=20
+Mike Looijmans
 
 
->> +SDK_GCC_VER='@SDK_GCC_VER@'
->> +
->
-> So based on the above you will end up with:
->
-> INST_GCC_VER="4.8"
-> SDK_GCC_VER="-4.9"
->
->>  verlte () {
->>       [  "$1" = "`printf "$1\n$2" | sort -V | head -n1`" ]
->>  }
->> @@ -112,6 +115,11 @@ fi
->>  # SDK_EXTENSIBLE is exposed from the SDK_PRE_INSTALL_COMMAND above
->>  if [ "$SDK_EXTENSIBLE" = "1" ]; then
->>       DEFAULT_INSTALL_DIR="@SDKEXTPATH@"
->> +     if [ "$INST_GCC_VER" = '4.8' -a "$SDK_GCC_VER" = '4.9' ] || [ "$INST_GCC_VER" = '4.8' -a "$SDK_GCC_VER" = '' ] || \
->> +             [ "$INST_GCC_VER" = '4.9' -a "$SDK_GCC_VER" = '' ]; then
->
-> The comparisons above do not include the leading '-', so it would appear to me
-> that the checked would never end up being true -- and thus the error below would
-> never happen.
->
-> Am I seeing what is happening right?  If so, we'll need to get this fixed...
->
-> --Mark
->
->
->> +             echo "Error: Incompatible SDK installer! Your host gcc version is $INST_GCC_VER and this SDK was built by gcc higher version."
->> +             exit 1
->> +     fi
->>  fi
->>
->>  if [ "$target_sdk_dir" = "" ]; then
->>
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Products
+Materiaalweg 4, NL-5681 RJ Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+Visit us at the Space Tech Expo Europe (Stand E-71)
 
