@@ -1,22 +1,47 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F1C616093C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5068D65C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Oct 2017 23:31:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Oct 2017 16:30:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,486,1500966000"; d="scan'208";a="1179528070"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga001.jf.intel.com with ESMTP; 06 Oct 2017 16:30:54 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
+	Sat,  7 Oct 2017 02:12:50 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id i23so18051186pfi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Oct 2017 19:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Z8DchuJRjwLUb4Txk4rBbabo+FVB7wHy9DCN3x3NuLk=;
+	b=Gp0Ih3brXwVw4xTnvpqDxIkRupWAMqqvUP+6p+uhceEbiY29+/c7xZj+pD7AOuWWu7
+	TAtsof9muq0766osb7aOj75XVdgzcmH9LD1snU7yICylhnKASOFcKgN57Cq0QjqDgX3q
+	p504u6Tfdnu9zxFtA0RvxCqmUgGE397yo9x9vCF5GS1YnTMim8XrnotN6867RVCBu9Jf
+	xLoaNVHOqWt8v0hE2gSIZL4WTX//XknB2BNpML0NOMnKOniCNI813Sstyhi6N9OmleO+
+	wweAGjiY2ZXKWGUvFlbdK7RqjdULY9c8uku0VxPX047vYrAoA8gIktX+3bU02CGAAPhN
+	EiVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Z8DchuJRjwLUb4Txk4rBbabo+FVB7wHy9DCN3x3NuLk=;
+	b=M6appzxDla5mJx5crVbfG3k6QPt9G24zrDfIgKax+FvJXXVLhuRhdc/gV5ncoEF8rN
+	uyzU9ANXnfvWTwLJ+ZZQ+9tIyVGePFNrT+V/nYRzqU3k7rcpTcSYyivfg2Lo/x1qgaq9
+	Qp0RnyYLod1WfnVQIBYqRDpwjW1grF+IhLKGq7Wz9atsNe/ub5YrAxdrwOvDvetdOyVk
+	5vdnmFPVgSgaZmvESW7Mceg4rHfmjhRdAf1guOtgJl16C851qJG/uZx2B5jZIlilJ7bl
+	IV6vTjvjP5P/iX5eVrrB+OK1eWTqyJO74Pugz+CJqLE1280T9EnfhSN4kPc0VpAElLlr
+	RiCA==
+X-Gm-Message-State: AMCzsaVd6716V2ghI1jRfLrUDx4a51cRXGqPG9z3cBSeVaovgXocivLF
+	XczkplHIstbBuRxFiCJ5YQ4Ouw==
+X-Google-Smtp-Source: AOwi7QCB4zYf1sCG7CaTKgM+ODUhjcexWL7EdqaPsWqwjKwLe+K1LluiAN0CK7o7NxRUkn7lyZ6ewA==
+X-Received: by 10.84.218.131 with SMTP id r3mr3369590pli.271.1507342372271;
+	Fri, 06 Oct 2017 19:12:52 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	d12sm5087784pfl.140.2017.10.06.19.12.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 06 Oct 2017 19:12:50 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Oct 2017 16:30:46 -0700
-Message-Id: <1507332646-37100-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] e2fsprogs: modify ptest script
+Date: Fri,  6 Oct 2017 19:12:45 -0700
+Message-Id: <1507342365-28471-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] musl: use a more specific fix for ARM thumb + frame pointers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,52 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Oct 2017 23:31:08 -0000
+X-List-Received-Date: Sat, 07 Oct 2017 02:12:51 -0000
 
-e2fsprog testsuite used to log results into its own log file into
-/usr/lib/e2fsprogs/ptest/test.log. Therefore console output was not available and
-redirecting ptest-runner output into a log file would not capture output of any
-individual tests. So overall the whole e2fsprogs testsuite consisting of about
-300 tests was evaluated as a single test.
+When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
+since the Thumb frame pointer in r7 clashes with musl's use of inline
+asm to make syscalls (where r7 is used for the syscall NR).
 
-This patch ensures the e2fsprogs test_script output is not automatically redirected
-while executing during run-ptest. Any redirection is up to the user.
-Additionally, the results of tests are prefixed by more canonical "PASS:" FAIL:"
-based on the actual test results.
+In most cases, frame pointers will be disabled automatically due to
+the optimisation level, but appending an explicit -fomit-frame-pointer
+to CFLAGS handles cases where optimisation is set to -O0 or frame
+pointers have been enabled by -fno-omit-frame-pointer earlier in
+CFLAGS, etc.
 
-Aditionally, remove various files created by the testsuite.
+Note that this limitation applies both to gcc and clang, the only
+difference between the two being that where gcc aborts with an error
+about reusing r7, clang apparently silently generates broken code:
 
-[YOCTO #12146]
+  https://bugs.llvm.org/show_bug.cgi?id=34165
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ meta/recipes-core/musl/musl_git.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-index e02fc7f..ef10b08 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-@@ -1,11 +1,10 @@
- #!/bin/sh
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 8b6a2e3..3766501 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -28,6 +28,16 @@ export CROSS_COMPILE="${TARGET_PREFIX}"
  
- cd ./test
--./test_script &>../test.log
--if [ $? -eq 0 ]
--then
--	echo "PASS: e2fsprogs"
--	rm ../test.log
--else
--	echo "FAIL: e2fsprogs"
--fi
-+./test_script | sed -u -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
-+rm -rf /var/volatile/tmp/*e2fsprogs*
-+rm -f tmp-*
-+rm -f *.tmp
-+rm -f *.ok
-+rm -f *.failed
-+rm -f *.log
+ LDFLAGS += "-Wl,-soname,libc.so"
+ 
++# When compiling for Thumb or Thumb2, frame pointers _must_ be disabled since the
++# Thumb frame pointer in r7 clashes with musl's use of inline asm to make syscalls
++# (where r7 is used for the syscall NR). In most cases, frame pointers will be
++# disabled automatically due to the optimisation level, but append an explicit
++# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
++# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
++CFLAGS_append_arm = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++
++# Pending testing, this can probably be removed (fixed more specifically above
++# by appending -fomit-frame-pointer to CFLAGS when building for Thumb).
+ ARM_INSTRUCTION_SET_toolchain-clang = "arm"
+ 
+ CONFIGUREOPTS = " \
 -- 
-2.7.4
+1.9.1
 
 
