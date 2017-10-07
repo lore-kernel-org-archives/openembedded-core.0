@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f54.google.com (mail-pg0-f54.google.com [74.125.83.54])
-	by mail.openembedded.org (Postfix) with ESMTP id DCC41600EA
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id DA4AA600EA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Oct 2017 02:29:40 +0000 (UTC)
-Received: by mail-pg0-f54.google.com with SMTP id r25so8387707pgn.4
+	Sat,  7 Oct 2017 02:31:07 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id g65so18069457pfe.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Oct 2017 19:29:42 -0700 (PDT)
+	Fri, 06 Oct 2017 19:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=mTc1xPuEeYnWj/5PcHS5DDQ2GC/xZRULjWonkGF0wMM=;
-	b=Ry8VloaC4sxFhQF82vqB46ZwPn4WmKUPpbX1mtlz/+XVronvVSydShpPjrftk3Qogc
-	hmlqT5gI+1o1L9DPvM2QIIPe5iPhH78bTNUbx9YTsufeXmrHy813hQWZdKf4OiQh/H4Z
-	M0usLIEzeohYPV+QrnmqIKer64clCgKcf8yjis7mmCBBAX5gZ8ECnN5BrAgadj67Si4v
-	m970vIOtkFg6FtiZz+hRwR7bhibTQCdIhyl7pOvaplYTXa+1GetDRpeBc6c+J4alA9El
-	3Swy9o+7SIWTjpv8OPXpphcJkVZXtcoax4moSBwbSwg4xp4eSPduZItQ28+H23KlEFsz
-	o+Vg==
+	:cc; bh=na6MEqu+KgmZSMejk9+CZ/CYrIB0UcR6Z522px/+ydM=;
+	b=o4umwOIhlf5ox0Tewc8JATSizGikk22RA/0A/UPrmJKLf3Kw7Ng/3sHNIxlVNNwAjc
+	5O2vqivrQPVRQ9FLRolUyepYepJSGkjLjOoJTzH60tL1MZt/rw8XCB7F4ZvZo/ewhdpN
+	64+7pn4cub4p/p5RbYsXcgccXfTrS2QK1MLHjOJctKsxF6hjubXaRX2r8p8Vi4LzH9Pf
+	H1+tXvSr01bZHYj7PKEzFYn8VScw52MV3o0cgcPzzel19WIWh+QR1tKEm90VhOPssNss
+	r6VTNjkPzMmDxufVRIWPQF7fAKVH20gPRAr3NvsnX4SddnOT7PhoTjyEMIii8mGBmwc1
+	9beg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=mTc1xPuEeYnWj/5PcHS5DDQ2GC/xZRULjWonkGF0wMM=;
-	b=sDKeLga4rBp1Wg/sjDrhW0apbWezyLKYuZRQh0XypnVHgiuBF2AuX+GdK/7edfO0q4
-	MCn1KaYRab302jRRs2+5wWrObqWYKhRi4YPAeIAJrlm+DszYRE/T8guIkmtypv/dR5B0
-	juPwp2oM+IKUhjhIkMHNhTb9eTrhOeDaWtXUgwpbtradFR87/MEb90QRTXr9diKhokRw
-	4+fT9keNPhV9hvQzPA5dLJrsndG5C+eIhpnyjCCAukk3oqn1GMACYiSl+iCoRincFmGH
-	8wjb/D3D4VRo4tYIDcoi/PWkttWX5I+KkNIrmHAWgaI9t3d7pldH0VTloPPWU/383HIp
-	Wh1Q==
-X-Gm-Message-State: AMCzsaWRwTDnZYCFBIagE1QdIB/1iM5aWt1v8WNqND4wNx7DjLbdYTzA
-	ROaI7l4I99W7aVXVY1v0biiG1aSZXh9dbvLhVlAUqQ==
-X-Google-Smtp-Source: AOwi7QAw/TMdKGOULEn9vZm/cUIoMgQaNtY2GaIQyfYdAXUwR6nAl35kWOI+MD71zCKZTZ4OH2V8iZa2R0yyErrj4i4=
-X-Received: by 10.101.86.196 with SMTP id w4mr3609470pgs.341.1507343381779;
-	Fri, 06 Oct 2017 19:29:41 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=na6MEqu+KgmZSMejk9+CZ/CYrIB0UcR6Z522px/+ydM=;
+	b=LK/sUVNdso381sXItxIUWlsiRnNhRRoOPJT43gVWjE/2H7XDDAi7V/L17ms7o9f7oe
+	sBsogSqaXD0ShPjms9gJxYXkSWlf+8xRhyjnpgufghv8RX8NUbn0bCAG2auOBDdkUkfq
+	hKDt8dYE2kAebPKLI8HB6Bx8UcMNDbkfxXgoaQcy5JEIV1cwAf0ZOhK/SwN3p3G5aoF8
+	ibVgT1ai97nLJ9IvLd4uiHjmXRMfmaQ6VEaZRHAhTjr0MIuyr2MCzU6PgREQ13QEf9tU
+	MiDes1pkk2uFWn39SKhkoz0DEFVc9nHUs09dLn0NhCSKLz8miJy6oEBnRQaHp13risKh
+	75xA==
+X-Gm-Message-State: AMCzsaVqXZlm3zehjuKmJCin+FlRa5Opgy4PkT6MCklaPJBZ1SBqD1pX
+	d4/tK2MscBXrdu78G1BBzJBupryYItrhGhQyUog=
+X-Google-Smtp-Source: AOwi7QBASPPKJ6yZDz4yxG4aPMDfo3XBRQDL8LRJ64B8QrMkvlxYCzzRApiLNL3+1H0G3fkhX5ows/aBL0PqSRg5rP4=
+X-Received: by 10.98.156.152 with SMTP id u24mr3826838pfk.255.1507343469134;
+	Fri, 06 Oct 2017 19:31:09 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.135.23 with HTTP; Fri, 6 Oct 2017 19:29:11 -0700 (PDT)
-In-Reply-To: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
-References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
+Received: by 10.100.135.23 with HTTP; Fri, 6 Oct 2017 19:30:38 -0700 (PDT)
+In-Reply-To: <1507342365-28471-1-git-send-email-armccurdy@gmail.com>
+References: <1507342365-28471-1-git-send-email-armccurdy@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 6 Oct 2017 19:29:11 -0700
-Message-ID: <CAMKF1soSC=kKnRZRuy5dnyvkLsashUXsin35bMKfPQ0F+iq8Ww@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
+Date: Fri, 6 Oct 2017 19:30:38 -0700
+Message-ID: <CAMKF1spxg7bc++Lo8hqF8kiCn8GkAFay3UnJrbFXXRvHHGDodg@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Illegal instruction when running go binaries in qemux86
+Subject: Re: [PATCH] musl: use a more specific fix for ARM thumb + frame pointers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,73 +55,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Oct 2017 02:29:41 -0000
+X-List-Received-Date: Sat, 07 Oct 2017 02:31:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 5, 2017 at 7:23 AM, Paul Barker <pbarker@toganlabs.com> wrote:
-> So, after fixing all my build issues I now have runtime issues :(
+On Fri, Oct 6, 2017 at 7:12 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
+> since the Thumb frame pointer in r7 clashes with musl's use of inline
+> asm to make syscalls (where r7 is used for the syscall NR).
 >
-> Software written in go fails on qemux86 with illegal instruction traps:
+> In most cases, frame pointers will be disabled automatically due to
+> the optimisation level, but appending an explicit -fomit-frame-pointer
+> to CFLAGS handles cases where optimisation is set to -O0 or frame
+> pointers have been enabled by -fno-omit-frame-pointer earlier in
+> CFLAGS, etc.
 >
->     root@qemux86:~# netns ls
->     [   18.984298] traps: netns[491] trap invalid opcode ip:807b541
-> sp:bf9694bc error:0[   18.985354]  in netns[8048000+1c3000]
->     Illegal instruction
->     root@qemux86:~# runc
->     traps: runc[492] trap invalid opcode ip:807b561 sp:bff6ec1c
-> error:0[   21.604966]  in runc[8048000+457000]
->     Illegal instruction
+> Note that this limitation applies both to gcc and clang, the only
+> difference between the two being that where gcc aborts with an error
+> about reusing r7, clang apparently silently generates broken code:
 >
-> I've done a git bisect and tracked this down to commit 20b35747
-> "qemuboot.conf: make cpus match built artifacts" on master. This has
-> been backported to pyro as commit d9456782 and I've confirmed that I
-> have the same issue on pyro. On pyro in particular this is a
-> regression as the patch was backported after pyro was released.
+>   https://bugs.llvm.org/show_bug.cgi?id=34165
 >
-> The important change is:
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
->     -QB_CPU_x86 =3D "-cpu qemu32"
->     +QB_CPU_x86 =3D "-cpu pentium2"
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index 8b6a2e3..3766501 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -28,6 +28,16 @@ export CROSS_COMPILE="${TARGET_PREFIX}"
 >
+>  LDFLAGS += "-Wl,-soname,libc.so"
+>
+> +# When compiling for Thumb or Thumb2, frame pointers _must_ be disabled since the
+> +# Thumb frame pointer in r7 clashes with musl's use of inline asm to make syscalls
+> +# (where r7 is used for the syscall NR). In most cases, frame pointers will be
+> +# disabled automatically due to the optimisation level, but append an explicit
+> +# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
+> +# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
+> +CFLAGS_append_arm = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+> +
+> +# Pending testing, this can probably be removed (fixed more specifically above
+> +# by appending -fomit-frame-pointer to CFLAGS when building for Thumb).
+>  ARM_INSTRUCTION_SET_toolchain-clang = "arm"
 
-We use -march=3Di586 for qemux86 which actually maps to pentium not
-pentium2 which is i686 I think, this should be corrected to be with the
-spirit of the patch. From gcc speak i586 means Intel Pentium CPU with
-no MMX support.
-and pentium2 means Intel Pentium II CPU, based on Pentium Pro core
-with MMX instruction set support, I am assuming qemu means same.
+Please remove this. Then I can test the patch with clang and see if it fails
 
-> So my guess was that the go toolchain isn't limiting itself to the
-> instructions supported by pentium2.
 >
-> To fix things I've added the following line to meta/classes/go.bbclass
-> and meta/recipes-devtools/go/go-common.inc:
->
->     export GO386 =3D "387"
->
-> As documented in https://golang.org/doc/install/source, this ensures
-> that sse2 instructions aren't used. This fixes the issue and I now
-> have working go binaries on qemux86 :)
->
-> So my question is: should we just set GO386 =3D "387" so that it applies
-> to all go binaries and accept the slight loss of performance on x86
-> systems that do support sse2 instructions? Or should we make this
-> MACHINE specific so that sse2 instructions can be used where
-> supported?
->
-
-We should have goarch set correctly, since i586 really did not have
-sse2, we need this mapping based on -march added in go recipes
-much like arm
-
-> Whatever we do will need backporting to pyro as well.
->
-> Cheers,
->
+>  CONFIGUREOPTS = " \
 > --
-> Paul Barker
-> Tog=C3=A1n Labs Ltd
+> 1.9.1
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
