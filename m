@@ -1,48 +1,48 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E69F577BC3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f46.google.com (mail-it0-f46.google.com
+	[209.85.214.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BFF677BC3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Oct 2017 12:35:12 +0000 (UTC)
-Received: by mail-wm0-f44.google.com with SMTP id l68so22990303wmd.5
+	Mon,  9 Oct 2017 12:42:59 +0000 (UTC)
+Received: by mail-it0-f46.google.com with SMTP id n195so12667866itg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Oct 2017 05:35:14 -0700 (PDT)
+	Mon, 09 Oct 2017 05:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=r/E8Zn3bdUnNuLm2roLB1ggS/f1TYb73H+phBFYWGN0=;
-	b=WZ81+idPUqfMg6dIsXstoVRO9RMQHm7BVeqLz4Dut+8PBKCmkR6wzY21Fhc4nwyA61
-	gYxQM56B3hNVWo7uc4VI1E95MIZB38qE7F23teEtt4yuNkmpARUwnOMhEtPXLyzcFiNR
-	7OpPBrnLrk2Pat+ZdF9cUONQDY7tQD/vk/Dc27mCL8rURpZwvsjSlPbib9F+WAlDF2X3
-	5mIDeX9sFvL83TaRGuPXcZ8eQ1qM/bss4FaW/CXoIx1gVLDecUywcRQ3P8USEvjwhThL
-	Zjs25kKr9uHoF12gQIXBsoRaL7CId94T1Qos3mnNFtmbRGAdcz6naLEzO4pHb1WSN/8v
-	jW+Q==
+	:cc; bh=a0vJsdBvEzSKlkL4p/y1W9SbkhZ5JixfQ27QGOBJvSw=;
+	b=ON3E1ustXXMoScJ69YAVDXEtkFeNmzOBlwpk9RzqX3q1JPih6GceM5+m/nErJyxujR
+	ssF8rTZ8WMu0Sz8v01ELDfUnPAdJhJpIeZ4vT8cieKFLHck+v1+J2GfSB2h1tbdVJrTO
+	3yJJaEadZs7FX8l3wFhYp0ma2vi4lPMRJTH6ounUqdv8OR/3Bq0cPYX4bbT3ziMRYgAH
+	/EJ7DJkN0xFAwfKiQmZr1GgK5/OQiEyDdiRj0fLwyI3MhUiTZ0JpTAuQ8qTQPjFEMhHq
+	p9NCegxhtvrxx5YtcUzLYvRSpAx2MkCEfgWdQUlsZkdz0pcT1oe/PKTZwCgPRkmVdRZH
+	OqmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-transfer-encoding;
-	bh=r/E8Zn3bdUnNuLm2roLB1ggS/f1TYb73H+phBFYWGN0=;
-	b=HfW+s3Ae4nwdc/ZGHJi21g3zFkeyHXObbCANULjCVPhkoDwjRFGbSJZ4f/fEGk9Qxw
-	kMDTVb4xPHJDjlkNebypxcx+sNtQUsyHqACyMw0ScGvPpXkTp13CTf88X8XRq8cu5XWy
-	idEdvqA2E2PN9W9D3Lir13mlDBAAYPLrIf2FuhZQyzVJNJ4RPi0UN7YsmoIF4BxXlnci
-	g0PiWYb6Hv7ihmgykJScrWs5tKN3Xl/0QPiXsL+CJ/2weahAWRguo///nSD5qFKNZpX7
-	j5Wqr/0HML8k4gv5WnedWaIRREwyhi8kTFqs2X7S1KPw47N3G/2wfWFxTj75dWF0lQJT
-	NlTA==
-X-Gm-Message-State: AMCzsaU91S8mjCnZvHvrNyi2f6TP7TumcJyW+8cYETtcdfau80lm3inP
-	KxabuAXijq/Y+rXxMH5flIP7XdYAYX7NLQEydnCHNHQZ
-X-Google-Smtp-Source: AOwi7QBpq56ot58aCsykUwJCEwbLbL4X4Ga6+4ep6UpVlNMJ+AJNTP1VES6zXyCjNs+90EnbIhSBU8OXSxKULytu6Y0=
-X-Received: by 10.28.143.130 with SMTP id r124mr5078280wmd.122.1507552513546; 
-	Mon, 09 Oct 2017 05:35:13 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=a0vJsdBvEzSKlkL4p/y1W9SbkhZ5JixfQ27QGOBJvSw=;
+	b=a9/J3YXGUssF2ut79bzbj29ZLnJWAZTCYgXXlYPqwtef6NgzRZFBzTZtivsJohZTNB
+	GdrH/1b8FznrQZ71JnS7eR/CIfmz27zdB61BkxZ0+wptW03yXZE8dKr9lOnGyQshRO+f
+	3Ac700wwWeEH3ppXpX/2xbKIjCgncreTSvQTKZLzuxQS/8Hh6SWNSzWXD3N4ZprPa+5E
+	/hSZhhbkLvuGG0IBmD6gpU9ufDsUPNMy3uT2YdSVJz9qe1tpsocVXerpWtPDhODOWS6v
+	63u74ZN8Ikrc1EtVT9nsVCyD0zR6JT+gDBgsaNW+25nug1csrLuoSDBuBJh+wy2ixOcO
+	RZmw==
+X-Gm-Message-State: AMCzsaWSWaNzfb+zTevY5ckKcghjwi0rq/EpnsuUPFk/3smemV+o1fH4
+	bSqSpqp02jw7hkbeiKKDWXR7DaNvGOi9tUjomz/p7w==
+X-Google-Smtp-Source: AOwi7QBukpYTYUXfzNXgAxIMwJwP+LQsIjBKf/zB3dOEjw28p7c9rjbvWKBGnpLCSR7srdECWOgTUBwqGwI37OZFZ/g=
+X-Received: by 10.36.167.79 with SMTP id s15mr13067181iti.6.1507552981263;
+	Mon, 09 Oct 2017 05:43:01 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.173.139 with HTTP; Mon, 9 Oct 2017 05:35:13 -0700 (PDT)
-In-Reply-To: <20171009123030.2783.41744@do.openembedded.org>
+Received: by 10.107.162.205 with HTTP; Mon, 9 Oct 2017 05:42:40 -0700 (PDT)
+In-Reply-To: <1507551680-26238-1-git-send-email-pbarker@toganlabs.com>
 References: <1507551680-26238-1-git-send-email-pbarker@toganlabs.com>
-	<20171009123030.2783.41744@do.openembedded.org>
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Mon, 9 Oct 2017 13:35:13 +0100
-Message-ID: <CAPyrkgyxtx7faVZu0g7WQYMiTi=FwXabiGXPExtHt_sA_OhDRQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGxpYmdjcnlwdDogRml4IGJ1aWxkaW5nIG9uIGFybXY2?=
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Oct 2017 13:42:40 +0100
+Message-ID: <CAJTo0LZ8OkfLxgCLZi9-d2vpXUtWFo6jROedC01zid7fx=FX3A@mail.gmail.com>
+To: Paul Barker <pbarker@toganlabs.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgcrypt: Fix building on armv6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,64 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Oct 2017 12:35:13 -0000
+X-List-Received-Date: Mon, 09 Oct 2017 12:43:00 -0000
+Content-Type: multipart/alternative; boundary="f403045fb218edbc5c055b1c8703"
+
+--f403045fb218edbc5c055b1c8703
 Content-Type: text/plain; charset="UTF-8"
+
+On 9 October 2017 at 13:21, Paul Barker <pbarker@toganlabs.com> wrote:
+
+> This patch is backported from the upstream git repository to fix building
+> libgcrypt on armv6 platforms such as raspberrypi.
+>
+
+Is this fixed in 1.8.1?  We've a pending upgrade for that waiting for
+master, if so then this would be rocko-specific.
+
+Ross
+
+--f403045fb218edbc5c055b1c8703
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 9, 2017 at 1:30 PM, Patchwork
-<patchwork@patchwork.openembedded.org> wrote:
-> =3D=3D Series Details =3D=3D
->
-> Series: libgcrypt: Fix building on armv6
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/9276/
-> State : failure
->
-> =3D=3D Summary =3D=3D
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Added patch file is missing Upstream-Status in the he=
-ader [test_upstream_status_presence]
->   Suggested fix    Add Upstream-Status: <status> to the header of meta/re=
-cipes-support/libgcrypt/files/0006-Fix-building-AArch32-CE-implementations-=
-when-target-.patch (possible values: Pending, Submitted, Accepted, Backport=
-, Denied, Inappropriate)
->
+<div dir=3D"ltr">On 9 October 2017 at 13:21, Paul Barker <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:pbarker@toganlabs.com" target=3D"_blank">pbarker@toga=
+nlabs.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex">This patch is backported from =
+the upstream git repository to fix building<br>
+libgcrypt on armv6 platforms such as raspberrypi.<br></blockquote><div><br>=
+</div><div>Is this fixed in 1.8.1?=C2=A0 We&#39;ve a pending upgrade for th=
+at waiting for master, if so then this would be rocko-specific.</div><div><=
+br></div><div>Ross=C2=A0</div></div></div></div>
 
-Huh, it has got an upstream status:
-
-+Upstream-status: Backport
-
-I think this is a false-positive.
-
->
->
-> If you believe any of these test results are incorrect, please reply to t=
-he
-> mailing list (openembedded-core@lists.openembedded.org) raising your conc=
-erns.
-> Otherwise we would appreciate you correcting the issues and submitting a =
-new
-> version of the patchset if applicable. Please ensure you add/increment th=
-e
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] -=
->
-> [PATCH v3] -> ...).
->
-> ---
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
-
-Cheers,
-
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
-
+--f403045fb218edbc5c055b1c8703--
