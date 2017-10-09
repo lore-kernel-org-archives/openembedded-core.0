@@ -1,49 +1,46 @@
-Return-Path: <andreas.kling@gmail.com>
-Received: from mail-vk0-f67.google.com (mail-vk0-f67.google.com
-	[209.85.213.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D1446E5FC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3021270057
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Oct 2017 19:00:53 +0000 (UTC)
-Received: by mail-vk0-f67.google.com with SMTP id q75so7126210vkf.4
+	Mon,  9 Oct 2017 19:58:42 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id i23so30089330pfi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Oct 2017 12:00:55 -0700 (PDT)
+	Mon, 09 Oct 2017 12:58:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:cc; 
-	bh=cjFgtfu6xu5oQ7sQXBFZuuCw/hHRWrSeJKpqYIeLgZg=;
-	b=pib4Gmlza89Ze2vYkNElopktoG1rfmGRHL8JEY9Bvm8hvSKmdvKTdzHJlIyYDVmiZ4
-	AVQBnrVq+JdIM4sW8pJKz6NGXGZe8SXBqUrc0Z6elRPnlQMSS0uwoR2/261SzVg5+xsV
-	tBGFr4curihPQzyRU5FLl/vecaJkoHxx6cxCphrUvHA7jFHOVER61J+Bb9eiawDK3ytX
-	+PRR3n/MNZ6RO/i9h7zIRZEnQMeV6vw2tJKWYyCWKs5FnHRJmWWVWjDsrpTvO9c8THYK
-	FmsLdrFkzzivNyjSoYx1AyaGgUULMqNuM0rQTmMmE0ZaiX9A+jM2hpgoclKSOzRvUijK
-	tL3Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=6AYA4xkKT3l0NpdUs3t9Tc0ZTeZ+uRX3YgYB8BWPzrs=;
+	b=X0zgxZ8SIKSAr7LLRnBB0FFhfW2MZKOydDI9D5d6IqDpXSIJrTdlRyutMoG61nflJJ
+	EMUpzc1BSNkgLj5liLvjtw9mdxKezSsoO/ylsgMVmVGpswi35oqDlCZObDUn4FDDvNvX
+	0NxLeEym2V7z5VDg0roKd1gzLy93t0DDt6mLV1uJl8VMlNOONfUFMTORmJrcfUeOaiFG
+	Ew3Zdr5eIY0gjMePJMddmQzIMup1B3PVxSjp/aafiCpG2mJrEqAKkY0KtpJgB0SLCeF/
+	OOrYawgrRJWXOX9pIdX2p+rrB2HoJWCMAGTLcUdgWk2tZsnJIXCZU+G+H9oO10H+zkT8
+	1W8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:cc;
-	bh=cjFgtfu6xu5oQ7sQXBFZuuCw/hHRWrSeJKpqYIeLgZg=;
-	b=EILU4b06/i03A7hSgK1ZkpDhJ+vQhyKm5TG1ZrgwLaES6q8WIc/QWjZNOHAz4sKaK6
-	SpfoNTZ9YhqpWs9TKjCaymt8x7KpP5lLEJMG6JlbJwolMFyPgC9HQUxsMFmaZnpnNNaO
-	criH5mM8HZsVKjxRo9iwpvvHWDOiSb8wrl2p4fL4+hlSa9XwfeoA8M64n1OixFU0tlZz
-	y4FMt7ouC5jY3siPCoIonaH757P99DMiLxvCFVh6Fe58j6Eb56N6qLzXdO4YT3F9esBQ
-	Vvf1j4C1rVl4U7aa++o1KGgOQM0/88l4RstEZi/fu3hoqQ/LkIfiXXRGWs0nFheVMSGV
-	K2yw==
-X-Gm-Message-State: AMCzsaXVENFEDLbkOd2dAxuWTqzDUfMvV92Qky6+A9MoQ6+PEZdv8L6U
-	eip76bGCvy3V1Eq6ing+OKXIPbkAYbO45CYxfdrbXg==
-X-Google-Smtp-Source: AOwi7QAMEPmZMUhzLEJc3TJX8uTBqJ+md9I7dtAzkfu+cC+cI7XdZ7gjE89iQbGCYYVWDXu1wtbsUMAfEklmzarjwrU=
-X-Received: by 10.31.12.200 with SMTP id 191mr4939509vkm.73.1507575654271;
-	Mon, 09 Oct 2017 12:00:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.103.147.214 with HTTP; Mon, 9 Oct 2017 12:00:53 -0700 (PDT)
-In-Reply-To: <CAE-gg=5Wq6K4JdNpscupPVAHi+cY1Npo8_Ajt17uNMNbA0ZY=g@mail.gmail.com>
-References: <20170927094014.2666-1-andreas.kling@gmail.com>
-	<20170928163521.21828-1-andreas.kling@gmail.com>
-	<CAJTo0LaWULzrFRwq+7Pwnv-_Py5-AHAYuKoc9iT61q1iuMLNFg@mail.gmail.com>
-	<CAE-gg=5Wq6K4JdNpscupPVAHi+cY1Npo8_Ajt17uNMNbA0ZY=g@mail.gmail.com>
-From: Andy <andreas.kling@gmail.com>
-Date: Mon, 9 Oct 2017 21:00:53 +0200
-Message-ID: <CAE-gg=4JFemmp8hXEz-+OfftE1MCrX3Snwd+SwDaFfDtRk3-EA@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: add runtime dependencies to pam plugins.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6AYA4xkKT3l0NpdUs3t9Tc0ZTeZ+uRX3YgYB8BWPzrs=;
+	b=TBI2eAlI5+ewgnecx5vVcYCA8gibEcvcUMfN35v2GPGnktj/0GnVuHbVlqP5Rn3eN5
+	/WSvLT/mSu/AU6YPFmaIbzV1TqFdtSkInIMgJ8O7X5KBMtLIqqhMEH3YD+HkI+q9tdYu
+	+1cM0P/R0TGFozmGVX2TKqDvYzsUoMDdCNlYU3N+LD0U4KdlgQip6Bn/hHJeLtuCnpVV
+	hwSBsMM1giqXuoIhQMwjA2FpPxf9rBIWuzMdvZl9fq9ywgDDgBcsAeaHSKnQ/OSTMPKQ
+	t5p2HSOMV6uIT7hPA8e82kDWd7Taw35ZJ7pTsygi5G7CScJCUse2w15u4m6lGNXUqQDM
+	8GAQ==
+X-Gm-Message-State: AMCzsaWsDCq9hjT7snTY/FlTXVfjaPJF4PabAveOAkXyKgsFtaczsnJT
+	Jlpf1GX+iQ2EQMOb5RsRjAzweA==
+X-Google-Smtp-Source: AOwi7QDBIttMnLghvnt8FoASH6ctAjVL8zSywOd2hefVBAFvlmQLiFTlnp+q75fSIBfhFoKNI7STfg==
+X-Received: by 10.159.249.3 with SMTP id bf3mr7077836plb.311.1507579124139;
+	Mon, 09 Oct 2017 12:58:44 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::3e99])
+	by smtp.gmail.com with ESMTPSA id 9sm15827964pgg.42.2017.10.09.12.58.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Oct 2017 12:58:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Oct 2017 12:58:36 -0700
+Message-Id: <20171009195836.17085-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.2
+Subject: [PATCH V2 6/9] gcc: Backport fix for a segfault on riscv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,122 +53,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Oct 2017 19:00:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Oct 2017 19:58:43 -0000
 
-2017-10-02 20:06 GMT+02:00 Andy <andreas.kling@gmail.com>:
-> 2017-09-29 18:31 GMT+02:00 Burton, Ross <ross.burton@intel.com>:
->> I wish I knew why git was ignoring the commit message entirely when
->> applying...  It's ignoring everything apart from the SOB:
->>
->> $ git show
->> commit 079754f2681ded614c5ee90e61f4ddbd8407998a
->> Author: andreas.kling@peiker-cee.de <andreas.kling@peiker-cee.de>
->> Date:   Thu Sep 28 18:35:21 2017 +0200
->>
->>     systemd: add runtime dependencies to pam plugins.
->>
->>     Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
->>     Signed-off-by: Ross Burton <ross.burton@intel.com>
->>
->> Ross
->>
->> On 28 September 2017 at 17:35, <andreas.kling@gmail.com> wrote:
->>>
->>> From: Andy Kling <andreas.kling@peiker-cee.de>
->>>
->>>   This ensures pam plugins required by /etc/pam.d/systemd-user
->>>   to open a user session are installed.
->>>
->>>   systemd[1]: Starting User Manager for UID 994...
->>>   systemd[6493]: PAM unable to dlopen(/lib/security/pam_keyinit.so)
->>>
->>>   Drop package systemd-pam to prevent confusion.
->>>   It is unused for a long time now.
->>>
->>> Signed-off-by: Andy Kling <andreas.kling@peiker-cee.de>
->>> ---
->>>  v2: improve commit message
->>>  v3: drop systemd-pam
->>>  v4: move version info to annotation
->>>  meta/recipes-core/systemd/systemd_234.bb | 9 +++++++--
->>>  1 file changed, 7 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/systemd/systemd_234.bb
->>> b/meta/recipes-core/systemd/systemd_234.bb
->>> index 881896bfb5..acc4c4623b 100644
->>> --- a/meta/recipes-core/systemd/systemd_234.bb
->>> +++ b/meta/recipes-core/systemd/systemd_234.bb
->>> @@ -31,6 +31,12 @@ SRC_URI += " \
->>>             "
->>>  SRC_URI_append_qemuall = "
->>> file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
->>>
->>> +PAM_PLUGINS = " \
->>> +    pam-plugin-unix \
->>> +    pam-plugin-loginuid \
->>> +    pam-plugin-keyinit \
->>> +"
->>> +
->>>  PACKAGECONFIG ??= "xz \
->>>                     ${@bb.utils.filter('DISTRO_FEATURES', 'efi pam selinux
->>> ldconfig usrmerge', d)} \
->>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11',
->>> 'xkbcommon', '', d)} \
->>> @@ -100,7 +106,7 @@ PACKAGECONFIG[importd] =
->>> "--enable-importd,--disable-importd"
->>>  PACKAGECONFIG[libidn] = "--enable-libidn,--disable-libidn,libidn"
->>>  PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit"
->>>  PACKAGECONFIG[manpages] =
->>> "--enable-manpages,--disable-manpages,libxslt-native xmlto-native
->>> docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
->>> -PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam"
->>> +PACKAGECONFIG[pam] = "--enable-pam,--disable-pam,libpam,${PAM_PLUGINS}"
->>>  # Verify keymaps on locale change
->>>  PACKAGECONFIG[xkbcommon] =
->>> "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
->>>  # Update NAT firewall rules
->>> @@ -295,7 +301,6 @@ PACKAGES =+ "\
->>>      ${PN}-kernel-install \
->>>      ${PN}-rpm-macros \
->>>      ${PN}-binfmt \
->>> -    ${PN}-pam \
->>>      ${PN}-zsh-completion \
->>>      ${PN}-xorg-xinitrc \
->>>      ${PN}-container \
->>> --
->>> 2.14.2
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->
-> I'm still convinced this somehow must be my fault by editing the patch
-> with annotation. But no matter what I try, I can't get it to fail.
-> Downloading the original message from gmail, fetching the the patch
-> from patchwork. Using git mailinfo directly. Throwing different
-> options at it, looking at the mail content in hex, and so on. Even the
-> ugly cr/lf downloaded from gmail gets processed just fine.
->
-> I'm a little bit lost here. I appreciate any idea what could went
-> wrong. I'm also happy with any workaround you may use to make it work
-> at you side. Maybe I should just upload the patch again without
-> touching the file?
->
-> many thanks in advance
->
-> Andy
+seen during kernel compile
 
-jfyi
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+- Changes in V2: Add SOB
 
-this was change in git [1] and landed in v.2.13.0. I won't indent the
-body in the future to prevent this.
+ meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
+ ...le-non-legitimate-address-in-riscv_legiti.patch | 51 ++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
 
-thx for fixing it up
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
+index 796e6b1eef..5883bc61a6 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
+@@ -74,6 +74,7 @@ SRC_URI = "\
+            file://0047-sync-gcc-stddef.h-with-musl.patch \
+            file://0048-gcc-Enable-static-PIE.patch \
+            file://fix-segmentation-fault-precompiled-hdr.patch \
++           file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
+            ${BACKPORTS} \
+ "
+ BACKPORTS = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch b/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
+new file mode 100644
+index 0000000000..5a14d04b6f
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
+@@ -0,0 +1,51 @@
++From 16210e6270e200cd4892a90ecef608906be3a130 Mon Sep 17 00:00:00 2001
++From: Kito Cheng <kito.cheng@gmail.com>
++Date: Thu, 4 May 2017 02:11:13 +0800
++Subject: [PATCH] RISC-V: Handle non-legitimate address in
++ riscv_legitimize_move
++
++GCC may generate non-legitimate address due to we allow some
++load/store with non-legitimate address in pic.md.
++
++  2017-05-12  Kito Cheng  <kito.cheng@gmail.com>
++
++      * config/riscv/riscv.c (riscv_legitimize_move): Handle
++      non-legitimate address.
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ gcc/ChangeLog            |  5 +++++
++ gcc/config/riscv/riscv.c | 16 ++++++++++++++++
++ 2 files changed, 21 insertions(+)
++
++diff --git a/gcc/config/riscv/riscv.c b/gcc/config/riscv/riscv.c
++index f7fec4bfcf8..d519be1659a 100644
++--- a/gcc/config/riscv/riscv.c
+++++ b/gcc/config/riscv/riscv.c
++@@ -1385,6 +1385,22 @@ riscv_legitimize_move (enum machine_mode mode, rtx dest, rtx src)
++       return true;
++     }
++ 
+++  /* RISC-V GCC may generate non-legitimate address due to we provide some
+++     pattern for optimize access PIC local symbol and it's make GCC generate
+++     unrecognizable instruction during optmizing.  */
+++
+++  if (MEM_P (dest) && !riscv_legitimate_address_p (mode, XEXP (dest, 0),
+++						   reload_completed))
+++    {
+++      XEXP (dest, 0) = riscv_force_address (XEXP (dest, 0), mode);
+++    }
+++
+++  if (MEM_P (src) && !riscv_legitimate_address_p (mode, XEXP (src, 0),
+++						  reload_completed))
+++    {
+++      XEXP (src, 0) = riscv_force_address (XEXP (src, 0), mode);
+++    }
+++
++   return false;
++ }
++ 
++-- 
++2.14.2
++
+-- 
+2.14.2
 
-[1] https://github.com/git/git/commit/fd1062e52e1a7ed3be443a320708ed849958c1bf
 
