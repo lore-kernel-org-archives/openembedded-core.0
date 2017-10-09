@@ -1,50 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by mail.openembedded.org (Postfix) with ESMTP id AD6AC77BE0
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f53.google.com (mail-wm0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 363AE77BE0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Oct 2017 13:15:47 +0000 (UTC)
-Received: by mail-it0-f50.google.com with SMTP id l196so744031itl.4
+	Mon,  9 Oct 2017 13:15:48 +0000 (UTC)
+Received: by mail-wm0-f53.google.com with SMTP id f4so23378533wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Oct 2017 06:15:49 -0700 (PDT)
+	Mon, 09 Oct 2017 06:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6lQ5tiybOBtZ96M0e3gB7VsUlNJsrIGQr8V4CcMwaLg=;
-	b=o0GEHzGqEN5b9j4fBiiplXtrR2xsudbBsIl+JENjRRbVs8IA+n6+g8bTuUxK+zBDEW
-	2NzCXzRm+kl1sIWJVQFcwxmC3N9ILgy2WO0mT83e0iDWRGH1lVSeum/Kl+1jlE12kH/9
-	kwfAaTLabG32V0Be3NHq/JFm9tGPc8tP+25ZxmxYlOcF3lYt4zAeRcK8/rGCpJb3l9f6
-	IYZGBFhZxGKd8mJ47f+fBVZIv40Jd//9S+gzjfYqJhicza7YHDufwchdIcfD8CpwTGsT
-	1bopkSvI88J9XFxtWn1iboApWUCMLAdcOJJzSaVSkB6/4pvuTHDvj5TbfDlXvZVEhddU
-	xMaQ==
+	:cc:content-transfer-encoding;
+	bh=MIrr99Esf2GLCKHScO8jdd4u3XNZ7coLJlgl+SwdWRQ=;
+	b=zfaY90pbNhDLxw1UcS0yIyF+QQ2EJxJWSxdyWx+LIohDYZhtBNlh+6lhJjLqNhph4g
+	KPxQQ92Ehbh2wzJtvhptqIZVwLhAbdfjia4vGbh5zpvUdbGJf1r8LuYmrMw2fP4lrT4/
+	rUBhVnwx5LlcN4fdQQS1sew6ZZqA3ZvKweP3lQCZMoScOY5kxAmmPY90Q63jPaQsoTOH
+	u4qMJ6KNInriVQ5xHHchOeImjCA3/JWSlOs9HQfmi4BLZOjNNS/+u+k6T1VBmd+ewAqU
+	G4yF6xrStVifGquR6QdF8r27NhVyukjTSOJx8PeH3gV89NStcOzNI1oDbEHViOsvVmgT
+	n9Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6lQ5tiybOBtZ96M0e3gB7VsUlNJsrIGQr8V4CcMwaLg=;
-	b=tFC+xAHT5m15A2wj3Rh2fdwjXoVrXPWO52R1IZgMm6jY+m0N2H0g8Yg41HIyltlnMb
-	RvLxxhdV75/UyuFyukK9sGAXxpDrdQTVRrVE6BDtmWM/vPbD8ny1SnL2HaXZzBOMGayU
-	h+vLd+l0yo2+sE435k19xXpXqld4iY2mu3PIb7vKwNK0g6OjqMqJjGq7plzPda+zoEnj
-	gP9aR4fPVgyXEMiMlbD9Xki9XMeV+lNODVxBeoKMBNaGbldwmolqwt+rFYeWK4cQEmWz
-	IMq2xo9pju3GS6qbgTIsdIyI8gOfQ+cS4/2X4Jyqi29bBv4aSz4KQK/3kQbnd05NkgOH
-	FyUQ==
-X-Gm-Message-State: AMCzsaVhFIXeqzAFSd+yyIK4zU88Dos09sVrTukgzmejRU9vf51zOHSD
-	bBSWRU2rsCbqql146jn0gDOYX2uGDk+E2EHheuSl9A==
-X-Google-Smtp-Source: AOwi7QCDoLOaJv2nCem0r5dQ9JYSEp9D81RRhN1jsEqxetC62DSB8jj4dGMMXpOKpSfCi73xs6Ra5WCb/vU71fY1pQw=
-X-Received: by 10.36.167.79 with SMTP id s15mr13210765iti.6.1507554948621;
-	Mon, 09 Oct 2017 06:15:48 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=MIrr99Esf2GLCKHScO8jdd4u3XNZ7coLJlgl+SwdWRQ=;
+	b=PnSxcUKHMR3Sci7RaqugZchddPWg5yDKBkeeWUt/cUdO8qqbAMZvomMR0uFe3kAcmj
+	+ySgN80RhSH/hOqTyxkCVcwMf7we9/qPwwwx5hrmxX4C7O57ycFFz6ViUgrVHl83YF9z
+	DG38Cl9/z/HJBvwcDVFy9ObmCBZMbEzN/4PhQ9DjPaRPjWx0Ee6wjLaYWVfmAN+MNicm
+	qQuCw8fSucvpG4sT29LOl3gxlS4D6kQLBf0QKJAHHTDZDc/oL9y8Hxzq76xKHriB3zcw
+	dgGF3U/IoV7Tzr3Z5QOZCMKBjE2sY1vewcoRIXXYCWM1EBx/o5KMZohhFe51IYNL11Eq
+	Qm3Q==
+X-Gm-Message-State: AMCzsaXlH6BDNk/6thvW2YWvWjCuiH/1rUHY6FkcyFD4UZxNADqGQO/o
+	Sb9eQrbqZXerZ9x0SpEoNZLnqF2cjm6fKtKZXTk5Aw==
+X-Google-Smtp-Source: AOwi7QCme883gH/4hrDbwIHAeF6uvqkJeAXBHxMjxIIAKcSK/7zOUzhR0XUIrC2zIaAKISLJbCfHdnJ4Ym4mUGVVGkE=
+X-Received: by 10.223.186.142 with SMTP id p14mr10224810wrg.169.1507554949854; 
+	Mon, 09 Oct 2017 06:15:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.205 with HTTP; Mon, 9 Oct 2017 06:15:28 -0700 (PDT)
-In-Reply-To: <CAPyrkgzum8JGfqsP2tu+7bjG8-J-UNBMgJPhLK08o7i0YXWHqw@mail.gmail.com>
-References: <1507551680-26238-1-git-send-email-pbarker@toganlabs.com>
-	<CAJTo0LZ8OkfLxgCLZi9-d2vpXUtWFo6jROedC01zid7fx=FX3A@mail.gmail.com>
-	<CAPyrkgzum8JGfqsP2tu+7bjG8-J-UNBMgJPhLK08o7i0YXWHqw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Oct 2017 14:15:28 +0100
-Message-ID: <CAJTo0La9PqqgOfRZB-cXo89e4x8HAHcfyUVCKcwuCUJ+jRhESg@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
+Received: by 10.223.173.139 with HTTP; Mon, 9 Oct 2017 06:15:49 -0700 (PDT)
+In-Reply-To: <CAPyrkgxRjHRF9ALg9QwdUPdXAsetFNb9iUCQZNw+GtJsz+hM5g@mail.gmail.com>
+References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
+	<CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
+	<CAPyrkgxRjHRF9ALg9QwdUPdXAsetFNb9iUCQZNw+GtJsz+hM5g@mail.gmail.com>
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Mon, 9 Oct 2017 14:15:49 +0100
+Message-ID: <CAPyrkgxV9aQvx3frYAJFKuK3jBY7Cv+V8=zFjvvLM-jbK5PH8g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libgcrypt: Fix building on armv6
+Subject: Re: Illegal instruction when running go binaries in qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,88 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Oct 2017 13:15:47 -0000
-Content-Type: multipart/alternative; boundary="f403045fb21831403a055b1cfd93"
-
---f403045fb21831403a055b1cfd93
+X-List-Received-Date: Mon, 09 Oct 2017 13:15:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks, queued for rocko.  We've just fired RC2 so this is unlikely to make
-it into 2.4.0 but it can be in the queue for 2.4.1 if it doesn't.
-
-Ross
-
-On 9 October 2017 at 13:48, Paul Barker <pbarker@toganlabs.com> wrote:
-
-> On Mon, Oct 9, 2017 at 1:42 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > On 9 October 2017 at 13:21, Paul Barker <pbarker@toganlabs.com> wrote:
-> >>
-> >> This patch is backported from the upstream git repository to fix
-> building
-> >> libgcrypt on armv6 platforms such as raspberrypi.
-> >
-> >
-> > Is this fixed in 1.8.1?  We've a pending upgrade for that waiting for
-> > master, if so then this would be rocko-specific.
-> >
-> > Ross
+On Thu, Oct 5, 2017 at 3:35 PM, Paul Barker <pbarker@toganlabs.com> wrote:
+> On Thu, Oct 5, 2017 at 3:31 PM, Burton, Ross <ross.burton@intel.com> wrot=
+e:
+>> On 5 October 2017 at 15:23, Paul Barker <pbarker@toganlabs.com> wrote:
+>>>
+>>> So my question is: should we just set GO386 =3D "387" so that it applie=
+s
+>>> to all go binaries and accept the slight loss of performance on x86
+>>> systems that do support sse2 instructions? Or should we make this
+>>> MACHINE specific so that sse2 instructions can be used where
+>>> supported?
+>>
+>>
+>> Definitely machine-specific.  Need a way of mapping from OE tunes to Go
+>> options that control the instructions used.
+>>
+>> Ross
 >
-> Yes this change is in 1.8.1. I backported just the single patch as I
-> assume it's too late for a version bump in rocko now.
->
-> I still see rocko =3D=3D master in the git repository so I didn't include
-> a [rocko] tag.
->
-> Cheers,
->
-> --
-> Paul Barker
-> Tog=C3=A1n Labs Ltd
+> Looking again, we already have go_map_arm() in goarch.bbclass to set
+> HOST_GOARM and TARGET_GOARM. We probably need to do the same for the
+> GO386 variable.
 >
 
---f403045fb21831403a055b1cfd93
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I'm looking at what I can use to determine if sse2 is supported for a
+given machine/tune.
 
-<div dir=3D"ltr">Thanks, queued for rocko.=C2=A0 We&#39;ve just fired RC2 s=
-o this is unlikely to make it into 2.4.0 but it can be in the queue for 2.4=
-.1 if it doesn&#39;t.<div><br></div><div>Ross</div></div><div class=3D"gmai=
-l_extra"><br><div class=3D"gmail_quote">On 9 October 2017 at 13:48, Paul Ba=
-rker <span dir=3D"ltr">&lt;<a href=3D"mailto:pbarker@toganlabs.com" target=
-=3D"_blank">pbarker@toganlabs.com</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On Mon, Oct 9, 2017 =
-at 1:42 PM, Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.=
-burton@intel.com</a>&gt; wrote:<br>
-&gt; On 9 October 2017 at 13:21, Paul Barker &lt;<a href=3D"mailto:pbarker@=
-toganlabs.com">pbarker@toganlabs.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; This patch is backported from the upstream git repository to fix b=
-uilding<br>
-&gt;&gt; libgcrypt on armv6 platforms such as raspberrypi.<br>
-&gt;<br>
-&gt;<br>
-&gt; Is this fixed in 1.8.1?=C2=A0 We&#39;ve a pending upgrade for that wai=
-ting for<br>
-&gt; master, if so then this would be rocko-specific.<br>
-&gt;<br>
-&gt; Ross<br>
-<br>
-</div></div>Yes this change is in 1.8.1. I backported just the single patch=
- as I<br>
-assume it&#39;s too late for a version bump in rocko now.<br>
-<br>
-I still see rocko =3D=3D master in the git repository so I didn&#39;t inclu=
-de<br>
-a [rocko] tag.<br>
-<br>
-Cheers,<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Paul Barker<br>
-Tog=C3=A1n Labs Ltd<br>
-</font></span></blockquote></div><br></div>
+In TUNE_FEATURES I could check for "core2" or "corei7" based on what's
+in oe-core, but not sure this will cover tunings which might be
+defined in other layers.
 
---f403045fb21831403a055b1cfd93--
+Alternatively I could check TUNE_CCARGS for "-msse2" or later but that
+feels dirty.
+
+Any suggestions on this?
+
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
+
