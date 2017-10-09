@@ -1,50 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6408777BC8
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id BA10F77DCD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Oct 2017 13:16:38 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id 72so9301025itl.5
+	Mon,  9 Oct 2017 13:26:34 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id u138so22501632wmu.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Oct 2017 06:16:39 -0700 (PDT)
+	Mon, 09 Oct 2017 06:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ehpDR4xU2qkNnlGcmJRLHRFNTowvtMtYntpo22+LQXQ=;
-	b=EZBi1NfPJdODiKivgOXF5e4Y+GpmvvRmSneAf7Q85Hu7jc1mDpFk1BhQrl7/h1otDa
-	sWUSjFdgCEDYeZmwdy/YUJ1AwNazmHgdarM5JAQI/EPKcCzf83YTQWCf8blxu7b+Fgs1
-	YC01dfBnn6aMsFYk8B+HgHiR8ThVvwD7ZjxFiQkJBofqOcD58et5I2Q9wvaXd4H+OC4A
-	yM8l6cEtEVwPC+uGKuHHhg8CG7nUyBcQgwnwxLaxR93bHOzeKfvix3Jraw2zEZq0c+sE
-	+kEZYNvm5g73tntVySW/jYcDIGh961HBDg5Fhrw11zpC3qI41WuRlpEoBZHrKt3/J7bh
-	KB0g==
+	:cc:content-transfer-encoding;
+	bh=8WQwZo7s/AyeHmh/fhPLvoxz15LsPkNeZ7YLPGrhTzg=;
+	b=Y8zkZoHCv+y33QcOX6LaifX5A6yFaDzJbj8nJiik8yCRy0L8ZHxfpGuOKZmzanC4Vk
+	UukQz/eD3rMuo598SegSKnEJ3rWNXDlMXNyhyOLuQvkibqYHNrRcc9wgYym28M6OxcXT
+	o5O5aq4+8i5a+MQ6LZSAMDoEHBc8MqdTHjtZp86e740GwqaG2LxEM+C7Qadv0eAIAiUL
+	w4T/BWobyvUAnwuTm+uo/PC99HuXuw7mMqOeS4HAJRPYxVns6HZXP4SuIolI6VmySiER
+	MIk965uzMnzMyjL9OUw+nUixmr3cfKd7jebYlrBVH9Me7gkQa+dZhT2uyOLlbkmvqtsb
+	PTOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ehpDR4xU2qkNnlGcmJRLHRFNTowvtMtYntpo22+LQXQ=;
-	b=tFU4rRG7cKydjujq7ePX4kqNYQW8tfQ189LydnRQvrGMyQ70spCPx02/te7I+VH3OP
-	5jzV3UQIxKsDiUa2c5WcSV+qW5MgnGdKw8LKB5fKD5/e3GwWi5ReXkcbiJ1fctGt4MoE
-	b1PhvZkQyTYHV6UFYCEPe59sOcmVQQEEzZ1adHHZgZKhvoQbCk92GvgB2liZF38hKEWY
-	hxCsU0LPE+Yd033Qb1hTZ9zkYJ7gL14NAde1mnCpzHaoHV7g+CjtGd2VXKqW22dxsZ5O
-	L84TYlYgQAGei3KKEk04PIz5Jw5Kj1zd12QqXsw6C71F6X03nUBHwriOaeymJ7WoniVy
-	IMBw==
-X-Gm-Message-State: AMCzsaUZ/fRgTs2QVbV9oqINz+Iy9LqdosXbV5o1ly2tQ+cGO0Rdl0g2
-	asl3OtlQMYQvqmsbdaaCz1k5z4+0icn7Lp66XrCx2Q==
-X-Google-Smtp-Source: AOwi7QCZCvPqqTyqRGi4jciCtkBVJ+Dwv5TW3YzSkD2YURZVFuf7oomh37tnyzpyHaSe2qJfYq7XzFSSaqgaNhPZZw8=
-X-Received: by 10.36.167.79 with SMTP id s15mr13214960iti.6.1507554999636;
-	Mon, 09 Oct 2017 06:16:39 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=8WQwZo7s/AyeHmh/fhPLvoxz15LsPkNeZ7YLPGrhTzg=;
+	b=T1A/OhPTqY8pAog0MmNLtCtdhEkoSMnbjbbPwte+38pPMjHvtrgqw2KIObQF4/Y7YU
+	LoQgdioSNLEwYtLg069fyzx8RzFSejuqOj7rW7tPOEyfgQ9UHn05/GKz/aN7xedw3vlT
+	Iju302upGme0UzK5Jmo1ALbbomWk+XXI4N4L6YGIanjMJ4pTH66jMAktSm85V1QX7s1l
+	O1fJ3euZ4wniPAZU0vEYTKWL4sj8jRAK43dNbIOOxX+8tpeMZaynqiggMo03Z3e1M0a5
+	8nPifB2CxN5o4rEZx0MRpHaRmiqe08CtXD9ljXhtHaCyziP0CHrUtJ+KfDjvPkf+1Wyw
+	6JvA==
+X-Gm-Message-State: AMCzsaVqFFi2GQRq5CdtbAZagR9ODsn5bMtNZyTYS+LWJCvk+UsNBFqS
+	y9EycN8z+cS79YKKUGV+2RqXoIJfQlSotD5nH6Q6yg==
+X-Google-Smtp-Source: AOwi7QAzuh2b708bPkD85VCR6glz+Tln9acBbjkXOJAwbMv24CvY/0PiEpvCHUFu6TxVYIvlEO34/ShVURpK6LjxGFk=
+X-Received: by 10.28.29.215 with SMTP id d206mr8120410wmd.130.1507555595650;
+	Mon, 09 Oct 2017 06:26:35 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.205 with HTTP; Mon, 9 Oct 2017 06:16:19 -0700 (PDT)
-In-Reply-To: <CAPyrkgyxtx7faVZu0g7WQYMiTi=FwXabiGXPExtHt_sA_OhDRQ@mail.gmail.com>
+Received: by 10.223.173.139 with HTTP; Mon, 9 Oct 2017 06:26:35 -0700 (PDT)
+In-Reply-To: <CAJTo0La9PqqgOfRZB-cXo89e4x8HAHcfyUVCKcwuCUJ+jRhESg@mail.gmail.com>
 References: <1507551680-26238-1-git-send-email-pbarker@toganlabs.com>
-	<20171009123030.2783.41744@do.openembedded.org>
-	<CAPyrkgyxtx7faVZu0g7WQYMiTi=FwXabiGXPExtHt_sA_OhDRQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Oct 2017 14:16:19 +0100
-Message-ID: <CAJTo0LZ8GBKvKEcNCej=FTSC2mEuQFeZOMo=iao43OAJM9o8oA@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
+	<CAJTo0LZ8OkfLxgCLZi9-d2vpXUtWFo6jROedC01zid7fx=FX3A@mail.gmail.com>
+	<CAPyrkgzum8JGfqsP2tu+7bjG8-J-UNBMgJPhLK08o7i0YXWHqw@mail.gmail.com>
+	<CAJTo0La9PqqgOfRZB-cXo89e4x8HAHcfyUVCKcwuCUJ+jRhESg@mail.gmail.com>
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Mon, 9 Oct 2017 14:26:35 +0100
+Message-ID: <CAPyrkgxSdzv2smpXDvd62w-9TMuXRY+b7T=GSGc0E4zX7vtJWg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGxpYmdjcnlwdDogRml4IGJ1aWxkaW5nIG9uIGFybXY2?=
+Subject: Re: [PATCH] libgcrypt: Fix building on armv6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +58,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Oct 2017 13:16:38 -0000
-Content-Type: multipart/alternative; boundary="f403045fb2183b99dc055b1d00a7"
-
---f403045fb2183b99dc055b1d00a7
+X-List-Received-Date: Mon, 09 Oct 2017 13:26:35 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On 9 October 2017 at 13:35, Paul Barker <pbarker@toganlabs.com> wrote:
-
-> Huh, it has got an upstream status:
->
-> +Upstream-status: Backport
->
-> I think this is a false-positive.
->
-
-The test is pedantic, the tag is Upstream-Status.  Note the capitalisation.
- :)
-
-(fixed when I queued it)
-
-Ross
-
---f403045fb2183b99dc055b1d00a7
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 9 October 2017 at 13:35, Paul Barker <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:pbarker@toganlabs.com" target=3D"_blank">pbarker@toga=
-nlabs.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">Huh, it has got an upstream st=
-atus:<br>
-<br>
-+Upstream-status: Backport<br>
-<br>
-I think this is a false-positive.<br></blockquote><div><br></div><div>The t=
-est is pedantic, the tag is Upstream-Status.=C2=A0 Note the capitalisation.=
- =C2=A0:)</div><div><br></div><div>(fixed when I queued it)</div><div><br><=
-/div><div>Ross=C2=A0</div></div></div></div>
+On Mon, Oct 9, 2017 at 2:15 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> Thanks, queued for rocko.  We've just fired RC2 so this is unlikely to ma=
+ke
+> it into 2.4.0 but it can be in the queue for 2.4.1 if it doesn't.
+>
+> Ross
+>
 
---f403045fb2183b99dc055b1d00a7--
+Ok. I assume the same will apply for the go qemux86 illegal
+instruction fix once I've got it sorted. As long as it hits the rocko
+branch within a week or two of release it won't impact me. If not I'll
+carry this in our distro layer.
+
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
+
