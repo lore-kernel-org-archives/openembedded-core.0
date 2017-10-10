@@ -1,31 +1,30 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id EA88177527
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5071760107
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 12:58:03 +0000 (UTC)
-Received: (qmail 21858 invoked by uid 1003); 10 Oct 2017 12:58:05 -0000
-Received: from unknown (HELO ?192.168.11.142?)
-	(philip@opensdr.com@108.44.111.57)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	10 Oct 2017 12:58:05 -0000
-To: =?UTF-8?Q?=c3=98ystein_Walle?= <oystwa@gmail.com>,
-	=?UTF-8?Q?Maciej_Borz=c4=99cki?= <maciej.borzecki@rndity.com>
-References: <20171010120012.20163-1-oystwa@gmail.com>
-	<33c05071-504f-897e-48d7-c3e6ddaefaaa@linux.intel.com>
-	<CAD4b0_JXtK+3RxhNKG-yP8nb_hCLdt+vO_58H1p1jXSc5Striw@mail.gmail.com>
-	<CAFaJEqs=GgsEwsjT3=e6hYnK8TMvgUfZd2c475wwsgMeUU6cgQ@mail.gmail.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <3722358e-1ccc-6ada-1326-46e4bc8276ba@balister.org>
-Date: Tue, 10 Oct 2017 05:58:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue, 10 Oct 2017 12:59:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.42,505,1500912000"; d="scan'208";a="28805780"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Oct 2017 20:59:31 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2F55F48029C1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Oct 2017 20:59:30 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Tue, 10 Oct 2017 20:59:29 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Oct 2017 20:59:30 +0800
+Message-ID: <1507640372-934-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAFaJEqs=GgsEwsjT3=e6hYnK8TMvgUfZd2c475wwsgMeUU6cgQ@mail.gmail.com>
-Cc: =?UTF-8?Q?=c3=98ystein_Walle?= <ow@datarespons.no>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: fix typo in toolchain file
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 2F55F48029C1.A67DC
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] atk: 2.24.0 -> 2.26.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,36 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 12:58:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Oct 2017 12:59:32 -0000
+Content-Type: text/plain
 
-On 10/10/2017 05:38 AM, Øystein Walle wrote:
-> On 10 October 2017 at 14:31, Maciej Borzęcki <maciej.borzecki@rndity.com> wrote:
->> On Tue, Oct 10, 2017 at 2:25 PM, Alexander Kanavin
->>
->>> Where is the typo and what is it, exactly?
->>
->> -set( CMAKE ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
->>
->> missing _ between CMAKE and ASM
-> 
-> Correct. As it is the code defines a variable named "CMAKE" with the
-> contents "ASM_FLAGS ${CMAKE_C_FLAGS}". As far as CMake is concerned that
-> is valid and so this will not generate any form of error, but may
-> result in incorrect flags.
-> 
-> I can resend the patch with a better commit message if you like.
+Upgrade atk from 2.24.0 to 2.26.0.
 
-That would be nice. I stared at the line for a bit trying to see the
-typo also.
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ meta/recipes-support/atk/{atk_2.24.0.bb => atk_2.26.0.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/atk/{atk_2.24.0.bb => atk_2.26.0.bb} (79%)
 
-Philip
+diff --git a/meta/recipes-support/atk/atk_2.24.0.bb b/meta/recipes-support/atk/atk_2.26.0.bb
+similarity index 79%
+rename from meta/recipes-support/atk/atk_2.24.0.bb
+rename to meta/recipes-support/atk/atk_2.26.0.bb
+index d62319c..e616db9 100644
+--- a/meta/recipes-support/atk/atk_2.24.0.bb
++++ b/meta/recipes-support/atk/atk_2.26.0.bb
+@@ -12,8 +12,9 @@ DEPENDS = "glib-2.0"
+ 
+ inherit gnomebase gtk-doc gettext upstream-version-is-even gobject-introspection
+ 
+-SRC_URI[archive.md5sum] = "3747a80089dfa3c0bbcf21adfff9968b"
+-SRC_URI[archive.sha256sum] = "bb2daa9a808c73a7a79d2983f333e0ba74be42fc51e3ba1faf2551a636487a49"
++SRC_URI[archive.md5sum] = "ee9c329784dead6e386e8b2e0d4d8d6f"
++SRC_URI[archive.sha256sum] = "eafe49d5c4546cb723ec98053290d7e0b8d85b3fdb123938213acb7bb4178827"
++
+ 
+ BBCLASSEXTEND = "native"
+ 
+-- 
+2.7.4
 
 
-> 
-> --
-> Øsse
-> 
+
 
