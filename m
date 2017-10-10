@@ -1,49 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 250C26093B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F0A0771984
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 13:04:21 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id f187so2380354itb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 06:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ffjJBtsCrrsNQWeeGKbZoFvYAz5QHiROnSpyMELZTn0=;
-	b=NH7AMWbDnp0xXfWqxi/oLBfBkbRSaZIPbzN+a5AbuuojsO8URcr4QhjAS7WLDLJ7P+
-	2aPk/L/SHHQPXvZXwZlqvljaQsFxL80kOmuMXf+WegDAYiSZHhJcnkk9iaFD/iBoBRc0
-	FMiFWb9c5omKqffssdc1zxPdspoY1mDWCvfEbekNcgFErf1RXJ1uVzmF2uCWSUmhfXpy
-	B57l6tT1vnp6DpmiAjul0l4/JWQUH53GdjAszaaGrdPjSFt0KJ5Hp+iTQLkQAcCZR2uw
-	vOZkAgQPyXIWm+0kkw38TtM94Y7gb8q+HUAFmNYCvjRIcoPUdzGPdQHJMU39nLI+5Ksu
-	WGpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ffjJBtsCrrsNQWeeGKbZoFvYAz5QHiROnSpyMELZTn0=;
-	b=RkqAF2mI4noBnouLTS52vL7km7rfFHeyx70ZZoJLddHqL2X1djjTA6jip2xRNFaZKJ
-	tMosoH2G5UkgS45JUR0IoNAdSxUQ8elr2v9o5s9/YNYILq7LPOoxZboeE0zcAhzsaKPQ
-	r1bOXp+s9caFV1utH1VVJ95TI9vnrwfg7LRNMb008OpX3v/NmuLK4CVMiFcAyr8kb2fq
-	4vvyhYxnOFbxVTovOL4atyeSccHGjitECN5k2TO2a+PxYZndn0ypH9qvQ9lur1fxSDMJ
-	wmzrynEt2RWIWEJu6rwk8njMSPrNT3yRsXTQJmHHMvgE5pO1DBIRkHcdOEVFZ4yPY5Xf
-	xONg==
-X-Gm-Message-State: AMCzsaWIKW0vHIvRdSzn7+vHtj3aKdoHxeTf8duHVjmiRlu5A7Rcr1vX
-	t4X1DpBDOpVwy+U0Efn+p0gjF55wwTup3U4wZdiB+A==
-X-Google-Smtp-Source: AOwi7QDMZmozSeDXLrdYvapMCFzPMa1mau31N8kINtGYOWR8DZnXuSZRgg16ZM/xzstfaNlO7VqFgIxZLvS9MXuQLwE=
-X-Received: by 10.36.197.129 with SMTP id f123mr20225518itg.27.1507640663210; 
-	Tue, 10 Oct 2017 06:04:23 -0700 (PDT)
+	Tue, 10 Oct 2017 13:57:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 584EE18841;
+	Tue, 10 Oct 2017 15:57:13 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id nV3PkGC-rmn4; Tue, 10 Oct 2017 15:57:05 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id E575D18813;
+	Tue, 10 Oct 2017 15:57:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D29AF1A072;
+	Tue, 10 Oct 2017 15:57:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C725D1A069;
+	Tue, 10 Oct 2017 15:57:04 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Tue, 10 Oct 2017 15:57:04 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id BB1A02CCF;
+	Tue, 10 Oct 2017 15:57:04 +0200 (CEST)
+Received: from xbox12.axis.com (10.0.5.26) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Tue, 10 Oct 2017 15:57:04 +0200
+Received: from XBOX02.axis.com (10.0.5.16) by xbox12.axis.com (10.0.5.26) with
+	Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Tue, 10 Oct 2017 15:57:04 +0200
+Received: from XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776]) by
+	XBOX02.axis.com ([fe80::50c3:4d2f:4507:7776%21]) with mapi id
+	15.00.1263.000; Tue, 10 Oct 2017 15:57:04 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, Andre McCurdy
+	<armccurdy@gmail.com>
+Thread-Topic: [OE-core] [PATCH] cmake: Upgrade to 3.9.3 release
+Thread-Index: AQHTQQiqnAKq09MSVU6AcCeblJKdAaLbbhkAgAC0+4CAAKvcAIAASQpA
+Date: Tue, 10 Oct 2017 13:57:04 +0000
+Message-ID: <c4183a19150d4970881e5a06d0b327a6@XBOX02.axis.com>
+References: <20171009141227.21795-1-otavio@ossystems.com.br>
+	<d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
+	<CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
+	<0eea3119-a905-9a62-6572-1cab90a43a2d@linux.intel.com>
+In-Reply-To: <0eea3119-a905-9a62-6572-1cab90a43a2d@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Received: by 10.107.162.205 with HTTP; Tue, 10 Oct 2017 06:04:02 -0700 (PDT)
-In-Reply-To: <1507640372-934-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1507640372-934-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<1507640372-934-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Oct 2017 14:04:02 +0100
-Message-ID: <CAJTo0LYL8f52cGGG1OAsGP9OTG3_tHBRrcPy_Pvhm7CqZ2-FSg@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] at-spi2-core: 2.24.1 -> 2.26.0
+X-TM-AS-GCONF: 00
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: Upgrade to 3.9.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +69,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 13:04:22 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07aab02e13c8055b30f238"
-
---94eb2c07aab02e13c8055b30f238
-Content-Type: text/plain; charset="UTF-8"
-
-On 10 October 2017 at 13:59, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-
-> 1) Upgrade at-spi2-core from 2.24.1 to 2.26.0.
-> 2) Delete one patch "0001-nls.m4-Take-it-from-gettext-0.15.patch", since
-> it is integrated upstream.
-> 3) Modify one patch "0001-nls.m4-Take-it-from-gettext-0.15.patch", since
-> the data has been changed.
->
-
-Wrong filename here.
-
-Ross
-
---94eb2c07aab02e13c8055b30f238
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Oct 2017 13:57:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 10 October 2017 at 13:59, Huang Qiyu <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com" target=3D"_blank">huangq=
-y.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><=
-div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">1) Upgrade at-spi2=
--core from 2.24.1 to 2.26.0.<br>
-2) Delete one patch &quot;0001-nls.m4-Take-it-from-<wbr>gettext-0.15.patch&=
-quot;, since it is integrated upstream.<br>
-3) Modify one patch &quot;0001-nls.m4-Take-it-from-<wbr>gettext-0.15.patch&=
-quot;, since the data has been changed.<br></blockquote><div><br></div><div=
->Wrong filename here.</div><div><br></div><div>Ross=C2=A0</div></div></div>=
-</div>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Alexander Kanavin
+> Sent: den 10 oktober 2017 13:17
+> To: Andre McCurdy <armccurdy@gmail.com>
+> Cc: Otavio Salvador <otavio@ossystems.com.br>; OpenEmbedded Core
+> Mailing List <openembedded-core@lists.openembedded.org>
+> Subject: Re: [OE-core] [PATCH] cmake: Upgrade to 3.9.3 release
+>=20
+> On 10/10/2017 04:01 AM, Andre McCurdy wrote:
+>=20
+> >>> -LIC_FILES_CHKSUM =3D "file://Copyright.txt;md5=3D8d8c7bc32f8797d23f5=
+cf605d9339d2d \
+> >>> +LIC_FILES_CHKSUM =3D "file://Copyright.txt;md5=3D24600643e5d1d2b8f74=
+78ae5c9074949 \
+> >>>                      file://Source/cmake.h;beginline=3D1;endline=3D3;=
+md5=3D4494dee184212fc89c469c3acd555a14"
+> >>
+> >> What has changed in Copyright.txt? If it's just the copyright=20
+> >> years, you can exclude the line using beginline/endline.
+> >
+> > The copyright statement and copyright year(s) are part of the
+> > license. Slicing and dicing the license text to get a consistent=20
+> > hash probably isn't the right approach.
+>=20
+> The purpose of LIC_FILES_CHECKSUM is to establish whether what the
+> recipe claims in LICENSE matches what the upstream says in the source
+> tree. For that purpose, when the code was published, who owns the code,
+> or who made contributions to it are all not relevant and can be
+> excluded. Also, such exclusions remove a major nuisance from recipe
+> maintainers' job, and that is always a good thing.
 
---94eb2c07aab02e13c8055b30f238--
+That is not the entire story though. If you have COPY_LIC_MANIFEST and=20
+COPY_LIC_DIRS set in your configuration, the relevant licenses will be=20
+installed in the image, and for licenses specified with beginline and/or=20
+endline this only includes the specified lines.
+
+Then, if the license requires that you include the copyright information,=20
+which is pretty common, e.g., BSD, leaving out that part just to avoid=20
+having to update the recipe once a year means that you are not really=20
+complying with the license... And neither will any users of the layer=20
+be who believe they are covered license wise by including the license=20
+information bitbake produces and installs in their images.=20
+
+True, you should always verify all licenses yourself for any code you=20
+use, but still being able to rely on all relevant parts of a license=20
+being copied by the build system sounds like something one should be=20
+able to expect.
+
+> As a technicality, the years of publication and code owners are not a
+> part of the license, they a part of the copyright notice (which may
+> also include the license text if it's short, or a reference to it if=20
+> it's long):
+>=20
+> https://en.wikipedia.org/wiki/Copyright_notice
+> Alex
+
+//Peter
+
+
