@@ -1,46 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3021270057
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 435B571CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Oct 2017 19:58:42 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id i23so30089330pfi.2
+	Tue, 10 Oct 2017 01:01:42 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id f4so848081wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Oct 2017 12:58:44 -0700 (PDT)
+	Mon, 09 Oct 2017 18:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=6AYA4xkKT3l0NpdUs3t9Tc0ZTeZ+uRX3YgYB8BWPzrs=;
-	b=X0zgxZ8SIKSAr7LLRnBB0FFhfW2MZKOydDI9D5d6IqDpXSIJrTdlRyutMoG61nflJJ
-	EMUpzc1BSNkgLj5liLvjtw9mdxKezSsoO/ylsgMVmVGpswi35oqDlCZObDUn4FDDvNvX
-	0NxLeEym2V7z5VDg0roKd1gzLy93t0DDt6mLV1uJl8VMlNOONfUFMTORmJrcfUeOaiFG
-	Ew3Zdr5eIY0gjMePJMddmQzIMup1B3PVxSjp/aafiCpG2mJrEqAKkY0KtpJgB0SLCeF/
-	OOrYawgrRJWXOX9pIdX2p+rrB2HoJWCMAGTLcUdgWk2tZsnJIXCZU+G+H9oO10H+zkT8
-	1W8g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=uXo9wgLw6nkgsdoyLP9c8ajR9j6m4GlXVTJ+N9Eb+m8=;
+	b=epQ/clVzA9c3Cm22vBicvWbOtVYUvcfK66RPRLjtW80rdf++3heEOUEx/dd+r8C51B
+	s+jdh/0z8kEv/hlP/gpw/Cqd9yz9nGHa0CMiSgG6yhVOjcsB+C4rv+zpWvv05sHwfV4Y
+	DPpRuvOjFw/lgJQ8t1VFbkFaU9X4qJht/a8n5cMaPNbYCulAM9l209cgfaV9a36HLPLG
+	IC1/Vk0k99AEyTQH2/RnN9kegZUSLZjxkThrbqigMBnsAhLGGouDwtIQ+UwucIodqG28
+	3nlRwWB6HsucdBIP4AG8mS6llIcpCgpwSqzdpWF+NDKF6cfHJH0g3b9/xpsxey6L7B+5
+	ThRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6AYA4xkKT3l0NpdUs3t9Tc0ZTeZ+uRX3YgYB8BWPzrs=;
-	b=TBI2eAlI5+ewgnecx5vVcYCA8gibEcvcUMfN35v2GPGnktj/0GnVuHbVlqP5Rn3eN5
-	/WSvLT/mSu/AU6YPFmaIbzV1TqFdtSkInIMgJ8O7X5KBMtLIqqhMEH3YD+HkI+q9tdYu
-	+1cM0P/R0TGFozmGVX2TKqDvYzsUoMDdCNlYU3N+LD0U4KdlgQip6Bn/hHJeLtuCnpVV
-	hwSBsMM1giqXuoIhQMwjA2FpPxf9rBIWuzMdvZl9fq9ywgDDgBcsAeaHSKnQ/OSTMPKQ
-	t5p2HSOMV6uIT7hPA8e82kDWd7Taw35ZJ7pTsygi5G7CScJCUse2w15u4m6lGNXUqQDM
-	8GAQ==
-X-Gm-Message-State: AMCzsaWsDCq9hjT7snTY/FlTXVfjaPJF4PabAveOAkXyKgsFtaczsnJT
-	Jlpf1GX+iQ2EQMOb5RsRjAzweA==
-X-Google-Smtp-Source: AOwi7QDBIttMnLghvnt8FoASH6ctAjVL8zSywOd2hefVBAFvlmQLiFTlnp+q75fSIBfhFoKNI7STfg==
-X-Received: by 10.159.249.3 with SMTP id bf3mr7077836plb.311.1507579124139;
-	Mon, 09 Oct 2017 12:58:44 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::3e99])
-	by smtp.gmail.com with ESMTPSA id 9sm15827964pgg.42.2017.10.09.12.58.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Oct 2017 12:58:43 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Oct 2017 12:58:36 -0700
-Message-Id: <20171009195836.17085-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.2
-Subject: [PATCH V2 6/9] gcc: Backport fix for a segfault on riscv
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=uXo9wgLw6nkgsdoyLP9c8ajR9j6m4GlXVTJ+N9Eb+m8=;
+	b=oBaDWPayJFnWxnMWawNynbopf4gcWREi9DIBLWsHWKhhTrDuBN/xfEuxNqoaVU4iIv
+	Q99x3TONZV4AXdUSdqE85x7wMtOTGl/nTIRF3FM3PlkPnBNduGSVH5XuO11zhoT6mc7y
+	SBmyzZdATrsznxB4ppoqof++2k79yj0JVyYC4MSqvXTXFJN/BXf9K5bo22CWKFTPJc/6
+	Imir1B38DN1QX7q5ADcfkCIG59o1onK4n6q6EurKAy98YMmVhFVnZ5b3RbVuPi4+JbX+
+	Iik4bph6Imr85DAcnR6v80Y/pckVhVuO0uqq1lIDMSnfZQmr00fpSVZOW7y0VuIiPgws
+	lNDQ==
+X-Gm-Message-State: AMCzsaWfIZxqT26QwxoaHuNdOo3Zu9xSNvQlBY4fTT4epaFxrYIzutO5
+	t6/829xT3c7Ll/GGk1qBzR28QXPH3++tT1b0xX8=
+X-Google-Smtp-Source: AOwi7QA9sV8IWtNfCCyJhF97So8V3mzovs7hwPaXy071yO0BfXtK+k2eZjXGL7xndOcnob6tzC7M76gqPM070qepAyU=
+X-Received: by 10.28.91.75 with SMTP id p72mr9360629wmb.89.1507597303761; Mon,
+	09 Oct 2017 18:01:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.166.19 with HTTP; Mon, 9 Oct 2017 18:01:43 -0700 (PDT)
+In-Reply-To: <d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
+References: <20171009141227.21795-1-otavio@ossystems.com.br>
+	<d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 9 Oct 2017 18:01:43 -0700
+Message-ID: <CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: Upgrade to 3.9.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,89 +55,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Oct 2017 19:58:43 -0000
+X-List-Received-Date: Tue, 10 Oct 2017 01:01:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-seen during kernel compile
+On Mon, Oct 9, 2017 at 7:13 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 10/09/2017 05:12 PM, Otavio Salvador wrote:
+>>
+>> -LIC_FILES_CHKSUM =
+>> "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
+>> +LIC_FILES_CHKSUM =
+>> "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
+>>
+>> file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
+>
+> What has changed in Copyright.txt? If it's just the copyright years, you can
+> exclude the line using beginline/endline.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-- Changes in V2: Add SOB
-
- meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
- ...le-non-legitimate-address-in-riscv_legiti.patch | 51 ++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-index 796e6b1eef..5883bc61a6 100644
---- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-@@ -74,6 +74,7 @@ SRC_URI = "\
-            file://0047-sync-gcc-stddef.h-with-musl.patch \
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-+           file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch b/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
-new file mode 100644
-index 0000000000..5a14d04b6f
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.2/0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch
-@@ -0,0 +1,51 @@
-+From 16210e6270e200cd4892a90ecef608906be3a130 Mon Sep 17 00:00:00 2001
-+From: Kito Cheng <kito.cheng@gmail.com>
-+Date: Thu, 4 May 2017 02:11:13 +0800
-+Subject: [PATCH] RISC-V: Handle non-legitimate address in
-+ riscv_legitimize_move
-+
-+GCC may generate non-legitimate address due to we allow some
-+load/store with non-legitimate address in pic.md.
-+
-+  2017-05-12  Kito Cheng  <kito.cheng@gmail.com>
-+
-+      * config/riscv/riscv.c (riscv_legitimize_move): Handle
-+      non-legitimate address.
-+---
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ gcc/ChangeLog            |  5 +++++
-+ gcc/config/riscv/riscv.c | 16 ++++++++++++++++
-+ 2 files changed, 21 insertions(+)
-+
-+diff --git a/gcc/config/riscv/riscv.c b/gcc/config/riscv/riscv.c
-+index f7fec4bfcf8..d519be1659a 100644
-+--- a/gcc/config/riscv/riscv.c
-++++ b/gcc/config/riscv/riscv.c
-+@@ -1385,6 +1385,22 @@ riscv_legitimize_move (enum machine_mode mode, rtx dest, rtx src)
-+       return true;
-+     }
-+ 
-++  /* RISC-V GCC may generate non-legitimate address due to we provide some
-++     pattern for optimize access PIC local symbol and it's make GCC generate
-++     unrecognizable instruction during optmizing.  */
-++
-++  if (MEM_P (dest) && !riscv_legitimate_address_p (mode, XEXP (dest, 0),
-++						   reload_completed))
-++    {
-++      XEXP (dest, 0) = riscv_force_address (XEXP (dest, 0), mode);
-++    }
-++
-++  if (MEM_P (src) && !riscv_legitimate_address_p (mode, XEXP (src, 0),
-++						  reload_completed))
-++    {
-++      XEXP (src, 0) = riscv_force_address (XEXP (src, 0), mode);
-++    }
-++
-+   return false;
-+ }
-+ 
-+-- 
-+2.14.2
-+
--- 
-2.14.2
-
+The copyright statement and copyright year(s) are part of the license.
+Slicing and dicing the license text to get a consistent hash probably
+isn't the right approach.
 
