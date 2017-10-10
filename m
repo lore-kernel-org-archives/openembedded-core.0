@@ -1,52 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 93AE6605B3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F44D605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 16:34:20 +0000 (UTC)
-Received: by mail-it0-f45.google.com with SMTP id n195so2792727itg.0
+	Tue, 10 Oct 2017 16:40:56 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id m28so36749317pfi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 09:34:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 10 Oct 2017 09:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=DCbrtiVtLUAU2XhUn23cIcgu3WhIlAbIgmsj1lltruw=;
-	b=wovySzrrrqebBwXfOzhY3bER8BOgoW4Zm1x7fmqqykTDrtVYUSoxtqrzCW8r0ctn0r
-	UdQhQvJ/HEuYd9XQDD/b9DKpNklPkhcMY3AwmkHG90m/IcLL1BRcI5XRQciAzdl4XiO5
-	8TKhphd2dWU4Dx/fiRmcxkypOjfgPOdWPaZ3ND/i/tsWwJRCIY7Ps0idKX/vMSgIQENB
-	tmFDF9KijVK8VFiQ1qMnNGo9AwvxzABuOHHEtu2fHaEONw2Ua6pmCcD6GSa2y3sQJvWz
-	VDWjxm7FdVsZCOJu/udfUKgw8NJwFIxxKptcoGaAk/SlIIcV0WRGwz0sY76EP/e3hKFe
-	lwNQ==
+	:cc; bh=+c1fwwraXZvFs2GYdU3lXnRxRgkoZLpKa48DZtGtkrw=;
+	b=R4ir+NIBodjpAxMWdt8cULo7KweGUZhrZUQKsrhRy/q9BitR4AhyJUxH9DpSP+veJb
+	4+jZB54HZcDfgWMdj1PZaqyPfGn0R6pUZD8YY2KVQ180mscJHff9qDjrCzyeo9p7qjYt
+	1RFQ4r+2EkRUd+pV0JBW2tmotkBrqyDy98OZuLWEGwnE1XnkPQraEwZyld0Jy4e2fZuc
+	/kRNTimpaPyd4SqIYTPQy6kSJvOHUP3XW4FgWPKifvah2gwl/IKginoVJPpbFlGajzro
+	7EnxKXZmbPfSmr+AIst/0ghDxES26cvZwF3RL6PPV3FVZZP/VpNHBu4HGKiS5MUy2Kwg
+	UTIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=DCbrtiVtLUAU2XhUn23cIcgu3WhIlAbIgmsj1lltruw=;
-	b=Rw6ZjSnUSIDPCJJaEN84H/1f4lD4PUPwkIw+CmfHks8W99eiklMjMyw9B25xBEsE4n
-	kdDl3gEIIWv9jGkSficN7fTmcobBmC9Wr7AoKtTsye273Ma6kDQdVcDZv6pDm9zhnTqK
-	kX60mWxpwp0wkd4ISKGs8r9qUnS1DmabfKN99ed3W02FEj3LopIFa88RiC8EBsukd6FQ
-	H+6ks19x4LyPtAQQOTNn/JSzakchhlvWjn46CQ1o4E8XB0iAAMuCy1RSIDIZKxYGpGpS
-	kPou94veBk4Np9TKhSepaHcdtlL82PNsotRjyk/RPELv4otyn23AefBvdOUbn5fDzw5I
-	zZjw==
-X-Gm-Message-State: AMCzsaWwidREweOQGEecK/NXxoV2j+4BAzSqOltxuBywWMPoxMrfN+mK
-	Z7EkreQ/+eRmnvMqGFV9qUOPdRsND5TG86EUA1VQOQ==
-X-Google-Smtp-Source: AOwi7QCxGi7AYVKuLc9NqJn9yiNFM6PsrQNFSJ8KCuCyZA0WwFxeC8jaV07hwjqs/Xw5pQEjlNPG4oK2DcJcVzEF6kU=
-X-Received: by 10.36.178.1 with SMTP id u1mr21089686ite.120.1507653261610;
-	Tue, 10 Oct 2017 09:34:21 -0700 (PDT)
+	bh=+c1fwwraXZvFs2GYdU3lXnRxRgkoZLpKa48DZtGtkrw=;
+	b=dLDkd2HV0RhC2MV9R2X6cFj3Kf/UCTHkznGuYN87HNrFGgDlESndO/IN8mh7/GP0fe
+	eZo1TfKyl7+nEgVUxoQqgesf0H6YcO8BVPq6LSRIjeqg82j7+hqUthPLCebyz0nadczZ
+	ST8Ig/K5i1jifveAiEZNSZpr3iSkSiyn3FbwsB6+3H6QuK55jDEWt4z6tBozYve8+udD
+	wJNF8vNJy1fmIj0unOisYnWFqZQQ/N0BoMsHS1wR1HBJdTjcBgRu9fzX396GW0vVMFRi
+	L2OqxjZakIEO8C6uFIpJtjFE/XtD+Wccvkbi1mfBl+9FmrgpnSis+Oxo9TIa08ChA7MT
+	UsGA==
+X-Gm-Message-State: AMCzsaViLDTN9MRfhoms/TP2gqQ9QhSOdnoWAtUmxneGtnnGCIy3kmp5
+	dxHzjIOjcUheVC/u9UhDjOU1CeCKVJll1jFjRt8=
+X-Google-Smtp-Source: AOwi7QArGRAawIMju7AdHHKVZCoHTgIOT9AFCJZ5Hb+x2z0nBM7DJH4CCCC8FsAQqxvk/TNd6dYj0yDMY73XtwyaJ/U=
+X-Received: by 10.99.152.17 with SMTP id q17mr12682357pgd.287.1507653658367;
+	Tue, 10 Oct 2017 09:40:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.205 with HTTP; Tue, 10 Oct 2017 09:34:00 -0700 (PDT)
-In-Reply-To: <CAE-gg=4JFemmp8hXEz-+OfftE1MCrX3Snwd+SwDaFfDtRk3-EA@mail.gmail.com>
-References: <20170927094014.2666-1-andreas.kling@gmail.com>
-	<20170928163521.21828-1-andreas.kling@gmail.com>
-	<CAJTo0LaWULzrFRwq+7Pwnv-_Py5-AHAYuKoc9iT61q1iuMLNFg@mail.gmail.com>
-	<CAE-gg=5Wq6K4JdNpscupPVAHi+cY1Npo8_Ajt17uNMNbA0ZY=g@mail.gmail.com>
-	<CAE-gg=4JFemmp8hXEz-+OfftE1MCrX3Snwd+SwDaFfDtRk3-EA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Oct 2017 17:34:00 +0100
-Message-ID: <CAJTo0LbLAfSoyqR9SPDWO8jgc-53fku++dc5TOKJje3LNUK=xg@mail.gmail.com>
-To: Andy <andreas.kling@gmail.com>
+Received: by 10.100.187.66 with HTTP; Tue, 10 Oct 2017 09:40:27 -0700 (PDT)
+In-Reply-To: <CAJTo0LagJFdtet2W7QGyGUcr19=z+q2mk4yNY64QNuCZDmcFaQ@mail.gmail.com>
+References: <1507633512-30719-1-git-send-email-matt@madison.systems>
+	<CAJTo0LagJFdtet2W7QGyGUcr19=z+q2mk4yNY64QNuCZDmcFaQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 Oct 2017 09:40:27 -0700
+Message-ID: <CAMKF1srOAF=5gtovmFypykLfbUut6AJcCsZUu_f58qesV7SUdQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] systemd: add runtime dependencies to pam plugins.
+Subject: Re: [PATCH] go: update to go1.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 16:34:20 -0000
-Content-Type: multipart/alternative; boundary="f403045d9c0e1a6a8c055b33e186"
-
---f403045d9c0e1a6a8c055b33e186
+X-List-Received-Date: Tue, 10 Oct 2017 16:40:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 9 October 2017 at 20:00, Andy <andreas.kling@gmail.com> wrote:
-
-> this was change in git [1] and landed in v.2.13.0. I won't indent the
-> body in the future to prevent this.
+On Tue, Oct 10, 2017 at 9:28 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 10 October 2017 at 12:05, Matt Madison <matt@madison.systems> wrote:
+>>
+>> +PV = "1.9.1"
+>
+>
+> Surely having a go-1.9.bb which then sets PV=1.9.1 is confusing at best?
+> Why not just update the checksums and rename the files?
 >
 
-That's stupid, I often quote by indenting in commit messages... :/
+I think its in line with what we do with rest of toolchain. Probably
 
-Ross
+MINOR = ".1"
 
---f403045d9c0e1a6a8c055b33e186
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+PV = "{BASE_PV}${MINOR}"
 
-<div dir=3D"ltr">On 9 October 2017 at 20:00, Andy <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:andreas.kling@gmail.com" target=3D"_blank">andreas.kling@gma=
-il.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gm=
-ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=
-=3D"h5"><span style=3D"color:rgb(34,34,34)">this was change in git [1] and =
-landed in v.2.13.0. I won&#39;t indent the</span><br></div></div>
-body in the future to prevent this.<br></blockquote><div><br></div><div>Tha=
-t&#39;s stupid, I often quote by indenting in commit messages... :/</div><d=
-iv><br></div><div>Ross=C2=A0</div></div></div></div>
+might be better.
 
---f403045d9c0e1a6a8c055b33e186--
+> Ross
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
