@@ -1,49 +1,30 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f169.google.com (mail-pf0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F8657199E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1076059F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 11:05:40 +0000 (UTC)
-Received: by mail-pf0-f169.google.com with SMTP id d28so2137738pfe.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 04:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=51lPc9fOB8dzq7OCrXdWGP8iH0Q9xybzPLtvT/DfUws=;
-	b=epU5UsoEsvudYBnvLSaanRx5H1AEK5E/j3c7TQtamM2xw58HTgI2hOJ5nYxTStZiFL
-	7+OCe9Sh0bIItbfFhcWsecIe2Nh9HdBuflsQ/PjQ57ZvPT57DWSOeWxvM6Yrz0SJlEUf
-	BoeEfLBRqMwvXiPHAdmlRmLumhlgFtT2wBXemhx55ixT5Q6TCTplSTCq5n8lSKPRchaZ
-	50Qpav8mRTqrNseePXSSKAltBHKoKIydtchmDXXr332W6Pd8unWhCayK6uaBIGlq9Jh2
-	MP58KNinq01releCnlAs1JqfTnDeXdiupnBd6I3WKRMx8vxhN3VBaKKTvIy7aIBUoK+P
-	3yIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=51lPc9fOB8dzq7OCrXdWGP8iH0Q9xybzPLtvT/DfUws=;
-	b=kWad38uCtN8XG4syrqm5BZS6BzHIvyosJ5MxcZmQa/DM2ltWg23oYoROPZ1guM7S2k
-	5yhj5fQ2ijR+CMmRCppukH8rImNNsx+HBSkFOvfnAsN9/698enSfgX8dOnCAh21qYY1M
-	EM2IUqxSlYYDraN3j56bpciQo6pwC8xGwXMwrkD8M1cQPzI4JVLi/anc0uEmqRVfQViD
-	AAYXLF0Qgnj1DguhoSV3e/8vwvsJyPcVwynZ7QlerIrt8ItnZewDq8yVOmYSexcDEg3S
-	3RFOu1UFMTeoCPX/bDiswnclxlQR9LAJGBoq36nXcW3+bJLxtay1BnkD/qwg7NPLjnf8
-	zc7g==
-X-Gm-Message-State: AMCzsaVC1ZL2zUxxAkOoTGckyFdrxWXdubX9EStvB9YElyIfOcEaRrYA
-	1ks4qDacZufL8iWYX4Q7bErFpBWt
-X-Google-Smtp-Source: AOwi7QBhdyHywDCvyk027BdNA4BFERhOdGdyBbgDUP458LYYS3AlVi6MWDk6iv367vXC3g/XIS86YQ==
-X-Received: by 10.84.244.203 with SMTP id f11mr2526790plt.187.1507633541563;
-	Tue, 10 Oct 2017 04:05:41 -0700 (PDT)
-Received: from workhorse.madison.systems
-	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
-	by smtp.gmail.com with ESMTPSA id
-	n18sm19523281pfg.44.2017.10.10.04.05.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 10 Oct 2017 04:05:39 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Oct 2017 04:05:12 -0700
-Message-Id: <1507633512-30719-1-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] go: update to go1.9.1
+	Tue, 10 Oct 2017 11:20:25 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Oct 2017 04:20:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.42,504,1500966000"; d="scan'208";a="137039501"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by orsmga004.jf.intel.com with ESMTP; 10 Oct 2017 04:20:25 -0700
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <20171009141227.21795-1-otavio@ossystems.com.br>
+	<d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
+	<CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <0eea3119-a905-9a62-6572-1cab90a43a2d@linux.intel.com>
+Date: Tue, 10 Oct 2017 14:16:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: Upgrade to 3.9.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 11:05:41 -0000
+X-List-Received-Date: Tue, 10 Oct 2017 11:20:26 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Addresses two security issues, including CVE-2017-15041
+On 10/10/2017 04:01 AM, Andre McCurdy wrote:
 
-Reference:
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-15041
+>>> -LIC_FILES_CHKSUM =
+>>> "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
+>>> +LIC_FILES_CHKSUM =
+>>> "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
+>>>
+>>> file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
+>>
+>> What has changed in Copyright.txt? If it's just the copyright years, you can
+>> exclude the line using beginline/endline.
+> 
+> The copyright statement and copyright year(s) are part of the license.
+> Slicing and dicing the license text to get a consistent hash probably
+> isn't the right approach.
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/recipes-devtools/go/go-1.9.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+The purpose of LIC_FILES_CHECKSUM is to establish whether what the 
+recipe claims in LICENSE matches what the upstream says in the source 
+tree. For that purpose, when the code was published, who owns the code, 
+or who made contributions to it are all not relevant and can be 
+excluded. Also, such exclusions remove a major nuisance from recipe 
+maintainers' job, and that is always a good thing.
 
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 65adaa8..a2f2b2f 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -1,5 +1,7 @@
- require go-common.inc
- 
-+PV = "1.9.1"
-+
- GO_BASEVERSION = "1.9"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
-@@ -16,5 +18,5 @@ SRC_URI += "\
-         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
-         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
- "
--SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
--SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
-+SRC_URI[main.md5sum] = "27bce1ffb05f4f6bd90d90081e5d4169"
-+SRC_URI[main.sha256sum] = "a84afc9dc7d64fe0fa84d4d735e2ece23831a22117b50dafc75c1484f1cb550e"
--- 
-2.7.4
+As a technicality, the years of publication and code owners are not a 
+part of the license, they a part of the copyright notice (which may also 
+include the license text if it's short, or a reference to it if it's long):
 
+https://en.wikipedia.org/wiki/Copyright_notice
+
+
+Alex
 
