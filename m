@@ -1,30 +1,51 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D1076059F
+Return-Path: <oystwa@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 452836FF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 11:20:25 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Oct 2017 04:20:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.42,504,1500966000"; d="scan'208";a="137039501"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga004.jf.intel.com with ESMTP; 10 Oct 2017 04:20:25 -0700
-To: Andre McCurdy <armccurdy@gmail.com>
-References: <20171009141227.21795-1-otavio@ossystems.com.br>
-	<d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
-	<CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <0eea3119-a905-9a62-6572-1cab90a43a2d@linux.intel.com>
-Date: Tue, 10 Oct 2017 14:16:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue, 10 Oct 2017 12:00:17 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id g70so1296473lfl.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Oct 2017 05:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=vBpWvnlIO2k0gYZeZ+uIAMwOhWSqn7J9uDgyNFA9Ld8=;
+	b=S3wDAHjgTktYkHfZ+e5tet0YHU9DEMQFKdqChXFfuW7q3eFjxo/BcV2n1r6nW8u3x+
+	aW/aHZZ7MvlQAlhCAjkbJBK37j9gWXcOc5l8hflEz3k4yPnM6gV1JhAxv6y5kn+Mg+VW
+	JK1P3XUMFKiQdnzjV3S2DstUdq9zyePALe+vAmZ1Inch+w6Vcpd0XPTeg1G6OMUuA9Mo
+	rCwa84Kqo1jxOfUrk+lcUIavht1zlDMyecEK0QBxFcN5pvVLvMSDsZQVDFpW/wc7p5mo
+	3Hvd4Cg6oSzd3NstsU10rWvrvoTC2p+4spo4p8aWDGTMJtWO46PxcV3siPuHr2STu2QM
+	hMBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=vBpWvnlIO2k0gYZeZ+uIAMwOhWSqn7J9uDgyNFA9Ld8=;
+	b=ZJf1QG1GCe7UCeILeUNg2GC1q6tj4bF9LdUyKe/6XQrQomn4Y2zc7LDHab7I5xmVJE
+	RV12f4gRNVTqUSn8IM/awmevGxD61WHWndrxQ0BCwQhIU8BHLb/kkxTmRZJHxxMaDNve
+	ngYS91KvBzPzlhwWfynjsjf6Jr0dRpJWTtoWC4Go7yz0IAjx52P0svhDf7hPEx5BCvmH
+	sdILmduxedvcH248R+mXw27Ty0TI4c+T+CviFRqhXezvvR4ps8DxpGSizjLjG4cjUdDe
+	B5TVLJlDrDY1VG+12ipoX48BArBe5T8Px1Yg7Ycvk6mJPq5gf8Yf6L2NjVsEiS2XyDmD
+	NV8g==
+X-Gm-Message-State: AMCzsaV3c0po/BfKlY69JOu1U9m1QgZkIL0JdXDSU9IajyfPxxi+7Tg3
+	xdr4AGuQl6IISw25o5UoDPBs7Q==
+X-Google-Smtp-Source: AOwi7QDBlQZCpeVsrIE09Ogac8Kg9uftUC6moyz2IpRWZKL2goMHFkIiuhcsITfk794NwtnNykAiDA==
+X-Received: by 10.46.70.18 with SMTP id t18mr6131963lja.31.1507636817699;
+	Tue, 10 Oct 2017 05:00:17 -0700 (PDT)
+Received: from localhost.localdomain (114.138.16.62.customer.cdi.no.
+	[62.16.138.114]) by smtp.gmail.com with ESMTPSA id
+	r101sm279023lfi.17.2017.10.10.05.00.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 10 Oct 2017 05:00:16 -0700 (PDT)
+From: =?UTF-8?q?=C3=98ystein=20Walle?= <oystwa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Oct 2017 14:00:12 +0200
+Message-Id: <20171010120012.20163-1-oystwa@gmail.com>
+X-Mailer: git-send-email 2.11.0.485.g4e59582
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: Upgrade to 3.9.3 release
+Cc: =?UTF-8?q?=C3=98ystein=20Walle?= <ow@datarespons.no>
+Subject: [PATCH] cmake: fix typo in toolchain file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 11:20:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Oct 2017 12:00:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/10/2017 04:01 AM, Andre McCurdy wrote:
+From: Øystein Walle <ow@datarespons.no>
 
->>> -LIC_FILES_CHKSUM =
->>> "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
->>> +LIC_FILES_CHKSUM =
->>> "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
->>>
->>> file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
->>
->> What has changed in Copyright.txt? If it's just the copyright years, you can
->> exclude the line using beginline/endline.
-> 
-> The copyright statement and copyright year(s) are part of the license.
-> Slicing and dicing the license text to get a consistent hash probably
-> isn't the right approach.
+Signed-off-by: Øystein Walle <ow@datarespons.no>
+---
+ meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The purpose of LIC_FILES_CHECKSUM is to establish whether what the 
-recipe claims in LICENSE matches what the upstream says in the source 
-tree. For that purpose, when the code was published, who owns the code, 
-or who made contributions to it are all not relevant and can be 
-excluded. Also, such exclusions remove a major nuisance from recipe 
-maintainers' job, and that is always a good thing.
+diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+index 6518408c70..dc8477ea34 100644
+--- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
++++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+@@ -1,7 +1,7 @@
+ set( CMAKE_SYSTEM_NAME Linux )
+ set( CMAKE_C_FLAGS $ENV{CFLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_CXX_FLAGS $ENV{CXXFLAGS}  CACHE STRING "" FORCE )
+-set( CMAKE ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
++set( CMAKE_ASM_FLAGS ${CMAKE_C_FLAGS} CACHE STRING "" FORCE )
+ set( CMAKE_LDFLAGS_FLAGS ${CMAKE_CXX_FLAGS} CACHE STRING "" FORCE )
+ 
+ set( CMAKE_FIND_ROOT_PATH $ENV{OECORE_TARGET_SYSROOT} $ENV{OECORE_NATIVE_SYSROOT} )
+-- 
+2.14.2
 
-As a technicality, the years of publication and code owners are not a 
-part of the license, they a part of the copyright notice (which may also 
-include the license text if it's short, or a reference to it if it's long):
-
-https://en.wikipedia.org/wiki/Copyright_notice
-
-
-Alex
 
