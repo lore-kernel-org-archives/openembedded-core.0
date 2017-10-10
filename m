@@ -1,48 +1,20 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 435B571CBD
+Return-Path: <zhe.he@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8919C6E672
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 01:01:42 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id f4so848081wme.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Oct 2017 18:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uXo9wgLw6nkgsdoyLP9c8ajR9j6m4GlXVTJ+N9Eb+m8=;
-	b=epQ/clVzA9c3Cm22vBicvWbOtVYUvcfK66RPRLjtW80rdf++3heEOUEx/dd+r8C51B
-	s+jdh/0z8kEv/hlP/gpw/Cqd9yz9nGHa0CMiSgG6yhVOjcsB+C4rv+zpWvv05sHwfV4Y
-	DPpRuvOjFw/lgJQ8t1VFbkFaU9X4qJht/a8n5cMaPNbYCulAM9l209cgfaV9a36HLPLG
-	IC1/Vk0k99AEyTQH2/RnN9kegZUSLZjxkThrbqigMBnsAhLGGouDwtIQ+UwucIodqG28
-	3nlRwWB6HsucdBIP4AG8mS6llIcpCgpwSqzdpWF+NDKF6cfHJH0g3b9/xpsxey6L7B+5
-	ThRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uXo9wgLw6nkgsdoyLP9c8ajR9j6m4GlXVTJ+N9Eb+m8=;
-	b=oBaDWPayJFnWxnMWawNynbopf4gcWREi9DIBLWsHWKhhTrDuBN/xfEuxNqoaVU4iIv
-	Q99x3TONZV4AXdUSdqE85x7wMtOTGl/nTIRF3FM3PlkPnBNduGSVH5XuO11zhoT6mc7y
-	SBmyzZdATrsznxB4ppoqof++2k79yj0JVyYC4MSqvXTXFJN/BXf9K5bo22CWKFTPJc/6
-	Imir1B38DN1QX7q5ADcfkCIG59o1onK4n6q6EurKAy98YMmVhFVnZ5b3RbVuPi4+JbX+
-	Iik4bph6Imr85DAcnR6v80Y/pckVhVuO0uqq1lIDMSnfZQmr00fpSVZOW7y0VuIiPgws
-	lNDQ==
-X-Gm-Message-State: AMCzsaWfIZxqT26QwxoaHuNdOo3Zu9xSNvQlBY4fTT4epaFxrYIzutO5
-	t6/829xT3c7Ll/GGk1qBzR28QXPH3++tT1b0xX8=
-X-Google-Smtp-Source: AOwi7QA9sV8IWtNfCCyJhF97So8V3mzovs7hwPaXy071yO0BfXtK+k2eZjXGL7xndOcnob6tzC7M76gqPM070qepAyU=
-X-Received: by 10.28.91.75 with SMTP id p72mr9360629wmb.89.1507597303761; Mon,
-	09 Oct 2017 18:01:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.223.166.19 with HTTP; Mon, 9 Oct 2017 18:01:43 -0700 (PDT)
-In-Reply-To: <d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
-References: <20171009141227.21795-1-otavio@ossystems.com.br>
-	<d31de312-7137-d95d-7cf6-2f15ac4ac1b6@linux.intel.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 9 Oct 2017 18:01:43 -0700
-Message-ID: <CAJ86T=UGY1LciuKpDvpDFot8fQaJHaQEGp=N0zVHo9nMP+4vJw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: Upgrade to 3.9.3 release
+	Tue, 10 Oct 2017 07:20:47 +0000 (UTC)
+Received: from ala-blade47.wrs.com (ala-blade47.wrs.com [147.11.105.67])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id v9A7KlZP018141;
+	Tue, 10 Oct 2017 00:20:47 -0700 (PDT)
+Received: by ala-blade47.wrs.com (sSMTP sendmail emulation);
+	Tue, 10 Oct 2017 00:20:47 -0700
+From: He Zhe <zhe.he@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Oct 2017 00:20:44 -0700
+Message-Id: <20171010072044.42902-1-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.10.2
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH] linux-yocto/4.12: integrate CGL features support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,24 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 01:01:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Oct 2017 07:20:47 -0000
 
-On Mon, Oct 9, 2017 at 7:13 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 10/09/2017 05:12 PM, Otavio Salvador wrote:
->>
->> -LIC_FILES_CHKSUM =
->> "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
->> +LIC_FILES_CHKSUM =
->> "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
->>
->> file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
->
-> What has changed in Copyright.txt? If it's just the copyright years, you can
-> exclude the line using beginline/endline.
+The CGL features now have a 4.12 port, so we can integrate them into
+the reference kernel.
 
-The copyright statement and copyright year(s) are part of the license.
-Slicing and dicing the license text to get a consistent hash probably
-isn't the right approach.
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.12.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+index c49a934..faf82ed 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+@@ -12,7 +12,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "16de0149674ed12d983b77a453852ac2e64584b4"
+-SRCREV_meta ?= "eda4d18ce4b259c84ccd5c249c3dc5958c16928c"
++SRCREV_meta ?= "73365069d89a8423a6f9f4b5560ee6bfdfc0b3d1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+index ba67af3..efad337 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.12.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "16de0149674ed12d983b77a453852ac2e64584b4"
+-SRCREV_meta ?= "eda4d18ce4b259c84ccd5c249c3dc5958c16928c"
++SRCREV_meta ?= "73365069d89a8423a6f9f4b5560ee6bfdfc0b3d1"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.12.bb b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+index a262409..c9449e2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.12.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "16de0149674ed12d983b77a453852ac2e64584b4"
+ SRCREV_machine_qemux86-64 ?= "16de0149674ed12d983b77a453852ac2e64584b4"
+ SRCREV_machine_qemumips64 ?= "9d63d9c11c44ceabd452d7ee49cf55a88c39383f"
+ SRCREV_machine ?= "16de0149674ed12d983b77a453852ac2e64584b4"
+-SRCREV_meta ?= "eda4d18ce4b259c84ccd5c249c3dc5958c16928c"
++SRCREV_meta ?= "73365069d89a8423a6f9f4b5560ee6bfdfc0b3d1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.12.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.12;destsuffix=${KMETA}"
+-- 
+2.10.2
+
 
