@@ -1,24 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CAB677823A
+	by mail.openembedded.org (Postfix) with ESMTP id 069957823D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:39:06 +0000 (UTC)
+	Wed, 11 Oct 2017 15:39:07 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:39:06 -0700
+	11 Oct 2017 08:39:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945894"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945901"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:05 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:07 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:34:33 +0300
-Message-Id: <050a159340e93ecda59dd0aa9b7dc4c17ec9789c.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:34:35 +0300
+Message-Id: <811f5f3e8c7e435b1db5e32dc857c1f01ddead08.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
-MIME-Version: 1.0
 In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 41/50] libinput: update to 1.8.3
+Subject: [PATCH 43/50] librsvg: update to 2.40.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,84 +31,30 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Oct 2017 15:39:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Drop upstreamed patch.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../0001-tools-Fix-race-in-autotools-install.patch | 37 ----------------------
- .../{libinput_1.8.1.bb => libinput_1.8.3.bb}       |  8 ++---
- 2 files changed, 3 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/libinput/0001-tools-Fix-race-in-autotools-install.patch
- rename meta/recipes-graphics/wayland/{libinput_1.8.1.bb => libinput_1.8.3.bb} (81%)
+ meta/recipes-gnome/librsvg/{librsvg_2.40.18.bb => librsvg_2.40.19.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.18.bb => librsvg_2.40.19.bb} (91%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput/0001-tools-Fix-race-in-autotools-install.patch b/meta/recipes-graphics/wayland/libinput/0001-tools-Fix-race-in-autotools-install.patch
-deleted file mode 100644
-index 4667538c5eb..00000000000
---- a/meta/recipes-graphics/wayland/libinput/0001-tools-Fix-race-in-autotools-install.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 5e8864c5b7a2e258eea041b0ef66dac7fcab9b7f Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Wed, 9 Aug 2017 09:47:14 +0300
--Subject: [PATCH] tools: Fix race in (autotools) install
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--exec/data distinction is done based on install dir so compat scripts
--must be moved in exec hook.
--
--This should fix this occasional failure:
--| install: cannot change permissions of
--| ‘/usr/bin/libinput-debug-events.compat’: No such file or directory
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Upstream-Status: Submitted
-----
-- tools/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/Makefile.am b/tools/Makefile.am
--index 2c8660b..7ee8b90 100644
----- a/tools/Makefile.am
--+++ b/tools/Makefile.am
--@@ -63,7 +63,7 @@ endif
-- 
-- EXTRA_DIST = make-ptraccel-graphs.sh install-compat-scripts.sh $(bin_SCRIPTS)
-- 
---install-data-hook:
--+install-exec-hook:
-- 	(cd $(DESTDIR)$(bindir) && mv libinput-list-devices.compat libinput-list-devices)
-- 	(cd $(DESTDIR)$(bindir) && mv libinput-debug-events.compat libinput-debug-events)
-- 
---- 
--2.13.3
--
-diff --git a/meta/recipes-graphics/wayland/libinput_1.8.1.bb b/meta/recipes-graphics/wayland/libinput_1.8.3.bb
-similarity index 81%
-rename from meta/recipes-graphics/wayland/libinput_1.8.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.8.3.bb
-index a21babeb099..3a02c4b1d24 100644
---- a/meta/recipes-graphics/wayland/libinput_1.8.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.8.3.bb
-@@ -7,12 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.18.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.19.bb
+similarity index 91%
+rename from meta/recipes-gnome/librsvg/librsvg_2.40.18.bb
+rename to meta/recipes-gnome/librsvg/librsvg_2.40.19.bb
+index 21a0dc2038b..6aeeb6b5fd6 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.18.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.19.bb
+@@ -14,8 +14,8 @@ inherit autotools pkgconfig gnomebase gtk-doc pixbufcache upstream-version-is-ev
  
- DEPENDS = "libevdev udev mtdev"
+ SRC_URI += "file://gtk-option.patch"
  
--SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
--           file://0001-tools-Fix-race-in-autotools-install.patch \
--"
-+SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
+-SRC_URI[archive.md5sum] = "eaa5c8a8bbe2600ab5194c0d3b1b621b"
+-SRC_URI[archive.sha256sum] = "bfc8c488c89c1e7212c478beb95c41b44701636125a3e6dab41187f1485b564c"
++SRC_URI[archive.md5sum] = "934eff469b34c732fb91ddb9afd40638"
++SRC_URI[archive.sha256sum] = "612b4d8b8609036f5d899be3fe70d9866b5f6ac5c971154c1c0ef7242216c1f7"
  
--SRC_URI[md5sum] = "8247f0bb67052ffb272c50c3cb9c5998"
--SRC_URI[sha256sum] = "e3590a9037e561a5791c8bd3b34bfd30fad5cacd8cbefc0d75fafe3a41d07147"
-+SRC_URI[md5sum] = "5265244853ad7cf41232b0d3ee805ab9"
-+SRC_URI[sha256sum] = "2fe2e2f52f0971a9c43541b8f26582ca8df6ed4bb9050e85eb40d4ff6b13142d"
- 
- inherit autotools pkgconfig lib_package
+ CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
  
 -- 
 2.14.1
