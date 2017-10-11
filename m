@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 14CF771B13
+	by mail.openembedded.org (Postfix) with ESMTP id 2C45678202
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:39:03 +0000 (UTC)
+	Wed, 11 Oct 2017 15:39:04 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:38:53 -0700
+	11 Oct 2017 08:38:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945826"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945829"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:52 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:53 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:34:22 +0300
-Message-Id: <13c04cc9f3024c5304514b61de9d2c11acb8acce.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:34:23 +0300
+Message-Id: <1e0d1bb3e018ea62517ef113598e5ad9fc5ae568.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 30/50] xdg-utils: update to 1.1.2
+Subject: [PATCH 31/50] gsettings-desktop-schemas: update to 3.24.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +34,25 @@ X-List-Received-Date: Wed, 11 Oct 2017 15:39:04 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../xdg-utils/{xdg-utils_1.1.1.bb => xdg-utils_1.1.2.bb}              | 4 ++--
+ ...-desktop-schemas_3.22.0.bb => gsettings-desktop-schemas_3.24.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xdg-utils/{xdg-utils_1.1.1.bb => xdg-utils_1.1.2.bb} (89%)
+ rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.22.0.bb => gsettings-desktop-schemas_3.24.1.bb} (70%)
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.2.bb
-similarity index 89%
-rename from meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
-rename to meta/recipes-extended/xdg-utils/xdg-utils_1.1.2.bb
-index 34f8d107b24..7339289de6c 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.1.bb
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.2.bb
-@@ -22,8 +22,8 @@ SRC_URI = "http://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz \
-            file://0001-Don-t-build-the-in-script-manual.patch \
-           "
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.22.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.24.1.bb
+similarity index 70%
+rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.22.0.bb
+rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.24.1.bb
+index d84a4f3ead2..b61fd2408f4 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.22.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.24.1.bb
+@@ -9,5 +9,5 @@ DEPENDS = "glib-2.0 intltool-native"
  
--SRC_URI[md5sum] = "2d0aec6037769a5f138ff404b1bb4b15"
--SRC_URI[sha256sum] = "b0dd63a2576e0bb16f1aa78d6ddf7d6784784a098d4df17161cd6a17c7bc4125"
-+SRC_URI[md5sum] = "361e75eb76c94d19f6f4f330d8ee626b"
-+SRC_URI[sha256sum] = "951952e2c6bb21214e0bb54e0dffa057d30f5563300225c24c16fba846258bcc"
+ inherit gnomebase gsettings gettext gobject-introspection upstream-version-is-even
  
- UPSTREAM_CHECK_REGEX = "xdg-utils-(?P<pver>((\d+[\.\-_]*)+)((rc|alpha|beta)\d+)?)\.(tar\.gz|tgz)"
- 
+-SRC_URI[archive.md5sum] = "5b9056ab6eff42a0117f2912edff5f20"
+-SRC_URI[archive.sha256sum] = "0f06c7ba34c3a99e4d58b10889496133c9aaad6698ea2d8405d481c7f1a7eae1"
++SRC_URI[archive.md5sum] = "796b6ac1eff450261edd521b72e7fe6d"
++SRC_URI[archive.sha256sum] = "76a3fa309f9de6074d66848987214f0b128124ba7184c958c15ac78a8ac7eea7"
 -- 
 2.14.1
 
