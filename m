@@ -1,48 +1,41 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 181C26079F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B4E6A6FFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 10:49:30 +0000 (UTC)
-Received: by mail-pg0-f48.google.com with SMTP id u144so782624pgb.8
+	Wed, 11 Oct 2017 13:46:10 +0000 (UTC)
+Received: by mail-qt0-f196.google.com with SMTP id 1so5275737qtn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 03:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=74FiyiHsCKkXZCGWns9H2NxiddW6YGdVl3HwbIrMzxU=;
-	b=Ew/en+gbRdbvKabXeUFkeeLRU5jdc3pmjh4uscyM5oGVsEUdwLDfvd6QYCRWbHCxGx
-	mr0Cmao0gi959LMr8gj0jei5zvCpIq2etbAp1AKk6iGmn6EKeXE4BpB1AXG9ztotN9nu
-	E14ykZcwfbX28tx8dw+cZUSmYo63OkpWxsdz/Q08h0fjAsmXoDeiBeOngQMSCSQnfNDx
-	3uFvKVCcjRmaoE3pMv9tpdzufLZZzfwDA1x4G9qo/3+5lPcgs3lvK2VuotdWi3yd6RBp
-	Lu35V/uDvBkqqhCaSX9A+Atwlp3x+TYcs1g/XPy7XQG8MaH+7gqDGxXv6Q6o3ulR9Yjn
-	mwuQ==
+	Wed, 11 Oct 2017 06:46:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=74FiyiHsCKkXZCGWns9H2NxiddW6YGdVl3HwbIrMzxU=;
-	b=A69bdf/iMSPav3G1K3qYEwaMGGCXMCQAKjkOFaaCKN0/7ztgUX4GK/bLcx1QwV3xlo
-	GMCKK+0f4y+fPDePElcfusIaC6X1nRzKe9m54XoLUZUsb/mYtw5D0DOrKy6w3y+ySYL3
-	FN+SKCkFIMSDh6CKtykkmXzrYYrv/BkHvgTTN8KzxNRa4iZ3h3nrwm6MZ6RFDe6e+jj1
-	sMHvLBJhXtGLQXQnANzQYjlQ5RTXXeGXUqhhZPSZ5C8sxCcn5NAMwC9IlgXT31HtamTE
-	TiRagvYA6HvUq2ttX5Qz/ohz9wWquY+HXSX8lXt4d07y8q+rQnnSQxWu5SdWNRaEMHSC
-	2iVA==
-X-Gm-Message-State: AMCzsaUpW6dZnZLcH1icArO4iepbAtHqdNFaBkdlVTVh8OLPlecL3xhB
-	37CAvmxqUfdmgaiCgAz7wL9OgMDr
-X-Google-Smtp-Source: AOwi7QDzTWYGrmRzhYvuXXgjs6h/ujd8ZIY6vEPzQ250snCA5MJx5bHZQkDYhQ5GEw3GpAVxs5uZlg==
-X-Received: by 10.84.229.143 with SMTP id c15mr8031533plk.389.1507718971708;
-	Wed, 11 Oct 2017 03:49:31 -0700 (PDT)
-Received: from workhorse.madison.systems
-	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
-	by smtp.gmail.com with ESMTPSA id
-	g16sm22648340pgn.43.2017.10.11.03.49.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Oct 2017 03:49:30 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 03:49:13 -0700
-Message-Id: <1507718953-9032-1-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2] go: update to go1.9.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=yHnVZYbffzMuvSVtJLUP+xauoeXJz8a8hyznzmuJsBg=;
+	b=J/xNGesbhLT4DJWFlyC14fv+z8e2E27gvvzC8KozdFb34cocFEmBPBnQBbo7oiUnzX
+	EDM51lOy1KKugR4XEvsT0bn9k39o7hmg5YtUHrTINuiZFxBkFQTitxZE7ehFIyHYRTr8
+	UrzF9Sz9NFpi90VW9AV0D3tYlFl749TyxsLETmmT03nLhejia4xlPJz1yGT3qMyKJ+AA
+	1WFgJAJKre9Eb45J7VIN+hdZUu+4/Lf9qYwTJZU0wMRl2yUyH4o6VVe60O8/1SarzB55
+	kBvAObhCThzZKshq63y6HF1G3zXy5R+RY17wmPngYgqr0U8AAxxoso786GQqrPNy3hkb
+	aisg==
+X-Gm-Message-State: AMCzsaWB5HX6j90tauNV8DL8iG5JPiHfjX75PBQLQRxFRrCi9GNFSCZ5
+	/MfivlK9vdANpULbXfIUBs18sA==
+X-Google-Smtp-Source: AOwi7QDVe02LOTu9EJkRxo0TbFTTtpp/Zpk8tneNZBjHRi9C5Xz3CsTsWlcW4uIYtOVBGaUIV0InBQ==
+X-Received: by 10.200.23.196 with SMTP id r4mr14302551qtk.158.1507729571156;
+	Wed, 11 Oct 2017 06:46:11 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id 35sm8070608qtx.43.2017.10.11.06.46.07
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 11 Oct 2017 06:46:10 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Wed, 11 Oct 2017 10:46:02 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Oct 2017 10:46:02 -0300
+Message-Id: <20171011134602.25918-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.2
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] cmake: Upgrade to 3.9.3 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +48,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 10:49:31 -0000
+X-List-Received-Date: Wed, 11 Oct 2017 13:46:10 -0000
 
-Addresses two security issues, including CVE-2017-15041
+This upgrades CMake from 3.8.2 to 3.9.3 release. The Copyright.txt
+file checksum change was due the addition of a new contributor on the
+contributors list.
 
-Reference:
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-15041
-
-Signed-off-by: Matt Madison <matt@madison.systems>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-devtools/go/go-1.9.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 65adaa8..eab518d 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -1,6 +1,10 @@
- require go-common.inc
+Changes in v2:
+- amend commit log
+
+ .../cmake/{cmake-native_3.8.2.bb => cmake-native_3.9.3.bb}   |  0
+ meta/recipes-devtools/cmake/cmake.inc                        | 12 ++++++++----
+ .../cmake/{cmake_3.8.2.bb => cmake_3.9.3.bb}                 |  0
+ 3 files changed, 8 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.8.2.bb => cmake-native_3.9.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.8.2.bb => cmake_3.9.3.bb} (100%)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.8.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.9.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.8.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.9.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 6aeb25fdd5..092ac74610 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
++LIC_FILES_CHKSUM = "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
+                     file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
  
- GO_BASEVERSION = "1.9"
-+MINOR = ".1"
-+
-+PV = "${GO_BASEVERSION}${MINOR}"
-+
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+@@ -17,8 +17,8 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch \
+            "
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -16,5 +20,5 @@ SRC_URI += "\
-         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
-         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
- "
--SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
--SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
-+SRC_URI[main.md5sum] = "27bce1ffb05f4f6bd90d90081e5d4169"
-+SRC_URI[main.sha256sum] = "a84afc9dc7d64fe0fa84d4d735e2ece23831a22117b50dafc75c1484f1cb550e"
+-SRC_URI[md5sum] = "b5dff61f6a7f1305271ab3f6ae261419"
+-SRC_URI[sha256sum] = "da3072794eb4c09f2d782fcee043847b99bb4cf8d4573978d9b2024214d6e92d"
++SRC_URI[md5sum] = "cb0f19828461904c72ed6a1e55459d03"
++SRC_URI[sha256sum] = "8eaf75e1e932159aae98ab5e7491499545554be62a08cbcbc7c75c84b999f28a"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+@@ -42,5 +42,9 @@ do_configure_prepend() {
+ 	sed -i 's/^find_package(Qt5Widgets QUIET)/#find_package(Qt5Widgets QUIET)/g' ${S}/Source/QtDialog/CMakeLists.txt
+ 	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutoUicInterface/CMakeLists.txt
+ 	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutogen/CMakeLists.txt
+-	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/autorcc_depends/CMakeLists.txt
++	sed -i 's/^find_package(Qt5Core REQUIRED)/#find_package(Qt5Core REQUIRED)/g' ${S}/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
++	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/mocRerun/CMakeLists.txt
++	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/rccDepends/CMakeLists.txt
++	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/mocDepends/CMakeLists.txt
++	sed -i 's/^find_package(Qt5Widgets REQUIRED)/#find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutogen/mocPlugin/CMakeLists.txt
+ }
+diff --git a/meta/recipes-devtools/cmake/cmake_3.8.2.bb b/meta/recipes-devtools/cmake/cmake_3.9.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.8.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.9.3.bb
 -- 
-2.7.4
+2.14.2
 
 
