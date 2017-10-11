@@ -1,52 +1,48 @@
 Return-Path: <matt@madison.systems>
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DD846079F
+Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 181C26079F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 10:46:58 +0000 (UTC)
-Received: by mail-lf0-f46.google.com with SMTP id 90so1566422lfs.13
+	Wed, 11 Oct 2017 10:49:30 +0000 (UTC)
+Received: by mail-pg0-f48.google.com with SMTP id u144so782624pgb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 03:47:00 -0700 (PDT)
+	Wed, 11 Oct 2017 03:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sSK26XsDR4ikEcWDgnomevepa6R98zAc2YBcQKnq6WY=;
-	b=CF47jKDM61bd70AYoVjhIG9TltqY078DhLMQMOkzjY4WBo9rywSe44I8p3qUq4EnoD
-	Ea4VWzXaw/eOKiOqYwM53pVqhY5Wk62BWuvI5U20/UWUEormaGtZQ3t2jx19egkspChp
-	cwQRvqegHPY1rWMNZBEWqVD3odQemSww0BxK4CkmvBecCxuNPPBxY+P+jdVrAbOLwcZe
-	objyGG5dkXYa48d4+woVgmaOFL4si7FZbQdSXSUmEl897rGUf6ksdeJSHgdcSM0VhHoj
-	TutZBK/NCnx7gEZGnW9V8AlscT5dpECMLBGzp8KCyaYzIEh6Mu+CMxTVZRnmsDNHSyO7
-	2lwA==
+	h=from:to:cc:subject:date:message-id;
+	bh=74FiyiHsCKkXZCGWns9H2NxiddW6YGdVl3HwbIrMzxU=;
+	b=Ew/en+gbRdbvKabXeUFkeeLRU5jdc3pmjh4uscyM5oGVsEUdwLDfvd6QYCRWbHCxGx
+	mr0Cmao0gi959LMr8gj0jei5zvCpIq2etbAp1AKk6iGmn6EKeXE4BpB1AXG9ztotN9nu
+	E14ykZcwfbX28tx8dw+cZUSmYo63OkpWxsdz/Q08h0fjAsmXoDeiBeOngQMSCSQnfNDx
+	3uFvKVCcjRmaoE3pMv9tpdzufLZZzfwDA1x4G9qo/3+5lPcgs3lvK2VuotdWi3yd6RBp
+	Lu35V/uDvBkqqhCaSX9A+Atwlp3x+TYcs1g/XPy7XQG8MaH+7gqDGxXv6Q6o3ulR9Yjn
+	mwuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sSK26XsDR4ikEcWDgnomevepa6R98zAc2YBcQKnq6WY=;
-	b=jhsSIHkKEfOd0YfU2q4U37N/f+JzEELo21yS7im+SezGcjqtk0KXZR+V/sLOINEKsY
-	ONTQ61cKsXizsI9w83zjPKR5i29JwwJ0/MfJPMf3wU82NuM1HaH2p5DMdXZksLkVDZMn
-	8bOqK0iAgjvJd3eyNw2WOXDfeulLWb1K6VRpM/i4GZ/6M5WL/tXvsTgqwScCLS/1wcPl
-	PMK7RAG1eZmt8wu93ZWENbT+qvo1ywjoMnTABzf/98VXOWiFxDMQtkWNz02FxTAMenFs
-	D2aK/jHoGS59q4p5jgcVv+SsZV+W7SoxQ8ahI5X8wIVmkXXQe7kfAH6tuf8IjDnJF0Xf
-	cbMg==
-X-Gm-Message-State: AMCzsaX5YXWlR4zawOTydVPBEJ9HOzFD5SMJQ09A6HlkzMeoNanDkaLc
-	GvRb3/b1IB631WnsqKw8xdHGwna0jgxdtmtoy+IDBg==
-X-Google-Smtp-Source: AOwi7QDLAWvrSX/vy9SwtyyV+RydCkazo2H+zuIPIqnuHAXpwm9WaCEr3h2ndNjDITYaSKNuo5A04B/JMBWjQ/oB2Lk=
-X-Received: by 10.46.25.18 with SMTP id p18mr3730281lje.24.1507718819945; Wed,
-	11 Oct 2017 03:46:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.192.4 with HTTP; Wed, 11 Oct 2017 03:46:59 -0700 (PDT)
-In-Reply-To: <CAMKF1srriGZ21vJPvdT6e556Wd2wLKac24_OBT5mae=Ls+LYOw@mail.gmail.com>
-References: <1507633512-30719-1-git-send-email-matt@madison.systems>
-	<CAJTo0LagJFdtet2W7QGyGUcr19=z+q2mk4yNY64QNuCZDmcFaQ@mail.gmail.com>
-	<CAMKF1srOAF=5gtovmFypykLfbUut6AJcCsZUu_f58qesV7SUdQ@mail.gmail.com>
-	<CAGgRHJq2yapC628m=zzgnvjgDsjoiuDc2fZ5n7ThA-hzWPyFGA@mail.gmail.com>
-	<CAMKF1srriGZ21vJPvdT6e556Wd2wLKac24_OBT5mae=Ls+LYOw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=74FiyiHsCKkXZCGWns9H2NxiddW6YGdVl3HwbIrMzxU=;
+	b=A69bdf/iMSPav3G1K3qYEwaMGGCXMCQAKjkOFaaCKN0/7ztgUX4GK/bLcx1QwV3xlo
+	GMCKK+0f4y+fPDePElcfusIaC6X1nRzKe9m54XoLUZUsb/mYtw5D0DOrKy6w3y+ySYL3
+	FN+SKCkFIMSDh6CKtykkmXzrYYrv/BkHvgTTN8KzxNRa4iZ3h3nrwm6MZ6RFDe6e+jj1
+	sMHvLBJhXtGLQXQnANzQYjlQ5RTXXeGXUqhhZPSZ5C8sxCcn5NAMwC9IlgXT31HtamTE
+	TiRagvYA6HvUq2ttX5Qz/ohz9wWquY+HXSX8lXt4d07y8q+rQnnSQxWu5SdWNRaEMHSC
+	2iVA==
+X-Gm-Message-State: AMCzsaUpW6dZnZLcH1icArO4iepbAtHqdNFaBkdlVTVh8OLPlecL3xhB
+	37CAvmxqUfdmgaiCgAz7wL9OgMDr
+X-Google-Smtp-Source: AOwi7QDzTWYGrmRzhYvuXXgjs6h/ujd8ZIY6vEPzQ250snCA5MJx5bHZQkDYhQ5GEw3GpAVxs5uZlg==
+X-Received: by 10.84.229.143 with SMTP id c15mr8031533plk.389.1507718971708;
+	Wed, 11 Oct 2017 03:49:31 -0700 (PDT)
+Received: from workhorse.madison.systems
+	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
+	by smtp.gmail.com with ESMTPSA id
+	g16sm22648340pgn.43.2017.10.11.03.49.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Oct 2017 03:49:30 -0700 (PDT)
 From: Matt Madison <matt@madison.systems>
-Date: Wed, 11 Oct 2017 03:46:59 -0700
-Message-ID: <CAGgRHJqnZVX6b0jKGjBUH8D+6OQNY978v51hubnrgDw8Y-a8FQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] go: update to go1.9.1
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Oct 2017 03:49:13 -0700
+Message-Id: <1507718953-9032-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] go: update to go1.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +55,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 10:46:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Oct 2017 10:49:31 -0000
 
-On Tue, Oct 10, 2017 at 3:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Oct 10, 2017 at 1:36 PM, Matt Madison <matt@madison.systems> wrote:
->> On Tue, Oct 10, 2017 at 9:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Tue, Oct 10, 2017 at 9:28 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>>> On 10 October 2017 at 12:05, Matt Madison <matt@madison.systems> wrote:
->>>>>
->>>>> +PV = "1.9.1"
->>>>
->>>>
->>>> Surely having a go-1.9.bb which then sets PV=1.9.1 is confusing at best?
->>>> Why not just update the checksums and rename the files?
->>>>
->>>
->>> I think its in line with what we do with rest of toolchain.
->>
->> Yes, the pattern has already been long established in the gcc recipes, anyway.
->>
->>>                     Probably
->>>
->>> MINOR = ".1"
->>>
->>> PV = "{BASE_PV}${MINOR}"
->>>
->>> might be better.
->>
->> I'm not sure I understand this.  Where would BASE_PV come from?
->
-> it was sort pseudo code, but you already have GO_BASEVERSION which is
-> what BASE_PV stood for.
+Addresses two security issues, including CVE-2017-15041
 
-Got it, thanks.  V2 on its way shortly.
+Reference:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-15041
 
--Matt
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ meta/recipes-devtools/go/go-1.9.inc | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
->
->>
->> I'm also fine with just renaming the recipes, .inc file, and
->> subdirectory for the patches, if that's deemed preferable.
->>
->> Thanks,
->> -Matt
->>
->>>
->>>> Ross
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>
+diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
+index 65adaa8..eab518d 100644
+--- a/meta/recipes-devtools/go/go-1.9.inc
++++ b/meta/recipes-devtools/go/go-1.9.inc
+@@ -1,6 +1,10 @@
+ require go-common.inc
+ 
+ GO_BASEVERSION = "1.9"
++MINOR = ".1"
++
++PV = "${GO_BASEVERSION}${MINOR}"
++
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+@@ -16,5 +20,5 @@ SRC_URI += "\
+         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
+         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
+ "
+-SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
+-SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
++SRC_URI[main.md5sum] = "27bce1ffb05f4f6bd90d90081e5d4169"
++SRC_URI[main.sha256sum] = "a84afc9dc7d64fe0fa84d4d735e2ece23831a22117b50dafc75c1484f1cb550e"
+-- 
+2.7.4
+
 
