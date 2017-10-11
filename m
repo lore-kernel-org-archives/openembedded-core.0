@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 07A7B78215
+	by mail.openembedded.org (Postfix) with ESMTP id 7544F78202
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:39:04 +0000 (UTC)
+	Wed, 11 Oct 2017 15:39:05 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:38:58 -0700
+	11 Oct 2017 08:39:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945837"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945852"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:56 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:00 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:34:26 +0300
-Message-Id: <e0db4dcdc73a3babdc9eaa276ef909b47e30b899.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:34:29 +0300
+Message-Id: <6d3d5eb3820ac3ed38179e498ea1124fbba7455e.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 34/50] shared-mime-info: update to 1.9
+Subject: [PATCH 37/50] hicolor-icon-theme: update to 0.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +34,28 @@ X-List-Received-Date: Wed, 11 Oct 2017 15:39:06 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{shared-mime-info_1.8.bb => shared-mime-info_1.9.bb}              | 4 ++--
+ .../{hicolor-icon-theme_0.15.bb => hicolor-icon-theme_0.17.bb}        | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/shared-mime-info/{shared-mime-info_1.8.bb => shared-mime-info_1.9.bb} (43%)
+ rename meta/recipes-gnome/hicolor-icon-theme/{hicolor-icon-theme_0.15.bb => hicolor-icon-theme_0.17.bb} (74%)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_1.9.bb
-similarity index 43%
-rename from meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
-rename to meta/recipes-support/shared-mime-info/shared-mime-info_1.9.bb
-index 849d9990319..f9b273edc6b 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_1.8.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_1.9.bb
-@@ -3,5 +3,5 @@ require shared-mime-info.inc
- SRC_URI += "file://parallelmake.patch \
- 	    file://install-data-hook.patch"
+diff --git a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.15.bb b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
+similarity index 74%
+rename from meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.15.bb
+rename to meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
+index a704632ca9e..7064b1942d4 100644
+--- a/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.15.bb
++++ b/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.17.bb
+@@ -6,8 +6,8 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f08a446809913fc9b3c718f0eaea0426"
  
--SRC_URI[md5sum] = "f6dcadce764605552fc956563efa058c"
--SRC_URI[sha256sum] = "2af55ef1a0319805b74ab40d331a3962c905477d76c086f49e34dc96363589e9"
-+SRC_URI[md5sum] = "45103889b91242850aa47f09325e798b"
-+SRC_URI[sha256sum] = "5c0133ec4e228e41bdf52f726d271a2d821499c2ab97afd3aa3d6cf43efcdc83"
+ SRC_URI = "http://icon-theme.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "6aa2b3993a883d85017c7cc0cfc0fb73"
+-SRC_URI[sha256sum] = "9cc45ac3318c31212ea2d8cb99e64020732393ee7630fa6c1810af5f987033cc"
++SRC_URI[md5sum] = "84eec8d6f810240a069c731f1870b474"
++SRC_URI[sha256sum] = "317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8"
+ 
+ inherit allarch autotools
+ 
 -- 
 2.14.1
 
