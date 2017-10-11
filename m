@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 731FD78202
+	by mail.openembedded.org (Postfix) with ESMTP id DBE2478227
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 11 Oct 2017 15:39:06 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:39:05 -0700
+	11 Oct 2017 08:39:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945890"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945898"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:04 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:06 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:34:32 +0300
-Message-Id: <261aa33b5555f5cf73eb5e69dfdd758a1fea8513.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:34:34 +0300
+Message-Id: <a1b02a7fb4ed25aa406aa815f4d52dc721a8b1ae.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 40/50] fontconfig: update to 2.12.6
+Subject: [PATCH 42/50] vte: update to 0.50.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +32,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Oct 2017 15:39:07 -0000
 
-Add a patch to avoid crashing under qemu.
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...src-fcxml.c-avoid-double-free-of-filename.patch | 28 ++++++++++++++++++++++
- .../{fontconfig_2.12.4.bb => fontconfig_2.12.6.bb} |  7 ++++--
- 2 files changed, 33 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-src-fcxml.c-avoid-double-free-of-filename.patch
- rename meta/recipes-graphics/fontconfig/{fontconfig_2.12.4.bb => fontconfig_2.12.6.bb} (90%)
+ meta/recipes-support/vte/{vte_0.48.3.bb => vte_0.50.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.48.3.bb => vte_0.50.1.bb} (91%)
 
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fcxml.c-avoid-double-free-of-filename.patch b/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fcxml.c-avoid-double-free-of-filename.patch
-new file mode 100644
-index 00000000000..3ca9fde9670
---- /dev/null
-+++ b/meta/recipes-graphics/fontconfig/fontconfig/0001-src-fcxml.c-avoid-double-free-of-filename.patch
-@@ -0,0 +1,28 @@
-+From a163c81ac430cdc292add200f3e6a0c048be4d7e Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 11 Oct 2017 17:40:09 +0300
-+Subject: [PATCH] src/fcxml.c: avoid double free() of filename
-+
-+It's also freed after bail1, so no need to do it here.
-+
-+Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=103221]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/fcxml.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/src/fcxml.c b/src/fcxml.c
-+index 19ce96a..edb6054 100644
-+--- a/src/fcxml.c
-++++ b/src/fcxml.c
-+@@ -3398,7 +3398,6 @@ FcConfigParseAndLoad (FcConfig	    *config,
-+ 
-+     fd = FcOpen ((char *) filename, O_RDONLY);
-+     if (fd == -1) {
-+-	FcStrFree (filename);
-+ 	goto bail1;
-+     }
-+ 
-+-- 
-+2.14.1
-+
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.12.4.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-similarity index 90%
-rename from meta/recipes-graphics/fontconfig/fontconfig_2.12.4.bb
-rename to meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-index a058b359848..fa5f0eecc20 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.12.4.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.12.6.bb
-@@ -22,9 +22,12 @@ DEPENDS = "expat freetype zlib gperf-native"
+diff --git a/meta/recipes-support/vte/vte_0.48.3.bb b/meta/recipes-support/vte/vte_0.50.1.bb
+similarity index 91%
+rename from meta/recipes-support/vte/vte_0.48.3.bb
+rename to meta/recipes-support/vte/vte_0.50.1.bb
+index 47208417b45..1c77c7dceea 100644
+--- a/meta/recipes-support/vte/vte_0.48.3.bb
++++ b/meta/recipes-support/vte/vte_0.50.1.bb
+@@ -11,8 +11,8 @@ inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject
+ SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
+             ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
+             "
+-SRC_URI[archive.md5sum] = "b300675ac5f269aa6eb48fe89a0d726d"
+-SRC_URI[archive.sha256sum] = "a3a9fb182740b392a45cd3f46fa61a985f68bb6b1817b52daec22034c46158c3"
++SRC_URI[archive.md5sum] = "a6f8fec3787e3cb72b3b31a8be6751a4"
++SRC_URI[archive.sha256sum] = "cf1708e3e573160e1db107014b3ef70888fefe6b668373fed70e8d1cac45a8c2"
  
- SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://revert-static-pkgconfig.patch \
-+           file://0001-src-fcxml.c-avoid-double-free-of-filename.patch \
-            "
--SRC_URI[md5sum] = "4fb01fc3f41760c41c69e37cc784b658"
--SRC_URI[sha256sum] = "fd5a6a663f4c4a00e196523902626654dd0c4a78686cbc6e472f338e50fdf806"
-+
-+SRC_URI[md5sum] = "00e748c67fad11e7057a71ed385e8bdb"
-+SRC_URI[sha256sum] = "064b9ebf060c9e77011733ac9dc0e2ce92870b574cca2405e11f5353a683c334"
-+
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
  
- do_configure_prepend() {
-     # work around https://bugs.freedesktop.org/show_bug.cgi?id=101280
 -- 
 2.14.1
 
