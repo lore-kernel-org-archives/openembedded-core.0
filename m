@@ -1,49 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D45371A74
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 17F5A719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 22:02:11 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id o135so4639082itb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OMy3xvaS84ChxW2Hp2GQh5O/SLwOiNp29c/qYTBsGQA=;
-	b=w7RlUCGpz62a1JWJdXA1ltqWqZPX6CHvrC+CEIqJ4L1dn0tZgFYKuGxeO4tb2wNpST
-	Q3BXHeSLIuE3uh/RG/s+d10y0JnTxdp0ibYPmVb+/deawxzZJIlc76JM90Ekc4Mjo8+E
-	bWNzajKesT+E60WPMHFLpFmht9DrAU+x7W6C3ixVi17lre373/QMFu0LQDyJuqTMSNw3
-	5FgqnZksbYkDmxQCYZ56Ah/Lp+cVuq7EbC/B/6GyQYaDtnYf9GJMTAtKqb4pfVhvhSqG
-	CHcbfAkcFsZJ06zfHJ0th49lDKlIaMb/TGuVhreCIKIxWIlz4aUOyrHI3xN30q9NxdFj
-	/G6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=OMy3xvaS84ChxW2Hp2GQh5O/SLwOiNp29c/qYTBsGQA=;
-	b=uiphO3Nc2Z8CyGUWyFily26GnCEkyLh7+9x1yHvuzhxTOkqF8fT0WMuxNPmfDRARyN
-	t3iqce47uXISFyK0BB2B7gLSR9pmbSEAa0elzatXoeTn1GAnVzEmPxujHw40SVUtPciw
-	UMQEiHtcA59or/tct4Hz9vWscZPcMFVPEAzhe6UyNLVPv+nkA3LDfgFaUTaaF4eW0GWc
-	rHwZ8CePPPjbiy2QK0fu/6rk5C/vixKX55Hx9fuCPJ7LVYo7D6CuKa95gHl+hgRjQQmG
-	CQIhnBm55JIbc2RubrQ6QFAH/lsLehMjGzNUQwLb4osl3+6Er3/ok1rzN3qmNq8tyYd5
-	NGHw==
-X-Gm-Message-State: AMCzsaX0rqELlHjIJ/l/rtdqlLLZ1LkOjc0SS+/rtCUHtnQ+s6xQna5g
-	gXjw2eeNBtxpRjQCk0Qohp1IGyF/MRvJp0pEoVWE2g==
-X-Google-Smtp-Source: AOwi7QBUzy4sJKBOSQ7eM/f5ugdBnw/ze7xXw1UREwejXS5j+m8uv5O6pGY+Ni/6zoRyGfM5YfWlbR9nPtvnYiso4H4=
-X-Received: by 10.36.26.87 with SMTP id 84mr613853iti.38.1507759332969; Wed,
-	11 Oct 2017 15:02:12 -0700 (PDT)
+	Wed, 11 Oct 2017 22:58:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 11 Oct 2017 15:58:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,362,1503385200"; 
+	d="scan'208,217";a="1229785383"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2017 15:57:58 -0700
+Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
+	ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Wed, 11 Oct 2017 15:57:58 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.30]) by
+	ORSMSX158.amr.corp.intel.com ([169.254.10.25]) with mapi id
+	14.03.0319.002; Wed, 11 Oct 2017 15:57:57 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] bash-ptest: install additional locales
+Thread-Index: AQHTPjGjzoINhR1Owk2JdomBT/NTYKLXFC4AgAg3wwA=
+Date: Wed, 11 Oct 2017 22:57:56 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B611A29C35@ORSMSX112.amr.corp.intel.com>
+References: <1507246092-71662-1-git-send-email-juro.bystricky@intel.com>
+	<CAJTo0LaV5+LY6ST2omCu5SQzFnUf8LPC=jRyFTtiCdbHE_E1EA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaV5+LY6ST2omCu5SQzFnUf8LPC=jRyFTtiCdbHE_E1EA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
-Received: by 10.107.162.205 with HTTP; Wed, 11 Oct 2017 15:01:52 -0700 (PDT)
-In-Reply-To: <1505434530-22152-1-git-send-email-megha.dey@linux.intel.com>
-References: <1505434530-22152-1-git-send-email-megha.dey@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Oct 2017 23:01:52 +0100
-Message-ID: <CAJTo0LbFEEyYFVtSg_YbOD6fFErMkCt8PzcGUs-yZ8hifvgE_w@mail.gmail.com>
-To: Megha Dey <megha.dey@linux.intel.com>
-Cc: "Dey, Megha" <megha.dey@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kexec-tools: Update to 2.0.15
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash-ptest: install additional locales
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,127 +47,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 22:02:12 -0000
-Content-Type: multipart/alternative; boundary="001a1144159a72e4a2055b4c9342"
+X-List-Received-Date: Wed, 11 Oct 2017 22:58:18 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_"
 
---001a1144159a72e4a2055b4c9342
-Content-Type: text/plain; charset="UTF-8"
+--_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 15 September 2017 at 01:15, Megha Dey <megha.dey@linux.intel.com> wrote:
+V2VsbCwgSSBnb3QgYSBRQSB3YXJuaW5nLCBzb21ldGhpbmcgbGlrZSB1c2luZyBSREVQRU5EUyBi
+dXQgbm8gREVQRU5EUz8gU28gSSBhZGRlZCB0aGF0IGxpbmXigKYNCg0KRnJvbTogQnVydG9uLCBS
+b3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogRnJpZGF5LCBPY3RvYmVy
+IDYsIDIwMTcgMzoyNyBBTQ0KVG86IEJ5c3RyaWNreSwgSnVybyA8anVyby5ieXN0cmlja3lAaW50
+ZWwuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYmFzaC1wdGVzdDogaW5zdGFs
+bCBhZGRpdGlvbmFsIGxvY2FsZXMNCg0KT24gNiBPY3RvYmVyIDIwMTcgYXQgMDA6MjgsIEp1cm8g
+QnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb208bWFpbHRvOmp1cm8uYnlzdHJpY2t5
+QGludGVsLmNvbT4+IHdyb3RlOg0KK1JERVBFTkRTXyR7UE59LXB0ZXN0X2FwcGVuZF9saWJjLWds
+aWJjICs9ICIgbG9jYWxlLWJhc2UtZnItZnIgbG9jYWxlLWJhc2UtZGUtZGUiDQorREVQRU5EU19w
+dGVzdF9hcHBlbmRfbGliYy1nbGliYyArPSAiIGxvY2FsZS1iYXNlLWZyLWZyIGxvY2FsZS1iYXNl
+LWRlLWRlIg0KDQpUaGF0IERFUEVORFMgbGluZSBpcyBtZWFuaW5nbGVzcy4NCg0KUm9zcw0K
 
-> This patch updates to the latest version of the kexec-tools and
-> removes patches which are already merged upstream.
->
+--_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ291cmllciBO
+ZXciOw0KCWNvbG9yOmJsYWNrOw0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250LXN0eWxlOm5v
+cm1hbDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7
+c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGluO30NCmRp
+di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
+IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
+IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
+OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
+IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
+bGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29y
+ZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NvdXJpZXIgTmV3JnF1b3Q7O2NvbG9yOmJsYWNrIj5X
+ZWxsLCBJIGdvdCBhIFFBIHdhcm5pbmcsIHNvbWV0aGluZyBsaWtlIHVzaW5nIFJERVBFTkRTIGJ1
+dCBubyBERVBFTkRTPyBTbyBJIGFkZGVkIHRoYXQgbGluZeKApjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NvdXJpZXIgTmV3JnF1b3Q7O2NvbG9yOmJsYWNrIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpz
+b2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYg
+c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5n
+OjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxl
+PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFp
+bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIE9j
+dG9iZXIgNiwgMjAxNyAzOjI3IEFNPGJyPg0KPGI+VG86PC9iPiBCeXN0cmlja3ksIEp1cm8gJmx0
+O2p1cm8uYnlzdHJpY2t5QGludGVsLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0
+O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3Vi
+amVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBiYXNoLXB0ZXN0OiBpbnN0YWxsIGFkZGl0
+aW9uYWwgbG9jYWxlczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj5PbiA2IE9jdG9iZXIgMjAxNyBhdCAwMDoyOCwgSnVybyBCeXN0cmlja3kgJmx0
+OzxhIGhyZWY9Im1haWx0bzpqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5r
+Ij5qdXJvLmJ5c3RyaWNreUBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4N
+CjxkaXY+DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0
+OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVm
+dDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7UkRF
+UEVORFNfJHtQTn0tcHRlc3RfYXBwZW5kX2xpYmMtZ2xpYmMgJiM0Mzs9ICZxdW90OyBsb2NhbGUt
+YmFzZS1mci1mciBsb2NhbGUtYmFzZS1kZS1kZSZxdW90Ozxicj4NCiYjNDM7REVQRU5EU19wdGVz
+dF9hcHBlbmRfbGliYy1nbGliYyAmIzQzOz0gJnF1b3Q7IGxvY2FsZS1iYXNlLWZyLWZyIGxvY2Fs
+ZS1iYXNlLWRlLWRlJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGF0IERFUEVORFMgbGluZSBpcyBtZWFuaW5nbGVzcy48
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9z
+cyZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8
+L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-> -From ea7be6d71b85880e8e8a2c8a4f49a696c5f31ae4 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sat, 10 Jun 2017 11:18:49 -0700
-> -Subject: [PATCH] Disable PIE during link
-> -
-> -We have explcitly disabled PIE during compile so we
-> -just need to match it with linker flags
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - purgatory/Makefile | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/purgatory/Makefile b/purgatory/Makefile
-> -index 564bdb7..a08e41f 100644
-> ---- a/purgatory/Makefile
-> -+++ b/purgatory/Makefile
-> -@@ -59,7 +59,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS)
-> \
-> -                       -Iinclude \
-> -                       -I$(shell $(CC) -print-file-name=include)
-> - $(PURGATORY): LDFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS)\
-> --                      -Wl,--no-undefined -nostartfiles -nostdlib \
-> -+                      -Wl,--no-undefined -no-pie -nostartfiles -nostdlib
-> \
-> -                       -nodefaultlibs -e purgatory_start -Wl,-r \
-> -                       -Wl,-Map=$(PURGATORY_MAP)
->
-
-Was this actually merged upstream, or it caused a conflict?
-
-I ask because I can't build this:
-
-| i586-poky-linux-ar rs libutil.a util_lib/compute_ip_checksum.o
-util_lib/sha256.o
-| i586-poky-linux-ar: creating libutil.a
-|
-/data/poky-tmp/master/build/work/i586-poky-linux/kexec-tools/2.0.15-r1/recipe-sysroot-native/usr/bin/i586-poky-linux/../../libexec/i586-poky-linux/gcc/i586-poky-linux/7.2.0/ld:
--r and -pie may not be used together
-| collect2: error: ld returned 1 exit status
-| ../kexec-tools-2.0.15/purgatory/Makefile:67: recipe for target 'purgatory/
-purgatory.ro' failed
-
-Ross
-
---001a1144159a72e4a2055b4c9342
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 15 September 2017 at 01:15, Megha Dey <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:megha.dey@linux.intel.com" target=3D"_blank">megha.d=
-ey@linux.intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div=
- class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-c=
-olor:rgb(204,204,204);padding-left:1ex">This patch updates to the latest ve=
-rsion of the kexec-tools and<br>
-removes patches which are already merged upstream.<br></blockquote><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,2=
-04,204);padding-left:1ex">-From ea7be6d71b85880e8e8a2c8a4f49a6<wbr>96c5f31a=
-e4 Mon Sep 17 00:00:00 2001<br>
--From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.co=
-m</a>&gt;<br>
--Date: Sat, 10 Jun 2017 11:18:49 -0700<br>
--Subject: [PATCH] Disable PIE during link<br>
--<br>
--We have explcitly disabled PIE during compile so we<br>
--just need to match it with linker flags<br>
--<br>
--Upstream-Status: Pending<br>
--<br>
--Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem=
-@gmail.com</a>&gt;<br>
-----<br>
-- purgatory/Makefile | 2 +-<br>
-- 1 file changed, 1 insertion(+), 1 deletion(-)<br>
--<br>
--diff --git a/purgatory/Makefile b/purgatory/Makefile<br>
--index 564bdb7..a08e41f 100644<br>
----- a/purgatory/Makefile<br>
--+++ b/purgatory/Makefile<br>
--@@ -59,7 +59,7 @@ $(PURGATORY): CPPFLAGS=3D$($(ARCH)_PURGATORY_<wbr>EXTRA_=
-CFLAGS) \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-Iinclude \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-I$(shell $(CC) -print-file-name=3Dinclude)<br>
-- $(PURGATORY): LDFLAGS=3D$($(ARCH)_PURGATORY_<wbr>EXTRA_CFLAGS)\<br>
---=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 -Wl,--no-undefined -nostartfiles -nostdlib \<br>
--+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 -Wl,--no-undefined -no-pie -nostartfiles -nostdlib \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-nodefaultlibs -e purgatory_start -Wl,-r \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0-Wl,-Map=3D$(PURGATORY_MAP)<br></blockquote><div><br></div><div>W=
-as this actually merged upstream, or it caused a conflict?</div><div><br></=
-div><div>I ask because I can&#39;t build this:</div><div><br></div><div>| i=
-586-poky-linux-ar rs libutil.a util_lib/compute_ip_checksum.o util_lib/sha2=
-56.o</div><div>| i586-poky-linux-ar: creating libutil.a</div><div>| /data/p=
-oky-tmp/master/build/work/i586-poky-linux/kexec-tools/2.0.15-r1/recipe-sysr=
-oot-native/usr/bin/i586-poky-linux/../../libexec/i586-poky-linux/gcc/i586-p=
-oky-linux/7.2.0/ld: -r and -pie may not be used together</div><div>| collec=
-t2: error: ld returned 1 exit status</div><div>| ../kexec-tools-2.0.15/purg=
-atory/Makefile:67: recipe for target &#39;purgatory/<a href=3D"http://purga=
-tory.ro">purgatory.ro</a>&#39; failed</div><div><br></div><div>Ross=C2=A0</=
-div></div></div></div>
-
---001a1144159a72e4a2055b4c9342--
+--_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_--
