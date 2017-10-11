@@ -1,41 +1,30 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7694C6010D
+	by mail.openembedded.org (Postfix) with ESMTP id 705D06010D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 02:04:16 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,359,1503331200"; d="scan'208,217";a="28836573"
+	Wed, 11 Oct 2017 02:07:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,359,1503331200"; d="scan'208";a="28836680"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Oct 2017 10:04:16 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 83DE547F13A2;
-	Wed, 11 Oct 2017 10:04:16 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0361.001; Wed, 11 Oct 2017 10:04:15 +0800
-From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] at-spi2-core: 2.24.1 -> 2.26.0
-Thread-Index: AQHTQceiY8rIZj84X0+Q4rxejGb33KLchtEAgAFehEA=
-Date: Wed, 11 Oct 2017 02:04:15 +0000
-Message-ID: <97F7C8E70D26E94FA7E05578493F65C61C730701@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1507640372-934-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<1507640372-934-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<CAJTo0LYL8f52cGGG1OAsGP9OTG3_tHBRrcPy_Pvhm7CqZ2-FSg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYL8f52cGGG1OAsGP9OTG3_tHBRrcPy_Pvhm7CqZ2-FSg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.100.37
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.125]
+	by heian.cn.fujitsu.com with ESMTP; 11 Oct 2017 10:07:12 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id E711E47F13A2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Oct 2017 10:07:11 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 11 Oct 2017 10:07:10 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Oct 2017 10:07:12 +0800
+Message-ID: <1507687632-1952-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 83DE547F13A2.A9385
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: E711E47F13A2.A62CC
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] at-spi2-core: 2.24.1 -> 2.26.0
+Subject: [PATCH v2] at-spi2-core: 2.24.1 -> 2.26.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,143 +37,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 02:04:19 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_"
+X-List-Received-Date: Wed, 11 Oct 2017 02:07:12 -0000
+Content-Type: text/plain
 
---_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+1) Upgrade at-spi2-core from 2.24.1 to 2.26.0.
+2) Delete one patch "0001-nls.m4-Take-it-from-gettext-0.15.patch", since it is integrated upstream.
+3) Modify one patch "0001-build-Add-with-systemduserunitdir.patch", since the data has been changed.
 
-U29ycnksSSBkaWRuJ3Qgbm90aWNlIHRoaXMgcHJvYmxlbS4gVGhhbmtzIGZv
-ciB5b3VyIGZlZWRiYWNrLiBJIHdpbGwgc2VuZCBpdCBhZ2Fpbi4NCg0KDQoN
-Cmh1YW5ncXkNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5i
-dXJ0b25AaW50ZWwuY29tXQ0KU2VudDogVHVlc2RheSwgT2N0b2JlciAxMCwg
-MjAxNyA5OjA0IFBNDQpUbzogSHVhbmcsIFFpeXUv6buEIOeQpuWuhyA8aHVh
-bmdxeS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYXQtc3BpMi1jb3JlOiAyLjI0LjEg
-LT4gMi4yNi4wDQoNCk9uIDEwIE9jdG9iZXIgMjAxNyBhdCAxMzo1OSwgSHVh
-bmcgUWl5dSA8aHVhbmdxeS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzpo
-dWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5jb20+PiB3cm90ZToNCjEpIFVwZ3Jh
-ZGUgYXQtc3BpMi1jb3JlIGZyb20gMi4yNC4xIHRvIDIuMjYuMC4NCjIpIERl
-bGV0ZSBvbmUgcGF0Y2ggIjAwMDEtbmxzLm00LVRha2UtaXQtZnJvbS1nZXR0
-ZXh0LTAuMTUucGF0Y2giLCBzaW5jZSBpdCBpcyBpbnRlZ3JhdGVkIHVwc3Ry
-ZWFtLg0KMykgTW9kaWZ5IG9uZSBwYXRjaCAiMDAwMS1ubHMubTQtVGFrZS1p
-dC1mcm9tLWdldHRleHQtMC4xNS5wYXRjaCIsIHNpbmNlIHRoZSBkYXRhIGhh
-cyBiZWVuIGNoYW5nZWQuDQoNCldyb25nIGZpbGVuYW1lIGhlcmUuDQoNClJv
-c3MNCgoK
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../0001-build-Add-with-systemduserunitdir.patch   | 21 +++++----
+ .../0001-nls.m4-Take-it-from-gettext-0.15.patch    | 54 ----------------------
+ ...-spi2-core_2.24.1.bb => at-spi2-core_2.26.0.bb} |  5 +-
+ 3 files changed, 13 insertions(+), 67 deletions(-)
+ delete mode 100644 meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
+ rename meta/recipes-support/atk/{at-spi2-core_2.24.1.bb => at-spi2-core_2.26.0.bb} (84%)
 
---_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-support/atk/at-spi2-core/0001-build-Add-with-systemduserunitdir.patch b/meta/recipes-support/atk/at-spi2-core/0001-build-Add-with-systemduserunitdir.patch
+index 4103eaa..8cbb5a1 100644
+--- a/meta/recipes-support/atk/at-spi2-core/0001-build-Add-with-systemduserunitdir.patch
++++ b/meta/recipes-support/atk/at-spi2-core/0001-build-Add-with-systemduserunitdir.patch
+@@ -7,6 +7,7 @@ Default to "pkg-config --variable=systemduserunitdir systemd" but
+ allow overriding the value.
+ 
+ Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=767911]
++
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ ---
+  bus/Makefile.am | 2 +-
+@@ -14,23 +15,23 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  2 files changed, 8 insertions(+), 1 deletion(-)
+ 
+ diff --git a/bus/Makefile.am b/bus/Makefile.am
+-index b189e02..52fbb0b 100644
++index 688f82a..10cde62 100644
+ --- a/bus/Makefile.am
+ +++ b/bus/Makefile.am
+-@@ -26,7 +26,7 @@ dbusservice_DATA = org.a11y.Bus.service
+- org.a11y.Bus.service: org.a11y.Bus.service.in
+- 	sed -e $(substitutions) $< > $@.tmp && mv $@.tmp $@
++@@ -29,7 +29,7 @@ org.a11y.Bus.service: org.a11y.Bus.service.in
++ EXTRA_DIST += org.a11y.Bus.service.in
++ CLEANFILES += org.a11y.Bus.service
+  
+ -systemd_userdir = $(prefix)/lib/systemd/user
+ +systemd_userdir = $(systemduserunitdir)
+  systemd_user_DATA = at-spi-dbus-bus.service
+  at-spi-dbus-bus.service: at-spi-dbus-bus.service.in Makefile
+- 	sed -e $(substitutions) $< > $@.tmp && mv $@.tmp $@
++ 	$(AM_V_GEN) $(SED) -e $(substitutions) $< > $@.tmp && mv $@.tmp $@
+ diff --git a/configure.ac b/configure.ac
+-index f9061c2..2b8eeed 100644
++index 8c4fca2..ffc5ae6 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -183,6 +183,13 @@ else
++@@ -146,6 +146,13 @@ else
+  fi
+  AC_SUBST(DBUS_SERVICES_DIR)
+  
+@@ -41,9 +42,9 @@ index f9061c2..2b8eeed 100644
+ +            [with_systemduserunitdir=$($PKG_CONFIG --variable=systemduserunitdir systemd)])
+ +AC_SUBST([systemduserunitdir], [$with_systemduserunitdir])
+ +
+- AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
++ GOBJECT_INTROSPECTION_CHECK([1.32.0])
+  
+- GOBJECT_INTROSPECTION_CHECK([0.9.6])
++ AC_SUBST(LIBTOOL_EXPORT_OPTIONS)
+ -- 
+-2.1.4
++2.7.4
+ 
+diff --git a/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch b/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
+deleted file mode 100644
+index 69a51d5..0000000
+--- a/meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-From c320799c941d42a9b7e351805359694ea3b36d2d Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 5 Apr 2015 09:08:38 -0700
+-Subject: [PATCH] nls.m4: Take it from gettext-0.15
+-
+-It otherwise expects gettext to provide it. Lets go independent
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+----
+- m4/nls.m4 | 30 ++++++++++++++++++++++++++++++
+- 1 file changed, 30 insertions(+)
+- create mode 100644 m4/nls.m4
+-
+-diff --git a/m4/nls.m4 b/m4/nls.m4
+-new file mode 100644
+-index 0000000..2c8fe69
+---- /dev/null
+-+++ b/m4/nls.m4
+-@@ -0,0 +1,30 @@
+-+dnl Copyright (C) 1995-2003, 2005-2006 Free Software Foundation, Inc.
+-+dnl This file is free software; the Free Software Foundation
+-+dnl gives unlimited permission to copy and/or distribute it,
+-+dnl with or without modifications, as long as this notice is preserved.
+-+dnl
+-+dnl This file can can be used in projects which are not available under
+-+dnl the GNU General Public License or the GNU Library General Public
+-+dnl License but which still want to provide support for the GNU gettext
+-+dnl functionality.
+-+dnl Please note that the actual code of the GNU gettext library is covered
+-+dnl by the GNU Library General Public License, and the rest of the GNU
+-+dnl gettext package package is covered by the GNU General Public License.
+-+dnl They are not in the public domain.
+-+
+-+dnl Authors:
+-+dnl Ulrich Drepper drepper@cygnus.com, 1995-2000.
+-+dnl Bruno Haible haible@clisp.cons.org, 2000-2003.
+-+
+-+AC_PREREQ(2.50)
+-+
+-+AC_DEFUN([AM_NLS],
+-+[
+-+AC_MSG_CHECKING([whether NLS is requested])
+-+dnl Default is enabled NLS
+-+AC_ARG_ENABLE(nls,
+-+[ --disable-nls do not use Native Language Support],
+-+USE_NLS=$enableval, USE_NLS=yes)
+-+AC_MSG_RESULT($USE_NLS)
+-+AC_SUBST(USE_NLS)
+-+])
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.24.1.bb b/meta/recipes-support/atk/at-spi2-core_2.26.0.bb
+similarity index 84%
+rename from meta/recipes-support/atk/at-spi2-core_2.24.1.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.26.0.bb
+index 1687ae3..3cfc620 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.24.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.26.0.bb
+@@ -6,12 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+-           file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
+            file://0001-build-Add-with-systemduserunitdir.patch \
+           "
+ 
+-SRC_URI[md5sum] = "61d0a471e693292934a73f288ebff35c"
+-SRC_URI[sha256sum] = "1e90d064b937aacfe79a96232ac7e63d28d716e85bd9ff4333f865305a959b5b"
++SRC_URI[md5sum] = "ef3de25da46da8f650915205eb7e1a33"
++SRC_URI[sha256sum] = "511568a65fda11fdd5ba5d4adfd48d5d76810d0e6ba4f7460f1b2ec0dbbbc337"
+ 
+ DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst intltool-native"
+ 
+-- 
+2.7.4
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
-IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
-ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
-Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
-bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
-cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
-IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
-b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
-Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
-YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
-CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
-Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
-IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
-i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
-dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
-bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
-dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
-a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLk1zb1Bs
-YWluVGV4dCwgbGkuTXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJ
-e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoi57qv
-5paH5pysIENoYXIiOw0KCW1hcmdpbjowY207DQoJbWFyZ2luLWJvdHRvbTou
-MDAwMXB0Ow0KCWZvbnQtc2l6ZToxMC41cHQ7DQoJZm9udC1mYW1pbHk6IkNh
-bGlicmkiLHNhbnMtc2VyaWY7fQ0Kc3Bhbi5DaGFyDQoJe21zby1zdHlsZS1u
-YW1lOiLnuq/mlofmnKwgQ2hhciI7DQoJbXNvLXN0eWxlLXByaW9yaXR5Ojk5
-Ow0KCW1zby1zdHlsZS1saW5rOue6r+aWh+acrDsNCglmb250LWZhbWlseToi
-Q291cmllciBOZXciO30NCnNwYW4uRW1haWxTdHlsZTE5DQoJe21zby1zdHls
-ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
-IixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1
-bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXpl
-OjEwLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9
-DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7
-DQoJbWFyZ2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkwLjBwdDt9DQpkaXYu
-V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5
-bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
-IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
-aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91
-dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0i
-MSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwv
-aGVhZD4NCjxib2R5IGxhbmc9IlpILUNOIiBsaW5rPSJibHVlIiB2bGluaz0i
-cHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
-cz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+U29ycnksSSBk
-aWRuJ3Qgbm90aWNlIHRoaXMgcHJvYmxlbS4gVGhhbmtzIGZvciB5b3VyIGZl
-ZWRiYWNrLiBJIHdpbGwgc2VuZCBpdCBhZ2Fpbi48bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
-Ti1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPmh1YW5ncXk8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
-RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7
-cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHls
-ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0
-O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVHVlc2Rh
-eSwgT2N0b2JlciAxMCwgMjAxNyA5OjA0IFBNPGJyPg0KPGI+VG86PC9iPiBI
-dWFuZywgUWl5dS88L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQiPum7hDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPg0K
-PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij7nkKblroc8
-L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
-ZiI+ICZsdDtodWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5jb20mZ3Q7PGJyPg0K
-PGI+Q2M6PC9iPiBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBS
-ZTogW09FLWNvcmVdIFtQQVRDSF0gYXQtc3BpMi1jb3JlOiAyLjI0LjEgLSZn
-dDsgMi4yNi4wPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk9uIDEwIE9jdG9iZXIg
-MjAxNyBhdCAxMzo1OSwgSHVhbmcgUWl5dSAmbHQ7PGEgaHJlZj0ibWFpbHRv
-Omh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsi
-Pmh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7IHdyb3RlOjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPGJsb2NrcXVv
-dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0ND
-Q0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVm
-dDo0LjhwdDttYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1yaWdodDowY207bWFy
-Z2luLWJvdHRvbTo1LjBwdCI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
-biBsYW5nPSJFTi1VUyI+MSkgVXBncmFkZSBhdC1zcGkyLWNvcmUgZnJvbSAy
-LjI0LjEgdG8gMi4yNi4wLjxicj4NCjIpIERlbGV0ZSBvbmUgcGF0Y2ggJnF1
-b3Q7MDAwMS1ubHMubTQtVGFrZS1pdC1mcm9tLWdldHRleHQtMC4xNS5wYXRj
-aCZxdW90Oywgc2luY2UgaXQgaXMgaW50ZWdyYXRlZCB1cHN0cmVhbS48YnI+
-DQozKSBNb2RpZnkgb25lIHBhdGNoICZxdW90OzAwMDEtbmxzLm00LVRha2Ut
-aXQtZnJvbS1nZXR0ZXh0LTAuMTUucGF0Y2gmcXVvdDssIHNpbmNlIHRoZSBk
-YXRhIGhhcyBiZWVuIGNoYW5nZWQuPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
-cGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
-DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
-YW5nPSJFTi1VUyI+V3JvbmcgZmlsZW5hbWUgaGVyZS48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiPlJvc3MmbmJzcDs8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
-PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_--
+
+
