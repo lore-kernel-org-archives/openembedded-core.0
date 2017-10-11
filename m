@@ -1,41 +1,62 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B4E6A6FFD4
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 204296067D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 13:46:10 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id 1so5275737qtn.3
+	Wed, 11 Oct 2017 14:29:47 +0000 (UTC)
+Received: by mail-qt0-f195.google.com with SMTP id y45so2645638qty.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 06:46:12 -0700 (PDT)
+	Wed, 11 Oct 2017 07:29:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=avt2ZfYZPff9V2jvQyZpfBlhXew2fCJ4Fq/y1aVy4dY=;
+	b=i5NP+sSrsNxz7RsTrqZDuDRPlueD3YVyQqi2CrzPDN+6oo1sDfSdFJxz/N4fVSSTXK
+	jJ1awez3prZH9d/DxjH9q2vW3nPm7cewzvfIPadIGAYZ1STLtcgp60TwratdhJZ9DGL4
+	45peysN06v+MC0YR20y7spjHXGfmt3axocqYj+cYbFJcgnV6a4UbBKiA4XeVObZR0Xgc
+	b915foIndZZ4WdYJRbm5anWNxYHewGZ/8lMrjxRiCIZZkl1x9w186QUrt6rx9kVMvpEr
+	BM+SsX5WFev+J+BJXZ1oqGhjVYGYyDNfCVFYtgWzPFj3PLc14YsG6MbV1NbKZ2NyDO8s
+	dFhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=yHnVZYbffzMuvSVtJLUP+xauoeXJz8a8hyznzmuJsBg=;
-	b=J/xNGesbhLT4DJWFlyC14fv+z8e2E27gvvzC8KozdFb34cocFEmBPBnQBbo7oiUnzX
-	EDM51lOy1KKugR4XEvsT0bn9k39o7hmg5YtUHrTINuiZFxBkFQTitxZE7ehFIyHYRTr8
-	UrzF9Sz9NFpi90VW9AV0D3tYlFl749TyxsLETmmT03nLhejia4xlPJz1yGT3qMyKJ+AA
-	1WFgJAJKre9Eb45J7VIN+hdZUu+4/Lf9qYwTJZU0wMRl2yUyH4o6VVe60O8/1SarzB55
-	kBvAObhCThzZKshq63y6HF1G3zXy5R+RY17wmPngYgqr0U8AAxxoso786GQqrPNy3hkb
-	aisg==
-X-Gm-Message-State: AMCzsaWB5HX6j90tauNV8DL8iG5JPiHfjX75PBQLQRxFRrCi9GNFSCZ5
-	/MfivlK9vdANpULbXfIUBs18sA==
-X-Google-Smtp-Source: AOwi7QDVe02LOTu9EJkRxo0TbFTTtpp/Zpk8tneNZBjHRi9C5Xz3CsTsWlcW4uIYtOVBGaUIV0InBQ==
-X-Received: by 10.200.23.196 with SMTP id r4mr14302551qtk.158.1507729571156;
-	Wed, 11 Oct 2017 06:46:11 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id 35sm8070608qtx.43.2017.10.11.06.46.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 11 Oct 2017 06:46:10 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Wed, 11 Oct 2017 10:46:02 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Oct 2017 10:46:02 -0300
-Message-Id: <20171011134602.25918-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.2
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] cmake: Upgrade to 3.9.3 release
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=avt2ZfYZPff9V2jvQyZpfBlhXew2fCJ4Fq/y1aVy4dY=;
+	b=O/ZfgjtIQ1/zdePz2x1DA9pgeDwvQlhhv1uXMzisQFeJweaE2yjTeHdPIysOvzowW/
+	WD396jpA2zKrp+tSgJ4LZmxPRqnfls81LexMToaP+mCvpLf9hBaKAViZuY9PIpZuayyL
+	8Ai0BgyyL7dltHdnXsGslvhYH+ARQYp41AXRuGbovmZOUPowN6lES7Q1LGhCaH/4vLgo
+	MOPgyrMH9qrOanft6FSFVK+XI8iipGCT8Ku6I40QKV8d6DCASvygs9zxBhCJ3diUy8lA
+	qWuqpPoYfPkTh33HcZ1HIdNBF4LdqdijDncU90cMDhGQdpWtzBC+X+zwinDwkNL8EDnx
+	RgYA==
+X-Gm-Message-State: AMCzsaVJeZFpWRkTsN0mmpslEzJ+FQ/n7GSRS5nJNFfFj0IXXe+laqeh
+	h7qjzWXA+pHZ8WL6mAowWFOvcB8S
+X-Received: by 10.129.120.17 with SMTP id t17mr4428943ywc.144.1507732188688;
+	Wed, 11 Oct 2017 07:29:48 -0700 (PDT)
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com.
+	[209.85.218.44]) by smtp.gmail.com with ESMTPSA id
+	c74sm7641206ywh.19.2017.10.11.07.29.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Oct 2017 07:29:47 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f44.google.com with SMTP id f66so3375044oib.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Oct 2017 07:29:47 -0700 (PDT)
+X-Google-Smtp-Source: AOwi7QBcjgx+ky3SKxKNdl1utfOwjlTzo0cP4qLEG1RkSLWD55lnLCer86jbEc4Einmqi+ky79GOGicraRBBxvu7sSw=
+X-Received: by 10.202.4.69 with SMTP id 66mr8373757oie.409.1507732186964; Wed,
+	11 Oct 2017 07:29:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.56.216 with HTTP; Wed, 11 Oct 2017 07:29:46 -0700 (PDT)
+In-Reply-To: <20171010122706.6975-1-mikko.ylinen@linux.intel.com>
+References: <20171010122706.6975-1-mikko.ylinen@linux.intel.com>
+Date: Wed, 11 Oct 2017 11:29:46 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp7DA_jTo0GnM6Z+Zos=tGnvvAzPg0E29U1Vkdrs4ZTZA@mail.gmail.com>
+Message-ID: <CAP9ODKp7DA_jTo0GnM6Z+Zos=tGnvvAzPg0E29U1Vkdrs4ZTZA@mail.gmail.com>
+To: Mikko Ylinen <mikko.ylinen@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-firmware: make i.MX SDMA split complete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,69 +69,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 13:46:10 -0000
+X-List-Received-Date: Wed, 11 Oct 2017 14:29:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This upgrades CMake from 3.8.2 to 3.9.3 release. The Copyright.txt
-file checksum change was due the addition of a new contributor on the
-contributors list.
+Hello Mikko,
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+On Tue, Oct 10, 2017 at 9:27 AM, Mikko Ylinen
+<mikko.ylinen@linux.intel.com> wrote:
+> The commit to split i.MX SDMA firmware blobs in their
+> own packages was not complete and results in a failure
+> when trying to install full linux-firmware:
+>
+>  * Solver encountered 1 problem(s):
+>  * Problem 1/1:
+>  *   - nothing provides linux-firmware-imx-sdma-license needed
+>  *     by linux-firmware-1:0.0+git0+a61ac5cf83-r0.all
+>  *
+>  * Solution 1:
+>  *   - do not ask to install a package providing linux-firmware
+>
+> Make the split complete by installing the license in
+> ${PN}-imx-sdma-license and have the blob packages depend on it.
+>
+> Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
 
-Changes in v2:
-- amend commit log
+First, thanks for fixing my mistake ... I will try to find what I did
+wrong here as I did test it.
 
- .../cmake/{cmake-native_3.8.2.bb => cmake-native_3.9.3.bb}   |  0
- meta/recipes-devtools/cmake/cmake.inc                        | 12 ++++++++----
- .../cmake/{cmake_3.8.2.bb => cmake_3.9.3.bb}                 |  0
- 3 files changed, 8 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.8.2.bb => cmake-native_3.9.3.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.8.2.bb => cmake_3.9.3.bb} (100%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.8.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.9.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.8.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.9.3.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 6aeb25fdd5..092ac74610 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=8d8c7bc32f8797d23f5cf605d9339d2d \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=24600643e5d1d2b8f7478ae5c9074949 \
-                     file://Source/cmake.h;beginline=1;endline=3;md5=4494dee184212fc89c469c3acd555a14"
- 
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-@@ -17,8 +17,8 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0001-FindCUDA-Use-find_program-if-find_host_program-is-no.patch \
-            "
- 
--SRC_URI[md5sum] = "b5dff61f6a7f1305271ab3f6ae261419"
--SRC_URI[sha256sum] = "da3072794eb4c09f2d782fcee043847b99bb4cf8d4573978d9b2024214d6e92d"
-+SRC_URI[md5sum] = "cb0f19828461904c72ed6a1e55459d03"
-+SRC_URI[sha256sum] = "8eaf75e1e932159aae98ab5e7491499545554be62a08cbcbc7c75c84b999f28a"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-@@ -42,5 +42,9 @@ do_configure_prepend() {
- 	sed -i 's/^find_package(Qt5Widgets QUIET)/#find_package(Qt5Widgets QUIET)/g' ${S}/Source/QtDialog/CMakeLists.txt
- 	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutoUicInterface/CMakeLists.txt
- 	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutogen/CMakeLists.txt
--	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/autorcc_depends/CMakeLists.txt
-+	sed -i 's/^find_package(Qt5Core REQUIRED)/#find_package(Qt5Core REQUIRED)/g' ${S}/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
-+	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/mocRerun/CMakeLists.txt
-+	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/rccDepends/CMakeLists.txt
-+	sed -i 's/^  find_package(Qt5Core REQUIRED)/#  find_package(Qt5Core REQUIRED)/g' ${S}/Tests/QtAutogen/mocDepends/CMakeLists.txt
-+	sed -i 's/^find_package(Qt5Widgets REQUIRED)/#find_package(Qt5Widgets REQUIRED)/g' ${S}/Tests/QtAutogen/mocPlugin/CMakeLists.txt
- }
-diff --git a/meta/recipes-devtools/cmake/cmake_3.8.2.bb b/meta/recipes-devtools/cmake/cmake_3.9.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.8.2.bb
-rename to meta/recipes-devtools/cmake/cmake_3.9.3.bb
 -- 
-2.14.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
