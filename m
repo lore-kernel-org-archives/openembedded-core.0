@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 05DF678213
+	by mail.openembedded.org (Postfix) with ESMTP id 2592278242
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:39:09 +0000 (UTC)
+	Wed, 11 Oct 2017 15:39:11 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:39:11 -0700
+	11 Oct 2017 08:39:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945909"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945911"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:10 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:39:11 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:34:38 +0300
-Message-Id: <ffe5ed59d701ab46ad253608837324d916cf3957.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:34:39 +0300
+Message-Id: <3ee4de992fc5e6a3c23967ea682b598bbb89e5a4.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 46/50] at-spi2-atk: update to 2.26.0
+Subject: [PATCH 47/50] atk: update to 2.26.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 15:39:10 -0000
+X-List-Received-Date: Wed, 11 Oct 2017 15:39:11 -0000
+
+Remove --disable-glibtest as ./configure no longer has it.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../atk/{at-spi2-atk_2.24.1.bb => at-spi2-atk_2.26.0.bb}              | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-atk_2.24.1.bb => at-spi2-atk_2.26.0.bb} (83%)
+ meta/recipes-support/atk/{atk_2.24.0.bb => atk_2.26.0.bb} | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/atk/{atk_2.24.0.bb => atk_2.26.0.bb} (72%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb b/meta/recipes-support/atk/at-spi2-atk_2.26.0.bb
-similarity index 83%
-rename from meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
-rename to meta/recipes-support/atk/at-spi2-atk_2.26.0.bb
-index 4a0e411495b..0d53e589ec1 100644
---- a/meta/recipes-support/atk/at-spi2-atk_2.24.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-atk_2.26.0.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+diff --git a/meta/recipes-support/atk/atk_2.24.0.bb b/meta/recipes-support/atk/atk_2.26.0.bb
+similarity index 72%
+rename from meta/recipes-support/atk/atk_2.24.0.bb
+rename to meta/recipes-support/atk/atk_2.26.0.bb
+index d62319c1ff4..e014ba032d9 100644
+--- a/meta/recipes-support/atk/atk_2.24.0.bb
++++ b/meta/recipes-support/atk/atk_2.26.0.bb
+@@ -12,10 +12,8 @@ DEPENDS = "glib-2.0"
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "79388fbc4dc7f27394556dd389aeb594"
--SRC_URI[sha256sum] = "60dc90ac4f74b8ffe96a9363c25208a443b381bacecfefea6de549f20ed6957d"
-+SRC_URI[md5sum] = "555d4ca06a1b75c14db67bffac5f4d1f"
-+SRC_URI[sha256sum] = "d25e528e1406a10c7d9b675aa15e638bcbf0a122ca3681f655a30cce83272fb9"
+ inherit gnomebase gtk-doc gettext upstream-version-is-even gobject-introspection
  
- DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core"
+-SRC_URI[archive.md5sum] = "3747a80089dfa3c0bbcf21adfff9968b"
+-SRC_URI[archive.sha256sum] = "bb2daa9a808c73a7a79d2983f333e0ba74be42fc51e3ba1faf2551a636487a49"
++SRC_URI[archive.md5sum] = "ee9c329784dead6e386e8b2e0d4d8d6f"
++SRC_URI[archive.sha256sum] = "eafe49d5c4546cb723ec98053290d7e0b8d85b3fdb123938213acb7bb4178827"
  
+ BBCLASSEXTEND = "native"
+ 
+-EXTRA_OECONF = "--disable-glibtest \
+-               "
 -- 
 2.14.1
 
