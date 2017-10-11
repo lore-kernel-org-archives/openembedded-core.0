@@ -1,21 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AA7396FFA4
+	by mail.openembedded.org (Postfix) with ESMTP id A37B96FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:38:19 +0000 (UTC)
+	Wed, 11 Oct 2017 15:38:20 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:38:20 -0700
+	11 Oct 2017 08:38:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945691"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945698"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:19 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:20 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:33:52 +0300
-Message-Id: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:33:53 +0300
+Message-Id: <cf33ac88e28b8e91f25d750de9a1385808d5e1f7.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
-Subject: [PATCH 00/50] Recipe updates and fixes.
+In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
+References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 01/50] oprofile: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,141 +30,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 15:38:19 -0000
+X-List-Received-Date: Wed, 11 Oct 2017 15:38:21 -0000
 
-'Alex's patchbombs' have become a sort of running gag between Ross and me,
-so here's the biggest, bestest bomb yet. Do have a look if there's a recipe
-that you care about, and let me know. I have also updated the recipes for
-which Jussi Kukkonen was previously responsible, but I don't necessarily want
-to take up his recipes permanently :)
+Perf is the preferred solution, and oprofile is difficult to
+maintain against musl.
 
-The following changes since commit 96967261993f8b583b51cdeccbb1fd06042d2192:
-
-  bitbake: toaster/highlight.pack.js: Fix corrupted file (2017-10-10 11:05:08 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
-
-Alexander Kanavin (49):
-  oprofile: remove the recipe
-  libpfm4: remove the recipe
-  glib-2.0: update to 2.54.1
-  glib-networking: update to 2.54.0
-  eudev: fix upstream version check
-  tcf-agent: latest upstream version is now known
-  go-helloworld: add an acknowledgement of unknown upstream version
-  dtc: update to 1.4.5
-  lz4: fix upstream version check
-  freetype: fix upstream version check
-  libxslt: update to 1.1.31
-  vala: update to 0.38.2
-  btrfs-tools: update to 4.13.2
-  mpg123: update to 1.25.7
-  libsolv: update to 0.6.29
-  libdnf: update to 0.11.0
-  librepo: update to 1.8.1
-  dnf: update to 2.7.3
-  gobject-introspection: update to 1.54.1
-  boost: update to 1.65.1
-  gnome-desktop3: Update to 3.26.1
-  iso-codes: update to 3.76
-  sysprof: update to 3.26.1
-  gtk-doc.bbclass: correctly make the list of directories with shared
-    libraries
-  webkitgtk: update to 2.18.0
-  gtk+3: update to 3.22.24
-  freetype: update to 2.8.1
-  vulkan: update to 1.0.61.1
-  xdg-utils: update to 1.1.2
-  gsettings-desktop-schemas: update to 3.24.1
-  libsoup-2.4: update to 2.60.1
-  adwaita-icon-theme: update to 3.26.0
-  shared-mime-info: update to 1.9
-  assimp: update to 4.0.1
-  gdk-pixbuf: update to 2.36.11
-  hicolor-icon-theme: update to 0.17
-  libgudev: update to 232
-  pango: update to 1.40.12
-  fontconfig: update to 2.12.6
-  libinput: update to 1.8.3
-  vte: update to 0.50.1
-  librsvg: update to 2.40.19
-  clutter-gtk-1.0: update to 1.8.4
-  at-spi2-core: update to 2.26.0
-  at-spi2-atk: update to 2.26.0
-  atk: update to 2.26.0
-  glew: update to 2.1.0
-  maintainers.inc: add Mark Hatle for libmnl
-  maintainers.inc: add Otavio Salvador for go-dep
-
-Chen Qi (1):
-  ffmpeg: upgrade to 3.3.4
-
- meta/classes/gtk-doc.bbclass                       |   2 +-
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
  meta/conf/distro/include/distro_alias.inc          |   1 -
- meta/conf/distro/include/maintainers.inc           |   2 +
  meta/conf/layer.conf                               |   1 -
- ...warning-about-deprecated-paths-in-schemas.patch |  25 +-
- ...t-hardcode-python-path-into-various-tools.patch |  46 ++
- .../Enable-more-tests-while-cross-compiling.patch  |  30 +-
- .../glib-2.0/glib-2.0/configure-libtool.patch      |  38 +-
- .../{glib-2.0_2.52.3.bb => glib-2.0_2.54.1.bb}     |   5 +-
- meta/recipes-core/glib-2.0/glib.inc                |  16 +-
- ...working_2.50.0.bb => glib-networking_2.54.0.bb} |   4 +-
- meta/recipes-core/udev/eudev_3.2.2.bb              |   1 -
- ...ith-musl-missing-header-include-for-dev_t.patch |  26 +
- .../{btrfs-tools_4.12.bb => btrfs-tools_4.13.2.bb} |   3 +-
- ...eck-conf.releasever-instead-of-releasever.patch |  31 --
- .../dnf/{dnf_2.6.3.bb => dnf_2.7.3.bb}             |   3 +-
- .../libdnf/{libdnf_0.9.3.bb => libdnf_0.11.0.bb}   |   2 +-
- ...ly-set-the-library-installation-directory.patch |  28 -
- ...to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch |  49 +-
- ...-race-when-deleting-temporary-directories.patch |  41 --
- ...rrect-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch |  40 --
- .../librepo/{librepo_git.bb => librepo_1.8.1.bb}   |   6 +-
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |   1 -
- meta/recipes-devtools/vala/vala.inc                |   2 +
- .../vala/vala/0001-Disable-valadoc.patch           |  32 ++
- .../vala/vala/disable-graphviz.patch               | 223 ++++++++
- .../vala/{vala_0.36.4.bb => vala_0.38.2.bb}        |   6 +-
- .../go-examples/go-helloworld_0.1.bb               |   1 +
- .../{libsolv_0.6.28.bb => libsolv_0.6.29.bb}       |   2 +-
- .../{xdg-utils_1.1.1.bb => xdg-utils_1.1.2.bb}     |   4 +-
- ...-Fix-without-libtiff-not-having-an-effect.patch |  27 +
- ...ueryloaders-Make-output-more-reproducible.patch |  56 --
- .../gdk-pixbuf/gdk-pixbuf/fatal-loader.patch       |  39 +-
- ...{gdk-pixbuf_2.36.8.bb => gdk-pixbuf_2.36.11.bb} |   6 +-
- ...ble-libseccomp-sycall-filtering-mechanism.patch |  38 ++
- ...op-thumbnail-don-t-convert-time_t-to-long.patch |  31 +-
- ...desktop3_3.24.2.bb => gnome-desktop3_3.26.1.bb} |  14 +-
- .../0001-Don-t-use-AC_CANONICAL_HOST.patch         |  11 +-
- ...heme_3.24.0.bb => adwaita-icon-theme_3.26.0.bb} |   4 +-
- ...n_1.52.1.bb => gobject-introspection_1.54.1.bb} |   7 +-
- ...22.0.bb => gsettings-desktop-schemas_3.24.1.bb} |   4 +-
- ...Do-not-try-to-initialize-GL-without-libGL.patch |  22 +-
- .../0003-Add-disable-opengl-configure-option.patch | 244 +++------
- .../gtk+/{gtk+3_3.22.17.bb => gtk+3_3.22.24.bb}    |   4 +-
- ...on-theme_0.15.bb => hicolor-icon-theme_0.17.bb} |   4 +-
- .../libgudev/{libgudev_231.bb => libgudev_232.bb}  |   4 +-
- .../{librsvg_2.40.18.bb => librsvg_2.40.19.bb}     |   4 +-
- .../clutter/clutter-gtk-1.0_1.8.2.bb               |   6 -
- .../clutter/clutter-gtk-1.0_1.8.4.bb               |   6 +
- ...src-fcxml.c-avoid-double-free-of-filename.patch |  28 +
- .../{fontconfig_2.12.4.bb => fontconfig_2.12.6.bb} |   7 +-
- .../{freetype_2.8.bb => freetype_2.8.1.bb}         |   6 +-
- .../glew/{glew_2.0.0.bb => glew_2.1.0.bb}          |   4 +-
- .../pango/{pango_1.40.6.bb => pango_1.40.12.bb}    |   4 +-
- .../vulkan/{assimp_4.0.0.bb => assimp_4.0.1.bb}    |   2 +-
- .../{vulkan_1.0.51.0.bb => vulkan_1.0.61.1.bb}     |   6 +-
- .../0001-tools-Fix-race-in-autotools-install.patch |  37 --
- .../{libinput_1.8.1.bb => libinput_1.8.3.bb}       |   8 +-
- meta/recipes-kernel/dtc/dtc.inc                    |   3 +-
- .../dtc/{dtc_1.4.4.bb => dtc_1.4.5.bb}             |   2 +-
- ...Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch |  31 --
- .../files/fix-misleading-indentation-error.patch   |  38 --
- meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb        |  33 --
  meta/recipes-kernel/oprofile/oprofile.inc          |  65 ---
  ...Add-rmb-definition-for-NIOS2-architecture.patch |  30 --
  .../0001-Fix-FTBFS-problem-with-GCC-6.patch        |  51 --
@@ -173,95 +49,7 @@ Chen Qi (1):
  .../oprofile/oprofile/root-home-dir.patch          |  44 --
  meta/recipes-kernel/oprofile/oprofile/run-ptest    |  19 -
  meta/recipes-kernel/oprofile/oprofile_1.1.0.bb     |  10 -
- .../{sysprof_3.24.1.bb => sysprof_3.26.1.bb}       |   4 +-
- .../ffmpeg/ffmpeg/CVE-2017-14054.patch             |  39 --
- .../ffmpeg/ffmpeg/CVE-2017-14055.patch             |  34 --
- .../ffmpeg/ffmpeg/CVE-2017-14056.patch             |  51 --
- .../ffmpeg/ffmpeg/CVE-2017-14057.patch             |  44 --
- .../ffmpeg/ffmpeg/CVE-2017-14058.patch             |  94 ----
- .../ffmpeg/ffmpeg/CVE-2017-14059.patch             |  40 --
- .../ffmpeg/ffmpeg/CVE-2017-14169.patch             |  39 --
- .../ffmpeg/ffmpeg/CVE-2017-14170.patch             |  49 --
- .../ffmpeg/ffmpeg/CVE-2017-14171.patch             |  44 --
- .../ffmpeg/ffmpeg/CVE-2017-14222.patch             |  40 --
- .../ffmpeg/ffmpeg/CVE-2017-14223.patch             |  38 --
- .../ffmpeg/ffmpeg/CVE-2017-14225.patch             |  49 --
- .../ffmpeg/{ffmpeg_3.3.3.bb => ffmpeg_3.3.4.bb}    |  16 +-
- .../mpg123/{mpg123_1.25.6.bb => mpg123_1.25.7.bb}  |   4 +-
- .../webkitgtk/0001-Fix-build-with-musl.patch       |  77 +++
- ...ix-racy-parallel-build-of-WebKit2-4.0.gir.patch |  23 +-
- ...c-settings-so-that-gtkdoc-generation-work.patch |  21 +-
- ...bKitMacros-Append-to-I-and-not-to-isystem.patch | 182 +++----
- ...ng-introspection-files-add-CMAKE_C_FLAGS-.patch |  24 +-
- .../detect-atomics-during-configure.patch          |  26 +-
- meta/recipes-sato/webkit/webkitgtk/gcc7.patch      |  23 -
- .../recipes-sato/webkit/webkitgtk/musl-fixes.patch |  48 --
- .../webkit/webkitgtk/ppc-musl-fix.patch            |  26 -
- .../{webkitgtk_2.16.6.bb => webkitgtk_2.18.0.bb}   |  10 +-
- ...at-spi2-atk_2.24.1.bb => at-spi2-atk_2.26.0.bb} |   4 +-
- .../0001-build-Add-with-systemduserunitdir.patch   |  29 +-
- .../0001-nls.m4-Take-it-from-gettext-0.15.patch    |  54 --
- ...-spi2-core_2.24.1.bb => at-spi2-core_2.26.0.bb} |   9 +-
- .../atk/{atk_2.24.0.bb => atk_2.26.0.bb}           |   6 +-
- ...bjam-native_1.64.0.bb => bjam-native_1.65.1.bb} |   3 +-
- .../boost/{boost-1.64.0.inc => boost-1.65.1.inc}   |   4 +-
- ...detail-socket_types.hpp-fix-poll.h-includ.patch |  49 --
- .../boost/{boost_1.64.0.bb => boost_1.65.1.bb}     |   1 -
- ...ge-assert-typo-how-was-this-released-with.patch |  37 ++
- .../{iso-codes_3.75.bb => iso-codes_3.76.bb}       |   4 +-
- ...libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.1.bb} |   4 +-
- ...for-integer-overflow-in-xsltAddTextString.patch |  80 ---
- .../libxslt/0001-Link-libraries-with-libm.patch    |  48 --
- ...Use-pkg-config-to-find-gcrypt-and-libxml2.patch | 130 -----
- .../{libxslt_1.1.29.bb => libxslt_1.1.31.bb}       |   9 +-
- meta/recipes-support/lz4/lz4_1.7.4.bb              |   1 +
- ...ed-mime-info_1.8.bb => shared-mime-info_1.9.bb} |   4 +-
- .../vte/{vte_0.48.3.bb => vte_0.50.1.bb}           |   4 +-
- 117 files changed, 990 insertions(+), 2902 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.52.3.bb => glib-2.0_2.54.1.bb} (79%)
- rename meta/recipes-core/glib-networking/{glib-networking_2.50.0.bb => glib-networking_2.54.0.bb} (88%)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Fix-build-with-musl-missing-header-include-for-dev_t.patch
- rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_4.12.bb => btrfs-tools_4.13.2.bb} (90%)
- delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch
- rename meta/recipes-devtools/dnf/{dnf_2.6.3.bb => dnf_2.7.3.bb} (95%)
- rename meta/recipes-devtools/libdnf/{libdnf_0.9.3.bb => libdnf_0.11.0.bb} (95%)
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch
- rename meta/recipes-devtools/librepo/{librepo_git.bb => librepo_1.8.1.bb} (68%)
- create mode 100644 meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
- create mode 100644 meta/recipes-devtools/vala/vala/disable-graphviz.patch
- rename meta/recipes-devtools/vala/{vala_0.36.4.bb => vala_0.38.2.bb} (44%)
- rename meta/recipes-extended/libsolv/{libsolv_0.6.28.bb => libsolv_0.6.29.bb} (95%)
- rename meta/recipes-extended/xdg-utils/{xdg-utils_1.1.1.bb => xdg-utils_1.1.2.bb} (89%)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-Fix-without-libtiff-not-having-an-effect.patch
- delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-queryloaders-Make-output-more-reproducible.patch
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.36.8.bb => gdk-pixbuf_2.36.11.bb} (94%)
- create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop/0001-Disable-libseccomp-sycall-filtering-mechanism.patch
- rename meta/recipes-gnome/gnome-desktop/{gnome-desktop3_3.24.2.bb => gnome-desktop3_3.26.1.bb} (66%)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.24.0.bb => adwaita-icon-theme_3.26.0.bb} (93%)
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.52.1.bb => gobject-introspection_1.54.1.bb} (97%)
- rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.22.0.bb => gsettings-desktop-schemas_3.24.1.bb} (70%)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.22.17.bb => gtk+3_3.22.24.bb} (84%)
- rename meta/recipes-gnome/hicolor-icon-theme/{hicolor-icon-theme_0.15.bb => hicolor-icon-theme_0.17.bb} (74%)
- rename meta/recipes-gnome/libgudev/{libgudev_231.bb => libgudev_232.bb} (74%)
- rename meta/recipes-gnome/librsvg/{librsvg_2.40.18.bb => librsvg_2.40.19.bb} (91%)
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0_1.8.2.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0_1.8.4.bb
- create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/0001-src-fcxml.c-avoid-double-free-of-filename.patch
- rename meta/recipes-graphics/fontconfig/{fontconfig_2.12.4.bb => fontconfig_2.12.6.bb} (90%)
- rename meta/recipes-graphics/freetype/{freetype_2.8.bb => freetype_2.8.1.bb} (90%)
- rename meta/recipes-graphics/glew/{glew_2.0.0.bb => glew_2.1.0.bb} (92%)
- rename meta/recipes-graphics/pango/{pango_1.40.6.bb => pango_1.40.12.bb} (92%)
- rename meta/recipes-graphics/vulkan/{assimp_4.0.0.bb => assimp_4.0.1.bb} (92%)
- rename meta/recipes-graphics/vulkan/{vulkan_1.0.51.0.bb => vulkan_1.0.61.1.bb} (94%)
- delete mode 100644 meta/recipes-graphics/wayland/libinput/0001-tools-Fix-race-in-autotools-install.patch
- rename meta/recipes-graphics/wayland/{libinput_1.8.1.bb => libinput_1.8.3.bb} (81%)
- rename meta/recipes-kernel/dtc/{dtc_1.4.4.bb => dtc_1.4.5.bb} (81%)
- delete mode 100644 meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
- delete mode 100644 meta/recipes-kernel/libpfm/files/fix-misleading-indentation-error.patch
- delete mode 100644 meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+ 12 files changed, 958 deletions(-)
  delete mode 100644 meta/recipes-kernel/oprofile/oprofile.inc
  delete mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch
  delete mode 100644 meta/recipes-kernel/oprofile/oprofile/0001-Fix-FTBFS-problem-with-GCC-6.patch
@@ -272,44 +60,1047 @@ Chen Qi (1):
  delete mode 100644 meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
  delete mode 100644 meta/recipes-kernel/oprofile/oprofile/run-ptest
  delete mode 100644 meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
- rename meta/recipes-kernel/sysprof/{sysprof_3.24.1.bb => sysprof_3.26.1.bb} (88%)
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14054.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14055.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14056.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14057.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14058.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14059.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14169.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14170.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14171.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14222.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14223.patch
- delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2017-14225.patch
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.3.bb => ffmpeg_3.3.4.bb} (91%)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.25.6.bb => mpg123_1.25.7.bb} (94%)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Fix-build-with-musl.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/gcc7.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/musl-fixes.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/ppc-musl-fix.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.16.6.bb => webkitgtk_2.18.0.bb} (94%)
- rename meta/recipes-support/atk/{at-spi2-atk_2.24.1.bb => at-spi2-atk_2.26.0.bb} (83%)
- delete mode 100644 meta/recipes-support/atk/at-spi2-core/0001-nls.m4-Take-it-from-gettext-0.15.patch
- rename meta/recipes-support/atk/{at-spi2-core_2.24.1.bb => at-spi2-core_2.26.0.bb} (80%)
- rename meta/recipes-support/atk/{atk_2.24.0.bb => atk_2.26.0.bb} (72%)
- rename meta/recipes-support/boost/{bjam-native_1.64.0.bb => bjam-native_1.65.1.bb} (68%)
- rename meta/recipes-support/boost/{boost-1.64.0.inc => boost-1.65.1.inc} (85%)
- delete mode 100644 meta/recipes-support/boost/boost/0001-boost-asio-detail-socket_types.hpp-fix-poll.h-includ.patch
- rename meta/recipes-support/boost/{boost_1.64.0.bb => boost_1.65.1.bb} (85%)
- create mode 100644 meta/recipes-support/boost/files/0001-Fix-a-strange-assert-typo-how-was-this-released-with.patch
- rename meta/recipes-support/iso-codes/{iso-codes_3.75.bb => iso-codes_3.76.bb} (76%)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.1.bb} (89%)
- delete mode 100644 meta/recipes-support/libxslt/libxslt/0001-Check-for-integer-overflow-in-xsltAddTextString.patch
- delete mode 100644 meta/recipes-support/libxslt/libxslt/0001-Link-libraries-with-libm.patch
- delete mode 100644 meta/recipes-support/libxslt/libxslt/0001-Use-pkg-config-to-find-gcrypt-and-libxml2.patch
- rename meta/recipes-support/libxslt/{libxslt_1.1.29.bb => libxslt_1.1.31.bb} (77%)
- rename meta/recipes-support/shared-mime-info/{shared-mime-info_1.8.bb => shared-mime-info_1.9.bb} (43%)
- rename meta/recipes-support/vte/{vte_0.48.3.bb => vte_0.50.1.bb} (91%)
 
+diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
+index f7c8b4a6bda..3b0411c3547 100644
+--- a/meta/conf/distro/include/distro_alias.inc
++++ b/meta/conf/distro/include/distro_alias.inc
+@@ -278,7 +278,6 @@ DISTRO_PN_ALIAS_pn-opkg-collateral = "OE-Core"
+ DISTRO_PN_ALIAS_pn-opkg-keyrings = "OSPDT upstream=git://git.yoctoproject.org/opkg-utils"
+ DISTRO_PN_ALIAS_pn-opkg-nogpg = "OSPDT upstream=git://git.yoctoproject.org/opkg-utils"
+ DISTRO_PN_ALIAS_pn-opkg-utils = "OSPDT upstream=git://git.yoctoproject.org/opkg-utils"
+-DISTRO_PN_ALIAS_pn-oprofile = "Debian=oprofile Fedora=oprofile"
+ DISTRO_PN_ALIAS_pn-os-release = "OE-Core"
+ DISTRO_PN_ALIAS_pn-packagegroup-base = "OE-Core"
+ DISTRO_PN_ALIAS_pn-packagegroup-core = "OE-Core"
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 6be2a57a70a..034232474fe 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -63,7 +63,6 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   font-alias->font-util \
+   weston-init->weston \
+   weston-init->kbd \
+-  oprofile->virtual/kernel \
+ "
+ 
+ # We need to keep bitbake tools in PATH
+diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
+deleted file mode 100644
+index 4b01654fa3e..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile.inc
++++ /dev/null
+@@ -1,65 +0,0 @@
+-SUMMARY = "System-Wide Profiler"
+-DESCRIPTION = "OProfile is a system-wide profiler for Linux systems, capable \
+-of profiling all running code at low overhead."
+-HOMEPAGE = "http://oprofile.sourceforge.net/news/"
+-BUGTRACKER = "http://sourceforge.net/tracker/?group_id=16191&atid=116191"
+-
+-LICENSE = "LGPLv2.1+ & GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://libopagent/opagent.h;beginline=5;endline=26;md5=4f16f72c7a493d8a4704aa18d03d15c6 \
+-                   "
+-SECTION = "devel"
+-
+-DEPENDS = "popt binutils"
+-RDEPENDS_${PN} = "binutils-symlinks"
+-RRECOMMENDS_${PN} = "kernel-vmlinux"
+-
+-FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*${SOLIBS} ${datadir}/${BPN}"
+-FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
+-FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
+-           file://acinclude.m4 \
+-           file://automake-foreign.patch \
+-           file://oprofile-cross-compile-tests.patch \
+-           file://run-ptest \
+-           file://root-home-dir.patch \
+-           file://0001-Add-rmb-definition-for-NIOS2-architecture.patch \
+-           file://0001-Fix-FTBFS-problem-with-GCC-6.patch \
+-"
+-UPSTREAM_CHECK_REGEX = "oprofile-(?P<pver>\d+(\.\d+)+)/"
+-UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/oprofile/files/oprofile/"
+-
+-SRC_URI_append_libc-musl = " file://musl.patch"
+-
+-inherit autotools pkgconfig ptest
+-
+-EXTRA_OECONF = "--with-kernel=${STAGING_DIR_HOST}${prefix} --without-x ac_cv_prog_XSLTPROC="
+-do_configure () {
+-	cp ${WORKDIR}/acinclude.m4 ${S}/
+-	autotools_do_configure
+-}
+-
+-EXTRA_OEMAKE = "SRCDIR=${PTEST_PATH}/libutil++/tests"
+-do_compile_ptest() {
+-	oe_runmake check
+-}
+-
+-do_install_ptest() {
+-	subdirs="libdb/tests libutil++/tests libregex/tests libutil/tests libop/tests libdb/tests "
+-	for tooltest in ${subdirs}
+-	do
+-		find ${tooltest} -perm /u=x -type f| cpio -pvdu ${D}${PTEST_PATH}
+-	done
+-
+-	# needed by some libop tests
+-	cp -r events ${D}${PTEST_PATH}
+-
+-	# needed by libregex regex_test
+-	cp libregex/stl.pat ${D}${PTEST_PATH}/libregex
+-	cp libregex/tests/mangled-name ${D}${PTEST_PATH}/libregex/tests
+-
+-	# needed by litutil++ file_manip_tests
+-	cp ${S}/libutil++/tests/file_manip_tests.cpp \
+-		libutil++/tests/file_manip_tests.o ${D}${PTEST_PATH}/libutil++/tests
+-}
+diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch b/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch
+deleted file mode 100644
+index ae8562a231a..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/0001-Add-rmb-definition-for-NIOS2-architecture.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 34b0d9b1a32fb404a30327a7ae8931c7c75583bf Mon Sep 17 00:00:00 2001
+-From: Marek Vasut <marex@denx.de>
+-Date: Tue, 9 Feb 2016 02:00:29 +0100
+-Subject: [PATCH] Add rmb() definition for NIOS2 architecture
+-
+-Signed-off-by: Marek Vasut <marex@denx.de>
+-Upstream-Status: Submitted [ http://marc.info/?l=oprofile-list&m=145501915931874&w=2 ]
+----
+- libperf_events/operf_utils.h | 5 +++++
+- 1 file changed, 5 insertions(+)
+-
+-diff --git a/libperf_events/operf_utils.h b/libperf_events/operf_utils.h
+-index 32954cc..8270e53 100644
+---- a/libperf_events/operf_utils.h
+-+++ b/libperf_events/operf_utils.h
+-@@ -178,6 +178,11 @@ void op_release_resources(void);
+- #define cpu_relax()	asm volatile("" ::: "memory")
+- #endif
+- 
+-+#ifdef __nios2__
+-+#define rmb()		asm volatile("" ::: "memory")
+-+#define cpu_relax()	asm volatile("" ::: "memory")
+-+#endif
+-+
+- #ifdef __tile__
+- #include <asm/unistd.h>
+- #define rmb()		__insn_mf()
+--- 
+-2.7.0
+-
+diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Fix-FTBFS-problem-with-GCC-6.patch b/meta/recipes-kernel/oprofile/oprofile/0001-Fix-FTBFS-problem-with-GCC-6.patch
+deleted file mode 100644
+index d372fd527ba..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/0001-Fix-FTBFS-problem-with-GCC-6.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-From 39d4d46a0bd504ac708ffe72df87bf74cd12ad30 Mon Sep 17 00:00:00 2001
+-From: William Cohen <wcohen@redhat.com>
+-Date: Fri, 5 Feb 2016 17:30:19 -0500
+-Subject: [PATCH] Fix FTBFS problem with GCC-6
+-
+-GCC-6 is pickier about some of the type conversions causing the Fedora
+-24 mass rebuild the build of oprofile failed with:
+-
+-make[3]: Entering directory '/builddir/build/BUILD/oprofile-1.1.0/libutil++'
+-g++ -DHAVE_CONFIG_H -I. -I..  -I ../libutil -I ../libop -I ../libpp   -W -Wall -fno-common -ftemplate-depth-50 -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -m32 -march=i686 -mtune=atom -fasynchronous-unwind-tables -c -o op_bfd.o op_bfd.cpp
+-op_bfd.cpp: In member function 'void op_bfd::get_symbol_range(symbol_index_t, long long unsigned int&, long long unsigned int&) const':
+-op_bfd.cpp:538:47: error: cannot convert 'std::ostream {aka std::basic_ostream<char>}' to 'const bool' in initialization
+-  bool const verbose = cverb << (vbfd & vlevel1);
+-                                               ^
+-op_bfd.cpp:546:7: error: in argument to unary !
+-  if (!verbose)
+-       ^~~~~~~
+-
+-Avoid the intermediate bool type to make GCC-6 happy.
+-
+-Signed-off-by: William Cohen <wcohen@redhat.com>
+----
+-Upstream-Status: Backport
+-
+- libutil++/op_bfd.cpp | 4 +---
+- 1 file changed, 1 insertion(+), 3 deletions(-)
+-
+-diff --git a/libutil++/op_bfd.cpp b/libutil++/op_bfd.cpp
+-index 389c920..f2eb42b 100644
+---- a/libutil++/op_bfd.cpp
+-+++ b/libutil++/op_bfd.cpp
+-@@ -535,15 +535,13 @@ void op_bfd::get_symbol_range(symbol_index_t sym_idx,
+- {
+- 	op_bfd_symbol const & sym = syms[sym_idx];
+- 
+--	bool const verbose = cverb << (vbfd & vlevel1);
+--
+- 	if (anon_obj)
+- 		start = sym.vma();
+- 	else
+- 		start = sym.filepos();
+- 	end = start + sym.size();
+- 
+--	if (!verbose)
+-+	if (!(cverb << (vbfd & vlevel1)))
+- 		return;
+- 
+- 	io_state state(cverb << (vbfd & vlevel1));
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-kernel/oprofile/oprofile/acinclude.m4 b/meta/recipes-kernel/oprofile/oprofile/acinclude.m4
+deleted file mode 100644
+index 95ecd91b5e2..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/acinclude.m4
++++ /dev/null
+@@ -1,581 +0,0 @@
+-dnl AX_KERNEL_OPTION(option, action-if-found, action-if-not-found)
+-dnl see if autoconf.h defines the option
+-AC_DEFUN([AX_KERNEL_OPTION], [
+-SAVE_CFLAGS=$CFLAGS
+-CFLAGS="-I$KINC -O2 -D__KERNEL__"
+-AC_TRY_COMPILE( [#include <linux/config.h>],
+-[
+-#ifndef $1
+-break_me_hard(\\\);
+-#endif
+-],[$2],[$3],)
+-CFLAGS=$SAVE_CFLAGS
+-])
+-
+-dnl Handle the 2.4 module inside module/
+-AC_DEFUN([AX_CONFIG_MODULE],
+-[
+-if test ! -f $KINC/linux/autoconf.h; then
+-	AC_MSG_ERROR([no suitably configured kernel include tree found])
+-fi
+-
+-dnl  --- Get Linux kernel version and compile parameters ---
+-
+-AC_SUBST(KVERS)
+-AC_MSG_CHECKING([for kernel version])
+-dnl it's like this to handle mandrake's fubar version.h - bug #471448
+-eval KVERS=`gcc -I$KINC -E -dM $KINC/linux/version.h | grep -w UTS_RELEASE | awk '{print $[]3}'`
+-AC_MSG_RESULT([$KVERS])
+-case "$KVERS" in
+-2.2.*|2.4.*) ;;
+-*) AC_MSG_ERROR([Unsupported kernel version])
+-esac
+-
+-dnl Check for the minimal kernel version supported
+-AC_MSG_CHECKING([kernel version])
+-AX_KERNEL_VERSION(2, 2, 10, <=, AC_MSG_RESULT([ok]), AC_MSG_ERROR([check html documentation install section]))
+-
+-dnl linux/spinlock.h added at some point in past
+-AC_MSG_CHECKING([for $KINC/linux/spinlock.h])
+-if test -f $KINC/linux/spinlock.h; then
+-	EXTRA_CFLAGS_MODULE="$EXTRA_CFLAGS_MODULE -DHAVE_LINUX_SPINLOCK_HEADER"
+-	AC_MSG_RESULT([yes])
+-else
+-	AC_MSG_RESULT([no])
+-fi
+-
+-AC_MSG_CHECKING([for rtc_lock])
+-gcc -I$KINC -E $KINC/linux/mc146818rtc.h | grep rtc_lock >/dev/null
+-if test "$?" -eq 0; then
+-	EXTRA_CFLAGS_MODULE="$EXTRA_CFLAGS_MODULE -DRTC_LOCK"
+-	AC_MSG_RESULT([yes])
+-else
+-	AC_MSG_RESULT([no])
+-fi
+-	 
+-arch="unknown"
+-AC_MSG_CHECKING(for x86-64 architecture)
+-AX_KERNEL_OPTION(CONFIG_X86_64, x8664=1, x8664=0)
+-AX_MSG_RESULT_YN($x8664)
+-BUILD_HAMMER=no
+-if test "$x8664" -eq 1; then
+-	arch="x86"
+-	BUILD_HAMMER=yes
+-else
+-	AC_MSG_CHECKING(for x86 architecture)
+-	AX_KERNEL_OPTION(CONFIG_X86, x86=1, x86=0)
+-	AX_KERNEL_OPTION(CONFIG_X86_WP_WORKS_OK, x86=1, x86=$x86)
+-	AX_MSG_RESULT_YN($x86)
+-	test "$x86" = 1 && arch="x86"
+-	
+-	if test "$arch" = "unknown"; then
+-  		AC_MSG_CHECKING(for ia64 architecture)
+-  		AX_KERNEL_OPTION(CONFIG_IA64, ia64=1, ia64=0)
+-  		AX_MSG_RESULT_YN($ia64)
+-  		test "$ia64" = 1 && arch="ia64"
+-	fi
+-
+-fi
+-AC_SUBST(BUILD_HAMMER)
+-
+-test "$arch" = "unknown" && AC_MSG_ERROR(Unsupported architecture)
+-
+-dnl check to see if kernel verion appropriate for arch
+-AC_MSG_CHECKING(arch/kernel version combination)
+-case "$arch" in
+-ia64)
+-	AX_KERNEL_VERSION(2, 4, 18, <, AC_MSG_RESULT([ok]),
+-		AC_MSG_ERROR([unsupported arch/kernel])) ;;
+-*) AC_MSG_RESULT([ok])
+-esac
+-
+-dnl for now we do not support PREEMPT patch
+-AC_MSG_CHECKING([for preempt patch])
+-AX_KERNEL_OPTION(CONFIG_PREEMPT,preempt=1,preempt=0)
+-AX_MSG_RESULT_YN([$preempt])
+-test "$preempt" = 0 || AC_MSG_ERROR([unsupported kernel configuration : CONFIG_PREEMPT])
+-
+-AC_SUBST(KINC)
+-
+-MODINSTALLDIR=/lib/modules/$KVERS
+- 
+-OPROFILE_MODULE_ARCH=$arch
+-AC_SUBST(OPROFILE_MODULE_ARCH)
+-]
+-)
+-
+-dnl AX_MSG_RESULT_YN(a)
+-dnl results "yes" iff a==1, "no" else
+-AC_DEFUN([AX_MSG_RESULT_YN], [x=no
+-test "x$1" = "x1" && x=yes
+-AC_MSG_RESULT($x)])
+-
+-dnl AX_MALLOC_ATTRIBUTE - see if gcc will take __attribute__((malloc))
+-AC_DEFUN([AX_MALLOC_ATTRIBUTE],
+-[
+-AC_MSG_CHECKING([whether malloc attribute is understood])
+-SAVE_CFLAGS=$CFLAGS
+-CFLAGS="-Werror $CFLAGS"
+-AC_TRY_COMPILE(,[
+-void monkey() __attribute__((malloc));
+-],AC_MSG_RESULT([yes]); AC_DEFINE(MALLOC_ATTRIBUTE_OK, 1, [whether malloc attribute is understood]), AC_MSG_RESULT([no]))
+-CFLAGS=$SAVE_CFLAGS 
+-]
+-)
+-
+-dnl builtin_expect is used in module we can't add that in config.h
+-AC_DEFUN([AX_BUILTIN_EXPECT],
+-[
+-AC_MSG_CHECKING([whether __builtin_expect is understood])
+-SAVE_CFLAGS=$CFLAGS
+-CFLAGS="-Werror $CFLAGS"
+-AC_TRY_LINK(,[
+-int i;
+-if (__builtin_expect(i, 0)) { }
+-],
+-AC_MSG_RESULT([yes]); EXTRA_CFLAGS_MODULE="$EXTRA_CFLAGS_MODULE -DEXPECT_OK",
+-AC_MSG_RESULT([no]);)
+-CFLAGS=$SAVE_CFLAGS 
+-]
+-) 
+-
+-dnl AX_EXTRA_DIRS - Let user specify extra dirs for include/libs
+-AC_DEFUN([AX_EXTRA_DIRS],
+-[
+-AC_ARG_WITH(extra-includes,
+-[  --with-extra-includes=DIR    add extra include paths],
+-  use_extra_includes="$withval",
+-  use_extra_includes=NO
+-)
+-if test -n "$use_extra_includes" && \
+-        test "$use_extra_includes" != "NO"; then
+-  ac_save_ifs=$IFS
+-  IFS=':'
+-  for dir in $use_extra_includes; do
+-    extra_includes="$extra_includes -I$dir"
+-  done
+-  IFS=$ac_save_ifs
+-  CPPFLAGS="$CPPFLAGS $extra_includes"
+-fi
+-
+-AC_ARG_WITH(extra-libs,
+-[  --with-extra-libs=DIR        add extra library paths],
+-  use_extra_libs=$withval,
+-  use_extra_libs=NO
+-)
+-if test -n "$use_extra_libs" && \
+-        test "$use_extra_libs" != "NO"; then
+-   ac_save_ifs=$IFS
+-   IFS=':'
+-   for dir in $use_extra_libs; do
+-     extra_libraries="$extra_libraries -L$dir"
+-   done
+-   IFS=$ac_save_ifs
+-   LDFLAGS="$LDFLAGS $extra_libraries"
+-fi
+-]
+-)
+-
+-dnl AX_POPT_CONST - check popt prototype
+-AC_DEFUN([AX_POPT_CONST],
+-[
+-AC_MSG_CHECKING([popt prototype])
+-SAVE_CXXFLAGS=$CXXFLAGS
+-CXXFLAGS="-Werror $CXXFLAGS"
+-AC_TRY_COMPILE([#include <popt.h>],
+-[
+-int c; char **v;
+-poptGetContext(0, c, v, 0, 0);
+-],
+-AC_MSG_RESULT([takes char **]);,
+-AC_MSG_RESULT([takes const char **]); AC_DEFINE(CONST_POPT, 1, [whether popt prototype takes a const char **]))
+-CXXFLAGS="$SAVE_CXXFLAGS"
+-]
+-)
+-
+-dnl AX_CHECK_SSTREAM - check if local sstream is needed to compile OK
+-AC_DEFUN([AX_CHECK_SSTREAM],
+-[
+-AC_MSG_CHECKING([whether to use included sstream])
+-AC_TRY_COMPILE([#include <sstream>], [], 
+-AC_MSG_RESULT([no]);,
+-AC_MSG_RESULT([yes]); OP_CXXFLAGS="$OP_CXXFLAGS -I\${top_srcdir}/include")
+-]
+-)
+-
+-dnl AX_CHECK_TYPEDEF(typedef_name, type, action-if-true, action-if-false)
+-dnl exec action-if-true if typedef_name is a typedef to type else exec 
+-dnl action-if-false
+-dnl currently work only with type typedef'ed in stddef.h
+-AC_DEFUN([AX_CHECK_TYPEDEF], [
+-dnl AC_LANG_PUSH(C) not in autoconf 2.13
+-AC_LANG_SAVE
+-AC_LANG_C
+-SAVE_CFLAGS=$CFLAGS
+-CFLAGS="-Werror $CFLAGS"
+-
+-AC_TRY_COMPILE(
+-  [
+-  #include <stddef.h>
+-  ],
+-  [
+-  typedef void (*fct1)($1);
+-  typedef void (*fct2)($2);
+-  fct1 f1 = 0;
+-  fct2 f2 = 0;
+-  if (f1 == f2) {}
+-  ],
+-[$3],[$4])
+-
+-CFLAGS=$SAVE_CFLAGS
+-AC_LANG_RESTORE
+-])
+-
+-
+-dnl AX_TYPEDEFED_NAME(typedef_name, candidate_list, var_name)
+-dnl set var_name to the typedef name of $1 which must be in canditate_list
+-dnl else produce a fatal error
+-AC_DEFUN([AX_TYPEDEFED_NAME], [
+-	AC_MSG_CHECKING([type of $1])
+-	for f in $2; do
+-		AX_CHECK_TYPEDEF($1, $f, $3="$f", $3="")
+-		if test -n "${$3}"; then
+-			break
+-		fi
+-	done
+-	if test -n "${$3}"; then
+-		AC_MSG_RESULT([${$3}])
+-	else
+-		AC_MSG_ERROR([not found])
+-	fi
+-])
+-
+-dnl find a binary in the path
+-AC_DEFUN([QT_FIND_PATH],
+-[
+-	AC_MSG_CHECKING([for $1])
+-	AC_CACHE_VAL(qt_cv_path_$1,
+-	[
+-		qt_cv_path_$1="NONE"
+-		if test -n "$$2"; then
+-			qt_cv_path_$1="$$2";
+-		else
+-			dirs="$3"
+-			qt_save_IFS=$IFS
+-			IFS=':'
+-			for dir in $PATH; do
+-				dirs="$dirs $dir"
+-			done
+-			IFS=$qt_save_IFS
+- 
+-			for dir in $dirs; do
+-				if test -x "$dir/$1"; then
+-					if test -n "$5"; then
+-						evalstr="$dir/$1 $5 2>&1 "
+-						if eval $evalstr; then
+-							qt_cv_path_$1="$dir/$1"
+-							break
+-						fi
+-					else
+-						qt_cv_path_$1="$dir/$1"
+-						break
+-					fi
+-				fi
+-			done
+-		fi
+-	])
+- 
+-	if test -z "$qt_cv_path_$1" || test "$qt_cv_path_$1" = "NONE"; then
+-		AC_MSG_RESULT(not found)
+-		$4
+-	else
+-		AC_MSG_RESULT($qt_cv_path_$1)
+-		$2=$qt_cv_path_$1
+-	fi
+-])
+-
+-dnl Find the uic compiler on the path or in qt_cv_dir
+-AC_DEFUN([QT_FIND_UIC],
+-[
+-	QT_FIND_PATH(uic, ac_uic, $qt_cv_dir/bin)
+-	if test -z "$ac_uic" -a "$FATAL" = 1; then
+-		AC_MSG_ERROR([uic binary not found in \$PATH or $qt_cv_dir/bin !])
+-	fi
+-])
+- 
+-dnl Find the right moc in path/qt_cv_dir
+-AC_DEFUN([QT_FIND_MOC],
+-[
+-	QT_FIND_PATH(moc2, ac_moc2, $qt_cv_dir/bin)
+-	QT_FIND_PATH(moc, ac_moc1, $qt_cv_dir/bin)
+-
+-	if test -n "$ac_moc1" -a -n "$ac_moc2"; then
+-		dnl found both. Prefer Qt3's if it exists else moc2
+-		$ac_moc1 -v 2>&1 | grep "Qt 3" >/dev/null
+-		if test "$?" = 0; then
+-			ac_moc=$ac_moc1;
+-		else
+-			ac_moc=$ac_moc2;
+-		fi
+-	else
+-		if test -n "$ac_moc1"; then
+-			ac_moc=$ac_moc1;
+-		else
+-			ac_moc=$ac_moc2;
+-		fi
+-	fi
+-
+-	if test -z "$ac_moc"  -a "$FATAL" = 1; then
+-		AC_MSG_ERROR([moc binary not found in \$PATH or $qt_cv_dir/bin !])
+-	fi
+-])
+-
+-dnl check a particular libname
+-AC_DEFUN([QT_TRY_LINK],
+-[
+-	SAVE_LIBS="$LIBS"
+-	LIBS="$LIBS $1"
+-	AC_TRY_LINK([
+-	#include <qglobal.h>
+-	#include <qstring.h>
+-		],
+-	[
+-	QString s("mangle_failure");
+-	#if (QT_VERSION < 221)
+-	break_me_(\\\);
+-	#endif
+-	],
+-	qt_cv_libname=$1,
+-	)
+-	LIBS="$SAVE_LIBS"
+-])
+- 
+-dnl check we can do a compile
+-AC_DEFUN([QT_CHECK_COMPILE],
+-[
+-	AC_MSG_CHECKING([for Qt library name])
+- 
+-	AC_CACHE_VAL(qt_cv_libname,
+-	[
+-		AC_LANG_CPLUSPLUS
+-		SAVE_CXXFLAGS=$CXXFLAGS
+-		CXXFLAGS="$CXXFLAGS $QT_INCLUDES $QT_LDFLAGS" 
+-
+-		for libname in -lqt-mt -lqt3 -lqt2 -lqt;
+-		do
+-			QT_TRY_LINK($libname)
+-			if test -n "$qt_cv_libname"; then
+-				break;
+-			fi
+-		done
+-
+-		CXXFLAGS=$SAVE_CXXFLAGS
+-	])
+-
+-	if test -z "$qt_cv_libname"; then
+-		AC_MSG_RESULT([failed]) 
+-		if test "$FATAL" = 1 ; then
+-			AC_MSG_ERROR([Cannot compile a simple Qt executable. Check you have the right \$QTDIR !])
+-		fi
+-	else
+-		AC_MSG_RESULT([$qt_cv_libname])
+-	fi
+-])
+-
+-dnl get Qt version we're using
+-AC_DEFUN([QT_GET_VERSION],
+-[
+-	AC_CACHE_CHECK([Qt version],lyx_cv_qtversion,
+-	[
+-		AC_LANG_CPLUSPLUS
+-		SAVE_CPPFLAGS=$CPPFLAGS
+-		CPPFLAGS="$CPPFLAGS $QT_INCLUDES"
+-
+-		cat > conftest.$ac_ext <<EOF
+-#line __oline__ "configure"
+-#include "confdefs.h"
+-#include <qglobal.h>
+-"%%%"QT_VERSION_STR"%%%"
+-EOF
+-		lyx_cv_qtversion=`(eval "$ac_cpp conftest.$ac_ext") 2>&5 | \
+-			grep '^"%%%"'  2>/dev/null | \
+-			sed -e 's/"%%%"//g' -e 's/"//g'`
+-		rm -f conftest.$ac_ext
+-		CPPFLAGS=$SAVE_CPPFLAGS
+-	])
+- 
+-	QT_VERSION=$lyx_cv_qtversion
+-	AC_SUBST(QT_VERSION)
+-])
+- 
+-dnl start here 
+-AC_DEFUN([QT_DO_IT_ALL],
+-[
+-	dnl Please leave this alone. I use this file in
+-	dnl oprofile.
+-	FATAL=0
+-
+-	AC_ARG_WITH(qt-dir, [  --with-qt-dir           where the root of Qt is installed ],
+-		[ qt_cv_dir=`eval echo "$withval"/` ])
+-	 
+-	AC_ARG_WITH(qt-includes, [  --with-qt-includes      where the Qt includes are. ],
+-		[ qt_cv_includes=`eval echo "$withval"` ])
+- 
+-	AC_ARG_WITH(qt-libraries, [  --with-qt-libraries     where the Qt library is installed.],
+-		[  qt_cv_libraries=`eval echo "$withval"` ])
+-
+-	dnl pay attention to $QTDIR unless overridden
+-	if test -z "$qt_cv_dir"; then
+-		qt_cv_dir=$QTDIR
+-	fi
+- 
+-	dnl derive inc/lib if needed
+-	if test -n "$qt_cv_dir"; then
+-		if test -z "$qt_cv_includes"; then
+-			qt_cv_includes=$qt_cv_dir/include
+-		fi
+-		if test -z "$qt_cv_libraries"; then
+-			qt_cv_libraries=$qt_cv_dir/lib
+-		fi
+-	fi
+-
+-	dnl flags for compilation
+-	QT_INCLUDES=
+-	QT_LDFLAGS=
+-	if test -n "$qt_cv_includes"; then
+-		QT_INCLUDES="-I$qt_cv_includes"
+-	fi
+-	if test -n "$qt_cv_libraries"; then
+-		QT_LDFLAGS="-L$qt_cv_libraries"
+-	fi
+-	AC_SUBST(QT_INCLUDES)
+-	AC_SUBST(QT_LDFLAGS)
+- 
+-	QT_FIND_MOC
+-	MOC=$ac_moc
+-	AC_SUBST(MOC)
+-	QT_FIND_UIC
+-	UIC=$ac_uic
+-	AC_SUBST(UIC)
+-
+-	QT_CHECK_COMPILE
+- 
+-	QT_LIB=$qt_cv_libname;
+-	AC_SUBST(QT_LIB)
+-
+-	if test -n "$qt_cv_libname"; then
+-		QT_GET_VERSION
+-	fi
+-])
+-
+-dnl AX_CXXFLAGS_OPTIONS(var-name, option)
+-dnl add option to var-name if $CXX support it.
+-AC_DEFUN([AX_CHECK_PRECOMPILED_HEADER], [
+-AC_MSG_CHECKING([whether ${CXX} support precompiled header])
+-AC_LANG_SAVE
+-AC_LANG_CPLUSPLUS
+-SAVE_CXXFLAGS=$CXXFLAGS
+-dnl we consider than if -Winvalid-pch is accepted pch will works ...
+-CXXFLAGS=-Winvalid-pch
+-dnl but we don't want -Winvalid-pch else compilation will fail due -Werror and
+-dnl the fact than some pch will be invalid for the given compilation option
+-AC_TRY_COMPILE(,[;],AC_MSG_RESULT([yes]); $1="${$1} -include bits/stdc++.h", AC_MSG_RESULT([no]))
+-CXXFLAGS=$SAVE_CXXFLAGS
+-AC_LANG_RESTORE
+-])
+-
+-dnl AX_CHECK_DOCBOOK
+-AC_DEFUN([AX_CHECK_DOCBOOK], [
+-# It's just rude to go over the net to build
+-XSLTPROC_FLAGS=--nonet
+-DOCBOOK_ROOT=
+-if test ! -f /etc/xml/catalog; then
+-	for i in /usr/share/sgml/docbook/stylesheet/xsl/nwalsh /usr/share/sgml/docbook/xsl-stylesheets/;
+-	do
+-		if test -d "$i"; then
+-			DOCBOOK_ROOT=$i
+-		fi
+-	done
+-
+-	# Last resort - try net
+-	if test -z "$DOCBOOK_ROOT"; then
+-		XSLTPROC_FLAGS=
+-	fi
+-else
+-	XML_CATALOG=/etc/xml/catalog
+-	CAT_ENTRY_START='<!--'
+-	CAT_ENTRY_END='-->'
+-fi
+-
+-AC_CHECK_PROG(XSLTPROC,xsltproc,xsltproc,)
+-XSLTPROC_WORKS=no
+-if test -n "$XSLTPROC"; then
+-	AC_MSG_CHECKING([whether xsltproc works])
+-
+-	if test -n "$XML_CATALOG"; then
+-		DB_FILE="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"
+-	else
+-		DB_FILE="$DOCBOOK_ROOT/docbook.xsl"
+-	fi
+-
+-	$XSLTPROC $XSLTPROC_FLAGS $DB_FILE >/dev/null 2>&1 << END
+-<?xml version="1.0" encoding='ISO-8859-1'?>
+-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+-<book id="test">
+-</book>
+-END
+-	if test "$?" = 0; then
+-		XSLTPROC_WORKS=yes
+-	fi
+-	AC_MSG_RESULT($XSLTPROC_WORKS)
+-fi
+-AM_CONDITIONAL(have_xsltproc, test "$XSLTPROC_WORKS" = "yes")
+-
+-AC_SUBST(XML_CATALOG)
+-AC_SUBST(XSLTPROC_FLAGS)
+-AC_SUBST(DOCBOOK_ROOT)
+-AC_SUBST(CAT_ENTRY_START)
+-AC_SUBST(CAT_ENTRY_END)
+-])
+-
+-dnl AX_CFLAGS_OPTIONS(var-name, option)
+-dnl add option to var-name if $CC support it.
+-AC_DEFUN([AX_CFLAGS_OPTION], [
+-AC_MSG_CHECKING([whether ${CC} $2 is understood])
+-AC_LANG_SAVE
+-AC_LANG_C
+-SAVE_CFLAGS=$CFLAGS
+-CFLAGS=$2
+-AC_TRY_COMPILE(,[;],AC_MSG_RESULT([yes]); $1="${$1} $2",AC_MSG_RESULT([no]))
+-CFLAGS=$SAVE_CFLAGS
+-AC_LANG_RESTORE
+-])
+-
+-
+-dnl AX_CXXFLAGS_OPTIONS(var-name, option)
+-dnl add option to var-name if $CXX support it.
+-AC_DEFUN([AX_CXXFLAGS_OPTION], [
+-AC_MSG_CHECKING([whether ${CXX} $2 is understood])
+-AC_LANG_SAVE
+-AC_LANG_CPLUSPLUS
+-SAVE_CXXFLAGS=$CXXFLAGS
+-CXXFLAGS=$2
+-AC_TRY_COMPILE(,[;],AC_MSG_RESULT([yes]); $1="${$1} $2",AC_MSG_RESULT([no]))
+-CXXFLAGS=$SAVE_CXXFLAGS
+-AC_LANG_RESTORE
+-])
+-
+-dnl AX_COPY_IF_CHANGE(source, dest)
+-dnl copy source to dest if they don't compare equally or if dest doesn't exist
+-AC_DEFUN([AX_COPY_IF_CHANGE], [
+-if test -r $2; then
+-	if cmp $1 $2 > /dev/null; then
+-		echo $2 is unchanged
+-	else
+-		cp -f $1 $2
+-	fi
+-else
+-	cp -f $1 $2
+-fi
+-])
+-
+diff --git a/meta/recipes-kernel/oprofile/oprofile/automake-foreign.patch b/meta/recipes-kernel/oprofile/oprofile/automake-foreign.patch
+deleted file mode 100644
+index b9bb6c57799..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/automake-foreign.patch
++++ /dev/null
+@@ -1,12 +0,0 @@
+-oprofile doesn't want GNU-levels of automake strictness so tell it to be "foreign".
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 5740585..cf6c316 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -16 +16 @@ AC_CONFIG_SRCDIR([libop/op_config.h])
+--AM_INIT_AUTOMAKE
+-+AM_INIT_AUTOMAKE([foreign])
+diff --git a/meta/recipes-kernel/oprofile/oprofile/musl.patch b/meta/recipes-kernel/oprofile/oprofile/musl.patch
+deleted file mode 100644
+index 51db408454a..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/musl.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-Fix glibc-isms so that oprofile builds with musl.
+-
+-Patch taken from openwrt (https://github.com/openwrt-mirror/openwrt/blob/master/package/devel/oprofile/patches/100-musl.patch)
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+---- a/pe_profiling/operf.cpp
+-+++ b/pe_profiling/operf.cpp
+-@@ -857,11 +857,14 @@ static int __delete_old_previous_sample_
+-                                 int tflag  __attribute__((unused)),
+-                                 struct FTW *ftwbuf __attribute__((unused)))
+- {
+-+	int err;
+-+
+- 	if (remove(fpath)) {
+-+		err = errno;
+- 		perror("sample data removal error");
+--		return FTW_STOP;
+-+		return err;
+- 	} else {
+--		return FTW_CONTINUE;
+-+		return 0;
+- 	}
+- }
+- 
+-@@ -896,7 +899,7 @@ static void convert_sample_data(void)
+- 		return;
+- 
+- 	if (!operf_options::append) {
+--                int flags = FTW_DEPTH | FTW_ACTIONRETVAL;
+-+                int flags = FTW_DEPTH;
+- 		errno = 0;
+- 		if (nftw(previous_sampledir.c_str(), __delete_old_previous_sample_data, 32, flags) !=0 &&
+- 				errno != ENOENT) {
+---- a/libop/op_events.c
+-+++ b/libop/op_events.c
+-@@ -83,7 +83,7 @@ static int parse_hex(char const * str)
+- static u64 parse_long_hex(char const * str)
+- {
+- 	u64 value;
+--	if (sscanf(str, "%Lx", &value) != 1)
+-+	if (sscanf(str, "0x%llx", &value) != 1)
+- 		parse_error("expected long hexadecimal value");
+- 
+- 	fflush(stderr);
+diff --git a/meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch b/meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
+deleted file mode 100644
+index aefa9548e1d..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/oprofile-cross-compile-tests.patch
++++ /dev/null
+@@ -1,98 +0,0 @@
+-Prevent running check tests on host if cross compiling
+-
+-This patch enables running the 'make check' tests on the target
+-in a cross-compiled environment. If not cross-compiling, then 'make
+- check' builds and executes the tests; no change from this patch.
+-In a cross-compiling environment, the make variable CROSS_COMPILE is
+-set which bypasses assiging tests to the makekfile variable TESTS.
+-Since TESTS is empty, the 'make check' process never tries to run the
+-tests on the hosts.  On the target, the tests must be run manually.
+-
+-Also, in the libutil++ tests, a makefile variable SRCDIR is passed into
+-the compilation phase, pointing to the runtime location of the test
+-'file-manip-tests'.  The mechanism used for a host test, based on
+-'topdir' doesn't work.  Instead, if CROSS_COMPILE is set, the
+-makefile takes the path of SRCDIR from the build environment and not
+-from an expression based on the host path 'topdir'.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 41ece64..ce5a16f 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -392,6 +392,7 @@ AC_ARG_ENABLE(account-check,
+- 	enable_account_check=$enableval, enable_account_check=yes)
+- 
+- AM_CONDITIONAL(CHECK_ACCOUNT, test "x$enable_account_check" = "xyes")
+-+AM_CONDITIONAL(CROSS_COMPILE, test "x$cross_compiling" = "xyes")
+- 
+- AC_SUBST(OP_CFLAGS)
+- AC_SUBST(OP_CXXFLAGS)
+-diff --git a/libdb/tests/Makefile.am b/libdb/tests/Makefile.am
+-index 8a69003..d820090 100644
+---- a/libdb/tests/Makefile.am
+-+++ b/libdb/tests/Makefile.am
+-@@ -13,4 +13,6 @@ check_PROGRAMS = db_test
+- db_test_SOURCES = db_test.c
+- db_test_LDADD = ../libodb.a ../../libutil/libutil.a
+- 
+-+if ! CROSS_COMPILE
+- TESTS = ${check_PROGRAMS}
+-+endif
+-diff --git a/libop/tests/Makefile.am b/libop/tests/Makefile.am
+-index 8a79eb5..6d417c4 100644
+---- a/libop/tests/Makefile.am
+-+++ b/libop/tests/Makefile.am
+-@@ -33,4 +33,6 @@ load_events_files_tests_LDADD = ${COMMON_LIBS}
+- mangle_tests_SOURCES = mangle_tests.c
+- mangle_tests_LDADD = ${COMMON_LIBS}
+- 
+-+if ! CROSS_COMPILE
+- TESTS = ${check_PROGRAMS} utf8_checker.sh
+-+endif
+-diff --git a/libregex/tests/Makefile.am b/libregex/tests/Makefile.am
+-index 6f19838..1d176f9 100644
+---- a/libregex/tests/Makefile.am
+-+++ b/libregex/tests/Makefile.am
+-@@ -18,4 +18,6 @@ java_test_LDADD = \
+- 
+- EXTRA_DIST = mangled-name.in
+- 
+-+if ! CROSS_COMPILE
+- TESTS = ${check_PROGRAMS}
+-+endif
+-diff --git a/libutil++/tests/Makefile.am b/libutil++/tests/Makefile.am
+-index 51af031..a01ea2d 100644
+---- a/libutil++/tests/Makefile.am
+-+++ b/libutil++/tests/Makefile.am
+-@@ -1,7 +1,9 @@
+- 
+- REALPATH= readlink -f
+- 
+-+if ! CROSS_COMPILE
+- SRCDIR := $(shell $(REALPATH) $(topdir)/libutil++/tests/ )
+-+endif
+- 
+- AM_CPPFLAGS = \
+- 	-I ${top_srcdir}/libutil++ -D SRCDIR="\"$(SRCDIR)/\"" @OP_CPPFLAGS@
+-@@ -46,4 +48,6 @@ cached_value_tests_LDADD = ${COMMON_LIBS}
+- utility_tests_SOURCES = utility_tests.cpp
+- utility_tests_LDADD = ${COMMON_LIBS}
+- 
+-+if ! CROSS_COMPILE
+- TESTS = ${check_PROGRAMS}
+-+endif
+-diff --git a/libutil/tests/Makefile.am b/libutil/tests/Makefile.am
+-index dfcd6ec..e8831b5 100644
+---- a/libutil/tests/Makefile.am
+-+++ b/libutil/tests/Makefile.am
+-@@ -12,4 +12,6 @@ file_tests_LDADD = ../libutil.a
+- string_tests_SOURCES = string_tests.c
+- string_tests_LDADD = ../libutil.a
+- 
+-+if ! CROSS_COMPILE
+- TESTS = ${check_PROGRAMS}
+-+endif
+diff --git a/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch b/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
+deleted file mode 100644
+index 3eaf6a794ad..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/root-home-dir.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-oprofile: Determine the root home directory dynamically
+-
+-This commit detects the root home directory dynamically with changes to
+-the oprofile gui app source.
+-
+-The commit replaces an earlier fix that detected and adjusted a
+-'non-standard' root home directory at build time.  The advantage of this
+-patch is that the oprofile tools are adjusted to the current run-time
+-path to ~root, not the build time path.
+-
+-Upstream-Status: Inappropriate [OE specific]
+-
+-Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+-
+-Index: oprofile-1.0.0/doc/oprofile.html
+-===================================================================
+---- oprofile-1.0.0.orig/doc/oprofile.html	2014-11-03 17:55:31.511034857 +0000
+-+++ oprofile-1.0.0/doc/oprofile.html	2014-11-03 17:57:26.415037988 +0000
+-@@ -1563,8 +1563,8 @@
+- 		<span class="emphasis"><em>must</em></span> stop it in a controlled manner in order to process
+- 		the profile data it has collected.  Use <code class="code">kill -SIGINT &lt;operf-PID&gt;</code>
+- 		for this purpose. It is recommended that when running <span class="command"><strong>operf</strong></span>
+--		with this option, your current working directory should be <code class="filename">/root</code> or a subdirectory
+--		of <code class="filename">/root</code> to avoid storing sample data files in locations accessible by regular users.
+-+		with this option, your current working directory should be <code class="filename">~root</code> or a subdirectory
+-+		of <code class="filename">~root</code> to avoid storing sample data files in locations accessible by regular users.
+- 		</p>
+-               </dd>
+-               <dt>
+-Index: oprofile-1.0.0/doc/oprofile.xml
+-===================================================================
+---- oprofile-1.0.0.orig/doc/oprofile.xml	2014-11-03 17:55:31.515034857 +0000
+-+++ oprofile-1.0.0/doc/oprofile.xml	2014-11-03 17:58:03.719039005 +0000
+-@@ -654,8 +654,8 @@
+- 		<emphasis>must</emphasis> stop it in a controlled manner in order to process
+- 		the profile data it has collected.  Use <code>kill -SIGINT &lt;operf-PID&gt;</code>
+- 		for this purpose. It is recommended that when running <command>operf</command>
+--		with this option, your current working directory should be <filename>/root</filename> or a subdirectory
+--		of <filename>/root</filename> to avoid storing sample data files in locations accessible by regular users.
+-+		with this option, your current working directory should be <filename>~root</filename> or a subdirectory
+-+		of <filename>~root</filename> to avoid storing sample data files in locations accessible by regular users.
+- 		</para></listitem>
+- 	</varlistentry>
+- 	<varlistentry>
+diff --git a/meta/recipes-kernel/oprofile/oprofile/run-ptest b/meta/recipes-kernel/oprofile/oprofile/run-ptest
+deleted file mode 100644
+index 4814be652a7..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile/run-ptest
++++ /dev/null
+@@ -1,19 +0,0 @@
+-#!/bin/sh
+-
+-saved_dir=$PWD
+-for dir in */tests ; do
+-	cd $dir
+-	for atest in * ; do
+-		if [ \( -x $atest \) -a \( -f $atest \) ] ; then
+-			./$atest > ${atest}.stdout 2> ${atest}.stderr
+-			if [ $? = 0 ] ; then
+-				echo "PASS: $dir $atest"
+-				rm ${atest}.stdout ${atest}.stderr
+-			else
+-				echo "FAIL: ${dir}/${atest}"
+-			fi
+-		fi
+-	done
+-	cd $saved_dir
+-done
+-
+diff --git a/meta/recipes-kernel/oprofile/oprofile_1.1.0.bb b/meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
+deleted file mode 100644
+index 92a94ad0d4d..00000000000
+--- a/meta/recipes-kernel/oprofile/oprofile_1.1.0.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require oprofile.inc
+-
+-DEPENDS += "virtual/kernel"
+-DEPENDS_append_powerpc64 = " libpfm4"
+-
+-SRC_URI[md5sum] = "248c4c069f9476f427fa7195563f9867"
+-SRC_URI[sha256sum] = "cf759a6de1a6033d5dfc93bda129a9f2e128aecc4238cc657feb0801d1b0366c"
+-
+-S = "${WORKDIR}/oprofile-${PV}"
+-
 -- 
 2.14.1
 
