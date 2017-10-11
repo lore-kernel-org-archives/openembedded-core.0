@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6152B71A0C
+	by mail.openembedded.org (Postfix) with ESMTP id 6FF7871999
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 15:38:23 +0000 (UTC)
+	Wed, 11 Oct 2017 15:38:24 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Oct 2017 08:38:25 -0700
+	11 Oct 2017 08:38:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945710"
+X-IronPort-AV: E=Sophos;i="5.43,361,1503385200"; d="scan'208";a="1180945715"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:24 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Oct 2017 08:38:25 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Oct 2017 18:33:56 +0300
-Message-Id: <24aa94c8e6ff13be3087134e039e1411c2c03b58.1507735448.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 11 Oct 2017 18:33:57 +0300
+Message-Id: <38a7b2bcd87e47afec6c7d53b33405cf0f1732c0.1507735448.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/50] glib-networking: update to 2.54.0
+Subject: [PATCH 05/50] eudev: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +30,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 15:38:23 -0000
+X-List-Received-Date: Wed, 11 Oct 2017 15:38:24 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../{glib-networking_2.50.0.bb => glib-networking_2.54.0.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/glib-networking/{glib-networking_2.50.0.bb => glib-networking_2.54.0.bb} (88%)
+ meta/recipes-core/udev/eudev_3.2.2.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.54.0.bb
-similarity index 88%
-rename from meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
-rename to meta/recipes-core/glib-networking/glib-networking_2.54.0.bb
-index 2782bd95c4c..ad096dd8e76 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.50.0.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.54.0.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
- SECTION = "libs"
- DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-core/udev/eudev_3.2.2.bb b/meta/recipes-core/udev/eudev_3.2.2.bb
+index 02fb23ac569..70e3568dc26 100644
+--- a/meta/recipes-core/udev/eudev_3.2.2.bb
++++ b/meta/recipes-core/udev/eudev_3.2.2.bb
+@@ -19,7 +19,6 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
+            file://run.rules \
+            file://udev.rules \
+ "
+-UPSTREAM_CHECK_URI = "https://github.com/gentoo/eudev/releases"
  
--SRC_URI[archive.md5sum] = "4d06d0224646f274918b1cb6da9a07f6"
--SRC_URI[archive.sha256sum] = "3f1a442f3c2a734946983532ce59ed49120319fdb10c938447c373d5e5286bee"
-+SRC_URI[archive.md5sum] = "45d2f8b650412c05e45b08aa78a3f735"
-+SRC_URI[archive.sha256sum] = "5961b3779080b72314b373ff5d4790eb7e41b75ca91816ad7a81ef32922f7096"
- 
- PACKAGECONFIG ??= "ca-certificates gnutls"
- 
+ SRC_URI[md5sum] = "41e19b70462692fefd072a3f38818b6e"
+ SRC_URI[sha256sum] = "3e4c56ec2fc1854afd0a31f3affa48f922c62d40ee12a0c1a4b4f152ef5b0f63"
 -- 
 2.14.1
 
