@@ -1,52 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C5BE606CA
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 7694C6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 22:51:33 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id h28so153624pfh.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Oct 2017 15:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=AMHLrnRPM932BNRW0SGixeV6WdlNKoYEHca51tCag8c=;
-	b=PxADT7LgIxealr6yf6fg9SAJRtZYy43KADZdz3uZGiguL8Sjb5w4SlsTiw7ykSZ7n9
-	1GYns85auy5m7is6qlZA+fRTV3AtgdYSWNI7vAogkiUpKBnVvo5l8qUo+nXRdDcJV6pn
-	ej8La1YPydl8Jz0wdLOa6Aik2X8RPlkduqDUHFjVOkKPSiQAEJPiqLm6vbQJ3+RW1He6
-	+OJWggs9RNRi91euxWkDtnFdoDnvHOY/MmLeQe/V8LDwX8aMLPKrmOTWyv+185OzSexa
-	Vxi7kTPP9L9xY495g1jmPKzGH46lXayFw/QSlebK4R3hvGbKkJQmiU1o/kgcp8kEZF4a
-	bOWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=AMHLrnRPM932BNRW0SGixeV6WdlNKoYEHca51tCag8c=;
-	b=eFLp9XvscGGx7/l6dFVkz2oVtH9Ivne58TwNa1rbrMakM0eqCpdLRgNoOrO1AOIoGC
-	YVR3ic9x0+rWturZOnUJPwfvLb1x1hD9KXgRDPIccLBNrwokuVuzzB8RW6uMteSVeu4V
-	M5VEyVjlSZYFW3ksjTsacU8+QFj+TA4ufc9wMx2BP3/4vJCw0i9uNEJlit/yOwrf5Y63
-	eFW/lSnDLCbSw7Zs1OfjnLpiWnf9AIZdAoVC4hC5Tx0spx/bCJM7gd4r9hgMs0s10uYU
-	m3jO0MeBltr0KOe0qbVzP7APAwqeortuW3nC3u6hq7eUOBWbjGg9293hNyK4jFfAl6sx
-	B5VQ==
-X-Gm-Message-State: AMCzsaXfI1eLzPk82vtT2dSE+Xzuw1iSMp9pyZYj/fVvYeLzllXu0cD5
-	h8VvY7qIw3kj3wvUVWxxV/jviJIaeVXXnsYtEE8=
-X-Google-Smtp-Source: AOwi7QBPMasJAAbt9IW3Fjv6IqhBUznozLqDCdr8OlALatfdopb44GC45JfC2l3kr5Th8vqQNDL5dQOjo2gEFzWJadE=
-X-Received: by 10.84.138.1 with SMTP id 1mr13487352plo.404.1507675894618; Tue,
-	10 Oct 2017 15:51:34 -0700 (PDT)
+	Wed, 11 Oct 2017 02:04:16 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,359,1503331200"; d="scan'208,217";a="28836573"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 11 Oct 2017 10:04:16 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 83DE547F13A2;
+	Wed, 11 Oct 2017 10:04:16 +0800 (CST)
+Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0361.001; Wed, 11 Oct 2017 10:04:15 +0800
+From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] at-spi2-core: 2.24.1 -> 2.26.0
+Thread-Index: AQHTQceiY8rIZj84X0+Q4rxejGb33KLchtEAgAFehEA=
+Date: Wed, 11 Oct 2017 02:04:15 +0000
+Message-ID: <97F7C8E70D26E94FA7E05578493F65C61C730701@G08CNEXMBPEKD03.g08.fujitsu.local>
+References: <1507640372-934-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<1507640372-934-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<CAJTo0LYL8f52cGGG1OAsGP9OTG3_tHBRrcPy_Pvhm7CqZ2-FSg@mail.gmail.com>
+In-Reply-To: <CAJTo0LYL8f52cGGG1OAsGP9OTG3_tHBRrcPy_Pvhm7CqZ2-FSg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 10.0.100.37
+dlp-reaction: no-action
+x-originating-ip: [10.167.225.125]
 MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Tue, 10 Oct 2017 15:51:04 -0700 (PDT)
-In-Reply-To: <CAP9ODKpv2Gh1_Kcm0c=fHMTeZxePni5ztfPtBDPR-Ya_NOX0EA@mail.gmail.com>
-References: <20171007172923.36429-1-raj.khem@gmail.com>
-	<CAJ86T=X78ockUQ_9tVizxo4JZwbDQu9s0B2dG2ud50Xg6q=28A@mail.gmail.com>
-	<CAMKF1sobsTEyLA+8ade5ti8dZ5QeH-87qWw1Ot6fwb0Cw8oSRQ@mail.gmail.com>
-	<CAJ86T=Xw2VTOFKODCXR+UpMmUuTT-TaT75h4i9LiVz7mNiRt1Q@mail.gmail.com>
-	<CAMKF1sr-L-pescBejaL7hYOrXMr4ryb-p892QZ7QcnxdUhw-FQ@mail.gmail.com>
-	<CAP9ODKpv2Gh1_Kcm0c=fHMTeZxePni5ztfPtBDPR-Ya_NOX0EA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 Oct 2017 15:51:04 -0700
-Message-ID: <CAMKF1soJ_zLEX_FFkPn70L3i_gMA-epQYpeJFe3ftK34Zsu3bw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-6.3: Backport patch to fix ICE on ARM
+X-yoursite-MailScanner-ID: 83DE547F13A2.A9385
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] at-spi2-core: 2.24.1 -> 2.26.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +48,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Oct 2017 22:51:33 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Oct 2017 02:04:19 -0000
+Content-Language: zh-CN
+Content-Type: multipart/alternative;
+	boundary="_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_"
 
-On Tue, Oct 10, 2017 at 1:31 PM, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> On Tue, Oct 10, 2017 at 5:13 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Tue, Oct 10, 2017 at 12:55 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> Just having the upgrade available to the community is useful, even if
->>> there are no guarantees or testing. I've backporting gcc 6.3 into my
->>> morty branch as it fixes build issues with musl. Morty with gcc 6.3 is
->>> not a combination which was ever officially supported or tested
->>> upstream, but I very much appreciate the fact that upgrading gcc 6.2
->>> to 6.3 in morty only requires a few cherry-picks :-)
->>
->> I am open for if there are more like minded folks who think this will be a good
->> thing to have. so all listening please chime in
->
-> I'd prefer for 2.5 time frame to drop gcc 6 as 2.4 can be seen as an
-> upgrade path to it.
+--_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I think it probably it a fine idea to update it so it can be
-cherry-picked for backport
-to prior releases, if we do that cherry-pick officially or not can be
-discussed later
-then we can delete it. Usually we keep two versions of gcc available
-to keep migration tail
-if gcc8 comes out with in 2.5 release timeframe we might drop 6.x
+U29ycnksSSBkaWRuJ3Qgbm90aWNlIHRoaXMgcHJvYmxlbS4gVGhhbmtzIGZv
+ciB5b3VyIGZlZWRiYWNrLiBJIHdpbGwgc2VuZCBpdCBhZ2Fpbi4NCg0KDQoN
+Cmh1YW5ncXkNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5i
+dXJ0b25AaW50ZWwuY29tXQ0KU2VudDogVHVlc2RheSwgT2N0b2JlciAxMCwg
+MjAxNyA5OjA0IFBNDQpUbzogSHVhbmcsIFFpeXUv6buEIOeQpuWuhyA8aHVh
+bmdxeS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYXQtc3BpMi1jb3JlOiAyLjI0LjEg
+LT4gMi4yNi4wDQoNCk9uIDEwIE9jdG9iZXIgMjAxNyBhdCAxMzo1OSwgSHVh
+bmcgUWl5dSA8aHVhbmdxeS5mbnN0QGNuLmZ1aml0c3UuY29tPG1haWx0bzpo
+dWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5jb20+PiB3cm90ZToNCjEpIFVwZ3Jh
+ZGUgYXQtc3BpMi1jb3JlIGZyb20gMi4yNC4xIHRvIDIuMjYuMC4NCjIpIERl
+bGV0ZSBvbmUgcGF0Y2ggIjAwMDEtbmxzLm00LVRha2UtaXQtZnJvbS1nZXR0
+ZXh0LTAuMTUucGF0Y2giLCBzaW5jZSBpdCBpcyBpbnRlZ3JhdGVkIHVwc3Ry
+ZWFtLg0KMykgTW9kaWZ5IG9uZSBwYXRjaCAiMDAwMS1ubHMubTQtVGFrZS1p
+dC1mcm9tLWdldHRleHQtMC4xNS5wYXRjaCIsIHNpbmNlIHRoZSBkYXRhIGhh
+cyBiZWVuIGNoYW5nZWQuDQoNCldyb25nIGZpbGVuYW1lIGhlcmUuDQoNClJv
+c3MNCgoK
 
-Now on clang, I think thats a fine idea. We need some upvotes on
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=9417
+--_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
->
-> If possible I'd prefer to add clang to oe-core than support multiple
-> versions of gcc.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
+IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
+ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
+Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
+bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
+cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
+IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
+Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
+b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
+Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
+YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
+fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
+CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
+IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
+i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
+dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
+bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
+OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
+dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
+dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlu
+a0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLk1zb1Bs
+YWluVGV4dCwgbGkuTXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJ
+e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoi57qv
+5paH5pysIENoYXIiOw0KCW1hcmdpbjowY207DQoJbWFyZ2luLWJvdHRvbTou
+MDAwMXB0Ow0KCWZvbnQtc2l6ZToxMC41cHQ7DQoJZm9udC1mYW1pbHk6IkNh
+bGlicmkiLHNhbnMtc2VyaWY7fQ0Kc3Bhbi5DaGFyDQoJe21zby1zdHlsZS1u
+YW1lOiLnuq/mlofmnKwgQ2hhciI7DQoJbXNvLXN0eWxlLXByaW9yaXR5Ojk5
+Ow0KCW1zby1zdHlsZS1saW5rOue6r+aWh+acrDsNCglmb250LWZhbWlseToi
+Q291cmllciBOZXciO30NCnNwYW4uRW1haWxTdHlsZTE5DQoJe21zby1zdHls
+ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+IixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1
+bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXpl
+OjEwLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9
+DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7
+DQoJbWFyZ2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkwLjBwdDt9DQpkaXYu
+V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5
+bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
+IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
+aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91
+dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0i
+MSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwv
+aGVhZD4NCjxib2R5IGxhbmc9IlpILUNOIiBsaW5rPSJibHVlIiB2bGluaz0i
+cHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
+cz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJFTi1VUyI+U29ycnksSSBk
+aWRuJ3Qgbm90aWNlIHRoaXMgcHJvYmxlbS4gVGhhbmtzIGZvciB5b3VyIGZl
+ZWRiYWNrLiBJIHdpbGwgc2VuZCBpdCBhZ2Fpbi48bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBsYW5nPSJF
+Ti1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
+Ik1zb1BsYWluVGV4dCI+PHNwYW4gbGFuZz0iRU4tVVMiPmh1YW5ncXk8bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1m
+YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
+RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7
+cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHls
+ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0
+O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
+ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3Nz
+LmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVHVlc2Rh
+eSwgT2N0b2JlciAxMCwgMjAxNyA5OjA0IFBNPGJyPg0KPGI+VG86PC9iPiBI
+dWFuZywgUWl5dS88L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
+cHQiPum7hDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPg0K
+PC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0Ij7nkKblroc8
+L3NwYW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTEu
+MHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+ZiI+ICZsdDtodWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5jb20mZ3Q7PGJyPg0K
+PGI+Q2M6PC9iPiBPRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBS
+ZTogW09FLWNvcmVdIFtQQVRDSF0gYXQtc3BpMi1jb3JlOiAyLjI0LjEgLSZn
+dDsgMi4yNi4wPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48
+bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPk9uIDEwIE9jdG9iZXIg
+MjAxNyBhdCAxMzo1OSwgSHVhbmcgUWl5dSAmbHQ7PGEgaHJlZj0ibWFpbHRv
+Omh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsi
+Pmh1YW5ncXkuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7IHdyb3RlOjxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPGJsb2NrcXVv
+dGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0ND
+Q0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVm
+dDo0LjhwdDttYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1yaWdodDowY207bWFy
+Z2luLWJvdHRvbTo1LjBwdCI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyI+MSkgVXBncmFkZSBhdC1zcGkyLWNvcmUgZnJvbSAy
+LjI0LjEgdG8gMi4yNi4wLjxicj4NCjIpIERlbGV0ZSBvbmUgcGF0Y2ggJnF1
+b3Q7MDAwMS1ubHMubTQtVGFrZS1pdC1mcm9tLWdldHRleHQtMC4xNS5wYXRj
+aCZxdW90Oywgc2luY2UgaXQgaXMgaW50ZWdyYXRlZCB1cHN0cmVhbS48YnI+
+DQozKSBNb2RpZnkgb25lIHBhdGNoICZxdW90OzAwMDEtbmxzLm00LVRha2Ut
+aXQtZnJvbS1nZXR0ZXh0LTAuMTUucGF0Y2gmcXVvdDssIHNpbmNlIHRoZSBk
+YXRhIGhhcyBiZWVuIGNoYW5nZWQuPG86cD48L286cD48L3NwYW4+PC9wPg0K
+PC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1VUyI+V3JvbmcgZmlsZW5hbWUgaGVyZS48bzpwPjwvbzpwPjwv
+c3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tVVMiPlJvc3MmbmJzcDs8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0K
+PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
+--_000_97F7C8E70D26E94FA7E05578493F65C61C730701G08CNEXMBPEKD03_--
