@@ -1,40 +1,47 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 17F5A719A4
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
+	[209.85.214.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2010C73123
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Oct 2017 22:58:17 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 11 Oct 2017 15:58:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,362,1503385200"; 
-	d="scan'208,217";a="1229785383"
-Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2017 15:57:58 -0700
-Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
-	ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Wed, 11 Oct 2017 15:57:58 -0700
-Received: from orsmsx112.amr.corp.intel.com ([169.254.3.30]) by
-	ORSMSX158.amr.corp.intel.com ([169.254.10.25]) with mapi id
-	14.03.0319.002; Wed, 11 Oct 2017 15:57:57 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] bash-ptest: install additional locales
-Thread-Index: AQHTPjGjzoINhR1Owk2JdomBT/NTYKLXFC4AgAg3wwA=
-Date: Wed, 11 Oct 2017 22:57:56 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B611A29C35@ORSMSX112.amr.corp.intel.com>
-References: <1507246092-71662-1-git-send-email-juro.bystricky@intel.com>
-	<CAJTo0LaV5+LY6ST2omCu5SQzFnUf8LPC=jRyFTtiCdbHE_E1EA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaV5+LY6ST2omCu5SQzFnUf8LPC=jRyFTtiCdbHE_E1EA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.0.116
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash-ptest: install additional locales
+	Wed, 11 Oct 2017 23:56:58 +0000 (UTC)
+Received: by mail-it0-f67.google.com with SMTP id p138so5174272itp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Oct 2017 16:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=bxvU49xLAY6OZHb1MQNz2Ei++A3QqidUtXlS++LfxYE=;
+	b=dCrPVoTfzOVBm5TaY3sHG9xADopawDlli55oTbeaYKjFLApZftslg3/4etKERBT0hZ
+	UExu5J/Mvw4Z5D76b2jCy0nlT8vUeelrQOL9x8ApRDw6U9pyMI8zeL605/GNEMT2tPDW
+	gjW7TGYfBnm5w3fwDrIB/stXXOM/RNQqJg2NyHx9n6U/m2CabeqPfnZ10PlhmnRq1v/M
+	fbk91dOo4ZazGyRgM39/RHQkpWk0chmAbJnvoEXfwnXii8Td6mBjEZULYeQIvtLAJE7D
+	FI8qJNax2Fcg5m0FXbvZdJLGUf30yhoTxP9G3UmRgYYWM7PXKokasGirGD7/hBBwetjm
+	5FzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bxvU49xLAY6OZHb1MQNz2Ei++A3QqidUtXlS++LfxYE=;
+	b=lsa7QQi+TfkrZeKvhyEfBUiCFj65lF627EYHqMpbt9KdzSmdJLPy+jWzKf987dy3Ks
+	UY6Mrly5xfTe/9sSQ6eQvhxjHRMW/OA4aNGZI6RXJgecXxidkSFRK1nhfNqaY1pdh5qW
+	6YmQdGE7DwmiNKILCX54W+ZHfNPoARvk+9S2VHMW1oySBn1KstkcfpqYi7JMSOUhc4cP
+	qzluUULSquZHgXsCacmj489/YEuwOBHo/YYbhndbflj4d7mbTvpZvNZ9B3JJFBQFDS5P
+	DZn25okEl3/46+V6YBqbsRqfUAO8A7t9Z5RcZxmVDxVoWCc0SY+YsctwRXkZcvjEsohr
+	nOGA==
+X-Gm-Message-State: AMCzsaV0dXqG9M2inTYa5ntOZJGSfJbDEZ62Na81fReSrTEIfqPITVf3
+	QPXiUNCuFPewCefMh4wrjaGCcLwi
+X-Google-Smtp-Source: AOwi7QDE+dWmfSkiqLvU85LXWRBb1hZnH1oBvXFk2TkwBFIQs+chdFZ0t4PVxsma+Cp24DvoP7i4NA==
+X-Received: by 10.36.252.68 with SMTP id b65mr572536ith.151.1507766219667;
+	Wed, 11 Oct 2017 16:56:59 -0700 (PDT)
+Received: from localhost.localdomain ([2605:a601:a83:3700:acfe:1f2b:6abd:6d57])
+	by smtp.gmail.com with ESMTPSA id 41sm6705500ios.52.2017.10.11.16.56.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Oct 2017 16:56:59 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Oct 2017 18:56:41 -0500
+Message-Id: <1507766201-3160-1-git-send-email-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] nfs-utils: Add switch for NFSv4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,95 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Oct 2017 22:58:18 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_"
+X-List-Received-Date: Wed, 11 Oct 2017 23:56:59 -0000
 
---_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+NFS version 4.1 support can now be enabled via PACKAGECONFIG
 
-V2VsbCwgSSBnb3QgYSBRQSB3YXJuaW5nLCBzb21ldGhpbmcgbGlrZSB1c2luZyBSREVQRU5EUyBi
-dXQgbm8gREVQRU5EUz8gU28gSSBhZGRlZCB0aGF0IGxpbmXigKYNCg0KRnJvbTogQnVydG9uLCBS
-b3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogRnJpZGF5LCBPY3RvYmVy
-IDYsIDIwMTcgMzoyNyBBTQ0KVG86IEJ5c3RyaWNreSwgSnVybyA8anVyby5ieXN0cmlja3lAaW50
-ZWwuY29tPg0KQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYmFzaC1wdGVzdDogaW5zdGFs
-bCBhZGRpdGlvbmFsIGxvY2FsZXMNCg0KT24gNiBPY3RvYmVyIDIwMTcgYXQgMDA6MjgsIEp1cm8g
-QnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb208bWFpbHRvOmp1cm8uYnlzdHJpY2t5
-QGludGVsLmNvbT4+IHdyb3RlOg0KK1JERVBFTkRTXyR7UE59LXB0ZXN0X2FwcGVuZF9saWJjLWds
-aWJjICs9ICIgbG9jYWxlLWJhc2UtZnItZnIgbG9jYWxlLWJhc2UtZGUtZGUiDQorREVQRU5EU19w
-dGVzdF9hcHBlbmRfbGliYy1nbGliYyArPSAiIGxvY2FsZS1iYXNlLWZyLWZyIGxvY2FsZS1iYXNl
-LWRlLWRlIg0KDQpUaGF0IERFUEVORFMgbGluZSBpcyBtZWFuaW5nbGVzcy4NCg0KUm9zcw0K
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
+index d917c4d..79453ad 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.1.1.bb
+@@ -56,7 +56,6 @@ SYSTEMD_SERVICE_${PN}-client = "nfs-statd.service"
+ EXTRA_OECONF = "--with-statduser=rpcuser \
+                 --enable-mountconfig \
+                 --enable-libmount-mount \
+-                --disable-nfsv41 \
+                 --enable-uuid \
+                 --disable-gss \
+                 --disable-nfsdcltrack \
+@@ -70,6 +69,8 @@ PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
+ PACKAGECONFIG[nfsidmap] = "--enable-nfsidmap,--disable-nfsidmap,keyutils"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++# libdevmapper is available in meta-oe
++PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
+ 
+ PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
+ 
+-- 
+2.7.4
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ291cmllciBO
-ZXciOw0KCWNvbG9yOmJsYWNrOw0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250LXN0eWxlOm5v
-cm1hbDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7
-c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGluO30NCmRp
-di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
-IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
-IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
-OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
-IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
-bGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29y
-ZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NvdXJpZXIgTmV3JnF1b3Q7O2NvbG9yOmJsYWNrIj5X
-ZWxsLCBJIGdvdCBhIFFBIHdhcm5pbmcsIHNvbWV0aGluZyBsaWtlIHVzaW5nIFJERVBFTkRTIGJ1
-dCBubyBERVBFTkRTPyBTbyBJIGFkZGVkIHRoYXQgbGluZeKApjxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NvdXJpZXIgTmV3JnF1b3Q7O2NvbG9yOmJsYWNrIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpz
-b2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYg
-c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5n
-OjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFp
-bHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIE9j
-dG9iZXIgNiwgMjAxNyAzOjI3IEFNPGJyPg0KPGI+VG86PC9iPiBCeXN0cmlja3ksIEp1cm8gJmx0
-O2p1cm8uYnlzdHJpY2t5QGludGVsLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmUgJmx0
-O29wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcmZ3Q7PGJyPg0KPGI+U3Vi
-amVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBiYXNoLXB0ZXN0OiBpbnN0YWxsIGFkZGl0
-aW9uYWwgbG9jYWxlczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj5PbiA2IE9jdG9iZXIgMjAxNyBhdCAwMDoyOCwgSnVybyBCeXN0cmlja3kgJmx0
-OzxhIGhyZWY9Im1haWx0bzpqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5r
-Ij5qdXJvLmJ5c3RyaWNreUBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4N
-CjxkaXY+DQo8ZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0
-OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVm
-dDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiYjNDM7UkRF
-UEVORFNfJHtQTn0tcHRlc3RfYXBwZW5kX2xpYmMtZ2xpYmMgJiM0Mzs9ICZxdW90OyBsb2NhbGUt
-YmFzZS1mci1mciBsb2NhbGUtYmFzZS1kZS1kZSZxdW90Ozxicj4NCiYjNDM7REVQRU5EU19wdGVz
-dF9hcHBlbmRfbGliYy1nbGliYyAmIzQzOz0gJnF1b3Q7IGxvY2FsZS1iYXNlLWZyLWZyIGxvY2Fs
-ZS1iYXNlLWRlLWRlJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGF0IERFUEVORFMgbGluZSBpcyBtZWFuaW5nbGVzcy48
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9z
-cyZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8
-L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---_000_6E51916E4A1F32428260031F4C7CD2B611A29C35ORSMSX112amrcor_--
