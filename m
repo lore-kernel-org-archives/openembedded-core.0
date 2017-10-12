@@ -1,29 +1,30 @@
-Return-Path: <Fupan.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 64A136010B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 02:24:09 +0000 (UTC)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B924177BC1;
+	Thu, 12 Oct 2017 02:30:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9C2O6AE004368
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9C2U6XM006785
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 11 Oct 2017 19:24:06 -0700 (PDT)
-Received: from [128.224.176.119] (128.224.176.119) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 11 Oct 2017 19:24:05 -0700
-To: Andrew Goodbody <andrew.goodbody@cambrionix.com>,
-	"openembedded-core@lists.openembedded.org"
+	Wed, 11 Oct 2017 19:30:07 -0700 (PDT)
+Received: from [128.224.162.167] (128.224.162.167) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 11 Oct 2017 19:30:06 -0700
+To: Martin Jansa <martin.jansa@gmail.com>,
 	<openembedded-core@lists.openembedded.org>
-References: <20170930022455.137406-1-fupan.li@windriver.com>
-	<LOXP123MB0117058358878B6D1DD5307E85720@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-From: fupan <fupan.li@windriver.com>
-Message-ID: <58df7aa3-65b8-671a-973e-74c348f90632@windriver.com>
-Date: Thu, 12 Oct 2017 10:23:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+References: <150754017019.10662.17591818165714630277@git.openembedded.org>
+	<20171009090930.73387234938@git.openembedded.org>
+	<20171012015609.GA3832@jama>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <9a2e5605-88e9-a089-6dd1-37ed5b9471c8@windriver.com>
+Date: Thu, 12 Oct 2017 10:36:07 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <LOXP123MB0117058358878B6D1DD5307E85720@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
-Subject: Re: [oe] [meta-java][PATCH] openjdk-8-common: Fix the issue of building failed adlc on host with gcc < 6
+In-Reply-To: <20171012015609.GA3832@jama>
+X-Originating-IP: [128.224.162.167]
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] [openembedded-core] 01/01: bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,151 +37,243 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 02:24:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 12 Oct 2017 02:30:06 -0000
+Content-Type: multipart/alternative;
+	boundary="------------FC7DAD2636429903243AA631"
+
+--------------FC7DAD2636429903243AA631
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
-On 2017/10/3 18:14, Andrew Goodbody wrote:
->> -----Original Message-----
->> From: Fupan Li <fupan.li@windriver.com>
+On 10/12/2017 09:56 AM, Martin Jansa wrote:
+> On Mon, Oct 09, 2017 at 09:09:31AM +0000, git@git.openembedded.org wrote:
+>> This is an automated email from the git hooks/post-receive script.
 >>
->> The patch recipes-core/openjdk/patches-openjdk-8/openjdk8-fix-adlc-
->> flags.patch
->> had tried to fix this issue, and it tried to filter out the
->> TARGET_FLAGS/TARGET_
->> CXXFLGAS, but for the flags such as "-fno-lifetime-dse" was added to
->> CFLAGS/CXXFLAGS,
->> directly, thus that patch failed to filter it out.
+>> rpurdie pushed a commit to branch master
+>> in repository openembedded-core.
 >>
->> To fix this issue, it's better to add those GCC version specific flags to
->> BUILD_CFLAGS/
->> BUILD_CXXFLAGS and TARGET_CFLAGS/TARGET_CXXFLAGS separatedly,
->> thus that patch can work
->> as expected.
+>> commit 8ca61a5464743ff85b6d26886112750d6ddd13e0
+>> Author: Chen Qi <Qi.Chen@windriver.com>
+>> AuthorDate: Sat Sep 30 16:15:42 2017 +0800
 >>
->> Signed-off-by: Fupan Li <fupan.li@windriver.com>
+>>      bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
+>>      
+>>      Add tools required by testimage to HOSTTOOLS only when testimage is
+>>      inherited. These tools, as described in the comment, are only required
+>>      by the testimage task. So this change should not have negtive effect.
+>>      This would also solve build error on hosts which miss some tool such as scp.
+>>      
+>>      Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>      Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 >> ---
->>   recipes-core/openjdk/openjdk-8-common.inc | 36
->> ++++++++++++++++++++-----------
->>   1 file changed, 24 insertions(+), 12 deletions(-)
+>>   meta/conf/bitbake.conf | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> diff --git a/recipes-core/openjdk/openjdk-8-common.inc b/recipes-
->> core/openjdk/openjdk-8-common.inc
->> index 83828e1..c609232 100644
->> --- a/recipes-core/openjdk/openjdk-8-common.inc
->> +++ b/recipes-core/openjdk/openjdk-8-common.inc
->> @@ -231,27 +231,39 @@ FLAGS_GCC7 = "-fno-lifetime-dse -fno-delete-null-
->> pointer-checks"
->>   # version is and only add the flags that are appropriate for that GCC
->>   # version.
->>
->> -def version_specific_cflags(d):
->> +def version_specific_cflags(d, toolchain):
->>       extraflags = None
->>       version = None
->>
->> -    if bb.data.inherits_class('native', d):
->> -        from subprocess import Popen, PIPE
->> +    from subprocess import Popen, PIPE
->> +    cmd = d.expand('%s -dumpversion' % toolchain ).split()
->> +    cc = Popen(cmd, stdout=PIPE, stderr=PIPE)
->> +    version = cc.communicate()[0].decode('utf-8')[0]
->>
->> -        cmd = d.expand('${CC} -dumpversion').split()
->> -        cc = Popen(cmd, stdout=PIPE, stderr=PIPE)
->> -        version = cc.communicate()[0].decode('utf-8')[0]
->> +    if version.isdigit():
->> +        extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
->> +        return extraflags
->> +    return ''
->> +
->> +python __anonymous() {
->> +    if bb.data.inherits_class('native', d):
->> +        toolchain = d.getVar('CC', True)
->> +        extraflags = version_specific_cflags(d, toolchain)
->> +        d.appendVar("CFLAGS", ' ' + extraflags)
->> +        d.appendVar("CXXFLAGS", ' ' + extraflags)
->>       else:
->>           # in the cross case, trust that GCCVERSION is correct. This won't
->>           # work if the native toolchain is Clang, but as of this writing that
->>           # doesn't work anyway.
->>           version = d.getVar('GCCVERSION', expand=True)[0]
->> -
->> -    if version.isdigit():
->>           extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
->> -        return extraflags
->> -    return ''
->> +        d.appendVar("TARGET_CFLAGS", ' ' + extraflags)
->> +        d.appendVar("TARGET_CXXFLAGS", ' ' + extraflags)
->> +
->> +        toolchain = d.getVar('BUILD_CC', True)
->> +        extraflags = version_specific_cflags(d, toolchain)
->> +        d.appendVar("BUILD_CFLAGS", ' ' + extraflags)
->> +        d.appendVar("BUILD_CXXFLAGS", ' ' + extraflags)
->> +}
->>
->> -CFLAGS_append = " ${@version_specific_cflags(d)}"
->> -CXXFLAGS_append = " ${@version_specific_cflags(d)}"
->>   CXX_append = " -std=gnu++98"
->> --
->> 2.11.0
-> I get the following build failure with the above patch now, backing it out makes the build work OK.
-Hi, Andrew
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 6f53b23..0eefb86 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -484,7 +484,7 @@ HOSTTOOLS += " \
+>>   "
+>>   
+>>   # Tools needed to run testimage runtime image testing
+>> -HOSTTOOLS += "ip ping ps scp ssh stty"
+>> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
+> Shouldn't we include at least ssh by default?
+>
+> I have some builds where CONNECTIVITY_CHECK_URIS contains private git repo (to make sure that users
+> configured their git + ssh correctly before starting the build) and since this change it fails, because
+> of missing ssh:
+>
+> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+>      Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+>      Following is the list of potential problems / advisories:
+>
+>      Fetcher failure: Fetch command export PATH="...snip.../hosttools"; export HOME="/home/jenkins"; git -c core.fsyncobjectfiles=0 ls-remote ssh://foo.com/bar/repo  failed with exit code 128, output:
+> error: cannot run ssh: No such file or directory
+> fatal: unable to fork
+> .
+>      Please ensure your host's network is configured correctly,
+>      or set BB_NO_NETWORK = "1" to disable network access if
+>      all required sources are on local disk.
+>
+> I know I can add ssh locally, but do we really need to be so strict
+> here? We already include git and git might need ssh.
+>
+> Regards,
 
-What's your build host, and can you give me
-the steps to reproduce this issue on my side?
+Hi Martin,
 
-Thanks!
+The problem is mainly about documentation. We need to keep codes and 
+docs in sync.
 
-Fupan
->
-> ERROR: /home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjre-8_102b14.bb: Error executing a python function in <code>:
->
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: '<code>', lineno: 13, function: <module>
->       0009:__anon_35__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_devshell_bbclass(d)
->       0010:__anon_101__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_sstate_bbclass(d)
->       0011:__anon_313__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_package_ipk_bbclass(d)
->       0012:__anon_154__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_siteinfo_bbclass(d)
->   *** 0013:__anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc(d)
->       0014:__anon_108__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_update_alternatives_bbclass(d)
-> File: '/home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjdk-8-common.inc', lineno: 260, function: __anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc
->       0256:        # work if the native toolchain is Clang, but as of this writing that
->       0257:        # doesn't work anyway.
->       0258:        version = d.getVar('GCCVERSION', expand=True)[0]
->       0259:        extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
->   *** 0260:        d.appendVar("TARGET_CFLAGS", ' ' + extraflags)
->       0261:        d.appendVar("TARGET_CXXFLAGS", ' ' + extraflags)
->       0262:
->       0263:        toolchain = d.getVar('BUILD_CC', True)
->       0264:        extraflags = version_specific_cflags(d, toolchain)
-> Exception: ValueError: invalid literal for int() with base 10: 'l'
->
-> ERROR: Failed to parse recipe: /home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjre-8_102b14.bb
-> ERROR: /home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjdk-8_102b14.bb: Error executing a python function in <code>:
->
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: '<code>', lineno: 13, function: <module>
->       0009:__anon_35__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_devshell_bbclass(d)
->       0010:__anon_101__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_sstate_bbclass(d)
->       0011:__anon_313__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_package_ipk_bbclass(d)
->       0012:__anon_154__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_siteinfo_bbclass(d)
->   *** 0013:__anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc(d)
->       0014:__anon_108__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_update_alternatives_bbclass(d)
-> File: '/home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjdk-8-common.inc', lineno: 260, function: __anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc
->       0256:        # work if the native toolchain is Clang, but as of this writing that
->       0257:        # doesn't work anyway.
->       0258:        version = d.getVar('GCCVERSION', expand=True)[0]
->       0259:        extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
->   *** 0260:        d.appendVar("TARGET_CFLAGS", ' ' + extraflags)
->       0261:        d.appendVar("TARGET_CXXFLAGS", ' ' + extraflags)
->       0262:
->       0263:        toolchain = d.getVar('BUILD_CC', True)
->       0264:        extraflags = version_specific_cflags(d, toolchain)
-> Exception: ValueError: invalid literal for int() with base 10: 'l'
->
-> Andrew
->
+We have in our documentation (QuickStart) a list of software necessary 
+to use basic yocto functionality.
+
+e.g.
+
+/Ubuntu and Debian/
+
+      $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+      build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
+      xz-utils debianutils iputils-ping libsdl1.2-dev xterm
+                         
 
 
+I have hosts that only have the above packages installed. Thus I was 
+meeting error when trying to build something, as ssh and scp are not 
+available.
+
+I'm OK with adding ssh into default HOSTTOOLS, but we need to keep 
+documentation in sync with the codes. (e.g. adding openssh-client into 
+the above list.)
+
+Best Regards,
+Chen Qi
+
+>>   # Link to these if present
+>>   HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+>>
+>> -- 
+>> To stop receiving notification emails like this one, please contact
+>> the administrator of this repository.
+>> -- 
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+
+
+--------------FC7DAD2636429903243AA631
+Content-Type: text/html; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 10/12/2017 09:56 AM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20171012015609.GA3832@jama" type="cite">
+      <pre wrap="">On Mon, Oct 09, 2017 at 09:09:31AM +0000, <a class="moz-txt-link-abbreviated" href="mailto:git@git.openembedded.org">git@git.openembedded.org</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">This is an automated email from the git hooks/post-receive script.
+
+rpurdie pushed a commit to branch master
+in repository openembedded-core.
+
+commit 8ca61a5464743ff85b6d26886112750d6ddd13e0
+Author: Chen Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
+AuthorDate: Sat Sep 30 16:15:42 2017 +0800
+
+    bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
+    
+    Add tools required by testimage to HOSTTOOLS only when testimage is
+    inherited. These tools, as described in the comment, are only required
+    by the testimage task. So this change should not have negtive effect.
+    This would also solve build error on hosts which miss some tool such as scp.
+    
+    Signed-off-by: Chen Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>
+    Signed-off-by: Ross Burton <a class="moz-txt-link-rfc2396E" href="mailto:ross.burton@intel.com">&lt;ross.burton@intel.com&gt;</a>
+    Signed-off-by: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6f53b23..0eefb86 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -484,7 +484,7 @@ HOSTTOOLS += " \
+ "
+ 
+ # Tools needed to run testimage runtime image testing
+-HOSTTOOLS += "ip ping ps scp ssh stty"
++HOSTTOOLS += <a class="moz-txt-link-rfc2396E" href="mailto:${@['','ippingpsscpsshstty'][bb.data.inherits_class('testimage',d)]}">"${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+Shouldn't we include at least ssh by default?
+
+I have some builds where CONNECTIVITY_CHECK_URIS contains private git repo (to make sure that users
+configured their git + ssh correctly before starting the build) and since this change it fails, because
+of missing ssh:
+
+ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+    Following is the list of potential problems / advisories:
+
+    Fetcher failure: Fetch command export PATH="...snip.../hosttools"; export HOME="/home/jenkins"; git -c core.fsyncobjectfiles=0 ls-remote ssh://foo.com/bar/repo  failed with exit code 128, output:
+error: cannot run ssh: No such file or directory
+fatal: unable to fork
+.
+    Please ensure your host's network is configured correctly,
+    or set BB_NO_NETWORK = "1" to disable network access if
+    all required sources are on local disk.
+
+I know I can add ssh locally, but do we really need to be so strict
+here? We already include git and git might need ssh.
+
+Regards,
+</pre>
+    </blockquote>
+    <br>
+    Hi Martin,<br>
+    <br>
+    The problem is mainly about documentation. We need to keep codes and
+    docs in sync.<br>
+    <br>
+    We have in our documentation (QuickStart) a list of software
+    necessary to use basic yocto functionality.<br>
+    <br>
+    e.g.<br>
+    <br>
+    <p><span class="emphasis"><em>Ubuntu and Debian</em></span> </p>
+    <pre class="literallayout">     $ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
+     build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
+     xz-utils debianutils iputils-ping libsdl1.2-dev xterm
+                        </pre>
+    <br>
+    I have hosts that only have the above packages installed. Thus I was
+    meeting error when trying to build something, as ssh and scp are not
+    available.<br>
+    <br>
+    I'm OK with adding ssh into default HOSTTOOLS, but we need to keep
+    documentation in sync with the codes. (e.g. adding openssh-client
+    into the above list.)<br>
+    <br>
+    Best Regards,<br>
+    Chen Qi<br>
+    <br>
+    <blockquote cite="mid:20171012015609.GA3832@jama" type="cite">
+      <pre wrap="">
+</pre>
+      <blockquote type="cite">
+        <pre wrap=""> # Link to these if present
+ HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+
+-- 
+To stop receiving notification emails like this one, please contact
+the administrator of this repository.
+-- 
+_______________________________________________
+Openembedded-commits mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-commits@lists.openembedded.org">Openembedded-commits@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-commits">http://lists.openembedded.org/mailman/listinfo/openembedded-commits</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------FC7DAD2636429903243AA631--
