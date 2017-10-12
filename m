@@ -1,41 +1,41 @@
-Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C446277E9C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f44.google.com (mail-it0-f44.google.com
+	[209.85.214.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FB6577E9C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 12:07:54 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id m72so23722577wmc.0
+	Thu, 12 Oct 2017 12:11:03 +0000 (UTC)
+Received: by mail-it0-f44.google.com with SMTP id n195so15836906itg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 05:07:56 -0700 (PDT)
+	Thu, 12 Oct 2017 05:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=i46xXJMIkeECBIgtiVhQLTlacxq8suQXYxirxB1Zzfs=;
-	b=Zc+t9QNVGLvlOSn4g5AXGUofeuPbESR6wRDnrsKj6+k+gY+734rb1qVgYYTpmTJdUJ
-	aQSYzKKQl3COuvrxm/Npbi+eN1xXQPCRQL8l1BoN13rnmNW6Kp1QwIXDErlArsHSRMeM
-	hSruc3P7gTdwgSxYc8eVbrrhVRn9liqWJrWnRnMNDTUTjtaq0kFaKDyPbw23OQcSJbdI
-	UUFLrDSpagNMjfKwqvKZn+eJXbh2NAO1bqEBB6F27rw+jhSZSAHjLYra+gAnRCp+yaKK
-	/1f79bM23kJA0xT5Se2YBaqs4oFR6j5sNewmyCpXVBK2f8TWfSswZ9kB5ZwbvI6q5Yg5
-	q7CQ==
+	:cc; bh=ol4tV7u077zRrU0iP/+/B6Dvt+aQ+r3ddYfd6Phknwc=;
+	b=P5OwyN44Ab2XPrZzXNacmp8zSsrCRmEvWzf9wpmyuxnh8iMUKLg+WpFPnFbmMf5l6B
+	3zJ7F78bUR03gnlEz+lhhYrehZNZitcGGbyc33SxiQeHsQcpa9Lqjxb8hh8KuFsq1jD5
+	sONgB+d/S2hKeMxzt/PSkvGWzqDEWC4t8OmmT5bVgSxDdVsxiWcEuFI2d6ZuTA9D9Kph
+	VYo38XYrQkIZ3H9pJzVwhyAUJNnXtjo/1IMJpDBYFM/xNRiIjMWZbh1c72F7u6gpK3uY
+	rrdKMgwepFCr0Bwt0ccdKhdRRovvUcipEX4JNQX1MVdzANuJ6f2z+egA9ntWJYWEwPrk
+	3ocw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=i46xXJMIkeECBIgtiVhQLTlacxq8suQXYxirxB1Zzfs=;
-	b=Zo3aKpufeP2gg61FHyjTr4AfC1vD3BaBuyuuYuQVhjINc5nikvCqBaY4T6OnO3qNXM
-	HURzqWr9Ohnsj76xwzksh+tWwaGT2ihFTRmbEg/lC4NgN3cF8rH1swRDgvifIj6kO1kk
-	JmLSahNL9tmDLlSeCShjI7QtBZ8af5fNilX7v08c8DaH/ODKB4ykr/9n8J38AgjJS/gO
-	JMUnOuEAE9vKkqvRBRt4WBY1wBWeewqRUJd9eewkGRDJYkzydwbCbiSA3jrmFS04oEIR
-	W6cYEbqzWgNqQk5OssqmznPwfAJovexKWhGJ1qj70ypdAAq0mFBosDStvJCFAruQllBj
-	9UCw==
-X-Gm-Message-State: AMCzsaWMFsviU4vpQAbQi6B3KgFsQpEW7vaicjycXxOsyaEf3Okff5zM
-	5djhcA9n9ro1hGCPALoasO8r0fvY+gWwYnWqSQmHeg==
-X-Google-Smtp-Source: AOwi7QCqh4vQX+lnU4pgfsgJVQSq9V0lZGzm7uKFjj66e1t12bGKvm/K70h4YIqBSzFA/H5ulqTrNGWiQvM9UO58bOk=
-X-Received: by 10.28.156.67 with SMTP id f64mr1640383wme.42.1507810075440;
-	Thu, 12 Oct 2017 05:07:55 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=ol4tV7u077zRrU0iP/+/B6Dvt+aQ+r3ddYfd6Phknwc=;
+	b=iwUtYzRqyCy5kFjR5cIvnNScJxg2MFCJw6w64+js+PxmfXu57HP7Yxaql3zgRnhEll
+	qa6TMVB70fy0XftGpmyULEOXhbvtaSQrpbk99hN0lxF9+2Bqk+5l6AnTJBTOJNkxW4GW
+	HiwXtekBH9mv5u8nPPufv2B/gI1MQ8ZvBY50gl/OFxt1nf+OMxjDM9RLGbbVMJ5RuISV
+	QVRpcfTXs9MD97/lXtpt8deiGqTvxYLTsZndquCYARBNME06aKoe48y9xfS4yHH50VSB
+	IS1L9uIfCSzrNsNOZTbXXtdNLyQSoj+/gI7jrIjeEgN7uzAM3n1ClaJ8pCaeQxq9c/2G
+	4fOA==
+X-Gm-Message-State: AMCzsaWNFFIniG4P5VMPqB/91n0h5+TrW4cQqROzO65xCM54mxdkGxIA
+	LDD1XkjeuXdTpzyFKyROs6Dr9MO1XutlLx2+iHu58g==
+X-Google-Smtp-Source: AOwi7QDeNm6V+ejotZmbrVfQN5D2OcpNBDE6vKkXpVDWaVH9GBnSTlrfJB+kgAHSVt8ss+tQGpdWTz+2Zd7yC3i0U+g=
+X-Received: by 10.36.197.129 with SMTP id f123mr3196608itg.27.1507810264521;
+	Thu, 12 Oct 2017 05:11:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.154.248 with HTTP; Thu, 12 Oct 2017 05:07:54 -0700 (PDT)
-In-Reply-To: <0c97da3b-489d-eba0-8106-7b00d142746b@windriver.com>
+Received: by 10.107.162.205 with HTTP; Thu, 12 Oct 2017 05:10:43 -0700 (PDT)
+In-Reply-To: <CAPyrkgwDWH4Rk2T3V31Jyt0RjU4wCEd5sfPnm8Qevn3PWkbk6w@mail.gmail.com>
 References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
 	<CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
 	<CAPyrkgxRjHRF9ALg9QwdUPdXAsetFNb9iUCQZNw+GtJsz+hM5g@mail.gmail.com>
@@ -46,10 +46,11 @@ References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
 	<CAPyrkgwhNAh+q1cPayXa=DV7x3K_T8T2YL4h=kfOiiz4CimJdQ@mail.gmail.com>
 	<CAJ86T=UCwz44_twkQR-y=MR8TQVeTo2+RdXzOWc5Eyvv8dV5jg@mail.gmail.com>
 	<0c97da3b-489d-eba0-8106-7b00d142746b@windriver.com>
-From: Paul Barker <pbarker@toganlabs.com>
-Date: Thu, 12 Oct 2017 13:07:54 +0100
-Message-ID: <CAPyrkgwDWH4Rk2T3V31Jyt0RjU4wCEd5sfPnm8Qevn3PWkbk6w@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+	<CAPyrkgwDWH4Rk2T3V31Jyt0RjU4wCEd5sfPnm8Qevn3PWkbk6w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Oct 2017 13:10:43 +0100
+Message-ID: <CAJTo0LZfw2bWmOuS9i-AoHG7EepuCiOyEboobXtm1LMLgpmfpQ@mail.gmail.com>
+To: Paul Barker <pbarker@toganlabs.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Illegal instruction when running go binaries in qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -64,60 +65,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 12:07:55 -0000
+X-List-Received-Date: Thu, 12 Oct 2017 12:11:03 -0000
+Content-Type: multipart/alternative; boundary="94eb2c07aab034bb46055b586f14"
+
+--94eb2c07aab034bb46055b586f14
 Content-Type: text/plain; charset="UTF-8"
+
+On 12 October 2017 at 13:07, Paul Barker <pbarker@toganlabs.com> wrote:
+
+> Is it too late in the cycle for rocko to start adding "sse2" to
+> TUNE_FEATURES for relevant machine configurations and include files?
+> If it's still ok to make this change for rocko then this might be the
+> best path forward.
+>
+
+As per the weekly status mail from Stephen, we've been frozen for weeks and
+on Monday the 2.4RC2 build was done.  Unless QA finds something serious to
+fix, I suspect that will be the 2.4 release.
+
+Ross
+
+--94eb2c07aab034bb46055b586f14
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 9, 2017 at 6:28 PM, Mark Hatle <mark.hatle@windriver.com> wrote=
-:
-> On 10/9/17 12:11 PM, Andre McCurdy wrote:
->> On Mon, Oct 9, 2017 at 10:01 AM, Paul Barker <pbarker@toganlabs.com> wro=
-te:
->>> On Mon, Oct 9, 2017 at 5:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> On Mon, Oct 9, 2017 at 9:16 AM, Paul Barker <pbarker@toganlabs.com> wr=
-ote:
->>>>> On Mon, Oct 9, 2017 at 5:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>>>> On Mon, Oct 9, 2017 at 6:15 AM, Paul Barker <pbarker@toganlabs.com> =
-wrote:
->>>>>>>
->>>>>>> I'm looking at what I can use to determine if sse2 is supported for=
- a
->>>>>>> given machine/tune.
->>>>>>>
->>>>>>> In TUNE_FEATURES I could check for "core2" or "corei7" based on wha=
-t's
->>>>>>> in oe-core, but not sure this will cover tunings which might be
->>>>>>> defined in other layers.
->>>>>>>
->>>>>>> Alternatively I could check TUNE_CCARGS for "-msse2" or later but t=
-hat
->>>>>>> feels dirty.
->>>>>>>
->>>>>>> Any suggestions on this?
->>>>>>>
->>>>
->>>> Perhaps inverse is easier, meaning, set 387 for i586, i486 and i386
->>>> and leave the
->>>> defaults as it is for other variants
->>>
->>> Sadly that won't cover it. We'd also need to cover Pentium variants
->>> pre-Pentium4 and early AMD variants. It's SSE2 which is needed not the
->>> original SSE instructions.
->>>
->
-> This is why 'TUNE_FEATURES' was introduced.  If SSE2 (or something else) =
-is need
-> for proper configuration, then we should add a specific tune_feature and =
-update
-> the corresponding tunes.
->
+<div dir=3D"ltr">On 12 October 2017 at 13:07, Paul Barker <span dir=3D"ltr"=
+>&lt;<a href=3D"mailto:pbarker@toganlabs.com" target=3D"_blank">pbarker@tog=
+anlabs.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">Is it too late in the cycle=
+ for rocko to start adding &quot;sse2&quot; to<br>
+TUNE_FEATURES for relevant machine configurations and include files?<br>
+If it&#39;s still ok to make this change for rocko then this might be the<b=
+r>
+best path forward.<br></blockquote><div><br></div><div>As per the weekly st=
+atus mail from Stephen, we&#39;ve been frozen for weeks and on Monday the 2=
+.4RC2 build was done.=C2=A0 Unless QA finds something serious to fix, I sus=
+pect that will be the 2.4 release.</div><div><br></div><div>Ross=C2=A0</div=
+></div></div></div>
 
-Is it too late in the cycle for rocko to start adding "sse2" to
-TUNE_FEATURES for relevant machine configurations and include files?
-If it's still ok to make this change for rocko then this might be the
-best path forward.
-
---=20
-Paul Barker
-Tog=C3=A1n Labs Ltd
-
+--94eb2c07aab034bb46055b586f14--
