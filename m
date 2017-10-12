@@ -1,58 +1,22 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ABED6FFC8
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DB4C26B6EA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 17:37:09 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id q124so15204172wmb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 10:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JQ1+Qzqb/paQljGdAuFGm/YSHX2Z79tNLjT3l51h3hw=;
-	b=V4/j+9aaiVQ0882Xrz8T6yWtZaJgTEJkmAAAoXoANNhNdxDm13wl03707fuKZf5Q6v
-	CQ2v2jv6iLurd4mwoOjr2XdV3aVO3ecIcOOgmC/75aBqZi+P7Z+6snQrwGyVgUiJkK8x
-	eECyRETSx0iXt333DOGdMYbq7LYGu4bkJc2CXDiPLslpEbk3eYhQ2fBOp4zipgW6YrsC
-	QPPJaMAc+fOV+HOQpI0BzhjKF8Vk4ifFLFoeCX1LXo1SWzO8FXqRDXI40hYHEfPzO9YX
-	YAzXfylJuc6CH6d5FK2R3MqpYybsXxg72nVSnrOwx6jd4xAFodtKeev69Cq7l9YpEddF
-	uZ8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JQ1+Qzqb/paQljGdAuFGm/YSHX2Z79tNLjT3l51h3hw=;
-	b=K47TgjR4NXGxmFZiofenUGGGuu3ylmQEyQO3j/3KEu7YM+sfAT9zN6zFmClS6xwU1V
-	w4sdAf9f7J8/HnAzSL+wCwgpHrMOahMjdyChOCN6Wnw7t4wnm9LK+lZrvlWd7NKH90kg
-	85seGhz3rpfIt0u2qWsEdUncS6gnrLsk1F49y+MO0yeOjv3TpKHrl8dLRsCotw9ZuoLS
-	EGuUMlKPDf4rQU0boGyr5oQ2IGcDuBVDJPE7XnUSYEQ8U3WsvsG9jJCGvOTz9bQq1Fxz
-	6QjspsWYqiP4Xj5PYejzmOldjIYn9JcKGSLHnwqYnVd+Ez6fw7QrpEFKmi/vK7nLSqv/
-	OW0Q==
-X-Gm-Message-State: AMCzsaWTUBv01a9t91yeuIuAvNwQairVCxP/AEiTB0VX0045GoOFCuJW
-	/qkqRYpbzAQ6V2XnPSZyVC+xv+xn49lsrHnc4kI=
-X-Google-Smtp-Source: AOwi7QDfIQkYxr/f5OZPVqCL/aziQmXO/7rxDGVNO2K3aDJlNZ5Hlp55ch0pPTINSdmGYy/NIeP4l9EvzQvajR6oo8k=
-X-Received: by 10.28.147.208 with SMTP id v199mr2282521wmd.136.1507829830941; 
-	Thu, 12 Oct 2017 10:37:10 -0700 (PDT)
+	Thu, 12 Oct 2017 18:35:27 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Oct 2017 11:35:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,367,1503385200"; d="scan'208";a="137884496"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by orsmga004.jf.intel.com with ESMTP; 12 Oct 2017 11:35:28 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Oct 2017 11:35:20 -0700
+Message-Id: <20171012183523.130193-1-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
 MIME-Version: 1.0
-Received: by 10.223.166.19 with HTTP; Thu, 12 Oct 2017 10:37:10 -0700 (PDT)
-In-Reply-To: <CAPyrkgyyiiqNpHimOdqL138CNhz6dm19VoKJx=yZ7HOx2NcXcg@mail.gmail.com>
-References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
-	<CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
-	<CAPyrkgxRjHRF9ALg9QwdUPdXAsetFNb9iUCQZNw+GtJsz+hM5g@mail.gmail.com>
-	<CAPyrkgxV9aQvx3frYAJFKuK3jBY7Cv+V8=zFjvvLM-jbK5PH8g@mail.gmail.com>
-	<CAMKF1sqQF01x8WOWQRt=jnfBCAsP8_5OSLZnJtPo9QWBu9RGCA@mail.gmail.com>
-	<CAPyrkgwgE2SKjh8ODxVRku2E3VmHKJLF8sBUL7Mzd4gAWnJ0jg@mail.gmail.com>
-	<CAMKF1somGhHGW_0i=2eBB9xkB+6Fkcv5PUK8Yp2evtvWzHbB6Q@mail.gmail.com>
-	<CAPyrkgwhNAh+q1cPayXa=DV7x3K_T8T2YL4h=kfOiiz4CimJdQ@mail.gmail.com>
-	<CAJ86T=UCwz44_twkQR-y=MR8TQVeTo2+RdXzOWc5Eyvv8dV5jg@mail.gmail.com>
-	<0c97da3b-489d-eba0-8106-7b00d142746b@windriver.com>
-	<CAPyrkgwDWH4Rk2T3V31Jyt0RjU4wCEd5sfPnm8Qevn3PWkbk6w@mail.gmail.com>
-	<CAJTo0LZfw2bWmOuS9i-AoHG7EepuCiOyEboobXtm1LMLgpmfpQ@mail.gmail.com>
-	<CAPyrkgyyiiqNpHimOdqL138CNhz6dm19VoKJx=yZ7HOx2NcXcg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 12 Oct 2017 10:37:10 -0700
-Message-ID: <CAJ86T=VF0c5J0Z+TW1_9+6VQvGTMu3e0X_EA_rBbwLnR6CWFRw@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Illegal instruction when running go binaries in qemux86
+Subject: [PATCH 1/4] perl-native: upgrade from 5.24.1 to 5.26.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,34 +29,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 17:37:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 12 Oct 2017 18:35:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 12, 2017 at 5:16 AM, Paul Barker <pbarker@toganlabs.com> wrote:
-> On Thu, Oct 12, 2017 at 1:10 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> On 12 October 2017 at 13:07, Paul Barker <pbarker@toganlabs.com> wrote:
->>>
->>> Is it too late in the cycle for rocko to start adding "sse2" to
->>> TUNE_FEATURES for relevant machine configurations and include files?
->>> If it's still ok to make this change for rocko then this might be the
->>> best path forward.
->>
->> As per the weekly status mail from Stephen, we've been frozen for weeks and
->> on Monday the 2.4RC2 build was done.  Unless QA finds something serious to
->> fix, I suspect that will be the 2.4 release.
->
-> I'm not expecting this to be fixed in time for 2.4.0 now. Can this
-> sort of change go into the rocko branch after release though?
->
-> What is broken, to my understanding, is all applications written in go
-> which perform floating point calculations on qemux86 or any other x86
-> target which doesn't support SSE2 instructions. We should find some
-> way of fixing this for the rocko branch after release. I'm just trying
-> to gauge what sort of solution will be acceptable before I spend time
-> implementing and testing.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-I guess for rocko we should go back to your original suggestion, ie
-"should we just set GO386 = "387" so that it applies to all go
-binaries and accept the slight loss of performance on x86 systems that
-do support sse2 instructions?"
+Patch Name # Status at 5.26.1
+
+file://Configure-multilib.patch        # Already merged in 5.26.1, so removed it
+file://perl-configpm-switch.patch      # Applies as it is
+file://native-nopacklist.patch         # Rebased it to 5.26.1
+file://native-perlinc.patch            # Already merged in 5.26.1, so removed it
+file://MM_Unix.pm.patch                # Rebased it to 5.26.1
+file://debian/errno_ver.diff           # Applies as it is
+file://dynaloaderhack.patch            # Applies as it is
+lfile://perl-PathTools-don-t-filter-out-blib-from-INC.patch            # Already merged in 5.26.1, so removed it
+file://0001-Configure-Remove-fstack-protector-strong-for-native-.patch # Applies as it is
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ ...perl-native_5.24.1.bb => perl-native_5.26.1.bb} | 10 +++---
+ ...emove-fstack-protector-strong-for-native-.patch |  1 +
+ meta/recipes-devtools/perl/perl/MM_Unix.pm.patch   |  9 ++---
+ .../perl/perl/native-nopacklist.patch              | 40 +++++++++++++++-------
+ 4 files changed, 37 insertions(+), 23 deletions(-)
+ rename meta/recipes-devtools/perl/{perl-native_5.24.1.bb => perl-native_5.26.1.bb} (93%)
+
+diff --git a/meta/recipes-devtools/perl/perl-native_5.24.1.bb b/meta/recipes-devtools/perl/perl-native_5.26.1.bb
+similarity index 93%
+rename from meta/recipes-devtools/perl/perl-native_5.24.1.bb
+rename to meta/recipes-devtools/perl/perl-native_5.26.1.bb
+index e01d11fbed..8f5b872cbc 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.26.1.bb
+@@ -7,19 +7,17 @@ DEPENDS += "gdbm-native zlib-native"
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
+ 
+ SRC_URI += "\
+-           file://Configure-multilib.patch \
+            file://perl-configpm-switch.patch \
+            file://native-nopacklist.patch \
+-           file://native-perlinc.patch \
+            file://MM_Unix.pm.patch \
+            file://debian/errno_ver.diff \
+            file://dynaloaderhack.patch \
+-           file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
+            file://0001-Configure-Remove-fstack-protector-strong-for-native-.patch \
+-          "
++           "
++
++SRC_URI[md5sum] = "70e988b4318739b0cf3ad5e120bfde88"
++SRC_URI[sha256sum] = "fe8208133e73e47afc3251c08d2c21c5a60160165a8ab8b669c43a420e4ec680"
+ 
+-SRC_URI[md5sum] = "af6a84c7c3e2b8b269c105a5db2f6d53"
+-SRC_URI[sha256sum] = "03a77bac4505c270f1890ece75afc7d4b555090b41aa41ea478747e23b2afb3f"
+ 
+ inherit native
+ 
+diff --git a/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch b/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
+index 14a05d291b..36cd8939c3 100644
+--- a/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
++++ b/meta/recipes-devtools/perl/perl/0001-Configure-Remove-fstack-protector-strong-for-native-.patch
+@@ -15,6 +15,7 @@ Upstream-Status: Inappropriate [configuration]
+ [1] http://errors.yoctoproject.org/Errors/Details/109589/
+ 
+ Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+ ---
+  Configure | 54 ------------------------------------------------------
+  1 file changed, 54 deletions(-)
+diff --git a/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch b/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch
+index eb92ccb678..cdae438d2c 100644
+--- a/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch
++++ b/meta/recipes-devtools/perl/perl/MM_Unix.pm.patch
+@@ -7,16 +7,17 @@ To get the MakeMaker.pm works in this case, we need perl wrapper here
+ instead of real perl binary.
+ 
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+ ===================================================================
+ --- perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm.orig	2011-08-12 16:07:30.000000000 +0800
+ +++ perl-5.12.3/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm	2011-08-12 16:08:56.000000000 +0800
+-@@ -1019,6 +1019,9 @@
++@@ -1110,6 +1110,9 @@ WARNING
+      }
+  
+      foreach my $name (@$names){
+ +        # Getting MakeMaker.pm use perl wrapper instead of 'perl.real' directly
+ +        $name =~ s/perl\.real/perl/ if ($name =~ /perl\.real/);
+ +
+-         foreach my $dir (@$dirs){
+-             next unless defined $dir; # $self->{PERL_SRC} may be undefined
+-             my ($abs, $val);
++         my ($abs, $use_dir);
++         if ($self->file_name_is_absolute($name)) {     # /foo/bar
++             $abs = $name;
+diff --git a/meta/recipes-devtools/perl/perl/native-nopacklist.patch b/meta/recipes-devtools/perl/perl/native-nopacklist.patch
+index 5482dcb79c..993f3302bf 100644
+--- a/meta/recipes-devtools/perl/perl/native-nopacklist.patch
++++ b/meta/recipes-devtools/perl/perl/native-nopacklist.patch
+@@ -3,15 +3,16 @@ Upstream-Status:Inappropriate [debian patch]
+ Part of 52_debian_extutils_hacks.patch just to exclude the installation of .packlist files
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+ ---
+- cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm |   35 ++---------------------
+- 1 file changed, 3 insertions(+), 32 deletions(-)
++ cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm | 41 ++-----------------------
++ 1 file changed, 3 insertions(+), 38 deletions(-)
+ 
+ diff --git a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-index f63145c..a589710 100644
++index 66a24d7..f9dbc6e 100644
+ --- a/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+ +++ b/cpan/ExtUtils-MakeMaker/lib/ExtUtils/MM_Unix.pm
+-@@ -2122,11 +2122,6 @@ pure_perl_install :: all
++@@ -2227,11 +2227,6 @@ pure_perl_install :: all
+  };
+  
+      push @m,
+@@ -23,18 +24,31 @@ index f63145c..a589710 100644
+  q{		"$(INST_LIB)" "$(DESTINSTALLPRIVLIB)" \
+  		"$(INST_ARCHLIB)" "$(DESTINSTALLARCHLIB)" \
+  		"$(INST_BIN)" "$(DESTINSTALLBIN)" \
+-@@ -2158,10 +2153,6 @@ q{		"$(INST_LIB)" "$(DESTINSTALLSITELIB)" \
+- pure_vendor_install :: all
++@@ -2246,11 +2241,6 @@ pure_site_install :: all
+  	$(NOECHO) $(MOD_INSTALL) \
+  };
++     push @m,
++-q{		read "}.$self->catfile('$(SITEARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
++-		write "}.$self->catfile('$(DESTINSTALLSITEARCH)','auto','$(FULLEXT)','.packlist').q{" \
++-} unless $self->{NO_PACKLIST};
++-
+ -    push @m,
++ q{		"$(INST_LIB)" "$(DESTINSTALLSITELIB)" \
++ 		"$(INST_ARCHLIB)" "$(DESTINSTALLSITEARCH)" \
++ 		"$(INST_BIN)" "$(DESTINSTALLSITEBIN)" \
++@@ -2264,11 +2254,6 @@ pure_vendor_install :: all
++ 	$(NOECHO) $(MOD_INSTALL) \
++ };
++     push @m,
+ -q{		read "}.$self->catfile('$(VENDORARCHEXP)','auto','$(FULLEXT)','.packlist').q{" \
+ -		write "}.$self->catfile('$(DESTINSTALLVENDORARCH)','auto','$(FULLEXT)','.packlist').q{" \
+ -} unless $self->{NO_PACKLIST};
+- 
+-     push @m,
++-
++-    push @m,
+  q{		"$(INST_LIB)" "$(DESTINSTALLVENDORLIB)" \
+-@@ -2187,37 +2178,19 @@ doc_vendor_install :: all
++ 		"$(INST_ARCHLIB)" "$(DESTINSTALLVENDORARCH)" \
++ 		"$(INST_BIN)" "$(DESTINSTALLVENDORBIN)" \
++@@ -2292,37 +2277,19 @@ doc_vendor_install :: all
+  
+      push @m, q{
+  doc_perl_install :: all
+@@ -42,7 +56,7 @@ index f63145c..a589710 100644
+ -	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+ -	-$(NOECHO) $(DOC_INSTALL) \
+ -		"Module" "$(NAME)" \
+--		"installed into" $(INSTALLPRIVLIB) \
++-		"installed into" "$(INSTALLPRIVLIB)" \
+ -		LINKTYPE "$(LINKTYPE)" \
+ -		VERSION "$(VERSION)" \
+ -		EXE_FILES "$(EXE_FILES)" \
+@@ -55,7 +69,7 @@ index f63145c..a589710 100644
+ +	-$(NOECHO) $(MKPATH) "$(DESTINSTALLSITEARCH)"
+  	-$(NOECHO) $(DOC_INSTALL) \
+  		"Module" "$(NAME)" \
+- 		"installed into" $(INSTALLSITELIB) \
++ 		"installed into" "$(INSTALLSITELIB)" \
+  		LINKTYPE "$(LINKTYPE)" \
+  		VERSION "$(VERSION)" \
+  		EXE_FILES "$(EXE_FILES)" \
+@@ -67,7 +81,7 @@ index f63145c..a589710 100644
+ -	-$(NOECHO) $(MKPATH) "$(DESTINSTALLARCHLIB)"
+ -	-$(NOECHO) $(DOC_INSTALL) \
+ -		"Module" "$(NAME)" \
+--		"installed into" $(INSTALLVENDORLIB) \
++-		"installed into" "$(INSTALLVENDORLIB)" \
+ -		LINKTYPE "$(LINKTYPE)" \
+ -		VERSION "$(VERSION)" \
+ -		EXE_FILES "$(EXE_FILES)" \
+@@ -75,7 +89,7 @@ index f63145c..a589710 100644
+  
+  } unless $self->{NO_PERLLOCAL};
+  
+-@@ -2226,13 +2199,11 @@ uninstall :: uninstall_from_$(INSTALLDIRS)dirs
++@@ -2331,13 +2298,11 @@ uninstall :: uninstall_from_$(INSTALLDIRS)dirs
+  	$(NOECHO) $(NOOP)
+  
+  uninstall_from_perldirs ::
+-- 
+2.12.3
+
 
