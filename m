@@ -1,56 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f49.google.com (mail-it0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 282AC7806E
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f43.google.com (mail-wm0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C72E719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 11:34:28 +0000 (UTC)
-Received: by mail-it0-f49.google.com with SMTP id 72so6475810itk.3
+	Thu, 12 Oct 2017 12:04:46 +0000 (UTC)
+Received: by mail-wm0-f43.google.com with SMTP id u138so12518616wmu.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 04:34:30 -0700 (PDT)
+	Thu, 12 Oct 2017 05:04:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UoxDO2xSkz/DUaizW4cfBU4nP5DCwZ5P0rVOf7Ku6JQ=;
-	b=dTFCmPhq5TGo1wSOOUg/2kZkvBUpBta7cePPMFUMclD1bTqNKoghZVw0YXF/xkFGGf
-	1wnEBxLP/aRfmvUb0CVz56ZPngVLHPafeY/QniriOaiEp0XIEN2lM0ALh5BOOFvsY/qx
-	M8Ihv1uO/ZDJhAi2eeO8HLuPO7j3612y+ZEJwqph8t1h43ivsF+6Bf9Di5nqQw5sx1VY
-	0+fE2t9cKZRwgZP0cSD72KrjRvcywzmc9ArvrakpAYtOsl9MGS51+eLB8b3NzflA0LUV
-	eaOy5dH310Y+wMQnGfV1E5ShQc2PccW5R6anG+4WrJ2m2Zp0fpJfZIBXInH/NVx7in25
-	eUUg==
+	:cc:content-transfer-encoding;
+	bh=uCkiyw9izbXEDAjcksg2q9FAFSAYPCrHtypJVoHozR8=;
+	b=Wdqtc3f098mQ5FGajNdCL7xMwL166NrLS+o3xydFvJHuqsdIyOD/5u4T1eNzTR2Zb4
+	b0713ajMPOmZKKVeCEmwrkyEDvXJCGUf/yl4MD7SGViOSyaj9Ze4e/vhIWDKncCm83QJ
+	xVBqcqAIvwn6hq5GO1dyswQlw4QdKVs2oYWFS0mmHNAjNyFkowksP+SVZo7/8h+WjQh4
+	Lvf//ex652cub6gonIUPTBa+vCegwfIcL1DrR/MARKEi7+aZHpQA/WxPeMhpwglJdX2B
+	a0WsRQz3Y2plFgua7PDo64/iFtcz+oVDaA/YvgoxMyO9d9ELkC3sqjV+vh+6s4f+Qdnh
+	KjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=UoxDO2xSkz/DUaizW4cfBU4nP5DCwZ5P0rVOf7Ku6JQ=;
-	b=XvULeq37M0IJZwA+NkKWaaUm4iOz/vdP/wzmAJpxNBFcq2XXXnUuF/sg7z4eBItM1g
-	p0BiEr7LiGecDV0B8OxkrqZ+pP5tYTTWoSF7lBJnO/+8YRBAjZWIaI+lj70IMkkKjSM3
-	R2bxZTfgNtsU+VjvJKNy8I7BCXmf3jazOcCj3gclGnlZLiUjraIC15f44IBqT4eZY2cy
-	zzwdq5Q2fVRBKqx3qMLaJmL9Lx9kJkZjVf+KzNp144L76bMgwEN9efEJX30zosXLlkeF
-	LQ0zst7MgBKkNC+izhq+FNq6a+ZJoM3Jj8UlWlnN/9B9kG7qJKdem+rZHqmieogqGn1T
-	mY9A==
-X-Gm-Message-State: AMCzsaVnUZzO0P1wfzfwUV9gf2tLdrFwlKbUqQA7352+IJbHjvUnUZSk
-	5MgorKLVVgsaCt5PGQBzrlAwatLMPs1TsJGEGoQTgQ==
-X-Google-Smtp-Source: AOwi7QDCHGHnVYJNe9K+ASkgUSLZ6/MDalW3YnIJNLIVXVc0i+Eq7DOXFGqSYsiU3l7rS/r4hfvEdf0IO5iRZp8E+Q8=
-X-Received: by 10.36.150.4 with SMTP id z4mr2947170itd.48.1507808070264; Thu,
-	12 Oct 2017 04:34:30 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=uCkiyw9izbXEDAjcksg2q9FAFSAYPCrHtypJVoHozR8=;
+	b=FHtmAT82VtELbxufkk/d0HIHOnjn6Jgf8LKhkdjMYoZHMDIZ7OscGS7KDJr5ejAkkm
+	lteOaaYMjx6wmaLUcO+UCW+4NrXGA0pXaaEeskMYmgh/33ep+WxGQM+X8ZTCk3nROoIp
+	6F17rAUpzn1MeOeNoj5lYPGyR/Zyi/Uoh+LiB1n4DyaM4pa4mnsJaa+qAZxRpuGVpKzn
+	TDY7E2rptnLF+6sy1TyIYCM+8NonU0/Dq3dzUjKEdtKVxOvnkdjeN8gJ6QbvuIoWH3or
+	OET5Z8BOhAm589RCYv1btlAgOK6DPTFX6ycfKNCaN/Jxfpkfv2yBHy0h5+GI+poMHbgz
+	i6xw==
+X-Gm-Message-State: AMCzsaWgqMcUFt0eh0fDAphYwRGCSQgZ6+tGS26uO6s5U5wBdiykLFWg
+	DLu4qQWEnUVySy0MQDwhZf/QDCXoD8BgXpSzl7ntLQ==
+X-Google-Smtp-Source: AOwi7QAx23xDLblf9+3/RRyWUyGuaWjP3w4Tr8bZaMK9+Lgpq0GuOqwZN3GfvorkTJuGe6F2wKelxHCjRqky20PhnEU=
+X-Received: by 10.28.156.67 with SMTP id f64mr1632534wme.42.1507809888119;
+	Thu, 12 Oct 2017 05:04:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.205 with HTTP; Thu, 12 Oct 2017 04:34:09 -0700 (PDT)
-In-Reply-To: <CAMKF1sqqx-7PgL7833JVTn87Tdc57+h-Ob7VLfBD4khmpKN+HA@mail.gmail.com>
-References: <150754017019.10662.17591818165714630277@git.openembedded.org>
-	<20171012015609.GA3832@jama>
-	<CAMKF1sptwf=LMdHmXCKN1tCyPGgQcezhvKqHX3rNs113pL1dnQ@mail.gmail.com>
-	<50262241.T8AzmBLD0O@peggleto-mobl.ger.corp.intel.com>
-	<CAMKF1sqqx-7PgL7833JVTn87Tdc57+h-Ob7VLfBD4khmpKN+HA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 12 Oct 2017 12:34:09 +0100
-Message-ID: <CAJTo0LZMRAP4t4XcjyNw-uhnqLLU=sQW38=EMKn=RKo3=c-bEw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 01/01: bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
+Received: by 10.223.154.248 with HTTP; Thu, 12 Oct 2017 05:04:47 -0700 (PDT)
+In-Reply-To: <CAJ86T=UCwz44_twkQR-y=MR8TQVeTo2+RdXzOWc5Eyvv8dV5jg@mail.gmail.com>
+References: <CAPyrkgxRNsTbD=o7op_xi7T+f85rT3-4XF9d0bvkqVpvphiKaQ@mail.gmail.com>
+	<CAJTo0LY8Z+qqGHXuBNAD1_4eS-fXjhL3VcofkbeHfp6aaBGhaQ@mail.gmail.com>
+	<CAPyrkgxRjHRF9ALg9QwdUPdXAsetFNb9iUCQZNw+GtJsz+hM5g@mail.gmail.com>
+	<CAPyrkgxV9aQvx3frYAJFKuK3jBY7Cv+V8=zFjvvLM-jbK5PH8g@mail.gmail.com>
+	<CAMKF1sqQF01x8WOWQRt=jnfBCAsP8_5OSLZnJtPo9QWBu9RGCA@mail.gmail.com>
+	<CAPyrkgwgE2SKjh8ODxVRku2E3VmHKJLF8sBUL7Mzd4gAWnJ0jg@mail.gmail.com>
+	<CAMKF1somGhHGW_0i=2eBB9xkB+6Fkcv5PUK8Yp2evtvWzHbB6Q@mail.gmail.com>
+	<CAPyrkgwhNAh+q1cPayXa=DV7x3K_T8T2YL4h=kfOiiz4CimJdQ@mail.gmail.com>
+	<CAJ86T=UCwz44_twkQR-y=MR8TQVeTo2+RdXzOWc5Eyvv8dV5jg@mail.gmail.com>
+From: Paul Barker <pbarker@toganlabs.com>
+Date: Thu, 12 Oct 2017 13:04:47 +0100
+Message-ID: <CAPyrkgw7xOj+RkK6fgvNEAi3kERRp_NP1bmetiQfJRaS0XEDdA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Illegal instruction when running go binaries in qemux86
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,95 +63,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 11:34:29 -0000
-Content-Type: multipart/alternative; boundary="94eb2c07ea986aff73055b57ec1e"
-
---94eb2c07ea986aff73055b57ec1e
+X-List-Received-Date: Thu, 12 Oct 2017 12:04:47 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On 12 October 2017 at 06:01, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Wed, Oct 11, 2017 at 9:32 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Thursday, 12 October 2017 3:15:12 PM NZDT Khem Raj wrote:
-> >> On Wed, Oct 11, 2017 at 6:56 PM, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
-> >> > On Mon, Oct 09, 2017 at 09:09:31AM +0000, git@git.openembedded.org
-> wrote:
-> >> >> --- a/meta/conf/bitbake.conf
-> >> >> +++ b/meta/conf/bitbake.conf
-> >> >> @@ -484,7 +484,7 @@ HOSTTOOLS += " \
-> >> >>  "
-> >> >>
-> >> >>  # Tools needed to run testimage runtime image testing
-> >> >> -HOSTTOOLS += "ip ping ps scp ssh stty"
-> >> >> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh
-> stty'][bb.data.inherits_class('testimage', d)]}"
-> >> >
-> >> > Shouldn't we include at least ssh by default?
-> >>
-> >> I would say no, since nothing in OE-Core depends on it. more we
-> >> abstract from host system better it is.
-> >
-> > I'm with Martin on this one, let's not make it painful for people to use
-> > the SSH protocol in git URLs in their recipes. I don't see much potential
-> > for host contamination.
->
-> Standard distro do not install ssh, if we want to add it here, probably we
-> should at the same time let user know that he should install ssh
->
-
-That's what HOSTTOOLS_NONFATAL is for.  Who is going to claim the glory and
-post a patch?
-
-Ross
-
---94eb2c07ea986aff73055b57ec1e
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 12 October 2017 at 06:01, Khem Raj <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
-m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><span class=3D"">On Wed, Oct 11, 2017 =
-at 9:32 PM, Paul Eggleton<br>
-&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com">paul.eggleton@linux.in=
-tel.com</a><wbr>&gt; wrote:<br>
-&gt; On Thursday, 12 October 2017 3:15:12 PM NZDT Khem Raj wrote:<br>
-&gt;&gt; On Wed, Oct 11, 2017 at 6:56 PM, Martin Jansa &lt;<a href=3D"mailt=
-o:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; &gt; On Mon, Oct 09, 2017 at 09:09:31AM +0000, <a href=3D"mailto:g=
-it@git.openembedded.org">git@git.openembedded.org</a> wrote:<br>
-&gt;&gt; &gt;&gt; --- a/meta/conf/bitbake.conf<br>
-&gt;&gt; &gt;&gt; +++ b/meta/conf/bitbake.conf<br>
-&gt;&gt; &gt;&gt; @@ -484,7 +484,7 @@ HOSTTOOLS +=3D &quot; \<br>
-&gt;&gt; &gt;&gt;=C2=A0 &quot;<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt;=C2=A0 # Tools needed to run testimage runtime image testi=
-ng<br>
-&gt;&gt; &gt;&gt; -HOSTTOOLS +=3D &quot;ip ping ps scp ssh stty&quot;<br>
-&gt;&gt; &gt;&gt; +HOSTTOOLS +=3D &quot;${@[&#39;&#39;, &#39;ip ping ps scp=
- ssh stty&#39;][bb.data.inherits_class(<wbr>&#39;testimage&#39;, d)]}&quot;=
-<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Shouldn&#39;t we include at least ssh by default?<br>
-&gt;&gt;<br>
-&gt;&gt; I would say no, since nothing in OE-Core depends on it. more we<br=
+On Mon, Oct 9, 2017 at 6:11 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> On Mon, Oct 9, 2017 at 10:01 AM, Paul Barker <pbarker@toganlabs.com> wrot=
+e:
+>> On Mon, Oct 9, 2017 at 5:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> On Mon, Oct 9, 2017 at 9:16 AM, Paul Barker <pbarker@toganlabs.com> wro=
+te:
+>>>> On Mon, Oct 9, 2017 at 5:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>> On Mon, Oct 9, 2017 at 6:15 AM, Paul Barker <pbarker@toganlabs.com> w=
+rote:
+>>>>>>
+>>>>>> I'm looking at what I can use to determine if sse2 is supported for =
+a
+>>>>>> given machine/tune.
+>>>>>>
+>>>>>> In TUNE_FEATURES I could check for "core2" or "corei7" based on what=
+'s
+>>>>>> in oe-core, but not sure this will cover tunings which might be
+>>>>>> defined in other layers.
+>>>>>>
+>>>>>> Alternatively I could check TUNE_CCARGS for "-msse2" or later but th=
+at
+>>>>>> feels dirty.
+>>>>>>
+>>>>>> Any suggestions on this?
+>>>>>>
+>>>
+>>> Perhaps inverse is easier, meaning, set 387 for i586, i486 and i386
+>>> and leave the
+>>> defaults as it is for other variants
+>>
+>> Sadly that won't cover it. We'd also need to cover Pentium variants
+>> pre-Pentium4 and early AMD variants. It's SSE2 which is needed not the
+>> original SSE instructions.
+>>
 >
-&gt;&gt; abstract from host system better it is.<br>
-&gt;<br>
-&gt; I&#39;m with Martin on this one, let&#39;s not make it painful for peo=
-ple to use<br>
-&gt; the SSH protocol in git URLs in their recipes. I don&#39;t see much po=
-tential<br>
-&gt; for host contamination.<br>
-<br>
-</span>Standard distro do not install ssh, if we want to add it here, proba=
-bly we<br>
-should at the same time let user know that he should install ssh<br></block=
-quote><div><br></div><div>That&#39;s what HOSTTOOLS_NONFATAL is for.=C2=A0 =
-Who is going to claim the glory and post a patch?</div><div><br></div><div>=
-Ross=C2=A0</div></div></div></div>
+> Does testing X86ARCH32 work?
 
---94eb2c07ea986aff73055b57ec1e--
+Sadly not. "tune-core2.inc" sets this to "i686" which would indicate
+no SSE2 support, however the core2 series does support SSE2. So we
+can't base the decision on the value of this variable.
+
+--=20
+Paul Barker
+Tog=C3=A1n Labs Ltd
+
