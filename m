@@ -1,27 +1,23 @@
-Return-Path: <mikko.ylinen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id A291E71DDD
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B5B2871AB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 06:44:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga105.jf.intel.com with ESMTP; 11 Oct 2017 23:44:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,364,1503385200"; d="scan'208";a="1229902394"
-Received: from summit.tm.intel.com (HELO [10.237.55.126]) ([10.237.55.126])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Oct 2017 23:44:52 -0700
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <20171010122706.6975-1-mikko.ylinen@linux.intel.com>
-	<CAP9ODKp7DA_jTo0GnM6Z+Zos=tGnvvAzPg0E29U1Vkdrs4ZTZA@mail.gmail.com>
-From: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-Message-ID: <b745d962-0288-6896-78b4-461360f98d4b@linux.intel.com>
-Date: Thu, 12 Oct 2017 09:44:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Thu, 12 Oct 2017 07:37:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9C7bZkQ001916
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Oct 2017 00:37:35 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 12 Oct 2017 00:37:34 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Thu, 12 Oct 2017 03:37:33 -0400
+Message-ID: <1507793853-140841-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKp7DA_jTo0GnM6Z+Zos=tGnvvAzPg0E29U1Vkdrs4ZTZA@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: make i.MX SDMA split complete
+Subject: [PATCH] archiver: preserve sysroot paths in configured mode for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 06:44:52 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 12 Oct 2017 07:37:34 -0000
+Content-Type: text/plain
 
-Hi,
+In the following commit, the archiver expanded RECIPE_SYSROOT
+to preserve sysroot paths in configured mode:
+...
+commit aa2240657b015d46e9ba4bcb6264709a82313d83
+Author: Ross Burton <ross.burton@intel.com>
+Date:   Tue Jun 6 15:23:18 2017 +0100
 
+    archiver: preserve sysroot paths in configured mode
+...
 
-On 11/10/17 17:29, Otavio Salvador wrote:
-> Hello Mikko,
->
-> On Tue, Oct 10, 2017 at 9:27 AM, Mikko Ylinen
-> <mikko.ylinen@linux.intel.com> wrote:
->> The commit to split i.MX SDMA firmware blobs in their
->> own packages was not complete and results in a failure
->> when trying to install full linux-firmware:
->>
->>   * Solver encountered 1 problem(s):
->>   * Problem 1/1:
->>   *   - nothing provides linux-firmware-imx-sdma-license needed
->>   *     by linux-firmware-1:0.0+git0+a61ac5cf83-r0.all
->>   *
->>   * Solution 1:
->>   *   - do not ask to install a package providing linux-firmware
->>
->> Make the split complete by installing the license in
->> ${PN}-imx-sdma-license and have the blob packages depend on it.
->>
->> Signed-off-by: Mikko Ylinen <mikko.ylinen@linux.intel.com>
-> First, thanks for fixing my mistake ... I will try to find what I did
-> wrong here as I did test it.
->
->
+In meta/conf/multilib.conf, it overrides the variables
+of STAGING_DIR_HOST, STAGING_DIR_TARGET and RECIPE_SYSROOT
+with "${WORKDIR}/${MLPREFIX}recipe-sysroot".
 
-No problem. I'm guessing you did not install linux-firmware (perhaps
-just the newly created packages only). The recipe builds fine but fails
-to install resulting .ipk/.rpm.
+So the archiver should also expand STAGING_DIR_HOST and
+STAGING_DIR_TARGET to preserve sysroot paths in configured mode for
+multilib.
 
--- Mikko
+[YOCTO #11584]
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/archiver.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 18c5b96..ec80ad4 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -223,6 +223,8 @@ python do_ar_configured() {
+     import shutil
+ 
+     # Forcibly expand the sysroot paths as we're about to change WORKDIR
++    d.setVar('STAGING_DIR_HOST', d.getVar('STAGING_DIR_HOST'))
++    d.setVar('STAGING_DIR_TARGET', d.getVar('STAGING_DIR_TARGET'))
+     d.setVar('RECIPE_SYSROOT', d.getVar('RECIPE_SYSROOT'))
+     d.setVar('RECIPE_SYSROOT_NATIVE', d.getVar('RECIPE_SYSROOT_NATIVE'))
+ 
+-- 
+1.8.3.1
+
 
