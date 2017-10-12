@@ -1,51 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AADF60269
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 348FA6FEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 13:57:39 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 17so4906882pfn.12
+	Thu, 12 Oct 2017 14:25:54 +0000 (UTC)
+Received: by mail-qk0-f174.google.com with SMTP id l194so1414896qke.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 06:57:41 -0700 (PDT)
+	Thu, 12 Oct 2017 07:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WbG4nOOtSYMSqEqxUFCXzJ5Wo240YB2vqLSizr4yxPM=;
-	b=WJW+s+HCSEv7R/X+/4i8Fu9wPgDflPXJ0wbA3rAAC54YhZgkTtf3v5x/SdpNqYHNGi
-	543v8YcI7K1ECcYqGv+xfm188kKU7DvmAQfEIHpyX8QCJ6f3KPEXOK25zgq5TXrt4pWU
-	hVAr2lpRX3SUxOr4Cfo+XpLLW1VKvzGQjxmudWwTklF3vTTVAHXeM/dizWMUSBzAlyUO
-	Vw00+SACfKGklTBz8Rwp3H2yCG7FsnFkuQdZqFcHdIxYtF/RMTrSg+RBfs8b+6ZYU0go
-	VF9IGd1x8qndg+NiK1vFoNhfzDEnqxugrK8/2nQXpQAwPJ2VSAHRViou3NBIG/9dM1dI
-	A5iw==
+	:cc; bh=YfLDOhVYuRiw6KTX6DkOwJcNNZo5Sv2S7AoxtnNgQfs=;
+	b=DZ7XCJVmhAz0WtOOet0b7O8ToI8Ut9Xe3ynKpr5RM9HZvs4UF01vSRz4AwkRbqxcgz
+	z9L1f5B5j+rIx1NI9V3wcS3xuGLXNsTSxSuBG6AeKnm5uW4FGUcMKkvj6ZrjjxAjr+pX
+	kkbNKlfh1hZMgDrAWKJO+m+GrKEUWB5YDtTWOfZ2LUTSIlB/ETF21U8/4VLCHSs1I6lB
+	Iaa2cZgpXYXmc4o1WfoWmqz+uXlGht+BwKiXZZ5SIcMgzOg+7iV2NwxYc5YtxbPSzIh+
+	f8Ro6d/3im2/sKmE+ePAodKlrAXMAGXmHCezIzDuqjjTWho0oQ9FZQ8YK/xYEAe7nGKX
+	zT8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=WbG4nOOtSYMSqEqxUFCXzJ5Wo240YB2vqLSizr4yxPM=;
-	b=RoYjGvONw56veZO0l6+ORLmA4MsvzC/1ODKmQNNAAhgIbVkPmqT7DbdEb50QE4OrF+
-	d6kUPdG9p8G+DNS4Z9+WkyBlQ8It5+/fdLcnJGDAg8nCiFL/G4UjHevsgoo47DiasTIh
-	HY6/OlshyrVmFWtCtvZJBMoJVrvTixJJZ+EaHipYdpEeRr8//E2IFxAX1No8U4NltBAk
-	F7TUelVShuur4sL3AYOCeMW+mGkWpkOGpxmWeADQwR+ZVuy0vD0Yg+vXlLmavy43//l5
-	OLzuhJnJhUi1Vkgm0uGbA+rBRk8dr/VOHVLiMUzPAMxqGuQmMcDupJu+JQC8gf3eSLtW
-	N6rA==
-X-Gm-Message-State: AMCzsaWF+EgbOS96Qh0tGU1H1N+/eq7A6Yo0nxgGxQDYWMW0plH87Yhp
-	2ht8p/90fZPGCcspygAB8lrH1AHJfTYvW7dK9N4=
-X-Google-Smtp-Source: AOwi7QBnoMeLMDmmQjDh9FJr2jqPSNJHYWjb7sjPPH8waLm1cpqQ2jit8KLKzn80DuiQRmjRRSQVoyLhZVZN+6gZ5qU=
-X-Received: by 10.98.2.200 with SMTP id 191mr2274525pfc.285.1507816660989;
-	Thu, 12 Oct 2017 06:57:40 -0700 (PDT)
+	bh=YfLDOhVYuRiw6KTX6DkOwJcNNZo5Sv2S7AoxtnNgQfs=;
+	b=MEtI2MFagV5DTU6CNRE3XLIWt/2wcXG0hskFO75MjQc2MI0y7U4xLAWL4wFQsSToUp
+	GkwWV9JE9uv/c/8hAnknhX7Od4OJJHAznfEOQXsxMftII73LsfdC5M4zZhTMgbVOmXRG
+	xe9b1zMnF5wZ1tVg5zjBssgw+ecg16GMWOWzLrbHYzu8sllYwCv1cAPppntMi2FFCM/b
+	p+ntQn/2oOeIyH3g+fYAiMI/cEHG1i9PhebQDuIZx18+5kpNWoGOV19hESASjJvh2U8t
+	bQOh46LK7qbUJAf2l6CAn3g17I1WpK9uFOAgb3FyWArtddRtB+E9thd/W0oyJ9IYlRwK
+	pPtw==
+X-Gm-Message-State: AMCzsaVF8ouDTbTeh3lax+krfOGl+dNeF4yfhHR7jCIJhrTx6gxxd4er
+	FfU6tPIUmBaw4ZQuazwTHfsAKpCthtGfTUKhk4A=
+X-Google-Smtp-Source: AOwi7QAmK8L2OlkTytRLzGDVOc5/k4/DrHjijL6Io+Jkm12PyBQZ4QVS9NUNpVl5bwi9YG/BFyKXeUvJqAOUO+IbSdM=
+X-Received: by 10.55.96.134 with SMTP id u128mr739720qkb.290.1507818354683;
+	Thu, 12 Oct 2017 07:25:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Thu, 12 Oct 2017 06:57:10 -0700 (PDT)
-In-Reply-To: <3f064a29-c6ce-11e8-ce96-69a6affa474d@linux.intel.com>
-References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-	<c0a64a67f9b38870e57ad6b2870b56a4bec3ab3b.1507735448.git.alexander.kanavin@linux.intel.com>
-	<CAMKF1srBmLrP=7suUdZEhRDUWzjYD3B6CMTpL8qtaZv6nVkJ5Q@mail.gmail.com>
-	<3f064a29-c6ce-11e8-ce96-69a6affa474d@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 Oct 2017 06:57:10 -0700
-Message-ID: <CAMKF1sruM1-yPd-QZXw9astRqND1yqOz743urK8kBe7AfvPLiQ@mail.gmail.com>
+Received: by 10.237.34.196 with HTTP; Thu, 12 Oct 2017 07:25:54 -0700 (PDT)
+In-Reply-To: <CALatG=4EguhkFgC-cSJ4tgrLDUtog1FMJN8NAr6WQG2qKmogLw@mail.gmail.com>
+References: <1506920927-1938-1-git-send-email-liu.ming50@gmail.com>
+	<e2c0777f-af1f-d7d9-ebe3-816f4d6059a2@linux.intel.com>
+	<CALatG=4EguhkFgC-cSJ4tgrLDUtog1FMJN8NAr6WQG2qKmogLw@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Thu, 12 Oct 2017 16:25:54 +0200
+Message-ID: <CALatG=7JP1nj6PSwth+5ZvAigVp4iY1o64b3NoWoT80vNgrz2Q@mail.gmail.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 26/50] webkitgtk: update to 2.18.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsolv: fix a kernel-devsrc installation issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +56,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 13:57:39 -0000
+X-List-Received-Date: Thu, 12 Oct 2017 14:25:55 -0000
+Content-Type: multipart/alternative; boundary="94eb2c05436a6ab336055b5a5106"
+
+--94eb2c05436a6ab336055b5a5106
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 12, 2017 at 5:55 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 10/12/2017 08:09 AM, Khem Raj wrote:
+Ping, this patch had been merged to libsolv upstream.
+
+//Ming Liu
+
+2017-10-03 5:59 GMT+02:00 Ming Liu <liu.ming50@gmail.com>:
+
+> Hi, Alexander:
+>
+> Thanks for the input, I will then try to investigate the rpm code for
+> tweaking the values.
+>
+> //Ming Liu
+>
+> 2017-10-02 13:37 GMT+02:00 Alexander Kanavin <alexander.kanavin@linux.
+> intel.com>:
+>
+>> On 10/02/2017 08:08 AM, liu.ming50@gmail.com wrote:
+>>
+>>> From: Ming Liu <liu.ming50@gmail.com>
 >>>
->>> +Upstream-Status: Inappropriate [needs to use musl-specific defines to be
->>> upstreamable]
+>>> This patch aims to fix a kernel-devsrc rpm installation failure on
+>>> target, I had sent the patch to libsolv upstream, but its maintainers
+>>> rejected it with the reason:
+>>> ...
+>>> we probably want to sync these values with RPM code...
+>>> ...
+>>>
+>>> I am not a rpm expert, would somebody please comment on this? Is this a
+>>> issue also should be addressed in rpm?
+>>>
 >>
+>> Note that they did not reject the pull request, but merely commented on
+>> it; it is still open.
 >>
->> I think using __GLIBC__ is sub optimal here. So this change should be
->> upstreamable.
+>> What the upstream probably meant is that rpm could also be defining these
+>> values somewhere, and so instead of just re-defining them blindly to
+>> arbitrary values in libsolv, you should take them from rpm header files, or
+>> otherwise figure out how the header limits are handled in rpm.
 >>
->>> +-#if OS(DARWIN) || ((OS(FREEBSD) || defined(__GLIBC__)) && (CPU(X86) ||
->>> CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
->>> ++#if OS(DARWIN) || ((OS(FREEBSD) || defined(__linux__)) && (CPU(X86) ||
->>> CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
->>
->>
->> We should probably use (OS(LINUX)  instead of defined(__linux__)
->> and this could be upstreamed too.
+>> Alex
 >>
 >
-> I'm not sure if LINUX or __linux___ is optimal either. Perhaps__GLIBC___ ||
-> __musl___ would be better?
 >
 
-musl intentionally does not have a define to identify C library, since this has
-historicslly made libc hide lot of trash under this carpet.
-most of times people assume __GLIBC__ == linux which ofcourse it not true.
+--94eb2c05436a6ab336055b5a5106
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
-> I've changed the upstream-status to Pending in the branch.
->
+<div dir=3D"ltr">Ping, this patch had been merged to libsolv upstream.<div>=
+<br></div><div>//Ming Liu</div></div><div class=3D"gmail_extra"><br><div cl=
+ass=3D"gmail_quote">2017-10-03 5:59 GMT+02:00 Ming Liu <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmai=
+l.com</a>&gt;</span>:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Hi=
+, Alexander:<div><br></div><div>Thanks for the input, I will then try to in=
+vestigate the rpm code for tweaking the values.</div><span class=3D"HOEnZb"=
+><font color=3D"#888888"><div><br></div><div>//Ming Liu</div></font></span>=
+</div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail_extra"><b=
+r><div class=3D"gmail_quote">2017-10-02 13:37 GMT+02:00 Alexander Kanavin <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.intel.com" t=
+arget=3D"_blank">alexander.kanavin@linux.<wbr>intel.com</a>&gt;</span>:<br>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><span>On 10/02/2017 08:08 AM, <a href=3D"mai=
+lto:liu.ming50@gmail.com" target=3D"_blank">liu.ming50@gmail.com</a> wrote:=
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank=
+">liu.ming50@gmail.com</a>&gt;<br>
+<br>
+This patch aims to fix a kernel-devsrc rpm installation failure on<br>
+target, I had sent the patch to libsolv upstream, but its maintainers<br>
+rejected it with the reason:<br>
+...<br>
+we probably want to sync these values with RPM code...<br>
+...<br>
+<br>
+I am not a rpm expert, would somebody please comment on this? Is this a<br>
+issue also should be addressed in rpm?<br>
+</blockquote>
+<br></span>
+Note that they did not reject the pull request, but merely commented on it;=
+ it is still open.<br>
+<br>
+What the upstream probably meant is that rpm could also be defining these v=
+alues somewhere, and so instead of just re-defining them blindly to arbitra=
+ry values in libsolv, you should take them from rpm header files, or otherw=
+ise figure out how the header limits are handled in rpm.<br>
+<br>
+Alex<br>
+</blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
 
-OK
-
-
-> Alex
-
+--94eb2c05436a6ab336055b5a5106--
