@@ -1,50 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DDD4470031;
-	Thu, 12 Oct 2017 02:15:41 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id m28so4046572pfi.0;
-	Wed, 11 Oct 2017 19:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Xce35VjhjsJ8vLGp6hqT82VMh+IMQCYCfmEV5C8zkkI=;
-	b=mh95QdvcaLaEOje9uwrZrNPw6i8OdN+H8nI61H2QxhspeOcr9+W3+vQWDt8I6RchWq
-	gKj0Kcv6rOw9zG0c6s8DCt+S0BzS8JOaCqolxN5cRl8DdZ7kMDYBLSR0g1iX8gBnOUiD
-	VXQ5c7nqFv7KSJVrvEd4i99otFSDpWZ2ApZklx+3BAECyGwg6mC0PH6AGeHwmNNQvZqP
-	1ezxPunbQmmBLSJVYn0Sic2ALDJKFxJCa2X3Afh7AaZD21a9e3E01rZRonfGDfSUDnYY
-	ROdIl4NSNzu4iG95WP1ZSeRQQ/z1vYRNgFaBBQ/CNzHLQRDoomvNp5mE6fLuk8RB/24W
-	SHSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Xce35VjhjsJ8vLGp6hqT82VMh+IMQCYCfmEV5C8zkkI=;
-	b=LrZfnIHjrORSYkhIHqhvOsrr6WpeerGfPH3llkBx+5HEaImCAklUjdZMp2EAdQ73p2
-	87iYVeDnG+NyT0pRoPhhJJl9mh3JWqnrbaFfRWEcW2QogkOuqzJWP04x10Fb3g2MAR4f
-	t9L/aFhcCWa0W8Lp6ov4T60EWOlnKFuvuXigMhalmjGVhNmTuWN8Rw9WOqmj6O1eJL1E
-	sAczrYACfwOhN7ihl0cy/vnJ6qzk/2qcT14LTerkKMRWxrLZDivzy/2EXMov3Y7li5HK
-	ixvZHal9Uqlwwi+CmlAAI6C/7agoHb7tWOqGSC7xYXiS6gvk4W5afBc9/76ILa/1OunH
-	3msA==
-X-Gm-Message-State: AMCzsaVFv4jEy1L2ihHB1x+XP1qr5sJcgqasGfAHfsf3cxwPXoLWQ1Sz
-	SXBMmgKtxXiluLjsF2ZyBLAzYmfENeo0VPMI4Ys=
-X-Google-Smtp-Source: AOwi7QDEpCHkXShaHnMQQEDDcg2MlXA+LZ3ynatFHkjkHaR9lCpJsVr4SPLZgta75S5s31tgsIt1JfLQiSt/LhtwEEI=
-X-Received: by 10.84.138.1 with SMTP id 1mr825555plo.404.1507774542873; Wed,
-	11 Oct 2017 19:15:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Wed, 11 Oct 2017 19:15:12 -0700 (PDT)
-In-Reply-To: <20171012015609.GA3832@jama>
-References: <150754017019.10662.17591818165714630277@git.openembedded.org>
-	<20171009090930.73387234938@git.openembedded.org>
-	<20171012015609.GA3832@jama>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 11 Oct 2017 19:15:12 -0700
-Message-ID: <CAMKF1sptwf=LMdHmXCKN1tCyPGgQcezhvKqHX3rNs113pL1dnQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Return-Path: <Fupan.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 64A136010B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Oct 2017 02:24:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9C2O6AE004368
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Oct 2017 19:24:06 -0700 (PDT)
+Received: from [128.224.176.119] (128.224.176.119) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 11 Oct 2017 19:24:05 -0700
+To: Andrew Goodbody <andrew.goodbody@cambrionix.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 01/01: bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
+References: <20170930022455.137406-1-fupan.li@windriver.com>
+	<LOXP123MB0117058358878B6D1DD5307E85720@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+From: fupan <fupan.li@windriver.com>
+Message-ID: <58df7aa3-65b8-671a-973e-74c348f90632@windriver.com>
+Date: Thu, 12 Oct 2017 10:23:56 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <LOXP123MB0117058358878B6D1DD5307E85720@LOXP123MB0117.GBRP123.PROD.OUTLOOK.COM>
+Subject: Re: [oe] [meta-java][PATCH] openjdk-8-common: Fix the issue of building failed adlc on host with gcc < 6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,91 +36,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 02:15:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 12 Oct 2017 02:24:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Wed, Oct 11, 2017 at 6:56 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Mon, Oct 09, 2017 at 09:09:31AM +0000, git@git.openembedded.org wrote:
->> This is an automated email from the git hooks/post-receive script.
+On 2017/10/3 18:14, Andrew Goodbody wrote:
+>> -----Original Message-----
+>> From: Fupan Li <fupan.li@windriver.com>
 >>
->> rpurdie pushed a commit to branch master
->> in repository openembedded-core.
+>> The patch recipes-core/openjdk/patches-openjdk-8/openjdk8-fix-adlc-
+>> flags.patch
+>> had tried to fix this issue, and it tried to filter out the
+>> TARGET_FLAGS/TARGET_
+>> CXXFLGAS, but for the flags such as "-fno-lifetime-dse" was added to
+>> CFLAGS/CXXFLAGS,
+>> directly, thus that patch failed to filter it out.
 >>
->> commit 8ca61a5464743ff85b6d26886112750d6ddd13e0
->> Author: Chen Qi <Qi.Chen@windriver.com>
->> AuthorDate: Sat Sep 30 16:15:42 2017 +0800
+>> To fix this issue, it's better to add those GCC version specific flags to
+>> BUILD_CFLAGS/
+>> BUILD_CXXFLAGS and TARGET_CFLAGS/TARGET_CXXFLAGS separatedly,
+>> thus that patch can work
+>> as expected.
 >>
->>     bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
->>
->>     Add tools required by testimage to HOSTTOOLS only when testimage is
->>     inherited. These tools, as described in the comment, are only required
->>     by the testimage task. So this change should not have negtive effect.
->>     This would also solve build error on hosts which miss some tool such as scp.
->>
->>     Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>     Signed-off-by: Ross Burton <ross.burton@intel.com>
->>     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Signed-off-by: Fupan Li <fupan.li@windriver.com>
 >> ---
->>  meta/conf/bitbake.conf | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>   recipes-core/openjdk/openjdk-8-common.inc | 36
+>> ++++++++++++++++++++-----------
+>>   1 file changed, 24 insertions(+), 12 deletions(-)
 >>
->> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->> index 6f53b23..0eefb86 100644
->> --- a/meta/conf/bitbake.conf
->> +++ b/meta/conf/bitbake.conf
->> @@ -484,7 +484,7 @@ HOSTTOOLS += " \
->>  "
+>> diff --git a/recipes-core/openjdk/openjdk-8-common.inc b/recipes-
+>> core/openjdk/openjdk-8-common.inc
+>> index 83828e1..c609232 100644
+>> --- a/recipes-core/openjdk/openjdk-8-common.inc
+>> +++ b/recipes-core/openjdk/openjdk-8-common.inc
+>> @@ -231,27 +231,39 @@ FLAGS_GCC7 = "-fno-lifetime-dse -fno-delete-null-
+>> pointer-checks"
+>>   # version is and only add the flags that are appropriate for that GCC
+>>   # version.
 >>
->>  # Tools needed to run testimage runtime image testing
->> -HOSTTOOLS += "ip ping ps scp ssh stty"
->> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
->
-> Shouldn't we include at least ssh by default?
-
-I would say no, since nothing in OE-Core depends on it. more we
-abstract from host system better it is.
-
->
-> I have some builds where CONNECTIVITY_CHECK_URIS contains private git repo (to make sure that users
-> configured their git + ssh correctly before starting the build) and since this change it fails, because
-> of missing ssh:
->
-> ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
->     Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
->     Following is the list of potential problems / advisories:
->
->     Fetcher failure: Fetch command export PATH="...snip.../hosttools"; export HOME="/home/jenkins"; git -c core.fsyncobjectfiles=0 ls-remote ssh://foo.com/bar/repo  failed with exit code 128, output:
-> error: cannot run ssh: No such file or directory
-> fatal: unable to fork
-> .
->     Please ensure your host's network is configured correctly,
->     or set BB_NO_NETWORK = "1" to disable network access if
->     all required sources are on local disk.
->
-> I know I can add ssh locally, but do we really need to be so strict
-> here? We already include git and git might need ssh.
->
-> Regards,
->
->>  # Link to these if present
->>  HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+>> -def version_specific_cflags(d):
+>> +def version_specific_cflags(d, toolchain):
+>>       extraflags = None
+>>       version = None
 >>
+>> -    if bb.data.inherits_class('native', d):
+>> -        from subprocess import Popen, PIPE
+>> +    from subprocess import Popen, PIPE
+>> +    cmd = d.expand('%s -dumpversion' % toolchain ).split()
+>> +    cc = Popen(cmd, stdout=PIPE, stderr=PIPE)
+>> +    version = cc.communicate()[0].decode('utf-8')[0]
+>>
+>> -        cmd = d.expand('${CC} -dumpversion').split()
+>> -        cc = Popen(cmd, stdout=PIPE, stderr=PIPE)
+>> -        version = cc.communicate()[0].decode('utf-8')[0]
+>> +    if version.isdigit():
+>> +        extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
+>> +        return extraflags
+>> +    return ''
+>> +
+>> +python __anonymous() {
+>> +    if bb.data.inherits_class('native', d):
+>> +        toolchain = d.getVar('CC', True)
+>> +        extraflags = version_specific_cflags(d, toolchain)
+>> +        d.appendVar("CFLAGS", ' ' + extraflags)
+>> +        d.appendVar("CXXFLAGS", ' ' + extraflags)
+>>       else:
+>>           # in the cross case, trust that GCCVERSION is correct. This won't
+>>           # work if the native toolchain is Clang, but as of this writing that
+>>           # doesn't work anyway.
+>>           version = d.getVar('GCCVERSION', expand=True)[0]
+>> -
+>> -    if version.isdigit():
+>>           extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
+>> -        return extraflags
+>> -    return ''
+>> +        d.appendVar("TARGET_CFLAGS", ' ' + extraflags)
+>> +        d.appendVar("TARGET_CXXFLAGS", ' ' + extraflags)
+>> +
+>> +        toolchain = d.getVar('BUILD_CC', True)
+>> +        extraflags = version_specific_cflags(d, toolchain)
+>> +        d.appendVar("BUILD_CFLAGS", ' ' + extraflags)
+>> +        d.appendVar("BUILD_CXXFLAGS", ' ' + extraflags)
+>> +}
+>>
+>> -CFLAGS_append = " ${@version_specific_cflags(d)}"
+>> -CXXFLAGS_append = " ${@version_specific_cflags(d)}"
+>>   CXX_append = " -std=gnu++98"
 >> --
->> To stop receiving notification emails like this one, please contact
->> the administrator of this repository.
->> --
->> _______________________________________________
->> Openembedded-commits mailing list
->> Openembedded-commits@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>> 2.11.0
+> I get the following build failure with the above patch now, backing it out makes the build work OK.
+Hi, Andrew
+
+What's your build host, and can you give me
+the steps to reproduce this issue on my side?
+
+Thanks!
+
+Fupan
 >
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> ERROR: /home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjre-8_102b14.bb: Error executing a python function in <code>:
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: '<code>', lineno: 13, function: <module>
+>       0009:__anon_35__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_devshell_bbclass(d)
+>       0010:__anon_101__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_sstate_bbclass(d)
+>       0011:__anon_313__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_package_ipk_bbclass(d)
+>       0012:__anon_154__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_siteinfo_bbclass(d)
+>   *** 0013:__anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc(d)
+>       0014:__anon_108__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_update_alternatives_bbclass(d)
+> File: '/home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjdk-8-common.inc', lineno: 260, function: __anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc
+>       0256:        # work if the native toolchain is Clang, but as of this writing that
+>       0257:        # doesn't work anyway.
+>       0258:        version = d.getVar('GCCVERSION', expand=True)[0]
+>       0259:        extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
+>   *** 0260:        d.appendVar("TARGET_CFLAGS", ' ' + extraflags)
+>       0261:        d.appendVar("TARGET_CXXFLAGS", ' ' + extraflags)
+>       0262:
+>       0263:        toolchain = d.getVar('BUILD_CC', True)
+>       0264:        extraflags = version_specific_cflags(d, toolchain)
+> Exception: ValueError: invalid literal for int() with base 10: 'l'
 >
+> ERROR: Failed to parse recipe: /home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjre-8_102b14.bb
+> ERROR: /home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjdk-8_102b14.bb: Error executing a python function in <code>:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: '<code>', lineno: 13, function: <module>
+>       0009:__anon_35__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_devshell_bbclass(d)
+>       0010:__anon_101__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_sstate_bbclass(d)
+>       0011:__anon_313__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_package_ipk_bbclass(d)
+>       0012:__anon_154__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_siteinfo_bbclass(d)
+>   *** 0013:__anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc(d)
+>       0014:__anon_108__home_andrew_src_camol3_camol_layers_openembedded_core_meta_classes_update_alternatives_bbclass(d)
+> File: '/home/andrew/src/camol3/camol/layers/meta-java/recipes-core/openjdk/openjdk-8-common.inc', lineno: 260, function: __anon_267__home_andrew_src_camol3_camol_layers_meta_java_recipes_core_openjdk_openjdk_8_common_inc
+>       0256:        # work if the native toolchain is Clang, but as of this writing that
+>       0257:        # doesn't work anyway.
+>       0258:        version = d.getVar('GCCVERSION', expand=True)[0]
+>       0259:        extraflags = d.getVar('FLAGS_GCC%d' % int(version), True) or ''
+>   *** 0260:        d.appendVar("TARGET_CFLAGS", ' ' + extraflags)
+>       0261:        d.appendVar("TARGET_CXXFLAGS", ' ' + extraflags)
+>       0262:
+>       0263:        toolchain = d.getVar('BUILD_CC', True)
+>       0264:        extraflags = version_specific_cflags(d, toolchain)
+> Exception: ValueError: invalid literal for int() with base 10: 'l'
+>
+> Andrew
+>
+
 
