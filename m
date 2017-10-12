@@ -1,31 +1,29 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 73C2571A92
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D259671A92
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 12:54:30 +0000 (UTC)
+	Thu, 12 Oct 2017 12:59:05 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Oct 2017 05:54:31 -0700
+	by fmsmga105.fm.intel.com with ESMTP; 12 Oct 2017 05:59:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,366,1503385200"; d="scan'208";a="1181256140"
+X-IronPort-AV: E=Sophos;i="5.43,366,1503385200"; d="scan'208";a="1181257001"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 12 Oct 2017 05:54:30 -0700
-To: Khem Raj <raj.khem@gmail.com>, Denys Dmytriyenko <denis@denix.org>
+	by orsmga001.jf.intel.com with ESMTP; 12 Oct 2017 05:59:05 -0700
+To: Khem Raj <raj.khem@gmail.com>
 References: <cover.1507735448.git.alexander.kanavin@linux.intel.com>
-	<cf33ac88e28b8e91f25d750de9a1385808d5e1f7.1507735448.git.alexander.kanavin@linux.intel.com>
-	<20171012010909.GH9221@denix.org>
-	<CAMKF1sod4hD68FsK8VqGRk7LGhzb55EEbRjijcePvaP2oXkxVg@mail.gmail.com>
+	<c0a64a67f9b38870e57ad6b2870b56a4bec3ab3b.1507735448.git.alexander.kanavin@linux.intel.com>
+	<CAMKF1srBmLrP=7suUdZEhRDUWzjYD3B6CMTpL8qtaZv6nVkJ5Q@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <230d0b85-2cbc-fbb1-c4af-ae8b5f378365@linux.intel.com>
-Date: Thu, 12 Oct 2017 15:50:57 +0300
+Message-ID: <3f064a29-c6ce-11e8-ce96-69a6affa474d@linux.intel.com>
+Date: Thu, 12 Oct 2017 15:55:32 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sod4hD68FsK8VqGRk7LGhzb55EEbRjijcePvaP2oXkxVg@mail.gmail.com>
+In-Reply-To: <CAMKF1srBmLrP=7suUdZEhRDUWzjYD3B6CMTpL8qtaZv6nVkJ5Q@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/50] oprofile: remove the recipe
+Subject: Re: [PATCH 26/50] webkitgtk: update to 2.18.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 12:54:30 -0000
+X-List-Received-Date: Thu, 12 Oct 2017 12:59:06 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 10/12/2017 04:20 AM, Khem Raj wrote:
-> On Wed, Oct 11, 2017 at 6:09 PM, Denys Dmytriyenko <denis@denix.org> wrote:
->> On Wed, Oct 11, 2017 at 06:33:53PM +0300, Alexander Kanavin wrote:
->>> Perf is the preferred solution, and oprofile is difficult to
->>> maintain against musl.
->>
->> Can we consider moving it to meta-openembedded and maybe relaxing
->> requirements, such as musl compatibility?
+On 10/12/2017 08:09 AM, Khem Raj wrote:
+>> +Upstream-Status: Inappropriate [needs to use musl-specific defines to be upstreamable]
 > 
-> I think, if someone maintains it there, it should be fine. Since perf
-> offers same
-> functionality and supports more machines and maintained better. We
-> probably can maintain it in OE-Core.
+> I think using __GLIBC__ is sub optimal here. So this change should be
+> upstreamable.
+> 
+>> +-#if OS(DARWIN) || ((OS(FREEBSD) || defined(__GLIBC__)) && (CPU(X86) || CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
+>> ++#if OS(DARWIN) || ((OS(FREEBSD) || defined(__linux__)) && (CPU(X86) || CPU(X86_64) || CPU(ARM) || CPU(ARM64) || CPU(MIPS)))
+> 
+> We should probably use (OS(LINUX)  instead of defined(__linux__)
+> and this could be upstreamed too.
+> 
 
-Yep. Denys, can you prepare a patch and send it to oe-devel list then 
-please?
+I'm not sure if LINUX or __linux___ is optimal either. Perhaps__GLIBC___ 
+|| __musl___ would be better?
 
+
+I've changed the upstream-status to Pending in the branch.
 
 Alex
 
