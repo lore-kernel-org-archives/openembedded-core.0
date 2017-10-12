@@ -1,23 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B5B2871AB9
+Return-Path: <maxin.john@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A819C60290
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Oct 2017 07:37:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9C7bZkQ001916
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Oct 2017 00:37:35 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 12 Oct 2017 00:37:34 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Thu, 12 Oct 2017 03:37:33 -0400
-Message-ID: <1507793853-140841-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH] archiver: preserve sysroot paths in configured mode for multilib
+	Thu, 12 Oct 2017 08:09:46 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP; 12 Oct 2017 01:09:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,365,1503385200"; d="scan'208";a="322373288"
+Received: from linux.intel.com ([10.54.29.200])
+	by fmsmga004.fm.intel.com with ESMTP; 12 Oct 2017 01:09:46 -0700
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id 0FDAB5802CC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Oct 2017 01:09:45 -0700 (PDT)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Oct 2017 11:09:07 +0300
+Message-Id: <1507795747-8668-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] sstate.bbclass: provide an exception for useradd scenario
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,48 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 07:37:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Oct 2017 08:09:46 -0000
 
-In the following commit, the archiver expanded RECIPE_SYSROOT
-to preserve sysroot paths in configured mode:
-...
-commit aa2240657b015d46e9ba4bcb6264709a82313d83
-Author: Ross Burton <ross.burton@intel.com>
-Date:   Tue Jun 6 15:23:18 2017 +0100
+Packages, which depend on users/groups created from other packages,
+needs "shadow-native" as a build time dependency. So, add an exception
+to the "shadow-native" from otherwise discarded native/cross tools
+dependency.
 
-    archiver: preserve sysroot paths in configured mode
-...
+Fixes [YOCTO #11960]
 
-In meta/conf/multilib.conf, it overrides the variables
-of STAGING_DIR_HOST, STAGING_DIR_TARGET and RECIPE_SYSROOT
-with "${WORKDIR}/${MLPREFIX}recipe-sysroot".
-
-So the archiver should also expand STAGING_DIR_HOST and
-STAGING_DIR_TARGET to preserve sysroot paths in configured mode for
-multilib.
-
-[YOCTO #11584]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
 ---
- meta/classes/archiver.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/sstate.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 18c5b96..ec80ad4 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -223,6 +223,8 @@ python do_ar_configured() {
-     import shutil
- 
-     # Forcibly expand the sysroot paths as we're about to change WORKDIR
-+    d.setVar('STAGING_DIR_HOST', d.getVar('STAGING_DIR_HOST'))
-+    d.setVar('STAGING_DIR_TARGET', d.getVar('STAGING_DIR_TARGET'))
-     d.setVar('RECIPE_SYSROOT', d.getVar('RECIPE_SYSROOT'))
-     d.setVar('RECIPE_SYSROOT_NATIVE', d.getVar('RECIPE_SYSROOT_NATIVE'))
- 
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 2a54993..e30fbe1 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -967,7 +967,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d, log=None):
+             if isNativeCross(taskdependees[dep][0]):
+                 return False
+             # Native/cross tools depended upon by target sysroot are not needed
+-            if isNativeCross(taskdependees[task][0]):
++            # Add an exception for shadow-native as required by useradd.bbclass
++            if isNativeCross(taskdependees[task][0]) and taskdependees[task][0] != 'shadow-native':
+                 continue
+             # Target populate_sysroot need their dependencies
+             return False
 -- 
-1.8.3.1
+2.4.0
 
 
