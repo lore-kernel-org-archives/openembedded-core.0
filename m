@@ -1,47 +1,49 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 16B1678215
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 47F3D78215
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 11:26:26 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id b189so20514019wmd.4
+	Fri, 13 Oct 2017 11:33:54 +0000 (UTC)
+Received: by mail-io0-f178.google.com with SMTP id h70so8650665ioi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 04:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=tdhnjptZ9FGAxM8MFemQ6peUsuhQvW8XGFmps66QBJc=;
-	b=iJtsSxkG6FSOQ1S/1SthXy48o8KWyD0AEVrulTGwaE+EOEemG/CvguHO/KeACJuQqs
-	hfKMaLvkKD8YTZyk4m3IcZHZfLaME8eOhUkz50RrDjJEMMtr8v/htKlaGi6ejqZ28wN+
-	VM8zgQ0JEEHET+35TZam3htHM0B8v8a4LdkB1ck5mmmlYUJ02c0CcOZ2uFWKfsBu6MgW
-	whWeErVWBnHLfSoICok6uzTFZfJC3OCboaDE8O/+E3GZjU642S8/lhFxZ9CW+Bf9i4Te
-	Px0UancQmNJ5yCkZEcyZqIQrZ6+64x02rJ/DSQz5aEQhcqVSVvoW134MoTRfMI427ad7
-	dQvw==
+	Fri, 13 Oct 2017 04:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=a58XmyujhsUKU/UXK+skUCgkHW1vkmZtUiytfFIGL7k=;
+	b=0298mIVNFf5+PaTJb0rf3fl4AqBVqN5YAAZt2lBelpiiN51tk8z3JhCdNKMdu0yHmr
+	1Ygd7GdsiyV+jFHOoOTyz/9MujCsSGqpFqqGMbz22ub4HBqYUrnT1xRBTWx6P2sO56il
+	5oIJz/da56kcT3KTxbbGGKXy5WH/Ts2lnpLNGWttGr2RhQtTEm5Vtg/m5J9rh+4bbG/w
+	1LIq+lHCfkhopFmxwBlDY+VcQgARo/+xYdm1oNjF0NA0M025W9kR5XuR+uNxD2D+GWnB
+	J+HwYUPvFJcN9FH0j7/cR+RGc3iPJLT8cNb8pewglJdZVpms+ikenZVdWP9/rvwRNnXs
+	qEcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tdhnjptZ9FGAxM8MFemQ6peUsuhQvW8XGFmps66QBJc=;
-	b=BPjoiXrUk07h/n42pgwbDSiOCgxkF/H0qRd4iAadp9xaHjKKC0JbMEq2ZAWCymCHEx
-	iZawfdvI8fNWfBcba779NMgiB0/BcMXTB44tJ+ZDKuLPSS84nkUEYyejsdEr3/pGSvYP
-	3akNJz7bTATF2nIiyBWvvVy84JU7mTLuNB+ZLrCWEiko1QY/V2oDRwP09+nxHkVt5YrB
-	zTQYpJiyYN04y/pCzAGIx3WQldi4Skf4PqmOT6mnDUQWx18adFJyV/gzw7OLUb9w9mnY
-	agkZVur7vQggnRwLQf1Ni+nEruYNsvtkKd0CNhwK2FJMz08QzR8h/JVU6gRwZCO/A82Y
-	C2vg==
-X-Gm-Message-State: AMCzsaVKFMX1h5DDzV27SEziEVYmwO/FzcOtaUODc9o3cla3pBUtTLD4
-	hEeg1OAMcknTxVP2cnIhSvgIKA==
-X-Google-Smtp-Source: AOwi7QAh2RrC7nRIdXUfn4TOdCDtbBgavhkCEOY4KwxYAhaZIe62TPqPpz8s1uJ8LJXfxsuTd6RJiQ==
-X-Received: by 10.80.194.1 with SMTP id n1mr1655253edf.1.1507893987823;
-	Fri, 13 Oct 2017 04:26:27 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	([123.125.90.58])
-	by smtp.gmail.com with ESMTPSA id z1sm736354edz.97.2017.10.13.04.26.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Oct 2017 04:26:24 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Oct 2017 13:26:16 +0200
-Message-Id: <1507893976-31129-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=a58XmyujhsUKU/UXK+skUCgkHW1vkmZtUiytfFIGL7k=;
+	b=YyUdwqVipfY7fy1eHEdJ3AsmmRdNF+ZGwpCVdLEmeexF1bGvtexR5cNI2vJU8NSDA1
+	yPWbm0AIy0dpej3esrmxsmzfc6Fu3b4a38XHwaJmuicdVCH7jd4wgsvI8urbCMBXVNC0
+	MWSwbRT1R5ojpL0nAndbCTVkUlZpfZgTCLJl8sDHw7ExNELdV+bwL+dGiA48v1Yy/w0M
+	facVgjXJC34v/WbmHsuSNHv5zfC8722gkaqWZACpgtZqOSFaNEGziaV9Avf5nsnZBUkz
+	SNZ/EcIceICcVFtrbFfEHRAm+oPX6pbhDiJBd6PeANwFahm8E0wdGFgDm5c0+XI2Gg4p
+	LhTg==
+X-Gm-Message-State: AMCzsaV1nqRxW3UR+tGONHGz3/BMNPVB8B+uk06RjIT3UlkWnM0bvo3q
+	uCWXlPQWRs4AdyjO8+UBDmwH2j7zD6UgCGRcEhz8Nw==
+X-Google-Smtp-Source: ABhQp+T/SDPl8ZMnUiS8K1awo+MhtqOJZH0xlVSMC2DflqzRtvgd/c+YuAarRFnsn6pWUJE+GI7e0C/9cd+rLNZwk1M=
+X-Received: by 10.107.18.67 with SMTP id a64mr1356494ioj.165.1507894436285;
+	Fri, 13 Oct 2017 04:33:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.205 with HTTP; Fri, 13 Oct 2017 04:33:35 -0700 (PDT)
+In-Reply-To: <1507836933-142066-1-git-send-email-denis@denix.org>
+References: <1507836933-142066-1-git-send-email-denis@denix.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 13 Oct 2017 12:33:35 +0100
+Message-ID: <CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +56,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 11:26:28 -0000
+X-List-Received-Date: Fri, 13 Oct 2017 11:33:55 -0000
+Content-Type: multipart/alternative; boundary="001a113ee9b23be24f055b6c082d"
 
-From: Ming Liu <liu.ming50@gmail.com>
+--001a113ee9b23be24f055b6c082d
+Content-Type: text/plain; charset="UTF-8"
 
-A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
-the default terminal, when I run any of the tasks:
-bitbake busybox -c menuconfig/devshell/devpyshell
-bitbake virtual/kernel -c menuconfig/devshell/devpyshell
+On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org> wrote:
 
-I got a error as follows:
-"Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
+> From: Denys Dmytriyenko <denys@ti.com>
+>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+>
 
-Seems the environment of the process calling Popen is not passed to the
-child process, this behaviour is a known issue in Python bug tracker:
-http://bugs.python.org/issue8557
+One day I'll figure out why quilt appears to be non-deterministic about
+this but:
 
-It could be fixed by using an absolute path instead per test.
+ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt --quiltrc
+/data/poky-tmp/master/build/work/all-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
+push' exited with 0  Output:
+Applying patch usesysrootprefixforpkgdatadirvariable.patch
+patching file wayland-protocols.pc.in
+Hunk #1 FAILED at 1.
+1 out of 1 hunk FAILED -- rejects in file wayland-protocols.pc.in
+Patch usesysrootprefixforpkgdatadirvariable.patch can be reverse-applied
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/lib/oe/terminal.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ross
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 9eb19a2..94afe39 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -224,7 +224,7 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
-     import time
-     pidfile = tempfile.NamedTemporaryFile(delete = False).name
-     try:
--        sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
-+        sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
-         pipe = terminal(sh_cmd, title, env, d)
-         output = pipe.communicate()[0]
-         if output:
--- 
-2.7.4
+--001a113ee9b23be24f055b6c082d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">On 12 October 2017 at 20:35, Denys Dmytriyenko <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:denis@denix.org" target=3D"_blank">denis@den=
+ix.org</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gm=
+ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204=
+,204,204);padding-left:1ex">From: Denys Dmytriyenko &lt;<a href=3D"mailto:d=
+enys@ti.com">denys@ti.com</a>&gt;<br>
+<br>
+Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com">denys@=
+ti.com</a>&gt;<br></blockquote><div><br></div><div>One day I&#39;ll figure =
+out why quilt appears to be non-deterministic about this but:</div><div><br=
+></div><div>ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: &#39;=
+quilt --quiltrc /data/poky-tmp/master/build/work/all-poky-linux/wayland-pro=
+tocols/1.11-r0/recipe-sysroot-native/etc/quiltrc push&#39; exited with 0 =
+=C2=A0Output:</div><div>Applying patch usesysrootprefixforpkgdatadirvariabl=
+e.patch</div><div>patching file <a href=3D"http://wayland-protocols.pc.in">=
+wayland-protocols.pc.in</a></div><div>Hunk #1 FAILED at 1.</div><div>1 out =
+of 1 hunk FAILED -- rejects in file <a href=3D"http://wayland-protocols.pc.=
+in">wayland-protocols.pc.in</a></div><div>Patch usesysrootprefixforpkgdatad=
+irvariable.patch can be reverse-applied</div><div><br></div><div>Ross=C2=A0=
+</div></div></div></div>
 
+--001a113ee9b23be24f055b6c082d--
