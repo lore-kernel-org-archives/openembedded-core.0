@@ -1,47 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f47.google.com (mail-pg0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A0E8A78253
+Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D1C9F6E650
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 23:12:36 +0000 (UTC)
-Received: by mail-pg0-f47.google.com with SMTP id a192so882281pge.9
+	Fri, 13 Oct 2017 23:19:31 +0000 (UTC)
+Received: by mail-pf0-f177.google.com with SMTP id z11so11498617pfk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 16:12:38 -0700 (PDT)
+	Fri, 13 Oct 2017 16:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NLLO6Wfm+O6jEVirttsyVEIBdOQNnW+/JDNbxzXXFxM=;
-	b=kPdngf7wsq5dSw2Ee+bC+GK8ilP8szFpCbPCoUMNWMVozx3JAi6dh7vdQzBwXw+/lG
-	DUcjKsFPHz0h9GyLnoRx8B9IQcsV3nVXhEWqnNrwkeJN2NkT7DTgvJnggt8mC28wponn
-	5x1azrzC4BUJjFFTQJT3CIUj0YLQNdzKgsK4r2NuluwRJS4xFLosg6Q3J28XjBkFryqe
-	ZIVXYI6m1Lth6DTeh5V8OEJ9PhKD014dpt7is1kDYAu2Jl4nY1qZO8kGxIiBTTjOf3eG
-	dGgSmN27+l4SVUR3hnNRIlTThaSK40OS+4G0uzbJQ1IXIlPhL2upqZ4MYdG3v8GvVt47
-	KvGw==
+	:cc; bh=zSkxCqMi4pLUFdzHQueNGBcfjIwKWTxQcnx9afgJpSA=;
+	b=k4X19uoYRV+j8h480plrH1yAwB5SiLpT5IrnsGoaVWH9YC4CGBc/VUCb+OPm4jWivy
+	7NnC8pf3nuE+/MWqEL2zZjoGHDfy7OR3gIbI+xO9KaTHst3aQlL24G/gdMQsl9Bg0IuN
+	5av9f9SAIw2l0BNLPVjeF4hcVE2+BR41zWd0T6zw4bHUaY6OVYiYX3qhRdrg6SdrjfrK
+	VDwEu0h6xFSCzt0bcnZb12sniF1j4DUMQypWjjZzDs7OjfWAmmK8mQ0XmxUZnFj3pN1P
+	rGre+Bnqtl+V9uvptWxgxAjuy3mNbkj04uny5w29YNwu5hHu9hiLXAETPE8nA/U3uq5y
+	JKKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=NLLO6Wfm+O6jEVirttsyVEIBdOQNnW+/JDNbxzXXFxM=;
-	b=JcFteugM6z7Bk23cYA4psGVyn1GCUpj+DF9tgG3rRkOGZ6jz8PiE9DWHluwdw59emF
-	r/VXwplAlSz7C8FrQCxfP8UNYRVMsGT4O1zh5m4w/38s1Dgw7BzsShYjj+tmRJ9eloka
-	ckSSd0xYKvSdf2YxodFQrlOAT/M9badZykCRd34NOhe7CPsKx90yjoUn57NxO+D1LGBt
-	nNOp9iOgawMIuu2nrnZZFqpJhG0uMpweXOHwiLsi8EcT8hnQ7Hmqa+ia1n6hH6TiTsZH
-	Q1/e63sDbPP1KwCkcG4pD/ME5vbf604bV9PEOtct6j6V940XD00FcedoKi7wrAcCegZY
-	vn8A==
-X-Gm-Message-State: AMCzsaWX1tMyXm24QOYZ1gCHiQ+rUzmiCM6cyafC+9WbEH8nA65EDCX4
-	QyxCnZpaS2bvKL+jmeHQO04MobnCv5hWCXbjq8s=
-X-Google-Smtp-Source: AOwi7QBwMrNWBG3pMaeisSwGMx+YOSZX0qSOTWO9hk3o6OabOaGTZtQyx605vbBIYk+IfHCeOAt2vhkDy0V3V79qLzk=
-X-Received: by 10.98.150.149 with SMTP id s21mr2589465pfk.151.1507936357946;
-	Fri, 13 Oct 2017 16:12:37 -0700 (PDT)
+	bh=zSkxCqMi4pLUFdzHQueNGBcfjIwKWTxQcnx9afgJpSA=;
+	b=Jmrk7TSpPVz4LQPmpz7d9Jf9w0Rw4gvSIpdSJcPGoCNtUJsQk3+x1mCMrnQWeFEK60
+	QxbX+Jky7WrP/i9PGrmS9sEjsduErNAXPMAURr0aXtcw11cqPF8sW9rgcRbeiqATzLlq
+	15n+1oHKpyQqTLb2PTZEVT/hcEq//E1act2GGNBNZ+SRImu+o3/hJGHobxavDwVfKklp
+	eb42Rp7G6/eK+wnfCyPBDrKhff3/+PfBtwkO9YI1IPiZzPSPlNjYl3a4m9bTOuJn5epz
+	g/Js6AEvka5544XRjL/PmKZqA5ud5HAtPXr62J6dEvFbULGcqa5D3g5hKMV0qgpu+ubE
+	d+rA==
+X-Gm-Message-State: AMCzsaX+N9vai6ntGv3LxD8o0Xg8+MGScX2gDU1y7xYlhxjmvA1MNmzt
+	OwHFjB7PRJeCxX8KD72ykT3QiHS3WjkPEVeLqFs=
+X-Google-Smtp-Source: AOwi7QCCrltoEqkiRs+eKtUrepJdY5o+3FcWiA8I1cwJK+V56LSWTNSMQcBF6BehRExjNprcVIHfUzy6ymH7kEK+5ck=
+X-Received: by 10.84.177.129 with SMTP id x1mr2711778plb.161.1507936773015;
+	Fri, 13 Oct 2017 16:19:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1507836933-142066-1-git-send-email-denis@denix.org>
-	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
+References: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
+In-Reply-To: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 Oct 2017 23:12:26 +0000
-Message-ID: <CAMKF1soyqbuKdirGOxfeYp50sLWS2MUFUEYO2zoz0j9TVyD5_A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>, Denys Dmytriyenko <denis@denix.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
+Date: Fri, 13 Oct 2017 23:19:22 +0000
+Message-ID: <CAMKF1sq-CjSGt36V=B5yjg+diaAMFkH8h-N29t4uMuXNV8_qyA@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	openembedded-core@lists.openembedded.org
+Cc: jurobystricky@hotmail.com
+Subject: Re: [PATCH] nettle-ptest: fix a failing test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,38 +54,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 23:12:36 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0a44caf59a09055b75ca5b"
+X-List-Received-Date: Fri, 13 Oct 2017 23:19:31 -0000
+Content-Type: multipart/alternative; boundary="94eb2c11a09ab30f5c055b75e354"
 
---94eb2c0a44caf59a09055b75ca5b
+--94eb2c11a09ab30f5c055b75e354
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 13, 2017 at 4:34 AM Burton, Ross <ross.burton@intel.com> wrote:
+On Fri, Oct 13, 2017 at 12:24 PM Juro Bystricky <juro.bystricky@intel.com>
+wrote:
 
-> On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org> wrote:
+> This patch changes the result of the nettle dlopen-test
+> from FAIL to PASS. The test used to fail because the test could not
+> find and load libnettle.so.
+> This patch fixes this by using absolute path instead of relative.
 >
->> From: Denys Dmytriyenko <denys@ti.com>
->>
->> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
->>
+> This was the only test out of 88 that used to fail.
 >
-> One day I'll figure out why quilt appears to be non-deterministic about
-> this but:
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+>  .../nettle/nettle-3.3/dlopen-test.patch              | 20
+> ++++++++++++++++++++
+>  meta/recipes-support/nettle/nettle_3.3.bb            |  4 ++++
+>  2 files changed, 24 insertions(+)
+>  create mode 100644
+> meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
 >
+> diff --git a/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
+> b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
+> new file mode 100644
+> index 0000000..c4f0b7e
+> --- /dev/null
+> +++ b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
+> @@ -0,0 +1,20 @@
+> +Replace relative path of libnettle.so with absolute path so the test
+> +program can find it.
+> +Relative paths are not suitable, as the folder strucure for ptest
+> +is different from the one expected by the nettle testsuite.
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> +
+> +--- a/testsuite/dlopen-test.c  2016-10-01 00:28:38.000000000 -0700
+> ++++ b/testsuite/dlopen-test.c  2017-10-13 11:08:57.227572860 -0700
+> +@@ -9,7 +9,7 @@
+> + main (int argc UNUSED, char **argv UNUSED)
+> + {
+> + #if HAVE_LIBDL
+> +-  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
+> ++  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
 
-Does it have CR LF end of line botch ups
+
+I think it would be preferred if you could use LD_LIBRARY_PATH to search
+for it
 
 >
-> ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt --quiltrc
-> /data/poky-tmp/master/build/work/all-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
-> push' exited with 0  Output:
-> Applying patch usesysrootprefixforpkgdatadirvariable.patch
-> patching file wayland-protocols.pc.in
-> Hunk #1 FAILED at 1.
-> 1 out of 1 hunk FAILED -- rejects in file wayland-protocols.pc.in
-> Patch usesysrootprefixforpkgdatadirvariable.patch can be reverse-applied
+> +   int (*get_version)(void);
+> +   if (!handle)
+> +     {
+> diff --git a/meta/recipes-support/nettle/nettle_3.3.bb
+> b/meta/recipes-support/nettle/nettle_3.3.bb
+> index b76babf..3951678 100644
+> --- a/meta/recipes-support/nettle/nettle_3.3.bb
+> +++ b/meta/recipes-support/nettle/nettle_3.3.bb
+> @@ -11,5 +11,9 @@ SRC_URI += "\
+>              file://check-header-files-of-openssl-only-if-enable_.patch \
+>              "
 >
-> Ross
+> +SRC_URI_append_class-target = "\
+> +            file://dlopen-test.patch \
+> +            "
+> +
+>  SRC_URI[md5sum] = "10f969f78a463704ae73529978148dbe"
+>  SRC_URI[sha256sum] =
+> "46942627d5d0ca11720fec18d81fc38f7ef837ea4197c1f630e71ce0d470b11e"
+> --
+> 2.7.4
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -93,42 +138,92 @@ Does it have CR LF end of line botch ups
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---94eb2c0a44caf59a09055b75ca5b
+--94eb2c11a09ab30f5c055b75e354
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Oct 13, 2017 =
-at 4:34 AM Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.b=
-urton@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
->On 12 October 2017 at 20:35, Denys Dmytriyenko <span>&lt;<a href=3D"mailto=
-:denis@denix.org" target=3D"_blank">denis@denix.org</a>&gt;</span> wrote:<b=
-r></div><div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
-th:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-l=
-eft:1ex">From: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com" target=
-=3D"_blank">denys@ti.com</a>&gt;<br>
+at 12:24 PM Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com">=
+juro.bystricky@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">This patch changes the result of the nettle dlopen-test<br>
+from FAIL to PASS. The test used to fail because the test could not<br>
+find and load libnettle.so.<br>
+This patch fixes this by using absolute path instead of relative.<br>
 <br>
-Signed-off-by: Denys Dmytriyenko &lt;<a href=3D"mailto:denys@ti.com" target=
-=3D"_blank">denys@ti.com</a>&gt;<br></blockquote><div><br></div></div></div=
-></div><div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div>One =
-day I&#39;ll figure out why quilt appears to be non-deterministic about thi=
-s but:</div><div></div></div></div></div></blockquote><div dir=3D"auto"><br=
-></div><div dir=3D"auto">Does it have CR LF end of line botch ups=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><div><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><div><br></div><div>ERROR: wayland-protocols-1.11-r0 do_pa=
-tch: Command Error: &#39;quilt --quiltrc /data/poky-tmp/master/build/work/a=
-ll-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc p=
-ush&#39; exited with 0 =C2=A0Output:</div><div>Applying patch usesysrootpre=
-fixforpkgdatadirvariable.patch</div><div>patching file <a href=3D"http://wa=
-yland-protocols.pc.in" target=3D"_blank">wayland-protocols.pc.in</a></div><=
-div>Hunk #1 FAILED at 1.</div><div>1 out of 1 hunk FAILED -- rejects in fil=
-e <a href=3D"http://wayland-protocols.pc.in" target=3D"_blank">wayland-prot=
-ocols.pc.in</a></div><div>Patch usesysrootprefixforpkgdatadirvariable.patch=
- can be reverse-applied</div></div></div></div><div><div class=3D"gmail_ext=
-ra"><div class=3D"gmail_quote"><div><br></div><div>Ross=C2=A0</div></div></=
-div></div>
+This was the only test out of 88 that used to fail.<br>
+<br>
+Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.co=
+m" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
+---<br>
+=C2=A0.../nettle/nettle-3.3/dlopen-test.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | 20 ++++++++++++++++++++<br>
+=C2=A0meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"n=
+oreferrer" target=3D"_blank">nettle_3.3.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 4 ++++<br>
+=C2=A02 files changed, 24 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-support/nettle/nettle-3.3/dlopen-test=
+.patch<br>
+<br>
+diff --git a/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch b/met=
+a/recipes-support/nettle/nettle-3.3/dlopen-test.patch<br>
+new file mode 100644<br>
+index 0000000..c4f0b7e<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch<br>
+@@ -0,0 +1,20 @@<br>
++Replace relative path of libnettle.so with absolute path so the test<br>
++program can find it.<br>
++Relative paths are not suitable, as the folder strucure for ptest<br>
++is different from the one expected by the nettle testsuite.<br>
++<br>
++Upstream-Status: Inappropriate [embedded specific]<br>
++<br>
++Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.c=
+om" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
++<br>
++--- a/testsuite/dlopen-test.c=C2=A0 2016-10-01 00:28:38.000000000 -0700<br=
+>
+++++ b/testsuite/dlopen-test.c=C2=A0 2017-10-13 11:08:57.227572860 -0700<br=
+>
++@@ -9,7 +9,7 @@<br>
++ main (int argc UNUSED, char **argv UNUSED)<br>
++ {<br>
++ #if HAVE_LIBDL<br>
++-=C2=A0 void *handle =3D dlopen (&quot;../libnettle.so&quot;, RTLD_NOW);<b=
+r>
+++=C2=A0 void *handle =3D dlopen (&quot;/usr/lib/libnettle.so&quot;, RTLD_N=
+OW);</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I think it w=
+ould be preferred if you could use LD_LIBRARY_PATH to search for it</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex"><br>
++=C2=A0 =C2=A0int (*get_version)(void);<br>
++=C2=A0 =C2=A0if (!handle)<br>
++=C2=A0 =C2=A0 =C2=A0{<br>
+diff --git a/meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" r=
+el=3D"noreferrer" target=3D"_blank">nettle_3.3.bb</a> b/meta/recipes-suppor=
+t/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">nettle_3.3.bb</a><br>
+index b76babf..3951678 100644<br>
+--- a/meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"n=
+oreferrer" target=3D"_blank">nettle_3.3.bb</a><br>
++++ b/meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"n=
+oreferrer" target=3D"_blank">nettle_3.3.bb</a><br>
+@@ -11,5 +11,9 @@ SRC_URI +=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://check-header-files-o=
+f-openssl-only-if-enable_.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
++SRC_URI_append_class-target =3D &quot;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dlopen-test.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
++<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;10f969f78a463704ae73529978148dbe&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;46942627d5d0ca11720fec18d81fc38f7ef837ea=
+4197c1f630e71ce0d470b11e&quot;<br>
+--<br>
+2.7.4<br>
+<br>
 --<br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
@@ -139,4 +234,4 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 n/listinfo/openembedded-core</a><br>
 </blockquote></div></div>
 
---94eb2c0a44caf59a09055b75ca5b--
+--94eb2c11a09ab30f5c055b75e354--
