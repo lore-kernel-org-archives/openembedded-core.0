@@ -1,28 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C63B71975
+Return-Path: <pascal.bach@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AEEF60797
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 10:41:19 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Oct 2017 03:41:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,370,1503385200"; d="scan'208";a="1181579985"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga001.jf.intel.com with ESMTP; 13 Oct 2017 03:41:19 -0700
-To: Kristian Amlie <kristian.amlie@northern.tech>,
-	openembedded-core@lists.openembedded.org
-References: <25961b50-eda5-5b7e-1bb0-01ef5c521d2e@northern.tech>
-	<1507885712-31230-1-git-send-email-kristian.amlie@northern.tech>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <6a525f12-f5ea-d079-83d8-46e6394be8ff@linux.intel.com>
-Date: Fri, 13 Oct 2017 13:37:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <1507885712-31230-1-git-send-email-kristian.amlie@northern.tech>
-Subject: Re: [PATCH v6] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
+	Fri, 13 Oct 2017 11:14:59 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v9DBF0nE028437
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Oct 2017 13:15:00 +0200
+Received: from dev.sbt.siemens.com (MD1FZU9C.ad001.siemens.net [139.16.76.113])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id v9DBF0iK027459;
+	Fri, 13 Oct 2017 13:15:00 +0200
+From: Pascal Bach <pascal.bach@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Oct 2017 13:14:41 +0200
+Message-Id: <1507893281-22628-1-git-send-email-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] bmap-tools: add missing runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,20 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 10:41:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Oct 2017 11:15:00 -0000
 
-On 10/13/2017 12:08 PM, Kristian Amlie wrote:
-> Rebased again.
-> 
-> Can we get this in please? It has been reviewed and rebased several times
-> already, and has lingered on the list for a long time.
+When running bmap on a target device the added dependncies are required.
 
-Bear with the pre-release freeze period please; once rocko is out 
-patches will start flowing to master again.
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ meta/recipes-support/bmap-tools/bmap-tools_3.4.bb | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+index 7454f9d..348c9e8 100644
+--- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
++++ b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+@@ -14,7 +14,17 @@ SRCREV = "9dad724104df265442226972a1e310813f9ffcba"
+ 
+ S = "${WORKDIR}/git"
+ 
+-RDEPENDS_${PN} = "python-core python-compression python-mmap"
++RDEPENDS_${PN} = "\
++    python-core \
++    python-compression \
++    python-argparse \
++    python-shell \
++    python-fcntl \
++    python-threading \
++    python-xml \
++    python-subprocess \
++    python-mmap \
++    "
+ 
+ inherit python3native
+ inherit setuptools3
+-- 
+2.1.4
 
 
