@@ -1,58 +1,47 @@
-Return-Path: <kristian.amlie@northern.tech>
-Received: from mail-lf0-f41.google.com (mail-lf0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 82644605BE
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 16B1678215
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 11:22:45 +0000 (UTC)
-Received: by mail-lf0-f41.google.com with SMTP id r129so9236180lff.8
+	Fri, 13 Oct 2017 11:26:26 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id b189so20514019wmd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 04:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=northern.tech; s=google;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=QiS5RU3NxORMi7WNFi8NQfPNuDlqxkBr5Xxz3Oz3w1M=;
-	b=mwE0I4TIhxp/6yzuoYMbnRQT5A725MhRFEwPCqZQYBeUJWMp4GFNTM3DBr5C3eo4Y6
-	xKUbuXqtP0ZUvt4hEYX63iUDYChuZon7OCzUuuEp32n5rhtjuLJ107DrQi8QpWoKshPd
-	v6mk2SFJ22BGqs5LD/ZBp3CvT8qlYHFdfwaUQ2VS8YCBjyMqVCBM3BmJegW+PrWfeQNh
-	11wN3a+mj9FTgu6P0XZifJg+iKk1JKely987BKVT4iz8iucpen4ZYKrHdc6yb5+ZL79K
-	c1WRv876I50DDP0pSynlALjeKgZhnIaFIK1CXrd7GJW7/dNivqnsfUeOVTFmuUlwZ1W+
-	4brQ==
+	Fri, 13 Oct 2017 04:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=tdhnjptZ9FGAxM8MFemQ6peUsuhQvW8XGFmps66QBJc=;
+	b=iJtsSxkG6FSOQ1S/1SthXy48o8KWyD0AEVrulTGwaE+EOEemG/CvguHO/KeACJuQqs
+	hfKMaLvkKD8YTZyk4m3IcZHZfLaME8eOhUkz50RrDjJEMMtr8v/htKlaGi6ejqZ28wN+
+	VM8zgQ0JEEHET+35TZam3htHM0B8v8a4LdkB1ck5mmmlYUJ02c0CcOZ2uFWKfsBu6MgW
+	whWeErVWBnHLfSoICok6uzTFZfJC3OCboaDE8O/+E3GZjU642S8/lhFxZ9CW+Bf9i4Te
+	Px0UancQmNJ5yCkZEcyZqIQrZ6+64x02rJ/DSQz5aEQhcqVSVvoW134MoTRfMI427ad7
+	dQvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=QiS5RU3NxORMi7WNFi8NQfPNuDlqxkBr5Xxz3Oz3w1M=;
-	b=ZDvCfgVzd0UuVhNfB/CfnHxmuiPR6BycF9AszmADuNKJUt+odTIu+YkRlAdhsv9kbu
-	HwvNqYY7zy5c/5SToJh0o/k7kQizDB+vG6eY3d3KmaPcNjaI1Rr9wNOGwhH6SQ6JOXYm
-	fwNHK8QsRw1ZQAGQuab9SYqBSRlDsMn5fWgOYuBSfwvsgj7kFEjTe4f2X4/hrz1/Irvr
-	T8i8zpJ70WB5d9r8CVXf3Fs3XqaCVadpHCEyfVxgygIFzUxp4D3AjOx+tKeI49tkUhGG
-	MfrkJNzdwNnxat3Q1klsEmPMNI6/OapHkUKURa5OTgsNzJdTLm0/1HQhvSXpilhNsqlO
-	Ay0A==
-X-Gm-Message-State: AMCzsaUJbGOipIsc0ZuFg6YKQlbt8Tq0A2XRdkHA42ATnziOgJf/q81r
-	rbMhXGQA8ua5yIk4bGkxPjwUhQ==
-X-Google-Smtp-Source: AOwi7QCS7d9iWypc7UEEbReYWD3/eeiU0akF9OjWQNm2ei8wZ6Z2k+SaGls7yPDjfS6N9/Az9ymV7g==
-X-Received: by 10.46.71.77 with SMTP id u74mr554616lja.79.1507893765942;
-	Fri, 13 Oct 2017 04:22:45 -0700 (PDT)
-Received: from [10.20.33.194] ([195.159.234.190])
-	by smtp.googlemail.com with ESMTPSA id
-	r84sm178897ljb.28.2017.10.13.04.22.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Oct 2017 04:22:44 -0700 (PDT)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <25961b50-eda5-5b7e-1bb0-01ef5c521d2e@northern.tech>
-	<1507885712-31230-1-git-send-email-kristian.amlie@northern.tech>
-	<6a525f12-f5ea-d079-83d8-46e6394be8ff@linux.intel.com>
-From: Kristian Amlie <kristian.amlie@northern.tech>
-Message-ID: <51087e92-b5a0-9d48-0a1f-9c4f61ef6049@northern.tech>
-Date: Fri, 13 Oct 2017 13:22:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <6a525f12-f5ea-d079-83d8-46e6394be8ff@linux.intel.com>
-Subject: Re: [PATCH v6] do_image: Implement IMAGE_ROOTFS_EXCLUDE_PATH feature.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tdhnjptZ9FGAxM8MFemQ6peUsuhQvW8XGFmps66QBJc=;
+	b=BPjoiXrUk07h/n42pgwbDSiOCgxkF/H0qRd4iAadp9xaHjKKC0JbMEq2ZAWCymCHEx
+	iZawfdvI8fNWfBcba779NMgiB0/BcMXTB44tJ+ZDKuLPSS84nkUEYyejsdEr3/pGSvYP
+	3akNJz7bTATF2nIiyBWvvVy84JU7mTLuNB+ZLrCWEiko1QY/V2oDRwP09+nxHkVt5YrB
+	zTQYpJiyYN04y/pCzAGIx3WQldi4Skf4PqmOT6mnDUQWx18adFJyV/gzw7OLUb9w9mnY
+	agkZVur7vQggnRwLQf1Ni+nEruYNsvtkKd0CNhwK2FJMz08QzR8h/JVU6gRwZCO/A82Y
+	C2vg==
+X-Gm-Message-State: AMCzsaVKFMX1h5DDzV27SEziEVYmwO/FzcOtaUODc9o3cla3pBUtTLD4
+	hEeg1OAMcknTxVP2cnIhSvgIKA==
+X-Google-Smtp-Source: AOwi7QAh2RrC7nRIdXUfn4TOdCDtbBgavhkCEOY4KwxYAhaZIe62TPqPpz8s1uJ8LJXfxsuTd6RJiQ==
+X-Received: by 10.80.194.1 with SMTP id n1mr1655253edf.1.1507893987823;
+	Fri, 13 Oct 2017 04:26:27 -0700 (PDT)
+Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
+	([123.125.90.58])
+	by smtp.gmail.com with ESMTPSA id z1sm736354edz.97.2017.10.13.04.26.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 Oct 2017 04:26:24 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Oct 2017 13:26:16 +0200
+Message-Id: <1507893976-31129-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] lib/oe/terminal.py: use an absolute path to execute oe-gnome-terminal-phonehome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,23 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 11:22:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Oct 2017 11:26:28 -0000
 
-On 13/10/17 12:37, Alexander Kanavin wrote:
-> On 10/13/2017 12:08 PM, Kristian Amlie wrote:
->> Rebased again.
->>
->> Can we get this in please? It has been reviewed and rebased several times
->> already, and has lingered on the list for a long time.
-> 
-> Bear with the pre-release freeze period please; once rocko is out
-> patches will start flowing to master again.
+From: Ming Liu <liu.ming50@gmail.com>
 
-Oh ok, I'm not following the schedule. I will try again in a while then.
+A flaw was found on my Ubuntu 14.04.5 LTS, on which that gnome-terminal is
+the default terminal, when I run any of the tasks:
+bitbake busybox -c menuconfig/devshell/devpyshell
+bitbake virtual/kernel -c menuconfig/devshell/devpyshell
 
+I got a error as follows:
+"Failed to execute child process "oe-gnome-terminal-phonehome" (No such file or directory)"
+
+Seems the environment of the process calling Popen is not passed to the
+child process, this behaviour is a known issue in Python bug tracker:
+http://bugs.python.org/issue8557
+
+It could be fixed by using an absolute path instead per test.
+
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/lib/oe/terminal.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 9eb19a2..94afe39 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -224,7 +224,7 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
+     import time
+     pidfile = tempfile.NamedTemporaryFile(delete = False).name
+     try:
+-        sh_cmd = "oe-gnome-terminal-phonehome " + pidfile + " " + sh_cmd
++        sh_cmd = bb.utils.which(os.getenv('PATH'), "oe-gnome-terminal-phonehome") + " " + pidfile + " " + sh_cmd
+         pipe = terminal(sh_cmd, title, env, d)
+         output = pipe.communicate()[0]
+         if output:
 -- 
-Kristian
+2.7.4
+
 
