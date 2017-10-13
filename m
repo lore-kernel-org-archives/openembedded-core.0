@@ -1,21 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E8A27198A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F2677E87
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 14:22:04 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Oct 2017 07:22:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,371,1503385200"; d="scan'208";a="160161877"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 13 Oct 2017 07:22:04 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Oct 2017 17:18:32 +0300
-Message-Id: <20171013141832.24325-1-alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.14.1
-Subject: [PATCH] prelink: fix upstream version check
+	Fri, 13 Oct 2017 14:56:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9DEuM5S026003
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Oct 2017 07:56:23 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 13 Oct 2017 07:56:22 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20171013141832.24325-1-alexander.kanavin@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <077b5862-bb57-8447-4cca-5301740ff945@windriver.com>
+Date: Fri, 13 Oct 2017 09:56:21 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <20171013141832.24325-1-alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH] prelink: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,30 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 14:22:05 -0000
+X-List-Received-Date: Fri, 13 Oct 2017 14:56:22 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Instead of reporting that we can update to a bogus version
-report that upstream version is not known.
+On 10/13/17 9:18 AM, Alexander Kanavin wrote:
+> Instead of reporting that we can update to a bogus version
+> report that upstream version is not known.
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/prelink/prelink_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+You do know that there are release branches for prelink right?
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index a137a864921..570ef36a3cc 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -32,6 +32,8 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
-            file://prelink.cron.daily \
-            file://prelink.default \
- 	   file://macros.prelink"
-+UPSTREAM_CHECK_GITTAGREGEX = "upstream has no usable tags"
-+UPSTREAM_VERSION_UNKNOWN = "1"
- 
- TARGET_OS_ORIG := "${TARGET_OS}"
- OVERRIDES_append = ":${TARGET_OS_ORIG}"
--- 
-2.14.1
+http://git.yoctoproject.org/cgit/cgit.cgi/prelink-cross/refs/heads
+
+cross_prelink and master are both 'release' quality branches.
+
+Anything put there is a new version.
+
+
+There is nothing for us to 'tag', since there are no formal versions.
+
+
+Should be easy enough for the system to compare the SRCREV to the top of
+cross_prelink.  If they don't match, an upgrade is needed.
+
+--Mark
+
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-devtools/prelink/prelink_git.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+> index a137a864921..570ef36a3cc 100644
+> --- a/meta/recipes-devtools/prelink/prelink_git.bb
+> +++ b/meta/recipes-devtools/prelink/prelink_git.bb
+> @@ -32,6 +32,8 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
+>             file://prelink.cron.daily \
+>             file://prelink.default \
+>  	   file://macros.prelink"
+> +UPSTREAM_CHECK_GITTAGREGEX = "upstream has no usable tags"
+> +UPSTREAM_VERSION_UNKNOWN = "1"
+>  
+>  TARGET_OS_ORIG := "${TARGET_OS}"
+>  OVERRIDES_append = ":${TARGET_OS_ORIG}"
+> 
 
 
