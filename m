@@ -1,35 +1,22 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 80C7B78256
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C7C6612D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 16:28:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 4512320ABA;
-	Fri, 13 Oct 2017 16:28:28 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 6CRQFPe9IMU8; Fri, 13 Oct 2017 16:28:28 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 227332085D;
-	Fri, 13 Oct 2017 16:28:26 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 97EB81626ED; Fri, 13 Oct 2017 12:28:25 -0400 (EDT)
-Date: Fri, 13 Oct 2017 12:28:25 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171013162825.GN9221@denix.org>
-References: <1507836933-142066-1-git-send-email-denis@denix.org>
-	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
+	Fri, 13 Oct 2017 17:45:12 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Oct 2017 10:45:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,371,1503385200"; d="scan'208";a="160233604"
+Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
+	by orsmga005.jf.intel.com with ESMTP; 13 Oct 2017 10:45:13 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Oct 2017 10:45:05 -0700
+Message-Id: <1507916705-89854-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.7.4
+Cc: jurobystricky@hotmail.com
+Subject: [PATCH] gawk-ptest: fix a failing test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 16:28:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 Oct 2017 17:45:12 -0000
 
-On Fri, Oct 13, 2017 at 12:33:35PM +0100, Burton, Ross wrote:
-> On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org> wrote:
-> 
-> > From: Denys Dmytriyenko <denys@ti.com>
-> >
-> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> >
-> 
-> One day I'll figure out why quilt appears to be non-deterministic about
-> this but:
-> 
-> ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt --quiltrc
-> /data/poky-tmp/master/build/work/all-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
-> push' exited with 0  Output:
-> Applying patch usesysrootprefixforpkgdatadirvariable.patch
+This patch changes the result of the "include" test
+from FAIL to PASS. The test used to fail as the test prerequisite
+was missing.
+This was the only test out of 298 that used to fail.
 
-I don't see this patch in master. Works fine in distroless and poky from 
-master.
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/recipes-extended/gawk/gawk_4.1.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/gawk/gawk_4.1.4.bb b/meta/recipes-extended/gawk/gawk_4.1.4.bb
+index 04451f7..995d37d 100644
+--- a/meta/recipes-extended/gawk/gawk_4.1.4.bb
++++ b/meta/recipes-extended/gawk/gawk_4.1.4.bb
+@@ -41,7 +41,7 @@ inherit ptest
+ 
+ do_install_ptest() {
+ 	mkdir ${D}${PTEST_PATH}/test
+-	for i in `grep -vE "@|^$|#|Gt-dummy" ${S}/test/Maketests |awk -F: '{print $1}'` Maketests; \
++	for i in `grep -vE "@|^$|#|Gt-dummy" ${S}/test/Maketests |awk -F: '{print $1}'` Maketests inclib.awk; \
+ 	  do cp ${S}/test/$i* ${D}${PTEST_PATH}/test; \
+ 	done
+ }
+-- 
+2.7.4
 
-> patching file wayland-protocols.pc.in
-> Hunk #1 FAILED at 1.
-> 1 out of 1 hunk FAILED -- rejects in file wayland-protocols.pc.in
-> Patch usesysrootprefixforpkgdatadirvariable.patch can be reverse-applied
-> 
-> Ross
 
