@@ -1,22 +1,47 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id EE9076025E
+Return-Path: <pbarker@toganlabs.com>
+Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ABC560807
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 19:24:04 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Oct 2017 12:24:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,372,1503385200"; d="scan'208";a="160266886"
-Received: from juro-s2600cwr.jf.intel.com ([10.7.198.159])
-	by orsmga005.jf.intel.com with ESMTP; 13 Oct 2017 12:24:05 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
+	Fri, 13 Oct 2017 19:25:56 +0000 (UTC)
+Received: by mail-wm0-f46.google.com with SMTP id u138so23286493wmu.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Oct 2017 12:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=tAKOGZbvwjwLcy9TqqjE9nxZwkSSZbbYn7y2r97QECY=;
+	b=yoXUv/iikE7Brh6aeiyd56F3zCLxybto+rmFt4Vw+xTglroiUvukDTeLRCSTqUdroO
+	YrDHx8DbKIT6sgDEv01bzeJnGI8wb3FxFj4ls+xGoLGq7MVbACrmJc7upryQuWzCt7kc
+	8Xp2wPRkou2WVZXjQSoqTDryvmrgFUkDKMjpLEtRzhojyOOe7YVb+q6wAKy78pwIVm8L
+	me6MfYNKF4KKg2nuZjVvSoX5082H/FNNU7w7Gsu62lrGxk3QAbjjg8xKlZ4igx3rku87
+	rJfR8ChhhcsTQDg2wG0epTmfS+NxtazG4hBJh1TbV4biaZkQPp2Nz6p+o1yiFmLJaMyr
+	htaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tAKOGZbvwjwLcy9TqqjE9nxZwkSSZbbYn7y2r97QECY=;
+	b=FkazlP8TbZStG7aEKMHK5D4SY0OsUcVwONUrST7Nw+n4ixfYuvKmMqiFhnVo3Cb30J
+	Ryzdy73VvfIqf9lhjSOWQxDvhFoFcQjS33tYSjk1zLG2B0EuedmIydKyZ5Q5IeeZtVzu
+	N1t0f92uY6Mk1VuD5uijMm4GcFXllcNJAqq/MmBwaWwIcZHXOYkeGIPxFEq2BHfYKMEX
+	tG8ztd4Rn30FanBpoilD9P6UDcggXfsokCB/lCaPe23fdzsySmipRMAS1QFRgdoJcSiO
+	6od09CfGt1tIpjqRIGW+9jjGgEg2LsmETzvfSJBS88LWjUtrii2CReE2mhBGrJdw47gU
+	ExTg==
+X-Gm-Message-State: AMCzsaU0bjfDMxwxUw8q6l3fAX6UOTtMW8LPUSxc3mndKDhQi3hUeFqE
+	av8E8CVMqD1C3q31LO2mYM6R9cIL
+X-Google-Smtp-Source: ABhQp+QHpDrbdl1E90mVFGyJusOAjUBF2/lku61vogq9TI7bS8+8oc2RceJsaSKBdFaITI35djXlgA==
+X-Received: by 10.28.55.2 with SMTP id e2mr2392255wma.60.1507922757108;
+	Fri, 13 Oct 2017 12:25:57 -0700 (PDT)
+Received: from build1.toganlabs.com (build1.toganlabs.com. [88.99.240.167])
+	by smtp.gmail.com with ESMTPSA id
+	q188sm1538362wmb.43.2017.10.13.12.25.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 13 Oct 2017 12:25:56 -0700 (PDT)
+From: Paul Barker <pbarker@toganlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Oct 2017 12:24:03 -0700
-Message-Id: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
+Date: Fri, 13 Oct 2017 19:25:27 +0000
+Message-Id: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
 X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] nettle-ptest: fix a failing test
+Subject: [PATCH 0/2] Define GO386 for go cross-compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,62 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 19:24:05 -0000
+X-List-Received-Date: Fri, 13 Oct 2017 19:25:57 -0000
 
-This patch changes the result of the nettle dlopen-test
-from FAIL to PASS. The test used to fail because the test could not
-find and load libnettle.so.
-This patch fixes this by using absolute path instead of relative.
+These changes resolve the "illegal instruction" errors seen when running go
+binaries on qemux86 by ensuring that the GO386 environment variable is exported
+and set to an appropriate value. This variable in turn controls the floating
+point instructions emitted by the go compiler for x86 platforms and must be set
+to "387" for platforms which do not support sse2 instructions.
 
-This was the only test out of 88 that used to fail.
+The go_map_386 function is initially implemented to recognise the two x86
+tunings defined in oe-core which support sse2 instructions: "core2" and
+"corei7". This can be extended later if additional tunings need to be recognised
+to support x86 targets defined in other layers.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- .../nettle/nettle-3.3/dlopen-test.patch              | 20 ++++++++++++++++++++
- meta/recipes-support/nettle/nettle_3.3.bb            |  4 ++++
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
+My hope is that these patches are suitable for inclusion in the rocko branch
+(after the 2.4.0 release now). If not then please flag this and I'll look for
+alternative solutions. I don't think that leaving all go binaries as broken on
+qemux86 if they happen to use floating point operations is a valid option for
+the rocko branch.
 
-diff --git a/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
-new file mode 100644
-index 0000000..c4f0b7e
---- /dev/null
-+++ b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
-@@ -0,0 +1,20 @@
-+Replace relative path of libnettle.so with absolute path so the test
-+program can find it.
-+Relative paths are not suitable, as the folder strucure for ptest
-+is different from the one expected by the nettle testsuite.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-+
-+--- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
-++++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
-+@@ -9,7 +9,7 @@
-+ main (int argc UNUSED, char **argv UNUSED)
-+ {
-+ #if HAVE_LIBDL
-+-  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
-++  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
-+   int (*get_version)(void);
-+   if (!handle)
-+     {
-diff --git a/meta/recipes-support/nettle/nettle_3.3.bb b/meta/recipes-support/nettle/nettle_3.3.bb
-index b76babf..3951678 100644
---- a/meta/recipes-support/nettle/nettle_3.3.bb
-+++ b/meta/recipes-support/nettle/nettle_3.3.bb
-@@ -11,5 +11,9 @@ SRC_URI += "\
-             file://check-header-files-of-openssl-only-if-enable_.patch \
-             "
- 
-+SRC_URI_append_class-target = "\
-+            file://dlopen-test.patch \
-+            "
-+
- SRC_URI[md5sum] = "10f969f78a463704ae73529978148dbe"
- SRC_URI[sha256sum] = "46942627d5d0ca11720fec18d81fc38f7ef837ea4197c1f630e71ce0d470b11e"
+Paul Barker (2):
+  goarch.bbclass: Define HOST_GO386 and TARGET_GO386
+  go: Export correct GO386 value for target
+
+ meta/classes/goarch.bbclass                    | 11 +++++++++++
+ meta/recipes-devtools/go/go-cross-canadian.inc |  1 +
+ meta/recipes-devtools/go/go-cross.inc          |  2 ++
+ meta/recipes-devtools/go/go-runtime.inc        |  1 +
+ meta/recipes-devtools/go/go-target.inc         |  1 +
+ 5 files changed, 16 insertions(+)
+
 -- 
 2.7.4
 
