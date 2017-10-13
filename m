@@ -1,28 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 23F2677E87
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 80C7B78256
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 14:56:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9DEuM5S026003
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 07:56:23 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 13 Oct 2017 07:56:22 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20171013141832.24325-1-alexander.kanavin@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <077b5862-bb57-8447-4cca-5301740ff945@windriver.com>
-Date: Fri, 13 Oct 2017 09:56:21 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.4.0
+	Fri, 13 Oct 2017 16:28:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 4512320ABA;
+	Fri, 13 Oct 2017 16:28:28 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 6CRQFPe9IMU8; Fri, 13 Oct 2017 16:28:28 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 227332085D;
+	Fri, 13 Oct 2017 16:28:26 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 97EB81626ED; Fri, 13 Oct 2017 12:28:25 -0400 (EDT)
+Date: Fri, 13 Oct 2017 12:28:25 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171013162825.GN9221@denix.org>
+References: <1507836933-142066-1-git-send-email-denis@denix.org>
+	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20171013141832.24325-1-alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH] prelink: fix upstream version check
+In-Reply-To: <CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Denys Dmytriyenko <denys@ti.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 14:56:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Oct 2017 16:28:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/13/17 9:18 AM, Alexander Kanavin wrote:
-> Instead of reporting that we can update to a bogus version
-> report that upstream version is not known.
-
-You do know that there are release branches for prelink right?
-
-http://git.yoctoproject.org/cgit/cgit.cgi/prelink-cross/refs/heads
-
-cross_prelink and master are both 'release' quality branches.
-
-Anything put there is a new version.
-
-
-There is nothing for us to 'tag', since there are no formal versions.
-
-
-Should be easy enough for the system to compare the SRCREV to the top of
-cross_prelink.  If they don't match, an upgrade is needed.
-
---Mark
-
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-devtools/prelink/prelink_git.bb | 2 ++
->  1 file changed, 2 insertions(+)
+On Fri, Oct 13, 2017 at 12:33:35PM +0100, Burton, Ross wrote:
+> On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org> wrote:
 > 
-> diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-> index a137a864921..570ef36a3cc 100644
-> --- a/meta/recipes-devtools/prelink/prelink_git.bb
-> +++ b/meta/recipes-devtools/prelink/prelink_git.bb
-> @@ -32,6 +32,8 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
->             file://prelink.cron.daily \
->             file://prelink.default \
->  	   file://macros.prelink"
-> +UPSTREAM_CHECK_GITTAGREGEX = "upstream has no usable tags"
-> +UPSTREAM_VERSION_UNKNOWN = "1"
->  
->  TARGET_OS_ORIG := "${TARGET_OS}"
->  OVERRIDES_append = ":${TARGET_OS_ORIG}"
+> > From: Denys Dmytriyenko <denys@ti.com>
+> >
+> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> >
 > 
+> One day I'll figure out why quilt appears to be non-deterministic about
+> this but:
+> 
+> ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt --quiltrc
+> /data/poky-tmp/master/build/work/all-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
+> push' exited with 0  Output:
+> Applying patch usesysrootprefixforpkgdatadirvariable.patch
 
+I don't see this patch in master. Works fine in distroless and poky from 
+master.
+
+
+> patching file wayland-protocols.pc.in
+> Hunk #1 FAILED at 1.
+> 1 out of 1 hunk FAILED -- rejects in file wayland-protocols.pc.in
+> Patch usesysrootprefixforpkgdatadirvariable.patch can be reverse-applied
+> 
+> Ross
 
