@@ -1,47 +1,50 @@
 Return-Path: <pbarker@toganlabs.com>
-Received: from mail-wm0-f46.google.com (mail-wm0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ABC560807
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id AC7BD60807
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 19:25:56 +0000 (UTC)
-Received: by mail-wm0-f46.google.com with SMTP id u138so23286493wmu.5
+	Fri, 13 Oct 2017 19:25:57 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id m72so23329174wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 12:25:58 -0700 (PDT)
+	Fri, 13 Oct 2017 12:25:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=tAKOGZbvwjwLcy9TqqjE9nxZwkSSZbbYn7y2r97QECY=;
-	b=yoXUv/iikE7Brh6aeiyd56F3zCLxybto+rmFt4Vw+xTglroiUvukDTeLRCSTqUdroO
-	YrDHx8DbKIT6sgDEv01bzeJnGI8wb3FxFj4ls+xGoLGq7MVbACrmJc7upryQuWzCt7kc
-	8Xp2wPRkou2WVZXjQSoqTDryvmrgFUkDKMjpLEtRzhojyOOe7YVb+q6wAKy78pwIVm8L
-	me6MfYNKF4KKg2nuZjVvSoX5082H/FNNU7w7Gsu62lrGxk3QAbjjg8xKlZ4igx3rku87
-	rJfR8ChhhcsTQDg2wG0epTmfS+NxtazG4hBJh1TbV4biaZkQPp2Nz6p+o1yiFmLJaMyr
-	htaA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=TpPfF1qbYjK4ABhK2IC74aAz6cFpkGSMzhm8AhDy2xQ=;
+	b=GyPvtNeAiymJsw6+xvmpMF0pQj5lQADifjX9fKC87qOcrxEy0pb7MY7sY8VjrAgNvO
+	bJqOhHJ0fU13BzyihWqL5/LkuXsbsHObKS292pnHHaKIz/lQoVBiVDUPxh6MvuC4vebE
+	HN1cByzvNxtMX6brcmke7U2NUXnRVljT+aA0CUS7j9TVYs6VNVSLgg/Q1ViiuovfpyVb
+	OafSSp9f4CvrdUyzsTQ6XRtfKyM8+OpsmYE1DjcPMObkRpvQoTfVl/VbQUK8zIQHSn4U
+	EsoaLPmbmB11ozXOEmFcESDCq+QF0tx6KHSXiynO7Jt9cGdkeQ71iS3T+qNEbZJGs+d5
+	YWcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tAKOGZbvwjwLcy9TqqjE9nxZwkSSZbbYn7y2r97QECY=;
-	b=FkazlP8TbZStG7aEKMHK5D4SY0OsUcVwONUrST7Nw+n4ixfYuvKmMqiFhnVo3Cb30J
-	Ryzdy73VvfIqf9lhjSOWQxDvhFoFcQjS33tYSjk1zLG2B0EuedmIydKyZ5Q5IeeZtVzu
-	N1t0f92uY6Mk1VuD5uijMm4GcFXllcNJAqq/MmBwaWwIcZHXOYkeGIPxFEq2BHfYKMEX
-	tG8ztd4Rn30FanBpoilD9P6UDcggXfsokCB/lCaPe23fdzsySmipRMAS1QFRgdoJcSiO
-	6od09CfGt1tIpjqRIGW+9jjGgEg2LsmETzvfSJBS88LWjUtrii2CReE2mhBGrJdw47gU
-	ExTg==
-X-Gm-Message-State: AMCzsaU0bjfDMxwxUw8q6l3fAX6UOTtMW8LPUSxc3mndKDhQi3hUeFqE
-	av8E8CVMqD1C3q31LO2mYM6R9cIL
-X-Google-Smtp-Source: ABhQp+QHpDrbdl1E90mVFGyJusOAjUBF2/lku61vogq9TI7bS8+8oc2RceJsaSKBdFaITI35djXlgA==
-X-Received: by 10.28.55.2 with SMTP id e2mr2392255wma.60.1507922757108;
-	Fri, 13 Oct 2017 12:25:57 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=TpPfF1qbYjK4ABhK2IC74aAz6cFpkGSMzhm8AhDy2xQ=;
+	b=Edj1H73zFvpuH1QEzY/hhc8hjg6YoOfgyN20Vr1lNVnl7tPoy+72xHhHYoK9gT71XT
+	WHZZR9Bucl5xJPyGkkmWCR3lppYdlWkL7DttAJuksv5QrqbCEkR83frRA5VP4UoCkp2Z
+	kbTo1YbTB0WsgwoUXFrF+Eu8lDPZv4P7iqbNdUTW6Cgc3HtgFmlKR+tgRd45oAXsR/ht
+	/ueFuFuMNOHHWUWyt8fx8jXsaBImQANLw+c1IkdkBNJmzHp49aSBeJ9my/vTAkvf7rVB
+	MNvcdhd+T1kPFs3ZLYV1EE5OnIaozmLjRPw/QH+Bl7aC+l29cIPS7QYhmEAFK/R5rXKV
+	v5sw==
+X-Gm-Message-State: AMCzsaV9+QoUt7OzaWA6dqy5xAn4peKx09k6UbYz/Q7cTprOZk/ojOPP
+	D+CsxQHoqlVZpUt7/mwa9j3QsdiL
+X-Google-Smtp-Source: ABhQp+RPHuJcjGVsciIqK89+b9UziaShlUFLXjcGGH2DwiAK07odlc1VgAyXfk2pd8OemkcR8uPNwg==
+X-Received: by 10.28.131.200 with SMTP id f191mr2471262wmd.39.1507922758467;
+	Fri, 13 Oct 2017 12:25:58 -0700 (PDT)
 Received: from build1.toganlabs.com (build1.toganlabs.com. [88.99.240.167])
 	by smtp.gmail.com with ESMTPSA id
-	q188sm1538362wmb.43.2017.10.13.12.25.56
+	q188sm1538362wmb.43.2017.10.13.12.25.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Oct 2017 12:25:56 -0700 (PDT)
+	Fri, 13 Oct 2017 12:25:57 -0700 (PDT)
 From: Paul Barker <pbarker@toganlabs.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Oct 2017 19:25:27 +0000
-Message-Id: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
+Date: Fri, 13 Oct 2017 19:25:28 +0000
+Message-Id: <1507922729-17240-2-git-send-email-pbarker@toganlabs.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 0/2] Define GO386 for go cross-compilation
+In-Reply-To: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
+References: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
+Subject: [PATCH 1/2] goarch.bbclass: Define HOST_GO386 and TARGET_GO386
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +59,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 13 Oct 2017 19:25:57 -0000
 
-These changes resolve the "illegal instruction" errors seen when running go
-binaries on qemux86 by ensuring that the GO386 environment variable is exported
-and set to an appropriate value. This variable in turn controls the floating
-point instructions emitted by the go compiler for x86 platforms and must be set
-to "387" for platforms which do not support sse2 instructions.
+These variables are used to control the floating-point instructions emitted by
+the go compiler for x86 architectures.
 
-The go_map_386 function is initially implemented to recognise the two x86
-tunings defined in oe-core which support sse2 instructions: "core2" and
-"corei7". This can be extended later if additional tunings need to be recognised
-to support x86 targets defined in other layers.
+The default is '387' which disables the use of sse/sse2 instructions and is safe
+to use on all x86 processors from the i486 onwards.
 
-My hope is that these patches are suitable for inclusion in the rocko branch
-(after the 2.4.0 release now). If not then please flag this and I'll look for
-alternative solutions. I don't think that leaving all go binaries as broken on
-qemux86 if they happen to use floating point operations is a valid option for
-the rocko branch.
+If TUNE_FEATURES contains a feature set which is known to support sse/sse2
+instructions then they are set to 'sse2' to enable the use of these
+instructions. This is suitable for most processors from Pentium 4 onwards.
 
-Paul Barker (2):
-  goarch.bbclass: Define HOST_GO386 and TARGET_GO386
-  go: Export correct GO386 value for target
+Only the 'core2' and 'corei7' TUNE_FEATURES are defined in the oe-core layer and
+are known to support ss2 instructions. Other layers may introduce additional
+tunings which support sse2 instructions and for these layers, TARGET_GO386
+or go_map_386 should be overridden as needed.
 
- meta/classes/goarch.bbclass                    | 11 +++++++++++
- meta/recipes-devtools/go/go-cross-canadian.inc |  1 +
- meta/recipes-devtools/go/go-cross.inc          |  2 ++
- meta/recipes-devtools/go/go-runtime.inc        |  1 +
- meta/recipes-devtools/go/go-target.inc         |  1 +
- 5 files changed, 16 insertions(+)
+Signed-off-by: Paul Barker <pbarker@toganlabs.com>
+---
+ meta/classes/goarch.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 659b26a..653f035 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -4,10 +4,12 @@ BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
+ HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
+ HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
+ HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
++HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+ HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
+ TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
+ TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
+ TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
++TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+ TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
+ GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
+ 
+@@ -66,6 +68,15 @@ def go_map_arm(a, f, d):
+             return '5'
+     return ''
+ 
++def go_map_386(a, f, d):
++    import re
++    if re.match('i.86', a):
++        if ('core2' in f) or ('corei7' in f):
++            return 'sse2'
++        else:
++            return '387'
++    return ''
++
+ def go_map_os(o, d):
+     if o.startswith('linux'):
+         return 'linux'
 -- 
 2.7.4
 
