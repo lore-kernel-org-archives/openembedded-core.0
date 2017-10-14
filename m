@@ -1,45 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A21C460248
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CC00765CB6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Oct 2017 15:49:07 +0000 (UTC)
-Received: by mail-pg0-f52.google.com with SMTP id v78so3491039pgb.5
+	Sat, 14 Oct 2017 15:49:09 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id e64so12614189pfk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Oct 2017 08:49:09 -0700 (PDT)
+	Sat, 14 Oct 2017 08:49:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=tzoFro7c01PQG4E8OK4bbczW7MvrqkD62zZJhsZe50k=;
-	b=fdg4Fj28k+dBu/tSufUbDejBjThrEmcTgeiNvRPGTK299MmOphE8pnF8kuQADGZFnN
-	tq8mJgWmfVBhlo/Wn9kmmHicogbkM0+gdaI0sxn4S80RqCRzLgpXAPTyFjuVl9kTJ1/b
-	H2BFJQr12PGFHsy2cpWITr+lieDedS+Vl2Ry0DHgWWoNp0kqdfALgSznVLlf5f0iTXUl
-	IxzUZqPqgTPPhjOYVcnw1jC8W5txvfaTQ5rHcCjHUVb4kz8AZrVo1Xdc6SmUKQlCmgYm
-	Fs6DSlWZpbafdpqCCLV/h1pUo3dsfMbrH65fX1hQl9FQpwpF62I+CkL7oklZ5Ad5s2f6
-	5Tug==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=jgYjwkcXnIkEDBk27KOF/axNZWibQXV890S5BNtHl/4=;
+	b=BWRv18EmQCyJORqos9zkXPT8fF1U+7eAp+4tozFKrFbG/WLX1L6aS01hxrtXS2F/Br
+	6CtzRQ1Xd4KdGG2CVmBCbRPq3fSOdJ2IdCzw0FjyHHimO890YiQciV+l9C8leuTDPxFt
+	WbXiVUVcm6DtItuS7EbfZfDbUhSzxtdOp4V6why4sWRVVg1SB1sKHzobL06OvDZ/cnj7
+	wh+P0n9cJy4VNt7iIymzB5t38VnrnpKkI+tQspqa+a4JoVa0b1GsJJ39D8XRZdMOvoT1
+	CCNRRCRybqjI4a6Ss0mxOYA5ZIP5hpcloDUbyI5+6F83WzS5Lpj46+rsS/eDwUdJim77
+	ru+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tzoFro7c01PQG4E8OK4bbczW7MvrqkD62zZJhsZe50k=;
-	b=Qenm25mwslxp2tN4UodrRoAFDgcriOvVkWNnAbCL4aDPP77tZUj3OhHyaevqsh2YbI
-	PGlqsWz1qGZlFtXQWtrr7GtfCi1nBXwk0XEPLIUvjyd8WXCHg0FWqHP/YzJGALZBq3JF
-	MFcSU7nxOlnU+BDKW7ZnToErVNIFxEQoxcnbePKEw4g8ZnnmV1ptbpJ/tRrzZk080Ga+
-	/tB/f3JgtWhfBJDGFxC/GnxqHdCmYbFfmbqIkXCnMil59BTKB+xzz6DTnghXT3aCX7uh
-	7sLsOFBlqDasPLGx+fV16pGkg7AC5xAN+nXCSianDiJUwYCKOq9ay9tIi3UvaLIDDjhU
-	XwVw==
-X-Gm-Message-State: AMCzsaVZwHU/JMvn/3v/UiV0m19rEh31kW3TxswrE0NhGHHDmYxMrTLG
-	nTejsCZur69bRd8kJCq1ss5z1w==
-X-Google-Smtp-Source: AOwi7QCn1jep0XiWGwTYCsJKcynjgpwMP9Lrfne+a5gAJDvyYG3plN0vlLC2gjxPiRzX++XOKPyKxA==
-X-Received: by 10.159.206.132 with SMTP id bg4mr4432632plb.129.1507996148509; 
-	Sat, 14 Oct 2017 08:49:08 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=jgYjwkcXnIkEDBk27KOF/axNZWibQXV890S5BNtHl/4=;
+	b=DRe7XXII+DXbic7s0PSrs8xYe/cUHKcElxZQpUBLb7NhDK6TOQpvsV/j4/RoOTUeax
+	zZkhCOlhcMOMzLCuu6qvXrcBJO1QZ8ptdywI+uF9sulo6LqA9FdFZywHgI82C7Rzi9iG
+	lfal37z6gxcJVeIMS8Q6kbGNxkH5cJlVg2o8lHUDSJMFyy0MPNyd4VNG236Q7NYHuhDb
+	jtHYn8lX+EhNonbYG5aNLummtqUZxQG76vZ3dzC9N0zCUYKTRXWQhvcAdVBrkWvKoeWa
+	gNemUUtn/xpL1sHUTmWntfMMYOIjd1sewQtoKCt81qM7n8t8C5z462D34zFoVSdSIF+H
+	pkgA==
+X-Gm-Message-State: AMCzsaVdq9lsK68W2JtTpwGapZY5ZktCZQcSLXE2qHPg/dNVTj04jv5o
+	LH5E5u5/hxDshrIS2dL+jsrxxg==
+X-Google-Smtp-Source: AOwi7QC50wTYkVvq885xeoTd1jCL2IUsYheO3fHmB00RzCy0vbaBSUEUmtRIpcCnoCDyFE4G0fUzJw==
+X-Received: by 10.84.240.140 with SMTP id z12mr4463725plk.328.1507996150687;
+	Sat, 14 Oct 2017 08:49:10 -0700 (PDT)
 Received: from localhost.localdomain ([2601:646:8882:b8c::74e7])
-	by smtp.gmail.com with ESMTPSA id r9sm8384819pfd.6.2017.10.14.08.49.07
+	by smtp.gmail.com with ESMTPSA id r9sm8384819pfd.6.2017.10.14.08.49.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 14 Oct 2017 08:49:07 -0700 (PDT)
+	Sat, 14 Oct 2017 08:49:08 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Oct 2017 08:48:52 -0700
-Message-Id: <20171014154858.35123-1-raj.khem@gmail.com>
+Date: Sat, 14 Oct 2017 08:48:53 -0700
+Message-Id: <20171014154858.35123-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.14.2
-Subject: [PATCH 1/7] go-dep: Upgrade to 0.3.1
+In-Reply-To: <20171014154858.35123-1-raj.khem@gmail.com>
+References: <20171014154858.35123-1-raj.khem@gmail.com>
+Subject: [PATCH 2/7] go: Fix build with PIE on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,166 +56,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Oct 2017 15:49:07 -0000
+X-List-Received-Date: Sat, 14 Oct 2017 15:49:10 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../go-dep/0001-Add-support-for-mips-mips64.patch  | 54 ++++++++++++++++++++++
- ...er-constant-that-hopefully-works-the-same.patch | 33 +++++++++++++
- meta/recipes-devtools/go/go-dep_0.3.0.bb           | 16 -------
- meta/recipes-devtools/go/go-dep_0.3.1.bb           | 19 ++++++++
- 4 files changed, 106 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch
- create mode 100644 meta/recipes-devtools/go/go-dep/0001-use-a-smaller-constant-that-hopefully-works-the-same.patch
- delete mode 100644 meta/recipes-devtools/go/go-dep_0.3.0.bb
- create mode 100644 meta/recipes-devtools/go/go-dep_0.3.1.bb
+ meta/recipes-devtools/go/go-1.9.inc                |   3 +
+ .../go/go-1.9/default-buildmode-pie.patch          |  13 +++
+ .../go/go-1.9/set-external-linker.patch            | 104 +++++++++++++++++++++
+ 3 files changed, 120 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.9/set-external-linker.patch
 
-diff --git a/meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch b/meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch
+diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
+index 65adaa8d72..f52abb5735 100644
+--- a/meta/recipes-devtools/go/go-1.9.inc
++++ b/meta/recipes-devtools/go/go-1.9.inc
+@@ -15,6 +15,9 @@ SRC_URI += "\
+         file://0007-ld-add-soname-to-shareable-objects.patch \
+         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
+         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
++        file://default-buildmode-pie.patch \
+ "
++SRC_URI_append_libc-musl = " file://set-external-linker.patch"
++
+ SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
+ SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
+diff --git a/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch b/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
 new file mode 100644
-index 0000000000..34ec9876f8
+index 0000000000..cc8aef0ad0
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-dep/0001-Add-support-for-mips-mips64.patch
-@@ -0,0 +1,54 @@
-+From f0fb80604385ae3266a472601ef685896b4cc0af Mon Sep 17 00:00:00 2001
-+From: Vladimir Stefanovic <vladimir.stefanovic@imgtec.com>
-+Date: Fri, 17 Feb 2017 20:44:43 +0100
-+Subject: [PATCH] Add support for mips, mips64
-+
-+---
-+Upstream-Status: Submitted
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ vendor/github.com/boltdb/bolt/bolt_mips64x.go | 12 ++++++++++++
-+ vendor/github.com/boltdb/bolt/bolt_mipsx.go   | 12 ++++++++++++
-+ 2 files changed, 24 insertions(+)
-+ create mode 100644 vendor/github.com/boltdb/bolt/bolt_mips64x.go
-+ create mode 100644 vendor/github.com/boltdb/bolt/bolt_mipsx.go
-+
-+diff --git a/vendor/github.com/boltdb/bolt/bolt_mips64x.go b/vendor/github.com/boltdb/bolt/bolt_mips64x.go
-+new file mode 100644
-+index 00000000..134b578b
-+--- /dev/null
-++++ b/vendor/github.com/boltdb/bolt/bolt_mips64x.go
-+@@ -0,0 +1,12 @@
-++// +build mips64 mips64le
-++
-++package bolt
-++
-++// maxMapSize represents the largest mmap size supported by Bolt.
-++const maxMapSize = 0x8000000000 // 512GB
-++
-++// maxAllocSize is the size used when creating array pointers.
-++const maxAllocSize = 0x7FFFFFFF
-++
-++// Are unaligned load/stores broken on this arch?
-++var brokenUnaligned = false
-+diff --git a/vendor/github.com/boltdb/bolt/bolt_mipsx.go b/vendor/github.com/boltdb/bolt/bolt_mipsx.go
-+new file mode 100644
-+index 00000000..d5ecb059
-+--- /dev/null
-++++ b/vendor/github.com/boltdb/bolt/bolt_mipsx.go
-+@@ -0,0 +1,12 @@
-++// +build mips mipsle
-++
-++package bolt
-++
-++// maxMapSize represents the largest mmap size supported by Bolt.
-++const maxMapSize = 0x40000000 // 1GB
-++
-++// maxAllocSize is the size used when creating array pointers.
-++const maxAllocSize = 0xFFFFFFF
-++
-++// Are unaligned load/stores broken on this arch?
-++var brokenUnaligned = false
-+-- 
-+2.14.1
-+
-diff --git a/meta/recipes-devtools/go/go-dep/0001-use-a-smaller-constant-that-hopefully-works-the-same.patch b/meta/recipes-devtools/go/go-dep/0001-use-a-smaller-constant-that-hopefully-works-the-same.patch
++++ b/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
+@@ -0,0 +1,13 @@
++diff -upr src/go.orig/src/cmd/go/internal/work/build.go src/go/src/cmd/go/internal/work/build.go
++--- go.orig/src/cmd/go/internal/work/build.go	2017-08-27 17:38:26.354750979 +0200
+++++ go/src/cmd/go/internal/work/build.go	2017-08-27 17:40:27.555130105 +0200
++@@ -304,7 +304,8 @@ func BuildModeInit() {
++ 		ldBuildmode = "c-shared"
++ 	case "default":
++ 		switch platform {
++-		case "android/arm", "android/arm64", "android/amd64", "android/386":
+++		case "linux/386", "linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x",
+++			"android/arm", "android/arm64", "android/amd64", "android/386":
++ 			codegenArg = "-shared"
++ 			ldBuildmode = "pie"
++ 		case "darwin/arm", "darwin/arm64":
+diff --git a/meta/recipes-devtools/go/go-1.9/set-external-linker.patch b/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
 new file mode 100644
-index 0000000000..2a7bc43cdb
+index 0000000000..79eaff7205
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-dep/0001-use-a-smaller-constant-that-hopefully-works-the-same.patch
-@@ -0,0 +1,33 @@
-+From 73e8dd479420bb90a46cf9d99ca62289fab3677e Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 23 Sep 2017 08:43:58 -0700
-+Subject: [PATCH] use a smaller constant that hopefully works the same.
-+
-+This test uses a constant that is too big for 32bit systems.
-+
-+Backported from
-+https://github.com/boltdb/bolt/issues/645
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ vendor/github.com/boltdb/bolt/db_test.go | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/vendor/github.com/boltdb/bolt/db_test.go b/vendor/github.com/boltdb/bolt/db_test.go
-+index 3034d4f4..035f5a5f 100644
-+--- a/vendor/github.com/boltdb/bolt/db_test.go
-++++ b/vendor/github.com/boltdb/bolt/db_test.go
-+@@ -370,7 +370,7 @@ func TestDB_Open_InitialMmapSize(t *testing.T) {
-+ 	path := tempfile()
-+ 	defer os.Remove(path)
++++ b/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
+@@ -0,0 +1,104 @@
++Index: go/src/cmd/link/internal/amd64/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/amd64/obj.go
+++++ go/src/cmd/link/internal/amd64/obj.go
++@@ -67,7 +67,7 @@ func Init() {
++ 	ld.Thearch.Append64 = ld.Append64l
++ 	ld.Thearch.TLSIEtoLE = tlsIEtoLE
 + 
-+-	initMmapSize := 1 << 31  // 2GB
-++	initMmapSize := 1 << 29  // 512MB
-+ 	testWriteSize := 1 << 27 // 134MB
++-	ld.Thearch.Linuxdynld = "/lib64/ld-linux-x86-64.so.2"
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-x86_64.so.1"
++ 	ld.Thearch.Freebsddynld = "/libexec/ld-elf.so.1"
++ 	ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
++ 	ld.Thearch.Netbsddynld = "/libexec/ld.elf_so"
++Index: go/src/cmd/link/internal/arm/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/arm/obj.go
+++++ go/src/cmd/link/internal/arm/obj.go
++@@ -63,7 +63,7 @@ func Init() {
++ 	ld.Thearch.Append32 = ld.Append32l
++ 	ld.Thearch.Append64 = ld.Append64l
 + 
-+ 	db, err := bolt.Open(path, 0666, &bolt.Options{InitialMmapSize: initMmapSize})
-+-- 
-+2.14.1
-+
-diff --git a/meta/recipes-devtools/go/go-dep_0.3.0.bb b/meta/recipes-devtools/go/go-dep_0.3.0.bb
-deleted file mode 100644
-index abfeb48370..0000000000
---- a/meta/recipes-devtools/go/go-dep_0.3.0.bb
-+++ /dev/null
-@@ -1,16 +0,0 @@
--SUMMARY = "Dependency management tool for Golang"
--HOMEPAGE = "https://github.com/golang/dep"
--LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=1bad315647751fab0007812f70d42c0d"
--
--GO_IMPORT = "github.com/golang/dep"
--SRC_URI = "git://${GO_IMPORT}"
--
--# Points to 0.3.0 tag
--SRCREV = "7a91b794bbfbf1f3b8b79823799316451127801b"
--
--inherit go
--
--GO_INSTALL = "${GO_IMPORT}/cmd/dep"
--
--RDEPENDS_${PN}-dev += "bash"
-diff --git a/meta/recipes-devtools/go/go-dep_0.3.1.bb b/meta/recipes-devtools/go/go-dep_0.3.1.bb
-new file mode 100644
-index 0000000000..3a404e357f
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-dep_0.3.1.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Dependency management tool for Golang"
-+HOMEPAGE = "https://github.com/golang/dep"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=1bad315647751fab0007812f70d42c0d"
-+
-+GO_IMPORT = "github.com/golang/dep"
-+SRC_URI = "git://${GO_IMPORT} \
-+           file://0001-use-a-smaller-constant-that-hopefully-works-the-same.patch;patchdir=src/github.com/golang/dep \
-+           file://0001-Add-support-for-mips-mips64.patch;patchdir=src/github.com/golang/dep \
-+          "
-+
-+# Points to 0.3.1 tag
-+SRCREV = "83789e236d7ff64c82ee8392005455fc1ec1983b"
-+
-+inherit go
-+
-+GO_INSTALL = "${GO_IMPORT}/cmd/dep"
-+
-+RDEPENDS_${PN}-dev += "bash"
++-	ld.Thearch.Linuxdynld = "/lib/ld-linux.so.3" // 2 for OABI, 3 for EABI
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-armhf.so.1"
++ 	ld.Thearch.Freebsddynld = "/usr/libexec/ld-elf.so.1"
++ 	ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
++ 	ld.Thearch.Netbsddynld = "/libexec/ld.elf_so"
++Index: go/src/cmd/link/internal/arm64/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/arm64/obj.go
+++++ go/src/cmd/link/internal/arm64/obj.go
++@@ -62,7 +62,7 @@ func Init() {
++ 	ld.Thearch.Append32 = ld.Append32l
++ 	ld.Thearch.Append64 = ld.Append64l
++ 
++-	ld.Thearch.Linuxdynld = "/lib/ld-linux-aarch64.so.1"
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-aarch64.so.1"
++ 
++ 	ld.Thearch.Freebsddynld = "XXX"
++ 	ld.Thearch.Openbsddynld = "XXX"
++Index: go/src/cmd/link/internal/mips/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/mips/obj.go
+++++ go/src/cmd/link/internal/mips/obj.go
++@@ -77,7 +77,7 @@ func Init() {
++ 		ld.Thearch.Append64 = ld.Append64b
++ 	}
++ 
++-	ld.Thearch.Linuxdynld = "/lib/ld.so.1"
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-mipsle.so.1"
++ 
++ 	ld.Thearch.Freebsddynld = "XXX"
++ 	ld.Thearch.Openbsddynld = "XXX"
++Index: go/src/cmd/link/internal/mips64/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/mips64/obj.go
+++++ go/src/cmd/link/internal/mips64/obj.go
++@@ -75,7 +75,7 @@ func Init() {
++ 		ld.Thearch.Append64 = ld.Append64b
++ 	}
++ 
++-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+++	ld.Thearch.Linuxdynld = "/lib64/ld-musl-mips64le.so.1"
++ 
++ 	ld.Thearch.Freebsddynld = "XXX"
++ 	ld.Thearch.Openbsddynld = "XXX"
++Index: go/src/cmd/link/internal/ppc64/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/ppc64/obj.go
+++++ go/src/cmd/link/internal/ppc64/obj.go
++@@ -77,7 +77,7 @@ func Init() {
++ 	}
++ 
++ 	// TODO(austin): ABI v1 uses /usr/lib/ld.so.1
++-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-powerpc64le.so.1"
++ 
++ 	ld.Thearch.Freebsddynld = "XXX"
++ 	ld.Thearch.Openbsddynld = "XXX"
++Index: go/src/cmd/link/internal/s390x/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/s390x/obj.go
+++++ go/src/cmd/link/internal/s390x/obj.go
++@@ -62,7 +62,7 @@ func Init() {
++ 	ld.Thearch.Append32 = ld.Append32b
++ 	ld.Thearch.Append64 = ld.Append64b
++ 
++-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-s390x.so.1"
++ 
++ 	// not relevant for s390x
++ 	ld.Thearch.Freebsddynld = "XXX"
++Index: go/src/cmd/link/internal/x86/obj.go
++===================================================================
++--- go.orig/src/cmd/link/internal/x86/obj.go
+++++ go/src/cmd/link/internal/x86/obj.go
++@@ -63,7 +63,7 @@ func Init() {
++ 	ld.Thearch.Append32 = ld.Append32l
++ 	ld.Thearch.Append64 = ld.Append64l
++ 
++-	ld.Thearch.Linuxdynld = "/lib/ld-linux.so.2"
+++	ld.Thearch.Linuxdynld = "/lib/ld-musl-i386.so.1"
++ 	ld.Thearch.Freebsddynld = "/usr/libexec/ld-elf.so.1"
++ 	ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
++ 	ld.Thearch.Netbsddynld = "/usr/libexec/ld.elf_so"
 -- 
 2.14.2
 
