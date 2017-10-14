@@ -1,47 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D1C9F6E650
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id AEF7260234
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 23:19:31 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id z11so11498617pfk.4
+	Sat, 14 Oct 2017 01:22:47 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id b79so11644569pfk.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Oct 2017 16:19:33 -0700 (PDT)
+	Fri, 13 Oct 2017 18:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zSkxCqMi4pLUFdzHQueNGBcfjIwKWTxQcnx9afgJpSA=;
-	b=k4X19uoYRV+j8h480plrH1yAwB5SiLpT5IrnsGoaVWH9YC4CGBc/VUCb+OPm4jWivy
-	7NnC8pf3nuE+/MWqEL2zZjoGHDfy7OR3gIbI+xO9KaTHst3aQlL24G/gdMQsl9Bg0IuN
-	5av9f9SAIw2l0BNLPVjeF4hcVE2+BR41zWd0T6zw4bHUaY6OVYiYX3qhRdrg6SdrjfrK
-	VDwEu0h6xFSCzt0bcnZb12sniF1j4DUMQypWjjZzDs7OjfWAmmK8mQ0XmxUZnFj3pN1P
-	rGre+Bnqtl+V9uvptWxgxAjuy3mNbkj04uny5w29YNwu5hHu9hiLXAETPE8nA/U3uq5y
-	JKKg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V7LYbZz6hYfkiTrc9432lPgJNDQz/OXk9MTLbFR0A2M=;
+	b=TQxViZ2Sta1aS7TxxILXX0wWLQivCtsVvxlLFPBJ131nIpA0Tksu7PeVOmsqKLg5wv
+	GNGrnzaAjI191HlqulGD0PvFmnyoXxkL600hQXDQhmOnWGJ+TwfAec5MoFWDKrzev1cp
+	1nAKAkuoxB3XgCBwGbjPazNrRh/koGcUhhsje3ez9W2kuAWcMtufXjvllCAOavj3IdMJ
+	gqihhFSQI0EvqL7hjVbtVgRrbIJEyZQbgtbg1yBH1+/lKRshZCCZAsedoxEcAP9H0M57
+	iAvgEIbtI80xjgKs2BrpWJLtBQLplX1wLX/fMZIJTYyei0k1HJJqb/+CBC1q12vjkaRI
+	PMlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=zSkxCqMi4pLUFdzHQueNGBcfjIwKWTxQcnx9afgJpSA=;
-	b=Jmrk7TSpPVz4LQPmpz7d9Jf9w0Rw4gvSIpdSJcPGoCNtUJsQk3+x1mCMrnQWeFEK60
-	QxbX+Jky7WrP/i9PGrmS9sEjsduErNAXPMAURr0aXtcw11cqPF8sW9rgcRbeiqATzLlq
-	15n+1oHKpyQqTLb2PTZEVT/hcEq//E1act2GGNBNZ+SRImu+o3/hJGHobxavDwVfKklp
-	eb42Rp7G6/eK+wnfCyPBDrKhff3/+PfBtwkO9YI1IPiZzPSPlNjYl3a4m9bTOuJn5epz
-	g/Js6AEvka5544XRjL/PmKZqA5ud5HAtPXr62J6dEvFbULGcqa5D3g5hKMV0qgpu+ubE
-	d+rA==
-X-Gm-Message-State: AMCzsaX+N9vai6ntGv3LxD8o0Xg8+MGScX2gDU1y7xYlhxjmvA1MNmzt
-	OwHFjB7PRJeCxX8KD72ykT3QiHS3WjkPEVeLqFs=
-X-Google-Smtp-Source: AOwi7QCCrltoEqkiRs+eKtUrepJdY5o+3FcWiA8I1cwJK+V56LSWTNSMQcBF6BehRExjNprcVIHfUzy6ymH7kEK+5ck=
-X-Received: by 10.84.177.129 with SMTP id x1mr2711778plb.161.1507936773015;
-	Fri, 13 Oct 2017 16:19:33 -0700 (PDT)
+	bh=V7LYbZz6hYfkiTrc9432lPgJNDQz/OXk9MTLbFR0A2M=;
+	b=bqgXounp6X9/JLYTepzabDN/lE3yYbHLgfBKI5boSpn3ycdXJMhi3a7pJMr8d57TLF
+	fM7HbykX454aZkKuYXULQPH5/5mxVJwAdR3vAIyQjsmvdjyrOchuBC44HEjt7doPpKUm
+	gL8+3cOAyRGQ3g3K07tVozTMPKWGTWZGwQeHeN7m6Rd/DV4gFFyu5WhWeNTbvx6hENDY
+	PHbV/leEW/ip1g1LgmKGx4C66EhJJwqWLUfBaY5I2lpiKlAI5VAvebneQxWt7xJPEJbY
+	n7XwAFdhV4Qn7R3PtsESpeP3eJLKkC5cNnncVTSQuEEKmr7xsLS+oG/fyzsU1OdpdGk2
+	C5ng==
+X-Gm-Message-State: AMCzsaUdIY5YpDl/V5YGV3ol7myw8Xi9BkQjWxnt1unuC2LnuJd5W7JQ
+	YuHCnpzx2o6pwaAPyXMX19v7AXXSWxS06gbbugc=
+X-Google-Smtp-Source: AOwi7QCykV75zGMuE9EpESRSjT/K8WM7uyiaIQu3+j4Qfmh0A9OfuFIWFRQJPfEHU84KWtUcY7/Naj6ehLXBa5ObNEM=
+X-Received: by 10.84.240.12 with SMTP id y12mr2922601plk.215.1507944168588;
+	Fri, 13 Oct 2017 18:22:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
-In-Reply-To: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
+Received: by 10.100.187.66 with HTTP; Fri, 13 Oct 2017 18:22:18 -0700 (PDT)
+In-Reply-To: <1507922729-17240-2-git-send-email-pbarker@toganlabs.com>
+References: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
+	<1507922729-17240-2-git-send-email-pbarker@toganlabs.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 13 Oct 2017 23:19:22 +0000
-Message-ID: <CAMKF1sq-CjSGt36V=B5yjg+diaAMFkH8h-N29t4uMuXNV8_qyA@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>,
-	openembedded-core@lists.openembedded.org
-Cc: jurobystricky@hotmail.com
-Subject: Re: [PATCH] nettle-ptest: fix a failing test
+Date: Fri, 13 Oct 2017 18:22:18 -0700
+Message-ID: <CAMKF1sqZrYbJ6MgLdQ5gJ=ZZhx1Gn=uYUD-_3S__E8OiDrLXiw@mail.gmail.com>
+To: Paul Barker <pbarker@toganlabs.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] goarch.bbclass: Define HOST_GO386 and TARGET_GO386
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,80 +56,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 23:19:31 -0000
-Content-Type: multipart/alternative; boundary="94eb2c11a09ab30f5c055b75e354"
-
---94eb2c11a09ab30f5c055b75e354
+X-List-Received-Date: Sat, 14 Oct 2017 01:22:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 13, 2017 at 12:24 PM Juro Bystricky <juro.bystricky@intel.com>
-wrote:
-
-> This patch changes the result of the nettle dlopen-test
-> from FAIL to PASS. The test used to fail because the test could not
-> find and load libnettle.so.
-> This patch fixes this by using absolute path instead of relative.
+On Fri, Oct 13, 2017 at 12:25 PM, Paul Barker <pbarker@toganlabs.com> wrote:
+> These variables are used to control the floating-point instructions emitted by
+> the go compiler for x86 architectures.
 >
-> This was the only test out of 88 that used to fail.
+> The default is '387' which disables the use of sse/sse2 instructions and is safe
+> to use on all x86 processors from the i486 onwards.
 >
-> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> If TUNE_FEATURES contains a feature set which is known to support sse/sse2
+> instructions then they are set to 'sse2' to enable the use of these
+> instructions. This is suitable for most processors from Pentium 4 onwards.
+>
+> Only the 'core2' and 'corei7' TUNE_FEATURES are defined in the oe-core layer and
+> are known to support ss2 instructions. Other layers may introduce additional
+> tunings which support sse2 instructions and for these layers, TARGET_GO386
+> or go_map_386 should be overridden as needed.
+>
+> Signed-off-by: Paul Barker <pbarker@toganlabs.com>
 > ---
->  .../nettle/nettle-3.3/dlopen-test.patch              | 20
-> ++++++++++++++++++++
->  meta/recipes-support/nettle/nettle_3.3.bb            |  4 ++++
->  2 files changed, 24 insertions(+)
->  create mode 100644
-> meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
+>  meta/classes/goarch.bbclass | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >
-> diff --git a/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
-> b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
-> new file mode 100644
-> index 0000000..c4f0b7e
-> --- /dev/null
-> +++ b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch
-> @@ -0,0 +1,20 @@
-> +Replace relative path of libnettle.so with absolute path so the test
-> +program can find it.
-> +Relative paths are not suitable, as the folder strucure for ptest
-> +is different from the one expected by the nettle testsuite.
+> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+> index 659b26a..653f035 100644
+> --- a/meta/classes/goarch.bbclass
+> +++ b/meta/classes/goarch.bbclass
+> @@ -4,10 +4,12 @@ BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
+>  HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
+>  HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
+>  HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+> +HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+>  HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
+>  TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
+>  TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
+>  TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+> +TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'), d.getVar('TUNE_FEATURES'), d)}"
+>  TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
+>  GO_BUILD_BINDIR = "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') == d.getVar('HOST_GOTUPLE')]}"
+>
+> @@ -66,6 +68,15 @@ def go_map_arm(a, f, d):
+>              return '5'
+>      return ''
+>
+> +def go_map_386(a, f, d):
+> +    import re
+> +    if re.match('i.86', a):
+> +        if ('core2' in f) or ('corei7' in f):
+> +            return 'sse2'
+> +        else:
+> +            return '387'
+> +    return ''
 > +
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-> +
-> +--- a/testsuite/dlopen-test.c  2016-10-01 00:28:38.000000000 -0700
-> ++++ b/testsuite/dlopen-test.c  2017-10-13 11:08:57.227572860 -0700
-> +@@ -9,7 +9,7 @@
-> + main (int argc UNUSED, char **argv UNUSED)
-> + {
-> + #if HAVE_LIBDL
-> +-  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
-> ++  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
 
 
-I think it would be preferred if you could use LD_LIBRARY_PATH to search
-for it
+This is too conservative IMO, e.g. anything above i586 is able to handle sse2
+with this patch i686 will use x87 for FPU,
 
->
-> +   int (*get_version)(void);
-> +   if (!handle)
-> +     {
-> diff --git a/meta/recipes-support/nettle/nettle_3.3.bb
-> b/meta/recipes-support/nettle/nettle_3.3.bb
-> index b76babf..3951678 100644
-> --- a/meta/recipes-support/nettle/nettle_3.3.bb
-> +++ b/meta/recipes-support/nettle/nettle_3.3.bb
-> @@ -11,5 +11,9 @@ SRC_URI += "\
->              file://check-header-files-of-openssl-only-if-enable_.patch \
->              "
->
-> +SRC_URI_append_class-target = "\
-> +            file://dlopen-test.patch \
-> +            "
-> +
->  SRC_URI[md5sum] = "10f969f78a463704ae73529978148dbe"
->  SRC_URI[sha256sum] =
-> "46942627d5d0ca11720fec18d81fc38f7ef837ea4197c1f630e71ce0d470b11e"
+>  def go_map_os(o, d):
+>      if o.startswith('linux'):
+>          return 'linux'
 > --
 > 2.7.4
 >
@@ -136,102 +126,4 @@ for it
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---94eb2c11a09ab30f5c055b75e354
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Oct 13, 2017 =
-at 12:24 PM Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.com">=
-juro.bystricky@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">This patch changes the result of the nettle dlopen-test<br>
-from FAIL to PASS. The test used to fail because the test could not<br>
-find and load libnettle.so.<br>
-This patch fixes this by using absolute path instead of relative.<br>
-<br>
-This was the only test out of 88 that used to fail.<br>
-<br>
-Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.co=
-m" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
----<br>
-=C2=A0.../nettle/nettle-3.3/dlopen-test.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | 20 ++++++++++++++++++++<br>
-=C2=A0meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"n=
-oreferrer" target=3D"_blank">nettle_3.3.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 4 ++++<br>
-=C2=A02 files changed, 24 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-support/nettle/nettle-3.3/dlopen-test=
-.patch<br>
-<br>
-diff --git a/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch b/met=
-a/recipes-support/nettle/nettle-3.3/dlopen-test.patch<br>
-new file mode 100644<br>
-index 0000000..c4f0b7e<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/nettle/nettle-3.3/dlopen-test.patch<br>
-@@ -0,0 +1,20 @@<br>
-+Replace relative path of libnettle.so with absolute path so the test<br>
-+program can find it.<br>
-+Relative paths are not suitable, as the folder strucure for ptest<br>
-+is different from the one expected by the nettle testsuite.<br>
-+<br>
-+Upstream-Status: Inappropriate [embedded specific]<br>
-+<br>
-+Signed-off-by: Juro Bystricky &lt;<a href=3D"mailto:juro.bystricky@intel.c=
-om" target=3D"_blank">juro.bystricky@intel.com</a>&gt;<br>
-+<br>
-+--- a/testsuite/dlopen-test.c=C2=A0 2016-10-01 00:28:38.000000000 -0700<br=
->
-++++ b/testsuite/dlopen-test.c=C2=A0 2017-10-13 11:08:57.227572860 -0700<br=
->
-+@@ -9,7 +9,7 @@<br>
-+ main (int argc UNUSED, char **argv UNUSED)<br>
-+ {<br>
-+ #if HAVE_LIBDL<br>
-+-=C2=A0 void *handle =3D dlopen (&quot;../libnettle.so&quot;, RTLD_NOW);<b=
-r>
-++=C2=A0 void *handle =3D dlopen (&quot;/usr/lib/libnettle.so&quot;, RTLD_N=
-OW);</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I think it w=
-ould be preferred if you could use LD_LIBRARY_PATH to search for it</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><br>
-+=C2=A0 =C2=A0int (*get_version)(void);<br>
-+=C2=A0 =C2=A0if (!handle)<br>
-+=C2=A0 =C2=A0 =C2=A0{<br>
-diff --git a/meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" r=
-el=3D"noreferrer" target=3D"_blank">nettle_3.3.bb</a> b/meta/recipes-suppor=
-t/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">nettle_3.3.bb</a><br>
-index b76babf..3951678 100644<br>
---- a/meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"n=
-oreferrer" target=3D"_blank">nettle_3.3.bb</a><br>
-+++ b/meta/recipes-support/nettle/<a href=3D"http://nettle_3.3.bb" rel=3D"n=
-oreferrer" target=3D"_blank">nettle_3.3.bb</a><br>
-@@ -11,5 +11,9 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://check-header-files-o=
-f-openssl-only-if-enable_.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-+SRC_URI_append_class-target =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://dlopen-test.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-+<br>
-=C2=A0SRC_URI[md5sum] =3D &quot;10f969f78a463704ae73529978148dbe&quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;46942627d5d0ca11720fec18d81fc38f7ef837ea=
-4197c1f630e71ce0d470b11e&quot;<br>
---<br>
-2.7.4<br>
-<br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---94eb2c11a09ab30f5c055b75e354--
