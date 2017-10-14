@@ -1,49 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f52.google.com (mail-pg0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id E374A60191
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 95CE4608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Oct 2017 19:22:17 +0000 (UTC)
-Received: by mail-pg0-f52.google.com with SMTP id g6so2305696pgn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Oct 2017 12:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bohOAWfX/DxZpbleU8tzt8oo2bDFQaGhO0VGMiKPB3E=;
-	b=O1GxQzVr0WPBmaKLbMywqt/AXyDd+YVSY8XRr/rUasrW8Vmzy1qG8NQ4xrYeAUgYY7
-	F38obGoUz85/blXAky6pHAvt6O2g5+f5f+sBj27FiT8rgkrr427m6RNtp0suEo2Tl0lg
-	LjHjQnr55keRokM/SniYwWZ7Y7KyyItWStH7GVozjBGwaL8dzAK1Z89uM0hg7cVHkHtt
-	TWS2mvipICDlvIYE2gf40c0rgCYSU/XUlnarjPQgCIWlEWO7kpDw69TZs2s+8DoRjsLw
-	7b5IH3rmvZtF4iVuzpRLCVlLgTAiQ42VU7FwZHWu9gREy+5pW8CRQK11kl1cz8xRb5vO
-	pXhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=bohOAWfX/DxZpbleU8tzt8oo2bDFQaGhO0VGMiKPB3E=;
-	b=dBwt+8BA4ujQgCs6Hl2d7fePaw7inEAFvaveLcGRzOP6dr7GQuXD0CVj56/8f6tVpV
-	u1vemoagDl+SzCy75MG14KsKwy6nb5fEMjonAp+LxtuTcicPqilLmIumzCbQPbyR58xj
-	KbqNi9kN1I5/tvd0KPyypmir02sny8s5kRj4tJz9HHUDd7XkdKhMh8k2S4sM3MBjBsHK
-	5tdbQZxOyeIO1uG9Q2hl/+5h3IkJAX8pdp2FisZz2B5ozmnjOQXai7IxwYOg+9WM6jwy
-	SNLSriifz976G9Bp5rlK2vyA2ODcqmDHjLW5iGLuejEIakxkgoF+lROZDac1yBbN7n8/
-	8L2A==
-X-Gm-Message-State: AMCzsaVbPdpYoOO7joHZ+pxO/ibVVMZcDNQlEAHXgBadBbuMOKMiAFos
-	/wuuOdeCZtMdHpoVMbBrHyTbDM7J94j9gPzbKMM=
-X-Google-Smtp-Source: AOwi7QDNGLqBsJYETn0zCqf/zsZDw5NJ19aJZjOkE+S8oftq+6I2a7l2kBXJ6oAYvPDNDIO4DqVN2/xw9oT4YKCka1w=
-X-Received: by 10.84.138.1 with SMTP id 1mr4724009plo.404.1508008938881; Sat,
-	14 Oct 2017 12:22:18 -0700 (PDT)
+	Sat, 14 Oct 2017 20:38:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9EKcWVV007936
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 14 Oct 2017 13:38:32 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Sat, 14 Oct 2017 13:38:31 -0700
+To: <leonardo.sandoval.gonzalez@linux.intel.com>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>, Robert
+	Yang <liezhi.yang@windriver.com>,
+	"Fan, Wenzong" <Wenzong.Fan@windriver.com>,
+	"Jia, Hongxu" <Hongxu.Jia@windriver.com>
+References: <20171012183523.130193-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <c75e9163-dc11-4e3a-529a-1309cb6805cb@windriver.com>
+Date: Sat, 14 Oct 2017 16:38:30 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-References: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
-	<1507922729-17240-2-git-send-email-pbarker@toganlabs.com>
-	<CAMKF1sqZrYbJ6MgLdQ5gJ=ZZhx1Gn=uYUD-_3S__E8OiDrLXiw@mail.gmail.com>
-	<CAPyrkgx9fCua34-6h=1zJ0FsP4Hjgy7-3n+xnkuREWw2+xQmhw@mail.gmail.com>
-In-Reply-To: <CAPyrkgx9fCua34-6h=1zJ0FsP4Hjgy7-3n+xnkuREWw2+xQmhw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 14 Oct 2017 19:22:07 +0000
-Message-ID: <CAMKF1sq-Dd3Bp87q09yaXqvN5cae=C88uqJb_nMd++-W9OzX2Q@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] goarch.bbclass: Define HOST_GO386 and TARGET_GO386
+In-Reply-To: <20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH 2/4] perl: upgrade to 5.26.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,221 +39,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Oct 2017 19:22:18 -0000
-Content-Type: multipart/alternative; boundary="94eb2c1169501ec77f055b86b189"
+X-List-Received-Date: Sat, 14 Oct 2017 20:38:33 -0000
+Content-Type: multipart/alternative;
+	boundary="------------DAC80ACB0E5CD924D753D998"
+Content-Language: en-GB
 
---94eb2c1169501ec77f055b86b189
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------DAC80ACB0E5CD924D753D998
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 14, 2017 at 11:46 AM Paul Barker <pbarker@toganlabs.com> wrote:
+Waiting for a build so I thought I'd comment on this commit.
 
-> On Sat, Oct 14, 2017 at 2:22 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> > On Fri, Oct 13, 2017 at 12:25 PM, Paul Barker <pbarker@toganlabs.com>
-> wrote:
-> >> These variables are used to control the floating-point instructions
-> emitted by
-> >> the go compiler for x86 architectures.
-> >>
-> >> The default is '387' which disables the use of sse/sse2 instructions
-> and is safe
-> >> to use on all x86 processors from the i486 onwards.
-> >>
-> >> If TUNE_FEATURES contains a feature set which is known to support
-> sse/sse2
-> >> instructions then they are set to 'sse2' to enable the use of these
-> >> instructions. This is suitable for most processors from Pentium 4
-> onwards.
-> >>
-> >> Only the 'core2' and 'corei7' TUNE_FEATURES are defined in the oe-core
-> layer and
-> >> are known to support ss2 instructions. Other layers may introduce
-> additional
-> >> tunings which support sse2 instructions and for these layers,
-> TARGET_GO386
-> >> or go_map_386 should be overridden as needed.
-> >>
-> >> Signed-off-by: Paul Barker <pbarker@toganlabs.com>
-> >> ---
-> >>  meta/classes/goarch.bbclass | 11 +++++++++++
-> >>  1 file changed, 11 insertions(+)
-> >>
-> >> diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
-> >> index 659b26a..653f035 100644
-> >> --- a/meta/classes/goarch.bbclass
-> >> +++ b/meta/classes/goarch.bbclass
-> >> @@ -4,10 +4,12 @@ BUILD_GOTUPLE =3D "${BUILD_GOOS}_${BUILD_GOARCH}"
-> >>  HOST_GOOS =3D "${@go_map_os(d.getVar('HOST_OS'), d)}"
-> >>  HOST_GOARCH =3D "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
-> >>  HOST_GOARM =3D "${@go_map_arm(d.getVar('HOST_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
-> >> +HOST_GO386 =3D "${@go_map_386(d.getVar('HOST_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
-> >>  HOST_GOTUPLE =3D "${HOST_GOOS}_${HOST_GOARCH}"
-> >>  TARGET_GOOS =3D "${@go_map_os(d.getVar('TARGET_OS'), d)}"
-> >>  TARGET_GOARCH =3D "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
-> >>  TARGET_GOARM =3D "${@go_map_arm(d.getVar('TARGET_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
-> >> +TARGET_GO386 =3D "${@go_map_386(d.getVar('TARGET_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
-> >>  TARGET_GOTUPLE =3D "${TARGET_GOOS}_${TARGET_GOARCH}"
-> >>  GO_BUILD_BINDIR =3D
-> "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') =3D=3D
-> d.getVar('HOST_GOTUPLE')]}"
-> >>
-> >> @@ -66,6 +68,15 @@ def go_map_arm(a, f, d):
-> >>              return '5'
-> >>      return ''
-> >>
-> >> +def go_map_386(a, f, d):
-> >> +    import re
-> >> +    if re.match('i.86', a):
-> >> +        if ('core2' in f) or ('corei7' in f):
-> >> +            return 'sse2'
-> >> +        else:
-> >> +            return '387'
-> >> +    return ''
-> >> +
-> >
-> >
-> > This is too conservative IMO, e.g. anything above i586 is able to handl=
-e
-> sse2
-> > with this patch i686 will use x87 for FPU,
-> >
+My comments are about style and maintenance not functionality
+which others have covered (the gentoo comment).
+
+On 2017-10-12 02:35 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> From: Leonardo Sandoval<leonardo.sandoval.gonzalez@linux.intel.com>
 >
-> The Go documentation says "Pentium 4/Opteron/Athlon 64 or later"
+> Highlights:
+>
+>      * Patches rebased to 5.26.1 and just one removed
+That leaves 5 patches that are 'pending'.
 
+Robert, Hongxu, Wenzong,
+You guys added these upstream pending patches.
+Are the patches you send still pending or were they rejected?
 
-Ok if it needs p4 then lets keep it so
+Please elect one of the three of you to follow-up with a patch
+if the status has changed and otherwise ping upstream perl
+to get these patches merged so we can drop them locally.
 
 >
-> (https://golang.org/doc/install/source). GCC documentation also
-> suggests that i686 is too early to support SSE2:
-> https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options. So I
-> think i686 should be using the old-style FPU instructions.
+>      * Several configs values taken from upstream script uconfig[64].sh were introduced in
+>      config.sh, avoiding pre-processor issues.
 >
-> Cheers,
+>      * Several libraries paths now included a './' as prefix, because @INC does not
+>      include local paths.
 >
-> --
-> Paul Barker
-> Tog=C3=A1n Labs Ltd
+>      * Manifypods is excluded from compilation due to compilation errors (see patch for
+>      more info)
 >
+>      * New perl creates a static library (<libdir>/auto/Unicode/Normalize/Normalize.a) thus
+>      there is a new staticdev package.
+>
+> New packages included (compared to previous version):
+>
+>      perl-module-math-bigint-lib
+>      perl-module-test2
+>      perl-module-test2-api
+>      perl-module-test2-api-breakage
+>      perl-module-test2-api-context
+>      perl-module-test2-api-instance
+>      perl-module-test2-api-stack
+>      perl-module-test2-event
+>      perl-module-test2-event-bail
+>      perl-module-test2-event-diag
+>      perl-module-test2-event-encoding
+>      perl-module-test2-event-exception
+>      perl-module-test2-event-generic
+>      perl-module-test2-event-info
+>      perl-module-test2-event-note
+>      perl-module-test2-event-ok
+>      perl-module-test2-event-plan
+>      perl-module-test2-event-skip
+>      perl-module-test2-event-subtest
+>      perl-module-test2-event-tap-version
+>      perl-module-test2-event-waiting
+>      perl-module-test2-formatter
+>      perl-module-test2-formatter-tap
+>      perl-module-test2-hub
+>      perl-module-test2-hub-interceptor
+>      perl-module-test2-hub-interceptor-terminator
+>      perl-module-test2-hub-subtest
+>      perl-module-test2-ipc
+>      perl-module-test2-ipc-driver
+>      perl-module-test2-ipc-driver-files
+>      perl-module-test2-tools-tiny
+>      perl-module-test2-util
+>      perl-module-test2-util-externalmeta
+>      perl-module-test2-util-hashbase
+>      perl-module-test2-util-trace
 
---94eb2c1169501ec77f055b86b189
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The list of these test2 modules could be shorted to
 
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Sat, Oct 14, 2017 =
-at 11:46 AM Paul Barker &lt;<a href=3D"mailto:pbarker@toganlabs.com">pbarke=
-r@toganlabs.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On S=
-at, Oct 14, 2017 at 2:22 AM, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; On Fri, Oct 13, 2017 at 12:25 PM, Paul Barker &lt;<a href=3D"mailto:pb=
-arker@toganlabs.com" target=3D"_blank">pbarker@toganlabs.com</a>&gt; wrote:=
-<br>
-&gt;&gt; These variables are used to control the floating-point instruction=
-s emitted by<br>
-&gt;&gt; the go compiler for x86 architectures.<br>
-&gt;&gt;<br>
-&gt;&gt; The default is &#39;387&#39; which disables the use of sse/sse2 in=
-structions and is safe<br>
-&gt;&gt; to use on all x86 processors from the i486 onwards.<br>
-&gt;&gt;<br>
-&gt;&gt; If TUNE_FEATURES contains a feature set which is known to support =
-sse/sse2<br>
-&gt;&gt; instructions then they are set to &#39;sse2&#39; to enable the use=
- of these<br>
-&gt;&gt; instructions. This is suitable for most processors from Pentium 4 =
-onwards.<br>
-&gt;&gt;<br>
-&gt;&gt; Only the &#39;core2&#39; and &#39;corei7&#39; TUNE_FEATURES are de=
-fined in the oe-core layer and<br>
-&gt;&gt; are known to support ss2 instructions. Other layers may introduce =
-additional<br>
-&gt;&gt; tunings which support sse2 instructions and for these layers, TARG=
-ET_GO386<br>
-&gt;&gt; or go_map_386 should be overridden as needed.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Paul Barker &lt;<a href=3D"mailto:pbarker@toganlabs=
-.com" target=3D"_blank">pbarker@toganlabs.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/classes/goarch.bbclass | 11 +++++++++++<br>
-&gt;&gt;=C2=A0 1 file changed, 11 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbc=
-lass<br>
-&gt;&gt; index 659b26a..653f035 100644<br>
-&gt;&gt; --- a/meta/classes/goarch.bbclass<br>
-&gt;&gt; +++ b/meta/classes/goarch.bbclass<br>
-&gt;&gt; @@ -4,10 +4,12 @@ BUILD_GOTUPLE =3D &quot;${BUILD_GOOS}_${BUILD_GO=
-ARCH}&quot;<br>
-&gt;&gt;=C2=A0 HOST_GOOS =3D &quot;${@go_map_os(d.getVar(&#39;HOST_OS&#39;)=
-, d)}&quot;<br>
-&gt;&gt;=C2=A0 HOST_GOARCH =3D &quot;${@go_map_arch(d.getVar(&#39;HOST_ARCH=
-&#39;), d)}&quot;<br>
-&gt;&gt;=C2=A0 HOST_GOARM =3D &quot;${@go_map_arm(d.getVar(&#39;HOST_ARCH&#=
-39;), d.getVar(&#39;TUNE_FEATURES&#39;), d)}&quot;<br>
-&gt;&gt; +HOST_GO386 =3D &quot;${@go_map_386(d.getVar(&#39;HOST_ARCH&#39;),=
- d.getVar(&#39;TUNE_FEATURES&#39;), d)}&quot;<br>
-&gt;&gt;=C2=A0 HOST_GOTUPLE =3D &quot;${HOST_GOOS}_${HOST_GOARCH}&quot;<br>
-&gt;&gt;=C2=A0 TARGET_GOOS =3D &quot;${@go_map_os(d.getVar(&#39;TARGET_OS&#=
-39;), d)}&quot;<br>
-&gt;&gt;=C2=A0 TARGET_GOARCH =3D &quot;${@go_map_arch(d.getVar(&#39;TARGET_=
-ARCH&#39;), d)}&quot;<br>
-&gt;&gt;=C2=A0 TARGET_GOARM =3D &quot;${@go_map_arm(d.getVar(&#39;TARGET_AR=
-CH&#39;), d.getVar(&#39;TUNE_FEATURES&#39;), d)}&quot;<br>
-&gt;&gt; +TARGET_GO386 =3D &quot;${@go_map_386(d.getVar(&#39;TARGET_ARCH&#3=
-9;), d.getVar(&#39;TUNE_FEATURES&#39;), d)}&quot;<br>
-&gt;&gt;=C2=A0 TARGET_GOTUPLE =3D &quot;${TARGET_GOOS}_${TARGET_GOARCH}&quo=
-t;<br>
-&gt;&gt;=C2=A0 GO_BUILD_BINDIR =3D &quot;${@[&#39;bin/${HOST_GOTUPLE}&#39;,=
-&#39;bin&#39;][d.getVar(&#39;BUILD_GOTUPLE&#39;) =3D=3D d.getVar(&#39;HOST_=
-GOTUPLE&#39;)]}&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; @@ -66,6 +68,15 @@ def go_map_arm(a, f, d):<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;5&#39;=
-<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 return &#39;&#39;<br>
-&gt;&gt;<br>
-&gt;&gt; +def go_map_386(a, f, d):<br>
-&gt;&gt; +=C2=A0 =C2=A0 import re<br>
-&gt;&gt; +=C2=A0 =C2=A0 if re.match(&#39;i.86&#39;, a):<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (&#39;core2&#39; in f) or (&#39;co=
-rei7&#39; in f):<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;sse2&#39;<b=
-r>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;387&#39;<br=
+     perl-module-test2
+     perl-module-test2-api
+     ...
+     perl-module-test2-util-trace
+
+but that's probably long long bikeshedding
+so at least your shed is painted.
+
+>      perl-module-test-builder-formatter
+>      perl-module-test-builder-tododiag
+>      perl-module-unicode-collate-locale-de-at-ph
+>      perl-module-unicode-collate-locale-fr-ca
+>      perl-module-unicode-collate-locale-he
+>      perl-module-unicode-collate-locale-ug-cyrl
+>      perl-module-unicode-collate-locale-vo
+>      perl-module-unicode-normalize-staticdev
 >
-&gt;&gt; +=C2=A0 =C2=A0 return &#39;&#39;<br>
-&gt;&gt; +<br>
-&gt;<br>
-&gt;<br>
-&gt; This is too conservative IMO, e.g. anything above i586 is able to hand=
-le sse2<br>
-&gt; with this patch i686 will use x87 for FPU,<br>
-&gt;<br>
-<br>
-The Go documentation says &quot;Pentium 4/Opteron/Athlon 64 or later&quot;<=
-/blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ok if it needs p4=
- then lets keep it so</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-(<a href=3D"https://golang.org/doc/install/source" rel=3D"noreferrer" targe=
-t=3D"_blank">https://golang.org/doc/install/source</a>). GCC documentation =
-also<br>
-suggests that i686 is too early to support SSE2:<br>
-<a href=3D"https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html#x86-Options"=
- rel=3D"noreferrer" target=3D"_blank">https://gcc.gnu.org/onlinedocs/gcc/x8=
-6-Options.html#x86-Options</a>. So I<br>
-think i686 should be using the old-style FPU instructions.<br>
-<br>
-Cheers,<br>
-<br>
---<br>
-Paul Barker<br>
-Tog=C3=A1n Labs Ltd<br>
-</blockquote></div></div>
+> Signed-off-by: Leonardo Sandoval<leonardo.sandoval.gonzalez@linux.intel.com>
 
---94eb2c1169501ec77f055b86b189--
+
+I like that your package update log has a summary of what's changed *in* 
+the package,
+
+in addition to what's changed in the recipe. It would be nice if more 
+people did that.
+
+
+Shame about the perl madness as reported by the gentoo devs.
+
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
+
+
+--------------DAC80ACB0E5CD924D753D998
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">Waiting for a build so I thought I'd
+      comment on this commit.<br>
+      <br>
+      My comments are about style and maintenance not functionality <br>
+      which others have covered (the gentoo comment).<br>
+      <br>
+      On 2017-10-12 02:35 PM, <a class="moz-txt-link-abbreviated" href="mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@linux.intel.com</a>
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com">
+      <pre wrap="">From: Leonardo Sandoval <a class="moz-txt-link-rfc2396E" href="mailto:leonardo.sandoval.gonzalez@linux.intel.com" moz-do-not-send="true">&lt;leonardo.sandoval.gonzalez@linux.intel.com&gt;</a>
+
+Highlights:
+
+    * Patches rebased to 5.26.1 and just one removed</pre>
+    </blockquote>
+    That leaves 5 patches that are 'pending'. <br>
+    <br>
+    Robert, Hongxu, Wenzong,<br>
+    You guys added these upstream pending patches.<br>
+    Are the patches you send still pending or were they rejected?<br>
+    <br>
+    Please elect one of the three of you to follow-up with a patch<br>
+    if the status has changed and otherwise ping upstream perl<br>
+    to get these patches merged so we can drop them locally.<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com">
+      <pre wrap="">
+
+    * Several configs values taken from upstream script uconfig[64].sh were introduced in
+    config.sh, avoiding pre-processor issues.
+
+    * Several libraries paths now included a './' as prefix, because @INC does not
+    include local paths.
+
+    * Manifypods is excluded from compilation due to compilation errors (see patch for
+    more info)
+
+    * New perl creates a static library (&lt;libdir&gt;/auto/Unicode/Normalize/Normalize.a) thus
+    there is a new staticdev package.
+
+New packages included (compared to previous version):
+
+    perl-module-math-bigint-lib
+    perl-module-test2
+    perl-module-test2-api
+    perl-module-test2-api-breakage
+    perl-module-test2-api-context
+    perl-module-test2-api-instance
+    perl-module-test2-api-stack
+    perl-module-test2-event
+    perl-module-test2-event-bail
+    perl-module-test2-event-diag
+    perl-module-test2-event-encoding
+    perl-module-test2-event-exception
+    perl-module-test2-event-generic
+    perl-module-test2-event-info
+    perl-module-test2-event-note
+    perl-module-test2-event-ok
+    perl-module-test2-event-plan
+    perl-module-test2-event-skip
+    perl-module-test2-event-subtest
+    perl-module-test2-event-tap-version
+    perl-module-test2-event-waiting
+    perl-module-test2-formatter
+    perl-module-test2-formatter-tap
+    perl-module-test2-hub
+    perl-module-test2-hub-interceptor
+    perl-module-test2-hub-interceptor-terminator
+    perl-module-test2-hub-subtest
+    perl-module-test2-ipc
+    perl-module-test2-ipc-driver
+    perl-module-test2-ipc-driver-files
+    perl-module-test2-tools-tiny
+    perl-module-test2-util
+    perl-module-test2-util-externalmeta
+    perl-module-test2-util-hashbase
+    perl-module-test2-util-trace</pre>
+    </blockquote>
+    <br>
+    The list of these test2 modules could be shorted to <br>
+    <br>
+    <pre wrap="">    perl-module-test2
+    perl-module-test2-api
+    ...
+    perl-module-test2-util-trace
+
+but that's probably long long bikeshedding
+so at least your shed is painted.
+
+</pre>
+    <blockquote type="cite"
+cite="mid:20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com">
+      <pre wrap="">
+    perl-module-test-builder-formatter
+    perl-module-test-builder-tododiag
+    perl-module-unicode-collate-locale-de-at-ph
+    perl-module-unicode-collate-locale-fr-ca
+    perl-module-unicode-collate-locale-he
+    perl-module-unicode-collate-locale-ug-cyrl
+    perl-module-unicode-collate-locale-vo
+    perl-module-unicode-normalize-staticdev
+
+Signed-off-by: Leonardo Sandoval <a class="moz-txt-link-rfc2396E" href="mailto:leonardo.sandoval.gonzalez@linux.intel.com" moz-do-not-send="true">&lt;leonardo.sandoval.gonzalez@linux.intel.com&gt;</a></pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>I like that your package update log has a summary of what's
+      changed *in* the package,</p>
+    <p>in addition to what's changed in the recipe. It would be nice if
+      more people did that.</p>
+    <p><br>
+    </p>
+    <p>Shame about the perl madness as reported by the gentoo devs.</p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
+</pre>
+  </body>
+</html>
+
+--------------DAC80ACB0E5CD924D753D998--
