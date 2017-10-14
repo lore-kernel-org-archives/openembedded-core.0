@@ -1,32 +1,49 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 95CE4608B7
+Return-Path: <gizero@gmail.com>
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C7A6877F85
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Oct 2017 20:38:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9EKcWVV007936
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 14 Oct 2017 13:38:32 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Sat, 14 Oct 2017 13:38:31 -0700
-To: <leonardo.sandoval.gonzalez@linux.intel.com>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>, Robert
-	Yang <liezhi.yang@windriver.com>,
-	"Fan, Wenzong" <Wenzong.Fan@windriver.com>,
-	"Jia, Hongxu" <Hongxu.Jia@windriver.com>
-References: <20171012183523.130193-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <c75e9163-dc11-4e3a-529a-1309cb6805cb@windriver.com>
-Date: Sat, 14 Oct 2017 16:38:30 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Sat, 14 Oct 2017 20:53:03 +0000 (UTC)
+Received: by mail-ua0-f195.google.com with SMTP id l40so7404310uah.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Oct 2017 13:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=pB0aitva6H4xUDmrhUNJCkPII7e49sXhfpl7RrilEVw=;
+	b=BGzPN1aJnjikMq6rFy5tNOmDokUvUtlgpjh/wbtGYEiURdSFsiYFxvPr1JKZWIhoQt
+	CHq+R3Z9qwz+3Ieyb//Dj/C3fIap80OBmCXCpNV9y+YRgwo8MbE0jGHlHeSHcPxKgzfo
+	/TNItLbtoj87aupSm6KSco175sF78zsP2iYuB9Iw86HMEGugHmErerw0PdR9QB2pHRkz
+	HxujqdG1RsqXVBL1TYazrXIBfx5VHmZdzaD8AIt7i0awzqwJbDcftd+MMPgnzoIHeIU7
+	6VhIAxIJoLZ46MvvX/3FYeIOEYMdCGvcbBjRqIa8Ogc8WpQO/UzQ8ur+VKzzERf44Zk8
+	C1lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=pB0aitva6H4xUDmrhUNJCkPII7e49sXhfpl7RrilEVw=;
+	b=SQbiw9brlVr2EoLQPFAS8QQmSjup4rz+sLc4o37K8Dnv1TFFr36LcVImcgb2MdROUe
+	O3Qs5QLYYILEbjtfpLoteZsOp8ZA3vooeTjVjMsh/d8h1aLaUdiX5E49+5RmH4si1cv0
+	j61En5cWRwGkt2dIEwnHdlbm1RFVqnZt0iGNlWfZwMop18Y4317fUFreK2BzvuL8H3MX
+	xHuJna0Feym1iszW+4LsqDvbOxoQGweIuB3YVBooGk4t8Cm3YgUAReSxY2QCZwRDRw70
+	JVJa2sYlgNLwbuW1oq1w+M3CcTV9zp58oBgH2jKBYAQkdIkzBWY1OPJpnFqp9k9RCC7n
+	L0gA==
+X-Gm-Message-State: AMCzsaUgaxqkl+1kStBw1VbJWH1Whcap/xHS158ZRIrcclgFZz5nzVLu
+	81azSdVj3NZW50u4qYIVh2ts2d0WWhy/vsiTQPE=
+X-Google-Smtp-Source: AOwi7QDmKlk1rQRHwd1EH2Anpr5uIeH8rppW81SR3N33Rze44WuqIJpxQCalId2HRakNIyrQ686TVJoDELXThWFBkME=
+X-Received: by 10.176.81.132 with SMTP id g4mr4206181uaa.60.1508014384554;
+	Sat, 14 Oct 2017 13:53:04 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Originating-IP: [172.25.44.7]
-Subject: Re: [PATCH 2/4] perl: upgrade to 5.26.1
+Received: by 10.176.82.197 with HTTP; Sat, 14 Oct 2017 13:53:03 -0700 (PDT)
+In-Reply-To: <a74d181f182de5620684e5d4d1019a31e48b400d.1506759191.git.Qi.Chen@windriver.com>
+References: <cover.1506759191.git.Qi.Chen@windriver.com>
+	<a74d181f182de5620684e5d4d1019a31e48b400d.1506759191.git.Qi.Chen@windriver.com>
+From: Andrea Galbusera <gizero@gmail.com>
+Date: Sat, 14 Oct 2017 22:53:03 +0200
+Message-ID: <CAC+thW1NdA_1zAVLf2jU+bQ+Mr58yBKFT_Gec4wXWiJRjfPFgw@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,253 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Oct 2017 20:38:33 -0000
-Content-Type: multipart/alternative;
-	boundary="------------DAC80ACB0E5CD924D753D998"
-Content-Language: en-GB
+X-List-Received-Date: Sat, 14 Oct 2017 20:53:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---------------DAC80ACB0E5CD924D753D998
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Waiting for a build so I thought I'd comment on this commit.
-
-My comments are about style and maintenance not functionality
-which others have covered (the gentoo comment).
-
-On 2017-10-12 02:35 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval<leonardo.sandoval.gonzalez@linux.intel.com>
+On Sat, Sep 30, 2017 at 10:15 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
+> Add tools required by testimage to HOSTTOOLS only when testimage is
+> inherited. These tools, as described in the comment, are only required
+> by the testimage task. So this change should not have negtive effect.
+> This would also solve build error on hosts which miss some tool such as scp.
 >
-> Highlights:
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->      * Patches rebased to 5.26.1 and just one removed
-That leaves 5 patches that are 'pending'.
-
-Robert, Hongxu, Wenzong,
-You guys added these upstream pending patches.
-Are the patches you send still pending or were they rejected?
-
-Please elect one of the three of you to follow-up with a patch
-if the status has changed and otherwise ping upstream perl
-to get these patches merged so we can drop them locally.
-
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index f41680b..94c1f27 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -484,7 +484,7 @@ HOSTTOOLS += " \
+>  "
 >
->      * Several configs values taken from upstream script uconfig[64].sh were introduced in
->      config.sh, avoiding pre-processor issues.
+>  # Tools needed to run testimage runtime image testing
+> -HOSTTOOLS += "ip ping ps scp ssh stty"
+> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
 >
->      * Several libraries paths now included a './' as prefix, because @INC does not
->      include local paths.
+>  # Link to these if present
+>  HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+> --
+> 1.9.1
 >
->      * Manifypods is excluded from compilation due to compilation errors (see patch for
->      more info)
->
->      * New perl creates a static library (<libdir>/auto/Unicode/Normalize/Normalize.a) thus
->      there is a new staticdev package.
->
-> New packages included (compared to previous version):
->
->      perl-module-math-bigint-lib
->      perl-module-test2
->      perl-module-test2-api
->      perl-module-test2-api-breakage
->      perl-module-test2-api-context
->      perl-module-test2-api-instance
->      perl-module-test2-api-stack
->      perl-module-test2-event
->      perl-module-test2-event-bail
->      perl-module-test2-event-diag
->      perl-module-test2-event-encoding
->      perl-module-test2-event-exception
->      perl-module-test2-event-generic
->      perl-module-test2-event-info
->      perl-module-test2-event-note
->      perl-module-test2-event-ok
->      perl-module-test2-event-plan
->      perl-module-test2-event-skip
->      perl-module-test2-event-subtest
->      perl-module-test2-event-tap-version
->      perl-module-test2-event-waiting
->      perl-module-test2-formatter
->      perl-module-test2-formatter-tap
->      perl-module-test2-hub
->      perl-module-test2-hub-interceptor
->      perl-module-test2-hub-interceptor-terminator
->      perl-module-test2-hub-subtest
->      perl-module-test2-ipc
->      perl-module-test2-ipc-driver
->      perl-module-test2-ipc-driver-files
->      perl-module-test2-tools-tiny
->      perl-module-test2-util
->      perl-module-test2-util-externalmeta
->      perl-module-test2-util-hashbase
->      perl-module-test2-util-trace
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-The list of these test2 modules could be shorted to
+This one is breaking any recipe that fetches from git repo with
+'protocol=ssh' in its SRC_URI... I verified that reverting this one
+restores the usual fetcher behaviour. Should ssh be added to HOSTTOOLS
+unconditionally or is there any other way to approach it?
 
-     perl-module-test2
-     perl-module-test2-api
-     ...
-     perl-module-test2-util-trace
-
-but that's probably long long bikeshedding
-so at least your shed is painted.
-
->      perl-module-test-builder-formatter
->      perl-module-test-builder-tododiag
->      perl-module-unicode-collate-locale-de-at-ph
->      perl-module-unicode-collate-locale-fr-ca
->      perl-module-unicode-collate-locale-he
->      perl-module-unicode-collate-locale-ug-cyrl
->      perl-module-unicode-collate-locale-vo
->      perl-module-unicode-normalize-staticdev
->
-> Signed-off-by: Leonardo Sandoval<leonardo.sandoval.gonzalez@linux.intel.com>
-
-
-I like that your package update log has a summary of what's changed *in* 
-the package,
-
-in addition to what's changed in the recipe. It would be nice if more 
-people did that.
-
-
-Shame about the perl madness as reported by the gentoo devs.
-
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
-
-
---------------DAC80ACB0E5CD924D753D998
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">Waiting for a build so I thought I'd
-      comment on this commit.<br>
-      <br>
-      My comments are about style and maintenance not functionality <br>
-      which others have covered (the gentoo comment).<br>
-      <br>
-      On 2017-10-12 02:35 PM, <a class="moz-txt-link-abbreviated" href="mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@linux.intel.com</a>
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com">
-      <pre wrap="">From: Leonardo Sandoval <a class="moz-txt-link-rfc2396E" href="mailto:leonardo.sandoval.gonzalez@linux.intel.com" moz-do-not-send="true">&lt;leonardo.sandoval.gonzalez@linux.intel.com&gt;</a>
-
-Highlights:
-
-    * Patches rebased to 5.26.1 and just one removed</pre>
-    </blockquote>
-    That leaves 5 patches that are 'pending'. <br>
-    <br>
-    Robert, Hongxu, Wenzong,<br>
-    You guys added these upstream pending patches.<br>
-    Are the patches you send still pending or were they rejected?<br>
-    <br>
-    Please elect one of the three of you to follow-up with a patch<br>
-    if the status has changed and otherwise ping upstream perl<br>
-    to get these patches merged so we can drop them locally.<br>
-    <br>
-    <blockquote type="cite"
-cite="mid:20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com">
-      <pre wrap="">
-
-    * Several configs values taken from upstream script uconfig[64].sh were introduced in
-    config.sh, avoiding pre-processor issues.
-
-    * Several libraries paths now included a './' as prefix, because @INC does not
-    include local paths.
-
-    * Manifypods is excluded from compilation due to compilation errors (see patch for
-    more info)
-
-    * New perl creates a static library (&lt;libdir&gt;/auto/Unicode/Normalize/Normalize.a) thus
-    there is a new staticdev package.
-
-New packages included (compared to previous version):
-
-    perl-module-math-bigint-lib
-    perl-module-test2
-    perl-module-test2-api
-    perl-module-test2-api-breakage
-    perl-module-test2-api-context
-    perl-module-test2-api-instance
-    perl-module-test2-api-stack
-    perl-module-test2-event
-    perl-module-test2-event-bail
-    perl-module-test2-event-diag
-    perl-module-test2-event-encoding
-    perl-module-test2-event-exception
-    perl-module-test2-event-generic
-    perl-module-test2-event-info
-    perl-module-test2-event-note
-    perl-module-test2-event-ok
-    perl-module-test2-event-plan
-    perl-module-test2-event-skip
-    perl-module-test2-event-subtest
-    perl-module-test2-event-tap-version
-    perl-module-test2-event-waiting
-    perl-module-test2-formatter
-    perl-module-test2-formatter-tap
-    perl-module-test2-hub
-    perl-module-test2-hub-interceptor
-    perl-module-test2-hub-interceptor-terminator
-    perl-module-test2-hub-subtest
-    perl-module-test2-ipc
-    perl-module-test2-ipc-driver
-    perl-module-test2-ipc-driver-files
-    perl-module-test2-tools-tiny
-    perl-module-test2-util
-    perl-module-test2-util-externalmeta
-    perl-module-test2-util-hashbase
-    perl-module-test2-util-trace</pre>
-    </blockquote>
-    <br>
-    The list of these test2 modules could be shorted to <br>
-    <br>
-    <pre wrap="">    perl-module-test2
-    perl-module-test2-api
-    ...
-    perl-module-test2-util-trace
-
-but that's probably long long bikeshedding
-so at least your shed is painted.
-
-</pre>
-    <blockquote type="cite"
-cite="mid:20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com">
-      <pre wrap="">
-    perl-module-test-builder-formatter
-    perl-module-test-builder-tododiag
-    perl-module-unicode-collate-locale-de-at-ph
-    perl-module-unicode-collate-locale-fr-ca
-    perl-module-unicode-collate-locale-he
-    perl-module-unicode-collate-locale-ug-cyrl
-    perl-module-unicode-collate-locale-vo
-    perl-module-unicode-normalize-staticdev
-
-Signed-off-by: Leonardo Sandoval <a class="moz-txt-link-rfc2396E" href="mailto:leonardo.sandoval.gonzalez@linux.intel.com" moz-do-not-send="true">&lt;leonardo.sandoval.gonzalez@linux.intel.com&gt;</a></pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>I like that your package update log has a summary of what's
-      changed *in* the package,</p>
-    <p>in addition to what's changed in the recipe. It would be nice if
-      more people did that.</p>
-    <p><br>
-    </p>
-    <p>Shame about the perl madness as reported by the gentoo devs.</p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
-</pre>
-  </body>
-</html>
-
---------------DAC80ACB0E5CD924D753D998--
