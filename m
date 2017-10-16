@@ -1,29 +1,62 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id EDB0F6E671
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 96C4D6E671
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 10:31:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Oct 2017 03:31:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,386,1503385200"; d="scan'208";a="1231278989"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2017 03:31:07 -0700
-To: Tim Orling <timothy.t.orling@linux.intel.com>,
-	Pascal Bach <pascal.bach@siemens.com>
-References: <1507893281-22628-1-git-send-email-pascal.bach@siemens.com>
-	<3800C28F-F649-4710-9B5B-B38E3E63CB53@linux.intel.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b6d180ee-6674-5010-dc21-54f88f016d80@linux.intel.com>
-Date: Mon, 16 Oct 2017 13:27:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Mon, 16 Oct 2017 11:44:59 +0000 (UTC)
+Received: by mail-qt0-f176.google.com with SMTP id 1so30934337qtn.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Oct 2017 04:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=nE2ByBazbK2v+xBpNbJqu/OaAO/T6DUygcvHSf7dD7Q=;
+	b=FoyZFqq2rYNgdoMWq9uZ+VJS2EX4RZYuflXNbcHnIiu5RURoFreCgvOg5WX8/B5gko
+	wYxSWbAZE5Ct40BqO50JGxNoDsy5a5X8vP/dfXRMef4xE/MKsE31m6PD3VhbKPGqszac
+	eFz4e7bMiRlaBLvlyb8dUmOp2ryIM9Midc7a/FyJaXwNJQqg9y7GNExc/MXhDjOUYjcr
+	IpAUv1tGCCjBNsPXIqarQCiFOoZQSbLaRFni+5JWnMO+m+j3aHOSLlM71JJs6kfLn88n
+	dcWKt1ZPhCA/Nvb8yC/8odloXmEiTIMTWfChi+jOmQS9r+RqxVHGmZVUAKQD2gn0hKjw
+	iS6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=nE2ByBazbK2v+xBpNbJqu/OaAO/T6DUygcvHSf7dD7Q=;
+	b=YNnXH6CJkBCms1Wq0dyZuWCiqraUm5F7zxPFb1owJO6RlokUbKUclfCloZ9PaGTfS/
+	OengNjwVW9tW6kJEsGoGIpGZ0gYiICh3IdTOrKnUQCCrbgQrm215vHjPr/QKwJj0/lSe
+	cTHG/M/1PN9CsY7SkLQk8SK9MOJRdbZfULN/Y/8ukScL6d9srz3S2JhhYFSKo1Cs3xMS
+	3nU9oWl4lNqiirvDXlgM1WHLdlF1jsLxPBYyIH4VAIyqrKsIyoDgu0eL4vq31Z1hdOaR
+	uvKVxIzm+xDMnRKB/DBrrizl0D1kQvzsK1Oj/6dpsKdfs0euz87G14AXLG92n/j64mTz
+	lhYg==
+X-Gm-Message-State: AMCzsaWQcxff4Jqj5V3BooNm79CilobdbOYDRdyEhKnQmqdC0XsrrMoj
+	+Eez6HYz2/c+0JcxEm0qdtCRRdj0
+X-Received: by 10.13.217.65 with SMTP id b62mr185601ywe.46.1508154300143;
+	Mon, 16 Oct 2017 04:45:00 -0700 (PDT)
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com.
+	[209.85.218.48]) by smtp.gmail.com with ESMTPSA id
+	n68sm3366007ywe.64.2017.10.16.04.44.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Oct 2017 04:44:58 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f48.google.com with SMTP id v132so24627710oie.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Oct 2017 04:44:58 -0700 (PDT)
+X-Google-Smtp-Source: ABhQp+Q5+hpuxf7MrB2Zm0K2ob6jOyHSJnfRQtnsI/UL1O4GdI9GaoRcRW3yVjuR4fvnsPwUO0hDF8Qt21GwF8kAwts=
+X-Received: by 10.202.205.66 with SMTP id d63mr5127029oig.352.1508154298172;
+	Mon, 16 Oct 2017 04:44:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3800C28F-F649-4710-9B5B-B38E3E63CB53@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bmap-tools: add missing runtime dependencies
+Received: by 10.157.56.216 with HTTP; Mon, 16 Oct 2017 04:44:57 -0700 (PDT)
+In-Reply-To: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
+References: <1507922729-17240-1-git-send-email-pbarker@toganlabs.com>
+Date: Mon, 16 Oct 2017 09:44:57 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKpESN1iuWUnWLtEf9-p9GgaKFRe-3EPB41dCnsy-rUJdA@mail.gmail.com>
+Message-ID: <CAP9ODKpESN1iuWUnWLtEf9-p9GgaKFRe-3EPB41dCnsy-rUJdA@mail.gmail.com>
+To: Paul Barker <pbarker@toganlabs.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Define GO386 for go cross-compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +69,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 10:31:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 16 Oct 2017 11:44:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/14/2017 09:11 AM, Tim Orling wrote:
-> 
->> On Oct 13, 2017, at 4:14 AM, Pascal Bach <pascal.bach@siemens.com> wrote:
->>
->> When running bmap on a target device the added dependncies are required.
->>
->> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
->> ---
->> meta/recipes-support/bmap-tools/bmap-tools_3.4.bb | 12 +++++++++++-
->> 1 file changed, 11 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
->> index 7454f9d..348c9e8 100644
->> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
->> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
->> @@ -14,7 +14,17 @@ SRCREV = "9dad724104df265442226972a1e310813f9ffcba"
->>
->> S = "${WORKDIR}/git"
->>
->> -RDEPENDS_${PN} = "python-core python-compression python-mmap"
->> +RDEPENDS_${PN} = "\
->> +    python-core \
->> +    python-compression \
->> +    python-argparse \
->> +    python-shell \
->> +    python-fcntl \
->> +    python-threading \
->> +    python-xml \
->> +    python-subprocess \
->> +    python-mmap \
->> +    “
->>
-> 
-> These should all be the python3- version or ${PYTHON_PN}- (e.g. python3-core) should they not? Or is that an artifact of how the python module splitting is happening in oe-core?
+On Fri, Oct 13, 2017 at 4:25 PM, Paul Barker <pbarker@toganlabs.com> wrote:
+...
+> My hope is that these patches are suitable for inclusion in the rocko branch
+> (after the 2.4.0 release now). If not then please flag this and I'll look for
+> alternative solutions. I don't think that leaving all go binaries as broken on
+> qemux86 if they happen to use floating point operations is a valid option for
+> the rocko branch.
 
-That is correct. This was forgotten when the recipe was moved to python3:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb?id=04ef46e2b2b753321408db02a2df3753b85ac0dd
+I support the backport as well.
 
-Pascal, can you modify everything to python3-*, check that it still 
-works, and resend the patch please?
-
-Alex
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
