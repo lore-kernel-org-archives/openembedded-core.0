@@ -1,47 +1,36 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FEE171B45
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id E8F8577D6D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 17:37:39 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id n89so8679300pfk.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 10:37:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=pwAEbihuR7Uw2b45C4J4gogQH+49PQqGZWjUCY4ZP2M=;
-	b=rhLifNJilzBdeiDyM/FO0WdXAb7BFzL8uoANSpV4b3tbWu1RdiXFHm47eblFSG9TgN
-	HCFYhM6X2QFrdOt8bTjeI7q9Ty7yGtCq9t8TGGuf/1qWyLDsxiijWyJ4IeaFjj0oubv9
-	njlqKTRiW12j4ZIDQj/nQMRSPfMFpvp/ZNq1toSnsYsSn0Vja+a6Q2kufS4n6E5JTWkh
-	3ISV5Xvr+4SLmqvbMx2mN0X7Bd1SSm35pQaAj/TIDbfAQ2AE49N9zbrAiSOn7O+1XuaG
-	9v3pPNENRyrfihC2dlJ9KXSKmtHyhUcMv84jUW6162orRRpv9RWMAEHDTOHQxpp/vpsV
-	+v7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pwAEbihuR7Uw2b45C4J4gogQH+49PQqGZWjUCY4ZP2M=;
-	b=QHY1ZBxmLpjCJsFDyzG9nf8xzHqorBvkZWguhUdDN0QKgYdbFi6ugB2Pz3mkDToKp2
-	/07k4TmvdCNXaXENKFyQ2/u6jdgEPTQDedhSXOmt/KFzzg7Nxy91mI4aYQ+SMkZL7fLr
-	QsO2RP9mB+NAjN0SeGqF1uGFpFBIRSNvdHK42uyiiGR38DXl+/+A9p5Gc4jqYlHQC9JT
-	pbkQ1Np6X6TNjHlXv77uKXJCtwMuoAwVDczR9/lQB4TeaP/+IDA2aCILJ15XHTIPAGiS
-	GOHzloIIrw71urAeR5i/YItDaF+fG8S9Vm8g8nq5xHozzBNVo44t1RLWMyjYTtrVIAG4
-	mGvQ==
-X-Gm-Message-State: AMCzsaXKA9RJM4Ka++S8criByEKc40gdhJ74m36qW0h0cwCTnJ0+69yp
-	ee68rojDwXHyprVzeQqESBxecg==
-X-Google-Smtp-Source: ABhQp+Qdprjd9fyshbGTIKkHo7tULOlT69kBZtvJCcO5Nyu0xHqb9TfNyt2byrWa28eX4mZdSbH/lQ==
-X-Received: by 10.84.129.1 with SMTP id 1mr433273plb.40.1508175461062;
-	Mon, 16 Oct 2017 10:37:41 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	n29sm14059586pgf.44.2017.10.16.10.37.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Oct 2017 10:37:39 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Oct 2017 10:37:34 -0700
-Message-Id: <1508175454-27413-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] feature-arm-vfp.inc: drop unnecessary extra space from TUNE_CCARGS
+	Mon, 16 Oct 2017 17:48:15 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id E0B6520901;
+	Mon, 16 Oct 2017 17:48:16 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id VtJwgHAZu50I; Mon, 16 Oct 2017 17:48:16 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B3A2A20147;
+	Mon, 16 Oct 2017 17:48:14 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 41B94162700; Mon, 16 Oct 2017 13:48:14 -0400 (EDT)
+Date: Mon, 16 Oct 2017 13:48:14 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171016174814.GV9221@denix.org>
+References: <1507836933-142066-1-git-send-email-denis@denix.org>
+	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
+	<20171013162825.GN9221@denix.org>
+MIME-Version: 1.0
+In-Reply-To: <20171013162825.GN9221@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 17:37:40 -0000
+X-List-Received-Date: Mon, 16 Oct 2017 17:48:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The trailing space added to TUNE_CCARGS when appending -mfpu=XXX is
-unnecessary and leads to a double space in the final value.
+On Fri, Oct 13, 2017 at 12:28:25PM -0400, Denys Dmytriyenko wrote:
+> On Fri, Oct 13, 2017 at 12:33:35PM +0100, Burton, Ross wrote:
+> > On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org> wrote:
+> > 
+> > > From: Denys Dmytriyenko <denys@ti.com>
+> > >
+> > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > >
+> > 
+> > One day I'll figure out why quilt appears to be non-deterministic about
+> > this but:
+> > 
+> > ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt --quiltrc
+> > /data/poky-tmp/master/build/work/all-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
+> > push' exited with 0  Output:
+> > Applying patch usesysrootprefixforpkgdatadirvariable.patch
+> 
+> I don't see this patch in master. Works fine in distroless and poky from 
+> master.
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/machine/include/arm/feature-arm-vfp.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Ping.
 
-diff --git a/meta/conf/machine/include/arm/feature-arm-vfp.inc b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-index 667b609..7ae7456 100644
---- a/meta/conf/machine/include/arm/feature-arm-vfp.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-vfp.inc
-@@ -5,8 +5,8 @@
- TUNEVALID[vfp] = "Enable Vector Floating Point (vfp) unit."
- TUNE_CCARGS_MFPU .= "${@bb.utils.contains('TUNE_FEATURES', 'vfp', ' vfp', '', d)}"
- 
--TUNE_CCARGS  .= "${@ (' -mfpu=%s ' % d.getVar('TUNE_CCARGS_MFPU').split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU') != '') else ''}"
--ARMPKGSFX_FPU = "${@ ('-%s'        % d.getVar('TUNE_CCARGS_MFPU').split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if (d.getVar('TUNE_CCARGS_MFPU') != '') else ''}"
-+TUNE_CCARGS  .= "${@ (' -mfpu=%s' % d.getVar('TUNE_CCARGS_MFPU').split()[-1]) if (d.getVar('TUNE_CCARGS_MFPU') != '') else ''}"
-+ARMPKGSFX_FPU = "${@ ('-%s'       % d.getVar('TUNE_CCARGS_MFPU').split()[-1].replace('vfpv3-d16', 'vfpv3d16')) if (d.getVar('TUNE_CCARGS_MFPU') != '') else ''}"
- 
- TUNEVALID[callconvention-hard] = "Enable EABI hard float call convention, requires VFP."
- TUNE_CCARGS_MFLOAT = "${@ bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'hard', 'softfp', d) if (d.getVar('TUNE_CCARGS_MFPU') != '') else '' }"
--- 
-1.9.1
 
+> > patching file wayland-protocols.pc.in
+> > Hunk #1 FAILED at 1.
+> > 1 out of 1 hunk FAILED -- rejects in file wayland-protocols.pc.in
+> > Patch usesysrootprefixforpkgdatadirvariable.patch can be reverse-applied
+> > 
+> > Ross
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
