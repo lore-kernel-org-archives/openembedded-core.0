@@ -1,51 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FACA6FFF7
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C013D77E9C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 15:10:50 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id 97so16454629iok.7
+	Mon, 16 Oct 2017 15:24:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9GFOXCN025955
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 08:10:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Te55HmFZLBZV6tjO62H/N8eYf6yCQA3LFyeODYPOQU4=;
-	b=wv9c+kK4mo8jexUG0iKEolrNWQRqEGnxvZOMC3ikhVDL81uHZd9pZ4KJ96MDz8lTf8
-	BqN/yYlqg0r4FGMC1hjutg3v3i96tTlralvBIQLLUOkiZwj+U0YYc2koQPJ5SjMbf4ef
-	9iLxne9n0p6SwX6Gub+qW+IM5Mgr+liPqeyHajQAJux/Otjj8hF6NJxegeHZIlXcTcTU
-	ZdhbxOF6+UttAgDv/Po5rtZRfR8gcIDXkU3a2RzcPtDIFwSFwHMlR7HuEiIBK3WbgP6u
-	19qUpLa3n9mbBz1U5JoRRDKPoWnrQDpcufr9iFBzmrHpL7CkryZbnK14vxd6M8FFhWba
-	5bMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Te55HmFZLBZV6tjO62H/N8eYf6yCQA3LFyeODYPOQU4=;
-	b=hiCpOGLVvuxyMCldKZDaIqSpZhUToR9N02JprHs/rF4mWbjnEL6KbmrLiky38f/pyc
-	x3Iu8hRUndeg8fsbRbKdW0igLisY2FfL50HiNIGxC3v6tLQ6IPlOXGwuOtRaTQbRvHw6
-	2o5UVMBfWDKWDyw0qxRWeUXnve6IUU1eZxc9mIg4+c8459gygGexi3bl+r9RTKOIB6AQ
-	cz3Fb/ap+YKVGxrNOLSQefDZgBoyQLyV7da7Xb067bJKsQWkYzzBeY5LLhuZoZALdtqx
-	oZeDDhRrOLGLqKghZR3gobLbKHKMtHUeI4HeSieUiDDwCAGr3VA9cY3rwgoJLxgg0atW
-	eQrw==
-X-Gm-Message-State: AMCzsaVtprjEYBDzW5IgGPYV87UhXCkNdX5DYbsd8zbFK+VniLVWRst9
-	8laEhlQepbZ4UKkFsgLWcioJcUz8XJVNn2/x89tOUQ==
-X-Google-Smtp-Source: AOwi7QCPSH/8mGs2XahUco8pM703H2q3MOZ1zK19wPTeFROeZJ+skV2uyDZmIrm4otBXj1TEpzbwDoX7/JCb47RHu7o=
-X-Received: by 10.107.189.129 with SMTP id n123mr13499799iof.48.1508166652071; 
-	Mon, 16 Oct 2017 08:10:52 -0700 (PDT)
+	Mon, 16 Oct 2017 08:24:33 -0700 (PDT)
+Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 16 Oct 2017 08:24:32 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20171016150045.25323-1-Randy.MacLeod@windriver.com>
+	<20171016150045.25323-2-Randy.MacLeod@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <c0d3c08a-1250-0438-1d5b-c8d49144417e@windriver.com>
+Date: Mon, 16 Oct 2017 11:24:27 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Mon, 16 Oct 2017 08:10:31 -0700 (PDT)
-In-Reply-To: <CA+chaQeokk6Ao9QcRoC1_jb+HzOAn0hOyAK7NRxo4yT_38f1Sw@mail.gmail.com>
-References: <20170913204659.1919-1-Martin.Jansa@gmail.com>
-	<20170919151851.25093-1-Martin.Jansa@gmail.com>
-	<CA+chaQeokk6Ao9QcRoC1_jb+HzOAn0hOyAK7NRxo4yT_38f1Sw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Oct 2017 16:10:31 +0100
-Message-ID: <CAJTo0LbKoM94aUnrQ99iF470AE2cJ_Q0LgGOEp8VH-TzdwYu0Q@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCHv2] insane.bbclass: Add do_qa_pseudo function to check for common errors listed in pseudo.log
+In-Reply-To: <20171016150045.25323-2-Randy.MacLeod@windriver.com>
+X-Originating-IP: [172.25.44.7]
+Subject: Re: [PATCH 2/2] openssl: force soft link to avoid rare race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +36,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 15:10:51 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0761c88f5e63055bab6933"
+X-List-Received-Date: Mon, 16 Oct 2017 15:24:32 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---94eb2c0761c88f5e63055bab6933
-Content-Type: text/plain; charset="UTF-8"
+On 2017-10-16 11:00 AM, Randy MacLeod wrote:
+> This patch works around a rare parallel build race condition using
+> the force option when soft linking.
 
-On 16 October 2017 at 16:01, Martin Jansa <martin.jansa@gmail.com> wrote:
+Rare here means a few times out of > 5000 builds.
 
-> The world builds with this check applied show that *a lot* of components
-> report one of these errors and often many of errors, the most complete logs
-> from last couple days:
->
+I pushed this change into the WR oe-core branch 3 weeks ago (Sept 25th)
+and haven't see any build failures of this type since then
+whereas I would expect to see about 5-10 without the work-around.
 
-A lot of the errors in my logs were due to package-output.lock being
-accessed inside/outside pseudo context.  Can you grep all of your logs and
-collate some common patterns?
+../Randy
 
-Ross
+> 
+> The error seen is:
+> 
+> ln: failed to create symbolic link 'libssl.so': File exists
+> make[4]: *** [Makefile.shared:171: link_a.gnu] Error 1
+> make[4]: Leaving directory
+> '/.../build/tmp-glibc/work/x86_64-linux/openssl-native/1.0.2k-r0/openssl-1.0.2k'
+> 
+> Just add the -f flag to the platform independent soft link code to
+> avoid the collision.  This is reasonable since this Makefile removes
+> the link target before creating a new soft link. The Makefile was
+> written this way to support platforms that don't allow forcing a
+> softlink to overwrite an existing link. Only builds on Linux are
+> supported so that's not a requirement for oe-core recipes.
+> 
+> The openssl team is rewriting their build files so it's not appropriate
+> for openssl upstream and fixing the root cause of the race condition
+> was also not pursued.
+> 
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>   ...penssl-force-soft-link-to-avoid-rare-race.patch | 48 ++++++++++++++++++++++
+>   .../recipes-connectivity/openssl/openssl_1.0.2l.bb |  1 +
+>   2 files changed, 49 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch
+> 
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch
+> new file mode 100644
+> index 0000000..f3c1ac7
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch
+> @@ -0,0 +1,48 @@
+> +From 3d9199423d48766649a2b2ebb3924e892ed16fa4 Mon Sep 17 00:00:00 2001
+> +From: Randy MacLeod <Randy.MacLeod@windriver.com>
+> +Date: Tue, 20 Jun 2017 15:32:08 -0400
+> +Subject: [PATCH] openssl: Force soft link to avoid rare race
+> +
+> +This patch works around a rare parallel build race condition.
+> +The error seen is:
+> +
+> +ln: failed to create symbolic link 'libssl.so': File exists
+> +make[4]: *** [Makefile.shared:171: link_a.gnu] Error 1
+> +make[4]: Leaving directory
+> +'/.../build/tmp-glibc/work/x86_64-linux/openssl-native/1.0.2k-r0/openssl-1.0.2k'
+> +
+> +The openssl team is rewriting their build files so it's not
+> +appropriate for openssl upstream and fixing the root cause of
+> +the Makefile race condition was also not pursued.
+> +
+> +Upstream-status: Inappropriate [build rules rewrite in progress]
+> +
+> +Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> +---
+> + Makefile.shared | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/Makefile.shared b/Makefile.shared
+> +index e8d222a..1bff92f 100644
+> +--- a/Makefile.shared
+> ++++ b/Makefile.shared
+> +@@ -118,14 +118,14 @@
+> + 		if [ -n "$$SHLIB_COMPAT" ]; then \
+> + 			for x in $$SHLIB_COMPAT; do \
+> + 				( $(SET_X); rm -f $$SHLIB$$x$$SHLIB_SUFFIX; \
+> +-				  ln -s $$prev $$SHLIB$$x$$SHLIB_SUFFIX ); \
+> ++				  ln -sf $$prev $$SHLIB$$x$$SHLIB_SUFFIX ); \
+> + 				prev=$$SHLIB$$x$$SHLIB_SUFFIX; \
+> + 			done; \
+> + 		fi; \
+> + 		if [ -n "$$SHLIB_SOVER" ]; then \
+> + 			[ -e "$$SHLIB$$SHLIB_SUFFIX" ] || \
+> + 			( $(SET_X); rm -f $$SHLIB$$SHLIB_SUFFIX; \
+> +-			  ln -s $$prev $$SHLIB$$SHLIB_SUFFIX ); \
+> ++			  ln -sf $$prev $$SHLIB$$SHLIB_SUFFIX ); \
+> + 		fi; \
+> + 	fi
+> +
+> +--
+> +2.9.3
+> +
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+> index 8c34ea6..c537aa4 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
+> @@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
+>               file://openssl-util-perlpath.pl-cwd.patch \
+>               file://Use-SHA256-not-MD5-as-default-digest.patch \
+>               file://0001-Fix-build-with-clang-using-external-assembler.patch \
+> +            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch  \
+>               "
+>   SRC_URI[md5sum] = "f85123cd390e864dfbe517e7616e6566"
+>   SRC_URI[sha256sum] = "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c"
+> 
 
---94eb2c0761c88f5e63055bab6933
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 16 October 2017 at 16:01, Martin Jansa <span dir=3D"ltr=
-">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.ja=
-nsa@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">The world=
- builds with this check applied show that *a lot* of components report one =
-of these errors and often many of errors, the most complete logs from last =
-couple days:</div></blockquote><div><br></div><div>A lot of the errors in m=
-y logs were due to package-output.lock being accessed inside/outside pseudo=
- context.=C2=A0 Can you grep all of your logs and collate some common patte=
-rns?</div><div><br></div><div>Ross</div></div></div></div>
+-- 
+# Randy MacLeod.  WR Linux
+# Wind River an Intel Company
 
---94eb2c0761c88f5e63055bab6933--
