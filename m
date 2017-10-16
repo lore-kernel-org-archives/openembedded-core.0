@@ -1,22 +1,22 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id B052778215
+	by mail.openembedded.org (Postfix) with ESMTP id E03F678215
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Oct 2017 22:01:28 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by orsmga105.jf.intel.com with ESMTP; 16 Oct 2017 15:01:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,388,1503385200"; d="scan'208";a="323947010"
+X-IronPort-AV: E=Sophos;i="5.43,388,1503385200"; d="scan'208";a="323947013"
 Received: from yctb05.ostc.intel.com ([10.54.69.59])
 	by fmsmga004.fm.intel.com with ESMTP; 16 Oct 2017 15:01:29 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Oct 2017 15:01:25 -0700
-Message-Id: <20171016220126.128198-4-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 16 Oct 2017 15:01:26 -0700
+Message-Id: <20171016220126.128198-5-leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
 In-Reply-To: <20171016220126.128198-1-leonardo.sandoval.gonzalez@linux.intel.com>
 References: <20171016220126.128198-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2 4/5] libxml-namespacesupport-perl: upgrade to 1.12.9
+Subject: [PATCH v2 5/5] ruby: upgrade to 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,88 +29,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 22:01:28 -0000
+X-List-Received-Date: Mon, 16 Oct 2017 22:01:29 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
+The CVE-2017-14064 patch is already at 2.4.2 as explained on
+project's commit, so removing from the recipe & repo.
+
+    commit 83735ba29a0bfdaffa8e9c2a1dc025c3b0b63153
+    Author: hsbt <hsbt@b2dd03c8-39d4-4d8f-98ff-823fe69b080e>
+    Date:   Wed Apr 12 00:21:18 2017 +0000
+
+        Merge json-2.0.4.
+
+          * https://github.com/flori/json/releases/tag/v2.0.4
+          * https://github.com/flori/json/blob/09fabeb03e73ed88dc8ce8f19d76ac59e51dae20/CHANGES.md#2017-03-23-204
+
+        git-svn-id: svn+ssh://ci.ruby-lang.org/ruby/trunk@58323 b2dd03c8-39d4-4d8f-98ff-823fe69b080e
+
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- .../perl/libxml-namespacesupport-perl_1.12.9.bb    | 35 ++++++++++++++++++++++
- .../perl/libxml-namespacesupport-perl_1.12.bb      | 23 --------------
- 2 files changed, 35 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb
- delete mode 100644 meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+ .../ruby/ruby/ruby-CVE-2017-14064.patch            | 87 ----------------------
+ .../ruby/{ruby_2.4.1.bb => ruby_2.4.2.bb}          |  5 +-
+ 2 files changed, 2 insertions(+), 90 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch
+ rename meta/recipes-devtools/ruby/{ruby_2.4.1.bb => ruby_2.4.2.bb} (88%)
 
-diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb
-new file mode 100644
-index 0000000000..a7d26ea38c
---- /dev/null
-+++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb
-@@ -0,0 +1,35 @@
-+SUMMARY = "Perl module for supporting simple generic namespaces"
-+HOMEPAGE = "http://veillard.com/XML/"
-+DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-based XML names. \
-+                It also helps maintain a prefix-to-namespace URI map, and provides a number of \
-+                basic checks. "
-+
-+SECTION = "libs"
-+LICENSE = "Artistic-1.0 | GPL-1.0+"
-+PR = "r3"
-+
-+LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=9ca1a4a941496e7feedac72c4fb8b137"
-+
-+# the upstream project complicate a bit url generartion on point release, using a underscore
-+# instead of a point on URL, i.e 1.12_9 instead of 1.12.9
-+python () {
-+    baseurl = "http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport"
-+    pv = d.getVar('PV')
-+    pvsplit = pv.split('.')
-+
-+    if len(pvsplit) != 3:
-+        d.setVar('SRC_URI', "%s-%s.tar.gz" % (baseurl, pv))
-+        d.setVar('S', "${WORKDIR}/XML-NamespaceSupport-${PV}")
-+    else:
-+        pvx, pvy, pvz = pvsplit
-+        d.setVar('SRC_URI', "%s-%s.%s_%s.tar.gz" % (baseurl, pvx, pvy, pvz))
-+        d.setVar('S', "${WORKDIR}/XML-NamespaceSupport-%s.%s_%s" % (pvx, pvy, pvz))
-+}
-+
-+SRC_URI[md5sum] = "165927a311fb640961b28607035beab8"
-+SRC_URI[sha256sum] = "2e84a057f0a8c845a612d212742cb94fca4fc8a433150b5721bd448f77d1e4a9"
-+
-+inherit cpan
-+
-+BBCLASSEXTEND="native"
-+
-diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch
 deleted file mode 100644
-index 3498a286d4..0000000000
---- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+index 88e693c94e..0000000000
+--- a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch
 +++ /dev/null
-@@ -1,23 +0,0 @@
--SUMMARY = "Perl module for supporting simple generic namespaces"
--HOMEPAGE = "http://veillard.com/XML/"
--DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-based XML names. \
--                It also helps maintain a prefix-to-namespace URI map, and provides a number of \
--                basic checks. "
+@@ -1,87 +0,0 @@
+-From 8f782fd8e181d9cfe9387ded43a5ca9692266b85 Mon Sep 17 00:00:00 2001
+-From: Florian Frank <flori@ping.de>
+-Date: Thu, 2 Mar 2017 12:12:33 +0100
+-Subject: [PATCH] Fix arbitrary heap exposure problem
 -
--SECTION = "libs"
--LICENSE = "Artistic-1.0 | GPL-1.0+"
--PR = "r3"
+-Upstream-Status: Backport
+-CVE: CVE-2017-14064
 -
--LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=9ca1a4a941496e7feedac72c4fb8b137"
+-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+----
+- ext/json/generator/generator.c | 12 ++++++------
+- ext/json/generator/generator.h |  1 -
+- 2 files changed, 6 insertions(+), 7 deletions(-)
 -
--SRC_URI = "http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport-${PV}.tar.gz"
--SRC_URI[md5sum] = "a8916c6d095bcf073e1108af02e78c97"
--SRC_URI[sha256sum] = "47e995859f8dd0413aa3f22d350c4a62da652e854267aa0586ae544ae2bae5ef"
+-diff --git a/ext/json/generator/generator.c b/ext/json/generator/generator.c
+-index ef85bb7..c88818c 100644
+---- a/ext/json/generator/generator.c
+-+++ b/ext/json/generator/generator.c
+-@@ -308,7 +308,7 @@ static char *fstrndup(const char *ptr, unsigned long len) {
+-   char *result;
+-   if (len <= 0) return NULL;
+-   result = ALLOC_N(char, len);
+--  memccpy(result, ptr, 0, len);
+-+  memcpy(result, ptr, len);
+-   return result;
+- }
+- 
+-@@ -1062,7 +1062,7 @@ static VALUE cState_indent_set(VALUE self, VALUE indent)
+-         }
+-     } else {
+-         if (state->indent) ruby_xfree(state->indent);
+--        state->indent = strdup(RSTRING_PTR(indent));
+-+        state->indent = fstrndup(RSTRING_PTR(indent), len);
+-         state->indent_len = len;
+-     }
+-     return Qnil;
+-@@ -1100,7 +1100,7 @@ static VALUE cState_space_set(VALUE self, VALUE space)
+-         }
+-     } else {
+-         if (state->space) ruby_xfree(state->space);
+--        state->space = strdup(RSTRING_PTR(space));
+-+        state->space = fstrndup(RSTRING_PTR(space), len);
+-         state->space_len = len;
+-     }
+-     return Qnil;
+-@@ -1136,7 +1136,7 @@ static VALUE cState_space_before_set(VALUE self, VALUE space_before)
+-         }
+-     } else {
+-         if (state->space_before) ruby_xfree(state->space_before);
+--        state->space_before = strdup(RSTRING_PTR(space_before));
+-+        state->space_before = fstrndup(RSTRING_PTR(space_before), len);
+-         state->space_before_len = len;
+-     }
+-     return Qnil;
+-@@ -1173,7 +1173,7 @@ static VALUE cState_object_nl_set(VALUE self, VALUE object_nl)
+-         }
+-     } else {
+-         if (state->object_nl) ruby_xfree(state->object_nl);
+--        state->object_nl = strdup(RSTRING_PTR(object_nl));
+-+        state->object_nl = fstrndup(RSTRING_PTR(object_nl), len);
+-         state->object_nl_len = len;
+-     }
+-     return Qnil;
+-@@ -1208,7 +1208,7 @@ static VALUE cState_array_nl_set(VALUE self, VALUE array_nl)
+-         }
+-     } else {
+-         if (state->array_nl) ruby_xfree(state->array_nl);
+--        state->array_nl = strdup(RSTRING_PTR(array_nl));
+-+        state->array_nl = fstrndup(RSTRING_PTR(array_nl), len);
+-         state->array_nl_len = len;
+-     }
+-     return Qnil;
+-diff --git a/ext/json/generator/generator.h b/ext/json/generator/generator.h
+-index 900b4d5..c367a62 100644
+---- a/ext/json/generator/generator.h
+-+++ b/ext/json/generator/generator.h
+-@@ -1,7 +1,6 @@
+- #ifndef _GENERATOR_H_
+- #define _GENERATOR_H_
+- 
+--#include <string.h>
+- #include <math.h>
+- #include <ctype.h>
+- 
+--- 
+-2.10.2
 -
--
--S = "${WORKDIR}/XML-NamespaceSupport-${PV}"
--
--inherit cpan
--
--BBCLASSEXTEND="native"
--
+diff --git a/meta/recipes-devtools/ruby/ruby_2.4.1.bb b/meta/recipes-devtools/ruby/ruby_2.4.2.bb
+similarity index 88%
+rename from meta/recipes-devtools/ruby/ruby_2.4.1.bb
+rename to meta/recipes-devtools/ruby/ruby_2.4.2.bb
+index 7d27ac84ec..b471154a22 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.4.1.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.4.2.bb
+@@ -6,11 +6,10 @@ SRC_URI += " \
+            file://ruby-CVE-2017-9227.patch \
+            file://ruby-CVE-2017-9228.patch \
+            file://ruby-CVE-2017-9229.patch \
+-           file://ruby-CVE-2017-14064.patch \
+            "
+ 
+-SRC_URI[md5sum] = "782bca562e474dd25956dd0017d92677"
+-SRC_URI[sha256sum] = "a330e10d5cb5e53b3a0078326c5731888bb55e32c4abfeb27d9e7f8e5d000250"
++SRC_URI[md5sum] = "fe106eed9738c4e03813ab904f8d891c"
++SRC_URI[sha256sum] = "93b9e75e00b262bc4def6b26b7ae8717efc252c47154abb7392e54357e6c8c9c"
+ 
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
 -- 
 2.12.3
 
