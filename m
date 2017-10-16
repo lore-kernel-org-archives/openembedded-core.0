@@ -1,66 +1,22 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B08CA60553
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 924C571B87
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 16:04:04 +0000 (UTC)
-Received: by mail-qt0-f196.google.com with SMTP id f8so32730566qta.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 09:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=PQ4SKnM7FwWpPi+3vTw+YoFvd0vwWBhVqVuhdumNdY0=;
-	b=s9ldj6LXX1ch+CpWAxKp+nX9W1RI8q7AGvjCOe97oOGtbj2GYyZlDQezkhGqlg1N3p
-	PCKW+FSReb52rVbB4Gra1n+oboTaLhXGtK7XTftueM4m8OlI6btRPdBTWXrEeTvpsRhl
-	XFsWwCEa6QXkSOxRmntltT1N34TtvryoigUpIscXECpaKg0wjfqlPBOYOrV53r9DxPSS
-	HtPwxuXHfHCL24YeqvC+/oJ/009DZy9gKGPrAUn48zaJLdlsTgsOaupyI3yIgKsTGFvQ
-	DCalnkvN1heagn+AnAbjUDGPEIanUy0y9fzjW21s4cF/6Sqk/Ryw4EXPq0pXhqJZ8U+z
-	5bXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=PQ4SKnM7FwWpPi+3vTw+YoFvd0vwWBhVqVuhdumNdY0=;
-	b=MDLWFQHUTk0RkHEiM3G2vp6UdKYCT6k8qxwNpjXlHF0Oo286auaTq8PU1g/pzW45uJ
-	MCAZSa0K59AMQCooF6VGMgnDyc0WOGYuouUxNZedDNRB/urOS0V0DfBxhPq7Er3638xZ
-	Af2W2gOGWCZg9GRLz9daH/k2VVHN96bIz4RftyJCjFqvF5nuNHW6V8WVrZWjAzcErWoH
-	9PpzVzI3l/3vMwSpwoVU/Mewez+tkn2p0B4AU3quxF6L7sMtVrn52tlglz+yeAO1MrDU
-	WWXM8XdXBSaZGxY751zCH7cFxyYurb6dzdIYlnedQbqpzLLUNOlYJK56aKpO0r6byG2N
-	Sq1A==
-X-Gm-Message-State: AMCzsaVttKaBdrvyMfFG7YupWodJz2axXPJITzbh9TDBU1NRM9fssHs5
-	b64e9FIFXAsO+4dBeHHtfXs6bzpx
-X-Received: by 10.37.54.13 with SMTP id d13mr726790yba.477.1508169845016;
-	Mon, 16 Oct 2017 09:04:05 -0700 (PDT)
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com.
-	[209.85.218.43])
-	by smtp.gmail.com with ESMTPSA id x2sm3975010ywj.46.2017.10.16.09.04.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Oct 2017 09:04:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f43.google.com with SMTP id v9so25890232oif.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 09:04:03 -0700 (PDT)
-X-Google-Smtp-Source: ABhQp+SnmaYBOXvEmI30mz04XNC3kyuVxT5ruE5OlJ03fhNkA/39Qdr/eX07FHFqaC8eM3jWE9gze/2QyTZ70cfnkt4=
-X-Received: by 10.157.22.187 with SMTP id c56mr683532ote.364.1508169843119;
-	Mon, 16 Oct 2017 09:04:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.56.216 with HTTP; Mon, 16 Oct 2017 09:04:02 -0700 (PDT)
-In-Reply-To: <CAMKF1sqt+oPS4acyBVX7qm9bb_1k3nRW8MuSckrmwAJFE+qC6g@mail.gmail.com>
-References: <20171014154858.35123-1-raj.khem@gmail.com>
-	<20171014154858.35123-6-raj.khem@gmail.com>
-	<06c9bf77-9781-f521-c450-c46f985c7dd3@gmail.com>
-	<CAJ86T=Wr_u_x8Zn2n5SX2C8dyO1vbpMFX=3ufZA8X_gtG53p6w@mail.gmail.com>
-	<CAP9ODKp1H_netdtLEs_thSGNJRfcOETwU6O+b4zfHe+ZSg=w2A@mail.gmail.com>
-	<CAMKF1sqt+oPS4acyBVX7qm9bb_1k3nRW8MuSckrmwAJFE+qC6g@mail.gmail.com>
-Date: Mon, 16 Oct 2017 14:04:02 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKra3W86NOWEvSqZ_72jTw=_dQp5ujYap+S-du-voQY_rA@mail.gmail.com>
-Message-ID: <CAP9ODKra3W86NOWEvSqZ_72jTw=_dQp5ujYap+S-du-voQY_rA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] gcc6: Upgrade to 6.4
+	Mon, 16 Oct 2017 16:29:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id CDF25260DD5
+Message-ID: <1508171375.9509.49.camel@collabora.co.uk>
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Oct 2017 18:29:35 +0200
+In-Reply-To: <CAJTo0Law3mNK557=Nr+Fne3J5KNxwD=vNHO3FvHS=b2i3CkJEA@mail.gmail.com>
+References: <1506614485-31675-1-git-send-email-fabien.lahoudere@collabora.co.uk>
+	<1506614485-31675-3-git-send-email-fabien.lahoudere@collabora.co.uk>
+	<CAJTo0Law3mNK557=Nr+Fne3J5KNxwD=vNHO3FvHS=b2i3CkJEA@mail.gmail.com>
+X-Mailer: Evolution 3.22.6-1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 3/3] weston: Bump version to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,44 +29,281 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 16:04:04 -0000
+X-List-Received-Date: Mon, 16 Oct 2017 16:29:39 -0000
+Content-Type: multipart/alternative; boundary="=-0CvsqZ5moFWxaM9tPBxR"
+
+--=-0CvsqZ5moFWxaM9tPBxR
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 16, 2017 at 1:50 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Oct 16, 2017 at 4:53 AM, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->> On Sun, Oct 15, 2017 at 5:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>> On Sat, Oct 14, 2017 at 10:21 PM, akuster808 <akuster808@gmail.com> wrote:
->>>> why do we continue to maintain 2 versions of gcc?
->>>
->>> Probably the same reason why Buildroot continues to maintain 4
->>> versions of gcc, it's useful for end users.
->>>
->>>   https://git.buildroot.net/buildroot/tree/package/gcc
->>
->> We keep all user space and toolchain up to date so upgrading the GCC
->> is straightforward.  That said the gcc cannot vary from one machine to
->> another so if a vendor wants to use an old release, it can be done
->> using their distro.
->>
->> I am against maintaining two GCC versions as it increases the amount
->> of testing needed. Instead I'd prefer to have clang merged on oe-core
->> instead and easy its adoption / test.
+Hi Ross
+I fix this by adding "#include <time.h>" in shared/timespec-util.hI will send a v5
+Thanks
+Fabien
+On Mon, 2017-10-16 at 13:14 +0100, Burton, Ross wrote:
+> Fails on the autobuilder when build against musl:
+> http://errors.yoctoproject.org/Errors/Details/157183/
+> 
+> Ross
+> On 28 September 2017 at 17:01, Fabien Lahoudere <fabien.lahoudere@collabora.co.uk> wrote:
+> > Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> > 
+> > ---
+> > 
+> >  .../wayland/{weston_2.0.0.bb => weston_3.0.0.bb}          | 15 +++++++--------
+> > 
+> >  1 file changed, 7 insertions(+), 8 deletions(-)
+> > 
+> >  rename meta/recipes-graphics/wayland/{weston_2.0.0.bb => weston_3.0.0.bb} (90%)
+> > 
+> > 
+> > 
+> > diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-
+> > graphics/wayland/weston_3.0.0.bb
+> > 
+> > similarity index 90%
+> > 
+> > rename from meta/recipes-graphics/wayland/weston_2.0.0.bb
+> > 
+> > rename to meta/recipes-graphics/wayland/weston_3.0.0.bb
+> > 
+> > index 8160f55..6b3fad7 100644
+> > 
+> > --- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
+> > 
+> > +++ b/meta/recipes-graphics/wayland/weston_3.0.0.bb
+> > 
+> > @@ -9,12 +9,11 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+> > 
+> >             file://weston.png \
+> > 
+> >             file://weston.desktop \
+> > 
+> >             file://0001-make-error-portable.patch \
+> > 
+> > -           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
+> > 
+> >             file://xwayland.weston-start \
+> > 
+> >             file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
+> > 
+> >  "
+> > 
+> > -SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
+> > 
+> > -SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
+> > 
+> > +SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
+> > 
+> > +SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
+> > 
+> > 
+> > 
+> >  inherit autotools pkgconfig useradd distro_features_check
+> > 
+> >  # depends on virtual/egl
+> > 
+> > @@ -76,7 +75,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
+> > 
+> > 
+> > 
+> >  do_install_append() {
+> > 
+> >         # Weston doesn't need the .la files to load modules, so wipe them
+> > 
+> > -       rm -f ${D}/${libdir}/libweston-2/*.la
+> > 
+> > +       rm -f ${D}/${libdir}/libweston-3/*.la
+> > 
+> > 
+> > 
+> >         # If X11, ship a desktop file to launch it
+> > 
+> >         if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
+> > 
+> > @@ -93,16 +92,16 @@ do_install_append() {
+> > 
+> >  }
+> > 
+> > 
+> > 
+> >  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
+> > 
+> > -             libweston-2 ${PN}-examples"
+> > 
+> > +             libweston-3 ${PN}-examples"
+> > 
+> > 
+> > 
+> >  FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info
+> > ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
+> > 
+> > 
+> > 
+> > -FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
+> > 
+> > -SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
+> > 
+> > +FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
+> > 
+> > +SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
+> > 
+> > 
+> > 
+> >  FILES_${PN}-examples = "${bindir}/*"
+> > 
+> > 
+> > 
+> > -FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
+> > 
+> > +FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
+> > 
+> >  RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
+> > 
+> > 
+> > 
+> >  RDEPENDS_${PN} += "xkeyboard-config"
+> > 
+> > --
+> > 
+> > 1.8.3.1
+> > 
+> > 
+> > 
+> > --
+> > 
+> > _______________________________________________
+> > 
+> > Openembedded-core mailing list
+> > 
+> > Openembedded-core@lists.openembedded.org
+> > 
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > 
+> > 
+
+--=-0CvsqZ5moFWxaM9tPBxR
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head></head><body style=3D"word-wrap: break-word; -webkit-nbsp-mode:=
+ space; -webkit-line-break: after-white-space;"><div>Hi Ross</div><div><br>=
+</div><div>I fix this by adding "#include &lt;time.h&gt;" in shared/timespe=
+c-util.h</div><div>I will send a v5</div><div><br></div><div>Thanks</div><d=
+iv><br></div><div>Fabien</div><div><br></div><div>On Mon, 2017-10-16 at 13:=
+14 +0100, Burton, Ross wrote:</div><blockquote type=3D"cite"><div dir=3D"lt=
+r">Fails on the autobuilder when build against musl:<div><br></div><div><a =
+href=3D"http://errors.yoctoproject.org/Errors/Details/157183/">http://error=
+s.yoctoproject.org/Errors/Details/157183/</a><br></div></div><div dir=3D"lt=
+r"><div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div =
+class=3D"gmail_quote">On 28 September 2017 at 17:01, Fabien Lahoudere <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:fabien.lahoudere@collabora.co.uk" target=
+=3D"_blank">fabien.lahoudere@collabora.co.uk</a>&gt;</span> wrote:<br><bloc=
+kquote type=3D"cite">Signed-off-by: Fabien Lahoudere &lt;<a href=3D"mailto:=
+fabien.lahoudere@collabora.co.uk">fabien.lahoudere@collabora.<wbr>co.uk</a>=
+&gt;<br>
+---<br>
+&nbsp;.../wayland/{<a href=3D"http://weston_2.0.0.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">weston_2.0.0.bb</a> =3D&gt; <a href=3D"http://weston_3.0.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">weston_3.0.0.bb</a>}&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; | 15 +++++++--------<br>
+&nbsp;1 file changed, 7 insertions(+), 8 deletions(-)<br>
+&nbsp;rename meta/recipes-graphics/wayland/{<a href=3D"http://weston_2.0.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">weston_2.0.0.bb</a> =3D&gt; <a hre=
+f=3D"http://weston_3.0.0.bb" rel=3D"noreferrer" target=3D"_blank">weston_3.=
+0.0.bb</a>} (90%)<br>
+<br>
+diff --git a/meta/recipes-graphics/wayland/<a href=3D"http://weston_2.0.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">weston_2.0.0.bb</a> b/meta/recipes-=
+graphics/wayland/<a href=3D"http://weston_3.0.0.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">weston_3.0.0.bb</a><br>
+similarity index 90%<br>
+rename from meta/recipes-graphics/wayland/<a href=3D"http://weston_2.0.0.bb=
+" rel=3D"noreferrer" target=3D"_blank"><wbr>weston_2.0.0.bb</a><br>
+rename to meta/recipes-graphics/wayland/<a href=3D"http://weston_3.0.0.bb" =
+rel=3D"noreferrer" target=3D"_blank"><wbr>weston_3.0.0.bb</a><br>
+index 8160f55..6b3fad7 100644<br>
+--- a/meta/recipes-graphics/wayland/<a href=3D"http://weston_2.0.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">weston_2.0.0.bb</a><br>
++++ b/meta/recipes-graphics/wayland/<a href=3D"http://weston_3.0.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">weston_3.0.0.bb</a><br>
+@@ -9,12 +9,11 @@ SRC_URI =3D "<a href=3D"https://wayland.freedesktop.org/r=
+eleases/${BPN}-${PV}.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://w=
+ayland.freedesktop.<wbr>org/releases/${BPN}-${PV}.tar.<wbr>xz</a> \<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://weston.png \<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://weston.desktop \<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://0001-make-error-portable.p=
+atch \<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;file://0001-configure.ac-Fix-wayl=
+and-protocols-path.patch \<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://xwayland.weston-start \<br=
 >
-> In practice, there are a large set of applications that customers have porting
-> to do when major compiler version changes (e.g. 6 to 7), unless there
-> is a feasible path for upgrade people
-> will refrain from upgrading to newer versions of releases. Its not a
-> trivial task
-> to upgrade systemdwide compiler in any distro. So its a good strategy to have
-> two versions overlapping for few releases, this smoothens the migration for
-> large application bases.
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://0001-weston-launch-Provide=
+-a-default-version-that-doesn-t.patch \<br>
+&nbsp;"<br>
+-SRC_URI[md5sum] =3D "15f38945942bf2a91fe2687145fb4c7d"<br>
+-SRC_URI[sha256sum] =3D "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad86=
+0e733b355365d8"<br>
++SRC_URI[md5sum] =3D "9c42a4c51a1b9f35d040fa9d45ada36d"<br>
++SRC_URI[sha256sum] =3D "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262=
+bd9c35e93723a5"<br>
+<br>
+&nbsp;inherit autotools pkgconfig useradd distro_features_check<br>
+&nbsp;# depends on virtual/egl<br>
+@@ -76,7 +75,7 @@ PACKAGECONFIG[pam] =3D "--with-pam,--without-pam,libpam"<=
+br>
+<br>
+&nbsp;do_install_append() {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; # Weston doesn't need the .la files to load mod=
+ules, so wipe them<br>
+-&nbsp; &nbsp; &nbsp; &nbsp;rm -f ${D}/${libdir}/libweston-2/*.la<br>
++&nbsp; &nbsp; &nbsp; &nbsp;rm -f ${D}/${libdir}/libweston-3/*.la<br>
+<br>
+&nbsp; &nbsp; &nbsp; &nbsp; # If X11, ship a desktop file to launch it<br>
+&nbsp; &nbsp; &nbsp; &nbsp; if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x1=
+1', d)}" ]; then<br>
+@@ -93,16 +92,16 @@ do_install_append() {<br>
+&nbsp;}<br>
+<br>
+&nbsp;PACKAGES +=3D "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${P=
+N}-xwayland', '', d)} \<br>
+-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;libweston-2 ${PN}-examples=
+"<br>
++&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;libweston-3 ${PN}-examples=
+"<br>
+<br>
+&nbsp;FILES_${PN} =3D "${bindir}/weston ${bindir}/weston-terminal ${bindir}=
+/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${=
+libdir}/${BPN}/*.so ${datadir}"<br>
+<br>
+-FILES_libweston-2 =3D "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"=
+<br>
+-SUMMARY_libweston-2 =3D "Helper library for implementing 'wayland window m=
+anagers'."<br>
++FILES_libweston-3 =3D "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"=
+<br>
++SUMMARY_libweston-3 =3D "Helper library for implementing 'wayland window m=
+anagers'."<br>
+<br>
+&nbsp;FILES_${PN}-examples =3D "${bindir}/*"<br>
+<br>
+-FILES_${PN}-xwayland =3D "${libdir}/libweston-2/xwayland.so"<br>
++FILES_${PN}-xwayland =3D "${libdir}/libweston-3/xwayland.so"<br>
+&nbsp;RDEPENDS_${PN}-xwayland +=3D "xserver-xorg-xwayland"<br>
+<br>
+&nbsp;RDEPENDS_${PN} +=3D "xkeyboard-config"<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.8.3.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span><br></blockquote></div><br></div>
+</blockquote></body></html>
 
-Agreed and rocko has this; for 2.5 we don't need to provide two
-versions one more time.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
+--=-0CvsqZ5moFWxaM9tPBxR--
