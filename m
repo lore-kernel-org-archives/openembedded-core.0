@@ -1,36 +1,40 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id E8F8577D6D
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id C8C7077BC3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 17:48:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id E0B6520901;
-	Mon, 16 Oct 2017 17:48:16 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id VtJwgHAZu50I; Mon, 16 Oct 2017 17:48:16 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id B3A2A20147;
-	Mon, 16 Oct 2017 17:48:14 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 41B94162700; Mon, 16 Oct 2017 13:48:14 -0400 (EDT)
-Date: Mon, 16 Oct 2017 13:48:14 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171016174814.GV9221@denix.org>
-References: <1507836933-142066-1-git-send-email-denis@denix.org>
-	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
-	<20171013162825.GN9221@denix.org>
+	Mon, 16 Oct 2017 18:05:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga105.jf.intel.com with ESMTP; 16 Oct 2017 11:05:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,387,1503385200"; d="scan'208";a="1231421669"
+Received: from orsmsx102.amr.corp.intel.com ([10.22.225.129])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2017 11:05:19 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.30]) by
+	ORSMSX102.amr.corp.intel.com ([169.254.3.17]) with mapi id
+	14.03.0319.002; Mon, 16 Oct 2017 11:05:18 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH] nettle-ptest: fix a failing test
+Thread-Index: AQHTRFjYVkd5kHN2v0qeVbI85TIBKKLi4A4AgAPBUvCAAHlXAP//rXQQ
+Date: Mon, 16 Oct 2017 18:05:10 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B611A2BE52@ORSMSX112.amr.corp.intel.com>
+References: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
+	<CAMKF1sq-CjSGt36V=B5yjg+diaAMFkH8h-N29t4uMuXNV8_qyA@mail.gmail.com>
+	<6E51916E4A1F32428260031F4C7CD2B611A2BC51@ORSMSX112.amr.corp.intel.com>
+	<CAMKF1sps3+LLw9=rcxM1xNAgvQsd-VJcS4sJ98BVaZ=QYUH=qg@mail.gmail.com>
+In-Reply-To: <CAMKF1sps3+LLw9=rcxM1xNAgvQsd-VJcS4sJ98BVaZ=QYUH=qg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-In-Reply-To: <20171013162825.GN9221@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nettle-ptest: fix a failing test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 17:48:16 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 16 Oct 2017 18:05:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Oct 13, 2017 at 12:28:25PM -0400, Denys Dmytriyenko wrote:
-> On Fri, Oct 13, 2017 at 12:33:35PM +0100, Burton, Ross wrote:
-> > On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org> wrote:
-> > 
-> > > From: Denys Dmytriyenko <denys@ti.com>
-> > >
-> > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > >
-> > 
-> > One day I'll figure out why quilt appears to be non-deterministic about
-> > this but:
-> > 
-> > ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt --quiltrc
-> > /data/poky-tmp/master/build/work/all-poky-linux/wayland-protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
-> > push' exited with 0  Output:
-> > Applying patch usesysrootprefixforpkgdatadirvariable.patch
-> 
-> I don't see this patch in master. Works fine in distroless and poky from 
-> master.
-
-Ping.
-
-
-> > patching file wayland-protocols.pc.in
-> > Hunk #1 FAILED at 1.
-> > 1 out of 1 hunk FAILED -- rejects in file wayland-protocols.pc.in
-> > Patch usesysrootprefixforpkgdatadirvariable.patch can be reverse-applied
-> > 
-> > Ross
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+DQo+IEl0IHNob3VsZCBsb29rIGluIHBhdGhzIHJlbGF0aXZlIHRvIExEX0xJQlJBUllfUEFUSCwg
+ZG8geW91IHNlZSBpdA0KPiBkb2Vzbid0IGhhcHBlbiA/DQo+IA0KDQpUaGUgcHJvYmxlbSBpcywg
+Zm9yIGRsb3BlbiByZWxhdGl2ZS9hYnNvbHV0ZSBuYW1lcyBMRF9MSUJSQVJZX1BBVEgNCmlzIG5v
+dCB1c2VkLiANCg0KVGhlIG1hbiBmb3IgZGxvcGVuIHNheXM6DQpJZiBmaWxlbmFtZSBjb250YWlu
+cyBhIHNsYXNoICgiLyIpLCB0aGVuIGl0IGlzIGludGVycHJldGVkIGFzIGEgKHJlbGF0aXZlIG9y
+IGFic29sdXRlKSBwYXRobmFtZS4gIE90aGVyd2lzZSA8Li4uPiBpZiB0aGUgZHluYW1pYyBsaW5r
+ZXIgYXQgIHRoZSAgdGltZSAgdGhhdCAgdGhlICBwcm9ncmFtICB3YXMgc3RhcnRlZCwgdGhlIGVu
+dmlyb25tZW50IHZhcmlhYmxlIExEX0xJQlJBUllfUEFUSCB3YXMgZGVmaW5lZCB0byBjb250YWlu
+IGEgY29sb24tc2VwYXJhdGVkIGxpc3Qgb2YgZGlyZWN0b3JpZXMsIHRoZW4gdGhlc2UgYXJlIHNl
+YXJjaGVkLg0KDQo=
 
