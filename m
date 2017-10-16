@@ -1,51 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D0496FFC7
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id C693277E9A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 20:34:23 +0000 (UTC)
-Received: by mail-io0-f172.google.com with SMTP id e89so9776401ioi.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 13:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1p6z4vDo1cC/9O+LvdQuobHewpMjiB+t08eZ0qrMR/A=;
-	b=LVF0HUV2Rv2jAyrk3H2eDRjYtn/SKjzeu6xRI81fuzLwlO37c+yHWmYRI3mV6g6cvi
-	hW0y6oDSblny7av3pZ4qO9NF1TnRmMWvth2ZTU3SdowOep/w6HTc5/EX0AioeUGHypMt
-	f3pW4kuV9m9Kuiap+NT6/uQLWgaBZ6dyPF+izS76FdDtGNkyP7c7AQQTLdYX3YUBGlIo
-	TFr1VrTwi4XLwkNwgvvjJyGUiNUE8N4U7rQmIdjy1ZWMndSKpLIL7K5Atyp3fdBjSC+G
-	FChfqw8n6a9e+Je4XrZG0TfFIZXZB2pKpQgoJEoVxSksCgyrsuSw50khaEVPq7ZF4ofP
-	Xgrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1p6z4vDo1cC/9O+LvdQuobHewpMjiB+t08eZ0qrMR/A=;
-	b=tFzC7Mi+uQFjuOCoGJfDxzrYjwYWcD4EoeUarGSzBVvpN5vvQCl5foHkuOqdODDXy0
-	N+7P9P93Qa0PvixBc90JYqhtEFbyxSk/cbeBkR7UbpR0GL6czhdSAI+5qTFGZDJasm6y
-	pKU4L5qbiHYxLoVKzzjnkckdeaBJRE84FJbMcIZQ5iAALgRudaabDL5FTGzsVJXiXeII
-	jtXEydFt/f/2IUH3ZAPvwvNW202jDqymUFiBt2UrBZjebCGiUQj3KmnD2P3ARYTLhFuI
-	SZj3+IPO0eCo7KHX4ArboRTIMsmcDafTH/G03/fe0nWFt2OUj1wI/lbwm4hmWMYzg8yu
-	zMxA==
-X-Gm-Message-State: AMCzsaVMFcsjECJEai7OnRf+vfJNlBDqt9uC0jKrL0Q7CGeQRK+hvA5A
-	Hy/4ki5YQ+blJ913z67UNVzQ5rOua1wELlTk0vQdXg==
-X-Google-Smtp-Source: ABhQp+RSkL5PiPJvjoqMEfQxxbtTqL5lVHCA7UIofFcoCUiVihLyVIixEOFNoODgTIRSehIpUt2GMDmH2QuQfysrHSk=
-X-Received: by 10.107.18.67 with SMTP id a64mr15261790ioj.165.1508186065504;
-	Mon, 16 Oct 2017 13:34:25 -0700 (PDT)
+	Mon, 16 Oct 2017 20:54:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id BF14B20901;
+	Mon, 16 Oct 2017 20:54:24 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id LW3IQafzfPKt; Mon, 16 Oct 2017 20:54:24 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 94A4F20147;
+	Mon, 16 Oct 2017 20:54:22 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 1C260162700; Mon, 16 Oct 2017 16:54:22 -0400 (EDT)
+Date: Mon, 16 Oct 2017 16:54:22 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171016205422.GY9221@denix.org>
+References: <1507836933-142066-1-git-send-email-denis@denix.org>
+	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
+	<20171013162825.GN9221@denix.org> <20171016174814.GV9221@denix.org>
+	<CAJTo0LZMbLTY8v-yob9SBazYDpM_4QVDYKAuV6VreUmymcJVZw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Mon, 16 Oct 2017 13:34:04 -0700 (PDT)
-In-Reply-To: <CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
-References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
-	<20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
-	<CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Oct 2017 21:34:04 +0100
-Message-ID: <CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 3/3] weston: Bump version to 3.0.0
+In-Reply-To: <CAJTo0LZMbLTY8v-yob9SBazYDpM_4QVDYKAuV6VreUmymcJVZw@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 20:34:24 -0000
-Content-Type: multipart/alternative; boundary="001a113ee9b2b09073055bafeea3"
+X-List-Received-Date: Mon, 16 Oct 2017 20:54:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---001a113ee9b2b09073055bafeea3
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Oct 16, 2017 at 09:31:49PM +0100, Burton, Ross wrote:
+> On 16 October 2017 at 18:48, Denys Dmytriyenko <denis@denix.org> wrote:
+> 
+> > On Fri, Oct 13, 2017 at 12:28:25PM -0400, Denys Dmytriyenko wrote:
+> > > On Fri, Oct 13, 2017 at 12:33:35PM +0100, Burton, Ross wrote:
+> > > > On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org>
+> > wrote:
+> > > >
+> > > > > From: Denys Dmytriyenko <denys@ti.com>
+> > > > >
+> > > > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> > > > >
+> > > >
+> > > > One day I'll figure out why quilt appears to be non-deterministic about
+> > > > this but:
+> > > >
+> > > > ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt
+> > --quiltrc
+> > > > /data/poky-tmp/master/build/work/all-poky-linux/wayland-
+> > protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
+> > > > push' exited with 0  Output:
+> > > > Applying patch usesysrootprefixforpkgdatadirvariable.patch
+> > >
+> > > I don't see this patch in master. Works fine in distroless and poky from
+> > > master.
+> >
+> > Ping.
+> 
+> The patch fails here, so I'm waiting for a v2.
 
-On 16 October 2017 at 18:30, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+As I said above - there's no usesysrootprefixforpkgdatadirvariable.patch in 
+wayland-protocols recipe in master, master-next or rocko branches:
 
->
-> > +          file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-> \
-> > +          file://fix-missing-header.patch \
->
-> Those should be documented on commit log
->
->
-Agreed.  The missing header one should say what platform causes it to be a
-problem (in case it never gets upstreamed and someone tests it again on
-just glibc).  And is the pitch patch sufficiently broken that we need to
-backport it?
+http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb
 
-Ross
+Are you sure you don't have something in your local tree?
 
---001a113ee9b2b09073055bafeea3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+Denys
 
-<div dir=3D"ltr">On 16 October 2017 at 18:30, Otavio Salvador <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:otavio.salvador@ossystems.com.br" target=3D"_bla=
-nk">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class=3D=
-"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
-v class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://weston-gl-renderer-Set-<wbr=
->pitch-correctly-for-<wbr>subsampled-textures.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-missing-header.<wbr>pat=
-ch \<br>
-<br>
-</div></div>Those should be documented on commit log<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote><div><=
-br></div><div>Agreed.=C2=A0 The missing header one should say what platform=
- causes it to be a problem (in case it never gets upstreamed and someone te=
-sts it again on just glibc).=C2=A0 And is the pitch patch sufficiently brok=
-en that we need to backport it?</div><div><br></div><div>Ross=C2=A0</div></=
-div></div></div>
-
---001a113ee9b2b09073055bafeea3--
