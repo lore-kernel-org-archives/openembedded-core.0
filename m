@@ -1,18 +1,18 @@
 Return-Path: <fabien.lahoudere@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F7F571DDD
+	by mail.openembedded.org (Postfix) with ESMTP id A332260269
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Oct 2017 17:22:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: aragua) with ESMTPSA id 5108E260EF0
+	(Authenticated sender: aragua) with ESMTPSA id A4744260F56
 From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Oct 2017 19:21:57 +0200
-Message-Id: <20171016172158.22773-2-fabien.lahoudere@collabora.co.uk>
+Date: Mon, 16 Oct 2017 19:21:58 +0200
+Message-Id: <20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
 References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
-Subject: [PATCH v5 2/3] wayland-protocols: Fix installation patch issue
+Subject: [PATCH v5 3/3] weston: Bump version to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,136 +25,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 17:22:09 -0000
-
-This patch also remove workaround to find wayland-protocols:
-
-WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT}
-
-in:
-
-- gtk+3
-- libsdl2
-- xserver-xorg
-- gstreamer1.0-plugins-bad
-- weston-2.0.0
+X-List-Received-Date: Mon, 16 Oct 2017 17:22:10 -0000
 
 Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc                  |  1 -
- meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb     |  2 +-
- .../usesysrootprefixforpkgdatadirvariable.patch    | 27 ++++++++++++++++++++++
- .../wayland/wayland-protocols_1.10.bb              |  1 +
- meta/recipes-graphics/wayland/weston_2.0.0.bb      |  1 -
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  1 -
- .../gstreamer/gstreamer1.0-plugins-bad_1.12.2.bb   |  1 -
- 7 files changed, 29 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixforpkgdatadirvariable.patch
+ .../wayland/weston/fix-missing-header.patch        | 18 +++++++
+ ...t-pitch-correctly-for-subsampled-textures.patch | 55 ++++++++++++++++++++++
+ .../wayland/{weston_2.0.0.bb => weston_3.0.0.bb}   | 17 +++----
+ 3 files changed, 82 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-graphics/wayland/weston/fix-missing-header.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+ rename meta/recipes-graphics/wayland/{weston_2.0.0.bb => weston_3.0.0.bb} (89%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 0a357db049..420ead2ca2 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -35,7 +35,6 @@ EXTRA_OECONF += " \
-                  --enable-modules \
-                  --disable-cups \
-                  --disable-colord \
--                 WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT} \
-                  ${@bb.utils.contains("DISTRO_FEATURES", "x11", "", "--disable-gtk-doc", d)} \
-                  "
- 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-index 12d3aaf6f0..6bfa13200b 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.5.bb
-@@ -35,7 +35,7 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
-                 --enable-pthreads \
-                 --enable-sdl-dlopen \
-                 --disable-rpath \
--                WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT}"
-+                "
- 
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to pick either (desktop) opengl, gles2, or no GL
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixforpkgdatadirvariable.patch b/meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixforpkgdatadirvariable.patch
+diff --git a/meta/recipes-graphics/wayland/weston/fix-missing-header.patch b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
 new file mode 100644
-index 0000000000..0922a4d2c2
+index 0000000000..5db3a17393
 --- /dev/null
-+++ b/meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixforpkgdatadirvariable.patch
-@@ -0,0 +1,27 @@
-+From 875130ee3cbcf62266901ef4b91b9a0fb6adad43 Mon Sep 17 00:00:00 2001
-+From: Tomek Bury <tomek.bury@broadcom.com>
-+Date: Fri, 4 Aug 2017 16:16:38 +0100
-+Subject: Use sysroot prefix for pkgdatadir variable
++++ b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
+@@ -0,0 +1,18 @@
++Fix missing header
 +
-+The pc_sysroot is automatically added to cflags and libs but not
-+to 'pkg-config --variable'
++Upstream-Status: Pending
 +
-+Upstream-Status: Backport [https://cgit.freedesktop.org/wayland/wayland-protocols/commit/?id=875130ee3cbcf62266901ef4b91b9a0fb6adad43]
++Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 +
-+Reviewed-by: Daniel Stone <daniels@collabora.com>
-+
-+diff --git a/wayland-protocols.pc.in b/wayland-protocols.pc.in
-+index a26744c..379be06 100644
-+--- a/wayland-protocols.pc.in
-++++ b/wayland-protocols.pc.in
-+@@ -1,6 +1,6 @@
-+ prefix=@prefix@
-+ datarootdir=@datarootdir@
-+-pkgdatadir=@datadir@/@PACKAGE@
-++pkgdatadir=${pc_sysrootdir}@datadir@/@PACKAGE@
++Index: weston-3.0.0/shared/timespec-util.h
++===================================================================
++--- weston-3.0.0.orig/shared/timespec-util.h
+++++ weston-3.0.0/shared/timespec-util.h
++@@ -28,6 +28,7 @@
 + 
-+ Name: Wayland Protocols
-+ Description: Wayland protocol files
-+-- 
-+cgit v0.10.2
++ #include <stdint.h>
++ #include <assert.h>
+++#include <time.h>
++ 
++ #define NSEC_PER_SEC 1000000000
++ 
+diff --git a/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+new file mode 100644
+index 0000000000..69284a9616
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+@@ -0,0 +1,55 @@
++Multi-plane sub-sampled textures have partial width/height, e.g.
++YUV420/I420 has a full-size Y plane, followed by a half-width/height U
++plane, and a half-width/height V plane.
 +
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb
-index 4f9e9f32bf..1ff12c607b 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.10.bb
-@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
-                     file://stable/presentation-time/presentation-time.xml;endline=26;md5=4646cd7d9edc9fa55db941f2d3a7dc53"
- 
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-+	   file://usesysrootprefixforpkgdatadirvariable.patch \
-            "
- SRC_URI[md5sum] = "84a7846c2b6a6a3e265fc9be36453e60"
- SRC_URI[sha256sum] = "5719c51d7354864983171c5083e93a72ac99229e2b460c4bb10513de08839c0a"
-diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_2.0.0.bb
-index 54b07bd6b9..8160f5556d 100644
++zwp_linux_dmabuf_v1 allows clients to pass an explicit pitch for each
++plane, but for wl_shm this must be inferred. gl-renderer was correctly
++accounting for the width and height when subsampling, but the pitch was
++being taken as the pitch for the first plane.
++
++This does not match the requirements for GStreamer's waylandsink, in
++particular, as well as other clients. Fix the SHM upload path to
++correctly set the pitch for each plane, according to subsampling.
++
++Tested with:
++  $ gst-launch-1.0 videotestsrc ! waylandsink
++
++Upstream-status: Backport [https://patchwork.freedesktop.org/patch/180767/]
++
++Signed-off-by: Daniel Stone <daniels@collabora.com>
++Fixes: fdeefe42418 ("gl-renderer: add support of WL_SHM_FORMAT_YUV420")
++Reported-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
++Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=103063
++
++---
++ libweston/gl-renderer.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libweston/gl-renderer.c b/libweston/gl-renderer.c
++index 244ce309..40bf0bb6 100644
++--- a/libweston/gl-renderer.c
+++++ b/libweston/gl-renderer.c
++@@ -1445,14 +1445,13 @@ gl_renderer_flush_damage(struct weston_surface *surface)
++ 		goto done;
++ 	}
++ 
++-	glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch);
++-
++ 	if (gs->needs_full_upload) {
++ 		glPixelStorei(GL_UNPACK_SKIP_PIXELS_EXT, 0);
++ 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, 0);
++ 		wl_shm_buffer_begin_access(buffer->shm_buffer);
++ 		for (j = 0; j < gs->num_textures; j++) {
++ 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
+++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
++ 			glTexImage2D(GL_TEXTURE_2D, 0,
++ 				     gs->gl_format[j],
++ 				     gs->pitch / gs->hsub[j],
++@@ -1477,6 +1476,7 @@ gl_renderer_flush_damage(struct weston_surface *surface)
++ 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, r.y1);
++ 		for (j = 0; j < gs->num_textures; j++) {
++ 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
+++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
++ 			glTexSubImage2D(GL_TEXTURE_2D, 0,
++ 					r.x1 / gs->hsub[j],
++ 					r.y1 / gs->vsub[j],
+diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_3.0.0.bb
+similarity index 89%
+rename from meta/recipes-graphics/wayland/weston_2.0.0.bb
+rename to meta/recipes-graphics/wayland/weston_3.0.0.bb
+index 8160f5556d..ad0cdc2b0f 100644
 --- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_2.0.0.bb
-@@ -25,7 +25,6 @@ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
- 
- EXTRA_OECONF = "--enable-setuid-install \
-                 --disable-rdp-compositor \
--                WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT} \
-                 "
- EXTRA_OECONF_append_qemux86 = "\
- 		WESTON_NATIVE_BACKEND=fbdev-backend.so \
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 863d80ce43..e8025de55f 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -117,7 +117,6 @@ EXTRA_OECONF += "--with-fop=no \
-                  --sysconfdir=/etc/X11 \
-                  --localstatedir=/var \
-                  --with-xkb-output=/var/lib/xkb \
--                 WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT} \
++++ b/meta/recipes-graphics/wayland/weston_3.0.0.bb
+@@ -9,12 +9,13 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop \
+            file://0001-make-error-portable.patch \
+-           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
+            file://xwayland.weston-start \
+            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
++	   file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch \
++	   file://fix-missing-header.patch \
  "
+-SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
+-SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
++SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
++SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
  
- OPENGL_PKGCONFIGS = "dri glx glamor dri3 xshmfence"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.2.bb
-index 8321da0c27..a83a5bab21 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.12.2.bb
-@@ -22,5 +22,4 @@ SRC_URI[sha256sum] = "9c2c7edde4f59d74eb414e0701c55131f562e5c605a3ce9b091754f106
+ inherit autotools pkgconfig useradd distro_features_check
+ # depends on virtual/egl
+@@ -76,7 +77,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
  
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+-	rm -f ${D}/${libdir}/libweston-2/*.la
++	rm -f ${D}/${libdir}/libweston-3/*.la
  
--EXTRA_OECONF += "WAYLAND_PROTOCOLS_SYSROOT_DIR=${RECIPE_SYSROOT}"
+ 	# If X11, ship a desktop file to launch it
+ 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
+@@ -93,16 +94,16 @@ do_install_append() {
+ }
  
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
+-             libweston-2 ${PN}-examples"
++             libweston-3 ${PN}-examples"
+ 
+ FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
+ 
+-FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
+-SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
++FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
++SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
+ 
+ FILES_${PN}-examples = "${bindir}/*"
+ 
+-FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
++FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
+ RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
+ 
+ RDEPENDS_${PN} += "xkeyboard-config"
 -- 
 2.11.0
 
