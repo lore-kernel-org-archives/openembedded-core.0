@@ -1,29 +1,42 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C013D77E9C
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EA6871B31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 15:24:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9GFOXCN025955
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 08:24:33 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 16 Oct 2017 08:24:32 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20171016150045.25323-1-Randy.MacLeod@windriver.com>
-	<20171016150045.25323-2-Randy.MacLeod@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <c0d3c08a-1250-0438-1d5b-c8d49144417e@windriver.com>
-Date: Mon, 16 Oct 2017 11:24:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Mon, 16 Oct 2017 15:49:19 +0000 (UTC)
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Oct 2017 08:48:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,387,1503385200"; 
+	d="scan'208,217";a="163215455"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by fmsmga005.fm.intel.com with ESMTP; 16 Oct 2017 08:48:44 -0700
+Received: from orsmsx111.amr.corp.intel.com (10.22.240.12) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 16 Oct 2017 08:48:44 -0700
+Received: from orsmsx112.amr.corp.intel.com ([169.254.3.30]) by
+	ORSMSX111.amr.corp.intel.com ([169.254.12.55]) with mapi id
+	14.03.0319.002; Mon, 16 Oct 2017 08:48:43 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] nettle-ptest: fix a failing test
+Thread-Index: AQHTRFjYVkd5kHN2v0qeVbI85TIBKKLi4A4AgAPBUvA=
+Date: Mon, 16 Oct 2017 15:48:43 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B611A2BC51@ORSMSX112.amr.corp.intel.com>
+References: <1507922643-81187-1-git-send-email-juro.bystricky@intel.com>
+	<CAMKF1sq-CjSGt36V=B5yjg+diaAMFkH8h-N29t4uMuXNV8_qyA@mail.gmail.com>
+In-Reply-To: <CAMKF1sq-CjSGt36V=B5yjg+diaAMFkH8h-N29t4uMuXNV8_qyA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.0.116
+dlp-reaction: no-action
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-In-Reply-To: <20171016150045.25323-2-Randy.MacLeod@windriver.com>
-X-Originating-IP: [172.25.44.7]
-Subject: Re: [PATCH 2/2] openssl: force soft link to avoid rare race
+Cc: "jurobystricky@hotmail.com" <jurobystricky@hotmail.com>
+Subject: Re: [PATCH] nettle-ptest: fix a failing test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,119 +49,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 15:24:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Oct 2017 15:49:19 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B611A2BC51ORSMSX112amrcor_"
 
-On 2017-10-16 11:00 AM, Randy MacLeod wrote:
-> This patch works around a rare parallel build race condition using
-> the force option when soft linking.
+--_000_6E51916E4A1F32428260031F4C7CD2B611A2BC51ORSMSX112amrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Rare here means a few times out of > 5000 builds.
+SSBkb27igJl0IHRoaW5rIHlvdSBjYW4gdXNlIExEX0xJQlJBUllfUEFUSCBkdWUgdG8gdGhlIGhh
+cmRjb2RlZCByZWxhdGl2ZSBwYXRoIGluICIuLi9saWJuZXR0bGUuc2/igJ0uDQpJIGNvdWxkLCBo
+b3dldmVyLCBjaGFuZ2UgdGhlICBwYXRjaCBmcm9tICIvdXNyL2xpYi9saWJuZXR0bGUuc28iIHRv
+ICDigJxsaWJuZXR0bGUuc2/igJ0sIHJlbW92aW5nIGFueSBwYXRocy4NClRoYXQgd2F5IExEX0xJ
+QlJBUllfUEFUSCBjYW4gYmUgdXNlZCBpZiBuZWVkZWQuIEJ1dCBpbiB0aGUgZW5kIGl0IHdpbGwg
+bG9hZCAgdGhlIGxpYnJhcnkgZnJvbSAvdXNyL2xpYi9uZXR0bGUuc28gYW55d2F5Lg0KDQoNCg0K
+SSB0aGluayBpdCB3b3VsZCBiZSBwcmVmZXJyZWQgaWYgeW91IGNvdWxkIHVzZSBMRF9MSUJSQVJZ
+X1BBVEggdG8gc2VhcmNoIGZvciBpdA0KDQoNCg==
 
-I pushed this change into the WR oe-core branch 3 weeks ago (Sept 25th)
-and haven't see any build failures of this type since then
-whereas I would expect to see about 5-10 without the work-around.
+--_000_6E51916E4A1F32428260031F4C7CD2B611A2BC51ORSMSX112amrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-../Randy
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ291cmllciBO
+ZXciOw0KCWNvbG9yOmJsYWNrOw0KCWZvbnQtd2VpZ2h0Om5vcm1hbDsNCglmb250LXN0eWxlOm5v
+cm1hbDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
+b250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7
+c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGluO30NCmRp
+di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
+IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
+IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
+OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
+IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
+bGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29y
+ZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NvdXJpZXIgTmV3JnF1b3Q7O2NvbG9yOmJsYWNrIj5J
+IGRvbuKAmXQgdGhpbmsgeW91IGNhbiB1c2UgTERfTElCUkFSWV9QQVRIPGEgbmFtZT0iX01haWxF
+bmRDb21wb3NlIj4gZHVlIHRvIHRoZSBoYXJkY29kZWQgcmVsYXRpdmUgcGF0aCBpbg0KPC9hPjwv
+c3Bhbj4mcXVvdDsuLi9saWJuZXR0bGUuc2/igJ0uPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj5JIGNvdWxkLCBob3dldmVyLCBjaGFuZ2UgdGhlICZuYnNwO3BhdGNoIGZyb20g
+JnF1b3Q7L3Vzci9saWIvbGlibmV0dGxlLnNvJnF1b3Q7IHRvICZuYnNwO+KAnGxpYm5ldHRsZS5z
+b+KAnSwgcmVtb3ZpbmcgYW55IHBhdGhzLjxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+VGhhdCB3YXkgTERfTElCUkFSWV9QQVRIIGNhbiBiZSB1c2VkIGlmIG5lZWRlZC4gQnV0
+IGluIHRoZSBlbmQgaXQgd2lsbCBsb2FkICZuYnNwO3RoZSBsaWJyYXJ5IGZyb20gL3Vzci9saWIv
+bmV0dGxlLnNvIGFueXdheS48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q291cmllciBOZXcmcXVvdDs7Y29sb3I6
+YmxhY2siPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpu
+b25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0LjBw
+dCI+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkkgdGhpbmsg
+aXQgd291bGQgYmUgcHJlZmVycmVkIGlmIHlvdSBjb3VsZCB1c2UgTERfTElCUkFSWV9QQVRIIHRv
+IHNlYXJjaCBmb3IgaXQ8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9
+ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4g
+MGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxicj4NCjxicj4NCjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3Rl
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-> 
-> The error seen is:
-> 
-> ln: failed to create symbolic link 'libssl.so': File exists
-> make[4]: *** [Makefile.shared:171: link_a.gnu] Error 1
-> make[4]: Leaving directory
-> '/.../build/tmp-glibc/work/x86_64-linux/openssl-native/1.0.2k-r0/openssl-1.0.2k'
-> 
-> Just add the -f flag to the platform independent soft link code to
-> avoid the collision.  This is reasonable since this Makefile removes
-> the link target before creating a new soft link. The Makefile was
-> written this way to support platforms that don't allow forcing a
-> softlink to overwrite an existing link. Only builds on Linux are
-> supported so that's not a requirement for oe-core recipes.
-> 
-> The openssl team is rewriting their build files so it's not appropriate
-> for openssl upstream and fixing the root cause of the race condition
-> was also not pursued.
-> 
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->   ...penssl-force-soft-link-to-avoid-rare-race.patch | 48 ++++++++++++++++++++++
->   .../recipes-connectivity/openssl/openssl_1.0.2l.bb |  1 +
->   2 files changed, 49 insertions(+)
->   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch
-> 
-> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch b/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch
-> new file mode 100644
-> index 0000000..f3c1ac7
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.2l/0001-openssl-force-soft-link-to-avoid-rare-race.patch
-> @@ -0,0 +1,48 @@
-> +From 3d9199423d48766649a2b2ebb3924e892ed16fa4 Mon Sep 17 00:00:00 2001
-> +From: Randy MacLeod <Randy.MacLeod@windriver.com>
-> +Date: Tue, 20 Jun 2017 15:32:08 -0400
-> +Subject: [PATCH] openssl: Force soft link to avoid rare race
-> +
-> +This patch works around a rare parallel build race condition.
-> +The error seen is:
-> +
-> +ln: failed to create symbolic link 'libssl.so': File exists
-> +make[4]: *** [Makefile.shared:171: link_a.gnu] Error 1
-> +make[4]: Leaving directory
-> +'/.../build/tmp-glibc/work/x86_64-linux/openssl-native/1.0.2k-r0/openssl-1.0.2k'
-> +
-> +The openssl team is rewriting their build files so it's not
-> +appropriate for openssl upstream and fixing the root cause of
-> +the Makefile race condition was also not pursued.
-> +
-> +Upstream-status: Inappropriate [build rules rewrite in progress]
-> +
-> +Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> +---
-> + Makefile.shared | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/Makefile.shared b/Makefile.shared
-> +index e8d222a..1bff92f 100644
-> +--- a/Makefile.shared
-> ++++ b/Makefile.shared
-> +@@ -118,14 +118,14 @@
-> + 		if [ -n "$$SHLIB_COMPAT" ]; then \
-> + 			for x in $$SHLIB_COMPAT; do \
-> + 				( $(SET_X); rm -f $$SHLIB$$x$$SHLIB_SUFFIX; \
-> +-				  ln -s $$prev $$SHLIB$$x$$SHLIB_SUFFIX ); \
-> ++				  ln -sf $$prev $$SHLIB$$x$$SHLIB_SUFFIX ); \
-> + 				prev=$$SHLIB$$x$$SHLIB_SUFFIX; \
-> + 			done; \
-> + 		fi; \
-> + 		if [ -n "$$SHLIB_SOVER" ]; then \
-> + 			[ -e "$$SHLIB$$SHLIB_SUFFIX" ] || \
-> + 			( $(SET_X); rm -f $$SHLIB$$SHLIB_SUFFIX; \
-> +-			  ln -s $$prev $$SHLIB$$SHLIB_SUFFIX ); \
-> ++			  ln -sf $$prev $$SHLIB$$SHLIB_SUFFIX ); \
-> + 		fi; \
-> + 	fi
-> +
-> +--
-> +2.9.3
-> +
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-> index 8c34ea6..c537aa4 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.2l.bb
-> @@ -41,6 +41,7 @@ SRC_URI += "file://find.pl;subdir=openssl-${PV}/util/ \
->               file://openssl-util-perlpath.pl-cwd.patch \
->               file://Use-SHA256-not-MD5-as-default-digest.patch \
->               file://0001-Fix-build-with-clang-using-external-assembler.patch \
-> +            file://0001-openssl-force-soft-link-to-avoid-rare-race.patch  \
->               "
->   SRC_URI[md5sum] = "f85123cd390e864dfbe517e7616e6566"
->   SRC_URI[sha256sum] = "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c"
-> 
-
-
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
-
+--_000_6E51916E4A1F32428260031F4C7CD2B611A2BC51ORSMSX112amrcor_--
