@@ -1,47 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 1216671C75
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id ED26877F34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 18:53:03 +0000 (UTC)
-Received: by mail-wm0-f51.google.com with SMTP id l68so5900733wmd.5
+	Mon, 16 Oct 2017 18:53:10 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id t69so5916574wmt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 11:53:05 -0700 (PDT)
+	Mon, 16 Oct 2017 11:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=+mPB+QNyto5fAFeI0LSmq425u1dyY9cBfFIt95zdSd8=;
-	b=rh58p9mELBYHpOrjPrMJrccUQVFQ6d7G2rd++x5wkEodATGmPFHNLFS+TE5qoZgEMR
-	vqW2/2f3+83Mk3GrxKxedh8ss1Irs7smJGG7H9f1iBwKwCUIcKBMVfjIPIezQpam0eIx
-	KKujpyPBodIgug+N2UmH2k7SeAorVJlaCfY4pFCIdpzD7xMBYdUwfXmeV2iJQ3VqJ1wh
-	lmc/iASUpe+/jS8IW7XBjJb8udxeN6kEScHFxJckxPjRWYlqSL4wPty5hQiXR5mXPiSp
-	ySBk6Ivw8D+/pUA5sMCsRqbI/rADmsf94WrCtPPkaqNtQDfYwG0anxMbbUvsUEZ9SqXG
-	fG0w==
+	bh=C6M4W9lzjfIFKxPOZKTqFbczu70u+y+N1oTRqRupsYE=;
+	b=e3XaegIW074bZioaKOGekGGaK6k+wgYafLGcDDgdt70HeSI3oIIoTg+4z2grOmkFzy
+	XoZ1iCYAI1vHpNyxyRxZKR8boXrALoNn0Zy0A02GzD9Ob8mJJ0oCsSkOU55GNJ9r4f2V
+	wWw6s8wNaMwGZwL4Ik9nP3sTa1LBfqFhMx/FVkFdsJ3zD4goDRTLJkeaphgodOqcguKJ
+	F1h5n86WPIk9xfzd1ioPiDFMwJEmtSgKBz2z6nlspy9nGJG9CesFzL7iFL6OJ3/HGNgA
+	ZZOxEF9S0Rw05Rf+sGpkBRRCp4m79UnhAcbDTM9SlWEgkgmeBw9fQtCGZo2HHUIRSmNT
+	bN8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=+mPB+QNyto5fAFeI0LSmq425u1dyY9cBfFIt95zdSd8=;
-	b=DaYjFJzYTMDZMAIoeDIJIlep37SIwEABvpbpxpjPgZA2AEPUR35q5nHYdXVtX+PIAz
-	2sbB/6ie2+GqsWtOuiN0FYdqn6vlaxMHJrSND8R5LzU7BB46EYiMGK9uIIaROuqhKCgJ
-	omASoj7I+B0KtfP3uRlmIbhAKV5J0QxMb4EPJSPqkIH4j/hUKMieWh3pZ+OCb1nAPHui
-	bQPt1GpL9nLGf8if/NgZwD8EvBCAVTjTVP34h+F4QYH5Rl8XBSDYgwJYpcjPSX91d5um
-	ydH5QL7fkFHSaMztxtbies2Ppjgh7pBYDWLDquGrQ5mLv82oNRJtTV9V/NZCnpM2j5D3
-	RpQw==
-X-Gm-Message-State: AMCzsaVTiWzNCJMtLvOTf6Q6XCZ4/lFUajTy2W4euwIPyfMW3ZMfXqTK
-	/rvwLgubIgVY/x6+DguJItAnI66W
-X-Google-Smtp-Source: ABhQp+ROoooNXGFmNDB1HUqXBi5nrf1wuHoicSvmC2jtnvUQxX69vhUq2T0XSIgMoBWH8uy9nt1epQ==
-X-Received: by 10.28.154.204 with SMTP id c195mr1511909wme.80.1508179983808;
-	Mon, 16 Oct 2017 11:53:03 -0700 (PDT)
+	bh=C6M4W9lzjfIFKxPOZKTqFbczu70u+y+N1oTRqRupsYE=;
+	b=gPcagSfRZJzIQu9cWYIP/4LEpXcxye+iS8ueiM9OqpLowglCWwmdvzTOFedSfywSej
+	CZpY7YIvZoIWEt5WwcdN8ZfYWHmgqGFwDA9DMpoRJy61xy9ZlDsFf3NMw1jb3YAIxRAR
+	7v6/d9nw/Icqma9S4WMRzb/Br5rP5JJsSVD0wfcFSyuoJIPqxyYheRHylIobwRR52ZUR
+	DxyRSBBjHuuC+VK7lFyOwkxR1tw/wqT35B8+t1YkDbN0xeSvVzBr5dH4Dg2Uc7fu7WWR
+	sAkWfYXaBU0dAqP92CNctzZOPlb5tT/LilJNtUzXz+TZb3aniq8oBckYqXJQSYO9s+De
+	ghQw==
+X-Gm-Message-State: AMCzsaWMX83hOaOoDcsjlEvlNLWREBle2kg6+oH8tT0JL6674HZX8fDH
+	cxVUJgjtqwHmMixWyblgQSrzAFy7
+X-Google-Smtp-Source: ABhQp+T+uxzUv9QBAnsPIbjouDPGjs3T/Hod2/ITnQaEtAfsetUsHxGyCRt7NH6Faxrb/QJvIOvVsg==
+X-Received: by 10.28.14.138 with SMTP id 132mr1532816wmo.7.1508179990885;
+	Mon, 16 Oct 2017 11:53:10 -0700 (PDT)
 Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 31sm5846549wrr.6.2017.10.16.11.53.01
+	by smtp.gmail.com with ESMTPSA id
+	b11sm13826887wrd.91.2017.10.16.11.53.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Oct 2017 11:53:02 -0700 (PDT)
+	Mon, 16 Oct 2017 11:53:10 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Oct 2017 19:52:59 +0100
-Message-Id: <20171016185259.3523-1-ross.burton@intel.com>
+Date: Mon, 16 Oct 2017 19:53:07 +0100
+Message-Id: <20171016185307.3594-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH][pyro] wpa_supplicant: fix WPA2 key replay security bug
+Subject: [PATCH][morty] wpa_supplicant: fix WPA2 key replay security bug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 18:53:04 -0000
+X-List-Received-Date: Mon, 16 Oct 2017 18:53:11 -0000
 
 WPA2 is vulnerable to replay attacks which result in unauthenticated users
 having access to the network.
@@ -87,17 +88,17 @@ Backport patches from upstream to resolve these CVEs.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../wpa-supplicant/key-replay-cve-multiple.patch   | 1025 ++++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.6.bb           |    1 +
- 2 files changed, 1026 insertions(+)
+ .../wpa-supplicant/key-replay-cve-multiple.patch   | 939 +++++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.5.bb           |   1 +
+ 2 files changed, 940 insertions(+)
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/key-replay-cve-multiple.patch
 
 diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/key-replay-cve-multiple.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/key-replay-cve-multiple.patch
 new file mode 100644
-index 00000000000..436520fe64b
+index 00000000000..32fad29cf63
 --- /dev/null
 +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/key-replay-cve-multiple.patch
-@@ -0,0 +1,1025 @@
+@@ -0,0 +1,939 @@
 +The WPA2 four-way handshake protocol is vulnerable to replay attacks which can
 +result in unauthenticated clients gaining access to the network.
 +
@@ -113,13 +114,16 @@ index 00000000000..436520fe64b
 +CVE: CVE-2017-13087
 +CVE: CVE-2017-13088
 +
++Thanks to Wind River for the backport from upstream master to wpa_supplicant
++2.5.
++
 +Upstream-Status: Backport
 +Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+From cf4cab804c7afd5c45505528a8d16e46163243a2 Mon Sep 17 00:00:00 2001
-+From: Mathy Vanhoef <Mathy.Vanhoef@cs.kuleuven.be>
-+Date: Fri, 14 Jul 2017 15:15:35 +0200
-+Subject: [PATCH 1/8] hostapd: Avoid key reinstallation in FT handshake
++From 9a4a0f78bb2ad516d4a295fb5d042f8a61bd3f47 Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 10:13:17 +0800
++Subject: [PATCH 1/7] hostapd: Avoid key reinstallation in FT handshake
 +
 +Do not reinstall TK to the driver during Reassociation Response frame
 +processing if the first attempt of setting the TK succeeded. This avoids
@@ -136,65 +140,22 @@ index 00000000000..436520fe64b
 +failed.
 +
 +Signed-off-by: Mathy Vanhoef <Mathy.Vanhoef@cs.kuleuven.be>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
-+ src/ap/ieee802_11.c  | 16 +++++++++++++---
-+ src/ap/wpa_auth.c    | 11 +++++++++++
++ src/ap/wpa_auth.c    |  9 +++++++++
 + src/ap/wpa_auth.h    |  3 ++-
 + src/ap/wpa_auth_ft.c | 10 ++++++++++
 + src/ap/wpa_auth_i.h  |  1 +
-+ 5 files changed, 37 insertions(+), 4 deletions(-)
++ 4 files changed, 22 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/ap/ieee802_11.c b/src/ap/ieee802_11.c
-+index 4e04169..333035f 100644
-+--- a/src/ap/ieee802_11.c
-++++ b/src/ap/ieee802_11.c
-+@@ -1841,6 +1841,7 @@ static int add_associated_sta(struct hostapd_data *hapd,
-+ {
-+ 	struct ieee80211_ht_capabilities ht_cap;
-+ 	struct ieee80211_vht_capabilities vht_cap;
-++	int set = 1;
-+ 
-+ 	/*
-+ 	 * Remove the STA entry to ensure the STA PS state gets cleared and
-+@@ -1848,9 +1849,18 @@ static int add_associated_sta(struct hostapd_data *hapd,
-+ 	 * FT-over-the-DS, where a station re-associates back to the same AP but
-+ 	 * skips the authentication flow, or if working with a driver that
-+ 	 * does not support full AP client state.
-++	 *
-++	 * Skip this if the STA has already completed FT reassociation and the
-++	 * TK has been configured since the TX/RX PN must not be reset to 0 for
-++	 * the same key.
-+ 	 */
-+-	if (!sta->added_unassoc)
-++	if (!sta->added_unassoc &&
-++	    (!(sta->flags & WLAN_STA_AUTHORIZED) ||
-++	     !wpa_auth_sta_ft_tk_already_set(sta->wpa_sm))) {
-+ 		hostapd_drv_sta_remove(hapd, sta->addr);
-++		wpa_auth_sm_event(sta->wpa_sm, WPA_DRV_STA_REMOVED);
-++		set = 0;
-++	}
-+ 
-+ #ifdef CONFIG_IEEE80211N
-+ 	if (sta->flags & WLAN_STA_HT)
-+@@ -1873,11 +1883,11 @@ static int add_associated_sta(struct hostapd_data *hapd,
-+ 			    sta->flags & WLAN_STA_VHT ? &vht_cap : NULL,
-+ 			    sta->flags | WLAN_STA_ASSOC, sta->qosinfo,
-+ 			    sta->vht_opmode, sta->p2p_ie ? 1 : 0,
-+-			    sta->added_unassoc)) {
-++			    set)) {
-+ 		hostapd_logger(hapd, sta->addr,
-+ 			       HOSTAPD_MODULE_IEEE80211, HOSTAPD_LEVEL_NOTICE,
-+ 			       "Could not %s STA to kernel driver",
-+-			       sta->added_unassoc ? "set" : "add");
-++			       set ? "set" : "add");
-+ 
-+ 		if (sta->added_unassoc) {
-+ 			hostapd_drv_sta_remove(hapd, sta->addr);
 +diff --git a/src/ap/wpa_auth.c b/src/ap/wpa_auth.c
-+index 3587086..707971d 100644
++index 2760a3f..b38a64d 100644
 +--- a/src/ap/wpa_auth.c
 ++++ b/src/ap/wpa_auth.c
-+@@ -1745,6 +1745,9 @@ int wpa_auth_sm_event(struct wpa_state_machine *sm, enum wpa_event event)
++@@ -1740,6 +1740,9 @@ int wpa_auth_sm_event(struct wpa_state_machine *sm, enum wpa_event event)
 + #else /* CONFIG_IEEE80211R */
 + 		break;
 + #endif /* CONFIG_IEEE80211R */
@@ -204,9 +165,9 @@ index 00000000000..436520fe64b
 + 	}
 + 
 + #ifdef CONFIG_IEEE80211R
-+@@ -3250,6 +3253,14 @@ int wpa_auth_sta_wpa_version(struct wpa_state_machine *sm)
++@@ -3208,6 +3211,12 @@ int wpa_auth_sta_wpa_version(struct wpa_state_machine *sm)
++ 	return sm->wpa;
 + }
-+ 
 + 
 ++int wpa_auth_sta_ft_tk_already_set(struct wpa_state_machine *sm)
 ++{
@@ -214,16 +175,14 @@ index 00000000000..436520fe64b
 ++		return 0;
 ++	return sm->tk_already_set;
 ++}
-++
-++
++ 
 + int wpa_auth_sta_clear_pmksa(struct wpa_state_machine *sm,
 + 			     struct rsn_pmksa_cache_entry *entry)
-+ {
 +diff --git a/src/ap/wpa_auth.h b/src/ap/wpa_auth.h
-+index 0de8d97..97461b0 100644
++index fd04f16..3e53461 100644
 +--- a/src/ap/wpa_auth.h
 ++++ b/src/ap/wpa_auth.h
-+@@ -267,7 +267,7 @@ void wpa_receive(struct wpa_authenticator *wpa_auth,
++@@ -258,7 +258,7 @@ void wpa_receive(struct wpa_authenticator *wpa_auth,
 + 		 u8 *data, size_t data_len);
 + enum wpa_event {
 + 	WPA_AUTH, WPA_ASSOC, WPA_DISASSOC, WPA_DEAUTH, WPA_REAUTH,
@@ -232,7 +191,7 @@ index 00000000000..436520fe64b
 + };
 + void wpa_remove_ptk(struct wpa_state_machine *sm);
 + int wpa_auth_sm_event(struct wpa_state_machine *sm, enum wpa_event event);
-+@@ -280,6 +280,7 @@ int wpa_auth_pairwise_set(struct wpa_state_machine *sm);
++@@ -271,6 +271,7 @@ int wpa_auth_pairwise_set(struct wpa_state_machine *sm);
 + int wpa_auth_get_pairwise(struct wpa_state_machine *sm);
 + int wpa_auth_sta_key_mgmt(struct wpa_state_machine *sm);
 + int wpa_auth_sta_wpa_version(struct wpa_state_machine *sm);
@@ -241,7 +200,7 @@ index 00000000000..436520fe64b
 + 			     struct rsn_pmksa_cache_entry *entry);
 + struct rsn_pmksa_cache_entry *
 +diff --git a/src/ap/wpa_auth_ft.c b/src/ap/wpa_auth_ft.c
-+index 42242a5..e63b99a 100644
++index eeaffbf..f8f5dbe 100644
 +--- a/src/ap/wpa_auth_ft.c
 ++++ b/src/ap/wpa_auth_ft.c
 +@@ -780,6 +780,14 @@ void wpa_ft_install_ptk(struct wpa_state_machine *sm)
@@ -276,10 +235,10 @@ index 00000000000..436520fe64b
 + 
 + 	buflen = 2 + sizeof(struct rsn_mdie) + 2 + sizeof(struct rsn_ftie) +
 +diff --git a/src/ap/wpa_auth_i.h b/src/ap/wpa_auth_i.h
-+index 72b7eb3..7fd8f05 100644
++index 57b098f..234d84c 100644
 +--- a/src/ap/wpa_auth_i.h
 ++++ b/src/ap/wpa_auth_i.h
-+@@ -65,6 +65,7 @@ struct wpa_state_machine {
++@@ -64,6 +64,7 @@ struct wpa_state_machine {
 + 	struct wpa_ptk PTK;
 + 	Boolean PTK_valid;
 + 	Boolean pairwise_set;
@@ -288,12 +247,12 @@ index 00000000000..436520fe64b
 + 	Boolean Pair;
 + 	struct wpa_key_replay_counter {
 +-- 
-+2.7.4
++1.9.1
 +
-+From 927f891007c402fefd1ff384645b3f07597c3ede Mon Sep 17 00:00:00 2001
-+From: Mathy Vanhoef <Mathy.Vanhoef@cs.kuleuven.be>
-+Date: Wed, 12 Jul 2017 16:03:24 +0200
-+Subject: [PATCH 2/8] Prevent reinstallation of an already in-use group key
++From d0d1adad8792ae948743031543db8839f83db829 Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 13:18:59 +0800
++Subject: [PATCH 2/7] Prevent reinstallation of an already in-use group key
 +
 +Track the current GTK and IGTK that is in use and when receiving a
 +(possibly retransmitted) Group Message 1 or WNM-Sleep Mode Response, do
@@ -302,17 +261,21 @@ index 00000000000..436520fe64b
 +sequence counter associated to the group key.
 +
 +Signed-off-by: Mathy Vanhoef <Mathy.Vanhoef@cs.kuleuven.be>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
 + src/common/wpa_common.h |  11 +++++
-+ src/rsn_supp/wpa.c      | 116 ++++++++++++++++++++++++++++++------------------
++ src/rsn_supp/wpa.c      | 119 +++++++++++++++++++++++++++++-------------------
 + src/rsn_supp/wpa_i.h    |   4 ++
-+ 3 files changed, 87 insertions(+), 44 deletions(-)
++ 3 files changed, 88 insertions(+), 46 deletions(-)
 +
 +diff --git a/src/common/wpa_common.h b/src/common/wpa_common.h
-+index af1d0f0..d200285 100644
++index c08f651..21e13da 100644
 +--- a/src/common/wpa_common.h
 ++++ b/src/common/wpa_common.h
-+@@ -217,6 +217,17 @@ struct wpa_ptk {
++@@ -215,6 +215,17 @@ struct wpa_ptk {
 + 	size_t tk_len;
 + };
 + 
@@ -331,10 +294,10 @@ index 00000000000..436520fe64b
 + /* WPA IE version 1
 +  * 00-50-f2:1 (OUI:OUI type)
 +diff --git a/src/rsn_supp/wpa.c b/src/rsn_supp/wpa.c
-+index 3c47879..95bd7be 100644
++index a9f255e..eab7151 100644
 +--- a/src/rsn_supp/wpa.c
 ++++ b/src/rsn_supp/wpa.c
-+@@ -714,6 +714,15 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
++@@ -697,6 +697,15 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
 + 	const u8 *_gtk = gd->gtk;
 + 	u8 gtk_buf[32];
 + 
@@ -350,7 +313,7 @@ index 00000000000..436520fe64b
 + 	wpa_hexdump_key(MSG_DEBUG, "WPA: Group Key", gd->gtk, gd->gtk_len);
 + 	wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
 + 		"WPA: Installing GTK to the driver (keyidx=%d tx=%d len=%d)",
-+@@ -748,6 +757,9 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
++@@ -731,6 +740,9 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
 + 	}
 + 	os_memset(gtk_buf, 0, sizeof(gtk_buf));
 + 
@@ -360,9 +323,9 @@ index 00000000000..436520fe64b
 + 	return 0;
 + }
 + 
-+@@ -854,6 +866,48 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
++@@ -801,6 +813,47 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
++ 	return 0;
 + }
-+ 
 + 
 ++#ifdef CONFIG_IEEE80211W
 ++static int wpa_supplicant_install_igtk(struct wpa_sm *sm,
@@ -405,11 +368,10 @@ index 00000000000..436520fe64b
 ++}
 ++#endif /* CONFIG_IEEE80211W */
 ++
-++
++ 
 + static int ieee80211w_set_keys(struct wpa_sm *sm,
 + 			       struct wpa_eapol_ie_parse *ie)
-+ {
-+@@ -864,30 +918,14 @@ static int ieee80211w_set_keys(struct wpa_sm *sm,
++@@ -812,30 +865,14 @@ static int ieee80211w_set_keys(struct wpa_sm *sm,
 + 	if (ie->igtk) {
 + 		size_t len;
 + 		const struct wpa_igtk_kde *igtk;
@@ -437,13 +399,14 @@ index 00000000000..436520fe64b
 +-				   igtk->igtk, len) < 0) {
 +-			wpa_msg(sm->ctx->msg_ctx, MSG_WARNING,
 +-				"WPA: Failed to configure IGTK to the driver");
-++		if (wpa_supplicant_install_igtk(sm, igtk) < 0)
-+ 			return -1;
++-			return -1;
 +-		}
+++		if (wpa_supplicant_install_igtk(sm, igtk) < 0)
+++ 			return -1;
 + 	}
 + 
 + 	return 0;
-+@@ -2307,7 +2345,7 @@ void wpa_sm_deinit(struct wpa_sm *sm)
++@@ -2251,7 +2288,7 @@ void wpa_sm_deinit(struct wpa_sm *sm)
 +  */
 + void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
 + {
@@ -452,7 +415,7 @@ index 00000000000..436520fe64b
 + 
 + 	if (sm == NULL)
 + 		return;
-+@@ -2333,11 +2371,11 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
++@@ -2277,11 +2314,11 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
 + 		/* Prepare for the next transition */
 + 		wpa_ft_prepare_auth_request(sm, NULL);
 + 
@@ -466,7 +429,7 @@ index 00000000000..436520fe64b
 + 		/*
 + 		 * IEEE 802.11, 8.4.10: Delete PTK SA on (re)association if
 + 		 * this is not part of a Fast BSS Transition.
-+@@ -2347,6 +2385,10 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
++@@ -2291,6 +2328,10 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
 + 		os_memset(&sm->ptk, 0, sizeof(sm->ptk));
 + 		sm->tptk_set = 0;
 + 		os_memset(&sm->tptk, 0, sizeof(sm->tptk));
@@ -477,7 +440,7 @@ index 00000000000..436520fe64b
 + 	}
 + 
 + #ifdef CONFIG_TDLS
-+@@ -2877,6 +2919,10 @@ void wpa_sm_drop_sa(struct wpa_sm *sm)
++@@ -2807,6 +2848,10 @@ void wpa_sm_drop_sa(struct wpa_sm *sm)
 + 	os_memset(sm->pmk, 0, sizeof(sm->pmk));
 + 	os_memset(&sm->ptk, 0, sizeof(sm->ptk));
 + 	os_memset(&sm->tptk, 0, sizeof(sm->tptk));
@@ -488,7 +451,7 @@ index 00000000000..436520fe64b
 + #ifdef CONFIG_IEEE80211R
 + 	os_memset(sm->xxkey, 0, sizeof(sm->xxkey));
 + 	os_memset(sm->pmk_r0, 0, sizeof(sm->pmk_r0));
-+@@ -2949,29 +2995,11 @@ int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
++@@ -2879,29 +2924,11 @@ int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
 + 		os_memset(&gd, 0, sizeof(gd));
 + #ifdef CONFIG_IEEE80211W
 + 	} else if (subelem_id == WNM_SLEEP_SUBELEM_IGTK) {
@@ -512,21 +475,22 @@ index 00000000000..436520fe64b
 +-			wpa_printf(MSG_DEBUG, "Failed to install the IGTK in "
 +-				   "WNM mode");
 +-			os_memset(&igd, 0, sizeof(igd));
++-			return -1;
++-		}
++-		os_memset(&igd, 0, sizeof(igd));
 ++		const struct wpa_igtk_kde *igtk;
 ++
 ++		igtk = (const struct wpa_igtk_kde *) (buf + 2);
 ++		if (wpa_supplicant_install_igtk(sm, igtk) < 0)
-+ 			return -1;
-+-		}
-+-		os_memset(&igd, 0, sizeof(igd));
+++ 			return -1;
 + #endif /* CONFIG_IEEE80211W */
 + 	} else {
 + 		wpa_printf(MSG_DEBUG, "Unknown element id");
 +diff --git a/src/rsn_supp/wpa_i.h b/src/rsn_supp/wpa_i.h
-+index f653ba6..afc9e37 100644
++index 965a9c1..27b6123 100644
 +--- a/src/rsn_supp/wpa_i.h
 ++++ b/src/rsn_supp/wpa_i.h
-+@@ -31,6 +31,10 @@ struct wpa_sm {
++@@ -30,6 +30,10 @@ struct wpa_sm {
 + 	u8 rx_replay_counter[WPA_REPLAY_COUNTER_LEN];
 + 	int rx_replay_counter_set;
 + 	u8 request_counter[WPA_REPLAY_COUNTER_LEN];
@@ -538,12 +502,12 @@ index 00000000000..436520fe64b
 + 	struct eapol_sm *eapol; /* EAPOL state machine from upper level code */
 + 
 +-- 
-+2.7.4
++1.9.1
 +
-+From 8280294e74846ea342389a0cd17215050fa5afe8 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Sun, 1 Oct 2017 12:12:24 +0300
-+Subject: [PATCH 3/8] Extend protection of GTK/IGTK reinstallation of WNM-Sleep
++From 76c0d1a21f0ebf00119e50bc57776d393ee4a30d Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 17:31:46 +0800
++Subject: [PATCH 3/7] Extend protection of GTK/IGTK reinstallation of WNM-Sleep
 + Mode cases
 +
 +This extends the protection to track last configured GTK/IGTK value
@@ -553,16 +517,20 @@ index 00000000000..436520fe64b
 +detect a possible key reconfiguration.
 +
 +Signed-off-by: Jouni Malinen <j@w1.fi>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
 + src/rsn_supp/wpa.c   | 53 +++++++++++++++++++++++++++++++++++++---------------
 + src/rsn_supp/wpa_i.h |  2 ++
 + 2 files changed, 40 insertions(+), 15 deletions(-)
 +
 +diff --git a/src/rsn_supp/wpa.c b/src/rsn_supp/wpa.c
-+index 95bd7be..7a2c68d 100644
++index eab7151..e7b5ca8 100644
 +--- a/src/rsn_supp/wpa.c
 ++++ b/src/rsn_supp/wpa.c
-+@@ -709,14 +709,17 @@ struct wpa_gtk_data {
++@@ -692,14 +692,17 @@ struct wpa_gtk_data {
 + 
 + static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
 + 				      const struct wpa_gtk_data *gd,
@@ -583,7 +551,7 @@ index 00000000000..436520fe64b
 + 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
 + 			"WPA: Not reinstalling already in-use GTK to the driver (keyidx=%d tx=%d len=%d)",
 + 			gd->keyidx, gd->tx, gd->gtk_len);
-+@@ -757,8 +760,14 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
++@@ -740,8 +743,14 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
 + 	}
 + 	os_memset(gtk_buf, 0, sizeof(gtk_buf));
 + 
@@ -600,16 +568,16 @@ index 00000000000..436520fe64b
 + 
 + 	return 0;
 + }
-+@@ -852,7 +861,7 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
++@@ -800,7 +809,7 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
 + 	    (wpa_supplicant_check_group_cipher(sm, sm->group_cipher,
 + 					       gtk_len, gtk_len,
 + 					       &gd.key_rsc_len, &gd.alg) ||
-+-	     wpa_supplicant_install_gtk(sm, &gd, key_rsc))) {
-++	     wpa_supplicant_install_gtk(sm, &gd, key_rsc, 0))) {
++-	     wpa_supplicant_install_gtk(sm, &gd, key->key_rsc))) {
+++	     wpa_supplicant_install_gtk(sm, &gd, key->key_rsc, 0))) {
 + 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
 + 			"RSN: Failed to install GTK");
 + 		os_memset(&gd, 0, sizeof(gd));
-+@@ -868,14 +877,18 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
++@@ -815,14 +824,18 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
 + 
 + #ifdef CONFIG_IEEE80211W
 + static int wpa_supplicant_install_igtk(struct wpa_sm *sm,
@@ -631,7 +599,7 @@ index 00000000000..436520fe64b
 + 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
 + 			"WPA: Not reinstalling already in-use IGTK to the driver (keyidx=%d)",
 + 			keyidx);
-+@@ -900,8 +913,14 @@ static int wpa_supplicant_install_igtk(struct wpa_sm *sm,
++@@ -847,8 +860,14 @@ static int wpa_supplicant_install_igtk(struct wpa_sm *sm,
 + 		return -1;
 + 	}
 + 
@@ -648,25 +616,25 @@ index 00000000000..436520fe64b
 + 
 + 	return 0;
 + }
-+@@ -924,7 +943,7 @@ static int ieee80211w_set_keys(struct wpa_sm *sm,
++@@ -871,7 +890,7 @@ static int ieee80211w_set_keys(struct wpa_sm *sm,
 + 			return -1;
 + 
 + 		igtk = (const struct wpa_igtk_kde *) ie->igtk;
 +-		if (wpa_supplicant_install_igtk(sm, igtk) < 0)
 ++		if (wpa_supplicant_install_igtk(sm, igtk, 0) < 0)
-+ 			return -1;
++  			return -1;
 + 	}
 + 
-+@@ -1574,7 +1593,7 @@ static void wpa_supplicant_process_1_of_2(struct wpa_sm *sm,
-+ 	if (wpa_supplicant_rsc_relaxation(sm, key->key_rsc))
-+ 		key_rsc = null_rsc;
++@@ -1520,7 +1539,7 @@ static void wpa_supplicant_process_1_of_2(struct wpa_sm *sm,
++ 	if (ret)
++ 		goto failed;
 + 
-+-	if (wpa_supplicant_install_gtk(sm, &gd, key_rsc) ||
-++	if (wpa_supplicant_install_gtk(sm, &gd, key_rsc, 0) ||
-+ 	    wpa_supplicant_send_2_of_2(sm, key, ver, key_info) < 0)
++-	if (wpa_supplicant_install_gtk(sm, &gd, key->key_rsc) ||
+++	if (wpa_supplicant_install_gtk(sm, &gd, key->key_rsc, 0) ||
++ 	    wpa_supplicant_send_2_of_2(sm, key, ver, key_info))
 + 		goto failed;
 + 	os_memset(&gd, 0, sizeof(gd));
-+@@ -2386,8 +2405,10 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
++@@ -2329,8 +2348,10 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
 + 		sm->tptk_set = 0;
 + 		os_memset(&sm->tptk, 0, sizeof(sm->tptk));
 + 		os_memset(&sm->gtk, 0, sizeof(sm->gtk));
@@ -677,7 +645,7 @@ index 00000000000..436520fe64b
 + #endif /* CONFIG_IEEE80211W */
 + 	}
 + 
-+@@ -2920,8 +2941,10 @@ void wpa_sm_drop_sa(struct wpa_sm *sm)
++@@ -2849,8 +2870,10 @@ void wpa_sm_drop_sa(struct wpa_sm *sm)
 + 	os_memset(&sm->ptk, 0, sizeof(sm->ptk));
 + 	os_memset(&sm->tptk, 0, sizeof(sm->tptk));
 + 	os_memset(&sm->gtk, 0, sizeof(sm->gtk));
@@ -688,7 +656,7 @@ index 00000000000..436520fe64b
 + #endif /* CONFIG_IEEE80211W */
 + #ifdef CONFIG_IEEE80211R
 + 	os_memset(sm->xxkey, 0, sizeof(sm->xxkey));
-+@@ -2986,7 +3009,7 @@ int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
++@@ -2915,7 +2938,7 @@ int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
 + 
 + 		wpa_hexdump_key(MSG_DEBUG, "Install GTK (WNM SLEEP)",
 + 				gd.gtk, gd.gtk_len);
@@ -697,20 +665,20 @@ index 00000000000..436520fe64b
 + 			os_memset(&gd, 0, sizeof(gd));
 + 			wpa_printf(MSG_DEBUG, "Failed to install the GTK in "
 + 				   "WNM mode");
-+@@ -2998,7 +3021,7 @@ int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
++@@ -2927,7 +2950,7 @@ int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
 + 		const struct wpa_igtk_kde *igtk;
 + 
 + 		igtk = (const struct wpa_igtk_kde *) (buf + 2);
 +-		if (wpa_supplicant_install_igtk(sm, igtk) < 0)
 ++		if (wpa_supplicant_install_igtk(sm, igtk, 1) < 0)
-+ 			return -1;
++  			return -1;
 + #endif /* CONFIG_IEEE80211W */
 + 	} else {
 +diff --git a/src/rsn_supp/wpa_i.h b/src/rsn_supp/wpa_i.h
-+index afc9e37..9a54631 100644
++index 27b6123..51753ee 100644
 +--- a/src/rsn_supp/wpa_i.h
 ++++ b/src/rsn_supp/wpa_i.h
-+@@ -32,8 +32,10 @@ struct wpa_sm {
++@@ -31,8 +31,10 @@ struct wpa_sm {
 + 	int rx_replay_counter_set;
 + 	u8 request_counter[WPA_REPLAY_COUNTER_LEN];
 + 	struct wpa_gtk gtk;
@@ -722,35 +690,32 @@ index 00000000000..436520fe64b
 + 
 + 	struct eapol_sm *eapol; /* EAPOL state machine from upper level code */
 +-- 
-+2.7.4
++1.9.1
 +
-+From 8f82bc94e8697a9d47fa8774dfdaaede1084912c Mon Sep 17 00:00:00 2001
-+From: Mathy Vanhoef <Mathy.Vanhoef@cs.kuleuven.be>
-+Date: Fri, 29 Sep 2017 04:22:51 +0200
-+Subject: [PATCH 4/8] Prevent installation of an all-zero TK
++From dc0d33ee697d016f14d0b6f3330720de2dfa9ad8 Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 17:55:19 +0800
++Subject: [PATCH 4/7] Prevent installation of an all-zero TK
 +
 +Properly track whether a PTK has already been installed to the driver
 +and the TK part cleared from memory. This prevents an attacker from
 +trying to trick the client into installing an all-zero TK.
 +
-+This fixes the earlier fix in commit
-+ad00d64e7d8827b3cebd665a0ceb08adabf15e1e ('Fix TK configuration to the
-+driver in EAPOL-Key 3/4 retry case') which did not take into account
-+possibility of an extra message 1/4 showing up between retries of
-+message 3/4.
-+
 +Signed-off-by: Mathy Vanhoef <Mathy.Vanhoef@cs.kuleuven.be>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
 + src/common/wpa_common.h | 1 +
-+ src/rsn_supp/wpa.c      | 5 ++---
-+ src/rsn_supp/wpa_i.h    | 1 -
-+ 3 files changed, 3 insertions(+), 4 deletions(-)
++ src/rsn_supp/wpa.c      | 7 +++++++
++ 2 files changed, 8 insertions(+)
 +
 +diff --git a/src/common/wpa_common.h b/src/common/wpa_common.h
-+index d200285..1021ccb 100644
++index 21e13da..a04e759 100644
 +--- a/src/common/wpa_common.h
 ++++ b/src/common/wpa_common.h
-+@@ -215,6 +215,7 @@ struct wpa_ptk {
++@@ -213,6 +213,7 @@ struct wpa_ptk {
 + 	size_t kck_len;
 + 	size_t kek_len;
 + 	size_t tk_len;
@@ -759,54 +724,37 @@ index 00000000000..436520fe64b
 + 
 + struct wpa_gtk {
 +diff --git a/src/rsn_supp/wpa.c b/src/rsn_supp/wpa.c
-+index 7a2c68d..0550a41 100644
++index e7b5ca8..cb69b67 100644
 +--- a/src/rsn_supp/wpa.c
 ++++ b/src/rsn_supp/wpa.c
-+@@ -510,7 +510,6 @@ static void wpa_supplicant_process_1_of_4(struct wpa_sm *sm,
-+ 		os_memset(buf, 0, sizeof(buf));
-+ 	}
-+ 	sm->tptk_set = 1;
-+-	sm->tk_to_set = 1;
-+ 
-+ 	kde = sm->assoc_wpa_ie;
-+ 	kde_len = sm->assoc_wpa_ie_len;
-+@@ -615,7 +614,7 @@ static int wpa_supplicant_install_ptk(struct wpa_sm *sm,
-+ 	enum wpa_alg alg;
++@@ -605,6 +605,12 @@ static int wpa_supplicant_install_ptk(struct wpa_sm *sm,
 + 	const u8 *key_rsc;
++ 	u8 null_rsc[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 + 
-+-	if (!sm->tk_to_set) {
 ++	if (sm->ptk.installed) {
-+ 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
-+ 			"WPA: Do not re-install same PTK to the driver");
-+ 		return 0;
-+@@ -659,7 +658,7 @@ static int wpa_supplicant_install_ptk(struct wpa_sm *sm,
+++		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
+++			"WPA: Do not re-install same PTK to the driver");
+++		return 0;
+++	}
+++
++ 	wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
++ 		"WPA: Installing PTK to the driver");
++ 
++@@ -643,6 +649,7 @@ static int wpa_supplicant_install_ptk(struct wpa_sm *sm,
 + 
 + 	/* TK is not needed anymore in supplicant */
 + 	os_memset(sm->ptk.tk, 0, WPA_TK_MAX_LEN);
-+-	sm->tk_to_set = 0;
 ++	sm->ptk.installed = 1;
 + 
 + 	if (sm->wpa_ptk_rekey) {
 + 		eloop_cancel_timeout(wpa_sm_rekey_ptk, sm, NULL);
-+diff --git a/src/rsn_supp/wpa_i.h b/src/rsn_supp/wpa_i.h
-+index 9a54631..41f371f 100644
-+--- a/src/rsn_supp/wpa_i.h
-++++ b/src/rsn_supp/wpa_i.h
-+@@ -24,7 +24,6 @@ struct wpa_sm {
-+ 	struct wpa_ptk ptk, tptk;
-+ 	int ptk_set, tptk_set;
-+ 	unsigned int msg_3_of_4_ok:1;
-+-	unsigned int tk_to_set:1;
-+ 	u8 snonce[WPA_NONCE_LEN];
-+ 	u8 anonce[WPA_NONCE_LEN]; /* ANonce from the last 1/4 msg */
-+ 	int renew_snonce;
 +-- 
-+2.7.4
++1.9.1
 +
-+From 12fac09b437a1dc8a0f253e265934a8aaf4d2f8b Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Sun, 1 Oct 2017 12:32:57 +0300
-+Subject: [PATCH 5/8] Fix PTK rekeying to generate a new ANonce
++From 9831007c38f18cd70a077fccc22c836100867138 Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 19:45:13 +0800
++Subject: [PATCH 5/7] Fix PTK rekeying to generate a new ANonce
 +
 +The Authenticator state machine path for PTK rekeying ended up bypassing
 +the AUTHENTICATION2 state where a new ANonce is generated when going
@@ -818,17 +766,21 @@ index 00000000000..436520fe64b
 +for the purpose of starting new 4-way handshake to rekey PTK.
 +
 +Signed-off-by: Jouni Malinen <j@w1.fi>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
-+ src/ap/wpa_auth.c | 24 +++++++++++++++++++++---
-+ 1 file changed, 21 insertions(+), 3 deletions(-)
++ src/ap/wpa_auth.c | 23 ++++++++++++++++++++---
++ 1 file changed, 20 insertions(+), 3 deletions(-)
 +
 +diff --git a/src/ap/wpa_auth.c b/src/ap/wpa_auth.c
-+index 707971d..bf10cc1 100644
++index b38a64d..c603b1b 100644
 +--- a/src/ap/wpa_auth.c
 ++++ b/src/ap/wpa_auth.c
-+@@ -1901,6 +1901,21 @@ SM_STATE(WPA_PTK, AUTHENTICATION2)
++@@ -1895,6 +1895,20 @@ SM_STATE(WPA_PTK, AUTHENTICATION2)
++ 	sm->TimeoutCtr = 0;
 + }
-+ 
 + 
 ++static int wpa_auth_sm_ptk_update(struct wpa_state_machine *sm)
 ++{
@@ -844,11 +796,10 @@ index 00000000000..436520fe64b
 ++	return 0;
 ++}
 ++
-++
++ 
 + SM_STATE(WPA_PTK, INITPMK)
 + {
-+ 	u8 msk[2 * PMK_LEN];
-+@@ -2458,9 +2473,12 @@ SM_STEP(WPA_PTK)
++@@ -2417,9 +2431,12 @@ SM_STEP(WPA_PTK)
 + 		SM_ENTER(WPA_PTK, AUTHENTICATION);
 + 	else if (sm->ReAuthenticationRequest)
 + 		SM_ENTER(WPA_PTK, AUTHENTICATION2);
@@ -865,12 +816,12 @@ index 00000000000..436520fe64b
 + 		break;
 + 	case WPA_PTK_DISCONNECT:
 +-- 
-+2.7.4
++1.9.1
 +
-+From 6c4bed4f47d1960ec04981a9d50e5076aea5223d Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Fri, 22 Sep 2017 11:03:15 +0300
-+Subject: [PATCH 6/8] TDLS: Reject TPK-TK reconfiguration
++From 7ec70b3c5a5e32f7687999ef21c608524dcf35b9 Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 20:09:26 +0800
++Subject: [PATCH 6/7] TDLS: Reject TPK-TK reconfiguration
 +
 +Do not try to reconfigure the same TPK-TK to the driver after it has
 +been successfully configured. This is an explicit check to avoid issues
@@ -888,12 +839,16 @@ index 00000000000..436520fe64b
 +the peer uses a very unlikely "random nonce" of all zeros.
 +
 +Signed-off-by: Jouni Malinen <j@w1.fi>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
-+ src/rsn_supp/tdls.c | 38 ++++++++++++++++++++++++++++++++++++--
-+ 1 file changed, 36 insertions(+), 2 deletions(-)
++ src/rsn_supp/tdls.c | 36 ++++++++++++++++++++++++++++++++++--
++ 1 file changed, 34 insertions(+), 2 deletions(-)
 +
 +diff --git a/src/rsn_supp/tdls.c b/src/rsn_supp/tdls.c
-+index e424168..9eb9738 100644
++index 722c20a..0878c62 100644
 +--- a/src/rsn_supp/tdls.c
 ++++ b/src/rsn_supp/tdls.c
 +@@ -112,6 +112,7 @@ struct wpa_tdls_peer {
@@ -941,7 +896,7 @@ index 00000000000..436520fe64b
 + 	return 0;
 + }
 + 
-+@@ -696,7 +714,7 @@ static void wpa_tdls_peer_clear(struct wpa_sm *sm, struct wpa_tdls_peer *peer)
++@@ -690,7 +708,7 @@ static void wpa_tdls_peer_clear(struct wpa_sm *sm, struct wpa_tdls_peer *peer)
 + 	peer->cipher = 0;
 + 	peer->qos_info = 0;
 + 	peer->wmm_capable = 0;
@@ -950,7 +905,7 @@ index 00000000000..436520fe64b
 + 	peer->chan_switch_enabled = 0;
 + 	os_memset(&peer->tpk, 0, sizeof(peer->tpk));
 + 	os_memset(peer->inonce, 0, WPA_NONCE_LEN);
-+@@ -1159,6 +1177,7 @@ skip_rsnie:
++@@ -1153,6 +1171,7 @@ skip_rsnie:
 + 		wpa_tdls_peer_free(sm, peer);
 + 		return -1;
 + 	}
@@ -958,9 +913,9 @@ index 00000000000..436520fe64b
 + 	wpa_hexdump(MSG_DEBUG, "TDLS: Initiator Nonce for TPK handshake",
 + 		    peer->inonce, WPA_NONCE_LEN);
 + 	os_memcpy(ftie->Snonce, peer->inonce, WPA_NONCE_LEN);
-+@@ -1751,6 +1770,19 @@ static int wpa_tdls_addset_peer(struct wpa_sm *sm, struct wpa_tdls_peer *peer,
++@@ -1744,6 +1763,17 @@ static int wpa_tdls_addset_peer(struct wpa_sm *sm, struct wpa_tdls_peer *peer,
++ 				       peer->supp_oper_classes_len);
 + }
-+ 
 + 
 ++static int tdls_nonce_set(const u8 *nonce)
 ++{
@@ -973,12 +928,10 @@ index 00000000000..436520fe64b
 ++
 ++	return 0;
 ++}
-++
-++
++ 
 + static int wpa_tdls_process_tpk_m1(struct wpa_sm *sm, const u8 *src_addr,
 + 				   const u8 *buf, size_t len)
-+ {
-+@@ -2004,7 +2036,8 @@ skip_rsn:
++@@ -1998,7 +2028,8 @@ skip_rsn:
 + 	peer->rsnie_i_len = kde.rsn_ie_len;
 + 	peer->cipher = cipher;
 + 
@@ -988,7 +941,7 @@ index 00000000000..436520fe64b
 + 		/*
 + 		 * There is no point in updating the RNonce for every obtained
 + 		 * TPK M1 frame (e.g., retransmission due to timeout) with the
-+@@ -2020,6 +2053,7 @@ skip_rsn:
++@@ -2014,6 +2045,7 @@ skip_rsn:
 + 				"TDLS: Failed to get random data for responder nonce");
 + 			goto error;
 + 		}
@@ -997,55 +950,12 @@ index 00000000000..436520fe64b
 + 
 + #if 0
 +-- 
-+2.7.4
++1.9.1
 +
-+From 53c5eb58e95004f86e65ee9fbfccbc291b139057 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Fri, 22 Sep 2017 11:25:02 +0300
-+Subject: [PATCH 7/8] WNM: Ignore WNM-Sleep Mode Response without pending
-+ request
-+
-+Commit 03ed0a52393710be6bdae657d1b36efa146520e5 ('WNM: Ignore WNM-Sleep
-+Mode Response if WNM-Sleep Mode has not been used') started ignoring the
-+response when no WNM-Sleep Mode Request had been used during the
-+association. This can be made tighter by clearing the used flag when
-+successfully processing a response. This adds an additional layer of
-+protection against unexpected retransmissions of the response frame.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
-+---
-+ wpa_supplicant/wnm_sta.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/wpa_supplicant/wnm_sta.c b/wpa_supplicant/wnm_sta.c
-+index 1b3409c..67a07ff 100644
-+--- a/wpa_supplicant/wnm_sta.c
-++++ b/wpa_supplicant/wnm_sta.c
-+@@ -260,7 +260,7 @@ static void ieee802_11_rx_wnmsleep_resp(struct wpa_supplicant *wpa_s,
-+ 
-+ 	if (!wpa_s->wnmsleep_used) {
-+ 		wpa_printf(MSG_DEBUG,
-+-			   "WNM: Ignore WNM-Sleep Mode Response frame since WNM-Sleep Mode has not been used in this association");
-++			   "WNM: Ignore WNM-Sleep Mode Response frame since WNM-Sleep Mode operation has not been requested");
-+ 		return;
-+ 	}
-+ 
-+@@ -299,6 +299,8 @@ static void ieee802_11_rx_wnmsleep_resp(struct wpa_supplicant *wpa_s,
-+ 		return;
-+ 	}
-+ 
-++	wpa_s->wnmsleep_used = 0;
-++
-+ 	if (wnmsleep_ie->status == WNM_STATUS_SLEEP_ACCEPT ||
-+ 	    wnmsleep_ie->status == WNM_STATUS_SLEEP_EXIT_ACCEPT_GTK_UPDATE) {
-+ 		wpa_printf(MSG_DEBUG, "Successfully recv WNM-Sleep Response "
-+-- 
-+2.7.4
-+
-+From b372ab0b7daea719749194dc554b26e6367603f2 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Fri, 22 Sep 2017 12:06:37 +0300
-+Subject: [PATCH 8/8] FT: Do not allow multiple Reassociation Response frames
++From 642f5eadf775b41bf3ddd8ffe77c33e785bda48f Mon Sep 17 00:00:00 2001
++From: Haiqing Bai <Haiqing.Bai@windriver.com>
++Date: Thu, 12 Oct 2017 20:36:56 +0800
++Subject: [PATCH 7/7] FT: Do not allow multiple Reassociation Response frames
 +
 +The driver is expected to not report a second association event without
 +the station having explicitly request a new association. As such, this
@@ -1056,6 +966,10 @@ index 00000000000..436520fe64b
 +Reassociation Response frame.
 +
 +Signed-off-by: Jouni Malinen <j@w1.fi>
++
++Upstream-Status: Backport
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 +---
 + src/rsn_supp/wpa.c    | 3 +++
 + src/rsn_supp/wpa_ft.c | 8 ++++++++
@@ -1063,10 +977,10 @@ index 00000000000..436520fe64b
 + 3 files changed, 12 insertions(+)
 +
 +diff --git a/src/rsn_supp/wpa.c b/src/rsn_supp/wpa.c
-+index 0550a41..2a53c6f 100644
++index cb69b67..05e5168 100644
 +--- a/src/rsn_supp/wpa.c
 ++++ b/src/rsn_supp/wpa.c
-+@@ -2440,6 +2440,9 @@ void wpa_sm_notify_disassoc(struct wpa_sm *sm)
++@@ -2391,6 +2391,9 @@ void wpa_sm_notify_disassoc(struct wpa_sm *sm)
 + #ifdef CONFIG_TDLS
 + 	wpa_tdls_disassoc(sm);
 + #endif /* CONFIG_TDLS */
@@ -1110,10 +1024,10 @@ index 00000000000..436520fe64b
 + 		return -1;
 + 
 +diff --git a/src/rsn_supp/wpa_i.h b/src/rsn_supp/wpa_i.h
-+index 41f371f..56f88dc 100644
++index 51753ee..85cc862 100644
 +--- a/src/rsn_supp/wpa_i.h
 ++++ b/src/rsn_supp/wpa_i.h
-+@@ -128,6 +128,7 @@ struct wpa_sm {
++@@ -127,6 +127,7 @@ struct wpa_sm {
 + 	size_t r0kh_id_len;
 + 	u8 r1kh_id[FT_R1KH_ID_LEN];
 + 	int ft_completed;
@@ -1122,19 +1036,20 @@ index 00000000000..436520fe64b
 + 	u8 target_ap[ETH_ALEN]; /* over-the-DS target AP */
 + 	int set_ptk_after_assoc;
 +-- 
-+2.7.4
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-index 5215b002a4f..d6d4206a58b 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://wpa_supplicant.conf \
-            file://wpa_supplicant.conf-sane \
-            file://99_wpa_supplicant \
++1.9.1
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+index a4160e1c5c4..f4b3b6a8874 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.5.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://0001-Reject-psk-parameter-set-with-invalid-passphrase-cha.patch \
+            file://0002-Reject-SET_CRED-commands-with-newline-characters-in-.patch \
+            file://0003-Reject-SET-commands-with-newline-characters-in-the-s.patch \
 +           file://key-replay-cve-multiple.patch \
            "
- SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
- SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
+ SRC_URI[md5sum] = "96ff75c3a514f1f324560a2376f13110"
+ SRC_URI[sha256sum] = "cce55bae483b364eae55c35ba567c279be442ed8bab5b80a3c7fb0d057b9b316"
 -- 
 2.11.0
 
