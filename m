@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D6A2677E9C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6569477E9C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 02:14:33 +0000 (UTC)
+	Mon, 16 Oct 2017 02:14:34 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9G2EYXV017737
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9G2EZbZ008190
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Oct 2017 19:14:34 -0700 (PDT)
+	Sun, 15 Oct 2017 19:14:35 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 15 Oct 2017 19:14:33 -0700
+	14.3.361.1; Sun, 15 Oct 2017 19:14:34 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Oct 2017 10:20:40 +0800
-Message-ID: <cover.1508120203.git.Qi.Chen@windriver.com>
+Date: Mon, 16 Oct 2017 10:20:41 +0800
+Message-ID: <0f59f8954cb7e5f1a6709e236249ba60df80aa1d.1508120203.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1508120203.git.Qi.Chen@windriver.com>
+References: <cover.1508120203.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
+Subject: [PATCH 1/1] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 16 Oct 2017 02:14:34 -0000
 Content-Type: text/plain
 
-The following changes since commit 96967261993f8b583b51cdeccbb1fd06042d2192:
+We changed to make tools required by testimage to be included conditionally.
+This resulted in users who use ssh for git fetching having failures.
 
-  bitbake: toaster/highlight.pack.js: Fix corrupted file (2017-10-10 11:05:08 +0100)
+Add ssh to HOSTTOOLS_NONFATAL to make things work for the above situation.
 
-are available in the git repository at:
+[YOCTO #12227]
 
-  git://git.pokylinux.org/poky-contrib ChenQi/bug12227
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bug12227
-
-Chen Qi (1):
-  bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/conf/bitbake.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0eefb86..2351c66 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -487,7 +487,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
+ 
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
++HOSTTOOLS_NONFATAL += "ssh aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+ 
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
 -- 
 1.9.1
 
