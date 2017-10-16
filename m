@@ -1,64 +1,48 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A39607F8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f42.google.com (mail-it0-f42.google.com
+	[209.85.214.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CED9A607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 11:53:13 +0000 (UTC)
-Received: by mail-qt0-f195.google.com with SMTP id n61so30923709qte.10
+	Mon, 16 Oct 2017 11:57:02 +0000 (UTC)
+Received: by mail-it0-f42.google.com with SMTP id n195so890149itg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 04:53:15 -0700 (PDT)
+	Mon, 16 Oct 2017 04:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=X6jRatraFSD0QB/AZO6RSZxXP/3qPP/loezqx+rq73o=;
-	b=D5qPotRWJTg+tHceIVVR8x+P4ZW9ly6nc2AobI8PNDVrs98a2xmyHxn/b+yfShiTXm
-	ypbhLQ8JU1XTJws99KN4sknSLefcgixhMyBgqbThOmRpFTpgmnyGE3LPRh3qpM3JU6Ij
-	kyXv7KPrZb0Ca55Y/K/L/1OoHCKV/ZBbbhSywnUCVbAHYaaST7qoQT7ZEPV6b2S+F5A1
-	8DYtwqX2eLXJpWZR2XynM3oo2I8o+i1Las58+wVlSMrCPol0kTBbvVEL6BQ96ZftUxqa
-	EGI5xm3eWwqwGITDuyHwwXdpGPieL/WblbVctfW0OXbSFBvRhKx2zOCGGBXFhPBOuM2J
-	I68A==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=sIw2yx4eJK4QzfWfObrd9revsrTmfginDOEomhg1oNU=;
+	b=SImYHVbcAxCmnS2enN1GixNXqV3zl/xInCdRqIc92wfiRCkeMtFx8Kusdv0T2txcMF
+	2ZP3V7fk9oOITR2Mqnhz3/nnihyFdA+CMAVu1v/2o9CcwzqhJO+VqpyHj7EHTvY87GVB
+	cRh1rXtI5FjzJAwIB4WTu0QgoqwTZAHNC7NYDZ4W8xVvXOZXx/sEJx1SLpMvovjRRYif
+	JIG70hgv2SFIM1weM9F6146SOvvsarE0IRB2t1mZV8xj5afe9aH7QiQx137/P2IocjuI
+	yc7HaqL266WfC/GxmDHnBbxNSA/7x1PFlNCJ1I6waeyA4EunN1NrMAY5N9eX3br7DB7r
+	V2mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=X6jRatraFSD0QB/AZO6RSZxXP/3qPP/loezqx+rq73o=;
-	b=InqXTBJW2Sj2vrW/X6RnyKgiBixMZ9zetE7iFCqPIxIIMbMkHBd7MzpDNo9tMRcKAI
-	O8juE58ILwfmqtj+BquD4dOI60GZfQeoSSCnxnRyXdZpGkn4eatX1dms+pKDPomiLlEQ
-	NwJ/jB5SWsJ9z/jg46XeajeXX4cw5nDs6ocdnHRTRqaiG22oRCIaTJ+JWMv0HexPIwl5
-	pi+u/Ll8Ynyz3h8y45VoCq46FG8k4FN6PNSVSYoIUQ+yPB6S1srcSe4ccv2AU4HOtzv+
-	SEz7X09HRjw1VX3bnFb6KOJ3dpLkkBAK68049+Nx/a+fDufu+tZzF64X/8MfccR+14j2
-	obVQ==
-X-Gm-Message-State: AMCzsaX3HyQI2BHKZw+WZptvMOyoyYSzz2nugnFFIuljx+nK5z1Yio7Q
-	rLRBDgOUHx3lF7T/t59Zap98Qi3p
-X-Received: by 10.129.117.5 with SMTP id q5mr199836ywc.116.1508154794447;
-	Mon, 16 Oct 2017 04:53:14 -0700 (PDT)
-Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com.
-	[209.85.218.49]) by smtp.gmail.com with ESMTPSA id
-	l66sm3495195ywd.98.2017.10.16.04.53.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Oct 2017 04:53:13 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f49.google.com with SMTP id m198so24625389oig.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 04:53:13 -0700 (PDT)
-X-Google-Smtp-Source: ABhQp+SfNkXL/AChBUIT3dWyNy1s0X6MBqDTETdl9KNrh4ZbPHFA5JUkIFFoFQnVfMmEX1b3qwPy1fexUVcqRCwI5lE=
-X-Received: by 10.157.66.5 with SMTP id q5mr210038ote.357.1508154792810; Mon,
-	16 Oct 2017 04:53:12 -0700 (PDT)
+	bh=sIw2yx4eJK4QzfWfObrd9revsrTmfginDOEomhg1oNU=;
+	b=nOp90MjFNmhsU42rabjSRdTOadQPGDYrL11EbcqH3wrmeZY5jVCjaF6RE2GCxOowXV
+	kXS/jMrWd74iEOwd8EQYw6YXgzVIBcG+qseuvSKVL5BSL7rwyFeuRlkk/86ArITJSynt
+	oSz8EFYGGJdAgZxmm5IV/hp93WM8o5pcNGd3sXyxfPYKc875wUwIC2KjohkkPVguLp+s
+	/kuhMkCMbGke2H+rQgwk9GLKS0gYKHHpeyJCqNAek17rXFsicOhDdBz7yEe6StM1A9AE
+	XE5psMr6h+CUxIl7/f548yLLzgLHzjJYanbCFXuRUmIEBKXm4SyNBB7rUDitKDVuLies
+	6pqA==
+X-Gm-Message-State: AMCzsaUWAkQO6EvVEQ+FTDNSKSCSeQVocimlEOkKtMvobAO5jge2R1Ie
+	5ZJAE/QW2TBHUui9K8+Ip7EfS8hOQ78rNs4tC54TWg==
+X-Google-Smtp-Source: ABhQp+QN+FdkYl92QbtECV2e2DjizuQT7vjP3wBC2P7ZTgQyAOeh1MQ4W3OM/TzBZyxbOeZQ6LYUl3GYsUbIMMFTZQA=
+X-Received: by 10.36.138.133 with SMTP id v127mr752684itd.151.1508155023961;
+	Mon, 16 Oct 2017 04:57:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.56.216 with HTTP; Mon, 16 Oct 2017 04:53:12 -0700 (PDT)
-In-Reply-To: <CAJ86T=Wr_u_x8Zn2n5SX2C8dyO1vbpMFX=3ufZA8X_gtG53p6w@mail.gmail.com>
-References: <20171014154858.35123-1-raj.khem@gmail.com>
-	<20171014154858.35123-6-raj.khem@gmail.com>
-	<06c9bf77-9781-f521-c450-c46f985c7dd3@gmail.com>
-	<CAJ86T=Wr_u_x8Zn2n5SX2C8dyO1vbpMFX=3ufZA8X_gtG53p6w@mail.gmail.com>
-Date: Mon, 16 Oct 2017 09:53:12 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKp1H_netdtLEs_thSGNJRfcOETwU6O+b4zfHe+ZSg=w2A@mail.gmail.com>
-Message-ID: <CAP9ODKp1H_netdtLEs_thSGNJRfcOETwU6O+b4zfHe+ZSg=w2A@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/7] gcc6: Upgrade to 6.4
+Received: by 10.107.176.10 with HTTP; Mon, 16 Oct 2017 04:56:43 -0700 (PDT)
+In-Reply-To: <20171012095242.4865-1-fathi.boudra@linaro.org>
+References: <20171012095242.4865-1-fathi.boudra@linaro.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Oct 2017 12:56:43 +0100
+Message-ID: <CAJTo0LYRs2Zw-19-_nQ2=CKYe_vYcC54C7iDQrQa5SE6M8zw9w@mail.gmail.com>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] ltp: update to new upstream release 20170929
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,29 +55,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 11:53:14 -0000
+X-List-Received-Date: Mon, 16 Oct 2017 11:57:03 -0000
+Content-Type: multipart/alternative; boundary="94eb2c080086786252055ba8b467"
+
+--94eb2c080086786252055ba8b467
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Oct 15, 2017 at 5:06 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> On Sat, Oct 14, 2017 at 10:21 PM, akuster808 <akuster808@gmail.com> wrote:
->> why do we continue to maintain 2 versions of gcc?
+On 12 October 2017 at 10:52, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+
+> * Update SRCREV to match 20170929 release
+> * Drop patches available in 20170929 release:
+>   - 0037-ltp-fix-PAGE_SIZE-redefinition-and-O_CREAT-undeclear.patch
+>   - 0038-commands-gdb01-replace-stdin-with-dev-null.patch
+> * Add patches backported from upstream:
+>   - 0037-commands-nm-fix-typo-INSTALL_TARTGETS-INSTALL_TARGET.patch
+>   - 0038-fanotify-fix-build-failure-with-Werror-format-securi.patch
+> * Add additional runtime dependencies:
+>   - ld01, file01 and logrotate tests requires file command.
+>   - quotacheck is required by quota_remount_test01 test.
+>   - LTP checks for a compliant 'tar' but finds that the version from
+>     busybox lacks the '-d' option.
 >
-> Probably the same reason why Buildroot continues to maintain 4
-> versions of gcc, it's useful for end users.
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+> ---
+> Changes in v2:
+>  * Add patches backported from upstream:
+>    - 0037-commands-nm-fix-typo-INSTALL_TARTGETS-INSTALL_TARGET.patch
+>    - 0038-fanotify-fix-build-failure-with-Werror-format-securi.patch
+>  * Add additional runtime dependencies:
+>    - ld01, file01 and logrotate tests requires file command.
+>    - quotacheck is required by quota_remount_test01 test.
+>    - LTP checks for a compliant 'tar' but finds that the version from
+>      busybox lacks the '-d' option.
 >
->   https://git.buildroot.net/buildroot/tree/package/gcc
 
-We keep all user space and toolchain up to date so upgrading the GCC
-is straightforward.  That said the gcc cannot vary from one machine to
-another so if a vendor wants to use an old release, it can be done
-using their distro.
+Sorry still fails:
 
-I am against maintaining two GCC versions as it increases the amount
-of testing needed. Instead I'd prefer to have clang merged on oe-core
-instead and easy its adoption / test.
+fcntl36.c: In function 'test_fn':
+fcntl36.c:303:2: error: format not a string literal and no format arguments
+[-Werror=format-security]
+  tst_res(TINFO, msg);
+  ^~~~~~~
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross
 
+--94eb2c080086786252055ba8b467
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 12 October 2017 at 10:52, Fathi Boudra <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:fathi.boudra@linaro.org" target=3D"_blank">fathi.bo=
+udra@linaro.org</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cl=
+ass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-colo=
+r:rgb(204,204,204);padding-left:1ex">* Update SRCREV to match 20170929 rele=
+ase<br>
+* Drop patches available in 20170929 release:<br>
+=C2=A0 - 0037-ltp-fix-PAGE_SIZE-<wbr>redefinition-and-O_CREAT-<wbr>undeclea=
+r.patch<br>
+=C2=A0 - 0038-commands-gdb01-replace-<wbr>stdin-with-dev-null.patch<br>
+* Add patches backported from upstream:<br>
+=C2=A0 - 0037-commands-nm-fix-typo-<wbr>INSTALL_TARTGETS-INSTALL_<wbr>TARGE=
+T.patch<br>
+=C2=A0 - 0038-fanotify-fix-build-<wbr>failure-with-Werror-format-<wbr>secur=
+i.patch<br>
+* Add additional runtime dependencies:<br>
+=C2=A0 - ld01, file01 and logrotate tests requires file command.<br>
+=C2=A0 - quotacheck is required by quota_remount_test01 test.<br>
+=C2=A0 - LTP checks for a compliant &#39;tar&#39; but finds that the versio=
+n from<br>
+=C2=A0 =C2=A0 busybox lacks the &#39;-d&#39; option.<br>
+<br>
+Signed-off-by: Fathi Boudra &lt;<a href=3D"mailto:fathi.boudra@linaro.org">=
+fathi.boudra@linaro.org</a>&gt;<br>
+---<br>
+Changes in v2:<br>
+=C2=A0* Add patches backported from upstream:<br>
+=C2=A0 =C2=A0- 0037-commands-nm-fix-typo-<wbr>INSTALL_TARTGETS-INSTALL_<wbr=
+>TARGET.patch<br>
+=C2=A0 =C2=A0- 0038-fanotify-fix-build-<wbr>failure-with-Werror-format-<wbr=
+>securi.patch<br>
+=C2=A0* Add additional runtime dependencies:<br>
+=C2=A0 =C2=A0- ld01, file01 and logrotate tests requires file command.<br>
+=C2=A0 =C2=A0- quotacheck is required by quota_remount_test01 test.<br>
+=C2=A0 =C2=A0- LTP checks for a compliant &#39;tar&#39; but finds that the =
+version from<br>
+=C2=A0 =C2=A0 =C2=A0busybox lacks the &#39;-d&#39; option.<br></blockquote>=
+<div><br></div>Sorry still fails:<br><br>fcntl36.c: In function &#39;test_f=
+n&#39;:<br>fcntl36.c:303:2: error: format not a string literal and no forma=
+t arguments [-Werror=3Dformat-security]<br>=C2=A0 tst_res(TINFO, msg);<br>=
+=C2=A0 ^~~~~~~</div><div class=3D"gmail_quote"><br></div><div class=3D"gmai=
+l_quote">Ross</div></div></div>
+
+--94eb2c080086786252055ba8b467--
