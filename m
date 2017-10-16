@@ -1,48 +1,38 @@
-Return-Path: <twoerner@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 23A4B771F5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Oct 2017 20:36:39 +0000 (UTC)
-Received: by mail-qk0-f182.google.com with SMTP id y23so10592209qkb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Oct 2017 13:36:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NjRkIkaTFEyddcNkd2Zu/udJLJnAqztJrJt9MVT4NzY=;
-	b=cCzbWGa/d9VfB6aNSl5+35PSfzza0fk2ggl/nW/AThylhzf3sLl0M4oQgkJtiFj41G
-	bo8807jZKQxnbJSkX21ZL3OCwNDRYMjn7RZE1DWHDYk2Zs6yPjHFWic/t3mzpg0069Lt
-	GS3G3mBNwPNus5BVwyymT86y4tb/SLRh2bglKqew+Kh3uwTc8vlpV0ldZU49uaX4UWUk
-	khA5hJOf3EusPBqV2HPEd2N4Mje71gh14kIIo6eO29SK3ImZRyzRaIRDYFJFM0UDjtvz
-	vsKW53VOVjliXnVdMKQCdQYiWKIXJl9VnThIK8N1rjuBs2z6ti7dc27Qu5vcOVGXn7RC
-	k6yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NjRkIkaTFEyddcNkd2Zu/udJLJnAqztJrJt9MVT4NzY=;
-	b=blBF5/HC0UQrDu8ZwG2f50DdalG9m2rctr0PF9knvjqHHBOwHAHf9tfcSMPth1hHdy
-	OXJQwZyEGupuZtnmUV9qhmoP1q2VXwT8Ov18AcUbXzRXsbekaWZoPYXUhL7tcHazE6HO
-	z3XCTesPaEdcTMqN8vIcjDXB/JMyrxWpq2AibDTT1DrqM2GHpjrX7XrRUwcVGQfTlrDy
-	ywThbaDi6WG6JTwGytQSgR/jqPm7yXTEbNTmf2XrFq1bzBdKcssxwc59a7731VlsKfVT
-	NQJgzXW3epQdGzwr1XNTtARvYOg+jX/JjaMVebPez6N5oa/w4B041BYfDXGVzh9LG675
-	fK7A==
-X-Gm-Message-State: AMCzsaV5O8J5qm3DW/I5K+17VdNZ7IehPPw3xW7EHju4Pzn+xhN/5f0j
-	P8Qkx+mcV9pg2mapmhsz8j/qnJ0a+ZAkeSTOy9M=
-X-Google-Smtp-Source: AOwi7QBwSq763OWzivg7/wLd63DJ+a87y1W5PrvohDjSi9WhsSXmwwWl/3+frLfqgehgbGOTg2tXJc+OK85TqPUUB8E=
-X-Received: by 10.55.115.133 with SMTP id o127mr11139629qkc.351.1508099800977; 
-	Sun, 15 Oct 2017 13:36:40 -0700 (PDT)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0C96006E;
+	Mon, 16 Oct 2017 02:14:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9G2EPPc024944
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Sun, 15 Oct 2017 19:14:25 -0700
+Received: from [128.224.163.189] (128.224.163.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Sun, 15 Oct 2017 19:14:23 -0700
+To: Khem Raj <raj.khem@gmail.com>, Martin Jansa <martin.jansa@gmail.com>
+References: <150754017019.10662.17591818165714630277@git.openembedded.org>
+	<20171012015609.GA3832@jama>
+	<CAMKF1sptwf=LMdHmXCKN1tCyPGgQcezhvKqHX3rNs113pL1dnQ@mail.gmail.com>
+	<50262241.T8AzmBLD0O@peggleto-mobl.ger.corp.intel.com>
+	<CAMKF1sqqx-7PgL7833JVTn87Tdc57+h-Ob7VLfBD4khmpKN+HA@mail.gmail.com>
+	<CAJTo0LZMRAP4t4XcjyNw-uhnqLLU=sQW38=EMKn=RKo3=c-bEw@mail.gmail.com>
+	<CA+chaQe1gHwBOzvA7mKTMU312iF5HApkMjib7J5CysEQCuA-3g@mail.gmail.com>
+	<CAMKF1sq-BgVCA0C_coZDpxWJhnOLxsUTxZQyHg13AO1zoLbGgA@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <765cf62b-74bb-8611-d858-807a501ee01c@windriver.com>
+Date: Mon, 16 Oct 2017 10:20:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Received: by 10.140.22.199 with HTTP; Sun, 15 Oct 2017 13:36:40 -0700 (PDT)
-In-Reply-To: <cover.1507250774.git.raj.khem@gmail.com>
-References: <cover.1507250774.git.raj.khem@gmail.com>
-From: Trevor Woerner <twoerner@gmail.com>
-Date: Sun, 15 Oct 2017 16:36:40 -0400
-Message-ID: <CAHUNapQiUifXSsXuxb=uqQLd58UON6EXvwLRC9Q07AJXa-ozhw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/10] Add foundation for riscv architecture
+In-Reply-To: <CAMKF1sq-BgVCA0C_coZDpxWJhnOLxsUTxZQyHg13AO1zoLbGgA@mail.gmail.com>
+X-Originating-IP: [128.224.163.189]
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] [openembedded-core] 01/01: bitbake.conf: add tools required by testimage to HOSTTOOLS conditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,9 +45,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Oct 2017 20:36:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Oct 2017 02:14:26 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I'm curious to know what the plan is for supporting the various -march
-variants, or are we just going to assume RV64GC?
+I've created YOCTO#12227 
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=12227).
+And I've sent out a patch, adding ssh to HOSTTOOLS_NONFATAL.
+Another way to fix things up is to add ssh to HOSTTOOLS and change 
+QuickStart accordingly.
+Either way is acceptable for me.
+I'm using the first solution as I'm slightly leaning to it.
+
+Best Regards,
+Chen Qi
+
+On 10/13/2017 10:40 AM, Khem Raj wrote:
+> On Thu, Oct 12, 2017 at 7:35 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> I just got bunch of do_fetch errors from components using
+>> git://....;protocol=ssh
+>>
+>> So it isn't just the sanity check and CONNECTIVITY_CHECK_URIS, it's
+>> everywhere where git-native (by default in ASSUME_PROVIDED) is used with
+>> ssh.
+> right, I realised that it wont make the situation worse, then it was
+> in last release,
+>
+>> On Thu, Oct 12, 2017 at 1:34 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>> On 12 October 2017 at 06:01, Khem Raj <raj.khem@gmail.com> wrote:
+>>>> On Wed, Oct 11, 2017 at 9:32 PM, Paul Eggleton
+>>>> <paul.eggleton@linux.intel.com> wrote:
+>>>>> On Thursday, 12 October 2017 3:15:12 PM NZDT Khem Raj wrote:
+>>>>>> On Wed, Oct 11, 2017 at 6:56 PM, Martin Jansa <martin.jansa@gmail.com>
+>>>>>> wrote:
+>>>>>>> On Mon, Oct 09, 2017 at 09:09:31AM +0000, git@git.openembedded.org
+>>>>>>> wrote:
+>>>>>>>> --- a/meta/conf/bitbake.conf
+>>>>>>>> +++ b/meta/conf/bitbake.conf
+>>>>>>>> @@ -484,7 +484,7 @@ HOSTTOOLS += " \
+>>>>>>>>   "
+>>>>>>>>
+>>>>>>>>   # Tools needed to run testimage runtime image testing
+>>>>>>>> -HOSTTOOLS += "ip ping ps scp ssh stty"
+>>>>>>>> +HOSTTOOLS += "${@['', 'ip ping ps scp ssh
+>>>>>>>> stty'][bb.data.inherits_class('testimage', d)]}"
+>>>>>>> Shouldn't we include at least ssh by default?
+>>>>>> I would say no, since nothing in OE-Core depends on it. more we
+>>>>>> abstract from host system better it is.
+>>>>> I'm with Martin on this one, let's not make it painful for people to
+>>>>> use
+>>>>> the SSH protocol in git URLs in their recipes. I don't see much
+>>>>> potential
+>>>>> for host contamination.
+>>>> Standard distro do not install ssh, if we want to add it here, probably
+>>>> we
+>>>> should at the same time let user know that he should install ssh
+>>>
+>>> That's what HOSTTOOLS_NONFATAL is for.  Who is going to claim the glory
+>>> and post a patch?
+>>>
+>>> Ross
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+
 
