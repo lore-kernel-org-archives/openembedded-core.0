@@ -1,51 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C62B60807
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3777977DAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 10:01:52 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id o135so496389itb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 03:01:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=iJi3S1+1Z8AVxkztCrdhiP5xSYNs9BpDLIEEZF5aj1s=;
-	b=DEbprR4Ex3M8AHC/MvmkCy/iGM3QcIRWDIUPsJUpY/cjA5LScNqGCJTrpv8uU5ZmYI
-	Ue/G0dIUvOF+PS8uaqCWwLUxL9jK6V8LZG03asoRc4aRh5FHOlgonnbJeFwFoLCCzROU
-	4F+gLm6FKq+MkN4NGi/chgixwV0h8n6hldVh8oEGmaScBbO8hdONtQCCHrP7l5u3FY/1
-	y7SHRmELMcMiKAhcI3dzFQpeDoFpeYa8+cbgBuznt1Mc3Rj00hMjNesHgQVPOV7g5Dpr
-	HEd/bKQBC6K0od/22JMU3WsFxgMBRUtll16nNopKHYqE4AQWw7pjP0cBHbw24Cqj8PmO
-	YEvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=iJi3S1+1Z8AVxkztCrdhiP5xSYNs9BpDLIEEZF5aj1s=;
-	b=aysV1FK56Ufw4c3d5lVXrYp91SVD8MkKsbo4ezBQpfgCMc8zF5rCc/cLv5CdIYLKTV
-	3cWkdu4rM2ujyx8ZSwY2BKz7H+/HKiSbX+mDyOcnTgMi4vt9Gb4pQxABgLkUMiRFWTeL
-	gvNRFi8DE2AYSmx21WYw+CsED6WpeH/dqYyFEQJcVucrtDZMMJlEVxWayBGmXUzwtvwk
-	8xdhrHkNitw2vh7qD9Kbs/fiAR6AOwEDV4rMrkdpApLEdz+azqOwtisBo9Ws/KdUxiv/
-	2mDBKh46u+iqTXY5sbv32wGL78JRW7s5u2dOUFAuzq3tFaZc9x4GZAVD9FunWZ9JlhDL
-	Rdvw==
-X-Gm-Message-State: AMCzsaUZCHgY7lVyjTNC8/C6gIDz7I6P4/7gDqrGnJfos8lbp8jPxdGM
-	MoEnDQpS1g32UrN+HgbCTA2Br3GlnObZqEmyOMnp3A==
-X-Google-Smtp-Source: ABhQp+Tr9VUqOFeON5mEBx1NT9UoTBbQCRuK+FTS/hoZE8MmGDuXEQDtTldDgTmB8HmWvB/r8jkjQdh7Qkoe2u0NtXc=
-X-Received: by 10.36.25.4 with SMTP id b4mr390005itb.108.1508148114111; Mon,
-	16 Oct 2017 03:01:54 -0700 (PDT)
+	Mon, 16 Oct 2017 10:25:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 Oct 2017 03:25:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,386,1503385200"; d="scan'208";a="1231277114"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2017 03:25:34 -0700
+To: Mark Hatle <mark.hatle@windriver.com>,
+	openembedded-core@lists.openembedded.org
+References: <20171013141832.24325-1-alexander.kanavin@linux.intel.com>
+	<077b5862-bb57-8447-4cca-5301740ff945@windriver.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <c4d752b8-c0c5-bfd7-ca5b-e7958a9f31f3@linux.intel.com>
+Date: Mon, 16 Oct 2017 13:22:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Mon, 16 Oct 2017 03:01:33 -0700 (PDT)
-In-Reply-To: <CAJTo0LYu+si876jGp3fq6DG8S9bHj+VjK5xC60fQN300dT2iLQ@mail.gmail.com>
-References: <20171012183523.130193-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20171012183523.130193-2-leonardo.sandoval.gonzalez@linux.intel.com>
-	<20171012191104.GJ9221@denix.org>
-	<CAJTo0LYu+si876jGp3fq6DG8S9bHj+VjK5xC60fQN300dT2iLQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Oct 2017 11:01:33 +0100
-Message-ID: <CAJTo0LbStdr0tCsF5gETBrHfGUt44TWpN4BOq2FXd2fXSBpiPQ@mail.gmail.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] perl: upgrade to 5.26.1
+In-Reply-To: <077b5862-bb57-8447-4cca-5301740ff945@windriver.com>
+Subject: Re: [PATCH] prelink: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 10:01:53 -0000
-Content-Type: multipart/alternative; boundary="001a1143d8269c5242055ba718d9"
+X-List-Received-Date: Mon, 16 Oct 2017 10:25:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---001a1143d8269c5242055ba718d9
-Content-Type: text/plain; charset="UTF-8"
+On 10/13/2017 05:56 PM, Mark Hatle wrote:
+> On 10/13/17 9:18 AM, Alexander Kanavin wrote:
+>> Instead of reporting that we can update to a bogus version
+>> report that upstream version is not known.
+> 
+> You do know that there are release branches for prelink right?
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/prelink-cross/refs/heads
+> 
+> cross_prelink and master are both 'release' quality branches.
+> 
+> Anything put there is a new version.
+> 
+> 
+> There is nothing for us to 'tag', since there are no formal versions.
+> 
+> 
+> Should be easy enough for the system to compare the SRCREV to the top of
+> cross_prelink.  If they don't match, an upgrade is needed.
 
->
-> Leo, have you tried an oe-core world build with perl 5.26?
->
+The system currently supports only comparing tags, not comparing 
+commits. I've filed a bug for it long time ago:
 
-So I threw this at the autobuilder.  The grid looks really bad but it's
-entirely git's do_install failing:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8133
 
-http://errors.yoctoproject.org/Errors/Latest/Autobuilder/?filter=a128781a065ce3718c4db2d4629672abd0b52b91&type=commit
+and no progress happened. In the meantime, for projects where commit == 
+release, the best we can do is to mark them as 'upstream version cannot 
+be established'. For prelink, also an exclusion of a bogus tag is 
+needed, so you, as the maintainer, won't get reminders to update to it.
 
-Ross
+Alex
 
---001a1143d8269c5242055ba718d9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-style:solid;border-left-color:rgb(204,204,204);paddi=
-ng-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmai=
-l_quote"><div>Leo, have you tried an oe-core world build with perl 5.26?</d=
-iv></div></div></div></blockquote><div><br></div><div>So I threw this at th=
-e autobuilder.=C2=A0 The grid looks really bad but it&#39;s entirely git&#3=
-9;s do_install failing:</div><div><br></div><div><a href=3D"http://errors.y=
-octoproject.org/Errors/Latest/Autobuilder/?filter=3Da128781a065ce3718c4db2d=
-4629672abd0b52b91&amp;type=3Dcommit">http://errors.yoctoproject.org/Errors/=
-Latest/Autobuilder/?filter=3Da128781a065ce3718c4db2d4629672abd0b52b91&amp;t=
-ype=3Dcommit</a></div><div><br></div><div>Ross</div></div></div></div>
-
---001a1143d8269c5242055ba718d9--
