@@ -1,22 +1,53 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id F1F7D7833A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg0-f48.google.com (mail-pg0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D3D767833B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 19:11:31 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP; 17 Oct 2017 12:11:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="161566050"
-Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga005.jf.intel.com with ESMTP; 17 Oct 2017 12:11:32 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Oct 2017 12:11:30 -0700
-Message-Id: <20171017191130.41996-5-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 2.12.3
-In-Reply-To: <20171017191130.41996-1-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <20171017191130.41996-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v3 5/5] ruby: upgrade to 2.4.2
+	Tue, 17 Oct 2017 19:19:13 +0000 (UTC)
+Received: by mail-pg0-f48.google.com with SMTP id g6so2193385pgn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Oct 2017 12:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=V8nZGElakC45RkH2/0Nz8nvvLJMVImbgTIxe5s3MuyI=;
+	b=RkBeDKZMnIpfh20hvtXjyRt8a6zmycaIFG/2vdsefeVH2hCuNQ1rPop6Lon2KMt0XB
+	/B+kwQVgfTyQBG0KziB3sGq17SoQHc2PTx1aU+uLrDAGpi8oeSJAKLocvmP5OZj2SsYi
+	RSmSWrokRmYGhxVr+0ntAG5ru2+x65p8xkyp5ZemjFqC6UzAq22cogcdBn7UGCLeVQIA
+	YOM7of9/5yBSV7jTud4Lb6GTPc6E2ayRzUOg5tZYogT4u3NekdUSVLqN0j1EP7twhyuk
+	PLjzluP1rBA+1wC62rUhB6pl1YO7jK1ibAftkKc7AfELYoU3yabhVCsqllaIsNlmi8lb
+	YS7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=V8nZGElakC45RkH2/0Nz8nvvLJMVImbgTIxe5s3MuyI=;
+	b=KpKDl2GMfm+imBNloElou3p9f212gEQEDSrL+ubiKTkvJLeMYROWpgXxt9a94ceZo0
+	87OjkrDiuVqwBb+3RL+zWTG8w9tvs1UvpyArn6udsQoLEmUG64XrxT+InhqOddk/ItTL
+	kVRxFen+rr4BCKrUq1o+ubRqWlebn1zkaksNpXow2OQ9zweaf0CCJg93aRnelhbbJFGQ
+	IBj6grLvDWSVtuoVw1lnJFL/PvTH4Bn9xwHV2LJdx6mHsDZPt0ggi0TNJiQXpeQemeCF
+	rREK+pT4JTNlJJHH3XcqQV11LW1LGlSR8bLeYsCYgzTFTBulERVUjfUv+46R5YfWjjPG
+	+rfA==
+X-Gm-Message-State: AMCzsaWKSbHlXXM6p2NkOmC/+XgLnuzazRR5CeNbkB7LKDIV/uj1wWdD
+	xqf97h5XBk/tmXn1TEFPzpJLrzwylMAt2qDCQco=
+X-Google-Smtp-Source: AOwi7QB2l1uFkfwshKtmDRcYPggPQz6YDgp1e/Q/OOIuS7bRXnLJ3evh6JAd8xaMbgJ3ta3ogbZxljIbjQDW0HsNutY=
+X-Received: by 10.98.150.149 with SMTP id s21mr12510596pfk.151.1508267955021; 
+	Tue, 17 Oct 2017 12:19:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.187.66 with HTTP; Tue, 17 Oct 2017 12:18:44 -0700 (PDT)
+In-Reply-To: <CAJTo0LZkxMoh3K0xH+HUyUG7=-qiO8odyU7EgxDeM5N4sRZUbg@mail.gmail.com>
+References: <20171014154858.35123-1-raj.khem@gmail.com>
+	<20171014154858.35123-4-raj.khem@gmail.com>
+	<CAJTo0LZC2At7Jnni1eLBTXyAdWsNVf-ynAVX8thc1EOujnsRuA@mail.gmail.com>
+	<CAMKF1sov3p8viw9h1SjNF9Hyz0X5LuMqbJ4JnyFw-7HHxnKTLA@mail.gmail.com>
+	<CAJTo0Lb81WDPU5mFKi+5SJkuqXDgxFEwnD2LLCMk+T24_M7nWg@mail.gmail.com>
+	<CAMKF1soaVRfyvgYcZy2TSfjgOT+Er4eB0kCKtWd0_wqbZwH17w@mail.gmail.com>
+	<CAJTo0La7zp9_dPd86X87QVuq7cS0SVZz05E==ryzJTXdPWfd=Q@mail.gmail.com>
+	<CAJTo0LZkxMoh3K0xH+HUyUG7=-qiO8odyU7EgxDeM5N4sRZUbg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 Oct 2017 12:18:44 -0700
+Message-ID: <CAMKF1spfUMu1cB4rQ63thmzkh0bCXsH+RbfHq-HEP_vvv=v9Kg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/7] libevdev: Add dependency on libcheck
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,147 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 19:11:32 -0000
+X-List-Received-Date: Tue, 17 Oct 2017 19:19:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Tue, Oct 17, 2017 at 9:46 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> I can't replicate with pkgconf and with check installed on the host.  Can
+> you actually replicate this?
+>
+> Ross
+>
+> On 17 October 2017 at 17:32, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> On 17 October 2017 at 17:29, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> On Tue, Oct 17, 2017 at 9:25 AM, Burton, Ross <ross.burton@intel.com>
+>>> wrote:
+>>> > On 17 October 2017 at 17:24, Khem Raj <raj.khem@gmail.com> wrote:
+>>> >>
+>>> >> On Tue, Oct 17, 2017 at 5:41 AM, Burton, Ross <ross.burton@intel.com>
+>>> >> wrote:
+>>> >> > Curious how you hit this with master.  For me:
+>>> >> >
+>>> >> > checking for check >= 0.9.9... no
+>>> >> > configure: WARNING: check not found - skipping building unit tests
+>>> >> >
+>>> >> > The configure script uses pkg-config so shouldn't be picking up host
+>>> >> > binaries.  Can you dig a little?
+>>> >>
+>>> >> do you have ptests on
+>>> >
+>>> >
+>>> > Yes but libevdev doesn't have any.
+>>>
+>>> and I am using new pkgconf
+>>
+>>
+>> Ah, let's see if that breaks it.  Do you have libcheck installed on your
+>> host?
 
-The CVE-2017-14064 patch is already at 2.4.2 as explained on
-project's commit, so removing from the recipe & repo.
+No I dont, but now, I am unable to reproduce it in configurations I
+had. It failed in
+one of world builds and logs are overwritten so no way to look back.
 
-    commit 83735ba29a0bfdaffa8e9c2a1dc025c3b0b63153
-    Author: hsbt <hsbt@b2dd03c8-39d4-4d8f-98ff-823fe69b080e>
-    Date:   Wed Apr 12 00:21:18 2017 +0000
-
-        Merge json-2.0.4.
-
-          * https://github.com/flori/json/releases/tag/v2.0.4
-          * https://github.com/flori/json/blob/09fabeb03e73ed88dc8ce8f19d76ac59e51dae20/CHANGES.md#2017-03-23-204
-
-        git-svn-id: svn+ssh://ci.ruby-lang.org/ruby/trunk@58323 b2dd03c8-39d4-4d8f-98ff-823fe69b080e
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- .../ruby/ruby/ruby-CVE-2017-14064.patch            | 87 ----------------------
- .../ruby/{ruby_2.4.1.bb => ruby_2.4.2.bb}          |  5 +-
- 2 files changed, 2 insertions(+), 90 deletions(-)
- delete mode 100644 meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch
- rename meta/recipes-devtools/ruby/{ruby_2.4.1.bb => ruby_2.4.2.bb} (88%)
-
-diff --git a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch b/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch
-deleted file mode 100644
-index 88e693c94e..0000000000
---- a/meta/recipes-devtools/ruby/ruby/ruby-CVE-2017-14064.patch
-+++ /dev/null
-@@ -1,87 +0,0 @@
--From 8f782fd8e181d9cfe9387ded43a5ca9692266b85 Mon Sep 17 00:00:00 2001
--From: Florian Frank <flori@ping.de>
--Date: Thu, 2 Mar 2017 12:12:33 +0100
--Subject: [PATCH] Fix arbitrary heap exposure problem
--
--Upstream-Status: Backport
--CVE: CVE-2017-14064
--
--Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-----
-- ext/json/generator/generator.c | 12 ++++++------
-- ext/json/generator/generator.h |  1 -
-- 2 files changed, 6 insertions(+), 7 deletions(-)
--
--diff --git a/ext/json/generator/generator.c b/ext/json/generator/generator.c
--index ef85bb7..c88818c 100644
----- a/ext/json/generator/generator.c
--+++ b/ext/json/generator/generator.c
--@@ -308,7 +308,7 @@ static char *fstrndup(const char *ptr, unsigned long len) {
--   char *result;
--   if (len <= 0) return NULL;
--   result = ALLOC_N(char, len);
---  memccpy(result, ptr, 0, len);
--+  memcpy(result, ptr, len);
--   return result;
-- }
-- 
--@@ -1062,7 +1062,7 @@ static VALUE cState_indent_set(VALUE self, VALUE indent)
--         }
--     } else {
--         if (state->indent) ruby_xfree(state->indent);
---        state->indent = strdup(RSTRING_PTR(indent));
--+        state->indent = fstrndup(RSTRING_PTR(indent), len);
--         state->indent_len = len;
--     }
--     return Qnil;
--@@ -1100,7 +1100,7 @@ static VALUE cState_space_set(VALUE self, VALUE space)
--         }
--     } else {
--         if (state->space) ruby_xfree(state->space);
---        state->space = strdup(RSTRING_PTR(space));
--+        state->space = fstrndup(RSTRING_PTR(space), len);
--         state->space_len = len;
--     }
--     return Qnil;
--@@ -1136,7 +1136,7 @@ static VALUE cState_space_before_set(VALUE self, VALUE space_before)
--         }
--     } else {
--         if (state->space_before) ruby_xfree(state->space_before);
---        state->space_before = strdup(RSTRING_PTR(space_before));
--+        state->space_before = fstrndup(RSTRING_PTR(space_before), len);
--         state->space_before_len = len;
--     }
--     return Qnil;
--@@ -1173,7 +1173,7 @@ static VALUE cState_object_nl_set(VALUE self, VALUE object_nl)
--         }
--     } else {
--         if (state->object_nl) ruby_xfree(state->object_nl);
---        state->object_nl = strdup(RSTRING_PTR(object_nl));
--+        state->object_nl = fstrndup(RSTRING_PTR(object_nl), len);
--         state->object_nl_len = len;
--     }
--     return Qnil;
--@@ -1208,7 +1208,7 @@ static VALUE cState_array_nl_set(VALUE self, VALUE array_nl)
--         }
--     } else {
--         if (state->array_nl) ruby_xfree(state->array_nl);
---        state->array_nl = strdup(RSTRING_PTR(array_nl));
--+        state->array_nl = fstrndup(RSTRING_PTR(array_nl), len);
--         state->array_nl_len = len;
--     }
--     return Qnil;
--diff --git a/ext/json/generator/generator.h b/ext/json/generator/generator.h
--index 900b4d5..c367a62 100644
----- a/ext/json/generator/generator.h
--+++ b/ext/json/generator/generator.h
--@@ -1,7 +1,6 @@
-- #ifndef _GENERATOR_H_
-- #define _GENERATOR_H_
-- 
---#include <string.h>
-- #include <math.h>
-- #include <ctype.h>
-- 
---- 
--2.10.2
--
-diff --git a/meta/recipes-devtools/ruby/ruby_2.4.1.bb b/meta/recipes-devtools/ruby/ruby_2.4.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/ruby/ruby_2.4.1.bb
-rename to meta/recipes-devtools/ruby/ruby_2.4.2.bb
-index 7d27ac84ec..b471154a22 100644
---- a/meta/recipes-devtools/ruby/ruby_2.4.1.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.4.2.bb
-@@ -6,11 +6,10 @@ SRC_URI += " \
-            file://ruby-CVE-2017-9227.patch \
-            file://ruby-CVE-2017-9228.patch \
-            file://ruby-CVE-2017-9229.patch \
--           file://ruby-CVE-2017-14064.patch \
-            "
- 
--SRC_URI[md5sum] = "782bca562e474dd25956dd0017d92677"
--SRC_URI[sha256sum] = "a330e10d5cb5e53b3a0078326c5731888bb55e32c4abfeb27d9e7f8e5d000250"
-+SRC_URI[md5sum] = "fe106eed9738c4e03813ab904f8d891c"
-+SRC_URI[sha256sum] = "93b9e75e00b262bc4def6b26b7ae8717efc252c47154abb7392e54357e6c8c9c"
- 
- # it's unknown to configure script, but then passed to extconf.rb
- # maybe it's not really needed as we're hardcoding the result with
--- 
-2.12.3
-
+I will revert this locally and wait until it happens again.
 
