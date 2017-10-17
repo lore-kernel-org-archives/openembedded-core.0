@@ -1,18 +1,16 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 478BE7822A;
-	Tue, 17 Oct 2017 17:00:25 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Tue, 17 Oct 2017 17:00:27 -0000
-Message-ID: <20171017170027.2784.8632@do.openembedded.org>
-References: <20171017165424.22887-1-thomas.perrot@tupi.fr>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171017165424.22887-1-thomas.perrot@tupi.fr>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgRml4IHNvbWUgaXNzdWVzIGluIHRoZSBmaXRJbWFnZSBnZW5lcmF0aW9u?=
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 44E6878306
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Oct 2017 17:38:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id 6E4CD2604DE
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Oct 2017 19:38:05 +0200
+Message-Id: <20171017173807.19161-1-fabien.lahoudere@collabora.co.uk>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v6 1/3] wayland : Bump to version 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +23,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 17:00:25 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Oct 2017 17:38:16 -0000
 
-== Series Details ==
-
-Series: Fix some issues in the fitImage generation
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9386/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta,pyro] Fix some issues in the fitImage generation
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 ---
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} (92%)
+
+diff --git a/meta/recipes-graphics/wayland/wayland_1.13.0.bb b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/wayland/wayland_1.13.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.14.0.bb
+index b9396b6c75..2a2489d658 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.13.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+@@ -14,8 +14,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[md5sum] = "cae152ed956da6de53f9727bc1c45039"
+-SRC_URI[sha256sum] = "69b052c031a61e89af7cc8780893d0da1e301492352aa449dee9345043e6fe51"
++SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
++SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.11.0
 
 
