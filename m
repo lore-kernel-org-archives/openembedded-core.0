@@ -1,24 +1,30 @@
-Return-Path: <Wenlin.Kang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6396778255
+	by mail.openembedded.org (Postfix) with ESMTP id 34C9178255
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 02:22:15 +0000 (UTC)
+	Tue, 17 Oct 2017 02:25:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9H2MGZ0000995
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 19:22:16 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 16 Oct 2017 19:22:15 -0700
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Oct 2017 10:21:29 +0800
-Message-ID: <1508206889-55145-1-git-send-email-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9H2P8gV001004
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Oct 2017 19:25:10 -0700 (PDT)
+Received: from [128.224.163.189] (128.224.163.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 16 Oct 2017 19:25:07 -0700
+To: Denys Dmytriyenko <denis@denix.org>
+References: <cover.1508204684.git.Qi.Chen@windriver.com>
+	<97121153b1e6d33790c04c5168dbb5eb8e0e6475.1508204684.git.Qi.Chen@windriver.com>
+	<20171017021859.GA9221@denix.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <6d41973d-1fb0-8d7e-5554-44dcc0ed8dcc@windriver.com>
+Date: Tue, 17 Oct 2017 10:31:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH] kexec-tools: add systemd support for kdump
+In-Reply-To: <20171017021859.GA9221@denix.org>
+X-Originating-IP: [128.224.163.189]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/1] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,92 +37,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 02:22:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Oct 2017 02:25:15 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add file kdump.service to support kdump in systemd.
+On 10/17/2017 10:18 AM, Denys Dmytriyenko wrote:
+> On Tue, Oct 17, 2017 at 09:46:32AM +0800, Chen Qi wrote:
+>> We changed to make tools required by testimage to be included conditionally.
+>> This resulted in users who use ssh for git fetching having failures.
+>>
+>> Add ssh to HOSTTOOLS_NONFATAL to make things work for the above situation.
+>>
+>> [YOCTO #12227]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+> 1. Why don't people specify what has changed between v1 and v2 of the patch?
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
----
- meta/recipes-kernel/kexec/kexec-tools.inc          |  1 +
- .../recipes-kernel/kexec/kexec-tools/kdump.service | 12 +++++++++++
- meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    | 23 +++++++++++++++++-----
- 3 files changed, 31 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kdump.service
+It's in [OE-core] [PATCH V2 0/1] bitbake.conf: add ssh to 
+HOSTTOOLS_NONFATAL.
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
-index bdfe024..c689bec 100644
---- a/meta/recipes-kernel/kexec/kexec-tools.inc
-+++ b/meta/recipes-kernel/kexec/kexec-tools.inc
-@@ -11,6 +11,7 @@ DEPENDS = "zlib xz"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
-            file://kdump \
-            file://kdump.conf \
-+           file://kdump.service \
- "
- 
- PR = "r1"
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/kdump.service b/meta/recipes-kernel/kexec/kexec-tools/kdump.service
-new file mode 100644
-index 0000000..4e65a46
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/kdump.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=Reboot and dump vmcore via kexec
-+DefaultDependencies=no
-+
-+[Service]
-+Type=oneshot
-+RemainAfterExit=yes
-+ExecStart=@LIBEXECDIR@/kdump-helper start
-+ExecStop=@LIBEXECDIR@/kdump-helper stop
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
-index bd89720..0f6398f1 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
-@@ -34,19 +34,32 @@ ALLOW_EMPTY_${PN} = "1"
- RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
- 
- FILES_kexec = "${sbindir}/kexec"
--FILES_kdump = "${sbindir}/kdump ${sysconfdir}/init.d/kdump \
--               ${sysconfdir}/sysconfig/kdump.conf"
-+FILES_kdump = "${sbindir}/kdump \
-+               ${sysconfdir}/sysconfig/kdump.conf \
-+               ${sysconfdir}/init.d/kdump \
-+               ${libexecdir}/kdump-helper \
-+               ${systemd_unitdir}/system/kdump.service \
-+"
-+
- FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
- 
--inherit update-rc.d
-+inherit update-rc.d systemd
- 
- INITSCRIPT_PACKAGES = "kdump"
- INITSCRIPT_NAME_kdump = "kdump"
- INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
- 
- do_install_append () {
--        install -d ${D}${sysconfdir}/init.d
--        install -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
-         install -d ${D}${sysconfdir}/sysconfig
-         install -m 0644 ${WORKDIR}/kdump.conf ${D}${sysconfdir}/sysconfig
-+
-+        if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-+                install -D -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
-+        fi
-+
-+        if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+                install -D -m 0755 ${WORKDIR}/kdump ${D}${libexecdir}/kdump-helper
-+                install -D -m 0644 ${WORKDIR}/kdump.service ${D}${systemd_unitdir}/system/kdump.service
-+                sed -i -e 's,@LIBEXECDIR@,${libexecdir},g' ${D}${systemd_unitdir}/system/kdump.service
-+        fi
- }
--- 
-1.9.1
+>
+> 2. A corrected/sorted patch already went in earlier:
+> http://cgit.openembedded.org/openembedded-core/commit/?id=50e7619aebae5351e9a41fe1b909a31b9e383f0a
+
+Sorry. My carelessness.
+I should have checked the latest master.
+
+Best Regards,
+Chen Qi
+>
+>>   meta/conf/bitbake.conf | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 0eefb86..4fba9d6 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -487,7 +487,7 @@ HOSTTOOLS += " \
+>>   HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
+>>   
+>>   # Link to these if present
+>> -HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
+>> +HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
+>>   
+>>   # Temporary add few more detected in bitbake world
+>>   HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+>> -- 
+>> 1.9.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
 
