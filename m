@@ -1,38 +1,26 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0383A77E66
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E4A377E66
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 01:29:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id DE66020A42;
-	Tue, 17 Oct 2017 01:29:53 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id u-rv58KmNE01; Tue, 17 Oct 2017 01:29:53 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id ADA6D2087C;
-	Tue, 17 Oct 2017 01:29:51 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 2BDC6162700; Mon, 16 Oct 2017 21:29:51 -0400 (EDT)
-Date: Mon, 16 Oct 2017 21:29:51 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171017012951.GZ9221@denix.org>
-References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
-	<20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
-	<CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
-	<CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
+	Tue, 17 Oct 2017 01:40:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9H1eO7n026577
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Oct 2017 18:40:25 -0700
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 16 Oct 2017 18:40:24 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Oct 2017 09:46:32 +0800
+Message-ID: <97121153b1e6d33790c04c5168dbb5eb8e0e6475.1508204684.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1508204684.git.Qi.Chen@windriver.com>
+References: <cover.1508204684.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 3/3] weston: Bump version to 3.0.0
+Subject: [PATCH V2 1/1] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 01:29:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Oct 2017 01:40:24 -0000
+Content-Type: text/plain
 
-On Mon, Oct 16, 2017 at 09:34:04PM +0100, Burton, Ross wrote:
-> On 16 October 2017 at 18:30, Otavio Salvador <
-> otavio.salvador@ossystems.com.br> wrote:
-> 
-> >
-> > > +          file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-> > \
-> > > +          file://fix-missing-header.patch \
-> >
-> > Those should be documented on commit log
-> >
-> >
-> Agreed.  The missing header one should say what platform causes it to be a
-> problem (in case it never gets upstreamed and someone tests it again on
-> just glibc).  
+We changed to make tools required by testimage to be included conditionally.
+This resulted in users who use ssh for git fetching having failures.
 
+Add ssh to HOSTTOOLS_NONFATAL to make things work for the above situation.
 
-> And is the pitch patch sufficiently broken that we need to backport it?
+[YOCTO #12227]
 
-My point exactly - doesn't seem to be a very broad problem...
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0eefb86..4fba9d6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -487,7 +487,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
+ 
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
++HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
+ 
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+-- 
+1.9.1
+
 
