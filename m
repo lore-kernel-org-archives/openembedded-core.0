@@ -1,18 +1,18 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 67ACD782A3
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B18D86E666
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 13:57:13 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP; 17 Oct 2017 06:57:15 -0700
+	Tue, 17 Oct 2017 14:17:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga105.fm.intel.com with ESMTP; 17 Oct 2017 07:17:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="324206892"
+X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="1231749721"
 Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by fmsmga004.fm.intel.com with SMTP; 17 Oct 2017 06:57:14 -0700
-Date: Tue, 17 Oct 2017 09:07:03 -0500
+	by fmsmga002.fm.intel.com with SMTP; 17 Oct 2017 07:17:07 -0700
+Date: Tue, 17 Oct 2017 09:26:56 -0500
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-Id: <20171017090703.85ac6135846b0a469bca4631@linux.intel.com>
+Message-Id: <20171017092656.cceee18b5f601655e0ed547c@linux.intel.com>
 In-Reply-To: <20171017124339.3966-1-alexander.kanavin@linux.intel.com>
 References: <20171017124339.3966-1-alexander.kanavin@linux.intel.com>
 X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
@@ -31,18 +31,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 13:57:14 -0000
+X-List-Received-Date: Tue, 17 Oct 2017 14:17:06 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 17 Oct 2017 15:43:39 +0300
-Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
 
-I like the idea of a simpler script to do this job.
+> 
+> YP used to have a much more sophisticated system called Automated
+> Upgrade Helper for this, but it hasn't been heard from in several months
+> and so I quickly rolled my own cheap and cheery replacement.
 
-Just one minor comment on the code: I would use non-zero exit values in case of errors and as a possible future enhancement, use a template (jinja2 for example) to format the email and just populate this with the data  from checkpkg.
-
-
-Leo
-
+AUH is the system that send emails with upgrade statistics (basically the system tries to upgrade and prepare the patch if possible) and RRS is the system that sends emails reporting upgradable recipes (just those recipes that needs to upgrade). I know, a bit confusing but in your context you are referring to the RRS.
 
