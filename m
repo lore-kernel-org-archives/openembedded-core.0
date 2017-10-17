@@ -1,36 +1,23 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B07E7822C
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FC8D77BC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 03:05:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 2009B20A42;
-	Tue, 17 Oct 2017 03:05:40 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id AlvpQiYpV9PR; Tue, 17 Oct 2017 03:05:40 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id F245120147;
-	Tue, 17 Oct 2017 03:05:38 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 6F7B3162700; Mon, 16 Oct 2017 23:05:38 -0400 (EDT)
-Date: Mon, 16 Oct 2017 23:05:38 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <20171017030538.GB9221@denix.org>
-References: <cover.1508204684.git.Qi.Chen@windriver.com>
-	<97121153b1e6d33790c04c5168dbb5eb8e0e6475.1508204684.git.Qi.Chen@windriver.com>
-	<20171017021859.GA9221@denix.org>
-	<6d41973d-1fb0-8d7e-5554-44dcc0ed8dcc@windriver.com>
+	Tue, 17 Oct 2017 06:05:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9H65Plr029706
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Oct 2017 23:05:25 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 16 Oct 2017 23:05:24 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Tue, 17 Oct 2017 02:05:20 -0400
+Message-ID: <1508220321-119344-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-In-Reply-To: <6d41973d-1fb0-8d7e-5554-44dcc0ed8dcc@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
+Subject: [PATCH 1/2] perl: fix CVE-2017-12883
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +30,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 03:05:39 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Oct 2017 06:05:25 -0000
+Content-Type: text/plain
 
-On Tue, Oct 17, 2017 at 10:31:11AM +0800, ChenQi wrote:
-> On 10/17/2017 10:18 AM, Denys Dmytriyenko wrote:
-> >On Tue, Oct 17, 2017 at 09:46:32AM +0800, Chen Qi wrote:
-> >>We changed to make tools required by testimage to be included conditionally.
-> >>This resulted in users who use ssh for git fetching having failures.
-> >>
-> >>Add ssh to HOSTTOOLS_NONFATAL to make things work for the above situation.
-> >>
-> >>[YOCTO #12227]
-> >>
-> >>Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >>---
-> >1. Why don't people specify what has changed between v1 and v2 of the patch?
-> 
-> It's in [OE-core] [PATCH V2 0/1] bitbake.conf: add ssh to
-> HOSTTOOLS_NONFATAL.
+The cause of this is that the vFAIL macro uses RExC_parse, and that
+variable has just been changed in preparation for code after the vFAIL.
+The solution is to not change RExC_parse until after the vFAIL.
 
-The changelog between patch revisions?
+This is a case where the macro hides stuff that can bite you.
 
+https://perl5.git.perl.org/perl.git/commit/2be4edede4ae226e2eebd4eff28cedd2041f300f
 
-> >2. A corrected/sorted patch already went in earlier:
-> >http://cgit.openembedded.org/openembedded-core/commit/?id=50e7619aebae5351e9a41fe1b909a31b9e383f0a
-> 
-> Sorry. My carelessness.
-> I should have checked the latest master.
-> 
-> Best Regards,
-> Chen Qi
-> >
-> >>  meta/conf/bitbake.conf | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >>diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> >>index 0eefb86..4fba9d6 100644
-> >>--- a/meta/conf/bitbake.conf
-> >>+++ b/meta/conf/bitbake.conf
-> >>@@ -487,7 +487,7 @@ HOSTTOOLS += " \
-> >>  HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
-> >>  # Link to these if present
-> >>-HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat sudo"
-> >>+HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
-> >>  # Temporary add few more detected in bitbake world
-> >>  HOSTTOOLS_NONFATAL += "join nl size yes zcat"
-> >>-- 
-> >>1.9.1
-> >>
-> >>-- 
-> >>_______________________________________________
-> >>Openembedded-core mailing list
-> >>Openembedded-core@lists.openembedded.org
-> >>http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../perl/perl/perl-fix-CVE-2017-12883.patch        | 51 ++++++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12883.patch
+
+diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12883.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12883.patch
+new file mode 100644
+index 0000000..c58744f
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12883.patch
+@@ -0,0 +1,51 @@
++From a2b6b82e5eea300a33f148ee5201373726f9f26c Mon Sep 17 00:00:00 2001
++From: Karl Williamson <khw@cpan.org>
++Date: Tue, 17 Oct 2017 13:36:05 +0800
++Subject: [PATCH] fix CVE-2017-12883
++
++PATCH: [perl #131598]
++
++The cause of this is that the vFAIL macro uses RExC_parse, and that
++variable has just been changed in preparation for code after the vFAIL.
++The solution is to not change RExC_parse until after the vFAIL.
++
++This is a case where the macro hides stuff that can bite you.
++
++Signed-off-by: Karl Williamson <khw@cpan.org>
++Signed-off-by: Steve Hay <steve.m.hay@googlemail.com>
++
++Upstream-Status: Backport
++https://perl5.git.perl.org/perl.git/commit/2be4edede4ae226e2eebd4eff28cedd2041f300f
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ regcomp.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/regcomp.c b/regcomp.c
++index be6cb96..5498d14 100644
++--- a/regcomp.c
+++++ b/regcomp.c
++@@ -11918,14 +11918,17 @@ S_grok_bslash_N(pTHX_ RExC_state_t *pRExC_state,
++ 	}
++         sv_catpv(substitute_parse, ")");
++ 
++-        RExC_parse = RExC_start = RExC_adjusted_start = SvPV(substitute_parse,
++-                                                             len);
+++        len = SvCUR(substitute_parse);
++ 
++ 	/* Don't allow empty number */
++ 	if (len < (STRLEN) 8) {
++             RExC_parse = endbrace;
++ 	    vFAIL("Invalid hexadecimal number in \\N{U+...}");
++ 	}
+++
+++        RExC_parse = RExC_start = RExC_adjusted_start
+++                                              = SvPV_nolen(substitute_parse);
+++
++ 	RExC_end = RExC_parse + len;
++ 
++         /* The values are Unicode, and therefore not subject to recoding, but
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
+index b55d222..93420f1 100644
+--- a/meta/recipes-devtools/perl/perl_5.24.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
+@@ -65,6 +65,7 @@ SRC_URI += " \
+         file://perl-errno-generation-gcc5.patch \
+         file://perl-fix-conflict-between-skip_all-and-END.patch \
+         file://perl-test-customized.patch \
++        file://perl-fix-CVE-2017-12883.patch \
+ "
+ 
+ # Fix test case issues
+-- 
+1.8.3.1
+
 
