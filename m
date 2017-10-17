@@ -1,28 +1,18 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2734F782C5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 17:44:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Oct 2017 10:44:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="1231831406"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by fmsmga002.fm.intel.com with SMTP; 17 Oct 2017 10:44:08 -0700
-Date: Tue, 17 Oct 2017 12:53:57 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Message-Id: <20171017125357.29113803f44029838af18f7d@linux.intel.com>
-In-Reply-To: <20171016141306.418e7a6502139ed4c2e180c3@linux.intel.com>
-References: <20171016150045.25323-1-Randy.MacLeod@windriver.com>
-	<20171016160029.2787.48040@do.openembedded.org>
-	<4d40ce95-4159-5197-ebca-af1f30f25a6f@windriver.com>
-	<20171016141306.418e7a6502139ed4c2e180c3@linux.intel.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 114D9782EF;
+	Tue, 17 Oct 2017 18:00:29 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+Date: Tue, 17 Oct 2017 18:00:30 -0000
+Message-ID: <20171017180030.2784.70353@do.openembedded.org>
+References: <20171017173807.19161-1-fabien.lahoudere@collabora.co.uk>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20171017173807.19161-1-fabien.lahoudere@collabora.co.uk>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJSRUFETUUucWVtdTogcWVtdXBwYzY0IGlzIG5vdCAuLi4iIGFuZCAxIG1vcmU=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Nl0gd2F5bGFuZCA6IEJ1bXAgdG8gdmVyc2lvbi4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 17:44:08 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Tue, 17 Oct 2017 18:00:29 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-> 
-> > 
-> > Also is there a list server for privately reviewing a patch by email?
-> > I looked at setting up patchtest locally but got distracted when the
-> > setup seemed to take more than a few minutes. Maybe I just need
-> > to focus for longer...
-> 
-> on your current branch, just run the patchtest script located at scripts/contrib/, that would provide basically the same log as the one gotten from patchwork.
+== Series Details ==
 
-Randy,
+Series: "[v6] wayland : Bump to version..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9387/
+State : failure
 
-just test the patchtest script under contrib and I see some exceptions coming from the execution which turn into failures and false positives. this script creates a virtual environment then clones repos and start testing patches starting from master to HEAD. This virtual environment is what is causing problems. I will fix it soon but for the time being a server is doing the test for you :)
-
-Leo
-
-> 
-> > 
-> > 
-> > ../Randy
-> > 
-> > > 
-> > > 
-> > > If you believe any of these test results are incorrect, please reply to the
-> > > mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> > > Otherwise we would appreciate you correcting the issues and submitting a new
-> > > version of the patchset if applicable. Please ensure you add/increment the
-> > > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> > > [PATCH v3] -> ...).
-> > > 
-> > > ---
-> > > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> > > 
-> > > 
-> > 
-> > 
-> > -- 
-> > # Randy MacLeod.  WR Linux
-> > # Wind River an Intel Company
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
-> -- 
-> Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+== Summary ==
 
 
--- 
-Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
+  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-graphics/wayland/wayland-protocols/usesysrootprefixforpkgdatadirvariable.patch)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
