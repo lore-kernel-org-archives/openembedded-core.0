@@ -1,34 +1,33 @@
 Return-Path: <denis@denix.org>
 Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id DA5027830A
+	by mail.openembedded.org (Postfix) with ESMTP id 0588A78307
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 19:00:58 +0000 (UTC)
+	Tue, 17 Oct 2017 19:09:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 730E920A3B;
-	Tue, 17 Oct 2017 19:00:59 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 1EF7B20A3B;
+	Tue, 17 Oct 2017 19:09:17 +0000 (UTC)
 Received: from mailout4.zoneedit.com ([127.0.0.1])
 	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id L94whc4fzrcA; Tue, 17 Oct 2017 19:00:59 +0000 (UTC)
+	with ESMTP id cO-vy_hAFJW9; Tue, 17 Oct 2017 19:09:17 +0000 (UTC)
 Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
 	[100.15.85.143])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 486232010C;
-	Tue, 17 Oct 2017 19:00:58 +0000 (UTC)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id EFBA42010C;
+	Tue, 17 Oct 2017 19:09:15 +0000 (UTC)
 Received: by mail.denix.org (Postfix, from userid 1000)
-	id CF2B51626FF; Tue, 17 Oct 2017 15:00:57 -0400 (EDT)
-Date: Tue, 17 Oct 2017 15:00:57 -0400
+	id 874E11626FF; Tue, 17 Oct 2017 15:09:15 -0400 (EDT)
+Date: Tue, 17 Oct 2017 15:09:15 -0400
 From: Denys Dmytriyenko <denis@denix.org>
-To: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-Message-ID: <20171017190057.GH9221@denix.org>
-References: <20171017173807.19161-1-fabien.lahoudere@collabora.co.uk>
-	<20171017173807.19161-3-fabien.lahoudere@collabora.co.uk>
+To: Thomas Perrot <thomas.perrot@tupi.fr>
+Message-ID: <20171017190915.GI9221@denix.org>
+References: <20171017165424.22887-1-thomas.perrot@tupi.fr>
 MIME-Version: 1.0
-In-Reply-To: <20171017173807.19161-3-fabien.lahoudere@collabora.co.uk>
+In-Reply-To: <20171017165424.22887-1-thomas.perrot@tupi.fr>
 User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v6 3/3] weston: Bump version to 3.0.0
+Subject: Re: [meta][pyro][PATCH] Fix some issues in the fitImage generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,185 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 19:00:59 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Tue, 17 Oct 2017 19:09:16 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-I don't believe we reached an agreement on the pitch patch belonging here...
+On Tue, Oct 17, 2017 at 06:54:24PM +0200, Thomas Perrot wrote:
+> - Bad image type replacement for aarch64
+> - Fix DTB path in fitimage.its
+
+I've seen the above 2 fixes before, but they never made it.
 
 
-On Tue, Oct 17, 2017 at 07:38:07PM +0200, Fabien Lahoudere wrote:
-> Update weston release to 3.0.0.
-> Two patches added:
-> - fix-missing-header.patch:
->         fix a build issue when musl is used as libc.
-> - weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch:
->         fix display issue with YUV420/I420 format.
-> 
-> Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+> - Ignore fitImage type during the packaging of the initramfs
+
+Can you please explain this one a bit more?
+
+And in general, commit message should rather explain "why" and not "what"
+
+
+> Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
 > ---
->  .../wayland/weston/fix-missing-header.patch        | 30 ++++++++++++
->  ...t-pitch-correctly-for-subsampled-textures.patch | 55 ++++++++++++++++++++++
->  .../wayland/{weston_2.0.0.bb => weston_3.0.0.bb}   | 17 +++----
->  3 files changed, 94 insertions(+), 8 deletions(-)
->  create mode 100644 meta/recipes-graphics/wayland/weston/fix-missing-header.patch
->  create mode 100644 meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
->  rename meta/recipes-graphics/wayland/{weston_2.0.0.bb => weston_3.0.0.bb} (89%)
+>  meta/classes/kernel-fitimage.bbclass | 6 +++++-
+>  meta/classes/kernel.bbclass          | 4 +++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-graphics/wayland/weston/fix-missing-header.patch b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
-> new file mode 100644
-> index 0000000000..55c0d4fd0f
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
-> @@ -0,0 +1,30 @@
-> +On the musl C library, tests/timespec-text.c does not build, with the
-> +following error:
-> +
-> +    In file included from tests/timespec-test.c:36:0:
-> +    ./shared/timespec-util.h:41:21: warning: ‘struct timespec’ declared
-> +    inside parameter list will not be visible outside of this definition
-> +    or declaration
-> +     timespec_sub(struct timespec *r,
-> +                         ^~~~~~~~
-> +   [...]
-> +
-> +Indeed, struct timespec is defined in time.h, so we must include it.
-> +
-> +Upstream-Status: Backport [fa41bdfbc0b962fd73b89f01aab1a5370c9c28eb]
-> +
-> +Signed-off-by: "Yann E. MORIN" <yann.morin.1998@free.fr>
-> +Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> +
-> +Index: weston-3.0.0/shared/timespec-util.h
-> +===================================================================
-> +--- weston-3.0.0.orig/shared/timespec-util.h
-> ++++ weston-3.0.0/shared/timespec-util.h
-> +@@ -28,6 +28,7 @@
-> + 
-> + #include <stdint.h>
-> + #include <assert.h>
-> ++#include <time.h>
-> + 
-> + #define NSEC_PER_SEC 1000000000
-> + 
-> diff --git a/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-> new file mode 100644
-> index 0000000000..69284a9616
-> --- /dev/null
-> +++ b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-> @@ -0,0 +1,55 @@
-> +Multi-plane sub-sampled textures have partial width/height, e.g.
-> +YUV420/I420 has a full-size Y plane, followed by a half-width/height U
-> +plane, and a half-width/height V plane.
-> +
-> +zwp_linux_dmabuf_v1 allows clients to pass an explicit pitch for each
-> +plane, but for wl_shm this must be inferred. gl-renderer was correctly
-> +accounting for the width and height when subsampling, but the pitch was
-> +being taken as the pitch for the first plane.
-> +
-> +This does not match the requirements for GStreamer's waylandsink, in
-> +particular, as well as other clients. Fix the SHM upload path to
-> +correctly set the pitch for each plane, according to subsampling.
-> +
-> +Tested with:
-> +  $ gst-launch-1.0 videotestsrc ! waylandsink
-> +
-> +Upstream-status: Backport [https://patchwork.freedesktop.org/patch/180767/]
-> +
-> +Signed-off-by: Daniel Stone <daniels@collabora.com>
-> +Fixes: fdeefe42418 ("gl-renderer: add support of WL_SHM_FORMAT_YUV420")
-> +Reported-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-> +Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=103063
-> +
-> +---
-> + libweston/gl-renderer.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/libweston/gl-renderer.c b/libweston/gl-renderer.c
-> +index 244ce309..40bf0bb6 100644
-> +--- a/libweston/gl-renderer.c
-> ++++ b/libweston/gl-renderer.c
-> +@@ -1445,14 +1445,13 @@ gl_renderer_flush_damage(struct weston_surface *surface)
-> + 		goto done;
-> + 	}
-> + 
-> +-	glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch);
-> +-
-> + 	if (gs->needs_full_upload) {
-> + 		glPixelStorei(GL_UNPACK_SKIP_PIXELS_EXT, 0);
-> + 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, 0);
-> + 		wl_shm_buffer_begin_access(buffer->shm_buffer);
-> + 		for (j = 0; j < gs->num_textures; j++) {
-> + 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
-> ++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
-> + 			glTexImage2D(GL_TEXTURE_2D, 0,
-> + 				     gs->gl_format[j],
-> + 				     gs->pitch / gs->hsub[j],
-> +@@ -1477,6 +1476,7 @@ gl_renderer_flush_damage(struct weston_surface *surface)
-> + 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, r.y1);
-> + 		for (j = 0; j < gs->num_textures; j++) {
-> + 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
-> ++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
-> + 			glTexSubImage2D(GL_TEXTURE_2D, 0,
-> + 					r.x1 / gs->hsub[j],
-> + 					r.y1 / gs->vsub[j],
-> diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_3.0.0.bb
-> similarity index 89%
-> rename from meta/recipes-graphics/wayland/weston_2.0.0.bb
-> rename to meta/recipes-graphics/wayland/weston_3.0.0.bb
-> index 8160f5556d..ad0cdc2b0f 100644
-> --- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_3.0.0.bb
-> @@ -9,12 +9,13 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
->             file://weston.png \
->             file://weston.desktop \
->             file://0001-make-error-portable.patch \
-> -           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
->             file://xwayland.weston-start \
->             file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-> +	   file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch \
-> +	   file://fix-missing-header.patch \
->  "
-> -SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
-> -SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
-> +SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
-> +SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index 2630b47316..abbc309b09 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -7,8 +7,11 @@ python __anonymous () {
+>          depends = "%s u-boot-mkimage-native dtc-native" % depends
+>          d.setVar("DEPENDS", depends)
 >  
->  inherit autotools pkgconfig useradd distro_features_check
->  # depends on virtual/egl
-> @@ -76,7 +77,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
+> -        if d.getVar("UBOOT_ARCH") == "x86":
+> +        uarch = d.getVar("UBOOT_ARCH")
+> +        if uarch == "x86":
+>              replacementtype = "bzImage"
+> +        elif uarch == "arm64":
+> +            replacementtype = "Image"
+>          else:
+>              replacementtype = "zImage"
 >  
->  do_install_append() {
->  	# Weston doesn't need the .la files to load modules, so wipe them
-> -	rm -f ${D}/${libdir}/libweston-2/*.la
-> +	rm -f ${D}/${libdir}/libweston-3/*.la
+> @@ -351,6 +354,7 @@ fitimage_assemble() {
+>  				DTB_PATH="arch/${ARCH}/boot/${DTB}"
+>  			fi
 >  
->  	# If X11, ship a desktop file to launch it
->  	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
-> @@ -93,16 +94,16 @@ do_install_append() {
->  }
->  
->  PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
-> -             libweston-2 ${PN}-examples"
-> +             libweston-3 ${PN}-examples"
->  
->  FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
->  
-> -FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
-> -SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
-> +FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
-> +SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
->  
->  FILES_${PN}-examples = "${bindir}/*"
->  
-> -FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
-> +FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
->  RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
->  
->  RDEPENDS_${PN} += "xkeyboard-config"
+> +			DTB=$(echo "${DTB}" | tr '/' '_')
+>  			DTBS="${DTBS} ${DTB}"
+>  			fitimage_emit_section_dtb ${1} ${DTB} ${DTB_PATH}
+>  		done
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index ce2cab65ae..a8b0d0a061 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -219,7 +219,9 @@ do_bundle_initramfs () {
+>  		# Backing up kernel image relies on its type(regular file or symbolic link)
+>  		tmp_path=""
+>  		for type in ${KERNEL_IMAGETYPES} ; do
+> -			if [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
+> +			if [ "$type" == "fitImage" ] ; then
+> +				continue
+> +			elif [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
+>  				linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$type`
+>  				realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$type`
+>  				mv -f $realpath $realpath.bak
 > -- 
-> 2.11.0
+> 2.13.6
 > 
 > -- 
 > _______________________________________________
