@@ -1,22 +1,22 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id D683B78307
+	by mail.openembedded.org (Postfix) with ESMTP id EC0447831F
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 17 Oct 2017 19:11:31 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by orsmga104.jf.intel.com with ESMTP; 17 Oct 2017 12:11:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="161566048"
+X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="161566049"
 Received: from yctb05.ostc.intel.com ([10.54.69.59])
 	by orsmga005.jf.intel.com with ESMTP; 17 Oct 2017 12:11:32 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Oct 2017 12:11:28 -0700
-Message-Id: <20171017191130.41996-3-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue, 17 Oct 2017 12:11:29 -0700
+Message-Id: <20171017191130.41996-4-leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
 In-Reply-To: <20171017191130.41996-1-leonardo.sandoval.gonzalez@linux.intel.com>
 References: <20171017191130.41996-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v3 3/5] git.inc: remove sed statement removing SVN lines from .packlist
+Subject: [PATCH v3 4/5] libxml-namespacesupport-perl: upgrade to 1.12.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,79 +33,84 @@ X-List-Received-Date: Tue, 17 Oct 2017 19:11:32 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-The git-perltools package created with perl 5.26.1 does not contain
-the  .packlist file thus there is no need to sed on this file.
-
-More general, the buildhistory-diff tool shows the following changes on
-the related package, clearly indicating that .packlist is not there anymore.
-
-    diff --git a/packages/i586-poky-linux/git/git-perltools/files-in-package.txt b/packages/i586-poky-linux/git/git-perltools/files-in-package.txt
-    index 0780bf9..f5b70f6 100644
-    --- a/packages/i586-poky-linux/git/git-perltools/files-in-package.txt
-    +++ b/packages/i586-poky-linux/git/git-perltools/files-in-package.txt
-    @@ -1,7 +1,7 @@
-     drwxr-xr-x root       root               61 ./usr
-     drwxr-xr-x root       root               26 ./usr/lib
-     drwxr-xr-x root       root               30 ./usr/libexec
-    -drwxr-xr-x root       root              269 ./usr/libexec/git-core
-    +drwxr-xr-x root       root              288 ./usr/libexec/git-core
-     -rwxr-xr-x root       root            42296 ./usr/libexec/git-core/git-add--interactive
-     -rwxr-xr-x root       root          2323504 ./usr/libexec/git-core/git-am
-     -rwxr-xr-x root       root            36973 ./usr/libexec/git-core/git-archimport
-    @@ -12,18 +12,28 @@ drwxr-xr-x root       root              269 ./usr/libexec/git-core
-     -rwxr-xr-x root       root             3702 ./usr/libexec/git-core/git-request-pull
-     -rwxr-xr-x root       root            52159 ./usr/libexec/git-core/git-send-email
-     -rwxr-xr-x root       root            28086 ./usr/libexec/git-core/git-submodule
-    +-rwxr-xr-x root       root            64175 ./usr/libexec/git-core/git-svn
-     drwxr-xr-x root       root               31 ./usr/lib/perl
-     drwxr-xr-x root       root               28 ./usr/lib/perl/site_perl
-    -drwxr-xr-x root       root              104 ./usr/lib/perl/site_perl/5.24.1
-    -drwxr-xr-x root       root               25 ./usr/lib/perl/site_perl/5.24.1/auto
-    -drwxr-xr-x root       root               31 ./usr/lib/perl/site_perl/5.24.1/auto/Git
-    --rw-r--r-- root       root             1115 ./usr/lib/perl/site_perl/5.24.1/auto/Git/.packlist
-    --r--r--r-- root       root            19087 ./usr/lib/perl/site_perl/5.24.1/Error.pm
-    -drwxr-xr-x root       root               53 ./usr/lib/perl/site_perl/5.24.1/Git
-    --r--r--r-- root       root             2473 ./usr/lib/perl/site_perl/5.24.1/Git/I18N.pm
-    --r--r--r-- root       root              644 ./usr/lib/perl/site_perl/5.24.1/Git/IndexInfo.pm
-    --r--r--r-- root       root            48000 ./usr/lib/perl/site_perl/5.24.1/Git.pm
-    --rw-r--r-- root       root              226 ./usr/lib/perl/site_perl/5.24.1/perllocal.pod
-    +drwxr-xr-x root       root               88 ./usr/lib/perl/site_perl/5.26.1
-    +-r--r--r-- root       root            19087 ./usr/lib/perl/site_perl/5.26.1/Error.pm
-    +drwxr-xr-x root       root               86 ./usr/lib/perl/site_perl/5.26.1/Git
-    +-r--r--r-- root       root             2473 ./usr/lib/perl/site_perl/5.26.1/Git/I18N.pm
-    +-r--r--r-- root       root              644 ./usr/lib/perl/site_perl/5.26.1/Git/IndexInfo.pm
-    +-r--r--r-- root       root            48000 ./usr/lib/perl/site_perl/5.26.1/Git.pm
-    +drwxr-xr-x root       root              195 ./usr/lib/perl/site_perl/5.26.1/Git/SVN
-    +-r--r--r-- root       root            16945 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Editor.pm
-    +-r--r--r-- root       root            18575 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Fetcher.pm
-    +-r--r--r-- root       root             1798 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/GlobSpec.pm
-    +-r--r--r-- root       root             9564 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Log.pm
-    +drwxr-xr-x root       root               29 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Memoize
-    +-r--r--r-- root       root             1748 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Memoize/YAML.pm
-    +-r--r--r-- root       root             8145 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Migration.pm
-    +-r--r--r-- root       root            71721 ./usr/lib/perl/site_perl/5.26.1/Git/SVN.pm
-    +-r--r--r-- root       root             5319 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Prompt.pm
-    +-r--r--r-- root       root            19358 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Ra.pm
-    +-r--r--r-- root       root             4586 ./usr/lib/perl/site_perl/5.26.1/Git/SVN/Utils.pm
-    +-rw-r--r-- root       root              226 ./usr/lib/perl/site_perl/5.26.1/perllocal.pod
-
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- meta/recipes-devtools/git/git.inc | 1 -
- 1 file changed, 1 deletion(-)
+ .../perl/libxml-namespacesupport-perl_1.12.9.bb    | 35 ++++++++++++++++++++++
+ .../perl/libxml-namespacesupport-perl_1.12.bb      | 23 --------------
+ 2 files changed, 35 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb
+ delete mode 100644 meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 9b4c1284d2..06ff27c70b 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -73,7 +73,6 @@ perl_native_fixup () {
- 		# module, which does not exist in OE-Core.
- 		rm -r ${D}${libexecdir}/git-core/git-svn \
- 		      ${D}${libdir}/perl/site_perl/*/Git/SVN*
--		sed -i -e '/SVN/d' ${D}${libdir}/perl/site_perl/*/auto/Git/.packlist
- 	fi
- }
- 
+diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb
+new file mode 100644
+index 0000000000..a7d26ea38c
+--- /dev/null
++++ b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.9.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "Perl module for supporting simple generic namespaces"
++HOMEPAGE = "http://veillard.com/XML/"
++DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-based XML names. \
++                It also helps maintain a prefix-to-namespace URI map, and provides a number of \
++                basic checks. "
++
++SECTION = "libs"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
++PR = "r3"
++
++LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=9ca1a4a941496e7feedac72c4fb8b137"
++
++# the upstream project complicate a bit url generartion on point release, using a underscore
++# instead of a point on URL, i.e 1.12_9 instead of 1.12.9
++python () {
++    baseurl = "http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport"
++    pv = d.getVar('PV')
++    pvsplit = pv.split('.')
++
++    if len(pvsplit) != 3:
++        d.setVar('SRC_URI', "%s-%s.tar.gz" % (baseurl, pv))
++        d.setVar('S', "${WORKDIR}/XML-NamespaceSupport-${PV}")
++    else:
++        pvx, pvy, pvz = pvsplit
++        d.setVar('SRC_URI', "%s-%s.%s_%s.tar.gz" % (baseurl, pvx, pvy, pvz))
++        d.setVar('S', "${WORKDIR}/XML-NamespaceSupport-%s.%s_%s" % (pvx, pvy, pvz))
++}
++
++SRC_URI[md5sum] = "165927a311fb640961b28607035beab8"
++SRC_URI[sha256sum] = "2e84a057f0a8c845a612d212742cb94fca4fc8a433150b5721bd448f77d1e4a9"
++
++inherit cpan
++
++BBCLASSEXTEND="native"
++
+diff --git a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb b/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
+deleted file mode 100644
+index 3498a286d4..0000000000
+--- a/meta/recipes-extended/perl/libxml-namespacesupport-perl_1.12.bb
++++ /dev/null
+@@ -1,23 +0,0 @@
+-SUMMARY = "Perl module for supporting simple generic namespaces"
+-HOMEPAGE = "http://veillard.com/XML/"
+-DESCRIPTION = "XML::NamespaceSupport offers a simple way to process namespace-based XML names. \
+-                It also helps maintain a prefix-to-namespace URI map, and provides a number of \
+-                basic checks. "
+-
+-SECTION = "libs"
+-LICENSE = "Artistic-1.0 | GPL-1.0+"
+-PR = "r3"
+-
+-LIC_FILES_CHKSUM = "file://META.yml;beginline=22;endline=22;md5=9ca1a4a941496e7feedac72c4fb8b137"
+-
+-SRC_URI = "http://search.cpan.org/CPAN/authors/id/P/PE/PERIGRIN/XML-NamespaceSupport-${PV}.tar.gz"
+-SRC_URI[md5sum] = "a8916c6d095bcf073e1108af02e78c97"
+-SRC_URI[sha256sum] = "47e995859f8dd0413aa3f22d350c4a62da652e854267aa0586ae544ae2bae5ef"
+-
+-
+-S = "${WORKDIR}/XML-NamespaceSupport-${PV}"
+-
+-inherit cpan
+-
+-BBCLASSEXTEND="native"
+-
 -- 
 2.12.3
 
