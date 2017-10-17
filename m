@@ -1,24 +1,18 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AF5F878290
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 01:40:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9H1eNiX000707
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Oct 2017 18:40:23 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 16 Oct 2017 18:40:22 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Oct 2017 09:46:31 +0800
-Message-ID: <cover.1508204684.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A71CC7827A;
+	Tue, 17 Oct 2017 02:00:24 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Qi.Chen@windriver.com
+Date: Tue, 17 Oct 2017 02:00:26 -0000
+Message-ID: <20171017020026.2787.65318@do.openembedded.org>
+References: <cover.1508204684.git.Qi.Chen@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1508204684.git.Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZS5jb25mOiBhZGQgc3NoIHRvIEhPU1RUT09MU19OT05GQVRBTA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 01:40:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Oct 2017 02:00:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-**** V2 *****
-Change to keep the alphabetical order.
+== Series Details ==
 
-The following changes since commit 96967261993f8b583b51cdeccbb1fd06042d2192:
+Series: bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9370/
+State : failure
 
-  bitbake: toaster/highlight.pack.js: Fix corrupted file (2017-10-10 11:05:08 +0100)
+== Summary ==
 
-are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib ChenQi/bug12227
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bug12227
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Chen Qi (1):
-  bitbake.conf: add ssh to HOSTTOOLS_NONFATAL
 
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-1.9.1
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3b413a8057)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
