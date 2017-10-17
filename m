@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id AEF55782D6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 01FC6782E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 16:12:38 +0000 (UTC)
-Received: by mail-io0-f180.google.com with SMTP id 101so2863672ioj.3
+	Tue, 17 Oct 2017 16:24:44 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id t188so1702650pfd.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 09:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Tue, 17 Oct 2017 09:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hmAYZxKIA5ibFbCt8Ah89q5KgohVxvZ4EdaiH5A9eNE=;
-	b=THIahd22pHCnq/VpFV7dQxudgFFuRFdC5DNBFBhLqDji1bSIAa7uD8H4PhSf9vvnL0
-	B7vYOnsWfpZ5uzP51K1uRw+PoXtMF0HybNJdzb/TWqVhEzib0gtd4erh1F3vi15lPbi9
-	r37AhRDvtQ4Q6AMt1iro/pBqQ0nOPoNuMupuASTDcMBWcxRaQgTGdxcO3JJ7DjTnRyQm
-	PjY0V0uwXMLQA16s+IV8ZtVCvJz0mLFYTgTM5pl5eMWd0qVxZVmPOhjt3q1KewLfdoVc
-	uApo/hrsn3kr4EdOBefL5GVQCLD4vFr6Couyc21PhynTyiVaHHzzojQPjAHutcvbAK3G
-	CEmw==
+	:cc; bh=J/FUWYWr77SMuq2b/TK8blp02T6s8kdB2G+H6CHBhYI=;
+	b=D1ghVcTsmd+X7jFaZ79Nw+y+agbpizKttagoXECh2MCILE74VZ2rtBa4qx9i4WOtbD
+	lO5axz0VtjqkKwMnARigjexWFfbV21EBJhhHsOUTeEdVv6goPJqSf8ziuPot1gfQpwrs
+	w60uhm2z8/eCkO1Rr94HRQ/kABY2szZijPV5bIyWW/v+5+VeKCP6wWiLlVpp1YcqpT8t
+	R52aFdJAFC344NnRXcB56sgm07nssl2TMZQybKzmVLdAOjVwlN8ycSFcOkhh/Ias3/pt
+	hUFwztaDF08zsA+IQUhWO/5073LV10XEj2C/4lM5HF+eqh0wSU/Z6hga/dFUmc6QIwhZ
+	ryVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=hmAYZxKIA5ibFbCt8Ah89q5KgohVxvZ4EdaiH5A9eNE=;
-	b=JChUmKV9NFL0OUdqLN2F5nD5nE/8ds9C4D/8jewL6c8W5KiQppPN8iFIBu8hRutL2I
-	E7q+uZ3+8X5EdmKOjSlkncUfS/123xxdz6WdrBdmi+8m3eoKbYbkCKNdlhPbXW9wnVP5
-	UsDNMp2lSsHyvXCjfdChEKrSI6CFzFq0CavXxzndjRp5T9c1x7tDPPhoPm7ugve6wKyb
-	uugALr3P8g+A8J0s38UEP2XOdCF4M3KnJ/8CTXQOuBEjvUoGo1QKwCZ+v18qQVKDpxoG
-	sYUFh3bTcESq9r9/sd5w921B/Di3lToCcvbBT2SYrQ3Tb187EEYfTlxg5DOKA63Lp8eX
-	czMQ==
-X-Gm-Message-State: AMCzsaVp1lMtBMx80QFeUyhyxXZDAbGmAfs/ful5K1M6E/IU+N0Ii+Yb
-	Ejjp9+Eg33D5sJ2yo9SMSZWBxuJS+tzRHwoJzbx18A==
-X-Google-Smtp-Source: ABhQp+Ry+vQavs6D20Fm9tYvFqxA7jB2sKtcBCUaY0ozK14xyXgLQIMBe3V/2pNskgQL77gHwtlk6q3GQsVMKTyeaT4=
-X-Received: by 10.107.18.67 with SMTP id a64mr19100210ioj.165.1508256759639;
-	Tue, 17 Oct 2017 09:12:39 -0700 (PDT)
+	bh=J/FUWYWr77SMuq2b/TK8blp02T6s8kdB2G+H6CHBhYI=;
+	b=kxoLimhf75l30+Ky5DBrO7Nce+Tmf9FbBngOoYZk2wHRAEMRel9e6f0p5U67P6dNzX
+	hkUmFD/P+qb1Rl0A/oB770dIGiMQ6Ewawn3X1c4kTlGlC/k0pKoU+J799HJNX3hEMOfY
+	WYUhGrCH1E48ORi+IBtPVpRgER38ze/1pDBrKJ+S2HlCIkiwEaorxn5fSoPPF72Ds0CH
+	X1WKGrVr8NBcuN+uUcr14QckNUkDxSp0audwunmQjHMRRSV5igzRc2vB5881R2u6L3b/
+	AQIrIjcYMcoIcnIJ0YbGceKHiMSqPyNKYVKcj/2kSTJuMsL6xCb4tyficKScqDAFBELM
+	M0KQ==
+X-Gm-Message-State: AMCzsaXle13GjT1lpemerjSsy1H9AoRuPcqMYamq379OPXoXdh6stkPc
+	hm05q59Aj/KW2iIAfiq8MJAi9bVSdZ3/ifNj7xg=
+X-Google-Smtp-Source: AOwi7QBE9zhzB/FxF6bVxtHp/ie3UEiq7DB1H3eFY/CNibEGDHDZcL7AeTsyFD7mzoUG0i9jQVAQMIMzUU2fnrHx3lo=
+X-Received: by 10.84.138.1 with SMTP id 1mr12568708plo.404.1508257486229; Tue,
+	17 Oct 2017 09:24:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Tue, 17 Oct 2017 09:12:19 -0700 (PDT)
-In-Reply-To: <2eb0d895-21c0-e1ef-f5ef-f12ed014ac6c@linux.intel.com>
-References: <20171017150506.17803-1-joshua.g.lock@intel.com>
-	<20171017110002.b1a3df797fdbf5767a5e6f57@linux.intel.com>
-	<2eb0d895-21c0-e1ef-f5ef-f12ed014ac6c@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Oct 2017 17:12:19 +0100
-Message-ID: <CAJTo0LZp+kdkO3pMmqEiLUNj4i6eE_Jt08MQGFcPdUM1FZjFnA@mail.gmail.com>
-To: Joshua Lock <joshua.g.lock@linux.intel.com>
+Received: by 10.100.187.66 with HTTP; Tue, 17 Oct 2017 09:24:15 -0700 (PDT)
+In-Reply-To: <CAJTo0LZC2At7Jnni1eLBTXyAdWsNVf-ynAVX8thc1EOujnsRuA@mail.gmail.com>
+References: <20171014154858.35123-1-raj.khem@gmail.com>
+	<20171014154858.35123-4-raj.khem@gmail.com>
+	<CAJTo0LZC2At7Jnni1eLBTXyAdWsNVf-ynAVX8thc1EOujnsRuA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 Oct 2017 09:24:15 -0700
+Message-ID: <CAMKF1sov3p8viw9h1SjNF9Hyz0X5LuMqbJ4JnyFw-7HHxnKTLA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] devtool: ensure temp directory is created
+Subject: Re: [PATCH 4/7] libevdev: Add dependency on libcheck
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 16:12:38 -0000
-Content-Type: multipart/alternative; boundary="001a113ee9b263a58c055bc064f2"
-
---001a113ee9b263a58c055bc064f2
+X-List-Received-Date: Tue, 17 Oct 2017 16:24:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On 17 October 2017 at 17:02, Joshua Lock <joshua.g.lock@linux.intel.com>
-wrote:
+On Tue, Oct 17, 2017 at 5:41 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> Curious how you hit this with master.  For me:
+>
+> checking for check >= 0.9.9... no
+> configure: WARNING: check not found - skipping building unit tests
+>
+> The configure script uses pkg-config so shouldn't be picking up host
+> binaries.  Can you dig a little?
+>
 
-> FWIW the failure has been observed on multiple host distros (Ubuntu 16.04,
-> Fedora 26, Tumbleweed) and I could replicate it very easily on my Fedora 26
-> host with an use of devtool modify -x.
+do you have ptests on
 
+> Ross
+>
+> On 14 October 2017 at 16:48, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> Fixes failures like
+>>
+>> test-main.o ../../libevdev-1.5.2/test/test-main.c
+>> | ../../libevdev-1.5.2/test/test-main.c:24:19: fatal error: check.h: No
+>> such file or directory
+>> |  #include <check.h>
+>> |                    ^
+>> | compilation terminated.
+>> | make[2]: *** [test-main.o] Error 1
+>>
+>> Change-Id: I73fce0532b91fe410d509ae55ff471ad2ea5d929
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-support/libevdev/libevdev_1.5.7.bb | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-support/libevdev/libevdev_1.5.7.bb
+>> b/meta/recipes-support/libevdev/libevdev_1.5.7.bb
+>> index f740da206e..4b54971b1c 100644
+>> --- a/meta/recipes-support/libevdev/libevdev_1.5.7.bb
+>> +++ b/meta/recipes-support/libevdev/libevdev_1.5.7.bb
+>> @@ -6,6 +6,8 @@ LICENSE = "MIT-X"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
+>>
+>> file://libevdev/libevdev.h;endline=21;md5=7ff4f0b5113252c2f1a828e0bbad98d1"
+>>
+>> +DEPENDS += "libcheck"
+>> +
+>>  SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
+>>
+>>  SRC_URI[md5sum] = "4f1cfaee8d75ea3fbbfeb99a98730952"
+>> --
+>> 2.14.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
-If you can replicate it on demand how about using a tracing tool to figure
-out if a) the mkdir doesn't actually happen or b) something deletes the
-directory.
-
-Ross
-
---001a113ee9b263a58c055bc064f2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 17 October 2017 at 17:02, Joshua Lock <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:joshua.g.lock@linux.intel.com" target=3D"_blank">jos=
-hua.g.lock@linux.intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_ext=
-ra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">FWIW the fail=
-ure has been observed on multiple host distros (Ubuntu 16.04, Fedora 26, Tu=
-mbleweed) and I could replicate it very easily on my Fedora 26 host with an=
- use of devtool modify -x.</blockquote><div><br></div><div>If you can repli=
-cate it on demand how about using a tracing tool to figure out if a) the mk=
-dir doesn&#39;t actually happen or b) something deletes the directory.</div=
-><div><br></div><div>Ross=C2=A0</div></div></div></div>
-
---001a113ee9b263a58c055bc064f2--
