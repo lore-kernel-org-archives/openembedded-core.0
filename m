@@ -1,43 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E06F7828D;
-	Tue, 17 Oct 2017 11:43:41 +0000 (UTC)
-Received: by mail-wr0-f181.google.com with SMTP id y39so1333494wrd.4;
-	Tue, 17 Oct 2017 04:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=AldPGOwg6fSApppvMSrrl1ir62oTuHyn0kjZvm/PNt8=;
-	b=gBkZ+q4ZaJSlqKXO6yhAsqm4sl2GcKB9j0QWNMdTN4ar/WtEzihxkF1X/KAV8dFCPU
-	ner/Nv4Q+r5hAPsVYt6HIWjlpTmLmyMOyGiCaCxqdkAOPCLkpQPv8ndDEID/WWtm/Zss
-	Wx0BzinZAKEptZhHPLXeHOUCVolHu9IJkkzhVH5MZda23FY/yFsKMV3J1yyKMIICKSYs
-	4eqodHunR5tq8RPbpT2L81O/bmc1NcZAU4iazMSOr9XqNfLE30NFxBmRnkFS427j+HR3
-	34yllnpl6cyv0gjhQ+Vb5dH9avq7gG0gZt3qRJdHQd8vgTCpmLHPYCM9zbD4GveUNyET
-	deUw==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it0-f52.google.com (mail-it0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B65678299
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Oct 2017 12:31:56 +0000 (UTC)
+Received: by mail-it0-f52.google.com with SMTP id l196so2133048itl.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Oct 2017 05:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=zKsx1CpEq08SPRdywpiJh5JCLaxDLTkBcGwfqz5Ljx4=;
+	b=Ds8zrwKMyqtZRGs+mGtnMb3f+SimdrjuGRJoC5zpb/k51sh9yNDuck7Ip0O+S2CzmD
+	Leyqw3T+u2Do0MZgBsgzy9yjPcpn/DS+lvUD1ROKlUX3Ir4BQUI7UlOiJYD3L/+4udls
+	MPvS4VhZ2zOmglwfoNItE9TRBj826+oAdSW9py6yK9x2gdSdXNYvZa2M/etO1b0jZYQa
+	e2gvbeEFyQhZlf83c9r3f9/68J9ymZS49JOkDT09eUz3Ry/NhwrRvY4v4V5/TOaiVSIt
+	YnlM7gFtgAYuJhDFf+vtoohZg6RXCqT82YucaPLA+2DtYJEq+Mql2ZKwJw/Go1yXuhC1
+	KK2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=AldPGOwg6fSApppvMSrrl1ir62oTuHyn0kjZvm/PNt8=;
-	b=FL0mX6inBmEjJCn0GFgEBuAZq870E4uakx3cA3iNwS0v3WNvJbJUtzLc4lWYzOXEKt
-	4FUvrSk5SS+HcAw5H/FJAyba0wx8l1JPT84eWBuhhNq+KgjM2s89yOWuRPqn4VZfFhVI
-	IXx5Qbmq3cWzG+L9VYl21+0qJsr34PWDBiUi2Wb0XxNGMrCMDLhvvqpNJ1vZs5rv1nYm
-	7lise/mG9aNg53J5lSl52BPQfeQTSTIw+O96gKY9fz1RdsltwnhHPpUlggn3+8nRwpUA
-	FpUKbqQE/rIHudY3oQhGYtzGr7ecSCgHE0J+iUXZA+MLnMgssaUDBNr6++p7OZyvod+6
-	ZM/A==
-X-Gm-Message-State: AMCzsaVBgmp3Xk+yhzVFQzDDcFC493NvdKXOB9CUvJeI7/rbfhLQE+FJ
-	ImnbF8Y4VpAzNwTBRkdb1nRgbxXoum16zSx1W5xO5A==
-X-Google-Smtp-Source: ABhQp+RUgcvAbjflFBW0NHeggQT1NyBVxPDk90n88fxBat84cZlsgmv8fe/9Qk9kKRkbzfw/6GRDGljuFXnzVAoSIDs=
-X-Received: by 10.223.134.68 with SMTP id 4mr3679136wrw.67.1508240622199; Tue,
-	17 Oct 2017 04:43:42 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=zKsx1CpEq08SPRdywpiJh5JCLaxDLTkBcGwfqz5Ljx4=;
+	b=mjJoeM+sB5nftMc2VbqhTqG5oQmHlvqJBbx0gjBmFhUJ5wdaM/nTy+YDnnk2e6OafS
+	77kS8r5Zu2RbBUmERO8ytWJWk78gkeeFDpUwHQdJAP+AhMfAc7DBKOzfJraIuPki634e
+	M3IecLO1i5a8cWLbJYHHiYIHLfLXLeKUAE1RvOJ5cRnVaY88+mDpxK3KtJhENkj+66Wh
+	3q4db8rj2F6Uh4+n/nRxXFVOK+fCRfjJe7hWPHwdzERu0ylP6aW4N7LBQXiZz86Ogu9i
+	dqvjvME71knJfGgSK+Tr2u8Jmcq6Q/6S4W80nHtlxSrg5qp0UHXsfyWA8ke9fAt9fzA2
+	zbFA==
+X-Gm-Message-State: AMCzsaWI0/VmI6ZrvdjrISzhvsfaB/8LicLjIQhtfzV4+czzP6cAT5cy
+	LWlLYfdsYEbx4tJ8QU9JIRDKvQGMwrDvG4cA+FJW+g==
+X-Google-Smtp-Source: ABhQp+SDPUoIYXDrFc50iIo+sN+NPZxp+sMrBNlLtO2Aarut0E6HmpkXsXRtRZ3iRvzPFc2loJAi7jccWNfU9e/Qm4s=
+X-Received: by 10.36.138.133 with SMTP id v127mr5414468itd.151.1508243517885; 
+	Tue, 17 Oct 2017 05:31:57 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.183.212 with HTTP; Tue, 17 Oct 2017 04:43:41 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 17 Oct 2017 13:43:41 +0200
-Message-ID: <CA+chaQf5dHq8DPmAyidJ9+pjSyX9QS-PUgAAuKGXG03gGds0mw@mail.gmail.com>
-To: openembedded-devel <openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: State of bitbake world, Failed tasks 2017-10-16
+Received: by 10.107.176.10 with HTTP; Tue, 17 Oct 2017 05:31:37 -0700 (PDT)
+In-Reply-To: <20171014154858.35123-2-raj.khem@gmail.com>
+References: <20171014154858.35123-1-raj.khem@gmail.com>
+	<20171014154858.35123-2-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Oct 2017 13:31:37 +0100
+Message-ID: <CAJTo0La06f6Y44sF13F1v5zv1xnei0XVju2FgUpTmsPurYL56A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/7] go: Fix build with PIE on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,664 +56,444 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 11:43:42 -0000
-Content-Type: multipart/alternative; boundary="001a1149243a85b140055bbca280"
+X-List-Received-Date: Tue, 17 Oct 2017 12:31:57 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0800861e8728055bbd4f95"
 
---001a1149243a85b140055bbca280
+--94eb2c0800861e8728055bbd4f95
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+The patches have no header, upstream-status, or signed-off-by.
 
-=3D=3D Number of issues - stats =3D=3D
-{| class=3D'wikitable'
-!|Date		     !!colspan=3D'3'|Failed tasks			    !!|Signatures	=09
-!!colspan=3D'15'|QA !!Comment
-|-
-||		||qemuarm	||qemux86	||qemux86_64	||all
-	||already-stripped	||libdir	||textrel	||build-deps	||file-rdeps	||version-=
-going-backwards	||host-user-contaminated	||installed-vs-shipped	||unknown-c=
-onfigure-option	||symlink-to-sysroot	||invalid-pkgconfig	||pkgname	||ldflag=
-s	||compile-host-path	||qa_pseudo	||
-|-
-||2017-10-16	||3	||4	||4	||0	||0		||0		||3		||0		||0		||0		||4		||1		||0		|=
-|0		||0		||0		||0		||0		||9		||
-|}
+Ross
 
-=3D=3D Failed tasks 2017-10-16 =3D=3D
+On 14 October 2017 at 16:48, Khem Raj <raj.khem@gmail.com> wrote:
 
-INFO: jenkins-job.sh-1.8.35 Complete log available at
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20171017_00=
-2302.log
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/go/go-1.9.inc                |   3 +
+>  .../go/go-1.9/default-buildmode-pie.patch          |  13 +++
+>  .../go/go-1.9/set-external-linker.patch            | 104
+> +++++++++++++++++++++
+>  3 files changed, 120 insertions(+)
+>  create mode 100644 meta/recipes-devtools/go/go-1.
+> 9/default-buildmode-pie.patch
+>  create mode 100644 meta/recipes-devtools/go/go-1.
+> 9/set-external-linker.patch
+>
+> diff --git a/meta/recipes-devtools/go/go-1.9.inc
+> b/meta/recipes-devtools/go/go-1.9.inc
+> index 65adaa8d72..f52abb5735 100644
+> --- a/meta/recipes-devtools/go/go-1.9.inc
+> +++ b/meta/recipes-devtools/go/go-1.9.inc
+> @@ -15,6 +15,9 @@ SRC_URI += "\
+>          file://0007-ld-add-soname-to-shareable-objects.patch \
+>          file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch
+> \
+>          file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch
+> \
+> +        file://default-buildmode-pie.patch \
+>  "
+> +SRC_URI_append_libc-musl = " file://set-external-linker.patch"
+> +
+>  SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
+>  SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463
+> 605264e44868362ca8e7accc8be057e993"
+> diff --git a/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
+> b/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
+> new file mode 100644
+> index 0000000000..cc8aef0ad0
+> --- /dev/null
+> +++ b/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
+> @@ -0,0 +1,13 @@
+> +diff -upr src/go.orig/src/cmd/go/internal/work/build.go
+> src/go/src/cmd/go/internal/work/build.go
+> +--- go.orig/src/cmd/go/internal/work/build.go  2017-08-27
+> 17:38:26.354750979 +0200
+> ++++ go/src/cmd/go/internal/work/build.go       2017-08-27
+> 17:40:27.555130105 +0200
+> +@@ -304,7 +304,8 @@ func BuildModeInit() {
+> +               ldBuildmode = "c-shared"
+> +       case "default":
+> +               switch platform {
+> +-              case "android/arm", "android/arm64", "android/amd64",
+> "android/386":
+> ++              case "linux/386", "linux/amd64", "linux/arm",
+> "linux/arm64", "linux/ppc64le", "linux/s390x",
+> ++                      "android/arm", "android/arm64", "android/amd64",
+> "android/386":
+> +                       codegenArg = "-shared"
+> +                       ldBuildmode = "pie"
+> +               case "darwin/arm", "darwin/arm64":
+> diff --git a/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
+> b/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
+> new file mode 100644
+> index 0000000000..79eaff7205
+> --- /dev/null
+> +++ b/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
+> @@ -0,0 +1,104 @@
+> +Index: go/src/cmd/link/internal/amd64/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/amd64/obj.go
+> ++++ go/src/cmd/link/internal/amd64/obj.go
+> +@@ -67,7 +67,7 @@ func Init() {
+> +       ld.Thearch.Append64 = ld.Append64l
+> +       ld.Thearch.TLSIEtoLE = tlsIEtoLE
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib64/ld-linux-x86-64.so.2"
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-x86_64.so.1"
+> +       ld.Thearch.Freebsddynld = "/libexec/ld-elf.so.1"
+> +       ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
+> +       ld.Thearch.Netbsddynld = "/libexec/ld.elf_so"
+> +Index: go/src/cmd/link/internal/arm/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/arm/obj.go
+> ++++ go/src/cmd/link/internal/arm/obj.go
+> +@@ -63,7 +63,7 @@ func Init() {
+> +       ld.Thearch.Append32 = ld.Append32l
+> +       ld.Thearch.Append64 = ld.Append64l
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib/ld-linux.so.3" // 2 for OABI, 3 for
+> EABI
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-armhf.so.1"
+> +       ld.Thearch.Freebsddynld = "/usr/libexec/ld-elf.so.1"
+> +       ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
+> +       ld.Thearch.Netbsddynld = "/libexec/ld.elf_so"
+> +Index: go/src/cmd/link/internal/arm64/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/arm64/obj.go
+> ++++ go/src/cmd/link/internal/arm64/obj.go
+> +@@ -62,7 +62,7 @@ func Init() {
+> +       ld.Thearch.Append32 = ld.Append32l
+> +       ld.Thearch.Append64 = ld.Append64l
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib/ld-linux-aarch64.so.1"
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-aarch64.so.1"
+> +
+> +       ld.Thearch.Freebsddynld = "XXX"
+> +       ld.Thearch.Openbsddynld = "XXX"
+> +Index: go/src/cmd/link/internal/mips/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/mips/obj.go
+> ++++ go/src/cmd/link/internal/mips/obj.go
+> +@@ -77,7 +77,7 @@ func Init() {
+> +               ld.Thearch.Append64 = ld.Append64b
+> +       }
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib/ld.so.1"
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-mipsle.so.1"
+> +
+> +       ld.Thearch.Freebsddynld = "XXX"
+> +       ld.Thearch.Openbsddynld = "XXX"
+> +Index: go/src/cmd/link/internal/mips64/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/mips64/obj.go
+> ++++ go/src/cmd/link/internal/mips64/obj.go
+> +@@ -75,7 +75,7 @@ func Init() {
+> +               ld.Thearch.Append64 = ld.Append64b
+> +       }
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+> ++      ld.Thearch.Linuxdynld = "/lib64/ld-musl-mips64le.so.1"
+> +
+> +       ld.Thearch.Freebsddynld = "XXX"
+> +       ld.Thearch.Openbsddynld = "XXX"
+> +Index: go/src/cmd/link/internal/ppc64/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/ppc64/obj.go
+> ++++ go/src/cmd/link/internal/ppc64/obj.go
+> +@@ -77,7 +77,7 @@ func Init() {
+> +       }
+> +
+> +       // TODO(austin): ABI v1 uses /usr/lib/ld.so.1
+> +-      ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-powerpc64le.so.1"
+> +
+> +       ld.Thearch.Freebsddynld = "XXX"
+> +       ld.Thearch.Openbsddynld = "XXX"
+> +Index: go/src/cmd/link/internal/s390x/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/s390x/obj.go
+> ++++ go/src/cmd/link/internal/s390x/obj.go
+> +@@ -62,7 +62,7 @@ func Init() {
+> +       ld.Thearch.Append32 = ld.Append32b
+> +       ld.Thearch.Append64 = ld.Append64b
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-s390x.so.1"
+> +
+> +       // not relevant for s390x
+> +       ld.Thearch.Freebsddynld = "XXX"
+> +Index: go/src/cmd/link/internal/x86/obj.go
+> +===================================================================
+> +--- go.orig/src/cmd/link/internal/x86/obj.go
+> ++++ go/src/cmd/link/internal/x86/obj.go
+> +@@ -63,7 +63,7 @@ func Init() {
+> +       ld.Thearch.Append32 = ld.Append32l
+> +       ld.Thearch.Append64 = ld.Append64l
+> +
+> +-      ld.Thearch.Linuxdynld = "/lib/ld-linux.so.2"
+> ++      ld.Thearch.Linuxdynld = "/lib/ld-musl-i386.so.1"
+> +       ld.Thearch.Freebsddynld = "/usr/libexec/ld-elf.so.1"
+> +       ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
+> +       ld.Thearch.Netbsddynld = "/usr/libexec/ld.elf_so"
+> --
+> 2.14.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-=3D=3D=3D common (2) =3D=3D=3D
-    * meta-qt5/recipes-qt/qt5/qtnetworkauth_git.bb:do_fetch
-    * openembedded-core/meta/recipes-core/glibc/glibc-locale_2.26.bb:do_pac=
-kage_qa
-
-=3D=3D=3D common-x86 (0) =3D=3D=3D
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-devtools/android-tools/android-tool=
-s_5.1.1.r37.bb:do_compile
-
-=3D=3D=3D qemux86 (2) =3D=3D=3D
-    * meta-qt5/recipes-qt/qt5/qtcharts_git.bb:do_compile
-    * openembedded-core/meta/recipes-multimedia/x264/x264_git.bb:do_package=
-_qa
-
-=3D=3D=3D qemux86_64 (2) =3D=3D=3D
-    * meta-openembedded/meta-multimedia/recipes-multimedia/fluidsynth/fluid=
-synth_1.1.8.bb:do_package
-    * meta-openembedded/meta-networking/recipes-extended/corosync/corosync_=
-2.4.2.bb:do_package_qa
-
-=3D=3D=3D Number of failed tasks (11) =3D=3D=3D
-{| class=3Dwikitable
-|-
-|| qemuarm 	|| 3	 ||
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemuarm.2017=
-1016_112708.log/
-|| http://errors.yoctoproject.org/Errors/Build/47548/
-|-
-|| qemux86 	|| 4	 ||
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86.2017=
-1016_124745.log/
-|| http://errors.yoctoproject.org/Errors/Build/47549/
-|-
-|| qemux86_64 	|| 4	 ||
-http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.2=
-0171016_153545.log/
-|| http://errors.yoctoproject.org/Errors/Build/47553/
-|}
-
-=3D=3D=3D PNBLACKLISTs (1) =3D=3D=3D
-
-=3D=3D=3D QA issues (17) =3D=3D=3D
-{| class=3Dwikitable
-!| Count		||Issue
-|-
-||0	||already-stripped
-|-
-||0	||build-deps
-|-
-||0	||compile-host-path
-|-
-||0	||file-rdeps
-|-
-||0	||invalid-pkgconfig
-|-
-||0	||ldflags
-|-
-||0	||libdir
-|-
-||0	||pkgname
-|-
-||0	||symlink-to-sysroot
-|-
-||0	||unknown-configure-option
-|-
-||0	||version-going-backwards
-|-
-||1	||installed-vs-shipped
-|-
-||3	||textrel
-|-
-||4	||host-user-contaminated
-|-
-||9	||qa_pseudo
-|}
-
-
-
-=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
-
-Complete log: http://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.sign=
-atures.20171016_140936.log/
-
-No issues detected
-
-
-PNBLACKLISTs:
-openembedded-core/:
-meta-browser:
-meta-openembedded:
-meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.17.bb:PNBLACK=
-LIST[lksctp-tools]
-?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', "BROKEN:
-fails to link against sctp_connectx symbol", '', d)}"
-meta-qt5:
-PNBLACKLIST[android-system] =3D "depends on lxc from
-meta-virtualiazation which isn't included in my world builds"
-PNBLACKLIST[bigbuckbunny-1080p] =3D "big and doesn't really need to be
-tested so much"
-PNBLACKLIST[bigbuckbunny-480p] =3D "big and doesn't really need to be
-tested so much"
-PNBLACKLIST[bigbuckbunny-720p] =3D "big and doesn't really need to be
-tested so much"
-PNBLACKLIST[bigbuckbunny-720p] =3D "big and doesn't really need to be
-tested so much"
-PNBLACKLIST[tearsofsteel-1080p] =3D "big and doesn't really need to be
-tested so much"
-PNBLACKLIST[build-appliance-image] =3D "tries to include whole downloads
-directory in /home/builder/poky :/"
-
-
-QA issues by type:
-count: 0	issue: already-stripped
-
-
-count: 0	issue: libdir
-
-
-count: 3	issue: textrel
-corosync-2.4.2: ELF binary
-'/work/core2-64-oe-linux/corosync/2.4.2-r0/packages-split/corosync/usr/sbin=
-/corosync'
-has relocations in .text [textrel]
-x264-r2731+gitAUTOINC+2b741f81e5: ELF binary
-'/work/i586-oe-linux/x264/r2731+gitAUTOINC+2b741f81e5-r0/packages-split/x26=
-4-bin/usr/bin/x264'
-has relocations in .text [textrel]
-x264-r2731+gitAUTOINC+2b741f81e5: ELF binary
-'/work/i586-oe-linux/x264/r2731+gitAUTOINC+2b741f81e5-r0/packages-split/x26=
-4/usr/lib/libx264.so.148'
-has relocations in .text [textrel]
-
-
-count: 0	issue: build-deps
-
-
-count: 0	issue: file-rdeps
-
-
-count: 0	issue: version-going-backwards
-
-
-count: 4	issue: host-user-contaminated
-glibc-locale-2.26: glibc-locale:
-/glibc-binary-localedata-aa-er+saaho/usr/lib/locale/aa_ER@saaho/LC_PAPER
-is owned by uid 3004, which is the same as the user running bitbake.
-This may be due to host contamination [host-user-contaminated]
-glibc-locale-2.26: glibc-locale:
-/glibc-binary-localedata-ar-dz/usr/lib/locale/ar_DZ/LC_PAPER is owned
-by uid 3004, which is the same as the user running bitbake. This may
-be due to host contamination [host-user-contaminated]
-glibc-locale-2.26: glibc-locale:
-/glibc-binary-localedata-ar-kw.iso-8859-6/usr/lib/locale/ar_KW.ISO-8859-6/L=
-C_PAPER
-is owned by uid 3004, which is the same as the user running bitbake.
-This may be due to host contamination [host-user-contaminated]
-glibc-locale-2.26: glibc-locale:
-/glibc-binary-localedata-sq-al.iso-8859-1/usr/lib/locale/sq_AL.ISO-8859-1/L=
-C_MEASUREMENT
-is owned by uid 3004, which is the same as the user running bitbake.
-This may be due to host contamination [host-user-contaminated]
-
-
-count: 1	issue: installed-vs-shipped
-fluidsynth: 5 installed and not shipped files. [installed-vs-shipped]
-
-
-count: 0	issue: unknown-configure-option
-
-
-count: 0	issue: symlink-to-sysroot
-
-
-count: 0	issue: invalid-pkgconfig
-
-
-count: 0	issue: pkgname
-
-
-count: 0	issue: ldflags
-
-
-count: 0	issue: compile-host-path
-
-
-count: 9	issue: qa_pseudo
-libconnman-qt5-1.2.4+gitAUTOINC+9d98e12ed6: This
-/work/armv5te-oe-linux-gnueabi/libconnman-qt5/1.2.4+gitAUTOINC+9d98e12ed6-r=
-0/pseudo/pseudo.log
-indicates 5 errors [qa_pseudo]
-libconnman-qt5-1.2.4+gitAUTOINC+9d98e12ed6: This
-/work/i586-oe-linux/libconnman-qt5/1.2.4+gitAUTOINC+9d98e12ed6-r0/pseudo/ps=
-eudo.log
-indicates 8 errors [qa_pseudo]
-python-ndg-httpsclient-0.4.3: This
-/work/armv5te-oe-linux-gnueabi/python-ndg-httpsclient/0.4.3-r0/pseudo/pseud=
-o.log
-indicates 4 errors [qa_pseudo]
-python-snimpy-0.8.11: This
-/work/armv5te-oe-linux-gnueabi/python-snimpy/0.8.11-r0/pseudo/pseudo.log
-indicates 4 errors [qa_pseudo]
-qtquick1-5.9.2+gitAUTOINC+9bf0edd9bd: This
-/work/armv5te-oe-linux-gnueabi/qtquick1/5.9.2+gitAUTOINC+9bf0edd9bd-r0/pseu=
-do/pseudo.log
-indicates 11 errors [qa_pseudo]
-qtquick1-5.9.2+gitAUTOINC+9bf0edd9bd: This
-/work/i586-oe-linux/qtquick1/5.9.2+gitAUTOINC+9bf0edd9bd-r0/pseudo/pseudo.l=
-og
-indicates 12 errors [qa_pseudo]
-qtx11extras-5.9.2+gitAUTOINC+160435b0eb: This
-/work/armv5te-oe-linux-gnueabi/qtx11extras/5.9.2+gitAUTOINC+160435b0eb-r0/p=
-seudo/pseudo.log
-indicates 5 errors [qa_pseudo]
-qtx11extras-5.9.2+gitAUTOINC+160435b0eb: This
-/work/core2-64-oe-linux/qtx11extras/5.9.2+gitAUTOINC+160435b0eb-r0/pseudo/p=
-seudo.log
-indicates 7 errors [qa_pseudo]
-qtx11extras-5.9.2+gitAUTOINC+160435b0eb: This
-/work/i586-oe-linux/qtx11extras/5.9.2+gitAUTOINC+160435b0eb-r0/pseudo/pseud=
-o.log
-indicates 6 errors [qa_pseudo]
-
-
-
-This git log matches with the metadata as seen by qemuarm build.
-In some cases qemux86 and qemux86-64 builds are built with slightly
-different metadata, you can see the exact version near the top of each
-log.world.qemu* files linked from the report
-
-=3D=3D Tested changes (not included in master yet) - bitbake =3D=3D
-latest upstream commit:
-be393f2 toaster/highlight.pack.js: Fix corrupted file
-not included in master yet:
-3fba1ad world-image: add extra target
-c7c01bf fetch2: Allow Fetch.download() to warn instead of error
-
-=3D=3D Tested changes (not included in master yet) - openembedded-core =3D=
-=3D
-
-latest upstream commit:
-8ca61a5 bitbake.conf: add tools required by testimage to HOSTTOOLS conditio=
-nally
-not included in master yet:
-d28c0cb report-error: Allow to upload reports automatically
-ebe6522 buildhistory.bbclass: metadata-revs show repo parent
-78735b9 metadata-revs: provide more information
-a48bb4c qemux86: Add identical qemux86copy variant for tests
-582876d reproducible_build.bbclass: initial support for binary reproducibil=
-ity
-8cde606 cpio: provide cpio-replacement-native
-fa4e167 image_types.bbclass: improve cpio image reproducibility
-bd99eff rootfs-postcommands.bbclass: support binary reproducibility
-446dffa sstate.bbclass: Do not cause build failures due to setscene errors
-caba1c2 insane.bbclass: Add do_qa_pseudo function to check for common
-errors listed in pseudo.log
-633940b libsdl2: allow to build native and nativesdk
-d2a2d29 libdrm: allow to build native and nativesdk
-e407568 nativesdk-mesa,mesa-native: add new recipe to build small part of m=
-esa
-aa6ce39 libepoxy: add support for native(sdk)
-11acf2e libjpeg-turbo: provide nativesdk version
-b58f07d virglrenderer: add new recipe
-f00aa03 virglrenderer: fix target build
-b19c402 qemu: add PACKAGECONFIG for virtglrenderer, sdl2 and spice
-fbb4feb insane.bbclass: use package_qa_handle_error for do_qa_pseudo
-
-=3D=3D Tested changes (not included in master yet) - meta-openembedded =3D=
-=3D
-
-latest upstream commit:
-ed6b5da hostapd: fix WPA2 key replay security bug
-not included in master yet:
-a64b2eb squid: upgrade to 3.5.27
-bd0aef9 toybox: Switch building from git src_uri
-6440fa0 nodejs: Add npx to nodejs-npm package
-444c92e rocksdb: add version 5.8
-e76721e stress-ng: Add recipe
-d9c1b30 oprofile: move from oe-core, as it's being deprecated there
-e0cbcbb imagemagick: 7.0.7-1 -> 7.0.7-7
-a6d78e6 fluidsynth: update 1.1.6 -> 1.1.8
-52396aa python-lxml: update to version 4.1.0
-7e2dcd9 python-cffi: update to version 1.11.2
-
-=3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
-latest upstream commit:
-2c3ef00 qt5: add missing commercial license
-not included in master yet:
-a3df6a7 meta-qt5: Update to 5.9.2 release
-5ed1295 Revert "meta-qt5: Update to 5.9.2 release"
-5c3949e meta-qt5: Update to 5.9.2 release
-
-=3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
-
-latest upstream commit:
-26d5066 firefox: fix build failures
-not included in master yet:
-6773bf9 meta: drop ${COREBASE}/LICENSE references
-
---001a1149243a85b140055bbca280
+--94eb2c0800861e8728055bbd4f95
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><pre id=3D"gmail-out" class=3D"gmail-console-output" style=
-=3D"box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-=
-top:0px;margin-bottom:0px;color:rgb(51,51,51);font-size:14px"><pre style=3D=
-"box-sizing:border-box;white-space:pre-wrap;word-wrap:break-word;margin-top=
-:0px;margin-bottom:0px"><a href=3D"http://www.openembedded.org/wiki/Bitbake=
-_World_Status" style=3D"box-sizing:border-box;word-wrap:break-word;color:rg=
-b(92,53,102)">http://www.openembedded.org/wiki/Bitbake_World_Status</a>
+<div dir=3D"ltr">The patches have no header, upstream-status, or signed-off=
+-by.<div><br></div><div>Ross</div></div><div class=3D"gmail_extra"><br><div=
+ class=3D"gmail_quote">On 14 October 2017 at 16:48, Khem Raj <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gm=
+ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Signed-off-=
+by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</=
+a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/go/go-1.<wbr>9.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
+=C2=A0.../go/go-1.9/default-<wbr>buildmode-pie.patch=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 13 +++<br>
+=C2=A0.../go/go-1.9/set-external-<wbr>linker.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 104 +++++++++++++++++++++<br>
+=C2=A03 files changed, 120 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/go/go-1.<wbr>9/default-build=
+mode-pie.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/go/go-1.<wbr>9/set-external-=
+linker.patch<br>
+<br>
+diff --git a/meta/recipes-devtools/go/go-<wbr>1.9.inc b/meta/recipes-devtoo=
+ls/go/go-<wbr>1.9.inc<br>
+index 65adaa8d72..f52abb5735 100644<br>
+--- a/meta/recipes-devtools/go/go-<wbr>1.9.inc<br>
++++ b/meta/recipes-devtools/go/go-<wbr>1.9.inc<br>
+@@ -15,6 +15,9 @@ SRC_URI +=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0007-ld-add-soname-to-<wbr>shareab=
+le-objects.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0008-make.bash-add-<wbr>GOHOSTxx-i=
+ndirection-for-<wbr>cross-canadia.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0009-cmd-go-buildmode-<wbr>pie-for=
+ces-external-linking-<wbr>mode-on.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://default-buildmode-pie.<wbr>patch \<br>
+=C2=A0&quot;<br>
++SRC_URI_append_libc-musl =3D &quot; file://set-external-linker.<wbr>patch&=
+quot;<br>
++<br>
+=C2=A0SRC_URI[main.md5sum] =3D &quot;<wbr>da2d44ea384076efec43ee1f8b7d45<wb=
+r>d2&quot;<br>
+=C2=A0SRC_URI[main.sha256sum] =3D &quot;<wbr>a4ab229028ed167ba1986825751463=
+<wbr>605264e44868362ca8e7accc8be057<wbr>e993&quot;<br>
+diff --git a/meta/recipes-devtools/go/go-<wbr>1.9/default-buildmode-pie.<wb=
+r>patch b/meta/recipes-devtools/go/go-<wbr>1.9/default-buildmode-pie.<wbr>p=
+atch<br>
+new file mode 100644<br>
+index 0000000000..cc8aef0ad0<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/go/go-<wbr>1.9/default-buildmode-pie.<wbr>patch=
+<br>
+@@ -0,0 +1,13 @@<br>
++diff -upr src/go.orig/src/cmd/go/<wbr>internal/work/build.go src/go/src/cm=
+d/go/internal/<wbr>work/build.go<br>
++--- go.orig/src/cmd/go/internal/<wbr>work/build.go=C2=A0 2017-08-27 17:38:=
+26.354750979 +0200<br>
+++++ go/src/cmd/go/internal/work/<wbr>build.go=C2=A0 =C2=A0 =C2=A0 =C2=A020=
+17-08-27 17:40:27.555130105 +0200<br>
++@@ -304,7 +304,8 @@ func BuildModeInit() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ldBuildmode =3D &qu=
+ot;c-shared&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0case &quot;default&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch platform {<b=
+r>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case &quot;android/arm&q=
+uot;, &quot;android/arm64&quot;, &quot;android/amd64&quot;, &quot;android/3=
+86&quot;:<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case &quot;linux/386&quo=
+t;, &quot;linux/amd64&quot;, &quot;linux/arm&quot;, &quot;linux/arm64&quot;=
+, &quot;linux/ppc64le&quot;, &quot;linux/s390x&quot;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;android/arm&quot;, &quot;android/arm64&quot;, &quot;android/amd64=
+&quot;, &quot;android/386&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0codegenArg =3D &quot;-shared&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0ldBuildmode =3D &quot;pie&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case &quot;darwin/a=
+rm&quot;, &quot;darwin/arm64&quot;:<br>
+diff --git a/meta/recipes-devtools/go/go-<wbr>1.9/set-external-linker.patch=
+ b/meta/recipes-devtools/go/go-<wbr>1.9/set-external-linker.patch<br>
+new file mode 100644<br>
+index 0000000000..79eaff7205<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/go/go-<wbr>1.9/set-external-linker.patch<br>
+@@ -0,0 +1,104 @@<br>
++Index: go/src/cmd/link/internal/<wbr>amd64/obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>amd64/obj.go<br>
+++++ go/src/cmd/link/internal/<wbr>amd64/obj.go<br>
++@@ -67,7 +67,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64 =3D ld.Append64l<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.TLSIEtoLE =3D tlsIEtoLE<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib64/ld-linux-x86-=
+64.so.2&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-x86_64.=
+so.1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;/libexec/ld-e=
+lf.so.1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;/usr/libexec/=
+ld.so&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Netbsddynld =3D &quot;/libexec/ld.el=
+f_so&quot;<br>
++Index: go/src/cmd/link/internal/arm/<wbr>obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>arm/obj.go<br>
+++++ go/src/cmd/link/internal/arm/<wbr>obj.go<br>
++@@ -63,7 +63,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append32 =3D ld.Append32l<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64 =3D ld.Append64l<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-linux.so.3&q=
+uot; // 2 for OABI, 3 for EABI<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-armhf.s=
+o.1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;/usr/libexec/=
+ld-elf.so.1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;/usr/libexec/=
+ld.so&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Netbsddynld =3D &quot;/libexec/ld.el=
+f_so&quot;<br>
++Index: go/src/cmd/link/internal/<wbr>arm64/obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>arm64/obj.go<br>
+++++ go/src/cmd/link/internal/<wbr>arm64/obj.go<br>
++@@ -62,7 +62,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append32 =3D ld.Append32l<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64 =3D ld.Append64l<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-linux-aarch6=
+4.so.1&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-aarch64=
+.so.1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;XXX&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;XXX&quot;<br>
++Index: go/src/cmd/link/internal/mips/<wbr>obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>mips/obj.go<br>
+++++ go/src/cmd/link/internal/mips/<wbr>obj.go<br>
++@@ -77,7 +77,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64=
+ =3D ld.Append64b<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld.so.1&quot;<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-mipsle.=
+so.1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;XXX&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;XXX&quot;<br>
++Index: go/src/cmd/link/internal/<wbr>mips64/obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>mips64/obj.go<br>
+++++ go/src/cmd/link/internal/<wbr>mips64/obj.go<br>
++@@ -75,7 +75,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64=
+ =3D ld.Append64b<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib64/ld64.so.1&quo=
+t;<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib64/ld-musl-mips6=
+4le.so.1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;XXX&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;XXX&quot;<br>
++Index: go/src/cmd/link/internal/<wbr>ppc64/obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>ppc64/obj.go<br>
+++++ go/src/cmd/link/internal/<wbr>ppc64/obj.go<br>
++@@ -77,7 +77,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0// TODO(austin): ABI v1 uses /usr/lib/ld.so.1<b=
+r>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib64/ld64.so.1&quo=
+t;<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-powerpc=
+64le.so.<wbr>1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;XXX&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;XXX&quot;<br>
++Index: go/src/cmd/link/internal/<wbr>s390x/obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>s390x/obj.go<br>
+++++ go/src/cmd/link/internal/<wbr>s390x/obj.go<br>
++@@ -62,7 +62,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append32 =3D ld.Append32b<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64 =3D ld.Append64b<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib64/ld64.so.1&quo=
+t;<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-s390x.s=
+o.1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0// not relevant for s390x<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;XXX&quot;<br>
++Index: go/src/cmd/link/internal/x86/<wbr>obj.go<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<wbr>=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- go.orig/src/cmd/link/internal/<wbr>x86/obj.go<br>
+++++ go/src/cmd/link/internal/x86/<wbr>obj.go<br>
++@@ -63,7 +63,7 @@ func Init() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append32 =3D ld.Append32l<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Append64 =3D ld.Append64l<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-linux.so.2&q=
+uot;<br>
+++=C2=A0 =C2=A0 =C2=A0 ld.Thearch.Linuxdynld =3D &quot;/lib/ld-musl-i386.so=
+.1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Freebsddynld =3D &quot;/usr/libexec/=
+ld-elf.so.1&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Openbsddynld =3D &quot;/usr/libexec/=
+ld.so&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ld.Thearch.Netbsddynld =3D &quot;/usr/libexec/l=
+d.elf_so&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.14.2<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
 
-=3D=3D Number of issues - stats =3D=3D
-{| class=3D&#39;wikitable&#39;
-!|Date		     !!colspan=3D&#39;3&#39;|Failed tasks			    !!|Signatures		  !!=
-colspan=3D&#39;15&#39;|QA !!Comment
-|-
-||		||qemuarm	||qemux86	||qemux86_64	||all 	||already-stripped	||libdir	||t=
-extrel	||build-deps	||file-rdeps	||version-going-backwards	||host-user-cont=
-aminated	||installed-vs-shipped	||unknown-configure-option	||symlink-to-sys=
-root	||invalid-pkgconfig	||pkgname	||ldflags	||compile-host-path	||qa_pseud=
-o	||=09
-|-
-||2017-10-16	||3	||4	||4	||0	||0		||0		||3		||0		||0		||0		||4		||1		||0		|=
-|0		||0		||0		||0		||0		||9		||=09
-|}
-
-=3D=3D Failed tasks 2017-10-16 =3D=3D
-
-INFO: jenkins-job.sh-1.8.35 Complete log available at <a href=3D"http://log=
-s.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20171017_002302.log" =
-style=3D"box-sizing:border-box;word-wrap:break-word;color:rgb(92,53,102)">h=
-ttp://logs.nslu2-linux.org/buildlogs/oe/world/rocko/log.report.20171017_002=
-302.log</a>
-
-=3D=3D=3D common (2) =3D=3D=3D
-    * meta-qt5/recipes-qt/qt5/qtnetworkauth_git.bb:do_fetch
-    * openembedded-core/meta/recipes-core/glibc/glibc-locale_2.26.bb:do_pac=
-kage_qa
-
-=3D=3D=3D common-x86 (0) =3D=3D=3D
-
-=3D=3D=3D qemuarm (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-devtools/android-tools/android-tool=
-s_5.1.1.r37.bb:do_compile
-
-=3D=3D=3D qemux86 (2) =3D=3D=3D
-    * meta-qt5/recipes-qt/qt5/qtcharts_git.bb:do_compile
-    * openembedded-core/meta/recipes-multimedia/x264/x264_git.bb:do_package=
-_qa
-
-=3D=3D=3D qemux86_64 (2) =3D=3D=3D
-    * meta-openembedded/meta-multimedia/recipes-multimedia/fluidsynth/fluid=
-synth_1.1.8.bb:do_package
-    * meta-openembedded/meta-networking/recipes-extended/corosync/corosync_=
-2.4.2.bb:do_package_qa
-
-=3D=3D=3D Number of failed tasks (11) =3D=3D=3D
-{| class=3Dwikitable
-|-
-|| qemuarm 	|| 3	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/wo=
-rld/rocko/log.world.qemuarm.20171016_112708.log/" style=3D"box-sizing:borde=
-r-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.or=
-g/buildlogs/oe/world/rocko/log.world.qemuarm.20171016_112708.log/</a> || <a=
- href=3D"http://errors.yoctoproject.org/Errors/Build/47548/" style=3D"box-s=
-izing:border-box;word-wrap:break-word;color:rgb(92,53,102)">http://errors.y=
-octoproject.org/Errors/Build/47548/</a>
-|-
-|| qemux86 	|| 4	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/wo=
-rld/rocko/log.world.qemux86.20171016_124745.log/" style=3D"box-sizing:borde=
-r-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.or=
-g/buildlogs/oe/world/rocko/log.world.qemux86.20171016_124745.log/</a> || <a=
- href=3D"http://errors.yoctoproject.org/Errors/Build/47549/" style=3D"box-s=
-izing:border-box;word-wrap:break-word;color:rgb(92,53,102)">http://errors.y=
-octoproject.org/Errors/Build/47549/</a>
-|-
-|| qemux86_64 	|| 4	 || <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe=
-/world/rocko/log.world.qemux86-64.20171016_153545.log/" style=3D"box-sizing=
-:border-box;word-wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-li=
-nux.org/buildlogs/oe/world/rocko/log.world.qemux86-64.20171016_153545.log/<=
-/a> || <a href=3D"http://errors.yoctoproject.org/Errors/Build/47553/" style=
-=3D"box-sizing:border-box;word-wrap:break-word;color:rgb(92,53,102)">http:/=
-/errors.yoctoproject.org/Errors/Build/47553/</a>
-|}
-
-=3D=3D=3D PNBLACKLISTs (1) =3D=3D=3D
-
-=3D=3D=3D QA issues (17) =3D=3D=3D
-{| class=3Dwikitable
-!| Count		||Issue
-|-
-||0	||already-stripped
-|-
-||0	||build-deps
-|-
-||0	||compile-host-path
-|-
-||0	||file-rdeps
-|-
-||0	||invalid-pkgconfig
-|-
-||0	||ldflags
-|-
-||0	||libdir
-|-
-||0	||pkgname
-|-
-||0	||symlink-to-sysroot
-|-
-||0	||unknown-configure-option
-|-
-||0	||version-going-backwards
-|-
-||1	||installed-vs-shipped
-|-
-||3	||textrel
-|-
-||4	||host-user-contaminated
-|-
-||9	||qa_pseudo
-|}
-
-
-
-=3D=3D=3D Incorrect PACKAGE_ARCH or sstate signatures (0) =3D=3D=3D
-
-Complete log: <a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/world/roc=
-ko/log.signatures.20171016_140936.log/" style=3D"box-sizing:border-box;word=
--wrap:break-word;color:rgb(92,53,102)">http://logs.nslu2-linux.org/buildlog=
-s/oe/world/rocko/log.signatures.20171016_140936.log/</a>
-
-No issues detected
-
-
-PNBLACKLISTs:
-openembedded-core/:
-meta-browser:
-meta-openembedded:
-meta-networking/recipes-support/lksctp-tools/lksctp-tools_1.0.17.bb:PNBLACK=
-LIST[lksctp-tools] ?=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39=
-;, &#39;ld-is-gold&#39;, &quot;BROKEN: fails to link against sctp_connectx =
-symbol&quot;, &#39;&#39;, d)}&quot;
-meta-qt5:
-PNBLACKLIST[android-system] =3D &quot;depends on lxc from meta-virtualiazat=
-ion which isn&#39;t included in my world builds&quot;
-PNBLACKLIST[bigbuckbunny-1080p] =3D &quot;big and doesn&#39;t really need t=
-o be tested so much&quot;
-PNBLACKLIST[bigbuckbunny-480p] =3D &quot;big and doesn&#39;t really need to=
- be tested so much&quot;
-PNBLACKLIST[bigbuckbunny-720p] =3D &quot;big and doesn&#39;t really need to=
- be tested so much&quot;
-PNBLACKLIST[bigbuckbunny-720p] =3D &quot;big and doesn&#39;t really need to=
- be tested so much&quot;
-PNBLACKLIST[tearsofsteel-1080p] =3D &quot;big and doesn&#39;t really need t=
-o be tested so much&quot;
-PNBLACKLIST[build-appliance-image] =3D &quot;tries to include whole downloa=
-ds directory in /home/builder/poky :/&quot;
-
-
-QA issues by type:
-count: 0	issue: already-stripped
-
-
-count: 0	issue: libdir
-
-
-count: 3	issue: textrel
-corosync-2.4.2: ELF binary &#39;/work/core2-64-oe-linux/corosync/2.4.2-r0/p=
-ackages-split/corosync/usr/sbin/corosync&#39; has relocations in .text [tex=
-trel]
-x264-r2731+gitAUTOINC+2b741f81e5: ELF binary &#39;/work/i586-oe-linux/x264/=
-r2731+gitAUTOINC+2b741f81e5-r0/packages-split/x264-bin/usr/bin/x264&#39; ha=
-s relocations in .text [textrel]
-x264-r2731+gitAUTOINC+2b741f81e5: ELF binary &#39;/work/i586-oe-linux/x264/=
-r2731+gitAUTOINC+2b741f81e5-r0/packages-split/x264/usr/lib/libx264.so.148&#=
-39; has relocations in .text [textrel]
-
-
-count: 0	issue: build-deps
-
-
-count: 0	issue: file-rdeps
-
-
-count: 0	issue: version-going-backwards
-
-
-count: 4	issue: host-user-contaminated
-glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-aa-er+saaho/usr/l=
-ib/locale/aa_ER@saaho/LC_PAPER is owned by uid 3004, which is the same as t=
-he user running bitbake. This may be due to host contamination [host-user-c=
-ontaminated]
-glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-ar-dz/usr/lib/loc=
-ale/ar_DZ/LC_PAPER is owned by uid 3004, which is the same as the user runn=
-ing bitbake. This may be due to host contamination [host-user-contaminated]
-glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-ar-kw.iso-8859-6/=
-usr/lib/locale/ar_KW.ISO-8859-6/LC_PAPER is owned by uid 3004, which is the=
- same as the user running bitbake. This may be due to host contamination [h=
-ost-user-contaminated]
-glibc-locale-2.26: glibc-locale: /glibc-binary-localedata-sq-al.iso-8859-1/=
-usr/lib/locale/sq_AL.ISO-8859-1/LC_MEASUREMENT is owned by uid 3004, which =
-is the same as the user running bitbake. This may be due to host contaminat=
-ion [host-user-contaminated]
-
-
-count: 1	issue: installed-vs-shipped
-fluidsynth: 5 installed and not shipped files. [installed-vs-shipped]
-
-
-count: 0	issue: unknown-configure-option
-
-
-count: 0	issue: symlink-to-sysroot
-
-
-count: 0	issue: invalid-pkgconfig
-
-
-count: 0	issue: pkgname
-
-
-count: 0	issue: ldflags
-
-
-count: 0	issue: compile-host-path
-
-
-count: 9	issue: qa_pseudo
-libconnman-qt5-1.2.4+gitAUTOINC+9d98e12ed6: This /work/armv5te-oe-linux-gnu=
-eabi/libconnman-qt5/1.2.4+gitAUTOINC+9d98e12ed6-r0/pseudo/pseudo.log indica=
-tes 5 errors [qa_pseudo]
-libconnman-qt5-1.2.4+gitAUTOINC+9d98e12ed6: This /work/i586-oe-linux/libcon=
-nman-qt5/1.2.4+gitAUTOINC+9d98e12ed6-r0/pseudo/pseudo.log indicates 8 error=
-s [qa_pseudo]
-python-ndg-httpsclient-0.4.3: This /work/armv5te-oe-linux-gnueabi/python-nd=
-g-httpsclient/0.4.3-r0/pseudo/pseudo.log indicates 4 errors [qa_pseudo]
-python-snimpy-0.8.11: This /work/armv5te-oe-linux-gnueabi/python-snimpy/0.8=
-.11-r0/pseudo/pseudo.log indicates 4 errors [qa_pseudo]
-qtquick1-5.9.2+gitAUTOINC+9bf0edd9bd: This /work/armv5te-oe-linux-gnueabi/q=
-tquick1/5.9.2+gitAUTOINC+9bf0edd9bd-r0/pseudo/pseudo.log indicates 11 error=
-s [qa_pseudo]
-qtquick1-5.9.2+gitAUTOINC+9bf0edd9bd: This /work/i586-oe-linux/qtquick1/5.9=
-.2+gitAUTOINC+9bf0edd9bd-r0/pseudo/pseudo.log indicates 12 errors [qa_pseud=
-o]
-qtx11extras-5.9.2+gitAUTOINC+160435b0eb: This /work/armv5te-oe-linux-gnueab=
-i/qtx11extras/5.9.2+gitAUTOINC+160435b0eb-r0/pseudo/pseudo.log indicates 5 =
-errors [qa_pseudo]
-qtx11extras-5.9.2+gitAUTOINC+160435b0eb: This /work/core2-64-oe-linux/qtx11=
-extras/5.9.2+gitAUTOINC+160435b0eb-r0/pseudo/pseudo.log indicates 7 errors =
-[qa_pseudo]
-qtx11extras-5.9.2+gitAUTOINC+160435b0eb: This /work/i586-oe-linux/qtx11extr=
-as/5.9.2+gitAUTOINC+160435b0eb-r0/pseudo/pseudo.log indicates 6 errors [qa_=
-pseudo]
-
-
-
-This git log matches with the metadata as seen by qemuarm build.
-In some cases qemux86 and qemux86-64 builds are built with slightly
-different metadata, you can see the exact version near the top of each
-log.world.qemu* files linked from the report
-
-=3D=3D Tested changes (not included in master yet) - bitbake =3D=3D
-latest upstream commit:=20
-be393f2 toaster/highlight.pack.js: Fix corrupted file
-not included in master yet:=20
-3fba1ad world-image: add extra target
-c7c01bf fetch2: Allow Fetch.download() to warn instead of error
-
-=3D=3D Tested changes (not included in master yet) - openembedded-core =3D=
-=3D
-</pre><pre style=3D"box-sizing:border-box;white-space:pre-wrap;word-wrap:br=
-eak-word;margin-top:0px;margin-bottom:0px">latest upstream commit:=20
-8ca61a5 bitbake.conf: add tools required by testimage to HOSTTOOLS conditio=
-nally
-not included in master yet:=20
-d28c0cb report-error: Allow to upload reports automatically
-ebe6522 buildhistory.bbclass: metadata-revs show repo parent
-78735b9 metadata-revs: provide more information
-a48bb4c qemux86: Add identical qemux86copy variant for tests
-582876d reproducible_build.bbclass: initial support for binary reproducibil=
-ity
-8cde606 cpio: provide cpio-replacement-native
-fa4e167 image_types.bbclass: improve cpio image reproducibility
-bd99eff rootfs-postcommands.bbclass: support binary reproducibility
-446dffa sstate.bbclass: Do not cause build failures due to setscene errors
-caba1c2 insane.bbclass: Add do_qa_pseudo function to check for common error=
-s listed in pseudo.log
-633940b libsdl2: allow to build native and nativesdk
-d2a2d29 libdrm: allow to build native and nativesdk
-e407568 nativesdk-mesa,mesa-native: add new recipe to build small part of m=
-esa
-aa6ce39 libepoxy: add support for native(sdk)
-11acf2e libjpeg-turbo: provide nativesdk version
-b58f07d virglrenderer: add new recipe
-f00aa03 virglrenderer: fix target build
-b19c402 qemu: add PACKAGECONFIG for virtglrenderer, sdl2 and spice
-fbb4feb insane.bbclass: use package_qa_handle_error for do_qa_pseudo
-
-=3D=3D Tested changes (not included in master yet) - meta-openembedded =3D=
-=3D
-</pre><pre style=3D"box-sizing:border-box;white-space:pre-wrap;word-wrap:br=
-eak-word;margin-top:0px;margin-bottom:0px">latest upstream commit:=20
-ed6b5da hostapd: fix WPA2 key replay security bug
-not included in master yet:=20
-a64b2eb squid: upgrade to 3.5.27
-bd0aef9 toybox: Switch building from git src_uri
-6440fa0 nodejs: Add npx to nodejs-npm package
-444c92e rocksdb: add version 5.8
-e76721e stress-ng: Add recipe
-d9c1b30 oprofile: move from oe-core, as it&#39;s being deprecated there
-e0cbcbb imagemagick: 7.0.7-1 -&gt; 7.0.7-7
-a6d78e6 fluidsynth: update 1.1.6 -&gt; 1.1.8
-52396aa python-lxml: update to version 4.1.0
-7e2dcd9 python-cffi: update to version 1.11.2
-
-=3D=3D Tested changes (not included in master yet) - meta-qt5 =3D=3D
-latest upstream commit:=20
-2c3ef00 qt5: add missing commercial license
-not included in master yet:=20
-a3df6a7 meta-qt5: Update to 5.9.2 release
-5ed1295 Revert &quot;meta-qt5: Update to 5.9.2 release&quot;
-5c3949e meta-qt5: Update to 5.9.2 release
-
-=3D=3D Tested changes (not included in master yet) - meta-browser =3D=3D
-</pre><pre style=3D"box-sizing:border-box;white-space:pre-wrap;word-wrap:br=
-eak-word;margin-top:0px;margin-bottom:0px">latest upstream commit:=20
-26d5066 firefox: fix build failures
-not included in master yet:=20
-6773bf9 meta: drop ${COREBASE}/LICENSE references</pre></pre></div>
-
---001a1149243a85b140055bbca280--
+--94eb2c0800861e8728055bbd4f95--
