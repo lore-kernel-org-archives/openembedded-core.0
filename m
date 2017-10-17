@@ -1,18 +1,38 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B34778213;
-	Mon, 16 Oct 2017 22:31:05 +0000 (UTC)
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 0383A77E66
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Oct 2017 01:29:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DE66020A42;
+	Tue, 17 Oct 2017 01:29:53 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id u-rv58KmNE01; Tue, 17 Oct 2017 01:29:53 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
+	[100.15.85.143])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id ADA6D2087C;
+	Tue, 17 Oct 2017 01:29:51 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 2BDC6162700; Mon, 16 Oct 2017 21:29:51 -0400 (EDT)
+Date: Mon, 16 Oct 2017 21:29:51 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171017012951.GZ9221@denix.org>
+References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
+	<20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
+	<CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
+	<CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Mon, 16 Oct 2017 22:31:06 -0000
-Message-ID: <20171016223106.2783.31688@do.openembedded.org>
-References: <20171016220126.128198-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171016220126.128198-1-leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gcGVybC1uYXRpdmU6IHVwZ3JhZGUgZnJvbS4uLiIgYW5kIDQgbW9yZQ==?=
+In-Reply-To: <CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 3/3] weston: Bump version to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Oct 2017 22:31:05 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Oct 2017 01:29:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-== Series Details ==
-
-Series: "[v2] perl-native: upgrade from..." and 4 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9366/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_format] 
-  Suggested fix    Fix Upstream-Status format in meta/recipes-devtools/perl/perl/PPPort_pm-fix-require.patch so it is one of: Pending, Submitted, Accepted, Backport, Denied, Inappropriate
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence] 
-  Suggested fix    Add Upstream-Status: <status> to the header of meta/recipes-devtools/perl/perl/native-nopacklist-native.patch (possible values: Pending, Submitted, Accepted, Backport, Denied, Inappropriate)
+On Mon, Oct 16, 2017 at 09:34:04PM +0100, Burton, Ross wrote:
+> On 16 October 2017 at 18:30, Otavio Salvador <
+> otavio.salvador@ossystems.com.br> wrote:
+> 
+> >
+> > > +          file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+> > \
+> > > +          file://fix-missing-header.patch \
+> >
+> > Those should be documented on commit log
+> >
+> >
+> Agreed.  The missing header one should say what platform causes it to be a
+> problem (in case it never gets upstreamed and someone tests it again on
+> just glibc).  
 
 
+> And is the pitch patch sufficiently broken that we need to backport it?
 
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+My point exactly - doesn't seem to be a very broad problem...
 
