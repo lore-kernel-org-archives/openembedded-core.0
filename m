@@ -1,19 +1,28 @@
-Return-Path: <fabien.lahoudere@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id B179978306
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2734F782C5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 17:38:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: aragua) with ESMTPSA id 35B4526DC79
-From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Oct 2017 19:38:07 +0200
-Message-Id: <20171017173807.19161-3-fabien.lahoudere@collabora.co.uk>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20171017173807.19161-1-fabien.lahoudere@collabora.co.uk>
-References: <20171017173807.19161-1-fabien.lahoudere@collabora.co.uk>
-MIME-Version: 1.0
-Subject: [PATCH v6 3/3] weston: Bump version to 3.0.0
+	Tue, 17 Oct 2017 17:44:07 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 Oct 2017 10:44:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,391,1503385200"; d="scan'208";a="1231831406"
+Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
+	by fmsmga002.fm.intel.com with SMTP; 17 Oct 2017 10:44:08 -0700
+Date: Tue, 17 Oct 2017 12:53:57 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Message-Id: <20171017125357.29113803f44029838af18f7d@linux.intel.com>
+In-Reply-To: <20171016141306.418e7a6502139ed4c2e180c3@linux.intel.com>
+References: <20171016150045.25323-1-Randy.MacLeod@windriver.com>
+	<20171016160029.2787.48040@do.openembedded.org>
+	<4d40ce95-4159-5197-ebca-af1f30f25a6f@windriver.com>
+	<20171016141306.418e7a6502139ed4c2e180c3@linux.intel.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yICJSRUFETUUucWVtdTogcWVtdXBwYzY0IGlzIG5vdCAuLi4iIGFuZCAxIG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,179 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 17:38:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Oct 2017 17:44:08 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Update weston release to 3.0.0.
-Two patches added:
-- fix-missing-header.patch:
-        fix a build issue when musl is used as libc.
-- weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch:
-        fix display issue with YUV420/I420 format.
+> 
+> > 
+> > Also is there a list server for privately reviewing a patch by email?
+> > I looked at setting up patchtest locally but got distracted when the
+> > setup seemed to take more than a few minutes. Maybe I just need
+> > to focus for longer...
+> 
+> on your current branch, just run the patchtest script located at scripts/contrib/, that would provide basically the same log as the one gotten from patchwork.
 
-Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
----
- .../wayland/weston/fix-missing-header.patch        | 30 ++++++++++++
- ...t-pitch-correctly-for-subsampled-textures.patch | 55 ++++++++++++++++++++++
- .../wayland/{weston_2.0.0.bb => weston_3.0.0.bb}   | 17 +++----
- 3 files changed, 94 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/weston/fix-missing-header.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
- rename meta/recipes-graphics/wayland/{weston_2.0.0.bb => weston_3.0.0.bb} (89%)
+Randy,
 
-diff --git a/meta/recipes-graphics/wayland/weston/fix-missing-header.patch b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
-new file mode 100644
-index 0000000000..55c0d4fd0f
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/fix-missing-header.patch
-@@ -0,0 +1,30 @@
-+On the musl C library, tests/timespec-text.c does not build, with the
-+following error:
-+
-+    In file included from tests/timespec-test.c:36:0:
-+    ./shared/timespec-util.h:41:21: warning: ‘struct timespec’ declared
-+    inside parameter list will not be visible outside of this definition
-+    or declaration
-+     timespec_sub(struct timespec *r,
-+                         ^~~~~~~~
-+   [...]
-+
-+Indeed, struct timespec is defined in time.h, so we must include it.
-+
-+Upstream-Status: Backport [fa41bdfbc0b962fd73b89f01aab1a5370c9c28eb]
-+
-+Signed-off-by: "Yann E. MORIN" <yann.morin.1998@free.fr>
-+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-+
-+Index: weston-3.0.0/shared/timespec-util.h
-+===================================================================
-+--- weston-3.0.0.orig/shared/timespec-util.h
-++++ weston-3.0.0/shared/timespec-util.h
-+@@ -28,6 +28,7 @@
-+ 
-+ #include <stdint.h>
-+ #include <assert.h>
-++#include <time.h>
-+ 
-+ #define NSEC_PER_SEC 1000000000
-+ 
-diff --git a/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-new file mode 100644
-index 0000000000..69284a9616
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-@@ -0,0 +1,55 @@
-+Multi-plane sub-sampled textures have partial width/height, e.g.
-+YUV420/I420 has a full-size Y plane, followed by a half-width/height U
-+plane, and a half-width/height V plane.
-+
-+zwp_linux_dmabuf_v1 allows clients to pass an explicit pitch for each
-+plane, but for wl_shm this must be inferred. gl-renderer was correctly
-+accounting for the width and height when subsampling, but the pitch was
-+being taken as the pitch for the first plane.
-+
-+This does not match the requirements for GStreamer's waylandsink, in
-+particular, as well as other clients. Fix the SHM upload path to
-+correctly set the pitch for each plane, according to subsampling.
-+
-+Tested with:
-+  $ gst-launch-1.0 videotestsrc ! waylandsink
-+
-+Upstream-status: Backport [https://patchwork.freedesktop.org/patch/180767/]
-+
-+Signed-off-by: Daniel Stone <daniels@collabora.com>
-+Fixes: fdeefe42418 ("gl-renderer: add support of WL_SHM_FORMAT_YUV420")
-+Reported-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=103063
-+
-+---
-+ libweston/gl-renderer.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libweston/gl-renderer.c b/libweston/gl-renderer.c
-+index 244ce309..40bf0bb6 100644
-+--- a/libweston/gl-renderer.c
-++++ b/libweston/gl-renderer.c
-+@@ -1445,14 +1445,13 @@ gl_renderer_flush_damage(struct weston_surface *surface)
-+ 		goto done;
-+ 	}
-+ 
-+-	glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch);
-+-
-+ 	if (gs->needs_full_upload) {
-+ 		glPixelStorei(GL_UNPACK_SKIP_PIXELS_EXT, 0);
-+ 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, 0);
-+ 		wl_shm_buffer_begin_access(buffer->shm_buffer);
-+ 		for (j = 0; j < gs->num_textures; j++) {
-+ 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
-++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
-+ 			glTexImage2D(GL_TEXTURE_2D, 0,
-+ 				     gs->gl_format[j],
-+ 				     gs->pitch / gs->hsub[j],
-+@@ -1477,6 +1476,7 @@ gl_renderer_flush_damage(struct weston_surface *surface)
-+ 		glPixelStorei(GL_UNPACK_SKIP_ROWS_EXT, r.y1);
-+ 		for (j = 0; j < gs->num_textures; j++) {
-+ 			glBindTexture(GL_TEXTURE_2D, gs->textures[j]);
-++			glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT, gs->pitch / gs->hsub[j]);
-+ 			glTexSubImage2D(GL_TEXTURE_2D, 0,
-+ 					r.x1 / gs->hsub[j],
-+ 					r.y1 / gs->vsub[j],
-diff --git a/meta/recipes-graphics/wayland/weston_2.0.0.bb b/meta/recipes-graphics/wayland/weston_3.0.0.bb
-similarity index 89%
-rename from meta/recipes-graphics/wayland/weston_2.0.0.bb
-rename to meta/recipes-graphics/wayland/weston_3.0.0.bb
-index 8160f5556d..ad0cdc2b0f 100644
---- a/meta/recipes-graphics/wayland/weston_2.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_3.0.0.bb
-@@ -9,12 +9,13 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop \
-            file://0001-make-error-portable.patch \
--           file://0001-configure.ac-Fix-wayland-protocols-path.patch \
-            file://xwayland.weston-start \
-            file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-+	   file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch \
-+	   file://fix-missing-header.patch \
- "
--SRC_URI[md5sum] = "15f38945942bf2a91fe2687145fb4c7d"
--SRC_URI[sha256sum] = "b4e446ac27f118196f1609dab89bb3cb3e81652d981414ad860e733b355365d8"
-+SRC_URI[md5sum] = "9c42a4c51a1b9f35d040fa9d45ada36d"
-+SRC_URI[sha256sum] = "cde1d55e8dd70c3cbb3d1ec72f60e60000041579caa1d6a262bd9c35e93723a5"
- 
- inherit autotools pkgconfig useradd distro_features_check
- # depends on virtual/egl
-@@ -76,7 +77,7 @@ PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
- 
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
--	rm -f ${D}/${libdir}/libweston-2/*.la
-+	rm -f ${D}/${libdir}/libweston-3/*.la
- 
- 	# If X11, ship a desktop file to launch it
- 	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
-@@ -93,16 +94,16 @@ do_install_append() {
- }
- 
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
--             libweston-2 ${PN}-examples"
-+             libweston-3 ${PN}-examples"
- 
- FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
- 
--FILES_libweston-2 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-2/*.so"
--SUMMARY_libweston-2 = "Helper library for implementing 'wayland window managers'."
-+FILES_libweston-3 = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-3/*.so"
-+SUMMARY_libweston-3 = "Helper library for implementing 'wayland window managers'."
- 
- FILES_${PN}-examples = "${bindir}/*"
- 
--FILES_${PN}-xwayland = "${libdir}/libweston-2/xwayland.so"
-+FILES_${PN}-xwayland = "${libdir}/libweston-3/xwayland.so"
- RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
- 
- RDEPENDS_${PN} += "xkeyboard-config"
+just test the patchtest script under contrib and I see some exceptions coming from the execution which turn into failures and false positives. this script creates a virtual environment then clones repos and start testing patches starting from master to HEAD. This virtual environment is what is causing problems. I will fix it soon but for the time being a server is doing the test for you :)
+
+Leo
+
+> 
+> > 
+> > 
+> > ../Randy
+> > 
+> > > 
+> > > 
+> > > If you believe any of these test results are incorrect, please reply to the
+> > > mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+> > > Otherwise we would appreciate you correcting the issues and submitting a new
+> > > version of the patchset if applicable. Please ensure you add/increment the
+> > > version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+> > > [PATCH v3] -> ...).
+> > > 
+> > > ---
+> > > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+> > > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> > > 
+> > > 
+> > 
+> > 
+> > -- 
+> > # Randy MacLeod.  WR Linux
+> > # Wind River an Intel Company
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> -- 
+> Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 -- 
-2.11.0
-
+Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
