@@ -1,25 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EB7BE78287
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A27F71A9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 07:01:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9H71t8v001235
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Tue, 17 Oct 2017 00:01:56 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 17 Oct 2017 00:01:55 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 17 Oct 2017 03:01:52 -0400
-Message-ID: <1508223712-93849-2-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1508223712-93849-1-git-send-email-hongxu.jia@windriver.com>
-References: <1508223712-93849-1-git-send-email-hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V3 2/2] perl: fix CVE-2017-12837
+	Tue, 17 Oct 2017 08:21:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id AE635265784
+Message-ID: <1508228478.12731.1.camel@collabora.co.uk>
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: "Burton, Ross" <ross.burton@intel.com>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+Date: Tue, 17 Oct 2017 10:21:18 +0200
+In-Reply-To: <CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
+References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
+	<20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
+	<CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
+	<CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 3/3] weston: Bump version to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 07:01:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Oct 2017 08:21:23 -0000
+Content-Type: multipart/alternative; boundary="=-aXGwFDa+chMqylppLs5h"
 
-https://perl5.git.perl.org/perl.git/commitdiff/96c83ed78aeea1a0496dd2b2d935869a822dc8a5
+--=-aXGwFDa+chMqylppLs5h
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../perl/perl/perl-fix-CVE-2017-12837.patch        | 32 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch
+On Mon, 2017-10-16 at 21:34 +0100, Burton, Ross wrote:
+> On 16 October 2017 at 18:30, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
+> > > +          file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch \
+> > 
+> > > +          file://fix-missing-header.patch \
+> > 
+> > 
+> > 
+> > Those should be documented on commit log
+> > 
+> > 
+> > 
+> 
+> Agreed.  The missing header one should say what platform causes it to be a problem (in case it
+> never gets upstreamed and someone tests it again on just glibc).  And is the pitch patch
+> sufficiently broken that we need to backport it?
 
-diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch
-new file mode 100644
-index 0000000..2bf71f1
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch
-@@ -0,0 +1,32 @@
-+From 73d7247ecab863ef26b5687a37ccc75d6144ad0f Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Tue, 17 Oct 2017 13:49:14 +0800
-+Subject: [PATCH] fix CVE-2017-12837
-+
-+Signed-off-by: Karl Williamson <khw@cpan.org>
-+Signed-off-by: Steve Hay <steve.m.hay@googlemail.com>
-+
-+CVE: CVE-2017-12837
-+Upstream-Status: Backport
-+https://perl5.git.perl.org/perl.git/commitdiff/96c83ed78aeea1a0496dd2b2d935869a822dc8a5
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ regcomp.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/regcomp.c b/regcomp.c
-+index 5498d14..31ec383 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -13021,6 +13021,7 @@ S_regatom(pTHX_ RExC_state_t *pRExC_state, I32 *flagp, U32 depth)
-+                             goto loopdone;
-+                         }
-+                         p = RExC_parse;
-++                        RExC_parse = parse_start;
-+                         if (ender > 0xff) {
-+                             REQUIRE_UTF8(flagp);
-+                         }
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 93420f1..363bc94 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -66,6 +66,7 @@ SRC_URI += " \
-         file://perl-fix-conflict-between-skip_all-and-END.patch \
-         file://perl-test-customized.patch \
-         file://perl-fix-CVE-2017-12883.patch \
-+        file://perl-fix-CVE-2017-12837.patch \
- "
- 
- # Fix test case issues
--- 
-2.8.1
+Without the pitch patch, all applications generating YUV420 will not be displayed correctly. For
+example "gstlaunch1.0 testvideosrc ! waylandsink" fail.I can keep this patch in a bbappend if you
+don't want it. Just tell me.
+For the header patch, I will improve commit message.
+I see there is an OVERRIDE libc-musl, should I use this patch in SRC_URI_libc-musl?
+> Ross 
+-- 
+Fabien
 
+--=-aXGwFDa+chMqylppLs5h
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
+<html><head></head><body><div>On Mon, 2017-10-16 at 21:34 +0100, Burton, Ross wrote:</div><blockquote type="cite"><div dir="ltr">On 16 October 2017 at 18:30, Otavio Salvador <span dir="ltr">&lt;<a href="mailto:otavio.salvador@ossystems.com.br" target="_blank">otavio.salvador@ossystems.com.br</a>&gt;</span> wrote:<br><div class="gmail_extra"><div class="gmail_quote"><blockquote type="cite"><div class="HOEnZb"><div class="h5"><br>
+&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://weston-gl-renderer-Set-<wbr>pitch-correctly-for-<wbr>subsampled-textures.patch \<br>
+&gt; +&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; file://fix-missing-header.<wbr>patch \<br>
+<br>
+</div></div>Those should be documented on commit log<br>
+<div class="HOEnZb"><div class="h5"><br></div></div><br></blockquote><div><br></div><div>Agreed.&nbsp; The missing header one should say what platform causes it to be a problem (in case it never gets upstreamed and someone tests it again on just glibc).&nbsp; And is the pitch patch sufficiently broken that we need to backport it?</div></div></div></div></blockquote><div><br></div><div>Without the pitch patch, all applications generating YUV420 will not be displayed correctly. For example "gstlaunch1.0 testvideosrc ! waylandsink" fail.</div><div>I can keep this patch in a bbappend if you don't want it. Just tell me.</div><div><br></div><div>For the header patch, I will improve commit message.</div><div><br></div><div>I see there is an OVERRIDE libc-musl, should I use this patch in SRC_URI_libc-musl?</div><div><br></div><blockquote type="cite"><div dir="ltr"><div class="gmail_extra"><div class="gmail_quote"><div><br></div><div>Ross&nbsp;</div></div></div></div>
+</blockquote><div><span><pre>-- <br></pre><div style="width: 100ch;">Fabien</div></span></div></body></html>
+
+--=-aXGwFDa+chMqylppLs5h--
