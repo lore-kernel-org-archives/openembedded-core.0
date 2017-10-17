@@ -1,47 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C479A7833C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 52B8B7833A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 19:32:01 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 17so2064065pfn.12
+	Tue, 17 Oct 2017 20:10:19 +0000 (UTC)
+Received: by mail-io0-f171.google.com with SMTP id e89so3606651ioi.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 12:32:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Sh+IMYXbMa3XCPVYeSg4W1aYMNUTicp5QUyXxEbkHjg=;
-	b=pZ2onb2RfoM4xnMqjUmUKSNIG2r9UG7wUaMsnkKYL2Fmy9Pbcd7blmIRvp8+cTlycG
-	bOykyEYZFvLeNQxuvB1Rp1IgDwJnSyZzMR9PkZuhBTCkygsePCUuG2Wl7lw9xTEYFnUp
-	V67PzE0CDh/qXnd18r06hBdNfzQRrFBNSheSv4rw7KLhEKZbbd1o3LLK4eYJqE9EBSgw
-	BRnOqb7TQ1UlqkzA7hn/WsqO77y64wYjMUGNWO6nRfm+W5x597iFs9AjOK4t79+WYILr
-	V1JiS2SV9XOyZOj0AvHrS3lcQUmrXfPWuCbXoIVvmocX+KRjPveZcWzr20Oa/b4cEozD
-	oovw==
+	Tue, 17 Oct 2017 13:10:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ovEUSqbrWTePBKU9cEu6L09Uo/S8KWqIseC8Nkq+4VE=;
+	b=G69iM1WpBj/pB5kQbOpDGJf6+hff5cABwxBVeK8ucj7ZG+PIULBZg8t4DvOcNnOqFg
+	0Uhj2bG5ng3RuoJQMa6DZXScxBMNzoJwuJVdeBeMDr8o2yskvaxgAFE2WLCyiXtV4qob
+	sI5J3J/0opUSbF5Ovhr9Yteek3deHNojbcVMtBkb86AlH4trL/1JTNcRgF9oFVW2psti
+	9E53on4zAsFFjUwMvJSZoigAVsxQjxpnhTyY1YkfKJo7kGOMEDtczQo4rHU92r2M2vg4
+	64T0cQMwm9Mi0Ce7WX02oixy225zJTtoMWgJUhT4je0AembNb8sXrskhZnrdzM29WkFS
+	y9IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Sh+IMYXbMa3XCPVYeSg4W1aYMNUTicp5QUyXxEbkHjg=;
-	b=V65HWJegs7/uf+ghSagxOZ8r8l0+kquLiT1Qx/SW8CIlQVN6kTRpwDSziZ4v6sXKGp
-	wqdsX7H5Iiv8MUCbCQ5m0UQJ1vlVjEu0k4P//2sNjpldxZ+kpsy4XYV30Ef4C4MsJkAw
-	pR3gFl57Lgw7yWVEtENWWv+7og1oypqYdf5yeC1I/s8EWE9mBk+OkaDAylYiwi9UVLih
-	Hy8wjUhbaxflMe9TvdLoVCwbABcWKTObDWui0uPYAchlOYoDbyNC5m5RQg7uQeVEiqK7
-	TwdwjYuaQk6zj+eHnnJM6D0fmhm2yI5Lf87xolUiZgd+UfQGm+kBinPGedWHu3oWf5Zu
-	f3Ww==
-X-Gm-Message-State: AMCzsaW2187NLxVejDuiKXbgZVDMlrvB5MpkeAUxZhls8HiSgtTnPeTg
-	s4NSCq+f5Xo+8xg/8P6+Bq5r5Q==
-X-Google-Smtp-Source: AOwi7QBZlh5gl6mFBfOBIvL005BrQWsNc1BE+1LE8+5VrvW1MFLT5FOfX4CNFXIgAiv/3Dz+jAXGDg==
-X-Received: by 10.99.131.66 with SMTP id h63mr11654876pge.156.1508268722610;
-	Tue, 17 Oct 2017 12:32:02 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::d2ab])
-	by smtp.gmail.com with ESMTPSA id
-	h10sm19086417pgn.73.2017.10.17.12.32.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 17 Oct 2017 12:32:01 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Oct 2017 12:31:54 -0700
-Message-Id: <20171017193154.15715-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.2
-Subject: [PATCH V2] go: Fix build with PIE on musl
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ovEUSqbrWTePBKU9cEu6L09Uo/S8KWqIseC8Nkq+4VE=;
+	b=OiYywyc3MYWvKW5ywLT3hzSrYxMB4GvbvlWKyIhh0zEO8ld89ERMz9I+hA1XQphdRj
+	76QCnbcCRzY0f6xlE381vbxhaOrnuYX6Nl299CHsi+2iRgl3x48bxygXNlC47m1rJ6rJ
+	fAMg+t4dGiIzkZBqIieOPMY01i6Dn0I6sQwHpznH1LFVzXkaIG3aYi+9Aw3hTt/X9uZL
+	C3N3uO/2EEqJTZCbABZ08OsC4a1scw1yD9zGEj5+Q6vuN2KF4NaHBKpva/DWXdmuXsl4
+	SFEZjw4p7G0Fq/KE34J2mskd0oRrMFzdus4XcBM8Af7uGGRzzXCM0Zz/G/orSqO9TMW/
+	ZRgQ==
+X-Gm-Message-State: AMCzsaWwZiCgPefVxPtpzyipTkJNF5eI4k82qws385u/Pqd3f0M8U4xU
+	fHJtpkq0xRSJbNdlv0kYl+Q7GWcTETE4bmfDcshLpg==
+X-Google-Smtp-Source: AOwi7QDLB9vVfNNU97aoH5TO6aCbFoj8ts+/WTm7/25AynrU5Np4iO6FZMwu+/8aOJGf7ih5xpgBnbEYrsmRt1Tu14M=
+X-Received: by 10.107.36.80 with SMTP id k77mr17150380iok.176.1508271021279;
+	Tue, 17 Oct 2017 13:10:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.176.10 with HTTP; Tue, 17 Oct 2017 13:10:00 -0700 (PDT)
+In-Reply-To: <CAMKF1spgYS0YcfVrHZ8aUHtFsv90AUQRpT75vvnRvt56K3rkuA@mail.gmail.com>
+References: <20171014154858.35123-1-raj.khem@gmail.com>
+	<20171014154858.35123-5-raj.khem@gmail.com>
+	<CAJTo0LZYB+FTUBLWaFEeyAz3wYMCnr+gSbySYvz0K4d3RwsvpA@mail.gmail.com>
+	<CAMKF1spgYS0YcfVrHZ8aUHtFsv90AUQRpT75vvnRvt56K3rkuA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Oct 2017 21:10:00 +0100
+Message-ID: <CAJTo0LarSyL9OGCX8SM-7mRE7qmNjq9dROiGAb86mG0vnjyEiA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/7] libcheck: Upgrade to 0.11.0+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,175 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 19:32:02 -0000
+X-List-Received-Date: Tue, 17 Oct 2017 20:10:20 -0000
+Content-Type: multipart/alternative; boundary="001a1141909e72f353055bc3b652"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-Changes since v1: Document the patches
+--001a1141909e72f353055bc3b652
+Content-Type: text/plain; charset="UTF-8"
 
- meta/recipes-devtools/go/go-1.9.inc                |   3 +
- .../go/go-1.9/default-buildmode-pie.patch          |  18 ++++
- .../go/go-1.9/set-external-linker.patch            | 111 +++++++++++++++++++++
- 3 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
- create mode 100644 meta/recipes-devtools/go/go-1.9/set-external-linker.patch
+On 17 October 2017 at 20:25, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 65adaa8d72..f52abb5735 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -15,6 +15,9 @@ SRC_URI += "\
-         file://0007-ld-add-soname-to-shareable-objects.patch \
-         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
-         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
-+        file://default-buildmode-pie.patch \
- "
-+SRC_URI_append_libc-musl = " file://set-external-linker.patch"
-+
- SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
- SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
-diff --git a/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch b/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
-new file mode 100644
-index 0000000000..a7933bd39e
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
-@@ -0,0 +1,18 @@
-+Default to PIE on linux platforms
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+diff -upr src/go.orig/src/cmd/go/internal/work/build.go src/go/src/cmd/go/internal/work/build.go
-+--- go.orig/src/cmd/go/internal/work/build.go	2017-08-27 17:38:26.354750979 +0200
-++++ go/src/cmd/go/internal/work/build.go	2017-08-27 17:40:27.555130105 +0200
-+@@ -304,7 +304,8 @@ func BuildModeInit() {
-+ 		ldBuildmode = "c-shared"
-+ 	case "default":
-+ 		switch platform {
-+-		case "android/arm", "android/arm64", "android/amd64", "android/386":
-++		case "linux/386", "linux/amd64", "linux/arm", "linux/arm64", "linux/ppc64le", "linux/s390x",
-++			"android/arm", "android/arm64", "android/amd64", "android/386":
-+ 			codegenArg = "-shared"
-+ 			ldBuildmode = "pie"
-+ 		case "darwin/arm", "darwin/arm64":
-diff --git a/meta/recipes-devtools/go/go-1.9/set-external-linker.patch b/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
-new file mode 100644
-index 0000000000..d6bd7fa39c
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.9/set-external-linker.patch
-@@ -0,0 +1,111 @@
-+Change the dynamic linker hardcoding to use musl when not using glibc
-+this should be applied conditional to musl being the system C library
-+
-+Upstream-Status: Inappropriate [Real Fix should be portable across libcs]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: go/src/cmd/link/internal/amd64/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/amd64/obj.go
-++++ go/src/cmd/link/internal/amd64/obj.go
-+@@ -67,7 +67,7 @@ func Init() {
-+ 	ld.Thearch.Append64 = ld.Append64l
-+ 	ld.Thearch.TLSIEtoLE = tlsIEtoLE
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib64/ld-linux-x86-64.so.2"
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-x86_64.so.1"
-+ 	ld.Thearch.Freebsddynld = "/libexec/ld-elf.so.1"
-+ 	ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
-+ 	ld.Thearch.Netbsddynld = "/libexec/ld.elf_so"
-+Index: go/src/cmd/link/internal/arm/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/arm/obj.go
-++++ go/src/cmd/link/internal/arm/obj.go
-+@@ -63,7 +63,7 @@ func Init() {
-+ 	ld.Thearch.Append32 = ld.Append32l
-+ 	ld.Thearch.Append64 = ld.Append64l
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib/ld-linux.so.3" // 2 for OABI, 3 for EABI
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-armhf.so.1"
-+ 	ld.Thearch.Freebsddynld = "/usr/libexec/ld-elf.so.1"
-+ 	ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
-+ 	ld.Thearch.Netbsddynld = "/libexec/ld.elf_so"
-+Index: go/src/cmd/link/internal/arm64/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/arm64/obj.go
-++++ go/src/cmd/link/internal/arm64/obj.go
-+@@ -62,7 +62,7 @@ func Init() {
-+ 	ld.Thearch.Append32 = ld.Append32l
-+ 	ld.Thearch.Append64 = ld.Append64l
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib/ld-linux-aarch64.so.1"
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-aarch64.so.1"
-+ 
-+ 	ld.Thearch.Freebsddynld = "XXX"
-+ 	ld.Thearch.Openbsddynld = "XXX"
-+Index: go/src/cmd/link/internal/mips/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/mips/obj.go
-++++ go/src/cmd/link/internal/mips/obj.go
-+@@ -77,7 +77,7 @@ func Init() {
-+ 		ld.Thearch.Append64 = ld.Append64b
-+ 	}
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib/ld.so.1"
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-mipsle.so.1"
-+ 
-+ 	ld.Thearch.Freebsddynld = "XXX"
-+ 	ld.Thearch.Openbsddynld = "XXX"
-+Index: go/src/cmd/link/internal/mips64/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/mips64/obj.go
-++++ go/src/cmd/link/internal/mips64/obj.go
-+@@ -75,7 +75,7 @@ func Init() {
-+ 		ld.Thearch.Append64 = ld.Append64b
-+ 	}
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
-++	ld.Thearch.Linuxdynld = "/lib64/ld-musl-mips64le.so.1"
-+ 
-+ 	ld.Thearch.Freebsddynld = "XXX"
-+ 	ld.Thearch.Openbsddynld = "XXX"
-+Index: go/src/cmd/link/internal/ppc64/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/ppc64/obj.go
-++++ go/src/cmd/link/internal/ppc64/obj.go
-+@@ -77,7 +77,7 @@ func Init() {
-+ 	}
-+ 
-+ 	// TODO(austin): ABI v1 uses /usr/lib/ld.so.1
-+-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-powerpc64le.so.1"
-+ 
-+ 	ld.Thearch.Freebsddynld = "XXX"
-+ 	ld.Thearch.Openbsddynld = "XXX"
-+Index: go/src/cmd/link/internal/s390x/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/s390x/obj.go
-++++ go/src/cmd/link/internal/s390x/obj.go
-+@@ -62,7 +62,7 @@ func Init() {
-+ 	ld.Thearch.Append32 = ld.Append32b
-+ 	ld.Thearch.Append64 = ld.Append64b
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-s390x.so.1"
-+ 
-+ 	// not relevant for s390x
-+ 	ld.Thearch.Freebsddynld = "XXX"
-+Index: go/src/cmd/link/internal/x86/obj.go
-+===================================================================
-+--- go.orig/src/cmd/link/internal/x86/obj.go
-++++ go/src/cmd/link/internal/x86/obj.go
-+@@ -63,7 +63,7 @@ func Init() {
-+ 	ld.Thearch.Append32 = ld.Append32l
-+ 	ld.Thearch.Append64 = ld.Append64l
-+ 
-+-	ld.Thearch.Linuxdynld = "/lib/ld-linux.so.2"
-++	ld.Thearch.Linuxdynld = "/lib/ld-musl-i386.so.1"
-+ 	ld.Thearch.Freebsddynld = "/usr/libexec/ld-elf.so.1"
-+ 	ld.Thearch.Openbsddynld = "/usr/libexec/ld.so"
-+ 	ld.Thearch.Netbsddynld = "/usr/libexec/ld.elf_so"
--- 
-2.14.2
+> On Tue, Oct 17, 2017 at 5:33 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+> > On 14 October 2017 at 16:48, Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> >> ---
+> >>  .../libcheck/{libcheck_0.10.0.bb => libcheck_git.bb}          | 11
+> >> ++++++-----
+> >
+> >
+> > Why not 0.11.0?
+> >
+>
+> I was getting printf format related security warnings. Latest built
+> with clang/gcc and musl
+>
 
+Not a massive fan of "random SHA", can we cherry-pick the patches?
 
+Ross
+
+--001a1141909e72f353055bc3b652
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 17 October 2017 at 20:25, Khem Raj <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
+m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
+uote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><span class=3D"">On Tue, Oct 17, 2017 =
+at 5:33 AM, Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.com">ross.=
+burton@intel.com</a>&gt; wrote:<br>
+&gt; On 14 October 2017 at 16:48, Khem Raj &lt;<a href=3D"mailto:raj.khem@g=
+mail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">=
+raj.khem@gmail.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 .../libcheck/{<a href=3D"http://libcheck_0.10.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libcheck_0.10.0.<wbr>bb</a> =3D&gt; <a href=3D=
+"http://libcheck_git.bb" rel=3D"noreferrer" target=3D"_blank">libcheck_git.=
+bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 11<br>
+&gt;&gt; ++++++-----<br>
+&gt;<br>
+&gt;<br>
+&gt; Why not 0.11.0?<br>
+&gt;<br>
+<br>
+</span>I was getting printf format related security warnings. Latest built<=
+br>
+with clang/gcc and musl<br></blockquote><div><br></div><div>Not a massive f=
+an of &quot;random SHA&quot;, can we cherry-pick the patches?</div><div><br=
+></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a1141909e72f353055bc3b652--
