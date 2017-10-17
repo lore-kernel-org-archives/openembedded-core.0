@@ -1,25 +1,18 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 94EE678290
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 06:31:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9H6VXtb002506
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 16 Oct 2017 23:31:33 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 16 Oct 2017 23:31:32 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Tue, 17 Oct 2017 02:31:30 -0400
-Message-ID: <1508221890-30024-2-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1508221890-30024-1-git-send-email-hongxu.jia@windriver.com>
-References: <1508221890-30024-1-git-send-email-hongxu.jia@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B293478280;
+	Tue, 17 Oct 2017 07:00:28 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] perl: fix CVE-2017-12837
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 17 Oct 2017 07:00:30 -0000
+Message-ID: <20171017070030.2786.55945@do.openembedded.org>
+References: <1508221890-30024-1-git-send-email-hongxu.jia@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1508221890-30024-1-git-send-email-hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIltWMl0gcGVybDogZml4IENWRS0yMDE3LTEyODgzLi4uIiBhbmQgMSBtb3Jl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +25,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 06:31:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Oct 2017 07:00:28 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-https://perl5.git.perl.org/perl.git/commitdiff/96c83ed78aeea1a0496dd2b2d935869a822dc8a5
+== Series Details ==
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Series: "[V2] perl: fix CVE-2017-12883..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9374/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [V2,1/2] perl: fix CVE-2017-12883
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../perl/perl/perl-fix-CVE-2017-12837.patch        | 32 ++++++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.24.1.bb          |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch
-
-diff --git a/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch
-new file mode 100644
-index 0000000..2bf71f1
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl/perl-fix-CVE-2017-12837.patch
-@@ -0,0 +1,32 @@
-+From 73d7247ecab863ef26b5687a37ccc75d6144ad0f Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Tue, 17 Oct 2017 13:49:14 +0800
-+Subject: [PATCH] fix CVE-2017-12837
-+
-+Signed-off-by: Karl Williamson <khw@cpan.org>
-+Signed-off-by: Steve Hay <steve.m.hay@googlemail.com>
-+
-+CVE-id: CVE-2017-12837
-+Upstream-Status: Backport
-+https://perl5.git.perl.org/perl.git/commitdiff/96c83ed78aeea1a0496dd2b2d935869a822dc8a5
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ regcomp.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/regcomp.c b/regcomp.c
-+index 5498d14..31ec383 100644
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -13021,6 +13021,7 @@ S_regatom(pTHX_ RExC_state_t *pRExC_state, I32 *flagp, U32 depth)
-+                             goto loopdone;
-+                         }
-+                         p = RExC_parse;
-++                        RExC_parse = parse_start;
-+                         if (ender > 0xff) {
-+                             REQUIRE_UTF8(flagp);
-+                         }
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.24.1.bb b/meta/recipes-devtools/perl/perl_5.24.1.bb
-index 93420f1..363bc94 100644
---- a/meta/recipes-devtools/perl/perl_5.24.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.24.1.bb
-@@ -66,6 +66,7 @@ SRC_URI += " \
-         file://perl-fix-conflict-between-skip_all-and-END.patch \
-         file://perl-test-customized.patch \
-         file://perl-fix-CVE-2017-12883.patch \
-+        file://perl-fix-CVE-2017-12837.patch \
- "
- 
- # Fix test case issues
--- 
-2.8.1
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
