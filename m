@@ -1,43 +1,29 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BC317831F
+Return-Path: <pascal.bach@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 382657199F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Oct 2017 07:05:36 +0000 (UTC)
-Received: by mail-wm0-f50.google.com with SMTP id q124so7947601wmb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Oct 2017 00:05:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=C3sc2gQEoaevsC454dzuHty0ODw9DSF5gyb2eFPTgdo=;
-	b=j18+HzMCDDgwc6FGVDHYXap0uoX/wsU8K/7FF4We/c+kekvqncxQTVvBegPxJPftmE
-	cKuPYMqtQiELuGmjBlI4HNS8fGMufiLQ7gYpTR+rerMyauxzmWRGjZBoZfzzqnxGdrpr
-	9/8ptZcPcKDibUjlD85iT8WivoQlKiBIt7G5/AiGoo94wh+5ZoL2j03+kDiLd40f78h/
-	2T9vREgxJHOdOPWQ1eFLku/duyiUnDb3B8fsIQKv+FrROCLZ6VHJLYgIvEA7qZahwhVa
-	YoLEyH4R0TdwjGlEledPha6GYC4kNRzEZs3pnrd1spIIlkcGc8R0aNYHrF+fEFTZIjnc
-	AxZQ==
-X-Gm-Message-State: AMCzsaU7Mb70kBd1IVQvjL4nhNTxajutwCaY5QSvDKXqow5iSkmCJ4CD
-	MggSu45weQ552nDkfLIB/fpOV4h2
-X-Google-Smtp-Source: AOwi7QDhgndukdTf/PY3qO1rzhBfh9NnETOS6ajhoJxfT55+rUzlq3SXrnfRI1gl2pN7qdOdkVTKAQ==
-X-Received: by 10.80.242.149 with SMTP id f21mr20881219edm.6.1508310337185;
-	Wed, 18 Oct 2017 00:05:37 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	d49sm8220067edb.79.2017.10.18.00.05.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 18 Oct 2017 00:05:36 -0700 (PDT)
-Message-ID: <1508310335.20275.9.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Oct 2017 08:05:35 +0100
-In-Reply-To: <2518c75b-b1b1-cd16-213b-94cea6f3abee@gmail.com>
-References: <20171006121259.5817-1-git@andred.net>
-	<2518c75b-b1b1-cd16-213b-94cea6f3abee@gmail.com>
-X-Mailer: Evolution 3.26.1-1 
-Mime-Version: 1.0
-Subject: Re: [pyro] some backported patches
+	Wed, 18 Oct 2017 07:17:58 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v9I7HupM017092
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 18 Oct 2017 09:17:56 +0200
+Received: from [139.16.9.3] ([139.16.9.3])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v9I7HttO012297;
+	Wed, 18 Oct 2017 09:17:55 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	Tim Orling <timothy.t.orling@linux.intel.com>
+References: <1507893281-22628-1-git-send-email-pascal.bach@siemens.com>
+	<3800C28F-F649-4710-9B5B-B38E3E63CB53@linux.intel.com>
+	<b6d180ee-6674-5010-dc21-54f88f016d80@linux.intel.com>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <9fc90bb8-6a8c-def4-3811-c8d2ad797352@siemens.com>
+Date: Wed, 18 Oct 2017 09:17:55 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <b6d180ee-6674-5010-dc21-54f88f016d80@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bmap-tools: add missing runtime dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,28 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Oct 2017 07:05:36 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 18 Oct 2017 07:17:59 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Hi Armin,
+On 16.10.2017 12:27, Alexander Kanavin wrote:
+> On 10/14/2017 09:11 AM, Tim Orling wrote:
+>>
+>>> On Oct 13, 2017, at 4:14 AM, Pascal Bach <pascal.bach@siemens.com> wrote:
+>>>
+>>> When running bmap on a target device the added dependncies are required.
+>>>
+>>> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+>>> ---
+>>> meta/recipes-support/bmap-tools/bmap-tools_3.4.bb | 12 +++++++++++-
+>>> 1 file changed, 11 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+>>> index 7454f9d..348c9e8 100644
+>>> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+>>> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb
+>>> @@ -14,7 +14,17 @@ SRCREV = "9dad724104df265442226972a1e310813f9ffcba"
+>>>
+>>> S = "${WORKDIR}/git"
+>>>
+>>> -RDEPENDS_${PN} = "python-core python-compression python-mmap"
+>>> +RDEPENDS_${PN} = "\
+>>> +    python-core \
+>>> +    python-compression \
+>>> +    python-argparse \
+>>> +    python-shell \
+>>> +    python-fcntl \
+>>> +    python-threading \
+>>> +    python-xml \
+>>> +    python-subprocess \
+>>> +    python-mmap \
+>>> +    “
+>>>
+>>
+>> These should all be the python3- version or ${PYTHON_PN}- (e.g. python3-core) should they not? Or is that an artifact of how the python module splitting is happening in oe-core?
+>
+> That is correct. This was forgotten when the recipe was moved to python3:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/meta/recipes-support/bmap-tools/bmap-tools_3.4.bb?id=04ef46e2b2b753321408db02a2df3753b85ac0dd
+>
+> Pascal, can you modify everything to python3-*, check that it still works, and resend the patch please?
 
-On Tue, 2017-10-10 at 07:58 -0700, akuster808 wrote:
-> Andre
-> 
-> 
-> On 10/06/2017 05:12 AM, André Draszik wrote:
-> > Hi,
-> > 
-> > Can these fixes/patches from master please be applied to pyro.
-> 
-> I have integrated this series into my stagging. I ran into a build
-> issue. I need to sort out if this came in with this set of other
-> backports I have pending.
-
-Thanks. Do you need any help?
-
-Cheers,
-Andre'
+I will do that and send a new patch.
 
 
