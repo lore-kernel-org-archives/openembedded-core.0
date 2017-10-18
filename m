@@ -1,40 +1,51 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.17])
-	by mail.openembedded.org (Postfix) with ESMTP id DC3EC78055
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id E89B4719A5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Oct 2017 23:56:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 05B6520A3B;
-	Tue, 17 Oct 2017 23:56:10 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo03-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id T3khtKwpPwDO; Tue, 17 Oct 2017 23:56:09 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-85-143.washdc.fios.verizon.net
-	[100.15.85.143])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id CE557204B1;
-	Tue, 17 Oct 2017 23:56:07 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 617F2162706; Tue, 17 Oct 2017 19:56:07 -0400 (EDT)
-Date: Tue, 17 Oct 2017 19:56:07 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171017235607.GP9221@denix.org>
-References: <1507836933-142066-1-git-send-email-denis@denix.org>
-	<CAJTo0LZOauk809g+8dCqk2t0sp24v6HJA6fGSQtYH0On1mC6Kg@mail.gmail.com>
-	<20171013162825.GN9221@denix.org> <20171016174814.GV9221@denix.org>
-	<CAJTo0LZMbLTY8v-yob9SBazYDpM_4QVDYKAuV6VreUmymcJVZw@mail.gmail.com>
-	<20171016205422.GY9221@denix.org>
-	<CAJTo0LYmZqnU-Mo1hcheUcfkr+ZRvU4ps8g3oUtgUOReyyUwdA@mail.gmail.com>
-	<20171017225325.GM9221@denix.org>
+	Wed, 18 Oct 2017 00:43:54 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id a8so2621145pfc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Oct 2017 17:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mgGwkvu+O5szZqLGTjnurZsZttqxXQVEWIL5+qTwq5M=;
+	b=b9IWLQWQpWyRxtY3Kkzyxd+cEkHvwY+leHP92dNG3MdoWASp7HVXJgpZwL8yPXcqa3
+	7n85YeE6HgMpOgxkjIW3FatdZLTc8DW6L0vcqCvO2mr44YZwvf8Xfe2W4Kfu/VYpKAHl
+	lMjGmpaJ2x+rCgg9N5dInSLVdCbQM4hpoNh+rJ2LBNmKnucE7fGuVV2U1rwRvT+jFRft
+	NIEJc18Me7pngU9OYDyQiRbDNXnLgXhtLyZogQs6P5FwQU9VdgrIG/uyQucqP/cW1bn1
+	566mIVx1fiSWCxMeYMphkUVhlKEB9o5//8hCUZhHy0oo4TFKGJMn7OKMllc6OZ2VS+/w
+	eV5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mgGwkvu+O5szZqLGTjnurZsZttqxXQVEWIL5+qTwq5M=;
+	b=Etgns4WHsofnPymyg0dUrmnbBEMrtArORnI04GRsDoAAoKLasD0IT4pQl+nuZtBdOx
+	IBhgXr17JbSPDzOEQN+gCg+oc9g2YRygR9e+tSmv/ufGXYF2ktOLPJ9fyZ3MlITle04M
+	mwsiy/0CWUIkALeQmhNfoxgfkp0DUkivKvM5nahtRITkN3bzS5wyUSDr9V/4+R4CmH30
+	obzytpXQNeLuWOGvuyLXyOE68eJMHYu9qfH613QRi578MjRq7L81UZ9KgU4myjZ+7lt9
+	gJcp9eWxGYbf9y/FNJnhjT0STr3ne0OWAAUc3h6X1OR0+gIMJaITfmQLd3bg146kD3s/
+	knbQ==
+X-Gm-Message-State: AMCzsaXJfyAof3BzO3/66oSlneMyydumSOteRYHvFEJCPc/USL2VHosP
+	rAeSSJxAOm4yu57eccNc3IR+oP0cgm3Y5qDFHFc=
+X-Google-Smtp-Source: AOwi7QAu9Xj9SdGf8BiDshNJCl4WY7goRB3jOxAySpm0vROvnap5adRHylx941q/zyWH5Kq4NQlst5pt1wdO7A3TtUA=
+X-Received: by 10.98.102.132 with SMTP id s4mr13506323pfj.168.1508287435803;
+	Tue, 17 Oct 2017 17:43:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20171017225325.GM9221@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wayland-protocols: upgrade to 1.11
+Received: by 10.100.187.66 with HTTP; Tue, 17 Oct 2017 17:43:25 -0700 (PDT)
+In-Reply-To: <CAJTo0LarSyL9OGCX8SM-7mRE7qmNjq9dROiGAb86mG0vnjyEiA@mail.gmail.com>
+References: <20171014154858.35123-1-raj.khem@gmail.com>
+	<20171014154858.35123-5-raj.khem@gmail.com>
+	<CAJTo0LZYB+FTUBLWaFEeyAz3wYMCnr+gSbySYvz0K4d3RwsvpA@mail.gmail.com>
+	<CAMKF1spgYS0YcfVrHZ8aUHtFsv90AUQRpT75vvnRvt56K3rkuA@mail.gmail.com>
+	<CAJTo0LarSyL9OGCX8SM-7mRE7qmNjq9dROiGAb86mG0vnjyEiA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 17 Oct 2017 17:43:25 -0700
+Message-ID: <CAMKF1sq0qcqrRt9S2bkZ6QYw+n1Ld4niJStsNRwr_2hL-Du25g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/7] libcheck: Upgrade to 0.11.0+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,69 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 23:56:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Oct 2017 00:43:55 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 17, 2017 at 06:53:25PM -0400, Denys Dmytriyenko wrote:
-> On Mon, Oct 16, 2017 at 09:56:56PM +0100, Burton, Ross wrote:
-> > On 16 October 2017 at 21:54, Denys Dmytriyenko <denis@denix.org> wrote:
-> > 
-> > > On Mon, Oct 16, 2017 at 09:31:49PM +0100, Burton, Ross wrote:
-> > > > On 16 October 2017 at 18:48, Denys Dmytriyenko <denis@denix.org> wrote:
-> > > >
-> > > > > On Fri, Oct 13, 2017 at 12:28:25PM -0400, Denys Dmytriyenko wrote:
-> > > > > > On Fri, Oct 13, 2017 at 12:33:35PM +0100, Burton, Ross wrote:
-> > > > > > > On 12 October 2017 at 20:35, Denys Dmytriyenko <denis@denix.org>
-> > > > > wrote:
-> > > > > > >
-> > > > > > > > From: Denys Dmytriyenko <denys@ti.com>
-> > > > > > > >
-> > > > > > > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > > > > > > >
-> > > > > > >
-> > > > > > > One day I'll figure out why quilt appears to be non-deterministic
-> > > about
-> > > > > > > this but:
-> > > > > > >
-> > > > > > > ERROR: wayland-protocols-1.11-r0 do_patch: Command Error: 'quilt
-> > > > > --quiltrc
-> > > > > > > /data/poky-tmp/master/build/work/all-poky-linux/wayland-
-> > > > > protocols/1.11-r0/recipe-sysroot-native/etc/quiltrc
-> > > > > > > push' exited with 0  Output:
-> > > > > > > Applying patch usesysrootprefixforpkgdatadirvariable.patch
-> > > > > >
-> > > > > > I don't see this patch in master. Works fine in distroless and poky
-> > > from
-> > > > > > master.
-> > > > >
-> > > > > Ping.
-> > > >
-> > > > The patch fails here, so I'm waiting for a v2.
-> > >
-> > > As I said above - there's no usesysrootprefixforpkgdatadirvariable.patch
-> > > in
-> > > wayland-protocols recipe in master, master-next or rocko branches:
-> > >
-> > > http://cgit.openembedded.org/openembedded-core/tree/meta/
-> > > recipes-graphics/wayland/wayland-protocols_1.10.bb
-> > >
-> > > Are you sure you don't have something in your local tree?
-> > >
-> > 
-> > Damnit, yes.  There's an earlier series to remove the nasty hacks. I
-> > realised this when I saw your first reply to my patch but then forgot
-> > again, sorry!
-> > 
-> > One of them needs to land first, and they won.  Wait for master to re-open,
-> > or rebase on top of ross/mut.
-> 
-> I'm not sure how this is possible, when new revisions of that patch are still 
-> coming in - v5 was just submitted yesterday, while ross/mut shows the patch 
-> was merged 6 hours ago (unless you rebased your branch, of course)...
-> 
-> Anyway, looks like the patch that breaks for you is a backport from version 
-> 1.11, for which I submitted the update, so it simply needs to be dropped.
+On Tue, Oct 17, 2017 at 1:10 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 17 October 2017 at 20:25, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Tue, Oct 17, 2017 at 5:33 AM, Burton, Ross <ross.burton@intel.com>
+>> wrote:
+>> > On 14 October 2017 at 16:48, Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> >> ---
+>> >>  .../libcheck/{libcheck_0.10.0.bb => libcheck_git.bb}          | 11
+>> >> ++++++-----
+>> >
+>> >
+>> > Why not 0.11.0?
+>> >
+>>
+>> I was getting printf format related security warnings. Latest built
+>> with clang/gcc and musl
+>
+>
+> Not a massive fan of "random SHA", can we cherry-pick the patches?
+>
 
-v2 has been posted.
+Sure, let me do that and since the libevdev issue, I might be lucky
+that it was somewhere in my layer mix there were errors.
+
+> Ross
 
