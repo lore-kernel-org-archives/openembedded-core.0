@@ -1,48 +1,50 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f174.google.com (mail-wr0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3538878334
+Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 608A27833C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Oct 2017 07:13:32 +0000 (UTC)
-Received: by mail-wr0-f174.google.com with SMTP id g90so7235098wrd.6
+	Thu, 19 Oct 2017 07:13:36 +0000 (UTC)
+Received: by mail-wm0-f65.google.com with SMTP id q132so14266532wmd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Oct 2017 00:13:34 -0700 (PDT)
+	Thu, 19 Oct 2017 00:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=OOM/pRkVYjFhdzqrFt9eOsw84bC+44Fu6XNXH0NTZwo=;
-	b=jhV/8bOZPJuz/hLPM468XVAUNG2iGVBXKaxutnlvtMdrZCPbIgQIKLVVA/zkRXAryj
-	mTZuGLdaE48rVpEBJG8fll+YQksG35iKm1epR5tHr7blIvD/NFkyEspInmdgxT6+Bk5y
-	YPIg1RWur8IrHyvwVJiVoivZrEEK7kA3kpxsueP/xzsTnh7zDN3rkVYR4GXapAoPEGHH
-	a1JEOyzYn9eqFmgul0owDSYdTy1iNEDnz7siPRQgpaMTKAbdRNZiq5P7v81Y7k9Gzc9L
-	fIYHveao0u3AhmjUWMUY1VJPCVzYOc32/t3dK4g5QpfgjTRnHkcQOFRLk80VMja+uFrk
-	GF1g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=R1kkiQNaNu64k9zmEQGYPAnDKKhZEVJ1IuciYLD5OMw=;
+	b=MRernI/VQ4xU5XNF5Ab5cQBT5xmXekp3KM1SVVPquW5DtorC5jbnOS4yO3iuxsYDuH
+	Ee92V4dsRzQqbNyjoswWD9xVwI/U7BMl+df/ut5ahMGXqi9iAhH5kBN0Eu/7THjGY6XE
+	JH/er0o0WUs/0Cm3f44vCm5I2v6N3gKf547VDY+IGaKkQQ8V7Ff0WkKg1aJRWP6iiG8n
+	iETn5Ff/tcuQ6zNOnVQa3l2Qr6zAMYjt7uelTD8w6iql0O6o+xQOR4+hH+i/CwuaX6+z
+	iTeGzYec/6xaQzq4nXAMNqcUyKRE4wxiQZxQdB4rsNnEhEtYCiGeek705te7dWMpErp2
+	YMMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=OOM/pRkVYjFhdzqrFt9eOsw84bC+44Fu6XNXH0NTZwo=;
-	b=k7haprsdCnOjm+NA67gVvbcdy8A2bmM5letIyay4ClsUt4cWb5CJbFwq0duu4PPCVz
-	iGsPXyxnUjzcHm7ixrZfLK0eKML2LQLd9LO6Qae/kJFI8FaobPA0hN/lTMFnFsB0dY9R
-	Cui7GMQhhvtXU+DLv9IFescX08q3+GfmH+fa5LMUVRaWbitDTYg8Ze3G36oLiZditdPj
-	tww8BkZV8EVLMmhlvOFatje+DdQjosD1rxuqCWPFIhyPcHDUnjay+GKHZTSJ5gFrLOQz
-	TtmZmWtpMLyoysEsVCqyrLNSVFTwCq3gZDWGnpY3L+lCsfjTPBXLOJyZUNXxUxoKEXY7
-	Rvyg==
-X-Gm-Message-State: AMCzsaW4rFnhtTT5sWDKGnORNBiaChY2MDppXubLi3H8WqHjSKgTnmf5
-	vB4zQDDmWOzxLaQxIu7opCFqZn2WYQ==
-X-Google-Smtp-Source: ABhQp+RzlBgRxX/wN/aktOnYcyDv5fPcpQn0W45ajM/5XlE6KvAWnHlDPuUfWU8gDI0MEEFmGsQSTw==
-X-Received: by 10.223.195.147 with SMTP id p19mr597815wrf.176.1508397213561;
-	Thu, 19 Oct 2017 00:13:33 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=R1kkiQNaNu64k9zmEQGYPAnDKKhZEVJ1IuciYLD5OMw=;
+	b=hc1x/NnupSAGiXWvfgFqnf6QrwPo1yiob/CbSuwOg1efbxQ8X1k5x2Rz8Tf5cTUyRC
+	vFluoShV/IjCqTt7lhn8KubbbLHV0qUa8Hjes0ifs7QnAs34TXSC4eAPSHbV2KEl9+nL
+	47hSGgseyq9VnDsVZA2NMRhdnieAiWMMgT8/MovBxqsORZHdK9mu3XcMvAK4fQpRzmZz
+	2w7d5es7Ghl2xRIyez3q/4kMZ70pi6UbAsyxfOy8oOym95Fqwd8n2TVGz34YDvwPyLIu
+	+uSulDP5Fqbx8VuylZ+AfYlmOEp0EPZuQBarIOW0KCUS/a3YCBG2zQHFeUO1sJyuPYFb
+	ayHA==
+X-Gm-Message-State: AMCzsaWXKcxZBnBy490ZSELJwyWnSsmX28aw/K2wUTJsWgc8tR9GfBvd
+	9+WVkRSRNxrJfv6N8SDsSndsIRTEEQ==
+X-Google-Smtp-Source: ABhQp+Q5BftTpgakrsXKQOGUNzCMA9B7VTAcIq4c2Ba7pyUtgGVFnI2rlvfgBMJppvnaAZgezKV3hg==
+X-Received: by 10.28.22.2 with SMTP id 2mr709361wmw.47.1508397217674;
+	Thu, 19 Oct 2017 00:13:37 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p54BD539E.dip0.t-ipconnect.de.
 	[84.189.83.158])
-	by smtp.gmail.com with ESMTPSA id r68sm793081wmd.4.2017.10.19.00.13.31
+	by smtp.gmail.com with ESMTPSA id r68sm793081wmd.4.2017.10.19.00.13.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 19 Oct 2017 00:13:32 -0700 (PDT)
+	Thu, 19 Oct 2017 00:13:36 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Oct 2017 09:13:24 +0200
-Message-Id: <cover.c50c4521e6299e86250f5b3ff2b58709500814e5.1508397167.git-series.patrick.ohly@intel.com>
+Date: Thu, 19 Oct 2017 09:13:25 +0200
+Message-Id: <3f8409664a4ab00c05d2804c9c4642c4ceb3059b.1508397167.git-series.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 0/2] enhance useradd-staticids
+In-Reply-To: <cover.c50c4521e6299e86250f5b3ff2b58709500814e5.1508397167.git-series.patrick.ohly@intel.com>
+References: <cover.c50c4521e6299e86250f5b3ff2b58709500814e5.1508397167.git-series.patrick.ohly@intel.com>
+Subject: [PATCH 1/2] useradd-staticids: skip recipes without static IDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +57,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Oct 2017 07:13:33 -0000
+X-List-Received-Date: Thu, 19 Oct 2017 07:13:37 -0000
 
-I recently tried to enable useradd-staticids.bbclass in a distro which
-includes a large portion of meta-oe. This was a rather arduous task
-because plenty of IDs need to be defined for recipes which are part of
-the world build but not actually used in the distro.
+When enabling useradd-staticids.bbclass, one has to define static IDs
+for all recipes in a world build, otherwise those without static IDs
+generate parse errors or warnings, depending on USERADD_ERROR_DYNAMIC.
 
-The error or warning messages also aren't particularly helpful.
+Defining unused IDs is a lot of work and clutters the passwd/group
+file of a distro.
 
-These two patches address both problems.
+Distros which want to avoid this can now set USERADD_ERROR_DYNAMIC =
+"skip" and recipes which would have triggered a message then silently
+get disabled. Trying to build them then still shows the error message:
 
-However, long term I think it would be worthwhile to rethink the
-entire current approach. At the moment, useradd-staticids.bbclass
-rewrites the USER/GROUPADD parameters at parse time for all future
-usages of the parameters, including setting up local sysroots. This
-has the downside that changing IDs later on leads to warnings or
-errors about sysroots containing the old IDs.
+$ bitbake apt
+...
+ERROR: Nothing PROVIDES 'apt'
+ERROR: apt was skipped: apt - apt: username _apt does not have a
+static ID defined.
 
-I think static IDs are only needed for the preinst scripts in packages
-for rootfs and target installation, and nowhere else. Therefore IMHO
-it would be better to inject the static IDs only into those
-scripts. Warnings and errors then can be triggered as part of
-installing the package, if desired. Then it becomes possible to build
-recipes where some packages create users or groups without actually
-defining static IDs, as long as those packages then don't get used.
+However, some recipes only get selected indirectly through
+dependencies. If the recipe providing something that is needed for the
+build gets skipped (for example, the nfs-utils recipe providing the
+nfs-utils-client package), then the error message is a bit more
+obscure:
 
-Triggering a stricter error already during parsing or build time would
-still be possible. I'm just not sure how useful that is - perhaps to
-catch potential problems without actually having to install the packages.
+ERROR: Nothing RPROVIDES 'nfs-utils-client' (but
+.../meta/recipes-core/packagegroups/packagegroup-core-nfs.bb RDEPENDS
+on or otherwise requires it)
 
-Patrick Ohly (2):
-  useradd-staticids: skip recipes without static IDs
-  useradd-staticids: explain how to fix the the problem
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/useradd-staticids.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
- meta/classes/useradd-staticids.bbclass | 74 +++++++++++++--------------
- 1 file changed, 37 insertions(+), 37 deletions(-)
-
-base-commit: 39ffa0f3779305c5e8ef86fe4572e961c5912021
+diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
+index eb8e59e..3d0bc09 100644
+--- a/meta/classes/useradd-staticids.bbclass
++++ b/meta/classes/useradd-staticids.bbclass
+@@ -40,10 +40,14 @@ def update_useradd_static_config(d):
+ 
+     def handle_missing_id(id, type, pkg):
+         # For backwards compatibility we accept "1" in addition to "error"
+-        if d.getVar('USERADD_ERROR_DYNAMIC') == 'error' or d.getVar('USERADD_ERROR_DYNAMIC') == '1':
+-            raise NotImplementedError("%s - %s: %sname %s does not have a static ID defined. Skipping it." % (d.getVar('PN'), pkg, type, id))
+-        elif d.getVar('USERADD_ERROR_DYNAMIC') == 'warn':
+-            bb.warn("%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN'), pkg, type, id))
++        error_dynamic = d.getVar('USERADD_ERROR_DYNAMIC')
++        msg = "%s - %s: %sname %s does not have a static ID defined." % (d.getVar('PN'), pkg, type, id)
++        if error_dynamic == 'error' or error_dynamic == '1':
++            raise NotImplementedError(msg)
++        elif error_dynamic == 'warn':
++            bb.warn(msg)
++        elif error_dynamic == 'skip':
++            raise bb.parse.SkipRecipe(msg)
+ 
+     # We parse and rewrite the useradd components
+     def rewrite_useradd(params, is_pkg):
 -- 
 git-series 0.9.1
 
