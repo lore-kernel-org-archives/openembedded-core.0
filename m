@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 328F471AB3;
-	Thu, 19 Oct 2017 20:14:56 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 5E58278346;
+	Thu, 19 Oct 2017 20:14:58 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Date: Thu, 19 Oct 2017 20:14:58 -0000
-Message-ID: <20171019201458.2783.51659@do.openembedded.org>
-References: <cover.1508360667.git.alejandro.hernandez@linux.intel.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Thu, 19 Oct 2017 20:15:00 -0000
+Message-ID: <20171019201500.2783.31176@do.openembedded.org>
+References: <1508284290-137033-1-git-send-email-denis@denix.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1508360667.git.alejandro.hernandez@linux.intel.com>
+In-Reply-To: <1508284290-137033-1-git-send-email-denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVzdHJ1Y3R1cmUgcHl0aG9uMiBhbmQgcHl0aG9uMyBwYWNrYWdpbmcgc3lzdGVtIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2F5bGFuZC1wcm90b2NvbHM6IHVwZ3JhZGUgdG8gMS4xMSAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Oct 2017 20:14:56 -0000
+X-List-Received-Date: Thu, 19 Oct 2017 20:14:58 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Restructure python2 and python3 packaging system (rev2)
+Series: wayland-protocols: upgrade to 1.11 (rev2)
 Revision: 2
-URL   : https://patchwork.openembedded.org/series/8314/
+URL   : https://patchwork.openembedded.org/series/9332/
 State : failure
 
 == Summary ==
@@ -43,11 +43,6 @@ Thank you for submitting this patch series to OpenEmbedded Core. This is
 an automated response. Several tests have been executed on the proposed
 series by patchtest resulting in the following failures:
 
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line         diff --git a/meta/recipes-devtools/python/python-native_2.7.13.bb b/meta/recipes-devtools/python/python-native_2.7.13.bb
 
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
