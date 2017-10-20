@@ -1,48 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f43.google.com (mail-it0-f43.google.com
-	[209.85.214.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DB7B87834D
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 558E3719B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 10:29:59 +0000 (UTC)
-Received: by mail-it0-f43.google.com with SMTP id 72so13445978itl.5
+	Fri, 20 Oct 2017 13:15:06 +0000 (UTC)
+Received: by mail-yw0-f195.google.com with SMTP id j4so6310604ywb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 03:30:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=J1tNHMBrFV64FePfORvOMAoy2N3KPpgm/McTjfP/9Uo=;
-	b=f+zHVgyd17cP+kKEFRIrM3PUqbEJhxyKgvOtIK+HpQd1QWhtdfp5bcgcTYJ2PHWLTi
-	6Yqf0tVnvJI0aS4KgHLynGbK/8/56Kha0s+oIJosSD5nldZgdheIjU1+CGJ0aNiCXLry
-	dFhNyyAAxOemHHE6BjIluW/KPn+cAGr11yxSIkSTVpNiRum3p+zBSKyVIyzOzlBbSVxN
-	XpiEC6I0vx35pGScM6tAjw+g/OkrLO4xYt4HZhwKKUzlLyQKo/NSRKiJDB7iv0VGQSz3
-	d+BI06AciNLRrxQ1NsmyVkYt/ZlhKufbLIh+Ns9qs6jh9qDMRQtl5GQ2Ak3/WyUQq/Fs
-	9LsA==
+	Fri, 20 Oct 2017 06:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=nGhITeuqaVr9BNwrsKb/US05IA8YGNsOtAU1JsDXluU=;
+	b=c3QIlExW/5fdetp46vOVimZlk5GOorqRjNfKOJhREc9EkAzoylrN1Y5DZVe6w3sp36
+	zwOXBT6jROcVsdmBHbvVHtSP6prHVIoEMOWj/zyE173ZtcZTe+rxilZBJUPpeNhG4cQ3
+	A3lq2PYwIBp0F7BqKYItJSP8q5VA6vON7tt78=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=J1tNHMBrFV64FePfORvOMAoy2N3KPpgm/McTjfP/9Uo=;
-	b=fqrYTk9pF1zQcxT15sEI6XsjJq6I47SfL9TzkeMU+mh/p8XfjFpmBN5D7+0qcoxxlK
-	xa0ghgKknx1QeEfYMPrQR+/ssZ26YSZsVTVflI7hws7ssOSTmKHgeFrA4gDkB1YRvJyZ
-	FBTEeIox7mSBuIk/7QSaDRstTRj1n+sHE/041oPFMtwUsRfOttEUbBqTuIGJMxpA4ewc
-	pPZHctDT4D/AJi1aWOZFTt7ZeldbYiviWZr3DHuF17TA2ZYf3yWCJrw030Yx0Ak2eKrm
-	EvxebaAVdL5EuQDy1pi5mVTtOnBQv7g5BfoeIlxFY/wBJJudtnKn7GA2LeV+HS0AQcm4
-	ucsg==
-X-Gm-Message-State: AMCzsaU8P1JK6s9qWckyxd26WW9Hm5w2vLj0B4P2o+dkucz8BwRgtfcN
-	8EnU67a4SLWj5DSSyHuMNLb8IJHn6c4AMUdS9GoeNg==
-X-Google-Smtp-Source: ABhQp+SaR6zacXYRzYBAmNq3uDTJZ8bncxIDITHD1BnPF+MI4hLIpgv53IG5GWFpVHUoPWsCMakqI5ILS0tCGrTfjEA=
-X-Received: by 10.36.116.5 with SMTP id o5mr1929356itc.132.1508495401037; Fri,
-	20 Oct 2017 03:30:01 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=nGhITeuqaVr9BNwrsKb/US05IA8YGNsOtAU1JsDXluU=;
+	b=aBSLAFDMAhs7lsQx4GbTaQnlbcdEsD3LvgdqQHIakmW7iChI0y1UfIb3Hj1UbH6Bbf
+	aXTmKk4zRlHeioyGTB4OHiVXIa7nLxMrKrUEcYAuiP2s+Zk1K6zlWTnWG3XwMuiA4Q0i
+	NusfHPHqpJYl/ZCd6ecYqIE/2qQcR6BKLSlrxoWVGOzHMuBbmPdWMcC19vGoebTfkGu5
+	4tiEZ2q9eIrmhj5v2jO75YIDFNAT7h5tJMBp9KMbnadVVu2tYLk/qpWvk6Zz2jIf9Niw
+	ijzALv9r/vc8d+QAzu8WvpkyKwApPablu9itgfBAuvGWnkw+NnsfEt2ljL0X8XfFgmh1
+	K2QA==
+X-Gm-Message-State: AMCzsaVBBAh6Ud7DYbS3JxHVyet+4ONEOree6b1i2w6IIzAryQXmhlID
+	jTvW6WN0CLqa8YGOTXafYXrYP45zFZA=
+X-Google-Smtp-Source: ABhQp+RE69J6BrhJcpmdDRBax5qga2YZXRfGK1JMoBljNxbTpNFV2UB/AR1z+HgIhqwCM9Nf5CaGuw==
+X-Received: by 10.129.78.72 with SMTP id c69mr3174719ywb.212.1508505307944;
+	Fri, 20 Oct 2017 06:15:07 -0700 (PDT)
+Received: from bill-the-cat ([2606:a000:1401:811b:5808:f0c4:2c30:431b])
+	by smtp.gmail.com with ESMTPSA id z8sm394169ywl.61.2017.10.20.06.15.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Oct 2017 06:15:07 -0700 (PDT)
+Date: Fri, 20 Oct 2017 09:15:05 -0400
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20171020131505.GG12015@bill-the-cat>
+References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
+	<20171010210149.GE12015@bill-the-cat>
 MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Fri, 20 Oct 2017 03:29:40 -0700 (PDT)
-In-Reply-To: <20171018190550.23205-1-raj.khem@gmail.com>
-References: <20171018190550.23205-1-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Oct 2017 11:29:40 +0100
-Message-ID: <CAJTo0LYr+7LutBunQ3hHz3oey87wJ+Tc6yM=GD6Xxp5DxroAkg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] libcheck: Upgrade to 0.11.0
+In-Reply-To: <20171010210149.GE12015@bill-the-cat>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Oct 2017 10:30:00 -0000
-Content-Type: multipart/alternative; boundary="001a114a9e5e864f22055bf7f4ac"
+X-List-Received-Date: Fri, 20 Oct 2017 13:15:07 -0000
+X-Groupsio-MsgNum: 104146
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vZw0zaBP6OGB9eta"
+Content-Disposition: inline
 
---001a114a9e5e864f22055bf7f4ac
-Content-Type: text/plain; charset="UTF-8"
-
-On 18 October 2017 at 20:05, Khem Raj <raj.khem@gmail.com> wrote:
-
->  .../libcheck/{libcheck_0.10.0.bb => libcheck_git.bb}          | 11
-> ++++++-----
->
-
-If it's a release then I much prefer the filename to be the release,
-reserving _git filenames for actual snapshots.
-
-Also
-https://github.com/libcheck/check/releases/download/0.11.0/check-0.11.0.tar.gz
-is a perfectly good tarball, no need to switch to git fetching.
-
-Ross
-
---001a114a9e5e864f22055bf7f4ac
-Content-Type: text/html; charset="UTF-8"
+--vZw0zaBP6OGB9eta
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On 18 October 2017 at 20:05, Khem Raj <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
-m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,=
-204);padding-left:1ex">=C2=A0.../libcheck/{<a href=3D"http://libcheck_0.10.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">libcheck_0.10.0.<wbr>bb</a> =3D&=
-gt; <a href=3D"http://libcheck_git.bb" rel=3D"noreferrer" target=3D"_blank"=
->libcheck_git.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 11 ++++++-----<br=
-></blockquote><div><br></div><div>If it&#39;s a release then I much prefer =
-the filename to be the release, reserving _git filenames for actual snapsho=
-ts.</div><div><br></div><div>Also <a href=3D"https://github.com/libcheck/ch=
-eck/releases/download/0.11.0/check-0.11.0.tar.gz">https://github.com/libche=
-ck/check/releases/download/0.11.0/check-0.11.0.tar.gz</a> is a perfectly go=
-od tarball, no need to switch to git fetching.</div><div><br></div><div>Ros=
-s</div></div></div></div>
+On Tue, Oct 10, 2017 at 05:01:49PM -0400, Tom Rini wrote:
+> On Thu, Sep 21, 2017 at 01:46:16PM -0400, Tom Rini wrote:
+> > When we have been told to use the UUID we should also update the fstab
+> > to make use of PARTUUID instead of hard-coding the device in question.
+> > This will make the resulting image much more portable.
+> >=20
+> > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > ---
+> >  scripts/lib/wic/plugins/imager/direct.py | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+>=20
+> Where we did we end up with this?  Ed pointed out that you can tell wic
+> to use a specific UUID, so reproducible images are not a problem.  And
+> making images that are readily portable is why other distros use
+> UUID/LABEL and not device names as much as possible.  I personally enjoy
+> being able to put an image on uSD for minnow and have it work :)
+> Thanks!
 
---001a114a9e5e864f22055bf7f4ac--
+ping?
+
+--=20
+Tom
+
+--vZw0zaBP6OGB9eta
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJZ6fbZAAoJEIf59jXTHXZSECsP/AnPu3XwUK3Dedcjhg3xV2u6
+bhgu5Z3s1QqGqnVUCFUdpQ5HYuz5+KflMlmAnvIqLrfLXvT8imDf20z9TSYnAFrj
+1sEJun8O9avRKdjF+4w95S2o6SvcNgmCcMHBK1nLZbt6HUqpF5fHXo6VzNq2IOwI
+HOhUHBHZI8AmYPCltOicwluO7a0XRlPErJZ8evL/5bPkRLSf6TIzVOjz+GOI2wb8
+xMYqQ0YoIIZHlRl4OIRIxKKxYYGY1fXg/Pxw5V1AOY6bPahNNljGCHh3PWe9ltWR
+ZLMadMCeqMhJGq/qLS46jMR5WXNvnM15ytbdGdT8OtV/6RttOA7/MFq+itHUBIgF
+UK8Yv5rof1RVyRTr3J6fheVFZwCxWDus+zk1rDhl9u6OwsITyi4V7S15/422yTbz
+mq7bSZRfxBgZiIrtW3p6kRpC3NfGRCPSpML21LdhJccY4G8atilFQ20Azw5e6T+f
+7iS/plv4vy61fNyZZ/HSHClvf5+dHiQFUjlRdi2moQpVEzC2nlK38cmxjayH0ONR
+KQLhw3Tzte7r2A8Qs6q97N19E5pUgt9oJKnQss5pbRWGJPBDOkZonEm81utizzKd
+lz6I1ZPEKpVHsyG3qm5k6qhDjRDl7vJw03Y55Z3qBo7FLSpNxtzjlyscBM6Dm0Vq
++carY7IYKVzwwXQgFqlh
+=1Js4
+-----END PGP SIGNATURE-----
+
+--vZw0zaBP6OGB9eta--
