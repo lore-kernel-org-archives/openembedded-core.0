@@ -1,28 +1,31 @@
-Return-Path: <Randy.MacLeod@windriver.com>
+Return-Path: <Lei.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F7A66E688
+	by mail.openembedded.org (Postfix) with ESMTP id 3D34971A32
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 22:07:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9KM7JCM019131
+	Fri, 20 Oct 2017 23:32:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9KNVvMg019635
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 15:07:21 -0700 (PDT)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 20 Oct 2017 15:07:18 -0700
-To: Konrad Scherer <Konrad.Scherer@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
+	Fri, 20 Oct 2017 16:32:02 -0700 (PDT)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Fri, 20 Oct 2017 16:31:56 -0700
+From: "Yang, Lei" <Lei.Yang@windriver.com>
+To: "Scherer, Konrad" <Konrad.Scherer@windriver.com>
+Thread-Topic: [OE-core] Wind River Continuous Integration project
+Thread-Index: AQHTSc/+NaTXSzkco0C6J0BgOeUCLaLt2PGA
+Date: Fri, 20 Oct 2017 23:31:55 +0000
+Message-ID: <2B300F37-A270-47E7-871D-90C6735DCCE3@windriver.com>
 References: <c9dc44be-45fc-71b7-c488-d7b02e8beebf@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <7202c981-ed88-48ac-6281-d8e7d50a409a@windriver.com>
-Date: Fri, 20 Oct 2017 18:07:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
 In-Reply-To: <c9dc44be-45fc-71b7-c488-d7b02e8beebf@windriver.com>
-X-Originating-IP: [172.25.44.7]
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Wind River Continuous Integration project
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,125 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Oct 2017 22:07:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Oct 2017 23:32:03 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-ID: <D4EF8CE0242B47438AF4ECECD7896FA8@local>
+Content-Transfer-Encoding: base64
 
-On 2017-10-20 02:18 PM, Konrad Scherer wrote:
-> 
-> One of the common challenges of Yocto development is the setup and 
-> maintenance of a build cluster. If only there was a generic open source 
-> Yocto continuous integration project to make the setup and maintenance 
-> of build clusters easy...
-> 
-> I have a working prototype and it's on GitHub.
-> 
-> https://github.com/WindRiver-OpenSourceLabs/ci-scripts
-> 
-> It is a set of scripts and docker images for building Yocto images using 
-> Jenkins and Docker. There are three main features that I think you will 
-> find interesting:
-
-Konrad and I work together so my comments here might be biased. :)
-
-I haven't been involved in the ci-scripts project until I tried
-it out yesterday. Without Konrad's guidance, I was able to
-install the system and run a core-image-minimal build. The
-set-up took ~ 10 minutes of my time including reading some of
-the Docker docs, installing packages, then it was another 10-15
-mintues of downloading the images and so on on my slow network.
-
-I ran it out on an old core2, 4 GB RAM, with one of those old,
-slow, spinning magnetic disks  on a slowish network. A build
-in the ubuntu container in docker finished in the same as
-a native build:
-   3hr 22min for core-image-minimal, poky/pyro.
-Such slow hardware!
-
-Btw, I recently got a Google Compute Platform (GCP) offer of
-$300 worth of GCP time. I set-up a reasonable VM and on that
-Haswell, 4 core system a build of core-image-minimal took
-about 60 minutes and finally for comparison sake on our
-128 vCore system, core-image-minimal takes ~ 30 minutes.
-
-The cost for the build was 62 cents:
-
-Resource               Usaged           Amount
-Custom instance Core   658.42 Minute    $0.45
-Custom instance Ram     21.95 GiB-hour  $0.12
-Storage PD Capacity    959.78 GiB-day   $0.05
-
-so a 10 node cluster running developer builds would be:
-   $ 148/day
-   $ 54K/year
-
-There would of course be ways to reduce this cost using
-sstate, ccache, etc.
-
-I plan to set-up a cluster to test docker swarm at some
-point.
-
-
-
-
-> 1) Multi-host builds using Docker Swarm. This provides an easy way to
-> scale the build cluster from one to tens of machines. Docker Swarm makes 
-> this surprisingly simple.
-
-The setup was pretty straight-forward for the single-host mode.
-
-I'm using Fedora 26. It did require following the docker links
-and making some decisions about how to install docker.
-I went with adding the Docker CE rpm feed to my system
-and then using the horrid curl-fetches-a-script approach
-for Docker Compose.
-
-Konrad, any idea why the Docker team doesn't have an rpm feed for
-Docker Compose?
-
-> 
-> 2) Developer builds. This enables build testing of patches before they
-> are committed to the main branches. It leverages the WR setup[1]
-> program and a temporary layerindex to assemble a custom project that
-> matches the developer's local project.
-
-I haven't done that yet but
-we have used this feature in our previous system at WR and it really
-helps a team test their work when they can dispatch 10s of builds
-for various configurations across the network. I'm sure that
-many people in the community would like to be able to do the same
-thing if we can figure out how to make the hardware available
-without blowing the YP/LF budget!
-
-> 
-> 3) Toaster integration. A simple UI to dynamically expose the Toaster
-> interface of all in progress builds.
-
-I haven't done this yet.
-
-> 
-> We are deploying this internally at Wind River and I hope that the 
-> oe-core community will be interested in collaborating on its development.
-> 
-> Please have a look and give it a try. All feedback welcome!
-
-I spoke with Konrad and he needs to change a default so
-that builds aren't removed:
-   https://github.com/WindRiver-OpenSourceLabs/ci-scripts/issues/1
-I guess I could fix that myself but it's the weekend now.
-
-
-Looks like a good start to me.
-
-../Randy
-
-> 
-> [1]: https://github.com/Wind-River/wr-lx-setup
-> 
-
-
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+d2lsbCB0cnkgaXQgZm9yIHN1cmUgbGF0ZSBuZXh0IHdlZWsuDQoNCkxlaQ0KDQo+INTaIDIwMTfE
+6jEw1MIyMcjVo6wwMjoxOaOsS29ucmFkIFNjaGVyZXIgPEtvbnJhZC5TY2hlcmVyQHdpbmRyaXZl
+ci5jb20+INC0tcCjug0KPiANCj4gDQo+IE9uZSBvZiB0aGUgY29tbW9uIGNoYWxsZW5nZXMgb2Yg
+WW9jdG8gZGV2ZWxvcG1lbnQgaXMgdGhlIHNldHVwIGFuZCBtYWludGVuYW5jZSBvZiBhIGJ1aWxk
+IGNsdXN0ZXIuIElmIG9ubHkgdGhlcmUgd2FzIGEgZ2VuZXJpYyBvcGVuIHNvdXJjZSBZb2N0byBj
+b250aW51b3VzIGludGVncmF0aW9uIHByb2plY3QgdG8gbWFrZSB0aGUgc2V0dXAgYW5kIG1haW50
+ZW5hbmNlIG9mIGJ1aWxkIGNsdXN0ZXJzIGVhc3kuLi4NCj4gDQo+IEkgaGF2ZSBhIHdvcmtpbmcg
+cHJvdG90eXBlIGFuZCBpdCdzIG9uIEdpdEh1Yi4NCj4gDQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9X
+aW5kUml2ZXItT3BlblNvdXJjZUxhYnMvY2ktc2NyaXB0cw0KPiANCj4gSXQgaXMgYSBzZXQgb2Yg
+c2NyaXB0cyBhbmQgZG9ja2VyIGltYWdlcyBmb3IgYnVpbGRpbmcgWW9jdG8gaW1hZ2VzIHVzaW5n
+IEplbmtpbnMgYW5kIERvY2tlci4gVGhlcmUgYXJlIHRocmVlIG1haW4gZmVhdHVyZXMgdGhhdCBJ
+IHRoaW5rIHlvdSB3aWxsIGZpbmQgaW50ZXJlc3Rpbmc6DQo+IA0KPiAxKSBNdWx0aS1ob3N0IGJ1
+aWxkcyB1c2luZyBEb2NrZXIgU3dhcm0uIFRoaXMgcHJvdmlkZXMgYW4gZWFzeSB3YXkgdG8NCj4g
+c2NhbGUgdGhlIGJ1aWxkIGNsdXN0ZXIgZnJvbSBvbmUgdG8gdGVucyBvZiBtYWNoaW5lcy4gRG9j
+a2VyIFN3YXJtIG1ha2VzIHRoaXMgc3VycHJpc2luZ2x5IHNpbXBsZS4NCj4gDQo+IDIpIERldmVs
+b3BlciBidWlsZHMuIFRoaXMgZW5hYmxlcyBidWlsZCB0ZXN0aW5nIG9mIHBhdGNoZXMgYmVmb3Jl
+IHRoZXkNCj4gYXJlIGNvbW1pdHRlZCB0byB0aGUgbWFpbiBicmFuY2hlcy4gSXQgbGV2ZXJhZ2Vz
+IHRoZSBXUiBzZXR1cFsxXQ0KPiBwcm9ncmFtIGFuZCBhIHRlbXBvcmFyeSBsYXllcmluZGV4IHRv
+IGFzc2VtYmxlIGEgY3VzdG9tIHByb2plY3QgdGhhdA0KPiBtYXRjaGVzIHRoZSBkZXZlbG9wZXIn
+cyBsb2NhbCBwcm9qZWN0Lg0KPiANCj4gMykgVG9hc3RlciBpbnRlZ3JhdGlvbi4gQSBzaW1wbGUg
+VUkgdG8gZHluYW1pY2FsbHkgZXhwb3NlIHRoZSBUb2FzdGVyDQo+IGludGVyZmFjZSBvZiBhbGwg
+aW4gcHJvZ3Jlc3MgYnVpbGRzLg0KPiANCj4gV2UgYXJlIGRlcGxveWluZyB0aGlzIGludGVybmFs
+bHkgYXQgV2luZCBSaXZlciBhbmQgSSBob3BlIHRoYXQgdGhlIG9lLWNvcmUgY29tbXVuaXR5IHdp
+bGwgYmUgaW50ZXJlc3RlZCBpbiBjb2xsYWJvcmF0aW5nIG9uIGl0cyBkZXZlbG9wbWVudC4NCj4g
+DQo+IFBsZWFzZSBoYXZlIGEgbG9vayBhbmQgZ2l2ZSBpdCBhIHRyeS4gQWxsIGZlZWRiYWNrIHdl
+bGNvbWUhDQo+IA0KPiBbMV06IGh0dHBzOi8vZ2l0aHViLmNvbS9XaW5kLVJpdmVyL3dyLWx4LXNl
+dHVwDQo+IA0KPiAtLSANCj4gS29ucmFkIFNjaGVyZXIsIE1UUywgTGludXggUHJvZHVjdHMgR3Jv
+dXAsIFdpbmQgUml2ZXINCj4gLS0gDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
 
