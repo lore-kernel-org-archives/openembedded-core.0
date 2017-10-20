@@ -1,45 +1,46 @@
 Return-Path: <earwigz32@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BBB2971A32
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B11877E93
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 02:29:28 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id x7so8839491pfa.1
+	Fri, 20 Oct 2017 05:09:00 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id b79so9369498pfk.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Oct 2017 19:29:30 -0700 (PDT)
+	Thu, 19 Oct 2017 22:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id;
-	bh=dlDyXGqdpqi6LY1qXc+K4xq4FFvPidr2ycS6Tgg17cU=;
-	b=LrH3UDeozNgRfxEoevyJAxZuYCgr7WgxqrTRKoCNMJtAXZ0a7gzdCoCB4sfWZPaInq
-	zeVWSMm9rDGft7q0kUmR/ffTzPH4Q5Idiu2cRG/9iOpShBtGGh8axACUcMlu0FQ7bPOL
-	KObcGP7d1cTkB4O+5dXlSdL9nNkOTcIRbvxKddbfg+ydqXS23yYfyBm7LDmbUgvAb/Of
-	2LLVkdXdhhrpN3qdXC5dCw6a/+bdumy124BZTys50urxvxko0IQTQrMTidplV9rO49PZ
-	2sCP/HNrW4Kx9K4jHr1lCsnuAKL/u5nsj6H6yIBdZNRz7RZBkkdxLH48oOp3CvJVWQ/k
-	e4wA==
+	bh=2VCJoAfKncRwTPB7xFA4+azICzDRWrSw2g0aqmvuTcE=;
+	b=DoynZXGodOWPGeMYPJM5sF7ZsJlX+oe/EC9QhWZF+H5j7z5KJvXD/pXC4AnrwfvnUU
+	5ECW3pqNt04eRYbmd0n1gyyrA9IKqQQdU9HzUkyf0VLhfgvX1RhWRlZ7m22fo8Yis+9s
+	WVK6NwCtfojyTL8909b1FpvSWX55DW11gSHwsyjuJP+dqZ/lVjgad5jfC+GEKTkZWGXY
+	HvsJK9zKc1wVGWwkKK29tbxJqd63Vmnhe3In4Y4eeVGK0xXikMk1ku3Y2YithXO647Ws
+	q3SOFDUeM8/c7BvrvKUAbb5NHLe4Km94rAPVbIC0E2f+cH7BJMQF9UHnj623GVxQMwO0
+	oTsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dlDyXGqdpqi6LY1qXc+K4xq4FFvPidr2ycS6Tgg17cU=;
-	b=fHG0lJz1KOY9ZXHU2fc1zM6ML1rjH7O2ZBrTBsjEruBLV7afpptbbXjLXxshOFVIYl
-	jUrInN2uS3vwIFPLSksE8Ti4CgdP9yC1Cn0nUUS+Z7Iab65nyPiW2r7v252yBbiA96+S
-	VtkgH19TT1guEvNSt1KwuBiSHEzemwPOh5eSoRcT5P3cddRhEBXT2y8Tgb1dQH4Rt36T
-	9aOgajS7DgPw0vw6b5CvuSSbhTkq54fEo2GBaCHCnDz8RFvCIc+yNorB5CsaFNjGv93S
-	mf9x4rap7LXVyiA2LkRoK5+C+DsSt3UGxCkUg3x/GFr6EbNuPp06inuyR0AVZnQVzbH6
-	mtwA==
-X-Gm-Message-State: AMCzsaWiSJSRCAn9vdkRbx298JmsxiqIEBEQHpaSxIzK12zPAUSVtc2V
-	iNFr4P3YI+VXObf1UKwB/ybQuw==
-X-Google-Smtp-Source: ABhQp+Skct9iDB7krSd3t+S6kWVeCVfyLHLAe+QSNyIL+B/psaZZlDhIl3sS4PXmddK6RbSkTZHUhA==
-X-Received: by 10.98.58.157 with SMTP id v29mr3364526pfj.294.1508466569597;
-	Thu, 19 Oct 2017 19:29:29 -0700 (PDT)
+	bh=2VCJoAfKncRwTPB7xFA4+azICzDRWrSw2g0aqmvuTcE=;
+	b=VoSyHhzXuWaqpJ53/g1jDxFtU4IjBh9dJvJKiCQU5EkB4yZI7v1j6/0nAJ2LFtVKyZ
+	zMC1FYkOyPb59ZON/zhU3vG0o3qTwRz+g1dJY3jcPfc9vnSA5WzKnQu4adoq09sll/ls
+	7i0hg86/DVixsGiUDLAPQvefOEwP8fdVIFcp8YJWk8qDNr6tnKcoWm2Na6Zb4RVd9xCM
+	eWBgW9S7MJpDg5FV5mS7u90v4Zw1+4LXdUWyVDZMPGFzMkfSS4mJOPitS7AKcRnRkfzH
+	GZED8ntb33/0ux9p4qlNBtng802mEQFHopjTMiB5GyvCPAg5ACiQLFUftmxO1Q4605UI
+	cNNA==
+X-Gm-Message-State: AMCzsaUSx1GWPVVMGzDnyOg8kj15DgDub7MFGX2bPgiY7SA9kPly/8pn
+	J/eN3LVei8acGOWnlfe1n8EXqI9h
+X-Google-Smtp-Source: ABhQp+RNiRNd6K9G2/ZuhXT5/xx6DPwE5dxLNwV4cLb5rGSoRth1UFlBhzqPbHIsjB4+frnfJjZSig==
+X-Received: by 10.98.205.12 with SMTP id o12mr3782566pfg.339.1508476142026;
+	Thu, 19 Oct 2017 22:09:02 -0700 (PDT)
 Received: from localhost.localdomain ([61.107.31.52])
-	by smtp.gmail.com with ESMTPSA id j11sm59900pfh.18.2017.10.19.19.29.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 19 Oct 2017 19:29:28 -0700 (PDT)
-From: youngseokyoon <earwigz32@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Oct 2017 11:27:46 +0900
-Message-Id: <1508466466-3369-1-git-send-email-earwigz32@gmail.com>
+	by smtp.gmail.com with ESMTPSA id n19sm301876pfj.52.2017.10.19.22.09.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 19 Oct 2017 22:09:01 -0700 (PDT)
+From: "ricky.yoon" <earwigz32@gmail.com>
+X-Google-Original-From: "ricky.yoon" <ricky.yoon@windriver.com>
+To: earwigz@naver.com, earwigz32@gmail.com,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 20 Oct 2017 14:07:19 +0900
+Message-Id: <1508476039-9514-1-git-send-email-ricky.yoon@windriver.com>
 X-Mailer: git-send-email 2.7.4
 Subject: [PATCH] libpng: Upgrade 1.6.31 -> 1.6.32
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,13 +55,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Oct 2017 02:29:28 -0000
-
-From: youngseok <earwigz32@gmail.com>
+X-List-Received-Date: Fri, 20 Oct 2017 05:09:01 -0000
 
 License file changes are due to updates in Version and Copyright date
 
-Signed-off-by: youngseok <earwigz32@gmail.com>
+Signed-off-by: ricky.yoon <ricky.yoon@windriver.com>
 ---
  .../libpng/{libpng_1.6.31.bb => libpng_1.6.32.bb}                 | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
