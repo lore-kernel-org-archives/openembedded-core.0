@@ -1,50 +1,46 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 558E3719B1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6917D71957
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 13:15:06 +0000 (UTC)
-Received: by mail-yw0-f195.google.com with SMTP id j4so6310604ywb.2
+	Fri, 20 Oct 2017 14:12:03 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id i5so11251934pfe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Oct 2017 06:15:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=nGhITeuqaVr9BNwrsKb/US05IA8YGNsOtAU1JsDXluU=;
-	b=c3QIlExW/5fdetp46vOVimZlk5GOorqRjNfKOJhREc9EkAzoylrN1Y5DZVe6w3sp36
-	zwOXBT6jROcVsdmBHbvVHtSP6prHVIoEMOWj/zyE173ZtcZTe+rxilZBJUPpeNhG4cQ3
-	A3lq2PYwIBp0F7BqKYItJSP8q5VA6vON7tt78=
+	Fri, 20 Oct 2017 07:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=gFrzP8ZIgUnNqySvuR4KXcHcHiMECjnAeWjzAgHZ8Og=;
+	b=SUZFQTsJMCKELGXiuVsJ0ZmN8FWszmZRPbJSd9XC3e1Prpaf49xcC/Dmv/L4ZWICV0
+	2Vg9ddtplde6jIh7xNFb4WaPWvyJgDWNM+Xg8oP09OEJMl41EpAKH8dm49KrzQvD9MpX
+	6NfUnXMI37Mn5v/wyIgUUZZdoNR70pO24Z48+UtyUrPDe/T1tWwEycy6QalNZGneqCxZ
+	TnC+dy9xYuGVaje7apvMAEYI/m3gpDsXpT/MxKuMvU2XeirnOGQ7uzrXd5/LiqrLAwgz
+	A8zTK+wCxnXhJbdhB9zNIR9/cWnRqtxMEQ4n6vT9iMu+3DXpN/XOht1HZwjNc7elocA8
+	GaKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=nGhITeuqaVr9BNwrsKb/US05IA8YGNsOtAU1JsDXluU=;
-	b=aBSLAFDMAhs7lsQx4GbTaQnlbcdEsD3LvgdqQHIakmW7iChI0y1UfIb3Hj1UbH6Bbf
-	aXTmKk4zRlHeioyGTB4OHiVXIa7nLxMrKrUEcYAuiP2s+Zk1K6zlWTnWG3XwMuiA4Q0i
-	NusfHPHqpJYl/ZCd6ecYqIE/2qQcR6BKLSlrxoWVGOzHMuBbmPdWMcC19vGoebTfkGu5
-	4tiEZ2q9eIrmhj5v2jO75YIDFNAT7h5tJMBp9KMbnadVVu2tYLk/qpWvk6Zz2jIf9Niw
-	ijzALv9r/vc8d+QAzu8WvpkyKwApPablu9itgfBAuvGWnkw+NnsfEt2ljL0X8XfFgmh1
-	K2QA==
-X-Gm-Message-State: AMCzsaVBBAh6Ud7DYbS3JxHVyet+4ONEOree6b1i2w6IIzAryQXmhlID
-	jTvW6WN0CLqa8YGOTXafYXrYP45zFZA=
-X-Google-Smtp-Source: ABhQp+RE69J6BrhJcpmdDRBax5qga2YZXRfGK1JMoBljNxbTpNFV2UB/AR1z+HgIhqwCM9Nf5CaGuw==
-X-Received: by 10.129.78.72 with SMTP id c69mr3174719ywb.212.1508505307944;
-	Fri, 20 Oct 2017 06:15:07 -0700 (PDT)
-Received: from bill-the-cat ([2606:a000:1401:811b:5808:f0c4:2c30:431b])
-	by smtp.gmail.com with ESMTPSA id z8sm394169ywl.61.2017.10.20.06.15.07
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gFrzP8ZIgUnNqySvuR4KXcHcHiMECjnAeWjzAgHZ8Og=;
+	b=dPQ3HK7X3SSOWAGufhVg4960zQmgPmhuZyaNWXvASofNiN1OjGvbrilAsbGPv0tvj5
+	CgcHqGFIfEwk2XnEqG+50kMNls4C9QsE1uxwCFuwVPiiqPFDMqB1NfWBSaQDt7U7heqK
+	gG+vM1ZVZxkLS2dkcdU9y7b7j79HrEIPl7UsLRx9nwpWzCsmdbZDSag1uSlv7sAEGqZq
+	awkERocDxxngzgAasbyH3MrEgBhjzCJXwnydmBmfetT+k3snwlTE5m0QOSuUYueSEMW3
+	tQ5zhMGtTXee4/FoNOlNdmLPJ+1DfZvwQvV+a162/sY3rRopuDSMwzhUp7SMuEcAmBFz
+	HtiQ==
+X-Gm-Message-State: AMCzsaWr9fd2hBfc0nI8j5QaEcFtvfI7UzBbI3NMS+e6ShGG+eWAFoR3
+	BkM+emIJUaG8GfNwMIdOKN67mQ==
+X-Google-Smtp-Source: ABhQp+Q+LjeimeFSIUWGfD/6fqge2xxsBCNPAzMwZd69GXsgKLTvpiUTVw7UOAqPNvgIwdqj4d3jsg==
+X-Received: by 10.99.60.11 with SMTP id j11mr4589096pga.21.1508508725170;
+	Fri, 20 Oct 2017 07:12:05 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::d2ab])
+	by smtp.gmail.com with ESMTPSA id c8sm2180747pfm.47.2017.10.20.07.12.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Oct 2017 06:15:07 -0700 (PDT)
-Date: Fri, 20 Oct 2017 09:15:05 -0400
-From: Tom Rini <trini@konsulko.com>
+	Fri, 20 Oct 2017 07:12:04 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20171020131505.GG12015@bill-the-cat>
-References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
-	<20171010210149.GE12015@bill-the-cat>
-MIME-Version: 1.0
-In-Reply-To: <20171010210149.GE12015@bill-the-cat>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
+Date: Fri, 20 Oct 2017 07:11:55 -0700
+Message-Id: <20171020141155.26412-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.2
+Subject: [PATCH V3] libcheck: Upgrade to 0.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Oct 2017 13:15:07 -0000
-X-Groupsio-MsgNum: 104146
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vZw0zaBP6OGB9eta"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Oct 2017 14:12:04 -0000
 
---vZw0zaBP6OGB9eta
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Changes since v2: Rename recipe to reflect PV
 
-On Tue, Oct 10, 2017 at 05:01:49PM -0400, Tom Rini wrote:
-> On Thu, Sep 21, 2017 at 01:46:16PM -0400, Tom Rini wrote:
-> > When we have been told to use the UUID we should also update the fstab
-> > to make use of PARTUUID instead of hard-coding the device in question.
-> > This will make the resulting image much more portable.
-> >=20
-> > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > ---
-> >  scripts/lib/wic/plugins/imager/direct.py | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> Where we did we end up with this?  Ed pointed out that you can tell wic
-> to use a specific UUID, so reproducible images are not a problem.  And
-> making images that are readily portable is why other distros use
-> UUID/LABEL and not device names as much as possible.  I personally enjoy
-> being able to put an image on uSD for minnow and have it work :)
-> Thanks!
+ .../libcheck/{libcheck_0.10.0.bb => libcheck_0.11.0.bb}           | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/libcheck/{libcheck_0.10.0.bb => libcheck_0.11.0.bb} (65%)
 
-ping?
+diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.11.0.bb
+similarity index 65%
+rename from meta/recipes-support/libcheck/libcheck_0.10.0.bb
+rename to meta/recipes-support/libcheck/libcheck_0.11.0.bb
+index 9d34198a96..4c23875427 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.11.0.bb
+@@ -5,13 +5,11 @@ SECTION = "devel"
+ LICENSE  = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/check/check-${PV}.tar.gz \
+-          "
++SRCREV = "cbc78bab899858f3ece1f218168da54aac757bb0"
+ 
+-SRC_URI[md5sum] = "53c5e5c77d090e103a17f3ed7fd7d8b8"
+-SRC_URI[sha256sum] = "f5f50766aa6f8fe5a2df752666ca01a950add45079aa06416b83765b1cf71052"
++SRC_URI = "git://github.com/libcheck/check;protocol=https"
+ 
+-S = "${WORKDIR}/check-${PV}"
++S = "${WORKDIR}/git"
+ 
+ inherit autotools pkgconfig texinfo
+ 
+-- 
+2.14.2
 
---=20
-Tom
 
---vZw0zaBP6OGB9eta
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZ6fbZAAoJEIf59jXTHXZSECsP/AnPu3XwUK3Dedcjhg3xV2u6
-bhgu5Z3s1QqGqnVUCFUdpQ5HYuz5+KflMlmAnvIqLrfLXvT8imDf20z9TSYnAFrj
-1sEJun8O9avRKdjF+4w95S2o6SvcNgmCcMHBK1nLZbt6HUqpF5fHXo6VzNq2IOwI
-HOhUHBHZI8AmYPCltOicwluO7a0XRlPErJZ8evL/5bPkRLSf6TIzVOjz+GOI2wb8
-xMYqQ0YoIIZHlRl4OIRIxKKxYYGY1fXg/Pxw5V1AOY6bPahNNljGCHh3PWe9ltWR
-ZLMadMCeqMhJGq/qLS46jMR5WXNvnM15ytbdGdT8OtV/6RttOA7/MFq+itHUBIgF
-UK8Yv5rof1RVyRTr3J6fheVFZwCxWDus+zk1rDhl9u6OwsITyi4V7S15/422yTbz
-mq7bSZRfxBgZiIrtW3p6kRpC3NfGRCPSpML21LdhJccY4G8atilFQ20Azw5e6T+f
-7iS/plv4vy61fNyZZ/HSHClvf5+dHiQFUjlRdi2moQpVEzC2nlK38cmxjayH0ONR
-KQLhw3Tzte7r2A8Qs6q97N19E5pUgt9oJKnQss5pbRWGJPBDOkZonEm81utizzKd
-lz6I1ZPEKpVHsyG3qm5k6qhDjRDl7vJw03Y55Z3qBo7FLSpNxtzjlyscBM6Dm0Vq
-+carY7IYKVzwwXQgFqlh
-=1Js4
------END PGP SIGNATURE-----
-
---vZw0zaBP6OGB9eta--
