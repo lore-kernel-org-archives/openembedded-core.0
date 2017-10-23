@@ -1,47 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4699D6612D
+Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E6325600BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 04:46:19 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id d28so16203240pfe.2
+	Mon, 23 Oct 2017 05:04:06 +0000 (UTC)
+Received: by mail-pf0-f180.google.com with SMTP id z11so16213462pfk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Oct 2017 21:46:21 -0700 (PDT)
+	Sun, 22 Oct 2017 22:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=jSWSVwjwT6w4DHUE/wrjJe8r8+XTOMNRS9nxnif2z0o=;
-	b=NkJVkm+evkNcqwhm+991jeIR1FH6pTXEgRjM77LVwQDEa75xsxSCSX5OczqqRpIV1T
-	S/aMWsF/QWvcQn+8wRptGarRWmF4YtqnOaxQ0Svz+2Ecv1sYraKRQIsEUGcY7g6SGj2Q
-	x0okgM2ESdN5opJDwBJUrsZtSazvEqSroMeP8ul/3E2gY1SrvhVmrZqV0cyUJGexkV5M
-	1fae7l6eygouXavnPU62G+BZISFnCyHQLmf+A49DwLMLKhdbE2xvDy+vcSSpkPxtdCPR
-	HJ2fntWOUwO7tDjZmSuhnlhiUYVFDYfGA2dyLSqp2eRzuY4T0WrMO5POzJQMTpZER+Sz
-	IGOQ==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=kV3Mn4vOth9QIAN96ZJEpaJIQprcG4mI7maZrYnaoeE=;
+	b=iDerHAijeEj9xyOt3+COONXklj0Avune7yEkvwLpGxR5KZvX6TJOS4CMfOczu1bh0r
+	U81yrrtx3RYyZon0jzTy6UiJRdvUvSVl1zV3pfeEM9/KOKyu3CJVVET0OwxBaRN4kDwD
+	esd55O8wopKzQQvRTyqwGjW6+jLwdXpb4+aM06TglwgtCN34cTHskCCBkti5f4HiY2oy
+	QuUF2mozZvMnED+nOCdRjf91SWGaRJmXS7q+QdQynsU6YhDFDIE8VVjwl8vOwfONhsbi
+	Kt3UsWR8C/MUg+FupYaAB7uZLHKiNen3/Rr2SaXsBTbWuxW+KmAgt5CxQQXxzuQe2T3l
+	VRLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jSWSVwjwT6w4DHUE/wrjJe8r8+XTOMNRS9nxnif2z0o=;
-	b=TsUiHEEPFt6Lo/BczzgHhwALCzsk26rxA4MLTUu9G4nm8R0dUVLlNK8bh5OPraUu5H
-	7v6mhPuo+JcUZYrp+z6lqyAmL5z5jul+W7oKeZFd8YDVRstI8hxLEycadt1HfSaAA0w4
-	wF9gNFXhBfZNh+wtR8zYpPYWmbOeD3mTJu2dEiBURSZ1wdiha9azaHpoX+Zg9s3I6+1h
-	VScBqIp5oo5o1nX6fDOlozPrVKi0yFHkWigFoeHUKXWaqu0ON5eUwnFUJWWe35fkA82l
-	SjlzJxaFjeWMz5sZc9eexmkoLWBO2eMlAsagSQYDa7BGvH+MT1gz8+UdloEe9IzJHawS
-	0dyQ==
-X-Gm-Message-State: AMCzsaXigdQq3Ao2pQxmFiQIs+E6Pam+UxKU8KkZjZxKbM7rgEPrx1qy
-	fnT+DylXi6fWR4Xw2AgrJD60dQ==
-X-Google-Smtp-Source: ABhQp+T6g4xgXe/svy6+zXgHyAj2v4js7Xm7YLrOS0cE5DcVZXR3ZOVCn+iGnYlZgGv3uH6H+mEzzQ==
-X-Received: by 10.159.203.133 with SMTP id ay5mr9418500plb.12.1508733981023;
-	Sun, 22 Oct 2017 21:46:21 -0700 (PDT)
-Received: from localhost.localdomain ([2601:646:8882:b8c::d2ab])
-	by smtp.gmail.com with ESMTPSA id
-	m17sm10136399pfh.28.2017.10.22.21.46.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 22 Oct 2017 21:46:20 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=kV3Mn4vOth9QIAN96ZJEpaJIQprcG4mI7maZrYnaoeE=;
+	b=scbS5qKUqCCTijYX5CJrEGLw2K+cqekwRky6krAxsxW3lppcbb4yFCA1VHHDb5fW0R
+	Q8irwysXyrLmzHgwlEZZzSzgt5uGWLqcQEGeTym9PuAEftOrzHX1XTvSnb3pOJ7fcZXN
+	BYi4oP4VOj6sJrX2QFn3CtnEjOBRF4SfcXg/Mh1brs+HdPoIDJN7OghDfm6umzI0TsPJ
+	QoxFX7TKrr/9EsKjIH7LSAIzOJ12b6KPt26R2cpS3oR0Vj52q/A0cpZEWmvkaEggJzUu
+	1si5oHXB6X9DwwKI2SoYuFpE0Uj1ZL190OvtHWwYhnovst8M+4OR9ziSiG6cI4Na2ubP
+	B2xw==
+X-Gm-Message-State: AMCzsaW8mc2BY8XDpwOUps9ciKU7gGsO2GQbJ4M7uT6CYwJFr3LgGK3F
+	R874SUxkeVaZW0bWBIpOtFXAUpSxCQRIN+JjBCgDRw==
+X-Google-Smtp-Source: ABhQp+RaHgEeLeuNIOC6OhO5+rcZ5Xi3dV1VxIf29fEBqSJ33XO/mL3jFfaCEP6VPwKrRKHM/z/fBc0/mHcN+fDKe48=
+X-Received: by 10.98.150.149 with SMTP id s21mr11866166pfk.151.1508735047997; 
+	Sun, 22 Oct 2017 22:04:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.100.187.66 with HTTP; Sun, 22 Oct 2017 22:03:37 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 22 Oct 2017 21:46:12 -0700
-Message-Id: <20171023044612.21959-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.14.2
-Subject: [PATCH] musl: Update to latest
+Date: Sun, 22 Oct 2017 22:03:37 -0700
+Message-ID: <CAMKF1srGH8tNmFMvqRmV0jXQz+HAVwrXYw1v6EoZQZrb_poDrg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: devtool modify errors on second recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,47 +52,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 04:46:20 -0000
+X-List-Received-Date: Mon, 23 Oct 2017 05:04:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Rich Felker (8):
-      fix use of memset without declaration in sched.h cpu set macros
-      fix access by setjmp and longjmp to __hwcap on arm built as thumb2
-      for executing init array functions, use function type with prototype
-      fix read-after-free type error in pthread_detach
-      fix incorrect base name offset from nftw when pathname ends in slash(es)
-      in dns parsing callback, enforce MAXADDRS to preclude overflow
-      release 1.1.17
-      fix regression in glob with literal . or .. path component
+Hi Paul
 
-Szabolcs Nagy (2):
-      powerpc{64}: fix MAP_NORESERVE and MAP_LOCKED in mman.h
-      math: rewrite fma with mostly int arithmetics
+I am seeing this errors message consistently since few weeks on master
+when using
+devtool modify
 
-Will Dietz (1):
-      posix_spawn: use larger stack to cover worst-case in execvpe
+NOTE:   do_populate_sysroot: 100.0% sstate reuse(1 setscene, 0 scratch)
+Traceback (most recent call last):
+  File "/mnt/a/oe/sources/openembedded-core/scripts/devtool", line
+331, in <module>
+    ret = main()
+  File "/mnt/a/oe/sources/openembedded-core/scripts/devtool", line 318, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/mnt/a/oe/sources/openembedded-core/scripts/lib/devtool/standard.py",
+line 714, in modify
+    initial_rev = _extract_source(srctree, args.keep_temp,
+args.branch, False, config, basepath, workspace, args.fixed_setup, rd,
+tinfoil)
+  File "/mnt/a/oe/sources/openembedded-core/scripts/lib/devtool/standard.py",
+line 545, in _extract_source
+    with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory:
+'/mnt/a/oe/build/tmp/work/mips32r2-bec-linux-musl/dovecot/2.2.29-r0/devtooltmp-zjst6lsd/initial_rev'
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index bd7573e0f3..593d3bc581 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -3,9 +3,9 @@
- 
- require musl.inc
- 
--SRCREV = "da438ee1fc516c41ba1790cef7be551a9e244397"
-+SRCREV = "ec04d122f1182aeb91f39b0e80ae40c68e4d9605"
- 
--PV = "1.1.16+git${SRCPV}"
-+PV = "1.1.17+git${SRCPV}"
- 
- # mirror is at git://github.com/kraj/musl.git
- 
--- 
-2.14.2
+This does not happen when I use it for first time but there after when
+I try to modify the second recipe it shows up.
 
+The setup hasn't changed so it use to work fine. Now as a workaround I
+delete the workspace/
+folder everytime I finish modifying a recipe but thats quite cumbersome
+
+Thanks
+-Khem
 
