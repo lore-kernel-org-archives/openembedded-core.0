@@ -1,25 +1,40 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 89BB4607F8
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F8EF60557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 07:45:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9N7jkwt003400
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 23 Oct 2017 08:09:06 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id m72so7755662wmc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 00:45:46 -0700
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 23 Oct 2017 00:45:45 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Oct 2017 15:44:53 +0800
-Message-ID: <1508744693-248151-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon, 23 Oct 2017 01:09:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/amgPKimfaZgcZoGVODO7TGbi9dOHHIvq6iO6f53UMo=;
+	b=eOzrjRfjcrxOSIPHj6coXI0rmwvXapP5LayAihlIO641ojJ752vcI/NizvAglff3fc
+	kwze0oD9XGNxnbeNmBYmFUTQDXyv3FgyrcwUxZDAFoK+ZeKBylJSDdrEHV8nmzHrQzWM
+	H6EDfgoqP+YO+qEpK7LSimSamKlCOidv8WZrSW0aBey5Idbx7AAxCo+OWBoPO1KPMHoP
+	Hiw9j/6dqlLrGnYvAjmO+rXHEDGmoENsSh8utMACnu7mzLt78v2cNT9wks7w0U1pjYrX
+	cehn9uNG9Y0Z2tKw19Cd3v9MT/A7a+KzMcTLd43UlOj+2XSYCezzgzMPxGgJnncvCiki
+	qxoQ==
+X-Gm-Message-State: AMCzsaW/sr0smsJlLNEpFuRXuRlZwsfPccLz0zSgvhnj61zcPo9CMiXi
+	apq2wllFtwRm2692XjJ0izi9r72h
+X-Google-Smtp-Source: ABhQp+QFq46fZRKcDICbaEHE0DtkMUhNTiJ4wK61aj0XQwzWbwafmY/qKrH0nu/EX/htu1RLhio2JA==
+X-Received: by 10.80.136.49 with SMTP id b46mr10993336edb.238.1508746146856;
+	Mon, 23 Oct 2017 01:09:06 -0700 (PDT)
+Received: from tfsielt31850.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	f27sm5489702edj.82.2017.10.23.01.09.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Oct 2017 01:09:06 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Oct 2017 09:09:05 +0100
+Message-Id: <20171023080905.18242-1-git@andred.net>
+X-Mailer: git-send-email 2.15.0.rc1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] curl: Security Advisory - curl - CVE-2017-1000254
+Subject: [pyro][PATCH] valgrind: enable on mips soft-float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,176 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 07:45:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Oct 2017 08:09:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Porting patch from <https://github.com/curl/curl/commit/
-5ff2c5ff25750aba1a8f64fbcad8e5b891512584> to solve CVE-2017-1000254.
+From: André Draszik <adraszik@tycoint.com>
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+Valgrind support for mips soft-float hosts has been fixed
+in the 3.12 [1] and 3.13 [2] releases, so let's start
+building it on those, too.
+
+[1] https://sourceware.org/git/?p=valgrind.git;a=commit;h=8f0070d31daea6f0ed18f8fe69498a67530bfcbb
+[2] https://sourceware.org/git/?p=valgrind.git;a=commit;h=3172936d63da4b6257099bc05aee5793978269cb
+
+Signed-off-by: André Draszik <adraszik@tycoint.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+(cherry picked from commit 82dbad6aa1390668aa86d28c8a3125b68d6072fa)
+Signed-off-by: André Draszik <adraszik@tycoint.com>
 ---
- .../curl/curl/CVE-2017-1000254.patch               | 138 +++++++++++++++++++++
- meta/recipes-support/curl/curl_7.54.1.bb           |   1 +
- 2 files changed, 139 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2017-1000254.patch
+ meta/recipes-devtools/valgrind/valgrind_3.12.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2017-1000254.patch b/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
-new file mode 100644
-index 0000000..2b0798b
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
-@@ -0,0 +1,138 @@
-+From 1b2eba6f9745c064f7283e0ada8f46df9d9d6e42 Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Mon, 23 Oct 2017 00:26:50 -0700
-+Subject: [PATCH] FTP: zero terminate the entry path even on bad input
-+
-+... a single double quote could leave the entry path buffer without a zero
-+terminating byte. CVE-2017-1000254
-+
-+Test 1152 added to verify.
-+
-+Reported-by: Max Dymond
-+Bug: https://curl.haxx.se/docs/adv_20171004.html
-+
-+Upstream-Status: Backport
-+CVE: CVE-2017-1000254
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ lib/ftp.c               |  7 ++++--
-+ tests/data/Makefile.inc |  2 ++
-+ tests/data/test1152     | 61 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 68 insertions(+), 2 deletions(-)
-+ create mode 100644 tests/data/test1152
-+
-+diff --git a/lib/ftp.c b/lib/ftp.c
-+index 5edec37..493dbf9 100644
-+--- a/lib/ftp.c
-++++ b/lib/ftp.c
-+@@ -2826,6 +2826,7 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
-+         const size_t buf_size = data->set.buffer_size;
-+         char *dir;
-+         char *store;
-++        bool entry_extracted = FALSE;
-+ 
-+         dir = malloc(nread + 1);
-+         if(!dir)
-+@@ -2857,7 +2858,7 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
-+               }
-+               else {
-+                 /* end of path */
-+-                *store = '\0'; /* zero terminate */
-++                entry_extracted = TRUE;
-+                 break; /* get out of this loop */
-+               }
-+             }
-+@@ -2866,7 +2867,9 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
-+             store++;
-+             ptr++;
-+           }
-+-
-++          *store = '\0'; /* zero terminate */
-++        }
-++        if(entry_extracted) {
-+           /* If the path name does not look like an absolute path (i.e.: it
-+              does not start with a '/'), we probably need some server-dependent
-+              adjustments. For example, this is the case when connecting to
-+diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-+index 7adbee6..5284654 100644
-+--- a/tests/data/Makefile.inc
-++++ b/tests/data/Makefile.inc
-+@@ -121,6 +121,8 @@ test1120 test1121 test1122 test1123 test1124 test1125 test1126 test1127 \
-+ test1128 test1129 test1130 test1131 test1132 test1133 test1134 test1135 \
-+ test1136 test1137 test1138 test1139 test1140 test1141 test1142 test1143 \
-+ test1144 test1145 test1146 \
-++test1152 \
-++\
-+ test1200 test1201 test1202 test1203 test1204 test1205 test1206 test1207 \
-+ test1208 test1209 test1210 test1211 test1212 test1213 test1214 test1215 \
-+ test1216 test1217 test1218 test1219 \
-+diff --git a/tests/data/test1152 b/tests/data/test1152
-+new file mode 100644
-+index 0000000..aa8c0a7
-+--- /dev/null
-++++ b/tests/data/test1152
-+@@ -0,0 +1,61 @@
-++<testcase>
-++<info>
-++<keywords>
-++FTP
-++PASV
-++LIST
-++</keywords>
-++</info>
-++#
-++# Server-side
-++<reply>
-++<servercmd>
-++REPLY PWD 257 "just one
-++</servercmd>
-++
-++# When doing LIST, we get the default list output hard-coded in the test
-++# FTP server
-++<data mode="text">
-++total 20
-++drwxr-xr-x   8 98       98           512 Oct 22 13:06 .
-++drwxr-xr-x   8 98       98           512 Oct 22 13:06 ..
-++drwxr-xr-x   2 98       98           512 May  2  1996 curl-releases
-++-r--r--r--   1 0        1             35 Jul 16  1996 README
-++lrwxrwxrwx   1 0        1              7 Dec  9  1999 bin -> usr/bin
-++dr-xr-xr-x   2 0        1            512 Oct  1  1997 dev
-++drwxrwxrwx   2 98       98           512 May 29 16:04 download.html
-++dr-xr-xr-x   2 0        1            512 Nov 30  1995 etc
-++drwxrwxrwx   2 98       1            512 Oct 30 14:33 pub
-++dr-xr-xr-x   5 0        1            512 Oct  1  1997 usr
-++</data>
-++</reply>
-++
-++#
-++# Client-side
-++<client>
-++<server>
-++ftp
-++</server>
-++ <name>
-++FTP with uneven quote in PWD response
-++ </name>
-++ <command>
-++ftp://%HOSTIP:%FTPPORT/test-1152/
-++</command>
-++</client>
-++
-++#
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol>
-++USER anonymous
-++PASS ftp@example.com
-++PWD
-++CWD test-1152
-++EPSV
-++TYPE A
-++LIST
-++QUIT
-++</protocol>
-++</verify>
-++</testcase>
-+-- 
-+2.11.0
-+
-diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.54.1.bb
-index 04aeee7..838c482 100644
---- a/meta/recipes-support/curl/curl_7.54.1.bb
-+++ b/meta/recipes-support/curl/curl_7.54.1.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2017-1000099.patch \
-            file://CVE-2017-1000100.patch \
-            file://CVE-2017-1000101.patch \
-+           file://CVE-2017-1000254.patch \
- "
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+index 62a96354cd..4f8cd3f52e 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.12.0.bb
+@@ -41,9 +41,7 @@ COMPATIBLE_HOST_armv6 = 'null'
+ COMPATIBLE_HOST_linux-gnux32 = 'null'
  
- # curl likes to set -g0 in CFLAGS, so we stop it
+ # Disable for some MIPS variants
+-COMPATIBLE_HOST_mipsarcho32 = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
+ COMPATIBLE_HOST_mipsarchn32 = 'null'
+-COMPATIBLE_HOST_mipsarchn64 = "${@bb.utils.contains("TARGET_FPU", "soft", "null", ".*-linux", d)}"
+ COMPATIBLE_HOST_mipsarchr6 = 'null'
+ 
+ inherit autotools ptest
 -- 
-1.9.1
+2.15.0.rc1
 
 
