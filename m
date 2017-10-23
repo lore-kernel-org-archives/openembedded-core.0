@@ -1,26 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 56D7B6FFA1
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 94D3C6FF73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 02:57:17 +0000 (UTC)
+	Mon, 23 Oct 2017 03:07:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9N2vJcY029395
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9N37wVf007488
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Oct 2017 19:57:19 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Sun, 22 Oct 2017 19:57:16 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Sun, 22 Oct 2017 20:07:58 -0700 (PDT)
+Received: from [128.224.163.169] (128.224.163.169) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Sun, 22 Oct 2017 20:07:57 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Oct 2017 10:56:36 +0800
-Message-ID: <bd775e649a6e9942c66d2cd538940b1e9fd7eacc.1508727336.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1508727336.git.liezhi.yang@windriver.com>
-References: <cover.1508727336.git.liezhi.yang@windriver.com>
+References: <1508206889-55145-1-git-send-email-wenlin.kang@windriver.com>
+From: Wenlin Kang <wenlin.kang@windriver.com>
+Message-ID: <1308e9a8-fb1b-4e2a-1233-e22a4f6300e5@windriver.com>
+Date: Mon, 23 Oct 2017 11:09:17 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] sstate.bbclass: sstate_hardcode_path(): fix for multilib
+In-Reply-To: <1508206889-55145-1-git-send-email-wenlin.kang@windriver.com>
+X-Originating-IP: [128.224.163.169]
+Subject: Re: [PATCH] kexec-tools: add systemd support for kdump
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +35,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 02:57:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 23 Oct 2017 03:07:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-It only substituted staging_target for target recipe which didn't work
-for multilib, for example, postinst-useradd-lib32-polkit:
+On 2017年10月17日 10:21, Wenlin Kang wrote:
+> Add file kdump.service to support kdump in systemd.
+>
+> Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+> ---
+>   meta/recipes-kernel/kexec/kexec-tools.inc          |  1 +
+>   .../recipes-kernel/kexec/kexec-tools/kdump.service | 12 +++++++++++
+>   meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb    | 23 +++++++++++++++++-----
+>   3 files changed, 31 insertions(+), 5 deletions(-)
+>   create mode 100644 meta/recipes-kernel/kexec/kexec-tools/kdump.service
+>
+> diff --git a/meta/recipes-kernel/kexec/kexec-tools.inc b/meta/recipes-kernel/kexec/kexec-tools.inc
+> index bdfe024..c689bec 100644
+> --- a/meta/recipes-kernel/kexec/kexec-tools.inc
+> +++ b/meta/recipes-kernel/kexec/kexec-tools.inc
+> @@ -11,6 +11,7 @@ DEPENDS = "zlib xz"
+>   SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
+>              file://kdump \
+>              file://kdump.conf \
+> +           file://kdump.service \
+>   "
+>   
+>   PR = "r1"
+> diff --git a/meta/recipes-kernel/kexec/kexec-tools/kdump.service b/meta/recipes-kernel/kexec/kexec-tools/kdump.service
+> new file mode 100644
+> index 0000000..4e65a46
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kexec/kexec-tools/kdump.service
+> @@ -0,0 +1,12 @@
+> +[Unit]
+> +Description=Reboot and dump vmcore via kexec
+> +DefaultDependencies=no
+> +
+> +[Service]
+> +Type=oneshot
+> +RemainAfterExit=yes
+> +ExecStart=@LIBEXECDIR@/kdump-helper start
+> +ExecStop=@LIBEXECDIR@/kdump-helper stop
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+> index bd89720..0f6398f1 100644
+> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.14.bb
+> @@ -34,19 +34,32 @@ ALLOW_EMPTY_${PN} = "1"
+>   RRECOMMENDS_${PN} = "kexec kdump vmcore-dmesg"
+>   
+>   FILES_kexec = "${sbindir}/kexec"
+> -FILES_kdump = "${sbindir}/kdump ${sysconfdir}/init.d/kdump \
+> -               ${sysconfdir}/sysconfig/kdump.conf"
+> +FILES_kdump = "${sbindir}/kdump \
+> +               ${sysconfdir}/sysconfig/kdump.conf \
+> +               ${sysconfdir}/init.d/kdump \
+> +               ${libexecdir}/kdump-helper \
+> +               ${systemd_unitdir}/system/kdump.service \
+> +"
+> +
+>   FILES_vmcore-dmesg = "${sbindir}/vmcore-dmesg"
+>   
+> -inherit update-rc.d
+> +inherit update-rc.d systemd
+>   
+>   INITSCRIPT_PACKAGES = "kdump"
+>   INITSCRIPT_NAME_kdump = "kdump"
+>   INITSCRIPT_PARAMS_kdump = "start 56 2 3 4 5 . stop 56 0 1 6 ."
+>   
+>   do_install_append () {
+> -        install -d ${D}${sysconfdir}/init.d
+> -        install -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
+>           install -d ${D}${sysconfdir}/sysconfig
+>           install -m 0644 ${WORKDIR}/kdump.conf ${D}${sysconfdir}/sysconfig
+> +
+> +        if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+> +                install -D -m 0755 ${WORKDIR}/kdump ${D}${sysconfdir}/init.d/kdump
+> +        fi
+> +
+> +        if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+> +                install -D -m 0755 ${WORKDIR}/kdump ${D}${libexecdir}/kdump-helper
+> +                install -D -m 0644 ${WORKDIR}/kdump.service ${D}${systemd_unitdir}/system/kdump.service
+> +                sed -i -e 's,@LIBEXECDIR@,${libexecdir},g' ${D}${systemd_unitdir}/system/kdump.service
+> +        fi
+>   }
 
-* No multilib:
-  PATH=/path/to/tmp-glibc/work/core2-64-wrs-linux/polkit/0.113-r0/recipe-sysroot-native/bin
-  It would be substituted to:
-  FIXMESTAGINGDIRTARGET-native/bin
-  Not the funny "-native/bin", this works well.
 
-* When multilib:
-  PATH=/path/to/tmp-glibc/work/core2-32-wrsmllib32-linux/lib32-polkit/0.113-r0/recipe-sysroot-native/bin
-  Now staging_target endswith "/lib32-recipe-sysroot", so it can't
-  replace '/recipe-sysroot-native', there would be build errors when
-  building multilib + rm_work, for example:
-  chown: invalid user: ‘polkitd:root’
+ping ......
 
-Substitute staging_host for target recipe can fix the problem, now all
-of native, cross and target need substitute staging_host, so we can
-simply the code a little.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sstate.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index e30fbe1..314a14d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -538,15 +538,15 @@ python sstate_hardcode_path () {
-     staging_host = d.getVar('RECIPE_SYSROOT_NATIVE')
-     sstate_builddir = d.getVar('SSTATE_BUILDDIR')
- 
-+    sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRHOST:g'" % staging_host
-     if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross-canadian', d):
-         sstate_grep_cmd = "grep -l -e '%s'" % (staging_host)
--        sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRHOST:g'" % (staging_host)
-     elif bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d):
-         sstate_grep_cmd = "grep -l -e '%s' -e '%s'" % (staging_target, staging_host)
--        sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRTARGET:g; s:%s:FIXMESTAGINGDIRHOST:g'" % (staging_target, staging_host)
-+        sstate_sed_cmd += " -e 's:%s:FIXMESTAGINGDIRTARGET:g'" % staging_target
-     else:
-         sstate_grep_cmd = "grep -l -e '%s'" % (staging_target)
--        sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRTARGET:g'" % (staging_target)
-+        sstate_sed_cmd += " -e 's:%s:FIXMESTAGINGDIRTARGET:g'" % staging_target
- 
-     extra_staging_fixmes = d.getVar('EXTRA_STAGING_FIXMES') or ''
-     for fixmevar in extra_staging_fixmes.split():
 -- 
-2.7.4
+Thanks,
+Wenlin Kang
 
 
