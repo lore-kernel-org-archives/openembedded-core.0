@@ -1,45 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f180.google.com (mail-pf0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E6325600BC
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 89BB4607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 05:04:06 +0000 (UTC)
-Received: by mail-pf0-f180.google.com with SMTP id z11so16213462pfk.4
+	Mon, 23 Oct 2017 07:45:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9N7jkwt003400
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Oct 2017 22:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=kV3Mn4vOth9QIAN96ZJEpaJIQprcG4mI7maZrYnaoeE=;
-	b=iDerHAijeEj9xyOt3+COONXklj0Avune7yEkvwLpGxR5KZvX6TJOS4CMfOczu1bh0r
-	U81yrrtx3RYyZon0jzTy6UiJRdvUvSVl1zV3pfeEM9/KOKyu3CJVVET0OwxBaRN4kDwD
-	esd55O8wopKzQQvRTyqwGjW6+jLwdXpb4+aM06TglwgtCN34cTHskCCBkti5f4HiY2oy
-	QuUF2mozZvMnED+nOCdRjf91SWGaRJmXS7q+QdQynsU6YhDFDIE8VVjwl8vOwfONhsbi
-	Kt3UsWR8C/MUg+FupYaAB7uZLHKiNen3/Rr2SaXsBTbWuxW+KmAgt5CxQQXxzuQe2T3l
-	VRLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=kV3Mn4vOth9QIAN96ZJEpaJIQprcG4mI7maZrYnaoeE=;
-	b=scbS5qKUqCCTijYX5CJrEGLw2K+cqekwRky6krAxsxW3lppcbb4yFCA1VHHDb5fW0R
-	Q8irwysXyrLmzHgwlEZZzSzgt5uGWLqcQEGeTym9PuAEftOrzHX1XTvSnb3pOJ7fcZXN
-	BYi4oP4VOj6sJrX2QFn3CtnEjOBRF4SfcXg/Mh1brs+HdPoIDJN7OghDfm6umzI0TsPJ
-	QoxFX7TKrr/9EsKjIH7LSAIzOJ12b6KPt26R2cpS3oR0Vj52q/A0cpZEWmvkaEggJzUu
-	1si5oHXB6X9DwwKI2SoYuFpE0Uj1ZL190OvtHWwYhnovst8M+4OR9ziSiG6cI4Na2ubP
-	B2xw==
-X-Gm-Message-State: AMCzsaW8mc2BY8XDpwOUps9ciKU7gGsO2GQbJ4M7uT6CYwJFr3LgGK3F
-	R874SUxkeVaZW0bWBIpOtFXAUpSxCQRIN+JjBCgDRw==
-X-Google-Smtp-Source: ABhQp+RaHgEeLeuNIOC6OhO5+rcZ5Xi3dV1VxIf29fEBqSJ33XO/mL3jFfaCEP6VPwKrRKHM/z/fBc0/mHcN+fDKe48=
-X-Received: by 10.98.150.149 with SMTP id s21mr11866166pfk.151.1508735047997; 
-	Sun, 22 Oct 2017 22:04:07 -0700 (PDT)
+	Mon, 23 Oct 2017 00:45:46 -0700
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Mon, 23 Oct 2017 00:45:45 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Oct 2017 15:44:53 +0800
+Message-ID: <1508744693-248151-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Sun, 22 Oct 2017 22:03:37 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 22 Oct 2017 22:03:37 -0700
-Message-ID: <CAMKF1srGH8tNmFMvqRmV0jXQz+HAVwrXYw1v6EoZQZrb_poDrg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: devtool modify errors on second recipe
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH] curl: Security Advisory - curl - CVE-2017-1000254
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,41 +32,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 05:04:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 23 Oct 2017 07:45:45 -0000
+Content-Type: text/plain
 
-Hi Paul
+Porting patch from <https://github.com/curl/curl/commit/
+5ff2c5ff25750aba1a8f64fbcad8e5b891512584> to solve CVE-2017-1000254.
 
-I am seeing this errors message consistently since few weeks on master
-when using
-devtool modify
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ .../curl/curl/CVE-2017-1000254.patch               | 138 +++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.54.1.bb           |   1 +
+ 2 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2017-1000254.patch
 
-NOTE:   do_populate_sysroot: 100.0% sstate reuse(1 setscene, 0 scratch)
-Traceback (most recent call last):
-  File "/mnt/a/oe/sources/openembedded-core/scripts/devtool", line
-331, in <module>
-    ret = main()
-  File "/mnt/a/oe/sources/openembedded-core/scripts/devtool", line 318, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/mnt/a/oe/sources/openembedded-core/scripts/lib/devtool/standard.py",
-line 714, in modify
-    initial_rev = _extract_source(srctree, args.keep_temp,
-args.branch, False, config, basepath, workspace, args.fixed_setup, rd,
-tinfoil)
-  File "/mnt/a/oe/sources/openembedded-core/scripts/lib/devtool/standard.py",
-line 545, in _extract_source
-    with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
-FileNotFoundError: [Errno 2] No such file or directory:
-'/mnt/a/oe/build/tmp/work/mips32r2-bec-linux-musl/dovecot/2.2.29-r0/devtooltmp-zjst6lsd/initial_rev'
+diff --git a/meta/recipes-support/curl/curl/CVE-2017-1000254.patch b/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
+new file mode 100644
+index 0000000..2b0798b
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2017-1000254.patch
+@@ -0,0 +1,138 @@
++From 1b2eba6f9745c064f7283e0ada8f46df9d9d6e42 Mon Sep 17 00:00:00 2001
++From: Li Zhou <li.zhou@windriver.com>
++Date: Mon, 23 Oct 2017 00:26:50 -0700
++Subject: [PATCH] FTP: zero terminate the entry path even on bad input
++
++... a single double quote could leave the entry path buffer without a zero
++terminating byte. CVE-2017-1000254
++
++Test 1152 added to verify.
++
++Reported-by: Max Dymond
++Bug: https://curl.haxx.se/docs/adv_20171004.html
++
++Upstream-Status: Backport
++CVE: CVE-2017-1000254
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ lib/ftp.c               |  7 ++++--
++ tests/data/Makefile.inc |  2 ++
++ tests/data/test1152     | 61 +++++++++++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 68 insertions(+), 2 deletions(-)
++ create mode 100644 tests/data/test1152
++
++diff --git a/lib/ftp.c b/lib/ftp.c
++index 5edec37..493dbf9 100644
++--- a/lib/ftp.c
+++++ b/lib/ftp.c
++@@ -2826,6 +2826,7 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
++         const size_t buf_size = data->set.buffer_size;
++         char *dir;
++         char *store;
+++        bool entry_extracted = FALSE;
++ 
++         dir = malloc(nread + 1);
++         if(!dir)
++@@ -2857,7 +2858,7 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
++               }
++               else {
++                 /* end of path */
++-                *store = '\0'; /* zero terminate */
+++                entry_extracted = TRUE;
++                 break; /* get out of this loop */
++               }
++             }
++@@ -2866,7 +2867,9 @@ static CURLcode ftp_statemach_act(struct connectdata *conn)
++             store++;
++             ptr++;
++           }
++-
+++          *store = '\0'; /* zero terminate */
+++        }
+++        if(entry_extracted) {
++           /* If the path name does not look like an absolute path (i.e.: it
++              does not start with a '/'), we probably need some server-dependent
++              adjustments. For example, this is the case when connecting to
++diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
++index 7adbee6..5284654 100644
++--- a/tests/data/Makefile.inc
+++++ b/tests/data/Makefile.inc
++@@ -121,6 +121,8 @@ test1120 test1121 test1122 test1123 test1124 test1125 test1126 test1127 \
++ test1128 test1129 test1130 test1131 test1132 test1133 test1134 test1135 \
++ test1136 test1137 test1138 test1139 test1140 test1141 test1142 test1143 \
++ test1144 test1145 test1146 \
+++test1152 \
+++\
++ test1200 test1201 test1202 test1203 test1204 test1205 test1206 test1207 \
++ test1208 test1209 test1210 test1211 test1212 test1213 test1214 test1215 \
++ test1216 test1217 test1218 test1219 \
++diff --git a/tests/data/test1152 b/tests/data/test1152
++new file mode 100644
++index 0000000..aa8c0a7
++--- /dev/null
+++++ b/tests/data/test1152
++@@ -0,0 +1,61 @@
+++<testcase>
+++<info>
+++<keywords>
+++FTP
+++PASV
+++LIST
+++</keywords>
+++</info>
+++#
+++# Server-side
+++<reply>
+++<servercmd>
+++REPLY PWD 257 "just one
+++</servercmd>
+++
+++# When doing LIST, we get the default list output hard-coded in the test
+++# FTP server
+++<data mode="text">
+++total 20
+++drwxr-xr-x   8 98       98           512 Oct 22 13:06 .
+++drwxr-xr-x   8 98       98           512 Oct 22 13:06 ..
+++drwxr-xr-x   2 98       98           512 May  2  1996 curl-releases
+++-r--r--r--   1 0        1             35 Jul 16  1996 README
+++lrwxrwxrwx   1 0        1              7 Dec  9  1999 bin -> usr/bin
+++dr-xr-xr-x   2 0        1            512 Oct  1  1997 dev
+++drwxrwxrwx   2 98       98           512 May 29 16:04 download.html
+++dr-xr-xr-x   2 0        1            512 Nov 30  1995 etc
+++drwxrwxrwx   2 98       1            512 Oct 30 14:33 pub
+++dr-xr-xr-x   5 0        1            512 Oct  1  1997 usr
+++</data>
+++</reply>
+++
+++#
+++# Client-side
+++<client>
+++<server>
+++ftp
+++</server>
+++ <name>
+++FTP with uneven quote in PWD response
+++ </name>
+++ <command>
+++ftp://%HOSTIP:%FTPPORT/test-1152/
+++</command>
+++</client>
+++
+++#
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol>
+++USER anonymous
+++PASS ftp@example.com
+++PWD
+++CWD test-1152
+++EPSV
+++TYPE A
+++LIST
+++QUIT
+++</protocol>
+++</verify>
+++</testcase>
++-- 
++2.11.0
++
+diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.54.1.bb
+index 04aeee7..838c482 100644
+--- a/meta/recipes-support/curl/curl_7.54.1.bb
++++ b/meta/recipes-support/curl/curl_7.54.1.bb
+@@ -10,6 +10,7 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2017-1000099.patch \
+            file://CVE-2017-1000100.patch \
+            file://CVE-2017-1000101.patch \
++           file://CVE-2017-1000254.patch \
+ "
+ 
+ # curl likes to set -g0 in CFLAGS, so we stop it
+-- 
+1.9.1
 
-
-This does not happen when I use it for first time but there after when
-I try to modify the second recipe it shows up.
-
-The setup hasn't changed so it use to work fine. Now as a workaround I
-delete the workspace/
-folder everytime I finish modifying a recipe but thats quite cumbersome
-
-Thanks
--Khem
 
