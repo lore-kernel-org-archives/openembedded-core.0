@@ -1,27 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A3186FFCD
+Return-Path: <Zhangle.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 276E26FF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 10:39:37 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Oct 2017 03:39:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,422,1503385200"; d="scan'208";a="163740319"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 23 Oct 2017 03:39:38 -0700
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>,
-	openembedded-core@lists.openembedded.org
-References: <1508748359-20879-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4dbdca14-c94e-0637-2f2f-9fdae55f0e95@linux.intel.com>
-Date: Mon, 23 Oct 2017 13:35:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Mon, 23 Oct 2017 10:42:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9NAgve7013039
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 23 Oct 2017 03:42:57 -0700 (PDT)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Mon, 23 Oct 2017 03:42:56 -0700
+From: "Yang, Zhangle (Eric)" <Zhangle.Yang@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH V3] libcheck: Upgrade to 0.11.0
+Thread-Index: AdNL669kszQZ5hsXkEqnDNBVhOuhcQ==
+Date: Mon, 23 Oct 2017 10:42:55 +0000
+Message-ID: <8FCD629C0BBCE94983EF9844F70B15D2011DF8F482@ALA-MBC.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
 MIME-Version: 1.0
-In-Reply-To: <1508748359-20879-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-Subject: Re: [PATCH v2] libnl: 3.2.29 -> 3.4.0
+Subject: Re: [PATCH V3] libcheck: Upgrade to 0.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +35,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 10:39:38 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 23 Oct 2017 10:42:57 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/23/2017 11:45 AM, Huang Qiyu wrote:
-> 1) Upgrade libnl from 3.2.29 to 3.4.0.
-> 2) Delete one patch "fix-pktloc_syntax_h-race.patch", for it is inappropriate.
-
-Inappropriate how? Has the problem been solved upstream? Please explain 
-(in the v3 commit message).
-
-> 2) Add one patch "0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch", for musl compile.
-
-Thanks for looking into this one :)
-
-Alex
 
