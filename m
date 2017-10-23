@@ -1,49 +1,46 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 64C0170178
+Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CC1B37198D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 17:14:31 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id b79so17590315pfk.5
+	Mon, 23 Oct 2017 17:23:55 +0000 (UTC)
+Received: by mail-pg0-f67.google.com with SMTP id r25so12287843pgn.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 10:14:33 -0700 (PDT)
+	Mon, 23 Oct 2017 10:23:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=3P4O1Ac3B2sCVpjwUqsjXNwSRNXENaAdr/iAHPp8k3o=;
-	b=LMdiGIFm9avn/rqbYu5O+KGgR5AFUexAUq64bl/7VRUf7itkKVbVR+0bMqh3SDPiqZ
-	tvPyvQgGKJh0LpmjJ9YOOquj6guyecUsZ6MbX4kKjb3+cScA2AIzKWo2/JfuM351l/vN
-	xpI0twPzIVpo4RY0s01zYLF7TDTca3oU3XSCX3rG83vFwUTN242cET+ShJghYQiREjG6
-	ugacL+xTaS3PC4Np3imniPJ/GTb8n9MpaHP+1RijlZTcVdOLztz3tdkeiTb34p/OgALy
-	DmGbT0gzpnAPoc0zfTUpodVjWHY1JyPgP6QGPlfciceNY2k1xL7SJDWvOkZYD/2xS4PT
-	brDQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=8HHAPnpqs/MbRzLGuZ7Vjd5QBSNFGVxLulU35bHNsVk=;
+	b=Ey8lAEfZVHZJgyxPrQgBeP+7tnp788H4KzbzMV+DZI6r7tsGcB8qQ5eZPmrnek5S7D
+	tchl5DvaP2nP3foOGmEEOfnrEjP3HLLyIeg7Zh3zyCy7cpuKqQW6vKdqVuFSt68wI0vC
+	bPucIOE8q9nVilT6hVs+0NH5+SC7kTmxrDejoW/PgiL5m205cBLNmqyXm6EswXj6U1o2
+	T83l3nzRBUZtDfZt+zy+D+WOO3C1dca8azKUA58EHykfZLM3rpq1jBtcVz8TVeaSHKhH
+	98D1Bq95Of4nvez/im82uZ7xOr+zuKDxcn7EVkZ7XDjzzy8FVFFXd7C2VvsKLwpkSTIY
+	tZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3P4O1Ac3B2sCVpjwUqsjXNwSRNXENaAdr/iAHPp8k3o=;
-	b=gYgcZ1IG7rAA9LgCLQyKp/Pui+Z37o1n9EPuvGbAXJTFAXqv/P/A/VtKJHJbzbYx6L
-	+nCV51t0mBifDw2fnK8k2K6sJcomopt/ujfSm1TqEAs8ZizHOYjs0XAK4ibjeb0FRMvl
-	yoMQKknk7OicHRH23TQK3mF3Fa8zGIbFqo3woN4km0aIc+xuW1i0DYufDyFbiJQjwU5J
-	3kSHz6PaikOeMG0B03t1EgOSLekhDNo6OaVHwmppL0swNhCxPidgnuxJE2gwuzIOH5Q8
-	MutmwxYEmNPMEyMt3bcDDTm1wSTT8VGzCYrcrg4WYgASOVR1Wsyb3hn1OU7UvCyO+rHd
-	eTow==
-X-Gm-Message-State: AMCzsaUf2cotSANSi5ckLtT1qtNFWMyQmWV+htzpdk7HZdR4F5SP5Z8N
-	nC+YMCeeK0YpT72mGJ+Kn/Zo/bxiOHIAwvEvI5g=
-X-Google-Smtp-Source: ABhQp+RMjiuGPIzcclOExzpP9jNihV8TRtaadYx4OegfLdtgUHv6M0aYXxTjaYP4t6ksRzZ5mmXqJFTJVfLxFnjnJkI=
-X-Received: by 10.99.51.72 with SMTP id z69mr12580312pgz.317.1508778873190;
-	Mon, 23 Oct 2017 10:14:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Mon, 23 Oct 2017 10:14:02 -0700 (PDT)
-In-Reply-To: <CAJTo0LZZ34aPOfko6usC9VY558FK+T3RSVbevfH0UKtAz8vJYw@mail.gmail.com>
-References: <cover.1508748511.git.Qi.Chen@windriver.com>
-	<4f1aa881f21424b71dd9fda2c47240c14166c471.1508748511.git.Qi.Chen@windriver.com>
-	<CAJTo0LZZ34aPOfko6usC9VY558FK+T3RSVbevfH0UKtAz8vJYw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8HHAPnpqs/MbRzLGuZ7Vjd5QBSNFGVxLulU35bHNsVk=;
+	b=MwbwSelYR+b4W5kkZfhSQE/O+d5s459fZElB9MLupPL4xW7aw2qSzE8fUQjfRHqmSn
+	HaUp2czVZOLmHkIgzpv3i+7JWfbPuXhvEuAbMxMbjjjxIBU5yBInaeS5OsDysD89AA7m
+	vIZYOvPP1PUeF7+bHHBc9II3XZ26n3+H8fPQSbZ5zTeBrpEf5YgxaEr8fjFd6eDAEos+
+	EMY6ctjcTyfMA284rGmGsHuv5dKx1QUDpTSkttTIZBqBAsnAJ9nOuyPu4Dc4vu76oSzi
+	mH6bEGd1FUlbm3X5hmTtfZ9rmTi0u4FI2Xlqm7aMYJOOg5UzzafNsiuvASvcRVQmUADE
+	xJMQ==
+X-Gm-Message-State: AMCzsaX/G6YU7gqXA8lppDpifNRNrslZP9bkmwi8rqsIoK8NdFdUKO2W
+	IKnpMB/mdK7+GYa1hV2xho9/pw==
+X-Google-Smtp-Source: ABhQp+TJ/Mw9XWnK8tViPfxVdgVvTKC6AhdssJWOaLe8dP79jP75fN02AdY06SKRGNf6vEc/fSrqdQ==
+X-Received: by 10.99.183.67 with SMTP id w3mr12335003pgt.329.1508779436914;
+	Mon, 23 Oct 2017 10:23:56 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::d2ab])
+	by smtp.gmail.com with ESMTPSA id
+	j8sm13113491pff.131.2017.10.23.10.23.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Oct 2017 10:23:56 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 23 Oct 2017 10:14:02 -0700
-Message-ID: <CAMKF1srmj96zxxMXgu5wfvG8vMR-1N11LpgN6kY4tC8_v71oJg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd: fix strange behaviour on qemumips64
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Oct 2017 10:23:49 -0700
+Message-Id: <20171023172349.25616-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.2
+Subject: [PATCH V4] libcheck: Upgrade to 0.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,87 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 17:14:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 23 Oct 2017 17:23:55 -0000
 
-On Mon, Oct 23, 2017 at 4:41 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Can we trust the mips64 compiler at all?  Is there a specific optimisation
-> that systemd is turning on that is causing this breakage?  Have you reported
-> this to the gcc bugzilla?
->
-> Ross
->
-> On 23 October 2017 at 11:44, Chen Qi <Qi.Chen@windriver.com> wrote:
->>
->> On qemumips64, `systemctl status <unit>' would have the output of
->> `systemctl show <unit>'. This is incorrect.
->>
->> However, it's not the code logic that cause such problem. It's the
->> compilation flags.
->>
->> Looking back the history, we had problem with systemd on qemumips64
->> which is also related to compilation flags. We solved that by using
->> tweaking FULL_OPTIMIZATION for mips64 to have "-fno-tree-switch-conversion
->> -fno-tree-tail-merge".
->>
->> Now systemd has been upgraded to 234, and we don't have the above problem
->> any more. However, a new problem appears, and that is the output of
->> `systemctl
->> status <unit>'.
->>
->> Hence, we set '-O0' flag for mips64 when building systemd to avoid
->> potential
->> strange problems.
->>
->> [YOCTO #12266]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>  meta/recipes-core/systemd/systemd_234.bb | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_234.bb
->> b/meta/recipes-core/systemd/systemd_234.bb
->> index 36fd3f8..b294604 100644
->> --- a/meta/recipes-core/systemd/systemd_234.bb
->> +++ b/meta/recipes-core/systemd/systemd_234.bb
->> @@ -158,8 +158,8 @@ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG',
->> 'valgrind', ' -DVALGRIND=1', ''
->>  # disable problematic GCC 5.2 optimizations [YOCTO #8291]
->>  FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns
->> -fno-schedule-insns2"
->>
->> -# Avoid login failure on qemumips64 when pam is enabled
->> -FULL_OPTIMIZATION_append_mips64 = " -fno-tree-switch-conversion
->> -fno-tree-tail-merge"
->> +# Disable optimization on qemumips64 to avoid strange behaviour
->> +FULL_OPTIMIZATION_append_mips64 = " -O0"
->>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Changes in V4: Point SRC_URI to release URL
 
-I think we need a narrowed-down case may be a opt pass which is causing
-the problem. reduce the opt level to -O0 will pessimise the code and impact
-the performance.
+ .../libcheck/{libcheck_0.10.0.bb => libcheck_0.12.0.bb}           | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/libcheck/{libcheck_0.10.0.bb => libcheck_0.12.0.bb} (67%)
 
-Firstly, try to use normal -O2 and remove disabling tree-switch-conversion and
-tail call disable.
+diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.12.0.bb
+similarity index 67%
+rename from meta/recipes-support/libcheck/libcheck_0.10.0.bb
+rename to meta/recipes-support/libcheck/libcheck_0.12.0.bb
+index 9d34198a96..e684958925 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.12.0.bb
+@@ -5,11 +5,9 @@ SECTION = "devel"
+ LICENSE  = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/check/check-${PV}.tar.gz \
+-          "
+-
+-SRC_URI[md5sum] = "53c5e5c77d090e103a17f3ed7fd7d8b8"
+-SRC_URI[sha256sum] = "f5f50766aa6f8fe5a2df752666ca01a950add45079aa06416b83765b1cf71052"
++SRC_URI = "https://github.com/${BPN}/check/releases/download/${PV}/check-${PV}.tar.gz"
++SRC_URI[md5sum] = "31b17c6075820a434119592941186f70"
++SRC_URI[sha256sum] = "464201098bee00e90f5c4bdfa94a5d3ead8d641f9025b560a27755a83b824234"
+ 
+ S = "${WORKDIR}/check-${PV}"
+ 
+-- 
+2.14.2
 
->>  COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
->>  COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
