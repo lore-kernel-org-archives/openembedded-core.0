@@ -1,52 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f53.google.com (mail-it0-f53.google.com
-	[209.85.214.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 8535371974
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CAE4370057
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 16:40:58 +0000 (UTC)
-Received: by mail-it0-f53.google.com with SMTP id n195so6198393itg.1
+	Mon, 23 Oct 2017 16:58:00 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id e64so17535035pfk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Oct 2017 09:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=y5K6cw2GZZaZhWLlMsrj5QktkFDievhCDbGvBGL2WXg=;
-	b=fWEsFLGgQT5kPhB+XTS3edTXrikudNvVBvLc/oEyCndRo6mwgOQ+EP4LlReMJ3wKuH
-	uJ0Ar2hdw22IiTsB+zgYvSvgRD0gJl1nt5oXW6dNaeymte+A2JkvfrsS5JKLYoLrK5ia
-	AV3FzWTZLDK5VA7Ck23CP2EQveKl71g8aXHf1VfP0DR8cVn3uNG+ausWgXB9LQOflYkU
-	gEbzZnfIHBN1mLnNCucEX8B/miaOl4gwpIZEKkQ0FMcOmXnXwdfELlgpsUsPCfAXn+Fe
-	GYzQ547182Qd3GFGqjszFa82Wn+6auIKqKETnZQbXq8O55MpurO8VxjAuGzTslcaNS9Q
-	e8mw==
+	Mon, 23 Oct 2017 09:58:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=lih8RPcdigzR09JTqSL7NcU2mf4WVbNVfNY7KRA4xj8=;
+	b=R+o80XoB/ckM1wGc2kpGpLCHkyX220x9BQLCfwPpACXc5gSY9n8BejFLKGIuq+Usiu
+	inYO9CWyXJvLpRzslmiV0bgfPPxatAwxvkkj++gum78/7gRoV7E+g/9b1QTT51XVbzgN
+	1DVGmxaKvNZR6alKLzKgO7+c4fJtsf4KjTCB9HXTrPMxhukAx8Ze1VeQH5/dFbOxl+nT
+	pmpBcDwPgsG5tq4BoNU1is4KYsUk6tJkoYbPdHHZHLl1XKow1tuwgOu7ttINQt2jHx62
+	sNRdEkC2AC45em2IvUjxdkKjGUBTnIK+FlIMFa5L3cl8d26PJR+x7t6OSY74GILVbmrJ
+	sJkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=y5K6cw2GZZaZhWLlMsrj5QktkFDievhCDbGvBGL2WXg=;
-	b=VP5lpb1gitsuVF5Ea36KGECeMnDQWxEKIIgfvSzqeaHTJ7oNQ9CctUDna8zu8Z1i10
-	+teMDN2tmG4aUwP4MpQjo0N+jbU5KLuYRCMdGK3s3zp2NQxb5vippRR+6TborGP4jlIe
-	T8BBZ1cOiUmVnaXUChLl8V4lSs9S/iKvlgK7X72wjTXeA6zA4GKu0N/gb63Lf75319Zl
-	yBaWZuL2+oTnHEtq+xMqImo28IoXRKS13gZH3QGXKNJ5v4UjHJj+39RpqcBPIkUe51Ce
-	5EmGDWRcD08nAFGIhL3dsuLyL8xeltNZmWWdpA6FcxFlwljISlxpPZLWTSMm13pjeyS1
-	of5A==
-X-Gm-Message-State: AMCzsaVIe9sCpiHh/mJ7W8OYiwLDucVzxWLsa6yxQkvI04robfMteDfp
-	eci0EN6N+mPfRUnfP3pRrrcYkBj3MSKUd78ZvGLAlQ==
-X-Google-Smtp-Source: ABhQp+RgQQZE4haAuKlrVZknpVVEh+pRlw/OvLUevhC8Qa27jqCSkfGg0xOzE7YHuSJkz8KslN/46lDprcXhAKhchA0=
-X-Received: by 10.36.81.21 with SMTP id s21mr10103668ita.144.1508776859535;
-	Mon, 23 Oct 2017 09:40:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Mon, 23 Oct 2017 09:40:39 -0700 (PDT)
-In-Reply-To: <CAMKF1soAg8N10P-xPpdffvUoqHQjR7__j3ssxsfRik-69=bmXQ@mail.gmail.com>
-References: <CAMKF1srGH8tNmFMvqRmV0jXQz+HAVwrXYw1v6EoZQZrb_poDrg@mail.gmail.com>
-	<CAJTo0LaHVjE+C9mv7h8c1LQ-Sx-u5PsbxQEeDjp-2e9itvqYkQ@mail.gmail.com>
-	<CAMKF1soAg8N10P-xPpdffvUoqHQjR7__j3ssxsfRik-69=bmXQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 23 Oct 2017 17:40:39 +0100
-Message-ID: <CAJTo0LaZTxcaadGhce-CuiLYY7zCVja8LomrvOvyQGurbrDrJw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: devtool modify errors on second recipe
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=lih8RPcdigzR09JTqSL7NcU2mf4WVbNVfNY7KRA4xj8=;
+	b=j91mg8g0/9W5ofwH5/HVmS4I0l/Ot4KxctZk8vrTtO/MF3qw6no+qF3viwbYrJp+yn
+	r/FgtlnEM8HY1QrcAAIaofWKeya0sChDzYDpxv3xZSN6PQCnP5bKasKhGNxDEFl+L/dG
+	gfS/YmUIm+4xhaG1weFrfcOG7lvz24mqJiKzv93noBKCphVY0MXiUi/aYlUBIUkJ411q
+	DYvsy0joFvpzeijiJ2w1NbGrs9UbRJCufUnY6wPGHqwa0LTXPLaeT3b9J30I3M860U1f
+	ydudqf+51wYCA8LAkjLVTyANVqJB7RajLpCFEWe7pVldXqFhefEHMUuRdkuGSHak2I7F
+	PzPQ==
+X-Gm-Message-State: AMCzsaVpsR3aEu+OYqBUBjViZg6J8AsydY/PxpTaKQk78iSAcVQ5geCB
+	EvdvlbfEgVWhBY/WHN5+/lo56A==
+X-Google-Smtp-Source: ABhQp+QsnBd+izR1KtjnRkWwZWXEwyainYfvU/NfdTxra2eGycWzgPQnFUUFlCTWiTFGW4Xi1V0Vdw==
+X-Received: by 10.98.89.208 with SMTP id k77mr14030677pfj.164.1508777881818;
+	Mon, 23 Oct 2017 09:58:01 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::d2ab])
+	by smtp.gmail.com with ESMTPSA id
+	t85sm15693750pfe.138.2017.10.23.09.58.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 23 Oct 2017 09:58:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Oct 2017 09:57:53 -0700
+Message-Id: <20171023165753.30830-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.2
+Subject: [PATCH V3] libcheck: Upgrade to 0.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 16:40:58 -0000
-Content-Type: multipart/alternative; boundary="001a113a7146c222f2055c397cfe"
+X-List-Received-Date: Mon, 23 Oct 2017 16:58:00 -0000
 
---001a113a7146c222f2055c397cfe
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+Changes in V3: Upgrade to 0.12.0 and use tarball for SRC_URI
 
-On 23 October 2017 at 17:32, Khem Raj <raj.khem@gmail.com> wrote:
+ .../libcheck/{libcheck_0.10.0.bb => libcheck_0.12.0.bb}           | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/libcheck/{libcheck_0.10.0.bb => libcheck_0.12.0.bb} (69%)
 
-> ok cool. point me if you can before I find, I will cherry-pick and try
->
+diff --git a/meta/recipes-support/libcheck/libcheck_0.10.0.bb b/meta/recipes-support/libcheck/libcheck_0.12.0.bb
+similarity index 69%
+rename from meta/recipes-support/libcheck/libcheck_0.10.0.bb
+rename to meta/recipes-support/libcheck/libcheck_0.12.0.bb
+index 9d34198a96..3b72f43032 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.10.0.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.12.0.bb
+@@ -5,11 +5,9 @@ SECTION = "devel"
+ LICENSE  = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/check/check-${PV}.tar.gz \
+-          "
+-
+-SRC_URI[md5sum] = "53c5e5c77d090e103a17f3ed7fd7d8b8"
+-SRC_URI[sha256sum] = "f5f50766aa6f8fe5a2df752666ca01a950add45079aa06416b83765b1cf71052"
++SRC_URI = "https://github.com/${BPN}/check/archive/${PV}.tar.gz"
++SRC_URI[md5sum] = "4399978b4248761bf55797a5ffa795ec"
++SRC_URI[sha256sum] = "7816b4c38f6e23ff873786f18d966e552837677bfae144041e0587e7c39e04e8"
+ 
+ S = "${WORKDIR}/check-${PV}"
+ 
+-- 
+2.14.2
 
-"cooker: fix watching directories with Python 3.6+"
 
-Ross
-
---001a113a7146c222f2055c397cfe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 23 October 2017 at 17:32, Khem Raj <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
-m</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_q=
-uote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204,=
-204);padding-left:1ex">ok cool. point me if you can before I find, I will c=
-herry-pick and try<br></blockquote><div><br></div>&quot;cooker: fix watchin=
-g directories with Python 3.6+&quot;<div><span style=3D"color:rgb(0,0,0);fo=
-nt-family:Arial,Helvetica,sans-serif;font-size:medium"></span>=C2=A0</div><=
-div>Ross</div></div></div></div>
-
---001a113a7146c222f2055c397cfe--
