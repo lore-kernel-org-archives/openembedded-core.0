@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F85B6006E;
-	Mon, 23 Oct 2017 18:02:58 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ovidiu Panait <ovidiu.panait@windriver.com>
-Date: Mon, 23 Oct 2017 18:03:00 -0000
-Message-ID: <20171023180300.2784.27290@do.openembedded.org>
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 6871B60766
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Oct 2017 19:12:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Oct 2017 12:12:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,424,1503385200"; 
+	d="scan'208,217";a="1209102261"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.134])
+	([10.219.128.134])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Oct 2017 12:12:16 -0700
+Date: Mon, 23 Oct 2017 14:22:14 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-Id: <1508786534.11251.2@fm-out.intel.com>
+In-Reply-To: <20171023180300.2784.27290@do.openembedded.org>
 References: <20171023173916.271270-1-ovidiu.panait@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20171023173916.271270-1-ovidiu.panait@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2l0OiBDVkUtMjAxNy0xNDg2Nw==?=
+	<20171023180300.2784.27290@do.openembedded.org>
+X-Mailer: geary/0.11.3
+MIME-Version: 1.0
+Cc: Ovidiu Panait <ovidiu.panait@windriver.com>
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdpdDogQ1ZFLTIwMTctMTQ4Njc=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Oct 2017 18:02:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Oct 2017 19:12:16 -0000
+Content-Type: multipart/alternative; boundary="=-VEJR6n+7iNIJwPw7R40q"
 
-== Series Details ==
+--=-VEJR6n+7iNIJwPw7R40q
+Content-Type: text/plain; charset=utf-8; format=flowed
 
-Series: git: CVE-2017-14867
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9448/
-State : failure
+> 
+> 
+> 
+> * Issue             LIC_FILES_CHKSUM changed on target git but there 
+> was no explanation as to why in the commit message 
+> [test_lic_files_chksum_modified_not_mentioned]
+>   Suggested fix    Provide a reason for LIC_FILES_CHKSUM change in 
+> commit message
+>   Current checksum
+>   New checksum     file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1
 
-== Summary ==
+
+This is a bad check from patchtest (so ignore this complain). CCing 
+Daniela, she is currently reviewing these issues.
+
+Leo
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+--=-VEJR6n+7iNIJwPw7R40q
+Content-Type: text/html; charset=utf-8
 
+<blockquote type="cite"><div class="plaintext" style="white-space: pre-wrap;">
 
 
 * Issue             LIC_FILES_CHKSUM changed on target git but there was no explanation as to why in the commit message [test_lic_files_chksum_modified_not_mentioned] 
   Suggested fix    Provide a reason for LIC_FILES_CHKSUM change in commit message
   Current checksum 
-  New checksum     file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1
+  New checksum     <a href="file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1">file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1</a></div></blockquote><div><br></div><div><br></div><div>This is a bad check from patchtest (so ignore this complain). CCing Daniela, she is currently reviewing these issues.</div><div><br></div><div>Leo</div><div></div><blockquote type="cite"><div class="plaintext" style="white-space: pre-wrap;">
+</div></blockquote>
 
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
-
+--=-VEJR6n+7iNIJwPw7R40q--
