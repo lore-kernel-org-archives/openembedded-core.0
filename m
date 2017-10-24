@@ -1,22 +1,18 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D512560765
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Oct 2017 20:25:47 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Oct 2017 13:25:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,429,1503385200"; d="scan'208";a="1028905358"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga003.jf.intel.com with ESMTP; 24 Oct 2017 13:25:48 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Oct 2017 13:25:46 -0700
-Message-Id: <1508876746-7934-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] gmp-6.1.2: add ptest support
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A66760119;
+	Tue, 24 Oct 2017 20:33:02 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Date: Tue, 24 Oct 2017 20:33:04 -0000
+Message-ID: <20171024203304.2785.79014@do.openembedded.org>
+References: <1508876746-7934-1-git-send-email-juro.bystricky@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1508876746-7934-1-git-send-email-juro.bystricky@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ21wLTYuMS4yOiBhZGQgcHRlc3Qgc3VwcG9ydA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,114 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Oct 2017 20:25:48 -0000
+X-List-Received-Date: Tue, 24 Oct 2017 20:33:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-GMP library contains code highly optimized for the host processor.
-The test suite for GMP is considered critical.
-GMP is heavily used in cryptography, internet security applications,
-GCC..., etc. Therefore it is only prudent to have a test suite available.
+== Series Details ==
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+Series: gmp-6.1.2: add ptest support
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9455/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-support/gmp/gmp-6.1.2/avoid-parallel-tests.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/gmp/gmp-6.1.2/avoid-parallel-tests.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../gmp/gmp-6.1.2/avoid-parallel-tests.patch       | 18 ++++++++++++++++++
- meta/recipes-support/gmp/gmp-6.1.2/run-ptest       | 22 ++++++++++++++++++++++
- meta/recipes-support/gmp/gmp_6.1.2.bb              | 21 +++++++++++++++++++++
- 3 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp-6.1.2/avoid-parallel-tests.patch
- create mode 100644 meta/recipes-support/gmp/gmp-6.1.2/run-ptest
-
-diff --git a/meta/recipes-support/gmp/gmp-6.1.2/avoid-parallel-tests.patch b/meta/recipes-support/gmp/gmp-6.1.2/avoid-parallel-tests.patch
-new file mode 100644
-index 0000000..1f05a3f
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp-6.1.2/avoid-parallel-tests.patch
-@@ -0,0 +1,18 @@
-+--- a/configure.ac	2017-10-24 09:19:31.439004000 -0700
-++++ b/configure.ac	2017-10-24 10:33:08.850059434 -0700
-+@@ -77,7 +77,7 @@
-+ dnl  Note that there's a copy of these options in the top-level Makefile.am,
-+ dnl  so update there too if changing anything.
-+ dnl
-+-AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
-++AM_INIT_AUTOMAKE([1.8 gnu no-dependencies serial-tests])
-+ AC_CONFIG_HEADERS(config.h:config.in)
-+ AM_MAINTAINER_MODE
-+ 
-+@@ -3936,3 +3936,6 @@
-+      ;;
-+    esac
-+ fi
-++
-++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
-++
-diff --git a/meta/recipes-support/gmp/gmp-6.1.2/run-ptest b/meta/recipes-support/gmp/gmp-6.1.2/run-ptest
-new file mode 100644
-index 0000000..ef4f76f
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp-6.1.2/run-ptest
-@@ -0,0 +1,22 @@
-+#!/bin/sh
-+
-+passed=0
-+failed=0
-+
-+output() {
-+  if [ $? -eq 0 ]
-+    then 
-+        echo "PASS: $i"
-+        passed=$((passed + 1))
-+    else 
-+        echo "FAIL: $i"
-+        failed=$((failed + 1))
-+  fi
-+}
-+
-+cd tests
-+for i in `ls *`; do ./$i ; output; done
-+
-+echo "=== Test Summary ==="
-+echo "PASSED: ${passed}"
-+echo "FAILED: ${failed}"
-diff --git a/meta/recipes-support/gmp/gmp_6.1.2.bb b/meta/recipes-support/gmp/gmp_6.1.2.bb
-index b008710..fa60dc7 100644
---- a/meta/recipes-support/gmp/gmp_6.1.2.bb
-+++ b/meta/recipes-support/gmp/gmp_6.1.2.bb
-@@ -14,6 +14,12 @@ SRC_URI = "https://gmplib.org/download/${BPN}/${BP}${REVISION}.tar.bz2 \
-            file://0001-Append-the-user-provided-flags-to-the-auto-detected-.patch \
-            file://0001-confiure.ac-Believe-the-cflags-from-environment.patch \
-            "
-+           
-+SRC_URI_append_class-target =" \
-+           file://run-ptest \
-+           file://avoid-parallel-tests.patch \
-+           "
-+           
- SRC_URI[md5sum] = "8ddbb26dc3bd4e2302984debba1406a5"
- SRC_URI[sha256sum] = "5275bb04f4863a13516b2f39392ac5e272f5e1bb8057b18aec1c9b79d73d8fb2"
- 
-@@ -34,6 +40,21 @@ do_install_prepend_class-target() {
- 
- SSTATE_SCAN_FILES += "gmp.h"
- 
-+inherit ptest
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/tests buildtest-TESTS
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    for i in `find ./tests -name '.libs' -d`; do
-+        find $i -type f -perm -111 -exec cp {} ${D}${PTEST_PATH}/tests \;
-+    done
-+}
-+
-+RDEPENDS_${PN}-ptest += "bash"
-+
- # Doesn't compile in MIPS16e mode due to use of hand-written
- # assembly
- MIPS_INSTRUCTION_SET = "mips"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
