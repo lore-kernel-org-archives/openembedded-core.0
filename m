@@ -1,28 +1,43 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 63A7F6E666
+Return-Path: <shubhabrata.sen@gmail.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id F383E606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 08:06:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9P86MNc027258
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Oct 2017 01:06:22 -0700 (PDT)
-Received: from [128.224.163.244] (128.224.163.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Wed, 25 Oct 2017 01:06:22 -0700
-To: Armin Kuster <akuster808@gmail.com>, <akuster@mvista.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1508917783-11437-1-git-send-email-akuster808@gmail.com>
-From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <1b1cd084-b33f-9d21-282a-03aa82550b86@windriver.com>
-Date: Wed, 25 Oct 2017 16:04:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Wed, 25 Oct 2017 09:09:23 +0000 (UTC)
+Received: by mail-qk0-f178.google.com with SMTP id b15so29593439qkg.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Oct 2017 02:09:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=M56Ieh7qd/irlORyvdmfdoQQEbBxkH/goOTXILc/554=;
+	b=SAbABgeao8ba0QxaW24lWbwTRjvhtAY4BrO7nMz18ZfiQ5kkf4Aob0VzfbgrIA2tOu
+	AXlJ5q1Q+x8mKwiUpzNccOTDOXmf49y6c5Fe9RnzUNab18hpyJm817PvgEAHM1DPV/a/
+	cX1kUxIAECUBVl37yg9PoDAnT8dzOVMn43X8X/EzRo7O+Ka81yY6dvRyZ3RvAFH1Hzb2
+	VCxflpS/9ItYgEXNOA2nBBTlFlah3Z9/mpyyX5Oxd7h525xQrwpyLmvq6HP8+ToL+Lf8
+	3WiL62GEl+4lqpDpPHcYboSvdsJv9tjmPg6O/1kPNDf8EJHRvFhtfWRBTTS7/B/c4PaG
+	6CPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=M56Ieh7qd/irlORyvdmfdoQQEbBxkH/goOTXILc/554=;
+	b=lJezUs1Okk+b6igVsQvht0XRphUSvT9OCeU2Sxt1DleDSCsz40xoJ9DQ9ExvyPLD0r
+	oXXgB9BlQ/YxceUdwOew38dZqpAriHQh2Iat/DAgd0qEPC0YY/UhDA0JBBjh+qRFdioZ
+	BLNBx3ABXnfZcmJRQPAit3k/71BXHqmPOpuH3ZcMQcqOZULpU2Qaq/hIxFXxAjz2yJOg
+	ztHcsbBHWCTdmX6oIoefhMVrnM0/z4VAjDM848YzZjvwmadwVo6S6RGlzg1mnSQOwYTf
+	NPGCGYOuNnIn0H67tC9m6LXOC6fAAgArd7DkwoBgdtaJjezIKStPcMUoSxjHFnn7jNar
+	q+aQ==
+X-Gm-Message-State: AMCzsaWBXQ4u/GaEVKfNFboH7brwK8zSVjkjD0Knq1CQwDFJb6H+i6s9
+	mKauqLVXMynJLpQynsbr4vKiAhr4BRin5VcnvTV4+w==
+X-Google-Smtp-Source: ABhQp+T09gR5FPCjl1yLijfQPueYozVRtRsdKR0qRdaydsIU4RBId/sziAmQZRXTuMKj7t5DcMkJkRJuevb+o74cEtc=
+X-Received: by 10.55.212.80 with SMTP id l77mr2009362qki.82.1508922564770;
+	Wed, 25 Oct 2017 02:09:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1508917783-11437-1-git-send-email-akuster808@gmail.com>
-X-Originating-IP: [128.224.163.244]
-Subject: Re: [PATCH 1/2] tzcode-native: update to 2017d
+Received: by 10.237.35.52 with HTTP; Wed, 25 Oct 2017 02:09:24 -0700 (PDT)
+From: shubhabrata sen <shubhabrata.sen@gmail.com>
+Date: Wed, 25 Oct 2017 11:09:24 +0200
+Message-ID: <CA+jxWbeubv1tSJLXs5v6wP0do_+jzgepSMc2okvj4imip=+yjA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Swig dependency error while building firmware with apparmor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,132 +50,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 08:06:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 25 Oct 2017 09:09:24 -0000
+Content-Type: multipart/alternative; boundary="001a1147999c778010055c5b6901"
 
-Should be 2017c ?
+--001a1147999c778010055c5b6901
+Content-Type: text/plain; charset="UTF-8"
 
-I encountered a zdump build error on Ubuntu 14.04:
+Hi,
 
-zdump.c:803:1: error: static declaration of ‘snprintf’ follows
-non-static declaration
-|  snprintf(char *s, size_t size, char const *format, ...)
-|  ^
+I'm trying to build a firmware with the apparmor recipe and I keep getting
+the following error
 
-There was a discussion for it on upstream mailing list: 
-http://mm.icann.org/pipermail/tz/2017-October/025364.html
+*checking for swig... no*
+| checking whether the libapparmor debug output should be enabled... no
+| checking whether the libapparmor man pages should be generated... yes
+| checking for podchecker... podchecker
+| checking for pod2man... pod2man
+| checking whether python bindings are enabled... yes
+*| configure: error: swig is required when enabling python bindings*
+| WARNING:
+/home/shubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure.8464:1
+exit 1 from 'PERL="${PERL}"
+PYTHON="/home/shubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python"
+./configure --build=x86_64-linux --host=arm-poky-linux-gnueabi
+--target=arm-poky-linux-gnueabi --prefix=/usr --libdir=/usr/lib
+--mandir=/usr/share/man --includedir=/usr/include --with-perl --with-python'
 
+I've included the SWIG recipe in the build and I can successfully build the
+firmware including swig with the bitbake command but somehow the apparmor
+recipe can't find the swig package. Any help regarding this would be
+appreciated.
 
-Thanks,
-Yi
+Thanks
 
-在 2017年10月25日 15:49, Armin Kuster 写道:
-> LICENSE changes do to rewording
->
-> https://github.com/eggert/tz/commit/7097a652778d35acf747d14f8bf7b3ced479bbc0#diff-9879d6db96fd29134fc802214163b95a
->
-> Changes to code
->
->      zic and the reference runtime now reject multiple leap seconds
->      within 28 days of each other, or leap seconds before the Epoch.
->      As a result, support for double leap seconds, which was
->      obsolescent and undocumented, has been removed.  Double leap
->      seconds were an error in the C89 standard; they have never existed
->      in civil timekeeping.  (Thanks to Robert Elz and Bradley White for
->      noticing glitches in the code that uncovered this problem.)
->
->      zic now warns about use of the obsolescent and undocumented -y
->      option, and about use of the obsolescent TYPE field of Rule lines.
->
->      zic now allows unambiguous abbreviations like "Sa" and "Su" for
->      weekdays; formerly it rejected them due to a bug.  Conversely, zic
->      no longer considers non-prefixes to be abbreviations; for example,
->      it no longer accepts "lF" as an abbreviation for "lastFriday".
->      Also, zic warns about the undocumented usage with a "last-"
->      prefix, e.g., "last-Fri".
->
->      Similarly, zic now accepts the unambiguous abbreviation "L" for
->      "Link" in ordinary context and for "Leap" in leap-second context.
->      Conversely, zic no longer accepts non-prefixes such as "La" as
->      abbreviations for words like "Leap".
->
->      zic no longer accepts leap second lines in ordinary input, or
->      ordinary lines in leap second input.  Formerly, zic sometimes
->      warned about this undocumented usage and handled it incorrectly.
->
->      The new macro HAVE_TZNAME governs whether the tzname external
->      variable is exported, instead of USG_COMPAT.  USG_COMPAT now
->      governs only the external variables "timezone" and "daylight".
->      This change is needed because the three variables are not in the
->      same category: although POSIX requires tzname, it specifies the
->      other two variables as optional.  Also, USG_COMPAT is now 1 or 0:
->      if not defined, the code attempts to guess it from other macros.
->
->      localtime.c and difftime.c no longer require stdio.h, and .c files
->      other than zic.c no longer require sys/wait.h.
->
->      zdump.c no longer assumes snprintf.  (Reported by Jonathan Leffler.)
->
->      Calculation of time_t extrema works around a bug in GCC 4.8.4
->      (Reported by Stan Shebs and Joseph Myers.)
->
->      zic.c no longer mistranslates formats of line numbers in non-English
->      locales.  (Problem reported by Benno Schulenberg.)
->
->      Several minor changes have been made to the code to make it a
->      bit easier to port to MS-Windows and Solaris.  (Thanks to Kees
->      Dekker for reporting the problems.)
->
->    Changes to documentation and commentary
->
->      The two new files 'theory.html' and 'calendars' contain the
->      contents of the removed file 'Theory'.  The goal is to document
->      tzdb theory more accessibly.
->
->      The zic man page now documents abbreviation rules.
->
->      tz-link.htm now covers how to apply tzdata changes to clients.
->      (Thanks to Jorge Fábregas for the AIX link.)  It also mentions MySQL.
->
->      The leap-seconds.list URL has been updated to something that is
->      more reliable for tzdb.  (Thanks to Tim Parenti and Brian Inglis.)
->
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->   .../tzcode/{tzcode-native_2017b.bb => tzcode-native_2017c.bb}  | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
->   rename meta/recipes-extended/tzcode/{tzcode-native_2017b.bb => tzcode-native_2017c.bb} (63%)
->
-> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb b/meta/recipes-extended/tzcode/tzcode-native_2017c.bb
-> similarity index 63%
-> rename from meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-> rename to meta/recipes-extended/tzcode/tzcode-native_2017c.bb
-> index 165d2c6..c8a987f 100644
-> --- a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
-> +++ b/meta/recipes-extended/tzcode/tzcode-native_2017c.bb
-> @@ -3,16 +3,16 @@
->   SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
->   LICENSE = "PD & BSD & BSD-3-Clause"
->   
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=ef1a352b901ee7b75a75df8171d6aca7"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
->   
->   SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
->              http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
->   UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
->   
-> -SRC_URI[tzcode.md5sum] = "afaf15deb13759e8b543d86350385b16"
-> -SRC_URI[tzcode.sha256sum] = "4d1735bb54e22b8d7443d4d1f1a13d007ae11be79a35e51f8e8322fb8e292d40"
-> -SRC_URI[tzdata.md5sum] = "50dc0dc50c68644c1f70804f2e7a1625"
-> -SRC_URI[tzdata.sha256sum] = "f8242a522ea3496b0ce4ff4f2e75a049178da21001a08b8e666d8cbe07d18086"
-> +SRC_URI[tzcode.md5sum] = "2fe6986231db5182c61d565021a0cd7b"
-> +SRC_URI[tzcode.sha256sum] = "81e8b4bc23e60906640c266bbff3789661e22f0fa29fe61b96ec7c2816c079b7"
-> +SRC_URI[tzdata.md5sum] = "1e751e7e08f8b68530674f04619d894d"
-> +SRC_URI[tzdata.sha256sum] = "d6543f92a929826318e2f44ff3a7611ce5f565a43e10250b42599d0ba4cbd90b"
->   
->   S = "${WORKDIR}"
->   
+Shubh
 
+--001a1147999c778010055c5b6901
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to build a firmware =
+with the apparmor recipe and I keep getting the following error</div><div><=
+br></div><div><div><b>checking for swig... no</b></div><div>| checking whet=
+her the libapparmor debug output should be enabled... no</div><div>| checki=
+ng whether the libapparmor man pages should be generated... yes</div><div>|=
+ checking for podchecker... podchecker</div><div>| checking for pod2man... =
+pod2man</div><div>| checking whether python bindings are enabled... yes</di=
+v><div><b>| configure: error: swig is required when enabling python binding=
+s</b></div><div>| WARNING: /home/shubhabs/dists/cvp/builds/p1367/tmp/work/c=
+ortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure=
+.8464:1 exit 1 from &#39;PERL=3D&quot;${PERL}&quot; PYTHON=3D&quot;/home/sh=
+ubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/a=
+pparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python&quot;=
+ ./configure --build=3Dx86_64-linux --host=3Darm-poky-linux-gnueabi --targe=
+t=3Darm-poky-linux-gnueabi --prefix=3D/usr --libdir=3D/usr/lib --mandir=3D/=
+usr/share/man --includedir=3D/usr/include --with-perl --with-python&#39;</d=
+iv></div><div><br></div><div>I&#39;ve included the SWIG recipe in the build=
+ and I can successfully build the firmware including swig with the bitbake =
+command but somehow the apparmor recipe can&#39;t find the swig package. An=
+y help regarding this would be appreciated.</div><div><br></div><div>Thanks=
+</div><div><br></div><div>Shubh</div></div>
+
+--001a1147999c778010055c5b6901--
