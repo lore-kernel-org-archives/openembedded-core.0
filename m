@@ -1,43 +1,42 @@
-Return-Path: <shubhabrata.sen@gmail.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id F383E606B2
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 1544A62134
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 09:09:23 +0000 (UTC)
-Received: by mail-qk0-f178.google.com with SMTP id b15so29593439qkg.9
+	Wed, 25 Oct 2017 10:13:28 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id q124so852508wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 02:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=M56Ieh7qd/irlORyvdmfdoQQEbBxkH/goOTXILc/554=;
-	b=SAbABgeao8ba0QxaW24lWbwTRjvhtAY4BrO7nMz18ZfiQ5kkf4Aob0VzfbgrIA2tOu
-	AXlJ5q1Q+x8mKwiUpzNccOTDOXmf49y6c5Fe9RnzUNab18hpyJm817PvgEAHM1DPV/a/
-	cX1kUxIAECUBVl37yg9PoDAnT8dzOVMn43X8X/EzRo7O+Ka81yY6dvRyZ3RvAFH1Hzb2
-	VCxflpS/9ItYgEXNOA2nBBTlFlah3Z9/mpyyX5Oxd7h525xQrwpyLmvq6HP8+ToL+Lf8
-	3WiL62GEl+4lqpDpPHcYboSvdsJv9tjmPg6O/1kPNDf8EJHRvFhtfWRBTTS7/B/c4PaG
-	6CPg==
+	Wed, 25 Oct 2017 03:13:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=M56Ieh7qd/irlORyvdmfdoQQEbBxkH/goOTXILc/554=;
-	b=lJezUs1Okk+b6igVsQvht0XRphUSvT9OCeU2Sxt1DleDSCsz40xoJ9DQ9ExvyPLD0r
-	oXXgB9BlQ/YxceUdwOew38dZqpAriHQh2Iat/DAgd0qEPC0YY/UhDA0JBBjh+qRFdioZ
-	BLNBx3ABXnfZcmJRQPAit3k/71BXHqmPOpuH3ZcMQcqOZULpU2Qaq/hIxFXxAjz2yJOg
-	ztHcsbBHWCTdmX6oIoefhMVrnM0/z4VAjDM848YzZjvwmadwVo6S6RGlzg1mnSQOwYTf
-	NPGCGYOuNnIn0H67tC9m6LXOC6fAAgArd7DkwoBgdtaJjezIKStPcMUoSxjHFnn7jNar
-	q+aQ==
-X-Gm-Message-State: AMCzsaWBXQ4u/GaEVKfNFboH7brwK8zSVjkjD0Knq1CQwDFJb6H+i6s9
-	mKauqLVXMynJLpQynsbr4vKiAhr4BRin5VcnvTV4+w==
-X-Google-Smtp-Source: ABhQp+T09gR5FPCjl1yLijfQPueYozVRtRsdKR0qRdaydsIU4RBId/sziAmQZRXTuMKj7t5DcMkJkRJuevb+o74cEtc=
-X-Received: by 10.55.212.80 with SMTP id l77mr2009362qki.82.1508922564770;
-	Wed, 25 Oct 2017 02:09:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.237.35.52 with HTTP; Wed, 25 Oct 2017 02:09:24 -0700 (PDT)
-From: shubhabrata sen <shubhabrata.sen@gmail.com>
-Date: Wed, 25 Oct 2017 11:09:24 +0200
-Message-ID: <CA+jxWbeubv1tSJLXs5v6wP0do_+jzgepSMc2okvj4imip=+yjA@mail.gmail.com>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Q6wD/PoHlNLvJbDlk1hs6Dwt7+ChoeEk2db7YqQs16c=;
+	b=sJ7Q21iAguL9tbySurQC460emziuKunptaVP+uFPnrGavC78WwCvy8yfYU/XNgGPch
+	t+M4RdZ7PDv6s4tWmcTALTWb9wrvPZodCfjigTEgYmDo7fLEjbLPvHwcRXmLOzHtd+qU
+	0xp7M0GsA283EFUYy/HceyIWb2VbZY3yVHmDFS92pFHxgJ130uj+A2zxsJszlMZlDCJg
+	3B7bda+KcSrnXNlc/yLAGFMIvCsbdztIe+dNFeRFYnB0ah6ZnJnJQmaa5Q9o7gdgbLaQ
+	7Azlo7BqjAFdWf6ZHGOrF0OTBA+Eq/1tXn4BAjo+AE5Nib0jsocn7ago2O5aNOhvvkOU
+	k1rA==
+X-Gm-Message-State: AMCzsaX4K4CPb9elIcdI2CqG8SUx4iCwv01H+lGFKbw3QrlmoN0tcIHE
+	CeHQQDkZxjgNtjeDoTyijUzVPBLV
+X-Google-Smtp-Source: ABhQp+RpW8HmZ1j7kg6ZVW98FqyLR1kL8rFNAmYm4OKg0ch/HpSMhQQT4nbqVv9xh9HzLYhy4qyiiw==
+X-Received: by 10.28.132.73 with SMTP id g70mr1202276wmd.33.1508926409472;
+	Wed, 25 Oct 2017 03:13:29 -0700 (PDT)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	a79sm2158996wma.14.2017.10.25.03.13.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 25 Oct 2017 03:13:28 -0700 (PDT)
+Message-ID: <1508926407.13607.53.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Subject: Swig dependency error while building firmware with apparmor
+Date: Wed, 25 Oct 2017 11:13:27 +0100
+In-Reply-To: <20171025073248.24161-1-thomas.perrot@tupi.fr>
+References: <20171025073248.24161-1-thomas.perrot@tupi.fr>
+X-Mailer: Evolution 3.26.1-1 
+Mime-Version: 1.0
+Subject: Re: [meta][PATCH 1/2] Fix some issues in the fitImage generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,65 +49,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 09:09:24 -0000
-Content-Type: multipart/alternative; boundary="001a1147999c778010055c5b6901"
-
---001a1147999c778010055c5b6901
+X-List-Received-Date: Wed, 25 Oct 2017 10:13:29 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 2017-10-25 at 09:32 +0200, Thomas Perrot wrote:
+> - Bad image type replacement for aarch64
+> - Fix DTB path in fitimage.its
 
-I'm trying to build a firmware with the apparmor recipe and I keep getting
-the following error
+It doesn't look like the DTB bit is still relevant in this commit.
 
-*checking for swig... no*
-| checking whether the libapparmor debug output should be enabled... no
-| checking whether the libapparmor man pages should be generated... yes
-| checking for podchecker... podchecker
-| checking for pod2man... pod2man
-| checking whether python bindings are enabled... yes
-*| configure: error: swig is required when enabling python bindings*
-| WARNING:
-/home/shubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure.8464:1
-exit 1 from 'PERL="${PERL}"
-PYTHON="/home/shubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python"
-./configure --build=x86_64-linux --host=arm-poky-linux-gnueabi
---target=arm-poky-linux-gnueabi --prefix=/usr --libdir=/usr/lib
---mandir=/usr/share/man --includedir=/usr/include --with-perl --with-python'
+> - Ignore fitImage type in do_bundle_initramfs task because the packaging
+> is made by do_assemble_fitimage_initramfs
+> - the images for arm64 are not compressed the linux_comp variable must
+> therefore be none
 
-I've included the SWIG recipe in the build and I can successfully build the
-firmware including swig with the bitbake command but somehow the apparmor
-recipe can't find the swig package. Any help regarding this would be
-appreciated.
+I think it would also make sense to split this into multiple commits, as
+your aarch64 fixes and fitimage fixes aren't directly related.
 
-Thanks
+> Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
+> ---
+>  meta/classes/kernel-fitimage.bbclass |  7 +++++--
+>  meta/classes/kernel-uboot.bbclass    | 11 ++++++++---
+>  meta/classes/kernel.bbclass          |  4 +++-
+>  3 files changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-
+> fitimage.bbclass
+> index 179185b6b2..0789ba611f 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -7,10 +7,13 @@ python __anonymous () {
+>          depends = "%s u-boot-mkimage-native dtc-native" % depends
+>          d.setVar("DEPENDS", depends)
+>  
+> -        if d.getVar("UBOOT_ARCH") == "mips":
+> +        uarch = d.getVar("UBOOT_ARCH")
+> +        if uarch == "mips":
+>              replacementtype = "vmlinuz.bin"
+> -        elif d.getVar("UBOOT_ARCH") == "x86":
+> +        elif uarch == "x86":
+>              replacementtype = "bzImage"
+> +        elif uarch == "arm64":
+> +            replacementtype = "Image"
 
-Shubh
+Can you keep these tests in alphabetical order please?
 
---001a1147999c778010055c5b6901
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>          else:
+>              replacementtype = "zImage"
+>  
+> diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-
+> uboot.bbclass
+> index 87f02654fa..06d293039a 100644
+> --- a/meta/classes/kernel-uboot.bbclass
+> +++ b/meta/classes/kernel-uboot.bbclass
+> @@ -1,5 +1,5 @@
+>  uboot_prep_kimage() {
+> -	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
+> +	if [ -e arch/${ARCH}/boot/compressed/vmlinux ] ; then
+>  		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
+>  		linux_suffix=""
+>  		linux_comp="none"
+> @@ -11,8 +11,13 @@ uboot_prep_kimage() {
+>  		linux_comp="none"
+>  	else
+>  		vmlinux_path="vmlinux"
+> -		linux_suffix=".gz"
+> -		linux_comp="gzip"
+> +		if [ "${ARCH}" = "arm64" ] ; then
+> +			linux_suffix=""
+> +			linux_comp="none"
+> +		else
+> +			linux_suffix=".gz"
+> +			linux_comp="gzip"
+> +		fi
+>  	fi
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to build a firmware =
-with the apparmor recipe and I keep getting the following error</div><div><=
-br></div><div><div><b>checking for swig... no</b></div><div>| checking whet=
-her the libapparmor debug output should be enabled... no</div><div>| checki=
-ng whether the libapparmor man pages should be generated... yes</div><div>|=
- checking for podchecker... podchecker</div><div>| checking for pod2man... =
-pod2man</div><div>| checking whether python bindings are enabled... yes</di=
-v><div><b>| configure: error: swig is required when enabling python binding=
-s</b></div><div>| WARNING: /home/shubhabs/dists/cvp/builds/p1367/tmp/work/c=
-ortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure=
-.8464:1 exit 1 from &#39;PERL=3D&quot;${PERL}&quot; PYTHON=3D&quot;/home/sh=
-ubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/a=
-pparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python&quot;=
- ./configure --build=3Dx86_64-linux --host=3Darm-poky-linux-gnueabi --targe=
-t=3Darm-poky-linux-gnueabi --prefix=3D/usr --libdir=3D/usr/lib --mandir=3D/=
-usr/share/man --includedir=3D/usr/include --with-perl --with-python&#39;</d=
-iv></div><div><br></div><div>I&#39;ve included the SWIG recipe in the build=
- and I can successfully build the firmware including swig with the bitbake =
-command but somehow the apparmor recipe can&#39;t find the swig package. An=
-y help regarding this would be appreciated.</div><div><br></div><div>Thanks=
-</div><div><br></div><div>Shubh</div></div>
+I believe U-Boot supports decompression on any architecture independent of
+kernel decompression support. It also supports multiple decompressors, not
+just gzip. It would make sense to rather be able to configure the
+compression method for U-Boot in a more generic way (including turning it
+off completely) for any supported target.
 
---001a1147999c778010055c5b6901--
+
+Cheers,
+Andre'
+
+
