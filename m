@@ -1,27 +1,24 @@
-Return-Path: <jose.a.lamego@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D96162134
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 985A571C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 15:17:18 +0000 (UTC)
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Oct 2017 08:16:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,432,1503385200"; 
-	d="scan'208,217";a="327591025"
-Received: from jalamego-mobl3.zpn.intel.com (HELO [10.219.128.147])
-	([10.219.128.147])
-	by fmsmga004.fm.intel.com with ESMTP; 25 Oct 2017 08:16:40 -0700
-To: openembedded-core@lists.openembedded.org
-References: <1508934851-3067-1-git-send-email-holzmayr@rsi-elektrotechnik.de>
-From: Jose Lamego <jose.a.lamego@linux.intel.com>
-Message-ID: <706ad8ef-39de-02ea-6475-f6caf2012cb5@linux.intel.com>
-Date: Wed, 25 Oct 2017 10:16:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Wed, 25 Oct 2017 16:04:15 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	id 1e7OAC-0002K8-EE from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Wed, 25 Oct 2017 09:04:16 -0700
+Received: from svr-pkl-eng-07.mgc.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.3.224.2; Wed, 25 Oct 2017 17:04:14 +0100
+From: Awais Belal <awais_belal@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Oct 2017 21:03:48 +0500
+Message-ID: <20171025160348.29256-1-awais_belal@mentor.com>
+X-Mailer: git-send-email 2.11.1
 MIME-Version: 1.0
-In-Reply-To: <1508934851-3067-1-git-send-email-holzmayr@rsi-elektrotechnik.de>
-Subject: Re: [PATCH 0/2] version bump bc to 1.07.1
+Subject: [PATCH] dhcp: fix build issue with libxml2 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,127 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 15:17:19 -0000
-Content-Type: multipart/alternative;
-	boundary="------------D983F601F8FABB4884C60C89"
-Content-Language: en-US
+X-List-Received-Date: Wed, 25 Oct 2017 16:04:15 -0000
+Content-Type: text/plain
 
---------------D983F601F8FABB4884C60C89
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+A missing case breaks the build when libxml2 is
+required and found appropriately. The third argument
+to the function AC_SEARCH_LIB is action-if-found which
+was mistakenly been used for the case where the library
+is not found and hence breaks the configure phase
+where it shoud actually pass.
+We now pass on silently when action-if-found is
+executed.
 
-Josef,
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
+---
+ ...correct-the-intention-for-xml2-lib-search.patch | 35 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb       |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch
 
-A previous upgrade attempt [1] showed that bc version 1.07.1 not only 
-needs ed in the host (a regression from 1.06) but also shows a Parallel 
-Make Race that requires unsetting PARALLEL_MAKE variable. I contacted 
-the upstream maintainer and he is aware of this situation and has 
-developed and tested a version 1.07.2, (however is not available for 
-download yet). The upgrade was delayed for this reason (more details in 
-the patch comments thread).
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch b/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch
+new file mode 100644
+index 0000000000..6ded764d0e
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0012-dhcp-correct-the-intention-for-xml2-lib-search.patch
+@@ -0,0 +1,35 @@
++From 501543b3ef715488a142e3d301ff2733aa33eec7 Mon Sep 17 00:00:00 2001
++From: Awais Belal <awais_belal@mentor.com>
++Date: Wed, 25 Oct 2017 21:00:05 +0500
++Subject: [PATCH] dhcp: correct the intention for xml2 lib search
++
++A missing case breaks the build when libxml2 is
++required and found appropriately. The third argument
++to the function AC_SEARCH_LIB is action-if-found which
++was mistakenly been used for the case where the library
++is not found and hence breaks the configure phase
++where it shoud actually pass.
++We now pass on silently when action-if-found is
++executed.
++
++Signed-off-by: Awais Belal <awais_belal@mentor.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index bfe988a..f0459e6 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -608,7 +608,7 @@ AC_ARG_WITH(libxml2,
++ 	with_libxml2="$withval", with_libxml2="no")
++ 
++ if test x$with_libxml2 != xno; then
++-	AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],
+++	AC_SEARCH_LIBS(xmlTextWriterStartElement, [xml2],,
++ 		[if test x$with_libxml2 != xauto; then
++ 			AC_MSG_FAILURE([*** Cannot find xmlTextWriterStartElement with -lxml2 and libxml2 was requested])
++ 		fi])
++-- 
++2.11.1
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
+index 4634a01b04..6615ae2555 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.6.bb
+@@ -11,6 +11,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0009-remove-dhclient-script-bash-dependency.patch \
+             file://0010-build-shared-libs.patch \
+             file://0011-Moved-the-call-to-isc_app_ctxstart-to-not-get-signal.patch \
++            file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+            "
+ 
+ SRC_URI[md5sum] = "afa6e9b3eb7539ea048421a82c668adc"
+-- 
+2.11.1
 
-That said, Is there any urgent need for the upgrade to 1.07.1?
 
-On a side note, I believe bc 1.07.1 license should be GPLv3+ & LGPLv3 
-only, unless I'm missing something.
-
-Regards
-
-Jose
-
-References:
-
-[1] https://patchwork.openembedded.org/series/6796/
-
-[2] https://patchwork.openembedded.org/patch/140001/
-
-
-On 25/10/17 07:34, Josef Holzmayr wrote:
-> This series bumps bc to version 1.07.1.
->
-> The changes include the needed:
-> - change of license to GPLv3 & LGPLv3 & GPLv2+
-> - removal of patch which has been upstreamed
-> - add native class to ed as it is now a build time dependency
->
-> Josef Holzmayr (2):
->    ed: add native class
->    bc: bump version to 1.07.1
->
->   meta/recipes-extended/bc/bc_1.06.bb                | 26 --------------------
->   meta/recipes-extended/bc/bc_1.07.1.bb              | 25 +++++++++++++++++++
->   .../bc/files/fix-segment-fault.patch               | 28 ----------------------
->   meta/recipes-extended/ed/ed_1.14.2.bb              |  3 +++
->   4 files changed, 28 insertions(+), 54 deletions(-)
->   delete mode 100644 meta/recipes-extended/bc/bc_1.06.bb
->   create mode 100644 meta/recipes-extended/bc/bc_1.07.1.bb
->   delete mode 100644 meta/recipes-extended/bc/files/fix-segment-fault.patch
->
->
->
-
-
---------------D983F601F8FABB4884C60C89
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Josef,</p>
-    <p>A previous upgrade attempt [1] showed that bc version 1.07.1 not
-      only needs ed in the host (a regression from 1.06) but also shows
-      a Parallel Make Race that requires unsetting PARALLEL_MAKE
-      variable. I contacted the upstream maintainer and he is aware of
-      this situation and has developed and tested a version 1.07.2,
-      (however is not available for download yet). The upgrade was
-      delayed for this reason (more details in the patch comments
-      thread).</p>
-    <p>That said, Is there any urgent need for the upgrade to 1.07.1?</p>
-    <p>On a side note, I believe bc 1.07.1 license should be GPLv3+
-      &amp; LGPLv3 only, unless I'm missing something.<br>
-    </p>
-    <p>Regards</p>
-    <p>Jose<br>
-    </p>
-    <p>References:</p>
-    <p>[1] <a class="moz-txt-link-freetext" href="https://patchwork.openembedded.org/series/6796/">https://patchwork.openembedded.org/series/6796/</a></p>
-    <p>[2] <a class="moz-txt-link-freetext" href="https://patchwork.openembedded.org/patch/140001/">https://patchwork.openembedded.org/patch/140001/</a></p>
-    <br>
-    <div class="moz-cite-prefix">On 25/10/17 07:34, Josef Holzmayr
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:1508934851-3067-1-git-send-email-holzmayr@rsi-elektrotechnik.de">
-      <pre wrap="">This series bumps bc to version 1.07.1.
-
-The changes include the needed:
-- change of license to GPLv3 &amp; LGPLv3 &amp; GPLv2+
-- removal of patch which has been upstreamed
-- add native class to ed as it is now a build time dependency
-
-Josef Holzmayr (2):
-  ed: add native class
-  bc: bump version to 1.07.1
-
- meta/recipes-extended/bc/bc_1.06.bb                | 26 --------------------
- meta/recipes-extended/bc/bc_1.07.1.bb              | 25 +++++++++++++++++++
- .../bc/files/fix-segment-fault.patch               | 28 ----------------------
- meta/recipes-extended/ed/ed_1.14.2.bb              |  3 +++
- 4 files changed, 28 insertions(+), 54 deletions(-)
- delete mode 100644 meta/recipes-extended/bc/bc_1.06.bb
- create mode 100644 meta/recipes-extended/bc/bc_1.07.1.bb
- delete mode 100644 meta/recipes-extended/bc/files/fix-segment-fault.patch
-
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------D983F601F8FABB4884C60C89--
