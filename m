@@ -1,21 +1,22 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id F1D7F607F8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 019BF606CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 23:00:27 +0000 (UTC)
+	Wed, 25 Oct 2017 23:18:13 +0000 (UTC)
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga105.jf.intel.com with ESMTP; 25 Oct 2017 16:00:28 -0700
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Oct 2017 16:18:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,433,1503385200"; d="scan'208";a="142260284"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.53])
-	by orsmga004.jf.intel.com with ESMTP; 25 Oct 2017 16:00:28 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Oct 2017 16:00:26 -0700
-Message-Id: <1508972426-19419-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.7.4
-Cc: jurobystricky@hotmail.com
-Subject: [PATCH] e2fsprogs-ptest: improve reproducibility
+X-IronPort-AV: E=Sophos;i="5.43,433,1503385200"; d="scan'208";a="142266416"
+Received: from swold-mobl2.jf.intel.com ([10.24.8.86])
+	by orsmga004.jf.intel.com with ESMTP; 25 Oct 2017 16:18:00 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Wed, 25 Oct 2017 16:18:00 -0700
+Message-Id: <20171025231800.17123-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH] wic/misc: Use bitbake -e -b options for env generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,32 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 23:00:28 -0000
+X-List-Received-Date: Wed, 25 Oct 2017 23:18:14 -0000
 
-Remove several Makefiles containing build host references.
-While at it, also remove some additional files not needed for
-testing.
+The -e option generates the environment and the -b only select the
+one recipe and suppresses the dependency generation as that is not
+needed for environment generation.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/lib/wic/misc.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-index 7fba8eb..00093cc 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-@@ -109,4 +109,9 @@ do_install_ptest() {
- 	cp -R --no-dereference --preserve=mode,links -v ${B}/tests ${D}${PTEST_PATH}/test
- 	cp -R --no-dereference --preserve=mode,links -v ${S}/tests/* ${D}${PTEST_PATH}/test
- 	sed -e 's!../e2fsck/e2fsck!e2fsck!g' -i ${D}${PTEST_PATH}/test/*/expect*
-+
-+	# Remove various files
-+	find "${D}${PTEST_PATH}" -type f \
-+	    \( -name 'Makefile' -o -name 'Makefile.in' -o -name '*.o' -o -name '*.c' -o -name '*.h' \)\
-+	    -exec  rm -f {} +
- }
+diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
+index ee888b478cc..de0307844e7 100644
+--- a/scripts/lib/wic/misc.py
++++ b/scripts/lib/wic/misc.py
+@@ -222,7 +222,7 @@ class BitbakeVars(defaultdict):
+                     return
+             else:
+                 # Get bitbake -e output
+-                cmd = "bitbake -e"
++                cmd = "bitbake -e -b"
+                 if image:
+                     cmd += " %s" % image
+ 
 -- 
-2.7.4
+2.13.5
 
 
