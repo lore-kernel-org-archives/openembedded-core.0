@@ -1,51 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
-	[209.85.128.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E9D2971C75
+Return-Path: <shubhabrata.sen@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 361AD60621
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 12:57:18 +0000 (UTC)
-Received: by mail-wr0-f196.google.com with SMTP id p96so10048239wrb.7
+	Wed, 25 Oct 2017 14:48:11 +0000 (UTC)
+Received: by mail-qk0-f170.google.com with SMTP id y23so299683qkb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 05:57:20 -0700 (PDT)
+	Wed, 25 Oct 2017 07:48:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1pio/JXG+zNo7NF7X4aa3+0nJYk9eZVTqiEIXzizFeU=;
-	b=nyGSRU/lj1qKa+jZcJ9IMb1rLDDMB4Dil2ELHNJkAded0DrNRE61CE2/EW0jlv5ZGv
-	j25gM/B4je8L9C0eH6V+cv343hYNpka9SLunl6TsqRLTeIOp7GnhwIhYDOcIcNsfBj0M
-	hRPyyjz1GFgCTDg73SqyRW0jdtsbZ8JJURnzyL3g6RWc9TVjjSkvdvqaiFqMoBb+2lJI
-	ylJySLf0CmwUooHiTsx/5LXVhaWJPMYuze/5SQ+HAZwQM4Wmds2F6DbbvZho7pU/auQm
-	BlwdJ0NAMe5MCeRPnJPdbe7WAugYD/XtEEwH4h0irASwLdejkrAOjKlN0eu6QQaM6fkx
-	sMuQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RsJOGyupgdckQRjaJaFz2GcIu2dBuClXyqDNNfYSOlA=;
+	b=XnNCcYhXBzP57PCxOXi6+UbRtBOknN+Bz+O+Z+7faveHyr6KOhu7VMDsO5+bpXZIRS
+	d9friCbIbLbapCriztaC7dR0OHgJ8tP1QA+G9S0QEw+R1DgFKnh/FOAVbQQ2VQv+ddlR
+	b4Xw+4IdCugV/CN24KTj0nVp1HklWeJcwKAtFVkeQ0QVnrFm8fJAir/+ePE5pIgRx/ND
+	U+vnRu40E2X37Ny33Ke9WLe6lKAdHBrgA4GwTUc5jAAYY7vAsZrvQET3QxMF+91PhJtn
+	yXmIL4mzhka2ZDR+XrBwsqVg1fODoFKNNnN/LaUBbzNcuey4wumvyf22j5+4NWryVe2V
+	VMCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=1pio/JXG+zNo7NF7X4aa3+0nJYk9eZVTqiEIXzizFeU=;
-	b=GmoH3iUKUtDfvHiaWLp1ciRecsdHiMdCYM2fK1zNSsAeMG45TKGNIwiRG4AAH+qlRu
-	1vuiyyzchKO3bvL7o51lQCXuczw7X3QCNBK37hdlgO9q7eDoYA2ASaVAqhSaerl4Qvdc
-	f8gWeW2PJU/79nDMlW8LZLnp2Px48Polzcj6c5lCYAkxhkvZCICEFK8pfnQvAoobgw3V
-	8miGlguP0uLrzYGs1BUFszwl5CwJSc1wfAJqOeApT9s4RWM5Se8zx/7g6TXGOB2h1O9y
-	aVn+VCMi2PxxThF1hqcsbRsvFJaUTcSshU7MElA8bbgzwtKv1EktHY9a3au4EcmG/QJf
-	0TVg==
-X-Gm-Message-State: AMCzsaWfnj/6p6z4uQ+XoNnoGmtLBcbwMhbOq2zTT8LvR2lwLddKRvSD
-	ISS32qGwCabkqwzB/0lNlxs=
-X-Google-Smtp-Source: ABhQp+TeBhEiwR91JynMsr5FAg5yEAcZnmeg4aXNA9jd0RnitFUZqL3ikhREgYft7x1hQvoJJGJ8Ug==
-X-Received: by 10.223.179.1 with SMTP id j1mr2250666wrd.105.1508936239587;
-	Wed, 25 Oct 2017 05:57:19 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com ([62.168.35.108])
-	by smtp.gmail.com with ESMTPSA id
-	t189sm2614278wmf.43.2017.10.25.05.57.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 25 Oct 2017 05:57:19 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 25 Oct 2017 05:57:16 -0700
-Message-Id: <1508936236-9456-2-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1508936236-9456-1-git-send-email-akuster808@gmail.com>
-References: <1508936236-9456-1-git-send-email-akuster808@gmail.com>
-Subject: [V2][PATCH 2/2] tzdata: update 2017c
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RsJOGyupgdckQRjaJaFz2GcIu2dBuClXyqDNNfYSOlA=;
+	b=n7OpcAcQhUf/mLENeK3szS2b3vGLNjrqxY3UlT79JuyGbF8Sse3D4LzBRzsi+0Llsq
+	z55hQIUa8GYjldIFUOKz66eaIZ3p8EKXqFRsCddb3eqA4ZwlLGRezDCnnZnsSEivcWSd
+	SdHfrmnARNGy+0X0x5wBuowyqYJSvGj0me5uAbuNZurbOrJdeBaUCOIDi5RHtsT8Mpfz
+	AwOWUyDH9vpEMulAMgUJyhx0Mc17f2juZjhnEt0IZe5fgBiS5US3WIptZ21RDDf1CHoa
+	1uB7TofOSFU3a2R/F+wd8Nt62RaIJBItDFibd3/S5QsWfXefTYNoV5YZZPaMuro4/ucQ
+	ZQkA==
+X-Gm-Message-State: AMCzsaXmsnr5Zd1ZnlxTnhwaad7gy7eoD2RP46wbi3M9V0YqPmq3Yv9p
+	2QNnwo36+MIABpVu1gEc4gcQin3qrwpEGJ8DPsY=
+X-Google-Smtp-Source: ABhQp+TB/2fKeygYHYGZW7vYABk680qaQgzcxRHTitNt9dT5DZJhpntqwJdu1KlEfDLXrlggOdhNHWlgdfM9ODy426A=
+X-Received: by 10.55.107.3 with SMTP id g3mr3350050qkc.24.1508942893094; Wed,
+	25 Oct 2017 07:48:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.237.35.52 with HTTP; Wed, 25 Oct 2017 07:48:12 -0700 (PDT)
+In-Reply-To: <CA+chaQdWrh9Xe=QP31AnAxbShOQNDx4yjQ9xJTZbDqUq1e=uww@mail.gmail.com>
+References: <CA+jxWbeubv1tSJLXs5v6wP0do_+jzgepSMc2okvj4imip=+yjA@mail.gmail.com>
+	<CA+chaQfdT_wySFELWqaDtMC3Q-1k6MQ-0ApnwZEHmAPzvuMWcA@mail.gmail.com>
+	<CA+jxWbfRDk9Fms1QtAQ6y1HQ-uVzE2Pwt_NZ8RiZC8jkMohj0w@mail.gmail.com>
+	<CA+chaQdWrh9Xe=QP31AnAxbShOQNDx4yjQ9xJTZbDqUq1e=uww@mail.gmail.com>
+From: shubhabrata sen <shubhabrata.sen@gmail.com>
+Date: Wed, 25 Oct 2017 16:48:12 +0200
+Message-ID: <CA+jxWbf+PRx5WFLu=u8RYV518ciHtUwA2mj-Y2TtKPD_y8rzKA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Swig dependency error while building firmware with apparmor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,113 +57,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 12:57:19 -0000
+X-List-Received-Date: Wed, 25 Oct 2017 14:48:12 -0000
+Content-Type: multipart/alternative; boundary="001a1148716a2126a3055c60252a"
 
-LICENSE changed to to rewording
-https://github.com/eggert/tz/commit/7097a652778d35acf747d14f8bf7b3ced479bbc0#diff-9879d6db96fd29134fc802214163b95a
+--001a1148716a2126a3055c60252a
+Content-Type: text/plain; charset="UTF-8"
 
-  Briefly:
-  Northern Cyprus switches from +03 to +02/+03 on 2017-10-29.
-  Fiji ends DST 2018-01-14, not 2018-01-21.
-  Namibia switches from +01/+02 to +02 on 2018-04-01.
-  Sudan switches from +03 to +02 on 2017-11-01.
-  Tonga likely switches from +13/+14 to +13 on 2017-11-05.
-  Turks & Caicos switches from -04 to -05/-04 on 2018-11-04.
-  A new file tzdata.zi now holds a small text copy of all data.
-  The zic input format has been regularized slightly.
+It works perfectly now. Thanks a lot !! Really appreciate the help.
 
-  Changes to future time stamps
+On Wed, Oct 25, 2017 at 2:15 PM, Martin Jansa <martin.jansa@gmail.com>
+wrote:
 
-    Northern Cyprus has decided to resume EU rules starting
-    2017-10-29, thus reinstituting winter time.
+> swig-native builds swig for your host system, so that it can be executed
+> during the build. So your apparmor configure most likely searches for swig
+> in PATH and swig-native dependency will make sure it's there.
+>
+> On Wed, Oct 25, 2017, 13:56 shubhabrata sen <shubhabrata.sen@gmail.com>
+> wrote:
+>
+>> Hi Martin,
+>>
+>> Thank you for your reply. Could you please give a bit more details about
+>> this ? I'm relatively new to the openembedded environment.
+>>
+>> On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>>
+>>> you probably want swig-native dependency.
+>>>
+>>> On Wed, Oct 25, 2017, 11:09 shubhabrata sen <shubhabrata.sen@gmail.com>
+>>> wrote:
+>>>
+>>>> Hi,
+>>>>
+>>>> I'm trying to build a firmware with the apparmor recipe and I keep
+>>>> getting the following error
+>>>>
+>>>> *checking for swig... no*
+>>>> | checking whether the libapparmor debug output should be enabled... no
+>>>> | checking whether the libapparmor man pages should be generated... yes
+>>>> | checking for podchecker... podchecker
+>>>> | checking for pod2man... pod2man
+>>>> | checking whether python bindings are enabled... yes
+>>>> *| configure: error: swig is required when enabling python bindings*
+>>>> | WARNING: /home/shubhabs/dists/cvp/builds/p1367/tmp/work/
+>>>> cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure.8464:1
+>>>> exit 1 from 'PERL="${PERL}" PYTHON="/home/shubhabs/dists/
+>>>> cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-
+>>>> gnueabi/apparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python"
+>>>> ./configure --build=x86_64-linux --host=arm-poky-linux-gnueabi
+>>>> --target=arm-poky-linux-gnueabi --prefix=/usr --libdir=/usr/lib
+>>>> --mandir=/usr/share/man --includedir=/usr/include --with-perl --with-python'
+>>>>
+>>>> I've included the SWIG recipe in the build and I can successfully build
+>>>> the firmware including swig with the bitbake command but somehow the
+>>>> apparmor recipe can't find the swig package. Any help regarding this would
+>>>> be appreciated.
+>>>>
+>>>> Thanks
+>>>>
+>>>> Shubh
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>
+>>>
+>>
 
-    Fiji ends DST 2018-01-14 instead of the 2018-01-21 previously
-    predicted.  (Thanks to Dominic Fok.)  Adjust future predictions
-    accordingly.
+--001a1148716a2126a3055c60252a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-    Namibia will switch from +01 with DST to +02 all year on
-    2017-09-03 at 02:00.  This affects UT offsets starting 2018-04-01
-    at 02:00.  (Thanks to Steffen Thorsen.)
+<div dir=3D"ltr">It works perfectly now. Thanks a lot !! Really appreciate =
+the help.</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On=
+ Wed, Oct 25, 2017 at 2:15 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p dir=3D"ltr">swi=
+g-native builds swig for your host system, so that it can be executed durin=
+g the build. So your apparmor configure most likely searches for swig in PA=
+TH and swig-native dependency will make sure it&#39;s there.</p><div class=
+=3D"HOEnZb"><div class=3D"h5">
+<br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Oct 25, 2017, 13:56=
+ shubhabrata sen &lt;<a href=3D"mailto:shubhabrata.sen@gmail.com" target=3D=
+"_blank">shubhabrata.sen@gmail.com</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex"><div dir=3D"ltr">Hi Martin,<div><br></div><div>Thank you for=
+ your reply. Could you please give a bit more details about this ? I&#39;m =
+relatively new to the openembedded environment.</div></div><div class=3D"gm=
+ail_extra"><br><div class=3D"gmail_quote">On Wed, Oct 25, 2017 at 12:28 PM,=
+ Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.co=
+m" target=3D"_blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><p dir=3D"ltr">you probably want swig-native depen=
+dency.</p>
+<br><div class=3D"gmail_quote"><div><div class=3D"m_7004330896236099633m_87=
+43088144790962283h5"><div dir=3D"ltr">On Wed, Oct 25, 2017, 11:09 shubhabra=
+ta sen &lt;<a href=3D"mailto:shubhabrata.sen@gmail.com" target=3D"_blank">s=
+hubhabrata.sen@gmail.com</a>&gt; wrote:<br></div></div></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex"><div><div class=3D"m_7004330896236099633m_8743088144790962=
+283h5"><div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to build a fi=
+rmware with the apparmor recipe and I keep getting the following error</div=
+><div><br></div><div><div><b>checking for swig... no</b></div><div>| checki=
+ng whether the libapparmor debug output should be enabled... no</div><div>|=
+ checking whether the libapparmor man pages should be generated... yes</div=
+><div>| checking for podchecker... podchecker</div><div>| checking for pod2=
+man... pod2man</div><div>| checking whether python bindings are enabled... =
+yes</div><div><b>| configure: error: swig is required when enabling python =
+bindings</b></div><div>| WARNING: /home/shubhabs/dists/cvp/<wbr>builds/p136=
+7/tmp/work/<wbr>cortexa9hf-neon-poky-linux-<wbr>gnueabi/apparmor/2.10.95-r0=
+/<wbr>temp/run.do_configure.8464:1 exit 1 from &#39;PERL=3D&quot;${PERL}&qu=
+ot; PYTHON=3D&quot;/home/shubhabs/dists/<wbr>cvp/builds/p1367/tmp/work/<wbr=
+>cortexa9hf-neon-poky-linux-<wbr>gnueabi/apparmor/2.10.95-r0/<wbr>recipe-sy=
+sroot-native/usr/bin/<wbr>python-native/python&quot; ./configure --build=3D=
+x86_64-linux --host=3Darm-poky-linux-gnueabi --target=3Darm-poky-linux-<wbr=
+>gnueabi --prefix=3D/usr --libdir=3D/usr/lib --mandir=3D/usr/share/man --in=
+cludedir=3D/usr/include --with-perl --with-python&#39;</div></div><div><br>=
+</div><div>I&#39;ve included the SWIG recipe in the build and I can success=
+fully build the firmware including swig with the bitbake command but someho=
+w the apparmor recipe can&#39;t find the swig package. Any help regarding t=
+his would be appreciated.</div><div><br></div><div>Thanks</div><div><br></d=
+iv><div>Shubh</div></div></div></div><span class=3D"m_7004330896236099633m_=
+8743088144790962283HOEnZb"><font color=3D"#888888">
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div>
+</blockquote></div><br></div>
+</blockquote></div>
+</div></div></blockquote></div><br></div>
 
-    Sudan will switch from +03 to +02 on 2017-11-01.  (Thanks to Ahmed
-    Atyya and Yahia Abdalla.)  South Sudan is not switching, so
-    Africa/Juba is no longer a link to Africa/Khartoum.
-
-    Tonga has likely ended its experiment with DST, and will not
-    adjust its clocks on 2017-11-05.  Although Tonga has not announced
-    whether it will continue to observe DST, the IATA is assuming that
-    it will not.  (Thanks to David Wade.)
-
-    Turks & Caicos will switch from -04 all year to -05 with US DST on
-    2018-03-11 at 03:00.  This affects UT offsets starting 2018-11-04
-    at 02:00.  (Thanks to Steffen Thorsen.)
-
-  Changes to past time stamps
-
-    Namibia switched from +02 to +01 on 1994-03-21, not 1994-04-03.
-    (Thanks to Arthur David Olson.)
-
-    Detroit did not observe DST in 1967.
-
-    Use railway time for Asia/Kolkata before 1941, by switching to
-    Madras local time (UT +052110) in 1870, then to IST (UT +0530) in
-    1906.  Also, treat 1941-2's +0630 as DST, like 1942-5.
-
-    Europe/Dublin's 1946 and 1947 fallback transitions occurred at
-    02:00 standard time, not 02:00 DST.  (Thanks to Michael Deckers.)
-
-    Pacific/Apia and Pacific/Pago_Pago switched from Antipodean to
-    American time in 1892, not 1879.  (Thanks to Michael Deckers.)
-
-    Adjust the 1867 transition in Alaska to better reflect the
-    historical record, by changing it to occur on 1867-10-18 at 15:30
-    Sitka time rather than at the start of 1867-10-17 local time.
-    Although strictly speaking this is accurate only for Sitka,
-    the rest of Alaska's blanks need to be filled in somehow.
-
-    Fix off-by-one errors in UT offsets for Adak and Nome before 1867.
-    (Thanks to Michael Deckers.)
-
-    Add 7 s to the UT offset in Asia/Yangon before 1920.
-
-  Changes to zone names
-
-    Remove Canada/East-Saskatchewan from the 'backward' file, as it
-    exceeded the 14-character limit and was an unused misnomer anyway.
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/tzdata/{tzdata_2017b.bb => tzdata_2017c.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2017b.bb => tzdata_2017c.bb} (97%)
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2017b.bb b/meta/recipes-extended/tzdata/tzdata_2017c.bb
-similarity index 97%
-rename from meta/recipes-extended/tzdata/tzdata_2017b.bb
-rename to meta/recipes-extended/tzdata/tzdata_2017c.bb
-index 55e8976..9e5b929 100644
---- a/meta/recipes-extended/tzdata/tzdata_2017b.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2017c.bb
-@@ -2,15 +2,15 @@ SUMMARY = "Timezone data"
- HOMEPAGE = "http://www.iana.org/time-zones"
- SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=ef1a352b901ee7b75a75df8171d6aca7"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
- DEPENDS = "tzcode-native"
- 
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzdata.md5sum] = "50dc0dc50c68644c1f70804f2e7a1625"
--SRC_URI[tzdata.sha256sum] = "f8242a522ea3496b0ce4ff4f2e75a049178da21001a08b8e666d8cbe07d18086"
-+SRC_URI[tzdata.md5sum] = "1e751e7e08f8b68530674f04619d894d"
-+SRC_URI[tzdata.sha256sum] = "d6543f92a929826318e2f44ff3a7611ce5f565a43e10250b42599d0ba4cbd90b"
- 
- inherit allarch
- 
--- 
-2.7.4
-
-
+--001a1148716a2126a3055c60252a--
