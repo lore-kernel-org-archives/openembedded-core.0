@@ -1,55 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 024966FF78
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D31B71B1F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 04:40:17 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id u138so20016464wmu.4
+	Wed, 25 Oct 2017 04:55:10 +0000 (UTC)
+Received: by mail-pg0-f65.google.com with SMTP id j3so16380262pga.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Oct 2017 21:40:19 -0700 (PDT)
+	Tue, 24 Oct 2017 21:55:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=dioH+PrpsJ93lB1QN7lkf2vnllPU0arl2Fd2Ga2z7JE=;
-	b=YqEiJx8zLV2WwsaarZ3F9NCxojLaxLlXBUcrR9Al/KoqjGX5HiWfDbcyB2okmljwaH
-	UJOKBROwptsV8AfxfiGqkK8obxXiGAsfmYQ5YXRx1KZwDxqmyL53XrBy+KlwajJc8DM5
-	OxkQRgswdCis0kAvmEtq64mK67Wi9ZphKJVJ8gzmegWXeYWHvYfAZNBeQD2XIZbiz+ZV
-	Es0HOJ4S4XFJ1gYswMLG42Cqx5xO3QVwsGCP50XWUQdOMZIXcchhbcs8AUd3z8ANZVuY
-	pu/akHV6cKwXTIqaiFpitik+LJ8bZ9FD7OKk2R198bi0fEGwiYThW2werKHKw0s0R3JN
-	/lPA==
+	h=from:to:cc:subject:date:message-id;
+	bh=znHp/oyUQz5x6GGAG+QqxeDW+2iZRMfDiW6eSQyrrK0=;
+	b=GO426jBmKQBqGkrNwDWMJg5pM5ZU0oz/xsDHAAeZ88B/tVUf6XfI81QFBI3BtR8BL5
+	lno+m7AJ98wNX9mv/EPkLIgLGX814YnsH9DdkHDujMBqWnM1H1Y5ONa1Qva1lgAfzBnu
+	zSDD7umLDvF/114n8sBVScVizU0zix5GRumSIZPKILtLYp6ZXzgyyaxxxVSdV++xnI9x
+	GolzkbJOOq7rNsQZY5aOC4oNrfGdLXT8szDka8507a0jJEWURj+4TjMXgffj/mO9K/o2
+	inFUhTGw3K7biEW4qC9g3LtSfLxN+DmXTQhq86vRZCw0fwp1N/Gk2ksm9hVHpjdV4HMP
+	Oq4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=dioH+PrpsJ93lB1QN7lkf2vnllPU0arl2Fd2Ga2z7JE=;
-	b=eig20kCPPL4E1LNEtoLImDJHWmLp+xKD4/JQoC//fbUAZOCHhdXgiGlW6YzchHJF2A
-	caJmK54Iu7gn+jNdTACXzHmFhLM68/C98o+r7wyRj83CrSiHhDmVZpu837GZMWX3h70a
-	GEqbdnVZu1Sw6fbxmqjURODVQDse+S0EG8CFkx4von/rv7j5YSpyAZNSGYDgp8OcA7Ss
-	QBUXPWPGylsu11hJHnAzHpoyHdVMsP0a1dEwBClULlBg39a9J2OP7c/dIVyVLBVvE4RD
-	W9rb+OPPlPeVreABhToCjVvYIQ0G7/VG0v5nbiarH8SthPjz0Pi1V2t91ktfe3YEIMP6
-	aExA==
-X-Gm-Message-State: AMCzsaXzehdLZhbJmyhzgQLIuYdK89RkDT12McdPf1u7AE/VNN8LO2LO
-	2pfdjGgVdedsidkUa84p/6CIrQ==
-X-Google-Smtp-Source: ABhQp+QvY2EW4JunkUqu+ONLkWO7P0FZ3zpv9aHTsHI5GGRBItuaopHmzwQlg7Buw0u1u4pn4EOB3w==
-X-Received: by 10.28.181.2 with SMTP id e2mr328426wmf.81.1508906418514;
-	Tue, 24 Oct 2017 21:40:18 -0700 (PDT)
-Received: from [10.253.10.43] ([62.168.35.105])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=znHp/oyUQz5x6GGAG+QqxeDW+2iZRMfDiW6eSQyrrK0=;
+	b=WKlRTdaFtyIAB4pWuC+BVUfH6tQFybKcNUjX5u8uXE8fRNC2mQDGLH1lTujTehhVlt
+	ERt3gcUNJhNZzRXXL2SRHbAQPrco9cMPLYIy9OBtwDviqGd8tu82FRjGzdvoyDxQKDFz
+	/ut+JLtFQzdihaGsOSVyrLZyccL/uxC7kKChm3ZyIxYlA5gLkmbFvxF9fZYW6QXI3nmI
+	I56eSaFENaBbbtJgbv2Emcl0loPo/XCFaKchrMJWfInifrHcxYNy02x+ZXidsuaq5OLT
+	E8W4G+MPcF/Gy5TI9Vkl8w0Z6OqTf1Ek4f9LPYX1AYCSx/VrptR5vIGvVJx8QJ4C826K
+	bzQg==
+X-Gm-Message-State: AMCzsaX0pqGKdPLqsW4MO9Nb6Cu+yGz9KwZZywDwvuBqzBgNbcrDlySh
+	71QUzDPQi7H77EzTjpKfZWWceQ==
+X-Google-Smtp-Source: ABhQp+QiOkwXVucsF6i48bDo2U3ZkEdUHOwx0fcp9Ipyb5fF2R1hVcVertJyzcMgLo+ABTS4sdBSaA==
+X-Received: by 10.99.123.84 with SMTP id k20mr904202pgn.444.1508907311503;
+	Tue, 24 Oct 2017 21:55:11 -0700 (PDT)
+Received: from e6520.gateway.sonic.net
+	(173-228-90-28.dsl.dynamic.fusionbroadband.com. [173.228.90.28])
 	by smtp.gmail.com with ESMTPSA id
-	t43sm2166049wrc.74.2017.10.24.21.40.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 24 Oct 2017 21:40:17 -0700 (PDT)
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	Li Zhou <li.zhou@windriver.com>, openembedded-core@lists.openembedded.org
-References: <1508744693-248151-1-git-send-email-li.zhou@windriver.com>
-	<f4cc1dae-2111-1d0f-9b39-01e77acb6583@linux.intel.com>
-From: akuster808 <akuster808@gmail.com>
-Message-ID: <e64a026c-95dd-9ade-b274-514e7d687a7b@gmail.com>
-Date: Tue, 24 Oct 2017 21:40:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <f4cc1dae-2111-1d0f-9b39-01e77acb6583@linux.intel.com>
-Subject: Re: [PATCH] curl: Security Advisory - curl - CVE-2017-1000254
+	q13sm3214084pfi.166.2017.10.24.21.55.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 24 Oct 2017 21:55:10 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Oct 2017 21:55:04 -0700
+Message-Id: <1508907304-24381-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] package_ipk.bbclass: handle only whitespace in PACKAGE_EXCLUDE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,25 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 04:40:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 25 Oct 2017 04:55:10 -0000
 
+If PACKAGE_EXCLUDE is constructed using _append then it's possible
+that the final value will contain only a space. Currently that
+results in build failures due to an invalid opkg command line.
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/classes/package_ipk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/23/2017 03:29 AM, Alexander Kanavin wrote:
-> On 10/23/2017 10:44 AM, Li Zhou wrote:
->> Porting patch from <https://github.com/curl/curl/commit/
->> 5ff2c5ff25750aba1a8f64fbcad8e5b891512584> to solve CVE-2017-1000254.
->
-> It's better to update to latest version (7.56) instead of backporting
-> patches, please do that.
-
-Then these should be stagged for Rocko. Work has been done.
-
-- Armin
->
-> Alex
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 8439cda..6c1fdaa 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -12,7 +12,7 @@ OPKGBUILDCMD ??= "opkg-build"
+ 
+ OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
+ OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+-OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKAGE_EXCLUDE') or "").split())][(d.getVar("PACKAGE_EXCLUDE") or "") != ""]}"
++OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKAGE_EXCLUDE') or "").split())][(d.getVar("PACKAGE_EXCLUDE") or "").strip() != ""]}"
+ 
+ OPKGLIBDIR = "${localstatedir}/lib"
+ 
+-- 
+1.9.1
 
 
