@@ -1,46 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EBF5A60796
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id A7E3960938
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Oct 2017 23:43:09 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id b9so13588876wmh.0
+	Wed, 25 Oct 2017 02:59:25 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="29570310"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 25 Oct 2017 10:59:25 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id B29D4481846D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Oct 2017 16:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=bjWYi6T2QFrbp3zcVrfPSPDh2Aejn7vbVMSLK2pKoS8=;
-	b=IMMRcVIt8UyUpyoU7kGl9+FJSZKPI/uot+ZgqbuKxRte0ZJxvEH7a3j0HOMtyzt3MH
-	0TDjIVO52muIdrxjjaaz6DEqiS5LIg5pwYLBx+Mei38SRE+QBTurXh9gmEaWsFfVHJqn
-	vAY+5+0kdwAeSOLnBjLDCsG9UxBm//KJ7lmKo8r0VYH2YYb+608pzBJHLysMdnfHv9Uc
-	LGgQhZ9EbNJ4luq6cw6tpU5tAJWT++wHWdFXFlDclQ4j1QnjmFTcewwR0oWPjbVwpJyI
-	VDp+2/TmZ7rvSEKwlE/DjlwvndNeKmKw9U4iLjJtidHBehUOXPirap0hCdhsAOCrGa5v
-	RMrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=bjWYi6T2QFrbp3zcVrfPSPDh2Aejn7vbVMSLK2pKoS8=;
-	b=SUZqrDWh2cDtx2Pkh6Ayv6vBBjDY2t0HIqRifwGAbM4XtnbdQdlfmZBxOp0m+k0CNs
-	/p9FFuwUfBOJGUDqnIPHQ7aPBP3rQ3efquFwUalQmGzikTHUaGRzQ4uCDmUh0NSKX1Ws
-	imsXpXjwfxyxqKhXaTKs1S4cIngi7+SBVMtEzR4oloqA445RIbaTR6/iWjFotJS6a4by
-	CXxaTxE6Ww3InQkHW6zErOdI0+brbUg5e/KlkyuPSMghsw0iniOtVUTOvyXOmwnI05X8
-	8tpP3K7VC/Y4J+aozUfc+rnn6gb4kH3FtNK6RA//G3DLp7T1hVCsyGDKjgfrmuJhVFAr
-	TPdQ==
-X-Gm-Message-State: AMCzsaXxrzX+8qJ0r5ti3xDhF7jEjWONaJN0vLhXm2CKFb0BEOZKBhPe
-	NtmunTVBEy0upu9p2alJttkCVN9cos6zA1jrQas=
-X-Google-Smtp-Source: ABhQp+SE6hzra13Zg8MWV2FOS3nYINfpuXMTN7/DXsagydnghVKwJnCjoJJcVsV1DybYvMG6Oosus7rzOsIT6GiwNkY=
-X-Received: by 10.28.19.73 with SMTP id 70mr129918wmt.87.1508888590510; Tue,
-	24 Oct 2017 16:43:10 -0700 (PDT)
+	Wed, 25 Oct 2017 10:59:26 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Wed, 25 Oct 2017 10:59:24 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Oct 2017 10:59:34 +0800
+Message-ID: <1508900374-23806-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.223.166.19 with HTTP; Tue, 24 Oct 2017 16:43:10 -0700 (PDT)
-In-Reply-To: <20171024232359.63328-1-jslater@windriver.com>
-References: <20171024232359.63328-1-jslater@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 24 Oct 2017 16:43:10 -0700
-Message-ID: <CAJ86T=V_Miu6Ui_zBOWzKRtPTbv6HE_O3B_Y5swmzRap2JgaAw@mail.gmail.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemumips64: no qemu-usermode for n32
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: B29D4481846D.A6015
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v3] libnl: 3.2.29 -> 3.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,44 +37,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Oct 2017 23:43:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 25 Oct 2017 02:59:26 -0000
+Content-Type: text/plain
 
-On Tue, Oct 24, 2017 at 4:23 PM, Joe Slater <jslater@windriver.com> wrote:
-> qemu-usermode is only available for mips64 and o32 code.
+1) Upgrade libnl from 3.2.29 to 3.4.0.
+2) Delete one patch "fix-pktloc_syntax_h-race.patch", for it is inappropriate,as the verion 3.4.0 has no lib/Makefile.am file.
+3) Add one patch "0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch", for musl compile.
 
-Isn't that already handled by meta/conf/machine/include/mips/arch-mips.inc
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ ...ATCH-fix-libnl-3.4.0-musl-compile-problem.patch | 38 ++++++++++++++++++++++
+ .../libnl/libnl/fix-pktloc_syntax_h-race.patch     | 36 --------------------
+ .../libnl/{libnl_3.2.29.bb => libnl_3.4.0.bb}      |  7 ++--
+ 3 files changed, 42 insertions(+), 39 deletions(-)
+ create mode 100644 meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch
+ delete mode 100644 meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
+ rename meta/recipes-support/libnl/{libnl_3.2.29.bb => libnl_3.4.0.bb} (87%)
 
-  # user mode qemu doesn't support mips64 n32: "Invalid ELF image for
-this architecture"
-  MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "
-${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"
+diff --git a/meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch b/meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch
+new file mode 100644
+index 0000000..d0e2ead
+--- /dev/null
++++ b/meta/recipes-support/libnl/libnl/0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch
+@@ -0,0 +1,38 @@
++Subject: [PATCH] fix libnl-3.4.0 musl compile problem  
++Avoid in6_addr redefinition
++
++Upstream-Status:: Pending
++
++Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
++---
++ include/linux-private/linux/if_bridge.h | 1 -
++ include/linux-private/linux/ipv6.h      | 1 -
++ 2 files changed, 2 deletions(-)
++
++diff --git a/include/linux-private/linux/if_bridge.h b/include/linux-private/linux/if_bridge.h
++index f24050b..8f7490c 100644
++--- a/include/linux-private/linux/if_bridge.h
+++++ b/include/linux-private/linux/if_bridge.h
++@@ -15,7 +15,6 @@
++ 
++ #include <linux/types.h>
++ #include <linux/if_ether.h>
++-#include <linux/in6.h>
++ 
++ #define SYSFS_BRIDGE_ATTR	"bridge"
++ #define SYSFS_BRIDGE_FDB	"brforward"
++diff --git a/include/linux-private/linux/ipv6.h b/include/linux-private/linux/ipv6.h
++index e05e684..f16349d 100644
++--- a/include/linux-private/linux/ipv6.h
+++++ b/include/linux-private/linux/ipv6.h
++@@ -2,7 +2,6 @@
++ #define _IPV6_H
++ 
++ #include <asm/byteorder.h>
++-#include <linux/in6.h>
++ 
++ /* The latest drafts declared increase in minimal mtu up to 1280. */
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch b/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
+deleted file mode 100644
+index 79aa0bd..0000000
+--- a/meta/recipes-support/libnl/libnl/fix-pktloc_syntax_h-race.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-libnl has progressed to 0.3.2 and there does not appear to be any
+-"make -j" issues with this build after my limited testing on that
+-newer version so we can assume this issue is fixed upstream
+-
+-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+-
+-Index: libnl-3.2.25/lib/Makefile.am
+-===================================================================
+---- libnl-3.2.25.orig/lib/Makefile.am
+-+++ libnl-3.2.25/lib/Makefile.am
+-@@ -46,9 +46,12 @@ CLEANFILES = \
+- 
+- # Hack to avoid using ylwrap. It does not function correctly in combination
+- # with --header-file=
+-+route/pktloc.lo: route/pktloc_syntax.h route/pktloc_grammar.h
+-+route/pktloc_grammar.h: route/pktloc_grammar.c
+- route/pktloc_grammar.c: route/pktloc_grammar.l
+- 	$(AM_V_GEN) $(MKDIR_P) route; $(FLEX) --header-file=route/pktloc_grammar.h $(LFLAGS) -o $@ $^
+- 
+-+route/pktloc_syntax.h: route/pktloc_syntax.c
+- route/pktloc_syntax.c: route/pktloc_syntax.y
+- 	$(AM_V_GEN) $(MKDIR_P) route; $(YACC) -d $(YFLAGS) -o $@ $^
+- 
+-@@ -102,7 +105,9 @@ BUILT_SOURCES = \
+- 	route/cls/ematch_grammar.c \
+- 	route/cls/ematch_syntax.c \
+- 	route/pktloc_grammar.c \
+--	route/pktloc_syntax.c
+-+   route/pktloc_syntax.c \
+-+   route/pktloc_syntax.h \
+-+   route/pktloc_grammar.h
+- 
+- EXTRA_DIST = \
+- 	route/pktloc_grammar.l \
+diff --git a/meta/recipes-support/libnl/libnl_3.2.29.bb b/meta/recipes-support/libnl/libnl_3.4.0.bb
+similarity index 87%
+rename from meta/recipes-support/libnl/libnl_3.2.29.bb
+rename to meta/recipes-support/libnl/libnl_3.4.0.bb
+index 7d4839b..90dc644 100644
+--- a/meta/recipes-support/libnl/libnl_3.2.29.bb
++++ b/meta/recipes-support/libnl/libnl_3.4.0.bb
+@@ -10,13 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ DEPENDS = "flex-native bison-native"
+ 
+ SRC_URI = "https://github.com/thom311/${BPN}/releases/download/${BPN}${@d.getVar('PV').replace('.','_')}/${BP}.tar.gz \
+-           file://fix-pktloc_syntax_h-race.patch \
+            file://fix-pc-file.patch \
++           file://0001-PATCH-fix-libnl-3.4.0-musl-compile-problem.patch \
+ "
++
+ UPSTREAM_CHECK_URI = "https://github.com/thom311/${BPN}/releases"
+ 
+-SRC_URI[md5sum] = "a8ba62a5c4f883f4e493a46d1f3733fe"
+-SRC_URI[sha256sum] = "0beb593dc6abfffa18a5c787b27884979c1b7e7f1fd468c801e3cc938a685922"
++SRC_URI[md5sum] = "8f71910c03db363b41e2ea62057a4311"
++SRC_URI[sha256sum] = "b7287637ae71c6db6f89e1422c995f0407ff2fe50cecd61a312b6a9b0921f5bf"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.7.4
 
-?
 
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->  meta/conf/machine/qemumips64.conf | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
-> index 3f91cbe..8feefc4 100644
-> --- a/meta/conf/machine/qemumips64.conf
-> +++ b/meta/conf/machine/qemumips64.conf
-> @@ -12,3 +12,7 @@ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
->  SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyS1"
->
->  MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
-> +
-> +# no qemu-usermode for libn32
-> +MACHINE_FEATURES_remove_mipsarchn32 = "qemu-usermode"
-> +
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
