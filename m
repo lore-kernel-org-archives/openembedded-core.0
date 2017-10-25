@@ -1,46 +1,45 @@
-Return-Path: <shubhabrata.sen@gmail.com>
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C7C56AC4B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 0376E606CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 11:56:40 +0000 (UTC)
-Received: by mail-qt0-f179.google.com with SMTP id z28so34325663qtz.13
+	Wed, 25 Oct 2017 12:15:41 +0000 (UTC)
+Received: by mail-wm0-f49.google.com with SMTP id r68so1524567wmr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 04:56:42 -0700 (PDT)
+	Wed, 25 Oct 2017 05:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=RdYzs+BOF0Nbma5dKuJyf8ITpUlOXG6gyCW86uQdGUQ=;
-	b=k7e14c0NBhcxXe0e1CvSku1A6GrzWaND3QZEtMls8Kb/aj/3otYiyljQzHlBXcJuzp
-	UKsZEaWwgu6pfCodVyGZZd+1o3r6W8mFrapErXibYWADDKiXmJmkgI/myGO7wt3/Jc/x
-	WrmFR5LtSyAQcVRrTPWQ3Uqyj6/EuCUZiSYsNOOKRFVH82dI7jigkD754b/ZhWZAC2gU
-	pjGrPTpy96b/tEOlJZFkuX9DXyYgbmLv+z0L2v0MS1d55RIEjsgo7G8fzSizWDX5qUgn
-	Pg9gyfnYRqXq8DVk1yOpJd5RqwgiG1Qjg8p9cdawdaxVCS0v7+Muobgnak3TwjoIwH4A
-	QBZA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=isAXrkzAX1SIwfDa+LSMFrohy1GSp2WuzqLjQ55b3Vs=;
+	b=sxrnclpxlHQ9006fxer9hDOjXgcVV233Zc9hLeMLMd3Jf1RG5hKeRtY8fkpV7V/m+J
+	75NCXWty50Rx7Ioq7g+aOL3ir9rV0MVcWj47DLTEVHqZ9ewYMER8JcfqRglmXYhknKlK
+	dh1SDEoDhq4h6YPM6/Elxa7oGrBaWKTJ/A9yYa3Zi7jxER94AlOKGmuynmdIorkeN3BN
+	jKgTa+7UMlnxU5TN+J9w9DGIXvHT+il15kWfneGl+ZATJmW+n0JWGaaD0e8q/25TX0In
+	pYsjB9XNTs11Pc7WnCIKYNevRYSB13zLzDkx0tG4UpmbspnW26mfChnrH/gjS/L2jFRP
+	eZjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=RdYzs+BOF0Nbma5dKuJyf8ITpUlOXG6gyCW86uQdGUQ=;
-	b=ndLyhMHYzmCvf+JKlP4lOFn/uIyHd3hTJ13fzRBzeANfOCnHfrxyDuagh+R8oN6BJl
-	GmUEJA99tmR4I/xY/AjLvmjXlJbIgGzkWHTHhd10jazrA8hPOu8Cu+cVeWiqDzPpmTQt
-	ux5WRQHwdAbifgWpvTv2W0efyNDH+RXDmIksS3TWUae5nIBlRwb4j8cceKmAoTpWUAmv
-	nf5+JLgWbyA6b176B3rmIp8bBORxqbeRu8z4BBVI+sNiH56dIv3WzvCJ7LfW7YXOozcs
-	sq3TM2vnm1lkA/x+WSZawJZt30u08m7O3iBHaLKdBomMfuQjWVuwlMGbcVZndubo0YuX
-	ifHw==
-X-Gm-Message-State: AMCzsaXFtyQ5X1h4s4LOkRAyMgibwOd4Hkz/F1qfcW0pY4+McGEaolkP
-	7pYDKtXYfn4aPTRgDtSRXmn/kKgd0V55SfXswB0=
-X-Google-Smtp-Source: ABhQp+QiwVA0OTJNrLTrCBW3T6Qjm4CdtJ1OY9hmcm3XPpGB4wBV1A7HkM0VFBNrGfH5t0cvUgh+3598pKuEkd6YTbg=
-X-Received: by 10.200.53.111 with SMTP id z44mr31114553qtb.12.1508932601943;
-	Wed, 25 Oct 2017 04:56:41 -0700 (PDT)
+	bh=isAXrkzAX1SIwfDa+LSMFrohy1GSp2WuzqLjQ55b3Vs=;
+	b=fTKSCo6EGnF9hGL2tM3YTz53HrnbrvPhNHyW5uSBY4pUxoI6SlRnYlrdiV661kucd1
+	WQVaiTiy+qEjdyiui3NjXViKgFKsQdP/V7WKHHs0tSZysF5jcWzlsBy+k4rX6n92HTPx
+	lfG1bkQ0Xo+/epaeHVzVVwvUbWR+7G0qt1L7FkQD7zTZpXHoI0ZXPwTGphj2z2wGd0OT
+	BOrvuW6ibhvzeM1y/b+csKmX3FG0hPn2zqZWkvl2nNBEz5UovN+bJ8F+PVRvTsl6esxp
+	y/nwQOQwqJU4mIo4+Id/CdfdMOstD/RPMccpaYmGIUNyRVwjVsJEGOAoJ+BM1P7o+FAD
+	/T2g==
+X-Gm-Message-State: AMCzsaVddNkFZ4OqjNKdQiTT96O9Z8NqG8RfBhM8wsZtqz9qivq5wRUi
+	+BiaVNDfAJna5LSpchiUzcZ0M/Q2IRvZJvDzPCo=
+X-Google-Smtp-Source: ABhQp+SbCZl0KaYR0QRmDF7lyG7lq25tfUFW5GD21ChfVcpN5ukXK3Z1Fs9s9sJdpqCuSYn0sBd1DHkBddCuhfIkr74=
+X-Received: by 10.28.235.18 with SMTP id j18mr1618234wmh.50.1508933742776;
+	Wed, 25 Oct 2017 05:15:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.237.35.52 with HTTP; Wed, 25 Oct 2017 04:56:41 -0700 (PDT)
-In-Reply-To: <CA+chaQfdT_wySFELWqaDtMC3Q-1k6MQ-0ApnwZEHmAPzvuMWcA@mail.gmail.com>
 References: <CA+jxWbeubv1tSJLXs5v6wP0do_+jzgepSMc2okvj4imip=+yjA@mail.gmail.com>
 	<CA+chaQfdT_wySFELWqaDtMC3Q-1k6MQ-0ApnwZEHmAPzvuMWcA@mail.gmail.com>
-From: shubhabrata sen <shubhabrata.sen@gmail.com>
-Date: Wed, 25 Oct 2017 13:56:41 +0200
-Message-ID: <CA+jxWbfRDk9Fms1QtAQ6y1HQ-uVzE2Pwt_NZ8RiZC8jkMohj0w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CA+jxWbfRDk9Fms1QtAQ6y1HQ-uVzE2Pwt_NZ8RiZC8jkMohj0w@mail.gmail.com>
+In-Reply-To: <CA+jxWbfRDk9Fms1QtAQ6y1HQ-uVzE2Pwt_NZ8RiZC8jkMohj0w@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 25 Oct 2017 12:15:32 +0000
+Message-ID: <CA+chaQdWrh9Xe=QP31AnAxbShOQNDx4yjQ9xJTZbDqUq1e=uww@mail.gmail.com>
+To: shubhabrata sen <shubhabrata.sen@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Swig dependency error while building firmware with apparmor
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,111 +54,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 11:56:41 -0000
-Content-Type: multipart/alternative; boundary="001a11405c6cba9d3e055c5dbf00"
+X-List-Received-Date: Wed, 25 Oct 2017 12:15:42 -0000
+Content-Type: multipart/alternative; boundary="089e082fe004ba5499055c5e032e"
 
---001a11405c6cba9d3e055c5dbf00
+--089e082fe004ba5499055c5e032e
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Martin,
+swig-native builds swig for your host system, so that it can be executed
+during the build. So your apparmor configure most likely searches for swig
+in PATH and swig-native dependency will make sure it's there.
 
-Thank you for your reply. Could you please give a bit more details about
-this ? I'm relatively new to the openembedded environment.
-
-On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <martin.jansa@gmail.com>
+On Wed, Oct 25, 2017, 13:56 shubhabrata sen <shubhabrata.sen@gmail.com>
 wrote:
 
-> you probably want swig-native dependency.
+> Hi Martin,
 >
-> On Wed, Oct 25, 2017, 11:09 shubhabrata sen <shubhabrata.sen@gmail.com>
+> Thank you for your reply. Could you please give a bit more details about
+> this ? I'm relatively new to the openembedded environment.
+>
+> On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <martin.jansa@gmail.com>
 > wrote:
 >
->> Hi,
+>> you probably want swig-native dependency.
 >>
->> I'm trying to build a firmware with the apparmor recipe and I keep
->> getting the following error
+>> On Wed, Oct 25, 2017, 11:09 shubhabrata sen <shubhabrata.sen@gmail.com>
+>> wrote:
 >>
->> *checking for swig... no*
->> | checking whether the libapparmor debug output should be enabled... no
->> | checking whether the libapparmor man pages should be generated... yes
->> | checking for podchecker... podchecker
->> | checking for pod2man... pod2man
->> | checking whether python bindings are enabled... yes
->> *| configure: error: swig is required when enabling python bindings*
->> | WARNING: /home/shubhabs/dists/cvp/builds/p1367/tmp/work/
->> cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure.8464:1
->> exit 1 from 'PERL="${PERL}" PYTHON="/home/shubhabs/dists/
->> cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-
->> gnueabi/apparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python"
->> ./configure --build=x86_64-linux --host=arm-poky-linux-gnueabi
->> --target=arm-poky-linux-gnueabi --prefix=/usr --libdir=/usr/lib
->> --mandir=/usr/share/man --includedir=/usr/include --with-perl --with-python'
->>
->> I've included the SWIG recipe in the build and I can successfully build
->> the firmware including swig with the bitbake command but somehow the
->> apparmor recipe can't find the swig package. Any help regarding this would
->> be appreciated.
->>
->> Thanks
->>
->> Shubh
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>> Hi,
+>>>
+>>> I'm trying to build a firmware with the apparmor recipe and I keep
+>>> getting the following error
+>>>
+>>> *checking for swig... no*
+>>> | checking whether the libapparmor debug output should be enabled... no
+>>> | checking whether the libapparmor man pages should be generated... yes
+>>> | checking for podchecker... podchecker
+>>> | checking for pod2man... pod2man
+>>> | checking whether python bindings are enabled... yes
+>>> *| configure: error: swig is required when enabling python bindings*
+>>> | WARNING:
+>>> /home/shubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure.8464:1
+>>> exit 1 from 'PERL="${PERL}"
+>>> PYTHON="/home/shubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python"
+>>> ./configure --build=x86_64-linux --host=arm-poky-linux-gnueabi
+>>> --target=arm-poky-linux-gnueabi --prefix=/usr --libdir=/usr/lib
+>>> --mandir=/usr/share/man --includedir=/usr/include --with-perl --with-python'
+>>>
+>>> I've included the SWIG recipe in the build and I can successfully build
+>>> the firmware including swig with the bitbake command but somehow the
+>>> apparmor recipe can't find the swig package. Any help regarding this would
+>>> be appreciated.
+>>>
+>>> Thanks
+>>>
+>>> Shubh
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
 >>
 >
 
---001a11405c6cba9d3e055c5dbf00
+--089e082fe004ba5499055c5e032e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Martin,<div><br></div><div>Thank you for your reply. Co=
-uld you please give a bit more details about this ? I&#39;m relatively new =
-to the openembedded environment.</div></div><div class=3D"gmail_extra"><br>=
-<div class=3D"gmail_quote">On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_b=
-lank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><p dir=3D"ltr">you probably want swig-native dependency.</p>
-<br><div class=3D"gmail_quote"><div><div class=3D"h5"><div dir=3D"ltr">On W=
-ed, Oct 25, 2017, 11:09 shubhabrata sen &lt;<a href=3D"mailto:shubhabrata.s=
-en@gmail.com" target=3D"_blank">shubhabrata.sen@gmail.com</a>&gt; wrote:<br=
-></div></div></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"h5"><d=
-iv dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to build a firmware wi=
-th the apparmor recipe and I keep getting the following error</div><div><br=
-></div><div><div><b>checking for swig... no</b></div><div>| checking whethe=
-r the libapparmor debug output should be enabled... no</div><div>| checking=
- whether the libapparmor man pages should be generated... yes</div><div>| c=
-hecking for podchecker... podchecker</div><div>| checking for pod2man... po=
-d2man</div><div>| checking whether python bindings are enabled... yes</div>=
-<div><b>| configure: error: swig is required when enabling python bindings<=
-/b></div><div>| WARNING: /home/shubhabs/dists/cvp/<wbr>builds/p1367/tmp/wor=
-k/<wbr>cortexa9hf-neon-poky-linux-<wbr>gnueabi/apparmor/2.10.95-r0/<wbr>tem=
-p/run.do_configure.8464:1 exit 1 from &#39;PERL=3D&quot;${PERL}&quot; PYTHO=
-N=3D&quot;/home/shubhabs/dists/<wbr>cvp/builds/p1367/tmp/work/<wbr>cortexa9=
-hf-neon-poky-linux-<wbr>gnueabi/apparmor/2.10.95-r0/<wbr>recipe-sysroot-nat=
-ive/usr/bin/<wbr>python-native/python&quot; ./configure --build=3Dx86_64-li=
-nux --host=3Darm-poky-linux-gnueabi --target=3Darm-poky-linux-<wbr>gnueabi =
---prefix=3D/usr --libdir=3D/usr/lib --mandir=3D/usr/share/man --includedir=
-=3D/usr/include --with-perl --with-python&#39;</div></div><div><br></div><d=
-iv>I&#39;ve included the SWIG recipe in the build and I can successfully bu=
-ild the firmware including swig with the bitbake command but somehow the ap=
-parmor recipe can&#39;t find the swig package. Any help regarding this woul=
-d be appreciated.</div><div><br></div><div>Thanks</div><div><br></div><div>=
-Shubh</div></div></div></div><span class=3D"HOEnZb"><font color=3D"#888888"=
->
+<p dir=3D"ltr">swig-native builds swig for your host system, so that it can=
+ be executed during the build. So your apparmor configure most likely searc=
+hes for swig in PATH and swig-native dependency will make sure it&#39;s the=
+re.</p>
+<br><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, Oct 25, 2017, 13:56=
+ shubhabrata sen &lt;<a href=3D"mailto:shubhabrata.sen@gmail.com">shubhabra=
+ta.sen@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v dir=3D"ltr">Hi Martin,<div><br></div><div>Thank you for your reply. Could=
+ you please give a bit more details about this ? I&#39;m relatively new to =
+the openembedded environment.</div></div><div class=3D"gmail_extra"><br><di=
+v class=3D"gmail_quote">On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_blan=
+k">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><p dir=3D"ltr">you probably want swig-native dependency.</p>
+<br><div class=3D"gmail_quote"><div><div class=3D"m_8743088144790962283h5">=
+<div dir=3D"ltr">On Wed, Oct 25, 2017, 11:09 shubhabrata sen &lt;<a href=3D=
+"mailto:shubhabrata.sen@gmail.com" target=3D"_blank">shubhabrata.sen@gmail.=
+com</a>&gt; wrote:<br></div></div></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+><div class=3D"m_8743088144790962283h5"><div dir=3D"ltr">Hi,<div><br></div>=
+<div>I&#39;m trying to build a firmware with the apparmor recipe and I keep=
+ getting the following error</div><div><br></div><div><div><b>checking for =
+swig... no</b></div><div>| checking whether the libapparmor debug output sh=
+ould be enabled... no</div><div>| checking whether the libapparmor man page=
+s should be generated... yes</div><div>| checking for podchecker... podchec=
+ker</div><div>| checking for pod2man... pod2man</div><div>| checking whethe=
+r python bindings are enabled... yes</div><div><b>| configure: error: swig =
+is required when enabling python bindings</b></div><div>| WARNING: /home/sh=
+ubhabs/dists/cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-gnueabi/a=
+pparmor/2.10.95-r0/temp/run.do_configure.8464:1 exit 1 from &#39;PERL=3D&qu=
+ot;${PERL}&quot; PYTHON=3D&quot;/home/shubhabs/dists/cvp/builds/p1367/tmp/w=
+ork/cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/recipe-sysroot-n=
+ative/usr/bin/python-native/python&quot; ./configure --build=3Dx86_64-linux=
+ --host=3Darm-poky-linux-gnueabi --target=3Darm-poky-linux-gnueabi --prefix=
+=3D/usr --libdir=3D/usr/lib --mandir=3D/usr/share/man --includedir=3D/usr/i=
+nclude --with-perl --with-python&#39;</div></div><div><br></div><div>I&#39;=
+ve included the SWIG recipe in the build and I can successfully build the f=
+irmware including swig with the bitbake command but somehow the apparmor re=
+cipe can&#39;t find the swig package. Any help regarding this would be appr=
+eciated.</div><div><br></div><div>Thanks</div><div><br></div><div>Shubh</di=
+v></div></div></div><span class=3D"m_8743088144790962283HOEnZb"><font color=
+=3D"#888888">
 --<br>
-______________________________<wbr>_________________<br>
+_______________________________________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+k">Openembedded-core@lists.openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
 </font></span></blockquote></div>
 </blockquote></div><br></div>
+</blockquote></div>
 
---001a11405c6cba9d3e055c5dbf00--
+--089e082fe004ba5499055c5e032e--
