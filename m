@@ -1,47 +1,50 @@
 Return-Path: <vomegaz@gmail.com>
 Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
 	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 05FA86069C
+	by mail.openembedded.org (Postfix) with ESMTP id B9EED71C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 07:32:51 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id y9so10709533wrb.2
+	Wed, 25 Oct 2017 07:32:54 +0000 (UTC)
+Received: by mail-wr0-f195.google.com with SMTP id p96so9053111wrb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 00:32:53 -0700 (PDT)
+	Wed, 25 Oct 2017 00:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=41TNS+Dyw8hgqZv7c+Zy765D84ApObo59pfvA0SPsEM=;
-	b=Ve1Bm3suC/DSs5hC72/xCpjHlxfTKy5C4TkuilhlhYeSRInu+td+wMTtTRnABiF97+
-	GPkqgNJdGHSA8Lb5K187UG6jXwhCUqTLtAgWldGla9opNoRYOrQGM6T9ZcKga7iL6p5j
-	MTueVJY7idm5bP8wc20F2Peo6plFbU1yIC4CACjYIGHydOuEH7LtRIYwtWD8I80JL9/t
-	hSKmSEoMkijAQJHBk0zcRu5FUNvH7L6bhR995UxbMCw9jGV02G28vXrsfzR7lRaDSGNm
-	MU0rjuQAsyH5ZqaDNBA/rp+W1D6+WzhLzVunXONqNZsYO0MYaBBXVYsxjreM0RfnvHE+
-	srPA==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=xIWcv72wSQ1XvTWmQCLkfXbWPouzleC9YeL3bsI/Ng0=;
+	b=TDTXT7kaAjPGpzwvOIvcc603fq5FnZ5Ukqtt6B8iwcWHdjD4Qr4WOxBZLfpXNsoamo
+	pdXjW85lxPLvoWjaxET9OomYSqSnHB0iMHslWhVbTeM6gx1ubEebkI+1GvubzQfQLOEn
+	4bbDpJZprevGbSWAR/lBvTYl/MCOiSQu+EvIOOeSf1LIW4YKUZfGXmFuEcLYUmv2T0Qc
+	lDk3s6f42c9GMw4ZL9sTOD8dl7X4srRsfc330iA2Zfh/rZN5FrfVI4FoFOwwDZSFgDjZ
+	W2JOK+z5mtr77J9VCsCUvrFy8foLNXGzpljLiVK7tWo+CHctc+P0zg28K7GGL684RJTV
+	jc1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=41TNS+Dyw8hgqZv7c+Zy765D84ApObo59pfvA0SPsEM=;
-	b=RaUv1HC6/BK+OCUxpFI4ImL87JxqpQb1TajmWJGubzcTAXZY/zpDO5LE1CquH8wmyP
-	9HChyU0HWs/PMhEGDnleThuOQXfj3vnkW6Zp9nDIsomPOYtWf6Hd4pLS9ctIiHPpUr+y
-	v5VKBMaNC4vRMo1XPMGOy/SHqmogpx71qwzDvWSzjjGwBrNX8wwnt5r6CP6Yv2Fj7azj
-	i2t8DX1Guw/+29SiZLKZrIKl0SxAhGneV63dun8mrNAt15xX6fYv30lOq7WJXL4I0152
-	YYhVprfut31aD76Sd7F2iqZ8VfxT4pV/fpVXRKEzeL73cecC3hyHvpmu6QRxCXvxiX3E
-	NezQ==
-X-Gm-Message-State: AMCzsaWdbUVi620HhDJJcsYZdcSfX4iWXECb91vyySbKOj4oQQVV0f2Y
-	JM4jqw7FFO5XKmfIHkBQrBGsGnvu
-X-Google-Smtp-Source: ABhQp+TwAUN9CbrQFsgtFLTaHdndSunq1fj6jTxW/bo9iHmtKM5oEQqFqnrXde4m83+ynU4LDO8ccQ==
-X-Received: by 10.223.146.101 with SMTP id 92mr1055092wrj.21.1508916772363;
-	Wed, 25 Oct 2017 00:32:52 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:in-reply-to:references;
+	bh=xIWcv72wSQ1XvTWmQCLkfXbWPouzleC9YeL3bsI/Ng0=;
+	b=J5p0rS/+u5qKF+dia8UP5DrYVPxO/1rXFwaWJntamz3KAmw9n3at20HjEkWHb41PtC
+	YgsC25RXOB55+6ZzK/pYO6SrfePEA2bYYQifKFCSB41RnDbufMcGxE8uKV6Byd9S+kbW
+	tg0zIt8iQXq6lFuC3e58nvKLlM/+0sf67R4KAJyIPl85vF0LAY2g3DKN9VrLfEmwqniJ
+	D0T8uNPXm4XDUnowIsd3QNq3yEyd+VPgx2iste34LA+vyYgRI/fITcY2PUbV2gwRvAMI
+	RjsdTlCC6VABTQXufeQiU7YWUv7yAIY/SF6iWGQK2w+rkLLfa7dfhPv6tbv5ejCD2ooo
+	ANlQ==
+X-Gm-Message-State: AMCzsaWHRwbvYJzjuu/EbRBw+mJqWPGMj1QJ4qaVod4cFkh26FyskdR3
+	yuV+RfzvFm+k4sB0vS2bERgOWTpA
+X-Google-Smtp-Source: ABhQp+RWeofbycVGshBnF0xT4JVHx1IHJade6dcuWTOm4rGrrwjOkLIRlpD02SrkwFFBmWulATfBJQ==
+X-Received: by 10.223.132.163 with SMTP id 32mr1046139wrg.218.1508916775238;
+	Wed, 25 Oct 2017 00:32:55 -0700 (PDT)
 Received: from sgxcmp483.sigfox.io ([217.114.201.133])
-	by smtp.gmail.com with ESMTPSA id h5sm1440519wrb.89.2017.10.25.00.32.51
+	by smtp.gmail.com with ESMTPSA id h5sm1440519wrb.89.2017.10.25.00.32.54
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 25 Oct 2017 00:32:51 -0700 (PDT)
+	Wed, 25 Oct 2017 00:32:54 -0700 (PDT)
 Sender: Thomas PERROT <vomegaz@gmail.com>
 From: Thomas Perrot <thomas.perrot@tupi.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Oct 2017 09:32:47 +0200
-Message-Id: <20171025073248.24161-1-thomas.perrot@tupi.fr>
+Date: Wed, 25 Oct 2017 09:32:48 +0200
+Message-Id: <20171025073248.24161-2-thomas.perrot@tupi.fr>
 X-Mailer: git-send-email 2.13.6
-Subject: [meta][PATCH 1/2] Fix some issues in the fitImage generation
+In-Reply-To: <20171025073248.24161-1-thomas.perrot@tupi.fr>
+References: <20171025073248.24161-1-thomas.perrot@tupi.fr>
+Subject: [meta][PATCH 2/2] Avoid a circular dependency between do_concat_dtb and do_assemble_fitimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,82 +57,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 07:32:52 -0000
+X-List-Received-Date: Wed, 25 Oct 2017 07:32:55 -0000
 
-- Bad image type replacement for aarch64
-- Fix DTB path in fitimage.its
-- Ignore fitImage type in do_bundle_initramfs task because the packaging is made by do_assemble_fitimage_initramfs
-- the images for arm64 are not compressed the linux_comp variable must therefore be none
+When UBOOT_SIGN_ENABLE is active:
+
+Dependency loop #1 found:
+  do_concat_dtb (dependent Tasks ['linux-yocto_4.10.bb:do_assemble_fitimage'])
+  do_install (dependent Tasks ['pseudo_1.8.2.bb:do_populate_sysroot', 'u-boot_2017.01.bb:do_compile', 'u-boot_2017.01.bb:do_concat_dtb'])
+  do_deploy (dependent Tasks ['u-boot_2017.01.bb:do_deploy_dtb', 'u-boot_2017.01.bb:do_install'])
+  do_assemble_fitimage (dependent Tasks ['linux-yocto_4.10.bb:do_compile', 'u-boot_2017.01.bb:do_deploy'])
 
 Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
 ---
- meta/classes/kernel-fitimage.bbclass |  7 +++++--
- meta/classes/kernel-uboot.bbclass    | 11 ++++++++---
- meta/classes/kernel.bbclass          |  4 +++-
- 3 files changed, 16 insertions(+), 6 deletions(-)
+ meta/classes/kernel-fitimage.bbclass |  2 +-
+ meta/classes/uboot-sign.bbclass      | 21 +++++++++------------
+ 2 files changed, 10 insertions(+), 13 deletions(-)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 179185b6b2..0789ba611f 100644
+index 0789ba611f..13d61a2298 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -7,10 +7,13 @@ python __anonymous () {
-         depends = "%s u-boot-mkimage-native dtc-native" % depends
-         d.setVar("DEPENDS", depends)
+@@ -33,7 +33,7 @@ python __anonymous () {
+         # the fitImage:
+         if d.getVar('UBOOT_SIGN_ENABLE') == "1":
+             uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+-            d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_deploy' % uboot_pn)
++            d.appendVarFlag('do_assemble_fitimage', 'depends', ' %s:do_deploy_dtb' % uboot_pn)
+ }
  
--        if d.getVar("UBOOT_ARCH") == "mips":
-+        uarch = d.getVar("UBOOT_ARCH")
-+        if uarch == "mips":
-             replacementtype = "vmlinuz.bin"
--        elif d.getVar("UBOOT_ARCH") == "x86":
-+        elif uarch == "x86":
-             replacementtype = "bzImage"
-+        elif uarch == "arm64":
-+            replacementtype = "Image"
-         else:
-             replacementtype = "zImage"
+ # Options for the device tree compiler passed to mkimage '-D' feature:
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 8ee904e7df..2f616bf2a9 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -47,16 +47,14 @@ do_deploy_dtb () {
+ 	cd ${DEPLOYDIR}
  
-diff --git a/meta/classes/kernel-uboot.bbclass b/meta/classes/kernel-uboot.bbclass
-index 87f02654fa..06d293039a 100644
---- a/meta/classes/kernel-uboot.bbclass
-+++ b/meta/classes/kernel-uboot.bbclass
-@@ -1,5 +1,5 @@
- uboot_prep_kimage() {
--	if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
-+	if [ -e arch/${ARCH}/boot/compressed/vmlinux ] ; then
- 		vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
- 		linux_suffix=""
- 		linux_comp="none"
-@@ -11,8 +11,13 @@ uboot_prep_kimage() {
- 		linux_comp="none"
- 	else
- 		vmlinux_path="vmlinux"
--		linux_suffix=".gz"
--		linux_comp="gzip"
-+		if [ "${ARCH}" = "arm64" ] ; then
-+			linux_suffix=""
-+			linux_comp="none"
-+		else
-+			linux_suffix=".gz"
-+			linux_comp="gzip"
-+		fi
+ 	if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
+-		install ${B}/${UBOOT_DTB_BINARY} ${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
+-		rm -f ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SYMLINK}
+-		ln -sf ${UBOOT_DTB_IMAGE} ${UBOOT_DTB_SYMLINK}
+-		ln -sf ${UBOOT_DTB_IMAGE} ${UBOOT_DTB_BINARY}
++		install ${B}/${UBOOT_DTB_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}
++		ln -sf ${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE} ${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_SYMLINK}
++		ln -sf ${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE} ${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_BINARY}
  	fi
+ 	if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
+-		install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
+-		rm -f ${UBOOT_NODTB_BINARY} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
++		install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_IMAGE}
++		ln -sf ${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_IMAGE} ${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_SYMLINK}
++		ln -sf ${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_IMAGE} ${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_BINARY}
+ 	fi
+ }
  
- 	[ -n "${vmlinux_path}" ] && ${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}" linux.bin
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 756707a3c2..7f8c8985f3 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -208,7 +208,9 @@ do_bundle_initramfs () {
- 		# Backing up kernel image relies on its type(regular file or symbolic link)
- 		tmp_path=""
- 		for type in ${KERNEL_IMAGETYPES} ; do
--			if [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
-+			if [ "$type" = "fitImage" ] ; then
-+				continue
-+			elif [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
- 				linkpath=`readlink -n ${KERNEL_OUTPUT_DIR}/$type`
- 				realpath=`readlink -fn ${KERNEL_OUTPUT_DIR}/$type`
- 				mv -f $realpath $realpath.bak
+@@ -70,11 +68,10 @@ do_concat_dtb () {
+ 			oe_runmake EXT_DTB=${DEPLOYDIR}/${UBOOT_DTB_IMAGE}
+ 			install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+ 			install ${B}/${UBOOT_BINARY} ${DEPLOY_DIR_IMAGE}/${UBOOT_IMAGE}
+-		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "${DEPLOYDIR}/${UBOOT_DTB_IMAGE}" ]; then
+-			cd ${DEPLOYDIR}
+-			cat ${UBOOT_NODTB_IMAGE} ${UBOOT_DTB_IMAGE} | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
++		elif [ -e "${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_IMAGE}" -a -e "${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}" ]; then
++			cat ${DEPLOY_DIR_IMAGE}/${UBOOT_NODTB_IMAGE} ${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE} | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
+ 		else
+-			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
++			bbfatal "Failure while adding public key to u-boot binary. Verified boot won't be available."
+ 		fi
+ 	fi
+ }
 -- 
 2.13.6
 
