@@ -1,21 +1,48 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 7251162132
+Return-Path: <shubhabrata.sen@gmail.com>
+Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C7C56AC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 11:39:40 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga105.jf.intel.com with ESMTP; 25 Oct 2017 04:39:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.43,431,1503385200"; 
-	d="scan'208,217";a="913566165"
-Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Oct 2017 04:39:40 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Oct 2017 14:39:38 +0300
-Message-Id: <20171025113938.25060-1-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] oe-build-perf-report-email.py: add images as MIME objects
+	Wed, 25 Oct 2017 11:56:40 +0000 (UTC)
+Received: by mail-qt0-f179.google.com with SMTP id z28so34325663qtz.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Oct 2017 04:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=RdYzs+BOF0Nbma5dKuJyf8ITpUlOXG6gyCW86uQdGUQ=;
+	b=k7e14c0NBhcxXe0e1CvSku1A6GrzWaND3QZEtMls8Kb/aj/3otYiyljQzHlBXcJuzp
+	UKsZEaWwgu6pfCodVyGZZd+1o3r6W8mFrapErXibYWADDKiXmJmkgI/myGO7wt3/Jc/x
+	WrmFR5LtSyAQcVRrTPWQ3Uqyj6/EuCUZiSYsNOOKRFVH82dI7jigkD754b/ZhWZAC2gU
+	pjGrPTpy96b/tEOlJZFkuX9DXyYgbmLv+z0L2v0MS1d55RIEjsgo7G8fzSizWDX5qUgn
+	Pg9gyfnYRqXq8DVk1yOpJd5RqwgiG1Qjg8p9cdawdaxVCS0v7+Muobgnak3TwjoIwH4A
+	QBZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=RdYzs+BOF0Nbma5dKuJyf8ITpUlOXG6gyCW86uQdGUQ=;
+	b=ndLyhMHYzmCvf+JKlP4lOFn/uIyHd3hTJ13fzRBzeANfOCnHfrxyDuagh+R8oN6BJl
+	GmUEJA99tmR4I/xY/AjLvmjXlJbIgGzkWHTHhd10jazrA8hPOu8Cu+cVeWiqDzPpmTQt
+	ux5WRQHwdAbifgWpvTv2W0efyNDH+RXDmIksS3TWUae5nIBlRwb4j8cceKmAoTpWUAmv
+	nf5+JLgWbyA6b176B3rmIp8bBORxqbeRu8z4BBVI+sNiH56dIv3WzvCJ7LfW7YXOozcs
+	sq3TM2vnm1lkA/x+WSZawJZt30u08m7O3iBHaLKdBomMfuQjWVuwlMGbcVZndubo0YuX
+	ifHw==
+X-Gm-Message-State: AMCzsaXFtyQ5X1h4s4LOkRAyMgibwOd4Hkz/F1qfcW0pY4+McGEaolkP
+	7pYDKtXYfn4aPTRgDtSRXmn/kKgd0V55SfXswB0=
+X-Google-Smtp-Source: ABhQp+QiwVA0OTJNrLTrCBW3T6Qjm4CdtJ1OY9hmcm3XPpGB4wBV1A7HkM0VFBNrGfH5t0cvUgh+3598pKuEkd6YTbg=
+X-Received: by 10.200.53.111 with SMTP id z44mr31114553qtb.12.1508932601943;
+	Wed, 25 Oct 2017 04:56:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.237.35.52 with HTTP; Wed, 25 Oct 2017 04:56:41 -0700 (PDT)
+In-Reply-To: <CA+chaQfdT_wySFELWqaDtMC3Q-1k6MQ-0ApnwZEHmAPzvuMWcA@mail.gmail.com>
+References: <CA+jxWbeubv1tSJLXs5v6wP0do_+jzgepSMc2okvj4imip=+yjA@mail.gmail.com>
+	<CA+chaQfdT_wySFELWqaDtMC3Q-1k6MQ-0ApnwZEHmAPzvuMWcA@mail.gmail.com>
+From: shubhabrata sen <shubhabrata.sen@gmail.com>
+Date: Wed, 25 Oct 2017 13:56:41 +0200
+Message-ID: <CA+jxWbfRDk9Fms1QtAQ6y1HQ-uVzE2Pwt_NZ8RiZC8jkMohj0w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Swig dependency error while building firmware with apparmor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,132 +55,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 11:39:41 -0000
+X-List-Received-Date: Wed, 25 Oct 2017 11:56:41 -0000
+Content-Type: multipart/alternative; boundary="001a11405c6cba9d3e055c5dbf00"
 
-Add images as separate MIME objects instead of directly embedding images
-in the html (as base64 encoded pngs). This makes the emails better
-suited for certain email servers/clients.
+--001a11405c6cba9d3e055c5dbf00
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/contrib/oe-build-perf-report-email.py | 42 +++++++++++++--------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+Hi Martin,
 
-diff --git a/scripts/contrib/oe-build-perf-report-email.py b/scripts/contrib/oe-build-perf-report-email.py
-index 64e85c26ad..913847bbed 100755
---- a/scripts/contrib/oe-build-perf-report-email.py
-+++ b/scripts/contrib/oe-build-perf-report-email.py
-@@ -25,6 +25,7 @@ import socket
- import subprocess
- import sys
- import tempfile
-+from email.mime.image import MIMEImage
- from email.mime.multipart import MIMEMultipart
- from email.mime.text import MIMEText
- 
-@@ -111,15 +112,6 @@ def decode_png(infile, outfile):
-     subprocess.check_output(['optipng', outfile], stderr=subprocess.STDOUT)
- 
- 
--def encode_png(pngfile):
--    """Encode png into a <img> html element"""
--    with open(pngfile, 'rb') as f:
--        data = f.read()
--
--    b64_data = base64.b64encode(data)
--    return '<img src="data:image/png;base64,' + b64_data.decode('utf-8') + '">\n'
--
--
- def mangle_html_report(infile, outfile, pngs):
-     """Mangle html file into a email compatible format"""
-     paste = True
-@@ -144,9 +136,7 @@ def mangle_html_report(infile, outfile, pngs):
-                     # Replace charts with <img> elements
-                     match = re.match('<div id="(?P<id>\w+)"', stripped)
-                     if match and match.group('id') in pngs:
--                        #f_out.write('<img src="{}">\n'.format(match.group('id') + '.png'))
--                        png_file = os.path.join(png_dir, match.group('id') + '.png')
--                        f_out.write(encode_png(png_file))
-+                        f_out.write('<img src="cid:{}"\n'.format(match.group('id')))
-                     else:
-                         f_out.write(line)
- 
-@@ -170,7 +160,7 @@ def scrape_html_report(report, outdir, phantomjs_extra_args=None):
-                                 stderr=subprocess.STDOUT)
- 
-         pngs = []
--        attachments = []
-+        images = []
-         for fname in os.listdir(tmpdir):
-             base, ext = os.path.splitext(fname)
-             if ext == '.png':
-@@ -178,7 +168,7 @@ def scrape_html_report(report, outdir, phantomjs_extra_args=None):
-                 decode_png(os.path.join(tmpdir, fname),
-                            os.path.join(outdir, fname))
-                 pngs.append(base)
--                attachments.append(fname)
-+                images.append(fname)
-             elif ext in ('.html', '.htm'):
-                 report_file = fname
-             else:
-@@ -188,11 +178,13 @@ def scrape_html_report(report, outdir, phantomjs_extra_args=None):
-         log.debug("Mangling html report file %s", report_file)
-         mangle_html_report(os.path.join(tmpdir, report_file),
-                            os.path.join(outdir, report_file), pngs)
--        return report_file, attachments
-+        return (os.path.join(outdir, report_file),
-+                [os.path.join(outdir, i) for i in images])
-     finally:
-         shutil.rmtree(tmpdir)
- 
--def send_email(text_fn, html_fn, subject, recipients, copy=[], blind_copy=[]):
-+def send_email(text_fn, html_fn, image_fns, subject, recipients, copy=[],
-+               blind_copy=[]):
-     """Send email"""
-     # Generate email message
-     text_msg = html_msg = None
-@@ -201,8 +193,16 @@ def send_email(text_fn, html_fn, subject, recipients, copy=[], blind_copy=[]):
-             text_msg = MIMEText("Yocto build performance test report.\n" +
-                                 f.read(), 'plain')
-     if html_fn:
-+        html_msg = msg = MIMEMultipart('related')
-         with open(html_fn) as f:
--            html_msg = MIMEText(f.read(), 'html')
-+            html_msg.attach(MIMEText(f.read(), 'html'))
-+        for img_fn in image_fns:
-+            # Expect that content id is same as the filename
-+            cid = os.path.splitext(os.path.basename(img_fn))[0]
-+            with open(img_fn, 'rb') as f:
-+                image_msg = MIMEImage(f.read())
-+            image_msg['Content-ID'] = '<{}>'.format(cid)
-+            html_msg.attach(image_msg)
- 
-     if text_msg and html_msg:
-         msg = MIMEMultipart('alternative')
-@@ -251,10 +251,10 @@ def main(argv=None):
- 
-     try:
-         log.debug("Storing email parts in %s", outdir)
--        html_report = None
-+        html_report = images = None
-         if args.html:
--            scrape_html_report(args.html, outdir, args.phantomjs_args)
--            html_report = os.path.join(outdir, os.path.basename(args.html))
-+            html_report, images = scrape_html_report(args.html, outdir,
-+                                                     args.phantomjs_args)
- 
-         if args.to:
-             log.info("Sending email to %s", ', '.join(args.to))
-@@ -262,7 +262,7 @@ def main(argv=None):
-                 log.info("Copying to %s", ', '.join(args.cc))
-             if args.bcc:
-                 log.info("Blind copying to %s", ', '.join(args.bcc))
--            send_email(args.text, html_report, args.subject,
-+            send_email(args.text, html_report, images, args.subject,
-                        args.to, args.cc, args.bcc)
-     except subprocess.CalledProcessError as err:
-         log.error("%s, with output:\n%s", str(err), err.output.decode())
--- 
-2.13.6
+Thank you for your reply. Could you please give a bit more details about
+this ? I'm relatively new to the openembedded environment.
 
+On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <martin.jansa@gmail.com>
+wrote:
 
+> you probably want swig-native dependency.
+>
+> On Wed, Oct 25, 2017, 11:09 shubhabrata sen <shubhabrata.sen@gmail.com>
+> wrote:
+>
+>> Hi,
+>>
+>> I'm trying to build a firmware with the apparmor recipe and I keep
+>> getting the following error
+>>
+>> *checking for swig... no*
+>> | checking whether the libapparmor debug output should be enabled... no
+>> | checking whether the libapparmor man pages should be generated... yes
+>> | checking for podchecker... podchecker
+>> | checking for pod2man... pod2man
+>> | checking whether python bindings are enabled... yes
+>> *| configure: error: swig is required when enabling python bindings*
+>> | WARNING: /home/shubhabs/dists/cvp/builds/p1367/tmp/work/
+>> cortexa9hf-neon-poky-linux-gnueabi/apparmor/2.10.95-r0/temp/run.do_configure.8464:1
+>> exit 1 from 'PERL="${PERL}" PYTHON="/home/shubhabs/dists/
+>> cvp/builds/p1367/tmp/work/cortexa9hf-neon-poky-linux-
+>> gnueabi/apparmor/2.10.95-r0/recipe-sysroot-native/usr/bin/python-native/python"
+>> ./configure --build=x86_64-linux --host=arm-poky-linux-gnueabi
+>> --target=arm-poky-linux-gnueabi --prefix=/usr --libdir=/usr/lib
+>> --mandir=/usr/share/man --includedir=/usr/include --with-perl --with-python'
+>>
+>> I've included the SWIG recipe in the build and I can successfully build
+>> the firmware including swig with the bitbake command but somehow the
+>> apparmor recipe can't find the swig package. Any help regarding this would
+>> be appreciated.
+>>
+>> Thanks
+>>
+>> Shubh
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+
+--001a11405c6cba9d3e055c5dbf00
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Martin,<div><br></div><div>Thank you for your reply. Co=
+uld you please give a bit more details about this ? I&#39;m relatively new =
+to the openembedded environment.</div></div><div class=3D"gmail_extra"><br>=
+<div class=3D"gmail_quote">On Wed, Oct 25, 2017 at 12:28 PM, Martin Jansa <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_b=
+lank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><p dir=3D"ltr">you probably want swig-native dependency.</p>
+<br><div class=3D"gmail_quote"><div><div class=3D"h5"><div dir=3D"ltr">On W=
+ed, Oct 25, 2017, 11:09 shubhabrata sen &lt;<a href=3D"mailto:shubhabrata.s=
+en@gmail.com" target=3D"_blank">shubhabrata.sen@gmail.com</a>&gt; wrote:<br=
+></div></div></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"h5"><d=
+iv dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to build a firmware wi=
+th the apparmor recipe and I keep getting the following error</div><div><br=
+></div><div><div><b>checking for swig... no</b></div><div>| checking whethe=
+r the libapparmor debug output should be enabled... no</div><div>| checking=
+ whether the libapparmor man pages should be generated... yes</div><div>| c=
+hecking for podchecker... podchecker</div><div>| checking for pod2man... po=
+d2man</div><div>| checking whether python bindings are enabled... yes</div>=
+<div><b>| configure: error: swig is required when enabling python bindings<=
+/b></div><div>| WARNING: /home/shubhabs/dists/cvp/<wbr>builds/p1367/tmp/wor=
+k/<wbr>cortexa9hf-neon-poky-linux-<wbr>gnueabi/apparmor/2.10.95-r0/<wbr>tem=
+p/run.do_configure.8464:1 exit 1 from &#39;PERL=3D&quot;${PERL}&quot; PYTHO=
+N=3D&quot;/home/shubhabs/dists/<wbr>cvp/builds/p1367/tmp/work/<wbr>cortexa9=
+hf-neon-poky-linux-<wbr>gnueabi/apparmor/2.10.95-r0/<wbr>recipe-sysroot-nat=
+ive/usr/bin/<wbr>python-native/python&quot; ./configure --build=3Dx86_64-li=
+nux --host=3Darm-poky-linux-gnueabi --target=3Darm-poky-linux-<wbr>gnueabi =
+--prefix=3D/usr --libdir=3D/usr/lib --mandir=3D/usr/share/man --includedir=
+=3D/usr/include --with-perl --with-python&#39;</div></div><div><br></div><d=
+iv>I&#39;ve included the SWIG recipe in the build and I can successfully bu=
+ild the firmware including swig with the bitbake command but somehow the ap=
+parmor recipe can&#39;t find the swig package. Any help regarding this woul=
+d be appreciated.</div><div><br></div><div>Thanks</div><div><br></div><div>=
+Shubh</div></div></div></div><span class=3D"HOEnZb"><font color=3D"#888888"=
+>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div>
+</blockquote></div><br></div>
+
+--001a11405c6cba9d3e055c5dbf00--
