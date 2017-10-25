@@ -1,52 +1,28 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-io0-f193.google.com (mail-io0-f193.google.com
-	[209.85.223.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3C571B1D
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 63A7F6E666
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 08:05:45 +0000 (UTC)
-Received: by mail-io0-f193.google.com with SMTP id 101so70159ioj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 01:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=JjAVifSXjAC5bBKgK+JFA/mHB3oop/1Eu9vbfcaZXjY=;
-	b=NrtpF+b9dC+BAXH9Ci48r7IyCo/S4zBYQc+k0rXoCPk3MAbRSKa5Hv0FrxtaKIT5+9
-	kA4mZMFGTrqLnyhEI42cFjth6E/XWluZ6c/JE9XtBvBYHsPvx1I0wQlQCy/wp58n5Jt8
-	10DVHH4JNQ5dWMwZDw/z78jK6H1V+LT+hDKyIRpFL9wFPwTu3rdSQwnImgVAPqlbKkYi
-	pJVCnEoO5BdcNxwAzME+zsImsP1LiooSFRF/9brOW5L+QeOKN3qj3zGp7hcg2DhUotmx
-	ov9H7v6SfpPghzlDJKTNV+3yChDbcw8CZEFw2Ny3B+9HbTGB9yrh+RgJLPrtTiWb/8Cq
-	iZGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to:cc;
-	bh=JjAVifSXjAC5bBKgK+JFA/mHB3oop/1Eu9vbfcaZXjY=;
-	b=VnAsjF8/vR3wjEcPgl0crWoHHyFKXPlQdQvoipsxHlgXrAi6SJwRzJgZCfMfShXm/b
-	zAJxdhe1WfY4UtbP3ELKnPSQATMTXAOkMNLRvhV2/ktJ7TIr8fUjDvw7DYOt1pm0ZpM2
-	6kpNuRYMhGNhjEOfJSZT77LSbs9voHnGPATN1IRZiIC3FbhFxQVKXEBvdhHiKOy0kin6
-	6S2OKR8Bkr0b4Owh+7/DGnKWXJsyJsuO8wIU9E95isWWgd7+UVCAPfK9wLRvtlbbHh93
-	XEHjdFwBXdwqm11NTX1QP6Pz72gqFjnz5tKIB9ZEkWqLlwni7jSMUgz0ah1hgj8fY/0s
-	WPMQ==
-X-Gm-Message-State: AMCzsaVK2GlxavONyB1894PaUxGq//heoSDwPww8/NroQ4PqeCCB81OI
-	4hIW9kcqy3ebWJyn7x+ej1u0L5VMNel0SkB6Fso=
-X-Google-Smtp-Source: ABhQp+Sxdqsjgi5bPI6WvbjPV18lM3rMDsO4nhoBcnyL+zURzAJa/GVovRLbfnaZbrllbSBBTmFHp+WPreirmY04Rs4=
-X-Received: by 10.107.150.20 with SMTP id y20mr8571572iod.212.1508918747060;
-	Wed, 25 Oct 2017 01:05:47 -0700 (PDT)
+	Wed, 25 Oct 2017 08:06:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9P86MNc027258
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Oct 2017 01:06:22 -0700 (PDT)
+Received: from [128.224.163.244] (128.224.163.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 25 Oct 2017 01:06:22 -0700
+To: Armin Kuster <akuster808@gmail.com>, <akuster@mvista.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1508917783-11437-1-git-send-email-akuster808@gmail.com>
+From: Yi Zhao <yi.zhao@windriver.com>
+Message-ID: <1b1cd084-b33f-9d21-282a-03aa82550b86@windriver.com>
+Date: Wed, 25 Oct 2017 16:04:42 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Reply-To: thomas.perrot@tupi.fr
-Sender: vomegaz@gmail.com
-Received: by 10.107.167.211 with HTTP; Wed, 25 Oct 2017 01:05:06 -0700 (PDT)
-In-Reply-To: <1f7a9ec0-9493-140d-d811-e7782d52b7fa@gmail.com>
-References: <20171020094709.27155-1-thomas.perrot@tupi.fr>
-	<1f7a9ec0-9493-140d-d811-e7782d52b7fa@gmail.com>
-From: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Wed, 25 Oct 2017 10:05:06 +0200
-X-Google-Sender-Auth: Os5KTgMBnMozI6Q5coMO9SOBYA4
-Message-ID: <CAGXeWgmz8WV9Y4z2Sp6e=rYArQfNcpkB+Fqf=RpOK=u4K-CM=A@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta][pyro][PATCHv2] Fix some issues in the fitImage generation
+In-Reply-To: <1508917783-11437-1-git-send-email-akuster808@gmail.com>
+X-Originating-IP: [128.224.163.244]
+Subject: Re: [PATCH 1/2] tzcode-native: update to 2017d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,261 +35,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 08:05:46 -0000
-Content-Type: multipart/alternative; boundary="001a11403262e9e23c055c5a85a8"
+X-List-Received-Date: Wed, 25 Oct 2017 08:06:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---001a11403262e9e23c055c5a85a8
-Content-Type: text/plain; charset="UTF-8"
+Should be 2017c ?
 
-Hi,
+I encountered a zdump build error on Ubuntu 14.04:
 
-It's done, I just submit the path for the master branch.
+zdump.c:803:1: error: static declaration of ‘snprintf’ follows
+non-static declaration
+|  snprintf(char *s, size_t size, char const *format, ...)
+|  ^
 
-Best regards,
-Thomas P.
+There was a discussion for it on upstream mailing list: 
+http://mm.icann.org/pipermail/tz/2017-October/025364.html
 
-On Tue, Oct 24, 2017 at 9:38 AM, akuster808 <akuster808@gmail.com> wrote:
 
+Thanks,
+Yi
+
+在 2017年10月25日 15:49, Armin Kuster 写道:
+> LICENSE changes do to rewording
 >
+> https://github.com/eggert/tz/commit/7097a652778d35acf747d14f8bf7b3ced479bbc0#diff-9879d6db96fd29134fc802214163b95a
 >
-> On 10/20/2017 02:47 AM, Thomas Perrot wrote:
-> > - Bad image type replacement for aarch64
-> > - Fix DTB path in fitimage.its
-> > - Ignore fitImage type in do_bundle_initramfs task because the packaging
-> is made by do_assemble_fitimage_initramfs
-> > - the images for arm64 are not compressed the linux_comp variable must
-> therefore be none
-> >
-> > Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
-> > ---
-> >  meta/classes/kernel-fitimage.bbclass |  6 +++++-
-> >  meta/classes/kernel-uboot.bbclass    | 11 ++++++++---
-> >  meta/classes/kernel.bbclass          |  4 +++-
-> I don't see this in master. Please resubmit for Master.
+> Changes to code
 >
-> - armin
-> >  3 files changed, 16 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-
-> fitimage.bbclass
-> > index 2630b47316..abbc309b09 100644
-> > --- a/meta/classes/kernel-fitimage.bbclass
-> > +++ b/meta/classes/kernel-fitimage.bbclass
-> > @@ -7,8 +7,11 @@ python __anonymous () {
-> >          depends = "%s u-boot-mkimage-native dtc-native" % depends
-> >          d.setVar("DEPENDS", depends)
-> >
-> > -        if d.getVar("UBOOT_ARCH") == "x86":
-> > +        uarch = d.getVar("UBOOT_ARCH")
-> > +        if uarch == "x86":
-> >              replacementtype = "bzImage"
-> > +        elif uarch == "arm64":
-> > +            replacementtype = "Image"
-> >          else:
-> >              replacementtype = "zImage"
-> >
-> > @@ -351,6 +354,7 @@ fitimage_assemble() {
-> >                               DTB_PATH="arch/${ARCH}/boot/${DTB}"
-> >                       fi
-> >
-> > +                     DTB=$(echo "${DTB}" | tr '/' '_')
-> >                       DTBS="${DTBS} ${DTB}"
-> >                       fitimage_emit_section_dtb ${1} ${DTB} ${DTB_PATH}
-> >               done
-> > diff --git a/meta/classes/kernel-uboot.bbclass
-> b/meta/classes/kernel-uboot.bbclass
-> > index 868e97d7a7..940f91d90e 100644
-> > --- a/meta/classes/kernel-uboot.bbclass
-> > +++ b/meta/classes/kernel-uboot.bbclass
-> > @@ -1,12 +1,17 @@
-> >  uboot_prep_kimage() {
-> > -     if [ -e arch/${ARCH}/boot/compressed/vmlinux ]; then
-> > +     if [ -e arch/${ARCH}/boot/compressed/vmlinux ] ; then
-> >               vmlinux_path="arch/${ARCH}/boot/compressed/vmlinux"
-> >               linux_suffix=""
-> >               linux_comp="none"
-> >       else
-> >               vmlinux_path="vmlinux"
-> > -             linux_suffix=".gz"
-> > -             linux_comp="gzip"
-> > +             if [ "${ARCH}" = "arm64" ] ; then
-> > +                     linux_suffix=""
-> > +                     linux_comp="none"
-> > +             else
-> > +                     linux_suffix=".gz"
-> > +                     linux_comp="gzip"
-> > +             fi
-> >       fi
-> >
-> >       ${OBJCOPY} -O binary -R .note -R .comment -S "${vmlinux_path}"
-> linux.bin
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index ce2cab65ae..14677ac0fc 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -219,7 +219,9 @@ do_bundle_initramfs () {
-> >               # Backing up kernel image relies on its type(regular file
-> or symbolic link)
-> >               tmp_path=""
-> >               for type in ${KERNEL_IMAGETYPES} ; do
-> > -                     if [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
-> > +                     if [ "$type" = "fitImage" ] ; then
-> > +                             continue
-> > +                     elif [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then
-> >                               linkpath=`readlink -n
-> ${KERNEL_OUTPUT_DIR}/$type`
-> >                               realpath=`readlink -fn
-> ${KERNEL_OUTPUT_DIR}/$type`
-> >                               mv -f $realpath $realpath.bak
+>      zic and the reference runtime now reject multiple leap seconds
+>      within 28 days of each other, or leap seconds before the Epoch.
+>      As a result, support for double leap seconds, which was
+>      obsolescent and undocumented, has been removed.  Double leap
+>      seconds were an error in the C89 standard; they have never existed
+>      in civil timekeeping.  (Thanks to Robert Elz and Bradley White for
+>      noticing glitches in the code that uncovered this problem.)
 >
+>      zic now warns about use of the obsolescent and undocumented -y
+>      option, and about use of the obsolescent TYPE field of Rule lines.
 >
+>      zic now allows unambiguous abbreviations like "Sa" and "Su" for
+>      weekdays; formerly it rejected them due to a bug.  Conversely, zic
+>      no longer considers non-prefixes to be abbreviations; for example,
+>      it no longer accepts "lF" as an abbreviation for "lastFriday".
+>      Also, zic warns about the undocumented usage with a "last-"
+>      prefix, e.g., "last-Fri".
+>
+>      Similarly, zic now accepts the unambiguous abbreviation "L" for
+>      "Link" in ordinary context and for "Leap" in leap-second context.
+>      Conversely, zic no longer accepts non-prefixes such as "La" as
+>      abbreviations for words like "Leap".
+>
+>      zic no longer accepts leap second lines in ordinary input, or
+>      ordinary lines in leap second input.  Formerly, zic sometimes
+>      warned about this undocumented usage and handled it incorrectly.
+>
+>      The new macro HAVE_TZNAME governs whether the tzname external
+>      variable is exported, instead of USG_COMPAT.  USG_COMPAT now
+>      governs only the external variables "timezone" and "daylight".
+>      This change is needed because the three variables are not in the
+>      same category: although POSIX requires tzname, it specifies the
+>      other two variables as optional.  Also, USG_COMPAT is now 1 or 0:
+>      if not defined, the code attempts to guess it from other macros.
+>
+>      localtime.c and difftime.c no longer require stdio.h, and .c files
+>      other than zic.c no longer require sys/wait.h.
+>
+>      zdump.c no longer assumes snprintf.  (Reported by Jonathan Leffler.)
+>
+>      Calculation of time_t extrema works around a bug in GCC 4.8.4
+>      (Reported by Stan Shebs and Joseph Myers.)
+>
+>      zic.c no longer mistranslates formats of line numbers in non-English
+>      locales.  (Problem reported by Benno Schulenberg.)
+>
+>      Several minor changes have been made to the code to make it a
+>      bit easier to port to MS-Windows and Solaris.  (Thanks to Kees
+>      Dekker for reporting the problems.)
+>
+>    Changes to documentation and commentary
+>
+>      The two new files 'theory.html' and 'calendars' contain the
+>      contents of the removed file 'Theory'.  The goal is to document
+>      tzdb theory more accessibly.
+>
+>      The zic man page now documents abbreviation rules.
+>
+>      tz-link.htm now covers how to apply tzdata changes to clients.
+>      (Thanks to Jorge Fábregas for the AIX link.)  It also mentions MySQL.
+>
+>      The leap-seconds.list URL has been updated to something that is
+>      more reliable for tzdb.  (Thanks to Tim Parenti and Brian Inglis.)
+>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>   .../tzcode/{tzcode-native_2017b.bb => tzcode-native_2017c.bb}  | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+>   rename meta/recipes-extended/tzcode/{tzcode-native_2017b.bb => tzcode-native_2017c.bb} (63%)
+>
+> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb b/meta/recipes-extended/tzcode/tzcode-native_2017c.bb
+> similarity index 63%
+> rename from meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+> rename to meta/recipes-extended/tzcode/tzcode-native_2017c.bb
+> index 165d2c6..c8a987f 100644
+> --- a/meta/recipes-extended/tzcode/tzcode-native_2017b.bb
+> +++ b/meta/recipes-extended/tzcode/tzcode-native_2017c.bb
+> @@ -3,16 +3,16 @@
+>   SUMMARY = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
+>   LICENSE = "PD & BSD & BSD-3-Clause"
+>   
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=ef1a352b901ee7b75a75df8171d6aca7"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+>   
+>   SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+>              http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata"
+>   UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+>   
+> -SRC_URI[tzcode.md5sum] = "afaf15deb13759e8b543d86350385b16"
+> -SRC_URI[tzcode.sha256sum] = "4d1735bb54e22b8d7443d4d1f1a13d007ae11be79a35e51f8e8322fb8e292d40"
+> -SRC_URI[tzdata.md5sum] = "50dc0dc50c68644c1f70804f2e7a1625"
+> -SRC_URI[tzdata.sha256sum] = "f8242a522ea3496b0ce4ff4f2e75a049178da21001a08b8e666d8cbe07d18086"
+> +SRC_URI[tzcode.md5sum] = "2fe6986231db5182c61d565021a0cd7b"
+> +SRC_URI[tzcode.sha256sum] = "81e8b4bc23e60906640c266bbff3789661e22f0fa29fe61b96ec7c2816c079b7"
+> +SRC_URI[tzdata.md5sum] = "1e751e7e08f8b68530674f04619d894d"
+> +SRC_URI[tzdata.sha256sum] = "d6543f92a929826318e2f44ff3a7611ce5f565a43e10250b42599d0ba4cbd90b"
+>   
+>   S = "${WORKDIR}"
+>   
 
---001a11403262e9e23c055c5a85a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div>Hi,<br><br></div><span id=3D"gmail-result_b=
-ox" class=3D"gmail-" tabindex=3D"-1" lang=3D"en"><span>It&#39;s done, I jus=
-t submit the path for the master branch.<br><br></span></span></div><span i=
-d=3D"gmail-result_box" class=3D"gmail-" tabindex=3D"-1" lang=3D"en"><span>B=
-est regards,<br></span></span></div><span id=3D"gmail-result_box" class=3D"=
-gmail-" tabindex=3D"-1" lang=3D"en"><span>Thomas P.<br><br></span></span>On=
- Tue, Oct 24, 2017 at 9:38 AM, akuster808 <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;=
-</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><span class=3D""><br>
-<br>
-On 10/20/2017 02:47 AM, Thomas Perrot wrote:<br>
-&gt; - Bad image type replacement for aarch64<br>
-&gt; - Fix DTB path in fitimage.its<br>
-&gt; - Ignore fitImage type in do_bundle_initramfs task because the packagi=
-ng is made by do_assemble_fitimage_initramfs<br>
-&gt; - the images for arm64 are not compressed the linux_comp variable must=
- therefore be none<br>
-&gt;<br>
-&gt; Signed-off-by: Thomas Perrot &lt;<a href=3D"mailto:thomas.perrot@tupi.=
-fr">thomas.perrot@tupi.fr</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel-fitimage.<wbr>bbclass |=C2=A0 6 +++++-<br>
-&gt;=C2=A0 meta/classes/kernel-uboot.<wbr>bbclass=C2=A0 =C2=A0 | 11 +++++++=
-+---<br>
-&gt;=C2=A0 meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 4 +++-<br>
-</span>I don&#39;t see this in master. Please resubmit for Master.<br>
-<br>
-- armin<br>
-<div class=3D"HOEnZb"><div class=3D"h5">&gt;=C2=A0 3 files changed, 16 inse=
-rtions(+), 5 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/kernel-<wbr>fitimage.bbclass b/meta/classes/=
-kernel-<wbr>fitimage.bbclass<br>
-&gt; index 2630b47316..abbc309b09 100644<br>
-&gt; --- a/meta/classes/kernel-<wbr>fitimage.bbclass<br>
-&gt; +++ b/meta/classes/kernel-<wbr>fitimage.bbclass<br>
-&gt; @@ -7,8 +7,11 @@ python __anonymous () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 depends =3D &quot;%s u-boot-mkimage-=
-native dtc-native&quot; % depends<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;DEPENDS&quot;, depend=
-s)<br>
-&gt;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;UBOOT_ARCH&quot;) =3D=
-=3D &quot;x86&quot;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 uarch =3D d.getVar(&quot;UBOOT_ARCH&quot;=
-)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if uarch =3D=3D &quot;x86&quot;:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &q=
-uot;bzImage&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif uarch =3D=3D &quot;arm64&quot;:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &quot;I=
-mage&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &q=
-uot;zImage&quot;<br>
-&gt;<br>
-&gt; @@ -351,6 +354,7 @@ fitimage_assemble() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DTB_PATH=3D&quot;arch/${ARCH}/boot=
-/${<wbr>DTB}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0fi<br>
-&gt;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0DTB=3D$(echo &quot;${DTB}&quot; | tr &#39;/&#39; &#39;_&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0DTBS=3D&quot;${DTBS} ${DTB}&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0fitimage_emit_section_dtb ${1} ${DTB} ${DTB_PATH}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
-&gt; diff --git a/meta/classes/kernel-uboot.<wbr>bbclass b/meta/classes/ker=
-nel-uboot.<wbr>bbclass<br>
-&gt; index 868e97d7a7..940f91d90e 100644<br>
-&gt; --- a/meta/classes/kernel-uboot.<wbr>bbclass<br>
-&gt; +++ b/meta/classes/kernel-uboot.<wbr>bbclass<br>
-&gt; @@ -1,12 +1,17 @@<br>
-&gt;=C2=A0 uboot_prep_kimage() {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if [ -e arch/${ARCH}/boot/compressed/<wbr>vmlinux=
- ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if [ -e arch/${ARCH}/boot/compressed/<wbr>vmlinux=
- ] ; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vmlinux_path=3D&=
-quot;arch/${ARCH}/<wbr>boot/compressed/vmlinux&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux_suffix=3D&=
-quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux_comp=3D&qu=
-ot;none&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vmlinux_path=3D&=
-quot;vmlinux&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux_suffix=3D&quot;=
-.gz&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux_comp=3D&quot;gz=
-ip&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${ARCH}&qu=
-ot; =3D &quot;arm64&quot; ] ; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0linux_suffix=3D&quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0linux_comp=3D&quot;none&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0linux_suffix=3D&quot;.gz&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0linux_comp=3D&quot;gzip&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0${OBJCOPY} -O binary -R .note -R .comment -S=
- &quot;${vmlinux_path}&quot; linux.bin<br>
-&gt; diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass=
-<br>
-&gt; index ce2cab65ae..14677ac0fc 100644<br>
-&gt; --- a/meta/classes/kernel.bbclass<br>
-&gt; +++ b/meta/classes/kernel.bbclass<br>
-&gt; @@ -219,7 +219,9 @@ do_bundle_initramfs () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Backing up ker=
-nel image relies on its type(regular file or symbolic link)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tmp_path=3D&quot=
-;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for type in ${KE=
-RNEL_IMAGETYPES} ; do<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0if [ &quot;$type&quot; =3D &quot;fitImage&quot; ] ; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0elif [ -h ${KERNEL_OUTPUT_DIR}/$type ] ; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linkpath=3D`readlink -n ${KERNEL_O=
-UTPUT_DIR}/$type`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0realpath=3D`readlink -fn ${KERNEL_=
-OUTPUT_DIR}/$type`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv -f $realpath $realpath.bak<br>
-<br>
-</div></div></blockquote></div><br></div></div>
-
---001a11403262e9e23c055c5a85a8--
