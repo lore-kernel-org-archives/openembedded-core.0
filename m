@@ -1,36 +1,18 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B1F1171B45
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 18:24:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9PIOFqg016872
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Oct 2017 11:24:15 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
-	Wed, 25 Oct 2017 11:24:15 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] qemumips64: no qemu-usermode
-	for n32
-Thread-Index: AQHTTR8s0kMOz2Cf2U6eCCrAriSAYqL0Hs0AgADBOoCAAGWwgP//m4+g
-Date: Wed, 25 Oct 2017 18:24:14 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF437C9D@ALA-MBC.corp.ad.wrs.com>
-References: <20171024232359.63328-1-jslater@windriver.com>
-	<CAJ86T=V_Miu6Ui_zBOWzKRtPTbv6HE_O3B_Y5swmzRap2JgaAw@mail.gmail.com>
-	<52a0c834-6e5f-3bbc-7e99-206607dab4a4@linux.intel.com>
-	<CAJ86T=UV_XVjq6SEvc_9-46b1W+N_v6aBjvJOEorov5NYpTLcQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=UV_XVjq6SEvc_9-46b1W+N_v6aBjvJOEorov5NYpTLcQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.157.209]
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 17B7771B45;
+	Wed, 25 Oct 2017 18:32:55 +0000 (UTC)
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemumips64: no qemu-usermode for n32
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Thomas PERROT <thomas.perrot@tupi.fr>
+Date: Wed, 25 Oct 2017 18:32:56 -0000
+Message-ID: <20171025183256.2784.71793@do.openembedded.org>
+References: <20171025180312.10308-1-thomas.perrot@tupi.fr>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20171025180312.10308-1-thomas.perrot@tupi.fr>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhXSBGaXggc29tZSBpc3N1ZXMgaW4gdGhlIC4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Oct 2017 18:24:16 -0000
-Content-Language: en-US
+X-List-Received-Date: Wed, 25 Oct 2017 18:32:55 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SSBmb3VuZCB0aGF0IGxpYm4zMi1nb2JqZWN0LWludHJvc3BlY3Rpb24gd291bGQgbm90IGNvbXBp
-bGUgd2l0aG91dCB0aGUgcmVtb3ZlLCBidXQgSSBjb3VsZCBjaGVjayBhZ2Fpbi4gICAgICBKb2UN
-Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEFuZHJlIE1jQ3VyZHkgW21haWx0
-bzphcm1jY3VyZHlAZ21haWwuY29tXSANClNlbnQ6IFdlZG5lc2RheSwgT2N0b2JlciAyNSwgMjAx
-NyAxMDoxOSBBTQ0KVG86IEFsZXhhbmRlciBLYW5hdmluDQpDYzogU2xhdGVyLCBKb3NlcGg7IE9F
-IENvcmUgbWFpbGluZyBsaXN0DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRD
-SCAxLzFdIHFlbXVtaXBzNjQ6IG5vIHFlbXUtdXNlcm1vZGUgZm9yIG4zMg0KDQpPbiBXZWQsIE9j
-dCAyNSwgMjAxNyBhdCA0OjE0IEFNLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleGFuZGVyLmthbmF2
-aW5AbGludXguaW50ZWwuY29tPiB3cm90ZToNCj4gT24gMTAvMjUvMjAxNyAwMjo0MyBBTSwgQW5k
-cmUgTWNDdXJkeSB3cm90ZToNCj4+DQo+PiBPbiBUdWUsIE9jdCAyNCwgMjAxNyBhdCA0OjIzIFBN
-LCBKb2UgU2xhdGVyIDxqc2xhdGVyQHdpbmRyaXZlci5jb20+IHdyb3RlOg0KPj4+DQo+Pj4gcWVt
-dS11c2VybW9kZSBpcyBvbmx5IGF2YWlsYWJsZSBmb3IgbWlwczY0IGFuZCBvMzIgY29kZS4NCj4+
-DQo+PiBJc24ndCB0aGF0IGFscmVhZHkgaGFuZGxlZCBieSANCj4+IG1ldGEvY29uZi9tYWNoaW5l
-L2luY2x1ZGUvbWlwcy9hcmNoLW1pcHMuaW5jDQo+Pg0KPj4gICAgIyB1c2VyIG1vZGUgcWVtdSBk
-b2Vzbid0IHN1cHBvcnQgbWlwczY0IG4zMjogIkludmFsaWQgRUxGIGltYWdlIA0KPj4gZm9yIHRo
-aXMgYXJjaGl0ZWN0dXJlIg0KPj4gICAgTUFDSElORV9GRUFUVVJFU19CQUNLRklMTF9DT05TSURF
-UkVEX2FwcGVuZCA9ICINCj4+ICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdUVU5FX0ZFQVRVUkVTJywg
-J24zMicsICdxZW11LXVzZXJtb2RlJywgJycsIGQpfSINCj4NCj4gWWVzLCBidXQgdGhpcyBpcyBy
-ZWFsbHkgdW5yZWFkYWJsZSBpc24ndCBpdCA6KSBJIGRvbid0IHNlZSBob3cgYW55b25lIA0KPiBj
-b3VsZCBncmFzcCB0aGF0IHRoZSBhYm92ZSBtZWFucyAicmVtb3ZlIHFlbXUtdXNlcm1vZGUgZnJv
-bSANCj4gTUFDSElORV9GRUFUVVJFUyBpZg0KPiBuMzIgaXMgaW4gVFVORV9GRUFUVVJFUyIgKHdp
-dGhvdXQgZGl2aW5nIGludG8gZG9jdW1lbnRhdGlvbikuDQo+DQo+IEFueSBiZXR0ZXIgd2F5IHRv
-IGV4cHJlc3MgdGhpcyB3b3VsZCBiZSBhcHByZWNpYXRlZC4NCg0KWWVzLCBCQUNLRklMTF9DT05T
-SURFUkVEIGFsd2F5cyBoYXMgYmVlbiBjb25jZXB0IHdoaWNoIGJhZmZsZXMgYSBsb3Qgb2YgdXNl
-cnMgLSBlc3BlY2lhbGx5IHNvIHNpbmNlIHdlIHF1aWV0bHkgcmVkZWZpbmVkIGl0IHRvIG1lYW4g
-bm90IG9ubHkgImZ1bmN0aW9uYWxpdHkgd2hpY2ggdXNlZCB0byBhbHdheXMgYmUgZW5hYmxlZCBi
-dXQgaXMgbm93IGNvbmZpZ3VyYWJsZSIgYnV0IG5vdyBhbHNvICJmdW5jdGlvbmFsaXR5IHdoaWNo
-IHdhcyBub3QgcHJldmlvdXNseSBlbmFibGVkIGJ1dCBpcyBub3cgY29uZmlndXJhYmxlIGFuZCB3
-ZSB3YW50IHRvIGVuYWJsZSBieSBkZWZhdWx0IGFuZCBtYWtlIGl0IGRpZmZpY3VsdCBmb3IgdXNl
-cnMgdG8gYWNjaWRlbnRhbGx5IGxlYXZlIGRpc2FibGVkIi4NCg==
+== Series Details ==
+
+Series: "[meta] Fix some issues in the ..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9488/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta,1/3] Fix some issues in the fitImage generation
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
