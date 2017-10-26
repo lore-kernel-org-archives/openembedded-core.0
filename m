@@ -1,41 +1,24 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A2E36025F
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F8BA6022F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 07:04:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="29627642"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Oct 2017 15:04:40 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 3682647F13C2;
-	Thu, 26 Oct 2017 15:04:42 +0800 (CST)
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0361.001; Thu, 26 Oct 2017 15:04:41 +0800
-From: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] libnl: 3.2.29 -> 3.4.0
-Thread-Index: AQHTTT1Dkn3O3EyxwkGi2hVWI8pwCaLz5NiAgAHRI8A=
-Date: Thu, 26 Oct 2017 07:04:40 +0000
-Message-ID: <97F7C8E70D26E94FA7E05578493F65C61C7367AA@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1508900374-23806-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<21a0f200-b746-c896-a8c5-76e6a5e4c2ff@linux.intel.com>
-In-Reply-To: <21a0f200-b746-c896-a8c5-76e6a5e4c2ff@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 10.0.100.37
-dlp-reaction: no-action
-x-originating-ip: [10.167.225.125]
+	Thu, 26 Oct 2017 07:55:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9Q7tmjr022183
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Oct 2017 00:55:49 -0700 (PDT)
+Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
+	Thu, 26 Oct 2017 00:55:48 -0700
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Oct 2017 10:55:46 +0300
+Message-ID: <20171026075546.124640-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 3682647F13C2.A68C3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH v3] libnl: 3.2.29 -> 3.4.0
+Subject: [PATCHv2] git: bump version to 2.13.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,37 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 07:04:42 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 26 Oct 2017 07:55:48 -0000
+Content-Type: text/plain
 
-V2VsbCwgZnJvbSB0aGUgbmV3IE1ha2VmaWxlLmFtIGZpbGUsSSBjYW4ndCBm
-aW5kIHRoZSByZWxhdGVkIGNvbnRlbnQgYWJvdXQgdGhpcyBwYXRjaC4NCg0K
-QW5kIGluIHRoZSBmaXgtcGt0bG9jX3N5bnRheF9oLXJhY2UucGF0Y2gsIHRo
-ZSBkZXNjcmlwdGlvbiBpcyBsaWtlIHRoaXM6DQpsaWJubCBoYXMgcHJvZ3Jl
-c3NlZCB0byAwLjMuMiBhbmQgdGhlcmUgZG9lcyBub3QgYXBwZWFyIHRvIGJl
-IGFueSAibWFrZSAtaiIgaXNzdWVzIHdpdGggdGhpcyBidWlsZCBhZnRlciBt
-eSBsaW1pdGVkIHRlc3Rpbmcgb24gdGhhdCBuZXdlciB2ZXJzaW9uLg0KDQpz
-byB3ZSBjYW4gYXNzdW1lIHRoaXMgaXNzdWUgaXMgZml4ZWQgdXBzdHJlYW0g
-DQoNClNvLCBJIHRoaW5rIGRlbGV0aW5nIHRoaXMgcGF0Y2ggd2lsbCBub3Qg
-Y2F1c2UgdGhlIHByb2JsZW0uDQoNCmh1YW5ncXkNCg0KPiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiBb
-bWFpbHRvOmFsZXhhbmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNvbV0NCj4g
-U2VudDogV2VkbmVzZGF5LCBPY3RvYmVyIDI1LCAyMDE3IDc6MTcgUE0NCj4g
-VG86IEh1YW5nLCBRaXl1IDxodWFuZ3F5LmZuc3RAY24uZnVqaXRzdS5jb20+
-Ow0KPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYzXSBsaWJubDog
-My4yLjI5IC0+IDMuNC4wDQo+IA0KPiBPbiAxMC8yNS8yMDE3IDA1OjU5IEFN
-LCBIdWFuZyBRaXl1IHdyb3RlOg0KPiA+IDIpIERlbGV0ZSBvbmUgcGF0Y2gg
-ImZpeC1wa3Rsb2Nfc3ludGF4X2gtcmFjZS5wYXRjaCIsIGZvciBpdCBpcw0K
-PiBpbmFwcHJvcHJpYXRlLGFzIHRoZSB2ZXJpb24gMy40LjAgaGFzIG5vIGxp
-Yi9NYWtlZmlsZS5hbSBmaWxlLg0KPiANCj4gQXBvbG9naWVzLCBidXQgdGhp
-cyBpcyBub3QgYSBzYXRpc2ZhY3RvcnkgcmVhc29uIHRvIHJlbW92ZSB0aGlz
-IHBhdGNoLg0KPiBIYXMgdGhlIHVwc3RyZWFtIGZpeGVkIHRoZSBwcm9ibGVt
-IHRoYXQgdGhlIHBhdGNoIGlzIGFkZHJlc3Npbmc/IE9yIGhhdmUgdGhleQ0K
-PiBzaW1wbHkgcmVhcnJhbmdlZCB0aGUgbWFrZWZpbGVzLCBhbmQgbW92ZWQg
-dGhlIHByb2JsZW1hdGljIGxpbmVzIHRvIGENCj4gZGlmZmVyZW50IG1ha2Vm
-aWxlPyBJZiBzbywgeW91IHNob3VsZCByZWJhc2UgdGhlIGZpeCBvbnRvIHRo
-ZSBuZXcgbG9jYXRpb24uDQo+IA0KPiBBbGV4DQo+IA0KDQoKCg==
+Bump version to 2.13.6 in order to eliminate CVE-2017-14867 vulnerability.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2017-14867
+
+Upstream patches:
+https://github.com/git/git/commit/9a42c03cb71eaa9d41ba67275de38c997a791c32
+https://github.com/git/git/commit/fce13af5d20cad8dcb2d0e47bcf01b6960f08e55
+https://github.com/git/git/commit/27dd73871f814062737c327103ee43f1eb7f30d9
+https://github.com/git/git/commit/46203ac24dc7e6b5a8d4f1b024ed93591705d47b
+https://github.com/git/git/commit/5b4efea666951efe0770f8d5a301f8917015315f
+https://github.com/git/git/commit/8d0fad0a7a6ba34fd706c148fa7ed1f8eb2b8b26
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ meta/recipes-devtools/git/git_2.13.3.bb | 11 -----------
+ meta/recipes-devtools/git/git_2.13.6.bb | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_2.13.3.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.13.6.bb
+
+diff --git a/meta/recipes-devtools/git/git_2.13.3.bb b/meta/recipes-devtools/git/git_2.13.3.bb
+deleted file mode 100644
+index b3e3887319..0000000000
+--- a/meta/recipes-devtools/git/git_2.13.3.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
+-
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
+-
+-SRC_URI[tarball.md5sum] = "d2dc550f6693ba7e5b16212b2714f59f"
+-SRC_URI[tarball.sha256sum] = "1497001772f630d49809e981672edfe3e3ce1a1d18e905cd539c4d2f4dbcd75a"
+-SRC_URI[manpages.md5sum] = "3037d11a4f4cdd19435871c267ca48b4"
+-SRC_URI[manpages.sha256sum] = "f9b302eeb08ce08934e7afb42280ce9294411fbf5f7b6ac3fcc236e8031f10c5"
+diff --git a/meta/recipes-devtools/git/git_2.13.6.bb b/meta/recipes-devtools/git/git_2.13.6.bb
+new file mode 100644
+index 0000000000..c7e559c019
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.13.6.bb
+@@ -0,0 +1,11 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.md5sum] = "b7a8f9de37cc45aef96035bd27dc98c8"
++SRC_URI[tarball.sha256sum] = "cb53e6b388d8d19189933366c1fe5c1ca500e8b227b9e707af39c3d879e41015"
++SRC_URI[manpages.md5sum] = "c4d966309cf8d6ad18d43624bf8ebc56"
++SRC_URI[manpages.sha256sum] = "c76071195596887a8eb5c73478b0be6a6e237f6af5b397e4fe8900ecda70642e"
+-- 
+2.11.0
+
 
