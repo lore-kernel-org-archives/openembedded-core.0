@@ -1,33 +1,30 @@
-Return-Path: <fabien.lahoudere@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id C181A71D79
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id D720971D79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 08:01:32 +0000 (UTC)
-Received: from Collabora
-	(dynamic-2a00-1028-838e-0812-98d9-0b2b-4878-92e4.ipv6.broadband.iol.cz
-	[IPv6:2a00:1028:838e:812:98d9:b2b:4878:92e4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested) (Authenticated sender: aragua)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2E09B2606AE;
-	Thu, 26 Oct 2017 09:01:33 +0100 (BST)
-Message-ID: <1509004888.7066.5.camel@collabora.co.uk>
-From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
-To: Denys Dmytriyenko <denis@denix.org>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-Date: Thu, 26 Oct 2017 10:01:28 +0200
-In-Reply-To: <20171017225943.GN9221@denix.org>
-References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
-	<20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
-	<CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
-	<CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
-	<1508228478.12731.1.camel@collabora.co.uk>
-	<CAP9ODKobM2qGirCLFrM-sNV=-LgbHWMFCGba_U2Wq4ckY8L7+A@mail.gmail.com>
-	<20171017225943.GN9221@denix.org>
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Thu, 26 Oct 2017 08:05:37 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Oct 2017 01:05:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,434,1503385200"; d="scan'208";a="167817749"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 26 Oct 2017 01:05:36 -0700
+To: "Huang, Qiyu" <huangqy.fnst@cn.fujitsu.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 3/3] weston: Bump version to 3.0.0
+References: <1508900374-23806-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<21a0f200-b746-c896-a8c5-76e6a5e4c2ff@linux.intel.com>
+	<97F7C8E70D26E94FA7E05578493F65C61C7367AA@G08CNEXMBPEKD03.g08.fujitsu.local>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <2063dc07-4a32-1561-94e1-554a22944329@linux.intel.com>
+Date: Thu, 26 Oct 2017 11:05:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <97F7C8E70D26E94FA7E05578493F65C61C7367AA@G08CNEXMBPEKD03.g08.fujitsu.local>
+Subject: Re: [PATCH v3] libnl: 3.2.29 -> 3.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,81 +37,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 08:01:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Oct 2017 08:05:38 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2017-10-17 at 18:59 -0400, Denys Dmytriyenko wrote:
-> On Tue, Oct 17, 2017 at 08:31:10AM -0200, Otavio Salvador wrote:
-> > Em 17 de out de 2017 6:21 AM, "Fabien Lahoudere" <
-> > fabien.lahoudere@collabora.co.uk> escreveu:
-> > 
-> > On Mon, 2017-10-16 at 21:34 +0100, Burton, Ross wrote:
-> > 
-> > On 16 October 2017 at 18:30, Otavio Salvador <otavio.salvador@ossystems.
-> > com.br> wrote:
-> > 
-> > 
-> > > +          file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
-> > 
-> > \
-> > > +          file://fix-missing-header.patch \
-> > 
-> > Those should be documented on commit log
-> > 
-> > 
-> > 
-> > Agreed.  The missing header one should say what platform causes it to be a
-> > problem (in case it never gets upstreamed and someone tests it again on
-> > just glibc).  And is the pitch patch sufficiently broken that we need to
-> > backport it?
-> > 
-> > 
-> > Without the pitch patch, all applications generating YUV420 will not be
-> > displayed correctly. For example "gstlaunch1.0 testvideosrc ! waylandsink"
-> > fail.
-> > I can keep this patch in a bbappend if you don't want it. Just tell me.
-> > 
-> > 
-> > Please keep the patch. It fixes a issue and it is not BSP specific, so it
-> > belongs to core. Just explain it on commit log.
+On 10/26/2017 10:04 AM, Huang, Qiyu wrote:
+> Well, from the new Makefile.am file,I can't find the related content about this patch.
 > 
-> I don't have a very strong objection here, but it sounds like a corner case 
-> for one of the formats. Plus what's the difference between "fail" and "not 
-> displayed correctly"?
+> And in the fix-pktloc_syntax_h-race.patch, the description is like this:
+> libnl has progressed to 0.3.2 and there does not appear to be any "make -j" issues with this build after my limited testing on that newer version.
 > 
+> so we can assume this issue is fixed upstream
+> 
+> So, I think deleting this patch will not cause the problem.
 
-"fail" means not display correctly but the issue can also lead to a weston crash.
+That's fine, thanks for looking. Can you resend once more and include 
+the information into the commit message please? Something like "upstream 
+has refactored the makefiles, and the problematic code is now absent".
 
-> 
-> > For the header patch, I will improve commit message.
-> > 
-> > I see there is an OVERRIDE libc-musl, should I use this patch in
-> > SRC_URI_libc-musl?
-> > 
-> > 
-> > No, just mention it on commit log...
-> > 
-> > 
-> > 
-> > Ross
-> > 
-> > -- 
-> > 
-> > Fabien
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > -- 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
--- 
-Fabien
+
+Alex
 
