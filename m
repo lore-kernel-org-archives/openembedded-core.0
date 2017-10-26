@@ -1,24 +1,28 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D70E36FEFE
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BACF6E650
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 14:11:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9QEBWot002676
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 07:11:35 -0700 (PDT)
-Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 26 Oct 2017 07:11:31 -0700
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Oct 2017 17:11:30 +0300
-Message-ID: <20171026141130.116905-1-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.10.2
+	Thu, 26 Oct 2017 14:27:20 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Oct 2017 07:27:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.43,434,1503385200"; 
+	d="scan'208,217";a="914040531"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.134])
+	([10.219.128.134])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Oct 2017 07:27:21 -0700
+Date: Thu, 26 Oct 2017 09:37:23 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Message-Id: <1509028643.11251.23@fm-out.intel.com>
+In-Reply-To: <1509010439.25153.128.camel@intel.com>
+References: <20171019201047.148436-1-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1509010439.25153.128.camel@intel.com>
+X-Mailer: geary/0.11.3
 MIME-Version: 1.0
-Subject: [PATCH] git: bump version to 2.14.3
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] qemu: upgrade to 2.10.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +35,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 14:11:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Oct 2017 14:27:21 -0000
+Content-Type: multipart/alternative; boundary="=-sw9xxPzqw/MmQntjsHm/"
 
-Bump version to 2.14.3 in order to eliminate CVE-2017-14867 vulnerability.
+--=-sw9xxPzqw/MmQntjsHm/
+Content-Type: text/plain; charset=utf-8; format=flowed
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2017-14867
+Hi Patrick
 
-Upstream patches:
-https://github.com/git/git/commit/9a42c03cb71eaa9d41ba67275de38c997a791c32
-https://github.com/git/git/commit/fce13af5d20cad8dcb2d0e47bcf01b6960f08e55
-https://github.com/git/git/commit/27dd73871f814062737c327103ee43f1eb7f30d9
-https://github.com/git/git/commit/46203ac24dc7e6b5a8d4f1b024ed93591705d47b
-https://github.com/git/git/commit/5b4efea666951efe0770f8d5a301f8917015315f
-https://github.com/git/git/commit/8d0fad0a7a6ba34fd706c148fa7ed1f8eb2b8b26
+On Thu, Oct 26, 2017 at 4:33 AM, Patrick Ohly <patrick.ohly@intel.com> 
+wrote:
+> On Thu, 2017-10-19 at 13:10 -0700,
+> leonardo.sandoval.gonzalez@linux.intel.com wrote:
+>>  From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>> 
+>>  All CVE patches removed because these are already integrated in
+>>  2.10.1.
+> ...
+>>   meta/recipes-devtools/qemu/qemu/glibc-2.25.patch   |  14 -
+> diff --git a/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+>>  b/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+>>  index a6908bdbf9..25569449e4 100644
+>>  --- a/meta/recipes-devtools/qemu/qemu/glibc-
+>>  2.25.patch
+>>  +++ b/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+>>  @@ -72,17 +72,3 @@ diff -uNr qemu-2.8.0.orig/configure qemu-
+>>  2.8.0/configure
+>>    # Hold two types of flag:
+>>    #   CONFIG_THREAD_SETNAME_BYTHREAD  - we've got a way of setting
+>>  the name on
+>>    #                                     a thread we have a handle to
+>>  -diff -uNr qemu-2.8.0.orig/include/sysemu/os-posix.h qemu-
+>>  2.8.0/include/sysemu/os-posix.h
+>>  ---- qemu-2.8.0.orig/include/sysemu/os-posix.h	2016-12-20
+>>  21:16:48.000000000 +0100
+>>  -+++ qemu-2.8.0/include/sysemu/os-posix.h	2017-02-21
+>>  19:07:18.009090381 +0100
+>>  -@@ -34,6 +34,10 @@
+>>  - #include <netdb.h>
+>>  - #include <sys/un.h>
+>>  -
+>>  -+#ifdef CONFIG_SYSMACROS
+>>  -+#include <sys/sysmacros.h>
+>>  -+#endif
+>>  -+
+>>  - void os_set_line_buffering(void);
+>>  - void os_set_proc_name(const char *s);
+>>  - void os_setup_signal_handling(void);
+> 
+> Instead of removing just this hunk from the glibc-2.25.patch, please
+> remove the entire patch. It is already in 2.10.0.
+> 
+> I was about to send a patch doing just that when I saw your version
+> update. Here's the commit message for my patch:
+> 
+>     The patch is already present in the upstream 2.10.0. Patching 
+> during a
+>     build succeeds by adding the same hunks again to configure (which
+>     seems to cause no problems during build) and skipping the one 
+> which it
+>     detects as already applied, but "devtool modify qemu-native" is 
+> more
+>     picky:
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
----
- meta/recipes-devtools/git/git_2.13.3.bb | 11 -----------
- meta/recipes-devtools/git/git_2.14.3.bb | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.13.3.bb
- create mode 100644 meta/recipes-devtools/git/git_2.14.3.bb
+I used devtool upgrade and the only hunk I need to remove was this one, 
+the rest were applied cleanly. Let me check again and send  a V2 asap.
 
-diff --git a/meta/recipes-devtools/git/git_2.13.3.bb b/meta/recipes-devtools/git/git_2.13.3.bb
-deleted file mode 100644
-index b3e3887..0000000
---- a/meta/recipes-devtools/git/git_2.13.3.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "d2dc550f6693ba7e5b16212b2714f59f"
--SRC_URI[tarball.sha256sum] = "1497001772f630d49809e981672edfe3e3ce1a1d18e905cd539c4d2f4dbcd75a"
--SRC_URI[manpages.md5sum] = "3037d11a4f4cdd19435871c267ca48b4"
--SRC_URI[manpages.sha256sum] = "f9b302eeb08ce08934e7afb42280ce9294411fbf5f7b6ac3fcc236e8031f10c5"
-diff --git a/meta/recipes-devtools/git/git_2.14.3.bb b/meta/recipes-devtools/git/git_2.14.3.bb
-new file mode 100644
-index 0000000..4628fc7
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.14.3.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "034a737e20a95194a5c274fff2333a67"
-+SRC_URI[tarball.sha256sum] = "023ffff6d3ba8a1bea779dfecc0ed0bb4ad68ab8601d14435dd8c08416f78d7f"
-+SRC_URI[manpages.md5sum] = "b0f9be472139b978954bd0e132f1db8a"
-+SRC_URI[manpages.sha256sum] = "d64e10b6e3b351231e7a187af038d9c87e1225a5c90eeff8dece839a8d383ca6"
--- 
-2.10.2
+Leo
 
 
+> 
+> 
+>     ERROR: Applying 'glibc-2.25.patch' failed:
+>     checking file configure
+>     Hunk #1 succeeded at 4986 with fuzz 2 (offset 259 lines).
+>     checking file configure
+>     Hunk #1 succeeded at 6047 with fuzz 1 (offset 352 lines).
+>     checking file include/sysemu/os-posix.h
+>     Reversed (or previously applied) patch detected!  Assume -R? [n]
+>     Apply anyway? [n]
+>     Skipping patch.
+>     1 out of 1 hunk ignored
+>     ERROR: Function failed: patch_do_patch
+>     ERROR: Logfile of failure stored in: 
+> .../devtooltmp-6_22hcm3/temp/log.do_patch.31897
+>     NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to 
+> be rerun and 1 failed.
+>     ERROR: Extracting source for qemu-native failed
+> 
+> --
+> Best Regards, Patrick Ohly
+> 
+> The content of this message is my personal opinion only and although
+> I am an employee of Intel, the statements I make here in no way
+> represent Intel's position on the issue, nor am I authorized to speak
+> on behalf of Intel on this matter.
+> 
+> 
+
+--=-sw9xxPzqw/MmQntjsHm/
+Content-Type: text/html; charset=utf-8
+
+Hi Patrick<br><br>On Thu, Oct 26, 2017 at 4:33 AM, Patrick Ohly &lt;patrick.ohly@intel.com&gt; wrote:<br>
+<blockquote type="cite"><div class="plaintext" style="white-space: pre-wrap;">On Thu, 2017-10-19 at 13:10 -0700,
+<a href="mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@linux.intel.com</a> wrote:
+<blockquote> From: Leonardo Sandoval &lt;<a href="mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;
+ 
+ All CVE patches removed because these are already integrated in
+ 2.10.1.
+</blockquote>...
+<blockquote> &nbsp;meta/recipes-devtools/qemu/qemu/glibc-2.25.patch&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;14 -
+</blockquote>diff --git a/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+<blockquote> b/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+ index a6908bdbf9..25569449e4 100644
+ --- a/meta/recipes-devtools/qemu/qemu/glibc-
+ 2.25.patch
+ +++ b/meta/recipes-devtools/qemu/qemu/glibc-2.25.patch
+ @@ -72,17 +72,3 @@ diff -uNr qemu-2.8.0.orig/configure qemu-
+ 2.8.0/configure
+ &nbsp; # Hold two types of flag:
+ &nbsp; #&nbsp;&nbsp;&nbsp;CONFIG_THREAD_SETNAME_BYTHREAD&nbsp;&nbsp;- we've got a way of setting
+ the name on
+ &nbsp; #&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a thread we have a handle to
+ -diff -uNr qemu-2.8.0.orig/include/sysemu/os-posix.h qemu-
+ 2.8.0/include/sysemu/os-posix.h
+ ---- qemu-2.8.0.orig/include/sysemu/os-posix.h	2016-12-20
+ 21:16:48.000000000 +0100
+ -+++ qemu-2.8.0/include/sysemu/os-posix.h	2017-02-21
+ 19:07:18.009090381 +0100
+ -@@ -34,6 +34,10 @@
+ - #include &lt;netdb.h&gt;
+ - #include &lt;sys/un.h&gt;
+ -&nbsp;
+ -+#ifdef CONFIG_SYSMACROS
+ -+#include &lt;sys/sysmacros.h&gt;
+ -+#endif
+ -+
+ - void os_set_line_buffering(void);
+ - void os_set_proc_name(const char *s);
+ - void os_setup_signal_handling(void);
+</blockquote>
+Instead of removing just this hunk from the glibc-2.25.patch, please
+remove the entire patch. It is already in 2.10.0.
+
+I was about to send a patch doing just that when I saw your version
+update. Here's the commit message for my patch:
+
+    The patch is already present in the upstream 2.10.0. Patching during a
+&nbsp;&nbsp;&nbsp;&nbsp;build succeeds by adding the same hunks again to configure (which
+&nbsp;&nbsp;&nbsp;&nbsp;seems to cause no problems during build) and skipping the one which it
+&nbsp;&nbsp;&nbsp;&nbsp;detects as already applied, but "devtool modify qemu-native" is more
+&nbsp;&nbsp;&nbsp;&nbsp;picky:</div></blockquote><div><br></div><div>I used devtool upgrade and the only hunk I need to remove was this one, the rest were applied cleanly. Let me check again and send &nbsp;a V2 asap.</div><div><br></div><div>Leo</div><div><br></div><br><blockquote type="cite"><div class="plaintext" style="white-space: pre-wrap;">
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;ERROR: Applying 'glibc-2.25.patch' failed:
+&nbsp;&nbsp;&nbsp;&nbsp;checking file configure
+&nbsp;&nbsp;&nbsp;&nbsp;Hunk #1 succeeded at 4986 with fuzz 2 (offset 259 lines).
+&nbsp;&nbsp;&nbsp;&nbsp;checking file configure
+&nbsp;&nbsp;&nbsp;&nbsp;Hunk #1 succeeded at 6047 with fuzz 1 (offset 352 lines).
+&nbsp;&nbsp;&nbsp;&nbsp;checking file include/sysemu/os-posix.h
+&nbsp;&nbsp;&nbsp;&nbsp;Reversed (or previously applied) patch detected!&nbsp;&nbsp;Assume -R? [n]
+&nbsp;&nbsp;&nbsp;&nbsp;Apply anyway? [n]
+&nbsp;&nbsp;&nbsp;&nbsp;Skipping patch.
+&nbsp;&nbsp;&nbsp;&nbsp;1 out of 1 hunk ignored
+&nbsp;&nbsp;&nbsp;&nbsp;ERROR: Function failed: patch_do_patch
+&nbsp;&nbsp;&nbsp;&nbsp;ERROR: Logfile of failure stored in: .../devtooltmp-6_22hcm3/temp/log.do_patch.31897
+&nbsp;&nbsp;&nbsp;&nbsp;NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and 1 failed.
+&nbsp;&nbsp;&nbsp;&nbsp;ERROR: Extracting source for qemu-native failed
+
+<div>-- 
+</div>Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+</div></blockquote>
+
+--=-sw9xxPzqw/MmQntjsHm/--
