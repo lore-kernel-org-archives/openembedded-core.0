@@ -1,57 +1,41 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f180.google.com (mail-wr0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CCAC6E650
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E72F16093E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 14:38:27 +0000 (UTC)
-Received: by mail-wr0-f180.google.com with SMTP id w105so3419045wrc.0
+	Thu, 26 Oct 2017 16:21:15 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id r64so4996618qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 07:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=dQYOgt8JDPhrZnyQ509kIyqKF52PjADIv9IQ69LCcNA=;
-	b=vwGX0w+6Z9zaAiIwoy/5iefnMZjNc7cFyw7JbA19TlrpdTNE8H9ISj1ffznAupI1nT
-	pgnK1CswM+EVkkzh9MiJFj+UTtc0Y2NTBxJRYxdDwTwReKG0Myy1D3ThyrSu7LXmm9Qo
-	o9DKXkQmXp1u+pA+74bE85GNMcsxGbQDOnxGo0Jk0x6xMU4y/7vdlcNQ6Yc5rqoUUW8v
-	E1rJFBPbFNpFf8Yj33ZGGzqvGyv84hpXQ6ZSE/utfXiSvKQ4GKm61Bqgdke40+fTKVy1
-	PwucWFL21NpEqEPgq695ywL9drMVWlfOikvPrl/5nJXCsZ242YiVu2+Z1rgr6m7oMU9q
-	oOZQ==
+	Thu, 26 Oct 2017 09:21:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=dQYOgt8JDPhrZnyQ509kIyqKF52PjADIv9IQ69LCcNA=;
-	b=Bm7cnElISTyWTgNlS39k9s4R2TrwGowjL0GKOt0Nu87VTkFsB2JKNHUyShDZ/vcOgJ
-	iYKF+UptVnds9Zla6rM8yF2Sa9LygMe0reUgJuRoTyvBXawJWqbu0ytuWSwkne4BhxqP
-	ZyxpxYeE1/zI3Ht8Wmi608fH1DQ7GhBEQ0VBn4KgHfjxShBVS4Uqad26rSQ79DEQOWMT
-	pIfe/OZlvniL6dYih61XAb4ZwCmGfkbVYay/kDsCb50VILOwzwom6r2+13gXseEiJ8HF
-	ETjPdxew96J/Yf40dKEDK4wYgz6HrJk2gGmKxTc3xScfIeumlMJ/lx7nQGu9Voo5cO+6
-	9YxQ==
-X-Gm-Message-State: AMCzsaWYAFteanZxekEAi830Q/WjkrFG9PTDOcPpB+IWmo/oKks1zS6j
-	jMwjc8/JOcURu3d0vAth0LjaJ9I=
-X-Google-Smtp-Source: ABhQp+R8rGk8C2PYDuiQVOWOrDNNgGBo/JRdS0IjmcR5tQ1ZY/p+06HjpYP99K/WkOGfCUTx5T5Stg==
-X-Received: by 10.223.177.143 with SMTP id q15mr6069420wra.269.1509028708628; 
-	Thu, 26 Oct 2017 07:38:28 -0700 (PDT)
-Received: from pohly-mobl1 (p54BD545B.dip0.t-ipconnect.de. [84.189.84.91])
-	by smtp.gmail.com with ESMTPSA id
-	m126sm1040837wmf.31.2017.10.26.07.38.27
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=lyeu3XcLh5jtLJwkqCMntZh5IbdRrSV73ocrvnTciU0=;
+	b=rhYB3AiYXMxE5ccrMK5xDrieYyzz+ePxvOWNd5P8iYPdITS+OqTCC8Pxbe3IdidbeN
+	yyRK1CJlIubaBKXw83BdglFIuUTmocSd1tmdlg9xOrYizIbr1hWps83iz88F6QoNkXfd
+	kPImvqzLRIQK/+rx/XCRcIe39Hg+dnPv8xBhSrh2Rgk2wugHUvIeKO3gs93qfcNZ9Qgx
+	nLOF7lKzYAeZMSJBl6nFwmeT5iLO7aydLaF7rYFbUhEpoF6iLqQPxxxR4OnXTMn9IUGI
+	Lm7Ff9Oix68Y9T32ou42hN6UxB0nmQPQzlahorRNLAWhNpJjqeh2Ax7YTljtt/6cK2fe
+	xtQA==
+X-Gm-Message-State: AMCzsaVnDrKQd58ggjHyWPsetH93JEgnudusmJDRUlT7949VrJexwHqI
+	fxcEdY2AglIUetUv43MX/T4GXg==
+X-Google-Smtp-Source: ABhQp+S+uiN2IPLkEcricPQ1tx+GP+W+u0ZZEfXlWGKJL+Dc3wVrNeP4L0Ap2gLktLQeZ7BTS7+Srg==
+X-Received: by 10.55.179.196 with SMTP id c187mr8990117qkf.249.1509034876262; 
+	Thu, 26 Oct 2017 09:21:16 -0700 (PDT)
+Received: from localhost.localdomain ([181.220.79.73])
+	by smtp.gmail.com with ESMTPSA id s9sm3940147qts.42.2017.10.26.09.21.13
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 26 Oct 2017 07:38:27 -0700 (PDT)
-Message-ID: <1509028706.25153.130.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Thu, 26 Oct 2017 16:38:26 +0200
-In-Reply-To: <1509028643.11251.23@fm-out.intel.com>
-References: <20171019201047.148436-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<1509010439.25153.128.camel@intel.com>
-	<1509028643.11251.23@fm-out.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] qemu: upgrade to 2.10.1
+	Thu, 26 Oct 2017 09:21:15 -0700 (PDT)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Thu, 26 Oct 2017 14:21:07 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Oct 2017 14:21:06 -0200
+Message-Id: <20171026162106.21556-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.14.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] linux-firmware: Bump to bf04291 revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,28 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 14:38:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Oct 2017 16:21:16 -0000
 
-On Thu, 2017-10-26 at 09:37 -0500, Leonardo Sandoval wrote:
-> I used devtool upgrade and the only hunk I need to remove was
-> thisone, the rest were applied cleanly.
+This includes following changes:
 
-The rest was applied *silently*, but not *cleanly*. The lesson here is
-basically that developers shouldn't blindly trust the tools. If
-something is odd, investigate.
+bf04291 WHENCE: Add new qed firmware
+d8fc990 WHENCE: Add new radeon firmware
+7245319 WHENCE: Fix syntax error for iwlwifi-8265-31.ucode entry
+18d71a8 Revert "ath10k: QCA988X hw2.0: update firmware to 10.2.4.70.63-2"
+4ebfab3 ath10k: QCA6174 hw3.0: update board-2.bin
+96a7402 ath10k: QCA6174 hw3.0: update firmware-6.bin to WLAN.RM.4.4.1-00051-QCARMSWP-1
+59bf7e2 cxgb4: update firmware to revision 1.16.63.0
 
-What was odd in this case is that it looked like a patch was partially
-merged. Why would anyone do that? And indeed, it was merged completely.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
 
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 0338ba8ac2..3ea1d883b1 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -116,7 +116,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-    file://WHENCE;md5=08f6d4371353cac5f6fc271d5407c63e \
++    file://WHENCE;md5=038edbc9e744171d8b6235e0224028ba \
+ "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -178,7 +178,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+ NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ 
+-SRCREV = "a61ac5cf8374edbfe692d12f805a1b194f7fead2"
++SRCREV = "bf04291309d3169c0ad3b8db52564235bbd08e30"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
+ 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+2.14.3
 
 
