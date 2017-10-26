@@ -1,44 +1,25 @@
-Return-Path: <limon.anibal@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 330EA6E630
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AC056022F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 18:44:07 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id z3so10140795wme.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 11:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=G5vk8SoALcd4t9YJKeqyRkVgXsImA8QfptLpJt5orsc=;
-	b=J4cKVmjED80cDYm22Ussg9NqxYIfUArzEnKOQUyppCS43eiTzbhLQFOnOxab/y2gCg
-	5R7RHyO+v13TE9WLP2426yaPM6A19DSmg98yerFrJLCZR8Gv9pa4kVFvgq3MV5cAUmYC
-	cEXezNlVncl5d78umxBwSg1FWRBheEZs2hnuIO+QuNKZnRSJk3oPZbFhcX3OokYI8mv0
-	9WWBwUjTZugCwKE6ux/oZzCS7eQ4c6ajIU4XwBrSc5sE9YxwLeTJWVjqeVdJNAf4Kv6C
-	Vbpm2EJXbHMUFpU+YvagKK55d+IWtGPkkcsCOv6huFqjddkJr81hIK7xjedmLkKqNP5I
-	yy1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=G5vk8SoALcd4t9YJKeqyRkVgXsImA8QfptLpJt5orsc=;
-	b=OhcdZHvV2BAXdHOR/Q0sbeSqJVmHJcETTymyJFJDL6+iQvgBcptu1dje8CSN4TWmSV
-	v39BXwVLRosKLHaqia5hvDcbSndYRiFm9NloHTW6YGzRxpl6tfKdg7v2JWykxpL/Qa41
-	7qZ24Jcsds1/WHs7PDQKWv6LdgExeBq+vNEIJWzAX6qcE6FOp0+islWJvidYlVP8aAR9
-	q9AJV+h35DsqQTEhghR/AfrZiONLNLioAfhEezXbR4TqXmQN5+RdBXH0n67r0X6x+rHx
-	Au/HGw7sOpTdiRKAjrrUEVMOtT+mSBrwq3+lA6mYQPFQaJsEg4tCmOjt+N6/6WmuDLZh
-	Dm9Q==
-X-Gm-Message-State: AMCzsaWr0eZpM6Ls3v2sqwsgukHiU3TU+bvMIepTiUCL3Cir+5bHQ18Z
-	r6XhUOvwTTRmQ0/VkGyzb9RYLWAb3UXY4QfSFhw=
-X-Google-Smtp-Source: ABhQp+RdnexpHDfmiqwNNF/3MClQeXA6IsaT9fx4rX/1rqwGWJk6gmyVNuCVa3Ud39V4etjpUzz+Gg74n3EbwwLPuCo=
-X-Received: by 10.80.166.196 with SMTP id f4mr27933674edc.278.1509043449067;
-	Thu, 26 Oct 2017 11:44:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.80.173.141 with HTTP; Thu, 26 Oct 2017 11:44:08 -0700 (PDT)
-In-Reply-To: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	Thu, 26 Oct 2017 19:11:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga104.jf.intel.com with ESMTP; 26 Oct 2017 12:11:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,301,1505804400"; 
+	d="scan'208,217";a="1235749233"
+Received: from lsandov1-mobl2.zpn.intel.com (HELO [10.219.128.134])
+	([10.219.128.134])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Oct 2017 12:11:18 -0700
+Date: Thu, 26 Oct 2017 14:21:17 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Anibal =?iso-8859-1?b?TGlt824=?= <limon.anibal@gmail.com>
+Message-Id: <1509045677.11251.28@fm-out.intel.com>
+In-Reply-To: <CAPS-YPCMmGejwfW-VwE--xNrShxxfyocPaTOrKvBf-cZUxdtVA@mail.gmail.com>
 References: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
-From: =?UTF-8?Q?Anibal_Lim=C3=B3n?= <limon.anibal@gmail.com>
-Date: Thu, 26 Oct 2017 13:44:08 -0500
-Message-ID: <CAPS-YPCMmGejwfW-VwE--xNrShxxfyocPaTOrKvBf-cZUxdtVA@mail.gmail.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com
+	<CAPS-YPCMmGejwfW-VwE--xNrShxxfyocPaTOrKvBf-cZUxdtVA@mail.gmail.com>
+X-Mailer: geary/0.11.3
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/1] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,116 +34,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 18:44:08 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0ef9f4bbaea2055c778e9e"
+X-List-Received-Date: Thu, 26 Oct 2017 19:11:18 -0000
+Content-Type: multipart/alternative; boundary="=-XSHzhwMLiaozBC9KvwIT"
 
---94eb2c0ef9f4bbaea2055c778e9e
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Leo,
-
-The patch looks good at first glance, i have some comments,
-
-- We need a way to handle the results output because with this you will
-have N results files, may be extend the shell script
-to consolidate the results file.
-- With this if one selftest depends on other there is no way to now it and
-the execution will fail, i searched into the selftest cases
-(OETestDepends) and now we don't have dependent cases.
-
-Cheers,
-Anibal
-
-On Thu, Oct 26, 2017 at 12:33 PM, <
-leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> The below is a profiling experiment, running oe-selftest -r (the proposed
-> implementation, see patch description for more info):
->
-> Procedure:
->
-> With patch 1/1, multiple oe-selftest jobs can be launched in
-> parallel. One tool that launch jobs in parallel is GNU Parallel [1],
-> allowing
-> to construct a simpole pipeline to execute all tests with a pool of four
-> jobs:
->
->     $ echo $ALLTESTS | time parallel --jobs4 oe-selftest -r
->
-> where ALLTESTS is a variable containing all tests cases (modules) found by
-> the
-> the runner (oe-selftest-internal) (i.e. ALLTESTS="$(oe-selftest -m |
-> awk '{ print $NF }' | grep -v ':')"). This is the result obtained from the
-> above command:
->
->     739.57user 120.48system 45:34.61elapsed 31%CPU (0avgtext+0avgdata
-> 124600maxresident)k
->     390908inputs+15984336outputs (291major+20227951minor)pagefaults 0swaps
->
->
-> The import point on the above numbers is that isolation the oe-selftest
-> execution per
-> module and using a parallelization tool, complete oe-selftest runs takes
-> less than an hour,
-> beating current single-job times observed at main auto-buildes.
->
-> Profiling results were obtained on a machine with 88 Intel Xeon with 88
-> cores
->
-> [1] https://www.gnu.org/software/parallel/
->
-> The following changes since commit 65d23bd7986615fdfb0f1717b61553
-> 4a2a14ab80:
->
->   README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)
->
-> are available in the git repository at:
->
->   git://git.yoctoproject.org/poky-contrib lsandov1/oe-selftest-own-
-> directory
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
-> lsandov1/oe-selftest-own-directory
->
-> Leonardo Sandoval (1):
->   scripts/oe-selftest: oe-selftest-internal wrapper scripts that
->     isolates execution
->
->  scripts/oe-selftest          | 102 +++++++++++++++++++++++-------
-> -------------
->  scripts/oe-selftest-internal |  75 +++++++++++++++++++++++++++++++
->  2 files changed, 129 insertions(+), 48 deletions(-)
->  create mode 100755 scripts/oe-selftest-internal
->
-> --
-> 2.12.3
->
->
-
---94eb2c0ef9f4bbaea2055c778e9e
-Content-Type: text/html; charset="UTF-8"
+--=-XSHzhwMLiaozBC9KvwIT
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><span style=3D"font-size:12.8px">Hi Leo,</span><div style=
-=3D"font-size:12.8px"><br></div><div style=3D"font-size:12.8px">The patch l=
-ooks good at first glance, i have some comments,</div><div style=3D"font-si=
-ze:12.8px"><br></div><div style=3D"font-size:12.8px">- We need a way to han=
-dle the results output because with this you will have N results files, may=
- be extend the shell script</div><div style=3D"font-size:12.8px">to consoli=
-date the results file.</div><div style=3D"font-size:12.8px">- With this if =
-one selftest depends on other there is no way to now it and the execution w=
-ill fail, i searched into the selftest cases</div><div style=3D"font-size:1=
-2.8px">(OETestDepends) and now we don&#39;t have dependent cases.</div><div=
- style=3D"font-size:12.8px"><br></div><div style=3D"font-size:12.8px">Cheer=
-s,</div><div style=3D"font-size:12.8px">Anibal</div></div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On Thu, Oct 26, 2017 at 12:33 PM, =
- <span dir=3D"ltr">&lt;<a href=3D"mailto:leonardo.sandoval.gonzalez@linux.i=
-ntel.com" target=3D"_blank">leonardo.sandoval.gonzalez@linux.intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Leonardo Sandoval=
- &lt;<a href=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com">leonardo=
-.sandoval.gonzalez@<wbr>linux.intel.com</a>&gt;<br>
+
+
+On Thu, Oct 26, 2017 at 1:44 PM, Anibal Lim=C3=B3n <limon.anibal@gmail.com>=
+=20
+wrote:
+> Hi Leo,
+>=20
+> The patch looks good at first glance, i have some comments,
+>=20
+> - We need a way to handle the results output because with this you=20
+> will have N results files, may be extend the shell script
+> to consolidate the results file.
+
+As a proof of concept I use 'parallel' which fits nicely to this=20
+exercise (one job corresponds to one oe-selftest -r) and with this=20
+tool, logging can be stored in separate files, each corresponding to a=20
+job's stdout/stderr. But the important here is that the tool prints=20
+each job's output into the standard output  either=20
+first-finished-first-print-to-stdout or keeping the same input order,=20
+so at the end, you get the same output as running oe-selftest as a=20
+single job.
+
+> - With this if one selftest depends on other there is no way to now=20
+> it and the execution will fail, i searched into the selftest cases
+> (OETestDepends) and now we don't have dependent cases.
+
+ Think about this approach as running oe-selftest in different build=20
+folders with its own metadata and build folder. Under this scenario,=20
+the test execution, with the corresponding dependencies will be=20
+fulfilled and executed correctly, right? the trade off is some extra=20
+work done on each oe-selftest due to dependencies but this wont hurt=20
+much in my opinion.
+
+Leo
+
+>=20
+> Cheers,
+> Anibal
+>=20
+> On Thu, Oct 26, 2017 at 12:33 PM,=20
+> <leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>=20
+>> The below is a profiling experiment, running oe-selftest -r (the=20
+>> proposed
+>> implementation, see patch description for more info):
+>>=20
+>> Procedure:
+>>=20
+>> With patch 1/1, multiple oe-selftest jobs can be launched in
+>> parallel. One tool that launch jobs in parallel is GNU Parallel [1],=20
+>> allowing
+>> to construct a simpole pipeline to execute all tests with a pool of=20
+>> four
+>> jobs:
+>>=20
+>>     $ echo $ALLTESTS | time parallel --jobs4 oe-selftest -r
+>>=20
+>> where ALLTESTS is a variable containing all tests cases (modules)=20
+>> found by the
+>> the runner (oe-selftest-internal) (i.e. ALLTESTS=3D"$(oe-selftest -m |
+>> awk '{ print $NF }' | grep -v ':')"). This is the result obtained=20
+>> from the
+>> above command:
+>>=20
+>>     739.57user 120.48system 45:34.61elapsed 31%CPU=20
+>> (0avgtext+0avgdata 124600maxresident)k
+>>     390908inputs+15984336outputs (291major+20227951minor)pagefaults=20
+>> 0swaps
+>>=20
+>>=20
+>> The import point on the above numbers is that isolation the=20
+>> oe-selftest execution per
+>> module and using a parallelization tool, complete oe-selftest runs=20
+>> takes less than an hour,
+>> beating current single-job times observed at main auto-buildes.
+>>=20
+>> Profiling results were obtained on a machine with 88 Intel Xeon with=20
+>> 88 cores
+>>=20
+>> [1] https://www.gnu.org/software/parallel/
+>>=20
+>> The following changes since commit=20
+>> 65d23bd7986615fdfb0f1717b615534a2a14ab80:
+>>=20
+>>   README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)
+>>=20
+>> are available in the git repository at:
+>>=20
+>>   git://git.yoctoproject.org/poky-contrib=20
+>> lsandov1/oe-selftest-own-directory
+>>  =20
+>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dlsandov1/oe-s=
+elftest-own-directory
+>>=20
+>> Leonardo Sandoval (1):
+>>   scripts/oe-selftest: oe-selftest-internal wrapper scripts that
+>>     isolates execution
+>>=20
+>>  scripts/oe-selftest          | 102=20
+>> +++++++++++++++++++++++--------------------
+>>  scripts/oe-selftest-internal |  75 +++++++++++++++++++++++++++++++
+>>  2 files changed, 129 insertions(+), 48 deletions(-)
+>>  create mode 100755 scripts/oe-selftest-internal
+>>=20
+>> --
+>> 2.12.3
+>>=20
+>=20
+=
+
+--=-XSHzhwMLiaozBC9KvwIT
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+<br><br>On Thu, Oct 26, 2017 at 1:44 PM, Anibal Lim=C3=B3n &lt;limon.anibal=
+@gmail.com&gt; wrote:<br>
+<blockquote type=3D"cite"><div dir=3D"ltr"><span style=3D"font-size:12.8px"=
+>Hi Leo,</span><div style=3D"font-size:12.8px"><br></div><div style=3D"font=
+-size:12.8px">The patch looks good at first glance, i have some comments,</=
+div><div style=3D"font-size:12.8px"><br></div><div style=3D"font-size:12.8p=
+x">- We need a way to handle the results output because with this you will =
+have N results files, may be extend the shell script</div><div style=3D"fon=
+t-size:12.8px">to consolidate the results file.</div></div></blockquote><di=
+v><br></div><div>As a proof of concept I use 'parallel' which fits nicely t=
+o this exercise (one job corresponds to one oe-selftest -r) and with this t=
+ool, logging can be stored in separate files, each corresponding to a job's=
+ stdout/stderr. But the important here is that the tool prints each job's o=
+utput into the standard output &nbsp;either first-finished-first-print-to-s=
+tdout or keeping the same input order, so at the end, you get the same outp=
+ut as running oe-selftest as a single job.</div><br><blockquote type=3D"cit=
+e"><div dir=3D"ltr"><div style=3D"font-size:12.8px">- With this if one self=
+test depends on other there is no way to now it and the execution will fail=
+, i searched into the selftest cases</div><div style=3D"font-size:12.8px">(=
+OETestDepends) and now we don't have dependent cases.</div></div></blockquo=
+te><div><br></div><div>&nbsp;Think about this approach as running oe-selfte=
+st in different build folders with its own metadata and build folder. Under=
+ this scenario, the test execution, with the corresponding dependencies wil=
+l be fulfilled and executed correctly, right? the trade off is some extra w=
+ork done on each oe-selftest due to dependencies but this wont hurt much in=
+ my opinion.</div><div><br></div><div>Leo</div><br><blockquote type=3D"cite=
+"><div dir=3D"ltr"><div style=3D"font-size:12.8px"><br></div><div style=3D"=
+font-size:12.8px">Cheers,</div><div style=3D"font-size:12.8px">Anibal</div>=
+</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, Oct=
+ 26, 2017 at 12:33 PM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leonardo.sa=
+ndoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.gonzal=
+ez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+From: Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.gonzalez@li=
+nux.intel.com">leonardo.sandoval.gonzalez@<wbr>linux.intel.com</a>&gt;<br>
 <br>
 The below is a profiling experiment, running oe-selftest -r (the proposed<b=
 r>
@@ -177,19 +207,18 @@ to construct a simpole pipeline to execute all tests with a pool of four<br=
 >
 jobs:<br>
 <br>
-=C2=A0 =C2=A0 $ echo $ALLTESTS | time parallel --jobs4 oe-selftest -r<br>
+&nbsp; &nbsp; $ echo $ALLTESTS | time parallel --jobs4 oe-selftest -r<br>
 <br>
 where ALLTESTS is a variable containing all tests cases (modules) found by =
 the<br>
-the runner (oe-selftest-internal) (i.e. ALLTESTS=3D&quot;$(oe-selftest -m |=
-<br>
-awk &#39;{ print $NF }&#39; | grep -v &#39;:&#39;)&quot;). This is the resu=
-lt obtained from the<br>
+the runner (oe-selftest-internal) (i.e. ALLTESTS=3D"$(oe-selftest -m |<br>
+awk '{ print $NF }' | grep -v ':')"). This is the result obtained from the<=
+br>
 above command:<br>
 <br>
-=C2=A0 =C2=A0 739.57user 120.48system 45:34.61elapsed 31%CPU (0avgtext+0avg=
+&nbsp; &nbsp; 739.57user 120.48system 45:34.61elapsed 31%CPU (0avgtext+0avg=
 data 124600maxresident)k<br>
-=C2=A0 =C2=A0 390908inputs+15984336outputs (291major+20227951minor)<wbr>pag=
+&nbsp; &nbsp; 390908inputs+15984336outputs (291major+20227951minor)<wbr>pag=
 efaults 0swaps<br>
 <br>
 <br>
@@ -208,33 +237,34 @@ arget=3D"_blank">https://www.gnu.org/software/<wbr>parallel/</a><br>
 The following changes since commit 65d23bd7986615fdfb0f1717b61553<wbr>4a2a1=
 4ab80:<br>
 <br>
-=C2=A0 README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)<=
+&nbsp; README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)<=
 br>
 <br>
 are available in the git repository at:<br>
 <br>
-=C2=A0 git://<a href=3D"http://git.yoctoproject.org/poky-contrib" rel=3D"no=
+&nbsp; git://<a href=3D"http://git.yoctoproject.org/poky-contrib" rel=3D"no=
 referrer" target=3D"_blank">git.yoctoproject.org/<wbr>poky-contrib</a> lsan=
 dov1/oe-selftest-own-<wbr>directory<br>
-=C2=A0 <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
+&nbsp; <a href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=
 =3Dlsandov1/oe-selftest-own-directory" rel=3D"noreferrer" target=3D"_blank"=
 >http://git.yoctoproject.org/<wbr>cgit.cgi/poky-contrib/log/?h=3D<wbr>lsand=
 ov1/oe-selftest-own-<wbr>directory</a><br>
 <br>
 Leonardo Sandoval (1):<br>
-=C2=A0 scripts/oe-selftest: oe-selftest-internal wrapper scripts that<br>
-=C2=A0 =C2=A0 isolates execution<br>
+&nbsp; scripts/oe-selftest: oe-selftest-internal wrapper scripts that<br>
+&nbsp; &nbsp; isolates execution<br>
 <br>
-=C2=A0scripts/oe-selftest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 102 +++++++++=
+&nbsp;scripts/oe-selftest&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | 102 +++++++++=
 ++++++++++++++-------<wbr>-------------<br>
-=C2=A0scripts/oe-selftest-internal |=C2=A0 75 +++++++++++++++++++++++++++++=
+&nbsp;scripts/oe-selftest-internal |&nbsp; 75 +++++++++++++++++++++++++++++=
 +<wbr>+<br>
-=C2=A02 files changed, 129 insertions(+), 48 deletions(-)<br>
-=C2=A0create mode 100755 scripts/oe-selftest-internal<br>
+&nbsp;2 files changed, 129 insertions(+), 48 deletions(-)<br>
+&nbsp;create mode 100755 scripts/oe-selftest-internal<br>
 <span class=3D"HOEnZb"><font color=3D"#888888"><br>
 --<br>
 2.12.3<br>
 <br>
 </font></span></blockquote></div><br></div>
+</blockquote>=
 
---94eb2c0ef9f4bbaea2055c778e9e--
+--=-XSHzhwMLiaozBC9KvwIT--
