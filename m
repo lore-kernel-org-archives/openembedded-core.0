@@ -1,37 +1,22 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E4A2F71A36
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 44EFC719A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 17:15:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9QHFvhL029055
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 26 Oct 2017 10:15:57 -0700 (PDT)
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.180]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Thu, 26 Oct 2017 10:15:56 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Andre McCurdy <armccurdy@gmail.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH 1/1] qemumips64: no qemu-usermode
-	for n32
-Thread-Index: AQHTTR8s0kMOz2Cf2U6eCCrAriSAYqL0Hs0AgADBOoCAAGWwgP//m4+ggAF+TSM=
-Date: Thu, 26 Oct 2017 17:15:55 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84CF43876F@ALA-MBC.corp.ad.wrs.com>
-References: <20171024232359.63328-1-jslater@windriver.com>
-	<CAJ86T=V_Miu6Ui_zBOWzKRtPTbv6HE_O3B_Y5swmzRap2JgaAw@mail.gmail.com>
-	<52a0c834-6e5f-3bbc-7e99-206607dab4a4@linux.intel.com>
-	<CAJ86T=UV_XVjq6SEvc_9-46b1W+N_v6aBjvJOEorov5NYpTLcQ@mail.gmail.com>,
-	<007BD92917A2324FA403BCF9A464CF84CF437C9D@ALA-MBC.corp.ad.wrs.com>
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF437C9D@ALA-MBC.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.116.29]
-MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemumips64: no qemu-usermode for n32
+	Thu, 26 Oct 2017 17:33:22 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga104.jf.intel.com with ESMTP; 26 Oct 2017 10:33:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,301,1505804400"; 
+   d="scan'208";a="1895111"
+Received: from yctb05.ostc.intel.com ([10.54.69.59])
+	by orsmga002.jf.intel.com with ESMTP; 26 Oct 2017 10:33:24 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Oct 2017 10:33:18 -0700
+Message-Id: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 2.12.3
+Cc: limon.anibal@gmail.com
+Subject: [PATCH 0/1] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,69 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 17:15:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Oct 2017 17:33:23 -0000
 
-Okay, I don't know why, but at the time of backfilling the CONSIDERED list =
-is empty!  This is not true if I use "=3D" to set it unconditionally in arc=
-h-mips.inc, but it IS true if I try to set it via anything involving an ove=
-rride (including append).=0A=
-=0A=
-Isn't getVar() supposed to expand the variable?  Put print msg's in meta/li=
-b/oe/utils.py to see this behavior.=0A=
-=0A=
-Joe=0A=
-=0A=
-________________________________________=0A=
-From: Slater, Joseph=0A=
-Sent: Wednesday, October 25, 2017 11:24 AM=0A=
-To: Andre McCurdy; Alexander Kanavin=0A=
-Cc: OE Core mailing list=0A=
-Subject: RE: [OE-core] [oe-core][PATCH 1/1] qemumips64: no qemu-usermode fo=
-r n32=0A=
-=0A=
-I found that libn32-gobject-introspection would not compile without the rem=
-ove, but I could check again.      Joe=0A=
-=0A=
------Original Message-----=0A=
-From: Andre McCurdy [mailto:armccurdy@gmail.com]=0A=
-Sent: Wednesday, October 25, 2017 10:19 AM=0A=
-To: Alexander Kanavin=0A=
-Cc: Slater, Joseph; OE Core mailing list=0A=
-Subject: Re: [OE-core] [oe-core][PATCH 1/1] qemumips64: no qemu-usermode fo=
-r n32=0A=
-=0A=
-On Wed, Oct 25, 2017 at 4:14 AM, Alexander Kanavin <alexander.kanavin@linux=
-.intel.com> wrote:=0A=
-> On 10/25/2017 02:43 AM, Andre McCurdy wrote:=0A=
->>=0A=
->> On Tue, Oct 24, 2017 at 4:23 PM, Joe Slater <jslater@windriver.com> wrot=
-e:=0A=
->>>=0A=
->>> qemu-usermode is only available for mips64 and o32 code.=0A=
->>=0A=
->> Isn't that already handled by=0A=
->> meta/conf/machine/include/mips/arch-mips.inc=0A=
->>=0A=
->>    # user mode qemu doesn't support mips64 n32: "Invalid ELF image=0A=
->> for this architecture"=0A=
->>    MACHINE_FEATURES_BACKFILL_CONSIDERED_append =3D "=0A=
->> ${@bb.utils.contains('TUNE_FEATURES', 'n32', 'qemu-usermode', '', d)}"=
-=0A=
->=0A=
-> Yes, but this is really unreadable isn't it :) I don't see how anyone=0A=
-> could grasp that the above means "remove qemu-usermode from=0A=
-> MACHINE_FEATURES if=0A=
-> n32 is in TUNE_FEATURES" (without diving into documentation).=0A=
->=0A=
-> Any better way to express this would be appreciated.=0A=
-=0A=
-Yes, BACKFILL_CONSIDERED always has been concept which baffles a lot of use=
-rs - especially so since we quietly redefined it to mean not only "function=
-ality which used to always be enabled but is now configurable" but now also=
- "functionality which was not previously enabled but is now configurable an=
-d we want to enable by default and make it difficult for users to accidenta=
-lly leave disabled".=0A=
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+
+The below is a profiling experiment, running oe-selftest -r (the proposed
+implementation, see patch description for more info):
+
+Procedure:
+
+With patch 1/1, multiple oe-selftest jobs can be launched in
+parallel. One tool that launch jobs in parallel is GNU Parallel [1], allowing
+to construct a simpole pipeline to execute all tests with a pool of four
+jobs:
+
+    $ echo $ALLTESTS | time parallel --jobs4 oe-selftest -r
+
+where ALLTESTS is a variable containing all tests cases (modules) found by the
+the runner (oe-selftest-internal) (i.e. ALLTESTS="$(oe-selftest -m |
+awk '{ print $NF }' | grep -v ':')"). This is the result obtained from the
+above command:
+
+    739.57user 120.48system 45:34.61elapsed 31%CPU (0avgtext+0avgdata 124600maxresident)k
+    390908inputs+15984336outputs (291major+20227951minor)pagefaults 0swaps
+
+
+The import point on the above numbers is that isolation the oe-selftest execution per
+module and using a parallelization tool, complete oe-selftest runs takes less than an hour,
+beating current single-job times observed at main auto-buildes.
+
+Profiling results were obtained on a machine with 88 Intel Xeon with 88 cores
+
+[1] https://www.gnu.org/software/parallel/
+
+The following changes since commit 65d23bd7986615fdfb0f1717b615534a2a14ab80:
+
+  README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/oe-selftest-own-directory
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/oe-selftest-own-directory
+
+Leonardo Sandoval (1):
+  scripts/oe-selftest: oe-selftest-internal wrapper scripts that
+    isolates execution
+
+ scripts/oe-selftest          | 102 +++++++++++++++++++++++--------------------
+ scripts/oe-selftest-internal |  75 +++++++++++++++++++++++++++++++
+ 2 files changed, 129 insertions(+), 48 deletions(-)
+ create mode 100755 scripts/oe-selftest-internal
+
+-- 
+2.12.3
+
 
