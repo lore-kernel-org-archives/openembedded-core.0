@@ -1,24 +1,33 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F8BA6022F
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id C181A71D79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 07:55:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9Q7tmjr022183
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 00:55:49 -0700 (PDT)
-Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Thu, 26 Oct 2017 00:55:48 -0700
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Oct 2017 10:55:46 +0300
-Message-ID: <20171026075546.124640-1-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCHv2] git: bump version to 2.13.6
+	Thu, 26 Oct 2017 08:01:32 +0000 (UTC)
+Received: from Collabora
+	(dynamic-2a00-1028-838e-0812-98d9-0b2b-4878-92e4.ipv6.broadband.iol.cz
+	[IPv6:2a00:1028:838e:812:98d9:b2b:4878:92e4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested) (Authenticated sender: aragua)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 2E09B2606AE;
+	Thu, 26 Oct 2017 09:01:33 +0100 (BST)
+Message-ID: <1509004888.7066.5.camel@collabora.co.uk>
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: Denys Dmytriyenko <denis@denix.org>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+Date: Thu, 26 Oct 2017 10:01:28 +0200
+In-Reply-To: <20171017225943.GN9221@denix.org>
+References: <20171016172158.22773-1-fabien.lahoudere@collabora.co.uk>
+	<20171016172158.22773-3-fabien.lahoudere@collabora.co.uk>
+	<CAP9ODKp4-ohZnA6tkDBaQKqUE_YDTLOQeGNpUTzV5zHH294quw@mail.gmail.com>
+	<CAJTo0LbsxAbhK=XnqB0fMQXbju7gDGhu_9vnB5tg_0uCNhEnow@mail.gmail.com>
+	<1508228478.12731.1.camel@collabora.co.uk>
+	<CAP9ODKobM2qGirCLFrM-sNV=-LgbHWMFCGba_U2Wq4ckY8L7+A@mail.gmail.com>
+	<20171017225943.GN9221@denix.org>
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 3/3] weston: Bump version to 3.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +40,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 07:55:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Oct 2017 08:01:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Bump version to 2.13.6 in order to eliminate CVE-2017-14867 vulnerability.
+On Tue, 2017-10-17 at 18:59 -0400, Denys Dmytriyenko wrote:
+> On Tue, Oct 17, 2017 at 08:31:10AM -0200, Otavio Salvador wrote:
+> > Em 17 de out de 2017 6:21 AM, "Fabien Lahoudere" <
+> > fabien.lahoudere@collabora.co.uk> escreveu:
+> > 
+> > On Mon, 2017-10-16 at 21:34 +0100, Burton, Ross wrote:
+> > 
+> > On 16 October 2017 at 18:30, Otavio Salvador <otavio.salvador@ossystems.
+> > com.br> wrote:
+> > 
+> > 
+> > > +          file://weston-gl-renderer-Set-pitch-correctly-for-subsampled-textures.patch
+> > 
+> > \
+> > > +          file://fix-missing-header.patch \
+> > 
+> > Those should be documented on commit log
+> > 
+> > 
+> > 
+> > Agreed.  The missing header one should say what platform causes it to be a
+> > problem (in case it never gets upstreamed and someone tests it again on
+> > just glibc).  And is the pitch patch sufficiently broken that we need to
+> > backport it?
+> > 
+> > 
+> > Without the pitch patch, all applications generating YUV420 will not be
+> > displayed correctly. For example "gstlaunch1.0 testvideosrc ! waylandsink"
+> > fail.
+> > I can keep this patch in a bbappend if you don't want it. Just tell me.
+> > 
+> > 
+> > Please keep the patch. It fixes a issue and it is not BSP specific, so it
+> > belongs to core. Just explain it on commit log.
+> 
+> I don't have a very strong objection here, but it sounds like a corner case 
+> for one of the formats. Plus what's the difference between "fail" and "not 
+> displayed correctly"?
+> 
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2017-14867
+"fail" means not display correctly but the issue can also lead to a weston crash.
 
-Upstream patches:
-https://github.com/git/git/commit/9a42c03cb71eaa9d41ba67275de38c997a791c32
-https://github.com/git/git/commit/fce13af5d20cad8dcb2d0e47bcf01b6960f08e55
-https://github.com/git/git/commit/27dd73871f814062737c327103ee43f1eb7f30d9
-https://github.com/git/git/commit/46203ac24dc7e6b5a8d4f1b024ed93591705d47b
-https://github.com/git/git/commit/5b4efea666951efe0770f8d5a301f8917015315f
-https://github.com/git/git/commit/8d0fad0a7a6ba34fd706c148fa7ed1f8eb2b8b26
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
----
- meta/recipes-devtools/git/git_2.13.3.bb | 11 -----------
- meta/recipes-devtools/git/git_2.13.6.bb | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.13.3.bb
- create mode 100644 meta/recipes-devtools/git/git_2.13.6.bb
-
-diff --git a/meta/recipes-devtools/git/git_2.13.3.bb b/meta/recipes-devtools/git/git_2.13.3.bb
-deleted file mode 100644
-index b3e3887319..0000000000
---- a/meta/recipes-devtools/git/git_2.13.3.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "d2dc550f6693ba7e5b16212b2714f59f"
--SRC_URI[tarball.sha256sum] = "1497001772f630d49809e981672edfe3e3ce1a1d18e905cd539c4d2f4dbcd75a"
--SRC_URI[manpages.md5sum] = "3037d11a4f4cdd19435871c267ca48b4"
--SRC_URI[manpages.sha256sum] = "f9b302eeb08ce08934e7afb42280ce9294411fbf5f7b6ac3fcc236e8031f10c5"
-diff --git a/meta/recipes-devtools/git/git_2.13.6.bb b/meta/recipes-devtools/git/git_2.13.6.bb
-new file mode 100644
-index 0000000000..c7e559c019
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.13.6.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "b7a8f9de37cc45aef96035bd27dc98c8"
-+SRC_URI[tarball.sha256sum] = "cb53e6b388d8d19189933366c1fe5c1ca500e8b227b9e707af39c3d879e41015"
-+SRC_URI[manpages.md5sum] = "c4d966309cf8d6ad18d43624bf8ebc56"
-+SRC_URI[manpages.sha256sum] = "c76071195596887a8eb5c73478b0be6a6e237f6af5b397e4fe8900ecda70642e"
+> 
+> > For the header patch, I will improve commit message.
+> > 
+> > I see there is an OVERRIDE libc-musl, should I use this patch in
+> > SRC_URI_libc-musl?
+> > 
+> > 
+> > No, just mention it on commit log...
+> > 
+> > 
+> > 
+> > Ross
+> > 
+> > -- 
+> > 
+> > Fabien
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 -- 
-2.11.0
-
+Fabien
 
