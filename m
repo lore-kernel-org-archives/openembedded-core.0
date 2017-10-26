@@ -1,53 +1,31 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id DE77360248
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B681C71B27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 04:18:45 +0000 (UTC)
-Received: by mail-it0-f41.google.com with SMTP id y15so3668831ita.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 21:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nYe6xba4ZqzIzw382OAljclrAfLFUz2cY3V39rLGXSA=;
-	b=efrli584v6D0sqYW4W60lq4/m9qkExq7h9ev+wzC8ezE/RtYWskZlWZ/qa0/kc5zS4
-	CxfqZJO20SHDIo1Tg+gBN3TSy8cEb/v5WtidYi9kLb1ErJNOIcO2CJYPtguS5lTvt2cw
-	zedHOoQLhSPv+rCo+VBGLNmXxyhm2iV5bh90kjPU4B46p4pHoS5zqCYRmTRpNLs9SO/m
-	A0SI0uafcVc6rMniYLTeDx7EF8G4Z2r/x/w0d9tsZz3S87ItjFCyB9ba9s+0tku3beUe
-	Ilybm8cN90fajrJEqGxM7vt82A3doA8Dwnlu9xyBJqB4BnlM3G1TF5EJLRCh4trVvufX
-	Dn2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to:cc;
-	bh=nYe6xba4ZqzIzw382OAljclrAfLFUz2cY3V39rLGXSA=;
-	b=ruMtt75EowcRg0bwBB/0q0+9dgxBP6vJTaxtcXp3lUXrDrib8vklUX+inOeWFcFUVA
-	U6EbqVDOpD7LvFBRbKFdxn1IkND0Q2eEKggVwH/2mNwsEs2dzlOcJ9Tooni2zAKvamjq
-	n8OUTJSr47LaFFHwjvOs/PRPLiRTYA8sqOqj0kvbDVzNNDQjA2gY2WKo3RQR33pnqEJ7
-	ekNC6eQyFAjzA2M2D0JXi8xbERouV12GeotgT6lxRy7oHhv3sJEXamEE9OJD3/ElVRIf
-	mwjZG3FJpUQih18V4tJBF0qSJ8r6LNIlwR9QSLneowYRaL71ajSa2sovRPK7AgS8+W6Z
-	twNw==
-X-Gm-Message-State: AMCzsaXOPY+13MDu4OieZ/M9DrSwGRz0Q2aOwdCIGrHSEyb1dO7mKIBk
-	8uV/joiQvd4nWt4iuSg6Q1IyvWYljBatMoWeV8G62CYG
-X-Google-Smtp-Source: ABhQp+RaVn7CMa1MfYPrKJkgjsXUEOj7I6VMjAdAGxVuCc3jNrmkGI6G/PskQU+N/Sf15RNcGgNjtYELo2DS1nxy6JI=
-X-Received: by 10.36.3.141 with SMTP id e135mr736310ite.1.1508991526771; Wed,
-	25 Oct 2017 21:18:46 -0700 (PDT)
+	Thu, 26 Oct 2017 06:10:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9Q6AT7r022197
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 25 Oct 2017 23:10:29 -0700
+Received: from [128.224.163.189] (128.224.163.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Wed, 25 Oct 2017 23:10:27 -0700
+To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1508748511.git.Qi.Chen@windriver.com>
+	<4f1aa881f21424b71dd9fda2c47240c14166c471.1508748511.git.Qi.Chen@windriver.com>
+	<CAJTo0LZZ34aPOfko6usC9VY558FK+T3RSVbevfH0UKtAz8vJYw@mail.gmail.com>
+	<CAMKF1srmj96zxxMXgu5wfvG8vMR-1N11LpgN6kY4tC8_v71oJg@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <0efcf859-1695-1cea-b017-f25fd3d11e41@windriver.com>
+Date: Thu, 26 Oct 2017 14:11:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Reply-To: thomas.perrot@tupi.fr
-Sender: vomegaz@gmail.com
-Received: by 10.107.167.211 with HTTP; Wed, 25 Oct 2017 21:18:06 -0700 (PDT)
-In-Reply-To: <1508929587.13607.68.camel@andred.net>
-References: <20171025073248.24161-1-thomas.perrot@tupi.fr>
-	<1508926407.13607.53.camel@andred.net>
-	<1508929587.13607.68.camel@andred.net>
-From: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Thu, 26 Oct 2017 06:18:06 +0200
-X-Google-Sender-Auth: -pzAKU3j-VdmNDOSEQ8lOePGttU
-Message-ID: <CAGXeWgkSjjXXUSGdZAq1UZH5in15CvPe4dhNPQBgUy+PCcp=Gw@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+In-Reply-To: <CAMKF1srmj96zxxMXgu5wfvG8vMR-1N11LpgN6kY4tC8_v71oJg@mail.gmail.com>
+X-Originating-IP: [128.224.163.189]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta][PATCH 1/2] Fix some issues in the fitImage generation
+Subject: Re: [PATCH 1/1] systemd: fix strange behaviour on qemumips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,108 +38,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 04:18:46 -0000
-Content-Type: multipart/alternative; boundary="001a1144d692ec2568055c6b7713"
+X-List-Received-Date: Thu, 26 Oct 2017 06:10:30 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1144d692ec2568055c6b7713
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I agree, so I cleaned up, split into several commits, then superseded this
-one.
-
-Best regards,
-Thomas P.
-
-On Wed, Oct 25, 2017 at 1:06 PM, Andr=C3=A9 Draszik <git@andred.net> wrote:
-
-> On Wed, 2017-10-25 at 11:13 +0100, Andr=C3=A9 Draszik wrote:
-> > On Wed, 2017-10-25 at 09:32 +0200, Thomas Perrot wrote:
-> > > - Bad image type replacement for aarch64
-> > > - Fix DTB path in fitimage.its
-> >
-> > It doesn't look like the DTB bit is still relevant in this commit.
-> >
-> > > - Ignore fitImage type in do_bundle_initramfs task because the
-> packaging
-> > > is made by do_assemble_fitimage_initramfs
-> > > - the images for arm64 are not compressed the linux_comp variable mus=
-t
-> > > therefore be none
-> >
-> > I think it would also make sense to split this into multiple commits, a=
-s
-> > your aarch64 fixes and fitimage fixes aren't directly related.
+On 10/24/2017 01:14 AM, Khem Raj wrote:
+> On Mon, Oct 23, 2017 at 4:41 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>> Can we trust the mips64 compiler at all?  Is there a specific optimisation
+>> that systemd is turning on that is causing this breakage?  Have you reported
+>> this to the gcc bugzilla?
+>>
+>> Ross
+>>
+>> On 23 October 2017 at 11:44, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>> On qemumips64, `systemctl status <unit>' would have the output of
+>>> `systemctl show <unit>'. This is incorrect.
+>>>
+>>> However, it's not the code logic that cause such problem. It's the
+>>> compilation flags.
+>>>
+>>> Looking back the history, we had problem with systemd on qemumips64
+>>> which is also related to compilation flags. We solved that by using
+>>> tweaking FULL_OPTIMIZATION for mips64 to have "-fno-tree-switch-conversion
+>>> -fno-tree-tail-merge".
+>>>
+>>> Now systemd has been upgraded to 234, and we don't have the above problem
+>>> any more. However, a new problem appears, and that is the output of
+>>> `systemctl
+>>> status <unit>'.
+>>>
+>>> Hence, we set '-O0' flag for mips64 when building systemd to avoid
+>>> potential
+>>> strange problems.
+>>>
+>>> [YOCTO #12266]
+>>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>   meta/recipes-core/systemd/systemd_234.bb | 4 ++--
+>>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-core/systemd/systemd_234.bb
+>>> b/meta/recipes-core/systemd/systemd_234.bb
+>>> index 36fd3f8..b294604 100644
+>>> --- a/meta/recipes-core/systemd/systemd_234.bb
+>>> +++ b/meta/recipes-core/systemd/systemd_234.bb
+>>> @@ -158,8 +158,8 @@ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG',
+>>> 'valgrind', ' -DVALGRIND=1', ''
+>>>   # disable problematic GCC 5.2 optimizations [YOCTO #8291]
+>>>   FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns
+>>> -fno-schedule-insns2"
+>>>
+>>> -# Avoid login failure on qemumips64 when pam is enabled
+>>> -FULL_OPTIMIZATION_append_mips64 = " -fno-tree-switch-conversion
+>>> -fno-tree-tail-merge"
+>>> +# Disable optimization on qemumips64 to avoid strange behaviour
+>>> +FULL_OPTIMIZATION_append_mips64 = " -O0"
+>>>
+> I think we need a narrowed-down case may be a opt pass which is causing
+> the problem. reduce the opt level to -O0 will pessimise the code and impact
+> the performance.
 >
-> To be more clear, your fix to kernel.bbclass is independent of everything
-> else and doesn't apply to aarch64 only, so it should be a separate commit=
-.
->
->
-> Cheers,
-> Andre'
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Firstly, try to use normal -O2 and remove disabling tree-switch-conversion and
+> tail call disable.
 
---001a1144d692ec2568055c6b7713
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Ross & Khem,
 
-<div dir=3D"ltr"><div><div>Hi,<br><br><span id=3D"gmail-result_box" class=
-=3D"gmail-" tabindex=3D"-1" lang=3D"en"><span class=3D"gmail-">I agree, so =
-I cleaned up, split into several commits, then superseded this one.<br><br>=
-</span></span></div><span id=3D"gmail-result_box" class=3D"gmail-" tabindex=
-=3D"-1" lang=3D"en"><span class=3D"gmail-">Best regards,<br></span></span><=
-/div><span id=3D"gmail-result_box" class=3D"gmail-" tabindex=3D"-1" lang=3D=
-"en"><span class=3D"gmail-">Thomas P.<br><br></span></span>On Wed, Oct 25, =
-2017 at 1:06 PM, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> wrote:<br>=
-<div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex"><span class=3D"">On Wed, 2017-10-25 at 11:13 +0100, Andr=C3=A9 Dr=
-aszik wrote:<br>
-&gt; On Wed, 2017-10-25 at 09:32 +0200, Thomas Perrot wrote:<br>
-&gt; &gt; - Bad image type replacement for aarch64<br>
-&gt; &gt; - Fix DTB path in fitimage.its<br>
-&gt;<br>
-&gt; It doesn&#39;t look like the DTB bit is still relevant in this commit.=
-<br>
-&gt;<br>
-&gt; &gt; - Ignore fitImage type in do_bundle_initramfs task because the pa=
-ckaging<br>
-&gt; &gt; is made by do_assemble_fitimage_initramfs<br>
-&gt; &gt; - the images for arm64 are not compressed the linux_comp variable=
- must<br>
-&gt; &gt; therefore be none<br>
-&gt;<br>
-&gt; I think it would also make sense to split this into multiple commits, =
-as<br>
-&gt; your aarch64 fixes and fitimage fixes aren&#39;t directly related.<br>
-<br>
-</span>To be more clear, your fix to kernel.bbclass is independent of every=
-thing<br>
-else and doesn&#39;t apply to aarch64 only, so it should be a separate comm=
-it.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-<br>
-Cheers,<br>
-Andre&#39;<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</div></div></blockquote></div><br></div></div>
+I did some more tests today. Below is the result.
 
---001a1144d692ec2568055c6b7713--
+I wanted to narrow down the option, but things went strange.
+
+With '-O0', we don't have this problem.
+With '-O1', the problem could be reproduced.
+The strangest thing is that when using '-O0' and other optimizations 
+that O1 enables compared to O0, the problem cannot be reproduced.
+In theory, as '-O1' = '-O0' + <other optimizations>, the problem should 
+be reproduced when using '-O0' + <other optimizations'. But in fact, 
+it's not reproduced.
+I'm referring to https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html.
+
+Regarding gcc flags turned on by systemd, I can confirm that when using 
+'-O1' and '-O0', the options are the same.
+
+Best Regards,
+Chen Qi
+
+>>>   COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
+>>>   COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
+>>> --
+>>> 1.9.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+
+
