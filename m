@@ -1,54 +1,53 @@
 Return-Path: <vomegaz@gmail.com>
-Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
-	[209.85.214.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C7DF60068
+Received: from mail-it0-f41.google.com (mail-it0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id DE77360248
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 03:59:02 +0000 (UTC)
-Received: by mail-it0-f68.google.com with SMTP id l196so3474617itl.4
+	Thu, 26 Oct 2017 04:18:45 +0000 (UTC)
+Received: by mail-it0-f41.google.com with SMTP id y15so3668831ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Oct 2017 20:59:04 -0700 (PDT)
+	Wed, 25 Oct 2017 21:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=pdmYvL22XBKEZWxywPxVsBUFWYrp8PV+8ifG3Xg/7K0=;
-	b=JbCGUET0oqjm1Lgxsow/vcFCUFSxzNp8vYsf3jeQOiJx45YdcDPesIqjdP1co6giI9
-	+wyv8j8N4TC1rEiY64Bd+v3kqyWogUBds1bTPcjOVe747Ykh8MPmMqRPUJPh0MbWgBVH
-	AYBcWCY9cwHcdC4BJsA58TjigqXswMrGGXlGQhXoqlUht7z47a01lL8yH9pyYqUW01/q
-	zmMFS9stjw8efauJTB57fSSQU78w5p2bQFJNwECqAFrZdsOxkPzJhsjWlBHONMOX9h1P
-	aYuP9IYQ0vNTeorYlR+iXSjNvHqM4pueuySZoWWMpJGof83hug+zC9gcx5B2uKDGx4Lm
-	DPlQ==
+	bh=nYe6xba4ZqzIzw382OAljclrAfLFUz2cY3V39rLGXSA=;
+	b=efrli584v6D0sqYW4W60lq4/m9qkExq7h9ev+wzC8ezE/RtYWskZlWZ/qa0/kc5zS4
+	CxfqZJO20SHDIo1Tg+gBN3TSy8cEb/v5WtidYi9kLb1ErJNOIcO2CJYPtguS5lTvt2cw
+	zedHOoQLhSPv+rCo+VBGLNmXxyhm2iV5bh90kjPU4B46p4pHoS5zqCYRmTRpNLs9SO/m
+	A0SI0uafcVc6rMniYLTeDx7EF8G4Z2r/x/w0d9tsZz3S87ItjFCyB9ba9s+0tku3beUe
+	Ilybm8cN90fajrJEqGxM7vt82A3doA8Dwnlu9xyBJqB4BnlM3G1TF5EJLRCh4trVvufX
+	Dn2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
 	:references:from:date:message-id:subject:to:cc;
-	bh=pdmYvL22XBKEZWxywPxVsBUFWYrp8PV+8ifG3Xg/7K0=;
-	b=RgYqnqJshFi8uc5Xm8ok3E9XTMqJW1cRC18/Cxem5AwOYY2hxmAoNxqCAyaKNMWM47
-	mT1HrAg6+iRq6CkOsy4G7QfxZ2TiLG8xGIyXraeyQiHdWSEI0c4mpzhAKfch98qs7T6B
-	m4uCLuy2H4fN2pFfd7XYSR3pamO5eO3x9QCGpfP9eaJW6FXT8SOgT+HQHMvU+91SFLWz
-	AG+fQMKOndlE+C3HWnNf4Nn9xh/dlsd8FkS4H5Hfq4rpK4AWAcedH5qtEipcdI6xfq36
-	Z7cQIbP0gdZhUK76phH3F9AXQILF4Udkby5y57E2Bp3Y0L+/kIlEeGln/6KMZpdT/02d
-	NgQw==
-X-Gm-Message-State: AMCzsaW5j+yx3GvGwquakuNFKibVZvJ8LB6jXZ/87AfEh6XOWXia3raG
-	j7WFdVTO9n0Wij5sjT2cnkgXQajCT5jFKOYgVlk=
-X-Google-Smtp-Source: ABhQp+TIgT6982QSeads1AALMiV5MTYZE2G6CvuScrY1eMCZiH2mo2AOvb6p5Bv2Q+aTJMQyl+tv83oC+/Hl5nMkm1c=
-X-Received: by 10.36.4.212 with SMTP id 203mr702072itb.10.1508990343992; Wed,
-	25 Oct 2017 20:59:03 -0700 (PDT)
+	bh=nYe6xba4ZqzIzw382OAljclrAfLFUz2cY3V39rLGXSA=;
+	b=ruMtt75EowcRg0bwBB/0q0+9dgxBP6vJTaxtcXp3lUXrDrib8vklUX+inOeWFcFUVA
+	U6EbqVDOpD7LvFBRbKFdxn1IkND0Q2eEKggVwH/2mNwsEs2dzlOcJ9Tooni2zAKvamjq
+	n8OUTJSr47LaFFHwjvOs/PRPLiRTYA8sqOqj0kvbDVzNNDQjA2gY2WKo3RQR33pnqEJ7
+	ekNC6eQyFAjzA2M2D0JXi8xbERouV12GeotgT6lxRy7oHhv3sJEXamEE9OJD3/ElVRIf
+	mwjZG3FJpUQih18V4tJBF0qSJ8r6LNIlwR9QSLneowYRaL71ajSa2sovRPK7AgS8+W6Z
+	twNw==
+X-Gm-Message-State: AMCzsaXOPY+13MDu4OieZ/M9DrSwGRz0Q2aOwdCIGrHSEyb1dO7mKIBk
+	8uV/joiQvd4nWt4iuSg6Q1IyvWYljBatMoWeV8G62CYG
+X-Google-Smtp-Source: ABhQp+RaVn7CMa1MfYPrKJkgjsXUEOj7I6VMjAdAGxVuCc3jNrmkGI6G/PskQU+N/Sf15RNcGgNjtYELo2DS1nxy6JI=
+X-Received: by 10.36.3.141 with SMTP id e135mr736310ite.1.1508991526771; Wed,
+	25 Oct 2017 21:18:46 -0700 (PDT)
 MIME-Version: 1.0
 Reply-To: thomas.perrot@tupi.fr
 Sender: vomegaz@gmail.com
-Received: by 10.107.167.211 with HTTP; Wed, 25 Oct 2017 20:58:23 -0700 (PDT)
-In-Reply-To: <CAP9ODKpUtT3XCXgmWh7Fze8Sy+Qb9gXgmHhAFARnFQQ16+ToTA@mail.gmail.com>
-References: <1508918112-9459-1-git-send-email-B40290@freescale.com>
-	<CAP9ODKpUtT3XCXgmWh7Fze8Sy+Qb9gXgmHhAFARnFQQ16+ToTA@mail.gmail.com>
+Received: by 10.107.167.211 with HTTP; Wed, 25 Oct 2017 21:18:06 -0700 (PDT)
+In-Reply-To: <1508929587.13607.68.camel@andred.net>
+References: <20171025073248.24161-1-thomas.perrot@tupi.fr>
+	<1508926407.13607.53.camel@andred.net>
+	<1508929587.13607.68.camel@andred.net>
 From: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Thu, 26 Oct 2017 05:58:23 +0200
-X-Google-Sender-Auth: QAr3nujlvEOCNz6VWK1bZFCijbE
-Message-ID: <CAGXeWg=uqPE1D_53XNJa-oHVDbUBavNpPg4To9bJ=D9rss2AsA@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Chunrong Guo <chunrong.guo@nxp.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-fitimage: add DTB_LOAD to set dtb address
+Date: Thu, 26 Oct 2017 06:18:06 +0200
+X-Google-Sender-Auth: -pzAKU3j-VdmNDOSEQ8lOePGttU
+Message-ID: <CAGXeWgkSjjXXUSGdZAq1UZH5in15CvPe4dhNPQBgUy+PCcp=Gw@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta][PATCH 1/2] Fix some issues in the fitImage generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,79 +60,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 03:59:03 -0000
-Content-Type: multipart/alternative; boundary="001a1140b3306c5ab9055c6b316c"
+X-List-Received-Date: Thu, 26 Oct 2017 04:18:46 -0000
+Content-Type: multipart/alternative; boundary="001a1144d692ec2568055c6b7713"
 
---001a1140b3306c5ab9055c6b316c
+--001a1144d692ec2568055c6b7713
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-it would seem that it is also necessary to add the entry field on some
-targets.
-
-I think the best would to be do as for UBOOT_RD_LOADADDRESS and
-UBOOT_RD_ENTRYPOINT.
+I agree, so I cleaned up, split into several commits, then superseded this
+one.
 
 Best regards,
 Thomas P.
 
-On Wed, Oct 25, 2017 at 6:52 PM, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
+On Wed, Oct 25, 2017 at 1:06 PM, Andr=C3=A9 Draszik <git@andred.net> wrote:
 
-> On Wed, Oct 25, 2017 at 5:55 AM, Chunrong Guo <B40290@freescale.com>
-> wrote:
-> > From: Chunrong Guo <chunrong.guo@nxp.com>
+> On Wed, 2017-10-25 at 11:13 +0100, Andr=C3=A9 Draszik wrote:
+> > On Wed, 2017-10-25 at 09:32 +0200, Thomas Perrot wrote:
+> > > - Bad image type replacement for aarch64
+> > > - Fix DTB path in fitimage.its
 > >
-> > kernel-fitimage for arm64 and arm need dynamically sets dtb address,
-> > thus we need a flexible way to load dtb address value.
+> > It doesn't look like the DTB bit is still relevant in this commit.
 > >
-> > Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
-> > ---
-> >  meta/classes/kernel-fitimage.bbclass | 3 +++
-> >  1 file changed, 3 insertions(+)
+> > > - Ignore fitImage type in do_bundle_initramfs task because the
+> packaging
+> > > is made by do_assemble_fitimage_initramfs
+> > > - the images for arm64 are not compressed the linux_comp variable mus=
+t
+> > > therefore be none
 > >
-> > diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-
-> fitimage.bbclass
-> > index 179185b..479ffd4 100644
-> > --- a/meta/classes/kernel-fitimage.bbclass
-> > +++ b/meta/classes/kernel-fitimage.bbclass
-> > @@ -36,6 +36,8 @@ python __anonymous () {
-> >  # Options for the device tree compiler passed to mkimage '-D' feature:
-> >  UBOOT_MKIMAGE_DTCOPTS ??= ""
-> >
-> > +# Options for load dtb address
-> > +DTB_LOAD ??= ""
-> >  #
-> >  # Emit the fitImage ITS header
-> >  #
-> > @@ -137,6 +139,7 @@ fitimage_emit_section_dtb() {
-> >                          type = "flat_dt";
-> >                          arch = "${UBOOT_ARCH}";
-> >                          compression = "none";
-> > +                        load = <${DTB_LOAD}>;
+> > I think it would also make sense to split this into multiple commits, a=
+s
+> > your aarch64 fixes and fitimage fixes aren't directly related.
 >
-> What happens if it is empty?
+> To be more clear, your fix to kernel.bbclass is independent of everything
+> else and doesn't apply to aarch64 only, so it should be a separate commit=
+.
 >
 >
-> >                          hash@1 {
-> >                                  algo = "${dtb_csum}";
-> >                          };
-> > --
-> > 1.9.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Cheers,
+> Andre'
 >
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -141,100 +110,51 @@ otavio.salvador@ossystems.com.br> wrote:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---001a1140b3306c5ab9055c6b316c
+--001a1144d692ec2568055c6b7713
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div>Hi,<br><br><span id=3D"gmail-result_box" cl=
-ass=3D"gmail-" tabindex=3D"-1" lang=3D"en"><span>it would seem that it is a=
-lso necessary to add the entry field on some targets.<br><br></span></span>=
-</div><span id=3D"gmail-result_box" class=3D"gmail-" tabindex=3D"-1" lang=
-=3D"en"><span>I think the best would to be do as for UBOOT_RD_LOADADDRESS a=
-nd UBOOT_RD_ENTRYPOINT.<br><br></span></span></div><span id=3D"gmail-result=
-_box" class=3D"gmail-" tabindex=3D"-1" lang=3D"en"><span>Best regards,<br><=
-/span></span></div><span id=3D"gmail-result_box" class=3D"gmail-" tabindex=
-=3D"-1" lang=3D"en"><span>Thomas P.<br><br></span></span>On Wed, Oct 25, 20=
-17 at 6:52 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"mailto:otav=
-io.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador@ossystems.c=
-om.br</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gma=
-il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=
-=3D"h5">On Wed, Oct 25, 2017 at 5:55 AM, Chunrong Guo &lt;<a href=3D"mailto=
-:B40290@freescale.com">B40290@freescale.com</a>&gt; wrote:<br>
-&gt; From: Chunrong Guo &lt;<a href=3D"mailto:chunrong.guo@nxp.com">chunron=
-g.guo@nxp.com</a>&gt;<br>
+<div dir=3D"ltr"><div><div>Hi,<br><br><span id=3D"gmail-result_box" class=
+=3D"gmail-" tabindex=3D"-1" lang=3D"en"><span class=3D"gmail-">I agree, so =
+I cleaned up, split into several commits, then superseded this one.<br><br>=
+</span></span></div><span id=3D"gmail-result_box" class=3D"gmail-" tabindex=
+=3D"-1" lang=3D"en"><span class=3D"gmail-">Best regards,<br></span></span><=
+/div><span id=3D"gmail-result_box" class=3D"gmail-" tabindex=3D"-1" lang=3D=
+"en"><span class=3D"gmail-">Thomas P.<br><br></span></span>On Wed, Oct 25, =
+2017 at 1:06 PM, Andr=C3=A9 Draszik <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:git@andred.net" target=3D"_blank">git@andred.net</a>&gt;</span> wrote:<br>=
+<div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><span class=3D"">On Wed, 2017-10-25 at 11:13 +0100, Andr=C3=A9 Dr=
+aszik wrote:<br>
+&gt; On Wed, 2017-10-25 at 09:32 +0200, Thomas Perrot wrote:<br>
+&gt; &gt; - Bad image type replacement for aarch64<br>
+&gt; &gt; - Fix DTB path in fitimage.its<br>
 &gt;<br>
-&gt; kernel-fitimage for arm64 and arm need dynamically sets dtb address,<b=
-r>
-&gt; thus we need a flexible way to load dtb address value.<br>
+&gt; It doesn&#39;t look like the DTB bit is still relevant in this commit.=
+<br>
 &gt;<br>
-&gt; Signed-off-by: Chunrong Guo &lt;<a href=3D"mailto:chunrong.guo@nxp.com=
-">chunrong.guo@nxp.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/kernel-fitimage.<wbr>bbclass | 3 +++<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+)<br>
+&gt; &gt; - Ignore fitImage type in do_bundle_initramfs task because the pa=
+ckaging<br>
+&gt; &gt; is made by do_assemble_fitimage_initramfs<br>
+&gt; &gt; - the images for arm64 are not compressed the linux_comp variable=
+ must<br>
+&gt; &gt; therefore be none<br>
 &gt;<br>
-&gt; diff --git a/meta/classes/kernel-<wbr>fitimage.bbclass b/meta/classes/=
-kernel-<wbr>fitimage.bbclass<br>
-&gt; index 179185b..479ffd4 100644<br>
-&gt; --- a/meta/classes/kernel-<wbr>fitimage.bbclass<br>
-&gt; +++ b/meta/classes/kernel-<wbr>fitimage.bbclass<br>
-&gt; @@ -36,6 +36,8 @@ python __anonymous () {<br>
-&gt;=C2=A0 # Options for the device tree compiler passed to mkimage &#39;-D=
-&#39; feature:<br>
-&gt;=C2=A0 UBOOT_MKIMAGE_DTCOPTS ??=3D &quot;&quot;<br>
-&gt;<br>
-&gt; +# Options for load dtb address<br>
-&gt; +DTB_LOAD ??=3D &quot;&quot;<br>
-&gt;=C2=A0 #<br>
-&gt;=C2=A0 # Emit the fitImage ITS header<br>
-&gt;=C2=A0 #<br>
-&gt; @@ -137,6 +139,7 @@ fitimage_emit_section_dtb() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 type =3D &quot;flat_dt&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 arch =3D &quot;${UBOOT_ARCH}&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 compression =3D &quot;none&quot;;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 load =3D &lt;${DTB_LOAD}&gt;;<br>
+&gt; I think it would also make sense to split this into multiple commits, =
+as<br>
+&gt; your aarch64 fixes and fitimage fixes aren&#39;t directly related.<br>
 <br>
-</div></div>What happens if it is empty?<br>
-<span class=3D"im HOEnZb"><br>
+</span>To be more clear, your fix to kernel.bbclass is independent of every=
+thing<br>
+else and doesn&#39;t apply to aarch64 only, so it should be a separate comm=
+it.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 hash@1 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 algo =3D &quot;${dtb_csum}=
-&quot;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 };<br>
-&gt; --<br>
-&gt; 1.9.0<br>
-&gt;<br>
-&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.<wbr>openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<=
-wbr>mailman/listinfo/openembedded-<wbr>core</a><br>
+Cheers,<br>
+Andre&#39;<br>
 <br>
-<br>
-<br>
-</span><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: <a href=3D"tel:%2B55%20%2853%29%209981-7854" value=3D"+555399817854=
-">+55 (53) 9981-7854</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: <=
-a href=3D"tel:%2B1%20%28347%29%20903-9750" value=3D"+13479039750">+1 (347) =
-903-9750</a><br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5">--<br>
+--<br>
 ______________________________<wbr>_________________<br>
 Openembedded-core mailing list<br>
 <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
@@ -244,4 +164,4 @@ re@lists.<wbr>openembedded.org</a><br>
 ailman/listinfo/openembedded-<wbr>core</a><br>
 </div></div></blockquote></div><br></div></div>
 
---001a1140b3306c5ab9055c6b316c--
+--001a1144d692ec2568055c6b7713--
