@@ -1,22 +1,25 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 44EFC719A4
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BF1FD780F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Oct 2017 17:33:22 +0000 (UTC)
+	Thu, 26 Oct 2017 17:33:36 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga104.jf.intel.com with ESMTP; 26 Oct 2017 10:33:24 -0700
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Oct 2017 10:33:37 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,301,1505804400"; 
-   d="scan'208";a="1895111"
+   d="scan'208";a="1895235"
 Received: from yctb05.ostc.intel.com ([10.54.69.59])
-	by orsmga002.jf.intel.com with ESMTP; 26 Oct 2017 10:33:24 -0700
+	by orsmga002.jf.intel.com with ESMTP; 26 Oct 2017 10:33:37 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Oct 2017 10:33:18 -0700
-Message-Id: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Thu, 26 Oct 2017 10:33:19 -0700
+Message-Id: <d10136a2d95b9575458c01afce41fc2c41e35df4.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
+In-Reply-To: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
 Cc: limon.anibal@gmail.com
-Subject: [PATCH 0/1] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
+Subject: [PATCH 1/1] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +32,240 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Oct 2017 17:33:23 -0000
+X-List-Received-Date: Thu, 26 Oct 2017 17:33:37 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-The below is a profiling experiment, running oe-selftest -r (the proposed
-implementation, see patch description for more info):
+The main idea is to isolate the oe-selftest execution so neither the current
+build dir nor the configuration data is touch/polluted. This approach uses
+a wrapper script (which is the one presented on this commit) which creates
+a unique directory and inside it does a shallow of repo(s) (OE-Core and Bitbake),
+re-initializes the enviroment (re-sources oe-init-build-env) and finally launches
+the oe-selftest-internal (which used to be oe-selftest) command, passing command
+arguments to the latter.
 
-Procedure:
+The new build directory created when re-initializing the enviroment has the
+same configuration data (local.conf, auto.conf, site.conf) as the
+main build directory. The latter means that one can set DL_DIR and SSTATE_DIR
+into <main build dir>/conf/site.conf and the oe-selftest execution will use this.
 
-With patch 1/1, multiple oe-selftest jobs can be launched in
-parallel. One tool that launch jobs in parallel is GNU Parallel [1], allowing
-to construct a simpole pipeline to execute all tests with a pool of four
-jobs:
+[YOCTO #11429]
 
-    $ echo $ALLTESTS | time parallel --jobs4 oe-selftest -r
-
-where ALLTESTS is a variable containing all tests cases (modules) found by the
-the runner (oe-selftest-internal) (i.e. ALLTESTS="$(oe-selftest -m |
-awk '{ print $NF }' | grep -v ':')"). This is the result obtained from the
-above command:
-
-    739.57user 120.48system 45:34.61elapsed 31%CPU (0avgtext+0avgdata 124600maxresident)k
-    390908inputs+15984336outputs (291major+20227951minor)pagefaults 0swaps
-
-
-The import point on the above numbers is that isolation the oe-selftest execution per
-module and using a parallelization tool, complete oe-selftest runs takes less than an hour,
-beating current single-job times observed at main auto-buildes.
-
-Profiling results were obtained on a machine with 88 Intel Xeon with 88 cores
-
-[1] https://www.gnu.org/software/parallel/
-
-The following changes since commit 65d23bd7986615fdfb0f1717b615534a2a14ab80:
-
-  README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lsandov1/oe-selftest-own-directory
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/oe-selftest-own-directory
-
-Leonardo Sandoval (1):
-  scripts/oe-selftest: oe-selftest-internal wrapper scripts that
-    isolates execution
-
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
  scripts/oe-selftest          | 102 +++++++++++++++++++++++--------------------
  scripts/oe-selftest-internal |  75 +++++++++++++++++++++++++++++++
  2 files changed, 129 insertions(+), 48 deletions(-)
  create mode 100755 scripts/oe-selftest-internal
 
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index 1bf860a415..f3ce89cedb 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -1,5 +1,7 @@
+-#!/usr/bin/env python3
++#!/bin/sh
+ 
++# scripts/oe-selftest: calls oe-selftest-internal in a isolated environment
++#
+ # Copyright (c) 2013-2017 Intel Corporation
+ #
+ # This program is free software; you can redistribute it and/or modify
+@@ -14,62 +16,66 @@
+ # You should have received a copy of the GNU General Public License along
+ # with this program; if not, write to the Free Software Foundation, Inc.,
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
++
++# Variable definitions
++ORIGBUILDDIR="$BUILDDIR"
++OESELFTESTSCRIPTDIR="$(which oe-selftest)"
++SCRIPTSDIR="$(dirname $OESELFTESTSCRIPTDIR)"
++OECOREDIR="$(dirname $SCRIPTSDIR)"
++
++# oe-selftest-$$ related
++OESELFTESTDIR="$ORIGBUILDDIR/oe-selftest-$$"
++OESELFTESTOECOREDIR="$OESELFTESTDIR/openembedded-core"
++OESELFTESTBUILDDIR="$OESELFTESTDIR/openembedded-core/build"
++TEMPLATEPATH="$OESELFTESTDIR/template/conf"
+ 
+-# DESCRIPTION
+-# This script runs tests defined in meta/lib/oeqa/selftest/
+-# It's purpose is to automate the testing of different bitbake tools.
+-# To use it you just need to source your build environment setup script and
+-# add the meta-selftest layer to your BBLAYERS.
+-# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
+-# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
+-# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
++# 0. Return immediately in case no test execution
++ADDTESTS="$(echo "$@" | grep -i '\-a')"
++SOMETESTS="$(echo "$@" | grep -i '\-r')"
++if [ -z "$ADDTESTS" -a -z "$SOMETESTS" ]; then
++    if [ -z "$@" ]; then
++	oe-selftest-internal -h
++    else
++	oe-selftest-internal "$@"
++    fi
++    exit 0
++fi
+ 
++# 1. All work will be done under OESELFTESTDIR
++mkdir $OESELFTESTDIR && cd $OESELFTESTDIR
+ 
++# 2.1 Shallow clone OE-Core
++git clone file://$OECOREDIR --depth 1 $OESELFTESTOECOREDIR
+ 
+-import os
+-import sys
+-import argparse
+-import logging
++# 2.2 Shallow clone bitbake if necessary (if OE-Core is embedded on a combo repo, like Poky, there is no need)
++if [ ! -d "$OESELFTESTOECOREDIR/bitbake" ]; then
++    git clone file://$OECOREDIR/bitbake --depth 1 $OESELFTESTOECOREDIR/bitbake
++fi
+ 
+-scripts_path = os.path.dirname(os.path.realpath(__file__))
+-lib_path = scripts_path + '/lib'
+-sys.path = sys.path + [lib_path]
+-import argparse_oe
+-import scriptutils
+-import scriptpath
+-scriptpath.add_oe_lib_path()
+-scriptpath.add_bitbake_lib_path()
++# 3. Template: create template directory based on BUILDIR/conf/local.conf
++mkdir -p $TEMPLATEPATH
++cp $ORIGBUILDDIR/conf/local.conf $TEMPLATEPATH/local.conf.sample
+ 
+-from oeqa.utils import load_test_components
+-from oeqa.core.exception import OEQAPreRun
++# 4. re-initialized environment with new metadata and templateconf environement
++cd $OESELFTESTOECOREDIR
++export TEMPLATEPATH && source ./oe-init-build-env $OESELFTESTBUILDDIR
+ 
+-logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
++# 5. Respect any site.conf and/or auto.conf and place it into conf directory
++if [ -r "$ORIGBUILDDIR/conf/site.conf" ]; then
++    cp -f $ORIGBUILDDIR/conf/site.conf $OESELFTESTBUILDDIR/conf
++fi
++if [ -r "$ORIGBUILDDIR/conf/auto.conf" ]; then
++    cp -f $ORIGBUILDDIR/conf/auto.conf $OESELFTESTBUILDDIR/conf
++fi
+ 
+-def main():
+-    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
+-    parser = argparse_oe.ArgumentParser(description=description)
++# 6. Execute the tests throught oe-selftest-internal
++oe-selftest-internal "$@"
+ 
+-    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
+-    comp.register_commands(logger, parser)
++OESELFTESTRC="$?"
+ 
+-    try:
+-        args = parser.parse_args()
+-        results = args.func(logger, args)
+-        ret = 0 if results.wasSuccessful() else 1
+-    except SystemExit as err:
+-        if err.code != 0:
+-            raise err
+-        ret = err.code
+-    except OEQAPreRun as pr:
+-        ret = 1
++# 7. Echo working folder
+ 
+-    return ret
++echo -e "\nAll work done under $OESELFTESTDIR\n"
+ 
+-if __name__ == '__main__':
+-    try:
+-        ret = main()
+-    except Exception:
+-        ret = 1
+-        import traceback
+-        traceback.print_exc()
+-    sys.exit(ret)
++exit $OESELFTESTRC
+diff --git a/scripts/oe-selftest-internal b/scripts/oe-selftest-internal
+new file mode 100755
+index 0000000000..cff2906763
+--- /dev/null
++++ b/scripts/oe-selftest-internal
+@@ -0,0 +1,75 @@
++#!/usr/bin/env python3
++
++# Copyright (c) 2013-2017 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++# DESCRIPTION
++# This script runs tests defined in meta/lib/oeqa/selftest/
++# It's purpose is to automate the testing of different bitbake tools.
++# To use it you just need to source your build environment setup script and
++# add the meta-selftest layer to your BBLAYERS.
++# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
++# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
++# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
++
++
++
++import os
++import sys
++import argparse
++import logging
++
++scripts_path = os.path.dirname(os.path.realpath(__file__))
++lib_path = scripts_path + '/lib'
++sys.path = sys.path + [lib_path]
++import argparse_oe
++import scriptutils
++import scriptpath
++scriptpath.add_oe_lib_path()
++scriptpath.add_bitbake_lib_path()
++
++from oeqa.utils import load_test_components
++from oeqa.core.exception import OEQAPreRun
++
++logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
++
++def main():
++    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
++    parser = argparse_oe.ArgumentParser(prog='oe-selftest', description=description)
++
++    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
++    comp.register_commands(logger, parser)
++
++    try:
++        args = parser.parse_args()
++        results = args.func(logger, args)
++        ret = 0 if results.wasSuccessful() else 1
++    except SystemExit as err:
++        if err.code != 0:
++            raise err
++        ret = err.code
++    except OEQAPreRun as pr:
++        ret = 1
++
++    return ret
++
++if __name__ == '__main__':
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++        traceback.print_exc()
++    sys.exit(ret)
 -- 
 2.12.3
 
