@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C7866012A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BEA7F78295
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 09:42:46 +0000 (UTC)
+	Fri, 27 Oct 2017 09:42:47 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9R9gk52007805
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v9R9gmT0005798
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 02:42:47 -0700 (PDT)
+	Fri, 27 Oct 2017 02:42:48 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 27 Oct 2017 02:42:46 -0700
+	14.3.361.1; Fri, 27 Oct 2017 02:42:47 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Oct 2017 17:43:49 +0800
-Message-ID: <cover.1509097262.git.Qi.Chen@windriver.com>
+Date: Fri, 27 Oct 2017 17:43:50 +0800
+Message-ID: <8218dd1701ed05974852e42caf894074583ece5a.1509097263.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1509097262.git.Qi.Chen@windriver.com>
+References: <cover.1509097262.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] gcc: fix miscompilation for mips64 which caused systemd's strange behaviour
+Subject: [PATCH 1/2] systemd: remove useless options for mips4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 09:42:46 -0000
+X-List-Received-Date: Fri, 27 Oct 2017 09:42:47 -0000
 Content-Type: text/plain
 
-The following changes since commit 65d23bd7986615fdfb0f1717b615534a2a14ab80:
+Looking back the history, we had problem with systemd on qemumips64
+which is also related to compilation flags. We solved that by using
+tweaking FULL_OPTIMIZATION for mips64 to have "-fno-tree-switch-conversion
+-fno-tree-tail-merge".
 
-  README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)
+Now systemd has been upgraded to 234, and we don't have the above problem
+any more, thus removing these flags.
 
-are available in the git repository at:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-  git://git.pokylinux.org/poky-contrib ChenQi/bug12266
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bug12266
-
-Chen Qi (2):
-  systemd: remove useless options for mips4
-  gcc: fix miscompilation on mips64
-
- meta/recipes-core/systemd/systemd_234.bb           |  3 --
- meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
- .../fix-miscompilation-for-O1-on-mips64el.patch    | 35 ++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/fix-miscompilation-for-O1-on-mips64el.patch
-
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 36fd3f8..971226f 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -158,9 +158,6 @@ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', ''
+ # disable problematic GCC 5.2 optimizations [YOCTO #8291]
+ FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns -fno-schedule-insns2"
+ 
+-# Avoid login failure on qemumips64 when pam is enabled
+-FULL_OPTIMIZATION_append_mips64 = " -fno-tree-switch-conversion -fno-tree-tail-merge"
+-
+ COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
+ COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
+ COMPILER_RANLIB ?= "${HOST_PREFIX}gcc-ranlib"
 -- 
 1.9.1
 
