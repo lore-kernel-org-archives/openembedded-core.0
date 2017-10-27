@@ -1,21 +1,43 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F30782A4
+Return-Path: <shubhabrata.sen@gmail.com>
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D4E1782A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 11:05:52 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Oct 2017 04:05:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,304,1505804400"; d="scan'208";a="1210798493"
-Received: from wrath.jf.intel.com ([10.54.70.9])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Oct 2017 04:05:53 -0700
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+	Fri, 27 Oct 2017 11:08:40 +0000 (UTC)
+Received: by mail-qt0-f177.google.com with SMTP id n61so7890761qte.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Oct 2017 04:08:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=FPHZi4X+ikpNZsGlCQUPpMoGuqLbYaabxIrEb3mkdgI=;
+	b=cPWKNvyef0zUA1IRwSFFEk2aTiH9JpF+d12nhUUCvRi5hkBq0h2Zz6Wv0DLIoxdNM+
+	Si0C1CVWgN5ZharOGqB41cVM8GcCqAcf7E67LZNTsoD1t7uYmBlm9uPUYfk9CdlNuIhO
+	ibokcbv/UHWVTvhHDF5yQv7rrEVvWSQ+MpRmyRvoAm+DeKKCnxHGyOcxV2tzRF3gIHmg
+	trkFVELnZrjfu7g2p90SgTk4w0bGRPEDiAKTXtmHsISud7wYGumVqQr+laiwTJ2KHz7t
+	cpDgH9p1Vjs60Ew6qq0Dgy4u6t9DcxVku6UHOSwzEkDmwrQgeX2VShAjDRp2qPgZsrLJ
+	0RRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=FPHZi4X+ikpNZsGlCQUPpMoGuqLbYaabxIrEb3mkdgI=;
+	b=QzYk0V3XUgyP7mqR8rXcouXZ/IHHvowARB0eQ6lQyPZqfHtqveOvDL8md06M6sOEnF
+	73AuhUX0XagV8krNAcpjvq+xtTs9dJcyTaSyVs5rL6E3JALuhcTB1EUmuDIdK/mTBGYm
+	BHmzD6FF6YpNmdLoBLKh3Pkn5tfz8iHgPWO40lZMXDMBrlfMK69nSTXOXoMVlPToNe4J
+	hCDyTyelbodzdzCLxOevAieSH0f8ne1ToquCKCO21b+yHp4BQlfvET+qwcHeeGdwcdEo
+	Gwf2QXNnSw8Zwq44UxlZx5UpWb2zuAcQOojf7SiAvsAhT0tv+WqPqZrpbaaUeM6/HOmK
+	rNWQ==
+X-Gm-Message-State: AMCzsaUnmbldEq1JmDXVbE2ts2pkFLqfTMqmSruwO/61KTZXrBs6Ciny
+	Gtp2hkaxRmCeJyq6ik52NqC40SUg3kJOa8Ip0yfEWw==
+X-Google-Smtp-Source: ABhQp+QuTrN2suT8RwyPLykNe5oDnatKG4r4PRE7q8QRdk1QRPNUGHjrealLXeZtTc2w73Az1xBJe8BvyXOnhEUb1kM=
+X-Received: by 10.237.32.101 with SMTP id 92mr195763qta.44.1509102521178; Fri,
+	27 Oct 2017 04:08:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.237.35.52 with HTTP; Fri, 27 Oct 2017 04:08:40 -0700 (PDT)
+From: shubhabrata sen <shubhabrata.sen@gmail.com>
+Date: Fri, 27 Oct 2017 13:08:40 +0200
+Message-ID: <CA+jxWbeh3Ug=P87QTfqbmC62iiJwkox1VzsQqvVtLmgrjrvwnQ@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Oct 2017 04:05:03 -0700
-Message-Id: <20171027110503.8293-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.13.5
-Subject: [PATCH] pigz: use archive tarball instead of Github generated tarball
+Subject: Python consistency error during apparmor build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,34 +50,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 11:05:53 -0000
+X-List-Received-Date: Fri, 27 Oct 2017 11:08:40 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0c97d8b45e58055c854f92"
 
-Github-generated tarballs are known to change over time, so
-use an archive tarball provided by zlib.net instead.
+--94eb2c0c97d8b45e58055c854f92
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- meta/recipes-extended/pigz/pigz_2.3.4.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I get this error while building firmware with the apparmor recipe
 
-diff --git a/meta/recipes-extended/pigz/pigz_2.3.4.bb b/meta/recipes-extended/pigz/pigz_2.3.4.bb
-index f4832dffe1..3dc4de3710 100644
---- a/meta/recipes-extended/pigz/pigz_2.3.4.bb
-+++ b/meta/recipes-extended/pigz/pigz_2.3.4.bb
-@@ -3,9 +3,9 @@ LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17
- 
- UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
- UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
--SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz"
--SRC_URI[md5sum] = "c109057050b15edf3eb9bb4d0805235e"
--SRC_URI[sha256sum] = "763f2fdb203aa0b7b640e63385e38e5dd4e5aaa041bc8e42aa96f2ef156b06e8"
-+SRC_URI = "https://zlib.net/pigz/${BP}.tar.gz"
-+SRC_URI[md5sum] = "08e6b2e682bbf65ccf12c8966d633fc6"
-+SRC_URI[sha256sum] = "6f031fa40bc15b1d80d502ff91f83ba14f4b079e886bfb83221374f7bf5c8f9a"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.13.5
+checking python extra libraries...  -lpthread -ldl  -lutil
+| checking python extra linking flags... -Xlinker -export-dynamic
+| checking consistency of all components of python development
+environment... no
+| configure: error:
+|   Could not link test program to Python. Maybe the main Python library
+has been
+|   installed in some non-standard library path. If so, pass it to
+configure,
+|   via the LDFLAGS environment variable.
+|   Example: ./configure LDFLAGS="-L/usr/non-standard-path/python/lib"
+|
+ ============================================================================
+|    ERROR!
+|    You probably have to install the development version of the Python
+package
+|    for your distribution.  The exact name of this package varies among
+them.
+|
+ ============================================================================
 
+I researched a bit about the error and tried to set the libraries using the
+LDFLAGS variable but I'm unable to resolve it. Do I need to install any
+additional python-package before the apparmor build ?
 
+--94eb2c0c97d8b45e58055c854f92
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I get this error while building firmware with the apparmor=
+ recipe=C2=A0<div><br></div><div><div>checking python extra libraries...=C2=
+=A0 -lpthread -ldl=C2=A0 -lutil</div><div>| checking python extra linking f=
+lags... -Xlinker -export-dynamic</div><div>| checking consistency of all co=
+mponents of python development environment... no</div><div>| configure: err=
+or:</div><div>|=C2=A0 =C2=A0Could not link test program to Python. Maybe th=
+e main Python library has been</div><div>|=C2=A0 =C2=A0installed in some no=
+n-standard library path. If so, pass it to configure,</div><div>|=C2=A0 =C2=
+=A0via the LDFLAGS environment variable.</div><div>|=C2=A0 =C2=A0Example: .=
+/configure LDFLAGS=3D&quot;-L/usr/non-standard-path/python/lib&quot;</div><=
+div>|=C2=A0 =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D</div><div>|=C2=A0 =C2=A0 ERROR!</div><div>|=C2=A0 =C2=
+=A0 You probably have to install the development version of the Python pack=
+age</div><div>|=C2=A0 =C2=A0 for your distribution.=C2=A0 The exact name of=
+ this package varies among them.</div><div>|=C2=A0 =C2=A0=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div></div><di=
+v><br></div><div>I researched a bit about the error and tried to set the li=
+braries using the LDFLAGS variable but I&#39;m unable to resolve it. Do I n=
+eed to install any additional python-package before the apparmor build ?</d=
+iv></div>
+
+--94eb2c0c97d8b45e58055c854f92--
