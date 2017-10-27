@@ -1,18 +1,21 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A88D578278;
-	Fri, 27 Oct 2017 10:34:34 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Fri, 27 Oct 2017 10:34:36 -0000
-Message-ID: <20171027103436.2784.58779@do.openembedded.org>
-References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3VwcG9ydCBwcm9maWxlLW9wdGltaXplZCBidWlsZCBmb3IgUHl0aG9u?=
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E5F30782A4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Oct 2017 11:05:52 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Oct 2017 04:05:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,304,1505804400"; d="scan'208";a="1210798493"
+Received: from wrath.jf.intel.com ([10.54.70.9])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Oct 2017 04:05:53 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Oct 2017 04:05:03 -0700
+Message-Id: <20171027110503.8293-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH] pigz: use archive tarball instead of Github generated tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 10:34:34 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Oct 2017 11:05:53 -0000
 
-== Series Details ==
+Github-generated tarballs are known to change over time, so
+use an archive tarball provided by zlib.net instead.
 
-Series: support profile-optimized build for Python
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9511/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             LIC_FILES_CHKSUM changed on target python3-profile-opt but there was no explanation as to why in the commit message [test_lic_files_chksum_modified_not_mentioned] 
-  Suggested fix    Provide a reason for LIC_FILES_CHKSUM change in commit message
-  Current checksum 
-  New checksum     file://LICENSE;md5=b680ed99aa60d350c65a65914494207e
-
-* Issue             LIC_FILES_CHKSUM is missing in newly added recipe [test_lic_files_chksum_presence] 
-  Suggested fix    Specify the variable LIC_FILES_CHKSUM in python-pgo-image
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-extended/pigz/pigz_2.3.4.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-extended/pigz/pigz_2.3.4.bb b/meta/recipes-extended/pigz/pigz_2.3.4.bb
+index f4832dffe1..3dc4de3710 100644
+--- a/meta/recipes-extended/pigz/pigz_2.3.4.bb
++++ b/meta/recipes-extended/pigz/pigz_2.3.4.bb
+@@ -3,9 +3,9 @@ LIC_FILES_CHKSUM = "file://pigz.c;beginline=7;endline=21;md5=a21d4075cb00ab4ca17
+ 
+ UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
+ UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
+-SRC_URI = "https://github.com/madler/pigz/archive/v${PV}.tar.gz;downloadfilename=${BP}.tar.gz"
+-SRC_URI[md5sum] = "c109057050b15edf3eb9bb4d0805235e"
+-SRC_URI[sha256sum] = "763f2fdb203aa0b7b640e63385e38e5dd4e5aaa041bc8e42aa96f2ef156b06e8"
++SRC_URI = "https://zlib.net/pigz/${BP}.tar.gz"
++SRC_URI[md5sum] = "08e6b2e682bbf65ccf12c8966d633fc6"
++SRC_URI[sha256sum] = "6f031fa40bc15b1d80d502ff91f83ba14f4b079e886bfb83221374f7bf5c8f9a"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.13.5
 
 
