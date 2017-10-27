@@ -1,49 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f50.google.com (mail-pg0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B0AB8782F6
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8941A607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 17:41:24 +0000 (UTC)
-Received: by mail-pg0-f50.google.com with SMTP id r25so5806410pgn.4
+	Fri, 27 Oct 2017 18:30:36 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id i5so5522051pfe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 10:41:26 -0700 (PDT)
+	Fri, 27 Oct 2017 11:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZGMYd5w+KaODDYvhToz7U9m5oLSwPK5WnLr/8QeW3w0=;
-	b=WP9ESJLsruo0vKnjkN734Mum5tWkaWb/G4dn8ThjZVpU4qu8jfCK5yi1uq95JAA+eJ
-	DAeLwcQH36xfClvt/I2cu+JqTGyaqpNFptnd0bJ2bxXSKmEuLJ96KS71D9FL+ZDzsa8C
-	5mX7q7lOs3dnHsRRC/rABpAx+ee0lWLdNaiVtn2FdzDmi/iF1+1av7+U+vrJE9uNjswN
-	GP5t3eFGfL583E2CJv7vJQXwNuxLbP4oJYof8NUF70BWAGL4j9PM4ufcZjYqmuQ6votM
-	t9lhaAwyrAn5bO67aVh8aVv3fWeRVH5iJHE1rF6FYGPN+IDO9mckSwHFpO9SKVHCj+zp
-	K8uQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=q18zq3yNCzMPtaI/lq1JHvKzAfEkGa51XjgiLJc4MFo=;
+	b=CEP/+OhZ3LOndOXrfSN76f0IiGE2/X6Pwjk59+QtK4qRlIXJhs0zXngNS2HZDDHQcp
+	LW8QGiFkLA9DLZgd0wx58+n1fGSlYMWamLvVAHYuxyw2z/mb9KlUXdy74ieMYVLeYodl
+	rpI0t4lO8MFXz2UjyfdoJ++0k7LYwWV/PRvftXOl3zt71pFdmbJ2zGyZdU9Bpi4pAN7M
+	gVYPG0YBfE39dTlR9feSyEJ4NHl6ntlVSDMG1aggDVw1k7LwKxA/NT2o4d/N9nj3HIUb
+	bXbJyaZFAouWkWOGLQCPD7FH+KfFp1SacnJdXlaIJmHvFUTGIy1SrBPYXFXsZEbe01XW
+	Hajg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZGMYd5w+KaODDYvhToz7U9m5oLSwPK5WnLr/8QeW3w0=;
-	b=jrHTJ7Cm76noos93dXnnmucChaLC+qD2SsZdrc/N2Xk9Sz228+OBNPATf39edjRSF1
-	4EjN00xjszRtgyzR7ou5cI/+wjezAUaElngOvVqu9NY2EyoYhHN647/CxLE3fBr6vHqR
-	B43whAgpg2a8vfb3mLMSFEIvgNyi86df8wRWLF3samwT522wbLn9kvIjEXqd/KdYQ/Ze
-	t9qsooamY9AouysuU8qhlsefml4oeStWqAwyvZ597ofeA5z3vp6utnbevSMxawCrTwjF
-	eNGs8q/1PUDIEhPq0dzJAsvf1q0yMkDYSaL4KRO0N3EcTWvWaWBezQI2Quot41JVUO6e
-	znCw==
-X-Gm-Message-State: AMCzsaXcyvNTIJdkenA0IcR0hgXKqkCy6LWsCHhjYuHYfKchHZafYUGz
-	P3zetiBXExNM4gk6OSDqq66Pau8+v++WHMHUpiQ=
-X-Google-Smtp-Source: ABhQp+Q7mSO6AcnBSknm6vDguIfGDYPkhwmoES78OWkr5XHGtgVRjPQSXKk2hYR747R3364/dpgEI0jYY9SapW4ZMUY=
-X-Received: by 10.98.148.9 with SMTP id m9mr1121281pfe.111.1509126085993; Fri,
-	27 Oct 2017 10:41:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Fri, 27 Oct 2017 10:40:55 -0700 (PDT)
-In-Reply-To: <c9e9b752-e023-2d2a-224a-111af9ab512b@linux.intel.com>
-References: <cover.1509097262.git.Qi.Chen@windriver.com>
-	<4a6127f002e0fa3552e1dbdec8b8d9f94265384a.1509097263.git.Qi.Chen@windriver.com>
-	<c9e9b752-e023-2d2a-224a-111af9ab512b@linux.intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=q18zq3yNCzMPtaI/lq1JHvKzAfEkGa51XjgiLJc4MFo=;
+	b=KdUoCAMlaw+qsdwO7hVTEHqs3ZWgIyyU0oosQBSIywhtDFACSBUoVQJlukEQ7CxnUZ
+	Vv4jlEPgZILuyosl9isVM1w8UJMYQKXnimCHDTcwUk8rYIbSqxwm+gGlmapa/XP7iwkz
+	kVmiYgtk6IINRTNT1LTJT1k6lxxdRxjjuaEJDUNhH7ClKnw/WT4qt2FPlvWB8ZDaA23G
+	qk6BSCpT9QqSpk3mLvxg3XQLH6f7Fawf1o6TG+L7vGj/Yzr/fyFKUR+Nqzm8yRHGkhOo
+	FKy9KEHhsx3YCUzbZzdjZ6dbwARUTxCgo42Lx+nn0ihvgkvbECx8HNLOG48d+JExJH4B
+	hzdQ==
+X-Gm-Message-State: AMCzsaVMiq2Oxmd7pAu1R7E1ADgNKvtE5vHgBCLxyryWweYE/mDS7eT1
+	ihgdpSbfhPFyxIV4P1eM142+ZA==
+X-Google-Smtp-Source: ABhQp+QtbA6t1hQ5HITWgZVsUF2tpNfu9CrYVtGoKu9rz3dYJQDxBteoMOkXqMJeH8CndRHM95b+eg==
+X-Received: by 10.101.77.144 with SMTP id p16mr1000819pgq.226.1509129037370;
+	Fri, 27 Oct 2017 11:30:37 -0700 (PDT)
+Received: from localhost.localdomain ([2601:646:8882:b8c::d2ab])
+	by smtp.gmail.com with ESMTPSA id
+	m78sm17104553pfj.164.2017.10.27.11.30.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 27 Oct 2017 11:30:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 27 Oct 2017 10:40:55 -0700
-Message-ID: <CAMKF1srySfU7g2y=UfdejFVjB1RG1GMZ9+pfdP-isUGZkbaOiw@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc: fix miscompilation on mips64
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Oct 2017 11:30:28 -0700
+Message-Id: <20171027183028.13536-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.14.3
+Subject: [PATCH V2] musl: Update to 1.1.17+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 17:41:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 27 Oct 2017 18:30:36 -0000
 
-On Fri, Oct 27, 2017 at 5:41 AM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 10/27/2017 12:43 PM, Chen Qi wrote:
->
->> +This patch comes from https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81803
->> +Upstream-Status: Pending [Taken from gcc bugzilla's attachment]
->
->
-> Then it should be 'Submitted', right?
->
+Rich Felker (9):
+      fix use of memset without declaration in sched.h cpu set macros
+      fix access by setjmp and longjmp to __hwcap on arm built as thumb2
+      for executing init array functions, use function type with prototype
+      fix read-after-free type error in pthread_detach
+      fix incorrect base name offset from nftw when pathname ends in slash(es)
+      in dns parsing callback, enforce MAXADDRS to preclude overflow
+      release 1.1.17
+      fix regression in glob with literal . or .. path component
+      fix build regression on ARM for ISA levels less than v5
 
-It has to be on gcc-patches ml for it to considered submitted
+Szabolcs Nagy (2):
+      powerpc{64}: fix MAP_NORESERVE and MAP_LOCKED in mman.h
+      math: rewrite fma with mostly int arithmetics
 
-> Alex
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Will Dietz (1):
+      posix_spawn: use larger stack to cover worst-case in execvpe
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+
+Changes in V2: Fix build for armv5
+
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index bd7573e0f3..becfbb5874 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -3,9 +3,9 @@
+ 
+ require musl.inc
+ 
+-SRCREV = "da438ee1fc516c41ba1790cef7be551a9e244397"
++SRCREV = "1b9406b03c0a94ebe2076a8fc1746a8c45e78a83"
+ 
+-PV = "1.1.16+git${SRCPV}"
++PV = "1.1.17+git${SRCPV}"
+ 
+ # mirror is at git://github.com/kraj/musl.git
+ 
+-- 
+2.14.3
+
 
