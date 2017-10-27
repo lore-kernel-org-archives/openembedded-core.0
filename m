@@ -1,41 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1001660720
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D862719B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 13:28:22 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id h4so8387469qtk.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 06:28:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=S0Qq9vg0lEdBMbOq410TUyl7if7opxqcwjTjkgSSbWU=;
-	b=fyzrIPyI+JYUZ/lujfxAWlS+d79aEtPRCRCXUQjhqcGnsrkIKrnW+nG188g/aezUhB
-	n8d4MGGTTOMYiF0E86yj6XEA+4iNgyMEAlONeU3uJWbKA8XmXZJUXSRp35+NNbqkKSPa
-	ScnkD++4S1rXt/bWEdZ+6tnu+Kwkh4GDCnJd6Ok564E0XGARbem3VFz3+MT2puy6t2B6
-	Ko7Pc3LXzcFDrpMuz1d58g8+TRgvMrsd251aA+sxso/ab8wCoCMeo4OHkeVhBiNnPOaG
-	PtmSJrwnr964iMIzH5j2O+59EGstUOirrrgBJnfKQW4VHo0seRhZpzYoCNuozLq4etIj
-	CPzQ==
-X-Gm-Message-State: AMCzsaWtO8AvNPCc9cywx7N6l7D+J9HBNllDv0ciWgqVh7Qoj12dXaEG
-	gNZtoYD8Xy5suoS9RKyokgep/A==
-X-Google-Smtp-Source: ABhQp+TdtSCHmw4ySzXBFd4pGYYzPWKd0mamRRIFfF4Jp1ddqie6GFyknSjxb1UWt+A/ukIdLyHe5A==
-X-Received: by 10.200.38.50 with SMTP id u47mr822905qtu.112.1509110903759;
-	Fri, 27 Oct 2017 06:28:23 -0700 (PDT)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id t5sm4997417qkl.10.2017.10.27.06.28.20
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 27 Oct 2017 06:28:22 -0700 (PDT)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Fri, 27 Oct 2017 11:28:15 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Oct 2017 11:28:14 -0200
-Message-Id: <20171027132814.27320-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.14.3
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] linux-firmware: Bump to bf04291 revision
+	Fri, 27 Oct 2017 14:49:46 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga104.jf.intel.com with ESMTP; 27 Oct 2017 07:49:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,304,1505804400"; 
+   d="scan'208";a="1444912"
+Received: from jlock-mobl3.ger.corp.intel.com ([10.252.30.218])
+	by orsmga001.jf.intel.com with ESMTP; 27 Oct 2017 07:49:47 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Oct 2017 15:49:41 +0100
+Message-Id: <20171027144941.4334-1-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH][morty] ruby: fix build of ruby-native with gcc7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,54 +28,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 13:28:23 -0000
+X-List-Received-Date: Fri, 27 Oct 2017 14:49:47 -0000
 
-This includes following changes:
+Marsalling is broken when ruby-2.2.x is built with gcc7, backport the change
+fix  in Ruby SVN r57410 to apply to ruby 2.2.5:
 
-bf04291 WHENCE: Add new qed firmware
-d8fc990 WHENCE: Add new radeon firmware
-7245319 WHENCE: Fix syntax error for iwlwifi-8265-31.ucode entry
-18d71a8 Revert "ath10k: QCA988X hw2.0: update firmware to 10.2.4.70.63-2"
-4ebfab3 ath10k: QCA6174 hw3.0: update board-2.bin
-96a7402 ath10k: QCA6174 hw3.0: update firmware-6.bin to WLAN.RM.4.4.1-00051-QCARMSWP-1
-59bf7e2 cxgb4: update firmware to revision 1.16.63.0
+https://svn.ruby-lang.org/cgi-bin/viewvc.cgi?view=revision&revision=57410
 
-The MD5 checksum of WHENCE license file was due the changes above as
-the firmware versions are listed there. It had no license term
-changes.
+Fixes [YOCTO #12271]
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
 ---
+ meta/recipes-devtools/ruby/ruby/prevent-gc.patch | 32 ++++++++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_2.2.5.bb         |  2 ++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/prevent-gc.patch
 
-Changes in v2:
-- add a note about checksum change of WHENCE file.
-
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 0338ba8ac2..3ea1d883b1 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -116,7 +116,7 @@ LIC_FILES_CHKSUM = "\
-     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--    file://WHENCE;md5=08f6d4371353cac5f6fc271d5407c63e \
-+    file://WHENCE;md5=038edbc9e744171d8b6235e0224028ba \
- "
+diff --git a/meta/recipes-devtools/ruby/ruby/prevent-gc.patch b/meta/recipes-devtools/ruby/ruby/prevent-gc.patch
+new file mode 100644
+index 00000000000..2eaa955fba2
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/prevent-gc.patch
+@@ -0,0 +1,32 @@
++Fix marshaling with gcc7. Based on upstream revision 57410:
++https://svn.ruby-lang.org/cgi-bin/viewvc.cgi?view=revision&revision=57410
++https://github.com/ruby/ruby/commit/7c1b30a602ab109d8d5388d7dfb3c5b180ba24e1
++https://bugs.ruby-lang.org/issues/13150
++
++with the upstream patches intent ported to Ruby 2.2.5
++
++Upstream-Status: Backport
++
++Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
++
++Index: ruby-2.2.5/marshal.c
++===================================================================
++--- ruby-2.2.5.orig/marshal.c
+++++ ruby-2.2.5/marshal.c
++@@ -17,7 +17,6 @@
++ #include "ruby/io.h"
++ #include "ruby/st.h"
++ #include "ruby/util.h"
++-
++ #include <math.h>
++ #ifdef HAVE_FLOAT_H
++ #include <float.h>
++@@ -985,7 +984,7 @@ marshal_dump(int argc, VALUE *argv)
++     VALUE obj, port, a1, a2;
++     int limit = -1;
++     struct dump_arg *arg;
++-    VALUE wrapper; /* used to avoid memory leak in case of exception */
+++    volatile VALUE wrapper; /* used to avoid memory leak in case of exception */
++ 
++     port = Qnil;
++     rb_scan_args(argc, argv, "12", &obj, &a1, &a2);
+diff --git a/meta/recipes-devtools/ruby/ruby_2.2.5.bb b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
+index 5a645821ba0..66ba1d4b844 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.2.5.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
+@@ -3,6 +3,8 @@ require ruby.inc
+ SRC_URI[md5sum] = "bd8e349d4fb2c75d90817649674f94be"
+ SRC_URI[sha256sum] = "30c4b31697a4ca4ea0c8db8ad30cf45e6690a0f09687e5d483c933c03ca335e3"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -178,7 +178,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
- NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
- NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
- 
--SRCREV = "a61ac5cf8374edbfe692d12f805a1b194f7fead2"
-+SRCREV = "bf04291309d3169c0ad3b8db52564235bbd08e30"
- PE = "1"
- PV = "0.0+git${SRCPV}"
- 
++SRC_URI += "file://prevent-gc.patch"
++
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
+ # 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
 -- 
-2.14.3
+2.13.6
 
 
