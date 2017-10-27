@@ -1,35 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A6516E666
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EB877827F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 09:13:17 +0000 (UTC)
+	Fri, 27 Oct 2017 09:31:25 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Oct 2017 02:13:18 -0700
+	by orsmga105.jf.intel.com with ESMTP; 27 Oct 2017 02:31:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,304,1505804400"; d="scan'208";a="168323511"
+X-IronPort-AV: E=Sophos;i="5.44,304,1505804400"; d="scan'208";a="168328777"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 27 Oct 2017 02:13:17 -0700
-To: "Slater, Joseph" <joe.slater@windriver.com>,
-	Andre McCurdy <armccurdy@gmail.com>
-References: <20171024232359.63328-1-jslater@windriver.com>
-	<CAJ86T=V_Miu6Ui_zBOWzKRtPTbv6HE_O3B_Y5swmzRap2JgaAw@mail.gmail.com>
-	<52a0c834-6e5f-3bbc-7e99-206607dab4a4@linux.intel.com>
-	<CAJ86T=UV_XVjq6SEvc_9-46b1W+N_v6aBjvJOEorov5NYpTLcQ@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84CF437C9D@ALA-MBC.corp.ad.wrs.com>
-	<007BD92917A2324FA403BCF9A464CF84CF43876F@ALA-MBC.corp.ad.wrs.com>
-	<CAJ86T=XbzgBuJgs4s=8MphbTM4OLU5JqBA_pL7ABCkM49u80vA@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84CF438A56@ALA-MBC.corp.ad.wrs.com>
+	by fmsmga006.fm.intel.com with ESMTP; 27 Oct 2017 02:31:26 -0700
+To: Fan Xin <fan.xin@jp.fujitsu.com>, openembedded-core@lists.openembedded.org
+References: <1509069613-5005-1-git-send-email-fan.xin@jp.fujitsu.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <96497d52-63c7-aac7-6645-e983e2e1e0cc@linux.intel.com>
-Date: Fri, 27 Oct 2017 12:13:20 +0300
+Message-ID: <55404668-8486-9529-34d1-96fdfd4fba16@linux.intel.com>
+Date: Fri, 27 Oct 2017 12:31:28 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84CF438A56@ALA-MBC.corp.ad.wrs.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] qemumips64: no qemu-usermode for n32
+In-Reply-To: <1509069613-5005-1-git-send-email-fan.xin@jp.fujitsu.com>
+Subject: Re: [PATCH] curl: update to 7.56.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,18 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 09:13:18 -0000
+X-List-Received-Date: Fri, 27 Oct 2017 09:31:26 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 10/26/2017 11:51 PM, Slater, Joseph wrote:
-> I think values for the BACKFILL_CONSIDERED can be used, but only if they are literals.  I don't think any variable expansion occurs when getVar() is used at the point of backfilling.  I think the a better way of setting MACHINE or DISTRO_FEATURES would be to directly append/remove  using overrides.  In any case, I do not believe any of the CONSIDERED definitions work.
+On 10/27/2017 05:00 AM, Fan Xin wrote:
+> 3. Delete the do_install_append() due to the curl/curlbuild.h have been removed.
+> -do_install_append() {
+> -	oe_multilib_header curl/curlbuild.h
+> -}
+> -
 
-We use the same-style disabling of qemu-usermode in other machine 
-definitions (powerpc64, x86 x32), and they do seem to work there. 
-Something's not right here.
+In this case you should investigate further, and summarize your findings 
+in the commit message. Why did the upstream remove the header? Did they 
+replace it with something else? Most importantly, does the replacement 
+need processing or patching too?
 
+The answers are all here:
+https://github.com/curl/curl/commit/73a2fcea0b4adea6ba342cd7ed1149782c214ae3
 
 Alex
 
