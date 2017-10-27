@@ -1,26 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CC8378287
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BA6F878287
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 09:42:48 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9R9gotX030226
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Oct 2017 02:42:50 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 27 Oct 2017 02:42:49 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Oct 2017 17:43:51 +0800
-Message-ID: <4a6127f002e0fa3552e1dbdec8b8d9f94265384a.1509097263.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1509097262.git.Qi.Chen@windriver.com>
-References: <cover.1509097262.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] gcc: fix miscompilation on mips64
+	Fri, 27 Oct 2017 10:07:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Oct 2017 03:07:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,304,1505804400"; d="scan'208";a="1236012565"
+Received: from marquiz2.fi.intel.com ([10.237.72.79])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Oct 2017 03:07:54 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Oct 2017 13:07:43 +0300
+Message-Id: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH v5 00/10] support profile-optimized build for Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +28,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Oct 2017 09:42:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Oct 2017 10:07:53 -0000
 
-We've observed strange behaviour of `systemctl status <xxx> on qemumips64.
-The output of the command is like `systemctl show <xxx>', which is incorrect.
+Fifth iteration of my patchset for enabling profile-guided-optimization for
+Python3.
 
-This patch is from gcc bugzilla's attachment.
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81803
+Changes since v4:
+- Rebased on latest oe-core
+- Usage of EXCLUDE_FROM_SHLIBS in python3-profile-opt is dropped, in favor of
+  renaming of libpython3 in python3-profile-opt (re-introduced as this was
+  dropped in v3). Need this so that the shlib dependencies are correctly tracked,
+  and at the same time, soname clashes between libpython3 and
+  libpython3-profile-opt are prevented.
+- Patch bitbake.conf to include ip and scp in HOSTTOOLS. These are required to
+  run the profile task on device.
 
-The patch hasn't been merged into gcc. But it does solve the above problem.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
- .../fix-miscompilation-for-O1-on-mips64el.patch    | 35 ++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/fix-miscompilation-for-O1-on-mips64el.patch
+The following changes since commit 3b413a80578caacd9a7f405f3c51a3921d78a60d:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-index 5883bc6..04edad7 100644
---- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-@@ -75,6 +75,7 @@ SRC_URI = "\
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-            file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
-+           file://fix-miscompilation-for-O1-on-mips64el.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2/fix-miscompilation-for-O1-on-mips64el.patch b/meta/recipes-devtools/gcc/gcc-7.2/fix-miscompilation-for-O1-on-mips64el.patch
-new file mode 100644
-index 0000000..28020b0
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.2/fix-miscompilation-for-O1-on-mips64el.patch
-@@ -0,0 +1,35 @@
-+This patch comes from https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81803
-+
-+Author: mpf <mpf@138bc75d-0d04-0410-961f-82ee72b054a4>
-+
-+This patch hasn't been merged into gcc. But it does solve the problem of
-+strange behaviour of `systemd status <xxx>' on qemumips64.
-+
-+Upstream-Status: Pending [Taken from gcc bugzilla's attachment]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ gcc/lra-constraints.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/gcc/lra-constraints.c b/gcc/lra-constraints.c
-+index c8bc9b9a66f..6d319662b09 100644
-+--- a/gcc/lra-constraints.c
-++++ b/gcc/lra-constraints.c
-+@@ -4235,7 +4235,12 @@ curr_insn_transform (bool check_only_p)
-+ 			  && (goal_alt[i] == NO_REGS
-+ 			      || (simplify_subreg_regno
-+ 				  (ira_class_hard_regs[goal_alt[i]][0],
-+-				   GET_MODE (reg), byte, mode) >= 0)))))
-++				   GET_MODE (reg), byte, mode) >= 0))))
-++		      || (type != OP_IN
-++			  && GET_MODE_PRECISION (mode)
-++			  < GET_MODE_PRECISION (GET_MODE (reg))
-++			  && GET_MODE_SIZE (GET_MODE (reg)) <= UNITS_PER_WORD
-++			  && WORD_REGISTER_OPERATIONS))
-+ 		{
-+ 		  /* An OP_INOUT is required when reloading a subreg of a
-+ 		     mode wider than a word to ensure that data beyond the
-+-- 
-+2.13.0
-+
+  README.qemu: qemuppc64 is not supported (2017-10-16 23:54:27 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-9338
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-9338
+
+Markus Lehtonen (10):
+  python3-native: support profile optimized build
+  python3: fix depends of python3-tests
+  python3: add python3-profile-opt recipe
+  python3-profile-opt: rename libpython3
+  bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
+  devtools/images: add python-pgo-image
+  python3: support profile optimized build
+  python3: fix profile-optimized build of modules
+  python3: add python3-tools subpackage
+  python3: remove two setup.py cross-compile hacks
+
+ meta/conf/bitbake.conf                             |   6 +-
+ meta/recipes-devtools/images/python-pgo-image.bb   |  92 ++++++++++++++++++
+ .../python/python-3.5-manifest.inc                 |  10 +-
+ .../python/python3-native_3.5.3.bb                 |   9 ++
+ meta/recipes-devtools/python/python3-profile-opt   |   1 +
+ .../python/python3-profile-opt_3.5.3.bb            |  10 ++
+ .../python3/0001-cross-compile-support.patch       |   9 --
+ ...efile-add-install_generate_profile-target.patch |  25 +++++
+ ...-CFLAGS-for-extensions-when-cross-compili.patch |  56 +++++++++++
+ .../python3-setup.py-no-host-headers-libs.patch    |  33 -------
+ ...name-libpython3-to-libpython-profile-opt3.patch | 108 +++++++++++++++++++++
+ .../setup.py-find-libraries-in-staging-dirs.patch  |  30 ------
+ meta/recipes-devtools/python/python3_3.5.3.bb      |  58 ++++++++---
+ 13 files changed, 352 insertions(+), 95 deletions(-)
+ create mode 100644 meta/recipes-devtools/images/python-pgo-image.bb
+ create mode 120000 meta/recipes-devtools/python/python3-profile-opt
+ create mode 100644 meta/recipes-devtools/python/python3-profile-opt_3.5.3.bb
+ create mode 100644 meta/recipes-devtools/python/python3/Makefile-add-install_generate_profile-target.patch
+ create mode 100644 meta/recipes-devtools/python/python3/Use-correct-CFLAGS-for-extensions-when-cross-compili.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-setup.py-no-host-headers-libs.patch
+ create mode 100644 meta/recipes-devtools/python/python3/rename-libpython3-to-libpython-profile-opt3.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+
 -- 
-1.9.1
+2.13.6
 
 
