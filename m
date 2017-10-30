@@ -1,23 +1,21 @@
-Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id AEA1E71B40
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 13B466093B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 21:58:10 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 30 Oct 2017 14:58:11 -0700
+	Mon, 30 Oct 2017 22:49:55 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga105.jf.intel.com with ESMTP; 30 Oct 2017 15:49:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,321,1505804400"; d="scan'208";a="144025058"
-Received: from arbrindl-dev.jf.intel.com ([10.7.197.61])
-	by orsmga004.jf.intel.com with ESMTP; 30 Oct 2017 14:57:58 -0700
-From: Amanda Brindle <amanda.r.brindle@intel.com>
+X-IronPort-AV: E=Sophos;i="5.44,321,1505804400"; d="scan'208";a="169742790"
+Received: from wsclemen-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.255.139.19])
+	by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2017 15:49:53 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Oct 2017 14:57:04 -0700
-Message-Id: <57ca9a160975cb564d534c0672a62354d19866ef.1509400153.git.amanda.r.brindle@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1509400153.git.amanda.r.brindle@intel.com>
-References: <cover.1509400153.git.amanda.r.brindle@intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 1/1] scripts/contrib/bbvars.py: Rewrite to use tinfoil
+Date: Tue, 31 Oct 2017 11:49:15 +1300
+Message-Id: <20171030224915.32638-1-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.5
+Subject: [PATCH] python-*: use https for pypi URLs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,159 +28,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 21:58:10 -0000
+X-List-Received-Date: Mon, 30 Oct 2017 22:49:56 -0000
 
-Use tinfoil to collect all variable names globally and in each recipe.
+Several of the recipes here were using http URLs for source hosted on
+pypi - pypi apparently no longer supports http so switch to https
+instead.
 
-No longer show the count of variables if they are undocumented.
+Fixes [YOCTO #12286].
 
-Fixes [YOCTO #2086]
-
-Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/contrib/bbvars.py | 90 ++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 66 insertions(+), 24 deletions(-)
+ recipes-devtools/python/python-gevent_1.0.1.bb    | 2 +-
+ recipes-devtools/python/python-m2crypto_0.22.3.bb | 2 +-
+ recipes-devtools/python/python-sphinx_1.4.1.bb    | 2 +-
+ recipes-devtools/python/python-webob_1.6.0.bb     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
-index d8d0594..556f652 100755
---- a/scripts/contrib/bbvars.py
-+++ b/scripts/contrib/bbvars.py
-@@ -23,6 +23,14 @@ import os
- import os.path
- import re
+diff --git a/recipes-devtools/python/python-gevent_1.0.1.bb b/recipes-devtools/python/python-gevent_1.0.1.bb
+index 47f1267..8ac1295 100644
+--- a/recipes-devtools/python/python-gevent_1.0.1.bb
++++ b/recipes-devtools/python/python-gevent_1.0.1.bb
+@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "python-greenlet python-mime python-pprint python-re"
  
-+# Set up sys.path to let us import tinfoil
-+scripts_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-+lib_path = scripts_path + '/lib'
-+sys.path.insert(0, lib_path)
-+import scriptpath
-+scriptpath.add_bitbake_lib_path()
-+import bb.tinfoil
-+
- def usage():
-     print('Usage: %s -d FILENAME [-d FILENAME]* -m METADIR [-m MATADIR]*' % os.path.basename(sys.argv[0]))
-     print('  -d FILENAME         documentation file to search')
-@@ -66,19 +74,23 @@ def collect_bbvars(metadir):
-                         bbvars[key] = 1
-     return bbvars
+ SRCNAME = "gevent"
  
--def bbvar_is_documented(var, docfiles):
--    prog = re.compile(".*($|[^A-Z_])%s([^A-Z_]|$)" % (var))
--    for doc in docfiles:
--        try:
--            f = open(doc)
--        except IOError as err:
--            print('WARNING: Failed to open doc ', doc)
--            print(err.args[1])
--        for line in f:
--            if prog.match(line):
--                return True
--        f.close()
--    return False
-+def bbvar_is_documented(var, documented_vars):
-+    ''' Check if variable (var) is in the list of documented variables(documented_vars) '''
-+    if var in documented_vars:
-+        return True
-+    else:
-+        return False
-+
-+def collect_documented_vars(docfiles):
-+    ''' Walk the docfiles and collect the documented variables '''
-+    documented_vars = []
-+    prog = re.compile(".*($|[^A-Z_])<glossentry id=\'var-")
-+    var_prog = re.compile('<glossentry id=\'var-(.*)\'>')
-+    for d in docfiles:
-+        with open(d) as f:
-+            documented_vars += var_prog.findall(f.read())
-+
-+    return documented_vars
+-SRC_URI = "http://pypi.python.org/packages/source/g/gevent/${SRCNAME}-${PV}.tar.gz"
++SRC_URI = "https://pypi.python.org/packages/source/g/gevent/${SRCNAME}-${PV}.tar.gz"
+ SRC_URI[md5sum] = "7b952591d1a0174d6eb6ac47bd975ab6"
+ SRC_URI[sha256sum] = "4627e215d058f71d95e6b26d9e7be4c263788a4756bd2858a93775f6c072df43"
  
- def bbvar_doctag(var, docconf):
-     prog = re.compile('^%s\[doc\] *= *"(.*)"' % (var))
-@@ -101,7 +113,7 @@ def bbvar_doctag(var, docconf):
- def main():
-     docfiles = []
-     metadirs = []
--    bbvars = {}
-+    bbvars = set()
-     undocumented = []
-     docconf = ""
-     onlydoctags = False
-@@ -153,33 +165,63 @@ def main():
-         usage()
-         sys.exit(7)
+diff --git a/recipes-devtools/python/python-m2crypto_0.22.3.bb b/recipes-devtools/python/python-m2crypto_0.22.3.bb
+index 95d6eec..9814d3d 100644
+--- a/recipes-devtools/python/python-m2crypto_0.22.3.bb
++++ b/recipes-devtools/python/python-m2crypto_0.22.3.bb
+@@ -14,7 +14,7 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;md5=0ccca7097c1d29fa42e75e9c15c6ff2e"
  
--    # Collect all the variable names from the recipes in the metadirs
--    for m in metadirs:
--        for key,cnt in collect_bbvars(m).items():
--            if key in bbvars:
--                bbvars[key] = bbvars[key] + cnt
-+    prog = re.compile("^[^a-z]*$")
-+    with bb.tinfoil.Tinfoil() as tinfoil:
-+        tinfoil.prepare(config_only=False)
-+        parser = bb.codeparser.PythonParser('parser', None)
-+        datastore = tinfoil.config_data
-+
-+        def bbvars_update(data):
-+            if prog.match(data):
-+                bbvars.add(data)
-+            if tinfoil.config_data.getVarFlag(data, 'python'):
-+                try:
-+                    parser.parse_python(tinfoil.config_data.getVar(data))
-+                except bb.data_smart.ExpansionError:
-+                    pass
-+                for var in parser.references:
-+                    if prog.match(var):
-+                        bbvars.add(var)
-             else:
--                bbvars[key] = cnt
-+                try:
-+                    expandedVar = datastore.expandWithRefs(datastore.getVar(data, False), data)
-+                    for var in expandedVar.references:
-+                        if prog.match(var):
-+                            bbvars.add(var)
-+                except bb.data_smart.ExpansionError:
-+                    pass
-+
-+        # Use tinfoil to collect all the variable names globally
-+        for data in datastore:
-+            bbvars_update(data)
-+
-+        # Collect variables from all recipes
-+        for recipe in tinfoil.all_recipe_files():
-+            print("Checking %s" % recipe)
-+            for data in tinfoil.parse_recipe_file(recipe):
-+                bbvars_update(data)
-+
-+    documented_vars = collect_documented_vars(docfiles)
+ SRCNAME = "M2Crypto"
+-SRC_URI = "http://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
++SRC_URI = "https://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
+            file://m2crypto-Fix-build-with-SWIG-3.0.5.patch \
+ "
  
-     # Check each var for documentation
-     varlen = 0
--    for v in bbvars.keys():
-+    for v in bbvars:
-         if len(v) > varlen:
-             varlen = len(v)
--        if not bbvar_is_documented(v, docfiles):
-+        if not bbvar_is_documented(v, documented_vars):
-             undocumented.append(v)
-     undocumented.sort()
-     varlen = varlen + 1
+diff --git a/recipes-devtools/python/python-sphinx_1.4.1.bb b/recipes-devtools/python/python-sphinx_1.4.1.bb
+index 835b369..b4ae86b 100644
+--- a/recipes-devtools/python/python-sphinx_1.4.1.bb
++++ b/recipes-devtools/python/python-sphinx_1.4.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=72f034adc6f7b05b09bc00d1a05bb065"
+ PR = "r0"
+ SRCNAME = "Sphinx"
  
-     # Report all undocumented variables
-     print('Found %d undocumented bb variables (out of %d):' % (len(undocumented), len(bbvars)))
--    header = '%s%s%s' % (str("VARIABLE").ljust(varlen), str("COUNT").ljust(6), str("DOCTAG").ljust(7))
-+    header = '%s%s' % (str("VARIABLE").ljust(varlen), str("DOCTAG").ljust(7))
-     print(header)
-     print(str("").ljust(len(header), '='))
-     for v in undocumented:
-         doctag = bbvar_doctag(v, docconf)
-         if not onlydoctags or not doctag == "":
--            print('%s%s%s' % (v.ljust(varlen), str(bbvars[v]).ljust(6), doctag))
-+            print('%s%s' % (v.ljust(varlen), doctag))
+-SRC_URI = "http://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++SRC_URI = "https://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
+ SRC_URI[md5sum] = "4c4988e0306a04cef8dccc384281e585"
+ SRC_URI[sha256sum] = "c6871a784d24aba9270b6b28541537a57e2fcf4d7c799410eba18236bc76d6bc"
+diff --git a/recipes-devtools/python/python-webob_1.6.0.bb b/recipes-devtools/python/python-webob_1.6.0.bb
+index 71c74ff..93f2acf 100644
+--- a/recipes-devtools/python/python-webob_1.6.0.bb
++++ b/recipes-devtools/python/python-webob_1.6.0.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://docs/license.txt;md5=8ed3584bcc78c16da363747ccabc5af5
+ PR = "r0"
+ SRCNAME = "WebOb"
  
- if __name__ == "__main__":
+-SRC_URI = "http://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++SRC_URI = "https://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ 
+ SRC_URI[md5sum] = "089d7fc6745f175737800237c7287802"
+ SRC_URI[sha256sum] = "63d262d8f61b516321f786879c9277fa2209f7f57eb47b537eeecfea383d55b7"
 -- 
-2.7.4
+2.9.5
 
 
