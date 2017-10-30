@@ -1,31 +1,22 @@
-Return-Path: <Konrad.Scherer@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DDB9719B8
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D677171C7A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 13:55:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9UDu0Xb007548
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 30 Oct 2017 06:56:00 -0700 (PDT)
-Received: from [128.224.20.234] (128.224.20.234) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Mon, 30 Oct 2017 06:55:59 -0700
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>, ChenQi
-	<Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-	<8d1c4aacc60173f9db4809d23303d4825cc0090d.1509094533.git.markus.lehtonen@linux.intel.com>
-	<9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
-	<0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
-From: Konrad Scherer <Konrad.Scherer@windriver.com>
-Message-ID: <8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
-Date: Mon, 30 Oct 2017 09:55:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
-X-Originating-IP: [128.224.20.234]
-Subject: Re: [PATCH v5 05/10] bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
+	Mon, 30 Oct 2017 14:21:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Oct 2017 07:21:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,320,1505804400"; 
+   d="scan'208";a="1492018"
+Received: from jlock-mobl3.ger.corp.intel.com ([10.252.2.179])
+	by orsmga001.jf.intel.com with ESMTP; 30 Oct 2017 07:21:44 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Oct 2017 14:21:40 +0000
+Message-Id: <20171030142140.10658-1-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH v2][morty] ruby: fix build of ruby-native with gcc7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,34 +29,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 13:56:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Oct 2017 14:21:51 -0000
 
-On 10/30/2017 06:51 AM, Markus Lehtonen wrote:
-> Hi,
-> 
-> What that tries state is that the image uses facilities written for
-> runtimetest (i.e. oeqa.targetcontrol) to run binaries on the target
-> machine. The new image introduced (i.e. python-pgo-image) uses this
-> to run the profiling task on device.
+Marshalling is broken when ruby-2.2.x is built with gcc7, backport the
+fix in Ruby SVN r57410 to apply to ruby 2.2.5:
 
-I ran into something very similar. When using 'TEST_IMAGE = 1' (which
-uses testimage-auto), the conditional in bitbake.conf doesn't work and 
-ip and ping are not available in tmp/hosttools.
+https://svn.ruby-lang.org/cgi-bin/viewvc.cgi?view=revision&revision=57410
 
-When using just 'INHERIT += "testimage"' the conditional works but the 
-tests are not run automatically.
+Fixes [YOCTO #12271]
 
-If I use both 'TEST_IMAGE = 1' and 'INHERIT += "testimage"' together,
-the hosttools are found and the tests are run successfully.
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
 
-This is unexpected because classes/testimage-auto.bbclass does contain
-'inherit testimage'.
+v2: fixes typo in commit message
 
-What config options are you putting in local.conf to trigger the tests?
+ meta/recipes-devtools/ruby/ruby/prevent-gc.patch | 32 ++++++++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby_2.2.5.bb         |  2 ++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/prevent-gc.patch
 
+diff --git a/meta/recipes-devtools/ruby/ruby/prevent-gc.patch b/meta/recipes-devtools/ruby/ruby/prevent-gc.patch
+new file mode 100644
+index 00000000000..729710f2df1
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/prevent-gc.patch
+@@ -0,0 +1,32 @@
++Fix marshalling with gcc7. Based on upstream revision 57410:
++https://svn.ruby-lang.org/cgi-bin/viewvc.cgi?view=revision&revision=57410
++https://github.com/ruby/ruby/commit/7c1b30a602ab109d8d5388d7dfb3c5b180ba24e1
++https://bugs.ruby-lang.org/issues/13150
++
++with the upstream patches intent ported to Ruby 2.2.5
++
++Upstream-Status: Backport
++
++Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
++
++Index: ruby-2.2.5/marshal.c
++===================================================================
++--- ruby-2.2.5.orig/marshal.c
+++++ ruby-2.2.5/marshal.c
++@@ -17,7 +17,6 @@
++ #include "ruby/io.h"
++ #include "ruby/st.h"
++ #include "ruby/util.h"
++-
++ #include <math.h>
++ #ifdef HAVE_FLOAT_H
++ #include <float.h>
++@@ -985,7 +984,7 @@ marshal_dump(int argc, VALUE *argv)
++     VALUE obj, port, a1, a2;
++     int limit = -1;
++     struct dump_arg *arg;
++-    VALUE wrapper; /* used to avoid memory leak in case of exception */
+++    volatile VALUE wrapper; /* used to avoid memory leak in case of exception */
++ 
++     port = Qnil;
++     rb_scan_args(argc, argv, "12", &obj, &a1, &a2);
+diff --git a/meta/recipes-devtools/ruby/ruby_2.2.5.bb b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
+index 5a645821ba0..66ba1d4b844 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.2.5.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
+@@ -3,6 +3,8 @@ require ruby.inc
+ SRC_URI[md5sum] = "bd8e349d4fb2c75d90817649674f94be"
+ SRC_URI[sha256sum] = "30c4b31697a4ca4ea0c8db8ad30cf45e6690a0f09687e5d483c933c03ca335e3"
+ 
++SRC_URI += "file://prevent-gc.patch"
++
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
+ # 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
 -- 
-Konrad Scherer, MTS, Linux Products Group, Wind River
+2.13.6
+
 
