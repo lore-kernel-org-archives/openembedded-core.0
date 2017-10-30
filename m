@@ -1,30 +1,27 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3726760291
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 347726FFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 08:52:36 +0000 (UTC)
+	Mon, 30 Oct 2017 09:02:44 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2017 01:52:38 -0700
+	by orsmga105.jf.intel.com with ESMTP; 30 Oct 2017 02:02:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,319,1505804400"; d="scan'208";a="169431359"
+X-IronPort-AV: E=Sophos;i="5.44,319,1505804400"; d="scan'208";a="169435066"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2017 01:52:36 -0700
-To: akuster808 <akuster808@gmail.com>, Philip Balister <philip@balister.org>, 
-	Fan Xin <fan.xin@jp.fujitsu.com>, openembedded-core@lists.openembedded.org,
-	Michael Halstead <michael@yoctoproject.org>
-References: <1509069613-5005-1-git-send-email-fan.xin@jp.fujitsu.com>
-	<59d43cd3-d34e-ac77-5016-34d1dd3f35f5@balister.org>
-	<c4abcba1-5cee-7437-bae3-daf0500e7e1e@gmail.com>
+	by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2017 02:02:44 -0700
+To: Dengke Du <dengke.du@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <63a935be-505f-c2e9-8ccf-ea5079123098@windriver.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <b2c6368d-420d-aa51-b824-36637cfbbd1e@linux.intel.com>
-Date: Mon, 30 Oct 2017 10:52:42 +0200
+Message-ID: <73eff1cd-110d-78bb-f1da-3c670c4082b7@linux.intel.com>
+Date: Mon, 30 Oct 2017 11:02:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.3.0
 MIME-Version: 1.0
-In-Reply-To: <c4abcba1-5cee-7437-bae3-daf0500e7e1e@gmail.com>
-Subject: Re: [PATCH] curl: update to 7.56.1
+In-Reply-To: <63a935be-505f-c2e9-8ccf-ea5079123098@windriver.com>
+Subject: Re: avahi 0.7 : should we need to package /run directory or delete it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +34,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 08:52:37 -0000
+X-List-Received-Date: Mon, 30 Oct 2017 09:02:45 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 10/29/2017 05:28 PM, akuster808 wrote:
->>> 2. Delete the following patchs which have been applied in curl 7.56.1
->>> 	CVE-2017-1000099.patch
->>> 	CVE-2017-1000100.patch
->>> 	CVE-2017-1000101.patch
->>> 3. Delete the do_install_append() due to the curl/curlbuild.h have been removed.
->> Can you also update the commit message to show the CVE entries in a
->> standard format? We are trying to collect commits that resolve CVE's on
->> the yocto-security list.
->>
->> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Example:_CVE_patch_header
-> How does that work on patches that go removed?
-> 
->> For this mentioning the CVE without the .patch might help. cc'ing
->> Michael in case he his suggesting to help the hook.
-> What is the point of indicating CVE's being removed?
+On 10/30/2017 09:21 AM, Dengke Du wrote:
 
-Indeed; I actually misunderstood the above request, and thought it's for 
-newly fixed CVEs. But referencing CVEs that were already fixed before 
-the commit, and remain fixed after the commit serves no purpose.
+> The new version of avahi 0.7 use /run directory to place some run-time 
+> variable data,
+> 
+> not /var/run, should we need to package it or delete it?
+
+Can you provide details please? What is being placed there and at which 
+point?
 
 Alex
 
