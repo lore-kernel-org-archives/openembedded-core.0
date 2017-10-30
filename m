@@ -1,30 +1,28 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 98FED71D79
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AF71F71A8E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 09:48:26 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2017 02:48:27 -0700
+	Mon, 30 Oct 2017 10:51:11 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 30 Oct 2017 03:51:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,319,1505804400"; d="scan'208";a="169448775"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2017 02:48:26 -0700
-To: Dengke Du <dengke.du@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <63a935be-505f-c2e9-8ccf-ea5079123098@windriver.com>
-	<73eff1cd-110d-78bb-f1da-3c670c4082b7@linux.intel.com>
-	<605ca23e-8fc8-1b36-1e52-d3489d07d1a1@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <e992f702-05a4-c745-be37-9514529dc93f@linux.intel.com>
-Date: Mon, 30 Oct 2017 11:48:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <605ca23e-8fc8-1b36-1e52-d3489d07d1a1@windriver.com>
-Subject: Re: avahi 0.7 : should we need to package /run directory or delete it?
+X-IronPort-AV: E=Sophos;i="5.44,319,1505804400"; d="scan'208";a="143823072"
+Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.46])
+	([10.237.66.46])
+	by orsmga004.jf.intel.com with ESMTP; 30 Oct 2017 03:51:10 -0700
+User-Agent: Microsoft-MacOutlook/f.27.0.171010
+Date: Mon, 30 Oct 2017 12:51:12 +0200
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+Message-ID: <0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v5 05/10] bitbake.conf: add ip and scp to
+	HOSTTOOLS unconditionally
+References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+	<8d1c4aacc60173f9db4809d23303d4825cc0090d.1509094533.git.markus.lehtonen@linux.intel.com>
+	<9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
+In-Reply-To: <9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
+Mime-version: 1.0
+Subject: Re: [PATCH v5 05/10] bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 09:48:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Oct 2017 10:51:11 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
-On 10/30/2017 11:39 AM, Dengke Du wrote:
-> Sorry, nothing placed in /run in 0.7 version now, but it replace the 
-> directory /var/run,
-> 
-> there are some difference between /run and /var/run, we can reference:
-> 
-> https://lists.archlinux.org/pipermail/arch-projects/2011-March/000517.html
-> 
-> I just doubt can we remove /run directly like we remove /var/run in 
-> 0.6.32 version
+Hi,
 
-Why do you doubt that? Check if /run is provided by some base package (I 
-honestly don't remember), and if it is, you can simply delete it in 
-avahi recipe do_install().
+What that tries state is that the image uses facilities written for runtimetest (i.e. oeqa.targetcontrol) to run binaries on the target machine. The new image introduced (i.e. python-pgo-image) uses this to run the profiling task on device.
 
-Also, don't forget to fix:
-USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-etc.
+Thanks,
+  Markus
 
-What I am getting at is that if you are uncertain about your updates, 
-don't just send off the patch to the list. Make an image, boot it, and 
-verify that avahi is running, and all the directories look sane.
 
-Alex
+On 30/10/2017, 3.29, "ChenQi" <Qi.Chen@windriver.com> wrote:
+
+    On 10/27/2017 06:07 PM, Markus Lehtonen wrote:
+    > Needed to be able to run images using the runtime test facilities.
+    
+    Hi Markus,
+    
+    What do you mean by 'run images using runtime test facilities'?
+    testimage? ptest?
+    'scp' and 'ip' are added to HOSTTOOLS if 'testimage' is inherited.
+    What's the use case that still needs 'scp' and 'ip' unconditionally?
+    
+    In addition, if we add these two utilities to HOSTTOOLS unconditionally.
+    Please cc to doc people to also change the QuickStart.
+    
+    Regards,
+    Chen Qi
+    
+    > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+    > ---
+    >   meta/conf/bitbake.conf | 6 +++---
+    >   1 file changed, 3 insertions(+), 3 deletions(-)
+    >
+    > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+    > index 9696273acc..9075d03998 100644
+    > --- a/meta/conf/bitbake.conf
+    > +++ b/meta/conf/bitbake.conf
+    > @@ -476,15 +476,15 @@ HOSTTOOLS += " \
+    >       [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp cp cpio \
+    >       cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
+    >       fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+    > -    head hostname id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
+    > +    head hostname id install ip ld ldd ln ls make makeinfo md5sum mkdir mknod \
+    >       mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd python python2 \
+    > -    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen sed sh sha256sum \
+    > +    python2.7 python3 ranlib readelf readlink rm rmdir rpcgen scp sed sh sha256sum \
+    >       sleep sort split stat strings strip tail tar tee test touch tr true uname \
+    >       uniq wc wget which xargs \
+    >   "
+    >   
+    >   # Tools needed to run testimage runtime image testing
+    > -HOSTTOOLS += "${@['', 'ip ping ps scp ssh stty'][bb.data.inherits_class('testimage', d)]}"
+    > +HOSTTOOLS += "${@['', 'ping ps ssh stty'][bb.data.inherits_class('testimage', d)]}"
+    >   
+    >   # Link to these if present
+    >   HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc sftp socat ssh sudo"
+    
+    
+    
+
+
 
