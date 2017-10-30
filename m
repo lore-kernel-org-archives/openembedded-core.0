@@ -1,22 +1,23 @@
 Return-Path: <amanda.r.brindle@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E1FAE600BC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id AEA1E71B40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 21:57:35 +0000 (UTC)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2017 14:57:34 -0700
+	Mon, 30 Oct 2017 21:58:10 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 30 Oct 2017 14:58:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,321,1505804400"; d="scan'208";a="167046486"
+X-IronPort-AV: E=Sophos;i="5.44,321,1505804400"; d="scan'208";a="144025058"
 Received: from arbrindl-dev.jf.intel.com ([10.7.197.61])
-	by orsmga005.jf.intel.com with ESMTP; 30 Oct 2017 14:57:34 -0700
+	by orsmga004.jf.intel.com with ESMTP; 30 Oct 2017 14:57:58 -0700
 From: Amanda Brindle <amanda.r.brindle@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Oct 2017 14:56:31 -0700
-Message-Id: <cover.1509400153.git.amanda.r.brindle@intel.com>
+Date: Mon, 30 Oct 2017 14:57:04 -0700
+Message-Id: <57ca9a160975cb564d534c0672a62354d19866ef.1509400153.git.amanda.r.brindle@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1509400153.git.amanda.r.brindle@intel.com>
+References: <cover.1509400153.git.amanda.r.brindle@intel.com>
 Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 0/1]
+Subject: [PATCH 1/1] scripts/contrib/bbvars.py: Rewrite to use tinfoil
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,23 +30,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 21:57:36 -0000
+X-List-Received-Date: Mon, 30 Oct 2017 21:58:10 -0000
 
-The following changes since commit 65d23bd7986615fdfb0f1717b615534a2a14ab80:
+Use tinfoil to collect all variable names globally and in each recipe.
 
-  README.qemu: qemuppc64 is not supported (2017-10-16 23:54:31 +0100)
+No longer show the count of variables if they are undocumented.
 
-are available in the git repository at:
+Fixes [YOCTO #2086]
 
-  git://git.yoctoproject.org/poky-contrib abrindle/bbvars_tinfoil
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=abrindle/bbvars_tinfoil
-
-Amanda Brindle (1):
-  scripts/contrib/bbvars.py: Rewrite to use tinfoil
-
+Signed-off-by: Amanda Brindle <amanda.r.brindle@intel.com>
+---
  scripts/contrib/bbvars.py | 90 ++++++++++++++++++++++++++++++++++-------------
  1 file changed, 66 insertions(+), 24 deletions(-)
 
+diff --git a/scripts/contrib/bbvars.py b/scripts/contrib/bbvars.py
+index d8d0594..556f652 100755
+--- a/scripts/contrib/bbvars.py
++++ b/scripts/contrib/bbvars.py
+@@ -23,6 +23,14 @@ import os
+ import os.path
+ import re
+ 
++# Set up sys.path to let us import tinfoil
++scripts_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
++lib_path = scripts_path + '/lib'
++sys.path.insert(0, lib_path)
++import scriptpath
++scriptpath.add_bitbake_lib_path()
++import bb.tinfoil
++
+ def usage():
+     print('Usage: %s -d FILENAME [-d FILENAME]* -m METADIR [-m MATADIR]*' % os.path.basename(sys.argv[0]))
+     print('  -d FILENAME         documentation file to search')
+@@ -66,19 +74,23 @@ def collect_bbvars(metadir):
+                         bbvars[key] = 1
+     return bbvars
+ 
+-def bbvar_is_documented(var, docfiles):
+-    prog = re.compile(".*($|[^A-Z_])%s([^A-Z_]|$)" % (var))
+-    for doc in docfiles:
+-        try:
+-            f = open(doc)
+-        except IOError as err:
+-            print('WARNING: Failed to open doc ', doc)
+-            print(err.args[1])
+-        for line in f:
+-            if prog.match(line):
+-                return True
+-        f.close()
+-    return False
++def bbvar_is_documented(var, documented_vars):
++    ''' Check if variable (var) is in the list of documented variables(documented_vars) '''
++    if var in documented_vars:
++        return True
++    else:
++        return False
++
++def collect_documented_vars(docfiles):
++    ''' Walk the docfiles and collect the documented variables '''
++    documented_vars = []
++    prog = re.compile(".*($|[^A-Z_])<glossentry id=\'var-")
++    var_prog = re.compile('<glossentry id=\'var-(.*)\'>')
++    for d in docfiles:
++        with open(d) as f:
++            documented_vars += var_prog.findall(f.read())
++
++    return documented_vars
+ 
+ def bbvar_doctag(var, docconf):
+     prog = re.compile('^%s\[doc\] *= *"(.*)"' % (var))
+@@ -101,7 +113,7 @@ def bbvar_doctag(var, docconf):
+ def main():
+     docfiles = []
+     metadirs = []
+-    bbvars = {}
++    bbvars = set()
+     undocumented = []
+     docconf = ""
+     onlydoctags = False
+@@ -153,33 +165,63 @@ def main():
+         usage()
+         sys.exit(7)
+ 
+-    # Collect all the variable names from the recipes in the metadirs
+-    for m in metadirs:
+-        for key,cnt in collect_bbvars(m).items():
+-            if key in bbvars:
+-                bbvars[key] = bbvars[key] + cnt
++    prog = re.compile("^[^a-z]*$")
++    with bb.tinfoil.Tinfoil() as tinfoil:
++        tinfoil.prepare(config_only=False)
++        parser = bb.codeparser.PythonParser('parser', None)
++        datastore = tinfoil.config_data
++
++        def bbvars_update(data):
++            if prog.match(data):
++                bbvars.add(data)
++            if tinfoil.config_data.getVarFlag(data, 'python'):
++                try:
++                    parser.parse_python(tinfoil.config_data.getVar(data))
++                except bb.data_smart.ExpansionError:
++                    pass
++                for var in parser.references:
++                    if prog.match(var):
++                        bbvars.add(var)
+             else:
+-                bbvars[key] = cnt
++                try:
++                    expandedVar = datastore.expandWithRefs(datastore.getVar(data, False), data)
++                    for var in expandedVar.references:
++                        if prog.match(var):
++                            bbvars.add(var)
++                except bb.data_smart.ExpansionError:
++                    pass
++
++        # Use tinfoil to collect all the variable names globally
++        for data in datastore:
++            bbvars_update(data)
++
++        # Collect variables from all recipes
++        for recipe in tinfoil.all_recipe_files():
++            print("Checking %s" % recipe)
++            for data in tinfoil.parse_recipe_file(recipe):
++                bbvars_update(data)
++
++    documented_vars = collect_documented_vars(docfiles)
+ 
+     # Check each var for documentation
+     varlen = 0
+-    for v in bbvars.keys():
++    for v in bbvars:
+         if len(v) > varlen:
+             varlen = len(v)
+-        if not bbvar_is_documented(v, docfiles):
++        if not bbvar_is_documented(v, documented_vars):
+             undocumented.append(v)
+     undocumented.sort()
+     varlen = varlen + 1
+ 
+     # Report all undocumented variables
+     print('Found %d undocumented bb variables (out of %d):' % (len(undocumented), len(bbvars)))
+-    header = '%s%s%s' % (str("VARIABLE").ljust(varlen), str("COUNT").ljust(6), str("DOCTAG").ljust(7))
++    header = '%s%s' % (str("VARIABLE").ljust(varlen), str("DOCTAG").ljust(7))
+     print(header)
+     print(str("").ljust(len(header), '='))
+     for v in undocumented:
+         doctag = bbvar_doctag(v, docconf)
+         if not onlydoctags or not doctag == "":
+-            print('%s%s%s' % (v.ljust(varlen), str(bbvars[v]).ljust(6), doctag))
++            print('%s%s' % (v.ljust(varlen), doctag))
+ 
+ 
+ if __name__ == "__main__":
 -- 
 2.7.4
 
