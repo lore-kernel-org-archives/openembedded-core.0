@@ -1,22 +1,51 @@
-Return-Path: <joshua.g.lock@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D677171C7A
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4054271CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 14:21:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2017 07:21:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,320,1505804400"; 
-   d="scan'208";a="1492018"
-Received: from jlock-mobl3.ger.corp.intel.com ([10.252.2.179])
-	by orsmga001.jf.intel.com with ESMTP; 30 Oct 2017 07:21:44 -0700
-From: Joshua Lock <joshua.g.lock@intel.com>
+	Mon, 30 Oct 2017 14:42:09 +0000 (UTC)
+Received: by mail-wr0-f193.google.com with SMTP id y9so12843869wrb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Oct 2017 07:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:from:message-id:date:user-agent:mime-version
+	:content-language:content-transfer-encoding;
+	bh=AVwecwbBo5fhHc8pj0E2EREuImzwEbqMYnykCwLsMmA=;
+	b=tJwOsA8vVue7mwsXZ5ydZX7YwcafkZtQd3bdkhJweCOo1UCF1k6A40uQZylJZU/6ZC
+	HhuKpM4wn53iULjQR+3fLb3UeEHHdP7FByQM5zQfIDf7ai9EXZcqxoIpu+1kKAFVoBfI
+	b1/zX9C0SLNr1Pi7AqzaHno1cciOFLb63wV0PUa6x4qzHiT06qcUsZukGMxgeu0sWyyc
+	vXR+m+4XyJ7k5WEmwFuop4smvKU7GZ+yoL5zVm/lrcvn71TxoHmV1Fev9pMZXnIuMqlR
+	lespLiirsRJQz8LVpDcpSoXBsDlGJqDnsb+WUUohwSvQXJmHUg0ITAsnfzjZD36LgdW/
+	crkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:from:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=AVwecwbBo5fhHc8pj0E2EREuImzwEbqMYnykCwLsMmA=;
+	b=TQhfSLOImQyefUG1747t5kcQ5jfiJMjCBxrOo5hddYThv0wiHFWWJGTqDdTW/vuRB8
+	JecWL1wWrlWNQWHXy1QX++M0oWSzI2cSUCnvuTC/IRW9DMPUkFPI3Y3/yKmnKUH6kKl8
+	e0v7QeYOZEc+IIrOtZa7JvSxV4V1G6tB8yTBMErnT6OsSujF+AsFuRLywo8b+bu5ihqD
+	LZhYiz/4KL1XNffowaFDAPlgscUdpRkkACeJBLqSjMrtqXDSmyaCL38/26QIO3HKEOGw
+	7JTvXF/+BxSPij5uTNxiOcX3Xk8fJ8Lr8oE7W7hL/DPBxIY4d4nfsZ9+ACPuOKzjtSDa
+	fswg==
+X-Gm-Message-State: AMCzsaUOAwq438gACgYqfgbAFDXLTlVuErJGvcqPx0+EtS3EGV2mk4pc
+	wYQXX5fHGUq3zunbMsyvQ5k=
+X-Google-Smtp-Source: ABhQp+RyvEInNQi31gMlWBvghanDebfeK2ryAKOIsfu5HKl/g/1VTxelxN7wgPzuzEaHCBSobgFNtA==
+X-Received: by 10.223.166.181 with SMTP id t50mr7665228wrc.251.1509374530247; 
+	Mon, 30 Oct 2017 07:42:10 -0700 (PDT)
+Received: from [192.168.42.50] (ppp-2-86-162-66.home.otenet.gr. [2.86.162.66])
+	by smtp.gmail.com with ESMTPSA id
+	b81sm2508647wmb.6.2017.10.30.07.42.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Oct 2017 07:42:09 -0700 (PDT)
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Oct 2017 14:21:40 +0000
-Message-Id: <20171030142140.10658-1-joshua.g.lock@intel.com>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH v2][morty] ruby: fix build of ruby-native with gcc7
+From: Robert Berger <oecore.mailinglist@gmail.com>
+Message-ID: <2e5ae597-e0c1-6caf-c8b4-33f0a7f75890@gmail.com>
+Date: Mon, 30 Oct 2017 16:42:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+Subject: [PATCH] poky: LICENSE in packagegroup makes no sense - removed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,77 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 14:21:51 -0000
+X-List-Received-Date: Mon, 30 Oct 2017 14:42:10 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Marshalling is broken when ruby-2.2.x is built with gcc7, backport the
-fix in Ruby SVN r57410 to apply to ruby 2.2.5:
 
-https://svn.ruby-lang.org/cgi-bin/viewvc.cgi?view=revision&revision=57410
-
-Fixes [YOCTO #12271]
-
-Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
 ---
+  meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 -
+  1 file changed, 1 deletion(-)
 
-v2: fixes typo in commit message
-
- meta/recipes-devtools/ruby/ruby/prevent-gc.patch | 32 ++++++++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_2.2.5.bb         |  2 ++
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/prevent-gc.patch
-
-diff --git a/meta/recipes-devtools/ruby/ruby/prevent-gc.patch b/meta/recipes-devtools/ruby/ruby/prevent-gc.patch
-new file mode 100644
-index 00000000000..729710f2df1
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/prevent-gc.patch
-@@ -0,0 +1,32 @@
-+Fix marshalling with gcc7. Based on upstream revision 57410:
-+https://svn.ruby-lang.org/cgi-bin/viewvc.cgi?view=revision&revision=57410
-+https://github.com/ruby/ruby/commit/7c1b30a602ab109d8d5388d7dfb3c5b180ba24e1
-+https://bugs.ruby-lang.org/issues/13150
-+
-+with the upstream patches intent ported to Ruby 2.2.5
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
-+
-+Index: ruby-2.2.5/marshal.c
-+===================================================================
-+--- ruby-2.2.5.orig/marshal.c
-++++ ruby-2.2.5/marshal.c
-+@@ -17,7 +17,6 @@
-+ #include "ruby/io.h"
-+ #include "ruby/st.h"
-+ #include "ruby/util.h"
-+-
-+ #include <math.h>
-+ #ifdef HAVE_FLOAT_H
-+ #include <float.h>
-+@@ -985,7 +984,7 @@ marshal_dump(int argc, VALUE *argv)
-+     VALUE obj, port, a1, a2;
-+     int limit = -1;
-+     struct dump_arg *arg;
-+-    VALUE wrapper; /* used to avoid memory leak in case of exception */
-++    volatile VALUE wrapper; /* used to avoid memory leak in case of exception */
-+ 
-+     port = Qnil;
-+     rb_scan_args(argc, argv, "12", &obj, &a1, &a2);
-diff --git a/meta/recipes-devtools/ruby/ruby_2.2.5.bb b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
-index 5a645821ba0..66ba1d4b844 100644
---- a/meta/recipes-devtools/ruby/ruby_2.2.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.2.5.bb
-@@ -3,6 +3,8 @@ require ruby.inc
- SRC_URI[md5sum] = "bd8e349d4fb2c75d90817649674f94be"
- SRC_URI[sha256sum] = "30c4b31697a4ca4ea0c8db8ad30cf45e6690a0f09687e5d483c933c03ca335e3"
- 
-+SRC_URI += "file://prevent-gc.patch"
-+
- # it's unknown to configure script, but then passed to extconf.rb
- # maybe it's not really needed as we're hardcoding the result with
- # 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
--- 
-2.13.6
+diff --git 
+a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb 
+b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 2ca6392..aee4a03 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -4,7 +4,6 @@
+   SUMMARY = "Host packages for the standalone SDK or external toolchain"
+  PR = "r12"
+-LICENSE = "MIT"
+   inherit packagegroup nativesdk
+  -- 2.7.4
 
 
