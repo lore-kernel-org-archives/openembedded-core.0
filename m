@@ -1,51 +1,31 @@
-Return-Path: <oecore.mailinglist@gmail.com>
-Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
-	[209.85.128.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4054271CB3
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D7FAD771F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 14:42:09 +0000 (UTC)
-Received: by mail-wr0-f193.google.com with SMTP id y9so12843869wrb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 07:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:from:message-id:date:user-agent:mime-version
-	:content-language:content-transfer-encoding;
-	bh=AVwecwbBo5fhHc8pj0E2EREuImzwEbqMYnykCwLsMmA=;
-	b=tJwOsA8vVue7mwsXZ5ydZX7YwcafkZtQd3bdkhJweCOo1UCF1k6A40uQZylJZU/6ZC
-	HhuKpM4wn53iULjQR+3fLb3UeEHHdP7FByQM5zQfIDf7ai9EXZcqxoIpu+1kKAFVoBfI
-	b1/zX9C0SLNr1Pi7AqzaHno1cciOFLb63wV0PUa6x4qzHiT06qcUsZukGMxgeu0sWyyc
-	vXR+m+4XyJ7k5WEmwFuop4smvKU7GZ+yoL5zVm/lrcvn71TxoHmV1Fev9pMZXnIuMqlR
-	lespLiirsRJQz8LVpDcpSoXBsDlGJqDnsb+WUUohwSvQXJmHUg0ITAsnfzjZD36LgdW/
-	crkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:from:message-id:date:user-agent
-	:mime-version:content-language:content-transfer-encoding;
-	bh=AVwecwbBo5fhHc8pj0E2EREuImzwEbqMYnykCwLsMmA=;
-	b=TQhfSLOImQyefUG1747t5kcQ5jfiJMjCBxrOo5hddYThv0wiHFWWJGTqDdTW/vuRB8
-	JecWL1wWrlWNQWHXy1QX++M0oWSzI2cSUCnvuTC/IRW9DMPUkFPI3Y3/yKmnKUH6kKl8
-	e0v7QeYOZEc+IIrOtZa7JvSxV4V1G6tB8yTBMErnT6OsSujF+AsFuRLywo8b+bu5ihqD
-	LZhYiz/4KL1XNffowaFDAPlgscUdpRkkACeJBLqSjMrtqXDSmyaCL38/26QIO3HKEOGw
-	7JTvXF/+BxSPij5uTNxiOcX3Xk8fJ8Lr8oE7W7hL/DPBxIY4d4nfsZ9+ACPuOKzjtSDa
-	fswg==
-X-Gm-Message-State: AMCzsaUOAwq438gACgYqfgbAFDXLTlVuErJGvcqPx0+EtS3EGV2mk4pc
-	wYQXX5fHGUq3zunbMsyvQ5k=
-X-Google-Smtp-Source: ABhQp+RyvEInNQi31gMlWBvghanDebfeK2ryAKOIsfu5HKl/g/1VTxelxN7wgPzuzEaHCBSobgFNtA==
-X-Received: by 10.223.166.181 with SMTP id t50mr7665228wrc.251.1509374530247; 
-	Mon, 30 Oct 2017 07:42:10 -0700 (PDT)
-Received: from [192.168.42.50] (ppp-2-86-162-66.home.otenet.gr. [2.86.162.66])
-	by smtp.gmail.com with ESMTPSA id
-	b81sm2508647wmb.6.2017.10.30.07.42.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Oct 2017 07:42:09 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-From: Robert Berger <oecore.mailinglist@gmail.com>
-Message-ID: <2e5ae597-e0c1-6caf-c8b4-33f0a7f75890@gmail.com>
-Date: Mon, 30 Oct 2017 16:42:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-Subject: [PATCH] poky: LICENSE in packagegroup makes no sense - removed
+	Mon, 30 Oct 2017 14:42:44 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 30 Oct 2017 07:42:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,320,1505804400"; d="scan'208";a="143885299"
+Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.46])
+	([10.237.66.46])
+	by orsmga004.jf.intel.com with ESMTP; 30 Oct 2017 07:42:44 -0700
+User-Agent: Microsoft-MacOutlook/f.27.0.171010
+Date: Mon, 30 Oct 2017 16:42:43 +0200
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Konrad Scherer <Konrad.Scherer@windriver.com>,
+	ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+Message-ID: <E8F574EB-8489-49D9-8202-7DD5A77875D8@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v5 05/10] bitbake.conf: add ip and scp to
+	HOSTTOOLS unconditionally
+References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
+	<8d1c4aacc60173f9db4809d23303d4825cc0090d.1509094533.git.markus.lehtonen@linux.intel.com>
+	<9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
+	<0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
+	<8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
+In-Reply-To: <8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
+Mime-version: 1.0
+Subject: Re: [PATCH v5 05/10] bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,28 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 14:42:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Oct 2017 14:42:45 -0000
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: 7bit
 
+Hi,
 
-Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
----
-  meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 -
-  1 file changed, 1 deletion(-)
+I do not run any runtime tests, I just use the available library functions to run python profiling task on the device. No changes to local.conf are / should be required.
 
-diff --git 
-a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb 
-b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 2ca6392..aee4a03 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -4,7 +4,6 @@
-   SUMMARY = "Host packages for the standalone SDK or external toolchain"
-  PR = "r12"
--LICENSE = "MIT"
-   inherit packagegroup nativesdk
-  -- 2.7.4
+Cheers,
+  Markus
+
+On 30/10/2017, 15.56, "Konrad Scherer" <Konrad.Scherer@windriver.com> wrote:
+
+    On 10/30/2017 06:51 AM, Markus Lehtonen wrote:
+    > Hi,
+    > 
+    > What that tries state is that the image uses facilities written for
+    > runtimetest (i.e. oeqa.targetcontrol) to run binaries on the target
+    > machine. The new image introduced (i.e. python-pgo-image) uses this
+    > to run the profiling task on device.
+    
+    I ran into something very similar. When using 'TEST_IMAGE = 1' (which
+    uses testimage-auto), the conditional in bitbake.conf doesn't work and 
+    ip and ping are not available in tmp/hosttools.
+    
+    When using just 'INHERIT += "testimage"' the conditional works but the 
+    tests are not run automatically.
+    
+    If I use both 'TEST_IMAGE = 1' and 'INHERIT += "testimage"' together,
+    the hosttools are found and the tests are run successfully.
+    
+    This is unexpected because classes/testimage-auto.bbclass does contain
+    'inherit testimage'.
+    
+    What config options are you putting in local.conf to trigger the tests?
+    
+    -- 
+    Konrad Scherer, MTS, Linux Products Group, Wind River
+    
+
 
 
