@@ -1,31 +1,27 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D7FAD771F5
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 52CEE71B99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Oct 2017 14:42:44 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga105.fm.intel.com with ESMTP; 30 Oct 2017 07:42:46 -0700
+	Mon, 30 Oct 2017 14:44:59 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Oct 2017 07:45:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,320,1505804400"; d="scan'208";a="143885299"
-Received: from mlehtone-mac02.fi.intel.com (HELO [10.237.66.46])
-	([10.237.66.46])
-	by orsmga004.jf.intel.com with ESMTP; 30 Oct 2017 07:42:44 -0700
-User-Agent: Microsoft-MacOutlook/f.27.0.171010
-Date: Mon, 30 Oct 2017 16:42:43 +0200
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Konrad Scherer <Konrad.Scherer@windriver.com>,
-	ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-Message-ID: <E8F574EB-8489-49D9-8202-7DD5A77875D8@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v5 05/10] bitbake.conf: add ip and scp to
-	HOSTTOOLS unconditionally
-References: <cover.1509094533.git.markus.lehtonen@linux.intel.com>
-	<8d1c4aacc60173f9db4809d23303d4825cc0090d.1509094533.git.markus.lehtonen@linux.intel.com>
-	<9fb0243b-5fef-e5c3-1175-3af8c3f3db7d@windriver.com>
-	<0973040A-9027-4FEF-A333-5350D48E02E7@linux.intel.com>
-	<8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
-In-Reply-To: <8083f668-b00f-1772-805f-eb96a6d69c97@windriver.com>
-Mime-version: 1.0
-Subject: Re: [PATCH v5 05/10] bitbake.conf: add ip and scp to HOSTTOOLS unconditionally
+X-IronPort-AV: E=Sophos;i="5.44,320,1505804400"; d="scan'208";a="169551159"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 30 Oct 2017 07:44:59 -0700
+To: Robert Berger <oecore.mailinglist@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <2e5ae597-e0c1-6caf-c8b4-33f0a7f75890@gmail.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <bc162419-5496-fd5f-6775-dc7005505e3e@linux.intel.com>
+Date: Mon, 30 Oct 2017 16:45:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
+MIME-Version: 1.0
+In-Reply-To: <2e5ae597-e0c1-6caf-c8b4-33f0a7f75890@gmail.com>
+Subject: Re: [PATCH] poky: LICENSE in packagegroup makes no sense - removed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 14:42:45 -0000
-Content-type: text/plain;
-	charset="UTF-8"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Mon, 30 Oct 2017 14:45:00 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 10/30/2017 04:42 PM, Robert Berger wrote:
+> 
+> Signed-off-by: Robert Berger <robert.berger@ReliableEmbeddedSystems.com>
 
-I do not run any runtime tests, I just use the available library functions to run python profiling task on the device. No changes to local.conf are / should be required.
+Better commit message:
 
-Cheers,
-  Markus
-
-On 30/10/2017, 15.56, "Konrad Scherer" <Konrad.Scherer@windriver.com> wrote:
-
-    On 10/30/2017 06:51 AM, Markus Lehtonen wrote:
-    > Hi,
-    > 
-    > What that tries state is that the image uses facilities written for
-    > runtimetest (i.e. oeqa.targetcontrol) to run binaries on the target
-    > machine. The new image introduced (i.e. python-pgo-image) uses this
-    > to run the profiling task on device.
-    
-    I ran into something very similar. When using 'TEST_IMAGE = 1' (which
-    uses testimage-auto), the conditional in bitbake.conf doesn't work and 
-    ip and ping are not available in tmp/hosttools.
-    
-    When using just 'INHERIT += "testimage"' the conditional works but the 
-    tests are not run automatically.
-    
-    If I use both 'TEST_IMAGE = 1' and 'INHERIT += "testimage"' together,
-    the hosttools are found and the tests are run successfully.
-    
-    This is unexpected because classes/testimage-auto.bbclass does contain
-    'inherit testimage'.
-    
-    What config options are you putting in local.conf to trigger the tests?
-    
-    -- 
-    Konrad Scherer, MTS, Linux Products Group, Wind River
-    
+nativesdk-packagegroup-sdk-host: remove the LICENSE line
 
 
+Also, no need to CC Ross, me, or especially Stephen; simply send to the 
+list.
+
+Alex
 
