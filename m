@@ -1,18 +1,38 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 50805601A5;
-	Tue, 31 Oct 2017 10:05:23 +0000 (UTC)
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2910B781EE
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Oct 2017 13:37:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9VDbRvv002537
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Oct 2017 06:37:28 -0700
+Received: from soho-mhatle-m.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 31 Oct 2017 06:37:27 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20171024232359.63328-1-jslater@windriver.com>
+	<CAJ86T=V_Miu6Ui_zBOWzKRtPTbv6HE_O3B_Y5swmzRap2JgaAw@mail.gmail.com>
+	<52a0c834-6e5f-3bbc-7e99-206607dab4a4@linux.intel.com>
+	<CAJ86T=UV_XVjq6SEvc_9-46b1W+N_v6aBjvJOEorov5NYpTLcQ@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84CF437C9D@ALA-MBC.corp.ad.wrs.com>
+	<007BD92917A2324FA403BCF9A464CF84CF43876F@ALA-MBC.corp.ad.wrs.com>
+	<CAJ86T=XbzgBuJgs4s=8MphbTM4OLU5JqBA_pL7ABCkM49u80vA@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84CF438A56@ALA-MBC.corp.ad.wrs.com>
+	<96497d52-63c7-aac7-6645-e983e2e1e0cc@linux.intel.com>
+	<007BD92917A2324FA403BCF9A464CF84CF448D37@ALA-MBC.corp.ad.wrs.com>
+	<78016f87-1d1e-1780-7fd6-9d24a7d75f89@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <1bbeb6b2-aa1a-291d-3ff5-912cbe6587a8@windriver.com>
+Date: Tue, 31 Oct 2017 08:37:26 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.4.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Date: Tue, 31 Oct 2017 10:05:25 -0000
-Message-ID: <20171031100525.2783.40847@do.openembedded.org>
-References: <1509443328-93746-1-git-send-email-zhixiong.chi@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1509443328-93746-1-git-send-email-zhixiong.chi@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgVXBncmFkZSAxLjE5LjEgLT4gMS4xOS4y?=
+In-Reply-To: <78016f87-1d1e-1780-7fd6-9d24a7d75f89@linux.intel.com>
+Subject: Re: [PATCH 1/1] qemumips64: no qemu-usermode for n32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Oct 2017 10:05:23 -0000
+X-List-Received-Date: Tue, 31 Oct 2017 13:37:27 -0000
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 10/31/17 4:41 AM, Alexander Kanavin wrote:
+> On 10/31/2017 02:39 AM, Slater, Joseph wrote:
+>> Could be a multilib issue.  I do see that these constructs work in a poky build environment.  Are there any "standard" configurations that enable multilib?  I am typically building in a (surprise!) Wind River build environment which does support multilib.
+>>
+> 
+> Can you share your multilib config then and steps to trigger the 
+> failure? Does it happen in a plain poky environment?
 
-Series: Upgrade 1.19.1 -> 1.19.2
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9555/
-State : failure
+Edit your local.conf, add the following:
 
-== Summary ==
+MULTILIBS ?= ""
+require conf/multilib.conf
+MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+MULTILIBS ?= "multilib:lib32 multilib:libn32"
+DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
 
+(note, we have this implemented in the -distro.conf- file.  But it should behave
+the same in the local.conf)
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+--Mark
 
-
-
-* Patch            Upgrade 1.19.1 -> 1.19.2
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> Alex
+> 
 
 
