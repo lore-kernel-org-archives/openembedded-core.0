@@ -1,27 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 506C760765
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D990B781DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 09:13:49 +0000 (UTC)
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 Oct 2017 02:13:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,323,1505804400"; d="scan'208";a="169933169"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 31 Oct 2017 02:13:50 -0700
-To: Zhixiong Chi <zhixiong.chi@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <1509440578-173066-1-git-send-email-zhixiong.chi@windriver.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <4903a7b3-5039-9b7c-9372-37f10d555b9c@linux.intel.com>
-Date: Tue, 31 Oct 2017 11:13:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.3.0
+	Tue, 31 Oct 2017 09:23:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v9V9N67A029067
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Oct 2017 02:23:06 -0700
+Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 31 Oct 2017 02:23:05 -0700
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Oct 2017 11:23:04 +0200
+Message-ID: <20171031092304.278114-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.10.2
 MIME-Version: 1.0
-In-Reply-To: <1509440578-173066-1-git-send-email-zhixiong.chi@windriver.com>
-Subject: Re: [PATCH] wget: CVE-2017-13089 and CVE-2017-13090
+Subject: [PATCH] init-install: add timeout for legacy grub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,19 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Oct 2017 09:13:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Oct 2017 09:23:06 -0000
+Content-Type: text/plain
 
-On 10/31/2017 11:02 AM, Zhixiong Chi wrote:
-> Patches from:
-> http://git.savannah.gnu.org/cgit/wget.git/patch/?id=d892291fb8ace4c3b734ea5125770989c215df3f
-> http://git.savannah.gnu.org/cgit/wget.git/patch/?id=ba6b44f6745b14dce414761a8e4b35d31b176bba
-> 
-> CVE: CVE-2017-13089 CVE-2017-13090
+After installing an image from an iso, booting the system using
+the legacy boots makes the grub prompt wait for an enter.
 
-Update the master to 1.19.2 instead please.
+This is not desirable since many of these devices are embedded
+devices that should start by themselves without user entry.
 
-Alex
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ meta/recipes-core/initrdscripts/files/init-install.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 572613e..c9d86de 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -259,6 +259,8 @@ if [ -f /etc/grub.d/00_header -a $grub_version -ne 0 ] ; then
+     GRUBCFG="/boot/grub/grub.cfg"
+     mkdir -p $(dirname $GRUBCFG)
+     cat >$GRUBCFG <<_EOF
++timeout=5
++default=0
+ menuentry "Linux" {
+     search --no-floppy --fs-uuid $boot_uuid --set root
+     linux /vmlinuz root=PARTUUID=$root_part_uuid $rootwait rw $5 $3 $4 quiet
+-- 
+2.10.2
+
 
