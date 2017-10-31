@@ -1,36 +1,62 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 13EC46AC00
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
+	[209.85.218.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DB9CD6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 23:19:46 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP; 31 Oct 2017 16:19:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,326,1505804400"; d="scan'208";a="1212586461"
-Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Oct 2017 16:19:47 -0700
-Received: from orsmsx112.amr.corp.intel.com (10.22.240.13) by
-	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
-	(TLS) id 14.3.319.2; Tue, 31 Oct 2017 16:19:47 -0700
-Received: from orsmsx113.amr.corp.intel.com ([169.254.9.80]) by
-	ORSMSX112.amr.corp.intel.com ([169.254.3.153]) with mapi id
-	14.03.0319.002; Tue, 31 Oct 2017 16:19:46 -0700
-From: "Wold, Saul" <saul.wold@intel.com>
-To: "armccurdy@gmail.com" <armccurdy@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] linux-firmware fetcher warnings
-Thread-Index: AQHTUp69l/HBM6NHbUO2V1NFbhtS2g==
-Date: Tue, 31 Oct 2017 23:19:45 +0000
-Message-ID: <1509491984.11491.36.camel@intel.com>
-References: <CAJ86T=WwqN3H-KR5TYnvjG37XNvRVqdWug2o6dR5wiKEzygQ2Q@mail.gmail.com>
-In-Reply-To: <CAJ86T=WwqN3H-KR5TYnvjG37XNvRVqdWug2o6dR5wiKEzygQ2Q@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.24.8.62]
+	Tue, 31 Oct 2017 23:25:42 +0000 (UTC)
+Received: by mail-oi0-f65.google.com with SMTP id a132so980742oih.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Oct 2017 16:25:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=+xK9LgAwCZT1i83FQTuMoC3vxqB/Y7HBDY0y3cjPAvI=;
+	b=DtRfef1TN7jfLdQkpRA3lwUqx6RQt1gL+2s8Zm+D4yrq9ITuKujzELjoFg93uTAtDt
+	NQ5NIIoIOkPrgScAvJLeU9ApTMh6Gw9Cf7RhsSWI8xaFBqlFWPYoeqMWxcMRdd8bJ9/k
+	x7vTh4nFU3QJnNmwqaphYOC8MVuCB3Va32GJbDoMTat5Q6X9g+FGrY+BmORIdzbz5r3F
+	+JOWoy+w0po6EdFmqIEThRYdSGio2s5ul71BTP+GF0CNnKlNCIzuFU4MhM1lmZCdSXST
+	VDr0YcSRFCkBY9T9x50cQs5gNI8L3Xti0VVuEELfzMkMGkKl8Q+HRtvF03HTZiic93ih
+	wQ/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=+xK9LgAwCZT1i83FQTuMoC3vxqB/Y7HBDY0y3cjPAvI=;
+	b=ZhMYtjclmwzdAXpBxHvS9R4FjAB4NwQcS+TQLBpL0nY4eZz6+3UQB16ttCEEPjTYyV
+	/lopR/hrcFPRorHUyAiruUw0Zyd/WraZAjwSlxOb0T6UaUn50tRiD8hx9wYDRfLrOUnZ
+	YIfmyFNprck9xYsANYW1NrwP5elaTfTv2rqE4ptlHqsnwguIIK3aef4HYRzhDQNm4Ax1
+	kgx0bLnORUn1HK9NMJWvszDeKfPObHkYVKTKoKQU6Y2bwutl/we/fwo85SrtzpGPDiMf
+	17Fl3QLUwopcHNxMFEjlN3V6MKPwdwM+1Spd08E6Cs7kFE3jPbKeiQSmupaVkQXG5//+
+	buzA==
+X-Gm-Message-State: AMCzsaWlpinFE9niDj8S0b+hn28mVZ7D23tNOR+bA3TwJSASXR1yuXw+
+	x5LcqvTILikkopqKAnbZiUZvY4sX
+X-Google-Smtp-Source: ABhQp+TmnrDzxIHyCvcJyAPhfjZhnTXolKcx6Y3VUpDIc26QDG65qkR97+rs+gWwBKx6b/UDqQw3CQ==
+X-Received: by 10.202.173.19 with SMTP id w19mr1799582oie.4.1509492343144;
+	Tue, 31 Oct 2017 16:25:43 -0700 (PDT)
+Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com.
+	[209.85.218.41]) by smtp.gmail.com with ESMTPSA id
+	f100sm1209016otf.63.2017.10.31.16.25.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 31 Oct 2017 16:25:42 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f41.google.com with SMTP id v132so1030447oie.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Oct 2017 16:25:42 -0700 (PDT)
+X-Received: by 10.202.205.193 with SMTP id d184mr1814261oig.17.1509492341604; 
+	Tue, 31 Oct 2017 16:25:41 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: linux-firmware fetcher warnings
+Received: by 10.157.56.216 with HTTP; Tue, 31 Oct 2017 16:25:40 -0700 (PDT)
+In-Reply-To: <CAJTo0LYFFZ-DOhZAepuJnXUgOTZDLcqxnWgj9F8-BLne_+wFvw@mail.gmail.com>
+References: <1508587571-4733-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAJTo0LYFFZ-DOhZAepuJnXUgOTZDLcqxnWgj9F8-BLne_+wFvw@mail.gmail.com>
+Date: Tue, 31 Oct 2017 21:25:40 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKoTc09+i4XOTwYfj9g+_=df13Gtk5TzyC2jSuxZqtZKsg@mail.gmail.com>
+Message-ID: <CAP9ODKoTc09+i4XOTwYfj9g+_=df13Gtk5TzyC2jSuxZqtZKsg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-buildenv-internal: Fix finding build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,28 +69,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Oct 2017 23:19:47 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7073A6BCC9B7AB4096438B5D80AF31E9@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 31 Oct 2017 23:25:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gVHVlLCAyMDE3LTEwLTMxIGF0IDE0OjM1IC0wNzAwLCBBbmRyZSBNY0N1cmR5IHdyb3RlOg0K
-PiBUaGUgbGludXgtZmlybXdhcmUgcmVjaXBlIGlzIGN1cnJlbnRseSB0cnlpbmcgdG8gZmV0Y2gN
-Cj4gaXdsd2lmaS04MDAwQy0xOS51Y29kZSB3aGljaCBhY2NvcmRpbmcgdG86DQo+IA0KPiAgIGh0
-dHBzOi8vYnVncy5sYXVuY2hwYWQubmV0L3VidW50dS8rc291cmNlL2xpbnV4LWZpcm13YXJlLyti
-dWcvMTU3OTINCj4gODENCj4gDQo+IGlzIGFuIHVucmVsZWFzZWQgZmlybXdhcmUgaW1hZ2UgZnJv
-bSBhIHVub2ZmaWNpYWwgZm9yayBvZiB0aGUgbWFpbg0KPiBsaW51eC1maXJtd2FyZSByZXBvLiBU
-aGUgIml3bHdpZmktODAwMEMtMTkudWNvZGUiIGZpbGUgaXNuJ3QgZm91bmQgaW4NCj4gdGhlIGN1
-cnJlbnQgbWFzdGVyIGJyYW5jaCBvZiB0aGUgaXdsd2lmaSBsaW51eC1maXJtd2FyZSByZXBvIChh
-bmQNCj4gZG9lc24ndCBzZWVtIHRvIGJlIHRoZXJlIGluIHRoZSBoaXN0b3J5IGVpdGhlci4uLiku
-DQo+IA0KWWVhaCBzZWVtcyBsaWtlIGl0IGdvdCByZWJhc2VkIGF3YXkgOi0oIQ0KDQo+IFRoZSBt
-eXN0ZXJ5IGZpcm13YXJlIGltYWdlIHdhcyBhZGRlZCB0byB0aGUgbGludXgtZmlybXdhcmUgcmVj
-aXBlIGJ5Og0KPiANCj4gICBodHRwOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVk
-LWNvcmUvY29tbWl0Lz9pZD04YjNkM2FjODRmDQo+IDc4N2JmNGVjY2NkY2JjYjk3ZjJkYWM1NmFj
-ZDQ1Yw0KPiANCj4gSXMgdGhpcyBmaXJtd2FyZSBzdGlsbCByZXF1aXJlZD8gSWYgc28sIHNob3Vs
-ZCBTUkNfVVJJIGJlIHVwZGF0ZWQgdG8NCj4gZmV0Y2ggaXQgZGlyZWN0bHkgZnJvbSBkb3dubG9h
-ZHMueW9jdG9wcm9qZWN0Lm9yZz8NCg0KSSB3aWxsIGRvIHNvbWUgcmVzZWFyY2gsIGl0IHdhcyBu
-ZWVkZWQgZm9yIHNvbWUgaGFyZHdhcmUgd2hlbiBpdCB3YXMNCnB1dCBpbnRvIHRoZSBtZXRhLWlu
-dGVsIGFuZCB0aGVuIGxhdGVyIHdlIG1vdmVkIGl0IGludG8gT0UtQ29yZS4NCg0KU2F1IQ0K
+On Tue, Oct 31, 2017 at 9:16 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 21 October 2017 at 13:06, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> The intent of the env setup scripts is to set BBPATH to point at the
+>> build directory if not already set. This means if the user changes
+>> directory, bitbake can still find the original build directory. The
+>> default bblayers.conf files reset BBPATH to the correct components so
+>> this is safe and restores the behaviour the script was intended to have.
+>>
+>> [YOCTO #12163]
+>>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>  scripts/oe-buildenv-internal | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+>> index e6cd141..abc5aff 100755
+>> --- a/scripts/oe-buildenv-internal
+>> +++ b/scripts/oe-buildenv-internal
+>> @@ -105,6 +105,11 @@ fi
+>>
+>>  BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
+>>  BUILDDIR=$(readlink -f "$BUILDDIR")
+>> +if [ -z "$BBPATH" ]; then
+>> +    BBPATH=$BUILDDIR
+>> +fi
+>> +
+>> +export BBPATH
+>
+>
+> This breaks the use-case of the user switching between build directories as
+> re-executing oe-init-build-env doesn't change BBPATH.
+
+I know and that's why I asked for a warning! ;-)
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
