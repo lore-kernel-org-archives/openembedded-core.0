@@ -1,39 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 573A778210
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CDC260123
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 14:08:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v9VE8dcF012680
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 07:08:39 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 31 Oct 2017 07:08:38 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-References: <20171024232359.63328-1-jslater@windriver.com>
-	<CAJ86T=V_Miu6Ui_zBOWzKRtPTbv6HE_O3B_Y5swmzRap2JgaAw@mail.gmail.com>
-	<52a0c834-6e5f-3bbc-7e99-206607dab4a4@linux.intel.com>
-	<CAJ86T=UV_XVjq6SEvc_9-46b1W+N_v6aBjvJOEorov5NYpTLcQ@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84CF437C9D@ALA-MBC.corp.ad.wrs.com>
-	<007BD92917A2324FA403BCF9A464CF84CF43876F@ALA-MBC.corp.ad.wrs.com>
-	<CAJ86T=XbzgBuJgs4s=8MphbTM4OLU5JqBA_pL7ABCkM49u80vA@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84CF438A56@ALA-MBC.corp.ad.wrs.com>
-	<96497d52-63c7-aac7-6645-e983e2e1e0cc@linux.intel.com>
-	<007BD92917A2324FA403BCF9A464CF84CF448D37@ALA-MBC.corp.ad.wrs.com>
-	<78016f87-1d1e-1780-7fd6-9d24a7d75f89@linux.intel.com>
-	<1bbeb6b2-aa1a-291d-3ff5-912cbe6587a8@windriver.com>
-Organization: Wind River Systems
-Message-ID: <ab5ec5ad-16d7-949d-bc5f-ec15b6c69a62@windriver.com>
-Date: Tue, 31 Oct 2017 09:08:37 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.4.0
+	Tue, 31 Oct 2017 14:34:52 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Oct 2017 07:34:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,324,1505804400"; d="scan'208";a="144290374"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 31 Oct 2017 07:34:51 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 8C4A15803F3;
+	Tue, 31 Oct 2017 07:34:50 -0700 (PDT)
+Date: Tue, 31 Oct 2017 15:33:24 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Artur =?utf-8?Q?M=C4=85drzak?= <artur@madrzak.eu>
+Message-ID: <20171031133324.5hdzhtu7kop7um4b@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <123c3e3f-4ba4-43f6-957f-530a69e81712@madrzak.eu>
 MIME-Version: 1.0
-In-Reply-To: <1bbeb6b2-aa1a-291d-3ff5-912cbe6587a8@windriver.com>
-Subject: Re: [PATCH 1/1] qemumips64: no qemu-usermode for n32
+In-Reply-To: <123c3e3f-4ba4-43f6-957f-530a69e81712@madrzak.eu>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: add 'part-name' argument for naming GPT partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,49 +39,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Oct 2017 14:08:41 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Oct 2017 14:34:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 10/31/17 8:37 AM, Mark Hatle wrote:
-> On 10/31/17 4:41 AM, Alexander Kanavin wrote:
->> On 10/31/2017 02:39 AM, Slater, Joseph wrote:
->>> Could be a multilib issue.  I do see that these constructs work in a poky build environment.  Are there any "standard" configurations that enable multilib?  I am typically building in a (surprise!) Wind River build environment which does support multilib.
->>>
->>
->> Can you share your multilib config then and steps to trigger the 
->> failure? Does it happen in a plain poky environment?
-> 
-> Edit your local.conf, add the following:
-> 
-> MULTILIBS ?= ""
-> require conf/multilib.conf
-> MULTILIB_GLOBAL_VARIANTS_append = " libn32"
-> MULTILIBS ?= "multilib:lib32 multilib:libn32"
-> DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
-> DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
-
-Sorry I just realized what I have above is out of order.  Below is corrected:
-
-MULTILIB_GLOBAL_VARIANTS_append = " libn32"
-MULTILIBS ?= "multilib:lib32 multilib:libn32"
-DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
-DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
-MULTILIBS ?= ""
-require conf/multilib.conf
-
-(again this is specific to qemumips64)
-
---Mark
-
-> (note, we have this implemented in the -distro.conf- file.  But it should behave
-> the same in the local.conf)
-> 
-> --Mark
-> 
->> Alex
->>
+On Mon, Oct 30, 2017 at 08:53:09PM +0100, Artur Mądrzak wrote:
+> The WIC's 'part' can now give a name for GPT partition in WKS file.
+> It's similar to '--label', but is naming partitions instead file systems.
+> It's required by some bootloaders to partitions have specified names.
 > 
 
+Thank you for the patch!
+
++1
+
+> Signed-off-by: Artur Mądrzak <artur@madrzak.eu>
+> ---
+>  scripts/lib/wic/help.py                  |  2 ++
+>  scripts/lib/wic/ksparser.py              |  1 +
+>  scripts/lib/wic/partition.py             |  1 +
+>  scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
+>  4 files changed, 15 insertions(+)
+> 
+> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> index bd9c62e2e8..2ac45e052e 100644
+> --- a/scripts/lib/wic/help.py
+> +++ b/scripts/lib/wic/help.py
+> @@ -970,6 +970,8 @@ DESCRIPTION
+>                              This option cannot be used with --fixed-size
+>                              option.
+> 
+> +         --part-name: This option is specific to wic. It specifies name for
+> GPT partitions.
+> +
+>           --part-type: This option is specific to wic. It specifies
+> partition
+>                        type GUID for GPT partitions.
+>                        List of partition type GUIDS can be found here:
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 99b66eebc5..7850e81d2f 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -144,6 +144,7 @@ class KickStart():
+>          part.add_argument('--no-table', action='store_true')
+>          part.add_argument('--ondisk', '--ondrive', dest='disk',
+> default='sda')
+>          part.add_argument("--overhead-factor", type=overheadtype)
+> +        part.add_argument('--part-name')
+>          part.add_argument('--part-type')
+>          part.add_argument('--rootfs-dir')
+> 
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index b623bb9e6d..66e61ba70c 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -51,6 +51,7 @@ class Partition():
+>          self.no_table = args.no_table
+>          self.num = None
+>          self.overhead_factor = args.overhead_factor
+> +        self.part_name = args.part_name
+>          self.part_type = args.part_type
+>          self.rootfs_dir = args.rootfs_dir
+>          self.size = args.size
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py
+> b/scripts/lib/wic/plugins/imager/direct.py
+> index 60317eed22..bdb8385620 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -366,6 +366,10 @@ class PartitionedImage():
+>          for num in range(len(self.partitions)):
+>              part = self.partitions[num]
+> 
+> +            if self.ptable_format == 'msdos' and part.part_name:
+> +                raise WicError("setting custom partition name is not " \
+> +                               "implemented for msdos partitions")
+> +
+>              if self.ptable_format == 'msdos' and part.part_type:
+>                  # The --part-type can also be implemented for MBR
+> partitions,
+>                  # in which case it would map to the 1-byte "partition type"
+> @@ -519,6 +523,13 @@ class PartitionedImage():
+>              self._create_partition(self.path, part.type,
+>                                     parted_fs_type, part.start,
+> part.size_sec)
+> 
+> +            if part.part_name:
+> +                logger.debug("partition %d: set name to %s",
+> +                             part.num, part.part_name)
+> +                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
+> +                                         (part.num, part.part_name,
+> +                                          self.path), self.native_sysroot)
+> +
+>              if part.part_type:
+>                  logger.debug("partition %d: set type UID to %s",
+>                               part.num, part.part_type)
+> -- 
+> 2.13.6
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+-- 
+--
+Regards,
+Ed
 
