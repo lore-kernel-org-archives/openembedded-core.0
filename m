@@ -1,42 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6072F7821B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A6EF96AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 21:35:11 +0000 (UTC)
-Received: by mail-wm0-f45.google.com with SMTP id r68so1531871wmr.3
+	Tue, 31 Oct 2017 23:17:05 +0000 (UTC)
+Received: by mail-io0-f174.google.com with SMTP id 134so2474442ioo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 14:35:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=mTXhMlrlfo9VSs0F4wC6SfSEdvsfXDL3FIii3H2h0dI=;
-	b=XxXzivI3giJ+DAYnOniyfv1KMxDVNT05lAJX5Sl7OzguJe1yJx10M1gktzIFl3mz50
-	7VebkWXrXEDS6hXpEyqwSGVfblHau8mYlBdKK/vhlpN3I5RCMZxIzOYKrKnzVlSXMUoM
-	YBivQ3kq8sLHpKFU0ncbMb0zM9Do5CSYvmBd/FY1daHfrNQPa2wmRqMzoPI6TZGs7ENs
-	gr2R7Zh9hJFAbiSBXUy7kVLjeCutB9MHaC9zKdXW2SYJnAEgFefmEa3muErnhn3swNUc
-	bHlLMU43YY1cp6pZFQr5CCdTiZ0+Ek19LQGCVGjShqChPkxL+lD0B7mgcpGxDsgtlc96
-	R9wg==
+	Tue, 31 Oct 2017 16:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BTFu87PdWjyRzJZC+/aTg40i5DIToW56/FkmK5q8TqM=;
+	b=k/wUYvKpOZDPez4MmcQ0DyG2e2vZVYIjF7vN8Bbgbi2TJ3M7EwCHq2HzCnFI/mxr4X
+	QhxGhufS4MhHcv1PVCcg7X/RVHRaJBanhMt9Z00l2o9y5AsJBeVFhhErtMtqEPb1NP8X
+	512269jkIxJy7ULW8IxG6mOw/5kgcDqBvlu/UqgcpQFGl8u0zQncPZMdVKYFWDjH93Zw
+	9CTVoRgNAdxeSJY5tM7+g6yqROVIhJnxrYX2AIzt0KIW2V7CwuwSalAwXj2r+d6TkYfP
+	jfvRNCvdLxZcu2JE2I2I33r/TKBGO0cDTtOdQ+sjF/F5XjLdsEQR8sXTPFnjKIpyuPvM
+	d43A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=mTXhMlrlfo9VSs0F4wC6SfSEdvsfXDL3FIii3H2h0dI=;
-	b=LCWrkD092ebG9Kyl3m2CXjqj89I5SQrRZh4l7kxCQZF0CyynLuULZ4SQ+H2+FQLyTh
-	bgEjWWF1cpJBL8nvfhtvaQortr2B0H9dRUBlvERJ9xLnCdmB6vdjZ8IOKjgI2hic96mb
-	31D2eZag7hvWeAq+Tyfm7sAk6bD28TYkGGlxwm6+jlc1KAn2NSn0jXYEJmK+9KWjuXeH
-	mDGM79jPruts7eWv6QGEKgDB0Lhfw3/WmNGKcL3xegAF+ntHv2V1bmjb+ymqsoJvIgtr
-	+817AD/4D+FR2d6JW4gw0R+KvlQHHTcSGaTLeOXVTQuYGGtcdUJD+4XVnSUsnZQrYyAH
-	aKjw==
-X-Gm-Message-State: AMCzsaVETL2DYAYYirVR552u5J503UqlGrnLT7YLc5dHcQgEWotlTG7C
-	1452VLcz/UoyAQRDdJud2dbA7bsR2DphpZXCkFW8mg==
-X-Google-Smtp-Source: ABhQp+TDgwnM6E+ikFXNDvTjdHjisC8unslKtZcvJlsGoX4AghOFWHTpdTxZBWl7zmBnfCk+PkaxWMzXedUYhN2CVAw=
-X-Received: by 10.28.167.130 with SMTP id q124mr2807834wme.136.1509485711851; 
-	Tue, 31 Oct 2017 14:35:11 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BTFu87PdWjyRzJZC+/aTg40i5DIToW56/FkmK5q8TqM=;
+	b=ZqFFgx+sbSWe85xpCY2tcZwNza4tAjxRKBUxXtR123jbdWGMChAJfbKqxecmAW0Cx3
+	i0yh2be4RNRycbl5ATp4SbgF5IZNM8ipZQXRDtURbJUA4xBBmmZ8JT9q4m1O3QxazIXo
+	LhtWemKPP8kSQaE0QkTTvKebmuZnXLytTt7iXkOTL4tM+HPY8SSUcp/WSrvVBfVT8Pg2
+	uD2N7WfCXmsAPn1WMc/jrC1quTst0HmKATMe6Bu7mtxDP6zYFxBicKDTws1LuWMHudoh
+	vN2p5S5uPe9P1Dha4A8HPzwxuZEXvKyqeA9sAYkdyafIrHmYJT0td5oFAKYjQs+cnKI2
+	k4lg==
+X-Gm-Message-State: AMCzsaWLJpSoOB8Gp0xeyk4+UL8slS7NzxT+33tWnduf4NxabJbEWskJ
+	M5YxyzcAr+YD4ZNvEvh2dJIabw2A+99nltGC3SL0Sw==
+X-Google-Smtp-Source: ABhQp+Qtcf59IyLtb9/QvpbWvx/YAeXW/6397CxszQhSv9voK9jMhsxHj4JrvIC0xOnXLz3yNR3G93fEPaHn0ft953E=
+X-Received: by 10.107.18.67 with SMTP id a64mr4850560ioj.165.1509491826809;
+	Tue, 31 Oct 2017 16:17:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.166.19 with HTTP; Tue, 31 Oct 2017 14:35:11 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 31 Oct 2017 14:35:11 -0700
-Message-ID: <CAJ86T=WwqN3H-KR5TYnvjG37XNvRVqdWug2o6dR5wiKEzygQ2Q@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: linux-firmware fetcher warnings
+Received: by 10.107.176.10 with HTTP; Tue, 31 Oct 2017 16:16:46 -0700 (PDT)
+In-Reply-To: <1508587571-4733-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1508587571-4733-1-git-send-email-richard.purdie@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 31 Oct 2017 23:16:46 +0000
+Message-ID: <CAJTo0LYFFZ-DOhZAepuJnXUgOTZDLcqxnWgj9F8-BLne_+wFvw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-buildenv-internal: Fix finding build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,23 +55,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Oct 2017 21:35:11 -0000
+X-List-Received-Date: Tue, 31 Oct 2017 23:17:05 -0000
+Content-Type: multipart/alternative; boundary="001a113ee9b22106d1055cdff495"
+
+--001a113ee9b22106d1055cdff495
 Content-Type: text/plain; charset="UTF-8"
 
-The linux-firmware recipe is currently trying to fetch
-iwlwifi-8000C-19.ucode which according to:
+On 21 October 2017 at 13:06, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-  https://bugs.launchpad.net/ubuntu/+source/linux-firmware/+bug/1579281
+> The intent of the env setup scripts is to set BBPATH to point at the
+> build directory if not already set. This means if the user changes
+> directory, bitbake can still find the original build directory. The
+> default bblayers.conf files reset BBPATH to the correct components so
+> this is safe and restores the behaviour the script was intended to have.
+>
+> [YOCTO #12163]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  scripts/oe-buildenv-internal | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+> index e6cd141..abc5aff 100755
+> --- a/scripts/oe-buildenv-internal
+> +++ b/scripts/oe-buildenv-internal
+> @@ -105,6 +105,11 @@ fi
+>
+>  BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
+>  BUILDDIR=$(readlink -f "$BUILDDIR")
+> +if [ -z "$BBPATH" ]; then
+> +    BBPATH=$BUILDDIR
+> +fi
+> +
+> +export BBPATH
+>
 
-is an unreleased firmware image from a unofficial fork of the main
-linux-firmware repo. The "iwlwifi-8000C-19.ucode" file isn't found in
-the current master branch of the iwlwifi linux-firmware repo (and
-doesn't seem to be there in the history either...).
+This breaks the use-case of the user switching between build directories as
+re-executing oe-init-build-env doesn't change BBPATH.
 
-The mystery firmware image was added to the linux-firmware recipe by:
+Ross
 
-  http://git.openembedded.org/openembedded-core/commit/?id=8b3d3ac84f787bf4ecccdcbcb97f2dac56acd45c
+--001a113ee9b22106d1055cdff495
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Is this firmware still required? If so, should SRC_URI be updated to
-fetch it directly from downloads.yoctoproject.org?
+<div dir=3D"ltr">On 21 October 2017 at 13:06, Richard Purdie <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_bl=
+ank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><div class=
+=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+The intent of the env setup scripts is to set BBPATH to point at the<br>
+build directory if not already set. This means if the user changes<br>
+directory, bitbake can still find the original build directory. The<br>
+default bblayers.conf files reset BBPATH to the correct components so<br>
+this is safe and restores the behaviour the script was intended to have.<br=
+>
+<br>
+[YOCTO #12163]<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org">richard.purdie@<wbr>linuxfoundation.org</a>&gt;<br>
+---<br>
+=C2=A0scripts/oe-buildenv-internal | 5 +++++<br>
+=C2=A01 file changed, 5 insertions(+)<br>
+<br>
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal<br=
+>
+index e6cd141..abc5aff 100755<br>
+--- a/scripts/oe-buildenv-internal<br>
++++ b/scripts/oe-buildenv-internal<br>
+@@ -105,6 +105,11 @@ fi<br>
+<br>
+=C2=A0BITBAKEDIR=3D$(readlink -f &quot;$BITBAKEDIR&quot;)<br>
+=C2=A0BUILDDIR=3D$(readlink -f &quot;$BUILDDIR&quot;)<br>
++if [ -z &quot;$BBPATH&quot; ]; then<br>
++=C2=A0 =C2=A0 BBPATH=3D$BUILDDIR<br>
++fi<br>
++<br>
++export BBPATH<br></blockquote><div><br></div><div>This breaks the use-case=
+ of the user switching between build directories as re-executing oe-init-bu=
+ild-env doesn&#39;t change BBPATH.</div><div><br></div><div>Ross=C2=A0</div=
+></div></div></div>
 
+--001a113ee9b22106d1055cdff495--
