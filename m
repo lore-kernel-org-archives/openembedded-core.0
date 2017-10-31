@@ -1,48 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B058E78213
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8290278211
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 19:20:30 +0000 (UTC)
-Received: by mail-pg0-f68.google.com with SMTP id l24so34120pgu.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 12:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=5BfGCrOFy3FLaqsdJMrRtzAy8+vJo0OycGyIUSqmpq8=;
-	b=WRm1gDvuo7XxPM4joIsjvkmuCMHHO33ibP6I1PXxzTH/e9uyv6pSmpIbgcqxJVnCtb
-	f4s7FWjTQ+Ahii4feU6iW7S7+zOWiAKtzQ4KMQjNfL0q5gPr+WMAY4zotORoaADV27zf
-	J31ircpXROFlo0+ddxvjP2DOYcc2xnUaPkeRBuDD5txGP+LY9C3KGDTH0XFf43KUTo8k
-	4s8LfL6BipiSSUAzDr46jg+/cA6GyWDNXEqsJXJuqlKP37EEEIqYpPBVcxQWGB98NcNP
-	C04ahCWI5u83/wMEpXexZ8bbfrNu3iUzbFY9IinkFM60eqHjG/DAScqwuQj6jqMN7SsD
-	MEZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=5BfGCrOFy3FLaqsdJMrRtzAy8+vJo0OycGyIUSqmpq8=;
-	b=F39whG99LUEKsaUKhzqJEJda31aLtOpa6/4c/LAWKEIK0FVHbxkrLd463dbx8AKocs
-	ZIkXjBaos++bbP3IRhH7NEpcQ1SBcHrVD/MKpSNspNuDcM1WylgOC9hBEIE2MU/rbT7y
-	qXlLhzgasAx9OzO12OebSAmE4D8fgah5FDAdT1nvZnL7up69FXw1PFWAzCTQyIrfVvZI
-	FL8QGyV78XsoJGZ491JV0OAL3F/Rs6okKzAuznYSHJcxT98F6NVo2ywsDdDxoNQUUrPS
-	hwRSIJTatUYUbOLBxgjH7zzZowCjYvZJvxfKg+KJ2MD9QzGf020xln1cRweH4dODO130
-	g/zw==
-X-Gm-Message-State: AMCzsaVNVJ/TklzdX23kUvGOZ6kzDcC969ObI6APE4xt/ad5M2VAovPI
-	eg0oPbQw51k6PWkTXCE4QnXx7KvWXXEZ2rlbfeU=
-X-Google-Smtp-Source: ABhQp+Sy+lTYMbNJpLo5IPu+xt9FnRMTAfcdQD4Z5+PNK8w5FX5VU8OwvyXOwxP+IqhRpx3zv9DWvr8AnNWjNdes5BI=
-X-Received: by 10.99.165.73 with SMTP id r9mr2840256pgu.437.1509477631720;
-	Tue, 31 Oct 2017 12:20:31 -0700 (PDT)
+	Tue, 31 Oct 2017 19:22:06 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 Oct 2017 12:21:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,325,1505804400"; d="scan'208";a="915952986"
+Received: from kwongkit-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.69.162])
+	by FMSMGA003.fm.intel.com with ESMTP; 31 Oct 2017 12:21:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 01 Nov 2017 08:21:47 +1300
+Message-ID: <31450354.HoTQt2LUnZ@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <20171030230256.2783.50625@do.openembedded.org>
+References: <20171030224915.32638-1-paul.eggleton@linux.intel.com>
+	<20171030230256.2783.50625@do.openembedded.org>
 MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Tue, 31 Oct 2017 12:20:01 -0700 (PDT)
-In-Reply-To: <3ce7730efecfc08d8eb8b8cae1cfe6eea9539bf1.1509431793.git.dengke.du@windriver.com>
-References: <cover.1509431793.git.dengke.du@windriver.com>
-	<3ce7730efecfc08d8eb8b8cae1cfe6eea9539bf1.1509431793.git.dengke.du@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 Oct 2017 12:20:01 -0700
-Message-ID: <CAMKF1soRxzZDsVbr8dCdkY-o9AGJW4mZQmpJBv6CM5mCnJcRiA@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] avahi: upgrade to 0.7
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHB5dGhvbi0qOiB1c2UgaHR0cHMgZm9yIHB5cGkgVVJMcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,187 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Oct 2017 19:20:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 31 Oct 2017 19:22:07 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Oct 30, 2017 at 11:44 PM, Dengke Du <dengke.du@windriver.com> wrote:
-> Delete the unneeded patch, because the upstream contains the needed changes.
-> The new version of avahi 0.7 use "/run" directory to place some run-time
-> variable data, not /var/run, so in avahi.inc, we should remove the "/run"
-> not "/var/run".
+On Tuesday, 31 October 2017 12:02:56 PM NZDT Patchwork wrote:
+> == Series Details ==
+> 
+> Series: python-*: use https for pypi URLs
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/9548/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This is
+> an automated response. Several tests have been executed on the proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Series does not apply on top of target branch 
+[test_series_merge_on_head] 
+>   Suggested fix    Rebase your series on top of targeted branch
+>   Targeted branch  master (currently at 3b413a8057)
 
-if var/run is not empty then the content should be deleted as well.
+(wrong mailing list, in case it wasn't obvious - sorry, this was supposed to 
+go to the meta-virtualization list).
 
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ---
->  .../avahi/{avahi-ui_0.6.32.bb => avahi-ui_0.7.bb}  |  6 ++---
->  meta/recipes-connectivity/avahi/avahi.inc          | 11 +++-----
->  .../avahi/{avahi_0.6.32.bb => avahi_0.7.bb}        |  6 ++---
->  ...c-install-GtkBuilder-interface-files-for-.patch | 29 ---------------------
->  .../files/avahi-fix-resource-unavaiable.patch      | 30 ----------------------
->  5 files changed, 7 insertions(+), 75 deletions(-)
->  rename meta/recipes-connectivity/avahi/{avahi-ui_0.6.32.bb => avahi-ui_0.7.bb} (89%)
->  rename meta/recipes-connectivity/avahi/{avahi_0.6.32.bb => avahi_0.7.bb} (78%)
->  delete mode 100644 meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
->  delete mode 100644 meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch
->
-> diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
-> similarity index 89%
-> rename from meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-> rename to meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
-> index ac36461..5648e38 100644
-> --- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
-> @@ -9,9 +9,8 @@ require avahi.inc
->  inherit distro_features_check
->  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
->
-> -SRC_URI += "file://0001-configure.ac-install-GtkBuilder-interface-files-for-.patch"
-> -SRC_URI[md5sum] = "22b5e705d3eabb31d26f2e1e7b074013"
-> -SRC_URI[sha256sum] = "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
-> +SRC_URI[md5sum] = "d76c59d0882ac6c256d70a2a585362a6"
-> +SRC_URI[sha256sum] = "57a99b5dfe7fdae794e3d1ee7a62973a368e91e414bd0dfa5d84434de5b14804"
->
->  DEPENDS += "avahi"
->
-> @@ -52,7 +51,6 @@ do_install_append () {
->         rm ${D}${libdir}/pkgconfig/avahi-g*
->         rm ${D}${sbindir} -rf
->         rm ${D}${datadir}/avahi/a*
-> -       rm ${D}${datadir}/avahi/s*
->         rm ${D}${datadir}/locale/ -rf
->         rm ${D}${datadir}/dbus* -rf
->         rm ${D}${mandir}/man1/a*
-> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-> index 7814464..e9819bf 100644
-> --- a/meta/recipes-connectivity/avahi/avahi.inc
-> +++ b/meta/recipes-connectivity/avahi/avahi.inc
-> @@ -33,11 +33,11 @@ PACKAGECONFIG[gtk3] = "--enable-gtk3,--disable-gtk3,gtk+3"
->  PACKAGECONFIG[pygtk] = "--enable-pygtk,--disable-pygtk,"
->
->  USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
-> -USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-> +USERADD_PARAM_avahi-daemon = "--system --home /run/avahi-daemon \
->                                --no-create-home --shell /bin/false \
->                                --user-group avahi"
->
-> -USERADD_PARAM_avahi-autoipd = "--system --home /var/run/avahi-autoipd \
-> +USERADD_PARAM_avahi-autoipd = "--system --home /run/avahi-autoipd \
->                                --no-create-home --shell /bin/false \
->                                --user-group \
->                                -c \"Avahi autoip daemon\" \
-> @@ -125,12 +125,7 @@ INITSCRIPT_PARAMS_avahi-dnsconfd = "defaults 22 19"
->
->  do_install() {
->         autotools_do_install
-> -
-> -       # don't install /var/run when populating rootfs. Do it through volatile
-> -       # /var/run of current version is empty, so just remove it.
-> -       # if /var/run become non-empty in the future, need to install it via volatile
-> -       rm -rf ${D}${localstatedir}/run
-> -       rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
-> +       rm -rf ${D}/run
->         rm -rf ${D}${datadir}/dbus-1/interfaces
->         test -d ${D}${datadir}/dbus-1 && rmdir --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
->         rm -rf ${D}${libdir}/avahi
-> diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.32.bb b/meta/recipes-connectivity/avahi/avahi_0.7.bb
-> similarity index 78%
-> rename from meta/recipes-connectivity/avahi/avahi_0.6.32.bb
-> rename to meta/recipes-connectivity/avahi/avahi_0.7.bb
-> index bfa6304..7c91f10 100644
-> --- a/meta/recipes-connectivity/avahi/avahi_0.6.32.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi_0.7.bb
-> @@ -12,10 +12,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->                      file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
->                      file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
->
-> -SRC_URI += "file://avahi-fix-resource-unavaiable.patch"
-> -
-> -SRC_URI[md5sum] = "22b5e705d3eabb31d26f2e1e7b074013"
-> -SRC_URI[sha256sum] = "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
-> +SRC_URI[md5sum] = "d76c59d0882ac6c256d70a2a585362a6"
-> +SRC_URI[sha256sum] = "57a99b5dfe7fdae794e3d1ee7a62973a368e91e414bd0dfa5d84434de5b14804"
->
->  DEPENDS += "intltool-native"
->
-> diff --git a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch b/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
-> deleted file mode 100644
-> index 942607a..0000000
-> --- a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuilder-interface-files-for-.patch
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -From 6ff255eff4fea6350b5e0462fee176fadc26fc1c Mon Sep 17 00:00:00 2001
-> -From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> -Date: Sun, 12 Jun 2016 18:32:49 +0300
-> -Subject: [PATCH] configure.ac: install GtkBuilder interface files for GTK+3
-> - too
-> -
-> -Upstream-Status: Submitted [https://github.com/lathiat/avahi/pull/130]
-> -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> ----
-> - configure.ac | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 87a9a17..9860dcc 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -965,7 +965,7 @@ AC_SUBST(avahi_socket)
-> - #
-> - # Avahi interfaces dir
-> - #
-> --if test "x$HAVE_PYTHON_DBUS" = "xyes" -o "x$HAVE_GTK" = "xyes"; then
-> -+if test "x$HAVE_PYTHON_DBUS" = "xyes" -o "x$HAVE_GTK" = "xyes" -o "x$HAVE_GTK3" = "xyes"; then
-> -       interfacesdir="${datadir}/${PACKAGE}/interfaces/"
-> -       AC_SUBST(interfacesdir)
-> - fi
-> ---
-> -2.8.1
-> -
-> diff --git a/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch b/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch
-> deleted file mode 100644
-> index 5a2fd75..0000000
-> --- a/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.patch
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -Upstream-Status: Backport
-> -
-> -Backport from:
-> -https://github.com/experimental-platform/platform-hostname-avahi/pull/9
-> -
-> -It sometimes fails to run avahi with error: "Could not receive return value
-> -from daemon process". It has same root cause with
-> -https://github.com/lxc/lxc/issues/25.
-> -
-> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ----
-> -From 5150983102ad5ad43f0dae203cb332c168eb5a71 Mon Sep 17 00:00:00 2001
-> -From: Hinnerk Haardt <haardt@information-control.de>
-> -Date: Thu, 17 Dec 2015 11:52:19 +0100
-> -Subject: [PATCH] Fix `chroot.c: fork() failed: Resource temporarily
-> - unavailable` as per https://github.com/lxc/lxc/issues/25.
-> -
-> ----
-> - avahi-daemon/avahi-daemon.conf | 1 -
-> - 1 file changed, 1 deletion(-)
-> -
-> -diff --git a/avahi-daemon/avahi-daemon.conf b/avahi-daemon/avahi-daemon.conf
-> -index 95166f8..3d5b7a6 100644
-> ---- a/avahi-daemon/avahi-daemon.conf
-> -+++ b/avahi-daemon/avahi-daemon.conf
-> -@@ -65,4 +65,3 @@ rlimit-data=4194304
-> - rlimit-fsize=0
-> - rlimit-nofile=768
-> - rlimit-stack=4194304
-> --rlimit-nproc=3
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+Paul
+
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
