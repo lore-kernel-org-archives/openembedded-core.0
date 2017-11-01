@@ -1,28 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F7A65C8F
+Return-Path: <michael.davis@essvote.com>
+X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 01 Nov 2017 22:11:49 UTC
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id AD60471DEE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Nov 2017 22:04:45 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vA1M4eE0025080
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Wed, 1 Nov 2017 22:04:42 GMT
-Message-ID: <1509573880.28159.39.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, "Burton, Ross"
-	<ross.burton@intel.com>, Chris Larson <kergoth@gmail.com>
-Date: Wed, 01 Nov 2017 22:04:40 +0000
-In-Reply-To: <CAP9ODKoTc09+i4XOTwYfj9g+_=df13Gtk5TzyC2jSuxZqtZKsg@mail.gmail.com>
-References: <1508587571-4733-1-git-send-email-richard.purdie@linuxfoundation.org>
-	<CAJTo0LYFFZ-DOhZAepuJnXUgOTZDLcqxnWgj9F8-BLne_+wFvw@mail.gmail.com>
-	<CAP9ODKoTc09+i4XOTwYfj9g+_=df13Gtk5TzyC2jSuxZqtZKsg@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oe-buildenv-internal: Fix finding build directory
+	Wed,  1 Nov 2017 22:11:49 +0000 (UTC)
+X-AuditID: 0a000213-591ff7000000040f-a3-59fa431d7d3f
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	AC.B3.01039.D134AF95; Wed,  1 Nov 2017 16:56:47 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Wed, 1 Nov 2017 16:56:45 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH] npm.bbclass: Force cache clear
+Thread-Index: AQHTU1xPq/kn1nXKA0GmlrRu3dS/hQ==
+Date: Wed, 1 Nov 2017 21:56:45 +0000
+Message-ID: <20171101215632.10549-1-michael.davis@essvote.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.97]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrALMWRmVeSWpSXmKPExsWyRiBPQ1fe+VekwfQ/ohZ3fr5jd2D0OLdx
+	BWMAYxSXTUpqTmZZapG+XQJXRuPVrSwF6zgqLu1qY25gfMPWxcjJISFgIjGj6zCQzcUhJHCC
+	UWLL9yZGkISQwExGiR19ySA2m4CRxLnrm8DiIgLREktnzGQHsZkFDCTebd7ICmILC1hIbD8x
+	nxmixlaibfIEJghbT+J+52awehYBFYlzM+6C2bwCdhIrNrwFm8koICbx/dQaJoiZ4hK3nsxn
+	gjhOQGLJnvPMELaoxMvH/1ghbDmJB39PQ9XrSdyYOoUNwtaWWLbwNTPEfEGJkzOfsExgFJ6F
+	ZOwsJC2zkLTMQtKygJFlFaNgbmJmjqFeanFxWX5Jql5yfu4mRmBoczEwCe9gXDAj9hCjAAej
+	Eg/vAfVfkUKsiWXFlbmHGKU5WJTEeRdf64wUEkhPLEnNTk0tSC2KLyrNSS0+xMjEwQkiuKQa
+	GKdpnowvqNxooxnS+e3CzTseR7Yv8mzyuz8//HDcK1tbq4unZsnrH9hfER5mq7Ay8L9Tb2Ev
+	w3+5FJO9UiwBgo23v607ZuJoM/OpFmOypsajS8UzLiyJC3v2NuLF+ZjdD7JmrTxxY1Hg9x9L
+	DV6Zz5mybMfXkhDNlu4X2opOso/TLs0pWf5AaoMSS3FGoqEWc1FxIgACXLNsUwIAAA==
+Subject: [PATCH] npm.bbclass: Force cache clear
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Nov 2017 22:04:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Nov 2017 22:11:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2017-10-31 at 21:25 -0200, Otavio Salvador wrote:
-> On Tue, Oct 31, 2017 at 9:16 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > 
-> > On 21 October 2017 at 13:06, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > 
-> > > diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-
-> > > internal
-> > > index e6cd141..abc5aff 100755
-> > > --- a/scripts/oe-buildenv-internal
-> > > +++ b/scripts/oe-buildenv-internal
-> > > @@ -105,6 +105,11 @@ fi
-> > > 
-> > >  BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
-> > >  BUILDDIR=$(readlink -f "$BUILDDIR")
-> > > +if [ -z "$BBPATH" ]; then
-> > > +    BBPATH=$BUILDDIR
-> > > +fi
-> > > +
-> > > +export BBPATH
-> > 
-> > This breaks the use-case of the user switching between build
-> > directories as
-> > re-executing oe-init-build-env doesn't change BBPATH.
-> I know and that's why I asked for a warning! ;-)
+Fixes the following issue when trying to build npm based recipes:
+| npm ERR! As of npm@5, the npm cache self-heals from corruption issues and=
+ data extracted from the cache is guaranteed to be valid. If you want to ma=
+ke sure everything is consistent, use 'npm cache verify' instead.
+| npm ERR! If you're sure you want to delete the entire cache, rerun this c=
+ommand with --force.
 
-My patch as it stands clearly can't go in.
+Signed-off-by: Michael Davis <michael.davis@essvote.com>
+---
+ meta/classes/npm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Our options are:
-
-a) make that codepath unconditional (which may be no bad thing) and 
-   use BBPATH
-b) use a specific variable for bitbake, the script sets BUILDDIR
-c) start allowing the external code to set TOPDIR directly
-
-I think I'm leaning towards a) or possibly c). I don't really like b).
-I tried c) locally and its behaving oddly. a) is known to work.
-
-Chris, any thoughts on the original intentions or what we should do
-here?
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index a69bedbb28..e5a10dd392 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -31,7 +31,7 @@ npm_do_compile() {
+ 	fi
+ 	npm set cache ${WORKDIR}/npm_cache
+ 	# clear cache before every build
+-	npm cache clear
++	npm cache clear --force
+ 	# Install pkg into ${S} without going to the registry
+ 	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
+ 		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --no-registry insta=
+ll
+--=20
+2.13.6
 
