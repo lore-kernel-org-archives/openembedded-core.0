@@ -1,40 +1,16 @@
-Return-Path: <michael.davis@essvote.com>
-X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 01 Nov 2017 22:11:49 UTC
-Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
-	by mail.openembedded.org (Postfix) with ESMTP id AD60471DEE
+Return-Path: <fabien.lahoudere@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id A8FB87780D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Nov 2017 22:11:49 +0000 (UTC)
-X-AuditID: 0a000213-591ff7000000040f-a3-59fa431d7d3f
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
-	AC.B3.01039.D134AF95; Wed,  1 Nov 2017 16:56:47 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Wed, 1 Nov 2017 16:56:45 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] npm.bbclass: Force cache clear
-Thread-Index: AQHTU1xPq/kn1nXKA0GmlrRu3dS/hQ==
-Date: Wed, 1 Nov 2017 21:56:45 +0000
-Message-ID: <20171101215632.10549-1-michael.davis@essvote.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.20.97]
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrALMWRmVeSWpSXmKPExsWyRiBPQ1fe+VekwfQ/ohZ3fr5jd2D0OLdx
-	BWMAYxSXTUpqTmZZapG+XQJXRuPVrSwF6zgqLu1qY25gfMPWxcjJISFgIjGj6zCQzcUhJHCC
-	UWLL9yZGkISQwExGiR19ySA2m4CRxLnrm8DiIgLREktnzGQHsZkFDCTebd7ICmILC1hIbD8x
-	nxmixlaibfIEJghbT+J+52awehYBFYlzM+6C2bwCdhIrNrwFm8koICbx/dQaJoiZ4hK3nsxn
-	gjhOQGLJnvPMELaoxMvH/1ghbDmJB39PQ9XrSdyYOoUNwtaWWLbwNTPEfEGJkzOfsExgFJ6F
-	ZOwsJC2zkLTMQtKygJFlFaNgbmJmjqFeanFxWX5Jql5yfu4mRmBoczEwCe9gXDAj9hCjAAej
-	Eg/vAfVfkUKsiWXFlbmHGKU5WJTEeRdf64wUEkhPLEnNTk0tSC2KLyrNSS0+xMjEwQkiuKQa
-	GKdpnowvqNxooxnS+e3CzTseR7Yv8mzyuz8//HDcK1tbq4unZsnrH9hfER5mq7Ay8L9Tb2Ev
-	w3+5FJO9UiwBgo23v607ZuJoM/OpFmOypsajS8UzLiyJC3v2NuLF+ZjdD7JmrTxxY1Hg9x9L
-	DV6Zz5mybMfXkhDNlu4X2opOso/TLs0pWf5AaoMSS3FGoqEWc1FxIgACXLNsUwIAAA==
-Subject: [PATCH] npm.bbclass: Force cache clear
+	Wed,  1 Nov 2017 23:23:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aragua) with ESMTPSA id 1A48626E22E
+From: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Nov 2017 00:22:53 +0100
+Message-Id: <20171101232255.9320-1-fabien.lahoudere@collabora.co.uk>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v7 1/3] wayland : Bump to version 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,37 +23,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Nov 2017 22:11:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Nov 2017 23:23:07 -0000
 
-Fixes the following issue when trying to build npm based recipes:
-| npm ERR! As of npm@5, the npm cache self-heals from corruption issues and=
- data extracted from the cache is guaranteed to be valid. If you want to ma=
-ke sure everything is consistent, use 'npm cache verify' instead.
-| npm ERR! If you're sure you want to delete the entire cache, rerun this c=
-ommand with --force.
-
-Signed-off-by: Michael Davis <michael.davis@essvote.com>
+Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 ---
- meta/classes/npm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.13.0.bb => wayland_1.14.0.bb} (92%)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index a69bedbb28..e5a10dd392 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -31,7 +31,7 @@ npm_do_compile() {
- 	fi
- 	npm set cache ${WORKDIR}/npm_cache
- 	# clear cache before every build
--	npm cache clear
-+	npm cache clear --force
- 	# Install pkg into ${S} without going to the registry
- 	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
- 		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --no-registry insta=
-ll
---=20
-2.13.6
+diff --git a/meta/recipes-graphics/wayland/wayland_1.13.0.bb b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/wayland/wayland_1.13.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.14.0.bb
+index b9396b6c75..2a2489d658 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.13.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.14.0.bb
+@@ -14,8 +14,8 @@ DEPENDS = "expat libxml2 libffi wayland-native"
+ 
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            "
+-SRC_URI[md5sum] = "cae152ed956da6de53f9727bc1c45039"
+-SRC_URI[sha256sum] = "69b052c031a61e89af7cc8780893d0da1e301492352aa449dee9345043e6fe51"
++SRC_URI[md5sum] = "0235f6075c32c3be61cff94fa0b9f108"
++SRC_URI[sha256sum] = "ed80cabc0961a759a42092e2c39aabfc1ec9a13c86c98bbe2b812f008da27ab8"
+ 
+ inherit autotools pkgconfig
+ 
+-- 
+2.11.0
+
 
