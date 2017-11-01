@@ -1,63 +1,34 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0962F60290
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C51AA780BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Nov 2017 12:51:38 +0000 (UTC)
-Received: by mail-oi0-f66.google.com with SMTP id g125so3691842oib.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Nov 2017 05:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=bPKGltTtqupypXXxoloZjee0oithMQN776+NIeDKfeM=;
-	b=ty5RjAEVvr1A3+0dVHU6dXG0mXgy2wJhTC0bpNxwofpZymNiDSGJgJHBdSjPAe4wSh
-	XgBAdeFiOxGrCtGM8roH7KDVIWRnofxrBlzHYlWjNOyXekGMpIYrOOQ6S5q6ISJe+bdo
-	eQ+bZb7LE9F+ajyNyuxyX+XDXMhcGE18YBZaLCYGvp1AFhsCa9bLNf068YPrecIGTEzy
-	0M6ohnjqfpvhU1NastB+cld/V0PIHdO5ah5TPnu020WB0cZfTndZIz/z+c9fNYdVZ5lk
-	vCyvl4ERr+hTO8bJC4zRyLluN1wCMO1/T1g5tpo5n1H/iuW5xhlHKRItPXSZu8gh4QCp
-	wOmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=bPKGltTtqupypXXxoloZjee0oithMQN776+NIeDKfeM=;
-	b=MBkLmSumFjMsHl6IhIFLOygNka+tjw4GCLsj+CEArQWs60M0Y7FSWxd0U8vh8wz7gi
-	ozEKIbZtNzDjdtsUKWxF+C/D4gMmNHMma8q49wPj/0kUkp3fe9KIiHM0dwd5GGBxhYvu
-	65PGZwJoCbFGBH5LZrvZr4dqBId3/fJAY0LHH46hrO7HTNpUaKu+2dHlQuRgLhg5XJqA
-	TAdholiF4umVgPHXQyJNYq80ypRL/AQw3y2IEKbC8pdjiQfUBeUgI/AGVkEFsAROEDx+
-	wg/qbMagKSJfwOWvtcIP3diDI4KWXaZdYRUiPtmdEYLDgAE8FKxaj63FKaqhuWtFq7id
-	WzfA==
-X-Gm-Message-State: AMCzsaVS60KfM7zkXf3JWL3Ol5fpa8+yjMBFFVvdNeU89f2I+v5ALAfH
-	kKAA8Kl6ZuvDr49YcIasOYPY0eLI
-X-Google-Smtp-Source: ABhQp+RBWrixcJyFDv4KWKbyT2MgQZgQEbDf6ZGGowLu4Te//Q3J5s5XMGdrvh9o/LRcC4xW0ueAIQ==
-X-Received: by 10.157.68.10 with SMTP id u10mr3608143ote.82.1509540699481;
-	Wed, 01 Nov 2017 05:51:39 -0700 (PDT)
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com.
-	[209.85.218.51])
-	by smtp.gmail.com with ESMTPSA id o58sm202182otb.2.2017.11.01.05.51.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Nov 2017 05:51:38 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f51.google.com with SMTP id j126so3703068oib.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Nov 2017 05:51:38 -0700 (PDT)
-X-Received: by 10.202.4.69 with SMTP id 66mr2619202oie.409.1509540697788; Wed,
-	01 Nov 2017 05:51:37 -0700 (PDT)
+	Wed,  1 Nov 2017 13:49:37 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP; 01 Nov 2017 06:49:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,329,1505804400"; d="scan'208";a="144671323"
+Received: from linux.intel.com ([10.54.29.200])
+	by orsmga004.jf.intel.com with ESMTP; 01 Nov 2017 06:49:38 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTPS id 400725803F3;
+	Wed,  1 Nov 2017 06:49:37 -0700 (PDT)
+Date: Wed, 1 Nov 2017 14:48:08 +0200
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Message-ID: <20171101124808.2gc5nswcombvrcuf@linux.intel.com>
+Reply-To: ed.bartosh@linux.intel.com
+References: <123c3e3f-4ba4-43f6-957f-530a69e81712@madrzak.eu>
+	<20171031133324.5hdzhtu7kop7um4b@linux.intel.com>
+	<CAP71WjxBNTEfCAN18T86fDY9nu=B50Sta69vwEsh85Fi1OPMDA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.157.56.216 with HTTP; Wed, 1 Nov 2017 05:51:36 -0700 (PDT)
-In-Reply-To: <ba38a925299ad32664c35b90486f5c9e97ed64c5.1509516068.git.wenzong.fan@windriver.com>
-References: <cover.1509516068.git.wenzong.fan@windriver.com>
-	<ba38a925299ad32664c35b90486f5c9e97ed64c5.1509516068.git.wenzong.fan@windriver.com>
-Date: Wed, 1 Nov 2017 10:51:36 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKoLas2y3uyQRV-ewU4u3RQnHW_dMA-WaQb2SiHC6ZWySw@mail.gmail.com>
-Message-ID: <CAP9ODKoLas2y3uyQRV-ewU4u3RQnHW_dMA-WaQb2SiHC6ZWySw@mail.gmail.com>
-To: wenzong.fan@windriver.com
+In-Reply-To: <CAP71WjxBNTEfCAN18T86fDY9nu=B50Sta69vwEsh85Fi1OPMDA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: NeoMutt/20170421 (1.8.2)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] initscripts: disable mountall.sh for busybox init
+Subject: Re: [PATCH] wic: add 'part-name' argument for naming GPT partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,25 +41,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Nov 2017 12:51:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 01 Nov 2017 13:49:38 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On Tue, Oct 31, 2017 at 04:08:58PM +0100, Nicolas Dechesne wrote:
+> On Tue, Oct 31, 2017 at 2:33 PM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> >
+> > On Mon, Oct 30, 2017 at 08:53:09PM +0100, Artur Mądrzak wrote:
+> > > The WIC's 'part' can now give a name for GPT partition in WKS file.
+> > > It's similar to '--label', but is naming partitions instead file systems.
+> > > It's required by some bootloaders to partitions have specified names.
+> > >
+> >
+> > Thank you for the patch!
+> >
+> > +1
+> 
+> Yes, +1 from me as well. The context of this patch is for the Qualcomm
+> SoC based board that have *interesting* bootloaders requirements, one
+> of them being to look for partition by their names.
+> 
+> Patchwork complained about the patch, so Artur, please address these
+> comments and resend the patch.
+> 
+> Ed: do you think this can be backported to previous release branches?
+> The lack of --part-name on previous releases make WIC unusable for us.
+> The backport is not trivial since many changes have happened, but
+> Artur has a equivalent patch for morty at least.
+> 
 
-On Wed, Nov 1, 2017 at 4:04 AM,  <wenzong.fan@windriver.com> wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
->
-> Disable 'mountall.sh' to avoid system halt while the init manager is
-> set as 'busybox'.
->
-> In busybox init, the 'SIGUSR1' was handled as 'halt', calling to the
-> 'mountall.sh' would trigger the signal with:
->   + kill -USR1 1
+Yes, I think it can be backported. It shouldn't be hard to do especially
+if there is a patch for morty. Just go ahead and send it for review. It
+would be a good first step in this direction.
 
-Wouldn't be better to add the signal handler for it?
+> 
+> >
+> >
+> > > Signed-off-by: Artur Mądrzak <artur@madrzak.eu>
+> > > ---
+> > >  scripts/lib/wic/help.py                  |  2 ++
+> > >  scripts/lib/wic/ksparser.py              |  1 +
+> > >  scripts/lib/wic/partition.py             |  1 +
+> > >  scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
+> > >  4 files changed, 15 insertions(+)
+> > >
+> > > diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> > > index bd9c62e2e8..2ac45e052e 100644
+> > > --- a/scripts/lib/wic/help.py
+> > > +++ b/scripts/lib/wic/help.py
+> > > @@ -970,6 +970,8 @@ DESCRIPTION
+> > >                              This option cannot be used with --fixed-size
+> > >                              option.
+> > >
+> > > +         --part-name: This option is specific to wic. It specifies name for
+> > > GPT partitions.
+> > > +
+> > >           --part-type: This option is specific to wic. It specifies
+> > > partition
+> > >                        type GUID for GPT partitions.
+> > >                        List of partition type GUIDS can be found here:
+> > > diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> > > index 99b66eebc5..7850e81d2f 100644
+> > > --- a/scripts/lib/wic/ksparser.py
+> > > +++ b/scripts/lib/wic/ksparser.py
+> > > @@ -144,6 +144,7 @@ class KickStart():
+> > >          part.add_argument('--no-table', action='store_true')
+> > >          part.add_argument('--ondisk', '--ondrive', dest='disk',
+> > > default='sda')
+> > >          part.add_argument("--overhead-factor", type=overheadtype)
+> > > +        part.add_argument('--part-name')
+> > >          part.add_argument('--part-type')
+> > >          part.add_argument('--rootfs-dir')
+> > >
+> > > diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> > > index b623bb9e6d..66e61ba70c 100644
+> > > --- a/scripts/lib/wic/partition.py
+> > > +++ b/scripts/lib/wic/partition.py
+> > > @@ -51,6 +51,7 @@ class Partition():
+> > >          self.no_table = args.no_table
+> > >          self.num = None
+> > >          self.overhead_factor = args.overhead_factor
+> > > +        self.part_name = args.part_name
+> > >          self.part_type = args.part_type
+> > >          self.rootfs_dir = args.rootfs_dir
+> > >          self.size = args.size
+> > > diff --git a/scripts/lib/wic/plugins/imager/direct.py
+> > > b/scripts/lib/wic/plugins/imager/direct.py
+> > > index 60317eed22..bdb8385620 100644
+> > > --- a/scripts/lib/wic/plugins/imager/direct.py
+> > > +++ b/scripts/lib/wic/plugins/imager/direct.py
+> > > @@ -366,6 +366,10 @@ class PartitionedImage():
+> > >          for num in range(len(self.partitions)):
+> > >              part = self.partitions[num]
+> > >
+> > > +            if self.ptable_format == 'msdos' and part.part_name:
+> > > +                raise WicError("setting custom partition name is not " \
+> > > +                               "implemented for msdos partitions")
+> > > +
+> > >              if self.ptable_format == 'msdos' and part.part_type:
+> > >                  # The --part-type can also be implemented for MBR
+> > > partitions,
+> > >                  # in which case it would map to the 1-byte "partition type"
+> > > @@ -519,6 +523,13 @@ class PartitionedImage():
+> > >              self._create_partition(self.path, part.type,
+> > >                                     parted_fs_type, part.start,
+> > > part.size_sec)
+> > >
+> > > +            if part.part_name:
+> > > +                logger.debug("partition %d: set name to %s",
+> > > +                             part.num, part.part_name)
+> > > +                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
+> > > +                                         (part.num, part.part_name,
+> > > +                                          self.path), self.native_sysroot)
+> > > +
+> > >              if part.part_type:
+> > >                  logger.debug("partition %d: set type UID to %s",
+> > >                               part.num, part.part_type)
+> > > --
+> > > 2.13.6
+> > >
+> > > --
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> > --
+> > --
+> > Regards,
+> > Ed
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--
+Regards,
+Ed
 
