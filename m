@@ -1,51 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AED9D60291
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F94B71951
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Nov 2017 01:55:09 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id g6so799231pgn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Oct 2017 18:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=E3ZbGjTL206vTtypYyzrGqi0Ind7D8EDIENqv4z/FOk=;
-	b=N44Mjf8H4mkIYWFVvyO0z8hF9MjAyGt+zTacolzqcbq/QZ8Lj4vh20KodZqwlK1G72
-	yJorNo0+UGef182YmyxIz021mJ3xkZ5InFjenrMhDaVhCbYTA/3FNFmZmGeFOVsqO8Y7
-	BhGnRjlxDO2HEUFCxa9kwUxXNZA6fmj1sSH72tR681Aqs4TW7jiwAF3B0kn6faOAe7UI
-	Jq1Bc/WBCxrdJpWfbXJWp6NQE8bV6+ycaLK6NE9z97lYIXunXZLYgx2CsYnd0NpI825V
-	A0XiO6vnpsToXRA43L3kksFAp0hud35CFT1A1gf7HG5N5l1Nl5F/dXbvGKvkAxp0poPW
-	PK4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=E3ZbGjTL206vTtypYyzrGqi0Ind7D8EDIENqv4z/FOk=;
-	b=ivfome7K+kFzLgxOjZiRFmBT+5Ro/Z3yhLAFRYhkc7WSjF1GKa9woGFLBJv0H8KoH4
-	Mfdn1TIrzKDjwmqyBpuvl3uFI+cZrvjPCYhM0yuu26ESWrT9EEJ8c8i/aJizbWkpFSI4
-	XtlFo6JnCyU4fjEHHOI2DCB4mHRLahlXh+uYkyClqNY/zZvccP5xn2Ubdx+RAbubcv9O
-	F7HAqOiONkVYrleGQo7PgGS4Jo2Wo/zOxItYFWwwXRJGqCLAAYzFa0+rk5cEhRvJCr0Q
-	GfceHTEm+MJYhU9KgGhX3EUnM09os6zbVIpXcZOkZRA6LNVhDnkMZh9JLgy8bP4U+j2g
-	nCwg==
-X-Gm-Message-State: AMCzsaWQbDJ4Pm6uHP8LhqBOMH9wIfGxwQbjBLDl+7ex1h5zFzJKK+Bx
-	o2/E6ZFYrZphoi/duBYff063RvihXtJP/v04OSU=
-X-Google-Smtp-Source: ABhQp+SpyKQBWY3FYUkCq9o2vzGbWzXVjPXKUCahzV3xIQDJhmtVTsX4fr1pslZkb2uHfbDZ+K+kDqtQokcVgtjewYQ=
-X-Received: by 10.99.51.72 with SMTP id z69mr4067855pgz.317.1509501310150;
-	Tue, 31 Oct 2017 18:55:10 -0700 (PDT)
+	Wed,  1 Nov 2017 02:03:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vA123AeT020616
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Tue, 31 Oct 2017 19:03:10 -0700
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0361.001;
+	Tue, 31 Oct 2017 19:03:09 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH 1/2] glibc: re-package for libnss-db
+Thread-Index: AQHTUoAxEq5LtnJNvUezW5cO39Nki6L+xFMQ
+Date: Wed, 1 Nov 2017 02:03:09 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B8FD2A2@ALA-MBC.corp.ad.wrs.com>
+References: <cover.1509434339.git.jackie.huang@windriver.com>
+	<c9abce5faf047aedd2560cb54b3807aebf5193b5.1509434339.git.jackie.huang@windriver.com>
+	<CAMKF1sqmihKMW4qA9Xzu9xDq6KNna1TNyjDmWTYbdYWpu08ieA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqmihKMW4qA9Xzu9xDq6KNna1TNyjDmWTYbdYWpu08ieA@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.177.126]
 MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Tue, 31 Oct 2017 18:54:39 -0700 (PDT)
-In-Reply-To: <dba12417-71af-c0ba-0010-62c6be98c92b@windriver.com>
-References: <cover.1509431793.git.dengke.du@windriver.com>
-	<3ce7730efecfc08d8eb8b8cae1cfe6eea9539bf1.1509431793.git.dengke.du@windriver.com>
-	<CAMKF1soRxzZDsVbr8dCdkY-o9AGJW4mZQmpJBv6CM5mCnJcRiA@mail.gmail.com>
-	<dba12417-71af-c0ba-0010-62c6be98c92b@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 31 Oct 2017 18:54:39 -0700
-Message-ID: <CAMKF1spxsbh+tQPhYVuiAn9_Nw_c+m8SHNEeWERH5huAbLQerw@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] avahi: upgrade to 0.7
+Subject: Re: [PATCH 1/2] glibc: re-package for libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,257 +41,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Nov 2017 01:55:09 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Nov 2017 02:03:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Oct 31, 2017 at 6:35 PM, Dengke Du <dengke.du@windriver.com> wrote:
->
->
-> On 2017=E5=B9=B411=E6=9C=8801=E6=97=A5 03:20, Khem Raj wrote:
->>
->> On Mon, Oct 30, 2017 at 11:44 PM, Dengke Du <dengke.du@windriver.com>
->> wrote:
->>>
->>> Delete the unneeded patch, because the upstream contains the needed
->>> changes.
->>> The new version of avahi 0.7 use "/run" directory to place some run-tim=
-e
->>> variable data, not /var/run, so in avahi.inc, we should remove the "/ru=
-n"
->>> not "/var/run".
->>
->> if var/run is not empty then the content should be deleted as well.
->
->
-> Hi Khem,
->
-> Yes, but the installation would not create the /var/run directory.
->
->
-
-OK thanks for confirming
-
->>
->>> Signed-off-by: Dengke Du <dengke.du@windriver.com>
->>> ---
->>>   .../avahi/{avahi-ui_0.6.32.bb =3D> avahi-ui_0.7.bb}  |  6 ++---
->>>   meta/recipes-connectivity/avahi/avahi.inc          | 11 +++-----
->>>   .../avahi/{avahi_0.6.32.bb =3D> avahi_0.7.bb}        |  6 ++---
->>>   ...c-install-GtkBuilder-interface-files-for-.patch | 29
->>> ---------------------
->>>   .../files/avahi-fix-resource-unavaiable.patch      | 30
->>> ----------------------
->>>   5 files changed, 7 insertions(+), 75 deletions(-)
->>>   rename meta/recipes-connectivity/avahi/{avahi-ui_0.6.32.bb =3D>
->>> avahi-ui_0.7.bb} (89%)
->>>   rename meta/recipes-connectivity/avahi/{avahi_0.6.32.bb =3D>
->>> avahi_0.7.bb} (78%)
->>>   delete mode 100644
->>> meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBuil=
-der-interface-files-for-.patch
->>>   delete mode 100644
->>> meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.pat=
-ch
->>>
->>> diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
->>> b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
->>> similarity index 89%
->>> rename from meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
->>> rename to meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
->>> index ac36461..5648e38 100644
->>> --- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.32.bb
->>> +++ b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
->>> @@ -9,9 +9,8 @@ require avahi.inc
->>>   inherit distro_features_check
->>>   ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
->>>
->>> -SRC_URI +=3D
->>> "file://0001-configure.ac-install-GtkBuilder-interface-files-for-.patch=
-"
->>> -SRC_URI[md5sum] =3D "22b5e705d3eabb31d26f2e1e7b074013"
->>> -SRC_URI[sha256sum] =3D
->>> "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
->>> +SRC_URI[md5sum] =3D "d76c59d0882ac6c256d70a2a585362a6"
->>> +SRC_URI[sha256sum] =3D
->>> "57a99b5dfe7fdae794e3d1ee7a62973a368e91e414bd0dfa5d84434de5b14804"
->>>
->>>   DEPENDS +=3D "avahi"
->>>
->>> @@ -52,7 +51,6 @@ do_install_append () {
->>>          rm ${D}${libdir}/pkgconfig/avahi-g*
->>>          rm ${D}${sbindir} -rf
->>>          rm ${D}${datadir}/avahi/a*
->>> -       rm ${D}${datadir}/avahi/s*
->>>          rm ${D}${datadir}/locale/ -rf
->>>          rm ${D}${datadir}/dbus* -rf
->>>          rm ${D}${mandir}/man1/a*
->>> diff --git a/meta/recipes-connectivity/avahi/avahi.inc
->>> b/meta/recipes-connectivity/avahi/avahi.inc
->>> index 7814464..e9819bf 100644
->>> --- a/meta/recipes-connectivity/avahi/avahi.inc
->>> +++ b/meta/recipes-connectivity/avahi/avahi.inc
->>> @@ -33,11 +33,11 @@ PACKAGECONFIG[gtk3] =3D
->>> "--enable-gtk3,--disable-gtk3,gtk+3"
->>>   PACKAGECONFIG[pygtk] =3D "--enable-pygtk,--disable-pygtk,"
->>>
->>>   USERADD_PACKAGES =3D "avahi-daemon avahi-autoipd"
->>> -USERADD_PARAM_avahi-daemon =3D "--system --home /var/run/avahi-daemon =
-\
->>> +USERADD_PARAM_avahi-daemon =3D "--system --home /run/avahi-daemon \
->>>                                 --no-create-home --shell /bin/false \
->>>                                 --user-group avahi"
->>>
->>> -USERADD_PARAM_avahi-autoipd =3D "--system --home /var/run/avahi-autoip=
-d \
->>> +USERADD_PARAM_avahi-autoipd =3D "--system --home /run/avahi-autoipd \
->>>                                 --no-create-home --shell /bin/false \
->>>                                 --user-group \
->>>                                 -c \"Avahi autoip daemon\" \
->>> @@ -125,12 +125,7 @@ INITSCRIPT_PARAMS_avahi-dnsconfd =3D "defaults 22 =
-19"
->>>
->>>   do_install() {
->>>          autotools_do_install
->>> -
->>> -       # don't install /var/run when populating rootfs. Do it through
->>> volatile
->>> -       # /var/run of current version is empty, so just remove it.
->>> -       # if /var/run become non-empty in the future, need to install i=
-t
->>> via volatile
->>> -       rm -rf ${D}${localstatedir}/run
->>> -       rmdir --ignore-fail-on-non-empty ${D}${localstatedir}
->>> +       rm -rf ${D}/run
->>>          rm -rf ${D}${datadir}/dbus-1/interfaces
->>>          test -d ${D}${datadir}/dbus-1 && rmdir
->>> --ignore-fail-on-non-empty ${D}${datadir}/dbus-1
->>>          rm -rf ${D}${libdir}/avahi
->>> diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.32.bb
->>> b/meta/recipes-connectivity/avahi/avahi_0.7.bb
->>> similarity index 78%
->>> rename from meta/recipes-connectivity/avahi/avahi_0.6.32.bb
->>> rename to meta/recipes-connectivity/avahi/avahi_0.7.bb
->>> index bfa6304..7c91f10 100644
->>> --- a/meta/recipes-connectivity/avahi/avahi_0.6.32.bb
->>> +++ b/meta/recipes-connectivity/avahi/avahi_0.7.bb
->>> @@ -12,10 +12,8 @@ LIC_FILES_CHKSUM =3D
->>> "file://LICENSE;md5=3D2d5025d4aa3495befef8f17206a5b0a1 \
->>>
->>> file://avahi-daemon/main.c;endline=3D21;md5=3D9ee77368c5407af77caaef1b0=
-7285969 \
->>>
->>> file://avahi-client/client.h;endline=3D23;md5=3Df4ac741a25c4f434039ba3e=
-18c8674cf"
->>>
->>> -SRC_URI +=3D "file://avahi-fix-resource-unavaiable.patch"
->>> -
->>> -SRC_URI[md5sum] =3D "22b5e705d3eabb31d26f2e1e7b074013"
->>> -SRC_URI[sha256sum] =3D
->>> "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
->>> +SRC_URI[md5sum] =3D "d76c59d0882ac6c256d70a2a585362a6"
->>> +SRC_URI[sha256sum] =3D
->>> "57a99b5dfe7fdae794e3d1ee7a62973a368e91e414bd0dfa5d84434de5b14804"
->>>
->>>   DEPENDS +=3D "intltool-native"
->>>
->>> diff --git
->>> a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBu=
-ilder-interface-files-for-.patch
->>> b/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBu=
-ilder-interface-files-for-.patch
->>> deleted file mode 100644
->>> index 942607a..0000000
->>> ---
->>> a/meta/recipes-connectivity/avahi/files/0001-configure.ac-install-GtkBu=
-ilder-interface-files-for-.patch
->>> +++ /dev/null
->>> @@ -1,29 +0,0 @@
->>> -From 6ff255eff4fea6350b5e0462fee176fadc26fc1c Mon Sep 17 00:00:00 2001
->>> -From: Jussi Kukkonen <jussi.kukkonen@intel.com>
->>> -Date: Sun, 12 Jun 2016 18:32:49 +0300
->>> -Subject: [PATCH] configure.ac: install GtkBuilder interface files for
->>> GTK+3
->>> - too
->>> -
->>> -Upstream-Status: Submitted [https://github.com/lathiat/avahi/pull/130]
->>> -Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->>> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
->>> ----
->>> - configure.ac | 2 +-
->>> - 1 file changed, 1 insertion(+), 1 deletion(-)
->>> -
->>> -diff --git a/configure.ac b/configure.ac
->>> -index 87a9a17..9860dcc 100644
->>> ---- a/configure.ac
->>> -+++ b/configure.ac
->>> -@@ -965,7 +965,7 @@ AC_SUBST(avahi_socket)
->>> - #
->>> - # Avahi interfaces dir
->>> - #
->>> --if test "x$HAVE_PYTHON_DBUS" =3D "xyes" -o "x$HAVE_GTK" =3D "xyes"; t=
-hen
->>> -+if test "x$HAVE_PYTHON_DBUS" =3D "xyes" -o "x$HAVE_GTK" =3D "xyes" -o
->>> "x$HAVE_GTK3" =3D "xyes"; then
->>> -       interfacesdir=3D"${datadir}/${PACKAGE}/interfaces/"
->>> -       AC_SUBST(interfacesdir)
->>> - fi
->>> ---
->>> -2.8.1
->>> -
->>> diff --git
->>> a/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.p=
-atch
->>> b/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.p=
-atch
->>> deleted file mode 100644
->>> index 5a2fd75..0000000
->>> ---
->>> a/meta/recipes-connectivity/avahi/files/avahi-fix-resource-unavaiable.p=
-atch
->>> +++ /dev/null
->>> @@ -1,30 +0,0 @@
->>> -Upstream-Status: Backport
->>> -
->>> -Backport from:
->>> -https://github.com/experimental-platform/platform-hostname-avahi/pull/=
-9
->>> -
->>> -It sometimes fails to run avahi with error: "Could not receive return
->>> value
->>> -from daemon process". It has same root cause with
->>> -https://github.com/lxc/lxc/issues/25.
->>> -
->>> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>> ----
->>> -From 5150983102ad5ad43f0dae203cb332c168eb5a71 Mon Sep 17 00:00:00 2001
->>> -From: Hinnerk Haardt <haardt@information-control.de>
->>> -Date: Thu, 17 Dec 2015 11:52:19 +0100
->>> -Subject: [PATCH] Fix `chroot.c: fork() failed: Resource temporarily
->>> - unavailable` as per https://github.com/lxc/lxc/issues/25.
->>> -
->>> ----
->>> - avahi-daemon/avahi-daemon.conf | 1 -
->>> - 1 file changed, 1 deletion(-)
->>> -
->>> -diff --git a/avahi-daemon/avahi-daemon.conf
->>> b/avahi-daemon/avahi-daemon.conf
->>> -index 95166f8..3d5b7a6 100644
->>> ---- a/avahi-daemon/avahi-daemon.conf
->>> -+++ b/avahi-daemon/avahi-daemon.conf
->>> -@@ -65,4 +65,3 @@ rlimit-data=3D4194304
->>> - rlimit-fsize=3D0
->>> - rlimit-nofile=3D768
->>> - rlimit-stack=3D4194304
->>> --rlimit-nproc=3D3
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogW21haWx0
+bzpyYWoua2hlbUBnbWFpbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgTm92ZW1iZXIgMDEsIDIw
+MTcgMDM6NDANCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gQ2M6IFBhdGNoZXMgYW5kIGRp
+c2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gW1BBVENIIDEvMl0gZ2xpYmM6IHJlLXBhY2thZ2UgZm9yIGxpYm5zcy1kYg0KPiANCj4gT24g
+VHVlLCBPY3QgMzEsIDIwMTcgYXQgMTI6MjAgQU0sICA8amFja2llLmh1YW5nQHdpbmRyaXZlci5j
+b20+IHdyb3RlOg0KPiA+IEZyb206IEphY2tpZSBIdWFuZyA8amFja2llLmh1YW5nQHdpbmRyaXZl
+ci5jb20+DQo+ID4NCj4gPiBPbiBvdGhlciBkaXN0cm9zIGxpa2UgdWJ1bnR1L2NlbnRvcywgbGli
+bnNzLWRiIHVzdWFsbHkgcHJvdmlkZXM6DQo+ID4gLSBUaGUgbGlicmFyaWVzDQo+ID4gLSBUaGUg
+TWFrZWZpbGUgdG8gY3JlYXRlIGRhdGFiYXNlDQo+ID4gICAoaW4gL3Zhci9kYiBmb3IgY2VudG9z
+LCAvdmFyL2xpYi9taXNjLyBmb3IgdWJ1bnR1KQ0KPiA+IC0gVGhlIG1ha2VkYiBjb21tYW5kIChp
+dCdzIGluIGdsaWJjLWNvbW1vbiBmb3IgY2VudG9zNykNCj4gPg0KPiA+IFdoYXQgd2UgaGFkIGlz
+Og0KPiA+IC0gVGhlIGxpYnJhcmllcyBhcmUgaW4gZ2xpYmMtZXh0cmEtbnNzDQo+ID4gLSBUaGUg
+TWFrZWZpbGUgaXMgcmVtb3ZlZA0KPiA+IC0gVGhlIG1ha2VkYiBjb21tYW5kIGlzIGluIGdsaWJj
+LXV0aWxzIChsYWNrIG9mIGRlcGVuZGVuY3kpDQo+ID4NCj4gPiBTbyB3aGVuIGdsaWJjLWV4dHJh
+LW5zcyBpcyBpbnN0YWxsZWQgYnV0IGdsaWJjLXV0aWxzIGlzIG5vdCwNCj4gPiB3ZSBzZWUgZXJy
+b3IgbGlrZToNCj4gPiBuc2NkWzE2NV06IDE2NSBjaGVja2luZyBmb3IgbW9uaXRvcmVkIGZpbGUg
+YC92YXIvZGIvZ3JvdXAuZGInOiBObyBzdWNoIGZpbGUgb3INCj4gZGlyZWN0b3J5DQo+ID4gbnNj
+ZFsxNjVdOiAxNjUgY2hlY2tpbmcgZm9yIG1vbml0b3JlZCBmaWxlIGAvdmFyL2RiL3Bhc3N3ZC5k
+Yic6IE5vIHN1Y2ggZmlsZQ0KPiBvciBkaXJlY3RvcnkNCj4gPg0KPiA+IEFuZCB0aGVyZSBpcyBu
+b3QgYW4gZWFzeSB3YXkgdG8gY3JlYXRlIHRoZXNlIGRhdGFiYXNlcy4NCj4gPg0KPiA+IFRvIGZp
+eCB0aGUgaXNzdWU6DQo+ID4gLSBSZS1wYWNrYWdlIHRoZSBsaWJyYXJpZXMgaW50byBsaWJuc3Mt
+ZGINCj4gPiAtIERvbid0IHJlbW92ZSB0aGUgTWFrZWZpbGUgYW5kIGFkZCBpdCBpbiBsaWJuc3Mt
+ZGINCj4gPiAtIEFkZCBSREVQRU5EUyBmb3IgbGlibnNzLWRiIG9uIGdsaWJjLXV0aWxzIGFuZCBt
+YWtlDQo+ID4NCj4gDQo+IHRoaXMgbG9va3Mgb2sgYWx0aG91Z2gsIGNoYW5naW5nIGdsaWJjIHBh
+Y2thZ2luZyBpcyBhIGJpdCB0aG9ybnkgZm9yDQo+IGV4dGVybmFsIHRvb2xjaGFpbnMgYW5kDQo+
+IG90aGVyIGxpYnJhcmllcy4gV291bGQgYmUgYmV0dGVyIGlmIHRoaXMgd2FzIGFkZGVkIHRvIGNv
+bW1pdCBzYXlpbmcNCj4gdGhhdCB0aGV5IGhhdmUgeWV0IGFub3RoZXINCj4gcGFja2FnZSB0aGF0
+IHRoZXkgbmVlZCB0byBwcm92aWRlIGlmIHJlcGxhY2luZyBnbGliYyBmcm9tIGNvcmUuDQoNClNv
+cnJ5IEknbSBub3Qgc3VyZSBJIHVuZGVyc3RhbmQgY29ycmVjdGx5LCBkaWQgeW91IG1lYW4gSSBq
+dXN0IG5lZWQgdG8gYWRkIA0Kd29yZHMgaW4gdGhlIGNvbW1pdCBtZXNzYWdlIGxpa2UgdGhlIGZv
+bGxvd2luZz8NCg0KIkZvciBleHRlcm5hbCB0b29sY2hhaW4sIGFuIGV4dHJhIHBhY2thZ2UgJ2xp
+Ym5zcy1kYicgbmVlZCB0byBiZSBwcm92aWRlZCBJZiByZXBsYWNpbmcgZ2xpYmMgZnJvbSBjb3Jl
+LiINCg0KVGhhbmtzLA0KSmFja2llIA0KDQo+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IEphY2tpZSBI
+dWFuZyA8amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvcmVj
+aXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBhY2thZ2UuaW5jIHwgNSArKystLQ0KPiA+ICAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBhY2thZ2UuaW5jIGIvbWV0YS9y
+ZWNpcGVzLQ0KPiBjb3JlL2dsaWJjL2dsaWJjLXBhY2thZ2UuaW5jDQo+ID4gaW5kZXggZGYzZGIy
+Y2M0NS4uMWMzNzgyZGJiMCAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGli
+Yy9nbGliYy1wYWNrYWdlLmluYw0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2ds
+aWJjLXBhY2thZ2UuaW5jDQo+ID4gQEAgLTEsNiArMSw2IEBADQo+ID4gIElOSElCSVRfU1lTUk9P
+VF9TVFJJUCA9ICIxIg0KPiA+DQo+ID4gLVBBQ0tBR0VTID0gIiR7UE59LWRiZyBjYXRjaHNlZ3Yg
+c2xuIG5zY2QgbGRkIHR6Y29kZSBnbGliYy10aHJlYWQtZGIgJHtQTn0tDQo+IHBpYyBsaWJjaWRu
+IGxpYm1lbXVzYWdlIGxpYnNlZ2ZhdWx0ICR7UE59LXBjcHJvZmlsZSBsaWJzb3RydXNzICR7UE59
+ICR7UE59LXV0aWxzDQo+IGdsaWJjLWV4dHJhLW5zcyAke1BOfS1kZXYgJHtQTn0tc3RhdGljZGV2
+ICR7UE59LWRvYyINCj4gPiArUEFDS0FHRVMgPSAiJHtQTn0tZGJnIGNhdGNoc2VndiBzbG4gbnNj
+ZCBsZGQgdHpjb2RlIGdsaWJjLXRocmVhZC1kYiAke1BOfS0NCj4gcGljIGxpYmNpZG4gbGlibWVt
+dXNhZ2UgbGlibnNzLWRiIGxpYnNlZ2ZhdWx0ICR7UE59LXBjcHJvZmlsZSBsaWJzb3RydXNzICR7
+UE59DQo+ICR7UE59LXV0aWxzIGdsaWJjLWV4dHJhLW5zcyAke1BOfS1kZXYgJHtQTn0tc3RhdGlj
+ZGV2ICR7UE59LWRvYyINCj4gPg0KPiA+ICAjIFRoZSBsZC5zbyBpbiB0aGlzIGdsaWJjIHN1cHBv
+cnRzIHRoZSBHTlVfSEFTSA0KPiA+ICBSUFJPVklERVNfJHtQTn0gPSAiZWdsaWJjIHJ0bGQoR05V
+X0hBU0gpIg0KPiA+IEBAIC0yMyw2ICsyMyw4IEBAIEZJTEVTX2xkZCA9ICIke2JpbmRpcn0vbGRk
+Ig0KPiA+ICBGSUxFU19saWJzZWdmYXVsdCA9ICIke2Jhc2VfbGliZGlyfS9saWJTZWdGYXVsdCoi
+DQo+ID4gIEZJTEVTX2xpYmNpZG4gPSAiJHtiYXNlX2xpYmRpcn0vbGliY2lkbi0qLnNvICR7YmFz
+ZV9saWJkaXJ9L2xpYmNpZG4uc28uKiINCj4gPiAgRklMRVNfbGlibWVtdXNhZ2UgPSAiJHtiYXNl
+X2xpYmRpcn0vbGlibWVtdXNhZ2Uuc28iDQo+ID4gK0ZJTEVTX2xpYm5zcy1kYiA9ICIke2Jhc2Vf
+bGliZGlyfS9saWJuc3NfZGIuc28uKiAke2Jhc2VfbGliZGlyfS9saWJuc3NfZGItKi5zbw0KPiAk
+e2xvY2Fsc3RhdGVkaXJ9L2RiL01ha2VmaWxlIg0KPiA+ICtSREVQRU5EU19saWJuc3MtZGIgPSAi
+JHtQTn0tdXRpbHMgbWFrZSINCj4gPiAgRklMRVNfZ2xpYmMtZXh0cmEtbnNzID0gIiR7YmFzZV9s
+aWJkaXJ9L2xpYm5zc18qLSouc28NCj4gJHtiYXNlX2xpYmRpcn0vbGlibnNzXyouc28uKiINCj4g
+PiAgRklMRVNfc2xuID0gIiR7YmFzZV9zYmluZGlyfS9zbG4iDQo+ID4gIEZJTEVTXyR7UE59LXBp
+YyA9ICIke2xpYmRpcn0vKl9waWMuYSAke2xpYmRpcn0vKl9waWMubWFwICR7bGliZGlyfS9saWJj
+X3BpYy8qLm8iDQo+ID4gQEAgLTU5LDcgKzYxLDYgQEAgaW5oZXJpdCBsaWJjLWNvbW1vbiBtdWx0
+aWxpYl9oZWFkZXINCj4gPg0KPiA+ICBkb19pbnN0YWxsX2FwcGVuZCAoKSB7DQo+ID4gICAgICAg
+ICBybSAtZiAke0R9JHtzeXNjb25mZGlyfS9sb2NhbHRpbWUNCj4gPiAtICAgICAgIHJtIC1yZiAk
+e0R9JHtsb2NhbHN0YXRlZGlyfQ0KPiA+DQo+ID4gICAgICAgICAjIHJlbW92ZSBlbXB0eSBnbGli
+YyBkaXINCj4gPiAgICAgICAgIGlmIFsgLWQgJHtEfSR7bGliZXhlY2Rpcn0gXTsgdGhlbg0KPiA+
+IC0tDQo+ID4gMi4xMS4wDQo+ID4NCj4gPiAtLQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBs
+aXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+IGh0
+dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVk
+LWNvcmUNCg==
 
