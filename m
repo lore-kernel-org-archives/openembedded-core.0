@@ -1,21 +1,25 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 61C0477BC1
+	by mail.openembedded.org (Postfix) with ESMTP id A71BF77BC1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Nov 2017 14:00:35 +0000 (UTC)
+	Wed,  1 Nov 2017 14:00:36 +0000 (UTC)
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Nov 2017 07:00:37 -0700
+	01 Nov 2017 07:00:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,329,1505804400"; d="scan'208";a="330573660"
+X-IronPort-AV: E=Sophos;i="5.44,329,1505804400"; d="scan'208";a="330573672"
 Received: from marquiz2.fi.intel.com ([10.237.72.79])
-	by fmsmga004.fm.intel.com with ESMTP; 01 Nov 2017 07:00:36 -0700
+	by fmsmga004.fm.intel.com with ESMTP; 01 Nov 2017 07:00:37 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Nov 2017 16:00:29 +0200
-Message-Id: <cover.1509544185.git.markus.lehtonen@linux.intel.com>
+Date: Wed,  1 Nov 2017 16:00:30 +0200
+Message-Id: <2f489320ee96af8e18f53369a0ede9f4bde17052.1509544185.git.markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.13.6
-Subject: [PATCH 0/6] Stop using update-alternatives for init scripts
+In-Reply-To: <cover.1509544185.git.markus.lehtonen@linux.intel.com>
+References: <cover.1509544185.git.markus.lehtonen@linux.intel.com>
+In-Reply-To: <cover.1509544185.git.markus.lehtonen@linux.intel.com>
+References: <cover.1509544185.git.markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/6] sysklogd: don't use update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +34,47 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 01 Nov 2017 14:00:36 -0000
 
-This patchset does away with the usage of update-alternatives for managing init
-scripts. Using u-a for initscripts cause race/ordering issues with package
-scriptlets doing daemon stop/start/enable at package installation time. The
-patchset also reverts a kludge that was introduced in
-update-alternatives.bbclass and update-rc.d.bbclass to work around the
-aforementioned problems. Finally, it introduces sanity check to
-update-alternatives.bbclass to prevent usage of u-a for init scripts in the
-future.
+Using update-alternatives for managing init scripts has proved to be
+problematic. And, sysklogd rconflicts with other syslog daemons so there
+is no point in using update-alternatives from this perspective, either.
 
 [YOCTO #10944]
 
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/recipes-extended/sysklogd/sysklogd.inc | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-The following changes since commit 3b413a80578caacd9a7f405f3c51a3921d78a60d:
-
-  README.qemu: qemuppc64 is not supported (2017-10-16 23:54:27 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/fixes-10944
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=marquiz/fixes-10944
-
-Markus Lehtonen (6):
-  sysklogd: don't use update-alternatives
-  initscripts: don't use update-alternatives
-  lsbinitscripts: don't use update-alternatives
-  initscripts: rrecommend initscripts-functions
-  Revert "classes: Fix alternatives and rc.d ordering"
-  update-alternatives.bbclass: refuse to manage SysV init scripts
-
- meta/classes/update-alternatives.bbclass         | 33 ++++++++----------------
- meta/classes/update-rc.d.bbclass                 | 23 +++--------------
- meta/conf/distro/include/default-providers.inc   |  1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb | 11 ++++----
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb   |  2 +-
- meta/recipes-extended/lsb/lsbinitscripts_9.72.bb |  8 ++----
- meta/recipes-extended/sysklogd/sysklogd.inc      | 12 +--------
- 7 files changed, 24 insertions(+), 66 deletions(-)
-
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index e9a4a02192..1a537fabf4 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
+                    "
+ 
+-inherit update-rc.d update-alternatives systemd
++inherit update-rc.d systemd
+ 
+ SRC_URI = "http://www.infodrom.org/projects/sysklogd/download/sysklogd-${PV}.tar.gz \
+            file://no-strip-install.patch \
+@@ -58,16 +58,6 @@ do_install () {
+ 
+ FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','${exec_prefix}/lib/tmpfiles.d/sysklogd.conf', '', d)}"
+ 
+-ALTERNATIVE_PRIORITY = "100"
+-
+-ALTERNATIVE_${PN} = "syslogd klogd"
+-
+-ALTERNATIVE_${PN}-doc = "syslogd.8"
+-ALTERNATIVE_LINK_NAME[syslogd.8] = "${mandir}/man8/syslogd.8"
+-
+-ALTERNATIVE_LINK_NAME[syslogd] = "${base_sbindir}/syslogd"
+-ALTERNATIVE_LINK_NAME[klogd] = "${base_sbindir}/klogd"
+-
+ pkg_prerm_${PN} () {
+ 	if test "x$D" = "x"; then
+ 	if test "$1" = "upgrade" -o "$1" = "remove"; then
 -- 
 2.13.6
 
