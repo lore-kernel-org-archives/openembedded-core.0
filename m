@@ -1,51 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A816011A
+Return-Path: <artur@madrzak.eu>
+Received: from s20.linuxpl.com (s20.linuxpl.com [78.46.68.78])
+	by mail.openembedded.org (Postfix) with ESMTP id 841DD6011A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Nov 2017 08:35:17 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id n14so1406675pfh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Nov 2017 01:35:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=wrmJZmTEk0HqXr4SzIkIdVGM2vPhFrR7hoEnOGEDLAw=;
-	b=h3nIRTVsscZ7nhw7zeOtr4eNR/MV9L6xj0UtG7UGyR/iUSg2CW6UpPVhrmk2HI60zC
-	jSH9R3jYOwFekimmK/7qOV2L/xRexNUdzac9qpY/htvKSlmRRo1fElUyQinKu+xJaoMV
-	KmfslLpdyOp8r+mDLdcF9574aDgzZ5ty6BgXtkgSAiv7ckdJB00JCviG+pG30ZlUYo2Q
-	HRqXCDPoyIrMB4zE9l0Y1RnK/c01O7uxqCpwf44a/V00ypWSaxwlqftAFIA20rXaFoGm
-	VbDk3rwNZKNzWWwLQqtrKLrwYsm0TU5h/CtnPXfJHF9/HqsKW6xZvi7m8yMPOSKZQnpl
-	ts1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=wrmJZmTEk0HqXr4SzIkIdVGM2vPhFrR7hoEnOGEDLAw=;
-	b=dLnB7DrLkmuSQcP0ykF5ses90WnagWHWS01FrDEE4pdh0Rf2/KsHu1ODBiiLXv8VE+
-	o4xuOH5fv+0Nd+svYRqtFqyQ4WJIwRo1M7QMR3UCOYdzybbB4ackDR8DMTf6OxNp65b1
-	KEnFUOcsRnEP2rNrhArM6fX5qyNGX9jysQzjpWziuOWGkh8Y4+CtEl49l4dOtTRQi2ll
-	g7msoKMl/IrAqxB6ckTorT15LT2cJVUrdJtzPMJSdVivS0Xcm75WoAgTD7ruQF6L0nyz
-	Df/jcObNM8T5tkGJHHaxJes4EbRfcMw4oBHwWGiZsz3lBaFYi4chzLrIwhV4Qc1EL9fX
-	HRUw==
-X-Gm-Message-State: AMCzsaVIplzF7g/8UHfyJfzVOVzr0P0GYgKnN7EgPTxk33GmoxNru0j8
-	MWtCpTgztIMV9YvcBISuQJJWhtnxoR7JRuNjxPk=
-X-Google-Smtp-Source: ABhQp+RsqUXnOI9T1tkT8u/AxpmHC7hnqNyxE10GrNrzIk1VH/zFj0oqCwDgwqa4oh32sfAVMXf3cb1ax+jxrrh9CEE=
-X-Received: by 10.99.154.66 with SMTP id e2mr3432942pgo.287.1509525318803;
-	Wed, 01 Nov 2017 01:35:18 -0700 (PDT)
+	Wed,  1 Nov 2017 08:38:24 +0000 (UTC)
+Received: from 87-207-217-222.dynamic.chello.pl ([87.207.217.222]:50834
+	helo=[192.168.0.106]) by s20.linuxpl.com with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.88)
+	(envelope-from <artur@madrzak.eu>) id 1e9oXa-00024n-0g
+	for openembedded-core@lists.openembedded.org;
+	Wed, 01 Nov 2017 09:38:26 +0100
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?Q?Artur_M=c4=85drzak?= <artur@madrzak.eu>
+Message-ID: <c0403a3c-81c8-a22b-a90e-023a5d4c4436@madrzak.eu>
+Date: Wed, 1 Nov 2017 09:38:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-Received: by 10.100.187.66 with HTTP; Wed, 1 Nov 2017 01:34:47 -0700 (PDT)
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA014B8FD2A2@ALA-MBC.corp.ad.wrs.com>
-References: <cover.1509434339.git.jackie.huang@windriver.com>
-	<c9abce5faf047aedd2560cb54b3807aebf5193b5.1509434339.git.jackie.huang@windriver.com>
-	<CAMKF1sqmihKMW4qA9Xzu9xDq6KNna1TNyjDmWTYbdYWpu08ieA@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B8FD2A2@ALA-MBC.corp.ad.wrs.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 1 Nov 2017 01:34:47 -0700
-Message-ID: <CAMKF1srYqLqx6nJhDstCtL4Wq+fntEZpYa_SKYwvtsEQLxWCFQ@mail.gmail.com>
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] glibc: re-package for libnss-db
+Subject: [PATCH v2] wic: add 'part-name' argument for naming GPT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,114 +29,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Nov 2017 08:35:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 01 Nov 2017 08:38:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 31, 2017 at 7:03 PM, Huang, Jie (Jackie)
-<Jackie.Huang@windriver.com> wrote:
->
->
->> -----Original Message-----
->> From: Khem Raj [mailto:raj.khem@gmail.com]
->> Sent: Wednesday, November 01, 2017 03:40
->> To: Huang, Jie (Jackie)
->> Cc: Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [PATCH 1/2] glibc: re-package for libnss-db
->>
->> On Tue, Oct 31, 2017 at 12:20 AM,  <jackie.huang@windriver.com> wrote:
->> > From: Jackie Huang <jackie.huang@windriver.com>
->> >
->> > On other distros like ubuntu/centos, libnss-db usually provides:
->> > - The libraries
->> > - The Makefile to create database
->> >   (in /var/db for centos, /var/lib/misc/ for ubuntu)
->> > - The makedb command (it's in glibc-common for centos7)
->> >
->> > What we had is:
->> > - The libraries are in glibc-extra-nss
->> > - The Makefile is removed
->> > - The makedb command is in glibc-utils (lack of dependency)
->> >
->> > So when glibc-extra-nss is installed but glibc-utils is not,
->> > we see error like:
->> > nscd[165]: 165 checking for monitored file `/var/db/group.db': No such file or
->> directory
->> > nscd[165]: 165 checking for monitored file `/var/db/passwd.db': No such file
->> or directory
->> >
->> > And there is not an easy way to create these databases.
->> >
->> > To fix the issue:
->> > - Re-package the libraries into libnss-db
->> > - Don't remove the Makefile and add it in libnss-db
->> > - Add RDEPENDS for libnss-db on glibc-utils and make
->> >
->>
->> this looks ok although, changing glibc packaging is a bit thorny for
->> external toolchains and
->> other libraries. Would be better if this was added to commit saying
->> that they have yet another
->> package that they need to provide if replacing glibc from core.
->
-> Sorry I'm not sure I understand correctly, did you mean I just need to add
-> words in the commit message like the following?
->
-> "For external toolchain, an extra package 'libnss-db' need to be provided If replacing glibc from core."
->
+The WIC's 'part' can now give a name for GPT partition in WKS file.
+It's similar to '--label', but is naming partintions instead file systems.
+It's required by some bootloaders to partitions have specified names.
 
-yes, someway for folks to notice the change for external layer maintainers.
+Signed-off-by: Artur Mądrzak <artur@madrzak.eu>
+---
+  scripts/lib/wic/help.py                  |  2 ++
+  scripts/lib/wic/ksparser.py              |  1 +
+  scripts/lib/wic/partition.py             |  1 +
+  scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
+  4 files changed, 15 insertions(+)
 
-> Thanks,
-> Jackie
->
->>
->> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> > ---
->> >  meta/recipes-core/glibc/glibc-package.inc | 5 +++--
->> >  1 file changed, 3 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-
->> core/glibc/glibc-package.inc
->> > index df3db2cc45..1c3782dbb0 100644
->> > --- a/meta/recipes-core/glibc/glibc-package.inc
->> > +++ b/meta/recipes-core/glibc/glibc-package.inc
->> > @@ -1,6 +1,6 @@
->> >  INHIBIT_SYSROOT_STRIP = "1"
->> >
->> > -PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-
->> pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils
->> glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
->> > +PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-
->> pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN}
->> ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
->> >
->> >  # The ld.so in this glibc supports the GNU_HASH
->> >  RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
->> > @@ -23,6 +23,8 @@ FILES_ldd = "${bindir}/ldd"
->> >  FILES_libsegfault = "${base_libdir}/libSegFault*"
->> >  FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
->> >  FILES_libmemusage = "${base_libdir}/libmemusage.so"
->> > +FILES_libnss-db = "${base_libdir}/libnss_db.so.* ${base_libdir}/libnss_db-*.so
->> ${localstatedir}/db/Makefile"
->> > +RDEPENDS_libnss-db = "${PN}-utils make"
->> >  FILES_glibc-extra-nss = "${base_libdir}/libnss_*-*.so
->> ${base_libdir}/libnss_*.so.*"
->> >  FILES_sln = "${base_sbindir}/sln"
->> >  FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
->> > @@ -59,7 +61,6 @@ inherit libc-common multilib_header
->> >
->> >  do_install_append () {
->> >         rm -f ${D}${sysconfdir}/localtime
->> > -       rm -rf ${D}${localstatedir}
->> >
->> >         # remove empty glibc dir
->> >         if [ -d ${D}${libexecdir} ]; then
->> > --
->> > 2.11.0
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index bd9c62e2e8..2ac45e052e 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -970,6 +970,8 @@ DESCRIPTION
+                              This option cannot be used with --fixed-size
+                              option.
+
++         --part-name: This option is specific to wic. It specifies name 
+for GPT partitions.
++
+           --part-type: This option is specific to wic. It specifies 
+partition
+                        type GUID for GPT partitions.
+                        List of partition type GUIDS can be found here:
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 99b66eebc5..7850e81d2f 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -144,6 +144,7 @@ class KickStart():
+          part.add_argument('--no-table', action='store_true')
+          part.add_argument('--ondisk', '--ondrive', dest='disk', 
+default='sda')
+          part.add_argument("--overhead-factor", type=overheadtype)
++        part.add_argument('--part-name')
+          part.add_argument('--part-type')
+          part.add_argument('--rootfs-dir')
+
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index b623bb9e6d..66e61ba70c 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -51,6 +51,7 @@ class Partition():
+          self.no_table = args.no_table
+          self.num = None
+          self.overhead_factor = args.overhead_factor
++        self.part_name = args.part_name
+          self.part_type = args.part_type
+          self.rootfs_dir = args.rootfs_dir
+          self.size = args.size
+diff --git a/scripts/lib/wic/plugins/imager/direct.py 
+b/scripts/lib/wic/plugins/imager/direct.py
+index 60317eed22..bdb8385620 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -366,6 +366,10 @@ class PartitionedImage():
+          for num in range(len(self.partitions)):
+              part = self.partitions[num]
+
++            if self.ptable_format == 'msdos' and part.part_name:
++                raise WicError("setting custom partition name is not " \
++                               "implemented for msdos partitions")
++
+              if self.ptable_format == 'msdos' and part.part_type:
+                  # The --part-type can also be implemented for MBR 
+partitions,
+                  # in which case it would map to the 1-byte "partition 
+type"
+@@ -519,6 +523,13 @@ class PartitionedImage():
+              self._create_partition(self.path, part.type,
+                                     parted_fs_type, part.start, 
+part.size_sec)
+
++            if part.part_name:
++                logger.debug("partition %d: set name to %s",
++                             part.num, part.part_name)
++                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
++                                         (part.num, part.part_name,
++                                          self.path), self.native_sysroot)
++
+              if part.part_type:
+                  logger.debug("partition %d: set type UID to %s",
+                               part.num, part.part_type)
+-- 
+2.13.6
+
+
 
