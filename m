@@ -1,47 +1,52 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f177.google.com (mail-pf0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7798C71A50
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 399E260762
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Nov 2017 00:23:56 +0000 (UTC)
-Received: by mail-pf0-f177.google.com with SMTP id b79so3218171pfk.5
+	Thu,  2 Nov 2017 00:51:42 +0000 (UTC)
+Received: by mail-io0-f180.google.com with SMTP id e89so10103852ioi.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Nov 2017 17:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=9Qv4O8/Eaara4uyBIAesccHRX96u3nd0xppZXVm+eUg=;
-	b=kf2kLMLwB3TaPPw975APEDbSCeCcogWPx2Lrm83YJhTWxL6KaMM0xtD5yetFxbdAB8
-	4zvMIg+OabF4ibU6hyCGE9d6du0cdNDotmOAtHbMA2XgV97rrBMum3m31o0EkFcIobzd
-	cOJ/s2WdQ6mlMzhDC+2uNSYHznN40gTIbh1q/pYduSij25qCkB6rYTaoBZ5yCxLGTSK5
-	ypKbLAIESznggW0cnCnhVaQ7Iovxlz0fUQ4PMY9a87TV1j0rVRGdk+K4+Hz6GgZuhzAJ
-	NuOd4HCnupFesACoPFvfOxMr3iNR1TFXf/HBABEfXjufa3a8yaJnNpumsS1O1u0qTFCc
-	rayQ==
+	Wed, 01 Nov 2017 17:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Yo4oiysiRIDG2SNW53phk1OE4gF93l91fL7nz6WeJ64=;
+	b=U3P3KmQyHbel44My0usqLcrGJSZ6UGK6zwngE2kbe6hEHjSPAaI/Wih+vwRTH0SHtO
+	gosbYcxN2y4hTSxWwzcgKqCOImOawnrR9cbRQNzMB6mc1cIa1L4mp4etos3wUFn3T/Cg
+	500U7nk5oAk41EIiJwVZ4PHTT4c5PyH87iczNlWFKpnIHjCIflLjDMvh1wIfnzpY4QIx
+	SsZCdymUrhm/DftO9mbbq0nrMUGzmFNQmcTtk8Fpa/Cq588kQ4pYa3+f9EEmaAMdnOHC
+	arnkx/5N3huRNj9T3VxYxey9JB9BqWXXBy3AQfhOQv7ivLhUNorSP7TqFk5NHUfo+hLY
+	3Dfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9Qv4O8/Eaara4uyBIAesccHRX96u3nd0xppZXVm+eUg=;
-	b=m4Q2+PkDPzdOLw/r83386n8nrCnXn298fjjxbTJU1fEhlfpafOaUm599VkX9tnt3qW
-	Ft9Kc4IAKnFsSC6c+AZ4n04zpd9LC/uxSqeXasbQSPi67lHQTa1LsZLEw5+hnEF0ZtgJ
-	pDDA7RxIcvAEJiQKfmWQG3aEoq52VS2Zd4HB4EdLL+WnfWXD5Zek4ZpvP612YkXkF1Xy
-	8aG13ilyT9jJkeMbZdGVlEmOmlJdIWMXhEx96Sd9C5kqzummlk9ZUxdsCEQ6+Cq/TCI4
-	YJc0CPMonyLVOuMMW+Hj0kC5bwoCpeVKVa2NR8FNzi0Ab77yM31cn13hf4Upwgud0wvu
-	3a1w==
-X-Gm-Message-State: AMCzsaUZa8e7yk9Esygu2tUbKf2gSvUQqNw4x10nwDSPZUUnX6yYoC/o
-	2C04pytJ5aeBydSnjzj5DCqJ2Q==
-X-Google-Smtp-Source: ABhQp+Ske6uyRA+kNr/9v++3PICU2EjRTW7YCdUvykY5BRbr3BLRPpChbWS9sXNM2iuIB/crCIJTqg==
-X-Received: by 10.159.252.8 with SMTP id n8mr1300766pls.18.1509582237803;
-	Wed, 01 Nov 2017 17:23:57 -0700 (PDT)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	r24sm3597452pfj.106.2017.11.01.17.23.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Nov 2017 17:23:56 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Nov 2017 17:23:36 -0700
-Message-Id: <1509582216-10840-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [morty][PATCH] gmp_4.2.1: prevent calls to mpn_add_nc() if HAVE_NATIVE_mpn_sub_nc is false
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Yo4oiysiRIDG2SNW53phk1OE4gF93l91fL7nz6WeJ64=;
+	b=kZy+LWvPezuQvpHn9hiTleSigBK4UREYJxrl8h2Ptzs7iMItdsIGhcQtR1Gensjhyx
+	GIA5wUMeS3azFIR9S62Ixmozx0rTmf0F+1LB3gYyDZIdL23gltxJOeAmnpazdnN2ul2/
+	5hR+/nyx2VHJDnYCM/KBKf6+9J+x49lHtD7Gojy2qA8knbE+2kyKT5AWojJDq+v+8JbQ
+	T0L1YUF73uzY9fGW9YodIc+4MhJzWvRQ536kNutAINxkqlHffxTHyHoKlph5B7PVoo6M
+	MF4ccQvj93FxDsmiqv5BBGBfVUVTZ8Bqsevzy15gspPakZCOp07UPiLY5X5b+Til6Ive
+	HaRA==
+X-Gm-Message-State: AJaThX7gDaw0CtO8RUrziLHjzF/k6JUG5vLDQuKk9ZajSTP9qrYMqmyH
+	agtZmOoiwAU5dfZ9V1dZcSdfpwD58WdE1bC3Lki5UA==
+X-Google-Smtp-Source: ABhQp+QS+x1GqBLZH0e5TFrx+nF3+o60TlmB7u/ThPRNcqCU1mni65GMfmJMzPu+yzECQynwg82sWhFlVLy42S7WyOY=
+X-Received: by 10.107.36.80 with SMTP id k77mr2249300iok.176.1509583904305;
+	Wed, 01 Nov 2017 17:51:44 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.176.10 with HTTP; Wed, 1 Nov 2017 17:51:23 -0700 (PDT)
+In-Reply-To: <1509573880.28159.39.camel@linuxfoundation.org>
+References: <1508587571-4733-1-git-send-email-richard.purdie@linuxfoundation.org>
+	<CAJTo0LYFFZ-DOhZAepuJnXUgOTZDLcqxnWgj9F8-BLne_+wFvw@mail.gmail.com>
+	<CAP9ODKoTc09+i4XOTwYfj9g+_=df13Gtk5TzyC2jSuxZqtZKsg@mail.gmail.com>
+	<1509573880.28159.39.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Nov 2017 00:51:23 +0000
+Message-ID: <CAJTo0LZer8ptGnSavgbUcLhnt=YTBUzX-FJw47gthKnFtTKqHw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-buildenv-internal: Fix finding build directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,128 +59,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Nov 2017 00:23:57 -0000
+X-List-Received-Date: Thu, 02 Nov 2017 00:51:43 -0000
+Content-Type: multipart/alternative; boundary="001a1141909e602bf7055cf564e7"
 
-When building for aarch64 (ie relying only on generic C code rather
-than asm) libgmp.so contains undefined references to __gmpn_add_nc
-and __gmpn_sub_nc which causes attempts to link with -lgmp to fail:
+--001a1141909e602bf7055cf564e7
+Content-Type: text/plain; charset="UTF-8"
 
- | .../usr/lib/libgmp.so: undefined reference to `__gmpn_sub_nc'
- | .../usr/lib/libgmp.so: undefined reference to `__gmpn_add_nc'
+On 1 November 2017 at 22:04, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Solution based on a historical patch posted to the gmp mailing list:
+> On Tue, 2017-10-31 at 21:25 -0200, Otavio Salvador wrote:
+> > On Tue, Oct 31, 2017 at 9:16 PM, Burton, Ross <ross.burton@intel.com>
+> > wrote:
+> > >
+> > > On 21 October 2017 at 13:06, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >
+> > > > diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-
+> > > > internal
+> > > > index e6cd141..abc5aff 100755
+> > > > --- a/scripts/oe-buildenv-internal
+> > > > +++ b/scripts/oe-buildenv-internal
+> > > > @@ -105,6 +105,11 @@ fi
+> > > >
+> > > >  BITBAKEDIR=$(readlink -f "$BITBAKEDIR")
+> > > >  BUILDDIR=$(readlink -f "$BUILDDIR")
+> > > > +if [ -z "$BBPATH" ]; then
+> > > > +    BBPATH=$BUILDDIR
+> > > > +fi
+> > > > +
+> > > > +export BBPATH
+> > >
+> > > This breaks the use-case of the user switching between build
+> > > directories as
+> > > re-executing oe-init-build-env doesn't change BBPATH.
+> > I know and that's why I asked for a warning! ;-)
+>
+> My patch as it stands clearly can't go in.
+>
+> Our options are:
+>
+> a) make that codepath unconditional (which may be no bad thing) and
+>    use BBPATH
+> b) use a specific variable for bitbake, the script sets BUILDDIR
+> c) start allowing the external code to set TOPDIR directly
+>
+> I think I'm leaning towards a) or possibly c). I don't really like b).
+> I tried c) locally and its behaving oddly. a) is known to work.
+>
 
-  https://gmplib.org/list-archives/gmp-discuss/2006-May/002344.html
+(a) seems like the right fix here.  At least, that's what I expected to
+happen...
 
-Cherry-pick from meta-gplv2:
+Ross
 
-  http://git.yoctoproject.org/cgit/cgit.cgi/meta-gplv2/commit/?id=d8668018d5d795be2297f878fd871a27edf532bf
+--001a1141909e602bf7055cf564e7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...ls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch | 78 ++++++++++++++++++++++
- meta/recipes-support/gmp/gmp_4.2.1.bb              |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch
+<div dir=3D"ltr">On 1 November 2017 at 22:04, Richard Purdie <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_bl=
+ank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><div class=
+=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<span class=3D"">On Tue, 2017-10-31 at 21:25 -0200, Otavio Salvador wrote:<=
+br>
+&gt; On Tue, Oct 31, 2017 at 9:16 PM, Burton, Ross &lt;<a href=3D"mailto:ro=
+ss.burton@intel.com">ross.burton@intel.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; On 21 October 2017 at 13:06, Richard Purdie<br>
+&gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard=
+.purdie@<wbr>linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; &gt;=C2=A0<br>
+</span>&gt; &gt; &gt; diff --git a/scripts/oe-buildenv-internal b/scripts/o=
+e-buildenv-<br>
+<span class=3D"">&gt; &gt; &gt; internal<br>
+&gt; &gt; &gt; index e6cd141..abc5aff 100755<br>
+&gt; &gt; &gt; --- a/scripts/oe-buildenv-internal<br>
+&gt; &gt; &gt; +++ b/scripts/oe-buildenv-internal<br>
+&gt; &gt; &gt; @@ -105,6 +105,11 @@ fi<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; =C2=A0BITBAKEDIR=3D$(readlink -f &quot;$BITBAKEDIR&quot;)<br=
+>
+&gt; &gt; &gt; =C2=A0BUILDDIR=3D$(readlink -f &quot;$BUILDDIR&quot;)<br>
+&gt; &gt; &gt; +if [ -z &quot;$BBPATH&quot; ]; then<br>
+&gt; &gt; &gt; +=C2=A0=C2=A0=C2=A0=C2=A0BBPATH=3D$BUILDDIR<br>
+&gt; &gt; &gt; +fi<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; +export BBPATH<br>
+&gt; &gt;<br>
+&gt; &gt; This breaks the use-case of the user switching between build<br>
+&gt; &gt; directories as<br>
+&gt; &gt; re-executing oe-init-build-env doesn&#39;t change BBPATH.<br>
+&gt; I know and that&#39;s why I asked for a warning! ;-)<br>
+<br>
+</span>My patch as it stands clearly can&#39;t go in.<br>
+<br>
+Our options are:<br>
+<br>
+a) make that codepath unconditional (which may be no bad thing) and=C2=A0<b=
+r>
+=C2=A0 =C2=A0use BBPATH<br>
+b) use a specific variable for bitbake, the script sets BUILDDIR<br>
+c) start allowing the external code to set TOPDIR directly<br>
+<br>
+I think I&#39;m leaning towards a) or possibly c). I don&#39;t really like =
+b).<br>
+I tried c) locally and its behaving oddly. a) is known to work.<br></blockq=
+uote><div><br></div><div>(a) seems like the right fix here.=C2=A0 At least,=
+ that&#39;s what I expected to happen...</div><div><br></div><div>Ross=C2=
+=A0</div></div></div></div>
 
-diff --git a/meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch b/meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch
-new file mode 100644
-index 0000000..7b879c3
---- /dev/null
-+++ b/meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch
-@@ -0,0 +1,78 @@
-+From d4f3542fabe0797cf2d60afd957585862bd9a29b Mon Sep 17 00:00:00 2001
-+From: Andre McCurdy <armccurdy@gmail.com>
-+Date: Fri, 25 Aug 2017 16:16:06 -0700
-+Subject: [PATCH] prevent calls to mpn_add_nc() if HAVE_NATIVE_mpn_sub_nc is false
-+
-+When building for aarch64 (ie relying only on generic C code rather
-+than asm) libgmp.so contains undefined references to __gmpn_add_nc
-+and __gmpn_sub_nc which causes attempts to link with -lgmp to fail:
-+
-+ | .../usr/lib/libgmp.so: undefined reference to `__gmpn_sub_nc'
-+ | .../usr/lib/libgmp.so: undefined reference to `__gmpn_add_nc'
-+
-+Solution based on a historical patch posted to the gmp mailing list:
-+
-+  https://gmplib.org/list-archives/gmp-discuss/2006-May/002344.html
-+
-+Upstream-Status: Inappropriate [Fixed in current versions]
-+
-+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-+---
-+ mpn/generic/addsub_n.c | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/mpn/generic/addsub_n.c b/mpn/generic/addsub_n.c
-+index 27b2c08..0ff7ca0 100644
-+--- a/mpn/generic/addsub_n.c
-++++ b/mpn/generic/addsub_n.c
-+@@ -58,13 +58,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
-+       for (off = 0; off < n; off += PART_SIZE)
-+ 	{
-+ 	  this_n = MIN (n - off, PART_SIZE);
-+-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
-++#if HAVE_NATIVE_mpn_add_nc
-+ 	  acyo = mpn_add_nc (r1p + off, s1p + off, s2p + off, this_n, acyo);
-+ #else
-+ 	  acyn = mpn_add_n (r1p + off, s1p + off, s2p + off, this_n);
-+ 	  acyo = acyn + mpn_add_1 (r1p + off, r1p + off, this_n, acyo);
-+ #endif
-+-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
-++#if HAVE_NATIVE_mpn_sub_nc
-+ 	  scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
-+ #else
-+ 	  scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
-+@@ -81,13 +81,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
-+       for (off = 0; off < n; off += PART_SIZE)
-+ 	{
-+ 	  this_n = MIN (n - off, PART_SIZE);
-+-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
-++#if HAVE_NATIVE_mpn_sub_nc
-+ 	  scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
-+ #else
-+ 	  scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
-+ 	  scyo = scyn + mpn_sub_1 (r2p + off, r2p + off, this_n, scyo);
-+ #endif
-+-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
-++#if HAVE_NATIVE_mpn_add_nc
-+ 	  acyo = mpn_add_nc (r1p + off, s1p + off, s2p + off, this_n, acyo);
-+ #else
-+ 	  acyn = mpn_add_n (r1p + off, s1p + off, s2p + off, this_n);
-+@@ -105,13 +105,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
-+       for (off = 0; off < n; off += PART_SIZE)
-+ 	{
-+ 	  this_n = MIN (n - off, PART_SIZE);
-+-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
-++#if HAVE_NATIVE_mpn_add_nc
-+ 	  acyo = mpn_add_nc (tp, s1p + off, s2p + off, this_n, acyo);
-+ #else
-+ 	  acyn = mpn_add_n (tp, s1p + off, s2p + off, this_n);
-+ 	  acyo = acyn + mpn_add_1 (tp, tp, this_n, acyo);
-+ #endif
-+-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
-++#if HAVE_NATIVE_mpn_sub_nc
-+ 	  scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
-+ #else
-+ 	  scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-index 5e8ee29..029e728 100644
---- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
-@@ -11,6 +11,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/archive/${BP}.tar.bz2 \
-            file://Use-__gnu_inline__-attribute.patch \
-            file://gmp_fix_for_automake-1.12.patch \
-            file://avoid-h-asm-constraint-for-MIPS.patch \
-+           file://prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch \
- "
- 
- SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
--- 
-1.9.1
-
-
+--001a1141909e602bf7055cf564e7--
