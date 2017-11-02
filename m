@@ -1,50 +1,46 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 723C371ABC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f173.google.com (mail-pf0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 3779E71AB5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Nov 2017 20:29:03 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id u40so693255wrf.10
+	Thu,  2 Nov 2017 20:34:27 +0000 (UTC)
+Received: by mail-pf0-f173.google.com with SMTP id e64so531629pfk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Nov 2017 13:29:05 -0700 (PDT)
+	Thu, 02 Nov 2017 13:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=DpISFrKaqouEZ7cMzCJSEMur2ZXEInxmpjI9y5q4lqM=;
-	b=BnudtX51YG3xYh5O/aczmD2jFHNw9S8+FKlfxabI2KRwpU5aYIwNvIcwLjgSqVjqn4
-	rxX8kuE0keRw4vQgAxvlUe+0Axut2NySEpKfIODBPc79j6SAi7T22UFiTOmTYHgAx5a+
-	KpMsns574tmMEiN5x0wSyuUn8eGDzvWsQg142DbxRAYM+CXj9Uh8WvCl+s3uvhEDWx3w
-	urRjFituKLLOPjL+xDTcDg8T08CiV2XLpHu1Knz1Le7btKhPYTHGVinVKoqOxfW/39Db
-	cn0SOAySbrz9eELPoDZqWPYRjs8jEfNqBs8ngvpJVWBgwCowGvGMvX4lKh9wIv94jXhX
-	A+kg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=YzUApP+7/U386zSUeaUiJyoxtUpvPRAqDGR2H+NX5GM=;
+	b=eQQXzjJsz1lgObxPXVnk6fj5jQ28xr+xsQ6eTGGU2zrAmh2nZxUou69STWqjt4fpkN
+	RQUme7ATQbwp4E0gG0sEtYMgfwYgNszcnI1RLWVSya6eaCtpy006W+cTtw1YIxekp4yI
+	qKz/aRT29OggP+3G9Ls0KI+9rBvbufoM+TAc32QPBI4oqIKMJtU+506JPzzs0xqL7kzV
+	E/sFqOa+Y71IsmTSxzLe39BUYe67yntzLOIou7UT9NrTIn9pwBPZKMT6lGLCZhlv6oY7
+	MG2qFUfA+W0/eLK5f0QWFBUW2i3ugdE77OzZKXnOC7sAxLzVECj1YjRwNyRdxtGv8ZKT
+	ohzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=DpISFrKaqouEZ7cMzCJSEMur2ZXEInxmpjI9y5q4lqM=;
-	b=HJM/GBDfA38aeh6s+BMGqlbBGzzlR5JsZC3XRDFm9wxk/Ksvqy/phx+V6rtup2tAaq
-	wfqCPCrfX+xVQvLNuZJT/Ent2gBmWkbElLtfda85Ty+l56dnY5DmEXEYxG1BzKgm1xeK
-	9/lnfm+hnIwVlHxsZyB73PV8RdrySB1t9EBIfER+ArKNKRPkk3QEtHB+x3gdWG8SVMCG
-	PKGy47DmlRtrBbxbvqWsF8NdWMAd5iimLJiI/EyU+Y9vfUFIfCRoG3eGxGz4ji4Pgztk
-	8k2yBl5awrOTmAAc5ik/LM269SWeXxkjCziR+/2wXS3T3sjnE0bTjdubWWW++l1WoUhS
-	wb2g==
-X-Gm-Message-State: AMCzsaXIgrLwzM3JsEzZA42NP5n/42R9S0l6Nogo7DURKsGYTkgr1HE4
-	y8BFsW3hupU/lOxDJflJlyot01PSP8Mri6sdWbE=
-X-Google-Smtp-Source: ABhQp+RZ7bdQngFEeF9qyYWbclGGRWMvtllvDAL4Xpiegb3nVJpwanDHsQ7caBTGsIFkGhtRimKSNyXtrq8NVeE6+ps=
-X-Received: by 10.223.146.197 with SMTP id 63mr3746878wrn.180.1509654545177;
-	Thu, 02 Nov 2017 13:29:05 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=YzUApP+7/U386zSUeaUiJyoxtUpvPRAqDGR2H+NX5GM=;
+	b=NBpZWUtfO/CTw78kbtvAElTV3QIRcxRutOUldkidE/fmgcz/Y3PzrzV5QnSRug0+ND
+	Eo7Aj0pcWLN76mUL6pN2fIUc0mtAOZJ8f/gw0MUMzhwdVT4aoY7FscRwTmqMwD1Wq8Lm
+	cd/kEpoHv8Qn5p/Pic7O719KBQS0Y2x/epAYrTY934R0LQicE3NzBH5jU82vqLfn1Jk7
+	pMHszs5cK52hR9W37PE/n5OiBwXoFYxEETiexQZ+sOTe8W/o6KJWKiY+a9dEjSpkkkiE
+	gig2GOn/CU7kQutQDiwTlQ6IyT+0UaF/TqGzvsHZ0fmHwNc2qvVi3FPLR6wHewavs4PX
+	0IFQ==
+X-Gm-Message-State: AMCzsaXIOzcLgnhMpdZPKcX3dei2TAZ6n+N4AbCGXgRNKVb8qNAV4wbi
+	8IvV+6cqaqanHeWEerQDQxjl63HS6HYqWIftv6Q=
+X-Google-Smtp-Source: ABhQp+TJsfyfcTyFRECYaHRWdrK/tcLVFR6PUxNy4+l7WW926puhVi0X9JIpMTscKwjjZu7bxLW1KAGBVmCma6LllTQ=
+X-Received: by 10.101.74.129 with SMTP id b1mr4876480pgu.341.1509654869092;
+	Thu, 02 Nov 2017 13:34:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.223.166.19 with HTTP; Thu, 2 Nov 2017 13:29:04 -0700 (PDT)
-In-Reply-To: <59F846E4.3050003@windriver.com>
-References: <1509440578-173066-1-git-send-email-zhixiong.chi@windriver.com>
-	<4903a7b3-5039-9b7c-9372-37f10d555b9c@linux.intel.com>
-	<59F846E4.3050003@windriver.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 2 Nov 2017 13:29:04 -0700
-Message-ID: <CAJ86T=UnT5woKyTFC82_O0kycoqPufavbOvduRXy4_9F0hWS4Q@mail.gmail.com>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wget: CVE-2017-13089 and CVE-2017-13090
+References: <CAAQYJAvQo_buybnL8OUmwYfhezzuxx-dTO8wzuM=aQvKGYW+5Q@mail.gmail.com>
+In-Reply-To: <CAAQYJAvQo_buybnL8OUmwYfhezzuxx-dTO8wzuM=aQvKGYW+5Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 02 Nov 2017 20:34:18 +0000
+Message-ID: <CAMKF1sqOZXCdo+oS8hYPava8er8Y7bX4iLTxeWPXMkC_yLU=Jw@mail.gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Backport gcc7 fixes for armv5e [ARM] PR 82445
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Nov 2017 20:29:04 -0000
+X-List-Received-Date: Thu, 02 Nov 2017 20:34:28 -0000
+Content-Type: multipart/alternative; boundary="089e0825288434add4055d05ea30"
+
+--089e0825288434add4055d05ea30
 Content-Type: text/plain; charset="UTF-8"
+
+Please open a bugzilla entry too
+
+On Thu, Nov 2, 2017 at 1:46 AM Andrea Adami <andrea.adami@gmail.com> wrote:
+
+> Hello,
+>
+> the gcc7 shipped with rocko produces unbootable kernels on armv5e [1].
+> Bug was fixed recently, apparently in revision 253892 [2]
+>
+> Khem, please take care of this, thanks.
+>
+> Cheers
+> Andrea
+>
+> [1] https://www.spinics.net/lists/arm-kernel/msg594654.html
+> [2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82445
+>
+
+--089e0825288434add4055d05ea30
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 31, 2017 at 2:48 AM, Zhixiong Chi
-<zhixiong.chi@windriver.com> wrote:
-> On 2017=E5=B9=B410=E6=9C=8831=E6=97=A5 17:13, Alexander Kanavin wrote:
->> On 10/31/2017 11:02 AM, Zhixiong Chi wrote:
->>>
->>> Patches from:
->>>
->>> http://git.savannah.gnu.org/cgit/wget.git/patch/?id=3Dd892291fb8ace4c3b=
-734ea5125770989c215df3f
->>> http://git.savannah.gnu.org/cgit/wget.git/patch/?id=3Dba6b44f6745b14dce=
-414761a8e4b35d31b176bba
->>>
->>> CVE: CVE-2017-13089 CVE-2017-13090
->>
->> Update the master to 1.19.2 instead please.
+<div><div dir=3D"auto">Please open a bugzilla entry too</div><br><div class=
+=3D"gmail_quote"><div>On Thu, Nov 2, 2017 at 1:46 AM Andrea Adami &lt;<a hr=
+ef=3D"mailto:andrea.adami@gmail.com">andrea.adami@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Hello,<br>
+<br>
+the gcc7 shipped with rocko produces unbootable kernels on armv5e [1].<br>
+Bug was fixed recently, apparently in revision 253892 [2]<br>
+<br>
+Khem, please take care of this, thanks.<br>
+<br>
+Cheers<br>
+Andrea<br>
+<br>
+[1] <a href=3D"https://www.spinics.net/lists/arm-kernel/msg594654.html" rel=
+=3D"noreferrer" target=3D"_blank">https://www.spinics.net/lists/arm-kernel/=
+msg594654.html</a><br>
+[2] <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D82445" rel=3D=
+"noreferrer" target=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=
+=3D82445</a><br>
+</blockquote></div></div>
 
-Patching 1.19.1 does have the advantage of creating a commit which can
-easily be cherry-picked into rocko (and pyro, which also uses wget
-1.19.1).
-
-Master should certainly update to 1.19.2 but doing so in two steps
-might be appreciated by the stable branch maintainers.
-
+--089e0825288434add4055d05ea30--
