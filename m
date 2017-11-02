@@ -1,24 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BA738607A5
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 53E4477E76
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Nov 2017 06:42:10 +0000 (UTC)
+	Thu,  2 Nov 2017 06:42:11 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vA26gBWA011354
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vA26gDBx028508
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Nov 2017 23:42:11 -0700 (PDT)
+	Wed, 1 Nov 2017 23:42:13 -0700
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 1 Nov 2017 23:42:11 -0700
+	14.3.361.1; Wed, 1 Nov 2017 23:42:12 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Nov 2017 14:40:38 +0800
-Message-ID: <cover.1509604697.git.jackie.huang@windriver.com>
+Date: Thu, 2 Nov 2017 14:40:39 +0800
+Message-ID: <b2e912e97882a2d2ad9a8f680b7e3444531087da.1509604697.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.1509604697.git.jackie.huang@windriver.com>
+References: <cover.1509604697.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2 v2] glibc: fixes for nscd and libnss-db
+Subject: [PATCH 1/2 v2] glibc: re-package for libnss-db
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Nov 2017 06:42:11 -0000
+X-List-Received-Date: Thu, 02 Nov 2017 06:42:12 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-v2 comments:
-Add a note for external toolchain in the commit log.
+On other distros like ubuntu/centos, libnss-db usually provides:
+- The libraries
+- The Makefile to create database
+  (in /var/db for centos, /var/lib/misc/ for ubuntu)
+- The makedb command (it's in glibc-common for centos7)
 
---
-The following changes since commit 514a808f21c37b6ad704ce397bb2740ecc9a93bc:
+What we had is:
+- The libraries are in glibc-extra-nss
+- The Makefile is removed
+- The makedb command is in glibc-utils (lack of dependency)
 
-  ref-manual: Updates to "Image Generation" section. (2017-10-30 15:55:08 +0000)
+So when glibc-extra-nss is installed but glibc-utils is not,
+we see error like:
+nscd[165]: 165 checking for monitored file `/var/db/group.db': No such file or directory
+nscd[165]: 165 checking for monitored file `/var/db/passwd.db': No such file or directory
 
-are available in the git repository at:
+And there is not an easy way to create these databases.
 
-  git://git.pokylinux.org/poky-contrib.git jhuang0/d_nscd_171102_0
-  http://git.pokylinux.org/cgit.cgi//log/?h=jhuang0/d_nscd_171102_0
+To fix the issue:
+- Re-package the libraries into libnss-db
+- Don't remove the Makefile and add it in libnss-db
+- Add RDEPENDS for libnss-db on glibc-utils and make
 
-Jackie Huang (2):
-  glibc: re-package for libnss-db
-  glibc/nscd: do not cache for netgroup by default
+Notes:
+For external toolchain, an extra package 'libnss-db' need to be provided
+If replacing glibc from core.
 
- meta/recipes-core/glibc/glibc-package.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index df3db2cc45..1c3782dbb0 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -1,6 +1,6 @@
+ INHIBIT_SYSROOT_STRIP = "1"
+ 
+-PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
++PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ 
+ # The ld.so in this glibc supports the GNU_HASH
+ RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
+@@ -23,6 +23,8 @@ FILES_ldd = "${bindir}/ldd"
+ FILES_libsegfault = "${base_libdir}/libSegFault*"
+ FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
+ FILES_libmemusage = "${base_libdir}/libmemusage.so"
++FILES_libnss-db = "${base_libdir}/libnss_db.so.* ${base_libdir}/libnss_db-*.so ${localstatedir}/db/Makefile"
++RDEPENDS_libnss-db = "${PN}-utils make"
+ FILES_glibc-extra-nss = "${base_libdir}/libnss_*-*.so ${base_libdir}/libnss_*.so.*"
+ FILES_sln = "${base_sbindir}/sln"
+ FILES_${PN}-pic = "${libdir}/*_pic.a ${libdir}/*_pic.map ${libdir}/libc_pic/*.o"
+@@ -59,7 +61,6 @@ inherit libc-common multilib_header
+ 
+ do_install_append () {
+ 	rm -f ${D}${sysconfdir}/localtime
+-	rm -rf ${D}${localstatedir}
+ 
+ 	# remove empty glibc dir
+ 	if [ -d ${D}${libexecdir} ]; then
 -- 
 2.11.0
 
