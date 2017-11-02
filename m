@@ -1,36 +1,43 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A6E71607A5
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 402E97822C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Nov 2017 06:43:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vA26hPjF028517
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Wed, 1 Nov 2017 23:43:25 -0700
-Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
-	Wed, 1 Nov 2017 23:43:24 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 1/2] glibc: re-package for libnss-db
-Thread-Index: AQHTUoAxEq5LtnJNvUezW5cO39Nki6L+xFMQgADkkoCAAP2ykA==
-Date: Thu, 2 Nov 2017 06:43:24 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA014B8FE3E8@ALA-MBC.corp.ad.wrs.com>
-References: <cover.1509434339.git.jackie.huang@windriver.com>
-	<c9abce5faf047aedd2560cb54b3807aebf5193b5.1509434339.git.jackie.huang@windriver.com>
-	<CAMKF1sqmihKMW4qA9Xzu9xDq6KNna1TNyjDmWTYbdYWpu08ieA@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AA014B8FD2A2@ALA-MBC.corp.ad.wrs.com>
-	<CAMKF1srYqLqx6nJhDstCtL4Wq+fntEZpYa_SKYwvtsEQLxWCFQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srYqLqx6nJhDstCtL4Wq+fntEZpYa_SKYwvtsEQLxWCFQ@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.177.126]
+	Thu,  2 Nov 2017 08:46:55 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id z3so9550402wme.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Nov 2017 01:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=58aHnimfLh49umSLaD050MhW601oZMU6G28xvpOn/Kc=;
+	b=HjtYuPiUx5YHEBg1vRbhL9p/9Sj19kFEKMeJ1cNyiwdXjzfL4uHC0vv9L09P0Rq8tq
+	wPwg16SlHs8WJ0I32dZxT3kKC2uCGjhLJPk/e5dzdq2O/ZKgKNU7w+TrPtOUe0cB4GOg
+	VebyeCMnOFalVEBgWpm9dMCQP6pd8JrFJ/LzSxR7HlbzZg9VG16jZg0eq7mhZXIuXww2
+	rxFjjEr7519STCz8qjmnkw0MDyWJGJtn/VBsS0XCtMxFCG9dFriFTiBRKYfYNpuMpVlt
+	HUwihfDb+n2Dq6rIzqayWHdBLeFHcwH/quXPfolpzUWpTmsGHssHsL2KmjEbWdtBLK12
+	wFig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=58aHnimfLh49umSLaD050MhW601oZMU6G28xvpOn/Kc=;
+	b=Xom9C2Cc63dZkYmhvV6BKsmvQhm2mhASv0ytKjcytJUcKE1Zz1DXivtz3AS503Jrv6
+	n2vYMRJ+q9Ny2CJ5pneUzaXhD/rvhNs3rSseAobV3nW/WD23MfGFwZ9Ewfj9sZNLRHgm
+	CohQBLmu/B1yEFvOiUhss0/02JS2b8Vhy21wFQofuSFfytI7K7lI1U7QIZPCs3dwj7fr
+	4sMWPX2HoTBioEKB9I0arFnx7RBZ2+/SCfcE2g87EhG12JLUadqOchmgiYguNtDjl8iQ
+	Wumb6tyI62eJcvJt4UJDfk/iuloCBYlIE7lJF8AtAQzshFJK+vvtlaDKKZm55fZOs86T
+	b8AA==
+X-Gm-Message-State: AMCzsaW94sc6gbnK0eVv9+fKaNYNMOF5BHqw9FKakS1gjbR1iGOeKrZl
+	6Tcrw1MtFF3ZcvVEAlWuFiU+uhfZfeTPQaRVy0Urfg==
+X-Google-Smtp-Source: ABhQp+S7BQf9rCsTsrzw35/YXWBdhA8aLBBfNsxL184mfS06Uma+Y0q9GwURVD4IpTxwS+UJUTUc0Pd50DOh8mYwtc4=
+X-Received: by 10.80.188.18 with SMTP id j18mr3442369edh.189.1509612416753;
+	Thu, 02 Nov 2017 01:46:56 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] glibc: re-package for libnss-db
+Received: by 10.80.204.200 with HTTP; Thu, 2 Nov 2017 01:46:56 -0700 (PDT)
+From: Andrea Adami <andrea.adami@gmail.com>
+Date: Thu, 2 Nov 2017 09:46:56 +0100
+Message-ID: <CAAQYJAvQo_buybnL8OUmwYfhezzuxx-dTO8wzuM=aQvKGYW+5Q@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: Backport gcc7 fixes for armv5e [ARM] PR 82445
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,97 +50,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Nov 2017 06:43:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 02 Nov 2017 08:46:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS2hlbSBSYWogW21haWx0
-bzpyYWoua2hlbUBnbWFpbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgTm92ZW1iZXIgMDEsIDIw
-MTcgMTY6MzUNCj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gQ2M6IFBhdGNoZXMgYW5kIGRp
-c2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIDEvMl0gZ2xpYmM6IHJlLXBhY2thZ2UgZm9yIGxpYm5zcy1kYg0KPiANCj4gT24g
-VHVlLCBPY3QgMzEsIDIwMTcgYXQgNzowMyBQTSwgSHVhbmcsIEppZSAoSmFja2llKQ0KPiA8SmFj
-a2llLkh1YW5nQHdpbmRyaXZlci5jb20+IHdyb3RlOg0KPiA+DQo+ID4NCj4gPj4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogS2hlbSBSYWogW21haWx0bzpyYWoua2hlbUBn
-bWFpbC5jb21dDQo+ID4+IFNlbnQ6IFdlZG5lc2RheSwgTm92ZW1iZXIgMDEsIDIwMTcgMDM6NDAN
-Cj4gPj4gVG86IEh1YW5nLCBKaWUgKEphY2tpZSkNCj4gPj4gQ2M6IFBhdGNoZXMgYW5kIGRpc2N1
-c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQo+ID4+IFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIDEvMl0gZ2xpYmM6IHJlLXBhY2thZ2UgZm9yIGxpYm5zcy1kYg0KPiA+Pg0KPiA+
-PiBPbiBUdWUsIE9jdCAzMSwgMjAxNyBhdCAxMjoyMCBBTSwgIDxqYWNraWUuaHVhbmdAd2luZHJp
-dmVyLmNvbT4gd3JvdGU6DQo+ID4+ID4gRnJvbTogSmFja2llIEh1YW5nIDxqYWNraWUuaHVhbmdA
-d2luZHJpdmVyLmNvbT4NCj4gPj4gPg0KPiA+PiA+IE9uIG90aGVyIGRpc3Ryb3MgbGlrZSB1YnVu
-dHUvY2VudG9zLCBsaWJuc3MtZGIgdXN1YWxseSBwcm92aWRlczoNCj4gPj4gPiAtIFRoZSBsaWJy
-YXJpZXMNCj4gPj4gPiAtIFRoZSBNYWtlZmlsZSB0byBjcmVhdGUgZGF0YWJhc2UNCj4gPj4gPiAg
-IChpbiAvdmFyL2RiIGZvciBjZW50b3MsIC92YXIvbGliL21pc2MvIGZvciB1YnVudHUpDQo+ID4+
-ID4gLSBUaGUgbWFrZWRiIGNvbW1hbmQgKGl0J3MgaW4gZ2xpYmMtY29tbW9uIGZvciBjZW50b3M3
-KQ0KPiA+PiA+DQo+ID4+ID4gV2hhdCB3ZSBoYWQgaXM6DQo+ID4+ID4gLSBUaGUgbGlicmFyaWVz
-IGFyZSBpbiBnbGliYy1leHRyYS1uc3MNCj4gPj4gPiAtIFRoZSBNYWtlZmlsZSBpcyByZW1vdmVk
-DQo+ID4+ID4gLSBUaGUgbWFrZWRiIGNvbW1hbmQgaXMgaW4gZ2xpYmMtdXRpbHMgKGxhY2sgb2Yg
-ZGVwZW5kZW5jeSkNCj4gPj4gPg0KPiA+PiA+IFNvIHdoZW4gZ2xpYmMtZXh0cmEtbnNzIGlzIGlu
-c3RhbGxlZCBidXQgZ2xpYmMtdXRpbHMgaXMgbm90LA0KPiA+PiA+IHdlIHNlZSBlcnJvciBsaWtl
-Og0KPiA+PiA+IG5zY2RbMTY1XTogMTY1IGNoZWNraW5nIGZvciBtb25pdG9yZWQgZmlsZSBgL3Zh
-ci9kYi9ncm91cC5kYic6IE5vIHN1Y2ggZmlsZQ0KPiBvcg0KPiA+PiBkaXJlY3RvcnkNCj4gPj4g
-PiBuc2NkWzE2NV06IDE2NSBjaGVja2luZyBmb3IgbW9uaXRvcmVkIGZpbGUgYC92YXIvZGIvcGFz
-c3dkLmRiJzogTm8gc3VjaA0KPiBmaWxlDQo+ID4+IG9yIGRpcmVjdG9yeQ0KPiA+PiA+DQo+ID4+
-ID4gQW5kIHRoZXJlIGlzIG5vdCBhbiBlYXN5IHdheSB0byBjcmVhdGUgdGhlc2UgZGF0YWJhc2Vz
-Lg0KPiA+PiA+DQo+ID4+ID4gVG8gZml4IHRoZSBpc3N1ZToNCj4gPj4gPiAtIFJlLXBhY2thZ2Ug
-dGhlIGxpYnJhcmllcyBpbnRvIGxpYm5zcy1kYg0KPiA+PiA+IC0gRG9uJ3QgcmVtb3ZlIHRoZSBN
-YWtlZmlsZSBhbmQgYWRkIGl0IGluIGxpYm5zcy1kYg0KPiA+PiA+IC0gQWRkIFJERVBFTkRTIGZv
-ciBsaWJuc3MtZGIgb24gZ2xpYmMtdXRpbHMgYW5kIG1ha2UNCj4gPj4gPg0KPiA+Pg0KPiA+PiB0
-aGlzIGxvb2tzIG9rIGFsdGhvdWdoLCBjaGFuZ2luZyBnbGliYyBwYWNrYWdpbmcgaXMgYSBiaXQg
-dGhvcm55IGZvcg0KPiA+PiBleHRlcm5hbCB0b29sY2hhaW5zIGFuZA0KPiA+PiBvdGhlciBsaWJy
-YXJpZXMuIFdvdWxkIGJlIGJldHRlciBpZiB0aGlzIHdhcyBhZGRlZCB0byBjb21taXQgc2F5aW5n
-DQo+ID4+IHRoYXQgdGhleSBoYXZlIHlldCBhbm90aGVyDQo+ID4+IHBhY2thZ2UgdGhhdCB0aGV5
-IG5lZWQgdG8gcHJvdmlkZSBpZiByZXBsYWNpbmcgZ2xpYmMgZnJvbSBjb3JlLg0KPiA+DQo+ID4g
-U29ycnkgSSdtIG5vdCBzdXJlIEkgdW5kZXJzdGFuZCBjb3JyZWN0bHksIGRpZCB5b3UgbWVhbiBJ
-IGp1c3QgbmVlZCB0byBhZGQNCj4gPiB3b3JkcyBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgbGlrZSB0
-aGUgZm9sbG93aW5nPw0KPiA+DQo+ID4gIkZvciBleHRlcm5hbCB0b29sY2hhaW4sIGFuIGV4dHJh
-IHBhY2thZ2UgJ2xpYm5zcy1kYicgbmVlZCB0byBiZSBwcm92aWRlZCBJZg0KPiByZXBsYWNpbmcg
-Z2xpYmMgZnJvbSBjb3JlLiINCj4gPg0KPiANCj4geWVzLCBzb21ld2F5IGZvciBmb2xrcyB0byBu
-b3RpY2UgdGhlIGNoYW5nZSBmb3IgZXh0ZXJuYWwgbGF5ZXIgbWFpbnRhaW5lcnMuDQoNCkdvdCBp
-dCwgSSBhZGRlZCB0aGUgbm90ZSBhbmQgc2VudCB2MiBmb3IgdGhpcy4NCg0KVGhhbmtzLA0KSmFj
-a2llDQoNCj4gDQo+ID4gVGhhbmtzLA0KPiA+IEphY2tpZQ0KPiA+DQo+ID4+DQo+ID4+ID4gU2ln
-bmVkLW9mZi1ieTogSmFja2llIEh1YW5nIDxqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbT4NCj4g
-Pj4gPiAtLS0NCj4gPj4gPiAgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFja2FnZS5p
-bmMgfCA1ICsrKy0tDQo+ID4+ID4gIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIg
-ZGVsZXRpb25zKC0pDQo+ID4+ID4NCj4gPj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
-cmUvZ2xpYmMvZ2xpYmMtcGFja2FnZS5pbmMgYi9tZXRhL3JlY2lwZXMtDQo+ID4+IGNvcmUvZ2xp
-YmMvZ2xpYmMtcGFja2FnZS5pbmMNCj4gPj4gPiBpbmRleCBkZjNkYjJjYzQ1Li4xYzM3ODJkYmIw
-IDEwMDY0NA0KPiA+PiA+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLXBhY2th
-Z2UuaW5jDQo+ID4+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFja2Fn
-ZS5pbmMNCj4gPj4gPiBAQCAtMSw2ICsxLDYgQEANCj4gPj4gPiAgSU5ISUJJVF9TWVNST09UX1NU
-UklQID0gIjEiDQo+ID4+ID4NCj4gPj4gPiAtUEFDS0FHRVMgPSAiJHtQTn0tZGJnIGNhdGNoc2Vn
-diBzbG4gbnNjZCBsZGQgdHpjb2RlIGdsaWJjLXRocmVhZC1kYg0KPiAke1BOfS0NCj4gPj4gcGlj
-IGxpYmNpZG4gbGlibWVtdXNhZ2UgbGlic2VnZmF1bHQgJHtQTn0tcGNwcm9maWxlIGxpYnNvdHJ1
-c3MgJHtQTn0gJHtQTn0tDQo+IHV0aWxzDQo+ID4+IGdsaWJjLWV4dHJhLW5zcyAke1BOfS1kZXYg
-JHtQTn0tc3RhdGljZGV2ICR7UE59LWRvYyINCj4gPj4gPiArUEFDS0FHRVMgPSAiJHtQTn0tZGJn
-IGNhdGNoc2VndiBzbG4gbnNjZCBsZGQgdHpjb2RlIGdsaWJjLXRocmVhZC1kYg0KPiAke1BOfS0N
-Cj4gPj4gcGljIGxpYmNpZG4gbGlibWVtdXNhZ2UgbGlibnNzLWRiIGxpYnNlZ2ZhdWx0ICR7UE59
-LXBjcHJvZmlsZSBsaWJzb3RydXNzICR7UE59DQo+ID4+ICR7UE59LXV0aWxzIGdsaWJjLWV4dHJh
-LW5zcyAke1BOfS1kZXYgJHtQTn0tc3RhdGljZGV2ICR7UE59LWRvYyINCj4gPj4gPg0KPiA+PiA+
-ICAjIFRoZSBsZC5zbyBpbiB0aGlzIGdsaWJjIHN1cHBvcnRzIHRoZSBHTlVfSEFTSA0KPiA+PiA+
-ICBSUFJPVklERVNfJHtQTn0gPSAiZWdsaWJjIHJ0bGQoR05VX0hBU0gpIg0KPiA+PiA+IEBAIC0y
-Myw2ICsyMyw4IEBAIEZJTEVTX2xkZCA9ICIke2JpbmRpcn0vbGRkIg0KPiA+PiA+ICBGSUxFU19s
-aWJzZWdmYXVsdCA9ICIke2Jhc2VfbGliZGlyfS9saWJTZWdGYXVsdCoiDQo+ID4+ID4gIEZJTEVT
-X2xpYmNpZG4gPSAiJHtiYXNlX2xpYmRpcn0vbGliY2lkbi0qLnNvICR7YmFzZV9saWJkaXJ9L2xp
-YmNpZG4uc28uKiINCj4gPj4gPiAgRklMRVNfbGlibWVtdXNhZ2UgPSAiJHtiYXNlX2xpYmRpcn0v
-bGlibWVtdXNhZ2Uuc28iDQo+ID4+ID4gK0ZJTEVTX2xpYm5zcy1kYiA9ICIke2Jhc2VfbGliZGly
-fS9saWJuc3NfZGIuc28uKiAke2Jhc2VfbGliZGlyfS9saWJuc3NfZGItDQo+ICouc28NCj4gPj4g
-JHtsb2NhbHN0YXRlZGlyfS9kYi9NYWtlZmlsZSINCj4gPj4gPiArUkRFUEVORFNfbGlibnNzLWRi
-ID0gIiR7UE59LXV0aWxzIG1ha2UiDQo+ID4+ID4gIEZJTEVTX2dsaWJjLWV4dHJhLW5zcyA9ICIk
-e2Jhc2VfbGliZGlyfS9saWJuc3NfKi0qLnNvDQo+ID4+ICR7YmFzZV9saWJkaXJ9L2xpYm5zc18q
-LnNvLioiDQo+ID4+ID4gIEZJTEVTX3NsbiA9ICIke2Jhc2Vfc2JpbmRpcn0vc2xuIg0KPiA+PiA+
-ICBGSUxFU18ke1BOfS1waWMgPSAiJHtsaWJkaXJ9LypfcGljLmEgJHtsaWJkaXJ9LypfcGljLm1h
-cA0KPiAke2xpYmRpcn0vbGliY19waWMvKi5vIg0KPiA+PiA+IEBAIC01OSw3ICs2MSw2IEBAIGlu
-aGVyaXQgbGliYy1jb21tb24gbXVsdGlsaWJfaGVhZGVyDQo+ID4+ID4NCj4gPj4gPiAgZG9faW5z
-dGFsbF9hcHBlbmQgKCkgew0KPiA+PiA+ICAgICAgICAgcm0gLWYgJHtEfSR7c3lzY29uZmRpcn0v
-bG9jYWx0aW1lDQo+ID4+ID4gLSAgICAgICBybSAtcmYgJHtEfSR7bG9jYWxzdGF0ZWRpcn0NCj4g
-Pj4gPg0KPiA+PiA+ICAgICAgICAgIyByZW1vdmUgZW1wdHkgZ2xpYmMgZGlyDQo+ID4+ID4gICAg
-ICAgICBpZiBbIC1kICR7RH0ke2xpYmV4ZWNkaXJ9IF07IHRoZW4NCj4gPj4gPiAtLQ0KPiA+PiA+
-IDIuMTEuMA0KPiA+PiA+DQo+ID4+ID4gLS0NCj4gPj4gPiBfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+PiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxp
-bmcgbGlzdA0KPiA+PiA+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
-Cj4gPj4gPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29w
-ZW5lbWJlZGRlZC1jb3JlDQo=
+Hello,
+
+the gcc7 shipped with rocko produces unbootable kernels on armv5e [1].
+Bug was fixed recently, apparently in revision 253892 [2]
+
+Khem, please take care of this, thanks.
+
+Cheers
+Andrea
+
+[1] https://www.spinics.net/lists/arm-kernel/msg594654.html
+[2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82445
 
