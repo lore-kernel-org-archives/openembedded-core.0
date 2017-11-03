@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE3577BD2
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A080377BD2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 19:54:54 +0000 (UTC)
-Received: by mail-pf0-f193.google.com with SMTP id e64so2922450pfk.9
+	Fri,  3 Nov 2017 19:54:55 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id d28so2939518pfe.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 12:54:56 -0700 (PDT)
+	Fri, 03 Nov 2017 12:54:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=SPOl+yv9OSGTRhA3rfqlgpi2BNmh9uMq/BvPhXvi/PE=;
-	b=VpYoab28mkzySClJAsnkq6a3WbkzG988ydbHaJ8ru2ORlUn+3FDJGKWDEyF+cbaZ0x
-	j/oN0uLDm5Rv1a3BTq35Bl4DUxwot8gYgogAkz9FZ8bIPBVpH1DB2xTDHZmKJLDkRYB5
-	O0Tuq0GtwV4FXd47n1Tyxu45haHH7yusF83KFHn/OvOm4hqdDHBacm9LmSXcMZ81kCHr
-	R3bU7f+gh/ZiOmirnARpu4QJ7gOihk5DfrAtokMz6pih8dD4hYa/z1JSgUVzW1MwBjV7
-	KsJy9NQXCZ4OTzPc6CGaEtbFRLHSLGaPSzRpvtSciwJbv2OL7PS+vwWqTos/Q0Nx9eaA
-	uOZQ==
+	bh=S3LnWyiRqe0vEXyWk+ezugYFIb+47A6pKQ3J25WMS6g=;
+	b=auG/aUxxHZSAgdWBgEJzNRrkQ1nq3rVhCHgR6Q2Pmwe+J9z6YTSP0UytykNnxB5ml6
+	yanDs2KVKc2ERBVtBA98GF3WgEf6oXBHOuQNngYEKdi1XEz3Z5oo8a1JYMdjc7GOa3YE
+	h+FgzMwVrgYLPVQkpr+pL9Qr2eJx7GAOeRK3Rkawji+WpCcBfkYFnHKouhLM94aegRGO
+	dAN63MTOZQf6+NBB8LzN3nb6w9KQBfCFT2M5UOAMAaSWJxJKRWYXF6oC+Imf4nTYy90K
+	8Wsj4dltabq1ImDpADq+GGGkZee5lt/IDBxRPO1/5bWTIy61tbpL47ugyacoAjqhwjvC
+	b9tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=SPOl+yv9OSGTRhA3rfqlgpi2BNmh9uMq/BvPhXvi/PE=;
-	b=H150SFRy3upZo3jn5flkFmxkurfPUHeIsXz/Nr7/eOl2CUBwD13gFL9oEurBWpn3de
-	6rxBaYKBb4foKRaVrLle+de4Jf56+j6OeirvWdkCRhigb0y6DcgZdrdSrZRcKK4SZSBF
-	vTVmMjdnqcmniMAwmgUaM5LTzjBnhDqfA3QMmCTyINXDjJiEsezGau40yBqR4H97y69d
-	e6azY+rhbb68WfUJRyykQ0nycuD3Rlwb+Kk8GXh0nXh0MnFk1si9BchN27GTlSkgspWX
-	Xpyc8h57ZPrufwyq6yRLjxRSwYaIdqCYj36T47SqO8P4N1MmEGOwuxfCX2H32RZJn1aw
-	Kvbg==
-X-Gm-Message-State: AMCzsaVwEvBz9LDwmCPdXP+ARmB3/CYZwDmoNVdcH2fP6+ua5nAIs+TD
-	4dttSMxDdFaWEKEK4Y2Fl3laGQ==
-X-Google-Smtp-Source: ABhQp+SvMt2X2fNRDRJK76BSSn/paVWAanT4grxmS6n1Z/KNNYbaz7lSjl0sRzS7OV+8kuL4ez4y7Q==
-X-Received: by 10.159.253.6 with SMTP id p6mr7687832pls.212.1509738895813;
-	Fri, 03 Nov 2017 12:54:55 -0700 (PDT)
+	bh=S3LnWyiRqe0vEXyWk+ezugYFIb+47A6pKQ3J25WMS6g=;
+	b=HPFPTfnHdgiCVECe2XDOVvXz/EmH+GkovSL4N+/6xn6Yv7wnEgtjdViR4PtJAOQlnM
+	qOQBqRSQMhUxWNWWxLOia6zo7COXgTkTr9cZ27cmUKunM1dU06wCwzqrq0eBQDZmU0D4
+	GPbh3+Kt64IC9tqULFz49YizLSFW88ihKznyEvOn6JUjzDRXCw2JtYLmoPrG9+0PhsxO
+	3KY0h3k6CpkhmOKJbqA+nYM8oiPaejmNopGf7JncIJncL5kHOWZ5iGEG2kajv4V0kdWd
+	99/OIHeg8LEKiZebHY9ExN33CawZGYEnVuq23ikPt8nLbFs8TE7H9PSZHzmtUOrONSLS
+	zDpQ==
+X-Gm-Message-State: AMCzsaWN6UAKvXMaDex2+syspoLy2Vf0vxHxvS5c2Jnx0LkUF6LdfUvP
+	V6JFd4/ZM1DRncvvjGk2CwjB7A==
+X-Google-Smtp-Source: ABhQp+R508GKXwXSRrr5OZXtJhHn68QoH026lyBrmx5dcfwcyXhnfbEjmjJQI3ijIwNi8CfCPT5GVQ==
+X-Received: by 10.84.133.69 with SMTP id 63mr7722770plf.203.1509738896981;
+	Fri, 03 Nov 2017 12:54:56 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4001:9ea0:78e5:dcc3:4839:af44])
 	by smtp.gmail.com with ESMTPSA id
 	c26sm12781112pfl.115.2017.11.03.12.54.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 03 Nov 2017 12:54:55 -0700 (PDT)
+	Fri, 03 Nov 2017 12:54:56 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri,  3 Nov 2017 12:54:37 -0700
-Message-Id: <46b2c4824f11c90994158c2d7575acd9e52e1570.1509738544.git.akuster808@gmail.com>
+Date: Fri,  3 Nov 2017 12:54:38 -0700
+Message-Id: <7f0f21d9054b2a57b98689e321b48c54bd3436b8.1509738544.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1509738544.git.akuster808@gmail.com>
 References: <cover.1509738544.git.akuster808@gmail.com>
-Subject: [PATCH 03/15] libxres: upgrading to 1.2.0
+Subject: [PATCH 04/15] xkeyboard-config: upgrade to 2.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 19:54:54 -0000
-
-https://lists.x.org/archives/xorg-announce/2017-October/002812.html
-integer overflow in XResQueryClients() [CVE-2013-1988 1/2]
-integer overflow in XResQueryClientResources() [CVE-2013-1988 2/2]
+X-List-Received-Date: Fri, 03 Nov 2017 19:54:55 -0000
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-graphics/xorg-lib/{libxres_1.0.7.bb => libxres_1.2.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxres_1.0.7.bb => libxres_1.2.0.bb} (77%)
+ .../xorg-lib/{xkeyboard-config_2.21.bb => xkeyboard-config_2.22.bb}  | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.21.bb => xkeyboard-config_2.22.bb} (87%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxres_1.0.7.bb b/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
-similarity index 77%
-rename from meta/recipes-graphics/xorg-lib/libxres_1.0.7.bb
-rename to meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
-index 8c04c44..8c34e47 100644
---- a/meta/recipes-graphics/xorg-lib/libxres_1.0.7.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxres_1.2.0.bb
-@@ -16,5 +16,5 @@ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.21.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.22.bb
+similarity index 87%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.21.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.22.bb
+index 01a51ad..4fd894f 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.21.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.22.bb
+@@ -13,8 +13,9 @@ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
  
- XORG_PN = "libXres"
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "af9498e8954907d0a47f0f7b3d21e1ef"
+-SRC_URI[sha256sum] = "30c17049fae129fc14875656da9aa3099e3031d6ce0ee1d77aae190fd9edcec5"
++
++SRC_URI[md5sum] = "eb61fb3fd419e817df572b0c8d94a883"
++SRC_URI[sha256sum] = "deaec9989fbc443358b43864437b7b6d39caff07890a4a8055105ce9fcaa59bd"
  
--SRC_URI[md5sum] = "45ef29206a6b58254c81bea28ec6c95f"
--SRC_URI[sha256sum] = "26899054aa87f81b17becc68e8645b240f140464cf90c42616ebb263ec5fa0e5"
-+SRC_URI[md5sum] = "5d6d443d1abc8e1f6fc1c57fb27729bb"
-+SRC_URI[sha256sum] = "ff75c1643488e64a7cfbced27486f0f944801319c84c18d3bd3da6bf28c812d4"
+ SECTION = "x11/libs"
+ DEPENDS = "intltool-native util-macros libxslt-native"
 -- 
 2.7.4
 
