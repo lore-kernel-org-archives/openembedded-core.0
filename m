@@ -1,46 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 934F578380
+Return-Path: <michael.davis@essvote.com>
+Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
+	by mail.openembedded.org (Postfix) with ESMTP id B5C8A7835E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 20:53:02 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id 17so3015653pfn.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 13:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NXEIxDoxq0eojJbKyAGWYuaskYYB9a0a0PHCV7ZX6to=;
-	b=ZL3tIz6muqswEWvKyIJEXkjYtIUentI2mwmd9b2a8fwwZ6iN0REkJYdVTezaDBnDRD
-	BAG6jhNvnSRENVN3rY3gPwCLnxK8UOSjZeyQAxnyZpKTT8cx6WEWJsrer9F/udQd4elf
-	8aMb99BC9tPSXbuCEFtIEKFx/H6+1+6xCxs03rmk1g61N0aQNv3wb2DJQftYZHMC0HcC
-	LvP94AfIrbMWTf26FkxzvjCFBxY6BLT72S8LhEjFuDa5Z+osKz3IMQMBGAqDj8b1KrVC
-	7uIz7UBzpDXbIEIIkZJFqj9xPpuF/Uow9q15FYf2b9UgE8Wi/podZud0wkdr79yzNNz3
-	wd6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=NXEIxDoxq0eojJbKyAGWYuaskYYB9a0a0PHCV7ZX6to=;
-	b=ih+9ecRoXP9jzic53Aq7T1rEP8lPT/9yX3MzwLEurpnluvWQrdbhel7q0G3MvjUiLu
-	UvCzT5OReXwfz6ZXhRb1GWFwhCt9odW5Qdekoa5KITv18mHjc0GdU9SuJThi4JZ4BOcU
-	X7E6fV24Q/P1qBK+AMiuWNFdGub/AO8xi1edv1jzvPqPGJ56x7BjRR6s/zZNSm75nsrl
-	bjbdB3/p44HIGegW757xVaCQNTZ/7RjjvfLTPdEADbfH+OvDYq/TuKQyzhb+JWhBaKnH
-	mJAwYVJGbIJ8FKkgllhW5rVXRVnYXwIP2FaYMbnCs93nl5dzECcFyPAYF4wUnwI5VLPB
-	YEjQ==
-X-Gm-Message-State: AMCzsaW7ASa3S40VR1b8ozus8q9ObLyyNz/ooSRfgRmY+RbUioXo/raT
-	N7vDETz4A55AtaXxiPnqkDx4jKZitZuXBmgZhpQ=
-X-Google-Smtp-Source: ABhQp+RUyiEWLob3k5UziOsBziLqAAqa2UxkPlePpNU69KRz3hDgqnFrpSuuMvTacj0GupEbdoUbnVJ1vZ7Dn6wUI/g=
-X-Received: by 10.84.151.70 with SMTP id i64mr7844735pli.114.1509742383643;
-	Fri, 03 Nov 2017 13:53:03 -0700 (PDT)
+	Fri,  3 Nov 2017 22:03:11 +0000 (UTC)
+X-AuditID: 0a000213-591ff7000000040f-20-59fce79af35f
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
+	34.05.01039.A97ECF95; Fri,  3 Nov 2017 17:03:09 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Fri, 3 Nov 2017 17:03:06 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: Philippe Coval <philippe.coval@osg.samsung.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] classes/npm: Fix install to use offline option
+Thread-Index: AQHTVJIla/hDWuSvQUqvJ31Z8EKe9KMCtzswgAB88sA=
+Date: Fri, 3 Nov 2017 22:03:06 +0000
+Message-ID: <655290B7709079438B7932553958E60DA1380FCE@ESS-EX01.essvote.corp.local>
+References: <1509706432-21131-1-git-send-email-philippe.coval@osg.samsung.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.61]
 MIME-Version: 1.0
-References: <1509740585-20536-1-git-send-email-matt@madison.systems>
-In-Reply-To: <1509740585-20536-1-git-send-email-matt@madison.systems>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 03 Nov 2017 20:52:52 +0000
-Message-ID: <CAMKF1souMjPeiQX5tyKF+AvhscukbWRpQKPd8L3AT0DigMJGKw@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] go: update to go1.9.2
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWyRiBPQ3fu8z+RBq2LBSzu/HzHbvH87C02
+	ByaPcxtXMHps6b/LHsAUxWWTkpqTWZZapG+XwJXxY/Ff5oJrMhVPnuxjamC8J97FyMkhIWAi
+	8fjANdYuRi4OIYETjBJ9Gx6zgCSEBGYySmzfGQtiswkYSZy7vokRpEhEoI9RYt+N9awgCWEB
+	X4mJV5aB2SICARLL9rYzdTFyANlWEicmSYOEWQRUJI4+ncwMYvMKBEmsfzaXEWK+v8SPuy3s
+	IDajgJjE91NrmEBsZgFxiVtP5jNBHCcgsWTPeWYIW1Ti5eN/rBC2nETfxIfsEPU6Egt2f2KD
+	sLUlli18DbVLUOLkzCcsExiFZyEZOwtJyywkLbOQtCxgZFnFKJibmJljqJdaXFyWX5Kql5yf
+	u4kRGO5cDEzCOxgXzIg9xCjAwajEw7thwu9IIdbEsuLK3EOM0hwsSuK8i691RgoJpCeWpGan
+	phakFsUXleakFh9iZOLgBBFcUg2Ma48eCPlqX6N2+sIOY0kWV+55ly4Uznk+w/7M4fPME+LO
+	hMqddHr46XXo/MDj67b6O+/ZrmzIHVkUpGNpnMuttfzPkTXiLjN/N3gKuR40iE27kVXIwCnr
+	3vX79Jxc79uvfKbfZk4/dUpT7gj7o8lnqttsq67IOhSXbPqiW7xHnt/3oL3vbcOHSizFGYmG
+	WsxFxYkAyaqiCl0CAAA=
+Subject: Re: [PATCH] classes/npm: Fix install to use offline option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,110 +48,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 20:53:02 -0000
-Content-Type: multipart/alternative; boundary="94eb2c18a86e7ac05e055d1a4a0c"
-
---94eb2c18a86e7ac05e055d1a4a0c
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Nov 3, 2017 at 1:23 PM Matt Madison <matt@madison.systems> wrote:
-
-> Update to the go1.9.2 minor release, which includes
-> fixes to the compiler and runtime.
->
-
-This is good
-
->
-> Signed-off-by: Matt Madison <matt@madison.systems>
-> ---
->  meta/recipes-devtools/go/go-1.9.inc | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/go/go-1.9.inc
-> b/meta/recipes-devtools/go/go-1.9.inc
-> index 65adaa8..7daf266 100644
-> --- a/meta/recipes-devtools/go/go-1.9.inc
-> +++ b/meta/recipes-devtools/go/go-1.9.inc
-> @@ -1,6 +1,10 @@
->  require go-common.inc
->
->  GO_BASEVERSION = "1.9"
-> +MINOR = ".2"
-> +
-> +PV = "${GO_BASEVERSION}${MINOR}"
-> +
->  FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
->
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-> @@ -16,5 +20,5 @@ SRC_URI += "\
->
->  file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
->
->  file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
->  "
-> -SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
-> -SRC_URI[main.sha256sum] =
-> "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
-> +SRC_URI[main.md5sum] = "44105c865a1a810464df79233a05a568"
-> +SRC_URI[main.sha256sum] =
-> "665f184bf8ac89986cfd5a4460736976f60b57df6b320ad71ad4cef53bb143dc"
-> --
-> 2.7.4
->
->
-
---94eb2c18a86e7ac05e055d1a4a0c
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Nov 2017 22:03:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br><div class=3D"gmail_quote"><div dir=3D"auto">On Fri, Nov 3, 2017 a=
-t 1:23 PM Matt Madison &lt;matt@madison.systems&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex">Update to the go1.9.2 minor release, which includes=
-<br>
-fixes to the compiler and runtime.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This is good</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex"><br>
-Signed-off-by: Matt Madison &lt;matt@madison.systems&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/go/go-1.9.inc | 8 ++++++--<br>
-=C2=A01 file changed, 6 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go=
-/go-1.9.inc<br>
-index 65adaa8..7daf266 100644<br>
---- a/meta/recipes-devtools/go/go-1.9.inc<br>
-+++ b/meta/recipes-devtools/go/go-1.9.inc<br>
-@@ -1,6 +1,10 @@<br>
-=C2=A0require go-common.inc<br>
-<br>
-=C2=A0GO_BASEVERSION =3D &quot;1.9&quot;<br>
-+MINOR =3D &quot;.2&quot;<br>
-+<br>
-+PV =3D &quot;${GO_BASEVERSION}${MINOR}&quot;<br>
-+<br>
-=C2=A0FILESEXTRAPATHS_prepend :=3D &quot;${FILE_DIRNAME}/go-${GO_BASEVERSIO=
-N}:&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D5d4950ecb7b26d2c5e4e7=
-b4e0dd74707&quot;<br>
-@@ -16,5 +20,5 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0008-make.bash-add-GOHOSTxx-indire=
-ction-for-cross-canadia.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0009-cmd-go-buildmode-pie-forces-e=
-xternal-linking-mode-on.patch \<br>
-=C2=A0&quot;<br>
--SRC_URI[main.md5sum] =3D &quot;da2d44ea384076efec43ee1f8b7d45d2&quot;<br>
--SRC_URI[main.sha256sum] =3D &quot;a4ab229028ed167ba1986825751463605264e448=
-68362ca8e7accc8be057e993&quot;<br>
-+SRC_URI[main.md5sum] =3D &quot;44105c865a1a810464df79233a05a568&quot;<br>
-+SRC_URI[main.sha256sum] =3D &quot;665f184bf8ac89986cfd5a4460736976f60b57df=
-6b320ad71ad4cef53bb143dc&quot;<br>
---<br>
-2.7.4<br>
-<br>
-</blockquote></div></div>
+Just an update on this for Philippe and any interested parties.
+I started down the line of grabbing the patch and was indeed able to get th=
+e tars to add into the cache.  I was also able to get the system to build o=
+ffline with some manual tweaking.
+The main issue I am running into now is that we need a full shrinkwrap afte=
+r npm install to get the proper information for the cache to pick things up=
+.
+This will cause pretty sizable rewrites to how the npm fetcher currently fu=
+nctions, maybe the recipe generator too.
 
---94eb2c18a86e7ac05e055d1a4a0c--
+It will be awhile before I have the free time to attempt to something like =
+that so if anyone wants to pick up where I left off send me an email.=20
+I can supply you with details of what I have done so far.
+
+
+-----Original Message-----
+From: Davis, Michael=20
+Sent: Friday, November 03, 2017 9:39 AM
+To: 'Philippe Coval'; openembedded-core@lists.openembedded.org
+Subject: RE: [OE-core] [PATCH] classes/npm: Fix install to use offline opti=
+on
+
+Npm v4/v6 have a patch to allow the --no-registry to work.  It was taken ou=
+t in the transition to Node 8 since the cache system is completely differen=
+t.
+Unfortunately this doesn't work for nodev8 / npmv5 so the offline build on =
+master/rocko is completely broken.
+I am trying to get something working by adding the dependency tar.gz direct=
+ly into the cache manually before the build, but I am running into a npm bu=
+g.
+https://github.com/nodejs/help/issues/944
+
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Philippe Coval
+Sent: Friday, November 03, 2017 5:54 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] classes/npm: Fix install to use offline option
+
+Option --no-registry seems deprecated or even non supported for ages,
+while --offline fixed the problem on install task.
+
+Issue can be reproduced using:
+
+  devtool add "npm://registry.npmjs.org;name=3Depoll;version=3Dlatest"
+  bitbake epoll
+
+  | DEBUG: Executing shell function do_install
+  (...)
+  | npm ERR! argv ".../node" ".../npm" "install" (...) "--production" "--no=
+-registry"
+  | npm ERR! node v6.11.0
+  | npm ERR! npm  v3.10.10
+  | npm ERR! registry URL is required
+
+And also from log file ".../epoll/1.0.0-r0/npmpkg/npm-debug.log":
+
+   silly mapToRegistry using default registry
+   41 silly mapToRegistry registry null
+   42 verbose stack AssertionError: registry URL is required
+   42 verbose stack     at Conf.getCredentialsByURI (.../get-credentials-by=
+-uri.js:8:3)
+
+More relevent insights:
+https://github.com/npm/npm/issues/2568#
+
+Signed-off-by: Philippe Coval <philippe.coval@osg.samsung.com>
+---
+ meta/classes/npm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index a69bedb..dfd1ffe 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -45,7 +45,7 @@ npm_do_install() {
+ 	# be created in this directory
+ 	export HOME=3D${WORKDIR}
+ 	mkdir -p ${NPM_INSTALLDIR}/
+-	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arch=
+=3D${NPM_ARCH} --production --no-registry
++	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arch=
+=3D${NPM_ARCH} --production --offline
+ 	if [ -d ${D}${prefix}/etc ] ; then
+ 		# This will be empty
+ 		rmdir ${D}${prefix}/etc
+--=20
+1.9.1
+
+--=20
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
