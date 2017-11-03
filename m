@@ -1,49 +1,62 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D94B6AC00
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A3B06AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 20:23:29 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id e64so2969564pfk.9
+	Fri,  3 Nov 2017 20:29:22 +0000 (UTC)
+Received: by mail-ot0-f174.google.com with SMTP id q99so3690231ota.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 13:23:30 -0700 (PDT)
+	Fri, 03 Nov 2017 13:29:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=CdhwVS39B3Qha/O2wgl45GpihMxGWZzfV7BFhzU7amY=;
-	b=cyBmvRwMtDEw2TLe56GN3qtcmTHHUMzdkXYIlvmk+N5M4gMfVmLZF6SC9M6elobu1z
-	yPMfiGhAwYxM4J44Ly8tgYcNV02IIe8ygIizvxe4RWQ3U32WVO2N8p5TA65uqnzsYYBr
-	Xn/VOUCfLyQRvZt0KhtqZE268qX79EOkp6Y7+7uwY1A3uo3MaeBGkDy0CNnFmj7VcQN4
-	ECys7RJMQjdH/exHUMqHgHZFa8Gu+DhqiQWbXFV/OF6hVkJXmTmvIwS3KS7CicLvTixF
-	Zogr7QlEHSDTGGER99/lI+n7cV8J4ecMvaSvkXpHgQO4ujyaetoQUTr85HEAwKsR1W9b
-	VSIQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=o/7AtwQ3lV5beAZdene2FOMqZgjshNqvHJe7LzkYFmE=;
+	b=sLBO4KJGvEdvuoG88rVnMEShHovbcImv+Hs9Av3nmIT0Q2QbOho6dLqoRKmxEfiuRu
+	uKgWmWrf1TVd0GSYQiTTQLS9ntQNCYvNqpv1SbFxGmWRXLI7UpYQVvE9arS/bc0fkCRO
+	nDH0mK5DE0fR3gB/2P/wUIKB8QJ5hiy1e+qVNarwTi9Rgyzi9lkn2mfxJsjEakHkYANc
+	jmbv9C/CszwU+y2PPiyhjaqu8IMnn6eNKuPbzB3DjUlxUhYPr2C4GGhVhwxvECyNNo//
+	l26qhdQq3OGZLwpU+7Mi/+qdQWGrsWqrc9wp55sMmm9qqUc/Q2RIthCsxqQO9MBaHVir
+	lq7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=CdhwVS39B3Qha/O2wgl45GpihMxGWZzfV7BFhzU7amY=;
-	b=MVEy5MKjyMtLJXbDvoc1A+F9pNv6WYiCWaMhhieRFKdIdr/9q3Zwm91GYcV/zCmgXY
-	CAzmNyTYIfNHTI5T4K1imgg9TZrXBi4fEaJ8h+AA0GxWBLPrumZqAcUUOPwcWYvQiymP
-	LHdVuurNjls5I/99jZ38DHULrtXWsBK7nHonZL8Tq0RUQDUAOfE0KZ2S8IgmqLdh/nNn
-	hiVhSw4ytUDgZenlCNlIATzILFTdqUsNOnb6iM1m45wFbKmw9RNsX8wOrhN8swByLiA7
-	4lZnRQ/MrZ8oqRk5mYj5JQguiL7igySTXTPQ47zMDFnFUhHRe+GI17pWkWP+Eu3w8AxC
-	mOPA==
-X-Gm-Message-State: AMCzsaVdwWskUhkWZZAw+fLRDM7Z4uwLsmullT+R5YI/uZfVS6byK5sy
-	P/lxWstawA8YugkrmoEvKLguFWRV
-X-Google-Smtp-Source: ABhQp+RFZsNTYdlHxhMREoOtcLrne+kuAGdg+GHGn7zH3MvfuwJPWAJgq6TlAD/rYQ29Yuj+wdVHMQ==
-X-Received: by 10.101.69.76 with SMTP id x12mr8368154pgr.284.1509740610187;
-	Fri, 03 Nov 2017 13:23:30 -0700 (PDT)
-Received: from workhorse.madison.systems
-	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
-	by smtp.gmail.com with ESMTPSA id
-	q77sm12996005pfd.84.2017.11.03.13.23.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 03 Nov 2017 13:23:29 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Nov 2017 13:23:05 -0700
-Message-Id: <1509740585-20536-1-git-send-email-matt@madison.systems>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] go: update to go1.9.2
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc;
+	bh=o/7AtwQ3lV5beAZdene2FOMqZgjshNqvHJe7LzkYFmE=;
+	b=sqJV7b4KiTqJA1ZIklyR7BdVZFtcmJmNZOeRLQJ/hLafghZ8vfmuwnM4UjJW0jqRSK
+	+d4ic1Nv18B/HDT2OJAYp1hrgVYCsnmA5hh0D/QvDFxJprMEzjvrCMmtaWoCRlMbRC4n
+	jg/YUkFAtrSgEL1e7YHmz6wQWGxRrE4Ag62nEiwwfVujr35GApxqD4cka+WTgZnKVIVB
+	KQe+eFTVm/VoNUWm9YJajwoF3jqnHt8QMKNGmH+crS/QDlnh4GOisSUaYpqgfEx3MewI
+	GWYMo6+Tjqoeniz/nf6fid5jU8ngz6WAM0ElqR9FpZtLyQpH+Z+roWmcYdAFhSb3BO3w
+	vOFw==
+X-Gm-Message-State: AJaThX7u4U/X2XcdrX6VTDEPsFZx4SUR6eQtG/IzAYEhowgDSZpbaQkc
+	BrdEjXUvBdkG5Ow8OIT3Fc1rOQtv
+X-Google-Smtp-Source: ABhQp+TfHIpUiw2o+8tJUJ9PvAYkIEvyPPs2CAumdVS2MXoqGfbTM+OPJnpTZdlnCd8LI38LhB1zww==
+X-Received: by 10.157.89.232 with SMTP id u40mr4954231otg.270.1509740963799;
+	Fri, 03 Nov 2017 13:29:23 -0700 (PDT)
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com.
+	[209.85.218.46]) by smtp.gmail.com with ESMTPSA id
+	188sm2888262oib.47.2017.11.03.13.29.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 Nov 2017 13:29:22 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f46.google.com with SMTP id h6so3047649oia.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Nov 2017 13:29:22 -0700 (PDT)
+X-Received: by 10.202.81.10 with SMTP id f10mr4558987oib.93.1509740962310;
+	Fri, 03 Nov 2017 13:29:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.157.56.216 with HTTP; Fri, 3 Nov 2017 13:29:21 -0700 (PDT)
+In-Reply-To: <1509740585-20536-1-git-send-email-matt@madison.systems>
+References: <1509740585-20536-1-git-send-email-matt@madison.systems>
+Date: Fri, 3 Nov 2017 18:29:21 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKoHQ674TEyZgX=+efG5yY9Zv2FpfZC+9U45gCgyyhOKZA@mail.gmail.com>
+Message-ID: <CAP9ODKoHQ674TEyZgX=+efG5yY9Zv2FpfZC+9U45gCgyyhOKZA@mail.gmail.com>
+To: Matt Madison <matt@madison.systems>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] go: update to go1.9.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +69,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 20:23:29 -0000
+X-List-Received-Date: Fri, 03 Nov 2017 20:29:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Update to the go1.9.2 minor release, which includes
-fixes to the compiler and runtime.
+On Fri, Nov 3, 2017 at 6:23 PM, Matt Madison <matt@madison.systems> wrote:
+> Update to the go1.9.2 minor release, which includes
+> fixes to the compiler and runtime.
+>
+> Signed-off-by: Matt Madison <matt@madison.systems>
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- meta/recipes-devtools/go/go-1.9.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
-index 65adaa8..7daf266 100644
---- a/meta/recipes-devtools/go/go-1.9.inc
-+++ b/meta/recipes-devtools/go/go-1.9.inc
-@@ -1,6 +1,10 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.9"
-+MINOR = ".2"
-+
-+PV = "${GO_BASEVERSION}${MINOR}"
-+
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
-@@ -16,5 +20,5 @@ SRC_URI += "\
-         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
-         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
- "
--SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
--SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
-+SRC_URI[main.md5sum] = "44105c865a1a810464df79233a05a568"
-+SRC_URI[main.sha256sum] = "665f184bf8ac89986cfd5a4460736976f60b57df6b320ad71ad4cef53bb143dc"
+
 -- 
-2.7.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
