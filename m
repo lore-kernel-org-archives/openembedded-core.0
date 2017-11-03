@@ -1,41 +1,56 @@
-Return-Path: <michael.davis@essvote.com>
-Received: from mail1.essvote.com (mail1.essvote.com [66.37.226.19])
-	by mail.openembedded.org (Postfix) with ESMTP id B5C8A7835E
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf0-f174.google.com (mail-pf0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 012647830E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 22:03:11 +0000 (UTC)
-X-AuditID: 0a000213-591ff7000000040f-20-59fce79af35f
-Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
-	by mail1.essvote.com (Symantec Messaging Gateway) with SMTP id
-	34.05.01039.A97ECF95; Fri,  3 Nov 2017 17:03:09 -0500 (CDT)
-Received: from ESS-EX01.essvote.corp.local ([::1]) by
-	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
-	Fri, 3 Nov 2017 17:03:06 -0500
-From: "Davis, Michael" <michael.davis@essvote.com>
-To: Philippe Coval <philippe.coval@osg.samsung.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] classes/npm: Fix install to use offline option
-Thread-Index: AQHTVJIla/hDWuSvQUqvJ31Z8EKe9KMCtzswgAB88sA=
-Date: Fri, 3 Nov 2017 22:03:06 +0000
-Message-ID: <655290B7709079438B7932553958E60DA1380FCE@ESS-EX01.essvote.corp.local>
-References: <1509706432-21131-1-git-send-email-philippe.coval@osg.samsung.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.20.61]
+	Fri,  3 Nov 2017 22:26:04 +0000 (UTC)
+Received: by mail-pf0-f174.google.com with SMTP id t188so3161424pfd.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Nov 2017 15:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=hSOGdlp2B3rrEhvejB5KvhV1mGtRCVxblHvaWYs1ww0=;
+	b=VXXmqa1kPIgqpkZ7JGIGPUxuV3B/MuvAWa/1qoJPGLN4Q0dep9YBe3JhhpHM2Zm0x8
+	2uuNx0gcg7x5G5sZ2V/+EaLFsiOjGLBLuxxtT1bdG/7pN3iNx3x/1qD4bnOBhqbB+JQS
+	VBNGT0S+vRadKjb+8l43D6xPCGdFi7SQyvfYIvNWNtI277475zSAMYpihYofuy7wMU2+
+	L/sAwf8C8HDZ9Z8+Rp/yaiXXByloCWM4U7gHbJbud2gq140vzvKE3LmRRTeBhyoIyNj+
+	PkxiLA3b8GtKn5XEOCt0nHDaG14AKPtDbr1Phbq8lxaj9Xdlmlx9m5Cfw4Lp/FjN2Iec
+	9nhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=hSOGdlp2B3rrEhvejB5KvhV1mGtRCVxblHvaWYs1ww0=;
+	b=myRpJ7ciCR+ZtR78wLslWVoB7ZUe3t/eINObPQzXLTDQKU9WH0Jgjf2xffS40p3AKi
+	JjenknJ0sMU2esC+ZSrcLI3tieKOrO83uuyvdX9QJ6HSfiqn2tHLeY+ZzHY/FwSBu+sX
+	XlZmKzEvsCU+0ugEr7EQgOTgVnZ9hMMvc+VrhuXjAnpud439wlzwGcvZoCmYl4vdC7em
+	EEMX18FXXfm+29t5P3pn+h6DT+3/1FVa6iGoUiWmsu7+M0Qe9QyQVCSNCm6ajb15v6Yx
+	wWx49TRGm/ey6m1FltUAZLQl5RtOIOLwA4nlPy7EbeE9oYI5CUzAVtJaB+LrDbaKjINY
+	08pA==
+X-Gm-Message-State: AMCzsaUOT1jiEVgWwbPLxHNHrs5FXwqMKq65Mx0hn1+fLfas8BGSwIyQ
+	rBSh1dhKTsbFXAig7PPvNO3d8w==
+X-Google-Smtp-Source: ABhQp+ToopPuOZ2xSc4AcyQ9oCtOjnaTJJI8h35SJCLHYiuhdbv6U9z0aMFTXt+x/JosCzgtULyJ2g==
+X-Received: by 10.98.131.68 with SMTP id h65mr9122059pfe.148.1509747966177;
+	Fri, 03 Nov 2017 15:26:06 -0700 (PDT)
+Received: from ?IPv6:2601:202:4001:9ea0:78e5:dcc3:4839:af44?
+	([2601:202:4001:9ea0:78e5:dcc3:4839:af44])
+	by smtp.gmail.com with ESMTPSA id u6sm10874340pgo.9.2017.11.03.15.26.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 Nov 2017 15:26:05 -0700 (PDT)
+To: =?UTF-8?Q?Andr=c3=a9_Draszik?= <git@andred.net>, akuster@mvista.com,
+	openembedded-core@lists.openembedded.org
+References: <cover.1509205113.git.akuster808@gmail.com>
+	<1509441974.11219.1.camel@andred.net>
+From: akuster808 <akuster808@gmail.com>
+Message-ID: <fbf3c353-463e-8551-8236-43000fe84415@gmail.com>
+Date: Fri, 3 Nov 2017 15:26:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWyRiBPQ3fu8z+RBq2LBSzu/HzHbvH87C02
-	ByaPcxtXMHps6b/LHsAUxWWTkpqTWZZapG+XwJXxY/Ff5oJrMhVPnuxjamC8J97FyMkhIWAi
-	8fjANdYuRi4OIYETjBJ9Gx6zgCSEBGYySmzfGQtiswkYSZy7vokRpEhEoI9RYt+N9awgCWEB
-	X4mJV5aB2SICARLL9rYzdTFyANlWEicmSYOEWQRUJI4+ncwMYvMKBEmsfzaXEWK+v8SPuy3s
-	IDajgJjE91NrmEBsZgFxiVtP5jNBHCcgsWTPeWYIW1Ti5eN/rBC2nETfxIfsEPU6Egt2f2KD
-	sLUlli18DbVLUOLkzCcsExiFZyEZOwtJyywkLbOQtCxgZFnFKJibmJljqJdaXFyWX5Kql5yf
-	u4kRGO5cDEzCOxgXzIg9xCjAwajEw7thwu9IIdbEsuLK3EOM0hwsSuK8i691RgoJpCeWpGan
-	phakFsUXleakFh9iZOLgBBFcUg2Ma48eCPlqX6N2+sIOY0kWV+55ly4Uznk+w/7M4fPME+LO
-	hMqddHr46XXo/MDj67b6O+/ZrmzIHVkUpGNpnMuttfzPkTXiLjN/N3gKuR40iE27kVXIwCnr
-	3vX79Jxc79uvfKbfZk4/dUpT7gj7o8lnqttsq67IOhSXbPqiW7xHnt/3oL3vbcOHSizFGYmG
-	WsxFxYkAyaqiCl0CAAA=
-Subject: Re: [PATCH] classes/npm: Fix install to use offline option
+In-Reply-To: <1509441974.11219.1.camel@andred.net>
+Subject: Re: [PATCH 00/36] Pyro-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,104 +63,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 22:03:12 -0000
+X-List-Received-Date: Fri, 03 Nov 2017 22:26:05 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Just an update on this for Philippe and any interested parties.
-I started down the line of grabbing the patch and was indeed able to get th=
-e tars to add into the cache.  I was also able to get the system to build o=
-ffline with some manual tweaking.
-The main issue I am running into now is that we need a full shrinkwrap afte=
-r npm install to get the proper information for the cache to pick things up=
-.
-This will cause pretty sizable rewrites to how the npm fetcher currently fu=
-nctions, maybe the recipe generator too.
-
-It will be awhile before I have the free time to attempt to something like =
-that so if anyone wants to pick up where I left off send me an email.=20
-I can supply you with details of what I have done so far.
 
 
------Original Message-----
-From: Davis, Michael=20
-Sent: Friday, November 03, 2017 9:39 AM
-To: 'Philippe Coval'; openembedded-core@lists.openembedded.org
-Subject: RE: [OE-core] [PATCH] classes/npm: Fix install to use offline opti=
-on
 
-Npm v4/v6 have a patch to allow the --no-registry to work.  It was taken ou=
-t in the transition to Node 8 since the cache system is completely differen=
-t.
-Unfortunately this doesn't work for nodev8 / npmv5 so the offline build on =
-master/rocko is completely broken.
-I am trying to get something working by adding the dependency tar.gz direct=
-ly into the cache manually before the build, but I am running into a npm bu=
-g.
-https://github.com/nodejs/help/issues/944
+On 10/31/2017 02:26 AM, André Draszik wrote:
+> Hi Armin,
+>
+> On Sat, 2017-10-28 at 08:42 -0700, Armin Kuster wrote:
+>> Thomas PERROT (1):
+>>   Avoid a circular dependency between do_concat_dtb and
+>>     do_assemble_fitimage
+> This is not in master, and I still think this is wrong.
+ah, ok. patch removed from staging.
 
+thanks,
+Armin
+>
+>
+> Cheers,
+> Andre'
+>
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Philippe Coval
-Sent: Friday, November 03, 2017 5:54 AM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] classes/npm: Fix install to use offline option
-
-Option --no-registry seems deprecated or even non supported for ages,
-while --offline fixed the problem on install task.
-
-Issue can be reproduced using:
-
-  devtool add "npm://registry.npmjs.org;name=3Depoll;version=3Dlatest"
-  bitbake epoll
-
-  | DEBUG: Executing shell function do_install
-  (...)
-  | npm ERR! argv ".../node" ".../npm" "install" (...) "--production" "--no=
--registry"
-  | npm ERR! node v6.11.0
-  | npm ERR! npm  v3.10.10
-  | npm ERR! registry URL is required
-
-And also from log file ".../epoll/1.0.0-r0/npmpkg/npm-debug.log":
-
-   silly mapToRegistry using default registry
-   41 silly mapToRegistry registry null
-   42 verbose stack AssertionError: registry URL is required
-   42 verbose stack     at Conf.getCredentialsByURI (.../get-credentials-by=
--uri.js:8:3)
-
-More relevent insights:
-https://github.com/npm/npm/issues/2568#
-
-Signed-off-by: Philippe Coval <philippe.coval@osg.samsung.com>
----
- meta/classes/npm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index a69bedb..dfd1ffe 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -45,7 +45,7 @@ npm_do_install() {
- 	# be created in this directory
- 	export HOME=3D${WORKDIR}
- 	mkdir -p ${NPM_INSTALLDIR}/
--	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arch=
-=3D${NPM_ARCH} --production --no-registry
-+	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arch=
-=3D${NPM_ARCH} --production --offline
- 	if [ -d ${D}${prefix}/etc ] ; then
- 		# This will be empty
- 		rmdir ${D}${prefix}/etc
---=20
-1.9.1
-
---=20
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
