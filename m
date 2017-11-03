@@ -1,52 +1,42 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 04FB46E672
+Return-Path: <michael.davis@essvote.com>
+Received: from m2.essvote.com (m2.essvote.com [66.37.226.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 378C5719C8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 12:51:52 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id t71so2299984ywc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 05:51:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=xAd6wBFQhc5VWq5LAmpZFudH9WC0abMxascNSF1UDJM=;
-	b=DRfFk4Y1wzdYE/d1V/2dKuXSA87bPaKyRNENor/id179Mpnt/oL8Gc1al1fVUVlMEw
-	cdcCBSmAbpxPN1vR8LnPBX3VidBx8bgoI4srm+wXERFyWYHg+JKgJa3d6Zn3NZvH8B9i
-	dv9gWSwFbLHqa0iC3PCXQWafL6LmU1B/oULrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=xAd6wBFQhc5VWq5LAmpZFudH9WC0abMxascNSF1UDJM=;
-	b=F8geCBLMpvUeRn/YOSlhsjZBhCyhDgptt+AXgnAuSduvMrbKjUsA+lWN7tVY4pqQJo
-	9tHO2627YrAUXxX2BX2JstKp8jGEm98y3MW/wKCfcJ2Uhs3eyVCMeoDwNUBThzvoBnNB
-	Z9JBu0B28sM7iICUbPa1eWOgoh34Nnf6We6wIFIi3XrNKv5X1X5oLFGkUhL7JS4Aqu2g
-	/0ZYipSIw6CIyT3Cu7dj5ph0WBQsoVdEZI/fCfDCFD6BSym6b7zZgPR2ipmavanatSei
-	aop6zx1kRbW78uC29VyYPtvKXW7Q/qkxXWXNzFLACJTX1ZZLlYEMDCBx8e46PiJuiqxK
-	HN6w==
-X-Gm-Message-State: AMCzsaWlomxShcI8Aola893M+glOl04oQI3ucd6anP8xJTGmD2RrJD8w
-	ItOOJ6uyg048eM5xje5gWjkaDmVPHHA=
-X-Google-Smtp-Source: ABhQp+SDPWNkpj8bmH5fzOVQbWGRVvmlqfSWedxAJ8lGJIZOyRFBRDx0q/lem3kITlpcNwazRvSSPw==
-X-Received: by 10.129.141.20 with SMTP id d20mr4449386ywg.105.1509713513688;
-	Fri, 03 Nov 2017 05:51:53 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	b11sm2591867ywc.84.2017.11.03.05.51.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Nov 2017 05:51:52 -0700 (PDT)
-Date: Fri, 3 Nov 2017 08:51:50 -0400
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20171103125150.GA32663@bill-the-cat>
-References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
-	<20171010210149.GE12015@bill-the-cat>
-	<20171020131505.GG12015@bill-the-cat>
+	Fri,  3 Nov 2017 14:39:32 +0000 (UTC)
+X-AuditID: 0a00029b-c8dff70000007b66-25-59fc7fa02a32
+Received: from ESS-EX01.essvote.corp.local (Unknown_Domain [172.16.110.40])
+	by m2.essvote.com (Symantec Messaging Gateway) with SMTP id
+	C5.4C.31590.0AF7CF95; Fri,  3 Nov 2017 09:39:31 -0500 (CDT)
+Received: from ESS-EX01.essvote.corp.local ([::1]) by
+	ESS-EX01.essvote.corp.local ([::1]) with mapi id 14.03.0301.000;
+	Fri, 3 Nov 2017 09:39:27 -0500
+From: "Davis, Michael" <michael.davis@essvote.com>
+To: Philippe Coval <philippe.coval@osg.samsung.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] classes/npm: Fix install to use offline option
+Thread-Index: AQHTVJIla/hDWuSvQUqvJ31Z8EKe9KMCtzsw
+Date: Fri, 3 Nov 2017 14:39:27 +0000
+Message-ID: <655290B7709079438B7932553958E60DA1380C60@ESS-EX01.essvote.corp.local>
+References: <1509706432-21131-1-git-send-email-philippe.coval@osg.samsung.com>
+In-Reply-To: <1509706432-21131-1-git-send-email-philippe.coval@osg.samsung.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.20.61]
 MIME-Version: 1.0
-In-Reply-To: <20171020131505.GG12015@bill-the-cat>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKLMWRmVeSWpSXmKPExsWyRiBPQ3dx/Z9IgwP3tSzu/HzHbvH87C02
+	ByaPcxtXMHps6b/LHsAUxWWTkpqTWZZapG+XwJVx7X4DU8EXkYoPP/cwNTAeFexi5OSQEDCR
+	uDy3hbGLkYtDSOAoo8SBM6uhnJmMEt0/LjOBVLEJGEmcu74JLCEi0Mcose/GelaQhLCAr8TE
+	K8vAbBGBAIlle9uZIGwjiTMvdjGD2CwCKhKLHp4Di/MKBEnc23ePEcQWEvCTuPjjPDuIzSng
+	L/Fl4g2wOKOAmMT3U2vA6pkFxCVuPZnPBHGqgMSSPeeZIWxRiZeP/7FC2HISfRMfskPU60gs
+	2P2JDcLWlli28DUzxF5BiZMzn7BMYBSZhWTsLCQts5C0zELSsoCRZRUjX66RXmpxcVl+Sape
+	cn7uJkZgFHAxMM3ewdjTFHuIUYCDUYmHd8OE35FCrIllxZW5hxilOViUxHkXX+uMFBJITyxJ
+	zU5NLUgtii8qzUktPsTIxMEJIrikGhi7Xzwy4NXOZ9A4vva8ojRvBsMDXmen9Sdbr7DtOvHf
+	9bhHRPjcGtadEts+2OsG8vy2EFArkfh2aw/TVpboBbNy+T0P/X3b0zvnQ/cOAZ7NU1iVT604
+	MOfVHJUbfPdz5izjdDixcHv9xcNhX1YeehRnuf5DvfshC5F/IfN+Z3tyFquWGTk2dXxUYinO
+	SDTUYi4qTgQAh+mhlmgCAAA=
+Subject: Re: [PATCH] classes/npm: Fix install to use offline option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,63 +49,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 12:51:53 -0000
-X-Groupsio-MsgNum: 104518
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
-Content-Disposition: inline
-
---2fHTh5uZTiUOsy+g
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 03 Nov 2017 14:39:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 20, 2017 at 09:15:05AM -0400, Tom Rini wrote:
-> On Tue, Oct 10, 2017 at 05:01:49PM -0400, Tom Rini wrote:
-> > On Thu, Sep 21, 2017 at 01:46:16PM -0400, Tom Rini wrote:
-> > > When we have been told to use the UUID we should also update the fstab
-> > > to make use of PARTUUID instead of hard-coding the device in question.
-> > > This will make the resulting image much more portable.
-> > >=20
-> > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > > ---
-> > >  scripts/lib/wic/plugins/imager/direct.py | 9 ++++++---
-> > >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >=20
-> > Where we did we end up with this?  Ed pointed out that you can tell wic
-> > to use a specific UUID, so reproducible images are not a problem.  And
-> > making images that are readily portable is why other distros use
-> > UUID/LABEL and not device names as much as possible.  I personally enjoy
-> > being able to put an image on uSD for minnow and have it work :)
-> > Thanks!
->=20
-> ping?
+Npm v4/v6 have a patch to allow the --no-registry to work.  It was taken ou=
+t in the transition to Node 8 since the cache system is completely differen=
+t.
+Unfortunately this doesn't work for nodev8 / npmv5 so the offline build on =
+master/rocko is completely broken.
+I am trying to get something working by adding the dependency tar.gz direct=
+ly into the cache manually before the build, but I am running into a npm bu=
+g.
+https://github.com/nodejs/help/issues/944
 
-I was just reminded about the real problems this solves (swap isn't
-/dev/sda3, boot is being excessively slow), so, ping?
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Philippe Coval
+Sent: Friday, November 03, 2017 5:54 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] classes/npm: Fix install to use offline option
+
+Option --no-registry seems deprecated or even non supported for ages,
+while --offline fixed the problem on install task.
+
+Issue can be reproduced using:
+
+  devtool add "npm://registry.npmjs.org;name=3Depoll;version=3Dlatest"
+  bitbake epoll
+
+  | DEBUG: Executing shell function do_install
+  (...)
+  | npm ERR! argv ".../node" ".../npm" "install" (...) "--production" "--no=
+-registry"
+  | npm ERR! node v6.11.0
+  | npm ERR! npm  v3.10.10
+  | npm ERR! registry URL is required
+
+And also from log file ".../epoll/1.0.0-r0/npmpkg/npm-debug.log":
+
+   silly mapToRegistry using default registry
+   41 silly mapToRegistry registry null
+   42 verbose stack AssertionError: registry URL is required
+   42 verbose stack     at Conf.getCredentialsByURI (.../get-credentials-by=
+-uri.js:8:3)
+
+More relevent insights:
+https://github.com/npm/npm/issues/2568#
+
+Signed-off-by: Philippe Coval <philippe.coval@osg.samsung.com>
+---
+ meta/classes/npm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index a69bedb..dfd1ffe 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -45,7 +45,7 @@ npm_do_install() {
+ 	# be created in this directory
+ 	export HOME=3D${WORKDIR}
+ 	mkdir -p ${NPM_INSTALLDIR}/
+-	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arch=
+=3D${NPM_ARCH} --production --no-registry
++	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arch=
+=3D${NPM_ARCH} --production --offline
+ 	if [ -d ${D}${prefix}/etc ] ; then
+ 		# This will be empty
+ 		rmdir ${D}${prefix}/etc
+--=20
+1.9.1
 
 --=20
-Tom
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---2fHTh5uZTiUOsy+g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJZ/GZmAAoJEIf59jXTHXZSX58QALMXi0RJXefAWNY9Va63vTUu
-FdAhkWLUkVKcG2Y0OweBS/1WQUQcSgpqot0CVnjGxuvw1/vg8YZx9T4Pn2SS3kvD
-4BIlA7cBdAN73lnpY5fiMX5UN6JIPbKDgTRxMlZPYpVocymxTtto1UAKFjjfi4cD
-h9WUmbPAuUtC8sByWw2uBjvLqCMuBdVbY7ifQ8/6oUEJcOEG50cVIiuml0PkgV6u
-vEVYUT3v7dMylvOSm2Pk3DJm5Lf51R4i4LOEtJmMlBB65h2auixSgwMJEq6+Nr9s
-Q/KGQDrwSeID+IdJ0tVPWFcn9j5DzR1lPD+MhiVxNLFXe3ysqZDz33bB+E9O1l3Y
-z77I85qas3A+3+dsP7HxUOg3I9Bl/lIqHq5mAx89DyHXfS4bylpU39aHwvbKQde+
-Opjtpi/X0Ud/UlVctShELrgGWq2VxSvjArAfZE2CfAOWObl+LGRoB4BICYjP1U/A
-iK+Sq/RzspwIq8S5Q1396FAtfis45WJJxGIk1CjwV5t23ogWp5Jx4YYWvvGlAG9G
-lslKM7t49zLuXmeYNN3ib6YOiPJGDgW/DApeAqmdBog0x3fK7HkCoOQS8AtpVRfX
-au7KbTBW7YqD0eaJsLzZtrp1gbJid5iL6FVHmaZ1QJ7yZlX+jjCEl68BXlSoCzJw
-eZscQN9Yt1XjFbPfnOme
-=QqOi
------END PGP SIGNATURE-----
-
---2fHTh5uZTiUOsy+g--
