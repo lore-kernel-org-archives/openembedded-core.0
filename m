@@ -1,56 +1,56 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f43.google.com (mail-pg0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C33646059E
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by mail.openembedded.org (Postfix) with ESMTP id CD4FF78312
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 15:10:57 +0000 (UTC)
-Received: by mail-pg0-f43.google.com with SMTP id v78so2714711pgb.5
+	Fri,  3 Nov 2017 15:18:09 +0000 (UTC)
+Received: by mail-pf0-f194.google.com with SMTP id b6so2420620pfh.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 08:10:59 -0700 (PDT)
+	Fri, 03 Nov 2017 08:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-transfer-encoding:content-language;
-	bh=RSXPii5YDXr0+Zd9Lck1Kt4AuSRlWD9m/ZgjT9VP9g0=;
-	b=Pfda2kLH4C9bjaNXTHt4O/p3E5q/f+JWiTrrepfWDvP3m4pZUC2ShYIcc7okCsaCH/
-	kO1qQY+q33nQPk4puDgG6R3yxIFGaEAK4uGm5Rx7KQ4gxQc38XRm6V7177tatR/Miiff
-	eaUF6BM8ocTW63YPfHKV/1SQ9mVRPnuotV3y0gUQyU91p7E9xpHWnk7SZNitllofErYM
-	rdgIB97zi7I7X3hdGW8PQfrgd4FKU8vyMNAh7f7I/SYpnYuEUK4dDhld3AUGJe6Qv3aQ
-	A9bTtFvFCPCVBJeFt4WIYH7twm0Kipwjyt8CfEq2JaylqgTlHXtv+i/Om8kAOe3VSt+7
-	ON+A==
+	bh=YGz5+wr7/CyhR++IhtSpJZ0QhnkILjcCdlSB7+qPdOY=;
+	b=gSqBYmOzqtlppfYYcXnu9XITdwmTUvE8fZcsJqYL5ddhGx9mPzBaUI1nvj0ob7V0SV
+	i106FH0tJWAYSFzGaUB1JjG486RnZDACGJdk3y51mxirqNsBUEMH/IBX0Xy4Y76mzX9b
+	/TWpoAALp6aTKVDAxYg4C7clHlhwntKo8cGUSUo+sBedbC5Dnb4J98rFvZJ0eZgL+qWZ
+	V0cA8/ikTNFGeNWDJqLFdyEYWzM4LQf3bGLU/vdiUpkv3jzBTnHqNlsXjqzjc0DJw0/5
+	ZrWlpeU5zbMwtqQQSGL3UmvowPmMNleGBq6jMIHJXd+eLcmImzIxsmZKcEFJ1Da9a6XQ
+	bZdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=RSXPii5YDXr0+Zd9Lck1Kt4AuSRlWD9m/ZgjT9VP9g0=;
-	b=nUHYvM+cSWST23kNj/wOabIrZ0YopG6QJS9hghjmjHeL9bft6DsKZVYIpESqjHXRIR
-	Etci/Qy+h9kOnlnyC9KnDSmU8v2NChkZArjPsM8LLlxZD92ZdD4bhbQJDkRocDSmBDIY
-	G7+FRey3BAwWvJvBfLh3hzzUimfPUBV9owXNjRXhWhl25pw04yFEEFoOGinVYPUQNT9+
-	4crU0LMVnyasdCVEB9E5+x9iCVUhSIx4eHsPJRqROw/JSGskaH6nZy9agMPUVmWaa15/
-	C+UXlixdP06hSNgeWo4FnXUCSEuzyEnItba2ERe7Fegkd4BvB9aJK6D6RYn5HO41nfZn
-	F0gA==
-X-Gm-Message-State: AMCzsaUrT9QQpZqMZoDvpy0YgH5OKWWGpKKK5R6oudo53sTtpo0hE/+C
-	Ij1Xr8lFeJ32h3WGS4p8nufrhQ==
-X-Google-Smtp-Source: ABhQp+ROa+ndmh0qPpVC80Qw8zeJM1YbZTpq2MmdACSeCv4tKFBOu6Ct5IhFalJPZwLbbY+fwJOa/Q==
-X-Received: by 10.99.2.214 with SMTP id 205mr7370417pgc.375.1509721859294;
-	Fri, 03 Nov 2017 08:10:59 -0700 (PDT)
+	bh=YGz5+wr7/CyhR++IhtSpJZ0QhnkILjcCdlSB7+qPdOY=;
+	b=LUVdKeVuhFtfmEJ1CI9Wc4LsmtGvrd2LAO+Rc/HjxemjI+3QIs4ANDGxwmnDkedDv1
+	Z9fo4ZUGuMB9athFXlpw/mHTuEYR9Pjk3QLleSU7aBMHjchHzMwGHHQkB21sKTVMV//+
+	LUCqbxyqGaqbCHzYso+T0otqfQBfURPn8sDHMMujcfoaXCYvILbc5ySXPZ/iLIdbK0bx
+	rx1LNNRj2Q6MHM7fExS75HtURIxF13LGpAp1QvfLbxW28aUzevoaAOU8Lqjjm+qpUL+c
+	pQvS62m06MEeFb5VJFwnztyo+MfXDeaAMQXUA2200Kj2fmsNFGMeBvOSn3VMCTq85PXe
+	YbBw==
+X-Gm-Message-State: AMCzsaVVzFXUwaczyoMTZQm7k7J+GTz99Ot+PN4mJdujsx+puW8dIpfy
+	ZjQ+MCuC8aCAyptC4vnBzUWs5Q==
+X-Google-Smtp-Source: ABhQp+TPpQM+rwL3tbJJSZMBfJTLDtRD/OqXbK/o61jEshWs0CufEdPX5SNGOz63hI91kqJHjK6VNw==
+X-Received: by 10.84.253.23 with SMTP id z23mr7030956pll.210.1509722290633;
+	Fri, 03 Nov 2017 08:18:10 -0700 (PDT)
 Received: from ?IPv6:2601:202:4001:9ea0:78e5:dcc3:4839:af44?
 	([2601:202:4001:9ea0:78e5:dcc3:4839:af44])
 	by smtp.gmail.com with ESMTPSA id
-	125sm10990793pff.14.2017.11.03.08.10.58
+	t78sm9284370pgb.93.2017.11.03.08.18.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Nov 2017 08:10:58 -0700 (PDT)
-To: Andrea Adami <andrea.adami@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Khem Raj <raj.khem@gmail.com>
-References: <CAAQYJAvQo_buybnL8OUmwYfhezzuxx-dTO8wzuM=aQvKGYW+5Q@mail.gmail.com>
+	Fri, 03 Nov 2017 08:18:10 -0700 (PDT)
+To: Joshua Lock <joshua.g.lock@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <20171103091147.20243-1-joshua.g.lock@intel.com>
 From: akuster808 <akuster808@gmail.com>
-Message-ID: <d47497dc-619f-1f66-814a-bf93cc1d0227@gmail.com>
-Date: Fri, 3 Nov 2017 08:10:58 -0700
+Message-ID: <a547af4c-6ae8-b0f2-446f-e19350b984b6@gmail.com>
+Date: Fri, 3 Nov 2017 08:18:09 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAAQYJAvQo_buybnL8OUmwYfhezzuxx-dTO8wzuM=aQvKGYW+5Q@mail.gmail.com>
-Subject: Re: Backport gcc7 fixes for armv5e [ARM] PR 82445
+In-Reply-To: <20171103091147.20243-1-joshua.g.lock@intel.com>
+Subject: Re: [PATCH] scripts/runqemu: when qemu fails to start with kvm retry with kvm disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,32 +63,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 15:10:57 -0000
+X-List-Received-Date: Fri, 03 Nov 2017 15:18:09 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-Andrea,
+Joshua,
 
 
-On 11/02/2017 01:46 AM, Andrea Adami wrote:
-> Hello,
+On 11/03/2017 02:11 AM, Joshua Lock wrote:
+> On the Yocto Project Autobuilder we occasionally see qemu fail to start,
+> most frequently on Fedora 25, because kvm fails to allocate memory. See:
 >
-> the gcc7 shipped with rocko produces unbootable kernels on armv5e [1].
-> Bug was fixed recently, apparently in revision 253892 [2]
-If you have  a test case ie qemu settings, I can open a bug and handle
-it that way too
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12058
+>
+> This patch introduces a fallback path where if the inital qemu command fails
+> and kvm is enabled we retry running qemu with the kvm related options
+> removed from the qemu command line.
 
-thanks for finding upstream patches.
-
-- Armin
+I will backport once this lands in master.
+thanks,
+ - armin
+> Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+> ---
+>  scripts/runqemu | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
 >
-> Khem, please take care of this, thanks.
->
-> Cheers
-> Andrea
->
-> [1] https://www.spinics.net/lists/arm-kernel/msg594654.html
-> [2] https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82445
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index df762709043..b7f8b3c4d55 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1168,7 +1168,25 @@ class BaseConfig(object):
+>          logger.info('Running %s\n' % cmd)
+>          process = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
+>          if process.wait():
+> -            logger.error("Failed to run qemu: %s", process.stderr.read().decode())
+> +            # If starting qemu failed and kvm is enabled we try again, with the
+> +            # kvm related options removed. This is because we have observed
+> +            # failures where kvm is unable to allocate memory (particularly on
+> +            # Fedora 25) but where a run withou kvm may be successful.
+> +            if self.kvm_enabled:
+> +                logger.info("Failed to run qemu: %s\nRetrying without kvm...",
+> +                            process.stderr.read().decode())
+> +                nokvm_cmd = cmd
+> +                nokvm_cmd = nokvm_cmd.replace(' -enable-kvm', '')
+> +                nokvm_cmd = nokvm_cmd.replace(',vhost=on', '')
+> +                logger.info('Running %s\n' % nokvm_cmd)
+> +                process = subprocess.Popen(nokvm_cmd, shell=True,
+> +                                           stderr=subprocess.PIPE)
+> +                if process.wait():
+> +                    logger.error("Failed to run qemu (with kvm disabled): %s",
+> +                                 process.stderr.read().decode())
+> +            else:
+> +                logger.error("Failed to run qemu: %s",
+> +                             process.stderr.read().decode())
+>  
+>      def cleanup(self):
+>          if self.cleantap:
 
 
