@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg0-f67.google.com (mail-pg0-f67.google.com [74.125.83.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D2807835C
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 209AA78387
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 19:55:03 +0000 (UTC)
-Received: by mail-pg0-f67.google.com with SMTP id m18so3318742pgd.13
+	Fri,  3 Nov 2017 19:55:04 +0000 (UTC)
+Received: by mail-pf0-f196.google.com with SMTP id x7so2948519pfa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 12:55:05 -0700 (PDT)
+	Fri, 03 Nov 2017 12:55:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=4OfLP7AKvjqiZGcpLzrTwJMVGQinidPJtaSa2PZaojQ=;
-	b=a8+h9pcTYFA5KBIynaFonMlJfrNnPjQJkskfHTW9EoFnK1Olvf1Eemji9S401Ns6/C
-	f4qM9Ipc4CdMegRDZFL1h0ThU85FCG+glT/bIMs+T+21eV8cnPN006Gwjq9xHW9NUZNN
-	THt8xfswHXT/ra8eegR8+cjZ7wwHlf1dzXLkERPF8aRhNNvWy6V2RGk69+tcaoWWYxpM
-	Dn061+7WOCNLsThR5O3N7tC8I1XU45KrOY3fFSQoEX5RGglqMMFGnugOiIaSfIxsThKc
-	mWBIywvbnZTZZS/ToL9wG2ekEjXMLx+Wfq2Jxpk7oQaidete7GW7jW2KOHjkPnvEtdw2
-	X7tA==
+	bh=SRIilaw5DrRNVGoyUbrY6TQiimtyeoiW9biM4h68b20=;
+	b=gJi8x2MK6lvet51ri0tA0xSM9veSrQSiuRfUDF95zH+sUlyZaAP3e1g58PaxXMyCsM
+	j0is8OQroDYiY7vHlwka+XwP9+bIXpEGjLh8OH79UPL9FGDQGiXfC905Y9Jd57JqRHMk
+	M4PBD5dZnGR7OdA1+9814i6z1DOlVsj0TyNNhyNOjHl1xaZfbdGEAsY1lNCwG6f1XzfA
+	GmQ6ENzyObPxPVz54AOBQQOXwI3aJlPHuGPDDD+o1z5jhfiunMUT18R1j3qffasUuiI/
+	1TN8cgOUF8aDNF+vWsSrkElKTks9bJ/d38H/w0J1uFkpk/vmI3uePBHQ28wQ51+U0fDb
+	W1nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=4OfLP7AKvjqiZGcpLzrTwJMVGQinidPJtaSa2PZaojQ=;
-	b=JjwAipjNXM7+4brSfKGcYede8UAiTkvpsZVO2ShEXBcSZDHJBYtQLp83G+P4sNFcCG
-	QvwIHCFzsJ2zaPL9FWz8274MDVmmXufITHT1h70CqfDo+3eJUmVR4ltMoMh3XU+Dfnrp
-	3sYuI3vCZBfUSmZot1v3iuuvQLTgqTP4Gru1ZIh3G+itww7I4gHslM5+LHtFcp8lQYpf
-	4cPx/PwGNsrqrkWKdQFW8TmVmOwJcXw5HXAFwmhUmJNiNKZrjlFuzbtbljq/MRtrEoyK
-	Xll0ZDVFtbPltH2UHAWcCjqELCXLQ9CyTk2b7dWYL2Cyig0RC9Uogf5nhgyebxdI7OAj
-	GoAQ==
-X-Gm-Message-State: AMCzsaVRwyBLIGJf6ODZPMsihK3JTmOJ7IGkvgpBIPf11D62OHrvqPjW
-	IT8DDxypzikIruyo1wZC9Ro=
-X-Google-Smtp-Source: ABhQp+TEkBJ8AM7mcaYD6hNApfxycwuF9n5aMbTTMdnI1/Np13c/OoVJH+wRrSun98QgygrhY+lQGQ==
-X-Received: by 10.99.109.2 with SMTP id i2mr7852895pgc.194.1509738904822;
-	Fri, 03 Nov 2017 12:55:04 -0700 (PDT)
+	bh=SRIilaw5DrRNVGoyUbrY6TQiimtyeoiW9biM4h68b20=;
+	b=PNjTYo8G01+WKWZ/QY3hMVXTyieg8+b4w6RzHZaIxlF0DhZHDnQKX613d8NU/tXIUq
+	NkYuMIF3zrgT1W59CMktV1b59QfuwrqbACuNzO8F4lg4mqTASifqx9B65c5QyUVFm25x
+	1Zq7L4esvPj1womwpFskSwV5KDqLhIq6J4wrwEDyaHTuSXmuBKDmt/oxuQYdlYtElxqU
+	3f5XKtETL0ZcMBn1qit4JEykmyiEAyvA/LyK61vizjBzU3QozrhCfTbV1pKHeKrXGMZn
+	q6LIN506yT0XTqIw3V5BQ9s2MMZVqt26a++Pcmhb9Wg/3qA3fqWkqXS7Kc4UhSS6HnUD
+	bMkg==
+X-Gm-Message-State: AMCzsaXYDpG/F1dGbott4COcllYT7MkIldqvpGw5rrxZ5Lqi3in95MHR
+	xHXYaI1AWmYDrNz30iYi0o2BBA==
+X-Google-Smtp-Source: ABhQp+SYc50APmVU928lWSqXHK3RCzhbHRdMEUKdA8KMVCZbcYppFdTY1LM1DOP9MZMUpcAKBNXFsg==
+X-Received: by 10.99.37.69 with SMTP id l66mr8478486pgl.14.1509738905773;
+	Fri, 03 Nov 2017 12:55:05 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4001:9ea0:78e5:dcc3:4839:af44])
 	by smtp.gmail.com with ESMTPSA id
 	c26sm12781112pfl.115.2017.11.03.12.55.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 03 Nov 2017 12:55:04 -0700 (PDT)
+	Fri, 03 Nov 2017 12:55:05 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: akuster@mvista.com,
 	openembedded-core@lists.openembedded.org
-Date: Fri,  3 Nov 2017 12:54:47 -0700
-Message-Id: <b16c2c394b387f2e80de8774c799c8d1c7041a41.1509738544.git.akuster808@gmail.com>
+Date: Fri,  3 Nov 2017 12:54:48 -0700
+Message-Id: <494ba18dd002241ddee1c238ee7c3500ae2b0510.1509738544.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1509738544.git.akuster808@gmail.com>
 References: <cover.1509738544.git.akuster808@gmail.com>
-Subject: [PATCH 13/15] gnutls: update to 3.5.16
+Subject: [PATCH 14/15] bind: update to 9.10.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 19:55:03 -0000
+X-List-Received-Date: Fri, 03 Nov 2017 19:55:04 -0000
 
-This is a bug fix release on the
-current stable branch. Note that, I've also switched the release
-cadence to bi-monthly as less and less bug fixes/updates accumulate
-each month on this branch.
+Security Fixes
 
-** API and ABI modifications:
-No changes since last version.
+     * An error in TSIG handling could permit unauthorized zone transfers
+       or zone updates. These flaws are disclosed in CVE-2017-3142 and
+       CVE-2017-3143. [RT #45383]
+     * The BIND installer on Windows used an unquoted service path, which
+       can enable privilege escalation. This flaw is disclosed in
+       CVE-2017-3141. [RT #45229]
+     * With certain RPZ configurations, a response with TTL 0 could cause
+       named to go into an infinite query loop. This flaw is disclosed in
+       CVE-2017-3140. [RT #45181]
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+End of Life
+
+   The end of life for BIND 9.10 is yet to be determined but will not be
+   before BIND 9.12.0 has been released for 6 months.
+   https://www.isc.org/downloads/software-support-policy/
+
+more info see https://lists.isc.org/pipermail/bind-announce/2017-July/001063.html
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-support/gnutls/{gnutls_3.5.13.bb => gnutls_3.5.16.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.5.13.bb => gnutls_3.5.16.bb} (61%)
+ meta/recipes-connectivity/bind/{bind_9.10.5-P3.bb => bind_9.10.6.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind_9.10.5-P3.bb => bind_9.10.6.bb} (96%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.5.13.bb b/meta/recipes-support/gnutls/gnutls_3.5.16.bb
-similarity index 61%
-rename from meta/recipes-support/gnutls/gnutls_3.5.13.bb
-rename to meta/recipes-support/gnutls/gnutls_3.5.16.bb
-index 35d7d09..635c519 100644
---- a/meta/recipes-support/gnutls/gnutls_3.5.13.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.5.16.bb
-@@ -4,7 +4,7 @@ SRC_URI += "file://0001-configure.ac-fix-sed-command.patch \
-             file://use-pkg-config-to-locate-zlib.patch \
-             file://arm_eabi.patch \
+diff --git a/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb b/meta/recipes-connectivity/bind/bind_9.10.6.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
+rename to meta/recipes-connectivity/bind/bind_9.10.6.bb
+index b20a4aa..7a35390 100644
+--- a/meta/recipes-connectivity/bind/bind_9.10.5-P3.bb
++++ b/meta/recipes-connectivity/bind/bind_9.10.6.bb
+@@ -23,11 +23,12 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://use-python3-and-fix-install-lib-path.patch \
             "
--SRC_URI[md5sum] = "4fd41ad86572933c2379b4cc321a0959"
--SRC_URI[sha256sum] = "79f5480ad198dad5bc78e075f4a40c4a315a1b2072666919d2d05a08aec13096"
-+SRC_URI[md5sum] = "4c39612f1ec3ef7ed79cfb8936fa8143"
-+SRC_URI[sha256sum] = "0924dec90c37c05f49fec966eba3672dab4d336d879e5c06e06e13325cbfec25"
  
- BBCLASSEXTEND = "native nativesdk"
++SRC_URI[md5sum] = "84e663284b17aee0df1ce6f248b137d7"
++SRC_URI[sha256sum] = "17bbcd2bd7b1d32f5ba4b30d5dbe8a39bce200079048073d1e0d050fdf47e69d"
++
+ UPSTREAM_CHECK_URI = "ftp://ftp.isc.org/isc/bind9/"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9(\.\d+)+(-P\d+)*)/"
+ 
+-SRC_URI[md5sum] = "d79cafbd9ac76239ee532dd89d05cc83"
+-SRC_URI[sha256sum] = "8d7e96b5b0bbac7b900d4c4bbb82e0956b4e509433c5fa392bb72a929b96606a"
+ 
+ ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+ EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
 -- 
 2.7.4
 
