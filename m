@@ -1,62 +1,47 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ot0-f174.google.com (mail-ot0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A3B06AC00
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E58F78376
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 20:29:22 +0000 (UTC)
-Received: by mail-ot0-f174.google.com with SMTP id q99so3690231ota.2
+	Fri,  3 Nov 2017 20:29:28 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id b79so2990485pfk.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 13:29:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
-	:cc; bh=o/7AtwQ3lV5beAZdene2FOMqZgjshNqvHJe7LzkYFmE=;
-	b=sLBO4KJGvEdvuoG88rVnMEShHovbcImv+Hs9Av3nmIT0Q2QbOho6dLqoRKmxEfiuRu
-	uKgWmWrf1TVd0GSYQiTTQLS9ntQNCYvNqpv1SbFxGmWRXLI7UpYQVvE9arS/bc0fkCRO
-	nDH0mK5DE0fR3gB/2P/wUIKB8QJ5hiy1e+qVNarwTi9Rgyzi9lkn2mfxJsjEakHkYANc
-	jmbv9C/CszwU+y2PPiyhjaqu8IMnn6eNKuPbzB3DjUlxUhYPr2C4GGhVhwxvECyNNo//
-	l26qhdQq3OGZLwpU+7Mi/+qdQWGrsWqrc9wp55sMmm9qqUc/Q2RIthCsxqQO9MBaHVir
-	lq7Q==
+	Fri, 03 Nov 2017 13:29:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=RFlUmFiLQyNUYA+RPSXN/Q3qr2ZkYfm50TGk8brwOHg=;
+	b=PaYDpFZ/ogrHMAJAnILaHyBP/9nVfWRdudUlt5T+h50SagpPgerDX2FXyhLP0kNeqq
+	DQ05W8+O+7CdkTBcOBxeSPpgu5w/i/YEwyj90ao6JLR3+BQ9ncrtp2sneBLyilQ5+Qqo
+	xbUxUMHLRLHrtEio3jXhg4tOGsHsP/qbm6dcdR+Gq/hDuoUWt0tHUBs+8HqA4+an8w74
+	LKUP7HY86OMBTDIDJnzolMug2QtlUqcErbObMOOyg9tjDKWjU4phgxNG9CeSqAkrmn4+
+	rwTQPHKlDCLLyQ/7SCnfCMXil9adhvkf99nPz5q624lNrRVm+OaHnrbOD/h2+VF6Qrz9
+	kGoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc;
-	bh=o/7AtwQ3lV5beAZdene2FOMqZgjshNqvHJe7LzkYFmE=;
-	b=sqJV7b4KiTqJA1ZIklyR7BdVZFtcmJmNZOeRLQJ/hLafghZ8vfmuwnM4UjJW0jqRSK
-	+d4ic1Nv18B/HDT2OJAYp1hrgVYCsnmA5hh0D/QvDFxJprMEzjvrCMmtaWoCRlMbRC4n
-	jg/YUkFAtrSgEL1e7YHmz6wQWGxRrE4Ag62nEiwwfVujr35GApxqD4cka+WTgZnKVIVB
-	KQe+eFTVm/VoNUWm9YJajwoF3jqnHt8QMKNGmH+crS/QDlnh4GOisSUaYpqgfEx3MewI
-	GWYMo6+Tjqoeniz/nf6fid5jU8ngz6WAM0ElqR9FpZtLyQpH+Z+roWmcYdAFhSb3BO3w
-	vOFw==
-X-Gm-Message-State: AJaThX7u4U/X2XcdrX6VTDEPsFZx4SUR6eQtG/IzAYEhowgDSZpbaQkc
-	BrdEjXUvBdkG5Ow8OIT3Fc1rOQtv
-X-Google-Smtp-Source: ABhQp+TfHIpUiw2o+8tJUJ9PvAYkIEvyPPs2CAumdVS2MXoqGfbTM+OPJnpTZdlnCd8LI38LhB1zww==
-X-Received: by 10.157.89.232 with SMTP id u40mr4954231otg.270.1509740963799;
-	Fri, 03 Nov 2017 13:29:23 -0700 (PDT)
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com.
-	[209.85.218.46]) by smtp.gmail.com with ESMTPSA id
-	188sm2888262oib.47.2017.11.03.13.29.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Nov 2017 13:29:22 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-oi0-f46.google.com with SMTP id h6so3047649oia.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Nov 2017 13:29:22 -0700 (PDT)
-X-Received: by 10.202.81.10 with SMTP id f10mr4558987oib.93.1509740962310;
-	Fri, 03 Nov 2017 13:29:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.157.56.216 with HTTP; Fri, 3 Nov 2017 13:29:21 -0700 (PDT)
-In-Reply-To: <1509740585-20536-1-git-send-email-matt@madison.systems>
-References: <1509740585-20536-1-git-send-email-matt@madison.systems>
-Date: Fri, 3 Nov 2017 18:29:21 -0200
-X-Gmail-Original-Message-ID: <CAP9ODKoHQ674TEyZgX=+efG5yY9Zv2FpfZC+9U45gCgyyhOKZA@mail.gmail.com>
-Message-ID: <CAP9ODKoHQ674TEyZgX=+efG5yY9Zv2FpfZC+9U45gCgyyhOKZA@mail.gmail.com>
-To: Matt Madison <matt@madison.systems>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] go: update to go1.9.2
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=RFlUmFiLQyNUYA+RPSXN/Q3qr2ZkYfm50TGk8brwOHg=;
+	b=D9h7ILyZI/BMy6OZO/8gyah2mb2yHN9JnCkgYYC47pymxptIz9PUJgpqPdcanehdRS
+	zs9K5McCo2kkGTPQSkmyvSsmyXpJAj9MoTaAYkIu2xcq7W+ZIUlGCw1DhfE/jgtEuPrK
+	ePhCzgE43BO/y53FXqtUzQi+n9QKfP80OwvuXy1PVYfr05lo+X9VIjh41WQWswzBOK+W
+	J2O8bbH/fm6+yAuI1fUop7vWks3KY0sadYPOrHnM9HRI42le3uBPxIpQ6iCzi500rzti
+	e50QnlEeLTrsuT/y6VCIbPPO2e0e/0yiJm7h1kJNDZ8Y4CRouFvN1Li/I9ZWVb9q6dwD
+	66nw==
+X-Gm-Message-State: AMCzsaUdsqYxXEM879Cz/Muz5aPFWAjC2juWmyp91uIBc9xLKbRhRZtU
+	L6mUAoQIbw/dN4k+1EfLJorpCg==
+X-Google-Smtp-Source: ABhQp+QoXsvH0eUldLzssh/+RtYcW1I5ofGxDRS0sS6+pSEsDXJjxJ+LGHxIGx+GDDwWUcmmy9DVzw==
+X-Received: by 10.98.178.22 with SMTP id x22mr8983819pfe.123.1509740969393;
+	Fri, 03 Nov 2017 13:29:29 -0700 (PDT)
+Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
+	by smtp.gmail.com with ESMTPSA id
+	z127sm11549498pfb.63.2017.11.03.13.29.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 03 Nov 2017 13:29:28 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Nov 2017 13:29:20 -0700
+Message-Id: <1509740960-11858-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [morty][PATCH] libevdev: add libcheck dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,20 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 20:29:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 Nov 2017 20:29:28 -0000
 
-On Fri, Nov 3, 2017 at 6:23 PM, Matt Madison <matt@madison.systems> wrote:
-> Update to the go1.9.2 minor release, which includes
-> fixes to the compiler and runtime.
->
-> Signed-off-by: Matt Madison <matt@madison.systems>
+The libevdev configure script contains an unconditional check for
+libcheck. If libcheck is found, libevdev unit tests will be built.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Without a dependency, the presence of libcheck in sysroot is non
+deterministic (in morty and earlier) and builds can fail if libcheck
+is available during do_configure but not during do_compile.
 
+(In pyro and later, the libcheck dependency is not required to make
+libevdev builds deterministic due to recipe specific sysroots).
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/libevdev/libevdev_1.5.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/libevdev/libevdev_1.5.2.bb b/meta/recipes-support/libevdev/libevdev_1.5.2.bb
+index c76e1d7..381d252 100644
+--- a/meta/recipes-support/libevdev/libevdev_1.5.2.bb
++++ b/meta/recipes-support/libevdev/libevdev_1.5.2.bb
+@@ -6,6 +6,8 @@ LICENSE = "MIT-X"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
+                     file://libevdev/libevdev.h;endline=21;md5=7ff4f0b5113252c2f1a828e0bbad98d1"
+ 
++DEPENDS = "libcheck"
++
+ SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
+ 
+ SRC_URI[md5sum] = "96ad6edb5ce5c4428f1b183cc180ff8c"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.1
+
 
