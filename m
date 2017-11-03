@@ -1,30 +1,22 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F89A7017B
+Return-Path: <joshua.g.lock@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C383578367
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Nov 2017 09:03:16 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga104.jf.intel.com with ESMTP; 03 Nov 2017 02:03:18 -0700
+	Fri,  3 Nov 2017 09:11:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Nov 2017 02:11:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,337,1505804400"; d="scan'208";a="1033046646"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by orsmga003.jf.intel.com with ESMTP; 03 Nov 2017 02:03:17 -0700
-To: Andre McCurdy <armccurdy@gmail.com>,
-	Zhixiong Chi <zhixiong.chi@windriver.com>
-References: <1509440578-173066-1-git-send-email-zhixiong.chi@windriver.com>
-	<4903a7b3-5039-9b7c-9372-37f10d555b9c@linux.intel.com>
-	<59F846E4.3050003@windriver.com>
-	<CAJ86T=UnT5woKyTFC82_O0kycoqPufavbOvduRXy4_9F0hWS4Q@mail.gmail.com>
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <1ce560f5-8efb-1058-7c51-ece82f8d16e4@linux.intel.com>
-Date: Fri, 3 Nov 2017 11:03:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=UnT5woKyTFC82_O0kycoqPufavbOvduRXy4_9F0hWS4Q@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wget: CVE-2017-13089 and CVE-2017-13090
+X-IronPort-AV: E=Sophos;i="5.44,338,1505804400"; 
+   d="scan'208";a="1564718"
+Received: from jlock-mobl3.ger.corp.intel.com ([10.252.19.154])
+	by orsmga001.jf.intel.com with ESMTP; 03 Nov 2017 02:11:50 -0700
+From: Joshua Lock <joshua.g.lock@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Nov 2017 09:11:47 +0000
+Message-Id: <20171103091147.20243-1-joshua.g.lock@intel.com>
+X-Mailer: git-send-email 2.13.6
+Subject: [PATCH] scripts/runqemu: when qemu fails to start with kvm retry with kvm disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Nov 2017 09:03:17 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Nov 2017 09:11:50 -0000
 
-On 11/02/2017 10:29 PM, Andre McCurdy wrote:
->>> Update the master to 1.19.2 instead please.
-> 
-> Patching 1.19.1 does have the advantage of creating a commit which can
-> easily be cherry-picked into rocko (and pyro, which also uses wget
-> 1.19.1).
+On the Yocto Project Autobuilder we occasionally see qemu fail to start,
+most frequently on Fedora 25, because kvm fails to allocate memory. See:
 
-Yes, but this is coincidental. If the versions wouldn't exactly match, 
-cherry-picking would not be possible.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12058
 
-> Master should certainly update to 1.19.2 but doing so in two steps
-> might be appreciated by the stable branch maintainers.
+This patch introduces a fallback path where if the inital qemu command fails
+and kvm is enabled we retry running qemu with the kvm related options
+removed from the qemu command line.
 
-When fixing CVEs, the yocto branches should be considered separately, 
-and patched all at the same time by the same person. For master, 
-updating to latest upstream release without the vulnerability is the 
-best, as it lessens the load on people who have to keep master up to 
-date. For stable branches, it depends. If the upstream maintains a 
-stable branch themselves where cves and other bugs are fixed, I think we 
-should trust that rather than backport patches.
+Signed-off-by: Joshua Lock <joshua.g.lock@intel.com>
+---
+ scripts/runqemu | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index df762709043..b7f8b3c4d55 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1168,7 +1168,25 @@ class BaseConfig(object):
+         logger.info('Running %s\n' % cmd)
+         process = subprocess.Popen(cmd, shell=True, stderr=subprocess.PIPE)
+         if process.wait():
+-            logger.error("Failed to run qemu: %s", process.stderr.read().decode())
++            # If starting qemu failed and kvm is enabled we try again, with the
++            # kvm related options removed. This is because we have observed
++            # failures where kvm is unable to allocate memory (particularly on
++            # Fedora 25) but where a run withou kvm may be successful.
++            if self.kvm_enabled:
++                logger.info("Failed to run qemu: %s\nRetrying without kvm...",
++                            process.stderr.read().decode())
++                nokvm_cmd = cmd
++                nokvm_cmd = nokvm_cmd.replace(' -enable-kvm', '')
++                nokvm_cmd = nokvm_cmd.replace(',vhost=on', '')
++                logger.info('Running %s\n' % nokvm_cmd)
++                process = subprocess.Popen(nokvm_cmd, shell=True,
++                                           stderr=subprocess.PIPE)
++                if process.wait():
++                    logger.error("Failed to run qemu (with kvm disabled): %s",
++                                 process.stderr.read().decode())
++            else:
++                logger.error("Failed to run qemu: %s",
++                             process.stderr.read().decode())
+ 
+     def cleanup(self):
+         if self.cleantap:
+-- 
+2.13.6
 
-Alex
 
