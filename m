@@ -1,37 +1,35 @@
 Return-Path: <gael.portay@savoirfairelinux.com>
-X-Greylist: delayed 565 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 05 Nov 2017 18:01:55 UTC
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
 	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CE9E8782A3
+	by mail.openembedded.org (Postfix) with ESMTP id 1A1DC782A3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 Nov 2017 18:01:55 +0000 (UTC)
+	Sun,  5 Nov 2017 18:08:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id E00889C24E0;
-	Sun,  5 Nov 2017 12:52:31 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 2966E9C1B16
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  5 Nov 2017 13:08:14 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10032)
-	with ESMTP id x3TaquWREbq0; Sun,  5 Nov 2017 12:52:30 -0500 (EST)
+	with ESMTP id 3RVzSc-GKUtu; Sun,  5 Nov 2017 13:08:13 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id A3EA29C1BE9;
-	Sun,  5 Nov 2017 12:52:30 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 9180D9C24E0;
+	Sun,  5 Nov 2017 13:08:13 -0500 (EST)
 X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10026)
-	with ESMTP id sJJGLfAsvjiB; Sun,  5 Nov 2017 12:52:30 -0500 (EST)
+	with ESMTP id nOwh7DLoNsl9; Sun,  5 Nov 2017 13:08:13 -0500 (EST)
 Received: from localhost.localdomain (unknown [172.16.15.6])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 70D489C24E0;
-	Sun,  5 Nov 2017 12:52:30 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 64C289C1B16;
+	Sun,  5 Nov 2017 13:08:13 -0500 (EST)
 From: =?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Nov 2017 12:52:36 -0500
-Message-Id: <20171105175236.26818-1-gael.portay@savoirfairelinux.com>
+Date: Sun,  5 Nov 2017 13:08:22 -0500
+Message-Id: <20171105180822.31210-1-gael.portay@savoirfairelinux.com>
 X-Mailer: git-send-email 2.14.2
 MIME-Version: 1.0
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [RESEND PATCH] kernel: fitimage: deploy real fit-image
+Subject: [PATCH] util-linux: create nativesdk lib packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +42,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Nov 2017 18:01:57 -0000
+X-List-Received-Date: Sun, 05 Nov 2017 18:08:14 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Currently, do_deploy installs a standard kernel image as an ITB. This
-image is linux.bin and it is prepared by uboot_prep_kimage.
+The nativesdk class does not create lib<x> packages as its cross
+counterpart does.
 
-The real kernel fit-image is build under arch/${ARCH}/boot/fitImage.
+	libblkid
+	libuuid
+	libsmartcols
+	libfdisk
+	libmount...
 
-This patch deploys the real fit-image instead of the one prepared by
-u-boot and which is included in the ITB.
+Instead theses libraries are shipped into the nativesdk-util-linux
+package.
 
-Note: this patch only concerns fit-images which are not signed by u-boot
-or which do not contains initramfs. Only a kernel image with a
-device-tree.
+This causes nativesdk images to fail at do_rootfs when a package depends
+on util-linux-lib<x> because the nativesdk-util-linux-lib<x> is not
+created.
 
-Reviewed-by: Denys Dmytriyenko <denys@ti.com>
+The example below shows what the error looks like with the not created
+package nativesdk-util-linux-libuuid.
+
+    	Collected errors:
+    	 * calculate_dependencies_for: Cannot satisfy the following dependen=
+cies for nativesdk-packagegroup-sdk-host:
+    	 *     nativesdk-util-linux-libuuid *
+    	 * opkg_solver_install: Cannot install package nativesdk-packagegrou=
+p-sdk-host.
+
+The reason comes from the place where the libraries are installed.
+
+Libraries are installed under ${base_libdir} (ie. /lib) for the cross
+the package; but they are installed under ${libdir} (ie. /usr/lib) for
+nativesdk (and native).
+
+	EXTRA_OECONF =3D "${SHARED_EXTRA_OECONF} --libdir=3D${base_libdir}"
+
+	EXTRA_OECONF_class-native =3D "${SHARED_EXTRA_OECONF} \
+	                             --disable-fallocate \
+				     --disable-use-tty-group \
+	"
+
+The populate_packages_prepend function dynamically creates lib<x>
+packages that are installed under ${base_libdir} directory.
+
+The new function populate_packages_prepend_class-nativesdk for nativesdk
+mimics the behavior of the cross function.
+
+It creates dynamically nativesdk-lib<x> packages for libraries that are
+installed under the ${libdir} directory.
+
+Improves:
+
+	91c0f9e35d util-linux: move libraries to base_libdir
+	4cff0bd254 util-linux: Fix QA warnings about ALTERNATIVES
+	4571c9e963 util-linux: collect libs for related libxx-dev package
+	a7572d7000 util-linux: split libraries dynamically
+
 Signed-off-by: Ga=C3=ABl PORTAY <gael.portay@savoirfairelinux.com>
 ---
+ meta/recipes-core/util-linux/util-linux.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
- meta/classes/kernel-fitimage.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-f=
-itimage.bbclass
-index 179185b6b2..8b581b36e7 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -456,9 +456,9 @@ kernel_do_deploy_append() {
- 		its_base_name=3D"fitImage-its-${PV}-${PR}-${MACHINE}-${DATETIME}"
- 		its_symlink_name=3DfitImage-its-${MACHINE}
- 		install -m 0644 fit-image.its ${DEPLOYDIR}/${its_base_name}.its
--		linux_bin_base_name=3D"fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DAT=
-ETIME}"
--		linux_bin_symlink_name=3DfitImage-linux.bin-${MACHINE}
--		install -m 0644 linux.bin ${DEPLOYDIR}/${linux_bin_base_name}.bin
-+		itb_base_name=3D"fitImage-linux.bin-${PV}-${PR}-${MACHINE}-${DATETIME}=
-"
-+		itb_symlink_name=3DfitImage-linux.bin-${MACHINE}
-+		install -m 0644 arch/${ARCH}/boot/fitImage ${DEPLOYDIR}/${itb_base_nam=
-e}.bin
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+index 5c4694b1fd..0ab05c8cdc 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -303,6 +303,13 @@ python populate_packages_prepend() {
+                       extra_depends=3D'', prepend=3DTrue, allow_links=3D=
+True)
+ }
 =20
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
- 			echo "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
-@@ -472,7 +472,7 @@ kernel_do_deploy_append() {
++python populate_packages_prepend_class-nativesdk() {
++    do_split_packages(d, '${libdir}', '^lib(.*)\.so\..*$',
++                      output_pattern=3D'nativesdk-util-linux-lib%s',
++                      description=3D'nativesdk-util-linux lib%s',
++                      extra_depends=3D'', prepend=3DTrue, allow_links=3D=
+True)
++}
++
+ RDEPENDS_${PN}-bash-completion +=3D "util-linux-lsblk"
+ RDEPENDS_${PN}-ptest =3D "bash grep coreutils"
 =20
- 		cd ${DEPLOYDIR}
- 		ln -sf ${its_base_name}.its ${its_symlink_name}.its
--		ln -sf ${linux_bin_base_name}.bin ${linux_bin_symlink_name}.bin
-+		ln -sf ${itb_base_name}.bin ${itb_symlink_name}.bin
-=20
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
- 			ln -sf ${its_initramfs_base_name}.its ${its_initramfs_symlink_name}.i=
-ts
 --=20
 2.14.2
 
