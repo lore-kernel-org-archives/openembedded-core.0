@@ -1,25 +1,25 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 13F0678452
+	by mail.openembedded.org (Postfix) with ESMTP id 68B627845E
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Nov 2017 18:13:25 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Nov 2017 10:13:09 -0800
+	06 Nov 2017 10:13:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,353,1505804400"; 
-   d="scan'208";a="4057101"
+   d="scan'208";a="4057104"
 Received: from scetola-mac01.jf.intel.com ([10.54.74.141])
 	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2017 10:13:09 -0800
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Nov 2017 10:13:03 -0800
-Message-Id: <20171106181306.3042-2-stephano.cetola@linux.intel.com>
+Date: Mon,  6 Nov 2017 10:13:06 -0800
+Message-Id: <20171106181306.3042-5-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <20171106181306.3042-1-stephano.cetola@linux.intel.com>
 References: <20171106181306.3042-1-stephano.cetola@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
+Subject: [PATCH 4/4] sshcontrol.py: in copy_to() always use scp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,36 +38,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Erik Botö <erik.boto@pelagicore.com>
 
-On systemd systems calling reboot over an ssh connection doesn't
-return as expected causing an exception, therefore wrap the call
-to reboot in order to avoid this issue.
-
-Also sync the filesystems before rebooting cause otherwise, it will be
-done as part of the reboot and could take a very long time and testimage
-will fail to access the machine. This issue was observed consistently with
-one of our rootfs at Pelagicore.
+The current implementation is broken when the localpath is a link.
+Then only a symlink would be created on the target, instead of copying
+the actual file.
 
 [YOCTO #11524]
 
 Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
 Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
 ---
- meta/lib/oeqa/controllers/masterimage.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/sshcontrol.py | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index 07418fcda1..fe90967923 100644
---- a/meta/lib/oeqa/controllers/masterimage.py
-+++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
-             time.sleep(10)
-             self.power_ctl("cycle")
-         else:
--            status, output = conn.run("reboot")
-+            status, output = conn.run("sync; { sleep 1; reboot; } > /dev/null &")
-             if status != 0:
-                 bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 05d6502550..d292893c08 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -150,12 +150,9 @@ class SSHControl(object):
  
+     def copy_to(self, localpath, remotepath):
+         if os.path.islink(localpath):
+-            link = os.readlink(localpath)
+-            dst_dir, dst_base = os.path.split(remotepath)
+-            return self.run("cd %s; ln -s %s %s" % (dst_dir, link, dst_base))
+-        else:
+-            command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
+-            return self._internal_run(command, ignore_status=False)
++            localpath = os.path.dirname(localpath) + "/" + os.readlink(localpath)
++        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
++        return self._internal_run(command, ignore_status=False)
+ 
+     def copy_from(self, remotepath, localpath):
+         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
 -- 
 2.14.2
 
