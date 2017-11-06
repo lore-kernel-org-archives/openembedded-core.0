@@ -1,25 +1,25 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BC63C78452
+	by mail.openembedded.org (Postfix) with ESMTP id 13F0678452
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 18:13:24 +0000 (UTC)
+	Mon,  6 Nov 2017 18:13:25 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	06 Nov 2017 10:13:09 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,353,1505804400"; 
-   d="scan'208";a="4057102"
+   d="scan'208";a="4057101"
 Received: from scetola-mac01.jf.intel.com ([10.54.74.141])
 	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2017 10:13:09 -0800
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Nov 2017 10:13:04 -0800
-Message-Id: <20171106181306.3042-3-stephano.cetola@linux.intel.com>
+Date: Mon,  6 Nov 2017 10:13:03 -0800
+Message-Id: <20171106181306.3042-2-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <20171106181306.3042-1-stephano.cetola@linux.intel.com>
 References: <20171106181306.3042-1-stephano.cetola@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] masterimage.py: fix stop()
+Subject: [PATCH 1/4] masterimage.py: fix issue with calling reboot on masterimage/DUT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,9 +38,14 @@ Content-Transfer-Encoding: 8bit
 
 From: Erik Botö <erik.boto@pelagicore.com>
 
-The stop() function is called in the context of the masterimage,
-so self.master should be used instead of self.connection which is
-undefined at that time.
+On systemd systems calling reboot over an ssh connection doesn't
+return as expected causing an exception, therefore wrap the call
+to reboot in order to avoid this issue.
+
+Also sync the filesystems before rebooting cause otherwise, it will be
+done as part of the reboot and could take a very long time and testimage
+will fail to access the machine. This issue was observed consistently with
+one of our rootfs at Pelagicore.
 
 [YOCTO #11524]
 
@@ -51,18 +56,18 @@ Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
-index fe90967923..e2ff3f12c2 100644
+index 07418fcda1..fe90967923 100644
 --- a/meta/lib/oeqa/controllers/masterimage.py
 +++ b/meta/lib/oeqa/controllers/masterimage.py
-@@ -156,7 +156,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+@@ -108,7 +108,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+             time.sleep(10)
+             self.power_ctl("cycle")
+         else:
+-            status, output = conn.run("reboot")
++            status, output = conn.run("sync; { sleep 1; reboot; } > /dev/null &")
+             if status != 0:
+                 bb.error("Failed rebooting target and no power control command defined. You need to manually reset the device.\n%s" % output)
  
-     def stop(self):
-         bb.plain("%s - reboot/powercycle target" % self.pn)
--        self.power_cycle(self.connection)
-+        self.power_cycle(self.master)
- 
- 
- class SystemdbootTarget(MasterImageHardwareTarget):
 -- 
 2.14.2
 
