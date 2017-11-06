@@ -1,48 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E3F7460125
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB166093A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 17:56:00 +0000 (UTC)
-Received: by mail-wm0-f66.google.com with SMTP id y83so15921993wmc.4
+	Mon,  6 Nov 2017 18:13:01 +0000 (UTC)
+Received: by mail-qk0-f193.google.com with SMTP id q83so12080569qke.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Nov 2017 09:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=PHPsUfAp8Kswwr0f13nNU0tF1wFJmfdfw+LYJrxRbTs=;
-	b=fv1dHZ8nQtqFMbn4Iom3+/X8vv6IReo4YqrnPQDZRbxZhPNFuSE8/+yUBwxf3+Wdv1
-	7ExWz9bs/+Fg9nWqb50GTEbvFEHPHA4rAo67qAXSGYodvM8n3zS/vASnigp1SeQKqID1
-	0NYpt2GpNpv8RShXG0ef61kELumuMum3N4VbNfxMi4STNdpcXk1hpij72uLntHIayReG
-	4VdXDTI9xBDHZrOc5d+0Y5oQQceh5fl9YwjVX2hv6xr2+jkbjIzi4yXRiOaMTamh/ANy
-	fKtSnYpxZvNu5vaQxEkGcUiL3JGMLH1QMvW1rX8KlDpfRmRBmXDDpHEcAMzmqc8hVn0J
-	AtZA==
+	Mon, 06 Nov 2017 10:13:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=PHPsUfAp8Kswwr0f13nNU0tF1wFJmfdfw+LYJrxRbTs=;
-	b=RCo0hjDnEwY8ufhGVc564EgfTLyxjLdVVZVkP75e+SettbhbVB1QQ5WCCBDfHhuVuK
-	hP+9YyEgWUyoeAiKbTk1PJRI070G/vMt3fu9Tg57FtRtnM8qquxyQuQS9ZD8qp6IOkpy
-	qCk3gK4XS0brrFFOratNC1Aj7Q4K7qsg0Iu17fI57apA43UASjkAOrLYRiddwetQ6jfM
-	HhOODRB7jXqjZUE26sT8tX6ekmOC3L/b+EJV/FmCFV8vRwk7ZGBpOb51yZrExW/WpiV0
-	2HOOSoDZAJSM3d6KcBA9joCWulVY2z24xkRj8ZXhbeZ9H/9yJRcPHq93LglIKlxqVlVz
-	B84w==
-X-Gm-Message-State: AJaThX43svnc/00iX/2lPq5IyYIb4AG8LLxH3INxh8pOF4fculAN+H8z
-	iJa3/cZJ2ew+BdqJ9BJvFBsKwGzF
-X-Google-Smtp-Source: ABhQp+S/Pc6w3obG/S7gwKT+fSZUT0Oz2Tza5UnohUVUW1hMXoyEtXV4L/RyeCy31dm2xssWWJ6WeA==
-X-Received: by 10.28.193.76 with SMTP id r73mr5467692wmf.18.1509990961474;
-	Mon, 06 Nov 2017 09:56:01 -0800 (PST)
-Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=EH1egi65SyKN2APJfyPh9UHNSrPVrSbQWNIBHI6ygv0=;
+	b=dPosfG99ttwTBToh+nsefakRYPP+rNQHbiwMpd4rMrA0VNESHRzEQa+nL5NRJNnd8H
+	U86IbYReza2i1bS/X3M1iBYgpSb5RyhFLfwG4eIXKeVSZodhz486y/f5Sz24KKWk8+gS
+	MPPx6j6nlMb3dJF5JthN7WsqFrkveSpdLs+3PEVXv2P35P0/vWktct6rlud9T3WsxAvZ
+	y5D8KeOo7qgiP21hAO4H0U9yszu6SB49JvpNbvBvX1YoGaskLuwZBtmT/WY7Cvl3+zAy
+	4fMuIa6guSzY8In51XGEIW7EmuoQ+aYUYfkKnEDwR4V2abv+qeFm+hoP3S4IDGIPbTsI
+	2Meg==
+X-Gm-Message-State: AMCzsaUfR9JpGsvEVEyLl4DEGdLgd7x7RJIaQFpS3kCoQF1adsRyEPJX
+	RFr9hEh6b/B/K6KhAYsx/1V+fQ==
+X-Google-Smtp-Source: ABhQp+S8Q5d7P2LCSFgvH6DbCPGoT2595ZknFyaUFD1+t5BBQy/mNV1NbO4wXL+N66utH12lAq638A==
+X-Received: by 10.55.162.73 with SMTP id l70mr22078495qke.29.1509991983033;
+	Mon, 06 Nov 2017 10:13:03 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	n14sm15168327wrg.38.2017.11.06.09.56.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Nov 2017 09:56:00 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Nov 2017 17:55:58 +0000
-Message-Id: <20171106175558.24581-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] oeqa/selftest/runtime_test: fix postinst_rootfs_and_boot
+	c140sm8726814qke.53.2017.11.06.10.13.00
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 06 Nov 2017 10:13:02 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 06 Nov 2017 16:12:54 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon,  6 Nov 2017 16:12:50 -0200
+Message-Id: <20171106181253.2081-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.15.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v6 0/3] Queued changes since rocko
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +49,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 17:56:01 -0000
+X-List-Received-Date: Mon, 06 Nov 2017 18:13:02 -0000
 
-This test overrides IMAGE_FEATURES but failed to include package-management,
-which is essential for postinsts to work under dpkg.
+Those are the patches we have queued here for master. We took the
+patch version 6 so we keep the change history on the patches, about
+its previous versions.
 
-Also rewrite the file existence check to use a console login not SSH for
-simplicity.
+Changes in v6:
+ - update to 17.2.4
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Changes in v5:
+ - rebase on top of master
+ - new patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 7ce81c3ff0f..25270b7535b 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -244,7 +244,7 @@ postinst-delayed-t \
-                 with self.subTest(init_manager=init_manager, package_class=classes):
-                     features = 'MACHINE = "qemux86"\n'
-                     features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s "\n'% (rootfs_pkg, boot_pkg)
--                    features += 'IMAGE_FEATURES += "empty-root-password ssh-server-openssh"\n'
-+                    features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
-                     features += 'PACKAGE_CLASSES = "%s"\n' % classes
-                     if init_manager == "systemd":
-                         features += 'DISTRO_FEATURES_append = " systemd"\n'
-@@ -263,6 +263,5 @@ postinst-delayed-t \
- 
-                     testcommand = 'ls /etc/' + fileboot_name
-                     with runqemu('core-image-minimal') as qemu:
--                        ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog)
--                        status, output = ssh.run(testcommand)
-+                        status, output = qemu.run_serial("-f /etc/" + fileboot_name)
-                         self.assertEqual(status, 0, 'File %s was not created at first boot (%s)' % (fileboot_name, output))
+Changes in v4:
+ - update to 17.2.2
+
+Changes in v3:
+ - fix build for wayland
+
+Changes in v2:
+ - update to 17.2.1
+- add a note about checksum change of WHENCE file.
+
+Otavio Salvador (3):
+  mesa: Upgrade to 17.2.2 release
+  libdrm: upgrade to 2.4.84
+  linux-firmware: Bump to bf04291 revision
+
+ .../drm/{libdrm_2.4.83.bb => libdrm_2.4.84.bb}     |  4 +-
+ ...1-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch | 40 ------------------
+ ...allivm-Fix-build-against-LLVM-SVN-r302589.patch | 49 ----------------------
+ .../mesa/{mesa-gl_17.1.7.bb => mesa-gl_17.2.4.bb}  |  0
+ meta/recipes-graphics/mesa/mesa.inc                |  2 +-
+ .../mesa/{mesa_17.1.7.bb => mesa_17.2.4.bb}        |  7 ++--
+ .../linux-firmware/linux-firmware_git.bb           |  4 +-
+ 7 files changed, 8 insertions(+), 98 deletions(-)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.83.bb => libdrm_2.4.84.bb} (93%)
+ delete mode 100644 meta/recipes-graphics/mesa/files/0001-ac-fix-build-after-LLVM-5.0-SVN-r300718.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0002-gallivm-Fix-build-against-LLVM-SVN-r302589.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.1.7.bb => mesa-gl_17.2.4.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.1.7.bb => mesa_17.2.4.bb} (78%)
+
 -- 
-2.11.0
+2.15.0
 
 
