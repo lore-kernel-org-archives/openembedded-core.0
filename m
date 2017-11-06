@@ -1,27 +1,46 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 041E9606D0
+Return-Path: <amery@geeks.cl>
+Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0892360110
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 20:04:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga104.jf.intel.com with ESMTP; 06 Nov 2017 12:04:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,354,1505804400"; d="scan'208";a="1240470782"
-Received: from sbairi-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.249.71.36])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2017 12:04:34 -0800
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Tue, 07 Nov 2017 09:04:30 +1300
-Message-ID: <14953303.KfuyF98Oh2@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-In-Reply-To: <499138bd-32cc-1487-e36e-fc4e5aceb4b2@linux.intel.com>
-References: <499138bd-32cc-1487-e36e-fc4e5aceb4b2@linux.intel.com>
-MIME-Version: 1.0
-Cc: Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: automatic recipe upgrades - making them better and sweeter
+	Mon,  6 Nov 2017 22:12:35 +0000 (UTC)
+Received: by mail-wm0-f67.google.com with SMTP id r196so49369wmf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Nov 2017 14:12:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=geeks-cl.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=vmQj2ZJvU67B1aEM2gw75B1eHjFrX8vFu1EOzFB5OJY=;
+	b=CasgDFnfuWyG+rDpe1UEuODWr47UBPJJiFLoDOMJPmM1DFeQoxsXHJTtcgN33t4eZh
+	8lrfHzKzSQ+A8D0LzIj/32Jy8cZodtLvtPMUG/ll1kM6GOvZ3aoYccbjwEhRItITbRUP
+	N6wzbynEXMz6xbn4bJjA+fwKN/bDunA5D4aXzawtpPYKGKrQpTfm9PIgfOtq1KIRLL9C
+	16pRhJT+pK7nwvvsAum5o3DpFahej8TXKM4Uqct9cBQyFIOaxjFcwOjQwjXBx0Hok6PE
+	LIGZOjybDdEA9itj4K3Ws8Y8voajAYYKfl/47glzmBwflULubzKZygPRdo+LCWHemjXQ
+	nkGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=vmQj2ZJvU67B1aEM2gw75B1eHjFrX8vFu1EOzFB5OJY=;
+	b=o0ter6d9DQmNGeCoIzRQf5S/3GlVLfUG7CZIkcvEFayTytY/iOiZM+Q4PdH2L9AkXa
+	b9rqZsMCgyB84Abw9jAUHLcKGVIFEPYHBCBJj5/pZsJ/XNEHe5v07HgiSgwp+euiojSq
+	Gy7fDusAMbWgnweAOi2tVM2uz4lAY23rT8ggKQqITS4TuXpvvBNtdlhWyOohd+40+pqU
+	VVtSXYcMCiaaIabN5k5IRJDvCPw9SWsKmkiqqcu7FTmFUpfvoMYb6VJBvaS76NLamVMl
+	wnrfCRrYH+BApQkQaYNCpnKFiwjPu0y/+Reokr00fx8UJmK+rVTnZhpuzP7VAfI034ag
+	PpCA==
+X-Gm-Message-State: AJaThX4f0g9ExH+BpYgyWmaM58gzjFtRt8tSI3U3VcVc8OEyeSW+FeYC
+	Nn5Zgu2gq0zP8NBXHirZApY7N2aCUvI=
+X-Google-Smtp-Source: ABhQp+RvIywmUSfO6gabYb5Nv2yXSDMGpJT23XCi6BOgCclziBxOjUpIKHu/vC4wEVfN0zmrVdJrqQ==
+X-Received: by 10.28.37.195 with SMTP id l186mr6798057wml.144.1510006355835;
+	Mon, 06 Nov 2017 14:12:35 -0800 (PST)
+Received: from localhost ([144.76.71.155])
+	by smtp.gmail.com with ESMTPSA id p128sm73113wmb.1.2017.11.06.14.12.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Nov 2017 14:12:35 -0800 (PST)
+From: Alejandro Mery <amery@geeks.cl>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Nov 2017 23:12:23 +0100
+Message-Id: <20171106221223.30826-1-amery@geeks.cl>
+X-Mailer: git-send-email 2.15.0
+Subject: [meta][PATCH] openssh-sshd: regenerate zero-size keys on start
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 20:04:40 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 06 Nov 2017 22:12:36 -0000
 
-Hi Alex,
+sometimes the first time a machine boots power gets pull out and the content of the
+key files doesn't get sync leading to zero-size keys which permanently prevents
+ssh access. it's safer to assume that zero-sized files are equivalent to non-existant
+keys and generate them again.
 
-On Tuesday, 7 November 2017 12:50:05 AM NZDT Alexander Kanavin wrote:
-> I've been asked by RP to look into making automatic package upgrades 
-> work better, so here's what I'd like to improve:
-> 
-> 1) when using 'devtool upgrade', remove the need to specify version and 
-> source revision on the command line, if we want to upgrade to the latest 
-> release. There is now distrodata/checkpkg code in place to determine 
-> both, so 'devtool upgrade <recipe>' could simply default to that.
+Signed-off-by: Alejandro Mery <amery@geeks.cl>
+---
+ meta/recipes-connectivity/openssh/openssh/sshd_check_keys | 8 ++++----
+ meta/recipes-connectivity/openssh/openssh_7.5p1.bb        | 2 ++
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-You could certainly have it dynamically inherit distrodata for the recipe (via 
-the workspace bbappend) and then use that to get the required information. I'd 
-avoided that extra complexity earlier but it may be that now it's actually 
-easier than it was before. The only thing I would say is we need to produce 
-clear error messages if we don't have the needed information to automatically 
-figure out what the upgrade version should be.
-
-> 2) help with LICENSE checksum changes a bit more; both devtool and AUH 
-> have some code for this, so I want to review what they do, and 
-> consolidate it in a single place. Maintainers should be able to see a 
-> diff of what the changes are.
-
-Agreed. For everyone else's benefit, Alex filed a bug for this a while ago:
-
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=10801
-
-I am keeping an eye on this one.
-
-> 3) 'devtool finish' currently does not handle the recipe upgrade 
-> situation well: the new recipe and patches are placed side by side with 
-> the current recipe. The old stuff should be removed, and a tentative 
-> commit should be created. So maybe add a 'devtool finish-upgrade'.
-
-That's not what's supposed to happen - it should already be deleting the 
-original files (it takes a record of the copied files when you run devtool 
-upgrade, and then when you run devtool finish it deletes those and moves the 
-new ones across from the workspace). If that's not working it's a bug and I 
-would appreciate a reproducer. I'd certainly prefer that we keep to one finish 
-command that does its best to "do the right thing" depending on the situation.
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+index 5463b1a4cb..8cc31c339a 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
++++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
+@@ -71,19 +71,19 @@ HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | a
+ [ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
  
-> 4) AUH should be stripped to its core business: sending useful emails to 
-> maintainers, and leave the rest to devtool. If 'devtool upgrade' 
-> succeeded, then corresponding patches should be attached, otherwise (if 
-> patch rebase failed, or a fetch issue), at least it could tell what 
-> happened and suggest a devtool upgrade command to get started. Any 
-> duplicate functionality for upgrading (stuff that is also in devtool) 
-> should be removed.
-
-Agreed. There's a bug open for this one too:
-
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=10598
-
-BTW, you have impeccable timing as I am currently in the middle of preparing a 
-fairly substantial changeset for devtool including implementing a dry-run mode 
-for devtool finish (so you can see what it's going to do) and fixing the 
-following bugs, among others:
-
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=10939
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=11948
-  https://bugzilla.yoctoproject.org/show_bug.cgi?id=11516
-
-Current WIP is on paule/devtool31 in poky-contrib.
-
-Cheers,
-Paul
-
+ # create keys if necessary
+-if [ ! -f $HOST_KEY_RSA ]; then
++if [ ! -s $HOST_KEY_RSA ]; then
+     echo "  generating ssh RSA key..."
+     generate_key $HOST_KEY_RSA rsa
+ fi
+-if [ ! -f $HOST_KEY_ECDSA ]; then
++if [ ! -s $HOST_KEY_ECDSA ]; then
+     echo "  generating ssh ECDSA key..."
+     generate_key $HOST_KEY_ECDSA ecdsa
+ fi
+-if [ ! -f $HOST_KEY_DSA ]; then
++if [ ! -s $HOST_KEY_DSA ]; then
+     echo "  generating ssh DSA key..."
+     generate_key $HOST_KEY_DSA dsa
+ fi
+-if [ ! -f $HOST_KEY_ED25519 ]; then
++if [ ! -s $HOST_KEY_ED25519 ]; then
+     echo "  generating ssh ED25519 key..."
+     generate_key $HOST_KEY_ED25519 ed25519
+ fi
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+index 86ca6ff372..2f178b26d8 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
+@@ -8,6 +8,8 @@ SECTION = "console/network"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
+ 
++PR = "r1"
++
+ # openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
+ DEPENDS = "zlib openssl10"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 -- 
-Paul Eggleton
-Intel Open Source Technology Centre
+2.15.0
+
 
