@@ -1,45 +1,44 @@
 Return-Path: <otavio.salvador@gmail.com>
 Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
 	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B930C78435
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6F87845B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 18:15:40 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id f8so12086586qta.5
+	Mon,  6 Nov 2017 18:15:47 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id n61so12069137qte.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Nov 2017 10:15:42 -0800 (PST)
+	Mon, 06 Nov 2017 10:15:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:organization;
-	bh=WWi2QQy1XgXcc/3HyqxGWcyLeRrT0efbCkA+MTtE18Y=;
-	b=loOcnts72EHhfg4czgom0Q313c7QWdz0qSsNArwk/Rnn+AIvWKOvsxq6bJ8qWsbQRE
-	rcCZcIUwLNKGnqLB36BpeeSE3cACrtNEblHo+24ozp6CMihs91kVa4jdB/jSWyPkzbig
-	p8tBuFcFfGwkHs8fPm3/y1Nkw74Lr9nnnI12SkY0uhw0sYYiDE80n9D53jSw1KQTm67I
-	wB5dhQWtzqy4CLCUubimioiTEtixJV9x/UwVQHm4oX09aw5x7c0z+S4i6w/UTYn+9Rqi
-	xFBe1p2rRbO2hPu+4unKoL0F/8qjgLcOtPmWDY/immnU9b7rjpSGJNRUGdZYneq8vu0q
-	/45g==
-X-Gm-Message-State: AMCzsaX+uSvjDLyVPHRPMQQqU+MsCsHkKXMlGNHDNc34H43Ww55u0MBz
-	ML+ZEy23y1YTB/6N68LILLpg1Q==
-X-Google-Smtp-Source: ABhQp+RVX8CmYKJxnyHIlBSkKOgJDXqsoMmR4agulfEWKg3PeWVd7ZoISXo90Denj3df7fHmn4kpJg==
-X-Received: by 10.200.3.8 with SMTP id q8mr23944671qtg.57.1509992141932;
-	Mon, 06 Nov 2017 10:15:41 -0800 (PST)
+	bh=v/7JL346GttXWh14D1vNwUJAbqVcZTJrMbz9JoR5xHA=;
+	b=mtQ09hxkHgBWlPDBVmese1GJwgIgwAtt7qQ4neBcjFozrV1Tdg2TnbRVXqCeyo59Hg
+	TNbfOeMZzTPAaDq22+OZXKCl7dJ2Ava+ixHVPUTvOSE68T4vzFrbniQlQgjw0vrTxckX
+	pla2ig0MZTao7ivTxRJY33Db9qxG9qrRTgWLz0NJ+Ud9QET49IhU1F7fEfl5xgr5vVln
+	ElRNWrZwzZJ3B9Xpw37EKg8bjXudBOp0sSYf4viT8zLfcvO2dzXtEgpTz0Nn8iJagyBG
+	ucLBwPC0nNa3EjzdtcVhqXuMuRU4+UaD+p7E/CH0XiXlg0GtrKGU5MQrD7hQpDKs6Jie
+	k5Yw==
+X-Gm-Message-State: AMCzsaVtKcxN+13STED4pyG8k+CZm+bKhWlMfncTOc3I2d+lhwmZe7/0
+	MCmIXgpJOu/LjZk8OdH6Te3UIQ==
+X-Google-Smtp-Source: ABhQp+QogqhnWmnryo3IAv75WN0v1/wjq23YhHlwCGVnO2I/UiIVQtVDXAZPHHDfHo7L0FPCEcz2lA==
+X-Received: by 10.200.47.187 with SMTP id l56mr23662805qta.319.1509992148464; 
+	Mon, 06 Nov 2017 10:15:48 -0800 (PST)
 Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	l207sm8476427qke.97.2017.11.06.10.15.38
+	by smtp.gmail.com with ESMTPSA id k2sm8534044qth.83.2017.11.06.10.15.45
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 06 Nov 2017 10:15:41 -0800 (PST)
+	Mon, 06 Nov 2017 10:15:47 -0800 (PST)
 Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 06 Nov 2017 16:13:12 -0200
+	Mon, 06 Nov 2017 16:15:42 -0200
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon,  6 Nov 2017 16:12:52 -0200
-Message-Id: <20171106181253.2081-3-otavio@ossystems.com.br>
+Date: Mon,  6 Nov 2017 16:12:53 -0200
+Message-Id: <20171106181253.2081-4-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <20171106181253.2081-1-otavio@ossystems.com.br>
 References: <20171106181253.2081-1-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v6 2/3] libdrm: upgrade to 2.4.84
+Subject: [PATCH v6 3/3] linux-firmware: Bump to bf04291 revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,40 +51,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 18:15:40 -0000
+X-List-Received-Date: Mon, 06 Nov 2017 18:15:47 -0000
+
+This includes following changes:
+
+bf04291 WHENCE: Add new qed firmware
+d8fc990 WHENCE: Add new radeon firmware
+7245319 WHENCE: Fix syntax error for iwlwifi-8265-31.ucode entry
+18d71a8 Revert "ath10k: QCA988X hw2.0: update firmware to 10.2.4.70.63-2"
+4ebfab3 ath10k: QCA6174 hw3.0: update board-2.bin
+96a7402 ath10k: QCA6174 hw3.0: update firmware-6.bin to WLAN.RM.4.4.1-00051-QCARMSWP-1
+59bf7e2 cxgb4: update firmware to revision 1.16.63.0
+
+The MD5 checksum of WHENCE license file was due the changes above as
+the firmware versions are listed there. It had no license term
+changes.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
 Changes in v6: None
-Changes in v5:
- - new patch
-
+Changes in v5: None
 Changes in v4: None
 Changes in v3: None
-Changes in v2: None
+Changes in v2:
+- add a note about checksum change of WHENCE file.
 
- meta/recipes-graphics/drm/{libdrm_2.4.83.bb => libdrm_2.4.84.bb} | 4 ++--
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.83.bb => libdrm_2.4.84.bb} (93%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.83.bb b/meta/recipes-graphics/drm/libdrm_2.4.84.bb
-similarity index 93%
-rename from meta/recipes-graphics/drm/libdrm_2.4.83.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.84.bb
-index a5cb75c266..95f72adae5 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.83.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.84.bb
-@@ -16,8 +16,8 @@ SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://0001-configure.ac-Allow-explicit-enabling-of-cunit-tests.patch \
-           "
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 020c8579f8..ddad491c15 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -116,7 +116,7 @@ LIC_FILES_CHKSUM = "\
+     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-    file://WHENCE;md5=08f6d4371353cac5f6fc271d5407c63e \
++    file://WHENCE;md5=038edbc9e744171d8b6235e0224028ba \
+ "
  
--SRC_URI[md5sum] = "23800953ed7564988872e1e8c61fde31"
--SRC_URI[sha256sum] = "03a52669da60ead62548a35bc430aafb6c2d8dd21ec9dba3a90f96eff5fe36d6"
-+SRC_URI[md5sum] = "35b9544bc2ad864acd1abaa1a2b99092"
-+SRC_URI[sha256sum] = "7ae9c24d91139ac9a2cdee06fe46dbe1c401a1eda1c0bd2a6d1ecf72f479e0aa"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -178,7 +178,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+ NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
  
- inherit autotools pkgconfig manpages
+-SRCREV = "a61ac5cf8374edbfe692d12f805a1b194f7fead2"
++SRCREV = "bf04291309d3169c0ad3b8db52564235bbd08e30"
+ PE = "1"
+ PV = "0.0+git${SRCPV}"
  
 -- 
 2.15.0
