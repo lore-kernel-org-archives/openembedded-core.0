@@ -1,6 +1,6 @@
 Return-Path: <stephano.cetola@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 68B627845E
+	by mail.openembedded.org (Postfix) with ESMTP id 874E678447
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Nov 2017 18:13:25 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
@@ -8,18 +8,18 @@ Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	06 Nov 2017 10:13:10 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,353,1505804400"; 
-   d="scan'208";a="4057104"
+   d="scan'208";a="4057103"
 Received: from scetola-mac01.jf.intel.com ([10.54.74.141])
 	by orsmga002.jf.intel.com with ESMTP; 06 Nov 2017 10:13:09 -0800
 From: Stephano Cetola <stephano.cetola@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Nov 2017 10:13:06 -0800
-Message-Id: <20171106181306.3042-5-stephano.cetola@linux.intel.com>
+Date: Mon,  6 Nov 2017 10:13:05 -0800
+Message-Id: <20171106181306.3042-4-stephano.cetola@linux.intel.com>
 X-Mailer: git-send-email 2.14.2
 In-Reply-To: <20171106181306.3042-1-stephano.cetola@linux.intel.com>
 References: <20171106181306.3042-1-stephano.cetola@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] sshcontrol.py: in copy_to() always use scp
+Subject: [PATCH 3/4] masterimage.py: rename parameter "params" in start() to "extra_bootparams"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +38,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Erik Botö <erik.boto@pelagicore.com>
 
-The current implementation is broken when the localpath is a link.
-Then only a symlink would be created on the target, instead of copying
-the actual file.
+This matches how it is called, and how it is named in qmeu target.
 
 [YOCTO #11524]
 
 Signed-off-by: Erik Botö <erik.boto@pelagicore.com>
 Signed-off-by: Stephano Cetola <stephano.cetola@linux.intel.com>
 ---
- meta/lib/oeqa/utils/sshcontrol.py | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ meta/lib/oeqa/controllers/masterimage.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index 05d6502550..d292893c08 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -150,12 +150,9 @@ class SSHControl(object):
+diff --git a/meta/lib/oeqa/controllers/masterimage.py b/meta/lib/oeqa/controllers/masterimage.py
+index e2ff3f12c2..a2912fc568 100644
+--- a/meta/lib/oeqa/controllers/masterimage.py
++++ b/meta/lib/oeqa/controllers/masterimage.py
+@@ -143,7 +143,7 @@ class MasterImageHardwareTarget(oeqa.targetcontrol.BaseTarget, metaclass=ABCMeta
+     def _deploy(self):
+         pass
  
-     def copy_to(self, localpath, remotepath):
-         if os.path.islink(localpath):
--            link = os.readlink(localpath)
--            dst_dir, dst_base = os.path.split(remotepath)
--            return self.run("cd %s; ln -s %s %s" % (dst_dir, link, dst_base))
--        else:
--            command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
--            return self._internal_run(command, ignore_status=False)
-+            localpath = os.path.dirname(localpath) + "/" + os.readlink(localpath)
-+        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
-+        return self._internal_run(command, ignore_status=False)
- 
-     def copy_from(self, remotepath, localpath):
-         command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
+-    def start(self, params=None):
++    def start(self, extra_bootparams=None):
+         bb.plain("%s - boot test image on target" % self.pn)
+         self._start()
+         # set the ssh object for the target/test image
 -- 
 2.14.2
 
