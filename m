@@ -1,31 +1,48 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E4EE078435
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E3F7460125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 16:54:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vA6GsCPD029456
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 6 Nov 2017 08:54:12 -0800 (PST)
-Received: from soho-mhatle-m.local (172.25.36.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 6 Nov 2017 08:54:12 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-References: <20171018121423.1310-1-alexander.kanavin@linux.intel.com>
-	<264c9619-62e7-ef43-9412-f00e9a1028ba@linux.intel.com>
-	<634edf6c-23d9-1dbf-6c51-caef2f30c06f@windriver.com>
-	<d4391631-e05e-bae9-363e-6d9fb7f3e3b6@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <f7c3b1e5-b5d1-37e3-0a19-24dfd2cab276@windriver.com>
-Date: Mon, 6 Nov 2017 10:54:11 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
-	Gecko/20100101 Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <d4391631-e05e-bae9-363e-6d9fb7f3e3b6@linux.intel.com>
-Subject: Re: [PATCH] rpm: update to 4.14.0
+	Mon,  6 Nov 2017 17:56:00 +0000 (UTC)
+Received: by mail-wm0-f66.google.com with SMTP id y83so15921993wmc.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Nov 2017 09:56:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=PHPsUfAp8Kswwr0f13nNU0tF1wFJmfdfw+LYJrxRbTs=;
+	b=fv1dHZ8nQtqFMbn4Iom3+/X8vv6IReo4YqrnPQDZRbxZhPNFuSE8/+yUBwxf3+Wdv1
+	7ExWz9bs/+Fg9nWqb50GTEbvFEHPHA4rAo67qAXSGYodvM8n3zS/vASnigp1SeQKqID1
+	0NYpt2GpNpv8RShXG0ef61kELumuMum3N4VbNfxMi4STNdpcXk1hpij72uLntHIayReG
+	4VdXDTI9xBDHZrOc5d+0Y5oQQceh5fl9YwjVX2hv6xr2+jkbjIzi4yXRiOaMTamh/ANy
+	fKtSnYpxZvNu5vaQxEkGcUiL3JGMLH1QMvW1rX8KlDpfRmRBmXDDpHEcAMzmqc8hVn0J
+	AtZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=PHPsUfAp8Kswwr0f13nNU0tF1wFJmfdfw+LYJrxRbTs=;
+	b=RCo0hjDnEwY8ufhGVc564EgfTLyxjLdVVZVkP75e+SettbhbVB1QQ5WCCBDfHhuVuK
+	hP+9YyEgWUyoeAiKbTk1PJRI070G/vMt3fu9Tg57FtRtnM8qquxyQuQS9ZD8qp6IOkpy
+	qCk3gK4XS0brrFFOratNC1Aj7Q4K7qsg0Iu17fI57apA43UASjkAOrLYRiddwetQ6jfM
+	HhOODRB7jXqjZUE26sT8tX6ekmOC3L/b+EJV/FmCFV8vRwk7ZGBpOb51yZrExW/WpiV0
+	2HOOSoDZAJSM3d6KcBA9joCWulVY2z24xkRj8ZXhbeZ9H/9yJRcPHq93LglIKlxqVlVz
+	B84w==
+X-Gm-Message-State: AJaThX43svnc/00iX/2lPq5IyYIb4AG8LLxH3INxh8pOF4fculAN+H8z
+	iJa3/cZJ2ew+BdqJ9BJvFBsKwGzF
+X-Google-Smtp-Source: ABhQp+S/Pc6w3obG/S7gwKT+fSZUT0Oz2Tza5UnohUVUW1hMXoyEtXV4L/RyeCy31dm2xssWWJ6WeA==
+X-Received: by 10.28.193.76 with SMTP id r73mr5467692wmf.18.1509990961474;
+	Mon, 06 Nov 2017 09:56:01 -0800 (PST)
+Received: from flashheart.burtonini.com (home.burtonini.com. [81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id
+	n14sm15168327wrg.38.2017.11.06.09.56.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Nov 2017 09:56:00 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Nov 2017 17:55:58 +0000
+Message-Id: <20171106175558.24581-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] oeqa/selftest/runtime_test: fix postinst_rootfs_and_boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,58 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 16:54:13 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Nov 2017 17:56:01 -0000
 
-On 11/6/17 10:00 AM, Alexander Kanavin wrote:
-> On 11/03/2017 07:58 PM, Mark Hatle wrote:
->>> Unfortunately, this also breaks grub and grub-efi:
->>>
->>> x86_64-poky-linux-musl-objcopy:
->>> /home/ak/development/poky/build-64/tmp/work/core2-64-poky-linux-musl/grub-efi/2.02-r0/package/usr/lib/grub/x86_64-efi/lvm.module(.debug_aranges):
->>> relocation 1 has invalid symbol index 2053731167
->>> x86_64-poky-linux-musl-objcopy:
->>> /home/ak/development/poky/build-64/tmp/work/core2-64-poky-linux-musl/grub-efi/2.02-r0/package/usr/lib/grub/x86_64-efi/lvm.module:
->>> invalid relocation type 69
->>> x86_64-poky-linux-musl-objcopy: BFD (GNU Binutils) 2.29.0.20170912
->>> assertion fail ../../bfd/elf64-x86-64.c:351
->>> x86_64-poky-linux-musl-objcopy:
->>> /home/ak/development/poky/build-64/tmp/work/core2-64-poky-linux-musl/grub-efi/2.02-r0/package/usr/lib/grub/x86_64-efi/lvm.module(.debug_info):
->>> relocation 0 has invalid symbol index 1634754402
->>>
->>
->> Look at debugedit.  This is the program used to adjust some of the debug references.
-> 
-> Thanks, this is the offending commit:
-> 
-> https://github.com/rpm-software-management/rpm/commit/88989572fff1f31e0c4f972a6895585e4742ef4b
-> 
-> Looks like they added sophisticated in-place processing/rewriting of the 
-> actual binary (that is not possible to switch off). And it fails in case 
-> of grub modules.
-> 
-> We, on the other hand, only need to extract the list of debug source 
-> code files. Any hint on how to do that without the use of rpm/debugedit? 
-> Perhaps something from binutils/elfutils?
+This test overrides IMAGE_FEATURES but failed to include package-management,
+which is essential for postinsts to work under dpkg.
 
-You would need to interpret the dwarf symbols and find all of the referenced
-files.  I can certainly be done with the libelf (libdwarf?), but I don't know if
-it can be done with binutils or elfutils directly.  They may not have the
-necessary translation to be able to assembly the pieces.
+Also rewrite the file existence check to use a console login not SSH for
+simplicity.
 
-(A lot of the filenames are listed related to a directory.. and the entries are
-stored in different places and have to be assembled to get a similar output to
-what debugedit gave us.)
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Writing a small standalone tool to give us this information may be very useful
-to us though -- and would let us break the 'rpm' dependency for deb/ipkg
-builds.. (probably)
-
---Mark
-
-> Alex
-> 
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 7ce81c3ff0f..25270b7535b 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -244,7 +244,7 @@ postinst-delayed-t \
+                 with self.subTest(init_manager=init_manager, package_class=classes):
+                     features = 'MACHINE = "qemux86"\n'
+                     features += 'CORE_IMAGE_EXTRA_INSTALL += "%s %s "\n'% (rootfs_pkg, boot_pkg)
+-                    features += 'IMAGE_FEATURES += "empty-root-password ssh-server-openssh"\n'
++                    features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
+                     features += 'PACKAGE_CLASSES = "%s"\n' % classes
+                     if init_manager == "systemd":
+                         features += 'DISTRO_FEATURES_append = " systemd"\n'
+@@ -263,6 +263,5 @@ postinst-delayed-t \
+ 
+                     testcommand = 'ls /etc/' + fileboot_name
+                     with runqemu('core-image-minimal') as qemu:
+-                        ssh = SSHControl(ip=qemu.ip, logfile=qemu.sshlog)
+-                        status, output = ssh.run(testcommand)
++                        status, output = qemu.run_serial("-f /etc/" + fileboot_name)
+                         self.assertEqual(status, 0, 'File %s was not created at first boot (%s)' % (fileboot_name, output))
+-- 
+2.11.0
 
 
