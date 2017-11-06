@@ -1,48 +1,67 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id E205F60017
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f195.google.com (mail-ot0-f195.google.com
+	[74.125.82.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B9A8160017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 11:33:56 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id l196so4684175itl.4
+	Mon,  6 Nov 2017 11:36:22 +0000 (UTC)
+Received: by mail-ot0-f195.google.com with SMTP id q99so8130370ota.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Nov 2017 03:33:58 -0800 (PST)
+	Mon, 06 Nov 2017 03:36:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Ajw88yHF7MSXHNIxXTRPENacmHBZ9HX2E0rO0xoeMuE=;
-	b=yR7rhxYS3B+e5bDtw61cG4fayqKlDAN9GfmdqqrKRf9Qae/VWjuQa0xh1+rbzg+Cmu
-	9EiSobgy10lq4tbqDVwG+wdO02olKvtgIuj8kmkxa3kvRZMCiMJfe4dJHkQdyF1X8v2Z
-	q6nMAMKEKgINmguVs58Rov/iHGAR8q8DW9lyP1VlCbz9zwdoteTR5E/EbIH46QwL9jrl
-	iD6dEJ8Vm3H+OmOoQMuJgbIl3zULZpxFulY77ZSBQZM5+S8UvM2ncMBE1SfBvR70YwuI
-	8twWRBiGd9c9+BfeXo7r2R06Y9vki2YY8TIZfNAQkso8GQmcjbQcJJgjTPOcijtBhqxe
-	h8hA==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=elwpPQc894GYtmloIqOqvolwLzayigJLN0yQ0SPFw5E=;
+	b=ATNpN8VmqTSgLOd9dU0K3Sms16VX2LD0EiGKUs2OT7MXK8c4/7mRP5JaxxhKyO6Si5
+	Z5ATP6oP8vCM/PpdLP+jzOYGTBbhhil6QfP2cRxPo9DEn7Y+TzBnwnst/fIY0Hh20L48
+	XFU/248OUIAN5fAdzx+wOUJ2wGxPeqCv0mmkIR5X2Kmyf80dqtqk3hmdEiGkaTXxunsM
+	+doI1Az5xjesooG6V/cnDj0NQiPwqLzKrJ3s+cHzaU6n8i/K7wlxMIwKsd5AfQjbZpTV
+	4zkx8Hw2PVSgw8FuE4of7J81vgAi3SMbXLDqBpCS78QCIxkPdAL00Ho6qG34opQ4ed7f
+	45qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=Ajw88yHF7MSXHNIxXTRPENacmHBZ9HX2E0rO0xoeMuE=;
-	b=qOqsoVkpYuvuCsAmBGYO4vjYtGFsg0etfUCCvLHknZC36Tdlwda/c2jFMAtIN5XzyZ
-	PLBKGyUC1IKRF6IEJIeOHuXkcZemI0nv2jPNvJjcrXoqj244v+Vdvwf/7E/xt6QT/unP
-	/fmDn7R/d023rbVcAfu1kamVbUW8uMul3u3ATR5AV5CSiEEBvYNL0Po4xrSxBNBlKiCR
-	h7/OYyy64gDJJO3r2pr2q5YUYfvG9a33biMJdifWpalt/P1Ls6TFcFSfmqS/AqVuEG80
-	qlVItdnlZCGZ4Klejn2Ze9ZC/PwXMH7XAhrYSZL/oxGWar15LE8dpSb0i8dWzZ0bIU1Z
-	GNew==
-X-Gm-Message-State: AJaThX73eCfsaoBrCvjHntH0RVZ5KYjCNv3pn3pNgD3r+QpPEtMXAGy9
-	xdqF8/HuNSSuTVqe2hQjijthkOqqnYryTvuLchwang==
-X-Google-Smtp-Source: ABhQp+Q+l5MyUFZsniOAje9WEosg+T2Tb7Noj5DNFUdkyHmhCuzkmGDdKSAw1gHnc2jNDC7+08o2Qq1fasYPr4Md4K8=
-X-Received: by 10.36.87.207 with SMTP id u198mr8929343ita.108.1509968037844;
-	Mon, 06 Nov 2017 03:33:57 -0800 (PST)
+	bh=elwpPQc894GYtmloIqOqvolwLzayigJLN0yQ0SPFw5E=;
+	b=PpzHQY9E8fnYg2t9s6JDb+M6MMyVvlq6UP3Sktbq3MYWylmb8JT/JiEIr6kpNxAkVu
+	uG1WuXBeAzZeh6/kjUmTQdgts/M3my+l3ka5/1tRL6bELcvgWHKf6sAU78DiRVSGezl+
+	6ySZDzsrt0rYq/XT2W/6LIzM2sRD4cEbdJJQxhvsIFeqoDsMsjMEU1vDlaGK2r8OHU6A
+	+UPk1KIMvjil+a+kr/DCrgyesEQafNgEC/kwRiZR90YfyjVnpTlzcAb5THPlywacUvB0
+	xZWvKcsgoF4kvUfwFDSw8vaUUk9B/nhBm2Qdum7UCFEz/+y85V0IT5g3IjNGI8V7Bh7K
+	T+Uw==
+X-Gm-Message-State: AJaThX5PV7C8GXWyQ2Ay3t4D5HD8N3OyJ8zlD/PQVpeuQSrmTxbZIxaO
+	yt7AwGfVK2KzY0M+5a3FisKLG/1V
+X-Google-Smtp-Source: ABhQp+ReWLnK0r9xWxj4xxtlC8kwn8h6bRDyKXXWzs+107rcMdrYbZ8AhHgmKl80L0bzWXBzTcjDEw==
+X-Received: by 10.157.68.232 with SMTP id p40mr9961485otg.199.1509968183294;
+	Mon, 06 Nov 2017 03:36:23 -0800 (PST)
+Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com.
+	[209.85.218.50]) by smtp.gmail.com with ESMTPSA id
+	f93sm6082201otb.46.2017.11.06.03.36.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Nov 2017 03:36:22 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f50.google.com with SMTP id j126so6808743oib.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Nov 2017 03:36:21 -0800 (PST)
+X-Received: by 10.202.177.66 with SMTP id a63mr8583968oif.375.1509968181459;
+	Mon, 06 Nov 2017 03:36:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.176.10 with HTTP; Mon, 6 Nov 2017 03:33:37 -0800 (PST)
-In-Reply-To: <CAEg-Je9nrUypvdDyTXMDTqgv9qBB_R0VSA_hzs6pswkzPJgr7Q@mail.gmail.com>
-References: <CAEg-Je9nrUypvdDyTXMDTqgv9qBB_R0VSA_hzs6pswkzPJgr7Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 6 Nov 2017 11:33:37 +0000
-Message-ID: <CAJTo0La7eK950Up4033qmX_1PQnS5nJJt4zb_P7uJn1Y8eO0QQ@mail.gmail.com>
-To: Neal Gompa <ngompa13@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Releases of BitBake to package for Fedora?
+Received: by 10.157.17.210 with HTTP; Mon, 6 Nov 2017 03:36:20 -0800 (PST)
+In-Reply-To: <20171106100829.nqhna6hugyqe636k@linux.intel.com>
+References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
+	<20171010210149.GE12015@bill-the-cat>
+	<20171020131505.GG12015@bill-the-cat>
+	<20171103125150.GA32663@bill-the-cat>
+	<20171106100829.nqhna6hugyqe636k@linux.intel.com>
+Date: Mon, 6 Nov 2017 09:36:20 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKr4+R_ggGvJiVR+wj4iPqQdndzY-vL6s9Y42ZJy=X857w@mail.gmail.com>
+Message-ID: <CAP9ODKr4+R_ggGvJiVR+wj4iPqQdndzY-vL6s9Y42ZJy=X857w@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: Tom Rini <trini@konsulko.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,119 +74,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 11:33:57 -0000
-Content-Type: multipart/alternative; boundary="001a1143a75c84c0c6055d4ed400"
-
---001a1143a75c84c0c6055d4ed400
+X-List-Received-Date: Mon, 06 Nov 2017 11:36:22 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-The bitbake API isn't really stable and has a reasonable amount of change,
-so if you were to package it then there's a good chance it would be out of
-date within six months and people who wanted to use the latest oe-core
-release against the packaged bitbake would hit API version errors.  The
-recommended usage is to bundle in some way bitbake and the metadata
-(combo-layer, submodules, repo, whatever).
+On Mon, Nov 6, 2017 at 8:08 AM, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> On Fri, Nov 03, 2017 at 08:51:50AM -0400, Tom Rini wrote:
+>> On Fri, Oct 20, 2017 at 09:15:05AM -0400, Tom Rini wrote:
+>> > On Tue, Oct 10, 2017 at 05:01:49PM -0400, Tom Rini wrote:
+>> > > On Thu, Sep 21, 2017 at 01:46:16PM -0400, Tom Rini wrote:
+>> > > > When we have been told to use the UUID we should also update the fstab
+>> > > > to make use of PARTUUID instead of hard-coding the device in question.
+>> > > > This will make the resulting image much more portable.
+>> > > >
+>> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
+>> > > > ---
+>> > > >  scripts/lib/wic/plugins/imager/direct.py | 9 ++++++---
+>> > > >  1 file changed, 6 insertions(+), 3 deletions(-)
+>> > >
+>> > > Where we did we end up with this?  Ed pointed out that you can tell wic
+>> > > to use a specific UUID, so reproducible images are not a problem.  And
+>> > > making images that are readily portable is why other distros use
+>> > > UUID/LABEL and not device names as much as possible.  I personally enjoy
+>> > > being able to put an image on uSD for minnow and have it work :)
+>> > > Thanks!
+>> >
+>> > ping?
+>>
+>> I was just reminded about the real problems this solves (swap isn't
+>> /dev/sda3, boot is being excessively slow), so, ping?
+>>
+>
+> I'm generally ok with the patchset. The only thing I'm thinking of is if busybox mount
+> supports PARTUUID syntax in fstab. Can you check this, please?
 
-As such there are no tarballs.  There are branches for each version and
-commits where the version is bumped, if you're really determined to package
-a snapshot.
+It does.
 
-Ross
+> I'd like to see Otavio's confirmation that --uuid option solves
+> his reproducible builds concern.
 
-On 5 November 2017 at 15:09, Neal Gompa <ngompa13@gmail.com> wrote:
+I am not against it if the no-fstab-update consider this too. Using
+uuid when making a fstab makes more sense but the possibility to not
+touch the fstab must be kept.
 
-> Hey all,
->
-> Apologies if this is the wrong mailing list for this, but I'm looking
-> reintroduce BitBake into Fedora, but it seems like there hasn't been
-> releases in two years. I also cannot identify anywhere that provides
-> tarballs of BitBake to package.
->
-> Am I not looking in the right place?
->
-> I looked in the following locations:
->
-> * GitHub: https://github.com/openembedded/bitbake
-> * OE Git: http://git.openembedded.org/bitbake/
-> * Yocto downloads page: https://www.yoctoproject.org/downloads/tools
->
-> The Fedora package previously referenced snapshot tarballs generated
-> by tagged releases in OE Git, but there haven't been new tagged
-> releases in two years.
->
-> I'd appreciate any help here.
->
-> Thanks in advance and best regards!
->
-> --
-> =E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=
-=EF=BC=81/ Always, there's only one truth!
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---001a1143a75c84c0c6055d4ed400
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-<div dir=3D"ltr"><div>The bitbake API isn&#39;t really stable and has a rea=
-sonable amount of change, so if you were to package it then there&#39;s a g=
-ood chance it would be out of date within six months and people who wanted =
-to use the latest oe-core release against the packaged bitbake would hit AP=
-I version errors.=C2=A0 The recommended usage is to bundle in some way bitb=
-ake and the metadata (combo-layer, submodules, repo, whatever).<br></div><d=
-iv><br></div><div>As such there are no tarballs.=C2=A0 There are branches f=
-or each version and commits where the version is bumped, if you&#39;re real=
-ly determined to package a snapshot.</div><div><br></div><div>Ross</div></d=
-iv><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On 5 November =
-2017 at 15:09, Neal Gompa <span dir=3D"ltr">&lt;<a href=3D"mailto:ngompa13@=
-gmail.com" target=3D"_blank">ngompa13@gmail.com</a>&gt;</span> wrote:<br><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">Hey all,<br>
-<br>
-Apologies if this is the wrong mailing list for this, but I&#39;m looking<b=
-r>
-reintroduce BitBake into Fedora, but it seems like there hasn&#39;t been<br=
->
-releases in two years. I also cannot identify anywhere that provides<br>
-tarballs of BitBake to package.<br>
-<br>
-Am I not looking in the right place?<br>
-<br>
-I looked in the following locations:<br>
-<br>
-* GitHub: <a href=3D"https://github.com/openembedded/bitbake" rel=3D"norefe=
-rrer" target=3D"_blank">https://github.com/<wbr>openembedded/bitbake</a><br=
->
-* OE Git: <a href=3D"http://git.openembedded.org/bitbake/" rel=3D"noreferre=
-r" target=3D"_blank">http://git.openembedded.org/<wbr>bitbake/</a><br>
-* Yocto downloads page: <a href=3D"https://www.yoctoproject.org/downloads/t=
-ools" rel=3D"noreferrer" target=3D"_blank">https://www.yoctoproject.org/<wb=
-r>downloads/tools</a><br>
-<br>
-The Fedora package previously referenced snapshot tarballs generated<br>
-by tagged releases in OE Git, but there haven&#39;t been new tagged<br>
-releases in two years.<br>
-<br>
-I&#39;d appreciate any help here.<br>
-<br>
-Thanks in advance and best regards!<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there&#39;s only one truth!<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a1143a75c84c0c6055d4ed400--
