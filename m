@@ -1,35 +1,28 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 16DCF700F3
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 38B3171B27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 11:10:13 +0000 (UTC)
+	Mon,  6 Nov 2017 11:19:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Nov 2017 03:10:15 -0800
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Nov 2017 03:19:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,352,1505804400"; d="scan'208";a="1240245577"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2017 03:10:14 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id D148E5801D2;
-	Mon,  6 Nov 2017 03:10:13 -0800 (PST)
-Date: Mon, 6 Nov 2017 12:08:29 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20171106100829.nqhna6hugyqe636k@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
-	<20171010210149.GE12015@bill-the-cat>
-	<20171020131505.GG12015@bill-the-cat>
-	<20171103125150.GA32663@bill-the-cat>
+X-IronPort-AV: E=Sophos;i="5.44,352,1505804400"; d="scan'208";a="1240247956"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2017 03:19:56 -0800
+To: Moritz Fischer <moritz.fischer@ettus.com>,
+	openembedded-core@lists.openembedded.org
+References: <20171105002559.4822-1-moritz.fischer@ettus.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <f38d3964-f472-88b9-2068-fc39305426fa@linux.intel.com>
+Date: Mon, 6 Nov 2017 13:20:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171103125150.GA32663@bill-the-cat>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
+In-Reply-To: <20171105002559.4822-1-moritz.fischer@ettus.com>
+Cc: mdf@kernel.org
+Subject: Re: [PATCH] python-mako: Add back the python2 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +35,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 11:10:14 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Nov 2017 11:19:56 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 03, 2017 at 08:51:50AM -0400, Tom Rini wrote:
-> On Fri, Oct 20, 2017 at 09:15:05AM -0400, Tom Rini wrote:
-> > On Tue, Oct 10, 2017 at 05:01:49PM -0400, Tom Rini wrote:
-> > > On Thu, Sep 21, 2017 at 01:46:16PM -0400, Tom Rini wrote:
-> > > > When we have been told to use the UUID we should also update the fstab
-> > > > to make use of PARTUUID instead of hard-coding the device in question.
-> > > > This will make the resulting image much more portable.
-> > > > 
-> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > > > ---
-> > > >  scripts/lib/wic/plugins/imager/direct.py | 9 ++++++---
-> > > >  1 file changed, 6 insertions(+), 3 deletions(-)
-> > > 
-> > > Where we did we end up with this?  Ed pointed out that you can tell wic
-> > > to use a specific UUID, so reproducible images are not a problem.  And
-> > > making images that are readily portable is why other distros use
-> > > UUID/LABEL and not device names as much as possible.  I personally enjoy
-> > > being able to put an image on uSD for minnow and have it work :)
-> > > Thanks!
-> > 
-> > ping?
+On 11/05/2017 02:25 AM, Moritz Fischer wrote:
+> Add back the recipe for the python2 version.
 > 
-> I was just reminded about the real problems this solves (swap isn't
-> /dev/sda3, boot is being excessively slow), so, ping?
+> Signed-off-by: Moritz Fischer <moritz.fischer@ettus.com>
+> ---
 > 
+> Is it possible to get that backported into rocko? I somehow didn't see
+> the patch that removed it go out on the list.
 
-I'm generally ok with the patchset. The only thing I'm thinking of is if busybox mount
-supports PARTUUID syntax in fstab. Can you check this, please?
+You need to explain why, as we're actively trying to remove everything 
+python2 from oe-core.
 
-I'd like to see Otavio's confirmation that --uuid option solves
-his reproducible builds concern.
-
-Can you rebase your patchset on top of current master?
-It would be also nice to get this functionality covered by tests.
-
---
-Regards,
-Ed
+Alex
 
