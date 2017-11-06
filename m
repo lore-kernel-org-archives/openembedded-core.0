@@ -1,28 +1,26 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 38B3171B27
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D638A60807
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 11:19:55 +0000 (UTC)
+	Mon,  6 Nov 2017 11:22:07 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Nov 2017 03:19:57 -0800
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Nov 2017 03:22:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,352,1505804400"; d="scan'208";a="1240247956"
+X-IronPort-AV: E=Sophos;i="5.44,352,1505804400"; d="scan'208";a="1240248420"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2017 03:19:56 -0800
-To: Moritz Fischer <moritz.fischer@ettus.com>,
-	openembedded-core@lists.openembedded.org
-References: <20171105002559.4822-1-moritz.fischer@ettus.com>
+	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2017 03:22:08 -0800
+To: Neal Gompa <ngompa13@gmail.com>, openembedded-core@lists.openembedded.org
+References: <CAEg-Je9nrUypvdDyTXMDTqgv9qBB_R0VSA_hzs6pswkzPJgr7Q@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <f38d3964-f472-88b9-2068-fc39305426fa@linux.intel.com>
-Date: Mon, 6 Nov 2017 13:20:00 +0200
+Message-ID: <9b32c57a-b432-4e37-7065-c0d7e759ce1a@linux.intel.com>
+Date: Mon, 6 Nov 2017 13:22:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171105002559.4822-1-moritz.fischer@ettus.com>
-Cc: mdf@kernel.org
-Subject: Re: [PATCH] python-mako: Add back the python2 version.
+In-Reply-To: <CAEg-Je9nrUypvdDyTXMDTqgv9qBB_R0VSA_hzs6pswkzPJgr7Q@mail.gmail.com>
+Subject: Re: Releases of BitBake to package for Fedora?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,22 +33,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 11:19:56 -0000
+X-List-Received-Date: Mon, 06 Nov 2017 11:22:08 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 11/05/2017 02:25 AM, Moritz Fischer wrote:
-> Add back the recipe for the python2 version.
-> 
-> Signed-off-by: Moritz Fischer <moritz.fischer@ettus.com>
-> ---
-> 
-> Is it possible to get that backported into rocko? I somehow didn't see
-> the patch that removed it go out on the list.
+On 11/05/2017 05:09 PM, Neal Gompa wrote:
+> Apologies if this is the wrong mailing list for this, but I'm looking
+> reintroduce BitBake into Fedora, but it seems like there hasn't been
+> releases in two years. I also cannot identify anywhere that provides
+> tarballs of BitBake to package.
 
-You need to explain why, as we're actively trying to remove everything 
-python2 from oe-core.
+The correct place to ask is probably bitbake-devel list.
 
 Alex
 
