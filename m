@@ -1,58 +1,39 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C655A6FF78
+Return-Path: <stephen.k.jolley@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C4B360248
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 13:02:35 +0000 (UTC)
-Received: by mail-yw0-f194.google.com with SMTP id t11so7676953ywg.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Nov 2017 05:02:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=HVu5JrIaNWREgcSKZJTV3T4CIC6QVWKY4RjgZz5aAxA=;
-	b=Tvv5yBX9hKWmwL2wWi9sGk8ut6sHzb63MijxDiDJJLPNqlGNIc+F0tC5Lj22uKfH/M
-	p6UlacM1TK/ZnXsCOfLagE2zs6LcZOJFAcvMbAZ5N05fHNpWc2S1I8tqz+qnoog8lYNz
-	H+Saw5LNBRtypzN1kt5Fs0C4KDfNRJlRo0DAA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=HVu5JrIaNWREgcSKZJTV3T4CIC6QVWKY4RjgZz5aAxA=;
-	b=o8aHLcWdBRmaQJf/oozpcK/a2ZKJDs3EbTkI3lEN5MeOLtJpTsYymwo6/yfHHaEOwr
-	x5TiJkg1lMz3iaPMylUJPoIOZ0KDDBQY+4eeh3O3mI+tSPTH9rnaXNwb9WSOiLlwnCwY
-	r3NaZ5E6S6O6cRPFN+0vsiOZHNBCF5iEaCTi5HxxsjKTZe7SdMd70kcFgK7lfx5SxgsC
-	NQVzl5kBCT6HzGhHCaHLzeicS7IA6rlEhEFFOuP8wPNlpCUCx76BRjljFLnU1mCXrvZ7
-	pJGX9DXcR7UpvuHV+6/ianljiyTQOwvCC4iLWmGYCLPF+50ONB/CFjLafIAWIxbY0UCz
-	hT1Q==
-X-Gm-Message-State: AMCzsaX4Oj5nhmGOm9srKahhjTJE3/+X1UANyojmtKWYVUEVZyZOSDLw
-	xz9i+1T70ifQpypDqUy2jX5Alg==
-X-Google-Smtp-Source: ABhQp+Sn3aEwkYyDmjBmK5859ZcUr8N63PEd+GWWjXlH7XXmnaY86EhAL3uyI5z8+o7/FhQoGGO/Og==
-X-Received: by 10.129.90.8 with SMTP id o8mr10025456ywb.384.1509973356424;
-	Mon, 06 Nov 2017 05:02:36 -0800 (PST)
-Received: from bill-the-cat (cpe-65-184-142-68.ec.res.rr.com. [65.184.142.68])
-	by smtp.gmail.com with ESMTPSA id
-	q16sm5949237ywa.2.2017.11.06.05.02.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Nov 2017 05:02:35 -0800 (PST)
-Date: Mon, 6 Nov 2017 08:02:33 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Message-ID: <20171106130233.GH32663@bill-the-cat>
-References: <1506015977-16858-1-git-send-email-trini@konsulko.com>
-	<20171010210149.GE12015@bill-the-cat>
-	<20171020131505.GG12015@bill-the-cat>
-	<20171103125150.GA32663@bill-the-cat>
-	<20171106100829.nqhna6hugyqe636k@linux.intel.com>
-	<CAP9ODKr4+R_ggGvJiVR+wj4iPqQdndzY-vL6s9Y42ZJy=X857w@mail.gmail.com>
-	<20171106124423.GG32663@bill-the-cat>
-	<CAP9ODKo53a46vSpBD5JhnYjZ2cLwP27U+v-XrkboMH8q-05Rcw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAP9ODKo53a46vSpBD5JhnYjZ2cLwP27U+v-XrkboMH8q-05Rcw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Patches and discussions about the oe-core layer
+	Mon,  6 Nov 2017 15:47:02 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Nov 2017 07:47:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,353,1505804400"; 
+	d="scan'208,217";a="146516386"
+Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
+	by orsmga004.jf.intel.com with ESMTP; 06 Nov 2017 07:47:03 -0800
+Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
+	FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 6 Nov 2017 07:47:03 -0800
+Received: from fmsmsx112.amr.corp.intel.com ([169.254.5.121]) by
+	fmsmsx124.amr.corp.intel.com ([169.254.8.94]) with mapi id
+	14.03.0319.002; Mon, 6 Nov 2017 07:47:03 -0800
+From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wic: When using --use-uuid make sure that we update the fstab with PARTUUID
+Thread-Topic: =?Windows-1252?Q?Yocto_Project_Status_WW45=9217?=
+Thread-Index: AdNXE0DBbUAXJgf7QtiDxFZlsOVF5w==
+Date: Mon, 6 Nov 2017 15:47:02 +0000
+Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155EC71B1E7C@FMSMSX112.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.106]
+x-ctpclassification: CTP_IC
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZjkwYmE0ZGMtMDE0MS00NjZiLWIzNzUtNDczYTY2ODIyY2U2IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX0lDIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE2LjUuOS4zIiwiVHJ1c3RlZExhYmVsSGFzaCI6Ik5WWWVkc1RrQzBmd1ZjSlN3R0xTZzlVXC8xNTNNcjZwbVwvcVcra2ZcLzluQ2c9In0=
+MIME-Version: 1.0
+Subject: =?UTF-8?B?WW9jdG8gUHJvamVjdCBTdGF0dXMgV1c0NeKAmTE3?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,97 +46,626 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 13:02:35 -0000
-X-Groupsio-MsgNum: 104582
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4LFBTxd4L5NLO6ly"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Nov 2017 15:47:03 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71B1E7CFMSMSX112amrcor_"
 
---4LFBTxd4L5NLO6ly
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71B1E7CFMSMSX112amrcor_
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 06, 2017 at 10:51:56AM -0200, Otavio Salvador wrote:
-> On Mon, Nov 6, 2017 at 10:44 AM, Tom Rini <trini@konsulko.com> wrote:
-> > On Mon, Nov 06, 2017 at 09:36:20AM -0200, Otavio Salvador wrote:
-> >> On Mon, Nov 6, 2017 at 8:08 AM, Ed Bartosh <ed.bartosh@linux.intel.com=
-> wrote:
-> >> > On Fri, Nov 03, 2017 at 08:51:50AM -0400, Tom Rini wrote:
-> >> >> On Fri, Oct 20, 2017 at 09:15:05AM -0400, Tom Rini wrote:
-> >> >> > On Tue, Oct 10, 2017 at 05:01:49PM -0400, Tom Rini wrote:
-> >> >> > > On Thu, Sep 21, 2017 at 01:46:16PM -0400, Tom Rini wrote:
-> >> >> > > > When we have been told to use the UUID we should also update =
-the fstab
-> >> >> > > > to make use of PARTUUID instead of hard-coding the device in =
-question.
-> >> >> > > > This will make the resulting image much more portable.
-> >> >> > > >
-> >> >> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> >> >> > > > ---
-> >> >> > > >  scripts/lib/wic/plugins/imager/direct.py | 9 ++++++---
-> >> >> > > >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >> >> > >
-> >> >> > > Where we did we end up with this?  Ed pointed out that you can =
-tell wic
-> >> >> > > to use a specific UUID, so reproducible images are not a proble=
-m.  And
-> >> >> > > making images that are readily portable is why other distros use
-> >> >> > > UUID/LABEL and not device names as much as possible.  I persona=
-lly enjoy
-> >> >> > > being able to put an image on uSD for minnow and have it work :)
-> >> >> > > Thanks!
-> >> >> >
-> >> >> > ping?
-> >> >>
-> >> >> I was just reminded about the real problems this solves (swap isn't
-> >> >> /dev/sda3, boot is being excessively slow), so, ping?
-> >> >>
-> >> >
-> >> > I'm generally ok with the patchset. The only thing I'm thinking of i=
-s if busybox mount
-> >> > supports PARTUUID syntax in fstab. Can you check this, please?
-> >>
-> >> It does.
-> >
-> > It doesn't, you need util-linux for a mount that figures these out (or,
-> > it did when I wrote the patch set).  That's why 2/2 only updates the
-> > systemd canned wks as that _will_ have full mount.  But please note that
-> > you can already make a wks file that doesn't work with busybox mount by
-> > using the --use-uuid flag for non-root partitions :)
->=20
-> For the root, why you don't use U-Boot to figure the uuid and pass it
-> as cmdline, in root=3D? It is just a question as this is how we fixed
-> this for meta-freescale.
+Current Dev Position: YP 2.5 Planning and M1 development
 
-We already, globally, use uuid in WIC for root.  And in the case since
-the kernel does it not mount, busybox isn't a concern.  We need to use
-UUID more widely however for platforms such as minnowboard where we
-might put the same image on SD card or USB (or SSD) where swap won't
-always be /dev/sda3 :)
+Next Deadline: YP 2.5 M1 cut off of 12/4/17
 
---=20
-Tom
 
---4LFBTxd4L5NLO6ly
-Content-Type: application/pgp-signature; name="signature.asc"
+SWAT team rotation: Ross -> Leo on Nov. 3, 2017.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+SWAT team rotation: Leo -> Juro on Nov. 10, 2017.
 
-iQIcBAEBAgAGBQJaAF1pAAoJEIf59jXTHXZSz5MP/iyUPhNqPqoRfgyi5glZ5drS
-1js74z0bWNw4TP8uV9a08fwF4T7c3np0mBIi7h5IclbPGUl5Um32DbhtclKiPZwB
-S0ltv3EGyHSFjmZo11wZhApIswd4OdEbdyDdtuWcViBz41vwv+iYGZteInmJzZid
-NJnHQyreMlbzb0Qoj6Zm4NFhkSqc3gx6O2f4I48pzKdzmeE/b/QK4iA+hmSE6Zeh
-S32L+41WVEgkFKAOfasreRtAo5YePk4b77gjxFwQiDhLU2KZDB4+OODwJz+qQaCd
-5b8ZZuN1ktCpIPhHgX1bB+Cvs2T9cpxY0kzoRnMiFCAJxvlLvWCtpSKMQArxpF5o
-I4KN2aGybWB1Zbw3+TA7wZ6z84pDuXcm6gv2yq8H9Xs0XalsdxQWHn1uJ+v0TyIz
-RLsfKvxzb3JaljYNshO78xWdQyP78G8hl2dBIdNSkkXK07YcH8n+UT8J/NI1RSFw
-utOLSeKNaiMjJQLSL8ELc0zoZngGYSgtKuhhIsCwXoXiUftAEk17IdqeLW+EzRiP
-4AXFaG4WoN8jF3Zp/7NuO6E/ZbJWJVKmxiql962n7j8lXwq0y0pEfCuBpYVmYPGy
-vw4TynvF6SBaSfykI+jEyYG/mV5+OitRQbm2nZwmilUN9G5dQ3YOqOYuunnzkJeX
-KvBoxcjsPe7zzScezlcH
-=oW+2
------END PGP SIGNATURE-----
+https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
 
---4LFBTxd4L5NLO6ly--
+
+Key Status/Updates:
+
+=B7        Master has started taking patches for 2.5. We are struggling wit=
+h a raft of different build failures that keep occurring on the autobuilder=
+s. Currently open issues are:
+
+o   qemux86-64 appears to have an early boot hang (bug 12301)
+
+o   ftp urls are having proxy/firewall issues
+
+o   oe-selftest log duplication causes failures (or maybe failures cause du=
+plicate logging, hard to tell) (bug 12127)
+
+o   qemuppc has random hangs (had hoped rng fix would help but hasn=92t)
+
+o   nfs inode count for the sstate share appears to break periodically caus=
+ing the disk monitor to halt the builds (bug 12267)
+
+o   a perf build race (bug 12302)
+
+o   also bugs 12303 and 12304 (not gotten to look into these yet)
+
+=B7        Until we resolve these issues, patches are going to be slow to m=
+erge. This also blocks several core developers from doing *any* feature wor=
+k at this point in time (e.g. layer setup tool is on hold, again).
+
+=B7        We plan to drop the remaining ftp urls from OE-Core as most of t=
+he remaining ftp servers are likely being decommissioned anyway (e.g. see h=
+ttps://ftp.gnu.org)
+
+=B7        ross/mut is known to cause further oe-selftest and nightly-qa-ta=
+rget failures so patches there are on hold whilst we try and further isolat=
+e which patches are causing these.
+
+=B7        We can only continue to stress that unless others step up and he=
+lp to try and root cause these issues, things will stall with the project.
+
+
+Planned upcoming dot releases:
+
+YP 2.2.3 is planned and should be out in the next few weeks.
+
+YP 2.3.3 is planned, but date TBD during YP 2.5 planning.
+
+YP 2.4.1 is planned, but date TBD during YP 2.5 planning.
+
+
+Key YP 2.5 Dates are:
+
+YP 2.5 M1 cut off of 12/4/17
+
+YP 2.5 M1 release of 12/15/17
+
+YP 2.5 M2 cut off of 1/15/18
+
+YP 2.5 M2 release of 1/26/18
+
+YP 2.5 M3 cut off of 2/19/18
+
+YP 2.5 M3 release of 3/2/18
+
+YP 2.5 M4 cut off of 4/2/18
+
+YP 2.5 M4 release of 4/27/18
+
+
+Tracking Metrics:
+
+            WDD 2633 (last week 2623)
+
+(https://wiki.yoctoproject.org/charts/combo.html)
+
+
+Key Status Links for YP:
+
+https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.5_Status
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.5_Schedule
+
+https://wiki.yoctoproject.org/wiki/Yocto_2.5_Features
+
+[If anyone has suggestions for other information you=92d like to see on thi=
+s weekly status update, let us know!]
+
+Thanks,
+
+Stephen K. Jolley
+Yocto Project Program Manager
+INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+=95   Work Telephone:        (503) 712-0534
+=95    Cell:                              (208) 244-4460
+=95 Email:                            stephen.k.jolley@intel.com
+
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71B1E7CFMSMSX112amrcor_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p
+	{mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+span.apple-tab-span
+	{mso-style-name:apple-tab-span;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:521819548;
+	mso-list-template-ids:415149172;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:1909923734;
+	mso-list-template-ids:-928090320;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Current Dev Positi=
+on: YP 2.5 Planning and M1 development</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Next Deadline: YP =
+2.5 M1 cut off of 12/4/17</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
+: Ross -&gt; Leo on Nov. 3, 2017.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">SWAT team rotation=
+: Leo -&gt; Juro on Nov. 10, 2017.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11=
+.0pt;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki=
+/Yocto_Build_Failure_Swat_Team</span></a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status/Updates=
+:</span><o:p></o:p></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">Master has started taking patches=
+ for 2.5. We are struggling with a raft of different build failures that ke=
+ep occurring on the autobuilders. Currently
+ open issues are:<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">qemux86-64 appears to have an ear=
+ly boot hang (bug 12301)<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">ftp urls are having proxy/firewal=
+l issues<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">oe-selftest log duplication cause=
+s failures (or maybe failures cause duplicate logging, hard to tell) (bug 1=
+2127)<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">qemuppc has random hangs (had hop=
+ed rng fix would help but hasn=92t)<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">nfs inode count for the sstate sh=
+are appears to break periodically causing the disk monitor to halt the buil=
+ds (bug 12267)<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">a perf build race (bug 12302)<o:p=
+></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:1.0in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level2 lf=
+o3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:&quot;Cour=
+ier New&quot;;color:black"><span style=3D"mso-list:Ignore">o<span style=3D"=
+font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">also bugs 12303 and 12304 (not go=
+tten to look into these yet)<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">Until we resolve these issues, pa=
+tches are going to be slow to merge. This also blocks several core develope=
+rs from doing *any* feature work at this point
+ in time (e.g. layer setup tool is on hold, again).<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">We plan to drop the remaining ftp=
+ urls from OE-Core as most of the remaining ftp servers are likely being de=
+commissioned anyway (e.g. see
+<a href=3D"https://ftp.gnu.org"><span style=3D"color:#1155CC">https://ftp.g=
+nu.org</span></a>)<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">ross/mut is known to cause furthe=
+r oe-selftest and nightly-qa-target failures so patches there are on hold w=
+hilst we try and further isolate which patches
+ are causing these.<o:p></o:p></span></p>
+<p style=3D"mso-margin-top-alt:0in;margin-right:0in;margin-bottom:0in;margi=
+n-left:.5in;margin-bottom:.0001pt;text-indent:-.25in;mso-list:l1 level1 lfo=
+3;vertical-align:baseline">
+<![if !supportLists]><span style=3D"font-size:10.0pt;font-family:Symbol;col=
+or:black"><span style=3D"mso-list:Ignore">=B7<span style=3D"font:7.0pt &quo=
+t;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></span><![endif]><span style=3D"font-size:11.0pt;font-family:=
+&quot;Arial&quot;,sans-serif;color:black">We can only continue to stress th=
+at unless others step up and help to try and root cause these issues, thing=
+s will stall with the project.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
+mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Planned upcoming d=
+ot releases:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.2.3 is planne=
+d and should be out in the next few weeks.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.3.3 is planne=
+d, but date TBD during YP 2.5 planning.</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.4.1 is planne=
+d, but date TBD during YP 2.5 planning.</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key YP 2.5 Dates a=
+re:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M1 cut off =
+of 12/4/17</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M1 release =
+of 12/15/17</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M2 cut off =
+of 1/15/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M2 release =
+of 1/26/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M3 cut off =
+of 2/19/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M3 release =
+of 3/2/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M4 cut off =
+of 4/2/18</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">YP 2.5 M4 release =
+of 4/27/18</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Tracking Metrics:<=
+/span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span class=3D"apple-tab-span=
+"><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;,sans-serif;=
+color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;
+</span></span><span style=3D"font-size:11.0pt;font-family:&quot;Arial&quot;=
+,sans-serif;color:black">WDD 2633 (last week 2623)</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt;text-indent:.5in"><span style=
+=3D"font-size:11.0pt;font-family:Consolas;color:black">(</span><a href=3D"h=
+ttps://wiki.yoctoproject.org/charts/combo.html"><span style=3D"font-size:11=
+.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#1155CC">https://wiki.y=
+octoproject.org/charts/combo.html</span></a><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:black">)</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">Key Status Links f=
+or YP:</span><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_Project_v2.5_Status"><span style=3D"font-size:11.0pt=
+;font-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yoc=
+to_Project_v2.5_Status</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.5_Schedule"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.5_=
+Schedule</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><a href=3D"https://wiki.yocto=
+project.org/wiki/Yocto_2.5_Features"><span style=3D"font-size:11.0pt;font-f=
+amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_2.5_=
+Features</span></a><o:p></o:p></p>
+<p style=3D"margin:0in;margin-bottom:.0001pt"><span style=3D"font-size:11.0=
+pt;font-family:&quot;Arial&quot;,sans-serif;color:black">[If anyone has sug=
+gestions for other information you=92d like to see on this weekly status up=
+date, let us know!]</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:black"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif;color:black">Thanks,</span><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
+ot;,serif;color:purple">Stephen K. Jolley</span></i></b><b><i><span style=
+=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,sans-serif;color:purple=
+"><o:p></o:p></span></i></b></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
+Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
+n></b></p>
+<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
+><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
+or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
+<o:p></o:p></span></b></p>
+<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
+/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
+</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
+;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
+ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
+le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(503) 712-0534<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
+ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
+</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
+ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
+quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
+">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
+">* </span>
+<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
+MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
+.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
+=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ &nbsp;&nbsp;<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span=
+></u></span><span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;A=
+rial&quot;,sans-serif"><o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_9ADD3FDE8B189B4AA2F8A3C711F8155EC71B1E7CFMSMSX112amrcor_--
