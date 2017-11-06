@@ -1,46 +1,50 @@
-Return-Path: <amery@geeks.cl>
-Received: from mail-wm0-f67.google.com (mail-wm0-f67.google.com [74.125.82.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0892360110
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f181.google.com (mail-wr0-f181.google.com
+	[209.85.128.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 053C86FF80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Nov 2017 22:12:35 +0000 (UTC)
-Received: by mail-wm0-f67.google.com with SMTP id r196so49369wmf.2
+	Mon,  6 Nov 2017 23:27:06 +0000 (UTC)
+Received: by mail-wr0-f181.google.com with SMTP id k61so4387911wrc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Nov 2017 14:12:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=geeks-cl.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=vmQj2ZJvU67B1aEM2gw75B1eHjFrX8vFu1EOzFB5OJY=;
-	b=CasgDFnfuWyG+rDpe1UEuODWr47UBPJJiFLoDOMJPmM1DFeQoxsXHJTtcgN33t4eZh
-	8lrfHzKzSQ+A8D0LzIj/32Jy8cZodtLvtPMUG/ll1kM6GOvZ3aoYccbjwEhRItITbRUP
-	N6wzbynEXMz6xbn4bJjA+fwKN/bDunA5D4aXzawtpPYKGKrQpTfm9PIgfOtq1KIRLL9C
-	16pRhJT+pK7nwvvsAum5o3DpFahej8TXKM4Uqct9cBQyFIOaxjFcwOjQwjXBx0Hok6PE
-	LIGZOjybDdEA9itj4K3Ws8Y8voajAYYKfl/47glzmBwflULubzKZygPRdo+LCWHemjXQ
-	nkGQ==
+	Mon, 06 Nov 2017 15:27:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=FM4lmVs/oFeytjE3xnkWPccoNwqoiHA+rJHbp+spOO4=;
+	b=kezU/kxdMRNrU3yIi14LRMc38kqUWvyYSiL0xnIq/5DhKhZ7tU+nOTNNx/6HzqEBfN
+	6Dqy1wa3cv5d7fRSTGGf3ZuCUBRidGbj4R6hkEBuIHcdnNjBHVa/No3ZZuXUYFzFK7os
+	fYKERSzb9L3ytt7999cmjN38Nx+/+XvUgUH696zB9KDIASRwpss+8Dmf00uxQNN/NhFl
+	xaRkt9MrBwmWKmshjllpUGrfwy1lFrLuoLb3AT0tgjn065ixtGQTjZd9fcoPx+E+kZaR
+	V03E9oLJxf76hXIJACLfzSAoQBof4P5VFuA8N+O776+IpkASAKPAA62UQm7cBPTk5Oos
+	go2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vmQj2ZJvU67B1aEM2gw75B1eHjFrX8vFu1EOzFB5OJY=;
-	b=o0ter6d9DQmNGeCoIzRQf5S/3GlVLfUG7CZIkcvEFayTytY/iOiZM+Q4PdH2L9AkXa
-	b9rqZsMCgyB84Abw9jAUHLcKGVIFEPYHBCBJj5/pZsJ/XNEHe5v07HgiSgwp+euiojSq
-	Gy7fDusAMbWgnweAOi2tVM2uz4lAY23rT8ggKQqITS4TuXpvvBNtdlhWyOohd+40+pqU
-	VVtSXYcMCiaaIabN5k5IRJDvCPw9SWsKmkiqqcu7FTmFUpfvoMYb6VJBvaS76NLamVMl
-	wnrfCRrYH+BApQkQaYNCpnKFiwjPu0y/+Reokr00fx8UJmK+rVTnZhpuzP7VAfI034ag
-	PpCA==
-X-Gm-Message-State: AJaThX4f0g9ExH+BpYgyWmaM58gzjFtRt8tSI3U3VcVc8OEyeSW+FeYC
-	Nn5Zgu2gq0zP8NBXHirZApY7N2aCUvI=
-X-Google-Smtp-Source: ABhQp+RvIywmUSfO6gabYb5Nv2yXSDMGpJT23XCi6BOgCclziBxOjUpIKHu/vC4wEVfN0zmrVdJrqQ==
-X-Received: by 10.28.37.195 with SMTP id l186mr6798057wml.144.1510006355835;
-	Mon, 06 Nov 2017 14:12:35 -0800 (PST)
-Received: from localhost ([144.76.71.155])
-	by smtp.gmail.com with ESMTPSA id p128sm73113wmb.1.2017.11.06.14.12.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Nov 2017 14:12:35 -0800 (PST)
-From: Alejandro Mery <amery@geeks.cl>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Nov 2017 23:12:23 +0100
-Message-Id: <20171106221223.30826-1-amery@geeks.cl>
-X-Mailer: git-send-email 2.15.0
-Subject: [meta][PATCH] openssh-sshd: regenerate zero-size keys on start
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=FM4lmVs/oFeytjE3xnkWPccoNwqoiHA+rJHbp+spOO4=;
+	b=Ws/OeilOmJTVwcz+vbY126spVRXlyFj/O8GPKKyDHG8dEaoNdkJ3XL3pRr1RJLPRV7
+	zDaWnDTgo7fK3flsphqGHC8EywR9d5LBo7wbJAP4ycju5rNOlEElM9Sy+aAMis11RCtV
+	4gXXoInlXyN2qp/SSogsHvTksVCYLCF0B8h8k+S6WzshR4wNuQUHXt+r39xWXlH3yb3N
+	G0Meh0hPYqnGTQlh1eyypeewaLfqFNtkQ0RGbb7XWth79wUErvPLEokbICxBvNdfd8p/
+	COVVZnsrOGJ5CF89SetgOVqaalNdYPZYYtF8ZEPGySE8VcqF4OfroMGeB+IkRjWS4kQO
+	jUrA==
+X-Gm-Message-State: AJaThX6m5XGkBpFkX2ME35mIh6nsrUC3p/4SuBxlZp/1pQnRIr3xlua8
+	mmsmyUD5r0YXGCDjTtPq2UwziVeAosuVMstsDUs=
+X-Google-Smtp-Source: ABhQp+SErgx57uiHX4SFbq9rWakDeSrtmyolJV3c+QxLWbOOd9nY/uTaDLA0pbM++Xd2Iuu8JKn7A9KPYUr5u5KLbYU=
+X-Received: by 10.223.151.197 with SMTP id t5mr539044wrb.263.1510010827577;
+	Mon, 06 Nov 2017 15:27:07 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.223.199.140 with HTTP; Mon, 6 Nov 2017 15:27:07 -0800 (PST)
+In-Reply-To: <5121452.M8NYrTEKNB@peggleto-mobl.ger.corp.intel.com>
+References: <CAEg-Je9nrUypvdDyTXMDTqgv9qBB_R0VSA_hzs6pswkzPJgr7Q@mail.gmail.com>
+	<CAJTo0La7eK950Up4033qmX_1PQnS5nJJt4zb_P7uJn1Y8eO0QQ@mail.gmail.com>
+	<CAJ86T=VN8PDUWrNAuW=y_RpUEoOtGa-TyufyGwbZT6APPMsm9A@mail.gmail.com>
+	<5121452.M8NYrTEKNB@peggleto-mobl.ger.corp.intel.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Mon, 6 Nov 2017 15:27:07 -0800
+Message-ID: <CAJ86T=V5NqFrFr-dBQsOrJuz_Oewbfd-9RQdyM93UBDOqU+32A@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Releases of BitBake to package for Fedora?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,61 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 22:12:36 -0000
+X-List-Received-Date: Mon, 06 Nov 2017 23:27:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-sometimes the first time a machine boots power gets pull out and the content of the
-key files doesn't get sync leading to zero-size keys which permanently prevents
-ssh access. it's safer to assume that zero-sized files are equivalent to non-existant
-keys and generate them again.
+On Mon, Nov 6, 2017 at 11:18 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Tuesday, 7 November 2017 8:16:06 AM NZDT Andre McCurdy wrote:
+>> On Mon, Nov 6, 2017 at 3:33 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>> > The bitbake API isn't really stable and has a reasonable amount of change,
+>> > so if you were to package it then there's a good chance it would be out of
+>> > date within six months and people who wanted to use the latest oe-core
+>> > release against the packaged bitbake would hit API version errors.  The
+>> > recommended usage is to bundle in some way bitbake and the metadata
+>> > (combo-layer, submodules, repo, whatever).
+>> >
+>> > As such there are no tarballs.  There are branches for each version and
+>> > commits where the version is bumped, if you're really determined to
+>> > package a snapshot.
+>>
+>> If there's no realistic hope of (or need for) using bitbake standalone
+>> then maybe it's time to move bitbake into oe-core?
+>
+> Well, there are folks out there using bitbake with their own (non-OE)
+> metadata,
 
-Signed-off-by: Alejandro Mery <amery@geeks.cl>
----
- meta/recipes-connectivity/openssh/openssh/sshd_check_keys | 8 ++++----
- meta/recipes-connectivity/openssh/openssh_7.5p1.bb        | 2 ++
- 2 files changed, 6 insertions(+), 4 deletions(-)
+Are any of those projects public? I'd be interested to see how that's
+being done.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-index 5463b1a4cb..8cc31c339a 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd_check_keys
-@@ -71,19 +71,19 @@ HOST_KEY_ED25519=$(grep ^HostKey "${sshd_config}" | grep _ed25519_ | tail -1 | a
- [ -z "${HOST_KEY_ED25519}" ] && HOST_KEY_ED25519=$SYSCONFDIR/ssh_host_ed25519_key
- 
- # create keys if necessary
--if [ ! -f $HOST_KEY_RSA ]; then
-+if [ ! -s $HOST_KEY_RSA ]; then
-     echo "  generating ssh RSA key..."
-     generate_key $HOST_KEY_RSA rsa
- fi
--if [ ! -f $HOST_KEY_ECDSA ]; then
-+if [ ! -s $HOST_KEY_ECDSA ]; then
-     echo "  generating ssh ECDSA key..."
-     generate_key $HOST_KEY_ECDSA ecdsa
- fi
--if [ ! -f $HOST_KEY_DSA ]; then
-+if [ ! -s $HOST_KEY_DSA ]; then
-     echo "  generating ssh DSA key..."
-     generate_key $HOST_KEY_DSA dsa
- fi
--if [ ! -f $HOST_KEY_ED25519 ]; then
-+if [ ! -s $HOST_KEY_ED25519 ]; then
-     echo "  generating ssh ED25519 key..."
-     generate_key $HOST_KEY_ED25519 ed25519
- fi
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-index 86ca6ff372..2f178b26d8 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.5p1.bb
-@@ -8,6 +8,8 @@ SECTION = "console/network"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
- 
-+PR = "r1"
-+
- # openssl 1.1 patches are proposed at https://github.com/openssh/openssh-portable/pull/48
- DEPENDS = "zlib openssl10"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
--- 
-2.15.0
-
+> and that is absolutely supported, so even in the absence of stable
+> releases of BitBake that distros could pick up the separation does still have
+> a purpose.
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
