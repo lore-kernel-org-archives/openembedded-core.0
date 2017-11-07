@@ -1,45 +1,46 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7295E6FFED
+Received: from mail-wr0-f196.google.com (mail-wr0-f196.google.com
+	[209.85.128.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B2C3C78489
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Nov 2017 22:34:55 +0000 (UTC)
-Received: by mail-wm0-f65.google.com with SMTP id z3so7063759wme.5
+	Tue,  7 Nov 2017 22:35:43 +0000 (UTC)
+Received: by mail-wr0-f196.google.com with SMTP id p96so691692wrb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Nov 2017 14:34:56 -0800 (PST)
+	Tue, 07 Nov 2017 14:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=izhyGZ2RqdxzOivzgUqoVedxy3XzfB+AL4sDT+0x5IY=;
-	b=HBlxASBB3cyjnyikiPsVrtUt9j5xgtG52x9N+SPNnCoM4CDW6tB+AiQLcIBj5lkaFu
-	EnaGlofS2Klmk3RxtCkEYYhfTPpUlGBTbwQjwbiefmvTIcCIBb9L3Q3YNpf06qAq/iwv
-	2Xdc/vmzaoM7iQOijyzr/SD4F5iQOW6NnIBP8TdtUUH27oQj8uRFqlCjuHZ9aHF0wQGB
-	zTgQxVEPZ86w53gTwuYVvanNMsrjuJDcirL8N2uBhGV7n5dzxaR4uo5cboMJyNn9Cc//
-	+7iwD0F+J8N6Hs31sKsj5aQMDewiUqgYM8mdBFewrlhIfnuBluOECq7mG7SbG3ill8Ht
-	oElg==
+	:cc; bh=K0hhKqniFNw8CWNJ137qcBAmAuqF+37HE91J8FP1OkM=;
+	b=Rlr0jqkuTuHxAZckK9Sc0xCgEGM6wdHWwL8MTcblrrBSvNsKvTN0sW9WRnh26GGD+5
+	PyYQWpVSX0PjaM8jCYIOFE9N/8sfxCpNV0RryyYawJvhZDgdQ5Vnz7UTrv9a2zlMWFjW
+	NjmDaS+j9u5VLHWPyGjs2tkOtrUAmwc3ModNok3tA3rH/h068CVwZc1RkaWxVTxsz4U/
+	cEigSg3W+WHJQF7gPlTiGof8Zl2sSXPUu/2MYg52k7YmpZgTRx8t2HjWArb/FzWciLOv
+	M4TkXp4k8XGatBVXqHpQYdOX3yBjWNjUpageqVci+Bg49Uj6dWD6W49qFVrSsicKuLQZ
+	bGXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=izhyGZ2RqdxzOivzgUqoVedxy3XzfB+AL4sDT+0x5IY=;
-	b=TyLUhFJF2YK0s9GcLCQd9nTu0IRoTx1RoHspVlEEKBTOCnAXeDfk86by5zjeOOePTx
-	gBtg2XHOTgsLXyLV+4iG3NXtnLZaMppxYapRNkEs5aHvdymGs/FX4vxc24LhFlyzm081
-	PPkfWdMK8e2mbPpmkjVVUCdGWpEpwg0GJPYhBlm5vl5xNE8MOscJArpr69wLNmIg/w/I
-	s6qH6oUGp4+67o1H0VorOql5lJZ+Z8zLtYng826S2SyZwM4CS20GeJwyhLl2BMdvJS25
-	XRWIUnmjVzpzeT/REFOqW81bLHkui2p3QCHOmKhQI7xVajxQq3xKBYJszKRSbjSC0J/X
-	6LJg==
-X-Gm-Message-State: AJaThX6MX/6G1dXDbwDcJ8QVjGoG3G4wAQ9GhwIGLctNNwO6wGZMky5m
-	cqowkSdKVNtq1PkL7w1xDgVfwHRCsWTs0ZXFCJ0=
-X-Google-Smtp-Source: AGs4zMZnv8lK89M4oUk3kfOC1mrtFZ9m8cdFNBCqReFEXbeEwbyzBClg5uYxyv96CYNKzabSHfXoYnxUJZFrYJekGQY=
-X-Received: by 10.28.11.138 with SMTP id 132mr484616wml.89.1510094095976; Tue,
-	07 Nov 2017 14:34:55 -0800 (PST)
+	bh=K0hhKqniFNw8CWNJ137qcBAmAuqF+37HE91J8FP1OkM=;
+	b=mVPDMHw0fsJqEtyvxaD8MMfzsUn2GLQKYFJ8IC/WLkQX/nKvxM+Jw2g+BnYayc3GhE
+	qdvmr29CvCr+Ihg2bKv80TG8yrOnTmkMDPK79VlhGUGW6QHy12LVEvKRWqSX6PRRiZ4Y
+	rTMoIjPAFYRcLJpOnaF1qJtSgTGr6JdD0oLj44pTa1QpjUmt3yQt6a63MSN+DwpOKKL4
+	N5k8qYPM9w6LbgN826aHTVlXXe4LJDsizSGYQLICz316o4hdqSP39jbKzVW5ateuRQKs
+	pyYjgNoqsB449l2Zl6bRls/RNfgRSjHORtfLVTZNt41QeB6EtSasQmb+a9f44ok5ralR
+	fLlA==
+X-Gm-Message-State: AJaThX4HN3Jpia3bJewPIoIdXZDSlu1sOeY+6elKInMqcBuUyQqwy3Y8
+	m/kKx7ZYyFTx8KCvIKt19GZWW5QrVmb14li4Aek=
+X-Google-Smtp-Source: ABhQp+RyvxrGDWgNoM7Hp3xCH428TV/qjd8xfxTHrotLKwj6Jg6jdxE6Gu8g9B4tBscGEhvsqNOtr5rPHU58htC0tcg=
+X-Received: by 10.223.135.243 with SMTP id c48mr180057wrc.140.1510094144194;
+	Tue, 07 Nov 2017 14:35:44 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.199.140 with HTTP; Tue, 7 Nov 2017 14:34:55 -0800 (PST)
-In-Reply-To: <1508907304-24381-1-git-send-email-armccurdy@gmail.com>
-References: <1508907304-24381-1-git-send-email-armccurdy@gmail.com>
+Received: by 10.223.199.140 with HTTP; Tue, 7 Nov 2017 14:35:43 -0800 (PST)
+In-Reply-To: <1509141048-32541-1-git-send-email-armccurdy@gmail.com>
+References: <1509141048-32541-1-git-send-email-armccurdy@gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 7 Nov 2017 14:34:55 -0800
-Message-ID: <CAJ86T=VuL102kZ9eYaaeV8ANKFV2Vdn3Ww7YLjX88cQ3EumaVA@mail.gmail.com>
+Date: Tue, 7 Nov 2017 14:35:43 -0800
+Message-ID: <CAJ86T=WSqJysxG6mBxbKnKpsp9TaFN=gfWGv0k7joF5LVU--XQ@mail.gmail.com>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_ipk.bbclass: handle only whitespace in PACKAGE_EXCLUDE
+Subject: Re: [PATCH] bitbake.conf: set more conservative default for IMAGE_FSTYPES_DEBUGFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 22:34:55 -0000
+X-List-Received-Date: Tue, 07 Nov 2017 22:35:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 24, 2017 at 9:55 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> If PACKAGE_EXCLUDE is constructed using _append then it's possible
-> that the final value will contain only a space. Currently that
-> results in build failures due to an invalid opkg command line.
+On Fri, Oct 27, 2017 at 2:50 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Setting IMAGE_FSTYPES_DEBUGFS to the same value as IMAGE_FSTYPES can
+> lead to creating a large number of DEBUGFS filesystem images, many of
+> which may not make much sense (or may not even be buildable).
 
-PIng.
+Ping.
 
 > Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 > ---
->  meta/classes/package_ipk.bbclass | 2 +-
+>  meta/conf/bitbake.conf | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-> index 8439cda..6c1fdaa 100644
-> --- a/meta/classes/package_ipk.bbclass
-> +++ b/meta/classes/package_ipk.bbclass
-> @@ -12,7 +12,7 @@ OPKGBUILDCMD ??= "opkg-build"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 9696273..15feb57 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -757,7 +757,7 @@ require conf/sanity.conf
+>  DL_DIR ?= "${TOPDIR}/downloads"
+>  SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+>  IMAGE_FSTYPES ?= "tar.gz"
+> -IMAGE_FSTYPES_DEBUGFS ?= "${IMAGE_FSTYPES}"
+> +IMAGE_FSTYPES_DEBUGFS ?= "tar.gz"
 >
->  OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
->  OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
-> -OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKAGE_EXCLUDE') or "").split())][(d.getVar("PACKAGE_EXCLUDE") or "") != ""]}"
-> +OPKG_ARGS += "${@['', '--add-exclude ' + ' --add-exclude '.join((d.getVar('PACKAGE_EXCLUDE') or "").split())][(d.getVar("PACKAGE_EXCLUDE") or "").strip() != ""]}"
->
->  OPKGLIBDIR = "${localstatedir}/lib"
->
+>  INITRAMFS_FSTYPES ?= "cpio.gz"
+>  # The maximum size in Kbytes for the generated initramfs image size.
 > --
 > 1.9.1
 >
