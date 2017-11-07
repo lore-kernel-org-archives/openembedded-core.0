@@ -1,49 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf0-f172.google.com (mail-pf0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1408378429
+Return-Path: <haris.okanovic@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B08978446
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Nov 2017 16:55:50 +0000 (UTC)
-Received: by mail-pf0-f172.google.com with SMTP id x7so10765178pfa.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Nov 2017 08:55:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=kubxyqqFwrCUm1qU1YJKKakq31NzKBB846vuifmVYAU=;
-	b=YBA0XlBZMcl/qLAjdTP1hPGB/G0lKQ03DMRXGnBjzkYJhgANhOAfAfp89tWBfQLIC0
-	9fwsawH1re1J3ludcrsIT/Y6SQYLezjyRMpbuovuCftWMWDjFHVbeylouNBPVwbgQU/p
-	RDMGtoM29t/niTpXefUuw++x+uaDxg31ZLoJeXg9e+KJ4BKdK+9zqPaLR3/McCxV0zt8
-	ofSFmFpZeoOjFbbt/dVIZkn/Lc0mE6p52hnzqXBaPyRKTczGre4niygTZOYkmwnikD2K
-	NMq+0kRIFBbtTpM1kVBA2z7lSVDQMqxJTz3umySBDcQx2sshAOkjB2hqklZMiFYW0tMV
-	jg5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kubxyqqFwrCUm1qU1YJKKakq31NzKBB846vuifmVYAU=;
-	b=fXcCBYESGjB9sRU9h/XDmY9wBOpJMu+z3ZY1OJxnsDY4UX2Ndp8ThzOm3RjbTuGglj
-	qPSds4aCkco/BefQQxBVoKRclcmngTJ5zUuZT5inAO82toXOAt3ju3+XeiWpv+gN1/O3
-	+o6Va36XMcnc/oG6RUULEN4AYyRl7s40cqxh1S56Wf5ngaOb2p0pPZ9KktRJG2/4K+R4
-	kycz3Cxq7hz2GMGrvWGodJGw9pE66UGwrBNmPpL00mcYNLXLTH5itiCnYLw6zscTMKJ4
-	LOKdqwEE98ocq0Ep/0/FhXStmFHlhjk00PzycUnlWHAx9ogc/RmVeQ5wVe6YEkLLpeLH
-	p7Dw==
-X-Gm-Message-State: AMCzsaXzOHGpfP+vOmTzZtVuYyspjBljcg5YbhkXuMZwHYXvakg/YZRC
-	GNvwkd1V0HVVPS23yRP05xo=
-X-Google-Smtp-Source: ABhQp+R2Y//yeeHzj046mkYXDVpR/s9s+IyLh3bxnBvFnlMzuETKBpvLbj6Y/ZtJnl5+lyYipjmxeg==
-X-Received: by 10.98.155.10 with SMTP id r10mr21523788pfd.66.1510073751977;
-	Tue, 07 Nov 2017 08:55:51 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4001:9ea0:a54b:f983:3094:c1b6])
-	by smtp.gmail.com with ESMTPSA id
-	v22sm3693914pgb.65.2017.11.07.08.55.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 07 Nov 2017 08:55:51 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: akuster@mvista.com,
-	openembedded-core@lists.openembedded.org
-Date: Tue,  7 Nov 2017 08:55:13 -0800
-Message-Id: <cover.1510071393.git.akuster@mvista.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 00/36] Morty-next pull request
+	Tue,  7 Nov 2017 18:41:34 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
+	vA7IaFvS022250; Tue, 7 Nov 2017 12:40:46 -0600
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2e3j2ag4cw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Tue, 07 Nov 2017 12:40:45 -0600
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.0.21/8.16.0.21) with ESMTPS id
+	vA7IehWr025119
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 7 Nov 2017 12:40:43 -0600
+Received: from us-aus-exch4.ni.corp.natinst.com (130.164.68.14) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Tue, 7 Nov 2017 12:40:43 -0600
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch4.ni.corp.natinst.com (130.164.68.14) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Tue, 7 Nov 2017 12:40:42 -0600
+Received: from harisdt.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Tue, 7 Nov 2017 12:40:42 -0600
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 7 Nov 2017 12:40:39 -0600
+Message-ID: <20171107184039.31164-1-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.14.2
+In-Reply-To: <1500479806.27323.202.camel@intel.com>
+References: <1500479806.27323.202.camel@intel.com>
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2017-11-07_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
+	score=30 spamscore=0
+	suspectscore=4 malwarescore=0 lowpriorityscore=0 phishscore=0
+	adultscore=0
+	bulkscore=0 classifier=spam adjust=30 reason=mlx scancount=1
+	engine=8.0.1-1707230000 definitions=main-1711070249
+Cc: haris.okanovic@ni.com, saul.wold@intel.com, josh.hernstrom@ni.com
+Subject: [PATCH v9] kernel: Add support for multiple kernel packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,155 +57,485 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 16:55:51 -0000
+X-List-Received-Date: Tue, 07 Nov 2017 18:41:35 -0000
+Content-Type: text/plain
 
-From: Armin Kuster <akuster@mvista.com>
+Some distros may want to provide alternate kernel "flavors" via feeds or
+within bootable images. For example, readily available builds which
+provide certain diagnostic features can enable developers and testers to
+more quickly resolve issues by avoiding lengthy kernel builds.
 
-Cover letter only
-Please consider these changes for morty.
-Clean AB build
+This change allows for building multiple flavors of the kernel and
+module packages by templatizing kernel package names via a new
+KERNEL_PACKAGE_NAME variable in kernel.bbclass. It defaults to the old
+name of "kernel", but can be overridden by certain recipes providing
+alternate kernel flavors.
 
-The following changes since commit 6da3e0a0abf1251db243548639979f8d74e99766:
+To maintain compatibility, recipes providing alternate kernel flavors
+cannot be the "preferred provider" for virtual/kernel. This is because
+OE puts the preferred provider's build and source at
+"tmp-glibc/work-shared/$MACHINE/kernel-build-artifacts/" and
+"tmp-glibc/work-shared/$MACHINE/kernel-source/" instead of
+"tmp-glibc/work/*/$PN/" like other recipes. Therefore, recipes using the
+default KERNEL_PACKAGE_NAME="kernel" follows the old semantics -- build
+in the old location and may be preferred provider -- while recipes using
+all other KERNEL_PACKAGE_NAME's build from the normal WORKDIR and don't
+provide "virtual/kernel".
 
-  bitbake: Replace deprecated git branch parameter "--set-upstream" (2017-11-07 13:38:57 +0000)
+Testing:
+ 1. Add `KERNEL_PACKAGE_NAME_pn-linux-yocto-tiny = "tiny-linux"`
+    to local.conf so that linux-yocto-tiny may build alongside
+    the main kernel (linux-yocto).
+ 2. `bitbake linux-yocto linux-yocto-tiny` to build both kernel flavors.
+ 3. Verified image and modules IPKs exist for both:
+    tmp-glibc/deploy/ipk/qemux86/kernel-* for linux-yocto
+    tmp-glibc/deploy/ipk/qemux86/tiny-linux* for linux-yocto-tiny
+ 4. Verified linux-yocto is the "preferred provider", and was built in
+    shared directory: tmp-glibc/work-shared/qemux86/kernel-*
+ 5. Add `CORE_IMAGE_BASE_INSTALL_append_pn-core-image-base = "tiny-linux"`
+    to local.conf to install both kernel flavors in core-image-base.
+ 6. `bitbake core-image-base` to build an image.
+ 7. Verified image contains two bzImage's under /boot/, with
+    "yocto-standard" (linux-yocto recipe) selected to boot via symlink.
 
-are available in the git repository at:
+Discussion threads:
+http://lists.openembedded.org/pipermail/openembedded-core/2015-December/thread.html#114122
+http://lists.openembedded.org/pipermail/openembedded-core/2017-July/thread.html#139130
 
-  git://git.yoctoproject.org/poky-contrib akuster/morty-next
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akuster/morty-next
+[YOCTO #11363]
 
-Joshua Lock (1):
-  ruby: fix build of ruby-native with gcc7
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+Coauthored-by: Gratian Crisan <gratian.crisan@ni.com>
+Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
+Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
+---
+[PATCH v2] Change STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR to the
+"work" directory in alternate kernel builds, instead of "work-shared",
+so
+that the two builds don't clobber each other.
 
-Li Zhou (1):
-  libtiff: Security Advisory - libtiff - CVE-2017-5225
+[PATCH v3] An updated version of this change rebased onto the current
+OE-core master. Changes:
+ - Remove PREFERRED_PROVIDER check in linux-yocto.inc in alternate
+   kernel builds, since alternate kernels aren't the
+   PREFERRED_PROVIDER for virtual/kernel by definition.
+ - Remove "virtual/kernel" from PROVIDES in alternate kernel builds.
 
-Rajkumar Veer (19):
-  tiff: Security fix for CVE-2016-10271
-  tiff: Secruity fix CVE-2016-10093
-  tiff: Security fix CVE-2016-10268
-  tiff: Security fix CVE-2016-10266
-  tiff: Security fix CVE-2016-10267
-  tiff: Security fix for CVE-2016-10269
-  tiff: Security fix for CVE-2016-10270
-  tiff: Security fix for CVE-2017-7592
-  tiff: Security fix for CVE-2017-7594
-  tiff: Security fix for CVE-2017-7595
-  tiff: Security fix for CVE-2017-7596
-  tiff: Security fix for CVE-2017-7598
-  tiff: Security fix for CVE-2017-7601
-  tiff: Security fix for CVE-2017-7602
-  tiff: Security fix for CVE-2017-7593
-  curl: Security fix for CVE-2017-1000100
-  curl: Security fix for CVE-2017-1000101
-  ruby: Security fix for CVE-2017-14033
-  ruby: Security fix for CVE-2017-14064
+[PATCH v4] Another rebase onto master; no functional change.
+Improved description and testing steps.
 
-Thiruvadi Rajaraman (14):
-  curl: Security fix for CVE-2016-8615
-  curl: Security fix for CVE-2016-8618
-  curl: Security fix for CVE-2016-8619
-  curl: Security fix for CVE-2016-8620
-  curl: Security fix for CVE-2016-8621
-  curl: Security fix for CVE-2016-8623
-  curl: Security fix for CVE-2016-8617
-  curl: Security fix for CVE-2016-8624
-  curl: Security fix for CVE-2016-9586
-  ruby: Security fix for CVE-2016-7798
-  ruby: Security fix for CVE-2017-9227
-  ruby: Security fix for CVE-2017-9228
-  ruby: Secruity fix for CVE-2017-9226
-  ruby: Security fix for CVE-2017-9229
+[PATCH v5]
+ - Warn when PN == KERNEL_PACKAGE_NAME (bug # 11905)
+ - Add KERNEL_DEPLOYSUBDIR to avoid DEPLOYDIR collisions
 
-Yi Zhao (1):
-  tiff: Security fixes
+[PATCH v6] Add KERNEL_PACKAGE_NAME to kernel-module-split.bbclass for
+module recipes; fixes lttng-modules build.
 
- .../recipes-devtools/ruby/ruby/CVE-2016-7798.patch | 164 +++++++++++
- .../ruby/ruby/CVE-2017-14033.patch                 |  89 ++++++
- .../ruby/ruby/CVE-2017-14064.patch                 |  79 ++++++
- .../recipes-devtools/ruby/ruby/CVE-2017-9226.patch |  33 +++
- .../recipes-devtools/ruby/ruby/CVE-2017-9227.patch |  24 ++
- .../recipes-devtools/ruby/ruby/CVE-2017-9228.patch |  26 ++
- .../recipes-devtools/ruby/ruby/CVE-2017-9229.patch |  36 +++
- meta/recipes-devtools/ruby/ruby/prevent-gc.patch   |  32 +++
- meta/recipes-devtools/ruby/ruby_2.2.5.bb           |  10 +
- .../libtiff/files/CVE-2016-10093.patch             |  47 ++++
- .../libtiff/files/CVE-2016-10266.patch             |  60 ++++
- .../libtiff/files/CVE-2016-10267.patch             |  70 +++++
- .../libtiff/files/CVE-2016-10268.patch             |  30 ++
- .../libtiff/files/CVE-2016-10269.patch             | 131 +++++++++
- .../libtiff/files/CVE-2016-10270.patch             | 134 +++++++++
- .../libtiff/files/CVE-2016-10271.patch             |  30 ++
- .../libtiff/files/CVE-2017-10688.patch             |  88 ++++++
- .../libtiff/files/CVE-2017-11335.patch             |  54 ++++
- .../libtiff/files/CVE-2017-7592.patch              |  40 +++
- .../libtiff/files/CVE-2017-7593.patch              |  98 +++++++
- .../libtiff/files/CVE-2017-7594-p1.patch           |  43 +++
- .../libtiff/files/CVE-2017-7594-p2.patch           |  50 ++++
- .../libtiff/files/CVE-2017-7595.patch              |  48 ++++
- .../libtiff/files/CVE-2017-7596.patch              | 308 +++++++++++++++++++++
- .../libtiff/files/CVE-2017-7598.patch              |  65 +++++
- .../libtiff/files/CVE-2017-7601.patch              |  52 ++++
- .../libtiff/files/CVE-2017-7602.patch              |  69 +++++
- .../libtiff/files/CVE-2017-9147.patch              | 203 ++++++++++++++
- .../libtiff/files/CVE-2017-9936.patch              |  46 +++
- .../libtiff/files/libtiff-CVE-2017-5225.patch      |  92 ++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.7.bb      |  23 +-
- meta/recipes-support/curl/curl/CVE-2016-8615.patch |  71 +++++
- meta/recipes-support/curl/curl/CVE-2016-8617.patch |  30 ++
- meta/recipes-support/curl/curl/CVE-2016-8618.patch |  49 ++++
- meta/recipes-support/curl/curl/CVE-2016-8619.patch |  56 ++++
- meta/recipes-support/curl/curl/CVE-2016-8620.patch | 146 ++++++++++
- meta/recipes-support/curl/curl/CVE-2016-8621.patch | 104 +++++++
- meta/recipes-support/curl/curl/CVE-2016-8623.patch | 174 ++++++++++++
- meta/recipes-support/curl/curl/CVE-2016-8624.patch |  68 +++++
- meta/recipes-support/curl/curl/CVE-2016-9586.patch |  66 +++++
- .../curl/curl/CVE-2017-1000100.patch               |  47 ++++
- .../curl/curl/CVE-2017-1000101.patch               |  94 +++++++
- meta/recipes-support/curl/curl_7.50.1.bb           |  14 +-
- 43 files changed, 3191 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2016-7798.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2017-14033.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2017-14064.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2017-9226.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2017-9227.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2017-9228.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2017-9229.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/prevent-gc.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10093.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10266.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10267.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10268.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10269.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10270.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2016-10271.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-10688.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-11335.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7592.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7593.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7594-p1.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7594-p2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7595.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7596.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7598.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7601.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-7602.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-9147.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2017-9936.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2017-5225.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8615.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8617.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8618.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8619.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8620.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8621.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8623.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-8624.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2016-9586.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2017-1000100.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2017-1000101.patch
+[PATCH v7] Remove second definition of KERNEL_PACKAGE_NAME from
+kernel-module-split.bbclass; apply a default in two places where
+KERNEL_PACKAGE_NAME is referenced.
 
+[PATCH v8] Rebase onto current master and more fixups.
+ - kernel-devicetree.bbclass: Fixup package names
+ - depmodwrapper-cross: don't error when called from alt kernel recipes
+ - kernel.bbclass: Don't install /boot/image symlink in alt recipes
+
+[PATCH v9]
+ - Add feature tracking tag
+ - Update testing section to define vars in local.conf
+ - Add KERNEL_PACKAGE_NAME check to *-rt recipes
+
+https://github.com/harisokanovic/openembedded-core/tree/dev/hokanovi/multi-kernel-packages-v9
+---
+ meta/classes/kernel-devicetree.bbclass             |   8 +-
+ meta/classes/kernel-module-split.bbclass           |   9 +-
+ meta/classes/kernel.bbclass                        | 114 +++++++++++++--------
+ meta/conf/documentation.conf                       |   1 +
+ .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  14 +--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |   2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |   2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |   2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |   2 +-
+ meta/recipes-kernel/linux/linux-yocto.inc          |   2 +-
+ 10 files changed, 94 insertions(+), 62 deletions(-)
+
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+index 6e08be4b70..4f80cc62eb 100644
+--- a/meta/classes/kernel-devicetree.bbclass
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -1,10 +1,10 @@
+ # Support for device tree generation
+ PACKAGES_append = " \
+-    kernel-devicetree \
+-    ${@['kernel-image-zimage-bundle', ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
++    ${KERNEL_PACKAGE_NAME}-devicetree \
++    ${@[d.getVar('KERNEL_PACKAGE_NAME') + '-image-zimage-bundle', ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
+ "
+-FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
+-FILES_kernel-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-*.dtb.bin"
++FILES_${KERNEL_PACKAGE_NAME}-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
++FILES_${KERNEL_PACKAGE_NAME}-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-*.dtb.bin"
+ 
+ # Generate kernel+devicetree bundle
+ KERNEL_DEVICETREE_BUNDLE ?= "0"
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index 1035525dac..73c7f18c78 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -30,7 +30,7 @@ do_install_append() {
+ 
+ PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
+ 
+-KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
++KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME", True) or "kernel" }-modules"
+ 
+ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
+ KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
+@@ -129,16 +129,19 @@ python split_kernel_module_packages () {
+            postfix = format.split('%s')[1]
+            d.setVar('RPROVIDES_' + pkg, pkg.replace(postfix, ''))
+ 
++    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True) or "kernel"
++    kernel_version = d.getVar("KERNEL_VERSION", True)
++
+     module_regex = '^(.*)\.k?o$'
+ 
+     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
+     module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+-    module_pattern = module_pattern_prefix + 'kernel-module-%s' + module_pattern_suffix
++    module_pattern = module_pattern_prefix + kernel_package_name + '-module-%s' + module_pattern_suffix
+ 
+     postinst = d.getVar('pkg_postinst_modules')
+     postrm = d.getVar('pkg_postrm_modules')
+ 
+-    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
++    modules = do_split_packages(d, root='${nonarch_base_libdir}/modules', file_regex=module_regex, output_pattern=module_pattern, description='%s kernel module', postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata, extra_depends='%s-%s' % (kernel_package_name, kernel_version))
+     if modules:
+         metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
+         d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 756707a3c2..48b718d777 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -1,6 +1,9 @@
+ inherit linux-kernel-base kernel-module-split
+ 
+-PROVIDES += "virtual/kernel"
++KERNEL_PACKAGE_NAME ??= "kernel"
++KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel") else d.getVar("KERNEL_PACKAGE_NAME", True) }"
++
++PROVIDES += "${@ "virtual/kernel" if (d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel") else "" }"
+ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+@@ -34,11 +37,32 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION')
+ KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+ 
+ python __anonymous () {
++    pn = d.getVar("PN", True)
++    kpn = d.getVar("KERNEL_PACKAGE_NAME", True)
++
++    # XXX Remove this after bug 11905 is resolved
++    #  FILES_${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
++    if kpn == pn:
++        bb.warn("Some packages (E.g. *-dev) might be missing due to "
++                "bug 11905 (variable KERNEL_PACKAGE_NAME == PN)")
++
++    # The default kernel recipe builds in a shared location defined by
++    # bitbake/distro confs: STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR.
++    # Set these variables to directories under ${WORKDIR} in alternate
++    # kernel recipes (I.e. where KERNEL_PACKAGE_NAME != kernel) so that they
++    # may build in parallel with the default kernel without clobbering.
++    if kpn != "kernel":
++        workdir = d.getVar("WORKDIR", True)
++        sourceDir = os.path.join(workdir, 'kernel-source')
++        artifactsDir = os.path.join(workdir, 'kernel-build-artifacts')
++        d.setVar("STAGING_KERNEL_DIR", sourceDir)
++        d.setVar("STAGING_KERNEL_BUILDDIR", artifactsDir)
+ 
+     # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into KERNEL_IMAGETYPES
+     type = d.getVar('KERNEL_IMAGETYPE') or ""
+     alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
+     types = d.getVar('KERNEL_IMAGETYPES') or ""
++    kname = d.getVar('KERNEL_PACKAGE_NAME', True) or "kernel"
+     if type not in types.split():
+         types = (type + ' ' + types).strip()
+     if alttype not in types.split():
+@@ -55,15 +79,15 @@ python __anonymous () {
+         typelower = type.lower()
+         imagedest = d.getVar('KERNEL_IMAGEDEST')
+ 
+-        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
++        d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
+ 
+-        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
++        d.setVar('FILES_' + kname + '-image-' + typelower, '/' + imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' + type)
+ 
+-        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' + typelower)
++        d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' % (kname, typelower))
+ 
+-        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' + typelower + '-${KERNEL_VERSION_PKG_NAME}')
++        d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-%s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
+ 
+-        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
++        d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+     if image:
+@@ -121,9 +145,9 @@ base_do_unpack_append () {
+ 
+ inherit kernel-arch deploy
+ 
+-PACKAGES_DYNAMIC += "^kernel-module-.*"
+-PACKAGES_DYNAMIC += "^kernel-image-.*"
+-PACKAGES_DYNAMIC += "^kernel-firmware-.*"
++PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
++PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
++PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
+ 
+ export OS = "${TARGET_OS}"
+ export CROSS_COMPILE = "${TARGET_PREFIX}"
+@@ -339,7 +363,9 @@ kernel_do_install() {
+ 	install -d ${D}/boot
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+ 		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
+-		ln -sf ${type}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${type}
++		if [ "${KERNEL_PACKAGE_NAME}" == "kernel" ]; then
++			ln -sf ${type}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${type}
++		fi
+ 	done
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+@@ -393,9 +419,9 @@ do_shared_workdir_setscene () {
+ 
+ emit_depmod_pkgdata() {
+ 	# Stash data for depmod
+-	install -d ${PKGDESTWORK}/kernel-depmod/
+-	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/kernel-depmod/kernel-abiversion
+-	cp ${B}/System.map ${PKGDESTWORK}/kernel-depmod/System.map-${KERNEL_VERSION}
++	install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
++	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-abiversion
++	cp ${B}/System.map ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/System.map-${KERNEL_VERSION}
+ }
+ 
+ PACKAGEFUNCS += "emit_depmod_pkgdata"
+@@ -410,7 +436,7 @@ do_shared_workdir () {
+ 	# Store the kernel version in sysroots for module-base.bbclass
+ 	#
+ 
+-	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
++	echo "${KERNEL_VERSION}" > $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
+ 
+ 	# Copy files required for module builds
+ 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+@@ -508,28 +534,28 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERSION}
+-PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-modules"
++PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
+ FILES_${PN} = ""
+-FILES_kernel-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
+-FILES_kernel-image = ""
+-FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+-FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
+-FILES_kernel-modules = ""
+-RDEPENDS_kernel = "kernel-base"
++FILES_${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
++FILES_${KERNEL_PACKAGE_NAME}-image = ""
++FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
++FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
++FILES_${KERNEL_PACKAGE_NAME}-modules = ""
++RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
+ # Allow machines to override this dependency if kernel image files are
+ # not wanted in images as standard
+-RDEPENDS_kernel-base ?= "kernel-image"
+-PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
+-RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', 'kernel-vmlinux', '', d)}"
+-PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSION}')}"
+-RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
+-ALLOW_EMPTY_kernel = "1"
+-ALLOW_EMPTY_kernel-base = "1"
+-ALLOW_EMPTY_kernel-image = "1"
+-ALLOW_EMPTY_kernel-modules = "1"
+-DESCRIPTION_kernel-modules = "Kernel modules meta package"
+-
+-pkg_postinst_kernel-base () {
++RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
++PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
++RDEPENDS_${KERNEL_PACKAGE_NAME}-image += "${@base_conditional('KERNEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
++PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
++RPROVIDES_${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
++ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
++DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta package"
++
++pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
+ 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+ 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
+ 	fi
+@@ -543,7 +569,7 @@ pkg_postinst_kernel-base () {
+ PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
+ 
+ python split_kernel_packages () {
+-    do_split_packages(d, root='${nonarch_base_libdir}/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
++    do_split_packages(d, root='${nonarch_base_libdir}/firmware', file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s', description='Firmware for %s', recursive=True, extra_depends='')
+ }
+ 
+ # Many scripts want to look in arch/$arch/boot for the bootable
+@@ -626,21 +652,27 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-${MACHINE}.tgz"
+ MODULE_TARBALL_DEPLOY ?= "1"
+ 
+ kernel_do_deploy() {
++	deployDir="${DEPLOYDIR}"
++	if [ -n "${KERNEL_DEPLOYSUBDIR}" ]; then
++		deployDir="${DEPLOYDIR}/${KERNEL_DEPLOYSUBDIR}"
++		mkdir "$deployDir"
++	fi
++
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+ 		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+-		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} ${DEPLOYDIR}/${base_name}.bin
++		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type} $deployDir/${base_name}.bin
+ 	done
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}/lib
+-		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+-		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
++		tar -cvzf $deployDir/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
++		ln -sf ${MODULE_TARBALL_BASE_NAME} $deployDir/${MODULE_TARBALL_SYMLINK_NAME}
+ 	fi
+ 
+ 	for type in ${KERNEL_IMAGETYPES} ; do
+ 		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
+ 		symlink_name=${type}-${KERNEL_IMAGE_SYMLINK_NAME}
+-		ln -sf ${base_name}.bin ${DEPLOYDIR}/${symlink_name}.bin
+-		ln -sf ${base_name}.bin ${DEPLOYDIR}/${type}
++		ln -sf ${base_name}.bin $deployDir/${symlink_name}.bin
++		ln -sf ${base_name}.bin $deployDir/${type}
+ 	done
+ 
+ 	cd ${B}
+@@ -650,8 +682,8 @@ kernel_do_deploy() {
+ 			echo "Copying deploy ${type} kernel-initramfs image and setting up links..."
+ 			initramfs_base_name=${type}-${INITRAMFS_BASE_NAME}
+ 			initramfs_symlink_name=${type}-initramfs-${MACHINE}
+-			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
+-			ln -sf ${initramfs_base_name}.bin ${DEPLOYDIR}/${initramfs_symlink_name}.bin
++			install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}.initramfs $deployDir/${initramfs_base_name}.bin
++			ln -sf ${initramfs_base_name}.bin $deployDir/${initramfs_symlink_name}.bin
+ 		fi
+ 	done
+ }
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index a55e2836b5..2c88504fb9 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -247,6 +247,7 @@ KERNEL_IMAGETYPE[doc] = "The type of kernel to build for a device, usually set b
+ KERNEL_IMAGETYPES[doc] = "The list of types of kernel to build for a device, usually set by the machine configuration files and defaults to KERNEL_IMAGETYPE."
+ KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be auto-loaded during boot"
+ KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the build system expects to find module_conf_* values that specify configuration for each of the modules"
++KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages. Defaults to 'kernel'."
+ KERNEL_PATH[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
+ KERNEL_SRC[doc] = "The location of the kernel sources. This variable is set to the value of the STAGING_KERNEL_DIR within the module class (module.bbclass)."
+ KFEATURE_DESCRIPTION[doc] = "Provides a short description of a configuration fragment. You use this variable in the .scc file that describes a configuration fragment file."
+diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+index 44d013f29d..2eec921728 100644
+--- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
++++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
+@@ -23,17 +23,13 @@ if [ "\$1" != "-a" -o "\$2" != "-b" ]; then
+     echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
+     exit 1
+ fi
+-if [ ! -r ${PKGDATA_DIR}/kernel-depmod/kernel-abiversion ]; then
+-    echo "Unable to read: ${PKGDATA_DIR}/kernel-depmod/kernel-abiversion" >&2
+-else
+-    kernelabi=\$(cat ${PKGDATA_DIR}/kernel-depmod/kernel-abiversion)
+-    if [ "\$kernelabi" != "\$4" ]; then
+-        echo "Error: Kernel version \$4 does not match kernel-abiversion (\$kernelabi)" >&2
+-        exit 1
+-    fi
++
++kernelabi=""
++if [ -r "${PKGDATA_DIR}/kernel-depmod/kernel-abiversion" ]; then
++    kernelabi=\$(cat "${PKGDATA_DIR}/kernel-depmod/kernel-abiversion")
+ fi
+ 
+-if [ ! -r ${PKGDATA_DIR}/kernel-depmod/System.map-\$4 ]; then
++if [ ! -r ${PKGDATA_DIR}/kernel-depmod/System.map-\$4 ] || [ "\$kernelabi" != "\$4" ]; then
+     echo "Unable to read: ${PKGDATA_DIR}/kernel-depmod/System.map-\$4" >&2
+     exec env depmod "\$1" "\$2" "\$3" "\$4"
+ else
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+index f93d9530eb..894e2ffbf6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
+@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+ # core-image-rt-sdk, core-image-rt.
+ python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+index c49a9340f8..be4d163ff1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
+@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+ # core-image-rt-sdk, core-image-rt.
+ python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+index 25d88833a9..e489bbb9f2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
+@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+ # core-image-rt-sdk, core-image-rt.
+ python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+index 6734dc0d05..8212b1445c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
+@@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # to build multiple virtual/kernel providers, e.g. as dependency of
+ # core-image-rt-sdk, core-image-rt.
+ python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 9c1f61be75..8a70eb5018 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -12,7 +12,7 @@ INC_PR = "r4"
+ # PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
+ # by the use of AUTOREV SRCREVs, which are the default for this recipe.
+ python () {
+-    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != d.getVar("PN"):
++    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN", True):
+         d.delVar("BB_DONT_CACHE")
+         raise bb.parse.SkipPackage("Set PREFERRED_PROVIDER_virtual/kernel to %s to enable it" % (d.getVar("PN")))
+ }
 -- 
-2.7.4
+2.14.2
 
 
