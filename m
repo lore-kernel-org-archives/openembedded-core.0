@@ -1,20 +1,31 @@
-Return-Path: <artur@madrzak.eu>
-Received: from s20.linuxpl.com (s20.linuxpl.com [78.46.68.78])
-	by mail.openembedded.org (Postfix) with ESMTP id AADF6605BF
+Return-Path: <paul.eggleton@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DA0D605BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Nov 2017 20:07:09 +0000 (UTC)
-Received: from 87-207-217-222.dynamic.chello.pl ([87.207.217.222]:46902
-	helo=mobilek) by s20.linuxpl.com with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.88)
-	(envelope-from <artur@madrzak.eu>)
-	id 1eCA9N-0002Dz-IU; Tue, 07 Nov 2017 21:07:09 +0100
-Date: Tue, 7 Nov 2017 21:07:08 +0100
-From: Artur =?utf-8?Q?M=C4=85drzak?= <artur@madrzak.eu>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20171107200707.GA9864@mobilek>
+	Tue,  7 Nov 2017 20:17:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Nov 2017 12:17:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,360,1505804400"; 
+   d="scan'208";a="4690445"
+Received: from tkdhir-mobl2.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.68.14])
+	by orsmga002.jf.intel.com with ESMTP; 07 Nov 2017 12:17:50 -0800
+From: Paul Eggleton <paul.eggleton@intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Wed, 08 Nov 2017 09:17:46 +1300
+Message-ID: <2194500.PL2B6VVPY9@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <a01ffbee-b133-0481-9836-11239fad8294@linux.intel.com>
+References: <499138bd-32cc-1487-e36e-fc4e5aceb4b2@linux.intel.com>
+	<14953303.KfuyF98Oh2@peggleto-mobl.ger.corp.intel.com>
+	<a01ffbee-b133-0481-9836-11239fad8294@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.9.1 (2017-09-22)
-Subject: [morty][PATCH] wic: add 'part-name' argument for naming GPT partitions
+Cc: Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: automatic recipe upgrades - making them better and sweeter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,123 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 20:07:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Nov 2017 20:17:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The WIC's 'part' can now give a name for GPT partition in WKS file.
-It's similar to '--label', but is naming partintions instead file systems.
-It's required by some bootloaders to partitions have specified names.
+On Wednesday, 8 November 2017 4:20:18 AM NZDT Alexander Kanavin wrote:
+> On 11/06/2017 10:04 PM, Paul Eggleton wrote:
+> >> 3) 'devtool finish' currently does not handle the recipe upgrade
+> >> situation well: the new recipe and patches are placed side by side with
+> >> the current recipe. The old stuff should be removed, and a tentative
+> >> commit should be created. So maybe add a 'devtool finish-upgrade'.
+> > 
+> > That's not what's supposed to happen - it should already be deleting the
+> > original files (it takes a record of the copied files when you run devtool
+> > upgrade, and then when you run devtool finish it deletes those and moves
+> > the new ones across from the workspace). If that's not working it's a bug
+> > and I would appreciate a reproducer. I'd certainly prefer that we keep to
+> > one finish command that does its best to "do the right thing" depending on
+> > the situation.
+> 
+> For me it happens every time. I run 'devtool finish <recipe> ../meta' 
+> and while the new files are placed into the correct dir in the layer, 
+> the old ones all remain (which is especially annoying if I then need to 
+> manually sort the added/deleted patch files).
+> 
+> Can you run a quick check to see if it happens on your side? Something 
+> trivial, like ffmpeg would do. I can then file a bug.
 
-Backport from master to be able generate SD card image for Dragonboard410c.
+You're right, I tried upgrading ffmpeg from 3.3.3 to 3.3.5 and it didn't 
+remove the old files. I've gone ahead and filed a bug and will look at it 
+today:
 
-Signed-off-by: Artur Mądrzak <artur@madrzak.eu>
----
- scripts/lib/wic/help.py                |  2 ++
- scripts/lib/wic/imager/direct.py       |  1 +
- scripts/lib/wic/ksparser.py            |  1 +
- scripts/lib/wic/partition.py           |  1 +
- scripts/lib/wic/utils/partitionedfs.py | 15 ++++++++++++++-
- 5 files changed, 19 insertions(+), 1 deletion(-)
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=12318
+ 
+> Also, there shouldn't be a need to specify the destination at all, if 
+> the recipe is modified or upgraded.
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index e5347ec4b7..324499e438 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -727,6 +727,8 @@ DESCRIPTION
-                             equal to 1.
-                             The default value is 1.3.
- 
-+         --part-name: This option is specific to wic. It specifies name for GPT partitions.
-+
-          --part-type: This option is specific to wic. It specifies partition
-                       type GUID for GPT partitions.
-                       List of partition type GUIDS can be found here:
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 4c547e04a6..6cb209aa88 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -299,6 +299,7 @@ class DirectImageCreator(BaseImageCreator):
-                                        boot=part.active,
-                                        align=part.align,
-                                        no_table=part.no_table,
-+                                       part_name=part.part_name,
-                                        part_type=part.part_type,
-                                        uuid=part.uuid,
-                                        system_id=part.system_id)
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 0894e2b199..3c99136144 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -134,6 +134,7 @@ class KickStart():
-         part.add_argument('--no-table', action='store_true')
-         part.add_argument('--ondisk', '--ondrive', dest='disk')
-         part.add_argument("--overhead-factor", type=overheadtype, default=1.3)
-+        part.add_argument('--part-name')
-         part.add_argument('--part-type')
-         part.add_argument('--rootfs-dir')
-         part.add_argument('--size', type=sizetype, default=0)
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index ec3aa6622c..2ffe7e3350 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -51,6 +51,7 @@ class Partition():
-         self.mountpoint = args.mountpoint
-         self.no_table = args.no_table
-         self.overhead_factor = args.overhead_factor
-+        self.part_name = args.part_name
-         self.part_type = args.part_type
-         self.rootfs_dir = args.rootfs_dir
-         self.size = args.size
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 9ea4a30cbb..d18fa1d489 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -91,7 +91,7 @@ class Image():
- 
-     def add_partition(self, size, disk_name, mountpoint, source_file=None, fstype=None,
-                       label=None, fsopts=None, boot=False, align=None, no_table=False,
--                      part_type=None, uuid=None, system_id=None):
-+                      part_name=None, part_type=None, uuid=None, system_id=None):
-         """ Add the next partition. Partitions have to be added in the
-         first-to-last order. """
- 
-@@ -113,6 +113,7 @@ class Image():
-                 'boot': boot, # Bootable flag
-                 'align': align, # Partition alignment
-                 'no_table' : no_table, # Partition does not appear in partition table
-+                'part_name' : part_name, # Partition name
-                 'part_type' : part_type, # Partition type
-                 'uuid': uuid, # Partition UUID
-                 'system_id': system_id} # Partition system id
-@@ -146,6 +147,11 @@ class Image():
-                 raise ImageError("setting custom partition type is not " \
-                                  "implemented for msdos partitions")
- 
-+            if ptable_format == 'msdos' and part['part_name']:
-+                raise ImageError("setting custom partition name is not " \
-+                                 "implemented for msdos partitions")
-+
-+
-             # Get the disk where the partition is located
-             disk = self.disks[part['disk_name']]
-             disk['numpart'] += 1
-@@ -301,6 +307,13 @@ class Image():
-             self.__create_partition(disk['disk'].device, part['type'],
-                                     parted_fs_type, part['start'], part['size'])
- 
-+            if part['part_name']:
-+                msger.debug("partition %d: set  name to %s" % \
-+                            (part['num'], part['part_name']))
-+                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
-+                                         (part['num'], part['part_name'],
-+                                          disk['disk'].device), self.native_sysroot)
-+
-             if part['part_type']:
-                 msger.debug("partition %d: set type UID to %s" % \
-                             (part['num'], part['part_type']))
+So there is a method to this madness, but it's less about your use case than 
+it is people making customisations that they are best advised to put somewhere 
+else - I'm trying to make the user think about where the changes should go 
+beforehand, because the nature of devtool finish is that you can't easily go 
+back and shift the changes elsewhere after you've run it. It would be trivial 
+to add an option that put the recipe back where it came from without you 
+having to be explicit though, so we could add that; potentially we could have 
+a configuration option to make that the default for you and others who more 
+commonly update the base metadata. Otherwise, I'm open to alternative 
+suggestions, but preferably I still want to avoid making it easy for users to 
+make a mistake and update the original metadata when they really should have 
+pointed it at their own layer.
+
+Cheers,
+Paul
+
 -- 
-2.13.6
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
