@@ -1,47 +1,47 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wr0-f173.google.com (mail-wr0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C7DC71C70
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 050F971C70
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Nov 2017 20:31:59 +0000 (UTC)
-Received: by mail-wr0-f173.google.com with SMTP id y42so432673wrd.3
+	Tue,  7 Nov 2017 20:33:43 +0000 (UTC)
+Received: by mail-wm0-f68.google.com with SMTP id z3so6559440wme.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Nov 2017 12:32:00 -0800 (PST)
+	Tue, 07 Nov 2017 12:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EC6rn9vIRAoSggizVORiKo3nqQ3V7YCQf2X3MgH5u/s=;
-	b=mhQ6LmOau/2Wlds0h0kyvE/ZbBOZyFT9SdSuIjqnmdhANhqJUTx0UhiG4TnFMAzdUn
-	xfkrQgAfr0O0lGLMOwjVwQWY9PZ9BrOLgBRquPtEZ8AxMLEGb6hiuQAawZtCzEY0JMAt
-	N+oqDGwhIedY/o9f90Axm95y3Z3/1ksoNKSy3zhR1LOQ2F+3C3YayAPfxeIxKWCF0whf
-	q02JuaU6Swa7pddWidimRVm6tjPelOM9k6pfU8fk4QYyJjruwCwOCysw650o48WUif4a
-	uovBPXAD8Q7cuBjk64i3VG2D9PlnJE3mHBfEUkTvx+VvMHysAaRNdqTFDY3+meZw+BtY
-	f/gw==
+	:cc:content-transfer-encoding;
+	bh=68NBWoB6MIN2c/dS7/PJ+BvgZbqE6j4oZ6/nFcpZMxA=;
+	b=ZrNOiI9hIsQkKceVL/9NwYkQLExsARAt7WFyQqS3v1pOR2VHVt+jciAvDuNAnZSFsg
+	wKKnSA7uj3aXGlavGUE79TTD08dBStX5uu6YtHeJIdyLWlZdSfz+lWci++sjHc6q2rgN
+	gXliyBWeeMj7ntbohO5oIOOV9ofMubWeMdKeMcbrslr6dxu8o+rSsNmj1Vkad0JBSWnR
+	VPaA7quUFOR1oieFbERzE8T7IcpXxTQezPIMb1VoF4lLODopdSbPPeixf8aUAacVOe2d
+	ZF6lNx6/xWUf2Jy06IQtiV91/zbim6IhkWaURPunC61QrB7VKnlqRfU6il+drhN1zU9z
+	Ut7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=EC6rn9vIRAoSggizVORiKo3nqQ3V7YCQf2X3MgH5u/s=;
-	b=OPw0m83zqbhxcwZlIZ4T7lxPXNo94TKKK8LX2oMQOYc/netwQsIcfyAXr5N26KkT41
-	UG+gX1ceyexVGHiJWZYdpAk1ns1hSkbyjNigh2W6kIdnZ6xdrwwCAKUI6L8BL9a2fOrj
-	q8oUUdl1kIaB+eYrWJC0Z8rTfi5ImkTpKvowhIhL7w4yZCcCPvI/oyOIOU5mDkmUhVxE
-	etRB8zaV56qlSGKaF3KFVvtSLZMgBfjmXPeaLQaY+oMr+bOdjFxSOOqzNFY54NM+ECaN
-	kK3H6Hj2mR5gyZXmbQsQqCbr2F+85eg3AGl3eNMYU/Uw/cBOpsG/yJZUcmdpRZHNyjEj
-	enYg==
-X-Gm-Message-State: AMCzsaXyrT90BNjWYrWJlcL5NyhoHt/l4zjksfoHmqWHdHvcnAqGlDGI
-	4+BIOLrdE7/GuK+WHdnbfocLFoS6xCtuKklTh3o=
-X-Google-Smtp-Source: ABhQp+R3/3YVQ38mKIwesYiDvVpwDeM2hCa5hlX13Uha6nd8Sc22agI6BrRPYxzl7CF6GGzVbjFW7NP5m+er38IGLug=
-X-Received: by 10.223.146.197 with SMTP id 63mr15450308wrn.180.1510086719905; 
-	Tue, 07 Nov 2017 12:31:59 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=68NBWoB6MIN2c/dS7/PJ+BvgZbqE6j4oZ6/nFcpZMxA=;
+	b=AYKFmu38B5MGpDYrMGC4kr+QKMp8m2kvZnz6VANisZpR8FjHKwQXZC5iEsHGVIheAo
+	HMKPHwMLi+7Q4Ysldjuk/X6JavJmxcxxNsufryZVjCXKSySCAK7tXwJt33BHmjtxtiwT
+	GpP+uR7iZYo2PVrSUHKHvTUVVi175t/bMvVUnyAzDjWqKxUzv2SPnDNEBsKm8iscOXui
+	tEtecE8eDJFAdWQj+Yr1zKYx3lMWJB8x9uMlej58uk2LV11pLHEUKdBwPl2aYlx4YJv/
+	bbrLtR4tiYb0zurDbMPgdjkhpXbiIyZkuxKDIaN7NPMb9BN6tjYWmGQHxZZXQ6VOfuGy
+	nHwg==
+X-Gm-Message-State: AJaThX6nJbHi7NzfC4cR8MxUq0jE/x+Sb3/mrcPQ3mDMGqV4hV7OOWM2
+	1syvdBsmHfRblgY4/jDRClehY25c8L7T/OZtQwY=
+X-Google-Smtp-Source: ABhQp+Tx9S7b34Y1b6XTEU/iXfCxZuxAmRXrcgIsnD2kQEM1EgplTjDNiT0HwAFc/1YbYLBa1X8KuJkyhcpa7WJhSxY=
+X-Received: by 10.28.237.18 with SMTP id l18mr291504wmh.136.1510086824523;
+	Tue, 07 Nov 2017 12:33:44 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.223.199.140 with HTTP; Tue, 7 Nov 2017 12:31:59 -0800 (PST)
-In-Reply-To: <1509582216-10840-1-git-send-email-armccurdy@gmail.com>
-References: <1509582216-10840-1-git-send-email-armccurdy@gmail.com>
+Received: by 10.223.199.140 with HTTP; Tue, 7 Nov 2017 12:33:44 -0800 (PST)
+In-Reply-To: <1506996960-17686-1-git-send-email-armccurdy@gmail.com>
+References: <1506996960-17686-1-git-send-email-armccurdy@gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 7 Nov 2017 12:31:59 -0800
-Message-ID: <CAJ86T=XDqH1emDDZ5LkJJ-KSMBMZeR3oOj5=yMjRAOhfcozrzQ@mail.gmail.com>
+Date: Tue, 7 Nov 2017 12:33:44 -0800
+Message-ID: <CAJ86T=Wj17LjaAQZ2rfx9=4rXPFOxa6bBtJf7qJwYxGWmM8rZQ@mail.gmail.com>
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: Re: [morty][PATCH] gmp_4.2.1: prevent calls to mpn_add_nc() if HAVE_NATIVE_mpn_sub_nc is false
+Subject: Re: [morty][PATCH v2 0/2] coreutils: musl build fix for gplv2 coreutils recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,131 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 20:32:00 -0000
+X-List-Received-Date: Tue, 07 Nov 2017 20:33:44 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 1, 2017 at 5:23 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> When building for aarch64 (ie relying only on generic C code rather
-> than asm) libgmp.so contains undefined references to __gmpn_add_nc
-> and __gmpn_sub_nc which causes attempts to link with -lgmp to fail:
->
->  | .../usr/lib/libgmp.so: undefined reference to `__gmpn_sub_nc'
->  | .../usr/lib/libgmp.so: undefined reference to `__gmpn_add_nc'
->
-> Solution based on a historical patch posted to the gmp mailing list:
->
->   https://gmplib.org/list-archives/gmp-discuss/2006-May/002344.html
->
-> Cherry-pick from meta-gplv2:
->
->   http://git.yoctoproject.org/cgit/cgit.cgi/meta-gplv2/commit/?id=d8668018d5d795be2297f878fd871a27edf532bf
+On Mon, Oct 2, 2017 at 7:15 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Two minor patches backported from meta-gplv2 for the gplv2 coreutils
+> recipe in oe-core morty.
 
 Ping. CCing Armin.
 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  ...ls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch | 78 ++++++++++++++++++++++
->  meta/recipes-support/gmp/gmp_4.2.1.bb              |  1 +
->  2 files changed, 79 insertions(+)
->  create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch
+> v2: Add Signed-off-by's to both patches + reference upstream
+> meta-gplv2 commits and add _6.9 suffix in both commit messages.
 >
-> diff --git a/meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch b/meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch
-> new file mode 100644
-> index 0000000..7b879c3
-> --- /dev/null
-> +++ b/meta/recipes-support/gmp/gmp-4.2.1/prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch
-> @@ -0,0 +1,78 @@
-> +From d4f3542fabe0797cf2d60afd957585862bd9a29b Mon Sep 17 00:00:00 2001
-> +From: Andre McCurdy <armccurdy@gmail.com>
-> +Date: Fri, 25 Aug 2017 16:16:06 -0700
-> +Subject: [PATCH] prevent calls to mpn_add_nc() if HAVE_NATIVE_mpn_sub_nc is false
-> +
-> +When building for aarch64 (ie relying only on generic C code rather
-> +than asm) libgmp.so contains undefined references to __gmpn_add_nc
-> +and __gmpn_sub_nc which causes attempts to link with -lgmp to fail:
-> +
-> + | .../usr/lib/libgmp.so: undefined reference to `__gmpn_sub_nc'
-> + | .../usr/lib/libgmp.so: undefined reference to `__gmpn_add_nc'
-> +
-> +Solution based on a historical patch posted to the gmp mailing list:
-> +
-> +  https://gmplib.org/list-archives/gmp-discuss/2006-May/002344.html
-> +
-> +Upstream-Status: Inappropriate [Fixed in current versions]
-> +
-> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> +---
-> + mpn/generic/addsub_n.c | 12 ++++++------
-> + 1 file changed, 6 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/mpn/generic/addsub_n.c b/mpn/generic/addsub_n.c
-> +index 27b2c08..0ff7ca0 100644
-> +--- a/mpn/generic/addsub_n.c
-> ++++ b/mpn/generic/addsub_n.c
-> +@@ -58,13 +58,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
-> +       for (off = 0; off < n; off += PART_SIZE)
-> +       {
-> +         this_n = MIN (n - off, PART_SIZE);
-> +-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
-> ++#if HAVE_NATIVE_mpn_add_nc
-> +         acyo = mpn_add_nc (r1p + off, s1p + off, s2p + off, this_n, acyo);
-> + #else
-> +         acyn = mpn_add_n (r1p + off, s1p + off, s2p + off, this_n);
-> +         acyo = acyn + mpn_add_1 (r1p + off, r1p + off, this_n, acyo);
-> + #endif
-> +-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
-> ++#if HAVE_NATIVE_mpn_sub_nc
-> +         scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
-> + #else
-> +         scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
-> +@@ -81,13 +81,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
-> +       for (off = 0; off < n; off += PART_SIZE)
-> +       {
-> +         this_n = MIN (n - off, PART_SIZE);
-> +-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
-> ++#if HAVE_NATIVE_mpn_sub_nc
-> +         scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
-> + #else
-> +         scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
-> +         scyo = scyn + mpn_sub_1 (r2p + off, r2p + off, this_n, scyo);
-> + #endif
-> +-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
-> ++#if HAVE_NATIVE_mpn_add_nc
-> +         acyo = mpn_add_nc (r1p + off, s1p + off, s2p + off, this_n, acyo);
-> + #else
-> +         acyn = mpn_add_n (r1p + off, s1p + off, s2p + off, this_n);
-> +@@ -105,13 +105,13 @@ mpn_addsub_n (mp_ptr r1p, mp_ptr r2p, mp_srcptr s1p, mp_srcptr s2p, mp_size_t n)
-> +       for (off = 0; off < n; off += PART_SIZE)
-> +       {
-> +         this_n = MIN (n - off, PART_SIZE);
-> +-#if HAVE_NATIVE_mpn_add_nc || !HAVE_NATIVE_mpn_add_n
-> ++#if HAVE_NATIVE_mpn_add_nc
-> +         acyo = mpn_add_nc (tp, s1p + off, s2p + off, this_n, acyo);
-> + #else
-> +         acyn = mpn_add_n (tp, s1p + off, s2p + off, this_n);
-> +         acyo = acyn + mpn_add_1 (tp, tp, this_n, acyo);
-> + #endif
-> +-#if HAVE_NATIVE_mpn_sub_nc || !HAVE_NATIVE_mpn_sub_n
-> ++#if HAVE_NATIVE_mpn_sub_nc
-> +         scyo = mpn_sub_nc (r2p + off, s1p + off, s2p + off, this_n, scyo);
-> + #else
-> +         scyn = mpn_sub_n (r2p + off, s1p + off, s2p + off, this_n);
-> +--
-> +1.9.1
-> +
-> diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-> index 5e8ee29..029e728 100644
-> --- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-> +++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
-> @@ -11,6 +11,7 @@ SRC_URI = "https://gmplib.org/download/${BPN}/archive/${BP}.tar.bz2 \
->             file://Use-__gnu_inline__-attribute.patch \
->             file://gmp_fix_for_automake-1.12.patch \
->             file://avoid-h-asm-constraint-for-MIPS.patch \
-> +           file://prevent-calls-to-mpn_add_nc-if-HAVE_NATIVE_mpn_sub_n.patch \
->  "
+> Andr=C3=A9 Draszik (1):
+>   coreutils_6.9: fix musl compilation
 >
->  SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
+> Richard Purdie (1):
+>   coreutils_6.9: Disable broken man pages
+>
+>  ...-need-charset.alias-when-building-for-mus.patch | 46 ++++++++++++++++=
+++++++
+>  .../coreutils/coreutils-6.9/no-man.patch           | 21 ++++++++++
+>  meta/recipes-core/coreutils/coreutils_6.9.bb       |  2 +
+>  3 files changed, 69 insertions(+)
+>  create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/build-don-t=
+-need-charset.alias-when-building-for-mus.patch
+>  create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/no-man.patc=
+h
+>
 > --
 > 1.9.1
 >
