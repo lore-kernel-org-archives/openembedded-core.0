@@ -1,47 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl0-f44.google.com (mail-pl0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B70E7822A
+Return-Path: <alistair23@gmail.com>
+Received: from mail-wm0-f48.google.com (mail-wm0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id DE6B865D35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Nov 2017 23:34:46 +0000 (UTC)
-Received: by mail-pl0-f44.google.com with SMTP id y61so61455plh.3
+	Tue,  7 Nov 2017 23:40:13 +0000 (UTC)
+Received: by mail-wm0-f48.google.com with SMTP id r68so7294119wmr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Nov 2017 15:34:48 -0800 (PST)
+	Tue, 07 Nov 2017 15:40:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=LTt12y/ccPNJkcu10FCAcpVKsj2rhK3BVvLHvRgY83o=;
-	b=i6Duv+hvczN75sQXE6UsmxaV8p0oRUCXiBQ/Z50JCPPE6XO/3/D/q9WNKIUxVl8Awz
-	H6rEg9cHZWPcFQNOlk2n397LhwrBpwJYD5/TCPIPeosv2q7sa3zKzxC6GE939bWYoXmm
-	uUfkNgADIHV7qARBjMwuR2LR5pyYzxFZfljxDhXx7p75GBpCtV/xUVEJcp39K/rPzGls
-	dpUtPV3bPTww1IjNNSHAH+skTsKpdmcarfqHG0kL1WERqKNSSfy+i040Bl+Ve/mSdwLZ
-	CORGx81BBE+nUgftiCWYcdJ6F7RaleFJUglCcrqw0cRJnPvKwJEYqmJOHYg5OWDgJzqr
-	Mksg==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=mZuSrtBFwpM9fUXcjpFonwbuxJ4D5hoI5Hwwm2nvrJA=;
+	b=poHm7R7D4CySrueGi+HxSmnU5yhgtZtmHQ091DgMRfExESDXeQZuAsTOm+EYUL2heq
+	SvpqP74IPHRf+HCqKNi2yY3a/uB03oozRDZREURbiJtPbjvTocIPWu+fFv2n0KV9NGSj
+	wCCfYwamVYX9AY3zYaoy6shTZU482qLXd0KwXVu4UbZge/X4V+nP0oSsbtdY/n+kNO31
+	97hrWvmPXoOUz2LGY/IILJTzyPtHhJC9s8K72GyU7VhngyKPywbp8kG54KPcHGJGjxM4
+	R0wEYjps8/oCeeLRkVpZHJ84T2NEeFhVNk6aF4VZ9VvxXjJzBrAnDEKf98kSf7sI9AdK
+	OMqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=LTt12y/ccPNJkcu10FCAcpVKsj2rhK3BVvLHvRgY83o=;
-	b=NYe+GktGVf2nGMak/SnEwsybGtLwegEHNn1jWOaFO9zfpJn/CX+65iLEjFUOOMRPvQ
-	ontrY2InunhS55a0iIJcSSqXCdrAhPSVMaSpsG2dbsKgPp94H0gjDfZMDu2JQQOkEoLb
-	hWeIYhaS5R07552uLzdG5xnLBI4NnrX4vejvBj5CQPpQjEqtMjs0ezUrW3WDjHqGMw68
-	5Zb9tKn/ROGuegsrqH97UOy0VfEtWD0rkf7YsE5yc3CjirMatYeCpnVcf8nOLO2Tm3pg
-	aA7W29N7r4BimH6JnQnhuLQSoh48kYtLni7BUuuym43VH+GXoz4W/WlI3iVkgkE6k1Ts
-	xxGQ==
-X-Gm-Message-State: AJaThX4d36ITsk3055wVlhV1ru1PFPurdCcUWWht0UMLr67mWi0F7UIE
-	6/nd6oJ+K0CldEhcWJR2A4iMzA==
-X-Google-Smtp-Source: ABhQp+R4o4w1p95S1X4wOGK2gjZ5RujfxvVwTcUnOekS+sgIA4a7OgQ+d+hPWwVkaOvxUGogiaLaIQ==
-X-Received: by 10.159.252.7 with SMTP id n7mr332824pls.355.1510097687198;
-	Tue, 07 Nov 2017 15:34:47 -0800 (PST)
-Received: from localhost.localdomain ([2601:646:8882:b8c::64bd])
-	by smtp.gmail.com with ESMTPSA id
-	s87sm5322995pfi.23.2017.11.07.15.34.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Nov 2017 15:34:46 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Nov 2017 15:34:38 -0800
-Message-Id: <20171107233438.33636-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] gcc7/gcc6: Fix unaligned STRD issue on ARM
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=mZuSrtBFwpM9fUXcjpFonwbuxJ4D5hoI5Hwwm2nvrJA=;
+	b=eKF7OQrnGmw9BTMIEQZVMYXVQ/gSA/Ur3c7fqBSnDPD6sXTbVUDAw18f7DwgIlRurN
+	13g92zH3hq6/aphg4o93o/RUOAmeD9RijpEpUQZrSjeUeh/o8u0e5Y0RNYd9ymCtl0pu
+	p+6oMI7voieQb5++T9hvTWbnvP7oza5EMvJPxpitcYRH/MPOgtfA44rrOQQpw7v+itug
+	sE/TBdg+3wI6U0npxSm/6UqzglWyl7Wb22/5TCUPLekETvjVvbyaCRBUOp9kTAj6Ng8l
+	m6h8zxGlz7cpHUkU40PuDmIgiv8ae3T3R8epUnvJFYdLEjRfPhmlU4GJS7dyfxzlrRSl
+	TM4g==
+X-Gm-Message-State: AJaThX7qtU353t3FwrVaRun0idPsxlB56vhk02A2vvw9iDNnkOLJrs9H
+	gnVJQ9tl8EvLM4SQBt0wdAog9g8cfLqa6oky6GI=
+X-Google-Smtp-Source: ABhQp+SmqOfq6VHu8sE6UIGTECX894Uva77RU6FQpfOorLrZ+NmIPer6Y1x3ScHqFONv1+ORGv4p429HSXG/RMSzBEg=
+X-Received: by 10.28.230.77 with SMTP id d74mr513679wmh.75.1510098014864; Tue,
+	07 Nov 2017 15:40:14 -0800 (PST)
+MIME-Version: 1.0
+Sender: alistair23@gmail.com
+Received: by 10.28.147.11 with HTTP; Tue, 7 Nov 2017 15:39:44 -0800 (PST)
+In-Reply-To: <90db7b51-f472-ebb6-2f45-c2fc3720443c@linux.intel.com>
+References: <20171107001706.10052-1-alistair.francis@xilinx.com>
+	<CAJTo0LYkCH6TNwGU27Av5-2UwpXZb7iogyM8ScQ_b6JA5jibFw@mail.gmail.com>
+	<90db7b51-f472-ebb6-2f45-c2fc3720443c@linux.intel.com>
+From: Alistair Francis <alistair.francis@xilinx.com>
+Date: Tue, 7 Nov 2017 15:39:44 -0800
+X-Google-Sender-Auth: qleorVTY25NWCRKo6xaxNyomadE
+Message-ID: <CAKmqyKM7evX-c_OctDz9-rU=CS7mNweyOjgn_hzWnAqQnjWwuw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib-2.0: Update to glib 2.53.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,448 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 23:34:46 -0000
+X-List-Received-Date: Tue, 07 Nov 2017 23:40:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Backport
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82445
+On Tue, Nov 7, 2017 at 7:04 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 11/07/2017 11:58 AM, Burton, Ross wrote:
+>>
+>> Odd major version numbers are development releases, so this won't be
+>> accepted into oe-core.
+>
+>
+> Not to mention that I have already sent an update to 2.54.1 earlier.
 
-Fixes [YOCTO 12297]
+Ah! I wish I had seen that earlier.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-6.4.inc              |   1 +
- ...5-suppress-32-bit-aligned-ldrd-strd-peeph.patch | 194 +++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-7.2.inc              |   1 +
- ...5-suppress-32-bit-aligned-ldrd-strd-peeph.patch | 194 +++++++++++++++++++++
- 4 files changed, 390 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
+Alistair
 
-diff --git a/meta/recipes-devtools/gcc/gcc-6.4.inc b/meta/recipes-devtools/gcc/gcc-6.4.inc
-index a42b7d83ca..37e996afb7 100644
---- a/meta/recipes-devtools/gcc/gcc-6.4.inc
-+++ b/meta/recipes-devtools/gcc/gcc-6.4.inc
-@@ -80,6 +80,7 @@ SRC_URI = "\
- "
- BACKPORTS = "\
-            file://CVE-2016-6131.patch \
-+           file://0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
- "
- SRC_URI[md5sum] = "11ba51a0cfb8471927f387c8895fe232"
- SRC_URI[sha256sum] = "850bf21eafdfe5cd5f6827148184c08c4a0852a37ccf36ce69855334d2c914d4"
-diff --git a/meta/recipes-devtools/gcc/gcc-6.4/0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch b/meta/recipes-devtools/gcc/gcc-6.4/0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
-new file mode 100644
-index 0000000000..0214ab83d9
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-6.4/0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
-@@ -0,0 +1,194 @@
-+From ad5bf450aef2ffee6d57ed193fabc5f72f8eaa65 Mon Sep 17 00:00:00 2001
-+From: rearnsha <rearnsha@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 19 Oct 2017 13:16:42 +0000
-+Subject: [PATCH] [ARM] PR 82445 - suppress 32-bit aligned ldrd/strd peepholing
-+ with -mno-unaligned-access
-+
-+Peephole patterns exist in the arm backend to spot load/store
-+operations to adjacent memory operations in order to convert them into
-+ldrd/strd instructions.  However, when we have strict alignment
-+enforced, then we can only do this if the accesses are known to be
-+64-bit aligned; this is unlikely to be the case for most loads.  The
-+patch adds some alignment checking to the code that validates the
-+addresses for use in the peephole patterns.  This should also fix
-+incorrect generation of ldrd/strd with unaligned accesses that could
-+previously have occurred on ARMv5e where all such operations must be
-+64-bit aligned.
-+
-+I've added some new tests as well.  In doing so I discovered that the
-+ldrd/strd peephole tests could never fail since they would match the
-+source file name in the scanned assembly as well as any instructions
-+of the intended type.  I've fixed those by tightening the scan results
-+slightly.
-+
-+gcc:
-+
-+* config/arm/arm.c (align_ok_ldrd_strd): New function.
-+(mem_ok_for_ldrd_strd): New parameter align.  Extract the alignment of the
-+mem into it.
-+(gen_operands_ldrd_strd): Validate the alignment of the accesses.
-+
-+testsuite:
-+
-+* gcc.target/arm/peep-ldrd-1.c: Tighten test scan pattern.
-+* gcc.target/arm/peep-strd-1.c: Likewise.
-+* gcc.target/arm/peep-ldrd-2.c: New test.
-+* gcc.target/arm/peep-strd-2.c: New test.
-+
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-6-branch@253892 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ gcc/ChangeLog                                      |  8 +++++++
-+ gcc/config/arm/arm.c                               | 27 ++++++++++++++++++----
-+ gcc/testsuite/ChangeLog                            |  8 +++++++
-+ gcc/testsuite/gcc.target/arm/peep-ldrd-1.c         |  2 +-
-+ .../arm/{peep-ldrd-1.c => peep-ldrd-2.c}           |  4 ++--
-+ gcc/testsuite/gcc.target/arm/peep-strd-1.c         |  2 +-
-+ .../arm/{peep-strd-1.c => peep-strd-2.c}           |  4 ++--
-+ 7 files changed, 44 insertions(+), 11 deletions(-)
-+ copy gcc/testsuite/gcc.target/arm/{peep-ldrd-1.c => peep-ldrd-2.c} (63%)
-+ copy gcc/testsuite/gcc.target/arm/{peep-strd-1.c => peep-strd-2.c} (58%)
-+
-+diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
-+index 9c0813d598d..e3da9f77fb6 100644
-+--- a/gcc/config/arm/arm.c
-++++ b/gcc/config/arm/arm.c
-+@@ -15926,12 +15926,23 @@ operands_ok_ldrd_strd (rtx rt, rtx rt2, rtx rn, HOST_WIDE_INT offset,
-+   return true;
-+ }
-+ 
-++/* Return true if a 64-bit access with alignment ALIGN and with a
-++   constant offset OFFSET from the base pointer is permitted on this
-++   architecture.  */
-++static bool
-++align_ok_ldrd_strd (HOST_WIDE_INT align, HOST_WIDE_INT offset)
-++{
-++  return (unaligned_access
-++	  ? (align >= BITS_PER_WORD && (offset & 3) == 0)
-++	  : (align >= 2 * BITS_PER_WORD && (offset & 7) == 0));
-++}
-++
-+ /* Helper for gen_operands_ldrd_strd.  Returns true iff the memory
-+    operand MEM's address contains an immediate offset from the base
-+-   register and has no side effects, in which case it sets BASE and
-+-   OFFSET accordingly.  */
-++   register and has no side effects, in which case it sets BASE,
-++   OFFSET and ALIGN accordingly.  */
-+ static bool
-+-mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset)
-++mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset, HOST_WIDE_INT *align)
-+ {
-+   rtx addr;
-+ 
-+@@ -15950,6 +15961,7 @@ mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset)
-+   gcc_assert (MEM_P (mem));
-+ 
-+   *offset = const0_rtx;
-++  *align = MEM_ALIGN (mem);
-+ 
-+   addr = XEXP (mem, 0);
-+ 
-+@@ -15990,7 +16002,7 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+                         bool const_store, bool commute)
-+ {
-+   int nops = 2;
-+-  HOST_WIDE_INT offsets[2], offset;
-++  HOST_WIDE_INT offsets[2], offset, align[2];
-+   rtx base = NULL_RTX;
-+   rtx cur_base, cur_offset, tmp;
-+   int i, gap;
-+@@ -16002,7 +16014,8 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+      registers, and the corresponding memory offsets.  */
-+   for (i = 0; i < nops; i++)
-+     {
-+-      if (!mem_ok_for_ldrd_strd (operands[nops+i], &cur_base, &cur_offset))
-++      if (!mem_ok_for_ldrd_strd (operands[nops+i], &cur_base, &cur_offset,
-++				 &align[i]))
-+         return false;
-+ 
-+       if (i == 0)
-+@@ -16114,6 +16127,7 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+       /* Swap the instructions such that lower memory is accessed first.  */
-+       std::swap (operands[0], operands[1]);
-+       std::swap (operands[2], operands[3]);
-++      std::swap (align[0], align[1]);
-+       if (const_store)
-+         std::swap (operands[4], operands[5]);
-+     }
-+@@ -16127,6 +16141,9 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+   if (gap != 4)
-+     return false;
-+ 
-++  if (!align_ok_ldrd_strd (align[0], offset))
-++    return false;
-++
-+   /* Make sure we generate legal instructions.  */
-+   if (operands_ok_ldrd_strd (operands[0], operands[1], base, offset,
-+                              false, load))
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c b/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-+index eb2b86ee7b6..d49eff6b87e 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-+@@ -8,4 +8,4 @@ int foo(int a, int b, int* p, int *q)
-+   *p = a;
-+   return a;
-+ }
-+-/* { dg-final { scan-assembler "ldrd" } } */
-++/* { dg-final { scan-assembler "ldrd\\t" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c b/gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
-+similarity index 63%
-+copy from gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-+copy to gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
-+index eb2b86ee7b6..6822c2b1454 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-require-effective-target arm_prefer_ldrd_strd } */
-+-/* { dg-options "-O2" }  */
-++/* { dg-options "-O2 -mno-unaligned-access" }  */
-+ int foo(int a, int b, int* p, int *q)
-+ {
-+   a = p[2] + p[3];
-+@@ -8,4 +8,4 @@ int foo(int a, int b, int* p, int *q)
-+   *p = a;
-+   return a;
-+ }
-+-/* { dg-final { scan-assembler "ldrd" } } */
-++/* { dg-final { scan-assembler-not "ldrd\\t" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-strd-1.c b/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-+index bd330769599..fe1beac7229 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-+@@ -6,4 +6,4 @@ void foo(int a, int b, int* p)
-+   p[2] = a;
-+   p[3] = b;
-+ }
-+-/* { dg-final { scan-assembler "strd" } } */
-++/* { dg-final { scan-assembler "strd\\t" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-strd-1.c b/gcc/testsuite/gcc.target/arm/peep-strd-2.c
-+similarity index 58%
-+copy from gcc/testsuite/gcc.target/arm/peep-strd-1.c
-+copy to gcc/testsuite/gcc.target/arm/peep-strd-2.c
-+index bd330769599..bfc5ebe9eec 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-strd-2.c
-+@@ -1,9 +1,9 @@
-+ /* { dg-do compile } */
-+ /* { dg-require-effective-target arm_prefer_ldrd_strd } */
-+-/* { dg-options "-O2" }  */
-++/* { dg-options "-O2 -mno-unaligned-access" }  */
-+ void foo(int a, int b, int* p)
-+ {
-+   p[2] = a;
-+   p[3] = b;
-+ }
-+-/* { dg-final { scan-assembler "strd" } } */
-++/* { dg-final { scan-assembler-not "strd\\t" } } */
-+-- 
-+2.15.0
-+
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-index 04edad77cb..02b8e03482 100644
---- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-@@ -79,6 +79,7 @@ SRC_URI = "\
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-+           file://0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch \
- "
- SRC_URI[md5sum] = "ff370482573133a7fcdd96cd2f552292"
- SRC_URI[sha256sum] = "1cf7adf8ff4b5aa49041c8734bbcf1ad18cc4c94d0029aae0f4e48841088479a"
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch b/meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
-new file mode 100644
-index 0000000000..021250700d
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
-@@ -0,0 +1,194 @@
-+From 8c18b422211878ba02503462cb22a2cc25a0a325 Mon Sep 17 00:00:00 2001
-+From: rearnsha <rearnsha@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Thu, 19 Oct 2017 13:14:55 +0000
-+Subject: [PATCH] [ARM] PR 82445 - suppress 32-bit aligned ldrd/strd peepholing
-+ with -mno-unaligned-access
-+
-+Peephole patterns exist in the arm backend to spot load/store
-+operations to adjacent memory operations in order to convert them into
-+ldrd/strd instructions.  However, when we have strict alignment
-+enforced, then we can only do this if the accesses are known to be
-+64-bit aligned; this is unlikely to be the case for most loads.  The
-+patch adds some alignment checking to the code that validates the
-+addresses for use in the peephole patterns.  This should also fix
-+incorrect generation of ldrd/strd with unaligned accesses that could
-+previously have occurred on ARMv5e where all such operations must be
-+64-bit aligned.
-+
-+I've added some new tests as well.  In doing so I discovered that the
-+ldrd/strd peephole tests could never fail since they would match the
-+source file name in the scanned assembly as well as any instructions
-+of the intended type.  I've fixed those by tightening the scan results
-+slightly.
-+
-+gcc:
-+
-+* config/arm/arm.c (align_ok_ldrd_strd): New function.
-+(mem_ok_for_ldrd_strd): New parameter align.  Extract the alignment of the
-+mem into it.
-+(gen_operands_ldrd_strd): Validate the alignment of the accesses.
-+
-+testsuite:
-+
-+* gcc.target/arm/peep-ldrd-1.c: Tighten test scan pattern.
-+* gcc.target/arm/peep-strd-1.c: Likewise.
-+* gcc.target/arm/peep-ldrd-2.c: New test.
-+* gcc.target/arm/peep-strd-2.c: New test.
-+
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-7-branch@253891 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+ gcc/ChangeLog                                      |  8 +++++++
-+ gcc/config/arm/arm.c                               | 27 ++++++++++++++++++----
-+ gcc/testsuite/ChangeLog                            |  8 +++++++
-+ gcc/testsuite/gcc.target/arm/peep-ldrd-1.c         |  2 +-
-+ .../arm/{peep-ldrd-1.c => peep-ldrd-2.c}           |  4 ++--
-+ gcc/testsuite/gcc.target/arm/peep-strd-1.c         |  2 +-
-+ .../arm/{peep-strd-1.c => peep-strd-2.c}           |  4 ++--
-+ 7 files changed, 44 insertions(+), 11 deletions(-)
-+ copy gcc/testsuite/gcc.target/arm/{peep-ldrd-1.c => peep-ldrd-2.c} (63%)
-+ copy gcc/testsuite/gcc.target/arm/{peep-strd-1.c => peep-strd-2.c} (58%)
-+
-+diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
-+index 1ded0d2a17d..989957f048e 100644
-+--- a/gcc/config/arm/arm.c
-++++ b/gcc/config/arm/arm.c
-+@@ -15199,12 +15199,23 @@ operands_ok_ldrd_strd (rtx rt, rtx rt2, rtx rn, HOST_WIDE_INT offset,
-+   return true;
-+ }
-+ 
-++/* Return true if a 64-bit access with alignment ALIGN and with a
-++   constant offset OFFSET from the base pointer is permitted on this
-++   architecture.  */
-++static bool
-++align_ok_ldrd_strd (HOST_WIDE_INT align, HOST_WIDE_INT offset)
-++{
-++  return (unaligned_access
-++	  ? (align >= BITS_PER_WORD && (offset & 3) == 0)
-++	  : (align >= 2 * BITS_PER_WORD && (offset & 7) == 0));
-++}
-++
-+ /* Helper for gen_operands_ldrd_strd.  Returns true iff the memory
-+    operand MEM's address contains an immediate offset from the base
-+-   register and has no side effects, in which case it sets BASE and
-+-   OFFSET accordingly.  */
-++   register and has no side effects, in which case it sets BASE,
-++   OFFSET and ALIGN accordingly.  */
-+ static bool
-+-mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset)
-++mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset, HOST_WIDE_INT *align)
-+ {
-+   rtx addr;
-+ 
-+@@ -15223,6 +15234,7 @@ mem_ok_for_ldrd_strd (rtx mem, rtx *base, rtx *offset)
-+   gcc_assert (MEM_P (mem));
-+ 
-+   *offset = const0_rtx;
-++  *align = MEM_ALIGN (mem);
-+ 
-+   addr = XEXP (mem, 0);
-+ 
-+@@ -15263,7 +15275,7 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+                         bool const_store, bool commute)
-+ {
-+   int nops = 2;
-+-  HOST_WIDE_INT offsets[2], offset;
-++  HOST_WIDE_INT offsets[2], offset, align[2];
-+   rtx base = NULL_RTX;
-+   rtx cur_base, cur_offset, tmp;
-+   int i, gap;
-+@@ -15275,7 +15287,8 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+      registers, and the corresponding memory offsets.  */
-+   for (i = 0; i < nops; i++)
-+     {
-+-      if (!mem_ok_for_ldrd_strd (operands[nops+i], &cur_base, &cur_offset))
-++      if (!mem_ok_for_ldrd_strd (operands[nops+i], &cur_base, &cur_offset,
-++				 &align[i]))
-+         return false;
-+ 
-+       if (i == 0)
-+@@ -15389,6 +15402,7 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+       /* Swap the instructions such that lower memory is accessed first.  */
-+       std::swap (operands[0], operands[1]);
-+       std::swap (operands[2], operands[3]);
-++      std::swap (align[0], align[1]);
-+       if (const_store)
-+         std::swap (operands[4], operands[5]);
-+     }
-+@@ -15402,6 +15416,9 @@ gen_operands_ldrd_strd (rtx *operands, bool load,
-+   if (gap != 4)
-+     return false;
-+ 
-++  if (!align_ok_ldrd_strd (align[0], offset))
-++    return false;
-++
-+   /* Make sure we generate legal instructions.  */
-+   if (operands_ok_ldrd_strd (operands[0], operands[1], base, offset,
-+                              false, load))
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c b/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-+index eb2b86ee7b6..d49eff6b87e 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-+@@ -8,4 +8,4 @@ int foo(int a, int b, int* p, int *q)
-+   *p = a;
-+   return a;
-+ }
-+-/* { dg-final { scan-assembler "ldrd" } } */
-++/* { dg-final { scan-assembler "ldrd\\t" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c b/gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
-+similarity index 63%
-+copy from gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-+copy to gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
-+index eb2b86ee7b6..6822c2b1454 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-ldrd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-ldrd-2.c
-+@@ -1,6 +1,6 @@
-+ /* { dg-do compile } */
-+ /* { dg-require-effective-target arm_prefer_ldrd_strd } */
-+-/* { dg-options "-O2" }  */
-++/* { dg-options "-O2 -mno-unaligned-access" }  */
-+ int foo(int a, int b, int* p, int *q)
-+ {
-+   a = p[2] + p[3];
-+@@ -8,4 +8,4 @@ int foo(int a, int b, int* p, int *q)
-+   *p = a;
-+   return a;
-+ }
-+-/* { dg-final { scan-assembler "ldrd" } } */
-++/* { dg-final { scan-assembler-not "ldrd\\t" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-strd-1.c b/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-+index bd330769599..fe1beac7229 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-+@@ -6,4 +6,4 @@ void foo(int a, int b, int* p)
-+   p[2] = a;
-+   p[3] = b;
-+ }
-+-/* { dg-final { scan-assembler "strd" } } */
-++/* { dg-final { scan-assembler "strd\\t" } } */
-+diff --git a/gcc/testsuite/gcc.target/arm/peep-strd-1.c b/gcc/testsuite/gcc.target/arm/peep-strd-2.c
-+similarity index 58%
-+copy from gcc/testsuite/gcc.target/arm/peep-strd-1.c
-+copy to gcc/testsuite/gcc.target/arm/peep-strd-2.c
-+index bd330769599..bfc5ebe9eec 100644
-+--- a/gcc/testsuite/gcc.target/arm/peep-strd-1.c
-++++ b/gcc/testsuite/gcc.target/arm/peep-strd-2.c
-+@@ -1,9 +1,9 @@
-+ /* { dg-do compile } */
-+ /* { dg-require-effective-target arm_prefer_ldrd_strd } */
-+-/* { dg-options "-O2" }  */
-++/* { dg-options "-O2 -mno-unaligned-access" }  */
-+ void foo(int a, int b, int* p)
-+ {
-+   p[2] = a;
-+   p[3] = b;
-+ }
-+-/* { dg-final { scan-assembler "strd" } } */
-++/* { dg-final { scan-assembler-not "strd\\t" } } */
-+-- 
-+2.15.0
-+
--- 
-2.15.0
-
+>
+> Alex
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
