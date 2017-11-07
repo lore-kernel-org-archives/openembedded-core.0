@@ -1,31 +1,47 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6D726007A
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
+	[209.85.128.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 203ED6007A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Nov 2017 21:20:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vA7LKVjg024810
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Nov 2017 13:20:31 -0800 (PST)
-Received: from [172.25.44.7] (172.25.44.7) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 7 Nov 2017 13:20:30 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>, Alistair Francis <alistair.francis@xilinx.com>
-References: <20171107001706.10052-1-alistair.francis@xilinx.com>
-	<CAJTo0LYkCH6TNwGU27Av5-2UwpXZb7iogyM8ScQ_b6JA5jibFw@mail.gmail.com>
-	<90db7b51-f472-ebb6-2f45-c2fc3720443c@linux.intel.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <e59a944e-af2b-f734-bd9a-161684de59f6@windriver.com>
-Date: Tue, 7 Nov 2017 16:20:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Tue,  7 Nov 2017 21:26:58 +0000 (UTC)
+Received: by mail-wr0-f194.google.com with SMTP id l22so539077wrc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Nov 2017 13:27:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=KfdOs1fRLqnlDZ0dWWvHQsSipwkpqRpd9j/bc36An/k=;
+	b=B/DJNJOXpaaK9V+Ukrj71EX1OQ2k5n7uj8kiJogg7jYbnvyioE/BHbVa9kCR6qbm9X
+	WvZm9A+dbInIwbZpzhH4HhZXmuRCOFoycKWQDZ7WKN3BqdV7dC+e10DH7l1+FDsh3qRF
+	ouNwN0nQK5QPxlO+oisCDdACmFy66LF/4Q9Nwc8+xkqP+zEdztBVEUHNfyjGuBy9L1se
+	0h0EROIFQ0yprb4m75A84fEU2f4Dmdms1qplaDxlqHYuISeawWWoqcaVVZZPeUfJOlZq
+	JnQW3xxmG5U76FmQpe7OiaOS+pjX0RITetGNQ8hde/yUwyFlHANQSJdEEUxD1zUd5LIE
+	UPeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=KfdOs1fRLqnlDZ0dWWvHQsSipwkpqRpd9j/bc36An/k=;
+	b=sgbsUHkEvvxZNvOtwARfMZfYcU0OaJTBvo8fGLqhMRbVNxzvOxujfHI2ChY7dcl7Ci
+	nQVpQa7qs84pIrYUndvPo0CkCTRvtKyoKthwXpfCAoYjmn2JivPXbAm3u76gXa6UmXQI
+	dcK36hTgrDmm/oFPIFOYO+buSsecCXpl2GWE9YAnd5TGn7FLPzHNGCh07GdD4HMRmcEr
+	9is8USMkY3rRnRuKP766I31IxKsqW2Lj3EzeDs6BlzugI801TLxddoj2s4nJwmgTkJTv
+	PARQcjYN/ziLZVtEYNgnrt3bhCIrjYldALmg8dWsmkLgaWlEvKpQjSxy7Y5OCAc09TgM
+	sWqQ==
+X-Gm-Message-State: AJaThX6SyQo2iYfvdc/zFov4D401SzQMbAOsnKP9pS3xuRKGxT3yCK+y
+	lmDW+BwAMvnNwlJolupbczylivoJwqo6HiIgGQ8=
+X-Google-Smtp-Source: ABhQp+T8mJ8S3LW2ezK0j32n4OLAAnpB1s2kuXT+pw7RuXRzZCY7+BmBWz4iY8Noq2nAXksAxwP7qF9H4Wiu6tq9K2w=
+X-Received: by 10.223.146.197 with SMTP id 63mr85123wrn.180.1510090019700;
+	Tue, 07 Nov 2017 13:26:59 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <90db7b51-f472-ebb6-2f45-c2fc3720443c@linux.intel.com>
-X-Originating-IP: [172.25.44.7]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-2.0: Update to glib 2.53.7
+Received: by 10.223.199.140 with HTTP; Tue, 7 Nov 2017 13:26:59 -0800 (PST)
+In-Reply-To: <1509740960-11858-1-git-send-email-armccurdy@gmail.com>
+References: <1509740960-11858-1-git-send-email-armccurdy@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 7 Nov 2017 13:26:59 -0800
+Message-ID: <CAJ86T=XzAMk3NzE7sDauXEcu0Arbkcfjao_KPhE5c-5dcX2hsw@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: Re: [morty][PATCH] libevdev: add libcheck dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 21:20:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Nov 2017 21:26:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2017-11-07 10:04 AM, Alexander Kanavin wrote:
-> On 11/07/2017 11:58 AM, Burton, Ross wrote:
->> Odd major version numbers are development releases, so this won't be 
->> accepted into oe-core.
-> 
-> Not to mention that I have already sent an update to 2.54.1 earlier.
-> 
-> Alex
+On Fri, Nov 3, 2017 at 1:29 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> The libevdev configure script contains an unconditional check for
+> libcheck. If libcheck is found, libevdev unit tests will be built.
+>
+> Without a dependency, the presence of libcheck in sysroot is non
+> deterministic (in morty and earlier) and builds can fail if libcheck
+> is available during do_configure but not during do_compile.
+>
+> (In pyro and later, the libcheck dependency is not required to make
+> libevdev builds deterministic due to recipe specific sysroots).
 
-but thanks for sending your work to the list, Alistair.
+Ping. CCing Armin.
 
-If you are interested in maintaining this or other packages,
-just say so. There is a maintainer's list but we could
-certainly spread out responsibility if you volunteer.
-    http://recipes.yoctoproject.org/rrs/recipes/2.5/M1/
-
-
-
--- 
-# Randy MacLeod.  WR Linux
-# Wind River an Intel Company
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  meta/recipes-support/libevdev/libevdev_1.5.2.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-support/libevdev/libevdev_1.5.2.bb b/meta/recipes-support/libevdev/libevdev_1.5.2.bb
+> index c76e1d7..381d252 100644
+> --- a/meta/recipes-support/libevdev/libevdev_1.5.2.bb
+> +++ b/meta/recipes-support/libevdev/libevdev_1.5.2.bb
+> @@ -6,6 +6,8 @@ LICENSE = "MIT-X"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
+>                      file://libevdev/libevdev.h;endline=21;md5=7ff4f0b5113252c2f1a828e0bbad98d1"
+>
+> +DEPENDS = "libcheck"
+> +
+>  SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz"
+>
+>  SRC_URI[md5sum] = "96ad6edb5ce5c4428f1b183cc180ff8c"
+> --
+> 1.9.1
+>
 
