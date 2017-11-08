@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D2F896AC00
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 93D1D6AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Nov 2017 02:32:27 +0000 (UTC)
+	Wed,  8 Nov 2017 02:32:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vA82WSSY029839
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vA82WUlV017127
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Nov 2017 18:32:28 -0800 (PST)
+	Tue, 7 Nov 2017 18:32:30 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 7 Nov 2017 18:32:27 -0800
+	14.3.361.1; Tue, 7 Nov 2017 18:32:29 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Nov 2017 10:33:50 +0800
-Message-ID: <cover.1510108243.git.Qi.Chen@windriver.com>
+Date: Wed, 8 Nov 2017 10:33:51 +0800
+Message-ID: <e0d1ae798d09b2e515405945076b16c2c03a0042.1510108243.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1510108243.git.Qi.Chen@windriver.com>
+References: <cover.1510108243.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] gcc: backport patch to fix miscompilation problem on mips64
+Subject: [PATCH 1/2] systemd: remove useless options for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +36,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 08 Nov 2017 02:32:28 -0000
 Content-Type: text/plain
 
-The following changes since commit 2e1eb9ab12802d52465e6ae636c3f6a40ffb098c:
+Looking back the history, we had problem with systemd on qemumips64
+which is also related to compilation flags. We solved that by using
+tweaking FULL_OPTIMIZATION for mips64 to have "-fno-tree-switch-conversion
+-fno-tree-tail-merge".
 
-  bitbake: tests/fetch: Add ftp test url (2017-11-07 15:02:19 +0000)
+Now systemd has been upgraded to 234, and we don't have the above problem
+any more, thus removing these flags.
 
-are available in the git repository at:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_234.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-  git://git.pokylinux.org/poky-contrib ChenQi/bug12266
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/bug12266
-
-Chen Qi (2):
-  systemd: remove useless options for mips64
-  gcc: backport patch to fix miscompilation on mips64
-
- meta/recipes-core/systemd/systemd_234.bb           |  3 --
- meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
- .../gcc-7.2/0001-PR-rtl-optimization-81803.patch   | 52 ++++++++++++++++++++++
- 3 files changed, 53 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0001-PR-rtl-optimization-81803.patch
-
+diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
+index 36fd3f8..971226f 100644
+--- a/meta/recipes-core/systemd/systemd_234.bb
++++ b/meta/recipes-core/systemd/systemd_234.bb
+@@ -158,9 +158,6 @@ CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', ''
+ # disable problematic GCC 5.2 optimizations [YOCTO #8291]
+ FULL_OPTIMIZATION_append_arm = " -fno-schedule-insns -fno-schedule-insns2"
+ 
+-# Avoid login failure on qemumips64 when pam is enabled
+-FULL_OPTIMIZATION_append_mips64 = " -fno-tree-switch-conversion -fno-tree-tail-merge"
+-
+ COMPILER_NM ?= "${HOST_PREFIX}gcc-nm"
+ COMPILER_AR ?= "${HOST_PREFIX}gcc-ar"
+ COMPILER_RANLIB ?= "${HOST_PREFIX}gcc-ranlib"
 -- 
 1.9.1
 
