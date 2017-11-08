@@ -1,32 +1,31 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F39BE71BE5
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ABD671BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Nov 2017 13:09:41 +0000 (UTC)
+	Wed,  8 Nov 2017 13:14:22 +0000 (UTC)
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Nov 2017 05:09:42 -0800
+	by fmsmga105.fm.intel.com with ESMTP; 08 Nov 2017 05:14:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,364,1505804400"; d="scan'208";a="173688660"
+X-IronPort-AV: E=Sophos;i="5.44,364,1505804400"; d="scan'208";a="173690610"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
 	([10.237.68.161])
-	by fmsmga006.fm.intel.com with ESMTP; 08 Nov 2017 05:09:41 -0800
-To: Paul Eggleton <paul.eggleton@intel.com>
-References: <499138bd-32cc-1487-e36e-fc4e5aceb4b2@linux.intel.com>
-	<14953303.KfuyF98Oh2@peggleto-mobl.ger.corp.intel.com>
-	<a01ffbee-b133-0481-9836-11239fad8294@linux.intel.com>
-	<2194500.PL2B6VVPY9@peggleto-mobl.ger.corp.intel.com>
+	by fmsmga006.fm.intel.com with ESMTP; 08 Nov 2017 05:14:23 -0800
+To: Neal Gompa <ngompa13@gmail.com>
+References: <20171018121423.1310-1-alexander.kanavin@linux.intel.com>
+	<264c9619-62e7-ef43-9412-f00e9a1028ba@linux.intel.com>
+	<634edf6c-23d9-1dbf-6c51-caef2f30c06f@windriver.com>
+	<d4391631-e05e-bae9-363e-6d9fb7f3e3b6@linux.intel.com>
+	<CAEg-Je-MW3k897aKZmmjh4Q-eFD8Kko=7FLRByv19sGYK1ZxRg@mail.gmail.com>
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <dbfc55d1-aac9-e1e6-c440-7d0e3bae60a0@linux.intel.com>
-Date: Wed, 8 Nov 2017 15:09:48 +0200
+Message-ID: <0afcb034-1acf-3a4b-b27a-010b7073a308@linux.intel.com>
+Date: Wed, 8 Nov 2017 15:14:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <2194500.PL2B6VVPY9@peggleto-mobl.ger.corp.intel.com>
-Cc: Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: automatic recipe upgrades - making them better and sweeter
+In-Reply-To: <CAEg-Je-MW3k897aKZmmjh4Q-eFD8Kko=7FLRByv19sGYK1ZxRg@mail.gmail.com>
+Cc: Mark Wielaard <mjw@redhat.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rpm: update to 4.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Nov 2017 13:09:42 -0000
+X-List-Received-Date: Wed, 08 Nov 2017 13:14:23 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 11/07/2017 10:17 PM, Paul Eggleton wrote:
+On 11/07/2017 11:17 PM, Neal Gompa wrote:
 
-> So there is a method to this madness, but it's less about your use case than
-> it is people making customisations that they are best advised to put somewhere
-> else - I'm trying to make the user think about where the changes should go
-> beforehand, because the nature of devtool finish is that you can't easily go
-> back and shift the changes elsewhere after you've run it. It would be trivial
-> to add an option that put the recipe back where it came from without you
-> having to be explicit though, so we could add that; potentially we could have
-> a configuration option to make that the default for you and others who more
-> commonly update the base metadata. Otherwise, I'm open to alternative
-> suggestions, but preferably I still want to avoid making it easy for users to
-> make a mistake and update the original metadata when they really should have
-> pointed it at their own layer.
-
-That's fine with me. Unlike specifying version/revision on the command 
-line (which at the moment need to be manually determined, and change 
-every time), the layer destination is more or less static and can be 
-hardcoded in a wrapper (or finger memory).
+>> Thanks, this is the offending commit:
+>>
+>> https://github.com/rpm-software-management/rpm/commit/88989572fff1f31e0c4f972a6895585e4742ef4b
+>>
+>> Looks like they added sophisticated in-place processing/rewriting of the
+>> actual binary (that is not possible to switch off). And it fails in case of
+>> grub modules.
+>>
+>> We, on the other hand, only need to extract the list of debug source code
+>> files. Any hint on how to do that without the use of rpm/debugedit? Perhaps
+>> something from binutils/elfutils?
+>>
+> 
+> This is the first time I'm hearing of this. Has anyone talked to Mark
+> Wielaard (CC'd to this email) about fixing this properly for you guys?
+We don't have any particular interest in debugedit though. It is only 
+used as a crutch to extract the debug source locations. If readelf can 
+do the same thing, we'll use that - please do understand that reporting 
+issues upstream costs time, especially if upstream replies with 
+NEEDINFO, WORKSFORME or WONTFIX type of thing, so we prioritize what's 
+truly critical :)
 
 Alex
 
