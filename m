@@ -1,33 +1,32 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id EB26278371
+	by mail.openembedded.org (Postfix) with ESMTP id F39BE71BE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Nov 2017 12:35:22 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	Wed,  8 Nov 2017 13:09:41 +0000 (UTC)
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Nov 2017 04:35:24 -0800
+	08 Nov 2017 05:09:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,364,1505804400"; 
-   d="scan'208";a="5112480"
-Received: from linux.intel.com ([10.54.29.200])
-	by orsmga002.jf.intel.com with ESMTP; 08 Nov 2017 04:35:23 -0800
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTPS id CD2215804B9;
-	Wed,  8 Nov 2017 04:35:22 -0800 (PST)
-Date: Wed, 8 Nov 2017 13:22:56 +0200
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Message-ID: <20171108112256.udvvxgccwdff7pkx@linux.intel.com>
-Reply-To: ed.bartosh@linux.intel.com
-References: <20171108110409.19900-1-nicolas.dechesne@linaro.org>
+X-IronPort-AV: E=Sophos;i="5.44,364,1505804400"; d="scan'208";a="173688660"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
+	([10.237.68.161])
+	by fmsmga006.fm.intel.com with ESMTP; 08 Nov 2017 05:09:41 -0800
+To: Paul Eggleton <paul.eggleton@intel.com>
+References: <499138bd-32cc-1487-e36e-fc4e5aceb4b2@linux.intel.com>
+	<14953303.KfuyF98Oh2@peggleto-mobl.ger.corp.intel.com>
+	<a01ffbee-b133-0481-9836-11239fad8294@linux.intel.com>
+	<2194500.PL2B6VVPY9@peggleto-mobl.ger.corp.intel.com>
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <dbfc55d1-aac9-e1e6-c440-7d0e3bae60a0@linux.intel.com>
+Date: Wed, 8 Nov 2017 15:09:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-In-Reply-To: <20171108110409.19900-1-nicolas.dechesne@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: NeoMutt/20170421 (1.8.2)
-Cc: akuster@mvista.com, openembedded-core@lists.openembedded.org
-Subject: Re: [rocko][PATCH] wic: add 'part-name' argument for naming GPT partitions
+In-Reply-To: <2194500.PL2B6VVPY9@peggleto-mobl.ger.corp.intel.com>
+Cc: Leonardo Sandoval <leonardo.sandoval.gonzalez@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: automatic recipe upgrades - making them better and sweeter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,113 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Nov 2017 12:35:23 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Nov 2017 13:09:42 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 08, 2017 at 12:04:09PM +0100, Nicolas Dechesne wrote:
-> From: Artur Mądrzak <artur@madrzak.eu>
-> 
-> The WIC's 'part' can now give a name for GPT partition in WKS file.
-> It's similar to '--label', but is naming partintions instead file systems.
-> It's required by some bootloaders to partitions have specified names.
-> 
-> Backport from master, without it WIC cannot be used on Qualcomm based machines.
-> 
+On 11/07/2017 10:17 PM, Paul Eggleton wrote:
 
-+1
+> So there is a method to this madness, but it's less about your use case than
+> it is people making customisations that they are best advised to put somewhere
+> else - I'm trying to make the user think about where the changes should go
+> beforehand, because the nature of devtool finish is that you can't easily go
+> back and shift the changes elsewhere after you've run it. It would be trivial
+> to add an option that put the recipe back where it came from without you
+> having to be explicit though, so we could add that; potentially we could have
+> a configuration option to make that the default for you and others who more
+> commonly update the base metadata. Otherwise, I'm open to alternative
+> suggestions, but preferably I still want to avoid making it easy for users to
+> make a mistake and update the original metadata when they really should have
+> pointed it at their own layer.
 
-Thanks for the patch!
+That's fine with me. Unlike specifying version/revision on the command 
+line (which at the moment need to be manually determined, and change 
+every time), the layer destination is more or less static and can be 
+hardcoded in a wrapper (or finger memory).
 
-> Signed-off-by: Artur Mądrzak <artur@madrzak.eu>
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 9b60e3466ed7cff0cea10815851eb1304002eb52)
-> ---
->  scripts/lib/wic/help.py                  |  2 ++
->  scripts/lib/wic/ksparser.py              |  1 +
->  scripts/lib/wic/partition.py             |  1 +
->  scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
->  4 files changed, 15 insertions(+)
-> 
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index bd9c62e2e8..2ac45e052e 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -970,6 +970,8 @@ DESCRIPTION
->                              This option cannot be used with --fixed-size
->                              option.
->  
-> +         --part-name: This option is specific to wic. It specifies name for GPT partitions.
-> +
->           --part-type: This option is specific to wic. It specifies partition
->                        type GUID for GPT partitions.
->                        List of partition type GUIDS can be found here:
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index 99b66eebc5..7850e81d2f 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -144,6 +144,7 @@ class KickStart():
->          part.add_argument('--no-table', action='store_true')
->          part.add_argument('--ondisk', '--ondrive', dest='disk', default='sda')
->          part.add_argument("--overhead-factor", type=overheadtype)
-> +        part.add_argument('--part-name')
->          part.add_argument('--part-type')
->          part.add_argument('--rootfs-dir')
->  
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index b623bb9e6d..66e61ba70c 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -51,6 +51,7 @@ class Partition():
->          self.no_table = args.no_table
->          self.num = None
->          self.overhead_factor = args.overhead_factor
-> +        self.part_name = args.part_name
->          self.part_type = args.part_type
->          self.rootfs_dir = args.rootfs_dir
->          self.size = args.size
-> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-> index 60317eed22..bdb8385620 100644
-> --- a/scripts/lib/wic/plugins/imager/direct.py
-> +++ b/scripts/lib/wic/plugins/imager/direct.py
-> @@ -366,6 +366,10 @@ class PartitionedImage():
->          for num in range(len(self.partitions)):
->              part = self.partitions[num]
->  
-> +            if self.ptable_format == 'msdos' and part.part_name:
-> +                raise WicError("setting custom partition name is not " \
-> +                               "implemented for msdos partitions")
-> +
->              if self.ptable_format == 'msdos' and part.part_type:
->                  # The --part-type can also be implemented for MBR partitions,
->                  # in which case it would map to the 1-byte "partition type"
-> @@ -519,6 +523,13 @@ class PartitionedImage():
->              self._create_partition(self.path, part.type,
->                                     parted_fs_type, part.start, part.size_sec)
->  
-> +            if part.part_name:
-> +                logger.debug("partition %d: set name to %s",
-> +                             part.num, part.part_name)
-> +                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
-> +                                         (part.num, part.part_name,
-> +                                          self.path), self.native_sysroot)
-> +
->              if part.part_type:
->                  logger.debug("partition %d: set type UID to %s",
->                               part.num, part.part_type)
-> -- 
-> 2.15.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
--- 
---
-Regards,
-Ed
+Alex
 
