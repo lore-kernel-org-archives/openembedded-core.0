@@ -1,47 +1,49 @@
 Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qt0-f182.google.com (mail-qt0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B8FB77F34
+Received: from mail-wm0-f45.google.com (mail-wm0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id E334377F34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Nov 2017 11:03:03 +0000 (UTC)
-Received: by mail-qt0-f182.google.com with SMTP id 8so2766651qtv.1
+	Wed,  8 Nov 2017 11:04:31 +0000 (UTC)
+Received: by mail-wm0-f45.google.com with SMTP id r196so9903289wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Nov 2017 03:03:05 -0800 (PST)
+	Wed, 08 Nov 2017 03:04:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=LUL399MkCx3KmAPi3BxC+JQ/rmRdqxKh1kHfU8MHwK8=;
-	b=gkoPRqb1NNpn0al0wO3g3Q95CzfAtB0bSDwLtIgCRgYS4JIQMRZmLMdiMwHcEcPTHK
-	oduO1UfykDl3669t79oKmI8oeXU9YSk/jjmXk9gENC81lzGDtXDr9ycgMe81BfvZYKlk
-	JF6uQxgmTtnCk26wJNI86+wENi++V8lkjWcsk=
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=M+a+ZvfJvLJ75IaFykr4kn5YHooRLNqrLO0SBxpgKkg=;
+	b=i5i8k7ebvMB36u/w1LOMmvMWIvfLYn5TJ3H8KMYxWxwnb0Rss0zFpkPi3dmVAxI0C1
+	BQufCo66KxBkzJbRpui+ONqcU6Ga3aJLyFwWjDNhtJ10veIzQym1geKsWb6wiug9w/Is
+	8dur7ZTrazdHb7HU5NCc5JllKzRfxOVCBVpvU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=LUL399MkCx3KmAPi3BxC+JQ/rmRdqxKh1kHfU8MHwK8=;
-	b=Ev8n0cbN+JAQ67EqYF3ieOd9Q9v9AGx4UvxG6by9AukTCpzrwMkFIpetDPOMiCLR/W
-	hS6jrjWR0t3JZ/V200RifnlYOMUoiQ3cOi1nhwn4S/Ylev1I1LkKXXSSASSVIsGDdkrv
-	Sdej5jZQTomQZKsOVmZ1SSNyehstcNi9YKWKENInBVQTjxTV1UeofPoM1uaC99DczGcd
-	UHKqGF5y9TJlCFMeJwgbeAQHGaGxPziL4ZCRysk8YFwaGiTDefuN4g6PBsVVpVdIfmaL
-	6E6Qv7sPmlaGE85knlE/KEuDsctnmnESMcZsWJADJLEPvGmtq7+vDYMs62VrsVq/CzHl
-	4O7g==
-X-Gm-Message-State: AJaThX7ZnBL8wa+xzieQHSLrBZrgIssk5F/JXClxtitpD4Qc4CgkfDQv
-	sYdb3EjO5269vqeN3ibO+ROQE+uN4TUCTzacPp3YaA==
-X-Google-Smtp-Source: AGs4zMb8ItKWhi0SQV8XnFR/e6TMDxeY6Qwk8RNBhREBpa+vFfGL+NSJHYKoMwrxNxZ5j2OS8dYgI+O7ILeNP3TfBpw=
-X-Received: by 10.200.46.22 with SMTP id r22mr117777qta.63.1510138984689; Wed,
-	08 Nov 2017 03:03:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.81.81 with HTTP; Wed, 8 Nov 2017 03:02:43 -0800 (PST)
-In-Reply-To: <20171107200707.GA9864@mobilek>
-References: <20171107200707.GA9864@mobilek>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=M+a+ZvfJvLJ75IaFykr4kn5YHooRLNqrLO0SBxpgKkg=;
+	b=ST854fhvpy80vVMoEgeoPzC2pvu6jnEgorKZutIlM6wTeoNPin/Uoe9xAJO+Ymg7IU
+	rW0d5PDO7vzwAJyJOAGw22KT518BqgKGDYnsU1kE9uxY6zVcK7YworxcBrTwtflza23w
+	tQsJnSnQw6aGNanP7h49lfpklvEAS0BDPBRiPmHBBYSF11En0MRHjRlOAZaLdXFJy5DV
+	/GN/U6V8piX6sFEaw1efAb/oSkLReg5AfC3IfNmLn8FPwgZBfpnWaRFc+/spVJuO3C/w
+	iXqAsym3UGkMW1zN6oZMRgzO66ZSx7Ty6SnyYUMurRy8sKo7BygQ/fQztorXMjpVWS4Q
+	yoJg==
+X-Gm-Message-State: AJaThX7V21aID8ex2PBw5tX61YoTMOw2Y69d0FNYuehXTeRe2DT+kUU9
+	bwtfrGpQojpNhj2rP/WEka99Mubrl/k=
+X-Google-Smtp-Source: ABhQp+TWY+YM4nt39C5ePNlCLy28mKzFE5E7svTf6B8AP7bl2PjWtrTOY2hUg7eosmzpbmTLFM5mBA==
+X-Received: by 10.28.181.2 with SMTP id e2mr77226wmf.81.1510139072491;
+	Wed, 08 Nov 2017 03:04:32 -0800 (PST)
+Received: from localhost.localdomain
+	(LStLambert-656-1-43-120.w92-154.abo.wanadoo.fr. [92.154.90.120])
+	by smtp.gmail.com with ESMTPSA id
+	t43sm2271421wrc.74.2017.11.08.03.04.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Nov 2017 03:04:31 -0800 (PST)
 From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 8 Nov 2017 12:02:43 +0100
-Message-ID: <CAP71WjxY=hZ2GWC0EWB_bUxQVn5JLqhXtJqCFxjFLHi8tPucQA@mail.gmail.com>
-To: =?UTF-8?Q?Artur_M=C4=85drzak?= <artur@madrzak.eu>, 
-	akuster <akuster@mvista.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [morty][PATCH] wic: add 'part-name' argument for naming GPT partitions
+To: openembedded-core@lists.openembedded.org,
+	akuster@mvista.com
+Date: Wed,  8 Nov 2017 12:04:09 +0100
+Message-Id: <20171108110409.19900-1-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.15.0
+MIME-Version: 1.0
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [rocko][PATCH] wic: add 'part-name' argument for naming GPT partitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,145 +56,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Nov 2017 11:03:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 08 Nov 2017 11:04:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-+Armin.
+From: Artur Mądrzak <artur@madrzak.eu>
 
-On Tue, Nov 7, 2017 at 9:07 PM, Artur M=C4=85drzak <artur@madrzak.eu> wrote=
-:
-> The WIC's 'part' can now give a name for GPT partition in WKS file.
-> It's similar to '--label', but is naming partintions instead file systems=
-.
-> It's required by some bootloaders to partitions have specified names.
->
-> Backport from master to be able generate SD card image for Dragonboard410=
-c.
->
-> Signed-off-by: Artur M=C4=85drzak <artur@madrzak.eu>
+The WIC's 'part' can now give a name for GPT partition in WKS file.
+It's similar to '--label', but is naming partintions instead file systems.
+It's required by some bootloaders to partitions have specified names.
 
-Reviewed-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Backport from master, without it WIC cannot be used on Qualcomm based machines.
 
-> ---
->  scripts/lib/wic/help.py                |  2 ++
->  scripts/lib/wic/imager/direct.py       |  1 +
->  scripts/lib/wic/ksparser.py            |  1 +
->  scripts/lib/wic/partition.py           |  1 +
->  scripts/lib/wic/utils/partitionedfs.py | 15 ++++++++++++++-
->  5 files changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index e5347ec4b7..324499e438 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -727,6 +727,8 @@ DESCRIPTION
->                              equal to 1.
->                              The default value is 1.3.
->
-> +         --part-name: This option is specific to wic. It specifies name =
-for GPT partitions.
-> +
->           --part-type: This option is specific to wic. It specifies parti=
-tion
->                        type GUID for GPT partitions.
->                        List of partition type GUIDS can be found here:
-> diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/di=
-rect.py
-> index 4c547e04a6..6cb209aa88 100644
-> --- a/scripts/lib/wic/imager/direct.py
-> +++ b/scripts/lib/wic/imager/direct.py
-> @@ -299,6 +299,7 @@ class DirectImageCreator(BaseImageCreator):
->                                         boot=3Dpart.active,
->                                         align=3Dpart.align,
->                                         no_table=3Dpart.no_table,
-> +                                       part_name=3Dpart.part_name,
->                                         part_type=3Dpart.part_type,
->                                         uuid=3Dpart.uuid,
->                                         system_id=3Dpart.system_id)
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index 0894e2b199..3c99136144 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -134,6 +134,7 @@ class KickStart():
->          part.add_argument('--no-table', action=3D'store_true')
->          part.add_argument('--ondisk', '--ondrive', dest=3D'disk')
->          part.add_argument("--overhead-factor", type=3Doverheadtype, defa=
-ult=3D1.3)
-> +        part.add_argument('--part-name')
->          part.add_argument('--part-type')
->          part.add_argument('--rootfs-dir')
->          part.add_argument('--size', type=3Dsizetype, default=3D0)
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index ec3aa6622c..2ffe7e3350 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -51,6 +51,7 @@ class Partition():
->          self.mountpoint =3D args.mountpoint
->          self.no_table =3D args.no_table
->          self.overhead_factor =3D args.overhead_factor
-> +        self.part_name =3D args.part_name
->          self.part_type =3D args.part_type
->          self.rootfs_dir =3D args.rootfs_dir
->          self.size =3D args.size
-> diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/uti=
-ls/partitionedfs.py
-> index 9ea4a30cbb..d18fa1d489 100644
-> --- a/scripts/lib/wic/utils/partitionedfs.py
-> +++ b/scripts/lib/wic/utils/partitionedfs.py
-> @@ -91,7 +91,7 @@ class Image():
->
->      def add_partition(self, size, disk_name, mountpoint, source_file=3DN=
-one, fstype=3DNone,
->                        label=3DNone, fsopts=3DNone, boot=3DFalse, align=
-=3DNone, no_table=3DFalse,
-> -                      part_type=3DNone, uuid=3DNone, system_id=3DNone):
-> +                      part_name=3DNone, part_type=3DNone, uuid=3DNone, s=
-ystem_id=3DNone):
->          """ Add the next partition. Partitions have to be added in the
->          first-to-last order. """
->
-> @@ -113,6 +113,7 @@ class Image():
->                  'boot': boot, # Bootable flag
->                  'align': align, # Partition alignment
->                  'no_table' : no_table, # Partition does not appear in pa=
-rtition table
-> +                'part_name' : part_name, # Partition name
->                  'part_type' : part_type, # Partition type
->                  'uuid': uuid, # Partition UUID
->                  'system_id': system_id} # Partition system id
-> @@ -146,6 +147,11 @@ class Image():
->                  raise ImageError("setting custom partition type is not "=
- \
->                                   "implemented for msdos partitions")
->
-> +            if ptable_format =3D=3D 'msdos' and part['part_name']:
-> +                raise ImageError("setting custom partition name is not "=
- \
-> +                                 "implemented for msdos partitions")
-> +
-> +
->              # Get the disk where the partition is located
->              disk =3D self.disks[part['disk_name']]
->              disk['numpart'] +=3D 1
-> @@ -301,6 +307,13 @@ class Image():
->              self.__create_partition(disk['disk'].device, part['type'],
->                                      parted_fs_type, part['start'], part[=
-'size'])
->
-> +            if part['part_name']:
-> +                msger.debug("partition %d: set  name to %s" % \
-> +                            (part['num'], part['part_name']))
-> +                exec_native_cmd("sgdisk --change-name=3D%d:%s %s" % \
-> +                                         (part['num'], part['part_name']=
-,
-> +                                          disk['disk'].device), self.nat=
-ive_sysroot)
-> +
->              if part['part_type']:
->                  msger.debug("partition %d: set type UID to %s" % \
->                              (part['num'], part['part_type']))
-> --
-> 2.13.6
->
+Signed-off-by: Artur Mądrzak <artur@madrzak.eu>
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9b60e3466ed7cff0cea10815851eb1304002eb52)
+---
+ scripts/lib/wic/help.py                  |  2 ++
+ scripts/lib/wic/ksparser.py              |  1 +
+ scripts/lib/wic/partition.py             |  1 +
+ scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
+ 4 files changed, 15 insertions(+)
+
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index bd9c62e2e8..2ac45e052e 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -970,6 +970,8 @@ DESCRIPTION
+                             This option cannot be used with --fixed-size
+                             option.
+ 
++         --part-name: This option is specific to wic. It specifies name for GPT partitions.
++
+          --part-type: This option is specific to wic. It specifies partition
+                       type GUID for GPT partitions.
+                       List of partition type GUIDS can be found here:
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 99b66eebc5..7850e81d2f 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -144,6 +144,7 @@ class KickStart():
+         part.add_argument('--no-table', action='store_true')
+         part.add_argument('--ondisk', '--ondrive', dest='disk', default='sda')
+         part.add_argument("--overhead-factor", type=overheadtype)
++        part.add_argument('--part-name')
+         part.add_argument('--part-type')
+         part.add_argument('--rootfs-dir')
+ 
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index b623bb9e6d..66e61ba70c 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -51,6 +51,7 @@ class Partition():
+         self.no_table = args.no_table
+         self.num = None
+         self.overhead_factor = args.overhead_factor
++        self.part_name = args.part_name
+         self.part_type = args.part_type
+         self.rootfs_dir = args.rootfs_dir
+         self.size = args.size
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 60317eed22..bdb8385620 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -366,6 +366,10 @@ class PartitionedImage():
+         for num in range(len(self.partitions)):
+             part = self.partitions[num]
+ 
++            if self.ptable_format == 'msdos' and part.part_name:
++                raise WicError("setting custom partition name is not " \
++                               "implemented for msdos partitions")
++
+             if self.ptable_format == 'msdos' and part.part_type:
+                 # The --part-type can also be implemented for MBR partitions,
+                 # in which case it would map to the 1-byte "partition type"
+@@ -519,6 +523,13 @@ class PartitionedImage():
+             self._create_partition(self.path, part.type,
+                                    parted_fs_type, part.start, part.size_sec)
+ 
++            if part.part_name:
++                logger.debug("partition %d: set name to %s",
++                             part.num, part.part_name)
++                exec_native_cmd("sgdisk --change-name=%d:%s %s" % \
++                                         (part.num, part.part_name,
++                                          self.path), self.native_sysroot)
++
+             if part.part_type:
+                 logger.debug("partition %d: set type UID to %s",
+                              part.num, part.part_type)
+-- 
+2.15.0
+
 
