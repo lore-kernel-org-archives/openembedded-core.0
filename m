@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E1BA578505
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4A3678514
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Nov 2017 02:10:49 +0000 (UTC)
+	Thu,  9 Nov 2017 02:10:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vA92ApbH029312
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vA92AqL3027100
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Nov 2017 18:10:51 -0800 (PST)
+	Wed, 8 Nov 2017 18:10:52 -0800
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.163.189) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Wed, 8 Nov 2017 18:10:50 -0800
+	14.3.361.1; Wed, 8 Nov 2017 18:10:51 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Nov 2017 10:12:11 +0800
-Message-ID: <1a0e1186fffb606eb736ca50120d92daa9146e2f.1510193452.git.Qi.Chen@windriver.com>
+Date: Thu, 9 Nov 2017 10:12:12 +0800
+Message-ID: <147767da6ce8db0c0c796bc9f7e6e74f8fad81c1.1510193452.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1510193452.git.Qi.Chen@windriver.com>
 References: <cover.1510193452.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] sudo: upgrade to 1.8.21p2
+Subject: [PATCH 2/4] sysstat: upgrade to 11.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Nov 2017 02:10:50 -0000
+X-List-Received-Date: Thu, 09 Nov 2017 02:10:51 -0000
 Content-Type: text/plain
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/sudo/{sudo_1.8.20p2.bb => sudo_1.8.21p2.bb} | 4 ++--
+ .../recipes-extended/sysstat/{sysstat_11.5.7.bb => sysstat_11.6.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.20p2.bb => sudo_1.8.21p2.bb} (90%)
+ rename meta/recipes-extended/sysstat/{sysstat_11.5.7.bb => sysstat_11.6.1.bb} (53%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.20p2.bb b/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
-similarity index 90%
-rename from meta/recipes-extended/sudo/sudo_1.8.20p2.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.21p2.bb
-index 4f24b3c..acd0025 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.20p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.21p2.bb
-@@ -7,8 +7,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+diff --git a/meta/recipes-extended/sysstat/sysstat_11.5.7.bb b/meta/recipes-extended/sysstat/sysstat_11.6.1.bb
+similarity index 53%
+rename from meta/recipes-extended/sysstat/sysstat_11.5.7.bb
+rename to meta/recipes-extended/sysstat/sysstat_11.6.1.bb
+index 72af931..4efd2a1 100644
+--- a/meta/recipes-extended/sysstat/sysstat_11.5.7.bb
++++ b/meta/recipes-extended/sysstat/sysstat_11.6.1.bb
+@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
  
- PAM_SRC_URI = "file://sudo.pam"
+ SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
  
--SRC_URI[md5sum] = "03da8e711caca6fd93e57751bfb74adc"
--SRC_URI[sha256sum] = "bd42ae1059e935f795c69ea97b3de09fe9410a58a74b5d5e6836eb5067a445d9"
-+SRC_URI[md5sum] = "cd3993d910c713ae72e94beebd230b22"
-+SRC_URI[sha256sum] = "74c5746cd33a814e2431c39faf0d76f7f8a697379bd073862e3b156cf0d76368"
- 
- DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-SRC_URI[md5sum] = "8f4a5d0de29f1056153e25e7a9c518d2"
+-SRC_URI[sha256sum] = "4a38efaa0ca85ee5484d046bd427012979264fef17f07fd7855860e592819482"
++SRC_URI[md5sum] = "33cff6260b9c8f0b908fe94ce7ab2773"
++SRC_URI[sha256sum] = "4b2a2cfa8c8fe6ae0155e168ed9a7066caebc3ecb903b0e64a9ede28ecb68fcb"
 -- 
 1.9.1
 
