@@ -1,23 +1,23 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id D4BC6784E2
+	by mail.openembedded.org (Postfix) with ESMTP id DFAF8784FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Nov 2017 01:57:15 +0000 (UTC)
+	Thu,  9 Nov 2017 01:57:19 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by orsmga104.jf.intel.com with ESMTP; 08 Nov 2017 17:57:17 -0800
+	by orsmga104.jf.intel.com with ESMTP; 08 Nov 2017 17:57:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,367,1505804400"; d="scan'208";a="171401159"
+X-IronPort-AV: E=Sophos;i="5.44,367,1505804400"; d="scan'208";a="171401169"
 Received: from skanwarx-mobl1.gar.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.249.73.22])
-	by orsmga005.jf.intel.com with ESMTP; 08 Nov 2017 17:57:14 -0800
+	by orsmga005.jf.intel.com with ESMTP; 08 Nov 2017 17:57:18 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Nov 2017 14:55:21 +1300
-Message-Id: <f88e40e440c9ee6e1e581a2e8a2059f1597edc08.1510192329.git.paul.eggleton@linux.intel.com>
+Date: Thu,  9 Nov 2017 14:55:22 +1300
+Message-Id: <5dfcdb113ef4e28216fd18fc380d35ea0d0c59cd.1510192329.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <cover.1510192329.git.paul.eggleton@linux.intel.com>
 References: <cover.1510192329.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 20/24] devtool: upgrade: reformat --no-patch warning message
+Subject: [PATCH 21/24] devtool: show a better error message if meta-files aren't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +30,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Nov 2017 01:57:16 -0000
+X-List-Received-Date: Thu, 09 Nov 2017 01:57:20 -0000
 
-* Only log one warning message instead of one per line
-* Be a bit more verbose
-* "if list" is more pythonic than "if len(list)"
+If the files that the devtool-source class is supposed to create in the
+source tree aren't found in the temporary directory then we know that
+the class hasn't worked properly - say that explicitly.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/lib/devtool/upgrade.py | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ scripts/lib/devtool/standard.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 0db2a50..3cb523c 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -263,10 +263,8 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 5ac678b..1e7d707 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -544,11 +544,14 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
+         if not res:
+             raise DevtoolError('Extracting source for %s failed' % pn)
  
-     if no_patch:
-         patches = oe.recipeutils.get_recipe_patches(crd)
--        if len(patches):
--            logger.warn('By user choice, the following patches will NOT be applied')
--            for patch in patches:
--                logger.warn("%s" % os.path.basename(patch))
-+        if patches:
-+            logger.warn('By user choice, the following patches will NOT be applied to the new source tree:\n  %s' % '\n  '.join([os.path.basename(patch) for patch in patches]))
-     else:
-         __run('git checkout devtool-patched -b %s' % branch)
-         skiptag = False
+-        with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
+-            initial_rev = f.read()
++        try:
++            with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
++                initial_rev = f.read()
+ 
+-        with open(os.path.join(tempdir, 'srcsubdir'), 'r') as f:
+-            srcsubdir = f.read()
++            with open(os.path.join(tempdir, 'srcsubdir'), 'r') as f:
++                srcsubdir = f.read()
++        except FileNotFoundError as e:
++            raise DevtoolError('Something went wrong with source extraction - the devtool-source class was not active or did not function correctly:\n%s' % str(e))
+         srcsubdir_rel = os.path.relpath(srcsubdir, os.path.join(tempdir, 'workdir'))
+ 
+         tempdir_localdir = os.path.join(tempdir, 'oe-local-files')
 -- 
 2.9.5
 
