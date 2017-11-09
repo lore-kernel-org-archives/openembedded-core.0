@@ -1,26 +1,26 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 60CF371A82
+	by mail.openembedded.org (Postfix) with ESMTP id 62B11783D9
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  9 Nov 2017 11:55:53 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vA9BtqJT007426
+	vA9BtqxP007425
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Thu, 9 Nov 2017 11:55:53 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1eClR2-00030e-H3; Thu, 09 Nov 2017 11:55:52 +0000
+	id 1eClR2-00030Z-GO; Thu, 09 Nov 2017 11:55:52 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Nov 2017 11:55:47 +0000
-Message-Id: <1510228551-11516-3-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu,  9 Nov 2017 11:55:46 +0000
+Message-Id: <1510228551-11516-2-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1510228551-11516-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1510228551-11516-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 3/7] oeqa/targetcontrol: Drop unused get_target_controller function
+Subject: [PATCH 2/7] oeqa/runqemu: Only show stdout/stderr upon test failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +35,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 09 Nov 2017 11:55:55 -0000
 
-This funciton appears completely unused, drop it.
+In general we don't need to see the output of runqemu however if it fails
+we do. Use the buffer option that already exists in TestResult but allow
+us to trigger it on a per test basis.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/targetcontrol.py | 29 ++---------------------------
- 1 file changed, 2 insertions(+), 27 deletions(-)
+ meta/lib/oeqa/core/runner.py            | 8 ++++++++
+ meta/lib/oeqa/selftest/cases/runqemu.py | 2 ++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 3255e3a..e17c895 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -20,31 +20,6 @@ from abc import ABCMeta, abstractmethod
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index f6539e6..2d756da 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -45,6 +45,14 @@ class OETestResult(_TestResult):
+         self.tc = tc
+         self._tc_map_results()
  
- logger = logging.getLogger('BitBake.QemuRunner')
++    def startTest(self, test):
++        # Allow us to trigger the testcase buffer mode on a per test basis
++        # so stdout/stderr are only printed upon failure. Enables debugging
++        # but clean output
++        if hasattr(test, "buffer"):
++            self.buffer = True
++        super(OETestResult, self).startTest(test)
++
+     def _tc_map_results(self):
+         self.tc._results['failures'] = self.failures
+         self.tc._results['errors'] = self.errors
+diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+index 1991be7..1a8d121 100644
+--- a/meta/lib/oeqa/selftest/cases/runqemu.py
++++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+@@ -14,6 +14,8 @@ class RunqemuTests(OESelftestTestCase):
  
--def get_target_controller(d):
--    testtarget = d.getVar("TEST_TARGET")
--    # old, simple names
--    if testtarget == "qemu":
--        return QemuTarget(d)
--    elif testtarget == "simpleremote":
--        return SimpleRemoteTarget(d)
--    else:
--        # use the class name
--        try:
--            # is it a core class defined here?
--            controller = getattr(sys.modules[__name__], testtarget)
--        except AttributeError:
--            # nope, perhaps a layer defined one
--            try:
--                bbpath = d.getVar("BBPATH").split(':')
--                testtargetloader = TestTargetLoader()
--                controller = testtargetloader.get_controller_module(testtarget, bbpath)
--            except ImportError as e:
--                bb.fatal("Failed to import {0} from available controller modules:\n{1}".format(testtarget,traceback.format_exc()))
--            except AttributeError as e:
--                bb.fatal("Invalid TEST_TARGET - " + str(e))
--        return controller(d)
--
--
- class BaseTarget(object, metaclass=ABCMeta):
+     image_is_ready = False
+     deploy_dir_image = ''
++    # We only want to print runqemu stdout/stderr if there is a test case failure
++    buffer = True
  
-     supported_image_fstypes = []
-@@ -115,9 +90,9 @@ class QemuTarget(BaseTarget):
- 
-     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
--    def __init__(self, d, image_fstype=None):
-+    def __init__(self, d, image_fstype=None, logger=None):
- 
--        super(QemuTarget, self).__init__(d)
-+        super(QemuTarget, self).__init__(d, logger)
- 
-         self.rootfs = ''
-         self.kernel = ''
+     def setUpLocal(self):
+         super(RunqemuTests, self).setUpLocal()
 -- 
 2.7.4
 
