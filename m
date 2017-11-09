@@ -1,41 +1,21 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E43DC784EB
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 5544878493
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Nov 2017 01:53:43 +0000 (UTC)
-Received: by mail-yw0-f193.google.com with SMTP id l32so4015594ywh.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Nov 2017 17:53:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KfdVNI3ql/fT6LZPi233rAvjolnTx2magig+faW0Zg0=;
-	b=EeUpSqQspJuUW2awzdtBNdJPBdsHWBrlZrMUKqCNICVLdcRk1Sgh7mbHnyd32wnUky
-	x9gWZR6NaR09DQyfSehKuOOebj0BoevshYXR55mLyAHRlE2iG/aj/2w3WABehvQ/9YOc
-	soe1nSwYSYvAtDlvxsFVxfcs2NnX+ACmDupFQGdq763DG6qFsSTB2B5OYF2bnh9sSK1r
-	nIL5W91TMIZAV9Y7QORqiLXedfYy+ycV4iBjCyoBgjxBeItcBTemuk8DgVWuyERkonK2
-	0V+Vbp1zR15UObFBIZbT+2bmqHT833iGHRX4NtGrTccEiN31+NphIsLXzU/3gx1+TQHJ
-	QvrA==
-X-Gm-Message-State: AJaThX7MYb14q8vCP9aRSVyuDI3wfQS+tJh2a5xXjyBRqWpmt5WWm3HZ
-	1IgEgXlFhOSAMdGujbPaDzPo
-X-Google-Smtp-Source: ABhQp+Qn86j4bRrzzsUCAbpgUI0mH0jqxa1ELSPp8O1QA6Lnn/RhlV9kQ8JJ5LLKGn5d745YJ8NnKA==
-X-Received: by 10.13.230.196 with SMTP id p187mr1672838ywe.203.1510192425006; 
-	Wed, 08 Nov 2017 17:53:45 -0800 (PST)
-Received: from opus.ec.rr.com (cpe-65-184-142-68.ec.res.rr.com.
-	[65.184.142.68]) by smtp.gmail.com with ESMTPSA id
-	h26sm2850736ywk.67.2017.11.08.17.53.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Nov 2017 17:53:44 -0800 (PST)
-From: Tom Rini <trini@konsulko.com>
+	Thu,  9 Nov 2017 01:56:04 +0000 (UTC)
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by orsmga104.jf.intel.com with ESMTP; 08 Nov 2017 17:56:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,367,1505804400"; d="scan'208";a="171400937"
+Received: from skanwarx-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.73.22])
+	by orsmga005.jf.intel.com with ESMTP; 08 Nov 2017 17:56:02 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Nov 2017 20:53:32 -0500
-Message-Id: <1510192412-5065-4-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510192412-5065-1-git-send-email-trini@konsulko.com>
-References: <1510192412-5065-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH 3/3] wic: Introduce --fsuuid and have --use-uuid make use of UUID too
+Date: Thu,  9 Nov 2017 14:55:01 +1300
+Message-Id: <cover.1510192329.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.5
+Subject: [PATCH 00/24] devtool / recipetool improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,235 +28,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Nov 2017 01:53:44 -0000
+X-List-Received-Date: Thu, 09 Nov 2017 01:56:04 -0000
 
-First, allow for wic to be given a filesystem UUID to be used when
-creating a filesystem.  When not provided, wic will generate the UUID to
-be used.  Next, when --use-uuid is passed, we update the fstab to mount
-things via UUID (and if not found, then use PARTUUID) as UUID is more
-portable.
+Fix a number of bugs in devtool/recipetool and make the following
+improvements:
+ * Conditional patch handling (e.g. musl-specific patches)
+ * Add dry-run option for devtool finish
+ * Automatically adjust S on upgrade if needed
+ * Make devtool upgrade output more useful
+ * Make devtool finish check for a clean source repository
+ * Make devtool edit-recipe/find-recipe always work
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
----
- scripts/lib/wic/help.py                          | 10 +++++++-
- scripts/lib/wic/ksparser.py                      |  1 +
- scripts/lib/wic/partition.py                     | 32 +++++++++++++-----------
- scripts/lib/wic/plugins/imager/direct.py         | 17 +++++++++++--
- scripts/lib/wic/plugins/source/bootimg-efi.py    |  3 ++-
- scripts/lib/wic/plugins/source/bootimg-pcbios.py |  3 ++-
- 6 files changed, 47 insertions(+), 19 deletions(-)
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 2ac45e052ebe..bf658b94e34f 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -863,7 +863,10 @@ DESCRIPTION
-        This is achieved by wic adding entries to the fstab during image
-        generation. In order for a valid fstab to be generated one of the
-        --ondrive, --ondisk or --use-uuid partition options must be used for
--       each partition that specifies a mountpoint.
-+       each partition that specifies a mountpoint.  Note that with --use-uuid
-+       and non-root <mountpoint>, including swap, the mount program must
-+       understand the PARTUUID syntax.  This currently excludes the busybox
-+       versions of these applications.
- 
- 
-        The following are supported 'part' options:
-@@ -986,6 +989,11 @@ DESCRIPTION
-                  in bootloader configuration before running wic. In this case .wks file can
-                  be generated or modified to set preconfigured parition UUID using this option.
- 
-+         --fsuuid: This option is specific to wic. It specifies filesystem UUID.
-+                   It's useful if preconfigured filesystem UUID is added to kernel command line
-+                   in bootloader configuration before running wic. In this case .wks file can
-+                   be generated or modified to set preconfigured filesystem UUID using this option.
-+
-          --system-id: This option is specific to wic. It specifies partition system id. It's useful
-                       for the harware that requires non-default partition system ids. The parameter
-                       in one byte long hex number either with 0x prefix or without it.
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 4fb6868531df..e590b2fe3c0d 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -161,6 +161,7 @@ class KickStart():
-         part.add_argument('--system-id', type=systemidtype)
-         part.add_argument('--use-uuid', action='store_true')
-         part.add_argument('--uuid')
-+        part.add_argument('--fsuuid')
- 
-         bootloader = subparsers.add_parser('bootloader')
-         bootloader.add_argument('--append')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 87312383378a..c0b67d829f80 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -26,6 +26,7 @@
- 
- import logging
- import os
-+import uuid
- 
- from wic import WicError
- from wic.misc import exec_cmd, exec_native_cmd, get_bitbake_var
-@@ -61,6 +62,7 @@ class Partition():
-         self.system_id = args.system_id
-         self.use_uuid = args.use_uuid
-         self.uuid = args.uuid
-+        self.fsuuid = args.fsuuid
- 
-         self.lineno = lineno
-         self.source_file = ""
-@@ -264,8 +266,8 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s %s %s %s -d %s" % \
--            (self.fstype, extraopts, rootfs, label_str, rootfs_dir)
-+        mkfs_cmd = "mkfs.%s %s %s %s -U %s -d %s" % \
-+            (self.fstype, extraopts, rootfs, label_str, self.fsuuid, rootfs_dir)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
- 
-         mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
-@@ -289,9 +291,9 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s -b %d -r %s %s %s %s" % \
-+        mkfs_cmd = "mkfs.%s -b %d -r %s %s %s -U %s %s" % \
-             (self.fstype, rootfs_size * 1024, rootfs_dir, label_str,
--             self.mkfs_extraopts, rootfs)
-+             self.mkfs_extraopts, self.fsuuid, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
- 
-     def prepare_rootfs_msdos(self, rootfs, oe_builddir, rootfs_dir,
-@@ -315,8 +317,9 @@ class Partition():
- 
-         extraopts = self.mkfs_extraopts or '-S 512'
- 
--        dosfs_cmd = "mkdosfs %s %s %s -C %s %d" % \
--                    (label_str, size_str, extraopts, rootfs, rootfs_size)
-+        dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-+                    (label_str, self.fsuuid, size_str, extraopts, rootfs,
-+                     rootfs_size)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
-@@ -352,8 +355,8 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s -F %s %s %s" % \
--            (self.fstype, extraopts, label_str, rootfs)
-+        mkfs_cmd = "mkfs.%s -F %s %s -U %s %s" % \
-+            (self.fstype, extraopts, label_str, self.fsuuid, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-     def prepare_empty_partition_btrfs(self, rootfs, oe_builddir,
-@@ -369,8 +372,8 @@ class Partition():
-         if self.label:
-             label_str = "-L %s" % self.label
- 
--        mkfs_cmd = "mkfs.%s -b %d %s %s %s" % \
--                   (self.fstype, self.size * 1024, label_str,
-+        mkfs_cmd = "mkfs.%s -b %d %s -U %s %s %s" % \
-+                   (self.fstype, self.size * 1024, label_str, self.fsuuid,
-                     self.mkfs_extraopts, rootfs)
-         exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-@@ -391,8 +394,9 @@ class Partition():
- 
-         extraopts = self.mkfs_extraopts or '-S 512'
- 
--        dosfs_cmd = "mkdosfs %s %s %s -C %s %d" % \
--                    (label_str, extraopts, size_str, rootfs, blocks)
-+        dosfs_cmd = "mkdosfs %s -i %s %s %s -C %s %d" % \
-+                    (label_str, self.fsuuid, extraopts, size_str, rootfs,
-+                     blocks)
- 
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-@@ -410,9 +414,9 @@ class Partition():
-         with open(path, 'w') as sparse:
-             os.ftruncate(sparse.fileno(), self.size * 1024)
- 
--        import uuid
-         label_str = ""
-         if self.label:
-             label_str = "-L %s" % self.label
--        mkswap_cmd = "mkswap %s -U %s %s" % (label_str, str(uuid.uuid1()), path)
-+
-+        mkswap_cmd = "mkswap %s -U %s %s" % (label_str, self.fsuuid, path)
-         exec_native_cmd(mkswap_cmd, native_sysroot)
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index da1c061063d2..71c0b1c82bf3 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -141,7 +141,15 @@ class DirectPlugin(ImagerPlugin):
-                 continue
- 
-             if part.use_uuid:
--                device_name = "PARTUUID=%s" % part.uuid
-+                if part.fsuuid:
-+                    # FAT UUID is different from others
-+                    if len(part.fsuuid) == 10:
-+                        device_name = "UUID=%s-%s" % \
-+                                       (part.fsuuid[2:6], part.fsuuid[6:])
-+                    else:
-+                        device_name = "UUID=%s" % part.fsuuid
-+                else:
-+                    device_name = "PARTUUID=%s" % part.uuid
-             else:
-                 # mmc device partitions are named mmcblk0p1, mmcblk0p2..
-                 prefix = 'p' if  part.disk.startswith('mmcblk') else ''
-@@ -334,13 +342,18 @@ class PartitionedImage():
-                     continue
-                 part.realnum = realnum
- 
--        # generate parition UUIDs
-+        # generate parition and filesystem UUIDs
-         for part in self.partitions:
-             if not part.uuid and part.use_uuid:
-                 if self.ptable_format == 'gpt':
-                     part.uuid = str(uuid.uuid4())
-                 else: # msdos partition table
-                     part.uuid = '%08x-%02d' % (self.identifier, part.realnum)
-+            if not part.fsuuid:
-+                if part.fstype == 'vfat' or part.fstype == 'msdos':
-+                    part.fsuuid = '0x' + str(uuid.uuid4())[:8].upper()
-+                else:
-+                    part.fsuuid = str(uuid.uuid4())
- 
-     def prepare(self, imager):
-         """Prepare an image. Call prepare method of all image partitions."""
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 4c4f36a32f56..beb74d7a7121 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -240,7 +240,8 @@ class BootimgEFIPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot.img" % cr_workdir
- 
--        dosfs_cmd = "mkdosfs -n efi -C %s %d" % (bootimg, blocks)
-+        dosfs_cmd = "mkdosfs -n efi -i %s -C %s %d" % \
-+                    (part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 56da468fb5cd..d599112dd759 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -186,7 +186,8 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
- 
--        dosfs_cmd = "mkdosfs -n boot -S 512 -C %s %d" % (bootimg, blocks)
-+        dosfs_cmd = "mkdosfs -n boot -i %s -S 512 -C %s %d" % \
-+                    (part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
- 
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+The following changes since commit 3717c76eb24217c14a22f72fdd8732923729dee8:
+
+  gcc: fix miscompilation on mips64 (2017-11-08 22:23:45 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool31-oe
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/devtool31-oe
+
+Paul Eggleton (24):
+  recipetool: pass absolute source tree path to plugins
+  recipetool: ignore incidental kernel module source
+  lib/oe/recipeutils: fix find_layerdir() to return absolute paths
+  lib/oe/recipeutils: fix line splitting in patch_recipe_*
+  devtool: upgrade: fix accidentally swapped parameters
+  devtool: upgrade: fix not committing deleted files with older git versions
+  devtool: upgrade: improve performance and show progress when adding files
+  devtool: fix handling of oe-local-files when source is in a subdirectory
+  devtool: show some warnings for upgrade versions
+  devtool: make find-recipe and edit-recipe always work with any recipe
+  devtool: reset: print source tree base path
+  devtool: finish: ensure repository is clean before proceeding
+  devtool: finish: fix "layer not in bblayers.conf" warning when path specified
+  devtool: upgrade: handle recipes that use named SRC_URI checksums
+  recipetool: create: drop debug print
+  devtool: stop always moving workspace to end of BBLAYERS
+  recipetool: create: show a warning for github archive URLs
+  devtool: upgrade: show messages before source extraction steps
+  devtool: upgrade: automatically handle changes to source subdirectory
+  devtool: upgrade: reformat --no-patch warning message
+  devtool: show a better error message if meta-files aren't found
+  devtool: finish: improve reporting for removed files
+  devtool: finish: add dry-run option
+  devtool: implement conditional patch handling
+
+ meta/classes/devtool-source.bbclass   |  56 ++++
+ meta/lib/oe/recipeutils.py            |  68 ++++-
+ scripts/devtool                       |  21 +-
+ scripts/lib/devtool/__init__.py       |  30 ++
+ scripts/lib/devtool/standard.py       | 503 ++++++++++++++++++++++++++--------
+ scripts/lib/devtool/upgrade.py        | 112 ++++++--
+ scripts/lib/devtool/utilcmds.py       |  26 +-
+ scripts/lib/recipetool/create.py      |  13 +-
+ scripts/lib/recipetool/create_kmod.py |   2 +-
+ scripts/lib/recipetool/create_npm.py  |   1 -
+ 10 files changed, 658 insertions(+), 174 deletions(-)
+
 -- 
-2.7.4
+2.9.5
 
 
