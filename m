@@ -1,47 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0139A784EA
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 61A97784E3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Nov 2017 01:58:49 +0000 (UTC)
-Received: by mail-pf0-f194.google.com with SMTP id b79so3144225pfk.5
+	Thu,  9 Nov 2017 01:58:59 +0000 (UTC)
+Received: by mail-pf0-f193.google.com with SMTP id z80so3087947pff.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Nov 2017 17:58:50 -0800 (PST)
+	Wed, 08 Nov 2017 17:59:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=6kum5FTqbXGVonQtpURqHq2JT7jjPCNTjpRqV+pakRU=;
-	b=MlN9nyhy8WU7+XglMOu1gRqmhn2hQ9XMx8hSs+LIfC63yzPAQKxGJR+of/wo5X+vyZ
-	fD0egNEswLIRehDAV73lyujm1sW6kDUiDg42UXtJYsMywU1uUMrNEWDYYXKRz+1uzDCl
-	eBiKScXYu28uhiznkL1zB0Hv99y1mVxPdza54UK0UJI1CDDFxMXoOHE9EXtftB3njwBq
-	2RuXgYsvMsC2KPDSMmmVP2JqXSAhPscG/0IuKxGWoNQ0OwCsVVjbZxSD9/hOWH8yGpyf
-	mrPVlF0sDGs4wkgUdmd1E4q1BaEJWYcU3XNUqF4Xvy6yGdqhFfSuwhHgtmVD4MnsHHUp
-	OP4Q==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=eYKHUsABohQy4Im3fp1UP6sRLfgaU2dq94EkWZ53QXo=;
+	b=Z1RQ1SlnJ3nw6zE4UuYwmkVcDfqBghl1t9VdcpWmzF0bsvriYsHBWQpwSQnru6oTMV
+	6PuZNlIrp4+af+3tlRbXX+e5UFQ0lRoxfUXCk2NM8iWnBu909CQAhc+2XuYd0KLgVmOJ
+	nzG6Ji5d7ovDVXyYXiHAUL6Xa9SjSHU8WD+/GsjS2IqXhTejqNnOuSSTyCBZT5DE47kK
+	hg36mQAKiolntudnH1K7+NeqZkLaTwcrO1dt25xNyj4c8JkTG1hk3NYpGdFNskuNQgGa
+	AdUWr2r7O72IF0mySkqTh/KDJIDZPbX5jEIaS4YNZpRNINJ5c0Qb2XoRaJIQzAup8Da0
+	vDcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6kum5FTqbXGVonQtpURqHq2JT7jjPCNTjpRqV+pakRU=;
-	b=F0Pa0XtF3MNah8TDkwIqJr4YdgugdAXppVoikTtbe1v2EOFiHrh74ZiTvLiMTY7dKb
-	TD+QCvZ6fdd/Smfd86y1WWNZQurbSM61f1jXovmGBlCd096xUNQqUizCthkWOvAPuM+v
-	MKopzg5Vp/QjyrFD81mXQM+TOSMsFLkeESFJzj0AtWjbh66TpP0M59n/IvhOwHAfdmS4
-	7KqWtjbkTBc4bhh6YCMoRZK2zHUwOBuP07d82Yg81wKosauSGxcy1wG+RCXwe/mIUdNd
-	wgXtQZqFpvrtWMciEjCsX0ld0xxSqFNrY4OD11ryTTUemWphDbiAH0g2iiabyc/GEj4c
-	ZmLQ==
-X-Gm-Message-State: AJaThX7C0d4nXGj8aWlJzQT9eExnR62fRvrmcl8IR8osSWkZNNoPZy7b
-	TlA/fCaCmVTOK4gjDTCa8jrtoQ==
-X-Google-Smtp-Source: ABhQp+QJKkm19gQzNF34RsC921Ysye158oW6Vpz6umxCe75fjkzB72nYrUQ6NSvxgBccAoaE1+91vA==
-X-Received: by 10.99.114.30 with SMTP id n30mr1552364pgc.129.1510192730324;
-	Wed, 08 Nov 2017 17:58:50 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=eYKHUsABohQy4Im3fp1UP6sRLfgaU2dq94EkWZ53QXo=;
+	b=tN83Zrt5qGNQxbUKdlzTzYWxHsAh6WZpGf0YPoDVFhIpvzW7XrIgmJWvEG3JKLsLqr
+	KqAir73DRJbdsWcbdVMU161g0jvF4deOJ1JTOC0d6aTnhNpMdnhQ5XJNfJ2dbYUFG99H
+	3ZEvBD/YfPZ7PpkkOPi+cDebYYCvVD7dXuH1rMU8xrB6BlKouXJWWWr2YnSHPDMXxK+h
+	UO2QdkZiq93fudVzqqqzxH3ECGyGN49Xr8GhKKmwoHahZOcs5iY0jk+olW5/Ts00xvnk
+	NiBOD3tWX+N7z5gFb8Rkyp000Wrd7opNY9+9iU0pGXRHPN+bBu5Fd1GBaXbU2g4pL3oc
+	3Qmw==
+X-Gm-Message-State: AJaThX4kzYEum18kJgEtHuXPamhhtOuV7zCxtko8fpUj+FpBNUvoHtsV
+	zjVf64nz6NlUxtgx0T0mwcsnFA==
+X-Google-Smtp-Source: ABhQp+TJPJJass4dYUpaR2vwiQiM85zuOVW8TDXCCKdpVGRxJzaeKfh/m6cq1nRbuPmy3DgKOlC7Rg==
+X-Received: by 10.99.132.72 with SMTP id k69mr2305039pgd.437.1510192741280;
+	Wed, 08 Nov 2017 17:59:01 -0800 (PST)
 Received: from localhost.localdomain ([2601:646:8882:b8c::a4a])
 	by smtp.gmail.com with ESMTPSA id
-	c185sm10074935pfb.112.2017.11.08.17.58.49
+	w17sm10156709pfa.70.2017.11.08.17.58.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Nov 2017 17:58:49 -0800 (PST)
+	Wed, 08 Nov 2017 17:58:59 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Nov 2017 17:58:40 -0800
-Message-Id: <cover.1510192517.git.raj.khem@gmail.com>
+Date: Wed,  8 Nov 2017 17:58:48 -0800
+Message-Id: <6eb7d501a2a8422cf0ee6a36bb99143f39255be3.1510192517.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.15.0
-Subject: [PATCH 0/5] Misc fixes predominantly for musl
+In-Reply-To: <cover.1510192517.git.raj.khem@gmail.com>
+References: <cover.1510192517.git.raj.khem@gmail.com>
+Subject: [PATCH 1/5] binutils: Convert SRC_URI and SRCREV to weak defines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,48 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Nov 2017 01:58:49 -0000
+X-List-Received-Date: Thu, 09 Nov 2017 01:59:00 -0000
 
-upgrade musl past 1.1.18 release
-fix armv5 codegen issue seen with gcc7 while compiling kernel
-fix systemd for musl/64-bit
-make binutils SRC_URI overridable
-Fix go with PIE/musl
+This makes it easy to override them in bbappends
 
-The following changes since commit 3717c76eb24217c14a22f72fdd8732923729dee8:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.29.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-  gcc: fix miscompilation on mips64 (2017-11-08 22:23:45 +0000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/pu
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=kraj/pu
-
-Khem Raj (5):
-  binutils: Convert SRC_URI and SRCREV to weak defines
-  go: Fix build with PIE on musl
-  systemd: Fix build with musl/mips64
-  musl: Update to 1.1.18
-  gcc7/gcc6: Fix unaligned STRD issue on ARM
-
- meta/recipes-core/musl/musl_git.bb                 |   4 +-
- .../0001-Use-uintmax_t-for-handling-rlim_t.patch   |  89 ++++++++++
- meta/recipes-core/systemd/systemd_234.bb           |   1 +
- meta/recipes-devtools/binutils/binutils-2.29.inc   |   5 +-
- meta/recipes-devtools/gcc/gcc-6.4.inc              |   1 +
- ...5-suppress-32-bit-aligned-ldrd-strd-peeph.patch | 194 +++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-7.2.inc              |   1 +
- ...5-suppress-32-bit-aligned-ldrd-strd-peeph.patch | 194 +++++++++++++++++++++
- meta/recipes-devtools/go/go-1.9.inc                |   3 +
- .../go/go-1.9/default-buildmode-pie.patch          |  18 ++
- .../go/go-1.9/set-external-linker.patch            | 111 ++++++++++++
- 11 files changed, 617 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Use-uintmax_t-for-handling-rlim_t.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-6.4/0057-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-ARM-PR-82445-suppress-32-bit-aligned-ldrd-strd-peeph.patch
- create mode 100644 meta/recipes-devtools/go/go-1.9/default-buildmode-pie.patch
- create mode 100644 meta/recipes-devtools/go/go-1.9/set-external-linker.patch
-
+diff --git a/meta/recipes-devtools/binutils/binutils-2.29.inc b/meta/recipes-devtools/binutils/binutils-2.29.inc
+index 27d46eb088..35f76cba6d 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.29.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.29.inc
+@@ -18,9 +18,10 @@ BINUPV = "${@binutils_branch_version(d)}"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+ 
+-SRCREV = "37e991bb143ca2106330bcdc625590d53838b7a1"
++SRCREV ?= "37e991bb143ca2106330bcdc625590d53838b7a1"
++BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git"
+ SRC_URI = "\
+-     git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
++     ${BINUTILS_GIT_URI} \
+      file://0003-configure-widen-the-regexp-for-SH-architectures.patch \
+      file://0004-Point-scripts-location-to-libdir.patch \
+      file://0005-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch \
 -- 
 2.15.0
 
