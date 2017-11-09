@@ -1,25 +1,49 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 00CCB71A50
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io0-f194.google.com (mail-io0-f194.google.com
+	[209.85.223.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CAFF783FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Nov 2017 17:11:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Nov 2017 09:11:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,370,1505804400"; d="scan'208";a="1242103362"
-Received: from lsandov1-mobl2.zpn.intel.com ([10.219.128.134])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Nov 2017 09:11:54 -0800
-Date: Thu, 9 Nov 2017 11:22:17 -0600
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20171109112217.51cd4fc9@lsandov1-mobl2.zpn.intel.com>
-In-Reply-To: <d10136a2d95b9575458c01afce41fc2c41e35df4.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<d10136a2d95b9575458c01afce41fc2c41e35df4.1509034760.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+	Thu,  9 Nov 2017 20:54:30 +0000 (UTC)
+Received: by mail-io0-f194.google.com with SMTP id f20so11288941ioj.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Nov 2017 12:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=yA4j1Rfke8lORvYdhDxy/isnp6SVF68l8qUkpmLG8IA=;
+	b=FSbR5l4PFulQOrKII5mwnskAWBjE+Y2+ykhdMOCvT9sYBOGsPV5bsldu9qBlJ1+UGT
+	9Aq6QgLVo7E60EJL7BbDjNbQZmgjOKv+30FrGqi3QU2NnAMum9Bnoy6Qikn7wtNweVNc
+	sx8Z0oPEqtK4BIW84bf3WYnbr5wdwXTsvBzKRugIn3+Zk9g8x9kwuS9olaEon9rbAZB5
+	ZnN1QYdIdDnnvW/gKk97vPap+mKUEPiaB4ShTQq+tjY3i7z/uuu+6ouv9YsSOxpay+ym
+	Hzag/U6bUsijIA++3MLie6CKDzrhPqP+27HepH9zaBreUVJKC08cKim1QU7rO81aq627
+	yrQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=yA4j1Rfke8lORvYdhDxy/isnp6SVF68l8qUkpmLG8IA=;
+	b=kbcj7eCC1shVC7T/v2Rcz/s275H+0VTUW+63aZ0K7ogI8Kd8uy1BppRM8OFtPS0diB
+	dM6aQ5em/hKd94299Z/H7uWe8G5khgdlug7vfk02qhDJ3WIuL6LNAZoBWbOLxzbqLYJN
+	mCFRA+93A42/Umf+oUN8cudVV0NKKXase3US6KsJLJKGdwuyLOzYxgfei03AVbRt5ptb
+	2lNir8yrD1WpeWIsD6lqdyIvD+moIZgTm0OUcrX2M8wJiLVNiOKsioTqtkU40AOdKItz
+	CVKEWVaiv0zp9PrrnC99gvEpvWfPS7LrI0UxMGVwcSf95Bjn/m2hnvUAVzsIbi/vhRyU
+	XwPQ==
+X-Gm-Message-State: AJaThX7P1jlvtVlBbK2Id79IpM1Pvnvgsyum4P3S6OFcG2Xjv0XvHVY1
+	iYK2rAOS1jJfsEzojDlfO3vuiYcHWPbr163m7MgpMQ==
+X-Google-Smtp-Source: ABhQp+T+83e3s7CVx7rb++Vau7Wq9HJmRlLmypGjPfdYRG6DSD2e2R/A0mrFNI8I4/zQFxttQv0zv3iPKzdsM1ijNH8=
+X-Received: by 10.107.183.151 with SMTP id h145mr2338629iof.259.1510260871676; 
+	Thu, 09 Nov 2017 12:54:31 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
+Received: by 10.107.176.10 with HTTP; Thu, 9 Nov 2017 12:54:11 -0800 (PST)
+In-Reply-To: <6eb7d501a2a8422cf0ee6a36bb99143f39255be3.1510192517.git.raj.khem@gmail.com>
+References: <cover.1510192517.git.raj.khem@gmail.com>
+	<6eb7d501a2a8422cf0ee6a36bb99143f39255be3.1510192517.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Nov 2017 20:54:11 +0000
+Message-ID: <CAJTo0LYazanyLCCXD0p5yQZCNa7PM0XNGKt2O5KidsS=aRF9Uw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] binutils: Convert SRC_URI and SRCREV to weak defines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,261 +56,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Nov 2017 17:11:53 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Nov 2017 20:54:30 -0000
+Content-Type: multipart/alternative; boundary="94eb2c0c07b0c68741055d93023e"
 
-On Thu, 26 Oct 2017 10:33:19 -0700
-leonardo.sandoval.gonzalez@linux.intel.com wrote:
+--94eb2c0c07b0c68741055d93023e
+Content-Type: text/plain; charset="UTF-8"
 
-RP indicated two scenarios that this v1 won't work:
+How does this help?  A bbappend is parsed after the bb so it can just
+assign to SRCREV.
 
-1) if oe-selftest comes from a tarball (together with the other repo files)
-2) if other no-poky layers are present on current BBLAYERS.
+Also is it actually useful to change the git url but apply the same patches?
 
-I will review both items and send a v2.
+Ross
 
-Leo
+On 9 November 2017 at 01:58, Khem Raj <raj.khem@gmail.com> wrote:
 
-
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> 
-> The main idea is to isolate the oe-selftest execution so neither the current
-> build dir nor the configuration data is touch/polluted. This approach uses
-> a wrapper script (which is the one presented on this commit) which creates
-> a unique directory and inside it does a shallow of repo(s) (OE-Core and Bitbake),
-> re-initializes the enviroment (re-sources oe-init-build-env) and finally launches
-> the oe-selftest-internal (which used to be oe-selftest) command, passing command
-> arguments to the latter.
-> 
-> The new build directory created when re-initializing the enviroment has the
-> same configuration data (local.conf, auto.conf, site.conf) as the
-> main build directory. The latter means that one can set DL_DIR and SSTATE_DIR
-> into <main build dir>/conf/site.conf and the oe-selftest execution will use this.
-> 
-> [YOCTO #11429]
-> 
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> This makes it easy to override them in bbappends
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  scripts/oe-selftest          | 102 +++++++++++++++++++++++--------------------
->  scripts/oe-selftest-internal |  75 +++++++++++++++++++++++++++++++
->  2 files changed, 129 insertions(+), 48 deletions(-)
->  create mode 100755 scripts/oe-selftest-internal
-> 
-> diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-> index 1bf860a415..f3ce89cedb 100755
-> --- a/scripts/oe-selftest
-> +++ b/scripts/oe-selftest
-> @@ -1,5 +1,7 @@
-> -#!/usr/bin/env python3
-> +#!/bin/sh
->  
-> +# scripts/oe-selftest: calls oe-selftest-internal in a isolated environment
-> +#
->  # Copyright (c) 2013-2017 Intel Corporation
->  #
->  # This program is free software; you can redistribute it and/or modify
-> @@ -14,62 +16,66 @@
->  # You should have received a copy of the GNU General Public License along
->  # with this program; if not, write to the Free Software Foundation, Inc.,
->  # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +#
-> +
-> +# Variable definitions
-> +ORIGBUILDDIR="$BUILDDIR"
-> +OESELFTESTSCRIPTDIR="$(which oe-selftest)"
-> +SCRIPTSDIR="$(dirname $OESELFTESTSCRIPTDIR)"
-> +OECOREDIR="$(dirname $SCRIPTSDIR)"
-> +
-> +# oe-selftest-$$ related
-> +OESELFTESTDIR="$ORIGBUILDDIR/oe-selftest-$$"
-> +OESELFTESTOECOREDIR="$OESELFTESTDIR/openembedded-core"
-> +OESELFTESTBUILDDIR="$OESELFTESTDIR/openembedded-core/build"
-> +TEMPLATEPATH="$OESELFTESTDIR/template/conf"
->  
-> -# DESCRIPTION
-> -# This script runs tests defined in meta/lib/oeqa/selftest/
-> -# It's purpose is to automate the testing of different bitbake tools.
-> -# To use it you just need to source your build environment setup script and
-> -# add the meta-selftest layer to your BBLAYERS.
-> -# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
-> -# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
-> -# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
-> +# 0. Return immediately in case no test execution
-> +ADDTESTS="$(echo "$@" | grep -i '\-a')"
-> +SOMETESTS="$(echo "$@" | grep -i '\-r')"
-> +if [ -z "$ADDTESTS" -a -z "$SOMETESTS" ]; then
-> +    if [ -z "$@" ]; then
-> +	oe-selftest-internal -h
-> +    else
-> +	oe-selftest-internal "$@"
-> +    fi
-> +    exit 0
-> +fi
->  
-> +# 1. All work will be done under OESELFTESTDIR
-> +mkdir $OESELFTESTDIR && cd $OESELFTESTDIR
->  
-> +# 2.1 Shallow clone OE-Core
-> +git clone file://$OECOREDIR --depth 1 $OESELFTESTOECOREDIR
->  
-> -import os
-> -import sys
-> -import argparse
-> -import logging
-> +# 2.2 Shallow clone bitbake if necessary (if OE-Core is embedded on a combo repo, like Poky, there is no need)
-> +if [ ! -d "$OESELFTESTOECOREDIR/bitbake" ]; then
-> +    git clone file://$OECOREDIR/bitbake --depth 1 $OESELFTESTOECOREDIR/bitbake
-> +fi
->  
-> -scripts_path = os.path.dirname(os.path.realpath(__file__))
-> -lib_path = scripts_path + '/lib'
-> -sys.path = sys.path + [lib_path]
-> -import argparse_oe
-> -import scriptutils
-> -import scriptpath
-> -scriptpath.add_oe_lib_path()
-> -scriptpath.add_bitbake_lib_path()
-> +# 3. Template: create template directory based on BUILDIR/conf/local.conf
-> +mkdir -p $TEMPLATEPATH
-> +cp $ORIGBUILDDIR/conf/local.conf $TEMPLATEPATH/local.conf.sample
->  
-> -from oeqa.utils import load_test_components
-> -from oeqa.core.exception import OEQAPreRun
-> +# 4. re-initialized environment with new metadata and templateconf environement
-> +cd $OESELFTESTOECOREDIR
-> +export TEMPLATEPATH && source ./oe-init-build-env $OESELFTESTBUILDDIR
->  
-> -logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
-> +# 5. Respect any site.conf and/or auto.conf and place it into conf directory
-> +if [ -r "$ORIGBUILDDIR/conf/site.conf" ]; then
-> +    cp -f $ORIGBUILDDIR/conf/site.conf $OESELFTESTBUILDDIR/conf
-> +fi
-> +if [ -r "$ORIGBUILDDIR/conf/auto.conf" ]; then
-> +    cp -f $ORIGBUILDDIR/conf/auto.conf $OESELFTESTBUILDDIR/conf
-> +fi
->  
-> -def main():
-> -    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
-> -    parser = argparse_oe.ArgumentParser(description=description)
-> +# 6. Execute the tests throught oe-selftest-internal
-> +oe-selftest-internal "$@"
->  
-> -    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
-> -    comp.register_commands(logger, parser)
-> +OESELFTESTRC="$?"
->  
-> -    try:
-> -        args = parser.parse_args()
-> -        results = args.func(logger, args)
-> -        ret = 0 if results.wasSuccessful() else 1
-> -    except SystemExit as err:
-> -        if err.code != 0:
-> -            raise err
-> -        ret = err.code
-> -    except OEQAPreRun as pr:
-> -        ret = 1
-> +# 7. Echo working folder
->  
-> -    return ret
-> +echo -e "\nAll work done under $OESELFTESTDIR\n"
->  
-> -if __name__ == '__main__':
-> -    try:
-> -        ret = main()
-> -    except Exception:
-> -        ret = 1
-> -        import traceback
-> -        traceback.print_exc()
-> -    sys.exit(ret)
-> +exit $OESELFTESTRC
-> diff --git a/scripts/oe-selftest-internal b/scripts/oe-selftest-internal
-> new file mode 100755
-> index 0000000000..cff2906763
-> --- /dev/null
-> +++ b/scripts/oe-selftest-internal
-> @@ -0,0 +1,75 @@
-> +#!/usr/bin/env python3
-> +
-> +# Copyright (c) 2013-2017 Intel Corporation
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License version 2 as
-> +# published by the Free Software Foundation.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License along
-> +# with this program; if not, write to the Free Software Foundation, Inc.,
-> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +
-> +# DESCRIPTION
-> +# This script runs tests defined in meta/lib/oeqa/selftest/
-> +# It's purpose is to automate the testing of different bitbake tools.
-> +# To use it you just need to source your build environment setup script and
-> +# add the meta-selftest layer to your BBLAYERS.
-> +# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
-> +# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
-> +# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
-> +
-> +
-> +
-> +import os
-> +import sys
-> +import argparse
-> +import logging
-> +
-> +scripts_path = os.path.dirname(os.path.realpath(__file__))
-> +lib_path = scripts_path + '/lib'
-> +sys.path = sys.path + [lib_path]
-> +import argparse_oe
-> +import scriptutils
-> +import scriptpath
-> +scriptpath.add_oe_lib_path()
-> +scriptpath.add_bitbake_lib_path()
-> +
-> +from oeqa.utils import load_test_components
-> +from oeqa.core.exception import OEQAPreRun
-> +
-> +logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
-> +
-> +def main():
-> +    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
-> +    parser = argparse_oe.ArgumentParser(prog='oe-selftest', description=description)
-> +
-> +    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
-> +    comp.register_commands(logger, parser)
-> +
-> +    try:
-> +        args = parser.parse_args()
-> +        results = args.func(logger, args)
-> +        ret = 0 if results.wasSuccessful() else 1
-> +    except SystemExit as err:
-> +        if err.code != 0:
-> +            raise err
-> +        ret = err.code
-> +    except OEQAPreRun as pr:
-> +        ret = 1
-> +
-> +    return ret
-> +
-> +if __name__ == '__main__':
-> +    try:
-> +        ret = main()
-> +    except Exception:
-> +        ret = 1
-> +        import traceback
-> +        traceback.print_exc()
-> +    sys.exit(ret)
-> -- 
-> 2.12.3
-> 
-> -- 
+>  meta/recipes-devtools/binutils/binutils-2.29.inc | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.29.inc
+> b/meta/recipes-devtools/binutils/binutils-2.29.inc
+> index 27d46eb088..35f76cba6d 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.29.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.29.inc
+> @@ -18,9 +18,10 @@ BINUPV = "${@binutils_branch_version(d)}"
+>
+>  UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
+>
+> -SRCREV = "37e991bb143ca2106330bcdc625590d53838b7a1"
+> +SRCREV ?= "37e991bb143ca2106330bcdc625590d53838b7a1"
+> +BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=
+> binutils-${BINUPV}-branch;protocol=git"
+>  SRC_URI = "\
+> -     git://sourceware.org/git/binutils-gdb.git;branch=
+> binutils-${BINUPV}-branch;protocol=git \
+> +     ${BINUTILS_GIT_URI} \
+>       file://0003-configure-widen-the-regexp-for-SH-architectures.patch \
+>       file://0004-Point-scripts-location-to-libdir.patch \
+>       file://0005-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patch
+> \
+> --
+> 2.15.0
+>
+> --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--94eb2c0c07b0c68741055d93023e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">How does this help?=C2=A0 A bbappend is parsed after the b=
+b so it can just assign to SRCREV.<div><br></div><div>Also is it actually u=
+seful to change the git url but apply the same patches?</div><div><br></div=
+><div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
+ote">On 9 November 2017 at 01:58, Khem Raj <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">This makes it easy to overrid=
+e them in bbappends<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
+gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/<wbr>binutils/binutils-2.29.inc | 5 +++--<br>
+=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/<wbr>binutils/binutils-2.29.inc b/meta/r=
+ecipes-devtools/<wbr>binutils/binutils-2.29.inc<br>
+index 27d46eb088..35f76cba6d 100644<br>
+--- a/meta/recipes-devtools/<wbr>binutils/binutils-2.29.inc<br>
++++ b/meta/recipes-devtools/<wbr>binutils/binutils-2.29.inc<br>
+@@ -18,9 +18,10 @@ BINUPV =3D &quot;${@binutils_branch_version(d)<wbr>}&quo=
+t;<br>
+<br>
+=C2=A0UPSTREAM_CHECK_GITTAGREGEX =3D &quot;binutils-(?P&lt;pver&gt;\d+_(\d_=
+?)*<wbr>)&quot;<br>
+<br>
+-SRCREV =3D &quot;<wbr>37e991bb143ca2106330bcdc625590<wbr>d53838b7a1&quot;<=
+br>
++SRCREV ?=3D &quot;<wbr>37e991bb143ca2106330bcdc625590<wbr>d53838b7a1&quot;=
+<br>
++BINUTILS_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.org/git/bin=
+utils-gdb.git;branch=3Dbinutils-${BINUPV}-branch;protocol=3Dgit" rel=3D"nor=
+eferrer" target=3D"_blank">sourceware.org/git/<wbr>binutils-gdb.git;branch=
+=3D<wbr>binutils-${BINUPV}-branch;<wbr>protocol=3Dgit</a>&quot;<br>
+=C2=A0SRC_URI =3D &quot;\<br>
+-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://sourceware.org/git/binutils-gd=
+b.git;branch=3Dbinutils-${BINUPV}-branch;protocol=3Dgit" rel=3D"noreferrer"=
+ target=3D"_blank">sourceware.org/git/<wbr>binutils-gdb.git;branch=3D<wbr>b=
+inutils-${BINUPV}-branch;<wbr>protocol=3Dgit</a> \<br>
++=C2=A0 =C2=A0 =C2=A0${BINUTILS_GIT_URI} \<br>
+=C2=A0 =C2=A0 =C2=A0 file://0003-configure-widen-<wbr>the-regexp-for-SH-<wb=
+r>architectures.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 file://0004-Point-scripts-<wbr>location-to-libdir.patc=
+h \<br>
+=C2=A0 =C2=A0 =C2=A0 file://0005-Only-generate-an-<wbr>RPATH-entry-if-LD_RU=
+N_PATH-is-<wbr>not-e.patch \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.15.0<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.<wbr>openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
+ailman/listinfo/openembedded-<wbr>core</a><br>
+</font></span></blockquote></div><br></div>
+
+--94eb2c0c07b0c68741055d93023e--
