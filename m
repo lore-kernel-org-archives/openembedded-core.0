@@ -1,45 +1,18 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B3E4D784E6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Nov 2017 02:26:38 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id o7so3502273pgc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Nov 2017 18:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=+AxKLq0FpsMwo+scdb5nZXPWYsx5CCAwmG+O0fBmKlw=;
-	b=Qa4n06xwZqE+74pHN1qT+FkxMppJtW0YkvnXWKIsarva8Mhsxk1QksmPT7S6mp3c+0
-	R0178ZNmSJ0ZgHhFIi4qTAz8ohlvKsu0lDDbwu4JpUnkaD49p2udDea7eiXume8iQE3U
-	kNuLC2DS1hrZ4erjeJkQ0CVtxg0pAJ3rE4CJZHvsfMOxgWKwq1HOwvWLndHnU5CIPKH4
-	vtHG18f8UoW942cOinPhkCeYdVKYexpCvJ4cITWCz7E8tE8xLlvoLTxJaAknMvSnVfeJ
-	2kgL/+CNGFOqyKhCnKJC52AiRoZ4tLQbJ9WiQ58H1OKUmeW2wGTLJzlOszhCvRLK2NLn
-	wGhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+AxKLq0FpsMwo+scdb5nZXPWYsx5CCAwmG+O0fBmKlw=;
-	b=bNs0DOn9ywhgtPZdUhJbcwuv7mUcN6VTL+UEDMW7g9SODYGfv942hXvKqeIGB7JzOy
-	HJkEj0QCPvvJsCAYLbfGeQMdsKaFEjU425ILcYMJKwGgG0W/d/uZMju3roFioErTEftT
-	ZGD8wlsfyp7/e2D1clV4wX+G+Co23wzENeKSM2EdjOMTcbscXvSpFo8a5XQTSBx/UlcQ
-	cIFTk9OYDFx+d65GpWjZyWWylbPTmT/Y9XTfPUeDkA4pMx+JE6cAHG3i5/nqBcbld9yC
-	QmhU7qctIi/LIKCfHIcDCKc/yXlgGUe9ob0JG6Wd7py2alGhOtmdD8JKFJ6iBNRdFtEp
-	GqaQ==
-X-Gm-Message-State: AJaThX6zLJfHcTGyOuqPvOOr9V1q0nsazNnimOYcQhsUOqSHZDeWkqpS
-	9iuY4fLSr4nOMRpZD6qZ6J6qDA==
-X-Google-Smtp-Source: ABhQp+Q6LV9MiR45HI5TreoBah/k67YLqUX1ImOXfyjLBLgIpT1TxPZ3jZWP3FXcgxj4esJOWSPXBg==
-X-Received: by 10.84.218.200 with SMTP id g8mr2254200plm.23.1510194399345;
-	Wed, 08 Nov 2017 18:26:39 -0800 (PST)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id t80sm955638pfi.98.2017.11.08.18.26.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Nov 2017 18:26:38 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Nov 2017 18:26:32 -0800
-Message-Id: <1510194392-9197-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] base.bbclass: increase indent in get_layers_branch_rev() and buildcfg_vars()
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E87F784F1;
+	Thu,  9 Nov 2017 02:35:26 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 09 Nov 2017 02:35:27 -0000
+Message-ID: <20171109023527.2785.36225@do.openembedded.org>
+References: <1510194392-9197-1-git-send-email-armccurdy@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1510194392-9197-1-git-send-email-armccurdy@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmFzZS5iYmNsYXNzOiBpbmNyZWFzZSBpbmRlbnQgaW4gZ2V0X2xheWVyc19icmFuY2hfcmV2KCkgYW5kIGJ1aWxkY2ZnX3ZhcnMoKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Nov 2017 02:26:38 -0000
+X-List-Received-Date: Thu, 09 Nov 2017 02:35:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Although it may not appeal so much to users to prefer 80x24 consoles,
-the general trend is for screens to get bigger and the current output
-has started to look a little cramped on a modern HD display.
+== Series Details ==
 
-Increasing from 17 to 20 is obviously arbitrary, but does give enough
-space to cleanly display layers such as "meta-nodejs-contrib" and
-"meta-virtualization" while still keeping the output fairly compact.
+Series: base.bbclass: increase indent in get_layers_branch_rev() and buildcfg_vars()
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9677/
+State : failure
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3717c76eb2)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/base.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 07734ac..a7968d9 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -178,7 +178,7 @@ def pkgarch_mapping(d):
- 
- def get_layers_branch_rev(d):
-     layers = (d.getVar("BBLAYERS") or "").split()
--    layers_branch_rev = ["%-17s = \"%s:%s\"" % (os.path.basename(i), \
-+    layers_branch_rev = ["%-20s = \"%s:%s\"" % (os.path.basename(i), \
-         base_get_metadata_git_branch(i, None).strip(), \
-         base_get_metadata_git_revision(i, None)) \
-             for i in layers]
-@@ -206,7 +206,7 @@ def buildcfg_vars(d):
-     for var in statusvars:
-         value = d.getVar(var)
-         if value is not None:
--            yield '%-17s = "%s"' % (var, " ".join(value.split()))
-+            yield '%-20s = "%s"' % (var, " ".join(value.split()))
- 
- def buildcfg_neededvars(d):
-     needed_vars = oe.data.typed_value("BUILDCFG_NEEDEDVARS", d)
--- 
-1.9.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
