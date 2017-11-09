@@ -1,26 +1,26 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FDD660938
+	by mail.openembedded.org (Postfix) with ESMTP id 6399778419
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  9 Nov 2017 11:55:53 +0000 (UTC)
 Received: from hex ([192.168.3.34]) (authenticated bits=0)
 	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vA9BtqtN007427
+	vA9Btqpv007429
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
 	verify=NOT); Thu, 9 Nov 2017 11:55:53 GMT
 Received: from richard by hex with local (Exim 4.86_2)
 	(envelope-from <richard@rpsys.net>)
-	id 1eClR2-00030j-HX; Thu, 09 Nov 2017 11:55:52 +0000
+	id 1eClR2-00030t-Il; Thu, 09 Nov 2017 11:55:52 +0000
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Nov 2017 11:55:48 +0000
-Message-Id: <1510228551-11516-4-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu,  9 Nov 2017 11:55:50 +0000
+Message-Id: <1510228551-11516-6-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1510228551-11516-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1510228551-11516-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Virus-Scanned: clamav-milter 0.99.2 at dan
 X-Virus-Status: Clean
-Subject: [PATCH 4/7] oeqa/qemurunner: Use logger.debug, not logger.info
+Subject: [PATCH 6/7] oeqa: Clean up logger handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,273 +35,276 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 09 Nov 2017 11:55:55 -0000
 
-Bitbake logs info messages to the console. These messages are really
-there as debugging information. At the debug level, they will be shown
-in failure logs and in the task logs but not on the console which
-is what we want in this case.
+The logger handling in oeqa was confused at best. This patch:
+
+a) Passes in a logger through various qemu runner pieces
+b) Uses that logger consistently in the code
+c) Creates a logger for QemuRunner outside the bitbake namespace
+   meaning we don't conflict with the tinfoil logging changes
+
+The result of this is more consistency. For runtime tests in testimage,
+the logs always contain the debug info, nothing is shwon on the console.
+For the oe-selftests, logs are intercepted and only shown if the test
+fails.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 74 +++++++++++++++++++--------------------
- 1 file changed, 37 insertions(+), 37 deletions(-)
+ meta/lib/oeqa/core/target/qemu.py       |  2 +-
+ meta/lib/oeqa/selftest/cases/runqemu.py |  5 -----
+ meta/lib/oeqa/targetcontrol.py          | 25 +++++++++++++------------
+ meta/lib/oeqa/utils/commands.py         | 25 ++++++++-----------------
+ meta/lib/oeqa/utils/qemurunner.py       |  7 ++-----
+ meta/lib/oeqa/utils/qemutinyrunner.py   |  3 ++-
+ 6 files changed, 26 insertions(+), 41 deletions(-)
 
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 2dc521c..d359bf9 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -31,7 +31,7 @@ class OEQemuTarget(OESSHTarget):
+                                  deploy_dir_image=dir_image, display=display,
+                                  logfile=bootlog, boottime=boottime,
+                                  use_kvm=kvm, dump_dir=dump_dir,
+-                                 dump_host_cmds=dump_host_cmds)
++                                 dump_host_cmds=dump_host_cmds, logger=logger)
+ 
+     def start(self, params=None, extra_bootparams=None):
+         if self.runner.start(params, extra_bootparams=extra_bootparams):
+diff --git a/meta/lib/oeqa/selftest/cases/runqemu.py b/meta/lib/oeqa/selftest/cases/runqemu.py
+index 1a8d121..47d41f5 100644
+--- a/meta/lib/oeqa/selftest/cases/runqemu.py
++++ b/meta/lib/oeqa/selftest/cases/runqemu.py
+@@ -3,7 +3,6 @@
+ #
+ 
+ import re
+-import logging
+ 
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, runqemu, get_bb_var
+@@ -24,10 +23,6 @@ class RunqemuTests(OESelftestTestCase):
+         self.fstypes = "ext4 iso hddimg wic.vmdk wic.qcow2 wic.vdi"
+         self.cmd_common = "runqemu nographic"
+ 
+-        # Avoid emit the same record multiple times.
+-        mainlogger = logging.getLogger("BitBake.Main")
+-        mainlogger.propagate = False
+-
+         self.write_config(
+ """
+ MACHINE = "%s"
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index e17c895..f63936c 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -18,19 +18,18 @@ from oeqa.utils.dump import TargetDumper
+ from oeqa.controllers.testtargetloader import TestTargetLoader
+ from abc import ABCMeta, abstractmethod
+ 
+-logger = logging.getLogger('BitBake.QemuRunner')
+-
+ class BaseTarget(object, metaclass=ABCMeta):
+ 
+     supported_image_fstypes = []
+ 
+-    def __init__(self, d):
++    def __init__(self, d, logger):
+         self.connection = None
+         self.ip = None
+         self.server_ip = None
+         self.datetime = d.getVar('DATETIME')
+         self.testdir = d.getVar("TEST_LOG_DIR")
+         self.pn = d.getVar("PN")
++        self.logger = logger
+ 
+     @abstractmethod
+     def deploy(self):
+@@ -40,7 +39,7 @@ class BaseTarget(object, metaclass=ABCMeta):
+         if os.path.islink(sshloglink):
+             os.unlink(sshloglink)
+         os.symlink(self.sshlog, sshloglink)
+-        logger.info("SSH log file: %s" %  self.sshlog)
++        self.logger.info("SSH log file: %s" %  self.sshlog)
+ 
+     @abstractmethod
+     def start(self, params=None, ssh=True, extra_bootparams=None):
+@@ -90,7 +89,7 @@ class QemuTarget(BaseTarget):
+ 
+     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+ 
+-    def __init__(self, d, image_fstype=None, logger=None):
++    def __init__(self, d, logger, image_fstype=None):
+ 
+         super(QemuTarget, self).__init__(d, logger)
+ 
+@@ -120,7 +119,7 @@ class QemuTarget(BaseTarget):
+         self.qemurunnerlog = os.path.join(self.testdir, 'qemurunner_log.%s' % self.datetime)
+         loggerhandler = logging.FileHandler(self.qemurunnerlog)
+         loggerhandler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+-        logger.addHandler(loggerhandler)
++        self.logger.addHandler(loggerhandler)
+         oe.path.symlink(os.path.basename(self.qemurunnerlog), os.path.join(self.testdir, 'qemurunner_log'), force=True)
+ 
+         if d.getVar("DISTRO") == "poky-tiny":
+@@ -131,7 +130,8 @@ class QemuTarget(BaseTarget):
+                             display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY"),
+                             logfile = self.qemulog,
+                             kernel = self.kernel,
+-                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")))
++                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
++                            logger = logger)
+         else:
+             self.runner = QemuRunner(machine=d.getVar("MACHINE"),
+                             rootfs=self.rootfs,
+@@ -142,7 +142,8 @@ class QemuTarget(BaseTarget):
+                             boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT")),
+                             use_kvm = use_kvm,
+                             dump_dir = dump_dir,
+-                            dump_host_cmds = d.getVar("testimage_dump_host"))
++                            dump_host_cmds = d.getVar("testimage_dump_host"),
++                            logger = logger)
+ 
+         self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
+ 
+@@ -154,8 +155,8 @@ class QemuTarget(BaseTarget):
+             os.unlink(qemuloglink)
+         os.symlink(self.qemulog, qemuloglink)
+ 
+-        logger.info("rootfs file: %s" %  self.rootfs)
+-        logger.info("Qemu log file: %s" % self.qemulog)
++        self.logger.info("rootfs file: %s" %  self.rootfs)
++        self.logger.info("Qemu log file: %s" % self.qemulog)
+         super(QemuTarget, self).deploy()
+ 
+     def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd='', discard_writes=True):
+@@ -207,14 +208,14 @@ class SimpleRemoteTarget(BaseTarget):
+             self.port = addr.split(":")[1]
+         except IndexError:
+             self.port = None
+-        logger.info("Target IP: %s" % self.ip)
++        self.logger.info("Target IP: %s" % self.ip)
+         self.server_ip = d.getVar("TEST_SERVER_IP")
+         if not self.server_ip:
+             try:
+                 self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
+             except Exception as e:
+                 bb.fatal("Failed to determine the host IP address (alternatively you can set TEST_SERVER_IP with the IP address of this machine): %s" % e)
+-        logger.info("Server IP: %s" % self.server_ip)
++        self.logger.info("Server IP: %s" % self.server_ip)
+ 
+     def deploy(self):
+         super(SimpleRemoteTarget, self).deploy()
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 5e53454..0bb9002 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -296,6 +296,12 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+     import bb.tinfoil
+     import bb.build
+ 
++    # Need a non-'BitBake' logger to capture the runner output
++    targetlogger = logging.getLogger('TargetRunner')
++    targetlogger.setLevel(logging.DEBUG)
++    handler = logging.StreamHandler(sys.stdout)
++    targetlogger.addHandler(handler)
++
+     tinfoil = bb.tinfoil.Tinfoil()
+     tinfoil.prepare(config_only=False, quiet=True)
+     try:
+@@ -313,31 +319,15 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+         for key, value in overrides.items():
+             recipedata.setVar(key, value)
+ 
+-        # The QemuRunner log is saved out, but we need to ensure it is at the right
+-        # log level (and then ensure that since it's a child of the BitBake logger,
+-        # we disable propagation so we don't then see the log events on the console)
+-        logger = logging.getLogger('BitBake.QemuRunner')
+-        logger.setLevel(logging.DEBUG)
+-        logger.propagate = False
+         logdir = recipedata.getVar("TEST_LOG_DIR")
+ 
+-        qemu = oeqa.targetcontrol.QemuTarget(recipedata, image_fstype)
++        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
+     finally:
+         # We need to shut down tinfoil early here in case we actually want
+         # to run tinfoil-using utilities with the running QEMU instance.
+         # Luckily QemuTarget doesn't need it after the constructor.
+         tinfoil.shutdown()
+ 
+-    # Setup bitbake logger as console handler is removed by tinfoil.shutdown
+-    bblogger = logging.getLogger('BitBake')
+-    bblogger.setLevel(logging.INFO)
+-    console = logging.StreamHandler(sys.stdout)
+-    bbformat = bb.msg.BBLogFormatter("%(levelname)s: %(message)s")
+-    if sys.stdout.isatty():
+-        bbformat.enable_color()
+-    console.setFormatter(bbformat)
+-    bblogger.addHandler(console)
+-
+     try:
+         qemu.deploy()
+         try:
+@@ -352,6 +342,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+             qemu.stop()
+         except:
+             pass
++    targetlogger.removeHandler(handler)
+ 
+ def updateEnv(env_file):
+     """
 diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index aa2600b..3214887 100644
+index 3214887..82335d8 100644
 --- a/meta/lib/oeqa/utils/qemurunner.py
 +++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -68,7 +68,7 @@ class QemuRunner:
-             sock.bind(("127.0.0.1",0))
-             sock.listen(2)
-             port = sock.getsockname()[1]
--            self.logger.info("Created listening socket for qemu serial console on: 127.0.0.1:%s" % port)
-+            self.logger.debug("Created listening socket for qemu serial console on: 127.0.0.1:%s" % port)
-             return (sock, port)
+@@ -28,7 +28,7 @@ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
  
-         except socket.error:
-@@ -95,8 +95,8 @@ class QemuRunner:
-     def handleSIGCHLD(self, signum, frame):
-         if self.runqemu and self.runqemu.poll():
-             if self.runqemu.returncode:
--                self.logger.info('runqemu exited with code %d' % self.runqemu.returncode)
--                self.logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
-+                self.logger.debug('runqemu exited with code %d' % self.runqemu.returncode)
-+                self.logger.debug("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
-                 self.stop()
-                 self._dump_host()
-                 raise SystemExit
-@@ -125,10 +125,10 @@ class QemuRunner:
-         if not launch_cmd:
-             launch_cmd = 'runqemu %s %s ' % ('snapshot' if discard_writes else '', runqemuparams)
-             if self.use_kvm:
--                self.logger.info('Using kvm for runqemu')
-+                self.logger.debug('Using kvm for runqemu')
-                 launch_cmd += ' kvm'
-             else:
--                self.logger.info('Not using kvm for runqemu')
-+                self.logger.debug('Not using kvm for runqemu')
-             if not self.display:
-                 launch_cmd += ' nographic'
-             launch_cmd += ' %s %s' % (self.machine, self.rootfs)
-@@ -160,7 +160,7 @@ class QemuRunner:
-         self.origchldhandler = signal.getsignal(signal.SIGCHLD)
-         signal.signal(signal.SIGCHLD, self.handleSIGCHLD)
+ class QemuRunner:
  
--        self.logger.info('launchcmd=%s'%(launch_cmd))
-+        self.logger.debug('launchcmd=%s'%(launch_cmd))
+-    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds, use_kvm):
++    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, dump_host_cmds, use_kvm, logger):
  
-         # FIXME: We pass in stdin=subprocess.PIPE here to work around stty
-         # blocking at the end of the runqemu script when using this within
-@@ -195,17 +195,17 @@ class QemuRunner:
-             os.killpg(os.getpgid(self.runqemu.pid), signal.SIGTERM)
-             sys.exit(0)
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -57,9 +57,7 @@ class QemuRunner:
+         self.qemu_pidfile = 'pidfile_'+str(os.getpid())
+         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
  
--        self.logger.info("runqemu started, pid is %s" % self.runqemu.pid)
--        self.logger.info("waiting at most %s seconds for qemu pid" % self.runqemutime)
-+        self.logger.debug("runqemu started, pid is %s" % self.runqemu.pid)
-+        self.logger.debug("waiting at most %s seconds for qemu pid" % self.runqemutime)
-         endtime = time.time() + self.runqemutime
-         while not self.is_alive() and time.time() < endtime:
-             if self.runqemu.poll():
-                 if self.runqemu.returncode:
-                     # No point waiting any longer
--                    self.logger.info('runqemu exited with code %d' % self.runqemu.returncode)
-+                    self.logger.debug('runqemu exited with code %d' % self.runqemu.returncode)
-                     self._dump_host()
-                     self.stop()
--                    self.logger.info("Output from runqemu:\n%s" % self.getOutput(output))
-+                    self.logger.debug("Output from runqemu:\n%s" % self.getOutput(output))
-                     return False
-             time.sleep(0.5)
+-        self.logger = logging.getLogger("BitBake.QemuRunner")
+-        self.handler = logging.StreamHandler(sys.stdout)
+-        self.logger.addHandler(self.handler)
++        self.logger = logger
  
-@@ -214,7 +214,7 @@ class QemuRunner:
-             # Dump all processes to help us to figure out what is going on...
-             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command '], stdout=subprocess.PIPE).communicate()[0]
-             processes = ps.decode("utf-8")
--            self.logger.info("Running processes:\n%s" % processes)
-+            self.logger.debug("Running processes:\n%s" % processes)
-             self._dump_host()
-             self.stop()
-             op = self.getOutput(output)
-@@ -227,7 +227,7 @@ class QemuRunner:
-         # We are alive: qemu is running
-         out = self.getOutput(output)
-         netconf = False # network configuration is not required by default
--        self.logger.info("qemu started in %s seconds - qemu procces pid is %s" % (time.time() - (endtime - self.runqemutime), self.qemupid))
-+        self.logger.debug("qemu started in %s seconds - qemu procces pid is %s" % (time.time() - (endtime - self.runqemutime), self.qemupid))
-         if get_ip:
-             cmdline = ''
-             with open('/proc/%s/cmdline' % self.qemupid) as p:
-@@ -239,7 +239,7 @@ class QemuRunner:
-                 ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
-                 self.ip = ips[0]
-                 self.server_ip = ips[1]
--                self.logger.info("qemu cmdline used:\n{}".format(cmdline))
-+                self.logger.debug("qemu cmdline used:\n{}".format(cmdline))
-             except (IndexError, ValueError):
-                 # Try to get network configuration from runqemu output
-                 match = re.match('.*Network configuration: ([0-9.]+)::([0-9.]+):([0-9.]+)$.*',
-@@ -258,8 +258,8 @@ class QemuRunner:
-                     self.stop()
-                     return False
+     def create_socket(self):
+         try:
+@@ -371,7 +369,6 @@ class QemuRunner:
+         self.ip = None
+         if os.path.exists(self.qemu_pidfile):
+             os.remove(self.qemu_pidfile)
+-        self.logger.removeHandler(self.handler)
  
--        self.logger.info("Target IP: %s" % self.ip)
--        self.logger.info("Server IP: %s" % self.server_ip)
-+        self.logger.debug("Target IP: %s" % self.ip)
-+        self.logger.debug("Server IP: %s" % self.server_ip)
+     def stop_qemu_system(self):
+         if self.qemupid:
+diff --git a/meta/lib/oeqa/utils/qemutinyrunner.py b/meta/lib/oeqa/utils/qemutinyrunner.py
+index 1bf5900..63b5d16 100644
+--- a/meta/lib/oeqa/utils/qemutinyrunner.py
++++ b/meta/lib/oeqa/utils/qemutinyrunner.py
+@@ -17,7 +17,7 @@ from .qemurunner import QemuRunner
  
-         self.thread = LoggingThread(self.log, threadsock, self.logger)
-         self.thread.start()
-@@ -270,8 +270,8 @@ class QemuRunner:
-             self.stop_thread()
-             return False
+ class QemuTinyRunner(QemuRunner):
  
--        self.logger.info("Output from runqemu:\n%s", out)
--        self.logger.info("Waiting at most %d seconds for login banner" % self.boottime)
-+        self.logger.debug("Output from runqemu:\n%s", out)
-+        self.logger.debug("Waiting at most %d seconds for login banner" % self.boottime)
-         endtime = time.time() + self.boottime
-         socklist = [self.server_socket]
-         reachedlogin = False
-@@ -290,7 +290,7 @@ class QemuRunner:
-                     qemusock.setblocking(0)
-                     socklist.append(qemusock)
-                     socklist.remove(self.server_socket)
--                    self.logger.info("Connection from %s:%s" % addr)
-+                    self.logger.debug("Connection from %s:%s" % addr)
-                 else:
-                     data = data + sock.recv(1024)
-                     if data:
-@@ -302,7 +302,7 @@ class QemuRunner:
-                                 self.server_socket = qemusock
-                                 stopread = True
-                                 reachedlogin = True
--                                self.logger.info("Reached login banner")
-+                                self.logger.debug("Reached login banner")
-                         except UnicodeDecodeError:
-                             continue
-                     else:
-@@ -312,12 +312,12 @@ class QemuRunner:
+-    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime):
++    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, kernel, boottime, logger):
+ 
+         # Popen object for runqemu
+         self.runqemu = None
+@@ -40,6 +40,7 @@ class QemuTinyRunner(QemuRunner):
+         self.socketfile = "console.sock"
+         self.server_socket = None
+         self.kernel = kernel
++        self.logger = logger
  
  
-         if not reachedlogin:
--            self.logger.info("Target didn't reached login boot in %d seconds" % self.boottime)
-+            self.logger.debug("Target didn't reached login boot in %d seconds" % self.boottime)
-             tail = lambda l: "\n".join(l.splitlines()[-25:])
-             # in case bootlog is empty, use tail qemu log store at self.msg
-             lines = tail(bootlog if bootlog else self.msg)
--            self.logger.info("Last 25 lines of text:\n%s" % lines)
--            self.logger.info("Check full boot log: %s" % self.logfile)
-+            self.logger.debug("Last 25 lines of text:\n%s" % lines)
-+            self.logger.debug("Check full boot log: %s" % self.logfile)
-             self._dump_host()
-             self.stop()
-             return False
-@@ -327,20 +327,20 @@ class QemuRunner:
-             (status, output) = self.run_serial("root\n", raw=True)
-             if re.search("root@[a-zA-Z0-9\-]+:~#", output):
-                 self.logged = True
--                self.logger.info("Logged as root in serial console")
-+                self.logger.debug("Logged as root in serial console")
-                 if netconf:
-                     # configure guest networking
-                     cmd = "ifconfig eth0 %s netmask %s up\n" % (self.ip, self.netmask)
-                     output = self.run_serial(cmd, raw=True)[1]
-                     if re.search("root@[a-zA-Z0-9\-]+:~#", output):
--                        self.logger.info("configured ip address %s", self.ip)
-+                        self.logger.debug("configured ip address %s", self.ip)
-                     else:
--                        self.logger.info("Couldn't configure guest networking")
-+                        self.logger.debug("Couldn't configure guest networking")
-             else:
--                self.logger.info("Couldn't login into serial console"
-+                self.logger.debug("Couldn't login into serial console"
-                             " as root using blank password")
-         except:
--            self.logger.info("Serial console failed while trying to login")
-+            self.logger.debug("Serial console failed while trying to login")
-         return True
- 
-     def stop(self):
-@@ -351,7 +351,7 @@ class QemuRunner:
-         if self.runqemu:
-             if hasattr(self, "monitorpid"):
-                 os.kill(self.monitorpid, signal.SIGKILL)
--                self.logger.info("Sending SIGTERM to runqemu")
-+                self.logger.debug("Sending SIGTERM to runqemu")
-                 try:
-                     os.killpg(os.getpgid(self.runqemu.pid), signal.SIGTERM)
-                 except OSError as e:
-@@ -361,7 +361,7 @@ class QemuRunner:
-             while self.runqemu.poll() is None and time.time() < endtime:
-                 time.sleep(1)
-             if self.runqemu.poll() is None:
--                self.logger.info("Sending SIGKILL to runqemu")
-+                self.logger.debug("Sending SIGKILL to runqemu")
-                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
-             self.runqemu = None
-         if hasattr(self, 'server_socket') and self.server_socket:
-@@ -387,7 +387,7 @@ class QemuRunner:
-             self.thread.join()
- 
-     def restart(self, qemuparams = None):
--        self.logger.info("Restarting qemu process")
-+        self.logger.debug("Restarting qemu process")
-         if self.runqemu.poll() is None:
-             self.stop()
-         if self.start(qemuparams):
-@@ -485,17 +485,17 @@ class LoggingThread(threading.Thread):
-             self.teardown()
- 
-     def run(self):
--        self.logger.info("Starting logging thread")
-+        self.logger.debug("Starting logging thread")
-         self.readpipe, self.writepipe = os.pipe()
-         threading.Thread.run(self)
- 
-     def stop(self):
--        self.logger.info("Stopping logging thread")
-+        self.logger.debug("Stopping logging thread")
-         if self.running:
-             os.write(self.writepipe, bytes("stop", "utf-8"))
- 
-     def teardown(self):
--        self.logger.info("Tearing down logging thread")
-+        self.logger.debug("Tearing down logging thread")
-         self.close_socket(self.serversock)
- 
-         if self.readsock is not None:
-@@ -513,7 +513,7 @@ class LoggingThread(threading.Thread):
- 
-         breakout = False
-         self.running = True
--        self.logger.info("Starting thread event loop")
-+        self.logger.debug("Starting thread event loop")
-         while not breakout:
-             events = poll.poll()
-             for event in events:
-@@ -523,19 +523,19 @@ class LoggingThread(threading.Thread):
- 
-                 # Event to stop the thread
-                 if self.readpipe == event[0]:
--                    self.logger.info("Stop event received")
-+                    self.logger.debug("Stop event received")
-                     breakout = True
-                     break
- 
-                 # A connection request was received
-                 elif self.serversock.fileno() == event[0]:
--                    self.logger.info("Connection request received")
-+                    self.logger.debug("Connection request received")
-                     self.readsock, _ = self.serversock.accept()
-                     self.readsock.setblocking(0)
-                     poll.unregister(self.serversock.fileno())
-                     poll.register(self.readsock.fileno(), event_read_mask)
- 
--                    self.logger.info("Setting connection established event")
-+                    self.logger.debug("Setting connection established event")
-                     self.connection_established.set()
- 
-                 # Actual data to be logged
+     def create_socket(self):
 -- 
 2.7.4
 
