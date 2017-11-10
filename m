@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5880D7864B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E5DD078635
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:22:52 +0000 (UTC)
+	Fri, 10 Nov 2017 13:22:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADMsqe018031
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAADMtNu012133
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 05:22:54 -0800 (PST)
+	Fri, 10 Nov 2017 05:22:55 -0800
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 10 Nov 2017 05:22:53 -0800
+	14.3.361.1; Fri, 10 Nov 2017 05:22:54 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Nov 2017 14:27:08 +0800
-Message-ID: <462acc2afc109953468e20e664953e0514718e98.1510275834.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Nov 2017 14:27:09 +0800
+Message-ID: <f098c01a598f8d4fc296fb408883040bd8bdc1d1.1510275834.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
 References: <cover.1510275834.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/23] staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+Subject: [PATCH 09/23] staging.bbclass: print searched manifest when not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:22:52 -0000
+X-List-Received-Date: Fri, 10 Nov 2017 13:22:54 -0000
 Content-Type: text/plain
 
-Fixed:
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+The old warning was:
+WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 do_prepare_recipe_sysroot: Manifest /path/to/tmp/sstate-control/manifest-allarch-lib32-qemuwrapper-cross.populate_sysroot not found?
 
-$ bitbake core-image-sato lib32-core-image-sato
-$ bitbake build-sysroots
+The message wasn't clear enough, it searched a few manifests, but only
+reported the last one, which confused user.
 
-All lib32 manifests which had been built should be installed, but only a few
-such as qemux86_64-lib32-base-files were installed (it was installed because
-MACHINE_ARCH was still qemux86-64 when multilib), but others such as
-x86-lib32-zlib were not installed, this was incorrect. For multilib builds,
-fix-up overrides to prepend :virtclass-multilib- and then again append
-additional multilib arches from the PACKAGE_EXTRA_ARCHS list if needed can fix
-the problem.
+Now the warning is:
+WARNING: lib32-wrlinux-image-glibc-small-1.0-r1 do_rootfs: Manifest for lib32-qemuwrapper-cross not found, searched manifests:
+/path/to/tmp/sstate-control/manifest-qemux86_64-lib32-qemuwrapper-cross.populate_sysroot
+/path/to/tmp/sstate-control/manifest-core2-64-lib32-qemuwrapper-cross.populate_sysroot
+/path/to/tmp/sstate-control/manifest-x86_64-lib32-qemuwrapper-cross.populate_sysroot
+/path/to/tmp/sstate-control/manifest-allarch-lib32-qemuwrapper-cross.populate_sysroot
+
+Whick makes debug easier.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/staging.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/classes/staging.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 412e269..455eb05 100644
+index 455eb05..75bec84 100644
 --- a/meta/classes/staging.bbclass
 +++ b/meta/classes/staging.bbclass
-@@ -190,8 +190,23 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
-         pkgarchs = ['${MACHINE_ARCH}']
-         pkgarchs = pkgarchs + list(reversed(d.getVar("PACKAGE_EXTRA_ARCHS").split()))
-         pkgarchs.append('allarch')
-+
-+        # Handle multilib archs
-+        variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+        for variant in variants.split():
-+            localdata = bb.data.createCopy(d)
-+            overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
-+            localdata.setVar("OVERRIDES", overrides)
-+            bb.data.update_data(localdata)
-+            pkgarchs_ml = localdata.getVar('PACKAGE_EXTRA_ARCHS').split()
-+            for arch in pkgarchs_ml:
-+                if arch not in pkgarchs:
-+                    pkgarchs.append(arch)
-+
-         targetdir = targetsysroot
+@@ -504,6 +504,7 @@ python extend_recipe_sysroot() {
+                 variant = ''
  
-+    bb.debug(1, 'pkgarchs: %s' % pkgarchs)
-+
-     bb.utils.mkdirhier(targetdir)
-     for pkgarch in pkgarchs:
-         for manifest in glob.glob(d.expand("${SSTATE_MANIFESTS}/manifest-%s-*.populate_sysroot" % pkgarch)):
+         native = False
++        searched_manifest = []
+         if c.endswith("-native"):
+             manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-${BUILD_ARCH}-%s.populate_sysroot" % c)
+             native = True
+@@ -523,8 +524,11 @@ python extend_recipe_sysroot() {
+                 manifest = d2.expand("${SSTATE_MANIFESTS}/manifest-%s-%s.populate_sysroot" % (pkgarch, c))
+                 if os.path.exists(manifest):
+                     break
++                searched_manifest.append(manifest)
+         if not os.path.exists(manifest):
+-            bb.warn("Manifest %s not found?" % manifest)
++            if not searched_manifest:
++                searched_manifest.append(manifest)
++            bb.warn("Manifest for %s not found, searched manifests:\n%s" % (c, '\n'.join(searched_manifest)))
+         else:
+             newmanifest = collections.OrderedDict()
+             if native:
 -- 
 2.7.4
 
