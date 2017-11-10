@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DF3478694
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 83FC87869A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:23:07 +0000 (UTC)
+	Fri, 10 Nov 2017 13:23:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAADN8xx012142
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADN9Rd001398
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 05:23:08 -0800
+	Fri, 10 Nov 2017 05:23:10 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 10 Nov 2017 05:23:07 -0800
+	14.3.361.1; Fri, 10 Nov 2017 05:23:09 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Nov 2017 14:27:18 +0800
-Message-ID: <bbe50ba6b8f1e33cb14bd1c460a45998ef424d7f.1510275834.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Nov 2017 14:27:19 +0800
+Message-ID: <c976ef83660814cd93a27c6633d997b0ffbe897d.1510275834.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
 References: <cover.1510275834.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 18/23] multilib_global.bbclass: fix indent
+Subject: [PATCH 19/23] volatile-binds: use PN to replace hardcode name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:23:07 -0000
+X-List-Received-Date: Fri, 10 Nov 2017 13:23:08 -0000
 Content-Type: text/plain
+
+Otherwise it doesn't work since SYSTEMD_SERVICE_volatile-binds is not defined
+when multilib.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/multilib_global.bbclass | 2 +-
+ meta/recipes-core/volatile-binds/volatile-binds.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index fd0bfe1..68ef10e 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -162,7 +162,7 @@ python multilib_virtclass_handler_global () {
-             if rprovs.strip():
-                 e.data.setVar("RPROVIDES", rprovs)
+diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
+index a6e3254..d861a71 100644
+--- a/meta/recipes-core/volatile-binds/volatile-binds.bb
++++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
+@@ -67,7 +67,7 @@ do_install () {
+     install -m 0755 mount-copybind ${D}${base_sbindir}/
  
--	    # Process RPROVIDES_${PN}...
-+            # Process RPROVIDES_${PN}...
-             for pkg in (e.data.getVar("PACKAGES") or "").split():
-                 origrprovs = rprovs = e.data.getVar("RPROVIDES_%s" % pkg) or ""
-                 for clsextend in clsextends:
+     install -d ${D}${systemd_unitdir}/system
+-    for service in ${SYSTEMD_SERVICE_volatile-binds}; do
++    for service in ${SYSTEMD_SERVICE_${PN}}; do
+         install -m 0644 $service ${D}${systemd_unitdir}/system/
+     done
+ 
 -- 
 2.7.4
 
