@@ -1,21 +1,21 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 15AA678656
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 99DA76E672
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 17:42:01 +0000 (UTC)
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Nov 2017 09:41:35 -0800
+	Fri, 10 Nov 2017 17:52:26 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP; 10 Nov 2017 09:52:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,375,1505804400"; d="scan'208";a="148354364"
+X-IronPort-AV: E=Sophos;i="5.44,375,1505804400"; 
+   d="scan'208";a="941514"
 Received: from swold-mobl2.jf.intel.com (HELO swold-mobl2.amr.intel.com)
 	([10.254.182.183])
-	by orsmga004.jf.intel.com with ESMTP; 10 Nov 2017 09:41:35 -0800
+	by orsmga003.jf.intel.com with ESMTP; 10 Nov 2017 09:52:27 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Fri, 10 Nov 2017 09:41:32 -0800
-Message-Id: <20171110174132.5812-1-sgw@linux.intel.com>
+Date: Fri, 10 Nov 2017 09:52:25 -0800
+Message-Id: <20171110175225.7224-1-sgw@linux.intel.com>
 X-Mailer: git-send-email 2.13.5
 Subject: [PATCH] linux-firmware: Remove iwlwifi-8000C-19 SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 17:42:02 -0000
+X-List-Received-Date: Fri, 10 Nov 2017 17:52:26 -0000
 
 Since it's been removed from the upstream repo and not fetchable
 remove it here.  The newer firmware supports the device correctly.
