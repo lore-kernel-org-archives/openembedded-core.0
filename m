@@ -1,21 +1,23 @@
 Return-Path: <radek.dostal@streamunlimited.com>
 Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
-	by mail.openembedded.org (Postfix) with ESMTP id A46F4785DB
+	by mail.openembedded.org (Postfix) with ESMTP id EAAF4785C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 12:11:38 +0000 (UTC)
-Received: from rdostal-desktop.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 3yYJmW2hN5z5tlP;
-	Fri, 10 Nov 2017 13:11:39 +0100 (CET)
-From: =?UTF-8?q?Radek=20Dost=C3=A1l?= <radek.dostal@streamunlimited.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Nov 2017 13:11:05 +0100
-Message-Id: <1510315865-8486-2-git-send-email-radek.dostal@streamunlimited.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510315865-8486-1-git-send-email-radek.dostal@streamunlimited.com>
-References: <1510315865-8486-1-git-send-email-radek.dostal@streamunlimited.com>
+	Fri, 10 Nov 2017 12:13:17 +0000 (UTC)
+Received: from [10.1.14.202] (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 3yYJpP5hbzz5tlK;
+	Fri, 10 Nov 2017 13:13:17 +0100 (CET)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1510311749-14198-1-git-send-email-radek.dostal@streamunlimited.com>
+	<CAJTo0LaBthRjJ_v9v8KrunCEQypOrMYiMOpLRv+nZb2mm25_eg@mail.gmail.com>
+From: =?UTF-8?Q?Radek_Dost=c3=a1l?= <radek.dostal@streamunlimited.com>
+Message-ID: <5b090c26-d7b9-477c-a39c-28da0ea3e172@streamunlimited.com>
+Date: Fri, 10 Nov 2017 13:13:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
 MIME-Version: 1.0
-Cc: =?UTF-8?q?Radek=20Dost=C3=A1l?= <radek.dostal@streamunlimited.com>
-Subject: [PATCH v2 2/2] sbc: fix license
+In-Reply-To: <CAJTo0LaBthRjJ_v9v8KrunCEQypOrMYiMOpLRv+nZb2mm25_eg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sbc: fix license
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 12:11:38 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 10 Nov 2017 12:13:18 -0000
+X-Groupsio-MsgNum: 104772
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="Cnt5F3mG474aS07J5t0XIkacw0FpCF71T"
 
-sbc library itself is licensed under LGPLv2.1 or higher as mentioned in
-sbc/sbc.h or any other file in sbc directory.
+--Cnt5F3mG474aS07J5t0XIkacw0FpCF71T
+Content-Type: multipart/mixed; boundary="plOeMfJsHfrx6kAlBUbKl0IlKM1fIB7HG";
+ protected-headers="v1"
+From: =?UTF-8?Q?Radek_Dost=c3=a1l?= <radek.dostal@streamunlimited.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Message-ID: <5b090c26-d7b9-477c-a39c-28da0ea3e172@streamunlimited.com>
+Subject: Re: [OE-core] [PATCH] sbc: fix license
+References: <1510311749-14198-1-git-send-email-radek.dostal@streamunlimited.com>
+ <CAJTo0LaBthRjJ_v9v8KrunCEQypOrMYiMOpLRv+nZb2mm25_eg@mail.gmail.com>
+In-Reply-To: <CAJTo0LaBthRjJ_v9v8KrunCEQypOrMYiMOpLRv+nZb2mm25_eg@mail.gmail.com>
 
-sbc test applications are licensed under GPLv2 or higher as mentioned in
-src/sbcenc.c or any other file in src directory
+--plOeMfJsHfrx6kAlBUbKl0IlKM1fIB7HG
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Vladimir Koutny <vladimir.koutny@streamunlimited.com>
-Signed-off-by: Radek Dostál <radek.dostal@streamunlimited.com>
----
- meta/recipes-multimedia/sbc/sbc_1.3.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Hi Ross,
 
-diff --git a/meta/recipes-multimedia/sbc/sbc_1.3.bb b/meta/recipes-multimedia/sbc/sbc_1.3.bb
-index f6a7f8b..2bb895d 100644
---- a/meta/recipes-multimedia/sbc/sbc_1.3.bb
-+++ b/meta/recipes-multimedia/sbc/sbc_1.3.bb
-@@ -2,8 +2,12 @@ SUMMARY = "SBC Audio Codec"
- DESCRIPTION = "Bluetooth low-complexity, subband codec (SBC) library."
- HOMEPAGE = "https://www.bluez.org"
- SECTION = "libs"
--LICENSE = "GPLv2"
-+LICENSE = "GPLv2+ & LGPLv2.1+"
-+LICENSE_${PN} = "LGPLv2.1+"
-+LICENSE_${PN}-examples = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-+                    file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-+                    file://src/sbcenc.c;beginline=1;endline=24;md5=08e7a70b127f4100ff2cd7d629147d8d \
-                     file://sbc/sbc.h;beginline=1;endline=26;md5=0f57d0df22b0d40746bdd29805a4361b"
- 
- DEPENDS = "libsndfile1"
--- 
-2.7.4
+On 2017-11-10 12:10, Burton, Ross wrote:
+> Are the test applications packaged?=C2=A0 If you split the packaging in=
+to two
+> packages then you could set the right license per-package.
+
+thank you for your feedback. I moved examples to their own package and
+configured licenses individually. Please see the new patchset I just post=
+ed.
+
+Thanks,
+Radek
+--=20
+Radek Dost=C3=A1l
+Project Leader, Embedded Systems Architect
+
+StreamUnlimited Engineering GmbH
+High Tech Campus, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
+Office: +43 1 667 2002 4777, Fax: +43 1 667 2002 4401
+Skype: radekdostal, e-mail: radek.dostal@streamunlimited.com
+
+www.streamunlimited.com
+
+Meet us at:
+CES - Las Vegas, 9-12 January, Westgate Hotel
+ISE - RAI Amsterdam, 6-9 February, booth 7-S197
+Sound & Vision - Bristol, 23-25 February
 
 
+--plOeMfJsHfrx6kAlBUbKl0IlKM1fIB7HG--
+
+--Cnt5F3mG474aS07J5t0XIkacw0FpCF71T
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQEcBAEBCAAGBQJaBZfcAAoJEOzSOxbd08Z8E4AH/2dnYxHBTpY34Mp1JElgAkg1
+fsezmp6U8w5SxGW1YTWLD9iZVnykeQcv/5DIgEn2pl8g+H+b0YVSIiOsVvnYI3Ut
+DZf7hGfYrdCN1wc5RUgGnepzSovePs3NVHbtjMaNSTP75fgoXyI31Zv6OGYjptrL
+wMU1ob8IkHwb8VI4lEOEIojSRe3OBCNLLwzmq3fscjxME2ddFH+1ssksMVnw/EIn
+VFjaIa4MVY2V582o7Ou+CGjOHafCsR0/DKj9OKkHwD7D/5+qW0lvcHKxhGobZJjQ
+KRNELBOS4+EK+F8F3dViFAMds5+AQYjDwO6wib7WzQJZhxe4Aaxe5G1iH2Hsf5A=
+=bXBv
+-----END PGP SIGNATURE-----
+
+--Cnt5F3mG474aS07J5t0XIkacw0FpCF71T--
