@@ -1,28 +1,24 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id BD1A178634
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 877A071B2A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:06:21 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga104.jf.intel.com with ESMTP; 10 Nov 2017 05:06:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,374,1505804400"; 
-   d="scan'208";a="549503"
-Received: from mbabyjoh-desk.fi.intel.com (HELO
-	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
-	by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2017 05:06:21 -0800
-Date: Fri, 10 Nov 2017 15:06:48 +0200
-From: "Maxin B. John" <maxin.john@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20171110130648.GA34973@mbabyjoh-desk.ger.corp.intel.com>
-References: <1510315228-24186-1-git-send-email-maxin.john@intel.com>
-	<1510315228-24186-8-git-send-email-maxin.john@intel.com>
-	<CAJTo0LYrkDO0d8udyN3t_YN-rLFJe34m4tv6q=YCZao_ms2fVA@mail.gmail.com>
+	Fri, 10 Nov 2017 13:22:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAADMgR9012120
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Nov 2017 05:22:42 -0800
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Fri, 10 Nov 2017 05:22:41 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Nov 2017 14:27:00 +0800
+Message-ID: <cover.1510275834.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYrkDO0d8udyN3t_YN-rLFJe34m4tv6q=YCZao_ms2fVA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] libsoup-2.4: upgrade to 2.60.2
+Subject: [PATCH 00/23] Fixes for multilib and eSDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:06:21 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Nov 2017 13:22:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Ross,
+The following changes since commit f706448952c942d25ea96cda09a700d2c5c63520:
 
->Alex's 2.60.1 upgrade was just merged, so can you rebase please.
+  maintainers.inc: add Otavio Salvador for go-dep (2017-11-09 12:33:12 +0000)
 
-Sure, will do that.
+are available in the git repository at:
 
->Ross
+  git://git.openembedded.org/openembedded-core-contrib rbt/multilib_sdk
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/multilib_sdk
 
-On 10 November 2017 at 12:00, Maxin B. John <maxin.john@intel.com> wrote:
+Robert Yang (23):
+  staging.bbclass: make subprocess.check_output() capture stderr
+  testsdk.bbclass: add a newline after own-mirrors
+  populate_sdk_ext.bbclass: don't rename layers when failed
+  oe/copy_buildsystem.py: make sure layer exists
+  staging.bbclass: fix for multilib
+  populate_sdk_ext.bbclass: fix for multilib
+  sstate.bbclass: sstate_hardcode_path(): fix for multilib
+  staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
+  staging.bbclass: print searched manifest when not found
+  staging.bbclass: extend_recipe_sysroot(): search multilib manifest
+  image.bbclass: remove depmodwrapper-cross from DEPENDS
+  package_manager.py: print running dnf command
+  package_manager.py: reverse archs correctly
+  package_manager.py: remove obsolete MULTILIB_ARCHS
+  multilib.bbclass: remove unneeded bb.data.inherits_class()
+  multilib.bbclass: remove obsolete DEFAULTTUNE_ML_
+  multilib.bbclass: remove invalid PACKAGE_INSTALL
+  multilib_global.bbclass: fix indent
+  volatile-binds: use PN to replace hardcode name
+  multilib.bbclass: extend allarch recipes
+  toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
+    image
+  populate_sdk_ext.bbclass: disable for multilib image
+  populate_sdk_ext.bbclass: remove the try...finally
 
-2.58.2 -> 2.60.2
+ meta/classes/allarch.bbclass                       |   3 -
+ meta/classes/image.bbclass                         |   2 +-
+ meta/classes/multilib.bbclass                      |   8 -
+ meta/classes/multilib_global.bbclass               |   6 +-
+ meta/classes/package.bbclass                       |   9 --
+ meta/classes/populate_sdk_ext.bbclass              | 161 +++++++++++++--------
+ meta/classes/sstate.bbclass                        |   6 +-
+ meta/classes/staging.bbclass                       |  46 +++++-
+ meta/classes/testsdk.bbclass                       |   5 +-
+ meta/classes/toolchain-scripts.bbclass             |   6 +
+ meta/lib/oe/copy_buildsystem.py                    |   2 +-
+ meta/lib/oe/package_manager.py                     |  55 ++++++-
+ meta/recipes-core/volatile-binds/volatile-binds.bb |   2 +-
+ 13 files changed, 207 insertions(+), 104 deletions(-)
 
->>Signed-off-by: Maxin B. John <maxin.john@intel.com>
->>---
->>.../libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.2.bb}          | 4 ++--
->>1 file changed, 2 insertions(+), 2 deletions(-)
->>rename meta/recipes-support/libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.2.bb} (89%)
->>
->>diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
+-- 
+2.7.4
 
-Best Regards,
-Maxin
 
