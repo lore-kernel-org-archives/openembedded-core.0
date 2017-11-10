@@ -1,27 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E20578637
+Return-Path: <maxin.john@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 507C078643
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:35:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADZ6ZF003980
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 10 Nov 2017 13:46:38 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Nov 2017 05:46:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,374,1505804400"; 
+   d="scan'208";a="558790"
+Received: from linux.intel.com ([10.54.29.200])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2017 05:46:37 -0800
+Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
+	[10.237.72.84])
+	by linux.intel.com (Postfix) with ESMTP id D6CFA5801AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 05:35:08 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.163.193) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 10 Nov 2017 05:35:06 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1510275834.git.liezhi.yang@windriver.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ad44d334-e180-b2ef-e50b-7d7a970ca784@windriver.com>
-Date: Fri, 10 Nov 2017 21:34:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 00/23] Fixes for multilib and eSDK
+	Fri, 10 Nov 2017 05:46:36 -0800 (PST)
+From: "Maxin B. John" <maxin.john@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Nov 2017 15:46:55 +0200
+Message-Id: <1510321615-24099-1-git-send-email-maxin.john@intel.com>
+X-Mailer: git-send-email 2.4.0
+Subject: [PATCH] libsoup-2.4: upgrade to 2.60.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,65 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:35:07 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Nov 2017 13:46:39 -0000
 
-Sorry, the time on the server was wrong, so the email send time was wrong,
-I fixed it just now.
+2.60.1 -> 2.60.2
 
-// Robert
+Signed-off-by: Maxin B. John <maxin.john@intel.com>
+---
+ .../libsoup/{libsoup-2.4_2.60.1.bb => libsoup-2.4_2.60.2.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.60.1.bb => libsoup-2.4_2.60.2.bb} (89%)
 
-On 11/10/2017 02:27 PM, Robert Yang wrote:
-> The following changes since commit f706448952c942d25ea96cda09a700d2c5c63520:
-> 
->    maintainers.inc: add Otavio Salvador for go-dep (2017-11-09 12:33:12 +0000)
-> 
-> are available in the git repository at:
-> 
->    git://git.openembedded.org/openembedded-core-contrib rbt/multilib_sdk
->    http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/multilib_sdk
-> 
-> Robert Yang (23):
->    staging.bbclass: make subprocess.check_output() capture stderr
->    testsdk.bbclass: add a newline after own-mirrors
->    populate_sdk_ext.bbclass: don't rename layers when failed
->    oe/copy_buildsystem.py: make sure layer exists
->    staging.bbclass: fix for multilib
->    populate_sdk_ext.bbclass: fix for multilib
->    sstate.bbclass: sstate_hardcode_path(): fix for multilib
->    staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
->    staging.bbclass: print searched manifest when not found
->    staging.bbclass: extend_recipe_sysroot(): search multilib manifest
->    image.bbclass: remove depmodwrapper-cross from DEPENDS
->    package_manager.py: print running dnf command
->    package_manager.py: reverse archs correctly
->    package_manager.py: remove obsolete MULTILIB_ARCHS
->    multilib.bbclass: remove unneeded bb.data.inherits_class()
->    multilib.bbclass: remove obsolete DEFAULTTUNE_ML_
->    multilib.bbclass: remove invalid PACKAGE_INSTALL
->    multilib_global.bbclass: fix indent
->    volatile-binds: use PN to replace hardcode name
->    multilib.bbclass: extend allarch recipes
->    toolchain-scripts.bbclass: only install all MULTILIB_VARIANTS for
->      image
->    populate_sdk_ext.bbclass: disable for multilib image
->    populate_sdk_ext.bbclass: remove the try...finally
-> 
->   meta/classes/allarch.bbclass                       |   3 -
->   meta/classes/image.bbclass                         |   2 +-
->   meta/classes/multilib.bbclass                      |   8 -
->   meta/classes/multilib_global.bbclass               |   6 +-
->   meta/classes/package.bbclass                       |   9 --
->   meta/classes/populate_sdk_ext.bbclass              | 161 +++++++++++++--------
->   meta/classes/sstate.bbclass                        |   6 +-
->   meta/classes/staging.bbclass                       |  46 +++++-
->   meta/classes/testsdk.bbclass                       |   5 +-
->   meta/classes/toolchain-scripts.bbclass             |   6 +
->   meta/lib/oe/copy_buildsystem.py                    |   2 +-
->   meta/lib/oe/package_manager.py                     |  55 ++++++-
->   meta/recipes-core/volatile-binds/volatile-binds.bb |   2 +-
->   13 files changed, 207 insertions(+), 104 deletions(-)
-> 
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.60.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
+similarity index 89%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.60.1.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
+index 7229a93..abc7bdb 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.60.1.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
+@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "4b3fb98f742d81f1850c0846a40470e2"
+-SRC_URI[sha256sum] = "023930032b20e6b14764feb847ea80d9e170622dee7370215d6feb9967b6aa9d"
++SRC_URI[md5sum] = "9c49831b62c4bf18cdb81c86ac6516fd"
++SRC_URI[sha256sum] = "7263cfe18872e2e652c196f5667e514616d9c97c861dfca82a65a55f45f0da01"
+ 
+ S = "${WORKDIR}/libsoup-${PV}"
+ 
+-- 
+2.4.0
+
 
