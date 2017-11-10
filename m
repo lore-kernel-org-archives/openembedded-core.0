@@ -1,18 +1,28 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B17785E4;
-	Fri, 10 Nov 2017 12:35:28 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Maxin John <maxin.john@intel.com>
-Date: Fri, 10 Nov 2017 12:35:29 -0000
-Message-ID: <20171110123529.2787.84025@do.openembedded.org>
+Return-Path: <maxin.john@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id BD1A178634
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Nov 2017 13:06:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga104.jf.intel.com with ESMTP; 10 Nov 2017 05:06:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,374,1505804400"; 
+   d="scan'208";a="549503"
+Received: from mbabyjoh-desk.fi.intel.com (HELO
+	mbabyjoh-desk.ger.corp.intel.com) ([10.237.72.84])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2017 05:06:21 -0800
+Date: Fri, 10 Nov 2017 15:06:48 +0200
+From: "Maxin B. John" <maxin.john@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20171110130648.GA34973@mbabyjoh-desk.ger.corp.intel.com>
 References: <1510315228-24186-1-git-send-email-maxin.john@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1510315228-24186-1-git-send-email-maxin.john@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZSB1cGdyYWRlcyAocmV2Mik=?=
+	<1510315228-24186-8-git-send-email-maxin.john@intel.com>
+	<CAJTo0LYrkDO0d8udyN3t_YN-rLFJe34m4tv6q=YCZao_ms2fVA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYrkDO0d8udyN3t_YN-rLFJe34m4tv6q=YCZao_ms2fVA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] libsoup-2.4: upgrade to 2.60.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 12:35:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Nov 2017 13:06:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-== Series Details ==
+Hi Ross,
 
-Series: package upgrades (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/63/
-State : failure
+>Alex's 2.60.1 upgrade was just merged, so can you rebase please.
 
-== Summary ==
+Sure, will do that.
 
+>Ross
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+On 10 November 2017 at 12:00, Maxin B. John <maxin.john@intel.com> wrote:
 
+2.58.2 -> 2.60.2
 
+>>Signed-off-by: Maxin B. John <maxin.john@intel.com>
+>>---
+>>.../libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.2.bb}          | 4 ++--
+>>1 file changed, 2 insertions(+), 2 deletions(-)
+>>rename meta/recipes-support/libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.2.bb} (89%)
+>>
+>>diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at f706448952)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Best Regards,
+Maxin
 
