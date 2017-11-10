@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08FB578636
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5880D7864B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:22:51 +0000 (UTC)
+	Fri, 10 Nov 2017 13:22:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADMqlb001312
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADMsqe018031
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 05:22:52 -0800 (PST)
+	Fri, 10 Nov 2017 05:22:54 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 10 Nov 2017 05:22:51 -0800
+	14.3.361.1; Fri, 10 Nov 2017 05:22:53 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Nov 2017 14:27:07 +0800
-Message-ID: <2e28e24e7eac3acdd2478aa85f2d191842aef2dd.1510275834.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Nov 2017 14:27:08 +0800
+Message-ID: <462acc2afc109953468e20e664953e0514718e98.1510275834.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
 References: <cover.1510275834.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/23] sstate.bbclass: sstate_hardcode_path(): fix for multilib
+Subject: [PATCH 08/23] staging.bbclass: staging_populate_sysroot_dir(): fix for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:22:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 10 Nov 2017 13:22:52 -0000
+Content-Type: text/plain
 
-It only substituted staging_target for target recipe which didn't work
-for multilib, for example, postinst-useradd-lib32-polkit:
+Fixed:
+MACHINE = "qemux86-64"
+require conf/multilib.conf
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
 
-* No multilib:
-  PATH=/path/to/tmp-glibc/work/core2-64-wrs-linux/polkit/0.113-r0/recipe-sysroot-native/bin
-  staging_target=/path/to/tmp-glibc/work/core2-64-wrs-linux/polkit/0.113-r0/recipe-sysroot
-  The PATH would be substituted to:
-  FIXMESTAGINGDIRTARGET-native/bin
-  Not the funny "-native/bin", this works well.
+$ bitbake core-image-sato lib32-core-image-sato
+$ bitbake build-sysroots
 
-* When multilib:
-  PATH=/path/to/tmp-glibc/work/core2-32-wrsmllib32-linux/lib32-polkit/0.113-r0/recipe-sysroot-native/bin
-  staging_target=/path/to/tmp-glibc/work/core2-32-wrsmllib32-linux/lib32-polkit/0.113-r0/lib32-recipe-sysroot
-  Now staging_target endswith "/lib32-recipe-sysroot", so it can't
-  replace '/recipe-sysroot-native' in PATH , so PATH can't be fixed, and
-  there would be build errors when building multilib + rm_work, for
-  example:
-  chown: invalid user: ‘polkitd:root’
-
-Substitute staging_host for target recipe can fix the problem, now all
-of native, cross and target need substitute staging_host, so we can
-simply the code a little.
+All lib32 manifests which had been built should be installed, but only a few
+such as qemux86_64-lib32-base-files were installed (it was installed because
+MACHINE_ARCH was still qemux86-64 when multilib), but others such as
+x86-lib32-zlib were not installed, this was incorrect. For multilib builds,
+fix-up overrides to prepend :virtclass-multilib- and then again append
+additional multilib arches from the PACKAGE_EXTRA_ARCHS list if needed can fix
+the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/sstate.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/staging.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index e30fbe1..314a14d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -538,15 +538,15 @@ python sstate_hardcode_path () {
-     staging_host = d.getVar('RECIPE_SYSROOT_NATIVE')
-     sstate_builddir = d.getVar('SSTATE_BUILDDIR')
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 412e269..455eb05 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -190,8 +190,23 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
+         pkgarchs = ['${MACHINE_ARCH}']
+         pkgarchs = pkgarchs + list(reversed(d.getVar("PACKAGE_EXTRA_ARCHS").split()))
+         pkgarchs.append('allarch')
++
++        # Handle multilib archs
++        variants = d.getVar("MULTILIB_VARIANTS", True) or ""
++        for variant in variants.split():
++            localdata = bb.data.createCopy(d)
++            overrides = localdata.getVar("OVERRIDES", False) + ":virtclass-multilib-" + variant
++            localdata.setVar("OVERRIDES", overrides)
++            bb.data.update_data(localdata)
++            pkgarchs_ml = localdata.getVar('PACKAGE_EXTRA_ARCHS').split()
++            for arch in pkgarchs_ml:
++                if arch not in pkgarchs:
++                    pkgarchs.append(arch)
++
+         targetdir = targetsysroot
  
-+    sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRHOST:g'" % staging_host
-     if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross-canadian', d):
-         sstate_grep_cmd = "grep -l -e '%s'" % (staging_host)
--        sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRHOST:g'" % (staging_host)
-     elif bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d):
-         sstate_grep_cmd = "grep -l -e '%s' -e '%s'" % (staging_target, staging_host)
--        sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRTARGET:g; s:%s:FIXMESTAGINGDIRHOST:g'" % (staging_target, staging_host)
-+        sstate_sed_cmd += " -e 's:%s:FIXMESTAGINGDIRTARGET:g'" % staging_target
-     else:
-         sstate_grep_cmd = "grep -l -e '%s'" % (staging_target)
--        sstate_sed_cmd = "sed -i -e 's:%s:FIXMESTAGINGDIRTARGET:g'" % (staging_target)
-+        sstate_sed_cmd += " -e 's:%s:FIXMESTAGINGDIRTARGET:g'" % staging_target
- 
-     extra_staging_fixmes = d.getVar('EXTRA_STAGING_FIXMES') or ''
-     for fixmevar in extra_staging_fixmes.split():
++    bb.debug(1, 'pkgarchs: %s' % pkgarchs)
++
+     bb.utils.mkdirhier(targetdir)
+     for pkgarch in pkgarchs:
+         for manifest in glob.glob(d.expand("${SSTATE_MANIFESTS}/manifest-%s-*.populate_sysroot" % pkgarch)):
 -- 
 2.7.4
 
