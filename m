@@ -1,27 +1,30 @@
-Return-Path: <maxin.john@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E852C785C6
+Return-Path: <andrej.valek@siemens.com>
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EC7D784C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 12:00:18 +0000 (UTC)
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP; 10 Nov 2017 04:00:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,374,1505804400"; d="scan'208";a="174307259"
-Received: from linux.intel.com ([10.54.29.200])
-	by fmsmga005.fm.intel.com with ESMTP; 10 Nov 2017 04:00:20 -0800
-Received: from mbabyjoh-desk.fi.intel.com (mbabyjoh-desk.fi.intel.com
-	[10.237.72.84])
-	by linux.intel.com (Postfix) with ESMTP id D38FE5802D8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 04:00:19 -0800 (PST)
-From: "Maxin B. John" <maxin.john@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Nov 2017 14:00:28 +0200
-Message-Id: <1510315228-24186-8-git-send-email-maxin.john@intel.com>
-X-Mailer: git-send-email 2.4.0
-In-Reply-To: <1510315228-24186-1-git-send-email-maxin.john@intel.com>
-References: <1510315228-24186-1-git-send-email-maxin.john@intel.com>
-Subject: [PATCH 7/7] libsoup-2.4: upgrade to 2.60.2
+	Fri, 10 Nov 2017 12:06:46 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id vAAC6iNI005684
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 10 Nov 2017 13:06:44 +0100
+Received: from [192.168.253.100] ([163.242.56.100])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTPS id vAAC6hN6032661
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 10 Nov 2017 13:06:43 +0100
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20171109132529.26285-1-nathan@nathanrossi.com>
+	<d7759440-3eef-7974-85d8-cae3b44a894d@siemens.com>
+	<CAJTo0LZCG0mtCT+253Srp=Z9nqP2KNp8GvV_VepzPbfPqfFx5A@mail.gmail.com>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <4473a2c3-cec7-31ec-55d5-2b5ae03f3883@siemens.com>
+Date: Fri, 10 Nov 2017 13:07:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.4.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZCG0mtCT+253Srp=Z9nqP2KNp8GvV_VepzPbfPqfFx5A@mail.gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox.inc: Add sanity check to test if the suid binary provides sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +37,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 12:00:19 -0000
+X-List-Received-Date: Fri, 10 Nov 2017 12:06:47 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-2.58.2 -> 2.60.2
+Of course, I don't think so, that /bin/sh > /bin/busybox.suid is a good
+think. I am just thinking, why is necessary to cast a fatal message and
+stop build for some, who wants this.
 
-Signed-off-by: Maxin B. John <maxin.john@intel.com>
----
- .../libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.2.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.58.2.bb => libsoup-2.4_2.60.2.bb} (89%)
+Andrej
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
-similarity index 89%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
-index c9f95e5..abc7bdb 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.58.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.60.2.bb
-@@ -11,8 +11,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "eb33adb459c2283efc5c7d09ccdbbcfc"
--SRC_URI[sha256sum] = "442300ca1b1bf8a3bbf2f788203287ff862542d4fc048f19a92a068a27d17b72"
-+SRC_URI[md5sum] = "9c49831b62c4bf18cdb81c86ac6516fd"
-+SRC_URI[sha256sum] = "7263cfe18872e2e652c196f5667e514616d9c97c861dfca82a65a55f45f0da01"
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
--- 
-2.4.0
-
+On 11/10/2017 12:57 PM, Burton, Ross wrote:
+> How is /bin/sh being busybox.suid a good thing?
+> 
+> Ross
+> 
+> On 10 November 2017 at 07:17, Andrej Valek <andrej.valek@siemens.com 
+> <mailto:andrej.valek@siemens.com>> wrote:
+> 
+>     I don't think so, that adding bbfatal into this recipe is a good
+>     solution. Someone could build the busybox with /bin/sh linking into
+>     .suid eg. for more secure. We can leave live with this one as before.
+> 
+>     Andrej
+> 
+>     On 11/09/2017 02:25 PM, Nathan Rossi wrote:
+>      > Add a sanity check during the do_compile task to fail if the suid
+>      > busybox provides /bin/sh. This is considered as a hard fail since not
+>      > only is providing sh as suid problematic for security reasons but also
+>      > because the sh configured for suid is less functional than the nosuid
+>      > configured sh and breaks a number of required features (e.g. 64-bit
+>      > test).
+>      >
+>      > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com
+>     <mailto:nathan@nathanrossi.com>>
+>      > Cc: Ross Burton <ross.burton@intel.com <mailto:ross.burton@intel.com>>
+>      > ---
+>      >  meta/recipes-core/busybox/busybox.inc | 6 ++++++
+>      >  1 file changed, 6 insertions(+)
+>      >
+>      > diff --git a/meta/recipes-core/busybox/busybox.inc
+>     b/meta/recipes-core/busybox/busybox.inc
+>      > index 4012f921c6..157aea3968 100644
+>      > --- a/meta/recipes-core/busybox/busybox.inc
+>      > +++ b/meta/recipes-core/busybox/busybox.inc
+>      > @@ -183,6 +183,12 @@ do_compile() {
+>      >                       oe_runmake busybox.links
+>      >                       mv busybox.links busybox.links.$s
+>      >               done
+>      > +
+>      > +             # hard fail if sh is being linked to the suid busybox
+>     (detects bug 10346)
+>      > +             if grep -q -x "/bin/sh" busybox.links.suid; then
+>      > +                     bbfatal "busybox suid binary incorrectly provides
+>     /bin/sh"
+>      > +             fi
+>      > +
+>      >               # copy .config.orig back to .config, because the install
+>     process may check this file
+>      >               cp .config.orig .config
+>      >               # cleanup
+>      >
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     <http://lists.openembedded.org/mailman/listinfo/openembedded-core>
+> 
+> 
 
