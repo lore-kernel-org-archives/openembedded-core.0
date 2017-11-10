@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DAF978643
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FEE678644
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:49:02 +0000 (UTC)
+	Fri, 10 Nov 2017 13:49:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADn4Gf018151
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADn2gk005988
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 05:49:04 -0800 (PST)
+	Fri, 10 Nov 2017 05:49:02 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 10 Nov 2017 05:49:03 -0800
+	14.3.361.1; Fri, 10 Nov 2017 05:49:01 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Nov 2017 21:48:55 +0800
-Message-ID: <9aea5e098481c8c13e41ebc027fcbe5ea0ab92a1.1510321707.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Nov 2017 21:48:54 +0800
+Message-ID: <cover.1510321707.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1510321707.git.liezhi.yang@windriver.com>
-References: <cover.1510321707.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] runqemu: print command search result when not found
+Subject: [PATCH 0/1] runqemu: print command search result when not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:49:03 -0000
+X-List-Received-Date: Fri, 10 Nov 2017 13:49:04 -0000
 Content-Type: text/plain
 
-This makes debug easier.
+The following changes since commit f706448952c942d25ea96cda09a700d2c5c63520:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+  maintainers.inc: add Otavio Salvador for go-dep (2017-11-09 12:33:12 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/runqemu
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/runqemu
+
+Robert Yang (1):
+  runqemu: print command search result when not found
+
  scripts/runqemu | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index fe4459d..785421e 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -908,6 +908,9 @@ class BaseConfig(object):
-         lockdir = "/tmp/qemu-tap-locks"
- 
-         if not (self.qemuifup and self.qemuifdown and ip):
-+            logger.error("runqemu-ifup: %s" % self.qemuifup)
-+            logger.error("runqemu-ifdown: %s" % self.qemuifdown)
-+            logger.error("ip: %s" % ip)
-             raise OEPathError("runqemu-ifup, runqemu-ifdown or ip not found")
- 
-         if not os.path.exists(lockdir):
 -- 
 2.7.4
 
