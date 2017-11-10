@@ -1,50 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it0-f51.google.com (mail-it0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 944DC7866D
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
+	[209.85.192.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 202D47865C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 16:23:48 +0000 (UTC)
-Received: by mail-it0-f51.google.com with SMTP id f187so2283660itb.1
+	Fri, 10 Nov 2017 16:58:24 +0000 (UTC)
+Received: by mail-pf0-f195.google.com with SMTP id 17so7053262pfn.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 08:23:50 -0800 (PST)
+	Fri, 10 Nov 2017 08:58:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Pgy7JHaX3b/XNJMD4KsFwdf27VnmWSWbbA45oQPJP94=;
-	b=H0xI7oI94uUPGkh7tw4Lx2a91rQxJFM3lb7coarWAejxWlidWyp/O+QxtOcTPowaAN
-	ct0Avn3Syey/Y1TJFxS83UxGYPV0A9Zuk9nQOkfUMUMh+IvL3eoyAf4J04gGfFZh1nWY
-	URaYsXKrpjDEMlPRyOLEkwQIFmDcG8rzVVOiOnjzTU0pkK7IZdGegxmfYdiVq4KQ7DTu
-	C7Fn+Q0ije34GuDGMHUbU0LAPp5azQn6sGnDkMRwpMNbkOIVmR9+f9dsZhHBmLKPZH6M
-	eK/Vnf12STEqb5oSOzS9uusqIpS+mCGPDZwPu7OptdCEu7iUtQHyVVHGgPVCQDxb95UY
-	Vcxg==
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=LLDkit1dFtpOANXpGZz63jf9JvA1W75ePh6nqIfMEXg=;
+	b=hceFmIr61g21sscqooWY4ikKo0dTcVJyNRfnqWBRN1n/pQ2ssi2vPQl2OOdvoR8Zg4
+	cRBwD/BC1YnyNRjRF/7cztw4yk1Me4aFtNet0MgxmDrBVv4mr5U1OJSVhcbN0M4IUNyq
+	50ykP+imgp1TmPI9XtstxQQ1sqxS7JgFBKrq3WTwd6hHrAAmVBBwlfxx6m2fImf/a9FS
+	R8Gbegeqc9aFu7yriPrE9VtBr3qpnm+8EFpTKVmTlMQikmxXAoFk6Bm3IPR6kDQ84MJL
+	tRQqeAHuQud2a9B/KOdqYEjjTTFzDkzMl54Zh4gtSzzY2OpOoTbbQbn2UBp+AI4shc4p
+	6UkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Pgy7JHaX3b/XNJMD4KsFwdf27VnmWSWbbA45oQPJP94=;
-	b=gEuZqcB930KIOcWo/xOdMJ2LDCapACshvVYFp4bqnquAj613JgFhCyrYPAIGBT/POT
-	T38TsfPfB4a3km7oji1c8Hwrl3AC7EsZkvco2+S2qbDU/3elv3WGHWf+AeoZgBS7Rr5S
-	aUFTOpAc0GbARz4y75oyUUGf9xsYc4435gx0/idSa+TAHdygBIAAfBSttbBe/CUxGaeM
-	UN5ytiuCafCnLA9E6KNpQUePRDzT/5QAKe8SmxS2VGrTKDq+7ARPVrpoRS6X9MnGJOby
-	tJcnAQB++HPG5zIe7ml6dGpNJqjjCUfSI9ZZIsbyPEiCDjSuUI98x/SDQEstznPrS36n
-	i7JA==
-X-Gm-Message-State: AJaThX4EC1DoEB/gYlQIoaP2vdpY5mBbmDHcmtaFOyxtd7wBuy+T+LPG
-	rztEr1llKTh0o1r3jdQJN4B5kgl6y9u+/JV05UmBJA==
-X-Google-Smtp-Source: AGs4zMamrFbs8I3B+A/aFOncVU1aFxHuTM23gwrzHg9gSdAFzuYxWFvNqIoPG+K4BglurvdmQYtqdt0dy9eK1exsZZc=
-X-Received: by 10.36.125.76 with SMTP id b73mr1116208itc.10.1510331029875;
-	Fri, 10 Nov 2017 08:23:49 -0800 (PST)
+	h=x-gm-message-state:date:message-id:from:to:cc:subject:mime-version
+	:content-transfer-encoding;
+	bh=LLDkit1dFtpOANXpGZz63jf9JvA1W75ePh6nqIfMEXg=;
+	b=WSwFuagAQLMkuOuiWGpeX1aC9HJzUlqAxYEol+MsUtNua2BU1UoM9cV8+YgQqX4iBK
+	AZllZ6Ow75XhYGxMP7CsijH8JrtD8ybXI7MIOzKNei8mFKfHK/B/dVmybpNh2DZsTwq5
+	JFlZWiGYkOArhs+T22XQe00+tU2CzRTzwHFR+X4n8pvkmSjGXTPuog/JrJnUf+ayMPMB
+	9Podx9OTrBYsj7tWJLJkGIt7p28ogiZNsS8rcKGhyvldAeQEQdIjzRnEzCUDfnyiz0W0
+	L5qEvT0JAWnf7TS9L0EryXFKlN/ieiAF3GqfewlP+FM6XNnhZSg4+YnkBrPfT7txhkhq
+	YImw==
+X-Gm-Message-State: AJaThX43tt/z9IaaX0MZ77H6lt3fgvCxuPPWDbT2HtplGYttMR6rCOEd
+	pTVxJ2PuL9Ap5fRujV7Cb0q8cmtRGpY=
+X-Google-Smtp-Source: AGs4zMbjW6N3twXXJUYnjxi9/sLkc/xq2e5JLfG8ehnD9rkR8JSah/pJfzehvPsr8fLzelmhApQZXA==
+X-Received: by 10.99.119.79 with SMTP id s76mr943240pgc.192.1510333105881;
+	Fri, 10 Nov 2017 08:58:25 -0800 (PST)
+Received: from [127.0.1.1] (CPE-121-222-32-11.lnse1.cha.bigpond.net.au.
+	[121.222.32.11]) by smtp.gmail.com with ESMTPSA id
+	i8sm15447014pgq.67.2017.11.10.08.58.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 Nov 2017 08:58:25 -0800 (PST)
+Date: Sat, 11 Nov 2017 02:58:16 +1000
+Message-Id: <20171110165816.24385-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Received: by 10.107.171.196 with HTTP; Fri, 10 Nov 2017 08:23:29 -0800 (PST)
-In-Reply-To: <bc025692-5c78-739a-ba9e-41f070f07f95@advancedtelematic.com>
-References: <20171109140310.659-1-patrick@advancedtelematic.com>
-	<CAJTo0LYvfRJ_Abmp=jcUPhjJjiJ8PPx2mnV08b83MR_xpAwiAA@mail.gmail.com>
-	<bc025692-5c78-739a-ba9e-41f070f07f95@advancedtelematic.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 10 Nov 2017 16:23:29 +0000
-Message-ID: <CAJTo0LZ7T0DxpgCcjmdsb4D0y6n1UhNv4n58Kv-L-9EUdGMqDQ@mail.gmail.com>
-To: Patrick Vacek <patrick@advancedtelematic.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ca-certificates: Add /etc to SYSROOT_DIRS
+Subject: [PATCH] insane.bbclass: add microblaze-*-elf to machine dictionary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,77 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 16:23:49 -0000
-Content-Type: multipart/alternative; boundary="001a1144417487a1fb055da35837"
+X-List-Received-Date: Fri, 10 Nov 2017 16:58:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a1144417487a1fb055da35837
-Content-Type: text/plain; charset="UTF-8"
+Add the definitions for microblaze-*-elf targets to the machine
+dictionary.
 
-Yes, please.
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/classes/insane.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Ross
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index def9c707a4..535d41077e 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -68,6 +68,9 @@ def package_qa_get_machine_dict(d):
+                         "epiphany":   (4643,   0,    0,          True,          32),
+                         "mips":       ( 8,     0,    0,          False,         32),
+                         "mipsel":     ( 8,     0,    0,          True,          32),
++                        "microblaze":  (189,   0,    0,          False,         32),
++                        "microblazeeb":(189,   0,    0,          False,         32),
++                        "microblazeel":(189,   0,    0,          True,          32),
+                       },
+             "linux" : { 
+                         "aarch64" :   (183,    0,    0,          True,          64),
+-- 
+2.15.0
 
-On 10 November 2017 at 16:22, Patrick Vacek <patrick@advancedtelematic.com>
-wrote:
 
-> On 10.11.2017 17:05, Burton, Ross wrote:
-> > On 9 November 2017 at 14:03, Patrick Vacek
-> > <patrick@advancedtelematic.com <mailto:patrick@advancedtelematic.com>>
-> > wrote:
-> >
-> >     +SYSROOT_DIRS_class-native += "/etc"
-> >
-> >
-> > ${sysconfdir}, surely, to cater for people who change the paths.
->
-> That does make sense now that you mention it. I naively followed the
-> literal advice from here:
->
-> https://www.yoctoproject.org/docs/current/ref-manual/ref-
-> manual.html#ref-tasks-populate_sysroot
->
-> Shall I make an updated patch?
->
-> Thanks,
-> Patrick
->
 
---001a1144417487a1fb055da35837
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yes, please.<div><br></div><div>Ross</div></div><div class=
-=3D"gmail_extra"><br><div class=3D"gmail_quote">On 10 November 2017 at 16:2=
-2, Patrick Vacek <span dir=3D"ltr">&lt;<a href=3D"mailto:patrick@advancedte=
-lematic.com" target=3D"_blank">patrick@advancedtelematic.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On 10.11.2017 17=
-:05, Burton, Ross wrote:<br>
-</span><span class=3D"">&gt; On 9 November 2017 at 14:03, Patrick Vacek<br>
-</span>&gt; &lt;<a href=3D"mailto:patrick@advancedtelematic.com">patrick@ad=
-vancedtelematic.com</a> &lt;mailto:<a href=3D"mailto:patrick@advancedtelema=
-tic.com">patrick@<wbr>advancedtelematic.com</a>&gt;&gt;<br>
-<span class=3D"im HOEnZb">&gt; wrote:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+SYSROOT_DIRS_class-native +=3D &quot;/etc&quot;<br=
->
-&gt;<br>
-&gt;<br>
-&gt; ${sysconfdir}, surely, to cater for people who change the paths.<br>
-<br>
-</span><div class=3D"HOEnZb"><div class=3D"h5">That does make sense now tha=
-t you mention it. I naively followed the<br>
-literal advice from here:<br>
-<br>
-<a href=3D"https://www.yoctoproject.org/docs/current/ref-manual/ref-manual.=
-html#ref-tasks-populate_sysroot" rel=3D"noreferrer" target=3D"_blank">https=
-://www.yoctoproject.org/<wbr>docs/current/ref-manual/ref-<wbr>manual.html#r=
-ef-tasks-<wbr>populate_sysroot</a><br>
-<br>
-Shall I make an updated patch?<br>
-<br>
-Thanks,<br>
-Patrick<br>
-</div></div></blockquote></div><br></div>
-
---001a1144417487a1fb055da35837--
