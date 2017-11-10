@@ -1,131 +1,43 @@
-Return-Path: <haris.okanovic@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com
-	[148.163.158.57])
-	by mail.openembedded.org (Postfix) with ESMTP id D555E78681
+Return-Path: <saul.wold@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D627867F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 21:52:00 +0000 (UTC)
-Received: from pps.filterd (m0098779.ppops.net [127.0.0.1])
-	by mx0b-00010702.pphosted.com (8.16.0.21/8.16.0.21) with SMTP id
-	vAALoio6003318; Fri, 10 Nov 2017 15:52:00 -0600
-Received: from nam01-sn1-obe.outbound.protection.outlook.com
-	(mail-sn1nam01lp0115.outbound.protection.outlook.com
-	[207.46.163.115])
-	by mx0b-00010702.pphosted.com with ESMTP id 2e5knk86ew-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2017 15:51:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nio365.onmicrosoft.com; s=selector1-ni-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=QHlkUMN3LGDPfgiVdCo4XNTt+rv8nAQuNPmpNAJqYVw=;
-	b=EX5iLBnzQCvh1JfTdprHdOU7m0oZAu/sHZIYO/EFCuXEo9JEzyL6rJo/KvHd0Vs6NeNmEKDdOX30Lz9l/yBOeLI9OLcFONYkI0wUauDTq5n/N8xJa/zgB5tKs2YyC/phKIuQGKMd/2HAKNPy5egLi7k1y6xWshIwcvALYs8beWo=
-Received: from harisdt.amer.corp.natinst.com (130.164.62.171) by
-	DM5PR04MB0701.namprd04.prod.outlook.com (10.172.187.143) with Microsoft
-	SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.20.218.12; Fri, 10 Nov 2017 21:51:56 +0000
-To: "Wold, Saul" <saul.wold@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	Fri, 10 Nov 2017 22:00:43 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Nov 2017 14:00:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,376,1505804400"; 
+   d="scan'208";a="703019"
+Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Nov 2017 14:00:37 -0800
+Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
+	ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Fri, 10 Nov 2017 14:00:36 -0800
+Received: from orsmsx113.amr.corp.intel.com ([169.254.9.80]) by
+	ORSMSX162.amr.corp.intel.com ([169.254.3.44]) with mapi id
+	14.03.0319.002; Fri, 10 Nov 2017 14:00:36 -0800
+From: "Wold, Saul" <saul.wold@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "haris.okanovic@ni.com"
+	<haris.okanovic@ni.com>
+Thread-Topic: [OE-core] [PATCH v9] kernel: Add support for multiple kernel
+	packages
+Thread-Index: AQHTV/gTKOWYhsa5HEq8F0hFG8ciyqMLlaEAgAMcxYCAAAJwAA==
+Date: Fri, 10 Nov 2017 22:00:35 +0000
+Message-ID: <1510351234.1903.159.camel@intel.com>
 References: <1500479806.27323.202.camel@intel.com>
 	<20171107184039.31164-1-haris.okanovic@ni.com>
 	<1510179606.1903.92.camel@intel.com>
-From: Haris Okanovic <haris.okanovic@ni.com>
-Message-ID: <f65277d0-e056-5181-9cc9-1e78e4e97c6b@ni.com>
-Date: Fri, 10 Nov 2017 15:51:51 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	<f65277d0-e056-5181-9cc9-1e78e4e97c6b@ni.com>
+In-Reply-To: <f65277d0-e056-5181-9cc9-1e78e4e97c6b@ni.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.254.182.183]
 MIME-Version: 1.0
-In-Reply-To: <1510179606.1903.92.camel@intel.com>
-X-Originating-IP: [130.164.62.171]
-X-ClientProxiedBy: MWHPR21CA0062.namprd21.prod.outlook.com (10.172.93.152) To
-	DM5PR04MB0701.namprd04.prod.outlook.com (10.172.187.143)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 25c5a6ae-bbfb-4e33-e227-08d5288543ae
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
-	RULEID:(22001)(4534020)(4602075)(4627115)(201703031133081)(201702281549075)(2017052603258);
-	SRVR:DM5PR04MB0701; 
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
-	3:jzqgqC176BvFgkXYKDfe4VJ72DZJaCMHkQZ886ACYXrqYHMIbaT8eOGN5wLhspIP00ukerosoWbP3IgGnC0Hc22RgpkE2cpyvZruWvD8rwvGHIUPBMGTSJcHwx8kH4GO1c3WEUpLzyb+8J2TSfuGVBMJxqjJSrGR3H9EOW4xQflFb1Ze3LEI9NWNgmVvcB4tPY64ilLbFlalBte93O4I8WPGh5FGM3p0+GXNcwQ89a9KsUT2yyR6OP9nRqFH3mNv;
-	25:F5hHhxh3+wcjuK3Z9Erp2ZC93y/wOvXhCsnKupF8tGY11gEzDPHcWHLpw4gtzs0loehSz+u0u4ndjk69FNsUmXflKXeSsEGQTWtVmVgR4rYxtotiurHqzPC0tOVFL7/V/i87cpY+m+Xc6Ej2jzKR2getxek3c8j5BWWEmzU5C8D3y8Oe8nkxv3mHIXZWqRCxSWfIoCwTGfJqu7301qNPYVkIzVotzZ9jJsVzEhHcEy4dlv1+VOKVqvhG77IA1/NSGCDAGfdiCGPLh50p/Pc55i/hUNI6Dzuy7ywR5JIBtiDq1pv8nWXuVkRaiXYOdl8G6OpjF0nsCjw/vvZ1lSvrmA==;
-	31:MtOjX3uQZ6Xj7cm7N9YM8P5yQxYen1l0c90Fa2k0hAWIuDQH3RqQ/GnJLTWtmuJB12M/7xtUNewgS5tcEL8mzfsJjnmPDE8GdN2tE3FH8Yv1E3HtCeTQqWWHgjaSp8Z74TbISpdrzJzCy6xhBJ6mKbOM7HDspHt7Oh+ChyUV0vj3GimpW26quvk03nK4428VwW7Qg1TSxkTOt9oiTir3SVoV0Aokt1g5lERPvov1POk=
-X-MS-TrafficTypeDiagnostic: DM5PR04MB0701:
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
-	20:TnMMSQWLD/CvRcK2BXo1lg0US4WsyV4lz001uVg1IX8kFGoGPw1fYilEVQBIU/YCfB23F8RBsWGBFLx6tFXpbJ2mhvqqY1q3imuiia7zMK+0OTf2qOIYCP8te77iCubsKOBSewYXPEpn2P4RyPEM1Z12s23mD012kPkB7QV78tNTjAvRv6oGoyyns9CkXwdNiNCWYIi35v8vcLRXF5l9qe/MMV/rO1Jp/bgfa+rn2uns0I9nu3e/u72bxIzany7x3yutwCJGcvvNK9DcvW6qvCC1B/y0j9Lw58oVmCf8m1WrWpac08LSYNPxfwiKfVPKmR+Hq1PgniNd049+PuInNWZI3bmjmahcNGSiWPWuQ9KmSCsdpH2fdW4WWihFt4LQ93sfEBpM05Ce4DPUE8p+itV8C5Ep1z4liisGiBbrJp34oqtb+2TKAvjtUgGBRZkbs5JZy2tlC4HP6eneJmndY3MXCLDscw1ZDJ2Tedrcuzc7IE7VAXUBbZ90g5KJLZaF5xSHUP1mkwB0p2PAOhTYmUEphFqbGpCioFGSbPxIhkh91jMVr2veRI+jxcZ7SPepkVrJr9Gpa9cS0kguEedRn6O4gizbB0LfngBq2U5iDOM=
-X-Exchange-Antispam-Report-Test: UriScan:(10436049006162)(788757137089)(228905959029699)(145744241990776);
-X-Microsoft-Antispam-PRVS: <DM5PR04MB070195914441DDE0C1E38295E5540@DM5PR04MB0701.namprd04.prod.outlook.com>
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(6040450)(2401047)(5005006)(8121501046)(3231022)(100000703101)(100105400095)(10201501046)(3002001)(93006095)(93001095)(6041248)(20161123562025)(20161123560025)(201703131423075)(201702281528075)(201703061421075)(201703061406153)(20161123558100)(20161123555025)(20161123564025)(6072148)(201708071742011)(100000704101)(100105200095)(100000705101)(100105500095);
-	SRVR:DM5PR04MB0701; BCL:0; PCL:0;
-	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
-	SRVR:DM5PR04MB0701; 
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
-	4:baFv+0T1FCM89fjKh9TDaCDNYTobst5Pigkwaf7mK1Hnv85NmHiS0DYgvYv6Uj52IoYLA6N506H1C7Y6C7BHa6y9YLNjc5+nahkOhrSaYjViIZ18NY9H4Oe668VdT5kmi1RtR9QfKgMwI6UpH0NG1qbv9jlyEFJDEPeVrhgHQNuRkwFWH7WF2/EoSwpKW/RoyhRzls+IgiQKCiMEdksDMORpV6qjnvt2zdtv2u5qOeYnzNCT4q2yp+PgsrlFxh2Irv3H4+FFkY0s+Ovr21/wjh5q7GWKJBtHlS6TLGWyuuEIVt0WViU0icFT8khpPXk6SBBj7h7dMevsT4UWMQDhin+dVYBzOcne5MMEuetUzDKsYdIvYyXOu2XZppmrdQ3jPpMGrKZOWNuyRhhYbWoCMiGu2axoE4tVUpHk0SFU/m0=
-X-Forefront-PRVS: 0487C0DB7E
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10019020)(6009001)(376002)(346002)(189002)(377424004)(69224002)(24454002)(199003)(6116002)(16526018)(3846002)(33646002)(305945005)(7736002)(6506006)(8676002)(81156014)(54356999)(81166006)(50986999)(83506002)(47776003)(76176999)(36756003)(97736004)(229853002)(65826007)(65956001)(6486002)(53546010)(65806001)(66066001)(966005)(5660300001)(106356001)(105586002)(31696002)(53936002)(86362001)(575784001)(110136005)(25786009)(31686004)(230700001)(316002)(58126008)(6246003)(8936002)(54906003)(64126003)(68736007)(4326008)(2950100002)(2501003)(101416001)(6512007)(50466002)(23676003)(6666003)(189998001)(6306002)(67846002)(2906002)(478600001)(21314002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR04MB0701;
-	H:harisdt.amer.corp.natinst.com; FPR:; SPF:None;
-	PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-Received-SPF: None (protection.outlook.com: ni.com does not designate
-	permitted sender hosts)
-X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtETTVQUjA0TUIwNzAxOzIzOkFITnVjbGVkNTc5RVMvZktiSUpFcVQ3K1Rt?=
-	=?utf-8?B?by9JUU1VMG1LNjZHaEtYTEYybVBtNVZJRkcrM2JzLy9ISG1RYzYrWEFhUmp0?=
-	=?utf-8?B?TWFjOU5MdDN6Rk1VSnR6VXZNMzFuTWlCamVNUjI4NEhwTDRzbWN2VmljTkJX?=
-	=?utf-8?B?U3NSVlljUnlQSFZPcWthVTZHcDVISUp6SkJIZGhBTGR6QVhLMVNzQU40Z3B2?=
-	=?utf-8?B?akw3alpaQ2pxbUNjVkpOODVaNnptZ1lBdE90UGJFV0N0MDZ2VTZOZm5DQUx1?=
-	=?utf-8?B?VDZpaEV5MGVDcDhyZnh1Z1ZLTEFPMFJGYXp1VjlqbU1EbTZoNXRpVWt2L0ZV?=
-	=?utf-8?B?OVpmZlhoMEgvWWFNc0J3aWcrYlZSNFB4c3lRU2xyVDVWU2NJSU9ZUjBxK1c1?=
-	=?utf-8?B?dUIwVzlaMFBZTUlObUczQWZYUStPNkdIb0pXSHh2ZmFsRlNER0UwcHFNVHMx?=
-	=?utf-8?B?bGhjWjBraEM5cm9VS2k2Y04vRVVRa2hZdEdLWjNwTm5LbWNnZGZGVUhEVHQ3?=
-	=?utf-8?B?bWxGU0VrenFja29pUG0rUG5YOTR0OSt4UFBIdXpIVStYcjJCSWtCV3k4Uzhi?=
-	=?utf-8?B?YjJodm1zZE8wT21EZXRTc3BiMjRsZnpnZUNjeU1BSDRkN2pJSElOU2l4OWZ5?=
-	=?utf-8?B?UXBrYXRnVVNlcEZpU1lhOFhrVk9ueFpCWFlLaXJ6V2xXcWF1U1RUdWZ0KzFa?=
-	=?utf-8?B?c2xPZlM4Ny9PYjBzLzdJYjYzMloyOFhWZFMvcGVubkFqK0o3M2twR3JMWnJV?=
-	=?utf-8?B?SUxuUWJRdDQ3cEh6ak02eHhzZ2kxenVGcjgxSlE1djA0OHpCdFl0aWt2NzI4?=
-	=?utf-8?B?NDA3T1l2K3A4dlhWOVc5dW1yQy9QRTNRenRXL29pL3FmQlI3RXFndTBpWVJT?=
-	=?utf-8?B?V0FBTis0UWhJTEhnUUZGd25YbXkvL05NcFgybkRXbldJWlkwVnFOVGxrMWdQ?=
-	=?utf-8?B?Vk9GYnZSNzRJNDJlYXRmVXpuZFhxOG1OSWdhUGlMelFGTEVvaXAvSGhPT2dv?=
-	=?utf-8?B?MUNMU2xtN3lJT3lJWFZPQVduTXFHVjNyd1BxajJ2TlZMeDBlclB0RTUvN21U?=
-	=?utf-8?B?Rk5FMjdrMXE1ZXh0MWsyRk10SkxvU1ViVjlEK29sZ0JncENlZWhIeWw4bHZM?=
-	=?utf-8?B?eGl5L2VNZHBGQmIxVXBOdXFJUTNFbEJlZGRQNUF0RDZ0VnUvSUVXczYweXB2?=
-	=?utf-8?B?dzFGZkFna0h2WWtCSlBKbkg5ZDFJek1YdzU0N3k4WXlJakhvSDQvMktsQkM3?=
-	=?utf-8?B?dVl3Wml6M0hkVW92REZET2RaOGUrZFpLa2ZGYTVjK3h2TzdUU2U4MkVFekxU?=
-	=?utf-8?B?M0xoZXlMbEJjSU9LcXV4Tk1uYlhmMVgvS0hFWUJLYzJxeFVNcW1qd25Rd1Zy?=
-	=?utf-8?B?Y2UrQzZHUjNqNDEydEZZT00yNjZ2d1FXUVBXd0xYRm5GZzAvVFhzTi8yMlBN?=
-	=?utf-8?B?QTZaR25NUXJ2d2ZNRGpjVGdacTdQWHRTamgzd05OaWlTQUdXRXR0VFZ4clhM?=
-	=?utf-8?B?aEFGZEpoKzdQeFpva3lWaUNXUjdVTkV6Z3o4NmlJa0xSQjVXa3dEUmk1YUZk?=
-	=?utf-8?B?aFBHSVRPWlFKNXdlZm5Canp1MWZiQm9KTTlOdW52emdqRHc2emlWVENpWVgz?=
-	=?utf-8?B?OXBlaEFaVG5IMnJ3TEdrTzNSaFh3Tm85NnpyeDVoMTRxYTR4N3VkL044Y0Jv?=
-	=?utf-8?B?OWJ5VXl4UFl3RmJLRnJyUDF2SkZzS1hhZW5XaXpmQWlrc0xuNlJ5OWFJUE91?=
-	=?utf-8?B?aUc2Wmw4NW1XdTB5eXRQa01oMXdIRE1wNS93ODVCcmFMOUo5TERsRVdpMVRS?=
-	=?utf-8?B?WUd3U1JwQkVia1hzTWtwY3NwbGswdGg1Y0xXR1lkdmtCTW50VEt0SElza1ky?=
-	=?utf-8?B?Mm1qWlF5T0pCUWVNMDF6ejhQSWZEWEZuSkRmaHd0UGxQVURKS0dzdU5hUVhr?=
-	=?utf-8?B?dFlBcHYxYzNnaEhsZ21COE54aUtGY1BTRjVQUW8zMTdRL0UzOWpFNTYyMWFZ?=
-	=?utf-8?B?QUJGcDJnTWNTQ2tyK1RUbmZ4TkRIZDM4U3orQT09?=
-X-Microsoft-Exchange-Diagnostics: 1; DM5PR04MB0701;
-	6:utDdI1zKmJUbOWgOEcdHjvvwsv4PCKKWjHa1IxjqwwkD0fzPzjWp4Mzt/Os6X0AbVDhq4Ypkkc1ho3I/ACRIGcvKjpsWCVFzUBgiCz7Y3W7XLKm+j0+oWFP9E3q6vyyAjxD9HsQL+/QM9JIT1A+piTdTZ3b+MUhy3mbtMtQbf9q9oKJOIXlXVmqON2XEhViyiMnqPYUWjD3SjW2SlzQS1HQw5KTGAhGcYcBpav+vTt8/7xOypeb+jfTZccHmxdxMxFhzNdrcITTelk5MU4Aiqpcj1O4d6iAXB9feohMQwPmeEYP/w2vvoejWybSnm5YydYbVrzG0fcYIu8EBczAZLQzXzytUFPFKE2r0qZPpoxk=;
-	5:8fVDRXCRi2SZ3xghYoBODVSnPMCCechgIFpMMQ1OAPuY77YBkHCZ7oNMG4h1/EVSpxPqPHsrtw1VbBed5pSgfQVrLTuXF922tHaP/urgQgupnLjmLoYcLM/uNfuz5zVm90ew75wivXsbz7mfgfM97hjEzP6aUEFrVwSyYFefAos=;
-	24:IFfITFNHOIAPMqLNnzZRr78ypr+sUMygf+RmeSdurs2jXbhsFLW9rr3xVhS2nRtOd6R6W4ntzV8f0I/iWKZHr/pujGeheozyjkBbbb+pHF0=;
-	7:ubHe11qeG43coTCoVqWoWpHHauqY/HNheK07sSCGiqz9bzgsGXSG8q+Gx5zswB5nesJZpmk8KI4yaFVnRMq7IBOjqmAiG5ZLpJoJgMs+SbwZoK6G2YjmnYCatlNIq/5CTrNtlJc4kKGNd85jpb5mPshZZg/01IVbfsngCt4Udvyl303pOp55l83ahVsi0rqu9naX3LC1H2vFnHUv5AiW/OBE+6vuxDRZ6ZBIz2EXm9cIBMVIRdCekb2aXr0MNzQ7
-SpamDiagnosticOutput: 1:99
-SpamDiagnosticMetadata: NSPM
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2017 21:51:56.5071 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25c5a6ae-bbfb-4e33-e227-08d5288543ae
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR04MB0701
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-11-10_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 impostorscore=0
-	adultscore=0
-	classifier=spam adjust=30 reason=mlx scancount=1
-	engine=8.0.1-1707230000 definitions=main-1711100301
-Cc: "Ashfield, Bruce \(Wind River\)" <bruce.ashfield@windriver.com>,
+Cc: "Ashfield, Bruce \(Wind River\)" <bruce.ashfield@windriver.com>, "Orling,
+	Timothy T" <timothy.t.orling@intel.com>,
 	"josh.hernstrom@ni.com" <josh.hernstrom@ni.com>
 Subject: Re: [PATCH v9] kernel: Add support for multiple kernel packages
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -140,675 +52,586 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 21:52:01 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 10 Nov 2017 22:00:44 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <030D479E1E29114CBE4AB14E38F7C0E1@intel.com>
+Content-Transfer-Encoding: base64
 
-No problem! Thanks for all the good feedback. I think we shook out most 
-of the gremlins in the last few months.
-
-Let me know if you need help with boot loader integration.
-
--- Haris
-
-
-On 11/08/2017 04:20 PM, Wold, Saul wrote:
-> 
-> Haris,
-> 
-> Thanks for your patience on this process.  This version works well, now
-> I have the extra work of getting these kernel known to systemd-boot!
-> 
-> Acked-by below!
-> 
-> Sau!
-> 
-> On Tue, 2017-11-07 at 12:40 -0600, Haris Okanovic wrote:
->> Some distros may want to provide alternate kernel "flavors" via feeds
->> or
->> within bootable images. For example, readily available builds which
->> provide certain diagnostic features can enable developers and testers
->> to
->> more quickly resolve issues by avoiding lengthy kernel builds.
->>
->> This change allows for building multiple flavors of the kernel and
->> module packages by templatizing kernel package names via a new
->> KERNEL_PACKAGE_NAME variable in kernel.bbclass. It defaults to the
->> old
->> name of "kernel", but can be overridden by certain recipes providing
->> alternate kernel flavors.
->>
->> To maintain compatibility, recipes providing alternate kernel flavors
->> cannot be the "preferred provider" for virtual/kernel. This is
->> because
->> OE puts the preferred provider's build and source at
->> "tmp-glibc/work-shared/$MACHINE/kernel-build-artifacts/" and
->> "tmp-glibc/work-shared/$MACHINE/kernel-source/" instead of
->> "tmp-glibc/work/*/$PN/" like other recipes. Therefore, recipes using
->> the
->> default KERNEL_PACKAGE_NAME="kernel" follows the old semantics --
->> build
->> in the old location and may be preferred provider -- while recipes
->> using
->> all other KERNEL_PACKAGE_NAME's build from the normal WORKDIR and
->> don't
->> provide "virtual/kernel".
->>
->> Testing:
->>   1. Add `KERNEL_PACKAGE_NAME_pn-linux-yocto-tiny = "tiny-linux"`
->>      to local.conf so that linux-yocto-tiny may build alongside
->>      the main kernel (linux-yocto).
->>   2. `bitbake linux-yocto linux-yocto-tiny` to build both kernel
->> flavors.
->>   3. Verified image and modules IPKs exist for both:
->>      tmp-glibc/deploy/ipk/qemux86/kernel-* for linux-yocto
->>      tmp-glibc/deploy/ipk/qemux86/tiny-linux* for linux-yocto-tiny
->>   4. Verified linux-yocto is the "preferred provider", and was built
->> in
->>      shared directory: tmp-glibc/work-shared/qemux86/kernel-*
->>   5. Add `CORE_IMAGE_BASE_INSTALL_append_pn-core-image-base = "tiny-
->> linux"`
->>      to local.conf to install both kernel flavors in core-image-base.
->>   6. `bitbake core-image-base` to build an image.
->>   7. Verified image contains two bzImage's under /boot/, with
->>      "yocto-standard" (linux-yocto recipe) selected to boot via
->> symlink.
->>
->> Discussion threads:
->> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.openembedded.org_pipermail_openembedded-2Dcore_2015-2DDecemb&d=DwIGaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=8Bziuw3IaCGjyrSAphuGwHmVdHcVwza-srUYwL9U_Ms&m=Po_g6d_nUSqHTshbn-ZaBXenlH_4CQklz7Csmi7u70A&s=cJkppECRP9FwMwrmn-tbJfRpffqbPbeRXS1uCu5JsB0&e=
->> er/thread.html#114122
->> https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.openembedded.org_pipermail_openembedded-2Dcore_2017-2DJuly_t&d=DwIGaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=8Bziuw3IaCGjyrSAphuGwHmVdHcVwza-srUYwL9U_Ms&m=Po_g6d_nUSqHTshbn-ZaBXenlH_4CQklz7Csmi7u70A&s=B73w8-RIOKqgiEjZMC2ra49Q1594cWVJp9c6Yx6u34w&e=
->> hread.html#139130
->>
->> [YOCTO #11363]
->>
->> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
->> Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
->> Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
->> Coauthored-by: Gratian Crisan <gratian.crisan@ni.com>
->> Coauthored-by: Haris Okanovic <haris.okanovic@ni.com>
->> Coauthored-by: Josh Hernstrom <josh.hernstrom@ni.com>
-> 
-> Acked-by: Saul Wold <sgw@linux.intel.com>
-> 
-> Sau!
-> 
->> ---
->> [PATCH v2] Change STAGING_KERNEL_DIR and STAGING_KERNEL_BUILDDIR to
->> the
->> "work" directory in alternate kernel builds, instead of "work-
->> shared",
->> so
->> that the two builds don't clobber each other.
->>
->> [PATCH v3] An updated version of this change rebased onto the current
->> OE-core master. Changes:
->>   - Remove PREFERRED_PROVIDER check in linux-yocto.inc in alternate
->>     kernel builds, since alternate kernels aren't the
->>     PREFERRED_PROVIDER for virtual/kernel by definition.
->>   - Remove "virtual/kernel" from PROVIDES in alternate kernel builds.
->>
->> [PATCH v4] Another rebase onto master; no functional change.
->> Improved description and testing steps.
->>
->> [PATCH v5]
->>   - Warn when PN == KERNEL_PACKAGE_NAME (bug # 11905)
->>   - Add KERNEL_DEPLOYSUBDIR to avoid DEPLOYDIR collisions
->>
->> [PATCH v6] Add KERNEL_PACKAGE_NAME to kernel-module-split.bbclass for
->> module recipes; fixes lttng-modules build.
->>
->> [PATCH v7] Remove second definition of KERNEL_PACKAGE_NAME from
->> kernel-module-split.bbclass; apply a default in two places where
->> KERNEL_PACKAGE_NAME is referenced.
->>
->> [PATCH v8] Rebase onto current master and more fixups.
->>   - kernel-devicetree.bbclass: Fixup package names
->>   - depmodwrapper-cross: don't error when called from alt kernel
->> recipes
->>   - kernel.bbclass: Don't install /boot/image symlink in alt recipes
->>
->> [PATCH v9]
->>   - Add feature tracking tag
->>   - Update testing section to define vars in local.conf
->>   - Add KERNEL_PACKAGE_NAME check to *-rt recipes
->>
->> https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_harisokanovic_openembedded-2Dcore_tree_dev_hokanovi_&d=DwIGaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=8Bziuw3IaCGjyrSAphuGwHmVdHcVwza-srUYwL9U_Ms&m=Po_g6d_nUSqHTshbn-ZaBXenlH_4CQklz7Csmi7u70A&s=g1DTbKMM_NmbTwVK6ABKrg7v5Qst-DAX8wovpBEZiQQ&e=
->> multi-kernel-packages-v9
->> ---
->>   meta/classes/kernel-devicetree.bbclass             |   8 +-
->>   meta/classes/kernel-module-split.bbclass           |   9 +-
->>   meta/classes/kernel.bbclass                        | 114
->> +++++++++++++--------
->>   meta/conf/documentation.conf                       |   1 +
->>   .../recipes-kernel/kmod/depmodwrapper-cross_1.0.bb |  14 +--
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb   |   2 +-
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb   |   2 +-
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb    |   2 +-
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb    |   2 +-
->>   meta/recipes-kernel/linux/linux-yocto.inc          |   2 +-
->>   10 files changed, 94 insertions(+), 62 deletions(-)
->>
->> diff --git a/meta/classes/kernel-devicetree.bbclass
->> b/meta/classes/kernel-devicetree.bbclass
->> index 6e08be4b70..4f80cc62eb 100644
->> --- a/meta/classes/kernel-devicetree.bbclass
->> +++ b/meta/classes/kernel-devicetree.bbclass
->> @@ -1,10 +1,10 @@
->>   # Support for device tree generation
->>   PACKAGES_append = " \
->> -    kernel-devicetree \
->> -    ${@['kernel-image-zimage-bundle',
->> ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
->> +    ${KERNEL_PACKAGE_NAME}-devicetree \
->> +    ${@[d.getVar('KERNEL_PACKAGE_NAME') + '-image-zimage-bundle',
->> ''][d.getVar('KERNEL_DEVICETREE_BUNDLE') != '1']} \
->>   "
->> -FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/*.dtb
->> /${KERNEL_IMAGEDEST}/*.dtbo"
->> -FILES_kernel-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-
->> *.dtb.bin"
->> +FILES_${KERNEL_PACKAGE_NAME}-devicetree =
->> "/${KERNEL_IMAGEDEST}/*.dtb /${KERNEL_IMAGEDEST}/*.dtbo"
->> +FILES_${KERNEL_PACKAGE_NAME}-image-zimage-bundle =
->> "/${KERNEL_IMAGEDEST}/zImage-*.dtb.bin"
->>   
->>   # Generate kernel+devicetree bundle
->>   KERNEL_DEVICETREE_BUNDLE ?= "0"
->> diff --git a/meta/classes/kernel-module-split.bbclass
->> b/meta/classes/kernel-module-split.bbclass
->> index 1035525dac..73c7f18c78 100644
->> --- a/meta/classes/kernel-module-split.bbclass
->> +++ b/meta/classes/kernel-module-split.bbclass
->> @@ -30,7 +30,7 @@ do_install_append() {
->>   
->>   PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
->>   
->> -KERNEL_MODULES_META_PACKAGE ?= "kernel-modules"
->> +KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME",
->> True) or "kernel" }-modules"
->>   
->>   KERNEL_MODULE_PACKAGE_PREFIX ?= ""
->>   KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
->> @@ -129,16 +129,19 @@ python split_kernel_module_packages () {
->>              postfix = format.split('%s')[1]
->>              d.setVar('RPROVIDES_' + pkg, pkg.replace(postfix, ''))
->>   
->> +    kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME", True) or
->> "kernel"
->> +    kernel_version = d.getVar("KERNEL_VERSION", True)
->> +
->>       module_regex = '^(.*)\.k?o$'
->>   
->>       module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
->>       module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
->> -    module_pattern = module_pattern_prefix + 'kernel-module-%s' +
->> module_pattern_suffix
->> +    module_pattern = module_pattern_prefix + kernel_package_name +
->> '-module-%s' + module_pattern_suffix
->>   
->>       postinst = d.getVar('pkg_postinst_modules')
->>       postrm = d.getVar('pkg_postrm_modules')
->>   
->> -    modules = do_split_packages(d,
->> root='${nonarch_base_libdir}/modules', file_regex=module_regex,
->> output_pattern=module_pattern, description='%s kernel module',
->> postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata,
->> extra_depends='kernel-%s' % (d.getVar("KERNEL_VERSION")))
->> +    modules = do_split_packages(d,
->> root='${nonarch_base_libdir}/modules', file_regex=module_regex,
->> output_pattern=module_pattern, description='%s kernel module',
->> postinst=postinst, postrm=postrm, recursive=True, hook=frob_metadata,
->> extra_depends='%s-%s' % (kernel_package_name, kernel_version))
->>       if modules:
->>           metapkg = d.getVar('KERNEL_MODULES_META_PACKAGE')
->>           d.appendVar('RDEPENDS_' + metapkg, ' '+' '.join(modules))
->> diff --git a/meta/classes/kernel.bbclass
->> b/meta/classes/kernel.bbclass
->> index 756707a3c2..48b718d777 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -1,6 +1,9 @@
->>   inherit linux-kernel-base kernel-module-split
->>   
->> -PROVIDES += "virtual/kernel"
->> +KERNEL_PACKAGE_NAME ??= "kernel"
->> +KERNEL_DEPLOYSUBDIR ??= "${@ "" if (d.getVar("KERNEL_PACKAGE_NAME",
->> True) == "kernel") else d.getVar("KERNEL_PACKAGE_NAME", True) }"
->> +
->> +PROVIDES += "${@ "virtual/kernel" if
->> (d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel") else "" }"
->>   DEPENDS += "virtual/${TARGET_PREFIX}binutils
->> virtual/${TARGET_PREFIX}gcc kmod-native bc-native lzop-native"
->>   PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
->>   
->> @@ -34,11 +37,32 @@ KERNEL_VERSION_PKG_NAME = "${@legitimize_package_
->> name(d.getVar('KERNEL_VERSION')
->>   KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
->>   
->>   python __anonymous () {
->> +    pn = d.getVar("PN", True)
->> +    kpn = d.getVar("KERNEL_PACKAGE_NAME", True)
->> +
->> +    # XXX Remove this after bug 11905 is resolved
->> +    #  FILES_${KERNEL_PACKAGE_NAME}-dev doesn't expand correctly
->> +    if kpn == pn:
->> +        bb.warn("Some packages (E.g. *-dev) might be missing due to
->> "
->> +                "bug 11905 (variable KERNEL_PACKAGE_NAME == PN)")
->> +
->> +    # The default kernel recipe builds in a shared location defined
->> by
->> +    # bitbake/distro confs: STAGING_KERNEL_DIR and
->> STAGING_KERNEL_BUILDDIR.
->> +    # Set these variables to directories under ${WORKDIR} in
->> alternate
->> +    # kernel recipes (I.e. where KERNEL_PACKAGE_NAME != kernel) so
->> that they
->> +    # may build in parallel with the default kernel without
->> clobbering.
->> +    if kpn != "kernel":
->> +        workdir = d.getVar("WORKDIR", True)
->> +        sourceDir = os.path.join(workdir, 'kernel-source')
->> +        artifactsDir = os.path.join(workdir, 'kernel-build-
->> artifacts')
->> +        d.setVar("STAGING_KERNEL_DIR", sourceDir)
->> +        d.setVar("STAGING_KERNEL_BUILDDIR", artifactsDir)
->>   
->>       # Merge KERNEL_IMAGETYPE and KERNEL_ALT_IMAGETYPE into
->> KERNEL_IMAGETYPES
->>       type = d.getVar('KERNEL_IMAGETYPE') or ""
->>       alttype = d.getVar('KERNEL_ALT_IMAGETYPE') or ""
->>       types = d.getVar('KERNEL_IMAGETYPES') or ""
->> +    kname = d.getVar('KERNEL_PACKAGE_NAME', True) or "kernel"
->>       if type not in types.split():
->>           types = (type + ' ' + types).strip()
->>       if alttype not in types.split():
->> @@ -55,15 +79,15 @@ python __anonymous () {
->>           typelower = type.lower()
->>           imagedest = d.getVar('KERNEL_IMAGEDEST')
->>   
->> -        d.appendVar('PACKAGES', ' ' + 'kernel-image-' + typelower)
->> +        d.appendVar('PACKAGES', ' %s-image-%s' % (kname, typelower))
->>   
->> -        d.setVar('FILES_kernel-image-' + typelower, '/' + imagedest
->> + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest + '/' +
->> type)
->> +        d.setVar('FILES_' + kname + '-image-' + typelower, '/' +
->> imagedest + '/' + type + '-${KERNEL_VERSION_NAME}' + ' /' + imagedest
->> + '/' + type)
->>   
->> -        d.appendVar('RDEPENDS_kernel-image', ' ' + 'kernel-image-' +
->> typelower)
->> +        d.appendVar('RDEPENDS_%s-image' % kname, ' %s-image-%s' %
->> (kname, typelower))
->>   
->> -        d.setVar('PKG_kernel-image-' + typelower, 'kernel-image-' +
->> typelower + '-${KERNEL_VERSION_PKG_NAME}')
->> +        d.setVar('PKG_%s-image-%s' % (kname,typelower), '%s-image-
->> %s-${KERNEL_VERSION_PKG_NAME}' % (kname, typelower))
->>   
->> -        d.setVar('ALLOW_EMPTY_kernel-image-' + typelower, '1')
->> +        d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower),
->> '1')
->>   
->>       image = d.getVar('INITRAMFS_IMAGE')
->>       if image:
->> @@ -121,9 +145,9 @@ base_do_unpack_append () {
->>   
->>   inherit kernel-arch deploy
->>   
->> -PACKAGES_DYNAMIC += "^kernel-module-.*"
->> -PACKAGES_DYNAMIC += "^kernel-image-.*"
->> -PACKAGES_DYNAMIC += "^kernel-firmware-.*"
->> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
->> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-image-.*"
->> +PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-firmware-.*"
->>   
->>   export OS = "${TARGET_OS}"
->>   export CROSS_COMPILE = "${TARGET_PREFIX}"
->> @@ -339,7 +363,9 @@ kernel_do_install() {
->>   	install -d ${D}/boot
->>   	for type in ${KERNEL_IMAGETYPES} ; do
->>   		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}
->> ${D}/${KERNEL_IMAGEDEST}/${type}-${KERNEL_VERSION}
->> -		ln -sf ${type}-${KERNEL_VERSION}
->> ${D}/${KERNEL_IMAGEDEST}/${type}
->> +		if [ "${KERNEL_PACKAGE_NAME}" == "kernel" ]; then
->> +			ln -sf ${type}-${KERNEL_VERSION}
->> ${D}/${KERNEL_IMAGEDEST}/${type}
->> +		fi
->>   	done
->>   	install -m 0644 System.map ${D}/boot/System.map-
->> ${KERNEL_VERSION}
->>   	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
->> @@ -393,9 +419,9 @@ do_shared_workdir_setscene () {
->>   
->>   emit_depmod_pkgdata() {
->>   	# Stash data for depmod
->> -	install -d ${PKGDESTWORK}/kernel-depmod/
->> -	echo "${KERNEL_VERSION}" > ${PKGDESTWORK}/kernel-
->> depmod/kernel-abiversion
->> -	cp ${B}/System.map ${PKGDESTWORK}/kernel-depmod/System.map-
->> ${KERNEL_VERSION}
->> +	install -d ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/
->> +	echo "${KERNEL_VERSION}" >
->> ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-depmod/${KERNEL_PACKAGE_NAME}-
->> abiversion
->> +	cp ${B}/System.map ${PKGDESTWORK}/${KERNEL_PACKAGE_NAME}-
->> depmod/System.map-${KERNEL_VERSION}
->>   }
->>   
->>   PACKAGEFUNCS += "emit_depmod_pkgdata"
->> @@ -410,7 +436,7 @@ do_shared_workdir () {
->>   	# Store the kernel version in sysroots for module-
->> base.bbclass
->>   	#
->>   
->> -	echo "${KERNEL_VERSION}" > $kerneldir/kernel-abiversion
->> +	echo "${KERNEL_VERSION}" >
->> $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
->>   
->>   	# Copy files required for module builds
->>   	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
->> @@ -508,28 +534,28 @@ EXPORT_FUNCTIONS do_compile do_install
->> do_configure
->>   
->>   # kernel-base becomes kernel-${KERNEL_VERSION}
->>   # kernel-image becomes kernel-image-${KERNEL_VERSION}
->> -PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-
->> dev kernel-modules"
->> +PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base
->> ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image
->> ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
->>   FILES_${PN} = ""
->> -FILES_kernel-base =
->> "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order
->> ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
->> -FILES_kernel-image = ""
->> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers*
->> /boot/config* ${KERNEL_SRC_PATH}
->> ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->> -FILES_kernel-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
->> -FILES_kernel-modules = ""
->> -RDEPENDS_kernel = "kernel-base"
->> +FILES_${KERNEL_PACKAGE_NAME}-base =
->> "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order
->> ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
->> +FILES_${KERNEL_PACKAGE_NAME}-image = ""
->> +FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map*
->> /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}
->> ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->> +FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux-
->> ${KERNEL_VERSION_NAME}"
->> +FILES_${KERNEL_PACKAGE_NAME}-modules = ""
->> +RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
->>   # Allow machines to override this dependency if kernel image files
->> are
->>   # not wanted in images as standard
->> -RDEPENDS_kernel-base ?= "kernel-image"
->> -PKG_kernel-image = "kernel-image-${@legitimize_package_name('${KERNE
->> L_VERSION}')}"
->> -RDEPENDS_kernel-image += "${@base_conditional('KERNEL_IMAGETYPE',
->> 'vmlinux', 'kernel-vmlinux', '', d)}"
->> -PKG_kernel-base = "kernel-${@legitimize_package_name('${KERNEL_VERSI
->> ON}')}"
->> -RPROVIDES_kernel-base += "kernel-${KERNEL_VERSION}"
->> -ALLOW_EMPTY_kernel = "1"
->> -ALLOW_EMPTY_kernel-base = "1"
->> -ALLOW_EMPTY_kernel-image = "1"
->> -ALLOW_EMPTY_kernel-modules = "1"
->> -DESCRIPTION_kernel-modules = "Kernel modules meta package"
->> -
->> -pkg_postinst_kernel-base () {
->> +RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-
->> image"
->> +PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@
->> legitimize_package_name('${KERNEL_VERSION}')}"
->> +RDEPENDS_${KERNEL_PACKAGE_NAME}-image += "${@base_conditional('KERNE
->> L_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
->> +PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitim
->> ize_package_name('${KERNEL_VERSION}')}"
->> +RPROVIDES_${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-
->> ${KERNEL_VERSION}"
->> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
->> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
->> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-image = "1"
->> +ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-modules = "1"
->> +DESCRIPTION_${KERNEL_PACKAGE_NAME}-modules = "Kernel modules meta
->> package"
->> +
->> +pkg_postinst_${KERNEL_PACKAGE_NAME}-base () {
->>   	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->>   		mkdir -p $D/lib/modules/${KERNEL_VERSION}
->>   	fi
->> @@ -543,7 +569,7 @@ pkg_postinst_kernel-base () {
->>   PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
->>   
->>   python split_kernel_packages () {
->> -    do_split_packages(d, root='${nonarch_base_libdir}/firmware',
->> file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$', output_pattern='kernel-
->> firmware-%s', description='Firmware for %s', recursive=True,
->> extra_depends='')
->> +    do_split_packages(d, root='${nonarch_base_libdir}/firmware',
->> file_regex='^(.*)\.(bin|fw|cis|csp|dsp)$',
->> output_pattern='${KERNEL_PACKAGE_NAME}-firmware-%s',
->> description='Firmware for %s', recursive=True, extra_depends='')
->>   }
->>   
->>   # Many scripts want to look in arch/$arch/boot for the bootable
->> @@ -626,21 +652,27 @@ MODULE_TARBALL_SYMLINK_NAME ?= "modules-
->> ${MACHINE}.tgz"
->>   MODULE_TARBALL_DEPLOY ?= "1"
->>   
->>   kernel_do_deploy() {
->> +	deployDir="${DEPLOYDIR}"
->> +	if [ -n "${KERNEL_DEPLOYSUBDIR}" ]; then
->> +		deployDir="${DEPLOYDIR}/${KERNEL_DEPLOYSUBDIR}"
->> +		mkdir "$deployDir"
->> +	fi
->> +
->>   	for type in ${KERNEL_IMAGETYPES} ; do
->>   		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
->> -		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}
->> ${DEPLOYDIR}/${base_name}.bin
->> +		install -m 0644 ${KERNEL_OUTPUT_DIR}/${type}
->> $deployDir/${base_name}.bin
->>   	done
->>   	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e
->> '^CONFIG_MODULES=y$' .config); then
->>   		mkdir -p ${D}/lib
->> -		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME}
->> -C ${D} lib
->> -		ln -sf ${MODULE_TARBALL_BASE_NAME}
->> ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
->> +		tar -cvzf $deployDir/${MODULE_TARBALL_BASE_NAME} -C
->> ${D} lib
->> +		ln -sf ${MODULE_TARBALL_BASE_NAME}
->> $deployDir/${MODULE_TARBALL_SYMLINK_NAME}
->>   	fi
->>   
->>   	for type in ${KERNEL_IMAGETYPES} ; do
->>   		base_name=${type}-${KERNEL_IMAGE_BASE_NAME}
->>   		symlink_name=${type}-${KERNEL_IMAGE_SYMLINK_NAME}
->> -		ln -sf ${base_name}.bin
->> ${DEPLOYDIR}/${symlink_name}.bin
->> -		ln -sf ${base_name}.bin ${DEPLOYDIR}/${type}
->> +		ln -sf ${base_name}.bin
->> $deployDir/${symlink_name}.bin
->> +		ln -sf ${base_name}.bin $deployDir/${type}
->>   	done
->>   
->>   	cd ${B}
->> @@ -650,8 +682,8 @@ kernel_do_deploy() {
->>   			echo "Copying deploy ${type} kernel-
->> initramfs image and setting up links..."
->>   			initramfs_base_name=${type}-
->> ${INITRAMFS_BASE_NAME}
->>   			initramfs_symlink_name=${type}-initramfs-
->> ${MACHINE}
->> -			install -m 0644
->> ${KERNEL_OUTPUT_DIR}/${type}.initramfs
->> ${DEPLOYDIR}/${initramfs_base_name}.bin
->> -			ln -sf ${initramfs_base_name}.bin
->> ${DEPLOYDIR}/${initramfs_symlink_name}.bin
->> +			install -m 0644
->> ${KERNEL_OUTPUT_DIR}/${type}.initramfs
->> $deployDir/${initramfs_base_name}.bin
->> +			ln -sf ${initramfs_base_name}.bin
->> $deployDir/${initramfs_symlink_name}.bin
->>   		fi
->>   	done
->>   }
->> diff --git a/meta/conf/documentation.conf
->> b/meta/conf/documentation.conf
->> index a55e2836b5..2c88504fb9 100644
->> --- a/meta/conf/documentation.conf
->> +++ b/meta/conf/documentation.conf
->> @@ -247,6 +247,7 @@ KERNEL_IMAGETYPE[doc] = "The type of kernel to
->> build for a device, usually set b
->>   KERNEL_IMAGETYPES[doc] = "The list of types of kernel to build for a
->> device, usually set by the machine configuration files and defaults
->> to KERNEL_IMAGETYPE."
->>   KERNEL_MODULE_AUTOLOAD[doc] = "Lists kernel modules that need to be
->> auto-loaded during boot"
->>   KERNEL_MODULE_PROBECONF[doc] = "Lists kernel modules for which the
->> build system expects to find module_conf_* values that specify
->> configuration for each of the modules"
->> +KERNEL_PACKAGE_NAME[doc] = "Name prefix for kernel packages.
->> Defaults to 'kernel'."
->>   KERNEL_PATH[doc] = "The location of the kernel sources. This
->> variable is set to the value of the STAGING_KERNEL_DIR within the
->> module class (module.bbclass)."
->>   KERNEL_SRC[doc] = "The location of the kernel sources. This variable
->> is set to the value of the STAGING_KERNEL_DIR within the module class
->> (module.bbclass)."
->>   KFEATURE_DESCRIPTION[doc] = "Provides a short description of a
->> configuration fragment. You use this variable in the .scc file that
->> describes a configuration fragment file."
->> diff --git a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
->> b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
->> index 44d013f29d..2eec921728 100644
->> --- a/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
->> +++ b/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb
->> @@ -23,17 +23,13 @@ if [ "\$1" != "-a" -o "\$2" != "-b" ]; then
->>       echo "Usage: depmodwrapper -a -b rootfs KERNEL_VERSION" >&2
->>       exit 1
->>   fi
->> -if [ ! -r ${PKGDATA_DIR}/kernel-depmod/kernel-abiversion ]; then
->> -    echo "Unable to read: ${PKGDATA_DIR}/kernel-depmod/kernel-
->> abiversion" >&2
->> -else
->> -    kernelabi=\$(cat ${PKGDATA_DIR}/kernel-depmod/kernel-abiversion)
->> -    if [ "\$kernelabi" != "\$4" ]; then
->> -        echo "Error: Kernel version \$4 does not match kernel-
->> abiversion (\$kernelabi)" >&2
->> -        exit 1
->> -    fi
->> +
->> +kernelabi=""
->> +if [ -r "${PKGDATA_DIR}/kernel-depmod/kernel-abiversion" ]; then
->> +    kernelabi=\$(cat "${PKGDATA_DIR}/kernel-depmod/kernel-
->> abiversion")
->>   fi
->>   
->> -if [ ! -r ${PKGDATA_DIR}/kernel-depmod/System.map-\$4 ]; then
->> +if [ ! -r ${PKGDATA_DIR}/kernel-depmod/System.map-\$4 ] || [
->> "\$kernelabi" != "\$4" ]; then
->>       echo "Unable to read: ${PKGDATA_DIR}/kernel-depmod/System.map-
->> \$4" >&2
->>       exec env depmod "\$1" "\$2" "\$3" "\$4"
->>   else
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
->> index f93d9530eb..894e2ffbf6 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.10.bb
->> @@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
->>   # to build multiple virtual/kernel providers, e.g. as dependency of
->>   # core-image-rt-sdk, core-image-rt.
->>   python () {
->> -    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-
->> yocto-rt":
->> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and
->> d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
->>           raise bb.parse.SkipPackage("Set
->> PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->>   }
->>   
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
->> index c49a9340f8..be4d163ff1 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.12.bb
->> @@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
->>   # to build multiple virtual/kernel providers, e.g. as dependency of
->>   # core-image-rt-sdk, core-image-rt.
->>   python () {
->> -    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-
->> yocto-rt":
->> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and
->> d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
->>           raise bb.parse.SkipPackage("Set
->> PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->>   }
->>   
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> index 25d88833a9..e489bbb9f2 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.4.bb
->> @@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
->>   # to build multiple virtual/kernel providers, e.g. as dependency of
->>   # core-image-rt-sdk, core-image-rt.
->>   python () {
->> -    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-
->> yocto-rt":
->> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and
->> d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
->>           raise bb.parse.SkipPackage("Set
->> PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->>   }
->>   
->> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
->> b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
->> index 6734dc0d05..8212b1445c 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
->> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.9.bb
->> @@ -7,7 +7,7 @@ require recipes-kernel/linux/linux-yocto.inc
->>   # to build multiple virtual/kernel providers, e.g. as dependency of
->>   # core-image-rt-sdk, core-image-rt.
->>   python () {
->> -    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-
->> yocto-rt":
->> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and
->> d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
->>           raise bb.parse.SkipPackage("Set
->> PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
->>   }
->>   
->> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->> b/meta/recipes-kernel/linux/linux-yocto.inc
->> index 9c1f61be75..8a70eb5018 100644
->> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->> @@ -12,7 +12,7 @@ INC_PR = "r4"
->>   # PREFERRED_PROVIDER for virtual/kernel. This avoids network access
->> required
->>   # by the use of AUTOREV SRCREVs, which are the default for this
->> recipe.
->>   python () {
->> -    if d.getVar("PREFERRED_PROVIDER_virtual/kernel") !=
->> d.getVar("PN"):
->> +    if d.getVar("KERNEL_PACKAGE_NAME", True) == "kernel" and
->> d.getVar("PREFERRED_PROVIDER_virtual/kernel", True) != d.getVar("PN",
->> True):
->>           d.delVar("BB_DONT_CACHE")
->>           raise bb.parse.SkipPackage("Set
->> PREFERRED_PROVIDER_virtual/kernel to %s to enable it" %
->> (d.getVar("PN")))
->>   }
->> -- 
->> 2.14.2
+T24gRnJpLCAyMDE3LTExLTEwIGF0IDE1OjUxIC0wNjAwLCBIYXJpcyBPa2Fub3ZpYyB3cm90ZToN
+Cj4gTm8gcHJvYmxlbSEgVGhhbmtzIGZvciBhbGwgdGhlIGdvb2QgZmVlZGJhY2suIEkgdGhpbmsg
+d2Ugc2hvb2sgb3V0DQo+IG1vc3QgDQo+IG9mIHRoZSBncmVtbGlucyBpbiB0aGUgbGFzdCBmZXcg
+bW9udGhzLg0KPiANClRoYW5rcyBhZ2FpbiBmb3IgeW91ciBwYXRpZW5jZSAhDQoNCj4gTGV0IG1l
+IGtub3cgaWYgeW91IG5lZWQgaGVscCB3aXRoIGJvb3QgbG9hZGVyIGludGVncmF0aW9uLg0KPiAN
+CkZ1bm55IHlvdSBzaG91bGQgbWVudGlvbiB0aGF0LCB0aGVyZSBpcyBhbm90aGVyIGJ1ZyByZWNl
+bnRseSBvcGVuZWQNCmFib3V0IHN1cHBvcnRpbmcgbXVsdGlwbGUga2VybmVscyBmb3IgYXQgbGVh
+c3QgZ3J1YiogYW5kIHN5c3RlbWQtYm9vdC4NCg0KSSBoYXZlIHNvbWUgaWRlYXMgYWJvdXQgdXNp
+bmcgdGhlIGV4aXN0aW5nIGJiY2xhc3NlcyBhbmQgZXh0ZW5kaW5nIHRoZQ0KTEFCRUxTIHZhcmlh
+YmxlIGF1dG9tYWdpY2FsbHkuICBXZSBhbHNvIGhhdmUgc29tZSBwbGFucyBmb3IgbWFrZSB0aGUN
+CmJvb3RmcyBiZSBjcmVhdGVkIGluIGEgbW9yZSBnZW5lcmljIGluc3RhbGwgZmFzaGlvbiwgcmF0
+aGVyIHRoZW4gdGhlDQphZGRpdGlvbmFsIGRvX2RlcGxveSgpIGZ1bmN0aW9uLCB0aGlzIGlzIGFu
+IGVhcmx5IFdJUC4NCg0KSWYgeW91IGhhdmUgYW55IGlkZWFzIG9yIHdvcmsgYWxyZWFkeSwgd2Ug
+d291bGQgYmUgaGFwcHkgdG8gdXNlIGl0Lg0KDQpTYXUhDQoNCg0KPiAtLSBIYXJpcw0KPiANCj4g
+DQo+IE9uIDExLzA4LzIwMTcgMDQ6MjAgUE0sIFdvbGQsIFNhdWwgd3JvdGU6DQo+ID4gDQo+ID4g
+SGFyaXMsDQo+ID4gDQo+ID4gVGhhbmtzIGZvciB5b3VyIHBhdGllbmNlIG9uIHRoaXMgcHJvY2Vz
+cy4gIFRoaXMgdmVyc2lvbiB3b3JrcyB3ZWxsLA0KPiA+IG5vdw0KPiA+IEkgaGF2ZSB0aGUgZXh0
+cmEgd29yayBvZiBnZXR0aW5nIHRoZXNlIGtlcm5lbCBrbm93biB0byBzeXN0ZW1kLQ0KPiA+IGJv
+b3QhDQo+ID4gDQo+ID4gQWNrZWQtYnkgYmVsb3chDQo+ID4gDQo+ID4gU2F1IQ0KPiA+IA0KPiA+
+IE9uIFR1ZSwgMjAxNy0xMS0wNyBhdCAxMjo0MCAtMDYwMCwgSGFyaXMgT2thbm92aWMgd3JvdGU6
+DQo+ID4gPiBTb21lIGRpc3Ryb3MgbWF5IHdhbnQgdG8gcHJvdmlkZSBhbHRlcm5hdGUga2VybmVs
+ICJmbGF2b3JzIiB2aWENCj4gPiA+IGZlZWRzDQo+ID4gPiBvcg0KPiA+ID4gd2l0aGluIGJvb3Rh
+YmxlIGltYWdlcy4gRm9yIGV4YW1wbGUsIHJlYWRpbHkgYXZhaWxhYmxlIGJ1aWxkcw0KPiA+ID4g
+d2hpY2gNCj4gPiA+IHByb3ZpZGUgY2VydGFpbiBkaWFnbm9zdGljIGZlYXR1cmVzIGNhbiBlbmFi
+bGUgZGV2ZWxvcGVycyBhbmQNCj4gPiA+IHRlc3RlcnMNCj4gPiA+IHRvDQo+ID4gPiBtb3JlIHF1
+aWNrbHkgcmVzb2x2ZSBpc3N1ZXMgYnkgYXZvaWRpbmcgbGVuZ3RoeSBrZXJuZWwgYnVpbGRzLg0K
+PiA+ID4gDQo+ID4gPiBUaGlzIGNoYW5nZSBhbGxvd3MgZm9yIGJ1aWxkaW5nIG11bHRpcGxlIGZs
+YXZvcnMgb2YgdGhlIGtlcm5lbA0KPiA+ID4gYW5kDQo+ID4gPiBtb2R1bGUgcGFja2FnZXMgYnkg
+dGVtcGxhdGl6aW5nIGtlcm5lbCBwYWNrYWdlIG5hbWVzIHZpYSBhIG5ldw0KPiA+ID4gS0VSTkVM
+X1BBQ0tBR0VfTkFNRSB2YXJpYWJsZSBpbiBrZXJuZWwuYmJjbGFzcy4gSXQgZGVmYXVsdHMgdG8N
+Cj4gPiA+IHRoZQ0KPiA+ID4gb2xkDQo+ID4gPiBuYW1lIG9mICJrZXJuZWwiLCBidXQgY2FuIGJl
+IG92ZXJyaWRkZW4gYnkgY2VydGFpbiByZWNpcGVzDQo+ID4gPiBwcm92aWRpbmcNCj4gPiA+IGFs
+dGVybmF0ZSBrZXJuZWwgZmxhdm9ycy4NCj4gPiA+IA0KPiA+ID4gVG8gbWFpbnRhaW4gY29tcGF0
+aWJpbGl0eSwgcmVjaXBlcyBwcm92aWRpbmcgYWx0ZXJuYXRlIGtlcm5lbA0KPiA+ID4gZmxhdm9y
+cw0KPiA+ID4gY2Fubm90IGJlIHRoZSAicHJlZmVycmVkIHByb3ZpZGVyIiBmb3IgdmlydHVhbC9r
+ZXJuZWwuIFRoaXMgaXMNCj4gPiA+IGJlY2F1c2UNCj4gPiA+IE9FIHB1dHMgdGhlIHByZWZlcnJl
+ZCBwcm92aWRlcidzIGJ1aWxkIGFuZCBzb3VyY2UgYXQNCj4gPiA+ICJ0bXAtZ2xpYmMvd29yay1z
+aGFyZWQvJE1BQ0hJTkUva2VybmVsLWJ1aWxkLWFydGlmYWN0cy8iIGFuZA0KPiA+ID4gInRtcC1n
+bGliYy93b3JrLXNoYXJlZC8kTUFDSElORS9rZXJuZWwtc291cmNlLyIgaW5zdGVhZCBvZg0KPiA+
+ID4gInRtcC1nbGliYy93b3JrLyovJFBOLyIgbGlrZSBvdGhlciByZWNpcGVzLiBUaGVyZWZvcmUs
+IHJlY2lwZXMNCj4gPiA+IHVzaW5nDQo+ID4gPiB0aGUNCj4gPiA+IGRlZmF1bHQgS0VSTkVMX1BB
+Q0tBR0VfTkFNRT0ia2VybmVsIiBmb2xsb3dzIHRoZSBvbGQgc2VtYW50aWNzIC0tDQo+ID4gPiBi
+dWlsZA0KPiA+ID4gaW4gdGhlIG9sZCBsb2NhdGlvbiBhbmQgbWF5IGJlIHByZWZlcnJlZCBwcm92
+aWRlciAtLSB3aGlsZQ0KPiA+ID4gcmVjaXBlcw0KPiA+ID4gdXNpbmcNCj4gPiA+IGFsbCBvdGhl
+ciBLRVJORUxfUEFDS0FHRV9OQU1FJ3MgYnVpbGQgZnJvbSB0aGUgbm9ybWFsIFdPUktESVIgYW5k
+DQo+ID4gPiBkb24ndA0KPiA+ID4gcHJvdmlkZSAidmlydHVhbC9rZXJuZWwiLg0KPiA+ID4gDQo+
+ID4gPiBUZXN0aW5nOg0KPiA+ID4gICAxLiBBZGQgYEtFUk5FTF9QQUNLQUdFX05BTUVfcG4tbGlu
+dXgteW9jdG8tdGlueSA9ICJ0aW55LWxpbnV4ImANCj4gPiA+ICAgICAgdG8gbG9jYWwuY29uZiBz
+byB0aGF0IGxpbnV4LXlvY3RvLXRpbnkgbWF5IGJ1aWxkIGFsb25nc2lkZQ0KPiA+ID4gICAgICB0
+aGUgbWFpbiBrZXJuZWwgKGxpbnV4LXlvY3RvKS4NCj4gPiA+ICAgMi4gYGJpdGJha2UgbGludXgt
+eW9jdG8gbGludXgteW9jdG8tdGlueWAgdG8gYnVpbGQgYm90aCBrZXJuZWwNCj4gPiA+IGZsYXZv
+cnMuDQo+ID4gPiAgIDMuIFZlcmlmaWVkIGltYWdlIGFuZCBtb2R1bGVzIElQS3MgZXhpc3QgZm9y
+IGJvdGg6DQo+ID4gPiAgICAgIHRtcC1nbGliYy9kZXBsb3kvaXBrL3FlbXV4ODYva2VybmVsLSog
+Zm9yIGxpbnV4LXlvY3RvDQo+ID4gPiAgICAgIHRtcC1nbGliYy9kZXBsb3kvaXBrL3FlbXV4ODYv
+dGlueS1saW51eCogZm9yIGxpbnV4LXlvY3RvLQ0KPiA+ID4gdGlueQ0KPiA+ID4gICA0LiBWZXJp
+ZmllZCBsaW51eC15b2N0byBpcyB0aGUgInByZWZlcnJlZCBwcm92aWRlciIsIGFuZCB3YXMNCj4g
+PiA+IGJ1aWx0DQo+ID4gPiBpbg0KPiA+ID4gICAgICBzaGFyZWQgZGlyZWN0b3J5OiB0bXAtZ2xp
+YmMvd29yay1zaGFyZWQvcWVtdXg4Ni9rZXJuZWwtKg0KPiA+ID4gICA1LiBBZGQgYENPUkVfSU1B
+R0VfQkFTRV9JTlNUQUxMX2FwcGVuZF9wbi1jb3JlLWltYWdlLWJhc2UgPQ0KPiA+ID4gInRpbnkt
+DQo+ID4gPiBsaW51eCJgDQo+ID4gPiAgICAgIHRvIGxvY2FsLmNvbmYgdG8gaW5zdGFsbCBib3Ro
+IGtlcm5lbCBmbGF2b3JzIGluIGNvcmUtaW1hZ2UtDQo+ID4gPiBiYXNlLg0KPiA+ID4gICA2LiBg
+Yml0YmFrZSBjb3JlLWltYWdlLWJhc2VgIHRvIGJ1aWxkIGFuIGltYWdlLg0KPiA+ID4gICA3LiBW
+ZXJpZmllZCBpbWFnZSBjb250YWlucyB0d28gYnpJbWFnZSdzIHVuZGVyIC9ib290Lywgd2l0aA0K
+PiA+ID4gICAgICAieW9jdG8tc3RhbmRhcmQiIChsaW51eC15b2N0byByZWNpcGUpIHNlbGVjdGVk
+IHRvIGJvb3QgdmlhDQo+ID4gPiBzeW1saW5rLg0KPiA+ID4gDQo+ID4gPiBEaXNjdXNzaW9uIHRo
+cmVhZHM6DQo+ID4gPiBodHRwczovL3VybGRlZmVuc2UucHJvb2Zwb2ludC5jb20vdjIvdXJsP3U9
+aHR0cC0zQV9fbGlzdHMub3BlbmVtYg0KPiA+ID4gZWRkZWQub3JnX3BpcGVybWFpbF9vcGVuZW1i
+ZWRkZWQtMkRjb3JlXzIwMTUtDQo+ID4gPiAyRERlY2VtYiZkPUR3SUdhUSZjPUlfMFl3b0t5N3o1
+TE1UVmR5TzZZQ2lFMnV6STFqalpadUlQZWxjU2ppeEEmcg0KPiA+ID4gPThCeml1dzNJYUNHanly
+U0FwaHVHd0htVmRIY1Z3emEtc3JVWXdMOVVfTXMmbT1Qb19nNmRfblVTcUhUc2hibi0NCj4gPiA+
+IFphQlhlbmxIXzRDUWtsejdDc21pN3U3MEEmcz1jSmtwcEVDUlA5RndNd3Jtbi0NCj4gPiA+IHRi
+SmZScGZmcWJQYmVSWFMxdUN1NUpzQjAmZT0NCj4gPiA+IGVyL3RocmVhZC5odG1sIzExNDEyMg0K
+PiA+ID4gaHR0cHM6Ly91cmxkZWZlbnNlLnByb29mcG9pbnQuY29tL3YyL3VybD91PWh0dHAtM0Ff
+X2xpc3RzLm9wZW5lbWINCj4gPiA+IGVkZGVkLm9yZ19waXBlcm1haWxfb3BlbmVtYmVkZGVkLTJE
+Y29yZV8yMDE3LQ0KPiA+ID4gMkRKdWx5X3QmZD1Ed0lHYVEmYz1JXzBZd29LeTd6NUxNVFZkeU82
+WUNpRTJ1ekkxampaWnVJUGVsY1NqaXhBJnINCj4gPiA+ID04QnppdXczSWFDR2p5clNBcGh1R3dI
+bVZkSGNWd3phLXNyVVl3TDlVX01zJm09UG9fZzZkX25VU3FIVHNoYm4tDQo+ID4gPiBaYUJYZW5s
+SF80Q1FrbHo3Q3NtaTd1NzBBJnM9QjczdzgtDQo+ID4gPiBSSU9LcWdpRWpaTUMycmE0OVExNTk0
+Y1dWSnA5YzZZeDZ1MzR3JmU9DQo+ID4gPiBocmVhZC5odG1sIzEzOTEzMA0KPiA+ID4gDQo+ID4g
+PiBbWU9DVE8gIzExMzYzXQ0KPiA+ID4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBJb2FuLUFkcmlh
+biBSYXRpdSA8YWRyaWFuLnJhdGl1QG5pLmNvbT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEdyYXRp
+YW4gQ3Jpc2FuIDxncmF0aWFuLmNyaXNhbkBuaS5jb20+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBI
+YXJpcyBPa2Fub3ZpYyA8aGFyaXMub2thbm92aWNAbmkuY29tPg0KPiA+ID4gQ29hdXRob3JlZC1i
+eTogR3JhdGlhbiBDcmlzYW4gPGdyYXRpYW4uY3Jpc2FuQG5pLmNvbT4NCj4gPiA+IENvYXV0aG9y
+ZWQtYnk6IEhhcmlzIE9rYW5vdmljIDxoYXJpcy5va2Fub3ZpY0BuaS5jb20+DQo+ID4gPiBDb2F1
+dGhvcmVkLWJ5OiBKb3NoIEhlcm5zdHJvbSA8am9zaC5oZXJuc3Ryb21AbmkuY29tPg0KPiA+IA0K
+PiA+IEFja2VkLWJ5OiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5jb20+DQo+ID4gDQo+ID4g
+U2F1IQ0KPiA+IA0KPiA+ID4gLS0tDQo+ID4gPiBbUEFUQ0ggdjJdIENoYW5nZSBTVEFHSU5HX0tF
+Uk5FTF9ESVIgYW5kIFNUQUdJTkdfS0VSTkVMX0JVSUxERElSDQo+ID4gPiB0bw0KPiA+ID4gdGhl
+DQo+ID4gPiAid29yayIgZGlyZWN0b3J5IGluIGFsdGVybmF0ZSBrZXJuZWwgYnVpbGRzLCBpbnN0
+ZWFkIG9mICJ3b3JrLQ0KPiA+ID4gc2hhcmVkIiwNCj4gPiA+IHNvDQo+ID4gPiB0aGF0IHRoZSB0
+d28gYnVpbGRzIGRvbid0IGNsb2JiZXIgZWFjaCBvdGhlci4NCj4gPiA+IA0KPiA+ID4gW1BBVENI
+IHYzXSBBbiB1cGRhdGVkIHZlcnNpb24gb2YgdGhpcyBjaGFuZ2UgcmViYXNlZCBvbnRvIHRoZQ0K
+PiA+ID4gY3VycmVudA0KPiA+ID4gT0UtY29yZSBtYXN0ZXIuIENoYW5nZXM6DQo+ID4gPiAgIC0g
+UmVtb3ZlIFBSRUZFUlJFRF9QUk9WSURFUiBjaGVjayBpbiBsaW51eC15b2N0by5pbmMgaW4NCj4g
+PiA+IGFsdGVybmF0ZQ0KPiA+ID4gICAgIGtlcm5lbCBidWlsZHMsIHNpbmNlIGFsdGVybmF0ZSBr
+ZXJuZWxzIGFyZW4ndCB0aGUNCj4gPiA+ICAgICBQUkVGRVJSRURfUFJPVklERVIgZm9yIHZpcnR1
+YWwva2VybmVsIGJ5IGRlZmluaXRpb24uDQo+ID4gPiAgIC0gUmVtb3ZlICJ2aXJ0dWFsL2tlcm5l
+bCIgZnJvbSBQUk9WSURFUyBpbiBhbHRlcm5hdGUga2VybmVsDQo+ID4gPiBidWlsZHMuDQo+ID4g
+PiANCj4gPiA+IFtQQVRDSCB2NF0gQW5vdGhlciByZWJhc2Ugb250byBtYXN0ZXI7IG5vIGZ1bmN0
+aW9uYWwgY2hhbmdlLg0KPiA+ID4gSW1wcm92ZWQgZGVzY3JpcHRpb24gYW5kIHRlc3Rpbmcgc3Rl
+cHMuDQo+ID4gPiANCj4gPiA+IFtQQVRDSCB2NV0NCj4gPiA+ICAgLSBXYXJuIHdoZW4gUE4gPT0g
+S0VSTkVMX1BBQ0tBR0VfTkFNRSAoYnVnICMgMTE5MDUpDQo+ID4gPiAgIC0gQWRkIEtFUk5FTF9E
+RVBMT1lTVUJESVIgdG8gYXZvaWQgREVQTE9ZRElSIGNvbGxpc2lvbnMNCj4gPiA+IA0KPiA+ID4g
+W1BBVENIIHY2XSBBZGQgS0VSTkVMX1BBQ0tBR0VfTkFNRSB0byBrZXJuZWwtbW9kdWxlLXNwbGl0
+LmJiY2xhc3MgDQo+ID4gPiBmb3INCj4gPiA+IG1vZHVsZSByZWNpcGVzOyBmaXhlcyBsdHRuZy1t
+b2R1bGVzIGJ1aWxkLg0KPiA+ID4gDQo+ID4gPiBbUEFUQ0ggdjddIFJlbW92ZSBzZWNvbmQgZGVm
+aW5pdGlvbiBvZiBLRVJORUxfUEFDS0FHRV9OQU1FIGZyb20NCj4gPiA+IGtlcm5lbC1tb2R1bGUt
+c3BsaXQuYmJjbGFzczsgYXBwbHkgYSBkZWZhdWx0IGluIHR3byBwbGFjZXMgd2hlcmUNCj4gPiA+
+IEtFUk5FTF9QQUNLQUdFX05BTUUgaXMgcmVmZXJlbmNlZC4NCj4gPiA+IA0KPiA+ID4gW1BBVENI
+IHY4XSBSZWJhc2Ugb250byBjdXJyZW50IG1hc3RlciBhbmQgbW9yZSBmaXh1cHMuDQo+ID4gPiAg
+IC0ga2VybmVsLWRldmljZXRyZWUuYmJjbGFzczogRml4dXAgcGFja2FnZSBuYW1lcw0KPiA+ID4g
+ICAtIGRlcG1vZHdyYXBwZXItY3Jvc3M6IGRvbid0IGVycm9yIHdoZW4gY2FsbGVkIGZyb20gYWx0
+IGtlcm5lbA0KPiA+ID4gcmVjaXBlcw0KPiA+ID4gICAtIGtlcm5lbC5iYmNsYXNzOiBEb24ndCBp
+bnN0YWxsIC9ib290L2ltYWdlIHN5bWxpbmsgaW4gYWx0DQo+ID4gPiByZWNpcGVzDQo+ID4gPiAN
+Cj4gPiA+IFtQQVRDSCB2OV0NCj4gPiA+ICAgLSBBZGQgZmVhdHVyZSB0cmFja2luZyB0YWcNCj4g
+PiA+ICAgLSBVcGRhdGUgdGVzdGluZyBzZWN0aW9uIHRvIGRlZmluZSB2YXJzIGluIGxvY2FsLmNv
+bmYNCj4gPiA+ICAgLSBBZGQgS0VSTkVMX1BBQ0tBR0VfTkFNRSBjaGVjayB0byAqLXJ0IHJlY2lw
+ZXMNCj4gPiA+IA0KPiA+ID4gaHR0cHM6Ly91cmxkZWZlbnNlLnByb29mcG9pbnQuY29tL3YyL3Vy
+bD91PWh0dHBzLTNBX19naXRodWIuY29tX2gNCj4gPiA+IGFyaXNva2Fub3ZpY19vcGVuZW1iZWRk
+ZWQtDQo+ID4gPiAyRGNvcmVfdHJlZV9kZXZfaG9rYW5vdmlfJmQ9RHdJR2FRJmM9SV8wWXdvS3k3
+ejVMTVRWZHlPNllDaUUydXpJMQ0KPiA+ID4gampaWnVJUGVsY1NqaXhBJnI9OEJ6aXV3M0lhQ0dq
+eXJTQXBodUd3SG1WZEhjVnd6YS0NCj4gPiA+IHNyVVl3TDlVX01zJm09UG9fZzZkX25VU3FIVHNo
+Ym4tDQo+ID4gPiBaYUJYZW5sSF80Q1FrbHo3Q3NtaTd1NzBBJnM9ZzFEVGJLTU1fTm1iVHdWSzZB
+QktyZzd2NVFzdC0NCj4gPiA+IERBWDh3b3ZwQkVaaVFRJmU9DQo+ID4gPiBtdWx0aS1rZXJuZWwt
+cGFja2FnZXMtdjkNCj4gPiA+IC0tLQ0KPiA+ID4gICBtZXRhL2NsYXNzZXMva2VybmVsLWRldmlj
+ZXRyZWUuYmJjbGFzcyAgICAgICAgICAgICB8ICAgOCArLQ0KPiA+ID4gICBtZXRhL2NsYXNzZXMv
+a2VybmVsLW1vZHVsZS1zcGxpdC5iYmNsYXNzICAgICAgICAgICB8ICAgOSArLQ0KPiA+ID4gICBt
+ZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MgICAgICAgICAgICAgICAgICAgICAgICB8IDExNA0K
+PiA+ID4gKysrKysrKysrKysrKy0tLS0tLS0tDQo+ID4gPiAgIG1ldGEvY29uZi9kb2N1bWVudGF0
+aW9uLmNvbmYgICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsNCj4gPiA+ICAgLi4uL3JlY2lw
+ZXMta2VybmVsL2ttb2QvZGVwbW9kd3JhcHBlci1jcm9zc18xLjAuYmIgfCAgMTQgKy0tDQo+ID4g
+PiAgIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC4xMC5iYiAgIHwg
+ICAyICstDQo+ID4gPiAgIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRf
+NC4xMi5iYiAgIHwgICAyICstDQo+ID4gPiAgIG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGlu
+dXgteW9jdG8tcnRfNC40LmJiICAgIHwgICAyICstDQo+ID4gPiAgIG1ldGEvcmVjaXBlcy1rZXJu
+ZWwvbGludXgvbGludXgteW9jdG8tcnRfNC45LmJiICAgIHwgICAyICstDQo+ID4gPiAgIG1ldGEv
+cmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8uaW5jICAgICAgICAgIHwgICAyICstDQo+
+ID4gPiAgIDEwIGZpbGVzIGNoYW5nZWQsIDk0IGluc2VydGlvbnMoKyksIDYyIGRlbGV0aW9ucygt
+KQ0KPiA+ID4gDQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2tlcm5lbC1kZXZpY2V0
+cmVlLmJiY2xhc3MNCj4gPiA+IGIvbWV0YS9jbGFzc2VzL2tlcm5lbC1kZXZpY2V0cmVlLmJiY2xh
+c3MNCj4gPiA+IGluZGV4IDZlMDhiZTRiNzAuLjRmODBjYzYyZWIgMTAwNjQ0DQo+ID4gPiAtLS0g
+YS9tZXRhL2NsYXNzZXMva2VybmVsLWRldmljZXRyZWUuYmJjbGFzcw0KPiA+ID4gKysrIGIvbWV0
+YS9jbGFzc2VzL2tlcm5lbC1kZXZpY2V0cmVlLmJiY2xhc3MNCj4gPiA+IEBAIC0xLDEwICsxLDEw
+IEBADQo+ID4gPiAgICMgU3VwcG9ydCBmb3IgZGV2aWNlIHRyZWUgZ2VuZXJhdGlvbg0KPiA+ID4g
+ICBQQUNLQUdFU19hcHBlbmQgPSAiIFwNCj4gPiA+IC0gICAga2VybmVsLWRldmljZXRyZWUgXA0K
+PiA+ID4gLSAgICAke0BbJ2tlcm5lbC1pbWFnZS16aW1hZ2UtYnVuZGxlJywNCj4gPiA+ICcnXVtk
+LmdldFZhcignS0VSTkVMX0RFVklDRVRSRUVfQlVORExFJykgIT0gJzEnXX0gXA0KPiA+ID4gKyAg
+ICAke0tFUk5FTF9QQUNLQUdFX05BTUV9LWRldmljZXRyZWUgXA0KPiA+ID4gKyAgICAke0BbZC5n
+ZXRWYXIoJ0tFUk5FTF9QQUNLQUdFX05BTUUnKSArICctaW1hZ2UtemltYWdlLQ0KPiA+ID4gYnVu
+ZGxlJywNCj4gPiA+ICcnXVtkLmdldFZhcignS0VSTkVMX0RFVklDRVRSRUVfQlVORExFJykgIT0g
+JzEnXX0gXA0KPiA+ID4gICAiDQo+ID4gPiAtRklMRVNfa2VybmVsLWRldmljZXRyZWUgPSAiLyR7
+S0VSTkVMX0lNQUdFREVTVH0vKi5kdGINCj4gPiA+IC8ke0tFUk5FTF9JTUFHRURFU1R9LyouZHRi
+byINCj4gPiA+IC1GSUxFU19rZXJuZWwtaW1hZ2UtemltYWdlLWJ1bmRsZSA9ICIvJHtLRVJORUxf
+SU1BR0VERVNUfS96SW1hZ2UtDQo+ID4gPiAqLmR0Yi5iaW4iDQo+ID4gPiArRklMRVNfJHtLRVJO
+RUxfUEFDS0FHRV9OQU1FfS1kZXZpY2V0cmVlID0NCj4gPiA+ICIvJHtLRVJORUxfSU1BR0VERVNU
+fS8qLmR0YiAvJHtLRVJORUxfSU1BR0VERVNUfS8qLmR0Ym8iDQo+ID4gPiArRklMRVNfJHtLRVJO
+RUxfUEFDS0FHRV9OQU1FfS1pbWFnZS16aW1hZ2UtYnVuZGxlID0NCj4gPiA+ICIvJHtLRVJORUxf
+SU1BR0VERVNUfS96SW1hZ2UtKi5kdGIuYmluIg0KPiA+ID4gICANCj4gPiA+ICAgIyBHZW5lcmF0
+ZSBrZXJuZWwrZGV2aWNldHJlZSBidW5kbGUNCj4gPiA+ICAgS0VSTkVMX0RFVklDRVRSRUVfQlVO
+RExFID89ICIwIg0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9rZXJuZWwtbW9kdWxl
+LXNwbGl0LmJiY2xhc3MNCj4gPiA+IGIvbWV0YS9jbGFzc2VzL2tlcm5lbC1tb2R1bGUtc3BsaXQu
+YmJjbGFzcw0KPiA+ID4gaW5kZXggMTAzNTUyNWRhYy4uNzNjN2YxOGM3OCAxMDA2NDQNCj4gPiA+
+IC0tLSBhL21ldGEvY2xhc3Nlcy9rZXJuZWwtbW9kdWxlLXNwbGl0LmJiY2xhc3MNCj4gPiA+ICsr
+KyBiL21ldGEvY2xhc3Nlcy9rZXJuZWwtbW9kdWxlLXNwbGl0LmJiY2xhc3MNCj4gPiA+IEBAIC0z
+MCw3ICszMCw3IEBAIGRvX2luc3RhbGxfYXBwZW5kKCkgew0KPiA+ID4gICANCj4gPiA+ICAgUEFD
+S0FHRVNQTElURlVOQ1NfcHJlcGVuZCA9ICJzcGxpdF9rZXJuZWxfbW9kdWxlX3BhY2thZ2VzICIN
+Cj4gPiA+ICAgDQo+ID4gPiAtS0VSTkVMX01PRFVMRVNfTUVUQV9QQUNLQUdFID89ICJrZXJuZWwt
+bW9kdWxlcyINCj4gPiA+ICtLRVJORUxfTU9EVUxFU19NRVRBX1BBQ0tBR0UgPz0gIiR7QA0KPiA+
+ID4gZC5nZXRWYXIoIktFUk5FTF9QQUNLQUdFX05BTUUiLA0KPiA+ID4gVHJ1ZSkgb3IgImtlcm5l
+bCIgfS1tb2R1bGVzIg0KPiA+ID4gICANCj4gPiA+ICAgS0VSTkVMX01PRFVMRV9QQUNLQUdFX1BS
+RUZJWCA/PSAiIg0KPiA+ID4gICBLRVJORUxfTU9EVUxFX1BBQ0tBR0VfU1VGRklYID89ICItJHtL
+RVJORUxfVkVSU0lPTn0iDQo+ID4gPiBAQCAtMTI5LDE2ICsxMjksMTkgQEAgcHl0aG9uIHNwbGl0
+X2tlcm5lbF9tb2R1bGVfcGFja2FnZXMgKCkgew0KPiA+ID4gICAgICAgICAgICAgIHBvc3RmaXgg
+PSBmb3JtYXQuc3BsaXQoJyVzJylbMV0NCj4gPiA+ICAgICAgICAgICAgICBkLnNldFZhcignUlBS
+T1ZJREVTXycgKyBwa2csIHBrZy5yZXBsYWNlKHBvc3RmaXgsDQo+ID4gPiAnJykpDQo+ID4gPiAg
+IA0KPiA+ID4gKyAgICBrZXJuZWxfcGFja2FnZV9uYW1lID0gZC5nZXRWYXIoIktFUk5FTF9QQUNL
+QUdFX05BTUUiLCBUcnVlKQ0KPiA+ID4gb3INCj4gPiA+ICJrZXJuZWwiDQo+ID4gPiArICAgIGtl
+cm5lbF92ZXJzaW9uID0gZC5nZXRWYXIoIktFUk5FTF9WRVJTSU9OIiwgVHJ1ZSkNCj4gPiA+ICsN
+Cj4gPiA+ICAgICAgIG1vZHVsZV9yZWdleCA9ICdeKC4qKVwuaz9vJCcNCj4gPiA+ICAgDQo+ID4g
+PiAgICAgICBtb2R1bGVfcGF0dGVybl9wcmVmaXggPQ0KPiA+ID4gZC5nZXRWYXIoJ0tFUk5FTF9N
+T0RVTEVfUEFDS0FHRV9QUkVGSVgnKQ0KPiA+ID4gICAgICAgbW9kdWxlX3BhdHRlcm5fc3VmZml4
+ID0NCj4gPiA+IGQuZ2V0VmFyKCdLRVJORUxfTU9EVUxFX1BBQ0tBR0VfU1VGRklYJykNCj4gPiA+
+IC0gICAgbW9kdWxlX3BhdHRlcm4gPSBtb2R1bGVfcGF0dGVybl9wcmVmaXggKyAna2VybmVsLW1v
+ZHVsZS0lcycNCj4gPiA+ICsNCj4gPiA+IG1vZHVsZV9wYXR0ZXJuX3N1ZmZpeA0KPiA+ID4gKyAg
+ICBtb2R1bGVfcGF0dGVybiA9IG1vZHVsZV9wYXR0ZXJuX3ByZWZpeCArIGtlcm5lbF9wYWNrYWdl
+X25hbWUNCj4gPiA+ICsNCj4gPiA+ICctbW9kdWxlLSVzJyArIG1vZHVsZV9wYXR0ZXJuX3N1ZmZp
+eA0KPiA+ID4gICANCj4gPiA+ICAgICAgIHBvc3RpbnN0ID0gZC5nZXRWYXIoJ3BrZ19wb3N0aW5z
+dF9tb2R1bGVzJykNCj4gPiA+ICAgICAgIHBvc3RybSA9IGQuZ2V0VmFyKCdwa2dfcG9zdHJtX21v
+ZHVsZXMnKQ0KPiA+ID4gICANCj4gPiA+IC0gICAgbW9kdWxlcyA9IGRvX3NwbGl0X3BhY2thZ2Vz
+KGQsDQo+ID4gPiByb290PScke25vbmFyY2hfYmFzZV9saWJkaXJ9L21vZHVsZXMnLCBmaWxlX3Jl
+Z2V4PW1vZHVsZV9yZWdleCwNCj4gPiA+IG91dHB1dF9wYXR0ZXJuPW1vZHVsZV9wYXR0ZXJuLCBk
+ZXNjcmlwdGlvbj0nJXMga2VybmVsIG1vZHVsZScsDQo+ID4gPiBwb3N0aW5zdD1wb3N0aW5zdCwg
+cG9zdHJtPXBvc3RybSwgcmVjdXJzaXZlPVRydWUsDQo+ID4gPiBob29rPWZyb2JfbWV0YWRhdGEs
+DQo+ID4gPiBleHRyYV9kZXBlbmRzPSdrZXJuZWwtJXMnICUgKGQuZ2V0VmFyKCJLRVJORUxfVkVS
+U0lPTiIpKSkNCj4gPiA+ICsgICAgbW9kdWxlcyA9IGRvX3NwbGl0X3BhY2thZ2VzKGQsDQo+ID4g
+PiByb290PScke25vbmFyY2hfYmFzZV9saWJkaXJ9L21vZHVsZXMnLCBmaWxlX3JlZ2V4PW1vZHVs
+ZV9yZWdleCwNCj4gPiA+IG91dHB1dF9wYXR0ZXJuPW1vZHVsZV9wYXR0ZXJuLCBkZXNjcmlwdGlv
+bj0nJXMga2VybmVsIG1vZHVsZScsDQo+ID4gPiBwb3N0aW5zdD1wb3N0aW5zdCwgcG9zdHJtPXBv
+c3RybSwgcmVjdXJzaXZlPVRydWUsDQo+ID4gPiBob29rPWZyb2JfbWV0YWRhdGEsDQo+ID4gPiBl
+eHRyYV9kZXBlbmRzPSclcy0lcycgJSAoa2VybmVsX3BhY2thZ2VfbmFtZSwga2VybmVsX3ZlcnNp
+b24pKQ0KPiA+ID4gICAgICAgaWYgbW9kdWxlczoNCj4gPiA+ICAgICAgICAgICBtZXRhcGtnID0g
+ZC5nZXRWYXIoJ0tFUk5FTF9NT0RVTEVTX01FVEFfUEFDS0FHRScpDQo+ID4gPiAgICAgICAgICAg
+ZC5hcHBlbmRWYXIoJ1JERVBFTkRTXycgKyBtZXRhcGtnLCAnICcrJw0KPiA+ID4gJy5qb2luKG1v
+ZHVsZXMpKQ0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0K
+PiA+ID4gYi9tZXRhL2NsYXNzZXMva2VybmVsLmJiY2xhc3MNCj4gPiA+IGluZGV4IDc1NjcwN2Ez
+YzIuLjQ4YjcxOGQ3NzcgMTAwNjQ0DQo+ID4gPiAtLS0gYS9tZXRhL2NsYXNzZXMva2VybmVsLmJi
+Y2xhc3MNCj4gPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KPiA+ID4gQEAg
+LTEsNiArMSw5IEBADQo+ID4gPiAgIGluaGVyaXQgbGludXgta2VybmVsLWJhc2Uga2VybmVsLW1v
+ZHVsZS1zcGxpdA0KPiA+ID4gICANCj4gPiA+IC1QUk9WSURFUyArPSAidmlydHVhbC9rZXJuZWwi
+DQo+ID4gPiArS0VSTkVMX1BBQ0tBR0VfTkFNRSA/Pz0gImtlcm5lbCINCj4gPiA+ICtLRVJORUxf
+REVQTE9ZU1VCRElSID8/PSAiJHtAICIiIGlmDQo+ID4gPiAoZC5nZXRWYXIoIktFUk5FTF9QQUNL
+QUdFX05BTUUiLA0KPiA+ID4gVHJ1ZSkgPT0gImtlcm5lbCIpIGVsc2UgZC5nZXRWYXIoIktFUk5F
+TF9QQUNLQUdFX05BTUUiLCBUcnVlKSB9Ig0KPiA+ID4gKw0KPiA+ID4gK1BST1ZJREVTICs9ICIk
+e0AgInZpcnR1YWwva2VybmVsIiBpZg0KPiA+ID4gKGQuZ2V0VmFyKCJLRVJORUxfUEFDS0FHRV9O
+QU1FIiwgVHJ1ZSkgPT0gImtlcm5lbCIpIGVsc2UgIiIgfSINCj4gPiA+ICAgREVQRU5EUyArPSAi
+dmlydHVhbC8ke1RBUkdFVF9QUkVGSVh9YmludXRpbHMNCj4gPiA+IHZpcnR1YWwvJHtUQVJHRVRf
+UFJFRklYfWdjYyBrbW9kLW5hdGl2ZSBiYy1uYXRpdmUgbHpvcC1uYXRpdmUiDQo+ID4gPiAgIFBB
+Q0tBR0VfV1JJVEVfREVQUyArPSAiZGVwbW9kd3JhcHBlci1jcm9zcyINCj4gPiA+ICAgDQo+ID4g
+PiBAQCAtMzQsMTEgKzM3LDMyIEBAIEtFUk5FTF9WRVJTSU9OX1BLR19OQU1FID0gIiR7QGxlZ2l0
+aW1pemVfcGFjaw0KPiA+ID4gYWdlXw0KPiA+ID4gbmFtZShkLmdldFZhcignS0VSTkVMX1ZFUlNJ
+T04nKQ0KPiA+ID4gICBLRVJORUxfVkVSU0lPTl9QS0dfTkFNRVt2YXJkZXB2YWx1ZV0gPSAiJHtM
+SU5VWF9WRVJTSU9OfSINCj4gPiA+ICAgDQo+ID4gPiAgIHB5dGhvbiBfX2Fub255bW91cyAoKSB7
+DQo+ID4gPiArICAgIHBuID0gZC5nZXRWYXIoIlBOIiwgVHJ1ZSkNCj4gPiA+ICsgICAga3BuID0g
+ZC5nZXRWYXIoIktFUk5FTF9QQUNLQUdFX05BTUUiLCBUcnVlKQ0KPiA+ID4gKw0KPiA+ID4gKyAg
+ICAjIFhYWCBSZW1vdmUgdGhpcyBhZnRlciBidWcgMTE5MDUgaXMgcmVzb2x2ZWQNCj4gPiA+ICsg
+ICAgIyAgRklMRVNfJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1kZXYgZG9lc24ndCBleHBhbmQgY29y
+cmVjdGx5DQo+ID4gPiArICAgIGlmIGtwbiA9PSBwbjoNCj4gPiA+ICsgICAgICAgIGJiLndhcm4o
+IlNvbWUgcGFja2FnZXMgKEUuZy4gKi1kZXYpIG1pZ2h0IGJlIG1pc3NpbmcgZHVlDQo+ID4gPiB0
+bw0KPiA+ID4gIg0KPiA+ID4gKyAgICAgICAgICAgICAgICAiYnVnIDExOTA1ICh2YXJpYWJsZSBL
+RVJORUxfUEFDS0FHRV9OQU1FID09DQo+ID4gPiBQTikiKQ0KPiA+ID4gKw0KPiA+ID4gKyAgICAj
+IFRoZSBkZWZhdWx0IGtlcm5lbCByZWNpcGUgYnVpbGRzIGluIGEgc2hhcmVkIGxvY2F0aW9uDQo+
+ID4gPiBkZWZpbmVkDQo+ID4gPiBieQ0KPiA+ID4gKyAgICAjIGJpdGJha2UvZGlzdHJvIGNvbmZz
+OiBTVEFHSU5HX0tFUk5FTF9ESVIgYW5kDQo+ID4gPiBTVEFHSU5HX0tFUk5FTF9CVUlMRERJUi4N
+Cj4gPiA+ICsgICAgIyBTZXQgdGhlc2UgdmFyaWFibGVzIHRvIGRpcmVjdG9yaWVzIHVuZGVyICR7
+V09SS0RJUn0gaW4NCj4gPiA+IGFsdGVybmF0ZQ0KPiA+ID4gKyAgICAjIGtlcm5lbCByZWNpcGVz
+IChJLmUuIHdoZXJlIEtFUk5FTF9QQUNLQUdFX05BTUUgIT0ga2VybmVsKQ0KPiA+ID4gc28NCj4g
+PiA+IHRoYXQgdGhleQ0KPiA+ID4gKyAgICAjIG1heSBidWlsZCBpbiBwYXJhbGxlbCB3aXRoIHRo
+ZSBkZWZhdWx0IGtlcm5lbCB3aXRob3V0DQo+ID4gPiBjbG9iYmVyaW5nLg0KPiA+ID4gKyAgICBp
+ZiBrcG4gIT0gImtlcm5lbCI6DQo+ID4gPiArICAgICAgICB3b3JrZGlyID0gZC5nZXRWYXIoIldP
+UktESVIiLCBUcnVlKQ0KPiA+ID4gKyAgICAgICAgc291cmNlRGlyID0gb3MucGF0aC5qb2luKHdv
+cmtkaXIsICdrZXJuZWwtc291cmNlJykNCj4gPiA+ICsgICAgICAgIGFydGlmYWN0c0RpciA9IG9z
+LnBhdGguam9pbih3b3JrZGlyLCAna2VybmVsLWJ1aWxkLQ0KPiA+ID4gYXJ0aWZhY3RzJykNCj4g
+PiA+ICsgICAgICAgIGQuc2V0VmFyKCJTVEFHSU5HX0tFUk5FTF9ESVIiLCBzb3VyY2VEaXIpDQo+
+ID4gPiArICAgICAgICBkLnNldFZhcigiU1RBR0lOR19LRVJORUxfQlVJTERESVIiLCBhcnRpZmFj
+dHNEaXIpDQo+ID4gPiAgIA0KPiA+ID4gICAgICAgIyBNZXJnZSBLRVJORUxfSU1BR0VUWVBFIGFu
+ZCBLRVJORUxfQUxUX0lNQUdFVFlQRSBpbnRvDQo+ID4gPiBLRVJORUxfSU1BR0VUWVBFUw0KPiA+
+ID4gICAgICAgdHlwZSA9IGQuZ2V0VmFyKCdLRVJORUxfSU1BR0VUWVBFJykgb3IgIiINCj4gPiA+
+ICAgICAgIGFsdHR5cGUgPSBkLmdldFZhcignS0VSTkVMX0FMVF9JTUFHRVRZUEUnKSBvciAiIg0K
+PiA+ID4gICAgICAgdHlwZXMgPSBkLmdldFZhcignS0VSTkVMX0lNQUdFVFlQRVMnKSBvciAiIg0K
+PiA+ID4gKyAgICBrbmFtZSA9IGQuZ2V0VmFyKCdLRVJORUxfUEFDS0FHRV9OQU1FJywgVHJ1ZSkg
+b3IgImtlcm5lbCINCj4gPiA+ICAgICAgIGlmIHR5cGUgbm90IGluIHR5cGVzLnNwbGl0KCk6DQo+
+ID4gPiAgICAgICAgICAgdHlwZXMgPSAodHlwZSArICcgJyArIHR5cGVzKS5zdHJpcCgpDQo+ID4g
+PiAgICAgICBpZiBhbHR0eXBlIG5vdCBpbiB0eXBlcy5zcGxpdCgpOg0KPiA+ID4gQEAgLTU1LDE1
+ICs3OSwxNSBAQCBweXRob24gX19hbm9ueW1vdXMgKCkgew0KPiA+ID4gICAgICAgICAgIHR5cGVs
+b3dlciA9IHR5cGUubG93ZXIoKQ0KPiA+ID4gICAgICAgICAgIGltYWdlZGVzdCA9IGQuZ2V0VmFy
+KCdLRVJORUxfSU1BR0VERVNUJykNCj4gPiA+ICAgDQo+ID4gPiAtICAgICAgICBkLmFwcGVuZFZh
+cignUEFDS0FHRVMnLCAnICcgKyAna2VybmVsLWltYWdlLScgKw0KPiA+ID4gdHlwZWxvd2VyKQ0K
+PiA+ID4gKyAgICAgICAgZC5hcHBlbmRWYXIoJ1BBQ0tBR0VTJywgJyAlcy1pbWFnZS0lcycgJSAo
+a25hbWUsDQo+ID4gPiB0eXBlbG93ZXIpKQ0KPiA+ID4gICANCj4gPiA+IC0gICAgICAgIGQuc2V0
+VmFyKCdGSUxFU19rZXJuZWwtaW1hZ2UtJyArIHR5cGVsb3dlciwgJy8nICsNCj4gPiA+IGltYWdl
+ZGVzdA0KPiA+ID4gKyAnLycgKyB0eXBlICsgJy0ke0tFUk5FTF9WRVJTSU9OX05BTUV9JyArICcg
+LycgKyBpbWFnZWRlc3QgKyAnLycNCj4gPiA+ICsNCj4gPiA+IHR5cGUpDQo+ID4gPiArICAgICAg
+ICBkLnNldFZhcignRklMRVNfJyArIGtuYW1lICsgJy1pbWFnZS0nICsgdHlwZWxvd2VyLCAnLycg
+Kw0KPiA+ID4gaW1hZ2VkZXN0ICsgJy8nICsgdHlwZSArICctJHtLRVJORUxfVkVSU0lPTl9OQU1F
+fScgKyAnIC8nICsNCj4gPiA+IGltYWdlZGVzdA0KPiA+ID4gKyAnLycgKyB0eXBlKQ0KPiA+ID4g
+ICANCj4gPiA+IC0gICAgICAgIGQuYXBwZW5kVmFyKCdSREVQRU5EU19rZXJuZWwtaW1hZ2UnLCAn
+ICcgKyAna2VybmVsLQ0KPiA+ID4gaW1hZ2UtJyArDQo+ID4gPiB0eXBlbG93ZXIpDQo+ID4gPiAr
+ICAgICAgICBkLmFwcGVuZFZhcignUkRFUEVORFNfJXMtaW1hZ2UnICUga25hbWUsICcgJXMtaW1h
+Z2UtJXMnDQo+ID4gPiAlDQo+ID4gPiAoa25hbWUsIHR5cGVsb3dlcikpDQo+ID4gPiAgIA0KPiA+
+ID4gLSAgICAgICAgZC5zZXRWYXIoJ1BLR19rZXJuZWwtaW1hZ2UtJyArIHR5cGVsb3dlciwgJ2tl
+cm5lbC1pbWFnZS0NCj4gPiA+ICcgKw0KPiA+ID4gdHlwZWxvd2VyICsgJy0ke0tFUk5FTF9WRVJT
+SU9OX1BLR19OQU1FfScpDQo+ID4gPiArICAgICAgICBkLnNldFZhcignUEtHXyVzLWltYWdlLSVz
+JyAlIChrbmFtZSx0eXBlbG93ZXIpLCAnJXMtDQo+ID4gPiBpbWFnZS0NCj4gPiA+ICVzLSR7S0VS
+TkVMX1ZFUlNJT05fUEtHX05BTUV9JyAlIChrbmFtZSwgdHlwZWxvd2VyKSkNCj4gPiA+ICAgDQo+
+ID4gPiAtICAgICAgICBkLnNldFZhcignQUxMT1dfRU1QVFlfa2VybmVsLWltYWdlLScgKyB0eXBl
+bG93ZXIsICcxJykNCj4gPiA+ICsgICAgICAgIGQuc2V0VmFyKCdBTExPV19FTVBUWV8lcy1pbWFn
+ZS0lcycgJSAoa25hbWUsIHR5cGVsb3dlciksDQo+ID4gPiAnMScpDQo+ID4gPiAgIA0KPiA+ID4g
+ICAgICAgaW1hZ2UgPSBkLmdldFZhcignSU5JVFJBTUZTX0lNQUdFJykNCj4gPiA+ICAgICAgIGlm
+IGltYWdlOg0KPiA+ID4gQEAgLTEyMSw5ICsxNDUsOSBAQCBiYXNlX2RvX3VucGFja19hcHBlbmQg
+KCkgew0KPiA+ID4gICANCj4gPiA+ICAgaW5oZXJpdCBrZXJuZWwtYXJjaCBkZXBsb3kNCj4gPiA+
+ICAgDQo+ID4gPiAtUEFDS0FHRVNfRFlOQU1JQyArPSAiXmtlcm5lbC1tb2R1bGUtLioiDQo+ID4g
+PiAtUEFDS0FHRVNfRFlOQU1JQyArPSAiXmtlcm5lbC1pbWFnZS0uKiINCj4gPiA+IC1QQUNLQUdF
+U19EWU5BTUlDICs9ICJea2VybmVsLWZpcm13YXJlLS4qIg0KPiA+ID4gK1BBQ0tBR0VTX0RZTkFN
+SUMgKz0gIl4ke0tFUk5FTF9QQUNLQUdFX05BTUV9LW1vZHVsZS0uKiINCj4gPiA+ICtQQUNLQUdF
+U19EWU5BTUlDICs9ICJeJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1pbWFnZS0uKiINCj4gPiA+ICtQ
+QUNLQUdFU19EWU5BTUlDICs9ICJeJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1maXJtd2FyZS0uKiIN
+Cj4gPiA+ICAgDQo+ID4gPiAgIGV4cG9ydCBPUyA9ICIke1RBUkdFVF9PU30iDQo+ID4gPiAgIGV4
+cG9ydCBDUk9TU19DT01QSUxFID0gIiR7VEFSR0VUX1BSRUZJWH0iDQo+ID4gPiBAQCAtMzM5LDcg
+KzM2Myw5IEBAIGtlcm5lbF9kb19pbnN0YWxsKCkgew0KPiA+ID4gICAJaW5zdGFsbCAtZCAke0R9
+L2Jvb3QNCj4gPiA+ICAgCWZvciB0eXBlIGluICR7S0VSTkVMX0lNQUdFVFlQRVN9IDsgZG8NCj4g
+PiA+ICAgCQlpbnN0YWxsIC1tIDA2NDQgJHtLRVJORUxfT1VUUFVUX0RJUn0vJHt0eXBlfQ0KPiA+
+ID4gJHtEfS8ke0tFUk5FTF9JTUFHRURFU1R9LyR7dHlwZX0tJHtLRVJORUxfVkVSU0lPTn0NCj4g
+PiA+IC0JCWxuIC1zZiAke3R5cGV9LSR7S0VSTkVMX1ZFUlNJT059DQo+ID4gPiAke0R9LyR7S0VS
+TkVMX0lNQUdFREVTVH0vJHt0eXBlfQ0KPiA+ID4gKwkJaWYgWyAiJHtLRVJORUxfUEFDS0FHRV9O
+QU1FfSIgPT0gImtlcm5lbCIgXTsNCj4gPiA+IHRoZW4NCj4gPiA+ICsJCQlsbiAtc2YgJHt0eXBl
+fS0ke0tFUk5FTF9WRVJTSU9OfQ0KPiA+ID4gJHtEfS8ke0tFUk5FTF9JTUFHRURFU1R9LyR7dHlw
+ZX0NCj4gPiA+ICsJCWZpDQo+ID4gPiAgIAlkb25lDQo+ID4gPiAgIAlpbnN0YWxsIC1tIDA2NDQg
+U3lzdGVtLm1hcCAke0R9L2Jvb3QvU3lzdGVtLm1hcC0NCj4gPiA+ICR7S0VSTkVMX1ZFUlNJT059
+DQo+ID4gPiAgIAlpbnN0YWxsIC1tIDA2NDQgLmNvbmZpZyAke0R9L2Jvb3QvY29uZmlnLQ0KPiA+
+ID4gJHtLRVJORUxfVkVSU0lPTn0NCj4gPiA+IEBAIC0zOTMsOSArNDE5LDkgQEAgZG9fc2hhcmVk
+X3dvcmtkaXJfc2V0c2NlbmUgKCkgew0KPiA+ID4gICANCj4gPiA+ICAgZW1pdF9kZXBtb2RfcGtn
+ZGF0YSgpIHsNCj4gPiA+ICAgCSMgU3Rhc2ggZGF0YSBmb3IgZGVwbW9kDQo+ID4gPiAtCWluc3Rh
+bGwgLWQgJHtQS0dERVNUV09SS30va2VybmVsLWRlcG1vZC8NCj4gPiA+IC0JZWNobyAiJHtLRVJO
+RUxfVkVSU0lPTn0iID4gJHtQS0dERVNUV09SS30va2VybmVsLQ0KPiA+ID4gZGVwbW9kL2tlcm5l
+bC1hYml2ZXJzaW9uDQo+ID4gPiAtCWNwICR7Qn0vU3lzdGVtLm1hcCAke1BLR0RFU1RXT1JLfS9r
+ZXJuZWwtDQo+ID4gPiBkZXBtb2QvU3lzdGVtLm1hcC0NCj4gPiA+ICR7S0VSTkVMX1ZFUlNJT059
+DQo+ID4gPiArCWluc3RhbGwgLWQgJHtQS0dERVNUV09SS30vJHtLRVJORUxfUEFDS0FHRV9OQU1F
+fS1kZXBtb2QvDQo+ID4gPiArCWVjaG8gIiR7S0VSTkVMX1ZFUlNJT059IiA+DQo+ID4gPiAke1BL
+R0RFU1RXT1JLfS8ke0tFUk5FTF9QQUNLQUdFX05BTUV9LQ0KPiA+ID4gZGVwbW9kLyR7S0VSTkVM
+X1BBQ0tBR0VfTkFNRX0tDQo+ID4gPiBhYml2ZXJzaW9uDQo+ID4gPiArCWNwICR7Qn0vU3lzdGVt
+Lm1hcA0KPiA+ID4gJHtQS0dERVNUV09SS30vJHtLRVJORUxfUEFDS0FHRV9OQU1FfS0NCj4gPiA+
+IGRlcG1vZC9TeXN0ZW0ubWFwLSR7S0VSTkVMX1ZFUlNJT059DQo+ID4gPiAgIH0NCj4gPiA+ICAg
+DQo+ID4gPiAgIFBBQ0tBR0VGVU5DUyArPSAiZW1pdF9kZXBtb2RfcGtnZGF0YSINCj4gPiA+IEBA
+IC00MTAsNyArNDM2LDcgQEAgZG9fc2hhcmVkX3dvcmtkaXIgKCkgew0KPiA+ID4gICAJIyBTdG9y
+ZSB0aGUga2VybmVsIHZlcnNpb24gaW4gc3lzcm9vdHMgZm9yIG1vZHVsZS0NCj4gPiA+IGJhc2Uu
+YmJjbGFzcw0KPiA+ID4gICAJIw0KPiA+ID4gICANCj4gPiA+IC0JZWNobyAiJHtLRVJORUxfVkVS
+U0lPTn0iID4gJGtlcm5lbGRpci9rZXJuZWwtYWJpdmVyc2lvbg0KPiA+ID4gKwllY2hvICIke0tF
+Uk5FTF9WRVJTSU9OfSIgPg0KPiA+ID4gJGtlcm5lbGRpci8ke0tFUk5FTF9QQUNLQUdFX05BTUV9
+LWFiaXZlcnNpb24NCj4gPiA+ICAgDQo+ID4gPiAgIAkjIENvcHkgZmlsZXMgcmVxdWlyZWQgZm9y
+IG1vZHVsZSBidWlsZHMNCj4gPiA+ICAgCWNwIFN5c3RlbS5tYXAgJGtlcm5lbGRpci9TeXN0ZW0u
+bWFwLSR7S0VSTkVMX1ZFUlNJT059DQo+ID4gPiBAQCAtNTA4LDI4ICs1MzQsMjggQEAgRVhQT1JU
+X0ZVTkNUSU9OUyBkb19jb21waWxlIGRvX2luc3RhbGwNCj4gPiA+IGRvX2NvbmZpZ3VyZQ0KPiA+
+ID4gICANCj4gPiA+ICAgIyBrZXJuZWwtYmFzZSBiZWNvbWVzIGtlcm5lbC0ke0tFUk5FTF9WRVJT
+SU9OfQ0KPiA+ID4gICAjIGtlcm5lbC1pbWFnZSBiZWNvbWVzIGtlcm5lbC1pbWFnZS0ke0tFUk5F
+TF9WRVJTSU9OfQ0KPiA+ID4gLVBBQ0tBR0VTID0gImtlcm5lbCBrZXJuZWwtYmFzZSBrZXJuZWwt
+dm1saW51eCBrZXJuZWwtaW1hZ2UNCj4gPiA+IGtlcm5lbC0NCj4gPiA+IGRldiBrZXJuZWwtbW9k
+dWxlcyINCj4gPiA+ICtQQUNLQUdFUyA9ICIke0tFUk5FTF9QQUNLQUdFX05BTUV9ICR7S0VSTkVM
+X1BBQ0tBR0VfTkFNRX0tYmFzZQ0KPiA+ID4gJHtLRVJORUxfUEFDS0FHRV9OQU1FfS12bWxpbnV4
+ICR7S0VSTkVMX1BBQ0tBR0VfTkFNRX0taW1hZ2UNCj4gPiA+ICR7S0VSTkVMX1BBQ0tBR0VfTkFN
+RX0tZGV2ICR7S0VSTkVMX1BBQ0tBR0VfTkFNRX0tbW9kdWxlcyINCj4gPiA+ICAgRklMRVNfJHtQ
+Tn0gPSAiIg0KPiA+ID4gLUZJTEVTX2tlcm5lbC1iYXNlID0NCj4gPiA+ICIke25vbmFyY2hfYmFz
+ZV9saWJkaXJ9L21vZHVsZXMvJHtLRVJORUxfVkVSU0lPTn0vbW9kdWxlcy5vcmRlcg0KPiA+ID4g
+JHtub25hcmNoX2Jhc2VfbGliZGlyfS9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059L21vZHVsZXMu
+YnVpbHRpbiINCj4gPiA+IC1GSUxFU19rZXJuZWwtaW1hZ2UgPSAiIg0KPiA+ID4gLUZJTEVTX2tl
+cm5lbC1kZXYgPSAiL2Jvb3QvU3lzdGVtLm1hcCogL2Jvb3QvTW9kdWxlLnN5bXZlcnMqDQo+ID4g
+PiAvYm9vdC9jb25maWcqICR7S0VSTkVMX1NSQ19QQVRIfQ0KPiA+ID4gJHtub25hcmNoX2Jhc2Vf
+bGliZGlyfS9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059L2J1aWxkIg0KPiA+ID4gLUZJTEVTX2tl
+cm5lbC12bWxpbnV4ID0gIi9ib290L3ZtbGludXgtJHtLRVJORUxfVkVSU0lPTl9OQU1FfSINCj4g
+PiA+IC1GSUxFU19rZXJuZWwtbW9kdWxlcyA9ICIiDQo+ID4gPiAtUkRFUEVORFNfa2VybmVsID0g
+Imtlcm5lbC1iYXNlIg0KPiA+ID4gK0ZJTEVTXyR7S0VSTkVMX1BBQ0tBR0VfTkFNRX0tYmFzZSA9
+DQo+ID4gPiAiJHtub25hcmNoX2Jhc2VfbGliZGlyfS9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059
+L21vZHVsZXMub3JkZXINCj4gPiA+ICR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vbW9kdWxlcy8ke0tF
+Uk5FTF9WRVJTSU9OfS9tb2R1bGVzLmJ1aWx0aW4iDQo+ID4gPiArRklMRVNfJHtLRVJORUxfUEFD
+S0FHRV9OQU1FfS1pbWFnZSA9ICIiDQo+ID4gPiArRklMRVNfJHtLRVJORUxfUEFDS0FHRV9OQU1F
+fS1kZXYgPSAiL2Jvb3QvU3lzdGVtLm1hcCoNCj4gPiA+IC9ib290L01vZHVsZS5zeW12ZXJzKiAv
+Ym9vdC9jb25maWcqICR7S0VSTkVMX1NSQ19QQVRIfQ0KPiA+ID4gJHtub25hcmNoX2Jhc2VfbGli
+ZGlyfS9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059L2J1aWxkIg0KPiA+ID4gK0ZJTEVTXyR7S0VS
+TkVMX1BBQ0tBR0VfTkFNRX0tdm1saW51eCA9ICIvYm9vdC92bWxpbnV4LQ0KPiA+ID4gJHtLRVJO
+RUxfVkVSU0lPTl9OQU1FfSINCj4gPiA+ICtGSUxFU18ke0tFUk5FTF9QQUNLQUdFX05BTUV9LW1v
+ZHVsZXMgPSAiIg0KPiA+ID4gK1JERVBFTkRTXyR7S0VSTkVMX1BBQ0tBR0VfTkFNRX0gPSAiJHtL
+RVJORUxfUEFDS0FHRV9OQU1FfS1iYXNlIg0KPiA+ID4gICAjIEFsbG93IG1hY2hpbmVzIHRvIG92
+ZXJyaWRlIHRoaXMgZGVwZW5kZW5jeSBpZiBrZXJuZWwgaW1hZ2UNCj4gPiA+IGZpbGVzDQo+ID4g
+PiBhcmUNCj4gPiA+ICAgIyBub3Qgd2FudGVkIGluIGltYWdlcyBhcyBzdGFuZGFyZA0KPiA+ID4g
+LVJERVBFTkRTX2tlcm5lbC1iYXNlID89ICJrZXJuZWwtaW1hZ2UiDQo+ID4gPiAtUEtHX2tlcm5l
+bC1pbWFnZSA9ICJrZXJuZWwtaW1hZ2UtJHtAbGVnaXRpbWl6ZV9wYWNrYWdlX25hbWUoJyR7Sw0K
+PiA+ID4gRVJORQ0KPiA+ID4gTF9WRVJTSU9OfScpfSINCj4gPiA+IC1SREVQRU5EU19rZXJuZWwt
+aW1hZ2UgKz0gIiR7QGJhc2VfY29uZGl0aW9uYWwoJ0tFUk5FTF9JTUFHRVRZUEUnDQo+ID4gPiAs
+DQo+ID4gPiAndm1saW51eCcsICdrZXJuZWwtdm1saW51eCcsICcnLCBkKX0iDQo+ID4gPiAtUEtH
+X2tlcm5lbC1iYXNlID0gImtlcm5lbC0ke0BsZWdpdGltaXplX3BhY2thZ2VfbmFtZSgnJHtLRVJO
+RUxfVg0KPiA+ID4gRVJTSQ0KPiA+ID4gT059Jyl9Ig0KPiA+ID4gLVJQUk9WSURFU19rZXJuZWwt
+YmFzZSArPSAia2VybmVsLSR7S0VSTkVMX1ZFUlNJT059Ig0KPiA+ID4gLUFMTE9XX0VNUFRZX2tl
+cm5lbCA9ICIxIg0KPiA+ID4gLUFMTE9XX0VNUFRZX2tlcm5lbC1iYXNlID0gIjEiDQo+ID4gPiAt
+QUxMT1dfRU1QVFlfa2VybmVsLWltYWdlID0gIjEiDQo+ID4gPiAtQUxMT1dfRU1QVFlfa2VybmVs
+LW1vZHVsZXMgPSAiMSINCj4gPiA+IC1ERVNDUklQVElPTl9rZXJuZWwtbW9kdWxlcyA9ICJLZXJu
+ZWwgbW9kdWxlcyBtZXRhIHBhY2thZ2UiDQo+ID4gPiAtDQo+ID4gPiAtcGtnX3Bvc3RpbnN0X2tl
+cm5lbC1iYXNlICgpIHsNCj4gPiA+ICtSREVQRU5EU18ke0tFUk5FTF9QQUNLQUdFX05BTUV9LWJh
+c2UgPz0gIiR7S0VSTkVMX1BBQ0tBR0VfTkFNRX0tDQo+ID4gPiBpbWFnZSINCj4gPiA+ICtQS0df
+JHtLRVJORUxfUEFDS0FHRV9OQU1FfS1pbWFnZSA9ICIke0tFUk5FTF9QQUNLQUdFX05BTUV9LQ0K
+PiA+ID4gaW1hZ2UtJHtADQo+ID4gPiBsZWdpdGltaXplX3BhY2thZ2VfbmFtZSgnJHtLRVJORUxf
+VkVSU0lPTn0nKX0iDQo+ID4gPiArUkRFUEVORFNfJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1pbWFn
+ZSArPSAiJHtAYmFzZV9jb25kaXRpb25hbCgnSw0KPiA+ID4gRVJORQ0KPiA+ID4gTF9JTUFHRVRZ
+UEUnLCAndm1saW51eCcsICcke0tFUk5FTF9QQUNLQUdFX05BTUV9LXZtbGludXgnLCAnJywNCj4g
+PiA+IGQpfSINCj4gPiA+ICtQS0dfJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1iYXNlID0gIiR7S0VS
+TkVMX1BBQ0tBR0VfTkFNRX0tJHtAbGVnDQo+ID4gPiBpdGltDQo+ID4gPiBpemVfcGFja2FnZV9u
+YW1lKCcke0tFUk5FTF9WRVJTSU9OfScpfSINCj4gPiA+ICtSUFJPVklERVNfJHtLRVJORUxfUEFD
+S0FHRV9OQU1FfS1iYXNlICs9DQo+ID4gPiAiJHtLRVJORUxfUEFDS0FHRV9OQU1FfS0NCj4gPiA+
+ICR7S0VSTkVMX1ZFUlNJT059Ig0KPiA+ID4gK0FMTE9XX0VNUFRZXyR7S0VSTkVMX1BBQ0tBR0Vf
+TkFNRX0gPSAiMSINCj4gPiA+ICtBTExPV19FTVBUWV8ke0tFUk5FTF9QQUNLQUdFX05BTUV9LWJh
+c2UgPSAiMSINCj4gPiA+ICtBTExPV19FTVBUWV8ke0tFUk5FTF9QQUNLQUdFX05BTUV9LWltYWdl
+ID0gIjEiDQo+ID4gPiArQUxMT1dfRU1QVFlfJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1tb2R1bGVz
+ID0gIjEiDQo+ID4gPiArREVTQ1JJUFRJT05fJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1tb2R1bGVz
+ID0gIktlcm5lbCBtb2R1bGVzDQo+ID4gPiBtZXRhDQo+ID4gPiBwYWNrYWdlIg0KPiA+ID4gKw0K
+PiA+ID4gK3BrZ19wb3N0aW5zdF8ke0tFUk5FTF9QQUNLQUdFX05BTUV9LWJhc2UgKCkgew0KPiA+
+ID4gICAJaWYgWyAhIC1lICIkRC9saWIvbW9kdWxlcy8ke0tFUk5FTF9WRVJTSU9OfSIgXTsgdGhl
+bg0KPiA+ID4gICAJCW1rZGlyIC1wICREL2xpYi9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059DQo+
+ID4gPiAgIAlmaQ0KPiA+ID4gQEAgLTU0Myw3ICs1NjksNyBAQCBwa2dfcG9zdGluc3Rfa2VybmVs
+LWJhc2UgKCkgew0KPiA+ID4gICBQQUNLQUdFU1BMSVRGVU5DU19wcmVwZW5kID0gInNwbGl0X2tl
+cm5lbF9wYWNrYWdlcyAiDQo+ID4gPiAgIA0KPiA+ID4gICBweXRob24gc3BsaXRfa2VybmVsX3Bh
+Y2thZ2VzICgpIHsNCj4gPiA+IC0gICAgZG9fc3BsaXRfcGFja2FnZXMoZCwgcm9vdD0nJHtub25h
+cmNoX2Jhc2VfbGliZGlyfS9maXJtd2FyZScsDQo+ID4gPiBmaWxlX3JlZ2V4PSdeKC4qKVwuKGJp
+bnxmd3xjaXN8Y3NwfGRzcCkkJywNCj4gPiA+IG91dHB1dF9wYXR0ZXJuPSdrZXJuZWwtDQo+ID4g
+PiBmaXJtd2FyZS0lcycsIGRlc2NyaXB0aW9uPSdGaXJtd2FyZSBmb3IgJXMnLCByZWN1cnNpdmU9
+VHJ1ZSwNCj4gPiA+IGV4dHJhX2RlcGVuZHM9JycpDQo+ID4gPiArICAgIGRvX3NwbGl0X3BhY2th
+Z2VzKGQsIHJvb3Q9JyR7bm9uYXJjaF9iYXNlX2xpYmRpcn0vZmlybXdhcmUnLA0KPiA+ID4gZmls
+ZV9yZWdleD0nXiguKilcLihiaW58Znd8Y2lzfGNzcHxkc3ApJCcsDQo+ID4gPiBvdXRwdXRfcGF0
+dGVybj0nJHtLRVJORUxfUEFDS0FHRV9OQU1FfS1maXJtd2FyZS0lcycsDQo+ID4gPiBkZXNjcmlw
+dGlvbj0nRmlybXdhcmUgZm9yICVzJywgcmVjdXJzaXZlPVRydWUsIGV4dHJhX2RlcGVuZHM9Jycp
+DQo+ID4gPiAgIH0NCj4gPiA+ICAgDQo+ID4gPiAgICMgTWFueSBzY3JpcHRzIHdhbnQgdG8gbG9v
+ayBpbiBhcmNoLyRhcmNoL2Jvb3QgZm9yIHRoZSBib290YWJsZQ0KPiA+ID4gQEAgLTYyNiwyMSAr
+NjUyLDI3IEBAIE1PRFVMRV9UQVJCQUxMX1NZTUxJTktfTkFNRSA/PSAibW9kdWxlcy0NCj4gPiA+
+ICR7TUFDSElORX0udGd6Ig0KPiA+ID4gICBNT0RVTEVfVEFSQkFMTF9ERVBMT1kgPz0gIjEiDQo+
+ID4gPiAgIA0KPiA+ID4gICBrZXJuZWxfZG9fZGVwbG95KCkgew0KPiA+ID4gKwlkZXBsb3lEaXI9
+IiR7REVQTE9ZRElSfSINCj4gPiA+ICsJaWYgWyAtbiAiJHtLRVJORUxfREVQTE9ZU1VCRElSfSIg
+XTsgdGhlbg0KPiA+ID4gKwkJZGVwbG95RGlyPSIke0RFUExPWURJUn0vJHtLRVJORUxfREVQTE9Z
+U1VCRElSfSINCj4gPiA+ICsJCW1rZGlyICIkZGVwbG95RGlyIg0KPiA+ID4gKwlmaQ0KPiA+ID4g
+Kw0KPiA+ID4gICAJZm9yIHR5cGUgaW4gJHtLRVJORUxfSU1BR0VUWVBFU30gOyBkbw0KPiA+ID4g
+ICAJCWJhc2VfbmFtZT0ke3R5cGV9LSR7S0VSTkVMX0lNQUdFX0JBU0VfTkFNRX0NCj4gPiA+IC0J
+CWluc3RhbGwgLW0gMDY0NCAke0tFUk5FTF9PVVRQVVRfRElSfS8ke3R5cGV9DQo+ID4gPiAke0RF
+UExPWURJUn0vJHtiYXNlX25hbWV9LmJpbg0KPiA+ID4gKwkJaW5zdGFsbCAtbSAwNjQ0ICR7S0VS
+TkVMX09VVFBVVF9ESVJ9LyR7dHlwZX0NCj4gPiA+ICRkZXBsb3lEaXIvJHtiYXNlX25hbWV9LmJp
+bg0KPiA+ID4gICAJZG9uZQ0KPiA+ID4gICAJaWYgWyAke01PRFVMRV9UQVJCQUxMX0RFUExPWX0g
+PSAiMSIgXSAmJiAoZ3JlcCAtcSAtaSAtZQ0KPiA+ID4gJ15DT05GSUdfTU9EVUxFUz15JCcgLmNv
+bmZpZyk7IHRoZW4NCj4gPiA+ICAgCQlta2RpciAtcCAke0R9L2xpYg0KPiA+ID4gLQkJdGFyIC1j
+dnpmDQo+ID4gPiAke0RFUExPWURJUn0vJHtNT0RVTEVfVEFSQkFMTF9CQVNFX05BTUV9DQo+ID4g
+PiAtQyAke0R9IGxpYg0KPiA+ID4gLQkJbG4gLXNmICR7TU9EVUxFX1RBUkJBTExfQkFTRV9OQU1F
+fQ0KPiA+ID4gJHtERVBMT1lESVJ9LyR7TU9EVUxFX1RBUkJBTExfU1lNTElOS19OQU1FfQ0KPiA+
+ID4gKwkJdGFyIC1jdnpmICRkZXBsb3lEaXIvJHtNT0RVTEVfVEFSQkFMTF9CQVNFX05BTUV9DQo+
+ID4gPiAtQw0KPiA+ID4gJHtEfSBsaWINCj4gPiA+ICsJCWxuIC1zZiAke01PRFVMRV9UQVJCQUxM
+X0JBU0VfTkFNRX0NCj4gPiA+ICRkZXBsb3lEaXIvJHtNT0RVTEVfVEFSQkFMTF9TWU1MSU5LX05B
+TUV9DQo+ID4gPiAgIAlmaQ0KPiA+ID4gICANCj4gPiA+ICAgCWZvciB0eXBlIGluICR7S0VSTkVM
+X0lNQUdFVFlQRVN9IDsgZG8NCj4gPiA+ICAgCQliYXNlX25hbWU9JHt0eXBlfS0ke0tFUk5FTF9J
+TUFHRV9CQVNFX05BTUV9DQo+ID4gPiAgIAkJc3ltbGlua19uYW1lPSR7dHlwZX0tDQo+ID4gPiAk
+e0tFUk5FTF9JTUFHRV9TWU1MSU5LX05BTUV9DQo+ID4gPiAtCQlsbiAtc2YgJHtiYXNlX25hbWV9
+LmJpbg0KPiA+ID4gJHtERVBMT1lESVJ9LyR7c3ltbGlua19uYW1lfS5iaW4NCj4gPiA+IC0JCWxu
+IC1zZiAke2Jhc2VfbmFtZX0uYmluICR7REVQTE9ZRElSfS8ke3R5cGV9DQo+ID4gPiArCQlsbiAt
+c2YgJHtiYXNlX25hbWV9LmJpbg0KPiA+ID4gJGRlcGxveURpci8ke3N5bWxpbmtfbmFtZX0uYmlu
+DQo+ID4gPiArCQlsbiAtc2YgJHtiYXNlX25hbWV9LmJpbiAkZGVwbG95RGlyLyR7dHlwZX0NCj4g
+PiA+ICAgCWRvbmUNCj4gPiA+ICAgDQo+ID4gPiAgIAljZCAke0J9DQo+ID4gPiBAQCAtNjUwLDgg
+KzY4Miw4IEBAIGtlcm5lbF9kb19kZXBsb3koKSB7DQo+ID4gPiAgIAkJCWVjaG8gIkNvcHlpbmcg
+ZGVwbG95ICR7dHlwZX0ga2VybmVsLQ0KPiA+ID4gaW5pdHJhbWZzIGltYWdlIGFuZCBzZXR0aW5n
+IHVwIGxpbmtzLi4uIg0KPiA+ID4gICAJCQlpbml0cmFtZnNfYmFzZV9uYW1lPSR7dHlwZX0tDQo+
+ID4gPiAke0lOSVRSQU1GU19CQVNFX05BTUV9DQo+ID4gPiAgIAkJCWluaXRyYW1mc19zeW1saW5r
+X25hbWU9JHt0eXBlfS0NCj4gPiA+IGluaXRyYW1mcy0NCj4gPiA+ICR7TUFDSElORX0NCj4gPiA+
+IC0JCQlpbnN0YWxsIC1tIDA2NDQNCj4gPiA+ICR7S0VSTkVMX09VVFBVVF9ESVJ9LyR7dHlwZX0u
+aW5pdHJhbWZzDQo+ID4gPiAke0RFUExPWURJUn0vJHtpbml0cmFtZnNfYmFzZV9uYW1lfS5iaW4N
+Cj4gPiA+IC0JCQlsbiAtc2YgJHtpbml0cmFtZnNfYmFzZV9uYW1lfS5iaW4NCj4gPiA+ICR7REVQ
+TE9ZRElSfS8ke2luaXRyYW1mc19zeW1saW5rX25hbWV9LmJpbg0KPiA+ID4gKwkJCWluc3RhbGwg
+LW0gMDY0NA0KPiA+ID4gJHtLRVJORUxfT1VUUFVUX0RJUn0vJHt0eXBlfS5pbml0cmFtZnMNCj4g
+PiA+ICRkZXBsb3lEaXIvJHtpbml0cmFtZnNfYmFzZV9uYW1lfS5iaW4NCj4gPiA+ICsJCQlsbiAt
+c2YgJHtpbml0cmFtZnNfYmFzZV9uYW1lfS5iaW4NCj4gPiA+ICRkZXBsb3lEaXIvJHtpbml0cmFt
+ZnNfc3ltbGlua19uYW1lfS5iaW4NCj4gPiA+ICAgCQlmaQ0KPiA+ID4gICAJZG9uZQ0KPiA+ID4g
+ICB9DQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+
+ID4gYi9tZXRhL2NvbmYvZG9jdW1lbnRhdGlvbi5jb25mDQo+ID4gPiBpbmRleCBhNTVlMjgzNmI1
+Li4yYzg4NTA0ZmI5IDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9jb25mL2RvY3VtZW50YXRpb24u
+Y29uZg0KPiA+ID4gKysrIGIvbWV0YS9jb25mL2RvY3VtZW50YXRpb24uY29uZg0KPiA+ID4gQEAg
+LTI0Nyw2ICsyNDcsNyBAQCBLRVJORUxfSU1BR0VUWVBFW2RvY10gPSAiVGhlIHR5cGUgb2Yga2Vy
+bmVsDQo+ID4gPiB0bw0KPiA+ID4gYnVpbGQgZm9yIGEgZGV2aWNlLCB1c3VhbGx5IHNldCBiDQo+
+ID4gPiAgIEtFUk5FTF9JTUFHRVRZUEVTW2RvY10gPSAiVGhlIGxpc3Qgb2YgdHlwZXMgb2Yga2Vy
+bmVsIHRvIGJ1aWxkDQo+ID4gPiBmb3IgYQ0KPiA+ID4gZGV2aWNlLCB1c3VhbGx5IHNldCBieSB0
+aGUgbWFjaGluZSBjb25maWd1cmF0aW9uIGZpbGVzIGFuZA0KPiA+ID4gZGVmYXVsdHMNCj4gPiA+
+IHRvIEtFUk5FTF9JTUFHRVRZUEUuIg0KPiA+ID4gICBLRVJORUxfTU9EVUxFX0FVVE9MT0FEW2Rv
+Y10gPSAiTGlzdHMga2VybmVsIG1vZHVsZXMgdGhhdCBuZWVkDQo+ID4gPiB0byBiZQ0KPiA+ID4g
+YXV0by1sb2FkZWQgZHVyaW5nIGJvb3QiDQo+ID4gPiAgIEtFUk5FTF9NT0RVTEVfUFJPQkVDT05G
+W2RvY10gPSAiTGlzdHMga2VybmVsIG1vZHVsZXMgZm9yIHdoaWNoDQo+ID4gPiB0aGUNCj4gPiA+
+IGJ1aWxkIHN5c3RlbSBleHBlY3RzIHRvIGZpbmQgbW9kdWxlX2NvbmZfKiB2YWx1ZXMgdGhhdCBz
+cGVjaWZ5DQo+ID4gPiBjb25maWd1cmF0aW9uIGZvciBlYWNoIG9mIHRoZSBtb2R1bGVzIg0KPiA+
+ID4gK0tFUk5FTF9QQUNLQUdFX05BTUVbZG9jXSA9ICJOYW1lIHByZWZpeCBmb3Iga2VybmVsIHBh
+Y2thZ2VzLg0KPiA+ID4gRGVmYXVsdHMgdG8gJ2tlcm5lbCcuIg0KPiA+ID4gICBLRVJORUxfUEFU
+SFtkb2NdID0gIlRoZSBsb2NhdGlvbiBvZiB0aGUga2VybmVsIHNvdXJjZXMuIFRoaXMNCj4gPiA+
+IHZhcmlhYmxlIGlzIHNldCB0byB0aGUgdmFsdWUgb2YgdGhlIFNUQUdJTkdfS0VSTkVMX0RJUiB3
+aXRoaW4gdGhlDQo+ID4gPiBtb2R1bGUgY2xhc3MgKG1vZHVsZS5iYmNsYXNzKS4iDQo+ID4gPiAg
+IEtFUk5FTF9TUkNbZG9jXSA9ICJUaGUgbG9jYXRpb24gb2YgdGhlIGtlcm5lbCBzb3VyY2VzLiBU
+aGlzDQo+ID4gPiB2YXJpYWJsZQ0KPiA+ID4gaXMgc2V0IHRvIHRoZSB2YWx1ZSBvZiB0aGUgU1RB
+R0lOR19LRVJORUxfRElSIHdpdGhpbiB0aGUgbW9kdWxlDQo+ID4gPiBjbGFzcw0KPiA+ID4gKG1v
+ZHVsZS5iYmNsYXNzKS4iDQo+ID4gPiAgIEtGRUFUVVJFX0RFU0NSSVBUSU9OW2RvY10gPSAiUHJv
+dmlkZXMgYSBzaG9ydCBkZXNjcmlwdGlvbiBvZiBhDQo+ID4gPiBjb25maWd1cmF0aW9uIGZyYWdt
+ZW50LiBZb3UgdXNlIHRoaXMgdmFyaWFibGUgaW4gdGhlIC5zY2MgZmlsZQ0KPiA+ID4gdGhhdA0K
+PiA+ID4gZGVzY3JpYmVzIGEgY29uZmlndXJhdGlvbiBmcmFnbWVudCBmaWxlLiINCj4gPiA+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2QvZGVwbW9kd3JhcHBlci1jcm9zc18x
+LjAuYmINCj4gPiA+IGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2RlcG1vZHdyYXBwZXItY3Jv
+c3NfMS4wLmJiDQo+ID4gPiBpbmRleCA0NGQwMTNmMjlkLi4yZWVjOTIxNzI4IDEwMDY0NA0KPiA+
+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2RlcG1vZHdyYXBwZXItY3Jvc3NfMS4w
+LmJiDQo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2QvZGVwbW9kd3JhcHBlci1j
+cm9zc18xLjAuYmINCj4gPiA+IEBAIC0yMywxNyArMjMsMTMgQEAgaWYgWyAiXCQxIiAhPSAiLWEi
+IC1vICJcJDIiICE9ICItYiIgXTsgdGhlbg0KPiA+ID4gICAgICAgZWNobyAiVXNhZ2U6IGRlcG1v
+ZHdyYXBwZXIgLWEgLWIgcm9vdGZzIEtFUk5FTF9WRVJTSU9OIiA+JjINCj4gPiA+ICAgICAgIGV4
+aXQgMQ0KPiA+ID4gICBmaQ0KPiA+ID4gLWlmIFsgISAtciAke1BLR0RBVEFfRElSfS9rZXJuZWwt
+ZGVwbW9kL2tlcm5lbC1hYml2ZXJzaW9uIF07IHRoZW4NCj4gPiA+IC0gICAgZWNobyAiVW5hYmxl
+IHRvIHJlYWQ6ICR7UEtHREFUQV9ESVJ9L2tlcm5lbC1kZXBtb2Qva2VybmVsLQ0KPiA+ID4gYWJp
+dmVyc2lvbiIgPiYyDQo+ID4gPiAtZWxzZQ0KPiA+ID4gLSAgICBrZXJuZWxhYmk9XCQoY2F0ICR7
+UEtHREFUQV9ESVJ9L2tlcm5lbC1kZXBtb2Qva2VybmVsLQ0KPiA+ID4gYWJpdmVyc2lvbikNCj4g
+PiA+IC0gICAgaWYgWyAiXCRrZXJuZWxhYmkiICE9ICJcJDQiIF07IHRoZW4NCj4gPiA+IC0gICAg
+ICAgIGVjaG8gIkVycm9yOiBLZXJuZWwgdmVyc2lvbiBcJDQgZG9lcyBub3QgbWF0Y2gga2VybmVs
+LQ0KPiA+ID4gYWJpdmVyc2lvbiAoXCRrZXJuZWxhYmkpIiA+JjINCj4gPiA+IC0gICAgICAgIGV4
+aXQgMQ0KPiA+ID4gLSAgICBmaQ0KPiA+ID4gKw0KPiA+ID4gK2tlcm5lbGFiaT0iIg0KPiA+ID4g
+K2lmIFsgLXIgIiR7UEtHREFUQV9ESVJ9L2tlcm5lbC1kZXBtb2Qva2VybmVsLWFiaXZlcnNpb24i
+IF07IHRoZW4NCj4gPiA+ICsgICAga2VybmVsYWJpPVwkKGNhdCAiJHtQS0dEQVRBX0RJUn0va2Vy
+bmVsLWRlcG1vZC9rZXJuZWwtDQo+ID4gPiBhYml2ZXJzaW9uIikNCj4gPiA+ICAgZmkNCj4gPiA+
+ICAgDQo+ID4gPiAtaWYgWyAhIC1yICR7UEtHREFUQV9ESVJ9L2tlcm5lbC1kZXBtb2QvU3lzdGVt
+Lm1hcC1cJDQgXTsgdGhlbg0KPiA+ID4gK2lmIFsgISAtciAke1BLR0RBVEFfRElSfS9rZXJuZWwt
+ZGVwbW9kL1N5c3RlbS5tYXAtXCQ0IF0gfHwgWw0KPiA+ID4gIlwka2VybmVsYWJpIiAhPSAiXCQ0
+IiBdOyB0aGVuDQo+ID4gPiAgICAgICBlY2hvICJVbmFibGUgdG8gcmVhZDogJHtQS0dEQVRBX0RJ
+Un0va2VybmVsLQ0KPiA+ID4gZGVwbW9kL1N5c3RlbS5tYXAtDQo+ID4gPiBcJDQiID4mMg0KPiA+
+ID4gICAgICAgZXhlYyBlbnYgZGVwbW9kICJcJDEiICJcJDIiICJcJDMiICJcJDQiDQo+ID4gPiAg
+IGVsc2UNCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4
+LXlvY3RvLXJ0XzQuMTAuYmINCj4gPiA+IGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51
+eC15b2N0by1ydF80LjEwLmJiDQo+ID4gPiBpbmRleCBmOTNkOTUzMGViLi44OTRlMmZmYmY2IDEw
+MDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1y
+dF80LjEwLmJiDQo+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlv
+Y3RvLXJ0XzQuMTAuYmINCj4gPiA+IEBAIC03LDcgKzcsNyBAQCByZXF1aXJlIHJlY2lwZXMta2Vy
+bmVsL2xpbnV4L2xpbnV4LXlvY3RvLmluYw0KPiA+ID4gICAjIHRvIGJ1aWxkIG11bHRpcGxlIHZp
+cnR1YWwva2VybmVsIHByb3ZpZGVycywgZS5nLiBhcw0KPiA+ID4gZGVwZW5kZW5jeSBvZg0KPiA+
+ID4gICAjIGNvcmUtaW1hZ2UtcnQtc2RrLCBjb3JlLWltYWdlLXJ0Lg0KPiA+ID4gICBweXRob24g
+KCkgew0KPiA+ID4gLSAgICBpZiBkLmdldFZhcigiUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwv
+a2VybmVsIikgIT0gImxpbnV4LQ0KPiA+ID4geW9jdG8tcnQiOg0KPiA+ID4gKyAgICBpZiBkLmdl
+dFZhcigiS0VSTkVMX1BBQ0tBR0VfTkFNRSIsIFRydWUpID09ICJrZXJuZWwiIGFuZA0KPiA+ID4g
+ZC5nZXRWYXIoIlBSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2tlcm5lbCIpICE9ICJsaW51eC15
+b2N0by0NCj4gPiA+IHJ0IjoNCj4gPiA+ICAgICAgICAgICByYWlzZSBiYi5wYXJzZS5Ta2lwUGFj
+a2FnZSgiU2V0DQo+ID4gPiBQUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC9rZXJuZWwgdG8gbGlu
+dXgteW9jdG8tcnQgdG8gZW5hYmxlDQo+ID4gPiBpdCIpDQo+ID4gPiAgIH0NCj4gPiA+ICAgDQo+
+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1y
+dF80LjEyLmJiDQo+ID4gPiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8t
+cnRfNC4xMi5iYg0KPiA+ID4gaW5kZXggYzQ5YTkzNDBmOC4uYmU0ZDE2M2ZmMSAxMDA2NDQNCj4g
+PiA+IC0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC4xMi5i
+Yg0KPiA+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80
+LjEyLmJiDQo+ID4gPiBAQCAtNyw3ICs3LDcgQEAgcmVxdWlyZSByZWNpcGVzLWtlcm5lbC9saW51
+eC9saW51eC15b2N0by5pbmMNCj4gPiA+ICAgIyB0byBidWlsZCBtdWx0aXBsZSB2aXJ0dWFsL2tl
+cm5lbCBwcm92aWRlcnMsIGUuZy4gYXMNCj4gPiA+IGRlcGVuZGVuY3kgb2YNCj4gPiA+ICAgIyBj
+b3JlLWltYWdlLXJ0LXNkaywgY29yZS1pbWFnZS1ydC4NCj4gPiA+ICAgcHl0aG9uICgpIHsNCj4g
+PiA+IC0gICAgaWYgZC5nZXRWYXIoIlBSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2tlcm5lbCIp
+ICE9ICJsaW51eC0NCj4gPiA+IHlvY3RvLXJ0IjoNCj4gPiA+ICsgICAgaWYgZC5nZXRWYXIoIktF
+Uk5FTF9QQUNLQUdFX05BTUUiLCBUcnVlKSA9PSAia2VybmVsIiBhbmQNCj4gPiA+IGQuZ2V0VmFy
+KCJQUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC9rZXJuZWwiKSAhPSAibGludXgteW9jdG8tDQo+
+ID4gPiBydCI6DQo+ID4gPiAgICAgICAgICAgcmFpc2UgYmIucGFyc2UuU2tpcFBhY2thZ2UoIlNl
+dA0KPiA+ID4gUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwva2VybmVsIHRvIGxpbnV4LXlvY3Rv
+LXJ0IHRvIGVuYWJsZQ0KPiA+ID4gaXQiKQ0KPiA+ID4gICB9DQo+ID4gPiAgIA0KPiA+ID4gZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC40LmJi
+DQo+ID4gPiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC40LmJi
+DQo+ID4gPiBpbmRleCAyNWQ4ODgzM2E5Li5lNDg5YmJiOWYyIDEwMDY0NA0KPiA+ID4gLS0tIGEv
+bWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80LjQuYmINCj4gPiA+ICsr
+KyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC40LmJiDQo+ID4g
+PiBAQCAtNyw3ICs3LDcgQEAgcmVxdWlyZSByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0
+by5pbmMNCj4gPiA+ICAgIyB0byBidWlsZCBtdWx0aXBsZSB2aXJ0dWFsL2tlcm5lbCBwcm92aWRl
+cnMsIGUuZy4gYXMNCj4gPiA+IGRlcGVuZGVuY3kgb2YNCj4gPiA+ICAgIyBjb3JlLWltYWdlLXJ0
+LXNkaywgY29yZS1pbWFnZS1ydC4NCj4gPiA+ICAgcHl0aG9uICgpIHsNCj4gPiA+IC0gICAgaWYg
+ZC5nZXRWYXIoIlBSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2tlcm5lbCIpICE9ICJsaW51eC0N
+Cj4gPiA+IHlvY3RvLXJ0IjoNCj4gPiA+ICsgICAgaWYgZC5nZXRWYXIoIktFUk5FTF9QQUNLQUdF
+X05BTUUiLCBUcnVlKSA9PSAia2VybmVsIiBhbmQNCj4gPiA+IGQuZ2V0VmFyKCJQUkVGRVJSRURf
+UFJPVklERVJfdmlydHVhbC9rZXJuZWwiKSAhPSAibGludXgteW9jdG8tDQo+ID4gPiBydCI6DQo+
+ID4gPiAgICAgICAgICAgcmFpc2UgYmIucGFyc2UuU2tpcFBhY2thZ2UoIlNldA0KPiA+ID4gUFJF
+RkVSUkVEX1BST1ZJREVSX3ZpcnR1YWwva2VybmVsIHRvIGxpbnV4LXlvY3RvLXJ0IHRvIGVuYWJs
+ZQ0KPiA+ID4gaXQiKQ0KPiA+ID4gICB9DQo+ID4gPiAgIA0KPiA+ID4gZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC45LmJiDQo+ID4gPiBiL21l
+dGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC45LmJiDQo+ID4gPiBpbmRl
+eCA2NzM0ZGMwZDA1Li44MjEyYjE0NDVjIDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9yZWNpcGVz
+LWtlcm5lbC9saW51eC9saW51eC15b2N0by1ydF80LjkuYmINCj4gPiA+ICsrKyBiL21ldGEvcmVj
+aXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tcnRfNC45LmJiDQo+ID4gPiBAQCAtNyw3ICs3
+LDcgQEAgcmVxdWlyZSByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by5pbmMNCj4gPiA+
+ICAgIyB0byBidWlsZCBtdWx0aXBsZSB2aXJ0dWFsL2tlcm5lbCBwcm92aWRlcnMsIGUuZy4gYXMN
+Cj4gPiA+IGRlcGVuZGVuY3kgb2YNCj4gPiA+ICAgIyBjb3JlLWltYWdlLXJ0LXNkaywgY29yZS1p
+bWFnZS1ydC4NCj4gPiA+ICAgcHl0aG9uICgpIHsNCj4gPiA+IC0gICAgaWYgZC5nZXRWYXIoIlBS
+RUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2tlcm5lbCIpICE9ICJsaW51eC0NCj4gPiA+IHlvY3Rv
+LXJ0IjoNCj4gPiA+ICsgICAgaWYgZC5nZXRWYXIoIktFUk5FTF9QQUNLQUdFX05BTUUiLCBUcnVl
+KSA9PSAia2VybmVsIiBhbmQNCj4gPiA+IGQuZ2V0VmFyKCJQUkVGRVJSRURfUFJPVklERVJfdmly
+dHVhbC9rZXJuZWwiKSAhPSAibGludXgteW9jdG8tDQo+ID4gPiBydCI6DQo+ID4gPiAgICAgICAg
+ICAgcmFpc2UgYmIucGFyc2UuU2tpcFBhY2thZ2UoIlNldA0KPiA+ID4gUFJFRkVSUkVEX1BST1ZJ
+REVSX3ZpcnR1YWwva2VybmVsIHRvIGxpbnV4LXlvY3RvLXJ0IHRvIGVuYWJsZQ0KPiA+ID4gaXQi
+KQ0KPiA+ID4gICB9DQo+ID4gPiAgIA0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1r
+ZXJuZWwvbGludXgvbGludXgteW9jdG8uaW5jDQo+ID4gPiBiL21ldGEvcmVjaXBlcy1rZXJuZWwv
+bGludXgvbGludXgteW9jdG8uaW5jDQo+ID4gPiBpbmRleCA5YzFmNjFiZTc1Li44YTcwZWI1MDE4
+IDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0
+by5pbmMNCj4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8u
+aW5jDQo+ID4gPiBAQCAtMTIsNyArMTIsNyBAQCBJTkNfUFIgPSAicjQiDQo+ID4gPiAgICMgUFJF
+RkVSUkVEX1BST1ZJREVSIGZvciB2aXJ0dWFsL2tlcm5lbC4gVGhpcyBhdm9pZHMgbmV0d29yaw0K
+PiA+ID4gYWNjZXNzDQo+ID4gPiByZXF1aXJlZA0KPiA+ID4gICAjIGJ5IHRoZSB1c2Ugb2YgQVVU
+T1JFViBTUkNSRVZzLCB3aGljaCBhcmUgdGhlIGRlZmF1bHQgZm9yIHRoaXMNCj4gPiA+IHJlY2lw
+ZS4NCj4gPiA+ICAgcHl0aG9uICgpIHsNCj4gPiA+IC0gICAgaWYgZC5nZXRWYXIoIlBSRUZFUlJF
+RF9QUk9WSURFUl92aXJ0dWFsL2tlcm5lbCIpICE9DQo+ID4gPiBkLmdldFZhcigiUE4iKToNCj4g
+PiA+ICsgICAgaWYgZC5nZXRWYXIoIktFUk5FTF9QQUNLQUdFX05BTUUiLCBUcnVlKSA9PSAia2Vy
+bmVsIiBhbmQNCj4gPiA+IGQuZ2V0VmFyKCJQUkVGRVJSRURfUFJPVklERVJfdmlydHVhbC9rZXJu
+ZWwiLCBUcnVlKSAhPQ0KPiA+ID4gZC5nZXRWYXIoIlBOIiwNCj4gPiA+IFRydWUpOg0KPiA+ID4g
+ICAgICAgICAgIGQuZGVsVmFyKCJCQl9ET05UX0NBQ0hFIikNCj4gPiA+ICAgICAgICAgICByYWlz
+ZSBiYi5wYXJzZS5Ta2lwUGFja2FnZSgiU2V0DQo+ID4gPiBQUkVGRVJSRURfUFJPVklERVJfdmly
+dHVhbC9rZXJuZWwgdG8gJXMgdG8gZW5hYmxlIGl0IiAlDQo+ID4gPiAoZC5nZXRWYXIoIlBOIikp
+KQ0KPiA+ID4gICB9DQo+ID4gPiAtLSANCj4gPiA+IDIuMTQuMg==
 
