@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EC02178677
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C290A78680
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 13:23:01 +0000 (UTC)
+	Fri, 10 Nov 2017 13:23:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAADN3Dm012139
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAADN5hr001380
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Nov 2017 05:23:03 -0800
+	Fri, 10 Nov 2017 05:23:05 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Fri, 10 Nov 2017 05:23:02 -0800
+	14.3.361.1; Fri, 10 Nov 2017 05:23:04 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Nov 2017 14:27:15 +0800
-Message-ID: <3987c2819252e5439cb23d3d94897f8f7d3d50a9.1510275834.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Nov 2017 14:27:16 +0800
+Message-ID: <073344c13495da8e0c9f1ca410a8b8789d873564.1510275834.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1510275834.git.liezhi.yang@windriver.com>
 References: <cover.1510275834.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 15/23] multilib.bbclass: remove unneeded bb.data.inherits_class()
+Subject: [PATCH 16/23] multilib.bbclass: remove obsolete DEFAULTTUNE_ML_
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 13:23:02 -0000
+X-List-Received-Date: Fri, 10 Nov 2017 13:23:04 -0000
 Content-Type: text/plain
 
-It is duplicated to previous.
+It had been dropped by:
+commit 65581c68d130fa74d703f6c3c92560e053857ac7
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Mon Feb 13 16:44:48 2017 +0200
+
+    rootfs_rpm.bbclass: migrate image creation to dnf
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/multilib.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/multilib.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 816f54e..57c1b88 100644
+index 57c1b88..0570ea8 100644
 --- a/meta/classes/multilib.bbclass
 +++ b/meta/classes/multilib.bbclass
-@@ -100,8 +100,6 @@ python __anonymous () {
-         d.setVar("LINGUAS_INSTALL", "")
-         # FIXME, we need to map this to something, not delete it!
-         d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
--
--    if bb.data.inherits_class('image', d):
-         return
+@@ -76,7 +76,6 @@ python multilib_virtclass_handler () {
+     newtune = e.data.getVar("DEFAULTTUNE_" + "virtclass-multilib-" + variant, False)
+     if newtune:
+         e.data.setVar("DEFAULTTUNE", newtune)
+-        e.data.setVar('DEFAULTTUNE_ML_%s' % variant, newtune)
+ }
  
-     clsextend.map_depends_variable("DEPENDS")
+ addhandler multilib_virtclass_handler
 -- 
 2.7.4
 
