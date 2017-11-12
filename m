@@ -1,48 +1,22 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
-	by mail.openembedded.org (Postfix) with ESMTP id ED3846093D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 941B16059F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Nov 2017 16:39:30 +0000 (UTC)
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Note-AR-ScanTimeLocal: 11/12/2017 11:39:28 AM
-X-Note: SecureTide Build: 7/20/2017 1:24:22 PM UTC (2.6.20.0)
-X-Note: Filtered by 10.238.11.162
-X-Policy: brightsign.biz  - brightsign.biz
-X-Policy: brightsign.biz  - brightsign.biz
-X-Primary: mcrowe@brightsign.biz
-X-Virus-Scan: V-
-X-Note: ICH-CT/SI:0-1110/SG:1 11/12/2017 11:39:03 AM
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-54/SG:1 11/12/2017 11:39:03 AM
-X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.47761 p=-0.883495 Source Normal
-X-Signature-Violations: 0-0-0-5950-c
-X-Note: Spam Tests Failed: 
-X-Country-Path: ->->United Kingdom->United States
-X-Note-Sending-IP: 213.210.30.29
-X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
-X-Note-Return-Path: mcrowe@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G298 G299 G300 G301 G305 G306 G437 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-X-Note: Headers Injected
-Received: from [213.210.30.29] (HELO elite.brightsign)
-	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
-	with ESMTPS id 233890581; Sun, 12 Nov 2017 11:39:28 -0500
-Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
-	by elite.brightsign with esmtp (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1eDvIA-0003zR-TU; Sun, 12 Nov 2017 16:39:30 +0000
-Received: from mac by chuckie with local (Exim 4.89)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1eDvIA-00055o-Sp; Sun, 12 Nov 2017 16:39:30 +0000
-From: Mike Crowe <mac@mcrowe.com>
+	Sun, 12 Nov 2017 22:00:57 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Nov 2017 14:00:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,385,1505804400"; d="scan'208";a="1243245079"
+Received: from mintingh-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.67.199])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Nov 2017 14:00:56 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Nov 2017 16:39:23 +0000
-Message-Id: <20171112163923.19517-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.11.0
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
+Date: Mon, 13 Nov 2017 11:00:24 +1300
+Message-Id: <cover.1510524005.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.9.5
+Subject: [PATCH 0/1] recipetool: create: fix failure handling included dicts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +29,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Nov 2017 16:39:31 -0000
+X-List-Received-Date: Sun, 12 Nov 2017 22:00:57 -0000
 
-With meta-micro, ${prefix} is the empty string. This means that
-CMAKE_INSTALL_BINDIR:PATH and friends end up containing paths starting with
-many instances of "../", presumably due to os.path.relpath attempting to
-find its way to the current directory.
+The following changes since commit a17f3ec910366e9e7551fa24fbc07929b9584341:
 
-Let's avoid this by ensuring that the root path always ends in a slash. If
-it already ends in a slash then adding another one shouldn't cause any
-problems.
+  dhcp: fix build issue with libxml2 support (2017-11-10 14:44:31 +0000)
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/cmake.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index ac2c1519b0..59797e121b 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -119,15 +119,15 @@ cmake_do_configure() {
- 	  $oecmake_sitefile \
- 	  ${OECMAKE_SOURCEPATH} \
- 	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
--	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix'))} \
-+	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
--	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix'))} \
-+	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
--	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix'))} \
-+	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
- 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
- 	  -DCMAKE_VERBOSE_MAKEFILE=1 \
+  git://git.openembedded.org/openembedded-core-contrib paule/recipetool-fix2
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/recipetool-fix2
+
+Paul Eggleton (1):
+  recipetool: create: fix failure handling included dicts
+
+ scripts/lib/recipetool/create_buildsys_python.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-2.11.0
+2.9.5
 
 
