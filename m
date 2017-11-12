@@ -1,49 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4520978519
+Return-Path: <mcrowe@brightsign.biz>
+X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 12 Nov 2017 14:37:25 UTC
+Received: from relay.appriver.com (relay101b.appriver.com [207.97.230.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 08A6E7841C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Nov 2017 23:42:27 +0000 (UTC)
-Received: by mail-pg0-f65.google.com with SMTP id j16so4526385pgn.9
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Nov 2017 15:42:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=70KDo7NEfbhREVTqJ/P9yy9ggeTzCr6nyGfQf9dDVFs=;
-	b=b2NLreWzV0tz1BLhhDVyrohcVJiFZIs+eUbuIVhZk3GFY8m2x007CX1AQ9WJ51zbh8
-	5C4V9ADh9kMnT2jXY7vJkYGxv8Wktr/hTbqzTRS3vwHr4aosE/QOQJwUaPDPkJLucweO
-	Bkhg6A6EH8VuSSB5RyzN6ueMc5JTkFzCb+h1LZDipuLrAJFXGOBFSjeSf2toPcPMYYUU
-	EL6wuK6oenfQLF5r928+jQX5TI+IACOIvmST9akstcOStFnO5hGHGnbj2E26sjLkO7OS
-	lYbrKIe+i4v2Q1T1ZFD6O/qp2F+1LctqhB+Zmqh5Y0O/mSTggUIqHrrsxC08h20LQKFy
-	kQ/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=70KDo7NEfbhREVTqJ/P9yy9ggeTzCr6nyGfQf9dDVFs=;
-	b=XTlR+jMO6cexdO9ufNQS7/HdvYY4nZR9jvpiFyZDCPJCforfhg4lpdgHWk1ap07d0M
-	2/FrZDgS5cYa6F1vylzN3vqRWPzwrmuFfCqDfaeN4XnWgiijJIDqs3kw0cn2LQSiw1iN
-	hyGcKuyJaaDTGGA5oORiPV1ZqPQ85BbLjaE8NDGN/ApvtKDtlW9nXAospp8fpHQVdh57
-	hIvk9jjHOHQyh4dcjvKs7Z+YKiAICBoOsNAFjoWRhm8Ejp+b4soa8GAqKOytHmUL7Z+K
-	QiaCKadvCjhIQYZ3na+/SW7ofjyo8pFfaGVHagJm0vwsx2GZWwa8PBoeJmrB7PgJGTlq
-	ggRA==
-X-Gm-Message-State: AJaThX6GYG1fGas8rmMM/CE+c/8yiB1/o5zG7W+AXgAhVWqQJmFgZfFC
-	zDO7R1pfvx/gbHAfkLFKkdS7kT05KqTKFFECzvc=
-X-Google-Smtp-Source: AGs4zMZ0uLS0D1tmz6P1Oq+431zxeXGuFY++WILTVpv4l36hMUxxYJfYLFqqqd7FN512//Jwmf8ddIezXJycitdJ2F4=
-X-Received: by 10.98.207.71 with SMTP id b68mr5073179pfg.125.1510443749187;
-	Sat, 11 Nov 2017 15:42:29 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.100.166.171 with HTTP; Sat, 11 Nov 2017 15:41:58 -0800 (PST)
-In-Reply-To: <1510435976-10490-2-git-send-email-akuster808@gmail.com>
-References: <1510435976-10490-1-git-send-email-akuster808@gmail.com>
-	<1510435976-10490-2-git-send-email-akuster808@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 11 Nov 2017 15:41:58 -0800
-Message-ID: <CAMKF1sqkDp6r9fThLUTCD5FdQMz_1zGOLgxU1PDttesgg8Gqqw@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: akuster <akuster@mvista.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binutils: update to 2.29.1
+	Sun, 12 Nov 2017 14:37:25 +0000 (UTC)
+X-Note: This Email was scanned by AppRiver SecureTide
+X-Note-AR-ScanTimeLocal: 11/12/2017 9:22:23 AM
+X-Note: SecureTide Build: 7/20/2017 1:24:22 PM UTC (2.6.20.0)
+X-Note: Filtered by 10.238.11.162
+X-Policy: brightsign.biz  - brightsign.biz
+X-Policy: brightsign.biz  - brightsign.biz
+X-Primary: mcrowe@brightsign.biz
+X-Virus-Scan: V-
+X-Note: ICH-CT/SI:0-1110/SG:1 11/12/2017 9:22:03 AM
+X-Note-SnifferID: 0
+X-Note: TCH-CT/SI:0-70/SG:1 11/12/2017 9:22:03 AM
+X-GBUdb-Analysis: 0, 213.210.30.29, Ugly c=0.468188 p=-0.87234 Source Normal
+X-Signature-Violations: 0-0-0-5877-c
+X-Note: Spam Tests Failed: 
+X-Country-Path: ->->United Kingdom->United States
+X-Note-Sending-IP: 213.210.30.29
+X-Note-Reverse-DNS: elite.brightsigndigital.co.uk
+X-Note-Return-Path: mcrowe@brightsign.biz
+X-Note: User Rule Hits: 
+X-Note: Global Rule Hits: G298 G299 G300 G301 G305 G306 G437 
+X-Note: Encrypt Rule Hits: 
+X-Note: Mail Class: VALID
+X-Note: Headers Injected
+Received: from [213.210.30.29] (HELO elite.brightsign)
+	by relay.appriver.com (CommuniGate Pro SMTP 6.1.7)
+	with ESMTPS id 233853227; Sun, 12 Nov 2017 09:22:23 -0500
+Received: from chuckie.brightsign ([fd44:d8b8:cab5:cb01::19] helo=chuckie)
+	by elite.brightsign with esmtp (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1eDt9U-00030N-NJ; Sun, 12 Nov 2017 14:22:24 +0000
+Received: from mac by chuckie with local (Exim 4.89)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1eDt9U-0000No-MH; Sun, 12 Nov 2017 14:22:24 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 12 Nov 2017 14:22:13 +0000
+Message-Id: <20171112142213.1407-1-mac@mcrowe.com>
+X-Mailer: git-send-email 2.11.0
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] cmake: Avoid passing empty prefix to os.path.relpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,84 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Nov 2017 23:42:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 12 Nov 2017 14:37:26 -0000
 
-On Sat, Nov 11, 2017 at 1:32 PM, Armin Kuster <akuster808@gmail.com> wrote:
-> From: Armin Kuster <akuster@mvista.com>
->
-> update to 2.29.1 to fix the following missing CVE's
->
-> CVE-2017-15939, CVE-2017-15938, CVE-2017-15225, CVE-2017-15025,
-> CVE-2017-15024, CVE-2017-15023, CVE-2017-15022, CVE-2017-15021,
-> CVE-2017-15020, CVE-2017-14974, CVE-2017-14940, CVE-2017-14939,
-> CVE-2017-14938, CVE-2017-14934, CVE-2017-14933, CVE-2017-14932,
-> CVE-2017-14930, CVE-2017-14745, CVE-2017-14729, CVE-2017-14529,
-> CVE-2017-14333, CVE-2017-14130, CVE-2017-14129, CVE-2017-14128,
-> CVE-2017-13757, CVE-2017-13716, CVE-2017-13710, CVE-2017-12967,
-> CVE-2017-12799, CVE-2017-12459, CVE-2017-12458, CVE-2017-12457,
-> CVE-2017-12456, CVE-2017-12455, CVE-2017-12454, CVE-2017-12453,
-> CVE-2017-12452, CVE-2017-12451, CVE-2017-12450, CVE-2017-12449,
-> CVE-2017-12448
->
-> see Changelogs for additional information
->
+With meta-micro, ${prefix} is the empty string. This means that
+CMAKE_INSTALL_BINDIR:PATH and friends end up containing paths starting with
+many instances of "../", presumably due to os.path.relpath attempting to
+find its way to the current directory.
 
-This looks good. I will cherry pick it into my testing and see if
-there are any issues
+Let's avoid this by ensuring that the root path always ends in a slash. If
+it already ends in a slash then adding another one shouldn't cause any
+problems.
+---
+ meta/classes/cmake.bbclass | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  .../binutils/{binutils-2.29.inc => binutils-2.29.1.inc}                 | 2 +-
->  ...inutils-cross-canadian_2.29.bb => binutils-cross-canadian_2.29.1.bb} | 0
->  .../binutils/{binutils-cross_2.29.bb => binutils-cross_2.29.1.bb}       | 0
->  .../binutils/{binutils-crosssdk_2.29.bb => binutils-crosssdk_2.29.1.bb} | 0
->  meta/recipes-devtools/binutils/{binutils_2.29.bb => binutils_2.29.1.bb} | 0
->  5 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/binutils/{binutils-2.29.inc => binutils-2.29.1.inc} (97%)
->  rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.29.bb => binutils-cross-canadian_2.29.1.bb} (100%)
->  rename meta/recipes-devtools/binutils/{binutils-cross_2.29.bb => binutils-cross_2.29.1.bb} (100%)
->  rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.29.bb => binutils-crosssdk_2.29.1.bb} (100%)
->  rename meta/recipes-devtools/binutils/{binutils_2.29.bb => binutils_2.29.1.bb} (100%)
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.29.inc b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-> similarity index 97%
-> rename from meta/recipes-devtools/binutils/binutils-2.29.inc
-> rename to meta/recipes-devtools/binutils/binutils-2.29.1.inc
-> index 27d46eb..d92bbbc 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.29.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.29.1.inc
-> @@ -18,7 +18,7 @@ BINUPV = "${@binutils_branch_version(d)}"
->
->  UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
->
-> -SRCREV = "37e991bb143ca2106330bcdc625590d53838b7a1"
-> +SRCREV = "90276f15379d380761fc499da2ba24cfb3c12a94"
->  SRC_URI = "\
->       git://sourceware.org/git/binutils-gdb.git;branch=binutils-${BINUPV}-branch;protocol=git \
->       file://0003-configure-widen-the-regexp-for-SH-architectures.patch \
-> diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.bb b/meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.bb
-> rename to meta/recipes-devtools/binutils/binutils-cross-canadian_2.29.1.bb
-> diff --git a/meta/recipes-devtools/binutils/binutils-cross_2.29.bb b/meta/recipes-devtools/binutils/binutils-cross_2.29.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/binutils/binutils-cross_2.29.bb
-> rename to meta/recipes-devtools/binutils/binutils-cross_2.29.1.bb
-> diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.29.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.29.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/binutils/binutils-crosssdk_2.29.bb
-> rename to meta/recipes-devtools/binutils/binutils-crosssdk_2.29.1.bb
-> diff --git a/meta/recipes-devtools/binutils/binutils_2.29.bb b/meta/recipes-devtools/binutils/binutils_2.29.1.bb
-> similarity index 100%
-> rename from meta/recipes-devtools/binutils/binutils_2.29.bb
-> rename to meta/recipes-devtools/binutils/binutils_2.29.1.bb
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index ac2c1519b0..59797e121b 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -119,15 +119,15 @@ cmake_do_configure() {
+ 	  $oecmake_sitefile \
+ 	  ${OECMAKE_SOURCEPATH} \
+ 	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
+-	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix'))} \
+-	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix'))} \
+-	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix'))} \
++	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
++	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
++	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
+ 	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
+-	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix'))} \
++	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
+ 	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
+-	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix'))} \
+-	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix'))} \
+-	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix'))} \
++	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
++	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
++	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
+ 	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
+ 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
+ 	  -DCMAKE_VERBOSE_MAKEFILE=1 \
+-- 
+2.11.0
+
 
