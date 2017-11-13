@@ -1,49 +1,48 @@
-Return-Path: <oleksandr.kravchuk@pelagicore.com>
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ADBC67865C
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 430817866D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 12:47:26 +0000 (UTC)
-Received: by mail-lf0-f66.google.com with SMTP id n69so18203055lfn.2
+	Mon, 13 Nov 2017 12:57:17 +0000 (UTC)
+Received: by mail-lf0-f65.google.com with SMTP id 73so3884661lfu.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 04:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 13 Nov 2017 04:57:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=3q7wGpfMispv005bOmjNzImWilrgc9lRfrf7HBWVAmQ=;
-	b=c9ZJpO05pFIDpbG8pR2jJE5u3HouPiZB8u5ATUhUoHr7Jb53YJAM2cii4ThqWEvDfn
-	KkAH6b/BM2/Sufr1kWzi8jIQ8CCBey+SBNxyR0IL6vTCuBGM0v/5qLrfQeUXl5TI/ekU
-	PewIvYrEd2l1fmU6Jl7fiAKep/7OGMZAXCxREwz8Jn3+94pOGYvGqK6OV9S7gWNXUAOq
-	I8NAr35LIsPCc+ghTV5J/082fIpbQkhXJ1EMeMm1SyOuJ7ckG+0mso40bJMaSmf4SBk5
-	Ch2yLmNrZO4k26zjp7ZVdPUNunqOdo9I4XrRfMD/Na0j182CfPfQqfMMLCPsFcj176nP
-	00SQ==
+	bh=wjBPhyhNHvo2XJWCLaHKMELzk0aBnI3Suc4lVmYsclk=;
+	b=lW0Y6W5B93ArGEY4iDsnUG2Tz3ZBqfZGJM7+P4KgLOB9xEbaSqA/KIo3XDOV2xLi3S
+	b8ZdH1L7IhxeY9/ELT2lpB0SbPeel7HLwBwEWxoYg1QOpiRMo+wziXdTL93f4GCMKQwg
+	9+V0fpkdSERshcUlmHINXzDIg3Cq+9MLSKfXpaGfqzmySS5iOoueFHz7DQn58PPti9ND
+	pUvH4qMvjd8PsMN5KLelAL8+lfFcU5lLSEscuA/zjyQBS2x/PD4W6/lS3DnaZiNbWqVi
+	UV0nHVl6eT7yZc7LOXZafJVf5mTzmdBFA2J3MNj2eeuNoR8E3zTShc3lna7jpZt2rors
+	gRvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=3q7wGpfMispv005bOmjNzImWilrgc9lRfrf7HBWVAmQ=;
-	b=NHJbObXn1unPltnVEZ4A2zW0Murrg38vLS603pJTh2xdeBm/Q9IsXDA/41/6wfd1yS
-	iFB9mx3CHh1J9pITctqgaRELy/OWL8LF6H+IZMiSGbFMsjY3hXFr6bxBP6xB1Od5F0AG
-	aX+1Lmy65UN4vmC/jwaKdF8dDXktHNuPRZ+t1DDSyD0DHgUyLh8Y/WN04qe8kASyMs36
-	arQ1yD4ITR03N+UeR8RALR9DZ9Kdss1Mg5PhGmR4zCNug9HIXAflROm7xp9HBR45ZcBZ
-	2fw/lGDiRVRz5hsjuET66Jega3zmOGQ/dOfgGf5OsVURvtn5HSqoG1mEnyYXFgzlSPly
-	kNDA==
-X-Gm-Message-State: AJaThX7HLlZq7Bcepn3zQgF+C/m/NRfg6fAwWJI92BQroh0h5lYs6aI6
-	QYfvEfyw+baZ2JZ0BQO2tL9t+dFj
-X-Google-Smtp-Source: AGs4zMZ44rS9PMrToevVQ5hC8chKcjuxVvwtJGgKLDUC+lSjWoVLRR524uK22vjT9gFjGaPJJ0YR8Q==
-X-Received: by 10.25.163.11 with SMTP id m11mr3028687lfe.179.1510577245726;
-	Mon, 13 Nov 2017 04:47:25 -0800 (PST)
-Received: from ubuntu.office.pelagicore.net ([83.218.80.243])
+	bh=wjBPhyhNHvo2XJWCLaHKMELzk0aBnI3Suc4lVmYsclk=;
+	b=Ot0BcM13sx+cyplXPZzmu0pbTFNCsJsSXD7afkBvI6k2VOk3TPzDGZH/ehmeOt1ida
+	5DrN162rK+JG8T8LZ6qqNp37to6jGjifODQUuVm3E7yDABwNr1CvRaslzfopo/FL2j8n
+	M5c5zpb9iqcHCiqZlissxo1JUmJrHUByNkVOSB891Q83/B4IrUfkh+3nL8glt11NdkvF
+	Ov+7y2cT0lOpJRXzdbz1mNzbM8iM+lgTm3JCjvRvOhQuYDs++CvTajkaOQ4HKWbsApov
+	eu8t8Ytxy6u0hL2yWDUM03xFdvoUitTYwqAY5216CJWhAb+WhY824wwXmBHN49xYIs9d
+	LTbA==
+X-Gm-Message-State: AJaThX4Ptj07NyqT45n8EmtquwqAXjU5RIrouZY6w8+JQLjuArdi8Ndi
+	hVBqmX1taBCDjG2kAIiXpt8S3+IU
+X-Google-Smtp-Source: AGs4zMatNy8j4eD5MLpaw21QMg/bClPs0v5VjhXOw5V1yBDLclEVTHp6s7pnHU0NNT4+X7G9ECbbeQ==
+X-Received: by 10.46.16.76 with SMTP id j73mr2967057lje.170.1510577838296;
+	Mon, 13 Nov 2017 04:57:18 -0800 (PST)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
 	by smtp.gmail.com with ESMTPSA id
-	a17sm2870587lfl.40.2017.11.13.04.47.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 Nov 2017 04:47:25 -0800 (PST)
-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+	c132sm2900297lfe.37.2017.11.13.04.57.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Nov 2017 04:57:17 -0800 (PST)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 13:47:12 +0100
-Message-Id: <1510577232-30262-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [PATCH v3] curl: upgrade to 7.56.1
+Date: Mon, 13 Nov 2017 13:57:14 +0100
+Message-Id: <20171113125714.21427-1-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.15.0
+Subject: [PATCH] gcc-7.2: Fix libgfortran build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,66 +55,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 12:47:26 -0000
+X-List-Received-Date: Mon, 13 Nov 2017 12:57:18 -0000
 
-Upgarded curl to version 7.56.1. Removed few patches fixing CVEs, since
-those fixes are included in the this release.
+Without this patch libbacktrace cannot be included/link during
+libgfortran build.
 
-Also removed installation of 'curl/curlbuild.h', which has been removed
-in v7.55.0:
-http://daniel.haxx.se/blog/2017/06/15/target-independent-libcurl-headers
+libbtool: link: cannot find the library
+`../libbacktrace/libbacktrace.la'
+or unhandled argument `../libbacktrace/libbacktrace.la
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
- .../curl/{curl_7.54.1.bb => curl_7.56.1.bb}                | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
- rename meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.56.1.bb} (87%)
+ meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
+ .../gcc/gcc-7.2/0051-Fix-gfortran-build.patch      | 53 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
 
-diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.56.1.bb
-similarity index 87%
-rename from meta/recipes-support/curl/curl_7.54.1.bb
-rename to meta/recipes-support/curl/curl_7.56.1.bb
-index 58f0531..830f350 100644
---- a/meta/recipes-support/curl/curl_7.54.1.bb
-+++ b/meta/recipes-support/curl/curl_7.56.1.bb
-@@ -7,10 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
--           file://CVE-2017-1000099.patch \
--           file://CVE-2017-1000100.patch \
--           file://CVE-2017-1000101.patch \
--           file://CVE-2017-1000254.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
+index 1d40cba73175..ae3ed02d6ce3 100644
+--- a/meta/recipes-devtools/gcc/gcc-7.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
+@@ -75,6 +75,7 @@ SRC_URI = "\
+            file://0048-gcc-Enable-static-PIE.patch \
+            file://fix-segmentation-fault-precompiled-hdr.patch \
+            file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
++	   file://0051-Fix-gfortran-build.patch \
+            ${BACKPORTS} \
  "
- 
- SRC_URI_append_class-target = " \
-@@ -22,11 +18,11 @@ SRC_URI_append_class-target = " \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "6b6eb722f512e7a24855ff084f54fe55"
--SRC_URI[sha256sum] = "fdfc4df2d001ee0c44ec071186e770046249263c491fcae48df0e1a3ca8f25a0"
-+SRC_URI[md5sum] = "428de25834ef8c04076906d6d5c0498e"
-+SRC_URI[sha256sum] = "2594670367875e7d87b0f129b5e4690150780884d90244ba0fe3e74a778b5f90"
- 
- CVE_PRODUCT = "libcurl"
--inherit autotools pkgconfig binconfig multilib_header
-+inherit autotools pkgconfig binconfig
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy threaded-resolver zlib"
- PACKAGECONFIG_class-native = "ipv6 proxy ssl threaded-resolver zlib"
-@@ -64,10 +60,6 @@ EXTRA_OECONF = " \
-     --without-libpsl \
- "
- 
--do_install_append() {
--	oe_multilib_header curl/curlbuild.h
--}
--
- do_install_append_class-target() {
- 	# cleanup buildpaths from curl-config
- 	sed -i \
+ BACKPORTS = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
+new file mode 100644
+index 000000000000..a71b6b0bee0e
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
+@@ -0,0 +1,53 @@
++Without this patch libbacktrace cannot be included/link during
++libgfortran build.
++
++libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
++or unhandled argument `../libbacktrace/libbacktrace.la'
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
++
++diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
++index 2857af5943f9..e07760069a3c 100644
++--- a/libgfortran/Makefile.am
+++++ b/libgfortran/Makefile.am
++@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
++ toolexeclib_DATA = libgfortran.spec
++ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
++ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
++-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
+++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
++ 	$(HWCAP_LDFLAGS) \
++ 	-lm $(extra_ldflags_libgfortran) \
++ 	$(version_arg) -Wc,-shared-libgcc
++@@ -64,7 +64,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
++ 	      -I$(MULTIBUILDTOP)../libgcc \
++ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
++ 	      -I$(MULTIBUILDTOP)../libbacktrace \
++-	      -I../libbacktrace
+++	      -I../../libbacktrace
++ 
++ # Fortran rules for complex multiplication and division
++ AM_CFLAGS += -fcx-fortran-rules
++diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
++index 05b183dcadb0..c9e0280e412c 100644
++--- a/libgfortran/Makefile.in
+++++ b/libgfortran/Makefile.in
++@@ -581,7 +581,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
++ toolexeclib_DATA = libgfortran.spec
++ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
++ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
++-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
+++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
++ 	$(HWCAP_LDFLAGS) \
++ 	-lm $(extra_ldflags_libgfortran) \
++ 	$(version_arg) -Wc,-shared-libgcc
++@@ -602,7 +602,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
++ 	      -I$(MULTIBUILDTOP)../libgcc \
++ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
++ 	      -I$(MULTIBUILDTOP)../libbacktrace \
++-	      -I../libbacktrace
+++	      -I../../libbacktrace
++ 
++ gfor_io_src = io/size_from_kind.c $(am__append_2)
++ gfor_io_headers = \
 -- 
-2.7.4
+2.15.0
 
 
