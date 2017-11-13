@@ -1,48 +1,42 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 430817866D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E5C7866D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 12:57:17 +0000 (UTC)
-Received: by mail-lf0-f65.google.com with SMTP id 73so3884661lfu.10
+	Mon, 13 Nov 2017 13:02:25 +0000 (UTC)
+Received: by mail-qt0-f194.google.com with SMTP id r39so3067817qtr.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 04:57:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=wjBPhyhNHvo2XJWCLaHKMELzk0aBnI3Suc4lVmYsclk=;
-	b=lW0Y6W5B93ArGEY4iDsnUG2Tz3ZBqfZGJM7+P4KgLOB9xEbaSqA/KIo3XDOV2xLi3S
-	b8ZdH1L7IhxeY9/ELT2lpB0SbPeel7HLwBwEWxoYg1QOpiRMo+wziXdTL93f4GCMKQwg
-	9+V0fpkdSERshcUlmHINXzDIg3Cq+9MLSKfXpaGfqzmySS5iOoueFHz7DQn58PPti9ND
-	pUvH4qMvjd8PsMN5KLelAL8+lfFcU5lLSEscuA/zjyQBS2x/PD4W6/lS3DnaZiNbWqVi
-	UV0nHVl6eT7yZc7LOXZafJVf5mTzmdBFA2J3MNj2eeuNoR8E3zTShc3lna7jpZt2rors
-	gRvw==
+	Mon, 13 Nov 2017 05:02:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wjBPhyhNHvo2XJWCLaHKMELzk0aBnI3Suc4lVmYsclk=;
-	b=Ot0BcM13sx+cyplXPZzmu0pbTFNCsJsSXD7afkBvI6k2VOk3TPzDGZH/ehmeOt1ida
-	5DrN162rK+JG8T8LZ6qqNp37to6jGjifODQUuVm3E7yDABwNr1CvRaslzfopo/FL2j8n
-	M5c5zpb9iqcHCiqZlissxo1JUmJrHUByNkVOSB891Q83/B4IrUfkh+3nL8glt11NdkvF
-	Ov+7y2cT0lOpJRXzdbz1mNzbM8iM+lgTm3JCjvRvOhQuYDs++CvTajkaOQ4HKWbsApov
-	eu8t8Ytxy6u0hL2yWDUM03xFdvoUitTYwqAY5216CJWhAb+WhY824wwXmBHN49xYIs9d
-	LTbA==
-X-Gm-Message-State: AJaThX4Ptj07NyqT45n8EmtquwqAXjU5RIrouZY6w8+JQLjuArdi8Ndi
-	hVBqmX1taBCDjG2kAIiXpt8S3+IU
-X-Google-Smtp-Source: AGs4zMatNy8j4eD5MLpaw21QMg/bClPs0v5VjhXOw5V1yBDLclEVTHp6s7pnHU0NNT4+X7G9ECbbeQ==
-X-Received: by 10.46.16.76 with SMTP id j73mr2967057lje.170.1510577838296;
-	Mon, 13 Nov 2017 04:57:18 -0800 (PST)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
+	bh=gXaKmXtebbyVEbDxlV2umj/w5pAZB02fQwF5QWoh9o0=;
+	b=ag5m8d5moVNusI8RDYaa+cnwSHh4Q5Ny/mWiQho5MEdiG7xRO8cvpy1GyQHvjV3vST
+	xcqoZmobcxWeLN5MviR4V6L8I5bzS3PwcCmhRrzaxs5kvSO+LPdCF281e161SRThrWv/
+	VXD+duYvP0YFBr1a4ECgDVKF7g4nrBt6QXxQljaXkr6nFneKTl0rXRER/ojoBgBCTt6b
+	GWUjSu0n1xr1zgbnF4qE3W8Dx0n/Uq7fBdNVjliQbAkbc4BcQiZFpwUtWcB5zQjd81fs
+	q0LNGjhPAFR8cWMLqwLnK7j5EyNb+isnvT2bT2fk4SMxKnRwLovtnB28RA1lbO98Ke4B
+	MFvg==
+X-Gm-Message-State: AJaThX4JTp5T88Ibq5AI9xQvIt7j4UcLD80PT+IR4O3I2+oQ9+oIptwb
+	55obMRxyqlimNkg8qn22xMPBzg==
+X-Google-Smtp-Source: AGs4zMbxkFCa77Q+9Dc2DmzRb/MzKOCNu+3af7Shmk/EKGwBHQ+ZrEY7UcNMZeJdrGIkc/P2Iauofw==
+X-Received: by 10.200.54.236 with SMTP id b41mr9097612qtc.280.1510578146392;
+	Mon, 13 Nov 2017 05:02:26 -0800 (PST)
+Received: from localhost.localdomain ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	c132sm2900297lfe.37.2017.11.13.04.57.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 Nov 2017 04:57:17 -0800 (PST)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 13:57:14 +0100
-Message-Id: <20171113125714.21427-1-ricardo.ribalda@gmail.com>
+	u26sm1738964qtb.55.2017.11.13.05.02.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 13 Nov 2017 05:02:25 -0800 (PST)
+Received: by localhost.localdomain (sSMTP sendmail emulation);
+	Mon, 13 Nov 2017 11:02:17 -0200
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Nov 2017 11:02:16 -0200
+Message-Id: <20171113130216.19907-1-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] gcc-7.2: Fix libgfortran build
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mesa: Upgrade to 17.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,93 +49,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 12:57:18 -0000
+X-List-Received-Date: Mon, 13 Nov 2017 13:02:25 -0000
 
-Without this patch libbacktrace cannot be included/link during
-libgfortran build.
+This upgrades the recipe to 17.2.5 bugfix release.
 
-libbtool: link: cannot find the library
-`../libbacktrace/libbacktrace.la'
-or unhandled argument `../libbacktrace/libbacktrace.la
+The changes can be seen at:
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+https://www.mesa3d.org/relnotes/17.2.5.html
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-devtools/gcc/gcc-7.2.inc              |  1 +
- .../gcc/gcc-7.2/0051-Fix-gfortran-build.patch      | 53 ++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2.inc b/meta/recipes-devtools/gcc/gcc-7.2.inc
-index 1d40cba73175..ae3ed02d6ce3 100644
---- a/meta/recipes-devtools/gcc/gcc-7.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-7.2.inc
-@@ -75,6 +75,7 @@ SRC_URI = "\
-            file://0048-gcc-Enable-static-PIE.patch \
-            file://fix-segmentation-fault-precompiled-hdr.patch \
-            file://0050-RISC-V-Handle-non-legitimate-address-in-riscv_legiti.patch \
-+	   file://0051-Fix-gfortran-build.patch \
-            ${BACKPORTS} \
- "
- BACKPORTS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
-new file mode 100644
-index 000000000000..a71b6b0bee0e
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-7.2/0051-Fix-gfortran-build.patch
-@@ -0,0 +1,53 @@
-+Without this patch libbacktrace cannot be included/link during
-+libgfortran build.
-+
-+libbtool: link: cannot find the library `../libbacktrace/libbacktrace.la'
-+or unhandled argument `../libbacktrace/libbacktrace.la'
-+
-+Upstream-Status: Inappropriate [OE specific]
-+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-+
-+diff --git a/libgfortran/Makefile.am b/libgfortran/Makefile.am
-+index 2857af5943f9..e07760069a3c 100644
-+--- a/libgfortran/Makefile.am
-++++ b/libgfortran/Makefile.am
-+@@ -37,7 +37,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-+ toolexeclib_DATA = libgfortran.spec
-+ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-+ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-+-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-+ 	$(HWCAP_LDFLAGS) \
-+ 	-lm $(extra_ldflags_libgfortran) \
-+ 	$(version_arg) -Wc,-shared-libgcc
-+@@ -64,7 +64,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-+ 	      -I$(MULTIBUILDTOP)../libgcc \
-+ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-+ 	      -I$(MULTIBUILDTOP)../libbacktrace \
-+-	      -I../libbacktrace
-++	      -I../../libbacktrace
-+ 
-+ # Fortran rules for complex multiplication and division
-+ AM_CFLAGS += -fcx-fortran-rules
-+diff --git a/libgfortran/Makefile.in b/libgfortran/Makefile.in
-+index 05b183dcadb0..c9e0280e412c 100644
-+--- a/libgfortran/Makefile.in
-++++ b/libgfortran/Makefile.in
-+@@ -581,7 +581,7 @@ toolexeclib_LTLIBRARIES = libgfortran.la
-+ toolexeclib_DATA = libgfortran.spec
-+ libgfortran_la_LINK = $(LINK) $(libgfortran_la_LDFLAGS)
-+ libgfortran_la_LDFLAGS = -version-info `grep -v '^\#' $(srcdir)/libtool-version` \
-+-	$(LTLDFLAGS) $(LIBQUADLIB) ../libbacktrace/libbacktrace.la \
-++	$(LTLDFLAGS) $(LIBQUADLIB) ../../libbacktrace/libbacktrace.la \
-+ 	$(HWCAP_LDFLAGS) \
-+ 	-lm $(extra_ldflags_libgfortran) \
-+ 	$(version_arg) -Wc,-shared-libgcc
-+@@ -602,7 +602,7 @@ AM_CPPFLAGS = -iquote$(srcdir)/io -I$(srcdir)/$(MULTISRCTOP)../gcc \
-+ 	      -I$(MULTIBUILDTOP)../libgcc \
-+ 	      -I$(srcdir)/$(MULTISRCTOP)../libbacktrace \
-+ 	      -I$(MULTIBUILDTOP)../libbacktrace \
-+-	      -I../libbacktrace
-++	      -I../../libbacktrace
-+ 
-+ gfor_io_src = io/size_from_kind.c $(am__append_2)
-+ gfor_io_headers = \
+ meta/recipes-graphics/mesa/{mesa-gl_17.2.4.bb => mesa-gl_17.2.5.bb} | 0
+ meta/recipes-graphics/mesa/{mesa_17.2.4.bb => mesa_17.2.5.bb}       | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_17.2.4.bb => mesa-gl_17.2.5.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_17.2.4.bb => mesa_17.2.5.bb} (88%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.2.4.bb b/meta/recipes-graphics/mesa/mesa-gl_17.2.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_17.2.4.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_17.2.5.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_17.2.4.bb b/meta/recipes-graphics/mesa/mesa_17.2.5.bb
+similarity index 88%
+rename from meta/recipes-graphics/mesa/mesa_17.2.4.bb
+rename to meta/recipes-graphics/mesa/mesa_17.2.5.bb
+index 928cb920af..a111df216b 100644
+--- a/meta/recipes-graphics/mesa/mesa_17.2.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_17.2.5.bb
+@@ -12,8 +12,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
+            "
+ 
+-SRC_URI[md5sum] = "cf0b7a297eedd0549cda5ba071d7561f"
+-SRC_URI[sha256sum] = "5ba408fecd6e1132e5490eec1a2f04466214e4c65c8b89b331be844768c2e550"
++SRC_URI[md5sum] = "ba649f82a066f710aa23655254a83eb8"
++SRC_URI[sha256sum] = "7f7f914b7b9ea0b15f2d9d01a4375e311b0e90e55683b8e8a67ce8691eb1070f"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
 2.15.0
 
