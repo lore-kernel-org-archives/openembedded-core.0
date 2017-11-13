@@ -1,48 +1,18 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-wr0-f195.google.com (mail-wr0-f195.google.com
-	[209.85.128.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 90A4E7867F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 19:32:17 +0000 (UTC)
-Received: by mail-wr0-f195.google.com with SMTP id u40so15416756wrf.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 11:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=w5j6OZJj/SGaLXuSamsuVqnAxJOhJXXWjqNo5+8F08k=;
-	b=fBqwoWHtyUXCfCrcLdo1fPuzon70NssXP6ABYE0bHQEptO1tl6QKrWcSvcfCDrklxC
-	rDRcaNmVMSRN++E5Y4zV6rrwd6ff6XdfDgcAe+5eEZp9PZ1fRTGxCFCqq/oMKf9juU5v
-	KZJVu8HC71EgU7/teV32ormnRkBmHmTCjzi53REUebtz3Z9Os/CX114l74wgZId9aj36
-	y7JfhJzmEtvZe7SxZjZvizfjoYnUgdDjLfqP6dBpYCbfimFK0ArAaype9HAdTLEnmkgG
-	mOS5mchTISyzRSeEWcE0tk23k15jmHIMHFN2nriIKf6FOWKluJwXyZynpLD3BXPkM/nu
-	JMsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=w5j6OZJj/SGaLXuSamsuVqnAxJOhJXXWjqNo5+8F08k=;
-	b=gtgpnNdP7PGbQdnU0jLPcn7bXGUM90r/JKprYU7eR4nd7iwgwS0BLZ/CIIrHOGrizq
-	IV1gcAM+tNG7Du1qnng66W/U65A+Ia2AkXdCJI4QrPPbkGa1dcPbdVjk8HU0SflgvqiN
-	BgJaIccmDk9NLXVLIH9iraWfqjzNjETfVcYtc6CJ1MrrGk6kNuV8v6/MOOYoQiin4oV9
-	ewt7Xlb8MDYHp2qof/rDUrO1pdc9XDjI3OEN0gecg/Ri81HeQLQgbc557HGME3zqpMU/
-	666fsBMicVCfSFx53wlWlxzA2danHW0wVCRq2Gt5vW3VQrOBGARYWdpog0djBgwWk9Fe
-	3x4Q==
-X-Gm-Message-State: AJaThX6UfZ1RyW5IX6jP8kDWeWa0FI39g67f+KZJaovc7K8DwAeMwATn
-	NplqTcs/5bGN5yvJoTVNx8xHxl1U
-X-Google-Smtp-Source: AGs4zMahNxdxg6Jo8ISCCdezNFZ8EVavUBZLRcUh7sBWJNiu1npELHTkVLZTdqXUlPPLUeA9f1R+zQ==
-X-Received: by 10.223.128.162 with SMTP id 31mr8312998wrl.258.1510601537888;
-	Mon, 13 Nov 2017 11:32:17 -0800 (PST)
-Received: from sgxcmp483.sigfox.io (ram31-1-82-234-79-177.fbx.proxad.net.
-	[82.234.79.177]) by smtp.gmail.com with ESMTPSA id
-	g65sm16418242wmd.16.2017.11.13.11.32.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 13 Nov 2017 11:32:17 -0800 (PST)
-Sender: Thomas PERROT <vomegaz@gmail.com>
-From: Thomas Perrot <thomas.perrot@tupi.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 20:32:13 +0100
-Message-Id: <20171113193213.28208-1-thomas.perrot@tupi.fr>
-X-Mailer: git-send-email 2.13.6
-Subject: [PATCH] kernel-fitimage: Fix bad image type replacement for aarch64
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 43430786B9;
+	Mon, 13 Nov 2017 19:39:29 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Martyn Welch <martyn.welch@collabora.co.uk>
+Date: Mon, 13 Nov 2017 19:39:31 -0000
+Message-ID: <20171113193931.2786.66302@do.openembedded.org>
+References: <1510600788-27455-1-git-send-email-martyn.welch@collabora.co.uk>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1510600788-27455-1-git-send-email-martyn.welch@collabora.co.uk>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gcGFja2FnZS5iYmNsYXNzOiBhZGQgcHJvaC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 19:32:18 -0000
+X-List-Received-Date: Mon, 13 Nov 2017 19:39:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
+== Series Details ==
+
+Series: "[v2] package.bbclass: add proh..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9760/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     yocto@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/]
+  Patch's path:    documentation/ref-manual/ref-classes.xml
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a17f3ec910)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/kernel-fitimage.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index 179185b6b2..9baf399f2e 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -7,9 +7,12 @@ python __anonymous () {
-         depends = "%s u-boot-mkimage-native dtc-native" % depends
-         d.setVar("DEPENDS", depends)
- 
--        if d.getVar("UBOOT_ARCH") == "mips":
-+        uarch = d.getVar("UBOOT_ARCH")
-+        if uarch == "arm64":
-+            replacementtype = "Image"
-+        elif uarch == "mips":
-             replacementtype = "vmlinuz.bin"
--        elif d.getVar("UBOOT_ARCH") == "x86":
-+        elif uarch == "x86":
-             replacementtype = "bzImage"
-         else:
-             replacementtype = "zImage"
--- 
-2.13.6
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
