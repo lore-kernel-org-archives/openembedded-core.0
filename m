@@ -1,47 +1,24 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EAE8178687
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D513C7866D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 16:06:23 +0000 (UTC)
-Received: by mail-wm0-f68.google.com with SMTP id b189so9068339wmd.5
+	Mon, 13 Nov 2017 16:28:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vADGSbNf018018
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 08:06:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=sFPGMFUhGKYEJsNM0WqJ7zdc5BPx4Dz3jtMap+2ZldU=;
-	b=ZrY+/7FKIvnEMIYM4D6DHxZH1AopSUMTarI1PspqbsJ8pr5ubBwFJWqGHc1lS0c0WY
-	h1B73Ft9TNX3DzhKivj9S3eG4g9FHYdXj8yX8VzhhiXN67H7Dq9zS5lX7++WZh1ja1d8
-	qMwSzb1FEn+a+piagiuZj9Vg8Ir+nNylMBSOqb3lfL/OjzD05ty8XbaPWF5MVgKPmYqb
-	uWl0TPacNYDeuAu+ka3yFWTV9RQvLSh/tFUIBd8NjQ+m2hAtCJ419omVG2I2vQBA1RdG
-	wxzS25bj3T2RbTsS2uZ3chKmKK43WJHzIsb+ei/mUyRUV+CATXQyFjDFWV54t2EYtVio
-	jXag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=sFPGMFUhGKYEJsNM0WqJ7zdc5BPx4Dz3jtMap+2ZldU=;
-	b=tPY/vRpxsPd5jKQGbvTCqZWWfoZb4F6El93jMm7RS6pICzwFqxQ2+tIFIT8lYrJNRw
-	5ANz3mtW0W9X5RK/7VsXj031pPWnr/rMtcTeNxqyPwy5mXn9wIPoxk3zCBCyLBmtOrBC
-	jA98g4wcnRpIOKAc7HgUlpt2Hf+nnm8UVMcMnynySPBqbuF+3PgGTwfQUr6COzrHLSCL
-	6sJw2wIq52Rg1np82vaLd7LRdRYJYVCnFr8ay1irJtvxL0Df7xP5Tyy0y2uHt4qD2n38
-	s901wWEzXVlgqabnak6cVHa2BzTf92KWzpWvp81CJcrH9+5eBY9GjSwLdD2c0lvkEzez
-	xZLw==
-X-Gm-Message-State: AJaThX58KVPSE4+URPIQfBGkPHgC1+O4eYdJbB2v4QbOcHd/wqkRtD+a
-	ocCkBUAjBqSPLoxJHTJ9RRdmPw==
-X-Google-Smtp-Source: AGs4zMZbhCP8lp0RYtcQqQUcZfP7py7lN6Pci5iIEfSigLJzzW7GPA434H0euCwiVC0lsAGaIRAcXQ==
-X-Received: by 10.80.207.195 with SMTP id i3mr13676745edk.55.1510589184158;
-	Mon, 13 Nov 2017 08:06:24 -0800 (PST)
-Received: from ip-172-31-1-64.ap-northeast-2.compute.internal
-	(ec2-13-124-121-69.ap-northeast-2.compute.amazonaws.com.
-	[13.124.121.69]) by smtp.gmail.com with ESMTPSA id
-	z56sm5172454edb.72.2017.11.13.08.06.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 Nov 2017 08:06:23 -0800 (PST)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 16:06:16 +0000
-Message-Id: <1510589176-84322-1-git-send-email-changhyeok.bae@gmail.com>
+	Mon, 13 Nov 2017 08:28:37 -0800 (PST)
+Received: from yow-cube2.wrs.com (128.224.56.99) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 13 Nov 2017 08:28:37 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Nov 2017 11:28:30 -0500
+Message-ID: <1510590512-17590-1-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] iproute2: upgrade to 4.13
+MIME-Version: 1.0
+Subject: [PATCH 1/3] utils: qemurunner.py: Add wall clock to 'timeout' logging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,163 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 16:06:24 -0000
+X-List-Received-Date: Mon, 13 Nov 2017 16:28:37 -0000
+Content-Type: text/plain
 
-- 0001-include-stdint.h-explicitly-for-UINT16_MAX.patch is already
-  applied to upstream.
-- Rebase two patches.
+When debugging issues when timeouts are involved it is always best to
+have wall clock times included. This helps give confidence that the
+timeout is in fact run down at the right rate and that no unexpected
+events were the true cause of a premature running down of the
+timeout. Having these times in old logs also helps when debugging
+issues as we have a historic record as to what is a 'typical' time to
+complete an action.
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+In addition to adding the wall clock times the time to 'login' is now
+printed making it consistent with the time to 'qemu pid'.
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- ...nclude-stdint.h-explicitly-for-UINT16_MAX.patch | 32 ----------------------
- .../iproute2/0001-ip-Remove-unneed-header.patch    | 16 +++++------
- .../iproute2/0001-iproute2-de-bash-scripts.patch   | 11 ++++----
- .../{iproute2_4.11.0.bb => iproute2_4.13.0.bb}     |  5 ++--
- 4 files changed, 15 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-include-stdint.h-explicitly-for-UINT16_MAX.patch
- rename meta/recipes-connectivity/iproute2/{iproute2_4.11.0.bb => iproute2_4.13.0.bb} (66%)
+ meta/lib/oeqa/utils/qemurunner.py | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-include-stdint.h-explicitly-for-UINT16_MAX.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-include-stdint.h-explicitly-for-UINT16_MAX.patch
-deleted file mode 100644
-index eb0c0ab..0000000
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-include-stdint.h-explicitly-for-UINT16_MAX.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 3c885d87befc706bb923933b9819de6fe2de897e Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 20 May 2017 14:03:19 -0700
--Subject: [PATCH] include stdint.h explicitly for UINT16_MAX)
--
--Fixes
--| tc_core.c:190:29: error: 'UINT16_MAX' undeclared (first use in this function); did you mean '__INT16_MAX__'?
--|    if ((sz >> s->size_log) > UINT16_MAX) {
--|                              ^~~~~~~~~~
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- tc/tc_core.c | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/tc/tc_core.c b/tc/tc_core.c
--index 7bbe0d7..821b741 100644
----- a/tc/tc_core.c
--+++ b/tc/tc_core.c
--@@ -12,6 +12,7 @@
-- 
-- #include <stdio.h>
-- #include <stdlib.h>
--+#include <stdint.h>
-- #include <unistd.h>
-- #include <syslog.h>
-- #include <fcntl.h>
---- 
--2.13.0
--
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
-index a9f8db6..a9027c5 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
-@@ -1,6 +1,6 @@
--From f58fc99c88a54135e55a6e0956ce8ae71078d1cc Mon Sep 17 00:00:00 2001
-+From 02ed10fc5215c4a32e6740b0a0c2439659be6801 Mon Sep 17 00:00:00 2001
- From: Changhyeok Bae <changhyeok.bae@gmail.com>
--Date: Mon, 12 Jun 2017 04:29:07 +0000
-+Date: Mon, 13 Nov 2017 15:59:35 +0000
- Subject: [PATCH] ip: Remove unneed header
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 82335d8..2121a0d 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -194,7 +194,8 @@ class QemuRunner:
+             sys.exit(0)
  
- Fix redefinition of struct ethhdr with a suitably patched musl libc
-@@ -8,23 +8,23 @@ that suppresses the kernel if_ether.h.
+         self.logger.debug("runqemu started, pid is %s" % self.runqemu.pid)
+-        self.logger.debug("waiting at most %s seconds for qemu pid" % self.runqemutime)
++        self.logger.debug("waiting at most %s seconds for qemu pid (%s)" %
++                          (self.runqemutime, time.strftime("%D %H:%M:%S")))
+         endtime = time.time() + self.runqemutime
+         while not self.is_alive() and time.time() < endtime:
+             if self.runqemu.poll():
+@@ -208,7 +209,8 @@ class QemuRunner:
+             time.sleep(0.5)
  
- Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+         if not self.is_alive():
+-            self.logger.error("Qemu pid didn't appear in %s seconds" % self.runqemutime)
++            self.logger.error("Qemu pid didn't appear in %s seconds (%s)" %
++                              (self.runqemutime, time.strftime("%D %H:%M:%S")))
+             # Dump all processes to help us to figure out what is going on...
+             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command '], stdout=subprocess.PIPE).communicate()[0]
+             processes = ps.decode("utf-8")
+@@ -225,7 +227,9 @@ class QemuRunner:
+         # We are alive: qemu is running
+         out = self.getOutput(output)
+         netconf = False # network configuration is not required by default
+-        self.logger.debug("qemu started in %s seconds - qemu procces pid is %s" % (time.time() - (endtime - self.runqemutime), self.qemupid))
++        self.logger.debug("qemu started in %s seconds - qemu procces pid is %s (%s)" %
++                          (time.time() - (endtime - self.runqemutime),
++                           self.qemupid, time.strftime("%D %H:%M:%S")))
+         if get_ip:
+             cmdline = ''
+             with open('/proc/%s/cmdline' % self.qemupid) as p:
+@@ -269,7 +273,8 @@ class QemuRunner:
+             return False
  
--Upstream-Status: Submitted [netdev@vger.kernel.org]
-+Upstream-Status: Pending [netdev@vger.kernel.org]
- ---
-  ip/iplink_bridge.c | 1 -
-  1 file changed, 1 deletion(-)
+         self.logger.debug("Output from runqemu:\n%s", out)
+-        self.logger.debug("Waiting at most %d seconds for login banner" % self.boottime)
++        self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
++                          (self.boottime, time.strftime("%D %H:%M:%S")))
+         endtime = time.time() + self.boottime
+         socklist = [self.server_socket]
+         reachedlogin = False
+@@ -300,7 +305,9 @@ class QemuRunner:
+                                 self.server_socket = qemusock
+                                 stopread = True
+                                 reachedlogin = True
+-                                self.logger.debug("Reached login banner")
++                                self.logger.debug("Reached login banner in %s seconds (%s)" %
++                                                  (time.time() - (endtime - self.boottime),
++                                                  time.strftime("%D %H:%M:%S")))
+                         except UnicodeDecodeError:
+                             continue
+                     else:
+@@ -310,7 +317,8 @@ class QemuRunner:
  
- diff --git a/ip/iplink_bridge.c b/ip/iplink_bridge.c
--index 818b43c..f065b22 100644
-+index cccdec1..f065b22 100644
- --- a/ip/iplink_bridge.c
- +++ b/ip/iplink_bridge.c
--@@ -15,7 +15,6 @@
-+@@ -13,7 +13,6 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-  #include <netinet/in.h>
-+-#include <netinet/ether.h>
-  #include <linux/if_link.h>
-  #include <linux/if_bridge.h>
---#include <netinet/ether.h>
-  #include <net/if.h>
-- 
-- #include "rt_names.h"
- -- 
- 2.7.4
  
-diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
-index 39c7d40..c3d3fea 100644
---- a/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
-+++ b/meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
-@@ -5,14 +5,13 @@ de-bash these two scripts to make iproute2 not depend on bash.
- Upstream-Status: Pending
- 
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
--
- ---
-- ip/ifcfg |   15 ++++++++-------
-- ip/rtpr  |    2 +-
-+ ip/ifcfg | 15 ++++++++-------
-+ ip/rtpr  |  2 +-
-  2 files changed, 9 insertions(+), 8 deletions(-)
- 
- diff --git a/ip/ifcfg b/ip/ifcfg
--index 083d9df..60bcf1f 100644
-+index 30a2dc4..8677b2e 100644
- --- a/ip/ifcfg
- +++ b/ip/ifcfg
- @@ -1,12 +1,13 @@
-@@ -43,7 +42,7 @@ index 083d9df..60bcf1f 100644
- -ip route add unreachable 255.255.255.255 >& /dev/null
- +ip route add unreachable 224.0.0.0/24 > /dev/null 2>&1
- +ip route add unreachable 255.255.255.255 > /dev/null 2>&1
-- if [ `ip link ls $dev | grep -c MULTICAST` -ge 1 ]; then
-+ if [ "`ip link ls $dev | grep -c MULTICAST`" -ge 1 ]; then
- -  ip route add 224.0.0.0/4 dev $dev scope global >& /dev/null
- +  ip route add 224.0.0.0/4 dev $dev scope global > /dev/null 2>&1
-  fi
-@@ -60,5 +59,5 @@ index c3629fd..674198d 100644
-  exec tr "[\\\\]" "[
-  ]"
- -- 
--1.7.9.5
-+2.7.4
- 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb b/meta/recipes-connectivity/iproute2/iproute2_4.13.0.bb
-similarity index 66%
-rename from meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
-rename to meta/recipes-connectivity/iproute2/iproute2_4.13.0.bb
-index dbd0545..32bf0d5 100644
---- a/meta/recipes-connectivity/iproute2/iproute2_4.11.0.bb
-+++ b/meta/recipes-connectivity/iproute2/iproute2_4.13.0.bb
-@@ -4,12 +4,11 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
-            file://configure-cross.patch \
-            file://0001-iproute2-de-bash-scripts.patch \
-            file://0001-libc-compat.h-add-musl-workaround.patch \
--           file://0001-include-stdint.h-explicitly-for-UINT16_MAX.patch \
-            file://0001-ip-Remove-unneed-header.patch \
-           "
- 
--SRC_URI[md5sum] = "7a9498de88bcca95c305df6108ae197e"
--SRC_URI[sha256sum] = "72671028bda696d0cb8f48ec8e702581c3a501caeed33eec3a81d7041cbc8026"
-+SRC_URI[md5sum] = "69dc9e3ece3296890278f0de478330c8"
-+SRC_URI[sha256sum] = "9cfb81edf8c8509e03daa77cf62aead01c4a827132f6c506578f94cc19415c50"
- 
- # CFLAGS are computed in Makefile and reference CCOPTS
- #
+         if not reachedlogin:
+-            self.logger.debug("Target didn't reached login boot in %d seconds" % self.boottime)
++            self.logger.debug("Target didn't reached login boot in %d seconds (%s)" %
++                              (self.boottime, time.strftime("%D %H:%M:%S")))
+             tail = lambda l: "\n".join(l.splitlines()[-25:])
+             # in case bootlog is empty, use tail qemu log store at self.msg
+             lines = tail(bootlog if bootlog else self.msg)
 -- 
 2.7.4
 
