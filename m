@@ -1,17 +1,21 @@
 Return-Path: <martyn.welch@collabora.co.uk>
+X-Greylist: delayed 347 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 13 Nov 2017 19:25:47 UTC
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	by mail.openembedded.org (Postfix) with ESMTP id DEC0678558
+	by mail.openembedded.org (Postfix) with ESMTP id DFB977867C
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 Nov 2017 19:25:47 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: martyn) with ESMTPSA id 5AA64260FE3
+	(Authenticated sender: martyn) with ESMTPSA id 6D48526E9A6
 From: Martyn Welch <martyn.welch@collabora.co.uk>
 To: yocto@yoctoproject.org,
 	openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 19:19:47 +0000
-Message-Id: <1510600788-27455-1-git-send-email-martyn.welch@collabora.co.uk>
+Date: Mon, 13 Nov 2017 19:19:48 +0000
+Message-Id: <1510600788-27455-2-git-send-email-martyn.welch@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2 1/2] package.bbclass: add prohibited-path qa test
+In-Reply-To: <1510600788-27455-1-git-send-email-martyn.welch@collabora.co.uk>
+References: <1510600788-27455-1-git-send-email-martyn.welch@collabora.co.uk>
+Subject: [PATCH v2 2/2] ref-manual: Add documentation for prohibited-path QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,64 +30,71 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 13 Nov 2017 19:25:48 -0000
 
-Sometimes we wish to ensure that packages don't install files or
-directories somewhere that may prove detrimental to the operation of the
-system. For example, this may be the case if files are placed in a
-directory that is utilised as a mount point at run time, thus making them
-inaccessible once when the mount point is being utilised.
+Add documentation for the prohibited-path QA test and associated
+PROHIBITED_PATH variable.
 
-Implement the prohibited-path QA test, which enables such locations to be
-specified in a "PROHIBITED_PATH" variable. This implementation allows for
-exact matches and simple wildcards (paths ending with an asterisk. An
-error will be raised should a match be found, or in the case of a
-wildcard, for any files added below the specificed location(s).
-
-Signed-off-by: Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>
 Signed-off-by: Martyn Welch <martyn.welch@collabora.co.uk>
 ---
 
 Changes since v1:
  - Correcting author and SOB.
 
- meta/classes/insane.bbclass  |  2 +-
- meta/classes/package.bbclass | 11 +++++++++++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ documentation/ref-manual/ref-classes.xml   |  5 +++++
+ documentation/ref-manual/ref-variables.xml | 25 +++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index def9c70..fb10681 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -33,7 +33,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-             split-strip packages-list pkgv-undefined var-undefined \
-             version-going-backwards expanded-d invalid-chars \
--            license-checksum dev-elf file-rdeps \
-+            license-checksum dev-elf file-rdeps prohibited-path \
-             "
- # Add usrmerge QA check based on distro feature
- ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2053d46..721ca1e 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1162,6 +1162,17 @@ python populate_packages () {
-                 continue
-             seen.append(file)
+diff --git a/documentation/ref-manual/ref-classes.xml b/documentation/ref-manual/ref-classes.xml
+index 5961d3e..15f5586 100644
+--- a/documentation/ref-manual/ref-classes.xml
++++ b/documentation/ref-manual/ref-classes.xml
+@@ -1714,6 +1714,11 @@
+                 <filename>FILES_${PN} = "xyz"</filename> effectively turn into
+                 <filename>FILES = "xyz"</filename>.
+                 </para></listitem>
++            <listitem><para><emphasis><filename>prohibited-path:</filename></emphasis>
++                Checks that a recipe does not package and files in locations
++                specified in
++                <link linkend='var-PROHIBITED_PATH'><filename>PROHIBITED_PATH</filename></link>.
++                </para></listitem>
+            <listitem><para><emphasis><filename>rpaths:</filename></emphasis>
+                 Checks for rpaths in the binaries that contain build system paths such
+                 as <filename>TMPDIR</filename>.
+diff --git a/documentation/ref-manual/ref-variables.xml b/documentation/ref-manual/ref-variables.xml
+index e31aa21..0bdbbba 100644
+--- a/documentation/ref-manual/ref-variables.xml
++++ b/documentation/ref-manual/ref-variables.xml
+@@ -10820,6 +10820,31 @@ recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
+             </glossdef>
+         </glossentry>
  
-+            prohibited_path = d.getVar('PROHIBITED_PATH')
-+            if prohibited_path is not None:
-+                for p in prohibited_path.split():
-+                    exactmatch = True
-+                    if p.endswith("*"):
-+                        p = p[:len(p)-1]
-+                        exactmatch = False
-+                    if file[1:].startswith(p) and ((file[1:] != p) or exactmatch) :
-+                        msg = "%s is in a prohibited path.\n" % file[1:]
-+                        package_qa_handle_error("prohibited-path", msg, d)
++        <glossentry id='var-PROHIBITED_PATH'><glossterm>PROHIBITED_PATH</glossterm>
++            <info>
++                PROHIBITED_PATH[doc] = "A list of paths in which recipes are prohibited from installing."
++            </info>
++            <glossdef>
++                <para role="glossdeffirst">
++<!--                <para role="glossdeffirst"><imagedata fileref="figures/define-generic.png" /> -->
++                    A list of paths in which recipes are prohibited from
++                    installing.
++                    Paths can be provided for specific locations or may include
++                    a wildcard asterisk at the end to ensure nothing is
++                    installed under the path provided.
++                </para>
 +
-             def mkdir(src, dest, p):
-                 src = os.path.join(src, p)
-                 dest = os.path.join(dest, p)
++                <para>
++                    For example, the following
++                    <filename>PROHIBITED_PATH</filename> ensures no packages
++                    install anything under <filename>/mnt</filename>:
++                    <literallayout class='monospaced'>
++     PROHIBITED_PATH += "/mnt/*"
++                    </literallayout>
++                </para>
++            </glossdef>
++        </glossentry>
++
+         <glossentry id='var-PROVIDES'><glossterm>PROVIDES</glossterm>
+             <info>
+                 PROVIDES[doc] = "A list of aliases that a recipe also provides. These aliases are useful for satisfying dependencies of other recipes during the build as specified by DEPENDS."
 -- 
 2.1.4
 
