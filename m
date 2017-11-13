@@ -1,42 +1,54 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
-	[209.85.216.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 96E5C7866D
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C5307855A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 13:02:25 +0000 (UTC)
-Received: by mail-qt0-f194.google.com with SMTP id r39so3067817qtr.13
+	Mon, 13 Nov 2017 14:48:11 +0000 (UTC)
+Received: by mail-wr0-f176.google.com with SMTP id y42so14665380wrd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 05:02:27 -0800 (PST)
+	Mon, 13 Nov 2017 06:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:mime-version:content-transfer-encoding;
+	bh=fY7bwfN9IcvovxDtDwBNp9sGSXv8Nz+SxS/Q+t4/bu4=;
+	b=WL2YNA6uJPtScgoa6K8QFYx0sHfADI8hu1qlHImKXCmzTUDLPIKtwctAzMqM95cUnl
+	7vssRE1gNdmk0Xyph2MHjGScY9lAUHJDLrRAMBl9epPBX8LV4cZJ5gR5litJe2p3LQMQ
+	IcQj2bw0iWrZK+e42xMj6m47NBLmjfTqK06vnL+Rwghf/vwbcYgRaZWwegyWvtsH2p6+
+	s7+AfMNl0DK0SmKX7sqbZGsIkak89jOXzgFCCUNBQivmgp0WJA+M0HoX4yJxMjo4ds4K
+	aZlGXDqXfgCsST5PsiG+H6HU5yZa8ofvX7mTDqfeYSGxA0Tl2LB7zxzSR71LjgWTT/Vv
+	eHeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=gXaKmXtebbyVEbDxlV2umj/w5pAZB02fQwF5QWoh9o0=;
-	b=ag5m8d5moVNusI8RDYaa+cnwSHh4Q5Ny/mWiQho5MEdiG7xRO8cvpy1GyQHvjV3vST
-	xcqoZmobcxWeLN5MviR4V6L8I5bzS3PwcCmhRrzaxs5kvSO+LPdCF281e161SRThrWv/
-	VXD+duYvP0YFBr1a4ECgDVKF7g4nrBt6QXxQljaXkr6nFneKTl0rXRER/ojoBgBCTt6b
-	GWUjSu0n1xr1zgbnF4qE3W8Dx0n/Uq7fBdNVjliQbAkbc4BcQiZFpwUtWcB5zQjd81fs
-	q0LNGjhPAFR8cWMLqwLnK7j5EyNb+isnvT2bT2fk4SMxKnRwLovtnB28RA1lbO98Ke4B
-	MFvg==
-X-Gm-Message-State: AJaThX4JTp5T88Ibq5AI9xQvIt7j4UcLD80PT+IR4O3I2+oQ9+oIptwb
-	55obMRxyqlimNkg8qn22xMPBzg==
-X-Google-Smtp-Source: AGs4zMbxkFCa77Q+9Dc2DmzRb/MzKOCNu+3af7Shmk/EKGwBHQ+ZrEY7UcNMZeJdrGIkc/P2Iauofw==
-X-Received: by 10.200.54.236 with SMTP id b41mr9097612qtc.280.1510578146392;
-	Mon, 13 Nov 2017 05:02:26 -0800 (PST)
-Received: from localhost.localdomain ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	u26sm1738964qtb.55.2017.11.13.05.02.23
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=fY7bwfN9IcvovxDtDwBNp9sGSXv8Nz+SxS/Q+t4/bu4=;
+	b=W4caT1TvFJJtR6BfsuXt56huxXX74NW/dpQSex5yssJruhQhOV8SZY/xdm4mRwpMdt
+	a5JRW4aZ4XATjsWoapXNHe3CJlWsgwKR0cr8HQfs9fP7HwmIECPRWGqWSUdfLhjKP9NL
+	8wl1UkrVtCIS5mFS1/xLTuG/x3GL8XT9nL/YWCAcGJO32orlfc2/jeRUVKZnt3ZhZbdP
+	4cKIkOgJkhGZLuPvW5C451A1GXSBTtCSinaj18JLOI/7MT1fjyRk+J+r+3RbMi9HUsiC
+	UZmgJ9WzeyafpPiBcIYd65Ocs9PF4hVOvUuuNte+eLTxknnengWvNOs2lfNteLiJrzxx
+	XsFQ==
+X-Gm-Message-State: AJaThX7t52scG46mL0dNTy3RpYEJuX+r8OqoOADPcyjcdDnLVQC+wmbD
+	4tEvbPsDdM7plIEa9Rrje+AdmSU=
+X-Google-Smtp-Source: AGs4zMY0EY4d+B9jDwDcaTyiwa82yfthB+/S5DtLNmh44KZeQNILOPiue8HTmsPRM/wl+gQXudzOsA==
+X-Received: by 10.223.153.202 with SMTP id y68mr7299245wrb.216.1510584492725; 
+	Mon, 13 Nov 2017 06:48:12 -0800 (PST)
+Received: from pohly-mobl1 (p54BD5837.dip0.t-ipconnect.de. [84.189.88.55])
+	by smtp.gmail.com with ESMTPSA id 16sm4382590wrt.81.2017.11.13.06.48.11
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 13 Nov 2017 05:02:25 -0800 (PST)
-Received: by localhost.localdomain (sSMTP sendmail emulation);
-	Mon, 13 Nov 2017 11:02:17 -0200
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Nov 2017 11:02:16 -0200
-Message-Id: <20171113130216.19907-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.15.0
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] mesa: Upgrade to 17.2.5
+	Mon, 13 Nov 2017 06:48:11 -0800 (PST)
+Message-ID: <1510584490.22094.65.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Andre McCurdy <armccurdy@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 13 Nov 2017 15:48:10 +0100
+In-Reply-To: <1510293271-32407-1-git-send-email-armccurdy@gmail.com>
+References: <1510293271-32407-1-git-send-email-armccurdy@gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.22.6-1+deb9u1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] systemd: create wheel sysuser group offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +61,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 13:02:25 -0000
+X-List-Received-Date: Mon, 13 Nov 2017 14:48:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This upgrades the recipe to 17.2.5 bugfix release.
+On Thu, 2017-11-09 at 21:54 -0800, Andre McCurdy wrote:
+> The default systemd-tmpfiles config file expects to be able to create
+> files etc belonging to the wheel system group. Currently the wheel
+> group is created at run time by systemd-sysusers, but that doesn't
+> happen if systemd-sysusers is disabled (as it currently is by default
+> when building with musl libc).
 
-The changes can be seen at:
+Isn't this something that the systemd_create_users rootfs postprocess
+command in rootfs-postcommands.bbclass already takes care of?
 
-https://www.mesa3d.org/relnotes/17.2.5.html
+I know that it is has issues (https://bugzilla.yoctoproject.org/show_bu
+g.cgi?id=9789), but it should at least create the wheel group.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-
- meta/recipes-graphics/mesa/{mesa-gl_17.2.4.bb => mesa-gl_17.2.5.bb} | 0
- meta/recipes-graphics/mesa/{mesa_17.2.4.bb => mesa_17.2.5.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_17.2.4.bb => mesa-gl_17.2.5.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_17.2.4.bb => mesa_17.2.5.bb} (88%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_17.2.4.bb b/meta/recipes-graphics/mesa/mesa-gl_17.2.5.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_17.2.4.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_17.2.5.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_17.2.4.bb b/meta/recipes-graphics/mesa/mesa_17.2.5.bb
-similarity index 88%
-rename from meta/recipes-graphics/mesa/mesa_17.2.4.bb
-rename to meta/recipes-graphics/mesa/mesa_17.2.5.bb
-index 928cb920af..a111df216b 100644
---- a/meta/recipes-graphics/mesa/mesa_17.2.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_17.2.5.bb
-@@ -12,8 +12,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Makefile.vulkan.am-explictly-add-lib-expat-to-intel-.patch \
-            "
- 
--SRC_URI[md5sum] = "cf0b7a297eedd0549cda5ba071d7561f"
--SRC_URI[sha256sum] = "5ba408fecd6e1132e5490eec1a2f04466214e4c65c8b89b331be844768c2e550"
-+SRC_URI[md5sum] = "ba649f82a066f710aa23655254a83eb8"
-+SRC_URI[sha256sum] = "7f7f914b7b9ea0b15f2d9d01a4375e311b0e90e55683b8e8a67ce8691eb1070f"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
-2.15.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
 
 
