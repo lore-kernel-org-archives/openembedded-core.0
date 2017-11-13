@@ -1,48 +1,62 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 189DF7866D
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot0-f177.google.com (mail-ot0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A32C278695
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 17:15:03 +0000 (UTC)
-Received: by mail-io0-f177.google.com with SMTP id t11so2160200iof.13
+	Mon, 13 Nov 2017 17:15:36 +0000 (UTC)
+Received: by mail-ot0-f177.google.com with SMTP id g104so2170698otg.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 09:15:05 -0800 (PST)
+	Mon, 13 Nov 2017 09:15:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JEI0Ky4ZybdulM2R3BlTgcSTk9qRmr1QGcNsnWIFcd8=;
-	b=S0xlnMPftjE6ZsoFBtkMyibKq8WfSLW3uoTq3t8KyvXOnZXXQjOqvl0SvkNcmabY5R
-	md6NO4+vaXewgHpCYcDtP8XQ10vazBlCR55kqb/fszTUXV+sFwil+7HmLMssHqBbfeN0
-	U4Ml8iabRCoA3sasp2qQasEVM2koQxXsA3otvPmy/BT0Ks2FDr76hQ3N9mJ+eSAqhSzx
-	v99aSXOIFCRda67/Geo9LvN6mp/5I75cEoL7AmHw7e/5hZCfVLKgPc6x9STc4ownjEZ/
-	6oFvG4A4FVmhB6EIHEhQQ07onrgnAqYqBv7f5lEro2uhv8BzmMWjoRFMayqqdI8zqs++
-	VIXQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:in-reply-to:references:date:message-id:subject:to
+	:cc; bh=8sELtamFvs4Mh/fvQRzxo6LTn30d/vH7Xm7D9TxFkzg=;
+	b=GZY0VxvAYaPjViqwZuYvWuIy6GLIPmMxrQDjHpjT0Bul4qcRIFmRweaJHns80WzA8g
+	qcVjJrYqToIWNR5N1i18C5IrvMK1aPFYfqZi5EbHOjyQaYONkXjCILuaXOLIFMzA0Uj9
+	vqNyh9PE13FeavtPTWA3M8NHP2a962eVFHlHLhVQ9w1AH9fotRZqJCSGTv0Hj/WFZv8d
+	s+qtTEQcmLZAVkc+Mq+CRrV4/cRdv0sco4ki+SAcTmTq5+RLmQKc5eyl41NiTfISRneb
+	YdAHUI+FHgoW8fcUkk2/StdpSSdtH1uY7DZ6xd1V8UbqCurrbNUkQjGsyUxStaRjcK+z
+	c4SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc;
-	bh=JEI0Ky4ZybdulM2R3BlTgcSTk9qRmr1QGcNsnWIFcd8=;
-	b=ZvOqlQpa5IDeUt8e2tJo9xo6jMNVmAsoZKheVHCYzp34Jai2mu1IFSU2MsitET+L+g
-	KtUQ8k+NFbkXzOayNcdK00pPSVsGYWOE1We+OlakH/Zj5alepgqpQOPCMYtxxbVnC1dg
-	P3B+F9ofzK2V8XJ+iveAmUp34lAM2KdBlkMj5u8V8xGExBZY2c7IVyFUOU/rtj9tYzvw
-	yjzoHF+ACPeiF2niizrHpSSFOLLM9O1fzpWgGFM3HiJbn88QCf+rSAf3D194bBHzSlQF
-	LMUfFfCG93jOFQmo812xo71B65OSsgCgfRNOHLgEQEq/W+SlruZCBR4+1QnO31GVINZx
-	4vtw==
-X-Gm-Message-State: AJaThX7iy9g2C3qtvucNi/nBtp6f+dV0LlSr5H2UMabbuIts8tk3Pot+
-	yyjAjDXZFy8mMTIQB+e9Sbipj5qBECSYQIjDxUhnXg==
-X-Google-Smtp-Source: AGs4zMYk0i00WdF+oCpszCCT7jI0s3/tC7WCf+ITte61AIt7Fo3WaH+m041iUfAvCKVWg1tLlb40Dudondlr33WKd7Y=
-X-Received: by 10.107.11.228 with SMTP id 97mr7582318iol.227.1510593303991;
-	Mon, 13 Nov 2017 09:15:03 -0800 (PST)
+	bh=8sELtamFvs4Mh/fvQRzxo6LTn30d/vH7Xm7D9TxFkzg=;
+	b=ncVEJdpbd80h1DdqvV3Y9koRSIA2B+FH40Ub35dXoPd/LHRL2Tn7p75gecxROyNoYK
+	BrqNF4WREIA8Nk5LIGvfZKaxJSOkl2XKiPxehuqDCw7kpqkcsYMTIcVQ16JQeQyffBUY
+	6JICEXXfr87K7TVxLi3HRcnh2BLfft3XEoibKdHLynBzzUbf0XS63e/g2zF8f1/K52gt
+	0HbaiMmN5gWwnLNhky+pGY5JRE0cq+IIceKIempj3xTEhXUeRsos/X/M6aJC10z2LR8X
+	LSVvlXP9K2XlKnJk9yfFNnGYRTqcu2Yd2pJqwG2Mq5MPCsVJoOxrfvb0IlW//SKnN0tJ
+	D6ow==
+X-Gm-Message-State: AJaThX5nCFP9n0NPtuBHVjTOtzXAQn30D9s5mpIxh+TbhASIFf4h8Boe
+	K7TDY6tdWUlcOXZYcutKSWfyN78B
+X-Google-Smtp-Source: AGs4zMakbECvBKVDWqCgazUgdbioeH6rOOr/k0Kkhy/SZ/QdB6vD1IF1U0VitBC5iDJiUCysgfReQw==
+X-Received: by 10.157.20.71 with SMTP id h65mr2771508oth.58.1510593337483;
+	Mon, 13 Nov 2017 09:15:37 -0800 (PST)
+Received: from mail-oi0-f49.google.com (mail-oi0-f49.google.com.
+	[209.85.218.49])
+	by smtp.gmail.com with ESMTPSA id u9sm7973566ote.62.2017.11.13.09.15.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 Nov 2017 09:15:36 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi0-f49.google.com with SMTP id d65so2316857oig.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Nov 2017 09:15:36 -0800 (PST)
+X-Received: by 10.202.72.21 with SMTP id v21mr4490864oia.93.1510593335899;
+	Mon, 13 Nov 2017 09:15:35 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.107.171.196 with HTTP; Mon, 13 Nov 2017 09:14:43 -0800 (PST)
-In-Reply-To: <20171110155503.5356-1-alexander.kanavin@linux.intel.com>
-References: <20171110155503.5356-1-alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Nov 2017 17:14:43 +0000
-Message-ID: <CAJTo0La3ZPiunCQjWSPjymdmD381apFkJ0_7_89gOa7Uo+iWnA@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] package.bbclass: replace rpm/debugedit with dwarfsrcfiles
+Received: by 10.157.17.210 with HTTP; Mon, 13 Nov 2017 09:15:35 -0800 (PST)
+In-Reply-To: <20171112163923.19517-1-mac@mcrowe.com>
+References: <20171112163923.19517-1-mac@mcrowe.com>
+Date: Mon, 13 Nov 2017 15:15:35 -0200
+X-Gmail-Original-Message-ID: <CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
+Message-ID: <CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,699 +69,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 17:15:04 -0000
-Content-Type: multipart/alternative; boundary="001a113f7c144904ba055de069fb"
-
---001a113f7c144904ba055de069fb
+X-List-Received-Date: Mon, 13 Nov 2017 17:15:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I just had a build with these patches fail:
+On Sun, Nov 12, 2017 at 2:39 PM, Mike Crowe <mac@mcrowe.com> wrote:
+> With meta-micro, ${prefix} is the empty string. This means that
+> CMAKE_INSTALL_BINDIR:PATH and friends end up containing paths starting with
+> many instances of "../", presumably due to os.path.relpath attempting to
+> find its way to the current directory.
+>
+> Let's avoid this by ensuring that the root path always ends in a slash. If
+> it already ends in a slash then adding another one shouldn't cause any
+> problems.
+>
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
 
-ERROR: libice-1_1.0.9-r0 do_package: Error executing a python function in
-exec_python_func() autogenerated:
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:package_do_filedeps(d)
-     0003:
-File: '/home/ross/Yocto/poky/meta/classes/package.bbclass', lineno: 1500,
-function: package_do_filedeps
-     1496:            continue
-     1497:        for files in chunks(pkgfiles[pkg], 100):
-     1498:            pkglist.append((pkg, files, rpmdeps, pkgdest))
-     1499:
- *** 1500:    processed = oe.utils.multiprocess_exec( pkglist,
-oe.package.filedeprunner)
-     1501:
-     1502:    provides_files = {}
-     1503:    requires_files = {}
-     1504:
-File: '/home/ross/Yocto/poky/meta/lib/oe/utils.py', lineno: 240, function:
-multiprocess_exec
-     0236:        mapresult = pool.map_async(function, commands,
-error_callback=failures)
-     0237:
-     0238:        pool.close()
-     0239:        pool.join()
- *** 0240:        results = mapresult.get()
-     0241:    except KeyboardInterrupt:
-     0242:        pool.terminate()
-     0243:        pool.join()
-     0244:        raise
-File: '/usr/lib/python3.5/multiprocessing/pool.py', lineno: 608, function:
-get
-     0604:            raise TimeoutError
-     0605:        if self._success:
-     0606:            return self._value
-     0607:        else:
- *** 0608:            raise self._value
-     0609:
-     0610:    def _set(self, i, obj):
-     0611:        self._success, self._value = obj
-     0612:        if self._callback and self._success:
-Exception: FileNotFoundError: [Errno 2] No such file or directory:
-'/data/poky-tmp/master/build/work/corei7-64-poky-linux/libice/1_1.0.9-r0/recipe-sysroot-native/usr/lib/rpm/rpmdeps'
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-ERROR: libice-1_1.0.9-r0 do_package: Function failed: package_do_filedeps
-ERROR: Logfile of failure stored in:
-/data/poky-tmp/master/build/work/corei7-64-poky-linux/libice/1_1.0.9-r0/temp/log.do_package.4349
-ERROR: Task
-(/home/ross/Yocto/poky/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb:do_package)
-failed with exit code '1'
-
-On 10 November 2017 at 15:55, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
-
-> Debugedit provided by rpm 4.14 is rewriting binaries in-place, and was
-> found to produce broken output at least for grub:
-> http://lists.openembedded.org/pipermail/openembedded-core/
-> 2017-November/143989.html
->
-> A replacement utility was suggested via private mail:
-> https://lists.fedorahosted.org/archives/list/elfutils-
-> devel@lists.fedorahosted.org/message/VZP4G5N2ELYZEDAB3QYLXYHDGX4WMCUF/
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/classes/package.bbclass                       |  26 ++++-
->  .../dwarfsrcfiles/dwarfsrcfiles.bb                 |  22 ++++
->  .../dwarfsrcfiles/files/dwarfsrcfiles.c            | 111
-> +++++++++++++++++++++
->  3 files changed, 154 insertions(+), 5 deletions(-)
->  create mode 100644 meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
->  create mode 100644 meta/recipes-devtools/dwarfsrcfiles/files/
-> dwarfsrcfiles.c
->
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 2053d46395a..dd1cfa379b0 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -52,7 +52,8 @@ LOCALE_SECTION ?= ''
->  ALL_MULTILIB_PACKAGE_ARCHS = "${@all_multilib_tune_values(d,
-> 'PACKAGE_ARCHS')}"
->
->  # rpm is used for the per-file dependency identification
-> -PACKAGE_DEPENDS += "rpm-native"
-> +# dwarfsrcfiles is used to determine the list of debug source files
-> +PACKAGE_DEPENDS += "rpm-native dwarfsrcfiles-native"
->
->
->  # If your postinstall can execute at rootfs creation time rather than on
-> @@ -334,6 +335,16 @@ def checkbuildpath(file, d):
->
->      return False
->
-> +def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
-> +    debugfiles = {}
-> +
-> +    for line in dwarfsrcfiles_output.splitlines():
-> +        if line.startswith("\t"):
-> +            debugfiles[os.path.normpath(line.split()[0])] = ""
-> +
-> +    return debugfiles.keys()
-> +
-> +
->  def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
->      # Function to split a single file into two components, one is the
-> stripped
->      # target system binary, the other contains any debugging information.
-> The
-> @@ -345,7 +356,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir,
-> sourcefile, d):
->
->      dvar = d.getVar('PKGD')
->      objcopy = d.getVar("OBJCOPY")
-> -    debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/debugedit")
->
->      # We ignore kernel modules, we don't generate debug info files.
->      if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
-> @@ -359,10 +369,17 @@ def splitdebuginfo(file, debugfile, debugsrcdir,
-> sourcefile, d):
->
->      # We need to extract the debug src information here...
->      if debugsrcdir:
-> -        cmd = "'%s' -i -l '%s' '%s'" % (debugedit, sourcefile, file)
-> +        cmd = "'dwarfsrcfiles' '%s'" % (file)
->          (retval, output) = oe.utils.getstatusoutput(cmd)
->          if retval:
-> -            bb.fatal("debugedit failed with exit code %s (cmd was %s)%s"
-> % (retval, cmd, ":\n%s" % output if output else ""))
-> +            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was
-> %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
-> +
-> +        debugsources = parse_debugsources_from_
-> dwarfsrcfiles_output(output)
-> +        # filenames are null-separated - this is an artefact of the
-> previous use
-> +        # of rpm's debugedit, which was writing them out that way, and
-> the code elsewhere
-> +        # is still assuming that.
-> +        debuglistoutput = '\0'.join(debugsources) + '\0'
-> +        open(sourcefile, 'a').write(debuglistoutput)
->
->      bb.utils.mkdirhier(os.path.dirname(debugfile))
->
-> @@ -393,7 +410,6 @@ def copydebugsources(debugsrcdir, d):
->          dvar = d.getVar('PKGD')
->          strip = d.getVar("STRIP")
->          objcopy = d.getVar("OBJCOPY")
-> -        debugedit = d.expand("${STAGING_LIBDIR_
-> NATIVE}/rpm/bin/debugedit")
->          workdir = d.getVar("WORKDIR")
->          workparentdir = os.path.dirname(os.path.dirname(workdir))
->          workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" +
-> os.path.basename(workdir)
-> diff --git a/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-> b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-> new file mode 100644
-> index 00000000000..c59a006edae
-> --- /dev/null
-> +++ b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
-> @@ -0,0 +1,22 @@
-> +SUMMARY = "A small utility for printing debig source file locations
-> embedded in binaries"
-> +LICENSE = "GPLv2+"
-> +LIC_FILES_CHKSUM = "file://../dwarfsrcfiles.c;md5=
-> 31483894e453a77acbb67847565f1b5c;beginline=1;endline=8"
-> +
-> +SRC_URI = "file://dwarfsrcfiles.c"
-> +BBCLASSEXTEND = "native"
-> +DEPENDS = "elfutils"
-> +DEPENDS_append_libc-musl = " argp-standalone"
-> +
-> +do_compile () {
-> +       ${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c
-> -lelf -ldw
-> +}
-> +
-> +do_compile_libc-musl () {
-> +       ${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c
-> -lelf -ldw -largp
-> +}
-> +
-> +do_install () {
-> +       install -d ${D}${bindir}
-> +       install -t ${D}${bindir} dwarfsrcfiles
-> +}
-> +
-> diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-> b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-> new file mode 100644
-> index 00000000000..af7af524ebe
-> --- /dev/null
-> +++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
-> @@ -0,0 +1,111 @@
-> +// dwarfsrcfiles.c - Get source files associated with the dwarf in a elf
-> file.
-> +// gcc -Wall -g -O2 -lelf -ldw -o dwarfsrcfiles dwarfsrcfiles.c
-> +//
-> +// Copyright (C) 2011, Mark Wielaard <mjw@redhat.com>
-> +//
-> +// This file is free software.  You can redistribute it and/or modify
-> +// it under the terms of the GNU General Public License (GPL); either
-> +// version 2, or (at your option) any later version.
-> +
-> +#include <argp.h>
-> +#include <stdio.h>
-> +
-> +#include <dwarf.h>
-> +#include <elfutils/libdw.h>
-> +#include <elfutils/libdwfl.h>
-> +
-> +static int
-> +process_cu (Dwarf_Die *cu_die)
-> +{
-> +  Dwarf_Attribute attr;
-> +  const char *name;
-> +  const char *dir = NULL;
-> +
-> +  Dwarf_Files *files;
-> +  size_t n;
-> +  int i;
-> +
-> +  if (dwarf_tag (cu_die) != DW_TAG_compile_unit)
-> +    {
-> +      fprintf (stderr, "DIE isn't a compile unit");
-> +      return -1;
-> +    }
-> +
-> +  if (dwarf_attr (cu_die, DW_AT_name, &attr) == NULL)
-> +    {
-> +      fprintf(stderr, "CU doesn't have a DW_AT_name");
-> +      return -1;
-> +    }
-> +
-> +  name = dwarf_formstring (&attr);
-> +  if (name == NULL)
-> +    {
-> +      fprintf(stderr, "Couldn't get DW_AT_name as string, %s",
-> +            dwarf_errmsg (-1));
-> +      return -1;
-> +    }
-> +
-> +  if (dwarf_attr (cu_die, DW_AT_comp_dir, &attr) != NULL)
-> +    {
-> +      dir = dwarf_formstring (&attr);
-> +      if (dir == NULL)
-> +       {
-> +         fprintf(stderr, "Couldn't get DW_AT_comp_die as string, %s",
-> +                dwarf_errmsg (-1));
-> +         return -1;
-> +       }
-> +    }
-> +
-> +  if (dir == NULL)
-> +    printf ("%s\n", name);
-> +  else
-> +    printf ("%s/%s\n", dir, name);
-> +
-> +  if (dwarf_getsrcfiles (cu_die, &files, &n) != 0)
-> +    {
-> +      fprintf(stderr, "Couldn't get CU file table, %s",
-> +            dwarf_errmsg (-1));
-> +      return -1;
-> +    }
-> +
-> +  for (i = 1; i < n; i++)
-> +    {
-> +      const char *file = dwarf_filesrc (files, i, NULL, NULL);
-> +      if (dir != NULL && file[0] != '/')
-> +       printf ("\t%s/%s\n", dir, file);
-> +      else
-> +       printf ("\t%s\n", file);
-> +    }
-> +
-> +  return 0;
-> +}
-> +
-> +int
-> +main (int argc, char **argv)
-> +{
-> +  char* args[3];
-> +  int res = 0;
-> +  Dwfl *dwfl;
-> +  Dwarf_Addr bias;
-> +
-> +  if (argc != 2)
-> +    fprintf(stderr, "Usage %s <file>", argv[0]);
-> +
-> +  // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
-> +  // dwfl argp parser to open the file for us and get our Dwfl. Useful
-> +  // in case argument is an ET_REL file (like kernel modules). libdwfl
-> +  // will fix up relocations for us.
-> +  args[0] = argv[0];
-> +  args[1] = "-e";
-> +  args[2] = argv[1];
-> +
-> +  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
-> +
-> +  Dwarf_Die *cu = NULL;
-> +  while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
-> +    res |= process_cu (cu);
-> +
-> +  dwfl_end (dwfl);
-> +
-> +  return res;
-> +}
-> --
-> 2.14.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a113f7c144904ba055de069fb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I just had a build with these patches fail:<div><br></div>=
-<div><div>ERROR: libice-1_1.0.9-r0 do_package: Error executing a python fun=
-ction in exec_python_func() autogenerated:<br></div><div><br></div><div>The=
- stack trace of python calls that resulted in this exception/failure was:</=
-div><div>File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, funct=
-ion: &lt;module&gt;</div><div>=C2=A0 =C2=A0 =C2=A00001:</div><div>=C2=A0***=
- 0002:package_do_filedeps(d)</div><div>=C2=A0 =C2=A0 =C2=A00003:</div><div>=
-File: &#39;/home/ross/Yocto/poky/meta/classes/package.bbclass&#39;, lineno:=
- 1500, function: package_do_filedeps</div><div>=C2=A0 =C2=A0 =C2=A01496: =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue</div><div>=C2=A0 =C2=A0 =
-=C2=A01497: =C2=A0 =C2=A0 =C2=A0 =C2=A0for files in chunks(pkgfiles[pkg], 1=
-00):</div><div>=C2=A0 =C2=A0 =C2=A01498: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0pkglist.append((pkg, files, rpmdeps, pkgdest))</div><div>=C2=A0 =C2=
-=A0 =C2=A01499:</div><div>=C2=A0*** 1500: =C2=A0 =C2=A0processed =3D oe.uti=
-ls.multiprocess_exec( pkglist, oe.package.filedeprunner)</div><div>=C2=A0 =
-=C2=A0 =C2=A01501:</div><div>=C2=A0 =C2=A0 =C2=A01502: =C2=A0 =C2=A0provide=
-s_files =3D {}</div><div>=C2=A0 =C2=A0 =C2=A01503: =C2=A0 =C2=A0requires_fi=
-les =3D {}</div><div>=C2=A0 =C2=A0 =C2=A01504:</div><div>File: &#39;/home/r=
-oss/Yocto/poky/meta/lib/oe/utils.py&#39;, lineno: 240, function: multiproce=
-ss_exec</div><div>=C2=A0 =C2=A0 =C2=A00236: =C2=A0 =C2=A0 =C2=A0 =C2=A0mapr=
-esult =3D pool.map_async(function, commands, error_callback=3Dfailures)</di=
-v><div>=C2=A0 =C2=A0 =C2=A00237:</div><div>=C2=A0 =C2=A0 =C2=A00238: =C2=A0=
- =C2=A0 =C2=A0 =C2=A0pool.close()</div><div>=C2=A0 =C2=A0 =C2=A00239: =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0pool.join()</div><div>=C2=A0*** 0240: =C2=A0 =C2=A0=
- =C2=A0 =C2=A0results =3D mapresult.get()</div><div>=C2=A0 =C2=A0 =C2=A0024=
-1: =C2=A0 =C2=A0except KeyboardInterrupt:</div><div>=C2=A0 =C2=A0 =C2=A0024=
-2: =C2=A0 =C2=A0 =C2=A0 =C2=A0pool.terminate()</div><div>=C2=A0 =C2=A0 =C2=
-=A00243: =C2=A0 =C2=A0 =C2=A0 =C2=A0pool.join()</div><div>=C2=A0 =C2=A0 =C2=
-=A00244: =C2=A0 =C2=A0 =C2=A0 =C2=A0raise</div><div>File: &#39;/usr/lib/pyt=
-hon3.5/multiprocessing/pool.py&#39;, lineno: 608, function: get</div><div>=
-=C2=A0 =C2=A0 =C2=A00604: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise Ti=
-meoutError</div><div>=C2=A0 =C2=A0 =C2=A00605: =C2=A0 =C2=A0 =C2=A0 =C2=A0i=
-f self._success:</div><div>=C2=A0 =C2=A0 =C2=A00606: =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0return self._value</div><div>=C2=A0 =C2=A0 =C2=A00607: =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0else:</div><div>=C2=A0*** 0608: =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0raise self._value</div><div>=C2=A0 =C2=A0 =C2=A0=
-0609:</div><div>=C2=A0 =C2=A0 =C2=A00610: =C2=A0 =C2=A0def _set(self, i, ob=
-j):</div><div>=C2=A0 =C2=A0 =C2=A00611: =C2=A0 =C2=A0 =C2=A0 =C2=A0self._su=
-ccess, self._value =3D obj</div><div>=C2=A0 =C2=A0 =C2=A00612: =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0if self._callback and self._success:</div><div>Exception: =
-FileNotFoundError: [Errno 2] No such file or directory: &#39;/data/poky-tmp=
-/master/build/work/corei7-64-poky-linux/libice/1_1.0.9-r0/recipe-sysroot-na=
-tive/usr/lib/rpm/rpmdeps&#39;</div><div><br></div><div>ERROR: libice-1_1.0.=
-9-r0 do_package: Function failed: package_do_filedeps</div><div>ERROR: Logf=
-ile of failure stored in: /data/poky-tmp/master/build/work/corei7-64-poky-l=
-inux/libice/1_1.0.9-r0/temp/log.do_package.4349</div><div>ERROR: Task (/hom=
-e/ross/Yocto/poky/meta/recipes-graphics/xorg-lib/libice_1.0.9.bb:do_package=
-) failed with exit code &#39;1&#39;</div></div></div><div class=3D"gmail_ex=
-tra"><br><div class=3D"gmail_quote">On 10 November 2017 at 15:55, Alexander=
- Kanavin <span dir=3D"ltr">&lt;<a href=3D"mailto:alexander.kanavin@linux.in=
-tel.com" target=3D"_blank">alexander.kanavin@linux.intel.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">Debugedit provided by rpm 4.14 is=
- rewriting binaries in-place, and was<br>
-found to produce broken output at least for grub:<br>
-<a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2017-N=
-ovember/143989.html" rel=3D"noreferrer" target=3D"_blank">http://lists.open=
-embedded.org/<wbr>pipermail/openembedded-core/<wbr>2017-November/143989.htm=
-l</a><br>
-<br>
-A replacement utility was suggested via private mail:<br>
-<a href=3D"https://lists.fedorahosted.org/archives/list/elfutils-devel@list=
-s.fedorahosted.org/message/VZP4G5N2ELYZEDAB3QYLXYHDGX4WMCUF/" rel=3D"norefe=
-rrer" target=3D"_blank">https://lists.fedorahosted.<wbr>org/archives/list/e=
-lfutils-<wbr>devel@lists.fedorahosted.org/<wbr>message/<wbr>VZP4G5N2ELYZEDA=
-B3QYLXYHDGX4WMC<wbr>UF/</a><br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alexander.kanavin@li=
-nux.intel.com">alexander.kanavin@linux.<wbr>intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/package.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 26 ++++-<br>
-=C2=A0.../dwarfsrcfiles/<a href=3D"http://dwarfsrcfiles.bb" rel=3D"noreferr=
-er" target=3D"_blank">dwarfsrcfile<wbr>s.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 22 ++++<br>
-=C2=A0.../dwarfsrcfiles/files/<wbr>dwarfsrcfiles.c=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 111 +++++++++++++++++++++<br>
-=C2=A03 files changed, 154 insertions(+), 5 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/<wbr>dwarfsrcfiles/<a href=
-=3D"http://dwarfsrcfiles.bb" rel=3D"noreferrer" target=3D"_blank">dwarfsrcf=
-iles.bb</a><br>
-=C2=A0create mode 100644 meta/recipes-devtools/<wbr>dwarfsrcfiles/files/<wb=
-r>dwarfsrcfiles.c<br>
-<br>
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass<br=
->
-index 2053d46395a..dd1cfa379b0 100644<br>
---- a/meta/classes/package.bbclass<br>
-+++ b/meta/classes/package.bbclass<br>
-@@ -52,7 +52,8 @@ LOCALE_SECTION ?=3D &#39;&#39;<br>
-=C2=A0ALL_MULTILIB_PACKAGE_ARCHS =3D &quot;${@all_multilib_tune_values(<wbr=
->d, &#39;PACKAGE_ARCHS&#39;)}&quot;<br>
-<br>
-=C2=A0# rpm is used for the per-file dependency identification<br>
--PACKAGE_DEPENDS +=3D &quot;rpm-native&quot;<br>
-+# dwarfsrcfiles is used to determine the list of debug source files<br>
-+PACKAGE_DEPENDS +=3D &quot;rpm-native dwarfsrcfiles-native&quot;<br>
-<br>
-<br>
-=C2=A0# If your postinstall can execute at rootfs creation time rather than=
- on<br>
-@@ -334,6 +335,16 @@ def checkbuildpath(file, d):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return False<br>
-<br>
-+def parse_debugsources_from_<wbr>dwarfsrcfiles_output(<wbr>dwarfsrcfiles_o=
-utput):<br>
-+=C2=A0 =C2=A0 debugfiles =3D {}<br>
-+<br>
-+=C2=A0 =C2=A0 for line in dwarfsrcfiles_output.<wbr>splitlines():<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if line.startswith(&quot;\t&quot;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debugfiles[os.path.normpath(<wbr=
->line.split()[0])] =3D &quot;&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 return debugfiles.keys()<br>
-+<br>
-+<br>
-=C2=A0def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):<br>
-=C2=A0 =C2=A0 =C2=A0# Function to split a single file into two components, =
-one is the stripped<br>
-=C2=A0 =C2=A0 =C2=A0# target system binary, the other contains any debuggin=
-g information. The<br>
-@@ -345,7 +356,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir, source=
-file, d):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0dvar =3D d.getVar(&#39;PKGD&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0objcopy =3D d.getVar(&quot;OBJCOPY&quot;)<br>
--=C2=A0 =C2=A0 debugedit =3D d.expand(&quot;${STAGING_LIBDIR_<wbr>NATIVE}/r=
-pm/debugedit&quot;)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# We ignore kernel modules, we don&#39;t generate debug=
- info files.<br>
-=C2=A0 =C2=A0 =C2=A0if file.find(&quot;/lib/modules/&quot;) !=3D -1 and fil=
-e.endswith(&quot;.ko&quot;):<br>
-@@ -359,10 +369,17 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sour=
-cefile, d):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# We need to extract the debug src information here...<=
-br>
-=C2=A0 =C2=A0 =C2=A0if debugsrcdir:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;&#39;%s&#39; -i -l &#39;%s&#39; =
-&#39;%s&#39;&quot; % (debugedit, sourcefile, file)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd =3D &quot;&#39;dwarfsrcfiles&#39; &#39;%s&=
-#39;&quot; % (file)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(retval, output) =3D oe.utils.getstatusou=
-tput(cmd)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if retval:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;debugedit failed =
-with exit code %s (cmd was %s)%s&quot; % (retval, cmd, &quot;:\n%s&quot; % =
-output if output else &quot;&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;dwarfsrcfiles fai=
-led with exit code %s (cmd was %s)%s&quot; % (retval, cmd, &quot;:\n%s&quot=
-; % output if output else &quot;&quot;))<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 debugsources =3D parse_debugsources_from_<wbr>=
-dwarfsrcfiles_output(output)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # filenames are null-separated - this is an ar=
-tefact of the previous use<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # of rpm&#39;s debugedit, which was writing th=
-em out that way, and the code elsewhere<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # is still assuming that.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 debuglistoutput =3D &#39;\0&#39;.join(debugsou=
-rces) + &#39;\0&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 open(sourcefile, &#39;a&#39;).write(debuglisto=
-utput)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0bb.utils.mkdirhier(os.path.<wbr>dirname(debugfile))<br>
-<br>
-@@ -393,7 +410,6 @@ def copydebugsources(debugsrcdir, d):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dvar =3D d.getVar(&#39;PKGD&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strip =3D d.getVar(&quot;STRIP&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0objcopy =3D d.getVar(&quot;OBJCOPY&quot;)=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 debugedit =3D d.expand(&quot;${STAGING_LIBDIR_=
-<wbr>NATIVE}/rpm/bin/debugedit&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workdir =3D d.getVar(&quot;WORKDIR&quot;)=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workparentdir =3D os.path.dirname(os.path=
-.<wbr>dirname(workdir))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0workbasedir =3D os.path.basename(os.path.=
-<wbr>dirname(workdir)) + &quot;/&quot; + os.path.basename(workdir)<br>
-diff --git a/meta/recipes-devtools/<wbr>dwarfsrcfiles/<a href=3D"http://dwa=
-rfsrcfiles.bb" rel=3D"noreferrer" target=3D"_blank">dwarfsrcfiles.bb</a> b/=
-meta/recipes-devtools/<wbr>dwarfsrcfiles/<a href=3D"http://dwarfsrcfiles.bb=
-" rel=3D"noreferrer" target=3D"_blank">dwarfsrcfiles.bb</a><br>
-new file mode 100644<br>
-index 00000000000..c59a006edae<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/<wbr>dwarfsrcfiles/<a href=3D"http://dwarfsrcfi=
-les.bb" rel=3D"noreferrer" target=3D"_blank">dwarfsrcfiles.bb</a><br>
-@@ -0,0 +1,22 @@<br>
-+SUMMARY =3D &quot;A small utility for printing debig source file locations=
- embedded in binaries&quot;<br>
-+LICENSE =3D &quot;GPLv2+&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://../dwarfsrcfiles.c;<wbr>md5=3D<wbr>31483=
-894e453a77acbb67847565f1b<wbr>5c;beginline=3D1;endline=3D8&quot;<br>
-+<br>
-+SRC_URI =3D &quot;file://dwarfsrcfiles.c&quot;<br>
-+BBCLASSEXTEND =3D &quot;native&quot;<br>
-+DEPENDS =3D &quot;elfutils&quot;<br>
-+DEPENDS_append_libc-musl =3D &quot; argp-standalone&quot;<br>
-+<br>
-+do_compile () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../=
-dwarfsrcfiles.c -lelf -ldw<br>
-+}<br>
-+<br>
-+do_compile_libc-musl () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../=
-dwarfsrcfiles.c -lelf -ldw -largp<br>
-+}<br>
-+<br>
-+do_install () {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${bindir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -t ${D}${bindir} dwarfsrcfiles<br>
-+}<br>
-+<br>
-diff --git a/meta/recipes-devtools/<wbr>dwarfsrcfiles/files/<wbr>dwarfsrcfi=
-les.c b/meta/recipes-devtools/<wbr>dwarfsrcfiles/files/<wbr>dwarfsrcfiles.c=
-<br>
-new file mode 100644<br>
-index 00000000000..af7af524ebe<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/<wbr>dwarfsrcfiles/files/<wbr>dwarfsrcfiles.c<b=
-r>
-@@ -0,0 +1,111 @@<br>
-+// dwarfsrcfiles.c - Get source files associated with the dwarf in a elf f=
-ile.<br>
-+// gcc -Wall -g -O2 -lelf -ldw -o dwarfsrcfiles dwarfsrcfiles.c<br>
-+//<br>
-+// Copyright (C) 2011, Mark Wielaard &lt;<a href=3D"mailto:mjw@redhat.com"=
->mjw@redhat.com</a>&gt;<br>
-+//<br>
-+// This file is free software.=C2=A0 You can redistribute it and/or modify=
-<br>
-+// it under the terms of the GNU General Public License (GPL); either<br>
-+// version 2, or (at your option) any later version.<br>
-+<br>
-+#include &lt;argp.h&gt;<br>
-+#include &lt;stdio.h&gt;<br>
-+<br>
-+#include &lt;dwarf.h&gt;<br>
-+#include &lt;elfutils/libdw.h&gt;<br>
-+#include &lt;elfutils/libdwfl.h&gt;<br>
-+<br>
-+static int<br>
-+process_cu (Dwarf_Die *cu_die)<br>
-+{<br>
-+=C2=A0 Dwarf_Attribute attr;<br>
-+=C2=A0 const char *name;<br>
-+=C2=A0 const char *dir =3D NULL;<br>
-+<br>
-+=C2=A0 Dwarf_Files *files;<br>
-+=C2=A0 size_t n;<br>
-+=C2=A0 int i;<br>
-+<br>
-+=C2=A0 if (dwarf_tag (cu_die) !=3D DW_TAG_compile_unit)<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 fprintf (stderr, &quot;DIE isn&#39;t a compile unit&q=
-uot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 if (dwarf_attr (cu_die, DW_AT_name, &amp;attr) =3D=3D NULL)<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;CU doesn&#39;t have a DW_AT_nam=
-e&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 name =3D dwarf_formstring (&amp;attr);<br>
-+=C2=A0 if (name =3D=3D NULL)<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Couldn&#39;t get DW_AT_name as =
-string, %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dwarf_errmsg (-1));<br>
-+=C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 if (dwarf_attr (cu_die, DW_AT_comp_dir, &amp;attr) !=3D NULL)<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 dir =3D dwarf_formstring (&amp;attr);<br>
-+=C2=A0 =C2=A0 =C2=A0 if (dir =3D=3D NULL)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;Couldn&#39;t get D=
-W_AT_comp_die as string, %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dwarf_errmsg (-1))=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 if (dir =3D=3D NULL)<br>
-+=C2=A0 =C2=A0 printf (&quot;%s\n&quot;, name);<br>
-+=C2=A0 else<br>
-+=C2=A0 =C2=A0 printf (&quot;%s/%s\n&quot;, dir, name);<br>
-+<br>
-+=C2=A0 if (dwarf_getsrcfiles (cu_die, &amp;files, &amp;n) !=3D 0)<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Couldn&#39;t get CU file table,=
- %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dwarf_errmsg (-1));<br>
-+=C2=A0 =C2=A0 =C2=A0 return -1;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 for (i =3D 1; i &lt; n; i++)<br>
-+=C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 const char *file =3D dwarf_filesrc (files, i, NULL, N=
-ULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 if (dir !=3D NULL &amp;&amp; file[0] !=3D &#39;/&#39;=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0printf (&quot;\t%s/%s\n&quot;, dir, file);<br>
-+=C2=A0 =C2=A0 =C2=A0 else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0printf (&quot;\t%s\n&quot;, file);<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 return 0;<br>
-+}<br>
-+<br>
-+int<br>
-+main (int argc, char **argv)<br>
-+{<br>
-+=C2=A0 char* args[3];<br>
-+=C2=A0 int res =3D 0;<br>
-+=C2=A0 Dwfl *dwfl;<br>
-+=C2=A0 Dwarf_Addr bias;<br>
-+<br>
-+=C2=A0 if (argc !=3D 2)<br>
-+=C2=A0 =C2=A0 fprintf(stderr, &quot;Usage %s &lt;file&gt;&quot;, argv[0]);=
-<br>
-+<br>
-+=C2=A0 // Pretend &quot;dwarfsrcfiles -e &lt;file&gt;&quot; was given, so =
-we can use standard<br>
-+=C2=A0 // dwfl argp parser to open the file for us and get our Dwfl. Usefu=
-l<br>
-+=C2=A0 // in case argument is an ET_REL file (like kernel modules). libdwf=
-l<br>
-+=C2=A0 // will fix up relocations for us.<br>
-+=C2=A0 args[0] =3D argv[0];<br>
-+=C2=A0 args[1] =3D &quot;-e&quot;;<br>
-+=C2=A0 args[2] =3D argv[1];<br>
-+<br>
-+=C2=A0 argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &amp;dwfl);<br=
->
-+<br>
-+=C2=A0 Dwarf_Die *cu =3D NULL;<br>
-+=C2=A0 while ((cu =3D dwfl_nextcu (dwfl, cu, &amp;bias)) !=3D NULL)<br>
-+=C2=A0 =C2=A0 res |=3D process_cu (cu);<br>
-+<br>
-+=C2=A0 dwfl_end (dwfl);<br>
-+<br>
-+=C2=A0 return res;<br>
-+}<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.14.2<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.<wbr>openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/<wbr>m=
-ailman/listinfo/openembedded-<wbr>core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a113f7c144904ba055de069fb--
