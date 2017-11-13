@@ -1,54 +1,47 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f176.google.com (mail-wr0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C5307855A
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 621F278414
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 14:48:11 +0000 (UTC)
-Received: by mail-wr0-f176.google.com with SMTP id y42so14665380wrd.3
+	Mon, 13 Nov 2017 15:38:40 +0000 (UTC)
+Received: by mail-pg0-f66.google.com with SMTP id j16so7392962pgn.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 06:48:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:date:in-reply-to:references:organization
-	:mime-version:content-transfer-encoding;
-	bh=fY7bwfN9IcvovxDtDwBNp9sGSXv8Nz+SxS/Q+t4/bu4=;
-	b=WL2YNA6uJPtScgoa6K8QFYx0sHfADI8hu1qlHImKXCmzTUDLPIKtwctAzMqM95cUnl
-	7vssRE1gNdmk0Xyph2MHjGScY9lAUHJDLrRAMBl9epPBX8LV4cZJ5gR5litJe2p3LQMQ
-	IcQj2bw0iWrZK+e42xMj6m47NBLmjfTqK06vnL+Rwghf/vwbcYgRaZWwegyWvtsH2p6+
-	s7+AfMNl0DK0SmKX7sqbZGsIkak89jOXzgFCCUNBQivmgp0WJA+M0HoX4yJxMjo4ds4K
-	aZlGXDqXfgCsST5PsiG+H6HU5yZa8ofvX7mTDqfeYSGxA0Tl2LB7zxzSR71LjgWTT/Vv
-	eHeQ==
+	Mon, 13 Nov 2017 07:38:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=8ORAo1s/ryNivmU0V3oQ7aK9HUjgJTv5FM66UL3/9wk=;
+	b=VOiwKRWhC1ioYS9UlYo0tbH8IqXESXhZYeyvsLsDqYMU3S/71J10+sikcVm8BlbNsJ
+	zC/5WL9P+q5KkBAZzoX35maVfU+d3CeYioBKp0OOujISqElOFVMnZuK8l/Vh0JXG/hj6
+	O2HkacUAy6HXjOcdJoZXF+SbxKRaxu5pF8WtP2j1OPAkcTqKzeBwuYH1sP02s/Pk88nO
+	WkQBlt3tNUERX4ES7QU4mimGx2XD5ziz6pNowHLBVNT5eaDgGdJEvJxITJpqk2MoZoWd
+	AWYHr7FurTJsGFJWGhrf0lxlGhALUo6dwVPBDenZ5vn1XMogbtvAE7o2jZV6JoGjLkMI
+	q/hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=fY7bwfN9IcvovxDtDwBNp9sGSXv8Nz+SxS/Q+t4/bu4=;
-	b=W4caT1TvFJJtR6BfsuXt56huxXX74NW/dpQSex5yssJruhQhOV8SZY/xdm4mRwpMdt
-	a5JRW4aZ4XATjsWoapXNHe3CJlWsgwKR0cr8HQfs9fP7HwmIECPRWGqWSUdfLhjKP9NL
-	8wl1UkrVtCIS5mFS1/xLTuG/x3GL8XT9nL/YWCAcGJO32orlfc2/jeRUVKZnt3ZhZbdP
-	4cKIkOgJkhGZLuPvW5C451A1GXSBTtCSinaj18JLOI/7MT1fjyRk+J+r+3RbMi9HUsiC
-	UZmgJ9WzeyafpPiBcIYd65Ocs9PF4hVOvUuuNte+eLTxknnengWvNOs2lfNteLiJrzxx
-	XsFQ==
-X-Gm-Message-State: AJaThX7t52scG46mL0dNTy3RpYEJuX+r8OqoOADPcyjcdDnLVQC+wmbD
-	4tEvbPsDdM7plIEa9Rrje+AdmSU=
-X-Google-Smtp-Source: AGs4zMY0EY4d+B9jDwDcaTyiwa82yfthB+/S5DtLNmh44KZeQNILOPiue8HTmsPRM/wl+gQXudzOsA==
-X-Received: by 10.223.153.202 with SMTP id y68mr7299245wrb.216.1510584492725; 
-	Mon, 13 Nov 2017 06:48:12 -0800 (PST)
-Received: from pohly-mobl1 (p54BD5837.dip0.t-ipconnect.de. [84.189.88.55])
-	by smtp.gmail.com with ESMTPSA id 16sm4382590wrt.81.2017.11.13.06.48.11
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 13 Nov 2017 06:48:11 -0800 (PST)
-Message-ID: <1510584490.22094.65.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Andre McCurdy <armccurdy@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 15:48:10 +0100
-In-Reply-To: <1510293271-32407-1-git-send-email-armccurdy@gmail.com>
-References: <1510293271-32407-1-git-send-email-armccurdy@gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] systemd: create wheel sysuser group offline
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8ORAo1s/ryNivmU0V3oQ7aK9HUjgJTv5FM66UL3/9wk=;
+	b=RhyOLmamID6KTYEDfhDThXFomQwTbPzLWsBTg6VwW1/eerCw9rRDpKC9QBmkLe87f4
+	eoL2aS130VCG1ETprPpVnOFmlydx4RnYZue/eI1ZFy2QtdOEDTVxfqWJrrMBvG+HpRjc
+	Uj7GMI2/MeY3oeIcfRvHfVSAT72wFmn651OXxRPTQhOsvv688zBDmkbKHr4b1zi2Pe92
+	Pc/MCMVZ15PGRlRFIwqoKoaG7cKQmPfG2/tR2cw5zPgqf+A9ddg7aab3UmjjlJ0kQwjQ
+	A0rPdCo0U2BvTHr8XtP4v1+urvmLNKIiQyQSdRIgvtNeT3oYONQSGJ/HfTp0j+la9K9J
+	JBaA==
+X-Gm-Message-State: AJaThX4ibUUJq0J6iCQj9NLzONFZwhioLXcPOVuujg1l7moqZXWgFjMy
+	GGvaQ2f0BZ1WLH6rNZVe1OOGCQ==
+X-Google-Smtp-Source: AGs4zMYnQ+8ymaXS+gl0J3ZX9zmB9Z+C9J/7wWz0+dmGCTbDL1wzY2fxGc0fx61YIcrnoB6rcBiFYA==
+X-Received: by 10.98.207.71 with SMTP id b68mr10265632pfg.125.1510587521327;
+	Mon, 13 Nov 2017 07:38:41 -0800 (PST)
+Received: from ip-172-31-1-64.ap-northeast-2.compute.internal
+	(ec2-13-124-121-69.ap-northeast-2.compute.amazonaws.com.
+	[13.124.121.69]) by smtp.gmail.com with ESMTPSA id
+	n72sm38257984pfi.92.2017.11.13.07.38.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 13 Nov 2017 07:38:40 -0800 (PST)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Nov 2017 15:38:34 +0000
+Message-Id: <1510587514-43641-1-git-send-email-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] ethtool: upgrade to 4.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,30 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 14:48:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Nov 2017 15:38:40 -0000
 
-On Thu, 2017-11-09 at 21:54 -0800, Andre McCurdy wrote:
-> The default systemd-tmpfiles config file expects to be able to create
-> files etc belonging to the wheel system group. Currently the wheel
-> group is created at run time by systemd-sysusers, but that doesn't
-> happen if systemd-sysusers is disabled (as it currently is by default
-> when building with musl libc).
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ meta/recipes-extended/ethtool/{ethtool_4.11.bb => ethtool_4.13.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_4.11.bb => ethtool_4.13.bb} (88%)
 
-Isn't this something that the systemd_create_users rootfs postprocess
-command in rootfs-postcommands.bbclass already takes care of?
-
-I know that it is has issues (https://bugzilla.yoctoproject.org/show_bu
-g.cgi?id=9789), but it should at least create the wheel group.
-
+diff --git a/meta/recipes-extended/ethtool/ethtool_4.11.bb b/meta/recipes-extended/ethtool/ethtool_4.13.bb
+similarity index 88%
+rename from meta/recipes-extended/ethtool/ethtool_4.11.bb
+rename to meta/recipes-extended/ethtool/ethtool_4.13.bb
+index befe9b9..c862a57 100644
+--- a/meta/recipes-extended/ethtool/ethtool_4.11.bb
++++ b/meta/recipes-extended/ethtool/ethtool_4.13.bb
+@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
+ 
+-SRC_URI[md5sum] = "8f1072679888c9335e49b17efb798b4c"
+-SRC_URI[sha256sum] = "af2fd9692f3159d3ab1e41e6f9b7d8db2a4693f1cb22348c88ba89f70f0e6503"
++SRC_URI[md5sum] = "2ba44eb0ca96752392e9bf8dc83ba302"
++SRC_URI[sha256sum] = "d311c4b557c44c5248ac5436b9e19c391a60d8e4830b6a7f41be16d89c0556de"
+ 
+ inherit autotools ptest
+ RDEPENDS_${PN}-ptest += "make"
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+2.7.4
 
 
