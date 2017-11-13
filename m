@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 77DF6785DC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CF85678679
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 00:54:03 +0000 (UTC)
+	Tue, 14 Nov 2017 00:54:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAE0s4Kl022223
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id vAE0s6iA025434
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 16:54:04 -0800 (PST)
+	Mon, 13 Nov 2017 16:54:06 -0800
 Received: from pek-lpg-core1.windriver.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 13 Nov 2017 16:54:03 -0800
+	14.3.361.1; Mon, 13 Nov 2017 16:54:05 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Nov 2017 01:58:43 +0800
-Message-ID: <204d1f1e04d499a319a39b270bca2c8fbcb0798c.1510595883.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Nov 2017 01:58:44 +0800
+Message-ID: <6dd746c278000f364e6cfd3d86db34d8b89a7806.1510595883.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1510595883.git.liezhi.yang@windriver.com>
 References: <cover.1510595883.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/10] e2fsprogs: 1.43.5 -> 1.43.7
+Subject: [PATCH 04/10] file: 5.31 -> 5.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 00:54:03 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 00:54:05 -0000
 Content-Type: text/plain
 
-Remove reproducible-doc.patch which is already in the source.
+Rebase debian-742262.patch for new source.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../e2fsprogs/e2fsprogs/reproducible-doc.patch      | 21 ---------------------
- .../{e2fsprogs_1.43.5.bb => e2fsprogs_1.43.7.bb}    |  3 +--
- 2 files changed, 1 insertion(+), 23 deletions(-)
- delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch
- rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.43.5.bb => e2fsprogs_1.43.7.bb} (97%)
+ meta/recipes-devtools/file/file/debian-742262.patch       | 7 ++-----
+ meta/recipes-devtools/file/{file_5.31.bb => file_5.32.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/file/{file_5.31.bb => file_5.32.bb} (96%)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch
-deleted file mode 100644
-index 8e5d1d3..0000000
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/reproducible-doc.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--
--Suppport for binary reproducibility.
--When compressing, do not save the original file name and time stamp.
--
--Upstream-Status: Submitted [Theodore Ts'o tytso@mit.edu (maintainer)]
--
--Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
--
--diff --git a/doc/Makefile.in b/doc/Makefile.in
--index 9cb584c..0bee4e4 100644
----- a/doc/Makefile.in
--+++ b/doc/Makefile.in
--@@ -28,7 +28,7 @@ install-doc-libs: libext2fs.info libext2fs.dvi
-- 		$(INSTALL_DATA) $$i $(DESTDIR)$(infodir)/$$i ; \
-- 	done
-- 	$(E) "	GZIP $(infodir)/libext2fs.info*"
---	-$(Q) gzip -9 $(DESTDIR)$(infodir)/libext2fs.info*
--+	-$(Q) gzip -9 -n $(DESTDIR)$(infodir)/libext2fs.info*
-- 
-- uninstall-doc-libs:
-- 	$(RM) -rf $(DESTDIR)$(infodir)/libext2fs.info*
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb
-similarity index 97%
-rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb
-index 00093cc..33a9918 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.43.7.bb
-@@ -8,13 +8,12 @@ SRC_URI += "file://acinclude.m4 \
-             file://mkdir.patch \
-             file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch \
-             file://mkdir_p.patch \
--            file://reproducible-doc.patch \
-             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
- "
+diff --git a/meta/recipes-devtools/file/file/debian-742262.patch b/meta/recipes-devtools/file/file/debian-742262.patch
+index d31ac59..319f9db 100644
+--- a/meta/recipes-devtools/file/file/debian-742262.patch
++++ b/meta/recipes-devtools/file/file/debian-742262.patch
+@@ -14,17 +14,14 @@ Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+  1 file changed, 1 insertion(+)
  
- SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch"
+ diff --git a/magic/Magdir/commands b/magic/Magdir/commands
+-index 1a46efd..255c04b 100644
++index f6ad1c8..f79e7dd 100644
+ --- a/magic/Magdir/commands
+ +++ b/magic/Magdir/commands
+ @@ -57,6 +57,7 @@
+  0	string/wt	#!\ /usr/bin/awk	awk script text executable
+  !:mime	text/x-awk
+- 0	regex/4096	=^[A-Za-z0-9_]{0,100}BEGIN[A-Za-z0-9_]{0,100}[{]	awk or perl script text
++ 0	regex/4096	=^[\040\t\f\r\n]{0,100}BEGIN[\040\t\f\r\n]{0,100}[{]	awk or perl script text
+ +!:strength - 12
+  
+  # AT&T Bell Labs' Plan 9 shell
+  0	string/wt	#!\ /bin/rc	Plan 9 rc shell script text executable
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-devtools/file/file_5.31.bb b/meta/recipes-devtools/file/file_5.32.bb
+similarity index 96%
+rename from meta/recipes-devtools/file/file_5.31.bb
+rename to meta/recipes-devtools/file/file_5.32.bb
+index 1b1f502..5e15925 100644
+--- a/meta/recipes-devtools/file/file_5.31.bb
++++ b/meta/recipes-devtools/file/file_5.32.bb
+@@ -19,7 +19,7 @@ SRC_URI = "git://github.com/file/file.git \
+         file://0001-Add-P-prompt-into-Usage-info.patch \
+         "
  
--SRCREV = "2a13c84b513aa094d1cda727e92d35a89dd777da"
-+SRCREV = "4c5e6cd6defb83f1b35a5ef6fccd68c86874ee06"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+-SRCREV = "70c5f15060c7ad81150177de83a3e64500a54c9f"
++SRCREV = "d474e35513940dbca039b510b4de705b44f5bd9c"
+ S = "${WORKDIR}/git"
  
- EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+ inherit autotools
 -- 
 2.7.4
 
