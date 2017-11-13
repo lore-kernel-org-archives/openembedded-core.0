@@ -1,48 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 38DEB7865C
+Return-Path: <oleksandr.kravchuk@pelagicore.com>
+Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
+	[209.85.215.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ADBC67865C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 12:45:43 +0000 (UTC)
-Received: by mail-io0-f174.google.com with SMTP id u42so2446512ioi.9
+	Mon, 13 Nov 2017 12:47:26 +0000 (UTC)
+Received: by mail-lf0-f66.google.com with SMTP id n69so18203055lfn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 04:45:45 -0800 (PST)
+	Mon, 13 Nov 2017 04:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=EOPulwhWSSm2UP4E4fYzkkTuVK29AMGuxfxkGg/zg4Y=;
-	b=wkDe5iaiB/ccnKARGDoiYvoKrSpcpJtvc9fF0/Q7+9VrgpnSFsiNhNje0jDi93m9+u
-	wLK8GaKjy192ihFfRZm0sJjxKssQLzqpJVFaS8wTZN0wi/umyHmjGC56LP8D/gxNFChm
-	uthp2q3fPAIsbiTw2OeRJZISxgSZOB9xdVRyGl3voA16NfXP0580HgyDLBdH8NIO3Tey
-	1niu8EgXjYcE0NePzV6Ylr8QOKIz3XKbU8ELBfvjhSLCyfcmj3SdXUUVVhjMYbk0RfhM
-	58OJMka5q7y4JH1EQeG5Ih1FKEYc946KzKWU4ftagNFUC1cXnn1p+4rjGMFxdht+3gDd
-	m8Hg==
+	d=pelagicore-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=3q7wGpfMispv005bOmjNzImWilrgc9lRfrf7HBWVAmQ=;
+	b=c9ZJpO05pFIDpbG8pR2jJE5u3HouPiZB8u5ATUhUoHr7Jb53YJAM2cii4ThqWEvDfn
+	KkAH6b/BM2/Sufr1kWzi8jIQ8CCBey+SBNxyR0IL6vTCuBGM0v/5qLrfQeUXl5TI/ekU
+	PewIvYrEd2l1fmU6Jl7fiAKep/7OGMZAXCxREwz8Jn3+94pOGYvGqK6OV9S7gWNXUAOq
+	I8NAr35LIsPCc+ghTV5J/082fIpbQkhXJ1EMeMm1SyOuJ7ckG+0mso40bJMaSmf4SBk5
+	Ch2yLmNrZO4k26zjp7ZVdPUNunqOdo9I4XrRfMD/Na0j182CfPfQqfMMLCPsFcj176nP
+	00SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=EOPulwhWSSm2UP4E4fYzkkTuVK29AMGuxfxkGg/zg4Y=;
-	b=Z1glybJQGFVsYmvQDBcVrGIV4IDV4pdoST+2mc7M2hfppj6BtKjEfbZvjbjBpAI7j0
-	aWr1xdVWbnRRxAi6eZi5bN+SVv25gHST0jF0xs1Vo5v4oB8SQzXCarA0pd4dI2IE0sjz
-	H6Gg+dlCsr0RqOM54HFOg3dwcN9HzIpE0fh1fLCyYqORumSP+cYL2UD380lOB8Txkk+d
-	9F2pgGuCvLQ2Ufr5+is5+8ubQl/UKBmyYesjcwUdbjdAkfItJuKgaSETAf/WeOTyC07l
-	gythwSH53IPfmVOyhWjgQFkXZ2Otcm3TEgEX90M4OjbbvgbOXv3ceEUJBqugexXEJH4f
-	bENw==
-X-Gm-Message-State: AJaThX6irhbgq9nLbnSj66heGKFlOUbWv2LqOgDuWIXinxn3b+uIM5HT
-	4mkEGEfRiwFAGDDJ2z3iQbU4oRmqfIpYJFrDCqL3cw==
-X-Google-Smtp-Source: AGs4zMZWd74jAO/nYpiob769ZWLCrPNf7V7YKgK/32Ycv0XfV+/dzd8ap4pbo3HH5Yi9vQiJXGMKAYoKIb3LOlV2iSE=
-X-Received: by 10.107.178.145 with SMTP id b139mr4026663iof.52.1510577145296; 
-	Mon, 13 Nov 2017 04:45:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.107.171.196 with HTTP; Mon, 13 Nov 2017 04:45:24 -0800 (PST)
-In-Reply-To: <1510576722-29881-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-References: <1510576722-29881-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Nov 2017 12:45:24 +0000
-Message-ID: <CAJTo0LapQMMWKDpwHU6Y-e-8d6G-LeWTt__johzU3AvbtnajMA@mail.gmail.com>
-To: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] curl: upgrade to 7.56.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3q7wGpfMispv005bOmjNzImWilrgc9lRfrf7HBWVAmQ=;
+	b=NHJbObXn1unPltnVEZ4A2zW0Murrg38vLS603pJTh2xdeBm/Q9IsXDA/41/6wfd1yS
+	iFB9mx3CHh1J9pITctqgaRELy/OWL8LF6H+IZMiSGbFMsjY3hXFr6bxBP6xB1Od5F0AG
+	aX+1Lmy65UN4vmC/jwaKdF8dDXktHNuPRZ+t1DDSyD0DHgUyLh8Y/WN04qe8kASyMs36
+	arQ1yD4ITR03N+UeR8RALR9DZ9Kdss1Mg5PhGmR4zCNug9HIXAflROm7xp9HBR45ZcBZ
+	2fw/lGDiRVRz5hsjuET66Jega3zmOGQ/dOfgGf5OsVURvtn5HSqoG1mEnyYXFgzlSPly
+	kNDA==
+X-Gm-Message-State: AJaThX7HLlZq7Bcepn3zQgF+C/m/NRfg6fAwWJI92BQroh0h5lYs6aI6
+	QYfvEfyw+baZ2JZ0BQO2tL9t+dFj
+X-Google-Smtp-Source: AGs4zMZ44rS9PMrToevVQ5hC8chKcjuxVvwtJGgKLDUC+lSjWoVLRR524uK22vjT9gFjGaPJJ0YR8Q==
+X-Received: by 10.25.163.11 with SMTP id m11mr3028687lfe.179.1510577245726;
+	Mon, 13 Nov 2017 04:47:25 -0800 (PST)
+Received: from ubuntu.office.pelagicore.net ([83.218.80.243])
+	by smtp.gmail.com with ESMTPSA id
+	a17sm2870587lfl.40.2017.11.13.04.47.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 13 Nov 2017 04:47:25 -0800 (PST)
+From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Nov 2017 13:47:12 +0100
+Message-Id: <1510577232-30262-1-git-send-email-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Subject: [PATCH v3] curl: upgrade to 7.56.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +56,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 12:45:44 -0000
-Content-Type: multipart/alternative; boundary="001a114ca16226d1a6055ddca658"
+X-List-Received-Date: Mon, 13 Nov 2017 12:47:26 -0000
 
---001a114ca16226d1a6055ddca658
-Content-Type: text/plain; charset="UTF-8"
+Upgarded curl to version 7.56.1. Removed few patches fixing CVEs, since
+those fixes are included in the this release.
 
-On 13 November 2017 at 12:38, Oleksandr Kravchuk <
-oleksandr.kravchuk@pelagicore.com> wrote:
+Also removed installation of 'curl/curlbuild.h', which has been removed
+in v7.55.0:
+http://daniel.haxx.se/blog/2017/06/15/target-independent-libcurl-headers
 
->  inherit autotools pkgconfig binconfig multilib_header
->
-> -do_install_append() {
-> -       oe_multilib_header curl/curlbuild.h
-> -}
-> -
->
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+---
+ .../curl/{curl_7.54.1.bb => curl_7.56.1.bb}                | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.54.1.bb => curl_7.56.1.bb} (87%)
 
-If we're not using oe_multilib_header than the multilib_header inherit can
-be removed.
+diff --git a/meta/recipes-support/curl/curl_7.54.1.bb b/meta/recipes-support/curl/curl_7.56.1.bb
+similarity index 87%
+rename from meta/recipes-support/curl/curl_7.54.1.bb
+rename to meta/recipes-support/curl/curl_7.56.1.bb
+index 58f0531..830f350 100644
+--- a/meta/recipes-support/curl/curl_7.54.1.bb
++++ b/meta/recipes-support/curl/curl_7.56.1.bb
+@@ -7,10 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=8;md5=3a34942f4ae3fbf1a303160714e66
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+-           file://CVE-2017-1000099.patch \
+-           file://CVE-2017-1000100.patch \
+-           file://CVE-2017-1000101.patch \
+-           file://CVE-2017-1000254.patch \
+ "
+ 
+ SRC_URI_append_class-target = " \
+@@ -22,11 +18,11 @@ SRC_URI_append_class-target = " \
+ #
+ SRC_URI += " file://configure_ac.patch"
+ 
+-SRC_URI[md5sum] = "6b6eb722f512e7a24855ff084f54fe55"
+-SRC_URI[sha256sum] = "fdfc4df2d001ee0c44ec071186e770046249263c491fcae48df0e1a3ca8f25a0"
++SRC_URI[md5sum] = "428de25834ef8c04076906d6d5c0498e"
++SRC_URI[sha256sum] = "2594670367875e7d87b0f129b5e4690150780884d90244ba0fe3e74a778b5f90"
+ 
+ CVE_PRODUCT = "libcurl"
+-inherit autotools pkgconfig binconfig multilib_header
++inherit autotools pkgconfig binconfig
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} gnutls proxy threaded-resolver zlib"
+ PACKAGECONFIG_class-native = "ipv6 proxy ssl threaded-resolver zlib"
+@@ -64,10 +60,6 @@ EXTRA_OECONF = " \
+     --without-libpsl \
+ "
+ 
+-do_install_append() {
+-	oe_multilib_header curl/curlbuild.h
+-}
+-
+ do_install_append_class-target() {
+ 	# cleanup buildpaths from curl-config
+ 	sed -i \
+-- 
+2.7.4
 
-Ross
 
---001a114ca16226d1a6055ddca658
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 13 November 2017 at 12:38, Oleksandr Kravchuk <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:oleksandr.kravchuk@pelagicore.com" target=3D=
-"_blank">oleksandr.kravchuk@pelagicore.com</a>&gt;</span> wrote:<br><div cl=
-ass=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">=C2=A0inherit autotools pkgconfig binconfig multilib_header<br><br>
--do_install_append() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_multilib_header curl/curlbuild.h<br>
--}<br>
--<br></blockquote><div><br></div><div>If we&#39;re not using oe_multilib_he=
-ader than the multilib_header inherit can be removed.</div><div><br></div><=
-div>Ross</div></div></div></div>
-
---001a114ca16226d1a6055ddca658--
