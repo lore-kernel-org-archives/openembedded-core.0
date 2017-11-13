@@ -1,29 +1,43 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6671B7833E
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm0-f42.google.com (mail-wm0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 87E3C784EA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 08:41:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAD8f8Fx012313
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 Nov 2017 00:41:08 -0800 (PST)
-Received: from localhost.corp.ad.wrs.com (128.224.162.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 13 Nov 2017 00:41:07 -0800
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1510275834.git.liezhi.yang@windriver.com>
-	<65b92ba827b1b5252355bb8d656b73286ec182fb.1510275834.git.liezhi.yang@windriver.com>
-	<6adc72a1-8fd1-7e85-36c4-565d659fb438@linux.intel.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1110a3c8-f1b7-e37b-73e9-be14561f2042@windriver.com>
-Date: Mon, 13 Nov 2017 16:40:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
-MIME-Version: 1.0
-In-Reply-To: <6adc72a1-8fd1-7e85-36c4-565d659fb438@linux.intel.com>
-Subject: Re: [PATCH 13/23] package_manager.py: reverse archs correctly
+	Mon, 13 Nov 2017 08:54:10 +0000 (UTC)
+Received: by mail-wm0-f42.google.com with SMTP id r68so13494005wmr.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Nov 2017 00:54:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=6vlXtpdL3rrvygn/IWqhotASAvBAy4PPHoobxVQy/Jk=;
+	b=AJtdI0QgC/Ilmcn6xykRP34fYvCUwVPiaOU8JSJOqGezQrB3RJva3kH5PnP73i4rBn
+	3OP6h0t9+zo86RCOxTMxAmawkCSUAR8tpqmT65sELMHTcSq/QzvmpR404/rbXpcDnLX6
+	vHb/LoLbHHfpl85lYJMug7YB4SqWMsDUBy2qYw7oEIhlKnft6mJRLwwLGL3ZPn2udAys
+	dQfdF0GmTbVT6L4JhPVrgminol7w31tupDvYwV8F2P2MHIrn4DZRFyMq9k+w/G7//VPn
+	HqvcJrPb46c4MeCFUUrayPk2ZqEGAS0fadgfdaH407ECeVjLLNI6uO/bWXHk9fvHcFQj
+	uwow==
+X-Gm-Message-State: AJaThX6HYzYsg3U/Vdsg+x75MJBLOkisH0JyZSiRwvaNS91/EwEvSChe
+	dKHczLqMgpp7x/2bkwWyz5lH+ZpB
+X-Google-Smtp-Source: AGs4zMZ4S7dghrXoltIiPEUNGQcKbHRukSvlbh3ZWl5FI3IlsUImImKUL6eWNmx6NNKt/TVn1e8Vjg==
+X-Received: by 10.80.161.134 with SMTP id 6mr11638558edk.197.1510563251021;
+	Mon, 13 Nov 2017 00:54:11 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	k42sm15652372edb.88.2017.11.13.00.54.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 13 Nov 2017 00:54:10 -0800 (PST)
+Message-ID: <1510563249.4049.33.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Nov 2017 08:54:09 +0000
+In-Reply-To: <62db9387c3ee71f4bed87a7a546afdf927ba5ac0.1510550741.git.Qi.Chen@windriver.com>
+References: <cover.1510550741.git.Qi.Chen@windriver.com>
+	<62db9387c3ee71f4bed87a7a546afdf927ba5ac0.1510550741.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.26.1-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 1/1] autoconf-archive: inherit allarch and fix package splitting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,160 +50,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 08:41:08 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 13 Nov 2017 08:54:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
+On Mon, 2017-11-13 at 13:26 +0800, Chen Qi wrote:
+> autoconf-archive is a set of common m4 macros, it should be allarch,
+> just like it is on other distros.
 
-On 11/10/2017 10:21 PM, Alexander Kanavin wrote:
-> On 11/10/2017 08:27 AM, Robert Yang wrote:
-> 
->> -        if arch_var == None:
->> -            self.archs = 
->> self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_")
->> +
->> +        if arch_var:
->> +            self.archs = self.d.getVar(arch_var).replace("-","_").split()
->> +        else:
->> +            self.archs = 
->> self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_").split()
->> +        # Reverse archs to ensure the -best- match is listed firstly, but need
->> +        # make sure not mixed with multilib archs, and let multilib archs have
->> +        # higher a priority for multilib image:
->> +        # For non-multilib image: (e.g., core-image-minimal)
->> +        # machine_arch:package_archs:multilib_archs:allarch_archs
->> +        # For multilib image: (e.g., lib32-core-image-minimal)
->> +        # machine_arch:multilib_archs:package_archs:allarch_archs
->> +        package_archs_var = 
->> self.d.getVar('PACKAGE_ARCHS').replace("-","_").split()
->> +        machine_arch_var = [self.d.getVar('MACHINE_ARCH').replace("-","_")]
->> +        package_archs = []
->> +        allarch_archs = []
->> +        ml_archs = []
->> +        machine_arch = []
->> +        for arch in self.archs:
->> +            if arch in machine_arch_var:
->> +                bb.note("Found MACHINE_ARCH: %s" % arch)
->> +                machine_arch.append(arch)
->> +            elif arch in package_archs_var:
->> +                bb.note("Found PACKAGE_ARCH: %s" % arch)
->> +                package_archs.append(arch)
->> +            elif arch in 'all any noarch'.split():
->> +                bb.note("Found allarch: %s" % arch)
->> +                allarch_archs.append(arch)
->> +            else:
->> +                bb.note("Found multilib arch: %s" % arch)
->> +                ml_archs.append(arch)
->> +        package_archs.reverse()
->> +        if machine_arch:
->> +            self.archs = machine_arch
->> +        mlprefix = self.d.getVar('MLPREFIX')
->> +        if ml_archs:
->> +            ml_archs.reverse()
->> +            if mlprefix:
->> +                self.archs += ml_archs + package_archs
->> +            else:
->> +                self.archs += package_archs + ml_archs
->>           else:
->> -            self.archs = self.d.getVar(arch_var).replace("-","_")
->> +            self.archs = package_archs
->> +
->> +        self.archs += allarch_archs
->> +        self.archs = ' '.join(self.archs)
->> +        bb.note("The archs used by package manager: %s" % self.archs)
->> +
-> 
-> Can you place all of this in a helper function please?
+I have found previously that when changing a recipe to produce more generic
+output, like in this case, and the old binary package is still in deploy/,
+then the package manager would always pick the more specific version, even
+if a more recent (by package version) exists in deploy. In my case I was
+moving from PACKAGE_ARCH=${MACHINE_ARCH} to PACKAGE_ARCH=${TUNE_PKGARCH},
+but I guess it'll be the same here.
 
-Thanks, updated in the repo:
+What is the correct way to deal with that other that cleansstate?
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index e28f321..f3cb123 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -467,10 +467,14 @@ class RpmPM(PackageManager):
-          self.target_rootfs = target_rootfs
-          self.target_vendor = target_vendor
-          self.task_name = task_name
--        if arch_var == None:
--            self.archs = 
-self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_")
-+
-+        if arch_var:
-+            self.archs = self.d.getVar(arch_var).replace("-","_").split()
-          else:
--            self.archs = self.d.getVar(arch_var).replace("-","_")
-+            self.archs = 
-self.d.getVar('ALL_MULTILIB_PACKAGE_ARCHS').replace("-","_").split()
-+        self._arch_reverse_helper()
-+        bb.note("The archs used by package manager: %s" % self.archs)
-+
-          if task_name == "host":
-              self.primary_arch = self.d.getVar('SDK_ARCH')
-          else:
-@@ -489,9 +493,52 @@ class RpmPM(PackageManager):
-          if not os.path.exists(self.d.expand('${T}/saved')):
-              bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+Cheers,
+Andre'
 
-+    def _arch_reverse_helper(self):
-+        # Reverse archs to ensure the -best- match is listed firstly, but need
-+        # make sure not mixed with multilib archs, and let multilib archs have
-+        # higher a priority for multilib image:
-+        # For non-multilib image: (e.g., core-image-minimal)
-+        # machine_arch:package_archs:multilib_archs:allarch_archs
-+        # For multilib image: (e.g., lib32-core-image-minimal)
-+        # machine_arch:multilib_archs:package_archs:allarch_archs
-+        package_archs_var = self.d.getVar('PACKAGE_ARCHS').replace("-","_").split()
-+        machine_arch_var = [self.d.getVar('MACHINE_ARCH').replace("-","_")]
-+        package_archs = []
-+        allarch_archs = []
-+        ml_archs = []
-+        machine_arch = []
-+        for arch in self.archs:
-+            if arch in machine_arch_var:
-+                bb.note("Found MACHINE_ARCH: %s" % arch)
-+                machine_arch.append(arch)
-+            elif arch in package_archs_var:
-+                bb.note("Found PACKAGE_ARCH: %s" % arch)
-+                package_archs.append(arch)
-+            elif arch in 'all any noarch'.split():
-+                bb.note("Found allarch: %s" % arch)
-+                allarch_archs.append(arch)
-+            else:
-+                bb.note("Found multilib arch: %s" % arch)
-+                ml_archs.append(arch)
-+        package_archs.reverse()
-+        if machine_arch:
-+            self.archs = machine_arch
-+        mlprefix = self.d.getVar('MLPREFIX')
-+        if ml_archs:
-+            ml_archs.reverse()
-+            if mlprefix:
-+                self.archs += ml_archs + package_archs
-+            else:
-+                self.archs += package_archs + ml_archs
-+        else:
-+            self.archs = package_archs
-+
-+        self.archs += allarch_archs
-+        self.archs = ' '.join(self.archs)
-+
-      def _configure_dnf(self):
-          # libsolv handles 'noarch' internally, we don't need to specify it 
-explicitly
--        archs = [i for i in reversed(self.archs.split()) if i not in ["any", 
-"all", "noarch"]]
-+        archs = [i for i in self.archs.split() if i not in ["any", "all", 
-"noarch"]]
-          # This prevents accidental matching against libsolv's built-in policies
-          if len(archs) <= 1:
-              archs = archs + ["bogusarch"]
-
-// Robert
-
-> 
-> Alex
-> 
 
