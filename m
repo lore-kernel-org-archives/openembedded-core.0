@@ -1,24 +1,24 @@
-Return-Path: <richard@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2472A6012A
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 684257865B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 17:35:49 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	vADHZl3e005713
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Mon, 13 Nov 2017 17:35:48 GMT
-Received: from richard by hex with local (Exim 4.86_2)
-	(envelope-from <richard@rpsys.net>)
-	id 1eEIeB-00072S-H2; Mon, 13 Nov 2017 17:35:47 +0000
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 17:35:46 +0000
-Message-Id: <1510594546-27018-1-git-send-email-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: clamav-milter 0.99.2 at dan
-X-Virus-Status: Clean
-Subject: [PATCH] qemu.inc: Drop rng-tools
+	Mon, 13 Nov 2017 17:58:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vADHwb7x018799
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Nov 2017 09:58:37 -0800 (PST)
+Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 13 Nov 2017 09:58:36 -0800
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Nov 2017 19:58:35 +0200
+Message-ID: <20171113175835.40803-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.10.2
+MIME-Version: 1.0
+Subject: [PATCH] boost: fix build failure when musl is used with x32 ABI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Nov 2017 17:35:50 -0000
+X-List-Received-Date: Mon, 13 Nov 2017 17:58:36 -0000
+Content-Type: text/plain
 
-This was included to allow hwrng to feed data to /dev/random. Since the
-kernel does this itself (confirmed by the recent kernel Kconfig text change
-, code inspection and local testing), we can drop rng-tools from these
-images.
+Solves do_compile task failure when musl and x32 ABI are used (Bug #12119)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 ---
- meta/conf/machine/include/qemu.inc | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-support/boost/boost.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 0e4103b..9094279 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -26,6 +26,4 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
- # Provide the nfs server kernel module for all qemu images
- KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index f4ecc10..2d8a442 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -170,6 +170,7 @@ BJAM_OPTS_append_class-native = ' -sNO_BZIP2=1'
  
--MACHINE_EXTRA_RRECOMMENDS += "rng-tools"
--
- IMAGE_CLASSES += "qemuboot"
+ # Adjust the build for x32
+ BJAM_OPTS_append_linux-gnux32 = " abi=x32 address-model=64"
++BJAM_OPTS_append_linux-muslx32 = " abi=x32 address-model=64"
+ 
+ do_configure() {
+ 	cp -f ${S}/boost/config/platform/linux.hpp ${S}/boost/config/platform/linux-gnueabi.hpp
 -- 
-2.7.4
+2.10.2
 
 
