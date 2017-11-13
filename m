@@ -1,21 +1,23 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 50E3378684
+	by mail.openembedded.org (Postfix) with ESMTP id 80C9078697
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 18:17:22 +0000 (UTC)
+	Mon, 13 Nov 2017 18:17:23 +0000 (UTC)
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
 	13 Nov 2017 10:17:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,389,1505804400"; d="scan'208";a="175306638"
+X-IronPort-AV: E=Sophos;i="5.44,389,1505804400"; d="scan'208";a="175306641"
 Received: from yctb05.ostc.intel.com ([10.54.69.59])
 	by fmsmga005.fm.intel.com with ESMTP; 13 Nov 2017 10:17:24 -0800
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Nov 2017 10:17:20 -0800
-Message-Id: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 13 Nov 2017 10:17:21 -0800
+Message-Id: <20171113181721.79781-2-leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 2.12.3
-Subject: [PATCH v2 1/2] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
+In-Reply-To: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH v2 2/2] parallel-oe-selftest.sh: runs oe-selftest in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,169 +34,38 @@ X-List-Received-Date: Mon, 13 Nov 2017 18:17:23 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-The main idea is to isolate the oe-selftest execution so neither the current
-build dir nor the configuration data is touch/polluted. This approach uses
-a wrapper script (which is the one presented on this commit) which creates
-a unique directory and inside it copies all scripts and metadata, re-initializes
-the enviroment (re-sources oe-init-build-env) and finally launches
-the oe-selftest-internal (which used to be oe-selftest) command, passing command
-arguments to the latter.
+Parallelize oe-selftest execution using GNU/Parallel: for each test
+defined, a job will be launched and at any time at maximun of jobs will
+be executing (defaults to 4). Extra parameters can be given to
+parallel cmd after double dashes ('--'). Some cmd line examples:
 
-The new build directory created when re-initializing the enviroment has the
-same configuration data (local.conf, auto.conf, site.conf) as the
-main build directory. The latter means that one can set DL_DIR and SSTATE_DIR
-into <main build dir>/conf/site.conf and the oe-selftest execution will use this.
+1. Run all modules
 
-[YOCTO #11429]
+    parallel-oe-selftest.sh
+
+2. Run certaing modules and print results in order (see parallel man page for
+more info)
+
+    echo wic bblayers | parallel-oe-selftest.sh -- --keep-order
 
 Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- scripts/oe-selftest          | 108 ++++++++++++++++++++++++-------------------
- scripts/oe-selftest-internal |  75 ++++++++++++++++++++++++++++++
- 2 files changed, 135 insertions(+), 48 deletions(-)
- create mode 100755 scripts/oe-selftest-internal
+ scripts/contrib/parallel-oe-selftest.sh | 81 +++++++++++++++++++++++++++++++++
+ 1 file changed, 81 insertions(+)
+ create mode 100755 scripts/contrib/parallel-oe-selftest.sh
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 1bf860a415..0505f943e4 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -1,5 +1,7 @@
--#!/usr/bin/env python3
-+#!/bin/sh
- 
-+# scripts/oe-selftest: calls oe-selftest-internal in a isolated environment
-+#
- # Copyright (c) 2013-2017 Intel Corporation
- #
- # This program is free software; you can redistribute it and/or modify
-@@ -14,62 +16,72 @@
- # You should have received a copy of the GNU General Public License along
- # with this program; if not, write to the Free Software Foundation, Inc.,
- # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+#
-+
-+# Before anything else, check oe-core environment
-+if [ -z "$BUILDDIR" ]; then
-+    echo "Please initialize the OE-Core environment through oe-init-build-env script"
-+    exit 1
-+fi
-+
-+# Variable definitions
-+ORIGBUILDDIR="$BUILDDIR"
-+OESELFTESTSCRIPTDIR="$(which oe-selftest)"
-+SCRIPTSDIR="$(dirname $OESELFTESTSCRIPTDIR)"
-+OECOREDIR="$(dirname $SCRIPTSDIR)"
- 
--# DESCRIPTION
--# This script runs tests defined in meta/lib/oeqa/selftest/
--# It's purpose is to automate the testing of different bitbake tools.
--# To use it you just need to source your build environment setup script and
--# add the meta-selftest layer to your BBLAYERS.
--# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
--# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
--# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
-+# oe-selftest-$$ related
-+OESELFTESTDIR="$ORIGBUILDDIR/oe-selftest-$$"
-+OESELFTESTBUILDDIR="$OESELFTESTDIR/build"
- 
-+# Return immediately in case no test execution
-+ADDTESTS="$(echo "$@" | grep -i '\-a')"
-+SOMETESTS="$(echo "$@" | grep -i '\-r')"
-+if [ -z "$ADDTESTS" -a -z "$SOMETESTS" ]; then
-+    if [ -z "$@" ]; then
-+	oe-selftest-internal -h
-+    else
-+	oe-selftest-internal "$@"
-+    fi
-+    exit 0
-+fi
- 
-+# Create directories (build, build/conf and layers)
-+mkdir -p $OESELFTESTDIR $OESELFTESTBUILDDIR/conf $OESELFTESTLAYERSDIR
- 
--import os
--import sys
--import argparse
--import logging
-+# Populate the new build/conf, bblayers.conf will be touch latter to reflect new layer structure
-+cp $ORIGBUILDDIR/conf/* $OESELFTESTBUILDDIR/conf
- 
--scripts_path = os.path.dirname(os.path.realpath(__file__))
--lib_path = scripts_path + '/lib'
--sys.path = sys.path + [lib_path]
--import argparse_oe
--import scriptutils
--import scriptpath
--scriptpath.add_oe_lib_path()
--scriptpath.add_bitbake_lib_path()
-+# Copy OE-Core meta directories
-+cp -a $OECOREDIR/meta-selftest  $OESELFTESTDIR
-+cp -a $OECOREDIR/meta-skeleton  $OESELFTESTDIR
-+cp -a $OECOREDIR/meta-yocto-bsp $OESELFTESTDIR
- 
--from oeqa.utils import load_test_components
--from oeqa.core.exception import OEQAPreRun
-+# Copy non-metadata files
-+cp -a $OECOREDIR/bitbake        $OESELFTESTDIR
-+cp -a $SCRIPTSDIR               $OESELFTESTDIR
-+cp $OECOREDIR/oe-init-build-env $OESELFTESTDIR
-+cp $OECOREDIR/.templateconf     $OESELFTESTDIR
- 
--logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
-+# Copy all layers define in BBLAYERS and construct the new bblayers.conf at the same time
-+BBLAYERS="$(bitbake -e | grep ^BBLAYERS= | sed -e s/BBLAYERS=// -e s/\"//g)"
-+for src in $BBLAYERS; do
-+    cp -a $src $OESELFTESTDIR
-+    # rename the new layer into the new bblayers.conf
-+    tgt="$OESELFTESTDIR/$(basename $src)"
-+    sed -e "s|$src|$tgt|" -i $OESELFTESTBUILDDIR/conf/bblayers.conf
-+done
- 
--def main():
--    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
--    parser = argparse_oe.ArgumentParser(description=description)
-+# Reinitialized environment with new metadata and templateconf environement
-+cd $OESELFTESTDIR
-+source ./oe-init-build-env $OESELFTESTBUILDDIR
- 
--    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
--    comp.register_commands(logger, parser)
-+# Execute the tests throught oe-selftest-internal
-+oe-selftest-internal "$@"
- 
--    try:
--        args = parser.parse_args()
--        results = args.func(logger, args)
--        ret = 0 if results.wasSuccessful() else 1
--    except SystemExit as err:
--        if err.code != 0:
--            raise err
--        ret = err.code
--    except OEQAPreRun as pr:
--        ret = 1
-+OESELFTESTRC="$?"
- 
--    return ret
-+# Echo working folder
-+echo -e "\nAll work done under $OESELFTESTDIR\n"
- 
--if __name__ == '__main__':
--    try:
--        ret = main()
--    except Exception:
--        ret = 1
--        import traceback
--        traceback.print_exc()
--    sys.exit(ret)
-+exit $OESELFTESTRC
-diff --git a/scripts/oe-selftest-internal b/scripts/oe-selftest-internal
+diff --git a/scripts/contrib/parallel-oe-selftest.sh b/scripts/contrib/parallel-oe-selftest.sh
 new file mode 100755
-index 0000000000..cff2906763
+index 0000000000..5fbdff9f95
 --- /dev/null
-+++ b/scripts/oe-selftest-internal
-@@ -0,0 +1,75 @@
-+#!/usr/bin/env python3
++++ b/scripts/contrib/parallel-oe-selftest.sh
+@@ -0,0 +1,81 @@
++#!/bin/sh
 +
++# paralell-oe-selftest: executes oe-selftest in 'parallel'. The tests (modules, clases or test methods, same
++# as oe-selftest --run-tests) to be executed can be piped to this script; if this is not the case, all modules
++# are executed
++#
 +# Copyright (c) 2013-2017 Intel Corporation
 +#
 +# This program is free software; you can redistribute it and/or modify
@@ -209,65 +80,67 @@ index 0000000000..cff2906763
 +# You should have received a copy of the GNU General Public License along
 +# with this program; if not, write to the Free Software Foundation, Inc.,
 +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
 +
-+# DESCRIPTION
-+# This script runs tests defined in meta/lib/oeqa/selftest/
-+# It's purpose is to automate the testing of different bitbake tools.
-+# To use it you just need to source your build environment setup script and
-+# add the meta-selftest layer to your BBLAYERS.
-+# Call the script as: "oe-selftest -a" to run all the tests in meta/lib/oeqa/selftest/
-+# Call the script as: "oe-selftest -r <module>.<Class>.<method>" to run just a single test
-+# E.g: "oe-selftest -r bblayers.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/oeqa/selftest/bblayers.py
++# Before anything else, check oe-core environment
++if [ -z "$BUILDDIR" ]; then
++    echo "Please initialize the OE-Core environment through oe-init-build-env script"
++    exit 1
++fi
 +
++usage() {
++CMD=$(basename $0)
++cat <<EOM
++Usage: $CMD [-h] [-j jobs] [-- <parallel options>]
++  -j jobs             Number of jobs to be running concurrently
++  -h                  Display this help message
 +
++ Examples:
++   # run all tests, output results in order and show progress
++   $CMD -j 4 -- --keep-order --progress
 +
-+import os
-+import sys
-+import argparse
-+import logging
++   # run just wic and bblayers
++   echo wic bblayers | $CMD
 +
-+scripts_path = os.path.dirname(os.path.realpath(__file__))
-+lib_path = scripts_path + '/lib'
-+sys.path = sys.path + [lib_path]
-+import argparse_oe
-+import scriptutils
-+import scriptpath
-+scriptpath.add_oe_lib_path()
-+scriptpath.add_bitbake_lib_path()
++EOM
++}
 +
-+from oeqa.utils import load_test_components
-+from oeqa.core.exception import OEQAPreRun
++JOBS=4
++# Parse and validate arguments
++while getopts "hj:" OPT; do
++	case $OPT in
++	j)
++	        JOBS="$OPTARG"
++	        ;;
++	h)
++		usage
++		exit 0
++		;;
++	--)
++		shift
++		break
++		;;
++	esac
++done
 +
-+logger = scriptutils.logger_create('oe-selftest', stream=sys.stdout)
++shift "$((OPTIND - 1))"
++extraopts="$@"
++echo $extraopts
 +
-+def main():
-+    description = "Script that runs unit tests against bitbake and other Yocto related tools. The goal is to validate tools functionality and metadata integrity. Refer to https://wiki.yoctoproject.org/wiki/Oe-selftest for more information."
-+    parser = argparse_oe.ArgumentParser(prog='oe-selftest', description=description)
++if [ -t 0 ]; then
++    # no stdin, run all modules
++    TESTCASES="$(oe-selftest -m | awk '{ print $NF } ' | grep -v ':')"
++else
++    TESTCASES="$(cat /dev/stdin)"
++fi
 +
-+    comp_name, comp = load_test_components(logger, 'oe-selftest').popitem()
-+    comp.register_commands(logger, parser)
++# Parallelization is done through GNU/Paralell, so it must be present in host machine
++which parallel 2>&1 >/dev/null || { echo "Please install GNU/Parallel"; exit 1; }
 +
-+    try:
-+        args = parser.parse_args()
-+        results = args.func(logger, args)
-+        ret = 0 if results.wasSuccessful() else 1
-+    except SystemExit as err:
-+        if err.code != 0:
-+            raise err
-+        ret = err.code
-+    except OEQAPreRun as pr:
-+        ret = 1
++echo "The following tests will be run in parallel with a $JOBS jobs"
++echo ""; for t in $TESTCASES; do echo -e "\t$t"; done; echo ""
 +
-+    return ret
-+
-+if __name__ == '__main__':
-+    try:
-+        ret = main()
-+    except Exception:
-+        ret = 1
-+        import traceback
-+        traceback.print_exc()
-+    sys.exit(ret)
++echo "$TESTCASES" | parallel --jobs $JOBS $extraopts oe-selftest -r
 -- 
 2.12.3
 
