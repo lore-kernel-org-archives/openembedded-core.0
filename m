@@ -1,25 +1,25 @@
 Return-Path: <california.l.sullivan@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 248B460746
+	by mail.openembedded.org (Postfix) with ESMTP id E35AD78557
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Nov 2017 21:20:56 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 13:20:57 -0800
+	14 Nov 2017 13:20:58 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.44,396,1505804400"; 
-   d="scan'208";a="2290785"
+   d="scan'208";a="2290797"
 Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 14 Nov 2017 13:20:57 -0800
+	by orsmga003.jf.intel.com with ESMTP; 14 Nov 2017 13:20:58 -0800
 From: California Sullivan <california.l.sullivan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 13:20:48 -0800
-Message-Id: <20171114212050.15881-2-california.l.sullivan@intel.com>
+Date: Tue, 14 Nov 2017 13:20:49 -0800
+Message-Id: <20171114212050.15881-3-california.l.sullivan@intel.com>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20171114212050.15881-1-california.l.sullivan@intel.com>
 References: <20171114212050.15881-1-california.l.sullivan@intel.com>
 Cc: henry.bruce@intel.com, saul.wold@intel.com
-Subject: [PATCH 1/3] initramfs-module-install-efi: point to original copy and delete new file
+Subject: [PATCH 2/3] initramfs-module-install-efi: update summary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,321 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 21:20:56 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 21:20:57 -0000
 
-There is no need to maintain two of the exact same files.
+Note that this is an installation option for EFI systems.
 
 Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- .../initramfs-framework/install-efi.sh             | 276 ---------------------
- .../initramfs-module-install-efi_1.0.bb            |   6 +-
- 2 files changed, 3 insertions(+), 279 deletions(-)
- delete mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/install-efi.sh
+ meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/install-efi.sh b/meta/recipes-core/initrdscripts/initramfs-framework/install-efi.sh
-deleted file mode 100644
-index 5ad3a60..0000000
---- a/meta/recipes-core/initrdscripts/initramfs-framework/install-efi.sh
-+++ /dev/null
-@@ -1,276 +0,0 @@
--#!/bin/sh -e
--#
--# Copyright (c) 2012, Intel Corporation.
--# All rights reserved.
--#
--# install.sh [device_name] [rootfs_name]
--#
--
--PATH=/sbin:/bin:/usr/sbin:/usr/bin
--
--# We need 20 Mb for the boot partition
--boot_size=20
--
--# 5% for swap
--swap_ratio=5
--
--# Get a list of hard drives
--hdnamelist=""
--live_dev_name=`cat /proc/mounts | grep ${1%/} | awk '{print $1}'`
--live_dev_name=${live_dev_name#\/dev/}
--# Only strip the digit identifier if the device is not an mmc
--case $live_dev_name in
--    mmcblk*)
--    ;;
--    nvme*)
--    ;;
--    *)
--        live_dev_name=${live_dev_name%%[0-9]*}
--    ;;
--esac
--
--echo "Searching for hard drives ..."
--
--# Some eMMC devices have special sub devices such as mmcblk0boot0 etc
--# we're currently only interested in the root device so pick them wisely
--devices=`ls /sys/block/ | grep -v mmcblk` || true
--mmc_devices=`ls /sys/block/ | grep "mmcblk[0-9]\{1,\}$"` || true
--devices="$devices $mmc_devices"
--
--for device in $devices; do
--    case $device in
--        loop*)
--            # skip loop device
--            ;;
--        sr*)
--            # skip CDROM device
--            ;;
--        ram*)
--            # skip ram device
--            ;;
--        *)
--            # skip the device LiveOS is on
--            # Add valid hard drive name to the list
--            case $device in
--                $live_dev_name*)
--                # skip the device we are running from
--                ;;
--                *)
--                    hdnamelist="$hdnamelist $device"
--                ;;
--            esac
--            ;;
--    esac
--done
--
--if [ -z "${hdnamelist}" ]; then
--    echo "You need another device (besides the live device /dev/${live_dev_name}) to install the image. Installation aborted."
--    exit 1
--fi
--
--TARGET_DEVICE_NAME=""
--for hdname in $hdnamelist; do
--    # Display found hard drives and their basic info
--    echo "-------------------------------"
--    echo /dev/$hdname
--    if [ -r /sys/block/$hdname/device/vendor ]; then
--        echo -n "VENDOR="
--        cat /sys/block/$hdname/device/vendor
--    fi
--    if [ -r /sys/block/$hdname/device/model ]; then
--        echo -n "MODEL="
--        cat /sys/block/$hdname/device/model
--    fi
--    if [ -r /sys/block/$hdname/device/uevent ]; then
--        echo -n "UEVENT="
--        cat /sys/block/$hdname/device/uevent
--    fi
--    echo
--done
--
--# Get user choice
--while true; do
--    echo "Please select an install target or press n to exit ($hdnamelist ): "
--    read answer
--    if [ "$answer" = "n" ]; then
--        echo "Installation manually aborted."
--        exit 1
--    fi
--    for hdname in $hdnamelist; do
--        if [ "$answer" = "$hdname" ]; then
--            TARGET_DEVICE_NAME=$answer
--            break
--        fi
--    done
--    if [ -n "$TARGET_DEVICE_NAME" ]; then
--        break
--    fi
--done
--
--if [ -n "$TARGET_DEVICE_NAME" ]; then
--    echo "Installing image on /dev/$TARGET_DEVICE_NAME ..."
--else
--    echo "No hard drive selected. Installation aborted."
--    exit 1
--fi
--
--device=/dev/$TARGET_DEVICE_NAME
--
--#
--# The udev automounter can cause pain here, kill it
--#
--rm -f /etc/udev/rules.d/automount.rules
--rm -f /etc/udev/scripts/mount*
--
--#
--# Unmount anything the automounter had mounted
--#
--umount ${device}* 2> /dev/null || /bin/true
--
--mkdir -p /tmp
--
--# Create /etc/mtab if not present
--if [ ! -e /etc/mtab ] && [ -e /proc/mounts ]; then
--    ln -sf /proc/mounts /etc/mtab
--fi
--
--disk_size=$(parted ${device} unit mb print | grep '^Disk .*: .*MB' | cut -d" " -f 3 | sed -e "s/MB//")
--
--swap_size=$((disk_size*swap_ratio/100))
--rootfs_size=$((disk_size-boot_size-swap_size))
--
--rootfs_start=$((boot_size))
--rootfs_end=$((rootfs_start+rootfs_size))
--swap_start=$((rootfs_end))
--
--# MMC devices are special in a couple of ways
--# 1) they use a partition prefix character 'p'
--# 2) they are detected asynchronously (need rootwait)
--rootwait=""
--part_prefix=""
--if [ ! "${device#/dev/mmcblk}" = "${device}" ] || \
--   [ ! "${device#/dev/nvme}" = "${device}" ]; then
--    part_prefix="p"
--    rootwait="rootwait"
--fi
--
--# USB devices also require rootwait
--if [ -n `readlink /dev/disk/by-id/usb* | grep $TARGET_DEVICE_NAME` ]; then
--    rootwait="rootwait"
--fi
--
--bootfs=${device}${part_prefix}1
--rootfs=${device}${part_prefix}2
--swap=${device}${part_prefix}3
--
--echo "*****************"
--echo "Boot partition size:   $boot_size MB ($bootfs)"
--echo "Rootfs partition size: $rootfs_size MB ($rootfs)"
--echo "Swap partition size:   $swap_size MB ($swap)"
--echo "*****************"
--echo "Deleting partition table on ${device} ..."
--dd if=/dev/zero of=${device} bs=512 count=35
--
--echo "Creating new partition table on ${device} ..."
--parted ${device} mklabel gpt
--
--echo "Creating boot partition on $bootfs"
--parted ${device} mkpart boot fat32 0% $boot_size
--parted ${device} set 1 boot on
--
--echo "Creating rootfs partition on $rootfs"
--parted ${device} mkpart root ext3 $rootfs_start $rootfs_end
--
--echo "Creating swap partition on $swap"
--parted ${device} mkpart swap linux-swap $swap_start 100%
--
--parted ${device} print
--
--echo "Formatting $bootfs to vfat..."
--mkfs.vfat $bootfs
--
--echo "Formatting $rootfs to ext3..."
--mkfs.ext3 $rootfs
--
--echo "Formatting swap partition...($swap)"
--mkswap $swap
--
--mkdir /tgt_root
--mkdir /src_root
--mkdir -p /boot
--
--# Handling of the target root partition
--mount $rootfs /tgt_root
--mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
--echo "Copying rootfs files..."
--cp -a /src_root/* /tgt_root
--if [ -d /tgt_root/etc/ ] ; then
--    boot_uuid=$(blkid -o value -s UUID ${bootfs})
--    swap_part_uuid=$(blkid -o value -s PARTUUID ${swap})
--    echo "/dev/disk/by-partuuid/$swap_part_uuid                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
--    echo "UUID=$boot_uuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
--    # We dont want udev to mount our root device while we're booting...
--    if [ -d /tgt_root/etc/udev/ ] ; then
--        echo "${device}" >> /tgt_root/etc/udev/mount.blacklist
--    fi
--fi
--
--umount /src_root
--
--# Handling of the target boot partition
--mount $bootfs /boot
--echo "Preparing boot partition..."
--
--EFIDIR="/boot/EFI/BOOT"
--mkdir -p $EFIDIR
--# Copy the efi loader
--cp /run/media/$1/EFI/BOOT/*.efi $EFIDIR
--
--if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
--    root_part_uuid=$(blkid -o value -s PARTUUID ${rootfs})
--    GRUBCFG="$EFIDIR/grub.cfg"
--    cp /run/media/$1/EFI/BOOT/grub.cfg $GRUBCFG
--    # Update grub config for the installed image
--    # Delete the install entry
--    sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
--    # Delete the initrd lines
--    sed -i "/initrd /d" $GRUBCFG
--    # Delete any LABEL= strings
--    sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
--    # Delete any root= strings
--    sed -i "s/ root=[^ ]*/ /g" $GRUBCFG
--    # Add the root= and other standard boot options
--    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$root_part_uuid rw $rootwait quiet @" $GRUBCFG
--fi
--
--if [ -d /run/media/$1/loader ]; then
--    rootuuid=$(blkid -o value -s PARTUUID ${rootfs})
--    SYSTEMDBOOT_CFGS="/boot/loader/entries/*.conf"
--    # copy config files for systemd-boot
--    cp -dr /run/media/$1/loader /boot
--    # delete the install entry
--    rm -f /boot/loader/entries/install.conf
--    # delete the initrd lines
--    sed -i "/initrd /d" $SYSTEMDBOOT_CFGS
--    # delete any LABEL= strings
--    sed -i "s/ LABEL=[^ ]*/ /" $SYSTEMDBOOT_CFGS
--    # delete any root= strings
--    sed -i "s/ root=[^ ]*/ /" $SYSTEMDBOOT_CFGS
--    # add the root= and other standard boot options
--    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $SYSTEMDBOOT_CFGS
--fi
--
--umount /tgt_root
--
--cp /run/media/$1/vmlinuz /boot
--
--umount /boot
--
--sync
--
--echo "Remove your installation media, and press ENTER"
--
--read enter
--
--echo "Rebooting..."
--reboot -f
 diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-index 2270441..3d8c9e7 100644
+index 3d8c9e7..24b53a8 100644
 --- a/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
 +++ b/meta/recipes-core/initrdscripts/initramfs-module-install-efi_1.0.bb
-@@ -7,14 +7,14 @@ PR = "r4"
- 
- inherit allarch
- 
--FILESEXTRAPATHS_prepend := "${THISDIR}/initramfs-framework:"
--SRC_URI = "file://install-efi.sh"
-+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-+SRC_URI = "file://init-install-efi.sh"
- 
- S = "${WORKDIR}"
- 
- do_install() {
-     install -d ${D}/init.d
--    install -m 0755 ${WORKDIR}/install-efi.sh ${D}/init.d/install-efi.sh
-+    install -m 0755 ${WORKDIR}/init-install-efi.sh ${D}/init.d/install-efi.sh
- }
- 
- FILES_${PN} = "/init.d/install-efi.sh"
+@@ -1,4 +1,4 @@
+-SUMMARY = "initramfs-framework module for installation option"
++SUMMARY = "initramfs-framework module for EFI installation option"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ RDEPENDS_${PN} = "initramfs-framework-base parted e2fsprogs-mke2fs dosfstools util-linux-blkid"
 -- 
 2.9.5
 
