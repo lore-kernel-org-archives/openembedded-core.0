@@ -1,54 +1,30 @@
-Return-Path: <Javier.Viguera@digi.com>
-X-Greylist: delayed 421 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 14 Nov 2017 20:03:35 UTC
-Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
-	[216.82.251.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D20378551
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F46878590
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 20:03:35 +0000 (UTC)
-Received: from [216.82.251.44] by server-11.bemta-12.messagelabs.com id
-	39/F9-01772-47A4B0A5; Tue, 14 Nov 2017 19:56:36 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOIsWRWlGSWpSXmKPExsXi5LtOQLfYizv
-	K4PhvK4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePLlS8sBX+5K+6ueMTWwLiWs4uRi0NIYDWj
-	xPv/L5khnDWMEhvvd0A56xklZv+4xNTFyMnBJqAnMfnSE6AEB4cIkH31nyhIWFjATeLvmm/MI
-	DaLgKrE1Q9/WUBsXgEbiX97F7KC2BIC8hKLv+9kA7E5BWwlPvddAasXAqr5NGEGVL2gxMmZT8
-	BsZgEJiYMvXkDVqEgcXHqZEWbOps1n2Scw8s9C0jILScsCRqZVjBrFqUVlqUW6JqZ6SUWZ6Rk
-	luYmZObqGhkZ6uanFxYnpqTmJScV6yfm5mxiBAVfPwMC4g/Hd/uhDjJIcTEqivCqf2aOE+JLy
-	UyozEosz4otKc1KLDzHKcHAoSfDO8uCOEhIsSk1PrUjLzAGGPkxagoNHSYTXGyTNW1yQmFucm
-	Q6ROsVoyXHoxe0/TBzPZr5uYOaYdrW1iVmIJS8/L1VKnHc3SIMASENGaR7cOFh8XmKUlRLmZW
-	RgYBDiKUgtys0sQZV/xSjOwagkzMvkCTSFJzOvBG7rK6CDmIAOkgL5hbe4JBEhJdXA6Be7YG8
-	Jf6DGn2X1nSrbC059jmPfb3dzEeuPx8bXojbVrEhhX9B/atn8g57vpzHw5Go1XWJa0lixNKTh
-	OnOuVJDIpouCW1dPV97J4L7+0bTKlrVnKvbNrX7YEpexLiz47n4Xzkyt1F/cPR/0XW1jrpm2z
-	9owtXPx2o4Hcx+uC/1zY/eadrdt65RYijMSDbWYi4oTAUse/EvKAgAA
-X-Env-Sender: Javier.Viguera@digi.com
-X-Msg-Ref: server-7.tower-200.messagelabs.com!1510689395!39900110!1
-X-Originating-IP: [66.77.174.16]
-X-StarScan-Received: 
-X-StarScan-Version: 9.4.45; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 25502 invoked from network); 14 Nov 2017 19:56:35 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-	by server-7.tower-200.messagelabs.com with SMTP;
-	14 Nov 2017 19:56:35 -0000
-Received: from MTK-SMS-XCH02.digi.com (10.10.8.196) by MCL-VMS-XCH01.digi.com
-	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 14 Nov 2017 13:56:33 -0600
-Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH02.digi.com
-	(10.10.8.196) with Microsoft SMTP Server (TLS) id 14.3.361.1;
-	Tue, 14 Nov 2017 13:56:32 -0600
-Received: from log-cln-jviguera.digi.com (10.101.2.54) by
-	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
-	14.3.361.1; Tue, 14 Nov 2017 20:56:30 +0100
-From: Javier Viguera <javier.viguera@digi.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Nov 2017 20:56:19 +0100
-Message-ID: <20171114195619.30923-3-javier.viguera@digi.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20171114195619.30923-1-javier.viguera@digi.com>
-References: <20171114195619.30923-1-javier.viguera@digi.com>
+	Tue, 14 Nov 2017 20:20:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2017 12:20:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,396,1505804400"; 
+   d="scan'208";a="1881591"
+Received: from $_hostname.zpn.intel.com (HELO lsandov1-mobl2.zpn.intel.com)
+	([10.219.128.134])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Nov 2017 12:20:59 -0800
+Date: Tue, 14 Nov 2017 14:31:29 -0600
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20171114143129.635f92c1@lsandov1-mobl2.zpn.intel.com>
+In-Reply-To: <CAMKF1spFf70gSgvNsNsFZjQUFW64fw4mfeCQZHjMWTrzrXKO1A@mail.gmail.com>
+References: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
+	<20171114145754.9643-26-alexander.kanavin@linux.intel.com>
+	<CAMKF1spFf70gSgvNsNsFZjQUFW64fw4mfeCQZHjMWTrzrXKO1A@mail.gmail.com>
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Originating-IP: [10.101.2.54]
-Subject: [morty backport][PATCH 2/2] tcf-agent: Fix daemon termination
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 26/27] ffmpeg: update to 3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,48 +37,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 20:03:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Nov 2017 20:20:59 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Jan Kiszka <jan.kiszka@web.de>
+On Tue, 14 Nov 2017 11:41:16 -0800
+Khem Raj <raj.khem@gmail.com> wrote:
 
-The upstream init script uses SIGUSR2 to terminate that daemon because
-SIGTERM is ignored. As the killproc function does not support specifying
-a signal, switch to start-stop-daemon. Drop the retry loop because
-SIGUSR2 is lethal for agent.
+> On Tue, Nov 14, 2017 at 6:57 AM, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+> > Schroedinger support has been dropped:
+> > https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/220b24c7c9
+> >
+> > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> > ---
+> >  meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} | 8 +++-----
+> >  1 file changed, 3 insertions(+), 5 deletions(-)
+> >  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
+> >
+> > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+> > similarity index 95%
+> > rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
+> > rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+> > index 57e0ac04115..42dbe5582f3 100644
+> > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
+> > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+> > @@ -25,10 +25,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> >
+> >  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+> >             file://mips64_cpu_detection.patch \
+> > -           file://0001-build-fix-for-mips.patch \
+> > -          "  
+> 
+> This patch is not deleted along with this omission. Perhaps an oversight ?
 
-Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Javier Viguera <javier.viguera@digi.com>
----
- meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+There is actually a patchtest check for this so there must be something missing on the latter.
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
-index 6303280aae1d..f90208555b9f 100755
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
-@@ -33,16 +33,7 @@ case "$1" in
- 
-     stop)
-         echo -n "Stopping $DAEMON_NAME: "
--        count=0
--        while [ -n "`/bin/pidof $DAEMON_PATH`" -a $count -lt 10 ] ; do
--            killproc $DAEMON_PATH >& /dev/null
--            sleep 1
--            RETVAL=$?
--            if [ $RETVAL != 0 -o -n "`/bin/pidof $DAEMON_PATH`" ] ; then
--                sleep 3
--            fi
--            count=`expr $count + 1`
--        done
-+        start-stop-daemon -K -q -x $DAEMON_PATH -s USR2
-         rm -f /var/lock/subsys/$DAEMON_NAME
-         if [ -n "`/bin/pidof $DAEMON_PATH`" ] ; then
-             echo "FAIL"
-@@ -72,4 +63,3 @@ case "$1" in
- esac
- 
- exit $RETVAL
--
+> 
+> > -SRC_URI[md5sum] = "e14a0200c78ce5c918427e57cd406a0d"
+> > -SRC_URI[sha256sum] = "98b97e1b908dfeb6aeb6d407e5a5eacdfc253a40c2d195f5867ed2d1d46ea957"
+> > +           "
+> > +SRC_URI[md5sum] = "c64ba7247bb91e516f6a5789348fd5b5"
+> > +SRC_URI[sha256sum] = "aeee06e4d8b18d852c61ebbfe5e1bb7014b1e118e8728c1c2115f91e51bffbef"
+> >
+> >  # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+> >  ARM_INSTRUCTION_SET = "arm"
+> > @@ -64,7 +63,6 @@ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+> >  PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
+> >  PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+> >  PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+> > -PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
+> >  PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
+> >  PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
+> >  PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
+> > --
+> > 2.15.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core  
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
