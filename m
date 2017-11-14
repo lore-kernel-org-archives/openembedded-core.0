@@ -1,23 +1,23 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BA2EE784E4
+	by mail.openembedded.org (Postfix) with ESMTP id EC1B9784C3
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Nov 2017 14:58:02 +0000 (UTC)
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 06:57:59 -0800
+	14 Nov 2017 06:58:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="173402205"
+X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="173402213"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2017 06:57:58 -0800
+	by orsmga005.jf.intel.com with ESMTP; 14 Nov 2017 06:57:59 -0800
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 16:57:39 +0200
-Message-Id: <20171114145754.9643-12-alexander.kanavin@linux.intel.com>
+Date: Tue, 14 Nov 2017 16:57:40 +0200
+Message-Id: <20171114145754.9643-13-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
 References: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 12/27] librepo: update to 1.8.1
+Subject: [PATCH 13/27] dnf: update to 2.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,253 +32,269 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Nov 2017 14:58:03 -0000
 
-Drop upstreamed patches, rebase the PYTHON_INSTALL_DIR patch.
+Drop upstreamed patch.
+Rebase the other patches.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...ly-set-the-library-installation-directory.patch | 28 -------------
- ...to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch | 49 +++++++++++++++-------
- ...-race-when-deleting-temporary-directories.patch | 41 ------------------
- ...rrect-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch | 40 ------------------
- .../librepo/{librepo_git.bb => librepo_1.8.1.bb}   |  6 +--
- 5 files changed, 36 insertions(+), 128 deletions(-)
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
- delete mode 100644 meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch
- rename meta/recipes-devtools/librepo/{librepo_git.bb => librepo_1.8.1.bb} (68%)
+ ...eck-conf.releasever-instead-of-releasever.patch | 31 ----------------------
+ ...Corretly-install-tmpfiles.d-configuration.patch |  7 ++---
+ ...hardcode-etc-and-systemd-unit-directories.patch |  9 ++++---
+ ...005-Do-not-prepend-installroot-to-logdir.patch} | 14 +++++-----
+ ...-set-PYTHON_INSTALL_DIR-by-running-python.patch |  9 ++++---
+ .../dnf/0030-Run-python-scripts-using-env.patch    | 11 ++++----
+ .../dnf/{dnf_2.6.3.bb => dnf_2.7.5.bb}             | 10 +++----
+ 7 files changed, 32 insertions(+), 59 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch
+ rename meta/recipes-devtools/dnf/dnf/{0001-Do-not-prepend-installroot-to-logdir.patch => 0005-Do-not-prepend-installroot-to-logdir.patch} (67%)
+ rename meta/recipes-devtools/dnf/{dnf_2.6.3.bb => dnf_2.7.5.bb} (92%)
 
-diff --git a/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch b/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch b/meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch
 deleted file mode 100644
-index 08a58f17554..00000000000
---- a/meta/recipes-devtools/librepo/librepo/0001-Correctly-set-the-library-installation-directory.patch
+index 05f31415174..00000000000
+--- a/meta/recipes-devtools/dnf/dnf/0001-Check-conf.releasever-instead-of-releasever.patch
 +++ /dev/null
-@@ -1,28 +0,0 @@
--From 36d87919223db9b054862ad38cdda8d9222a2bab Mon Sep 17 00:00:00 2001
+@@ -1,31 +0,0 @@
+-From 166833a88a928a574bf9143b9b65f544be482c77 Mon Sep 17 00:00:00 2001
 -From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 30 Dec 2016 18:04:35 +0200
--Subject: [PATCH 1/4] Correctly set the library installation directory
+-Date: Fri, 18 Aug 2017 15:55:15 +0300
+-Subject: [PATCH] Check conf.releasever instead of releasever
 -
--Upstream-Status: Submitted [https://github.com/rpm-software-management/librepo/pull/110]
+-The substitutions may actually set the conf.releasever correctly,
+-and so the check should use that instead of the passed-in function
+-parameter.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf/pull/901]
 -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ----
-- librepo/CMakeLists.txt | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
+- dnf/cli/cli.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/librepo/CMakeLists.txt b/librepo/CMakeLists.txt
--index 2fe76d8..5026def 100644
----- a/librepo/CMakeLists.txt
--+++ b/librepo/CMakeLists.txt
--@@ -60,7 +60,8 @@ CONFIGURE_FILE("version.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/version.h" @ONLY)
-- IF (CMAKE_SIZEOF_VOID_P MATCHES "8")
--   SET (LIB_SUFFIX "64")
-- ENDIF (CMAKE_SIZEOF_VOID_P MATCHES "8")
---SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
--+#SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib${LIB_SUFFIX}")
--+SET (LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
+-diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
+-index 2d63420c..167943b8 100644
+---- a/dnf/cli/cli.py
+-+++ b/dnf/cli/cli.py
+-@@ -914,7 +914,7 @@ class Cli(object):
+-         conf.releasever = releasever
+-         subst = conf.substitutions
+-         subst.update_from_etc(conf.installroot)
+--        if releasever is None:
+-+        if conf.releasever is None:
+-             logger.warning(_("Unable to detect release version (use '--releasever' to specify "
+-                              "release version)"))
 - 
-- INSTALL(FILES ${librepo_HEADERS} DESTINATION include/librepo)
-- INSTALL(TARGETS librepo LIBRARY DESTINATION ${LIB_INSTALL_DIR})
 --- 
--2.11.0
+-2.14.1
 -
-diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-index 7138dfce21d..d69deb5110d 100644
---- a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-@@ -1,41 +1,62 @@
--From 1570ad33dd7e5d83f3ee80bd104b114709ac1e34 Mon Sep 17 00:00:00 2001
-+From 5b6849d9d7e030c3a521b5245d86f853b0271a61 Mon Sep 17 00:00:00 2001
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
+index c9df4589746..6692b41a160 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-Corretly-install-tmpfiles.d-configuration.patch
+@@ -1,10 +1,11 @@
+-From 8ce181714640315d2dd37ee794acbb22063cd669 Mon Sep 17 00:00:00 2001
++From 05e059cd4e9910c00b32d377f4f98e3c8dde6bc6 Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:05:36 +0200
--Subject: [PATCH 2/4] Do not try to obtain PYTHON_INSTALL_DIR by running
-+Subject: [PATCH 1/2] Do not try to obtain PYTHON_INSTALL_DIR by running
-  python.
+ Date: Thu, 26 Jan 2017 16:36:20 +0200
+-Subject: [PATCH] Corretly install tmpfiles.d configuration
++Subject: [PATCH 4/5] Corretly install tmpfiles.d configuration
  
  Upstream-Status: Inappropriate [oe-core specific]
  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
  ---
-- librepo/python/python2/CMakeLists.txt | 2 +-
-- librepo/python/python3/CMakeLists.txt | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
-+ librepo/python/python2/CMakeLists.txt | 12 ++++++------
-+ librepo/python/python3/CMakeLists.txt | 12 ++++++------
-+ 2 files changed, 12 insertions(+), 12 deletions(-)
- 
- diff --git a/librepo/python/python2/CMakeLists.txt b/librepo/python/python2/CMakeLists.txt
--index 3615e17..cffa99f 100644
-+index 5ffbd62..90d3c22 100644
- --- a/librepo/python/python2/CMakeLists.txt
- +++ b/librepo/python/python2/CMakeLists.txt
--@@ -1,6 +1,6 @@
-+@@ -1,11 +1,11 @@
-  FIND_PACKAGE (PythonLibs 2 )
-  FIND_PACKAGE (PythonInterp 2 REQUIRED)
---EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
--+#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
-+-from sys import stdout
-+-from distutils import sysconfig
-+-path=sysconfig.get_python_lib(True, prefix='${CMAKE_INSTALL_PREFIX}')
-+-stdout.write(path)"
-+-OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
-++#from sys import stdout
-++#from distutils import sysconfig
-++#path=sysconfig.get_python_lib(True, prefix='${CMAKE_INSTALL_PREFIX}')
-++#stdout.write(path)"
-++#OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-  INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
-  
-  MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
- diff --git a/librepo/python/python3/CMakeLists.txt b/librepo/python/python3/CMakeLists.txt
--index dfecac9..38bcc72 100644
-+index 47559f7..b39adc2 100644
- --- a/librepo/python/python3/CMakeLists.txt
- +++ b/librepo/python/python3/CMakeLists.txt
--@@ -10,7 +10,7 @@ message("--- ${PYTHON_INCLUDE_DIR}")
-+@@ -10,12 +10,12 @@ message("--- ${PYTHON_INCLUDE_DIR}")
-  
-  FIND_PACKAGE(PythonLibs 3.0)
-  FIND_PACKAGE(PythonInterp 3.0 REQUIRED)
---EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
--+#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-+-EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
-+-from sys import stdout
-+-from distutils import sysconfig
-+-path=sysconfig.get_python_lib(True, prefix='${CMAKE_INSTALL_PREFIX}')
-+-stdout.write(path)"
-+-OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-++#EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
-++#from sys import stdout
-++#from distutils import sysconfig
-++#path=sysconfig.get_python_lib(True, prefix='${CMAKE_INSTALL_PREFIX}')
-++#stdout.write(path)"
-++#OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
-  INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
-  
-  MESSAGE(STATUS "Python3 install dir is ${PYTHON_INSTALL_DIR}")
+  etc/tmpfiles.d/CMakeLists.txt | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+@@ -17,5 +18,5 @@ index f69c773e..3eb6d0e8 100644
+ -INSTALL (FILES dnf.conf DESTINATION /usr/lib/tmpfiles.d/)
+ +INSTALL (FILES dnf.conf DESTINATION ${SYSCONFDIR}/tmpfiles.d/)
  -- 
 -2.11.0
-+2.14.1
++2.14.2
  
-diff --git a/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch b/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
-deleted file mode 100644
-index 89ca60e8186..00000000000
---- a/meta/recipes-devtools/librepo/librepo/0003-tests-fix-a-race-when-deleting-temporary-directories.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From b1a5c92dbd1d11f1afdc094fccea64de334d2783 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Fri, 30 Dec 2016 18:06:24 +0200
--Subject: [PATCH 3/4] tests: fix a race when deleting temporary directories
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/librepo/pull/110]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- tests/python/tests/test_yum_repo_downloading.py | 2 +-
-- tests/python/tests/test_yum_repo_locating.py    | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/tests/python/tests/test_yum_repo_downloading.py b/tests/python/tests/test_yum_repo_downloading.py
--index ad597dc..4a32519 100644
----- a/tests/python/tests/test_yum_repo_downloading.py
--+++ b/tests/python/tests/test_yum_repo_downloading.py
--@@ -32,7 +32,7 @@ class TestCaseYumRepoDownloading(TestCaseWithFlask):
--             os.environ.pop('GNUPGHOME')
--         else:
--             os.environ['GNUPGHOME'] = self._gnupghome
---        shutil.rmtree(self.tmpdir)
--+        shutil.rmtree(self.tmpdir, True)
-- 
--     def test_download_repo_01(self):
--         h = librepo.Handle()
--diff --git a/tests/python/tests/test_yum_repo_locating.py b/tests/python/tests/test_yum_repo_locating.py
--index 8f4bea5..db4294c 100644
----- a/tests/python/tests/test_yum_repo_locating.py
--+++ b/tests/python/tests/test_yum_repo_locating.py
--@@ -34,7 +34,7 @@ class TestCaseYumRepoLocating(TestCase):
--             os.environ.pop('GNUPGHOME')
--         else:
--             os.environ['GNUPGHOME'] = self._gnupghome
---        shutil.rmtree(self.tmpdir)
--+        shutil.rmtree(self.tmpdir, True)
-- 
--     def test_read_mirrorlist(self):
--         h = librepo.Handle()
---- 
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+index 0f261e5c5d6..15a7bfc7329 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
++++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch
+@@ -1,16 +1,17 @@
+-From 4313ced1320594013795f11f6db00381e3f4cc45 Mon Sep 17 00:00:00 2001
++From a8ef81c115a45f05dad145c98e10f3c4940e4e29 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 26 Jan 2017 16:25:47 +0200
+-Subject: [PATCH] Do not hardcode /etc and systemd unit directories
++Subject: [PATCH 3/5] Do not hardcode /etc and systemd unit directories
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  CMakeLists.txt | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 6a319935..db20ccd4 100644
++index 650b624a..10199618 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+ @@ -7,8 +7,8 @@ if (NOT PYTHON_DESIRED)
+@@ -25,5 +26,5 @@ index 6a319935..db20ccd4 100644
+  if (${PYTHON_DESIRED} STREQUAL "2")
+  	FIND_PACKAGE (PythonInterp REQUIRED)
+ -- 
 -2.11.0
--
-diff --git a/meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch b/meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch
-deleted file mode 100644
-index b0c7d1ca309..00000000000
---- a/meta/recipes-devtools/librepo/librepo/0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From a4bbbccce6edc1a2d1bd475506e2975fd7696c88 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Thu, 8 Jun 2017 16:31:30 +0800
--Subject: [PATCH] Fix typo: correct LRO_SSLVERIFYHOST with
-- CURLOPT_SSL_VERIFYHOST
--
--In commit 51d32c6cd88ba0139c32793183fd6a236c1ef456
-----
--Author: Tomas Mlcoch <tmlcoch@redhat.com>
--Date:   Mon May 5 14:31:35 2014 +0200
--
--    Add LRO_SSLVERIFYPEER and LRO_SSLVERIFYHOST options (RhBug: 1093014)
-----
--
--It incorrectly setopt CURLOPT_SSL_VERIFYPEER for LRO_SSLVERIFYHOST.
--Use CURLOPT_SSL_VERIFYHOST to correct.
--
--Upstream-Status: Submitted
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- librepo/handle.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/librepo/handle.c b/librepo/handle.c
--index ccea79b..ff39db4 100644
----- a/librepo/handle.c
--+++ b/librepo/handle.c
--@@ -629,7 +629,7 @@ lr_handle_setopt(LrHandle *handle,
-- 
--     case LRO_SSLVERIFYHOST:
--         handle->sslverifyhost = va_arg(arg, long) ? 2 : 0;
---        c_rc = curl_easy_setopt(c_h, CURLOPT_SSL_VERIFYPEER, handle->sslverifyhost);
--+        c_rc = curl_easy_setopt(c_h, CURLOPT_SSL_VERIFYHOST, handle->sslverifyhost);
--         break;
-- 
--     case LRO_SSLCLIENTCERT:
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/librepo/librepo_git.bb b/meta/recipes-devtools/librepo/librepo_1.8.1.bb
-similarity index 68%
-rename from meta/recipes-devtools/librepo/librepo_git.bb
-rename to meta/recipes-devtools/librepo/librepo_1.8.1.bb
-index 3238b14face..0324104a37a 100644
---- a/meta/recipes-devtools/librepo/librepo_git.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.8.1.bb
-@@ -3,15 +3,11 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++2.14.2
  
- SRC_URI = "git://github.com/rpm-software-management/librepo.git \
--           file://0001-Correctly-set-the-library-installation-directory.patch \
-            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch \
--           file://0003-tests-fix-a-race-when-deleting-temporary-directories.patch \
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
--           file://0005-Fix-typo-correct-LRO_SSLVERIFYHOST-with-CURLOPT_SSL_.patch \
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
+similarity index 67%
+rename from meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch
+rename to meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
+index a90e77cbf10..aa20009cef5 100644
+--- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-prepend-installroot-to-logdir.patch
++++ b/meta/recipes-devtools/dnf/dnf/0005-Do-not-prepend-installroot-to-logdir.patch
+@@ -1,7 +1,7 @@
+-From 31653d324cf8c7b1f2f9e49d22676bd2ac546331 Mon Sep 17 00:00:00 2001
++From 6365389074a1b86962f3d8b22a2ead2202026a98 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 11 Jan 2017 15:10:13 +0200
+-Subject: [PATCH] Do not prepend installroot to logdir.
++Subject: [PATCH 5/5] Do not prepend installroot to logdir.
+ 
+ This would otherwise write the logs into rootfs/var/log
+ (whereas we want them in $T),
+@@ -14,12 +14,12 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/dnf/cli/cli.py b/dnf/cli/cli.py
+-index b764801a..893f4bda 100644
++index d2d9c082..82270ecf 100644
+ --- a/dnf/cli/cli.py
+ +++ b/dnf/cli/cli.py
+-@@ -881,7 +881,7 @@ class Cli(object):
+-         subst = conf.substitutions
+-         subst.update_from_etc(conf.installroot)
++@@ -920,7 +920,7 @@ class Cli(object):
++             logger.warning(_("Unable to detect release version (use '--releasever' to specify "
++                              "release version)"))
+  
+ -        for opt in ('cachedir', 'logdir', 'persistdir'):
+ +        for opt in ('cachedir', 'persistdir'):
+@@ -27,5 +27,5 @@ index b764801a..893f4bda 100644
+  
+          self.base._logging._setup_from_dnf_conf(conf)
+ -- 
+-2.11.0
++2.14.2
+ 
+diff --git a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+index 8c59f9f670e..6e011915df0 100644
+--- a/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
++++ b/meta/recipes-devtools/dnf/dnf/0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+@@ -1,16 +1,17 @@
+-From 3ddaa930cda57a62a2174faebcc87aebc59591d1 Mon Sep 17 00:00:00 2001
++From 7205033e44d8fba1d3b18b490e7eaab82da1ffa3 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:29:07 +0200
+-Subject: [PATCH 29/30] Do not set PYTHON_INSTALL_DIR by running python
++Subject: [PATCH 1/5] Do not set PYTHON_INSTALL_DIR by running python
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  CMakeLists.txt | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 6a319935..466ca1e6 100644
++index 23e5f889..650b624a 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+ @@ -18,7 +18,7 @@ else()
+@@ -23,5 +24,5 @@ index 6a319935..466ca1e6 100644
+  MESSAGE(STATUS "Python install dir is ${PYTHON_INSTALL_DIR}")
+  
+ -- 
+-2.11.0
++2.14.2
+ 
+diff --git a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
+index 1abd880da9b..eedbb5723fa 100644
+--- a/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
++++ b/meta/recipes-devtools/dnf/dnf/0030-Run-python-scripts-using-env.patch
+@@ -1,19 +1,20 @@
+-From 9c8d545152b35d8943be72b9503414a53e1ebf7c Mon Sep 17 00:00:00 2001
++From 8d97b72a1d77149e2f9048d1ca6cef66da1a8aa5 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:29:37 +0200
+-Subject: [PATCH 30/30] Run python scripts using env
++Subject: [PATCH 2/5] Run python scripts using env
+ 
+ Otherwise the build tools hardcode the python path into them.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  bin/dnf-automatic.in | 2 +-
+  bin/dnf.in           | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/bin/dnf-automatic.in b/bin/dnf-automatic.in
+-index 5b06aa26..9f6f703e 100755
++index 5b06aa26..891b4c24 100755
+ --- a/bin/dnf-automatic.in
+ +++ b/bin/dnf-automatic.in
+ @@ -1,4 +1,4 @@
+@@ -23,7 +24,7 @@ index 5b06aa26..9f6f703e 100755
+  #
+  # Copyright (C) 2014-2016 Red Hat, Inc.
+ diff --git a/bin/dnf.in b/bin/dnf.in
+-index 645d0f06..ab141abd 100755
++index 645d0f06..bdf7b3c4 100755
+ --- a/bin/dnf.in
+ +++ b/bin/dnf.in
+ @@ -1,4 +1,4 @@
+@@ -33,5 +34,5 @@ index 645d0f06..ab141abd 100755
+  #
+  # Copyright (C) 2012-2016 Red Hat, Inc.
+ -- 
+-2.11.0
++2.14.2
+ 
+diff --git a/meta/recipes-devtools/dnf/dnf_2.6.3.bb b/meta/recipes-devtools/dnf/dnf_2.7.5.bb
+similarity index 92%
+rename from meta/recipes-devtools/dnf/dnf_2.6.3.bb
+rename to meta/recipes-devtools/dnf/dnf_2.7.5.bb
+index 3ed6a74570f..fbd3bd45719 100644
+--- a/meta/recipes-devtools/dnf/dnf_2.6.3.bb
++++ b/meta/recipes-devtools/dnf/dnf_2.7.5.bb
+@@ -5,15 +5,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                    "
+ 
+ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
++           file://0001-Corretly-install-tmpfiles.d-configuration.patch \
++           file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
++           file://0005-Do-not-prepend-installroot-to-logdir.patch \
+            file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            file://0030-Run-python-scripts-using-env.patch \
+-           file://0001-Do-not-prepend-installroot-to-logdir.patch \
+-           file://0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch \
+-           file://0001-Corretly-install-tmpfiles.d-configuration.patch \
+-           file://0001-Check-conf.releasever-instead-of-releasever.patch \
             "
  
--PV = "1.7.20+git${SRCPV}"
--SRCREV = "e1137cbbda78fecb192146300790680a5bc811b1"
-+SRCREV = "7b9b7bf388f3f059529c6f50c40b30919fef30f9"
+-SRCREV = "be2585183ec4485ee4d5e121f242d8669296f065"
++SRCREV = "564c44667c7014843fa6f1732621093114ec59b2"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
  S = "${WORKDIR}/git"
+@@ -46,6 +45,7 @@ do_install_append_class-native() {
+ }
  
+ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
++                         dnf-automatic.service dnf-automatic.timer \
+                          dnf-automatic-download.service dnf-automatic-download.timer \
+                          dnf-automatic-install.service dnf-automatic-install.timer \
+                          dnf-automatic-notifyonly.service dnf-automatic-notifyonly.timer \
 -- 
 2.15.0
 
