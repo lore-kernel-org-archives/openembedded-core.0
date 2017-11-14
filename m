@@ -1,50 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
-	[209.85.192.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 81CAA78542
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf0-f170.google.com (mail-pf0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 864507854F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 19:39:48 +0000 (UTC)
-Received: by mail-pf0-f196.google.com with SMTP id d28so15165273pfe.2
+	Tue, 14 Nov 2017 19:41:45 +0000 (UTC)
+Received: by mail-pf0-f170.google.com with SMTP id t69so6176616pfg.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 11:39:50 -0800 (PST)
+	Tue, 14 Nov 2017 11:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=s0xXxScP58MynhDPX/jsC/T7fFUQ2dAQdqFSgGVKJI8=;
-	b=uomgK6502ZrOpE67wJOgoEiAVSDAkMUMbj9RMeMwcD9U31wliGeqK7Lufk/GnSBJXv
-	DhWUOjZkH+60CO3kHnQNF9MVSHdHtjVwXJPI52GRXK2LgHay5uKMV6QC6xyAzshDgU9p
-	4p1enLwF4ewLzdNfV9m3Do9tUiwHtY3aAJkBP+9OuqBLzqp67jD5PhdqxLMUJ+aiLzlo
-	2/jZyRF6pE6xtXcANOFqkJwQvAq8bMKra2oLRdc3WlJrXaC3OOaGIz0qeiVGNuiAWi70
-	UAXsq8p/5wAv5CeujVEd5dJzAuYQD7FxX7SZLWiKcXkm5MivEOEQvKjbzRIIU8KoOiCy
-	84zg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=VWuPqrbDLO0mfRifodjA/1HNeLWL48bXb9sQgDsL9UM=;
+	b=XqVoQlRc7HtUPH2bsR594DgvQ39WKMD/a7sitBJiPWq+a2lmWFQBH46mBJT5YYowAQ
+	12MCSfhJMFNNM6OYxKsurFsGDn9ET4OByoJjj2KP4DsYYleDWyIqDFcqBPGpmFajhPkb
+	vf1ln3Vke498YJcxSdL8eV3FuT6piHMTuLturwIrO/PsVcH09XScppPdTtXo2fZ4jYcC
+	EfEDK+RJYBGlS8Y6GQ0A72dJvtFZC4cQcr6uQNnvFH0Iyr4WPVaafRXbRI+KYXKwmeRh
+	DEaTTw/G9rICu4pvRPbcubck4CM+GsOGBn65xUk2w1gqx1gQlPpbKSHKrwpNABxWq6It
+	kq1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=s0xXxScP58MynhDPX/jsC/T7fFUQ2dAQdqFSgGVKJI8=;
-	b=I+QX7p/uYVMEcvP+c6MosXONZJd1cGMEtscWtN4cgUgQFjsjQy9X+dUsjjjR9QS49Y
-	T+7O6U5t8FGEt2cVTYy46BT2wyfSDQwYLg/XBZF8eyUGcjZR8/7Au/txRb6/09VRW0om
-	qribISoMXqOdRTZVQmcngx0st/NudPy29wX6LH5XXK9S2mrH6yhETwRJGHJVj/1UMXEd
-	ADZvJ/XcyTNAfa4xAqaRjGP9+qQ9dw/LaZLdguvnKB/Q4aALRrgy3dAmrS0RypgosQOx
-	EbG0/VcKgdqjxx2i14ur5doCkGHkkcM+3+SJBx4RMOAU/+d+dnoxIWnwAoicc58SAAUl
-	U8zQ==
-X-Gm-Message-State: AJaThX7sjk6GPYLUxF/LhxOT8Jy4ufwEy9kjiIdtaULnU0mkREAVR8B4
-	LhqloDI05fFoTpo6QFQOPGmPDg==
-X-Google-Smtp-Source: AGs4zMZiY/zRAi2gYmIVn4hSA5YyeW+JS5om1hixIuB7ld9IHRcr/ySiL87jL7gwnSzRBtLKuPBNnw==
-X-Received: by 10.98.50.193 with SMTP id y184mr14856531pfy.9.1510688389751;
-	Tue, 14 Nov 2017 11:39:49 -0800 (PST)
-Received: from e6520.guest-wifi.scl.liberty.com ([4.16.80.121])
-	by smtp.gmail.com with ESMTPSA id
-	f4sm30804162pgs.30.2017.11.14.11.39.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Nov 2017 11:39:48 -0800 (PST)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 11:39:24 -0800
-Message-Id: <1510688364-32667-7-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1510688364-32667-1-git-send-email-armccurdy@gmail.com>
-References: <1510688364-32667-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 6/6] systemd: fix duplication of CACHED_CONFIGUREVARS
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=VWuPqrbDLO0mfRifodjA/1HNeLWL48bXb9sQgDsL9UM=;
+	b=ltfuJFmpSDeIP8vRjXKDtTaqVjfr2AVN9Pqmy4XcxatnmegeUoG0C4d9yEXMv53MR7
+	M2vGdhlCnq8hJLsqifLTTpuUSX+O31k8EQOl38vLGRS9Jp/RSnORZKzHkb+zyARUA56a
+	RNBzOxk4KUbvf+VI1sAwPmtqXwGWVjgr2RkW0SBOUfO0ULhv1dAwucWMEJqxcWqZozEY
+	DhphWINNKmmQTS0cCQ1cDbqMWXAc1ZKhHHszAzdj6xWuw+w1bYXG3TApBWADZ5UJjvJ9
+	hGO6sU/dqrruHqVIgR06pbBt9/WSgWVyFzgd3yXwUWVJAr5y3fV5OS+Rq2uSIYOjKyEc
+	LRkg==
+X-Gm-Message-State: AJaThX4Zvrn7ppGNxQHPMzHVS6OAJkQO8u5HsfwFyUGumwrZe0rqsGtm
+	GtJaDzREKcSkG3AIcq9nY4ReZ29lsnJ4IhkDWDY=
+X-Google-Smtp-Source: AGs4zMZhv+mSF84y6DDZcwCN/lZFVWtyL9xfbMWsIh/ZNGYUJ3I3VKkIxfJslr68NIFuvHa0ImLI1oUJ2Cv7YYNDh6E=
+X-Received: by 10.159.207.147 with SMTP id z19mr13365181plo.441.1510688506792; 
+	Tue, 14 Nov 2017 11:41:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.100.167.106 with HTTP; Tue, 14 Nov 2017 11:41:16 -0800 (PST)
+In-Reply-To: <20171114145754.9643-26-alexander.kanavin@linux.intel.com>
+References: <20171114145754.9643-1-alexander.kanavin@linux.intel.com>
+	<20171114145754.9643-26-alexander.kanavin@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 14 Nov 2017 11:41:16 -0800
+Message-ID: <CAMKF1spFf70gSgvNsNsFZjQUFW64fw4mfeCQZHjMWTrzrXKO1A@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 26/27] ffmpeg: update to 3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,84 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 19:39:48 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 19:41:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Fix historical duplication that appears to have been caused by
-merging two independent fixes for the same issue:
+On Tue, Nov 14, 2017 at 6:57 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> Schroedinger support has been dropped:
+> https://git.ffmpeg.org/gitweb/ffmpeg.git/commitdiff/220b24c7c9
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>  rename meta/recipes-multimedia/ffmpeg/{ffmpeg_3.3.4.bb => ffmpeg_3.4.bb} (95%)
+>
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+> similarity index 95%
+> rename from meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
+> rename to meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+> index 57e0ac04115..42dbe5582f3 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_3.3.4.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_3.4.bb
+> @@ -25,10 +25,9 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>
+>  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+>             file://mips64_cpu_detection.patch \
+> -           file://0001-build-fix-for-mips.patch \
+> -          "
 
-  http://git.openembedded.org/openembedded-core/commit/?id=294adc0907a359d9c0ad260823188145aab294ad
-  http://git.openembedded.org/openembedded-core/commit/?id=b30d7b1b97ffd1d44083d93ed0e572d80fcebc54
+This patch is not deleted along with this omission. Perhaps an oversight ?
 
-Also minor reformatting of EXTRA_OECONF values.
-
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-core/systemd/systemd_234.bb | 44 +++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_234.bb b/meta/recipes-core/systemd/systemd_234.bb
-index d4e0b1f..bfcecb3 100644
---- a/meta/recipes-core/systemd/systemd_234.bb
-+++ b/meta/recipes-core/systemd/systemd_234.bb
-@@ -149,11 +149,18 @@ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
- 
--CACHED_CONFIGUREVARS += "ac_cv_path_KILL=${base_bindir}/kill"
--CACHED_CONFIGUREVARS += "ac_cv_path_KMOD=${base_bindir}/kmod"
--CACHED_CONFIGUREVARS += "ac_cv_path_QUOTACHECK=${sbindir}/quotacheck"
--CACHED_CONFIGUREVARS += "ac_cv_path_QUOTAON=${sbindir}/quotaon"
--CACHED_CONFIGUREVARS += "ac_cv_path_SULOGIN=${base_sbindir}/sulogin"
-+# Hardcode target binary paths to avoid AC_PROG_PATH in the systemd
-+# configure script detecting and setting paths from sysroot or host.
-+CACHED_CONFIGUREVARS_class-target = " \
-+    ac_cv_path_KEXEC=${sbindir}/kexec \
-+    ac_cv_path_KILL=${base_bindir}/kill \
-+    ac_cv_path_KMOD=${base_bindir}/kmod \
-+    ac_cv_path_MOUNT_PATH=${base_bindir}/mount \
-+    ac_cv_path_QUOTACHECK=${sbindir}/quotacheck \
-+    ac_cv_path_QUOTAON=${sbindir}/quotaon \
-+    ac_cv_path_SULOGIN=${base_sbindir}/sulogin \
-+    ac_cv_path_UMOUNT_PATH=${base_bindir}/umount \
-+"
- 
- # Helper variables to clarify locations.  This mirrors the logic in systemd's
- # build system.
-@@ -161,24 +168,15 @@ rootprefix ?= "${root_prefix}"
- rootlibdir ?= "${base_libdir}"
- rootlibexecdir = "${rootprefix}/lib"
- 
--CACHED_CONFIGUREVARS_class-target = "\
--                         ac_cv_path_MOUNT_PATH=${base_bindir}/mount \
--                         ac_cv_path_UMOUNT_PATH=${base_bindir}/umount \
--                         ac_cv_path_KMOD=${base_bindir}/kmod \
--                         ac_cv_path_KILL=${base_bindir}/kill \
--                         ac_cv_path_SULOGIN=${base_sbindir}/sulogin \
--                         ac_cv_path_KEXEC=${sbindir}/kexec \
--                         ac_cv_path_QUOTACHECK=${sbindir}/quotacheck \
--                         ac_cv_path_QUOTAON=${sbindir}/quotaon \
--			 "
--
--EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
--                 --with-rootlibdir=${rootlibdir} \
--                 --with-roothomedir=${ROOT_HOME} \
--                 --without-python \
--                 --with-sysvrcnd-path=${sysconfdir} \
--                 --with-firmware-path=${nonarch_base_libdir}/firmware \
--               "
-+EXTRA_OECONF = " \
-+    --without-python \
-+    --with-roothomedir=${ROOT_HOME} \
-+    --with-rootlibdir=${rootlibdir} \
-+    --with-rootprefix=${rootprefix} \
-+    --with-sysvrcnd-path=${sysconfdir} \
-+    --with-firmware-path=${nonarch_base_libdir}/firmware \
-+"
-+
- # per the systemd README, define VALGRIND=1 to run under valgrind
- CFLAGS .= "${@bb.utils.contains('PACKAGECONFIG', 'valgrind', ' -DVALGRIND=1', '', d)}"
- 
--- 
-1.9.1
-
+> -SRC_URI[md5sum] = "e14a0200c78ce5c918427e57cd406a0d"
+> -SRC_URI[sha256sum] = "98b97e1b908dfeb6aeb6d407e5a5eacdfc253a40c2d195f5867ed2d1d46ea957"
+> +           "
+> +SRC_URI[md5sum] = "c64ba7247bb91e516f6a5789348fd5b5"
+> +SRC_URI[sha256sum] = "aeee06e4d8b18d852c61ebbfe5e1bb7014b1e118e8728c1c2115f91e51bffbef"
+>
+>  # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+>  ARM_INSTRUCTION_SET = "arm"
+> @@ -64,7 +63,6 @@ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+>  PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
+>  PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+>  PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+> -PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
+>  PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
+>  PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
+>  PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora"
+> --
+> 2.15.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
