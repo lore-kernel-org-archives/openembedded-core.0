@@ -1,20 +1,24 @@
-Return-Path: <daniel@zonque.org>
-X-Greylist: delayed 442 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 14 Nov 2017 07:44:25 UTC
-Received: from mail.bugwerft.de (mail.bugwerft.de [46.23.86.59])
-	by mail.openembedded.org (Postfix) with ESMTP id AE6FF784E0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 497FC71AB4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 07:44:25 +0000 (UTC)
-Received: from localhost.localdomain (pD95EF9F1.dip0.t-ipconnect.de
-	[217.94.249.241])
-	by mail.bugwerft.de (Postfix) with ESMTPSA id 2DF6D2800CE;
-	Tue, 14 Nov 2017 07:36:54 +0000 (UTC)
-From: Daniel Mack <daniel@zonque.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 08:36:53 +0100
-Message-Id: <20171114073653.12566-1-daniel@zonque.org>
-X-Mailer: git-send-email 2.13.6
-Subject: [meta][PATCH] connman: bump to version 1.35
+	Tue, 14 Nov 2017 07:59:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAE7x8Xn024768
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Nov 2017 23:59:08 -0800 (PST)
+Received: from pek-lpg-core1.windriver.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 13 Nov 2017 23:59:08 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Nov 2017 15:57:46 +0800
+Message-ID: <cover.1510646201.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/2] fixes for lib32-image -ctestimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,219 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 07:44:26 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 07:59:08 -0000
+Content-Type: text/plain
 
-Two patches are no longer needed, remove them.
+The following changes since commit a17f3ec910366e9e7551fa24fbc07929b9584341:
 
-Signed-off-by: Daniel Mack <daniel@zonque.org>
----
- ...ll-nftables-fix-build-with-libnftnl-1.0.7.patch | 72 ------------------
- .../connman/connman/CVE-2017-12865.patch           | 87 ----------------------
- .../connman/{connman_1.34.bb => connman_1.35.bb}   |  6 +-
- 3 files changed, 2 insertions(+), 163 deletions(-)
- delete mode 100644 meta/recipes-connectivity/connman/connman/0001-firewall-nftables-fix-build-with-libnftnl-1.0.7.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch
- rename meta/recipes-connectivity/connman/{connman_1.34.bb => connman_1.35.bb} (67%)
+  dhcp: fix build issue with libxml2 support (2017-11-10 14:44:31 +0000)
 
-diff --git a/meta/recipes-connectivity/connman/connman/0001-firewall-nftables-fix-build-with-libnftnl-1.0.7.patch b/meta/recipes-connectivity/connman/connman/0001-firewall-nftables-fix-build-with-libnftnl-1.0.7.patch
-deleted file mode 100644
-index cfafbd1271..0000000000
---- a/meta/recipes-connectivity/connman/connman/0001-firewall-nftables-fix-build-with-libnftnl-1.0.7.patch
-+++ /dev/null
-@@ -1,72 +0,0 @@
--From 4058ce3186a99fd5f03350fc11a7fc8d38b6a381 Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Mon, 8 May 2017 10:53:18 +0300
--Subject: [PATCH] firewall-nftables: fix build with libnftnl-1.0.7
--
--We need these updates to accommodate the changes caused by the following
--commit in libnftnl-1.0.7
--
--commit 907a9f8e5a93f5bcd449643eb3916a656d634758
--Author: Pablo Neira Ayuso <pablo@netfilter.org>
--Date:   Tue Dec 20 13:47:11 2016 +0100
--
--src: get rid of aliases and compat
--
--This machinery was introduced to avoid sudden compilation breakage of
--old nftables releases. With the upcoming release of 0.7 (and 0.6 which
--is now 6 months old) this is not required anymore.
--
--Moreover, users gain nothing from older releases since they are
--half-boiled and buggy.
--
--So let's get rid of aliases now. Bump LIBVERSION and update map file.
--
--Upstream-Status: Submitted
--
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
-----
-- src/firewall-nftables.c | 14 +++++++-------
-- 1 file changed, 7 insertions(+), 7 deletions(-)
--
--diff --git a/src/firewall-nftables.c b/src/firewall-nftables.c
--index 583d1c4..83b137b 100644
----- a/src/firewall-nftables.c
--+++ b/src/firewall-nftables.c
--@@ -387,9 +387,9 @@ static int add_cmp(struct nftnl_rule *rule, uint32_t sreg, uint32_t op,
--         if (!expr)
--                 return -ENOMEM;
-- 
---        nftnl_expr_set_u32(expr, NFT_EXPR_CMP_SREG, sreg);
---        nftnl_expr_set_u32(expr, NFT_EXPR_CMP_OP, op);
---        nftnl_expr_set(expr, NFT_EXPR_CMP_DATA, data, data_len);
--+        nftnl_expr_set_u32(expr, NFTNL_EXPR_CMP_SREG, sreg);
--+        nftnl_expr_set_u32(expr, NFTNL_EXPR_CMP_OP, op);
--+        nftnl_expr_set(expr, NFTNL_EXPR_CMP_DATA, data, data_len);
-- 
--         nftnl_rule_add_expr(rule, expr);
-- 
--@@ -575,8 +575,8 @@ static int build_rule_nat(const char *address, unsigned char prefixlen,
-- 	expr = nftnl_expr_alloc("meta");
-- 	if (!expr)
-- 		goto err;
---	nftnl_expr_set_u32(expr, NFT_EXPR_META_KEY, NFT_META_OIFNAME);
---	nftnl_expr_set_u32(expr, NFT_EXPR_META_DREG, NFT_REG_1);
--+	nftnl_expr_set_u32(expr, NFTNL_EXPR_META_KEY, NFT_META_OIFNAME);
--+	nftnl_expr_set_u32(expr, NFTNL_EXPR_META_DREG, NFT_REG_1);
-- 	nftnl_rule_add_expr(rule, expr);
-- 	err = add_cmp(rule, NFT_REG_1, NFT_CMP_EQ, interface,
-- 			strlen(interface) + 1);
--@@ -677,8 +677,8 @@ static int build_rule_snat(int index, const char *address,
-- 	expr = nftnl_expr_alloc("meta");
-- 	if (!expr)
-- 		goto err;
---	nftnl_expr_set_u32(expr, NFT_EXPR_META_KEY, NFT_META_OIF);
---	nftnl_expr_set_u32(expr, NFT_EXPR_META_DREG, NFT_REG_1);
--+	nftnl_expr_set_u32(expr, NFTNL_EXPR_META_KEY, NFT_META_OIF);
--+	nftnl_expr_set_u32(expr, NFTNL_EXPR_META_DREG, NFT_REG_1);
-- 	nftnl_rule_add_expr(rule, expr);
-- 	err = add_cmp(rule, NFT_REG_1, NFT_CMP_EQ, &index, sizeof(index));
-- 	if (err < 0)
---- 
--2.4.0
--
-diff --git a/meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch b/meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch
-deleted file mode 100644
-index 45f78f10ea..0000000000
---- a/meta/recipes-connectivity/connman/connman/CVE-2017-12865.patch
-+++ /dev/null
-@@ -1,87 +0,0 @@
--From 5c281d182ecdd0a424b64f7698f32467f8f67b71 Mon Sep 17 00:00:00 2001
--From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
--Date: Wed, 9 Aug 2017 10:16:46 +0300
--Subject: dnsproxy: Fix crash on malformed DNS response
--
--If the response query string is malformed, we might access memory
--pass the end of "name" variable in parse_response().
--
--CVE: CVE-2017-12865
--Upstream-Status: Backport [https://git.kernel.org/pub/scm/network/connman/connman.git/patch/?id=5c281d182ecdd0a424b64f7698f32467f8f67b71]
--
--Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-----
-- src/dnsproxy.c | 16 ++++++++++------
-- 1 file changed, 10 insertions(+), 6 deletions(-)
--
--diff --git a/src/dnsproxy.c b/src/dnsproxy.c
--index 38ac5bf..40b4f15 100644
----- a/src/dnsproxy.c
--+++ b/src/dnsproxy.c
--@@ -838,7 +838,7 @@ static struct cache_entry *cache_check(gpointer request, int *qtype, int proto)
-- static int get_name(int counter,
-- 		unsigned char *pkt, unsigned char *start, unsigned char *max,
-- 		unsigned char *output, int output_max, int *output_len,
---		unsigned char **end, char *name, int *name_len)
--+		unsigned char **end, char *name, size_t max_name, int *name_len)
-- {
-- 	unsigned char *p;
-- 
--@@ -859,7 +859,7 @@ static int get_name(int counter,
-- 
-- 			return get_name(counter + 1, pkt, pkt + offset, max,
-- 					output, output_max, output_len, end,
---					name, name_len);
--+					name, max_name, name_len);
-- 		} else {
-- 			unsigned label_len = *p;
-- 
--@@ -869,6 +869,9 @@ static int get_name(int counter,
-- 			if (*output_len > output_max)
-- 				return -ENOBUFS;
-- 
--+			if ((*name_len + 1 + label_len + 1) > max_name)
--+				return -ENOBUFS;
--+
-- 			/*
-- 			 * We need the original name in order to check
-- 			 * if this answer is the correct one.
--@@ -900,14 +903,14 @@ static int parse_rr(unsigned char *buf, unsigned char *start,
-- 			unsigned char *response, unsigned int *response_size,
-- 			uint16_t *type, uint16_t *class, int *ttl, int *rdlen,
-- 			unsigned char **end,
---			char *name)
--+			char *name, size_t max_name)
-- {
-- 	struct domain_rr *rr;
-- 	int err, offset;
-- 	int name_len = 0, output_len = 0, max_rsp = *response_size;
-- 
-- 	err = get_name(0, buf, start, max, response, max_rsp,
---		&output_len, end, name, &name_len);
--+			&output_len, end, name, max_name, &name_len);
-- 	if (err < 0)
-- 		return err;
-- 
--@@ -1033,7 +1036,8 @@ static int parse_response(unsigned char *buf, int buflen,
-- 		memset(rsp, 0, sizeof(rsp));
-- 
-- 		ret = parse_rr(buf, ptr, buf + buflen, rsp, &rsp_len,
---			type, class, ttl, &rdlen, &next, name);
--+			type, class, ttl, &rdlen, &next, name,
--+			sizeof(name) - 1);
-- 		if (ret != 0) {
-- 			err = ret;
-- 			goto out;
--@@ -1099,7 +1103,7 @@ static int parse_response(unsigned char *buf, int buflen,
-- 			 */
-- 			ret = get_name(0, buf, next - rdlen, buf + buflen,
-- 					rsp, rsp_len, &output_len, &end,
---					name, &name_len);
--+					name, sizeof(name) - 1, &name_len);
-- 			if (ret != 0) {
-- 				/* just ignore the error at this point */
-- 				ptr = next;
---- 
--cgit v1.1
--
-diff --git a/meta/recipes-connectivity/connman/connman_1.34.bb b/meta/recipes-connectivity/connman/connman_1.35.bb
-similarity index 67%
-rename from meta/recipes-connectivity/connman/connman_1.34.bb
-rename to meta/recipes-connectivity/connman/connman_1.35.bb
-index dc2c688f49..950946fe76 100644
---- a/meta/recipes-connectivity/connman/connman_1.34.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.35.bb
-@@ -2,17 +2,15 @@ require connman.inc
- 
- SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
--            file://0001-firewall-nftables-fix-build-with-libnftnl-1.0.7.patch \
-             file://0001-connman.service-stop-systemd-resolved-when-we-use-co.patch \
-             file://connman \
-             file://no-version-scripts.patch \
-             file://includes.patch \
--            file://CVE-2017-12865.patch \
-             "
- SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-                              "
- 
--SRC_URI[md5sum] = "e200028702c831d5f535d20d61e608ef"
--SRC_URI[sha256sum] = "a9a0808c729c1f348fc36d8cecb52d19b72bc34cb411c502608cb0e0190fc71e"
-+SRC_URI[md5sum] = "bae37b45ee9b3db5ec8115188f8a7652"
-+SRC_URI[sha256sum] = "66d7deb98371545c6e417239a9b3b3e3201c1529d08eedf40afbc859842cf2aa"
- 
- RRECOMMENDS_${PN} = "connman-conf"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/mlqa
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/mlqa
+
+Robert Yang (2):
+  oeqa: make OEHasPackage() check multilib package
+  oeqa/dnf.py/rpm.py: add MLPREFIX to package name
+
+ meta/lib/oeqa/runtime/cases/dnf.py         |  4 ++--
+ meta/lib/oeqa/runtime/cases/rpm.py         |  2 +-
+ meta/lib/oeqa/runtime/decorator/package.py | 13 +++++++++++--
+ 3 files changed, 14 insertions(+), 5 deletions(-)
+
 -- 
-2.13.6
+2.7.4
 
 
