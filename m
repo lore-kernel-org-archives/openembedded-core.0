@@ -1,50 +1,22 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-io0-f196.google.com (mail-io0-f196.google.com
-	[209.85.223.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CAF8784DD
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id F369D784C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 15:08:15 +0000 (UTC)
-Received: by mail-io0-f196.google.com with SMTP id n79so13812594ion.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 07:08:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KPHCSzScYtLv2YSfZwhxlKS9a7wcXxbZblxPpmNX02k=;
-	b=W+vjNcHaX4vu1m5Te1/a9goAKXcx2cryxycWTIQrCV+mfrSZqi66DjkpcpmA16Ajkh
-	s3uPPpbmR64DajEv2nGJjgCLYDaL2MsLk6z7+CCAeIqLVJrRLG+tY36ZjGJ2i/gox2dY
-	xjc9e3UKPRidJoV63+LFkA3qAUbshV+xkic3fwEW+B4kj3320HhxJt05WN8lOOAUdOR7
-	DLWl0V/JWQBBE314m/AamFEaM8WRyyXOb842zpVbx25RO/wOpJ2FskmKSYUnA9kkteSO
-	3xv0NODCVocTu9a2Lu7D7aUfabEI/AG8U19Xu+jExBapNdBf/BQbSDPG7M2nMsalW8Yh
-	UaXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KPHCSzScYtLv2YSfZwhxlKS9a7wcXxbZblxPpmNX02k=;
-	b=LfKRLmAyqTCSsl1b3UCSQqOtN2kr3/StmvL/SwVi4OlSg6Ogc/BTVWNIj+a9HlfaCf
-	U7+CAlrfcNjFPObyKYAb4sqS1zY0k5PztP3EiQ8sQAMFd9+PLC2A1+6Q8aE8y1a+LIbf
-	IpXyVmVxSLoXBwFUzAUBzREZuMdOIZnCyBDASTDNx1SAvYlyBQjDawYwXEB8tH4iL8gu
-	guHlohuhdjeULAExpqulXSZ9q5pO7qHUviPcW32NGUH8n5GIPqMTaLxLLTM7NHEzpGN+
-	hnMF70SvlaFVFFNPgOLy4R/twhEQVvvAKZUo/2rzxtKJVQWb/m1dFeGo3mO7Nv/7ucVI
-	FC+Q==
-X-Gm-Message-State: AJaThX4FjAFvEYae51eL27EUtbyypafkOZPb0BshE97ap23C5DMxcPoY
-	QWSqhn4+pYfQ9pbXj7vTJy+9
-X-Google-Smtp-Source: AGs4zMaRJV16lkxSWBNFydd8PrRFSkgxzVsEOFbTObI6/9L3UsQz/GbJL/AW1gdsCvBR9y1VculWNg==
-X-Received: by 10.107.147.9 with SMTP id v9mr14194820iod.25.1510672096735;
-	Tue, 14 Nov 2017 07:08:16 -0800 (PST)
-Received: from localhost.localdomain ([216.21.169.52])
-	by smtp.gmail.com with ESMTPSA id
-	u140sm5408285itc.41.2017.11.14.07.08.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Nov 2017 07:08:16 -0800 (PST)
-From: George McCollister <george.mccollister@gmail.com>
+	Tue, 14 Nov 2017 15:26:27 +0000 (UTC)
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2017 07:26:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; 
+   d="scan'208";a="1453447"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga004.fm.intel.com with ESMTP; 14 Nov 2017 07:26:28 -0800
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 09:07:27 -0600
-Message-Id: <20171114150727.17897-2-george.mccollister@gmail.com>
+Date: Tue, 14 Nov 2017 17:26:39 +0200
+Message-Id: <20171114152640.773-1-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20171114150727.17897-1-george.mccollister@gmail.com>
-References: <20171114150727.17897-1-george.mccollister@gmail.com>
-Subject: [PATCH v2 2/2] shadow: fix CVE-2016-6252
+Subject: [PATCH 1/2] package.bbclass: replace rpm/debugedit with dwarfsrcfiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,95 +29,238 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 15:08:16 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 15:26:28 -0000
 
-Apply backported patch that fixes CVE-2016-6252
-Integer overflow in shadow 4.2.1 allows local users to gain privileges
-via crafted input to newuidmap.
+Debugedit provided by rpm 4.14 is rewriting binaries in-place, and was
+found to produce broken output at least for grub:
+http://lists.openembedded.org/pipermail/openembedded-core/2017-November/143989.html
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
+A replacement utility was suggested via private mail:
+https://lists.fedorahosted.org/archives/list/elfutils-devel@lists.fedorahosted.org/message/VZP4G5N2ELYZEDAB3QYLXYHDGX4WMCUF/
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
+ meta/classes/package.bbclass                       |  29 ++++--
+ .../dwarfsrcfiles/dwarfsrcfiles.bb                 |  22 ++++
+ .../dwarfsrcfiles/files/dwarfsrcfiles.c            | 111 +++++++++++++++++++++
+ 3 files changed, 156 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
+ create mode 100644 meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
 
-Changes in v2:
- - Add SOB to patch file.
-
- .../shadow/files/0001-Simplify-getulong.patch      | 54 ++++++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc            |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/0001-Simplify-getulong.patch
-
-diff --git a/meta/recipes-extended/shadow/files/0001-Simplify-getulong.patch b/meta/recipes-extended/shadow/files/0001-Simplify-getulong.patch
-new file mode 100644
-index 0000000000..8a41fb1dd6
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/0001-Simplify-getulong.patch
-@@ -0,0 +1,54 @@
-+From 70723e568159f3130b6076463f0bf978763e3369 Mon Sep 17 00:00:00 2001
-+From: Sebastian Krahmer <krahmer@suse.com>
-+Date: Wed, 3 Aug 2016 11:51:07 -0500
-+Subject: [PATCH] Simplify getulong
-+
-+Use strtoul to read an unsigned long, rather than reading
-+a signed long long and casting it.
-+
-+https://bugzilla.suse.com/show_bug.cgi?id=979282
-+
-+Upstream-Status: Backport
-+https://anonscm.debian.org/cgit/pkg-shadow/shadow.git/plain/debian/patches/302-CVE-2016-6252-fix-integer-overflow.patch?h=jessie
-+https://github.com/shadow-maint/shadow/commit/1d5a926cc2d6078d23a96222b1ef3e558724dad1
-+
-+CVE: CVE-2016-6252
-+
-+Signed-off-by: George McCollister <george.mccollister@gmail.com>
-+---
-+ lib/getulong.c | 9 +++------
-+ 1 file changed, 3 insertions(+), 6 deletions(-)
-+
-+diff --git a/lib/getulong.c b/lib/getulong.c
-+index 61579ca..08d2c1a 100644
-+--- a/lib/getulong.c
-++++ b/lib/getulong.c
-+@@ -44,22 +44,19 @@
-+  */
-+ int getulong (const char *numstr, /*@out@*/unsigned long int *result)
-+ {
-+-	long long int val;
-++	unsigned long int val;
-+ 	char *endptr;
-+ 
-+ 	errno = 0;
-+-	val = strtoll (numstr, &endptr, 0);
-++	val = strtoul (numstr, &endptr, 0);
-+ 	if (    ('\0' == *numstr)
-+ 	     || ('\0' != *endptr)
-+ 	     || (ERANGE == errno)
-+-	     /*@+ignoresigns@*/
-+-	     || (val != (unsigned long int)val)
-+-	     /*@=ignoresigns@*/
-+ 	   ) {
-+ 		return 0;
-+ 	}
-+ 
-+-	*result = (unsigned long int)val;
-++	*result = val;
-+ 	return 1;
-+ }
-+ 
-+-- 
-+2.15.0
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 031e880630..9fb1cd3d17 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -18,6 +18,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-useradd-copy-extended-attributes-of-home.patch \
-            file://0001-shadow-CVE-2017-12424 \
-            file://0001-su-properly-clear-child-PID.patch \
-+           file://0001-Simplify-getulong.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            "
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2053d46395a..7dc759699f4 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -52,7 +52,8 @@ LOCALE_SECTION ?= ''
+ ALL_MULTILIB_PACKAGE_ARCHS = "${@all_multilib_tune_values(d, 'PACKAGE_ARCHS')}"
  
+ # rpm is used for the per-file dependency identification
+-PACKAGE_DEPENDS += "rpm-native"
++# dwarfsrcfiles is used to determine the list of debug source files
++PACKAGE_DEPENDS += "rpm-native dwarfsrcfiles-native"
+ 
+ 
+ # If your postinstall can execute at rootfs creation time rather than on
+@@ -334,6 +335,16 @@ def checkbuildpath(file, d):
+ 
+     return False
+ 
++def parse_debugsources_from_dwarfsrcfiles_output(dwarfsrcfiles_output):
++    debugfiles = {}
++
++    for line in dwarfsrcfiles_output.splitlines():
++        if line.startswith("\t"):
++            debugfiles[os.path.normpath(line.split()[0])] = ""
++
++    return debugfiles.keys()
++
++
+ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+     # Function to split a single file into two components, one is the stripped
+     # target system binary, the other contains any debugging information. The
+@@ -345,7 +356,6 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+ 
+     dvar = d.getVar('PKGD')
+     objcopy = d.getVar("OBJCOPY")
+-    debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/debugedit")
+ 
+     # We ignore kernel modules, we don't generate debug info files.
+     if file.find("/lib/modules/") != -1 and file.endswith(".ko"):
+@@ -359,10 +369,18 @@ def splitdebuginfo(file, debugfile, debugsrcdir, sourcefile, d):
+ 
+     # We need to extract the debug src information here...
+     if debugsrcdir:
+-        cmd = "'%s' -i -l '%s' '%s'" % (debugedit, sourcefile, file)
++        cmd = "'dwarfsrcfiles' '%s'" % (file)
+         (retval, output) = oe.utils.getstatusoutput(cmd)
+-        if retval:
+-            bb.fatal("debugedit failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++        # 255 means a specific file wasn't fully parsed to get the debug file list, which is not a fatal failure
++        if retval != 0 and retval != 255:
++            bb.fatal("dwarfsrcfiles failed with exit code %s (cmd was %s)%s" % (retval, cmd, ":\n%s" % output if output else ""))
++
++        debugsources = parse_debugsources_from_dwarfsrcfiles_output(output)
++        # filenames are null-separated - this is an artefact of the previous use
++        # of rpm's debugedit, which was writing them out that way, and the code elsewhere
++        # is still assuming that.
++        debuglistoutput = '\0'.join(debugsources) + '\0'
++        open(sourcefile, 'a').write(debuglistoutput)
+ 
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+ 
+@@ -393,7 +411,6 @@ def copydebugsources(debugsrcdir, d):
+         dvar = d.getVar('PKGD')
+         strip = d.getVar("STRIP")
+         objcopy = d.getVar("OBJCOPY")
+-        debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
+         workdir = d.getVar("WORKDIR")
+         workparentdir = os.path.dirname(os.path.dirname(workdir))
+         workbasedir = os.path.basename(os.path.dirname(workdir)) + "/" + os.path.basename(workdir)
+diff --git a/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
+new file mode 100644
+index 00000000000..c59a006edae
+--- /dev/null
++++ b/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb
+@@ -0,0 +1,22 @@
++SUMMARY = "A small utility for printing debig source file locations embedded in binaries"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://../dwarfsrcfiles.c;md5=31483894e453a77acbb67847565f1b5c;beginline=1;endline=8"
++
++SRC_URI = "file://dwarfsrcfiles.c"
++BBCLASSEXTEND = "native"
++DEPENDS = "elfutils"
++DEPENDS_append_libc-musl = " argp-standalone"
++
++do_compile () {
++	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c -lelf -ldw
++}
++
++do_compile_libc-musl () {
++	${CC} ${CFLAGS} ${LDFLAGS} -o dwarfsrcfiles ../dwarfsrcfiles.c -lelf -ldw -largp 
++}
++
++do_install () {
++	install -d ${D}${bindir}
++	install -t ${D}${bindir} dwarfsrcfiles
++}
++
+diff --git a/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+new file mode 100644
+index 00000000000..af7af524ebe
+--- /dev/null
++++ b/meta/recipes-devtools/dwarfsrcfiles/files/dwarfsrcfiles.c
+@@ -0,0 +1,111 @@
++// dwarfsrcfiles.c - Get source files associated with the dwarf in a elf file.
++// gcc -Wall -g -O2 -lelf -ldw -o dwarfsrcfiles dwarfsrcfiles.c 
++//
++// Copyright (C) 2011, Mark Wielaard <mjw@redhat.com>
++//
++// This file is free software.  You can redistribute it and/or modify
++// it under the terms of the GNU General Public License (GPL); either
++// version 2, or (at your option) any later version.
++
++#include <argp.h>
++#include <stdio.h>
++
++#include <dwarf.h>
++#include <elfutils/libdw.h>
++#include <elfutils/libdwfl.h>
++
++static int
++process_cu (Dwarf_Die *cu_die)
++{
++  Dwarf_Attribute attr;
++  const char *name;
++  const char *dir = NULL;
++  
++  Dwarf_Files *files;
++  size_t n;
++  int i;
++  
++  if (dwarf_tag (cu_die) != DW_TAG_compile_unit)
++    {
++      fprintf (stderr, "DIE isn't a compile unit");
++      return -1;
++    }
++  
++  if (dwarf_attr (cu_die, DW_AT_name, &attr) == NULL)
++    {
++      fprintf(stderr, "CU doesn't have a DW_AT_name");
++      return -1;
++    }
++  
++  name = dwarf_formstring (&attr);
++  if (name == NULL)
++    {
++      fprintf(stderr, "Couldn't get DW_AT_name as string, %s",
++	     dwarf_errmsg (-1));
++      return -1;
++    }
++  
++  if (dwarf_attr (cu_die, DW_AT_comp_dir, &attr) != NULL)
++    {
++      dir = dwarf_formstring (&attr);
++      if (dir == NULL)
++	{
++	  fprintf(stderr, "Couldn't get DW_AT_comp_die as string, %s",
++		 dwarf_errmsg (-1));
++	  return -1;
++	}
++    }
++  
++  if (dir == NULL)
++    printf ("%s\n", name);
++  else
++    printf ("%s/%s\n", dir, name);
++  
++  if (dwarf_getsrcfiles (cu_die, &files, &n) != 0)
++    {
++      fprintf(stderr, "Couldn't get CU file table, %s",
++	     dwarf_errmsg (-1));
++      return -1;
++    }
++  
++  for (i = 1; i < n; i++)
++    {
++      const char *file = dwarf_filesrc (files, i, NULL, NULL);
++      if (dir != NULL && file[0] != '/')
++	printf ("\t%s/%s\n", dir, file);
++      else
++	printf ("\t%s\n", file);
++    }
++  
++  return 0;
++}
++
++int
++main (int argc, char **argv)
++{
++  char* args[3];
++  int res = 0;
++  Dwfl *dwfl;
++  Dwarf_Addr bias;
++  
++  if (argc != 2)
++    fprintf(stderr, "Usage %s <file>", argv[0]);
++  
++  // Pretend "dwarfsrcfiles -e <file>" was given, so we can use standard
++  // dwfl argp parser to open the file for us and get our Dwfl. Useful
++  // in case argument is an ET_REL file (like kernel modules). libdwfl
++  // will fix up relocations for us.
++  args[0] = argv[0];
++  args[1] = "-e";
++  args[2] = argv[1];
++  
++  argp_parse (dwfl_standard_argp (), 3, args, 0, NULL, &dwfl);
++  
++  Dwarf_Die *cu = NULL;
++  while ((cu = dwfl_nextcu (dwfl, cu, &bias)) != NULL)
++    res |= process_cu (cu);
++  
++  dwfl_end (dwfl);
++
++  return res;
++}
 -- 
 2.15.0
 
