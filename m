@@ -1,26 +1,18 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C1F8678546
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 07:59:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vAE7xCQV011491
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Nov 2017 23:59:12 -0800 (PST)
-Received: from pek-lpg-core1.windriver.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 13 Nov 2017 23:59:10 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Nov 2017 15:57:48 +0800
-Message-ID: <e08be83f151efe716d5b23197105b893b71a2fd5.1510646201.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1510646201.git.liezhi.yang@windriver.com>
-References: <cover.1510646201.git.liezhi.yang@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2902078591;
+	Tue, 14 Nov 2017 08:05:24 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/dnf.py/rpm.py: add MLPREFIX to package name
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Daniel Mack <daniel@zonque.org>
+Date: Tue, 14 Nov 2017 08:05:25 -0000
+Message-ID: <20171114080525.2787.1167@do.openembedded.org>
+References: <20171114073653.12566-1-daniel@zonque.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20171114073653.12566-1-daniel@zonque.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29ubm1hbjogYnVtcCB0byB2ZXJzaW9uIDEuMzU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 07:59:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Nov 2017 08:05:24 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The package name is lib32-foo (e.g., lib32-dnf) when run
-"bitbake lib32-core-image-sato -ctestimage", add MLPREFIX to package name can
-fix the problem, otherwise the test cases would be failed.
+== Series Details ==
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Series: connman: bump to version 1.35
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9769/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a17f3ec910)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/runtime/cases/dnf.py | 4 ++--
- meta/lib/oeqa/runtime/cases/rpm.py | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/dnf.py b/meta/lib/oeqa/runtime/cases/dnf.py
-index 2f87296..7912ad2 100644
---- a/meta/lib/oeqa/runtime/cases/dnf.py
-+++ b/meta/lib/oeqa/runtime/cases/dnf.py
-@@ -38,12 +38,12 @@ class DnfBasicTest(DnfTest):
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-     @OETestID(1737)
-     def test_dnf_info(self):
--        self.dnf('info dnf')
-+        self.dnf('info %sdnf' % self.tc.td['MLPREFIX'])
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-     @OETestID(1738)
-     def test_dnf_search(self):
--        self.dnf('search dnf')
-+        self.dnf('search %sdnf' % self.tc.td['MLPREFIX'])
- 
-     @OETestDepends(['dnf.DnfBasicTest.test_dnf_help'])
-     @OETestID(1736)
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index 05b94c7..137739d 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -25,7 +25,7 @@ class RpmBasicTest(OERuntimeTestCase):
-     @OETestID(191)
-     @OETestDepends(['rpm.RpmBasicTest.test_rpm_help'])
-     def test_rpm_query(self):
--        status, output = self.target.run('rpm -q rpm')
-+        status, output = self.target.run('rpm -q %srpm' % self.tc.td['MLPREFIX'])
-         msg = 'status and output: %s and %s' % (status, output)
-         self.assertEqual(status, 0, msg=msg)
- 
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
