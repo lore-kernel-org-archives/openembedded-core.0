@@ -1,25 +1,18 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 663DE784C2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 22:03:49 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 14:03:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,396,1505804400"; 
-   d="scan'208";a="2303312"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga003.jf.intel.com with ESMTP; 14 Nov 2017 14:03:49 -0800
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 14:03:40 -0800
-Message-Id: <20171114220340.28764-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <20171114212050.15881-1-california.l.sullivan@intel.com>
-References: <20171114212050.15881-1-california.l.sullivan@intel.com>
-Cc: henry.bruce@intel.com, saul.wold@intel.com
-Subject: [PATCH 3/3 V2] initramfs-framework: add install module
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C970784B1;
+	Tue, 14 Nov 2017 22:07:55 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Jonathan Haws <jhaws@sdl.usu.edu>
+Date: Tue, 14 Nov 2017 22:07:57 -0000
+Message-ID: <20171114220757.2787.60202@do.openembedded.org>
+References: <1510694713-37439-1-git-send-email-jhaws@sdl.usu.edu>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1510694713-37439-1-git-send-email-jhaws@sdl.usu.edu>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWFyaWFkYjogQWRkZWQgbWlzc2luZyBpbnN0YWxsYXRpb24gb2YgbXlzcWxkX3NhZmVfaGVscGVyIHRvIEZJTEVTXyR7UE59LXNlcnZlcg==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 22:03:51 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 22:07:55 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The non-EFI counterpart for installation was previously missing for
-initramfs-framework. This simply puts the normal install script in the
-correct location for initramfs-framework to make use of it.
+== Series Details ==
 
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Series: mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/9784/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe] mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a17f3ec910)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-V2 changes:
-* Add the module's dependencies to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, since
-  its dependencies changing don't matter in regards building the package.
-* PR = "r1" since its a new recipe.
-
- meta/conf/layer.conf                                 |  4 ++++
- .../initrdscripts/initramfs-module-install_1.0.bb    | 20 ++++++++++++++++++++
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 0342324..6782058 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -57,6 +57,10 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   initramfs-module-install-efi->e2fsprogs \
-   initramfs-module-install-efi->parted \
-   initramfs-module-install-efi->util-linux \
-+  initramfs-module-install->e2fsprogs \
-+  initramfs-module-install->grub \
-+  initramfs-module-install->parted \
-+  initramfs-module-install->util-linux \
-   liberation-fonts->fontconfig \
-   cantarell-fonts->fontconfig \
-   gnome-icon-theme->librsvg \
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-new file mode 100644
-index 0000000..ce7f165
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "initramfs-framework module for installation option"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
-+
-+PR = "r1"
-+
-+inherit allarch
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-+SRC_URI = "file://init-install.sh"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/init-install.sh ${D}/init.d/install.sh
-+}
-+
-+FILES_${PN} = "/init.d/install.sh"
--- 
-2.9.5
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
