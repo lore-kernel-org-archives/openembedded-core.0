@@ -1,25 +1,24 @@
-Return-Path: <shashwatx.pandey@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ACBDB65C5B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6150278372
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 06:19:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Nov 2017 22:19:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,393,1505804400"; 
-   d="scan'208";a="7364043"
-Received: from refkit.png.intel.com ([10.221.70.151])
-	by orsmga002.jf.intel.com with ESMTP; 13 Nov 2017 22:19:56 -0800
-From: Shashwat Pandey <shashwatx.pandey@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 22:14:58 +0800
-Message-Id: <1510668898-21058-2-git-send-email-shashwatx.pandey@intel.com>
+	Tue, 14 Nov 2017 06:58:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAE6wuxg024459
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Nov 2017 22:58:56 -0800 (PST)
+Received: from pek-lpg-core1.windriver.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 13 Nov 2017 22:58:55 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Nov 2017 14:57:35 +0800
+Message-ID: <cover.1510642397.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510668898-21058-1-git-send-email-shashwatx.pandey@intel.com>
-References: <1510668898-21058-1-git-send-email-shashwatx.pandey@intel.com>
-Cc: Shashwat Pandey <shashwatx.pandey@intel.com>
-Subject: [PATCH 1/1] Image_types: use ustar format in cpio command
+MIME-Version: 1.0
+Subject: [PATCH 0/1] targetcontrol.py: make QEMU_USE_KVM = "1" work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 06:19:55 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 06:58:56 -0000
+Content-Type: text/plain
 
-Using ustar format due to ROOTFS size exceeding issue.
-Ustar supports up to 8GB.
-Where as newc support up to 4GB.
+The following changes since commit a17f3ec910366e9e7551fa24fbc07929b9584341:
 
-[YOCTO #11674]
+  dhcp: fix build issue with libxml2 support (2017-11-10 14:44:31 +0000)
 
-Signed-off-by: Shashwat Pandey <shashwatx.pandey@intel.com>
----
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index b373b21..4540bc3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -138,7 +138,7 @@ IMAGE_CMD_cpio () {
- 			else
- 				touch ${WORKDIR}/cpio_append/init
- 			fi
--			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H newc -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
-+			(cd  ${WORKDIR}/cpio_append && echo ./init | cpio -oA -H ustar -F ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.cpio)
- 		fi
- 	fi
- }
+  git://git.openembedded.org/openembedded-core-contrib rbt/use_qemu
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/use_qemu
+
+Robert Yang (1):
+  targetcontrol.py: make QEMU_USE_KVM = "1" work
+
+ meta/classes/testimage.bbclass | 2 +-
+ meta/lib/oeqa/targetcontrol.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
 2.7.4
 
