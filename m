@@ -1,49 +1,54 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-it0-f54.google.com (mail-it0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 667F1785C6
+Return-Path: <Javier.Viguera@digi.com>
+X-Greylist: delayed 421 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 14 Nov 2017 20:03:35 UTC
+Received: from mail1.bemta12.messagelabs.com (mail1.bemta12.messagelabs.com
+	[216.82.251.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D20378551
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 20:01:57 +0000 (UTC)
-Received: by mail-it0-f54.google.com with SMTP id n134so6516741itg.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 12:01:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VFgV1Cl1BEpmy1O6499i7qUs9Qbzv86Z2fM6Z6/AE2U=;
-	b=Il25hBgldEkhvouLTg55bXsf/U9KA+Ljm5yqupvbOCNhQ453wrVejvQ7mvCKWWXw6I
-	OzKdouZv4uj+fIWfMon2PGZC/jV+5aNnYQW3U9G1/S8W+dehX6KzuuVjUFEmwvn/iKl+
-	twbAPHxCE0FI6/O0UJ19peSo3Qq23CqRWtY8JL275VaHwwAKJ0c1qo4pWtoRwXPXARyk
-	aSo73muvnLor8TuzACdIg2yflzj5OaHEHZkS9WiwSMi07jRgPgSeJPZl+DUR2PSRzeMT
-	YYbq3oOmQenH8gp/X0FZHAs7Qb+jqI4A1wNClu5ETU2JI+wZr/WTnMfFoILvF0INtdGR
-	ssXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=VFgV1Cl1BEpmy1O6499i7qUs9Qbzv86Z2fM6Z6/AE2U=;
-	b=M8FOU3t/0630E7tQDHhy+znwio4CgtTBNyzn6RSF9VJp87C7+tEB8C5JKLGrYiIz1z
-	NS0sXVEDzDcAypaK6fJtH3KqB05gekdzRwjlnZ9qdhjwXFpMC1s0TrLvyIutXXSvYtVn
-	RsEShQUMafFO+uEZpnAQIdxX/uPsH45mCm0EhDQI5CyzzLsS4txOz0AKY/PPlX1ADYme
-	7vNXeW2B8DFwriryru0KYr8v4SNbjTa0t2mhLLNmDE6NHKyBUhd/vtXRrI1LTwEewqoz
-	0HyBB9YzI0u5hQy3JKiecmVjbXSb01qgyLumj/hyzX8T9zE+5hac8xx1/Qp5/I0kZRJO
-	ULLA==
-X-Gm-Message-State: AJaThX7kefCj1JgVncfEwrrcFKTd4EKNQNaeVHe5MLyIT0PblUlIcK8r
-	U85ijLc3g/FmMd+851EMzHNo
-X-Google-Smtp-Source: AGs4zMbMSVODYQKSSnPDm51WJ+oXFwqTK8g0bL3lB5MyPOvvFdxdSqEvhdPdgfuKeNT+sWr2y4aZcA==
-X-Received: by 10.36.157.137 with SMTP id f131mr15010971itd.61.1510689718354; 
-	Tue, 14 Nov 2017 12:01:58 -0800 (PST)
-Received: from localhost.localdomain ([216.21.169.52])
-	by smtp.gmail.com with ESMTPSA id x2sm3054754ite.24.2017.11.14.12.01.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Nov 2017 12:01:57 -0800 (PST)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 14:01:06 -0600
-Message-Id: <20171114200106.18227-4-george.mccollister@gmail.com>
+	Tue, 14 Nov 2017 20:03:35 +0000 (UTC)
+Received: from [216.82.251.44] by server-11.bemta-12.messagelabs.com id
+	39/F9-01772-47A4B0A5; Tue, 14 Nov 2017 19:56:36 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOIsWRWlGSWpSXmKPExsXi5LtOQLfYizv
+	K4PhvK4s7P9+xOzB6nNu4gjGAMYo1My8pvyKBNePLlS8sBX+5K+6ueMTWwLiWs4uRi0NIYDWj
+	xPv/L5khnDWMEhvvd0A56xklZv+4xNTFyMnBJqAnMfnSE6AEB4cIkH31nyhIWFjATeLvmm/MI
+	DaLgKrE1Q9/WUBsXgEbiX97F7KC2BIC8hKLv+9kA7E5BWwlPvddAasXAqr5NGEGVL2gxMmZT8
+	BsZgEJiYMvXkDVqEgcXHqZEWbOps1n2Scw8s9C0jILScsCRqZVjBrFqUVlqUW6JqZ6SUWZ6Rk
+	luYmZObqGhkZ6uanFxYnpqTmJScV6yfm5mxiBAVfPwMC4g/Hd/uhDjJIcTEqivCqf2aOE+JLy
+	UyozEosz4otKc1KLDzHKcHAoSfDO8uCOEhIsSk1PrUjLzAGGPkxagoNHSYTXGyTNW1yQmFucm
+	Q6ROsVoyXHoxe0/TBzPZr5uYOaYdrW1iVmIJS8/L1VKnHc3SIMASENGaR7cOFh8XmKUlRLmZW
+	RgYBDiKUgtys0sQZV/xSjOwagkzMvkCTSFJzOvBG7rK6CDmIAOkgL5hbe4JBEhJdXA6Be7YG8
+	Jf6DGn2X1nSrbC059jmPfb3dzEeuPx8bXojbVrEhhX9B/atn8g57vpzHw5Go1XWJa0lixNKTh
+	OnOuVJDIpouCW1dPV97J4L7+0bTKlrVnKvbNrX7YEpexLiz47n4Xzkyt1F/cPR/0XW1jrpm2z
+	9owtXPx2o4Hcx+uC/1zY/eadrdt65RYijMSDbWYi4oTAUse/EvKAgAA
+X-Env-Sender: Javier.Viguera@digi.com
+X-Msg-Ref: server-7.tower-200.messagelabs.com!1510689395!39900110!1
+X-Originating-IP: [66.77.174.16]
+X-StarScan-Received: 
+X-StarScan-Version: 9.4.45; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 25502 invoked from network); 14 Nov 2017 19:56:35 -0000
+Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
+	by server-7.tower-200.messagelabs.com with SMTP;
+	14 Nov 2017 19:56:35 -0000
+Received: from MTK-SMS-XCH02.digi.com (10.10.8.196) by MCL-VMS-XCH01.digi.com
+	(10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 14 Nov 2017 13:56:33 -0600
+Received: from DOR-SMS-XCH01.digi.com (10.49.8.99) by MTK-SMS-XCH02.digi.com
+	(10.10.8.196) with Microsoft SMTP Server (TLS) id 14.3.361.1;
+	Tue, 14 Nov 2017 13:56:32 -0600
+Received: from log-cln-jviguera.digi.com (10.101.2.54) by
+	dor-sms-xch01.digi.com (10.49.8.99) with Microsoft SMTP Server (TLS) id
+	14.3.361.1; Tue, 14 Nov 2017 20:56:30 +0100
+From: Javier Viguera <javier.viguera@digi.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Nov 2017 20:56:19 +0100
+Message-ID: <20171114195619.30923-3-javier.viguera@digi.com>
 X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20171114200106.18227-1-george.mccollister@gmail.com>
-References: <20171114200106.18227-1-george.mccollister@gmail.com>
-Subject: [morty][PATCH 4/4] zlib: Fix CVE-2016-9843
+In-Reply-To: <20171114195619.30923-1-javier.viguera@digi.com>
+References: <20171114195619.30923-1-javier.viguera@digi.com>
+MIME-Version: 1.0
+X-Originating-IP: [10.101.2.54]
+Subject: [morty backport][PATCH 2/2] tcf-agent: Fix daemon termination
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,93 +61,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 20:01:57 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 20:03:36 -0000
+Content-Type: text/plain
 
-Add backported patch to fix CVE-2016-9843 which was fixed in zlib 1.2.9
+From: Jan Kiszka <jan.kiszka@web.de>
 
-https://nvd.nist.gov/vuln/detail/CVE-2016-9843
+The upstream init script uses SIGUSR2 to terminate that daemon because
+SIGTERM is ignored. As the killproc function does not support specifying
+a signal, switch to start-stop-daemon. Drop the retry loop because
+SIGUSR2 is lethal for agent.
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Javier Viguera <javier.viguera@digi.com>
 ---
- .../zlib/zlib-1.2.8/CVE-2016-9843.patch            | 55 ++++++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.2.8.bb               |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-core/zlib/zlib-1.2.8/CVE-2016-9843.patch
+ meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/zlib/zlib-1.2.8/CVE-2016-9843.patch b/meta/recipes-core/zlib/zlib-1.2.8/CVE-2016-9843.patch
-new file mode 100644
-index 0000000000..1ff8acf265
---- /dev/null
-+++ b/meta/recipes-core/zlib/zlib-1.2.8/CVE-2016-9843.patch
-@@ -0,0 +1,55 @@
-+commit d1d577490c15a0c6862473d7576352a9f18ef811
-+Author: Mark Adler <madler@alumni.caltech.edu>
-+Date:   Wed Sep 28 20:20:25 2016 -0700
-+
-+    Avoid pre-decrement of pointer in big-endian CRC calculation.
-+    
-+    There was a small optimization for PowerPCs to pre-increment a
-+    pointer when accessing a word, instead of post-incrementing. This
-+    required prefacing the loop with a decrement of the pointer,
-+    possibly pointing before the object passed. This is not compliant
-+    with the C standard, for which decrementing a pointer before its
-+    allocated memory is undefined. When tested on a modern PowerPC
-+    with a modern compiler, the optimization no longer has any effect.
-+    Due to all that, and per the recommendation of a security audit of
-+    the zlib code by Trail of Bits and TrustInSoft, in support of the
-+    Mozilla Foundation, this "optimization" was removed, in order to
-+    avoid the possibility of undefined behavior.
-+
-+Upstream-Status: Backport
-+http://http.debian.net/debian/pool/main/z/zlib/zlib_1.2.8.dfsg-5.debian.tar.xz
-+https://github.com/madler/zlib/commit/d1d577490c15a0c6862473d7576352a9f18ef811
-+
-+CVE: CVE-2016-9843
-+
-+Signed-off-by: George McCollister <george.mccollister@gmail.com>
-+
-+diff --git a/crc32.c b/crc32.c
-+index 979a719..05733f4 100644
-+--- a/crc32.c
-++++ b/crc32.c
-+@@ -278,7 +278,7 @@ local unsigned long crc32_little(crc, buf, len)
-+ }
-+ 
-+ /* ========================================================================= */
-+-#define DOBIG4 c ^= *++buf4; \
-++#define DOBIG4 c ^= *buf4++; \
-+         c = crc_table[4][c & 0xff] ^ crc_table[5][(c >> 8) & 0xff] ^ \
-+             crc_table[6][(c >> 16) & 0xff] ^ crc_table[7][c >> 24]
-+ #define DOBIG32 DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4; DOBIG4
-+@@ -300,7 +300,6 @@ local unsigned long crc32_big(crc, buf, len)
-+     }
-+ 
-+     buf4 = (const z_crc_t FAR *)(const void FAR *)buf;
-+-    buf4--;
-+     while (len >= 32) {
-+         DOBIG32;
-+         len -= 32;
-+@@ -309,7 +308,6 @@ local unsigned long crc32_big(crc, buf, len)
-+         DOBIG4;
-+         len -= 4;
-+     }
-+-    buf4++;
-+     buf = (const unsigned char FAR *)buf4;
-+ 
-+     if (len) do {
-diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.8.bb
-index eb38589b6a..338d0f9573 100644
---- a/meta/recipes-core/zlib/zlib_1.2.8.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.8.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2016-9840.patch \
-            file://CVE-2016-9841.patch \
-            file://CVE-2016-9842.patch \
-+           file://CVE-2016-9843.patch \
-            file://run-ptest \
-            "
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
+index 6303280aae1d..f90208555b9f 100755
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent/tcf-agent.init
+@@ -33,16 +33,7 @@ case "$1" in
  
--- 
-2.15.0
-
+     stop)
+         echo -n "Stopping $DAEMON_NAME: "
+-        count=0
+-        while [ -n "`/bin/pidof $DAEMON_PATH`" -a $count -lt 10 ] ; do
+-            killproc $DAEMON_PATH >& /dev/null
+-            sleep 1
+-            RETVAL=$?
+-            if [ $RETVAL != 0 -o -n "`/bin/pidof $DAEMON_PATH`" ] ; then
+-                sleep 3
+-            fi
+-            count=`expr $count + 1`
+-        done
++        start-stop-daemon -K -q -x $DAEMON_PATH -s USR2
+         rm -f /var/lock/subsys/$DAEMON_NAME
+         if [ -n "`/bin/pidof $DAEMON_PATH`" ] ; then
+             echo "FAIL"
+@@ -72,4 +63,3 @@ case "$1" in
+ esac
+ 
+ exit $RETVAL
+-
 
