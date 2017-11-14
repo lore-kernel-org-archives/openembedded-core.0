@@ -1,56 +1,49 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CF6DC784F7
+Return-Path: <matt@madison.systems>
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 994AD784E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 16:09:29 +0000 (UTC)
-Received: by mail-wr0-f178.google.com with SMTP id y9so17969815wrb.2
+	Tue, 14 Nov 2017 16:53:26 +0000 (UTC)
+Received: by mail-pg0-f68.google.com with SMTP id 4so6888108pge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 08:09:31 -0800 (PST)
+	Tue, 14 Nov 2017 08:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=gJfQsYc7IzT7dxTQVYJZhKY0yNiXeuNrmfkn4gi1/W8=;
-	b=DytOkI5kwSZJJY+dByBjXZ+g9LrLZrDy5lzqpj768q7U04IddtKX1neT+pYUGiYpbR
-	8pc2PQFna4cKf6aQxnOsrLE5t6tpbI6Js43++oMraLn/alwAGTMURQ+yaRB7NvuKE5XA
-	4d3kK3+rn2zjxDftpSe1lzTSgIvVHifesc3fHQub1tV7iyjJj04OzlIGW8qAGVcR3nKw
-	yI0V/4fAWfkGwEeeoneeLh4v7zXVyZFOX3YNFDrPLfREu7Da/a/WhWGfx7p6sTAcgJ2n
-	OD184hSNDGV8WVgCUIwO2+4voq833hKR6QdsnlAJRYHMSVU7AxOB3gklJr0kmzQMc4ny
-	JdgQ==
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=YUAhwMcBqWz0Z4TSUNiShQVG54x+eUe5VWo66K/dI9I=;
+	b=s5Unkz0oOt520Kt8F/m8Wir1OdQhy9DLTmf/xk2Pw90Jo+iDRzyf/HJRXwSISVS+Pr
+	d67E7klZUx071jDnQ9ugp0xeqAlRUcJQvy1ke1QX3TmQuFQnRqdjEAXjriPOAmsMc2ag
+	2+8cXGgrUBlBvm/AkP5cc+ombNvMwuYnzlQeMjwULj2P3rqtFUOXFHWCcLsEWNHCbgpo
+	4ciG1pf47/g/8Qe9XuD5wI2boBYd/YLz+YjQP9Ob13QFRhCVfeY5libtXfE57ZkUl184
+	bp2MZ9SPTYnClf7i5clz2yNZePS0mjLTgurAjeumT4w5H86Z+jgXR/YwToiezekjKZNS
+	1x0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=gJfQsYc7IzT7dxTQVYJZhKY0yNiXeuNrmfkn4gi1/W8=;
-	b=qWOwcLZavgqOaEqIpbnPL5E9y4wbYYHrUR7rG5xZ9DeMVI93Qnx9hCTf37ZbZm1aei
-	etLaIhawJuTmBXtMqrY4QVNWK/dBwMjxfTozmoR/Y6FmNXQFmOS5wcJtLLP7FIoh90sU
-	cHWml+Trs/nFUvPDKv9XDhkZbOT+DlSG0pmlTDkuIGZ9QD0STNz1ICW72SpfmUlDTkt7
-	nnxkfQGGUyu1m5cA5y47MouOBUuEELV5BpkWC8BOK9OHC68kSCW/jOtrKGq/0Rm649LV
-	OnrkzCu/uX/SWKBrO0KlMbFfas/4OPSAEWGt9+OjounC0faCgmx4TwsmvVy32a5BY5Rp
-	F+nw==
-X-Gm-Message-State: AJaThX5Z4yIzO6vb6PGFj2bz3dm3jniki3DJPwZHduCuDiHMssjgtTUx
-	QAHJXynu1BPa8H1g42+dPpUHA2Q=
-X-Google-Smtp-Source: AGs4zMbfcoW0EpIF3kgwlEvV5Aq8wsHrSv88UiTfmdjBQSNPjgxHzpMDGoY2cH5MUnVd1LV/OEBvxQ==
-X-Received: by 10.223.186.71 with SMTP id t7mr9913965wrg.75.1510675770276;
-	Tue, 14 Nov 2017 08:09:30 -0800 (PST)
-Received: from pohly-mobl1 (p54BD5874.dip0.t-ipconnect.de. [84.189.88.116])
-	by smtp.gmail.com with ESMTPSA id w5sm9698332wre.18.2017.11.14.08.09.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 Nov 2017 08:09:29 -0800 (PST)
-Message-ID: <1510675768.5979.9.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Tue, 14 Nov 2017 17:09:28 +0100
-In-Reply-To: <20171114100939.12d4c1df@lsandov1-mobl2.zpn.intel.com>
-References: <20171113181721.79781-1-leonardo.sandoval.gonzalez@linux.intel.com>
-	<1510647870.5979.4.camel@intel.com>
-	<20171114100939.12d4c1df@lsandov1-mobl2.zpn.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.22.6-1+deb9u1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] scripts/oe-selftest: oe-selftest-internal wrapper scripts that isolates execution
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YUAhwMcBqWz0Z4TSUNiShQVG54x+eUe5VWo66K/dI9I=;
+	b=uljeWmEMhBJX5sbXR09mD82BMILX15e6XFJe12ONzvT/zNHEq0lx22Su1fURB8Z0Ww
+	ti0XSOf/Kp1xUu9/beqtFT2FW6kt8HWiSrx3ejQ4ScQrAA2ySgIgq/E+1xhwqprkQUqS
+	V9riH0Eo/QsT5gPsp49ud+uvktpcTTVZeSPblqK6/UPjyMt8c8eYmr7sGe6673YLa2AU
+	xd5MVxep17195YS9WFzDQpLDwdvIoD5dAU+andT7SlkVa1CYX+KEyzoLHqLgGNzqcu5f
+	mqmJ5ceUpmYc/vuyOIPV+5xgw+qixNEhJ2aoEOAtNrtSfQS2NkysCk4mJ0Pi38ioi7BA
+	1rgA==
+X-Gm-Message-State: AJaThX6ErrfHrN2Z7wMi/VbXRoJoMdWjHmP26kTPEKKIOv8mbD9pQLli
+	ZDxR8flJed2ooSMVmpZDIyLTC3cR
+X-Google-Smtp-Source: AGs4zMZMl3MQpl7RivjY+SkhJCVAPzIh1puAvqkr1VKzcckUu546JO7Xuans5fkYiqq0ovQ3YH8SCQ==
+X-Received: by 10.99.156.26 with SMTP id f26mr12816192pge.433.1510678407284;
+	Tue, 14 Nov 2017 08:53:27 -0800 (PST)
+Received: from workhorse.madison.systems
+	(c-67-170-200-185.hsd1.ca.comcast.net. [67.170.200.185])
+	by smtp.gmail.com with ESMTPSA id
+	t81sm39248406pfg.187.2017.11.14.08.53.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 14 Nov 2017 08:53:25 -0800 (PST)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Nov 2017 08:52:54 -0800
+Message-Id: <1510678374-23415-1-git-send-email-matt@madison.systems>
+X-Mailer: git-send-email 2.7.4
+Cc: paul.eggleton@linux.intel.com, otavio.salvador@ossystems.com.br
+Subject: [PATCH] go: ensure use of BUILD_CC when building bootstrap tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,74 +56,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 16:09:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 Nov 2017 16:53:26 -0000
 
-On Tue, 2017-11-14 at 10:09 -0600, Leonardo Sandoval wrote:
-> On Tue, 14 Nov 2017 09:24:30 +0100
-> Patrick Ohly <patrick.ohly@intel.com> wrote:
-> 
-> > On Mon, 2017-11-13 at 10:17 -0800,
-> > leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> > > From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.c
-> > > om>
-> > > 
-> > > The main idea is to isolate the oe-selftest execution so neither
-> > > the
-> > > current build dir nor the configuration data is touch/polluted.
-> > > This
-> > > approach uses a wrapper script (which is the one presented on
-> > > this
-> > > commit) which creates a unique directory and inside it copies all
-> > > scripts and metadata, re-initializes the enviroment (re-sources
-> > > oe-
-> > > init-build-env) and finally launches the oe-selftest-internal
-> > > (which
-> > > used to be oe-selftest) command, passing command arguments to the
-> > > latter.  
-> > 
-> > This mode of operation may or may not be desirable. Can it be made
-> > optional?
-> 
-> good idea. However, you can call the oe-selftest-internal for the
-> this purpose.
+For cross-canadian builds, we were accidentally using
+the nativesdk C compiler when building the Go compiler
+bootstrap.  Add a patch to the make script to let us
+use BUILD_CC, and prepend do_compile to set it in
+the local environment to ensure that the trailing
+blank gets stripped, since that confuses Go.
 
-While doable, it feels wrong to rename something as "internal" and then
-still expect people to call it directly.
+[YOCTO #12341]
 
-A command line parameter for the new oe-selftest which controls this
-behavior and just calls oe-selftest-internal directly when requested
-feels cleaner and more discoverable.
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ meta/recipes-devtools/go/go-1.9.inc                |  1 +
+ ...verride-CC-when-building-dist-and-go_boot.patch | 43 ++++++++++++++++++++++
+ meta/recipes-devtools/go/go-common.inc             |  4 ++
+ 3 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
 
-Is oe-selftest-internal even going to be in the default PATH? It
-probably shouldn't be, once it truly becomes an implementation detail.
-
-> > In refkit CI testing, several selftests run tests on build
-> > artifacts
-> > (primarily the images) produced during the previous build and only
-> > build them if needed, i.e. they run "bitbake some-image" and that
-> > is
-> > usually fast because the image already exists. Reusing sstate and
-> > download dir also is important for speed.
-> 
-> oe-selftest creates a new build/conf folder, with the same conf files
-> as the ones present in your current build/conf, so this means that
-> you can set there DL_DIR and SSTATE_DIR (for example) on your main
-> local.conf and these will be used by oe-selftest, effectively reusing
-> these folders.
-
-Instead of leaving it to the developer to figure this out, should the
-oe-selftest have --[no-]reuse-download and --[no]-reuse-sstate options?
-
-> > 
+diff --git a/meta/recipes-devtools/go/go-1.9.inc b/meta/recipes-devtools/go/go-1.9.inc
+index 65adaa8..1dbb5ef 100644
+--- a/meta/recipes-devtools/go/go-1.9.inc
++++ b/meta/recipes-devtools/go/go-1.9.inc
+@@ -15,6 +15,7 @@ SRC_URI += "\
+         file://0007-ld-add-soname-to-shareable-objects.patch \
+         file://0008-make.bash-add-GOHOSTxx-indirection-for-cross-canadia.patch \
+         file://0009-cmd-go-buildmode-pie-forces-external-linking-mode-on.patch \
++        file://0010-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+ "
+ SRC_URI[main.md5sum] = "da2d44ea384076efec43ee1f8b7d45d2"
+ SRC_URI[main.sha256sum] = "a4ab229028ed167ba1986825751463605264e44868362ca8e7accc8be057e993"
+diff --git a/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch b/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+new file mode 100644
+index 0000000..94ea197
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.9/0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
+@@ -0,0 +1,43 @@
++From 36787fbf0e0a6298ba1038bbbae526654597eee4 Mon Sep 17 00:00:00 2001
++From: Matt Madison <matt@madison.systems>
++Date: Tue, 14 Nov 2017 07:38:42 -0800
++Subject: [PATCH 10/10] make.bash: override CC when building dist and
++ go_bootstrap
++
++For cross-canadian builds, dist and go_bootstrap
++run on the build host, so CC needs to point to the
++build host's C compiler.  Add a BUILD_CC environment
++for this, falling back to $CC if not present.
++
++Upstream-Status: pending
++
++Signed-off-by: Matt Madison <matt@madison.systems>
++---
++ src/make.bash | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/make.bash b/src/make.bash
++index 0bdadc6..f199349 100755
++--- a/src/make.bash
+++++ b/src/make.bash
++@@ -131,7 +131,7 @@ if [ "$GOROOT_BOOTSTRAP" = "$GOROOT" ]; then
++ 	exit 1
++ fi
++ rm -f cmd/dist/dist
++-GOROOT="$GOROOT_BOOTSTRAP" GOOS="" GOARCH="" "$GOROOT_BOOTSTRAP/bin/go" build -o cmd/dist/dist ./cmd/dist
+++CC=${BUILD_CC:-${CC}} GOROOT="$GOROOT_BOOTSTRAP" GOOS="" GOARCH="" "$GOROOT_BOOTSTRAP/bin/go" build -o cmd/dist/dist ./cmd/dist
++ 
++ # -e doesn't propagate out of eval, so check success by hand.
++ eval $(./cmd/dist/dist env -p || echo FAIL=true)
++@@ -167,7 +167,7 @@ elif [ "$1" = "--host-only" ]; then
++ fi
++ 
++ if [ "$do_host_build" = "yes" ]; then
++-	./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
+++	CC=${BUILD_CC:-${CC}} ./cmd/dist/dist bootstrap $buildall $GO_DISTFLAGS -v # builds go_bootstrap
++ 	# Delay move of dist tool to now, because bootstrap may clear tool directory.
++ 	mv cmd/dist/dist "$GOTOOLDIR"/dist
++ 	echo
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
+index ce1eb86..9af6873 100644
+--- a/meta/recipes-devtools/go/go-common.inc
++++ b/meta/recipes-devtools/go/go-common.inc
+@@ -20,3 +20,7 @@ B = "${S}"
+ 
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+ SSTATE_SCAN_CMD = "true"
++
++do_compile_prepend() {
++	BUILD_CC=${BUILD_CC}
++}
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
+2.7.4
 
 
