@@ -1,24 +1,25 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0642B7017D
+Return-Path: <california.l.sullivan@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 663DE784C2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 21:53:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAELrSTE003788
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 13:53:29 -0800 (PST)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 14 Nov 2017 13:53:28 -0800
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Nov 2017 13:53:28 -0800
-Message-ID: <20171114215328.164610-1-jslater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] net-tools: correctly set COPTS and LOPTS
+	Tue, 14 Nov 2017 22:03:49 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2017 14:03:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,396,1505804400"; 
+   d="scan'208";a="2303312"
+Received: from clsulliv.jf.intel.com ([10.7.201.36])
+	by orsmga003.jf.intel.com with ESMTP; 14 Nov 2017 14:03:49 -0800
+From: California Sullivan <california.l.sullivan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Nov 2017 14:03:40 -0800
+Message-Id: <20171114220340.28764-1-california.l.sullivan@intel.com>
+X-Mailer: git-send-email 2.9.5
+In-Reply-To: <20171114212050.15881-1-california.l.sullivan@intel.com>
+References: <20171114212050.15881-1-california.l.sullivan@intel.com>
+Cc: henry.bruce@intel.com, saul.wold@intel.com
+Subject: [PATCH 3/3 V2] initramfs-framework: add install module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 21:53:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Nov 2017 22:03:51 -0000
 
-COPTS will be ignored if it is defined in the environment.
-It must be passed directly to make.  To be consistent, we
-pass LOPTS that way, too.
+The non-EFI counterpart for installation was previously missing for
+initramfs-framework. This simply puts the normal install script in the
+correct location for initramfs-framework to make use of it.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
 ---
- meta/recipes-extended/net-tools/net-tools_1.60-26.bb | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+V2 changes:
+* Add the module's dependencies to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, since
+  its dependencies changing don't matter in regards building the package.
+* PR = "r1" since its a new recipe.
 
-diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-index c23d533..69c9af3 100644
---- a/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-+++ b/meta/recipes-extended/net-tools/net-tools_1.60-26.bb
-@@ -81,20 +81,12 @@ do_configure() {
- 
- do_compile() {
- 	# net-tools use COPTS/LOPTS to allow adding custom options
--	export COPTS="$CFLAGS"
--	export LOPTS="$LDFLAGS"
--	unset CFLAGS
--	unset LDFLAGS
--
--	oe_runmake
-+	oe_runmake COPTS="$CFLAGS" LOPTS="$LDFLAGS"
- }
- 
- do_install() {
--	export COPTS="$CFLAGS"
--	export LOPTS="$LDFLAGS"
--	unset CFLAGS
--	unset LDFLAGS
--	oe_runmake 'BASEDIR=${D}' install
-+	# We don't need COPTS or LOPTS, but let's be consistent.
-+	oe_runmake COPTS="$CFLAGS" LOPTS="$LDFLAGS" 'BASEDIR=${D}' install
- 
- 	if [ "${base_bindir}" != "/bin" ]; then
- 		mkdir -p ${D}/${base_bindir}
+ meta/conf/layer.conf                                 |  4 ++++
+ .../initrdscripts/initramfs-module-install_1.0.bb    | 20 ++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 0342324..6782058 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -57,6 +57,10 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   initramfs-module-install-efi->e2fsprogs \
+   initramfs-module-install-efi->parted \
+   initramfs-module-install-efi->util-linux \
++  initramfs-module-install->e2fsprogs \
++  initramfs-module-install->grub \
++  initramfs-module-install->parted \
++  initramfs-module-install->util-linux \
+   liberation-fonts->fontconfig \
+   cantarell-fonts->fontconfig \
+   gnome-icon-theme->librsvg \
+diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+new file mode 100644
+index 0000000..ce7f165
+--- /dev/null
++++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "initramfs-framework module for installation option"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
++
++PR = "r1"
++
++inherit allarch
++
++FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
++SRC_URI = "file://init-install.sh"
++
++S = "${WORKDIR}"
++
++do_install() {
++    install -d ${D}/init.d
++    install -m 0755 ${WORKDIR}/init-install.sh ${D}/init.d/install.sh
++}
++
++FILES_${PN} = "/init.d/install.sh"
 -- 
-2.7.4
+2.9.5
 
 
