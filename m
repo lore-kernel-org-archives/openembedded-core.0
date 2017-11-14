@@ -1,18 +1,22 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do.openembedded.org (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 26ED578503;
-	Tue, 14 Nov 2017 17:02:58 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Matt Madison <matt@madison.systems>
-Date: Tue, 14 Nov 2017 17:02:59 -0000
-Message-ID: <20171114170259.2783.62010@do.openembedded.org>
-References: <1510678374-23415-1-git-send-email-matt@madison.systems>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1510678374-23415-1-git-send-email-matt@madison.systems>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ286IGVuc3VyZSB1c2Ugb2YgQlVJTERfQ0Mgd2hlbiBidWlsZGluZyBib290c3RyYXAgdG9vbHM=?=
+Return-Path: <sgw@linux.intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B138478504
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Nov 2017 17:05:29 +0000 (UTC)
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Nov 2017 09:05:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,395,1505804400"; d="scan'208";a="149436825"
+Received: from swold-mobl2.jf.intel.com ([10.24.11.31])
+	by orsmga004.jf.intel.com with ESMTP; 14 Nov 2017 09:05:28 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 14 Nov 2017 09:05:28 -0800
+Message-Id: <20171114170528.5645-1-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH] package.bbclass: Add SRC_URI and HOMEPAGE to manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,44 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 17:02:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Nov 2017 17:05:29 -0000
 
-== Series Details ==
+This will allow tools to be developed that create manifest based BOMs
+with detailed information.
 
-Series: go: ensure use of BUILD_CC when building bootstrap tools
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/9774/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0010-make.bash-override-CC-when-building-dist-and-go_boot.patch
-  Current          Upstream-Status: pending
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/package.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2053d46395a..c2410238682 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1387,6 +1387,8 @@ python emit_pkgdata() {
+         write_if_exists(sf, pkg, 'LICENSE')
+         write_if_exists(sf, pkg, 'DESCRIPTION')
+         write_if_exists(sf, pkg, 'SUMMARY')
++        write_if_exists(sf, pkg, 'SRC_URI')
++        write_if_exists(sf, pkg, 'HOMEPAGE')
+         write_if_exists(sf, pkg, 'RDEPENDS')
+         rprov = write_if_exists(sf, pkg, 'RPROVIDES')
+         write_if_exists(sf, pkg, 'RRECOMMENDS')
+-- 
+2.13.5
 
 
