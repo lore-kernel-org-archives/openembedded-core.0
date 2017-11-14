@@ -1,25 +1,24 @@
-Return-Path: <california.l.sullivan@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D549A71A3E
+Return-Path: <jhaws@sdl.usu.edu>
+Received: from Perses.usurf.usu.edu (unknown [129.123.197.145])
+	by mail.openembedded.org (Postfix) with ESMTP id 424807853C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Nov 2017 22:10:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Nov 2017 14:10:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,396,1505804400"; 
-   d="scan'208";a="4984113"
-Received: from clsulliv.jf.intel.com ([10.7.201.36])
-	by orsmga001.jf.intel.com with ESMTP; 14 Nov 2017 14:10:11 -0800
-From: California Sullivan <california.l.sullivan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Nov 2017 14:10:09 -0800
-Message-Id: <20171114221009.29839-1-california.l.sullivan@intel.com>
-X-Mailer: git-send-email 2.9.5
-In-Reply-To: <20171114212050.15881-1-california.l.sullivan@intel.com>
-References: <20171114212050.15881-1-california.l.sullivan@intel.com>
-Cc: henry.bruce@intel.com, saul.wold@intel.com
-Subject: [PATCHi 3/3 V3] initramfs-framework: add install module
+	Tue, 14 Nov 2017 22:30:47 +0000 (UTC)
+Received: from EK.usurf.usu.edu (172.31.35.73) by Perses.usurf.usu.edu
+	(172.31.35.68) with Microsoft SMTP Server (TLS) id 15.0.1293.2;
+	Tue, 14 Nov 2017 15:30:49 -0700
+Received: from PERSES.usurf.usu.edu (172.31.35.68) by Ek.usurf.usu.edu
+	(172.31.35.73) with Microsoft SMTP Server (TLS) id 15.0.1293.2;
+	Tue, 14 Nov 2017 15:30:48 -0700
+Received: from yocto14.usurf.usu.edu (172.31.22.137) by PERSES.usurf.usu.edu
+	(172.31.35.68) with Microsoft SMTP Server id 15.0.1293.2 via Frontend
+	Transport; Tue, 14 Nov 2017 15:30:48 -0700
+From: Jonathan Haws <jhaws@sdl.usu.edu>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Nov 2017 15:30:39 -0700
+Message-ID: <1510698639-3858-1-git-send-email-jhaws@sdl.usu.edu>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [meta-oe][PATCHv2] [meta-oe] mariadb: Added missing installation of mysqld_safe_helper to FILES_${PN}-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,71 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 22:10:11 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 22:30:48 -0000
+Content-Type: text/plain
 
-The non-EFI counterpart for installation was previously missing for
-initramfs-framework. This simply puts the normal install script in the
-correct location for initramfs-framework to make use of it.
+Per issue MDEV-14044 on https://jira.mariadb.org/browse/MDEV-14044, mysqld_safe_helper
+needs to be installed with the server, but was absent from the mariadb.inc file feeding
+the recipes. This resulted in a broken mariadb installation. Installing
+mysqld_safe_helper alongside mysqld_safe resolves this problem.
 
-Partial fix for [YOCTO #12346].
-
-Signed-off-by: California Sullivan <california.l.sullivan@intel.com>
+Signed-off-by: Jonathan Haws <jhaws@sdl.usu.edu>
 ---
-V2 changes:
-* Add the module's dependencies to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS, since
-  its dependencies changing don't matter in regards building the package.
-* PR = "r1" since its a new recipe.
+ meta-oe/recipes-support/mysql/mariadb.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-V3 changes:
-* Add back bug ID that I somehow dropped from commit message. Sorry for spam.
-
- meta/conf/layer.conf                                 |  4 ++++
- .../initrdscripts/initramfs-module-install_1.0.bb    | 20 ++++++++++++++++++++
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 0342324..6782058 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -57,6 +57,10 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   initramfs-module-install-efi->e2fsprogs \
-   initramfs-module-install-efi->parted \
-   initramfs-module-install-efi->util-linux \
-+  initramfs-module-install->e2fsprogs \
-+  initramfs-module-install->grub \
-+  initramfs-module-install->parted \
-+  initramfs-module-install->util-linux \
-   liberation-fonts->fontconfig \
-   cantarell-fonts->fontconfig \
-   gnome-icon-theme->librsvg \
-diff --git a/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-new file mode 100644
-index 0000000..ce7f165
---- /dev/null
-+++ b/meta/recipes-core/initrdscripts/initramfs-module-install_1.0.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "initramfs-framework module for installation option"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+RDEPENDS_${PN} = "initramfs-framework-base grub parted e2fsprogs-mke2fs util-linux-blkid"
-+
-+PR = "r1"
-+
-+inherit allarch
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-+SRC_URI = "file://init-install.sh"
-+
-+S = "${WORKDIR}"
-+
-+do_install() {
-+    install -d ${D}/init.d
-+    install -m 0755 ${WORKDIR}/init-install.sh ${D}/init.d/install.sh
-+}
-+
-+FILES_${PN} = "/init.d/install.sh"
+diff --git a/meta-oe/recipes-support/mysql/mariadb.inc b/meta-oe/recipes-support/mysql/mariadb.inc
+index 16dd9f9..263b313 100644
+--- a/meta-oe/recipes-support/mysql/mariadb.inc
++++ b/meta-oe/recipes-support/mysql/mariadb.inc
+@@ -258,6 +258,7 @@ FILES_${PN}-server = "\
+     ${bindir}/mysqlbinlog \
+     ${bindir}/mysqld_multi \
+     ${bindir}/mysqld_safe \
++    ${bindir}/mysqld_safe_helper \
+     ${bindir}/mysqlhotcopy \
+     ${bindir}/mysqltest \
+     ${bindir}/ndb_delete_all \
 -- 
-2.9.5
+1.9.1
 
 
